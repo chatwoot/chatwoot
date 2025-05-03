@@ -24,8 +24,10 @@ const fetchMetrics = () => {
     return;
   }
   ReportsAPI.getAiAgentMetrics(props.filters).then(response => {
-    conversationCount.value = response.data.ai_agent_credit_usage.toLocaleString();
-    messageCount.value = response.data.ai_agent_message_send_count.toLocaleString();
+    conversationCount.value =
+      response.data.ai_agent_credit_usage.toLocaleString();
+    messageCount.value =
+      response.data.ai_agent_message_send_count.toLocaleString();
     resolutionRate.value = response.data.ai_agent_handoff_count.toString();
     handoffRate.value = response.data.human_agent_handoff_count.toString();
   });

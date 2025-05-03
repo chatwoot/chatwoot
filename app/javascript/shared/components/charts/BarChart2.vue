@@ -1,7 +1,3 @@
-<template>
-  <Bar v-if="data" :data="data" :options="options" />
-</template>
-
 <script setup>
 import { computed } from 'vue';
 import { Line, Bar } from 'vue-chartjs';
@@ -17,8 +13,6 @@ import {
 } from 'chart.js';
 import { useI18n } from 'vue-i18n';
 
-ChartJS.register(Title, Tooltip, BarElement, CategoryScale, LinearScale, PointElement, LineElement);
-
 const props = defineProps({
   chartOptions: {
     type: Object,
@@ -31,6 +25,16 @@ const props = defineProps({
     type: Array,
   },
 });
+
+ChartJS.register(
+  Title,
+  Tooltip,
+  BarElement,
+  CategoryScale,
+  LinearScale,
+  PointElement,
+  LineElement
+);
 
 const fontFamily =
   'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
@@ -46,7 +50,7 @@ const defaultChartOptions = {
   },
   plugins: {
     legend: {
-      display: false
+      display: false,
     },
   },
   animation: {
@@ -87,33 +91,38 @@ const options = computed(() => {
 
 const { t } = useI18n();
 
-const tension = 0.35
+const tension = 0.35;
 
 const data = computed(() => {
   if (!props.data1 || !props.data2) {
-    return undefined
+    return undefined;
   }
   return {
-    labels: props.data1?.data?.map((e) => {
-      const date = new Date(e.timestamp * 1000)
-      return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`
-    }) || [],
+    labels:
+      props.data1?.data?.map(e => {
+        const date = new Date(e.timestamp * 1000);
+        return `${date.getDate().toString().padStart(2, '0')}/${(date.getMonth() + 1).toString().padStart(2, '0')}`;
+      }) || [],
     datasets: [
       {
         label: t(props.data2.label),
         backgroundColor: 'rgb(144, 196, 245)',
         borderColor: 'rgb(144, 196, 245)',
-        data: props.data2.data?.map((e) => e.value) || [],
+        data: props.data2.data?.map(e => e.value) || [],
         tension: tension,
       },
       {
         label: t(props.data1.label),
         backgroundColor: 'rgb(31, 147, 255)',
         borderColor: 'rgb(31, 147, 255)',
-        data: props.data1.data?.map((e) => e.value) || [],
+        data: props.data1.data?.map(e => e.value) || [],
         tension: tension,
       },
-    ]
-  }
-})
+    ],
+  };
+});
 </script>
+
+<template>
+  <Bar v-if="data" :data="data" :options="options" />
+</template>

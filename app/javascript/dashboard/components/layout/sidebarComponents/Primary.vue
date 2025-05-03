@@ -45,15 +45,15 @@ export default {
   },
   emits: ['toggleAccounts', 'openNotificationPanel', 'openKeyShortcutModal'],
   data() {
-    return {  
+    return {
       helpDocsURL: wootConstants.DOCS_URL,
       showOptionsMenu: false,
-      pinSidebar: localStorage.getItem('pin-sidebar') ? true : false,
+      pinSidebar: !!localStorage.getItem('pin-sidebar'),
     };
   },
   watch: {
     pinSidebar(value) {
-      localStorage.setItem('pin-sidebar', value ? '1' : '')  
+      localStorage.setItem('pin-sidebar', value ? '1' : '');
     },
   },
   methods: {
@@ -86,62 +86,77 @@ export default {
       'transition-timing-function': 'ease-in-out',
     }"
   >
-  <div class="flex-1 flex flex-col justify-stretch h-full">
-    <div class="flex flex-row m-4 mb-5">
-      <div class="flex-1">
-        <Logo
-          :source="logoSource"
-          :name="installationName"
-          :account-id="accountId"
-        />
-      </div>
-      <button class="ml-4" @click="() => pinSidebar = !pinSidebar">
-        <svg xmlns="http://www.w3.org/2000/svg" width="1.5em" height="1.5em" viewBox="0 0 20 20"><!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE --><path fill="currentColor" d="M5 3a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm10 1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.5V4z"></path></svg>
-      </button>
-    </div>
-    <div
-      class="flex-1 flex flex-col overflow-auto">
-      <div class="flex flex-col items-stretch">
-        <PrimaryNavItem
-          v-for="menuItem in menuItems"
-          :id="menuItem.key"
-          :key="menuItem.toState"
-          :icon="menuItem.icon"
-          :name="menuItem.label"
-          :to="menuItem.toState"
-          :is-child-menu-active="menuItem.key === activeMenuItem"
-        />
-      </div>
-    </div>
-    <div class="flex flex-col items-stretch justify-stretch pb-6">
-      <a
-        v-if="!isACustomBrandedInstance"
-        v-tooltip.right="$t(`SIDEBAR.DOCS`)"
-        :href="helpDocsURL"
-        class="relative flex flex-row items-center m-3 px-2 gap-2 h-10 my-1 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
-        rel="noopener noreferrer nofollow"
-        target="_blank"
-      >
-        <div :style="{
-          marginLeft: '1.5px',
-        }">
-          <fluent-icon icon="book-open-globe" />
+    <div class="flex-1 flex flex-col justify-stretch h-full">
+      <div class="flex flex-row m-4 mb-5">
+        <div class="flex-1">
+          <Logo
+            :source="logoSource"
+            :name="installationName"
+            :account-id="accountId"
+          />
         </div>
-        <span class="flex-1 line-clamp-1">{{ $t(`SIDEBAR.DOCS`) }}</span>
-        <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
-      </a>
-      <NotificationBell class="mx-3" @open-notification-panel="openNotificationPanel" />
-      <div class="mx-4">
-        <AgentDetails @toggle-menu="toggleOptions" />
+        <button class="ml-4" @click="() => (pinSidebar = !pinSidebar)">
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            width="1.5em"
+            height="1.5em"
+            viewBox="0 0 20 20"
+          >
+            <!-- Icon from Fluent UI System Icons by Microsoft Corporation - https://github.com/microsoft/fluentui-system-icons/blob/main/LICENSE -->
+            <path
+              fill="currentColor"
+              d="M5 3a3 3 0 0 0-3 3v7a3 3 0 0 0 3 3h10a3 3 0 0 0 3-3V6a3 3 0 0 0-3-3zm10 1a2 2 0 0 1 2 2v7a2 2 0 0 1-2 2H8.5V4z"
+            />
+          </svg>
+        </button>
       </div>
-      <OptionsMenu
-        :show="showOptionsMenu"
-        @toggle-accounts="toggleAccountModal"
-        @show-support-chat-window="toggleSupportChatWindow"
-        @open-key-shortcut-modal="$emit('openKeyShortcutModal')"
-        @close="toggleOptions"
-      />
+      <div class="flex-1 flex flex-col overflow-auto">
+        <div class="flex flex-col items-stretch">
+          <PrimaryNavItem
+            v-for="menuItem in menuItems"
+            :id="menuItem.key"
+            :key="menuItem.toState"
+            :icon="menuItem.icon"
+            :name="menuItem.label"
+            :to="menuItem.toState"
+            :is-child-menu-active="menuItem.key === activeMenuItem"
+          />
+        </div>
+      </div>
+      <div class="flex flex-col items-stretch justify-stretch pb-6">
+        <a
+          v-if="!isACustomBrandedInstance"
+          v-tooltip.right="$t(`SIDEBAR.DOCS`)"
+          :href="helpDocsURL"
+          class="relative flex flex-row items-center m-3 px-2 gap-2 h-10 my-1 rounded-lg text-slate-700 dark:text-slate-100 hover:bg-slate-25 dark:hover:bg-slate-700 dark:hover:text-slate-100 hover:text-slate-600"
+          rel="noopener noreferrer nofollow"
+          target="_blank"
+        >
+          <div
+            :style="{
+              marginLeft: '1.5px',
+            }"
+          >
+            <fluent-icon icon="book-open-globe" />
+          </div>
+          <span class="flex-1 line-clamp-1">{{ $t(`SIDEBAR.DOCS`) }}</span>
+          <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
+        </a>
+        <NotificationBell
+          class="mx-3"
+          @open-notification-panel="openNotificationPanel"
+        />
+        <div class="mx-4">
+          <AgentDetails @toggle-menu="toggleOptions" />
+        </div>
+        <OptionsMenu
+          :show="showOptionsMenu"
+          @toggle-accounts="toggleAccountModal"
+          @show-support-chat-window="toggleSupportChatWindow"
+          @open-key-shortcut-modal="$emit('openKeyShortcutModal')"
+          @close="toggleOptions"
+        />
+      </div>
     </div>
-  </div>
   </div>
 </template>

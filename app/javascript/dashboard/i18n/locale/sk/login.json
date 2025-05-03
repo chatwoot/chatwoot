@@ -1,6 +1,7 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "JANGKAU.AI",
+    "SUBTITLE": "Welcome, please login using your \nemail and password.",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "example{'@'}companyname.com",
@@ -21,7 +22,8 @@
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create new account",
+    "CREATE_NEW_ACCOUNT": "Register Here",
+    "DONT_HAVE_ACCOUNT": "Don't have an account ? ",
     "SUBMIT": "Prihlásenie"
   }
 }

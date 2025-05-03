@@ -130,9 +130,11 @@ export default {
       :target="openInNewPage ? '_blank' : undefined"
       @click="navigate"
     >
-      <div :style="{
-        marginLeft: '1.5px',
-      }">
+      <div
+        :style="{
+          marginLeft: '1.5px',
+        }"
+      >
         <fluent-icon
           :icon="icon"
           :class="{
@@ -140,9 +142,12 @@ export default {
           }"
         />
       </div>
-      <span class="line-clamp-1" :class="{
-        'text-woot-500': isActive || isChildMenuActive,
-      }">{{ $t(`SIDEBAR.${name}`) }}</span>
+      <span
+        class="line-clamp-1"
+        :class="{
+          'text-woot-500': isActive || isChildMenuActive,
+        }"
+        >{{ $t(`SIDEBAR.${name}`) }}</span>
       <span class="sr-only">{{ name }}</span>
       <span
         v-if="count"

@@ -1,39 +1,44 @@
 <script setup>
 import { useRoute } from 'vue-router';
-import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue'
-import AiAgentKnowledgeSources from './AiAgentKnowledgeSources.vue'
+import AiAgentGeneralSettingsView from './AiAgentGeneralSettingsView.vue';
+import AiAgentKnowledgeSources from './AiAgentKnowledgeSources.vue';
 import { onMounted, ref } from 'vue';
 import aiAgents from '../../../api/aiAgents';
 import FollowupsSettingsView from './FollowupsSettingsView.vue';
 
-const tabs = [{
-  key: '0',
-  index: 0,
-  name: 'General',
-}, {
-  key: '1',
-  index: 1,
-  name: 'Knowledge Sources',
-}]
-const activeIndex = ref(0)
+const tabs = [
+  {
+    key: '0',
+    index: 0,
+    name: 'General',
+  },
+  {
+    key: '1',
+    index: 1,
+    name: 'Knowledge Sources',
+  },
+];
+const activeIndex = ref(0);
 
-const route = useRoute()
+const route = useRoute();
 
-const loadingData = ref(false)
-const data = ref()
+const loadingData = ref(false);
+const data = ref();
 async function showData() {
   try {
-    loadingData.value = true
+    loadingData.value = true;
 
-    data.value = await aiAgents.detailAgent(route.params.aiAgentId).then(v => v?.data)
+    data.value = await aiAgents
+      .detailAgent(route.params.aiAgentId)
+      .then(v => v?.data);
   } finally {
-    loadingData.value = false
+    loadingData.value = false;
   }
 }
 
 onMounted(() => {
-  showData()
-})
+  showData();
+});
 </script>
 
 <template>
@@ -43,15 +48,29 @@ onMounted(() => {
         <span class="mt-4 mb-4 spinner" />
       </center>
       <div class="mb-3 mt-6">
-        <h1 class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25">
+        <h1
+          class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25"
+        >
           {{ data?.name }}
         </h1>
       </div>
     </div>
-    <woot-tabs :index="activeIndex" class="mb-3 tabs-rm-margin" @change="(i) => {
-      activeIndex = i
-    }">
-      <woot-tabs-item v-for="tab in tabs" :key="tab.key" :index="tab.index" :name="tab.name" :show-badge="false" />
+    <woot-tabs
+      :index="activeIndex"
+      class="mb-3 tabs-rm-margin"
+      @change="
+        i => {
+          activeIndex = i;
+        }
+      "
+    >
+      <woot-tabs-item
+        v-for="tab in tabs"
+        :key="tab.key"
+        :index="tab.index"
+        :name="tab.name"
+        :show-badge="false"
+      />
     </woot-tabs>
     <div v-show="activeIndex === 0">
       <AiAgentGeneralSettingsView :data="data" />

@@ -18,7 +18,7 @@ defineProps({
   legend2Value: {
     type: String,
   },
-})
+});
 </script>
 
 <template>
@@ -32,14 +32,18 @@ defineProps({
       </div>
       <div class="flex flex-wrap justify-end gap-3 flex-end">
         <div class="text-sm flex flex-row gap-1 items-center">
-          <div class="rounded-full h-2 w-2 circle2"></div>
+          <div class="rounded-full h-2 w-2 circle2" />
           <span>{{ $t(legend1) }}</span>
-          <span v-if="legend1Value" class="font-medium text-base">{{ isFinite(legend1Value) ? legend1Value : 0 }}</span>
+          <span v-if="legend1Value" class="font-medium text-base">{{
+            isFinite(legend1Value) ? legend1Value : 0
+          }}</span>
         </div>
         <div class="text-sm flex flex-row gap-1 items-center">
-          <div class="rounded-full h-2 w-2 circle1"></div>
+          <div class="rounded-full h-2 w-2 circle1" />
           <span>{{ $t(legend2) }}</span>
-          <span v-if="legend2Value" class="font-medium text-base">{{ isFinite(legend2Value) ? legend2Value : 0 }}</span>
+          <span v-if="legend2Value" class="font-medium text-base">{{
+            isFinite(legend2Value) ? legend2Value : 0
+          }}</span>
         </div>
       </div>
     </div>

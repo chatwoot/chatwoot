@@ -11,9 +11,9 @@ import startOfDay from 'date-fns/startOfDay';
 import subDays from 'date-fns/subDays';
 import ReportHeader from './components/ReportHeader.vue';
 export const FETCH_INTERVAL = 60000;
-import ConversationAnalytics from './Index.vue'
-import Csat from './CsatResponses.vue'
-import AgentReports from './AgentReports.vue'
+import ConversationAnalytics from './Index.vue';
+import Csat from './CsatResponses.vue';
+import AgentReports from './AgentReports.vue';
 
 export default {
   name: 'LiveReports',
@@ -196,11 +196,16 @@ export default {
     <div class="flex flex-col items-center md:flex-row gap-4">
       <div class="flex-1 w-full max-w-full">
         <MetricCard
-          :header="'AI Responses'"
-          :is-loading="uiFlags.isFetchingCreditUsage">
+          header="AI Responses"
+          :is-loading="uiFlags.isFetchingCreditUsage"
+        >
           <div class="flex-1 min-w-0 pb-2">
             <p class="text-n-slate-12 text-3xl mb-0 mt-1">
-              {{ creditUsageMetric?.credit_usage ? `${creditUsageMetric?.credit_usage} Used` : '-' }}
+              {{
+                creditUsageMetric?.credit_usage
+                  ? `${creditUsageMetric?.credit_usage} Used`
+                  : '-'
+              }}
             </p>
           </div>
         </MetricCard>
@@ -236,7 +241,7 @@ export default {
         />
       </MetricCard>
     </div>
-    <ConversationAnalytics/>
+    <ConversationAnalytics />
     <Csat />
     <AgentReports />
   </div>

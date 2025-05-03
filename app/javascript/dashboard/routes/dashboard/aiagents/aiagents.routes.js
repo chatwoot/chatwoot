@@ -9,9 +9,7 @@ export default {
       path: frontendURL('accounts/:accountId/ai-agents'),
       name: 'ai_agents_index',
       meta: {
-        permissions: [
-          'administrator',
-        ],
+        permissions: ['administrator'],
       },
       component: AIAgentsView,
       props: () => {
@@ -22,9 +20,7 @@ export default {
       path: frontendURL('accounts/:accountId/ai-agents/:aiAgentId'),
       name: 'ai_agents_settings_index',
       meta: {
-        permissions: [
-          'administrator',
-        ],
+        permissions: ['administrator'],
       },
       component: AIAgentsSettingsView,
       props: () => {

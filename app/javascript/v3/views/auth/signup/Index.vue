@@ -4,12 +4,14 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import SignupForm from './components/Signup/Form.vue';
 import Testimonials from './components/Testimonials/Index.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import AuthBackround from '../../../components/AuthBackground/AuthBackground.vue';
 
 export default {
   components: {
     SignupForm,
     Spinner,
     Testimonials,
+    AuthBackround,
   },
   mixins: [globalConfigMixin],
   data() {
@@ -35,29 +37,13 @@ export default {
 <template>
   <div class="w-full h-full dark:bg-slate-900">
     <div v-show="!isLoading" class="flex h-full min-h-screen">
-      <div
-        class="flex flex-col md:flex-row *:md:flex-1 w-full"
-      >
-      <div class="py-16 md:flex-1 flex" style="background: linear-gradient(180deg, #0F0F0F 0%, #1A7B7D 100%);">
-        <div class="flex flex-row items-center justify-center w-full h-full">
-          <img
-            :src="globalConfig.logo"
-            :alt="globalConfig.installationName"
-            class="block w-auto h-11 mx-auto dark:hidden"
-          />
-          <img
-            v-if="globalConfig.logoDark"
-            :src="globalConfig.logoDark"
-            :alt="globalConfig.installationName"
-            class="hidden w-auto h-11 mx-auto dark:block"
-          />
-        </div>
-      </div>
+      <div class="flex flex-col md:flex-row *:md:flex-1 w-full">
+        <AuthBackround />
         <div class="px-8 w-full overflow-auto flex items-center">
-          <div class="w-full">
+          <div class="w-1/2 mx-auto">
             <div class="mb-4">
               <h2
-                class="mt-6 text-3xl font-medium text-left mb-7 text-slate-900 dark:text-woot-50"
+                class="mt-6 text-3xl font-medium text-center mb-7 text-slate-900 dark:text-woot-50"
               >
                 {{ $t('REGISTER.TRY_WOOT') }}
               </h2>
@@ -66,9 +52,10 @@ export default {
             <div class="px-1 text-sm text-slate-800 dark:text-woot-50">
               <span>{{ $t('REGISTER.HAVE_AN_ACCOUNT') }}</span>
               <router-link class="text-link" to="/app/login">
+                {{ ' ' }}
                 {{
                   useInstallationName(
-                    $t('LOGIN.TITLE'),
+                    $t('LOGIN.SUBMIT'),
                     globalConfig.installationName
                   )
                 }}

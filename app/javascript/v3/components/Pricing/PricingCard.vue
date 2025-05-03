@@ -1,34 +1,43 @@
 <!-- Pricing Cards -->
-<template>
-  <!-- <section class="pricing-cards"> -->
-    <div v-for="plan in plans" :key="plan.id" :class="['pricing-card', `${plan.type.toLowerCase()}-card`]">
-      <div class="card-header">
-        <div class="card-type">{{ plan.type }}</div>
-        <div class="card-price">{{ plan.price }}<span>/bulan</span></div>
-        <div class="card-billing">{{ plan.billing }}</div>
-      </div>
-      <div class="card-description">
-        {{ plan.description }}
-      </div>
-      <div class="card-features">
-        <div v-for="(feature, index) in plan.features" :key="index" class="feature-item">
-          <div class="feature-dot">✓</div>
-          <span>{{ feature }}</span>
-        </div>
-      </div>
-      <button class="order-now-btn">Pesan Sekarang!</button>
-    </div>
-  <!-- </section> -->
-</template>
-
 <script>
 export default {
   name: 'PricingCards',
   props: {
-    plans: Array
-  }
+    plans: Array,
+  },
 };
 </script>
+
+<template>
+  <!-- <section class="pricing-cards"> -->
+  <div
+    v-for="plan in plans"
+    :key="plan.id"
+    class="pricing-card"
+    :class="[`${plan.type.toLowerCase()}-card`]"
+  >
+    <div class="card-header">
+      <div class="card-type">{{ plan.type }}</div>
+      <div class="card-price">{{ plan.price }}<span>/bulan</span></div>
+      <div class="card-billing">{{ plan.billing }}</div>
+    </div>
+    <div class="card-description">
+      {{ plan.description }}
+    </div>
+    <div class="card-features">
+      <div
+        v-for="(feature, index) in plan.features"
+        :key="index"
+        class="feature-item"
+      >
+        <div class="feature-dot">✓</div>
+        <span>{{ feature }}</span>
+      </div>
+    </div>
+    <button class="order-now-btn">Pesan Sekarang!</button>
+  </div>
+  <!-- </section> -->
+</template>
 <!-- 
 <script>
 export default {
