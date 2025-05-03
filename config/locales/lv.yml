@@ -48,13 +48,11 @@ lv:
         invalid: vajadzētu būt E.164 formātā
     categories:
       locale:
-        unique: vajadzētu būt unikālai, kategorijā un portālā 
+        unique: vajadzētu būt unikālai, kategorijā un portālā
     dyte:
       invalid_message_type: 'Nederīgs ziņojuma veids. Darbība nav atļauta'
     slack:
       invalid_channel_id: 'Nepareizs Slack kanāls. Lūdzu, mēģiniet vēlreiz'
-    channel_service:
-      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Lūdzu, pārbaudiet tīkla savienojumu, IMAP adresi un mēģiniet vēlreiz.
@@ -222,6 +220,10 @@ lv:
     shopify:
       name: 'Shopify'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
     copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
     copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
@@ -286,3 +288,25 @@ lv:
       zero: '%{count} sekundes'
       one: '%{count} sekunde'
       other: '%{count} sekundes'
+  automation:
+    system_name: 'Automatizācijas Sistēma'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[Nav satura]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}
