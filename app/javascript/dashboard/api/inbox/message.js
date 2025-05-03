@@ -125,6 +125,15 @@ class MessageApi extends ApiClient {
       `${this.url}/${conversationId}/messages/${messageId}/fix_formatting`
     );
   }
+
+  saveQualityScores(conversationId, messageId, scores) {
+    return axios.post(
+      `${this.url}/${conversationId}/messages/${messageId}/save_quality_scores`,
+      {
+        quality_score: scores,
+      }
+    );
+  }
 }
 
 export default new MessageApi();

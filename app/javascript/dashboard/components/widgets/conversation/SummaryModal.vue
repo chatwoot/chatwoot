@@ -41,11 +41,6 @@ export default {
   data: () => ({
     showLoader: true,
   }),
-  mounted() {
-    setTimeout(() => {
-      this.showLoader = false;
-    }, 5000);
-  },
   computed: {
     summaryAvailable() {
       return !!Object.keys(this.summary).length;
@@ -54,6 +49,13 @@ export default {
   methods: {
     onClose() {
       this.$emit('close');
+    },
+  },
+  watch: {
+    summary(newSummary) {
+      if (newSummary && Object.keys(newSummary).length) {
+        this.showLoader = false;
+      }
     },
   },
 };

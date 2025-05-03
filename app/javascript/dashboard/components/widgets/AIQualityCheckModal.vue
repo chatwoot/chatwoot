@@ -24,90 +24,39 @@
         </h4>
         <p class="text-sm" v-dompurify-html="formatMessage(suggestedContent, false)" />
       </div>
-      <div v-if="canTranslateResponse">
-        <p>
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_MESSAGE')
-          }}
-        </p>
-        <div class="p-3 bg-slate-200 dark:bg-slate-700 rounded mb-2">
-          <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
+      <div class="flex flex-row justify-between gap-2 py-2 px-0 w-full">
+        <div>
+          <woot-button class="small" variant="clear" @click.prevent="onClose">
             {{
-              $t(
-                "INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.ORIGINAL_RESPONSE"
-              )
+              $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CLOSE')
             }}
-          </h4>
-          <p class="text-sm" v-dompurify-html="formatMessage(message, false)" />
-          <div class="flex justify-end">
-            <woot-button
-              v-if="canSendOriginalMessage"
-              @click.prevent="sendOriginalMessage"
-              size="small"
-              color-scheme="primary"
-              icon="send"
-              emoji="✅"
-            >
-            {{ $t("INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ORIGINAL") }}
-            </woot-button>
-          </div>
+          </woot-button>
+          <woot-button class="small" color-scheme="secondary" :disabled="!suggestedContent" v-if="needsSuggestion" @click.prevent="applySuggestion">
+            {{
+              $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
+            }}
+          </woot-button>
+          <woot-button class="small" color-scheme="secondary" v-if="needsRevision" @click.prevent="onClose">
+            {{
+              $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.REVISE')
+            }}
+          </woot-button>
+          <woot-button class="small" color-scheme="secondary" v-if="canSendDespiteCheckFailure" @click.prevent="ignoreCheckAndSend">
+            {{
+              $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY')
+            }}
+          </woot-button>
         </div>
-        <div class="p-3 bg-slate-200 dark:bg-slate-700 rounded mb-2">
-          <h4 class="text-base mt-1 text-slate-700 dark:text-slate-100">
-            {{
-              $t(
-                "INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATED_RESPONSE"
-              )
-            }}
-          </h4>
-          <div v-if="!translatedMessage">
-            {{
-              $t(
-                "INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.GENERATING_TRANSLATION"
-              )
-            }}
-          </div>
-          <div v-else>
-            <p
-              class="text-sm"
-              v-dompurify-html="formatMessage(translatedMessage, false)"
-            />
-            <div class="flex justify-end">
-              <woot-button
-                v-if="canSendTranslatedMessage"
-                @click.prevent="sendTranslatedMessage"
-                size="small"
-                color-scheme="primary"
-                icon="send"
-                emoji="✅"
-              >
-              {{ $t("INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_TRANSLATED") }}
-              </woot-button>
-            </div>
-          </div>
+        <div>
+          <woot-button v-if="canTranslateResponse" class="small" @click.prevent="translateMessage">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.NEXT_STEP') }}
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.TRANSLATE') }}
+          </woot-button>
+          <woot-button class="small" v-else @click.prevent="ignoreCheckAndSend">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.NEXT_STEP') }}
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY') }}
+          </woot-button>
         </div>
-      </div>
-      <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
-        <woot-button class="small" variant="clear" @click.prevent="onClose">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CLOSE')
-          }}
-        </woot-button>
-        <woot-button class="small" :disabled="!suggestedContent" v-if="needsSuggestion" @click.prevent="applyText">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
-          }}
-        </woot-button>
-        <woot-button class="small" v-if="needsRevision" @click.prevent="onClose">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.REVISE')
-          }}
-        </woot-button>
-        <woot-button class="small" v-if="canSendDespiteCheckFailure" @click.prevent="ignoreCheckAndSend">
-          {{
-            $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY')
-          }}
-        </woot-button>
       </div>
     </form>
   </div>
@@ -159,12 +108,6 @@ export default {
     suggestedContent(){
       return this.languageGrammarCheck?.corrected_message || '';
     },
-    canSendTranslatedMessage(){
-      return this.canShowTranslation && this.translatedMessage !== '';
-    },
-    canSendOriginalMessage(){
-      return this.canShowTranslation;
-    },
     translationFeatureEnabled(){
       return this.isFeatureEnabledonAccount(
         this.accountId,
@@ -175,13 +118,8 @@ export default {
       return this.canShowTranslation && this.translationFeatureEnabled;
     }
   },
-  mounted() {
-    if (this.canTranslateResponse) {
-      this.translateMessage()
-    }
-  },
   methods: {
-    applyText() {
+    applySuggestion() {
       this.$emit('apply-text', this.suggestedContent);
       this.onClose();
     },
@@ -205,29 +143,8 @@ export default {
       );
     },
     async translateMessage(){
-      const response = await this.$store.dispatch('translateDraftMessage', {
-        conversationId: this.conversationId,
-        message: this.message,
-      });
-      this.translatedMessage = response?.data?.translated_agent_message || '';
-
-      if (this.translatedMessage === '') {
-        const errorMessage = this.$t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_ERROR');
-        this.showAlert(errorMessage, 'error');
-      }
-    },
-    sendTranslatedMessage(){
-      this.sendMessage(this.translatedMessage);
-    },
-    sendOriginalMessage(){
-      this.sendMessage(this.message);
-    },
-    sendMessage(content){
-      this.$emit('apply-text', content);
-      setTimeout(() => {
-        this.$emit('proceed-with-sending-message');
-        this.onClose();
-      }, 500);
+      this.$emit('translate-response');
+      this.onClose();
     },
   },
 };

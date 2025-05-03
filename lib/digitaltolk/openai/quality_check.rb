@@ -8,7 +8,7 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
     Your task is to contextually evaluate the quality of an answer to a query.
     Evaluate the answer based solely on its content and reasoning, regardless of the language used.
     You will be provided with.
-    - The latest query from a client.
+    - The latest query from a customer.
     - The answer to evaluate
 
     Assess the answer based on the following criteria and provide your output in a valid JSON format.
@@ -19,7 +19,7 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
     - Assign a satisfaction score (0-100) based on accuracy and completeness.
       - #{ANSWER_QUALITY_THRESHOLD} is the minimum acceptable score.
       - Do not assess language alignment when evaluating relevance of the answer.
-      - Focus only on content accuracy and thought, regardless of whether the response matches the query's language.
+      - Focus only on content accuracy and thought, regardless of whether the answer matches the query's language.
       - Allow for some flexibility in the answer's language.
     - Analyze the given answer and provide concise, actionable feedback on how to improve it. Identify any missing details, unclear explanations, or areas for enhancement. Detect the language of the answer and provide feedback in the same language.
     - Provide a boolean indicating whether the satisfaction score meets or exceeds the threshold.
@@ -57,15 +57,19 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
         }
       },
       "passed": <boolean>,
-      "detected_language": "<language_of_the_answer>"
-      "using_target_language": "<boolean>"
+      "detected_language": "<language_of_the_answer>",
+      "detected_query_language": "<language_of_the_query>",
+      "using_target_language": "<boolean>",
+      "needs_translation": "<boolean>"
     }
 
     Important:
     checks are the combined JSON of all the checks, enclosed by checks key.
     passed is a boolean indicating whether all checks passed.
-    detected_language is the language of the answer.
+    detected_language is the language locale of the answer.
+    detected_query_language is the language locale of the customer query.
     using_target_language is a boolean indicating whether the detected_language of the answer is in the target language which is %<target_language>s.
+    needs_translation is a boolean indicating whether the language_of_the_answer is different from language_of_the_query.
     Only return the JSON format.
     No additional text, explanations, or formatting outside of it.
   ).freeze

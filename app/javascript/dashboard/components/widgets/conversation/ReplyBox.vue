@@ -278,6 +278,7 @@ export default {
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       smartActions: 'getSmartActions',
       copilotResponse: 'getCopilotResponse',
+      qualityScores: 'getQualityScores',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -937,10 +938,19 @@ export default {
     },
     async sendMessage(messagePayload) {
       try {
-        await this.$store.dispatch(
+        const messageResponse = await this.$store.dispatch(
           'createPendingMessageAndSend',
           messagePayload
         );
+
+        if (messageResponse && this.qualityScores && this.currentChat) {
+          await this.$store.dispatch('saveQualityScores', {
+            messageId: messageResponse.id,
+            conversationId: this.currentChat.id,
+            scores: this.qualityScores,
+          });
+        }
+
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
         bus.$emit(BUS_EVENTS.MESSAGE_SENT);
         this.removeFromDraft();

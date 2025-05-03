@@ -36,7 +36,7 @@ export default {
         return false;
       }
 
-      return !this.aiCheckResponse?.using_target_language;
+      return this.aiCheckResponse?.needs_translation;
     },
     canShowTranslation(){
       return this.needsTranslation && this.languageGrammarPassed && this.customerCentricityPassed;

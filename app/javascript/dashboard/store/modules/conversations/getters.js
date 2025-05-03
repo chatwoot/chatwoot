@@ -124,6 +124,9 @@ const getters = {
   getNewTicket: _state => {
     return _state.newTicket;
   },
+  getQualityScores: _state => {
+    return _state.qualityScores;
+  },
 };
 
 export default getters;

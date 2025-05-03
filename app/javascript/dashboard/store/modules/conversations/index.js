@@ -23,6 +23,7 @@ const state = {
   smartActions: [],
   smartActionsContext: {},
   newTicket: {},
+  qualityScores: {},
 };
 
 // mutations
@@ -314,6 +315,9 @@ export const mutations = {
   [types.CLEAR_NEW_TICKET](_state) {
     Vue.set(_state, 'newTicket', {});
   },
+  [types.SET_QUALITY_SCORES](_state, qualityScores) {
+    Vue.set(_state, 'qualityScores', qualityScores);
+  }
 };
 
 export default {

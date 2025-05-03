@@ -152,6 +152,7 @@ class Message < ApplicationRecord
   has_one :csat_survey_response, dependent: :destroy_async
   has_one :message_csat_template_question, dependent: :destroy_async
   has_one :csat_template_question, through: :message_csat_template_question
+  has_one :message_quality_score, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :smart_actions, dependent: :destroy_async
 

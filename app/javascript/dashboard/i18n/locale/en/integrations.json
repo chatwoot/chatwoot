@@ -102,6 +102,7 @@
     "OPEN_AI": {
       "AI_ASSIST": "AI Assist",
       "WITH_AI": " %{option} with AI ",
+      "TRANSLATION_ERROR": "Translation Error",
       "OPTIONS": {
         "REPLY_SUGGESTION": "Reply Suggestion",
         "SUMMARIZE": "Summarize",
@@ -125,7 +126,8 @@
           "CANCEL": "Cancel",
           "CLOSE": "Close",
           "REVISE": "Manually Revise",
-          "SEND_ANYWAY": "Ignore Check and Send",
+          "NEXT_STEP": "Next Step:",
+          "SEND_ANYWAY": "Send Response Anyway",
           "TRANSLATE": "Translate Response",
           "SEND_TRANSLATED": "Send Translated Response",
           "SEND_ORIGINAL": "Send Original Response"

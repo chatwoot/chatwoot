@@ -59,14 +59,16 @@ export default {
   data: () => ({
     showLoader: true,
   }),
-  mounted() {
-    setTimeout(() => {
-      this.showLoader = false;
-    }, 3000);
-  },
   methods: {
     onClose() {
       this.$emit('close');
+    },
+  },
+  watch: {
+    translations(newTranslations) {
+      if (newTranslations && Object.keys(newTranslations).length) {
+        this.showLoader = false;
+      }
     },
   },
 };

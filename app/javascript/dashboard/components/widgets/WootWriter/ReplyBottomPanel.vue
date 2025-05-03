@@ -153,6 +153,7 @@
           @apply-text="replaceText"
           @close="hideAIAssistanceModal"
           @proceed-with-sending-message="proceedWithSendingMessage"
+          @translate-response="performResponseTranslation"
         />
       </woot-modal>
 
@@ -167,6 +168,30 @@
           @close="hideAITranslationModal"
           @proceed-with-sending-message="proceedWithSendingMessage"
         />
+      </woot-modal>
+
+      <woot-modal
+        :show.sync="translationError"
+        :on-close="hideTranslationError"
+      >
+        <div class="flex flex-col">
+          <woot-modal-header :header-title="$t('INTEGRATION_SETTINGS.OPEN_AI.TRANSLATION_ERROR')" />
+          <div
+            class="modal-content flex flex-col w-full pt-2 px-8 pb-8"
+          >
+            <div>
+              <p>
+                {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.QUALITY_CHECK.TRANSLATION.TRANSLATION_ERROR') }}
+              </p>
+              <woot-button
+                class="small"
+                @click.prevent="sendResponseWhenTranslationError"
+              >
+                {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY') }}
+              </woot-button>
+            </div>
+          </div>
+        </div>
       </woot-modal>
     </div>
   </div>
@@ -413,8 +438,8 @@ export default {
       showAITranslationModal: false,
       showAiLoader: false,
       aiCheckResponse: {},
-      translationData: {},
       translatedMessage: '',
+      translationError: false,
     }
   },
   mounted() {
@@ -443,10 +468,21 @@ export default {
     proceedWithSendingMessage() {
       this.$emit('confirm-on-send-reply');
     },
+    sendResponseWhenTranslationError() {
+      this.showAiLoader = false;
+      this.translationError = false;
+      this.proceedWithSendingMessage();
+    },
     async performQualityCheck() {
       const qualityResult = await this.$store.dispatch('performQualityCheck', {
         conversationId: this.conversationId,
         draftMessage: this.message,
+      });
+
+      this.$store.dispatch('setQualityScores', {
+        conversationId: this.conversationId,
+        message: this.message,
+        qualityCheckResponse: qualityResult.data,
       });
 
       this.aiCheckResponse = qualityResult.data;
@@ -463,6 +499,8 @@ export default {
       }
     },
     async performResponseTranslation() {
+      this.showAiLoader = true;
+      this.translatedMessage = '';
       const response = await this.$store.dispatch('translateDraftMessage', {
         conversationId: this.conversationId,
         message: this.message
@@ -470,7 +508,6 @@ export default {
 
       const responseData = response.data;
       this.showAiLoader = false;
-
       try {
         if (responseData.agent_message_locale === responseData.customer_message_locale) {
           this.proceedWithSendingMessage();
@@ -480,7 +517,7 @@ export default {
         }
       } catch (error) {
         console.log(error);
-        this.proceedWithSendingMessage();
+        this.translationError = true;
       }
     },
     hideAIAssistanceModal() {
@@ -489,12 +526,15 @@ export default {
     hideAITranslationModal() {
       this.showAITranslationModal = false;
     },
+    hideTranslationError() {
+      this.translationError = false;
+    },
     onSendReply() {
       if (!this.isOnPrivateNote) {
         this.showAiLoader = true;
       }
       this.onSend()
-    }
+    },
   },
 };
 </script>

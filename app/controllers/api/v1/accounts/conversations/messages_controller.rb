@@ -39,6 +39,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     head :ok
   end
 
+  def save_quality_scores
+    Digitaltolk::SaveQualityScoreService.new(message, params).perform
+    head :ok
+  end
+
   private
 
   def message

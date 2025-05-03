@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_28_105954) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_02_044033) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -726,6 +726,14 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_28_105954) do
     t.index ["message_id"], name: "uniq_csat_question_messages_id"
   end
 
+  create_table "message_quality_scores", force: :cascade do |t|
+    t.bigint "message_id", null: false
+    t.jsonb "scores", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["message_id"], name: "index_message_quality_scores_on_message_id"
+  end
+
   create_table "messages", id: :serial, force: :cascade do |t|
     t.text "content"
     t.integer "account_id", null: false
@@ -1095,6 +1103,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_28_105954) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
+  add_foreign_key "message_quality_scores", "messages"
   add_foreign_key "parquet_reports", "accounts"
   add_foreign_key "parquet_reports", "users"
   add_foreign_key "user_auths", "users"

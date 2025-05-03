@@ -15,6 +15,7 @@ import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import fixFormattingActions from './actions/fixFormattingActions';
 import smartActions from './actions/smartActions';
+import aiActions from './actions/aiActions';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -262,7 +263,7 @@ const actions = {
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {
     const pendingMessage = createPendingMessage(data);
-    dispatch('sendMessageWithData', pendingMessage);
+    return dispatch('sendMessageWithData', pendingMessage);
   },
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
@@ -283,6 +284,7 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      return response.data;
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
@@ -514,20 +516,11 @@ const actions = {
   clearTicket({ commit }){
     commit(types.CLEAR_NEW_TICKET)
   },
-  performQualityCheck(_, { conversationId, draftMessage }) {
-    return ConversationApi.performQualityCheck(conversationId, draftMessage);
-  },
-  translateDraftMessage(_, { conversationId, message }) {
-    return ConversationApi.translateDraftMessage(conversationId, message);
-  },
-  performConversationSummary(_, { conversationId }) {
-    return ConversationApi.performConversationSummary(conversationId);
-  },
-
   ...smartActions,
   ...messageReadActions,
   ...messageTranslateActions,
   ...fixFormattingActions,
+  ...aiActions,
 };
 
 export default actions;
