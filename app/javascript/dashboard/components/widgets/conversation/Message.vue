@@ -9,6 +9,7 @@ import BubbleLocation from './bubble/Location.vue';
 import BubbleMailHead from './bubble/MailHead.vue';
 import BubbleReplyTo from './bubble/ReplyTo.vue';
 import BubbleText from './bubble/Text.vue';
+import VoiceCall from './VoiceCall.vue';
 import ContextMenu from 'dashboard/modules/conversations/components/MessageContextMenu.vue';
 import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
@@ -43,6 +44,7 @@ export default {
     InstagramStoryReply,
     Spinner,
     NextButton,
+    VoiceCall,
   },
   props: {
     data: {
@@ -111,7 +113,8 @@ export default {
         this.data.content ||
         this.isEmailContentType ||
         this.isUnsupported ||
-        this.isAnIntegrationMessage
+        this.isAnIntegrationMessage ||
+        this.isVoiceCall
       );
     },
     emailMessageContent() {
@@ -257,6 +260,9 @@ export default {
     },
     isAnIntegrationMessage() {
       return this.contentType === 'integrations';
+    },
+    isVoiceCall() {
+      return this.contentType === 'voice_call';
     },
     emailHeadAttributes() {
       return {
@@ -490,12 +496,17 @@ export default {
           </template>
         </div>
         <BubbleText
-          v-else-if="data.content"
+          v-else-if="data.content && !isVoiceCall"
           :message="message"
           :is-email="isEmailContentType"
           :display-quoted-button="displayQuotedButton"
         />
+        <VoiceCall
+          v-else-if="isVoiceCall"
+          :message="data"
+        />
         <BubbleIntegration
+          v-else-if="isAnIntegrationMessage"
           :message-id="data.id"
           :content-attributes="contentAttributes"
           :inbox-id="data.inbox_id"

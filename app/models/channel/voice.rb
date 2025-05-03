@@ -16,10 +16,10 @@ class Channel::Voice < ApplicationRecord
     "#{provider.capitalize} Voice"
   end
 
-  def initiate_call(to:, conference_name: nil)
+  def initiate_call(to:, conference_name: nil, agent_id: nil)
     case provider
     when 'twilio'
-      initiate_twilio_call(to, conference_name)
+      initiate_twilio_call(to, conference_name, agent_id)
     # Add more providers as needed
     # when 'other_provider'
     #   initiate_other_provider_call(to)
@@ -30,7 +30,7 @@ class Channel::Voice < ApplicationRecord
 
   private
 
-  def initiate_twilio_call(to, conference_name = nil)
+  def initiate_twilio_call(to, conference_name = nil, agent_id = nil)
     config = provider_config_hash
 
     # Generate a public URL for Twilio to request TwiML (must set FRONTEND_URL)
@@ -39,12 +39,23 @@ class Channel::Voice < ApplicationRecord
     # Use the simplest possible TwiML endpoint
     callback_url = "#{host}/twilio/voice/simple"
     
+    # Start building query parameters
+    query_params = []
+    
     # Add conference name as a parameter if provided
     if conference_name.present?
-      callback_url += "?conference_name=#{CGI.escape(conference_name)}"
-      
-      # Log this for debugging
-      Rails.logger.info("🚨 OUTBOUND CALL: Adding conference_name '#{conference_name}' to callback URL: #{callback_url}")
+      query_params << "conference_name=#{CGI.escape(conference_name)}"
+    end
+    
+    # Add agent ID as a parameter if provided
+    if agent_id.present?
+      query_params << "agent_id=#{agent_id}"
+    end
+    
+    # Append query parameters to URL if any exist
+    if query_params.any?
+      callback_url += "?#{query_params.join('&')}"
+      Rails.logger.info("🚨 OUTBOUND CALL: Using callback URL with params: #{callback_url}")
     end
 
     # Parameters including status callbacks for call progress tracking
@@ -66,7 +77,8 @@ class Channel::Voice < ApplicationRecord
       call_sid: call.sid,
       status: call.status,
       call_direction: 'outbound',  # CRITICAL: Tag as outbound so webhooks know to prompt agent
-      requires_agent_join: true    # Flag that agent should join immediately
+      requires_agent_join: true,   # Flag that agent should join immediately
+      agent_id: agent_id           # Include agent_id for tracking who initiated the call
     }
   end
 

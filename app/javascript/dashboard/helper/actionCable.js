@@ -234,8 +234,13 @@ class ActionCableConnector extends BaseActionCableConnector {
       inboxId: data.inbox_id,
     };
     
-    // Update store
-    this.app.$store.dispatch('calls/setActiveCall', normalizedPayload);
+    // Update store with call status change
+    this.app.$store.dispatch('calls/handleCallStatusChanged', normalizedPayload);
+    
+    // For non-terminal statuses, update the active call
+    if (!['ended', 'missed', 'completed'].includes(data.status)) {
+      this.app.$store.dispatch('calls/setActiveCall', normalizedPayload);
+    }
   };
 }
 

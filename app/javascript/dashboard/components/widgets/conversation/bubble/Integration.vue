@@ -28,6 +28,12 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
   },
+  mounted() {
+    // Log integration type for debugging if needed
+    if (process.env.NODE_ENV !== 'production') {
+      console.log('Integration component mounted with type:', this.contentAttributes.type);
+    }
+  },
 };
 </script>
 
@@ -38,4 +44,13 @@ export default {
     :message-id="messageId"
     :meeting-data="contentAttributes.data"
   />
+  <div v-else class="integration-not-supported">
+    {{ contentAttributes.type || 'Unknown' }} integration
+  </div>
 </template>
+
+<style lang="scss" scoped>
+.integration-not-supported {
+  @apply text-xs text-slate-500 dark:text-slate-400 p-2 bg-slate-50 dark:bg-slate-700 rounded;
+}
+</style>
