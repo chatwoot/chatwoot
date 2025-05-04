@@ -306,6 +306,7 @@ export default {
       <MessagePreview
         v-if="lastMessageInChat"
         :message="lastMessageInChat"
+        :conversation="chat"
         class="conversation--message my-0 mx-2 leading-6 h-6 max-w-[96%] w-[16.875rem] text-sm"
         :class="hasUnread ? 'font-medium text-n-slate-12' : 'text-n-slate-11'"
       />

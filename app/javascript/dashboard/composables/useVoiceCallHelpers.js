@@ -3,8 +3,36 @@ import { computed } from 'vue';
 export const useVoiceCallHelpers = (props, { t }) => {
   // Check if the conversation is from a voice channel
   const isVoiceChannelConversation = computed(() => {
-    return props.conversation?.meta?.inbox?.channel_type === 'Channel::Voice';
+    // First check the meta.inbox.channel_type
+    if (props.conversation?.meta?.inbox?.channel_type === 'Channel::Voice') {
+      return true;
+    }
+    
+    // Also check the inbox_id to find the channel type
+    // This is useful when the meta.inbox is not fully populated
+    if (props.conversation?.inbox_id && props.conversation?.meta?.channel_type === 'Channel::Voice') {
+      return true;
+    }
+    
+    return false;
   });
+  
+  // Function to check if a conversation is a voice channel conversation (non-computed version)
+  const isConversationFromVoiceChannel = (conversation) => {
+    if (!conversation) return false;
+    
+    // Check meta inbox channel type
+    if (conversation.meta?.inbox?.channel_type === 'Channel::Voice') {
+      return true;
+    }
+    
+    // Check meta channel type
+    if (conversation.meta?.channel_type === 'Channel::Voice') {
+      return true;
+    }
+    
+    return false;
+  };
   
   // Helper function to find call information from various sources
   const getCallData = (conversation) => {
@@ -79,7 +107,7 @@ export const useVoiceCallHelpers = (props, { t }) => {
     }
     
     if (status === 'ended' || status === 'completed') {
-      return 'i-ph-phone-fill';
+      return isIncoming ? 'i-ph-phone-incoming-fill' : 'i-ph-phone-outgoing-fill';
     }
     
     // Default phone icon for ringing state
@@ -140,6 +168,7 @@ export const useVoiceCallHelpers = (props, { t }) => {
   
   return {
     isVoiceChannelConversation,
+    isConversationFromVoiceChannel,
     getCallData,
     hasArrow,
     isIncomingCall,

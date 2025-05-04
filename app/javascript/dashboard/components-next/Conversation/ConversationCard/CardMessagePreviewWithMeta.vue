@@ -2,7 +2,6 @@
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
-import { useVoiceCallHelpers } from 'dashboard/composables/useVoiceCallHelpers';
 
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardLabels from 'dashboard/components-next/Conversation/ConversationCard/CardLabels.vue';
@@ -25,171 +24,89 @@ const slaCardLabelRef = ref(null);
 
 const { getPlainText } = useMessageFormatter();
 
-// Use our voice call helpers composable
-const {
-  isVoiceChannelConversation,
-  hasArrow,
-  isIncomingCall: checkIsIncoming,
-  normalizeCallStatus,
-  getCallIconName,
-  getStatusText,
-  processArrowContent,
-} = useVoiceCallHelpers(props, { t });
-
-// Force voice call view for voice channel conversations
-const isVoiceCall = computed(() => {
-  if (isVoiceChannelConversation.value) {
-    return true;
-  }
-  
-  // Check if conversation has a call_status in additional_attributes
-  if (props.conversation?.additional_attributes?.call_status) {
-    return true;
-  }
-  
-  // Check for voice call in last message
-  const { lastNonActivityMessage } = props.conversation || {};
-  if (lastNonActivityMessage?.content_type === 'voice_call' || 
-      lastNonActivityMessage?.content_type === 'voice') {
-    return true;
-  }
-  
-  // Look for voice call content with expanded terms
-  if (lastNonActivityMessage?.content && 
-      typeof lastNonActivityMessage.content === 'string') {
-    const content = lastNonActivityMessage.content.toLowerCase();
-    if (content.includes('voice call') || 
-        content.includes('call ') || 
-        content.includes('missed call') || 
-        content.includes('incoming call') || 
-        content.includes('outgoing call') ||
-        content.startsWith('←') || 
-        content.startsWith('→')) {
-      return true;
-    }
-  }
-  
-  return false;
+// Simple check: Is this a voice channel conversation?
+const isVoiceChannel = computed(() => {
+  return props.conversation?.meta?.inbox?.channel_type === 'Channel::Voice';
 });
 
-// Check if content has arrow prefix using our helper
-const messageHasArrow = computed(() => {
-  const { lastNonActivityMessage } = props.conversation || {};
-  return hasArrow(lastNonActivityMessage);
-});
-
-// Get call data from multiple sources
-const callData = computed(() => {
-  // First check for data directly in conversation attributes
-  const conversationAttributes = props.conversation?.custom_attributes || {};
-  if (conversationAttributes.call_data) {
-    return conversationAttributes.call_data;
-  }
-  
-  // Then check message content attributes
-  const { lastNonActivityMessage } = props.conversation || {};
-  if (lastNonActivityMessage?.content_attributes?.data) {
-    return lastNonActivityMessage.content_attributes.data;
-  }
-  
-  return {};
-});
-
+// Get call direction: inbound or outbound
 const isIncomingCall = computed(() => {
-  if (!isVoiceCall.value) return null;
+  if (!isVoiceChannel.value) return false;
   
-  const { lastNonActivityMessage } = props.conversation || {};
-  return checkIsIncoming(callData.value, lastNonActivityMessage);
+  const direction = props.conversation?.additional_attributes?.call_direction;
+  return direction === 'inbound';
 });
 
+// Simple function to normalize call status
 const normalizedCallStatus = computed(() => {
-  if (!isVoiceCall.value) return '';
+  if (!isVoiceChannel.value) return null;
   
-  // First check for direct call_status in the conversation additional_attributes
-  // This is the most authoritative source for call status
-  const conversationCallStatus = props.conversation?.additional_attributes?.call_status;
-  if (conversationCallStatus) {
-    return normalizeCallStatus(conversationCallStatus, isIncomingCall.value);
-  }
+  // Get the raw status directly from conversation
+  const status = props.conversation?.additional_attributes?.call_status;
   
-  // If there's an arrow in the message, this is a legacy format message
-  if (messageHasArrow.value) {
-    const { lastNonActivityMessage } = props.conversation || {};
-    const content = lastNonActivityMessage?.content || '';
-    
-    if (content.includes('ended') || content.includes('Call ended')) {
-      return 'ended';
-    }
-    if (content.includes('missed') || content.includes('Missed call') || content.includes('no answer')) {
-      return isIncomingCall.value ? 'missed' : 'no-answer';
-    }
-    if (content.includes('in progress') || content.includes('active') || content.includes('answered')) {
-      return 'active';
-    }
-    
-    // For voice channel conversations, default to ended for better display
-    if (isVoiceChannelConversation.value) {
-      return 'ended';
-    }
-    
-    // Default to 'ended' for any legacy messages without clear status
-    return 'ended';
-  }
+  // Simple mapping of call statuses
+  if (status === 'in-progress') return 'active';
+  if (status === 'completed') return 'ended';
+  if (status === 'canceled') return 'ended';
+  if (status === 'failed') return 'ended';
+  if (status === 'busy') return 'no-answer';
+  if (status === 'no-answer') return isIncomingCall.value ? 'missed' : 'no-answer';
   
-  // Apply status mapping logic to call data status
-  const callStatus = callData.value?.status;
-  if (callStatus) {
-    return normalizeCallStatus(callStatus, isIncomingCall.value);
-  }
+  // Return the status as is for explicit values
+  if (status === 'active') return 'active';
+  if (status === 'missed') return 'missed';
+  if (status === 'ended') return 'ended';
+  if (status === 'ringing') return 'ringing';
   
-  // Determine status from timestamps
-  if (callData.value?.ended_at) {
-    return 'ended';
-  }
-  if (callData.value?.missed) {
-    return isIncomingCall.value ? 'missed' : 'no-answer';
-  }
-  if (callData.value?.started_at || props.conversation?.additional_attributes?.call_started_at) {
-    return 'active';
-  }
-  
-  // For voice channel conversations, default to ended for better display
-  if (isVoiceChannelConversation.value) {
-    return 'ended';
-  }
-  
-  // Default to ended for any remaining cases to avoid showing incorrect status
+  // If no status is set, default to 'ended'
   return 'ended';
 });
 
-const callIconName = computed(() => {
-  return getCallIconName(normalizedCallStatus.value, isIncomingCall.value);
-});
-
+// Get formatted call status text for voice channel conversations
 const callStatusText = computed(() => {
-  if (!isVoiceCall.value) return '';
+  if (!isVoiceChannel.value) return '';
   
-  // For legacy messages with arrows, process using our helper
-  if (messageHasArrow.value) {
-    const { lastNonActivityMessage } = props.conversation || {};
-    const content = lastNonActivityMessage?.content || '';
+  const status = normalizedCallStatus.value;
+  const isIncoming = isIncomingCall.value;
+  
+  if (status === 'active') {
+    return t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
+  }
+  
+  if (isIncoming) {
+    if (status === 'ringing') {
+      return t('CONVERSATION.VOICE_CALL.INCOMING_CALL');
+    }
     
-    // Process arrow content with our helper
-    return processArrowContent(content, isIncomingCall.value, normalizedCallStatus.value);
+    if (status === 'missed') {
+      return t('CONVERSATION.VOICE_CALL.MISSED_CALL');
+    }
+    
+    if (status === 'ended') {
+      return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    }
+  } else {
+    if (status === 'ringing') {
+      return t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
+    }
+    
+    if (status === 'no-answer') {
+      return t('CONVERSATION.VOICE_CALL.NO_ANSWER');
+    }
+    
+    if (status === 'ended') {
+      return t('CONVERSATION.VOICE_CALL.CALL_ENDED');
+    }
   }
   
-  // For voice channel conversations, use our helper for descriptive text
-  if (isVoiceChannelConversation.value) {
-    return getStatusText(normalizedCallStatus.value, isIncomingCall.value);
-  }
-  
-  // Generate the correct status text based on call status and direction
-  return getStatusText(normalizedCallStatus.value, isIncomingCall.value);
+  return isIncoming 
+    ? t('CONVERSATION.VOICE_CALL.INCOMING_CALL') 
+    : t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
 });
 
 const lastNonActivityMessageContent = computed(() => {
   // If it's a voice call, use the voice call text with icon
-  if (isVoiceCall.value) {
+  if (isVoiceChannel.value) {
     return callStatusText.value;
   }
   
@@ -232,7 +149,7 @@ defineExpose({
     <div class="flex items-center justify-between w-full gap-2 py-1 h-7">
       <!-- Voice Call Message display with icon -->
       <div 
-        v-if="isVoiceCall" 
+        v-if="isVoiceChannel" 
         class="flex items-center gap-1 mb-0 text-sm line-clamp-1"
         :class="{
           'text-green-600 dark:text-green-400': normalizedCallStatus === 'ringing',
@@ -241,20 +158,29 @@ defineExpose({
           'text-slate-600 dark:text-slate-400': normalizedCallStatus === 'ended'
         }"
       >
-        <!-- Explicit icon based on call status - force specific icons instead of computed properties -->
+        <!-- Explicit icon based on call status -->
+        <!-- Missed call or no answer -->
         <i v-if="normalizedCallStatus === 'missed' || normalizedCallStatus === 'no-answer'" 
            class="i-ph-phone-x-fill text-base inline-block flex-shrink-0 text-red-600 dark:text-red-400 mr-1"></i>
               
+        <!-- Active call -->
         <i v-else-if="normalizedCallStatus === 'active'" 
            class="i-ph-phone-call-fill text-base inline-block flex-shrink-0 text-woot-600 dark:text-woot-400 mr-1"></i>
               
-        <i v-else-if="normalizedCallStatus === 'ended' || normalizedCallStatus === 'completed'" 
-           class="i-ph-phone-fill text-base inline-block flex-shrink-0 text-slate-600 dark:text-slate-400 mr-1"></i>
+        <!-- Ended incoming call -->
+        <i v-else-if="normalizedCallStatus === 'ended' && isIncomingCall" 
+           class="i-ph-phone-incoming-fill text-base inline-block flex-shrink-0 text-slate-600 dark:text-slate-400 mr-1"></i>
               
+        <!-- Ended outgoing call -->
+        <i v-else-if="normalizedCallStatus === 'ended'" 
+           class="i-ph-phone-outgoing-fill text-base inline-block flex-shrink-0 text-slate-600 dark:text-slate-400 mr-1"></i>
+              
+        <!-- Ringing incoming call -->
         <i v-else-if="isIncomingCall" 
            class="i-ph-phone-incoming-fill text-base inline-block flex-shrink-0 text-green-600 dark:text-green-400 mr-1"
            :class="{ 'pulse-animation': normalizedCallStatus === 'ringing' }"></i>
               
+        <!-- Ringing outgoing call -->
         <i v-else 
            class="i-ph-phone-outgoing-fill text-base inline-block flex-shrink-0 text-green-600 dark:text-green-400 mr-1"
            :class="{ 'pulse-animation': normalizedCallStatus === 'ringing' }"></i>
