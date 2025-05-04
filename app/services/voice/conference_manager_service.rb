@@ -178,22 +178,24 @@ module Voice
       conversation.additional_attributes['agent_joined_at'] = Time.now.to_i
       Rails.logger.info("👤 AGENT JOINED AT: #{Time.now.to_i}")
 
-      # If call is ringing when agent joins, mark as active
+      # If call is ringing when agent joins, mark as connected
       return unless conversation.additional_attributes['call_status'] == 'ringing'
 
-      Rails.logger.info('📞 UPDATING RINGING CALL TO ACTIVE (agent joined)')
-      call_status_manager.process_status_update('active')
+      Rails.logger.info('📞 UPDATING RINGING CALL TO CONNECTED (agent joined)')
+      # Always use in-progress to be consistent with status mapping
+      call_status_manager.process_status_update('in-progress', nil, true)
     end
 
     def handle_caller_join
       conversation.additional_attributes['caller_joined_at'] = Time.now.to_i
       Rails.logger.info("👤 CALLER JOINED AT: #{Time.now.to_i}")
 
-      # For outbound calls - mark as active when caller joins if still ringing
+      # For outbound calls - mark as connected when caller joins if still ringing
       return unless outbound_call? && ringing_call?
 
-      Rails.logger.info('📞 UPDATING RINGING OUTBOUND CALL TO ACTIVE (caller joined)')
-      call_status_manager.process_status_update('active')
+      Rails.logger.info('📞 UPDATING RINGING OUTBOUND CALL TO CONNECTED (caller joined)')
+      # Always use in-progress to be consistent with status mapping
+      call_status_manager.process_status_update('in-progress', nil, true)
     end
 
     def handle_generic_participant_join
@@ -202,8 +204,9 @@ module Voice
       # If we're stuck in ringing for a while, try to move forward
       return unless ringing_call? && long_ringing?
 
-      Rails.logger.info('📞 UPDATING LONG-RINGING CALL TO ACTIVE (participant joined)')
-      call_status_manager.process_status_update('active')
+      Rails.logger.info('📞 UPDATING LONG-RINGING CALL TO CONNECTED (participant joined)')
+      # Always use in-progress to be consistent with status mapping
+      call_status_manager.process_status_update('in-progress', nil, true)
     end
 
     # Call state checks
@@ -225,10 +228,12 @@ module Voice
       both_present = conversation.additional_attributes['agent_joined_at'] &&
                      conversation.additional_attributes['caller_joined_at']
 
-      return unless both_present && conversation.additional_attributes['call_status'] != 'active'
+      # Only update if not already in an active state
+      return unless both_present && !%w[active in-progress].include?(conversation.additional_attributes['call_status'])
 
-      Rails.logger.info('📞 UPDATING CALL STATUS TO ACTIVE (both parties present)')
-      call_status_manager.process_status_update('active')
+      Rails.logger.info('📞 UPDATING CALL STATUS TO CONNECTED (both parties present)')
+      # Always use in-progress to be consistent with status mapping
+      call_status_manager.process_status_update('in-progress', nil, true)
     end
 
     # Missed call check when caller leaves
@@ -295,23 +300,38 @@ module Voice
     # Activity message creation
     def create_activity_message
       content = activity_message_content_for_event
-      call_status_manager.create_activity_message(content)
+      # Only create message if we have content to show
+      call_status_manager.create_activity_message(content) if content.present?
     end
 
     def activity_message_content_for_event
       case event
       when CONFERENCE_START
-        'Conference started'
+        # Don't show this message to avoid redundancy with call status messages
+        nil
       when CONFERENCE_END
-        'Conference ended'
+        # Don't show this message to avoid redundancy with call status messages
+        nil
       when PARTICIPANT_JOIN
-        participant_type = agent_participant? ? 'Agent' : 'Caller'
-        "#{participant_type} joined the call"
+        if agent_participant?
+          "Agent joined the call"
+        elsif caller_participant?
+          # Only for inbound calls - creates "Caller joined the call" message
+          # For outbound calls, we don't need this as we show "Call connected" instead
+          call_status_manager.is_outbound? ? nil : "Caller joined the call"
+        else
+          nil # Don't show for generic participants
+        end
       when PARTICIPANT_LEAVE
-        participant_type = agent_participant? ? 'Agent' : 'Caller'
-        "#{participant_type} left the call"
+        if agent_participant?
+          "Agent left the call"
+        elsif caller_participant?
+          "Caller left the call"
+        else
+          nil # Don't show for generic participants
+        end
       else
-        "Call event: #{event}"
+        nil # Don't show unknown events
       end
     end
   end

@@ -50,10 +50,10 @@ module Voice
         agent_id: user.id # Pass the agent ID to track who initiated the call
       )
 
-      # Update conversation with call details
+      # Update conversation with call details, but don't set status
+      # Status will be properly set by CallStatusManager 
       updated_attributes = @conversation.additional_attributes.merge({
                                                                        'call_sid' => @call_details[:call_sid],
-                                                                       'call_status' => 'in-progress',
                                                                        'requires_agent_join' => true,
                                                                        'agent_id' => user.id # Store the agent ID who initiated the call
                                                                      })
@@ -63,6 +63,16 @@ module Voice
 
     def create_voice_call_message
       # Create a voice call message
+      # Initialize CallStatusManager to get normalized status
+      status_manager = Voice::CallStatus::Manager.new(
+        conversation: @conversation,
+        call_sid: @call_details[:call_sid],
+        provider: :twilio
+      )
+      
+      # Get UI-friendly status
+      ui_status = status_manager.normalized_ui_status('ringing')
+      
       message_params = {
         content: 'Voice Call',
         message_type: 'outgoing',
@@ -70,7 +80,7 @@ module Voice
         content_attributes: {
           data: {
             call_sid: @call_details[:call_sid],
-            status: 'ringing',
+            status: ui_status, # Set the normalized UI status
             conversation_id: @conversation.id,
             call_direction: 'outbound',
             conference_sid: @conference_name,

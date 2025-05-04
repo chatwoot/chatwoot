@@ -63,19 +63,23 @@ module Voice
       }.freeze
 
       # Provider-specific message templates for different call statuses
+      # These messages must EXACTLY match what the UI expects to show
       PROVIDER_MESSAGES = {
         twilio: {
-          'initiated' => { outbound: 'Outbound call initiated', inbound: 'Initiating call' },
-          'ringing' => { outbound: 'Phone ringing', inbound: 'Phone ringing' },
+          # Outgoing calls
+          'initiated' => { outbound: 'Call started…', inbound: 'Incoming call…' },
+          'ringing' => { outbound: 'Call started…', inbound: 'Incoming call…' },
           'in-progress' => {
-            outbound: { first: 'Call connected', next: 'Call in progress' },
-            inbound: { first: 'Call answered', next: 'Call in progress' }
+            outbound: { first: 'Call in progress…', next: 'Call in progress…' },
+            inbound: { first: 'Call in progress…', next: 'Call in progress…' }
           },
-          'completed' => { outbound: 'Call completed', inbound: 'Call completed' },
-          'busy' => { outbound: 'Call busy', inbound: 'Call busy' },
-          'failed' => { outbound: 'Call failed', inbound: 'Call failed' },
-          'no-answer' => { outbound: 'Call not answered', inbound: 'Call not answered' },
-          'canceled' => { outbound: 'Call canceled', inbound: 'Call canceled' }
+          'active' => { outbound: 'Call in progress…', inbound: 'Call in progress…' },
+          'completed' => { outbound: 'Call ended', inbound: 'Call ended' },
+          'busy' => { outbound: 'Line busy', inbound: 'Missed call' },  # Show as missed for inbound
+          'failed' => { outbound: 'Call failed', inbound: 'Missed call' },
+          'no-answer' => { outbound: 'No answer', inbound: 'Missed call' },
+          'canceled' => { outbound: 'Call canceled', inbound: 'Missed call' },
+          'missed' => { outbound: 'Call missed', inbound: 'Missed call' }
         }
       }.freeze
 
@@ -103,16 +107,33 @@ module Voice
       # @param is_first_response [Boolean] Whether this is the first status update for this status
       # @return [Boolean] Whether the update was processed successfully
       def process_status_update(status, duration = nil, is_first_response = false)
+        # Normalize status using the STATUS_MAPPING if present
+        normalized_status = STATUS_MAPPING[status] || status
+
+        # Get current status
+        prev_status = conversation.additional_attributes&.dig('call_status')
+
         # Skip if no changes needed to avoid duplicate processing
         # Unless this is marked as the first response, which we should always process
-        prev_status = conversation.additional_attributes&.dig('call_status')
-        if !is_first_response && prev_status == status
-          Rails.logger.info("🔄 [CallStatusManager] Skipping duplicate status update: '#{status}'")
+        if !is_first_response && prev_status == normalized_status
+          Rails.logger.info("🔄 [CallStatusManager] Skipping duplicate status update: '#{normalized_status}'")
           return true
         end
 
-        # Normalize status using the STATUS_MAPPING if present
-        normalized_status = STATUS_MAPPING[status] || status
+        # Handle status transitions - only allow certain transitions
+        if prev_status.present? && !is_first_response
+          # Don't move backwards in the status flow unless forced to
+          if prev_status == 'in-progress' && normalized_status == 'ringing'
+            Rails.logger.info("🔄 [CallStatusManager] Skipping backward transition: '#{prev_status}' -> '#{normalized_status}'")
+            return true
+          end
+
+          # Don't override a completed status with in-progress
+          if TERMINAL_STATUSES.include?(prev_status) && normalized_status == 'in-progress'
+            Rails.logger.info("🔄 [CallStatusManager] Call already ended, skipping update to: '#{normalized_status}'")
+            return true
+          end
+        end
 
         # Calculate call duration automatically if not provided and call is ending
         if duration.nil? && call_ended?(normalized_status) && conversation.additional_attributes['call_started_at']
@@ -153,6 +174,36 @@ module Voice
         # Default to inbound if we can't determine
         # Most calls are inbound, so this is a reasonable default
         false
+      end
+      
+      # Convert internal status to UI-friendly status
+      # For consistent display across all parts of the UI
+      # This is used by other services to ensure consistent status display
+      # @param status [String] The raw status to normalize
+      # @return [String] The UI-friendly status value
+      def normalized_ui_status(status)
+        incoming = !is_outbound?
+        
+        case status
+        when 'initiated', 'ringing'
+          is_outbound? ? 'started' : 'ringing'
+        when 'in-progress', 'active'
+          'in_progress'
+        when 'completed', 'ended'
+          'ended'
+        when 'missed'
+          is_outbound? ? 'no_answer' : 'missed'
+        when 'busy'
+          is_outbound? ? 'busy' : 'missed'  # Treat busy as missed for incoming
+        when 'failed'
+          is_outbound? ? 'failed' : 'missed'  # Treat failed as missed for incoming
+        when 'no-answer'
+          is_outbound? ? 'no_answer' : 'missed'  # For incoming, this is missed
+        when 'canceled'
+          is_outbound? ? 'canceled' : 'missed'  # Treat canceled as missed for incoming
+        else
+          is_outbound? ? 'ended' : 'missed'  # Default to missed for incoming if we don't know
+        end
       end
 
       # Generate provider-specific activity messages (e.g., for Twilio)
@@ -240,6 +291,9 @@ module Voice
         conversation.additional_attributes ||= {}
         conversation.additional_attributes['call_status'] = status
 
+        # Also store the UI-friendly status for consistent display
+        conversation.additional_attributes['ui_call_status'] = normalized_ui_status(status)
+
         # Update timestamps and metadata based on status
         if %w[in-progress active].include?(status)
           # Record the start time if not already set
@@ -273,23 +327,18 @@ module Voice
         message = find_voice_call_message
         return unless message
 
-        # Determine best message status value based on conversation status
-        message_status = status
-        if status == 'in-progress'
-          message_status = 'active'
-        elsif call_ended?(status)
-          message_status = 'ended'
-        end
+        # Use the normalized UI status for consistent display
+        ui_status = normalized_ui_status(status)
 
         # Get current content attributes, initialize if needed
         content_attributes = message.content_attributes || {}
         content_attributes['data'] ||= {}
 
         # Update fields
-        content_attributes['data']['status'] = message_status
+        content_attributes['data']['status'] = ui_status
         content_attributes['data']['duration'] = duration if duration
         content_attributes['data']['meta'] ||= {}
-        content_attributes['data']['meta']["#{message_status}_at"] = Time.now.to_i
+        content_attributes['data']['meta']["#{ui_status}_at"] = Time.now.to_i
         content_attributes['data']['updated_at'] = Time.now.to_i
 
         # Add a flag to force the UI to refresh
@@ -343,25 +392,43 @@ module Voice
       end
 
       def create_status_activity_message(status)
+        # Use messages that match the UI expectations exactly
+        # These messages will appear in the activity feed
         content = if call_ended?(status)
-                    case status
-                    when 'missed'
-                      'Call was not answered'
-                    when 'busy'
-                      'Line was busy'
-                    when 'failed'
-                      'Call failed'
-                    when 'no-answer'
-                      'No answer'
-                    when 'canceled'
-                      'Call was canceled'
+                    if !is_outbound? 
+                      # All ended incoming calls should show as "Missed call" if they weren't answered
+                      # Only show "Call ended" if the call was actually answered (in progress)
+                      conversation_was_active = conversation.additional_attributes['call_started_at'].present?
+                      if conversation_was_active
+                        'Call ended'
+                      else
+                        'Missed call'  # Default for all incoming ended calls that weren't answered
+                      end
                     else
-                      'Call ended'
+                      # For outbound calls, show appropriate endings
+                      case status
+                      when 'missed'
+                        'No answer'
+                      when 'busy'
+                        'Line busy'
+                      when 'failed'
+                        'Call failed'
+                      when 'no-answer'
+                        'No answer'
+                      when 'canceled'
+                        'Call canceled'
+                      else
+                        'Call ended'
+                      end
                     end
-                  elsif status == 'in-progress'
-                    'Call in progress'
+                  elsif %w[in-progress active].include?(status)
+                    'Call in progress…'
+                  elsif status == 'ringing'
+                    is_outbound? ? 'Call started…' : 'Incoming call…'
+                  elsif status == 'initiated'
+                    is_outbound? ? 'Call started…' : 'Incoming call…'
                   else
-                    "Call status changed to #{status}"
+                    "Call status: #{status}"
                   end
 
         # Use the public create_activity_message method
@@ -376,13 +443,19 @@ module Voice
         Rails.logger.info("📢 [CallStatusManager] Broadcasting status change: '#{status}' for conversation_id=#{conversation.id}")
 
         # Use account-level channel for maximum compatibility
+        # Convert the internal status to the UI-friendly format
+        # This ensures the conversation list shows consistent status texts
+        ui_status = normalized_ui_status(status)
+
+        Rails.logger.info("📢 [CallStatusManager] Broadcasting UI status: '#{ui_status}' for conversation_id=#{conversation.id}")
+
         ActionCable.server.broadcast(
           "account_#{conversation.account_id}",
           {
             event_name: 'call_status_changed',
             data: {
               call_sid: call_sid,
-              status: status,
+              status: ui_status, # Send UI-friendly status
               conversation_id: conversation.id,
               inbox_id: conversation.inbox_id,
               timestamp: Time.now.to_i
@@ -390,6 +463,7 @@ module Voice
           }
         )
       end
+
     end
   end
 end

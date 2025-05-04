@@ -68,7 +68,6 @@ module Voice
 
     def initial_attributes
       attributes = {
-        'call_status' => 'in-progress',
         'call_initiated_at' => Time.now.to_i
       }
 

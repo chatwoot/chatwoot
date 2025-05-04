@@ -81,7 +81,8 @@ module Voice
 
       Rails.logger.info("📬 CONTACT INBOX: id=#{@contact_inbox.id} source_id=#{@contact_inbox.source_id}")
 
-      # Create a new conversation with call details
+      # Create a new conversation with basic call details
+      # Status will be properly set by CallStatusManager later
       @conversation = account.conversations.create!(
         contact_inbox_id: @contact_inbox.id,
         inbox_id: @inbox.id,
@@ -89,7 +90,6 @@ module Voice
         status: :open,
         additional_attributes: {
           'call_sid' => caller_info[:call_sid],
-          'call_status' => 'ringing',
           'call_direction' => 'inbound',
           'call_initiated_at' => Time.now.to_i,
           'call_type' => 'inbound'
@@ -106,6 +106,16 @@ module Voice
 
     def create_voice_call_message
       # Create a single voice call message from contact for this call
+      # Initialize CallStatusManager to get normalized status
+      status_manager = Voice::CallStatus::Manager.new(
+        conversation: @conversation,
+        call_sid: caller_info[:call_sid],
+        provider: :twilio
+      )
+      
+      # Get UI-friendly status for consistent display
+      ui_status = status_manager.normalized_ui_status('ringing')
+      
       message_params = {
         content: 'Voice Call',
         message_type: 'incoming',
@@ -113,7 +123,7 @@ module Voice
         content_attributes: {
           data: {
             call_sid: caller_info[:call_sid],
-            status: 'ringing',
+            status: ui_status, # Use normalized UI status
             conversation_id: @conversation.id,
             call_direction: 'inbound',
             conference_sid: @conversation.additional_attributes['conference_sid'],
