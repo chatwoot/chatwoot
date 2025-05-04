@@ -92,7 +92,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-">
+  <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
     <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
