@@ -4,9 +4,18 @@ module Voice
 
     def process
       find_voice_inbox
-      create_conversation
-      initiate_call
-      create_voice_call_message
+
+      # Create conversation and voice message in a single transaction
+      # This ensures the voice call message is created before any auto-assignment activity messages
+      ActiveRecord::Base.transaction do
+        create_conversation
+        initiate_call
+        create_voice_call_message
+      end
+
+      # Add the activity message separately, after the voice call message
+      create_activity_message
+
       broadcast_to_agent
       @conversation
     end
@@ -15,8 +24,8 @@ module Voice
 
     def find_voice_inbox
       @voice_inbox = account.inboxes.find_by(channel_type: 'Channel::Voice')
-      raise "No Voice channel found" if @voice_inbox.blank?
-      raise "Contact has no phone number" if contact.phone_number.blank?
+      raise 'No Voice channel found' if @voice_inbox.blank?
+      raise 'Contact has no phone number' if contact.phone_number.blank?
     end
 
     def create_conversation
@@ -28,7 +37,7 @@ module Voice
         inbox: @voice_inbox,
         call_sid: nil # This will be set after call is initiated
       ).perform
-      
+
       # Create conference name for outbound call
       @conference_name = @conversation.additional_attributes['conference_sid']
     end
@@ -36,19 +45,19 @@ module Voice
     def initiate_call
       # Initiate the call using the channel's implementation
       @call_details = @voice_inbox.channel.initiate_call(
-        to: contact.phone_number, 
+        to: contact.phone_number,
         conference_name: @conference_name,
         agent_id: user.id # Pass the agent ID to track who initiated the call
       )
-      
+
       # Update conversation with call details
       updated_attributes = @conversation.additional_attributes.merge({
-        'call_sid' => @call_details[:call_sid],
-        'call_status' => 'in-progress',
-        'requires_agent_join' => true,
-        'agent_id' => user.id # Store the agent ID who initiated the call
-      })
-      
+                                                                       'call_sid' => @call_details[:call_sid],
+                                                                       'call_status' => 'in-progress',
+                                                                       'requires_agent_join' => true,
+                                                                       'agent_id' => user.id # Store the agent ID who initiated the call
+                                                                     })
+
       @conversation.update!(additional_attributes: updated_attributes)
     end
 
@@ -75,24 +84,26 @@ module Voice
           }
         }
       }
-      
-      # Create the message
+
+      # Create just the voice call message - this ensures it appears first in the conversation
       @widget_message = Messages::MessageBuilder.new(
         user,
         @conversation,
         message_params
       ).perform
-      
-      # Create an activity message for the outgoing call
+
+      # Update last activity timestamp
+      @conversation.update(last_activity_at: Time.current)
+    end
+
+    # Create the activity message in a separate method
+    def create_activity_message
       message_service = Voice::MessageUpdateService.new(
         conversation: @conversation,
         call_sid: @call_details[:call_sid]
       )
-      
+
       message_service.create_activity_message("Outgoing call to #{contact.name || contact.phone_number}")
-      
-      # Update last activity timestamp
-      @conversation.update(last_activity_at: Time.current)
     end
 
     def broadcast_to_agent
@@ -116,7 +127,7 @@ module Voice
           }
         }
       )
-      
+
       # Broadcast the conversation and message
       ActionCableBroadcastJob.perform_later(
         @conversation.account_id,
