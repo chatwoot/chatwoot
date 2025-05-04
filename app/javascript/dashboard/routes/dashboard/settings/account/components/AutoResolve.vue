@@ -7,11 +7,13 @@ import SectionLayout from './SectionLayout.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
 import DurationInput from 'next/input/DurationInput.vue';
 import TextArea from 'next/textarea/TextArea.vue';
+import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const duration = ref(0);
 const message = ref('');
+const isEnabled = ref(false);
 
 const { currentAccount, updateAccount } = useAccount();
 
@@ -23,6 +25,10 @@ watch(
 
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
+
+    if (duration.value) {
+      isEnabled.value = true;
+    }
   },
   { deep: true, immediate: true }
 );
@@ -52,6 +58,10 @@ const handleDisable = async () => {
     auto_resolve_message: '',
   });
 };
+
+const toggleAutoResolve = async () => {
+  if (!isEnabled.value) handleDisable();
+};
 </script>
 
 <template>
@@ -60,6 +70,12 @@ const handleDisable = async () => {
     :description="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.NOTE')"
     with-border
   >
+    <template #headerActions>
+      <div class="flex justify-end">
+        <Switch v-model="isEnabled" @change="toggleAutoResolve" />
+      </div>
+    </template>
+
     <form class="grid gap-4" @submit.prevent="handleSubmit">
       <WithLabel
         :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL')"
@@ -69,6 +85,7 @@ const handleDisable = async () => {
           <!-- allow 0 to 999 days -->
           <DurationInput
             v-model="duration"
+            :disabled="!isEnabled"
             min="0"
             max="1439856"
             class="w-full"
@@ -84,6 +101,7 @@ const handleDisable = async () => {
         <TextArea
           v-model="message"
           class="w-full"
+          :disabled="!isEnabled"
           :placeholder="
             t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_PLACEHOLDER')
           "
@@ -96,15 +114,6 @@ const handleDisable = async () => {
           :label="
             t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.UPDATE_BUTTON')
           "
-        />
-        <NextButton
-          v-if="duration || message"
-          type="button"
-          slate
-          :label="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.DISABLE_BUTTON')
-          "
-          @click.prevent="handleDisable"
         />
       </div>
     </form>

@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 const props = defineProps({
   min: { type: Number, default: 0 },
   max: { type: Number, default: Infinity },
+  disabled: { type: Boolean, default: false },
 });
 
 const { t } = useI18n();
@@ -47,10 +48,15 @@ const transformedValue = computed({
     v-model="transformedValue"
     type="number"
     autocomplete="off"
+    :disabled="disabled"
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
-    class="flex-grow w-full"
+    class="flex-grow w-full disabled:"
   />
-  <select v-model="unit" class="mb-0 text-sm">
+  <select
+    v-model="unit"
+    :disabled="disabled"
+    class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
+  >
     <option :value="UNIT_TYPES.MINUTES">
       {{ t('DURATION_INPUT.MINUTES') }}
     </option>
