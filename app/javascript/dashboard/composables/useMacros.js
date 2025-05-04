@@ -8,7 +8,6 @@ import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
  */
 export const useMacros = () => {
   const getters = useStoreGetters();
-
   const labels = computed(() => getters['labels/getLabels'].value);
   const teams = computed(() => getters['teams/getTeams'].value);
   const agents = computed(() => getters['agents/getAgents'].value);
@@ -33,6 +32,8 @@ export const useMacros = () => {
         }));
       case 'change_priority':
         return PRIORITY_CONDITION_VALUES;
+      case 'send_webhook_event':
+        return [];
       default:
         return [];
     }
