@@ -149,7 +149,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col max-w-4xl mx-auto w-full">
+  <div class="flex flex-col max-w-2xl mx-auto w-full">
     <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
     <div class="flex-grow flex-shrink min-w-0 mt-3 overflow-auto">
       <SectionLayout
