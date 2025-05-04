@@ -237,19 +237,47 @@
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
     },
-    "INCOMING_CALL": "Incoming call",
-    "JOIN_CALL": "Join call",
-    "REJECT_CALL": "Reject call",
-    "END_CALL": "End call",
-    "MINIMIZE_CALL": "Minimize call",
-    "EXPAND_CALL": "Expand call",
-    "CALL_STATUS": {
-      "CONNECTING": "Connecting...",
-      "RINGING": "Ringing...",
-      "CONNECTED": "Connected",
-      "ENDED": "Call ended",
-      "FAILED": "Call failed",
-      "REJECTED": "Call rejected"
+    "VOICE_CALL": {
+      "TITLE": "Call",
+      "RINGING": "Ringing",
+      "ACTIVE": "Call in progress",
+      "MISSED": "Missed Call",
+      "ENDED": "Call Ended",
+      "INCOMING": "Incoming call...",
+      "OUTGOING": "Call started...",
+      "INCOMING_CALL": "Incoming call...",
+      "OUTGOING_CALL": "Outgoing call",
+      "CALL_IN_PROGRESS": "Call in progress...",
+      "NO_ANSWER": "No answer",
+      "MISSED_CALL": "Missed call",
+      "CALL_ENDED": "Call ended",
+      "DURATION": "{duration}",
+      "UNKNOWN": "Unknown",
+      "UNKNOWN_CALLER": "Unknown caller",
+      "UNKNOWN_NUMBER": "Unknown number",
+      "CALL_ERROR": "Failed to initiate call. Please try again.",
+      "CALL_INITIATED": "Call initiated successfully.",
+      "NOT_ANSWERED_YET": "Not answered yet",
+      "YOU_CALLED": "You called",
+      "THEY_ANSWERED": "They answered",
+      "YOU_ANSWERED": "You answered",
+      "YOU_DIDNT_ANSWER": "You didn't answer",
+      "RINGING_STATUS": "Ringing",
+      "ACTIVE_STATUS": "Call in progress",
+      "MISSED_STATUS": "Missed Call",
+      "ENDED_STATUS": "Call Ended",
+      "CALL_DURATION": "Duration: {duration}",
+      "INCOMING_FROM": "Incoming from {name}",
+      "OUTGOING_TO": "Outgoing to {name}",
+      "JOIN_CALL": "Join call",
+      "REJECT_CALL": "Reject call",
+      "END_CALL": "End call"
+    },
+    "COPILOT": {
+      "TRY_THESE_PROMPTS": "Try these prompts"
+    },
+    "GALLERY_VIEW": {
+      "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -394,11 +422,6 @@
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
   },
-  "VOICE_CALL": "Call",
-  "CALL_ERROR": "Failed to initiate call. Please try again.",
-  "CALL_INITIATED": "Call initiated successfully.",
-  "AUDIO_NOT_SUPPORTED": "Your browser does not support audio playback",
-  "TRANSCRIPTION": "Call transcription",
   "COPILOT": {
     "TRY_THESE_PROMPTS": "Try these prompts"
   },

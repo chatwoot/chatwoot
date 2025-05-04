@@ -57,6 +57,72 @@ const lastActivityAt = computed(() => {
   return timestamp ? shortTimestamp(dynamicTime(timestamp)) : '';
 });
 
+const lastNonActivityMessage = computed(() => {
+  return props.conversation?.lastNonActivityMessage || {};
+});
+
+const isVoiceCall = computed(() => {
+  return lastNonActivityMessage.value?.content_type === 'voice_call' || 
+         lastNonActivityMessage.value?.content_type === 'voice';
+});
+
+const callData = computed(() => {
+  if (!isVoiceCall.value) return null;
+  return lastNonActivityMessage.value?.content_attributes?.data || {};
+});
+
+const isIncomingCall = computed(() => {
+  if (!isVoiceCall.value) return false;
+  
+  const direction = callData.value?.call_direction;
+  if (direction) {
+    return direction === 'inbound';
+  }
+  
+  return lastNonActivityMessage.value?.message_type === 0;
+});
+
+const normalizedCallStatus = computed(() => {
+  if (!isVoiceCall.value) return null;
+  
+  // Apply the same status mapping as in VoiceCall component
+  const callStatus = callData.value?.status;
+  if (callStatus) {
+    const statusMap = {
+      'in-progress': 'active',
+      'completed': 'ended',
+      'canceled': 'ended',
+      'failed': 'ended',
+      'busy': 'no-answer',
+      'no-answer': isIncomingCall.value ? 'missed' : 'no-answer'
+    };
+    
+    return statusMap[callStatus] || callStatus;
+  }
+  
+  // Determine status from timestamps
+  if (callData.value?.ended_at) {
+    return 'ended';
+  }
+  if (callData.value?.missed) {
+    return isIncomingCall.value ? 'missed' : 'no-answer';
+  }
+  if (callData.value?.started_at) {
+    return 'active';
+  }
+  
+  // Default to ringing
+  return 'ringing';
+});
+
+const isRingingCall = computed(() => {
+  return normalizedCallStatus.value === 'ringing';
+});
+
+const isActiveCall = computed(() => {
+  return normalizedCallStatus.value === 'active';
+});
+
 const showMessagePreviewWithoutMeta = computed(() => {
   const { labels = [] } = props.conversation;
   return (
@@ -87,9 +153,21 @@ const onCardClick = e => {
 <template>
   <div
     role="button"
-    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer"
+    class="flex w-full gap-3 px-3 py-4 transition-all duration-300 ease-in-out cursor-pointer relative"
+    :class="{ 
+      'border-l-2 border-green-500 dark:border-green-400': isRingingCall,
+      'border-l-2 border-woot-500 dark:border-woot-400': isActiveCall,
+      'border-l-2 border-red-500 dark:border-red-400': normalizedCallStatus === 'missed' || normalizedCallStatus === 'no-answer',
+      'conversation-ringing': isRingingCall
+    }"
     @click="onCardClick"
   >
+    <!-- Ringing call indicator (pulse effect) -->
+    <div 
+      v-if="isRingingCall" 
+      class="absolute left-0 top-0 bottom-0 w-0.5 bg-green-500 dark:bg-green-400 animate-pulse"
+    ></div>
+  
     <Avatar
       :name="currentContactName"
       :src="currentContactThumbnail"
@@ -111,7 +189,7 @@ const onCardClick = e => {
             <!-- Special handling for voice channel -->
             <span
               v-if="inbox.channelType === 'Channel::Voice'"
-              class="i-ph-phone-fill text-n-slate-11 size-3"
+              class="i-ph-phone-fill text-n-slate-11 size-3 inline-block"
             />
             <Icon
               v-else
@@ -137,3 +215,21 @@ const onCardClick = e => {
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.conversation-ringing {
+  animation: border-pulse 1.5s infinite;
+}
+
+@keyframes border-pulse {
+  0% {
+    border-color: rgba(34, 197, 94, 0.8); /* Green for ringing */
+  }
+  50% {
+    border-color: rgba(34, 197, 94, 0.2);
+  }
+  100% {
+    border-color: rgba(34, 197, 94, 0.8);
+  }
+}
+</style>

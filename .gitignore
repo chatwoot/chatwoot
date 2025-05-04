@@ -94,3 +94,4 @@ yarn-debug.log*
 
 # Claude.ai config file
 CLAUDE.md
+**/.claude/settings.local.json

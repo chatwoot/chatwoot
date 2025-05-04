@@ -91,76 +91,15 @@ class Twilio::VoiceController < ActionController::Base
 
     contact_number = is_outbound ? to_number : from_number
     conversation = find_or_create_conversation(inbox, contact_number, call_sid)
-    contact = conversation.contact
 
-    # Create a single feedback message for this recording
-    return unless contact.present?
-
-    existing_msg = conversation.messages.where('additional_attributes @> ?', { recording_sid: recording_sid }.to_json).first
-    return if existing_msg
-
+    # Process the recording using RecordingService
     begin
-      message_params = {
-        content: 'Feedback about recent signup',
-        message_type: :incoming,
-        additional_attributes: {
-          call_sid: call_sid,
-          recording_url: recording_url,
-          recording_sid: recording_sid
-        }
-      }
-
-      message = Messages::MessageBuilder.new(contact, conversation, message_params).perform
-
-      # Download and attach the recording if we have a valid URL
-      if message.present? && recording_url.present?
-        begin
-          # Validate that the recording URL is accessible
-          uri = URI.parse(recording_url)
-          if uri.is_a?(URI::HTTP) || uri.is_a?(URI::HTTPS)
-            # Only create an attachment if we have a valid Twilio recording URL
-            # Twilio recording URL format: https://api.twilio.com/2010-04-01/Accounts/{AccountSid}/Recordings/{RecordingSid}
-            if recording_url.present? && recording_url.include?('/Recordings/') && recording_sid.present?
-              # Get authentication details from the channel config to access the recording
-              config = inbox.channel.provider_config_hash
-              account_sid = config['account_sid']
-              auth_token = config['auth_token']
-
-              # Download the recording and attach via ActiveStorage
-              recording_mp3_url = "#{recording_url}.mp3"
-              download_file = Down.download(
-                recording_mp3_url,
-                http_basic_authentication: [account_sid, auth_token]
-              )
-              attachment = message.attachments.new(
-                file_type: :audio,
-                account_id: inbox.account_id,
-                extension: 'mp3',
-                fallback_title: 'Voice Recording',
-                meta: {
-                  recording_sid: recording_sid,
-                  twilio_account_sid: account_sid,
-                  auth_required: true
-                }
-              )
-              attachment.file.attach(
-                io: download_file,
-                filename: "#{recording_sid}.mp3",
-                content_type: 'audio/mpeg'
-              )
-              attachment.save!
-              Rails.logger.info("Successfully downloaded and attached voice recording: #{recording_url}")
-            else
-              Rails.logger.error("Invalid Twilio recording URL format or missing SID: #{recording_url}")
-            end
-          else
-            Rails.logger.error("Invalid recording URL format: #{recording_url}")
-          end
-        rescue StandardError => e
-          # Log error but continue
-          Rails.logger.error("Error processing recording: #{e.message}")
-        end
-      end
+      Voice::RecordingService.new(
+        conversation: conversation,
+        recording_url: recording_url,
+        recording_sid: recording_sid,
+        call_sid: call_sid
+      ).process
 
       # End the call after a single recording
       response = Twilio::TwiML::VoiceResponse.new do |r|
@@ -171,6 +110,13 @@ class Twilio::VoiceController < ActionController::Base
     rescue StandardError => e
       # Log the error but don't crash
       Rails.logger.error("Error processing recording: #{e.message}")
+      
+      # Return a simple TwiML in case of error
+      response = Twilio::TwiML::VoiceResponse.new do |r|
+        r.say(message: 'We encountered an issue processing your feedback. Goodbye.')
+        r.hangup
+      end
+      render xml: response.to_s, status: :ok
     end
   end
 
@@ -195,63 +141,38 @@ class Twilio::VoiceController < ActionController::Base
     is_outbound = direction == 'outbound-api'
     from_number = params['From']
     to_number = params['To']
+    duration = params['CallDuration'] ? params['CallDuration'].to_i : nil
 
     Rails.logger.info("Twilio status callback: CallSid=#{call_sid}, Status=#{call_status}, Direction=#{direction}")
 
     # Find the inbox
     inbox = find_inbox(is_outbound ? from_number : to_number)
+    return head :ok unless inbox.present?
 
-    if inbox.present?
-      # Find or create the conversation
-      conversation = find_or_create_conversation(inbox, is_outbound ? to_number : from_number, call_sid)
-
-      # Add activity for the status change
-      track_call_activity(conversation, call_status, false, is_outbound)
-
-      # If call is completed/failed, update conversation status and notify frontend
-      if %w[completed busy failed no-answer canceled].include?(call_status)
-        # Update conversation with call status
-        conversation.additional_attributes ||= {}
-        conversation.additional_attributes['call_status'] = call_status
-        conversation.additional_attributes['call_ended_at'] = Time.now.to_i
-        conversation.status = :resolved
-        conversation.save!
-
-        # Publish update to frontend via ActionCable
-        ActionCable.server.broadcast(
-          "#{conversation.account_id}_#{conversation.inbox_id}",
-          {
-            event_name: 'call_status_changed',
-            data: {
-              call_sid: call_sid,
-              status: call_status,
-              conversation_id: conversation.id
-            }
-          }
-        )
-
-        # Create an activity message for call ending if it's a user hangup
-        if call_status == 'completed'
-          end_reason = params['CallDuration'] ? 'Call ended by hangup' : 'Call ended'
-          call_duration = params['CallDuration'] ? params['CallDuration'].to_i : nil
-
-          Messages::MessageBuilder.new(
-            nil,
-            conversation,
-            {
-              content: end_reason,
-              message_type: :activity,
-              additional_attributes: {
-                call_sid: call_sid,
-                call_status: call_status,
-                call_direction: is_outbound ? 'outbound' : 'inbound',
-                call_duration: call_duration
-              }
-            }
-          ).perform
-        end
-      end
+    # Use ConversationFinderService to find or create the conversation
+    contact_number = is_outbound ? to_number : from_number
+    # Ensuring contact_number is not blank
+    if contact_number.blank?
+      Rails.logger.error("Missing phone number in Twilio status callback: CallSid=#{call_sid}")
+      return head :ok
     end
+    
+    conversation = Voice::ConversationFinderService.new(
+      account: inbox.account,
+      call_sid: call_sid,
+      phone_number: contact_number,
+      is_outbound: is_outbound,
+      inbox: inbox
+    ).perform
+
+    # Use TwilioCallStatusService to handle status update
+    Voice::TwilioCallStatusService.new(
+      conversation: conversation,
+      call_sid: call_sid,
+      call_status: call_status,
+      is_outbound: is_outbound,
+      duration: duration
+    ).process(params['IsFirstResponseForStatus'] == 'true')
 
     # Return an empty response
     head :ok
@@ -278,66 +199,84 @@ class Twilio::VoiceController < ActionController::Base
       inbox = find_inbox(inbox_number)
 
       if inbox.present?
-        # Find or create conversation 
+        # Find or create conversation using the service
         contact_number = is_outbound ? to_number : from_number
-        conversation = find_or_create_conversation(inbox, contact_number, call_sid)
         
-        # Add call activity message
-        track_call_activity(conversation, 'in-progress', true, is_outbound)
+        # Log contact information
+        Rails.logger.info("Creating conversation with contact_number=#{contact_number}, call_sid=#{call_sid}")
         
-        # IMPORTANT: Use the provided conference_name if available, otherwise create one
-        account_id = inbox.account_id
-        
-        if conference_name_param.present?
-          # Use the provided conference name
-          conference_name = conference_name_param
-          Rails.logger.info("🚨 USING PROVIDED CONFERENCE NAME: '#{conference_name}'")
-        else
-          # Create a new conference name
-          conference_name = "conf_account_#{account_id}_conv_#{conversation.display_id}"
-          Rails.logger.info("🚨 CREATED NEW CONFERENCE NAME: '#{conference_name}'")
-        end
-        
-        # Store the conference name in the conversation for the agent to join
-        conversation.additional_attributes ||= {}
-        conversation.additional_attributes['conference_sid'] = conference_name
-        conversation.additional_attributes['call_direction'] = 'outbound'
-        conversation.additional_attributes['requires_agent_join'] = true
-        
-        # Log this critical information
-        Rails.logger.info("🚨🚨🚨 OUTBOUND CALL: Setting conference_sid=#{conference_name} and requires_agent_join=true")
-        
-        # Save the conversation
-        conversation.save!
-        
-        # Log the conference creation
-        Rails.logger.info("🎧🎧🎧 OUTBOUND CALL: Created conference: #{conference_name} for account: #{account_id}, conversation: #{conversation.display_id}")
+        begin
+          conversation = Voice::ConversationFinderService.new(
+            account: inbox.account,
+            call_sid: call_sid,
+            phone_number: contact_number,
+            is_outbound: is_outbound,
+            inbox: inbox
+          ).perform
+          
+          # Add call activity message
+          Voice::TwilioCallStatusService.new(
+            conversation: conversation,
+            call_sid: call_sid,
+            call_status: 'in-progress',
+            is_outbound: is_outbound,
+            duration: nil
+          ).process(true)
+          
+          # IMPORTANT: Use the provided conference_name if available, otherwise use the one from conversation
+          if conference_name_param.present?
+            # Use the provided conference name
+            conference_name = conference_name_param
+            Rails.logger.info("🚨 USING PROVIDED CONFERENCE NAME: '#{conference_name}'")
+          else
+            # Use the conference name from the conversation
+            conference_name = conversation.additional_attributes['conference_sid']
+            Rails.logger.info("🚨 USING EXISTING CONFERENCE NAME: '#{conference_name}'")
+          end
+          
+          # Store the conference name and other required attributes
+          conversation.additional_attributes['conference_sid'] = conference_name
+          conversation.additional_attributes['call_direction'] = is_outbound ? 'outbound' : 'inbound'
+          conversation.additional_attributes['requires_agent_join'] = true
+          
+          # Log this critical information
+          Rails.logger.info("🚨🚨🚨 CALL: Setting conference_sid=#{conference_name} and requires_agent_join=true")
+          
+          # Save the conversation
+          conversation.save!
+          
+          # Log the conference creation
+          Rails.logger.info("🎧🎧🎧 CALL: Created conference: #{conference_name} for account: #{inbox.account_id}, conversation: #{conversation.display_id}")
 
-        # Generate TwiML that connects the caller to a conference
-        response = Twilio::TwiML::VoiceResponse.new
-        
-        # Simple greeting
-        response.say(message: 'Please wait while we connect you to an agent')
-        
-        # Connect to conference - CRITICAL: Make parameters match the agent side in voice_controller.rb
-        response.dial do |dial|
-          dial.conference(
-            conference_name,
-            startConferenceOnEnter: false,     # Caller waits for agent
-            endConferenceOnExit: true,         # End when agent leaves
-            beep: false,                       # No beep sounds
-            muted: false,                      # Caller can speak
-            waitUrl: '',                       # No hold music
-            earlyMedia: true,                  # Enable early media for faster connection - ADDED THIS PARAMETER
-            statusCallback: "#{base_url}/api/v1/accounts/#{account_id}/channels/voice/webhooks/conference_status", 
-            statusCallbackMethod: 'POST',
-            statusCallbackEvent: 'start end join leave',
-            participantLabel: "caller-#{call_sid.last(8)}"
-          )
+          # Generate TwiML that connects the caller to a conference
+          response = Twilio::TwiML::VoiceResponse.new
+          
+          # Simple greeting
+          response.say(message: 'Please wait while we connect you to an agent')
+          
+          # Connect to conference - CRITICAL: Make parameters match the agent side in voice_controller.rb
+          response.dial do |dial|
+            dial.conference(
+              conference_name,
+              startConferenceOnEnter: false,     # Caller waits for agent
+              endConferenceOnExit: true,         # End when agent leaves
+              beep: false,                       # No beep sounds
+              muted: false,                      # Caller can speak
+              waitUrl: '',                       # No hold music
+              earlyMedia: true,                  # Enable early media for faster connection
+              statusCallback: "#{base_url}/api/v1/accounts/#{inbox.account_id}/channels/voice/webhooks/conference_status", 
+              statusCallbackMethod: 'POST',
+              statusCallbackEvent: 'start end join leave',
+              participantLabel: "caller-#{call_sid.last(8)}"
+            )
+          end
+          
+          render xml: response.to_s, status: :ok
+          return
+        rescue StandardError => e
+          Rails.logger.error("Error creating conversation for voice call: #{e.message}")
+          # Continue to fallback TwiML
         end
-        
-        render xml: response.to_s, status: :ok
-        return
       end
     end
 
@@ -369,96 +308,30 @@ class Twilio::VoiceController < ActionController::Base
   end
 
   def find_inbox(phone_number)
+    return nil if phone_number.blank?
+    
     Inbox.joins('INNER JOIN channel_voice ON channel_voice.account_id = inboxes.account_id AND inboxes.channel_id = channel_voice.id')
          .where('channel_voice.phone_number = ?', phone_number)
          .first
   end
 
+  # Legacy method for backward compatibility
   def find_or_create_conversation(inbox, phone_number, call_sid)
-    account = inbox.account
-
-    # Reuse if existing conversation for this call SID
-    existing = account.conversations.where("additional_attributes->>'call_sid' = ?", call_sid).first
+    # Extra validation to avoid passing blank phone numbers
+    return nil if phone_number.blank? || inbox.nil?
     
-    # If we found an existing conversation, check if it has a conference_sid
-    if existing
-      # For outbound calls, we need to ensure it has a conference_sid
-      if existing.additional_attributes['conference_sid'].blank?
-        # Create a conference name in the same format as inbound calls
-        conference_name = "conf_account_#{account.id}_conv_#{existing.display_id}"
-        existing.additional_attributes['conference_sid'] = conference_name
-        existing.save!
-        Rails.logger.info("🎧🎧🎧 ADDED CONFERENCE_SID to existing conversation: #{conference_name}")
-      end
-      return existing
+    begin
+      Voice::ConversationFinderService.new(
+        account: inbox.account,
+        call_sid: call_sid,
+        phone_number: phone_number,
+        is_outbound: false, # Default to inbound for compatibility
+        inbox: inbox
+      ).perform
+    rescue StandardError => e
+      Rails.logger.error("Error in find_or_create_conversation: #{e.message}")
+      nil
     end
-
-    # Ensure contact and inbox
-    contact = account.contacts.find_or_create_by(phone_number: phone_number) do |c|
-      c.name = "Contact from #{phone_number}"
-    end
-    contact_inbox = ContactInbox.find_or_initialize_by(contact_id: contact.id, inbox_id: inbox.id)
-    contact_inbox.source_id ||= phone_number
-    contact_inbox.save!
-
-    # Create new conversation for this call
-    convo = account.conversations.create!(contact_inbox_id: contact_inbox.id, inbox_id: inbox.id, status: :open)
-    
-    # Create a conference name using the same format for consistency
-    conference_name = "conf_account_#{account.id}_conv_#{convo.display_id}"
-    
-    convo.additional_attributes = { 
-      'call_sid' => call_sid, 
-      'call_status' => 'in-progress',
-      'conference_sid' => conference_name
-    }
-    convo.save!
-    
-    Rails.logger.info("🎧🎧🎧 Created new conversation with conference_sid: #{conference_name}")
-    convo
-  end
-
-  def track_call_activity(conversation, call_status, is_first_response, is_outbound)
-    return unless conversation.present?
-
-    # Only create status messages when status changes or on first response
-    prev_status = conversation.additional_attributes&.dig('call_status')
-    return if !is_first_response && prev_status == call_status
-
-    # Update conversation with call status
-    conversation.additional_attributes ||= {}
-    conversation.additional_attributes['call_status'] = call_status
-    conversation.save!
-
-    # Create an appropriate activity message based on status
-    activity_message = case call_status
-                       when 'ringing'
-                         is_outbound ? 'Outbound call initiated' : 'Phone ringing'
-                       when 'in-progress'
-                         if is_first_response
-                           is_outbound ? 'Call connected' : 'Call answered'
-                         else
-                           'Call in progress'
-                         end
-                       when 'completed', 'busy', 'failed', 'no-answer', 'canceled'
-                         "Call #{call_status}"
-                       else
-                         "Call status: #{call_status}"
-                       end
-
-    Messages::MessageBuilder.new(
-      nil,
-      conversation,
-      {
-        content: activity_message,
-        message_type: :activity,
-        additional_attributes: {
-          call_sid: conversation.additional_attributes&.dig('call_sid'),
-          call_status: call_status,
-          call_direction: is_outbound ? 'outbound' : 'inbound'
-        }
-      }
-    ).perform
   end
 
   def get_one_message(call_sid)

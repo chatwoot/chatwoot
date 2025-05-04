@@ -61,15 +61,15 @@ export default {
 
     // Define local fallback translations in case i18n fails
     const translations = {
-      'CONVERSATION.END_CALL': 'End call',
-      'CONVERSATION.JOIN_CALL': 'Join call',
-      'CONVERSATION.REJECT_CALL': 'Reject',
-      'CONVERSATION.CALL_ENDED': 'Call ended',
-      'CONVERSATION.CALL_END_ERROR': 'Failed to end call',
-      'CONVERSATION.CALL_ACCEPTED': 'Joining call...',
-      'CONVERSATION.CALL_REJECTED': 'Call rejected',
-      'CONVERSATION.CALL_JOIN_ERROR': 'Failed to join call',
-      'CONVERSATION.INCOMING_CALL': 'Incoming call',
+      'CONVERSATION.VOICE_CALL.END_CALL': 'End call',
+      'CONVERSATION.VOICE_CALL.JOIN_CALL': 'Join call',
+      'CONVERSATION.VOICE_CALL.REJECT_CALL': 'Reject',
+      'CONVERSATION.VOICE_CALL.CALL_ENDED': 'Call ended',
+      'CONVERSATION.VOICE_CALL.CALL_END_ERROR': 'Failed to end call',
+      'CONVERSATION.VOICE_CALL.CALL_ACCEPTED': 'Joining call...',
+      'CONVERSATION.VOICE_CALL.CALL_REJECTED': 'Call rejected',
+      'CONVERSATION.VOICE_CALL.CALL_JOIN_ERROR': 'Failed to join call',
+      'CONVERSATION.VOICE_CALL.INCOMING_CALL': 'Incoming call',
     };
 
     // Computed properties
@@ -402,7 +402,7 @@ export default {
           const { callSid, conversationId } = incomingCall.value;
           
           // Show user feedback
-          useAlert(safeTranslate('CONVERSATION.CALL_REJECTED'));
+          useAlert(safeTranslate('CONVERSATION.VOICE_CALL.CALL_REJECTED'));
           
           // Make API call to reject the call (optional, the caller will stay in the queue)
           await VoiceAPI.rejectCall(callSid, conversationId);
@@ -1602,12 +1602,12 @@ export default {
               {{ displayContactName }}
             </h3>
             <div class="call-subtitle">
-              {{ isIncoming ? $t('CONVERSATION.INCOMING_CALL') : (callInfo.inboxName || 'Voice Call') }}
+              {{ isIncoming ? $t('CONVERSATION.VOICE_CALL.INCOMING_CALL') : $t('CONVERSATION.VOICE_CALL.OUTGOING_CALL') }}
             </div>
           </div>
         </div>
         <div class="call-duration" v-if="!isIncoming">
-          {{ formattedCallDuration }}
+          <span class="call-duration-label">{{ formattedCallDuration }}</span>
         </div>
       </div>
     </div>
@@ -1617,27 +1617,27 @@ export default {
         v-if="isIncoming"
         class="control-button accept-call-button"
         @click="acceptCall"
-        :title="$t('CONVERSATION.JOIN_CALL')"
+        :title="$t('CONVERSATION.VOICE_CALL.JOIN_CALL')"
       >
         <span class="i-ph-phone" />
-        <span class="button-text">{{ $t('CONVERSATION.JOIN_CALL') }}</span>
+        <span class="button-text">{{ $t('CONVERSATION.VOICE_CALL.JOIN_CALL') }}</span>
       </button>
 
       <button
         v-if="isIncoming"
         class="control-button reject-call-button"
         @click="rejectCall"
-        :title="$t('CONVERSATION.REJECT_CALL')"
+        :title="$t('CONVERSATION.VOICE_CALL.REJECT_CALL')"
       >
         <span class="i-ph-phone-x" />
-        <span class="button-text">{{ $t('CONVERSATION.REJECT_CALL') }}</span>
+        <span class="button-text">{{ $t('CONVERSATION.VOICE_CALL.REJECT_CALL') }}</span>
       </button>
 
       <button
         v-if="!isIncoming"
         class="control-button end-call-button"
         @click="handleEndCallClick"
-        :title="$t('CONVERSATION.END_CALL')"
+        :title="$t('CONVERSATION.VOICE_CALL.END_CALL')"
       >
         <span class="i-ph-phone-x" />
       </button>

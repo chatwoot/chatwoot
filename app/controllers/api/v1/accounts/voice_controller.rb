@@ -51,6 +51,34 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       
       # Update conversation call status
       @conversation.additional_attributes['call_status'] = 'completed'
+      @conversation.additional_attributes['call_ended_at'] = Time.now.to_i
+      
+      # Calculate call duration if we have a start time
+      if @conversation.additional_attributes['call_started_at']
+        @conversation.additional_attributes['call_duration'] = Time.now.to_i - @conversation.additional_attributes['call_started_at'].to_i
+      end
+      
+      # Mark conversation as resolved
+      @conversation.status = :resolved
+      
+      # Update the voice call message status
+      if call_message = find_voice_call_message
+        content_attributes = call_message.content_attributes || {}
+        content_attributes['data'] ||= {}
+        content_attributes['data']['status'] = 'completed'
+        content_attributes['data']['status_updated'] = Time.now.to_i
+        content_attributes['data']['meta'] ||= {}
+        content_attributes['data']['meta']['completed_at'] = Time.now.to_i
+        content_attributes['data']['ended_at'] = Time.now.to_i
+        
+        # Add duration if available
+        if @conversation.additional_attributes['call_duration']
+          content_attributes['data']['duration'] = @conversation.additional_attributes['call_duration']
+        end
+        
+        call_message.update(content_attributes: content_attributes)
+      end
+      
       @conversation.save!
       
       # Create an activity message noting the call has ended
@@ -115,13 +143,32 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     
     # Agent joining call via WebRTC
     
-    # Update conversation to show agent joined
+    # Update conversation to show agent joined and set call status to active
     @conversation.additional_attributes['agent_joined'] = true
     @conversation.additional_attributes['joined_at'] = Time.now.to_i
     @conversation.additional_attributes['joined_by'] = {
       id: current_user.id,
       name: current_user.name
     }
+    
+    # CRITICAL: Update call status to 'in-progress' to ensure UI updates properly
+    # This is especially important for incoming calls where the status might not get updated otherwise
+    @conversation.additional_attributes['call_status'] = 'in-progress'
+    
+    # Also record started_at timestamp if not already set
+    @conversation.additional_attributes['call_started_at'] = Time.now.to_i unless @conversation.additional_attributes['call_started_at']
+    
+    # Update the call data in the voice call message
+    if call_message = find_voice_call_message
+      content_attributes = call_message.content_attributes || {}
+      content_attributes['data'] ||= {}
+      content_attributes['data']['status'] = 'in-progress'
+      content_attributes['data']['status_updated'] = Time.now.to_i
+      content_attributes['data']['meta'] ||= {}
+      content_attributes['data']['meta']['active_at'] = Time.now.to_i
+      call_message.update(content_attributes: content_attributes)
+    end
+    
     @conversation.save!
     
     # Create an activity message
@@ -452,6 +499,29 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   
   def fetch_conversation
     @conversation = Current.account.conversations.find(params[:id] || params[:conversation_id])
+  end
+  
+  # Helper method to find the voice call message for the current call
+  # Similar to the one in Voice::MessageUpdateService but simplified
+  def find_voice_call_message
+    return nil unless @conversation.present?
+    
+    # Try to find by call_sid first
+    if call_sid = params[:call_sid] || @conversation.additional_attributes&.dig('call_sid')
+      message = @conversation.messages
+                             .where(content_type: 'voice_call')
+                             .where("content_attributes->'data'->>'call_sid' = ?", call_sid)
+                             .first
+                             
+      # If found, return it
+      return message if message
+    end
+    
+    # Fall back to the most recent voice call message
+    @conversation.messages
+                 .where(content_type: 'voice_call')
+                 .order(created_at: :desc)
+                 .first
   end
   
   # Helper method to get base URL with extra resilience

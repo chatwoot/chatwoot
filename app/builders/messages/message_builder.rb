@@ -33,11 +33,6 @@ class Messages::MessageBuilder
   def content_attributes
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
-
-    return parse_json(content_attributes) if content_attributes.is_a?(String)
-    return content_attributes if content_attributes.is_a?(Hash)
-
-    {}
   end
 
   # Converts the given object to a hash.
@@ -105,8 +100,9 @@ class Messages::MessageBuilder
   end
 
   def message_type
-    if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
-      raise StandardError, 'Incoming messages are only allowed in Api inboxes'
+    # Allow incoming messages in both API and Voice channels
+    if !['Channel::Api', 'Channel::Voice'].include?(@conversation.inbox.channel_type) && @message_type == 'incoming'
+      raise StandardError, 'Incoming messages are only allowed in Api and Voice inboxes'
     end
 
     @message_type
@@ -139,7 +135,7 @@ class Messages::MessageBuilder
   end
 
   def message_params
-    {
+    message_attrs = {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
@@ -152,5 +148,12 @@ class Messages::MessageBuilder
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
+    
+    # Directly add content_attributes from params if present
+    if @params[:content_attributes].present?
+      message_attrs[:content_attributes] = content_attributes
+    end
+    
+    message_attrs
   end
 end
