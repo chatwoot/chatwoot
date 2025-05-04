@@ -98,12 +98,18 @@ module Voice
 
     # Create the activity message in a separate method
     def create_activity_message
-      message_service = Voice::MessageUpdateService.new(
+      # Initialize the status manager with provider information
+      status_manager = Voice::CallStatus::Manager.new(
         conversation: @conversation,
-        call_sid: @call_details[:call_sid]
+        call_sid: @call_details[:call_sid],
+        provider: :twilio # Specify the provider for accurate messaging
       )
 
-      message_service.create_activity_message("Outgoing call to #{contact.name || contact.phone_number}")
+      # Process first status update and create activity message
+      status_manager.process_status_update('initiated', nil, true)
+
+      # Additional custom message for outgoing calls
+      status_manager.create_activity_message("Outgoing call to #{contact.name || contact.phone_number}")
     end
 
     def broadcast_to_agent

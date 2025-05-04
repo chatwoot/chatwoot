@@ -1,18 +1,35 @@
 module Voice
+  # Handles conference events (start, end, participant joins and leaves)
+  # Uses CallStatusManager to update call statuses, ensuring consistency
+  # This service is called directly by ConferenceStatusService
   class ConferenceManagerService
     pattr_initialize [:conversation!, :event!, :call_sid!, :conference_sid, :participant_sid, :participant_label]
 
+    # Event constants to make code more readable
+    CONFERENCE_START = 'conference-start'.freeze
+    CONFERENCE_END = 'conference-end'.freeze
+    PARTICIPANT_JOIN = 'participant-join'.freeze
+    PARTICIPANT_LEAVE = 'participant-leave'.freeze
+
+    # Participant types
+    AGENT = 'agent'.freeze
+    CALLER = 'caller'.freeze
+
     def process
+      Rails.logger.info("🎧 CONFERENCE EVENT: #{event} for conference_sid=#{conference_sid}")
+
       # Process the conference event
       case event
-      when 'conference-start'
+      when CONFERENCE_START
         handle_conference_start
-      when 'conference-end'
+      when CONFERENCE_END
         handle_conference_end
-      when 'participant-join'
+      when PARTICIPANT_JOIN
         handle_participant_join
-      when 'participant-leave'
+      when PARTICIPANT_LEAVE
         handle_participant_leave
+      else
+        Rails.logger.warn("🎧 UNKNOWN CONFERENCE EVENT: #{event}")
       end
 
       # Create activity message for the event
@@ -24,199 +41,228 @@ module Voice
 
     private
 
-    def message_service
-      @message_service ||= Voice::MessageUpdateService.new(
+    def call_status_manager
+      # Use the CallStatusManager, which will determine internally if the call is outbound
+      @call_status_manager ||= Voice::CallStatus::Manager.new(
         conversation: conversation,
-        call_sid: call_sid
+        call_sid: call_sid,
+        provider: :twilio
       )
     end
 
     def handle_conference_start
-      conversation.additional_attributes ||= {}
-      conversation.additional_attributes['conference_status'] = 'started'
-      conversation.additional_attributes['conference_started_at'] = Time.now.to_i
-      
-      # Log conference start
-      Rails.logger.info("🎧 CONFERENCE STARTED: conference_sid=#{conference_sid}")
-      
-      # Update call status to ringing if not already in a more advanced state
+      # Update conference status
+      update_conference_status('started')
+
+      # Check if we need to update call status
       current_status = conversation.additional_attributes['call_status']
-      Rails.logger.info("📞 CURRENT CALL STATUS: '#{current_status}'")
-      
-      if !%w[active in-progress completed].include?(current_status)
-        Rails.logger.info("📞 UPDATING CALL TO RINGING ON CONFERENCE START")
-        message_service.update_call_status('ringing')
-        message_service.update_voice_call_status('ringing')
-        
-        # Ensure we have metadata for debugging
-        conversation.additional_attributes['meta'] ||= {}
-        conversation.additional_attributes['meta']['ringing_at'] = Time.now.to_i
-        conversation.additional_attributes['meta']['conference_started_at'] = Time.now.to_i
-        conversation.save!
-      end
+
+      # Only update to ringing if not already in a more advanced state
+      return if %w[active in-progress completed].include?(current_status)
+
+      Rails.logger.info('📞 UPDATING CALL TO RINGING ON CONFERENCE START')
+      call_status_manager.process_status_update('ringing')
     end
 
     def handle_conference_end
-      conversation.additional_attributes ||= {}
-      conversation.additional_attributes['conference_status'] = 'ended'
-      conversation.additional_attributes['conference_ended_at'] = Time.now.to_i
-      
-      # Log conference end
-      Rails.logger.info("🎧 CONFERENCE ENDED: conference_sid=#{conference_sid}")
-      
-      # Determine the final call status based on the current state
+      # Update conference status
+      update_conference_status('ended')
+
+      # Get current call status
       current_status = conversation.additional_attributes['call_status']
-      Rails.logger.info("📞 CURRENT CALL STATUS AT CONFERENCE END: '#{current_status}'")
-      
-      if current_status == 'active' || current_status == 'in-progress'
-        # Call was active, mark as completed
-        duration = nil
-        if conversation.additional_attributes['call_started_at']
-          duration = Time.now.to_i - conversation.additional_attributes['call_started_at'].to_i
-          Rails.logger.info("⏱️ CALCULATED CALL DURATION: #{duration} seconds")
-        end
-        
-        Rails.logger.info("📞 MARKING ACTIVE CALL AS COMPLETED")
-        message_service.update_call_status('completed', duration)
-        message_service.update_voice_call_status('ended', duration)
-      elsif current_status == 'ringing'
-        # Call never connected, mark as missed
-        Rails.logger.info("📞 MARKING RINGING CALL AS MISSED")
-        message_service.update_call_status('missed')
-        message_service.update_voice_call_status('missed')
-      else
-        # Default to completed status
-        Rails.logger.info("📞 MARKING CALL AS COMPLETED (DEFAULT)")
-        message_service.update_call_status('completed')
-        message_service.update_voice_call_status('ended')
-      end
-      
-      # Ensure metadata is updated
-      conversation.additional_attributes['meta'] ||= {}
-      conversation.additional_attributes['meta']['conference_ended_at'] = Time.now.to_i
-      
-      # Force update UI to show the change
-      ActionCable.server.broadcast(
-        "#{conversation.account_id}_#{conversation.inbox_id}",
-        {
-          event_name: 'call_status_changed',
-          data: {
-            call_sid: call_sid,
-            status: conversation.additional_attributes['call_status'],
-            conversation_id: conversation.id,
-            force_refresh: true
-          }
-        }
-      )
-      
-      Rails.logger.info("📢 BROADCAST: Sent conference end notification")
+
+      # Determine final call status based on current state
+      finalize_call_status(current_status)
     end
 
     def handle_participant_join
-      # Track the participant
-      update_participant_info('joined')
-      
-      # Log the participant joining
-      Rails.logger.info("👥 PARTICIPANT JOINED: #{participant_label || 'unknown'} (#{participant_sid})")
-      
-      # Store participant join time based on type
-      if participant_label&.start_with?('agent')
-        conversation.additional_attributes['agent_joined_at'] = Time.now.to_i
-        Rails.logger.info("👤 AGENT JOINED AT: #{Time.now.to_i}")
-        
-        # If call is ringing when agent joins, mark as active
-        if conversation.additional_attributes['call_status'] == 'ringing'
-          Rails.logger.info("📞 UPDATING RINGING CALL TO ACTIVE (agent joined)")
-          message_service.update_call_status('active')
-          message_service.update_voice_call_status('active')
-        end
-      elsif participant_label&.start_with?('caller')
-        conversation.additional_attributes['caller_joined_at'] = Time.now.to_i
-        Rails.logger.info("👤 CALLER JOINED AT: #{Time.now.to_i}")
-        
-        # For outbound calls
-        if conversation.additional_attributes['call_direction'] == 'outbound'
-          # Mark call as active as soon as caller joins an outbound call
-          # This ensures the call doesn't get stuck in ringing
-          if conversation.additional_attributes['call_status'] == 'ringing'
-            Rails.logger.info("📞 UPDATING RINGING OUTBOUND CALL TO ACTIVE (caller joined)")
-            message_service.update_call_status('active')
-            message_service.update_voice_call_status('active')
-          end
-        end
+      # Track participant join
+      track_participant_join
+
+      # Handle call status updates based on who joined
+      if agent_participant?
+        handle_agent_join
+      elsif caller_participant?
+        handle_caller_join
       else
-        # Generic participant (no label)
-        Rails.logger.info("👤 GENERIC PARTICIPANT JOINED")
-        
-        # If we're stuck in ringing, try to move forward
-        if conversation.additional_attributes['call_status'] == 'ringing' && 
-           (Time.now.to_i - conversation.additional_attributes.dig('meta', 'ringing_at').to_i > 10)
-          Rails.logger.info("📞 UPDATING LONG-RINGING CALL TO ACTIVE (participant joined)")
-          message_service.update_call_status('active')
-          message_service.update_voice_call_status('active')
-        end
+        handle_generic_participant_join
       end
-      
-      # Check if both caller and agent have joined
-      if conversation.additional_attributes['agent_joined_at'] && 
-         conversation.additional_attributes['caller_joined_at']
-        # Ensure call is marked as active when both parties are present
-        if conversation.additional_attributes['call_status'] != 'active'
-          Rails.logger.info("📞 UPDATING CALL STATUS TO ACTIVE (both parties present)")
-          message_service.update_call_status('active')
-          message_service.update_voice_call_status('active')
-        end
-      end
+
+      # Check if both parties are present to mark call as active
+      check_both_parties_present
     end
 
     def handle_participant_leave
-      # Update participant tracking
-      update_participant_info('left')
-      
-      # Record leave time based on participant type
-      if participant_label&.start_with?('agent')
-        conversation.additional_attributes['agent_left_at'] = Time.now.to_i
-      elsif participant_label&.start_with?('caller')
-        conversation.additional_attributes['caller_left_at'] = Time.now.to_i
-      end
-      
-      # Handle caller leaving during ringing phase
-      if participant_label&.start_with?('caller') && 
-         conversation.additional_attributes['call_status'] == 'ringing'
-        
-        # Check if any agent has joined
-        has_agent_joined = participant_has_joined?('agent')
-        
-        unless has_agent_joined
-          message_service.update_call_status('missed')
-          message_service.update_voice_call_status('missed')
-        end
-      end
-      
-      # Handle case where all participants have left but conference is still active
-      if all_participants_left? && 
-         conversation.additional_attributes['conference_status'] != 'ended' &&
-         conversation.additional_attributes['call_status'] == 'active'
-        
-        # Calculate duration if we can
-        duration = nil
-        if conversation.additional_attributes['call_started_at']
-          duration = Time.now.to_i - conversation.additional_attributes['call_started_at'].to_i
-        end
-        
-        message_service.update_call_status('completed', duration)
-        message_service.update_voice_call_status('ended', duration)
+      # Track participant leave
+      track_participant_leave
+
+      # Handle missed calls when caller leaves during ringing
+      check_for_missed_call
+
+      # Check if everyone left to end conference
+      check_if_everyone_left
+    end
+
+    # Helper methods for updating conference status
+    def update_conference_status(status)
+      conversation.additional_attributes ||= {}
+      conversation.additional_attributes['conference_status'] = status
+      conversation.additional_attributes["conference_#{status}_at"] = Time.now.to_i
+
+      # Update metadata
+      conversation.additional_attributes['meta'] ||= {}
+      conversation.additional_attributes['meta']["conference_#{status}_at"] = Time.now.to_i
+
+      Rails.logger.info("🎧 CONFERENCE #{status.upcase}: conference_sid=#{conference_sid}")
+    end
+
+    # Helper methods for finalizing call status
+    def finalize_call_status(current_status)
+      if %w[active in-progress].include?(current_status)
+        # Call was active, mark as completed with duration
+        complete_active_call
+      elsif current_status == 'ringing'
+        # Call never connected
+        Rails.logger.info('📞 MARKING RINGING CALL AS MISSED')
+        call_status_manager.process_status_update('missed')
+      else
+        # Default to completed status
+        Rails.logger.info('📞 MARKING CALL AS COMPLETED (DEFAULT)')
+        call_status_manager.process_status_update('completed')
       end
     end
 
+    def complete_active_call
+      # Calculate duration if possible
+      duration = nil
+      if conversation.additional_attributes['call_started_at']
+        duration = Time.now.to_i - conversation.additional_attributes['call_started_at'].to_i
+        Rails.logger.info("⏱️ CALCULATED CALL DURATION: #{duration} seconds")
+      end
+
+      Rails.logger.info('📞 MARKING ACTIVE CALL AS COMPLETED')
+      call_status_manager.process_status_update('completed', duration)
+    end
+
+    # Helper methods for participant handling
+    def track_participant_join
+      # Update participant tracking
+      update_participant_info('joined')
+      Rails.logger.info("👥 PARTICIPANT JOINED: #{participant_label || 'unknown'} (#{participant_sid})")
+    end
+
+    def track_participant_leave
+      # Update participant tracking
+      update_participant_info('left')
+      Rails.logger.info("👥 PARTICIPANT LEFT: #{participant_label || 'unknown'} (#{participant_sid})")
+
+      # Record leave time based on participant type
+      if agent_participant?
+        conversation.additional_attributes['agent_left_at'] = Time.now.to_i
+      elsif caller_participant?
+        conversation.additional_attributes['caller_left_at'] = Time.now.to_i
+      end
+    end
+
+    # Participant type checks
+    def agent_participant?
+      participant_label&.start_with?(AGENT)
+    end
+
+    def caller_participant?
+      participant_label&.start_with?(CALLER)
+    end
+
+    # Participant join handlers
+    def handle_agent_join
+      conversation.additional_attributes['agent_joined_at'] = Time.now.to_i
+      Rails.logger.info("👤 AGENT JOINED AT: #{Time.now.to_i}")
+
+      # If call is ringing when agent joins, mark as active
+      return unless conversation.additional_attributes['call_status'] == 'ringing'
+
+      Rails.logger.info('📞 UPDATING RINGING CALL TO ACTIVE (agent joined)')
+      call_status_manager.process_status_update('active')
+    end
+
+    def handle_caller_join
+      conversation.additional_attributes['caller_joined_at'] = Time.now.to_i
+      Rails.logger.info("👤 CALLER JOINED AT: #{Time.now.to_i}")
+
+      # For outbound calls - mark as active when caller joins if still ringing
+      return unless outbound_call? && ringing_call?
+
+      Rails.logger.info('📞 UPDATING RINGING OUTBOUND CALL TO ACTIVE (caller joined)')
+      call_status_manager.process_status_update('active')
+    end
+
+    def handle_generic_participant_join
+      Rails.logger.info('👤 GENERIC PARTICIPANT JOINED')
+
+      # If we're stuck in ringing for a while, try to move forward
+      return unless ringing_call? && long_ringing?
+
+      Rails.logger.info('📞 UPDATING LONG-RINGING CALL TO ACTIVE (participant joined)')
+      call_status_manager.process_status_update('active')
+    end
+
+    # Call state checks
+    def outbound_call?
+      conversation.additional_attributes['call_direction'] == 'outbound'
+    end
+
+    def ringing_call?
+      conversation.additional_attributes['call_status'] == 'ringing'
+    end
+
+    def long_ringing?
+      ringing_at = conversation.additional_attributes.dig('meta', 'ringing_at').to_i
+      ringing_at > 0 && (Time.now.to_i - ringing_at > 10)
+    end
+
+    # Both parties present check
+    def check_both_parties_present
+      both_present = conversation.additional_attributes['agent_joined_at'] &&
+                     conversation.additional_attributes['caller_joined_at']
+
+      return unless both_present && conversation.additional_attributes['call_status'] != 'active'
+
+      Rails.logger.info('📞 UPDATING CALL STATUS TO ACTIVE (both parties present)')
+      call_status_manager.process_status_update('active')
+    end
+
+    # Missed call check when caller leaves
+    def check_for_missed_call
+      return unless caller_participant? && ringing_call? && !participant_has_joined?(AGENT)
+
+      Rails.logger.info('📞 MARKING AS MISSED (caller left during ringing, no agent joined)')
+      call_status_manager.process_status_update('missed')
+    end
+
+    # Everyone left check
+    def check_if_everyone_left
+      call_active = conversation.additional_attributes['call_status'] == 'active'
+      conference_active = conversation.additional_attributes['conference_status'] != 'ended'
+
+      return unless all_participants_left? && conference_active && call_active
+
+      # Calculate duration if possible
+      duration = nil
+      duration = Time.now.to_i - conversation.additional_attributes['call_started_at'].to_i if conversation.additional_attributes['call_started_at']
+
+      Rails.logger.info('📞 MARKING CALL AS COMPLETED (all participants left)')
+      call_status_manager.process_status_update('completed', duration)
+    end
+
+    # Participant tracking methods
     def update_participant_info(status)
       # Initialize participants tracking
       conversation.additional_attributes ||= {}
       conversation.additional_attributes['participants'] ||= {}
-      
+
       # Determine participant type from label
-      participant_type = participant_label&.start_with?('agent') ? 'agent' : 'caller'
-      
+      participant_type = agent_participant? ? AGENT : CALLER
+
       if status == 'joined'
         # Add or update participant
         conversation.additional_attributes['participants'][participant_sid] = {
@@ -234,41 +280,39 @@ module Voice
 
     def participant_has_joined?(type)
       participants = conversation.additional_attributes['participants'] || {}
-      
-      if participants.is_a?(Hash)
-        return participants.values.any? { |p| p['type'] == type && p['status'] == 'joined' }
-      end
-      
-      false
+      return false unless participants.is_a?(Hash)
+
+      participants.values.any? { |p| p['type'] == type && p['status'] == 'joined' }
     end
 
     def all_participants_left?
       participants = conversation.additional_attributes['participants'] || {}
-      
-      if participants.is_a?(Hash)
-        return !participants.values.any? { |p| p['status'] == 'joined' }
-      end
-      
-      true # Default to true if no participants structure exists
+      return true unless participants.is_a?(Hash)
+
+      !participants.values.any? { |p| p['status'] == 'joined' }
     end
 
+    # Activity message creation
     def create_activity_message
-      content = case event
-                when 'conference-start'
-                  'Conference started'
-                when 'conference-end'
-                  'Conference ended'
-                when 'participant-join'
-                  participant_type = participant_label&.start_with?('agent') ? 'Agent' : 'Caller'
-                  "#{participant_type} joined the call"
-                when 'participant-leave'
-                  participant_type = participant_label&.start_with?('agent') ? 'Agent' : 'Caller'
-                  "#{participant_type} left the call"
-                else
-                  "Call event: #{event}"
-                end
-      
-      message_service.create_activity_message(content)
+      content = activity_message_content_for_event
+      call_status_manager.create_activity_message(content)
+    end
+
+    def activity_message_content_for_event
+      case event
+      when CONFERENCE_START
+        'Conference started'
+      when CONFERENCE_END
+        'Conference ended'
+      when PARTICIPANT_JOIN
+        participant_type = agent_participant? ? 'Agent' : 'Caller'
+        "#{participant_type} joined the call"
+      when PARTICIPANT_LEAVE
+        participant_type = agent_participant? ? 'Agent' : 'Caller'
+        "#{participant_type} left the call"
+      else
+        "Call event: #{event}"
+      end
     end
   end
 end

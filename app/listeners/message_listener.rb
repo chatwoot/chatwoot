@@ -3,10 +3,8 @@ class MessageListener < BaseListener
     message = extract_message_and_account(event)[0]
     return if message.nil?
     
-    if message.conversation.inbox.channel.class.name == 'Channel::Voice'
-      # Deliver the message to voice call if it's a voice channel
-      Voice::MessageDeliveryService.new(message).perform
-    end
+    # Voice message delivery functionality has been removed for now
+    # This would be where we'd handle delivering agent messages to voice calls
   end
   
   private

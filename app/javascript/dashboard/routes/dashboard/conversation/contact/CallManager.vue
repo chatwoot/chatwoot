@@ -142,35 +142,22 @@ export default {
       if (!props.conversation) return;
 
       try {
-        // Set up ActionCable to listen for call status changes
-        if (accountId.value && props.conversation?.inbox_id) {
-          const roomName = `${accountId.value}_${props.conversation.inbox_id}`;
-          console.log(
-            `Setting up ActionCable listener for call status in room: ${roomName}`
-          );
-
-          // Setup ActionCable connection and handler for call status events
-          actionCableService.createConsumer();
-          actionCableService.addRoom(roomName);
-
-          const handleCallStatusChanged = ({ event_name, data }) => {
-            // Only handle call_status_changed events
-            if (event_name !== 'call_status_changed') return;
-
-            console.log('Received call status change via ActionCable:', data);
-
-            // Only update if it's for our current call
-            if (data.call_sid === callSid.value) {
-              console.log(
-                `Updating call status from ${callStatus.value} to ${data.status}`
-              );
-              updateCallStatus(data.status);
-
+        // The actionCable events are already set up in App.vue
+        // We don't need to create or add any rooms - we'll just watch the calls store
+        
+        // Set up watch on the calls store to react to status changes
+        const callStateUnwatch = store.watch(
+          state => state.calls?.activeCall?.status,
+          newStatus => {
+            if (newStatus && callSid.value) {
+              console.log(`Call status changed in store: ${newStatus}`);
+              updateCallStatus(newStatus);
+              
               // If call is completed, refresh the conversation to get any recordings
-              if (data.status === 'completed' || data.status === 'canceled') {
+              if (newStatus === 'completed' || newStatus === 'canceled' || newStatus === 'missed') {
                 // Notify parent component that call has ended
                 emit('callEnded');
-
+                
                 // Refresh the conversation to get updated messages with recordings
                 if (props.conversation?.id) {
                   store.dispatch('fetchConversation', {
@@ -179,18 +166,23 @@ export default {
                 }
               }
             }
-          };
-
-          // Register for events
-          actionCableService.onReceivedMessage = handleCallStatusChanged;
-        }
-
-        // Also set up store watcher as backup method
-        if (
-          store.state.conversations &&
-          store.state.conversations.conversations
-        ) {
-          const unwatch = store.watch(
+          }
+        );
+        
+        // Clean up the watcher when component is unmounted
+        onBeforeUnmount(() => {
+          if (callStateUnwatch) {
+            callStateUnwatch();
+          }
+        });
+      } catch (error) {
+        console.error('Error setting up call status watcher:', error);
+      }
+      
+      try {  
+        // Set up message watcher to update UI elements related to recordings and transcriptions
+        if (store.state.conversations && store.state.conversations.conversations) {
+          const messageUnwatch = store.watch(
             state => {
               if (!props.conversation || !props.conversation.id) return null;
               const conversations = state.conversations?.conversations || {};
@@ -201,24 +193,17 @@ export default {
               if (!messages) return;
 
               try {
-                // Check for call status messages
+                // Check for recording URL updates in call messages
                 const callMessage = messages.find(
                   message =>
-                    message.message_type === 10 && // activity message
-                    message.additional_attributes &&
-                    message.additional_attributes.call_sid === callSid.value
+                    message.content_type === 'voice_call' &&
+                    message.content_attributes?.data?.call_sid === callSid.value
                 );
 
-                if (callMessage?.additional_attributes) {
-                  if (callMessage.additional_attributes.call_status) {
-                    updateCallStatus(
-                      callMessage.additional_attributes.call_status
-                    );
-                  }
-
-                  if (callMessage.additional_attributes.recording_url) {
-                    recordingUrl.value =
-                      callMessage.additional_attributes.recording_url;
+                if (callMessage?.content_attributes?.data) {
+                  // Update UI if recording URL is available
+                  if (callMessage.content_attributes.data.recording_url) {
+                    recordingUrl.value = callMessage.content_attributes.data.recording_url;
                   }
                 }
 
@@ -226,8 +211,7 @@ export default {
                 const transcriptionMessage = messages.find(
                   message =>
                     message.message_type === 0 && // incoming message
-                    message.additional_attributes &&
-                    message.additional_attributes.is_transcription
+                    message.additional_attributes?.is_transcription
                 );
 
                 if (transcriptionMessage) {
@@ -241,8 +225,8 @@ export default {
 
           // Clean up the watcher when component is unmounted
           onBeforeUnmount(() => {
-            if (unwatch) {
-              unwatch();
+            if (messageUnwatch) {
+              messageUnwatch();
             }
           });
         } else {
@@ -268,16 +252,7 @@ export default {
 
     onBeforeUnmount(() => {
       stopDurationTimer();
-
-      // Clean up the ActionCable connection
-      if (accountId.value && props.conversation?.inbox_id) {
-        try {
-          const roomName = `${accountId.value}_${props.conversation.inbox_id}`;
-          actionCableService.removeRoom(roomName);
-        } catch (error) {
-          console.error('Error cleaning up ActionCable:', error);
-        }
-      }
+      // No need to clean up ActionCable connection as we're not using room-specific subscriptions
     });
 
     return {

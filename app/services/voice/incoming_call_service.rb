@@ -142,14 +142,20 @@ module Voice
 
     # Create activity message separately after the voice call message
     def create_activity_message
-      activity_message = Messages::MessageBuilder.new(
-        nil,
-        @conversation,
-        {
-          content: "Incoming call from #{@contact.name.presence || caller_info[:from_number]}",
-          message_type: :activity
-        }
-      ).perform
+      # Use CallStatusManager for consistency
+      status_manager = Voice::CallStatus::Manager.new(
+        conversation: @conversation,
+        call_sid: caller_info[:call_sid],
+        provider: :twilio
+      )
+
+      # First process ringing status
+      status_manager.process_status_update('ringing', nil, true)
+
+      # Then add a custom message about the incoming call
+      activity_message = status_manager.create_activity_message(
+        "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
+      )
 
       Rails.logger.info("📝 ACTIVITY MESSAGE: id=#{activity_message.id}")
     end

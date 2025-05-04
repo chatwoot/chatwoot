@@ -72,59 +72,32 @@ class Twilio::VoiceController < ActionController::Base
 
   def handle_recording
     call_sid = params['CallSid']
-    from_number = params['From']
-    to_number = params['To']
     recording_url = params['RecordingUrl']
     recording_sid = params['RecordingSid']
-    direction = params['Direction']
-
-    # Determine if outbound call
-    is_outbound = direction == 'outbound-api'
-
-    # Find inbox and save recording if available
-    return unless recording_url.present? && call_sid.present?
-
-    inbox_number = is_outbound ? from_number : to_number
-    inbox = find_inbox(inbox_number)
-
-    return unless inbox.present?
-
-    contact_number = is_outbound ? to_number : from_number
-    conversation = find_or_create_conversation(inbox, contact_number, call_sid)
-
-    # Process the recording using RecordingService
-    begin
-      Voice::RecordingService.new(
-        conversation: conversation,
-        recording_url: recording_url,
-        recording_sid: recording_sid,
-        call_sid: call_sid
-      ).process
-
-      # End the call after a single recording
-      response = Twilio::TwiML::VoiceResponse.new do |r|
-        r.say(message: 'Thank you for your feedback. Goodbye.')
-        r.hangup
-      end
-      render xml: response.to_s, status: :ok
-    rescue StandardError => e
-      # Log the error but don't crash
-      Rails.logger.error("Error processing recording: #{e.message}")
-      
-      # Return a simple TwiML in case of error
-      response = Twilio::TwiML::VoiceResponse.new do |r|
-        r.say(message: 'We encountered an issue processing your feedback. Goodbye.')
-        r.hangup
-      end
-      render xml: response.to_s, status: :ok
+    
+    # Log the recording information for future implementation
+    Rails.logger.info("Recording received: CallSid=#{call_sid}, RecordingSid=#{recording_sid}")
+    Rails.logger.info("Recording URL: #{recording_url}")
+    
+    # Recording functionality has been removed for now
+    # In the future, we'll implement this to save call recordings and attach them to conversations
+    
+    # Return a simple response to end the call
+    response = Twilio::TwiML::VoiceResponse.new do |r|
+      r.say(message: 'Thank you for your feedback. Goodbye.')
+      r.hangup
     end
+    render xml: response.to_s, status: :ok
   end
 
   def transcription_callback
-    # Process the transcription asynchronously
+    # Logging transcription details for future implementation
     if params['CallSid'].present?
-      # Queue the processing as a background job
-      CallTranscriptionJob.perform_later(params.permit!.to_h)
+      Rails.logger.info("Transcription received for CallSid=#{params['CallSid']}")
+      Rails.logger.info("Transcription text: #{params['TranscriptionText']}")
+      
+      # Transcription functionality has been removed for now
+      # In the future, we'll implement this to save call transcriptions and attach them to conversations
     end
 
     # Return an empty TwiML response to satisfy Twilio
@@ -165,14 +138,13 @@ class Twilio::VoiceController < ActionController::Base
       inbox: inbox
     ).perform
 
-    # Use TwilioCallStatusService to handle status update
-    Voice::TwilioCallStatusService.new(
+    # Use the unified CallStatusManager to handle status update
+    # The CallStatusManager will determine if the call is outbound internally
+    Voice::CallStatus::Manager.new(
       conversation: conversation,
       call_sid: call_sid,
-      call_status: call_status,
-      is_outbound: is_outbound,
-      duration: duration
-    ).process(params['IsFirstResponseForStatus'] == 'true')
+      provider: :twilio
+    ).process_status_update(call_status, duration, params['IsFirstResponseForStatus'] == 'true')
 
     # Return an empty response
     head :ok
@@ -214,14 +186,13 @@ class Twilio::VoiceController < ActionController::Base
             inbox: inbox
           ).perform
           
-          # Add call activity message
-          Voice::TwilioCallStatusService.new(
+          # Add call activity message using unified CallStatusManager
+          # The CallStatusManager will determine if the call is outbound internally
+          Voice::CallStatus::Manager.new(
             conversation: conversation,
             call_sid: call_sid,
-            call_status: 'in-progress',
-            is_outbound: is_outbound,
-            duration: nil
-          ).process(true)
+            provider: :twilio
+          ).process_status_update('in-progress', nil, true)
           
           # IMPORTANT: Use the provided conference_name if available, otherwise use the one from conversation
           if conference_name_param.present?
