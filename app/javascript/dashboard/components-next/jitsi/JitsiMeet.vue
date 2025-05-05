@@ -18,6 +18,10 @@ export default {
       type: String,
       default: '',
     },
+    jwt: {
+      type: String,
+      required: true,
+    },
   },
   data() {
     return {
@@ -53,6 +57,7 @@ export default {
       const options = {
         roomName: this.roomId,
         parentNode: this.$refs.jitsiContainer,
+        jwt: this.jwt,
         userInfo: {
           email: this.email,
           displayName: this.displayName,

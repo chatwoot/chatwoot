@@ -19,7 +19,7 @@ export default {
     async handleAcceptCall() {
       if (!this.activeCall) return;
       acceptCall(this.activeCall.call_data);
-      window.open(`https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}`, '_blank');
+      window.open(`https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}?jwt=${this.activeCall.call_data.jwt}`, '_blank');
     },
     async handleRejectCall() {
       if (!this.activeCall) return;

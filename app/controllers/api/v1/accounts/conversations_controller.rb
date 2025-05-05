@@ -102,17 +102,52 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     head :ok
   end
 
+  def jitsi_jwt_token(_name, _email, _avatar) # rubocop:disable Metrics/MethodLength
+    app_id = ENV.fetch('JITSI_APP_ID', nil)
+    app_hmac_256_secret = ENV.fetch('JITSI_APP_HMAC_256_SECRET', nil)
+
+    # expiry_time = (Time.now + (2 * 60 * 60)).to_i
+    expiry_time = 1_746_436_327
+
+    headers = {
+      alg: 'HS256',
+      typ: 'JWT'
+    }
+
+    payload = {
+      'context': {
+        'user': {
+          'avatar': _avatar,
+          'name': _name,
+          'email': _email
+        }
+      },
+      'aud': app_id,
+      'iss': app_id,
+      'exp': expiry_time,
+      'sub': 'localhost', # TODO: put jitsi server domain here
+      'room': '*' # TODO: put specific room here
+    }
+
+    JWT.encode(payload, app_hmac_256_secret, 'HS256', headers)
+  end
+
   def create_call
     params.require(:room_id)
     params.require(:message_id)
     params.permit(:room_id, :account_id, :id, :message_id)
     params[:domain] = ENV.fetch('JITSI_DOMAIN', nil)
+    params[:jwt] = jitsi_jwt_token(Current.user.name, Current.user.email, 'https://robohash.org/john-doe' # TODO: put proper avatar
+    )
 
     Rails.logger.info("Creating call for conversation #{@conversation.id} with params: #{params.inspect}")
 
+    Rails.logger.info("JWT token: #{params[:jwt]}")
+
     call_manager = ::Conversations::CallManager.new(Current.account, Current.user, @conversation, params)
-    call_manager.create_call
-    head :ok
+    call = call_manager.create_call
+
+    render json: call, status: :ok
   end
 
   def end_call
