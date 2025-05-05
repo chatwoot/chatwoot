@@ -101,7 +101,6 @@ const MessageControl = Symbol('MessageControl');
  * @property {import('vue').ComputedRef<boolean>} isMyMessage - Does the message belong to the current user
  * @property {import('vue').ComputedRef<boolean>} isPrivate - Proxy computed value for private
  * @property {import('vue').ComputedRef<boolean>} shouldGroupWithNext - Should group with the next message or not, it is different from groupWithNext, this has a bypass for a failed message
- * @property {import('vue').ComputedRef<EmailContent>} emailContent - Email content and metadata
  */
 
 /**

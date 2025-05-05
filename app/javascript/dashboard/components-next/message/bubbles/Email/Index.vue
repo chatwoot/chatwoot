@@ -9,7 +9,7 @@ import {
 } from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
-import { useScrollLock } from '@vueuse/core';
+import { useScrollLock, useToggle } from '@vueuse/core';
 
 import Icon from 'next/icon/Icon.vue';
 import MessageMenu from 'dashboard/components-next/message/MessageMenu.vue';
@@ -39,7 +39,7 @@ const contentContainer = useTemplateRef('contentContainer');
 const emailMeta = useTemplateRef('emailMeta');
 
 // Forward form
-const showForwardMessageModal = ref(false);
+const [showForwardMessageModal, toggleForwardModal] = useToggle();
 const forwardFormPosition = reactive({ top: 0, right: 0 });
 const conversationPanelScrollLock = ref(null);
 
@@ -121,7 +121,7 @@ const handleSeeOriginal = () => {
 };
 
 const closeForwardModal = () => {
-  showForwardMessageModal.value = false;
+  toggleForwardModal(false);
   if (conversationPanelScrollLock.value)
     conversationPanelScrollLock.value.value = false;
 };
@@ -138,7 +138,7 @@ const openForwardModal = event => {
     forwardFormPosition.right = window.innerWidth - buttonRect.right - 9;
   }
 
-  showForwardMessageModal.value = true;
+  toggleForwardModal(true);
 };
 
 onUnmounted(() => {
