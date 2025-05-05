@@ -175,7 +175,7 @@ class Message < ApplicationRecord
       message_type: message_type,
       private: private,
       sender: sender.try(:webhook_data),
-      source_id: source_id
+      source_id: source_id,
     }
     data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data

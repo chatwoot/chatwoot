@@ -60,10 +60,12 @@ class Channel::WebWidget < ApplicationRecord
   end
 
   def web_widget_script
+    base_url = ENV.fetch('FRONTEND_URL', '')
+
     "
     <script>
       (function(d,t) {
-        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
+        var BASE_URL=\"#{base_url}\";
         var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
         g.src=BASE_URL+\"/packs/js/sdk.js\";
         g.defer = true;
@@ -71,7 +73,7 @@ class Channel::WebWidget < ApplicationRecord
         s.parentNode.insertBefore(g,s);
         g.onload=function(){
           window.chatwootSDK.run({
-            websiteToken: '#{website_token}',
+            websiteToken: '#{website_token}_',
             baseUrl: BASE_URL
           })
         }
