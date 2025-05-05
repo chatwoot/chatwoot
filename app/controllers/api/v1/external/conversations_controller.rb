@@ -30,6 +30,7 @@ class Api::V1::External::ConversationsController < Api::BaseController
 
   def fetch_paginated_messages(conversation)
     conversation.messages
+                .not_activity
                 .select(:conversation_id, :message_type, :content, :created_at)
                 .reorder(sort_params)
                 .page(params[:page])
