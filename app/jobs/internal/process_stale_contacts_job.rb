@@ -8,6 +8,8 @@ class Internal::ProcessStaleContactsJob < ApplicationJob
   queue_as :scheduled_jobs
 
   def perform
+    return unless ChatwootApp.chatwoot_cloud?
+
     Account.find_in_batches(batch_size: 100) do |accounts|
       accounts.each do |account|
         Rails.logger.info "Enqueuing RemoveStaleContactsJob for account #{account.id}"
