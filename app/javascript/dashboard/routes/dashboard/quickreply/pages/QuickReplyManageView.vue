@@ -126,9 +126,8 @@ onMounted(() => {
 });
 
 async function fetchQuickReply() {
-  const items = await store.dispatch('quickReplies/get')
-  quickRepliesRaw.value = items.data
-  console.log(items.data)
+  await store.dispatch('quickReplies/get');
+  quickRepliesRaw.value = store.getters['quickReplies/quickReplies']; 
 }
 
 
