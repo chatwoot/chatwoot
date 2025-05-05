@@ -4,7 +4,6 @@ import inboxMixin from 'shared/mixins/inboxMixin';
 import SettingsSection from '../../../../../components/SettingsSection.vue';
 import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
-import FacebookCommentSettings from '../channels/FacebookCommentSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -14,7 +13,6 @@ export default {
     SettingsSection,
     ImapSettings,
     SmtpSettings,
-    FacebookCommentSettings,
     NextButton,
   },
   mixins: [inboxMixin],
@@ -195,9 +193,6 @@ export default {
     </div>
     <ImapSettings :inbox="inbox" />
     <SmtpSettings v-if="inbox.imap_enabled" :inbox="inbox" />
-  </div>
-  <div v-else-if="isAFacebookInbox">
-    <FacebookCommentSettings :inbox="inbox" />
   </div>
   <div v-else-if="isAWhatsAppChannel && !isATwilioChannel">
     <div v-if="inbox.provider_config" class="mx-8">

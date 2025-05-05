@@ -266,45 +266,6 @@
       "NEW_INBOX": "Thêm Hộp thư đến"
     }
   },
-  "FACEBOOK_COMMENT": {
-    "TITLE": "Cấu hình bình luận Facebook",
-    "DESCRIPTION": "Cấu hình webhook để nhận thông báo khi có bình luận mới trên Facebook và tự động trả lời.",
-    "WEBHOOK_URL": {
-      "LABEL": "URL Webhook",
-      "PLACEHOLDER": "https://example.com/webhook",
-      "ERROR": "Vui lòng nhập một URL hợp lệ",
-      "HELP_TEXT": "URL này sẽ nhận thông báo khi có bình luận mới trên Facebook."
-    },
-    "WEBHOOK_SECRET": {
-      "LABEL": "Mã bí mật Webhook",
-      "PLACEHOLDER": "Mã bí mật sẽ được tạo tự động",
-      "HELP_TEXT": "Mã bí mật này được sử dụng để xác minh webhook từ Chatwoot.",
-      "REGENERATE": "Tạo lại mã bí mật"
-    },
-    "VERIFY_TOKEN": {
-      "LABEL": "Mã xác minh Facebook",
-      "PLACEHOLDER": "Mã xác minh Facebook",
-      "HELP_TEXT": "Sử dụng mã này khi cấu hình webhook trên Facebook Developer."
-    },
-    "STATUS": {
-      "LABEL": "Trạng thái",
-      "ACTIVE": "Hoạt động",
-      "INACTIVE": "Không hoạt động"
-    },
-    "SUBMIT": "Lưu cấu hình",
-    "API": {
-      "SUCCESS_UPDATE": "Cấu hình bình luận Facebook đã được cập nhật thành công",
-      "ERROR_UPDATE": "Có lỗi khi cập nhật cấu hình, vui lòng thử lại",
-      "ERROR_FETCH": "Có lỗi khi tải cấu hình, vui lòng thử lại"
-    },
-    "API_DOCS": {
-      "TITLE": "Tài liệu API",
-      "DESCRIPTION": "Sử dụng các API sau để tích hợp với hệ thống của bạn.",
-      "WEBHOOK_PAYLOAD": "Dữ liệu webhook khi có bình luận mới",
-      "REPLY_API": "API trả lời bình luận",
-      "MESSAGE_API": "API gửi tin nhắn trực tiếp"
-    }
-  },
   "SIDEBAR": {
     "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Hiện đang xem:",

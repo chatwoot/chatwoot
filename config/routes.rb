@@ -222,14 +222,6 @@ Rails.application.routes.draw do
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
-          resource :facebook_comments, only: [] do
-            collection do
-              post :reply
-              post :send_message
-              post :configure
-              get :show
-            end
-          end
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do
@@ -490,8 +482,6 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-  get 'webhooks/facebook_comments', to: 'webhooks/facebook_comments#verify'
-  post 'webhooks/facebook_comments', to: 'webhooks/facebook_comments#events'
 
   namespace :twitter do
     resource :callback, only: [:show]
