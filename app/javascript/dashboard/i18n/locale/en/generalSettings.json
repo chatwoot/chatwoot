@@ -78,9 +78,9 @@
           "ERROR": "Failed to update auto resolve settings"
         },
         "UPDATE_BUTTON": "Update Auto-resolve",
-        "MESSAGE_LABEL": "Custom resolution message (sent to the customer)",
+        "MESSAGE_LABEL": "Custom resolution message",
         "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is displayed when a conversation is automatically resolved by the system due to inactivity."
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Conversation continuity with emails is enabled for your account.",
