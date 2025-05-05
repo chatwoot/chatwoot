@@ -57,7 +57,7 @@
         "DESC": "Buat saluran untuk situs web Anda dan mulai dukung pelanggan Anda melalui widget di website.",
         "LOADING_MESSAGE": "Membuat Saluran Dukungan Website",
         "CHANNEL_AVATAR": {
-          "LABEL": "Avatar Channel"
+          "LABEL": "Saluran Avatar"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "URL Webhook",
@@ -82,7 +82,7 @@
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Aktifkan sambutan channel",
-          "HELP_TEXT": "Automatically send a greeting message when a new conversation is created.",
+          "HELP_TEXT": "Pesan sapaan akan dikirim otomatis saat ada percakapan baru.",
           "ENABLED": "Diaktifkan",
           "DISABLED": "Nonaktif"
         },
@@ -339,7 +339,7 @@
       },
       "AUTH": {
         "TITLE": "Pilih sebuah channel",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "Chatwoot mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini."
       },
       "AGENTS": {
         "TITLE": "Agen",
@@ -417,8 +417,8 @@
         "DISABLED": "Nonaktif"
       },
       "SENDER_NAME_SECTION": {
-        "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "TITLE": "Nama Pengirim",
+        "SUB_TEXT": "Pilih nama yang akan terlihat oleh pelanggan saat menerima email dari agen Anda.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Ramah",
@@ -430,7 +430,7 @@
           "SUBTITLE": "Use only the configured business name as the sender name in the email header."
         },
         "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Configure your business name",
+          "BUTTON_TEXT": "+ Atur nama bisnis Anda",
           "PLACEHOLDER": "Enter your business name",
           "SAVE_BUTTON_TEXT": "Simpan"
         }
@@ -487,15 +487,13 @@
       "USE_INBOX_AVATAR_FOR_BOT": "Gunakan nama kotak masuk dan avatar untuk bot"
     },
     "SETTINGS_POPUP": {
-      "MESSENGER_HEADING": "Messenger Script",
+      "MESSENGER_HEADING": "Skrip Messenger",
       "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
       "INBOX_AGENTS": "Agen",
       "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
       "INBOX_AI_AGENTS": "Agen AI",
       "INBOX_AI_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen AI dari kotak masuk ini",
-      "INBOX_AI_AGENTS": "AI Agents",
-"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
-"AGENT_ASSIGNMENT": "Tugas Percakapan",
+      "AGENT_ASSIGNMENT": "Tugas Percakapan",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Perbarui setelan tugas percakapan",
       "UPDATE": "Perbarui",
       "ENABLE_EMAIL_COLLECT_BOX": "Aktifkan kotak pengumpulan email",
@@ -504,7 +502,7 @@
       "ENABLE_CSAT": "Aktifkan CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
       "ENABLE_CSAT_SUB_TEXT": "Aktifkan/Nonaktifkan survey CSAT (Kepuasan pelanggan) setelah penyelesaian percakapan",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION_TEXT": "Aktifkan/Nonaktifkan tampilan nama Agen di email, jika dinonaktifkan maka akan menampilkan nama bisnis",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Aktifkan kontinuitas percakapan melalui email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Percakapan akan berlanjut melalui email jika alamat email kontak tersedia.",
       "LOCK_TO_SINGLE_CONVERSATION": "Kunci ke satu percakapan",
@@ -516,7 +514,7 @@
       "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
       "HMAC_LINK_TO_DOCS": "Anda dapat membaca lebih lanjut di sini.",
       "HMAC_MANDATORY_VERIFICATION": "Terapkan Validasi Identitas Pengguna",
-      "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
+      "HMAC_MANDATORY_DESCRIPTION": "Jika fitur ini diaktifkan, permintaan yang tidak menyertakan `identifier_hash` akan ditolak.",
       "INBOX_IDENTIFIER": "Pengenal Kotak Masuk",
       "INBOX_IDENTIFIER_SUB_TEXT": "Gunakan token inbox_identifier` yang terlihat disini untuk mengautentikasi klien API Anda.",
       "FORWARD_EMAIL_TITLE": "Teruskan ke Email",
@@ -585,7 +583,7 @@
       "UPDATE": "Perbarui pengaturan jam kerja",
       "TOGGLE_AVAILABILITY": "Aktifkan ketersediaan bisnis untuk kotak masuk ini",
       "UNAVAILABLE_MESSAGE_LABEL": "Pesan tidak tersedia untuk pengunjung",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Dengan mengaktifkan ketersediaan bisnis, jam operasional akan ditampilkan pada widget live chat meskipun agen offline. Di luar jam operasional, pengunjung akan mendapat peringatan melalui pesan dan formulir pra-chat.",
       "DAY": {
         "ENABLE": "Aktifkan ketersediaan untuk hari ini",
         "UNAVAILABLE": "Tidak tersedia",
