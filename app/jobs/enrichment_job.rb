@@ -149,6 +149,19 @@ class EnrichmentJob < ApplicationJob
     query_string = URI.encode_www_form(params)
     full_url = "#{url}?#{query_string}"
 
-    RestClient.get full_url, headers
+    begin
+      RestClient.get full_url, headers
+    rescue RestClient::ExceptionWithResponse => e
+      Rails.logger.warn "PDL Error #{e.http_code}: #{e.message} => #{e.response.body}"
+      e.response
+    rescue RestClient::Exception => e
+      Rails.logger.error "REST Client Exception: #{e.class} - #{e.message}"
+      {
+        error: {
+          type: "Rest client error",
+          message: "Internal error"
+        }
+      }
+    end
   end
 end
