@@ -137,9 +137,9 @@ RSpec.describe Account do
 
     context 'when auto_resolve_after' do
       it 'validates minimum value' do
-        account.settings = { auto_resolve_after: 14 }
+        account.settings = { auto_resolve_after: 4 }
         expect(account).to be_invalid
-        expect(account.errors.messages).to eq({ auto_resolve_after: ['must be greater than or equal to 15'] })
+        expect(account.errors.messages).to eq({ auto_resolve_after: ['must be greater than or equal to 10'] })
       end
 
       it 'validates maximum value' do
