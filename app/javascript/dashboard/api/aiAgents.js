@@ -59,19 +59,29 @@ class AiAgents extends ApiClient {
   }
 
   deleteKnowledgeText(idAgent, textId) {
-    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/text/${textId}`);
+    return axios.delete(
+      `${this.url}/${idAgent}/knowledge_sources/text/${textId}`
+    );
   }
 
   addKnowledgeFile(idAgent, formData) {
-    return axios.post(`${this.url}/${idAgent}/knowledge_sources/file`, formData);
+    return axios.post(
+      `${this.url}/${idAgent}/knowledge_sources/file`,
+      formData
+    );
   }
 
   deleteKnowledgeFile(idAgent, fileId) {
-    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/file/${fileId}`);
+    return axios.delete(
+      `${this.url}/${idAgent}/knowledge_sources/file/${fileId}`
+    );
   }
 
   collectKnowledgeLinksWebsite(idAgent, data) {
-    return axios.post(`${this.url}/${idAgent}/knowledge_sources/website/links`, data);
+    return axios.post(
+      `${this.url}/${idAgent}/knowledge_sources/website/links`,
+      data
+    );
   }
 
   addKnowledgeWebsite(idAgent, data) {
@@ -79,7 +89,10 @@ class AiAgents extends ApiClient {
   }
 
   editKnowledgeWebsite(idAgent, data) {
-    return axios.patch(`${this.url}/${idAgent}/knowledge_sources/website`, data);
+    return axios.patch(
+      `${this.url}/${idAgent}/knowledge_sources/website`,
+      data
+    );
   }
 
   deleteKnowledgeWebsite(idAgent, data) {
@@ -87,13 +100,15 @@ class AiAgents extends ApiClient {
       data: data,
     });
   }
-  
+
   createOrUpdateKnowledgeQna(idAgent, data) {
     return axios.post(`${this.url}/${idAgent}/knowledge_sources/qna`, data);
   }
-  
+
   deleteKnowledgeQna(idAgent, qnaId) {
-    return axios.delete(`${this.url}/${idAgent}/knowledge_sources/qna/${qnaId}`);
+    return axios.delete(
+      `${this.url}/${idAgent}/knowledge_sources/qna/${qnaId}`
+    );
   }
 }
 

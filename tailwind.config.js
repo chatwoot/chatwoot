@@ -8,6 +8,7 @@ const {
 } = require('@egoist/tailwindcss-icons');
 
 const defaultSansFonts = [
+  'Rubik',
   '-apple-system',
   'system-ui',
   'BlinkMacSystemFont',
@@ -203,6 +204,7 @@ const tailwindConfig = {
       current: 'currentColor',
       ...colors,
       body: slateDark.slate7,
+      'primary-green': '#389947',
     },
     keyframes: {
       ...defaultTheme.keyframes,

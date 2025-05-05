@@ -50,7 +50,7 @@ export default {
   },
   watch: {
     requestPayload(value) {
-      this.fetchMetrics(value)
+      this.fetchMetrics(value);
     },
   },
   methods: {
@@ -75,7 +75,7 @@ export default {
           aiAgentMessageSendCount: response.data.ai_agent_message_send_count,
           aiAgentHandoffCount: response.data.ai_agent_handoff_count,
           handoffRate: response.data.handoff_rate,
-        }
+        };
       });
     },
     fetchChartData() {
@@ -119,8 +119,12 @@ export default {
 <template>
   <ReportHeader :header-title="$t('AI_AGENT_REPORTS.HEADER')" />
   <div class="flex flex-col gap-4">
-    <ReportFilterSelector :show-agents-filter="false" show-group-by-filter :show-business-hours-switch="false"
-      @filter-change="onFilterChange" />
+    <ReportFilterSelector
+      :show-agents-filter="false"
+      show-group-by-filter
+      :show-business-hours-switch="false"
+      @filter-change="onFilterChange"
+    />
 
     <ReportLineContainer :metrics="metrics" />
   </div>

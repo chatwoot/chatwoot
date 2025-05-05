@@ -1,12 +1,261 @@
+<script>
+import PricingCard from '../../components/Pricing/PricingCard.vue';
+
+export default {
+  name: 'PricingPage',
+  components: {
+    PricingCard,
+    // ComparisonTable, FAQSection
+  },
+  data() {
+    return {
+      plans: [],
+      compareFeatures: [],
+      faqs: [
+        {
+          question: 'Apakah bisa bayar pakai kartu kredit?',
+          answer:
+            'Ya, kami menerima pembayaran dengan kartu kredit termasuk Visa dan Mastercard.',
+          isOpen: false,
+        },
+        {
+          question: 'Apa itu MAU (Monthly Active User)?',
+          answer:
+            'MAU adalah jumlah pengguna unik yang mengakses layanan dalam periode satu bulan.',
+          isOpen: false,
+        },
+        {
+          question: 'Bagaimana cara AI credit dihitung?',
+          answer:
+            'AI credit dihitung berdasarkan jumlah respons yang dihasilkan oleh AI assistant.',
+          isOpen: false,
+        },
+        {
+          question: 'Apakah saya bisa top-up AI credit?',
+          answer:
+            'Ya, Anda dapat menambah AI credit kapan saja melalui dashboard akun Anda.',
+          isOpen: false,
+        },
+        {
+          question: 'Kapan batas penggunaan bulanan (monthly limit) direset?',
+          answer:
+            'Batas penggunaan bulanan akan direset pada tanggal pertama setiap bulan.',
+          isOpen: false,
+        },
+        {
+          question:
+            'Jika saya upgrade paket, apakah sisa penggunaan akan direset?',
+          answer:
+            'Tidak, sisa penggunaan akan dibawa ke paket baru dengan penambahan kuota sesuai paket.',
+          isOpen: false,
+        },
+        {
+          question:
+            'Apakah di credit hand top-up memiliki masa berlaku atau bisa diakumulasi?',
+          answer:
+            'Credit top-up memiliki masa berlaku 12 bulan dan dapat diakumulasi.',
+          isOpen: false,
+        },
+        {
+          question:
+            'Apakah saya bisa memajukan metode pembayaran dari one-time payment ke kartu kredit atau recurring payment?',
+          answer:
+            'Ya, Anda dapat mengubah metode pembayaran kapan saja melalui pengaturan akun.',
+          isOpen: false,
+        },
+        {
+          question: 'Apakah ada collab gratis untuk CatBot?',
+          answer:
+            'Kami menyediakan program collab untuk para kreator dan pengembang komunitas.',
+          isOpen: false,
+        },
+        {
+          question: 'Apakah CatBot melalukan Refund?',
+          answer:
+            'Kami memiliki kebijakan pengembalian uang dalam 7 hari jika Anda tidak puas dengan layanan.',
+          isOpen: false,
+        },
+      ],
+    };
+  },
+  async created() {
+    try {
+      const response = await fetch('/api/v1/subscriptions/plans');
+      const data = await response.json();
+      this.plans = data;
+      this.compareFeatures = this.transformApiDataToCompareFeatures(data);
+    } catch (error) {
+      console.error('Gagal mengambil data pricing:', error);
+    }
+  },
+  methods: {
+    formattedPrice(value) {
+      if (value >= 1000) {
+        return Math.round(value / 1000).toLocaleString('id-ID') + 'K'; // Gunakan toLocaleString untuk menambahkan titik
+      }
+      return value.toLocaleString('id-ID'); // Format angka kecil dengan titik juga
+    },
+    toggleFaq(index) {
+      this.faqs[index].isOpen = !this.faqs[index].isOpen;
+    },
+    transformApiDataToCompareFeatures(apiData) {
+      // Definisikan struktur dasar untuk compareFeatures
+      const compareFeatures = [
+        {
+          name: 'Maximum Active Users (MAU)',
+          values: {},
+        },
+        {
+          name: 'WhatsApp',
+          values: {},
+        },
+        {
+          name: 'LiveChat',
+          values: {},
+        },
+        {
+          name: 'Telegram',
+          values: {},
+        },
+        {
+          name: 'Human Agents',
+          values: {},
+        },
+        {
+          name: 'AI Agents',
+          values: {},
+        },
+        {
+          name: 'AI Responses',
+          values: {},
+        },
+        {
+          name: 'AI Models',
+          values: {},
+        },
+        {
+          name: 'AI Training',
+          values: {},
+        },
+        {
+          name: 'AI Ticketing & CRM',
+          values: {},
+        },
+        {
+          name: 'Prompting Support',
+          values: {},
+        },
+        {
+          name: 'Documentation',
+          values: {},
+        },
+        {
+          name: 'API Access',
+          values: {},
+        },
+        {
+          name: 'Dedicated WA Group',
+          values: {},
+        },
+        {
+          name: 'Feature Requests',
+          values: {},
+        },
+        {
+          name: 'Early Access',
+          values: {},
+        },
+      ];
+
+      // Untuk setiap plan dari API
+      apiData.forEach(plan => {
+        const planKey = plan.name.toLowerCase();
+
+        // Maximum Active Users (MAU)
+        compareFeatures[0].values[planKey] =
+          plan.max_mau === 0
+            ? 'Unlimited MAU'
+            : `${plan.max_mau.toLocaleString()} MAU`;
+
+        // WhatsApp
+        compareFeatures[1].values[planKey] =
+          plan.available_channels.includes('Whatsapp');
+
+        // LiveChat
+        compareFeatures[2].values[planKey] =
+          plan.available_channels.includes('Livechat');
+
+        // Telegram
+        compareFeatures[3].values[planKey] =
+          plan.available_channels.includes('Telegram');
+
+        // Human Agents
+        compareFeatures[4].values[planKey] =
+          plan.max_human_agents === 0
+            ? 'Unlimited'
+            : plan.max_human_agents.toString();
+
+        // AI Agents
+        compareFeatures[5].values[planKey] =
+          plan.max_ai_agents === 0 ? true : plan.max_ai_agents > 0;
+
+        // AI Responses
+        compareFeatures[6].values[planKey] =
+          plan.max_ai_responses.toLocaleString();
+
+        // AI Models - tidak ada di API, set default ke true
+        compareFeatures[7].values[planKey] = true;
+
+        // AI Training - tidak ada di API, set default ke true
+        compareFeatures[8].values[planKey] = true;
+
+        // AI Ticketing & CRM - tidak ada di API, set default ke true
+        compareFeatures[9].values[planKey] = true;
+
+        // Prompting Support
+        compareFeatures[10].values[planKey] =
+          plan.support_level === 'Dedicated'
+            ? 'Dedicated Support'
+            : 'Standard Support';
+
+        // Documentation
+        compareFeatures[11].values[planKey] = 'Complete';
+
+        // API Access - tidak ada di API, set default berdasarkan level
+        compareFeatures[12].values[planKey] =
+          plan.name.toLowerCase() !== 'free trial';
+
+        // Dedicated WA Group - tidak ada di API, set default berdasarkan level
+        if (plan.name.toLowerCase() === 'growth') {
+          compareFeatures[13].values[planKey] = '24/7 WA Group';
+        } else if (plan.name.toLowerCase() === 'enterprise') {
+          compareFeatures[13].values[planKey] = '24/7 Exclusive Support';
+        } else {
+          compareFeatures[13].values[planKey] = '-';
+        }
+
+        // Feature Requests - tidak ada di API, set default ke true hanya untuk enterprise
+        compareFeatures[14].values[planKey] =
+          plan.name.toLowerCase() === 'enterprise';
+
+        // Early Access - tidak ada di API, set default ke true hanya untuk enterprise
+        compareFeatures[15].values[planKey] =
+          plan.name.toLowerCase() === 'enterprise';
+      });
+
+      return compareFeatures;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="pricing-page">
     <!-- Header -->
     <header class="header">
       <div class="container header-content">
         <div class="logo">
-          <img 
-          :src="'/brand-assets/logo.svg'"
-          alt="Catbot.AI Logo">
+          <img src="/brand-assets/logo.svg" alt="Catbot.AI Logo" />
         </div>
         <nav>
           <ul>
@@ -20,7 +269,7 @@
         <div class="login-buttons">
           <a href="/app/login" class="login-link">Log In</a>
           <button class="order-button">
-            <a :href="`/app/auth/signup?slug=pricing`">Daftar Sekarang</a>
+            <a href="/app/auth/signup?slug=pricing">Daftar Sekarang</a>
           </button>
         </div>
       </div>
@@ -30,22 +279,31 @@
       <!-- Pricing Header -->
       <section class="pricing-header">
         <h1>Harga</h1>
-        <div class="pricing-subheader">Simple & Predictable pricing. No Surprises.</div>
+        <div class="pricing-subheader">
+          Simple & Predictable pricing. No Surprises.
+        </div>
       </section>
 
       <!-- Promo Banner -->
       <section class="promo-banner">
         <div class="promo-image">
-          <img :src="'/pricing/promo-image.webp'" alt="Promo Banner">
+          <img src="/pricing/promo-image.webp" alt="Promo Banner" />
         </div>
         <div class="promo-content">
           <h3>Lebaran Tetap Jualan, Layanan Tetap Aman!</h3>
-          <p class="promo-details">• 1 on 1 dengan Prompt Specialist. Terima Bonus setup AI dan Fitur Terbaru<br>
-          • Bebas WhatsApp API Banned<br>
-          • Bonus Akses ke API Tanpa di Blokir kembali</p>
+          <p class="promo-details">
+            • 1 on 1 dengan Prompt Specialist. Terima Bonus setup AI dan Fitur
+            Terbaru<br />
+            • Bebas WhatsApp API Banned<br />
+            • Bonus Akses ke API Tanpa di Blokir kembali
+          </p>
           <div class="promo-buttons">
-            <button class="promo-button promo-button-primary">Mulai 7 Hari Gratisan Promo</button>
-            <button class="promo-button promo-button-secondary">Info Lebih Lanjut</button>
+            <button class="promo-button promo-button-primary">
+              Mulai 7 Hari Gratisan Promo
+            </button>
+            <button class="promo-button promo-button-secondary">
+              Info Lebih Lanjut
+            </button>
           </div>
         </div>
       </section>
@@ -55,36 +313,50 @@
         <PricingCard :plans="plans" />
       </section> -->
       <section class="pricing-cards">
-        <div v-for="plan in plans" :key="plan.id" :class="['pricing-card', `${plan.name.toLowerCase()}-card`]">
+        <div
+          v-for="plan in plans"
+          :key="plan.id"
+          class="pricing-card"
+          :class="[`${plan.name.toLowerCase()}-card`]"
+        >
           <div class="card-header">
             <div class="card-type">{{ plan.name }}</div>
-            <div class="card-price">{{ formattedPrice(plan.monthly_price) }}<span>/bulan</span></div>
+            <div class="card-price">
+              {{ formattedPrice(plan.monthly_price) }}<span>/bulan</span>
+            </div>
             <!-- <div class="card-billing">{{ plan.description }}</div> -->
           </div>
           <div class="card-description">
             {{ plan.description }}
           </div>
           <div class="card-features">
-            <div v-for="(feature, index) in plan.features" :key="index" class="feature-item">
+            <div
+              v-for="(feature, index) in plan.features"
+              :key="index"
+              class="feature-item"
+            >
               <div class="feature-dot">✓</div>
               <span>{{ feature }}</span>
             </div>
           </div>
           <button class="order-now-btn">
-            <a :href="`/app/auth/signup?slug=pricing`">Pesan Sekarang!</a>
+            <a href="/app/auth/signup?slug=pricing">Pesan Sekarang!</a>
           </button>
         </div>
       </section>
 
       <!-- Corporate Section -->
-      <section class="corporate-section" id="enterprise">
+      <section id="enterprise" class="corporate-section">
         <div class="corporate-content">
           <h2>Corporate & Government</h2>
-          <p>Solusi yang disesuaikan untuk kebutuhan perusahaan spesifik dan mendukung pekerjaan yang ditujukan organisasi besar.</p>
+          <p>
+            Solusi yang disesuaikan untuk kebutuhan perusahaan spesifik dan
+            mendukung pekerjaan yang ditujukan organisasi besar.
+          </p>
           <button class="contact-sales-btn">Hubungi Sales</button>
         </div>
         <div class="corporate-image">
-          <img :src="'/pricing/building-icon.png'" alt="Building Icon">
+          <img src="/pricing/building-icon.png" alt="Building Icon" />
         </div>
       </section>
 
@@ -92,9 +364,11 @@
       <section class="compare-section">
         <div class="compare-header">
           <h2>Compare Plans</h2>
-          <div class="compare-subtext">Use the table below to compare the features of this product.</div>
+          <div class="compare-subtext">
+            Use the table below to compare the features of this product.
+          </div>
         </div>
-        
+
         <table class="compare-table">
           <thead>
             <tr>
@@ -104,11 +378,13 @@
           </thead>
           <tbody>
             <tr class="price-row">
-              <td></td>
-              <td v-for="plan in plans" :key="plan.id">{{ plan.monthly_price }}/mo</td>
+              <td />
+              <td v-for="plan in plans" :key="plan.id">
+                {{ plan.monthly_price }}/mo
+              </td>
             </tr>
             <tr>
-              <td></td>
+              <td />
               <td v-for="plan in plans" :key="plan.id">
                 <button class="compare-btn">See Details</button>
               </td>
@@ -126,11 +402,21 @@
             <tr v-for="(feature, index) in compareFeatures" :key="index">
               <td>{{ feature.name }}</td>
               <td v-for="plan in plans" :key="plan.id">
-                <span v-if="typeof feature.values[plan.name.toLowerCase()] === 'boolean'">
-                  <span v-if="feature.values[plan.name.toLowerCase()]" class="compare-check">✓</span>
+                <span
+                  v-if="
+                    typeof feature.values[plan.name.toLowerCase()] === 'boolean'
+                  "
+                >
+                  <span
+                    v-if="feature.values[plan.name.toLowerCase()]"
+                    class="compare-check"
+                    >✓</span
+                  >
                   <span v-else>-</span>
                 </span>
-                <span v-else>{{ feature.values[plan.name.toLowerCase()] }}</span>
+                <span v-else>{{
+                  feature.values[plan.name.toLowerCase()]
+                }}</span>
               </td>
             </tr>
           </tbody>
@@ -143,7 +429,7 @@
           <h2>FAQ</h2>
           <div class="faq-subtext">Frequently asked questions</div>
         </div>
-        
+
         <div v-for="(faq, index) in faqs" :key="index" class="faq-item">
           <div class="faq-question" @click="toggleFaq(index)">
             {{ faq.question }}
@@ -161,16 +447,30 @@
       <div class="container footer-content">
         <div class="footer-column">
           <div class="company-info">
-            <img :src="'/brand-assets/logo.svg'" alt="Catbot.AI Logo" class="footer-logo">
+            <img
+              src="/brand-assets/logo.svg"
+              alt="Catbot.AI Logo"
+              class="footer-logo"
+            />
             <div class="company-name">PT Teknologi Catbot Indonesia</div>
-            <div class="company-address">Jalan Merdeka Permai Blok B No.10, Pagedangan</div>
+            <div class="company-address">
+              Jalan Merdeka Permai Blok B No.10, Pagedangan
+            </div>
           </div>
           <div class="app-stores">
-            <img :src="'/pricing/google-play.png'" alt="Google Play" class="app-store-badge">
-            <img :src="'/pricing/app-store.png'" alt="App Store" class="app-store-badge">
+            <img
+              src="/pricing/google-play.png"
+              alt="Google Play"
+              class="app-store-badge"
+            />
+            <img
+              src="/pricing/app-store.png"
+              alt="App Store"
+              class="app-store-badge"
+            />
           </div>
         </div>
-        
+
         <div class="footer-column">
           <h3>Company</h3>
           <ul class="footer-links">
@@ -179,7 +479,7 @@
             <li><a href="#">Integrations</a></li>
           </ul>
         </div>
-        
+
         <div class="footer-column">
           <h3>Product</h3>
           <ul class="footer-links">
@@ -188,7 +488,7 @@
             <li><a href="#">Integrations</a></li>
           </ul>
         </div>
-        
+
         <div class="footer-column">
           <h3>Resources</h3>
           <ul class="footer-links">
@@ -198,7 +498,7 @@
           </ul>
         </div>
       </div>
-      
+
       <div class="footer-bottom">
         <p>Copyright © 2025 Catbot.AI. All rights reserved.</p>
         <div class="footer-links">
@@ -209,234 +509,14 @@
   </div>
 </template>
 
-<script>
-import PricingCard from '../../components/Pricing/PricingCard.vue';
-
-export default {
-  components: { 
-    PricingCard
-    // ComparisonTable, FAQSection
-  },
-  name: 'PricingPage',
-  data() {
-    return {
-      plans: [],
-      compareFeatures: [],
-      faqs: [
-        {
-          question: 'Apakah bisa bayar pakai kartu kredit?',
-          answer: 'Ya, kami menerima pembayaran dengan kartu kredit termasuk Visa dan Mastercard.',
-          isOpen: false
-        },
-        {
-          question: 'Apa itu MAU (Monthly Active User)?',
-          answer: 'MAU adalah jumlah pengguna unik yang mengakses layanan dalam periode satu bulan.',
-          isOpen: false
-        },
-        {
-          question: 'Bagaimana cara AI credit dihitung?',
-          answer: 'AI credit dihitung berdasarkan jumlah respons yang dihasilkan oleh AI assistant.',
-          isOpen: false
-        },
-        {
-          question: 'Apakah saya bisa top-up AI credit?',
-          answer: 'Ya, Anda dapat menambah AI credit kapan saja melalui dashboard akun Anda.',
-          isOpen: false
-        },
-        {
-          question: 'Kapan batas penggunaan bulanan (monthly limit) direset?',
-          answer: 'Batas penggunaan bulanan akan direset pada tanggal pertama setiap bulan.',
-          isOpen: false
-        },
-        {
-          question: 'Jika saya upgrade paket, apakah sisa penggunaan akan direset?',
-          answer: 'Tidak, sisa penggunaan akan dibawa ke paket baru dengan penambahan kuota sesuai paket.',
-          isOpen: false
-        },
-        {
-          question: 'Apakah di credit hand top-up memiliki masa berlaku atau bisa diakumulasi?',
-          answer: 'Credit top-up memiliki masa berlaku 12 bulan dan dapat diakumulasi.',
-          isOpen: false
-        },
-        {
-          question: 'Apakah saya bisa memajukan metode pembayaran dari one-time payment ke kartu kredit atau recurring payment?',
-          answer: 'Ya, Anda dapat mengubah metode pembayaran kapan saja melalui pengaturan akun.',
-          isOpen: false
-        },
-        {
-          question: 'Apakah ada collab gratis untuk CatBot?',
-          answer: 'Kami menyediakan program collab untuk para kreator dan pengembang komunitas.',
-          isOpen: false
-        },
-        {
-          question: 'Apakah CatBot melalukan Refund?',
-          answer: 'Kami memiliki kebijakan pengembalian uang dalam 7 hari jika Anda tidak puas dengan layanan.',
-          isOpen: false
-        }
-      ]
-    };
-  },
-  methods: {
-    formattedPrice(value) {
-      if (value >= 1000) {
-        return Math.round(value / 1000).toLocaleString('id-ID') + 'K'; // Gunakan toLocaleString untuk menambahkan titik
-      }
-      return value.toLocaleString('id-ID'); // Format angka kecil dengan titik juga
-    },
-    toggleFaq(index) {
-      this.faqs[index].isOpen = !this.faqs[index].isOpen;
-    },
-    transformApiDataToCompareFeatures(apiData) {
-      // Definisikan struktur dasar untuk compareFeatures
-      const compareFeatures = [
-        {
-          name: 'Maximum Active Users (MAU)',
-          values: {}
-        },
-        {
-          name: 'WhatsApp',
-          values: {}
-        },
-        {
-          name: 'LiveChat',
-          values: {}
-        },
-        {
-          name: 'Telegram',
-          values: {}
-        },
-        {
-          name: 'Human Agents',
-          values: {}
-        },
-        {
-          name: 'AI Agents',
-          values: {}
-        },
-        {
-          name: 'AI Responses',
-          values: {}
-        },
-        {
-          name: 'AI Models',
-          values: {}
-        },
-        {
-          name: 'AI Training',
-          values: {}
-        },
-        {
-          name: 'AI Ticketing & CRM',
-          values: {}
-        },
-        {
-          name: 'Prompting Support',
-          values: {}
-        },
-        {
-          name: 'Documentation',
-          values: {}
-        },
-        {
-          name: 'API Access',
-          values: {}
-        },
-        {
-          name: 'Dedicated WA Group',
-          values: {}
-        },
-        {
-          name: 'Feature Requests',
-          values: {}
-        },
-        {
-          name: 'Early Access',
-          values: {}
-        }
-      ];
-
-      // Untuk setiap plan dari API
-      apiData.forEach(plan => {
-        const planKey = plan.name.toLowerCase();
-        
-        // Maximum Active Users (MAU)
-        compareFeatures[0].values[planKey] = plan.max_mau === 0 ? 'Unlimited MAU' : `${plan.max_mau.toLocaleString()} MAU`;
-        
-        // WhatsApp
-        compareFeatures[1].values[planKey] = plan.available_channels.includes('Whatsapp');
-        
-        // LiveChat
-        compareFeatures[2].values[planKey] = plan.available_channels.includes('Livechat');
-        
-        // Telegram
-        compareFeatures[3].values[planKey] = plan.available_channels.includes('Telegram');
-        
-        // Human Agents
-        compareFeatures[4].values[planKey] = plan.max_human_agents === 0 ? 'Unlimited' : plan.max_human_agents.toString();
-        
-        // AI Agents
-        compareFeatures[5].values[planKey] = plan.max_ai_agents === 0 ? true : plan.max_ai_agents > 0;
-        
-        // AI Responses
-        compareFeatures[6].values[planKey] = plan.max_ai_responses.toLocaleString();
-        
-        // AI Models - tidak ada di API, set default ke true
-        compareFeatures[7].values[planKey] = true;
-        
-        // AI Training - tidak ada di API, set default ke true
-        compareFeatures[8].values[planKey] = true;
-        
-        // AI Ticketing & CRM - tidak ada di API, set default ke true
-        compareFeatures[9].values[planKey] = true;
-        
-        // Prompting Support
-        compareFeatures[10].values[planKey] = plan.support_level === 'Dedicated' ? 'Dedicated Support' : 'Standard Support';
-        
-        // Documentation
-        compareFeatures[11].values[planKey] = 'Complete';
-        
-        // API Access - tidak ada di API, set default berdasarkan level
-        compareFeatures[12].values[planKey] = plan.name.toLowerCase() !== 'free trial';
-        
-        // Dedicated WA Group - tidak ada di API, set default berdasarkan level
-        if (plan.name.toLowerCase() === 'growth') {
-          compareFeatures[13].values[planKey] = '24/7 WA Group';
-        } else if (plan.name.toLowerCase() === 'enterprise') {
-          compareFeatures[13].values[planKey] = '24/7 Exclusive Support';
-        } else {
-          compareFeatures[13].values[planKey] = '-';
-        }
-        
-        // Feature Requests - tidak ada di API, set default ke true hanya untuk enterprise
-        compareFeatures[14].values[planKey] = plan.name.toLowerCase() === 'enterprise';
-        
-        // Early Access - tidak ada di API, set default ke true hanya untuk enterprise
-        compareFeatures[15].values[planKey] = plan.name.toLowerCase() === 'enterprise';
-      });
-
-      return compareFeatures;
-    }
-  },
-  async created() {
-    try {
-      const response = await fetch('/api/v1/subscriptions/plans');
-      const data = await response.json();
-      this.plans = data;
-      this.compareFeatures = this.transformApiDataToCompareFeatures(data);
-    } catch (error) {
-      console.error('Gagal mengambil data pricing:', error);
-    }
-  },
-};
-</script>
-
 <style scoped>
 /* Base styles */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen,
+    Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
 }
 
 .pricing-page {
@@ -455,7 +535,7 @@ export default {
 .header {
   background-color: white;
   padding: 15px 0;
-  box-shadow: 0 1px 3px rgba(0,0,0,0.1);
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .header-content {
@@ -593,7 +673,7 @@ nav ul li a {
 .pricing-card {
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   padding: 25px;
   flex: 1;
   max-width: 270px;
@@ -700,7 +780,7 @@ nav ul li a {
 .corporate-section {
   background-color: white;
   border-radius: 10px;
-  box-shadow: 0 3px 10px rgba(0,0,0,0.1);
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
   padding: 25px;
   margin: 40px 0;
   display: flex;
@@ -770,7 +850,8 @@ nav ul li a {
   margin-top: 20px;
 }
 
-.compare-table th, .compare-table td {
+.compare-table th,
+.compare-table td {
   padding: 12px 10px;
   text-align: center;
   font-size: 14px;
@@ -930,16 +1011,16 @@ footer {
   .pricing-cards {
     flex-wrap: wrap;
   }
-  
+
   .pricing-card {
     max-width: calc(50% - 10px);
     margin-bottom: 20px;
   }
-  
+
   .promo-banner {
     flex-direction: column;
   }
-  
+
   .promo-image {
     width: 150px;
     margin-right: 0;
@@ -951,25 +1032,26 @@ footer {
   .pricing-card {
     max-width: 100%;
   }
-  
-  .compare-table th, .compare-table td {
+
+  .compare-table th,
+  .compare-table td {
     padding: 8px 5px;
     font-size: 12px;
   }
-  
+
   .corporate-section {
     flex-direction: column;
   }
-  
+
   .corporate-image {
     margin-top: 20px;
     text-align: center;
   }
-  
+
   .footer-content {
     flex-direction: column;
   }
-  
+
   .footer-column {
     margin-bottom: 30px;
   }

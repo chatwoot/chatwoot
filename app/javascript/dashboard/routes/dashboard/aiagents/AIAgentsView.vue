@@ -8,116 +8,118 @@ import { useAlert } from 'dashboard/composables';
 import { minLength, required } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
 
-const aiTemplates = ref()
+const aiTemplates = ref();
 async function fetchAiAgentTemplates() {
-  aiTemplates.value = await aiAgents.listAiTemplate().then(v => v?.data)
+  aiTemplates.value = await aiAgents.listAiTemplate().then(v => v?.data);
 }
 
-const { accountId } = useAccount()
+const { accountId } = useAccount();
 
 onMounted(() => {
-  fetchAiAgents()
-  fetchAiAgentTemplates()
-})
+  fetchAiAgents();
+  fetchAiAgentTemplates();
+});
 
-const aiAgentsRef = ref()
-const aiAgentsLoading = ref()
+const aiAgentsRef = ref();
+const aiAgentsLoading = ref();
 async function fetchAiAgents() {
   try {
-    aiAgentsLoading.value = true
+    aiAgentsLoading.value = true;
 
-    const resp = await aiAgents.getAiAgents()
-    aiAgentsRef.value = resp?.data
+    const resp = await aiAgents.getAiAgents();
+    aiAgentsRef.value = resp?.data;
   } finally {
-    aiAgentsLoading.value = false
+    aiAgentsLoading.value = false;
   }
 }
 
-const loadingCards = ref({})
-const dataToDelete = ref()
-const showDeleteModal = ref()
+const loadingCards = ref({});
+const dataToDelete = ref();
+const showDeleteModal = ref();
 async function deleteData() {
-  showDeleteModal.value = false
+  showDeleteModal.value = false;
   if (!dataToDelete.value) {
-    return
+    return;
   }
 
-  const aiAgentId = dataToDelete.value.id
+  const aiAgentId = dataToDelete.value.id;
   try {
-    loadingCards.value[aiAgentId] = true
-    await aiAgents.removeAiAgent(aiAgentId)
-    aiAgentsRef.value = aiAgentsRef.value?.filter(v => v.id !== aiAgentId)
+    loadingCards.value[aiAgentId] = true;
+    await aiAgents.removeAiAgent(aiAgentId);
+    aiAgentsRef.value = aiAgentsRef.value?.filter(v => v.id !== aiAgentId);
   } finally {
-    loadingCards.value[aiAgentId] = false
+    loadingCards.value[aiAgentId] = false;
   }
 }
 
 // Create AI Agent modal
-const showCreateAgentModal = ref(false)
+const showCreateAgentModal = ref(false);
 const state = reactive({
   agentName: '',
-})
+});
 const rules = {
   agentName: { required, minLength: minLength(1) },
-}
-const v$ = useVuelidate(rules, state)
+};
+const v$ = useVuelidate(rules, state);
 watch(showCreateAgentModal, v => {
   if (!v) {
-    state.agentName = undefined
+    state.agentName = undefined;
   }
-})
-const loadingCreate = ref(false)
+});
+const loadingCreate = ref(false);
 async function createAiAgent() {
-  const valid = await v$.value.$validate()
+  const valid = await v$.value.$validate();
   if (!valid) {
-    return
+    return;
   }
-  const templateId = selectedTemplate.value
-  const name = state.agentName?.trim()
+  const templateId = selectedTemplate.value;
+  const name = state.agentName?.trim();
   if (loadingCreate.value || !templateId || !name) {
-    return
+    return;
   }
 
   try {
-    loadingCreate.value = true
-    await aiAgents.createAiAgent(name, templateId)
-    fetchAiAgents()
-    showCreateAgentModal.value = false
+    loadingCreate.value = true;
+    await aiAgents.createAiAgent(name, templateId);
+    fetchAiAgents();
+    showCreateAgentModal.value = false;
   } catch (e) {
-    useAlert('Gagal menambahkan agen AI')
+    useAlert('Gagal menambahkan agen AI');
   } finally {
-    loadingCreate.value = false
+    loadingCreate.value = false;
   }
 }
 
-const templates = computed(() => aiTemplates.value?.map(e => ({
-  label: e.name,
-  id: `${e.id}`,
-})))
-const selectedTemplate = ref()
+const templates = computed(() =>
+  aiTemplates.value?.map(e => ({
+    label: e.name,
+    id: `${e.id}`,
+  }))
+);
+const selectedTemplate = ref();
 watchEffect(() => {
   if (templates.value && templates.value.length && !selectedTemplate.value) {
-    selectedTemplate.value = templates.value[0].id
+    selectedTemplate.value = templates.value[0].id;
   }
-})
+});
 </script>
 
 <template>
   <div class="w-full px-8 py-8 bg-n-background overflow-auto">
     <BaseSettingsHeader
-        :title="'Agen AI'"
-        :description="'Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!'"
-      >
-        <template #actions>
-          <woot-button
-            class="rounded-md button nice"
-            icon="add-circle"
-            @click="() => showCreateAgentModal = true"
-          >
-            {{ 'Buat Agen AI' }}
-          </woot-button>
-        </template>
-      </BaseSettingsHeader>
+      title="Agen AI"
+      description="Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!"
+    >
+      <template #actions>
+        <woot-button
+          class="rounded-md button nice"
+          icon="add-circle"
+          @click="() => (showCreateAgentModal = true)"
+        >
+          {{ 'Buat Agen AI' }}
+        </woot-button>
+      </template>
+    </BaseSettingsHeader>
     <div>
       <div v-if="aiAgentsLoading" class="text-center">
         <span class="mt-4 mb-4 spinner" />
@@ -129,7 +131,7 @@ watchEffect(() => {
         <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr v-for="(agent, _) in aiAgentsRef" :key="agent.id">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-               <div class="flex flex-row items-center gap-4">
+              <div class="flex flex-row items-center gap-4">
                 <!-- <Thumbnail
                   :src="agent.thumbnail"
                   :username="agent.name"
@@ -137,17 +139,21 @@ watchEffect(() => {
                   :status="agent.availability_status"
                 /> -->
                 <div>
-                  <span class="block font-medium text-lg text-slate-900 dark:text-slate-25">
+                  <span
+                    class="block font-medium text-lg text-slate-900 dark:text-slate-25"
+                  >
                     {{ agent.name }}
                   </span>
                   <span>{{ agent.description }}</span>
                 </div>
               </div>
             </td>
-            
+
             <td class="py-4">
               <div class="flex justify-end gap-1">
-                <RouterLink :to="`/app/accounts/${accountId}/ai-agents/${agent.id}`">
+                <RouterLink
+                  :to="`/app/accounts/${accountId}/ai-agents/${agent.id}`"
+                >
                   <woot-button
                     v-tooltip.top="$t('AGENT_MGMT.EDIT.BUTTON_TEXT')"
                     variant="smooth"
@@ -163,10 +169,12 @@ watchEffect(() => {
                   icon="dismiss-circle"
                   class-names="grey-btn"
                   :is-loading="loadingCards[agent.id]"
-                  @click="() => {
-                    dataToDelete = agent
-                    showDeleteModal = true
-                  }"
+                  @click="
+                    () => {
+                      dataToDelete = agent;
+                      showDeleteModal = true;
+                    }
+                  "
                 />
               </div>
             </td>
@@ -175,22 +183,44 @@ watchEffect(() => {
       </table>
     </div>
   </div>
-  <woot-delete-modal v-if="showDeleteModal" v-model:show="showDeleteModal" class="context-menu--delete-modal" :on-close="() => {
-    showDeleteModal = false
-  }" :on-confirm="() => deleteData()" :title="'Are you sure you want to delete this AI Agent?'"
-    :message="'You cannot undo this action'" :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
-    :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')" />
+  <woot-delete-modal
+    v-if="showDeleteModal"
+    v-model:show="showDeleteModal"
+    class="context-menu--delete-modal"
+    :on-close="
+      () => {
+        showDeleteModal = false;
+      }
+    "
+    :on-confirm="() => deleteData()"
+    title="Are you sure you want to delete this AI Agent?"
+    message="You cannot undo this action"
+    :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
+    :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
+  />
   <!-- Add agent modal -->
-  <woot-modal :show="showCreateAgentModal" :on-close="() => showCreateAgentModal = false">
-    <woot-modal-header :header-title="'Create New AI Agent'" />
+  <woot-modal
+    :show="showCreateAgentModal"
+    :on-close="() => (showCreateAgentModal = false)"
+  >
+    <woot-modal-header header-title="Create New AI Agent" />
     <form @submit.prevent="() => createAiAgent()">
       <div class="flex flex-col">
         <div class="w-full mb-2">
           <label>
             Nama Agen AI
-            <input v-model="state.agentName" type="text" :placeholder="'Nama Agen AI'"  style="margin-bottom: 0px;"/>
+            <input
+              v-model="state.agentName"
+              type="text"
+              placeholder="Nama Agen AI"
+              style="margin-bottom: 0px"
+            />
           </label>
-          <div class="input-errors" v-for="error of v$.agentName.$errors" :key="error.$uid">
+          <div
+            v-for="error of v$.agentName.$errors"
+            :key="error.$uid"
+            class="input-errors"
+          >
             <div class="text-red-500">{{ error.$message }}</div>
           </div>
         </div>
@@ -199,7 +229,11 @@ watchEffect(() => {
           <label>
             Template Agen AI
             <select v-model="selectedTemplate">
-              <option v-for="template in templates" :key="template.id" :value="template.id">
+              <option
+                v-for="template in templates"
+                :key="template.id"
+                :value="template.id"
+              >
                 {{ template.label }}
               </option>
             </select>
@@ -208,8 +242,12 @@ watchEffect(() => {
       </div>
 
       <div class="flex items-center justify-start gap-2 pt-2">
-        <WootSubmitButton :disabled="loadingCreate || v$.$invalid" :button-text="'Buat Agen AI'" :loading="loadingCreate"
-          type="submit" />
+        <WootSubmitButton
+          :disabled="loadingCreate || v$.$invalid"
+          button-text="Buat Agen AI"
+          :loading="loadingCreate"
+          type="submit"
+        />
       </div>
     </form>
   </woot-modal>

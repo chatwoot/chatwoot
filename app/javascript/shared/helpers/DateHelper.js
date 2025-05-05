@@ -9,7 +9,7 @@ import { endOfDay, getUnixTime, startOfDay, differenceInDays } from 'date-fns';
  * @param {string|Date|number} date - Bisa berupa ISO string, objek Date, atau timestamp milidetik
  * @returns {number} UNIX timestamp dalam detik
  */
-export const toUnixTimestamp = (date) => {
+export const toUnixTimestamp = date => {
   if (!date) throw new Error('Date is required');
 
   let parsedDate;
