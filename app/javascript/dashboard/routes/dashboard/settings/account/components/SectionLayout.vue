@@ -20,8 +20,8 @@ defineProps({
     class="grid grid-cols-1 py-8 gap-10"
     :class="{ 'border-t border-n-weak': withBorder }"
   >
-    <header class="grid grid-cols-3">
-      <div class="col-span-2">
+    <header class="grid grid-cols-4">
+      <div class="col-span-3">
         <h4 class="text-lg font-medium text-n-slate-12">
           <slot name="title">{{ title }}</slot>
         </h4>
