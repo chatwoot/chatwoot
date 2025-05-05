@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useToggle } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import wootConstants from 'dashboard/constants/globals';
@@ -138,7 +139,7 @@ const handleSortChange = value => {
     />
     <div
       v-if="showActionsDropdown"
-      v-on-clickaway="() => toggleDropdown(false)"
+      v-on-click-outside="() => toggleDropdown()"
       class="mt-1 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4 absolute z-40 top-full"
       :class="{
         'ltr:left-0 rtl:right-0': !isOnExpandedLayout,
