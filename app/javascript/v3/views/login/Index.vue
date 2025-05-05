@@ -55,6 +55,7 @@ export default {
         hasErrored: false,
       },
       error: '',
+      showPassword: false,
     };
   },
   validations() {
@@ -151,6 +152,9 @@ export default {
 
       this.submitLogin();
     },
+    showHidePassword() {
+      this.showPassword = !this.showPassword;
+    },
   },
 };
 </script>
@@ -204,18 +208,38 @@ export default {
                 :has-error="v$.credentials.email.$error"
                 @input="v$.credentials.email.$touch"
               />
-              <FormInput
-                v-model="credentials.password"
-                type="password"
-                name="password"
-                data-testid="password_input"
-                required
-                :tabindex="2"
-                :label="$t('LOGIN.PASSWORD.LABEL')"
-                :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
-                :has-error="v$.credentials.password.$error"
-                @input="v$.credentials.password.$touch"
-              />
+              <div class="relative">
+                <FormInput
+                  v-model="credentials.password"
+                  :type="showPassword ? 'text' : 'password'"
+                  name="password"
+                  data-testid="password_input"
+                  required
+                  :tabindex="2"
+                  :label="$t('LOGIN.PASSWORD.LABEL')"
+                  :placeholder="$t('LOGIN.PASSWORD.PLACEHOLDER')"
+                  :has-error="v$.credentials.password.$error"
+                  @input="v$.credentials.password.$touch"
+                />
+                <button
+                  type="button"
+                  class="w-8 h-12 absolute bottom-0 right-0"
+                  @click="showHidePassword"
+                >
+                  <fluent-icon
+                    v-if="!showPassword"
+                    icon="eye-hide"
+                    size="18"
+                    class="text-slate-900 dark:text-slate-50"
+                  />
+                  <fluent-icon
+                    v-if="showPassword"
+                    icon="eye-show"
+                    size="18"
+                    class="text-slate-900 dark:text-slate-50"
+                  />
+                </button>
+              </div>
 
               <p
                 v-if="!globalConfig.disableUserProfileUpdate"
