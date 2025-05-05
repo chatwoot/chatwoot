@@ -126,7 +126,7 @@ export default {
 
       const roomId = this.generateJitsiRoomId();
 
-      await this.$store.dispatch('createCall', {
+      const call = await this.$store.dispatch('createCall', {
         chat_id: this.currentChat.id,
         room_id: roomId,
         sender: this.sender,
@@ -202,7 +202,8 @@ export default {
         :agent-id="currentUser.id"
         :display-name="currentUser.name"
         :email="currentUser.email"
-        :room-id="activeCall"
+        :room-id="activeCall.room_id"
+        :jwt="activeCall.jwt"
         @close="closeCall"
       />
     </div>

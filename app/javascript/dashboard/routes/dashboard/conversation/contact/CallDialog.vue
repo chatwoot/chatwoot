@@ -26,6 +26,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  jwt: {
+    type: String,
+    required: true,
+  },
 });   
 
 const handleHangup = () => {
@@ -132,6 +136,7 @@ onBeforeUnmount(() => {
         :agent-id="agentId"
         :display-name="displayName"
         :email="email"
+        :jwt="jwt"
         @hangup="handleHangup"
         @toggle-floating="handleToggleFloating"
       />

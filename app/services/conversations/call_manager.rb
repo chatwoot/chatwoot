@@ -14,11 +14,13 @@ class Conversations::CallManager
     call = {
       room_id: @params[:room_id],
       domain: @params[:domain],
-      message_id: @params[:message_id]
+      message_id: @params[:message_id],
+      jwt: @params[:jwt]
     }
     Rails.logger.info("Creating call: #{call}")
     Rails.configuration.dispatcher.dispatch(CALL_CREATED, Time.zone.now, account: @account, user: @user, conversation: @conversation,
                                                                          call: { call_data: call })
+    call
   end
 
   def end_call
