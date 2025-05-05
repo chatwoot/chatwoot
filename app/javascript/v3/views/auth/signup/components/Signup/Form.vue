@@ -37,6 +37,7 @@ export default {
       didCaptchaReset: false,
       isSignupInProgress: false,
       error: '',
+      showPassword: false,
     };
   },
   validations() {
@@ -134,6 +135,9 @@ export default {
       this.credentials.hCaptchaClientResponse = '';
       this.didCaptchaReset = true;
     },
+    showHidePassword() {
+      this.showPassword = !this.showPassword;
+    },
   },
 };
 </script>
@@ -187,17 +191,37 @@ export default {
         :error-message="$t('REGISTER.PHONE_NUMBER.ERROR')"
         @blur="v$.credentials.phoneNumber.$touch"
       />
-      <FormInput
-        v-model="credentials.password"
-        type="password"
-        name="password"
-        :class="{ error: v$.credentials.password.$error }"
-        :label="$t('LOGIN.PASSWORD.LABEL')"
-        :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-        :has-error="v$.credentials.password.$error"
-        :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
-        @blur="v$.credentials.password.$touch"
-      />
+      <div class="relative">
+        <FormInput
+          v-model="credentials.password"
+          :type="showPassword ? 'text' : 'password'"
+          name="password"
+          :class="{ error: v$.credentials.password.$error }"
+          :label="$t('LOGIN.PASSWORD.LABEL')"
+          :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+          :has-error="v$.credentials.password.$error"
+          :error-message="$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD')"
+          @blur="v$.credentials.password.$touch"
+        />
+        <button
+          type="button"
+          :class="`w-8 h-12 absolute right-0 ${v$.credentials.password.$error ? 'bottom-12' : 'bottom-0'}`"
+          @click="showHidePassword"
+        >
+          <fluent-icon
+            v-if="!showPassword"
+            icon="eye-hide"
+            size="18"
+            class="text-slate-900 dark:text-slate-50"
+          />
+          <fluent-icon
+            v-if="showPassword"
+            icon="eye-show"
+            size="18"
+            class="text-slate-900 dark:text-slate-50"
+          />
+        </button>
+      </div>
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <VueHcaptcha
           ref="hCaptcha"
