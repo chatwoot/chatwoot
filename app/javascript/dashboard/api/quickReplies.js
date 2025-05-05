@@ -24,7 +24,7 @@ class QuickReplies extends ApiClient {
   }
 
   destroy({ id }) {
-    return axios.destroy(`${this.url}/${id}`);
+    return axios.delete(`${this.url}/${id}`);
   }
 }
 
