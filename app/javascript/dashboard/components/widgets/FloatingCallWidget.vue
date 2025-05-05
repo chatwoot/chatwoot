@@ -1546,8 +1546,65 @@ export default {
       { immediate: true }
     );
 
-    // This function was removed as it's no longer needed
-    
+    // Add watcher for call status changes
+    watch(
+      () => store.state.calls.activeCall?.status,
+      (newStatus) => {
+        if (newStatus === 'ended' || newStatus === 'completed' || newStatus === 'missed') {
+          console.log('Call status changed to:', newStatus);
+          stopDurationTimer();
+          stopRingtone();
+          isCallActive.value = false;
+          
+          // Update app state
+          if (window.app && window.app.$data) {
+            window.app.$data.showCallWidget = false;
+          }
+          
+          // Emit event
+          emit('callEnded');
+          
+          // Clear store state
+          store.dispatch('calls/clearActiveCall');
+          store.dispatch('calls/clearIncomingCall');
+        }
+      }
+    );
+
+    // Add specific watcher for outbound call status
+    watch(
+      () => store.state.calls.activeCall,
+      (newCall) => {
+        // Check if this is an outbound call
+        const isOutboundCall = newCall && newCall.isOutbound === true;
+        
+        if (isOutboundCall) {
+          console.log('Outbound call status:', newCall?.status);
+          
+          // Handle outbound call status changes
+          if (newCall?.status === 'ended' || newCall?.status === 'completed' || newCall?.status === 'missed') {
+            console.log('Outbound call ended with status:', newCall.status);
+            stopDurationTimer();
+            stopRingtone();
+            isCallActive.value = false;
+            
+            // Update app state
+            if (window.app && window.app.$data) {
+              window.app.$data.showCallWidget = false;
+            }
+            
+            // Emit event
+            emit('callEnded');
+            
+            // Clear store state
+            store.dispatch('calls/clearActiveCall');
+            store.dispatch('calls/clearIncomingCall');
+          }
+        }
+      },
+      { deep: true } // Watch for nested changes in the call object
+    );
+
     return {
       isCallActive,
       callDuration,

@@ -64,18 +64,12 @@ module Voice
 
       # Provider-specific message templates for different call statuses
       # These messages must EXACTLY match what the UI expects to show
+      # "In-progress" messages have been removed as they don't provide value
       PROVIDER_MESSAGES = {
         twilio: {
-          # Outgoing calls
-          'initiated' => { outbound: 'Call started…', inbound: 'Incoming call…' },
-          'ringing' => { outbound: 'Call started…', inbound: 'Incoming call…' },
-          'in-progress' => {
-            outbound: { first: 'Call in progress…', next: 'Call in progress…' },
-            inbound: { first: 'Call in progress…', next: 'Call in progress…' }
-          },
-          'active' => { outbound: 'Call in progress…', inbound: 'Call in progress…' },
+          # Status messages (only for terminal statuses)
           'completed' => { outbound: 'Call ended', inbound: 'Call ended' },
-          'busy' => { outbound: 'Line busy', inbound: 'Missed call' },  # Show as missed for inbound
+          'busy' => { outbound: 'Line busy', inbound: 'Missed call' },
           'failed' => { outbound: 'Call failed', inbound: 'Missed call' },
           'no-answer' => { outbound: 'No answer', inbound: 'Missed call' },
           'canceled' => { outbound: 'Call canceled', inbound: 'Missed call' },
@@ -86,6 +80,11 @@ module Voice
       # Create a custom activity message
       # This provides a clean migration path from MessageUpdateService
       def create_activity_message(content, additional_attributes = {})
+        return nil if content.blank?
+        
+        Rails.logger.info("📝 [CallStatusManager] Creating activity message: '#{content}'")
+        
+        # Create message
         Messages::MessageBuilder.new(
           nil,
           conversation,
@@ -105,8 +104,9 @@ module Voice
       # @param status [String] The status from the provider (e.g., 'completed', 'ringing')
       # @param duration [Integer, nil] The call duration in seconds (if available)
       # @param is_first_response [Boolean] Whether this is the first status update for this status
+      # @param custom_message [String, nil] Optional custom activity message to create
       # @return [Boolean] Whether the update was processed successfully
-      def process_status_update(status, duration = nil, is_first_response = false)
+      def process_status_update(status, duration = nil, is_first_response = false, custom_message = nil)
         # Normalize status using the STATUS_MAPPING if present
         normalized_status = STATUS_MAPPING[status] || status
 
@@ -145,8 +145,23 @@ module Voice
         # Update conversation and message status in a database transaction
         result = update_status(normalized_status, duration)
 
-        # Create an activity message with provider-specific text if status was updated
-        create_provider_activity_message(normalized_status, is_first_response) if result
+        # Create activity message based on the provided custom message or use default provider message
+        if result
+          if custom_message.present?
+            # Use the custom message provided
+            Rails.logger.info("📝 [CallStatusManager] Creating custom activity message: '#{custom_message}'")
+            create_activity_message(custom_message, { call_sid: call_sid, call_status: normalized_status })
+          elsif should_create_activity_message?(normalized_status)
+            # For outbound calls in initiated/ringing stage, only add message if explicitly requested
+            if is_outbound? && ['initiated', 'ringing'].include?(normalized_status) && !is_first_response
+              Rails.logger.info("📝 [CallStatusManager] Skipping default activity message for outbound call status: '#{normalized_status}'")
+            else
+              # Use default provider message
+              Rails.logger.info("📝 [CallStatusManager] Creating default activity message for status: '#{normalized_status}'")
+              create_provider_activity_message(normalized_status, is_first_response)
+            end
+          end
+        end
 
         result
       end
@@ -208,6 +223,9 @@ module Voice
 
       # Generate provider-specific activity messages (e.g., for Twilio)
       def create_provider_activity_message(status, is_first_response = false)
+        # Skip activity messages for non-terminal states
+        return nil unless call_ended?(status)
+        
         provider_key = provider&.to_sym
         call_direction = is_outbound? ? :outbound : :inbound
 
@@ -217,11 +235,7 @@ module Voice
         if provider_key && PROVIDER_MESSAGES.key?(provider_key)
           messages = PROVIDER_MESSAGES[provider_key]
 
-          if status == 'in-progress' && messages.dig(status, call_direction).is_a?(Hash)
-            message_type = is_first_response ? :first : :next
-            provider_message = messages.dig(status, call_direction, message_type)
-            message = provider_message if provider_message
-          elsif messages.dig(status, call_direction)
+          if messages.dig(status, call_direction)
             message = messages.dig(status, call_direction)
           end
         end
@@ -251,8 +265,16 @@ module Voice
         current_status = conversation.additional_attributes['call_status']
 
         # Only update if status is changing or we're forcing an update
+        # Exception: Don't create duplicate "completed" status updates for the same conversation
         if current_status == internal_status
           Rails.logger.info("🔄 [CallStatusManager] Status unchanged: '#{internal_status}'")
+          return true
+        end
+
+        # Don't process multiple call ending events - once a call is in a terminal state, keep it there
+        # This prevents duplicate "Call ended" messages
+        if current_status.present? && call_ended?(current_status) && call_ended?(internal_status)
+          Rails.logger.info("🔄 [CallStatusManager] Call already in terminal state '#{current_status}', not changing to '#{internal_status}'")
           return true
         end
 
@@ -266,11 +288,36 @@ module Voice
           # Update message content_attributes
           update_message_status(internal_status, duration)
 
-          # Create activity message for status change if it's a significant change
-          create_status_activity_message(internal_status) if should_create_activity_message?(internal_status)
+          # Only create activity messages for status changes that warrant them
+          # For terminal states, we'll create exactly one appropriate activity message
+          # For outbound calls in initiated/ringing states, we'll suppress standard messages
+          
+          # Track status transitions in conversation metadata to prevent duplicate activity messages
+          status_from = conversation.additional_attributes['call_status'] || 'none'
+          status_to = internal_status
+          transition = "#{status_from}→#{status_to}"
+          
+          # Store which transitions we've already handled with activity messages
+          conversation.additional_attributes['status_transitions'] ||= {}
+          transition_handled = conversation.additional_attributes['status_transitions'][transition]
+          
+          # Mark this transition as handled
+          conversation.additional_attributes['status_transitions'][transition] = true
+          
+          # Only create an activity message for the first occurrence of any status transition
+          # and only for terminal states or custom messages
+          create_should_activity = should_create_activity_message?(internal_status) && 
+                                  !(is_outbound? && ['initiated', 'ringing'].include?(internal_status)) &&
+                                  !transition_handled
+
+          # Create activity message for status change if needed
+          create_status_activity_message(internal_status) if create_should_activity
 
           # Broadcast status change notification
           broadcast_status_change(internal_status)
+          
+          # No need for additional broadcast - status change already broadcasts 
+          # conversation.updated events for terminal call states
         end
 
         true
@@ -319,8 +366,8 @@ module Voice
           conversation.additional_attributes['meta']["#{status}_at"] = Time.now.to_i
         end
 
-        # Save the conversation
-        conversation.save!
+        # Save the conversation - force timestamp update to trigger UI refresh
+        conversation.update!(last_activity_at: Time.current)
       end
 
       def update_message_status(status, duration)
@@ -386,9 +433,9 @@ module Voice
       end
 
       def should_create_activity_message?(status)
-        # Only create activity messages for significant state changes
-        # Avoid creating too many messages for intermediate states
-        call_ended?(status) || status == 'in-progress'
+        # Only create activity messages for terminal call states
+        # "in-progress" messages are removed as they don't provide much value
+        call_ended?(status)
       end
 
       def create_status_activity_message(status)
@@ -421,14 +468,9 @@ module Voice
                         'Call ended'
                       end
                     end
-                  elsif %w[in-progress active].include?(status)
-                    'Call in progress…'
-                  elsif status == 'ringing'
-                    is_outbound? ? 'Call started…' : 'Incoming call…'
-                  elsif status == 'initiated'
-                    is_outbound? ? 'Call started…' : 'Incoming call…'
                   else
-                    "Call status: #{status}"
+                    # No intermediate status messages for in-progress or ringing
+                    nil
                   end
 
         # Use the public create_activity_message method
@@ -462,7 +504,23 @@ module Voice
             }
           }
         )
+        
+        # Also broadcast a conversation.updated event for terminal statuses
+        # This ensures the conversation list gets refreshed when a call ends
+        if call_ended?(status)
+          Rails.logger.info("📢 [CallStatusManager] Broadcasting conversation.updated for completed call")
+          ActionCable.server.broadcast(
+            "account_#{conversation.account_id}",
+            {
+              event_name: 'conversation.updated',
+              data: conversation.push_event_data
+            }
+          )
+        end
       end
+      
+      # NOTE: This method is no longer used - conversation updates are handled
+      # directly in the broadcast_status_change method for terminal call states.
 
     end
   end

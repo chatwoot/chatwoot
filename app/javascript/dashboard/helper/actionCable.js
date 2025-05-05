@@ -232,13 +232,40 @@ class ActionCableConnector extends BaseActionCableConnector {
       status: data.status,
       conversationId: data.conversation_id,
       inboxId: data.inbox_id,
+      timestamp: data.timestamp || Date.now()
     };
     
     // Update store with call status change
     this.app.$store.dispatch('calls/handleCallStatusChanged', normalizedPayload);
     
-    // For non-terminal statuses, update the active call
-    if (!['ended', 'missed', 'completed'].includes(data.status)) {
+    // For terminal statuses, clear the active call to close the widget
+    if (['ended', 'missed', 'completed', 'failed', 'busy', 'no_answer'].includes(data.status)) {
+      console.log(`ActionCable: Call status changed to terminal status: ${data.status}`);
+      
+      // Clear active call for terminal statuses
+      this.app.$store.dispatch('calls/clearActiveCall');
+      
+      // Ensure window.app.$data exists before modifying it
+      if (window.app && window.app.$data) {
+        console.log('ActionCable: Hiding call widget');
+        window.app.$data.showCallWidget = false;
+      }
+      
+      // Update conversation list to show current status
+      if (data.conversation_id) {
+        console.log(`ActionCable: Updating conversation last activity for conversation ${data.conversation_id}`);
+        this.app.$store.dispatch('updateConversationLastActivity', {
+          conversationId: data.conversation_id,
+          lastActivityAt: new Date().toISOString(),
+        });
+        
+        // Also ensure that the conversation gets refreshed
+        this.app.$store.dispatch('fetchConversation', {
+          id: data.conversation_id
+        });
+      }
+    } else {
+      // Update active call for non-terminal statuses
       this.app.$store.dispatch('calls/setActiveCall', normalizedPayload);
     }
   };

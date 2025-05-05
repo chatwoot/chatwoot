@@ -13,10 +13,36 @@ const getters = {
 const actions = {
   // This action will handle both message updates and direct call status changes
   handleCallStatusChanged({ state, dispatch }, { callSid, status }) {
+    // Check if this is the active call
+    const isActiveCall = callSid === state.activeCall?.callSid;
+    const isOutboundCall = state.activeCall?.isOutbound === true;
+    
     // If this is the active call and it has ended or was missed, close the widget
-    if (callSid === state.activeCall?.callSid && 
+    if (isActiveCall && 
         (status === 'ended' || status === 'missed' || status === 'completed')) {
+      console.log('Call status changed to:', status, 'isOutbound:', isOutboundCall);
+      
+      // Clear the active call
       dispatch('clearActiveCall');
+      
+      // Force update app state to hide widget
+      if (window.app && window.app.$data) {
+        window.app.$data.showCallWidget = false;
+      }
+      
+      // Emit event to notify components
+      if (window.app) {
+        window.app.$emit('callEnded');
+      }
+      
+      // For outbound calls, also clear any pending state
+      if (isOutboundCall) {
+        // Additional cleanup for outbound calls
+        if (window.globalCallStatus) {
+          window.globalCallStatus.active = false;
+          window.globalCallStatus.incoming = false;
+        }
+      }
     }
   },
 

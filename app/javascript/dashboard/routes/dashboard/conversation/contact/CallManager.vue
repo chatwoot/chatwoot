@@ -29,7 +29,8 @@ export default {
     const transcription = ref('');
     const durationTimer = ref(null);
     const isCallActive = computed(
-      () => callStatus.value && callStatus.value !== 'completed'
+      () => callStatus.value && 
+            !['completed', 'ended', 'missed', 'failed', 'busy', 'no-answer'].includes(callStatus.value)
     );
 
     const callStatusText = computed(() => {
@@ -77,16 +78,24 @@ export default {
     const updateCallStatus = status => {
       callStatus.value = status;
 
-      if (status === 'in-progress') {
+      // Log the status update to help with debugging
+      console.log(`CallManager: Updating call status to ${status}`);
+
+      if (status === 'in-progress' || status === 'in_progress') {
         startDurationTimer();
       } else if (
-        status === 'completed' ||
-        status === 'failed' ||
-        status === 'busy' ||
-        status === 'no-answer'
+        ['completed', 'ended', 'missed', 'failed', 'busy', 'no-answer', 'no_answer'].includes(status)
       ) {
+        console.log(`CallManager: Call ended with status ${status}`);
         stopDurationTimer();
         emit('callEnded');
+        
+        // Forcefully hide the call widget after a short delay
+        setTimeout(() => {
+          if (window.app && window.app.$data) {
+            window.app.$data.showCallWidget = false;
+          }
+        }, 2000);
       }
     };
 
@@ -271,8 +280,8 @@ export default {
 
 <template>
   <div
-    v-show="isCallActive && callStatus"
-    v-if="isCallActive && callStatus"
+    v-show="callStatus"
+    v-if="callStatus"
     class="relative p-4 mb-4 border border-solid rounded-md bg-n-slate-1 border-n-slate-4 flex flex-col gap-2"
   >
     <div class="flex items-center justify-between">

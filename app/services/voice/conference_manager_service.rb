@@ -32,9 +32,6 @@ module Voice
         Rails.logger.warn("🎧 UNKNOWN CONFERENCE EVENT: #{event}")
       end
 
-      # Create activity message for the event
-      create_activity_message
-
       # Save conversation changes
       conversation.save!
     end
@@ -124,11 +121,11 @@ module Voice
       elsif current_status == 'ringing'
         # Call never connected
         Rails.logger.info('📞 MARKING RINGING CALL AS MISSED')
-        call_status_manager.process_status_update('missed')
+        call_status_manager.process_status_update('missed', nil, false, 'Missed call')
       else
         # Default to completed status
         Rails.logger.info('📞 MARKING CALL AS COMPLETED (DEFAULT)')
-        call_status_manager.process_status_update('completed')
+        call_status_manager.process_status_update('completed', nil, false, 'Call ended')
       end
     end
 
@@ -141,7 +138,7 @@ module Voice
       end
 
       Rails.logger.info('📞 MARKING ACTIVE CALL AS COMPLETED')
-      call_status_manager.process_status_update('completed', duration)
+      call_status_manager.process_status_update('completed', duration, false, 'Call ended')
     end
 
     # Helper methods for participant handling
@@ -183,7 +180,8 @@ module Voice
 
       Rails.logger.info('📞 UPDATING RINGING CALL TO CONNECTED (agent joined)')
       # Always use in-progress to be consistent with status mapping
-      call_status_manager.process_status_update('in-progress', nil, true)
+      # Pass event context to create appropriate activity message
+      call_status_manager.process_status_update('in-progress', nil, true, 'Agent joined the call')
     end
 
     def handle_caller_join
@@ -195,7 +193,9 @@ module Voice
 
       Rails.logger.info('📞 UPDATING RINGING OUTBOUND CALL TO CONNECTED (caller joined)')
       # Always use in-progress to be consistent with status mapping
-      call_status_manager.process_status_update('in-progress', nil, true)
+      # Only create activity message for inbound calls where caller joining is significant
+      custom_message = call_status_manager.is_outbound? ? nil : 'Caller joined the call'
+      call_status_manager.process_status_update('in-progress', nil, true, custom_message)
     end
 
     def handle_generic_participant_join
@@ -241,22 +241,34 @@ module Voice
       return unless caller_participant? && ringing_call? && !participant_has_joined?(AGENT)
 
       Rails.logger.info('📞 MARKING AS MISSED (caller left during ringing, no agent joined)')
-      call_status_manager.process_status_update('missed')
+      call_status_manager.process_status_update('missed', nil, false, 'Missed call')
     end
 
     # Everyone left check
     def check_if_everyone_left
-      call_active = conversation.additional_attributes['call_status'] == 'active'
+      call_in_progress = %w[active in-progress].include?(conversation.additional_attributes['call_status']) 
       conference_active = conversation.additional_attributes['conference_status'] != 'ended'
 
-      return unless all_participants_left? && conference_active && call_active
+      # If the caller has left but the call is still active, mark it as completed
+      if caller_participant? && call_in_progress
+        # Calculate duration if possible
+        duration = nil
+        duration = Time.now.to_i - conversation.additional_attributes['call_started_at'].to_i if conversation.additional_attributes['call_started_at']
+        
+        Rails.logger.info('📞 MARKING CALL AS COMPLETED (caller left during active call)')
+        call_status_manager.process_status_update('completed', duration, false, 'Caller left the call')
+        return
+      end
+
+      # Old code path for when everyone has left
+      return unless all_participants_left? && conference_active && call_in_progress
 
       # Calculate duration if possible
       duration = nil
       duration = Time.now.to_i - conversation.additional_attributes['call_started_at'].to_i if conversation.additional_attributes['call_started_at']
 
       Rails.logger.info('📞 MARKING CALL AS COMPLETED (all participants left)')
-      call_status_manager.process_status_update('completed', duration)
+      call_status_manager.process_status_update('completed', duration, false, 'Call ended')
     end
 
     # Participant tracking methods
@@ -297,42 +309,7 @@ module Voice
       !participants.values.any? { |p| p['status'] == 'joined' }
     end
 
-    # Activity message creation
-    def create_activity_message
-      content = activity_message_content_for_event
-      # Only create message if we have content to show
-      call_status_manager.create_activity_message(content) if content.present?
-    end
-
-    def activity_message_content_for_event
-      case event
-      when CONFERENCE_START
-        # Don't show this message to avoid redundancy with call status messages
-        nil
-      when CONFERENCE_END
-        # Don't show this message to avoid redundancy with call status messages
-        nil
-      when PARTICIPANT_JOIN
-        if agent_participant?
-          "Agent joined the call"
-        elsif caller_participant?
-          # Only for inbound calls - creates "Caller joined the call" message
-          # For outbound calls, we don't need this as we show "Call connected" instead
-          call_status_manager.is_outbound? ? nil : "Caller joined the call"
-        else
-          nil # Don't show for generic participants
-        end
-      when PARTICIPANT_LEAVE
-        if agent_participant?
-          "Agent left the call"
-        elsif caller_participant?
-          "Caller left the call"
-        else
-          nil # Don't show for generic participants
-        end
-      else
-        nil # Don't show unknown events
-      end
-    end
+    # Activity messages are now handled by the call_status_manager through the
+    # process_status_update method, which takes a custom_message parameter.
   end
 end

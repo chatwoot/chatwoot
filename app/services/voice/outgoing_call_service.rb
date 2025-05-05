@@ -115,11 +115,10 @@ module Voice
         provider: :twilio # Specify the provider for accurate messaging
       )
 
-      # Process first status update and create activity message
-      status_manager.process_status_update('initiated', nil, true)
-
-      # Additional custom message for outgoing calls
-      status_manager.create_activity_message("Outgoing call to #{contact.name || contact.phone_number}")
+      # Process first status update with a custom message instead of default
+      # This creates only one activity message
+      custom_message = "Outgoing call to #{contact.name || contact.phone_number}"
+      status_manager.process_status_update('initiated', nil, true, custom_message)
     end
 
     def broadcast_to_agent

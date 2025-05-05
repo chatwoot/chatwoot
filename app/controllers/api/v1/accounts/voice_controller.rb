@@ -51,29 +51,17 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
       # Update call status using the unified CallStatusManager
       # The CallStatusManager will determine if the call is outbound internally
+      # and will create an appropriate activity message
+      custom_message = "Call ended by #{current_user.name}"
+      
       status_manager = Voice::CallStatus::Manager.new(
         conversation: @conversation, 
         call_sid: call_sid,
         provider: :twilio
       )
-      status_manager.process_status_update('completed')
-
-      # CallStatusManager handles all voice call message updates
-
-      # Create an activity message noting the call has ended
-      Messages::MessageBuilder.new(
-        nil,
-        @conversation,
-        {
-          content: 'Call ended by agent',
-          message_type: :activity,
-          additional_attributes: {
-            call_sid: call_sid,
-            call_status: 'completed',
-            ended_by: current_user.name
-          }
-        }
-      ).perform
+      status_manager.process_status_update('completed', nil, false, custom_message)
+      
+      # No need to create additional activity messages - the manager handles it
       
       # Broadcast call status update on the account channel
       ActionCable.server.broadcast(
@@ -143,33 +131,19 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       name: current_user.name
     }
 
-    # Update call status using the unified CallStatusManager
+    # Update call status using the unified CallStatusManager with custom message
     # The CallStatusManager will determine if the call is outbound internally
+    custom_message = "#{current_user.name} joined the call"
+    
     status_manager = Voice::CallStatus::Manager.new(
       conversation: @conversation, 
       call_sid: call_sid,
       provider: :twilio
     )
-    status_manager.process_status_update('in-progress')
+    status_manager.process_status_update('in-progress', nil, false, custom_message)
 
     # Save the conversation with agent join details
     @conversation.save!
-
-    # Create an activity message
-    Messages::MessageBuilder.new(
-      nil,
-      @conversation,
-      {
-        content: "#{current_user.name} joined the call",
-        message_type: :activity,
-        additional_attributes: {
-          call_sid: call_sid,
-          conference_sid: conference_sid,
-          joined_by: current_user.name,
-          joined_at: Time.now.to_i
-        }
-      }
-    ).perform
     
     # Broadcast call status update on the account channel
     ActionCable.server.broadcast(
@@ -220,20 +194,19 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     }
     @conversation.save!
 
-    # Create an activity message noting the agent rejected the call
-    Messages::MessageBuilder.new(
-      nil,
-      @conversation,
-      {
-        content: "#{current_user.name} declined to answer",
-        message_type: :activity,
-        additional_attributes: {
-          call_sid: call_sid,
-          rejected_by: current_user.name,
-          rejected_at: Time.now.to_i
-        }
-      }
-    ).perform
+    # Update call status and create activity message through the unified manager
+    custom_message = "#{current_user.name} declined to answer"
+    
+    status_manager = Voice::CallStatus::Manager.new(
+      conversation: @conversation, 
+      call_sid: call_sid,
+      provider: :twilio
+    )
+    status_manager.create_activity_message(custom_message, {
+      call_sid: call_sid,
+      rejected_by: current_user.name,
+      rejected_at: Time.now.to_i
+    })
 
     render json: {
       status: 'success',
