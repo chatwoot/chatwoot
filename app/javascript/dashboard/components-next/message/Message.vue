@@ -394,23 +394,29 @@ function handleReplyTo() {
 }
 
 const avatarInfo = computed(() => {
-  if (!props.sender || props.sender.type === SENDER_TYPES.AGENT_BOT) {
+  // If no sender, return bot info
+  if (!props.sender) {
     return {
       name: t('CONVERSATION.BOT'),
       src: '',
     };
   }
 
-  if (props.sender) {
+  const { sender } = props;
+  const { name, type, avatarUrl, thumbnail } = sender || {};
+
+  // If sender type is agent bot, use avatarUrl
+  if (type === SENDER_TYPES.AGENT_BOT) {
     return {
-      name: props.sender.name,
-      src: props.sender?.thumbnail,
+      name: name ?? '',
+      src: avatarUrl ?? '',
     };
   }
 
+  // For all other senders, use thumbnail
   return {
-    name: '',
-    src: '',
+    name: name ?? '',
+    src: thumbnail ?? '',
   };
 });
 
