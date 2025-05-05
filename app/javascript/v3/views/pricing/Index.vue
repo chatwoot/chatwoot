@@ -1,12 +1,15 @@
 <script>
-import PricingCard from '../../components/Pricing/PricingCard.vue';
+// import PricingCard from '../../components/Pricing/PricingCard.vue';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'PricingPage',
   components: {
-    PricingCard,
+    // PricingCard,
     // ComparisonTable, FAQSection
   },
+  mixins: [globalConfigMixin],
   data() {
     return {
       plans: [],
@@ -77,6 +80,9 @@ export default {
         },
       ],
     };
+  },
+  computed: {
+    ...mapGetters({ globalConfig: 'globalConfig/get' }),
   },
   async created() {
     try {
@@ -255,7 +261,8 @@ export default {
     <header class="header">
       <div class="container header-content">
         <div class="logo">
-          <img src="/brand-assets/logo.svg" alt="Catbot.AI Logo" />
+          <img :src="globalConfig.logo" :alt="globalConfig.installationName" />
+          <!-- <img src="/brand-assets/logo.svg" alt="Catbot.AI Logo" /> -->
         </div>
         <nav>
           <ul>
@@ -287,7 +294,7 @@ export default {
       <!-- Promo Banner -->
       <section class="promo-banner">
         <div class="promo-image">
-          <img src="/pricing/promo-image.webp" alt="Promo Banner" />
+          <img :src="'/pricing/promo-image.webp'" alt="Promo Banner" />
         </div>
         <div class="promo-content">
           <h3>Lebaran Tetap Jualan, Layanan Tetap Aman!</h3>
@@ -356,7 +363,7 @@ export default {
           <button class="contact-sales-btn">Hubungi Sales</button>
         </div>
         <div class="corporate-image">
-          <img src="/pricing/building-icon.png" alt="Building Icon" />
+          <img :src="'/pricing/building-icon.png'" alt="Building Icon" />
         </div>
       </section>
 
@@ -448,9 +455,8 @@ export default {
         <div class="footer-column">
           <div class="company-info">
             <img
-              src="/brand-assets/logo.svg"
-              alt="Catbot.AI Logo"
-              class="footer-logo"
+              :src="globalConfig.logo"
+              :alt="globalConfig.installationName"
             />
             <div class="company-name">PT Teknologi Catbot Indonesia</div>
             <div class="company-address">
@@ -459,12 +465,12 @@ export default {
           </div>
           <div class="app-stores">
             <img
-              src="/pricing/google-play.png"
+              :src="'/pricing/google-play.png'"
               alt="Google Play"
               class="app-store-badge"
             />
             <img
-              src="/pricing/app-store.png"
+              :src="'/pricing/app-store.png'"
               alt="App Store"
               class="app-store-badge"
             />
