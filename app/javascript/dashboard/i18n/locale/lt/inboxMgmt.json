@@ -43,7 +43,17 @@
         "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
         "ADD_NAME": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pasirinkti reikšmę"
+        "PICK_A_VALUE": "Pasirinkti reikšmę",
+        "CREATE_INBOX": "Sukurti Gautų Laiškų Aplanką"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Norėdami pridėti savo Twitter profilį kaip kanalą, turite patvirtinti savo Twitter profilį spustelėdami „Prisijungti naudojant Twitter“ ",
@@ -753,7 +763,8 @@
       "EMAIL": "El. paštas",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API kanalas"
+      "API": "API kanalas",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
