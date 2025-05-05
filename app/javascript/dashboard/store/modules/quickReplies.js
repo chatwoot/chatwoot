@@ -10,8 +10,8 @@ export const actions = {
   update(_, {  id, name, content }) {
     return QuickReplies.update({ id, name, content });
   },
-  destroy(_, { id }) {
-    return QuickReplies.destroy({ id });
+  destroy(_, {id}) {
+    return QuickReplies.destroy({id});
   },
 };
 

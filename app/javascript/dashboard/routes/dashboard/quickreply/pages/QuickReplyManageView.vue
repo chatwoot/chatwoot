@@ -62,7 +62,7 @@
         <p>Are you sure you want to delete "{{ replyToDelete?.name }}"?</p>
         <div class="modal-actions">
           <button class="cancel-button" @click="showDeleteModal = false">Cancel</button>
-          <button class="confirm-delete-button" @click="deleteReply" :disabled="isDeleting">
+          <button class="confirm-delete-button" @click="deleteReply(replyToDelete)" :disabled="isDeleting">
             {{ isDeleting ? 'Deleting...' : 'Delete' }}
           </button>
         </div>
@@ -156,15 +156,15 @@ function confirmDelete(reply) {
   showDeleteModal.value = true;
 }
 
-async function deleteReply() {
-  console.log(replyToDelete.value.id)
-  if (!replyToDelete.value) return;
+async function deleteReply(reply) {
+  console.log(reply.id)
+  if (!reply) return;
 
   try {
     isDeleting.value = true;
-    await store.dispatch('quickReplies/destroy', replyToDelete.value.id);
+    await store.dispatch('quickReplies/destroy', {id :reply.id});
     showDeleteModal.value = false;
-    replyToDelete.value = null;
+    await fetchQuickReply(); 
   } catch (err) {
     console.error('Error deleting quick reply:', err);
   } finally {

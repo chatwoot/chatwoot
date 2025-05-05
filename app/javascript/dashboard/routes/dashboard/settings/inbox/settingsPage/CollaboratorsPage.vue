@@ -80,9 +80,11 @@ export default {
       this.updateInbox();
     },
     handleAiAgentSelection() {
-      if (this.selectedAiAgents) {
-        this.enableAutoAssignment = false;
-      }
+      if (this.enableAutoAssignment) {
+        useAlert(this.$t('INBOX_MGMT.SETTINGS_POPUP.DISABLE_AUTO_ASSIGNMENT_FIRST'));
+        this.selectedAiAgents = []; 
+        return;
+  }
     },
 
     async updateAgents() {
@@ -235,9 +237,6 @@ export default {
             id="enableAutoAssignment"
             v-model="enableAutoAssignment"
             type="checkbox"
-            :disabled="
-              selectedAiAgents && Object.keys(selectedAiAgents).length > 0
-            "
             @change="handleEnableAutoAssignment"
           />
 
