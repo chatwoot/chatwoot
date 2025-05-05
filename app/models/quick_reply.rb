@@ -19,4 +19,5 @@
 #
 class QuickReply < ApplicationRecord
   belongs_to :account
+  validates :name, :content, presence: true
 end
