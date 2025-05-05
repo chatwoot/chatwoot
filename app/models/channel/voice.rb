@@ -38,20 +38,16 @@ class Channel::Voice < ApplicationRecord
 
     # Use the simplest possible TwiML endpoint
     callback_url = "#{host}/twilio/voice/simple"
-    
+
     # Start building query parameters
     query_params = []
-    
+
     # Add conference name as a parameter if provided
-    if conference_name.present?
-      query_params << "conference_name=#{CGI.escape(conference_name)}"
-    end
-    
+    query_params << "conference_name=#{CGI.escape(conference_name)}" if conference_name.present?
+
     # Add agent ID as a parameter if provided
-    if agent_id.present?
-      query_params << "agent_id=#{agent_id}"
-    end
-    
+    query_params << "agent_id=#{agent_id}" if agent_id.present?
+
     # Append query parameters to URL if any exist
     if query_params.any?
       callback_url += "?#{query_params.join('&')}"
@@ -64,7 +60,7 @@ class Channel::Voice < ApplicationRecord
       to: to,
       url: callback_url,
       status_callback: "#{host}/twilio/voice/status_callback",
-      status_callback_event: %w[initiated ringing answered completed],
+      status_callback_event: %w[initiated ringing answered completed failed busy no-answer canceled],
       status_callback_method: 'POST'
     }
 
