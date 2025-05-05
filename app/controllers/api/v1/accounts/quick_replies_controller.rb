@@ -2,7 +2,15 @@ class Api::V1::Accounts::QuickRepliesController < Api::V1::Accounts::BaseControl
   before_action :set_quick_reply, only: [:update, :destroy]
 
   def index
-    @quick_replies = Current.account.quick_replies
+    @quick_replies = if params[:search].present?
+                       Current.account.quick_replies.where(
+                         'name ILIKE :query OR content ILIKE :query',
+                         query: "%#{params[:search]}%"
+                       )
+                     else
+                       Current.account.quick_replies
+                     end
+
     render json: @quick_replies
   end
 

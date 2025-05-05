@@ -5,8 +5,8 @@ class QuickReplies extends ApiClient {
     super('quick_replies', { accountScoped: true });
   }
 
-  show() {
-    return axios.get(this.url);
+  show(params = {}) {
+    return axios.get(this.url, { params });
   }
 
   create({ name, content }) {
