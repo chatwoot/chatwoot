@@ -1,35 +1,44 @@
+<script setup>
+defineProps({
+  show: Boolean,
+  reply: {
+    type: Object,
+    default: () => ({ id: 0, name: '', content: '' }),
+  }
+});
+
+const emit = defineEmits(['close', 'submit']);
+</script>
+
 <template>
   <div v-if="show" class="modal-overlay">
     <div class="modal-content">
       <button class="modal-close" @click="$emit('close')">✕</button>
-      <h2 class="modal-title">Create New Quick Reply</h2>
+      <h2 class="modal-title">
+        {{ reply.id ? 'Edit Quick Reply' : 'Create New Quick Reply' }}
+      </h2>
 
       <label class="modal-label">Name</label>
-      <input class="modal-input" placeholder="Enter Name" />
+      <input class="modal-input" placeholder="Enter Name" v-model="reply.name" />
 
       <label class="modal-label">Content</label>
-      <textarea class="modal-input" rows="4" placeholder="Enter Quick Reply"></textarea>
-
-      <label class="modal-label">Attachments</label>
-      <div class="attachment-box">
-        <div class="upload-icon">⬆️</div>
-        <p>Drag and drop files here, or click to select files</p>
-        <p>Images (JPG, PNG) up to 5MB</p>
-        <p>Documents (PDF, DOC, XLS) up to 100MB</p>
-      </div>
+      <textarea
+        class="modal-input"
+        rows="4"
+        placeholder="Enter Quick Reply"
+        v-model="reply.content"
+      ></textarea>
 
       <div class="modal-actions">
         <button @click="$emit('close')" class="btn-cancel">Cancel</button>
-        <button class="btn-create">Create</button>
+        <button class="btn-create" @click="$emit('submit', reply)">
+          {{ reply.id ? 'Update' : 'Create' }}
+        </button>
       </div>
     </div>
   </div>
 </template>
 
-<script setup>
-defineProps(['show'])
-defineEmits(['close'])
-</script>
 
 <style scoped>
 .modal-overlay {

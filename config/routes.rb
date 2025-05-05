@@ -34,6 +34,9 @@ Rails.application.routes.draw do
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      resources :accounts, only: [] do
+        resources :quick_replies, only: [:index, :create, :update, :destroy], module: :accounts
+      end
       # ----------------------------------
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
@@ -164,6 +167,7 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
+
           resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
