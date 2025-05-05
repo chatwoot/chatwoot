@@ -57,6 +57,11 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     render json: bot_metrics
   end
 
+  def ai_agent_metrics
+    ai_agent_metrics = V2::Reports::AiAgentMetricsBuilder.new(Current.account, params).metrics
+    render json: ai_agent_metrics
+  end
+
   def credit_usage
     render json: {
       credit_usage: rand(1..300)
@@ -138,6 +143,8 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     previous_summary = builder.new(Current.account, previous_summary_params).send(method)
     current_summary.merge(previous: previous_summary)
   end
+
+  def build_summary_ai_agent(method); end
 
   def conversation_metrics
     V2::ReportBuilder.new(Current.account, conversation_params).conversation_metrics

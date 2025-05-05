@@ -69,16 +69,29 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_status
-    # FIXME: move this logic into a service object
     if pending_to_open_by_bot?
       @conversation.bot_handoff!
     elsif params[:status].present?
       set_conversation_status
+      clear_assignee_if_resolved
+      restore_assignee_if_open
       @status = @conversation.save!
     else
       @status = @conversation.toggle_status
     end
-    assign_conversation if should_assign_conversation?
+  end
+
+  def restore_assignee_if_open
+    return unless @conversation.status == 'open'
+
+    # Always assign the current user as assignee when reopening
+    @conversation.assignee_id = Current.user.id
+  end
+
+  def clear_assignee_if_resolved
+    return unless @conversation.status == 'resolved'
+
+    @conversation.assignee_id = nil
   end
 
   def pending_to_open_by_bot?

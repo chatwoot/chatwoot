@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+<<<<<<< HEAD
 ActiveRecord::Schema[7.0].define(version: 2025_05_05_002526) do
+=======
+ActiveRecord::Schema[7.0].define(version: 2025_04_24_073922) do
+>>>>>>> radya-omnichannel
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"

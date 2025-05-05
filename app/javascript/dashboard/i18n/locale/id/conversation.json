@@ -121,9 +121,9 @@
       "AGENTS_LOADING": "Sedang memuat agen...",
       "ASSIGN_TEAM": "Tugaskan tim",
       "API": {
-        "INBOX_AI_AGENTS": "AI Agents",
-"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
-"AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "Agen AI",
+        "INBOX_AI_AGENTS_SUB_TEXT": "Kelola agen AI dari kotak masuk ini",
+        "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
         },

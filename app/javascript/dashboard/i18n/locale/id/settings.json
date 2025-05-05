@@ -322,7 +322,8 @@
       "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "DOCS": "Baca dokumen"
+    "DOCS": "Baca dokumen",
+    "AI_AGENTS": "Agen AI"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Pembayaran",

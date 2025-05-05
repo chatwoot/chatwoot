@@ -1,6 +1,7 @@
 {
   "LOGIN": {
-    "TITLE": "Masuk ke Chatwoot",
+    "TITLE": "JANGKAU.AI",
+    "SUBTITLE": "Selamat datang, silakan login menggunakan \nemail dan kata sandi Anda.",
     "EMAIL": {
       "LABEL": "Email",
       "PLACEHOLDER": "contoh{'@'}perusahan-mu.com",

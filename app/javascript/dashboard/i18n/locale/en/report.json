@@ -44,8 +44,20 @@
         "DESC": "( Total )"
       },
       "AI_MESSAGE_USAGE": {
-        "NAME": "AI Message Usage",
+        "NAME": "AI Message Usage Average",
         "DESC": "( Total )"
+      },
+      "AI_CREDIT_USE": {
+        "NAME": "AI Credit Use"
+      },
+      "AI_MESSAGE_SEND": {
+        "NAME": "AI Message Send"
+      },
+      "HANDOFF_AI_AGENT": {
+        "NAME": "AI Agent"
+      },
+      "HANDOFF_HUMAN_AGENT": {
+        "NAME": "Human Agent"
       },
       "AGENT_HANDOFF_RATE": {
         "NAME": "Agent Handoff Rate",

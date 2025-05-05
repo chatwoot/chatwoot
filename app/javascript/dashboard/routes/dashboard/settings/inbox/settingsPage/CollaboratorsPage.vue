@@ -53,7 +53,7 @@ export default {
   },
   mounted() {
     this.setDefaults();
-    this.fetchAiAgents()
+    this.fetchAiAgents();
   },
   methods: {
     setDefaults() {
@@ -61,7 +61,7 @@ export default {
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
-      this.fetchSelectedAiAgents()
+      this.fetchSelectedAiAgents();
     },
     async fetchAttachedAgents() {
       try {
@@ -117,51 +117,46 @@ export default {
     },
     async fetchAiAgents() {
       try {
-        const items = await aiAgents.getAiAgents()
+        const items = await aiAgents.getAiAgents();
         this.aiAgentList = (items?.data || []).map(e => ({
           id: e.id,
           name: e.name,
-        }))
+        }));
       } catch (e) {
-        useAlert('Gagal mendapatkan data Agen AI')
+        useAlert('Gagal mendapatkan data Agen AI');
       }
     },
     async fetchSelectedAiAgents() {
-
-  try {
-    const response = await this.$store.dispatch('inboxBotMembers/get', {
-      inboxId: this.inbox.id,
-    });
-    const {
+      try {
+        const response = await this.$store.dispatch('inboxBotMembers/get', {
+          inboxId: this.inbox.id,
+        });
+        const {
           data: { payload: inboxBotMembers },
         } = response;
-    this.selectedAiAgents = inboxBotMembers;
-    if (!payload.isEmpty){
-      this.enableAutoAssignment = false
-      this.updateInbox
-    }
-    } catch (e) {
-      useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
-    }
-  }
-  ,
+        this.selectedAiAgents = inboxBotMembers;
+      } catch (e) {
+        useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
+      }
+    },
     async updateAiAgents() {
-      const aiAgentListId = this.selectedAiAgents ? [this.selectedAiAgents.id] : [];
-      
-      console.log('🔥 [UpdateAiAgents] Called',aiAgentListId);
+      const aiAgentListId = this.selectedAiAgents
+        ? [this.selectedAiAgents.id]
+        : [];
+
+      console.log('🔥 [UpdateAiAgents] Called', aiAgentListId);
       this.isAiAgentListUpdating = true;
       try {
         await this.$store.dispatch('inboxBotMembers/create', {
-        inboxId: this.inbox.id,
-        agentBotList: aiAgentListId, 
-      });
+          inboxId: this.inbox.id,
+          agentBotList: aiAgentListId,
+        });
         useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
       this.isAiAgentListUpdating = false;
-    }
-
+    },
   },
   validations: {
     selectedAgents: {
@@ -182,20 +177,19 @@ export default {
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AI_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AI_AGENTS_SUB_TEXT')"
     >
-    <multiselect
-      v-model="selectedAiAgents"
-      :options="aiAgentList"
-      track-by="id"
-      label="name"
-      :close-on-select="true"
-      :clear-on-select="true"
-      placeholder="Pick one"
-      selected-label
-      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-      :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-      @select="handleAiAgentSelection"
-    />
-
+      <multiselect
+        v-model="selectedAiAgents"
+        :options="aiAgentList"
+        track-by="id"
+        label="name"
+        :close-on-select="true"
+        :clear-on-select="true"
+        placeholder="Pick one"
+        selected-label
+        :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+        :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
+        @select="handleAiAgentSelection"
+      />
 
       <woot-submit-button
         :button-text="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
@@ -203,7 +197,7 @@ export default {
         @click="updateAiAgents"
       />
     </SettingsSection>
-    
+
     <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
@@ -238,12 +232,14 @@ export default {
       <label class="w-3/4 settings-item">
         <div class="flex items-center gap-2">
           <input
-          id="enableAutoAssignment"
-          v-model="enableAutoAssignment"
-          type="checkbox"
-          :disabled="selectedAiAgents && Object.keys(selectedAiAgents).length > 0"
-          @change="handleEnableAutoAssignment"
-        />
+            id="enableAutoAssignment"
+            v-model="enableAutoAssignment"
+            type="checkbox"
+            :disabled="
+              selectedAiAgents && Object.keys(selectedAiAgents).length > 0
+            "
+            @change="handleEnableAutoAssignment"
+          />
 
           <label for="enableAutoAssignment">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}

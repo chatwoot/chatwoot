@@ -6,6 +6,9 @@ import { GROUP_BY_FILTER } from './constants';
 import ReportContainer from './ReportContainer.vue';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 import ReportHeader from './components/ReportHeader.vue';
+import LineChart from '../../../../../shared/components/charts/LineChart.vue';
+import ReportLineContainer from './ReportLineContainer.vue';
+import ReportsAPI from 'dashboard/api/reports';
 
 export default {
   name: 'AIAgentReports',
@@ -14,6 +17,8 @@ export default {
     ReportHeader,
     ReportFilterSelector,
     ReportContainer,
+    LineChart,
+    ReportLineContainer,
   },
   data() {
     return {
@@ -21,8 +26,16 @@ export default {
       to: 0,
       groupBy: GROUP_BY_FILTER[1],
       reportKeys: {
-          AI_MESSAGE_USAGE: 'bot_handoffs_count',
-          AGENT_HANDOFF_RATE: 'bot_resolutions_count',
+        AI_MESSAGE_USAGE: 'ai_agent_credit_usage',
+        AI_MESSAGE_SEND_COUNT: 'ai_agent_message_send_count',
+        AI_AGENT_HANDOFF_RATE: 'ai_agent_handoff_count',
+        AGENT_HANDOFF_RATE: 'agent_handoff_count',
+      },
+      metrics: {
+        aiAgentCreditUsage: 0,
+        aiAgentMessageSendCount: 0,
+        aiAgentHandoffCount: 0,
+        handoffRate: 0,
       },
       businessHours: false,
     };
@@ -33,6 +46,11 @@ export default {
         from: this.from,
         to: this.to,
       };
+    },
+  },
+  watch: {
+    requestPayload(value) {
+      this.fetchMetrics(value);
     },
   },
   methods: {
@@ -46,6 +64,19 @@ export default {
       } catch {
         useAlert(this.$t('REPORT.SUMMARY_FETCHING_FAILED'));
       }
+    },
+    fetchMetrics(filters) {
+      if (!filters.to || !filters.from) {
+        return;
+      }
+      ReportsAPI.getAiAgentMetrics(filters).then(response => {
+        this.$data.metrics = {
+          aiAgentCreditUsage: response.data.ai_agent_credit_usage,
+          aiAgentMessageSendCount: response.data.ai_agent_message_send_count,
+          aiAgentHandoffCount: response.data.ai_agent_handoff_count,
+          handoffRate: response.data.handoff_rate,
+        };
+      });
     },
     fetchChartData() {
       Object.keys(this.reportKeys).forEach(async key => {
@@ -95,11 +126,6 @@ export default {
       @filter-change="onFilterChange"
     />
 
-    <AiAgentMetrics :filters="requestPayload" />
-    <ReportContainer
-      account-summary-key="getBotSummary"
-      :group-by="groupBy"
-      :report-keys="reportKeys"
-    />
+    <ReportLineContainer :metrics="metrics" />
   </div>
 </template>

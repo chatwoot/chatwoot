@@ -23,11 +23,13 @@ const fetchMetrics = () => {
   if (!props.filters.to || !props.filters.from) {
     return;
   }
-  ReportsAPI.getBotMetrics(props.filters).then(response => {
-    conversationCount.value = response.data.conversation_count.toLocaleString();
-    messageCount.value = response.data.message_count.toLocaleString();
-    resolutionRate.value = response.data.resolution_rate.toString();
-    handoffRate.value = response.data.handoff_rate.toString();
+  ReportsAPI.getAiAgentMetrics(props.filters).then(response => {
+    conversationCount.value =
+      response.data.ai_agent_credit_usage.toLocaleString();
+    messageCount.value =
+      response.data.ai_agent_message_send_count.toLocaleString();
+    resolutionRate.value = response.data.ai_agent_handoff_count.toString();
+    handoffRate.value = response.data.human_agent_handoff_count.toString();
   });
 };
 

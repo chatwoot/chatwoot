@@ -42,7 +42,8 @@ class Notification < ApplicationRecord
     participating_conversation_new_message: 5,
     sla_missed_first_response: 6,
     sla_missed_next_response: 7,
-    sla_missed_resolution: 8
+    sla_missed_resolution: 8,
+    mau_limit_nearing: 9
   }.freeze
 
   enum notification_type: NOTIFICATION_TYPES

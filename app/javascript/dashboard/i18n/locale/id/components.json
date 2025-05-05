@@ -4,7 +4,7 @@
     "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
   },
   "COMBOBOX": {
-    "PLACEHOLDER": "Select an option...",
+    "PLACEHOLDER": "Pilih opsi...",
     "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
     "EMPTY_STATE": "Tidak ada hasil ditemukan.",
     "SEARCH_PLACEHOLDER": "Search...",

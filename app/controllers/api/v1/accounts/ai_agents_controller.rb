@@ -13,23 +13,23 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
   def create
     ai_agent_template = find_template
+    begin
+      document_store = add_document_store
+      chat_flow = load_chat_flow(ai_agent_template, document_store['id'])
 
-    document_store = add_document_store
-    return unless document_store
+      ActiveRecord::Base.transaction do
+        @ai_agent = build_ai_agent(ai_agent_template, chat_flow, document_store)
+        @ai_agent.save!
 
-    chat_flow = load_chat_flow(ai_agent_template, document_store['id'])
-    return unless chat_flow
+        render json: @ai_agent, status: :created
+      end
+    rescue StandardError => e
+      # Rollback transaction if any error occurs
+      AiAgents::FlowiseService.delete_chat_flow(id: chat_flow['id']) if chat_flow && chat_flow['id'].present?
+      AiAgents::FlowiseService.delete_document_store(store_id: document_store['id']) if document_store && document_store['id'].present?
 
-    ActiveRecord::Base.transaction do
-      @ai_agent = build_ai_agent(ai_agent_template, chat_flow, document_store)
-      @ai_agent.save!
-
-      render json: @ai_agent, status: :created
+      handle_error('Failed to create AI Agent', exception: e)
     end
-  rescue ActiveRecord::RecordInvalid => e
-    handle_error('Failed to create AI Agent', status: :unprocessable_entity, exception: e)
-  rescue StandardError => e
-    handle_error("Failed to create AI Agent: #{e.message}", exception: e)
   end
 
   def update
@@ -76,23 +76,25 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def load_chat_flow(template, store_id)
-    flow_data = build_chat_flow(template, store_id, ai_agent_params[:name], Current.account.name)
+    chat_flow_builder = V2::AiAgents::ChatFlowBuilder.new(Current.account, ai_agent_params, template)
+    flow_data = chat_flow_builder.build
+    store_config = chat_flow_builder.store_config(store_id)
 
     response = AiAgents::FlowiseService.load_chat_flow(
       name: ai_agent_params[:name],
       flow_data: flow_data
     )
 
-    { 'id' => response['id'], 'flow_data' => flow_data }
+    Rails.logger.info("✅ Chat flow loaded successfully: #{response['id']}")
+
+    { 'id' => response['id'], 'flow_data' => flow_data, 'store_config' => store_config }
   rescue StandardError => e
-    handle_error('Failed to load chat flow', status: :bad_gateway, exception: e)
-    nil
+    Rails.logger.error("❌ Failed to load chat flow: #{e.message}")
+    raise e
   end
 
   def update_chat_flow
-    flow_data = save_as_chat_flow(
-      ai_agent_params[:system_prompts], @ai_agent.flow_data
-    )
+    flow_data = V2::AiAgents::ChatFlowBuilder.new(Current.account, ai_agent_params).save_as(@ai_agent)
 
     AiAgents::FlowiseService.save_as_chat_flow(
       id: @ai_agent.chat_flow_id,
@@ -108,12 +110,16 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   def add_document_store
     name_with_datetime = "#{ai_agent_params[:name]} - #{Time.current.strftime('%Y%m%d%H%M%S')}"
 
-    AiAgents::FlowiseService.add_document_store(
+    document_store = AiAgents::FlowiseService.add_document_store(
       name: name_with_datetime,
       description: ai_agent_params[:description]
     )
+
+    Rails.logger.info("✅ Document store added successfully: #{name_with_datetime}")
+    document_store
   rescue StandardError => e
-    handle_error("Failed to add document store: #{e.message}")
+    Rails.logger.error("❌ Failed to add document store: #{e.message}")
+    raise e
   end
 
   def build_ai_agent(template, chat_flow, document_store)
@@ -128,7 +134,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
 
     agent.build_knowledge_source(
       name: document_store['name'],
-      store_id: document_store['id']
+      store_id: document_store['id'],
+      store_config: chat_flow['store_config']
     )
 
     agent
