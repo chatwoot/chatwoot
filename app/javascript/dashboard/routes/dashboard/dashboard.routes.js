@@ -1,6 +1,7 @@
 import settings from './settings/settings.routes';
 import conversation from './conversation/conversation.routes';
 import { routes as searchRoutes } from '../../modules/search/search.routes';
+import quickreplyRoutes from './quickreply/routes';
 import { routes as contactRoutes } from './contacts/routes';
 import { routes as notificationRoutes } from './notifications/routes';
 import { routes as inboxRoutes } from './inbox/routes';
@@ -21,6 +22,7 @@ export default {
         ...captainRoutes,
         ...inboxRoutes,
         ...conversation.routes,
+        ...quickreplyRoutes.routes,
         ...settings.routes,
         ...contactRoutes,
         ...searchRoutes,

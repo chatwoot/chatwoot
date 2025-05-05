@@ -85,6 +85,7 @@ class Account < ApplicationRecord
   has_many :working_hours, dependent: :destroy_async
   has_many :ai_agents, dependent: :destroy_async
   has_many :subscriptions
+  has_many :quick_replies
 
   has_one_attached :contacts_export
 

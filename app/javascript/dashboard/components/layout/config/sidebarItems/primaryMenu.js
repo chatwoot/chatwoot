@@ -89,14 +89,13 @@ const primaryMenuItems = accountId => [
   // },
   {
     icon: 'flash-on',
-    label: 'INTEGRATIONS',
+    label: 'QUICK_REPLY',
     hasSubMenu: false,
     meta: {
       permissions: ['administrator'],
     },
-    toState: frontendURL(`accounts/${accountId}/settings/integrations`),
-    toStateName: 'settings_applications',
-    featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+    toState: frontendURL(`accounts/${accountId}/quick-replies`),
+    toStateName: 'quick_reply_manage',
   },
   {
     icon: 'key',
