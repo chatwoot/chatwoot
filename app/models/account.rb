@@ -33,7 +33,7 @@ class Account < ApplicationRecord
     'type': 'object',
     'properties':
       {
-        'auto_resolve_after': { 'type': %w[integer null], 'minimum': 15, 'maximum': 1_439_856 },
+        'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
         'auto_resolve_message': { 'type': %w[string null] }
       },
     'required': [],

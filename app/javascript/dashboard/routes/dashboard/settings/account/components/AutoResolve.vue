@@ -82,11 +82,11 @@ const toggleAutoResolve = async () => {
         :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.HELP')"
       >
         <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
-          <!-- allow 0 to 999 days -->
+          <!-- allow 10 mins to 999 days -->
           <DurationInput
             v-model="duration"
             :disabled="!isEnabled"
-            min="0"
+            min="10"
             max="1439856"
             class="w-full"
           />
