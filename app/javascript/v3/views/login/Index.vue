@@ -81,7 +81,6 @@ export default {
     },
   },
   created() {
-    this.handleImpersonation();
     if (this.ssoAuthToken) {
       this.submitLogin();
     }
@@ -117,14 +116,10 @@ export default {
       useAlert(this.loginApi.message);
     },
     handleImpersonation() {
-      // Check if the user is accessing the login page with an impersonation token
-      // If the user is impersonating, set the impersonation flag in session storage
-      // This is used to prevent updating UI settings and availability status
+      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
       const urlParams = new URLSearchParams(window.location.search);
       const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
-      // If URL has "impersonation" query param
       if (impersonation) {
-        // Set the impersonation flag in session storage
         SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
       }
     },
@@ -144,6 +139,7 @@ export default {
 
       login(credentials)
         .then(() => {
+          this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {

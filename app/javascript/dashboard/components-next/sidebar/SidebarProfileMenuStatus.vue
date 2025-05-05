@@ -4,8 +4,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
-import SessionStorage from 'shared/helpers/sessionStorage';
-import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import { useImpersonation } from 'dashboard/composables/useImpersonation';
 
 import {
   DropdownContainer,
@@ -22,9 +21,7 @@ const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
 
-const isImpersonating = computed(() => {
-  return SessionStorage.get(SESSION_STORAGE_KEYS.IMPERSONATION_USER);
-});
+const { isImpersonating } = useImpersonation();
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 const statusList = computed(() => {

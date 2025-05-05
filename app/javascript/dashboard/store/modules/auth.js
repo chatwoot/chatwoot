@@ -151,7 +151,7 @@ export const actions = {
       const isImpersonating = SessionStorage.get(
         SESSION_STORAGE_KEYS.IMPERSONATION_USER
       );
-      // Skip API call during impersonation sessions
+
       if (!isImpersonating) {
         const response = await authAPI.updateUISettings(params);
         commit(types.SET_CURRENT_USER, response.data);
