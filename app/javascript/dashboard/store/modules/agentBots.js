@@ -12,6 +12,7 @@ export const state = {
     isCreating: false,
     isDeleting: false,
     isUpdating: false,
+    isUpdatingAvatar: false,
     isFetchingAgentBot: false,
     isSettingAgentBot: false,
     isDisconnecting: false,
@@ -48,10 +49,23 @@ export const actions = {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isFetching: false });
     }
   },
-  create: async ({ commit }, agentBotObj) => {
+
+  create: async ({ commit }, botData) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isCreating: true });
     try {
-      const response = await AgentBotsAPI.create(agentBotObj);
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('name', botData.name);
+      formData.append('description', botData.description);
+      formData.append('bot_type', botData.bot_type || 'webhook');
+      formData.append('outgoing_url', botData.outgoing_url);
+
+      // Add avatar file if available
+      if (botData.avatar) {
+        formData.append('avatar', botData.avatar);
+      }
+
+      const response = await AgentBotsAPI.create(formData);
       commit(types.ADD_AGENT_BOT, response.data);
       return response.data;
     } catch (error) {
@@ -61,10 +75,22 @@ export const actions = {
     }
     return null;
   },
-  update: async ({ commit }, { id, ...agentBotObj }) => {
+
+  update: async ({ commit }, { id, data }) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: true });
     try {
-      const response = await AgentBotsAPI.update(id, agentBotObj);
+      // Create FormData for file upload
+      const formData = new FormData();
+      formData.append('name', data.name);
+      formData.append('description', data.description);
+      formData.append('bot_type', data.bot_type || 'webhook');
+      formData.append('outgoing_url', data.outgoing_url);
+
+      if (data.avatar) {
+        formData.append('avatar', data.avatar);
+      }
+
+      const response = await AgentBotsAPI.update(id, formData);
       commit(types.EDIT_AGENT_BOT, response.data);
     } catch (error) {
       throwErrorMessage(error);
@@ -72,6 +98,7 @@ export const actions = {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdating: false });
     }
   },
+
   delete: async ({ commit }, id) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isDeleting: true });
     try {
@@ -83,6 +110,20 @@ export const actions = {
       commit(types.SET_AGENT_BOT_UI_FLAG, { isDeleting: false });
     }
   },
+
+  deleteAgentBotAvatar: async ({ commit }, id) => {
+    commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingAvatar: true });
+    try {
+      await AgentBotsAPI.deleteAgentBotAvatar(id);
+      // Update the thumbnail to empty string after deletion
+      commit(types.UPDATE_AGENT_BOT_AVATAR, { id, thumbnail: '' });
+    } catch (error) {
+      throwErrorMessage(error);
+    } finally {
+      commit(types.SET_AGENT_BOT_UI_FLAG, { isUpdatingAvatar: false });
+    }
+  },
+
   show: async ({ commit }, id) => {
     commit(types.SET_AGENT_BOT_UI_FLAG, { isFetchingItem: true });
     try {
@@ -149,6 +190,12 @@ export const mutations = {
       ...$state.agentBotInbox,
       [inboxId]: agentBotId,
     };
+  },
+  [types.UPDATE_AGENT_BOT_AVATAR]($state, { id, thumbnail }) {
+    const botIndex = $state.records.findIndex(bot => bot.id === id);
+    if (botIndex !== -1) {
+      $state.records[botIndex].thumbnail = thumbnail || '';
+    }
   },
 };
 

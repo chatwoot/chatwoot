@@ -13,6 +13,7 @@ import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
 
 import ContactInfo from './contact/ContactInfo.vue';
+import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
@@ -243,6 +244,18 @@ onMounted(() => {
                 "
               >
                 <ShopifyOrdersList :contact-id="contactId" />
+              </AccordionItem>
+            </div>
+            <div v-else-if="element.name === 'contact_notes'">
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
+                :is-open="isContactSidebarItemOpen('is_contact_notes_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_contact_notes_open', value)
+                "
+              >
+                <ContactNotes :contact-id="contactId" />
               </AccordionItem>
             </div>
           </div>

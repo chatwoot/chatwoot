@@ -100,14 +100,17 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative" :class="{ group: linkedIssue }">
+  <div
+    class="relative after:content-[''] after:h-5 after:bg-transparent after:top-5 after:w-full after:block after:absolute after:z-0"
+    :class="{ group: linkedIssue }"
+  >
     <Button
       v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
       sm
       ghost
       slate
-      class="!gap-1"
+      class="!gap-1 group-hover:bg-n-alpha-2"
       @click="openIssue"
     >
       <fluent-icon
@@ -124,7 +127,7 @@ onMounted(() => {
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
-      class="absolute right-0 top-[40px] invisible group-hover:visible"
+      class="absolute right-0 top-[36px] invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
     <woot-modal
