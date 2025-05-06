@@ -85,6 +85,12 @@ class Channel::Whatsapp < ApplicationRecord
     provider_service.toggle_typing_status(conversation.contact.phone_number, typing_status)
   end
 
+  def update_presence(status)
+    return unless provider_service.respond_to?(:update_presence)
+
+    provider_service.update_presence(status)
+  end
+
   delegate :setup_channel_provider, to: :provider_service
   delegate :disconnect_channel_provider, to: :provider_service
   delegate :send_message, to: :provider_service

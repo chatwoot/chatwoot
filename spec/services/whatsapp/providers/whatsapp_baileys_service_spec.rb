@@ -437,6 +437,46 @@ describe Whatsapp::Providers::WhatsappBaileysService do
     end
   end
 
+  describe '#update_presence' do
+    let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/presence" }
+
+    it 'calls presence endpoint' do
+      request = stub_request(:patch, request_path)
+                .with(
+                  headers: stub_headers(whatsapp_channel),
+                  body: {
+                    type: 'available'
+                  }.to_json
+                )
+                .to_return(status: 200)
+
+      service.update_presence('online')
+
+      expect(request).to have_been_requested
+    end
+
+    it 'logs the error and returns false' do
+      stub_request(:patch, request_path)
+        .with(
+          headers: stub_headers(whatsapp_channel),
+          body: {
+            type: 'available'
+          }.to_json
+        )
+        .to_return(
+          status: 400,
+          body: 'error message',
+          headers: {}
+        )
+      allow(Rails.logger).to receive(:error).with('error message')
+
+      response = service.update_presence('online')
+
+      expect(response).to be(false)
+      expect(Rails.logger).to have_received(:error)
+    end
+  end
+
   context 'when environment variable BAILEYS_PROVIDER_DEFAULT_URL is set' do
     it 'uses the base url from the environment variable' do
       stub_const('Whatsapp::Providers::WhatsappBaileysService::DEFAULT_URL', 'http://test.com')

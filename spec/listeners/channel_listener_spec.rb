@@ -60,6 +60,37 @@ describe ChannelListener do
     end
   end
 
+  describe '#account_presence_updated' do
+    let(:account_user) { create(:account_user) }
+    let(:inbox) { create(:inbox, account: account_user.account) }
+    let(:channel) { create(:channel_whatsapp, inbox: inbox, sync_templates: false, validate_provider_config: false) }
+    let(:event) do
+      Events::Base.new(Events::Types::ACCOUNT_PRESENCE_UPDATED, Time.zone.now, account_id: account_user.account.id, user_id: account_user.user.id,
+                                                                               status: 'online')
+    end
+
+    before do
+      inbox.inbox_members.create!(user: account_user.user)
+    end
+
+    it 'updates the presence of the channel' do
+      allow(channel).to receive(:update_presence).with('online')
+      allow_any_instance_of(Inbox).to receive(:channel).and_return(channel) # rubocop:disable RSpec/AnyInstance
+
+      listener.account_presence_updated(event)
+
+      expect(inbox.channel).to have_received(:update_presence)
+    end
+
+    it 'skips the event if the channel does not respond to update_presence' do
+      create(:channel_api, inbox: inbox)
+
+      expect do
+        listener.account_presence_updated(event)
+      end.not_to raise_error
+    end
+  end
+
   def build_typing_event(event_name, conversation:, is_private: false)
     Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: create(:user), is_private: is_private)
   end

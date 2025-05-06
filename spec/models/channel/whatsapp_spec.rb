@@ -91,6 +91,33 @@ RSpec.describe Channel::Whatsapp do
     end
   end
 
+  describe '#update_presence' do
+    let(:channel) { create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false, sync_templates: false) }
+
+    it 'calls provider service method' do
+      provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, update_presence: nil)
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      channel.update_presence('online')
+
+      expect(provider_double).to have_received(:update_presence).with('online')
+    end
+
+    it 'does not call method if provider service does not implement it' do
+      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      provider_double = instance_double(Whatsapp::Providers::WhatsappCloudService)
+      allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      expect do
+        channel.update_presence('online')
+      end.not_to raise_error
+    end
+  end
+
   describe 'callbacks' do
     describe '#disconnect_channel_provider' do
       context 'when provider is baileys' do

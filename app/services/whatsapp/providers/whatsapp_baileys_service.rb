@@ -86,6 +86,24 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     process_response(response)
   end
 
+  def update_presence(status)
+    status_map = {
+      'online' => 'available',
+      'offline' => 'unavailable',
+      'busy' => 'unavailable'
+    }
+
+    response = HTTParty.patch(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/presence",
+      headers: api_headers,
+      body: {
+        type: status_map[status]
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
   private
 
   def provider_url
