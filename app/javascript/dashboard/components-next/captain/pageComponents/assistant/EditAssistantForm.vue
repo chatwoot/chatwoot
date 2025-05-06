@@ -214,7 +214,7 @@ watch(
           v-model="state.instructions"
           :placeholder="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.PLACEHOLDER')"
           :message="formErrors.instructions"
-          :max-length="2000"
+          :max-length="20000"
           :message-type="formErrors.instructions ? 'error' : 'info'"
         />
 
