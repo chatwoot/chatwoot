@@ -1,0 +1,6 @@
+<p>Hello <%= @user.name %>,</p>
+
+<p>You are nearing your Monthly Active User (MAU) limit.</p>
+<p>Current usage: <%= @current_mau %> / <%= @limit %></p>
+
+<p><a href="<%= ENV['FRONTEND_URL'] %>/app/accounts/<%= @user.id %>/settings/subscriptions">Manage Subscription</a></p>

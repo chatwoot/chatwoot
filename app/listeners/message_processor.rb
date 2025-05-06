@@ -156,11 +156,12 @@ module MessageProcessor
       if subscription.max_mau + subscription.additional_mau - 10 == usage.mau_count
         accountuser = AccountUser.find_by(account_id: conversation.account_id)
         user = User.find_by(id: accountuser.user_id)
-        AdministratorNotifications::ChannelNotificationsMailer
-          .notify_mau_limit(user, usage.mau_count, subscription.max_mau)
-          .deliver_later
-        Rails.logger.warn("Sended Notification and Email to account id: #{conversation.account_id}")
+
+        SubscriptionNotifierMailer.mau_limit_warning(user, usage.mau_count, subscription.max_mau).deliver_later
+
+        Rails.logger.warn("Sent MAU warning email to #{user.email} for account #{conversation.account_id}")
       end
+
     end
   end
 end
