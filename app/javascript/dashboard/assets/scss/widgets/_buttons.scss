@@ -31,7 +31,7 @@ button {
 }
 
 .button {
-  @apply items-center bg-n-brand px-2.5 text-white dark:text-white inline-flex h-10 mb-0 gap-2 font-medium;
+  @apply items-center bg-primary-green px-2.5 text-white dark:text-white inline-flex h-10 mb-0 gap-2 font-medium;
 
   .button__content {
     @apply w-full whitespace-nowrap overflow-hidden text-ellipsis;
@@ -45,7 +45,7 @@ button {
   &:hover:not(.secondary):not(.success):not(.alert):not(.warning):not(
       .clear
     ):not(.smooth):not(.hollow) {
-    @apply bg-n-brand/80 dark:bg-n-brand/80;
+    @apply bg-primary-green/80 dark:bg-primary-green/80;
   }
 
   &:disabled,
@@ -62,7 +62,7 @@ button {
   }
 
   &.primary {
-    @apply bg-n-brand text-white dark:text-white;
+    @apply bg-primary-green text-white dark:text-white;
   }
 
   &.clear {
@@ -117,7 +117,7 @@ button {
   }
 
   &.hollow {
-    @apply border border-n-brand/40 bg-transparent text-n-blue-text hover:bg-n-brand/20;
+    @apply border border-n-brand/40 bg-transparent text-n-blue-text hover:bg-primary-green/20;
 
     &.secondary {
       @apply text-n-slate-12 border-n-slate-5 hover:bg-n-slate-5;
@@ -138,7 +138,7 @@ button {
 
   // Smooth style
   &.smooth {
-    @apply bg-n-brand/10 dark:bg-n-brand/30 text-n-blue-text hover:bg-n-brand/20 dark:hover:bg-n-brand/40;
+    @apply bg-primary-green/10 dark:bg-primary-green/30 text-n-blue-text hover:bg-primary-green/20 dark:hover:bg-primary-green/40;
 
     &.secondary {
       @apply bg-n-slate-4 text-n-slate-11 hover:text-n-slate-11 hover:bg-n-slate-5;
@@ -158,7 +158,7 @@ button {
   }
 
   &.clear {
-    @apply text-n-blue-text hover:bg-n-brand/10 dark:hover:bg-n-brand/30;
+    @apply text-n-blue-text hover:bg-primary-green/10 dark:hover:bg-primary-green/30;
 
     &.secondary {
       @apply text-n-slate-12 hover:bg-n-slate-4;

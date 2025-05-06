@@ -1212,8 +1212,8 @@ export default {
 }
 
 .tab-button.active {
-  background-color: #fff;
-  color: #1f2937;
+  background-color: #389946;
+  color: white;
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.05);
 }
 
@@ -1314,8 +1314,8 @@ export default {
 .icon-check::after {
   content: '';
   position: absolute;
-  left: 4px;
-  top: 2px;
+  left: 6px;
+  top: 4px;
   width: 5px;
   height: 8px;
   border: solid white;
@@ -1328,7 +1328,7 @@ export default {
 }
 
 .buy-button {
-  background-color: #364152;
+  background-color: #389946;
   color: white;
   border: none;
   border-radius: 0.375rem;
@@ -1341,7 +1341,8 @@ export default {
 }
 
 .buy-button:hover {
-  background-color: #1f2937;
+  background-color: #389946;
+  opacity: 0.7;
 }
 
 @media (max-width: 768px) {

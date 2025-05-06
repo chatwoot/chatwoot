@@ -36,7 +36,7 @@ const showBadge = useMapGetter(props.getterKeys.badge);
       <Icon v-if="icon" :icon="icon" class="size-4" />
       <span
         v-if="showBadge"
-        class="size-2 -top-px ltr:-right-px rtl:-left-px bg-n-brand absolute rounded-full border border-n-solid-2"
+        class="size-2 -top-px ltr:-right-px rtl:-left-px bg-primary-green absolute rounded-full border border-n-solid-2"
       />
     </div>
     <span class="text-sm font-medium leading-5 flex-grow">
