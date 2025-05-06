@@ -23,19 +23,17 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     return;
   }
 
-  if (window.Turbo) {
-    // if this is a Rails Turbo app
-    document.addEventListener('turbo:before-render', event => {
-      // when morphing the page, this typically happens on reload like events
-      // say you update a "Customer" on a form and it reloads the page
-      // We have already added data-turbo-permananent to true. This
-      // will ensure that the widget it preserved
-      // Read more about morphing here: https://turbo.hotwired.dev/handbook/page_refreshes#morphing
-      if (event.detail.renderMethod === 'morph') return;
+  // if this is a Rails Turbo app
+  document.addEventListener('turbo:before-render', event => {
+    // when morphing the page, this typically happens on reload like events
+    // say you update a "Customer" on a form and it reloads the page
+    // We have already added data-turbo-permananent to true. This
+    // will ensure that the widget it preserved
+    // Read more about morphing here: https://turbo.hotwired.dev/handbook/page_refreshes#morphing
+    if (event.detail.renderMethod === 'morph') return;
 
-      restoreWidgetInDOM(event.detail.newBody);
-    });
-  }
+    restoreWidgetInDOM(event.detail.newBody);
+  });
 
   if (window.Turbolinks) {
     document.addEventListener('turbolinks:before-render', event => {
