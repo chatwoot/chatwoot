@@ -6,8 +6,8 @@ permissions:
 
 on:
   push:
-    branches:
-      - fazer-ai/main
+    tags:
+      - '*'
   workflow_dispatch:
 
 env:

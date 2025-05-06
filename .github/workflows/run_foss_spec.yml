@@ -2,8 +2,8 @@ name: Run Chatwoot CE spec
 
 on:
   push:
-    branches:
-      - fazer-ai/main
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:

@@ -2,8 +2,8 @@ name: Frontend Lint & Test
 
 on:
   push:
-    branches:
-      - fazer-ai/main
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
