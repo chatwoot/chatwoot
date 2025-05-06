@@ -27,6 +27,7 @@ if (isLibraryMode) {
 export default defineConfig({
   plugins: plugins,
   build: {
+    chunkSizeWarningLimit: 1000,
     rollupOptions: {
       output: {
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
