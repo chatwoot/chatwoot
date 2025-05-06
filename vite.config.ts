@@ -1,23 +1,5 @@
 /// <reference types="vitest" />
 
-/**
-What's going on with library mode?
-
-Glad you asked, here's a quick rundown:
-
-1. vite-plugin-ruby will automatically bring all the entrypoints like dashbord and widget as input to vite.
-2. vite needs to be in library mode to build the SDK as a single file. (UMD) format and set `inlineDynamicImports` to true.
-3. But when setting `inlineDynamicImports` to true, vite will not be able to handle mutliple entrypoints.
-
-This puts us in a deadlock, now there are two ways around this, either add another separate build pipeline to
-the app using vanilla rollup or rspack or something. The second option is to remove sdk building from the main pipeline
-and build it separately using Vite itself, toggled by an ENV variable.
-
-`BUILD_MODE=library bin/vite build` should build only the SDK and save it to `public/packs/js/sdk.js`
-`bin/vite build` will build the rest of the app as usual. But exclude the SDK.
-
-We need to edit the `asset:precompile` rake task to include the SDK in the precompile list.
-*/
 import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
