@@ -1,9 +1,10 @@
 <script setup>
-import { reactive, computed } from 'vue';
+import { reactive, computed, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
-import { useMapGetter } from 'dashboard/composables/store';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
+import { useAlert } from 'dashboard/composables';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import TextArea from 'dashboard/components-next/textarea/TextArea.vue';
@@ -14,6 +15,7 @@ import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiS
 const emit = defineEmits(['submit', 'cancel']);
 
 const { t } = useI18n();
+const store = useStore();
 
 const formState = {
   uiFlags: useMapGetter('campaigns/getUIFlags'),
@@ -21,10 +23,13 @@ const formState = {
   inboxes: useMapGetter('inboxes/getVoiceInboxes'),
 };
 
+const senderList = ref([]);
+
 const initialState = {
   title: '',
   message: '',
   inboxId: null,
+  senderId: null,
   scheduledAt: null,
   selectedAudience: [],
 };
@@ -35,6 +40,7 @@ const rules = {
   title: { required, minLength: minLength(1) },
   message: { required, minLength: minLength(1) },
   inboxId: { required },
+  senderId: { required },
   scheduledAt: { required },
   selectedAudience: { required },
 };
@@ -64,6 +70,11 @@ const inboxOptions = computed(() =>
   mapToOptions(formState.inboxes.value, 'id', 'name')
 );
 
+const sendersAndBotList = computed(() => [
+  { value: 0, label: t('CAMPAIGN.VOICE.CARD.CAMPAIGN_DETAILS.BOT') },
+  ...mapToOptions(senderList.value, 'id', 'name'),
+]);
+
 const getErrorMessage = (field, errorKey) => {
   const baseKey = 'CAMPAIGN.VOICE.CREATE.FORM';
   return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
@@ -73,6 +84,7 @@ const formErrors = computed(() => ({
   title: getErrorMessage('title', 'TITLE'),
   message: getErrorMessage('message', 'MESSAGE'),
   inbox: getErrorMessage('inboxId', 'INBOX'),
+  sender: getErrorMessage('senderId', 'SENT_BY'),
   scheduledAt: getErrorMessage('scheduledAt', 'SCHEDULED_AT'),
   audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
 }));
@@ -81,6 +93,34 @@ const isSubmitDisabled = computed(() => v$.value.$invalid);
 
 const formatToUTCString = localDateTime =>
   localDateTime ? new Date(localDateTime).toISOString() : null;
+
+const handleInboxChange = async inboxId => {
+  if (!inboxId) {
+    senderList.value = [];
+    return;
+  }
+
+  try {
+    const response = await store.dispatch('inboxMembers/get', { inboxId });
+    senderList.value = response?.data?.payload ?? [];
+  } catch (error) {
+    senderList.value = [];
+    useAlert(
+      error?.response?.message ??
+        t('CAMPAIGN.VOICE.CREATE.FORM.API.ERROR_MESSAGE')
+    );
+  }
+};
+
+watch(
+  () => state.inboxId,
+  newInboxId => {
+    if (newInboxId) {
+      handleInboxChange(newInboxId);
+    }
+  },
+  { immediate: true }
+);
 
 const resetState = () => {
   Object.assign(state, initialState);
@@ -92,6 +132,7 @@ const prepareCampaignDetails = () => ({
   title: state.title,
   message: state.message,
   inbox_id: state.inboxId,
+  sender_id: state.senderId || null,
   scheduled_at: formatToUTCString(state.scheduledAt),
   audience: state.selectedAudience?.map(id => ({
     id,
@@ -139,6 +180,22 @@ const handleSubmit = async () => {
         :has-error="!!formErrors.inbox"
         :placeholder="t('CAMPAIGN.VOICE.CREATE.FORM.INBOX.PLACEHOLDER')"
         :message="formErrors.inbox"
+        class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
+      />
+    </div>
+    
+    <div class="flex flex-col gap-1">
+      <label for="sender" class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('CAMPAIGN.VOICE.CREATE.FORM.SENT_BY.LABEL') }}
+      </label>
+      <ComboBox
+        id="sender"
+        v-model="state.senderId"
+        :options="sendersAndBotList"
+        :has-error="!!formErrors.sender"
+        :disabled="!state.inboxId"
+        :placeholder="t('CAMPAIGN.VOICE.CREATE.FORM.SENT_BY.PLACEHOLDER')"
+        :message="formErrors.sender"
         class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
       />
     </div>
