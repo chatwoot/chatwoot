@@ -65,7 +65,7 @@ watch(() => props.messages.length, scrollToBottom);
           class="max-w-[80%] rounded-lg p-3 text-sm"
           :class="getMessageStyle(message.sender)"
         >
-          <div v-html="formatMessage(message.content)" />
+          <div class="break-words" v-html="formatMessage(message.content)" />
         </div>
       </div>
     </div>
