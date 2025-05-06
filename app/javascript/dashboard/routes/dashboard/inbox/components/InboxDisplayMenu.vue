@@ -145,7 +145,7 @@ export default {
             role="button"
             class="flex rounded-md h-5 w-full items-center justify-between px-1.5 py-0.5 gap-1"
             :class="{
-              'bg-n-brand/10 dark:bg-n-brand/10': activeSort === option.key,
+              'bg-primary-green/10 dark:bg-primary-green/10': activeSort === option.key,
             }"
             @click.stop="onSortOptionClick(option)"
           >
@@ -182,7 +182,7 @@ export default {
             type="checkbox"
             :name="option.key"
             :checked="option.selected"
-            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-n-brand dark:checked:bg-n-brand after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
+            class="m-0 border-[1.5px] shadow border-slate-200 dark:border-slate-600 appearance-none rounded-[4px] w-4 h-4 dark:bg-slate-800 focus:ring-1 focus:ring-slate-100 dark:focus:ring-slate-700 checked:bg-primary-green dark:checked:bg-primary-green after:content-[''] after:text-white checked:after:content-['✓'] after:flex after:items-center after:justify-center checked:border-t checked:border-woot-700 dark:checked:border-woot-300 checked:border-b-0 checked:border-r-0 checked:border-l-0 after:text-center after:text-xs after:font-bold after:relative after:-top-[1.5px]"
             @change="updateDisplayOption(option)"
           />
           <label

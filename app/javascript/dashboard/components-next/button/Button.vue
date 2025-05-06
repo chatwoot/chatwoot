@@ -99,9 +99,10 @@ const computedJustify = computed(() => {
 const STYLE_CONFIG = {
   colors: {
     blue: {
-      solid: 'bg-n-brand text-white hover:brightness-110 outline-transparent',
+      solid:
+        'bg-primary-green text-white hover:brightness-110 outline-transparent',
       faded:
-        'bg-n-brand/10 text-n-blue-text hover:bg-n-brand/20 outline-transparent',
+        'bg-primary-green/10 text-n-blue-text hover:bg-primary-green/20 outline-transparent',
       outline: 'text-n-blue-text outline-n-blue-border',
       ghost: 'text-n-blue-text hover:bg-n-alpha-2 outline-transparent',
       link: 'text-n-blue-text hover:underline outline-transparent',

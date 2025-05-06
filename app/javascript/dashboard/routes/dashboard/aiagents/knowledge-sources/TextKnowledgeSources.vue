@@ -89,7 +89,7 @@ onMounted(() => {
       contents: 'Simpan',
       tooltip: 'Simpan',
       className:
-        'save-btn-summernote bg-n-brand text-white hover:bg-n-brand hover:text-white font-[Inter]',
+        'save-btn-summernote bg-primary-green text-white hover:bg-primary-green hover:text-white font-[Inter]',
       click: function () {
         var markupStr = $('#summernote').summernote('code');
         updateKnowledge({

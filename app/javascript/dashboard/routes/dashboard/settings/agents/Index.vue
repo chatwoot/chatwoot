@@ -150,7 +150,7 @@ const confirmDeletion = () => {
       >
         <template #actions>
           <woot-button
-            class="rounded-md button nice"
+            class="rounded-md button nice !bg-primary-green hover:!bg-primary-green/70"
             icon="add-circle"
             @click="openAddPopup"
           >

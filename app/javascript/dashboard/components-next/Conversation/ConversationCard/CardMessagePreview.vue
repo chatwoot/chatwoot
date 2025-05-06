@@ -55,7 +55,7 @@ const unreadMessagesCount = computed(() => {
       />
       <div
         v-if="unreadMessagesCount > 0"
-        class="inline-flex items-center justify-center rounded-full size-5 bg-n-brand"
+        class="inline-flex items-center justify-center rounded-full size-5 bg-primary-green"
       >
         <span class="text-xs font-semibold text-white">
           {{ unreadMessagesCount }}
