@@ -252,12 +252,33 @@
     },
     "SIDEBAR": {
       "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "COPILOT": "Copilot",
+      "SHOPEE": "Shopee"
     },
     "SHOPEE": {
       "STOCK": "Stock:",
       "VOUCHER": "Voucher",
-      "UNSUPPORTED_CARD": "Unsupported message type"
+      "UNSUPPORTED_CARD": "Unsupported message type",
+      "SEND": "Send",
+      "TABS": {
+        "VOUCHER": "Vouchers",
+        "ORDER": "Orders",
+        "PRODUCT": "Products"
+      },
+      "PRODUCTS": {
+        "LIMITATION": "You can only select {limit} products",
+        "SELECTED_MSG": "{selected}/{limit} selected products",
+        "CLEAR": "Clear",
+        "PRE_ORDER": "Pre-Order",
+        "SEARCH": "Search...",
+        "STOCK": "Stock",
+        "NO_PRICE": "No price"
+      },
+      "VOUCHERS": {
+        "VALID_UNTIL": "Valid until",
+        "MIN_BASKET": "MIN basket",
+        "MAX_DISCOUNT": "(MAX: {value})"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {

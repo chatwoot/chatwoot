@@ -271,8 +271,6 @@ const shouldShowAvatar = computed(() => {
 });
 
 const componentToRender = computed(() => {
-  console.log('contentType', props.contentType);
-
   if (props.isEmailInbox && !props.private) {
     const emailInboxTypes = [MESSAGE_TYPES.INCOMING, MESSAGE_TYPES.OUTGOING];
     if (emailInboxTypes.includes(props.messageType)) return EmailBubble;

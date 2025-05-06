@@ -14,7 +14,7 @@
 #  estimated_shipping_fee :integer
 #  message_to_seller      :string
 #  note                   :string
-#  number                 :string
+#  number                 :string           not null
 #  pay_time               :datetime
 #  payment_method         :string
 #  pickup_done_time       :datetime
@@ -24,7 +24,16 @@
 #  total_amount           :integer
 #  created_at             :datetime         not null
 #  updated_at             :datetime         not null
+#  shop_id                :bigint           not null
+#
+# Indexes
+#
+#  index_shopee_orders_on_number   (number) UNIQUE
+#  index_shopee_orders_on_shop_id  (shop_id)
 #
 class Shopee::Order < ApplicationRecord
   has_many :order_items, class_name: 'Shopee::OrderItem'
+
+  validates :shop_id, presence: true
+  validates :number, presence: true, uniqueness: true
 end

@@ -178,7 +178,7 @@ export default {
 <template>
   <div class="relative items-center w-full p-4">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
-      <div class="flex flex-row justify-between">
+      <div class="flex flex-row justify-between mb-2">
         <Thumbnail
           v-if="showAvatar"
           :src="contact.thumbnail"
@@ -186,12 +186,9 @@ export default {
           :username="contact.name"
           :status="contact.availability_status"
         />
-      </div>
-
-      <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
-        <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
+        <div class="flex-1 ms-2">
           <h3
-            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
+            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12 mb-1"
           >
             {{ contact.name }}
           </h3>
@@ -215,7 +212,9 @@ export default {
             </a>
           </div>
         </div>
+      </div>
 
+      <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
         <p v-if="additionalAttributes.description" class="break-words mb-0.5">
           {{ additionalAttributes.description }}
         </p>

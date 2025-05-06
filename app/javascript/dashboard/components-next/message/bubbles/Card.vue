@@ -21,8 +21,6 @@ export default {
   data() {
     const { contentAttributes } = useMessageContext();
 
-    console.log('CardBubble', contentAttributes.value?.original);
-
     return {
       shopeeData: contentAttributes.value?.original || {},
     };

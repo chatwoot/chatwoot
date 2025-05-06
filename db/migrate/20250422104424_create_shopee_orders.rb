@@ -2,6 +2,7 @@ class CreateShopeeOrders < ActiveRecord::Migration[7.0]
   def change
     create_table :shopee_orders do |t|
       t.timestamps
+      t.bigint :shop_id, null: false
       t.string :number, null: false
       t.string :status
       t.boolean :cod
@@ -23,6 +24,7 @@ class CreateShopeeOrders < ActiveRecord::Migration[7.0]
       t.string :booking_sn
     end
 
+    add_index :shopee_orders, :shop_id
     add_index :shopee_orders, :number, unique: true
   end
 end

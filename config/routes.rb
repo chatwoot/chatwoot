@@ -114,6 +114,16 @@ Rails.application.routes.draw do
                   post :retry
                 end
               end
+              resources :shopee, only: [] do
+                collection do
+                  get :orders
+                  get :vouchers
+                  get :products
+                  post :send_order
+                  post :send_voucher
+                  post :send_product
+                end
+              end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
               resource :participants, only: [:show, :create, :update, :destroy]

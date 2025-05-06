@@ -1124,11 +1124,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   create_table "shopee_items", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shop_id", null: false
     t.string "code", null: false
     t.string "sku", null: false
     t.string "name", null: false
     t.string "status", null: false
+    t.jsonb "meta", default: {}, null: false
     t.index ["code"], name: "index_shopee_items_on_code", unique: true
+    t.index ["shop_id"], name: "index_shopee_items_on_shop_id"
     t.index ["sku"], name: "index_shopee_items_on_sku", unique: true
   end
 
@@ -1150,6 +1153,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   create_table "shopee_orders", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shop_id", null: false
     t.string "number", null: false
     t.string "status"
     t.boolean "cod"
@@ -1170,25 +1174,22 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.datetime "pickup_done_time"
     t.string "booking_sn"
     t.index ["number"], name: "index_shopee_orders_on_number", unique: true
+    t.index ["shop_id"], name: "index_shopee_orders_on_shop_id"
   end
 
   create_table "shopee_vouchers", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "shop_id", null: false
+    t.bigint "voucher_id", null: false
     t.string "code", null: false
     t.string "name", null: false
-    t.integer "usage_quantity"
-    t.integer "current_usage"
     t.datetime "start_time"
     t.datetime "end_time"
-    t.string "voucher_purpose"
-    t.integer "percentage"
-    t.integer "max_price"
-    t.integer "min_basket_price"
-    t.integer "discount_amount"
-    t.string "target_voucher"
-    t.string "usecase"
+    t.jsonb "meta", default: {}
     t.index ["code"], name: "index_shopee_vouchers_on_code", unique: true
+    t.index ["shop_id"], name: "index_shopee_vouchers_on_shop_id"
+    t.index ["voucher_id"], name: "index_shopee_vouchers_on_voucher_id", unique: true
   end
 
   create_table "sla_events", force: :cascade do |t|

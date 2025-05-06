@@ -20,6 +20,12 @@ trigger_inbox_refresh_token_job:
   class: 'Inboxes::RefreshAccessTokensJob'
   queue: scheduled_jobs
 
+# executed At every hour at 30th minute..
+trigger_shopee_sync_jobs:
+  cron: '30 * * * *'
+  class: 'Shopee::SyncJob'
+  queue: scheduled_jobs
+
 # executed At every minute..
 trigger_imap_email_inboxes_job:
   cron: '*/1 * * * *'
