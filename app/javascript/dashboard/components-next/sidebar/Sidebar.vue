@@ -325,6 +325,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.SMS'),
           to: accountScopedRoute('campaigns_sms_index'),
         },
+        {
+          name: 'Voice',
+          label: t('SIDEBAR.VOICE'),
+          to: accountScopedRoute('campaigns_voice_index'),
+        },
       ],
     },
     {

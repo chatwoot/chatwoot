@@ -8,6 +8,7 @@ import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import LiveChatCampaignDetails from './LiveChatCampaignDetails.vue';
 import SMSCampaignDetails from './SMSCampaignDetails.vue';
+import VoiceCampaignDetails from './VoiceCampaignDetails.vue';
 
 const props = defineProps({
   title: {
@@ -19,6 +20,10 @@ const props = defineProps({
     default: '',
   },
   isLiveChatType: {
+    type: Boolean,
+    default: false,
+  },
+  isVoiceType: {
     type: Boolean,
     default: false,
   },
@@ -67,6 +72,12 @@ const campaignStatus = computed(() => {
       ? t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.ENABLED')
       : t('CAMPAIGN.LIVE_CHAT.CARD.STATUS.DISABLED');
   }
+  
+  if (props.isVoiceType) {
+    return props.status === STATUS_COMPLETED
+      ? t('CAMPAIGN.VOICE.CARD.STATUS.COMPLETED')
+      : t('CAMPAIGN.VOICE.CARD.STATUS.SCHEDULED');
+  }
 
   return props.status === STATUS_COMPLETED
     ? t('CAMPAIGN.SMS.CARD.STATUS.COMPLETED')
@@ -108,6 +119,12 @@ const inboxIcon = computed(() => {
           :inbox-name="inboxName"
           :inbox-icon="inboxIcon"
         />
+        <VoiceCampaignDetails
+          v-else-if="isVoiceType"
+          :sender="sender"
+          :inbox-name="inboxName"
+          :inbox-icon="inboxIcon"
+        />
         <SMSCampaignDetails
           v-else
           :inbox-name="inboxName"
@@ -118,7 +135,7 @@ const inboxIcon = computed(() => {
     </div>
     <div class="flex items-center justify-end w-20 gap-2">
       <Button
-        v-if="isLiveChatType"
+        v-if="isLiveChatType || isVoiceType"
         variant="faded"
         size="sm"
         color="slate"

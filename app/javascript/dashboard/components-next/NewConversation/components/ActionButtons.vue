@@ -15,6 +15,7 @@ import WhatsAppOptions from './WhatsAppOptions.vue';
 const props = defineProps({
   attachedFiles: { type: Array, default: () => [] },
   isWhatsappInbox: { type: Boolean, default: false },
+  isVoiceInbox: { type: Boolean, default: false },
   isEmailOrWebWidgetInbox: { type: Boolean, default: false },
   isTwilioSmsInbox: { type: Boolean, default: false },
   messageTemplates: { type: Array, default: () => [] },
@@ -113,6 +114,12 @@ const { onFileUpload } = useFileUpload({
 });
 
 const sendButtonLabel = computed(() => {
+  // For voice inboxes, show "Make a Call" instead of "Send"
+  if (props.isVoiceInbox) {
+    return t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.MAKE_CALL');
+  }
+  
+  // For all other inboxes, show the standard "Send" label
   const keyCode = isEditorHotKeyEnabled('cmd_enter') ? '⌘ + ↵' : '↵';
   return t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.SEND', {
     keyCode,
@@ -157,7 +164,7 @@ useKeyboardEvents(keyboardEvents);
         @send-message="emit('sendWhatsappMessage', $event)"
       />
       <div
-        v-if="!isWhatsappInbox && !hasNoInbox"
+        v-if="!isWhatsappInbox && !isVoiceInbox && !hasNoInbox"
         v-on-click-outside="() => (isEmojiPickerOpen = false)"
         class="relative"
       >
@@ -197,7 +204,7 @@ useKeyboardEvents(keyboardEvents);
         />
       </FileUpload>
       <Button
-        v-if="hasSelectedInbox && !isWhatsappInbox"
+        v-if="hasSelectedInbox && !isWhatsappInbox && !isVoiceInbox"
         icon="i-lucide-signature"
         color="slate"
         size="sm"
@@ -217,6 +224,7 @@ useKeyboardEvents(keyboardEvents);
       />
       <Button
         v-if="!isWhatsappInbox"
+        :icon="isVoiceInbox ? 'i-ri-phone-fill' : undefined"
         :label="sendButtonLabel"
         size="sm"
         class="!text-xs font-medium"

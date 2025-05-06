@@ -21,6 +21,7 @@ import {
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
 import { emitter } from 'shared/helpers/mitt';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -211,6 +212,19 @@ export default {
         // Set App's showCallWidget to true
         if (window.app && window.app.$data) {
           window.app.$data.showCallWidget = true;
+        }
+
+        // IMPORTANT: Redirect to the conversation view
+        if (conversation.id) {
+          const accountId = this.$route.params.accountId;
+          const path = frontendURL(
+            conversationUrl({
+              accountId,
+              id: conversation.id,
+            })
+          );
+          console.log(`Redirecting to conversation path: ${path}`);
+          this.$router.push({ path });
         }
 
         // After a brief delay, force update UI

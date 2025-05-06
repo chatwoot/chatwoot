@@ -3,6 +3,7 @@ import { computed, ref, watch, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import VoiceAPI from 'dashboard/api/channels/voice';
 import ContactAPI from 'dashboard/api/contacts';
 import DashboardAudioNotificationHelper from 'dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper';
@@ -322,7 +323,7 @@ export default {
       }, 300);
     };
 
-    // Accept incoming call
+    // Accept incoming call and redirect to conversation
     const acceptCall = async () => {
       console.log('Accepting incoming call with SID:', incomingCall.value?.callSid);
       
@@ -380,6 +381,19 @@ export default {
             
             // Emit event
             emit('callJoined');
+            
+            // IMPORTANT: Redirect to the conversation view
+            if (conversationId) {
+              const accountId = this.$route.params.accountId;
+              const path = frontendURL(
+                conversationUrl({
+                  accountId,
+                  id: conversationId,
+                })
+              );
+              console.log(`Redirecting to conversation path: ${path}`);
+              this.$router.push({ path });
+            }
           } else {
             throw new Error('Failed to join call via WebRTC or phone');
           }

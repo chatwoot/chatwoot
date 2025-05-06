@@ -37,7 +37,7 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
       id: 1,
       name: 'Jamie Lee',
     },
-    message: 'Hello! 👋 Any questions on pricing? I’m here to help!',
+    message: 'Hello! 👋 Any questions on pricing? I am here to help!',
     campaign_status: 'active',
     enabled: false,
     campaign_type: 'ongoing',
@@ -60,7 +60,8 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
     },
     sender: {
       id: 1,
-      name: 'Chatwoot',
+      name: 'Alexa Rivera',
+      thumbnail: 'AR',
     },
     message: 'Hi! Chatwoot here. Need help setting up? Let me know!',
     campaign_status: 'active',
@@ -88,7 +89,7 @@ export const ONGOING_CAMPAIGN_EMPTY_STATE_CONTENT = [
       name: 'Chris Barlow',
     },
     message:
-      'Hi there! 👋 I’m here for any questions you may have. Let’s chat!',
+      'Hi there! 👋 I am here for any questions you may have. Let us chat!',
     campaign_status: 'active',
     enabled: true,
     campaign_type: 'ongoing',
@@ -166,7 +167,7 @@ export const ONE_OFF_CAMPAIGN_EMPTY_STATE_CONTENT = [
       phone_number: '+29818373149903',
       provider: 'default',
     },
-    message: 'Hello! We’re excited to have your business with us!',
+    message: 'Hello! We are excited to have your business with us!',
     campaign_status: 'active',
     enabled: true,
     campaign_type: 'one_off',
@@ -209,4 +210,115 @@ export const ONE_OFF_CAMPAIGN_EMPTY_STATE_CONTENT = [
     created_at: '2024-10-29T16:14:10.374Z',
     updated_at: '2024-10-30T16:15:03.157Z',
   },
+];
+
+export const VOICE_CAMPAIGN_EMPTY_STATE_CONTENT = [
+  {
+    id: 1,
+    title: 'Signup Confirmation Call',
+    inbox: {
+      id: 10,
+      name: 'PaperLayer Phone Support',
+      channel_type: 'Channel::Voice',
+      avatar_url: '',
+      phone_number: '+14155552671',
+    },
+    message: 'Hello! 👋 Thanks for signing up with PaperLayer. I am calling to confirm your account setup and see if you have any questions about getting started.',
+    campaign_status: 'scheduled',
+    enabled: true,
+    campaign_type: 'voice',
+    scheduled_at: new Date('2024-11-16T20:43:08.000Z').getTime(),
+    audience: [
+      { id: 4, type: 'Label', title: 'Support Customers' },
+      { id: 5, type: 'Label', title: 'Active Users' },
+    ],
+    sender: { 
+      id: 1,
+      name: 'Chris Barlow',
+      thumbnail: 'CB'
+    },
+    created_at: '2024-11-15T13:13:08.496Z',
+    updated_at: '2024-11-15T13:15:38.698Z',
+  },
+  {
+    id: 3,
+    title: 'Support Ticket Follow-Up',
+    inbox: {
+      id: 10,
+      name: 'PaperLayer Phone Support',
+      channel_type: 'Channel::Voice',
+      avatar_url: '',
+      phone_number: '+14155552671',
+    },
+    message: 'Hi, this is PaperLayer support calling to follow up on your recent ticket #12345. Has your issue been resolved to your satisfaction? If not, I can connect you with a specialist right away.',
+    campaign_status: 'completed',
+    enabled: true,
+    campaign_type: 'voice',
+    scheduled_at: new Date('2024-11-10T15:30:00.000Z').getTime(),
+    audience: [
+      { id: 1, type: 'Label', title: 'Enterprise' },
+      { id: 6, type: 'Label', title: 'Premium' },
+    ],
+    sender: { 
+      id: 2,
+      name: 'Sarah Wilson',
+      thumbnail: 'SW'
+    },
+    created_at: '2024-11-10T13:14:00.168Z',
+    updated_at: '2024-11-10T13:15:38.707Z',
+  },
+  {
+    id: 2,
+    title: 'Appointment Reminder',
+    inbox: {
+      id: 10,
+      name: 'PaperLayer Phone Support',
+      channel_type: 'Channel::Voice',
+      avatar_url: '',
+      phone_number: '+14155552671',
+    },
+    message: 'Hello, this is a reminder about your upcoming consultation scheduled for tomorrow at 2:00 PM. Would you like to confirm this appointment or would you prefer to reschedule?',
+    campaign_status: 'scheduled',
+    enabled: true,
+    campaign_type: 'voice',
+    scheduled_at: new Date('2024-11-20T18:00:00.000Z').getTime(),
+    audience: [
+      { id: 7, type: 'Label', title: 'Consultation Clients' },
+      { id: 8, type: 'Label', title: 'New Customers' },
+    ],
+    sender: { 
+      id: 3,
+      name: 'Michael Thompson',
+      thumbnail: 'MT'
+    },
+    created_at: '2024-11-12T09:30:45.123Z',
+    updated_at: '2024-11-12T09:30:45.123Z',
+  },
+  {
+    id: 4,
+    title: 'Customer Feedback Survey',
+    inbox: {
+      id: 10,
+      name: 'PaperLayer Phone Support',
+      channel_type: 'Channel::Voice',
+      avatar_url: '',
+      phone_number: '+14155552671',
+    },
+    message: 'Hello, this is PaperLayer reaching out for your valuable feedback. We noticed you\'ve been using our service for 30 days now. I\'d like to ask a few quick questions about your experience. Your feedback helps us improve our service. Would you have a moment to share your thoughts?',
+    campaign_status: 'scheduled',
+    enabled: true,
+    campaign_type: 'voice',
+    scheduled_at: new Date('2024-11-25T14:15:00.000Z').getTime(),
+    audience: [
+      { id: 9, type: 'Label', title: 'Active 30+ Days' },
+      { id: 10, type: 'Label', title: 'Product Users' },
+    ],
+    sender: { 
+      id: 4,
+      name: 'Jessica Rivera',
+      thumbnail: 'JR'
+    },
+    created_at: '2024-11-18T10:45:23.789Z',
+    updated_at: '2024-11-18T10:45:23.789Z',
+  }
 ];

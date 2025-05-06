@@ -1,5 +1,9 @@
 {
   "CAMPAIGN": {
+    "BADGE": {
+      "ACTIVE": "Active",
+      "COMPLETED": "Completed"
+    },
     "LIVE_CHAT": {
       "HEADER_TITLE": "Live chat campaigns",
       "NEW_CAMPAIGN": "Create campaign",
@@ -132,6 +136,80 @@
           },
           "API": {
             "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      }
+    },
+    "VOICE": {
+      "HEADER_TITLE": "Voice campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "EMPTY_STATE": {
+        "TITLE": "No voice campaigns are available",
+        "SUBTITLE": "Make customer outreach more personal with AI-powered voice calls. Perfect for appointment reminders, verifications, and follow-ups that feel natural. Your AI assistant can adapt to customer responses, gather information, and enrich leads—saving your team valuable time.",
+        "JS_API_DESCRIPTION": "You can trigger voice campaigns programmatically using our JavaScript API:"
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completed",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_BY": "Sent by ",
+          "FROM": " from ",
+          "ON": " on ",
+          "BOT": "Bot"
+        }
+      },
+      "EMPTY_STATE_BADGE": {
+        "ENABLED": "Enabled",
+        "DISABLED": "Disabled"
+      },
+      "DETAILS": {
+        "MESSAGE": "Message",
+        "INBOX": "Inbox",
+        "AUDIENCE": "Audience",
+        "SCHEDULED_AT": "Scheduled at"
+      },
+      "CREATE": {
+        "TITLE": "Create voice campaign",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Enter the title of your voice campaign",
+            "ERROR": "Title is required"
+          },
+          "MESSAGE": {
+            "LABEL": "Call Script",
+            "PLACEHOLDER": "Add the prompt to guide the AI during this call. Be specific about tone, information to gather, and how to handle different responses.",
+            "ERROR": "Call script is required"
+          },
+          "INBOX": {
+            "LABEL": "Voice Inbox",
+            "PLACEHOLDER": "Select voice inbox",
+            "ERROR": "Voice inbox is required"
+          },
+          "SENT_BY": {
+            "LABEL": "Sent by",
+            "PLACEHOLDER": "Select sender",
+            "ERROR": "Sender is required"
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select audience labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "Select when to start the campaign",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Voice campaign created successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
           }
         }

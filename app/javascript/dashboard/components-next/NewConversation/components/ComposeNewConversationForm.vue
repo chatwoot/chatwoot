@@ -68,6 +68,7 @@ const inboxTypes = computed(() => ({
   isWhatsapp: props.targetInbox?.channelType === INBOX_TYPES.WHATSAPP,
   isWebWidget: props.targetInbox?.channelType === INBOX_TYPES.WEB,
   isApi: props.targetInbox?.channelType === INBOX_TYPES.API,
+  isVoice: props.targetInbox?.channelType === INBOX_TYPES.VOICE,
   isEmailOrWebWidget:
     props.targetInbox?.channelType === INBOX_TYPES.EMAIL ||
     props.targetInbox?.channelType === INBOX_TYPES.WEB,
@@ -87,7 +88,7 @@ const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 const validationRules = computed(() => ({
   selectedContact: { required },
   targetInbox: { required },
-  message: { required: requiredIf(!inboxTypes.value.isWhatsapp) },
+  message: { required: requiredIf(!inboxTypes.value.isWhatsapp && !inboxTypes.value.isVoice) },
   subject: { required: requiredIf(inboxTypes.value.isEmail) },
 }));
 
@@ -311,7 +312,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <MessageEditor
-      v-if="!inboxTypes.isWhatsapp && !showNoInboxAlert"
+      v-if="!inboxTypes.isWhatsapp && !inboxTypes.isVoice && !showNoInboxAlert"
       v-model="state.message"
       :message-signature="messageSignature"
       :send-with-signature="sendWithSignature"
@@ -321,7 +322,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     />
 
     <AttachmentPreviews
-      v-if="state.attachedFiles.length > 0"
+      v-if="state.attachedFiles.length > 0 && !inboxTypes.isVoice"
       :attachments="state.attachedFiles"
       @update:attachments="state.attachedFiles = $event"
     />
@@ -329,6 +330,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
     <ActionButtons
       :attached-files="state.attachedFiles"
       :is-whatsapp-inbox="inboxTypes.isWhatsapp"
+      :is-voice-inbox="inboxTypes.isVoice"
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :is-twilio-sms-inbox="inboxTypes.isTwilioSMS"
       :message-templates="whatsappMessageTemplates"
