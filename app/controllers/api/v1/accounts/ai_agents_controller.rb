@@ -1,5 +1,6 @@
 class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   include Api::V1::AiAgentTemplatesHelper
+  before_action :check_max_ai_agents, only: [:create]
   before_action :set_ai_agent, only: %i[show update destroy]
 
   def index
@@ -68,6 +69,10 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def check_max_ai_agents
+    render_error('Maximum number of AI agents reached') unless Current.account.ai_agents.count < Current.account.current_max_ai_agents
+  end
 
   def find_template
     AiAgentTemplate.find_by(id: params[:ai_agent][:template_id]).tap do |template|
