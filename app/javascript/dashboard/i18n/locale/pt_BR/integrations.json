@@ -334,7 +334,21 @@
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
-      "SELECT_ASSISTANT": "Selecione o Assistente"
+      "SELECT_ASSISTANT": "Selecione o Assistente",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Resumir esta conversa",
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o agente de suporte, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo agente de suporte"
+        },
+        "SUGGEST": {
+          "LABEL": "Sugerir uma resposta",
+          "CONTENT": "Analise a pergunta do cliente e elabore uma resposta que responda efetivamente às suas preocupações ou perguntas. Certifique-se de que a resposta seja clara, concisa e forneça informações úteis."
+        },
+        "RATE": {
+          "LABEL": "Avaliar esta conversa",
+          "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        }
+      }
     },
     "PLAYGROUND": {
       "USER": "Você",
