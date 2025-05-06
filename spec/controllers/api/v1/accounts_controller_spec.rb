@@ -119,7 +119,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows an account' do
-        account.update(auto_resolve_duration: 30)
+        account.update(name: 'new name')
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
@@ -130,7 +130,6 @@ RSpec.describe 'Accounts API', type: :request do
         expect(response.body).to include(account.locale)
         expect(response.body).to include(account.domain)
         expect(response.body).to include(account.support_email)
-        expect(response.body).to include(account.auto_resolve_duration.to_s)
         expect(response.body).to include(account.locale)
       end
     end

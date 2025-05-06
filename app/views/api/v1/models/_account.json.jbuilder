@@ -1,4 +1,3 @@
-json.auto_resolve_duration resource.auto_resolve_duration
 json.settings resource.settings
 json.created_at resource.created_at
 if resource.custom_attributes.present?
