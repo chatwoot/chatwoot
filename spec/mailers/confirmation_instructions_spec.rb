@@ -22,11 +22,11 @@ RSpec.describe 'Devise::Mailer' do
     end
 
     it 'uses the user\'s name' do
-      expect(mail.body).to match("Hi #{CGI.escapeHTML(confirmable_user.name)},")
+      expect(mail.body).to match("Сайн байна уу #{CGI.escapeHTML(confirmable_user.name)},")
     end
 
     it 'does not refer to the inviter and their account' do
-      expect(mail.body).not_to match('has invited you to try out Chatwoot!')
+      expect(mail.body).not_to match('хэрэглэгч таныг Digital Garage CRM-д нэвтрэхийг урьж байна.')
       expect(mail.body).to match('We have a suite of powerful tools ready for you to explore.')
     end
 
@@ -40,7 +40,7 @@ RSpec.describe 'Devise::Mailer' do
 
       it 'refers to the inviter and their account' do
         expect(mail.body).to match(
-          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, has invited you to try out Chatwoot."
+          "#{CGI.escapeHTML(inviter_val.name)}, with #{CGI.escapeHTML(account.name)}, хэрэглэгч таныг Digital Garage CRM-д нэвтрэхийг урьж байна."
         )
         expect(mail.body).not_to match('We have a suite of powerful tools ready for you to explore.')
       end

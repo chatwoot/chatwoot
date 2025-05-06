@@ -3,18 +3,18 @@
 <% account_user = @resource&.account_users&.first %>
 
 <% if account_user&.inviter.present? && @resource.unconfirmed_email.blank? %>
-  <p><%= account_user.inviter.name %>, with <%= account_user.account.name %>, has invited you to try out <%= global_config['BRAND_NAME'] || 'Chatwoot' %>.</p>
+  <p><%= account_user.inviter.name %>, <%= account_user.account.name %>-с танд <%= global_config['BRAND_NAME'] || 'Chatwoot' %> туршиж үзэхийг урьж байна.</p>
 <% end %>
 
 <% if @resource.confirmed? %>
-  <p>You can login to your <%= global_config['BRAND_NAME'] || 'Chatwoot' %> account through the link below:</p>
+  <p>Та доорх холбоосоор өөрийн <%= global_config['BRAND_NAME'] || 'Chatwoot' %> бүртгэлд нэвтрэх боломжтой:</p>
 <% else %>
   <% if account_user&.inviter.blank? %>
   <p>
-    Welcome to <%= global_config['BRAND_NAME'] || 'Chatwoot' %>! We have a suite of powerful tools ready for you to explore. Before that we quickly need to verify your email address to know it's really you.
+    <%= global_config['BRAND_NAME'] || 'Chatwoot' %>-д тавтай морилно уу! Үүнээс өмнө таны имэйл хаягийг баталгаажуулах шаардлагатай.
   </p>
   <% end %>
-  <p>Please take a moment and click the link below and activate your account.</p>
+  <p>Доорх холбоос дээр дарж нууц үгээ үүсгэнэ үү</p>
 <% end %>
 
 

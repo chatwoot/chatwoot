@@ -103,6 +103,6 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def brand_name
-    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Chatwoot'
+    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'] || 'Digital Garage CRM'
   end
 end
