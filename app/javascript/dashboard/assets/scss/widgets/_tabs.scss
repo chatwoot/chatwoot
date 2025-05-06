@@ -67,11 +67,11 @@
 
   &.is-active {
     a {
-      @apply border-b border-n-brand text-n-blue-text;
+      @apply border-b border-primary-green text-primary-green;
     }
 
     .badge {
-      @apply bg-n-brand/10 dark:bg-n-brand/20 text-n-blue-text;
+      @apply bg-n-brand/10 dark:bg-n-brand/20 text-primary-green;
     }
   }
 }

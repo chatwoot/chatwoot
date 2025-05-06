@@ -57,7 +57,7 @@ export default {
   }
 
   &:hover {
-    @apply bg-n-brand text-white dark:text-slate-50;
+    @apply bg-primary-green text-white dark:text-slate-50;
   }
 }
 

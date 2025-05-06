@@ -20,7 +20,7 @@ const updateValue = () => {
   <button
     type="button"
     class="relative h-4 transition-colors duration-200 ease-in-out rounded-full w-7 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:ring-offset-n-slate-2 focus:ring-offset-2"
-    :class="modelValue ? 'bg-n-brand' : 'bg-n-alpha-1 dark:bg-n-alpha-2'"
+    :class="modelValue ? 'bg-primary-green' : 'bg-n-alpha-1 dark:bg-n-alpha-2'"
     role="switch"
     :aria-checked="modelValue"
     @click="updateValue"

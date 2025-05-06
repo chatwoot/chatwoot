@@ -137,7 +137,7 @@ export default {
               marginLeft: '1.5px',
             }"
           >
-            <fluent-icon icon="book-open-globe" />
+            <fluent-icon icon="book-open-globe-new" />
           </div>
           <span class="flex-1 line-clamp-1">{{ $t(`SIDEBAR.DOCS`) }}</span>
           <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
