@@ -101,9 +101,13 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
+  # [:is_reaction] : Used to denote if the message is a reaction and differentiate it from a simple reply message
+  # [:is_edited, :previous_content] : Used to indicated edited message and previous content (before edit)
+
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported,
+                                         :is_reaction, :is_edited, :previous_content], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -268,7 +272,7 @@ class Message < ApplicationRecord
   end
 
   def update_contact_activity
-    sender.update(last_activity_at: DateTime.now) if sender.is_a?(Contact)
+    sender.update!(last_activity_at: DateTime.now) if sender.is_a?(Contact)
   end
 
   def update_waiting_since
@@ -276,9 +280,9 @@ class Message < ApplicationRecord
       Rails.configuration.dispatcher.dispatch(
         REPLY_CREATED, Time.zone.now, waiting_since: conversation.waiting_since, message: self
       )
-      conversation.update(waiting_since: nil)
+      conversation.update!(waiting_since: nil)
     end
-    conversation.update(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
+    conversation.update!(waiting_since: created_at) if incoming? && conversation.waiting_since.blank?
   end
 
   def human_response?
@@ -296,7 +300,7 @@ class Message < ApplicationRecord
 
     if valid_first_reply?
       Rails.configuration.dispatcher.dispatch(FIRST_REPLY_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by)
-      conversation.update(first_reply_created_at: created_at, waiting_since: nil)
+      conversation.update!(first_reply_created_at: created_at, waiting_since: nil)
     else
       update_waiting_since
     end
@@ -359,9 +363,9 @@ class Message < ApplicationRecord
   end
 
   def can_notify_via_mail?
-    return unless email_notifiable_message?
-    return unless email_notifiable_channel?
-    return if conversation.contact.email.blank?
+    return false unless email_notifiable_message?
+    return false unless email_notifiable_channel?
+    return false if conversation.contact.email.blank?
 
     true
   end

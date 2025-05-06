@@ -15,7 +15,7 @@ RSpec.describe Webhook do
 
     context 'when webhook is updated' do
       it 'has associated audit log created' do
-        webhook.update(url: 'https://example.com')
+        webhook.update!(url: 'https://example.com')
         expect(Audited::Audit.where(auditable_type: 'Webhook', action: 'update').count).to eq 1
       end
     end

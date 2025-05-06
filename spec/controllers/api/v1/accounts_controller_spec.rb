@@ -119,7 +119,7 @@ RSpec.describe 'Accounts API', type: :request do
 
     context 'when it is an authenticated user' do
       it 'shows an account' do
-        account.update(auto_resolve_duration: 30)
+        account.update!(auto_resolve_duration: 30)
 
         get "/api/v1/accounts/#{account.id}",
             headers: admin.create_new_auth_token,
@@ -141,7 +141,7 @@ RSpec.describe 'Accounts API', type: :request do
     let(:admin) { create(:user, account: account, role: :administrator) }
 
     it 'returns cache_keys as expected' do
-      account.update(auto_resolve_duration: 30)
+      account.update!(auto_resolve_duration: 30)
 
       get "/api/v1/accounts/#{account.id}/cache_keys",
           headers: admin.create_new_auth_token,
@@ -214,7 +214,7 @@ RSpec.describe 'Accounts API', type: :request do
       end
 
       it 'updates onboarding step to invite_team if onboarding step is present in account custom attributes' do
-        account.update(custom_attributes: { onboarding_step: 'account_update' })
+        account.update!(custom_attributes: { onboarding_step: 'account_update' })
         put "/api/v1/accounts/#{account.id}",
             params: params,
             headers: admin.create_new_auth_token,

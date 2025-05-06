@@ -40,7 +40,7 @@ class Api::V1::Accounts::Captain::AssistantResponsesController < Api::V1::Accoun
   end
 
   def destroy
-    @response.destroy
+    @response.destroy!
     head :no_content
   end
 

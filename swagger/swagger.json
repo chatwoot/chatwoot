@@ -989,7 +989,12 @@
             "in": "query",
             "required": true,
             "type": "string",
-            "description": "Typing status, either 'on' or 'off'"
+            "enum": [
+              "on",
+              "recording",
+              "off"
+            ],
+            "description": "Typing status."
           }
         ],
         "responses": {
@@ -6132,6 +6137,10 @@
           "type": "string",
           "description": "The url to which the events will be send"
         },
+        "name": {
+          "type": "string",
+          "description": "The name of the webhook"
+        },
         "subscriptions": {
           "type": "array",
           "items": {
@@ -6729,6 +6738,10 @@
         "url": {
           "type": "string",
           "description": "The url where the events should be sent"
+        },
+        "name": {
+          "type": "string",
+          "description": "The name of the webhook"
         },
         "subscriptions": {
           "type": "array",

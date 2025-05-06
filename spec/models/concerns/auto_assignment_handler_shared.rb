@@ -27,7 +27,7 @@ shared_examples_for 'auto_assignment_handler' do
     end
 
     it 'will not auto assign agent if enable_auto_assignment is false' do
-      inbox.update(enable_auto_assignment: false)
+      inbox.update!(enable_auto_assignment: false)
 
       expect(conversation.reload.assignee).to be_nil
     end

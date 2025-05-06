@@ -132,7 +132,7 @@ RSpec.describe Account, type: :model do
     describe 'when limits are configured for an account' do
       before do
         create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
-        account.update(limits: { captain_documents: 5555, captain_responses: 9999 })
+        account.update!(limits: { captain_documents: 5555, captain_responses: 9999 })
       end
 
       it 'returns limits based on custom attributes' do
@@ -149,7 +149,7 @@ RSpec.describe Account, type: :model do
       end
 
       it 'creates audit logs when account is updated' do
-        account.update(name: 'New Name')
+        account.update!(name: 'New Name')
         expect(Audited::Audit.where(auditable_type: 'Account', action: 'update').count).to eq 1
       end
     end
@@ -159,23 +159,23 @@ RSpec.describe Account, type: :model do
     end
 
     it 'returns max limits from account when enterprise version' do
-      account.update(limits: { agents: 10 })
+      account.update!(limits: { agents: 10 })
       expect(account.usage_limits[:agents]).to eq(10)
     end
 
     it 'returns limits based on subscription' do
-      account.update(limits: { agents: 10 }, custom_attributes: { subscribed_quantity: 5 })
+      account.update!(limits: { agents: 10 }, custom_attributes: { subscribed_quantity: 5 })
       expect(account.usage_limits[:agents]).to eq(5)
     end
 
     it 'returns max limits from global config if account limit is absent' do
-      account.update(limits: { agents: '' })
+      account.update!(limits: { agents: '' })
       expect(account.usage_limits[:agents]).to eq(20)
     end
 
     it 'returns max limits from app limit if account limit and installation config is absent' do
-      account.update(limits: { agents: '' })
-      InstallationConfig.where(name: 'ACCOUNT_AGENTS_LIMIT').update(value: '')
+      account.update!(limits: { agents: '' })
+      InstallationConfig.where(name: 'ACCOUNT_AGENTS_LIMIT').update!(value: '')
 
       expect(account.usage_limits[:agents]).to eq(ChatwootApp.max_limit)
     end

@@ -282,6 +282,20 @@ export const actions = {
       throw new Error(error);
     }
   },
+  setupChannelProvider: async (_, inboxId) => {
+    try {
+      await InboxesAPI.setupChannelProvider(inboxId);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
+  disconnectChannelProvider: async (_, inboxId) => {
+    try {
+      await InboxesAPI.disconnectChannelProvider(inboxId);
+    } catch (error) {
+      throwErrorMessage(error);
+    }
+  },
 };
 
 export const mutations = {

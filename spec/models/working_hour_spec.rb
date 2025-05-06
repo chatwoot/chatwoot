@@ -56,7 +56,7 @@ RSpec.describe WorkingHour do
 
     before do
       Time.zone = 'UTC'
-      inbox.working_hours.find_by(day_of_week: 5).update(open_all_day: true)
+      inbox.working_hours.find_by(day_of_week: 5).update!(open_all_day: true)
       travel_to '18.02.2022 11:00'.to_datetime
     end
 
@@ -74,7 +74,7 @@ RSpec.describe WorkingHour do
 
     before do
       Time.zone = 'UTC'
-      inbox.working_hours.find_by(day_of_week: 5).update(open_all_day: true)
+      inbox.working_hours.find_by(day_of_week: 5).update!(open_all_day: true)
       travel_to '18.02.2022 11:00'.to_datetime
     end
 
@@ -94,7 +94,7 @@ RSpec.describe WorkingHour do
 
     before do
       Time.zone = 'Australia/Sydney'
-      inbox.update(timezone: 'Australia/Sydney')
+      inbox.update!(timezone: 'Australia/Sydney')
       travel_to '10.10.2022 9:00 AEDT'
     end
 

@@ -73,7 +73,7 @@ RSpec.describe Google::RefreshOauthTokenService do
   context 'when refresh token is not present in provider config and access token is expired' do
     it 'throws an error' do
       with_modified_env GOOGLE_OAUTH_CLIENT_ID: SecureRandom.uuid, GOOGLE_OAUTH_CLIENT_SECRET: SecureRandom.hex do
-        google_channel.update(
+        google_channel.update!(
           provider_config: {
             access_token: SecureRandom.hex,
             expires_on: Time.zone.now - 3600

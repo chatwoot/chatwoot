@@ -863,6 +863,9 @@ export default {
       this.isRecorderAudioStopped = !this.isRecordingAudio;
       if (!this.isRecordingAudio) {
         this.resetAudioRecorderInput();
+        this.onTypingOff();
+      } else {
+        this.onRecording();
       }
     },
     toggleAudioRecorderPlayPause() {
@@ -872,6 +875,7 @@ export default {
       if (!this.isRecorderAudioStopped) {
         this.isRecorderAudioStopped = true;
         this.$refs.audioRecorderInput.stopRecording();
+        this.onTypingOff();
       } else if (this.isRecorderAudioStopped) {
         this.$refs.audioRecorderInput.playPause();
       }
@@ -886,6 +890,9 @@ export default {
     },
     onTypingOn() {
       this.toggleTyping('on');
+    },
+    onRecording() {
+      this.toggleTyping('recording');
     },
     onTypingOff() {
       this.toggleTyping('off');
@@ -1012,11 +1019,17 @@ export default {
 
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
+        messagePayload.isRecordedAudio = [];
         this.attachedFiles.forEach(attachment => {
           if (this.globalConfig.directUploadsEnabled) {
             messagePayload.files.push(attachment.blobSignedId);
           } else {
             messagePayload.files.push(attachment.resource.file);
+            if (attachment.isRecordedAudio) {
+              messagePayload.isRecordedAudio.push(
+                attachment.resource.file.name
+              );
+            }
           }
         });
       }
