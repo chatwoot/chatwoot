@@ -73,7 +73,10 @@ class Api::V1::SubscriptionsController < Api::BaseController
 
           payment = create_payment_for_subscription(order_id)
 
-          transaction.update!(payment_url: payment.payment_url)
+          transaction.update!(
+            payment_url: payment.payment_url,
+            expiry_date: payment.expires_at
+          )
 
           render json: { 
             subscription: @subscription, 
@@ -168,7 +171,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
         duitku_order_id: order_id,
         payment_url: response['paymentUrl'],
         payment_method: params[:payment_method],
-        expires_at: Time.now + 1.hour
+        expires_at: Time.now + response['expiryPeriod'].to_i.minute
       )
       return payment
     else
