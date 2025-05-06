@@ -102,9 +102,12 @@ class Message < ApplicationRecord
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
   # [:is_reaction] : Used to denote if the message is a reaction and differentiate it from a simple reply message
+  # [:is_edited, :previous_content] : Used to indicated edited message and previous content (before edit)
+
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :is_reaction], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported,
+                                         :is_reaction, :is_edited, :previous_content], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 

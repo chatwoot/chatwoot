@@ -277,7 +277,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     raise MessageNotFoundError unless find_message_by_source_id(message_id)
 
     update_status if @raw_message.dig(:update, :status).present?
-    update_message_content if @raw_message.dig(:update, :message).present?
+    handle_edited_content if @raw_message.dig(:update, :message).present?
   end
 
   def update_status
@@ -318,15 +318,15 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     true
   end
 
-  def update_message_content
-    message = @raw_message.dig(:update, :message, :editedMessage, :message)
-    if message.blank?
-      Rails.logger.warn 'No valid message content found in the update event'
+  def handle_edited_content
+    @raw_message = @raw_message.dig(:update, :message, :editedMessage)
+    content = message_content
+
+    unless content
+      Rails.logger.warn 'No valid message content found in the edit event'
       return
     end
 
-    content = message[:conversation] || message.dig(:extendedTextMessage, :text)
-
-    @message.update!(content: content) if content.present?
+    @message.update!(content: content, is_edited: true, previous_content: @message.content)
   end
 end

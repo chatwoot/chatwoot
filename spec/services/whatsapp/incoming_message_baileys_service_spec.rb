@@ -726,7 +726,10 @@ describe Whatsapp::IncomingMessageBaileysService do
 
           described_class.new(inbox: inbox, params: params).perform
 
+          original_content = message.content
           expect(message.reload.content).to eq('New message content')
+          expect(message.is_edited).to be(true)
+          expect(message.previous_content).to eq(original_content)
         end
       end
 
