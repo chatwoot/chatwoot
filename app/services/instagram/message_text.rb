@@ -44,7 +44,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
     Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
     Rails.logger.warn("[InstagramUserFetchError]: #{error_message} #{error_code}")
 
-    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+    ChatwootExceptionTracker.new(parsed_response, account: @inbox.account).capture_exception
   end
 
   def base_uri
