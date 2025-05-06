@@ -337,16 +337,16 @@
       "SELECT_ASSISTANT": "Selecione o Assistente",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Resumir esta conversa",
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o agente de suporte, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo agente de suporte"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Sugerir uma resposta",
+          "CONTENT": "Analise a pergunta do cliente e elabore uma resposta que responda efetivamente às suas preocupações ou perguntas. Certifique-se de que a resposta seja clara, concisa e forneça informações úteis."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Avaliar esta conversa",
+          "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
         }
       }
     },
