@@ -215,7 +215,6 @@ watch(
           :placeholder="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.PLACEHOLDER')"
           :message="formErrors.instructions"
           :max-length="20000"
-          class="h-[400px]"
           :message-type="formErrors.instructions ? 'error' : 'info'"
         />
 
