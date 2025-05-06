@@ -242,8 +242,8 @@
           "ERROR": "Por favor, insira um valor válido."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "ID da Conta de Negócios",
-          "PLACEHOLDER": "Por favor, insira o ID da Conta de Negócios obtido do painel do desenvolvedor do Facebook.",
+          "LABEL": "ID da conta do WhatsApp Business",
+          "PLACEHOLDER": "Por favor, insira o ID da conta do WhatsApp Business obtido do painel do desenvolvedor do Facebook.",
           "ERROR": "Por favor, insira um valor válido."
         },
         "WEBHOOK_VERIFY_TOKEN": {
