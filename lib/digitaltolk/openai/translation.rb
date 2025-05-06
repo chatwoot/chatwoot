@@ -9,13 +9,13 @@ class Digitaltolk::Openai::Translation < Digitaltolk::Openai::Base
     Maintain the original meaning and context in the translation.
     Do not shorten or summarize the translated message.
 
-    Response format:
+    Format:
     {
       translated_message: <translated_message>,
       translated_locale: <translated_language_code>
     }
 
-    Important: Return a valid json object, do not include any additional text, explanations, or formatting.
+    Important: Return a valid json object. Do not include any additional text, explanations,  white spaces or formatting.
   ).freeze
 
   def perform(content, target_language = 'Svenska (sv)')

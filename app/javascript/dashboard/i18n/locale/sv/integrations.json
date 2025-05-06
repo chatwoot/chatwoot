@@ -130,6 +130,7 @@
           "NEXT_STEP": "Nästa steg:",
           "SEND_ANYWAY": "Skicka ändå",
           "TRANSLATE": "Översätt svar",
+          "TRANSLATE_ANYWAY": "Hoppa över och översätt svar",
           "SEND_TRANSLATED": "Skicka översatt svar",
           "SEND_ORIGINAL": "Skicka ursprungligt svar"
         },

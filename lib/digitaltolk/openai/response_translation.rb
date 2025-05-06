@@ -25,7 +25,7 @@ class Digitaltolk::Openai::ResponseTranslation < Digitaltolk::Openai::Base
       customer_message_locale: <customer_message_language_code>,
     }
 
-    Important: Return a valid json object, do not include any additional text, explanations, or formatting.
+    Important: Return a valid json object, do not include any additional text, explanations, white spaces or formatting.
   ).freeze
 
   USER_PROMPT = %(

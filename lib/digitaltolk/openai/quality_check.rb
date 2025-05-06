@@ -59,19 +59,17 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
       "passed": <boolean>,
       "detected_language": "<language_of_the_answer>",
       "detected_query_language": "<language_of_the_query>",
-      "using_target_language": "<boolean>",
       "needs_translation": "<boolean>"
     }
 
     Important:
     checks are the combined JSON of all the checks, enclosed by checks key.
     passed is a boolean indicating whether all checks passed.
-    detected_language is the language locale of the answer.
-    detected_query_language is the language locale of the customer query.
-    using_target_language is a boolean indicating whether the detected_language of the answer is in the target language which is %<target_language>s.
+    detected_language is the language code of the answer.
+    detected_query_language is the language code of the customer query.
     needs_translation is a boolean indicating whether the language_of_the_answer is different from language_of_the_query.
     Only return the JSON format.
-    No additional text, explanations, or formatting outside of it.
+    No additional text, explanations, white spaces or formatting outside of it.
   ).freeze
 
   USER_PROMPT = %(

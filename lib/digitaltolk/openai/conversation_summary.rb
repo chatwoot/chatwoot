@@ -11,7 +11,7 @@ class Digitaltolk::Openai::ConversationSummary < Digitaltolk::Openai::Base
     JSON format:
     { summary: <summary>, translated_summary: <translated_summary> }
 
-    Important: Return a json object, do not include any additional text, explanations, or formatting.
+    Important: Return a json object, do not include any additional text, explanations, white spaces or formatting.
   ).freeze
 
   def perform(conversation, target_language = 'Svenska (sv)')

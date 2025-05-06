@@ -129,6 +129,7 @@
           "NEXT_STEP": "Next Step:",
           "SEND_ANYWAY": "Send Response Anyway",
           "TRANSLATE": "Translate Response",
+          "TRANSLATE_ANYWAY": "Skip and Translate Response",
           "SEND_TRANSLATED": "Send Translated Response",
           "SEND_ORIGINAL": "Send Original Response"
         },

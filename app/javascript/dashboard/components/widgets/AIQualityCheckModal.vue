@@ -41,16 +41,20 @@
               $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.REVISE')
             }}
           </woot-button>
-          <woot-button class="small" color-scheme="secondary" v-if="canSendDespiteCheckFailure" @click.prevent="ignoreCheckAndSend">
+          <woot-button class="small" color-scheme="secondary" v-if="canTranslateResponse && canSendDespiteCheckFailure" @click.prevent="ignoreCheckAndSend">
             {{
               $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.SEND_ANYWAY')
             }}
           </woot-button>
         </div>
         <div>
-          <woot-button v-if="canTranslateResponse" class="small" @click.prevent="translateMessage">
+
+          <woot-button v-if="canTranslateResponse && checkPassed" class="small" @click.prevent="translateMessage">
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.NEXT_STEP') }}
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.TRANSLATE') }}
+          </woot-button>
+          <woot-button v-else-if="canTranslateResponse && !checkPassed" class="small" @click.prevent="translateMessage">
+            {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.TRANSLATE_ANYWAY') }}
           </woot-button>
           <woot-button class="small" v-else @click.prevent="ignoreCheckAndSend">
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.NEXT_STEP') }}

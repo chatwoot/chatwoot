@@ -70,25 +70,4 @@ describe Digitaltolk::Openai::QualityCheck do
       end
     end
   end
-
-  describe 'check target_language' do
-    subject { described_class.new }
-    let(:target_language) { 'Swedish' }
-    let(:stubbed_base_response) { {} }
-    let(:stubbed_prompt_response) { {} }
-
-    it 'returns the correct target_language' do
-      subject.perform(conversation, response, target_language)
-      expect(subject.send(:system_prompt).include?(target_language)).to be_truthy
-    end
-
-    context 'when target_language is not Swedish' do
-      let(:target_language) { 'Turkish' }
-
-      it 'returns the correct target_language' do
-        subject.perform(conversation, response, target_language)
-        expect(subject.send(:system_prompt).include?(target_language)).to be_truthy
-      end
-    end
-  end
 end

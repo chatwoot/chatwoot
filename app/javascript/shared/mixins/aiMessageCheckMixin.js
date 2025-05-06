@@ -14,7 +14,7 @@ export default {
       return this.customerCentricityCheck?.passed;
     },
     canSendDespiteCheckFailure() {
-      return !this.answerQualityCheck?.passed && this.customerCentricityPassed && this.languageGrammarPassed;
+      return true;
     },
     answerQualityCheck() {
       return this.checkerObjects?.quality_check;
@@ -39,7 +39,7 @@ export default {
       return this.aiCheckResponse?.needs_translation;
     },
     canShowTranslation(){
-      return this.needsTranslation && this.languageGrammarPassed && this.customerCentricityPassed;
+      return this.needsTranslation;
     }
   },
 };
