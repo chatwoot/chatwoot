@@ -49,4 +49,15 @@ class Transaction < ApplicationRecord
 
   validates :transaction_id, presence: true, uniqueness: true
   validates :package_type, :price, :status, presence: true
+
+  # Custom property
+  def status_payment
+    return 'paid' if status == 'paid'
+    return 'failed' if expiry_date.present? && expiry_date < Time.current
+    'pending'
+  end
+
+  def as_json(options = {})
+    super(options).merge(status_payment: status_payment)
+  end
 end

@@ -133,7 +133,6 @@ class Api::V1::DuitkuController < Api::BaseController
             transaction.update!(
               status: 'paid',
               payment_date: Time.current,
-              expiry_date: subscription.ends_at,
               metadata: notification
             )
           else

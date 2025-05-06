@@ -47,7 +47,7 @@ class Duitku::PaymentService
           end
         end
         
-        parsed_response
+        parsed_response.merge(payload)
       else
         { error: response.body, status: response.code }
       end

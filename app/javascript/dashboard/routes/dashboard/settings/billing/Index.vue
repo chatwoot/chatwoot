@@ -108,7 +108,7 @@ const tableData = computed(() => {
   return subscriptionHistories.value.map(transaction => ({
     package: transaction.package_name,
     duration: transaction.duration_unit,
-    status: transaction.status,
+    status: transaction.status_payment,
     transactionDate: formatUnixDate(
       toUnixTimestamp(transaction.transaction_date),
       'd MMMM yyyy'
