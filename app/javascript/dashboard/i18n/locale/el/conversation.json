@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Φόρτωση πρακτόρων...",
       "ASSIGN_TEAM": "Ανάθεση ομάδας",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στον \"{agentName}\"",
           "FAILED": "Αδυναμία αντιστοίχισης σε πράκτορα. Παρακαλώ δοκιμάστε ξανά."
         },

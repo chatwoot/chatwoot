@@ -43,6 +43,26 @@
         "NAME": "Handoff Count",
         "DESC": "( Total )"
       },
+      "AI_MESSAGE_USAGE": {
+        "NAME": "Penggunaan Pesan AI Rata-Rata",
+        "DESC": "( Total )"
+      },
+      "AI_CREDIT_USE": {
+        "NAME": "Penggunaan Kredit AI"
+      },
+      "AI_MESSAGE_SEND": {
+        "NAME": "Pengiriman Pesan AI"
+      },
+      "HANDOFF_AI_AGENT": {
+        "NAME": "Agen AI"
+      },
+      "HANDOFF_HUMAN_AGENT": {
+        "NAME": "Agen"
+      },
+      "AGENT_HANDOFF_RATE": {
+        "NAME": "Tingkat Serah Terima Agen",
+        "DESC": "( Total )"
+      },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
@@ -425,6 +445,28 @@
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
+    "METRIC": {
+      "TOTAL_CONVERSATIONS": {
+        "LABEL": "No. of Conversations",
+        "TOOLTIP": "Total number of conversations handled by the bot"
+      },
+      "TOTAL_RESPONSES": {
+        "LABEL": "Total Responses",
+        "TOOLTIP": "Total number of responses sent by the bot"
+      },
+      "RESOLUTION_RATE": {
+        "LABEL": "Resolution Rate",
+        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
+      },
+      "HANDOFF_RATE": {
+        "LABEL": "Handoff Rate",
+        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
+      }
+    }
+  },
+
+  "AI_AGENT_REPORTS": {
+    "HEADER": "Laporan AI Agen",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "No. of Conversations",

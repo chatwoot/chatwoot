@@ -1,6 +1,6 @@
 class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::BaseTimeseriesBuilder
   def timeseries
-    grouped_count.each_with_object([]) do |element, arr|
+    grouped_count(group_count_field, distinct: count_distinct).each_with_object([]) do |element, arr|
       event_date, event_count = element
 
       # The `event_date` is in Date format (without time), such as "Wed, 15 May 2024".
@@ -58,7 +58,31 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
     ).distinct
   end
 
-  def grouped_count
+  def scope_for_ai_agent_credit_usage
+    scope.messages
+         .where(sender_type: 'AiAgent', sender_id: account.ai_agents.pluck(:id), created_at: range)
+         .unscope(:order)
+  end
+
+  def scope_for_ai_agent_message_send_count
+    scope.messages
+         .where(sender_type: 'AiAgent', sender_id: account.ai_agents.pluck(:id), created_at: range)
+         .unscope(:order)
+  end
+
+  def scope_for_ai_agent_handoff_count
+    scope.messages
+         .where(sender_type: 'AiAgent', sender_id: account.ai_agents.pluck(:id), created_at: range)
+         .unscope(:order)
+  end
+
+  def scope_for_agent_handoff_count
+    scope.messages
+         .where(sender_type: 'User', sender_id: account.agents.pluck(:id), created_at: range)
+         .unscope(:order)
+  end
+
+  def grouped_count(field = nil, distinct: false)
     @grouped_values = object_scope.group_by_period(
       group_by,
       :created_at,
@@ -66,6 +90,28 @@ class V2::Reports::Timeseries::CountReportBuilder < V2::Reports::Timeseries::Bas
       range: range,
       permit: %w[day week month year hour],
       time_zone: timezone
-    ).count
+    )
+
+    if field && distinct
+      @grouped_values.distinct.count(field)
+    elsif field
+      @grouped_values.count(field)
+    else
+      @grouped_values.count
+    end
+  end
+
+  def group_count_field
+    case metric
+    when 'ai_agent_handoff_count', 'agent_handoff_count'
+      :sender_id
+    end
+  end
+
+  def count_distinct
+    %w[
+      ai_agent_handoff_count
+      agent_handoff_count
+    ].include?(metric)
   end
 end

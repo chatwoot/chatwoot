@@ -33,8 +33,9 @@ class ActionCableListener < BaseListener
   def message_created(event)
     message, account = extract_message_and_account(event)
     conversation = message.conversation
-    tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
-
+    tokens = user_tokens(account, conversation.inbox.members) +
+             contact_tokens(conversation.contact_inbox, message)
+    MessageProcessor.process_contact_message(message) if message.sender_type == 'Contact'
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
 
@@ -42,7 +43,6 @@ class ActionCableListener < BaseListener
     message, account = extract_message_and_account(event)
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
-
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
   end
 
@@ -57,7 +57,7 @@ class ActionCableListener < BaseListener
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-
+    MessageProcessor.increment_mau_usage(conversation)
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 

@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Agenten werden geladen...",
       "ASSIGN_TEAM": "Team zuweisen",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konversations-ID {conversationId} zugewiesen zu \"{agentName}\"",
           "FAILED": "Agent konnte nicht zugewiesen werden. Bitte versuche es erneut."
         },

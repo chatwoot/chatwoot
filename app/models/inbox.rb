@@ -67,9 +67,11 @@ class Inbox < ApplicationRecord
   has_many :members, through: :inbox_members, source: :user
   has_many :conversations, dependent: :destroy_async
   has_many :messages, dependent: :destroy_async
+  has_one :agent_bot_inbox, -> { order(created_at: :asc) }, class_name: 'AgentBotInbox'
+  has_many :agent_bot_inboxes, class_name: 'AgentBotInbox', dependent: :destroy_async
 
-  has_one :agent_bot_inbox, dependent: :destroy_async
-  has_one :agent_bot, through: :agent_bot_inbox
+  has_one :ai_agent, through: :agent_bot_inbox
+
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
 

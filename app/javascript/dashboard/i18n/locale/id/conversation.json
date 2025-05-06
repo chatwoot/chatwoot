@@ -121,6 +121,8 @@
       "AGENTS_LOADING": "Sedang memuat agen...",
       "ASSIGN_TEAM": "Tugaskan tim",
       "API": {
+        "INBOX_AI_AGENTS": "Agen AI",
+        "INBOX_AI_AGENTS_SUB_TEXT": "Kelola agen AI dari kotak masuk ini",
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
@@ -139,7 +141,7 @@
       "MESSAGE_SIGN_TOOLTIP": "Tanda tangan pesan",
       "ENABLE_SIGN_TOOLTIP": "Aktifkan tanda tangan",
       "DISABLE_SIGN_TOOLTIP": "Nonaktifkan tanda tangan",
-      "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Canned Response.",
+      "MSG_INPUT": "Shift + enter untuk baris baru. Mulailah dengan '/' untuk memilih Balasan Cepat.",
       "PRIVATE_MSG_INPUT": "Shift + enter untuk baris baru. Ini hanya akan terlihat oleh Agen",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Tanda tangan pesan tidak dikonfigurasi, harap konfigurasikan di pengaturan profil.",
       "CLICK_HERE": "Klik di sini untuk memperbarui",

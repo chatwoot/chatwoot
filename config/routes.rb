@@ -29,13 +29,14 @@ Rails.application.routes.draw do
     resource :slack_uploads, only: [:show]
   end
 
-  if Rails.env.development?
-    get '/rails/info/routes', to: 'rails/info#routes'
-  end
+  get '/rails/info/routes', to: 'rails/info#routes' if Rails.env.development?
 
   get '/api', to: 'api#index'
   namespace :api, defaults: { format: 'json' } do
     namespace :v1 do
+      resources :accounts, only: [] do
+        resources :quick_replies, only: [:index, :create, :update, :destroy], module: :accounts
+      end
       # ----------------------------------
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
@@ -100,11 +101,12 @@ Rails.application.routes.draw do
           end
           resource :bulk_actions, only: [:create]
           resources :ai_agents, only: [:index, :create, :show, :update, :destroy] do
-            delete :avatar, on: :member
-            patch :update_followups, on: :member
-
             collection do
               get :ai_agent_templates
+            end
+
+            member do
+              patch :update_followups, to: 'ai_agent_followups#update'
             end
 
             resources :knowledge_sources, only: [:index], controller: 'knowledge_sources' do
@@ -165,6 +167,7 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
+
           resources :conversations, only: [:index, :create, :show, :update] do
             collection do
               get :meta
@@ -249,6 +252,12 @@ Rails.application.routes.draw do
             delete :avatar, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
+            collection do
+              delete :destroy
+              patch :update
+            end
+          end
+          resources :inbox_bot_members, only: [:create, :show], param: :inbox_id do
             collection do
               delete :destroy
               patch :update
@@ -380,6 +389,7 @@ Rails.application.routes.draw do
           end
         end
         resources :inbox_members, only: [:index]
+        resources :inbox_bot_members, only: [:index]
         resources :labels, only: [:create, :destroy]
         namespace :integrations do
           resource :dyte, controller: 'dyte', only: [] do
@@ -413,6 +423,7 @@ Rails.application.routes.draw do
               get :conversation_traffic
               get :bot_metrics
               get :credit_usage
+              get :ai_agent_metrics
             end
           end
         end

@@ -10,7 +10,11 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
+<<<<<<< HEAD
+ActiveRecord::Schema[7.0].define(version: 2025_05_05_002526) do
+=======
+ActiveRecord::Schema[7.0].define(version: 2025_04_24_073922) do
+>>>>>>> radya-omnichannel
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -102,11 +106,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
 
   create_table "agent_bot_inboxes", force: :cascade do |t|
     t.integer "inbox_id"
-    t.integer "agent_bot_id"
     t.integer "status", default: 0
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.integer "account_id"
+    t.integer "ai_agent_id"
+    t.index ["ai_agent_id"], name: "index_agent_bot_inboxes_on_ai_agent_id"
   end
 
   create_table "agent_bots", force: :cascade do |t|
@@ -149,6 +154,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.datetime "updated_at", null: false
     t.string "name"
     t.jsonb "template", default: {}, null: false
+    t.jsonb "store_config", default: {}, null: false
   end
 
   create_table "ai_agents", force: :cascade do |t|
@@ -169,6 +175,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.bigint "template_id"
     t.string "description"
     t.string "chat_flow_id"
+    t.jsonb "flow_data", default: {}, null: false
   end
 
   create_table "applied_slas", force: :cascade do |t|
@@ -827,6 +834,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.string "store_id", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.jsonb "store_config", default: {}, null: false
     t.index ["ai_agent_id"], name: "index_knowledge_sources_on_ai_agent_id", unique: true
   end
 
@@ -1026,6 +1034,15 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.integer "sequence_number"
   end
 
+  create_table "quick_replies", force: :cascade do |t|
+    t.string "name"
+    t.text "content"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_quick_replies_on_account_id"
+  end
+
   create_table "related_categories", force: :cascade do |t|
     t.bigint "category_id"
     t.bigint "related_category_id"
@@ -1119,22 +1136,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
-  end
-
-  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "max_mau", default: 0, null: false
-    t.integer "max_ai_agents", default: 0, null: false
-    t.integer "max_ai_responses", default: 0, null: false
-    t.integer "max_human_agents", default: 0, null: false
-    t.text "available_channels", default: [], array: true
-    t.string "support_level"
-    t.integer "duration_days"
-    t.decimal "monthly_price", precision: 16, scale: 2, null: false
-    t.decimal "annual_price", precision: 16, scale: 2, null: false
-    t.boolean "is_active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "subscription_topups", force: :cascade do |t|
@@ -1370,6 +1371,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_070218) do
   add_foreign_key "knowledge_source_texts", "knowledge_sources"
   add_foreign_key "knowledge_source_websites", "knowledge_sources"
   add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "quick_replies", "accounts"
   add_foreign_key "subscription_payments", "subscriptions"
   add_foreign_key "subscription_topups", "subscriptions"
   add_foreign_key "subscription_usage", "subscriptions"

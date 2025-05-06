@@ -81,6 +81,21 @@ class AdministratorNotifications::ChannelNotificationsMailer < ApplicationMailer
     send_mail_with_liquid(to: admin_emails, subject: subject) and return
   end
 
+  def notify_mau_limit(user, current_mau, limit)
+    return unless smtp_config_set_or_development?
+
+    subject = "Warning: MAU Limit Nearing Limit:(#{current_mau}/#{limit})"
+    @action_url = "#{ENV.fetch('FRONTEND_URL')}/app/accounts/#{user.id}/settings/subscriptions"
+
+    @meta = {
+      account_name: user.name,
+      current_mau: current_mau,
+      limit: limit
+    }
+
+    send_mail_with_liquid(to: [user.email], subject: subject) and return
+  end
+
   private
 
   def admin_emails

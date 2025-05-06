@@ -33,6 +33,7 @@ import globalConfig from 'shared/store/globalConfig';
 import inboxAssignableAgents from './modules/inboxAssignableAgents';
 import inboxes from './modules/inboxes';
 import inboxMembers from './modules/inboxMembers';
+import inboxBotMembers from './modules/inboxBotMembers';
 import integrations from './modules/integrations';
 import labels from './modules/labels';
 import macros from './modules/macros';
@@ -51,6 +52,7 @@ import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
 import captainInboxes from './captain/inboxes';
 import billing from './modules/billing';
+import quickReplies from './modules/quickReplies';
 const plugins = [];
 
 export default createStore({
@@ -88,6 +90,7 @@ export default createStore({
     inboxAssignableAgents,
     inboxes,
     inboxMembers,
+    inboxBotMembers,
     integrations,
     labels,
     macros,
@@ -106,6 +109,7 @@ export default createStore({
     captainResponses,
     captainInboxes,
     billing,
+    quickReplies,
   },
   plugins,
 });

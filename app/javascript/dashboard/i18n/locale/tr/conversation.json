@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Temsilciler Yükleniyor...",
       "ASSIGN_TEAM": "Takım ata",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Sohbet kimliği {conversationId} \"{agentName}\" tarafından atanmış",
           "FAILED": "Temsilci atanamadı. Lütfen tekrar deneyin."
         },

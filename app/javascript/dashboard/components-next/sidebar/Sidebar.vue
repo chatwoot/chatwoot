@@ -156,6 +156,12 @@ const menuItems = computed(() => {
       },
     },
     {
+      name: 'Quick Reply',
+      label: t('SIDEBAR.QUICK_REPLY'), 
+      icon: 'i-lucide-reply', 
+      to: accountScopedRoute('quick_reply_manage'),
+    },
+    {
       name: 'Conversation',
       label: t('SIDEBAR.CONVERSATIONS'),
       icon: 'i-lucide-message-circle',
@@ -335,6 +341,11 @@ const menuItems = computed(() => {
           to: accountScopedRoute('conversation_reports'),
         },
         ...reportRoutes.value,
+        {
+          name: 'Reports AI Agent',
+          label: t('SIDEBAR.REPORTS_AI_AGENT'),
+          to: accountScopedRoute('ai_agent__reports'),
+        },
         {
           name: 'Reports CSAT',
           label: t('SIDEBAR.CSAT'),

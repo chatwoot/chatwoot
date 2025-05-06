@@ -53,8 +53,7 @@ export default {
   },
   mounted() {
     this.setDefaults();
-    this.fetchAiAgents()
-    this.fetchSelectedAiAgents()
+    this.fetchAiAgents();
   },
   methods: {
     setDefaults() {
@@ -62,6 +61,7 @@ export default {
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
+      this.fetchSelectedAiAgents();
     },
     async fetchAttachedAgents() {
       try {
@@ -79,6 +79,14 @@ export default {
     handleEnableAutoAssignment() {
       this.updateInbox();
     },
+    handleAiAgentSelection() {
+      if (this.enableAutoAssignment) {
+        useAlert(this.$t('INBOX_MGMT.SETTINGS_POPUP.DISABLE_AUTO_ASSIGNMENT_FIRST'));
+        this.selectedAiAgents = []; 
+        return;
+  }
+    },
+
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
       this.isAgentListUpdating = true;
@@ -111,27 +119,40 @@ export default {
     },
     async fetchAiAgents() {
       try {
-        const items = await aiAgents.getAiAgents()
+        const items = await aiAgents.getAiAgents();
         this.aiAgentList = (items?.data || []).map(e => ({
           id: e.id,
           name: e.name,
-        }))
+        }));
       } catch (e) {
-        useAlert('Gagal mendapatkan data Agen AI')
+        useAlert('Gagal mendapatkan data Agen AI');
       }
     },
     async fetchSelectedAiAgents() {
       try {
-        await new Promise(r => setTimeout(1000, r))
-        this.selectedAiAgents = []
+        const response = await this.$store.dispatch('inboxBotMembers/get', {
+          inboxId: this.inbox.id,
+        });
+        const {
+          data: { payload: inboxBotMembers },
+        } = response;
+        this.selectedAiAgents = inboxBotMembers;
       } catch (e) {
+        useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
       }
     },
     async updateAiAgents() {
-      const aiAgentListId = this.selectedAiAgents.map(el => el.id);
+      const aiAgentListId = this.selectedAiAgents
+        ? [this.selectedAiAgents.id]
+        : [];
+
+      console.log('🔥 [UpdateAiAgents] Called', aiAgentListId);
       this.isAiAgentListUpdating = true;
       try {
-        console.log('aiAgentListId', aiAgentListId)
+        await this.$store.dispatch('inboxBotMembers/create', {
+          inboxId: this.inbox.id,
+          agentBotList: aiAgentListId,
+        });
         useAlert(this.$t('AGENT_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('AGENT_MGMT.EDIT.API.ERROR_MESSAGE'));
@@ -163,15 +184,13 @@ export default {
         :options="aiAgentList"
         track-by="id"
         label="name"
-        multiple
-        :close-on-select="false"
-        :clear-on-select="false"
-        hide-selected
-        placeholder="Pick some"
+        :close-on-select="true"
+        :clear-on-select="true"
+        placeholder="Pick one"
         selected-label
         :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
         :deselect-label="$t('FORMS.MULTISELECT.ENTER_TO_REMOVE')"
-        @select="v$.selectedAgents.$touch"
+        @select="handleAiAgentSelection"
       />
 
       <woot-submit-button
@@ -180,7 +199,7 @@ export default {
         @click="updateAiAgents"
       />
     </SettingsSection>
-    
+
     <SettingsSection
       :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS')"
       :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_AGENTS_SUB_TEXT')"
@@ -220,6 +239,7 @@ export default {
             type="checkbox"
             @change="handleEnableAutoAssignment"
           />
+
           <label for="enableAutoAssignment">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.AUTO_ASSIGNMENT') }}
           </label>

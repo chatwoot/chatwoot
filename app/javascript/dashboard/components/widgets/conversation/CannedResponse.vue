@@ -13,27 +13,28 @@ export default {
   emits: ['replace'],
   computed: {
     ...mapGetters({
-      cannedMessages: 'getCannedResponses',
+      quickReplies: 'quickReplies/quickReplies', 
     }),
     items() {
-      return this.cannedMessages.map(cannedMessage => ({
-        label: cannedMessage.short_code,
-        key: cannedMessage.short_code,
-        description: cannedMessage.content,
+      return this.quickReplies.map(reply => ({
+        label: reply.name,   
+        key: reply.name,
+        description: reply.content, 
       }));
     },
   },
   watch: {
     searchKey() {
-      this.fetchCannedResponses();
+      this.fetchQuickReplies();
     },
   },
   mounted() {
-    this.fetchCannedResponses();
+    this.fetchQuickReplies();
   },
   methods: {
-    fetchCannedResponses() {
-      this.$store.dispatch('getCannedResponse', { searchKey: this.searchKey });
+    fetchQuickReplies() {
+      const keyword = this.searchKey.startsWith('/') ? this.searchKey.slice(1) : this.searchKey;
+      this.$store.dispatch('quickReplies/get', { search: keyword });
     },
     handleMentionClick(item = {}) {
       this.$emit('replace', item.description);
@@ -42,7 +43,6 @@ export default {
 };
 </script>
 
-<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <MentionBox
     v-if="items.length"

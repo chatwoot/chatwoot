@@ -2,7 +2,7 @@ require 'httparty'
 
 class AiAgents::FlowiseService
   include HTTParty
-  base_uri 'https://ai.radyalabs.id/api/v1'
+  base_uri ENV.fetch('FLOWISE_API_URL', 'https://ai.radyalabs.id/api/v1')
 
   class << self
     def load_chat_flow(name:, flow_data:, is_public: false, deployed: false, type: 'CHATFLOW')
@@ -21,6 +21,23 @@ class AiAgents::FlowiseService
       )
 
       raise "Error loading chat flow: #{response.code} #{response.message}" unless response.success?
+
+      response.parsed_response
+    end
+
+    def save_as_chat_flow(id:, name:, flow_data:)
+      raise ArgumentError, 'Template cannot be nil' if flow_data.nil?
+
+      response = put(
+        "/chatflows/#{id}",
+        body: {
+          'name' => name,
+          'flowData' => flow_data.to_json
+        }.to_json,
+        headers: headers
+      )
+
+      raise "Error saving chat flow: #{response.code} #{response.message}" unless response.success?
 
       response.parsed_response
     end
@@ -55,8 +72,16 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
+    def upsert_document_store(store_config)
+      response = post('/document-store/vectorstore/insert', body: store_config.to_json, headers: headers)
+
+      raise "Error upsert document store: #{response.code} #{response.message}" unless response.success?
+
+      response.parsed_response
+    end
+
     def add_document_loader(store_id:, loader_id:, splitter_id:, name:, content:)
-      body = build_document_store_body(store_id, loader_id, splitter_id: splitter_id, name: name, content: content)
+      body = document_loader_body(store_id, loader_id, splitter_id: splitter_id, name: name, content: content)
 
       save_loader = post(
         '/document-store/loader/save',
@@ -89,34 +114,38 @@ class AiAgents::FlowiseService
 
     private
 
-    def build_document_store_body(store_id, loader_id, splitter_id:, name:, content:)
-      specific_loader_config = specific_loader_config(loader_id, content)
+    def document_loader_body(store_id, loader_id, splitter_id:, name:, content:)
+      body = base_body(store_id, loader_id, name, content)
+      body.merge!(splitter_body(splitter_id)) if splitter_id.present?
+      body.to_json
+    end
 
-      body = {
+    def base_body(store_id, loader_id, name, content)
+      {
         'loaderId' => loader_id,
         'storeId' => store_id,
         'loaderName' => name,
-        'loaderConfig' => {
-          'textSplitter' => '',
-          'metadata' => {}.to_json,
-          'omitMetadataKeys' => ''
-        }.merge(specific_loader_config)
+        'loaderConfig' => default_loader_config.merge(specific_loader_config(loader_id, content))
       }
+    end
 
-      if splitter_id.present?
-        specific_splitter_name = specific_splitter_name(splitter_id)
+    def default_loader_config
+      {
+        'textSplitter' => '',
+        'metadata' => {}.to_json,
+        'omitMetadataKeys' => ''
+      }
+    end
 
-        body.merge!(
-          'splitterId' => splitter_id,
-          'splitterConfig' => {
-            'chunkSize' => 1000,
-            'chunkOverlap' => 200
-          },
-          'splitterName' => specific_splitter_name
-        )
-      end
-
-      body.to_json
+    def splitter_body(splitter_id)
+      {
+        'splitterId' => splitter_id,
+        'splitterConfig' => {
+          'chunkSize' => 1000,
+          'chunkOverlap' => 200
+        },
+        'splitterName' => specific_splitter_name(splitter_id)
+      }
     end
 
     def specific_loader_config(loader_id, content)
@@ -150,19 +179,8 @@ class AiAgents::FlowiseService
       {
         'Content-Type' => 'application/json',
         'Accept' => 'application/json',
-        'Authorization' => 'Bearer d3YPZUOXkeq3xHy105Km7SeGerjsATPQ7M9sAFT9lSE='
+        'Authorization' => "Bearer #{ENV.fetch('FLOWISE_API_KEY', nil)}"
       }
     end
   end
 end
-{
-  'loaderId': 'plainText',
-  'storeId': 'e0ce4608-3645-4b05-8293-63729b1b4d68',
-  'loaderName': 'Fixing run payroll untuk status karyawan bukan pegawai',
-  'loaderConfig': {
-    'text': 'Fixing run payroll untuk status karyawan bukan pegawai',
-    'textSplitter': '',
-    'metadata': '',
-    'omitMetadataKeys': ''
-  }
-}

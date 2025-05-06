@@ -254,7 +254,8 @@
     "SWITCH": "Ganti",
     "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Percakapan",
-    "INBOX": "My Inbox",
+    "INBOX": "Platform Terhubung",
+    "QUICK_REPLY": "Balas Cepat",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Disebutkan",
     "PARTICIPATING_CONVERSATIONS": "Berpartisipasi",
@@ -296,6 +297,7 @@
     "ONE_OFF": "Sekali",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
+    "REPORTS_AI_AGENT": "Agen AI",
     "REPORTS_AGENT": "Agen",
     "REPORTS_LABEL": "Label",
     "REPORTS_INBOX": "Kotak Masuk",
@@ -320,7 +322,8 @@
       "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "DOCS": "Baca dokumen"
+    "DOCS": "Baca dokumen",
+    "AI_AGENTS": "Agen AI"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Pembayaran",

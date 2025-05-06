@@ -1,6 +1,7 @@
 {
   "LOGIN": {
-    "TITLE": "Login to Chatwoot",
+    "TITLE": "JANGKAU.AI",
+    "SUBTITLE": "Welcome, please login using your \nemail and password.",
     "EMAIL": {
       "LABEL": "E-pasts",
       "PLACEHOLDER": "piemers{'@'}firmasnosaukums.com",

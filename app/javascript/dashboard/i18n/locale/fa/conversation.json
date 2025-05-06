@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "بارگذاری اپراتور ها...",
       "ASSIGN_TEAM": "تیم را تعیین کنید",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "شناسه مکالمه {conversationId} به \"{agentName}\" اختصاص داده شد",
           "FAILED": "اپراتور تعیین نشد. لطفا دوباره تلاش کنید."
         },

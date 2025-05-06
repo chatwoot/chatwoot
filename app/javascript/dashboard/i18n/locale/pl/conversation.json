@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Ładowanie agentów...",
       "ASSIGN_TEAM": "Przypisz zespół",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konwersacja o identyfikatorze {conversationId} przypisana do \"{agentName}\"",
           "FAILED": "Nie można przypisać agenta. Spróbuj ponownie."
         },

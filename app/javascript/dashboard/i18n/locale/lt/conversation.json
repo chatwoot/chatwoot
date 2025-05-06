@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "Agentai užkraunami...",
       "ASSIGN_TEAM": "Priskirti komandą",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Pokalbis id {conversationId} priskirtas \"{agentName}\"",
           "FAILED": "Nepavyko priskirti agento. Prašau, pabandykite dar kartą."
         },

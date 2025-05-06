@@ -121,7 +121,9 @@
       "AGENTS_LOADING": "正在加载客服代表...",
       "ASSIGN_TEAM": "分配一个团队",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "对话 ID {conversationId} 已分配给 \"{agentName}\"",
           "FAILED": "无法分配客服，请再试。"
         },

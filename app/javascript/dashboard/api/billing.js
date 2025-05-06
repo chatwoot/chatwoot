@@ -2,7 +2,7 @@
 
 import ApiClient from './ApiClient';
 
-class BillingAPI extends ApiClient{
+class BillingAPI extends ApiClient {
   constructor() {
     super('subscriptions', { accountScoped: true });
   }
@@ -23,7 +23,7 @@ class BillingAPI extends ApiClient{
     user_id,
     payment_method,
     billing_cycle,
-    qty
+    qty,
   }) {
     const requestData = {
       id,
@@ -33,18 +33,13 @@ class BillingAPI extends ApiClient{
       user_id,
       payment_method,
       billing_cycle,
-      qty
+      qty,
     };
 
     return axios.post(this.url, requestData);
   }
 
-  createTopup({
-    subscription_id,
-    topup_type,
-    amount,
-    payment_method
-  }) {
+  createTopup({ subscription_id, topup_type, amount, payment_method }) {
     const requestData = {
       topup: {
         topup_type,
@@ -56,6 +51,6 @@ class BillingAPI extends ApiClient{
 
     return axios.post(`${this.url}/${subscription_id}/topup`, requestData);
   }
-};
+}
 
 export default new BillingAPI();

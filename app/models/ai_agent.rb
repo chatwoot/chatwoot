@@ -6,6 +6,7 @@
 #  context_limit      :integer          default(10)
 #  control_flow_rules :boolean          default(FALSE), not null
 #  description        :string
+#  flow_data          :jsonb            not null
 #  history_limit      :integer          default(20)
 #  llm_model          :string           default("gpt-4o")
 #  message_await      :integer          default(5)
@@ -26,10 +27,19 @@ class AiAgent < ApplicationRecord
   has_many :ai_agent_selected_labels, dependent: :destroy
   has_many :labels, through: :ai_agent_selected_labels
   has_many :ai_agent_followups, dependent: :destroy
+  has_many :agent_bot_inboxes, dependent: :nullify
   has_one :knowledge_source, dependent: :destroy
 
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
+
+  def push_event_data(_inbox = nil)
+    {
+      id: id,
+      name: name,
+      type: 'agent_bot'
+    }
+  end
 
   def as_detailed_json
     as_json(json_options).transform_keys { |key| map_key(key) }

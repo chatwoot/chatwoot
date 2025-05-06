@@ -129,7 +129,9 @@
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
       "API": {
-        "AGENT_ASSIGNMENT": {
+        "INBOX_AI_AGENTS": "AI Agents",
+"INBOX_AI_AGENTS_SUB_TEXT": "Manage AI agents from this inbox",
+"AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
           "FAILED": "Couldn't assign agent. Please try again."
         },
@@ -147,7 +149,7 @@
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
-      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
+      "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Quick Reply.",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "CLICK_HERE": "Click here to update",
