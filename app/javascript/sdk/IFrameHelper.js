@@ -82,6 +82,7 @@ export const IFrameHelper = {
 
     addClasses(widgetHolder, holderClassName);
     widgetHolder.id = 'cw-widget-holder';
+    widgetHolder.dataset.turboPermanent = true;
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
