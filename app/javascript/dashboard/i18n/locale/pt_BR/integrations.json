@@ -406,15 +406,18 @@
         },
         "NAME": {
           "LABEL": "Nome",
-          "PLACEHOLDER": "Digite o nome do assistente"
+          "PLACEHOLDER": "Digite o nome do assistente",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Digite a descrição do assistente"
+          "PLACEHOLDER": "Digite a descrição do assistente",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
-          "PLACEHOLDER": "Digite o nome do produto"
+          "PLACEHOLDER": "Digite o nome do produto",
+          "ERROR": "O nome do produto é obrigatório"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Mensagem de boas-vindas",
