@@ -1,4 +1,4 @@
-import { h, createCustomElement } from 'vue';
+import { h, defineCustomElement } from 'vue';
 
 const ChatButton = {
   name: 'ChatButton',
@@ -25,4 +25,4 @@ const ChatButton = {
   },
 };
 
-export const buttonElement = createCustomElement(ChatButton);
+export const buttonElement = defineCustomElement(ChatButton);
