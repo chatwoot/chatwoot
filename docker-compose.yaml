@@ -2,18 +2,10 @@ version: '3'
 
 services:
   base: &base
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        BUNDLE_WITHOUT: ''
-        EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
-        RAILS_SERVE_STATIC_FILES: 'false'
-    tty: true
-    stdin_open: true
-    image: chatwoot:development
-    env_file: .env
+    image: chatwoot/chatwoot:latest
+    env_file: .env ## Change this file for customized env variables
+    volumes:
+      - /data/storage:/app/storage
 
   rails:
     <<: *base
@@ -89,17 +81,3 @@ services:
       - redis:/data/redis
     ports:
       - '6379:6379'
-
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - 1025:1025
-      - 8025:8025
-
-volumes:
-  postgres:
-  redis:
-  packs:
-  node_modules:
-  cache:
-  bundle:
