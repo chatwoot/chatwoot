@@ -1,34 +1,25 @@
-import { h, defineCustomElement } from 'vue';
+import { defineCustomElement } from 'vue';
 
-// Import dashboard styles
 import '../dashboard/assets/scss/app.scss';
 import 'vue-multiselect/dist/vue-multiselect.css';
-// Import floating-vue styles from dashboard.js
 import 'floating-vue/dist/style.css';
 
-const ChatButton = {
-  name: 'ChatButton',
-  props: {
-    label: {
-      type: String,
-      default: 'Click me',
-    },
-  },
-  render() {
-    return h(
-      'button',
-      {
-        class: 'cha-button',
-        onClick: this.handleClick,
-      },
-      this.label
-    );
-  },
-  methods: {
-    handleClick() {
-      // console.log('Button clicked');
-    },
-  },
-};
+import store from 'dashboard/store';
+import constants from 'dashboard/constants/globals';
+import axios from 'axios';
+import createAxios from 'dashboard/helper/APIHelper';
+import commonHelpers from 'dashboard/helper/commons';
+
+import ChatButton from '../ui/ChatButton.vue';
+
+commonHelpers();
+window.WootConstants = constants;
+window.axios = createAxios(axios);
 
 export const buttonElement = defineCustomElement(ChatButton);
+
+// eslint-disable-next-line no-underscore-dangle
+window.__CHATWOOT_STORE__ = store;
+customElements.define('chat-button', buttonElement);
+
+export { store, ChatButton };
