@@ -24,6 +24,7 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
+const uiMode = process.env.BUILD_MODE === 'ui';
 const isTestMode = process.env.TEST === 'true';
 
 const vueOptions = {
@@ -38,9 +39,37 @@ let plugins = [ruby(), vue(vueOptions)];
 
 if (isLibraryMode) {
   plugins = [];
+} else if (uiMode) {
+  plugins = [vue()];
 } else if (isTestMode) {
   plugins = [vue(vueOptions)];
 }
+
+let lib = undefined;
+if (isLibraryMode) {
+  lib = {
+    entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
+    formats: ['iife'], // IIFE format for single file
+    name: 'sdk',
+  };
+} else if (uiMode) {
+  lib = {
+    entry: path.resolve(__dirname, './app/javascript/entrypoints/ui.js'),
+    formats: ['iife'], // IIFE format for single file
+    name: 'ui',
+  };
+}
+
+const chunkBuilder = chunkInfo => {
+  if (chunkInfo.name === 'sdk') {
+    return 'js/sdk.js';
+  }
+
+  if (chunkInfo.name === 'ui') {
+    return `js/ui.js`;
+  }
+  return '[name].js';
+};
 
 export default defineConfig({
   plugins: plugins,
@@ -49,27 +78,16 @@ export default defineConfig({
       output: {
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
-        ...(isLibraryMode
+        ...(isLibraryMode || uiMode
           ? {
               dir: 'public/packs',
-              entryFileNames: chunkInfo => {
-                if (chunkInfo.name === 'sdk') {
-                  return 'js/sdk.js';
-                }
-                return '[name].js';
-              },
+              entryFileNames: chunkBuilder,
             }
           : {}),
-        inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
+        inlineDynamicImports: isLibraryMode || uiMode, // Disable code-splitting for SDK
       },
     },
-    lib: isLibraryMode
-      ? {
-          entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
-          formats: ['iife'], // IIFE format for single file
-          name: 'sdk',
-        }
-      : undefined,
+    lib,
   },
   resolve: {
     alias: {
