@@ -10,7 +10,7 @@ class BotListener
     return unless active_conversation
 
     failure_reason = pre_check_failure_reason
-    return bot_failure(failure_reason) if failure_reason
+    return send_reply_failure(failure_reason) if failure_reason
 
     send_messages
   end
@@ -74,57 +74,55 @@ class BotListener
       chat_flow_id: ai_agent.chat_flow_id
     )
 
-    return bot_failure('Failed to send message! Please try again later.') unless send_message.success?
+    return send_reply_failure('Failed to send message! Please try again later.') unless send_message.success?
 
     usage.increment_ai_responses
     Rails.logger.info("🤖 AI Response: #{send_message.body}")
 
     response = send_message.parsed_response
+    message, is_handover = get_message_content(response)
 
-    if response.dig('json', 'is_handover')
-      process_handover(response['json'])
-    else
-      send_reply(response['text'])
-    end
+    send_reply(message, is_handover: is_handover)
   end
 
-  def send_reply(content)
-    message_created(content)
+  def send_reply(content, is_handover: false)
+    message_content = is_handover ? handover_processing(content) : content
+
+    message_created(message_content)
+    send_log_reply(is_handover: is_handover)
   rescue StandardError => e
     Rails.logger.error("❌ Failed to save AI reply: #{e.message}")
   end
 
-  def bot_failure(reason)
+  def send_reply_failure(reason)
     Rails.logger.error("❌ Bot failure: #{reason}")
-    send_reply(reason)
+    send_reply(reason, is_handover: false)
   end
 
-  def process_handover(data)
-    Rails.logger.warn("🔁 #{data} for conversation #{@conversation.id}")
-
-    to_handover(data)
-  end
-
-  def to_handover(data)
+  def handover_processing(content)
     agent_available = find_available_agent
 
     @conversation.update!(assignee_id: agent_available.id) if agent_available
-    message_content = get_message_content(@conversation.inbox_id, data)
-
-    message_created(message_content)
-
-    Rails.logger.info("🧑‍💼 Handover completed: Conversation #{@conversation.id} assigned to Agent #{agent_available.id}")
-  rescue StandardError => e
-    Rails.logger.error("❌ Failed to process handover: #{e.message}")
+    agent_available ? content : 'No available agents to take over the conversation.'
   end
 
-  def get_message_content(agent_available, data)
-    if agent_available
-      data['answer'] || 'Agent will take over the conversation.'
+  def send_log_reply(is_handover: false)
+    if is_handover
+      Rails.logger.info("🧑‍💼 Handover completed: Conversation #{@conversation.id} assigned to Agent!")
     else
-      Rails.logger.info("❌ No available agents for inbox #{@inbox_id}")
-      'No available agents to take over the conversation.'
+      Rails.logger.info('🤖 Bot completed to reply message')
     end
+  end
+
+  def get_message_content(response)
+    is_handover = response.dig('json', 'is_handover')
+    message = if is_handover
+                response['json']['answer'] || 'Agent will take over the conversation.'
+              else
+                response['text']
+              end
+
+    [message, is_handover]
   end
 
   def find_available_agent
@@ -167,9 +165,9 @@ class BotListener
   def notify_mau_threshold_reached(usage)
     account_user = AccountUser.find_by(account_id: @account_id)
     user = User.find_by(id: account_user.user_id)
-    AdministratorNotifications::ChannelNotificationsMailer
-      .notify_mau_limit(user, usage.mau_count, subscription.max_mau)
-      .deliver_later
+
+    SubscriptionNotifierMailer.mau_limit_warning(user, usage.mau_count, subscription.max_mau).deliver_later
+
     Rails.logger.warn("Sent Notification and Email to account id: #{@account_id}")
   end
 
