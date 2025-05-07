@@ -5,9 +5,13 @@ import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
 import ConversationSidebar from './ConversationSidebar.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import CallDialog from 'dashboard/routes/dashboard/conversation/contact/CallDialog.vue';
 
 export default {
   components: {
+    CallDialog,
     ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
@@ -36,13 +40,21 @@ export default {
   },
   emits: ['contactPanelToggle'],
   data() {
-    return { activeIndex: 0 };
+    return { activeIndex: 0, showCallModal: false };
   },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
       dashboardApps: 'dashboardApps/getRecords',
+      currentUser: 'getCurrentUser',
+      activeCall: 'getCallState',
     }),
+    sender() {
+      return {
+        name: this.currentUser.name,
+        thumbnail: this.currentUser.avatar_url,
+      };
+    },
     dashboardAppTabs() {
       return [
         {
@@ -62,6 +74,15 @@ export default {
     },
   },
   watch: {
+    activeCall: {
+      immediate: true,
+      handler(roomId) {
+        console.log('ROOM CHANGED', roomId);
+        if (!roomId) {
+          this.showCallModal = false;
+        }
+      },
+    },
     'currentChat.inbox_id': {
       immediate: true,
       handler(inboxId) {
@@ -78,8 +99,42 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
+
+    emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
+
   methods: {
+    generateJitsiRoomId(length = 16) {
+      const chars =
+        'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+      let roomId = '';
+      for (let i = 0; i < length; i++) {
+        roomId += chars.charAt(Math.floor(Math.random() * chars.length));
+      }
+      return roomId;
+    },
+    closeCall() {
+      this.showCallModal = false;
+      this.$store.dispatch('endCall', {
+        chat_id: this.currentChat.id,
+        room_id: this.activeCall.room_id,
+      });
+      console.log('showCallModal', this.showCallModal);
+    },
+    async startCall() {
+      if (this.activeCall) return;
+
+      const roomId = this.generateJitsiRoomId();
+
+      const call = await this.$store.dispatch('createCall', {
+        chat_id: this.currentChat.id,
+        room_id: roomId,
+        sender: this.sender,
+      });
+
+      this.showCallModal = true;
+      console.log('startCall', this.currentChat.id);
+    },
     fetchLabels() {
       if (!this.currentChat.id) {
         return;
@@ -141,6 +196,15 @@ export default {
         v-if="showContactPanel"
         :current-chat="currentChat"
         @toggle-contact-panel="onToggleContactPanel"
+      />
+      <CallDialog
+        v-if="showCallModal"
+        :agent-id="currentUser.id"
+        :display-name="currentUser.name"
+        :email="currentUser.email"
+        :room-id="activeCall.room_id"
+        :jwt="activeCall.jwt"
+        @close="closeCall"
       />
     </div>
     <DashboardAppFrame

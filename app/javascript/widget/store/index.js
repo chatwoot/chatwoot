@@ -11,6 +11,7 @@ import globalConfig from 'shared/store/globalConfig';
 import message from 'widget/store/modules/message';
 import campaign from 'widget/store/modules/campaign';
 import article from 'widget/store/modules/articles';
+import calls from 'widget/store/modules/calls';
 
 export default createStore({
   modules: {
@@ -25,5 +26,6 @@ export default createStore({
     message,
     campaign,
     article,
+    calls,
   },
 });

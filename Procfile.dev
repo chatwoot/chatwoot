@@ -1,6 +1,7 @@
-backend: DEBUG=0 bin/rails s -p 3000 
+backend: DEBUG=1 bin/rails s -p 3000 
 # https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
 
-worker: RUBY_DEBUG_OPEN=1 dotenv bundle exec sidekiq -C config/sidekiq.yml
+worker: RUBY_DEBUG_OPEN=0 dotenv bundle exec sidekiq -C config/sidekiq.yml
 
 vite: bin/vite dev
+# vite build --watch
