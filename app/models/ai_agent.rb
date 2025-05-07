@@ -33,12 +33,34 @@ class AiAgent < ApplicationRecord
   validates :name, :system_prompts, :welcoming_message, presence: true
   validates :timezone, presence: true, inclusion: { in: ActiveSupport::TimeZone.all.map(&:name) }
 
+  accepts_nested_attributes_for :ai_agent_selected_labels, allow_destroy: true
+
   def push_event_data(_inbox = nil)
     {
       id: id,
       name: name,
       type: 'agent_bot'
     }
+  end
+
+  def self.add_ai_agent(params, template, chat_flow, document_store)
+    agent = Current.account.ai_agents.new(
+      params.merge(
+        system_prompts: template.system_prompt,
+        welcoming_message: template.welcoming_message,
+        flow_data: chat_flow['flow_data'],
+        chat_flow_id: chat_flow['id']
+      )
+    )
+
+    agent.build_knowledge_source(
+      name: document_store['name'],
+      store_id: document_store['id'],
+      store_config: chat_flow['store_config']
+    )
+
+    agent.save!
+    agent
   end
 
   def as_detailed_json
