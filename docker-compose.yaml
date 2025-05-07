@@ -8,11 +8,11 @@ services:
       args:
         BUNDLE_WITHOUT: ''
         EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'development'
+        RAILS_ENV: 'production'
         RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
-    image: chatwoot:development
+    image: chatwoot/chatwoot:latest
     env_file: .env
 
   rails:
@@ -34,17 +34,9 @@ services:
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
       - postgres
       - redis
-      - mailhog
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
