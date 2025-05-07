@@ -10,6 +10,7 @@ import { useDarkMode } from 'widget/composables/useDarkMode';
 import IntegrationCard from './template/IntegrationCard.vue';
 import CalEventCard from './template/CalEventCard.vue';
 import CalEventConfirmationCard from './template/CalEventConfirmationCard.vue';
+import CallingEventCard from './template/CallingEventCard.vue';
 
 export default {
   name: 'AgentMessageBubble',
@@ -23,6 +24,7 @@ export default {
     IntegrationCard,
     CalEventCard,
     CalEventConfirmationCard,
+    CallingEventCard
   },
   props: {
     message: { type: String, default: null },
@@ -74,6 +76,9 @@ export default {
     isCalEvent() {
       return this.contentType === 'cal_event';
     },
+    isCallingEvent() {
+      return this.contentType === 'calling_event';
+    },
     isCalEventConfirmation() {
       return this.contentType === 'cal_event_confirmation';
     },
@@ -116,6 +121,14 @@ export default {
         v-dompurify-html="formatMessage(message, false)"
         class="message-content text-slate-900 dark:text-slate-50"
       />
+      
+      <CallingEventCard
+        v-if="isCallingEvent"
+        :call-status="messageContentAttributes.call_status"
+        :call-start-time="messageContentAttributes.call_start_time"
+        :message-id="messageId"
+      />
+
       <EmailInput
         v-if="isTemplateEmail"
         :message-id="messageId"
