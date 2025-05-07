@@ -406,15 +406,18 @@
         },
         "NAME": {
           "LABEL": "பெயர்",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "The product name is required"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",
