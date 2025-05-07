@@ -44,7 +44,8 @@
           "PLACEHOLDER": "Please select inboxes to assign to the agent",
           "VALIDATION_ERROR": "Invalid input"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Add Agent",
+        "SKIP": "Skip this step"
       },
       "API": {
         "SUCCESS_MESSAGE": "Agent added successfully",

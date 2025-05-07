@@ -2,6 +2,7 @@
 
 require_relative 'boot'
 
+require 'debug/open_nonstop' if ENV['DEBUG']
 require 'rails/all'
 require 'debug/open_nonstop' if ENV['DEBUG']
 
