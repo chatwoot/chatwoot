@@ -151,7 +151,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.string "name"
     t.jsonb "template", default: {}, null: false
     t.jsonb "store_config", default: {}, null: false
-    t.string "handover_prompt"
+    t.text "handover_prompt"
     t.text "system_prompt_rules"
   end
 
