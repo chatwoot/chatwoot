@@ -18,8 +18,6 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     restart: always
@@ -33,40 +31,16 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
-
-  vite:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
-    ports:
-      - '3036:3036' # Vite dev server
-    environment:
-      - NODE_OPTIONS=--max_old_space_size=2048
-      - VITE_DEV_SERVER_HOST=0.0.0.0
-      - NODE_ENV=development
-      - RAILS_ENV=development
-    entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
 
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5432:5432'
+      - '127.0.0.1:5432:5432'
     volumes:
-      - postgres:/data/postgres
+      - /data/postgres:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=chatwoot_production
       - POSTGRES_USER=postgres
@@ -78,14 +52,6 @@ services:
     command: ['sh', '-c', 'redis-server --requirepass "$REDIS_PASSWORD"']
     env_file: .env
     volumes:
-      - redis:/data/redis
+      - /data/redis:/data
     ports:
-      - '6379:6379'
-
-volumes:
-  node_modules:
-  packs:
-  cache:
-  bundle:
-  postgres:
-  redis:
+      - '127.0.0.1:6379:6379'
