@@ -38,4 +38,4 @@ remove_stale_redis_keys_job.rb:
 process_stale_contacts_job:
   cron: '30 04 * * *'
   class: 'Internal::ProcessStaleContactsJob'
-  queue: scheduled_jobs
+  queue: housekeeping
