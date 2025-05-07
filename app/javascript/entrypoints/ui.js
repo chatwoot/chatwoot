@@ -1,5 +1,11 @@
 import { h, defineCustomElement } from 'vue';
 
+// Import dashboard styles
+import '../dashboard/assets/scss/app.scss';
+import 'vue-multiselect/dist/vue-multiselect.css';
+// Import floating-vue styles from dashboard.js
+import 'floating-vue/dist/style.css';
+
 const ChatButton = {
   name: 'ChatButton',
   props: {
