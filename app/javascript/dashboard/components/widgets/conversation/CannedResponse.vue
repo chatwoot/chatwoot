@@ -2,7 +2,7 @@
 import { mapGetters } from 'vuex';
 import MentionBox from '../mentions/MentionBox.vue';
 import Modal from 'dashboard/components/Modal.vue';
-import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import { CHAR_LENGTH_WARNING } from 'dashboard/components/widgets/WootWriter/constants.js';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
@@ -13,7 +13,7 @@ import {
 } from '@chatwoot/utils';
 
 export default {
-  components: { MentionBox, Modal, WootSubmitButton },
+  components: { MentionBox, Modal, NextButton },
   props: {
     searchKey: {
       type: String,
@@ -237,10 +237,10 @@ export default {
           <button type="button" class="button clear" @click.prevent="closeModal">
             {{ $t('ONBOARDING.CANNED_RESPONSES.CANCEL') }}
           </button>
-          <WootSubmitButton
-            :button-text="$t('ONBOARDING.CANNED_RESPONSES.CONFIRM')"
+          <NextButton
+            :label="$t('ONBOARDING.CANNED_RESPONSES.CONFIRM')"
             :disabled="!isFormValid || disableSubmitButton()"
-            :loading="false"
+            :is-loading="false"
             @click.prevent="submitVariables"
           />
         </div>

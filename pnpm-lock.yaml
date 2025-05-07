@@ -89,7 +89,7 @@ importers:
         specifier: ^12.0.0
         version: 12.0.0(typescript@5.6.2)
       activestorage:
-        specifier: ^5.2.6
+        specifier: ^5.2.8
         version: 5.2.8
       axios:
         specifier: ^1.8.2
@@ -101,7 +101,7 @@ importers:
         specifier: ~4.4.4
         version: 4.4.4
       color2k:
-        specifier: ^2.0.2
+        specifier: ^2.0.3
         version: 2.0.3
       company-email-validator:
         specifier: ^1.1.0
@@ -116,7 +116,7 @@ importers:
         specifier: 2.21.1
         version: 2.21.1
       date-fns-tz:
-        specifier: ^1.3.3
+        specifier: ^1.3.8
         version: 1.3.8(date-fns@2.21.1)
       dompurify:
         specifier: 3.2.4
@@ -215,7 +215,7 @@ importers:
         specifier: ^3.1.17
         version: 3.1.17
       vue-virtual-scroller:
-        specifier: ^2.0.0-beta.8
+        specifier: 2.0.0-beta.8
         version: 2.0.0-beta.8(vue@3.5.12(typescript@5.6.2))
       vue3-click-away:
         specifier: ^1.2.4
@@ -261,7 +261,7 @@ importers:
         specifier: ^3.2.0
         version: 3.2.0(eslint@8.57.1)
       '@size-limit/file':
-        specifier: ^8.2.4
+        specifier: ^8.2.6
         version: 8.2.6(size-limit@8.2.6)
       '@vitest/coverage-v8':
         specifier: 3.0.5
@@ -330,7 +330,7 @@ importers:
         specifier: ^1.85.1
         version: 1.89.2
       size-limit:
-        specifier: ^8.2.4
+        specifier: ^8.2.6
         version: 8.2.6
       tailwindcss:
         specifier: ^3.4.13
@@ -2219,8 +2219,8 @@ packages:
     resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
     engines: {node: '>=16'}
 
-  caniuse-lite@1.0.30001651:
-    resolution: {integrity: sha512-9Cf+Xv1jJNe1xPZLGuUXLNkE1BoDkqRqYyFJ9TDYSqhduqA4hu4oR9HluGoWYQC/aj8WHjsGVV+bwkh0+tegRg==}
+  caniuse-lite@1.0.30001717:
+    resolution: {integrity: sha512-auPpttCq6BDEG8ZAuHJIplGw6GODhjw+/11e7IjpnYCxZcW/ONgPs0KVBJ0d1bY3e2+7PRe5RCLyP+PfwVgkYw==}
 
   capital-case@1.0.4:
     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
@@ -7375,7 +7375,7 @@ snapshots:
   autoprefixer@10.4.20(postcss@8.4.47):
     dependencies:
       browserslist: 4.23.3
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001717
       fraction.js: 4.3.7
       normalize-range: 0.1.2
       picocolors: 1.0.1
@@ -7430,14 +7430,14 @@ snapshots:
 
   browserslist@4.23.0:
     dependencies:
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001717
       electron-to-chromium: 1.4.783
       node-releases: 2.0.14
       update-browserslist-db: 1.0.16(browserslist@4.23.0)
 
   browserslist@4.23.3:
     dependencies:
-      caniuse-lite: 1.0.30001651
+      caniuse-lite: 1.0.30001717
       electron-to-chromium: 1.5.13
       node-releases: 2.0.18
       update-browserslist-db: 1.1.0(browserslist@4.23.3)
@@ -7487,7 +7487,7 @@ snapshots:
 
   camelcase@8.0.0: {}
 
-  caniuse-lite@1.0.30001651: {}
+  caniuse-lite@1.0.30001717: {}
 
   capital-case@1.0.4:
     dependencies:

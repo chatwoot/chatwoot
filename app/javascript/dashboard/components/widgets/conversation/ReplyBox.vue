@@ -419,7 +419,6 @@ export default {
     currentChat(conversation, oldConversation) {
       const {
         can_reply: canReply,
-        can_reply_by_custom_message: canReplyByCustom,
       } = conversation;
 
       if (oldConversation && oldConversation.id !== conversation.id) {
