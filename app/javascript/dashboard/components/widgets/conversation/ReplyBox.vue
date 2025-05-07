@@ -66,6 +66,12 @@ export default {
     WootMessageEditor,
   },
   mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
+  props: {
+    isPrivateNoteOnly: {
+      type: Boolean,
+      default: false,
+    },
+  },
   emits: ['update:popoutReplyBox', 'togglePopout'],
   setup() {
     const {
@@ -102,7 +108,7 @@ export default {
       recordingAudioState: '',
       recordingAudioDurationText: '',
       isUploading: false,
-      replyType: REPLY_EDITOR_MODES.REPLY,
+      replyType: REPLY_EDITOR_MODES.NOTE,
       mentionSearchKey: '',
       hasSlashCommand: false,
       bccEmails: '',
