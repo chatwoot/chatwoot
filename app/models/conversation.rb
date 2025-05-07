@@ -114,6 +114,13 @@ class Conversation < ApplicationRecord
 
   delegate :auto_resolve_duration, to: :account
 
+  def self.least_loaded_agent(inbox_id, member_ids)
+    where(assignee_id: member_ids, inbox_id: inbox_id, status: :open)
+      .group(:assignee_id)
+      .order(Arel.sql('COUNT(*) ASC'))
+      .pick(:assignee_id)
+  end
+
   def can_reply?
     channel = inbox&.channel
 

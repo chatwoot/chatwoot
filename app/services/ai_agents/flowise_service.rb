@@ -5,6 +5,19 @@ class AiAgents::FlowiseService
   base_uri ENV.fetch('FLOWISE_API_URL', 'https://ai.radyalabs.id/api/v1')
 
   class << self
+    def send_message(question:, session_id:, chat_flow_id:)
+      post(
+        "/internal-prediction/#{chat_flow_id}",
+        body: {
+          'question' => question,
+          'overrideConfig' => {
+            'sessionId' => session_id
+          }
+        }.to_json,
+        headers: headers
+      )
+    end
+
     def load_chat_flow(name:, flow_data:, is_public: false, deployed: false, type: 'CHATFLOW')
       raise ArgumentError, 'Template cannot be nil' if flow_data.nil?
 
