@@ -17,27 +17,12 @@ services:
 
   rails:
     <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
       - postgres
       - redis
-      - vite
-      - mailhog
-      - sidekiq
     ports:
       - '127.0.0.1:3000:3000'
-    env_file: .env
     environment:
-      - VITE_DEV_SERVER_HOST=vite
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
@@ -45,20 +30,13 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: always
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
     depends_on:
       - postgres
       - redis
-      - mailhog
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -66,6 +44,7 @@ services:
       - REDIS_URL=redis://redis:6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
 
   vite:
     <<: *base
