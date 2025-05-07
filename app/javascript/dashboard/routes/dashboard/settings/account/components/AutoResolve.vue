@@ -85,7 +85,6 @@ const toggleAutoResolve = async () => {
           <!-- allow 10 mins to 999 days -->
           <DurationInput
             v-model="duration"
-            :disabled="!isEnabled"
             min="10"
             max="1439856"
             class="w-full"
@@ -101,7 +100,6 @@ const toggleAutoResolve = async () => {
         <TextArea
           v-model="message"
           class="w-full"
-          :disabled="!isEnabled"
           :placeholder="
             t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_PLACEHOLDER')
           "
