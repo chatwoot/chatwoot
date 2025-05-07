@@ -1,4 +1,6 @@
 <script>
+import { JITSI_CONFIG } from '../../../shared/constants/jitsi';
+
 export default {
   name: 'JitsiCall',
   props: {
@@ -47,8 +49,7 @@ export default {
         }
 
         const script = document.createElement('script');
-        const domain = 'localhost:8443';
-        script.src = `https://${domain}/external_api.js`;
+        script.src = `https://${JITSI_CONFIG.domain}/external_api.js`;
         script.onload = resolve;
         document.head.appendChild(script);
       });
@@ -71,12 +72,7 @@ export default {
         interfaceConfigOverwrite: {
           SHOW_JITSI_WATERMARK: false,
           SHOW_WATERMARK_FOR_GUESTS: false,
-          TOOLBAR_BUTTONS: [
-            'microphone',
-            'camera',
-            'hangup',
-            'chat',
-          ],
+          TOOLBAR_BUTTONS: ['microphone', 'camera', 'hangup', 'chat'],
         },
       };
 
@@ -84,9 +80,7 @@ export default {
         options.jwt = this.jwt;
       }
 
-      // const domain = 'meet.jit.si';
-      const domain = 'localhost:8443';
-      this.api = new JitsiMeetExternalAPI(domain, options);
+      this.api = new JitsiMeetExternalAPI(JITSI_CONFIG.domain, options);
 
       this.api.on('videoConferenceJoined', () => {
         this.$emit('joined');
@@ -97,11 +91,10 @@ export default {
         this.$emit('left');
       });
 
-      this.api.on('participantLeft', () => {
-      });
+      this.api.on('participantLeft', () => {});
 
       this.api.on('readyToClose', () => {
-        console.log("Hangup");
+        console.log('Hangup');
         this.$emit('hangup');
       });
 
@@ -165,11 +158,18 @@ export default {
 </style>
 
 <template>
-    <div ref="jitsiContainer" class="jitsi-iframe-container">
-      <div ref="buttonContainer" class="button-container">
-        <button ref="minimizeButton" class="minimize-button" @click="toggleFloating">
-          <img src="https://img.icons8.com/ios-glyphs/30/minimize-window.png" alt="Minimize" />
-        </button>
-      </div>
+  <div ref="jitsiContainer" class="jitsi-iframe-container">
+    <div ref="buttonContainer" class="button-container">
+      <button
+        ref="minimizeButton"
+        class="minimize-button"
+        @click="toggleFloating"
+      >
+        <img
+          src="https://img.icons8.com/ios-glyphs/30/minimize-window.png"
+          alt="Minimize"
+        />
+      </button>
     </div>
+  </div>
 </template>

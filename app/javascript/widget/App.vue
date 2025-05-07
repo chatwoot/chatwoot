@@ -179,8 +179,8 @@ export default {
     registerCallEvents() {
       emitter.on(EVENTS.INCOMING_CALL, () => {
         this.replaceRoute('incoming-call').then(() => {
-          this.handleUnseenCallNotificationDot();
           IFrameHelper.sendMessage({ event: 'openBubble' });
+          this.handleUnseenCallNotificationDot();
         });
       });
 

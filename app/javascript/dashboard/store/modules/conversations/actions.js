@@ -46,22 +46,29 @@ const actions = {
         content_type: 14,
         contentAttributes: {
           call_start_time: new Date().toISOString(),
+          call_room: body.room_id
         },
       };
 
-      const message = await dispatch(
-        'createPendingMessageAndSend',
-        messagePayload
-      );
+      // await new Promise(resolve => setTimeout(resolve, 1000))
+
       const call = await ConversationApi.createCall(body.chat_id, {
         ...body,
-        message_id: message.data.id,
+        message_id: 20,
       });
+
+
       body.jwt = call.data.jwt;
       console.log('Setting jwt: ', call);
 
       commit(types.ACTIVE_CALL, body);
       console.log('Active call: ', body);
+
+      const message = await dispatch(
+        'createPendingMessageAndSend',
+        messagePayload
+      );
+
       return call;
     } catch (error) {
       // Handle error

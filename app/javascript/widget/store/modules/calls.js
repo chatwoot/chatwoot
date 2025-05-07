@@ -1,3 +1,4 @@
+import { toRaw } from 'vue';
 import { rejectCall } from '../../api/conversation';
 
 const state = {
@@ -20,24 +21,33 @@ export const actions = {
       status: 'ringing',
     });
   },
-  acceptCall({ commit, state,dispatch }, call_data) {
+  acceptCall({ commit, state,dispatch, rootGetters }, call_data) {
     if (state.activeCall) {
+      const messages = rootGetters['conversation/getConversation']
+
+      const message = Object.values(toRaw(messages)).reverse().find(e => e.content_attributes.call_room == call_data.room_id)
+
+      const messageId = message.id;
       dispatch('message/updateCallStatus', {
         callStatus: 'accepted',
-        messageId: call_data.message_id,
+        messageId: messageId,
       }, {root: true})
       commit('UPDATE_CALL_STATUS', { call_data, status: 'accepted' });
       commit('SET_CALL_IN_PROGRESS', true);
     }
   },
-  rejectCall({ state, dispatch }, call_data) {
-    console.log('Active call', state.activeCall);
-    console.log('Call data', call_data);
+  rejectCall({ state, dispatch, rootGetters }, call_data) {
     if (state.activeCall) {
+
+      const messages = rootGetters['conversation/getConversation']
+    
+      const message = Object.values(toRaw(messages)).reverse().find(e => e.content_attributes.call_room == call_data.room_id)
+
+      const messageId = message.id;
 
       dispatch('message/updateCallStatus', {
         callStatus: 'rejected',
-        messageId: call_data.message_id,
+        messageId: messageId,
       }, {root: true})
 
       rejectCall({ room_id: call_data.room_id });
