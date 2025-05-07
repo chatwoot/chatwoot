@@ -37,7 +37,6 @@ services:
       - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
-
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
