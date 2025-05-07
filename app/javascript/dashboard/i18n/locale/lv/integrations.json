@@ -406,15 +406,18 @@
         },
         "NAME": {
           "LABEL": "Nosaukums",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Apraksts",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Produkta Nosaukums",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "Nepieciešams produkta nosaukums"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",
