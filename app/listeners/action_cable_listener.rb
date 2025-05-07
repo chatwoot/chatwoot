@@ -35,8 +35,8 @@ class ActionCableListener < BaseListener
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) +
              contact_tokens(conversation.contact_inbox, message)
-    # BotListener.new(message).send if message.sender_type == 'Contact'
-    MessageProcessor.process_contact_message(message) if message.sender_type == 'Contact'
+    BotListener.new(message).send if message.sender_type == 'Contact'
+    # MessageProcessor.process_contact_message(message) if message.sender_type == 'Contact'
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
 
@@ -58,8 +58,8 @@ class ActionCableListener < BaseListener
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-    # BotListener.new(conversation).increment_mau_usage
-    MessageProcessor.increment_mau_usage(conversation)
+    BotListener.new(conversation).increment_mau_usage
+    # MessageProcessor.increment_mau_usage(conversation)
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 
