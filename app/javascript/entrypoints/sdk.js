@@ -30,6 +30,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     // We have already added data-turbo-permananent to true. This
     // will ensure that the widget it preserved
     // Read more about morphing here: https://turbo.hotwired.dev/handbook/page_refreshes#morphing
+    // and peristing elements here: https://turbo.hotwired.dev/handbook/building#persisting-elements-across-page-loads
     if (event.detail.renderMethod === 'morph') return;
 
     restoreWidgetInDOM(event.detail.newBody);
