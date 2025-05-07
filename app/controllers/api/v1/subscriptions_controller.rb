@@ -119,6 +119,12 @@ class Api::V1::SubscriptionsController < Api::BaseController
     @subscription_active = @account.subscriptions.includes(:subscription_usage).find_by(status: 'active')
     render json: @subscription_active.as_json(include: :subscription_usage)
   end
+  
+  def status
+    subscription = @account.subscriptions.find_by(status: 'active')
+    active = subscription&.active?
+    render json: { active: active }
+  end
 
   def histories
     # @transactions = @subscription.transactions.order(created_at: :desc) # Order by transaction date

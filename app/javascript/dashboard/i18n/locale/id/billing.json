@@ -1,5 +1,6 @@
 {
   "BILLING": {
+    "SUBSCRIPTION_EXPIRED": "Subscription Anda telah berakhir",
     "RECENT_TRANSACTIONS": "Transaksi Terbaru",
     "NO_TRANSACTIONS": "Tidak ada transaksi ditemukan",
     "PAY": "Bayar",
