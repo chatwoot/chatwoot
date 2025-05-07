@@ -234,7 +234,7 @@ export default {
       ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
-      if (!this.isAPIInbox && this.canReplyByCustomMessage) {
+      if (!this.isAPIInbox && !this.currentChat.can_reply) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_24_HOURS_WINDOW');
       }
       return '';

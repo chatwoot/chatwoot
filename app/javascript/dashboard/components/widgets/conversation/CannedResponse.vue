@@ -23,6 +23,10 @@ export default {
       type: String,
       default: '',
     },
+    inboxId: {
+      type: Number,
+      default: null,
+    },
   },
   emits: ['replace', 'cannedSelected'],
   data() {
@@ -58,27 +62,16 @@ export default {
     },
     livePreviewMessage() {
       if (!this.selectedCannedResponse) return '';
-      let variables = {};
       const rawMessage = this.selectedCannedResponse.description;
-      const hasContextData = this.currentChat & this.currentContact;
-      if (hasContextData) {
-        variables = getMessageVariables({
-          conversation: this.currentChat,
-          contact: this.currentContact,
-        });
-      }
-      const allVariables = {
-        ...variables,
-        ...this.userDefinedVariables,
-      };
-      return rawMessage.replace(/{{(.*?)}}/g, (_, varName) => {
-        const value = allVariables[varName.trim()];
-        const isUserFilled = this.userDefinedVariables[varName.trim()];
-        if (value) {
-          return `<span class="bg-yellow-100 dark:bg-yellow-700 px-1 rounded">${value}</span>`;
-        }
-        return `<span class="bg-red-100 dark:bg-red-700 px-1 rounded text-red-700 dark:text-white">[${varName.trim()}]</span>`;
-      });
+
+      const contextVars = this.currentChat && this.currentContact
+        ? getMessageVariables({
+            conversation: this.currentChat,
+            contact: this.currentContact,
+          })
+        : {};
+
+      return this.formatVariablePreview(rawMessage, contextVars, this.userDefinedVariables);
     },
     livePreviewMessageLength() {
       const parser = new DOMParser();
@@ -128,7 +121,7 @@ export default {
   },
   methods: {
     fetchCannedResponses() {
-      const inboxId = this.currentChat.inbox_id;
+      const inboxId = this.currentChat.inbox_id || this.inboxId;
       this.$store.dispatch('getCannedResponse', {
         searchKey: this.searchKey,
         inboxId,
@@ -137,8 +130,6 @@ export default {
     handleMentionClick(item = {}) {
       let variables = {};
       const hasContextData = this.currentChat && this.currentContact;
-      console.log('hasContextData', hasContextData);
-      console.log('inboxId', this.inboxId);
 
       if (hasContextData) {
         variables = getMessageVariables({
@@ -184,6 +175,17 @@ export default {
       this.$emit('cannedSelected', this.selectedCannedResponse.id);
       this.showVariablePopup = false;
     },
+    formatVariablePreview(rawMessage, variables = {}, userVariables = {}) {
+      const allVariables = { ...variables, ...userVariables };
+      return rawMessage.replace(/{{(.*?)}}/g, (_, varName) => {
+        const name = varName.trim();
+        const value = allVariables[name];
+        if (value) {
+          return `<span class="bg-yellow-100 dark:bg-yellow-700 px-1 rounded">${value}</span>`;
+        }
+        return `<span class="bg-red-100 dark:bg-red-700 px-1 rounded text-red-700 dark:text-white">[${name}]</span>`;
+      });
+    },
     closeModal() {
       this.showVariablePopup = false;
     },
@@ -213,22 +215,32 @@ export default {
     <Modal v-model:show="showVariablePopup" :on-close="closeModal">
       <form
         @submit.prevent="submitVariables"
+        @keydown.enter.exact="trySubmitOnEnter($event)"
+        @keydown.esc="closeModal"
         class="flex flex-col space-y-4 w-full p-6 max-h-[90vh] overflow-y-auto"
-        @keydown.enter.prevent="trySubmitOnEnter"
       >
         <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
           {{ $t('ONBOARDING.CANNED_RESPONSES.ENTER_VARIABLE_VALUES') }}
         </h2>
 
-        <div v-for="key in undefinedVariables" :key="key" class="flex flex-col">
+        <div
+          v-for="key in undefinedVariables"
+          :key="key"
+          class="flex flex-col"
+        >
           <label
             :for="key"
             class="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300 capitalize"
           >
             {{ key.replace(/[\_\.]/g, ' ') }}
           </label>
-          <input v-model="userDefinedVariables[key]" :id="key" type="text" class="input-variable"
+          <textarea
+            v-model="userDefinedVariables[key]"
+            :id="key"
+            rows="3"
+            class="input-variable resize-y"
             :placeholder="$t('ONBOARDING.CANNED_RESPONSES.VARIABLE_PLACEHOLDER', { variable: key })"
+            @keydown.stop
           />
         </div>
 
@@ -242,9 +254,7 @@ export default {
             </span>
           </div>
           <p class="text-sm text-slate-800 dark:text-slate-100 whitespace-pre-wrap">
-            <span
-              v-html="livePreviewMessage"
-            />
+            <span v-html="livePreviewMessage" />
           </p>
         </div>
 
@@ -266,6 +276,8 @@ export default {
 
 <style scoped lang="scss">
 .input-variable {
+  min-height: 3rem;
+  line-height: 1.4;
   @apply border rounded-md px-3 py-2 text-sm outline-none transition-colors;
   @apply bg-white text-slate-900 border-slate-300;
   @apply dark:bg-slate-800 dark:text-white dark:border-slate-600;

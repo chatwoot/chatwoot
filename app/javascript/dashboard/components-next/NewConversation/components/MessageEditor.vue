@@ -17,6 +17,7 @@ const props = defineProps({
   hasAttachments: { type: Boolean, default: false },
   sendWithSignature: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
+  targetInbox: { type: Object, default: null },
 });
 
 const { t } = useI18n();
@@ -114,6 +115,7 @@ const replaceText = async message => {
           v-on-clickaway="hideMention"
           class="normal-editor__canned-box"
           :search-key="state.mentionSearchKey"
+          :inbox-id="targetInbox?.id"
           @replace="replaceText"
         />
       </TextArea>

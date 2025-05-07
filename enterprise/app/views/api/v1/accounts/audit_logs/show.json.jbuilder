@@ -10,7 +10,7 @@ json.audit_logs do
     json.auditable audit_log.auditable.try(:push_event_data)
     json.associated_id audit_log.associated_id
     json.associated_type audit_log.associated_type
-    json.user_id   audit_log.user_id
+    json.user_id audit_log.user_id
     json.user_type audit_log.user_type
     json.username audit_log.username
     json.action audit_log.action

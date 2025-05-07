@@ -71,7 +71,9 @@
       "EDIT": "{agentName} updated the account configuration (#{id})"
     },
     "CONVERSATION": {
-      "DELETE": "{agentName} deleted conversation #{id}"
+      "DELETE": "{agentName} deleted conversation #{id}",
+      "ADD": "{agentName} created a new conversation (#{id})",
+      "EDIT": "{agentName} updated a conversation (#{id})"
     }
   }
 }

@@ -318,6 +318,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :is-email-or-web-widget-inbox="inboxTypes.isEmailOrWebWidget"
       :has-errors="validationStates.isMessageInvalid"
       :has-attachments="state.attachedFiles.length > 0"
+      :target-inbox="targetInbox"
     />
 
     <AttachmentPreviews

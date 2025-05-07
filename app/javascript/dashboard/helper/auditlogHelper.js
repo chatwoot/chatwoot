@@ -37,6 +37,8 @@ const translationKeys = {
   'teammember:destroy': `AUDIT_LOGS.TEAM_MEMBER.REMOVE`,
   'account:update': `AUDIT_LOGS.ACCOUNT.EDIT`,
   'conversation:destroy': `AUDIT_LOGS.CONVERSATION.DELETE`,
+  'conversation:create': `AUDIT_LOGS.CONVERSATION.ADD`,
+  'conversation:update': `AUDIT_LOGS.CONVERSATION.EDIT`,
 };
 
 function extractAttrChange(attrChange) {
