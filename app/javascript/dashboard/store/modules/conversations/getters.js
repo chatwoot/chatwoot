@@ -114,6 +114,8 @@ const getters = {
   getContextMenuChatId: _state => {
     return _state.contextMenuChatId;
   },
+
+  getCallState: _state => _state.activeCall
 };
 
 export default getters;

@@ -152,6 +152,10 @@ const variant = computed(() => {
     return MESSAGE_VARIANTS.EMAIL;
   }
 
+  if (props.contentType === CONTENT_TYPES.CALLING_EVENT) {
+    return MESSAGE_VARIANTS.CALLING;
+  }
+
   if (props.status === MESSAGE_STATUS.FAILED) return MESSAGE_VARIANTS.ERROR;
   if (props.contentAttributes?.isUnsupported)
     return MESSAGE_VARIANTS.UNSUPPORTED;
