@@ -3,7 +3,7 @@
 # Table name: ai_agent_templates
 #
 #  id                  :bigint           not null, primary key
-#  handover_prompt     :string
+#  handover_prompt     :text
 #  name                :string
 #  store_config        :jsonb            not null
 #  system_prompt       :text             not null
