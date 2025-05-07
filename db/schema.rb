@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_05_002526) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -151,6 +151,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_05_002526) do
     t.string "name"
     t.jsonb "template", default: {}, null: false
     t.jsonb "store_config", default: {}, null: false
+    t.string "handover_prompt"
+    t.text "system_prompt_rules"
   end
 
   create_table "ai_agents", force: :cascade do |t|

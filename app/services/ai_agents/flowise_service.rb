@@ -18,7 +18,7 @@ class AiAgents::FlowiseService
       )
     end
 
-    def load_chat_flow(name:, flow_data:, is_public: false, deployed: false, type: 'CHATFLOW')
+    def load_chat_flow(name, flow_data, is_public: false, deployed: false, type: 'CHATFLOW')
       raise ArgumentError, 'Template cannot be nil' if flow_data.nil?
 
       response = post(
@@ -38,7 +38,7 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
-    def save_as_chat_flow(id:, name:, flow_data:)
+    def save_as_chat_flow(id, name, flow_data)
       raise ArgumentError, 'Template cannot be nil' if flow_data.nil?
 
       response = put(
@@ -52,6 +52,8 @@ class AiAgents::FlowiseService
 
       raise "Error saving chat flow: #{response.code} #{response.message}" unless response.success?
 
+      Rails.logger.info("🤖 Chat flow saved successfully: #{response.body}")
+
       response.parsed_response
     end
 
@@ -63,17 +65,22 @@ class AiAgents::FlowiseService
       response.parsed_response
     end
 
-    def add_document_store(name:, description: 'Document Store')
+    def add_document_store(params)
+      Rails.logger.info "Adding document store: #{name}"
+
+      name_with_datetime = "#{params[:name]} - #{Time.current.strftime('%Y%m%d%H%M%S')}"
       response = post(
         '/document-store/store',
         body: {
-          'name' => name,
-          'description' => description
+          'name' => name_with_datetime,
+          'description' => params[:description]
         }.to_json,
         headers: headers
       )
 
       raise "Error adding document store: #{response.code} #{response.message}" unless response.success?
+
+      Rails.logger.info "Document store added: #{name}"
 
       response.parsed_response
     end
