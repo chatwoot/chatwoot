@@ -29,6 +29,8 @@ export default {
       isAgentListUpdating: false,
       enableAutoAssignment: false,
       maxAssignmentLimit: null,
+      enablePersonalPhoneRouting: false,
+      isVoiceRoutingUpdating: false,
     };
   },
   computed: {
@@ -57,6 +59,8 @@ export default {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
+      // Set the default for voice routing if available
+      this.enablePersonalPhoneRouting = this.inbox?.provider_config?.enable_personal_phone_routing || false;
       this.fetchAttachedAgents();
     },
     async fetchAttachedAgents() {
@@ -103,6 +107,32 @@ export default {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      }
+    },
+    
+    async updateVoiceRouting() {
+      this.isVoiceRoutingUpdating = true;
+      try {
+        // In a real implementation, this would update the voice routing settings
+        // For now, just simulate API call success
+        await new Promise(resolve => setTimeout(resolve, 500));
+        
+        // Here's how a real implementation might look:
+        // const payload = {
+        //   id: this.inbox.id,
+        //   formData: false,
+        //   provider_config: {
+        //     ...this.inbox.provider_config,
+        //     enable_personal_phone_routing: this.enablePersonalPhoneRouting,
+        //   },
+        // };
+        // await this.$store.dispatch('inboxes/updateInbox', payload);
+        
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      } finally {
+        this.isVoiceRoutingUpdating = false;
       }
     },
   },
@@ -194,6 +224,41 @@ export default {
         />
       </div>
     </SettingsSection>
+
+    <SettingsSection
+      v-if="inbox.channel_type === 'Channel::Voice'"
+      :title="$t('INBOX_MGMT.SETTINGS_POPUP.VOICE_CALL_ROUTING')"
+      :sub-title="$t('INBOX_MGMT.SETTINGS_POPUP.VOICE_CALL_ROUTING_SUB_TEXT')"
+    >
+      <label class="w-3/4 settings-item">
+        <div class="flex items-center gap-2">
+          <input
+            id="enablePersonalPhoneRouting"
+            v-model="enablePersonalPhoneRouting"
+            type="checkbox"
+          />
+          <label for="enablePersonalPhoneRouting">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.PERSONAL_PHONE_ROUTING') }}
+          </label>
+        </div>
+
+        <p class="pb-1 text-sm not-italic text-n-slate-11">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.PERSONAL_PHONE_ROUTING_SUB_TEXT') }}
+        </p>
+      </label>
+
+      <div v-if="enablePersonalPhoneRouting" class="agent-phone-container">
+        <p class="pb-4 italic text-sm text-n-slate-11">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.AGENT_PHONE_SETTINGS_INFO') }}
+        </p>
+        
+        <NextButton
+          :label="$t('INBOX_MGMT.SETTINGS_POPUP.UPDATE')"
+          :is-loading="isVoiceRoutingUpdating"
+          @click="updateVoiceRouting"
+        />
+      </div>
+    </SettingsSection>
   </div>
 </template>
 
@@ -202,6 +267,11 @@ export default {
 @import 'dashboard/assets/scss/mixins';
 
 .max-assignment-container {
+  padding-top: var(--space-slab);
+  padding-bottom: var(--space-slab);
+}
+
+.agent-phone-container {
   padding-top: var(--space-slab);
   padding-bottom: var(--space-slab);
 }
