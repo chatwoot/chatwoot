@@ -57,7 +57,7 @@ export const SDK_CSS = `
   border-radius: 50%;
   border-radius: 100% 100% 100% 100% / 100% 100% 0% 100%;
   overflow: hidden;
-
+}
 
 .woot-widget-bubble.woot-widget-bubble--flat {
   border-radius: 0;

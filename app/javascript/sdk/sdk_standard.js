@@ -65,7 +65,7 @@ export const SDK_CSS_STANDARD = `
     101% 100%,
     0 100%
   );
-  overflow:; hidden;
+  overflow: hidden;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {

@@ -3,7 +3,6 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import { onBubbleClick } from '../sdk/bubbleHelpers';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
@@ -22,7 +21,6 @@ import {
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
-import { EVENTS } from './helpers/callHelper';
 
 export default {
   name: 'App',
@@ -52,7 +50,6 @@ export default {
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
       showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
-      hasActiveCall: 'calls/hasActiveCall',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -86,7 +83,6 @@ export default {
     this.$store.dispatch('conversationAttributes/getAttributes');
     this.registerUnreadEvents();
     this.registerCampaignEvents();
-    this.registerCallEvents();
   },
   methods: {
     ...mapActions('appConfig', [
@@ -103,7 +99,6 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
-    ...mapActions('calls', ['setShowCallDialog', 'receiveCall']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');
       container.scrollTop = container.scrollHeight;
@@ -176,44 +171,6 @@ export default {
         this.campaignsSnoozedTill = Number(expireBy);
       });
     },
-    registerCallEvents() {
-      emitter.on(EVENTS.INCOMING_CALL, () => {
-        this.replaceRoute('incoming-call').then(() => {
-          IFrameHelper.sendMessage({ event: 'openBubble' });
-          this.handleUnseenCallNotificationDot();
-        });
-      });
-
-      emitter.on('call-accepted', () => {
-        this.handleSeenCallNotificationDot();
-      });
-
-      emitter.on('call-rejected', () => {
-        this.handleSeenCallNotificationDot();
-      });
-
-      emitter.on('call-ended', () => {
-        this.handleSeenCallNotificationDot();
-      });
-    },
-    setCallView(isInWidget = false) {
-      if (isInWidget) {
-        this.$store.dispatch('calls/setShowCallDialog', false);
-        this.replaceRoute('messages');
-      } else if (this.isIFrame && this.hasActiveCall && !this.isWidgetOpen) {
-        this.$store.dispatch('calls/setShowCallDialog', true);
-        this.replaceRoute('incoming-call').then(() => {
-          this.setIframeHeight(true);
-          IFrameHelper.sendMessage({ event: 'setCallMode' });
-        });
-      }
-    },
-    unsetCallView() {
-      if (this.isIFrame) {
-        IFrameHelper.sendMessage({ event: 'resetCallMode' });
-        this.setIframeHeight(false);
-      }
-    },
     setCampaignView() {
       const { messageCount, activeCampaign } = this;
       const shouldSnoozeCampaign =
@@ -250,24 +207,6 @@ export default {
         IFrameHelper.sendMessage({ event: 'resetUnreadMode' });
         this.setIframeHeight(false);
         this.handleUnreadNotificationDot();
-      }
-    },
-
-    handleSeenCallNotificationDot() {
-      if (this.isIFrame) {
-        IFrameHelper.sendMessage({
-          event: 'handleCallNotificationDot',
-          value: false,
-        });
-      }
-    },
-
-    handleUnseenCallNotificationDot() {
-      if (this.isIFrame) {
-        IFrameHelper.sendMessage({
-          event: 'handleCallNotificationDot',
-          value: true,
-        });
       }
     },
     handleUnreadNotificationDot() {
