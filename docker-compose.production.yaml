@@ -35,7 +35,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - mailhog
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
