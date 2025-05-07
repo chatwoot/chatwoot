@@ -32,7 +32,6 @@ services:
       - redis
       - vite
       - mailhog
-      - sidekiq
     ports:
       - 3000:3000
     env_file: .env
