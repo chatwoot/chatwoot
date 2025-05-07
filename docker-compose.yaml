@@ -1,19 +1,10 @@
-version: '3'
-
+# docker-compose.yaml  (Compose V2 syntax – you don’t need the `version:` line)
 services:
   base: &base
-    build:
-      context: .
-      dockerfile: ./docker/Dockerfile
-      args:
-        BUNDLE_WITHOUT: ''
-        EXECJS_RUNTIME: 'Node'
-        RAILS_ENV: 'production'
-        RAILS_SERVE_STATIC_FILES: 'false'
-    tty: true
-    stdin_open: true
     image: chatwoot/chatwoot:latest
     env_file: .env
+    volumes:
+      - /data/storage:/app/storage
 
   rails:
     <<: *base
@@ -26,8 +17,6 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     restart: always
@@ -41,42 +30,16 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
-    # Add this line, assuming rails.sh prepares the environment and then runs the CMD
-    entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-    # You might also want a restart policy like rails
-    restart: always # Optional, but often useful for background workers
-  vite:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
-    volumes:
-      - ./:/app:delegated
-      - node_modules:/app/node_modules
-      - packs:/app/public/packs
-      - cache:/app/tmp/cache
-      - bundle:/usr/local/bundle
-    ports:
-      - '3036:3036' # Vite dev server
-    environment:
-      - NODE_OPTIONS=--max_old_space_size=3072
-      - VITE_DEV_SERVER_HOST=0.0.0.0
-      - NODE_ENV=development
-      - RAILS_ENV=development
-    entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
+    restart: always
 
   postgres:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5432:5432'
+      - '127.0.0.1:5432:5432'
     volumes:
-      - postgres:/data/postgres
+      - postgres-data:/var/lib/postgresql/data # named volume
     environment:
       - POSTGRES_DB=chatwoot_production
       - POSTGRES_USER=postgres
@@ -88,20 +51,10 @@ services:
     command: ['sh', '-c', 'redis-server --requirepass "$REDIS_PASSWORD"']
     env_file: .env
     volumes:
-      - redis:/data/redis
+      - redis-data:/data # named volume
     ports:
-      - '6379:6379'
-
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - 1025:1025
-      - 8025:8025
+      - '127.0.0.1:6379:6379'
 
 volumes:
-  postgres:
-  redis:
-  packs:
-  node_modules:
-  cache:
-  bundle:
+  postgres-data:
+  redis-data:
