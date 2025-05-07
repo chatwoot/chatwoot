@@ -406,15 +406,18 @@
         },
         "NAME": {
           "LABEL": "Имя",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Описание",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Название продукта",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "Требуется название продукта"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",
