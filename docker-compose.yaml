@@ -43,8 +43,11 @@ services:
       - INSTALLATION_ENV=docker
       - REDIS_URL=redis://redis:6379
       - REDIS_PASSWORD=${REDIS_PASSWORD}
+    # Add this line, assuming rails.sh prepares the environment and then runs the CMD
+    entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
-
+    # You might also want a restart policy like rails
+    restart: always # Optional, but often useful for background workers
   vite:
     <<: *base
     build:
