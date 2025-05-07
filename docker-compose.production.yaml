@@ -1,9 +1,8 @@
-version: '3'
-
+# docker-compose.yaml  (Compose V2 syntax – you don’t need the `version:` line)
 services:
   base: &base
     image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
+    env_file: .env
     volumes:
       - /data/storage:/app/storage
 
@@ -18,8 +17,6 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
     restart: always
@@ -33,8 +30,6 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-      - REDIS_URL=redis://redis:6379
-      - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
     restart: always
 
@@ -44,7 +39,7 @@ services:
     ports:
       - '127.0.0.1:5432:5432'
     volumes:
-      - /data/postgres:/var/lib/postgresql/data
+      - postgres-data:/var/lib/postgresql/data # named volume
     environment:
       - POSTGRES_DB=chatwoot_production
       - POSTGRES_USER=postgres
@@ -56,6 +51,10 @@ services:
     command: ['sh', '-c', 'redis-server --requirepass "$REDIS_PASSWORD"']
     env_file: .env
     volumes:
-      - /data/redis:/data
+      - redis-data:/data # named volume
     ports:
       - '127.0.0.1:6379:6379'
+
+volumes:
+  postgres-data:
+  redis-data:
