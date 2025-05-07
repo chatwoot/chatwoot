@@ -3,7 +3,7 @@ require 'rails_helper'
 describe Digitaltolk::AddMessageService do
   subject { described_class.new(sender, conversation, content) }
 
-  let(:sender) { create(:user) }
+  let(:sender) { create(:user, message_signature: 'message signature test') }
   let(:conversation) { create(:conversation) }
   let(:content) { 'Hello, this is a test message.' }
 
@@ -11,7 +11,7 @@ describe Digitaltolk::AddMessageService do
     it 'creates a message' do
       result = subject.perform
       expect(result).to be_a(Message)
-      expect(result.content).to eq("Hello, this is a test message.\n\n")
+      expect(result.content).to eq("Hello, this is a test message.\n\n\n\nmessage signature test")
     end
 
     shared_examples 'not creating a message' do
@@ -25,7 +25,7 @@ describe Digitaltolk::AddMessageService do
       end
 
       it 'does not call the job to format the email' do
-        expect(Digitaltolk::FormatOutgoingEmailJob).not_to receive(:perform_async)
+        expect(Digitaltolk::FormatOutgoingEmailJob).not_to receive(:perform_later)
         subject.perform
       end
     end
@@ -43,8 +43,13 @@ describe Digitaltolk::AddMessageService do
     end
 
     it 'calls the job to format the email' do
-      expect(Digitaltolk::FormatOutgoingEmailJob).to receive(:perform_async).once
+      expect(Digitaltolk::FormatOutgoingEmailJob).to receive(:perform_later).once
       subject.perform
+    end
+
+    it 'attach the message signature' do
+      message = subject.perform
+      expect(message.content).to include(sender.message_signature)
     end
   end
 end

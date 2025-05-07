@@ -310,6 +310,9 @@ export default {
     translationAllowedForAgent() {
       return this.uiSettings?.ai_translation_enabled !== false;
     },
+    qualityCheckForAgentAllowed() {
+      return this.uiSettings?.ai_quality_check_enabled !== false;
+    },
     assignedAgent: {
       get() {
         return this.currentChat.meta.assignee;
@@ -857,7 +860,7 @@ export default {
     decideOnSendReply(){
       if (this.isPrivate) {
         this.confirmOnSendReply();
-      } else if (this.qualityCheckFeatureEnabled) {
+      } else if (this.qualityCheckFeatureEnabled && this.qualityCheckForAgentAllowed) {
         this.performQualityCheck();
       } else if(this.translationFeatureEnabled && this.translationAllowedForAgent) {
         this.performResponseTranslation();
@@ -944,11 +947,13 @@ export default {
         );
 
         if (messageResponse && this.qualityScores && this.currentChat) {
-          await this.$store.dispatch('saveQualityScores', {
-            messageId: messageResponse.id,
-            conversationId: this.currentChat.id,
-            scores: this.qualityScores,
-          });
+          if (Object.keys(this.qualityScores).length > 0) {
+            await this.$store.dispatch('saveQualityScores', {
+              messageId: messageResponse.id,
+              conversationId: this.currentChat.id,
+              scores: this.qualityScores,
+            });
+          }
         }
 
         bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE);

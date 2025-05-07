@@ -122,5 +122,15 @@ describe Digitaltolk::SendEmailTicketService do
         expect(convo.contact.custom_attributes['customer_id']).to eq('321')
       end
     end
+
+    context 'with user signature' do
+      let(:user) { create(:user, account: account, message_signature: 'message signature test') }
+
+      it 'creates a message with signature' do
+        result = service.perform
+        convo = inbox.conversations.find_by(display_id: result[:conversation_id])
+        expect(convo.messages.last.content).to include('message signature test')
+      end
+    end
   end
 end

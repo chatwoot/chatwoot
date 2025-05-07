@@ -26,7 +26,7 @@ class Digitaltolk::AddMessageService
   def schedule_formatting(message)
     return unless message
 
-    Digitaltolk::FormatOutgoingEmailJob.perform_async(message.id)
+    Digitaltolk::FormatOutgoingEmailJob.perform_later(message.id)
   end
 
   def message_type
@@ -36,7 +36,21 @@ class Digitaltolk::AddMessageService
   def message_params
     {
       message_type: message_type,
-      content: ReverseMarkdown.convert(content)
+      content: content_with_signature
     }
+  end
+
+  def content_with_signature
+    return reversed_markdown_content if message_signature.blank?
+
+    [reversed_markdown_content, message_signature].compact.join("\n\n")
+  end
+
+  def reversed_markdown_content
+    ReverseMarkdown.convert(content)
+  end
+
+  def message_signature
+    sender&.message_signature
   end
 end

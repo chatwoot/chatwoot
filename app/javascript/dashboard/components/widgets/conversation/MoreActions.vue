@@ -1,7 +1,7 @@
 <template>
   <div class="flex actions--container relative items-center gap-2">
     <woot-button
-      v-if="enableSummary"
+      v-if="canSummarize"
       variant="hollow"
       color-scheme="secondary"
       icon="star-glitters"
@@ -67,6 +67,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import alertMixin from 'shared/mixins/alertMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import EmailTranscriptModal from './EmailTranscriptModal.vue';
 import ResolveAction from '../../buttons/ResolveAction.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
@@ -87,7 +88,7 @@ export default {
     SmartActions,
     SummaryModal,
   },
-  mixins: [alertMixin, inboxMixin],
+  mixins: [alertMixin, inboxMixin, uiSettingsMixin],
   data() {
     return {
       showEmailActionsModal: false,
@@ -117,8 +118,11 @@ export default {
         FEATURE_FLAGS.AI_CONVERSATION_SUMMARY
       );
     },
-    enableSummary() {
-      return this.summaryFeatureEnabled;
+    canSummarize() {
+      return this.summaryFeatureEnabled && this.summaryAllowedForAgent;
+    },
+    summaryAllowedForAgent() {
+      return this.uiSettings?.ai_summary_enabled !== false;
     },
   },
   mounted() {

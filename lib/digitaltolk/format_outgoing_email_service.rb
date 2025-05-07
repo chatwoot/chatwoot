@@ -42,13 +42,14 @@ class Digitaltolk::FormatOutgoingEmailService
 
   def html_content
     encoded = convert_escaped_text(mail_content)
-    @decoded_html_content = ::HtmlParser.new(encoded).filtered_html
+    rendered_markdown = ChatwootMarkdownRenderer.new(encoded).render_article
+    @decoded_html_content = ::HtmlParser.new(rendered_markdown).filtered_html
     return {} if @decoded_html_content.blank?
 
     body = EmailReplyTrimmer.trim(@decoded_html_content)
 
     @html_content ||= {
-      full: encoded,
+      full: rendered_markdown,
       reply: @decoded_html_content,
       quoted: body
     }

@@ -1,6 +1,5 @@
-class Digitaltolk::FormatOutgoingEmailJob
-  include Sidekiq::Job
-  sidekiq_options retry: 3
+class Digitaltolk::FormatOutgoingEmailJob < ApplicationJob
+  queue_as :low
 
   def perform(message_id)
     message = Message.find_by(id: message_id)

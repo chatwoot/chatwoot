@@ -53,22 +53,43 @@
         </button>
       </div>
     </form-section>
-    <form-section :title="$t('PROFILE_SETTINGS.FORM.AI_TRANSLATION_SUMMARY.TITLE')" :description="$t('PROFILE_SETTINGS.FORM.AI_TRANSLATION_SUMMARY.DESCRIPTION')">
-      <!-- <div class="flex flex-row items-center gap-2">
-        <fluent-icon
-          icon="alert"
-          class="flex-shrink-0 text-ash-900"
-          size="18"
+    <form-section
+      :title="$t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.TITLE')"
+      :description="$t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.DESCRIPTION')"
+      >
+      <div
+        class="flex flex-row items-start gap-2"
+      >
+        <CheckBox
+          :is-checked="aiTranslationEnabled"
+          @update="onToggleAITranslation"
         />
-        <span class="text-sm text-ash-900">
-          {{ $t('PROFILE_SETTINGS.FORM.NOTIFICATIONS.BROWSER_PERMISSION') }}
-        </span>
-      </div> -->
-      <form-switch
-        :value="aiTranslationEnabled"
-        @input="onToggleAITranslation"
-      />
-    <!-- </div> -->
+        <label class="text-sm font-normal text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.TRANSLATION_LABEL') }}
+        </label>
+      </div>
+      <div
+        class="flex flex-row items-start gap-2"
+      >
+        <CheckBox
+          :is-checked="aiQualityCheckEnabled"
+          @update="onToggleAIQualityCheck"
+        />
+        <label class="text-sm font-normal text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.QUALITY_CHECK_LABEL') }}
+        </label>
+      </div>
+      <div
+        class="flex flex-row items-start gap-2"
+      >
+        <CheckBox
+          :is-checked="aiSummaryEnabled"
+          @update="onToggleAISummary"
+        />
+        <label class="text-sm font-normal text-ash-900">
+          {{ $t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.SUMMARY_LABEL') }}
+        </label>
+      </div>
     </form-section>
     <form-section :title="$t('PROFILE_SETTINGS.FORM.PASSWORD_SECTION.TITLE')">
       <change-password v-if="!globalConfig.disableUserProfileUpdate" />
@@ -117,6 +138,7 @@ import AudioNotifications from './AudioNotifications.vue';
 import FormSection from 'dashboard/components/FormSection.vue';
 import AccessToken from './AccessToken.vue';
 import FormSwitch from 'v3/components/Form/Switch.vue';
+import CheckBox from 'v3/components/Form/CheckBox.vue';
 
 export default {
   components: {
@@ -130,6 +152,7 @@ export default {
     AudioNotifications,
     AccessToken,
     FormSwitch,
+    CheckBox,
   },
   mixins: [alertMixin, globalConfigMixin, uiSettingsMixin],
   data() {
@@ -140,7 +163,9 @@ export default {
       displayName: '',
       email: '',
       messageSignature: '',
-      aiTranslationEnabled: false,
+      aiTranslationEnabled: true,
+      aiQualityCheckEnabled: true,
+      aiSummaryEnabled: true,
       hotKeys: [
         {
           key: 'enter',
@@ -188,6 +213,8 @@ export default {
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
       this.aiTranslationEnabled = this.uiSettings.ai_translation_enabled !== false;
+      this.aiQualityCheckEnabled = this.uiSettings.ai_quality_check_enabled !== false;
+      this.aiSummaryEnabled = this.uiSettings.ai_summary_enabled !== false;
     },
     isEditorHotKeyEnabled,
     async dispatchUpdate(payload, successMessage, errorMessage) {
@@ -269,12 +296,26 @@ export default {
       await copyTextToClipboard(value);
       this.showAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
-    onToggleAITranslation(value) {
+    onToggleAITranslation(id, value) {
       this.aiTranslationEnabled = value;
       this.showAlert(
-        this.$t('PROFILE_SETTINGS.FORM.AI_TRANSLATION_SUMMARY.UPDATE_SUCCESS')
+        this.$t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.UPDATE_SUCCESS')
       );
       this.updateUISettings({ ai_translation_enabled: value });
+    },
+    onToggleAISummary(id, value) {
+      this.aiSummaryEnabled = value;
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.UPDATE_SUCCESS')
+      );
+      this.updateUISettings({ ai_summary_enabled: value });
+    },
+    onToggleAIQualityCheck(id, value) {
+      this.aiQualityCheckEnabled = value;
+      this.showAlert(
+        this.$t('PROFILE_SETTINGS.FORM.AI_CONVERSATION_SETTING.UPDATE_SUCCESS')
+      );
+      this.updateUISettings({ ai_quality_check_enabled: value });
     },
   },
 };

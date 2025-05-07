@@ -173,10 +173,13 @@
         "ERROR": "Bekräfta lösenord måste matcha lösenordet",
         "PLACEHOLDER": "Please re-enter your new password"
       },
-      "AI_TRANSLATION_SUMMARY": {
-        "DESCRIPTION": "Aktivera den här inställningen för att möjliggöra AI-driven översättning i konversationer. När den är aktiverad översätts verifierade svar automatiskt till det språk som valts på webbplatsen för smidigare kommunikation.",
-        "TITLE": "Konversationssvar AI-översättning",
-        "UPDATE_SUCCESS": "Dina inställningar för AI-översättning har uppdaterats framgångsrikt."
+      "AI_CONVERSATION_SETTING": {
+        "TITLE": "Inställningar för AI-konversation",
+        "DESCRIPTION": "Du kan aktivera eller inaktivera AI-funktioner som sammanfattning, översättning och kvalitetskontroller för din profil",
+        "TRANSLATION_LABEL": "AI-översättning",
+        "SUMMARY_LABEL": "AI-sammanfattning",
+        "QUALITY_CHECK_LABEL": "AI-kvalitetskontroll",
+        "UPDATE_SUCCESS": "AI-inställningarna har uppdaterats"
       }
     }
   },
