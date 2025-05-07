@@ -90,9 +90,9 @@ services:
     volumes:
       - postgres:/data/postgres
     environment:
-      - POSTGRES_DB=chatwoot
+      - POSTGRES_DB=chatwoot_production
       - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
+      - POSTGRES_PASSWORD=8c34528ce54c91cb2afea6aaa0a22c63def602807ff28c1104ab2a091651c41c355f8141961747abf954487b3948b356edf810f51a6568b677985a7e1ef17880
 
   redis:
     image: redis:alpine
