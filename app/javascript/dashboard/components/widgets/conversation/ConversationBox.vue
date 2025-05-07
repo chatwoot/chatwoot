@@ -79,7 +79,7 @@ export default {
       handler(roomId) {
         console.log('ROOM CHANGED', roomId);
         if (!roomId) {
-          this.closeCall();
+          this.showCallModal = false;
         }
       },
     },
@@ -117,7 +117,7 @@ export default {
       this.showCallModal = false;
       this.$store.dispatch('endCall', {
         chat_id: this.currentChat.id,
-        room_id: this.activeCall,
+        room_id: this.activeCall.room_id,
       });
       console.log('showCallModal', this.showCallModal);
     },

@@ -60,7 +60,7 @@ export const rejectCall = async call => {
   }
 
   try {
-    await store.dispatch('calls/rejectCall', call);
+    store.dispatch('calls/rejectCall', call);
     emitter.emit(EVENTS.CALL_REJECTED, call);
 
     const currentRoute = router.currentRoute.value;
