@@ -13,6 +13,7 @@ import ConditionRow from './ConditionRow.vue';
 
 const props = defineProps({
   isSegmentView: { type: Boolean, default: false },
+  isCampaign: { type: Boolean, default: false },
   segmentName: { type: String, default: '' },
 });
 
@@ -94,6 +95,7 @@ const filterModalHeaderTitle = computed(() => {
 });
 
 onBeforeUnmount(() => emit('close'));
+
 const outsideClickHandler = [
   () => emit('close'),
   { ignore: ['#toggleContactsFilterButton'] },
@@ -102,7 +104,80 @@ const outsideClickHandler = [
 
 <template>
   <div
+    v-if="isCampaign"
+    ref="filterModalRef"
+    class="z-40 max-w-3xl lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
+  >
+    <h3 class="text-base font-medium leading-6 text-n-slate-12">
+      {{ filterModalHeaderTitle }}
+    </h3>
+    <div v-if="props.isSegmentView">
+      <label class="pb-6 border-b border-n-weak">
+        <div class="mb-2 text-sm text-n-slate-11">
+          {{ $t('CONTACTS_LAYOUT.FILTER.SEGMENT.LABEL') }}
+        </div>
+        <input
+          v-model="segmentNameLocal"
+          class="py-1.5 px-3 text-n-slate-12 bg-n-alpha-1 text-sm rounded-lg reset-base w-full"
+          :placeholder="t('CONTACTS_LAYOUT.FILTER.SEGMENT.INPUT_PLACEHOLDER')"
+        />
+      </label>
+    </div>
+    <ul class="grid gap-4 list-none">
+      <template v-for="(filter, index) in filters" :key="filter.id">
+        <ConditionRow
+          v-if="index === 0"
+          ref="conditionsRef"
+          :key="`filter-${filter.attributeKey}-0`"
+          v-model:attribute-key="filter.attributeKey"
+          v-model:filter-operator="filter.filterOperator"
+          v-model:values="filter.values"
+          :filter-types="filterTypes"
+          :show-query-operator="false"
+          @remove="removeFilter(index)"
+        />
+        <ConditionRow
+          v-else
+          :key="`filter-${filter.attributeKey}-${index}`"
+          ref="conditionsRef"
+          v-model:attribute-key="filter.attributeKey"
+          v-model:filter-operator="filter.filterOperator"
+          v-model:query-operator="filters[index - 1].queryOperator"
+          v-model:values="filter.values"
+          show-query-operator
+          :filter-types="filterTypes"
+          @remove="removeFilter(index)"
+        />
+      </template>
+    </ul>
+    <div class="flex justify-between gap-2">
+      <Button sm ghost blue @click="addFilter">
+        {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.ADD_FILTER') }}
+      </Button>
+      <div class="flex gap-2">
+        <Button sm faded slate @click="resetFilter">
+          {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.CLEAR_FILTERS') }}
+        </Button>
+        <Button
+          v-if="isSegmentView"
+          sm
+          solid
+          blue
+          :disabled="!segmentNameLocal"
+          @click="updateSavedSegment"
+        >
+          {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.UPDATE_SEGMENT') }}
+        </Button>
+        <Button v-else sm solid blue @click="validateAndSubmit">
+          {{ $t('CONTACTS_LAYOUT.FILTER.BUTTONS.APPLY_FILTERS') }}
+        </Button>
+      </div>
+    </div>
+  </div>
+  <div
+    v-else
     v-on-click-outside="outsideClickHandler"
+    ref="filterModalRef"
     class="z-40 max-w-3xl lg:w-[750px] overflow-visible w-full border border-n-weak bg-n-alpha-3 backdrop-blur-[100px] shadow-lg rounded-xl p-6 grid gap-6"
   >
     <h3 class="text-base font-medium leading-6 text-n-slate-12">

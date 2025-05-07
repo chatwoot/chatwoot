@@ -68,7 +68,7 @@ const updateSelected = newValue => {
           :key="option.value"
           :label="option.label"
           :icon="option.icon"
-          @click="updateSelected(option.value)"
+          @click.stop="updateSelected(option.value)"
         />
       </DropdownSection>
     </DropdownBody>

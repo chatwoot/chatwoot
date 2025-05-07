@@ -1,5 +1,3 @@
-require 'countries'
-
 class EnrichmentJob < ApplicationJob
   queue_as :default
 
@@ -53,8 +51,10 @@ class EnrichmentJob < ApplicationJob
   end
 
   def country_code_from_country_name(country_str)
-    country = ISO3166::Country.find_country_by_any_name(country_str)
-    country.alpha2
+    file = File.read('./shared/people_data_labs_countries.json')
+    countries_json = JSON.parse(file)
+    c_code = countries_json[country_str]
+    c_code
   end
 
   def display_country_name_from_code(country_code)
@@ -149,6 +149,19 @@ class EnrichmentJob < ApplicationJob
     query_string = URI.encode_www_form(params)
     full_url = "#{url}?#{query_string}"
 
-    RestClient.get full_url, headers
+    begin
+      RestClient.get full_url, headers
+    rescue RestClient::ExceptionWithResponse => e
+      Rails.logger.warn "PDL Error #{e.http_code}: #{e.message} => #{e.response.body}"
+      e.response
+    rescue RestClient::Exception => e
+      Rails.logger.error "REST Client Exception: #{e.class} - #{e.message}"
+      {
+        error: {
+          type: "Rest client error",
+          message: "Internal error"
+        }
+      }
+    end
   end
 end
