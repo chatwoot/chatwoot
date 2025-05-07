@@ -3,10 +3,11 @@ import { computed } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
-import { MESSAGE_TYPES } from '../../constants';
+import { CONTENT_TYPES, MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
+import { onMounted } from 'vue';
 
-const { content, attachments, contentAttributes, messageType } =
+const { content, contentType, attachments, contentAttributes, messageType } =
   useMessageContext();
 
 const isTemplate = computed(() => {
@@ -26,6 +27,19 @@ const isEmpty = computed(() => {
       </span>
       <FormattedContent v-if="content" :content="content" />
       <AttachmentChips :attachments="attachments" class="gap-2" />
+
+      <div
+        v-if="contentType == 'calling_event'"
+        class="px-2 py-1 rounded-lg bg-n-alpha-3"
+      >
+        {{
+          !contentAttributes.callStatus
+            ? 'Missed'
+            : contentAttributes.callStatus[0].toUpperCase() +
+              contentAttributes.callStatus.slice(1)
+        }}
+      </div>
+
       <template v-if="isTemplate">
         <div
           v-if="contentAttributes.submittedEmail"
