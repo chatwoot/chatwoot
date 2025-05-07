@@ -9,11 +9,4 @@ export default {
       message: { submitted_values: values },
     });
   },
-
-  updateContentAttrs: ({ messageId, contentAttrs }) => {
-    const urlData = authEndPoint.updateMessage(messageId);
-    return API.patch(urlData.url, {
-      message: { content_attributes: contentAttrs },
-    });
-  },
 };
