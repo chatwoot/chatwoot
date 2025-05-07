@@ -56,13 +56,24 @@ module ActivityMessageHandler
     ::Conversations::ActivityMessageJob.perform_later(self, activity_message_params(content)) if content
   end
 
+  def auto_resolve_message_key(minutes)
+    if minutes >= 1440 && (minutes % 1440).zero?
+      { key: 'auto_resolved_days', count: minutes / 1440 }
+    elsif minutes >= 60 && (minutes % 60).zero?
+      { key: 'auto_resolved_hours', count: minutes / 60 }
+    else
+      { key: 'auto_resolved_minutes', count: minutes }
+    end
+  end
+
   def user_status_change_activity_content(user_name)
     if user_name
       I18n.t("conversations.activity.status.#{status}", user_name: user_name)
     elsif Current.contact.present? && resolved?
       I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
     elsif resolved?
-      I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+      message_data = auto_resolve_message_key(auto_resolve_after || 0)
+      I18n.t("conversations.activity.status.#{message_data[:key]}", count: message_data[:count])
     end
   end
 

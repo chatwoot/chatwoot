@@ -18,16 +18,17 @@ RSpec.describe Conversations::ResolutionJob do
   end
 
   it 'resolves the issue if time of inactivity is more than the auto resolve duration' do
-    account.update(auto_resolve_duration: 10)
-    conversation.update(last_activity_at: 13.days.ago)
+    account.update(auto_resolve_after: 14_400) # 10 days in minutes
+    conversation.update(last_activity_at: 13.days.ago, waiting_since: nil)
     described_class.perform_now(account: account)
     expect(conversation.reload.status).to eq('resolved')
   end
 
   it 'resolved only a limited number of conversations in a single execution' do
     stub_const('Limits::BULK_ACTIONS_LIMIT', 2)
-    account.update(auto_resolve_duration: 10)
-    create_list(:conversation, 3, account: account, last_activity_at: 13.days.ago)
+    account.update(auto_resolve_after: 14_400) # 10 days in minutes
+    conversations = create_list(:conversation, 3, account: account, last_activity_at: 13.days.ago)
+    conversations.each { |conversation| conversation.update(waiting_since: nil) }
     described_class.perform_now(account: account)
     expect(account.conversations.resolved.count).to eq(Limits::BULK_ACTIONS_LIMIT)
   end

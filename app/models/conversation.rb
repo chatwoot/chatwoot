@@ -76,10 +76,10 @@ class Conversation < ApplicationRecord
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
-  scope :resolvable, lambda { |auto_resolve_duration|
-    return none if auto_resolve_duration.to_i.zero?
+  scope :resolvable, lambda { |auto_resolve_after|
+    return none if auto_resolve_after.to_i.zero?
 
-    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+    open.where('last_activity_at < ? AND waiting_since IS NULL', Time.now.utc - auto_resolve_after.minutes)
   }
 
   scope :last_user_message_at, lambda {
@@ -112,7 +112,7 @@ class Conversation < ApplicationRecord
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
 
-  delegate :auto_resolve_duration, to: :account
+  delegate :auto_resolve_after, to: :account
 
   def can_reply?
     Conversations::MessageWindowService.new(self).can_reply?
