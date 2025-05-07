@@ -114,6 +114,40 @@ class ActionCableListener < BaseListener
     )
   end
 
+  # Call events
+  def call_created(event)
+    account = event.data[:account]
+    user = event.data[:user]
+    conversation = event.data[:conversation]
+    call = event.data[:call]
+
+    tokens = call_event_listener_tokens(account, user, conversation)
+
+    broadcast(account, tokens, CALL_CREATED, call)
+  end
+
+  def call_ended(event)
+    account = event.data[:account]
+    user = event.data[:user]
+    call = event.data[:call]
+    conversation = event.data[:conversation]
+    tokens = call_event_listener_tokens(account, user, conversation)
+
+    broadcast(account, tokens, CALL_ENDED, call)
+  end
+
+  def call_rejected(event)
+    user = event.data[:user]
+    room_id = event.data[:room_id]
+    call = { room_id: room_id }
+    conversation = event.data[:conversation]
+    account = conversation.account
+
+    tokens = call_event_listener_tokens(account, user, conversation)
+
+    broadcast(account, tokens, CALL_REJECTED, call)
+  end
+
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)
@@ -175,6 +209,20 @@ class ActionCableListener < BaseListener
   def typing_event_listener_tokens(account, conversation, user)
     current_user_token = user.is_a?(Contact) ? conversation.contact_inbox.pubsub_token : user.pubsub_token
     (user_tokens(account, conversation.inbox.members) + [conversation.contact_inbox.pubsub_token]) - [current_user_token]
+  end
+
+  def call_event_listener_tokens(account, user, conversation)
+    # If user is a contact, send to all agents of the account
+    if user.is_a?(Contact)
+      [conversation.assignee.pubsub_token]
+    # Otherwise, user is an agent, so send to the contact involved in the conversation
+    else
+      # If we don't have a valid conversation with a contact_inbox, fall back to all agents
+      return user_tokens(account, account.agents) if conversation.nil? || conversation.contact_inbox.blank?
+
+      # Send to the contact's pubsub token
+      [conversation.contact_inbox.pubsub_token]
+    end
   end
 
   def user_tokens(account, agents)

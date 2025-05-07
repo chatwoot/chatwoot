@@ -41,6 +41,7 @@
     "@iconify-json/material-symbols": "^1.2.10",
     "@june-so/analytics-next": "^2.0.0",
     "@lk77/vue3-color": "^3.0.6",
+    "@mycure/vue-jitsi-meet": "^0.0.8",
     "@radix-ui/colors": "^3.0.0",
     "@rails/actioncable": "6.1.3",
     "@rails/ujs": "^7.1.400",

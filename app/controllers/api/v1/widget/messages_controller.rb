@@ -21,6 +21,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
         retain_original_contact_name: true
       ).perform
     else
+      params = message_update_params[:message]
+      Rails.logger.info("Permitted message update: #{params.inspect}")
       @message.update!(message_update_params[:message])
     end
   rescue StandardError => e
@@ -59,7 +61,12 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   end
 
   def message_update_params
-    params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] }])
+    params[:message][:content_attributes] ||= {}
+    params[:message][:content_attributes].merge!(@message.content_attributes.to_h)
+
+    Rails.logger.info("Merged with existing attrs: #{params[:content_attributes]}")
+    params.permit(message: [{ submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }] },
+                            content_attributes: {}])
   end
 
   def permitted_params
