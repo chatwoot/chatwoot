@@ -4,7 +4,6 @@ require_relative 'boot'
 
 require 'debug/open_nonstop' if ENV['DEBUG']
 require 'rails/all'
-require 'debug/open_nonstop' if ENV['DEBUG']
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.

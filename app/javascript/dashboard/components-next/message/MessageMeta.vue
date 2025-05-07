@@ -21,26 +21,11 @@ const {
   isAnEmailChannel,
 } = useInbox();
 
-const {
-  status,
-  isPrivate,
-  createdAt,
-  sourceId,
-  messageType,
-  contentType,
-  contentAttributes,
-} = useMessageContext();
+const { status, isPrivate, createdAt, sourceId, messageType } =
+  useMessageContext();
 
-console.log('Created Time value: ', createdAt.value);
 const readableTime = computed(() =>
   messageTimestamp(createdAt.value, 'LLL d, h:mm a')
-);
-
-const callStartTime = computed(() =>
-  messageTimestamp(
-    (new Date(contentAttributes.value.callStartTime)).getTime() /1000,
-    'LLL d, h:mm a'
-  )
 );
 
 const showStatusIndicator = computed(() => {
@@ -124,12 +109,8 @@ const statusToShow = computed(() => {
 
 <template>
   <div class="text-xs flex items-center gap-1.5">
-    <div class="inline" v-if="contentType != 'calling_event'">
+    <div class="inline">
       <time class="inline">{{ readableTime }}</time>
-    </div>
-
-    <div class="inline" v-if="contentType == 'calling_event'">
-      <time class="inline">{{ callStartTime }}</time>
     </div>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />
     <MessageStatus v-if="showStatusIndicator" :status="statusToShow" />

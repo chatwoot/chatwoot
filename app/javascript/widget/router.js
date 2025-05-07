@@ -15,11 +15,6 @@ export default createRouter({
       component: () => import('./views/Campaigns.vue'),
     },
     {
-      path: '/incoming-call',
-      name: 'incoming-call',
-      component: () => import('./views/IncomingCall.vue'),
-    },
-    {
       path: '/',
       component: ViewWithHeader,
       children: [
