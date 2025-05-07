@@ -1,7 +1,6 @@
 # Remove the version line
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
     env_file: .env
     volumes:
       - ./:/app:delegated
@@ -15,7 +14,6 @@ services:
     depends_on:
       - postgres
       - redis
-      - vite
       - sidekiq
     ports:
       - '127.0.0.1:3000:3000'
