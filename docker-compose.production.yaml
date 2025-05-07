@@ -53,7 +53,7 @@ services:
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
-      - packs_new:/app/public/packs # Updated reference
+      - packs:/app/public/packs
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     ports:
