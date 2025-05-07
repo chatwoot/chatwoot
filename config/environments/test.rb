@@ -51,4 +51,10 @@ Rails.application.configure do
   # Raises error for missing translations.
   # config.action_view.raise_on_missing_translations = true
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
+
+   # The tests are only waiting :en locale
+  config.i18n.default_locale = :en
+
+  # Fixed error Unsafe redirect to "http://0.0.0.0:3000 need only test environtment
+  config.action_controller.raise_on_open_redirects = false
 end
