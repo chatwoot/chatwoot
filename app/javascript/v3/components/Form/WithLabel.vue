@@ -1,28 +1,12 @@
-<script>
-export default {
-  props: {
-    label: {
-      type: String,
-      default: '',
-    },
-    name: {
-      type: String,
-      required: true,
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    hasError: {
-      type: Boolean,
-      default: false,
-    },
-    errorMessage: {
-      type: String,
-      default: '',
-    },
-  },
-};
+<script setup>
+defineProps({
+  label: { type: String, default: '' },
+  name: { type: String, required: true },
+  icon: { type: String, default: '' },
+  hasError: { type: Boolean, default: false },
+  helpMessage: { type: String, default: '' },
+  errorMessage: { type: String, default: '' },
+});
 </script>
 
 <template>
@@ -30,8 +14,8 @@ export default {
     <label
       v-if="label"
       :for="name"
-      class="flex justify-between text-sm font-medium leading-6 text-slate-900 dark:text-white"
-      :class="{ 'text-red-500': hasError }"
+      class="flex justify-between text-sm font-medium leading-6 text-n-slate-12"
+      :class="{ 'text-n-ruby-12': hasError }"
     >
       <slot name="label">
         {{ label }}
@@ -44,16 +28,24 @@ export default {
           v-if="icon"
           size="16"
           :icon="icon"
-          class="absolute left-2 transform text-slate-400 dark:text-slate-600 w-5 h-5"
+          class="absolute left-2 transform text-n-slate-9 w-5 h-5"
         />
         <slot />
       </div>
-      <span
+      <div
         v-if="errorMessage && hasError"
-        class="text-xs text-n-ruby-9 dark:text-n-ruby-9 leading-2"
+        class="text-xs mt-2 ml-px text-n-ruby-9 leading-tight"
       >
         {{ errorMessage }}
-      </span>
+      </div>
+      <div
+        v-else-if="helpMessage || $slots.help"
+        class="text-xs mt-2 ml-px text-n-slate-10 leading-tight"
+      >
+        <slot name="help">
+          {{ helpMessage }}
+        </slot>
+      </div>
     </div>
   </div>
 </template>
