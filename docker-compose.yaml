@@ -34,12 +34,15 @@ services:
       - mailhog
       - sidekiq
     ports:
-      - 3000:3000
+      - '127.0.0.1:3000:3000'
     env_file: .env
     environment:
       - VITE_DEV_SERVER_HOST=vite
-      - NODE_ENV=development
-      - RAILS_ENV=development
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
 
@@ -57,8 +60,11 @@ services:
       - redis
       - mailhog
     environment:
-      - NODE_ENV=development
-      - RAILS_ENV=development
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - REDIS_URL=redis://redis:6379
+      - REDIS_PASSWORD=${REDIS_PASSWORD}
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
 
   vite:
