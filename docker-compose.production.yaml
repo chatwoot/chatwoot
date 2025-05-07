@@ -59,7 +59,7 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     ports:
-      - '3036:3036'
+      - '127.0.0.1:3036:3036'
     environment:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=production
