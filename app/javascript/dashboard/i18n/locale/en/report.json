@@ -260,11 +260,31 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
+    "VOICE_HEADER": "Voice Channel Overview",
     "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
+    "VOICE_DESCRIPTION": "Track call metrics such as total calls, average duration, waiting times, and more across your voice channels.",
     "LOADING_CHART": "Loading chart data...",
     "NO_ENOUGH_DATA": "We've not received enough data points to generate report, Please try again later.",
+    "NO_VOICE_INBOXES": "No voice channels found",
+    "CREATE_VOICE_INBOX_PROMPT": "Create a voice channel first to view reports",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
+    "DOWNLOAD_VOICE_REPORTS": "Download voice reports",
     "FILTER_DROPDOWN_LABEL": "Select Inbox",
+    "VOICE_METRICS": {
+      "TOTAL_CALLS": "Total Calls",
+      "INCOMING_CALLS": "Incoming Calls",
+      "OUTGOING_CALLS": "Outgoing Calls",
+      "MISSED_CALLS": "Missed Calls",
+      "AVG_DURATION": "Average Call Duration",
+      "AVG_WAITING_TIME": "Average Waiting Time",
+      "SUCCESS_RATE": "Call Success Rate"
+    },
+    "VOICE_CHARTS": {
+      "CALLS_BY_TYPE": "Calls by Type",
+      "CALL_DURATION": "Average Call Duration",
+      "WAITING_TIME": "Average Waiting Time",
+      "SUCCESS_RATE": "Call Success Rate"
+    },
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversations",
