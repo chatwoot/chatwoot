@@ -3,6 +3,7 @@ class Instagram::SendOnInstagramService < Instagram::BaseSendService
 
   def channel_class
     Channel::Instagram
+  end
 
   def message_params
     message_content = message.content
