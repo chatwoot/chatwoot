@@ -248,7 +248,7 @@ const calculatePackagePrice = price => {
 // Billing cycle tabs data
 const billingCycleTabs = [
   { id: 'monthly', name: 'Bulanan', qty: 1 },
-  { id: 'quarterly', name: '3 Months', qty: 3 },
+  { id: 'quarterly', name: '3 Bulan', qty: 3 },
   {
     id: 'halfyear',
     name: 'Setengah Tahun',
@@ -314,6 +314,20 @@ const plansMock = [
   },
 ];
 // END TAB PRICING & PACKAGES
+
+const selectedTabDisplay = computed(() => {
+  const tab = selectedTab.value
+  if (tab === 'monthly') {
+    return 'Bulanan'
+  } else if (tab === 'yearly') {
+    return 'Tahunan'
+  } else if (tab === 'quarterly') {
+    return 'Per 3 Bulan'
+  } else if (tab === 'halfyear') {
+    return 'Per 6 Bulan'
+  }
+  return '-'
+})
 </script>
 
 <script>
@@ -348,14 +362,14 @@ export default {
       ],
       durationOptions: [
         { id: 'monthly', name: 'Bulanan' },
-        { id: '3mo', name: '3 Months' },
+        { id: '3mo', name: '3 Bulan' },
         { id: 'halfyearly', name: 'Setengah Tahun' },
         { id: 'yearly', name: "Tahunan" },
       ],
       durationPromos: {
         '3mo': '1 Month Free!',
         halfyearly: '2 Months Free!',
-        yearly: '3 Months Free!',
+        yearly: '3 Bulan Free!',
       },
       // plans: [],
       transactions: [],
@@ -798,15 +812,14 @@ export default {
       <div
         class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4"
       >
-        <h3 class="text-sm font-medium mb-2 text-white">AI Responses</h3>
+        <h3 class="text-sm font-medium mb-2 text-white">Jawaban AI</h3>
         <div class="flex items-center">
           <h2 class="text-2xl font-bold text-white">
             {{ activeSubscription?.subscription_usage?.ai_responses_count }}
             Used
           </h2>
           <span class="text-sm ml-2 text-white"
-            >({{ activeSubscription?.max_ai_responses }} AI Responses
-            Limit)</span
+            >(Batas {{ activeSubscription?.max_ai_responses }} Jawaban AI)</span
           >
         </div>
         <div class="flex items-center text-sm mt-5">
@@ -1099,9 +1112,9 @@ export default {
               {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
             </div>
             <div class="price-period">
-              IDR /{{ qty == 1 ? 'bulanan' : `${qty}mo` }}
+              IDR /{{ qty == 1 ? 'bulan' : `${qty}mo` }}
             </div>
-            <div class="package-type">{{ selectedTab }} Package</div>
+            <div class="package-type">Paket {{ selectedTabDisplay }}</div>
           </div>
 
           <div class="plan-features">
