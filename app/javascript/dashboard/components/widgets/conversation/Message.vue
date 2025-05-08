@@ -6,7 +6,9 @@
   >
     <div :class="wrapClass">
       <div
-        v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
+        v-if="
+          isFailed && !hasOneDayPassed && !isAnEmailInbox && !isWhatsappInbox
+        "
         class="message-failed--alert"
       >
         <woot-button
@@ -203,6 +205,10 @@ export default {
       default: false,
     },
     isAWhatsAppChannel: {
+      type: Boolean,
+      default: false,
+    },
+    isWhatsappInbox: {
       type: Boolean,
       default: false,
     },
