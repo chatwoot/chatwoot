@@ -238,9 +238,6 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
-    },
-    "MESSAGE_MENU": {
-      "FORWARD_EMAIL": "Forward email"
     }
   },
   "FORWARD_MESSAGE_FORM": {
