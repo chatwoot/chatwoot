@@ -5,18 +5,16 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Web Components Test</title>
     <link rel="stylesheet" href="/packs/style.css" />
+    <script>
+      window.__WOOT_ACCOUNT_ID__ = 1;
+      window.__WOOT_API_HOST__ = 'http://localhost:3000';
+      window.__WOOT_ACCESS_TOKEN__ = 'code';
+    </script>
   </head>
   <body>
     <h1>Web Components Test</h1>
-
-    <h2>Button Component</h2>
-    <woot-button ruby solid label="Click Me"></woot-button>
-
-    <h2>Input Component</h2>
-    <woot-input placeholder="Type something..."></woot-input>
-
     <h2>Message List</h2>
-    <woot-message-list></woot-message-list>
+    <woot-message-list conversation-id="5833"></woot-message-list>
 
     <script src="/packs/js/ui.js"></script>
   </body>

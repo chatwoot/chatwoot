@@ -12,12 +12,9 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
 import axios from 'axios';
-import createAxios from 'dashboard/helper/APIHelper';
+import createAxios from '../ui/axios';
 import commonHelpers from 'dashboard/helper/commons';
 
-import WootButton from '../dashboard/components-next/button/Button.vue';
-import WootInput from '../dashboard/components-next/input/Input.vue';
-import WootMessage from '../dashboard/components-next/message/Message.vue';
 import MessageList from '../ui/MessageList.vue';
 import i18nMessages from '../dashboard/i18n';
 import { createI18n, I18nInjectionKey } from 'vue-i18n';
@@ -47,14 +44,8 @@ commonHelpers();
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 
-export const buttonElement = defineCustomElement(WootButton, ceOptions);
-export const inputElement = defineCustomElement(WootInput, ceOptions);
-export const messageElement = defineCustomElement(WootMessage, ceOptions);
 export const messageListElement = defineCustomElement(MessageList, ceOptions);
 
 // eslint-disable-next-line no-underscore-dangle
 window.__CHATWOOT_STORE__ = store;
-customElements.define('woot-button', buttonElement);
-customElements.define('woot-input', inputElement);
-customElements.define('woot-message', messageElement);
 customElements.define('woot-message-list', messageListElement);

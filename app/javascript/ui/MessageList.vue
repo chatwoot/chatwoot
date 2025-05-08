@@ -1,21 +1,38 @@
 <script setup>
+import { onMounted, computed, watch } from 'vue';
 import Message from 'next/message/Message.vue';
-import allMessages from 'next/message/fixtures/textWithMedia.js';
+import { useStore } from 'dashboard/composables/store';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
-// const props = defineProps({
-//   accountId: {
-//     type: Number,
-//     required: true,
-//   },
-//   conversationId: {
-//     type: Number,
-//     required: true,
-//   },
-//   token: {
-//     type: String,
-//     required: true,
-//   },
-// });
+const props = defineProps({
+  conversationId: {
+    type: Number,
+    required: true,
+  },
+});
+
+const store = useStore();
+
+onMounted(() => {
+  store.dispatch('getConversation', props.conversationId);
+});
+
+const conversation = computed(() => {
+  return store.getters.getConversationById(props.conversationId);
+});
+
+const allMessages = computed(() => {
+  if (!conversation.value) return [];
+
+  return useCamelCase(conversation.value.messages);
+});
+
+watch(conversation, () => {
+  store.dispatch('fetchPreviousMessages', {
+    conversationId: conversation.value.id,
+    before: allMessages.value[0].id,
+  });
+});
 </script>
 
 <template>
