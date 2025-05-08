@@ -212,9 +212,9 @@ export default {
       this.avatarUrl = this.currentUser.avatar_url;
       this.displayName = this.currentUser.display_name;
       this.messageSignature = this.currentUser.message_signature;
-      this.aiTranslationEnabled = this.uiSettings.ai_translation_enabled !== false;
-      this.aiQualityCheckEnabled = this.uiSettings.ai_quality_check_enabled !== false;
-      this.aiSummaryEnabled = this.uiSettings.ai_summary_enabled !== false;
+      this.aiTranslationEnabled = this.uiSettings.ai_translation_enabled === true;
+      this.aiQualityCheckEnabled = this.uiSettings.ai_quality_check_enabled === true;
+      this.aiSummaryEnabled = this.uiSettings.ai_summary_enabled === true;
     },
     isEditorHotKeyEnabled,
     async dispatchUpdate(payload, successMessage, errorMessage) {

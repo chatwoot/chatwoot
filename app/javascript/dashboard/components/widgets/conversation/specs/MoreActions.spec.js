@@ -75,7 +75,7 @@ describe('MoreActions', () => {
 
   describe('muting discussion', () => {
     it('triggers "muteConversation"', async () => {
-      await moreActions.find('button:nth-child(2)').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(muteConversation).toBeCalledWith(
         expect.any(Object),
@@ -85,7 +85,7 @@ describe('MoreActions', () => {
     });
 
     it('shows alert', async () => {
-      await moreActions.find('button:nth-child(2)').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',
@@ -101,7 +101,7 @@ describe('MoreActions', () => {
     });
 
     it('triggers "unmuteConversation"', async () => {
-      await moreActions.find('button:nth-child(2)').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(unmuteConversation).toBeCalledWith(
         expect.any(Object),
@@ -111,7 +111,7 @@ describe('MoreActions', () => {
     });
 
     it('shows alert', async () => {
-      await moreActions.find('button:nth-child(2)').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
       expect(window.bus.$emit).toBeCalledWith(
         'newToastMessage',

@@ -308,10 +308,10 @@ export default {
       return false;
     },
     translationAllowedForAgent() {
-      return this.uiSettings?.ai_translation_enabled !== false;
+      return this.uiSettings?.ai_translation_enabled === true;
     },
     qualityCheckForAgentAllowed() {
-      return this.uiSettings?.ai_quality_check_enabled !== false;
+      return this.uiSettings?.ai_quality_check_enabled === true;
     },
     assignedAgent: {
       get() {

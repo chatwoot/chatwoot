@@ -7,15 +7,17 @@ class Digitaltolk::Openai::Translation < Digitaltolk::Openai::Base
     If the message is in %<target_language>s, translate it into English.
     If the message is in English, translate it into %<target_language>s.
     Maintain the original meaning and context in the translation.
+    Always preserve the line breaks and formatting in the translated_message.
     Do not shorten or summarize the translated message.
 
     Format:
     {
-      translated_message: <translated_message>,
-      translated_locale: <translated_language_code>
+      "translated_message": "<translated_message>",
+      "translated_locale": "<translated_language_code>"
     }
 
-    Important: Return a valid json object. Do not include any additional text, explanations,  white spaces or formatting.
+    Important:
+    Return a valid json object. Do not include any additional text, explanations, white spaces or formatting of the json object.
   ).freeze
 
   def perform(content, target_language = 'Svenska (sv)')

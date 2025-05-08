@@ -122,7 +122,7 @@ export default {
       return this.summaryFeatureEnabled && this.summaryAllowedForAgent;
     },
     summaryAllowedForAgent() {
-      return this.uiSettings?.ai_summary_enabled !== false;
+      return this.uiSettings?.ai_summary_enabled === true;
     },
   },
   mounted() {

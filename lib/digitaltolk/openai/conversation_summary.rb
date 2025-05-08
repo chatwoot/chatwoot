@@ -9,7 +9,7 @@ class Digitaltolk::Openai::ConversationSummary < Digitaltolk::Openai::Base
     Return a translated summary of the conversation in English and %<target_language>s.
 
     JSON format:
-    { summary: <summary>, translated_summary: <translated_summary> }
+    { "summary": "<summary>", "translated_summary": "<translated_summary>"}
 
     Important: Return a json object, do not include any additional text, explanations, white spaces or formatting.
   ).freeze
@@ -28,7 +28,7 @@ class Digitaltolk::Openai::ConversationSummary < Digitaltolk::Openai::Base
   private
 
   def conversation_messages
-    @conversation.messages.where(message_type: %w[incoming outgoing]).order(:created_at)
+    @conversation.messages.where(message_type: %w[incoming outgoing]).order(:created_at).select(:content, :id, :message_type, :created_at)
   end
 
   def system_prompt
@@ -36,13 +36,16 @@ class Digitaltolk::Openai::ConversationSummary < Digitaltolk::Openai::Base
   end
 
   def user_prompt
-    conversation_messages.map do |message|
+    convos = []
+    conversation_messages.find_each do |message|
       if message.incoming?
-        "Customer: #{message.content}"
+        convos << "Customer: #{message.content}"
       else
-        "Agent: #{message.content}"
+        convos << "Agent: #{message.content}"
       end
-    end.join("\n")
+    end
+
+    convos.join("\n")
   end
 
   def messages

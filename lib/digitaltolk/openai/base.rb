@@ -13,7 +13,7 @@ class Digitaltolk::Openai::Base
     @client = OpenAI::Client.new(
       uri_base: API_BASE_URL,
       access_token: access_token,
-      log_errors: Rails.env.development?,
+      log_errors: true,
       api_version: API_VERSION
     )
   end

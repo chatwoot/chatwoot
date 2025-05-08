@@ -164,6 +164,7 @@ import InstagramStory from './bubble/InstagramStory.vue';
 import InstagramStoryReply from './bubble/InstagramStoryReply.vue';
 import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import uiSettingsMixin from 'dashboard/mixins/uiSettings';
 import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
@@ -192,7 +193,7 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin],
+  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin, uiSettingsMixin],
   props: {
     data: {
       type: Object,
@@ -340,6 +341,7 @@ export default {
       return {
         smart_actions: this.enableSmartActions,
         copy: this.hasText,
+        translate: this.translateEnabled,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
@@ -356,6 +358,15 @@ export default {
         (this.isAnEmailInbox || this.isWebWidgetInbox)
       );
     },
+    translateEnabled() {
+      const isFeatEnabled = this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.AI_TRANSLATION
+      );
+
+      return isFeatEnabled && this.uiSettings?.ai_translation_enabled === true;
+    },
+
     contentAttributes() {
       return this.data.content_attributes || {};
     },

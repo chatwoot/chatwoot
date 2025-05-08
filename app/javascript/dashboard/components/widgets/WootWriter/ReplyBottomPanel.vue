@@ -466,11 +466,19 @@ export default {
       this.$emit('toggle-insert-article');
     },
     proceedWithSendingMessage() {
+      this.hideAILoader()
       this.$emit('confirm-on-send-reply');
     },
-    sendResponseWhenTranslationError() {
+    hideAILoader() {
       this.showAiLoader = false;
+
+      if (this.$refs.replyToMultipleAction) {
+        this.$refs.replyToMultipleAction.hideAILoader();
+      }
+    },
+    sendResponseWhenTranslationError() {
       this.translationError = false;
+
       this.proceedWithSendingMessage();
     },
     async performQualityCheck() {
@@ -479,19 +487,17 @@ export default {
         draftMessage: this.message,
       });
 
-      this.$store.dispatch('setQualityScores', {
-        conversationId: this.conversationId,
-        message: this.message,
-        qualityCheckResponse: qualityResult.data,
-      });
+      if (qualityResult && qualityResult.data) {
+        this.$store.dispatch('setQualityScores', {
+          conversationId: this.conversationId,
+          message: this.message,
+          qualityCheckResponse: qualityResult.data,
+        });
+      }
 
       this.aiCheckResponse = qualityResult.data;
-      this.showAiLoader = false;
+      this.hideAILoader()
       this.showAIAssistanceModal = this.shouldShowAIAssistanceModal;
-
-      if (this.$refs.replyToMultipleAction) {
-        this.$refs.replyToMultipleAction.hideAILoader();
-      }
 
       if (this.withResponse && this.checkPassed && !this.shouldTranslate) {
         this.showAIAssistanceModal = false;
@@ -499,7 +505,6 @@ export default {
       }
     },
     async performResponseTranslation() {
-      this.showAiLoader = true;
       this.translatedMessage = '';
       const response = await this.$store.dispatch('translateDraftMessage', {
         conversationId: this.conversationId,
@@ -507,7 +512,7 @@ export default {
       })
 
       const responseData = response.data;
-      this.showAiLoader = false;
+      this.hideAILoader()
       try {
         if (responseData.agent_message_locale === responseData.customer_message_locale) {
           this.proceedWithSendingMessage();
@@ -533,6 +538,7 @@ export default {
       if (!this.isOnPrivateNote) {
         this.showAiLoader = true;
       }
+
       this.onSend()
     },
   },

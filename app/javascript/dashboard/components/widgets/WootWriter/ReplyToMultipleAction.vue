@@ -3,23 +3,14 @@
     <div class="button-group">
       <woot-button
         :is-disabled="isDisabled"
-        v-if="showAiLoader"
-        size="small"
-        color-scheme="primary"
-        emoji="✅"
-      >
-        <AIButtonLoader />
-        and Resolve
-      </woot-button>
-      <woot-button
-        :is-disabled="isDisabled"
-        v-else-if="showReplyAndResolve"
+        v-if="showReplyAndResolve"
         size="small"
         color-scheme="primary"
         icon="send"
         emoji="✅"
         @click="onReplyAndResolve"
       >
+        <AIButtonLoader v-if="showAiLoader" />
         and Resolve
       </woot-button>
 
@@ -32,6 +23,7 @@
         emoji="👀"
         @click="onReplyAsPending"
       >
+        <AIButtonLoader v-if="showAiLoader" />
         as Pending
       </woot-button>
 
@@ -179,8 +171,37 @@
           FEATURE_FLAGS.REQUIRED_CONTACT_TYPE,
         );
       },
+      qualityCheckFeatureEnabled(){
+        return this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.AI_QUALITY_CHECK
+        );
+      },
+      translationFeatureEnabled(){
+        return this.isFeatureEnabledonAccount(
+          this.accountId,
+          FEATURE_FLAGS.AI_TRANSLATION
+        );
+      },
+      translationAllowedForAgent() {
+        return this.uiSettings?.ai_translation_enabled === true;
+      },
+      qualityCheckForAgentAllowed() {
+        return this.uiSettings?.ai_quality_check_enabled === true;
+      },
+      translationEnabled() {
+        return this.qualityCheckFeatureEnabled && this.qualityCheckForAgentAllowed;
+      },
+      qualityCheckEnabled() {
+        return this.translationFeatureEnabled && this.translationAllowedForAgent;
+      }
     },
     methods: {
+      displayAILoader(){
+        if (this.translationEnabled || this.qualityCheckEnabled) {
+          this.showAiLoader = true;
+        }
+      },
       hideAILoader(){
         this.showAiLoader = false;
       },
@@ -195,8 +216,8 @@
         });
       },
       onReplyAndResolve(){
-        this.showAiLoader = true;
-        this.onSend();
+        this.displayAILoader()
+        this.onSend()
 
         if (this.isResolved) {
           return;
@@ -221,7 +242,13 @@
         }, 500)
       },
       onReplyAsPending(){
-        this.onSend();
+        this.displayAILoader()
+        this.onSend()
+
+        if (this.isPending) {
+          return;
+        }
+
         setTimeout(() => {
           this.toggleStatus(this.STATUS_TYPE.PENDING);
         }, 500)

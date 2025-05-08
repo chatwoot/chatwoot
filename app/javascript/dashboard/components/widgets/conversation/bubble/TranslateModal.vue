@@ -9,7 +9,7 @@
       <p>
         <b>{{ $t('TRANSLATE_MODAL.ORIGINAL_CONTENT') }}</b>
       </p>
-      <p v-dompurify-html="content" class="mb-0" />
+      <p v-dompurify-html="formatMessage(content)" class="mb-0" />
       <br />
       <hr />
       <div v-if="translationsAvailable">
@@ -20,7 +20,7 @@
           <p>
             <strong>{{ language }}:</strong>
           </p>
-          <p v-dompurify-html="translation" />
+          <p v-dompurify-html="formatMessage(translation)" />
           <br />
         </div>
       </div>
@@ -37,7 +37,10 @@
   </woot-modal>
 </template>
 <script>
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+
 export default {
+  mixins: [messageFormatterMixin],
   props: {
     contentAttributes: {
       type: Object,

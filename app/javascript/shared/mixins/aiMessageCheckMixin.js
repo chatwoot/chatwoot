@@ -32,7 +32,7 @@ export default {
       return !!this.aiCheckResponse;
     },
     needsTranslation() {
-      if (this.uiSettings?.ai_translation_enabled === false) {
+      if (this.uiSettings?.ai_translation_enabled !== true) {
         return false;
       }
 

@@ -13,19 +13,21 @@ class Digitaltolk::Openai::ResponseTranslation < Digitaltolk::Openai::Base
     If the agent message is in %<target_language>s, translate it into English,
     if the agent message is in English, translate it into %<target_language>s,
     Maintain the original meaning and context in the translation.
-    Do not shorten or summarize the translated response message.
+    Always preserve the line breaks and formatting in the translated_agent_message.
+    Do not shorten or summarize the translated agent message.
     Store the translated agent message in translated_agent_message.
     Detect the language of the translated agent message and store the language code in translated_agent_message_locale.
 
     Response format:
     {
-      translated_agent_message: <translated_agent_message>,
-      translated_agent_message_locale: <translated_agent_message_locale>,
-      agent_message_locale: <agent_message_language_code>,
-      customer_message_locale: <customer_message_language_code>,
+      "translated_agent_message": "<translated_agent_message>",
+      "translated_agent_message_locale": "<translated_agent_message_locale>",
+      "agent_message_locale": "<agent_message_language_code>",
+      "customer_message_locale": "<customer_message_language_code>"
     }
 
-    Important: Return a valid json object, do not include any additional text, explanations, white spaces or formatting.
+    Important:
+    Return a valid json object, do not include any additional text, explanations, white spaces or formatting around the json object.
   ).freeze
 
   USER_PROMPT = %(

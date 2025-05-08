@@ -48,7 +48,6 @@
           </woot-button>
         </div>
         <div>
-
           <woot-button v-if="canTranslateResponse && checkPassed" class="small" @click.prevent="translateMessage">
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.NEXT_STEP') }}
             {{ $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.TRANSLATE') }}
