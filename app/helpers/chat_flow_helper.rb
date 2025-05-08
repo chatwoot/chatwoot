@@ -8,6 +8,7 @@ module ChatFlowHelper
 
   def create_flow_data_and_store_config(store_id)
     default_system_message_prompt
+    handover_prompt_template
     chat_memory
     vector_store
 
@@ -57,7 +58,7 @@ module ChatFlowHelper
   def default_system_message_prompt
     replace_business_name
     node = find_node_by_id('chatPromptTemplate_0')
-    node['data']['inputs']['systemMessagePrompt'] = template.system_prompt
+    node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n\n#{template.system_prompt_rules}"
   end
 
   def system_message_prompt
@@ -86,7 +87,7 @@ module ChatFlowHelper
   end
 
   def replace_additional_rules_for_handover_prompt
-    template.handover_prompt.gsub('{additional_rules}', params[:routing_conditions])
+    template.handover_prompt.gsub('{additional_rules}', params[:routing_conditions] || '')
   end
 
   def combined_system_prompt
