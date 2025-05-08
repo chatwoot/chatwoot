@@ -196,14 +196,15 @@ export default {
     <div class="flex flex-col items-center md:flex-row gap-4">
       <div class="flex-1 w-full max-w-full">
         <MetricCard
-          header="AI Responses"
+          header="Jawaban AI"
           :is-loading="uiFlags.isFetchingCreditUsage"
         >
           <div class="flex-1 min-w-0 pb-2">
             <p class="text-n-slate-12 text-3xl mb-0 mt-1">
               {{
+                // TODO: add localization
                 creditUsageMetric?.credit_usage
-                  ? `${creditUsageMetric?.credit_usage} Used`
+                  ? `${creditUsageMetric?.credit_usage} terpakai`
                   : '-'
               }}
             </p>

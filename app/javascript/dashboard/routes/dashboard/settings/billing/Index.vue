@@ -247,15 +247,15 @@ const calculatePackagePrice = price => {
 
 // Billing cycle tabs data
 const billingCycleTabs = [
-  { id: 'monthly', name: 'Monthly', qty: 1 },
+  { id: 'monthly', name: 'Bulanan', qty: 1 },
   { id: 'quarterly', name: '3 Months', qty: 3 },
   {
     id: 'halfyear',
-    name: 'Half-Yearly',
+    name: 'Setengah Tahun',
     qty: 6,
     badge: '',
   },
-  { id: 'yearly', name: 'Yearly', qty: 12, badge: '' },
+  { id: 'yearly', name: 'Tahunan', qty: 12, badge: '' },
 ];
 
 // Pricing plans data
@@ -347,10 +347,10 @@ export default {
         { id: 'crm', name: 'CRM Only (Lite)' },
       ],
       durationOptions: [
-        { id: 'monthly', name: 'Monthly' },
+        { id: 'monthly', name: 'Bulanan' },
         { id: '3mo', name: '3 Months' },
-        { id: 'halfyearly', name: 'Half-Yearly' },
-        { id: 'yearly', name: 'Yearly' },
+        { id: 'halfyearly', name: 'Setengah Tahun' },
+        { id: 'yearly', name: "Tahunan" },
       ],
       durationPromos: {
         '3mo': '1 Month Free!',
@@ -509,7 +509,7 @@ export default {
               price: 1737000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 '1000 Monthly Active Users',
                 '2 Human Agents',
@@ -525,7 +525,7 @@ export default {
               price: 4497000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 '5,000 Monthly Active Users',
                 '5 Human Agents',
@@ -541,7 +541,7 @@ export default {
               price: 17397000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 '10,000 Monthly Active Users',
                 '10 Human Agents',
@@ -557,7 +557,7 @@ export default {
               price: 47397000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 'Unlimited Monthly Active Users',
                 'Unlimited Human Agents',
@@ -715,7 +715,8 @@ export default {
       <div
         class="bg-gradient-to-r from-cyan-500 to-cyan-400 text-white rounded-lg p-4"
       >
-        <h3 class="text-sm font-medium mb-2 text-white">Package Details</h3>
+        <!-- TODO: Add localization -->
+        <h3 class="text-sm font-medium mb-2 text-white">Detail Paket</h3>
         <pre>{{ subscription }}</pre>
         <h2 class="text-2xl font-bold mb-3 text-white">
           {{ activeSubscription?.plan_name ?? 'N/A' }}
@@ -738,7 +739,7 @@ export default {
             </svg>
           </span>
           <span
-            >Expires on
+            >Berlaku sampai
             {{
               activeSubscription?.ends_at
                 ? formatDate(activeSubscription?.ends_at)
@@ -753,7 +754,7 @@ export default {
         class="bg-gradient-to-r from-violet-500 to-violet-400 text-white rounded-lg p-4"
       >
         <h3 class="text-sm font-medium mb-2 text-white">
-          Monthly Active Users (Limit Percakapan)
+          Jumlah Pengguna Aktif per Bulan (Batas Chat)
         </h3>
         <div class="flex items-center">
           <h2 class="text-2xl font-bold text-white">
@@ -764,13 +765,13 @@ export default {
           >
         </div>
         <p class="text-sm mb-2 text-white">
-          Additional MAU: {{ usage.additionalMau }}
+          Tambahan MAU: {{ usage.additionalMau }}
         </p>
         <button
           class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
           @click="openTopupPopup('max_active_users')"
         >
-          Top Up MAU
+          Isi Ulang Pengguna Bulanan
         </button>
         <div class="flex items-center text-sm mt-3">
           <span class="inline-block mr-2">
@@ -789,7 +790,7 @@ export default {
               <path d="M12 6v6l4 2" />
             </svg>
           </span>
-          <span>Reset Setup Tanggal: {{ usage.resetDate }}</span>
+          <span>Reset Pengaturan Setiap Tanggal: {{ usage.resetDate }}</span>
         </div>
       </div>
 
@@ -825,7 +826,7 @@ export default {
               <path d="M12 6v6l4 2" />
             </svg>
           </span>
-          <span>Reset Setup Tanggal: {{ usage.resetDate }}</span>
+          <span>Reset Pengaturan Setiap Tanggal: {{ usage.resetDate }}</span>
         </div>
       </div>
 
@@ -833,18 +834,20 @@ export default {
       <div
         class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4"
       >
+        <!-- TODO: Add localization -->
         <h3 class="text-sm font-medium mb-2 text-white">
-          Additional AI Responses
+          Jawaban AI Tambahan
         </h3>
         <h2 class="text-2xl font-bold mb-2 text-white">
-          {{ usage.additionalResponses }} Responses
+          {{ usage.additionalResponses }} Jawaban
         </h2>
         <!-- <button @click="topUpResponses" class="bg-white text-blue-400 rounded px-2 py-1 text-xs font-medium mb-2">Top Up Responses</button> -->
+         <!-- TODO: Add localization -->
         <button
           class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
           @click="openTopupPopup('ai_responses')"
         >
-          Top Up Responses
+          Isi Ulang Jawaban
         </button>
         <div class="flex items-center text-sm">
           <span class="inline-block mr-2">
@@ -864,7 +867,7 @@ export default {
               <path d="M6 6l12 12" />
             </svg>
           </span>
-          <span>AI Responses Permanent</span>
+          <span>Jawaban AI Permanen</span>
         </div>
       </div>
     </div>
@@ -1096,13 +1099,13 @@ export default {
               {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
             </div>
             <div class="price-period">
-              IDR /{{ qty == 1 ? 'monthly' : `${qty}mo` }}
+              IDR /{{ qty == 1 ? 'bulanan' : `${qty}mo` }}
             </div>
             <div class="package-type">{{ selectedTab }} Package</div>
           </div>
 
           <div class="plan-features">
-            <h4>{{ plan.name }} Features</h4>
+            <h4>{{ plan.name }} Fitur</h4>
 
             <ul class="feature-list">
               <li
@@ -1120,7 +1123,7 @@ export default {
             class="button-primary buy-button"
             @click="openPaymentPopup(plan)"
           >
-            Buy Package
+            Beli Paket
           </button>
         </div>
       </div>
