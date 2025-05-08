@@ -38,7 +38,7 @@ class Account < ApplicationRecord
         'auto_resolve_ignore_waiting': { 'type': %w[boolean null] }
       },
     'required': [],
-    'additionalProperties': false
+    'additionalProperties': true
   }.to_json.freeze
 
   DEFAULT_QUERY_SETTING = {
