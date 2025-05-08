@@ -84,6 +84,12 @@ export default {
         }
       },
     },
+    isRTL: {
+      immediate: true,
+      handler() {
+        this.setElementDir(this.isRTL ? 'rtl' : 'ltr');
+      },
+    },
   },
   mounted() {
     this.initializeColorTheme();
@@ -96,6 +102,11 @@ export default {
     }
   },
   methods: {
+    setElementDir(dir) {
+      // Set dir on document and body
+      document.documentElement.dir = dir;
+      document.body.dir = dir;
+    },
     initializeColorTheme() {
       setColorTheme(window.matchMedia('(prefers-color-scheme: dark)').matches);
     },
