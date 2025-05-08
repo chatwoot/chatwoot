@@ -71,12 +71,16 @@ function inputFile() {
 function openPicker() {
   inputFile().click();
 }
-function addFile(files) {
+function onInputChanged(files) {
   if (!files.target.files || !files.target.files.length) {
     return;
   }
-  newFiles.value.push(files.target.files[0]);
+  addFile(files.target.files[0])
   inputFile().value = '';
+}
+
+function addFile(file) {
+  newFiles.value.push(file);
 }
 
 const isSaving = ref(false);
@@ -106,6 +110,20 @@ async function save() {
     isSaving.value = false;
   }
 }
+
+const handleDragOver = () => {
+}
+
+const handleDragLeave = () => {
+}
+
+const handleDrop = (event) => {
+    const files = event.dataTransfer?.files
+    if (!files || !files.length || files.length > 1) {
+        return
+    }
+    addFile(files.item(0))
+}
 </script>
 
 <template>
@@ -117,13 +135,15 @@ async function save() {
       <div
         class="border border-dashed rounded px-5 p-10 flex items-center justify-center cursor-pointer"
         @click="openPicker"
+        @dragover.prevent="handleDragOver" @dragleave="handleDragLeave"
+        @drop.prevent="handleDrop"
       >
         <input
           id="inputfile"
           type="file"
           class="hidden"
           accept=".pdf"
-          @change="v => addFile(v)"
+          @change="v => onInputChanged(v)"
         />
         <span class="text-center">
           <span> Klik atau tarik dan lepas file di sini </span>
