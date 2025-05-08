@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "Você excedeu o limite de conversas. O plano Hacker permite apenas 500 conversas.",
+      "INBOXES": "Você excedeu o limite da caixa de entrada. O plano Hacker só suporta chat ao vivo do site. Caixas adicionais como e-mail, WhatsApp etc. requerem um plano pago.",
+      "AGENTS": "Você excedeu o limite de agentes. O plano Hacker permite apenas 2 agentes.",
+      "NON_ADMIN": "Entre em contato com o administrador para atualizar o plano e continuar usando todos os recursos."
+    },
     "TITLE": "Conta",
     "SUBMIT": "Atualizar configurações",
     "BACK": "Anterior",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Não foi possível atualizar as configurações, tente novamente!",
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Excluir sua Conta",
+      "NOTE": "Após excluir sua conta, todos os seus dados serão excluídos.",
+      "BUTTON_TEXT": "Excluir sua conta",
+      "CONFIRM": {
+        "TITLE": "Excluir Conta",
+        "MESSAGE": "Excluir sua conta é irreversível. Digite o nome de sua conta abaixo para confirmar que você deseja excluí-la permanentemente.",
+        "BUTTON_TEXT": "Excluir",
+        "DISMISS": "Cancelar",
+        "PLACE_HOLDER": "Digite {accountName} para confirmar"
+      },
+      "SUCCESS": "Conta marcada para exclusão",
+      "FAILURE": "Não foi possível excluir a conta, tente novamente!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Conta agendada para exclusão",
+        "MESSAGE_MANUAL": "Esta conta está programada para exclusão em {deletionDate}. Isto foi solicitado por um administrador. Você pode cancelar a exclusão antes desta data.",
+        "MESSAGE_INACTIVITY": "Esta conta está programada para exclusão em {deletionDate} devido à inatividade da conta. Você pode cancelar a exclusão antes desta data.",
+        "CLEAR_BUTTON": "Cancelar Exclusão Programada"
+      }
     },
     "FORM": {
       "ERROR": "Por favor, corrigir erros de formulário",
@@ -51,6 +77,7 @@
     "UPDATE_CHATWOOT": "Uma atualização {latestChatwootVersion} para o Chatwoot está disponível. Por favor, atualize sua instância.",
     "LEARN_MORE": "Saiba mais",
     "PAYMENT_PENDING": "Seu pagamento está pendente. Por favor, atualize suas informações de pagamento para continuar usando o Chatwoot",
+    "UPGRADE": "Atualize para continuar usando o Chatwoot",
     "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o Chatwoot",
     "OPEN_BILLING": "Abrir faturamento"
   },
@@ -110,9 +137,9 @@
       "REPORTS": "Relatórios",
       "CONVERSATION": "Conversas",
       "BULK_ACTIONS": "Ações em massa",
-      "CHANGE_ASSIGNEE": "Alterar Responsável",
+      "CHANGE_ASSIGNEE": "Atribuir novo agente",
       "CHANGE_PRIORITY": "Alterar Prioridade",
-      "CHANGE_TEAM": "Alterar a Equipe",
+      "CHANGE_TEAM": "Alterar o Time",
       "SNOOZE_CONVERSATION": "Adiar Conversa",
       "ADD_LABEL": "Adicionar etiqueta à conversa",
       "REMOVE_LABEL": "Remover etiqueta da conversa",
@@ -129,9 +156,9 @@
       "GO_TO_AGENT_REPORTS": "Ir para Relatórios do Agente",
       "GO_TO_LABEL_REPORTS": "Ir para Relatórios de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir para Relatórios da Caixa de Entrada",
-      "GO_TO_TEAM_REPORTS": "Ir para Relatórios da Equipe",
+      "GO_TO_TEAM_REPORTS": "Ir para Relatórios de Time",
       "GO_TO_SETTINGS_AGENTS": "Ir para Configurações de Agente",
-      "GO_TO_SETTINGS_TEAMS": "Ir para as Configurações de Equipe",
+      "GO_TO_SETTINGS_TEAMS": "Ir para as Configurações de Time",
       "GO_TO_SETTINGS_INBOXES": "Ir para as Configurações da Caixa de Entrada",
       "GO_TO_SETTINGS_LABELS": "Ir para as Configurações de Etiqueta",
       "GO_TO_SETTINGS_CANNED_RESPONSES": "Ir para as Configurações de Respostas Prontas",
@@ -143,7 +170,7 @@
       "ASSIGN_AN_AGENT": "Atribuir um agente",
       "AI_ASSIST": "Assistente IA",
       "ASSIGN_PRIORITY": "Atribuir prioridade",
-      "ASSIGN_A_TEAM": "Atribuir uma equipe",
+      "ASSIGN_A_TEAM": "Atribuir um time",
       "MUTE_CONVERSATION": "Silenciar conversa",
       "UNMUTE_CONVERSATION": "Reativar conversa",
       "REMOVE_LABEL_FROM_CONVERSATION": "Remover etiqueta da conversa",
