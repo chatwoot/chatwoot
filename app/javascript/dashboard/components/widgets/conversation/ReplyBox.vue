@@ -436,8 +436,8 @@ export default {
         this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
       } else if (canReply || this.isAWhatsAppChannel) {
         this.replyType = REPLY_EDITOR_MODES.REPLY;
-      } else if (!canReplyByCustom) {
-        this.replyType = REPLY_EDITOR_MODES.TEMPLATE;
+      } else {
+        this.replyType = REPLY_EDITOR_MODES.NOTE;
       }
 
       this.fetchAndSetReplyTo();

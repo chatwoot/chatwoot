@@ -181,8 +181,6 @@ gem 'ruby-openai'
 gem 'shopify_api'
 gem 'blazer'
 gem 'honeybadger', '~> 5.26'
-gem 'blazer'
-gem 'honeybadger', '~> 5.26'
 gem 'rails_execution'
 
 ### Gems required only in specific deployment environments ###
