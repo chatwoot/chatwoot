@@ -242,7 +242,7 @@ const handleDrop = (event) => {
       <Button
         class="w-full mt-2"
         :is-loading="isSaving"
-        :disabled="isSaving"
+        :disabled="isSaving || !newFiles.length"
         @click="() => save()"
       >
         Simpan
