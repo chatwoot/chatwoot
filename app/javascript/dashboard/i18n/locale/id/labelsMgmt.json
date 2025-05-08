@@ -3,8 +3,8 @@
     "HEADER": "Label",
     "HEADER_BTN_TXT": "Tambah label",
     "LOADING": "Mengambil label",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "Label membantu Anda mengategorikan dan memprioritaskan percakapan serta calon pelanggan. Anda bisa menambahkan label ke percakapan atau kontak melalui panel samping.",
+    "LEARN_MORE": "Pelajari lebih lanjut tentang label",
     "SEARCH_404": "Tidak ada item yang cocok dengan kueri ini",
     "LIST": {
       "404": "Tidak ada label yang tersedia di akun ini.",

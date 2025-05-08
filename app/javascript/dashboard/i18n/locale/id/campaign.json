@@ -1,7 +1,7 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
+      "HEADER_TITLE": "Kampanye Live Chat",
       "NEW_CAMPAIGN": "Create campaign",
       "CARD": {
         "STATUS": {
@@ -16,11 +16,11 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "Belum ada kampanye live chat yang tersedia",
+        "SUBTITLE": "Jangkau pelanggan Anda dengan pesan proaktif. Klik 'Buat kampanye' untuk memulai."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "Buat kampanye live chat",
         "CANCEL_BUTTON_TEXT": "Batalkan",
         "CREATE_BUTTON_TEXT": "Buat",
         "FORM": {
@@ -55,7 +55,7 @@
             "ERROR": "Waktu pada halaman wajib diisi"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "Pengaturan lainnya" ,
             "ENABLED": "Aktifkan kampanye",
             "TRIGGER_ONLY_BUSINESS_HOURS": "Pemicu hanya selama jam kerja"
           },

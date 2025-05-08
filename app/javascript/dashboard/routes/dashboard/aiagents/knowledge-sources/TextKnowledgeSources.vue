@@ -245,7 +245,7 @@ async function deleteData() {
         }
       "
       :on-confirm="() => deleteData()"
-      title="Are you sure you want to delete this AI Agent?"
+      title="Apakah kamu akan menghapus data ini?"
       message="You cannot undo this action"
       :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
       :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
