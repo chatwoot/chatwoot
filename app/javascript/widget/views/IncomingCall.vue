@@ -1,25 +1,34 @@
 <script>
 import { mapGetters } from 'vuex';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { acceptCall, rejectCall } from '../helpers/callHelper';
 
 export default {
   name: 'IncomingCall',
+  components: {
+    Thumbnail,
+  },
   computed: {
     ...mapGetters({
       activeCall: 'calls/getActiveCall',
     }),
     caller() {
-      return this.activeCall?.caller || {
-        name: 'Unknown Caller',
-        avatar_url: null,
-      };
+      return (
+        this.activeCall?.caller || {
+          name: 'Unknown Caller',
+          avatar_url: null,
+        }
+      );
     },
   },
   methods: {
     async handleAcceptCall() {
       if (!this.activeCall) return;
       acceptCall(this.activeCall.call_data);
-      window.open(`https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}?jwt=${this.activeCall.call_data.jwt}`, '_blank');
+      window.open(
+        `https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}?jwt=${this.activeCall.call_data.jwt}`,
+        '_blank'
+      );
     },
     async handleRejectCall() {
       if (!this.activeCall) return;
@@ -34,11 +43,15 @@ export default {
     <div class="dialog-content">
       <div class="call-dialog">
         <div class="call-header">
-          <img 
-            :src="caller.avatar_url || '/assets/images/chatwoot_bot.png'" 
-            :alt="caller.name"
-            class="caller-avatar"
-          />
+          <div class="px-2">
+            <Thumbnail
+              :src="caller.avatar_url"
+              size="40px"
+              :username="caller.name"
+              :status="availabilityStatus"
+            />
+          </div>
+
           <div class="caller-info">
             <div class="caller-name">{{ caller.name || 'Unknown Caller' }}</div>
             <div class="call-status">Incoming call...</div>
@@ -128,7 +141,7 @@ export default {
     border: none;
 
     &.accept-button {
-      background: #10B981;
+      background: #10b981;
       color: white;
 
       &:hover {
@@ -137,11 +150,11 @@ export default {
     }
 
     &.reject-button {
-      background: #EF4444;
+      background: #ef4444;
       color: white;
 
       &:hover {
-        background: #DC2626;
+        background: #dc2626;
       }
     }
   }
@@ -160,12 +173,12 @@ export default {
 
 @media (prefers-color-scheme: dark) {
   .call-dialog {
-    background: #1F2937;
+    background: #1f2937;
     color: white;
   }
 
   .call-status {
-    color: #9CA3AF;
+    color: #9ca3af;
   }
 }
-</style> 
+</style>
