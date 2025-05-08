@@ -25,7 +25,7 @@ defineProps({
         <h4 class="text-lg font-medium text-n-slate-12">
           <slot name="title">{{ title }}</slot>
         </h4>
-        <p class="text-n-slate-11">
+        <p class="text-n-slate-11 text-sm">
           <slot name="description">{{ description }}</slot>
         </p>
       </div>

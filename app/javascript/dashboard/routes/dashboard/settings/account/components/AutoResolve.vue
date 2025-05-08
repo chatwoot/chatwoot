@@ -117,7 +117,7 @@ const toggleAutoResolve = async () => {
         <template #rightOfLabel>
           <Switch v-model="autoResolveAll" />
         </template>
-        <p class="text-xs ml-px text-n-slate-10 max-w-lg">
+        <p class="text-sm ml-px text-n-slate-10 max-w-lg">
           {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_WAITING.HELP') }}
         </p>
       </WithLabel>
