@@ -3,12 +3,6 @@ require 'rails_helper'
 RSpec.describe Internal::ProcessStaleContactsJob do
   subject(:job) { described_class.perform_later }
 
-  it 'enqueues the job' do
-    allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
-    expect { job }.to have_enqueued_job(described_class)
-      .on_queue('housekeeping')
-  end
-
   context 'when in cloud environment' do
     before do
       allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
