@@ -13,6 +13,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 const { t } = useI18n();
 const duration = ref(0);
 const message = ref('');
+const autoResolveAll = ref(false);
 const isEnabled = ref(false);
 
 const { currentAccount, updateAccount } = useAccount();
@@ -43,9 +44,15 @@ const updateAccountSettings = async settings => {
 };
 
 const handleSubmit = async () => {
+  if (duration.value < 10) {
+    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR'));
+    return Promise.resolve();
+  }
+
   return updateAccountSettings({
     auto_resolve_after: duration.value,
     auto_resolve_message: message.value,
+    auto_resolve_waiting: autoResolveAll.value,
   });
 };
 
@@ -56,6 +63,7 @@ const handleDisable = async () => {
   return updateAccountSettings({
     auto_resolve_after: null,
     auto_resolve_message: '',
+    auto_resolve_waiting: false,
   });
 };
 
@@ -85,7 +93,7 @@ const toggleAutoResolve = async () => {
           <!-- allow 10 mins to 999 days -->
           <DurationInput
             v-model="duration"
-            min="10"
+            min="0"
             max="1439856"
             class="w-full"
           />
@@ -104,6 +112,14 @@ const toggleAutoResolve = async () => {
             t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_PLACEHOLDER')
           "
         />
+      </WithLabel>
+      <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_WAITING.LABEL')">
+        <template #rightOfLabel>
+          <Switch v-model="autoResolveAll" />
+        </template>
+        <p class="text-xs ml-px text-n-slate-10 max-w-lg">
+          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_WAITING.HELP') }}
+        </p>
       </WithLabel>
       <div class="flex gap-2">
         <NextButton
