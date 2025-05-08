@@ -75,13 +75,13 @@ const callsByTypeChart = computed(() => {
       {
         label: 'Outgoing Calls',
         data: generateRandomData(1, 5, 7),
-        backgroundColor: '#10B981', // green
+        backgroundColor: '#6366F1', // indigo
         barPercentage: 0.6,
       },
       {
         label: 'Missed Calls',
         data: generateRandomData(0, 2, 7),
-        backgroundColor: '#EF4444', // red
+        backgroundColor: '#F97316', // orange
         barPercentage: 0.6,
       },
     ]
@@ -96,7 +96,7 @@ const callDurationChart = computed(() => {
       {
         label: 'Average Call Duration (seconds)',
         data: generateRandomData(180, 320, 7),
-        backgroundColor: '#8B5CF6', // purple
+        backgroundColor: '#3B82F6', // blue (chatwoot standard)
         barPercentage: 0.6,
       }
     ]
@@ -111,7 +111,7 @@ const waitingTimeChart = computed(() => {
       {
         label: 'Average Waiting Time (seconds)',
         data: generateRandomData(15, 60, 7),
-        backgroundColor: '#F59E0B', // amber
+        backgroundColor: '#3B82F6', // blue (chatwoot standard)
         barPercentage: 0.6,
       }
     ]
@@ -126,7 +126,7 @@ const successRateChart = computed(() => {
       {
         label: 'Call Success Rate (%)',
         data: generateRandomData(75, 100, 7),
-        backgroundColor: '#059669', // emerald
+        backgroundColor: '#3B82F6', // blue (chatwoot standard)
         barPercentage: 0.6,
       }
     ]

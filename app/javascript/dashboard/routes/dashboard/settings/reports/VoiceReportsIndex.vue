@@ -15,7 +15,7 @@ const isLoading = computed(() => store.getters['inboxes/getUIFlags'].isFetching)
 
 // Filter only voice inboxes
 const voiceInboxes = computed(() => {
-  return inboxes.value.filter(inbox => inbox.channel_type === INBOX_TYPES.VOICE);
+  return inboxes.value.filter(inbox => inbox.channelType === INBOX_TYPES.VOICE);
 });
 
 // For debugging

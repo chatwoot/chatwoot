@@ -149,7 +149,7 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     isAVoiceChannel() {
-      return this.inbox?.channel_type === INBOX_TYPES.VOICE;
+      return this.inbox?.channelType === INBOX_TYPES.VOICE;
     },
     typingUsersList() {
       const userList = this.$store.getters[
