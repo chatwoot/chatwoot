@@ -5,7 +5,7 @@
 # - are older than 30 days
 
 class Internal::ProcessStaleContactsJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :housekeeping
 
   def perform
     return unless ChatwootApp.chatwoot_cloud?
