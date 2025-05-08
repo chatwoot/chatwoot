@@ -68,9 +68,9 @@
         "PLACEHOLDER": "Your company's support email",
         "ERROR": ""
       },
-      "AUTO_RESOLVE_WAITING": {
-        "LABEL": "Include unattended conversations",
-        "HELP": "If enabled, the system will automatically resolve all conversations, including those that have been waiting for an agent reply."
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "If toggled, the system will automatically not resolve conversations that have been waiting for an agent reply."
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",

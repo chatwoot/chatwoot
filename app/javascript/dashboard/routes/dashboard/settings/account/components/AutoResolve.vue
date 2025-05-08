@@ -13,7 +13,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 const { t } = useI18n();
 const duration = ref(0);
 const message = ref('');
-const autoResolveAll = ref(false);
+const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
 
 const { currentAccount, updateAccount } = useAccount();
@@ -21,11 +21,15 @@ const { currentAccount, updateAccount } = useAccount();
 watch(
   currentAccount,
   () => {
-    const { auto_resolve_after, auto_resolve_message } =
-      currentAccount.value?.settings || {};
+    const {
+      auto_resolve_after,
+      auto_resolve_message,
+      auto_resolve_ignore_waiting,
+    } = currentAccount.value?.settings || {};
 
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
+    ignoreWaiting.value = auto_resolve_ignore_waiting;
 
     if (duration.value) {
       isEnabled.value = true;
@@ -52,7 +56,7 @@ const handleSubmit = async () => {
   return updateAccountSettings({
     auto_resolve_after: duration.value,
     auto_resolve_message: message.value,
-    auto_resolve_waiting: autoResolveAll.value,
+    auto_resolve_ignore_waiting: ignoreWaiting.value,
   });
 };
 
@@ -63,7 +67,7 @@ const handleDisable = async () => {
   return updateAccountSettings({
     auto_resolve_after: null,
     auto_resolve_message: '',
-    auto_resolve_waiting: false,
+    auto_resolve_ignore_waiting: false,
   });
 };
 
@@ -113,12 +117,14 @@ const toggleAutoResolve = async () => {
           "
         />
       </WithLabel>
-      <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_WAITING.LABEL')">
+      <WithLabel
+        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.LABEL')"
+      >
         <template #rightOfLabel>
-          <Switch v-model="autoResolveAll" />
+          <Switch v-model="ignoreWaiting" />
         </template>
         <p class="text-sm ml-px text-n-slate-10 max-w-lg">
-          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_WAITING.HELP') }}
+          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.HELP') }}
         </p>
       </WithLabel>
       <div class="flex gap-2">
