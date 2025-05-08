@@ -80,6 +80,9 @@ function onInputChanged(files) {
 }
 
 function addFile(file) {
+  if (!file.name.endsWith('.pdf')) {
+    return
+  }
   newFiles.value.push(file);
 }
 
