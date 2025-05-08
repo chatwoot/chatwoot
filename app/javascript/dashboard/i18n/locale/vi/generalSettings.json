@@ -44,6 +44,10 @@
         "TITLE": "Tài khoản SID",
         "NOTE": "ID này là bắt buộc nếu bạn đang xây dựng tích hợp dựa trên API"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+      },
       "NAME": {
         "LABEL": "Tên tài khoản",
         "PLACEHOLDER": "Tên tài khoản của bạn",
@@ -65,9 +69,18 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Số ngày sau đó mà vé sẽ tự động giải quyết nếu không có hoạt động nào",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)"
+        "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Update Auto-resolve",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",

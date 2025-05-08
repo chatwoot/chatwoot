@@ -145,7 +145,9 @@ fa:
         open: 'گفتگو توسط ایجنت %{user_name} مجددا باز شده بود'
         pending: 'مکالمه توسط %{user_name} به عنوان معلق علامت گذاری شد'
         snoozed: 'مکالمه توسط %{user_name} به تعویق افتاد'
-        auto_resolved: 'به دلیل %{duration} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد'
+        auto_resolved_days: 'به دلیل %{count} روز عدم فعالیت ، مکالمه توسط سیستم بسته شد'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: سیستم به دلیل یک پیام دریافتی جدید، مکالمه را دوباره باز کرد.
       priority:
         added: '%{user_name} اولویت را روی %{new_priority} تنظیم کرد'

@@ -407,12 +407,12 @@
         "NAME": {
           "LABEL": "Nome",
           "PLACEHOLDER": "Digite o nome do assistente",
-          "ERROR": "The name is required"
+          "ERROR": "O nome é obrigatório"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
           "PLACEHOLDER": "Digite a descrição do assistente",
-          "ERROR": "The description is required"
+          "ERROR": "A descrição é obrigatória"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
