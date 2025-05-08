@@ -1,5 +1,4 @@
 import { defineCustomElement } from 'vue';
-import { createI18n } from 'vue-i18n';
 
 import '../dashboard/assets/scss/app.scss';
 import 'vue-multiselect/dist/vue-multiselect.css';
@@ -12,11 +11,12 @@ import constants from 'dashboard/constants/globals';
 import axios from 'axios';
 import createAxios from 'dashboard/helper/APIHelper';
 import commonHelpers from 'dashboard/helper/commons';
-import i18nMessages from 'dashboard/i18n';
 
 import WootButton from '../dashboard/components-next/button/Button.vue';
 import WootInput from '../dashboard/components-next/input/Input.vue';
 import WootMessage from '../dashboard/components-next/message/Message.vue';
+import i18nMessages from '../dashboard/i18n';
+import { createI18n, I18nInjectionKey } from 'vue-i18n';
 
 const i18n = createI18n({
   legacy: false,
@@ -26,8 +26,13 @@ const i18n = createI18n({
 
 const ceOptions = {
   configureApp(app) {
-    app.use(i18n);
     app.use(store);
+    app.use(i18n);
+    // I18n has to be injected inside that can be picked
+    // up by the compononent, the API stays the same, just use `useI18n`
+    // https://vue-i18n.intlify.dev/guide/advanced/wc
+    // Adding this link for my goldfish brain
+    app.provide(I18nInjectionKey, i18n);
   },
   // Include tailwind styles in the shadow DOM of each custom element
   styles: [tailwindStyles],
