@@ -46,7 +46,7 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
       },
       "NAME": {
         "LABEL": "Account name",
