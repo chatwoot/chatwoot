@@ -35,7 +35,7 @@ class Webhooks::CallOzonetelController < ActionController::API
 
   private
 
-  def handle_incoming_call(account, contact, parsed_body)
+  def handle_incoming_call(account, contact, parsed_body) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
     matching_inboxes = Inbox.where(account_id: account.id, channel_type: 'Channel::Api')
     Rails.logger.info("matching_inboxes Data, #{matching_inboxes.inspect}")
     wa_api_inbox = matching_inboxes.find do |inbox|
@@ -54,8 +54,15 @@ class Webhooks::CallOzonetelController < ActionController::API
     ).order(created_at: :desc).first
 
     conversation = handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
+
+    is_missed_call = parsed_body['Status'] == 'NotAnswered'
     Rails.logger.info("conversationData, #{conversation.inspect}")
-    handle_incoming_callback(conversation, parsed_body, account)
+    Rails.logger.info("is_missed_call, #{is_missed_call}")
+    if is_missed_call
+      handle_incoming_missed_call_callback(conversation, parsed_body, account)
+    else
+      handle_incoming_callback(conversation, parsed_body, account)
+    end
   end
 
   def handle_incoming_callback(conversation, parsed_body, account) # rubocop:disable Metrics/AbcSize
@@ -91,6 +98,67 @@ class Webhooks::CallOzonetelController < ActionController::API
     send_call_log_to_bspd(parsed_body, conversation, account)
 
     head :ok
+  end
+
+  def handle_incoming_missed_call_callback(conversation, parsed_body, account)
+    mark_conversation_as_inbound_call(conversation)
+
+    wait_time = convert_duration_to_seconds(parsed_body['CallDuration'])
+
+    start_time = Time.parse(parsed_body['StartTime']).in_time_zone('Asia/Kolkata').utc
+
+    add_waiting_time_reporting_event(conversation, wait_time, start_time) if wait_time.positive?
+
+    call_settings = account&.custom_attributes&.[]('calling_settings')
+
+    if working_hours?(call_settings)
+      mark_conversation_as_missed_call(conversation, parsed_body, 'busy')
+    else
+      mark_conversation_as_missed_call(conversation, parsed_body, 'ooo')
+    end
+  end
+
+  def add_missed_call_label(conversation)
+    Label.find_or_create_by!(
+      account: conversation.account,
+      title: 'missed-call'
+    ) do |l|
+      l.description = 'Automatically added to conversations with missed calls'
+      l.show_on_sidebar = true
+      l.color = '#7C21D7' # Default color
+    end
+
+    conversation.add_labels(['missed-call'])
+    Rails.logger.info('LabelAdded')
+  end
+
+  def mark_conversation_as_missed_call(conversation, parsed_body, reason = 'busy') # rubocop:disable Metrics/MethodLength
+    add_missed_call_label(conversation)
+
+    if reason == 'busy'
+      conversation.messages.create!(private_message_params('Call was missed due to no agents available', conversation, parsed_body))
+    else
+      conversation.messages.create!(private_message_params('Call was missed due to out of office hours', conversation, parsed_body))
+    end
+
+    # TODO: - If an agent is assigned to the conversation, notify similar to calling Nudge
+
+    reporting_event_name = "conversation_missed_call_#{reason}"
+
+    reporting_event = ReportingEvent.new(
+      name: reporting_event_name,
+      value: 1,
+      value_in_business_hours: 1,
+      account_id: conversation.account_id,
+      inbox_id: conversation.inbox_id,
+      user_id: conversation.assignee_id || bot_user(conversation.account).id,
+      conversation_id: conversation.id,
+      event_start_time: conversation.updated_at,
+      event_end_time: conversation.updated_at
+    )
+
+    reporting_event.save!
+    Rails.logger.info('Missed Callback finished')
   end
 
   def parse_request_body
