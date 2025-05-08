@@ -50,7 +50,7 @@ RSpec.describe Conversations::ResolutionJob do
   it 'resolves only a limited number of conversations in a single execution' do
     stub_const('Limits::BULK_ACTIONS_LIMIT', 2)
     account.update(auto_resolve_after: 14_400, auto_resolve_waiting: true) # 10 days in minutes
-    conversations = create_list(:conversation, 3, account: account, last_activity_at: 13.days.ago)
+    create_list(:conversation, 3, account: account, last_activity_at: 13.days.ago)
     described_class.perform_now(account: account)
     expect(account.conversations.resolved.count).to eq(Limits::BULK_ACTIONS_LIMIT)
   end
