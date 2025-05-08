@@ -13,6 +13,7 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 const { t } = useI18n();
 const duration = ref(0);
 const message = ref('');
+const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
 
 const { currentAccount, updateAccount } = useAccount();
@@ -20,11 +21,15 @@ const { currentAccount, updateAccount } = useAccount();
 watch(
   currentAccount,
   () => {
-    const { auto_resolve_after, auto_resolve_message } =
-      currentAccount.value?.settings || {};
+    const {
+      auto_resolve_after,
+      auto_resolve_message,
+      auto_resolve_ignore_waiting,
+    } = currentAccount.value?.settings || {};
 
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
+    ignoreWaiting.value = auto_resolve_ignore_waiting;
 
     if (duration.value) {
       isEnabled.value = true;
@@ -43,9 +48,15 @@ const updateAccountSettings = async settings => {
 };
 
 const handleSubmit = async () => {
+  if (duration.value < 10) {
+    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR'));
+    return Promise.resolve();
+  }
+
   return updateAccountSettings({
     auto_resolve_after: duration.value,
     auto_resolve_message: message.value,
+    auto_resolve_ignore_waiting: ignoreWaiting.value,
   });
 };
 
@@ -56,6 +67,7 @@ const handleDisable = async () => {
   return updateAccountSettings({
     auto_resolve_after: null,
     auto_resolve_message: '',
+    auto_resolve_ignore_waiting: false,
   });
 };
 
@@ -76,7 +88,7 @@ const toggleAutoResolve = async () => {
       </div>
     </template>
 
-    <form class="grid gap-4" @submit.prevent="handleSubmit">
+    <form class="grid gap-5" @submit.prevent="handleSubmit">
       <WithLabel
         :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL')"
         :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.HELP')"
@@ -85,7 +97,7 @@ const toggleAutoResolve = async () => {
           <!-- allow 10 mins to 999 days -->
           <DurationInput
             v-model="duration"
-            min="10"
+            min="0"
             max="1439856"
             class="w-full"
           />
@@ -104,6 +116,16 @@ const toggleAutoResolve = async () => {
             t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_PLACEHOLDER')
           "
         />
+      </WithLabel>
+      <WithLabel
+        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.LABEL')"
+      >
+        <template #rightOfLabel>
+          <Switch v-model="ignoreWaiting" />
+        </template>
+        <p class="text-sm ml-px text-n-slate-10 max-w-lg">
+          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.HELP') }}
+        </p>
       </WithLabel>
       <div class="flex gap-2">
         <NextButton
