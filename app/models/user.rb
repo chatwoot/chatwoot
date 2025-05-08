@@ -95,10 +95,6 @@ class User < ApplicationRecord
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
   has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
-  has_many :portal_members, class_name: :PortalMember, dependent: :destroy_async
-  has_many :portals, through: :portal_members, source: :portal,
-                     class_name: :Portal,
-                     dependent: :nullify
   # rubocop:disable Rails/HasManyOrHasOneDependent
   # we are handling this in `remove_macros` callback
   has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by

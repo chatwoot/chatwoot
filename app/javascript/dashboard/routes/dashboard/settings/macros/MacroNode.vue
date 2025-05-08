@@ -42,7 +42,7 @@ const showActionInput = computed(() => {
     actionData.value.action_name === 'send_message'
   )
     return false;
-  const type = macroActionTypes.find(
+  const type = macroActionTypes.value.find(
     action => action.key === actionData.value.action_name
   ).inputType;
   return !!type;

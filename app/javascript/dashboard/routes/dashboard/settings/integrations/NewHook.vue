@@ -80,7 +80,7 @@ export default {
       }, {});
 
       this.formItems.forEach(item => {
-        if (item.validation.includes('JSON')) {
+        if (item.validation?.includes('JSON')) {
           hookPayload.settings[item.name] = JSON.parse(
             hookPayload.settings[item.name]
           );
@@ -117,7 +117,7 @@ export default {
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header
       :header-title="integration.name"
-      :header-content="integration.description"
+      :header-content="integration.short_description || integration.description"
     />
     <FormKit
       v-model="values"
@@ -169,6 +169,10 @@ export default {
   @apply hidden;
 }
 
+.formkit-form .formkit-help {
+  @apply text-n-slate-10 text-sm font-normal mt-2 w-full;
+}
+
 /* equivalent of .reset-base */
 .formkit-input {
   margin-bottom: 0px !important;
@@ -188,11 +192,5 @@ export default {
 
 .formkit-actions {
   @apply hidden;
-}
-
-@media (prefers-color-scheme: dark) {
-  .pre-chat-header-message .link {
-    @apply text-woot-500 underline;
-  }
 }
 </style>

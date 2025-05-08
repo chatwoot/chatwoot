@@ -387,7 +387,8 @@
         "LABEL": "שם החברה",
         "PLACEHOLDER": "וויין אנטרפרייז"
       },
-      "SUBMIT": "שלח"
+      "SUBMIT": "שלח",
+      "CANCEL": "ביטול"
     }
   },
   "KEYBOARD_SHORTCUTS": {

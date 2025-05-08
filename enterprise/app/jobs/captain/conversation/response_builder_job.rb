@@ -60,7 +60,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message
-    create_outgoing_message('Transferring to another agent for further assistance.')
+    create_outgoing_message(@assistant.config['handoff_message'] || 'Transferring to another agent for further assistance.')
   end
 
   def create_messages

@@ -125,7 +125,10 @@ defineExpose({ open, close });
           <slot />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
-            <div class="flex items-center justify-between w-full gap-3">
+            <div
+              v-if="showCancelButton || showConfirmButton"
+              class="flex items-center justify-between w-full gap-3"
+            >
               <Button
                 v-if="showCancelButton"
                 variant="faded"
