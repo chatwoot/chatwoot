@@ -145,7 +145,9 @@ fr:
         open: 'La conversation a été ré-ouverte par %{user_name}'
         pending: 'La conversation a été marquée comme en attente par %{user_name}'
         snoozed: 'La conversation a été reportée par %{user_name}'
-        auto_resolved: 'La conversation a été marquée comme résolue par le système en raison de %{duration} jours d''inactivité'
+        auto_resolved_days: 'La conversation a été marquée comme résolue par le système en raison de %{count} jours d''inactivité'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Le système a rouvert la conversation en raison d'un nouveau message entrant.
       priority:
         added: '%{user_name} fixe la priorité à %{new_priority}'
