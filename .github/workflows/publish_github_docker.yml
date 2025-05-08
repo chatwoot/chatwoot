@@ -41,11 +41,7 @@ jobs:
       - name: Set Docker Tags
         run: |
           SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          if [ "${{ github.ref_name }}" = "fazer-ai/main" ]; then
-            echo "GITHUB_TAG=${GITHUB_REPO}:latest" >> $GITHUB_ENV
-          else
-            echo "GITHUB_TAG=${GITHUB_REPO}:${SANITIZED_REF}" >> $GITHUB_ENV
-          fi
+          echo "SANITIZED_REF=${SANITIZED_REF}" >> $GITHUB_ENV
 
       - name: Set up QEMU
         uses: docker/setup-qemu-action@v3
@@ -69,7 +65,9 @@ jobs:
           file: docker/Dockerfile
           platforms: ${{ matrix.platform }}
           push: ${{ github.event_name == 'push' || github.event_name == 'workflow_dispatch' }}
-          outputs: type=image,name=${{ env.GITHUB_TAG }},name-canonical=true,push=true
+          tags: |
+            ${{ env.GITHUB_REPO }}:${{ env.SANITIZED_REF }}
+            ${{ env.GITHUB_REPO }}:latest
 
       - name: Export digest
         run: |
@@ -113,13 +111,9 @@ jobs:
           GIT_REF: ${{ github.head_ref || github.ref_name }}
         run: |
           SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          if [ "${{ github.ref_name }}" = "fazer-ai/main" ]; then
-            GITHUB_TAG="ghcr.io/${{ github.repository }}:latest"
-          else
-            GITHUB_TAG="ghcr.io/${{ github.repository }}:${SANITIZED_REF}"
-          fi
-
-          docker buildx imagetools create -t $GITHUB_TAG \
+          docker buildx imagetools create \
+            -t ghcr.io/${{ github.repository }}:${SANITIZED_REF} \
+            -t ghcr.io/${{ github.repository }}:latest \
             $(printf 'ghcr.io/${{ github.repository }}@sha256:%s ' *)
 
       - name: Inspect image
@@ -127,10 +121,6 @@ jobs:
           GIT_REF: ${{ github.head_ref || github.ref_name }}
         run: |
           SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          if [ "${{ github.ref_name }}" = "fazer-ai/main" ]; then
-            GITHUB_TAG="ghcr.io/${{ github.repository }}:latest"
-          else
-            GITHUB_TAG="ghcr.io/${{ github.repository }}:${SANITIZED_REF}"
-          fi
-
-          docker buildx imagetools inspect $GITHUB_TAG
+          REPO="ghcr.io/${{ github.repository }}"
+          docker buildx imagetools inspect ${REPO}:${SANITIZED_REF}
+          docker buildx imagetools inspect ${REPO}:latest
