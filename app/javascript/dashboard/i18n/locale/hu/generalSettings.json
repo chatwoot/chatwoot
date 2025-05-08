@@ -44,6 +44,10 @@
         "TITLE": "Fiók Azonosító",
         "NOTE": "Ez a személyazonosság akkor használható, ha API-alapú integrációt építesz"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+      },
       "NAME": {
         "LABEL": "Fióknév",
         "PLACEHOLDER": "A fiókneved",
@@ -65,9 +69,18 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "A napok száma, mely után a ticketek automatikusan megoldódnak, ha nincs aktivitás",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Kérjük helyes auto feloldási időszakot adj meg (minimum 1 nap, maximum 999 nap)"
+        "ERROR": "Kérjük helyes auto feloldási időszakot adj meg (minimum 1 nap, maximum 999 nap)",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Update Auto-resolve",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A beszélgetésfolytonosság e-maillel már elérhető a fiókodban.",
