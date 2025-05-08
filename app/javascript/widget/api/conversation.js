@@ -33,7 +33,6 @@ const toggleTyping = async ({ typingStatus }) => {
 };
 
 const rejectCall = async ({ room_id }) => {
-  console.log(room_id, "Room")
   return API.post(
     `/api/v1/widget/conversations/reject_call${window.location.search}`,
     { room_id: room_id }

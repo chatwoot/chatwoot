@@ -64,6 +64,7 @@ export default {
           displayName: this.displayName,
         },
         configOverwrite: {
+          apiLogLevels: ['error'],
           prejoinPageEnabled: false,
           startWithAudioMuted: false,
           startWithVideoMuted: false,
@@ -94,7 +95,6 @@ export default {
       this.api.on('participantLeft', () => {});
 
       this.api.on('readyToClose', () => {
-        console.log('Hangup');
         this.$emit('hangup');
       });
 
