@@ -6,7 +6,7 @@ RSpec.describe Internal::ProcessStaleContactsJob do
   it 'enqueues the job' do
     allow(ChatwootApp).to receive(:chatwoot_cloud?).and_return(true)
     expect { job }.to have_enqueued_job(described_class)
-      .on_queue('scheduled_jobs')
+      .on_queue('housekeeping')
   end
 
   it 'enqueues RemoveStaleContactsJob for each account' do
@@ -17,13 +17,13 @@ RSpec.describe Internal::ProcessStaleContactsJob do
 
     expect { described_class.perform_now }.to have_enqueued_job(Internal::RemoveStaleContactsJob)
       .with(account1)
-      .on_queue('low')
+      .on_queue('housekeeping')
     expect { described_class.perform_now }.to have_enqueued_job(Internal::RemoveStaleContactsJob)
       .with(account2)
-      .on_queue('low')
+      .on_queue('housekeeping')
     expect { described_class.perform_now }.to have_enqueued_job(Internal::RemoveStaleContactsJob)
       .with(account3)
-      .on_queue('low')
+      .on_queue('housekeeping')
   end
 
   it 'processes accounts in batches' do

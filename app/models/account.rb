@@ -34,10 +34,11 @@ class Account < ApplicationRecord
     'properties':
       {
         'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
-        'auto_resolve_message': { 'type': %w[string null] }
+        'auto_resolve_message': { 'type': %w[string null] },
+        'auto_resolve_ignore_waiting': { 'type': %w[boolean null] }
       },
     'required': [],
-    'additionalProperties': false
+    'additionalProperties': true
   }.to_json.freeze
 
   DEFAULT_QUERY_SETTING = {
@@ -50,7 +51,7 @@ class Account < ApplicationRecord
                  schema: SETTINGS_PARAMS_SCHEMA,
                  attribute_resolver: ->(record) { record.settings }
 
-  store_accessor :settings, :auto_resolve_after, :auto_resolve_message
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
