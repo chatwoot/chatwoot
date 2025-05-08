@@ -294,7 +294,7 @@
         "PRIORITY": "Prioritas",
         "ASSIGNEE": "Assignee",
         "LABELS": "Label",
-        "CREATED_AT": "Created at {createdAt}"
+        "CREATED_AT": "Dibuat pada {createdAt}"
       },
       "UNLINK": {
         "TITLE": "Unlink",
