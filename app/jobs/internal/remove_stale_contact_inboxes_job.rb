@@ -3,7 +3,7 @@
 # and are older than 3 months
 
 class Internal::RemoveStaleContactInboxesJob < ApplicationJob
-  queue_as :scheduled_jobs
+  queue_as :housekeeping
 
   def perform
     Internal::RemoveStaleContactInboxesService.new.perform
