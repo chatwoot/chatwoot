@@ -91,6 +91,31 @@ describe ChannelListener do
     end
   end
 
+  describe '#messages_read' do
+    let(:channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false) }
+    let(:conversation) { create(:conversation, inbox: create(:inbox, channel: channel)) }
+    let(:last_seen_at) { 1.day.ago }
+
+    it 'sends read messages to the channel' do
+      sent_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent)
+      create(:message, conversation: conversation, message_type: :incoming, status: :read)
+      allow(channel).to receive(:send_read_messages).with([sent_message], conversation: conversation)
+      event = Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: last_seen_at)
+
+      listener.messages_read(event)
+
+      expect(channel).to have_received(:send_read_messages)
+    end
+
+    it 'skips the event if the channel does not respond to send_read_messages' do
+      create(:channel_api, inbox: conversation.inbox)
+
+      expect do
+        listener.messages_read(Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: last_seen_at))
+      end.not_to raise_error
+    end
+  end
+
   def build_typing_event(event_name, conversation:, is_private: false)
     Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: create(:user), is_private: is_private)
   end

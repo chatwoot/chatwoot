@@ -68,6 +68,8 @@ RSpec.describe Channel::Whatsapp do
 
     it 'calls provider service method' do
       provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, toggle_typing_status: nil)
+      allow(provider_double).to receive(:toggle_typing_status)
+        .with(conversation.contact.phone_number, Events::Types::CONVERSATION_TYPING_ON)
       allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
         .with(whatsapp_channel: channel)
         .and_return(provider_double)
@@ -75,7 +77,6 @@ RSpec.describe Channel::Whatsapp do
       channel.toggle_typing_status(Events::Types::CONVERSATION_TYPING_ON, conversation: conversation)
 
       expect(provider_double).to have_received(:toggle_typing_status)
-        .with(conversation.contact.phone_number, Events::Types::CONVERSATION_TYPING_ON)
     end
 
     it 'does not call method if provider service does not implement it' do
@@ -96,13 +97,14 @@ RSpec.describe Channel::Whatsapp do
 
     it 'calls provider service method' do
       provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, update_presence: nil)
+      allow(provider_double).to receive(:update_presence).with('online')
       allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
         .with(whatsapp_channel: channel)
         .and_return(provider_double)
 
       channel.update_presence('online')
 
-      expect(provider_double).to have_received(:update_presence).with('online')
+      expect(provider_double).to have_received(:update_presence)
     end
 
     it 'does not call method if provider service does not implement it' do
@@ -114,6 +116,36 @@ RSpec.describe Channel::Whatsapp do
 
       expect do
         channel.update_presence('online')
+      end.not_to raise_error
+    end
+  end
+
+  describe '#send_read_messages' do
+    let(:channel) { create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false, sync_templates: false) }
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message) }
+
+    it 'calls provider service method' do
+      provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, send_read_messages: nil)
+      allow(provider_double).to receive(:send_read_messages).with([message], conversation.contact.phone_number)
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      channel.send_read_messages([message], conversation: conversation)
+
+      expect(provider_double).to have_received(:send_read_messages)
+    end
+
+    it 'does not call method if provider service does not implement it' do
+      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
+      provider_double = instance_double(Whatsapp::Providers::WhatsappCloudService)
+      allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      expect do
+        channel.send_read_messages([message], conversation: conversation)
       end.not_to raise_error
     end
   end

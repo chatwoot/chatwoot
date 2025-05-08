@@ -22,6 +22,19 @@ class ChannelListener < BaseListener
     end
   end
 
+  def messages_read(event)
+    conversation, last_seen_at = event.data.values_at(:conversation, :last_seen_at)
+
+    channel = conversation.inbox.channel
+    return unless channel.respond_to?(:send_read_messages)
+
+    messages = conversation.messages.where(message_type: :incoming)
+                           .where('updated_at > ?', last_seen_at)
+                           .where.not(status: :read)
+
+    channel.send_read_messages(messages, conversation: conversation) if messages.any?
+  end
+
   private
 
   def handle_typing_event(event)

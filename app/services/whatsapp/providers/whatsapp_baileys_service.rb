@@ -1,4 +1,4 @@
-class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseService
+class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseService # rubocop:disable Metrics/ClassLength
   class MessageContentTypeNotSupported < StandardError; end
   class MessageNotSentError < StandardError; end
 
@@ -104,6 +104,27 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     process_response(response)
   end
 
+  def send_read_messages(phone_number, messages)
+    @phone_number = phone_number
+
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/read-messages",
+      headers: api_headers,
+      body: {
+        keys: messages.map do |message|
+          {
+            id: message.source_id,
+            remoteJid: remote_jid,
+            # NOTE: It only makes sense to mark received messages as read
+            fromMe: false
+          }
+        end
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
   private
 
   def provider_url
@@ -190,5 +211,10 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     whatsapp_channel.update_provider_connection!(connection: 'close')
   end
 
-  with_error_handling :setup_channel_provider, :disconnect_channel_provider, :send_message
+  with_error_handling :setup_channel_provider,
+                      :disconnect_channel_provider,
+                      :send_message,
+                      :toggle_typing_status,
+                      :update_presence,
+                      :send_read_messages
 end
