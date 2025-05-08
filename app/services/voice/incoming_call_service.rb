@@ -3,8 +3,6 @@ module Voice
     pattr_initialize [:account!, :params!]
 
     def process
-      Rails.logger.info("🔍 INCOMING CALL: Starting processing for call_sid=#{caller_info[:call_sid]}")
-      Rails.logger.info("📞 CALL DETAILS: From=#{caller_info[:from_number]} To=#{caller_info[:to_number]}")
 
       begin
         find_inbox
@@ -22,11 +20,8 @@ module Voice
 
         twiml = generate_twiml_response
 
-        Rails.logger.info("✅ INCOMING CALL: Successfully processed for call_sid=#{caller_info[:call_sid]}")
         twiml
       rescue StandardError => e
-        Rails.logger.error("❌ INCOMING CALL ERROR: #{e.message}")
-        Rails.logger.error("❌ INCOMING CALL BACKTRACE: #{e.backtrace[0..5].join("\n")}")
 
         # Return a simple error TwiML
         error_twiml(e.message)
@@ -53,7 +48,6 @@ module Voice
 
       raise "Inbox not found for phone number #{caller_info[:to_number]}" unless @inbox.present?
 
-      Rails.logger.info("📥 FOUND INBOX: inbox_id=#{@inbox.id} for phone=#{caller_info[:to_number]}")
     end
 
     def create_contact
@@ -65,7 +59,6 @@ module Voice
         c.name = "Contact from #{phone_number}"
       end
 
-      Rails.logger.info("👤 CONTACT: contact_id=#{@contact.id} name=#{@contact.name} phone=#{@contact.phone_number}")
     end
 
     def create_conversation
@@ -79,7 +72,6 @@ module Voice
       @contact_inbox.source_id ||= caller_info[:from_number]
       @contact_inbox.save!
 
-      Rails.logger.info("📬 CONTACT INBOX: id=#{@contact_inbox.id} source_id=#{@contact_inbox.source_id}")
 
       # Create a new conversation with basic call details
       # Status will be properly set by CallStatusManager later
@@ -101,7 +93,6 @@ module Voice
       @conversation.additional_attributes['conference_sid'] = conference_name
       @conversation.save!
 
-      Rails.logger.info("💬 CONVERSATION: id=#{@conversation.id} display_id=#{@conversation.display_id} conference=#{conference_name}")
     end
 
     def create_voice_call_message
@@ -144,7 +135,6 @@ module Voice
         message_params
       ).perform
 
-      Rails.logger.info("✉️ VOICE CALL MESSAGE: id=#{@voice_call_message.id} content_type=#{@voice_call_message.content_type}")
 
       # Broadcast call notification
       broadcast_call_status
@@ -167,27 +157,37 @@ module Voice
         "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
       )
 
-      Rails.logger.info("📝 ACTIVITY MESSAGE: id=#{activity_message.id}")
     end
 
     def broadcast_call_status
+      # Get contact name, ensuring we have a valid value
+      contact_name_value = @contact.name.presence || caller_info[:from_number]
+      
+      # Create the data payload
+      broadcast_data = {
+        call_sid: caller_info[:call_sid],
+        conversation_id: @conversation.id,
+        inbox_id: @inbox.id,
+        inbox_name: @inbox.name,
+        inbox_avatar_url: @inbox.avatar_url, # Include inbox avatar
+        inbox_phone_number: @inbox.channel.phone_number, # Include inbox phone number
+        contact_name: contact_name_value,
+        contact_id: @contact.id,
+        account_id: account.id,
+        phone_number: @contact.phone_number, # Include phone number for display in UI
+        avatar_url: @contact.avatar_url, # Include avatar URL for display in UI
+        call_direction: 'inbound' # Add call direction for context
+      }
+      
+      
       ActionCable.server.broadcast(
         "account_#{account.id}",
         {
           event: 'incoming_call',
-          data: {
-            call_sid: caller_info[:call_sid],
-            conversation_id: @conversation.id,
-            inbox_id: @inbox.id,
-            inbox_name: @inbox.name,
-            contact_name: @contact.name || caller_info[:from_number],
-            contact_id: @contact.id,
-            account_id: account.id
-          }
+          data: broadcast_data
         }
       )
 
-      Rails.logger.info('📢 BROADCAST: Sent incoming_call notification')
     end
 
     def generate_twiml_response
@@ -197,7 +197,6 @@ module Voice
       response.say(message: 'Thank you for calling. Please wait while we connect you with an agent.')
 
       callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/conference_status"
-      Rails.logger.info("🔗 CONFERENCE CALLBACK URL: #{callback_url}")
 
       response.dial do |dial|
         dial.conference(
@@ -214,7 +213,6 @@ module Voice
         )
       end
 
-      Rails.logger.info("📞 TWIML: Generated conference TwiML for #{conference_name}")
       response.to_s
     end
 
@@ -223,13 +221,11 @@ module Voice
       response.say(message: 'We are experiencing technical difficulties with our phone system. Please try again later.')
       response.hangup
 
-      Rails.logger.info("❌ ERROR TWIML: Generated error TwiML due to: #{message}")
       response.to_s
     end
 
     def base_url
       url = ENV.fetch('FRONTEND_URL', "https://#{params['host_with_port']}")
-      Rails.logger.info("🌐 BASE URL: Using #{url}")
       url.gsub(%r{/$}, '') # Remove trailing slash if present
     end
   end

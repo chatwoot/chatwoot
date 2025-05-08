@@ -63,7 +63,15 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({ 
+      uiFlags: 'contacts/getUIFlags',
+      storeActiveCall: 'calls/getActiveCall',
+      storeHasActiveCall: 'calls/hasActiveCall',
+    }),
+    // Check if there's an active call either in store or local component
+    hasActiveCall() {
+      return this.storeHasActiveCall || !!this.activeCallConversation;
+    },
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -242,9 +250,15 @@ export default {
     },
 
     handleCallEnded() {
+      // Immediately reset local state
       this.activeCallConversation = null;
+      this.isCallLoading = false;
+      
       // Clear global call state
       this.$store.dispatch('calls/clearActiveCall');
+      
+      // Force re-render the component to ensure button state updates
+      this.$forceUpdate();
     },
 
     // Simplified emergency end call function
@@ -446,12 +460,29 @@ export default {
       this.showMergeModal = true;
     },
     onCallButtonClick() {
-      if (this.activeCallConversation) {
-        useAlert('Call already ongoing', 'warning');
+      // If there's an active call in the store, just show widget
+      if (this.storeHasActiveCall) {
+        useAlert('Call already active, showing call widget', 'info');
         if (window.app && window.app.$data) {
           window.app.$data.showCallWidget = true;
         }
+        return;
+      }
+      
+      // Check if we have a stale local state
+      if (this.activeCallConversation) {
+        // Reset our local state
+        this.activeCallConversation = null;
+        this.$forceUpdate();
+        
+        // If store is clear, initiate a new call after state reset
+        if (!this.storeHasActiveCall) {
+          this.$nextTick(() => {
+            this.initiateVoiceCall();
+          });
+        }
       } else {
+        // No active call, proceed with initiating a new one
         this.initiateVoiceCall();
       }
     },
@@ -570,15 +601,13 @@ export default {
         </ComposeConversation>
         <NextButton
           v-if="contact.phone_number"
-          v-tooltip.top-end="
-            activeCallConversation ? 'Call already ongoing' : 'Call'
-          "
+          v-tooltip.top-end="hasActiveCall ? 'Call already ongoing' : 'Call'"
           icon="i-ph-phone"
           slate
           faded
           sm
-          :is-loading="!activeCallConversation && isCallLoading"
-          :color="activeCallConversation ? 'teal' : undefined"
+          :is-loading="!hasActiveCall && isCallLoading"
+          :color="hasActiveCall ? 'teal' : undefined"
           @click.stop.prevent="onCallButtonClick"
         />
         <NextButton

@@ -203,16 +203,18 @@ class ActionCableConnector extends BaseActionCableConnector {
       conversationId: data.conversation_id,
       inboxId: data.inbox_id,
       inboxName: data.inbox_name,
-      contactName: data.contact_name,
+      inboxAvatarUrl: data.inbox_avatar_url, // Inbox avatar URL
+      inboxPhoneNumber: data.inbox_phone_number, // Inbox phone number
+      contactName: data.contact_name || 'Unknown Caller', // Add fallback name
       contactId: data.contact_id,
       accountId: data.account_id,
       isOutbound: data.is_outbound || false, // Check if this is an outbound call requiring agent join
       conference_sid: data.conference_sid, // Pass the conference_sid directly to the floating widget
       requiresAgentJoin: data.requires_agent_join || false, // Flag for calls needing immediate agent join
-      callDirection: data.call_direction // Add call direction for additional context
+      callDirection: data.call_direction, // Add call direction for additional context
+      phoneNumber: data.phone_number, // Include phone number for display in the UI
+      avatarUrl: data.avatar_url // Include avatar URL for display in the UI
     };
-    
-    // Process outbound calls
     
     // Update store
     this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
@@ -221,8 +223,6 @@ class ActionCableConnector extends BaseActionCableConnector {
     if (window.app && window.app.$data) {
       window.app.$data.showCallWidget = true;
     }
-    
-    // For outbound calls, we don't need to play a ringtone as we're initiating the call
   };
 
   onCallStatusChanged = data => {
@@ -240,20 +240,16 @@ class ActionCableConnector extends BaseActionCableConnector {
     
     // For terminal statuses, clear the active call to close the widget
     if (['ended', 'missed', 'completed', 'failed', 'busy', 'no_answer'].includes(data.status)) {
-      console.log(`ActionCable: Call status changed to terminal status: ${data.status}`);
-      
       // Clear active call for terminal statuses
       this.app.$store.dispatch('calls/clearActiveCall');
       
       // Ensure window.app.$data exists before modifying it
       if (window.app && window.app.$data) {
-        console.log('ActionCable: Hiding call widget');
         window.app.$data.showCallWidget = false;
       }
       
       // Update conversation list to show current status
       if (data.conversation_id) {
-        console.log(`ActionCable: Updating conversation last activity for conversation ${data.conversation_id}`);
         this.app.$store.dispatch('updateConversationLastActivity', {
           conversationId: data.conversation_id,
           lastActivityAt: new Date().toISOString(),

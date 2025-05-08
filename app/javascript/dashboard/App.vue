@@ -146,6 +146,27 @@ export default {
       this.showCallWidget = false;
       this.$store.dispatch('calls/clearActiveCall');
       this.$store.dispatch('calls/clearIncomingCall');
+      
+      // Clear the activeCallConversation state in all ContactInfo components
+      this.$nextTick(() => {
+        const clearContactInfoCallState = (components) => {
+          if (!components) return;
+          
+          components.forEach(component => {
+            if (component.$options && component.$options.name === 'ContactInfo') {
+              if (component.activeCallConversation) {
+                component.activeCallConversation = null;
+                component.$forceUpdate();
+              }
+            }
+            if (component.$children && component.$children.length) {
+              clearContactInfoCallState(component.$children);
+            }
+          });
+        };
+        
+        clearContactInfoCallState(this.$children);
+      });
     },
     handleCallJoined() {
       this.showCallWidget = true;
@@ -249,6 +270,10 @@ export default {
       :contact-name="activeCall ? activeCall.contactName : (incomingCall ? incomingCall.contactName : '')"
       :contact-id="activeCall ? activeCall.contactId : (incomingCall ? incomingCall.contactId : null)"
       :inbox-id="activeCall ? activeCall.inboxId : (incomingCall ? incomingCall.inboxId : null)"
+      :inbox-avatar-url="activeCall ? activeCall.inboxAvatarUrl : (incomingCall ? incomingCall.inboxAvatarUrl : '')"
+      :inbox-phone-number="activeCall ? activeCall.inboxPhoneNumber : (incomingCall ? incomingCall.inboxPhoneNumber : '')"
+      :avatar-url="activeCall ? activeCall.avatarUrl : (incomingCall ? incomingCall.avatarUrl : '')"
+      :phone-number="activeCall ? activeCall.phoneNumber : (incomingCall ? incomingCall.phoneNumber : '')"
       :use-web-rtc="true"
       @callEnded="handleCallEnded"
       @callJoined="handleCallJoined"

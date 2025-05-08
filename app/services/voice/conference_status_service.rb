@@ -33,8 +33,6 @@ module Voice
     }.freeze
 
     def process
-      # Log incoming parameters
-      Rails.logger.info("🎤 CONFERENCE STATUS: #{params['StatusCallbackEvent']}")
       
       # Extract status info and find conversation
       info = status_info
@@ -46,7 +44,6 @@ module Voice
       update_participant_info(conversation, info)
       
       # Process the event with the conference manager
-      Rails.logger.info("📊 PROCESSING EVENT: #{info[:event]}")
       
       Voice::ConferenceManagerService.new(
         conversation: conversation,
@@ -96,7 +93,6 @@ module Voice
         return conversation if conversation
       end
       
-      Rails.logger.error("❌ CONVERSATION NOT FOUND for event: #{info[:event]}")
       nil
     end
     
@@ -164,22 +160,35 @@ module Voice
 
     def broadcast_agent_notification(conversation, info)
       contact = conversation.contact
+      inbox = conversation.inbox
+      
+      # Get contact name, ensuring we have a valid value
+      contact_name_value = contact&.name.presence || contact&.phone_number || 'Outbound Call'
+      
+      # Create the data payload
+      broadcast_data = {
+        call_sid: info[:call_sid],
+        conversation_id: conversation.id,
+        inbox_id: conversation.inbox_id,
+        inbox_name: conversation.inbox.name,
+        inbox_avatar_url: inbox.avatar_url, # Include inbox avatar
+        inbox_phone_number: inbox.channel.phone_number, # Include inbox phone number
+        contact_name: contact_name_value,
+        contact_id: contact&.id,
+        is_outbound: true,
+        account_id: account.id,
+        conference_sid: info[:conference_sid],
+        phone_number: contact&.phone_number, # Include phone number for display in UI
+        avatar_url: contact&.avatar_url, # Include avatar URL for display in UI
+        call_direction: 'outbound' # Add call direction for context
+      }
+      
       
       ActionCable.server.broadcast(
         "account_#{account.id}",
         {
           event: 'incoming_call',
-          data: {
-            call_sid: info[:call_sid],
-            conversation_id: conversation.id,
-            inbox_id: conversation.inbox_id,
-            inbox_name: conversation.inbox.name,
-            contact_name: contact&.name || 'Outbound Call',
-            contact_id: contact&.id,
-            is_outbound: true,
-            account_id: account.id,
-            conference_sid: info[:conference_sid]
-          }
+          data: broadcast_data
         }
       )
     end

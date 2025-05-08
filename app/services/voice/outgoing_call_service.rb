@@ -26,6 +26,7 @@ module Voice
       @voice_inbox = account.inboxes.find_by(channel_type: 'Channel::Voice')
       raise 'No Voice channel found' if @voice_inbox.blank?
       raise 'Contact has no phone number' if contact.phone_number.blank?
+      
     end
 
     def create_conversation
@@ -122,24 +123,34 @@ module Voice
     end
 
     def broadcast_to_agent
+      # Get contact name, ensuring we have a valid value
+      contact_name_value = contact.name.presence || contact.phone_number
+      
+      # Create the data payload
+      broadcast_data = {
+        call_sid: @call_details[:call_sid],
+        conversation_id: @conversation.id,
+        inbox_id: @voice_inbox.id,
+        inbox_name: @voice_inbox.name,
+        inbox_avatar_url: @voice_inbox.avatar_url, # Include inbox avatar
+        inbox_phone_number: @voice_inbox.channel.phone_number, # Include inbox phone number
+        contact_name: contact_name_value,
+        contact_id: contact.id,
+        account_id: account.id,
+        is_outbound: true,
+        conference_sid: @conference_name,
+        requires_agent_join: true,
+        call_direction: 'outbound',
+        phone_number: contact.phone_number, # Include phone number for display in the UI
+        avatar_url: contact.avatar_url # Include avatar URL for display in the UI
+      }
+      
       # Direct notification that agent needs to join
       ActionCable.server.broadcast(
         "account_#{account.id}",
         {
           event: 'incoming_call',
-          data: {
-            call_sid: @call_details[:call_sid],
-            conversation_id: @conversation.id,
-            inbox_id: @voice_inbox.id,
-            inbox_name: @voice_inbox.name,
-            contact_name: contact.name || contact.phone_number,
-            contact_id: contact.id,
-            account_id: account.id,
-            is_outbound: true,
-            conference_sid: @conference_name,
-            requires_agent_join: true,
-            call_direction: 'outbound'
-          }
+          data: broadcast_data
         }
       )
 
