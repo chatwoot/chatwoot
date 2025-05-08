@@ -1,0 +1,28 @@
+{
+  "name": "Chatwoot Developer Docs",
+  "description": "Official developer documentation for Chatwoot - the open-source customer support platform. Learn about our APIs, integrations, and development guidelines.",
+  "logo": {
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#0069ED",
+    "light": "#4D9CFF",
+    "dark": "#0050B4"
+  },
+  "theme": "maple",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Documentation",
+        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/bde4833e4f866b1fc9dcdbcc14267351406069a3/swagger/swagger.json"
+      }
+    ]
+  },
+  "footerSocials": {
+    "twitter": "https://twitter.com/chatwootapp",
+    "github": "https://github.com/chatwoot",
+    "linkedin": "https://www.linkedin.com/company/chatwoot"
+  }
+}
