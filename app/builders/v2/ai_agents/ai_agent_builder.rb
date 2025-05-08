@@ -1,12 +1,11 @@
 class V2::AiAgents::AiAgentBuilder
   include ChatFlowHelper
 
-  attr_reader :account, :params, :template
+  attr_reader :account, :params
 
   def initialize(account, params)
     @account = account
     @params = params
-    @template = ai_agent_template
   end
 
   def find_all_ai_agents
@@ -66,6 +65,10 @@ class V2::AiAgents::AiAgentBuilder
   rescue StandardError => e
     Rails.logger.error("❌ Failed to update AI Agent: #{e.message}")
     raise 'Failed to update AI Agent'
+  end
+
+  def template
+    @template ||= ai_agent_template
   end
 
   private
