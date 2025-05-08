@@ -139,7 +139,6 @@ class ConversationApi extends ApiClient {
   }
 
   createCall(conversationId, body) {
-    console.log('createCall', body);
     return axios.post(`${this.url}/${conversationId}/create_call`, body);
   }
 
