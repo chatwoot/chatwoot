@@ -40,9 +40,7 @@ class Rack::Attack
   #
   # Example: RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1,192.168.0.10"
 
-  Rack::Attack.safelist('trusted IPs') do |req|
-    req.allowed_ip?
-  end
+  Rack::Attack.safelist('trusted IPs', &:allowed_ip?)
 
   ### Throttle Spammy Clients ###
 

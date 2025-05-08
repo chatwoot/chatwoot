@@ -282,11 +282,11 @@ describe WebhookListener do
 
   describe '#conversation_typing_on' do
     let(:event_name) { :'conversation.typing_on' }
-    let!(:typing_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: user, is_private: false) }
+    let!(:typing_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: user) }
 
     context 'when webhook is not configured' do
       it 'does not trigger webhook' do
-        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        expect(WebhookJob).not_to receive(:perform_later)
         listener.conversation_typing_on(typing_event)
       end
     end
@@ -295,11 +295,12 @@ describe WebhookListener do
       it 'triggers webhook' do
         webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['conversation_typing_on'])
 
-        payload = conversation.webhook_data.merge(
+        payload = {
           event: 'conversation_typing_on',
-          user: user.push_event_data,
+          user: user.webhook_data,
+          conversation: conversation.webhook_data,
           is_private: false
-        )
+        }
 
         expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
         listener.conversation_typing_on(typing_event)
@@ -313,11 +314,12 @@ describe WebhookListener do
         api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
         api_event = Events::Base.new(event_name, Time.zone.now, conversation: api_conversation, user: user, is_private: false)
 
-        payload = api_conversation.webhook_data.merge(
+        payload = {
           event: 'conversation_typing_on',
-          user: user.push_event_data,
+          user: user.webhook_data,
+          conversation: api_conversation.webhook_data,
           is_private: false
-        )
+        }
 
         expect(WebhookJob).to receive(:perform_later).with(channel_api.webhook_url, payload, :api_inbox_webhook).once
         listener.conversation_typing_on(api_event)
@@ -331,7 +333,7 @@ describe WebhookListener do
 
     context 'when webhook is not configured' do
       it 'does not trigger webhook' do
-        expect(WebhookJob).to receive(:perform_later).exactly(0).times
+        expect(WebhookJob).not_to receive(:perform_later)
         listener.conversation_typing_off(typing_event)
       end
     end
@@ -340,11 +342,12 @@ describe WebhookListener do
       it 'triggers webhook' do
         webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['conversation_typing_off'])
 
-        payload = conversation.webhook_data.merge(
+        payload = {
           event: 'conversation_typing_off',
-          user: user.push_event_data,
+          user: user.webhook_data,
+          conversation: conversation.webhook_data,
           is_private: false
-        )
+        }
 
         expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
         listener.conversation_typing_off(typing_event)
