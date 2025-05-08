@@ -195,7 +195,6 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onRejectCall = data => {
     this.app.$store.dispatch('closeCall', {});
-    console.log('Call rejected: ', data);
   };
 }
 

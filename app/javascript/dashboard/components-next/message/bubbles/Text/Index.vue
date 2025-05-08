@@ -24,10 +24,6 @@ const isEmpty = computed(() => {
 const activeCall = computed(() => {
   return store.getters['getCallState'];
 });
-
-onMounted(() => {
-  console.log('Content Attrs: ', contentAttributes);
-});
 </script>
 
 <template>
