@@ -14,7 +14,6 @@ export const getters = {
 
 export const actions = {
   receiveCall({ commit }, { call_data, caller }) {
-    console.log('receiveCall', call_data, caller);
     commit('SET_ACTIVE_CALL', {
       call_data,
       caller,
