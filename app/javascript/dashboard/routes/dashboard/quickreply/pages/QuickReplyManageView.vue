@@ -8,7 +8,7 @@
         <div class="actions">
           <button class="add-button"  @click="addQuickReply">
             <Plus class="icon" size="18" />
-            Add Quick Reply
+            Tambah Balasan Cepat
           </button>
           <div class= "flex px-4 pb-1 justify-between items-center flex-row gap-1 pt-2.5 border-b border-transparent">
             <div class="search-container">
@@ -17,7 +17,7 @@
             </div>
             <input 
               type="text" 
-              placeholder="Search Quick Replies" 
+              placeholder="Cari Balasan Cepat"
               v-model="searchQuery"
               class="search-input"
             />
@@ -31,10 +31,10 @@
         <table class="replies-table">
           <thead>
             <tr>
-              <th>Quick Reply Name</th>
-              <th>Created At</th>
-              <th>Content</th>
-              <th>Actions</th>
+              <th>Nama Balasan Cepat</th>
+              <th>Dibuat pada</th>
+              <th>Konten</th>
+              <th>Aksi</th>
             </tr>
           </thead>
           <tbody>
@@ -48,7 +48,7 @@
               </td>
             </tr>
             <tr v-if="filteredReplies.length === 0">
-              <td colspan="4" class="empty-state">No quick replies found</td>
+              <td colspan="4" class="empty-state">Belum ada balasan cepat</td>
             </tr>
           </tbody>
         </table>

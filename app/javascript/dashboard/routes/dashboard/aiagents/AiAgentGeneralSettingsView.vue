@@ -131,7 +131,7 @@ const previewUrl = computed(() => {
           />
         </div>
         <div>
-          <label for="welcome_message">Welcome Message</label>
+          <label for="welcome_message">Pesan Selamat Datang</label>
           <TextArea
             id="welcome_message"
             v-model="state.welcoming_message"
@@ -141,7 +141,7 @@ const previewUrl = computed(() => {
           />
         </div>
         <div>
-          <label for="routing_conditions">Routing Conditions</label>
+          <label for="routing_conditions">Kondisi Pengalihan</label>
           <TextArea
             id="routing_conditions"
             v-model="state.routing_conditions"

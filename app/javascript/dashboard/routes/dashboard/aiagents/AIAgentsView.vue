@@ -193,7 +193,7 @@ watchEffect(() => {
       }
     "
     :on-confirm="() => deleteData()"
-    title="Are you sure you want to delete this AI Agent?"
+    title="Apakah kamu akan menghapus data ini?"
     message="You cannot undo this action"
     :confirm-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.DELETE')"
     :reject-text="$t('CONVERSATION.CONTEXT_MENU.DELETE_CONFIRMATION.CANCEL')"
@@ -203,7 +203,7 @@ watchEffect(() => {
     :show="showCreateAgentModal"
     :on-close="() => (showCreateAgentModal = false)"
   >
-    <woot-modal-header header-title="Create New AI Agent" />
+    <woot-modal-header header-title="Buat Agen AI Baru" />
     <form @submit.prevent="() => createAiAgent()">
       <div class="flex flex-col">
         <div class="w-full mb-2">

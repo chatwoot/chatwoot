@@ -36,7 +36,7 @@ watch(
   }
 );
 
-const tabs = ref(['Batch Link', 'Single Link']);
+const tabs = ref(['Tautan batch', 'Tautan Tunggal']);
 const activeTabIndex = ref(0);
 
 const links = ref([]);

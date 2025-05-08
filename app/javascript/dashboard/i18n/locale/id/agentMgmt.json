@@ -3,8 +3,8 @@
     "HEADER": "Agen",
     "HEADER_BTN_TXT": "Tambahkan Agen",
     "LOADING": "Mendapatkan Daftar Agen",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "DESCRIPTION": "Agen adalah anggota tim dukungan yang dapat melihat dan membalas pesan pengguna. Berikut adalah daftar agen yang ada di akun Anda.",
+    "LEARN_MORE": "Pelajari tentang peran pengguna",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
       "AGENT": "Agen"

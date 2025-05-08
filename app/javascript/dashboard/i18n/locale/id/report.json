@@ -64,7 +64,7 @@
         "DESC": "( Total )"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
+        "NAME": "Waktu tunggu pelanggan",
         "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
         "DESC": ""
       }
@@ -122,15 +122,15 @@
     "GROUP_BY_YEAR_OPTIONS": [
       {
         "id": 1,
-        "groupBy": "Day"
+        "groupBy": "Hari"
       },
       {
         "id": 2,
-        "groupBy": "Week"
+        "groupBy": "Mingguan"
       },
       {
         "id": 3,
-        "groupBy": "Month"
+        "groupBy": "Bulanan"
       }
     ],
     "BUSINESS_HOURS": "Jam Kerja",

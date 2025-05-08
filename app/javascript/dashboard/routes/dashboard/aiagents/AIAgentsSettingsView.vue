@@ -10,12 +10,12 @@ const tabs = [
   {
     key: '0',
     index: 0,
-    name: 'General',
+    name: 'Umum',
   },
   {
     key: '1',
     index: 1,
-    name: 'Knowledge Sources',
+    name: 'Sumber Pengetahuan',
   },
 ];
 const activeIndex = ref(0);

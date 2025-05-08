@@ -15,17 +15,21 @@ const emit = defineEmits(['close', 'submit']);
     <div class="modal-content">
       <button class="modal-close" @click="$emit('close')">✕</button>
       <h2 class="modal-title">
-        {{ reply.id ? 'Edit Quick Reply' : 'Create New Quick Reply' }}
+        {{ reply.id ? 'Ubah Balasan Cepat' : 'Buat Balasan Cepat Baru' }}
       </h2>
 
-      <label class="modal-label">Name</label>
-      <input class="modal-input" placeholder="Enter Name" v-model="reply.name" />
+      <!-- TODO: Add localization -->
+      <label class="modal-label">Nama</label> 
+      <!-- TODO: Add localization -->
+      <input class="modal-input" placeholder="Masukkan nama" v-model="reply.name" />
 
-      <label class="modal-label">Content</label>
+      <!-- TODO: Add localization -->
+      <label class="modal-label">Konten</label>
+      <!-- TODO: Add localization -->
       <textarea
         class="modal-input"
         rows="4"
-        placeholder="Enter Quick Reply"
+        placeholder="Masukkan balasan cepat"
         v-model="reply.content"
       ></textarea>
 

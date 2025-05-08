@@ -17,7 +17,7 @@ const props = defineProps({
   },
 });
 
-const tabs = ref(['Batch Link', 'Single Link']);
+const tabs = ref(['Tautan batch', 'Tautan Tunggal']);
 const activeTabIndex = ref(0);
 const showCollectUrlModal = ref(false);
 const collectUrlEditModal = ref();
@@ -267,7 +267,7 @@ async function saveContent() {
     </div>
 
     <div>
-      <span class="text-xl font-bold"> Trained Links </span>
+      <span class="text-xl font-bold"> Tautan yang Sudah Dilatih </span>
       <div class="flex flex-row gap-2 items-center mt-2">
         <div class="py-4 pr-2 flex flex-row gap-4 items-center">
           <CheckBox
