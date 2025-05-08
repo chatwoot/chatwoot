@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Pilih Channel",
-        "BODY": "Pilih penyedia yang ingin Anda integrasikan dengan Chatwoot."
+        "BODY": "Pilih penyedia yang ingin Anda integrasikan dengan Jangkau."
       },
       "INBOX": {
         "TITLE": "Buat Channel",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
       },
       "FB": {
-        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Chatwoot.",
+        "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Jangkau.",
         "CHOOSE_PAGE": "Pilih Halaman",
         "CHOOSE_PLACEHOLDER": "Pilih halaman dari daftar",
         "INBOX_NAME": "Nama Kotak Masuk",
@@ -339,7 +339,7 @@
       },
       "AUTH": {
         "TITLE": "Pilih sebuah channel",
-        "DESC": "Chatwoot mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini."
+        "DESC": "Jangkau mendukung berbagai saluran seperti live chat di website, Facebook Messenger, profil Twitter, WhatsApp, email, dan lainnya. Kalau kamu ingin membuat saluran sendiri, kamu bisa menggunakan API Channel. Untuk memulai, silakan pilih salah satu saluran di bawah ini."
       },
       "AGENTS": {
         "TITLE": "Agen",
@@ -349,11 +349,11 @@
       },
       "DETAILS": {
         "TITLE": "Detail Kotak Masuk",
-        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Chatwoot. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
+        "DESC": "Dari dropdown di bawah, pilih Halaman Facebook yang ingin Anda hubungkan ke Jangkau. Anda juga dapat memberikan nama khusus ke kotak masuk Anda untuk identifikasi yang lebih baik."
       },
       "FINISH": {
         "TITLE": "Berhasil!",
-        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Chatwoot. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Chatwoot. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
+        "DESC": "Anda telah berhasil menyelesaikan integrasi Halaman Facebook Anda dengan Jangkau. Saat pelanggan mengirim pesan ke Halaman Anda, percakapan akan otomatis muncul di kotak masuk Anda. <br> Kami juga menyediakan script widget yang dapat dengan mudah ditambahkan ke website Anda. Setelah ini aktif di website Anda, pelanggan dapat mengirimi Anda pesan langsung dari website Anda tanpa bantuan alat eksternal dan percakapan akan muncul di sini, di Jangkau. <br> Keren, ya? Ya, kami pasti berusaha untuk :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Pilih penyedia email Anda",
@@ -511,7 +511,7 @@
       "INBOX_UPDATE_SUB_TEXT": "Perbarui pengaturan kotak masuk Anda",
       "AUTO_ASSIGNMENT_SUB_TEXT": "Mengaktifkan atau menonaktifkan penugasan otomatis percakapan baru ke agen yang ditambahkan ke kotak masuk ini.",
       "HMAC_VERIFICATION": "Validasi Identitas Pengguna",
-      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_DESCRIPTION": "Untuk memvalidasi identitas pengguna, Anda dapat mengirimkan `identifier_hash` untuk setiap pengguna. Anda bisa menghasilkan HMAC sha256 hash menggunakan identifier dengan kunci yang ditunjukkan di sini",
       "HMAC_LINK_TO_DOCS": "Anda dapat membaca lebih lanjut di sini.",
       "HMAC_MANDATORY_VERIFICATION": "Terapkan Validasi Identitas Pengguna",
       "HMAC_MANDATORY_DESCRIPTION": "Jika fitur ini diaktifkan, permintaan yang tidak menyertakan `identifier_hash` akan ditolak.",
@@ -742,8 +742,8 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hallo"
       },
-      "BRANDING_TEXT": "Powered by Chatwoot",
-      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
+      "BRANDING_TEXT": "Powered by Jangkau",
+      "SCRIPT_SETTINGS": "\n      window.JangkauSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",

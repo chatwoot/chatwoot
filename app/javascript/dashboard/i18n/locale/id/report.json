@@ -135,7 +135,7 @@
     ],
     "BUSINESS_HOURS": "Jam Kerja",
     "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Hapus Filter",
       "EMPTY_LIST": "Tidak ada hasil ditemukan"
     },
     "PAGINATION": {
@@ -540,7 +540,7 @@
     "DROPDOWN": {
       "ADD_FIlTER": "Tambah filter",
       "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
+      "CLEAR_FILTER": "Hapus Filter",
       "EMPTY_LIST": "Tidak ada hasil ditemukan",
       "NO_FILTER": "No filters available",
       "SEARCH": "Search filter",

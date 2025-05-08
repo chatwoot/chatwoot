@@ -18,7 +18,7 @@
       "AND": "DAN",
       "OR": "ATAU"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "Masukkan data",
     "OPERATOR_LABELS": {
       "equal_to": "Sama dengan",
       "not_equal_to": "Tidak sama dengan",
@@ -55,7 +55,7 @@
       "BROWSER_LANGUAGE": "Bahasa peramban",
       "PRIORITY": "Prioritas",
       "COUNTRY_NAME": "Nama negara",
-      "REFERER_LINK": "Tautan Referer",
+      "REFERER_LINK": "Tautan Rujukan",
       "CUSTOM_ATTRIBUTE_LIST": "Daftar",
       "CUSTOM_ATTRIBUTE_TEXT": "Teks",
       "CUSTOM_ATTRIBUTE_NUMBER": "Nomor",

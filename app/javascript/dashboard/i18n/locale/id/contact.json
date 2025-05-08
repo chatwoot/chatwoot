@@ -285,7 +285,7 @@
     "HEADER": {
       "TITLE": "Kontak",
       "SEARCH_TITLE": "Search contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_PLACEHOLDER": "Cari...",
       "MESSAGE_BUTTON": "Pesan",
       "SEND_MESSAGE": "Kirim Pesan",
       "BREADCRUMB": {
@@ -295,7 +295,7 @@
         "CONTACT_CREATION": {
           "ADD_CONTACT": "Tambahkan kontak",
           "EXPORT_CONTACT": "Ekspor kontak",
-          "IMPORT_CONTACT": "Import contacts",
+          "IMPORT_CONTACT": "Impor Kontak",
           "SAVE_CONTACT": "Simpan kontak",
           "EMAIL_ADDRESS_DUPLICATE": "Alamat email ini digunakan untuk kontak lain.",
           "PHONE_NUMBER_DUPLICATE": "Nomor ini sudah digunakan oleh kontak lain.",
@@ -335,10 +335,10 @@
           }
         },
         "ORDER": {
-          "LABEL": "Ordering",
+          "LABEL": "Urutkan berdasarkan",
           "OPTIONS": {
-            "ASCENDING": "Ascending",
-            "DESCENDING": "Descending"
+            "ASCENDING": "Urutan Naik",
+            "DESCENDING": "Urutan Turun"
           }
         },
         "FILTERS": {
@@ -363,7 +363,7 @@
       }
     },
     "PAGINATION_FOOTER": {
-      "SHOWING": "Showing {startItem} - {endItem} of {totalItems} contacts"
+      "SHOWING": "Menampilkan {startItem} - {endItem} dari {totalItems} kontak"
     },
     "FILTER": {
       "NAME": "Nama",
@@ -374,8 +374,8 @@
       "CITY": "Kota",
       "CREATED_AT": "Dibuat pada",
       "LAST_ACTIVITY": "Aktivitas terakhir",
-      "REFERER_LINK": "Tautan Referer",
-      "BLOCKED": "Blocked",
+      "REFERER_LINK": "Tautan Rujukan",
+      "BLOCKED": "Diblokir",
       "BLOCKED_TRUE": "Benar",
       "BLOCKED_FALSE": "Salah",
       "BUTTONS": {
@@ -402,13 +402,13 @@
         "TITLE": "Edit detail kontak",
         "FORM": {
           "FIRST_NAME": {
-            "PLACEHOLDER": "Enter the first name"
+            "PLACEHOLDER": "Masukkan nama depan"
           },
           "LAST_NAME": {
             "PLACEHOLDER": "Enter the last name"
           },
           "EMAIL_ADDRESS": {
-            "PLACEHOLDER": "Enter the email address",
+            "PLACEHOLDER": "Masukkan alamat email",
             "DUPLICATE": "Alamat email ini digunakan untuk kontak lain."
           },
           "PHONE_NUMBER": {
@@ -419,21 +419,21 @@
             "PLACEHOLDER": "Masukkan nama kota"
           },
           "COUNTRY": {
-            "PLACEHOLDER": "Select country"
+            "PLACEHOLDER": "Pilih negara"
           },
           "BIO": {
-            "PLACEHOLDER": "Enter the bio"
+            "PLACEHOLDER": "Tulis sedikit tentang diri Anda"
           },
           "COMPANY_NAME": {
             "PLACEHOLDER": "Masukkan nama perusahaan"
           }
         },
-        "UPDATE_BUTTON": "Update contact",
+        "UPDATE_BUTTON": "Perbarui kontak",
         "SUCCESS_MESSAGE": "Contact updated successfully",
         "ERROR_MESSAGE": "Unable to update contact. Please try again later."
       },
       "SOCIAL_MEDIA": {
-        "TITLE": "Edit social links",
+        "TITLE": "Ubah link media sosial",
         "FORM": {
           "FACEBOOK": {
             "PLACEHOLDER": "Add Facebook"
@@ -454,7 +454,7 @@
       }
     },
     "DETAILS": {
-      "CREATED_AT": "Created {date}",
+      "CREATED_AT": "Dibuat {date}",
       "LAST_ACTIVITY": "Last active {date}",
       "DELETE_CONTACT_DESCRIPTION": "Permanently delete this contact. This action is irreversible",
       "DELETE_CONTACT": "Hapus kontak",
@@ -483,7 +483,7 @@
         "ATTRIBUTES": "Atribut",
         "HISTORY": "History",
         "NOTES": "Catatan",
-        "MERGE": "Merge"
+        "MERGE": "Gabungkan"
       },
       "HISTORY": {
         "EMPTY_STATE": "Tidak ada percakapan sebelumnya yang terkait dengan kontak ini"
@@ -491,12 +491,12 @@
       "ATTRIBUTES": {
         "SEARCH_PLACEHOLDER": "Search for attributes",
         "UNUSED_ATTRIBUTES": "{count} Used attribute | {count} Unused attributes",
-        "EMPTY_STATE": "There are no contact custom attributes available in this account. You can create a custom attribute in settings.",
+        "EMPTY_STATE": "Tidak ada atribut tambahan untuk kontak di akun ini. Silakan buat atribut baru melalui menu pengaturan.",
         "YES": "Ya",
         "NO": "Tidak",
         "TRIGGER": {
           "SELECT": "Pilih nilai",
-          "INPUT": "Enter value"
+          "INPUT": "Masukkan data"
         },
         "VALIDATIONS": {
           "INVALID_NUMBER": "Invalid number",
@@ -515,14 +515,14 @@
       },
       "MERGE": {
         "TITLE": "Gabungkan Kontak",
-        "DESCRIPTION": "Combine two profiles into one, including all attributes and conversations. In case of conflict, the primary contact’s attributes will take precedence.",
+        "DESCRIPTION": "Satukan dua profil menjadi satu, dengan semua atribut dan percakapan. Atribut kontak utama akan diprioritaskan jika ada konflik.",
         "PRIMARY": "Kontak Utama",
-        "PRIMARY_HELP_LABEL": "To be saved",
+        "PRIMARY_HELP_LABEL": "Akan disimpan",
         "PRIMARY_REQUIRED_ERROR": "Please select a contact to merge with before proceeding",
-        "PARENT": "To be merged",
+        "PARENT": "Akan digabungkan",
         "PARENT_HELP_LABEL": "Akan dihapus",
-        "EMPTY_STATE": "No contacts found",
-        "PLACEHOLDER": "Search for primary contact",
+        "EMPTY_STATE": "Tidak ada kontak yang ditemukan",
+        "PLACEHOLDER": "Cari kontak utama yang terdaftar" ,
         "SEARCH_PLACEHOLDER": "Cari kontak",
         "SEARCH_ERROR_MESSAGE": "Could not search for contacts. Please try again later.",
         "SUCCESS_MESSAGE": "Kontak berhasil digabungkan",
@@ -538,7 +538,7 @@
         "WROTE": "menulis",
         "YOU": "Anda",
         "SAVE": "Save note",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "Belum ada catatan untuk kontak ini. Anda bisa menambahkan catatan dengan mengetik di kotak di atas."
       }
     },
     "EMPTY_STATE": {
@@ -560,12 +560,12 @@
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {
         "LABEL": "Kepada:",
-        "TAG_INPUT_PLACEHOLDER": "Search for a contact with name, email or phone number",
+        "TAG_INPUT_PLACEHOLDER": "Cari kontak berdasarkan nama, email, atau nomor telepon",
         "CONTACT_CREATING": "Creating contact..."
       },
       "INBOX_SELECTOR": {
-        "LABEL": "Via:",
-        "BUTTON": "Show inboxes"
+        "LABEL": "Melalui:",
+        "BUTTON": "Tampilkan kotak masuk"
       },
       "EMAIL_OPTIONS": {
         "SUBJECT_LABEL": "Masukkan subjek :",
@@ -591,8 +591,8 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "Hapus",
+        "SEND": "Kirim ({keyCode})"
       }
     }
   }
