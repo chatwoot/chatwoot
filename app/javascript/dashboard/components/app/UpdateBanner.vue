@@ -68,14 +68,14 @@ export default {
 </script>
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
-<template>
-  <Banner
-    v-if="shouldShowBanner"
+<!-- <template>
+  <banner
+    v-if="shouldshowbanner"
     color-scheme="primary"
-    :banner-message="bannerMessage"
+    :banner-message="bannermessage"
     href-link="https://github.com/chatwoot/chatwoot/releases"
-    :href-link-text="$t('GENERAL_SETTINGS.LEARN_MORE')"
+    :href-link-text="$t('general_settings.learn_more')"
     has-close-button
-    @close="dismissUpdateBanner"
+    @close="dismissupdatebanner"
   />
-</template>
+</template> -->
