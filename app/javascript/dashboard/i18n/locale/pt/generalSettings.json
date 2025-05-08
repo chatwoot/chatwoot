@@ -44,6 +44,10 @@
         "TITLE": "ID da conta",
         "NOTE": "Este ID é necessário para integrações via API"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+      },
       "NAME": {
         "LABEL": "Nome da conta",
         "PLACEHOLDER": "Nome da sua conta",
@@ -65,9 +69,18 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Número de dias sem nenhuma atividade, após os quais o ticket se auto-resolve",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Por favor, indique um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)"
+        "ERROR": "Por favor, indique um período de resolução automática válido (mínimo de 1 dia e máximo de 999 dias)",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Update Auto-resolve",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A sua conta tem a opção de continuar as conversas por e-mail ativa.",

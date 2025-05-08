@@ -44,6 +44,10 @@
         "TITLE": "ID cont",
         "NOTE": "Acest ID este necesar dacă construiți o integrare bazată pe API"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+      },
       "NAME": {
         "LABEL": "Nume cont",
         "PLACEHOLDER": "Numele contului tău",
@@ -65,9 +69,18 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Numărul de zile de pe bilet ar trebui să se rezolve automat dacă nu există activitate",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Vă rugăm să introduceți o durată validă de rezolvare automată (minim 1 zi și maximum 999 de zile)"
+        "ERROR": "Vă rugăm să introduceți o durată validă de rezolvare automată (minim 1 zi și maximum 999 de zile)",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Update Auto-resolve",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Continuitatea conversației cu e-mailurile este activată pentru contul dvs.",
