@@ -25,7 +25,6 @@
 # Indexes
 #
 #  index_messages_account_inbox_created_at              (account_id,inbox_id,created_at DESC)
-#  index_messages_content_trigram                       (content) USING gin
 #  index_messages_on_account_created_type               (account_id,created_at,message_type)
 #  index_messages_on_account_id                         (account_id)
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)

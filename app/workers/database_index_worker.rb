@@ -18,7 +18,6 @@ class DatabaseIndexWorker
   def create_indexes
     setup_environment
     create_composite_index
-    create_trigram_index
     reset_timeout
   end
 
@@ -29,8 +28,6 @@ class DatabaseIndexWorker
   end
 
   def setup_environment
-    # First create the trigram extension (needs to be in its own transaction)
-    ActiveRecord::Base.connection.execute 'CREATE EXTENSION IF NOT EXISTS pg_trgm;'
     setup_long_timeout
   end
 
@@ -52,16 +49,7 @@ class DatabaseIndexWorker
     SQL
   end
 
-  def create_trigram_index
-    ActiveRecord::Base.connection.execute <<-SQL.squish
-      CREATE INDEX CONCURRENTLY IF NOT EXISTS
-      index_messages_content_trigram
-      ON messages USING gin (content gin_trgm_ops);
-    SQL
-  end
-
   def drop_new_indexes
-    ActiveRecord::Base.connection.execute 'DROP INDEX CONCURRENTLY IF EXISTS index_messages_content_trigram;'
     ActiveRecord::Base.connection.execute 'DROP INDEX CONCURRENTLY IF EXISTS index_messages_account_inbox_created_at;'
   end
 end
