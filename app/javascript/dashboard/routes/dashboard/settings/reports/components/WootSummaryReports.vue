@@ -32,7 +32,17 @@
       "
       @filter-change="onFilterChange"
     />
+    <div
+      v-if="isLoading"
+      class="flex justify-center items-center my-8"
+      :class="{
+        'min-h-[10rem]': isLoading,
+      }"
+    >
+      <spinner size="medium" />
+    </div>
     <ve-table
+      v-else
       max-height="calc(100vh - 21.875rem)"
       :fixed-header="true"
       :columns="columns"
@@ -54,6 +64,7 @@ import getSymbolFromCurrency from 'currency-symbol-map';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { VeTable } from 'vue-easytable';
 import { mapGetters } from 'vuex';
+import Spinner from 'shared/components/Spinner.vue';
 
 const BombayShavingAccountIds = [1058, 1126, 1125];
 
@@ -61,6 +72,7 @@ export default {
   components: {
     VeTable,
     ReportFilterSelector,
+    Spinner,
   },
   mixins: [reportMixin, alertMixin],
   props: {
@@ -101,6 +113,7 @@ export default {
       businessHours: false,
       selectedMetricType: 'Average',
       activeDropdownId: null,
+      isLoading: true,
     };
   },
   computed: {
@@ -1155,16 +1168,21 @@ export default {
         metricType: this.selectedMetricType,
       });
     },
-    fetchAllData() {
+    async fetchAllData() {
       const { from, to, businessHours, selectedLabel, selectedInbox } = this;
+      this.isLoading = true;
       this.emitFilterChange();
-      this.$store.dispatch(this.actionKey, {
-        since: from,
-        until: to,
-        businessHours,
-        selectedLabel,
-        selectedInbox,
-      });
+      try {
+        await this.$store.dispatch(this.actionKey, {
+          since: from,
+          until: to,
+          businessHours,
+          selectedLabel,
+          selectedInbox,
+        });
+      } finally {
+        this.isLoading = false;
+      }
     },
     downloadReports() {
       const { from, to, type, businessHours } = this;
