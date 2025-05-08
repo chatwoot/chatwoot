@@ -77,7 +77,6 @@ export default {
     activeCall: {
       immediate: true,
       handler(roomId) {
-        console.log('ROOM CHANGED', roomId);
         if (!roomId) {
           this.showCallModal = false;
         }
@@ -119,7 +118,6 @@ export default {
         chat_id: this.currentChat.id,
         room_id: this.activeCall.room_id,
       });
-      console.log('showCallModal', this.showCallModal);
     },
     async startCall() {
       if (this.activeCall) return;
@@ -133,7 +131,6 @@ export default {
       });
 
       this.showCallModal = true;
-      console.log('startCall', this.currentChat.id);
     },
     fetchLabels() {
       if (!this.currentChat.id) {

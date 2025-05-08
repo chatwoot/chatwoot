@@ -33,12 +33,10 @@ const props = defineProps({
 });   
 
 const handleHangup = () => {
-  console.log("Hanging up")
   emit('close');
 }
 
 const handleCallLeft = () => {
-  console.log("Call left")
   emit('left');
 }
 
