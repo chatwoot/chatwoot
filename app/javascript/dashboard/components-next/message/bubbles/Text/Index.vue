@@ -6,6 +6,9 @@ import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import { CONTENT_TYPES, MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { onMounted } from 'vue';
+import { useStore } from 'vuex';
+
+const store = useStore();
 
 const { content, contentType, attachments, contentAttributes, messageType } =
   useMessageContext();
@@ -16,6 +19,14 @@ const isTemplate = computed(() => {
 
 const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
+});
+
+const activeCall = computed(() => {
+  return store.getters['getCallState'];
+});
+
+onMounted(() => {
+  console.log('Content Attrs: ', contentAttributes);
 });
 </script>
 
@@ -29,7 +40,10 @@ const isEmpty = computed(() => {
       <AttachmentChips :attachments="attachments" class="gap-2" />
 
       <div
-        v-if="contentType == 'calling_event'"
+        v-if="
+          contentType == 'calling_event' &&
+          activeCall?.room_id != contentAttributes.callRoom
+        "
         class="px-2 py-1 rounded-lg bg-n-alpha-3"
       >
         {{

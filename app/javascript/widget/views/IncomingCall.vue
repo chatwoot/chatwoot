@@ -26,7 +26,7 @@ export default {
       if (!this.activeCall) return;
       acceptCall(this.activeCall.call_data);
       window.open(
-        `https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}?jwt=${this.activeCall.call_data.jwt}`,
+        `https://${this.activeCall.call_data.domain}/${this.activeCall.call_data.room_id}?jwt=${this.activeCall.call_data.jwt}#config.prejoinConfig.enabled=false`,
         '_blank'
       );
     },
