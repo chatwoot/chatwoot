@@ -44,7 +44,7 @@ export default {
       default: false,
     },
   },
-  emits: ['open', 'close', 'replyTo'],
+  emits: ['open', 'close', 'replyTo', 'forwardEmail'],
   setup() {
     const { getPlainText } = useMessageFormatter();
     return {
@@ -114,6 +114,10 @@ export default {
     },
     handleClose(e) {
       this.$emit('close', e);
+    },
+    openForwardModal(event) {
+      this.handleClose();
+      this.$emit('forwardEmail', event);
     },
     handleTranslate() {
       const { locale } = this.getAccount(this.currentAccountId);
@@ -237,6 +241,15 @@ export default {
           }"
           variant="icon"
           @click.stop="showCannedResponseModal"
+        />
+        <MenuItem
+          v-if="enabledOptions['forwardEmail']"
+          :option="{
+            icon: 'forward',
+            label: $t('CONVERSATION.CONTEXT_MENU.FORWARD_EMAIL'),
+          }"
+          variant="icon"
+          @click.stop="openForwardModal"
         />
         <hr v-if="enabledOptions['delete']" />
         <MenuItem

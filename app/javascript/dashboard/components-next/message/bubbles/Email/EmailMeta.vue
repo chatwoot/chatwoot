@@ -62,18 +62,15 @@ const showMeta = computed(() => {
     subject.value
   );
 });
-
-defineExpose({
-  showMeta,
-});
 </script>
 
 <template>
   <section
     v-show="showMeta"
+    class="space-y-1 rtl:pl-9 ltr:pr-9 text-sm break-words"
     :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-11'"
   >
-    <div class="space-y-1 rtl:pl-9 w-full ltr:pr-9 text-sm break-words">
+    <template v-if="showMeta">
       <div
         v-if="fromEmail[0]"
         :class="hasError ? 'text-n-ruby-11' : 'text-n-slate-12'"
@@ -103,7 +100,6 @@ defineExpose({
         {{ $t('EMAIL_HEADER.SUBJECT') }}:
         {{ subject }}
       </div>
-    </div>
-    <slot />
+    </template>
   </section>
 </template>

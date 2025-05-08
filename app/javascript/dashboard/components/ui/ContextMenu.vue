@@ -1,6 +1,7 @@
 <script setup>
 import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
 import { useWindowSize, useElementBounding } from '@vueuse/core';
+import { calculatePosition } from 'dashboard/helper/position.js';
 
 const props = defineProps({
   x: { type: Number, default: 0 },
@@ -13,25 +14,6 @@ const menuRef = useTemplateRef('menuRef');
 
 const { width: windowWidth, height: windowHeight } = useWindowSize();
 const { width: menuWidth, height: menuHeight } = useElementBounding(menuRef);
-
-const calculatePosition = (x, y, menuW, menuH, windowW, windowH) => {
-  // Initial position
-  let left = x;
-  let top = y;
-
-  // Boundary checks
-  const isOverflowingRight = left + menuW > windowW;
-  const isOverflowingBottom = top + menuH > windowH;
-
-  // Adjust position if overflowing
-  if (isOverflowingRight) left = windowW - menuW;
-  if (isOverflowingBottom) top = windowH - menuH;
-
-  return {
-    left: Math.max(0, left),
-    top: Math.max(0, top),
-  };
-};
 
 const position = computed(() => {
   if (!menuRef.value) return { top: `${props.y}px`, left: `${props.x}px` };

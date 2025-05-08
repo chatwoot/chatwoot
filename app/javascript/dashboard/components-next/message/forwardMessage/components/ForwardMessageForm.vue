@@ -130,9 +130,11 @@ const handleSendMessage = async () => {
 
 <template>
   <div
-    class="w-[42rem] max-h-[31.25rem] overflow-y-scroll divide-y divide-n-strong overflow-visible transition-all duration-300 ease-in-out top-full justify-between flex flex-col border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl"
+    class="w-[42rem] max-h-[31.25rem] divide-y divide-n-strong transition-all duration-300 ease-in-out top-full justify-between flex flex-col border border-n-strong shadow-sm backdrop-blur-[100px] rounded-xl overflow-hidden"
   >
-    <div class="relative flex-1 px-4 py-3 overflow-y-visible bg-n-alpha-3">
+    <div
+      class="relative flex-1 rounded-t-xl px-4 py-3 overflow-y-visible bg-n-alpha-3"
+    >
       <div class="flex items-baseline w-full gap-3 min-h-7">
         <label class="text-sm font-medium text-n-slate-11 whitespace-nowrap">
           {{ t('FORWARD_MESSAGE_FORM.FROM') }}
@@ -162,25 +164,27 @@ const handleSendMessage = async () => {
       @clear-selected-contact="clearSelectedContact"
       @update-dropdown="handleDropdownUpdate"
     />
-    <EmailMessageEditor
-      v-model="state.message"
-      class="bg-n-alpha-3"
-      :content="content"
-      :is-plain-email="isPlainEmail"
-      :has-quoted-message="hasQuotedMessage"
-      :full-html="fullHtml"
-      :unquoted-html="unquotedHtml"
-      :text-to-show="textToShow"
-    />
-    <section
-      v-if="Array.isArray(attachments) && attachments.length"
-      class="px-4 pb-4 pt-2 !border-t-0 space-y-2 bg-n-alpha-3"
-    >
-      <AttachmentChips
-        :attachments="attachments"
-        class="gap-1 !justify-start"
+    <div class="overflow-y-scroll">
+      <EmailMessageEditor
+        v-model="state.message"
+        class="bg-n-alpha-3"
+        :content="content"
+        :is-plain-email="isPlainEmail"
+        :has-quoted-message="hasQuotedMessage"
+        :full-html="fullHtml"
+        :unquoted-html="unquotedHtml"
+        :text-to-show="textToShow"
       />
-    </section>
+      <section
+        v-if="Array.isArray(attachments) && attachments.length"
+        class="px-4 pb-4 pt-2 !border-t-0 space-y-2 bg-n-alpha-3"
+      >
+        <AttachmentChips
+          :attachments="attachments"
+          class="gap-1 !justify-start"
+        />
+      </section>
+    </div>
     <AttachmentPreviews
       v-if="state.attachedFiles.length > 0"
       :attachments="state.attachedFiles"

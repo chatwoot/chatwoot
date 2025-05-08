@@ -9,10 +9,9 @@ import {
 } from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
-import { useScrollLock, useToggle } from '@vueuse/core';
+import { useScrollLock, useWindowSize, useToggle } from '@vueuse/core';
 
 import Icon from 'next/icon/Icon.vue';
-import MessageMenu from 'dashboard/components-next/message/MessageMenu.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
@@ -23,10 +22,11 @@ import ForwardMessageForm from 'dashboard/components-next/message/forwardMessage
 
 import { useMessageContext } from '../../provider.js';
 import { useInbox } from 'dashboard/composables/useInbox';
-import { MESSAGE_TYPES, MESSAGE_STATUS } from 'next/message/constants.js';
+import { MESSAGE_TYPES } from 'next/message/constants.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
+import { calculatePosition } from 'dashboard/helper/position.js';
 
-const { id, status, content, contentAttributes, attachments, messageType } =
+const { id, content, contentAttributes, attachments, messageType } =
   useMessageContext();
 
 const { inbox } = useInbox();
@@ -36,12 +36,12 @@ const isExpanded = ref(false);
 const showQuotedMessage = ref(false);
 const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
-const emailMeta = useTemplateRef('emailMeta');
 
-// Forward form
+// Forward form - managed locally but can be triggered by parent
 const [showForwardMessageModal, toggleForwardModal] = useToggle();
 const forwardFormPosition = reactive({ top: 0, right: 0 });
 const conversationPanelScrollLock = ref(null);
+const { width: windowWidth, height: windowHeight } = useWindowSize();
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
@@ -51,12 +51,6 @@ const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
 
 const isForwarded = computed(() => contentAttributes.value?.forwardedMessageId);
-
-const showMessageMenu = computed(
-  () => ![MESSAGE_STATUS.FAILED, MESSAGE_STATUS.PROGRESS].includes(status.value)
-);
-
-const showMeta = computed(() => emailMeta.value?.showMeta);
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
@@ -126,16 +120,36 @@ const closeForwardModal = () => {
     conversationPanelScrollLock.value.value = false;
 };
 
-const openForwardModal = event => {
+const openForwardModal = (event = null) => {
   // Lock conversation panel scroll
   // To prevent the conversation from scrolling when the forward form is opened
   const panel = document.querySelector('.conversation-panel');
   if (panel) conversationPanelScrollLock.value = useScrollLock(panel, true);
-  // Set position from event
-  if (event?.target) {
-    const buttonRect = event.target.getBoundingClientRect();
-    forwardFormPosition.top = buttonRect.top - 9;
-    forwardFormPosition.right = window.innerWidth - buttonRect.right - 9;
+
+  // Form dimensions
+  const [formWidth, formHeight] = [672, 500];
+  const { value: winWidth } = windowWidth;
+  const { value: winHeight } = windowHeight;
+
+  // Position calculation
+  const rect = event?.target?.getBoundingClientRect?.();
+  if (rect) {
+    // Calculate position based on click location of context menu forward button
+    const { left, top } = calculatePosition(
+      rect.left,
+      rect.top,
+      formWidth,
+      formHeight,
+      winWidth,
+      winHeight
+    );
+
+    forwardFormPosition.top = top;
+    forwardFormPosition.right = winWidth - left - formWidth;
+  } else {
+    // Center the form when no trigger event
+    forwardFormPosition.top = Math.max(0, (winHeight - formHeight) / 2);
+    forwardFormPosition.right = Math.max(0, (winWidth - formWidth) / 2);
   }
 
   toggleForwardModal(true);
@@ -144,6 +158,11 @@ const openForwardModal = event => {
 onUnmounted(() => {
   if (conversationPanelScrollLock.value)
     conversationPanelScrollLock.value.value = false;
+});
+
+defineExpose({
+  openForwardModal,
+  closeForwardModal,
 });
 </script>
 
@@ -156,39 +175,13 @@ onUnmounted(() => {
     }"
     data-bubble-name="email"
   >
-    <div
-      v-show="showMeta"
+    <EmailMeta
       class="p-3"
       :class="{
         'border-b border-n-strong': isIncoming,
         'border-b border-n-slate-8/20': isOutgoing,
       }"
-    >
-      <EmailMeta ref="emailMeta" class="w-full flex justify-end items-start">
-        <div
-          v-if="showMessageMenu"
-          class="flex gap-2 skip-context-menu flex-shrink-0 items-center relative"
-        >
-          <MessageMenu @open-forward="openForwardModal" />
-          <Teleport to="body">
-            <ForwardMessageForm
-              v-if="showForwardMessageModal"
-              :message="contentAttributes?.email"
-              :content="content"
-              :inbox="inbox"
-              :attachments="attachments"
-              :message-id="id"
-              class="fixed z-50 skip-context-menu"
-              :style="{
-                top: `${forwardFormPosition.top}px`,
-                right: `${forwardFormPosition.right}px`,
-              }"
-              @close="closeForwardModal"
-            />
-          </Teleport>
-        </div>
-      </EmailMeta>
-    </div>
+    />
 
     <section ref="contentContainer" class="p-3">
       <div
@@ -273,6 +266,22 @@ onUnmounted(() => {
     >
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
+
+    <Teleport v-if="showForwardMessageModal" to="body">
+      <ForwardMessageForm
+        :message="contentAttributes?.email"
+        :content="content"
+        :inbox="inbox"
+        :attachments="attachments"
+        :message-id="id"
+        class="fixed z-50 skip-context-menu"
+        :style="{
+          top: `${forwardFormPosition.top}px`,
+          right: `${forwardFormPosition.right}px`,
+        }"
+        @close="closeForwardModal"
+      />
+    </Teleport>
   </BaseBubble>
 </template>
 
