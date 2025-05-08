@@ -6,8 +6,8 @@ RSpec.describe AdministratorNotifications::AccountComplianceMailer do
   end
   let(:soft_deleted_users) do
     [
-      { id: 1, original_email: 'user1@example.com', new_email: 'user1@example.com-deleted.com' },
-      { id: 2, original_email: 'user2@example.com', new_email: 'user2@example.com-deleted.com' }
+      { id: 1, original_email: 'user1@example.com' },
+      { id: 2, original_email: 'user2@example.com' }
     ]
   end
 
@@ -25,7 +25,10 @@ RSpec.describe AdministratorNotifications::AccountComplianceMailer do
 
       meta = mailer_instance.send(:build_meta, account)
 
-      expect(meta['soft_deleted_users']).to eq(soft_deleted_users)
+      expect(meta['deleted_user_count']).to eq(2)
+      expect(meta['soft_deleted_users'].size).to eq(2)
+      expect(meta['soft_deleted_users'].first['user_id']).to eq('1')
+      expect(meta['soft_deleted_users'].first['user_email']).to eq('user1@example.com')
     end
   end
 end

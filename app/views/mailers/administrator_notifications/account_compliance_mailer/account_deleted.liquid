@@ -11,12 +11,16 @@
   <strong>Deletion Reason:</strong> {{ meta.deletion_reason }}
 </p>
 
-{% if meta.soft_deleted_users.size > 0 %}
+{% if meta.deleted_user_count > 0 %}
 <p>
-  <strong>Deleted Users:</strong><br>
+  <strong>Deleted Users ({{ meta.deleted_user_count }}):</strong><br>
   {% for user in meta.soft_deleted_users %}
-    User ID: {{ user.id }}, Email: {{ user.original_email }}{% unless forloop.last %}<br>{% endunless %}
+    User ID: {{ user.user_id }}, Email: {{ user.user_email }}{% unless forloop.last %}<br>{% endunless %}
   {% endfor %}
+</p>
+{% else %}
+<p>
+  <strong>Deleted Users:</strong> None
 </p>
 {% endif %}
 

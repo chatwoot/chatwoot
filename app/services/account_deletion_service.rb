@@ -25,8 +25,11 @@ class AccountDeletionService
 
   def soft_delete_orphaned_users
     account.users.each do |user|
-      # Skip if user belongs to other accounts
-      next if user.accounts.count > 1
+      # Find all account_users for this user excluding the current account
+      other_accounts = user.account_users.where.not(account_id: account.id).count
+
+      # If user has no other accounts, soft delete them
+      next unless other_accounts.zero?
 
       # Soft delete user by appending -deleted.com to email
       original_email = user.email
@@ -34,12 +37,14 @@ class AccountDeletionService
       user.skip_reconfirmation!
       user.save!
 
-      soft_deleted_users << {
-        id: user.id,
+      user_info = {
+        id: user.id.to_s,
         original_email: original_email
       }
 
-      Rails.logger.info("Soft deleted orphaned user #{original_email}, new email: #{user.email}")
+      soft_deleted_users << user_info
+
+      Rails.logger.info("Soft deleted user #{user.id} with email #{original_email}")
     end
   end
 end
