@@ -69,7 +69,7 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_WAITING": {
-        "LABEL": "Auto-resolve pending conversations",
+        "LABEL": "Include unattended conversations",
         "HELP": "If enabled, the system will automatically resolve all conversations, including those that have been waiting for an agent reply."
       },
       "AUTO_RESOLVE_DURATION": {
@@ -81,7 +81,7 @@
           "SUCCESS": "Auto resolve settings updated successfully",
           "ERROR": "Failed to update auto resolve settings"
         },
-        "UPDATE_BUTTON": "Update Auto-resolve",
+        "UPDATE_BUTTON": "Update",
         "MESSAGE_LABEL": "Custom resolution message",
         "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
         "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
