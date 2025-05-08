@@ -84,7 +84,7 @@ const toggleAutoResolve = async () => {
       </div>
     </template>
 
-    <form class="grid gap-4" @submit.prevent="handleSubmit">
+    <form class="grid gap-5" @submit.prevent="handleSubmit">
       <WithLabel
         :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL')"
         :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.HELP')"
