@@ -1,4 +1,3 @@
-### config/initializers/rack_attack.rb
 class Rack::Attack
   ### Configure Cache ###
 
@@ -22,8 +21,9 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
-      allowed_ips.include?(remote_ip)
+      default_allowed_ips = ['127.0.0.1', '::1']
+      env_allowed_ips = ENV.fetch('RACK_ATTACK_ALLOWED_IPS', '').split(',').map(&:strip)
+      (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
     # Rails would allow requests to paths with extentions, so lets compare against the path with extention stripped
@@ -40,9 +40,8 @@ class Rack::Attack
   #
   # Example: RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1,192.168.0.10"
 
-  Rack::Attack.safelist('trusted IPs from ENV') do |req|
-    allowed_ips = ENV.fetch('RACK_ATTACK_ALLOWED_IPS', '').split(',').map(&:strip)
-    allowed_ips.include?(req.remote_ip)
+  Rack::Attack.safelist('trusted IPs') do |req|
+    req.allowed_ip?
   end
 
   ### Throttle Spammy Clients ###
