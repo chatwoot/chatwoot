@@ -116,11 +116,11 @@ export default {
       this.$emit('close', e);
     },
     openForwardModal() {
+      this.handleClose();
       this.$emit('forwardEmail', {
         x: this.contextMenuPosition.x,
         y: this.contextMenuPosition.y,
       });
-      this.handleClose();
     },
     handleTranslate() {
       const { locale } = this.getAccount(this.currentAccountId);
