@@ -26,6 +26,11 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
+  def channel_avatar
+    @inbox.channel.avatar.attachment.destroy! if @inbox.channel.respond_to?(:avatar) && @inbox.channel.avatar.attached?
+    head :ok
+  end
+
   def create
     ActiveRecord::Base.transaction do
       channel = create_channel

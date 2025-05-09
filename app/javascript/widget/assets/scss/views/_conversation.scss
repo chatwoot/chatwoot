@@ -8,12 +8,11 @@
     display: flex;
     flex-direction: row;
     justify-content: flex-start;
-    margin: 0 0 $space-micro $space-small;
+    margin: 0 0 $space-micro $space-smaller;
     max-width: 88%;
 
     .avatar-wrap {
       flex-shrink: 0;
-      height: $space-medium;
       width: $space-medium;
 
       .user-thumbnail-box {

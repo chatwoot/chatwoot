@@ -3,6 +3,7 @@ json.website_channel_config do
   json.api_host ENV.fetch('FRONTEND_URL', nil)
   json.auth_token @token
   json.avatar_url @web_widget.inbox.avatar_url
+  json.channel_avatar_url @web_widget.avatar_url
   json.csat_survey_enabled @web_widget.inbox.csat_survey_enabled
   json.disable_branding @web_widget.inbox.account.feature_enabled?('disable_branding')
   json.enabled_features @web_widget.selected_feature_flags

@@ -79,7 +79,10 @@ class MessageTemplates::HookExecutionService
     return unless csat_enabled_conversation?
 
     # only send CSAT once in a conversation
-    return if conversation.messages.where(content_type: :input_csat).present?
+    csat_messages = conversation.messages.where(content_type: :input_csat)
+    filtered_messages = csat_messages.where("additional_attributes->>'ignore_automation_rules' IS NULL")
+
+    return if filtered_messages.present?
 
     true
   end

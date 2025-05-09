@@ -7,6 +7,7 @@
     <script>
       window.chatwootWebChannel = {
         avatarUrl: '<%= @web_widget.inbox.avatar_url %>',
+        channelAvatarUrl: '<%= @web_widget.avatar_url %>',
         hasAConnectedAgentBot: '<%= @web_widget.inbox.agent_bot&.name %>',
         locale: '<%= @web_widget.account.locale %>',
         websiteName: '<%= @web_widget.inbox.name %>',
@@ -29,6 +30,8 @@
         allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
         faqs: <%= @web_widget.faqs.to_json.html_safe %>,
+        needMoreHelpType: '<%= @web_widget.need_more_help_type %>',
+        backPopulateConversation: <%= @web_widget.back_populates_conversation %>
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'

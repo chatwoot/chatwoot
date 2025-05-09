@@ -65,4 +65,8 @@ class InboxPolicy < ApplicationPolicy
   def avatar?
     @account_user.administrator?
   end
+
+  def channel_avatar?
+    @account_user.administrator?
+  end
 end

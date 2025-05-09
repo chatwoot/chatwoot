@@ -1,6 +1,6 @@
 <template>
-  <div class="card">
-    <h2>Order Details</h2>
+  <div class="card px-3.5 py-3 !mt-1 gap-4">
+    <!-- <h2>Order Details</h2> -->
     <form @submit.prevent="handleSubmit">
       <PhoneInput
         v-model="phoneNumber"
@@ -16,10 +16,21 @@
         id="orderId"
         v-model="orderId"
         type="text"
-        placeholder="Enter order ID"
-        class="order-id-input"
+        placeholder="Enter Order ID (Optional)"
+        class="order-id-input rounded-lg px-4 py-2.5"
       />
-      <button type="submit" :disabled="isUpdating">Submit</button>
+      <button
+        :style="{
+          background: widgetColor,
+          color: textColor,
+          borderRadius: '8px',
+        }"
+        type="submit"
+        :class="'hover:opacity-80'"
+        :disabled="isUpdating"
+      >
+        Submit
+      </button>
     </form>
   </div>
 </template>
@@ -27,6 +38,8 @@
 <script>
 import PhoneInput from 'widget/components/PhoneInput.vue';
 import { mapActions } from 'vuex';
+import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   name: 'OrderCard',
@@ -49,12 +62,27 @@ export default {
       isUpdating: false,
     };
   },
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+  },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
     async handleSubmit() {
       this.isUpdating = true;
       try {
         const dialCode = this.selectedDialCode.split('+')[1] || 91;
+        if (
+          this.phoneNumber.trim() === '' ||
+          !this.isValid10DigitPhoneNumber(this.phoneNumber)
+        ) {
+          this.hasError = true;
+          return;
+        }
         await this.$store.dispatch('message/update', {
           messageId: this.messageId,
           phone: `${dialCode}${this.phoneNumber}`,
@@ -73,6 +101,15 @@ export default {
         this.isUpdating = false;
       }
     },
+    isValid10DigitPhoneNumber(phoneNumber) {
+      // Check if phoneNumber contains any non-digit characters (including alphabets)
+      if (/\D/.test(phoneNumber)) {
+        return false;
+      }
+
+      // At this point we know it's all digits, so just check the length
+      return phoneNumber.length === 10;
+    },
     handleSetCode(dialCode) {
       this.selectedDialCode = dialCode;
     },
@@ -84,25 +121,25 @@ export default {
 form {
   display: flex;
   flex-direction: column;
-  gap: 5px;
 }
 .card {
-  box-shadow: 0px 2px 10px 0px #0000001a;
-  box-shadow: 0px 0px 2px 0px #00000033;
+  box-shadow:
+    0 0.25rem 6px rgba(50, 50, 93, 0.08),
+    0 1px 3px rgba(0, 0, 0, 0.05);
+  border: 1px solid rgb(240, 240, 240);
   border-radius: 8px;
-  padding: 16px;
-  gap: 8px;
+  color: #3c4858;
+  font-size: 0.875rem;
+  line-height: 1.5;
+  max-width: 100%;
   width: 300px;
   display: flex;
   flex-direction: column;
   background-color: #fff;
-  gap: 10px;
-  margin-top: 10px;
 }
 
 .order-id-input {
   border: 1px solid #d9d9d9;
-  border-radius: 4px;
   width: 100%;
   padding: 8px;
   font-size: 14px;
@@ -136,15 +173,13 @@ h2 {
 }
 
 button {
-  width: 50%;
+  width: 100%;
   margin-left: auto;
   align-self: flex-end;
-  background-color: #559cf8;
   box-shadow: 0px 1px 0px 0px #0000000d;
-  border-radius: 4px;
-  margin-top: 10px;
-  width: 81px;
-  height: 32px;
+  border-radius: 8px;
+  margin-top: 1rem;
+  padding: 8px 16px 8px 16px;
   color: #fff;
   font-size: 14px;
   font-weight: 600;

@@ -12,6 +12,9 @@ export const createTemporaryMessage = ({
   isPrivate,
   productId,
   previousSelectedReplies,
+  conversationResolved,
+  assignToAgent,
+  productIdForMoreInfo,
 }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
@@ -28,6 +31,9 @@ export const createTemporaryMessage = ({
     isPrivate,
     productId,
     previousSelectedReplies,
+    conversationResolved,
+    assignToAgent,
+    productIdForMoreInfo,
   };
 };
 

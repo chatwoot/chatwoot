@@ -1,16 +1,23 @@
 <template>
   <div class="rating">
-    <span
+    <div
       v-for="n in maxRating"
       :key="n"
-      class="star"
-      :class="{ filled: n <= value }"
+      class="emoji-wrapper"
       @click="rate(n)"
       @mouseover="hover(n)"
       @mouseleave="hover(0)"
     >
-      ★
-    </span>
+      <span
+        class="emoji"
+        :class="{
+          'emoji-active': n === displayValue,
+          'emoji-hover': n <= hoverValue && n > value,
+        }"
+      >
+        {{ emojiList[n - 1] }}
+      </span>
+    </div>
   </div>
 </template>
 
@@ -31,11 +38,19 @@ export default {
   data() {
     return {
       hoverValue: 0,
+      emojiSets: {
+        default: ['😡', '😕', '😐', '🙂', '🤩'],
+        faces: ['😠', '🙁', '😐', '🙂', '🤩'],
+      },
+      neutralEmoji: '😐',
     };
   },
   computed: {
     displayValue() {
       return this.hoverValue || this.value;
+    },
+    emojiList() {
+      return this.emojiSets.default;
     },
   },
   methods: {
@@ -52,17 +67,49 @@ export default {
 <style scoped>
 .rating {
   display: flex;
-  gap: 4px;
+  gap: 12px;
+  justify-content: center;
+  padding: 10px 0;
+}
+
+.emoji-wrapper {
   cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.star {
-  font-size: 32px;
-  color: #ccc;
-  transition: color 0.2s;
+.emoji {
+  font-size: 36px;
+  transition: all 0.2s ease;
+  transform-origin: center;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  opacity: 0.7;
 }
 
-.star.filled {
-  color: gold;
+.emoji-active {
+  transform: scale(1.1);
+  opacity: 1;
+}
+
+.emoji-hover {
+  transform: scale(1.05);
+  opacity: 0.9;
+}
+
+.emoji-wrapper:hover .emoji {
+  transform: scale(1.2);
+}
+
+@media (max-width: 768px) {
+  .emoji {
+    font-size: 32px;
+  }
+  .rating {
+    gap: 8px;
+  }
 }
 </style>

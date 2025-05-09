@@ -37,16 +37,20 @@ json.website_url resource.channel.try(:website_url)
 json.hmac_mandatory resource.channel.try(:hmac_mandatory)
 json.welcome_title resource.channel.try(:welcome_title)
 json.faqs resource.channel.try(:faqs)
+json.need_more_help_type resource.channel.try(:need_more_help_type)
+json.back_populates_conversation resource.channel.try(:back_populates_conversation)
 json.welcome_tagline resource.channel.try(:welcome_tagline)
 json.web_widget_script resource.channel.try(:web_widget_script)
 json.website_token resource.channel.try(:website_token)
 json.selected_feature_flags resource.channel.try(:selected_feature_flags)
 json.reply_time resource.channel.try(:reply_time)
+json.channel_avatar_url resource.try(:avatar_url)
 if resource.web_widget?
   json.hmac_token resource.channel.try(:hmac_token) if Current.account_user&.administrator?
   json.pre_chat_form_enabled resource.channel.try(:pre_chat_form_enabled)
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
   json.continuity_via_email resource.channel.try(:continuity_via_email)
+  json.channel_avatar_url resource.channel.try(:avatar_url)
 end
 
 ## Facebook Attributes

@@ -9,6 +9,29 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     identify_contact(@contact)
   end
 
+  def get_whatsapp_redirect_url # rubocop:disable Naming/AccessorMethodName
+    inbox_id = conversation.inbox.id
+    account_id = conversation.inbox.account.id
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+
+    need_more_help_type = @web_widget.need_more_help_type
+
+    return render json: { error: 'Inbox ID not found' }, status: :bad_request if inbox_id.blank?
+    return render json: { error: 'Account Id Not Found' }, status: :bad_request if account_id.blank?
+
+    contact_inbox = @contact.contact_inboxes.find_by(inbox_id: inbox_id)
+
+    shop_url = fetch_shop_url_from_api(account_id)
+    source_id = contact_inbox.source_id
+
+    if need_more_help_type == 'redirect_to_whatsapp'
+      response = fetch_whatsapp_redirect_url(shop_url, source_id, conversation.display_id)
+      render json: response
+    else
+      render json: { error: 'Redirect to whatsappFailed' }, status: :not_found
+    end
+  end
+
   def set_user
     contact = nil
 

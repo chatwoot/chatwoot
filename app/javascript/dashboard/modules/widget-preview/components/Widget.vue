@@ -1,5 +1,5 @@
 <template>
-  <div class="widget-preview-container">
+  <div class="widget-preview-container min-w-[352px] min-h-[775px]">
     <div v-if="isWidgetVisible" class="screen-selector">
       <input-radio-group
         name="widget-screen"
@@ -39,17 +39,26 @@
       <button
         class="bubble"
         :class="getBubbleTypeClass"
-        :style="{ background: color }"
+        :style="
+          !channelAvatarUrl
+            ? { background: color }
+            : isWidgetVisible
+            ? { background: color }
+            : {}
+        "
         @click="toggleWidget"
       >
         <img
           v-if="!isWidgetVisible"
-          src="~dashboard/assets/images/bubble-logo.svg"
+          :src="
+            channelAvatarUrl ||
+            require('../../../assets/images/bubble-logo.svg')
+          "
+          :class="{
+            '!w-full !h-full': channelAvatarUrl,
+          }"
           alt=""
         />
-        <div>
-          {{ getWidgetBubbleLauncherTitle }}
-        </div>
       </button>
     </div>
   </div>
@@ -118,6 +127,10 @@ export default {
       type: String,
       default: '',
     },
+    channelAvatarUrl: {
+      type: String,
+      default: null,
+    },
   },
   data() {
     return {
@@ -163,6 +176,11 @@ export default {
         faqs: this.faqs,
       };
     },
+    avatarSrc() {
+      return (
+        this.channelAvatarUrl || '~dashboard/assets/images/bubble-logo.svg'
+      );
+    },
     getWidgetFooterConfig() {
       return {
         isDefaultScreen: this.isDefaultScreen,
@@ -184,6 +202,7 @@ export default {
     getBubblePositionStyle() {
       return {
         justifyContent: this.widgetBubblePosition === 'left' ? 'start' : 'end',
+        width: '100%',
       };
     },
     getBubbleTypeClass() {
@@ -191,6 +210,7 @@ export default {
         'bubble-close': this.isWidgetVisible,
         'bubble-expanded':
           !this.isWidgetVisible && this.widgetBubbleType === 'expanded_bubble',
+        'mt-[700px] !p-0': !this.isWidgetVisible,
       };
     },
     getWidgetBubbleLauncherTitle() {
@@ -268,6 +288,7 @@ export default {
   .bubble {
     display: flex;
     align-items: center;
+    justify-content: center;
     border-radius: calc(var(--border-radius-large) * 10);
     height: calc(var(--space-large) * 2);
     width: calc(var(--space-large) * 2);
@@ -277,8 +298,6 @@ export default {
 
     img {
       height: var(--space-medium);
-      margin: var(--space-one) var(--space-one) var(--space-one)
-        var(--space-two);
       width: var(--space-medium);
     }
 

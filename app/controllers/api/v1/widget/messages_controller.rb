@@ -6,14 +6,32 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     @messages = conversation.nil? ? [] : message_finder.perform
   end
 
+  # rubocop:disable Metrics/AbcSize
+  # rubocop:disable Metrics/MethodLength
   def create
     @message = conversation.messages.new(message_params)
     build_attachment
     @message.save!
+
+    message_content_attributes = message_params[:content_attributes]
+
+    if message_content_attributes[:conversation_resolved]
+      ResolveConversationJob.perform_later(
+        conversation.id,
+        conversation.account_id,
+        conversation.inbox_id,
+        conversation.assignee
+      )
+    elsif message_content_attributes[:assign_to_agent]
+      AssignConversationJob.perform_later(
+        conversation.id,
+        conversation.account_id,
+        conversation.inbox_id,
+        conversation.assignee
+      )
+    end
   end
 
-  # rubocop:disable Metrics/AbcSize
-  # rubocop:disable Metrics/MethodLength
   def update
     if @message.content_type == 'input_email'
       @message.update!(submitted_email: contact_email)
@@ -84,12 +102,15 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # rubocop:disable Layout/LineLength
     params.permit(message: [
                     { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
-                                         :selected_reply, :previous_selected_replies, :product_id] },
+                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :assign_to_agent, :conversation_resolved] },
                     :user_phone_number,
                     :user_order_id,
                     :selected_reply,
                     { previous_selected_replies: [] },
-                    :product_id
+                    :product_id,
+                    :product_id_for_more_info,
+                    :assign_to_agent,
+                    :conversation_resolved
                   ])
     # rubocop:enable Layout/LineLength
   end
@@ -99,7 +120,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # timestamp parameter is used in create conversation method
 
     params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
-                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private])
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :assign_to_agent, :conversation_resolved])
   end
 
   # rubocop:enable Layout/LineLength

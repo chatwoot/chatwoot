@@ -6,6 +6,11 @@ const createConversationAPI = async content => {
   return API.post(urlData.url, urlData.params);
 };
 
+const createNewConversationAPI = async () => {
+  const urlData = endPoints.createNewConversation();
+  return API.post(urlData.url, urlData.params);
+};
+
 const sendMessageAPI = async (
   content,
   replyTo = null,
@@ -14,7 +19,10 @@ const sendMessageAPI = async (
   orderId = null,
   isPrivate = false,
   productId = null,
-  previousSelectedReplies = []
+  previousSelectedReplies = [],
+  conversationResolved = false,
+  assignToAgent = false,
+  productIdForMoreInfo = null
 ) => {
   const urlData = endPoints.sendMessage(
     content,
@@ -25,7 +33,9 @@ const sendMessageAPI = async (
     orderId,
     isPrivate,
     productId,
-    previousSelectedReplies
+    conversationResolved,
+    assignToAgent,
+    productIdForMoreInfo
   );
   return API.post(urlData.url, urlData.params);
 };
@@ -98,4 +108,5 @@ export {
   toggleStatus,
   setCustomAttributes,
   deleteCustomAttribute,
+  createNewConversationAPI,
 };

@@ -1,5 +1,5 @@
 <template>
-  <div class="unread-wrap">
+  <div class="unread-wrap" :style="`--widget-color: ${widgetColor};`">
     <div class="close-unread-wrap">
       <button class="button small close-unread-button" @click="closeFullView">
         <span class="flex items-center">

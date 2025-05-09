@@ -165,6 +165,7 @@ export const IFrameHelper = {
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
+        channelAvatarUrl: message.config.channelConfig.channelAvatarUrl,
       });
       IFrameHelper.toggleCloseButton();
 
@@ -278,7 +279,7 @@ export const IFrameHelper = {
     IFrameHelper.sendMessage('push-event', { eventName });
   },
 
-  onLoad: ({ widgetColor }) => {
+  onLoad: ({ widgetColor, channelAvatarUrl }) => {
     const iframe = IFrameHelper.getAppFrame();
     iframe.style.visibility = '';
     iframe.setAttribute('id', `chatwoot_live_chat_widget`);
@@ -306,11 +307,14 @@ export const IFrameHelper = {
       className,
       path: bubbleSVG,
       target: chatBubble,
+      channelAvatarUrl,
     });
 
     addClasses(closeBubble, closeBtnClassName);
 
-    chatIcon.style.background = widgetColor;
+    if (!channelAvatarUrl) {
+      chatIcon.style.background = widgetColor;
+    }
     closeBubble.style.background = widgetColor;
 
     bubbleHolder.appendChild(chatIcon);

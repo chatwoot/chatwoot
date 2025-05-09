@@ -2,11 +2,12 @@
   <div
     class="w-full h-full bg-slate-25 dark:bg-slate-800 border-2 border-red-500"
     :class="{ 'overflow-auto': isOnHomeView }"
+    :style="`--widget-color: ${widgetColor}; --text-color: ${textColor};`"
     @keydown.esc="closeWindow"
   >
     <div class="flex flex-col h-full relative">
       <div
-        class="header-wrap sticky top-0 z-40 transition-all"
+        class="header-wrap sticky top-0 z-0 transition-all"
         :class="{
           expanded: !isHeaderCollapsed,
           collapsed: isHeaderCollapsed,
@@ -48,6 +49,7 @@ import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
+import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
@@ -72,6 +74,9 @@ export default {
       availableAgents: 'agent/availableAgents',
       widgetColor: 'appConfig/getWidgetColor',
     }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
     portal() {
       return window.chatwootWebChannel.portal;
     },

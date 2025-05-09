@@ -1,32 +1,36 @@
 <template>
   <footer
     v-if="!hideReplyBox"
-    class="relative z-50 mb-1 p-4"
+    class="relative z-50 py-3 px-4 bg-white"
     :class="{
-      'rounded-lg': !isWidgetStyleFlat,
       'pt-2.5 shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.05)] dark:shadow-[0px_-20px_20px_1px_rgba(0,_0,_0,_0.15)] rounded-t-none':
-        hasReplyTo,
+        hasReplyTo || productData,
     }"
   >
+    <div class="shadow-effect" />
     <footer-reply-to
-      v-if="hasReplyTo"
+      v-if="hasReplyTo && !productData"
       :in-reply-to="inReplyTo"
       @dismiss="inReplyTo = null"
     />
+    <footer-ask-about-product
+      v-if="productData"
+      :product-data="productData"
+      @dismiss="productData = null"
+    />
     <chat-input-wrap
-      class="shadow-sm"
       :on-send-message="handleSendMessage"
       :on-send-attachment="handleSendAttachment"
     />
   </footer>
-  <footer v-else class="flex justify-center">
+  <!-- <footer v-else class="flex justify-center z-50">
     <div
-      class="flex flex-col justify-center items-center shadow-[0px_2px_10px_#0000001A] shadow-[0px_0px_2px_#00000033] w-[90%] p-4 gap-2 rounded-lg"
+      class="w-full flex flex-col justify-center items-center shadow-[0px_2px_10px_#0000001A] shadow-[0px_0px_2px_#00000033] py-4 px-6 bg-[#FAFAFA] gap-2"
     >
-      <h2 class="text-[14px] font-medium">Rate your experience</h2>
-      <rating :value="1" @selectRating="() => {}" />
+      <h2 class="text-sm font-medium leading-5">How was your experience?</h2>
+      <rating :value="ratingValue" @update:value="handleRatingUpdate" />
     </div>
-  </footer>
+  </footer> -->
   <!-- <div v-else>
     <custom-button
       class="font-medium"
@@ -52,19 +56,21 @@
 import { mapActions, mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
+import FooterAskAboutProduct from 'widget/components/FooterAskAboutProduct.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-import Rating from '../components/Rating.vue';
+// import Rating from '../components/Rating.vue';
 
 export default {
   components: {
     ChatInputWrap,
     FooterReplyTo,
-    Rating,
+    // Rating,
+    FooterAskAboutProduct,
   },
   mixins: [routerMixin],
   props: {
@@ -76,6 +82,8 @@ export default {
   data() {
     return {
       inReplyTo: null,
+      ratingValue: 1,
+      productData: null,
     };
   },
   computed: {
@@ -108,6 +116,7 @@ export default {
   },
   mounted() {
     this.$emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+    this.$emitter.on(BUS_EVENTS.ASK_FOR_PRODUCT, this.toggleAskForProduct);
   },
   methods: {
     ...mapActions('conversation', [
@@ -123,9 +132,13 @@ export default {
       await this.sendMessage({
         content,
         replyTo: this.inReplyTo ? this.inReplyTo.id : null,
+        productIdForMoreInfo: this.productData?.id
+          ? this.productData?.id
+          : null,
       });
       // reset replyTo message after sending
       this.inReplyTo = null;
+      this.productData = null;
       // Update conversation attributes on new conversation
       if (this.conversationSize === 0) {
         this.getAttributes();
@@ -151,6 +164,9 @@ export default {
     toggleReplyTo(message) {
       this.inReplyTo = message;
     },
+    toggleAskForProduct(productData) {
+      this.productData = productData;
+    },
     async sendTranscript() {
       if (this.hasEmail) {
         try {
@@ -165,6 +181,9 @@ export default {
           });
         }
       }
+    },
+    handleRatingUpdate(value) {
+      this.ratingValue = value;
     },
   },
 };
@@ -186,5 +205,14 @@ export default {
     margin-right: $space-small;
     max-width: $space-two;
   }
+}
+
+.shadow-effect {
+  position: absolute;
+  left: 0;
+  top: -2.25rem;
+  width: 100%;
+  height: 2.25rem;
+  background: linear-gradient(180deg, hsla(0, 0%, 99.6%, 0) 30%, #fefefe 90%);
 }
 </style>

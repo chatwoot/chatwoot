@@ -10,9 +10,9 @@
         !isCSAT &&
         !isProductCarousel
       "
-      class="chat-bubble agent"
+      class="chat-bubble agent !px-3.5 !py-3"
       :class="$dm('bg-white', 'dark:bg-slate-700 has-dark-mode')"
-      style="border-radius: 4px; border: 1px solid #f0f0f0"
+      style="border-radius: 8px; border: 1px solid #f0f0f0"
     >
       <div
         v-dompurify-html="formatMessage(message, false)"
@@ -46,6 +46,7 @@
       :update-selected-products="updateSelectedProducts"
       :open-checkout-page="openCheckoutPage"
       :message="message"
+      :message-id="messageId"
     />
     <tags
       class="mt-2"
@@ -55,6 +56,7 @@
         messageContentAttributes.previous_selected_replies || []
       "
     />
+    <message-action v-if="shouldPromptResolutions && isLastMessage" />
     <div v-if="isOptions">
       <chat-options
         :title="message"
@@ -84,7 +86,7 @@
       <chat-article :items="messageContentAttributes.items" />
     </div>
     <customer-satisfaction
-      v-if="isCSAT"
+      v-if="isCSAT && isLastMessage"
       :message-content-attributes="messageContentAttributes.submitted_values"
       :message-id="messageId"
     />
@@ -103,9 +105,12 @@ import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
 import Tags from './Tags.vue';
+import MessageAction from './MessageAction.vue';
 import ProductCarousel from 'shared/components/ProductCarousel.vue';
 // import PhoneInput from 'dashboard/components/widgets/forms/PhoneInput.vue';
 import OrderDetailsCard from './OrderDetailsCard.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 export default {
   name: 'AgentMessageBubble',
@@ -122,6 +127,7 @@ export default {
     ProductCarousel,
     // PhoneInput,
     OrderDetailsCard,
+    MessageAction,
   },
   mixins: [messageFormatterMixin, darkModeMixin],
   props: {
@@ -145,10 +151,17 @@ export default {
       type: Function,
       default: () => {},
     },
+    isLastMessage: {
+      type: Boolean,
+      default: false,
+    },
   },
   computed: {
     isTemplate() {
       return this.messageType === 3;
+    },
+    shouldPromptResolutions() {
+      return this.messageContentAttributes?.should_prompt_resolution;
     },
     shouldShowQuickReply() {
       if (
@@ -199,6 +212,11 @@ export default {
       return this.contentType === 'integrations';
     },
   },
+  mounted() {
+    if (this.isCSAT) {
+      this.sendDataForIsCSAT(this.isCSAT);
+    }
+  },
   methods: {
     onResponse(messageResponse) {
       this.$store.dispatch('message/update', messageResponse);
@@ -218,6 +236,9 @@ export default {
         submittedValues: formValuesAsArray,
         messageId: this.messageId,
       });
+    },
+    sendDataForIsCSAT(isCSAT) {
+      emitter.emit(BUS_EVENTS.SEND_IS_CSAT_MESSAGE, isCSAT);
     },
   },
 };

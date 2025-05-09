@@ -11,6 +11,9 @@ export default {
     selectedReply,
     productId,
     previousSelectedReplies,
+    conversationResolved,
+    assignToAgent,
+    productIdForMoreInfo,
   }) => {
     const urlData = authEndPoint.updateMessage(messageId);
     return API.patch(urlData.url, {
@@ -22,6 +25,9 @@ export default {
         previous_selected_replies: previousSelectedReplies,
         user_order_id: orderId,
         product_id: productId,
+        conversation_resolved: conversationResolved,
+        assign_to_agent: assignToAgent,
+        product_id_for_more_info: productIdForMoreInfo,
       },
     });
   },

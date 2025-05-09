@@ -5,7 +5,7 @@ class Messages::MessageBuilder
   # rubocop:disable  Metrics/CyclomaticComplexity
   # rubocop:disable Metrics/AbcSize
   # rubocop:disable Metrics/PerceivedComplexity
-  def initialize(user, conversation, params)
+  def initialize(user, conversation, params) # rubocop:disable Metrics/MethodLength
     @params = params
     @private = params[:private] || false
     @conversation = conversation
@@ -21,6 +21,7 @@ class Messages::MessageBuilder
     @disable_webhook_notifications = params[:disable_webhook_notifications]
     @parent_source_id = params[:parent_source_id]
     @reply_to_comment_id = content_attributes&.dig(:reply_to_comment_id)
+    @should_prompt_resolution = content_attributes&.dig(:should_prompt_resolution)
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
@@ -170,6 +171,10 @@ class Messages::MessageBuilder
     @comment_id.present? ? { comment_id: @comment_id } : {}
   end
 
+  def should_prompt_resolution
+    @should_prompt_resolution.present? ? { should_prompt_resolution: @should_prompt_resolution } : {}
+  end
+
   def automation_rule_id
     @automation_rule.present? ? { content_attributes: { automation_rule_id: @automation_rule } } : {}
   end
@@ -213,6 +218,7 @@ class Messages::MessageBuilder
   end
 
   # rubocop:disable Layout/LineLength
+  # rubocop:disable Metrics/AbcSize,Lint/MissingCopEnableDirective
   def message_params
     {
       account_id: @conversation.account_id,
@@ -228,7 +234,7 @@ class Messages::MessageBuilder
       source_id: @params[:source_id],
       reply_to_comment_id: @reply_to_comment_id,
       is_dm_conversation_created: @is_dm_conversation_created
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id)
+    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params).merge(ignore_automation_rules).merge(disable_notifications).merge(disable_webhook_notifications).merge(template_params_stringified).merge(comment_id).merge(should_prompt_resolution)
   end
   # rubocop:enable Layout/LineLength
 end

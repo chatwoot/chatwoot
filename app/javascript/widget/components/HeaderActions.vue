@@ -1,6 +1,6 @@
 <template>
-  <div v-if="showHeaderActions" class="actions flex items-center">
-    <button
+  <div v-if="showHeaderActions" class="actions flex items-center gap-3">
+    <!-- <button
       v-if="
         canLeaveConversation &&
         hasEndConversationEnabled &&
@@ -11,11 +11,11 @@
       @click="resolveConversation"
     >
       <fluent-icon
-        icon="sign-out"
-        size="22"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
+        icon="dismiss"
+        size="20"
+        :class="$dm('text-slate-50', 'dark:text-slate-50')"
       />
-    </button>
+    </button> -->
     <button
       v-if="showPopoutButton"
       class="button transparent compact new-window--button"
@@ -28,17 +28,11 @@
       />
     </button>
     <button
-      class="button transparent compact close-button"
-      :class="{
-        'rn-close-button': isRNWebView,
-      }"
+      class="button transparent compact rn-close-button"
+      :style="{ color: 'var(--text-color)' }"
       @click="closeWindow"
     >
-      <fluent-icon
-        icon="dismiss"
-        size="24"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
-      />
+      <fluent-icon icon="dismiss" size="20" />
     </button>
   </div>
 </template>
@@ -124,10 +118,6 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 
 .actions {
-  button {
-    margin-left: $space-normal;
-  }
-
   span {
     color: $color-heading;
     font-size: $font-size-large;

@@ -6,6 +6,16 @@ module AutoAssignmentHandler
     after_save :run_auto_assignment
   end
 
+  def run_auto_assignment_for_web_widget_inbox
+    return if stop_auto_assignment_for_web_widget
+
+    return unless should_run_auto_assignment?
+
+    Rails.logger.info("member_ids_with_assignment_capacity, #{inbox.member_ids_with_assignment_capacity}")
+
+    ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+  end
+
   private
 
   def run_auto_assignment
@@ -15,6 +25,14 @@ module AutoAssignmentHandler
     return unless should_run_auto_assignment?
 
     ::AutoAssignment::AgentAssignmentService.new(conversation: self, allowed_agent_ids: inbox.member_ids_with_assignment_capacity).perform
+  end
+
+  def stop_auto_assignment_for_web_widget
+    Rails.logger.info('AutoAssignment not running')
+    Rails.logger.info("AutoAssignmentEmailData, #{assignee&.email&.match?(/\Acx\..+@bitespeed\.co\z/)}")
+    return true if inbox.channel_type == 'Channel::WebWidget' && assignee&.email&.match?(/\Acx\..+@bitespeed\.co\z/)
+
+    false
   end
 
   def should_run_auto_assignment?

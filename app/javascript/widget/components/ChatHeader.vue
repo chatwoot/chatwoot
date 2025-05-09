@@ -1,33 +1,41 @@
 <template>
   <header
-    class="flex justify-between p-5 w-full"
+    class="flex justify-between py-3 px-5 w-full"
     :style="{ backgroundColor: color }"
   >
-    <div class="flex items-center">
+    <div class="flex items-center gap-3">
       <button
         v-if="showBackButton"
-        class="-ml-3 px-2"
+        class="shadow-md rounded-lg flex h-7 w-7 justify-center items-center"
+        :style="{ color: 'var(--text-color)' }"
         @click="onBackButtonClick"
       >
-        <fluent-icon icon="chevron-left" size="24" class="text-white" />
+        <fluent-icon icon="chevron-left" size="24" />
       </button>
       <img
         v-if="avatarUrl"
-        class="h-8 w-8 rounded-[4px] mr-3"
+        class="h-8 w-8 rounded-[4px]"
         :src="avatarUrl"
         alt="avatar"
       />
       <div>
         <div
-          class="font-medium text-base leading-4 flex items-center text-white"
+          class="font-medium text-base leading-4 flex items-center"
+          :style="{ color: 'var(--text-color)' }"
         >
-          <span v-dompurify-html="title" class="mr-1" />
+          <span
+            v-dompurify-html="title"
+            class="mr-1 text-sm leading-5 font-bold"
+          />
           <div
             :class="`h-2 w-2 rounded-full
               ${isOnline ? 'bg-green-500' : 'hidden'}`"
           />
         </div>
-        <div class="text-xs mt-1 leading-3 text-white">
+        <div
+          class="text-[11px] leading-3"
+          :style="{ color: 'var(--text-color)' }"
+        >
           {{ replyWaitMessage }}
         </div>
       </div>

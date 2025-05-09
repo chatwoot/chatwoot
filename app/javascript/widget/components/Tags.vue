@@ -1,11 +1,19 @@
 <template>
-  <div class="tags-container">
+  <div
+    class="tags-container"
+    :class="{
+      'mt-0': filteredTags && filteredTags.length === 0,
+    }"
+  >
     <button
       v-for="(tag, index) in filteredTags"
       :key="index"
       :disabled="previousSelectedReplies.includes(tag.id)"
-      class="tag-button"
-      :class="{ 'selected-tag': previousSelectedReplies.includes(tag.id) }"
+      class="tag-button transition-all duration-300"
+      :class="{
+        'selected-tag': previousSelectedReplies.includes(tag.id),
+        'cursor-not-allowed': previousSelectedReplies.includes(tag.id),
+      }"
       @click="handleTagClick(tag)"
     >
       {{ tag.text }}
@@ -39,7 +47,7 @@ export default {
   },
   computed: {
     filteredTags() {
-      return this.tags.filter(tag => tag.text != null && tag.text !== '');
+      return this.tags?.filter(tag => tag.text != null && tag.text !== '');
     },
   },
   methods: {
@@ -76,9 +84,8 @@ export default {
 }
 
 .tag-button {
-  background-color: #fafafa;
-  color: white;
-  border: 1px solid #d9d9d9;
+  background: white;
+  border: 1px solid #cccccc;
   border-radius: 200px;
   padding: 6px 12px;
   font-size: 14px;
@@ -89,7 +96,16 @@ export default {
 }
 
 .tag-button:hover {
-  scale: 1.02;
+  background: var(--widget-color);
+  color: var(--text-color);
+  border: 1px solid var(--widget-color);
+}
+
+.tag-button:disabled:hover {
+  cursor: not-allowed;
+  background: white;
+  border: 1px solid #cccccc;
+  color: #262626;
 }
 
 .selected-tag {

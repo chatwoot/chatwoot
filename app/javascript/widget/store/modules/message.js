@@ -22,6 +22,9 @@ export const actions = {
       selectedReply,
       productId,
       previousSelectedReplies,
+      conversationResolved,
+      assignToAgent,
+      productIdForMoreInfo,
     }
   ) => {
     if (uiFlags.isUpdating) {
@@ -38,6 +41,9 @@ export const actions = {
         selectedReply,
         productId,
         previousSelectedReplies,
+        conversationResolved,
+        assignToAgent,
+        productIdForMoreInfo,
       });
       commit(
         'conversation/updateMessage',
@@ -51,6 +57,9 @@ export const actions = {
             previous_selected_replies: previousSelectedReplies,
             user_order_id: orderId,
             product_id: productId,
+            conversation_resolved: conversationResolved,
+            assign_to_agent: assignToAgent,
+            product_id_for_more_info: productIdForMoreInfo,
           },
         },
         { root: true }

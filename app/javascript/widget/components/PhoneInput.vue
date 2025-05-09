@@ -1,11 +1,11 @@
 <template>
   <div class="phone-input--wrap relative">
     <div
-      class="flex items-center dark:bg-slate-900 justify-start rounded-md border border-solid"
+      class="flex items-center dark:bg-slate-900 justify-start rounded-lg border border-solid mb-4"
       :class="
         error
           ? 'border border-solid border-red-400 dark:border-red-400 mb-1'
-          : 'mb-4 border-slate-200 dark:border-slate-600'
+          : 'border-slate-200 dark:border-slate-600'
       "
     >
       <div
@@ -32,7 +32,9 @@
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"
-        @input="onChange"
+        oninvalid="this.setCustomValidity('please provide your phone number');"
+        required
+        @input="handleInput"
         @blur="onBlur"
       />
     </div>
@@ -41,20 +43,25 @@
       ref="dropdown"
       v-on-clickaway="onOutsideClick"
       tabindex="0"
-      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900"
+      style="
+        box-shadow:
+          0 0.25rem 6px rgba(50, 50, 93, 0.08),
+          0 1px 3px rgba(0, 0, 0, 0.05);
+      "
+      class="z-10 mt-1 absolute h-44 w-[13rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900"
       @keydown.prevent.up="moveUp"
       @keydown.prevent.down="moveDown"
       @keydown.prevent.enter="
         onSelectCountry(filteredCountriesBySearch[selectedIndex])
       "
     >
-      <div class="top-0 sticky bg-white dark:bg-slate-900 p-1">
+      <div class="top-0 sticky bg-white dark:bg-slate-900 px-3 py-2">
         <input
           ref="searchbar"
           v-model="searchCountry"
           type="text"
           placeholder="Search"
-          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-200 dark:!border-slate-600 w-full outline-none"
+          class="px-3 rounded-lg !h-8 !mb-0 !text-sm !border !border-solid !border-slate-200 dark:!border-slate-600 w-full outline-none"
           @input="onSearchCountry"
         />
       </div>
@@ -62,7 +69,7 @@
         v-for="(country, index) in filteredCountriesBySearch"
         ref="dropdownItem"
         :key="index"
-        class="flex items-center h-7 py-0 px-1 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700"
+        class="flex items-center h-7 py-0 px-3 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-700"
         :class="{
           'bg-slate-50 dark:bg-slate-700': country.id === activeCountryCode,
           'bg-slate-25 dark:bg-slate-800': index === selectedIndex,
@@ -188,6 +195,10 @@ export default {
     this.setActiveCountry();
   },
   methods: {
+    handleInput(e) {
+      this.$refs.phoneNumberInput.setCustomValidity('');
+      this.onChange(e);
+    },
     onOutsideClick(e) {
       if (
         this.showDropdown &&

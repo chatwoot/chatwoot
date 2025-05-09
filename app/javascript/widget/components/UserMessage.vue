@@ -1,10 +1,16 @@
 <template>
-  <div class="user-message-wrap group">
+  <div class="user-message-wrap group !mt-1 !mb-1">
     <div class="flex gap-1 user-message">
       <div
         class="message-wrap"
         :class="{ 'in-progress': isInProgress, 'is-failed': isFailed }"
       >
+        <div
+          v-if="isDifferentType"
+          class="text-xs text-[#8C8C8C] text-right mb-1"
+        >
+          Sent at {{ readableTime }}
+        </div>
         <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
@@ -106,12 +112,16 @@ export default {
   mixins: [timeMixin, messageMixin],
   props: {
     message: {
-      type: Object,
+      type: [String, Object],
       default: () => {},
     },
     replyTo: {
       type: Object,
       default: () => {},
+    },
+    isDifferentType: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {

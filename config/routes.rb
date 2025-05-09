@@ -182,6 +182,7 @@ Rails.application.routes.draw do
             post :set_agent_bot, on: :member
             post :comment_messageable_status, on: :member
             delete :avatar, on: :member
+            delete :channel_avatar, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
@@ -315,12 +316,14 @@ Rails.application.routes.draw do
             post :toggle_typing
             post :transcript
             get  :toggle_status
+            post :create_new_conversation
           end
         end
         resource :contact, only: [:show, :update] do
           collection do
             post :destroy_custom_attributes
             patch :set_user
+            get :get_whatsapp_redirect_url
           end
         end
         resources :inbox_members, only: [:index]

@@ -9,6 +9,9 @@ export default {
   update(userObject) {
     return API.patch(buildUrl('widget/contact'), userObject);
   },
+  getWhatsappRedirectURL() {
+    return API.get(buildUrl('widget/contact/get_whatsapp_redirect_url'));
+  },
   setUser(identifier, userObject) {
     return API.patch(buildUrl('widget/contact/set_user'), {
       identifier,

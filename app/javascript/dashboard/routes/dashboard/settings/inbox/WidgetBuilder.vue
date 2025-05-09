@@ -13,6 +13,13 @@
               @change="handleImageUpload"
               @onAvatarDelete="handleAvatarDelete"
             />
+            <woot-avatar-uploader
+              :label="'Channel Avatar'"
+              :src="channelAvatarUrl"
+              delete-avatar
+              @change="handleChannelImageUpload"
+              @onAvatarDelete="handleChannelAvatarDelete"
+            />
             <woot-input
               v-model.trim="websiteName"
               :class="{ error: $v.websiteName.$error }"
@@ -55,6 +62,17 @@
                 )
               "
             />
+            <label class="w-full pb-4">
+              Back populate previous conversation messages
+              <select v-model="backPopulateConversationMessages">
+                <option :value="true">
+                  {{ 'Enabled' }}
+                </option>
+                <option :value="false">
+                  {{ 'Disabled' }}
+                </option>
+              </select>
+            </label>
             <!-- there can be number of input for faq question and answer. -->
             <div class="faq-section-header">
               <label> FAQs </label>
@@ -115,6 +133,12 @@
               :action="handleWidgetBubblePositionChange"
             />
             <input-radio-group
+              name="need-help-type"
+              :label="'Select need more help button type'"
+              :items="needMoreHelpOptions"
+              :action="handleNeedMoreHelpChange"
+            />
+            <input-radio-group
               name="widget-bubble-type"
               :label="
                 $t(
@@ -170,6 +194,7 @@
             :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
             :widget-bubble-type="widgetBubbleType"
             :faqs="faqs"
+            :channel-avatar-url="channelAvatarUrl"
           />
         </div>
         <div v-else class="widget-script">
@@ -211,12 +236,17 @@ export default {
       replyTime: 'in_a_few_minutes',
       avatarFile: null,
       avatarUrl: '',
+      channelAvatarFile: null,
+      channelAvatarUrl: '',
       widgetBubblePosition: 'right',
       widgetBubbleLauncherTitle: this.$t(
         'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.DEFAULT'
       ),
       widgetBubbleType: 'standard',
       faqs: [],
+      backPopulateConversationMessages: true,
+      needMoreHelpType: 'redirect_to_whatsapp',
+      needMoreHelpOptions: [],
       widgetBubblePositions: [
         {
           id: 'left',
@@ -338,7 +368,10 @@ export default {
         widget_color,
         reply_time,
         avatar_url,
+        channel_avatar_url,
         faqs,
+        need_more_help_type,
+        back_populates_conversation,
       } = this.inbox;
       this.websiteName = name;
       this.welcomeHeading = welcome_title;
@@ -346,7 +379,12 @@ export default {
       this.color = widget_color;
       this.replyTime = reply_time;
       this.avatarUrl = avatar_url;
+      this.channelAvatarUrl = channel_avatar_url;
       this.faqs = JSON.parse(faqs);
+      this.needMoreHelpType = need_more_help_type;
+      this.backPopulateConversationMessages = back_populates_conversation;
+
+      this.setNeedMoreHelpOptionsData(need_more_help_type);
 
       const savedInformation = this.getSavedInboxInformation();
       if (savedInformation) {
@@ -368,8 +406,25 @@ export default {
           savedInformation.launcherTitle || 'Chat with us';
       }
     },
+    setNeedMoreHelpOptionsData(needMoreHelpType) {
+      this.needMoreHelpOptions = [
+        {
+          id: 'redirect_to_whatsapp',
+          title: 'Redirect to whatsapp',
+          checked: needMoreHelpType === 'redirect_to_whatsapp',
+        },
+        {
+          id: 'assign_to_agent',
+          title: 'Assign to Agent',
+          checked: needMoreHelpType === 'assign_to_agent',
+        },
+      ];
+    },
     handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
+    },
+    handleNeedMoreHelpChange(item) {
+      this.needMoreHelpType = item.id;
     },
     handleWidgetBubbleTypeChange(item) {
       this.widgetBubbleType = item.id;
@@ -380,6 +435,10 @@ export default {
     handleImageUpload({ file, url }) {
       this.avatarFile = file;
       this.avatarUrl = url;
+    },
+    handleChannelImageUpload({ file, url }) {
+      this.channelAvatarFile = file;
+      this.channelAvatarUrl = url;
     },
     async handleAvatarDelete() {
       try {
@@ -398,6 +457,21 @@ export default {
             : this.$t(
                 'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR.DELETE.API.ERROR_MESSAGE'
               )
+        );
+      }
+    },
+    async handleChannelAvatarDelete() {
+      try {
+        await this.$store.dispatch(
+          'inboxes/deleteChannelAvatar',
+          this.inbox.id
+        );
+        this.channelAvatarFile = null;
+        this.channelAvatarUrl = '';
+        this.showAlert('Channel avatar deleted successfully');
+      } catch (error) {
+        this.showAlert(
+          error.message ? error.message : 'Error deleting channel avatar'
         );
       }
     },
@@ -420,10 +494,15 @@ export default {
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
             faqs: JSON.stringify(this.faqs),
+            need_more_help_type: this.needMoreHelpType,
+            back_populates_conversation: this.backPopulateConversationMessages,
           },
         };
         if (this.avatarFile) {
           payload.avatar = this.avatarFile;
+        }
+        if (this.channelAvatarFile) {
+          payload.channel.avatar = this.channelAvatarFile;
         }
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(

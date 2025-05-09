@@ -1,20 +1,30 @@
 <template>
   <div
-    class="agent-message-wrap group"
+    class="agent-message-wrap group !mt-1"
     :class="{
       'has-response': hasRecordedResponse || isASubmittedForm,
     }"
   >
     <div v-if="!isASubmittedForm" class="agent-message">
-      <div class="avatar-wrap">
+      <!-- <div v-if="!isCSAT" class="avatar-wrap">
         <thumbnail
           v-if="message.showAvatar || hasRecordedResponse"
           :src="avatarUrl"
           size="24px"
           :username="agentName"
         />
-      </div>
+      </div> -->
       <div class="message-wrap">
+        <div
+          v-if="isDifferentType && !isCSAT"
+          class="text-xs text-[#8C8C8C] text-left mb-1 flex gap-1.5"
+        >
+          Sent at {{ readableTimeStamp }}
+          <span v-if="isSentByBot" class="flex items-center gap-1.5">
+            <span class="w-1 h-1 bg-[#999999] rounded-full" />
+            Answered by AI ✨
+          </span>
+        </div>
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
@@ -30,6 +40,7 @@
               :selected-products="selectedProducts"
               :update-selected-products="updateSelectedProducts"
               :open-checkout-page="openCheckoutPage"
+              :is-last-message="isLastMessage"
             />
             <div
               v-if="hasAttachments"
@@ -62,7 +73,7 @@
               </div>
             </div>
           </div>
-          <div class="flex flex-col justify-end">
+          <div v-if="!isCSAT" class="flex flex-col justify-end">
             <message-reply-button
               v-if="!isProductCarousel"
               class="transition-opacity delay-75 opacity-0 group-hover:opacity-100 sm:opacity-0"
@@ -70,12 +81,12 @@
             />
           </div>
         </div>
-        <p
-          v-if="message.showAvatar || hasRecordedResponse"
+        <!-- <p
+          v-if="(message.showAvatar || hasRecordedResponse) && !isCSAT"
           v-dompurify-html="agentName"
           class="agent-name"
           :class="$dm('text-slate-700', 'dark:text-slate-200')"
-        />
+        /> -->
       </div>
     </div>
 
@@ -98,7 +109,7 @@ import timeMixin from 'dashboard/mixins/time';
 import ImageBubble from 'widget/components/ImageBubble.vue';
 import VideoBubble from 'widget/components/VideoBubble.vue';
 import FileBubble from 'widget/components/FileBubble.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+// import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
@@ -114,7 +125,7 @@ export default {
     AgentMessageBubble,
     ImageBubble,
     VideoBubble,
-    Thumbnail,
+    // Thumbnail,
     UserMessage,
     FileBubble,
     MessageReplyButton,
@@ -142,6 +153,14 @@ export default {
       type: Function,
       default: () => {},
     },
+    isDifferentType: {
+      type: Boolean,
+      default: false,
+    },
+    isLastMessage: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
@@ -164,6 +183,10 @@ export default {
       const { created_at: createdAt = '' } = this.message;
       return this.messageStamp(createdAt, 'LLL d yyyy, h:mm a');
     },
+    readableTimeStamp() {
+      const { created_at: createdAt = '' } = this.message;
+      return this.messageStamp(createdAt);
+    },
     messageType() {
       const { message_type: type = 1 } = this.message;
       return type;
@@ -183,6 +206,9 @@ export default {
 
       return this.$t('UNREAD_VIEW.BOT');
     },
+    isSentByBot() {
+      return this.message?.sender?.name?.toLowerCase().includes('bitespeed');
+    },
     avatarUrl() {
       // eslint-disable-next-line
       const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
@@ -197,6 +223,9 @@ export default {
       return this.message.sender
         ? this.message.sender.avatar_url
         : displayImage;
+    },
+    isCSAT() {
+      return this.contentType === 'input_csat';
     },
     hasRecordedResponse() {
       return (

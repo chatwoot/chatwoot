@@ -5,7 +5,11 @@
   >
     <fluent-icon icon="arrow-reply" size="12" class="flex-shrink-0" />
     <div class="truncate max-w-[8rem]">
-      {{ replyTo.content || replyToAttachment }}
+      {{
+        isProductCarousel
+          ? getProductName
+          : replyTo.content || replyToAttachment
+      }}
     </div>
   </button>
 </template>
@@ -37,6 +41,18 @@ export default {
 
       const [{ file_type: fileType } = {}] = this.replyTo.attachments;
       return this.$t(`ATTACHMENTS.${fileType}.CONTENT`);
+    },
+    isProductCarousel() {
+      return this.replyTo?.content_type === 'product_carousel';
+    },
+    getProductName() {
+      if (this.isProductCarousel) {
+        const { product_id_for_more_info, items = [] } =
+          this.replyTo?.content_attributes || {};
+        const product = items.find(({ id }) => id === product_id_for_more_info);
+        return product?.title || 'Product Carousel';
+      }
+      return 'Product Carousel';
     },
   },
 

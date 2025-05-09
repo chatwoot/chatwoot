@@ -8,6 +8,7 @@ import {
   toggleStatus,
   setCustomAttributes,
   deleteCustomAttribute,
+  createNewConversationAPI,
 } from 'widget/api/conversation';
 
 import { ON_CONVERSATION_CREATED } from 'widget/constants/widgetBusEvents';
@@ -40,6 +41,9 @@ export const actions = {
       orderId,
       isPrivate = false,
       productId,
+      conversationResolved,
+      assignToAgent,
+      productIdForMoreInfo,
     } = params;
     const message = createTemporaryMessage({
       content,
@@ -50,10 +54,13 @@ export const actions = {
       orderId,
       isPrivate,
       productId,
+      conversationResolved,
+      assignToAgent,
+      productIdForMoreInfo,
     });
     dispatch('sendMessageWithData', message);
   },
-  sendMessageWithData: async ({ commit }, message) => {
+  sendMessageWithData: async ({ commit, dispatch }, message) => {
     const {
       id,
       content,
@@ -65,6 +72,9 @@ export const actions = {
       isPrivate,
       productId,
       previousSelectedReplies,
+      conversationResolved,
+      assignToAgent,
+      productIdForMoreInfo,
     } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -77,7 +87,10 @@ export const actions = {
         orderId,
         isPrivate,
         productId,
-        previousSelectedReplies
+        previousSelectedReplies,
+        conversationResolved,
+        assignToAgent,
+        productIdForMoreInfo
       );
 
       commit('deleteMessage', message.id);
@@ -89,10 +102,27 @@ export const actions = {
         meta: { ...meta, error: '' },
       });
     }
+    dispatch('conversationAttributes/getAttributes', {}, { root: true });
   },
 
   setLastMessageId: async ({ commit }) => {
     commit('setLastMessageId');
+  },
+
+  createNewConversation: async ({ dispatch }) => {
+    try {
+      await createNewConversationAPI();
+    } catch (error) {
+      // Ignore error
+    } finally {
+      dispatch('clearConversations');
+      dispatch(
+        'conversationAttributes/clearConversationAttributes',
+        {},
+        { root: true }
+      );
+      dispatch('conversationAttributes/getAttributes', {}, { root: true });
+    }
   },
 
   sendAttachment: async ({ commit }, params) => {

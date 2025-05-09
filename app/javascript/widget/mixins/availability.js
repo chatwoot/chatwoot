@@ -1,8 +1,12 @@
 import { utcToZonedTime } from 'date-fns-tz';
 import { isTimeAfter } from 'shared/helpers/DateHelper';
+import { mapGetters } from 'vuex';
 
 export default {
   computed: {
+    ...mapGetters({
+      conversationAttributes: 'conversationAttributes/getConversationParams',
+    }),
     channelConfig() {
       return window.chatwootWebChannel;
     },
@@ -22,6 +26,13 @@ export default {
       }
     },
     replyWaitMessage() {
+      if (
+        this.conversationAttributes?.assignee?.name
+          .toLowerCase()
+          .includes('bitespeed')
+      ) {
+        return 'Online - AI Support';
+      }
       const { workingHoursEnabled } = this.channelConfig;
       if (workingHoursEnabled) {
         return this.isOnline

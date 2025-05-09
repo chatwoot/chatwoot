@@ -20,28 +20,47 @@ export const setBubbleText = bubbleText => {
   }
 };
 
-export const createBubbleIcon = ({ className, path, target }) => {
+export const createBubbleIcon = ({
+  className,
+  path,
+  target,
+  channelAvatarUrl,
+}) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
-  const bubbleIcon = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'svg'
-  );
-  bubbleIcon.setAttributeNS(null, 'id', 'woot-widget-bubble-icon');
-  bubbleIcon.setAttributeNS(null, 'width', '24');
-  bubbleIcon.setAttributeNS(null, 'height', '24');
-  bubbleIcon.setAttributeNS(null, 'viewBox', '0 0 240 240');
-  bubbleIcon.setAttributeNS(null, 'fill', 'none');
-  bubbleIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
+  if (channelAvatarUrl) {
+    // If channelAvatarUrl is available, use it as an image instead of the SVG
+    const bubbleImage = document.createElement('img');
+    bubbleImage.id = 'woot-widget-bubble-icon';
+    bubbleImage.src = channelAvatarUrl;
+    bubbleImage.alt = 'Chat bubble';
+    bubbleImage.style.width = '100%';
+    bubbleImage.style.height = '100%';
+    bubbleImage.style.borderRadius = '50%';
+    bubbleImage.style.objectFit = 'cover';
+    target.appendChild(bubbleImage);
+  } else {
+    // Default SVG icon if no channelAvatarUrl
+    const bubbleIcon = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'svg'
+    );
+    bubbleIcon.setAttributeNS(null, 'id', 'woot-widget-bubble-icon');
+    bubbleIcon.setAttributeNS(null, 'width', '24');
+    bubbleIcon.setAttributeNS(null, 'height', '24');
+    bubbleIcon.setAttributeNS(null, 'viewBox', '0 0 240 240');
+    bubbleIcon.setAttributeNS(null, 'fill', 'none');
+    bubbleIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-  const bubblePath = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'path'
-  );
-  bubblePath.setAttributeNS(null, 'd', path);
-  bubblePath.setAttributeNS(null, 'fill', '#FFFFFF');
+    const bubblePath = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'path'
+    );
+    bubblePath.setAttributeNS(null, 'd', path);
+    bubblePath.setAttributeNS(null, 'fill', '#FFFFFF');
 
-  bubbleIcon.appendChild(bubblePath);
-  target.appendChild(bubbleIcon);
+    bubbleIcon.appendChild(bubblePath);
+    target.appendChild(bubbleIcon);
+  }
 
   if (isExpandedView(window.$chatwoot.type)) {
     const textNode = document.createElement('div');
@@ -49,6 +68,10 @@ export const createBubbleIcon = ({ className, path, target }) => {
     textNode.innerText = '';
     target.appendChild(textNode);
     bubbleClassName += ' woot-widget--expanded';
+  }
+
+  if (channelAvatarUrl) {
+    bubbleClassName += ' non-hover';
   }
 
   target.className = bubbleClassName;
@@ -78,7 +101,7 @@ export const onBubbleClick = (props = {}) => {
     window.$chatwoot.isOpen = newIsOpen;
 
     toggleClass(chatBubble, 'woot--hide');
-    toggleClass(closeBubble, 'woot--hide');
+    // toggleClass(closeBubble, 'woot--hide');
     toggleClass(widgetHolder, 'woot--hide');
     IFrameHelper.events.onBubbleToggle(newIsOpen);
 

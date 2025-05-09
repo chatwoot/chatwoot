@@ -182,6 +182,8 @@ export default {
               welcome_title: this.channelWelcomeTitle,
               welcome_tagline: this.channelWelcomeTagline,
             },
+            csat_survey_enabled: true,
+            allow_messages_after_resolved: false,
           }
         );
         router.replace({

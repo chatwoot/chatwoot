@@ -6,12 +6,15 @@
       @click="onClickMessage"
     >
       <div v-if="showSender" class="row--agent-block">
-        <thumbnail
+        <div v-if="avatarUrl" class="flex items-start">
+          <img class="h-5 rounded-[4px]" :src="avatarUrl" alt="Avatar" />
+        </div>
+        <!-- <thumbnail
           :src="avatarUrl"
           size="20px"
           :username="agentName"
           :status="availabilityStatus"
-        />
+        /> -->
         <span v-dompurify-html="agentName" class="agent--name" />
         <span v-dompurify-html="companyName" class="company--name" />
       </div>
@@ -25,7 +28,7 @@
 
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+// import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import configMixin from '../mixins/configMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import {
@@ -35,7 +38,7 @@ import {
 import darkModeMixin from 'widget/mixins/darkModeMixin';
 export default {
   name: 'UnreadMessage',
-  components: { Thumbnail },
+  // components: { Thumbnail },
   mixins: [messageFormatterMixin, configMixin, darkModeMixin],
   props: {
     message: {
@@ -62,26 +65,19 @@ export default {
       }`;
     },
     avatarUrl() {
-      // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
-      const displayImage = this.useInboxAvatarForBot
-        ? this.inboxAvatarUrl
-        : BotImage;
-      if (this.isSenderExist(this.sender)) {
-        const { avatar_url: avatarUrl } = this.sender;
-        return avatarUrl;
-      }
-      return displayImage;
+      return this.inboxAvatarUrl;
     },
     agentName() {
       if (this.isSenderExist(this.sender)) {
-        const { available_name: availableName } = this.sender;
-        return availableName;
+        const { available_name: availableName, name } = this.sender;
+        return name.toLowerCase().includes('bitespeed')
+          ? 'AI Support'
+          : availableName;
       }
       if (this.useInboxAvatarForBot) {
         return this.channelConfig.websiteName;
       }
-      return this.$t('UNREAD_VIEW.BOT');
+      return 'AI Support';
     },
     availabilityStatus() {
       if (this.isSenderExist(this.sender)) {
@@ -111,6 +107,10 @@ export default {
   max-width: 85%;
   padding: $space-normal;
   cursor: pointer;
+}
+
+.chat-bubble:hover {
+  border-color: var(--widget-color) !important;
 }
 
 .row--agent-block {

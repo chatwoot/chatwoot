@@ -1,10 +1,10 @@
 <template>
-  <div class="agent-message-wrap">
+  <div v-if="isVisible" class="agent-message-wrap">
     <div class="agent-message">
-      <div class="avatar-wrap" />
+      <!-- <div class="avatar-wrap" /> -->
       <div class="message-wrap mt-2">
         <div
-          class="typing-bubble chat-bubble agent"
+          class="typing-bubble chat-bubble agent !px-3.5 h-11 !w-24 !flex justify-center items-center"
           :class="$dm('bg-white', 'dark:bg-slate-700')"
         >
           <img
@@ -22,6 +22,33 @@ import darkModeMixing from 'widget/mixins/darkModeMixin.js';
 export default {
   name: 'AgentTypingBubble',
   mixins: [darkModeMixing],
+  data() {
+    return {
+      isVisible: true,
+      timeout: null,
+    };
+  },
+  mounted() {
+    this.startHideTimer();
+  },
+  beforeDestroy() {
+    // Clean up the timeout when component is destroyed
+    if (this.timeout) {
+      clearTimeout(this.timeout);
+    }
+  },
+  methods: {
+    startHideTimer() {
+      // Clear any existing timeout
+      if (this.timeout) {
+        clearTimeout(this.timeout);
+      }
+      // Set a new timeout to hide the bubble after 15 seconds
+      this.timeout = setTimeout(() => {
+        this.isVisible = false;
+      }, 15000);
+    },
+  },
 };
 </script>
 
@@ -30,14 +57,11 @@ export default {
 @import '~widget/assets/scss/variables.scss';
 .agent-message-wrap {
   position: sticky;
-  bottom: $space-smaller;
+  bottom: $space-normal;
 }
 
 .typing-bubble {
-  max-width: $space-normal * 2.4;
-  padding: $space-small;
-  border-bottom-left-radius: $space-two;
-  border-top-left-radius: $space-small;
+  max-width: 4rem;
 
   img {
     width: 100%;

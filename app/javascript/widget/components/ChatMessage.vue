@@ -4,6 +4,7 @@
     :id="`cwmsg-${message.id}`"
     :message="message"
     :reply-to="replyTo"
+    :is-different-type="isDifferentType"
   />
   <AgentMessage
     v-else
@@ -13,6 +14,8 @@
     :selected-products="selectedProducts"
     :update-selected-products="updateSelectedProducts"
     :open-checkout-page="openCheckoutPage"
+    :is-different-type="isDifferentType"
+    :is-last-message="isLastMessage"
   />
 </template>
 
@@ -44,6 +47,10 @@ export default {
       type: Function,
       default: () => {},
     },
+    allGroupedMessages: {
+      type: Array,
+      default: () => [],
+    },
   },
   computed: {
     ...mapGetters({
@@ -53,8 +60,31 @@ export default {
       return this.message.message_type === MESSAGE_TYPE.INCOMING;
     },
     replyTo() {
-      const replyTo = this.message?.content_attributes?.in_reply_to;
-      return replyTo ? this.allMessages[replyTo] : null;
+      const { in_reply_to, product_id_for_more_info } =
+        this.message?.content_attributes || {};
+      const messageData = in_reply_to ? this.allMessages[in_reply_to] : null;
+
+      if (messageData?.content_attributes) {
+        messageData.content_attributes.product_id_for_more_info =
+          product_id_for_more_info;
+      }
+
+      return messageData || null;
+    },
+    isDifferentType() {
+      const messageIndex = this.allGroupedMessages.findIndex(
+        msg => msg.id === this.message.id
+      );
+      if (messageIndex > 0) {
+        const previousMessage = this.allGroupedMessages[messageIndex - 1];
+        return previousMessage.message_type !== this.message.message_type;
+      }
+      return true;
+    },
+    isLastMessage() {
+      const lastMessage =
+        this.allGroupedMessages[this.allGroupedMessages.length - 1];
+      return this.message.id === lastMessage.id;
     },
   },
 };

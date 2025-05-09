@@ -22,6 +22,20 @@ const createConversation = params => {
   };
 };
 
+const createNewConversation = () => {
+  const referrerURL = window.referrerURL || '';
+  const search = buildSearchParamsWithLocale(window.location.search);
+  return {
+    url: `/api/v1/widget/conversations/create_new_conversation${search}`,
+    params: {
+      message: {
+        timestamp: new Date().toString(),
+        referer_url: referrerURL,
+      },
+    },
+  };
+};
+
 const sendMessage = (
   content,
   replyTo,
@@ -30,7 +44,10 @@ const sendMessage = (
   phoneNumber,
   orderId,
   isPrivate,
-  productId
+  productId,
+  conversationResolved,
+  assignToAgent,
+  productIdForMoreInfo
 ) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -48,6 +65,9 @@ const sendMessage = (
         order_id: orderId,
         private: isPrivate,
         product_id: productId,
+        conversation_resolved: conversationResolved,
+        assign_to_agent: assignToAgent,
+        product_id_for_more_info: productIdForMoreInfo,
       },
     },
   };
@@ -131,4 +151,5 @@ export default {
   getCampaigns,
   triggerCampaign,
   getMostReadArticles,
+  createNewConversation,
 };

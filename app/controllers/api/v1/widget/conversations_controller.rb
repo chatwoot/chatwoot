@@ -14,6 +14,15 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     end
   end
 
+  def create_new_conversation
+    previous_conversation = conversation
+    @conversation = create_conversation
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    back_populates_conversation = @web_widget.back_populates_conversation
+    ConversationImport.perform_later(@conversation.id, previous_conversation.id) if back_populates_conversation
+    head :ok
+  end
+
   def process_update_contact
     @contact = ContactIdentifyAction.new(
       contact: @contact,

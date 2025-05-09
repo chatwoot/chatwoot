@@ -1,13 +1,17 @@
 <template>
-  <div class="px-0 py-3 flex justify-center">
+  <div class="px-0 py-3 flex justify-center bg-[#F2F2F2]">
     <a
       :href="brandRedirectURL"
       rel="noreferrer noopener nofollow"
       target="_blank"
-      class="branding--link justify-center items-center leading-3 gap-2"
+      class="branding--link justify-center items-center leading-3 gap-1"
     >
-      <span> Powered by </span>
-      <img src="~dashboard/assets/bitespeed-logo.svg" alt="logo" class="m-0" />
+      <span> Powered By </span>
+      <img
+        src="~dashboard/assets/BITESPEED.svg"
+        alt="logo"
+        class="m-0 -mb-[0.1rem]"
+      />
     </a>
   </div>
 </template>

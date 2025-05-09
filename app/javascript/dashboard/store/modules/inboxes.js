@@ -15,7 +15,7 @@ const buildInboxData = inboxParams => {
   Object.keys(inboxProperties).forEach(key => {
     formData.append(key, inboxProperties[key]);
   });
-  const { selectedFeatureFlags, ...channelParams } = channel;
+  const { selectedFeatureFlags, avatar, ...channelParams } = channel;
   // selectedFeatureFlags needs to be empty when creating a website channel
   if (selectedFeatureFlags) {
     if (selectedFeatureFlags.length) {
@@ -25,6 +25,10 @@ const buildInboxData = inboxParams => {
     } else {
       formData.append('channel[selected_feature_flags][]', '');
     }
+  }
+  // Handle channel avatar separately as a file
+  if (avatar) {
+    formData.append('channel[avatar]', avatar);
   }
   Object.keys(channelParams).forEach(key => {
     formData.append(`channel[${key}]`, channel[key]);
@@ -253,6 +257,13 @@ export const actions = {
   deleteInboxAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteInboxAvatar(inboxId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+  deleteChannelAvatar: async (_, inboxId) => {
+    try {
+      await InboxesAPI.deleteChannelAvatar(inboxId);
     } catch (error) {
       throw new Error(error);
     }

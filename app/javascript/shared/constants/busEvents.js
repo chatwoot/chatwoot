@@ -14,4 +14,6 @@ export const BUS_EVENTS = {
   SHOW_TOAST: 'newToastMessage',
   NEW_CONVERSATION_MODAL: 'newConversationModal',
   INSERT_INTO_RICH_EDITOR: 'insertIntoRichEditor',
+  ASK_FOR_PRODUCT: 'ASK_FOR_PRODUCT',
+  SEND_IS_CSAT_MESSAGE: 'SEND_IS_CSAT_MESSAGE',
 };

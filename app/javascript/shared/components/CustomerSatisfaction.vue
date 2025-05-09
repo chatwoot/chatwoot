@@ -1,10 +1,13 @@
 <template>
   <div
-    class="customer-satisfaction"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-    :style="{ borderColor: widgetColor }"
+    v-if="!isRatingSubmitted"
+    class="customer-satisfaction w-full flex flex-col justify-center items-center shadow-[0px_0px_2px_rgba(0,0,0,0.05)] py-4 px-6 bg-[#FAFAFA] gap-2 border-t border-solid border-[#d9d9d9]"
+    :class="$dm('bg-[#FAFAFA]', 'dark:bg-slate-700')"
   >
-    <h6 class="title" :class="$dm('text-slate-900', 'dark:text-slate-50')">
+    <h6
+      class="text-sm font-medium leading-5 text-center"
+      :class="$dm('text-slate-900', 'dark:text-slate-50')"
+    >
       {{ title }}
     </h6>
     <div class="ratings">
@@ -17,48 +20,49 @@
         {{ rating.emoji }}
       </button>
     </div>
-    <form
-      v-if="!isFeedbackSubmitted"
-      class="feedback-form"
-      @submit.prevent="onSubmit()"
-    >
-      <input
-        v-model="feedback"
-        class="form-input"
-        :class="inputColor"
-        :placeholder="$t('CSAT.PLACEHOLDER')"
-        @keydown.enter="onSubmit"
-      />
-      <button
-        class="button small"
-        :disabled="isButtonDisabled"
-        :style="{
-          background: widgetColor,
-          borderColor: widgetColor,
-          color: textColor,
-        }"
-      >
-        <spinner v-if="isUpdating && feedback" />
-        <fluent-icon v-else icon="chevron-right" />
-      </button>
-    </form>
   </div>
+  <!-- <div
+    v-else
+    class="customer-satisfaction w-full flex flex-col justify-center items-center shadow-[0px_0px_2px_rgba(0,0,0,0.05)] py-4 px-6 bg-[#FAFAFA] gap-2 min-h-[7.125rem] border-t border-solid border-[#d9d9d9]"
+    :class="$dm('bg-[#FAFAFA]', 'dark:bg-slate-700')"
+  >
+    <h6
+      class="text-sm font-medium leading-5 text-center"
+      :class="$dm('text-slate-900', 'dark:text-slate-50')"
+    >
+      {{
+        channelConfig.backPopulateConversation
+          ? 'Continue to chat'
+          : 'Creating new conversation'
+      }}
+    </h6>
+    <button
+      v-if="!isUpdating"
+      class="bg-[#F0F0F0] border border-solid border-[#E6E6E6] w-auto flex justify-center items-center gap-2 text-xs py-2 px-3 rounded-md shadow-[0px_1px_0px_0px #0000000D] transition-all duration-300 create-chat-button"
+      @click.prevent="handleCreateConversation"
+    >
+      Create New Chat
+    </button>
+    <img
+      class="h-7"
+      src="~widget/assets/images/typing.gif"
+      alt="Spinner Message"
+    />
+  </div> -->
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-import Spinner from 'shared/components/Spinner.vue';
+import { mapGetters, mapActions } from 'vuex';
+// import Spinner from 'shared/components/Spinner.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+// import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin';
+import configMixin from 'widget/mixins/configMixin';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import routerMixin from 'widget/mixins/routerMixin';
 
 export default {
-  components: {
-    Spinner,
-    FluentIcon,
-  },
-  mixins: [darkModeMixin],
+  mixins: [darkModeMixin, routerMixin, configMixin],
   props: {
     messageContentAttributes: {
       type: Object,
@@ -79,7 +83,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ widgetColor: 'appConfig/getWidgetColor' }),
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+      conversationSize: 'conversation/getConversationSize',
+    }),
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
     },
@@ -100,7 +107,7 @@ export default {
     title() {
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
-        : this.$t('CSAT.TITLE');
+        : 'How was your experience?';
     },
   },
 
@@ -115,6 +122,8 @@ export default {
   },
 
   methods: {
+    ...mapActions('conversation', ['createNewConversation']),
+    ...mapActions('conversationAttributes', ['getAttributes']),
     buttonClass(rating) {
       return [
         { selected: rating.value === this.selectedRating },
@@ -122,6 +131,23 @@ export default {
         { hover: this.isRatingSubmitted },
         'emoji-button',
       ];
+    },
+    async handleCreateConversation() {
+      this.isUpdating = true;
+      try {
+        await this.createNewConversation();
+        if (!this.channelConfig.backPopulateConversation) {
+          this.replaceRoute('home');
+        }
+        if (this.conversationSize === 0) {
+          this.getAttributes();
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      } finally {
+        this.isUpdating = false;
+      }
     },
     async onSubmit() {
       this.isUpdating = true;
@@ -140,6 +166,7 @@ export default {
       } finally {
         this.isUpdating = false;
       }
+      this.handleCreateConversation();
     },
     selectRating(rating) {
       this.selectedRating = rating.value;
@@ -154,16 +181,13 @@ export default {
 @import '~widget/assets/scss/mixins.scss';
 
 .customer-satisfaction {
-  @include light-shadow;
-
-  border-bottom-left-radius: $space-smaller;
-  border-radius: $space-small;
-  border-top: $space-micro solid $color-woot;
+  z-index: 100;
   color: $color-body;
-  display: inline-block;
   line-height: 1.5;
-  margin-top: $space-smaller;
-  width: 80%;
+  position: fixed;
+  bottom: 37px;
+  left: 0;
+  right: 0;
 
   .title {
     font-size: $font-size-default;
@@ -174,20 +198,20 @@ export default {
 
   .ratings {
     display: flex;
-    justify-content: space-around;
-    padding: $space-two $space-normal;
+    gap: 20px;
 
     .emoji-button {
       box-shadow: none;
-      filter: grayscale(100%);
       font-size: $font-size-big;
       outline: none;
+      font-size: 36px;
+      transition: all 0.2s ease;
+      transform-origin: center;
 
       &.selected,
       &:hover,
       &:focus,
       &:active {
-        filter: grayscale(0%);
         transform: scale(1.32);
       }
 
@@ -198,45 +222,21 @@ export default {
       }
     }
   }
-  .feedback-form {
-    display: flex;
-
-    input {
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
-      border-bottom-left-radius: $space-small;
-      border: 0;
-      border-top: 1px solid $color-border;
-      padding: $space-one;
-      width: 100%;
-
-      &::placeholder {
-        color: $color-light-gray;
-      }
-    }
-
-    .button {
-      appearance: none;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      border-bottom-right-radius: $space-small;
-      font-size: $font-size-large;
-      height: auto;
-      margin-left: -1px;
-
-      .spinner {
-        display: block;
-        padding: 0;
-        height: auto;
-        width: auto;
-      }
-    }
-  }
 }
 
-@media (prefers-color-scheme: dark) {
-  .customer-satisfaction .feedback-form input {
-    border-top: 1px solid var(--b-500);
+.create-chat-button:hover {
+  background-color: var(--widget-color);
+  color: var(--text-color) !important;
+  border: var(--widget-color) !important;
+}
+
+.create-chat-button:hover svg {
+  color: var(--text-color) !important;
+}
+
+@media (max-width: 768px) {
+  .ratings {
+    gap: 8px;
   }
 }
 </style>

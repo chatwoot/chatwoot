@@ -19,6 +19,10 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.delete(`${this.url}/${inboxId}/avatar`);
   }
 
+  deleteChannelAvatar(inboxId) {
+    return axios.delete(`${this.url}/${inboxId}/channel_avatar`);
+  }
+
   getAgentBot(inboxId) {
     return axios.get(`${this.url}/${inboxId}/agent_bot`);
   }

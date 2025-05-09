@@ -1,6 +1,6 @@
 <template>
   <div
-    class="chat-message--input is-focused"
+    class="chat-message--input border border-solid border-[#D9D9D9] rounded-lg"
     :class="$dm('bg-white ', 'dark:bg-slate-600')"
     @keydown.esc="hideEmojiPicker"
   >
@@ -38,11 +38,7 @@
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"
       /> -->
-      <chat-send-button
-        v-if="showSendButton"
-        :on-click="handleButtonClick"
-        :color="widgetColor"
-      />
+      <chat-send-button :on-click="handleButtonClick" />
     </div>
   </div>
 </template>
@@ -175,13 +171,13 @@ export default {
   align-items: center;
   display: flex;
   padding: 0 $space-small 0 $space-slab;
-  border-radius: 7px;
+  transition: border 0.3s;
+}
 
-  &.is-focused {
-    box-shadow:
-      0 0 0 1px $color-woot,
-      0 0 2px 3px $color-primary-light;
-  }
+.chat-message--input:hover,
+.chat-message--input:focus-visible,
+.chat-message--input:focus-within {
+  border: 1px solid var(--widget-color);
 }
 
 .emoji-dialog {
@@ -197,7 +193,6 @@ export default {
 .button-wrap {
   display: flex;
   align-items: center;
-  padding-left: $space-small;
 }
 
 .user-message-input {

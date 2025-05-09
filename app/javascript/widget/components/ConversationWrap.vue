@@ -9,18 +9,22 @@
         :key="groupedMessage.date"
         class="messages-wrap"
       >
-        <date-separator :date="groupedMessage.date" />
+        <div class="px-3">
+          <date-separator :date="groupedMessage.date" />
+        </div>
+
         <chat-message
-          v-for="message in groupedMessage.messages"
+          v-for="message in filterGroupedMessages(groupedMessage.messages)"
           :key="message.id"
           :message="message"
           :selected-products="selectedProducts"
           :update-selected-products="updateSelectedProducts"
           :open-checkout-page="openCheckoutPage"
+          :all-grouped-messages="filterGroupedMessages(groupedMessage.messages)"
         />
       </div>
       <agent-typing-bubble v-if="showStatusIndicator" />
-      <div v-if="selectedProducts.length > 0" class="cart-icon-container">
+      <!-- <div v-if="selectedProducts.length > 0" class="cart-icon-container">
         <button
           :style="{ backgroundColor: channelConfig.widgetColor }"
           class="cart-icon"
@@ -34,7 +38,7 @@
           />
           <span class="cart-count">{{ totalCartItems }}</span>
         </button>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -96,12 +100,24 @@ export default {
     },
     showStatusIndicator() {
       const { status } = this.conversationAttributes;
-      const isConversationInPendingStatus = status === 'pending';
+      const isConversationInPendingStatus = ['open', 'pending'].includes(
+        status?.toLowerCase()
+      );
+      const isAssignedToBitespeedBot =
+        this.conversationAttributes?.assignee?.name
+          .toLowerCase()
+          .includes('bitespeed');
       const isLastMessageIncoming =
         this.lastMessage.message_type === MESSAGE_TYPE.INCOMING;
+      const isHelpedMessage = ['that helped', 'need more help'].includes(
+        this.lastMessage?.content?.toLowerCase()
+      );
       return (
         this.isAgentTyping ||
-        (isConversationInPendingStatus && isLastMessageIncoming)
+        (isConversationInPendingStatus &&
+          isLastMessageIncoming &&
+          !isHelpedMessage &&
+          isAssignedToBitespeedBot)
       );
     },
   },
@@ -147,6 +163,18 @@ export default {
           this.selectedProducts = convertedCartItems;
         })
         .catch(() => {});
+    },
+    filterGroupedMessages(groupedMessages) {
+      return groupedMessages?.filter(
+        msg => msg?.content && msg?.content.trim() !== ''
+      );
+      // return groupedMessages?.filter(
+      //   msg => msg?.content && msg?.content.trim() !== ''
+      // ).sort((a, b) => {
+      //   console.log("timingData", {a: a.created_at, b: b.created_at})
+      //   console.log("First Data", {a: a.content_attributes.external_created_at || a.created_at, b: b.content_attributes.external_created_at || b.created_at})
+      //     return (a.content_attributes.external_created_at || a.created_at) - (b.content_attributes.external_created_at || b.created_at) ;
+      //   });
     },
     openCheckoutPage(selectedProducts) {
       const shopUrl = selectedProducts[0].shopUrl;
@@ -266,7 +294,7 @@ export default {
 
 .conversation-wrap {
   flex: 1;
-  padding: $space-large $space-small $space-small $space-small;
+  padding: $space-large $space-small $space-large $space-small;
   position: relative;
   width: 100%;
 }
