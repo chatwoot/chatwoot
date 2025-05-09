@@ -113,40 +113,44 @@ watch(
         </div>
       </div>
     </div>
-    <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
-      <template v-for="message in messages" :key="message.id">
-        <CopilotAgentMessage
-          v-if="message.role === 'user'"
-          :support-agent="supportAgent"
-          :message="message"
-        />
-        <CopilotAssistantMessage
-          v-else-if="COPILOT_USER_ROLES.includes(message.role)"
-          :message="message"
-          :conversation-inbox-type="conversationInboxType"
-        />
-      </template>
+    <div ref="chatContainer" class="flex-1 px-4 py-4 overflow-y-auto">
+      <div
+        v-if="messages.length"
+        class="space-y-6 flex-1 flex items-center justify-center"
+      >
+        <template v-for="message in messages" :key="message.id">
+          <CopilotAgentMessage
+            v-if="message.role === 'user'"
+            :support-agent="supportAgent"
+            :message="message"
+          />
+          <CopilotAssistantMessage
+            v-else-if="COPILOT_USER_ROLES.includes(message.role)"
+            :message="message"
+            :conversation-inbox-type="conversationInboxType"
+          />
+        </template>
 
-      <CopilotLoader v-if="isCaptainTyping" />
-    </div>
-
-    <div
-      v-if="!messages.length"
-      class="flex-1 flex items-center justify-center"
-    >
-      <div class="h-fit px-3 py-3 space-y-1">
-        <span class="text-xs text-n-slate-10">
-          {{ $t('COPILOT.TRY_THESE_PROMPTS') }}
-        </span>
-        <button
-          v-for="prompt in promptOptions"
-          :key="prompt.label"
-          class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center gap-1"
-          @click="() => useSuggestion(prompt)"
-        >
-          <span>{{ t(prompt.label) }}</span>
-          <Icon icon="i-lucide-chevron-right" />
-        </button>
+        <CopilotLoader v-if="isCaptainTyping" />
+      </div>
+      <div
+        v-if="!messages.length"
+        class="flex-1 flex items-center justify-center"
+      >
+        <div class="h-fit px-3 py-3 space-y-1">
+          <span class="text-xs text-n-slate-10">
+            {{ $t('COPILOT.TRY_THESE_PROMPTS') }}
+          </span>
+          <button
+            v-for="prompt in promptOptions"
+            :key="prompt.label"
+            class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center gap-1"
+            @click="() => useSuggestion(prompt)"
+          >
+            <span>{{ t(prompt.label) }}</span>
+            <Icon icon="i-lucide-chevron-right" />
+          </button>
+        </div>
       </div>
     </div>
 
