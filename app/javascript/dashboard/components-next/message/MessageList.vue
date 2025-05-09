@@ -78,7 +78,6 @@ const shouldGroupWithNext = (index, searchList) => {
 
   if (currentMessageType !== nextMessageType) return false;
 
-  console.log("CURRENT CONTENT", current.contentType );
   if (current.contentType === CONTENT_TYPES.CALLING_EVENT) return false;
 
   // Check if messages are in the same minute by rounding down to nearest minute

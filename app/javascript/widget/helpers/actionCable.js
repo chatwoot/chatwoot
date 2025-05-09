@@ -39,10 +39,12 @@ class ActionCableConnector extends BaseActionCableConnector {
         return;
       }
 
+      if (!performer?.name) return;
+
       // Create caller object with available data
       const caller = {
         id: account_id,
-        name: performer?.name || 'Unknown Caller',
+        name: performer.name,
         avatar_url: performer?.avatar_url || null,
         availability_status: 'online',
       };

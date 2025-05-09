@@ -59,10 +59,8 @@ const actions = {
 
 
       body.jwt = call.data.jwt;
-      console.log('Setting jwt: ', call);
 
       commit(types.ACTIVE_CALL, body);
-      console.log('Active call: ', body);
 
       const message = await dispatch(
         'createPendingMessageAndSend',
@@ -319,7 +317,6 @@ const actions = {
   createPendingMessageAndSend: async ({ dispatch }, data) => {
     const pendingMessage = createPendingMessage(data);
     const response = await dispatch('sendMessageWithData', pendingMessage);
-    console.log('MEssage send res: ', response);
     return response;
   },
 
