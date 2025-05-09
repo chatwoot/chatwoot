@@ -116,7 +116,7 @@ watch(
     <div ref="chatContainer" class="flex-1 flex px-4 py-4 overflow-y-auto">
       <div
         v-if="messages.length"
-        class="space-y-6 flex-1 flex items-center justify-center"
+        class="space-y-6 flex-1 flex items-start justify-center"
       >
         <template v-for="message in messages" :key="message.id">
           <CopilotAgentMessage

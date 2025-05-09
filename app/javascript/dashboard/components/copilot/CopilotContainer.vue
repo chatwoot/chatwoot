@@ -115,7 +115,10 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div v-if="isSidebarOpen" class="border-l border-n-weak min-w-[17.5rem]">
+  <div
+    v-if="isSidebarOpen"
+    class="border-l border-n-weak w-[17.5rem] min-w-[17.5rem]"
+  >
     <Copilot
       :messages="messages"
       :support-agent="currentUser"

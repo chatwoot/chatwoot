@@ -18,7 +18,7 @@ defineProps({
     <Avatar
       :name="supportAgent.available_name"
       :src="supportAgent.avatar_url"
-      :size="24"
+      :size="20"
       rounded-full
     />
     <div class="space-y-1 text-n-slate-12">

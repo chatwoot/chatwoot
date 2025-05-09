@@ -50,7 +50,7 @@ const useCopilotResponse = () => {
     <Avatar
       name="Captain Copilot"
       icon-name="i-woot-captain"
-      :size="24"
+      :size="20"
       rounded-full
     />
     <div class="flex flex-col gap-1 text-n-slate-12">
