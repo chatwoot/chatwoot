@@ -1,5 +1,5 @@
 {
-  "name": "@chatwoot/chatwoot",
+  "name": "@cruise_control/courier",
   "version": "4.1.0",
   "license": "MIT",
   "scripts": {
@@ -18,7 +18,8 @@
     "story:dev": "histoire dev",
     "story:build": "histoire build",
     "story:preview": "histoire preview",
-    "sync:i18n": "bin/sync_i18n_file_change"
+    "sync:i18n": "bin/sync_i18n_file_change",
+    "build": "node --max-old-space-size=4096 ./node_modules/vite/bin/vite.js build --mode production"
   },
   "size-limit": [
     {

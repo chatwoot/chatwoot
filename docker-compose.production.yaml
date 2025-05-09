@@ -2,50 +2,71 @@ version: '3'
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env ## Change this file for customized env variables
-    volumes:
-      - /data/storage:/app/storage
+    build:
+      context: .
+      dockerfile: ./docker/Dockerfile
+      args:
+        BUNDLE_WITHOUT: ''
+        EXECJS_RUNTIME: 'Node'
+        RAILS_ENV: 'production'
+        RAILS_SERVE_STATIC_FILES: 'true'
+        POSTMARK_API_TOKEN: ${POSTMARK_API_TOKEN}
+        SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    tty: true
+    stdin_open: true
+    image: courier-production-v1:latest
+    env_file: .env
 
   rails:
     <<: *base
+    build:
+      context: .
+      dockerfile: ./docker/dockerfiles/rails.Dockerfile
+      args:
+        SECRET_KEY_BASE: ${SECRET_KEY_BASE}
+    image: courier-production-v1:latest
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - vite_assets:/app/public/vite  # Vite assets volume
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
     depends_on:
-      - postgres
       - redis
+      - sidekiq
     ports:
-      - '127.0.0.1:3000:3000'
+      - 3000:3000
+    env_file: .env
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - VITE_RUBY_AUTO_BUILD=false
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
     entrypoint: docker/entrypoints/rails.sh
-    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    command: ["bundle", "exec", "puma", "-C", "config/puma.rb"]
     restart: always
 
   sidekiq:
     <<: *base
+    image: courier-production-v1:latest
+    volumes:
+      - ./:/app:delegated
+      - node_modules:/app/node_modules
+      - packs:/app/public/packs
+      - vite_assets:/app/public/vite  # Vite assets volume
+      - cache:/app/tmp/cache
+      - bundle:/usr/local/bundle
     depends_on:
-      - postgres
       - redis
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
-    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+      - SECRET_KEY_BASE=${SECRET_KEY_BASE}
+    command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
     restart: always
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    ports:
-      - '127.0.0.1:5432:5432'
-    volumes:
-      - /data/postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      # Please provide your own password.
-      - POSTGRES_PASSWORD=
 
   redis:
     image: redis:alpine
@@ -53,6 +74,14 @@ services:
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env
     volumes:
-      - /data/redis:/data
+      - redis:/data/redis
     ports:
-      - '127.0.0.1:6379:6379'
+      - '6379:6379'
+
+volumes:
+  redis:
+  packs:
+  node_modules:
+  cache:
+  bundle:
+  vite_assets:  # Define the Vite assets volume

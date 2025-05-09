@@ -9,7 +9,6 @@ storage
 public/system
 tmp
 .codeclimate.yml
-public/packs
 node_modules
 vendor/bundle
 .DS_Store

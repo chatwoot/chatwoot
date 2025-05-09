@@ -20,15 +20,9 @@ done
 
 echo "Database ready to accept connections."
 
-#install missing gems for local dev as we are using base image compiled for production
-bundle install
+if [ ! -f public/vite/manifest.json ] || [ ! -s public/vite/manifest.json ]; then
+  echo "Vite manifest missing or empty - building assets..."
+  bundle exec vite build
+fi
 
-BUNDLE="bundle check"
-
-until $BUNDLE
-do
-  sleep 2;
-done
-
-# Execute the main process of the container
 exec "$@"

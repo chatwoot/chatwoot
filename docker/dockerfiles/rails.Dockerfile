@@ -1,28 +1,19 @@
-# Start from your base image
 FROM courier-production-v1:latest
 
-# Set working directory
+ARG SECRET_KEY_BASE
+ENV SECRET_KEY_BASE=$SECRET_KEY_BASE \
+    RAILS_ENV=production \
+    NODE_ENV=production \
+    VITE_RUBY_AUTO_BUILD=false
+
 WORKDIR /app
 
-# Install Rails dependencies
-COPY Gemfile Gemfile.lock ./
-RUN bundle install
-
-# Install pnpm (for Vite)
-RUN npm install -g pnpm
-
-# Install frontend dependencies (Vite, etc.)
-COPY package.json pnpm-lock.yaml ./
-RUN pnpm install
-
-# Copy the rest of the application code
-COPY . .
+# Ensure required directories exist
+RUN mkdir -p /app/public/vite
 
 # Ensure entrypoint is executable
 RUN chmod +x docker/entrypoints/rails.sh
 
-# Expose ports
 EXPOSE 3000
 
-# Default command to start the Rails server
-CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "3000"]
+CMD ["docker/entrypoints/rails.sh"]
