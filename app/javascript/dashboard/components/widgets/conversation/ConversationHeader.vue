@@ -26,11 +26,7 @@ export default {
   props: {
     chat: {
       type: Object,
-      default: () => {},
-    },
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
+      default: () => { },
     },
     showBackButton: {
       type: Boolean,
@@ -41,15 +37,7 @@ export default {
       default: false,
     },
   },
-  emits: ['contactPanelToggle'],
-  setup(props, { emit }) {
-    const keyboardEvents = {
-      'Alt+KeyO': {
-        action: () => emit('contactPanelToggle'),
-      },
-    };
-    useKeyboardEvents(keyboardEvents);
-  },
+
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -174,7 +162,6 @@ export default {
       </div>
       <div
         class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
-        :class="{ 'justify-end': isContactPanelOpen }"
       >
         <SLACardLabel v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
         <Linear
