@@ -32,7 +32,7 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         allow(account_builder).to receive(:perform).and_return([user, account])
 
-        params = { email: email, user: nil, locale: nil, password: 'Password1!', dealership_id: nil }
+        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
 
         post api_v2_accounts_url,
              params: params,
@@ -71,7 +71,9 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         allow(account_builder).to receive(:perform).and_return([user, account])
         allow(Enterprise::ClearbitLookupService).to receive(:lookup).and_raise(StandardError)
-        params = { email: email, user: nil, locale: nil, password: 'Password1!', dealership_id: nil }
+        allow(account).to receive(:custom_attributes).and_return({})
+        allow(account).to receive(:update!).and_return(true)
+        params = { email: email, user: nil, locale: nil, password: 'Password1!' }
 
         post api_v2_accounts_url,
              params: params,
@@ -80,6 +82,10 @@ RSpec.describe Enterprise::Api::V2::AccountsController, type: :request do
         expect(AccountBuilder).to have_received(:new).with(params.except(:password).merge(user_password: params[:password]))
         expect(account_builder).to have_received(:perform)
         expect(Enterprise::ClearbitLookupService).to have_received(:lookup).with(email)
+        expect(account).to have_received(:update!).with(
+          dealership_id: nil,
+          custom_attributes: { 'onboarding_step' => 'profile_update' }
+        )
 
         expect(response).to have_http_status(:success)
       end

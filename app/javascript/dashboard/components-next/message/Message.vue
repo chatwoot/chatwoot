@@ -182,6 +182,15 @@ const isMyMessage = computed(() => {
   ) {
     return true;
   }
+
+  // if an outgoing message is still processing or is of type outgoing
+  if (
+    props.messageType === MESSAGE_TYPES.OUTGOING &&
+    (props.sender === null || props.sender?.type === SENDER_TYPES.AGENT_BOT)
+  ) {
+    return true;
+  }
+
   const senderId = props.senderId ?? props.sender?.id;
   const senderType = props.senderType ?? props.sender?.type;
 

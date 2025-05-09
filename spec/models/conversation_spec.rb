@@ -201,7 +201,7 @@ RSpec.describe Conversation do
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                              content: "#{old_assignee.name} added #{label.title}" }))
+                              content: "#{old_assignee.name} assigned to #{label.title}" }))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
@@ -252,7 +252,7 @@ RSpec.describe Conversation do
       expect { conversation.update_labels(labels) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                              content: "#{agent.name} added #{labels.join(', ')}"  })
+                              content: "#{agent.name} assigned to #{labels.join(', ')}"  })
 
       expect(conversation.label_list).to match_array(labels)
     end
@@ -262,7 +262,7 @@ RSpec.describe Conversation do
       expect { conversation.update_labels(labels) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
-                              content: "#{agent.name} added #{labels.join(', ')}"  })
+                              content: "#{agent.name} assigned to #{labels.join(', ')}"  })
       expect(conversation.label_list).to match_array(labels)
 
       updated_labels = [second_label, third_label].map(&:title)
@@ -272,11 +272,11 @@ RSpec.describe Conversation do
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
-                              message_type: :activity, content: "#{agent.name} added #{updated_labels.join(', ')}" }))
+                              message_type: :activity, content: "#{agent.name} assigned to #{updated_labels.join(', ')}" }))
       expect(Conversations::ActivityMessageJob)
         .to(have_been_enqueued.at_least(:once)
         .with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
-                              message_type: :activity, content: "#{agent.name} removed #{labels.join(', ')}" }))
+                              message_type: :activity, content: "#{agent.name} unassigned from #{labels.join(', ')}" }))
     end
   end
 
