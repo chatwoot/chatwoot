@@ -103,7 +103,7 @@ onMounted(() => {
 });
 
 const handleClose = () => {
-  store.dispatch('uiState/set', 'isCopilotSidebarOpen', false);
+  store.dispatch('uiState/set', { isCopilotSidebarOpen: false });
 };
 
 watchEffect(() => {

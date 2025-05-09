@@ -85,7 +85,7 @@ export default {
 
 <template>
   <div
-    class="conversation-details-wrap bg-n-background"
+    class="conversation-details-wrap bg-n-background relative"
     :class="{
       'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
     }"
@@ -120,6 +120,7 @@ export default {
         v-if="!currentChat.id && !isInboxView"
         :is-on-expanded-layout="isOnExpandedLayout"
       />
+      <slot />
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

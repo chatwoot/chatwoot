@@ -11,6 +11,7 @@ import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBar
 import { emitter } from 'shared/helpers/mitt';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
+import PanelButtons from './PanelButtons.vue';
 
 export default {
   components: {
@@ -19,6 +20,7 @@ export default {
     ConversationSidebar,
     PopOverSearch,
     CmdBarConversationSnooze,
+    PanelButtons,
   },
   beforeRouteLeave(to, from, next) {
     // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
@@ -216,7 +218,9 @@ export default {
       v-if="showMessageView"
       :inbox-id="inboxId"
       :is-on-expanded-layout="isOnExpandedLayout"
-    />
+    >
+      <PanelButtons v-if="currentChat.id" />
+    </ConversationBox>
     <ConversationSidebar :current-chat="currentChat" />
     <CmdBarConversationSnooze />
   </section>

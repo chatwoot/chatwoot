@@ -21,8 +21,10 @@ const actions = {
   toggle({ commit, state }, key) {
     commit(types.SET_UI_STATE, { key, value: !state[key] });
   },
-  set({ commit }, key, value) {
-    commit(types.SET_UI_STATE, { key, value });
+  set({ commit }, payload) {
+    Object.entries(payload).forEach(([key, value]) => {
+      commit(types.SET_UI_STATE, { key, value });
+    });
   },
 };
 

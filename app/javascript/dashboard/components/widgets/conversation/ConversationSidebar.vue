@@ -28,7 +28,7 @@ const showConversationSidebar = computed(
 
 const store = useStore();
 const closeConversationPanel = () => {
-  store.dispatch('uiState/set', 'isConversationSidebarOpen', false);
+  store.dispatch('uiState/set', { isConversationSidebarOpen: false });
 };
 </script>
 
