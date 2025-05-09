@@ -2,7 +2,6 @@
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
@@ -60,8 +59,6 @@ const emit = defineEmits(['confirm', 'close']);
 
 const { t } = useI18n();
 
-const isRTL = useMapGetter('accounts/isRTL');
-
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
 
@@ -103,7 +100,6 @@ defineExpose({ open, close });
         maxWidthClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
-      :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >
       <OnClickOutside @trigger="close">
