@@ -83,7 +83,7 @@ export default {
 
 <!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
-  <div v-if="hasOpenedAtleastOnce" class="dashboard-app--container">
+  <div v-if="hasOpenedAtleastOnce" class="flex-1">
     <div
       v-for="(configItem, index) in config"
       :key="index"
@@ -115,6 +115,7 @@ export default {
 .dashboard-app--list iframe {
   border: 0;
 }
+
 .dashboard-app_loading-container {
   display: flex;
   align-items: center;

@@ -95,14 +95,16 @@ watch(
 <template>
   <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
     <div
-      class="flex items-center justify-between px-4 py-2 border-b border-n-weak"
+      class="flex items-center justify-between px-4 py-2 border-b border-n-weak h-12"
     >
       <div class="flex items-center justify-between gap-2 flex-1">
-        <span class="font-medium">{{ $t('CAPTAIN.COPILOT.TITLE') }}</span>
+        <span class="font-medium text-n-slate-12">
+          {{ $t('CAPTAIN.COPILOT.TITLE') }}
+        </span>
         <div class="flex items-center">
           <Button
             v-if="messages.length"
-            icon="i-lucide-refresh-ccw"
+            icon="i-lucide-plus"
             ghost
             sm
             @click="handleReset"
@@ -130,7 +132,7 @@ watch(
 
     <div
       v-if="!messages.length"
-      class="h-full w-full flex items-center justify-center"
+      class="flex-1 flex items-center justify-center"
     >
       <div class="h-fit px-3 py-3 space-y-1">
         <span class="text-xs text-n-slate-10">

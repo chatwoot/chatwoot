@@ -1,6 +1,15 @@
-<script>
-import { defineAsyncComponent, ref } from 'vue';
-import { mapGetters } from 'vuex';
+<script setup>
+import {
+  defineAsyncComponent,
+  ref,
+  computed,
+  onMounted,
+  onUnmounted,
+  nextTick,
+  watch,
+} from 'vue';
+import { useRoute } from 'vue-router';
+import { useMapGetter } from 'dashboard/composables/store';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -9,6 +18,7 @@ import AccountSelector from 'dashboard/components/layout/sidebarComponents/Accou
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
+import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -16,178 +26,160 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { emitter } from 'shared/helpers/mitt';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
 );
-
 const Sidebar = defineAsyncComponent(
   () => import('../../components/layout/Sidebar.vue')
 );
-import { emitter } from 'shared/helpers/mitt';
 
-export default {
-  components: {
-    NextSidebar,
-    Sidebar,
-    CommandBar,
-    WootKeyShortcutModal,
-    AddAccountModal,
-    AccountSelector,
-    AddLabelModal,
-    NotificationPanel,
-    UpgradePage,
-  },
-  setup() {
-    const upgradePageRef = ref(null);
-    const { uiSettings, updateUISettings } = useUISettings();
-    const { accountId } = useAccount();
+const route = useRoute();
 
-    return {
-      uiSettings,
-      updateUISettings,
-      accountId,
-      upgradePageRef,
-    };
-  },
-  data() {
-    return {
-      showAccountModal: false,
-      showCreateAccountModal: false,
-      showAddLabelModal: false,
-      showShortcutModal: false,
-      isNotificationPanel: false,
-      displayLayoutType: '',
-      hasBanner: '',
-    };
-  },
-  computed: {
-    ...mapGetters({
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
-    currentRoute() {
-      return ' ';
-    },
-    showUpgradePage() {
-      return this.upgradePageRef?.shouldShowUpgradePage;
-    },
-    bypassUpgradePage() {
-      return [
-        'billing_settings_index',
-        'settings_inbox_list',
-        'agent_list',
-      ].includes(this.$route.name);
-    },
-    isSidebarOpen() {
-      const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
-      return showSecondarySidebar;
-    },
-    previouslyUsedDisplayType() {
-      const {
-        previously_used_conversation_display_type: conversationDisplayType,
-      } = this.uiSettings;
-      return conversationDisplayType;
-    },
-    previouslyUsedSidebarView() {
-      const { previously_used_sidebar_view: showSecondarySidebar } =
-        this.uiSettings;
-      return showSecondarySidebar;
-    },
-    showNextSidebar() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHATWOOT_V4
-      );
-    },
-  },
-  watch: {
-    displayLayoutType() {
-      const { LAYOUT_TYPES } = wootConstants;
-      this.updateUISettings({
-        conversation_display_type:
-          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
-            ? LAYOUT_TYPES.EXPANDED
-            : this.previouslyUsedDisplayType,
-        show_secondary_sidebar:
-          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
-            ? false
-            : this.previouslyUsedSidebarView,
-      });
-    },
-  },
-  mounted() {
-    this.handleResize();
-    this.$nextTick(this.checkBanner);
-    window.addEventListener('resize', this.handleResize);
-    window.addEventListener('resize', this.checkBanner);
-    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-  },
-  unmounted() {
-    window.removeEventListener('resize', this.handleResize);
-    window.removeEventListener('resize', this.checkBanner);
-    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
-  },
+const upgradePageRef = ref(null);
+const { uiSettings, updateUISettings } = useUISettings();
+const { currentAccount } = useAccount();
 
-  methods: {
-    checkBanner() {
-      this.hasBanner =
-        document.getElementsByClassName('woot-banner').length > 0;
-    },
-    handleResize() {
-      const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
-      let throttled = false;
-      const delay = 150;
+const showAccountModal = ref(false);
+const showCreateAccountModal = ref(false);
+const showAddLabelModal = ref(false);
+const showShortcutModal = ref(false);
+const isNotificationPanel = ref(false);
+const displayLayoutType = ref('');
+const hasBanner = ref('');
 
-      if (throttled) {
-        return;
-      }
-      throttled = true;
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
-      setTimeout(() => {
-        throttled = false;
-        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
-          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
-        } else {
-          this.displayLayoutType = LAYOUT_TYPES.CONDENSED;
-        }
-      }, delay);
-    },
-    toggleSidebar() {
-      this.updateUISettings({
-        show_secondary_sidebar: !this.isSidebarOpen,
-        previously_used_sidebar_view: !this.isSidebarOpen,
-      });
-    },
-    openCreateAccountModal() {
-      this.showAccountModal = false;
-      this.showCreateAccountModal = true;
-    },
-    closeCreateAccountModal() {
-      this.showCreateAccountModal = false;
-    },
-    toggleAccountModal() {
-      this.showAccountModal = !this.showAccountModal;
-    },
-    toggleKeyShortcutModal() {
-      this.showShortcutModal = true;
-    },
-    closeKeyShortcutModal() {
-      this.showShortcutModal = false;
-    },
-    showAddLabelPopup() {
-      this.showAddLabelModal = true;
-    },
-    hideAddLabelPopup() {
-      this.showAddLabelModal = false;
-    },
-    openNotificationPanel() {
-      this.isNotificationPanel = true;
-    },
-    closeNotificationPanel() {
-      this.isNotificationPanel = false;
-    },
-  },
+const currentRoute = computed(() => ' ');
+
+const showUpgradePage = computed(
+  () => upgradePageRef.value?.shouldShowUpgradePage
+);
+
+const bypassUpgradePage = computed(() =>
+  ['billing_settings_index', 'settings_inbox_list', 'agent_list'].includes(
+    route.name
+  )
+);
+
+const isSidebarOpen = computed(() => {
+  const { show_secondary_sidebar: showSecondarySidebar } = uiSettings;
+  return showSecondarySidebar;
+});
+
+const previouslyUsedDisplayType = computed(() => {
+  const { previously_used_conversation_display_type: conversationDisplayType } =
+    uiSettings;
+  return conversationDisplayType;
+});
+
+const previouslyUsedSidebarView = computed(() => {
+  const { previously_used_sidebar_view: showSecondarySidebar } = uiSettings;
+  return showSecondarySidebar;
+});
+
+const showNextSidebar = computed(() =>
+  isFeatureEnabledonAccount.value(
+    currentAccount.value?.id,
+    FEATURE_FLAGS.CHATWOOT_V4
+  )
+);
+
+const checkBanner = () => {
+  hasBanner.value = document.getElementsByClassName('woot-banner').length > 0;
 };
+
+const handleResize = () => {
+  const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
+  let throttled = false;
+  const delay = 150;
+
+  if (throttled) return;
+  throttled = true;
+
+  setTimeout(() => {
+    throttled = false;
+    displayLayoutType.value =
+      window.innerWidth <= SMALL_SCREEN_BREAKPOINT
+        ? LAYOUT_TYPES.EXPANDED
+        : LAYOUT_TYPES.CONDENSED;
+  }, delay);
+};
+
+const toggleSidebar = () => {
+  updateUISettings({
+    show_secondary_sidebar: !isSidebarOpen.value,
+    previously_used_sidebar_view: !isSidebarOpen.value,
+  });
+};
+
+const openCreateAccountModal = () => {
+  showAccountModal.value = false;
+  showCreateAccountModal.value = true;
+};
+
+const closeCreateAccountModal = () => {
+  showCreateAccountModal.value = false;
+};
+
+const toggleAccountModal = () => {
+  showAccountModal.value = !showAccountModal.value;
+};
+
+const toggleKeyShortcutModal = () => {
+  showShortcutModal.value = true;
+};
+
+const closeKeyShortcutModal = () => {
+  showShortcutModal.value = false;
+};
+
+const showAddLabelPopup = () => {
+  showAddLabelModal.value = true;
+};
+
+const hideAddLabelPopup = () => {
+  showAddLabelModal.value = false;
+};
+
+const openNotificationPanel = () => {
+  isNotificationPanel.value = true;
+};
+
+const closeNotificationPanel = () => {
+  isNotificationPanel.value = false;
+};
+
+watch(displayLayoutType, () => {
+  const { LAYOUT_TYPES } = wootConstants;
+  updateUISettings({
+    conversation_display_type:
+      displayLayoutType.value === LAYOUT_TYPES.EXPANDED
+        ? LAYOUT_TYPES.EXPANDED
+        : previouslyUsedDisplayType.value,
+    show_secondary_sidebar:
+      displayLayoutType.value === LAYOUT_TYPES.EXPANDED
+        ? false
+        : previouslyUsedSidebarView.value,
+  });
+});
+
+onMounted(() => {
+  handleResize();
+  nextTick(checkBanner);
+  window.addEventListener('resize', handleResize);
+  window.addEventListener('resize', checkBanner);
+  emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, toggleSidebar);
+});
+
+onUnmounted(() => {
+  window.removeEventListener('resize', handleResize);
+  window.removeEventListener('resize', checkBanner);
+  emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, toggleSidebar);
+});
 </script>
 
 <template>
@@ -218,6 +210,7 @@ export default {
       />
       <template v-if="!showUpgradePage">
         <router-view />
+        <CopilotContainer />
         <CommandBar />
         <NotificationPanel
           v-if="isNotificationPanel"

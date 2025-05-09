@@ -8,12 +8,12 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 
 const props = defineProps({
   conversationId: {
-    type: [Number, String],
-    required: true,
+    type: [Number, String, null],
+    default: null,
   },
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
 });
 
