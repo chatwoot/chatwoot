@@ -227,7 +227,8 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     filename = @raw_message.dig(:message, :documentMessage, :fileName)
     return filename if filename.present?
 
-    "#{file_content_type}_#{message_id}_#{Time.current.strftime('%Y%m%d')}"
+    ext = ".#{message_mimetype.split(';').first.split('/').last}" if message_mimetype.present?
+    "#{file_content_type}_#{message_id}_#{Time.current.strftime('%Y%m%d')}#{ext}"
   end
 
   def message_content
@@ -245,6 +246,21 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
 
   def message_id
     @raw_message[:key][:id]
+  end
+
+  def message_mimetype
+    case message_type
+    when 'image'
+      @raw_message.dig(:message, :imageMessage, :mimetype)
+    when 'sticker'
+      @raw_message.dig(:message, :stickerMessage, :mimetype)
+    when 'video'
+      @raw_message.dig(:message, :videoMessage, :mimetype)
+    when 'audio'
+      @raw_message.dig(:message, :audioMessage, :mimetype)
+    when 'file'
+      @raw_message.dig(:message, :documentMessage, :mimetype)
+    end
   end
 
   def message_under_process?

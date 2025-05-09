@@ -445,7 +445,7 @@ describe Whatsapp::IncomingMessageBaileysService do
         let(:raw_message) do
           {
             key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
-            message: { imageMessage: { caption: 'Hello from Baileys' } },
+            message: { imageMessage: { caption: 'Hello from Baileys', mimetype: 'image/png' } },
             pushName: 'John Doe'
           }
         end
@@ -487,7 +487,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file).to be_present
           expect(attachment.file_type).to eq('image')
 
-          expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}.png")
           expect(attachment.file.content_type).to eq('image/png')
         end
       end
@@ -496,7 +496,7 @@ describe Whatsapp::IncomingMessageBaileysService do
         let(:raw_message) do
           {
             key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
-            message: { videoMessage: { caption: 'Hello from Baileys' } },
+            message: { videoMessage: { caption: 'Hello from Baileys', mimetype: 'video/mp4' } },
             pushName: 'John Doe'
           }
         end
@@ -538,7 +538,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file).to be_present
           expect(attachment.file_type).to eq('video')
 
-          expect(attachment.file.filename.to_s).to eq("video_msg_123_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("video_msg_123_#{Time.current.strftime('%Y%m%d')}.mp4")
           expect(attachment.file.content_type).to eq('video/mp4')
         end
       end
@@ -588,7 +588,7 @@ describe Whatsapp::IncomingMessageBaileysService do
         let(:raw_message) do
           {
             key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
-            message: { audioMessage: {} },
+            message: { audioMessage: { mimetype: 'audio/opus' } },
             pushName: 'John Doe'
           }
         end
@@ -621,7 +621,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file_type).to eq('audio')
           expect(attachment.file).to be_present
 
-          expect(attachment.file.filename.to_s).to eq("audio_msg_123_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("audio_msg_123_#{Time.current.strftime('%Y%m%d')}.opus")
           expect(attachment.file.content_type).to eq('audio/opus')
         end
       end
@@ -630,7 +630,7 @@ describe Whatsapp::IncomingMessageBaileysService do
         let(:raw_message) do
           {
             key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
-            message: { stickerMessage: {} },
+            message: { stickerMessage: { mimetype: 'image/png' } },
             pushName: 'John Doe'
           }
         end
@@ -663,7 +663,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file_type).to eq('image')
           expect(attachment.file).to be_present
 
-          expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}.png")
           expect(attachment.file.content_type).to eq('image/png')
         end
       end
