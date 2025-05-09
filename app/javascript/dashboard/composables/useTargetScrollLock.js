@@ -10,39 +10,41 @@
 import { ref, unref, shallowRef, onUnmounted } from 'vue';
 import { useScrollLock } from '@vueuse/core';
 
-export function useTargetScrollLock(defaultTarget) {
+const getTargetElement = target => {
+  if (!target) return null;
+  if (typeof target === 'string') return document.querySelector(target);
+  if (target instanceof HTMLElement) return target;
+  return unref(target);
+};
+
+export const useTargetScrollLock = defaultTarget => {
   const scrollLockInstance = shallowRef(null);
   const isLocked = ref(false);
 
-  function resolveTarget(target) {
-    if (!target) return null;
-    if (typeof target === 'string') return document.querySelector(target); // class, id, etc
-    if (target instanceof HTMLElement) return target; // DOM element
-    return unref(target); // ref
-  }
-
-  function unlockScroll() {
+  // Simplified unlock function
+  const unlockScroll = () => {
     if (!scrollLockInstance.value) return false;
 
     scrollLockInstance.value.value = false;
     isLocked.value = false;
     scrollLockInstance.value = null;
     return true;
-  }
+  };
 
-  function lockScroll(target = defaultTarget) {
-    unlockScroll(); // Always unlock first
-    const el = resolveTarget(target);
+  // Simplified lock function
+  const lockScroll = (target = defaultTarget) => {
+    unlockScroll();
+
+    const el = getTargetElement(target);
     if (!el) return false;
 
     scrollLockInstance.value = useScrollLock(el, true);
     isLocked.value = true;
     return true;
-  }
+  };
 
-  onUnmounted(() => {
-    unlockScroll();
-  });
+  // Auto-cleanup
+  onUnmounted(unlockScroll);
 
   return { lockScroll, unlockScroll, isLocked };
-}
+};
