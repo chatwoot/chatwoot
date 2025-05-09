@@ -135,9 +135,27 @@ export const IFrameHelper = {
       iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
-  setupAudioListeners: () => {
+  setupAudioListeners: e => {
     const { baseUrl = '' } = window.$chatwoot;
-    getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
+    getAlertAudio(baseUrl, {
+      type: 'widget',
+      alertTone: 'ding',
+      loop: false,
+    }).then(() =>
+      initOnEvents.forEach(event => {
+        document.removeEventListener(
+          event,
+          IFrameHelper.setupAudioListeners,
+          false
+        );
+      })
+    );
+
+    getAlertAudio(baseUrl, {
+      type: 'widget',
+      alertTone: 'ringtone',
+      loop: true,
+    }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
@@ -205,7 +223,7 @@ export const IFrameHelper = {
     },
 
     openBubble: () => {
-      let bubbleState = {}
+      let bubbleState = {};
       bubbleState.toggleValue = true;
 
       onBubbleClick(bubbleState);
@@ -295,7 +313,22 @@ export const IFrameHelper = {
     },
 
     playAudio: () => {
-      window.playAudioAlert();
+      if (window.ding) window.ding().start();
+    },
+
+    playRingtone: () => {
+      if (window.ringtone) {
+        window.ringtoneSource = window.ringtone();
+        window.ringtoneSource.start();
+      }
+    },
+
+    stopRingtone: () => {
+      if (window.ringtoneSource) {
+        window.ringtoneSource.stop(0);
+        window.ringtoneSource.disconnect();
+        window.ringtoneSource = null;
+      }
     },
   },
   pushEvent: eventName => {
