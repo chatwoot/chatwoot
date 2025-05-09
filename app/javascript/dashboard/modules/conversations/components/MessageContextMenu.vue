@@ -115,9 +115,12 @@ export default {
     handleClose(e) {
       this.$emit('close', e);
     },
-    openForwardModal(event) {
+    openForwardModal() {
+      this.$emit('forwardEmail', {
+        x: this.contextMenuPosition.x,
+        y: this.contextMenuPosition.y,
+      });
       this.handleClose();
-      this.$emit('forwardEmail', event);
     },
     handleTranslate() {
       const { locale } = this.getAccount(this.currentAccountId);

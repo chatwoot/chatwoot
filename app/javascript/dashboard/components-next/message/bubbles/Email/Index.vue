@@ -1,15 +1,9 @@
 <script setup>
-import {
-  computed,
-  useTemplateRef,
-  ref,
-  onMounted,
-  onUnmounted,
-  reactive,
-} from 'vue';
+import { computed, useTemplateRef, ref, onMounted, reactive } from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
-import { useScrollLock, useWindowSize, useToggle } from '@vueuse/core';
+import { useWindowSize, useToggle } from '@vueuse/core';
+import { useGlobalScrollLock } from 'dashboard/composables/useGlobalScrollLock';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -40,7 +34,7 @@ const contentContainer = useTemplateRef('contentContainer');
 // Forward form - managed locally but can be triggered by parent
 const [showForwardMessageModal, toggleForwardModal] = useToggle();
 const forwardFormPosition = reactive({ top: 0, right: 0 });
-const conversationPanelScrollLock = ref(null);
+const conversationPanelScrollLock = useGlobalScrollLock();
 const { width: windowWidth, height: windowHeight } = useWindowSize();
 
 onMounted(() => {
@@ -116,15 +110,12 @@ const handleSeeOriginal = () => {
 
 const closeForwardModal = () => {
   toggleForwardModal(false);
-  if (conversationPanelScrollLock.value)
-    conversationPanelScrollLock.value.value = false;
+  conversationPanelScrollLock.unlockScroll();
 };
 
-const openForwardModal = (event = null) => {
+const openForwardModal = ({ x, y }) => {
   // Lock conversation panel scroll
-  // To prevent the conversation from scrolling when the forward form is opened
-  const panel = document.querySelector('.conversation-panel');
-  if (panel) conversationPanelScrollLock.value = useScrollLock(panel, true);
+  conversationPanelScrollLock.lockScroll('.conversation-panel');
 
   // Form dimensions
   const [formWidth, formHeight] = [672, 500];
@@ -132,12 +123,11 @@ const openForwardModal = (event = null) => {
   const { value: winHeight } = windowHeight;
 
   // Position calculation
-  const rect = event?.target?.getBoundingClientRect?.();
-  if (rect) {
+  if (x && y) {
     // Calculate position based on click location of context menu forward button
     const { left, top } = calculatePosition(
-      rect.left,
-      rect.top,
+      x,
+      y,
       formWidth,
       formHeight,
       winWidth,
@@ -154,11 +144,6 @@ const openForwardModal = (event = null) => {
 
   toggleForwardModal(true);
 };
-
-onUnmounted(() => {
-  if (conversationPanelScrollLock.value)
-    conversationPanelScrollLock.value.value = false;
-});
 
 defineExpose({
   openForwardModal,

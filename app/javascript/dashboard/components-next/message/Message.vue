@@ -446,9 +446,9 @@ const setupHighlightTimer = () => {
   }, HIGHLIGHT_TIMER);
 };
 
-const openForwardModal = (event = null) => {
+const openForwardModal = ({ x, y }) => {
   // Open forward modal, with the event from context menu
-  emailBubbleRef.value.openForwardModal(event);
+  emailBubbleRef.value.openForwardModal({ x, y });
 };
 
 onMounted(setupHighlightTimer);
