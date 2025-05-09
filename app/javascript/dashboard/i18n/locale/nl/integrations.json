@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Bericht bijgewerkt",
             "WEBWIDGET_TRIGGERED": "Live chat widget geopend door de gebruiker",
             "CONTACT_CREATED": "Contact aangemaakt",
-            "CONTACT_UPDATED": "Contact aangemaakt"
+            "CONTACT_UPDATED": "Contact aangemaakt",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
