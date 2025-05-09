@@ -8,7 +8,7 @@ import { computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 
 defineProps({
-  target: {
+  to: {
     type: String,
     default: 'body',
   },
@@ -20,7 +20,7 @@ const contentDirection = computed(() => (isRTL.value ? 'rtl' : 'ltr'));
 </script>
 
 <template>
-  <Teleport :to="target">
+  <Teleport :to="to">
     <div :dir="contentDirection">
       <slot />
     </div>
