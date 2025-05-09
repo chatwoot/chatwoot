@@ -10,7 +10,6 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
 
 export default {
   components: {
@@ -18,7 +17,6 @@ export default {
     ConversationBox,
     PopOverSearch,
     CmdBarConversationSnooze,
-    CopilotContainer,
   },
   beforeRouteLeave(to, from, next) {
     // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
@@ -142,7 +140,7 @@ export default {
       const { LAYOUT_TYPES } = wootConstants;
       const {
         conversation_display_type:
-        conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+          conversationDisplayType = LAYOUT_TYPES.CONDENSED,
       } = this.uiSettings;
       const newViewType =
         conversationDisplayType === LAYOUT_TYPES.CONDENSED
@@ -231,7 +229,6 @@ export default {
       :is-on-expanded-layout="isOnExpandedLayout"
       @contact-panel-toggle="onToggleContactPanel"
     />
-    <CopilotContainer />
     <CmdBarConversationSnooze />
   </section>
 </template>
