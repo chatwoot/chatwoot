@@ -23,6 +23,7 @@
     },
     "FORGOT_PASSWORD": "Lupa kata sandi Anda?",
     "CREATE_NEW_ACCOUNT": "Buat akun baru",
+    "DONT_HAVE_ACCOUNT": "Belum punya akun?",
     "SUBMIT": "Masuk"
   }
 }
