@@ -40,10 +40,6 @@ export const getAlertAudio = async (baseUrl = '', requestContext) => {
     const ctx = await audioCtx.decodeAudioData(array);
 
     getSoundSource(ctx, loop, alertTone);
-    console.log('Source set: ', window[alertTone]);
   }
 };
 
-export const playSound = async name => {
-  console.log('Source play sound: ', window[name]);
-};
