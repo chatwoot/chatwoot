@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html dir="ltr">
+<html>
   <head>
     <title>
       <%= @global_config['INSTALLATION_NAME'] %>
@@ -67,7 +67,7 @@
     <%= vite_client_tag %>
     <%= vite_javascript_tag @application_pack %>
   </head>
-  <body class="text-slate-600" dir="ltr">
+  <body class="text-slate-600">
     <div id="app"></div>
     <noscript id="noscript">This app works best with JavaScript enabled.</noscript>
     <%= yield %>

@@ -13,6 +13,7 @@ import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import ForwardMessageForm from 'dashboard/components-next/message/forwardMessage/ForwardMessage.vue';
+import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
 
 import { useMessageContext } from '../../provider.js';
 import { useInbox } from 'dashboard/composables/useInbox';
@@ -252,7 +253,7 @@ defineExpose({
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
 
-    <Teleport v-if="showForwardMessageModal" to="body">
+    <CustomTeleport v-if="showForwardMessageModal">
       <ForwardMessageForm
         :message="contentAttributes?.email"
         :content="content"
@@ -266,7 +267,7 @@ defineExpose({
         }"
         @close="closeForwardModal"
       />
-    </Teleport>
+    </CustomTeleport>
   </BaseBubble>
 </template>
 
