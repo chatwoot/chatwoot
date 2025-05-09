@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário",
             "CONTACT_CREATED": "Contato criado",
-            "CONTACT_UPDATED": "Contato atualizado"
+            "CONTACT_UPDATED": "Contato atualizado",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
