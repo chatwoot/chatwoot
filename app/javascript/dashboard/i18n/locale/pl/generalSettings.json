@@ -44,6 +44,10 @@
         "TITLE": "ID konta",
         "NOTE": "To ID jest wymagane, jeśli tworzysz integrację opartą na API"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+      },
       "NAME": {
         "LABEL": "Nazwa konta",
         "PLACEHOLDER": "Nazwa konta",
@@ -65,9 +69,18 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Liczba dni po upływie których rozmowa powinna zostać automatycznie zamknięta z powodu braku aktywności",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Wprowadź poprawną wartość dla czasu automatycznego zamykania rozmów (minimum 1 dzień, maksimum 999 dni)"
+        "ERROR": "Wprowadź poprawną wartość dla czasu automatycznego zamykania rozmów (minimum 1 dzień, maksimum 999 dni)",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Update Auto-resolve",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Kontynuacja rozmów za pomocą wiadomości e-mail jest włączona dla Twojego konta.",
