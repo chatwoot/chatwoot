@@ -31,7 +31,6 @@ const {
   contentAttributes,
 } = useMessageContext();
 
-console.log('Created Time value: ', createdAt.value);
 const readableTime = computed(() =>
   messageTimestamp(createdAt.value, 'LLL d, h:mm a')
 );

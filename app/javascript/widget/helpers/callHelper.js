@@ -21,9 +21,8 @@ export const handleIncomingCall = async callAndCaller => {
   }
 
   try {
-    emitter.emit(EVENTS.INCOMING_CALL, callAndCaller);
-
     await store.dispatch('calls/receiveCall', callAndCaller);
+    emitter.emit(EVENTS.INCOMING_CALL, callAndCaller);
 
     return true;
   } catch (error) {
