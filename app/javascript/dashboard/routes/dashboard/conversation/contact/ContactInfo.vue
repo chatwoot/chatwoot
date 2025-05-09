@@ -107,7 +107,6 @@ export default {
       );
     },
     startCall() {
-      console.log("Emmiting start")
       emitter.emit(BUS_EVENTS.START_CALL, true);
     },
     toggleDeleteModal() {

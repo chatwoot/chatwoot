@@ -122,7 +122,6 @@ export default {
       });
     },
     async startCall() {
-      console.log('started call');
       if (this.activeCall) return;
 
       const roomId = this.generateJitsiRoomId();
