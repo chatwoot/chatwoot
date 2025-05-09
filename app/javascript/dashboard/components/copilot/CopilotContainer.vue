@@ -108,7 +108,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="border-l border-n-weak min-w-[280px]">
+  <div class="border-l border-n-weak min-w-[17.5rem]">
     <Copilot
       :messages="messages"
       :support-agent="currentUser"
