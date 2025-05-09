@@ -44,6 +44,10 @@
         "TITLE": "מזהה חשבון",
         "NOTE": "מזהה זה נדרש אם אתה בונה אינטגרציה מבוססת API"
       },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+      },
       "NAME": {
         "LABEL": "שם החשבון",
         "PLACEHOLDER": "שם החשבון שלך",
@@ -65,9 +69,18 @@
         "ERROR": ""
       },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "מספר הימים לאחר כרטיס אמור להיפתר אוטומטית אם אין פעילות",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "אנא הזן משך פתרון אוטומטי חוקי (מינימום יום אחד ומקסימום 999 ימים)"
+        "ERROR": "אנא הזן משך פתרון אוטומטי חוקי (מינימום יום אחד ומקסימום 999 ימים)",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Update Auto-resolve",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "רציפות השיחה עם הודעות אימייל מופעלת עבור החשבון שלך.",
