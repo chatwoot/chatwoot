@@ -145,7 +145,9 @@ ro:
         open: 'Conversația a fost redeschisă de %{user_name}'
         pending: 'Conversația a fost marcată ca fiind în așteptare de către %{user_name}'
         snoozed: 'Conversația a fost snoozed de %{user_name}'
-        auto_resolved: 'Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate'
+        auto_resolved_days: 'Conversația a fost marcată de sistem din cauza %{count} zile de inactivitate'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistemul a redeschis conversația din cauza unui nou mesaj de intrare.
       priority:
         added: '%{user_name} setați prioritatea pentru a %{new_priority}'
