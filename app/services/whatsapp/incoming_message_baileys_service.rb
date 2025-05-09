@@ -105,8 +105,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     when 'reaction'
       create_message if message_content.present?
     when 'image', 'file', 'video', 'audio', 'sticker'
-      create_message
-      attach_media
+      create_message(attach_media: true)
     when 'unsupported'
       create_unsupported_message
       Rails.logger.warn "Baileys unsupported message type: #{message_type}"
@@ -152,12 +151,12 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     'unsupported'
   end
 
-  def create_message
+  def create_message(attach_media: false)
     sender = incoming? ? @contact : @inbox.account.account_users.first.user
     sender_type = incoming? ? 'Contact' : 'User'
     message_type = incoming? ? :incoming : :outgoing
 
-    @message = @conversation.messages.create!(
+    @message = @conversation.messages.build(
       content: message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
@@ -167,6 +166,10 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       message_type: message_type,
       content_attributes: message_content_attributes
     )
+
+    handle_attach_media if attach_media
+
+    @message.save!
   end
 
   def message_content_attributes
@@ -191,7 +194,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     )
   end
 
-  def attach_media
+  def handle_attach_media
     media = processed_params.dig(:extra, :media)
     return if media.blank?
 
@@ -201,20 +204,15 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       raise AttachmentNotFoundError
     end
 
-    begin
-      decoded_data = Base64.decode64(attachment_payload)
-      io = StringIO.new(decoded_data)
+    decoded_data = Base64.decode64(attachment_payload)
+    io = StringIO.new(decoded_data)
 
-      @message.attachments.new(
-        account_id: @message.account_id,
-        file_type: file_content_type.to_s,
-        file: { io: io, filename: filename }
-      )
-
-      @message.save!
-    rescue StandardError => e
-      Rails.logger.error "Failed to attach media for message #{message_id} (#{e.message}) payload: #{attachment_payload}"
-    end
+    attachment = @message.attachments.build(
+      account_id: @message.account_id,
+      file_type: file_content_type.to_s,
+      file: { io: io, filename: filename }
+    )
+    attachment.meta = { is_recorded_audio: true } if @raw_message.dig(:message, :audioMessage, :ptt)
   end
 
   def file_content_type
@@ -229,7 +227,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     filename = @raw_message.dig(:message, :documentMessage, :fileName)
     return filename if filename.present?
 
-    "#{file_content_type}_#{@message[:id]}_#{Time.current.strftime('%Y%m%d')}"
+    "#{file_content_type}_#{message_id}_#{Time.current.strftime('%Y%m%d')}"
   end
 
   def message_content

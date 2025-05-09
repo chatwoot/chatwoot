@@ -487,7 +487,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file).to be_present
           expect(attachment.file_type).to eq('image')
 
-          expect(attachment.file.filename.to_s).to eq("image_#{message.id}_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}")
           expect(attachment.file.content_type).to eq('image/png')
         end
       end
@@ -538,7 +538,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file).to be_present
           expect(attachment.file_type).to eq('video')
 
-          expect(attachment.file.filename.to_s).to eq("video_#{message.id}_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("video_msg_123_#{Time.current.strftime('%Y%m%d')}")
           expect(attachment.file.content_type).to eq('video/mp4')
         end
       end
@@ -621,7 +621,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file_type).to eq('audio')
           expect(attachment.file).to be_present
 
-          expect(attachment.file.filename.to_s).to eq("audio_#{message.id}_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("audio_msg_123_#{Time.current.strftime('%Y%m%d')}")
           expect(attachment.file.content_type).to eq('audio/opus')
         end
       end
@@ -663,7 +663,7 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file_type).to eq('image')
           expect(attachment.file).to be_present
 
-          expect(attachment.file.filename.to_s).to eq("image_#{message.id}_#{Time.current.strftime('%Y%m%d')}")
+          expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}")
           expect(attachment.file.content_type).to eq('image/png')
         end
       end

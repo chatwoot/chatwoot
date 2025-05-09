@@ -111,7 +111,8 @@ class Attachment < ApplicationRecord
       id: id,
       message_id: message_id,
       file_type: file_type,
-      account_id: account_id
+      account_id: account_id,
+      meta: meta || {}
     }
   end
 
