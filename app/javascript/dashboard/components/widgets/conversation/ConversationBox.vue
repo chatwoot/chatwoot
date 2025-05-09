@@ -98,8 +98,12 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
+    console.log('Registering listener');
 
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
+  },
+  unmounted() {
+    emitter.off(BUS_EVENTS.START_CALL, this.startCall);
   },
 
   methods: {
@@ -120,6 +124,7 @@ export default {
       });
     },
     async startCall() {
+      console.log('started call');
       if (this.activeCall) return;
 
       const roomId = this.generateJitsiRoomId();
