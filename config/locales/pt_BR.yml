@@ -23,10 +23,6 @@ pt_BR:
     reset_password_failure: Uh ho! Não conseguimos encontrar nenhum usuário com o e-mail especificado.
     inbox_deletetion_response: Seu pedido de exclusão da caixa de entrada será processado dentro de algum tempo.
   errors:
-    messages:
-      unsupported: ❌ _Esta mensagem não pode ser exibida aqui. Por favor, abra o WhatsApp em seu telefone para visualizar a mensagem._
-      send:
-        unsupported: ❌ _Esta mensagem não pode ser enviada. Por favor, abra o WhatsApp em seu telefone para enviar corretamente a mensagem._
     validations:
       presence: não pode ficar em branco
     webhook:
