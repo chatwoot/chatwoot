@@ -113,7 +113,7 @@ watch(
         </div>
       </div>
     </div>
-    <div ref="chatContainer" class="flex-1 px-4 py-4 overflow-y-auto">
+    <div ref="chatContainer" class="flex-1 flex px-4 py-4 overflow-y-auto">
       <div
         v-if="messages.length"
         class="space-y-6 flex-1 flex items-center justify-center"
