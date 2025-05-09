@@ -27,7 +27,6 @@ import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
-  playSound,
   getAlertAudio,
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
@@ -137,7 +136,6 @@ export const IFrameHelper = {
   },
 
   setupAudioListeners: e => {
-    console.log('The event', e);
     const { baseUrl = '' } = window.$chatwoot;
     getAlertAudio(baseUrl, {
       type: 'widget',
