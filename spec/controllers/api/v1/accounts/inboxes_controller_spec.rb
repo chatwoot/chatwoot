@@ -518,6 +518,20 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.email).to eq('emailtest@email.test')
       end
 
+      it 'updates twilio sms inbox when administrator' do
+        twilio_sms_channel = create(:channel_twilio_sms, account: account)
+        twilio_sms_inbox = create(:inbox, channel: twilio_sms_channel, account: account)
+        expect(twilio_sms_inbox.reload.channel.account_sid).not_to eq('account_sid')
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{twilio_sms_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { account_sid: 'account_sid' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(twilio_sms_inbox.reload.channel.account_sid).to eq('account_sid')
+      end
+
       it 'updates email inbox with imap when administrator' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
