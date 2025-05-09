@@ -4,39 +4,47 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
   CUSTOMER_CENTRICITY_THRESHOLD = 90
 
   SYSTEM_PROMPT = %(
-    You are an exceptional customer service quality analyst.
+    You are an exceptional customer service quality analyst and translation agent.
     Your task is to contextually evaluate the quality of an answer to a query.
     Evaluate the answer based solely on its content and reasoning, regardless of the language used.
     You will be provided with.
     - The latest query from a customer.
     - The answer to evaluate
 
-    Assess the answer based on the following criteria and provide your output in a valid JSON format.
+    Assess the <answer> based on the following criteria and provide your output in a valid JSON format.
 
     Evaluation Criteria:
     1. Answer Quality Check
-
     - Assign a satisfaction score (0-100) based on accuracy and completeness.
       - #{ANSWER_QUALITY_THRESHOLD} is the minimum acceptable score.
-      - Do not assess language alignment when evaluating relevance of the answer.
-      - Focus only on content accuracy and thought, regardless of whether the answer matches the query's language.
-      - Allow for some flexibility in the answer's language.
-    - Analyze the given answer and provide concise, actionable feedback on how to improve it. Identify any missing details, unclear explanations, or areas for enhancement. Detect the language of the answer and provide feedback in the same language.
+      - Do not assess language alignment when evaluating relevance of the <answer>.
+      - Focus only on content accuracy and thought, regardless of whether the <answer> matches the <query>'s language.
+      - Allow for some flexibility in the <answer>'s language.
+    - Analyze the given <answer> and provide concise, actionable feedback on how to improve it. Identify any missing details, unclear explanations, or areas for enhancement. Detect the language of the <answer> and provide feedback in the same language.
     - Provide a boolean indicating whether the satisfaction score meets or exceeds the threshold.
 
     2. Language & Grammar Check
     - Assign a professionalism score (0-100) based on spelling, grammar, clarity, and readability.
-      - Use the language of the answer to evaluate the grammar.
-      - If the score is below 90, provide a corrected version of the answer.
+      - Use the language of the <answer> to evaluate the grammar.
+      - If the score is below 90, provide a corrected version of the <answer>.
       - Consider the customer-centric tone of the corrected version.
       - #{LANGUAGE_GRAMMAR_THRESHOLD} is the minimum acceptable score.
     - Provide a boolean indicating whether the professionalism score  meets or exceeds the threshold.
 
     3. Customer-Centricity Check
     - Assign a customer-centricity score (0-100)
-      - Evaluate if the message is structured with a customer-first approach (e.g., friendly, empathetic, solution-oriented).
+      - Evaluate if the <answer> is structured with a customer-first approach (e.g., friendly, empathetic, solution-oriented).
       - #{CUSTOMER_CENTRICITY_THRESHOLD} is the minimum acceptable score.
     - Provide a boolean indicating whether the customer-centricity score meets or exceeds the threshold.
+
+    - Perform needs_translation check
+      - compare <query> and <answer> and determine if <answer> needs to be translated
+      - on uncertainity, return true
+      - store the boolean value in <needs_translation> field
+
+    Declare the following internal variables:
+    - checks: are the combined JSON of all the checks, enclosed by checks key.
+    - passed: is a boolean indicating whether all checks passed.
 
     Format:
     {
@@ -56,27 +64,17 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
           "passed": <boolean>
         }
       },
-      "passed": <boolean>,
-      "detected_language": "<language_of_the_answer>",
-      "detected_query_language": "<language_of_the_query>",
-      "needs_translation": "<boolean>"
+      "passed": <passed>,
+      "needs_translation": <needs_translation>
     }
 
     Important:
-    checks are the combined JSON of all the checks, enclosed by checks key.
-    passed is a boolean indicating whether all checks passed.
-    detected_language is the language code of the answer.
-    detected_query_language is the language code of the customer query.
-    needs_translation is a boolean indicating whether the language_of_the_answer is different from language_of_the_query.
+    The JSON format should be valid and parsable.
     Only return the JSON format.
     No additional text, explanations, white spaces or formatting outside of it.
   ).freeze
 
-  USER_PROMPT = %(
-    Here is the query and answer you need to evaluate:
-    Query: %s
-    Answer: %s
-  ).freeze
+  USER_PROMPT = %(%s: "%s").freeze
 
   def perform(conversation, response, target_language = 'Svenska (sv)')
     @conversation = conversation
@@ -116,13 +114,14 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
   end
 
   def user_prompt
-    format(USER_PROMPT, question, response)
+    nil
   end
 
   def messages
     [
       { role: 'system', content: system_prompt },
-      { role: 'user', content: user_prompt }
+      { role: 'user', content: format(USER_PROMPT, 'query', question) },
+      { role: 'user', content: format(USER_PROMPT, 'answer', response) }
     ]
   end
 

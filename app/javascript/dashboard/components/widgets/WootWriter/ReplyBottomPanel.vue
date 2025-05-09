@@ -514,11 +514,11 @@ export default {
       const responseData = response.data;
       this.hideAILoader()
       try {
-        if (responseData.agent_message_locale === responseData.customer_message_locale) {
-          this.proceedWithSendingMessage();
-        } else {
+        if (responseData.needs_translation) {
           this.translatedMessage = responseData.translated_agent_message;
           this.showAITranslationModal = true
+        } else {
+          this.proceedWithSendingMessage();
         }
       } catch (error) {
         console.log(error);
