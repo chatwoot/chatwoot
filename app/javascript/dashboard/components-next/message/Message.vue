@@ -19,6 +19,7 @@ import {
   MESSAGE_STATUS,
   CONTENT_TYPES,
 } from './constants';
+import { useGlobalScrollLock } from 'dashboard/composables/useGlobalScrollLock';
 
 import Avatar from 'next/avatar/Avatar.vue';
 
@@ -130,6 +131,7 @@ const props = defineProps({
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 
+const conversationPanelScrollLock = useGlobalScrollLock();
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
@@ -362,6 +364,9 @@ const shouldRenderMessage = computed(() => {
 });
 
 function openContextMenu(e) {
+  // Lock scroll to prevent scrolling when context menu is open
+  conversationPanelScrollLock.lockScroll('.conversation-panel');
+
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
     e.target?.tagName.toLowerCase() === 'a';
@@ -381,6 +386,8 @@ function openContextMenu(e) {
 }
 
 function closeContextMenu() {
+  // Unlock scroll when context menu is closed
+  conversationPanelScrollLock.unlockScroll();
   showContextMenu.value = false;
   contextMenuPosition.value = { x: null, y: null };
 }
