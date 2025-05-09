@@ -19,7 +19,7 @@ import {
   MESSAGE_STATUS,
   CONTENT_TYPES,
 } from './constants';
-import { useGlobalScrollLock } from 'dashboard/composables/useGlobalScrollLock';
+import { useTargetScrollLock } from 'dashboard/composables/useTargetScrollLock';
 
 import Avatar from 'next/avatar/Avatar.vue';
 
@@ -131,7 +131,7 @@ const props = defineProps({
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 
-const conversationPanelScrollLock = useGlobalScrollLock();
+const conversationPanelScrollLock = useTargetScrollLock();
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
