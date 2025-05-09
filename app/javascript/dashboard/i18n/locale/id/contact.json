@@ -542,16 +542,16 @@
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
+      "TITLE": "Belum ada kontak yang tersimpan di akun ini.",
+      "SUBTITLE": "Mulai tambahkan kontak baru dengan klik tombol di bawah ini.",
       "BUTTON_LABEL": "Tambahkan kontak",
       "SEARCH_EMPTY_STATE_TITLE": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "Tidak ada kontak yang tersedia dalam tampilan ini 📋"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
-      "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."
+      "ERROR_MESSAGE": "Kami tidak dapat menyelesaikan pencarian. Silakan coba lagi."
     },
     "FORM": {
       "GO_TO_CONVERSATION": "Lihat",
