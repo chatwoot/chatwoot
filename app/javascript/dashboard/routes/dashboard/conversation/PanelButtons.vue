@@ -21,18 +21,20 @@ const handleCopilotSidebarToggle = () => {
 
 <template>
   <div
-    class="flex flex-col justify-center items-center absolute top-14 right-2 bg-n-alpha-2 border border-n-weak rounded-lg bg-n-background gap-2 py-0.5 px-0.5"
+    class="flex flex-col justify-center items-center absolute top-20 right-1 bg-n-alpha-2 border border-n-weak rounded-lg bg-n-background gap-2 py-0.5 px-0.5"
   >
     <Button
       ghost
       slate
+      sm
+      class="!text-sm"
       icon="i-ph-user-bold"
       @click="handleConversationSidebarToggle"
     />
     <Button
       ghost
-      class="!text-n-iris-11"
-      slate
+      class="!text-sm !text-n-iris-11"
+      sm
       icon="i-woot-captain"
       @click="handleCopilotSidebarToggle"
     />
