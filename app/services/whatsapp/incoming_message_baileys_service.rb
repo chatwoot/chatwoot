@@ -99,17 +99,10 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def handle_create_message
-    case message_type
-    when 'text'
-      create_message
-    when 'reaction'
-      create_message if message_content.present?
-    when 'image', 'file', 'video', 'audio', 'sticker'
-      create_message(attach_media: true)
-    when 'unsupported'
-      create_unsupported_message
-      Rails.logger.warn "Baileys unsupported message type: #{message_type}"
-    end
+    return if message_type == 'protocol' ||
+              (message_type == 'reaction' && message_content.blank?)
+
+    create_message(attach_media: %w[image file video audio sticker].include?(message_type))
   end
 
   def jid_type # rubocop:disable Metrics/CyclomaticComplexity
@@ -136,34 +129,38 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     end
   end
 
-  def message_type # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
+  def message_type # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/MethodLength
     msg = @raw_message[:message]
-
-    return 'text' if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text).present?
-    return 'image' if msg.key?(:imageMessage)
-    return 'audio' if msg.key?(:audioMessage)
-    return 'video' if msg.key?(:videoMessage)
-    return 'file' if msg.key?(:documentMessage)
-    return 'sticker' if msg.key?(:stickerMessage)
-    return 'reaction' if msg.key?(:reactionMessage)
-    return 'protocol' if msg.key?(:protocolMessage)
-
-    'unsupported'
+    @message_type ||= if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text).present?
+                        'text'
+                      elsif msg.key?(:imageMessage)
+                        'image'
+                      elsif msg.key?(:audioMessage)
+                        'audio'
+                      elsif msg.key?(:videoMessage)
+                        'video'
+                      elsif msg.key?(:documentMessage)
+                        'file'
+                      elsif msg.key?(:stickerMessage)
+                        'sticker'
+                      elsif msg.key?(:reactionMessage)
+                        'reaction'
+                      elsif msg.key?(:protocolMessage)
+                        'protocol'
+                      else
+                        'unsupported'
+                      end
   end
 
   def create_message(attach_media: false)
-    sender = incoming? ? @contact : @inbox.account.account_users.first.user
-    sender_type = incoming? ? 'Contact' : 'User'
-    message_type = incoming? ? :incoming : :outgoing
-
     @message = @conversation.messages.build(
       content: message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       source_id: message_id,
-      sender: sender,
-      sender_type: sender_type,
-      message_type: message_type,
+      sender: incoming? ? @contact : @inbox.account.account_users.first.user,
+      sender_type: incoming? ? 'Contact' : 'User',
+      message_type: incoming? ? :incoming : :outgoing,
       content_attributes: message_content_attributes
     )
 
@@ -173,25 +170,20 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def message_content_attributes
-    return unless message_type == 'reaction'
-
-    {
-      in_reply_to_external_id: @raw_message.dig(:message, :reactionMessage, :key, :id),
-      is_reaction: true
-    }
+    if message_type == 'reaction'
+      {
+        in_reply_to_external_id: @raw_message.dig(:message, :reactionMessage, :key, :id),
+        is_reaction: true
+      }
+    elsif message_type == 'unsupported'
+      {
+        is_unsupported: true
+      }
+    end
   end
 
   def incoming?
     !@raw_message[:key][:fromMe]
-  end
-
-  def create_unsupported_message
-    create_message
-    @message.update!(
-      content: I18n.t('errors.messages.unsupported'),
-      message_type: 'template',
-      status: 'failed'
-    )
   end
 
   def handle_attach_media

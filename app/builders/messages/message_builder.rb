@@ -80,7 +80,11 @@ class Messages::MessageBuilder
   end
 
   def process_metadata(attachment)
-    { is_recorded_audio: true } if @is_recorded_audio && attachment.original_filename.in?(@is_recorded_audio)
+    # NOTE: `is_recorded_audio` can be either a boolean or an array of file names.
+    return unless @is_recorded_audio
+    return { is_recorded_audio: true } if @is_recorded_audio == true
+
+    { is_recorded_audio: true } if @is_recorded_audio.is_a?(Array) && attachment.original_filename.in?(@is_recorded_audio)
   end
 
   def process_emails

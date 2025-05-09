@@ -94,14 +94,13 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   describe '#send_message' do
     let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message" }
 
-    context 'when message does not have content nor attachments' do
+    context 'when message is unsupported' do
       it 'updates the message with content attribute is_unsupported' do
-        message.update!(content: nil)
+        unsupported_message = create(:message, content: nil)
 
-        service.send_message(test_send_phone_number, message)
+        service.send_message(test_send_phone_number, unsupported_message)
 
-        expect(message.content).to eq(I18n.t('errors.messages.send.unsupported'))
-        expect(message.status).to eq('failed')
+        expect(unsupported_message.is_unsupported).to be(true)
       end
     end
 
