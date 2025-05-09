@@ -11,6 +11,7 @@ import { downloadFile } from '@chatwoot/utils';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
 
 const props = defineProps({
   attachment: {
@@ -166,7 +167,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <CustomTeleport to="body">
     <woot-modal
       v-model:show="show"
       full-width
@@ -351,5 +352,5 @@ onMounted(() => {
         </footer>
       </div>
     </woot-modal>
-  </Teleport>
+  </CustomTeleport>
 </template>

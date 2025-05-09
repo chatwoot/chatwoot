@@ -2,6 +2,8 @@
 import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
 import { useWindowSize, useElementBounding } from '@vueuse/core';
 
+import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
+
 const props = defineProps({
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 },
@@ -57,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <CustomTeleport to="body">
     <div
       ref="menuRef"
       class="fixed outline-none z-[9999] cursor-pointer"
@@ -67,5 +69,5 @@ onMounted(() => {
     >
       <slot />
     </div>
-  </Teleport>
+  </CustomTeleport>
 </template>

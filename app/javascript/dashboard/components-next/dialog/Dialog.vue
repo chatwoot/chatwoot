@@ -5,6 +5,7 @@ import { useI18n } from 'vue-i18n';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
 
 const props = defineProps({
   type: {
@@ -94,7 +95,7 @@ defineExpose({ open, close });
 </script>
 
 <template>
-  <Teleport to="body">
+  <CustomTeleport to="body">
     <dialog
       ref="dialogRef"
       class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
@@ -152,7 +153,7 @@ defineExpose({ open, close });
         </form>
       </OnClickOutside>
     </dialog>
-  </Teleport>
+  </CustomTeleport>
 </template>
 
 <style scoped>
