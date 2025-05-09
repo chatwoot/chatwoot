@@ -38,8 +38,6 @@ import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from '../../../featureFlags';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
-import NextButton from 'dashboard/components-next/button/Button.vue';
-
 export default {
   components: {
     Message,
@@ -47,20 +45,8 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
-    NextButton,
   },
   mixins: [inboxMixin],
-  props: {
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
-    },
-    isInboxView: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['contactPanelToggle'],
   setup() {
     const isPopOutReplyBox = ref(false);
     const { isEnterprise } = useConfig();
@@ -198,12 +184,6 @@ export default {
 
     isATweet() {
       return this.conversationType === 'tweet';
-    },
-    isRightOrLeftIcon() {
-      if (this.isContactPanelOpen) {
-        return 'arrow-chevron-right';
-      }
-      return 'arrow-chevron-left';
     },
     getLastSeenAt() {
       const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
@@ -439,9 +419,6 @@ export default {
         this.$el.scrollHeight,
         relevantMessages
       );
-    },
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
     },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;

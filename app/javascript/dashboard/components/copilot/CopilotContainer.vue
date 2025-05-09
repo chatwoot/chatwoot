@@ -117,7 +117,7 @@ watchEffect(() => {
 <template>
   <div
     v-if="isSidebarOpen"
-    class="border-l border-n-weak w-[17.5rem] min-w-[17.5rem]"
+    class="border-l border-n-weak w-[18rem] min-w-[18rem]"
   >
     <Copilot
       :messages="messages"

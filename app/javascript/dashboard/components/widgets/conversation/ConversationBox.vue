@@ -4,11 +4,9 @@ import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
 import MessagesView from './MessagesView.vue';
-import ConversationSidebar from './ConversationSidebar.vue';
 
 export default {
   components: {
-    ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
     EmptyState,
@@ -25,16 +23,11 @@ export default {
       type: Boolean,
       default: false,
     },
-    isContactPanelOpen: {
-      type: Boolean,
-      default: true,
-    },
     isOnExpandedLayout: {
       type: Boolean,
       default: true,
     },
   },
-  emits: ['contactPanelToggle'],
   data() {
     return { activeIndex: 0 };
   },
@@ -56,9 +49,6 @@ export default {
           name: dashboardApp.title,
         })),
       ];
-    },
-    showContactPanel() {
-      return this.isContactPanelOpen && this.currentChat.id;
     },
   },
   watch: {
@@ -86,9 +76,6 @@ export default {
       }
       this.$store.dispatch('conversationLabels/get', this.currentChat.id);
     },
-    onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
-    },
     onDashboardAppTabChange(index) {
       this.activeIndex = index;
     },
@@ -107,9 +94,7 @@ export default {
       v-if="currentChat.id"
       :chat="currentChat"
       :is-inbox-view="isInboxView"
-      :is-contact-panel-open="isContactPanelOpen"
       :show-back-button="isOnExpandedLayout && !isInboxView"
-      @contact-panel-toggle="onToggleContactPanel"
     />
     <woot-tabs
       v-if="dashboardApps.length && currentChat.id"
@@ -130,17 +115,10 @@ export default {
         v-if="currentChat.id"
         :inbox-id="inboxId"
         :is-inbox-view="isInboxView"
-        :is-contact-panel-open="isContactPanelOpen"
-        @contact-panel-toggle="onToggleContactPanel"
       />
       <EmptyState
         v-if="!currentChat.id && !isInboxView"
         :is-on-expanded-layout="isOnExpandedLayout"
-      />
-      <ConversationSidebar
-        v-if="showContactPanel"
-        :current-chat="currentChat"
-        @toggle-contact-panel="onToggleContactPanel"
       />
     </div>
     <DashboardAppFrame

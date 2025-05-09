@@ -1,28 +1,58 @@
 <script setup>
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+import { computed } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 
-defineProps({
+const props = defineProps({
   currentChat: {
     required: true,
     type: Object,
   },
 });
-const emit = defineEmits(['toggleContactPanel']);
-const toggleContactPanel = () => {
-  emit('toggleContactPanel');
+
+const getUIState = useMapGetter('uiState/getUIState');
+const isCopilotSidebarOpen = computed(() =>
+  getUIState.value('isCopilotSidebarOpen')
+);
+const isConversationSidebarOpen = computed(() =>
+  getUIState.value('isConversationSidebarOpen')
+);
+
+const showConversationSidebar = computed(
+  () =>
+    props.currentChat.id &&
+    !isCopilotSidebarOpen.value &&
+    isConversationSidebarOpen.value
+);
+
+const store = useStore();
+const closeConversationPanel = () => {
+  store.dispatch('uiState/set', 'isConversationSidebarOpen', false);
 };
 </script>
 
 <template>
   <div
-    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-80 min-w-80 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background"
+    v-if="showConversationSidebar"
+    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-[18rem] min-w-[18rem] flex flex-col"
   >
-    <div class="flex flex-1 overflow-auto">
+    <div class="flex flex-1 flex-col overflow-auto">
+      <div
+        class="flex items-center justify-between gap-2 px-4 py-2 border-b border-n-weak h-12"
+      >
+        <span class="font-medium text-sm text-n-slate-12">
+          {{ $t('CONVERSATION.SIDEBAR.ACTIONS') }}
+        </span>
+        <div class="flex items-center">
+          <Button icon="i-lucide-x" ghost sm @click="closeConversationPanel" />
+        </div>
+      </div>
       <ContactPanel
-        :conversation-id="currentChat.id"
-        :inbox-id="currentChat.inbox_id"
-        :on-toggle="toggleContactPanel"
+        :conversation-id="props.currentChat.id"
+        :inbox-id="props.currentChat.inbox_id"
       />
     </div>
   </div>
+  <div v-else class="hidden" />
 </template>

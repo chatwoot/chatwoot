@@ -98,7 +98,7 @@ watch(
       class="flex items-center justify-between px-4 py-2 border-b border-n-weak h-12"
     >
       <div class="flex items-center justify-between gap-2 flex-1">
-        <span class="font-medium text-n-slate-12">
+        <span class="font-medium text-sm text-n-slate-12">
           {{ $t('CAPTAIN.COPILOT.TITLE') }}
         </span>
         <div class="flex items-center">

@@ -1,6 +1,6 @@
 const initialState = {
   isCopilotSidebarOpen: false,
-  // Add more UI settings here as needed
+  isConversationSidebarOpen: true,
 };
 
 const types = {
