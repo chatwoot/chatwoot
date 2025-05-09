@@ -526,19 +526,7 @@ export default {
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
-    <div class="flex justify-end">
-      <NextButton
-        faded
-        xs
-        slate
-        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
-        :icon="
-          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
-        "
-        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
-        @click="onToggleContactPanel"
-      />
-    </div>
+
     <NextMessageList
       v-if="showNextBubbles"
       class="conversation-panel"

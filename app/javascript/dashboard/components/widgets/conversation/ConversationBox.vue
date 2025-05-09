@@ -97,7 +97,12 @@ export default {
 </script>
 
 <template>
-  <div class="conversation-details-wrap bg-n-background">
+  <div
+    class="conversation-details-wrap bg-n-background"
+    :class="{
+      'border-l rtl:border-l-0 rtl:border-r border-n-weak': !isOnExpandedLayout,
+    }"
+  >
     <ConversationHeader
       v-if="currentChat.id"
       :chat="currentChat"

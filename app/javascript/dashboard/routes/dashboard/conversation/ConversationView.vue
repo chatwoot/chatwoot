@@ -209,7 +209,6 @@ export default {
 <template>
   <section class="flex w-full h-full">
     <ChatList
-      class="m-1 border border-n-weak rounded-lg"
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
       :label="label"
