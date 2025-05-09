@@ -1,8 +1,13 @@
 <script setup>
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
 
+defineProps({
+  currentChat: {
+    required: true,
+    type: Object,
+  },
+});
 const emit = defineEmits(['toggleContactPanel']);
-
 const toggleContactPanel = () => {
   emit('toggleContactPanel');
 };
