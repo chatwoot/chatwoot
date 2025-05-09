@@ -5,7 +5,6 @@ summary: Update Custom Attributes
 description: Updates the custom attributes of a conversation
 security:
   - userApiKey: []
-  - agentBotApiKey: []
 requestBody:
   required: true
   content:

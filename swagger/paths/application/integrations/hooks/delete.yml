@@ -3,6 +3,8 @@ tags:
 operationId: delete-an-integration-hook
 summary: Delete an Integration Hook
 description: Delete an Integration Hook
+security:
+  - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'
   - $ref: '#/components/parameters/hook_id'

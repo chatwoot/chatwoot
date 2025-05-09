@@ -5,6 +5,8 @@ summary: Create a custom filter
 description: Create a custom filter in the account
 parameters:
   - $ref: '#/components/parameters/account_id'
+security:
+  - userApiKey: []
 requestBody:
   required: true
   content:

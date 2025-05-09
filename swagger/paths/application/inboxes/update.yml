@@ -3,6 +3,8 @@ patch:
     - Inboxes
   operationId: updateInbox
   summary: Update Inbox
+  security:
+    - userApiKey: []
   description: Add avatar and disable auto assignment for an inbox
   parameters:
     - $ref: '#/components/parameters/account_id'

@@ -10,18 +10,7 @@ requestBody:
   content:
     application/json:
       schema:
-        type: object
-        required:
-          - user_id
-          - role
-        properties:
-          user_id:
-            type: integer
-            description: The ID of the user
-          role:
-            type: string
-            description: whether user is an administrator or agent
-
+        $ref: '#/components/schemas/account_user_create_update_payload'
 responses:
   '200':
     description: Success

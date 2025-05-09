@@ -2,6 +2,8 @@ tags:
   - Webhooks
 operationId: update-a-webhook
 summary: Update a webhook object
+security:
+  - userApiKey: []
 description: Update a webhook object in the account
 parameters:
   - $ref: '#/components/parameters/account_id'

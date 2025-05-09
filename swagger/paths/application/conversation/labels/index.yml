@@ -2,6 +2,8 @@ tags:
   - Conversation Labels
 operationId: list-all-labels-of-a-conversation
 summary: List Labels
+security:
+  - userApiKey: []
 description: Lists all the labels of a conversation
 responses:
   '200':

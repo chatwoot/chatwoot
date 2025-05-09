@@ -2,6 +2,8 @@ tags:
   - Teams
 operationId: delete-a-team
 summary: Delete a team
+security:
+  - userApiKey: []
 description: Delete a team from the account
 responses:
   '200':

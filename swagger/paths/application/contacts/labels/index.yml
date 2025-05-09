@@ -3,6 +3,8 @@ tags:
 operationId: list-all-labels-of-a-contact
 summary: List Labels
 description: Lists all the labels of a contact
+security:
+  - userApiKey: []
 responses:
   '200':
     description: Success

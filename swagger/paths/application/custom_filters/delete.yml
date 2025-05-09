@@ -2,6 +2,8 @@ tags:
   - Custom Filters
 operationId: delete-a-custom-filter
 summary: Delete a custom filter
+security:
+  - userApiKey: []
 description: Delete a custom filter from the account
 responses:
   '200':

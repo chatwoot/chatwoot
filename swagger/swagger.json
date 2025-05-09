@@ -235,25 +235,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of account users",
-                  "items": {
-                    "type": "object",
-                    "properties": {
-                      "account_id": {
-                        "type": "integer",
-                        "description": "The ID of the account"
-                      },
-                      "user_id": {
-                        "type": "integer",
-                        "description": "The ID of the user"
-                      },
-                      "role": {
-                        "type": "string",
-                        "description": "whether user is an administrator or agent"
-                      }
-                    }
-                  }
+                  "$ref": "#/components/schemas/account_user"
                 }
               }
             }
@@ -289,21 +271,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "user_id",
-                  "role"
-                ],
-                "properties": {
-                  "user_id": {
-                    "type": "integer",
-                    "description": "The ID of the user"
-                  },
-                  "role": {
-                    "type": "string",
-                    "description": "whether user is an administrator or agent"
-                  }
-                }
+                "$ref": "#/components/schemas/account_user_create_update_payload"
               }
             }
           }
@@ -1122,6 +1090,9 @@
         "operationId": "list-all-contact-conversations",
         "summary": "List all conversations",
         "description": "List all conversations for the contact",
+        "security": [
+
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1169,6 +1140,9 @@
         "operationId": "get-single-conversation",
         "summary": "Get a single conversation",
         "description": "Retrieves the details of a specific conversation",
+        "security": [
+
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1222,6 +1196,9 @@
         "operationId": "resolve-conversation",
         "summary": "Resolve a conversation",
         "description": "Marks a conversation as resolved",
+        "security": [
+
+        ],
         "responses": {
           "200": {
             "description": "Conversation resolved successfully",
@@ -1275,6 +1252,9 @@
         "operationId": "toggle-typing-status",
         "summary": "Toggle typing status",
         "description": "Toggles the typing status in a conversation",
+        "security": [
+
+        ],
         "parameters": [
           {
             "name": "typing_status",
@@ -1332,6 +1312,9 @@
         "operationId": "update-last-seen",
         "summary": "Update last seen",
         "description": "Updates the last seen time of the contact in a conversation",
+        "security": [
+
+        ],
         "responses": {
           "200": {
             "description": "Last seen updated successfully"
@@ -1421,6 +1404,9 @@
         "operationId": "list-all-converation-messages",
         "summary": "List all messages",
         "description": "List all messages in the conversation",
+        "security": [
+
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1524,6 +1510,13 @@
         "operationId": "list-all-labels-of-a-contact",
         "summary": "List Labels",
         "description": "Lists all the labels of a contact",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1564,6 +1557,13 @@
         "operationId": "contact-add-labels",
         "summary": "Add Labels",
         "description": "Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1660,6 +1660,13 @@
         "operationId": "list-all-account-agent-bots",
         "summary": "List all AgentBots",
         "description": "List all agent bots available for the current account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1694,6 +1701,13 @@
         "operationId": "create-an-account-agent-bot",
         "summary": "Create an Agent Bot",
         "description": "Create an agent bot in the account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1744,6 +1758,13 @@
         "operationId": "get-details-of-a-single-account-agent-bot",
         "summary": "Get an agent bot details",
         "description": "Get the details of an agent bot in the account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -1784,6 +1805,13 @@
         "operationId": "update-an-account-agent-bot",
         "summary": "Update an agent bot",
         "description": "Update an agent bot's attributes",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -1824,6 +1852,13 @@
         "operationId": "delete-an-account-agent-bot",
         "summary": "Delete an AgentBot",
         "description": "Delete an AgentBot from the account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success"
@@ -2486,6 +2521,13 @@
         ],
         "operationId": "get-details-of-a-single-custom-attribute",
         "summary": "Get a custom attribute details",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get the details of a custom attribute in the account",
         "parameters": [
           {
@@ -2663,8 +2705,15 @@
           "Contacts"
         ],
         "operationId": "contactList",
-        "description": "Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number",
+        "description": "Listing all the resolved contacts with pagination (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "List Contacts",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -2706,6 +2755,13 @@
         "operationId": "contactCreate",
         "description": "Create a new Contact",
         "summary": "Create Contact",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -2716,7 +2772,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/contact_create"
+                "$ref": "#/components/schemas/contact_create_payload"
               }
             }
           }
@@ -2766,6 +2822,13 @@
         ],
         "operationId": "contactDetails",
         "summary": "Show Contact",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get a contact belonging to the account using ID",
         "responses": {
           "200": {
@@ -2806,13 +2869,20 @@
         ],
         "operationId": "contactUpdate",
         "summary": "Update Contact",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Update a contact belonging to the account using ID",
         "requestBody": {
           "required": true,
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/contact_update"
+                "$ref": "#/components/schemas/contact_update_payload"
               }
             }
           }
@@ -2856,6 +2926,13 @@
         ],
         "operationId": "contactDelete",
         "summary": "Delete Contact",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Delete a contact belonging to the account using ID",
         "responses": {
           "200": {
@@ -2917,6 +2994,13 @@
             "description": "ID of the contact"
           }
         ],
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -2959,6 +3043,13 @@
         "operationId": "contactSearch",
         "description": "Search the resolved contacts using a search key, currently supports email search (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number",
         "summary": "Search Contacts",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -3008,11 +3099,6 @@
       }
     },
     "/api/v1/accounts/{account_id}/contacts/filter": {
-      "parameters": [
-        {
-          "$ref": "#/components/parameters/account_id"
-        }
-      ],
       "post": {
         "tags": [
           "Contacts"
@@ -3025,14 +3111,12 @@
             "userApiKey": [
 
             ]
-          },
-          {
-            "agentBotApiKey": [
-
-            ]
           }
         ],
         "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
           {
             "name": "page",
             "in": "query",
@@ -3154,6 +3238,13 @@
             "required": true
           }
         ],
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3219,6 +3310,13 @@
         "operationId": "contactableInboxesGet",
         "description": "Get List of contactable Inboxes",
         "summary": "Get Contactable Inboxes",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -3837,6 +3935,13 @@
         "operationId": "conversationListMeta",
         "description": "Get open, unassigned and all Conversation counts",
         "summary": "Get Conversation Counts",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "status",
@@ -3943,6 +4048,13 @@
         "operationId": "conversationList",
         "description": "List all the conversations with pagination",
         "summary": "Conversations List",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "assignee_type",
@@ -4213,11 +4325,6 @@
             "userApiKey": [
 
             ]
-          },
-          {
-            "agentBotApiKey": [
-
-            ]
           }
         ],
         "parameters": [
@@ -4335,6 +4442,13 @@
         ],
         "operationId": "get-details-of-a-conversation",
         "summary": "Conversation Details",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get all details regarding a conversation with all messages in the conversation",
         "responses": {
           "200": {
@@ -4630,11 +4744,6 @@
             "userApiKey": [
 
             ]
-          },
-          {
-            "agentBotApiKey": [
-
-            ]
           }
         ],
         "requestBody": {
@@ -4797,6 +4906,13 @@
         ],
         "operationId": "list-all-labels-of-a-conversation",
         "summary": "List Labels",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Lists all the labels of a conversation",
         "responses": {
           "200": {
@@ -4837,6 +4953,13 @@
         ],
         "operationId": "conversation-add-labels",
         "summary": "Add Labels",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
         "requestBody": {
           "required": true,
@@ -4906,6 +5029,13 @@
         "operationId": "listAllInboxes",
         "summary": "List all inboxes",
         "description": "List all inboxes available in the current account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -4956,6 +5086,13 @@
         ],
         "operationId": "GetInbox",
         "summary": "Get an inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get an inbox available in the current account",
         "parameters": [
           {
@@ -5013,6 +5150,13 @@
         "operationId": "inboxCreation",
         "summary": "Create an inbox",
         "description": "You can create more than one website inbox in each account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -5111,6 +5255,13 @@
         ],
         "operationId": "updateInbox",
         "summary": "Update Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Add avatar and disable auto assignment for an inbox",
         "parameters": [
           {
@@ -5221,6 +5372,13 @@
         "operationId": "getInboxAgentBot",
         "summary": "Show Inbox Agent Bot",
         "description": "See if an agent bot is associated to the Inbox",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -5276,6 +5434,13 @@
         ],
         "operationId": "updateAgentBot",
         "summary": "Add or remove agent bot",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
         "parameters": [
           {
@@ -5678,6 +5843,13 @@
         ],
         "operationId": "list-all-messages",
         "summary": "Get messages",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "List all messages of a conversation",
         "responses": {
           "200": {
@@ -5747,7 +5919,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "$ref": "#/components/schemas/conversation_message_create"
+                "$ref": "#/components/schemas/conversation_message_create_payload"
               }
             }
           }
@@ -5811,6 +5983,13 @@
         ],
         "operationId": "delete-a-message",
         "summary": "Delete a message",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Delete a message and it's attachments from the conversation.",
         "responses": {
           "200": {
@@ -5851,6 +6030,13 @@
         ],
         "operationId": "get-details-of-all-integrations",
         "summary": "List all the Integrations",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get the details of all Integrations available for the account",
         "responses": {
           "200": {
@@ -5898,6 +6084,13 @@
         "operationId": "create-an-integration-hook",
         "summary": "Create an integration hook",
         "description": "Create an integration hook",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -5945,6 +6138,13 @@
         "operationId": "update-an-integrations-hook",
         "summary": "Update an Integration Hook",
         "description": "Update an Integration Hook",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -5993,6 +6193,13 @@
         "operationId": "delete-an-integration-hook",
         "summary": "Delete an Integration Hook",
         "description": "Delete an Integration Hook",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
@@ -6036,6 +6243,13 @@
         "operationId": "fetchProfile",
         "summary": "Fetch user profile",
         "description": "Get the user profile details",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6072,6 +6286,13 @@
         ],
         "operationId": "list-all-teams",
         "summary": "List all teams",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "List all teams available in the current account",
         "responses": {
           "200": {
@@ -6106,6 +6327,13 @@
         ],
         "operationId": "create-a-team",
         "summary": "Create a team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Create a team in the account",
         "parameters": [
           {
@@ -6161,6 +6389,13 @@
         ],
         "operationId": "get-details-of-a-single-team",
         "summary": "Get a team details",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get the details of a team in the account",
         "responses": {
           "200": {
@@ -6201,6 +6436,13 @@
         ],
         "operationId": "update-a-team",
         "summary": "Update a team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Update a team's attributes",
         "requestBody": {
           "required": true,
@@ -6241,6 +6483,13 @@
         ],
         "operationId": "delete-a-team",
         "summary": "Delete a team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Delete a team from the account",
         "responses": {
           "200": {
@@ -6603,6 +6852,13 @@
         "operationId": "list-all-filters",
         "summary": "List all custom filters",
         "description": "List all custom filters in a category of a user",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6640,6 +6896,13 @@
         "parameters": [
           {
             "$ref": "#/components/parameters/account_id"
+          }
+        ],
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
           }
         ],
         "requestBody": {
@@ -6692,6 +6955,13 @@
         "operationId": "get-details-of-a-single-custom-filter",
         "summary": "Get a custom filter details",
         "description": "Get the details of a custom filter in the account",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -6731,6 +7001,13 @@
         ],
         "operationId": "update-a-custom-filter",
         "summary": "Update a custom filter",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Update a custom filter's attributes",
         "requestBody": {
           "required": true,
@@ -6771,6 +7048,13 @@
         ],
         "operationId": "delete-a-custom-filter",
         "summary": "Delete a custom filter",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Delete a custom filter from the account",
         "responses": {
           "200": {
@@ -6811,6 +7095,13 @@
         ],
         "operationId": "list-all-webhooks",
         "summary": "List all webhooks",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "List all webhooks in the account",
         "responses": {
           "200": {
@@ -6845,6 +7136,13 @@
         ],
         "operationId": "create-a-webhook",
         "summary": "Add a webhook",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Add a webhook subscription to the account",
         "parameters": [
           {
@@ -6900,6 +7198,13 @@
         ],
         "operationId": "update-a-webhook",
         "summary": "Update a webhook object",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Update a webhook object in the account",
         "parameters": [
           {
@@ -6945,6 +7250,13 @@
         ],
         "operationId": "delete-a-webhook",
         "summary": "Delete a webhook",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Delete a webhook from the account",
         "responses": {
           "200": {
@@ -7015,6 +7327,13 @@
         ],
         "operationId": "list-all-conversation-statistics",
         "summary": "Get Account reports",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get Account reports for a specific type, metric and date range",
         "responses": {
           "200": {
@@ -7101,6 +7420,13 @@
         ],
         "operationId": "list-all-conversation-statistics-summary",
         "summary": "Get Account reports summary",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get Account reports summary for a specific type and date range",
         "responses": {
           "200": {
@@ -7160,6 +7486,13 @@
         ],
         "operationId": "get-account-conversation-metrics",
         "summary": "Account Conversation Metrics",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get conversation metrics for Account",
         "responses": {
           "200": {
@@ -7239,6 +7572,13 @@
         ],
         "operationId": "get-agent-conversation-metrics",
         "summary": "Agent Conversation Metrics",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          }
+        ],
         "description": "Get conversation metrics for Agent",
         "responses": {
           "200": {
@@ -8042,6 +8382,27 @@
           }
         }
       },
+      "account_user": {
+        "type": "array",
+        "description": "Array of account users",
+        "items": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "integer",
+              "description": "The ID of the account"
+            },
+            "user_id": {
+              "type": "integer",
+              "description": "The ID of the user"
+            },
+            "role": {
+              "type": "string",
+              "description": "whether user is an administrator or agent"
+            }
+          }
+        }
+      },
       "platform_account": {
         "type": "object",
         "properties": {
@@ -8321,7 +8682,61 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "Name of the account"
+            "description": "Name of the account",
+            "example": "My Account"
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale of the account",
+            "example": "en"
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the account",
+            "example": "example.com"
+          },
+          "support_email": {
+            "type": "string",
+            "description": "The support email of the account",
+            "example": "support@example.com"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended"
+            ],
+            "description": "The status of the account",
+            "example": "active"
+          },
+          "limits": {
+            "type": "object",
+            "description": "The limits of the account",
+            "example": {
+            }
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The custom attributes of the account",
+            "example": {
+            }
+          }
+        }
+      },
+      "account_user_create_update_payload": {
+        "type": "object",
+        "required": [
+          "user_id",
+          "role"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "description": "The ID of the user"
+          },
+          "role": {
+            "type": "string",
+            "description": "whether user is an administrator or agent"
           }
         }
       },
@@ -8408,7 +8823,7 @@
           }
         }
       },
-      "contact_create": {
+      "contact_create_payload": {
         "type": "object",
         "required": [
           "inbox_id"
@@ -8448,7 +8863,7 @@
           }
         }
       },
-      "contact_update": {
+      "contact_update_payload": {
         "type": "object",
         "properties": {
           "name": {
@@ -8482,7 +8897,7 @@
           }
         }
       },
-      "conversation_message_create": {
+      "conversation_message_create_payload": {
         "type": "object",
         "required": [
           "content"

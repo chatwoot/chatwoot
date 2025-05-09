@@ -12,6 +12,8 @@ post:
         type: number
       description: ID of the contact
       required: true
+  security:
+    - userApiKey: []
   requestBody:
     required: true
     content:

@@ -3,6 +3,7 @@ tags:
 operationId: list-all-converation-messages
 summary: List all messages
 description: List all messages in the conversation
+security: []
 responses:
   '200':
     description: Success

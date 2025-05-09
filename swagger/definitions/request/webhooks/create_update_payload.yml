@@ -7,12 +7,13 @@ properties:
     type: array
     items:
       type: string
-      enum: [
-        "conversation_created",
-        "conversation_status_changed",
-        "conversation_updated",
-        "message_created",
-        "message_updated",
-        "webwidget_triggered"
-      ]
+      enum:
+        [
+          'conversation_created',
+          'conversation_status_changed',
+          'conversation_updated',
+          'message_created',
+          'message_updated',
+          'webwidget_triggered',
+        ]
     description: The events you want to subscribe to.

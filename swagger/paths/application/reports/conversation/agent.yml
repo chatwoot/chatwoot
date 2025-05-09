@@ -2,6 +2,8 @@ tags:
   - Reports
 operationId: get-agent-conversation-metrics
 summary: Agent Conversation Metrics
+security:
+  - userApiKey: []
 description: Get conversation metrics for Agent
 responses:
   '200':

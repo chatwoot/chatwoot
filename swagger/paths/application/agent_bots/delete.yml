@@ -3,6 +3,8 @@ tags:
 operationId: delete-an-account-agent-bot
 summary: Delete an AgentBot
 description: Delete an AgentBot from the account
+security:
+  - userApiKey: []
 responses:
   200:
     description: Success

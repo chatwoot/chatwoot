@@ -6,7 +6,6 @@ post:
   description: Create an attachment message.
   security:
     - userApiKey: []
-    - agentBotApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/conversation_id'

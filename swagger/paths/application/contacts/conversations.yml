@@ -20,6 +20,8 @@ get:
       schema:
         type: number
       description: ID of the contact
+  security:
+    - userApiKey: []
   responses:
     '200':
       description: Success

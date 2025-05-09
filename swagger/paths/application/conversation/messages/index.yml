@@ -2,6 +2,8 @@ tags:
   - Messages
 operationId: list-all-messages
 summary: Get messages
+security:
+  - userApiKey: []
 description: List all messages of a conversation
 responses:
   '200':

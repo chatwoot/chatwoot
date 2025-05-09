@@ -2,6 +2,8 @@ tags:
   - Reports
 operationId: list-all-conversation-statistics
 summary: Get Account reports
+security:
+  - userApiKey: []
 description: Get Account reports for a specific type, metric and date range
 responses:
   '200':

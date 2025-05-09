@@ -3,6 +3,7 @@ tags:
 operationId: list-all-contact-conversations
 summary: List all conversations
 description: List all conversations for the contact
+security: []
 responses:
   '200':
     description: Success

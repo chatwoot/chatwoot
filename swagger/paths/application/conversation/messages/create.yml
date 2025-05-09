@@ -11,7 +11,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '#/components/schemas/conversation_message_create'
+        $ref: '#/components/schemas/conversation_message_create_payload'
 responses:
   '200':
     description: Success

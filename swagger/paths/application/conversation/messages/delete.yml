@@ -2,6 +2,8 @@ tags:
   - Messages
 operationId: delete-a-message
 summary: Delete a message
+security:
+  - userApiKey: []
 description: Delete a message and it's attachments from the conversation.
 responses:
   '200':

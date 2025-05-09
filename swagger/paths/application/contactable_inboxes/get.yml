@@ -4,6 +4,8 @@ get:
   operationId: contactableInboxesGet
   description: Get List of contactable Inboxes
   summary: Get Contactable Inboxes
+  security:
+    - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
     - name: id

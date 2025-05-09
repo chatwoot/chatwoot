@@ -2,6 +2,8 @@ tags:
   - Conversations
 operationId: get-details-of-a-conversation
 summary: Conversation Details
+security:
+  - userApiKey: []
 description: Get all details regarding a conversation with all messages in the conversation
 responses:
   '200':

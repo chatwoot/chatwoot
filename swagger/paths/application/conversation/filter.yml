@@ -5,7 +5,6 @@ description: Filter conversations with custom filter options and pagination
 summary: Conversations Filter
 security:
   - userApiKey: []
-  - agentBotApiKey: []
 parameters:
   - name: page
     in: query

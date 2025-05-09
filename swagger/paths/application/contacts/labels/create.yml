@@ -3,6 +3,8 @@ tags:
 operationId: contact-add-labels
 summary: Add Labels
 description: Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.
+security:
+  - userApiKey: []
 requestBody:
   required: true
   content:

@@ -1,11 +1,11 @@
-##  ---------- ERRORS ------------- ##
+## ---------- ERRORS -------------- ##
 ## -------------------------------- ##
 bad_request_error:
   $ref: ./error/bad_request.yml
 request_error:
   $ref: ./error/request.yml
 
-##  ---------- RESOURCE ------------- ##
+## ---------- RESOURCE ------------ ##
 ## -------------------------------- ##
 
 generic_id:
@@ -46,6 +46,8 @@ webhook:
   $ref: ./resource/webhook.yml
 account:
   $ref: ./resource/account.yml
+account_user:
+  $ref: ./resource/account_user.yml
 platform_account:
   $ref: ./resource/platform_account.yml
 team:
@@ -65,11 +67,14 @@ public_message:
 public_inbox:
   $ref: ./resource/public/inbox.yml
 
-##  ---------- REQUEST------------- ##
+## ---------- REQUEST ------------- ##
 ## -------------------------------- ##
 
 account_create_update_payload:
   $ref: ./request/account/create_update_payload.yml
+
+account_user_create_update_payload:
+  $ref: ./request/account_user/create_update_payload.yml
 
 agent_bot_create_update_payload:
   $ref: ./request/agent_bot/create_update_payload.yml
@@ -83,21 +88,21 @@ canned_response_create_update_payload:
 custom_attribute_create_update_payload:
   $ref: ./request/custom_attribute/create_update_payload.yml
 
-## contact
-contact_create:
-  $ref: ./request/contact/create.yml
-contact_update:
-  $ref: ./request/contact/update.yml
+## Contact
+contact_create_payload:
+  $ref: ./request/contact/create_payload.yml
+contact_update_payload:
+  $ref: ./request/contact/update_payload.yml
 
-## conversation
-conversation_message_create:
-  $ref: ./request/conversation/create_message.yml
+## Conversation
+conversation_message_create_payload:
+  $ref: ./request/conversation/create_message_payload.yml
 
-# Team request Payload
+# Team
 team_create_update_payload:
   $ref: ./request/team/create_update_payload.yml
 
-# Custom Filter request Payload
+# Custom Filter
 custom_filter_create_update_payload:
   $ref: ./request/custom_filter/create_update_payload.yml
 
@@ -134,10 +139,10 @@ public_message_update_payload:
 public_conversation_create_payload:
   $ref: ./request/public/conversation/create_payload.yml
 
-##  ---------- RESPONSE ------------- ##
+## ---------- RESPONSE ------------ ##
 ## -------------------------------- ##
 
-## contact
+## Contact
 extended_contact:
   allOf:
     - $ref: '#/components/schemas/contact'
@@ -164,7 +169,7 @@ contact_conversations:
 contact_labels:
   $ref: ./resource/extension/contact/labels.yml
 
-## conversation
+## Conversation
 conversation_list:
   $ref: ./resource/extension/conversation/list.yml
 conversation_show:
@@ -174,7 +179,7 @@ conversation_status_toggle:
 conversation_labels:
   $ref: ./resource/extension/conversation/labels.yml
 
-## report
+## Report
 account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:

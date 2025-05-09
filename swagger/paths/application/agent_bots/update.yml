@@ -3,6 +3,8 @@ tags:
 operationId: update-an-account-agent-bot
 summary: Update an agent bot
 description: Update an agent bot's attributes
+security:
+  - userApiKey: []
 requestBody:
   required: true
   content:

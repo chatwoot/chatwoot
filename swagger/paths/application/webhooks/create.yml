@@ -2,6 +2,8 @@ tags:
   - Webhooks
 operationId: create-a-webhook
 summary: Add a webhook
+security:
+  - userApiKey: []
 description: Add a webhook subscription to the account
 parameters:
   - $ref: '#/components/parameters/account_id'

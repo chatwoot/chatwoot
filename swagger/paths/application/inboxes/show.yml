@@ -3,6 +3,8 @@ get:
     - Inboxes
   operationId: GetInbox
   summary: Get an inbox
+  security:
+    - userApiKey: []
   description: Get an inbox available in the current account
   parameters:
     - $ref: '#/components/parameters/account_id'

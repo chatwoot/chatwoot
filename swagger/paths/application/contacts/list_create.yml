@@ -2,8 +2,10 @@ get:
   tags:
     - Contacts
   operationId: contactList
-  description: Listing all the resolved contacts with pagination (Page size = 15) . Resolved contacts are the ones with a value for identifier, email or phone number
+  description: Listing all the resolved contacts with pagination (Page size = 15). Resolved contacts are the ones with a value for identifier, email or phone number
   summary: List Contacts
+  security:
+    - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/contact_sort_param'
@@ -28,6 +30,8 @@ post:
   operationId: contactCreate
   description: Create a new Contact
   summary: Create Contact
+  security:
+    - userApiKey: []
   parameters:
     - $ref: '#/components/parameters/account_id'
   requestBody:
@@ -35,7 +39,7 @@ post:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/contact_create'
+          $ref: '#/components/schemas/contact_create_payload'
   responses:
     '200':
       description: Success

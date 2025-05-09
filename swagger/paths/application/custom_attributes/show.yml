@@ -2,6 +2,8 @@ tags:
   - Custom Attributes
 operationId: get-details-of-a-single-custom-attribute
 summary: Get a custom attribute details
+security:
+  - userApiKey: []
 description: Get the details of a custom attribute in the account
 parameters:
   - $ref: '#/components/parameters/account_id'

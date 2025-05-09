@@ -101,7 +101,7 @@
   get:
     $ref: ./public/inboxes/conversations/index.yml
 
-/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}: 
+/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}:
   parameters:
     - $ref: '#/components/parameters/public_inbox_identifier'
     - $ref: '#/components/parameters/public_contact_identifier'
@@ -259,10 +259,7 @@
 /api/v1/accounts/{account_id}/contacts/search:
   $ref: ./application/contacts/search.yml
 /api/v1/accounts/{account_id}/contacts/filter:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-  post:
-    $ref: ./application/contacts/filter.yml
+  $ref: ./application/contacts/filter.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contact_inboxes:
   $ref: ./application/contact_inboxes/create.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:

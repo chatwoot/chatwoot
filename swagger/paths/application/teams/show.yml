@@ -2,6 +2,8 @@ tags:
   - Teams
 operationId: get-details-of-a-single-team
 summary: Get a team details
+security:
+  - userApiKey: []
 description: Get the details of a team in the account
 responses:
   '200':

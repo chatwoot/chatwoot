@@ -2,6 +2,8 @@ tags:
   - Custom Filters
 operationId: update-a-custom-filter
 summary: Update a custom filter
+security:
+  - userApiKey: []
 description: Update a custom filter's attributes
 requestBody:
   required: true

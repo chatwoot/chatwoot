@@ -2,6 +2,8 @@ tags:
   - Integrations
 operationId: get-details-of-all-integrations
 summary: List all the Integrations
+security:
+  - userApiKey: []
 description: Get the details of all Integrations available for the account
 responses:
   '200':

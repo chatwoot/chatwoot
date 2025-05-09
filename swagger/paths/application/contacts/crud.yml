@@ -12,6 +12,8 @@ get:
     - Contacts
   operationId: contactDetails
   summary: Show Contact
+  security:
+    - userApiKey: []
   description: Get a contact belonging to the account using ID
   responses:
     '200':
@@ -38,13 +40,15 @@ put:
     - Contacts
   operationId: contactUpdate
   summary: Update Contact
+  security:
+    - userApiKey: []
   description: Update a contact belonging to the account using ID
   requestBody:
     required: true
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/contact_update'
+          $ref: '#/components/schemas/contact_update_payload'
   responses:
     '204':
       description: Success
@@ -70,6 +74,8 @@ delete:
     - Contacts
   operationId: contactDelete
   summary: Delete Contact
+  security:
+    - userApiKey: []
   description: Delete a contact belonging to the account using ID
   responses:
     '200':

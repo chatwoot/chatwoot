@@ -7,6 +7,8 @@ get:
   operationId: conversationList
   description: List all the conversations with pagination
   summary: Conversations List
+  security:
+    - userApiKey: []
   parameters:
     - name: assignee_type
       in: query

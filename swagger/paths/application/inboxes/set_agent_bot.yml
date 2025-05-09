@@ -3,6 +3,8 @@ post:
     - Inboxes
   operationId: updateAgentBot
   summary: Add or remove agent bot
+  security:
+    - userApiKey: []
   description: To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null
   parameters:
     - $ref: '#/components/parameters/account_id'

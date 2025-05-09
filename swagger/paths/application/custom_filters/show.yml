@@ -3,6 +3,8 @@ tags:
 operationId: get-details-of-a-single-custom-filter
 summary: Get a custom filter details
 description: Get the details of a custom filter in the account
+security:
+  - userApiKey: []
 responses:
   '200':
     description: Success

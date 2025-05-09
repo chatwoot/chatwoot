@@ -22,4 +22,3 @@ properties:
   custom_attributes:
     type: object
     description: An object where you can store custom attributes for contact. example {"type":"customer", "age":30}
-

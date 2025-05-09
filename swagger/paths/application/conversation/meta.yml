@@ -7,6 +7,8 @@ get:
   operationId: conversationListMeta
   description: Get open, unassigned and all Conversation counts
   summary: Get Conversation Counts
+  security:
+    - userApiKey: []
   parameters:
     - name: status
       in: query

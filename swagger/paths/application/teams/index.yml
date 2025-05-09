@@ -2,6 +2,8 @@ tags:
   - Teams
 operationId: list-all-teams
 summary: List all teams
+security:
+  - userApiKey: []
 description: List all teams available in the current account
 responses:
   '200':
