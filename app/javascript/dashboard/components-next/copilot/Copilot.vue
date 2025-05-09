@@ -10,6 +10,7 @@ import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import Icon from '../icon/Icon.vue';
+import Button from '../button/Button.vue';
 
 const props = defineProps({
   supportAgent: {
@@ -38,7 +39,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
+const emit = defineEmits(['sendMessage', 'reset', 'setAssistant', 'close']);
 
 const { t } = useI18n();
 
@@ -93,6 +94,23 @@ watch(
 
 <template>
   <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
+    <div
+      class="flex items-center justify-between px-4 py-2 border-b border-n-weak"
+    >
+      <div class="flex items-center justify-between gap-2 flex-1">
+        <span class="font-medium">{{ $t('CAPTAIN.COPILOT.TITLE') }}</span>
+        <div class="flex items-center">
+          <Button
+            v-if="messages.length"
+            icon="i-lucide-refresh-ccw"
+            ghost
+            sm
+            @click="handleReset"
+          />
+          <Button icon="i-lucide-x" ghost sm @click="$emit('close')" />
+        </div>
+      </div>
+    </div>
     <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
@@ -133,20 +151,12 @@ watch(
     <div class="mx-3 mt-px mb-2">
       <div class="flex items-center gap-2 justify-between w-full mb-1">
         <ToggleCopilotAssistant
-          v-if="assistants.length"
+          v-if="assistants.length > 1"
           :assistants="assistants"
           :active-assistant="activeAssistant"
           @set-assistant="$event => emit('setAssistant', $event)"
         />
         <div v-else />
-        <button
-          v-if="messages.length"
-          class="text-xs flex items-center gap-1 hover:underline"
-          @click="handleReset"
-        >
-          <i class="i-lucide-refresh-ccw" />
-          <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
-        </button>
       </div>
       <CopilotInput class="mb-1 w-full" @send="sendMessage" />
     </div>

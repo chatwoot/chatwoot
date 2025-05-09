@@ -108,15 +108,17 @@ watchEffect(() => {
 </script>
 
 <template>
-  <Copilot
-    :messages="messages"
-    :support-agent="currentUser"
-    :is-captain-typing="isCaptainTyping"
-    :conversation-inbox-type="conversationInboxType"
-    :assistants="assistants"
-    :active-assistant="activeAssistant"
-    @set-assistant="setAssistant"
-    @send-message="sendMessage"
-    @reset="handleReset"
-  />
+  <div class="border m-1 rounded-lg border-n-weak min-w-[280px]">
+    <Copilot
+      :messages="messages"
+      :support-agent="currentUser"
+      :is-captain-typing="isCaptainTyping"
+      :conversation-inbox-type="conversationInboxType"
+      :assistants="assistants"
+      :active-assistant="activeAssistant"
+      @set-assistant="setAssistant"
+      @send-message="sendMessage"
+      @reset="handleReset"
+    />
+  </div>
 </template>
