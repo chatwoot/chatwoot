@@ -164,10 +164,6 @@ export default {
       this.showMergeModal = true;
     },
   },
-  mounted() {
-    console.log("Call Status: ", this.activeCall)
-    console.log("Contact Status: ", this.contact.availability_status)
-  }
 };
 </script>
 

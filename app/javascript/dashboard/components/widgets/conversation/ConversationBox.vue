@@ -98,8 +98,6 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
-    console.log('Registering listener');
-
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
   unmounted() {
