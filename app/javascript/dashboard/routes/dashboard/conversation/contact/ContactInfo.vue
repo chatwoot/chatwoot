@@ -107,7 +107,6 @@ export default {
       );
     },
     startCall() {
-      console.log("Emmiting start")
       emitter.emit(BUS_EVENTS.START_CALL, true);
     },
     toggleDeleteModal() {
@@ -164,10 +163,6 @@ export default {
       this.showMergeModal = true;
     },
   },
-  mounted() {
-    console.log("Call Status: ", this.activeCall)
-    console.log("Contact Status: ", this.contact.availability_status)
-  }
 };
 </script>
 

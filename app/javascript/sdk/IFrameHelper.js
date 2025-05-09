@@ -27,6 +27,7 @@ import { CHATWOOT_ERROR, CHATWOOT_READY } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
 import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
+  playSound,
   getAlertAudio,
   initOnEvents,
 } from 'shared/helpers/AudioNotificationHelper';
@@ -135,9 +136,28 @@ export const IFrameHelper = {
       iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
-  setupAudioListeners: () => {
+  setupAudioListeners: e => {
+    console.log('The event', e);
     const { baseUrl = '' } = window.$chatwoot;
-    getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
+    getAlertAudio(baseUrl, {
+      type: 'widget',
+      alertTone: 'ding',
+      loop: false,
+    }).then(() =>
+      initOnEvents.forEach(event => {
+        document.removeEventListener(
+          event,
+          IFrameHelper.setupAudioListeners,
+          false
+        );
+      })
+    );
+
+    getAlertAudio(baseUrl, {
+      type: 'widget',
+      alertTone: 'ringtone',
+      loop: true,
+    }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
@@ -205,7 +225,7 @@ export const IFrameHelper = {
     },
 
     openBubble: () => {
-      let bubbleState = {}
+      let bubbleState = {};
       bubbleState.toggleValue = true;
 
       onBubbleClick(bubbleState);
@@ -295,7 +315,22 @@ export const IFrameHelper = {
     },
 
     playAudio: () => {
-      window.playAudioAlert();
+      if (window.ding) window.ding().start();
+    },
+
+    playRingtone: () => {
+      if (window.ringtone) {
+        window.ringtoneSource = window.ringtone();
+        window.ringtoneSource.start();
+      }
+    },
+
+    stopRingtone: () => {
+      if (window.ringtoneSource) {
+        window.ringtoneSource.stop(0);
+        window.ringtoneSource.disconnect();
+        window.ringtoneSource = null;
+      }
     },
   },
   pushEvent: eventName => {
