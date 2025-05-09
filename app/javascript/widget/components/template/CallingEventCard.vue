@@ -23,13 +23,11 @@ export default {
       const date = new Date(this.callStartTime);
       const now = new Date();
 
-      const isToday =
-        date.toDateString() === now.toDateString();
+      const isToday = date.toDateString() === now.toDateString();
 
       const yesterday = new Date();
       yesterday.setDate(now.getDate() - 1);
-      const isYesterday =
-        date.toDateString() === yesterday.toDateString();
+      const isYesterday = date.toDateString() === yesterday.toDateString();
 
       const timePart = date.toLocaleTimeString([], {
         hour: '2-digit',
@@ -75,17 +73,19 @@ export default {
 };
 </script>
 
-  <template>
-  <div
-    :class="[
-      'card shadow-md rounded-lg p-2 flex flex-col justify-center items-center space-y-1',
-      backgroundClass
-    ]"
-  >
-    <span class="text-base font-bold text-gray-800">
-      {{ callStatus[0].toUpperCase() +  callStatus.slice(1) }}
-    </span>
-    <span class="text-xs text-gray-500">
+<template>
+  <div class="space-x-2">
+    <div
+      :class="[
+        'inline-flex items-center space-x-2 rounded-full px-4 py-1 text-sm shadow-sm',
+        backgroundClass,
+      ]"
+    >
+      <span class="font-semibold text-gray-800">
+        {{ callStatus[0].toUpperCase() + callStatus.slice(1) }}
+      </span>
+    </div>
+    <span class="text-gray-500 text-xs">
       {{ formattedTime }}
     </span>
   </div>
