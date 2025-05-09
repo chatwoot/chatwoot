@@ -19,6 +19,7 @@ import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.v
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
 import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
 import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
+import CopilotToggleButton from 'dashboard/components/copilot/CopilotToggleButton.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -210,6 +211,7 @@ onUnmounted(() => {
       />
       <template v-if="!showUpgradePage">
         <router-view />
+        <CopilotToggleButton />
         <CopilotContainer />
         <CommandBar />
         <NotificationPanel

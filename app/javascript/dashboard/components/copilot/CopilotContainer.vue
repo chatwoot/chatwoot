@@ -23,6 +23,9 @@ const assistants = useMapGetter('captainAssistants/getRecords');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const { uiSettings, updateUISettings } = useUISettings();
 
+const getUIState = useMapGetter('uiState/getUIState');
+const isSidebarOpen = computed(() => getUIState.value('isCopilotSidebarOpen'));
+
 const messages = ref([]);
 const isCaptainTyping = ref(false);
 const selectedAssistantId = ref(null);
@@ -99,6 +102,10 @@ onMounted(() => {
   store.dispatch('captainAssistants/get');
 });
 
+const handleClose = () => {
+  store.dispatch('uiState/set', 'isCopilotSidebarOpen', false);
+};
+
 watchEffect(() => {
   if (props.conversationId) {
     store.dispatch('getInboxCaptainAssistantById', props.conversationId);
@@ -108,7 +115,7 @@ watchEffect(() => {
 </script>
 
 <template>
-  <div class="border-l border-n-weak min-w-[17.5rem]">
+  <div v-if="isSidebarOpen" class="border-l border-n-weak min-w-[17.5rem]">
     <Copilot
       :messages="messages"
       :support-agent="currentUser"
@@ -119,6 +126,8 @@ watchEffect(() => {
       @set-assistant="setAssistant"
       @send-message="sendMessage"
       @reset="handleReset"
+      @close="handleClose"
     />
   </div>
+  <div v-else class="hidden" />
 </template>
