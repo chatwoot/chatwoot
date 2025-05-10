@@ -95,6 +95,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def self_message?
+    # TODO: Handle denormalized Brazilian phone numbers
     phone_number_from_jid == inbox.channel.phone_number.delete('+')
   end
 
