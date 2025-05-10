@@ -195,14 +195,47 @@ class Twilio::VoiceController < ActionController::Base
           ).process_status_update('in-progress', nil, true)
           
           # IMPORTANT: Use the provided conference_name if available, otherwise use the one from conversation
+          # Make sure conversation has display_id in all cases - we'll need it for validation
+          conversation.reload if conversation.display_id.blank?
+          Rails.logger.info("📝 Conversation details - ID: #{conversation.id}, Display ID: #{conversation.display_id}")
+
           if conference_name_param.present?
-            # Use the provided conference name
+            # Use the provided conference name from URL parameter
             conference_name = conference_name_param
-            Rails.logger.info("🚨 USING PROVIDED CONFERENCE NAME: '#{conference_name}'")
+            Rails.logger.info("🔍 USING PROVIDED CONFERENCE NAME FROM PARAM: '#{conference_name}'")
+
+            # Validate format - it should be like 'conf_account_123_conv_456'
+            if !conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+              Rails.logger.warn("⚠️ INCOMING PARAM HAS INVALID CONFERENCE NAME FORMAT: '#{conference_name}'")
+
+              # Generate proper conference name
+              fixed_conference_name = "conf_account_#{inbox.account_id}_conv_#{conversation.display_id}"
+              Rails.logger.info("🔧 CORRECTING CONFERENCE NAME TO: '#{fixed_conference_name}'")
+              conference_name = fixed_conference_name
+            end
           else
-            # Use the conference name from the conversation
-            conference_name = conversation.additional_attributes['conference_sid']
-            Rails.logger.info("🚨 USING EXISTING CONFERENCE NAME: '#{conference_name}'")
+            # No parameter provided, check conversation data
+            conference_name = conversation.additional_attributes['conference_sid'] ||
+                             conversation.additional_attributes['conference_name']
+
+            Rails.logger.info("🔍 CHECKING CONVERSATION FOR CONFERENCE NAME: '#{conference_name}'")
+
+            # If still not found or invalid format, generate it
+            if conference_name.blank? || !conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+              conference_name = "conf_account_#{inbox.account_id}_conv_#{conversation.display_id}"
+              Rails.logger.info("🔧 GENERATING NEW CONFERENCE NAME: '#{conference_name}'")
+            else
+              Rails.logger.info("✅ USING EXISTING CONFERENCE NAME: '#{conference_name}'")
+            end
+          end
+
+          # Double check the conference name format one last time
+          if !conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+            Rails.logger.error("‼️ CRITICAL: Conference name still has invalid format: '#{conference_name}'")
+
+            # Force correct format as last resort
+            conference_name = "conf_account_#{inbox.account_id}_conv_#{conversation.display_id}"
+            Rails.logger.info("🚨 EMERGENCY FIX: Setting conference name to: '#{conference_name}'")
           end
           
           # Store the conference name and other required attributes

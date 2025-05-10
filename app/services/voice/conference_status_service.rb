@@ -168,7 +168,7 @@ module Voice
       # Create the data payload
       broadcast_data = {
         call_sid: info[:call_sid],
-        conversation_id: conversation.id,
+        conversation_id: conversation.display_id,
         inbox_id: conversation.inbox_id,
         inbox_name: conversation.inbox.name,
         inbox_avatar_url: inbox.avatar_url, # Include inbox avatar

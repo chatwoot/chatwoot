@@ -12,36 +12,41 @@ const getters = {
 
 const actions = {
   // This action will handle both message updates and direct call status changes
+  /**
+   * Handles all call status changes from ActionCable.
+   * Closes the widget and clears state for terminal statuses.
+   * Only this action should manipulate widget visibility for call end.
+   */
   handleCallStatusChanged({ state, dispatch }, { callSid, status }) {
-    // Check if this is the active call
+    // Debug logging for conference call widget close issue
+    // eslint-disable-next-line no-console
+    console.log('[CALL DEBUG] handleCallStatusChanged invoked', { callSid, status, activeCall: state.activeCall });
     const isActiveCall = callSid === state.activeCall?.callSid;
-    const isOutboundCall = state.activeCall?.isOutbound === true;
-    
-    // If this is the active call and it has ended or was missed, close the widget
-    if (isActiveCall && 
-        (status === 'ended' || status === 'missed' || status === 'completed')) {
-      console.log('Call status changed to:', status, 'isOutbound:', isOutboundCall);
-      
-      // Clear the active call
+    const terminalStatuses = [
+      'ended',
+      'missed',
+      'completed',
+      'failed',
+      'busy',
+      'no_answer',
+    ];
+    if (isActiveCall && terminalStatuses.includes(status)) {
+    // eslint-disable-next-line no-console
+    console.log('[CALL DEBUG] Terminal status match. Closing widget.', { callSid, status, activeCall: state.activeCall });
+      // Clean up active call state
       dispatch('clearActiveCall');
-      
-      // Force update app state to hide widget
+      // Hide floating widget reactively
       if (window.app && window.app.$data) {
         window.app.$data.showCallWidget = false;
       }
-      
-      // Emit event to notify components
+      // Emit event for any listeners
       if (window.app) {
         window.app.$emit('callEnded');
       }
-      
-      // For outbound calls, also clear any pending state
-      if (isOutboundCall) {
-        // Additional cleanup for outbound calls
-        if (window.globalCallStatus) {
-          window.globalCallStatus.active = false;
-          window.globalCallStatus.incoming = false;
-        }
+      // Outbound call cleanup
+      if (state.activeCall?.isOutbound && window.globalCallStatus) {
+        window.globalCallStatus.active = false;
+        window.globalCallStatus.incoming = false;
       }
     }
   },

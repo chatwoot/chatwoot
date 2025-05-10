@@ -34,6 +34,29 @@ module Voice
 
       # Save conversation changes
       conversation.save!
+
+      # Ensure ActionCable broadcast for terminal call states (for debugging and reliability)
+      if %w[conference-end participant-leave].include?(event)
+        current_status = conversation.additional_attributes['call_status']
+        if %w[completed ended missed busy failed no-answer canceled].include?(current_status)
+          # Defensive: broadcast call_status_changed event to ensure frontend is notified
+          ui_status = Voice::CallStatus::Manager.new(conversation: conversation, call_sid: call_sid, provider: :twilio).normalized_ui_status(current_status)
+          Rails.logger.info("📢 [ConferenceManagerService] Forcing ActionCable broadcast: call_status_changed (call_sid=#{call_sid}, status=#{ui_status}) for conversation_id=#{conversation.display_id}")
+          ActionCable.server.broadcast(
+            "account_#{conversation.account_id}",
+            {
+              event_name: 'call_status_changed',
+              data: {
+                call_sid: call_sid,
+                status: ui_status,
+                conversation_id: conversation.display_id, 
+                inbox_id: conversation.inbox_id,
+                timestamp: Time.now.to_i
+              }
+            }
+          )
+        end
+      end
     end
 
     private
@@ -269,6 +292,22 @@ module Voice
 
       Rails.logger.info('📞 MARKING CALL AS COMPLETED (all participants left)')
       call_status_manager.process_status_update('completed', duration, false, 'Call ended')
+      # Defensive: Immediately broadcast ActionCable event for reliability
+      ui_status = call_status_manager.normalized_ui_status('completed')
+      Rails.logger.info("📢 [ConferenceManagerService] Broadcasting call_status_changed (call_sid=#{call_sid}, status=#{ui_status}) after all participants left for conversation_id=#{conversation.display_id}")
+      ActionCable.server.broadcast(
+        "account_#{conversation.account_id}",
+        {
+          event_name: 'call_status_changed',
+          data: {
+            call_sid: call_sid,
+            status: ui_status,
+            conversation_id: conversation.display_id, 
+            inbox_id: conversation.inbox_id,
+            timestamp: Time.now.to_i
+          }
+        }
+      )
     end
 
     # Participant tracking methods
@@ -309,7 +348,22 @@ module Voice
       !participants.values.any? { |p| p['status'] == 'joined' }
     end
 
-    # Activity messages are now handled by the call_status_manager through the
-    # process_status_update method, which takes a custom_message parameter.
+    def broadcast_call_status_changed
+      ui_status = call_status_manager.normalized_ui_status('completed')
+      Rails.logger.info("📢 [ConferenceManagerService] Broadcasting call_status_changed (call_sid=#{call_sid}, status=#{ui_status}) after all participants left for conversation_id=#{conversation.display_id}")
+      ActionCable.server.broadcast(
+        "account_#{conversation.account_id}",
+        {
+          event_name: 'call_status_changed',
+          data: {
+            call_sid: call_sid,
+            status: ui_status,
+            conversation_id: conversation.display_id, 
+            inbox_id: conversation.inbox_id,
+            timestamp: Time.now.to_i
+          }
+        }
+      )
+    end
   end
 end

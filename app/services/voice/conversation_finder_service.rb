@@ -58,6 +58,9 @@ module Voice
         additional_attributes: initial_attributes
       )
 
+      # Need to reload conversation to get the display_id populated by the database
+      conversation.reload
+
       # Add conference_sid to attributes
       conference_name = generate_conference_name(conversation)
       conversation.additional_attributes['conference_sid'] = conference_name

@@ -71,7 +71,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
           data: {
             call_sid: call_sid,
             status: 'completed',
-            conversation_id: @conversation.id,
+            conversation_id: @conversation.display_id,
             inbox_id: @conversation.inbox_id,
             timestamp: Time.now.to_i
           }
@@ -103,15 +103,39 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     if conference_sid
       # Using existing conference
     else
+      # Make sure we have a valid account ID
+      account_id = Current.account&.id || params[:account_id]
+
+      # Make sure the conversation is fully loaded with display_id
+      if @conversation.display_id.blank?
+        @conversation.reload
+        Rails.logger.info("🔄 Reloaded conversation to get display_id")
+      end
+
+      # Extra logging for debugging
+      Rails.logger.info("🔍 Creating conference with account_id=#{account_id}, conversation.display_id=#{@conversation.display_id}")
+
       # Use the same format as in webhooks_controller for consistency
-      conference_sid = "conf_account_#{Current.account.id}_conv_#{@conversation.display_id}"
+      # Ensure all parts of the conference ID are present
+      if account_id.present? && @conversation.display_id.present?
+        conference_sid = "conf_account_#{account_id}_conv_#{@conversation.display_id}"
+      else
+        # Fallback with more diagnostic information
+        Rails.logger.error("❌ Missing account ID or conversation display ID for conference creation")
+        Rails.logger.error("❌ account_id=#{account_id}, conversation.display_id=#{@conversation.display_id}")
+        # Create a valid conference ID with as much information as we have
+        account_id ||= "unknown"
+        conversation_id = @conversation.display_id || @conversation.id || "unknown"
+        conference_sid = "conf_account_#{account_id}_conv_#{conversation_id}"
+      end
 
       # Save it for future use
       @conversation.additional_attributes ||= {}
       @conversation.additional_attributes['conference_sid'] = conference_sid
       @conversation.save!
 
-      # Created new conference
+      # Log the created conference
+      Rails.logger.info("🎧 Created new conference: #{conference_sid}")
     end
 
     # For outbound calls, ensure we also update call_status if not already set
@@ -153,24 +177,21 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
         data: {
           call_sid: call_sid,
           status: 'in-progress',
-          conversation_id: @conversation.id,
+          conversation_id: @conversation.display_id,
           inbox_id: @conversation.inbox_id,
           timestamp: Time.now.to_i
         }
       }
     )
 
-    # Return conference information for the WebRTC client with detailed logging
+    # Return conference information for the WebRTC client
     response_data = {
       status: 'success',
       message: 'Agent joining call via WebRTC',
       conference_sid: conference_sid,
       using_webrtc: true,
-      # Add useful debugging info
       conversation_id: @conversation.display_id,
-      account_id: Current.account.id,
-      # Add even more debug info
-      conference_name_debug: "#{conference_sid}"
+      account_id: Current.account.id
     }
 
     # Return response with conference information
@@ -246,129 +267,65 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
   # TwiML endpoint for Twilio Client browser calls - with ultra-robust error handling
   def twiml_for_client
-    # Log everything for debugging
-    Rails.logger.info("TwiML_FOR_CLIENT CALLED with params: #{params.inspect}")
+    # Extended debugging to trace the request
+    Rails.logger.info("🔄 TwiML_FOR_CLIENT CALLED with params: #{params.inspect}")
+    Rails.logger.info("🔄 Headers: #{request.headers.to_h.select {|k,v| k.start_with?('HTTP_')}.inspect}")
+    Rails.logger.info("🔄 Content-Type: #{request.content_type}")
+    Rails.logger.info("🔄 Raw POST data: #{request.raw_post}")
 
-    # Extract just what we need - the To parameter (conference name)
-    # Check for the To parameter which should be sent by the Twilio client
-    to = params[:To]
+    # Check what account we're using
+    account_id_value = params[:account_id]
+    current_account_id = Current.account&.id
+    Rails.logger.info("📞 TwiML account context - params[:account_id]: #{account_id_value}, Current.account.id: #{current_account_id}")
 
-    # Simple debug log of what we received
-    Rails.logger.info("📞 Received request for TwiML with To parameter: '#{to}'")
-
-    # Verify the format is what we expect
-    if to && to.match?(/^conf_account_\d+_conv_\d+$/)
-      Rails.logger.info("✅ Conference ID is in the expected format: #{to}")
-    elsif to
-      Rails.logger.info("⚠️ Conference ID does not match expected format: #{to}")
+    # SUPER DETAILED PARAMETER INSPECTION
+    Rails.logger.info("📞 FULL PARAMS INSPECTION:")
+    params.each do |key, value|
+      Rails.logger.info("   - #{key.inspect} = #{value.inspect}")
     end
 
-    # SUPER CRITICAL DEBUGGING - We need to know EXACTLY what is coming in as the To parameter
-    Rails.logger.info("🚨 PARAMS INSPECTION: #{params.to_json}")
-    Rails.logger.info("🚨 TO PARAMETER (CAPS) EXISTS?: #{params.key?(:To)}")
-    Rails.logger.info("🚨 TO PARAMETER (LOWERCASE) EXISTS?: #{params.key?(:to)}")
-    Rails.logger.info("🚨 TO PARAMETER FINAL VALUE: '#{to}'")
-    Rails.logger.info("🚨 TO PARAMETER TYPE: #{to.class}")
-    Rails.logger.info("🚨 TO PARAMETER EMPTY?: #{to.blank?}")
-    Rails.logger.info("🚨 TO PARAMETER STARTS WITH 'conf_'?: #{to.to_s.start_with?('conf_')}")
+    # Check for 'To' parameter in different formats
+    to = params[:To] || params[:to] || params['To'] || params['to']
 
-    # Critical debugging for troubleshooting
-    Rails.logger.info("PARAMS RECEIVED: #{params.inspect}")
-    Rails.logger.info("REQUEST HEADERS: #{request.headers.to_h.select { |k, _| k.start_with?('HTTP_') }.inspect}")
-    Rails.logger.info("CLIENT IP: #{request.remote_ip}")
+    # IMPORTANT DEBUG: Log all possible parameters that might contain the conference ID
+    Rails.logger.info("📞 Trying to find conference ID in params:")
+    Rails.logger.info("   - params[:To] = #{params[:To].inspect}")
+    Rails.logger.info("   - params[:to] = #{params[:to].inspect}")
+    Rails.logger.info("   - params['To'] = #{params['To'].inspect}")
+    Rails.logger.info("   - params['to'] = #{params['to'].inspect}")
 
-    # Log missing to parameter and try to find the correct conference ID
+    # Also try the Twilio default params format
+    Rails.logger.info("   - params['Twilio-Parameters'] = #{params['Twilio-Parameters'].inspect}")
+
+    # Parse raw POST body for Twilio params
+    if request.post? && request.raw_post.present?
+      begin
+        post_params = Rack::Utils.parse_nested_query(request.raw_post)
+        Rails.logger.info("   - POST body parsed: #{post_params.inspect}")
+        if post_params['To'].present?
+          to ||= post_params['To']
+          Rails.logger.info("   - Found 'To' in POST body: #{post_params['To']}")
+        end
+      rescue => e
+        Rails.logger.error("   - Error parsing POST body: #{e.message}")
+      end
+    end
+
+    # Now check if we have a valid 'To' parameter
     if to.blank?
-      # Log the issue clearly
-      Rails.logger.error("🚨 Missing 'To' parameter in request! Trying to find the correct conference ID")
+      Rails.logger.error("❌ Missing 'To' parameter in all possible forms")
+      Rails.logger.error("❌ ALL PARAMS: #{params.inspect}")
 
-      # Get account ID from params
-      account_id = params[:account_id]
-
-      if account_id.present?
-        # Find the latest active call for this account
-        Rails.logger.info("🔍 Looking for latest active call for account #{account_id}")
-
-        begin
-          # Find the most recent conversation with an active call
-          conversation = Conversation.joins(:inbox)
-                                     .where(account_id: account_id)
-                                     .where("additional_attributes->>'call_status' IN ('ringing', 'in-progress')")
-                                     .where("additional_attributes ? 'conference_sid'")
-                                     .order(created_at: :desc)
-                                     .first
-
-          if conversation
-            # Use the exact conference ID from the conversation
-            to = conversation.additional_attributes['conference_sid']
-
-            if to && to.start_with?('conf_account_') && to.include?('_conv_')
-              Rails.logger.info("✅ Found active call with conference ID: #{to}")
-            else
-              Rails.logger.error("❌ Found conversation but conference ID format is invalid: #{to}")
-            end
-          else
-            Rails.logger.error("❌ No active calls found for account #{account_id}")
-          end
-        rescue StandardError => e
-          Rails.logger.error("❌ Error finding active call: #{e.message}")
-        end
-      end
-
-      # If we still don't have a valid To parameter, use a well-known format that will fail predictably
-      if to.blank?
-        to = 'MISSING_TO_PARAMETER'
-        Rails.logger.error('❌ Could not find a valid conference ID - call will fail')
-      end
+      error_response = Twilio::TwiML::VoiceResponse.new
+      error_response.say(message: "Error: Missing conference ID parameter.")
+      error_response.hangup
+      set_cors_headers
+      render xml: error_response.to_s, content_type: 'text/xml'
+      return
     end
 
-    # CRITICAL: Do NOT modify the conference name - simply ensure it's a string
-    # This was the source of the issue - we were adding an extra prefix even when it already had one
-    to = to.to_s
-
-    # Log the final conference name
-    Rails.logger.info("FINAL CONFERENCE NAME: #{to}")
-
-    # IMPROVED Account handling - more resilient with better logging
-    account_id = params[:account_id].presence
-    Rails.logger.info("ACCOUNT_ID FROM PARAMS: #{account_id.inspect}")
-
-    # Safer account ID validation
-    begin
-      account = nil
-      if account_id.present?
-        # Try to parse as integer for safer lookup
-        safe_account_id = account_id.to_i
-        account = Account.find_by(id: safe_account_id)
-
-        if account
-          Rails.logger.info("✅ Found account with ID: #{safe_account_id}")
-        else
-          Rails.logger.warn("⚠️ No account found with ID: #{safe_account_id}")
-        end
-      end
-
-      # Fallback chain - try multiple ways to find an account
-      if account.nil?
-        Rails.logger.info('Looking for first account as fallback')
-        account = Account.first
-
-        if account
-          Rails.logger.info("✅ Found fallback account with ID: #{account.id}")
-        else
-          Rails.logger.error('❌ No accounts exist in the system!')
-        end
-      end
-
-      # Set current account if found
-      if account
-        Current.account = account
-        Rails.logger.info("✅ Current.account set to ID: #{account.id}")
-      end
-    rescue StandardError => e
-      Rails.logger.error("❌ Error setting Current.account: #{e.message}")
-      Rails.logger.error(e.backtrace.first(3).join("\n"))
-    end
+    # Log the conference ID
+    Rails.logger.info("📞 Using conference ID: '#{to}'")
 
     # Make the TwiML response generation as simple as possible
     response = Twilio::TwiML::VoiceResponse.new do |r|
@@ -379,19 +336,16 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       r.dial do |dial|
         # Using this conference name in TwiML
 
-        # Get a safe callback URL
-        base_callback_url = if Current.account&.id
-                              "#{base_url.gsub(%r{/$}, '')}/api/v1/accounts/#{Current.account.id}/channels/voice/webhooks/conference_status"
-                            else
-                              "#{base_url.gsub(%r{/$}, '')}/api/v1/accounts/1/channels/voice/webhooks/conference_status"
-                            end
+        # Simple callback URL construction with safe fallback for Current.account
+        account_id = params[:account_id] || (Current.account&.id) || '2' # Use URL param, Current.account, or fallback
+        base_callback_url = "#{base_url.gsub(%r{/$}, '')}/api/v1/accounts/#{account_id}/channels/voice/webhooks/conference_status"
 
-        # Agent ID for participant label
-        agent_id = current_user.present? ? current_user.id.to_s : 'unknown-user'
+        # Use agent_id directly or default to '1'
+        agent_id = params['agent_id'].presence || '1'
 
-        # Log connection parameters to help debug outbound call issues
+        # Log connection parameters
         is_agent = params['is_agent'] == 'true'
-        Rails.logger.info("🔥🔥🔥 AGENT CONNECTING TO CONFERENCE: #{to}, agent_id=#{agent_id}, is_agent=#{is_agent}")
+        Rails.logger.info("🔥 AGENT CONNECTING: conf=#{to}, agent_id=#{agent_id}")
 
         # CRITICAL: Look for outbound call indicators in URL parameters
         Rails.logger.info('🚨🚨🚨 DETECTED OUTBOUND CALL OR AGENT CONNECTING') if params['is_outbound'] == 'true' || is_agent
@@ -417,7 +371,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
     Rails.logger.info("🎧 TwiML conference parameters for agent: startConferenceOnEnter=true, endConferenceOnExit=true, conference_name=#{to}")
     Rails.logger.info("🔊 Generated TwiML length: #{response.to_s.length} bytes")
     # Add more detailed debugging about what we're actually doing
-    Rails.logger.info("🔍 DEBUG: Agent joining as PARTICIPANT to conference '#{to}' with account_id=#{account_id}")
+    Rails.logger.info("🔍 DEBUG: Agent joining as PARTICIPANT to conference '#{to}' with account_id=#{params[:account_id]}")
 
     # Set CORS headers to properly respond to Twilio
     set_cors_headers
@@ -462,100 +416,13 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   private
 
   def fetch_conversation
-    @conversation = Current.account.conversations.find(params[:id] || params[:conversation_id])
+    @conversation = Current.account.conversations.find_by(display_id: params[:conversation_id])
   end
 
   # Voice call message related functionality is now handled by Voice::CallStatus::Manager
 
   # Helper method to get base URL with extra resilience
   def base_url
-    # Try several methods to determine the base URL, with detailed logging
-    base = nil
-    source = nil
-
-    begin
-      # First, try request.base_url if available
-      if defined?(request) && request&.respond_to?(:base_url) && request.base_url.present?
-        base = request.base_url
-        source = 'request.base_url'
-        Rails.logger.info("✅ Got base_url from request: #{base}")
-      end
-
-      # If not available, check for Rails.application.routes.default_url_options
-      if base.nil? && defined?(Rails) && Rails.application&.routes&.respond_to?(:default_url_options)
-        options = Rails.application.routes.default_url_options
-        if options && options[:host].present?
-          protocol = options[:protocol] || 'http'
-          port = options[:port].present? ? ":#{options[:port]}" : ''
-          base = "#{protocol}://#{options[:host]}#{port}"
-          source = 'Rails.application.routes.default_url_options'
-          Rails.logger.info("✅ Got base_url from Rails routes: #{base}")
-        end
-      end
-
-      # Check for specific Chatwoot ENV variables
-      if base.nil?
-        frontend_url = ENV.fetch('FRONTEND_URL', nil)
-        if frontend_url.present?
-          base = frontend_url
-          source = 'FRONTEND_URL env var'
-          Rails.logger.info("✅ Got base_url from FRONTEND_URL env var: #{base}")
-        end
-      end
-
-      # Check for additional Chatwoot ENV variables
-      if base.nil?
-        api_url = ENV.fetch('API_URL', nil)
-        if api_url.present?
-          base = api_url.to_s.gsub(%r{/api/v\d+/?$}, '') # Remove API version path if present
-          source = 'API_URL env var'
-          Rails.logger.info("✅ Got base_url from API_URL env var: #{base}")
-        end
-      end
-
-      # Try to use Current account domain
-      if base.nil? && Current.account&.domain.present?
-        base = "https://#{Current.account.domain}"
-        source = 'Current.account.domain'
-        Rails.logger.info("✅ Got base_url from Current.account.domain: #{base}")
-      end
-
-      # Detect local development environments
-      if base.nil? && (request&.host == 'localhost' || request&.host&.include?('.local'))
-        port = request&.port || 3000
-        base = "http://#{request.host}:#{port}"
-        source = 'localhost detection'
-        Rails.logger.info("✅ Detected localhost development: #{base}")
-      end
-
-      # Ultimate fallback - use either a sojan-local.chatwoot.dev pattern or localhost
-      if base.nil?
-        if request&.host.present? && request.host.include?('chatwoot')
-          base = "https://#{request.host}"
-          source = 'request.host fallback for chatwoot domain'
-        else
-          base = 'http://localhost:3000'
-          source = 'localhost hardcoded fallback'
-        end
-        Rails.logger.info("⚠️ Using fallback base_url: #{base} (source: #{source})")
-      end
-
-      # Ensure base URL doesn't have a trailing slash
-      base = base.chomp('/') if base
-
-      # Additional safeguard
-      unless base.to_s.match?(%r{^https?://})
-        base = "http://#{base}"
-        Rails.logger.warn("⚠️ Added missing protocol to base_url: #{base}")
-      end
-
-      Rails.logger.info("🌐 FINAL base_url: #{base} (source: #{source})")
-      base
-    rescue StandardError => e
-      # If all else fails, return localhost but log the error
-      Rails.logger.error("❌ Error determining base URL: #{e.message}")
-      Rails.logger.error(e.backtrace.first(3).join("\n"))
-      'http://localhost:3000'
-    end
+    ENV.fetch('FRONTEND_URL', nil)
   end
 end

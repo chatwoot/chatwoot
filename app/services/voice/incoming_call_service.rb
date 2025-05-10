@@ -88,6 +88,9 @@ module Voice
         }
       )
 
+      # Need to reload conversation to get the display_id populated by the database
+      @conversation.reload
+
       # Set up conference name
       conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
       @conversation.additional_attributes['conference_sid'] = conference_name
@@ -115,7 +118,7 @@ module Voice
           data: {
             call_sid: caller_info[:call_sid],
             status: ui_status, # Use normalized UI status
-            conversation_id: @conversation.id,
+            conversation_id: @conversation.display_id,
             call_direction: 'inbound',
             conference_sid: @conversation.additional_attributes['conference_sid'],
             from_number: caller_info[:from_number],
@@ -162,24 +165,25 @@ module Voice
     def broadcast_call_status
       # Get contact name, ensuring we have a valid value
       contact_name_value = @contact.name.presence || caller_info[:from_number]
-      
+
       # Create the data payload
       broadcast_data = {
         call_sid: caller_info[:call_sid],
-        conversation_id: @conversation.id,
+        conversation_id: @conversation.display_id,
         inbox_id: @inbox.id,
         inbox_name: @inbox.name,
-        inbox_avatar_url: @inbox.avatar_url, # Include inbox avatar
-        inbox_phone_number: @inbox.channel.phone_number, # Include inbox phone number
+        inbox_avatar_url: @inbox.avatar_url,
+        inbox_phone_number: @inbox.channel.phone_number,
         contact_name: contact_name_value,
         contact_id: @contact.id,
         account_id: account.id,
-        phone_number: @contact.phone_number, # Include phone number for display in UI
-        avatar_url: @contact.avatar_url, # Include avatar URL for display in UI
-        call_direction: 'inbound' # Add call direction for context
+        phone_number: @contact.phone_number,
+        avatar_url: @contact.avatar_url,
+        call_direction: 'inbound',
+        # CRITICAL: Include the conference_sid
+        conference_sid: @conversation.additional_attributes['conference_sid']
       }
-      
-      
+
       ActionCable.server.broadcast(
         "account_#{account.id}",
         {

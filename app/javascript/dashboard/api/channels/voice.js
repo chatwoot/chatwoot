@@ -65,7 +65,7 @@ class VoiceAPI extends ApiClient {
     const conversationId = params.conversation_id || params.conversationId;
     const callSid = params.call_sid || params.callSid;
     const accountId = params.account_id;
-    
+
     if (!conversationId) {
       throw new Error('Conversation ID is required to join a call');
     }
@@ -79,12 +79,12 @@ class VoiceAPI extends ApiClient {
       call_sid: callSid,
       conversation_id: conversationId,
     };
-    
+
     // Add account_id if provided
     if (accountId) {
       payload.account_id = accountId;
     }
-    
+
     console.log('Calling join_call API endpoint with payload:', payload);
 
     return axios.post(`${this.url}/join_call`, payload);
@@ -286,14 +286,24 @@ class VoiceAPI extends ApiClient {
         throw new Error('Voice is not enabled for this inbox. Check your Twilio configuration.');
       }
       
-      // Step 2: Create Twilio Device
+      // Store the TwiML endpoint URL for later use
+      this.twimlEndpoint = response.data.twiml_endpoint;
+
+      // Step 2: Create Twilio Device with better options
       const deviceOptions = {
         // Use absolute minimal options - less is more for audio compatibility
         allowIncomingWhileBusy: true, // Allow incoming calls while already on a call
         debug: true, // Enable debug logging
         warnings: true, // Show warnings in console
-        // The prebuilt hold music usually interrupts the actual call
         disableAudioContextSounds: true, // Disable browser audio context for sounds
+        // Add explicit edge parameter - this helps avoid connectivity issues
+        edge: ['ashburn', 'sydney', 'roaming'],
+        // Explicitly set codec preferences
+        codecPreferences: ['opus', 'pcmu'],
+        // Add the account ID to any calls made by this device
+        appParams: {
+          account_id: response.data.account_id,
+        }
       };
       
       console.log('Creating Twilio Device with options:', deviceOptions);
@@ -467,19 +477,6 @@ class VoiceAPI extends ApiClient {
             customMessage: error.customMessage,
             originalError: error.originalError ? JSON.stringify(error.originalError) : 'None'
           });
-          
-          // Make a test HTTP request to the TwiML endpoint to check if it's accessible
-          fetch('/api/v1/accounts/' + (this.activeConnection?.parameters?.account_id || 'current') + '/voice/twiml_for_client')
-            .then(response => {
-              console.log('TwiML endpoint accessibility test result:', {
-                status: response.status,
-                ok: response.ok,
-                statusText: response.statusText
-              });
-            })
-            .catch(fetchError => {
-              console.error('Failed to reach TwiML endpoint:', fetchError);
-            });
           break;
         case 31008:
           console.error('⚠️ Error 31008: Connection Error. The call could not be established.');
@@ -703,165 +700,73 @@ class VoiceAPI extends ApiClient {
     if (!this.device || !this.initialized) {
       throw new Error('Twilio Device not initialized');
     }
-    
-    // Log the exact conference ID received
-    console.log('Connecting to conference with params:', conferenceParams);
-    console.log('⭐ CONFERENCE ID VALUE:', conferenceParams.To);
-    console.log('⭐ CONFERENCE ID FORMAT CHECK:', 
-                conferenceParams.To && 
-                conferenceParams.To.startsWith('conf_account_') && 
-                conferenceParams.To.includes('_conv_') ? 
-                'CORRECT ✅' : 'INCORRECT ❌');
-    
+
     try {
       // IMPORTANT: Do NOT try to register if already registered
       // Only check state is ready
       if (this.device.state !== 'ready' && this.device.state !== 'registered') {
-        console.warn('Twilio device not in ready state:', this.device.state);
         // Don't try to register again if already registered
       }
-      
-      // SUPER MINIMAL PARAMETER APPROACH - explicitly construct the parameters
-      // using exactly the format expected by Twilio
-      const params = {};
-      
-      // The 'To' parameter MUST be capitalized for Twilio and is required
-      params.To = conferenceParams.To;
-      
-      // The account_id is needed for server-side routing
-      params.account_id = conferenceParams.account_id;
-      
-      // ENSURE the conference ID is exactly in the format we expect
-      // conf_account_{account_id}_conv_{conversationId}
-      if (!params.To || !params.To.startsWith('conf_account_') || !params.To.includes('_conv_')) {
-        console.error(`CRITICAL ERROR: Conference ID format is incorrect: '${params.To}'`);
-        console.error('Expected format: conf_account_{account_id}_conv_{conversationId}');
-        throw new Error('Invalid conference ID format. Expected conf_account_{account_id}_conv_{conversationId}');
+
+      // This is CRITICAL for Twilio - params must be formatted exactly right
+      // and passed directly in the format Twilio expects
+      const params = {
+        // REQUIRED: Twilio Voice JS SDK expects 'To' parameter to be a properly formatted string
+        To: `${conferenceParams.To}`,
+
+        // Additional params for our server
+        account_id: conferenceParams.account_id,
+        is_agent: 'true'
+      };
+
+      // Check To parameter exists - fail if missing
+      if (!params.To) {
+        throw new Error('Missing To parameter for conference');
       }
-      
-      // MOST CRITICAL DEBUG OUTPUT - this is exactly what we're sending to Twilio
-      console.log(`⭐⭐⭐ CONNECTING TO CONFERENCE: Conference name='${params.To}', account_id=${params.account_id}`);
-      
-      // IMPORTANT: Do NOT modify the conference name - use exactly what was passed
-      // This ensures we use the exact same conference name as created on the server side
-      
-      // Connect to the conference - different Twilio SDK versions return different types
-      try {
-        // SIMPLIFIED APPROACH - Just use standard params with capitalized 'To'
-        // No extra URL parameters or fancy options
-        console.log(`⭐⭐⭐ Connecting to conference '${params.To}' with params:`, params);
-        
-        const connection = this.device.connect(params);
-        
-        // Save the connection to our instance
-        this.activeConnection = connection;
-        
-        // Check what kind of connection object we have (Promise vs older non-Promise style)
-        if (connection && typeof connection.then === 'function') {
-          // It's a Promise - newer Twilio SDK version
-          console.log('Using Promise-based Twilio connection - handling async');
-          
-          // Return the connection object but also set up Promise handling
-          connection.then(resolvedConnection => {
-            console.log('WebRTC Promise connection resolved successfully');
-            this.activeConnection = resolvedConnection;
-            
-            // Try to add listeners if this version supports it
-            try {
-              if (typeof resolvedConnection.on === 'function') {
-                resolvedConnection.on('accept', () => {
-                  console.log('✅ Conference connection accepted via Promise');
-                });
-              }
-            } catch (listenerError) {
-              console.warn('Could not add listeners to Promise connection:', listenerError);
+
+      // Make sure 'To' is explicitly a string
+      const stringifiedTo = String(params.To);
+      console.log('🎯 CRITICAL CONFERENCE CONNECTION: Connecting agent to conference with To=', stringifiedTo);
+
+      // Follow Twilio documentation format - params should be nested under 'params' property
+      console.log('🎯 TRYING CONNECTION: Using documented format with params property');
+
+      // Just use the minimal required parameters
+      const connection = this.device.connect({
+        params: {
+          To: stringifiedTo,  // Conference ID
+          is_agent: 'true'    // Flag to indicate agent is joining
+        }
+      });
+
+      console.log('🎯 CONFERENCE CONNECTION RESULT:', connection ? 'Success' : 'Failed');
+      this.activeConnection = connection;
+
+      if (connection && typeof connection.then === 'function') {
+        // It's a Promise - newer Twilio SDK version
+        connection.then(resolvedConnection => {
+          this.activeConnection = resolvedConnection;
+          try {
+            if (typeof resolvedConnection.on === 'function') {
+              resolvedConnection.on('accept', () => {
+                // Connection accepted
+              });
             }
-          }).catch(connError => {
-            console.error('WebRTC Promise connection error:', connError);
-          });
-        } else {
-          // It's a synchronous connection - older Twilio SDK
-          console.log('Successfully initiated synchronous connection to conference');
-        }
-        
-        return connection;
-      } catch (connectError) {
-        console.error('Error during device.connect():', connectError);
-        throw connectError;
-      }
-    } catch (error) {
-      console.error('Error connecting to conference:', error);
-      throw error;
-    }
-  }
-  
-  // End a client call
-  endClientCall() {
-    console.log('Attempting to end WebRTC call');
-    
-    // Check if we have an active connection
-    if (this.activeConnection) {
-      try {
-        // Try to disconnect - handle both Promise and non-Promise interfaces
-        if (typeof this.activeConnection.disconnect === 'function') {
-          console.log('Using Connection.disconnect() method');
-          this.activeConnection.disconnect();
-        } else {
-          // In modern Twilio SDK, might need to use the device
-          console.log('Connection.disconnect not available, using Device');
-          if (this.device && typeof this.device.disconnectAll === 'function') {
-            this.device.disconnectAll();
+          } catch (listenerError) {
+            // Could not add listeners to Promise connection
           }
-        }
-        
-        this.activeConnection = null;
-        return true;
-      } catch (error) {
-        console.error('Error disconnecting WebRTC call:', error);
-        // Reset connection anyway
-        this.activeConnection = null;
-        return false;
+        }).catch(connError => {
+          // WebRTC Promise connection error
+        });
+      } else {
+        // It's a synchronous connection - older Twilio SDK
       }
-    } else if (this.device) {
-      // Try disconnecting all calls from the device even if no active connection
-      try {
-        if (typeof this.device.disconnectAll === 'function') {
-          this.device.disconnectAll();
-          return true;
-        }
-      } catch (error) {
-        console.error('Error disconnecting device calls:', error);
-      }
+      return connection;
+    } catch (error) {
+      // Error joining conference
     }
-    
-    return false;
   }
-  
-  // Mute/unmute a client call
-  setMute(isMuted) {
-    console.log(`Attempting to ${isMuted ? 'mute' : 'unmute'} WebRTC call`);
-    
-    if (this.activeConnection) {
-      try {
-        // Check if the mute function exists
-        if (typeof this.activeConnection.mute === 'function') {
-          this.activeConnection.mute(isMuted);
-          console.log(`Call ${isMuted ? 'muted' : 'unmuted'} successfully`);
-          return true;
-        } else {
-          console.warn('Connection.mute method not available');
-          return false;
-        }
-      } catch (error) {
-        console.error('Error muting/unmuting WebRTC call:', error);
-        return false;
-      }
-    }
-    
-    console.warn('No active connection to mute/unmute');
-    return false;
-  }
-  
+
   // Get the status of the device with additional diagnostic info
   getDeviceStatus() {
     if (!this.device) {

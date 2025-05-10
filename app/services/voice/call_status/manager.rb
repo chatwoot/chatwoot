@@ -253,7 +253,7 @@ module Voice
         # Map external status to internal status
         internal_status = STATUS_MAPPING[status] || status
 
-        Rails.logger.info("🔄 [CallStatusManager] Updating call status for conversation #{conversation.id}: '#{internal_status}'")
+        Rails.logger.info("🔄 [CallStatusManager] Updating call status for conversation #{conversation.display_id}: '#{internal_status}'")
 
         # Validate status
         unless VALID_STATUSES.include?(internal_status)
@@ -489,7 +489,7 @@ module Voice
         # This ensures the conversation list shows consistent status texts
         ui_status = normalized_ui_status(status)
 
-        Rails.logger.info("📢 [CallStatusManager] Broadcasting UI status: '#{ui_status}' for conversation_id=#{conversation.id}")
+        Rails.logger.info("📢 [CallStatusManager] Broadcasting UI status: '#{ui_status}' for conversation_id=#{conversation.display_id}")
 
         ActionCable.server.broadcast(
           "account_#{conversation.account_id}",
@@ -498,7 +498,7 @@ module Voice
             data: {
               call_sid: call_sid,
               status: ui_status, # Send UI-friendly status
-              conversation_id: conversation.id,
+              conversation_id: conversation.display_id,
               inbox_id: conversation.inbox_id,
               timestamp: Time.now.to_i
             }

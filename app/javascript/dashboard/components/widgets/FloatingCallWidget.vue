@@ -1044,6 +1044,7 @@ export default {
     
     // Join a call using the Twilio Client - this is the only option for agents now
     const joinCallWithWebRTC = async () => {
+      // This is the critical method where an agent joins an incoming call
       try {
         // 1. Ensure Twilio device is initialized
         if (!isWebRTCInitialized.value) {
@@ -1075,7 +1076,7 @@ export default {
         };
         let accountId = extractAccountId();
 
-        // --- Step 4: Inform server agent is joining (non-blocking, but store response) ---
+        // --- Step 4: Inform server agent is joining and get conference_sid ---
         let serverResponse = null;
         try {
           const response = await VoiceAPI.joinCall({
@@ -1084,41 +1085,49 @@ export default {
             account_id: accountId,
           });
           serverResponse = response.data;
+
+          // Process the server response to get the conference_sid
+          if (serverResponse && serverResponse.conference_sid) {
+            // Save the conference_sid in the incomingCall data
+            if (!incomingCall.value.conference_sid) {
+              // Save the conference_sid in only the key places needed
+              incomingCall.value.conference_sid = serverResponse.conference_sid;
+
+              // Also set the 'To' parameter required by Twilio
+              incomingCall.value.To = serverResponse.conference_sid;
+            }
+          } else {
+            return false;
+          }
         } catch (apiError) {
-          // Continue anyway, as we might still be able to join the conference
+          return false;
         }
 
         // 5. Proactively fix audio issues
         await fixAudioBeforeCall();
 
-        // --- Conference ID extraction helper ---
+        // Simple conference ID extraction - using ONE source of truth
         const extractConferenceId = () => {
-          // Priority: incomingCall.conference_sid > serverResponse.conference_sid > alt server fields > generated
-          let confId = incomingCall.value?.conference_sid;
-          if (!confId && serverResponse) {
-            confId =
-              serverResponse.conference_sid ||
-              serverResponse.conferenceId ||
-              serverResponse.conference_name;
+          // Get conference_sid from incoming call data - this is the SINGLE source of truth
+          const confId = incomingCall.value?.conference_sid;
+
+          if (!confId) {
+            return null;
           }
-          if (!confId && incomingCall.value) {
-            const isOutbound = incomingCall.value.isOutbound === true;
-            if (isOutbound && incomingCall.value.conference_sid) {
-              confId = incomingCall.value.conference_sid;
-            }
-            if (!confId && accountId && conversationId) {
-              confId = `conf_account_${accountId}_conv_${conversationId}`;
-            }
-          }
+
           return confId;
         };
         const conferenceId = extractConferenceId();
         if (!conferenceId) return false;
 
-        // --- Twilio requires 'To' (capital T) and lowercase account_id ---
+        // Ensure conferenceId is a string
+        const conferenceIdString = String(conferenceId);
+
+        // Simple params object with the required fields in the correct format
         const enhancedParams = {
-          To: conferenceId,
+          To: conferenceIdString, // CAPITAL T is required for Twilio and MUST be a string
           account_id: accountId,
+          is_agent: 'true'  // Flag that this is an agent joining
         };
 
         // 6. Re-initialize device if needed
@@ -1142,7 +1151,7 @@ export default {
           if (window.activeAudioStream) {
             window.activeAudioStream.getTracks().forEach(track => track.stop());
           }
-          
+
           // Request a new stream with HIGH-QUALITY audio
           const stream = await navigator.mediaDevices.getUserMedia({
             audio: {
@@ -1155,15 +1164,15 @@ export default {
               sampleSize: { ideal: 16 }
             }
           });
-          
+
           // Save the stream globally
           window.activeAudioStream = stream;
-          
+
           // Ensure tracks are active and enabled
           stream.getAudioTracks().forEach(track => {
             track.enabled = true;
           });
-          
+
           return true;
         } catch (e) {
           // Fall back to basic audio to ensure we at least have something

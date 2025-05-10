@@ -39,11 +39,49 @@ module Voice
         call_sid: nil # This will be set after call is initiated
       ).perform
 
-      # Create conference name for outbound call
+      # Need to reload conversation to get the display_id populated by the database
+      @conversation.reload
+
+      # Log the conversation ID and display_id for debugging
+      Rails.logger.info("🔍 OUTGOING CALL: Created conversation with ID=#{@conversation.id}, display_id=#{@conversation.display_id}")
+
+      # The conference_sid should be set by the ConversationFinderService, but we double-check
       @conference_name = @conversation.additional_attributes['conference_sid']
+
+      # Verify conference name is valid, if not, fix it
+      if @conference_name.blank? || !@conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+        # Generate proper conference name
+        @conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
+
+        # Store it in the conversation
+        @conversation.additional_attributes['conference_sid'] = @conference_name
+        @conversation.save!
+
+        Rails.logger.info("🔧 OUTGOING CALL: Fixed conference name to #{@conference_name}")
+      else
+        Rails.logger.info("✅ OUTGOING CALL: Using existing conference name #{@conference_name}")
+      end
     end
 
     def initiate_call
+      # Double-check that we have a valid conference name before calling
+      if @conference_name.blank? || !@conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+        Rails.logger.error("❌ OUTGOING CALL: Invalid conference name before initiating call: #{@conference_name}")
+
+        # Re-generate the conference name as a last resort
+        @conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
+        Rails.logger.info("🔧 OUTGOING CALL: Re-generated conference name: #{@conference_name}")
+
+        # Update the conversation with the new conference name
+        @conversation.additional_attributes['conference_sid'] = @conference_name
+        @conversation.save!
+      else
+        Rails.logger.info("✅ OUTGOING CALL: Valid conference name: #{@conference_name}")
+      end
+
+      # Log that we're about to initiate the call
+      Rails.logger.info("📞 OUTGOING CALL: Initiating call to #{contact.phone_number} with conference #{@conference_name}")
+
       # Initiate the call using the channel's implementation
       @call_details = @voice_inbox.channel.initiate_call(
         to: contact.phone_number,
@@ -51,15 +89,27 @@ module Voice
         agent_id: user.id # Pass the agent ID to track who initiated the call
       )
 
-      # Update conversation with call details, but don't set status
-      # Status will be properly set by CallStatusManager 
-      updated_attributes = @conversation.additional_attributes.merge({
-                                                                       'call_sid' => @call_details[:call_sid],
-                                                                       'requires_agent_join' => true,
-                                                                       'agent_id' => user.id # Store the agent ID who initiated the call
-                                                                     })
+      # Log the returned call details for debugging
+      Rails.logger.info("📞 OUTGOING CALL: Call initiated with details: #{@call_details.inspect}")
 
+      # Update conversation with call details, but don't set status
+      # Status will be properly set by CallStatusManager
+      updated_attributes = @conversation.additional_attributes.merge({
+        'call_sid' => @call_details[:call_sid],
+        'requires_agent_join' => true,
+        'agent_id' => user.id, # Store the agent ID who initiated the call
+        'conference_sid' => @conference_name, # Ensure conference_sid is set correctly
+        'conference_name' => @conference_name, # Add an additional field for backwards compatibility
+      })
+
+      # Ensure the call is marked as outbound
+      updated_attributes['call_direction'] = 'outbound'
+
+      # Save the updated attributes
       @conversation.update!(additional_attributes: updated_attributes)
+
+      # Log the final conversation state
+      Rails.logger.info("📞 OUTGOING CALL: Conversation updated with call_sid=#{@call_details[:call_sid]}, conference_sid=#{@conference_name}")
     end
 
     def create_voice_call_message
@@ -82,7 +132,7 @@ module Voice
           data: {
             call_sid: @call_details[:call_sid],
             status: ui_status, # Set the normalized UI status
-            conversation_id: @conversation.id,
+            conversation_id: @conversation.display_id,
             call_direction: 'outbound',
             conference_sid: @conference_name,
             from_number: @voice_inbox.channel.phone_number,
@@ -129,7 +179,7 @@ module Voice
       # Create the data payload
       broadcast_data = {
         call_sid: @call_details[:call_sid],
-        conversation_id: @conversation.id,
+        conversation_id: @conversation.display_id,
         inbox_id: @voice_inbox.id,
         inbox_name: @voice_inbox.name,
         inbox_avatar_url: @voice_inbox.avatar_url, # Include inbox avatar

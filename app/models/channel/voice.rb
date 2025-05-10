@@ -42,8 +42,34 @@ class Channel::Voice < ApplicationRecord
     # Start building query parameters
     query_params = []
 
-    # Add conference name as a parameter if provided
-    query_params << "conference_name=#{CGI.escape(conference_name)}" if conference_name.present?
+    # Make sure conference_name is URL-safe and correctly formatted
+    if conference_name.present?
+      # Check format - it should be like 'conf_account_123_conv_456'
+      if !conference_name.match?(/^conf_account_\d+_conv_\d+$/)
+        # If format is wrong, log an error and try to fix it
+        Rails.logger.error("🚨 MALFORMED CONFERENCE NAME: '#{conference_name}'")
+
+        # Try to extract account_id and conversation_id from the string if possible
+        if conference_name.include?('_account_') && conference_name.include?('_conv_')
+          # It has the parts but wrong format, let's try to keep it
+          Rails.logger.info("🔄 Using conference name as-is: '#{conference_name}'")
+        else
+          # Can't salvage it, generate a placeholder with timestamp to avoid collisions
+          timestamp = Time.now.to_i
+          Rails.logger.warn("🚨 GENERATING PLACEHOLDER CONFERENCE NAME with timestamp #{timestamp}")
+          conference_name = "conf_placeholder_#{timestamp}"
+        end
+      else
+        # Format looks good, continue
+        Rails.logger.info("✅ VALIDATED CONFERENCE NAME: '#{conference_name}'")
+      end
+
+      # Add URL-encoded conference name as a parameter
+      query_params << "conference_name=#{CGI.escape(conference_name)}"
+    else
+      # No conference name provided, log this as a warning
+      Rails.logger.warn("⚠️ NO CONFERENCE NAME PROVIDED for outgoing call to #{to}")
+    end
 
     # Add agent ID as a parameter if provided
     query_params << "agent_id=#{agent_id}" if agent_id.present?
@@ -51,7 +77,7 @@ class Channel::Voice < ApplicationRecord
     # Append query parameters to URL if any exist
     if query_params.any?
       callback_url += "?#{query_params.join('&')}"
-      Rails.logger.info("🚨 OUTBOUND CALL: Using callback URL with params: #{callback_url}")
+      Rails.logger.info("📞 OUTBOUND CALL: Using callback URL with params: #{callback_url}")
     end
 
     # Parameters including status callbacks for call progress tracking
@@ -64,6 +90,9 @@ class Channel::Voice < ApplicationRecord
       status_callback_method: 'POST'
     }
 
+    # Log the full parameters for debugging
+    Rails.logger.info("📞 OUTBOUND CALL PARAMS: to=#{to}, from=#{phone_number}, conference=#{conference_name}")
+
     # Create the call
     call = twilio_client(config).calls.create(**params)
 
@@ -74,7 +103,8 @@ class Channel::Voice < ApplicationRecord
       status: call.status,
       call_direction: 'outbound',  # CRITICAL: Tag as outbound so webhooks know to prompt agent
       requires_agent_join: true,   # Flag that agent should join immediately
-      agent_id: agent_id           # Include agent_id for tracking who initiated the call
+      agent_id: agent_id,          # Include agent_id for tracking who initiated the call
+      conference_name: conference_name # Include the conference name in the return value for debugging
     }
   end
 

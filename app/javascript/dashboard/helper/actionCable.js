@@ -203,17 +203,20 @@ class ActionCableConnector extends BaseActionCableConnector {
       conversationId: data.conversation_id,
       inboxId: data.inbox_id,
       inboxName: data.inbox_name,
-      inboxAvatarUrl: data.inbox_avatar_url, // Inbox avatar URL
-      inboxPhoneNumber: data.inbox_phone_number, // Inbox phone number
-      contactName: data.contact_name || 'Unknown Caller', // Add fallback name
+      inboxAvatarUrl: data.inbox_avatar_url,
+      inboxPhoneNumber: data.inbox_phone_number,
+      contactName: data.contact_name || 'Unknown Caller',
       contactId: data.contact_id,
       accountId: data.account_id,
-      isOutbound: data.is_outbound || false, // Check if this is an outbound call requiring agent join
-      conference_sid: data.conference_sid, // Pass the conference_sid directly to the floating widget
-      requiresAgentJoin: data.requires_agent_join || false, // Flag for calls needing immediate agent join
-      callDirection: data.call_direction, // Add call direction for additional context
-      phoneNumber: data.phone_number, // Include phone number for display in the UI
-      avatarUrl: data.avatar_url // Include avatar URL for display in the UI
+      isOutbound: data.is_outbound || false,
+      // CRITICAL: Use 'conference_sid' in camelCase format to match field names
+      conference_sid: data.conference_sid,
+      conferenceId: data.conference_sid, // Add aliases for consistency
+      conferenceSid: data.conference_sid, // Add aliases for consistency
+      requiresAgentJoin: data.requires_agent_join || false,
+      callDirection: data.call_direction,
+      phoneNumber: data.phone_number,
+      avatarUrl: data.avatar_url
     };
     
     // Update store
@@ -234,37 +237,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       inboxId: data.inbox_id,
       timestamp: data.timestamp || Date.now()
     };
-    
-    // Update store with call status change
+    // Only dispatch to Vuex; Vuex handles widget and call state
     this.app.$store.dispatch('calls/handleCallStatusChanged', normalizedPayload);
-    
-    // For terminal statuses, clear the active call to close the widget
-    if (['ended', 'missed', 'completed', 'failed', 'busy', 'no_answer'].includes(data.status)) {
-      // Clear active call for terminal statuses
-      this.app.$store.dispatch('calls/clearActiveCall');
-      
-      // Ensure window.app.$data exists before modifying it
-      if (window.app && window.app.$data) {
-        window.app.$data.showCallWidget = false;
-      }
-      
-      // Update conversation list to show current status
-      if (data.conversation_id) {
-        this.app.$store.dispatch('updateConversationLastActivity', {
-          conversationId: data.conversation_id,
-          lastActivityAt: new Date().toISOString(),
-        });
-        
-        // Also ensure that the conversation gets refreshed
-        this.app.$store.dispatch('fetchConversation', {
-          id: data.conversation_id
-        });
-      }
-    } else {
-      // Update active call for non-terminal statuses
-      this.app.$store.dispatch('calls/setActiveCall', normalizedPayload);
-    }
   };
+
 }
 
 export default {

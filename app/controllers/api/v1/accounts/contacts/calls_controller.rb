@@ -19,8 +19,12 @@ class Api::V1::Accounts::Contacts::CallsController < Api::V1::Accounts::BaseCont
       # Process the call - this handles all the steps
       conversation = service.process
       
-      # Return the conversation
-      render json: conversation
+      # Assign to @conversation so jbuilder template can access it
+      @conversation = conversation
+
+      # Use the conversation jbuilder template to ensure consistent representation
+      # This will ensure only display_id is used as the id, not the internal database id
+      render 'api/v1/accounts/conversations/show'
     rescue StandardError => e
       Rails.logger.error("Error initiating call: #{e.message}")
       render json: { error: e.message }, status: :unprocessable_entity
