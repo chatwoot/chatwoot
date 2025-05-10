@@ -283,7 +283,7 @@
   },
   "CONTACTS_LAYOUT": {
     "HEADER": {
-      "TITLE": "Contato",
+      "TITLE": "Contatos",
       "SEARCH_TITLE": "Pesquisar contatos",
       "SEARCH_PLACEHOLDER": "Pesquisar...",
       "MESSAGE_BUTTON": "Enviar Mensagem",
@@ -291,7 +291,7 @@
       "BLOCK_CONTACT": "Bloquear contato",
       "UNBLOCK_CONTACT": "Desbloquear contato",
       "BREADCRUMB": {
-        "CONTACTS": "Contato"
+        "CONTACTS": "Contatos"
       },
       "ACTIONS": {
         "CONTACT_CREATION": {
