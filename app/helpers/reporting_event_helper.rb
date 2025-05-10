@@ -29,7 +29,10 @@ module ReportingEventHelper
   def last_agent_assignment(conversation)
     latest_agent_assignment = ConversationAssignment.where(conversation_id: conversation.id).last
 
-    latest_agent_assignment&.created_at || conversation.created_at
+    latest_conversation_open_status_update = ConversationStatus.where(conversation_id: conversation.id, status: 'open').last
+
+    [latest_agent_assignment&.created_at || conversation.created_at,
+     latest_conversation_open_status_update&.created_at || conversation.created_at].max
   end
 
   private

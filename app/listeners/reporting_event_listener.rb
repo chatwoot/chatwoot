@@ -25,6 +25,9 @@ class ReportingEventListener < BaseListener
   def first_reply_created(event)
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
+
+    return if conversation.resolved?
+
     first_response_time = message.created_at.to_i - last_agent_assignment(conversation).to_i
 
     reporting_event = ReportingEvent.new(
@@ -46,6 +49,9 @@ class ReportingEventListener < BaseListener
   def reply_created(event)
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
+
+    return if conversation.resolved?
+
     waiting_since = event.data[:waiting_since]
     reply_time = message.created_at.to_i - waiting_since.to_i
 
