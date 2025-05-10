@@ -70,7 +70,7 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
-        "HELP": "If toggled, the system will not resolve conversations that have been waiting for an agent reply."
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
