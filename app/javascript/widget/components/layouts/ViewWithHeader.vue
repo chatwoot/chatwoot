@@ -81,9 +81,6 @@ export default {
       return window.chatwootWebChannel.portal;
     },
     isHeaderCollapsed() {
-      if (!this.hasIntroText) {
-        return true;
-      }
       return !this.isOnHomeView;
     },
     hasIntroText() {
