@@ -8,6 +8,7 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -16,6 +17,7 @@ import ChannelLeaf from './ChannelLeaf.vue';
 import SidebarAccountSwitcher from './SidebarAccountSwitcher.vue';
 import Logo from 'next/icon/Logo.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import CallButton from 'dashboard/components-next/CallModal/CallButton.vue';
 
 const emit = defineEmits([
   'closeKeyShortcutModal',
@@ -61,6 +63,11 @@ const teams = useMapGetter('teams/getMyTeams');
 const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
+);
+
+// Check if there are any voice inboxes
+const hasVoiceInbox = computed(() => 
+  inboxes.value.some(inbox => inbox.channel_type === INBOX_TYPES.VOICE)
 );
 
 onMounted(() => {
@@ -510,6 +517,7 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
+        <CallButton v-if="hasVoiceInbox" class="flex-shrink-0" />
         <ComposeConversation align-position="right">
           <template #trigger="{ toggle }">
             <Button

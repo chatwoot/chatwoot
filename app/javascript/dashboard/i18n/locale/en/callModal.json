@@ -1,0 +1,20 @@
+{
+  "CALL_MODAL": {
+    "START_CALL": "Start a call",
+    "MAKE_CALL_FROM": "Make the call from",
+    "TO": "To",
+    "VIA": "Via",
+    "SELECT_INBOX": "Select an inbox",
+    "ENTER_NUMBER_OR_NAME": "Enter a name or phone number...",
+    "CALL": "Call",
+    "CANCEL": "Cancel",
+    "CALL_DIRECTLY": "Call this number directly",
+    "SUCCESS_MESSAGE": "Call initiated successfully",
+    "ERROR_MESSAGE": "Failed to initiate call. Please try again.",
+    "CONTACT_SEARCH_ERROR": "Error searching contacts. Please try again.",
+    "VALIDATION_ERROR": "Please select both an inbox and a contact or phone number."
+  },
+  "CALL_BUTTON": {
+    "TOOLTIP": "Make a call"
+  }
+}
