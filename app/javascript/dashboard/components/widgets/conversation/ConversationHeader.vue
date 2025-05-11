@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import BackButton from '../BackButton.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
@@ -26,7 +25,7 @@ export default {
   props: {
     chat: {
       type: Object,
-      default: () => { },
+      default: () => {},
     },
     showBackButton: {
       type: Boolean,
@@ -37,7 +36,6 @@ export default {
       default: false,
     },
   },
-
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
