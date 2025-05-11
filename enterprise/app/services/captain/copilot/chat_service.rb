@@ -21,10 +21,12 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   end
 
   def register_tools
-    @tool_registry.register_tool(Captain::Tools::Copilot::GetConversationService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::GetArticleService)
     @tool_registry.register_tool(Captain::Tools::Copilot::GetContactService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::GetConversationService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::SearchArticleService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchContactService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationService)
   end
 
   def build_initial_messages(config)

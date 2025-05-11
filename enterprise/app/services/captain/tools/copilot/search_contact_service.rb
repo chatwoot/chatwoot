@@ -47,17 +47,14 @@ class Captain::Tools::Copilot::SearchContactService < Captain::Tools::BaseServic
     contacts = Contact.where(account_id: account_id)
     contacts = contacts.where(email: email) if email.present?
     contacts = contacts.where(phone_number: phone_number) if phone_number.present?
-    contacts = contacts.where('name ILIKE ?', "%#{name}%") if name.present?
+    contacts = contacts.where('LOWER(name) ILIKE ?', "%#{name.downcase}%") if name.present?
 
     return 'No contacts found' unless contacts.exists?
 
     <<~RESPONSE
       Total number of contacts: #{contacts.count}
-      #{
-        contacts.map do |contact|
-          contact.to_llm_text
-        end.join("\n---\n")
-      }
+
+      #{contacts.map(&:to_llm_text).join("\n---\n")}
     RESPONSE
   end
 end
