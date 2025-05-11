@@ -85,11 +85,11 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assigner une équipe",
-      "ASSIGN_AGENT": "Assign an Agent",
+      "ASSIGN_TEAM": "Attribuer une équipe",
+      "ASSIGN_AGENT": "Attribuer un agent",
       "ADD_LABEL": "Ajouter une étiquette",
       "REMOVE_LABEL": "Supprimer une étiquette",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
+      "REMOVE_ASSIGNED_TEAM": "Supprimer l’équipe assignée",
       "SEND_EMAIL_TRANSCRIPT": "Envoyer une transcription par e-mail",
       "MUTE_CONVERSATION": "Mettre la conversation en sourdine",
       "SNOOZE_CONVERSATION": "Clôturer la conversation",
@@ -97,7 +97,7 @@
       "SEND_ATTACHMENT": "Envoyer la pièce jointe",
       "SEND_MESSAGE": "Envoyer un message",
       "CHANGE_PRIORITY": "Modifier la priorité",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
+      "ADD_PRIVATE_NOTE": "Ajouter une note privée",
       "SEND_WEBHOOK_EVENT": "Envoyer un événement Webhook"
     }
   }
