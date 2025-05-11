@@ -8,6 +8,7 @@ import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
+import CopilotThinkingBlock from 'dashboard/components/copilot/CopilotThinkingBlock.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import Icon from '../icon/Icon.vue';
 import Button from '../button/Button.vue';
@@ -42,8 +43,6 @@ const props = defineProps({
 const emit = defineEmits(['sendMessage', 'reset', 'setAssistant', 'close']);
 
 const { t } = useI18n();
-
-const COPILOT_USER_ROLES = ['assistant', 'system'];
 
 const sendMessage = message => {
   emit('sendMessage', message);
@@ -113,11 +112,11 @@ watch(
         </div>
       </div>
     </div>
-    <div ref="chatContainer" class="flex-1 flex px-4 py-4 overflow-y-auto">
-      <div
-        v-if="messages.length"
-        class="space-y-6 flex-1 flex items-start justify-center"
-      >
+    <div
+      ref="chatContainer"
+      class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
+    >
+      <div v-if="messages.length" class="space-y-6 flex-1 flex flex-col">
         <template v-for="message in messages" :key="message.id">
           <CopilotAgentMessage
             v-if="message.role === 'user'"
@@ -125,9 +124,16 @@ watch(
             :message="message"
           />
           <CopilotAssistantMessage
-            v-else-if="COPILOT_USER_ROLES.includes(message.role)"
+            v-else-if="
+              message.role === 'assistant' || message.role === 'system'
+            "
             :message="message"
             :conversation-inbox-type="conversationInboxType"
+          />
+          <CopilotThinkingBlock
+            v-else-if="message.role === 'assistant_thinking'"
+            :content="message.content"
+            :reasoning="message.reasoning"
           />
         </template>
 

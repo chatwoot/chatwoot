@@ -1,8 +1,8 @@
 <script setup>
-import { ref, computed, onMounted, watchEffect } from 'vue';
+import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
-import ConversationAPI from 'dashboard/api/inbox/conversation';
+import CopilotActionCableConnector from 'dashboard/helpers/CopilotActionCableConnector';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
@@ -29,6 +29,7 @@ const isSidebarOpen = computed(() => getUIState.value('isCopilotSidebarOpen'));
 const messages = ref([]);
 const isCaptainTyping = ref(false);
 const selectedAssistantId = ref(null);
+const copilotConnector = ref(null);
 
 const activeAssistant = computed(() => {
   const preferredId = uiSettings.value.preferred_captain_assistant_id;
@@ -62,7 +63,12 @@ const handleReset = () => {
   messages.value = [];
 };
 
-const sendMessage = async message => {
+const sendMessage = message => {
+  // Ensure WebSocket is connected before sending
+  if (!copilotConnector.value || !isSidebarOpen.value) {
+    return;
+  }
+
   // Add user message
   messages.value.push({
     id: messages.value.length + 1,
@@ -71,47 +77,66 @@ const sendMessage = async message => {
   });
   isCaptainTyping.value = true;
 
-  try {
-    const { data } = await ConversationAPI.requestCopilot(
-      props.conversationId,
-      {
-        previous_history: messages.value
-          .map(m => ({
-            role: m.role,
-            content: m.content,
-          }))
-          .slice(0, -1),
-        message,
-        assistant_id: selectedAssistantId.value,
+  copilotConnector.value.sendMessage({
+    assistantId: activeAssistant.value.id,
+    conversationId: props.conversationId,
+    previousHistory: messages.value
+      .filter(m => m.role !== 'assistant_thinking')
+      .map(m => ({
+        role: m.role,
+        content: m.content,
+      }))
+      .slice(0, -1),
+    message,
+  });
+};
+
+const initializeWebSocket = () => {
+  copilotConnector.value = new CopilotActionCableConnector({
+    accountId: currentUser.value.account_id,
+    userId: currentUser.value.id,
+    onDisconnect: () => {
+      // copilotConnector.value = null;
+    },
+    onCopilotResponse: data => {
+      if (data.type === 'final_response') {
+        messages.value.push({
+          id: new Date().getTime(),
+          role: 'assistant',
+          content: data.response.response,
+        });
+        isCaptainTyping.value = false;
+      } else {
+        messages.value.push({
+          id: new Date().getTime(),
+          role: 'assistant_thinking',
+          content: data.response.response,
+          reasoning: data.response.reasoning,
+        });
       }
-    );
-    messages.value.push({
-      id: new Date().getTime(),
-      role: 'assistant',
-      content: data.message,
-    });
-  } catch (error) {
-    // eslint-disable-next-line
-    console.log(error);
-  } finally {
-    isCaptainTyping.value = false;
+    },
+  });
+};
+
+const disconnectWebSocket = () => {
+  if (copilotConnector.value) {
+    copilotConnector.value.disconnect();
+    copilotConnector.value = null;
   }
 };
 
 onMounted(() => {
+  initializeWebSocket();
   store.dispatch('captainAssistants/get');
+});
+
+onBeforeUnmount(() => {
+  disconnectWebSocket();
 });
 
 const handleClose = () => {
   store.dispatch('uiState/set', { isCopilotSidebarOpen: false });
 };
-
-watchEffect(() => {
-  if (props.conversationId) {
-    store.dispatch('getInboxCaptainAssistantById', props.conversationId);
-    selectedAssistantId.value = activeAssistant.value?.id;
-  }
-});
 </script>
 
 <template>

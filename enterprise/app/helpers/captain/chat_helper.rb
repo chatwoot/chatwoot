@@ -1,47 +1,30 @@
 module Captain::ChatHelper
-  def search_documentation_tool
-    {
-      type: 'function',
-      function: {
-        name: 'search_documentation',
-        description: "Use this function to get documentation on functionalities you don't know about.",
-        parameters: {
-          type: 'object',
-          properties: {
-            search_query: {
-              type: 'string',
-              description: 'The search query to look up in the documentation.'
-            }
-          },
-          required: ['search_query']
-        }
-      }
-    }
-  end
-
   def request_chat_completion
     Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{@messages}" }
 
+    available_tools = @tool_registry&.registered_tools || []
     response = @client.chat(
       parameters: {
         model: @model,
         messages: @messages,
-        tools: [search_documentation_tool],
+        tools: available_tools,
         response_format: { type: 'json_object' }
       }
     )
 
     handle_response(response)
-    @response
+  rescue StandardError => e
+    Rails.logger.error { "[CAPTAIN][ChatCompletion] #{e}" }
+    raise e
   end
 
   def handle_response(response)
-    Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{response}" }
+    Rails.logger.info { "[CAPTAIN][ChatCompletion] #{response}" }
     message = response.dig('choices', 0, 'message')
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
     else
-      @response = JSON.parse(message['content'].strip)
+      JSON.parse(message['content'].strip)
     end
   end
 
@@ -55,37 +38,14 @@ module Captain::ChatHelper
 
   def process_tool_call(tool_call)
     tool_call_id = tool_call['id']
+    function_name = tool_call['function']['name']
+    arguments = JSON.parse(tool_call['function']['arguments'])
 
-    if tool_call['function']['name'] == 'search_documentation'
-      query = JSON.parse(tool_call['function']['arguments'])['search_query']
-      sections = fetch_documentation(query)
-      append_tool_response(sections, tool_call_id)
+    if @tool_registry.respond_to?(function_name)
+      execute_tool_call(tool_call_id, function_name, arguments)
     else
-      append_tool_response('', tool_call_id)
+      process_invalid_tool_call(tool_call_id, function_name)
     end
-  end
-
-  def fetch_documentation(query)
-    Rails.logger.debug { "[CAPTAIN][DocumentationSearch] #{query}" }
-    @assistant
-      .responses
-      .approved
-      .search(query)
-      .map { |response| format_response(response) }.join
-  end
-
-  def format_response(response)
-    formatted_response = "
-    Question: #{response.question}
-    Answer: #{response.answer}
-    "
-    if response.documentable.present? && response.documentable.try(:external_link)
-      formatted_response += "
-      Source: #{response.documentable.external_link}
-      "
-    end
-
-    formatted_response
   end
 
   def append_tool_calls(tool_calls)
@@ -95,11 +55,44 @@ module Captain::ChatHelper
     }
   end
 
-  def append_tool_response(sections, tool_call_id)
+  def append_tool_response(content, tool_call_id)
     @messages << {
       role: 'tool',
       tool_call_id: tool_call_id,
-      content: "Found the following FAQs in the documentation:\n #{sections}"
+      content: content
     }
+  end
+
+  def publish_to_stream(response)
+    @stream_writer&.call(response)
+  end
+
+  def execute_tool_call(tool_call_id, function_name, arguments)
+    publish_to_stream(
+      {
+        response: { response: "Processing tool call #{function_name}" },
+        type: 'tool_calls_start'
+      }
+    )
+    result = @tool_registry.send(function_name, arguments)
+    append_tool_response(result, tool_call_id)
+    publish_to_stream(
+      {
+        response: { response: "Received tool response #{function_name}" },
+        type: 'tool_response',
+        tool: function_name
+      }
+    )
+  end
+
+  def process_invalid_tool_call(tool_call_id, function_name)
+    append_tool_response('Tool not implemented', tool_call_id)
+    publish_to_stream(
+      {
+        response: { response: 'Tool not implemented' },
+        type: 'tool_error',
+        tool: function_name
+      }
+    )
   end
 end
