@@ -35,9 +35,12 @@ class Captain::ProcessCopilotMessageJob < ApplicationJob
     Captain::Copilot::ChatService.new(
       @assistant,
       previous_messages: previous_history || [],
-      conversation_history: conversation&.to_llm_text,
-      language: @account.locale_english_name,
-      stream_writer: ->(data) { broadcast_response(data) }
+      stream_writer: ->(data) { broadcast_response(data) },
+      additional_info: {
+        language: @account.locale_english_name,
+        conversation_id: conversation&.display_id,
+        contact_id: conversation&.contact_id
+      }
     ).generate_response(message)
   end
 

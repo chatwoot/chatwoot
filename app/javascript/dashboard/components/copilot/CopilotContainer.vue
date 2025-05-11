@@ -6,22 +6,12 @@ import CopilotActionCableConnector from 'dashboard/helpers/CopilotActionCableCon
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
-const props = defineProps({
-  conversationId: {
-    type: [Number, String, null],
-    default: null,
-  },
-  conversationInboxType: {
-    type: String,
-    default: '',
-  },
-});
-
 const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const { uiSettings, updateUISettings } = useUISettings();
+const currentChat = useMapGetter('getSelectedChat');
 
 const getUIState = useMapGetter('uiState/getUIState');
 const isSidebarOpen = computed(() => getUIState.value('isCopilotSidebarOpen'));
@@ -79,7 +69,7 @@ const sendMessage = message => {
 
   copilotConnector.value.sendMessage({
     assistantId: activeAssistant.value.id,
-    conversationId: props.conversationId,
+    conversationId: currentChat.value?.id,
     previousHistory: messages.value
       .filter(m => m.role !== 'assistant_thinking')
       .map(m => ({

@@ -7,19 +7,33 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     super()
     @assistant = assistant
     @tool_registry = Captain::ToolRegistryService.new(@assistant)
-    @language = config[:language] || 'english'
-    @messages = build_initial_messages(config)
     @stream_writer = config[:stream_writer]
+    setup_additional_info(config)
+    register_tools
+    @messages = build_initial_messages(config)
+  end
+
+  def setup_additional_info(config)
+    additional_info = config[:additional_info] || {}
+    @language = additional_info[:language] || 'english'
+    @conversation_id = additional_info[:conversation_id]
+    @contact_id = additional_info[:contact_id]
+  end
+
+  def register_tools
+    @tool_registry.register_tool(Captain::Tools::Copilot::GetConversationService)
   end
 
   def build_initial_messages(config)
     messages = [system_message]
-    messages << conversation_history_context if config[:conversation_history].present?
-    messages + (config[:previous_messages] || [])
+    messages += (config[:previous_messages] || [])
+    messages << current_viewing_history if @conversation_id
+    messages
   end
 
   def generate_response(input)
     @messages << { role: 'user', content: input } if input.present?
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Initial Prompt: #{@messages}")
     response = request_chat_completion
     Rails.logger.info("[CAPTAIN][CopilotChatService] Incrementing response usage for #{@assistant.account.id}")
     @assistant.account.increment_response_usage
@@ -42,14 +56,16 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     }
   end
 
-  def conversation_history_context
-    return if @conversation_history.blank?
+  def current_viewing_history
+    return unless @conversation_id
 
     {
       role: 'system',
       content: <<~HISTORY.strip
-        Message History with the user is below:
-        #{@conversation_history}
+        You are currently viewing the conversation with the user with the following details:
+        Conversation ID: #{@conversation_id}
+        Contact ID: #{@contact_id}
+        Account ID: #{@assistant.account.id}
       HISTORY
     }
   end
