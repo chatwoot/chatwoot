@@ -513,13 +513,8 @@ Rails.application.routes.draw do
     # Use resource scope to avoid plural/singular confusion
     resource :voice, only: [], controller: 'voice' do
       collection do
-        get :twiml
-        post :twiml
         get :simple, action: :simple_twiml
         post :simple, action: :simple_twiml
-        post :handle_recording
-        post :handle_user_input
-        post :transcription_callback
         post :status_callback
       end
     end
