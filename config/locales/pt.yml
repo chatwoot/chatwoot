@@ -145,7 +145,9 @@ pt:
         open: 'Conversa foi reaberta por %{user_name}'
         pending: 'Conversa marcada como pendente por %{user_name}'
         snoozed: 'Conversa adiada por %{user_name}'
-        auto_resolved: 'Conversa auto-resolvida pelo sistema por causa dos %{duration} dias sem inatividade'
+        auto_resolved_days: 'Conversa auto-resolvida pelo sistema por causa dos %{count} dias sem inatividade'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: O sistema reabriu a conversa por ter sido recebida uma nova mensagem.
       priority:
         added: '%{user_name} definiu a prioridade para %{new_priority}'

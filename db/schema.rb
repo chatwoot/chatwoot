@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_26_140000) do
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
+    t.jsonb "settings", default: {}
     t.index ["status"], name: "index_accounts_on_status"
   end
 
