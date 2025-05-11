@@ -3,9 +3,9 @@ class LlmFormatter::LlmTextFormatterService
     @record = record
   end
 
-  def format
+  def format(include_contact_details: false)
     formatter_class = find_formatter
-    formatter_class.new(@record).format
+    formatter_class.new(@record).format(include_contact_details: include_contact_details)
   end
 
   private

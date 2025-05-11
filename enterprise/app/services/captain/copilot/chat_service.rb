@@ -22,6 +22,9 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
 
   def register_tools
     @tool_registry.register_tool(Captain::Tools::Copilot::GetConversationService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::GetContactService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::SearchContactService)
   end
 
   def build_initial_messages(config)
@@ -52,7 +55,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], @language)
+      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], @language, @assistant.account_id)
     }
   end
 
