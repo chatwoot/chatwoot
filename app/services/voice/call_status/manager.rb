@@ -518,10 +518,6 @@ module Voice
           )
         end
       end
-      
-      # NOTE: This method is no longer used - conversation updates are handled
-      # directly in the broadcast_status_change method for terminal call states.
-
     end
   end
 end
