@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue';
+import { nextTick, ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
@@ -8,7 +8,7 @@ import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
-import CopilotThinkingBlock from 'dashboard/components/copilot/CopilotThinkingBlock.vue';
+import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
 import Icon from '../icon/Icon.vue';
 import Button from '../button/Button.vue';
@@ -67,6 +67,29 @@ const scrollToBottom = async () => {
   }
 };
 
+const groupedMessages = computed(() => {
+  const result = [];
+  let thinkingGroup = [];
+
+  props.messages.forEach(message => {
+    if (message.role === 'assistant_thinking') {
+      thinkingGroup.push(message);
+    } else {
+      if (thinkingGroup.length > 0) {
+        result.push({ type: 'thinking_group', messages: thinkingGroup });
+        thinkingGroup = [];
+      }
+      result.push({ type: 'message', message });
+    }
+  });
+
+  if (thinkingGroup.length > 0) {
+    result.push({ type: 'thinking_group', messages: thinkingGroup });
+  }
+
+  return result;
+});
+
 const promptOptions = [
   {
     label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
@@ -117,24 +140,26 @@ watch(
       class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
     >
       <div v-if="messages.length" class="space-y-6 flex-1 flex flex-col">
-        <template v-for="message in messages" :key="message.id">
-          <CopilotAgentMessage
-            v-if="message.role === 'user'"
-            :support-agent="supportAgent"
-            :message="message"
-          />
-          <CopilotAssistantMessage
-            v-else-if="
-              message.role === 'assistant' || message.role === 'system'
-            "
-            :message="message"
-            :conversation-inbox-type="conversationInboxType"
-          />
-          <CopilotThinkingBlock
-            v-else-if="message.role === 'assistant_thinking'"
-            :content="message.content"
-            :reasoning="message.reasoning"
-          />
+        <template
+          v-for="item in groupedMessages"
+          :key="item.type === 'message' ? item.message.id : 'thinking-group'"
+        >
+          <template v-if="item.type === 'message'">
+            <CopilotAgentMessage
+              v-if="item.message.role === 'user'"
+              :support-agent="supportAgent"
+              :message="item.message"
+            />
+            <CopilotAssistantMessage
+              v-else-if="
+                item.message.role === 'assistant' ||
+                item.message.role === 'system'
+              "
+              :message="item.message"
+              :conversation-inbox-type="conversationInboxType"
+            />
+          </template>
+          <CopilotThinkingGroup v-else :messages="item.messages" />
         </template>
 
         <CopilotLoader v-if="isCaptainTyping" />

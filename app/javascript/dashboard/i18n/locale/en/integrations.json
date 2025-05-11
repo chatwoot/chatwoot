@@ -335,6 +335,7 @@
       "USE": "Use this",
       "RESET": "Reset",
       "SELECT_ASSISTANT": "Select Assistant",
+      "SHOW_THINKING": "Show thought process",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Summarize this conversation",
