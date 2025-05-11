@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Missatge actualitzat",
             "WEBWIDGET_TRIGGERED": "Widget de xat en directe obert per l'usuari",
             "CONTACT_CREATED": "Contacte creat",
-            "CONTACT_UPDATED": "Contacte actualitzat"
+            "CONTACT_UPDATED": "Contacte actualitzat",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
