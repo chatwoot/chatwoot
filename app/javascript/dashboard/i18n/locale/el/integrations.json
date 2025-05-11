@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Το μήνυμα ενημερώθηκε",
             "WEBWIDGET_TRIGGERED": "Το widget συνομιλίας άνοιξε από τον χρήστη",
             "CONTACT_CREATED": "Contact created",
-            "CONTACT_UPDATED": "Contact updated"
+            "CONTACT_UPDATED": "Contact updated",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

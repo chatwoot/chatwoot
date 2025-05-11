@@ -46,8 +46,8 @@
   },
   "DURATION_INPUT": {
     "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "HOURS": "Heures",
+    "DAYS": "Jours",
+    "PLACEHOLDER": "Entrez la durée"
   }
 }
