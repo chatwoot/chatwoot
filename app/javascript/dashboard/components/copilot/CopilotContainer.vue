@@ -132,7 +132,7 @@ const handleClose = () => {
 <template>
   <div
     v-if="isSidebarOpen"
-    class="border-l border-n-weak w-[18rem] min-w-[18rem]"
+    class="border-l border-n-weak w-[20rem] min-w-[20rem]"
   >
     <Copilot
       :messages="messages"

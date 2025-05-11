@@ -35,7 +35,7 @@ const closeConversationPanel = () => {
 <template>
   <div
     v-if="showConversationSidebar"
-    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-[18rem] min-w-[18rem] flex flex-col"
+    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-[20rem] min-w-[20rem] flex flex-col"
   >
     <div class="flex flex-1 flex-col overflow-auto">
       <div

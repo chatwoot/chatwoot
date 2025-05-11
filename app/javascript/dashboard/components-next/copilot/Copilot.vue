@@ -159,7 +159,14 @@ watch(
               :conversation-inbox-type="conversationInboxType"
             />
           </template>
-          <CopilotThinkingGroup v-else :messages="item.messages" />
+          <CopilotThinkingGroup
+            v-else
+            :messages="item.messages"
+            :has-assistant-message-after="
+              groupedMessages[groupedMessages.indexOf(item) + 1]?.message
+                ?.role === 'assistant'
+            "
+          />
         </template>
 
         <CopilotLoader v-if="isCaptainTyping" />

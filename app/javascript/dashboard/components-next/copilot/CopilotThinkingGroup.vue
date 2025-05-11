@@ -1,16 +1,28 @@
 <script setup>
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from '../icon/Icon.vue';
 import CopilotThinkingBlock from 'dashboard/components/copilot/CopilotThinkingBlock.vue';
 
-defineProps({ messages: { type: Array, required: true } });
+const props = defineProps({
+  messages: { type: Array, required: true },
+  hasAssistantMessageAfter: { type: Boolean, default: false },
+});
 const { t } = useI18n();
-const isExpanded = ref(false);
+const isExpanded = ref(!props.hasAssistantMessageAfter);
+
+watch(
+  () => props.hasAssistantMessageAfter,
+  newValue => {
+    if (newValue) {
+      isExpanded.value = false;
+    }
+  }
+);
 </script>
 
 <template>
-  <div class="flex flex-col gap-2">
+  <div class="flex flex-col gap-2 pl-4">
     <button
       class="flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-11"
       @click="isExpanded = !isExpanded"

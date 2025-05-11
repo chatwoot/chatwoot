@@ -12,11 +12,11 @@ class Captain::Tools::Copilot::SearchConversationService < Captain::Tools::BaseS
       type: 'object',
       properties: {
         account_id: {
-          type: 'string',
+          type: 'number',
           description: 'The ID of the account to search conversations in'
         },
         contact_id: {
-          type: 'string',
+          type: 'number',
           description: 'Filter conversations by contact ID'
         },
         status: {

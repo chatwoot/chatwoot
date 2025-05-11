@@ -12,11 +12,11 @@ class Captain::Tools::Copilot::GetContactService < Captain::Tools::BaseService
       type: 'object',
       properties: {
         contact_id: {
-          type: 'string',
+          type: 'number',
           description: 'The ID of the contact to retrieve'
         },
         account_id: {
-          type: 'string',
+          type: 'number',
           description: 'The ID of the account the contact belongs to'
         }
       },

@@ -12,7 +12,7 @@ class Captain::Tools::Copilot::SearchContactService < Captain::Tools::BaseServic
       type: 'object',
       properties: {
         account_id: {
-          type: 'string',
+          type: 'number',
           description: 'The ID of the account to search contacts in'
         },
         email: {

@@ -28,9 +28,12 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   end
 
   def build_initial_messages(config)
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Building initial messages for conversation_id=#{@conversation_id}")
     messages = [system_message]
     messages += (config[:previous_messages] || [])
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Added #{config[:previous_messages]&.length || 0} previous messages")
     messages << current_viewing_history if @conversation_id
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Total messages built: #{messages.length}")
     messages
   end
 
@@ -53,6 +56,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   private
 
   def system_message
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Generating system message for product=#{@assistant.config['product_name']} language=#{@language}")
     {
       role: 'system',
       content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], @language, @assistant.account_id)
@@ -60,6 +64,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   end
 
   def current_viewing_history
+    Rails.logger.info("[CAPTAIN][CopilotChatService] Fetching viewing history for conversation_id=#{@conversation_id}")
     return unless @conversation_id
 
     {

@@ -12,11 +12,11 @@ class Captain::Tools::Copilot::GetConversationService < Captain::Tools::BaseServ
       type: 'object',
       properties: {
         conversation_id: {
-          type: 'string',
+          type: 'number',
           description: 'The ID of the conversation to retrieve'
         },
         account_id: {
-          type: 'string',
+          type: 'number',
           description: 'The ID of the account the conversation belongs to'
         }
       },
