@@ -1,5 +1,12 @@
 <script setup>
-import { onMounted, computed, ref, toRefs, useTemplateRef } from 'vue';
+import {
+  onMounted,
+  computed,
+  ref,
+  toRefs,
+  useTemplateRef,
+  onUnmounted,
+} from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
@@ -19,7 +26,7 @@ import {
   MESSAGE_STATUS,
   CONTENT_TYPES,
 } from './constants';
-import { useTargetScrollLock } from 'dashboard/composables/useTargetScrollLock';
+import { useScrollLock } from '@vueuse/core';
 
 import Avatar from 'next/avatar/Avatar.vue';
 
@@ -131,7 +138,8 @@ const props = defineProps({
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 
-const conversationPanelScrollLock = useTargetScrollLock();
+const conversationPanelElement = document.querySelector('.conversation-panel');
+const conversationPanelScrollLock = useScrollLock(conversationPanelElement);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
@@ -371,7 +379,7 @@ const shouldRenderMessage = computed(() => {
 
 function openContextMenu(e) {
   // Lock scroll to prevent scrolling when context menu is open
-  conversationPanelScrollLock.lockScroll('.conversation-panel');
+  conversationPanelScrollLock.value = true;
 
   // Close forward modal, when opening context menu
   emailBubbleRef.value?.closeForwardModal();
@@ -396,7 +404,7 @@ function openContextMenu(e) {
 
 function closeContextMenu() {
   // Unlock scroll when context menu is closed
-  conversationPanelScrollLock.unlockScroll();
+  conversationPanelScrollLock.value = false;
   showContextMenu.value = false;
   contextMenuPosition.value = { x: null, y: null };
 }
@@ -459,6 +467,9 @@ const openForwardModal = ({ x, y }) => {
 };
 
 onMounted(setupHighlightTimer);
+onUnmounted(() => {
+  conversationPanelScrollLock.value = false;
+});
 
 provideMessageContext({
   ...toRefs(props),

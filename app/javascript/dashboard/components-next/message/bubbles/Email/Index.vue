@@ -1,9 +1,16 @@
 <script setup>
-import { computed, useTemplateRef, ref, onMounted, reactive } from 'vue';
+import {
+  computed,
+  useTemplateRef,
+  onUnmounted,
+  ref,
+  onMounted,
+  reactive,
+} from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
 import { useWindowSize, useToggle } from '@vueuse/core';
-import { useTargetScrollLock } from 'dashboard/composables/useTargetScrollLock';
+import { useScrollLock } from '@vueuse/core';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -35,7 +42,9 @@ const contentContainer = useTemplateRef('contentContainer');
 // Forward form - managed locally but can be triggered by parent
 const [showForwardMessageModal, toggleForwardModal] = useToggle();
 const forwardFormPosition = reactive({ top: 0, right: 0 });
-const conversationPanelScrollLock = useTargetScrollLock();
+const conversationPanelElement = document.querySelector('.conversation-panel');
+const conversationPanelScrollLock = useScrollLock(conversationPanelElement);
+
 const { width: windowWidth, height: windowHeight } = useWindowSize();
 
 onMounted(() => {
@@ -111,12 +120,12 @@ const handleSeeOriginal = () => {
 
 const closeForwardModal = () => {
   toggleForwardModal(false);
-  conversationPanelScrollLock.unlockScroll();
+  conversationPanelScrollLock.value = false;
 };
 
 const openForwardModal = ({ x, y }) => {
   // Lock conversation panel scroll
-  conversationPanelScrollLock.lockScroll('.conversation-panel');
+  conversationPanelScrollLock.value = true;
 
   // Form dimensions
   const [formWidth, formHeight] = [672, 500];
@@ -145,6 +154,10 @@ const openForwardModal = ({ x, y }) => {
 
   toggleForwardModal(true);
 };
+
+onUnmounted(() => {
+  conversationPanelScrollLock.value = false;
+});
 
 defineExpose({
   openForwardModal,
