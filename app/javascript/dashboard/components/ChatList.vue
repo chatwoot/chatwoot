@@ -30,6 +30,7 @@ import ConversationItem from './ConversationItem.vue';
 import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCustomViews.vue';
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import IntersectionObserver from './IntersectionObserver.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -840,14 +841,17 @@ watch(conversationFilters, (newVal, oldVal) => {
       @basic-filter-change="onBasicFilterChange"
     />
 
-    <Teleport v-if="showAddFoldersModal" to="#saveFilterTeleportTarget">
+    <TeleportWithDirection
+      v-if="showAddFoldersModal"
+      to="#saveFilterTeleportTarget"
+    >
       <SaveCustomView
         v-model="appliedFilter"
         :custom-views-query="foldersQuery"
         :open-last-saved-item="openLastSavedItemInFolder"
         @close="onCloseAddFoldersModal"
       />
-    </Teleport>
+    </TeleportWithDirection>
 
     <DeleteCustomViews
       v-if="showDeleteFoldersModal"
@@ -944,7 +948,10 @@ watch(conversationFilters, (newVal, oldVal) => {
         </template>
       </DynamicScroller>
     </div>
-    <Teleport v-if="showAdvancedFilters" to="#conversationFilterTeleportTarget">
+    <TeleportWithDirection
+      v-if="showAdvancedFilters"
+      to="#conversationFilterTeleportTarget"
+    >
       <ConversationFilter
         v-model="appliedFilter"
         :folder-name="activeFolderName"
@@ -953,6 +960,6 @@ watch(conversationFilters, (newVal, oldVal) => {
         @update-folder="onUpdateSavedFilter"
         @close="closeAdvanceFiltersModal"
       />
-    </Teleport>
+    </TeleportWithDirection>
   </div>
 </template>
