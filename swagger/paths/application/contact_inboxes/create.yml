@@ -26,6 +26,7 @@ post:
             inbox_id:
               type: number
               description: The ID of the inbox
+              example: 1
             source_id:
               type: string
               description: Contact Inbox Source Id

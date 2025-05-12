@@ -12,6 +12,10 @@ properties:
     type: string
     description: The webhook URL for the bot
     example: 'https://example.com/webhook'
+  account_id:
+    type: integer
+    description: The account ID to associate the agent bot with
+    example: 1
   avatar:
     type: string
     format: binary
@@ -20,11 +24,3 @@ properties:
     type: string
     description: The url to a jpeg, png file for the agent bot avatar
     example: https://example.com/avatar.png
-  bot_type:
-    type: integer
-    description: The type of the bot (0 for webhook)
-    example: 0
-  bot_config:
-    type: object
-    description: The configuration for the bot
-    example: {}

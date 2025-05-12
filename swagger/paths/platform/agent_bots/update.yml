@@ -10,7 +10,7 @@ requestBody:
   content:
     application/json:
       schema:
-        $ref: '#/components/schemas/agent_bot_create_update_payload'
+        $ref: '#/components/schemas/platform_agent_bot_create_update_payload'
 responses:
   '200':
     description: Success

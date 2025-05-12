@@ -76,6 +76,9 @@ account_create_update_payload:
 account_user_create_update_payload:
   $ref: ./request/account_user/create_update_payload.yml
 
+platform_agent_bot_create_update_payload:
+  $ref: ./request/platform/agent_bot/create_update_payload.yml
+
 agent_bot_create_update_payload:
   $ref: ./request/agent_bot/create_update_payload.yml
 
@@ -87,6 +90,12 @@ canned_response_create_update_payload:
 
 custom_attribute_create_update_payload:
   $ref: ./request/custom_attribute/create_update_payload.yml
+
+## Agent
+agent_create_payload:
+  $ref: ./request/agent/create_payload.yml
+agent_update_payload:
+  $ref: ./request/agent/update_payload.yml
 
 ## Contact
 contact_create_payload:

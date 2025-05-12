@@ -17,21 +17,7 @@ requestBody:
   content:
     application/json:
       schema:
-        type: object
-        required:
-          - role
-        properties:
-          role:
-            type: string
-            enum: ['agent', 'administrator']
-            description: Whether its administrator or agent
-          availability:
-            type: string
-            enum: ['available', 'busy', 'offline']
-            description: The availability setting of the agent.
-          auto_offline:
-            type: boolean
-            description: Whether the availability status of agent is configured to go offline automatically when away.
+        $ref: '#/components/schemas/agent_update_payload'
 responses:
   200:
     description: Success
