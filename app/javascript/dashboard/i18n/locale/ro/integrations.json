@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mesaj actualizat",
             "WEBWIDGET_TRIGGERED": "Widget de chat live deschis de utilizator",
             "CONTACT_CREATED": "Persoană de contact creată",
-            "CONTACT_UPDATED": "Persoană de contact actualizată"
+            "CONTACT_UPDATED": "Persoană de contact actualizată",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -406,15 +408,18 @@
         },
         "NAME": {
           "LABEL": "Nume",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Descriere",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "The product name is required"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",

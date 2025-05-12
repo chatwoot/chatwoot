@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Ziņojums atjaunināts",
             "WEBWIDGET_TRIGGERED": "Lietotājs atvēra tiešsaistes tērzēšanas logrīku",
             "CONTACT_CREATED": "Kontaktpersona izveidota",
-            "CONTACT_UPDATED": "Kontaktpersona atjaunināta"
+            "CONTACT_UPDATED": "Kontaktpersona atjaunināta",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -406,15 +408,18 @@
         },
         "NAME": {
           "LABEL": "Nosaukums",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Apraksts",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Produkta Nosaukums",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "Nepieciešams produkta nosaukums"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",

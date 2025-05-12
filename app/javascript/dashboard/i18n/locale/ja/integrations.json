@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "メッセージが更新されました",
             "WEBWIDGET_TRIGGERED": "ユーザーによってライブチャットウィジェットが開かれました",
             "CONTACT_CREATED": "連絡先が作成されました",
-            "CONTACT_UPDATED": "連絡先が更新されました"
+            "CONTACT_UPDATED": "連絡先が更新されました",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -406,15 +408,18 @@
         },
         "NAME": {
           "LABEL": "名前",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "説明",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "製品名",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "製品名が必要です"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",

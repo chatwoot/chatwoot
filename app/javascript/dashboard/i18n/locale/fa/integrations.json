@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "پیام به روز شد",
             "WEBWIDGET_TRIGGERED": "ابزارک گفتگو زنده توسط کاربر باز شده است",
             "CONTACT_CREATED": "مخاطب ایجاد شد",
-            "CONTACT_UPDATED": "مخاطب به‌روزرسانی شد"
+            "CONTACT_UPDATED": "مخاطب به‌روزرسانی شد",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -406,15 +408,18 @@
         },
         "NAME": {
           "LABEL": "نام",
-          "PLACEHOLDER": "Enter assistant name"
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "توضیحات",
-          "PLACEHOLDER": "Enter assistant description"
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name"
+          "PLACEHOLDER": "Enter product name",
+          "ERROR": "The product name is required"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Welcome Message",
