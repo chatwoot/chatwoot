@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "メッセージが更新されました",
             "WEBWIDGET_TRIGGERED": "ユーザーによってライブチャットウィジェットが開かれました",
             "CONTACT_CREATED": "連絡先が作成されました",
-            "CONTACT_UPDATED": "連絡先が更新されました"
+            "CONTACT_UPDATED": "連絡先が更新されました",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

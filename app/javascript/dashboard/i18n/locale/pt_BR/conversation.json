@@ -201,12 +201,12 @@
     },
     "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
     "CHANGE_STATUS": "Estado da conversa mudou",
-    "CHANGE_STATUS_FAILED": "Mudança de situação da conversa falhou",
+    "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
     "CHANGE_AGENT": "Novo agente atribuído",
     "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
-    "CHANGE_TEAM": "Situação da conversa mudou",
+    "CHANGE_TEAM": "Status da conversa mudou",
     "FILE_SIZE_LIMIT": "O arquivo excede os {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB do limite para anexos",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
@@ -234,7 +234,7 @@
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contato",
+      "CONTACT": "Contatos",
       "COPILOT": "Copiloto"
     }
   },

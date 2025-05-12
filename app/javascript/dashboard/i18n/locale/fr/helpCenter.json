@@ -697,7 +697,7 @@
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
         "ERROR": "Le Slug est requis",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "FORMAT_ERROR": "Veuillez saisir un identifiant valide, par exemple : guide-utilisateur"
       }
     },
     "PORTAL_SETTINGS": {
