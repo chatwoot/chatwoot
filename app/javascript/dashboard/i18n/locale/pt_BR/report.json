@@ -474,7 +474,7 @@
         "AGENT": "Agente",
         "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
-        "STATUS": "Situação"
+        "STATUS": "Status"
       }
     },
     "TEAM_CONVERSATIONS": {
@@ -486,11 +486,11 @@
         "TEAM": "Time",
         "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
-        "STATUS": "Situação"
+        "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Situação do agente",
+      "HEADER": "Status do agente",
       "ONLINE": "Disponível",
       "BUSY": "Ocupado",
       "OFFLINE": "Desconectado"

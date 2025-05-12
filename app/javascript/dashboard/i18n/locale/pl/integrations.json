@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Aktualizacja wiadomości",
             "WEBWIDGET_TRIGGERED": "Użytkownik otworzył czat na żywo",
             "CONTACT_CREATED": "Utworzenie kontaktu",
-            "CONTACT_UPDATED": "Aktualizacja kontaktu"
+            "CONTACT_UPDATED": "Aktualizacja kontaktu",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

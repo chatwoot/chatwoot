@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Pesan diperbarui",
             "WEBWIDGET_TRIGGERED": "Widget obrolan langsung dibuka oleh pengguna",
             "CONTACT_CREATED": "Kontak dibuat",
-            "CONTACT_UPDATED": "Kontak diperbarui"
+            "CONTACT_UPDATED": "Kontak diperbarui",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

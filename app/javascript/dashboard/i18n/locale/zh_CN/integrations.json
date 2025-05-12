@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "消息已更新",
             "WEBWIDGET_TRIGGERED": "用户打开实时聊天小部件",
             "CONTACT_CREATED": "联系人已创建",
-            "CONTACT_UPDATED": "联系人已更新"
+            "CONTACT_UPDATED": "联系人已更新",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
