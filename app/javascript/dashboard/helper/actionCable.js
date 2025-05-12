@@ -7,7 +7,10 @@ import { emitter } from 'shared/helpers/mitt';
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
     const { websocketURL = '' } = window.chatwootConfig || {};
-    super(app, pubsubToken, websocketURL);
+
+    // eslint-disable-next-line no-underscore-dangle
+    const wsURL = websocketURL || window.__WEBSOCKET_URL__ || '';
+    super(app, pubsubToken, wsURL);
     this.CancelTyping = [];
     this.events = {
       'message.created': this.onMessageCreated,
@@ -44,7 +47,9 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   isAValidEvent = data => {
-    return this.app.$store.getters.getCurrentAccountId === data.account_id;
+    // eslint-disable-next-line no-underscore-dangle
+    const currentAccountId = this.app.$store.getters.getCurrentAccountId;
+    return currentAccountId === data.account_id;
   };
 
   onMessageUpdated = data => {

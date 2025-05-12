@@ -7,13 +7,14 @@ import 'floating-vue/dist/style.css';
 import tailwindStyles from '../dashboard/assets/scss/_woot.scss?inline';
 
 import VueDOMPurifyHTML from 'vue-dompurify-html';
-import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer.js';
 
-import store from 'dashboard/store';
-import constants from 'dashboard/constants/globals';
+import store from '../dashboard/store';
+import constants from '../dashboard/constants/globals';
 import axios from 'axios';
 import createAxios from '../ui/axios';
-import commonHelpers from 'dashboard/helper/commons';
+import commonHelpers from '../dashboard/helper/commons';
+import vueActionCable from '../dashboard/helper/actionCable';
 
 import MessageList from '../ui/MessageList.vue';
 import i18nMessages from '../dashboard/i18n';
@@ -30,6 +31,8 @@ const ceOptions = {
     app.use(store);
     app.use(i18n);
     app.use(VueDOMPurifyHTML, domPurifyConfig);
+    // eslint-disable-next-line no-underscore-dangle
+    vueActionCable.init(store, window.__PUBSUB_TOKEN__);
     // I18n has to be injected inside that can be picked
     // up by the compononent, the API stays the same, just use `useI18n`
     // https://vue-i18n.intlify.dev/guide/advanced/wc
