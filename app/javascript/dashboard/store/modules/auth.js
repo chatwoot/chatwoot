@@ -115,7 +115,7 @@ export const actions = {
     }
   },
   async setUser({ commit, dispatch }) {
-    if (authAPI.hasAuthCookie()) {
+    if (authAPI.hasAuthCookie() || authAPI.hasAuthToken()) {
       await dispatch('validityCheck');
     } else {
       commit(types.CLEAR_USER);

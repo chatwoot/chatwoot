@@ -28,6 +28,7 @@ const i18n = createI18n({
 
 const ceOptions = {
   configureApp(app) {
+    store.dispatch('setUser');
     app.use(store);
     app.use(i18n);
     app.use(VueDOMPurifyHTML, domPurifyConfig);

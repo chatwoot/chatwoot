@@ -9,6 +9,11 @@ import {
 
 export default {
   validityCheck() {
+    if (this.hasAuthToken()) {
+      const urlData = endPoints('profileUpdate');
+      return axios.get(urlData.url);
+    }
+
     const urlData = endPoints('validityCheck');
     return axios.get(urlData.url);
   },
@@ -30,6 +35,10 @@ export default {
   },
   hasAuthCookie() {
     return !!Cookies.get('cw_d_session_info');
+  },
+  hasAuthToken() {
+    // eslint-disable-next-line no-underscore-dangle
+    return !!window.__WOOT_ACCESS_TOKEN__;
   },
   getAuthData() {
     if (this.hasAuthCookie()) {
