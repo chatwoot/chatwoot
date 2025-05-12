@@ -11,6 +11,7 @@ export const buildCreatePayload = ({
   ccEmails = '',
   bccEmails = '',
   toEmails = '',
+  contentType = null,
   templateParams,
 }) => {
   let payload;
@@ -33,6 +34,9 @@ export const buildCreatePayload = ({
     if (contentAttributes) {
       payload.append('content_attributes', JSON.stringify(contentAttributes));
     }
+    if (contentType) {
+      payload.append('content_type', contentType);
+    }
   } else {
     payload = {
       content: message,
@@ -43,6 +47,7 @@ export const buildCreatePayload = ({
       bcc_emails: bccEmails,
       to_emails: toEmails,
       template_params: templateParams,
+      content_type: contentType,
     };
   }
   return payload;
@@ -60,29 +65,27 @@ class MessageApi extends ApiClient {
     contentAttributes,
     echo_id: echoId,
     files,
+    templateParams,
     ccEmails = '',
     bccEmails = '',
     toEmails = '',
     content_type = null,
-    templateParams,
   }) {
     return axios({
       method: 'post',
       url: `${this.url}/${conversationId}/messages`,
-      data: {
-        ...buildCreatePayload({
-          message,
-          isPrivate,
-          contentAttributes,
-          echoId,
-          files,
-          ccEmails,
-          bccEmails,
-          toEmails,
-          templateParams,
-        }),
-        content_type
-      },
+      data: buildCreatePayload({
+        message,
+        isPrivate,
+        contentAttributes,
+        echoId,
+        files,
+        ccEmails,
+        bccEmails,
+        toEmails,
+        templateParams,
+        contentType: content_type,
+      }),
     });
   }
 
