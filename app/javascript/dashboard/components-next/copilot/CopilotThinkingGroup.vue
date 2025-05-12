@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from '../icon/Icon.vue';
 import CopilotThinkingBlock from 'dashboard/components/copilot/CopilotThinkingBlock.vue';
@@ -10,6 +10,8 @@ const props = defineProps({
 });
 const { t } = useI18n();
 const isExpanded = ref(!props.hasAssistantMessageAfter);
+
+const thinkingCount = computed(() => props.messages.length);
 
 watch(
   () => props.hasAssistantMessageAfter,
@@ -22,18 +24,32 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col gap-2 pl-4">
+  <div class="flex flex-col gap-2">
     <button
-      class="flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-11"
+      class="group flex items-center gap-2 text-xs text-n-slate-10 hover:text-n-slate-11 transition-colors duration-200 -ml-3"
       @click="isExpanded = !isExpanded"
     >
       <Icon
         :icon="isExpanded ? 'i-lucide-chevron-down' : 'i-lucide-chevron-right'"
-        class="w-4 h-4"
+        class="w-4 h-4 transition-transform duration-200 group-hover:scale-110"
       />
-      {{ t('CAPTAIN.COPILOT.SHOW_THINKING') }}
+      <span class="flex items-center gap-2">
+        {{ t('CAPTAIN.COPILOT.SHOW_STEPS') }}
+        <span
+          class="inline-flex items-center justify-center h-4 min-w-4 px-1 text-xs font-medium rounded-full bg-n-solid-3 text-n-slate-11"
+        >
+          {{ thinkingCount }}
+        </span>
+      </span>
     </button>
-    <div v-if="isExpanded" class="space-y-4">
+    <div
+      v-show="isExpanded"
+      class="space-y-3 transition-all duration-200"
+      :class="{
+        'opacity-100 max-h-96': isExpanded,
+        'opacity-0 max-h-0 overflow-hidden': !isExpanded,
+      }"
+    >
       <CopilotThinkingBlock
         v-for="message in messages"
         :key="message.id"

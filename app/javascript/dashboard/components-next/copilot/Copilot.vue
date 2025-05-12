@@ -9,7 +9,7 @@ import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
-import Button from '../button/Button.vue';
+import CopilotHeader from './CopilotHeader.vue';
 import CopilotEmptyState from './CopilotEmptyState.vue';
 
 const props = defineProps({
@@ -93,25 +93,11 @@ watch(
 
 <template>
   <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
-    <div
-      class="flex items-center justify-between px-4 py-2 border-b border-n-weak h-12"
-    >
-      <div class="flex items-center justify-between gap-2 flex-1">
-        <span class="font-medium text-sm text-n-slate-12">
-          {{ $t('CAPTAIN.COPILOT.TITLE') }}
-        </span>
-        <div class="flex items-center">
-          <Button
-            v-if="messages.length"
-            icon="i-lucide-plus"
-            ghost
-            sm
-            @click="handleReset"
-          />
-          <Button icon="i-lucide-x" ghost sm @click="$emit('close')" />
-        </div>
-      </div>
-    </div>
+    <CopilotHeader
+      :has-messages="messages.length > 0"
+      @reset="handleReset"
+      @close="$emit('close')"
+    />
     <div
       ref="chatContainer"
       class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
