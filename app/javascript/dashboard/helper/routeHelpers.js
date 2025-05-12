@@ -10,6 +10,7 @@ import {
   CONTACT_PERMISSIONS,
   REPORTS_PERMISSIONS,
   PORTAL_PERMISSIONS,
+  BILLING_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 
 export const routeIsAccessibleFor = (route, userPermissions = []) => {
@@ -28,6 +29,7 @@ export const defaultRedirectPage = (to, permissions) => {
     { permissions: [CONTACT_PERMISSIONS], path: 'contacts' },
     { permissions: [REPORTS_PERMISSIONS], path: 'reports/overview' },
     { permissions: [PORTAL_PERMISSIONS], path: 'portals' },
+    { permissions: [BILLING_PERMISSIONS], path: 'settings/billing' },
   ];
 
   const route = permissionRoutes.find(({ permissions: routePermissions }) =>

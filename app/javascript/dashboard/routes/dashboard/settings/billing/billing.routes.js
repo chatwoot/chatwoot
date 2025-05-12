@@ -8,7 +8,7 @@ export default {
     {
       path: frontendURL('accounts/:accountId/settings/billing'),
       meta: {
-        permissions: ['administrator'],
+        permissions: ['billing_manage', 'administrator'],
         installationTypes: [INSTALLATION_TYPES.CLOUD],
       },
       component: SettingsWrapper,
@@ -24,7 +24,7 @@ export default {
           component: Index,
           meta: {
             installationTypes: [INSTALLATION_TYPES.CLOUD],
-            permissions: ['administrator'],
+            permissions: ['billing_manage', 'administrator'],
           },
         },
       ],

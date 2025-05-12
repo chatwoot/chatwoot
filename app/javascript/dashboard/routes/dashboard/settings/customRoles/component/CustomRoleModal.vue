@@ -1,12 +1,13 @@
 <script setup>
 import { ref, reactive, computed, onMounted, watch } from 'vue';
-import { useStore } from 'dashboard/composables/store';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
 import {
   AVAILABLE_CUSTOM_ROLE_PERMISSIONS,
+  CHATWOOT_CLOUD_ONLY_CUSTOM_ROLES,
   MANAGE_ALL_CONVERSATION_PERMISSIONS,
   CONVERSATION_UNASSIGNED_PERMISSIONS,
   CONVERSATION_PARTICIPATING_PERMISSIONS,
@@ -109,6 +110,17 @@ const getTranslationKey = base => {
     : `CUSTOM_ROLE.ADD.${base}`;
 };
 
+const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
+const availablePermissions = computed(() => {
+  if (!isOnChatwootCloud.value) {
+    return AVAILABLE_CUSTOM_ROLE_PERMISSIONS;
+  }
+  return [
+    ...AVAILABLE_CUSTOM_ROLE_PERMISSIONS,
+    ...CHATWOOT_CLOUD_ONLY_CUSTOM_ROLES,
+  ];
+});
+
 const modalTitle = computed(() => t(getTranslationKey('TITLE')));
 const modalDescription = computed(() => t(getTranslationKey('DESC')));
 const submitButtonText = computed(() => t(getTranslationKey('SUBMIT')));
@@ -191,7 +203,7 @@ const isSubmitDisabled = computed(
         </label>
         <div class="flex flex-col gap-2.5 mb-4 mt-2">
           <div
-            v-for="permission in AVAILABLE_CUSTOM_ROLE_PERMISSIONS"
+            v-for="permission in availablePermissions"
             :key="permission"
             class="flex items-center"
           >
