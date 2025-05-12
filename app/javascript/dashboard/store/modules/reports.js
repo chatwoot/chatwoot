@@ -1,5 +1,6 @@
 /* eslint no-console: 0 */
 import * as types from '../mutation-types';
+import { STATUS } from '../constants';
 import Report from '../../api/reports';
 import { downloadCsvFile, generateFileName } from '../../helper/downloadHelper';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
@@ -9,6 +10,8 @@ import liveReports from '../../api/liveReports';
 
 const state = {
   fetchingStatus: false,
+  accountSummaryFetchingStatus: STATUS.FINISHED,
+  botSummaryFetchingStatus: STATUS.FINISHED,
   accountReport: {
     isFetching: {
       conversations_count: false,
@@ -74,6 +77,12 @@ const getters = {
   getBotSummary(_state) {
     return _state.botSummary;
   },
+  getAccountSummaryFetchingStatus(_state) {
+    return _state.accountSummaryFetchingStatus;
+  },
+  getBotSummaryFetchingStatus(_state) {
+    return _state.botSummaryFetchingStatus;
+  },
   getAccountConversationMetric(_state) {
     return _state.overview.accountConversationMetric;
   },
@@ -122,6 +131,7 @@ export const actions = {
     });
   },
   fetchAccountSummary({ commit }, reportObj) {
+    commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FETCHING);
     Report.getSummary(
       reportObj.from,
       reportObj.to,
@@ -132,12 +142,14 @@ export const actions = {
     )
       .then(accountSummary => {
         commit(types.default.SET_ACCOUNT_SUMMARY, accountSummary.data);
+        commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FINISHED);
       })
       .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+        commit(types.default.SET_ACCOUNT_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchBotSummary({ commit }, reportObj) {
+    commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FETCHING);
     Report.getBotSummary({
       from: reportObj.from,
       to: reportObj.to,
@@ -146,9 +158,10 @@ export const actions = {
     })
       .then(botSummary => {
         commit(types.default.SET_BOT_SUMMARY, botSummary.data);
+        commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FINISHED);
       })
       .catch(() => {
-        commit(types.default.TOGGLE_ACCOUNT_REPORT_LOADING, false);
+        commit(types.default.SET_BOT_SUMMARY_STATUS, STATUS.FAILED);
       });
   },
   fetchAccountConversationMetric({ commit }, params = {}) {
@@ -276,6 +289,12 @@ const mutations = {
   },
   [types.default.TOGGLE_ACCOUNT_REPORT_LOADING](_state, { metric, value }) {
     _state.accountReport.isFetching[metric] = value;
+  },
+  [types.default.SET_BOT_SUMMARY_STATUS](_state, status) {
+    _state.botSummaryFetchingStatus = status;
+  },
+  [types.default.SET_ACCOUNT_SUMMARY_STATUS](_state, status) {
+    _state.accountSummaryFetchingStatus = status;
   },
   [types.default.TOGGLE_HEATMAP_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingAccountConversationsHeatmap = flag;

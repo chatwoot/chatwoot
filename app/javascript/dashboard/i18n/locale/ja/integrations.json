@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "メッセージが更新されました",
             "WEBWIDGET_TRIGGERED": "ユーザーによってライブチャットウィジェットが開かれました",
             "CONTACT_CREATED": "連絡先が作成されました",
-            "CONTACT_UPDATED": "連絡先が更新されました"
+            "CONTACT_UPDATED": "連絡先が更新されました",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -329,11 +331,34 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "メッセージを送信...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captainが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
-      "SELECT_ASSISTANT": "Select Assistant"
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Summarize this conversation",
+          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+        },
+        "SUGGEST": {
+          "LABEL": "Suggest an answer",
+          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+        },
+        "RATE": {
+          "LABEL": "Rate this conversation",
+          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "あなた",
+      "ASSISTANT": "アシスタント",
+      "MESSAGE_PLACEHOLDER": "Type your message...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
     },
     "PAYWALL": {
       "TITLE": "アップグレードしてCaptain AIを利用する",
@@ -373,20 +398,44 @@
         "ERROR_MESSAGE": "アシスタントの作成中にエラーが発生しました。もう一度お試しください。"
       },
       "FORM": {
+        "UPDATE": "更新",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "機能",
+          "TOOLS": "Tools "
+        },
         "NAME": {
-          "LABEL": "アシスタント名",
-          "PLACEHOLDER": "アシスタントの名前を入力",
-          "ERROR": "アシスタントの名前を入力してください"
+          "LABEL": "名前",
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
-          "LABEL": "アシスタントの説明",
-          "PLACEHOLDER": "このアシスタントがどのように、どこで使用されるかを説明",
-          "ERROR": "説明が必要です"
+          "LABEL": "説明",
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "製品名",
-          "PLACEHOLDER": "このアシスタントが設計された製品の名前を入力",
+          "PLACEHOLDER": "Enter product name",
           "ERROR": "製品名が必要です"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "機能",
@@ -397,7 +446,8 @@
       "EDIT": {
         "TITLE": "アシスタントを更新",
         "SUCCESS_MESSAGE": "アシスタントが正常に更新されました",
-        "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。"
+        "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "アシスタントを編集",

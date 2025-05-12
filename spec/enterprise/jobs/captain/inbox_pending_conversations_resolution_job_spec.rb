@@ -4,11 +4,13 @@ RSpec.describe Captain::InboxPendingConversationsResolutionJob, type: :job do
   include ActiveJob::TestHelper
 
   let!(:inbox) { create(:inbox) }
+
   let!(:resolvable_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 2.hours.ago, status: :pending) }
   let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 10.minutes.ago, status: :pending) }
   let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
 
   before do
+    create(:captain_inbox, inbox: inbox, captain_assistant: create(:captain_assistant, account: inbox.account))
     stub_const('Limits::BULK_ACTIONS_LIMIT', 2)
   end
 
