@@ -51,9 +51,9 @@ class Captain::Tools::Copilot::SearchContactService < Captain::Tools::BaseServic
 
     return 'No contacts found' unless contacts.exists?
 
-    <<~RESPONSE
-      Total number of contacts: #{contacts.count}
+    contacts = contacts.limit(100)
 
+    <<~RESPONSE
       #{contacts.map(&:to_llm_text).join("\n---\n")}
     RESPONSE
   end

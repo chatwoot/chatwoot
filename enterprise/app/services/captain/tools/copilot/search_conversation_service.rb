@@ -53,13 +53,12 @@ class Captain::Tools::Copilot::SearchConversationService < Captain::Tools::BaseS
 
     return 'No conversations found' unless conversations.exists?
 
+    total_count = conversations.count
+    conversations = conversations.limit(100)
+
     <<~RESPONSE
-      Total number of conversations: #{conversations.count}
-      #{
-        conversations.map do |conversation|
-          conversation.to_llm_text(include_contact_details: true)
-        end.join("\n---\n")
-      }
+      #{total_count > 100 ? "Found #{total_count} conversations (showing first 100)" : "Total number of conversations: #{total_count}"}
+      #{conversations.map { |conversation| conversation.to_llm_text(include_contact_details: true) }.join("\n---\n")}
     RESPONSE
   end
 end

@@ -52,8 +52,11 @@ class Captain::Tools::Copilot::SearchArticleService < Captain::Tools::BaseServic
 
     return 'No articles found' unless articles.exists?
 
+    total_count = articles.count
+    articles = articles.limit(100)
+
     <<~RESPONSE
-      Total number of articles: #{articles.count}
+      #{total_count > 100 ? "Found #{total_count} articles (showing first 100)" : "Total number of articles: #{total_count}"}
       #{articles.map(&:to_llm_text).join("\n---\n")}
     RESPONSE
   end
