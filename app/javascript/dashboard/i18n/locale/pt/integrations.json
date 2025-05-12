@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de live-chat aberto pelo utilizador",
             "CONTACT_CREATED": "Contacto criado",
-            "CONTACT_UPDATED": "Contacto atualizado"
+            "CONTACT_UPDATED": "Contacto atualizado",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
