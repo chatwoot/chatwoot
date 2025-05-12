@@ -1,10 +1,10 @@
 {
   "GENERAL_SETTINGS": {
     "LIMIT_MESSAGES": {
-      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
-      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
-      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+      "CONVERSATION": "Vous avez dépassé la limite de conversation. Le plan Hacker autorise uniquement 500 conversations.",
+      "INBOXES": "Vous avez dépassé la limite de boîtes de réception. Le plan Hacker ne prend en charge que le chat en direct sur le site Web. Des boîtes de réception supplémentaires telles que l'email, WhatsApp, etc. nécessitent un plan payant.",
+      "AGENTS": "Vous avez dépassé la limite d'agents. Le plan Hacker permet uniquement 2 agents.",
+      "NON_ADMIN": "Veuillez contacter votre administrateur pour mettre à niveau le plan et continuer à utiliser toutes les fonctionnalités."
     },
     "TITLE": "Paramètres du compte",
     "SUBMIT": "Mettre à jour les paramètres",
@@ -16,22 +16,22 @@
     },
     "ACCOUNT_DELETE_SECTION": {
       "TITLE": "Supprimer votre compte",
-      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "NOTE": "Une fois que vous supprimez votre compte, toutes vos données seront supprimées.",
       "BUTTON_TEXT": "Supprimer votre compte",
       "CONFIRM": {
-        "TITLE": "Delete Account",
+        "TITLE": "Supprimer le compte",
         "MESSAGE": "La suppression de votre compte est irréversible. Entrez votre nom de compte ci-dessous pour confirmer que vous souhaitez le supprimer définitivement.",
         "BUTTON_TEXT": "Supprimer",
         "DISMISS": "Annuler",
         "PLACE_HOLDER": "Veuillez entrer {accountName} pour confirmer"
       },
-      "SUCCESS": "Account marked for deletion",
+      "SUCCESS": "Compte marqué pour suppression",
       "FAILURE": "Impossible de supprimer le compte, essayez à nouveau !",
       "SCHEDULED_DELETION": {
-        "TITLE": "Account Scheduled for Deletion",
-        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
-        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
-        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+        "TITLE": "Compte programmé pour suppression",
+        "MESSAGE_MANUAL": "Ce compte est programmé pour suppression le {deletionDate}. Cette demande a été effectuée par un administrateur. Vous pouvez annuler la suppression avant cette date.",
+        "MESSAGE_INACTIVITY": "Ce compte est programmé pour suppression le {deletionDate} en raison de l'inactivité du compte. Vous pouvez annuler la suppression avant cette date.",
+        "CLEAR_BUTTON": "Annuler la suppression programmée"
       }
     },
     "FORM": {
@@ -45,8 +45,8 @@
         "NOTE": "Cet identifiant est requis si vous construisez une intégration basée sur l'API"
       },
       "AUTO_RESOLVE": {
-        "TITLE": "Auto-resolve conversations",
-        "NOTE": "This configuration would allow you to automatically end the conversation after a certain period. Set the duration and customize the message to the user below."
+        "TITLE": "Résolution automatique des conversations",
+        "NOTE": "Cette configuration vous permet de résoudre automatiquement la conversation après un certain délai. Définissez la durée et personnalisez le message à l'utilisateur ci-dessous."
       },
       "NAME": {
         "LABEL": "Nom du compte",
@@ -68,19 +68,23 @@
         "PLACEHOLDER": "L'adresse de courriel de support de votre entreprise",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclure les conversations non prises en charge",
+        "HELP": "Lorsque cette option est activée, le système ignorera la résolution des conversations qui attendent toujours une réponse d'un agent."
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Inactivity duration for resolution",
-        "HELP": "Duration after a conversation should auto resolve if there is no activity",
+        "LABEL": "Durée d'inactivité avant résolution",
+        "HELP": "Durée après laquelle une conversation doit être automatiquement résolue s'il n'y a pas d'activité",
         "PLACEHOLDER": "30",
-        "ERROR": "Veuillez entrer une durée de résolution automatique valide (minimum 1 jour et maximum 999 jours)",
+        "ERROR": "La durée de résolution automatique doit être comprise entre 10 minutes et 999 jours",
         "API": {
-          "SUCCESS": "Auto resolve settings updated successfully",
-          "ERROR": "Failed to update auto resolve settings"
+          "SUCCESS": "Paramètres de résolution automatique mis à jour avec succès",
+          "ERROR": "Échec de la mise à jour des paramètres de résolution automatique"
         },
-        "UPDATE_BUTTON": "Update Auto-resolve",
-        "MESSAGE_LABEL": "Custom resolution message",
-        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
-        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
+        "UPDATE_BUTTON": "Mettre à jour",
+        "MESSAGE_LABEL": "Message de résolution personnalisé",
+        "MESSAGE_PLACEHOLDER": "La conversation a été marquée comme résolue par le système en raison de 15 jours d'inactivité",
+        "MESSAGE_HELP": "Ce message est envoyé au client lorsque la conversation est automatiquement résolue par le système en raison d'une inactivité."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
