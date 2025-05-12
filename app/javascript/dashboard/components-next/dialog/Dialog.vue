@@ -4,7 +4,7 @@ import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
 
 import Button from 'dashboard/components-next/button/Button.vue';
-import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   type: {
@@ -92,7 +92,7 @@ defineExpose({ open, close });
 </script>
 
 <template>
-  <CustomTeleport to="body">
+  <TeleportWithDirection to="body">
     <dialog
       ref="dialogRef"
       class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
@@ -149,7 +149,7 @@ defineExpose({ open, close });
         </form>
       </OnClickOutside>
     </dialog>
-  </CustomTeleport>
+  </TeleportWithDirection>
 </template>
 
 <style scoped>

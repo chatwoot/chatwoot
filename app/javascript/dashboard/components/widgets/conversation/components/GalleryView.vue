@@ -11,7 +11,7 @@ import { downloadFile } from '@chatwoot/utils';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   attachment: {
@@ -167,7 +167,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <CustomTeleport to="body">
+  <TeleportWithDirection to="body">
     <woot-modal
       v-model:show="show"
       full-width
@@ -259,7 +259,7 @@ onMounted(() => {
           <div class="flex items-center justify-center w-16 shrink-0">
             <NextButton
               v-if="hasMoreThanOneAttachment"
-              icon="i-lucide-chevron-left"
+              icon="ltr:i-lucide-chevron-left rtl:i-lucide-chevron-right"
               class="z-10"
               blue
               faded
@@ -325,7 +325,7 @@ onMounted(() => {
           <div class="flex items-center justify-center w-16 shrink-0">
             <NextButton
               v-if="hasMoreThanOneAttachment"
-              icon="i-lucide-chevron-right"
+              icon="ltr:i-lucide-chevron-right rtl:i-lucide-chevron-left"
               class="z-10"
               blue
               faded
@@ -352,5 +352,5 @@ onMounted(() => {
         </footer>
       </div>
     </woot-modal>
-  </CustomTeleport>
+  </TeleportWithDirection>
 </template>
