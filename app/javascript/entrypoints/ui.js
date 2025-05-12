@@ -26,30 +26,31 @@ const i18n = createI18n({
   messages: i18nMessages,
 });
 
-const ceOptions = {
-  configureApp(app) {
-    store.dispatch('setUser');
-    app.use(store);
-    app.use(i18n);
-    app.use(VueDOMPurifyHTML, domPurifyConfig);
-    // eslint-disable-next-line no-underscore-dangle
-    vueActionCable.init(store, window.__PUBSUB_TOKEN__);
-    // I18n has to be injected inside that can be picked
-    // up by the compononent, the API stays the same, just use `useI18n`
-    // https://vue-i18n.intlify.dev/guide/advanced/wc
-    // Adding this link for my goldfish brain
-    app.provide(I18nInjectionKey, i18n);
-  },
-  // Include tailwind styles in the shadow DOM of each custom element
-  styles: [tailwindStyles],
-};
-
 commonHelpers();
+// eslint-disable-next-line no-underscore-dangle
+window.__CHATWOOT_STORE__ = store;
+
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 
-export const messageListElement = defineCustomElement(MessageList, ceOptions);
+store.dispatch('setUser').then(() => {
+  const ceOptions = {
+    configureApp(app) {
+      app.use(store);
+      app.use(i18n);
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      // eslint-disable-next-line no-underscore-dangle
+      vueActionCable.init(store, window.__PUBSUB_TOKEN__);
+      // I18n has to be injected inside that can be picked
+      // up by the compononent, the API stays the same, just use `useI18n`
+      // https://vue-i18n.intlify.dev/guide/advanced/wc
+      // Adding this link for my goldfish brain
+      app.provide(I18nInjectionKey, i18n);
+    },
+    // Include tailwind styles in the shadow DOM of each custom element
+    styles: [tailwindStyles],
+  };
 
-// eslint-disable-next-line no-underscore-dangle
-window.__CHATWOOT_STORE__ = store;
-customElements.define('woot-message-list', messageListElement);
+  const messageListElement = defineCustomElement(MessageList, ceOptions);
+  customElements.define('woot-message-list', messageListElement);
+});
