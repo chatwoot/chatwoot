@@ -8,10 +8,12 @@ import {
 } from '../store/utils/api';
 
 export default {
-  validityCheck() {
+  async validityCheck() {
     if (this.hasAuthToken()) {
       const urlData = endPoints('profileUpdate');
-      return axios.get(urlData.url);
+      const response = await axios.get(urlData.url);
+      // to match the response signature of the validityCheck endpoint
+      return Promise.resolve({ data: { payload: response } });
     }
 
     const urlData = endPoints('validityCheck');
