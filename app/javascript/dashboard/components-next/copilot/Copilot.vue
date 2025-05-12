@@ -1,6 +1,5 @@
 <script setup>
 import { nextTick, ref, watch, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -10,8 +9,8 @@ import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
-import Icon from '../icon/Icon.vue';
 import Button from '../button/Button.vue';
+import CopilotEmptyState from './CopilotEmptyState.vue';
 
 const props = defineProps({
   supportAgent: {
@@ -42,16 +41,9 @@ const props = defineProps({
 
 const emit = defineEmits(['sendMessage', 'reset', 'setAssistant', 'close']);
 
-const { t } = useI18n();
-
 const sendMessage = message => {
   emit('sendMessage', message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
-};
-
-const useSuggestion = opt => {
-  emit('sendMessage', t(opt.prompt));
-  useTrack(COPILOT_EVENTS.SEND_SUGGESTED);
 };
 
 const handleReset = () => {
@@ -89,21 +81,6 @@ const groupedMessages = computed(() => {
 
   return result;
 });
-
-const promptOptions = [
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
-  },
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
-  },
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-  },
-];
 
 watch(
   [() => props.messages, () => props.isCaptainTyping],
@@ -171,25 +148,10 @@ watch(
 
         <CopilotLoader v-if="isCaptainTyping" />
       </div>
-      <div
+      <CopilotEmptyState
         v-if="!messages.length"
-        class="flex-1 flex items-center justify-center"
-      >
-        <div class="h-fit px-3 py-3 space-y-1">
-          <span class="text-xs text-n-slate-10">
-            {{ $t('COPILOT.TRY_THESE_PROMPTS') }}
-          </span>
-          <button
-            v-for="prompt in promptOptions"
-            :key="prompt.label"
-            class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center gap-1"
-            @click="() => useSuggestion(prompt)"
-          >
-            <span>{{ t(prompt.label) }}</span>
-            <Icon icon="i-lucide-chevron-right" />
-          </button>
-        </div>
-      </div>
+        @use-suggestion="sendMessage"
+      />
     </div>
 
     <div class="mx-3 mt-px mb-2">
