@@ -6,6 +6,9 @@ module Voice
 
       begin
         find_inbox
+
+        return captain_twiml if @inbox.captain_active?
+
         create_contact
 
         # Use a transaction to ensure the conversation and voice call message are created together
@@ -39,6 +42,15 @@ module Voice
     end
 
     private
+
+    def captain_twiml
+      response = Twilio::TwiML::VoiceResponse.new
+      
+      media_service_url = "#{ENV.fetch('AI_MEDIA_SERVICE_URL', nil)}/incoming-call"
+
+      response.redirect(media_service_url)
+      response.to_s
+    end
 
     def find_inbox
       # Find the inbox for this phone number

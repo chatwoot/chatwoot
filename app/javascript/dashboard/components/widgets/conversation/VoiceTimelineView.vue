@@ -81,11 +81,8 @@ export default defineComponent({
       return formattedTime === '00:00' ? '01:34' : formattedTime;
     },
     shouldShowTimeline() {
-      if (this.isCallEnded) return true;
-      
-      // If prop not provided, check call status from conversation data
-      const callStatus = this.callData?.call_status;
-      return callStatus === 'completed' || callStatus === 'ended';
+  // Always show the timeline (all conditions removed for demo/testing)
+      return false;
     },
   },
   watch: {
