@@ -1,5 +1,5 @@
 <script setup>
-import { onMounted, computed, ref, toRefs, onUnmounted } from 'vue';
+import { onMounted, computed, ref, toRefs } from 'vue';
 import { useTimeoutFn } from '@vueuse/core';
 import { provideMessageContext } from './provider.js';
 import { useTrack } from 'dashboard/composables';
@@ -19,7 +19,6 @@ import {
   MESSAGE_STATUS,
   CONTENT_TYPES,
 } from './constants';
-import { useScrollLock } from '@vueuse/core';
 
 import Avatar from 'next/avatar/Avatar.vue';
 
@@ -131,8 +130,6 @@ const props = defineProps({
   sourceId: { type: String, default: '' }, // eslint-disable-line vue/no-unused-properties
 });
 
-const conversationPanelElement = document.querySelector('.conversation-panel');
-const conversationPanelScrollLock = useScrollLock(conversationPanelElement);
 const contextMenuPosition = ref({});
 const showBackgroundHighlight = ref(false);
 const showContextMenu = ref(false);
@@ -310,11 +307,7 @@ const componentToRender = computed(() => {
 });
 
 const shouldShowContextMenu = computed(() => {
-  return !(
-    props.status === MESSAGE_STATUS.FAILED ||
-    props.status === MESSAGE_STATUS.PROGRESS ||
-    props.contentAttributes?.isUnsupported
-  );
+  return !props.contentAttributes?.isUnsupported;
 });
 
 const isBubble = computed(() => {
@@ -339,12 +332,20 @@ const contextMenuEnabledOptions = computed(() => {
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
 
   const isOutgoing = props.messageType === MESSAGE_TYPES.OUTGOING;
+  const isFailedOrProcessing =
+    props.status === MESSAGE_STATUS.FAILED ||
+    props.status === MESSAGE_STATUS.PROGRESS;
 
   return {
     copy: hasText,
-    delete: hasText || hasAttachments,
+    delete: (hasText || hasAttachments) && !isFailedOrProcessing,
     cannedResponse: isOutgoing && hasText,
-    replyTo: !props.private && props.inboxSupportsReplyTo.outgoing,
+    copyLink: !isFailedOrProcessing,
+    translate: !isFailedOrProcessing,
+    replyTo:
+      !props.private &&
+      props.inboxSupportsReplyTo.outgoing &&
+      !isFailedOrProcessing,
   };
 });
 
@@ -365,9 +366,6 @@ const shouldRenderMessage = computed(() => {
 });
 
 function openContextMenu(e) {
-  // Lock scroll to prevent scrolling when context menu is open
-  conversationPanelScrollLock.value = true;
-
   const shouldSkipContextMenu =
     e.target?.classList.contains('skip-context-menu') ||
     e.target?.tagName.toLowerCase() === 'a';
@@ -387,8 +385,6 @@ function openContextMenu(e) {
 }
 
 function closeContextMenu() {
-  // Unlock scroll when context menu is closed
-  conversationPanelScrollLock.value = false;
   showContextMenu.value = false;
   contextMenuPosition.value = { x: null, y: null };
 }
@@ -446,9 +442,6 @@ const setupHighlightTimer = () => {
 };
 
 onMounted(setupHighlightTimer);
-onUnmounted(() => {
-  conversationPanelScrollLock.value = false;
-});
 
 provideMessageContext({
   ...toRefs(props),
@@ -502,8 +495,8 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:pl-8 rtl:pr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:pr-8 rtl:pl-8': orientation === ORIENTATION.LEFT,
+          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"

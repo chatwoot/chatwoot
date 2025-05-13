@@ -62,6 +62,9 @@ export default {
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
+    conversationPanelElement() {
+      return document.querySelector('.conversation-panel');
+    },
     plainTextContent() {
       return this.getPlainText(this.messageContent);
     },
@@ -190,6 +193,7 @@ export default {
       v-if="isOpen && !isCannedResponseModalOpen"
       :x="contextMenuPosition.x"
       :y="contextMenuPosition.y"
+      :scroll-lock-element="conversationPanelElement"
       @close="handleClose"
     >
       <div class="menu-container">
@@ -212,7 +216,7 @@ export default {
           @click.stop="handleCopy"
         />
         <MenuItem
-          v-if="enabledOptions['copy']"
+          v-if="enabledOptions['translate']"
           :option="{
             icon: 'translate',
             label: $t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
@@ -222,6 +226,7 @@ export default {
         />
         <hr />
         <MenuItem
+          v-if="enabledOptions['copyLink']"
           :option="{
             icon: 'link',
             label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),

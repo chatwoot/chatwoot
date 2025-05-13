@@ -187,6 +187,8 @@ export default {
         copy: this.hasText,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
+        copyLink: !this.isFailed || !this.isProcessing,
+        translate: !this.isFailed || !this.isProcessing,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
@@ -328,7 +330,7 @@ export default {
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     shouldShowContextMenu() {
-      return !(this.isFailed || this.isPending || this.isUnsupported);
+      return !this.isUnsupported;
     },
     showAvatar() {
       if (this.isOutgoing || this.isTemplate) {

@@ -42,6 +42,7 @@ export default {
       type: Boolean,
       default: false,
     },
+    scrollLockElement: { type: [HTMLElement, null], default: null },
   },
 };
 </script>
@@ -56,6 +57,7 @@ export default {
     :conversation-type="conversationType"
     :selected="isConversationSelected(source.id)"
     :show-assignee="showAssignee"
+    :scroll-lock-element="scrollLockElement"
     enable-context-menu
     @select-conversation="selectConversation"
     @de-select-conversation="deSelectConversation"
