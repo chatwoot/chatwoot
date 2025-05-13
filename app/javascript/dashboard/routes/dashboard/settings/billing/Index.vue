@@ -263,7 +263,7 @@ const calculatePackagePrice = price => {
 // Billing cycle tabs data
 const billingCycleTabs = [
   { id: 'monthly', name: 'Bulanan', qty: 1 },
-  { id: 'quarterly', name: '3 Months', qty: 3 },
+  { id: 'quarterly', name: '3 Bulan', qty: 3 },
   {
     id: 'halfyear',
     name: 'Setengah Tahun',
@@ -329,202 +329,390 @@ const plansMock = [
   },
 ];
 // END TAB PRICING & PACKAGES
+
+const selectedTabDisplay = computed(() => {
+  const tab = selectedTab.value
+  if (tab === 'monthly') {
+    return 'Bulanan'
+  } else if (tab === 'yearly') {
+    return 'Tahunan'
+  } else if (tab === 'quarterly') {
+    return 'Per 3 Bulan'
+  } else if (tab === 'halfyear') {
+    return 'Per 6 Bulan'
+  }
+  return '-'
+})
 </script>
 
 <template>
   <woot-modal v-model:show="showPaymentPopup" :on-close="hidePaymentPopup">
     <Payment
-     :id="currentPackage.id"
-     :name="currentPackage.name"
-     :plan="currentPackage"
-     :plans="plans"
-     :duration="selectedTab"
-     :qty="qty"
-     :billingCycleTabs="billingCycleTabs"
-     @close="hidePaymentPopup" />
+      :id="currentPackage.id"
+      :name="currentPackage.name"
+      :plan="currentPackage"
+      :plans="plans"
+      :duration="selectedTab"
+      :qty="qty"
+      :billing-cycle-tabs="billingCycleTabs"
+      @close="hidePaymentPopup"
+    />
   </woot-modal>
 
   <woot-modal v-model:show="showTopupPopup" :on-close="hideTopupPopup">
     <Topup
-     :id="activeSubscription.id"
-     :topupType="topupType"
-     @close="hideTopupPopup" />
+      :id="activeSubscription.id"
+      :topup-type="topupType"
+      @close="hideTopupPopup"
+    />
   </woot-modal>
 
   <div class="billing-page p-4">
     <!-- Current Plan Information Cards -->
     <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
       <!-- Package Details -->
-      <div class="bg-gradient-to-r from-cyan-500 to-cyan-400 text-white rounded-lg p-4">
-        <h3 class="text-sm font-medium mb-2 text-white">Package Details</h3> 
+      <div
+        class="bg-gradient-to-r from-cyan-500 to-cyan-400 text-white rounded-lg p-4"
+      >
+        <!-- TODO: Add localization -->
+        <h3 class="text-sm font-medium mb-2 text-white">Detail Paket</h3>
         <pre>{{ subscription }}</pre>
-        <h2 class="text-2xl font-bold mb-3 text-white">{{ activeSubscription?.plan_name ?? 'N/A' }}</h2>
+        <h2 class="text-2xl font-bold mb-3 text-white">
+          {{ activeSubscription?.plan_name ?? 'N/A' }}
+        </h2>
         <div class="flex items-center text-sm">
           <span class="inline-block mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 6v6l4 2"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
             </svg>
           </span>
-          <span>Expires on {{ activeSubscription?.ends_at ? formatDate(activeSubscription?.ends_at) : 'N/A' }}</span>
+          <span
+            >Berlaku sampai
+            {{
+              activeSubscription?.ends_at
+                ? formatDate(activeSubscription?.ends_at)
+                : 'N/A'
+            }}</span
+          >
         </div>
       </div>
 
       <!-- Monthly Active Users -->
-      <div class="bg-gradient-to-r from-violet-500 to-violet-400 text-white rounded-lg p-4">
-        <h3 class="text-sm font-medium mb-2 text-white">Monthly Active Users (Limit Percakapan)</h3>
+      <div
+        class="bg-gradient-to-r from-violet-500 to-violet-400 text-white rounded-lg p-4"
+      >
+        <h3 class="text-sm font-medium mb-2 text-white">
+          Jumlah Pengguna Aktif per Bulan (Batas Chat)
+        </h3>
         <div class="flex items-center">
-          <h2 class="text-2xl font-bold text-white">{{ activeSubscription?.subscription_usage?.mau_count }}</h2>
-          <span class="text-sm ml-2 text-white">({{ activeSubscription?.max_mau ?? '0' }} MAU)</span>
+          <h2 class="text-2xl font-bold text-white">
+            {{ activeSubscription?.subscription_usage?.mau_count }}
+          </h2>
+          <span class="text-sm ml-2 text-white"
+            >({{ activeSubscription?.max_mau ?? '0' }} MAU)</span
+          >
         </div>
-        <p class="text-sm mb-2 text-white">Additional MAU: {{ usage.additionalMau }}</p>
-        <button @click="openTopupPopup('max_active_users')" class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium">Top Up MAU</button>
+        <p class="text-sm mb-2 text-white">
+          Tambahan MAU: {{ usage.additionalMau }}
+        </p>
+        <button
+          class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
+          @click="openTopupPopup('max_active_users')"
+        >
+          Isi Ulang Pengguna Bulanan
+        </button>
         <div class="flex items-center text-sm mt-3">
           <span class="inline-block mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 6v6l4 2"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
             </svg>
           </span>
-          <span>Reset Setup Tanggal: {{ usage.resetDate }}</span>
+          <span>Reset Pengaturan Setiap Tanggal: {{ usage.resetDate }}</span>
         </div>
       </div>
 
       <!-- AI Responses -->
-      <div class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4">
-        <h3 class="text-sm font-medium mb-2 text-white">AI Responses</h3>
+      <div
+        class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4"
+      >
+        <h3 class="text-sm font-medium mb-2 text-white">Jawaban AI</h3>
         <div class="flex items-center">
-          <h2 class="text-2xl font-bold text-white">{{ activeSubscription?.subscription_usage?.ai_responses_count }} Used</h2>
-          <span class="text-sm ml-2 text-white">({{ activeSubscription?.max_ai_responses }} AI Responses Limit)</span>
+          <h2 class="text-2xl font-bold text-white">
+            {{ activeSubscription?.subscription_usage?.ai_responses_count }}
+            Used
+          </h2>
+          <span class="text-sm ml-2 text-white"
+            >(Batas {{ activeSubscription?.max_ai_responses }} Jawaban AI)</span
+          >
         </div>
         <div class="flex items-center text-sm mt-5">
           <span class="inline-block mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M12 6v6l4 2"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 6v6l4 2" />
             </svg>
           </span>
-          <span>Reset Setup Tanggal: {{ usage.resetDate }}</span>
+          <span>Reset Pengaturan Setiap Tanggal: {{ usage.resetDate }}</span>
         </div>
       </div>
 
       <!-- Additional AI Responses -->
-      <div class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4">
-        <h3 class="text-sm font-medium mb-2 text-white">Additional AI Responses</h3>
-        <h2 class="text-2xl font-bold mb-2 text-white">{{ usage.additionalResponses }} Responses</h2>
+      <div
+        class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4"
+      >
+        <!-- TODO: Add localization -->
+        <h3 class="text-sm font-medium mb-2 text-white">
+          Jawaban AI Tambahan
+        </h3>
+        <h2 class="text-2xl font-bold mb-2 text-white">
+          {{ usage.additionalResponses }} Jawaban
+        </h2>
         <!-- <button @click="topUpResponses" class="bg-white text-blue-400 rounded px-2 py-1 text-xs font-medium mb-2">Top Up Responses</button> -->
-        <button @click="openTopupPopup('ai_responses')" class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium">Top Up Responses</button>
+         <!-- TODO: Add localization -->
+        <button
+          class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
+          @click="openTopupPopup('ai_responses')"
+        >
+          Isi Ulang Jawaban
+        </button>
         <div class="flex items-center text-sm">
           <span class="inline-block mr-2">
-            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-              <circle cx="12" cy="12" r="10"></circle>
-              <path d="M18 6l-12 12"></path>
-              <path d="M6 6l12 12"></path>
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+            >
+              <circle cx="12" cy="12" r="10" />
+              <path d="M18 6l-12 12" />
+              <path d="M6 6l12 12" />
             </svg>
           </span>
-          <span>AI Responses Permanent</span>
+          <span>Jawaban AI Permanen</span>
         </div>
       </div>
     </div>
 
     <!-- Ramadan Special Package -->
-    <div v-if="specialPromo" class="mb-6 border border-gray-300 rounded-lg relative overflow-hidden">
+    <div
+      v-if="specialPromo"
+      class="mb-6 border border-gray-300 rounded-lg relative overflow-hidden"
+    >
       <!-- Ribbon -->
-      <div class="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white transform rotate-45 translate-x-8 translate-y-2 py-1 px-8 text-xs font-bold">
+      <div
+        class="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white transform rotate-45 translate-x-8 translate-y-2 py-1 px-8 text-xs font-bold"
+      >
         POPULER
       </div>
 
       <div class="p-5">
         <div class="flex flex-wrap md:flex-nowrap">
           <!-- Left Side with Gift Icon -->
-          <div class="w-full md:w-auto flex justify-center md:justify-start md:mr-4">
-            <div class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full">
-              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="text-blue-500">
-                <rect x="3" y="8" width="18" height="4" rx="1"></rect>
-                <path d="M12 8v13"></path>
-                <path d="M19 12v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7"></path>
-                <path d="M7.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path>
-                <path d="M16.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z"></path>
-                <path d="M12 8H7.5C6.12 8 5 6.88 5 5.5 5 4.12 6.12 3 7.5 3h0a2.5 2.5 0 014.5 2v3"></path>
-                <path d="M12 8h4.5C17.88 8 19 6.88 19 5.5 19 4.12 17.88 3 16.5 3h0a2.5 2.5 0 00-4.5 2v3"></path>
+          <div
+            class="w-full md:w-auto flex justify-center md:justify-start md:mr-4"
+          >
+            <div
+              class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                width="24"
+                height="24"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="2"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                class="text-blue-500"
+              >
+                <rect x="3" y="8" width="18" height="4" rx="1" />
+                <path d="M12 8v13" />
+                <path d="M19 12v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7" />
+                <path d="M7.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                <path d="M16.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
+                <path
+                  d="M12 8H7.5C6.12 8 5 6.88 5 5.5 5 4.12 6.12 3 7.5 3h0a2.5 2.5 0 014.5 2v3"
+                />
+                <path
+                  d="M12 8h4.5C17.88 8 19 6.88 19 5.5 19 4.12 17.88 3 16.5 3h0a2.5 2.5 0 00-4.5 2v3"
+                />
               </svg>
             </div>
           </div>
 
           <!-- Main Content -->
           <div class="w-full">
-            <p class="text-sm text-blue-500 font-medium">{{ specialPromo.title }}</p>
-            <h2 class="text-xl text-blue-500 font-medium mb-2">{{ specialPromo.name }}</h2>
-            
+            <p class="text-sm text-blue-500 font-medium">
+              {{ specialPromo.title }}
+            </p>
+            <h2 class="text-xl text-blue-500 font-medium mb-2">
+              {{ specialPromo.name }}
+            </h2>
+
             <div class="flex items-center mb-3">
-              <span class="text-xl md:text-2xl font-bold text-blue-600">Rp {{ formatPrice(specialPromo.price) }}</span>
-              <span class="text-sm line-through text-gray-500 ml-2">Rp {{ formatPrice(specialPromo.originalPrice) }}</span>
-              <span class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded">{{ specialPromo.promoTag }}</span>
+              <span class="text-xl md:text-2xl font-bold text-blue-600"
+                >Rp {{ formatPrice(specialPromo.price) }}</span
+              >
+              <span class="text-sm line-through text-gray-500 ml-2"
+                >Rp {{ formatPrice(specialPromo.originalPrice) }}</span
+              >
+              <span
+                class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded"
+                >{{ specialPromo.promoTag }}</span
+              >
             </div>
-            
+
             <ul class="space-y-2 mb-4">
-              <li v-for="(feature, index) in specialPromo.features" :key="index" class="flex items-start">
+              <li
+                v-for="(feature, index) in specialPromo.features"
+                :key="index"
+                class="flex items-start"
+              >
                 <span class="text-gray-700 mr-2">•</span>
-                <span v-html="feature"></span>
+                <span v-html="feature" />
               </li>
             </ul>
-            
+
             <p class="text-sm text-gray-600 mb-4">
               {{ specialPromo.description }}
             </p>
-            
+
             <div class="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
               <!-- Left Benefits -->
               <div>
                 <h4 class="font-medium mb-2">Manfaat Utama</h4>
                 <ul class="space-y-2">
-                  <li v-for="(benefit, index) in specialPromo.mainBenefits" :key="index" class="flex items-start">
+                  <li
+                    v-for="(benefit, index) in specialPromo.mainBenefits"
+                    :key="index"
+                    class="flex items-start"
+                  >
                     <span class="text-blue-500 mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <circle cx="12" cy="12" r="10"></circle>
-                        <path d="M8 14s1.5 2 4 2 4-2 4-2"></path>
-                        <line x1="9" y1="9" x2="9.01" y2="9"></line>
-                        <line x1="15" y1="9" x2="15.01" y2="9"></line>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <circle cx="12" cy="12" r="10" />
+                        <path d="M8 14s1.5 2 4 2 4-2 4-2" />
+                        <line x1="9" y1="9" x2="9.01" y2="9" />
+                        <line x1="15" y1="9" x2="15.01" y2="9" />
                       </svg>
                     </span>
                     <div>
                       <p class="font-medium">{{ benefit.title }}</p>
-                      <p class="text-sm text-gray-600">{{ benefit.description }}</p>
+                      <p class="text-sm text-gray-600">
+                        {{ benefit.description }}
+                      </p>
                     </div>
                   </li>
                 </ul>
               </div>
-              
+
               <!-- Right Benefits -->
               <div>
                 <h4 class="font-medium mb-2">Bonus Eksklusif</h4>
                 <ul class="space-y-2">
-                  <li v-for="(bonus, index) in specialPromo.exclusiveBonuses" :key="index" class="flex items-start">
+                  <li
+                    v-for="(bonus, index) in specialPromo.exclusiveBonuses"
+                    :key="index"
+                    class="flex items-start"
+                  >
                     <span class="text-green-500 mr-2">
-                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
-                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14"></path>
-                        <polyline points="22 4 12 14.01 9 11.01"></polyline>
+                      <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                      >
+                        <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
+                        <polyline points="22 4 12 14.01 9 11.01" />
                       </svg>
                     </span>
                     <div>
                       <p class="font-medium">{{ bonus.title }}</p>
-                      <p class="text-sm text-gray-600">{{ bonus.description }}</p>
+                      <p class="text-sm text-gray-600">
+                        {{ bonus.description }}
+                      </p>
                     </div>
                   </li>
                 </ul>
               </div>
             </div>
-            
+
             <div class="text-center bg-red-100 p-2 rounded text-sm mb-4">
               {{ specialPromo.limitedOffer }}
             </div>
-            
+
             <div class="text-center">
-              <button @click="purchaseSpecialPromo" class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-full inline-flex items-center">
+              <button
+                class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-full inline-flex items-center"
+                @click="purchaseSpecialPromo"
+              >
                 {{ specialPromo.ctaText }}
-                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
-                  <line x1="5" y1="12" x2="19" y2="12"></line>
-                  <polyline points="12 5 19 12 12 19"></polyline>
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  class="ml-1"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
                 </svg>
               </button>
               <p class="text-sm text-gray-600 mt-2">
@@ -544,10 +732,11 @@ const plansMock = [
       <!-- Tabs Navigation -->
       <div class="billing-cycle-tabs">
         <div class="tabs-wrapper">
-          <button 
-            v-for="tab in billingCycleTabs" 
+          <button
+            v-for="tab in billingCycleTabs"
             :key="tab.id"
-            :class="['tab-button', { active: selectedTab === tab.id }]"
+            class="tab-button"
+            :class="[{ active: selectedTab === tab.id }]"
             @click="selectedTab = tab.id"
           >
             {{ tab.name }}
@@ -562,52 +751,77 @@ const plansMock = [
           <div class="plan-header">
             <h3 class="plan-title">{{ plan.name }}</h3>
           </div>
-          
+
           <div class="plan-price">
-            <div class="price">{{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}</div>
-            <div class="price-period">IDR /{{ qty == 1 ? 'monthly' : `${qty}mo` }}</div>
-            <div class="package-type">{{ selectedTab }} Package</div>
+            <div class="price">
+              {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
+            </div>
+            <div class="price-period">
+              IDR /{{ qty == 1 ? 'bulan' : `${qty}mo` }}
+            </div>
+            <div class="package-type">Paket {{ selectedTabDisplay }}</div>
           </div>
-          
+
           <div class="plan-features">
-            <h4>{{ plan.name }} Features</h4>
-            
+            <h4>{{ plan.name }} Fitur</h4>
+
             <ul class="feature-list">
-              <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
-                <span class="icon-check"></span>
+              <li
+                v-for="(feature, index) in plan.features"
+                :key="index"
+                class="feature-item"
+              >
+                <span class="icon-check" />
                 <span class="feature-text">{{ feature }}</span>
               </li>
             </ul>
           </div>
-          
-          <button class="button-primary buy-button" @click="openPaymentPopup(plan)">Buy Package</button>
+
+          <button
+            class="button-primary buy-button"
+            @click="openPaymentPopup(plan)"
+          >
+            Beli Paket
+          </button>
         </div>
       </div>
     </div>
 
     <!-- Recent Transactions Section -->
-     <div class="flex flex-col flex-wrap self-center">
-       <div class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5">
+    <div class="flex flex-col flex-wrap self-center">
+      <div
+        class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
+      >
         <div class="transactions-container">
-          <h2 class="mt-8 text-center text-base font-semibold">{{ $t('BILLING.RECENT_TRANSACTIONS') }}</h2>
-          
-          <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
+          <h2 class="mt-8 text-center text-base font-semibold">
+            {{ $t('BILLING.RECENT_TRANSACTIONS') }}
+          </h2>
+
+          <div
+            class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
+          >
             <div class="overflow-x-auto">
-              <Table :table="table" class="min-w-full divide-y divide-gray-200" />
-              
-              <div v-show="!tableData.length" class="h-48 flex items-center justify-center text-n-slate-12 text-sm flex-col">
+              <Table
+                :table="table"
+                class="min-w-full divide-y divide-gray-200"
+              />
+
+              <div
+                v-show="!tableData.length"
+                class="h-48 flex items-center justify-center text-n-slate-12 text-sm flex-col"
+              >
                 <!-- <chatwoot-icon name="currency-dollar" size="medium" class="mb-2 text-slate-400"></chatwoot-icon> -->
                 <p>{{ $t('BILLING.NO_TRANSACTIONS') }}</p>
               </div>
-              
+
               <!-- <div v-if="metrics?.totalTransactionCount" class="table-pagination">
                 <Pagination class="mt-2" :table="table" />
               </div> -->
             </div>
           </div>
         </div>
-       </div>
-     </div>
+      </div>
+    </div>
   </div>
 </template>
 
@@ -643,14 +857,14 @@ export default {
       ],
       durationOptions: [
         { id: 'monthly', name: 'Bulanan' },
-        { id: '3mo', name: '3 Months' },
+        { id: '3mo', name: '3 Bulan' },
         { id: 'halfyearly', name: 'Setengah Tahun' },
         { id: 'yearly', name: "Tahunan" },
       ],
       durationPromos: {
         '3mo': '1 Month Free!',
         halfyearly: '2 Months Free!',
-        yearly: '3 Months Free!',
+        yearly: '3 Bulan Free!',
       },
       // plans: [],
       transactions: [],
