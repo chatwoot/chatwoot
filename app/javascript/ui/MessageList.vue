@@ -66,18 +66,25 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
 </script>
 
 <template>
-  <ul
-    ref="messageListRef"
-    class="p-4 flex flex-col-reverse bg-n-background h-screen overflow-scroll"
-  >
-    <Message
-      v-for="message in allMessages"
-      :key="message.id"
-      v-bind="message"
-      :is-email-inbox="isAnEmailChannel"
-      :group-with-next="false"
-      :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :current-user-id="currentUserId"
-    />
-  </ul>
+  <div class="relative">
+    <ul
+      ref="messageListRef"
+      class="px-4 pt-4 flex flex-col-reverse pb-32 bg-n-background h-screen overflow-scroll"
+    >
+      <Message
+        v-for="message in allMessages"
+        :key="message.id"
+        v-bind="message"
+        :is-email-inbox="isAnEmailChannel"
+        :group-with-next="false"
+        :inbox-supports-reply-to="inboxSupportsReplyTo"
+        :current-user-id="currentUserId"
+      />
+    </ul>
+    <div class="p-2 w-full bg-white absolute bottom-0">
+      <div
+        class="w-full h-28 rounded-lg outline outline-1 outline-n-weak border-none"
+      />
+    </div>
+  </div>
 </template>
