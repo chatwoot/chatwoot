@@ -262,15 +262,15 @@ const calculatePackagePrice = price => {
 
 // Billing cycle tabs data
 const billingCycleTabs = [
-  { id: 'monthly', name: 'Monthly', qty: 1 },
+  { id: 'monthly', name: 'Bulanan', qty: 1 },
   { id: 'quarterly', name: '3 Months', qty: 3 },
   {
     id: 'halfyear',
-    name: 'Half-Yearly',
+    name: 'Setengah Tahun',
     qty: 6,
     badge: '',
   },
-  { id: 'yearly', name: 'Yearly', qty: 12, badge: '' },
+  { id: 'yearly', name: 'Tahunan', qty: 12, badge: '' },
 ];
 
 // Pricing plans data
@@ -642,10 +642,10 @@ export default {
         { id: 'crm', name: 'CRM Only (Lite)' },
       ],
       durationOptions: [
-        { id: 'monthly', name: 'Monthly' },
+        { id: 'monthly', name: 'Bulanan' },
         { id: '3mo', name: '3 Months' },
-        { id: 'halfyearly', name: 'Half-Yearly' },
-        { id: 'yearly', name: 'Yearly' },
+        { id: 'halfyearly', name: 'Setengah Tahun' },
+        { id: 'yearly', name: "Tahunan" },
       ],
       durationPromos: {
         '3mo': '1 Month Free!',
@@ -804,7 +804,7 @@ export default {
               price: 1737000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 '1000 Monthly Active Users',
                 '2 Human Agents',
@@ -820,7 +820,7 @@ export default {
               price: 4497000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 '5,000 Monthly Active Users',
                 '5 Human Agents',
@@ -836,7 +836,7 @@ export default {
               price: 17397000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 '10,000 Monthly Active Users',
                 '10 Human Agents',
@@ -852,7 +852,7 @@ export default {
               price: 47397000,
               platformType: 'ai',
               durationType: '3mo',
-              packageType: 'Quarterly Package',
+              packageType: 'Paket Per 3 Bulan',
               features: [
                 'Unlimited Monthly Active Users',
                 'Unlimited Human Agents',
