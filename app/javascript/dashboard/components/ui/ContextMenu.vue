@@ -2,6 +2,8 @@
 import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
 import { useWindowSize, useElementBounding } from '@vueuse/core';
 
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
+
 const props = defineProps({
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 },
@@ -57,7 +59,7 @@ onMounted(() => {
 </script>
 
 <template>
-  <Teleport to="body">
+  <TeleportWithDirection to="body">
     <div
       ref="menuRef"
       class="fixed outline-none z-[9999] cursor-pointer"
@@ -67,5 +69,5 @@ onMounted(() => {
     >
       <slot />
     </div>
-  </Teleport>
+  </TeleportWithDirection>
 </template>
