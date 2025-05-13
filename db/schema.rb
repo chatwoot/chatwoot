@@ -1004,6 +1004,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.index ["slug"], name: "index_portals_on_slug", unique: true
   end
 
+<<<<<<< HEAD
   create_table "portals_members", id: false, force: :cascade do |t|
     t.bigint "portal_id", null: false
     t.bigint "user_id", null: false
@@ -1208,3 +1209,5 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
 
+=======
+>>>>>>> f3d033133 (resolve conflict)

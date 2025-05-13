@@ -53,7 +53,7 @@ class Transaction < ApplicationRecord
   # Custom property
   def status_payment
     return 'paid' if status == 'paid'
-    return 'failed' if expiry_date.present? && expiry_date < Time.current
+    return 'failed' if expiry_date.present? && expiry_date.utc < Time.current.utc
     'pending'
   end
 

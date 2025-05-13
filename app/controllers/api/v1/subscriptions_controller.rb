@@ -170,6 +170,8 @@ class Api::V1::SubscriptionsController < Api::BaseController
     )
 
     Rails.logger.info "DOKU-PAYMENT: #{response.inspect}"
+    Rails.logger.info "expiryPeriod: #{response[:expiryPeriod].inspect}"
+    Rails.logger.info "expiryPeriod to_i: #{response[:expiryPeriod].to_i}"
     
     if response['paymentUrl'].present?
       payment = @subscription.subscription_payments.create!(
@@ -177,7 +179,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
         duitku_order_id: order_id,
         payment_url: response['paymentUrl'],
         payment_method: params[:payment_method],
-        expires_at: Time.now + response['expiryPeriod'].to_i.minute
+        expires_at: Time.current + response[:expiryPeriod].to_i.minutes
       )
       return payment
     else
