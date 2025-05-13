@@ -2,7 +2,11 @@ class EnrichmentJob < ApplicationJob
   queue_as :default
 
   def perform(params)
-    enrich(params)
+    begin
+      enrich(params)
+    rescue StandardError => e
+      Rails.logger.error "Exception: #{e.class} - #{e.message}"
+    end
   end
 
   def enrich(params)
@@ -65,8 +69,11 @@ class EnrichmentJob < ApplicationJob
   end
 
   def enrich_from_people_data_labs(email, name, company_name) # rubocop:disable Metrics/MethodLength,Metrics/AbcSize
-    response = get_data_from_pdf(email, name, company_name)
-    json_body = JSON.parse(response.body)
+    response = get_data_from_pdl(email, name, company_name)
+
+    return nil if response == nil
+
+    json_body = JSON.parse(response)
 
     return nil if !json_body.key?('data') || !json_body['data'].is_a?(Hash)
 
@@ -126,7 +133,7 @@ class EnrichmentJob < ApplicationJob
     end
   end
 
-  def get_data_from_pdf(email, name, company_name) # rubocop:disable Metrics/MethodLength
+  def get_data_from_pdl(email, name, company_name) # rubocop:disable Metrics/MethodLength
     url = "#{ENV.fetch('PEOPLE_DATA_LABS_BASE_URL', nil)}#{ENV.fetch('PEOPLE_DATA_LABS_PEOPLE_ENRICH', nil)}"
 
     apiKey = ENV.fetch('PEOPLE_DATA_LABS_API_KEY', nil)
@@ -150,18 +157,17 @@ class EnrichmentJob < ApplicationJob
     full_url = "#{url}?#{query_string}"
 
     begin
-      RestClient.get full_url, headers
+      response = RestClient.get full_url, headers
+      response.body
     rescue RestClient::ExceptionWithResponse => e
       Rails.logger.warn "PDL Error #{e.http_code}: #{e.message} => #{e.response.body}"
-      e.response
+      nil
     rescue RestClient::Exception => e
       Rails.logger.error "REST Client Exception: #{e.class} - #{e.message}"
-      {
-        error: {
-          type: "Rest client error",
-          message: "Internal error"
-        }
-      }
+      nil
+    rescue StandardError => e
+      Rails.logger.error "Exception calling PDL: #{e.class} - #{e.message}"
+      nil
     end
   end
 end
