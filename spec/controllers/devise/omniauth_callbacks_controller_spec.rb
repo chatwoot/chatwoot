@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
   let(:account_builder) { double }
   let(:user_double) { object_double(:user) }
+  let(:email_validation_service) { instance_double(EmailValidationService) }
 
   def set_omniauth_config(for_email = 'test@example.com')
     OmniAuth.config.test_mode = true
@@ -17,6 +18,15 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
     )
   end
 
+  before do
+    allow(EmailValidationService).to receive(:new).and_return(email_validation_service)
+    ENV['FRONTEND_URL'] = 'http://www.example.com'
+  end
+
+  after do
+    ENV['FRONTEND_URL'] = nil
+  end
+
   describe '#omniauth_sucess' do
     it 'allows signup' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
@@ -24,6 +34,7 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
         allow(AccountBuilder).to receive(:new).and_return(account_builder)
         allow(account_builder).to receive(:perform).and_return(user_double)
         allow(Avatar::AvatarFromUrlJob).to receive(:perform_later).and_return(true)
+        allow(email_validation_service).to receive(:business_email?).and_return(true)
 
         get '/omniauth/google_oauth2/callback'
 
@@ -45,6 +56,8 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
     it 'blocks personal accounts signup' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'true' do
         set_omniauth_config('personal@gmail.com')
+        allow(email_validation_service).to receive(:business_email?).and_return(false)
+
         get '/omniauth/google_oauth2/callback'
 
         # expect a 302 redirect to auth/google_oauth2/callback
@@ -61,6 +74,8 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
         # Test different case variations of Gmail
         ['personal@Gmail.com', 'personal@GMAIL.com', 'personal@Gmail.COM'].each do |email|
           set_omniauth_config(email)
+          allow(email_validation_service).to receive(:business_email?).and_return(false)
+
           get '/omniauth/google_oauth2/callback'
 
           # expect a 302 redirect to auth/google_oauth2/callback
@@ -78,6 +93,8 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
     it 'blocks signup if ENV disabled' do
       with_modified_env ENABLE_ACCOUNT_SIGNUP: 'false' do
         set_omniauth_config('does-not-exist-for-sure@example.com')
+        allow(email_validation_service).to receive(:business_email?).and_return(true)
+
         get '/omniauth/google_oauth2/callback'
 
         # expect a 302 redirect to auth/google_oauth2/callback

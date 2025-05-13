@@ -5,86 +5,59 @@ require 'rails_helper'
 RSpec.describe AccountBuilder, type: :builder do
   describe '#validate_email' do
     let(:builder) { described_class.new(email: email) }
+    let(:email_validation_service) { instance_double(EmailValidationService) }
+
+    before do
+      allow(EmailValidationService).to receive(:new).with(email).and_return(email_validation_service)
+    end
+
+    context 'when email is valid' do
+      let(:email) { 'valid@example.com' }
+
+      before do
+        allow(email_validation_service).to receive(:validate).and_return(true)
+      end
+
+      it 'calls EmailValidationService#validate' do
+        builder.send(:validate_email)
+        expect(email_validation_service).to have_received(:validate)
+      end
+    end
+
+    context 'when email is invalid' do
+      let(:email) { 'invalid-email' }
+
+      before do
+        allow(email_validation_service).to receive(:validate).and_raise(CustomExceptions::Account::InvalidEmail.new({ valid: false }))
+      end
+
+      it 'raises InvalidEmail exception' do
+        expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
+      end
+    end
 
     context 'when email domain is blocked' do
+      let(:email) { 'test@gmail.com' }
+
       before do
-        allow(GlobalConfigService).to receive(:load).with('BLOCKED_EMAIL_DOMAINS', '').and_return("gmail.com\noutlook.com")
+        allow(email_validation_service).to receive(:validate).and_raise(CustomExceptions::Account::InvalidEmail.new({ domain_blocked: true }))
       end
 
-      context 'with lowercase domain' do
-        let(:email) { 'test@gmail.com' }
-
-        it 'raises InvalidEmail exception' do
-          expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
-        end
-      end
-
-      context 'with uppercase domain' do
-        let(:email) { 'test@GMAIL.COM' }
-
-        it 'raises InvalidEmail exception' do
-          expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
-        end
-      end
-
-      context 'with mixed case domain' do
-        let(:email) { 'test@Gmail.com' }
-
-        it 'raises InvalidEmail exception' do
-          expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
-        end
+      it 'raises InvalidEmail exception with domain_blocked' do
+        expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
       end
     end
 
-    context 'when email domain is not blocked' do
+    context 'when email is disposable' do
+      let(:email) { 'test@mailinator.com' }
+
       before do
-        allow(GlobalConfigService).to receive(:load).with('BLOCKED_EMAIL_DOMAINS', '').and_return('')
+        allow(email_validation_service).to receive(:validate)
+          .and_raise(CustomExceptions::Account::InvalidEmail.new({ valid: true, disposable: true }))
       end
 
-      context 'with valid email' do
-        let(:email) { 'test@example.com' }
-
-        it 'does not raise an exception' do
-          expect { builder.send(:validate_email) }.not_to raise_error
-        end
-      end
-
-      context 'with invalid email format' do
-        let(:email) { 'invalid-email' }
-
-        it 'raises InvalidEmail exception' do
-          expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
-        end
-      end
-
-      context 'with disposable email' do
-        let(:email) { 'test@mailinator.com' }
-
-        it 'raises InvalidEmail exception' do
-          expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
-        end
-      end
-    end
-
-    context 'with actual blocked domains configuration' do
-      before do
-        allow(GlobalConfigService).to receive(:load).with('BLOCKED_EMAIL_DOMAINS', '').and_return("gmail.com\noutlook.com")
-      end
-
-      context 'with blocked domain' do
-        let(:email) { 'test@gmail.com' }
-
-        it 'raises InvalidEmail exception' do
-          expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
-        end
-      end
-
-      context 'with non-blocked domain' do
-        let(:email) { 'test@example.com' }
-
-        it 'does not raise an exception' do
-          expect { builder.send(:validate_email) }.not_to raise_error
-        end
+      it 'raises InvalidEmail exception with disposable' do
+        expect { builder.send(:validate_email) }.to raise_error(CustomExceptions::Account::InvalidEmail)
       end
     end
   end
