@@ -9,6 +9,7 @@ module ChatFlowHelper
   def create_flow_data_and_store_config(store_id)
     default_system_message_prompt
     handover_prompt_template
+    set_azure_openai_temperature
     chat_memory
     vector_store
 
@@ -79,6 +80,12 @@ module ChatFlowHelper
   def vector_store
     node = find_node_by_id('qdrant_0')
     node['data']['inputs']['qdrantCollection'] = database_name
+  end
+
+  def set_azure_openai_temperature
+    %w[azureChatOpenAI_0 azureChatOpenAI_2].each do |node_id|
+      find_node_by_id(node_id)['data']['inputs']['temperature'] = 0.7
+    end
   end
 
   def replace_business_name
