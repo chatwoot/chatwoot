@@ -66,8 +66,32 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
   direction: 'top',
 });
 
+const isMessageEmpty = computed(() => {
+  return !messageContent.value || !messageContent.value.trim();
+});
+
 const sendMessage = async () => {
-  // console.log('SENDING');
+  if (isMessageEmpty.value) return;
+
+  try {
+    await store.dispatch('createPendingMessageAndSend', {
+      conversationId: conversation.value.id,
+      message: messageContent.value,
+      private: false,
+      files: [],
+      sourceId: null,
+      ccEmails: [],
+      bccEmails: [],
+      editMessageId: null,
+      type: 'incoming',
+    });
+
+    messageContent.value = '';
+  } catch (error) {
+    // Handle error
+    // eslint-disable-next-line no-console
+    console.error('Error sending message:', error);
+  }
 };
 </script>
 
@@ -96,13 +120,21 @@ const sendMessage = async () => {
           <textarea
             v-model="messageContent"
             rows="3"
-            class="flex-grow p-2 !mb-0"
+            class="flex-grow p-2 !mb-0 resize-none"
             placeholder="Type your message..."
+            @keydown.meta.enter.prevent="sendMessage"
+            @keydown.ctrl.enter.prevent="sendMessage"
           />
           <div class="grid grid-cols-4">
             <div class="col-span-3" />
             <div class="col-span-1 flex justify-end">
-              <ButtonNext sm blue label="Send" @click="sendMessage" />
+              <ButtonNext
+                sm
+                blue
+                label="Send"
+                :disabled="isMessageEmpty"
+                @click="sendMessage"
+              />
             </div>
           </div>
         </div>
