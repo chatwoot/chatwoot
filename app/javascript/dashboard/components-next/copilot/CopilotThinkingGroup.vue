@@ -46,7 +46,7 @@ watch(
       v-show="isExpanded"
       class="space-y-3 transition-all duration-200"
       :class="{
-        'opacity-100 max-h-96': isExpanded,
+        'opacity-100': isExpanded,
         'opacity-0 max-h-0 overflow-hidden': !isExpanded,
       }"
     >
