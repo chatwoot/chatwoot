@@ -10,6 +10,7 @@ import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import SearchableDropdown from './SearchableDropdown.vue';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { useEmitter } from 'dashboard/composables/emitter';
 
 const props = defineProps({
   conversationId: {
@@ -203,6 +204,12 @@ const createIssue = async () => {
     isCreating.value = false;
   }
 };
+
+useEmitter('ui:linear_ticket_create_data', data => {
+  formState.title = data.title;
+  formState.description = data.description;
+  formState.priority = data.priority;
+});
 
 onMounted(getTeams);
 </script>

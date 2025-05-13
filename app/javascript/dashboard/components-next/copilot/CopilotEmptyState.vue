@@ -1,24 +1,57 @@
 <script setup>
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import Icon from '../icon/Icon.vue';
+
 const emit = defineEmits(['useSuggestion']);
-
 const { t } = useI18n();
+const route = useRoute();
 
-const promptOptions = [
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
-  },
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
-  },
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-  },
-];
+const routePromptMap = {
+  conversations: [
+    {
+      label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
+      prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
+    },
+    {
+      label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
+      prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
+    },
+    {
+      label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
+      prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
+    },
+  ],
+  dashboard: [
+    {
+      label: 'High priority conversations',
+      prompt: 'Get me a summary of all high priority open conversations',
+    },
+    {
+      label: 'List contacts',
+      prompt: 'Show me the list of contacts',
+    },
+    {
+      label: 'Summarize articles',
+      prompt: 'List articles that are in draft',
+    },
+  ],
+};
+
+const getCurrentRoute = () => {
+  const path = route.path;
+  if (path.includes('/conversations')) return 'conversations';
+  if (path.includes('/dashboard')) return 'dashboard';
+  if (path.includes('/contacts')) return 'contacts';
+  if (path.includes('/articles')) return 'articles';
+  return 'dashboard';
+};
+
+const promptOptions = computed(() => {
+  const currentRoute = getCurrentRoute();
+  return routePromptMap[currentRoute] || routePromptMap.conversations;
+});
 
 const handleSuggestion = opt => {
   emit('useSuggestion', t(opt.prompt));

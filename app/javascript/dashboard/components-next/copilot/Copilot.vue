@@ -27,7 +27,7 @@ const props = defineProps({
   },
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
   assistants: {
     type: Array,
@@ -102,7 +102,7 @@ watch(
       ref="chatContainer"
       class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
     >
-      <div v-if="messages.length" class="space-y-6 flex-1 flex flex-col">
+      <div v-if="messages.length" class="space-y-6 flex-1 flex flex-col w-full">
         <template
           v-for="item in groupedMessages"
           :key="item.type === 'message' ? item.message.id : 'thinking-group'"

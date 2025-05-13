@@ -17,7 +17,7 @@ const props = defineProps({
   },
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
 });
 
@@ -46,7 +46,7 @@ const useCopilotResponse = () => {
 
 <template>
   <div class="flex flex-row gap-2">
-    <div class="flex flex-col gap-1 text-n-slate-12">
+    <div class="flex flex-col gap-1 text-n-slate-12 w-full">
       <div class="font-medium text-n-slate-12">{{ $t('CAPTAIN.NAME') }}</div>
       <span v-if="hasEmptyMessageContent" class="text-n-ruby-11">
         {{ $t('CAPTAIN.COPILOT.EMPTY_MESSAGE') }}
@@ -54,11 +54,11 @@ const useCopilotResponse = () => {
       <div
         v-else
         v-dompurify-html="messageContent"
-        class="prose-sm break-words text-n-slate-11"
+        class="prose-sm break-words text-n-slate-11 [&_a]:underline [&_a]:text-n-slate-11 [&_a]:hover:text-n-slate-12"
       />
       <div class="flex flex-row mt-1">
         <Button
-          v-if="!hasEmptyMessageContent"
+          v-if="!hasEmptyMessageContent && false"
           :label="$t('CAPTAIN.COPILOT.USE')"
           faded
           sm

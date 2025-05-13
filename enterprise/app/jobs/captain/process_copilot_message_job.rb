@@ -38,7 +38,7 @@ class Captain::ProcessCopilotMessageJob < ApplicationJob
   end
 
   def generate_chat_response(message, conversation, previous_history)
-    Rails.logger.info("[Captain::ProcessCopilotMessageJob] Generating chat response for conversation_id=#{conversation&.display_id}")
+    Rails.logger.info("[Captain::ProcessCopilotMessageJob] Generating chat response for conversation_id=#{conversation&.display_id}, user_id=#{@user.id}")
     Captain::Copilot::ChatService.new(
       @assistant,
       previous_messages: previous_history || [],
@@ -46,7 +46,8 @@ class Captain::ProcessCopilotMessageJob < ApplicationJob
       additional_info: {
         language: @account.locale_english_name,
         conversation_id: conversation&.display_id,
-        contact_id: conversation&.contact_id
+        contact_id: conversation&.contact_id,
+        user_id: @user.id
       }
     ).generate_response(message)
   end

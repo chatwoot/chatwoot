@@ -5,7 +5,7 @@ import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
 import CopilotActionCableConnector from 'dashboard/helpers/CopilotActionCableConnector';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-
+import { emitter } from 'shared/helpers/mitt';
 const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
@@ -96,6 +96,13 @@ const initializeWebSocket = () => {
           content: data.response.response,
         });
         isCaptainTyping.value = false;
+      } else if (data.type === 'ui_event') {
+        if (data.event === 'ui:linear_ticket_create') {
+          emitter.emit('ui:linear_ticket_create');
+          setTimeout(() => {
+            emitter.emit('ui:linear_ticket_create_data', data.response);
+          }, 100);
+        }
       } else {
         messages.value.push({
           id: new Date().getTime(),

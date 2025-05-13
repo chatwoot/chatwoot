@@ -74,7 +74,7 @@ module Captain::ChatHelper
         type: 'tool_calls_start'
       }
     )
-    result = @tool_registry.send(function_name, arguments)
+    result = @tool_registry.send(function_name, arguments.merge('user_id' => @user_id))
     append_tool_response(result, tool_call_id)
     publish_to_stream(
       {

@@ -18,6 +18,8 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @language = additional_info[:language] || 'english'
     @conversation_id = additional_info[:conversation_id]
     @contact_id = additional_info[:contact_id]
+    @user_id = additional_info[:user_id]
+    Rails.logger.info("[Captain::Copilot::ChatService::User] user_id: #{@user_id}")
   end
 
   def register_tools
@@ -27,6 +29,8 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchArticleService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchContactService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::SearchLinearService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::CreateLinearTicketsOnUiService)
   end
 
   def build_initial_messages(config)

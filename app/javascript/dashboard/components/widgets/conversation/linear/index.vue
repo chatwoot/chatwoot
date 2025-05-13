@@ -10,6 +10,7 @@ import { useTrack } from 'dashboard/composables';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
 import Button from 'dashboard/components-next/button/Button.vue';
+import { useEmitter } from 'dashboard/composables/emitter';
 
 const props = defineProps({
   conversationId: {
@@ -93,6 +94,10 @@ watch(
     loadLinkedIssue();
   }
 );
+
+useEmitter('ui:linear_ticket_create', () => {
+  shouldShowPopup.value = true;
+});
 
 onMounted(() => {
   loadLinkedIssue();
