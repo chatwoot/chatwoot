@@ -3,18 +3,31 @@ tags:
 operationId: get-details-of-a-single-automation-rule
 summary: Get a automation rule details
 description: Get the details of a automation rule in the account
+security:
+  - userApiKey: []
 parameters:
   - in: path
     name: id
-    type: integer
+    schema:
+      type: integer
     required: true
     description: The ID of the automation rule to be updated.
 responses:
   '200':
     description: Success
-    schema:
-      $ref: '#/definitions/automation_rule'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/automation_rule'
   '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
   '404':
     description: The given rule ID does not exist in the account
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

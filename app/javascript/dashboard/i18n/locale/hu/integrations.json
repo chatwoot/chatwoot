@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Üzenet frissítve",
             "WEBWIDGET_TRIGGERED": "A felhasználó által megnyitott élő chat widget",
             "CONTACT_CREATED": "Kontakt létrehozva",
-            "CONTACT_UPDATED": "Kontakt frissítve"
+            "CONTACT_UPDATED": "Kontakt frissítve",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

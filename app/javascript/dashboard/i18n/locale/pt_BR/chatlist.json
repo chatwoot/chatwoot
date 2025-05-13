@@ -39,7 +39,7 @@
     "VIEW_FILTER": "Visualizar",
     "SORT_TOOLTIP_LABEL": "Ordenar conversas",
     "CHAT_SORT": {
-      "STATUS": "Situação",
+      "STATUS": "Status",
       "ORDER_BY": "Ordenar por"
     },
     "CHAT_TIME_STAMP": {

@@ -19,14 +19,13 @@ properties:
     enum: ['agent', 'administrator']
   confirmed:
     type: boolean
-  availability_status: 
+  availability_status:
     type: string
     enum: ['available', 'busy', 'offline']
     description: The availability status of the agent computed by Chatwoot.
   auto_offline:
     type: boolean
     description: Whether the availability status of agent is configured to go offline automatically when away.
-  custom_attributes: 
+  custom_attributes:
     type: object
     description: Available for users who are created through platform APIs and has custom attributes associated.
-

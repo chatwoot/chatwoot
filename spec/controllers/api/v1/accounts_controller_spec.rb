@@ -190,6 +190,7 @@ RSpec.describe 'Accounts API', type: :request do
         support_email: 'care@example.com',
         auto_resolve_after: 40,
         auto_resolve_message: 'Auto resolved',
+        auto_resolve_ignore_waiting: false,
         timezone: 'Asia/Kolkata',
         industry: 'Technology',
         company_size: '1-10'
@@ -207,7 +208,7 @@ RSpec.describe 'Accounts API', type: :request do
         expect(account.reload.domain).to eq(params[:domain])
         expect(account.reload.support_email).to eq(params[:support_email])
 
-        %w[auto_resolve_after auto_resolve_message].each do |attribute|
+        %w[auto_resolve_after auto_resolve_message auto_resolve_ignore_waiting].each do |attribute|
           expect(account.reload.settings[attribute]).to eq(params[attribute.to_sym])
         end
 

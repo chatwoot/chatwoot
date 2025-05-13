@@ -145,7 +145,9 @@ ja:
         open: '%{user_name} によって会話が再開されました'
         pending: '%{user_name} によって会話が保留にされました'
         snoozed: '%{user_name} によって会話がスヌーズされました'
-        auto_resolved: '%{duration} 日間会話が非アクティブだったため、システムにより解決済みにされました'
+        auto_resolved_days: '%{count} 日間会話が非アクティブだったため、システムにより解決済みにされました'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: 新しい受信メッセージを受信したため、システムが会話が再開されました
       priority:
         added: '%{user_name} が優先度を "%{new_priority}" に設定しました'
