@@ -1,6 +1,8 @@
 class ActionCableListener < BaseListener
   include Events::Types
 
+  LOADING_DELAY_SECONDS = 10
+
   def notification_created(event)
     notification, account, unread_count, count = extract_notification_and_account(event)
     tokens = [event.data[:notification].user.pubsub_token]
@@ -35,8 +37,23 @@ class ActionCableListener < BaseListener
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) +
              contact_tokens(conversation.contact_inbox, message)
-    BotListener.new(message).send if message.sender_type == 'Contact'
-    # MessageProcessor.process_contact_message(message) if message.sender_type == 'Contact'
+
+    if message.sender_type == 'Contact'
+      chat_service = Captain::Copilot::ChatService.new(message)
+      thread = Thread.new do
+        chat_service.perform
+      end
+
+      # Watchdog thread to ensure the thread is still alive
+      Thread.new do
+        sleep(LOADING_DELAY_SECONDS)
+        if thread.alive?
+          chat_service.notify_if_long_running
+          broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
+        end
+      end
+    end
+
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
   end
 
@@ -58,8 +75,8 @@ class ActionCableListener < BaseListener
   def conversation_created(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
-    # BotListener.new(conversation).increment_mau_usage
-    MessageProcessor.increment_mau_usage(conversation)
+    Subscriptions::IncrementUsageService.new(conversation).perform
+    # MessageProcessor.increment_mau_usage(conversation)
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 

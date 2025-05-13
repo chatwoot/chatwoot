@@ -61,7 +61,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   end
 
   def collect_link
-    response = AiAgents::FirecrawlService.map(params[:url])
+    response = Crawl4ai::MapService.new(links: [params[:url]]).perform
     render json: response, status: :ok
   rescue StandardError => e
     handle_error('Failed to collect link', e)
@@ -70,7 +70,7 @@ class Api::V1::Accounts::KnowledgeSourceWebsitesController < Api::V1::Accounts::
   private
 
   def fetch_scraped_content
-    AiAgents::FirecrawlService.bulk_scrape(params[:links])
+    Crawl4ai::CrawlService.new(links: params[:links]).perform
   end
 
   def process_scrapes(knowledge_source, scrapes, created_ids_array)
