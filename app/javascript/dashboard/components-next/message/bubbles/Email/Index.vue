@@ -1,16 +1,8 @@
 <script setup>
-import {
-  computed,
-  useTemplateRef,
-  onUnmounted,
-  ref,
-  onMounted,
-  reactive,
-} from 'vue';
+import { computed, useTemplateRef, ref, onMounted, reactive } from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
-import { useWindowSize, useToggle } from '@vueuse/core';
-import { useScrollLock } from '@vueuse/core';
+import { useToggle } from '@vueuse/core';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -20,13 +12,12 @@ import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
 import ForwardMessageForm from 'dashboard/components-next/message/forwardMessage/ForwardMessage.vue';
-import CustomTeleport from 'dashboard/components-next/CustomTeleport.vue';
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
 import { useMessageContext } from '../../provider.js';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
-import { calculatePosition } from 'dashboard/helper/position.js';
 
 const { id, content, contentAttributes, attachments, messageType } =
   useMessageContext();
@@ -43,9 +34,6 @@ const contentContainer = useTemplateRef('contentContainer');
 const [showForwardMessageModal, toggleForwardModal] = useToggle();
 const forwardFormPosition = reactive({ top: 0, right: 0 });
 const conversationPanelElement = document.querySelector('.conversation-panel');
-const conversationPanelScrollLock = useScrollLock(conversationPanelElement);
-
-const { width: windowWidth, height: windowHeight } = useWindowSize();
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
@@ -120,44 +108,15 @@ const handleSeeOriginal = () => {
 
 const closeForwardModal = () => {
   toggleForwardModal(false);
-  conversationPanelScrollLock.value = false;
+  forwardFormPosition.x = 0;
+  forwardFormPosition.y = 0;
 };
 
 const openForwardModal = ({ x, y }) => {
-  // Lock conversation panel scroll
-  conversationPanelScrollLock.value = true;
-
-  // Form dimensions
-  const [formWidth, formHeight] = [672, 500];
-  const { value: winWidth } = windowWidth;
-  const { value: winHeight } = windowHeight;
-
-  // Position calculation
-  if (x && y) {
-    // Calculate position based on click location of context menu forward button
-    const { left, top } = calculatePosition(
-      x,
-      y,
-      formWidth,
-      formHeight,
-      winWidth,
-      winHeight
-    );
-
-    forwardFormPosition.top = top;
-    forwardFormPosition.right = winWidth - left - formWidth;
-  } else {
-    // Center the form when no trigger event
-    forwardFormPosition.top = Math.max(0, (winHeight - formHeight) / 2);
-    forwardFormPosition.right = Math.max(0, (winWidth - formWidth) / 2);
-  }
-
+  forwardFormPosition.x = x;
+  forwardFormPosition.y = y;
   toggleForwardModal(true);
 };
-
-onUnmounted(() => {
-  conversationPanelScrollLock.value = false;
-});
 
 defineExpose({
   openForwardModal,
@@ -266,21 +225,22 @@ defineExpose({
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
 
-    <CustomTeleport v-if="showForwardMessageModal">
+    <ContextMenu
+      v-if="showForwardMessageModal"
+      :x="forwardFormPosition.x"
+      :y="forwardFormPosition.y"
+      :lock-scroll-element="conversationPanelElement"
+      @close="closeForwardModal"
+    >
       <ForwardMessageForm
         :message="contentAttributes?.email"
         :content="content"
         :inbox="inbox"
         :attachments="attachments"
         :message-id="id"
-        class="fixed z-50 skip-context-menu"
-        :style="{
-          top: `${forwardFormPosition.top}px`,
-          right: `${forwardFormPosition.right}px`,
-        }"
         @close="closeForwardModal"
       />
-    </CustomTeleport>
+    </ContextMenu>
   </BaseBubble>
 </template>
 

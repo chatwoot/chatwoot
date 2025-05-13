@@ -62,6 +62,9 @@ export default {
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
+    conversationPanelElement() {
+      return document.querySelector('.conversation-panel');
+    },
     plainTextContent() {
       return this.getPlainText(this.messageContent);
     },
@@ -197,6 +200,7 @@ export default {
       v-if="isOpen && !isCannedResponseModalOpen"
       :x="contextMenuPosition.x"
       :y="contextMenuPosition.y"
+      :lock-scroll-element="conversationPanelElement"
       @close="handleClose"
     >
       <div class="menu-container">

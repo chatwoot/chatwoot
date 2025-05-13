@@ -1,21 +1,48 @@
 <script setup>
-import { computed, onMounted, nextTick, useTemplateRef } from 'vue';
-import { useWindowSize, useElementBounding } from '@vueuse/core';
-import { calculatePosition } from 'dashboard/helper/position.js';
+import {
+  computed,
+  onMounted,
+  nextTick,
+  onUnmounted,
+  useTemplateRef,
+} from 'vue';
+import { useWindowSize, useElementBounding, useScrollLock } from '@vueuse/core';
 
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 },
+  lockScrollElement: { type: [HTMLElement, null], default: null },
 });
 
 const emit = defineEmits(['close']);
 
 const menuRef = useTemplateRef('menuRef');
 
+const scrollLockElement = computed(() => props.lockScrollElement);
+
+const isLocked = useScrollLock(scrollLockElement);
+
 const { width: windowWidth, height: windowHeight } = useWindowSize();
 const { width: menuWidth, height: menuHeight } = useElementBounding(menuRef);
+
+const calculatePosition = (x, y, menuW, menuH, windowW, windowH) => {
+  const PADDING = 16;
+  // Initial position
+  let left = x;
+  let top = y;
+  // Boundary checks
+  const isOverflowingRight = left + menuW > windowW - PADDING;
+  const isOverflowingBottom = top + menuH > windowH - PADDING;
+  // Adjust position if overflowing
+  if (isOverflowingRight) left = windowW - menuW - PADDING;
+  if (isOverflowingBottom) top = windowH - menuH - PADDING;
+  return {
+    left: Math.max(PADDING, left),
+    top: Math.max(PADDING, top),
+  };
+};
 
 const position = computed(() => {
   if (!menuRef.value) return { top: `${props.y}px`, left: `${props.x}px` };
@@ -36,7 +63,17 @@ const position = computed(() => {
 });
 
 onMounted(() => {
+  isLocked.value = true;
   nextTick(() => menuRef.value?.focus());
+});
+
+const handleClose = () => {
+  isLocked.value = false;
+  emit('close');
+};
+
+onUnmounted(() => {
+  isLocked.value = false;
 });
 </script>
 
@@ -47,7 +84,7 @@ onMounted(() => {
       class="fixed outline-none z-[9999] cursor-pointer"
       :style="position"
       tabindex="0"
-      @blur="emit('close')"
+      @blur="handleClose"
     >
       <slot />
     </div>
