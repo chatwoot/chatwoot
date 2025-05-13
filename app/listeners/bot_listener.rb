@@ -54,15 +54,15 @@ class BotListener
   end
 
   def pre_check_failure_reason
-    return 'No inbox found. Please try again later.' unless inbox
+    return I18n.t('conversations.bot.failure') unless inbox
 
-    return 'No bot available! Please try again later.' unless ai_agent
-    return 'No bot available! Please try again later.' if ai_agent.chat_flow_id.blank?
+    return I18n.t('conversations.bot.failure') unless ai_agent
+    return I18n.t('conversations.bot.failure') if ai_agent.chat_flow_id.blank?
 
-    return 'No subscription or usage found for account. Please try again later.' unless subscription
-    return 'No subscription or usage found for account. Please try again later.' unless usage
+    return I18n.t('subscriptions.limit_reached') unless subscription
+    return I18n.t('subscriptions.limit_reached') unless usage
 
-    return 'Usage limit exceeded! Please purchase more licenses. Please try again later.' if usage.exceeded_limits?
+    return I18n.t('subscriptions.limit_reached') if usage.exceeded_limits?
 
     nil
   end
@@ -74,7 +74,7 @@ class BotListener
       chat_flow_id: ai_agent.chat_flow_id
     )
 
-    return send_reply_failure('Failed to send message! Please try again later.') unless send_message.success?
+    return send_reply_failure(I18n.t('conversations.bot.failure')) unless send_message.success?
 
     usage.increment_ai_responses
     Rails.logger.info("🤖 AI Response: #{send_message.body}")
@@ -99,11 +99,11 @@ class BotListener
     send_reply(reason, is_handover: false)
   end
 
-  def handover_processing(content)
+  def handover_processing(_content)
     agent_available = find_available_agent
 
     @conversation.update!(assignee_id: agent_available.id) if agent_available
-    agent_available ? content : 'No available agents to take over the conversation.'
+    agent_available ? I18n.t('conversations.bot.available_agent') : I18n.t('conversations.bot.not_available_agent')
   end
 
   def send_log_reply(is_handover: false)
