@@ -74,7 +74,7 @@ const chunkBuilder = chunkInfo => {
 export default defineConfig({
   plugins: plugins,
   define: {
-    'process.env.NODE_ENV': JSON.stringify('production')
+    'process.env.NODE_ENV': JSON.stringify('production'),
   },
   build: {
     rollupOptions: {
