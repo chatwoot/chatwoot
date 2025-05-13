@@ -5,7 +5,7 @@ patch:
   summary: Update Inbox
   security:
     - userApiKey: []
-  description: Add avatar and disable auto assignment for an inbox
+  description: Update an existing inbox
   parameters:
     - $ref: '#/components/parameters/account_id'
     - name: id
@@ -19,7 +19,7 @@ patch:
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/inbox_create_update_payload'
+          $ref: '#/components/schemas/inbox_update_payload'
   responses:
     '200':
       description: Success

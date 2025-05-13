@@ -151,14 +151,6 @@
     - $ref: '#/components/parameters/message_id'
   patch:
     $ref: ./public/inboxes/messages/update.yml
-/api/v1/accounts/{account_id}/contacts/{contact_identifier}/labels:
-  parameters:
-    - $ref: '#/components/parameters/account_id'
-    - $ref: '#/components/parameters/public_contact_identifier'
-  get:
-    $ref: ./application/contacts/labels/index.yml
-  post:
-    $ref: ./application/contacts/labels/create.yml
 
 # ---------------- end of public api routes-----------#
 
@@ -256,6 +248,8 @@
   $ref: ./application/contacts/crud.yml
 /api/v1/accounts/{account_id}/contacts/{id}/conversations:
   $ref: ./application/contacts/conversations.yml
+/api/v1/accounts/{account_id}/contacts/{id}/labels:
+  $ref: ./application/contacts/labels.yml
 /api/v1/accounts/{account_id}/contacts/search:
   $ref: ./application/contacts/search.yml
 /api/v1/accounts/{account_id}/contacts/filter:
@@ -264,6 +258,7 @@
   $ref: ./application/contact_inboxes/create.yml
 /api/v1/accounts/{account_id}/contacts/{id}/contactable_inboxes:
   $ref: ./application/contactable_inboxes/get.yml
+
 
 # Automation Rule
 /api/v1/accounts/{account_id}/automation_rules:
@@ -297,11 +292,15 @@
     $ref: ./application/portal/create.yml
   get:
     $ref: ./application/portal/index.yml
+/api/v1/accounts/{account_id}/portals/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - $ref: '#/components/parameters/portal_id'
   patch:
     $ref: ./application/portal/update.yml
 
 # Help Center category
-/api/v1/accounts/{account_id}/portals/{portal_id}/categories:
+/api/v1/accounts/{account_id}/portals/{id}/categories:
   parameters:
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/portal_id'
@@ -309,7 +308,7 @@
     $ref: ./application/category/create.yml
 
 # Help Center article
-/api/v1/accounts/{account_id}/portals/{portal_id}/articles:
+/api/v1/accounts/{account_id}/portals/{id}/articles:
   parameters:
     - $ref: '#/components/parameters/account_id'
     - $ref: '#/components/parameters/portal_id'

@@ -21,7 +21,7 @@ properties:
   phone_number:
     type: string
     description: phone number of the contact
-    example: +123456789
+    example: '+123456789'
   avatar:
     type: string
     format: binary

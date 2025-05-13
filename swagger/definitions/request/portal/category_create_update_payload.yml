@@ -22,8 +22,8 @@ properties:
     example: en
   icon:
     type: string
-    description: The icon of the category, e.g. i-lucide-home
-    example: 'i-lucide-home'
+    description: The icon of the category as a string (emoji)
+    example: '📚'
   parent_category_id:
     type: integer
     description: To define parent category, e.g product documentation has multiple level features in sales category or in engineering category.

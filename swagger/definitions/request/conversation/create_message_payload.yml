@@ -19,11 +19,11 @@ properties:
     type: string
     enum: ['text', 'input_email', 'cards', 'input_select', 'form', 'article']
     description: Content type of the message
-    example: 'cards'
+    example: 'text'
   content_attributes:
     type: object
     description: Attributes based on the content type
-    example: { automation_rule_id: 1, in_reply_to: 1 }
+    example: {}
   campaign_id:
     type: integer
     description: The campaign id to which the message belongs

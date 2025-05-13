@@ -19,7 +19,7 @@ requestBody:
             items:
               type: integer
             description: IDs of users to be added to the team
-            example: [1, 2, 3]
+            example: [1]
 responses:
   '200':
     description: Success

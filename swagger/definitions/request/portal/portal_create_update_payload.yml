@@ -1,9 +1,5 @@
 type: object
 properties:
-  account_id:
-    type: integer
-    description: The account id of the portal
-    example: 1
   color:
     type: string
     description: Header color for help-center in hex format

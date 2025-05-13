@@ -23,7 +23,7 @@ properties:
   csat_survey_enabled:
     type: boolean
     description: Enable CSAT survey
-    example: tru
+    example: true
   enable_auto_assignment:
     type: boolean
     description: Enable Auto Assignment
