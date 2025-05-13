@@ -78,6 +78,10 @@ export const useInbox = () => {
     return inbox.value.provider || '';
   });
 
+  const isAVoiceChannel = computed(() => {
+    return channelType.value === INBOX_TYPES.VOICE;
+  });
+
   const isAMicrosoftInbox = computed(() => {
     return isAnEmailChannel.value && inbox.value.provider === 'microsoft';
   });
@@ -142,5 +146,6 @@ export const useInbox = () => {
     is360DialogWhatsAppChannel,
     isAnEmailChannel,
     isAnInstagramChannel,
+    isAVoiceChannel,
   };
 };
