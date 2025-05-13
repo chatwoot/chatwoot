@@ -6,8 +6,8 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def usage_limits
     {
-      agents: agent_limits.to_i,
-      inboxes: get_limits(:inboxes).to_i,
+      'Agent Limit': agent_limits.to_i,
+      'Inbox Limit': get_limits('Inbox Limit').to_i,
       captain: {
         documents: get_captain_limits(:documents),
         responses: get_captain_limits(:responses)
@@ -97,11 +97,16 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def agent_limits
     subscribed_quantity = custom_attributes['subscribed_quantity']
-    subscribed_quantity || get_limits(:agents)
+    subscribed_quantity || get_limits('Agent Limit')
   end
 
   def get_limits(limit_name)
-    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
+    config_key = case limit_name.to_s
+                when 'Agent Limit' then 'AGENTS'
+                when 'Inbox Limit' then 'INBOXES'
+                else limit_name.to_s.upcase
+                end
+    config_name = "ACCOUNT_#{config_key}_LIMIT"
     return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
 
     return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
@@ -113,13 +118,19 @@ module Enterprise::Account::PlanUsageAndLimits
     errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
     self[:limits] = {} if self[:limits].blank?
 
+    # Transform old format to new format
+    if self[:limits]['agents'].present? || self[:limits]['inboxes'].present?
+      self[:limits] = {
+        'Agent Limit' => self[:limits]['agents'].to_i,
+        'Inbox Limit' => self[:limits]['inboxes'].to_i
+      }
+    end
+
     limit_schema = {
       'type' => 'object',
       'properties' => {
-        'inboxes' => { 'type': 'number' },
-        'agents' => { 'type': 'number' },
-        'captain_responses' => { 'type': 'number' },
-        'captain_documents' => { 'type': 'number' }
+        'Agent Limit' => { 'type': ['number', 'null'] },
+        'Inbox Limit' => { 'type': ['number', 'null'] }
       },
       'required' => [],
       'additionalProperties' => false
