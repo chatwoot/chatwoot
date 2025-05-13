@@ -200,7 +200,7 @@ export default {
       v-if="isOpen && !isCannedResponseModalOpen"
       :x="contextMenuPosition.x"
       :y="contextMenuPosition.y"
-      :lock-scroll-element="conversationPanelElement"
+      :scroll-lock-element="conversationPanelElement"
       @close="handleClose"
     >
       <div class="menu-container">

@@ -229,7 +229,7 @@ defineExpose({
       v-if="showForwardMessageModal"
       :x="forwardFormPosition.x"
       :y="forwardFormPosition.y"
-      :lock-scroll-element="conversationPanelElement"
+      :scroll-lock-element="conversationPanelElement"
       @close="closeForwardModal"
     >
       <ForwardMessageForm

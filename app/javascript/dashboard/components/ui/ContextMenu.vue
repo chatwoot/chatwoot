@@ -13,14 +13,14 @@ import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirecti
 const props = defineProps({
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 },
-  lockScrollElement: { type: [HTMLElement, null], default: null },
+  scrollLockElement: { type: [HTMLElement, null], default: null },
 });
 
 const emit = defineEmits(['close']);
 
 const menuRef = useTemplateRef('menuRef');
 
-const scrollLockElement = computed(() => props.lockScrollElement);
+const scrollLockElement = computed(() => props.scrollLockElement);
 
 const isLocked = useScrollLock(scrollLockElement);
 
