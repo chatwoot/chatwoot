@@ -44,6 +44,7 @@ const fetchMore = () => {
 };
 
 onMounted(() => {
+  store.dispatch('inboxes/get');
   store.dispatch('getConversation', props.conversationId);
 });
 
