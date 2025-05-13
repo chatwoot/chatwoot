@@ -510,6 +510,9 @@ Rails.application.routes.draw do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
 
+    # Transcription webhook
+    post :transcription_callback, to: 'transcription#transcription_callback'
+
     # Use resource scope to avoid plural/singular confusion
     resource :voice, only: [], controller: 'voice' do
       collection do

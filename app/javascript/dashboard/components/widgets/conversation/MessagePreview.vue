@@ -30,6 +30,13 @@ export default {
     };
   },
   computed: {
+    shouldShowCallStatus() {
+      // Always show call status for voice channels if present
+      return (
+        this.conversation?.meta?.channel === 'Channel::Voice' &&
+        !!this.conversation?.additional_attributes?.call_status
+      );
+    },
     messageByAgent() {
       const { message_type: messageType } = this.message;
       return messageType === MESSAGE_TYPE.OUTGOING;
@@ -44,33 +51,27 @@ export default {
     },
     // Simple check: Is this a voice channel conversation?
     isVoiceChannel() {
-      return this.conversation?.meta?.inbox?.channel_type === 'Channel::Voice';
+      return this.conversation?.meta?.channel === 'Channel::Voice';
     },
     // Check if this is a voice call message
     isVoiceCall() {
       return (
-        this.message?.content_type === 'voice_call' ||
-        this.message?.content_attributes?.type === 'voice_call' ||
-        this.message?.content_attributes?.data?.callType === 'voice_call' ||
-        this.isVoiceChannel
+        this.message?.content_type === 'voice_call'
       );
     },
     // Get call direction for voice calls
     isIncomingCall() {
-      if (!this.isVoiceCall) return false;
+      if (!this.isVoiceChannel) return false;
       
       // First check conversation attributes
       const direction = this.conversation?.additional_attributes?.call_direction;
       if (direction) {
         return direction === 'inbound';
       }
-      
-      // Then fall back to message type
-      return this.message.message_type === MESSAGE_TYPE.INCOMING;
     },
     // Get normalized call status
     callStatus() {
-      if (!this.isVoiceCall) return null;
+      if (!this.isVoiceChannel) return null;
       
       // Get raw status from conversation
       const status = this.conversation?.additional_attributes?.call_status;
@@ -90,11 +91,11 @@ export default {
       if (status === 'ringing') return 'ringing';
       
       // Default status
-      return 'ended';
+      return 'active';
     },
     // Voice call icon based on status
     voiceCallIcon() {
-      if (!this.isVoiceCall) return null;
+      if (!this.isVoiceChannel) return null;
       
       const status = this.callStatus;
       const isIncoming = this.isIncomingCall;
@@ -120,13 +121,17 @@ export default {
     },
     parsedLastMessage() {
       // For voice calls, return status text
-      if (this.isVoiceCall) {
+      if (this.isVoiceChannel) {
         // Get status-based text
         const status = this.callStatus;
         const isIncoming = this.isIncomingCall;
         
         // Return appropriate status text based on call status and direction
         if (status === 'active') {
+          // return last message content if message is not activity and not voice call
+          if (!this.isMessageAnActivity && !this.isVoiceCall) {
+            return this.getPlainText(this.message.content);
+          }
           return this.$t('CONVERSATION.VOICE_CALL.CALL_IN_PROGRESS');
         }
         
@@ -186,17 +191,9 @@ export default {
 
 <template>
   <div class="overflow-hidden text-ellipsis whitespace-nowrap">
-    <template v-if="showMessageType">
-      <fluent-icon
-        v-if="isMessagePrivate"
-        size="16"
-        class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
-        icon="lock-closed"
-      />
-      
-      <!-- Voice calls with phosphor icons (non-filled variants) -->
+    <!-- Always show call status for voice channels if present -->
+    <template v-if="shouldShowCallStatus">
       <span
-        v-else-if="isVoiceCall"
         class="-mt-0.5 align-middle inline-block mr-1"
         :class="{
           'text-red-600 dark:text-red-400': callStatus === 'missed' || callStatus === 'no-answer',
@@ -207,55 +204,86 @@ export default {
         <!-- Missed call icon -->
         <i v-if="callStatus === 'missed' || callStatus === 'no-answer'" 
            class="i-ph-phone-x text-base"></i>
-        
         <!-- Active call icon -->
         <i v-else-if="callStatus === 'active'" 
            class="i-ph-phone-call text-base"></i>
-        
         <!-- Incoming call icon -->
         <i v-else-if="(callStatus === 'ended' && isIncomingCall) || (isIncomingCall)" 
            class="i-ph-phone-incoming text-base"></i>
-        
         <!-- Outgoing call icon -->
         <i v-else 
            class="i-ph-phone-outgoing text-base"></i>
       </span>
-      
-      <fluent-icon
-        v-else-if="messageByAgent"
-        size="16"
-        class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
-        icon="arrow-reply"
-      />
-      <fluent-icon
-        v-else-if="isMessageAnActivity"
-        size="16"
-        class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
-        icon="info"
-      />
+      <span>{{ parsedLastMessage }}</span>
     </template>
-    <span v-if="message.content && isMessageSticker">
-      <fluent-icon
-        size="16"
-        class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
-        icon="image"
-      />
-      {{ $t('CHAT_LIST.ATTACHMENTS.image.CONTENT') }}
-    </span>
-    <span v-else-if="message.content || isVoiceCall">
-      {{ parsedLastMessage }}
-    </span>
-    <span v-else-if="message.attachments">
-      <fluent-icon
-        v-if="attachmentIcon && showMessageType"
-        size="16"
-        class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
-        :icon="attachmentIcon"
-      />
-      {{ $t(`${attachmentMessageContent}`) }}
-    </span>
-    <span v-else>
-      {{ defaultEmptyMessage || $t('CHAT_LIST.NO_CONTENT') }}
-    </span>
+    <template v-else>
+      <template v-if="showMessageType">
+        <fluent-icon
+          v-if="isMessagePrivate"
+          size="16"
+          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
+          icon="lock-closed"
+        />
+        <!-- Voice calls with phosphor icons (non-filled variants) -->
+        <span
+          v-else-if="isVoiceCall"
+          class="-mt-0.5 align-middle inline-block mr-1"
+          :class="{
+            'text-red-600 dark:text-red-400': callStatus === 'missed' || callStatus === 'no-answer',
+            'text-green-600 dark:text-green-400': callStatus === 'active' || callStatus === 'ringing',
+            'text-slate-600 dark:text-slate-300': callStatus === 'ended'
+          }"
+        >
+          <!-- Missed call icon -->
+          <i v-if="callStatus === 'missed' || callStatus === 'no-answer'" 
+             class="i-ph-phone-x text-base"></i>
+          <!-- Active call icon -->
+          <i v-else-if="callStatus === 'active'" 
+             class="i-ph-phone-call text-base"></i>
+          <!-- Incoming call icon -->
+          <i v-else-if="(callStatus === 'ended' && isIncomingCall) || (isIncomingCall)" 
+             class="i-ph-phone-incoming text-base"></i>
+          <!-- Outgoing call icon -->
+          <i v-else 
+             class="i-ph-phone-outgoing text-base"></i>
+        </span>
+        <fluent-icon
+          v-else-if="messageByAgent"
+          size="16"
+          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
+          icon="arrow-reply"
+        />
+        <fluent-icon
+          v-else-if="isMessageAnActivity"
+          size="16"
+          class="-mt-0.5 align-middle text-slate-600 dark:text-slate-300 inline-block"
+          icon="info"
+        />
+      </template>
+      <span v-if="message.content && isMessageSticker">
+        <fluent-icon
+          size="16"
+          class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
+          icon="image"
+        />
+        {{ $t('CHAT_LIST.ATTACHMENTS.image.CONTENT') }}
+      </span>
+      <span v-else-if="message.content || isVoiceCall">
+        {{ parsedLastMessage }}
+      </span>
+      <span v-else-if="message.attachments">
+        <fluent-icon
+          v-if="attachmentIcon && showMessageType"
+          size="16"
+          class="-mt-0.5 align-middle inline-block text-slate-600 dark:text-slate-300"
+          :icon="attachmentIcon"
+        />
+        {{ $t(`${attachmentMessageContent}`) }}
+      </span>
+      <span v-else>
+        {{ defaultEmptyMessage || $t('CHAT_LIST.NO_CONTENT') }}
+      </span>
+    </template>
   </div>
 </template>
+

@@ -81,19 +81,22 @@ module Voice
       # This provides a clean migration path from MessageUpdateService
       def create_activity_message(content, additional_attributes = {})
         return nil if content.blank?
-        
+
         Rails.logger.info("📝 [CallStatusManager] Creating activity message: '#{content}'")
-        
-        # Create message
-        Messages::MessageBuilder.new(
-          nil,
-          conversation,
-          {
-            content: content,
-            message_type: :activity,
-            additional_attributes: additional_attributes
-          }
-        ).perform
+
+        # Activity messages should not have a sender
+        # Pass nil for user and set the sender explicitly to nil
+        message = conversation.messages.create!(
+          account_id: conversation.account_id,
+          inbox_id: conversation.inbox_id,
+          message_type: :activity,
+          content: content,
+          sender: nil,
+          additional_attributes: additional_attributes
+        )
+
+        Rails.logger.info("📝 [CallStatusManager] Created activity message ID #{message.id}")
+        message
       end
 
       # Process a call status update from any provider (e.g., Twilio, Vonage)

@@ -203,16 +203,6 @@ module Voice
           data: broadcast_data
         }
       )
-
-      # Broadcast the conversation and message
-      ActionCableBroadcastJob.perform_later(
-        @conversation.account_id,
-        'conversation.created',
-        @conversation.push_event_data.merge(
-          message: @widget_message.push_event_data,
-          status: 'open'
-        )
-      )
     end
   end
 end

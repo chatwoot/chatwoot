@@ -22,6 +22,8 @@ module Voice
 
         twiml
       rescue StandardError => e
+        # Log the error
+        Rails.logger.error("Error processing incoming call: #{e.message}")
 
         # Return a simple error TwiML
         error_twiml(e.message)
@@ -155,11 +157,10 @@ module Voice
       # First process ringing status
       status_manager.process_status_update('ringing', nil, true)
 
-      # Then add a custom message about the incoming call
+      # Then add a custom message about the incoming call - it will be created without a sender
       activity_message = status_manager.create_activity_message(
         "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
       )
-
     end
 
     def broadcast_call_status
@@ -196,12 +197,29 @@ module Voice
 
     def generate_twiml_response
       conference_name = @conversation.additional_attributes['conference_sid']
+      Rails.logger.info("📞 IncomingCallService: Generating TwiML with conference name: #{conference_name}")
 
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: 'Thank you for calling. Please wait while we connect you with an agent.')
 
-      callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/conference_status"
+      # Setup callback URLs - include conference name and speaker_type in transcription URL
+      conference_callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/conference_status"
+      transcription_url = "#{base_url}/twilio/transcription_callback?account_id=#{account.id}&conference_sid=#{conference_name}&speaker_type=contact&contact_id=#{@contact.id}"
 
+      Rails.logger.info("📞 IncomingCallService: Setting transcription callback to: #{transcription_url}")
+      Rails.logger.info("📞 IncomingCallService: Setting conference callback to: #{conference_callback_url}")
+
+      # Start real-time transcription for this caller's leg
+      response.start do |s|
+        s.transcription(
+          status_callback_url: transcription_url,
+          status_callback_method: 'POST',
+          track: 'inbound_track', # Must be inbound_track or outbound_track per Twilio API
+          language_code: 'en-US'
+        )
+      end
+
+      # Now add the caller to the conference
       response.dial do |dial|
         dial.conference(
           conference_name,
@@ -210,14 +228,16 @@ module Voice
           beep: false,
           muted: false,
           waitUrl: '',
-          statusCallback: callback_url,
+          statusCallback: conference_callback_url,
           statusCallbackMethod: 'POST',
           statusCallbackEvent: 'start end join leave',
           participantLabel: "caller-#{caller_info[:call_sid].last(8)}"
         )
       end
 
-      response.to_s
+      result = response.to_s
+      Rails.logger.info("📞 IncomingCallService: Generated TwiML: #{result}")
+      result
     end
 
     def error_twiml(message)

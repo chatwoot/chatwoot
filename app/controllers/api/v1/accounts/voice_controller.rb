@@ -174,7 +174,22 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   # ---- TwiML -----------------------------------------------------------------
 
   def build_twiml(conference_name)
+    # For agent legs, we need to add transcription too
+    account_id = params[:account_id] || Current.account&.id
+    agent_id = params[:agent_id] || current_user&.id
+    transcription_url = "#{base_url}/twilio/transcription_callback?account_id=#{account_id}&conference_sid=#{conference_name}&speaker_type=agent&agent_id=#{agent_id}"
+
     Twilio::TwiML::VoiceResponse.new do |r|
+      # Add transcription for the agent leg too
+      r.start do |start|
+        start.transcription(
+          status_callback_url: transcription_url,
+          status_callback_method: 'POST',
+          track: 'inbound_track', # Use inbound_track consistently for conference calls
+          language_code: 'en-US'
+        )
+      end
+
       r.dial do |dial|
         dial.conference(
           conference_name,
@@ -187,7 +202,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
           statusCallback:         conference_callback_url,
           statusCallbackEvent:    'start end join leave',
           statusCallbackMethod:   'POST',
-          participantLabel:       "agent-#{params[:agent_id] || current_user.id}"
+          participantLabel:       "agent-#{params[:agent_id] || current_user&.id}"
         )
       end
     end.to_s
