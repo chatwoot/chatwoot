@@ -1004,7 +1004,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.index ["slug"], name: "index_portals_on_slug", unique: true
   end
 
-<<<<<<< HEAD
   create_table "portals_members", id: false, force: :cascade do |t|
     t.bigint "portal_id", null: false
     t.bigint "user_id", null: false
@@ -1209,5 +1208,221 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.index ["subscription_plan_id"], name: "index_subscriptions_on_subscription_plan_id"
   end
 
-=======
->>>>>>> f3d033133 (resolve conflict)
+  create_table "taggings", id: :serial, force: :cascade do |t|
+    t.integer "tag_id"
+    t.string "taggable_type"
+    t.integer "taggable_id"
+    t.string "tagger_type"
+    t.integer "tagger_id"
+    t.string "context", limit: 128
+    t.datetime "created_at", precision: nil
+    t.index ["context"], name: "index_taggings_on_context"
+    t.index ["tag_id", "taggable_id", "taggable_type", "context", "tagger_id", "tagger_type"], name: "taggings_idx", unique: true
+    t.index ["tag_id"], name: "index_taggings_on_tag_id"
+    t.index ["taggable_id", "taggable_type", "context"], name: "index_taggings_on_taggable_id_and_taggable_type_and_context"
+    t.index ["taggable_id", "taggable_type", "tagger_id", "context"], name: "taggings_idy"
+    t.index ["taggable_id"], name: "index_taggings_on_taggable_id"
+    t.index ["taggable_type"], name: "index_taggings_on_taggable_type"
+    t.index ["tagger_id", "tagger_type"], name: "index_taggings_on_tagger_id_and_tagger_type"
+    t.index ["tagger_id"], name: "index_taggings_on_tagger_id"
+  end
+
+  create_table "tags", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.integer "taggings_count", default: 0
+    t.index "lower((name)::text) gin_trgm_ops", name: "tags_name_trgm_idx", using: :gin
+    t.index ["name"], name: "index_tags_on_name", unique: true
+  end
+
+  create_table "team_members", force: :cascade do |t|
+    t.bigint "team_id", null: false
+    t.bigint "user_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["team_id", "user_id"], name: "index_team_members_on_team_id_and_user_id", unique: true
+    t.index ["team_id"], name: "index_team_members_on_team_id"
+    t.index ["user_id"], name: "index_team_members_on_user_id"
+  end
+
+  create_table "teams", force: :cascade do |t|
+    t.string "name", null: false
+    t.text "description"
+    t.boolean "allow_auto_assign", default: true
+    t.bigint "account_id", null: false
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.index ["account_id"], name: "index_teams_on_account_id"
+    t.index ["name", "account_id"], name: "index_teams_on_name_and_account_id", unique: true
+  end
+
+  create_table "telegram_bots", id: :serial, force: :cascade do |t|
+    t.string "name"
+    t.string "auth_key"
+    t.integer "account_id"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "transaction_subscription_relations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "subscription_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["subscription_id"], name: "index_transaction_subscription_relations_on_subscription_id"
+    t.index ["transaction_id", "subscription_id"], name: "index_tx_sub_rel", unique: true
+    t.index ["transaction_id"], name: "index_transaction_subscription_relations_on_transaction_id"
+  end
+
+  create_table "transaction_topup_relations", force: :cascade do |t|
+    t.bigint "transaction_id", null: false
+    t.bigint "topup_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["topup_id"], name: "index_transaction_topup_relations_on_topup_id"
+    t.index ["transaction_id", "topup_id"], name: "index_tx_topup_rel", unique: true
+    t.index ["transaction_id"], name: "index_transaction_topup_relations_on_transaction_id"
+  end
+
+  create_table "transactions", force: :cascade do |t|
+    t.string "transaction_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.string "package_type", null: false
+    t.string "package_name"
+    t.decimal "price", precision: 10, scale: 2, null: false
+    t.integer "duration"
+    t.string "duration_unit"
+    t.string "status", null: false
+    t.string "payment_method"
+    t.string "payment_url"
+    t.datetime "transaction_date", precision: nil, default: -> { "CURRENT_TIMESTAMP" }
+    t.datetime "payment_date", precision: nil
+    t.datetime "expiry_date", precision: nil
+    t.string "action", default: "pay"
+    t.text "notes"
+    t.jsonb "metadata"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_transactions_on_account_id"
+    t.index ["package_type"], name: "index_transactions_on_package_type"
+    t.index ["status"], name: "index_transactions_on_status"
+    t.index ["transaction_date"], name: "index_transactions_on_transaction_date"
+    t.index ["transaction_id"], name: "index_transactions_on_transaction_id", unique: true
+    t.index ["user_id"], name: "index_transactions_on_user_id"
+  end
+
+  create_table "users", id: :serial, force: :cascade do |t|
+    t.string "provider", default: "email", null: false
+    t.string "uid", default: "", null: false
+    t.string "encrypted_password", default: "", null: false
+    t.string "reset_password_token"
+    t.datetime "reset_password_sent_at", precision: nil
+    t.datetime "remember_created_at", precision: nil
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.string "confirmation_token"
+    t.datetime "confirmed_at", precision: nil
+    t.datetime "confirmation_sent_at", precision: nil
+    t.string "unconfirmed_email"
+    t.string "name", null: false
+    t.string "display_name"
+    t.string "email"
+    t.json "tokens"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.string "pubsub_token"
+    t.integer "availability", default: 0
+    t.jsonb "ui_settings", default: {}
+    t.jsonb "custom_attributes", default: {}
+    t.string "type"
+    t.text "message_signature"
+    t.string "phone"
+    t.index ["email"], name: "index_users_on_email"
+    t.index ["pubsub_token"], name: "index_users_on_pubsub_token", unique: true
+    t.index ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true
+    t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
+  end
+
+  create_table "webhooks", force: :cascade do |t|
+    t.integer "account_id"
+    t.integer "inbox_id"
+    t.string "url"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.integer "webhook_type", default: 0
+    t.jsonb "subscriptions", default: ["conversation_status_changed", "conversation_updated", "conversation_created", "contact_created", "contact_updated", "message_created", "message_updated", "webwidget_triggered"]
+    t.index ["account_id", "url"], name: "index_webhooks_on_account_id_and_url", unique: true
+  end
+
+  create_table "working_hours", force: :cascade do |t|
+    t.bigint "inbox_id"
+    t.bigint "account_id"
+    t.integer "day_of_week", null: false
+    t.boolean "closed_all_day", default: false
+    t.integer "open_hour"
+    t.integer "open_minutes"
+    t.integer "close_hour"
+    t.integer "close_minutes"
+    t.datetime "created_at", precision: nil, null: false
+    t.datetime "updated_at", precision: nil, null: false
+    t.boolean "open_all_day", default: false
+    t.index ["account_id"], name: "index_working_hours_on_account_id"
+    t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
+  end
+
+  add_foreign_key "accounts", "subscriptions", column: "active_subscription_id"
+  add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "ai_agent_followups", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "ai_agents"
+  add_foreign_key "ai_agent_selected_labels", "labels"
+  add_foreign_key "inboxes", "portals"
+  add_foreign_key "knowledge_source_files", "knowledge_sources"
+  add_foreign_key "knowledge_source_qnas", "knowledge_sources"
+  add_foreign_key "knowledge_source_texts", "knowledge_sources"
+  add_foreign_key "knowledge_source_websites", "knowledge_sources"
+  add_foreign_key "knowledge_sources", "ai_agents"
+  add_foreign_key "quick_replies", "accounts"
+  add_foreign_key "subscription_payments", "subscriptions"
+  add_foreign_key "subscription_topups", "subscriptions"
+  add_foreign_key "subscription_usage", "subscriptions"
+  add_foreign_key "subscriptions", "accounts"
+  add_foreign_key "transaction_subscription_relations", "subscriptions", on_delete: :cascade
+  add_foreign_key "transaction_subscription_relations", "transactions", on_delete: :cascade
+  add_foreign_key "transaction_topup_relations", "subscription_topups", column: "topup_id", on_delete: :cascade
+  add_foreign_key "transaction_topup_relations", "transactions", on_delete: :cascade
+  add_foreign_key "transactions", "accounts"
+  add_foreign_key "transactions", "users"
+  create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
+      on("accounts").
+      after(:insert).
+      for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
+  end
+
+  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("conversations").
+      before(:insert).
+      for_each(:row) do
+    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
+  end
+
+  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
+      on("accounts").
+      name("camp_dpid_before_insert").
+      after(:insert).
+      for_each(:row) do
+    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
+  end
+
+  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
+      on("campaigns").
+      before(:insert).
+      for_each(:row) do
+    "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
+  end
+
+end
