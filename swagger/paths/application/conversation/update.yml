@@ -17,9 +17,11 @@ requestBody:
             type: string
             enum: ['urgent', 'high', 'medium', 'low', 'none']
             description: 'The priority of the conversation'
+            example: 'high'
           sla_policy_id:
             type: number
             description: 'The ID of the SLA policy (Available only in Enterprise edition)'
+            example: 1
 responses:
   '200':
     description: Success

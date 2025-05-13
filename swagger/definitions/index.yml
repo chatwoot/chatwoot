@@ -104,8 +104,14 @@ contact_update_payload:
   $ref: ./request/contact/update_payload.yml
 
 ## Conversation
+conversation_create_payload:
+  $ref: ./request/conversation/create_payload.yml
 conversation_message_create_payload:
   $ref: ./request/conversation/create_message_payload.yml
+
+# Inbox
+inbox_create_update_payload:
+  $ref: ./request/inbox/create_update_payload.yml
 
 # Team
 team_create_update_payload:

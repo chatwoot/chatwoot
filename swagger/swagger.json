@@ -1266,6 +1266,27 @@
             "description": "Typing status, either 'on' or 'off'"
           }
         ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "typing_status": {
+                    "type": "string",
+                    "enum": [
+                      "on",
+                      "off"
+                    ],
+                    "description": "The typing status to set",
+                    "example": "on"
+                  }
+                }
+              }
+            }
+          }
+        },
         "responses": {
           "200": {
             "description": "Typing status toggled successfully"
@@ -3703,9 +3724,9 @@
         "tags": [
           "Help Center"
         ],
-        "operationId": "update-new-portal-to-account",
-        "summary": "update a new portal",
-        "description": "update a new portal to account",
+        "operationId": "update-portal-to-account",
+        "summary": "Update a portal",
+        "description": "Update a portal to account",
         "security": [
           {
             "userApiKey": [
@@ -4097,7 +4118,7 @@
         ],
         "operationId": "newConversation",
         "summary": "Create New Conversation",
-        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
+        "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel",
         "security": [
           {
             "userApiKey": [
@@ -4115,95 +4136,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "source_id",
-                  "inbox_id"
-                ],
-                "properties": {
-                  "source_id": {
-                    "type": "string",
-                    "description": "Conversation source id"
-                  },
-                  "inbox_id": {
-                    "type": "string",
-                    "description": "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email "
-                  },
-                  "contact_id": {
-                    "type": "string",
-                    "description": "Contact Id for which conversation is created"
-                  },
-                  "additional_attributes": {
-                    "type": "object",
-                    "description": "Lets you specify attributes like browser information"
-                  },
-                  "custom_attributes": {
-                    "type": "object",
-                    "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
-                    "example": {
-                      "attribute_key": "attribute_value",
-                      "priority_conversation_number": 3
-                    }
-                  },
-                  "status": {
-                    "type": "string",
-                    "enum": [
-                      "open",
-                      "resolved",
-                      "pending"
-                    ],
-                    "description": "Specify the conversation whether it's pending, open, closed"
-                  },
-                  "assignee_id": {
-                    "type": "string",
-                    "description": "Agent Id for assigning a conversation to an agent"
-                  },
-                  "team_id": {
-                    "type": "string",
-                    "description": "Team Id for assigning a conversation to a team"
-                  },
-                  "message": {
-                    "type": "object",
-                    "description": "The initial message to be sent to the conversation",
-                    "required": [
-                      "content"
-                    ],
-                    "properties": {
-                      "content": {
-                        "type": "string",
-                        "description": "The content of the message"
-                      },
-                      "template_params": {
-                        "type": "object",
-                        "description": "The template params for the message in case of whatsapp Channel",
-                        "properties": {
-                          "name": {
-                            "type": "string",
-                            "description": "Name of the template",
-                            "example": "sample_issue_resolution"
-                          },
-                          "category": {
-                            "type": "string",
-                            "description": "Category of the template",
-                            "example": "UTILITY"
-                          },
-                          "language": {
-                            "type": "string",
-                            "description": "Language of the template",
-                            "example": "en_US"
-                          },
-                          "processed_params": {
-                            "type": "object",
-                            "description": "The processed param values for template variables in template",
-                            "example": {
-                              "1": "Chatwoot"
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/conversation_create_payload"
               }
             }
           }
@@ -4457,11 +4390,13 @@
                       "low",
                       "none"
                     ],
-                    "description": "The priority of the conversation"
+                    "description": "The priority of the conversation",
+                    "example": "high"
                   },
                   "sla_policy_id": {
                     "type": "number",
-                    "description": "The ID of the SLA policy (Available only in Enterprise edition)"
+                    "description": "The ID of the SLA policy (Available only in Enterprise edition)",
+                    "example": 1
                   }
                 }
               }
@@ -4540,7 +4475,8 @@
                       "resolved",
                       "pending"
                     ],
-                    "description": "The status of the conversation"
+                    "description": "The status of the conversation",
+                    "example": "open"
                   }
                 }
               }
@@ -4628,7 +4564,8 @@
                       "low",
                       "none"
                     ],
-                    "description": "The priority of the conversation"
+                    "description": "The priority of the conversation",
+                    "example": "high"
                   }
                 }
               }
@@ -4785,11 +4722,13 @@
                 "properties": {
                   "assignee_id": {
                     "type": "number",
-                    "description": "Id of the assignee user"
+                    "description": "Id of the assignee user",
+                    "example": 1
                   },
                   "team_id": {
                     "type": "number",
-                    "description": "Id of the team. If the assignee_id is present, this param would be ignored"
+                    "description": "Id of the team. If the assignee_id is present, this param would be ignored",
+                    "example": 1
                   }
                 }
               }
@@ -5106,49 +5045,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "The name of the inbox"
-                  },
-                  "avatar": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "File for avatar image"
-                  },
-                  "channel": {
-                    "type": "object",
-                    "properties": {
-                      "type": {
-                        "type": "string",
-                        "enum": [
-                          "web_widget"
-                        ]
-                      },
-                      "website_url": {
-                        "type": "string",
-                        "description": "URL at which the widget will be loaded"
-                      },
-                      "welcome_title": {
-                        "type": "string",
-                        "description": "Welcome title to be displayed on the widget"
-                      },
-                      "welcome_tagline": {
-                        "type": "string",
-                        "description": "Welcome tagline to be displayed on the widget"
-                      },
-                      "agent_away_message": {
-                        "type": "string",
-                        "description": "A message which will be sent if there is not agent available. This is not available if agentbot is connected"
-                      },
-                      "widget_color": {
-                        "type": "string",
-                        "description": "A Hex-color string used to customize the widget"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/inbox_create_update_payload"
               }
             }
           }
@@ -5221,50 +5118,7 @@
           "content": {
             "application/json": {
               "schema": {
-                "type": "object",
-                "required": [
-                  "enable_auto_assignment"
-                ],
-                "properties": {
-                  "name": {
-                    "type": "string",
-                    "description": "The name of the inbox"
-                  },
-                  "enable_auto_assignment": {
-                    "type": "boolean",
-                    "description": "Enable Auto Assignment"
-                  },
-                  "avatar": {
-                    "type": "string",
-                    "format": "binary",
-                    "description": "Image file for avatar"
-                  },
-                  "channel": {
-                    "type": "object",
-                    "properties": {
-                      "website_url": {
-                        "type": "string",
-                        "description": "URL at which the widget will be loaded"
-                      },
-                      "welcome_title": {
-                        "type": "string",
-                        "description": "Welcome title to be displayed on the widget"
-                      },
-                      "welcome_tagline": {
-                        "type": "string",
-                        "description": "Welcome tagline to be displayed on the widget"
-                      },
-                      "agent_away_message": {
-                        "type": "string",
-                        "description": "A message which will be sent if there is not agent available. This is not available if agentbot is connected"
-                      },
-                      "widget_color": {
-                        "type": "string",
-                        "description": "A Hex-color string used to customize the widget"
-                      }
-                    }
-                  }
-                }
+                "$ref": "#/components/schemas/inbox_create_update_payload"
               }
             }
           }
@@ -5407,7 +5261,8 @@
                 "properties": {
                   "agent_bot": {
                     "type": "number",
-                    "description": "Agent bot ID"
+                    "description": "Agent bot ID",
+                    "example": 1
                   }
                 }
               }
@@ -5539,15 +5394,21 @@
                 ],
                 "properties": {
                   "inbox_id": {
-                    "type": "string",
-                    "description": "The ID of the inbox"
+                    "type": "integer",
+                    "description": "The ID of the inbox",
+                    "example": 1
                   },
                   "user_ids": {
                     "type": "array",
                     "items": {
                       "type": "integer"
                     },
-                    "description": "IDs of users to be added to the inbox"
+                    "description": "IDs of users to be added to the inbox",
+                    "example": [
+                      1,
+                      2,
+                      3
+                    ]
                   }
                 }
               }
@@ -5628,14 +5489,20 @@
                 "properties": {
                   "inbox_id": {
                     "type": "string",
-                    "description": "The ID of the inbox"
+                    "description": "The ID of the inbox",
+                    "example": 1
                   },
                   "user_ids": {
                     "type": "array",
                     "items": {
                       "type": "integer"
                     },
-                    "description": "IDs of users to be added to the inbox"
+                    "description": "IDs of users to be added to the inbox",
+                    "example": [
+                      1,
+                      2,
+                      3
+                    ]
                   }
                 }
               }
@@ -6554,7 +6421,12 @@
                     "items": {
                       "type": "integer"
                     },
-                    "description": "IDs of users to be added to the team"
+                    "description": "IDs of users to be added to the team",
+                    "example": [
+                      1,
+                      2,
+                      3
+                    ]
                   }
                 }
               }
@@ -6637,7 +6509,12 @@
                     "items": {
                       "type": "integer"
                     },
-                    "description": "IDs of users to be added to the team"
+                    "description": "IDs of users to be added to the team",
+                    "example": [
+                      1,
+                      2,
+                      3
+                    ]
                   }
                 }
               }
@@ -9046,6 +8923,116 @@
           }
         }
       },
+      "conversation_create_payload": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "inbox_id"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Conversation source id",
+            "example": "1234567890"
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email",
+            "example": 1
+          },
+          "contact_id": {
+            "type": "integer",
+            "description": "Contact Id for which conversation is created",
+            "example": 1
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Lets you specify attributes like browser information",
+            "example": {
+              "browser": "Chrome",
+              "browser_version": "89.0.4389.82",
+              "os": "Windows",
+              "os_version": "10"
+            }
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
+            "example": {
+              "attribute_key": "attribute_value",
+              "priority_conversation_number": 3
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending"
+            ],
+            "description": "Specify the conversation whether it's pending, open, closed",
+            "example": "open"
+          },
+          "assignee_id": {
+            "type": "integer",
+            "description": "Agent Id for assigning a conversation to an agent",
+            "example": 1
+          },
+          "team_id": {
+            "type": "integer",
+            "description": "Team Id for assigning a conversation to a team\\",
+            "example": 1
+          },
+          "snoozed_until": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Snoozed until date time",
+            "example": "2030-07-21T17:32:28Z"
+          },
+          "message": {
+            "type": "object",
+            "description": "The initial message to be sent to the conversation",
+            "required": [
+              "content"
+            ],
+            "properties": {
+              "content": {
+                "type": "string",
+                "description": "The content of the message",
+                "example": "Hello, how can I help you?"
+              },
+              "template_params": {
+                "type": "object",
+                "description": "The template params for the message in case of whatsapp Channel",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the template",
+                    "example": "sample_issue_resolution"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category of the template",
+                    "example": "UTILITY"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "Language of the template",
+                    "example": "en_US"
+                  },
+                  "processed_params": {
+                    "type": "object",
+                    "description": "The processed param values for template variables in template",
+                    "example": {
+                      "1": "Chatwoot"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
       "conversation_message_create_payload": {
         "type": "object",
         "required": [
@@ -9054,18 +9041,22 @@
         "properties": {
           "content": {
             "type": "string",
-            "description": "The content of the message"
+            "description": "The content of the message",
+            "example": "Hello, how can I help you?"
           },
           "message_type": {
             "type": "string",
             "enum": [
               "outgoing",
               "incoming"
-            ]
+            ],
+            "description": "The type of the message",
+            "example": "outgoing"
           },
           "private": {
             "type": "boolean",
-            "description": "Flag to identify if it is a private note"
+            "description": "Flag to identify if it is a private note",
+            "example": false
           },
           "content_type": {
             "type": "string",
@@ -9077,12 +9068,21 @@
               "form",
               "article"
             ],
-            "example": "cards",
-            "description": "if you want to create custom message types"
+            "description": "Content type of the message",
+            "example": "cards"
           },
           "content_attributes": {
             "type": "object",
-            "description": "attributes based on your content type"
+            "description": "Attributes based on the content type",
+            "example": {
+              "automation_rule_id": 1,
+              "in_reply_to": 1
+            }
+          },
+          "campaign_id": {
+            "type": "integer",
+            "description": "The campaign id to which the message belongs",
+            "example": 1
           },
           "template_params": {
             "type": "object",
@@ -9114,20 +9114,146 @@
           }
         }
       },
+      "inbox_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the inbox",
+            "example": "Support"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Image file for avatar"
+          },
+          "greeting_enabled": {
+            "type": "boolean",
+            "description": "Enable greeting message",
+            "example": true
+          },
+          "greeting_message": {
+            "type": "string",
+            "description": "Greeting message to be displayed on the widget",
+            "example": "Hello, how can I help you?"
+          },
+          "enable_email_collect": {
+            "type": "boolean",
+            "description": "Enable email collection",
+            "example": true
+          },
+          "csat_survey_enabled": {
+            "type": "boolean",
+            "description": "Enable CSAT survey",
+            "example": "tru"
+          },
+          "enable_auto_assignment": {
+            "type": "boolean",
+            "description": "Enable Auto Assignment",
+            "example": true
+          },
+          "working_hours_enabled": {
+            "type": "boolean",
+            "description": "Enable working hours",
+            "example": true
+          },
+          "out_of_office_message": {
+            "type": "string",
+            "description": "Out of office message to be displayed on the widget",
+            "example": "We are currently out of office. Please leave a message and we will get back to you."
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the inbox",
+            "example": "America/New_York"
+          },
+          "allow_messages_after_resolved": {
+            "type": "boolean",
+            "description": "Allow messages after conversation is resolved",
+            "example": true
+          },
+          "lock_to_single_conversation": {
+            "type": "boolean",
+            "description": "Lock to single conversation",
+            "example": true
+          },
+          "portal_id": {
+            "type": "integer",
+            "description": "Id of the help center portal to attach to the inbox",
+            "example": 1
+          },
+          "sender_name_type": {
+            "type": "string",
+            "description": "Sender name type for the inbox",
+            "enum": [
+              "friendly",
+              "professional"
+            ],
+            "example": "friendly"
+          },
+          "business_name": {
+            "type": "string",
+            "description": "Business name for the inbox",
+            "example": "My Business"
+          },
+          "channel": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of the channel",
+                "enum": [
+                  "web_widget",
+                  "api",
+                  "email",
+                  "line",
+                  "telegram",
+                  "whatsapp",
+                  "sms"
+                ],
+                "example": "web_widget"
+              },
+              "website_url": {
+                "type": "string",
+                "description": "URL at which the widget will be loaded",
+                "example": "https://example.com"
+              },
+              "welcome_title": {
+                "type": "string",
+                "description": "Welcome title to be displayed on the widget",
+                "example": "Welcome to our support"
+              },
+              "welcome_tagline": {
+                "type": "string",
+                "description": "Welcome tagline to be displayed on the widget",
+                "example": "We are here to help you"
+              },
+              "widget_color": {
+                "type": "string",
+                "description": "A Hex-color string used to customize the widget",
+                "example": "#FF5733"
+              }
+            }
+          }
+        }
+      },
       "team_create_update_payload": {
         "type": "object",
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the team"
+            "description": "The name of the team",
+            "example": "Support Team"
           },
           "description": {
             "type": "string",
-            "description": "The description of the team"
+            "description": "The description of the team",
+            "example": "This is a team of support agents"
           },
           "allow_auto_assign": {
             "type": "boolean",
-            "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+            "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
+            "example": true
           }
         }
       },
@@ -9136,7 +9262,8 @@
         "properties": {
           "name": {
             "type": "string",
-            "description": "The name of the custom filter"
+            "description": "The name of the custom filter",
+            "example": "My Custom Filter"
           },
           "type": {
             "type": "string",
@@ -9145,11 +9272,14 @@
               "contact",
               "report"
             ],
-            "description": "The description about the custom filter"
+            "description": "The description about the custom filter",
+            "example": "conversation"
           },
           "query": {
             "type": "object",
-            "description": "A query that needs to be saved as a custom filter"
+            "description": "A query that needs to be saved as a custom filter",
+            "example": {
+            }
           }
         }
       },
@@ -9158,7 +9288,8 @@
         "properties": {
           "url": {
             "type": "string",
-            "description": "The url where the events should be sent"
+            "description": "The url where the events should be sent",
+            "example": "https://example.com/webhook"
           },
           "subscriptions": {
             "type": "array",
@@ -9170,10 +9301,16 @@
                 "conversation_updated",
                 "message_created",
                 "message_updated",
+                "contact_created",
+                "contact_updated",
                 "webwidget_triggered"
               ]
             },
-            "description": "The events you want to subscribe to."
+            "description": "The events you want to subscribe to.",
+            "example": [
+              "conversation_created",
+              "conversation_status_changed"
+            ]
           }
         }
       },
@@ -9181,25 +9318,41 @@
         "type": "object",
         "properties": {
           "app_id": {
-            "type": "string",
-            "description": "The ID of app for which integration hook is being created"
+            "type": "integer",
+            "description": "The ID of app for which integration hook is being created",
+            "example": 1
           },
           "inbox_id": {
-            "type": "string",
-            "description": "The inbox ID, if the hook is an inbox hook"
+            "type": "integer",
+            "description": "The inbox ID, if the hook is an inbox hook",
+            "example": 1
+          },
+          "status": {
+            "type": "integer",
+            "description": "The status of the integration (0 for inactive, 1 for active)",
+            "example": 1
           },
           "settings": {
             "type": "object",
-            "description": "The settings required by the integration"
+            "description": "The settings required by the integration",
+            "example": {
+            }
           }
         }
       },
       "integrations_hook_update_payload": {
         "type": "object",
         "properties": {
+          "status": {
+            "type": "integer",
+            "description": "The status of the integration (0 for inactive, 1 for active)",
+            "example": 1
+          },
           "settings": {
             "type": "object",
-            "description": "The settings required by the integration"
+            "description": "The settings required by the integration",
+            "example": {
+            }
           }
         }
       },
@@ -9263,25 +9416,15 @@
       "portal_create_update_payload": {
         "type": "object",
         "properties": {
-          "archived": {
-            "type": "boolean",
-            "description": "Status to check if portal is live"
+          "account_id": {
+            "type": "integer",
+            "description": "The account id of the portal",
+            "example": 1
           },
           "color": {
             "type": "string",
-            "description": "Header color for help-center",
-            "example": "add color HEX string, \"#fffff\""
-          },
-          "config": {
-            "type": "object",
-            "description": "Configuration about supporting locales",
-            "example": {
-              "allowed_locales": [
-                "en",
-                "es"
-              ],
-              "default_locale": "en"
-            }
+            "description": "Header color for help-center in hex format",
+            "example": "#FFFFFF"
           },
           "custom_domain": {
             "type": "string",
@@ -9300,67 +9443,134 @@
           },
           "name": {
             "type": "string",
-            "description": "Name for the portal"
-          },
-          "slug": {
-            "type": "string",
-            "description": "Slug for the portal to display in link"
+            "description": "Name for the portal",
+            "example": "Handbook"
           },
           "page_title": {
             "type": "string",
-            "description": "Page title for the portal"
+            "description": "Page title for the portal",
+            "example": "Handbook"
           },
-          "account_id": {
-            "type": "integer"
+          "slug": {
+            "type": "string",
+            "description": "Slug for the portal to display in link",
+            "example": "handbook"
+          },
+          "archived": {
+            "type": "boolean",
+            "description": "Status to check if portal is live",
+            "example": false
+          },
+          "config": {
+            "type": "object",
+            "description": "Configuration about supporting locales",
+            "example": {
+              "allowed_locales": [
+                "en",
+                "es"
+              ],
+              "default_locale": "en"
+            }
           }
         }
       },
       "category_create_update_payload": {
         "type": "object",
         "properties": {
-          "description": {
-            "type": "string",
-            "description": "Category description"
-          },
-          "locale": {
-            "type": "string",
-            "description": "Category locale",
-            "example": "en/es"
-          },
           "name": {
             "type": "string",
-            "description": "Category name"
+            "description": "The name of the category",
+            "example": "Category Name"
           },
-          "slug": {
+          "description": {
             "type": "string",
-            "description": "Category slug"
+            "description": "A description for the category",
+            "example": "Category description"
           },
           "position": {
             "type": "integer",
-            "description": "Category position in the portal list to sort"
+            "description": "Category position in the portal list to sort",
+            "example": 1
           },
-          "portal_id": {
-            "type": "integer"
+          "slug": {
+            "type": "string",
+            "description": "The category slug used in the URL",
+            "example": "category-name"
           },
-          "account_id": {
-            "type": "integer"
+          "locale": {
+            "type": "string",
+            "description": "The locale of the category",
+            "example": "en"
           },
-          "associated_category_id": {
-            "type": "integer",
-            "description": "To associate similar categories to each other, e.g same category of product documentation in different languages"
+          "icon": {
+            "type": "string",
+            "description": "The icon of the category, e.g. i-lucide-home",
+            "example": "i-lucide-home"
           },
           "parent_category_id": {
             "type": "integer",
-            "description": "To define parent category, e.g product documentation has multiple level features in sales category or in engineering category."
+            "description": "To define parent category, e.g product documentation has multiple level features in sales category or in engineering category.",
+            "example": 1
+          },
+          "associated_category_id": {
+            "type": "integer",
+            "description": "To associate similar categories to each other, e.g same category of product documentation in different languages",
+            "example": 2
           }
         }
       },
       "article_create_update_payload": {
         "type": "object",
         "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the article",
+            "example": "Article Title"
+          },
+          "slug": {
+            "type": "string",
+            "description": "The slug of the article",
+            "example": "article-title"
+          },
+          "position": {
+            "type": "integer",
+            "description": "article position in category",
+            "example": 1
+          },
           "content": {
             "type": "string",
-            "description": "The text content."
+            "description": "The text content.",
+            "example": "This is the content of the article"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the article",
+            "example": "This is the description of the article"
+          },
+          "category_id": {
+            "type": "integer",
+            "description": "The category id of the article",
+            "example": 1
+          },
+          "author_id": {
+            "type": "integer",
+            "description": "The author agent id of the article",
+            "example": 1
+          },
+          "associated_article_id": {
+            "type": "integer",
+            "description": "To associate similar articles to each other, e.g to provide the link for the reference.",
+            "example": 2
+          },
+          "status": {
+            "type": "integer",
+            "description": "The status of the article. 0 for draft, 1 for published, 2 for archived",
+            "example": 1
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale of the article",
+            "example": "en"
           },
           "meta": {
             "type": "object",
@@ -9372,46 +9582,6 @@
               "title": "article title",
               "description": "article description"
             }
-          },
-          "position": {
-            "type": "integer",
-            "description": "article position in category"
-          },
-          "status": {
-            "type": "integer",
-            "example": [
-              "draft",
-              "published",
-              "archived"
-            ]
-          },
-          "title": {
-            "type": "string"
-          },
-          "slug": {
-            "type": "string"
-          },
-          "views": {
-            "type": "integer"
-          },
-          "portal_id": {
-            "type": "integer"
-          },
-          "account_id": {
-            "type": "integer"
-          },
-          "author_id": {
-            "type": "integer"
-          },
-          "category_id": {
-            "type": "integer"
-          },
-          "folder_id": {
-            "type": "integer"
-          },
-          "associated_article_id": {
-            "type": "integer",
-            "description": "To associate similar articles to each other, e.g to provide the link for the reference."
           }
         }
       },
@@ -9461,11 +9631,13 @@
         "properties": {
           "content": {
             "type": "string",
-            "description": "Content for the message"
+            "description": "Content for the message",
+            "example": "Hello, how can I help you?"
           },
           "echo_id": {
             "type": "string",
-            "description": "Temporary identifier which will be passed back via websockets"
+            "description": "Temporary identifier which will be passed back via websockets",
+            "example": "1234567890"
           }
         }
       },
@@ -9474,7 +9646,40 @@
         "properties": {
           "submitted_values": {
             "type": "object",
-            "description": "Replies to the Bot Message Types"
+            "description": "Replies to the Bot Message Types",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the submiitted value",
+                "example": "My Name"
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the submitted value",
+                "example": "My Title"
+              },
+              "value": {
+                "type": "string",
+                "description": "The value of the submitted value",
+                "example": "value"
+              },
+              "csat_survey_response": {
+                "type": "object",
+                "description": "The CSAT survey response",
+                "properties": {
+                  "feedback_message": {
+                    "type": "string",
+                    "description": "The feedback message of the CSAT survey response",
+                    "example": "Great service!"
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "description": "The rating of the CSAT survey response",
+                    "example": 5
+                  }
+                }
+              }
+            }
           }
         }
       },
@@ -9483,7 +9688,9 @@
         "properties": {
           "custom_attributes": {
             "type": "object",
-            "description": "Custom attributes of the conversation"
+            "description": "Custom attributes of the conversation",
+            "example": {
+            }
           }
         }
       },

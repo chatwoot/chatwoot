@@ -11,6 +11,18 @@ parameters:
     schema:
       type: string
     description: Typing status, either 'on' or 'off'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        properties:
+          typing_status:
+            type: string
+            enum: ['on', 'off']
+            description: The typing status to set
+            example: 'on'
 responses:
   '200':
     description: Typing status toggled successfully

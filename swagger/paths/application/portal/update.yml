@@ -1,8 +1,8 @@
 tags:
   - Help Center
-operationId: update-new-portal-to-account
-summary: update a new portal
-description: update a new portal to account
+operationId: update-portal-to-account
+summary: Update a portal
+description: Update a portal to account
 security:
   - userApiKey: []
 requestBody:

@@ -26,6 +26,7 @@ post:
             agent_bot:
               type: number
               description: 'Agent bot ID'
+              example: 1
   responses:
     '204':
       description: Success

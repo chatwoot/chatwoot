@@ -18,11 +18,13 @@ requestBody:
           inbox_id:
             type: string
             description: The ID of the inbox
+            example: 1
           user_ids:
             type: array
             items:
               type: integer
             description: IDs of users to be added to the inbox
+            example: [1, 2, 3]
 responses:
   '200':
     description: Success

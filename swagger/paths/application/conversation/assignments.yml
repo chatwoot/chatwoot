@@ -16,9 +16,11 @@ requestBody:
           assignee_id:
             type: number
             description: Id of the assignee user
+            example: 1
           team_id:
             type: number
             description: Id of the team. If the assignee_id is present, this param would be ignored
+            example: 1
 responses:
   '200':
     description: Success

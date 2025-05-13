@@ -19,6 +19,7 @@ requestBody:
             type: string
             enum: ['urgent', 'high', 'medium', 'low', 'none']
             description: 'The priority of the conversation'
+            example: 'high'
 responses:
   '200':
     description: Success

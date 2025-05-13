@@ -19,6 +19,7 @@ requestBody:
             type: string
             enum: ['open', 'resolved', 'pending']
             description: The status of the conversation
+            example: open
 responses:
   '200':
     description: Success
