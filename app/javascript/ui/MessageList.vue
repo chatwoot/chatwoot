@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted, computed, watch, useTemplateRef } from 'vue';
 import Message from 'next/message/Message.vue';
+import ButtonNext from 'next/button/Button.vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 import { useInfiniteScroll, useThrottleFn } from '@vueuse/core';
@@ -16,6 +17,7 @@ const messageListRef = useTemplateRef('messageListRef');
 const store = useStore();
 const isAllLoaded = useMapGetter('getAllMessagesLoaded');
 const isFetching = ref(false);
+const messageContent = ref('');
 
 const conversation = computed(() => {
   return store.getters.getConversationById(props.conversationId);
@@ -63,6 +65,10 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
   distance: 10,
   direction: 'top',
 });
+
+const sendMessage = async () => {
+  // console.log('SENDING');
+};
 </script>
 
 <template>
@@ -83,8 +89,24 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
     </ul>
     <div class="p-2 w-full bg-white absolute bottom-0">
       <div
-        class="w-full h-28 rounded-lg outline outline-1 outline-n-weak border-none"
-      />
+        id="replyInput"
+        class="w-full rounded-xl outline outline-1 outline-n-weak border-none overflow-hidden"
+      >
+        <div class="flex flex-col p-2 gap-2">
+          <textarea
+            v-model="messageContent"
+            rows="3"
+            class="flex-grow p-2 !mb-0"
+            placeholder="Type your message..."
+          />
+          <div class="grid grid-cols-4">
+            <div class="col-span-3" />
+            <div class="col-span-1 flex justify-end">
+              <ButtonNext sm blue label="Send" @click="sendMessage" />
+            </div>
+          </div>
+        </div>
+      </div>
     </div>
   </div>
 </template>
