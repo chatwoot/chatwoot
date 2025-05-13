@@ -99,7 +99,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       conversation_id: conversationId,
     } = data;
     // eslint-disable-next-line no-underscore-dangle
-    if (window.__APP_MODE__ !== 'ui') {
+    if (!window.__WOOT_ISOLATED_SHELL__) {
       DashboardAudioNotificationHelper.onNewMessage(data);
     }
     this.app.$store.dispatch('addMessage', data);
