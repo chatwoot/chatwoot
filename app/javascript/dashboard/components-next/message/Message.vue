@@ -338,10 +338,13 @@ const contextMenuEnabledOptions = computed(() => {
 
   return {
     copy: hasText,
-    delete: (hasText || hasAttachments) && !isFailedOrProcessing,
+    delete:
+      (hasText || hasAttachments) &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
     cannedResponse: isOutgoing && hasText,
     copyLink: !isFailedOrProcessing,
-    translate: !isFailedOrProcessing,
+    translate: !isFailedOrProcessing && !isMessageDeleted.value,
     replyTo:
       !props.private &&
       props.inboxSupportsReplyTo.outgoing &&
@@ -512,7 +515,7 @@ provideMessageContext({
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
-        v-if="isBubble && !isMessageDeleted"
+        v-if="isBubble"
         :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"
