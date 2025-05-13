@@ -17,7 +17,10 @@ class ApplicationMailbox < ActionMailbox::Base
   )
 
   # catchall
-  routing(all: :default)
+  routing(->(inbound_mail) { should_route_to_default?(inbound_mail) } => :default)
+
+  # unprocessable
+  routing(all: :dead_letter)
 
   class << self
     # checks if follow this pattern then send it to reply_mailbox
@@ -53,5 +56,19 @@ class ApplicationMailbox < ActionMailbox::Base
       Rails.logger.error "Email to address header is malformed `#{inbound_mail.mail.to}`"
       false
     end
+
+    def should_route_to_default?(inbound_mail)
+      valid_to_address?(inbound_mail) && 
+      find_forward_channel(inbound_mail).present?
+    end
+
+    def find_forward_channel(inbound_mail)
+      email_header = inbound_mail.mail.header.to_s
+      forward_to_email = email_header.match(/for <([^>]+)>/)&.captures&.first
+      return unless forward_to_email
+
+      Channel::Email.find_by('lower(forward_to_email) = ?', forward_to_email.downcase)
+    end
+
   end
 end
