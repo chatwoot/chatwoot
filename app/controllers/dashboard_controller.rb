@@ -16,7 +16,7 @@ class DashboardController < ActionController::Base
 
   def set_global_config
     @global_config = GlobalConfig.get(
-      'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
+      'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL', 'APP_VERSION',
       'INSTALLATION_NAME',
       'WIDGET_BRAND_URL', 'TERMS_URL',
       'BRAND_URL', 'BRAND_NAME',
@@ -57,7 +57,7 @@ class DashboardController < ActionController::Base
 
   def app_config
     {
-      APP_VERSION: Chatwoot.config[:version],
+      APP_VERSION: ENV.fetch('APP_VERSION', ''),
       VAPID_PUBLIC_KEY: VapidService.public_key,
       ENABLE_ACCOUNT_SIGNUP: GlobalConfigService.load('ENABLE_ACCOUNT_SIGNUP', 'false'),
       FB_APP_ID: GlobalConfigService.load('FB_APP_ID', ''),

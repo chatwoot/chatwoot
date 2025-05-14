@@ -1,7 +1,7 @@
-<p>Hello <%= @resource.email %>!</p>
+<p>Halo <%= @resource.email %>!</p>
 
-<p>Your account has been locked due to an excessive number of unsuccessful sign in attempts.</p>
+<p>Akun Anda telah dikunci karena terlalu banyak percobaan masuk yang tidak berhasil.</p>
 
-<p>Click the link below to unlock your account:</p>
+<p>Klik tautan di bawah ini untuk membuka kunci akun Anda:</p>
 
-<p><%= link_to 'Unlock my account', unlock_url(@resource, unlock_token: @token) %></p>
+<p><%= link_to 'Buka kunci akun saya', unlock_url(@resource, unlock_token: @token) %></p>
