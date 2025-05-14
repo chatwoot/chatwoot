@@ -66,6 +66,10 @@ Rails.application.routes.draw do
         # start of subscription scoped api routes
         resources :subscriptions, only: [:index, :show, :create, :update] do
           collection do
+            get :status
+          end
+
+          collection do
             get :active
           end
 

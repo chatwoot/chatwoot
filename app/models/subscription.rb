@@ -61,7 +61,7 @@ class Subscription < ApplicationRecord
     
     # Method untuk mengecek subscription aktif atau tidak
     def active?
-      status == 'active' && ends_at > Time.now
+      status == 'active' && (ends_at.nil? || ends_at > Time.current)
     end
     
     # Method untuk mengupdate status subscription
