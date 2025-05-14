@@ -1,25 +1,21 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import { computed, onMounted, ref, defineEmits, h } from 'vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { computed, onMounted, ref, h, nextTick } from 'vue';
+import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
   useStoreGetters,
   useStore,
-  useMapGetter,
 } from 'dashboard/composables/store';
 
 import Payment from './components/Payment.vue';
 import Topup from './components/Topup.vue';
-import SettingsLayout from '../SettingsLayout.vue';
 
 // helpers
-import { dynamicTime, messageStamp } from 'shared/helpers/timeHelper';
 import { formatUnixDate, toUnixTimestamp } from 'shared/helpers/DateHelper';
 
 // components
 import Table from 'dashboard/components/table/Table.vue';
-import Pagination from 'dashboard/components/table/Pagination.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
 
 import {
@@ -49,10 +45,15 @@ const plans = ref([]);
 const activeSubscription = ref({});
 const subscriptionHistories = ref([]);
 
-const openTopupPopup = type => {
+const route = useRoute();
+const router = useRouter();
+
+
+const openTopupPopup = (type) => {
   showTopupPopup.value = true;
   topupType.value = type;
 };
+
 const hideTopupPopup = () => {
   showTopupPopup.value = false;
   topupType.value = null;
@@ -67,6 +68,20 @@ const hidePaymentPopup = () => {
 };
 
 onMounted(async () => {
+  if (route.query.expired === 'true') {
+    nextTick(() => {
+      useAlert(t('BILLING.SUBSCRIPTION_EXPIRED'));
+
+      const newQuery = { ...route.query };
+      delete newQuery.expired;
+
+      router.replace({
+        path: route.path,
+        query: newQuery,
+      });
+    });
+  }
+
   try {
     const response = await fetch('/api/v1/subscriptions/plans');
     const data = await response.json();
@@ -328,376 +343,6 @@ const selectedTabDisplay = computed(() => {
   }
   return '-'
 })
-</script>
-
-<script>
-import { mapState, mapActions } from 'vuex';
-
-export default {
-  name: 'BillingPage',
-  data() {
-    return {
-      loading: true,
-      error: null,
-      planDetails: {
-        name: 'FREE',
-        expiryDate: '2025-04-15',
-      },
-      usage: {
-        activeUsers: 0,
-        additionalMau: 0,
-        resetDate: 1,
-        aiResponses: {
-          used: 0,
-          limit: 2000,
-        },
-        additionalResponses: 0,
-      },
-      specialPromo: null,
-      selectedPlatform: 'ai',
-      selectedDuration: '3mo',
-      platformOptions: [
-        { id: 'ai', name: 'AI Platform' },
-        { id: 'crm', name: 'CRM Only (Lite)' },
-      ],
-      durationOptions: [
-        { id: 'monthly', name: 'Bulanan' },
-        { id: '3mo', name: '3 Bulan' },
-        { id: 'halfyearly', name: 'Setengah Tahun' },
-        { id: 'yearly', name: "Tahunan" },
-      ],
-      durationPromos: {
-        '3mo': '1 Month Free!',
-        halfyearly: '2 Months Free!',
-        yearly: '3 Bulan Free!',
-      },
-      // plans: [],
-      transactions: [],
-    };
-  },
-  computed: {
-    ...mapState({
-      subscription: state => state.billing.myActiveSubscription,
-      subscriptionHistories: state => state.billing.subscriptionHistories,
-      isFetching: state => state.uiFlags.isFetching,
-    }),
-    filteredPlans() {
-      return this.plans.filter(
-        plan =>
-          plan.platformType === this.selectedPlatform &&
-          plan.durationType === this.selectedDuration
-      );
-    },
-  },
-  methods: {
-    ...mapActions(['myActiveSubscription', 'subscriptionHistories']),
-    async fetchData() {
-      try {
-        // this.loading = true;
-
-        // Fetch current plan details
-        // try {
-        //   await this.$store.dispatch('myActiveSubscription');
-        // } catch (error) {
-        //   alertMessage =
-        //     parseAPIErrorResponse(error) ||
-        //     // this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
-        // }
-
-        const planResponse = await this.apiGet('/api/billing/current-plan');
-        this.planDetails = planResponse.data;
-
-        // Fetch usage statistics
-        const usageResponse = await this.apiGet('/api/billing/usage');
-        this.usage = usageResponse.data;
-
-        // Fetch special promotions
-        // const promoResponse = await this.apiGet('/api/billing/special-promos');
-        // this.specialPromo = promoResponse.data.active ? promoResponse.data : null;
-
-        // Fetch available plans
-        // const plansResponse = await this.apiGet('/api/billing/plans');
-        // this.plans = plansResponse.data;
-
-        // Fetch recent transactions
-        const transactionsResponse = await this.apiGet(
-          '/api/billing/transactions'
-        );
-        this.transactions = transactionsResponse.data;
-      } catch (error) {
-        this.error = 'Failed to load billing data';
-        console.error('Error fetching billing data:', error);
-      } finally {
-        // this.loading = false;
-      }
-    },
-
-    // API request helpers
-    async apiGet(url) {
-      // Mock API call - replace with actual axios call
-      return this.getMockData(url);
-    },
-
-    async apiPost(url, data) {
-      // Mock API post - replace with actual axios call
-      console.log('API POST', url, data);
-      return { success: true };
-    },
-
-    // Mock data for demonstration
-    getMockData(url) {
-      const mockResponses = {
-        '/api/billing/current-plan': {
-          data: {
-            name: 'FREE',
-            expiryDate: '2025-04-15',
-          },
-        },
-        '/api/billing/usage': {
-          data: {
-            activeUsers: 0,
-            additionalMau: 0,
-            resetDate: 1,
-            aiResponses: {
-              used: 0,
-              limit: 2000,
-            },
-            additionalResponses: 0,
-          },
-        },
-        '/api/billing/special-promos': {
-          data: {
-            active: true,
-            title: 'Paket Special Ramadan',
-            name: 'Paket Ramadan "Terima Beres"',
-            price: 4497000,
-            originalPrice: 8997000,
-            promoTag: 'LIMITED TIME',
-            features: [
-              'Setup AI dan Flows dengan Prompt Specialist - <span class="text-gray-700">Rp 4.000.000</span> - <span class="text-blue-500 font-medium">FREE</span>',
-              'WhatsApp Anti Banned - <span class="text-gray-700">Rp 500.000</span> - <span class="text-blue-500 font-medium">FREE</span>',
-              'Early Akses dan 1-on-1 Training fitur Flows, Ticketing, dan Advanced AI mode',
-            ],
-            description:
-              'Scale up penjualan dan tetap layani pelanggan di Bulan Ramadan ini! Selesaikan dalam sekali dan biarkan AIUI Prompt kami membuat AI untuk anda "Terima beres"',
-            mainBenefits: [
-              {
-                title: 'Paket Cepat/i Business 3 bulan',
-                description: 'Layanan AI otomatis untuk bisnis Anda',
-              },
-              {
-                title: 'Setup Lengkap oleh Tim AIUI',
-                description: 'Anda tinggal terima beres, semua diatur',
-              },
-              {
-                title: 'Konsultasi Pribadi dengan AIUI Prompt',
-                description: 'Optimalisasi AI Anda dengan pakar kami',
-              },
-            ],
-            exclusiveBonuses: [
-              {
-                title: 'Akses Model AI & Fitur Flows Terbaru',
-                description: 'Gunakan teknologi AI paling canggih',
-              },
-              {
-                title: 'Fitur Anti-Banned WhatsApp',
-                description: 'Jaga akun WhatsApp Anda tetap aman',
-              },
-              {
-                title: 'Dukungan Prioritas 24 Jam',
-                description: 'Bantuan cepat kapanpun Anda butuhkan',
-              },
-            ],
-            limitedOffer: 'Promo Terbatas - Hanya 100 Slot!',
-            ctaText: 'Dapatkan Paket Ramadan Sekarang',
-            guaranteeText: 'Garansi Uang Kembali 7 Hari Jika Anda Tidak Puas',
-            contactInfo:
-              'Promo khusus Ramadan saja. Anda akan di-contact oleh tim kami setelah pembelian.',
-          },
-        },
-        '/api/billing/plans': {
-          data: [
-            {
-              id: 'pro-ai-3mo',
-              name: 'Pro',
-              price: 1737000,
-              platformType: 'ai',
-              durationType: '3mo',
-              packageType: 'Paket Per 3 Bulan',
-              features: [
-                '1000 Monthly Active Users',
-                '2 Human Agents',
-                'Unlimited AI Agents',
-                'Unlimited Connected Platforms',
-                '5,000 AI Responses',
-                'Cakat.AI Advanced AI Models',
-              ],
-            },
-            {
-              id: 'business-ai-3mo',
-              name: 'Business',
-              price: 4497000,
-              platformType: 'ai',
-              durationType: '3mo',
-              packageType: 'Paket Per 3 Bulan',
-              features: [
-                '5,000 Monthly Active Users',
-                '5 Human Agents',
-                'Unlimited AI Agents',
-                'Unlimited Connected Platforms',
-                '25,000 AI Responses',
-                'Cakat.AI Advanced AI Models',
-              ],
-            },
-            {
-              id: 'enterprise-ai-3mo',
-              name: 'Enterprise',
-              price: 17397000,
-              platformType: 'ai',
-              durationType: '3mo',
-              packageType: 'Paket Per 3 Bulan',
-              features: [
-                '10,000 Monthly Active Users',
-                '10 Human Agents',
-                'Unlimited AI Agents',
-                'Unlimited Connected Platforms',
-                '150,000 AI Responses',
-                'Cakat.AI Advanced AI Models',
-              ],
-            },
-            {
-              id: 'unlimited-ai-3mo',
-              name: 'Unlimited',
-              price: 47397000,
-              platformType: 'ai',
-              durationType: '3mo',
-              packageType: 'Paket Per 3 Bulan',
-              features: [
-                'Unlimited Monthly Active Users',
-                'Unlimited Human Agents',
-                'Unlimited AI Agents',
-                'Unlimited Connected Platforms',
-                '500,000 AI Responses',
-                'Cakat.AI Advanced AI Models + Exclusive AI Models',
-              ],
-            },
-          ],
-        },
-        '/api/billing/transactions': {
-          data: [],
-        },
-      };
-
-      return Promise.resolve(mockResponses[url] || { data: [] });
-    },
-
-    // Utility methods
-    formatDate(dateString) {
-      const date = new Date(dateString);
-      return new Intl.DateTimeFormat('en-US', {
-        year: 'numeric',
-        month: 'long',
-        day: 'numeric',
-      }).format(date);
-    },
-
-    formatPrice(price) {
-      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
-    },
-
-    formattedPrice(value) {
-      if (value >= 1000) {
-        return Math.round(value / 1000).toLocaleString('id-ID') + 'K'; // Gunakan toLocaleString untuk menambahkan titik
-      }
-      return value.toLocaleString('id-ID'); // Format angka kecil dengan titik juga
-    },
-
-    getDurationLabel(durationId) {
-      switch (durationId) {
-        case 'monthly':
-          return '1mo';
-        case '3mo':
-          return '3mo';
-        case 'halfyearly':
-          return '6mo';
-        case 'yearly':
-          return '12mo';
-        default:
-          return durationId;
-      }
-    },
-
-    getDurationPromo(durationId) {
-      return this.durationPromos[durationId] || null;
-    },
-
-    // Action methods
-    changePlatform(platformId) {
-      this.selectedPlatform = platformId;
-    },
-
-    changeDuration(durationId) {
-      this.selectedDuration = durationId;
-    },
-
-    async topUpMau() {
-      try {
-        await this.apiPost('/api/billing/topup-mau', {});
-        // Handle success - perhaps show a modal or navigate to checkout
-        alert('Redirecting to MAU top-up page...');
-      } catch (error) {
-        console.error('Error topping up MAU:', error);
-      }
-    },
-
-    async topUpResponses() {
-      try {
-        await this.apiPost('/api/billing/topup-responses', {});
-        // Handle success
-        alert('Redirecting to AI responses top-up page...');
-      } catch (error) {
-        console.error('Error topping up responses:', error);
-      }
-    },
-
-    async purchaseSpecialPromo() {
-      try {
-        await this.apiPost('/api/billing/purchase-promo', {
-          promoId: 'ramadan-special',
-        });
-        // Handle success
-        alert('Redirecting to checkout for Ramadan Special package...');
-      } catch (error) {
-        console.error('Error purchasing promo:', error);
-      }
-    },
-
-    async purchasePlan(planId) {
-      try {
-        await this.apiPost('/api/billing/purchase-plan', { planId });
-        // Handle success
-        alert(`Redirecting to checkout for plan: ${planId}...`);
-      } catch (error) {
-        console.error('Error purchasing plan:', error);
-      }
-    },
-  },
-  async created() {
-    // try {
-    //   const response = await fetch('/api/v1/subscriptions/plans');
-    //   const data = await response.json();
-    //   this.plans = data;
-    // } catch (error) {
-    //   console.error('Gagal mengambil data pricing:', error);
-    // }
-  },
-  mounted() {
-    // this.myActiveSubscription();
-    // this.$store.dispatch('myActiveSubscription');
-    // this.$store.dispatch('subscriptionHistories');
-    this.fetchData();
-  },
-};
 </script>
 
 <template>
@@ -1179,6 +824,376 @@ export default {
     </div>
   </div>
 </template>
+
+<script>
+import { mapState, mapActions } from 'vuex';
+
+export default {
+  name: 'BillingPage',
+  data() {
+    return {
+      loading: true,
+      error: null,
+      planDetails: {
+        name: 'FREE',
+        expiryDate: '2025-04-15',
+      },
+      usage: {
+        activeUsers: 0,
+        additionalMau: 0,
+        resetDate: 1,
+        aiResponses: {
+          used: 0,
+          limit: 2000,
+        },
+        additionalResponses: 0,
+      },
+      specialPromo: null,
+      selectedPlatform: 'ai',
+      selectedDuration: '3mo',
+      platformOptions: [
+        { id: 'ai', name: 'AI Platform' },
+        { id: 'crm', name: 'CRM Only (Lite)' },
+      ],
+      durationOptions: [
+        { id: 'monthly', name: 'Bulanan' },
+        { id: '3mo', name: '3 Bulan' },
+        { id: 'halfyearly', name: 'Setengah Tahun' },
+        { id: 'yearly', name: "Tahunan" },
+      ],
+      durationPromos: {
+        '3mo': '1 Month Free!',
+        halfyearly: '2 Months Free!',
+        yearly: '3 Bulan Free!',
+      },
+      // plans: [],
+      transactions: [],
+    };
+  },
+  computed: {
+    ...mapState({
+      subscription: state => state.billing.myActiveSubscription,
+      // subscriptionHistories: state => state.billing.subscriptionHistories,
+      isFetching: state => state.uiFlags.isFetching,
+    }),
+    filteredPlans() {
+      return this.plans.filter(
+        plan =>
+          plan.platformType === this.selectedPlatform &&
+          plan.durationType === this.selectedDuration
+      );
+    },
+  },
+  methods: {
+    ...mapActions(['myActiveSubscription', 'subscriptionHistories']),
+    async fetchData() {
+      try {
+        // this.loading = true;
+
+        // Fetch current plan details
+        // try {
+        //   await this.$store.dispatch('myActiveSubscription');
+        // } catch (error) {
+        //   alertMessage =
+        //     parseAPIErrorResponse(error) ||
+        //     // this.$t('RESET_PASSWORD.API.ERROR_MESSAGE');
+        // }
+
+        const planResponse = await this.apiGet('/api/billing/current-plan');
+        this.planDetails = planResponse.data;
+
+        // Fetch usage statistics
+        const usageResponse = await this.apiGet('/api/billing/usage');
+        this.usage = usageResponse.data;
+
+        // Fetch special promotions
+        // const promoResponse = await this.apiGet('/api/billing/special-promos');
+        // this.specialPromo = promoResponse.data.active ? promoResponse.data : null;
+
+        // Fetch available plans
+        // const plansResponse = await this.apiGet('/api/billing/plans');
+        // this.plans = plansResponse.data;
+
+        // Fetch recent transactions
+        const transactionsResponse = await this.apiGet(
+          '/api/billing/transactions'
+        );
+        this.transactions = transactionsResponse.data;
+      } catch (error) {
+        this.error = 'Failed to load billing data';
+        console.error('Error fetching billing data:', error);
+      } finally {
+        // this.loading = false;
+      }
+    },
+
+    // API request helpers
+    async apiGet(url) {
+      // Mock API call - replace with actual axios call
+      return this.getMockData(url);
+    },
+
+    async apiPost(url, data) {
+      // Mock API post - replace with actual axios call
+      console.log('API POST', url, data);
+      return { success: true };
+    },
+
+    // Mock data for demonstration
+    getMockData(url) {
+      const mockResponses = {
+        '/api/billing/current-plan': {
+          data: {
+            name: 'FREE',
+            expiryDate: '2025-04-15',
+          },
+        },
+        '/api/billing/usage': {
+          data: {
+            activeUsers: 0,
+            additionalMau: 0,
+            resetDate: 1,
+            aiResponses: {
+              used: 0,
+              limit: 2000,
+            },
+            additionalResponses: 0,
+          },
+        },
+        '/api/billing/special-promos': {
+          data: {
+            active: true,
+            title: 'Paket Special Ramadan',
+            name: 'Paket Ramadan "Terima Beres"',
+            price: 4497000,
+            originalPrice: 8997000,
+            promoTag: 'LIMITED TIME',
+            features: [
+              'Setup AI dan Flows dengan Prompt Specialist - <span class="text-gray-700">Rp 4.000.000</span> - <span class="text-blue-500 font-medium">FREE</span>',
+              'WhatsApp Anti Banned - <span class="text-gray-700">Rp 500.000</span> - <span class="text-blue-500 font-medium">FREE</span>',
+              'Early Akses dan 1-on-1 Training fitur Flows, Ticketing, dan Advanced AI mode',
+            ],
+            description:
+              'Scale up penjualan dan tetap layani pelanggan di Bulan Ramadan ini! Selesaikan dalam sekali dan biarkan AIUI Prompt kami membuat AI untuk anda "Terima beres"',
+            mainBenefits: [
+              {
+                title: 'Paket Cepat/i Business 3 bulan',
+                description: 'Layanan AI otomatis untuk bisnis Anda',
+              },
+              {
+                title: 'Setup Lengkap oleh Tim AIUI',
+                description: 'Anda tinggal terima beres, semua diatur',
+              },
+              {
+                title: 'Konsultasi Pribadi dengan AIUI Prompt',
+                description: 'Optimalisasi AI Anda dengan pakar kami',
+              },
+            ],
+            exclusiveBonuses: [
+              {
+                title: 'Akses Model AI & Fitur Flows Terbaru',
+                description: 'Gunakan teknologi AI paling canggih',
+              },
+              {
+                title: 'Fitur Anti-Banned WhatsApp',
+                description: 'Jaga akun WhatsApp Anda tetap aman',
+              },
+              {
+                title: 'Dukungan Prioritas 24 Jam',
+                description: 'Bantuan cepat kapanpun Anda butuhkan',
+              },
+            ],
+            limitedOffer: 'Promo Terbatas - Hanya 100 Slot!',
+            ctaText: 'Dapatkan Paket Ramadan Sekarang',
+            guaranteeText: 'Garansi Uang Kembali 7 Hari Jika Anda Tidak Puas',
+            contactInfo:
+              'Promo khusus Ramadan saja. Anda akan di-contact oleh tim kami setelah pembelian.',
+          },
+        },
+        '/api/billing/plans': {
+          data: [
+            {
+              id: 'pro-ai-3mo',
+              name: 'Pro',
+              price: 1737000,
+              platformType: 'ai',
+              durationType: '3mo',
+              packageType: 'Paket Per 3 Bulan',
+              features: [
+                '1000 Monthly Active Users',
+                '2 Human Agents',
+                'Unlimited AI Agents',
+                'Unlimited Connected Platforms',
+                '5,000 AI Responses',
+                'Cakat.AI Advanced AI Models',
+              ],
+            },
+            {
+              id: 'business-ai-3mo',
+              name: 'Business',
+              price: 4497000,
+              platformType: 'ai',
+              durationType: '3mo',
+              packageType: 'Paket Per 3 Bulan',
+              features: [
+                '5,000 Monthly Active Users',
+                '5 Human Agents',
+                'Unlimited AI Agents',
+                'Unlimited Connected Platforms',
+                '25,000 AI Responses',
+                'Cakat.AI Advanced AI Models',
+              ],
+            },
+            {
+              id: 'enterprise-ai-3mo',
+              name: 'Enterprise',
+              price: 17397000,
+              platformType: 'ai',
+              durationType: '3mo',
+              packageType: 'Paket Per 3 Bulan',
+              features: [
+                '10,000 Monthly Active Users',
+                '10 Human Agents',
+                'Unlimited AI Agents',
+                'Unlimited Connected Platforms',
+                '150,000 AI Responses',
+                'Cakat.AI Advanced AI Models',
+              ],
+            },
+            {
+              id: 'unlimited-ai-3mo',
+              name: 'Unlimited',
+              price: 47397000,
+              platformType: 'ai',
+              durationType: '3mo',
+              packageType: 'Paket Per 3 Bulan',
+              features: [
+                'Unlimited Monthly Active Users',
+                'Unlimited Human Agents',
+                'Unlimited AI Agents',
+                'Unlimited Connected Platforms',
+                '500,000 AI Responses',
+                'Cakat.AI Advanced AI Models + Exclusive AI Models',
+              ],
+            },
+          ],
+        },
+        '/api/billing/transactions': {
+          data: [],
+        },
+      };
+
+      return Promise.resolve(mockResponses[url] || { data: [] });
+    },
+
+    // Utility methods
+    formatDate(dateString) {
+      const date = new Date(dateString);
+      return new Intl.DateTimeFormat('en-US', {
+        year: 'numeric',
+        month: 'long',
+        day: 'numeric',
+      }).format(date);
+    },
+
+    formatPrice(price) {
+      return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+    },
+
+    formattedPrice(value) {
+      if (value >= 1000) {
+        return Math.round(value / 1000).toLocaleString('id-ID') + 'K'; // Gunakan toLocaleString untuk menambahkan titik
+      }
+      return value.toLocaleString('id-ID'); // Format angka kecil dengan titik juga
+    },
+
+    getDurationLabel(durationId) {
+      switch (durationId) {
+        case 'monthly':
+          return '1mo';
+        case '3mo':
+          return '3mo';
+        case 'halfyearly':
+          return '6mo';
+        case 'yearly':
+          return '12mo';
+        default:
+          return durationId;
+      }
+    },
+
+    getDurationPromo(durationId) {
+      return this.durationPromos[durationId] || null;
+    },
+
+    // Action methods
+    changePlatform(platformId) {
+      this.selectedPlatform = platformId;
+    },
+
+    changeDuration(durationId) {
+      this.selectedDuration = durationId;
+    },
+
+    async topUpMau() {
+      try {
+        await this.apiPost('/api/billing/topup-mau', {});
+        // Handle success - perhaps show a modal or navigate to checkout
+        alert('Redirecting to MAU top-up page...');
+      } catch (error) {
+        console.error('Error topping up MAU:', error);
+      }
+    },
+
+    async topUpResponses() {
+      try {
+        await this.apiPost('/api/billing/topup-responses', {});
+        // Handle success
+        alert('Redirecting to AI responses top-up page...');
+      } catch (error) {
+        console.error('Error topping up responses:', error);
+      }
+    },
+
+    async purchaseSpecialPromo() {
+      try {
+        await this.apiPost('/api/billing/purchase-promo', {
+          promoId: 'ramadan-special',
+        });
+        // Handle success
+        alert('Redirecting to checkout for Ramadan Special package...');
+      } catch (error) {
+        console.error('Error purchasing promo:', error);
+      }
+    },
+
+    async purchasePlan(planId) {
+      try {
+        await this.apiPost('/api/billing/purchase-plan', { planId });
+        // Handle success
+        alert(`Redirecting to checkout for plan: ${planId}...`);
+      } catch (error) {
+        console.error('Error purchasing plan:', error);
+      }
+    },
+  },
+  async created() {
+    // try {
+    //   const response = await fetch('/api/v1/subscriptions/plans');
+    //   const data = await response.json();
+    //   this.plans = data;
+    // } catch (error) {
+    //   console.error('Gagal mengambil data pricing:', error);
+    // }
+  },
+  mounted() {
+    // this.myActiveSubscription();
+    // this.$store.dispatch('myActiveSubscription');
+    // this.$store.dispatch('subscriptionHistories');
+    this.fetchData();
+  },
+};
+</script>
 
 <style scoped>
 /* TAB PRICING & PAKCAGES */
