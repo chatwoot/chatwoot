@@ -47,13 +47,13 @@
         "CREATE_INBOX": "Créer une boîte de réception"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Continuer avec Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connectez votre profil Instagram",
+        "HELP": "Pour ajouter votre profil Instagram en tant que canal, vous devez authentifier votre profil Instagram en cliquant sur 'Continuer avec Instagram' ",
+        "ERROR_MESSAGE": "Une erreur est survenue lors de la connexion à Instagram, veuillez réessayer",
+        "ERROR_AUTH": "Une erreur est survenue lors de la connexion à Instagram, veuillez réessayer",
+        "NEW_INBOX_SUGGESTION": "Ce compte Instagram était précédemment lié à une autre boîte de réception et a maintenant été migré ici. Tous les nouveaux messages apparaîtront ici. L'ancienne boîte de réception ne pourra plus envoyer ni recevoir de messages pour ce compte.",
+        "DUPLICATE_INBOX_BANNER": "Ce compte Instagram a été migré vers la nouvelle boîte de réception du canal Instagram. Vous ne pourrez plus envoyer ni recevoir de messages Instagram depuis cette boîte de réception."
       },
       "TWITTER": {
         "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' ",

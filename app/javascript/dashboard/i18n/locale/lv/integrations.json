@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Ziņojums atjaunināts",
             "WEBWIDGET_TRIGGERED": "Lietotājs atvēra tiešsaistes tērzēšanas logrīku",
             "CONTACT_CREATED": "Kontaktpersona izveidota",
-            "CONTACT_UPDATED": "Kontaktpersona atjaunināta"
+            "CONTACT_UPDATED": "Kontaktpersona atjaunināta",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

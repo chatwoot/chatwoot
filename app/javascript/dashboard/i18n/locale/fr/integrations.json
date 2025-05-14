@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Message mis à jour",
             "WEBWIDGET_TRIGGERED": "Widget de discussion instantanée ouvert par l'utilisateur",
             "CONTACT_CREATED": "Contact créé",
-            "CONTACT_UPDATED": "Contact mis à jour"
+            "CONTACT_UPDATED": "Contact mis à jour",
+            "CONVERSATION_TYPING_ON": "Saisie de conversation activée",
+            "CONVERSATION_TYPING_OFF": "Saisie de conversation désactivée"
           }
         },
         "END_POINT": {
@@ -329,7 +331,7 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Envoyer un message...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "Une erreur s'est produite lors de la génération de la réponse. Veuillez réessayer.",
       "LOADER": "Captain is thinking",
       "YOU": "Vous",
       "USE": "Use this",
@@ -337,16 +339,16 @@
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "Résumer cette conversation",
+          "CONTENT": "Résumé des points clés de la conversation entre le client et l'agent de support, y compris les préoccupations et questions du client, ainsi que les solutions ou réponses fournies par l'agent de support"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "Suggérer une réponse",
+          "CONTENT": "Analysez la demande du client et rédigez une réponse qui traite efficacement ses préoccupations ou questions. Assurez-vous que la réponse soit claire, concise et fournisse des informations utiles."
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "Évaluer cette conversation",
+          "CONTENT": "Revue de la conversation pour évaluer dans quelle mesure elle répond aux besoins du client. Partagez une note sur 5 en fonction du ton, de la clarté et de l'efficacité."
         }
       }
     },
@@ -354,9 +356,9 @@
       "USER": "Vous",
       "ASSISTANT": "Assistant",
       "MESSAGE_PLACEHOLDER": "Tapez votre message...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "Terrain de jeu",
+      "DESCRIPTION": "Utilisez ce terrain de jeu pour envoyer des messages à votre assistant et vérifier s'il répond de manière précise, rapide et dans le ton que vous attendez.",
+      "CREDIT_NOTE": "Les messages envoyés ici compteront pour vos crédits Captain."
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -398,42 +400,42 @@
       "FORM": {
         "UPDATE": "Mettre à jour",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
+          "BASIC_INFO": "Informations de base",
+          "SYSTEM_MESSAGES": "Messages système",
           "INSTRUCTIONS": "Instructions",
           "FEATURES": "Fonctionnalités",
-          "TOOLS": "Tools "
+          "TOOLS": "Outils "
         },
         "NAME": {
           "LABEL": "Nom",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "Entrez le nom de l'assistant",
+          "ERROR": "Le nom est requis"
         },
         "DESCRIPTION": {
           "LABEL": "Description",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "PLACEHOLDER": "Entrez la description de l'assistant",
+          "ERROR": "La description est requise"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
+          "PLACEHOLDER": "Entrez le nom du produit",
           "ERROR": "The product name is required"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Message de bienvenue",
+          "PLACEHOLDER": "Entrez le message de bienvenue"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Message de transfert",
+          "PLACEHOLDER": "Entrez le message de transfert"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Message de résolution",
+          "PLACEHOLDER": "Entrez le message de résolution"
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "PLACEHOLDER": "Entrez les instructions pour l'assistant"
         },
         "FEATURES": {
           "TITLE": "Fonctionnalités",
@@ -445,7 +447,7 @@
         "TITLE": "Update the assistant",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Impossible de trouver l'assistant. Veuillez réessayer."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
