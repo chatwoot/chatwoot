@@ -38,6 +38,14 @@ export default {
       type: Boolean,
       default: false,
     },
+    iconFillRule: {
+      type: String,
+      default: '',
+    },
+    iconClipRule: {
+      type: String,
+      default: '',
+    },
   },
 
   data() {
@@ -137,6 +145,8 @@ export default {
       >
         <fluent-icon
           :icon="icon"
+          :fill-rule="iconFillRule"
+          :clip-rule="iconClipRule"
           :class="{
             'text-woot-500': isActive || isChildMenuActive,
           }"
@@ -147,7 +157,8 @@ export default {
         :class="{
           'text-woot-500': isActive || isChildMenuActive,
         }"
-        >{{ $t(`SIDEBAR.${name}`) }}</span>
+        >{{ $t(`SIDEBAR.${name}`) }}
+      </span>
       <span class="sr-only">{{ name }}</span>
       <span
         v-if="count"

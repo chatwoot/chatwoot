@@ -75,3 +75,21 @@
     }
   }
 }
+
+.vertical {
+  .tabs-title {
+    @apply ml-0 px-2;
+    a {
+      @apply text-n-slate-11;
+      font-weight: 400 !important;
+      font-size: 0.875rem !important/* 14px */;
+      line-height: 1.25rem !important/* 20px */;
+    }
+    &.is-active {
+      @apply rounded-md bg-green-100/50;
+      a {
+        @apply border-b-0  text-primary-green;
+      }
+    }
+  }
+}
