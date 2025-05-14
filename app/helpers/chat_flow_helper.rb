@@ -1,4 +1,7 @@
 module ChatFlowHelper
+  WINDOW_SIZE = 5
+  LLM_TEMPERATURE = 0.7
+
   def self.included(base)
     base.class_eval do
       attr_reader :account, :params
@@ -10,8 +13,8 @@ module ChatFlowHelper
     default_system_message_prompt
     handover_prompt_template
     set_azure_openai_temperature
-    chat_memory
-    vector_store
+    set_redis_for_chat_memory
+    set_qdrant_vector_store
 
     [flow_data, store_config(store_id)]
   end
@@ -19,8 +22,6 @@ module ChatFlowHelper
   def save_as(ai_agent)
     flow_data = ai_agent.flow_data
     self.flow_data = flow_data
-
-    Rails.logger.info("🔥 Flow data: #{template}")
 
     system_message_prompt
     handover_prompt_template
@@ -72,19 +73,25 @@ module ChatFlowHelper
     node['data']['inputs']['template'] = replace_additional_rules_for_handover_prompt
   end
 
-  def chat_memory
+  def set_redis_for_chat_memory
+    node = find_node_by_id('RedisBackedChatMemory_0')
+    node['data']['inputs']['memoryKey'] = SecureRandom.uuid
+    node['data']['inputs']['windowSize'] = WINDOW_SIZE
+  end
+
+  def set_mongodb_atlas_chat_memory
     node = find_node_by_id('MongoDBAtlasChatMemory_0')
     node['data']['inputs']['databaseName'] = database_name
   end
 
-  def vector_store
+  def set_qdrant_vector_store
     node = find_node_by_id('qdrant_0')
     node['data']['inputs']['qdrantCollection'] = database_name
   end
 
   def set_azure_openai_temperature
     %w[azureChatOpenAI_0 azureChatOpenAI_2].each do |node_id|
-      find_node_by_id(node_id)['data']['inputs']['temperature'] = 0.7
+      find_node_by_id(node_id)['data']['inputs']['temperature'] = LLM_TEMPERATURE
     end
   end
 
