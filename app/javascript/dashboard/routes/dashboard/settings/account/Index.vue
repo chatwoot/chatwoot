@@ -151,7 +151,7 @@ export default {
 <template>
   <div class="flex flex-col max-w-2xl mx-auto w-full">
     <BaseSettingsHeader :title="$t('GENERAL_SETTINGS.TITLE')" />
-    <div class="flex-grow flex-shrink min-w-0 mt-3 overflow-auto">
+    <div class="flex-grow flex-shrink min-w-0 mt-3">
       <SectionLayout
         :title="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.TITLE')"
         :description="$t('GENERAL_SETTINGS.FORM.GENERAL_SECTION.NOTE')"

@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mesaj actualizat",
             "WEBWIDGET_TRIGGERED": "Widget de chat live deschis de utilizator",
             "CONTACT_CREATED": "Persoană de contact creată",
-            "CONTACT_UPDATED": "Persoană de contact actualizată"
+            "CONTACT_UPDATED": "Persoană de contact actualizată",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

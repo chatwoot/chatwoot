@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Повідомлення оновлено",
             "WEBWIDGET_TRIGGERED": "Віджет онлайн чату відкрий користувачем",
             "CONTACT_CREATED": "Контакт створено",
-            "CONTACT_UPDATED": "Контакт оновлено"
+            "CONTACT_UPDATED": "Контакт оновлено",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
