@@ -13,6 +13,7 @@ import CardLabels from './conversationCardComponents/CardLabels.vue';
 import PriorityMark from './PriorityMark.vue';
 import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
+import StatusInfo from './conversationCardComponents/StatusInfo.vue'
 
 export default {
   components: {
@@ -25,6 +26,7 @@ export default {
     PriorityMark,
     SLACardLabel,
     ContextMenu,
+    StatusInfo,
   },
   mixins: [inboxMixin],
   props: {
@@ -328,6 +330,7 @@ export default {
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
       </div>
+      <StatusInfo :chat="chat" class="mt-0.5 mx-2 mb-0"/>
       <CardLabels :conversation-labels="chat.labels" class="mt-0.5 mx-2 mb-0">
         <template v-if="hasSlaPolicyId" #before>
           <SLACardLabel :chat="chat" class="ltr:mr-1 rtl:ml-1" />

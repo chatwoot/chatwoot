@@ -117,7 +117,7 @@ class BotListener
   def get_message_content(response)
     is_handover = response.dig('json', 'is_handover')
     message = if is_handover
-                response['json']['answer'] || 'Agent will take over the conversation.'
+                response['json']['answer'] || 'Terima kasih atas kesabarannya. Tim kami sedang memeriksa pesan kamu dan akan segera membalas. Mohon tunggu sebentar lagi, ya.'
               else
                 response['text']
               end
