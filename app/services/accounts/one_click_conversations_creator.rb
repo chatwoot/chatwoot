@@ -14,7 +14,8 @@ class Accounts::OneClickConversationsCreator
         @account,
         @user,
         message_params,
-        from_whatsapp?
+        from_whatsapp?,
+        mail_subject
       )
     end
     { success: true }
@@ -75,5 +76,9 @@ class Accounts::OneClickConversationsCreator
       blob.signed_id
     end
     message_params['attachments'] = blobs
+  end
+
+  def mail_subject
+    @params[:mail_subject]
   end
 end

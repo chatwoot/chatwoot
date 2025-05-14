@@ -8,7 +8,7 @@ class CreateOneClickConversationJob < ApplicationJob
     ).perform
   end
 
-  def perform(contact, inbox_id, account, user, message, is_from_whatsapp) # rubocop:disable Metrics/ParameterLists
+  def perform(contact, inbox_id, account, user, message, is_from_whatsapp, mail_subject = nil) # rubocop:disable Metrics/ParameterLists
     cache_key = "create_one_click_conversations:#{inbox_id}:#{contact[:email]}:#{contact[:phone_number]}"
 
     Rails.logger.info("MEssage iNside job #{message.inspect}")
@@ -26,7 +26,7 @@ class CreateOneClickConversationJob < ApplicationJob
     @contact.save!
     @contact_inbox = build_contact_inbox(@contact, @inbox)
 
-    conversation = find_or_create_conversation(@contact, user, account, @contact_inbox)
+    conversation = find_or_create_conversation(@contact, @contact_inbox, mail_subject)
 
     # Send the initial message
     Messages::MessageBuilder.new(user, conversation, message).perform
@@ -53,14 +53,19 @@ class CreateOneClickConversationJob < ApplicationJob
     account.contacts.new(contact)
   end
 
-  def find_or_create_conversation(contact, _user, _account, contact_inbox)
+  def find_or_create_conversation(contact, contact_inbox, mail_subject)
+    Rails.logger.info("contact, #{contact.inspect}")
     latest_conversation = contact.conversations.order(created_at: :desc).first
 
     if latest_conversation.blank?
-      conversation = ConversationBuilder.new(params: {}, contact_inbox: contact_inbox).perform
+      params = {}
+      params[:additional_attributes] = mail_subject.present? ? ActionController::Parameters.new({ mail_subject: mail_subject }) : {}
+      conversation = ConversationBuilder.new(params: params, contact_inbox: contact_inbox).perform
       return conversation
     elsif latest_conversation.status != 'open'
-      latest_conversation.update!(status: 'open')
+      additional_attributes = latest_conversation.additional_attributes || {}
+      additional_attributes[:mail_subject] = mail_subject if mail_subject.present?
+      latest_conversation.update!(status: 'open', additional_attributes: additional_attributes)
     end
     latest_conversation
   end
