@@ -117,13 +117,15 @@ function addQna() {
           :key="index"
           class="rounded-lg bg-n-gray-3/30 px-6 py-3 flex flex-col gap-2"
         >
-          <div class="flex flex-col gap-2">
-            <span class="text-sm"> Pertanyaan </span>
-            <TextArea v-model="item.question" />
-          </div>
-          <div class="flex flex-col gap-2">
-            <span class="text-sm"> Jawaban </span>
-            <TextArea v-model="item.answer" />
+          <div class="flex gap-6">
+            <div class="flex flex-col gap-2 w-full">
+              <span class="text-sm"> Pertanyaan </span>
+              <TextArea v-model="item.question" />
+            </div>
+            <div class="flex flex-col gap-2 w-full">
+              <span class="text-sm"> Jawaban </span>
+              <TextArea v-model="item.answer" />
+            </div>
           </div>
           <div class="flex flex-row">
             <Button

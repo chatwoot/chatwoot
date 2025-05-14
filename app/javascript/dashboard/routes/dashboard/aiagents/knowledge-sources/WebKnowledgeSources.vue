@@ -220,7 +220,7 @@ async function saveContent() {
       <div class="py-2">
         <div>
           <div>
-            <div class="flex flex-row gap-2 items-center">
+            <div class="flex flex-col gap-2 items-start">
               <label>Tambah Link Lain</label>
               <woot-tabs
                 :index="activeTabIndex"

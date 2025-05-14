@@ -121,6 +121,8 @@ const primaryMenuItems = accountId => [
   },
   {
     icon: 'credit-card-person-new',
+    iconFillRule: 'evenodd',
+    iconClipRule: 'evenodd',
     label: 'BILLING',
     hasSubMenu: false,
     meta: {

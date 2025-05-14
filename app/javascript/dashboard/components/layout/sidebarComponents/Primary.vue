@@ -119,6 +119,8 @@ export default {
             :icon="menuItem.icon"
             :name="menuItem.label"
             :to="menuItem.toState"
+            :icon-fill-rule="menuItem.iconFillRule"
+            :icon-clip-rule="menuItem.iconClipRule"
             :is-child-menu-active="menuItem.key === activeMenuItem"
           />
         </div>
