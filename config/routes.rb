@@ -513,6 +513,9 @@ Rails.application.routes.draw do
     # Transcription webhook
     post :transcription_callback, to: 'transcription#transcription_callback'
 
+    # Recording webhook
+    post :recording_callback, to: 'recording#recording_callback'
+
     # Use resource scope to avoid plural/singular confusion
     resource :voice, only: [], controller: 'voice' do
       collection do

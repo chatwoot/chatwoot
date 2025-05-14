@@ -86,7 +86,10 @@ class Twilio::VoiceController < ActionController::Base
           statusCallback:         conference_callback_url,
           statusCallbackMethod:   'POST',
           statusCallbackEvent:    'start end join leave',
-          participantLabel:       "caller-#{@call_sid.last(8)}"
+          participantLabel:       "caller-#{@call_sid.last(8)}",
+          record:                 'record-from-start',
+          recording_status_callback: "#{base_url}/twilio/recording_callback?account_id=#{@inbox.account_id}&conference_sid=#{conference_name}",
+          recording_status_callback_method: 'POST'
         )
       end
     end

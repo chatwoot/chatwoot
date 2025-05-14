@@ -25,12 +25,18 @@
       </div>
     </div>
     
-    <audio
-      ref="audioPlayer"
-      :src="recordingUrl"
-      preload="metadata"
-      @ended="handlePlaybackEnd"
-    />
+    <template v-if="hasAudioAttachment && recordingUrl">
+      <div class="w-full m-0 p-1 min-w-[260px]">
+        <audio
+          ref="audioPlayer"
+          :src="recordingUrl"
+          preload="metadata"
+          @ended="handlePlaybackEnd"
+          controls
+          class="w-full"
+        />
+      </div>
+    </template>
   </div>
 </template>
 
@@ -60,6 +66,7 @@ export default {
       isAnimating: false,
       recordingUrl: '',
       isPlaying: false,
+      hasAudioAttachment: false,
     };
   },
   setup(props) {
@@ -300,12 +307,14 @@ export default {
     message: {
       handler() {
         this.setupVoiceCall();
+        this.setAudioAttachment();
       },
       deep: true,
     },
   },
   mounted() {
     this.setupVoiceCall();
+    this.setAudioAttachment();
   },
   beforeUnmount() {
     // Clean up all intervals to prevent memory leaks
@@ -398,6 +407,39 @@ export default {
     },
     handlePlaybackEnd() {
       this.isPlaying = false;
+    },
+    setAudioAttachment() {
+      // Look for audio attachment in message.attachments or message.contentAttributes.attachments
+      let attachments = [];
+      if (this.message?.attachments && Array.isArray(this.message.attachments)) {
+        attachments = this.message.attachments;
+      } else if (this.message?.contentAttributes?.attachments && Array.isArray(this.message.contentAttributes.attachments)) {
+        attachments = this.message.contentAttributes.attachments;
+      }
+      // Find the first audio attachment, supporting both camelCase and snake_case fields
+      const audio = attachments.find(att => {
+        if (!att) return false;
+        // Check file_type or fileType
+        if ((att.file_type && att.file_type.startsWith('audio')) ||
+            (att.fileType && att.fileType.startsWith('audio'))) return true;
+        // Check content_type or contentType
+        if ((att.content_type && att.content_type.startsWith('audio')) ||
+            (att.contentType && att.contentType.startsWith('audio'))) return true;
+        // Check data_url or dataUrl
+        if ((att.data_url && att.data_url.match(/\.(mp3|wav|ogg|m4a)$/i)) ||
+            (att.dataUrl && att.dataUrl.match(/\.(mp3|wav|ogg|m4a)$/i))) return true;
+        // Check file_url or fileUrl
+        if ((att.file_url && att.file_url.match(/\.(mp3|wav|ogg|m4a)$/i)) ||
+            (att.fileUrl && att.fileUrl.match(/\.(mp3|wav|ogg|m4a)$/i))) return true;
+        return false;
+      });
+      if (audio) {
+        this.recordingUrl = audio.data_url || audio.file_url || audio.dataUrl || audio.fileUrl || '';
+        this.hasAudioAttachment = true;
+      } else {
+        this.recordingUrl = '';
+        this.hasAudioAttachment = false;
+      }
     }
   },
 };
