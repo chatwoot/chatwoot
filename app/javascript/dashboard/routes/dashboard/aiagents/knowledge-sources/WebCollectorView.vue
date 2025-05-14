@@ -96,10 +96,10 @@ async function addUrl() {
       );
       links.value.splice(0, 0, {
         url: stateUrl,
-        children: response.links.map(e => ({
+        children: response.data?.links.map(e => ({
           url: e,
           isSelected: false,
-        })),
+        })) ?? [],
       });
     } else if (activeTabIndex.value === 1) {
       links.value.splice(0, 0, {
@@ -255,7 +255,6 @@ async function train() {
                   v-if="item.children && item.children.length"
                   class="flex flex-row gap-3 items-center"
                 >
-                  >
                   <div
                     class="rounded-lg bg-n-gray-4 text-sm px-2 py-1 cursor-pointer flex flex-row items-center gap-1"
                     @click="
@@ -281,12 +280,8 @@ async function train() {
                 </div>
               </div>
               <div
-                v-if="
-                  item.children && item.children.length && item.toggleView.value
-                "
-                class="flex flex-col px-4 gap-3 pb-4"
-              >
-                " >
+                v-if="item.children && item.children.length && item.toggleView.value"
+                class="flex flex-col px-4 gap-3 pb-4">
                 <span class="text-sm font-bold"> Links </span>
                 <div
                   v-for="(item, index) in item.children"
