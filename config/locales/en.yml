@@ -201,6 +201,8 @@ en:
     survey:
       response: 'Please rate this conversation, %{link}'
     bot:
+      not_available_ai_agent: 'Sorry, our system is currently not equipped with an AI Agent in this channel. However, you can still send messages and our team will get back to you as soon as possible.'
+      available_ai_agent: 'Hi, I am an AI Agent from %{business_name}. Please send your question and I will try my best to provide a solution.'
       not_available_agent: 'There is currently no agent available to handle your inquiry. Your message has been logged and will be followed up as soon as our team is available.'
       available_agent: 'Sure, I will connect you to our team right away. Please be patient.'
       escalation_message: 'Sorry, I am unable to help with this question. I will continue to connect you to our team to assist further. Please be patient 😊'

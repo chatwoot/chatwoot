@@ -8,6 +8,10 @@ class Captain::Copilot::MessageContext
     @inbox_id = @conversation.inbox_id
   end
 
+  def account
+    @account ||= Account.find_by(id: @account_id)
+  end
+
   def inbox
     @inbox ||= AgentBotInbox.find_by(status: 1, inbox_id: @inbox_id)
   end

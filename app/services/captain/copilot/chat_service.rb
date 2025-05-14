@@ -1,25 +1,33 @@
 class Captain::Copilot::ChatService
+  include SwitchLocale
+
   def initialize(message)
     @message = message
     @context = Captain::Copilot::MessageContext.new(message)
+    @current_account = @context.account
   end
 
   def perform
-    return unless @context.active_conversation
+    switch_locale_using_account_locale do
+      Rails.logger.info("Locale: #{I18n.locale}")
+      return unless @context.active_conversation
 
-    failure_reason = pre_check_failure_reason
-    return send_reply_failure(failure_reason) if failure_reason
+      failure_reason = pre_check_failure_reason
+      return send_reply_failure(failure_reason) if failure_reason
 
-    send_messages
+      send_messages
+    end
   end
 
   def notify_if_long_running
-    return unless @context.active_conversation
+    switch_locale_using_account_locale do
+      return unless @context.active_conversation
 
-    failure_reason = pre_check_failure_reason
-    return send_reply_failure(failure_reason) if failure_reason
+      failure_reason = pre_check_failure_reason
+      return send_reply_failure(failure_reason) if failure_reason
 
-    long_running_notify
+      long_running_notify
+    end
   end
 
   private
@@ -27,8 +35,8 @@ class Captain::Copilot::ChatService
   def pre_check_failure_reason
     return I18n.t('conversations.bot.failure') unless @context.inbox
 
-    return I18n.t('conversations.bot.failure') unless @context.ai_agent
-    return I18n.t('conversations.bot.failure') if @context.ai_agent.chat_flow_id.blank?
+    return I18n.t('conversations.bot.not_available_ai_agent') unless @context.ai_agent
+    return I18n.t('conversations.bot.not_available_ai_agent') if @context.ai_agent.chat_flow_id.blank?
 
     return I18n.t('subscriptions.limit_reached') unless @context.subscription
     return I18n.t('subscriptions.limit_reached') unless @context.usage

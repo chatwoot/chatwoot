@@ -46,11 +46,7 @@ class ActionCableListener < BaseListener
 
       # Watchdog thread to ensure the thread is still alive
       Thread.new do
-        sleep(LOADING_DELAY_SECONDS)
-        if thread.alive?
-          chat_service.notify_if_long_running
-          broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)
-        end
+        chat_service.notify_if_long_running unless thread.join(LOADING_DELAY_SECONDS)
       end
     end
 

@@ -186,6 +186,8 @@ id:
     survey:
       response: "Silakan beri peringkat percakapan ini, %{link}"
     bot:
+      not_available_ai_agent: 'Maaf, sistem kami belum memiliki AI Agent aktif di channel ini. Namun Anda tetap dapat mengirimkan pesan, dan tim kami akan segera merespons.'
+      available_ai_agent: 'Halo, saya AI Agent dari %{business_name}. Silakan kirimkan pertanyaan Anda, dan saya akan berusaha memberikan solusi sebaik mungkin.'
       not_available_agent: 'Saat ini belum ada agen yang tersedia untuk menangani pertanyaan kamu. Pesan kamu sudah tercatat dan akan segera kami tindak lanjuti begitu tim kami siap membantu.'
       available_agent: 'Tentu, saya akan segera menghubungkan Anda ke tim kami. Mohon ditunggu sebentar ya.'
       escalation_message: 'Mohon maaf, saya belum bisa membantu menjawab pertanyaan ini. Saya akan teruskan ke tim kami agar bisa dibantu lebih lanjut. Mohon ditunggu sebentar ya 😊'
