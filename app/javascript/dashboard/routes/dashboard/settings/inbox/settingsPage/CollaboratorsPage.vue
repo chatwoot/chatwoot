@@ -66,7 +66,7 @@ export default {
           inboxId: this.inbox.id,
         });
         const {
-          data: { agents, allowedCustomMessageAgents },
+          data: { agents, allowed_custom_message_agents: allowedCustomMessageAgents },
         } = response;
         this.selectedAgents = agents;
         this.selectedCustomMessageAgents = allowedCustomMessageAgents;
