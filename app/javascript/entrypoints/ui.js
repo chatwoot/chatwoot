@@ -16,13 +16,15 @@ import commonHelpers from '../dashboard/helper/commons';
 import vueActionCable from '../dashboard/helper/actionCable';
 
 import MessageList from '../ui/MessageList.vue';
-import i18nMessages from '../dashboard/i18n';
+import en from '../dashboard/i18n/locale/en';
 import { createI18n } from 'vue-i18n';
 
 const i18n = createI18n({
   legacy: false,
   locale: 'en',
-  messages: i18nMessages,
+  messages: {
+    en,
+  },
 });
 
 commonHelpers();
