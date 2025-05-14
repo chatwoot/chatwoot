@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário",
             "CONTACT_CREATED": "Contato criado",
-            "CONTACT_UPDATED": "Contato atualizado"
+            "CONTACT_UPDATED": "Contato atualizado",
+            "CONVERSATION_TYPING_ON": "Status de Digitação ativado",
+            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
         "END_POINT": {
@@ -287,7 +289,7 @@
             "SEARCH": "Pesquisar etiqueta"
           },
           "STATUS": {
-            "LABEL": "Situação",
+            "LABEL": "Status",
             "PLACEHOLDER": "Selecione Status",
             "SEARCH": "Pesquisar status"
           },
@@ -305,7 +307,7 @@
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente"
       },
       "ISSUE": {
-        "STATUS": "Situação",
+        "STATUS": "Status",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Etiquetas",
@@ -539,7 +541,7 @@
         "ALL_ASSISTANTS": "Todos"
       },
       "STATUS": {
-        "TITLE": "Situação",
+        "TITLE": "Status",
         "PENDING": "Pendentes",
         "APPROVED": "Aceito",
         "ALL": "Todos"
