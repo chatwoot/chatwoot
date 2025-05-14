@@ -13,8 +13,6 @@ import {
   hasPermissions,
 } from '../../helper/permissionsHelper';
 
-console.log(getSidebarItems);
-
 export default {
   components: {
     PrimarySidebar,

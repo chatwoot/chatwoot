@@ -108,17 +108,19 @@ const previewUrl = computed(() => {
   <div class="flex flex-col lg:flex-row justify-stretch gap-4">
     <form class="lg:flex-1 lg:min-w-0" @submit.prevent="() => submit()">
       <div class="flex flex-col space-y-3">
-        <div>
-          <label for="name">Nama Agen AI</label>
-          <Input id="name" v-model="state.name" placeholder="Nama Agen AI" />
-        </div>
-        <div>
-          <label for="description">Deskripsi Agen AI</label>
-          <Input
-            id="description"
-            v-model="state.description"
-            placeholder="Deskripsi Agen AI"
-          />
+        <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
+          <div>
+            <label for="name">Nama Agen AI</label>
+            <Input id="name" v-model="state.name" placeholder="Nama Agen AI" />
+          </div>
+          <div>
+            <label for="description">Deskripsi Agen AI</label>
+            <Input
+              id="description"
+              v-model="state.description"
+              placeholder="Deskripsi Agen AI"
+            />
+          </div>
         </div>
         <div>
           <label for="system_prompts">Perintah AI</label>

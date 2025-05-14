@@ -1,5 +1,8 @@
 class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::BaseController
   before_action :set_ai_agent
+  before_action :validate_file_size, only: [:create]
+
+  MAX_FILE_SIZE_MB = 5
 
   def create
     knowledge_source = @ai_agent.knowledge_source
@@ -100,6 +103,19 @@ class Api::V1::Accounts::KnowledgeSourceFilesController < Api::V1::Accounts::Bas
   rescue StandardError => e
     Rails.logger.error("Failed to convert file to base64: #{e.message}")
     nil
+  end
+
+  def validate_file_size
+    uploaded_file = params[:file]
+
+    if uploaded_file.nil?
+      render json: { error: I18n.t('ai_agents.knowledge_source.file_size_error') }, status: :unprocessable_entity
+      return
+    end
+
+    return unless uploaded_file.size > MAX_FILE_SIZE_MB.megabytes
+
+    render json: { error: I18n.t('ai_agents.knowledge_source.file_size_error') }, status: :unprocessable_entity
   end
 
   def set_ai_agent

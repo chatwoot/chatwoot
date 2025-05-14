@@ -243,3 +243,8 @@
   locked: false
   description: 'Contents on your firebase credentials json file'
 ## ------ End of Configs added for FCM v1 notifications ------ ##
+- name: APP_VERSION
+  display_title: 'JANGKAU.AI VERSION'
+  description: 'JANGKAU.AI VERSION'
+  value: '1.0.0'
+  locked: false

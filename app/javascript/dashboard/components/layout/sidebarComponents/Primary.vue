@@ -51,6 +51,11 @@ export default {
       pinSidebar: !!localStorage.getItem('pin-sidebar'),
     };
   },
+  computed: {
+    appVersion() {
+      return window.globalConfig.APP_VERSION;
+    },
+  },
   watch: {
     pinSidebar(value) {
       localStorage.setItem('pin-sidebar', value ? '1' : '');
@@ -95,6 +100,7 @@ export default {
             :account-id="accountId"
           />
         </div>
+        <div class="ml-4"><span class="line-clamp-1">v.{{ appVersion }}</span></div>
         <button class="ml-4" @click="() => (pinSidebar = !pinSidebar)">
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -119,6 +125,8 @@ export default {
             :icon="menuItem.icon"
             :name="menuItem.label"
             :to="menuItem.toState"
+            :icon-fill-rule="menuItem.iconFillRule"
+            :icon-clip-rule="menuItem.iconClipRule"
             :is-child-menu-active="menuItem.key === activeMenuItem"
           />
         </div>

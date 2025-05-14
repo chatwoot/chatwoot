@@ -200,6 +200,15 @@ en:
       transcript_subject: 'Conversation Transcript'
     survey:
       response: 'Please rate this conversation, %{link}'
+    bot:
+      not_available_ai_agent: 'Sorry, our system is currently not equipped with an AI Agent in this channel. However, you can still send messages and our team will get back to you as soon as possible.'
+      available_ai_agent: 'Hi, I am an AI Agent from %{business_name}. Please send your question and I will try my best to provide a solution.'
+      not_available_agent: 'There is currently no agent available to handle your inquiry. Your message has been logged and will be followed up as soon as our team is available.'
+      available_agent: 'Sure, I will connect you to our team right away. Please be patient.'
+      escalation_message: 'Sorry, I am unable to help with this question. I will continue to connect you to our team to assist further. Please be patient 😊'
+      requested_human_message: 'Sure, I will connect you to our team right away. Please be patient.'
+      long_running_message: 'Please wait a moment, I am currently retrieving the information you need.'
+      failure: 'There is an error in our system at the moment, so we are unable to continue the conversation. For further assistance, please contact our support team via [contact/support link]. We apologize for the inconvenience and thank you for your understanding.'
   contacts:
     online:
       delete: '%{contact_name} is Online, please try again later'
@@ -232,6 +241,11 @@ en:
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+  subscriptions:
+    limit_reached: 'We apologize, our AI system is currently experiencing usage limits and is unable to continue responding. Your message has been noted and will be immediately forwarded to our team for follow-up. Thank you for your understanding.'
+  ai_agents:
+    knowledge_source:
+      file_size_error: 'File size exceeds the maximum allowed. The uploaded file cannot exceed 5MB. Please upload a smaller file.'
   public_portal:
     search:
       search_placeholder: Search for article by title or body...

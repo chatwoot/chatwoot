@@ -15,6 +15,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  direction: {
+    type: String,
+    default: 'horizontal',
+  },
 });
 
 const emit = defineEmits(['change']);
@@ -76,7 +80,15 @@ onMounted(() => {
     >
       <fluent-icon icon="chevron-left" :size="16" />
     </button>
-    <ul :class="{ 'tabs--with-scroll': hasScroll }" class="tabs">
+    <ul
+      :class="{
+        vertical: direction === 'vertical',
+        'tabs--with-scroll': hasScroll,
+        'flex-col': direction === 'vertical',
+        '[&>li]:min-w-40': direction === 'vertical',
+      }"
+      class="tabs"
+    >
       <slot />
     </ul>
     <button

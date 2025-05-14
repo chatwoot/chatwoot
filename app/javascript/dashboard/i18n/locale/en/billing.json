@@ -1,5 +1,6 @@
 {
   "BILLING": {
+    "SUBSCRIPTION_EXPIRED": "Your subscription has expired",
     "RECENT_TRANSACTIONS": "Recent Transactions",
     "NO_TRANSACTIONS": "No transactions found",
     "PAY": "Pay",

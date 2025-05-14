@@ -28,6 +28,14 @@ export default {
       type: String,
       default: 'fluent',
     },
+    fillRule: {
+      type: String,
+      default: '',
+    },
+    clipRule: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return { icons };
@@ -43,5 +51,7 @@ export default {
     :icons="icons"
     :view-box="viewBox"
     :icon-lib="iconLib"
+    :fill-rule="fillRule"
+    :clip-rule="clipRule"
   />
 </template>

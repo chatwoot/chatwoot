@@ -25,13 +25,21 @@ export default {
       type: String,
       default: 'fluent',
     },
+    fillRule: {
+      type: String,
+      default: '',
+    },
+    clipRule: {
+      type: String,
+      default: '',
+    },
   },
 
   computed: {
     pathSource() {
       // To support icons with multiple paths
       const path = this.icons[`${this.icon}-${this.type}`];
-      if (path.constructor === Array) {
+      if (path?.constructor === Array) {
         return path;
       }
       return [path];
@@ -54,6 +62,8 @@ export default {
       :key="source"
       :d="source"
       fill="currentColor"
+      :fill-rule="fillRule"
+      :clip-rule="clipRule"
     />
   </svg>
   <svg

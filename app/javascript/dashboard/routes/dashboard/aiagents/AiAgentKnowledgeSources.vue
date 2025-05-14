@@ -17,31 +17,36 @@ const tabs = [
     key: '0',
     index: 0,
     name: 'Text',
+    icon: 'text-cross',
   },
   {
     key: '1',
     index: 1,
     name: 'Website',
+    icon: 'link-secondary',
   },
   {
     key: '2',
     index: 2,
     name: 'File',
+    icon: 'folder-secondary',
   },
   {
     key: '3',
     index: 3,
     name: 'QnA',
+    icon: 'question-square',
   },
 ];
 const activeIndex = ref(0);
 </script>
 
 <template>
-  <div class="flex flex-col justify-stretch gap-2">
+  <div class="flex flex-row justify-stretch gap-2">
     <woot-tabs
       :index="activeIndex"
       class="mb-3 tabs-rm-margin-2"
+      direction="vertical"
       @change="
         i => {
           activeIndex = i;
@@ -54,19 +59,20 @@ const activeIndex = ref(0);
         :index="tab.index"
         :name="tab.name"
         :show-badge="false"
+        :icon="tab.icon"
       />
     </woot-tabs>
 
-    <div v-show="activeIndex === 0">
+    <div v-show="activeIndex === 0" class="w-full">
       <TextKnowledgeSources :data="data" />
     </div>
-    <div v-show="activeIndex === 1">
+    <div v-show="activeIndex === 1" class="w-full">
       <WebKnowledgeSources :data="data" />
     </div>
-    <div v-show="activeIndex === 2">
+    <div v-show="activeIndex === 2" class="w-full">
       <FileKnowledgeSources :data="data" />
     </div>
-    <div v-show="activeIndex === 3">
+    <div v-show="activeIndex === 3" class="w-full">
       <QnaKnowledgeSources :data="data" />
     </div>
   </div>
