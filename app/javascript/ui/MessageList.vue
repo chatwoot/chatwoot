@@ -9,7 +9,8 @@ import { useInfiniteScroll, useThrottleFn } from '@vueuse/core';
 const props = defineProps({
   conversationId: {
     type: Number,
-    required: true,
+    // eslint-disable-next-line no-underscore-dangle
+    default: window.__WOOT_CONVERSATION_ID__,
   },
 });
 
