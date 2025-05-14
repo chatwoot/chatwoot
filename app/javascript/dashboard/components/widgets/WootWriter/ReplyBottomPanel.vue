@@ -482,6 +482,7 @@ export default {
       this.proceedWithSendingMessage();
     },
     async performQualityCheck() {
+      this.aiCheckResponse = {};
       const qualityResult = await this.$store.dispatch('performQualityCheck', {
         conversationId: this.conversationId,
         draftMessage: this.message,

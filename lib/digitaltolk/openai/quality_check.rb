@@ -38,8 +38,10 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
     - Provide a boolean indicating whether the customer-centricity score meets or exceeds the threshold.
 
     - Perform needs_translation check
-      - compare <query> and <answer> and determine if <answer> needs to be translated
-      - on uncertainity, return true
+      - compare <query> language and <answer> language and determine if <answer> needs to be translated
+      - return true if <query> and <answer> are in different languages
+      - return false if <query> and <answer> are in the same language
+      - return true on uncertainity
       - store the boolean value in <needs_translation> field
 
     Declare the following internal variables:

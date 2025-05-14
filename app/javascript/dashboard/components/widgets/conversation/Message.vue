@@ -110,6 +110,30 @@
             Sentiment: {{ data.contact_sentiment }}
           </small>
         </div>
+        <div v-if="translateEnabled && isChatMessage">
+          <div v-if="translatedMessage" style="margin-left: -10px">
+            <woot-button
+              v-if="showTranslated"
+              v-tooltip.top-end="$t('CONVERSATION.CONTEXT_MENU.SEE_ORIGINAL')"
+              size="tiny"
+              variant="clear"
+              color-scheme="secondary"
+              @click="toggleTranslatedMessage(false)"
+            >
+              {{ $t('CONVERSATION.CONTEXT_MENU.SEE_ORIGINAL') }}
+            </woot-button>
+            <woot-button
+              v-else-if="translatedMessageByLocale"
+              v-tooltip.top-end="$t('CONVERSATION.CONTEXT_MENU.SEE_TRANSLATION')"
+              size="tiny"
+              color-scheme="secondary"
+              variant="clear"
+              @click="toggleTranslatedMessage(true)"
+            >
+              {{ $t('CONVERSATION.CONTEXT_MENU.SEE_TRANSLATION') }}
+            </woot-button>
+          </div>
+        </div>
       </div>
       <spinner v-if="isPending" size="tiny" />
       <div
@@ -140,6 +164,7 @@
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"
         :message="data"
+        @toggleTranslatedMessage="toggleTranslatedMessage"
         @open="openContextMenu"
         @close="closeContextMenu"
         @replyTo="handleReplyTo"
@@ -169,7 +194,7 @@ import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { ACCOUNT_EVENTS, CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
@@ -242,12 +267,14 @@ export default {
       hasMediaLoadError: false,
       contextMenuPosition: {},
       showBackgroundHighlight: false,
+      showTranslated: false,
     };
   },
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
       accountId: 'getCurrentAccountId',
+      getAccount: 'accounts/getAccount',
     }),
     attachments() {
       // Here it is used to get sender and created_at for each attachment
@@ -300,10 +327,44 @@ export default {
 
       return false;
     },
+    translations() {
+      return this.data?.content_attributes?.translations || {};
+    },
+    translationLocale() {
+      const rawLocale = navigator.language || navigator.userLanguage || 'en';
+
+      return rawLocale.split('-')[0];
+    },
+    hasTranslationObject() {
+      return this.translations != null && Object.keys(this.translations).length > 0;
+    },
+    englishTranslation() {
+      return this.translations['en'];
+    },
+    swedishTranslation() {
+      return this.translations['sv'];
+    },
+    translatedMessageByLocale() {
+      return this.translations[this.translationLocale];
+    },
+    translatedMessage() {
+      if (this.translateEnabled && this.hasTranslationObject) {
+        return this.translatedMessageByLocale || this.englishTranslation || this.swedishTranslation;
+      } else {
+        return null;
+      }
+    },
+    isChatMessage() {
+      return !this.isPrivate && (this.isIncoming || this.isOutgoing);
+    },
     message() {
+      if (this.translatedMessage && this.showTranslated) {
+        return this.translatedMessage;
+      }
+
       // If the message is an email, emailMessageContent would be present
       // In that case, we would use letter package to render the email
-      if (this.emailMessageContent && (this.isIncoming || this.isOutgoing)) {
+      if (this.emailMessageContent && this.isChatMessage) {
         return this.emailMessageContent;
       }
 
@@ -341,7 +402,8 @@ export default {
       return {
         smart_actions: this.enableSmartActions,
         copy: this.hasText,
-        translate: this.translateEnabled,
+        translate: this.translateEnabled && !this.showTranslated,
+        seeOriginal: this.translateEnabled && this.showTranslated,
         delete: this.hasText || this.hasAttachments,
         cannedResponse: this.isOutgoing && this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
@@ -553,12 +615,18 @@ export default {
   watch: {
     data() {
       this.hasMediaLoadError = false;
+
+      if (this.translateEnabled) {
+        this.showTranslated = this.isChatMessage && !!this.translatedMessageByLocale;
+      }
     },
   },
   mounted() {
     this.hasMediaLoadError = false;
     bus.$on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
+
+    this.autoTranslateIncomingMessage();
   },
   beforeDestroy() {
     bus.$off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
@@ -628,6 +696,29 @@ export default {
         this.showBackgroundHighlight = false;
       }, HIGHLIGHT_TIMER);
     },
+    toggleTranslatedMessage(value) {
+      this.showTranslated = value;
+    },
+    handleTranslate() {
+      const { locale } = this.getAccount(this.accountId);
+
+      this.$store.dispatch('translateMessage', {
+        conversationId: this.data.conversation_id,
+        messageId: this.data.id,
+        targetLanguage: locale || 'en',
+      });
+
+      this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
+    },
+    autoTranslateIncomingMessage() {
+      if (this.translateEnabled) {
+        this.showTranslated = this.isChatMessage && !!this.translatedMessageByLocale;
+
+        if (this.isIncoming && !this.translatedMessage) {
+          this.handleTranslate()
+        }
+      }
+    }
   },
 };
 </script>

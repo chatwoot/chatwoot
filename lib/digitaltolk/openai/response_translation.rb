@@ -42,8 +42,10 @@ class Digitaltolk::Openai::ResponseTranslation < Digitaltolk::Openai::Base
       - Detect the language of the <translated_agent_message> and store the language code in <translated_agent_message_locale>.
 
     - Perform needs_translation check
-      - compare <customer_message> and <agent_message> and determine if <agent_message> needs to be translated
-      - on uncertainity, return true
+      - compare <customer_message> language and <agent_message> language and determine if <agent_message> needs to be translated
+      - return true if <customer_message> and <agent_message> are in different languages
+      - return false if <customer_message> and <agent_message> are in the same language
+      - return true on uncertainity
       - store the boolean value in <needs_translation> field
 
     Response format:

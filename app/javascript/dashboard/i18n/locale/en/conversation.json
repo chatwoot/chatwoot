@@ -227,6 +227,8 @@
       "DELETE": "Delete",
       "CREATE_A_CANNED_RESPONSE": "Add to canned responses",
       "TRANSLATE": "Translate",
+      "SEE_TRANSLATION": "See translation",
+      "SEE_ORIGINAL": "See Original",
       "COPY_PERMALINK": "Copy link to the message",
       "SMART_ACTIONS": "Smart actions",
       "LINK_COPIED": "Message URL copied to the clipboard",

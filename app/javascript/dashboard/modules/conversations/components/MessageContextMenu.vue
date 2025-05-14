@@ -72,6 +72,15 @@
           @click="handleTranslate"
         />
         <menu-item
+          v-if="enabledOptions['seeOriginal']"
+          :option="{
+            icon: 'translate',
+            label: $t('CONVERSATION.CONTEXT_MENU.SEE_ORIGINAL'),
+          }"
+          variant="icon"
+          @click="seeOriginal"
+        />
+        <menu-item
           v-if="showFixFormatting"
           :option="{
             icon: 'document',
@@ -252,7 +261,11 @@ export default {
       });
       this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
-      this.showTranslateModal = true;
+      this.$emit('toggleTranslatedMessage', true)
+    },
+    seeOriginal() {
+      this.handleClose();
+      this.$emit('toggleTranslatedMessage', false)
     },
     handleFixFormatting() {
       this.$store.dispatch('fixFormatting', {
