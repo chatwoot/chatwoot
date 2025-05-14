@@ -263,6 +263,9 @@ async function saveContent() {
         :id-agent="props.data?.id"
         :show="showCollectUrlModal"
         :existing-links="collectUrlEditModal"
+        @onRefresh="() => {
+          fetchKnowledge()
+        }"
       />
     </div>
 

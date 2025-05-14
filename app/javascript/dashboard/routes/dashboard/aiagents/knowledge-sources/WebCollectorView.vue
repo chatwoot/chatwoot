@@ -19,6 +19,8 @@ const props = defineProps({
   },
 });
 
+const emits = defineEmits(['onRefresh'])
+
 const showModel = defineModel('show');
 
 watch(
@@ -154,6 +156,8 @@ async function train() {
     await aiAgents.addKnowledgeWebsite(props.idAgent, {
       links: selectedLinks,
     });
+    emits('onRefresh')
+    showModel.value = false
   } catch (e) {
     useAlert('Gagal train link');
   } finally {
