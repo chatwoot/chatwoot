@@ -4,7 +4,9 @@ import { mutations } from './mutations';
 
 const state = {
   meta: {},
-  records: {},
+  vouchers: {},
+  orders: {},
+  products: {},
   uiFlags: {
     isFetchingOrders: false,
     isFetchingVouchers: false,

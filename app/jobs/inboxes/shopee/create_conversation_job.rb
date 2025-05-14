@@ -23,9 +23,12 @@ class Inboxes::Shopee::CreateConversationJob < ApplicationJob
       inbox: current_channel.inbox,
       source_id: data['conversation_id'],
       contact_attributes: {
-        identifier: "sp-#{data['to_id']}",
+        identifier: data['to_id'],
         name: data['to_name'],
         avatar_url: data['to_avatar'],
+        custom_attributes: {
+          platform: 'shopee',
+        }
       }
     ).perform
   end

@@ -11,8 +11,12 @@ class ShopeeAPI extends ApiClient {
     return axios.get(`${this.url}/${params.conversationID}/shopee/vouchers`);
   }
 
-  getOrders(conversationID) {
-    return axios.get(`${this.url}/${conversationID}/shopee/orders`);
+  getOrders(params) {
+    return axios.get(`${this.url}/${params.conversationID}/shopee/orders`, {
+      params: {
+        order_status: params.orderStatus,
+      },
+    });
   }
 
   searchProducts(conversationID, keyword) {

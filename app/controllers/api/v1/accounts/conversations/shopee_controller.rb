@@ -4,7 +4,21 @@ class Api::V1::Accounts::Conversations::ShopeeController < Api::V1::Accounts::Co
   end
 
   def orders
-    @orders = Shopee::Order.limit(10)
+    @orders = Shopee::Order.where(buyer_user_id: @conversation.contact.identifier)
+    case params[:order_status].to_s.downcase
+    when 'unpaid'
+      @orders = @orders.where(status: ['UNPAID'])
+    when 'picking'
+      @orders = @orders.where(status: ['PROCESSED', 'READY_TO_SHIP'])
+    when 'shipping'
+      @orders = @orders.where(status: ['SHIPPED', 'TO_CONFIRM_RECEIVE'])
+    when 'delivered'
+      @orders = @orders.where(status: 'COMPLETED')
+    when 'cancelled'
+      @orders = @orders.where(status: 'CANCELLED')
+    when 'returned_refunded'
+      @orders = @orders.where(status: 'TO_RETURN')
+    end
   end
 
   def products

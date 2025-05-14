@@ -13,7 +13,9 @@ defineProps({
 
 const emit = defineEmits(['toggleContactPanel']);
 const { t } = useI18n();
-const channelType = computed(() => props.currentChat?.meta?.channel || '');
+const channelType = computed(() => {
+  return props.currentChat?.channel || props.currentChat?.meta?.channel || '';
+});
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'

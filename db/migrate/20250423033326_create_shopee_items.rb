@@ -6,7 +6,7 @@ class CreateShopeeItems < ActiveRecord::Migration[7.0]
       t.string :code, null: false
       t.string :sku, null: false
       t.string :name, null: false
-      t.string :status, null: false
+      t.integer :status, null: false
       t.jsonb :meta, default: {}, null: false
     end
 

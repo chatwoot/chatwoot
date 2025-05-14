@@ -10,11 +10,14 @@ import {
 import ShopeeAPI from '../../../api/inbox/shopee';
 
 export const actions = {
-  getOrders: async ({ commit }) => {
+  getOrders: async ({ commit }, { conversationID, orderStatus }) => {
     commit(SET_SHOPEE_UI_FLAG, { isFetchingOrders: true });
     try {
-      const response = await ShopeeAPI.getOrders();
-      commit(GET_ORDERS, response.data);
+      const response = await ShopeeAPI.getOrders({
+        conversationID,
+        orderStatus,
+      });
+      commit(GET_ORDERS, response.data.payload);
     } catch (error) {
       throw new Error(error);
     } finally {

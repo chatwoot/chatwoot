@@ -4,6 +4,7 @@ import Icon from 'next/icon/Icon.vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { currencyFormatter } from 'next/message/bubbles/Shopee/helper/formatter.js';
 import LoadingState from 'components/widgets/LoadingState.vue';
+import EmptyMessage from 'components/widgets/EmptyMessage.vue';
 
 const { t } = useI18n();
 const products = useMapGetter('shopee/searchProducts');
@@ -14,6 +15,7 @@ export default {
   name: 'Products',
   components: {
     LoadingState,
+    EmptyMessage,
     Icon,
   },
   props: {
@@ -24,6 +26,7 @@ export default {
   },
   data() {
     return {
+      keyword: '',
       selectLimit: 4,
       selectedProductCodes: [],
       uiFlags: useMapGetter('shopee/getUIFlags'),
@@ -39,10 +42,7 @@ export default {
     },
   },
   mounted() {
-    this.$store.dispatch('shopee/searchProducts', {
-      conversationID: this.currentChat.id,
-      keyword: '*',
-    });
+    this.searchProducts();
   },
   methods: {
     isDisabled(product) {
@@ -81,6 +81,13 @@ export default {
       if (!preOrder.is_pre_order) return false;
       return preOrder.is_pre_order;
     },
+    searchProducts() {
+      this.keyword = this.$refs.searchInput.value;
+      this.$store.dispatch('shopee/searchProducts', {
+        conversationID: this.currentChat.id,
+        keyword: this.keyword,
+      });
+    },
     sendProduct(product) {
       this.$store.dispatch('shopee/sendProductMessage', {
         conversationId: this.currentChat.id,
@@ -109,8 +116,10 @@ export default {
   <div class="flex flex-col h-full">
     <div id="search-product">
       <input
+        ref="searchInput"
         type="text"
         :placeholder="t('CONVERSATION.SHOPEE.PRODUCTS.SEARCH')"
+        @keyup.enter="searchProducts"
       />
       <Icon
         class="absolute top-3 right-5 text-slate-500 dark:text-slate-500"
@@ -119,6 +128,10 @@ export default {
     </div>
     <div class="flex-1 overflow-y-auto">
       <LoadingState v-if="uiFlags.isSearchingProducts" />
+      <EmptyMessage
+        v-else-if="!products.length"
+        :message="t('CONVERSATION.SHOPEE.PRODUCTS.EMPTY_MESSAGE')"
+      />
       <ul v-else class="bg-slate-50 dark:bg-slate-800 p-2">
         <li v-for="product in products" :key="product.code" class="product">
           <div class="flex flex-row pb-2">
@@ -138,13 +151,26 @@ export default {
             </div>
             <div class="flex-auto ps-2 flex-col overflow-hidden">
               <a
+                v-tooltip.top="product.name"
                 :href="productLink(product)"
                 target="_blank"
                 rel="noopener noreferrer"
-                class="line-clamp-2 w-full text-xs mb-0"
+                class="line-clamp-1 w-full text-xs mb-0"
               >
                 {{ product.name }}
               </a>
+              <div class="flex flex-row mt-1">
+                <span class="flex-1 text-slate-500 text-xs">
+                  {{ product.sku }}
+                </span>
+                <span
+                  v-if="product.meta?.available_stock > 0"
+                  class="flex-1 text-slate-500 text-xs"
+                >
+                  {{ t('CONVERSATION.SHOPEE.PRODUCTS.STOCK') }}
+                  {{ product.meta?.available_stock }}
+                </span>
+              </div>
               <div class="flex-row text-end">
                 <span
                   v-if="originalPrice(product)"
@@ -158,19 +184,6 @@ export default {
                 >
                   {{ productPrice(product) }}
                 </span>
-              </div>
-              <div class="labels flex flex-row mt-1">
-                <small
-                  class="border bg-white px-2 py-0.5 rounded-full text-xs me-1 border-orange-700 text-orange-700 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-300"
-                >
-                  {{ product.meta?.brand_name }}
-                </small>
-                <small
-                  v-if="isPreOrder(product)"
-                  class="border bg-white px-2 py-0.5 rounded-full text-xs me-1 border-orange-700 text-orange-700 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-300"
-                >
-                  {{ t('CONVERSATION.SHOPEE.PRODUCTS.PRE_ORDER') }}
-                </small>
               </div>
             </div>
           </div>
@@ -186,13 +199,17 @@ export default {
                 :checked="selectedProductCodes.includes(product.code)"
                 @change="onCheckboxChange(product)"
               />
-              <span
-                v-if="product.meta?.available_stock > 0"
-                class="text-slate-500 text-xs"
+              <small
+                class="border bg-white px-2 py-0.5 rounded-full text-xs me-1 border-orange-700 text-orange-700 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-300"
               >
-                {{ t('CONVERSATION.SHOPEE.PRODUCTS.STOCK') }}:
-                {{ product.meta?.available_stock }}
-              </span>
+                {{ product.meta?.brand_name }}
+              </small>
+              <small
+                v-if="isPreOrder(product)"
+                class="border bg-white px-2 py-0.5 rounded-full text-xs me-1 border-violet-700 text-violet-700 dark:bg-slate-900 dark:text-slate-300 dark:border-slate-300"
+              >
+                {{ t('CONVERSATION.SHOPEE.PRODUCTS.PRE_ORDER') }}
+              </small>
             </div>
             <div class="flex-auto text-end">
               <a
@@ -259,10 +276,6 @@ export default {
     .product-icon {
       @apply hidden;
     }
-  }
-
-  .labels {
-    @apply transition-all duration-200 ease-in-out;
   }
 }
 </style>

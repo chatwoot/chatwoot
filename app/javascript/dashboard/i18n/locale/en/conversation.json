@@ -260,23 +260,54 @@
       "VOUCHER": "Voucher",
       "UNSUPPORTED_CARD": "Unsupported message type",
       "SEND": "Send",
+      "SHOW_MORE": "Show more",
+      "SHOW_LESS": "Show less",
+      "ORDER": {
+        "COD": "COD",
+        "CANCEL_BY": "Cancelled by",
+        "GIFT": "Gift",
+        "TOTAL": "Total",
+        "SHIPPING_FEE": "Shipping fee",
+        "SHIPPING_AT": "Shipping at",
+        "PAID_AT": "Paid at",
+        "COMPLETED_AT": "Completed at",
+        "EMPTY_MESSAGE": "No orders found",
+        "CANCEL_BY": {
+          "LABEL": "Cancelled by",
+          "REASON": "Reason",
+          "SYSTEM": "System",
+          "BUYER": "Buyer",
+          "SELLER": "Seller"
+        },
+        "TABS": {
+          "ALL": "All",
+          "UNPAID": "Unpaid",
+          "PICKING": "Picking",
+          "SHIPPING": "Shipping",
+          "DELIVERED": "Delivered",
+          "CANCELLED": "Cancelled",
+          "RETURNED_REFUNDED": "Returned/Refunded"
+        }
+      },
       "TABS": {
         "VOUCHER": "Vouchers",
         "ORDER": "Orders",
         "PRODUCT": "Products"
       },
       "PRODUCTS": {
+        "EMPTY_MESSAGE": "No products found",
         "LIMITATION": "You can only select {limit} products",
         "SELECTED_MSG": "{selected}/{limit} selected products",
         "CLEAR": "Clear",
         "PRE_ORDER": "Pre-Order",
         "SEARCH": "Search...",
-        "STOCK": "Stock",
+        "STOCK": "Stock:",
         "NO_PRICE": "No price"
       },
       "VOUCHERS": {
-        "VALID_UNTIL": "Valid until",
-        "MIN_BASKET": "MIN basket",
+        "EMPTY_MESSAGE": "No vouchers found",
+        "VALID_UNTIL": "Valid until:",
+        "MIN_BASKET": "MIN basket:",
         "MAX_DISCOUNT": "(MAX: {value})"
       }
     }

@@ -3,12 +3,12 @@ export const getters = {
     return $state.uiFlags;
   },
   getVouchers($state) {
-    return Object.values($state.records).sort((a, b) => a.id - b.id);
+    return Object.values($state.vouchers);
   },
   getOrders($state) {
-    return Object.values($state.records).sort((a, b) => a.id - b.id);
+    return Object.values($state.orders);
   },
   searchProducts($state) {
-    return Object.values($state.records).sort((a, b) => a.id - b.id);
+    return Object.values($state.products);
   },
 };

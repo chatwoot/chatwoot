@@ -32,24 +32,50 @@ class Integrations::Shopee::Order < Integrations::Shopee::Base
     :return_request_due_date,
     :edt
   ].freeze
+  DEFAULT_TIME_FROM = 1.day
+  DEFAULT_TIME_FIELD = :update_time
 
-  def list
-    auth_client.query({
-                        time_range_field: :create_time,
-                        time_from: 1.week.ago.to_i,
-                        time_to: Time.current.to_i,
-                        page_size: MAX_PAGE_SIZE
-                      }).get('/api/v2/order/get_order_list')
+  def all(params = {})
+    orders = []
+    final_params = {
+      time_range_field: params[:time_range_field] || DEFAULT_TIME_FIELD,
+      time_from: params[:time_from] || DEFAULT_TIME_FROM.ago.to_i,
+      time_to: params[:time_to] || Time.current.to_i,
+      page_size: params[:page_size] || MAX_PAGE_SIZE,
+      cursor: params[:cursor] || nil,
+    }
+    loop do
+      response = page_orders(final_params)
+      orders += response['order_list'].to_a
+      if response['order_list'].blank? || response['next_cursor'].blank?
+        break
+      else
+        final_params[:cursor] = response['next_cursor']
+      end
+    end
+    return orders
   end
 
   def detail(order_sn_list)
     raise 'Order SN list is empty' if order_sn_list.blank?
     raise "Order SN list is more than #{LIMIT_DETAIL_ORDER_SN}" if order_sn_list.size > LIMIT_DETAIL_ORDER_SN
 
-    data = {
+    params = {
       order_sn_list: order_sn_list.join(','),
       response_optional_fields: RESPONSE_OPTIONAL_FIELDS.join(',')
     }
-    auth_client.query(data).get('/api/v2/order/get_order_detail')
+    auth_client
+      .query(params)
+      .get('/api/v2/order/get_order_detail')
+      .dig('response', 'order_list')
+  end
+
+  private
+
+  def page_orders(params)
+    auth_client
+      .query(params)
+      .get('/api/v2/order/get_order_list')
+      .dig('response')
   end
 end

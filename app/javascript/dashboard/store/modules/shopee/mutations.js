@@ -16,13 +16,13 @@ export const mutations = {
     };
   },
   [GET_ORDERS]: ($state, data) => {
-    $state.records = data;
+    $state.orders = data;
   },
   [GET_VOUCHERS]: ($state, data) => {
-    $state.records = data;
+    $state.vouchers = data;
   },
   [SEARCH_PRODUCTS]: ($state, data) => {
-    $state.records = data;
+    $state.products = data;
   },
   [SEND_ORDER_MESSAGE]: $state => {
     $state.records = {};

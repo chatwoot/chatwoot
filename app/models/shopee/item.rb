@@ -7,7 +7,7 @@
 #  meta       :jsonb            not null
 #  name       :string           not null
 #  sku        :string           not null
-#  status     :string           not null
+#  status     :integer          not null
 #  created_at :datetime         not null
 #  updated_at :datetime         not null
 #  shop_id    :bigint           not null

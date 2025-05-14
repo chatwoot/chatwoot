@@ -1,5 +1,6 @@
 {
   "GENERAL": {
+    "COPY_SUCCESSFUL": "Copied to clipboard",
     "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
     "PHONE_INPUT": {
       "PLACEHOLDER": "Search",

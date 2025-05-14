@@ -1128,7 +1128,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.string "code", null: false
     t.string "sku", null: false
     t.string "name", null: false
-    t.string "status", null: false
+    t.integer "status", null: false
     t.jsonb "meta", default: {}, null: false
     t.index ["code"], name: "index_shopee_items_on_code", unique: true
     t.index ["shop_id"], name: "index_shopee_items_on_shop_id"
@@ -1139,15 +1139,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "order_id", null: false
-    t.bigint "item_id", null: false
-    t.string "item_name"
-    t.string "item_sku"
-    t.boolean "main_item"
-    t.integer "model_quantity_purchased"
-    t.float "model_original_price"
-    t.float "model_discounted_price"
-    t.text "meta_data"
+    t.bigint "shop_id", null: false
+    t.string "code", null: false
+    t.string "item_code", null: false
+    t.string "item_sku", null: false
+    t.string "item_name", null: false
+    t.integer "price", default: 0
+    t.jsonb "meta", default: {}, null: false
+    t.index ["code", "order_id"], name: "index_shopee_order_items_on_code_and_order_id", unique: true
     t.index ["order_id"], name: "index_shopee_order_items_on_order_id"
+    t.index ["shop_id"], name: "index_shopee_order_items_on_shop_id"
   end
 
   create_table "shopee_orders", force: :cascade do |t|
@@ -1155,26 +1156,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.datetime "updated_at", null: false
     t.bigint "shop_id", null: false
     t.string "number", null: false
+    t.string "buyer_user_id"
+    t.string "buyer_username"
     t.string "status"
-    t.boolean "cod"
     t.integer "total_amount"
-    t.string "shipping_carrier"
-    t.string "payment_method"
-    t.integer "estimated_shipping_fee"
-    t.string "message_to_seller"
-    t.datetime "create_time"
-    t.integer "days_to_ship"
-    t.string "note"
-    t.integer "actual_shipping_fee"
-    t.text "recipient_address"
-    t.datetime "pay_time"
-    t.string "cancel_reason"
-    t.string "cancel_by"
-    t.string "buyer_cancel_reason"
-    t.datetime "pickup_done_time"
-    t.string "booking_sn"
+    t.boolean "cod"
+    t.jsonb "meta", default: {}
+    t.index ["buyer_user_id"], name: "index_shopee_orders_on_buyer_user_id"
+    t.index ["buyer_username"], name: "index_shopee_orders_on_buyer_username"
     t.index ["number"], name: "index_shopee_orders_on_number", unique: true
     t.index ["shop_id"], name: "index_shopee_orders_on_shop_id"
+    t.index ["status"], name: "index_shopee_orders_on_status"
   end
 
   create_table "shopee_vouchers", force: :cascade do |t|

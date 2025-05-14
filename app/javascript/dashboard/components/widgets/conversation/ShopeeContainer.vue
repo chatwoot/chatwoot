@@ -1,8 +1,7 @@
 <script setup>
-import { useI18n } from 'vue-i18n';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
-import ShopeeVouchers from './Shopee/Vouchers.vue';
 import ShopeeOrders from './Shopee/Orders.vue';
+import ShopeeVouchers from './Shopee/Vouchers.vue';
 import ShopeeProducts from './Shopee/Products.vue';
 </script>
 
@@ -11,8 +10,8 @@ export default {
   name: 'ShopeeContainer',
   components: {
     TabBar,
-    ShopeeVouchers,
     ShopeeOrders,
+    ShopeeVouchers,
     ShopeeProducts,
   },
   props: {
@@ -25,17 +24,24 @@ export default {
     return {
       activeTabIndex: 0,
       activeTabValue: 'VOUCHER',
-      tabs: ['VOUCHER', 'ORDER', 'PRODUCT'],
+      availableTabs: [
+        {
+          value: 'VOUCHER',
+          label: this.$t('CONVERSATION.SHOPEE.TABS.VOUCHER'),
+          count: 0,
+        },
+        {
+          value: 'ORDER',
+          label: this.$t('CONVERSATION.SHOPEE.TABS.ORDER'),
+          count: 0,
+        },
+        {
+          value: 'PRODUCT',
+          label: this.$t('CONVERSATION.SHOPEE.TABS.PRODUCT'),
+          count: 0,
+        },
+      ],
     };
-  },
-  computed: {
-    availableTabs() {
-      return this.tabs.map(tab => ({
-        value: tab,
-        label: useI18n().t(`CONVERSATION.SHOPEE.TABS.${tab}`),
-        count: 0,
-      }));
-    },
   },
   methods: {
     handleTabChange(selectedTab) {
@@ -78,6 +84,10 @@ export default {
 <style lang="scss">
 #shopee-tabs {
   @apply flex-none border-b border-n-weak bg-white dark:bg-slate-900;
+
+  .tabs {
+    @apply bg-white dark:bg-slate-900 p-0;
+  }
 
   .divider {
     @apply hidden;

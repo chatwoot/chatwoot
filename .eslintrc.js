@@ -47,6 +47,17 @@ module.exports = {
     'jsx-a11y/label-has-for': 'off',
     'jsx-a11y/anchor-is-valid': 'off',
     'import/no-unresolved': 'off',
+    'no-restricted-syntax': [
+      'error',
+      {
+        selector: 'LabeledStatement',
+        message: 'Labels are not allowed.',
+      },
+      {
+        selector: 'WithStatement',
+        message: '`with` is not allowed.',
+      },
+    ],
     'vue/html-indent': 'off',
     'vue/multi-word-component-names': 'off',
     'vue/next-tick-style': ['error', 'callback'],
