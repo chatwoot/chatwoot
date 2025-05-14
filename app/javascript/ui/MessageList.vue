@@ -127,12 +127,14 @@ const sendMessage = async () => {
       ref="messageListRef"
       class="px-4 pt-4 flex flex-col-reverse pb-32 bg-n-background h-screen overflow-scroll"
     >
-      <div id="conversationFooter" class="my-2 py-2 flex items-center w-full">
+      <div
+        v-if="isAnyoneTyping"
+        id="conversationFooter"
+        class="my-2 py-2 flex items-center w-full"
+      >
         <div
-          v-if="isAnyoneTyping"
           class="flex py-2 px-4 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold mx-auto items-center gap-1"
         >
-          {{ typingUserList }}
           {{ typingUserNames }}
           <TypingIndicator class="text-n-slate-9" />
         </div>
