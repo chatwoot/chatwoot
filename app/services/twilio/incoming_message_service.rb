@@ -110,23 +110,27 @@ class Twilio::IncomingMessageService
     return if num_media.zero?
 
     num_media.times do |i|
-      media_url = params[:"MediaUrl#{i}"]
-      content_type = params[:"MediaContentType#{i}"]
-      next if media_url.blank?
-
-      attachment_file = download_attachment_file(i)
-      next if attachment_file.blank?
-
-      @message.attachments.new(
-        account_id: @message.account_id,
-        file_type: file_type(content_type),
-        file: {
-          io: attachment_file,
-          filename: attachment_file.original_filename,
-          content_type: attachment_file.content_type
-        }
-      )
+      attach_single_file(i)
     end
+  end
+
+  def attach_single_file(index)
+    media_url = params[:"MediaUrl#{index}"]
+    content_type = params[:"MediaContentType#{index}"]
+    return if media_url.blank?
+
+    attachment_file = download_attachment_file(index)
+    return if attachment_file.blank?
+
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: file_type(content_type),
+      file: {
+        io: attachment_file,
+        filename: attachment_file.original_filename,
+        content_type: attachment_file.content_type
+      }
+    )
   end
 
   def download_attachment_file(index)
