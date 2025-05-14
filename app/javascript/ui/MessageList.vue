@@ -3,9 +3,15 @@ import { ref, onMounted, computed, watch, useTemplateRef } from 'vue';
 import Message from 'next/message/Message.vue';
 import ButtonNext from 'next/button/Button.vue';
 import TypingIndicator from 'next/message/TypingIndicator.vue';
-import { useStore, useMapGetter } from 'dashboard/composables/store';
-import { useCamelCase } from 'dashboard/composables/useTransformKeys';
+import {
+  useStore,
+  useMapGetter,
+  useFunctionGetter,
+} from '../dashboard/composables/store';
+import { getTypingUsersText } from '../dashboard/helper/commons';
+import { useCamelCase } from '../dashboard/composables/useTransformKeys';
 import { useInfiniteScroll, useThrottleFn } from '@vueuse/core';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   conversationId: {
@@ -15,11 +21,29 @@ const props = defineProps({
   },
 });
 
+const { t } = useI18n();
+
 const messageListRef = useTemplateRef('messageListRef');
 const store = useStore();
 const isAllLoaded = useMapGetter('getAllMessagesLoaded');
 const isFetching = ref(false);
 const messageContent = ref('');
+
+const typingUserList = useFunctionGetter(
+  'conversationTypingStatus/getUserList',
+  props.conversationId
+);
+
+const isAnyoneTyping = computed(() => {
+  return typingUserList.value.length > 0;
+});
+
+const typingUserNames = computed(() => {
+  if (!isAnyoneTyping.value) return '';
+  const [i18nKey, params] = getTypingUsersText(typingUserList.value);
+  // eslint-disable-next-line @intlify/vue-i18n/no-dynamic-keys
+  return t(i18nKey, params);
+});
 
 const conversation = computed(() => {
   return store.getters.getConversationById(props.conversationId);
@@ -105,8 +129,11 @@ const sendMessage = async () => {
     >
       <div id="conversationFooter" class="my-2 py-2 flex items-center w-full">
         <div
+          v-if="isAnyoneTyping"
           class="flex py-2 px-4 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold mx-auto items-center gap-1"
         >
+          {{ typingUserList }}
+          {{ typingUserNames }}
           <TypingIndicator class="text-n-slate-9" />
         </div>
       </div>
