@@ -84,13 +84,23 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def restore_assignee_if_open
     return unless @conversation.status == 'open'
 
-    # Always assign the current user as assignee when reopening
     @conversation.assignee_id = Current.user.id
   end
 
   def clear_assignee_if_resolved
     return unless @conversation.status == 'resolved'
 
+    Message.create!(
+      content: 'Terima kasih telah menghubungi Kami. Jika ada pertanyaan lain di kemudian hari, kami siap membantu',
+      account_id: @conversation.account_id,
+      inbox_id: @conversation.inbox_id,
+      conversation_id: @conversation.id,
+      message_type: 1,
+      content_type: 0,
+      sender_type: 'User',
+      sender_id: @conversation.assignee_id,
+      status: 0
+    )
     @conversation.assignee_id = nil
   end
 

@@ -86,7 +86,7 @@ const conversationListRef = ref(null);
 const conversationDynamicScroller = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
-const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
+const activeStatus = ref(wootConstants.STATUS_TYPE.ALL);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
@@ -420,6 +420,8 @@ function onUpdateSavedFilter(payload, folderName) {
     name: unref(folderName),
     query: filterQueryGenerator(transformedPayload),
   };
+  store.dispatch('conversationPage/reset');
+  store.dispatch('emptyAllConversations');
   store.dispatch('customViews/update', payloadData);
   closeAdvanceFiltersModal();
 }
@@ -543,6 +545,7 @@ function onToggleAdvanceFiltersModal() {
 }
 
 function fetchConversations() {
+  activeStatus.value = wootConstants.STATUS_TYPE.ALL
   store.dispatch('updateChatListFilters', conversationFilters.value);
   store.dispatch('fetchAllConversations').then(emitConversationLoaded);
 }
@@ -594,9 +597,9 @@ function updateAssigneeTab(selectedTab) {
     resetBulkActions();
     emitter.emit('clearSearchInput');
     activeAssigneeTab.value = selectedTab;
-    if (!currentPage.value) {
-      fetchConversations();
-    }
+    store.dispatch('conversationPage/reset');
+  store.dispatch('emptyAllConversations');
+    fetchConversations();
   }
 }
 

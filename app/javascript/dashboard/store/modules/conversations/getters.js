@@ -47,12 +47,12 @@ const getters = {
     const currentUserID = rootGetters.getCurrentUser?.id;
 
     return _state.allConversations.filter(conversation => {
-      const { assignee } = conversation.meta;
-      const isAssignedToMe = assignee && assignee.id === currentUserID;
+      const assigneeId = conversation.meta?.assignee?.id ?? 0;
+      const isAssignedToMe = assigneeId === currentUserID;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
       const isChatMine = isAssignedToMe && shouldFilter;
 
-      return isChatMine;
+      return isChatMine && conversation.status === 'open';
     });
   },
   getAppliedConversationFiltersV2: _state => {
@@ -68,9 +68,9 @@ const getters = {
   },
   getUnAssignedChats: _state => activeFilters => {
     return _state.allConversations.filter(conversation => {
-      const isUnAssigned = !conversation.meta.assignee;
+      const isUnAssigned = conversation.meta?.assignee?.id === undefined;
       const shouldFilter = applyPageFilters(conversation, activeFilters);
-      return isUnAssigned && shouldFilter;
+      return isUnAssigned && shouldFilter && conversation.status === 'open';
     });
   },
   getAllStatusChats: _state => activeFilters => {
