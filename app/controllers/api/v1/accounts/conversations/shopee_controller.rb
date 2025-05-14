@@ -1,10 +1,11 @@
 class Api::V1::Accounts::Conversations::ShopeeController < Api::V1::Accounts::Conversations::BaseController
   def vouchers
-    @vouchers = Shopee::Voucher.sendable
+    @vouchers = @conversation.inbox.channel.vouchers.sendable
   end
 
   def orders
-    @orders = Shopee::Order.where(buyer_user_id: @conversation.contact.identifier)
+    @orders = @conversation.inbox.channel.orders
+      .where(buyer_user_id: @conversation.contact.identifier)
     case params[:order_status].to_s.downcase
     when 'unpaid'
       @orders = @orders.where(status: ['UNPAID'])
@@ -22,7 +23,11 @@ class Api::V1::Accounts::Conversations::ShopeeController < Api::V1::Accounts::Co
   end
 
   def products
-    @products = Shopee::Item.all.sort_by { |item| 0 - item.meta['available_stock'].to_i }.first(30)
+    if params[:keyword].blank?
+      @products = Shopee::Item.none
+    else
+      @products = @conversation.inbox.channel.items.search_by_name(params[:keyword])
+    end
   end
 
   def send_voucher

@@ -20,6 +20,10 @@ class Channel::Shopee < ApplicationRecord
   include Channelable
   include Reauthorizable
 
+  has_many :orders, class_name: 'Shopee::Order', foreign_key: :shop_id, primary_key: :shop_id
+  has_many :items, class_name: 'Shopee::Item', foreign_key: :shop_id, primary_key: :shop_id
+  has_many :vouchers, class_name: 'Shopee::Voucher', foreign_key: :shop_id, primary_key: :shop_id
+
   validates :partner_id, presence: true
   validates :shop_id, presence: true, uniqueness: { scope: :account_id }
 

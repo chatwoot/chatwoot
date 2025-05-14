@@ -19,10 +19,16 @@
 #  index_shopee_items_on_sku      (sku) UNIQUE
 #
 class Shopee::Item < ApplicationRecord
+  include PgSearch::Model
+
   validates :shop_id, presence: true
   validates :code, presence: true, uniqueness: true
   validates :sku, presence: true, uniqueness: true
   validates :name, presence: true
+
+  pg_search_scope :search_by_name,
+    against: %i[name sku],
+    ignoring: :accents
 
   def resync_stock!
     return if channel.nil?

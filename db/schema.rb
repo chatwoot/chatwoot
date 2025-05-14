@@ -16,6 +16,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   enable_extension "pg_trgm"
   enable_extension "pgcrypto"
   enable_extension "plpgsql"
+  enable_extension "unaccent"
   enable_extension "vector"
 
   create_table "access_tokens", force: :cascade do |t|
@@ -987,15 +988,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.string "name", null: false
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "portal_members", force: :cascade do |t|
-    t.bigint "portal_id"
-    t.bigint "user_id"
-    t.datetime "created_at", precision: nil, null: false
-    t.datetime "updated_at", precision: nil, null: false
-    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
-    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
   end
 
   create_table "portals", force: :cascade do |t|
