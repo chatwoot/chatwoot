@@ -235,7 +235,7 @@ describe Twilio::IncomingMessageService do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
           .to_return(status: 200, body: 'image data 1', headers: { 'Content-Type' => 'image/png' })
         stub_request(:get, 'https://chatwoot-assets.local/sample.jpg')
-          .to_return(status: 200, body: 'image data 2', headers: { 'Content-Type' => 'image/png' })
+          .to_return(status: 200, body: 'image data 2', headers: { 'Content-Type' => 'image/jpeg' })
       end
 
       let(:params_with_multiple_attachments) do
