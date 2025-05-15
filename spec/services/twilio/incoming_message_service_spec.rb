@@ -193,7 +193,7 @@ describe Twilio::IncomingMessageService do
         described_class.new(params: params_with_attachment).perform
         expect(conversation.reload.messages.last.content).to eq('testing3')
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
-        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('file')
       end
     end
 
@@ -226,7 +226,7 @@ describe Twilio::IncomingMessageService do
 
         expect(conversation.reload.messages.last.content).to eq('testing3')
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
-        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('file')
       end
     end
 
