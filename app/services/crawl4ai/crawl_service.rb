@@ -14,7 +14,7 @@ class Crawl4ai::CrawlService < Crawl4ai::BaseService
   private
 
   def scrape(url)
-    Rails.logger.info("Start scraping link: #{link}")
+    Rails.logger.info("Start scraping link: #{url}")
 
     response = self.class.post(
       '/crawl',
@@ -24,7 +24,7 @@ class Crawl4ai::CrawlService < Crawl4ai::BaseService
 
     raise "Error fetching map: #{response.code} #{response.message}" unless response.success?
 
-    Rails.logger.info("Finished scraping link: #{link}")
+    Rails.logger.info("Finished scraping link: #{url}")
 
     response.parsed_response
   end
