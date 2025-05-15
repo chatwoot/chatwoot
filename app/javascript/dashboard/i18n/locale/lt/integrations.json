@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Pranešimas atnaujintas",
             "WEBWIDGET_TRIGGERED": "Tiesioginio pokalbio valdiklis, kurį atidarė vartotojas",
             "CONTACT_CREATED": "Sukurtas kontaktas",
-            "CONTACT_UPDATED": "Kontaktas atnaujintas"
+            "CONTACT_UPDATED": "Kontaktas atnaujintas",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
