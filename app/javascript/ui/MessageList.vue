@@ -1,8 +1,8 @@
 <script setup>
 import { ref, onMounted, computed, watch, useTemplateRef } from 'vue';
 import Message from 'next/message/Message.vue';
-import ButtonNext from 'next/button/Button.vue';
 import TypingIndicator from 'next/message/TypingIndicator.vue';
+import LiteReplyBox from './LiteReplyBox.vue';
 import {
   useStore,
   useMapGetter,
@@ -27,7 +27,6 @@ const messageListRef = useTemplateRef('messageListRef');
 const store = useStore();
 const isAllLoaded = useMapGetter('getAllMessagesLoaded');
 const isFetching = ref(false);
-const messageContent = ref('');
 
 const typingUserList = useFunctionGetter(
   'conversationTypingStatus/getUserList',
@@ -52,7 +51,7 @@ const conversation = computed(() => {
 const allMessages = computed(() => {
   if (!conversation.value) return [];
 
-  return useCamelCase(conversation.value.messages).reverse();
+  return useCamelCase(conversation.value.messages, { deep: true }).reverse();
 });
 
 const fetchMore = () => {
@@ -91,41 +90,13 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
   distance: 10,
   direction: 'top',
 });
-
-const isMessageEmpty = computed(() => {
-  return !messageContent.value || !messageContent.value.trim();
-});
-
-const sendMessage = async () => {
-  if (isMessageEmpty.value) return;
-
-  try {
-    await store.dispatch('createPendingMessageAndSend', {
-      conversationId: conversation.value.id,
-      message: messageContent.value,
-      private: false,
-      files: [],
-      sourceId: null,
-      ccEmails: [],
-      bccEmails: [],
-      editMessageId: null,
-      type: 'incoming',
-    });
-
-    messageContent.value = '';
-  } catch (error) {
-    // Handle error
-    // eslint-disable-next-line no-console
-    console.error('Error sending message:', error);
-  }
-};
 </script>
 
 <template>
   <div class="relative">
     <ul
       ref="messageListRef"
-      class="px-4 pt-4 flex flex-col-reverse pb-32 bg-n-background h-screen overflow-scroll"
+      class="px-4 pt-4 flex flex-col-reverse pb-64 bg-n-background h-screen overflow-scroll"
     >
       <div
         v-if="isAnyoneTyping"
@@ -150,33 +121,7 @@ const sendMessage = async () => {
       />
     </ul>
     <div class="p-2 w-full bg-white absolute bottom-0">
-      <div
-        id="replyInput"
-        class="w-full rounded-xl outline outline-1 outline-n-weak border-none overflow-hidden"
-      >
-        <div class="flex flex-col p-2 gap-2">
-          <textarea
-            v-model="messageContent"
-            rows="3"
-            class="flex-grow p-2 !mb-0 resize-none"
-            placeholder="Type your message..."
-            @keydown.meta.enter.prevent="sendMessage"
-            @keydown.ctrl.enter.prevent="sendMessage"
-          />
-          <div class="grid grid-cols-4">
-            <div class="col-span-3" />
-            <div class="col-span-1 flex justify-end">
-              <ButtonNext
-                sm
-                blue
-                label="Send"
-                :disabled="isMessageEmpty"
-                @click="sendMessage"
-              />
-            </div>
-          </div>
-        </div>
-      </div>
+      <LiteReplyBox />
     </div>
   </div>
 </template>
