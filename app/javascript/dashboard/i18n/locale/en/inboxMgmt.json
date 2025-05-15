@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Settings",
     "FEATURES": {
@@ -576,6 +577,37 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Customer Satisfaction (CSAT)",
+      "SUBTITLE": "Customer Satisfaction (CSAT) survey after resolving a conversation",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type",
+        "DESCRIPTION": "Select the type of display for the CSAT survey.",
+        "OPTIONS": {
+          "EMOJI": "Emoji",
+          "STAR": "Star"
+        }
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "DESCRIPTION": "This message would be visible to the users along with the form",
+        "PLACEHOLDER": "Please enter the message"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION": "Set the rule for sending the survey.",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contains",
+          "DOES_NOT_CONTAINS": "does not contain"
+        }
+      },
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {

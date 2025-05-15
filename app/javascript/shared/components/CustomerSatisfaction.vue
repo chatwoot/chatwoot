@@ -1,7 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
-import { CSAT_RATINGS } from 'shared/constants/messages';
+import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
@@ -19,6 +19,14 @@ export default {
       type: Number,
       required: true,
     },
+    displayType: {
+      type: String,
+      default: CSAT_DISPLAY_TYPES.EMOJI,
+    },
+    message: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -27,6 +35,8 @@ export default {
       selectedRating: null,
       isUpdating: false,
       feedback: '',
+      starRatings: [1, 2, 3, 4, 5],
+      hoveredRating: 0,
     };
   },
   computed: {
@@ -47,7 +57,28 @@ export default {
     title() {
       return this.isRatingSubmitted
         ? this.$t('CSAT.SUBMITTED_TITLE')
-        : this.$t('CSAT.TITLE');
+        : this.message || this.$t('CSAT.TITLE');
+    },
+    isEmojiType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.EMOJI;
+    },
+    isStarType() {
+      return this.displayType === CSAT_DISPLAY_TYPES.STAR;
+    },
+    getStarClass() {
+      return value => {
+        const isStarActive =
+          (this.hoveredRating > 0 &&
+            !this.isRatingSubmitted &&
+            this.hoveredRating >= value) ||
+          this.selectedRating >= value;
+
+        const starTypeClass = isStarActive
+          ? 'i-ri-star-fill text-n-amber-9'
+          : 'i-ri-star-line text-n-slate-10';
+
+        return starTypeClass;
+      };
     },
   },
 
@@ -88,8 +119,16 @@ export default {
         this.isUpdating = false;
       }
     },
+    onHoverRating(value) {
+      if (this.isRatingSubmitted) return;
+      this.hoveredRating = value;
+    },
     selectRating(rating) {
       this.selectedRating = rating.value;
+      this.onSubmit();
+    },
+    selectStarRating(value) {
+      this.selectedRating = value;
       this.onSubmit();
     },
   },
@@ -104,7 +143,7 @@ export default {
     <h6 class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center">
       {{ title }}
     </h6>
-    <div class="ratings flex justify-around py-5 px-4">
+    <div v-if="isEmojiType" class="ratings flex justify-around py-5 px-4">
       <button
         v-for="rating in ratings"
         :key="rating.key"
@@ -112,6 +151,28 @@ export default {
         @click="selectRating(rating)"
       >
         {{ rating.emoji }}
+      </button>
+    </div>
+    <div
+      v-else-if="isStarType"
+      class="ratings flex justify-center py-5 px-4 gap-3"
+    >
+      <button
+        v-for="value in starRatings"
+        :key="value"
+        type="button"
+        class="rounded-full p-1 transition-all duration-200 hover:enabled:scale-[1.2] focus:outline-none flex items-center flex-shrink-0"
+        :class="{ 'cursor-not-allowed opacity-50': isRatingSubmitted }"
+        :disabled="isRatingSubmitted"
+        :aria-label="'Star ' + value"
+        @click="selectStarRating(value)"
+        @mouseenter="onHoverRating(value)"
+        @mouseleave="onHoverRating(0)"
+      >
+        <span
+          :class="getStarClass(value)"
+          class="transition-all duration-500 text-2xl"
+        />
       </button>
     </div>
     <form
