@@ -20,21 +20,23 @@ class Crawl4ai::BaseService
             'type' => 'WebScrapingStrategy',
             'params' => {}
           },
-          'exclude_social_media_domains' => [
-            'facebook.com',
-            'twitter.com',
-            'x.com',
-            'linkedin.com',
-            'instagram.com',
-            'pinterest.com',
-            'tiktok.com',
-            'snapchat.com',
-            'reddit.com'
-          ],
+          # 'exclude_domains' => get_domains,
+          'exclude_external_links' => true,
+          'exclude_social_media_links' => true,
+          'exclude_all_images' => true,
+          'exclude_external_images' => true,
           'stream' => true
         }
       }
     }
+  end
+
+  def get_domains # rubocop:disable Naming/AccessorMethodName
+    options[:links].filter_map do |url|
+      URI.parse(url).host
+    rescue URI::InvalidURIError
+      nil
+    end.uniq
   end
 
   def headers
