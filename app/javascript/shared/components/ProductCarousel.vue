@@ -73,9 +73,19 @@
             </p>
           </div>
           <div class="product-actions">
-            <div v-if="!isProductInSelectedProducts(item)" class="w-full flex">
+            <div
+              v-if="!isProductInSelectedProducts(item)"
+              class="w-full flex relative"
+            >
+              <div
+                v-if="isCheckoutLoading"
+                class="absolute w-full h-full flex justify-center items-center backdrop-blur-[2px]"
+              >
+                <spinner size="medium" :color-scheme="'primary'" />
+              </div>
               <button
                 class="w-[50%] p-3 border-r border-[#E6E6E6] text-[13px] font-bold text-[#2E52E5] leading-5"
+                :disabled="isCheckoutLoading"
                 @click.stop="
                   updateSelectedProducts(
                     item.variant_id,
@@ -91,17 +101,25 @@
               </button>
               <button
                 class="w-[50%] p-3 text-[13px] font-bold text-[#2E52E5] leading-5"
+                :disabled="isCheckoutLoading"
                 @click.stop="onBuyNow(item, $event)"
               >
                 Buy now
               </button>
             </div>
-            <div v-else class="w-full flex">
+            <div v-else class="w-full flex relative">
+              <div
+                v-if="isCheckoutLoading"
+                class="absolute w-full h-full flex justify-center items-center backdrop-blur-[2px]"
+              >
+                <spinner size="medium" :color-scheme="'primary'" />
+              </div>
               <div
                 class="flex p-3 gap-3 items-center border-r border-solid border-[#E6E6E6]"
               >
                 <button
                   class="quantity-button"
+                  :disabled="isCheckoutLoading"
                   @click.stop="decreaseQuantity(item.variant_id, $event)"
                 >
                   -
@@ -112,6 +130,7 @@
                   {{ getQuantity(item.variant_id) }}
                 </span>
                 <button
+                  :disabled="isCheckoutLoading"
                   class="quantity-button"
                   @click.stop="increaseQuantity(item.variant_id, $event)"
                 >
@@ -156,8 +175,13 @@
 import { mapActions } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import ContactsAPI from '../../widget/api/contacts';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
+  components: {
+    Spinner,
+  },
   props: {
     message: {
       type: [String, Object],
@@ -171,15 +195,16 @@ export default {
       type: Function,
       default: () => {},
     },
-    openCheckoutPage: {
-      type: Function,
-      default: () => {},
-    },
     items: {
       type: Array,
       default: () => [],
     },
     messageId: { type: Number, default: null },
+  },
+  data() {
+    return {
+      isCheckoutLoading: true,
+    };
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -189,6 +214,30 @@ export default {
         productUrl += `?variant=${item.variant_id}`;
       }
       window.open(productUrl, '_blank');
+    },
+    async openCheckoutPage(selectedProducts) {
+      this.isCheckoutLoading = true;
+      const shopUrl = selectedProducts[0].shopUrl;
+      const lineItems = selectedProducts.map(product => ({
+        variant_id: product.id,
+        quantity: product.quantity,
+        price: product.price,
+        currency: product.currency,
+      }));
+      try {
+        const data = await ContactsAPI.getCheckoutRedirectURL(
+          shopUrl,
+          lineItems
+        );
+        if (data.data?.checkoutUrl) {
+          window.open(data.data?.checkoutUrl, '_blank');
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log('error', error);
+      } finally {
+        this.isCheckoutLoading = false;
+      }
     },
     isProductInSelectedProducts(product) {
       return this.selectedProducts.some(

@@ -28,4 +28,17 @@ module WidgetHelper
     Rails.logger.error "Error fetching WhatsappRedirect_url: #{e.message}"
     nil
   end
+
+  def fetch_checkout_url(shop_url, source_id, line_items)
+    # response = HTTParty.get("https://glorious-heavily-platypus.ngrok-free.app/api/v1/liveChat/getCheckoutUrl?shopUrl=#{shop_url}&livechatUUID=#{source_id}&lineItems=#{encoded_line_items}")
+    encoded_line_items = URI.encode_www_form_component(line_items.to_json)
+    response = HTTParty.get("https://container.bitespeed.co/api/v1/liveChat/getCheckoutUrl?shopUrl=#{shop_url}&livechatUUID=#{source_id}&lineItems=#{encoded_line_items}")
+
+    return nil if response['checkoutUrl'].blank?
+
+    response
+  rescue StandardError => e
+    Rails.logger.error "Error fetching CheckoutURL: #{e.message}"
+    nil
+  end
 end

@@ -32,6 +32,22 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     end
   end
 
+  def get_checkout_url # rubocop:disable Naming/AccessorMethodName
+    inbox_id = conversation.inbox.id
+
+    return render json: { error: 'Inbox ID not found' }, status: :bad_request if inbox_id.blank?
+
+    contact_inbox = @contact.contact_inboxes.find_by(inbox_id: inbox_id)
+    shop_url = permitted_params[:shop_url]
+    source_id = contact_inbox.source_id
+
+    Rails.logger.info("get_checkout_url_called_Params, #{permitted_params[:line_items]}")
+
+    response = fetch_checkout_url(shop_url, source_id, permitted_params[:line_items])
+    Rails.logger.info("response, #{response.inspect}")
+    render json: response
+  end
+
   def set_user
     contact = nil
 
@@ -93,7 +109,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:website_token, :identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {},
-                                                                                                            additional_attributes: {})
+    params.permit(:website_token, :line_items, :shop_url, :identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {}, # rubocop:disable Layout/LineLength
+                                                                                                                                    additional_attributes: {}) # rubocop:disable Layout/LineLength
   end
 end

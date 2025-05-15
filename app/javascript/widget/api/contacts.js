@@ -12,6 +12,15 @@ export default {
   getWhatsappRedirectURL() {
     return API.get(buildUrl('widget/contact/get_whatsapp_redirect_url'));
   },
+  getCheckoutRedirectURL(shopUrl, lineItems) {
+    return API.get(
+      `/api/v1/widget/contact/get_checkout_url${
+        window.location.search
+      }&shop_url=${shopUrl}&line_items=${encodeURIComponent(
+        JSON.stringify(lineItems)
+      )}`
+    );
+  },
   setUser(identifier, userObject) {
     return API.patch(buildUrl('widget/contact/set_user'), {
       identifier,
