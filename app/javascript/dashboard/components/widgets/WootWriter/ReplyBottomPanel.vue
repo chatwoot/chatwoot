@@ -118,6 +118,14 @@ export default {
       type: String,
       default: '',
     },
+    allowSignature: {
+      type: Boolean,
+      default: false,
+    },
+    allowEmoji: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: [
     'replaceText',
@@ -225,7 +233,7 @@ export default {
       }
     },
     showMessageSignatureButton() {
-      return !this.isOnPrivateNote;
+      return !this.isOnPrivateNote && this.allowSignature;
     },
     sendWithSignature() {
       // channelType is sourced from inboxMixin
@@ -264,6 +272,7 @@ export default {
   <div class="flex justify-between p-3" :class="wrapClass">
     <div class="left-wrap">
       <NextButton
+        v-if="allowEmoji"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_EMOJI_ICON')"
         icon="i-ph-smiley-sticker"
         slate

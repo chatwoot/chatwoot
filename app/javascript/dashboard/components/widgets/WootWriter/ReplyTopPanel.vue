@@ -15,6 +15,10 @@ export default {
       type: String,
       default: REPLY_EDITOR_MODES.REPLY,
     },
+    disablePopout: {
+      type: Boolean,
+      default: false,
+    },
     isMessageLengthReachingThreshold: {
       type: Boolean,
       default: () => false,
@@ -99,6 +103,7 @@ export default {
       </div>
     </div>
     <NextButton
+      v-if="!disablePopout"
       ghost
       class="ltr:rounded-bl-md rtl:rounded-br-md ltr:rounded-br-none rtl:rounded-bl-none ltr:rounded-tl-none rtl:rounded-tr-none text-n-slate-11 ltr:rounded-tr-[11px] rtl:rounded-tl-[11px]"
       icon="i-lucide-maximize-2"
