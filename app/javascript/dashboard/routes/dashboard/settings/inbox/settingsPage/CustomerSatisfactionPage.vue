@@ -145,8 +145,8 @@ const saveSettings = async () => {
 <template>
   <div class="mx-8 lg:max-w-[60%]">
     <SectionLayout
-      :title="$t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT')"
-      :description="$t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT')"
+      :title="$t('INBOX_MGMT.CSAT.TITLE')"
+      :description="$t('INBOX_MGMT.CSAT.SUBTITLE')"
     >
       <template #headerActions>
         <div class="flex justify-end">
