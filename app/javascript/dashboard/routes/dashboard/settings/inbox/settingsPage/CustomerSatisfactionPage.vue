@@ -103,7 +103,7 @@ const removeLabel = label => {
   }
 };
 
-const updateInboxAPI = async attributes => {
+const updateInbox = async attributes => {
   const payload = {
     id: props.inbox.id,
     formData: false,
@@ -126,7 +126,7 @@ const saveSettings = async () => {
       },
     };
 
-    await updateInboxAPI({
+    await updateInbox({
       csat_survey_enabled: state.csatSurveyEnabled,
       csat_config: csatConfig,
     });
