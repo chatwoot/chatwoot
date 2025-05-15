@@ -37,10 +37,6 @@ class MessageTemplates::Template::CsatSurvey
     # Use cached_label_list if available, otherwise fall back to other methods
     return conversation.cached_label_list.split(', ') if conversation.cached_label_list.present?
 
-    # Fallback methods if needed
-    return conversation.label_list if conversation.respond_to?(:label_list) && conversation.label_list.present?
-
-    # If all else fails, return an empty array
     []
   end
 
