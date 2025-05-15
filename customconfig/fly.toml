@@ -7,7 +7,7 @@ kill_timeout = 5
 # dockerfile = "DockerfileCache"
 # image = "chatwoot/chatwoot:latest"
 [build]
-  dockerfile = "docker/DockerfileCache"
+  dockerfile = "DockerfileCache"
 
 [env]
   PORT = "3000"

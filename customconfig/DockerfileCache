@@ -1,5 +1,5 @@
 # pre-build stage
-FROM node:23-alpine as node
+FROM node:23-alpine AS node
 FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
 # Set ARGs and ENVs upfront for better cache utilization
@@ -74,9 +74,11 @@ RUN pnpm i
 # Create log directory - rarely changes
 RUN mkdir -p /app/log
 
-# Now copy the application code - this will often change
-# but won't invalidate the dependency installation caches above
+# Copy application code excluding customconfig and README
 COPY . /app
+RUN rm -rf /app/customconfig /app/README* /app/javascript
+
+
 
 # Generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
@@ -92,6 +94,11 @@ RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
   && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git \
   && rm -f .gitignore
+
+# Copy customconfig and README separately to prevent rebuilds
+COPY customconfig/ /app/customconfig/
+COPY javascript/ /app/javascript/
+COPY README* /app/
 
 # final build stage
 FROM ruby:3.3.3-alpine3.19
@@ -150,4 +157,4 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 
 WORKDIR /app
 
-EXPOSE 3000
+EXPOSE 3000 
