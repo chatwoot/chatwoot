@@ -1,21 +1,16 @@
 app = "chatwoot-beehive"
-primary_region = "bom"
+primary_region = "sin"
 kill_signal = "SIGINT"
 kill_timeout = 5
 
 
-# dockerfile = "Dockerfile"
+# dockerfile = "DockerfileCache"
 # image = "chatwoot/chatwoot:latest"
 [build]
-  dockerfile = "docker/Dockerfile"
+  dockerfile = "docker/DockerfileCache"
 
 [env]
   PORT = "3000"
-  RAILS_ENV = "production"
-  NODE_ENV = "production"
-  RAILS_LOG_TO_STDOUT = "true"
-  RAILS_SERVE_STATIC_FILES = "true"
-  RAILS_STORAGE_SERVICE_URL="https://chatwoot-beehive.fly.dev"
   ACTIVE_STORAGE_SERVICE="s3_compatible"
   S3_FORCE_PATH_STYLE="true"
   STORAGE_BUCKET_NAME="chatwoot-beehive"
