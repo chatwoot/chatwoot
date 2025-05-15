@@ -20,6 +20,14 @@ automation_rule_item:
   $ref: ./resource/automation_rule_item.yml
 portal:
   $ref: ./resource/portal.yml
+portal_config:
+  $ref: ./resource/portal_config.yml
+portal_logo:
+  $ref: ./resource/portal_logo.yml
+portal_meta:
+  $ref: ./resource/portal_meta.yml
+portal_item:
+  $ref: ./resource/portal_item.yml
 category:
   $ref: ./resource/category.yml
 article:

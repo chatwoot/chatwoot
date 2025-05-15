@@ -7605,7 +7605,13 @@
                 }
               },
               {
-                "$ref": "#/components/schemas/automation_rule_item"
+                "type": "object",
+                "description": "Single automation rule (for show/create/update endpoints)",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/automation_rule_item"
+                  }
+                ]
               }
             ]
           }
@@ -7712,52 +7718,160 @@
       "portal": {
         "type": "object",
         "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/portal_item"
+            }
+          }
+        }
+      },
+      "portal_config": {
+        "type": "object",
+        "description": "Configuration settings for the portal",
+        "properties": {
+          "allowed_locales": {
+            "type": "array",
+            "description": "List of allowed locales for the portal",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The language code"
+                },
+                "articles_count": {
+                  "type": "integer",
+                  "description": "Number of articles in this locale"
+                },
+                "categories_count": {
+                  "type": "integer",
+                  "description": "Number of categories in this locale"
+                }
+              }
+            }
+          }
+        }
+      },
+      "portal_logo": {
+        "type": "object",
+        "properties": {
           "id": {
-            "type": "integer"
+            "type": "integer",
+            "description": "ID of the logo file"
+          },
+          "portal_id": {
+            "type": "integer",
+            "description": "ID of the portal this logo belongs to"
+          },
+          "file_type": {
+            "type": "string",
+            "description": "MIME type of the file"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID of the account"
+          },
+          "file_url": {
+            "type": "string",
+            "description": "URL to access the logo file"
+          },
+          "blob_id": {
+            "type": "integer",
+            "description": "ID of the blob"
+          },
+          "filename": {
+            "type": "string",
+            "description": "Name of the file"
+          }
+        }
+      },
+      "portal_meta": {
+        "type": "object",
+        "properties": {
+          "all_articles_count": {
+            "type": "integer",
+            "description": "Total number of articles"
+          },
+          "archived_articles_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of archived articles"
+          },
+          "published_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of published articles"
+          },
+          "draft_articles_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of draft articles"
+          },
+          "categories_count": {
+            "type": "integer",
+            "description": "Number of categories"
+          },
+          "default_locale": {
+            "type": "string",
+            "description": "Default locale for the portal"
+          }
+        }
+      },
+      "portal_item": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the portal"
           },
           "archived": {
-            "type": "boolean"
+            "type": "boolean",
+            "description": "Whether the portal is archived"
           },
           "color": {
-            "type": "string"
+            "type": "string",
+            "description": "The color code for the portal"
           },
           "config": {
-            "type": "object",
-            "description": "Save information about locales, allowed_locales and default portal/help-center locale"
+            "$ref": "#/components/schemas/portal_config"
           },
           "custom_domain": {
-            "type": "string"
+            "type": "string",
+            "description": "Custom domain for the portal"
           },
           "header_text": {
             "type": "string",
-            "description": "The text content."
+            "description": "The header text for the portal"
           },
           "homepage_link": {
-            "type": "string"
+            "type": "string",
+            "description": "Homepage link for the portal"
           },
           "name": {
-            "type": "string"
+            "type": "string",
+            "description": "Name of the portal"
           },
           "slug": {
-            "type": "string"
+            "type": "string",
+            "description": "URL slug for the portal"
           },
           "page_title": {
-            "type": "string"
+            "type": "string",
+            "description": "Page title for the portal"
           },
           "account_id": {
-            "type": "integer"
+            "type": "integer",
+            "description": "ID of the account the portal belongs to"
           },
-          "categories": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/category"
-            }
+          "inbox": {
+            "$ref": "#/components/schemas/inbox"
           },
-          "articles": {
-            "type": "array",
-            "items": {
-              "$ref": "#/components/schemas/article"
-            }
+          "logo": {
+            "$ref": "#/components/schemas/portal_logo"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/portal_meta"
           }
         }
       },
