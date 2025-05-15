@@ -8,6 +8,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
+import VoiceRecorder from 'widget/components/VoiceRecorder.vue';
 
 export default {
   name: 'ChatInputWrap',
@@ -17,6 +18,7 @@ export default {
     EmojiInput,
     FluentIcon,
     ResizableTextArea,
+    VoiceRecorder,
   },
   mixins: [configMixin],
   props: {
@@ -163,6 +165,7 @@ export default {
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"
       />
+      <VoiceRecorder class="text-n-slate-12" :on-attach="onSendAttachment" />
       <ChatSendButton
         v-if="showSendButton"
         :color="widgetColor"

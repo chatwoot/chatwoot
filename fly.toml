@@ -1,0 +1,53 @@
+app = "chatwoot-beehive"
+primary_region = "bom"
+kill_signal = "SIGINT"
+kill_timeout = 5
+
+
+# dockerfile = "Dockerfile"
+# image = "chatwoot/chatwoot:latest"
+[build]
+  dockerfile = "docker/Dockerfile"
+
+[env]
+  PORT = "3000"
+  RAILS_ENV = "production"
+  NODE_ENV = "production"
+  RAILS_LOG_TO_STDOUT = "true"
+  RAILS_SERVE_STATIC_FILES = "true"
+  RAILS_STORAGE_SERVICE_URL=https://chatwoot-beehive.fly.dev
+  ACTIVE_STORAGE_SERVICE=s3_compatible
+  PORT=3000
+  S3_FORCE_PATH_STYLE=true
+  STORAGE_BUCKET_NAME=chatwoot-beehive
+  STORAGE_FORCE_PATH_STYLE=true
+  S3_ENDPOINT=https://fly.storage.tigris.dev
+  ACTIVE_STORAGE_CDN_HOST=https://chatwoot-beehive.fly.storage.tigris.dev
+  STORAGE_REGION=auto
+  STORAGE_ENDPOINT=https://fly.storage.tigris.dev
+  INSTALLATION_ENV=self_hosted
+  CHATWOOT_INSTALLATION_TYPE=self_hosted
+  FRONTEND_URL=https://chatwoot-beehive.fly.dev
+
+[http_service]
+  internal_port = 3000
+  force_https = true
+  auto_stop_machines = false
+  auto_start_machines = true
+  min_machines_running = 1
+  processes = ["app"]
+
+[[statics]]
+  guest_path = "/app/public"
+  url_prefix = "/public"
+
+[processes]
+  app = "bundle exec rails server -b 0.0.0.0"
+  worker = "bundle exec sidekiq -C config/sidekiq.yml"
+
+[deploy]
+release_command="bundle exec rails db:migrate"
+
+[mounts]
+  source = "chatwoot_beehive_data"
+  destination = "/data"
