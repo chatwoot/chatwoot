@@ -173,7 +173,7 @@ describe Twilio::IncomingMessageService do
     context 'when a message with an attachment is received' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_return(status: 200, body: 'image data', headers: {})
+          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
       end
 
       let(:params_with_attachment) do
@@ -193,7 +193,7 @@ describe Twilio::IncomingMessageService do
         described_class.new(params: params_with_attachment).perform
         expect(conversation.reload.messages.last.content).to eq('testing3')
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
-        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('file')
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
       end
     end
 
@@ -203,7 +203,7 @@ describe Twilio::IncomingMessageService do
           .to_raise(Down::Error.new('Download error'))
 
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_return(status: 200, body: 'image data', headers: {})
+          .to_return(status: 200, body: 'image data', headers: { 'Content-Type' => 'image/png' })
       end
 
       let(:params_with_attachment_error) do
@@ -226,16 +226,16 @@ describe Twilio::IncomingMessageService do
 
         expect(conversation.reload.messages.last.content).to eq('testing3')
         expect(conversation.reload.messages.last.attachments.count).to eq(1)
-        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('file')
+        expect(conversation.reload.messages.last.attachments.first.file_type).to eq('image')
       end
     end
 
     context 'when a message with multiple attachments is received' do
       before do
         stub_request(:get, 'https://chatwoot-assets.local/sample.png')
-          .to_return(status: 200, body: 'image data 1', headers: {})
+          .to_return(status: 200, body: 'image data 1', headers: { 'Content-Type' => 'image/png' })
         stub_request(:get, 'https://chatwoot-assets.local/sample.jpg')
-          .to_return(status: 200, body: 'image data 2', headers: {})
+          .to_return(status: 200, body: 'image data 2', headers: { 'Content-Type' => 'image/png' })
       end
 
       let(:params_with_multiple_attachments) do
@@ -257,7 +257,7 @@ describe Twilio::IncomingMessageService do
         described_class.new(params: params_with_multiple_attachments).perform
         expect(conversation.reload.messages.last.content).to eq('testing multiple media')
         expect(conversation.reload.messages.last.attachments.count).to eq(2)
-        expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('file', 'file')
+        expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('image', 'image')
       end
     end
   end
