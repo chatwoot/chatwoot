@@ -575,31 +575,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
   end
 
-  create_table "copilot_messages", force: :cascade do |t|
-    t.bigint "copilot_thread_id", null: false
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.string "message_type", null: false
-    t.jsonb "message", default: {}, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_copilot_messages_on_account_id"
-    t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
-    t.index ["user_id"], name: "index_copilot_messages_on_user_id"
-  end
-
-  create_table "copilot_threads", force: :cascade do |t|
-    t.string "title", null: false
-    t.bigint "user_id", null: false
-    t.bigint "account_id", null: false
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["account_id"], name: "index_copilot_threads_on_account_id"
-    t.index ["user_id"], name: "index_copilot_threads_on_user_id"
-    t.index ["uuid"], name: "index_copilot_threads_on_uuid", unique: true
-  end
-
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
