@@ -42,8 +42,9 @@ export default {
   <div class="flex mb-1">
     <span 
       :class="['text-xs font-medium px-2 py-0.5 rounded-full', statusClass]"
+      :style="status === 'open' ? { backgroundColor: '#3b82f6', color: 'white' } : {}"
     >
-      {{ displayStatus }}
+  {{ displayStatus }}
     </span>
   </div>
 </template>
