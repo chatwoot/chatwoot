@@ -23,7 +23,7 @@
               <div
                 v-if="item.showMoreVariantsButton"
                 class="flex justify-center items-center rounded-2xl px-3 py-1.5 bg-white font-medium text-xs leading-4 shadow-[0px_1.25px_0px_0px_#0000000d] hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer"
-                @click.prevent="onViewMoreVariants(item)"
+                @click.stop="onViewMoreVariants(item)"
               >
                 More variants
               </div>
@@ -64,7 +64,12 @@
           <div class="product-details">
             <h3 class="product-title">{{ item.title }}</h3>
             <p class="product-price">
-              {{ item.currency === 'GBP' ? '£' : '₹' }} {{ item.price }}
+              {{
+                item.shopUrl === 'hlfashions-78ce.myshopify.com'
+                  ? '£'
+                  : item.currency
+              }}
+              {{ item.price }}
             </p>
           </div>
           <div class="product-actions">
