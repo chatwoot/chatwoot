@@ -173,7 +173,6 @@ contact_list:
   description: 'array of contacts'
   items:
     allOf:
-      - $ref: '#/components/schemas/generic_id'
       - $ref: '#/components/schemas/contact'
 contact_conversations:
   type: array
@@ -210,3 +209,11 @@ conversation_meta:
   $ref: ./resource/conversation_meta.yml
 conversation_messages:
   $ref: ./resource/conversation_messages.yml
+contact_meta:
+  $ref: ./resource/contact_meta.yml
+contact_inbox:
+  $ref: ./resource/contact_inbox.yml
+contact_list_item:
+  $ref: ./resource/contact_list_item.yml
+contacts_list_response:
+  $ref: ./resource/contacts_list_response.yml

@@ -2560,7 +2560,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact_list"
+                  "$ref": "#/components/schemas/contacts_list_response"
                 }
               }
             }
@@ -10196,9 +10196,6 @@
         "items": {
           "allOf": [
             {
-              "$ref": "#/components/schemas/generic_id"
-            },
-            {
               "$ref": "#/components/schemas/contact"
             }
           ]
@@ -10857,6 +10854,159 @@
               "$ref": "#/components/schemas/message_detailed"
             },
             "description": "List of messages in the conversation"
+          }
+        }
+      },
+      "contact_meta": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of contacts"
+          },
+          "current_page": {
+            "type": "string",
+            "description": "Current page number"
+          }
+        }
+      },
+      "contact_inbox": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Source identifier for the contact inbox"
+          },
+          "inbox": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID of the inbox"
+              },
+              "avatar_url": {
+                "type": "string",
+                "description": "URL for the inbox avatar"
+              },
+              "channel_id": {
+                "type": "integer",
+                "description": "ID of the channel"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the inbox"
+              },
+              "channel_type": {
+                "type": "string",
+                "description": "Type of channel"
+              },
+              "provider": {
+                "type": "string",
+                "description": "Provider of the inbox",
+                "nullable": true
+              }
+            }
+          }
+        }
+      },
+      "contact_list_item": {
+        "type": "object",
+        "properties": {
+          "additional_attributes": {
+            "type": "object",
+            "description": "The object containing additional attributes related to the contact",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "City of the contact"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country of the contact"
+              },
+              "country_code": {
+                "type": "string",
+                "description": "Country code of the contact"
+              },
+              "created_at_ip": {
+                "type": "string",
+                "description": "IP address when the contact was created"
+              }
+            }
+          },
+          "availability_status": {
+            "type": "string",
+            "description": "Availability status of the contact",
+            "enum": [
+              "online",
+              "offline"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the contact",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "The ID of the contact"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the contact"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The phone number of the contact",
+            "nullable": true
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the contact is blocked"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The identifier of the contact",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the contact"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The custom attributes of the contact"
+          },
+          "last_activity_at": {
+            "type": "integer",
+            "description": "Timestamp of last activity",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Timestamp when contact was created"
+          },
+          "contact_inboxes": {
+            "type": "array",
+            "description": "List of inboxes associated with this contact",
+            "items": {
+              "$ref": "#/components/schemas/contact_inbox"
+            }
+          }
+        }
+      },
+      "contacts_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/contact_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/contact_list_item"
+            },
+            "description": "List of contacts"
           }
         }
       }
