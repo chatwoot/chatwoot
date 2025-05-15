@@ -73,6 +73,13 @@
         </woot-dropdown-item>
       </woot-dropdown-menu>
     </div>
+    <conversation-label-modal
+      v-if="showResolveConversationModal && !isLabelsAdded"
+      :show="showResolveConversationModal"
+      :current-chat="currentChat"
+      @submit="markConversationResolved"
+      @cancel="toggleResolveConversationModal"
+    />
   </div>
 </template>
 
@@ -82,6 +89,7 @@ import alertMixin from 'shared/mixins/alertMixin';
 import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
+import ConversationLabelModal from '../widgets/conversation/ConversationLabelModal.vue';
 
 import wootConstants from 'dashboard/constants/globals';
 import {
@@ -93,14 +101,23 @@ export default {
   components: {
     WootDropdownItem,
     WootDropdownMenu,
+    ConversationLabelModal,
   },
   mixins: [alertMixin, keyboardEventListenerMixins],
-  props: { conversationId: { type: [String, Number], required: true } },
+  props: {
+    conversationId: { type: [String, Number], required: true },
+    inboxId: { type: [String, Number], required: true },
+    isLabelsAdded: {
+      type: Boolean,
+      default: false,
+    },
+  },
   data() {
     return {
       isLoading: false,
       showActionsDropdown: false,
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      showResolveConversationModal: false,
     };
   },
   computed: {
@@ -125,6 +142,9 @@ export default {
     },
     showAdditionalActions() {
       return !this.isPending && !this.isSnoozed;
+    },
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId) || {};
     },
   },
   mounted() {
@@ -188,6 +208,13 @@ export default {
       this.toggleStatus(this.STATUS_TYPE.OPEN);
     },
     onCmdResolveConversation() {
+      if (this.inbox.add_label_to_resolve_conversation && !this.isLabelsAdded) {
+        this.toggleResolveConversationModal();
+      } else {
+        this.markConversationResolved();
+      }
+    },
+    markConversationResolved() {
       this.toggleStatus(this.STATUS_TYPE.RESOLVED);
     },
     showOpenButton() {
@@ -216,6 +243,9 @@ export default {
     openSnoozeModal() {
       const ninja = document.querySelector('ninja-keys');
       ninja.open({ parent: 'snooze_conversation' });
+    },
+    toggleResolveConversationModal() {
+      this.showResolveConversationModal = !this.showResolveConversationModal;
     },
   },
 };

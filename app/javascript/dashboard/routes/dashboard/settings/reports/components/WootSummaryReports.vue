@@ -813,6 +813,44 @@ export default {
         return baseColumns;
       }
 
+      if (this.type === 'label') {
+        const baseColumns = [
+          {
+            field: 'labels',
+            key: 'label',
+            title: this.type,
+            fixed: 'left',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 25,
+            renderBodyCell: ({ row }) => (
+              <div class="row-user-block">
+                <div class="user-block">
+                  <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis text-sm capitalize">
+                    {row.name}
+                  </h6>
+                </div>
+              </div>
+            ),
+          },
+          {
+            field: 'totalConversationWithLabel',
+            key: 'totalConversationWithLabel',
+            title: 'Total Conversation',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+          {
+            field: 'labelPercentage',
+            key: 'labelPercentage',
+            title: 'Label Percentage',
+            align: this.isRTLView ? 'right' : 'left',
+            width: 20,
+          },
+        ];
+
+        return baseColumns;
+      }
+
       const baseColumns = [
         {
           field: 'agent',
@@ -883,6 +921,21 @@ export default {
       return baseColumns;
     },
     tableData() {
+      if (this.type === 'label') {
+        return this.filterItemsList.map(label => {
+          const typeMetrics = this.getMetrics(label.id);
+          return {
+            id: label.id,
+            name: label.title,
+            totalConversationWithLabel:
+              typeMetrics.conversation_with_label || '--',
+            labelPercentage: typeMetrics.label_percentage
+              ? `${typeMetrics.label_percentage} %`
+              : '--',
+          };
+        });
+      }
+
       const bitespeedTeam = this.filterItemsList.find(team =>
         team.name.toLowerCase().includes('bitespeed')
       );

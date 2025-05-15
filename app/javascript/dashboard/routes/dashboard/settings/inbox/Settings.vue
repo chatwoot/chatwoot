@@ -334,6 +334,30 @@
             {{ $t('INBOX_MGMT.FEATURES.USE_INBOX_AVATAR_FOR_BOT') }}
           </label>
         </div>
+        <label class="w-3/4 pb-4">
+          {{ 'Add Label to Resolve Conversation' }}
+          <select v-model="addLabelToResolveConversation">
+            <option :value="true">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.ENABLED'
+                )
+              }}
+            </option>
+            <option :value="false">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_GREETING_TOGGLE.DISABLED'
+                )
+              }}
+            </option>
+          </select>
+          <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+            {{
+              'Conversation without label will not resolve. enabled option will show popup to select label before resolving conversation'
+            }}
+          </p>
+        </label>
       </settings-section>
       <settings-section
         v-if="isAWebWidgetInbox || isAnEmailChannel"
@@ -482,6 +506,7 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
+      addLabelToResolveConversation: false,
     };
   },
   computed: {
@@ -685,6 +710,8 @@ export default {
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
+        this.addLabelToResolveConversation =
+          this.inbox.add_label_to_resolve_conversation;
       });
     },
     async updateInbox() {
@@ -695,6 +722,7 @@ export default {
           enable_email_collect: this.emailCollectEnabled,
           csat_survey_enabled: this.csatSurveyEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
+          add_label_to_resolve_conversation: this.addLabelToResolveConversation,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
           portal_id: this.selectedPortalSlug

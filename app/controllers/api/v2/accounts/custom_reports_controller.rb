@@ -55,6 +55,32 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     render json: build_report(bot_analytics_support_overview_params)
   end
 
+  def label_wise_conversation_states
+    report_data = build_report(label_wise_conversation_states_params)
+
+    # Extract the metrics data from the response
+    conversation_data = report_data[:data]['conversation_with_label'] || {}
+    percentage_data = report_data[:data]['label_percentage'] || {}
+
+    # Transform the data into the desired format
+    result = []
+
+    # Combine both metrics into a single object for each label
+    all_labels = (conversation_data.keys + percentage_data.keys).uniq
+
+    Rails.logger.info("all_labelsData, #{conversation_data.inspect}")
+
+    all_labels.each do |label|
+      result << {
+        id: label,
+        conversation_with_label: conversation_data[label],
+        label_percentage: percentage_data[label]
+      }
+    end
+
+    render json: result
+  end
+
   def shop_currency
     render json: { currency: bspd_shop_currency(Current.account.id) }
   end
@@ -144,6 +170,14 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
       metrics: %w[handled new_assigned open reopened carry_forwarded waiting_customer_response waiting_agent_response resolved
                   resolved_in_pre_time_range resolved_in_time_range snoozed],
       group_by: 'agent',
+      filters: base_filters
+    }
+  end
+
+  def label_wise_conversation_states_params
+    {
+      metrics: %w[conversation_with_label label_percentage],
+      group_by: 'labels',
       filters: base_filters
     }
   end

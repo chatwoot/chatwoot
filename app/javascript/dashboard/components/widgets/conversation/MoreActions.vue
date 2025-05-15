@@ -26,6 +26,8 @@
     <resolve-action
       :conversation-id="currentChat.id"
       :status="currentChat.status"
+      :inbox-id="currentChat.inbox_id"
+      :is-labels-added="hasLabels"
     />
     <email-transcript-modal
       v-if="showEmailActionsModal"
@@ -59,6 +61,13 @@ export default {
   },
   computed: {
     ...mapGetters({ currentChat: 'getSelectedChat' }),
+    hasLabels() {
+      return (
+        this.currentChat &&
+        this.currentChat.labels &&
+        this.currentChat.labels.length !== 0
+      );
+    },
   },
   mounted() {
     this.$emitter.on(CMD_MUTE_CONVERSATION, this.mute);

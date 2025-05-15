@@ -5815,6 +5815,10 @@
           "type": "boolean",
           "description": "Whether of not the Customer Satisfaction survey is enabled on the inbox"
         },
+        "add_label_to_resolve_conversation": {
+          "type": "boolean",
+          "description": "Whether of not the add label to resolve conversation enabled on the inbox"
+        },
         "greeting_enabled": {
           "type": "boolean",
           "description": "Whether of not the Greeting Message is enabled on the inbox"

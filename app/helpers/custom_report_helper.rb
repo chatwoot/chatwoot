@@ -146,7 +146,7 @@ module CustomReportHelper
   end
 
   def open
-    # conversations that remain in an “Open” state at the end of the specified period.
+    # conversations that remain in an "Open" state at the end of the specified period.
     open_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses").where(status: :open)
 
     base_query = @account.conversations.where(id: open_conversations.pluck(:conversation_id))
@@ -264,7 +264,7 @@ module CustomReportHelper
   end
 
   def snoozed
-    # conversations that remain in an “Snoozed” state at the end of the specified period.
+    # conversations that remain in an "Snoozed" state at the end of the specified period.
     snoozed_conversations = ConversationStatus.from("(#{latest_conversation_statuses.to_sql}) AS conversation_statuses").where(status: :snoozed)
 
     base_query = @account.conversations.where(id: snoozed_conversations.pluck(:conversation_id))
@@ -1409,6 +1409,72 @@ module CustomReportHelper
     convs = @account.conversations.tagged_with(@config[:filters][:labels], :any => true).where(created_at: @time_range, assignee_id: bot_user.id)
     Rails.logger.info "bot_label_filtered_conversations: #{convs.to_sql}"
     convs
+  end
+
+  def conversation_with_label
+    # Get counts of conversations with specific labels
+    label_counts = {}
+
+    # Get all conversations in the time range
+    base_query = @account.conversations.where(created_at: @time_range)
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    Rails.logger.info "conversation_with_label base query: #{base_query.to_sql}"
+
+    # Get all labels used in these conversations
+    all_labels = base_query.tag_counts_on(:labels)
+    Rails.logger.info "Found labels: #{all_labels.inspect}"
+
+    all_labels.each do |label|
+      Rails.logger.info("labelData, #{label.name}")
+      # Count conversations with this specific label
+      count = base_query.tagged_with(label).count
+      db_label = Label.find_by(title: label.name)
+      if db_label
+        label_counts[db_label.id] = count
+        Rails.logger.info("db_label, #{db_label.inspect}")
+        Rails.logger.info "Label: #{label}, Count: #{count}"
+      else
+        Rails.logger.warn "Label not found in DB: #{label.name}"
+      end
+    end
+
+    Rails.logger.info "Label counts: #{label_counts.inspect}"
+
+    label_counts
+  end
+
+  def label_percentage
+    # Calculate percentage of conversations with each label
+    label_counts = conversation_with_label
+
+    Rails.logger.info "In label_percentage, label_counts: #{label_counts.inspect}"
+
+    return {} if label_counts.empty?
+
+    # Get total number of labeled conversations (a conversation can have multiple labels)
+    base_query = @account.conversations.where(created_at: @time_range)
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assignee_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
+
+    # Only count conversations that have at least one label
+    total_labeled_conversations = base_query.joins(:taggings).where(taggings: { context: 'labels' }).distinct.count
+
+    Rails.logger.info "Total labeled conversations: #{total_labeled_conversations}"
+
+    return {} if total_labeled_conversations.zero?
+
+    # Calculate percentages
+    label_percentages = {}
+    label_counts.each do |label, count|
+      label_percentages[label] = (count.to_f / total_labeled_conversations * 100).round(2)
+      Rails.logger.info "Label: #{label}, Percentage: #{label_percentages[label]}"
+    end
+
+    Rails.logger.info "Label percentages: #{label_percentages.inspect}"
+
+    label_percentages
   end
 end
 # rubocop:enable Metrics/ModuleLength

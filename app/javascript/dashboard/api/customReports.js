@@ -58,6 +58,21 @@ class CustomReportsAPI extends ApiClient {
     return axios.get(`${this.url}/agent_wise_conversation_states`, { params });
   }
 
+  getCustomLabelConversationStatesReports({
+    since,
+    until,
+    businessHours,
+  } = {}) {
+    const params = {
+      since,
+      until,
+      business_hours: businessHours,
+      timezone_offset: getTimeOffset(),
+    };
+
+    return axios.get(`${this.url}/label_wise_conversation_states`, { params });
+  }
+
   getCustomBotAnalyticsOverviewReports({ since, until, selectedLabel }) {
     const params = {
       since,

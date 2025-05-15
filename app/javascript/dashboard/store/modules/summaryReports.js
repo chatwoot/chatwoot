@@ -8,6 +8,7 @@ export const state = {
   inboxSummaryReports: [],
   customAgentOverviewReports: [],
   customAgentConversationStatesReports: [],
+  customLabelConversationStatesReports: [],
   customAgentCallOverviewReports: [],
   customAgentInboundCallOverviewReports: [],
   customBotAnalyticsSalesOverviewReports: [],
@@ -20,6 +21,7 @@ export const state = {
     isAgentConversationStatesReportsLoading: false,
     isAgentCallOverviewReportsLoading: false,
     isAgentInboundCallOverviewReportsLoading: false,
+    isLabelConversationStatesReportsLoading: false,
   },
 };
 
@@ -38,6 +40,9 @@ export const getters = {
   },
   getCustomAgentConversationStatesReports(_state) {
     return _state.customAgentConversationStatesReports;
+  },
+  getCustomLabelConversationStatesReports(_state) {
+    return _state.customLabelConversationStatesReports;
   },
   getCustomAgentCallOverviewReports(_state) {
     return _state.customAgentCallOverviewReports;
@@ -162,6 +167,17 @@ export const actions = {
       // Ignore error
     }
   },
+  async fetchCustomLabelConversationStatesReports({ commit }, params) {
+    commit('toggleLabelConversationStatesReportsLoading', true);
+    try {
+      const response =
+        await CustomReportsAPI.getCustomLabelConversationStatesReports(params);
+      commit('setCustomLabelConversationStatesReport', response.data);
+      commit('toggleLabelConversationStatesReportsLoading', false);
+    } catch (error) {
+      commit('toggleLabelConversationStatesReportsLoading', false);
+    }
+  },
 };
 
 export const mutations = {
@@ -176,6 +192,9 @@ export const mutations = {
   },
   setCustomAgentConversationStatesReport(_state, data) {
     Vue.set(_state, 'customAgentConversationStatesReports', data);
+  },
+  setCustomLabelConversationStatesReport(_state, data) {
+    Vue.set(_state, 'customLabelConversationStatesReports', data);
   },
   setCustomAgentCallOverviewReport(_state, data) {
     Vue.set(_state, 'customAgentCallOverviewReports', data);
@@ -210,6 +229,9 @@ export const mutations = {
   },
   toggleAgentConversationStatesReportsLoading(_state, flag) {
     Vue.set(_state, 'uiFlags.isAgentConversationStatesReportsLoading', flag);
+  },
+  toggleLabelConversationStatesReportsLoading(_state, flag) {
+    Vue.set(_state, 'uiFlags.isLabelConversationStatesReportsLoading', flag);
   },
   toggleAgentCallOverviewReportsLoading(_state, flag) {
     Vue.set(_state, 'uiFlags.isAgentCallOverviewReportsLoading', flag);

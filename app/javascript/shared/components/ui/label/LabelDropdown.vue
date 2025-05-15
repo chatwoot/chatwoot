@@ -1,6 +1,6 @@
 <template>
   <div class="flex flex-col w-full max-h-[12.5rem]">
-    <div class="flex items-center justify-center mb-1">
+    <div v-if="!isChangeStyle" class="flex items-center justify-center mb-1">
       <h4
         class="text-sm text-slate-800 dark:text-slate-100 m-0 overflow-hidden whitespace-nowrap text-ellipsis flex-grow"
       >
@@ -87,6 +87,10 @@ export default {
       default: () => [],
     },
     allowCreation: {
+      type: Boolean,
+      default: false,
+    },
+    isChangeStyle: {
       type: Boolean,
       default: false,
     },

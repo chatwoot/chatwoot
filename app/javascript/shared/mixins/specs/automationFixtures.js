@@ -505,6 +505,7 @@ export const inboxes = [
     },
     continuity_via_email: true,
     phone_number: null,
+    add_label_to_resolve_conversation: false,
   },
   {
     id: 2,
@@ -517,6 +518,7 @@ export const inboxes = [
     working_hours_enabled: false,
     enable_email_collect: true,
     csat_survey_enabled: false,
+    add_label_to_resolve_conversation: false,
     enable_auto_assignment: true,
     out_of_office_message: null,
     working_hours: [

@@ -391,6 +391,7 @@ Rails.application.routes.draw do
               get :shop_currency
               get :bot_analytics_sales_overview
               get :bot_analytics_support_overview
+              get :label_wise_conversation_states
             end
           end
         end

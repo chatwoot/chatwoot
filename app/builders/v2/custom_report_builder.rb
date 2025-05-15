@@ -1,4 +1,4 @@
-class V2::CustomReportBuilder
+class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
   include DateRangeHelper
   include CustomReportHelper
   include BspdAnalyticsHelper
@@ -159,6 +159,14 @@ class V2::CustomReportBuilder
           @metrics.each do |metric|
             data[:grouped_data][metric] = data[metric]
           end
+        when 'labels'
+          data[:grouped_data] = {
+            grouped_by: 'labels'
+          }
+
+          @metrics.each do |metric|
+            data[:grouped_data][metric] = data[metric]
+          end
         end
 
         # clean up metric objects
@@ -269,6 +277,8 @@ class V2::CustomReportBuilder
        inbound_calls_resolved
        total_inbound_call_conversations
        avg_call_handling_time
+       conversation_with_label
+       label_percentage
        avg_call_wait_time].include?(metric)
   end
   # rubocop:enable Metrics/MethodLength

@@ -1,9 +1,10 @@
 class Inbox::EventDataPresenter < SimpleDelegator
-  def push_data
+  def push_data # rubocop:disable Metrics/MethodLength
     {
       # Conversation thread config
       allow_messages_after_resolved: allow_messages_after_resolved,
       lock_to_single_conversation: lock_to_single_conversation,
+      add_label_to_resolve_conversation: add_label_to_resolve_conversation,
 
       # Auto Assignment config
       auto_assignment_config: auto_assignment_config,
