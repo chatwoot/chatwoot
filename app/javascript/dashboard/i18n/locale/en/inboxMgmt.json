@@ -599,6 +599,7 @@
         },
         "SELECT_PLACEHOLDER": "select labels"
       },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."

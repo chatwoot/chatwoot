@@ -170,6 +170,7 @@ const saveSettings = async () => {
             v-model="state.message"
             :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
             :max-length="200"
+            class="w-full"
           />
         </WithLabel>
 
@@ -215,6 +216,9 @@ const saveSettings = async () => {
             </span>
           </div>
         </WithLabel>
+        <p class="text-sm italic text-n-slate-11">
+          {{ $t('INBOX_MGMT.CSAT.NOTE') }}
+        </p>
         <div>
           <NextButton
             type="submit"
