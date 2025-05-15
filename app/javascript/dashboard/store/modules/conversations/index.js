@@ -78,10 +78,7 @@ export const mutations = {
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
-    const attachments = _state.attachments[id] || [];
-
-    attachments.push(...data);
-    _state.attachments[id] = [...attachments];
+    _state.attachments[id] = [...data];
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);

@@ -1,3 +1,6 @@
+# TODO : Move this to inboxes controller and deprecate this controller
+# No need to retain this controller as we could handle everything centrally in inboxes controller
+
 class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts::BaseController
   before_action :authorize_request
 
