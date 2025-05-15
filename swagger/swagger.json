@@ -7489,17 +7489,25 @@
             "type": "integer",
             "description": "ID of the canned response"
           },
-          "content": {
-            "type": "string",
-            "description": "Message content for canned response"
+          "account_id": {
+            "type": "integer",
+            "description": "Account Id"
           },
           "short_code": {
             "type": "string",
             "description": "Short Code for quick access of the canned response"
           },
-          "account_id": {
-            "type": "integer",
-            "description": "Account Id"
+          "content": {
+            "type": "string",
+            "description": "Message content for canned response"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The date and time when the canned response was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The date and time when the canned response was updated"
           }
         }
       },
@@ -7526,83 +7534,107 @@
             "type": "string",
             "description": "Attribute unique key value"
           },
+          "regex_pattern": {
+            "type": "string",
+            "description": "Regex pattern"
+          },
+          "regex_cue": {
+            "type": "string",
+            "description": "Regex cue"
+          },
           "attribute_values": {
             "type": "string",
             "description": "Attribute values"
-          },
-          "default_value": {
-            "type": "string",
-            "description": "Attribute default value"
           },
           "attribute_model": {
             "type": "string",
             "description": "Attribute type(conversation_attribute/contact_attribute)"
           },
-          "account_id": {
-            "type": "integer",
-            "description": "Account Id"
+          "default_value": {
+            "type": "string",
+            "description": "Attribute default value"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The date and time when the custom attribute was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The date and time when the custom attribute was updated"
           }
         }
       },
       "automation_rule": {
         "type": "object",
         "properties": {
-          "event_name": {
-            "type": "string",
-            "description": "Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)",
-            "enum": [
-              "conversation_created",
-              "conversation_updated",
-              "message_created"
-            ],
-            "example": "message_created"
-          },
-          "name": {
-            "type": "string",
-            "description": "The name of the rule",
-            "example": "Add label on message create event"
-          },
-          "description": {
-            "type": "string",
-            "description": "Description to give more context about the rule",
-            "example": "Add label support and sales on message create event if incoming message content contains text help"
-          },
-          "active": {
-            "type": "boolean",
-            "description": "Enable/disable automation rule"
-          },
-          "actions": {
+          "payload": {
             "type": "array",
-            "description": "Array of actions which we perform when condition matches",
             "items": {
               "type": "object",
-              "example": {
-                "action_name": "add_label",
-                "action_params": [
-                  "support",
-                  "sales"
-                ]
+              "properties": {
+                "id": {
+                  "type": "integer",
+                  "description": "The ID of the automation rule"
+                },
+                "event_name": {
+                  "type": "string",
+                  "description": "Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)",
+                  "enum": [
+                    "conversation_created",
+                    "conversation_updated",
+                    "message_created"
+                  ],
+                  "example": "message_created"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the rule",
+                  "example": "Add label on message create event"
+                },
+                "description": {
+                  "type": "string",
+                  "description": "Description to give more context about the rule",
+                  "example": "Add label support and sales on message create event if incoming message content contains text help"
+                },
+                "active": {
+                  "type": "boolean",
+                  "description": "Enable/disable automation rule"
+                },
+                "actions": {
+                  "type": "array",
+                  "description": "Array of actions which we perform when condition matches",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "action_name": "add_label",
+                      "action_params": [
+                        "support",
+                        "sales"
+                      ]
+                    }
+                  }
+                },
+                "conditions": {
+                  "type": "array",
+                  "description": "Array of conditions on which conversation/message filter would work",
+                  "items": {
+                    "type": "object",
+                    "example": {
+                      "attribute_key": "content",
+                      "filter_operator": "contains",
+                      "values": [
+                        "help"
+                      ],
+                      "query_operator": "nil"
+                    }
+                  }
+                },
+                "account_id": {
+                  "type": "integer",
+                  "description": "Account Id"
+                }
               }
             }
-          },
-          "conditions": {
-            "type": "array",
-            "description": "Array of conditions on which conversation/message filter would work",
-            "items": {
-              "type": "object",
-              "example": {
-                "attribute_key": "content",
-                "filter_operator": "contains",
-                "values": [
-                  "help"
-                ],
-                "query_operator": "nil"
-              }
-            }
-          },
-          "account_id": {
-            "type": "integer",
-            "description": "Account Id"
           }
         }
       },
@@ -7754,44 +7786,66 @@
         "type": "object",
         "properties": {
           "payload": {
-            "type": "object",
-            "properties": {
-              "contact": {
-                "type": "object",
-                "properties": {
-                  "email": {
-                    "type": "string",
-                    "description": "Email address of the contact"
-                  },
-                  "name": {
-                    "type": "string",
-                    "description": "The name of the contact"
-                  },
-                  "phone_number": {
-                    "type": "string",
-                    "description": "Phone number of the contact"
-                  },
-                  "thumbnail": {
-                    "type": "string",
-                    "description": "Avatar URL of the contact"
-                  },
-                  "additional_attributes": {
-                    "type": "object",
-                    "description": "The object containing additional attributes related to the contact"
-                  },
-                  "custom_attributes": {
-                    "type": "object",
-                    "description": "The object to save custom attributes for contact, accepts custom attributes key and value",
-                    "example": {
-                      "attribute_key": "attribute_value",
-                      "signed_up_at": "dd/mm/yyyy"
-                    }
-                  },
-                  "contact_inboxes": {
-                    "type": "array",
-                    "items": {
-                      "$ref": "#/components/schemas/contact_inboxes"
-                    }
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "additional_attributes": {
+                  "type": "object",
+                  "description": "The object containing additional attributes related to the contact"
+                },
+                "availability_status": {
+                  "type": "string",
+                  "description": "The availability status of the contact"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email address of the contact"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "The ID of the contact"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the contact"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "description": "The phone number of the contact"
+                },
+                "blocked": {
+                  "type": "boolean",
+                  "description": "Whether the contact is blocked"
+                },
+                "identifier": {
+                  "type": "string",
+                  "description": "The identifier of the contact"
+                },
+                "thumbnail": {
+                  "type": "string",
+                  "description": "The thumbnail of the contact"
+                },
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The custom attributes of the contact",
+                  "example": {
+                    "attribute_key": "attribute_value",
+                    "signed_up_at": "dd/mm/yyyy"
+                  }
+                },
+                "last_activity_at": {
+                  "type": "integer",
+                  "description": "The last activity at of the contact"
+                },
+                "created_at": {
+                  "type": "integer",
+                  "description": "The created at of the contact"
+                },
+                "contact_inboxes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/contact_inboxes"
                   }
                 }
               }
@@ -7962,33 +8016,8 @@
           "id": {
             "type": "integer"
           },
-          "uid": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "available_name": {
-            "type": "string"
-          },
-          "display_name": {
-            "type": "string"
-          },
-          "email": {
-            "type": "string"
-          },
           "account_id": {
             "type": "integer"
-          },
-          "role": {
-            "type": "string",
-            "enum": [
-              "agent",
-              "administrator"
-            ]
-          },
-          "confirmed": {
-            "type": "boolean"
           },
           "availability_status": {
             "type": "string",
@@ -8003,9 +8032,37 @@
             "type": "boolean",
             "description": "Whether the availability status of agent is configured to go offline automatically when away."
           },
-          "custom_attributes": {
-            "type": "object",
-            "description": "Available for users who are created through platform APIs and has custom attributes associated."
+          "confirmed": {
+            "type": "boolean",
+            "description": "Whether the agent has confirmed their email address."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the agent"
+          },
+          "available_name": {
+            "type": "string",
+            "description": "The available name of the agent"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the agent"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "administrator"
+            ],
+            "description": "The role of the agent"
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the agent"
+          },
+          "custom_role_id": {
+            "type": "integer",
+            "description": "The custom role id of the agent"
           }
         }
       },
@@ -8081,13 +8138,33 @@
             "type": "string",
             "description": "The description about the agent bot"
           },
-          "account_id": {
-            "type": "number",
-            "description": "Account ID if it's an account specific bot"
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the agent bot"
           },
           "outgoing_url": {
             "type": "string",
             "description": "The webhook URL for the bot"
+          },
+          "bot_type": {
+            "type": "string",
+            "description": "The type of the bot"
+          },
+          "bot_config": {
+            "type": "object",
+            "description": "The configuration of the bot"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "Account ID if it's an account specific bot"
+          },
+          "access_token": {
+            "type": "string",
+            "description": "The access token for the bot"
+          },
+          "system_bot": {
+            "type": "boolean",
+            "description": "Whether the bot is a system bot"
           }
         }
       },
@@ -10370,31 +10447,6 @@
       }
     }
   },
-  "tags": [
-    "Accounts",
-    "Account Users",
-    "AgentBots",
-    "Users",
-    "Account AgentBots",
-    "Agents",
-    "Canned Responses",
-    "Contacts",
-    "Conversations",
-    "Custom Attributes",
-    "Custom Filters",
-    "Inboxes",
-    "Integrations",
-    "Messages",
-    "Profile",
-    "Reports",
-    "Teams",
-    "Webhooks",
-    "Automation Rule",
-    "Help Center",
-    "Contacts API",
-    "Conversations API",
-    "Messages API"
-  ],
   "x-tagGroups": [
     {
       "name": "Platform",
