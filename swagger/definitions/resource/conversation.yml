@@ -66,6 +66,7 @@ properties:
     description: The number of unread messages
   last_non_activity_message:
     type: object
+    $ref: '#/components/schemas/message'
     description: The last non activity message
   last_activity_at:
     type: number

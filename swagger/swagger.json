@@ -8291,8 +8291,7 @@
             "description": "The number of unread messages"
           },
           "last_non_activity_message": {
-            "type": "object",
-            "description": "The last non activity message"
+            "$ref": "#/components/schemas/message"
           },
           "last_activity_at": {
             "type": "number",
