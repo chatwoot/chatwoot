@@ -7595,13 +7595,14 @@
         "type": "object",
         "properties": {
           "payload": {
+            "description": "Response payload that contains automation rule(s)",
             "oneOf": [
               {
                 "type": "array",
+                "description": "Array of automation rules (for listing endpoint)",
                 "items": {
                   "$ref": "#/components/schemas/automation_rule_item"
-                },
-                "description": "Array of automation rules (for listing endpoint)"
+                }
               },
               {
                 "$ref": "#/components/schemas/automation_rule_item"
