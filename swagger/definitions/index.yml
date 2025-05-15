@@ -16,6 +16,8 @@ custom_attribute:
   $ref: ./resource/custom_attribute.yml
 automation_rule:
   $ref: ./resource/automation_rule.yml
+automation_rule_item:
+  $ref: ./resource/automation_rule_item.yml
 portal:
   $ref: ./resource/portal.yml
 category:
