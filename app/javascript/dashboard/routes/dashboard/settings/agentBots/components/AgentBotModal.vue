@@ -171,6 +171,7 @@ const handleSubmit = async () => {
       : t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE');
     useAlert(alertKey);
 
+    // If it is a create operation, we need to show the access token before closing the modal
     if (isCreate) {
       const { access_token: responseAccessToken, id } = response || {};
 
