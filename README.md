@@ -42,6 +42,9 @@ When running `fly tigris create`, you'll receive the following values to set in 
 
 You can view Tigris credentials using `fly tigris create`
 
+### Deployment
+To deploy on fly, just run `fly deploy`
+
 ## Custom Widget Changes
 - Voice recording feature has been added to the chat widget
 - Contact SC for details about widget changes
