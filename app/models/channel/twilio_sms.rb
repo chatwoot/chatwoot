@@ -31,7 +31,8 @@ class Channel::TwilioSms < ApplicationRecord
   validates :auth_token, presence: true
 
   EDITABLE_ATTRS = [
-    :account_sid
+    :account_sid,
+    :auth_token
   ].freeze
 
   # Must have _one_ of messaging_service_sid _or_ phone_number, and messaging_service_sid is preferred
