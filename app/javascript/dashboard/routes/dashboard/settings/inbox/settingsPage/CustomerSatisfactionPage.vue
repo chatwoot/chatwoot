@@ -174,7 +174,7 @@ const saveSettings = async () => {
         <Editor
           v-model="state.message"
           :placeholder="$t('INBOX_MGMT.CSAT.MESSAGE.PLACEHOLDER')"
-          :max-length="2000"
+          :max-length="200"
         />
       </SettingsSection>
 
