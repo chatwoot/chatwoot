@@ -85,6 +85,13 @@ export default defineConfig({
       assets: path.resolve('./app/javascript/dashboard/assets'),
     },
   },
+  css: {
+    preprocessorOptions: {
+      scss: {
+        api: "modern"
+      }
+    }
+  },
   test: {
     environment: 'jsdom',
     include: ['app/**/*.{test,spec}.?(c|m)[jt]s?(x)'],
