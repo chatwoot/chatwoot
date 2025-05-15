@@ -257,7 +257,7 @@ describe Twilio::IncomingMessageService do
         described_class.new(params: params_with_multiple_attachments).perform
         expect(conversation.reload.messages.last.content).to eq('testing multiple media')
         expect(conversation.reload.messages.last.attachments.count).to eq(2)
-        expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('image', 'image')
+        expect(conversation.reload.messages.last.attachments.map(&:file_type)).to contain_exactly('file', 'file')
       end
     end
   end

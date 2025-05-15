@@ -110,21 +110,18 @@ class Twilio::IncomingMessageService
     return if num_media.zero?
 
     num_media.times do |i|
-      attach_single_file(i)
+      media_url = params[:"MediaUrl#{i}"]
+      attach_single_file(media_url) if media_url.present?
     end
   end
 
-  def attach_single_file(index)
-    media_url = params[:"MediaUrl#{index}"]
-    content_type = params[:"MediaContentType#{index}"]
-    return if media_url.blank?
-
-    attachment_file = download_attachment_file(index)
+  def attach_single_file(media_url)
+    attachment_file = download_attachment_file(media_url)
     return if attachment_file.blank?
 
     @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(content_type),
+      file_type: file_type(attachment_file.content_type),
       file: {
         io: attachment_file,
         filename: attachment_file.original_filename,
@@ -133,22 +130,20 @@ class Twilio::IncomingMessageService
     )
   end
 
-  def download_attachment_file(index)
-    download_with_auth(index)
+  def download_attachment_file(media_url)
+    download_with_auth(media_url)
   rescue Down::Error, Down::ClientError => e
-    handle_download_attachment_error(e, index)
+    handle_download_attachment_error(e, media_url)
   end
 
-  def download_with_auth(index)
-    media_url = params[:"MediaUrl#{index}"]
+  def download_with_auth(media_url)
     Down.download(
       media_url,
       http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
     )
   end
 
-  def handle_download_attachment_error(error, index)
-    media_url = params[:"MediaUrl#{index}"]
+  def handle_download_attachment_error(error, media_url)
     Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying"
     Down.download(media_url)
   rescue StandardError => e
