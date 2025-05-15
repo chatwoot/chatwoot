@@ -57,7 +57,7 @@ automation_rule_item:
           filter_operator: contains
           values:
             - help
-          query_operator: nil
+          query_operator: and
     actions:
       type: array
       description: Array of actions which we perform when condition matches

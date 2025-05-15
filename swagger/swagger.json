@@ -7669,7 +7669,7 @@
                   "values": [
                     "help"
                   ],
-                  "query_operator": "nil"
+                  "query_operator": "and"
                 }
               }
             },
