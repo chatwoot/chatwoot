@@ -659,23 +659,12 @@ defineExpose({
           "
           class="search-input"
         />
-        <div class="filter-button-container">
-          <div
-            v-if="hasAppliedFilters"
-            class="absolute w-2 h-2 rounded-full top-1 right-1 bg-slate-500 dark:bg-slate-500"
-          />
-          <woot-button
-            v-tooltip.top-end="t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER')"
-            icon="filter"
-            size="medium"
-            color-scheme="secondary"
-            class="clear [&>span]:hidden xs:[&>span]:block"
-            @click="showFiltersModal = true"
-          />
-        </div>
       </div>
       <div class="selection-wrapper">
         <div class="selection-controls">
+          <button @click="showFiltersModal = true">
+            {{ 'Filters' }}
+          </button>
           <button :disabled="isFetchingAllPages" @click="selectAll">
             {{ $t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.SELECT_ALL') }}
           </button>
@@ -683,10 +672,7 @@ defineExpose({
             {{ $t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.CLEAR') }}
           </button>
         </div>
-        <div
-          class="select-visible-checkbox"
-          :style="selectVisibleCheckboxStyle"
-        >
+        <div class="select-visible-checkbox">
           <input v-model="selectAllVisible" type="checkbox" />
         </div>
       </div>
@@ -781,16 +767,17 @@ defineExpose({
   @apply flex flex-col h-full;
 
   .search-header {
-    @apply flex items-center justify-between p-4 border-b;
+    @apply flex flex-row items-center px-3 py-4 w-full gap-4;
     background-color: #f8f9fa;
     border-color: #e2e8f0;
     @apply dark:bg-[#23242b] dark:border-[#23242b];
 
     .search-controls {
-      @apply flex items-center gap-2;
+      @apply flex flex-row items-center justify-start;
+
 
       .search-input {
-        @apply w-64 px-3 py-2 border rounded;
+        @apply ml-2 w-48 border rounded my-0 py-2 px-3;
         background-color: #ffffff;
         border-color: #d1d5db;
         color: #000000;
@@ -802,20 +789,16 @@ defineExpose({
           @apply outline-none ring-2 ring-slate-500;
         }
       }
-
-      .filter-button-container {
-        @apply relative top-[-7px];
-      }
     }
 
     .selection-wrapper {
-      @apply flex flex-col;
+      @apply flex flex-row flex-1 justify-between;
 
       .selection-controls {
-        @apply flex flex-row gap-2;
+        @apply flex flex-row mx-2 gap-2;
 
         button {
-          @apply px-3 py-1 text-sm border rounded;
+          @apply px-4 py-2 text-sm border rounded;
           background-color: #ffffff;
           border-color: #e2e8f0;
           color: #000000;
@@ -827,7 +810,7 @@ defineExpose({
       }
 
       .select-visible-checkbox {
-        @apply flex items-center mt-4 text-sm;
+        @apply flex flex-row items-center;
         color: #000000;
         @apply dark:text-[#ffffff];
         input[type='checkbox'] {

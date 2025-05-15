@@ -220,15 +220,17 @@ const fetchAllContactIds = async (isFiltered, filteredContacts) => {
 };
 
 const goToNext = async () => {
-  v$.value.$touch();
-  if (isStep1Valid.value) {
+  // v$.value.$touch();
+  // if (isStep1Valid.value) {
     contactState.contactList = [];
     contactState.currentPage = 1;
     contactState.searchQuery = '';
     await fetchContacts(1);
     currentStep.value = 2;
-  }
+  // }
 };
+
+
 
 const goBack = () => {
   currentStep.value = 1;
@@ -427,7 +429,7 @@ onBeforeUnmount(() => {
         @filters-cleared="handleFiltersCleared"
       />
 
-      <div class="flex flex-row justify-end w-full gap-2 px-0 py-2 mt-4">
+      <div class="flex justify-end w-full gap-2 px-0 py-2 mt-4">
         <Button
           :is-loading="uiFlags.isCreating"
           :disabled="formState.selectedContacts.length === 0"

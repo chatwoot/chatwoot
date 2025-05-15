@@ -40,7 +40,7 @@
         "FILTER_VALUE": "Value",
         "APPLY": "Apply",
         "RESET": "Reset",
-        "SEARCH_PLACEHOLDER": "Search The contacts",
+        "SEARCH_PLACEHOLDER": "Search the contacts",
         "SELECT_ALL": "Select All",
         "SELECTED_ALL": {
           "SUCCESS": "All Contacts Selected",
