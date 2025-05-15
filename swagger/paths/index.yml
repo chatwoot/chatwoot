@@ -600,3 +600,27 @@
       description: The numeric ID of the user
   get:
     $ref: './application/reports/conversation/agent.yml'
+
+# Conversations Messages
+/accounts/{account_id}/conversations/{conversation_id}/messages:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: conversation_id
+      in: path
+      description: ID of the conversation
+      required: true
+      schema:
+        type: number
+  get:
+    tags:
+      - Conversation
+    summary: Get messages from a conversation
+    description: Returns all messages from a specific conversation
+    operationId: getConversationMessages
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/conversation_messages'

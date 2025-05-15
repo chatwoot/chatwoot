@@ -16,8 +16,8 @@ properties:
     type: number
     description: The ID of the conversation
   message_type:
-    type: string
-    enum: ["incoming", "outgoing", "activity", "template"]
+    type: integer
+    enum: [0, 1, 2]
     description: The type of the message
   created_at:
     type: integer
