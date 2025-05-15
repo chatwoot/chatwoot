@@ -3,12 +3,14 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import StarRating from 'shared/components/StarRating.vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     Spinner,
     FluentIcon,
+    StarRating,
   },
   props: {
     messageContentAttributes: {
@@ -35,8 +37,6 @@ export default {
       selectedRating: null,
       isUpdating: false,
       feedback: '',
-      starRatings: [1, 2, 3, 4, 5],
-      hoveredRating: 0,
     };
   },
   computed: {
@@ -64,21 +64,6 @@ export default {
     },
     isStarType() {
       return this.displayType === CSAT_DISPLAY_TYPES.STAR;
-    },
-    getStarClass() {
-      return value => {
-        const isStarActive =
-          (this.hoveredRating > 0 &&
-            !this.isRatingSubmitted &&
-            this.hoveredRating >= value) ||
-          this.selectedRating >= value;
-
-        const starTypeClass = isStarActive
-          ? 'i-ri-star-fill text-n-amber-9'
-          : 'i-ri-star-line text-n-slate-10';
-
-        return starTypeClass;
-      };
     },
   },
 
@@ -119,10 +104,7 @@ export default {
         this.isUpdating = false;
       }
     },
-    onHoverRating(value) {
-      if (this.isRatingSubmitted) return;
-      this.hoveredRating = value;
-    },
+
     selectRating(rating) {
       this.selectedRating = rating.value;
       this.onSubmit();
@@ -153,28 +135,12 @@ export default {
         {{ rating.emoji }}
       </button>
     </div>
-    <div
+    <StarRating
       v-else-if="isStarType"
-      class="ratings flex justify-center py-5 px-4 gap-3"
-    >
-      <button
-        v-for="value in starRatings"
-        :key="value"
-        type="button"
-        class="rounded-full p-1 transition-all duration-200 hover:enabled:scale-[1.2] focus:outline-none flex items-center flex-shrink-0"
-        :class="{ 'cursor-not-allowed opacity-50': isRatingSubmitted }"
-        :disabled="isRatingSubmitted"
-        :aria-label="'Star ' + value"
-        @click="selectStarRating(value)"
-        @mouseenter="onHoverRating(value)"
-        @mouseleave="onHoverRating(0)"
-      >
-        <span
-          :class="getStarClass(value)"
-          class="transition-all duration-500 text-2xl"
-        />
-      </button>
-    </div>
+      :selected-rating="selectedRating"
+      :is-disabled="isRatingSubmitted"
+      @select-rating="selectStarRating"
+    />
     <form
       v-if="!isFeedbackSubmitted"
       class="feedback-form flex"
