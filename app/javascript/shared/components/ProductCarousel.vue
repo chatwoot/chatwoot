@@ -79,7 +79,8 @@
             >
               <div
                 v-if="isCheckoutLoading"
-                class="absolute w-full h-full flex justify-center items-center backdrop-blur-[2px]"
+                style="backdrop-filter: blur(2px)"
+                class="absolute w-full h-full flex justify-center items-center"
               >
                 <spinner size="medium" :color-scheme="'primary'" />
               </div>
@@ -110,7 +111,8 @@
             <div v-else class="w-full flex relative">
               <div
                 v-if="isCheckoutLoading"
-                class="absolute w-full h-full flex justify-center items-center backdrop-blur-[2px]"
+                style="backdrop-filter: blur(2px)"
+                class="absolute w-full h-full flex justify-center items-center"
               >
                 <spinner size="medium" :color-scheme="'primary'" />
               </div>
