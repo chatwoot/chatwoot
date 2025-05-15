@@ -7870,9 +7870,52 @@
             "type": "number",
             "description": "Account Id"
           },
+          "uuid": {
+            "type": "string",
+            "description": "UUID of the conversation"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "The object containing additional attributes related to the conversation"
+          },
+          "agent_last_seen_at": {
+            "type": "number",
+            "description": "The last activity at of the agent"
+          },
+          "assignee_last_seen_at": {
+            "type": "number",
+            "description": "The last activity at of the assignee"
+          },
+          "can_reply": {
+            "type": "boolean",
+            "description": "Whether the conversation can be replied to"
+          },
+          "contact_last_seen_at": {
+            "type": "number",
+            "description": "The last activity at of the contact"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The object to save custom attributes for conversation, accepts custom attributes key and value"
+          },
           "inbox_id": {
             "type": "number",
             "description": "ID of the inbox"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The labels of the conversation"
+          },
+          "muted": {
+            "type": "boolean",
+            "description": "Whether the conversation is muted"
+          },
+          "snoozed_until": {
+            "type": "number",
+            "description": "The time at which the conversation will be unmuted"
           },
           "status": {
             "type": "string",
@@ -7883,54 +7926,77 @@
             ],
             "description": "The status of the conversation"
           },
+          "created_at": {
+            "type": "number",
+            "description": "The time at which conversation was created"
+          },
+          "updated_at": {
+            "type": "number",
+            "description": "The time at which conversation was updated"
+          },
           "timestamp": {
             "type": "string",
             "description": "The time at which conversation was created"
           },
-          "contact_last_seen_at": {
-            "type": "string"
-          },
-          "agent_last_seen_at": {
-            "type": "string"
+          "first_reply_created_at": {
+            "type": "number",
+            "description": "The time at which the first reply was created"
           },
           "unread_count": {
             "type": "number",
             "description": "The number of unread messages"
           },
-          "additional_attributes": {
+          "last_non_activity_message": {
             "type": "object",
-            "description": "The object containing additional attributes related to the conversation"
+            "description": "The last non activity message"
           },
-          "custom_attributes": {
+          "last_activity_at": {
+            "type": "number",
+            "description": "The last activity at of the conversation"
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority of the conversation"
+          },
+          "waiting_since": {
+            "type": "number",
+            "description": "The time at which the conversation was waiting"
+          },
+          "sla_policy_id": {
+            "type": "number",
+            "description": "The ID of the SLA policy"
+          },
+          "applied_sla": {
             "type": "object",
-            "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
-            "example": {
-              "attribute_key": "attribute_value",
-              "priority_conversation_number": 3
-            }
+            "description": "The applied SLA"
+          },
+          "sla_events": {
+            "type": "array"
           }
         }
       },
       "message": {
         "type": "object",
         "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the message"
+          },
           "content": {
             "type": "string",
             "description": "The text content of the message"
           },
-          "content_type": {
-            "type": "string",
-            "enum": [
-              "text",
-              "input_select",
-              "cards",
-              "form"
-            ],
-            "description": "The type of the template message"
+          "account_id": {
+            "type": "number",
+            "description": "The ID of the account"
           },
-          "content_attributes": {
-            "type": "object",
-            "description": "The content attributes for each content_type"
+          "inbox_id": {
+            "type": "number",
+            "description": "The ID of the inbox"
+          },
+          "conversation_id": {
+            "type": "number",
+            "description": "The ID of the conversation"
           },
           "message_type": {
             "type": "string",
@@ -7946,9 +8012,74 @@
             "type": "integer",
             "description": "The time at which message was created"
           },
+          "updated_at": {
+            "type": "integer",
+            "description": "The time at which message was updated"
+          },
           "private": {
             "type": "boolean",
             "description": "The flags which shows whether the message is private or not"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "sent",
+              "delivered",
+              "read",
+              "failed"
+            ],
+            "description": "The status of the message"
+          },
+          "source_id": {
+            "type": "string",
+            "description": "The source ID of the message"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "input_select",
+              "cards",
+              "form"
+            ],
+            "description": "The type of the template message"
+          },
+          "content_attributes": {
+            "type": "object",
+            "description": "The content attributes for each content_type"
+          },
+          "sender_type": {
+            "type": "string",
+            "enum": [
+              "contact",
+              "agent",
+              "agent_bot"
+            ],
+            "description": "The type of the sender"
+          },
+          "sender_id": {
+            "type": "number",
+            "description": "The ID of the sender"
+          },
+          "external_source_ids": {
+            "type": "object",
+            "description": "The external source IDs of the message"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "The additional attributes of the message"
+          },
+          "processed_message_content": {
+            "type": "string",
+            "description": "The processed message content"
+          },
+          "sentiment": {
+            "type": "object",
+            "description": "The sentiment of the message"
+          },
+          "conversation": {
+            "type": "object",
+            "description": "The conversation object"
           },
           "attachment": {
             "type": "object",
@@ -7957,10 +8088,6 @@
           "sender": {
             "type": "object",
             "description": "User/Agent/AgentBot object"
-          },
-          "conversation_id": {
-            "type": "number",
-            "description": "ID of the conversation"
           }
         }
       },
@@ -8176,7 +8303,7 @@
             "description": "Contact Inbox Source Id"
           },
           "inbox": {
-            "$ref": "#/components/schemas/inbox"
+            "$ref": "#/components/schemas/inbox_contact"
           }
         }
       },
@@ -9946,6 +10073,18 @@
                     "sender": {
                       "type": "object",
                       "properties": {
+                        "additional_attributes": {
+                          "type": "object",
+                          "description": "The additional attributes of the sender"
+                        },
+                        "availability_status": {
+                          "type": "string",
+                          "description": "The availability status of the sender"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "The email of the sender"
+                        },
                         "id": {
                           "type": "number",
                           "description": "ID fo the sender"
@@ -9954,18 +10093,46 @@
                           "type": "string",
                           "description": "The name of the sender"
                         },
+                        "phone_number": {
+                          "type": "string",
+                          "description": "The phone number of the sender"
+                        },
+                        "blocked": {
+                          "type": "boolean",
+                          "description": "Whether the sender is blocked"
+                        },
+                        "identifier": {
+                          "type": "string",
+                          "description": "The identifier of the sender"
+                        },
                         "thumbnail": {
                           "type": "string",
                           "description": "Avatar URL of the contact"
                         },
-                        "channel": {
-                          "type": "string",
-                          "description": "Channel Type"
+                        "custom_attributes": {
+                          "type": "object",
+                          "description": "The custom attributes of the sender"
+                        },
+                        "last_activity_at": {
+                          "type": "number",
+                          "description": "The last activity at of the sender"
+                        },
+                        "created_at": {
+                          "type": "number",
+                          "description": "The created at of the sender"
                         }
                       }
                     },
+                    "channel": {
+                      "type": "string",
+                      "description": "Channel Type"
+                    },
                     "assignee": {
                       "$ref": "#/components/schemas/user"
+                    },
+                    "hmac_verified": {
+                      "type": "boolean",
+                      "description": "Whether the hmac is verified"
                     }
                   }
                 }
@@ -10037,6 +10204,18 @@
                             "sender": {
                               "type": "object",
                               "properties": {
+                                "additional_attributes": {
+                                  "type": "object",
+                                  "description": "The additional attributes of the sender"
+                                },
+                                "availability_status": {
+                                  "type": "string",
+                                  "description": "The availability status of the sender"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "description": "The email of the sender"
+                                },
                                 "id": {
                                   "type": "number",
                                   "description": "ID fo the sender"
@@ -10045,18 +10224,46 @@
                                   "type": "string",
                                   "description": "The name of the sender"
                                 },
+                                "phone_number": {
+                                  "type": "string",
+                                  "description": "The phone number of the sender"
+                                },
+                                "blocked": {
+                                  "type": "boolean",
+                                  "description": "Whether the sender is blocked"
+                                },
+                                "identifier": {
+                                  "type": "string",
+                                  "description": "The identifier of the sender"
+                                },
                                 "thumbnail": {
                                   "type": "string",
                                   "description": "Avatar URL of the contact"
                                 },
-                                "channel": {
-                                  "type": "string",
-                                  "description": "Channel Type"
+                                "custom_attributes": {
+                                  "type": "object",
+                                  "description": "The custom attributes of the sender"
+                                },
+                                "last_activity_at": {
+                                  "type": "number",
+                                  "description": "The last activity at of the sender"
+                                },
+                                "created_at": {
+                                  "type": "number",
+                                  "description": "The created at of the sender"
                                 }
                               }
                             },
+                            "channel": {
+                              "type": "string",
+                              "description": "Channel Type"
+                            },
                             "assignee": {
                               "$ref": "#/components/schemas/user"
+                            },
+                            "hmac_verified": {
+                              "type": "boolean",
+                              "description": "Whether the hmac is verified"
                             }
                           }
                         }
@@ -10084,6 +10291,18 @@
                   "sender": {
                     "type": "object",
                     "properties": {
+                      "additional_attributes": {
+                        "type": "object",
+                        "description": "The additional attributes of the sender"
+                      },
+                      "availability_status": {
+                        "type": "string",
+                        "description": "The availability status of the sender"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "The email of the sender"
+                      },
                       "id": {
                         "type": "number",
                         "description": "ID fo the sender"
@@ -10092,18 +10311,46 @@
                         "type": "string",
                         "description": "The name of the sender"
                       },
+                      "phone_number": {
+                        "type": "string",
+                        "description": "The phone number of the sender"
+                      },
+                      "blocked": {
+                        "type": "boolean",
+                        "description": "Whether the sender is blocked"
+                      },
+                      "identifier": {
+                        "type": "string",
+                        "description": "The identifier of the sender"
+                      },
                       "thumbnail": {
                         "type": "string",
                         "description": "Avatar URL of the contact"
                       },
-                      "channel": {
-                        "type": "string",
-                        "description": "Channel Type"
+                      "custom_attributes": {
+                        "type": "object",
+                        "description": "The custom attributes of the sender"
+                      },
+                      "last_activity_at": {
+                        "type": "number",
+                        "description": "The last activity at of the sender"
+                      },
+                      "created_at": {
+                        "type": "number",
+                        "description": "The created at of the sender"
                       }
                     }
                   },
+                  "channel": {
+                    "type": "string",
+                    "description": "Channel Type"
+                  },
                   "assignee": {
                     "$ref": "#/components/schemas/user"
+                  },
+                  "hmac_verified": {
+                    "type": "boolean",
+                    "description": "Whether the hmac is verified"
                   }
                 }
               }
