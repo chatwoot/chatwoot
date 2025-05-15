@@ -24,17 +24,13 @@ export default {
       const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
         { key: 'website', name: 'Website' },
-        { key: 'facebook', name: 'Messenger' },
         { key: 'whatsapp', name: 'WhatsApp' },
-        { key: 'sms', name: 'SMS' },
-        { key: 'email', name: 'Email' },
         {
           key: 'api',
           name: apiChannelName || 'API',
           thumbnail: apiChannelThumbnail,
         },
         { key: 'telegram', name: 'Telegram' },
-        { key: 'line', name: 'Line' },
       ];
     },
     ...mapGetters({
@@ -44,11 +40,19 @@ export default {
   },
   mounted() {
     this.initializeEnabledFeatures();
+    
   },
   methods: {
     async initializeEnabledFeatures() {
-      this.enabledFeatures = this.account.features;
+  try {
+    const response = await this.$store.dispatch('myActiveSubscription');
+        console.log('Active Subscription Response:', response);
+        this.enabledFeatures = response;
+      } catch (error) {
+        console.error('Failed to fetch active subscription:', error);
+      }
     },
+
     initChannelAuth(channel) {
       const params = {
         sub_page: channel,
@@ -58,6 +62,7 @@ export default {
     },
   },
 };
+
 </script>
 
 <template>

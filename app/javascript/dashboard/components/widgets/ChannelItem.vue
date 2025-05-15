@@ -17,31 +17,13 @@ export default {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
     },
-    isActive() {
-      const { key } = this.channel;
-      if (Object.keys(this.enabledFeatures).length === 0) {
-        return false;
-      }
-      if (key === 'website') {
-        return this.enabledFeatures.channel_website;
-      }
-      if (key === 'facebook') {
-        return this.enabledFeatures.channel_facebook && this.hasFbConfigured;
-      }
-      if (key === 'email') {
-        return this.enabledFeatures.channel_email;
-      }
+      isActive() {
+        const availableChannels = (this.enabledFeatures?.available_channels || []).map(c => c.toLowerCase());
+        console.log(availableChannels)
+        return availableChannels.includes(this.channel.name.toLowerCase());
 
-      return [
-        'website',
-        'twilio',
-        'api',
-        'whatsapp',
-        'sms',
-        'telegram',
-        'line',
-      ].includes(key);
-    },
+}
+
   },
   methods: {
     getChannelThumbnail() {
@@ -56,6 +38,7 @@ export default {
       }
     },
   },
+
 };
 </script>
 
