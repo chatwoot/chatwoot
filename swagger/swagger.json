@@ -2665,7 +2665,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/extended_contact"
+                  "$ref": "#/components/schemas/contact_show_response"
                 }
               }
             }
@@ -2836,7 +2836,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact_conversations"
+                  "$ref": "#/components/schemas/contact_conversations_response"
                 }
               }
             }
@@ -3040,12 +3040,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "object",
-                  "properties": {
-                    "payload": {
-                      "$ref": "#/components/schemas/contact_list"
-                    }
-                  }
+                  "$ref": "#/components/schemas/contacts_list_response"
                 }
               }
             }
@@ -3163,7 +3158,7 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/contact_list"
+                  "$ref": "#/components/schemas/contacts_list_response"
                 }
               }
             }
@@ -11007,6 +11002,252 @@
               "$ref": "#/components/schemas/contact_list_item"
             },
             "description": "List of contacts"
+          }
+        }
+      },
+      "contact_show_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/contact_list_item"
+          }
+        }
+      },
+      "contact_conversation_message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the message"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content of the message"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID of the account"
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "ID of the inbox"
+          },
+          "conversation_id": {
+            "type": "integer",
+            "description": "ID of the conversation"
+          },
+          "message_type": {
+            "type": "integer",
+            "description": "Type of the message"
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Timestamp when message was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Formatted datetime when message was updated"
+          },
+          "private": {
+            "type": "boolean",
+            "description": "Whether the message is private"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the message"
+          },
+          "source_id": {
+            "type": "string",
+            "description": "Source ID of the message",
+            "nullable": true
+          },
+          "content_type": {
+            "type": "string",
+            "description": "Type of the content"
+          },
+          "content_attributes": {
+            "type": "object",
+            "description": "Attributes of the content"
+          },
+          "sender_type": {
+            "type": "string",
+            "description": "Type of the sender",
+            "nullable": true
+          },
+          "sender_id": {
+            "type": "integer",
+            "description": "ID of the sender",
+            "nullable": true
+          },
+          "external_source_ids": {
+            "type": "object",
+            "description": "External source IDs"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes of the message"
+          },
+          "processed_message_content": {
+            "type": "string",
+            "description": "Processed message content",
+            "nullable": true
+          },
+          "sentiment": {
+            "type": "object",
+            "description": "Sentiment analysis of the message"
+          },
+          "conversation": {
+            "type": "object",
+            "description": "Conversation details",
+            "properties": {
+              "assignee_id": {
+                "type": "integer",
+                "description": "ID of the assignee",
+                "nullable": true
+              },
+              "unread_count": {
+                "type": "integer",
+                "description": "Count of unread messages"
+              },
+              "last_activity_at": {
+                "type": "integer",
+                "description": "Timestamp of last activity"
+              },
+              "contact_inbox": {
+                "type": "object",
+                "description": "Contact inbox details",
+                "properties": {
+                  "source_id": {
+                    "type": "string",
+                    "description": "Source ID of the contact inbox"
+                  }
+                }
+              }
+            }
+          },
+          "sender": {
+            "type": "object",
+            "description": "Details of the sender",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID of the sender"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the sender"
+              },
+              "available_name": {
+                "type": "string",
+                "description": "Available name of the sender"
+              },
+              "avatar_url": {
+                "type": "string",
+                "description": "URL of the sender's avatar"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the sender"
+              },
+              "availability_status": {
+                "type": "string",
+                "description": "Availability status of the sender"
+              },
+              "thumbnail": {
+                "type": "string",
+                "description": "Thumbnail URL of the sender"
+              }
+            }
+          }
+        }
+      },
+      "contact_conversations_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/conversation"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "sender": {
+                          "type": "object",
+                          "properties": {
+                            "additional_attributes": {
+                              "type": "object",
+                              "description": "The additional attributes of the sender"
+                            },
+                            "availability_status": {
+                              "type": "string",
+                              "description": "The availability status of the sender"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "The email of the sender"
+                            },
+                            "id": {
+                              "type": "number",
+                              "description": "ID fo the sender"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "The name of the sender"
+                            },
+                            "phone_number": {
+                              "type": "string",
+                              "description": "The phone number of the sender"
+                            },
+                            "blocked": {
+                              "type": "boolean",
+                              "description": "Whether the sender is blocked"
+                            },
+                            "identifier": {
+                              "type": "string",
+                              "description": "The identifier of the sender"
+                            },
+                            "thumbnail": {
+                              "type": "string",
+                              "description": "Avatar URL of the contact"
+                            },
+                            "custom_attributes": {
+                              "type": "object",
+                              "description": "The custom attributes of the sender"
+                            },
+                            "last_activity_at": {
+                              "type": "number",
+                              "description": "The last activity at of the sender"
+                            },
+                            "created_at": {
+                              "type": "number",
+                              "description": "The created at of the sender"
+                            }
+                          }
+                        },
+                        "channel": {
+                          "type": "string",
+                          "description": "Channel Type"
+                        },
+                        "assignee": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "hmac_verified": {
+                          "type": "boolean",
+                          "description": "Whether the hmac is verified"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "description": "List of conversations for the contact"
           }
         }
       }

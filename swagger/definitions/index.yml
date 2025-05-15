@@ -217,3 +217,9 @@ contact_list_item:
   $ref: ./resource/contact_list_item.yml
 contacts_list_response:
   $ref: ./resource/contacts_list_response.yml
+contact_show_response:
+  $ref: ./resource/contact_show_response.yml
+contact_conversation_message:
+  $ref: ./resource/contact_conversation_message.yml
+contact_conversations_response:
+  $ref: ./resource/contact_conversations_response.yml
