@@ -145,6 +145,7 @@ const handleAvatarDelete = async () => {
 const handleSubmit = async () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
+  if (showAccessToken.value) return;
 
   const botData = {
     name: formState.botName,
