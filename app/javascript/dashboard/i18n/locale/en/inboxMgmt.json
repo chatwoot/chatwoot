@@ -583,27 +583,21 @@
       "TITLE": "Customer Satisfaction (CSAT)",
       "SUBTITLE": "Customer Satisfaction (CSAT) survey after resolving a conversation",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type",
-        "DESCRIPTION": "Select the type of display for the CSAT survey.",
-        "OPTIONS": {
-          "EMOJI": "Emoji",
-          "STAR": "Star"
-        }
+        "LABEL": "Display type"
       },
       "MESSAGE": {
         "LABEL": "Message",
-        "DESCRIPTION": "This message would be visible to the users along with the form",
-        "PLACEHOLDER": "Please enter the message"
+        "PLACEHOLDER": "Please enter a message to show users with the form"
       },
       "SURVEY_RULE": {
         "LABEL": "Survey rule",
-        "DESCRIPTION": "Set the rule for sending the survey.",
         "DESCRIPTION_PREFIX": "Send the survey if the conversation",
         "DESCRIPTION_SUFFIX": "any of the labels",
         "OPERATOR": {
           "CONTAINS": "contains",
           "DOES_NOT_CONTAINS": "does not contain"
-        }
+        },
+        "SELECT_PLACEHOLDER": "select labels"
       },
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",

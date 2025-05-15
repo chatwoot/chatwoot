@@ -55,7 +55,6 @@ export default {
       greetingEnabled: true,
       greetingMessage: '',
       emailCollectEnabled: false,
-      csatSurveyEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -283,7 +282,6 @@ export default {
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
-        this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -306,7 +304,6 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
-          csat_survey_enabled: this.csatSurveyEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
@@ -592,21 +589,6 @@ export default {
                   'INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT'
                 )
               }}
-            </p>
-          </label>
-
-          <label class="pb-4">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
-            <select v-model="csatSurveyEnabled">
-              <option :value="true">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.ENABLED') }}
-              </option>
-              <option :value="false">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.DISABLED') }}
-              </option>
-            </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
             </p>
           </label>
 
