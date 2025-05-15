@@ -1,19 +1,13 @@
 tags:
   - Help Center
-operationId: update-portal-to-account
-summary: Update a portal
-description: Update a portal to account
+operationId: get-details-of-a-single-portal
+summary: Get a portal details
+description: Get the details of a portal in the account
 security:
   - userApiKey: []
 parameters:
   - $ref: '#/components/parameters/account_id'
   - $ref: '#/components/parameters/portal_id'
-requestBody:
-  required: true
-  content:
-    application/json:
-      schema:
-        $ref: '#/components/schemas/portal_create_update_payload'
 responses:
   '200':
     description: Success
@@ -71,15 +65,15 @@ responses:
               all_articles_count: 32
               categories_count: 9
               default_locale: "en"
-  '403':
-    description: Access denied
+  '401':
+    description: Unauthorized
     content:
       application/json:
         schema:
           $ref: '#/components/schemas/bad_request_error'
   '404':
-    description: Portal not found
+    description: The given portal ID does not exist in the account
     content:
       application/json:
         schema:
-          $ref: '#/components/schemas/bad_request_error'
+          $ref: '#/components/schemas/bad_request_error' 

@@ -19,6 +19,26 @@ responses:
       application/json:
         schema:
           $ref: '#/components/schemas/automation_rule'
+        example:
+          payload:
+            id: 90
+            account_id: 1
+            name: "add-label-bug-if-message-contains-bug"
+            description: "add-label-bug-if-message-contains-bug"
+            event_name: "message_created"
+            conditions:
+              - values: ["incoming"]
+                attribute_key: "message_type"
+                query_operator: "and"
+                filter_operator: "equal_to"
+              - values: ["bug"]
+                attribute_key: "content"
+                filter_operator: "contains"
+            actions:
+              - action_name: "add_label"
+                action_params: ["bugs", "support-query"]
+            created_on: 1650555440
+            active: true
   '401':
     description: Unauthorized
     content:

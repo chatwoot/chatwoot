@@ -3472,6 +3472,43 @@
               "application/json": {
                 "schema": {
                   "$ref": "#/components/schemas/automation_rule"
+                },
+                "example": {
+                  "payload": {
+                    "id": 90,
+                    "account_id": 1,
+                    "name": "add-label-bug-if-message-contains-bug",
+                    "description": "add-label-bug-if-message-contains-bug",
+                    "event_name": "message_created",
+                    "conditions": [
+                      {
+                        "values": [
+                          "incoming"
+                        ],
+                        "attribute_key": "message_type",
+                        "query_operator": "and",
+                        "filter_operator": "equal_to"
+                      },
+                      {
+                        "values": [
+                          "bug"
+                        ],
+                        "attribute_key": "content",
+                        "filter_operator": "contains"
+                      }
+                    ],
+                    "actions": [
+                      {
+                        "action_name": "add_label",
+                        "action_params": [
+                          "bugs",
+                          "support-query"
+                        ]
+                      }
+                    ],
+                    "created_on": 1650555440,
+                    "active": true
+                  }
                 }
               }
             }
@@ -3696,11 +3733,56 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of all portals",
-                  "items": {
-                    "$ref": "#/components/schemas/portal"
-                  }
+                  "$ref": "#/components/schemas/portal"
+                },
+                "example": {
+                  "payload": [
+                    {
+                      "id": 4,
+                      "color": "#1F93FF",
+                      "custom_domain": "chatwoot.help",
+                      "header_text": "Handbook",
+                      "homepage_link": "https://www.chatwoot.com",
+                      "name": "Handbook",
+                      "page_title": "Handbook",
+                      "slug": "handbook",
+                      "archived": false,
+                      "account_id": 1,
+                      "config": {
+                        "allowed_locales": [
+                          {
+                            "code": "en",
+                            "articles_count": 32,
+                            "categories_count": 9
+                          }
+                        ]
+                      },
+                      "inbox": {
+                        "id": 37,
+                        "avatar_url": "https://example.com/avatar.png",
+                        "channel_id": 1,
+                        "name": "Chatwoot",
+                        "channel_type": "Channel::WebWidget",
+                        "greeting_enabled": true,
+                        "widget_color": "#1F93FF",
+                        "website_url": "chatwoot.com"
+                      },
+                      "logo": {
+                        "id": 19399916,
+                        "portal_id": 4,
+                        "file_type": "image/png",
+                        "account_id": 1,
+                        "file_url": "https://example.com/logo.png",
+                        "blob_id": 21239614,
+                        "filename": "square.png"
+                      },
+                      "meta": {
+                        "all_articles_count": 0,
+                        "categories_count": 9,
+                        "default_locale": "en"
+                      }
+                    }
+                  ]
                 }
               }
             }
@@ -3741,6 +3823,14 @@
             ]
           }
         ],
+        "parameters": [
+          {
+            "$ref": "#/components/parameters/account_id"
+          },
+          {
+            "$ref": "#/components/parameters/portal_id"
+          }
+        ],
         "requestBody": {
           "required": true,
           "content": {
@@ -3757,13 +3847,82 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "$ref": "#/components/schemas/portal"
+                  "$ref": "#/components/schemas/portal_single"
+                },
+                "example": {
+                  "payload": {
+                    "id": 123,
+                    "archived": false,
+                    "color": "#1F93FF",
+                    "config": {
+                      "allowed_locales": [
+                        {
+                          "code": "en",
+                          "articles_count": 32,
+                          "categories_count": 9
+                        }
+                      ]
+                    },
+                    "custom_domain": "chatwoot.help",
+                    "header_text": "Handbook",
+                    "homepage_link": "https://www.chatwoot.com",
+                    "name": "Handbook",
+                    "slug": "handbook",
+                    "page_title": "Handbook",
+                    "account_id": 123,
+                    "inbox": {
+                      "id": 123,
+                      "name": "Chatwoot",
+                      "website_url": "chatwoot.com",
+                      "channel_type": "Channel::WebWidget",
+                      "avatar_url": "https://example.com/avatar.png",
+                      "widget_color": "#1F93FF",
+                      "website_token": "4cWzuf9i9jxN9tbnv8K9STKU",
+                      "enable_auto_assignment": true,
+                      "web_widget_script": "<script>...</script>",
+                      "welcome_title": "Hi there ! 🙌🏼",
+                      "welcome_tagline": "We make it simple to connect with us.",
+                      "greeting_enabled": true,
+                      "greeting_message": "Hey there 👋, Thank you for reaching out to us.",
+                      "channel_id": 123,
+                      "working_hours_enabled": true,
+                      "enable_email_collect": true,
+                      "csat_survey_enabled": true,
+                      "timezone": "America/Los_Angeles",
+                      "business_name": "Chatwoot",
+                      "hmac_mandatory": true
+                    },
+                    "logo": {
+                      "id": 123,
+                      "portal_id": 123,
+                      "file_type": "image/png",
+                      "account_id": 123,
+                      "file_url": "https://example.com/logo.png",
+                      "blob_id": 123,
+                      "filename": "square.png"
+                    },
+                    "meta": {
+                      "all_articles_count": 32,
+                      "categories_count": 9,
+                      "default_locale": "en"
+                    }
+                  }
                 }
               }
             }
           },
           "403": {
             "description": "Access denied",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/bad_request_error"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Portal not found",
             "content": {
               "application/json": {
                 "schema": {
