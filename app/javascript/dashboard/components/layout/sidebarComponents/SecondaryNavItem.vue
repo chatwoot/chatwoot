@@ -49,13 +49,6 @@ export default {
       return !!this.menuItem.children;
     },
     isMenuItemVisible() {
-      if (this.menuItem.globalConfigFlag) {
-        // this checks for the `csmlEditorHost` flag in the global config
-        // if this is present, we toggle the CSML editor menu item
-        // TODO: This is very specific, and can be handled better, fix it
-        return !!this.globalConfig[this.menuItem.globalConfigFlag];
-      }
-
       let isFeatureEnabled = true;
       if (this.menuItem.featureFlag) {
         isFeatureEnabled = this.isFeatureEnabledonAccount(

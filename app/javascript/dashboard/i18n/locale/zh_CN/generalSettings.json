@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "帐户设置",
     "SUBMIT": "更新设置",
     "BACK": "后退",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "无法更新设置，请重试！",
       "SUCCESS": "已成功更新账户设置"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "删除",
+        "DISMISS": "取消",
+        "PLACE_HOLDER": "请输入 {accountName} 以确认"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
     },
     "FORM": {
       "ERROR": "请修正表单错误",
@@ -17,6 +43,10 @@
       "ACCOUNT_ID": {
         "TITLE": "账号 ID",
         "NOTE": "如果您正在构建基于 API 的集成，那么此 ID 是必需的"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
       },
       "NAME": {
         "LABEL": "帐户名称",
@@ -38,10 +68,23 @@
         "PLACEHOLDER": "您公司的支持邮件",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "非活跃工单的自动结单的天数",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "请输入一个有效的自动解决时间 (至少 1 天，最多999 天)。"
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "更新",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "您的帐户启用了与电子邮件的对话连续性。",
@@ -51,6 +94,7 @@
     "UPDATE_CHATWOOT": "Chatwoot 有可用更新{latestChatwootVersion}，请更新您的应用。",
     "LEARN_MORE": "了解更多",
     "PAYMENT_PENDING": "您的付款尚未完成。请更新您的付款信息以继续使用Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "您的账户已超过使用限制，请升级您的计划以继续使用Chatwoot",
     "OPEN_BILLING": "查看计费"
   },

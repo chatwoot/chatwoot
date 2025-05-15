@@ -41,10 +41,20 @@ class Instagram::MessageText < Instagram::BaseMessageText
     # Access token has expired or become invalid.
     channel.authorization_error! if error_code == 190
 
+    # TODO: Remove this once we have a better way to handle this error.
+    # https://developers.facebook.com/docs/messenger-platform/instagram/features/user-profile/#user-consent
+    # The error typically occurs when the connected Instagram account attempts to send a message to a user
+    # who has never messaged this Instagram account before.
+    # We can only get consent to access a user's profile if they have previously sent a message to the connected Instagram account.
+    # In such cases, we receive the error "User consent is required to access user profile".
+    # We can safely ignore this error.
+    return if error_code == 230
+
     Rails.logger.warn("[InstagramUserFetchError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
     Rails.logger.warn("[InstagramUserFetchError]: #{error_message} #{error_code}")
 
-    ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
+    exception = StandardError.new("#{error_message} (Code: #{error_code})")
+    ChatwootExceptionTracker.new(exception, account: @inbox.account).capture_exception
   end
 
   def base_uri

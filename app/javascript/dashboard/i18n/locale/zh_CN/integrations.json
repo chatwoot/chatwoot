@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "消息已更新",
             "WEBWIDGET_TRIGGERED": "用户打开实时聊天小部件",
             "CONTACT_CREATED": "联系人已创建",
-            "CONTACT_UPDATED": "联系人已更新"
+            "CONTACT_UPDATED": "联系人已更新",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -329,11 +331,34 @@
     "HEADER_KNOW_MORE": "了解更多",
     "COPILOT": {
       "SEND_MESSAGE": "发送消息...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captain 正在思考",
       "YOU": "您",
       "USE": "使用此",
       "RESET": "重置",
-      "SELECT_ASSISTANT": "选择助手"
+      "SELECT_ASSISTANT": "选择助手",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Summarize this conversation",
+          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+        },
+        "SUGGEST": {
+          "LABEL": "Suggest an answer",
+          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+        },
+        "RATE": {
+          "LABEL": "Rate this conversation",
+          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "您",
+      "ASSISTANT": "助手",
+      "MESSAGE_PLACEHOLDER": "输入您的消息...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
     },
     "PAYWALL": {
       "TITLE": "升级以使用 Captain AI",
@@ -373,20 +398,44 @@
         "ERROR_MESSAGE": "创建助手时出错，请重试。"
       },
       "FORM": {
+        "UPDATE": "更新",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "特性",
+          "TOOLS": "Tools "
+        },
         "NAME": {
-          "LABEL": "助手名称",
-          "PLACEHOLDER": "为助手输入一个名称",
-          "ERROR": "请提供助手的名称"
+          "LABEL": "姓名：",
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
-          "LABEL": "助手描述",
-          "PLACEHOLDER": "描述助手的用途和使用场景",
-          "ERROR": "描述是必需的"
+          "LABEL": "描述信息",
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "产品名称",
-          "PLACEHOLDER": "输入此助手设计用于的产品名称",
+          "PLACEHOLDER": "Enter product name",
           "ERROR": "产品名称是必需的"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "特性",
@@ -397,7 +446,8 @@
       "EDIT": {
         "TITLE": "更新助手",
         "SUCCESS_MESSAGE": "助手已成功更新",
-        "ERROR_MESSAGE": "更新助手时出错，请重试"
+        "ERROR_MESSAGE": "更新助手时出错，请重试",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "编辑助手",

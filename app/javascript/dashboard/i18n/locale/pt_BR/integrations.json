@@ -2,21 +2,21 @@
   "INTEGRATION_SETTINGS": {
     "SHOPIFY": {
       "DELETE": {
-        "TITLE": "Excluir integração com Shopify",
-        "MESSAGE": "Tem certeza de que deseja excluir a integração com Shopify?"
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
       },
       "STORE_URL": {
-        "TITLE": "Conectar loja Shopify",
-        "LABEL": "URL da loja",
-        "PLACEHOLDER": "sua-loja.myshopify.com",
-        "HELP": "Insira a URL myshopify.com da sua loja Shopify",
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
         "CANCEL": "Cancelar",
-        "SUBMIT": "Conectar loja"
+        "SUBMIT": "Connect Store"
       },
-      "ERROR": "Ocorreu um erro ao conectar com o Shopify. Por favor, tente novamente ou entre em contato com o suporte se o problema persistir."
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrações",
-    "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência da sua equipe. Explore a lista abaixo para configurar seus aplicativos favoritos.",
+    "DESCRIPTION": "Chatwoot se integra com várias ferramentas e serviços para melhorar a eficiência de seu time. Explore a lista abaixo para configurar seus aplicativos favoritos.",
     "LEARN_MORE": "Aprenda mais sobre integrações",
     "LOADING": "Obtendo integrações",
     "CAPTAIN": {
@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário",
             "CONTACT_CREATED": "Contato criado",
-            "CONTACT_UPDATED": "Contato atualizado"
+            "CONTACT_UPDATED": "Contato atualizado",
+            "CONVERSATION_TYPING_ON": "Status de Digitação ativado",
+            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
         "END_POINT": {
@@ -239,13 +241,13 @@
     "LINEAR": {
       "ADD_OR_LINK_BUTTON": "Criar/Ligar Issue Linear",
       "LOADING": "Buscando problemas lineares...",
-      "LOADING_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente",
+      "LOADING_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente",
       "CREATE": "Criar",
       "LINK": {
         "SEARCH": "Pesquisar issues",
         "SELECT": "Selecionar problema",
         "TITLE": "Link",
-        "EMPTY_LIST": "",
+        "EMPTY_LIST": "Nenhum problema linear encontrado",
         "LOADING": "Carregando",
         "ERROR": "Houve um erro ao buscar as questões lineares, por favor, tente novamente",
         "LINK_SUCCESS": "Questão vinculada com sucesso",
@@ -266,10 +268,10 @@
             "PLACEHOLDER": "Insira a descrição"
           },
           "TEAM": {
-            "LABEL": "Equipes",
-            "PLACEHOLDER": "Selecionar equipe",
-            "SEARCH": "Pesquisar equipe",
-            "REQUIRED_ERROR": "A equipe é obrigatória"
+            "LABEL": "Times",
+            "PLACEHOLDER": "Selecionar time",
+            "SEARCH": "Pesquisar time",
+            "REQUIRED_ERROR": "O time é obrigatório"
           },
           "ASSIGNEE": {
             "LABEL": "Responsável",
@@ -279,7 +281,7 @@
           "PRIORITY": {
             "LABEL": "Prioridade",
             "PLACEHOLDER": "Selecionar prioridade",
-            "SEARCH": "Selecionar prioridade"
+            "SEARCH": "Pesquisar prioridade"
           },
           "LABEL": {
             "LABEL": "Nome do campo",
@@ -287,7 +289,7 @@
             "SEARCH": "Pesquisar etiqueta"
           },
           "STATUS": {
-            "LABEL": "Situação",
+            "LABEL": "Status",
             "PLACEHOLDER": "Selecione Status",
             "SEARCH": "Pesquisar status"
           },
@@ -301,11 +303,11 @@
         "CANCEL": "Cancelar",
         "CREATE_SUCCESS": "Pasta criada com sucesso",
         "CREATE_ERROR": "Houve um erro ao criar a questão, por favor, tente novamente",
-        "LOADING_TEAM_ERROR": "Houve um erro ao buscar as equipes, por favor, tente novamente",
-        "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades da equipe, por favor, tente novamente"
+        "LOADING_TEAM_ERROR": "Houve um erro ao buscar os times, por favor, tente novamente",
+        "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente"
       },
       "ISSUE": {
-        "STATUS": "Situação",
+        "STATUS": "Status",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Etiquetas",
@@ -325,15 +327,38 @@
     }
   },
   "CAPTAIN": {
-    "NAME": "Captain",
-    "HEADER_KNOW_MORE": "Saiba mais",
+    "NAME": "Capitão",
+    "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Enviar mensagem...",
+      "EMPTY_MESSAGE": "Houve um erro ao gerar a resposta. Por favor, tente novamente.",
       "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
-      "SELECT_ASSISTANT": "Selecione o Assistente"
+      "SELECT_ASSISTANT": "Selecione o Assistente",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Resumir esta conversa",
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o agente de suporte, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo agente de suporte"
+        },
+        "SUGGEST": {
+          "LABEL": "Sugerir uma resposta",
+          "CONTENT": "Analise a pergunta do cliente e elabore uma resposta que responda efetivamente às suas preocupações ou perguntas. Certifique-se de que a resposta seja clara, concisa e forneça informações úteis."
+        },
+        "RATE": {
+          "LABEL": "Avaliar esta conversa",
+          "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Você",
+      "ASSISTANT": "Assistente",
+      "MESSAGE_PLACEHOLDER": "Digite sua mensagem...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use este playground para enviar mensagens para seu assistente e verificar se ele responde com precisão, rápido e no tom que você espera.",
+      "CREDIT_NOTE": "As mensagens enviadas aqui usam os créditos do seu Capitão."
     },
     "PAYWALL": {
       "TITLE": "Atualize para usar o Capitão IA",
@@ -373,20 +398,44 @@
         "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente."
       },
       "FORM": {
+        "UPDATE": "Atualizar",
+        "SECTIONS": {
+          "BASIC_INFO": "Informações Básicas",
+          "SYSTEM_MESSAGES": "Mensagens do Sistema",
+          "INSTRUCTIONS": "Instruções",
+          "FEATURES": "Funcionalidades",
+          "TOOLS": "Ferramentas "
+        },
         "NAME": {
-          "LABEL": "Nome do Assistente",
-          "PLACEHOLDER": "Insira um nome para o assistente",
-          "ERROR": "Por favor, forneça um nome para o assistente"
+          "LABEL": "Nome",
+          "PLACEHOLDER": "Digite o nome do assistente",
+          "ERROR": "O nome é obrigatório"
         },
         "DESCRIPTION": {
-          "LABEL": "Descrição do Assistente",
-          "PLACEHOLDER": "Descreva como e onde este assistente será usado",
-          "ERROR": "É necessária uma descrição"
+          "LABEL": "Descrição",
+          "PLACEHOLDER": "Digite a descrição do assistente",
+          "ERROR": "A descrição é obrigatória"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
-          "PLACEHOLDER": "Digite o nome do produto para o qual este assistente foi projetado",
+          "PLACEHOLDER": "Digite o nome do produto",
           "ERROR": "O nome do produto é obrigatório"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Mensagem de boas-vindas",
+          "PLACEHOLDER": "Digite a mensagem de boas-vindas"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Mensagem de transferência",
+          "PLACEHOLDER": "Digite a mensagem de transferência"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Mensagem de resolução",
+          "PLACEHOLDER": "Digite a mensagem de resolução"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instruções",
+          "PLACEHOLDER": "Digite as instruções para o assistente"
         },
         "FEATURES": {
           "TITLE": "Funcionalidades",
@@ -397,7 +446,8 @@
       "EDIT": {
         "TITLE": "Atualizar o assistente",
         "SUCCESS_MESSAGE": "O assistente foi criado com sucesso",
-        "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente."
+        "ERROR_MESSAGE": "Ocorreu um erro ao criar o assistente, por favor tente novamente.",
+        "NOT_FOUND": "Não foi possível encontrar o assistente. Tente novamente."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Editar Assistente",
@@ -408,8 +458,8 @@
         "TITLE": "Não há assistentes disponíveis",
         "SUBTITLE": "Crie um assistente para fornecer respostas rápidas e precisas aos seus usuários. Ele pode aprender com seus artigos de ajuda e conversas passadas.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Assistente Captain",
-          "NOTE": "O Assistente Capitão interage diretamente com os clientes, aprende com seus documentos de ajuda e conversas passadas, e fornece respostas instantâneas e precisas. Ele lida com as consultas iniciais, oferecendo soluções rápidas antes de transferir para um agente quando necessário."
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       }
     },
@@ -453,8 +503,8 @@
         "TITLE": "Nenhum documento disponível",
         "SUBTITLE": "Os documentos são usados pelo seu assistente para gerar perguntas frequentes. Pode importar documentos para fornecer um contexto para seu assistente.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Documentos Captain",
-          "NOTE": "Um documento no Captain serve como um recurso de conhecimento para o assistente. Ao conectar sua central de ajuda ou guias, o Captain pode analisar o conteúdo e fornecer respostas precisas para as perguntas dos clientes."
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -491,7 +541,7 @@
         "ALL_ASSISTANTS": "Todos"
       },
       "STATUS": {
-        "TITLE": "Situação",
+        "TITLE": "Status",
         "PENDING": "Pendentes",
         "APPROVED": "Aceito",
         "ALL": "Todos"
@@ -534,8 +584,8 @@
         "TITLE": "Nenhuma FAQ encontrada",
         "SUBTITLE": "Perguntas Frequentes ajudam seu assistente a fornecer respostas rápidas e precisas para perguntas de seus clientes. Eles podem ser gerados automaticamente a partir do seu conteúdo ou podem ser adicionados manualmente.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Perguntas Frequentes do Captain",
-          "NOTE": "As Perguntas Frequentes do Captain detectam dúvidas comuns dos clientes — sejam elas ausentes da sua base de conhecimento ou frequentemente feitas — e geram respostas relevantes para melhorar o suporte. Você pode revisar cada sugestão e decidir se deseja aprová-la ou rejeitá-la."
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
       }
     },
