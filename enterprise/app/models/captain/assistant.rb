@@ -15,6 +15,8 @@
 #  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
+  include Avatarable
+
   self.table_name = 'captain_assistants'
 
   belongs_to :account
@@ -40,7 +42,7 @@ class Captain::Assistant < ApplicationRecord
     {
       id: id,
       name: name,
-      avatar_url: '/assets/images/dashboard/captain/logo.svg',
+      avatar_url: avatar_url.presence || default_avatar_url,
       description: description,
       created_at: created_at,
       type: 'captain_assistant'
@@ -51,10 +53,16 @@ class Captain::Assistant < ApplicationRecord
     {
       id: id,
       name: name,
-      avatar_url: '/assets/images/dashboard/captain/logo.svg',
+      avatar_url: avatar_url.presence || default_avatar_url,
       description: description,
       created_at: created_at,
       type: 'captain_assistant'
     }
+  end
+
+  private
+
+  def default_avatar_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
   end
 end
