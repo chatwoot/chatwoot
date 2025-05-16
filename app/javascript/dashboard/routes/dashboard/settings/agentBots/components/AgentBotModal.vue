@@ -107,6 +107,13 @@ const botUrlError = computed(() =>
   v$.value.botUrl.$error ? v$.value.botUrl.$errors[0]?.$message : ''
 );
 
+const showAccessTokenInput = computed(
+  () =>
+    showAccessToken.value ||
+    props.type === MODAL_TYPES.EDIT ||
+    accessToken.value
+);
+
 const resetForm = () => {
   Object.assign(formState, {
     botName: '',
@@ -172,7 +179,7 @@ const handleSubmit = async () => {
       : t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE');
     useAlert(alertKey);
 
-    // If it is a create operation, we need to show the access token before closing the modal
+    // Show access token for both create and edit operations
     if (isCreate) {
       const { access_token: responseAccessToken, id } = response || {};
 
@@ -198,12 +205,22 @@ const handleSubmit = async () => {
 
 const initializeForm = () => {
   if (props.selectedBot && Object.keys(props.selectedBot).length) {
-    const { name, description, outgoing_url, thumbnail, bot_config } =
-      props.selectedBot;
+    const {
+      name,
+      description,
+      outgoing_url: botUrl,
+      thumbnail,
+      bot_config: botConfig,
+      access_token: botAccessToken,
+    } = props.selectedBot;
     formState.botName = name || '';
     formState.botDescription = description || '';
-    formState.botUrl = outgoing_url || bot_config?.webhook_url || '';
+    formState.botUrl = botUrl || botConfig?.webhook_url || '';
     formState.botAvatarUrl = thumbnail || '';
+
+    if (botAccessToken && props.type === MODAL_TYPES.EDIT) {
+      accessToken.value = botAccessToken;
+    }
   } else {
     resetForm();
   }
@@ -236,7 +253,10 @@ defineExpose({ dialogRef });
     @close="closeModal"
   >
     <form class="flex flex-col gap-4" @submit.prevent="handleSubmit">
-      <div v-if="!showAccessToken" class="flex flex-col gap-4">
+      <div
+        v-if="!showAccessToken || type === MODAL_TYPES.EDIT"
+        class="flex flex-col gap-4"
+      >
         <div class="mb-2 flex flex-col items-start">
           <span class="mb-2 text-sm font-medium text-n-slate-12">
             {{ $t('AGENT_BOTS.FORM.AVATAR.LABEL') }}
@@ -253,6 +273,7 @@ defineExpose({ dialogRef });
         </div>
 
         <Input
+          id="bot-name"
           v-model="formState.botName"
           :label="$t('AGENT_BOTS.FORM.NAME.LABEL')"
           :placeholder="$t('AGENT_BOTS.FORM.NAME.PLACEHOLDER')"
@@ -262,12 +283,14 @@ defineExpose({ dialogRef });
         />
 
         <TextArea
+          id="bot-description"
           v-model="formState.botDescription"
           :label="$t('AGENT_BOTS.FORM.DESCRIPTION.LABEL')"
           :placeholder="$t('AGENT_BOTS.FORM.DESCRIPTION.PLACEHOLDER')"
         />
 
         <Input
+          id="bot-url"
           v-model="formState.botUrl"
           :label="$t('AGENT_BOTS.FORM.WEBHOOK_URL.LABEL')"
           :placeholder="$t('AGENT_BOTS.FORM.WEBHOOK_URL.PLACEHOLDER')"
@@ -277,7 +300,15 @@ defineExpose({ dialogRef });
         />
       </div>
 
-      <AccessToken v-else :value="accessToken" @on-copy="onCopyToken" />
+      <div v-if="showAccessTokenInput" class="flex flex-col gap-1">
+        <label
+          v-if="type === MODAL_TYPES.EDIT"
+          class="mb-0.5 text-sm font-medium text-n-slate-12"
+        >
+          {{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}
+        </label>
+        <AccessToken :value="accessToken" @on-copy="onCopyToken" />
+      </div>
 
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
         <NextButton

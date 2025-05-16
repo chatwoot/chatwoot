@@ -61,7 +61,7 @@
     },
     "ACCESS_TOKEN": {
       "TITLE": "Access Token",
-      "DESCRIPTION": "Copy the access token and save it securely. It won't be shown again.",
+      "DESCRIPTION": "Copy the access token and save it securely",
       "COPY_SUCCESSFUL": "Access token copied to clipboard"
     },
     "FORM": {
