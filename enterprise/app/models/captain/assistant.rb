@@ -41,7 +41,6 @@ class Captain::Assistant < ApplicationRecord
       id: id,
       name: name,
       avatar_url: '/assets/images/dashboard/captain/logo.svg',
-      thumbnail: '/assets/images/dashboard/captain/logo.svg',
       description: description,
       created_at: created_at,
       type: 'captain_assistant'
