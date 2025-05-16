@@ -1242,6 +1242,9 @@ export default {
       :new-conversation-modal-active="newConversationModalActive"
       allow-signature
       allow-emoji
+      allow-ai-assist
+      allow-video-call
+      allow-audio-recorder
       @select-whatsapp-template="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"
