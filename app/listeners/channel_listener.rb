@@ -28,9 +28,9 @@ class ChannelListener < BaseListener
     channel = conversation.inbox.channel
     return unless channel.respond_to?(:send_read_messages)
 
-    messages = conversation.messages.where(message_type: :incoming)
-                           .where('updated_at > ?', last_seen_at)
-                           .where.not(status: :read)
+    messages = conversation.messages.where(message_type: :incoming).where.not(status: :read)
+
+    messages = messages.where('updated_at > ?', last_seen_at) if last_seen_at.present?
 
     channel.send_read_messages(messages, conversation: conversation) if messages.any?
   end

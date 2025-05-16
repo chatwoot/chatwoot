@@ -95,12 +95,13 @@ describe ChannelListener do
     let(:channel) { create(:channel_whatsapp, sync_templates: false, validate_provider_config: false) }
     let(:conversation) { create(:conversation, inbox: create(:inbox, channel: channel)) }
     let(:last_seen_at) { 1.day.ago }
+    let(:event) { Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: last_seen_at) }
 
     it 'sends read messages to the channel' do
-      sent_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent)
       create(:message, conversation: conversation, message_type: :incoming, status: :read)
+      sent_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent)
+
       allow(channel).to receive(:send_read_messages).with([sent_message], conversation: conversation)
-      event = Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: last_seen_at)
 
       listener.messages_read(event)
 
@@ -111,8 +112,40 @@ describe ChannelListener do
       create(:channel_api, inbox: conversation.inbox)
 
       expect do
-        listener.messages_read(Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: last_seen_at))
+        listener.messages_read(event)
       end.not_to raise_error
+    end
+
+    it 'skips the event if there are no unread messages' do
+      create(:message, conversation: conversation, message_type: :incoming, status: :read)
+
+      allow(channel).to receive(:send_read_messages)
+
+      listener.messages_read(event)
+
+      expect(channel).not_to have_received(:send_read_messages)
+    end
+
+    it 'filters messages ignoring last_seen_at' do
+      old_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: last_seen_at - 1.day)
+      recent_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: Time.zone.now)
+
+      allow(channel).to receive(:send_read_messages).with([old_message, recent_message], conversation: conversation)
+
+      listener.messages_read(Events::Base.new(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: nil))
+
+      expect(channel).to have_received(:send_read_messages)
+    end
+
+    it 'filters messages based on last_seen_at' do
+      create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: last_seen_at - 1.day)
+      recent_message = create(:message, conversation: conversation, message_type: :incoming, status: :sent, updated_at: Time.zone.now)
+
+      allow(channel).to receive(:send_read_messages).with([recent_message], conversation: conversation)
+
+      listener.messages_read(event)
+
+      expect(channel).to have_received(:send_read_messages)
     end
   end
 

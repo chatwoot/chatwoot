@@ -171,16 +171,17 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def message_content_attributes
+    content_attributes = {
+      external_created_at: @raw_message[:messageTimestamp]
+    }
     if message_type == 'reaction'
-      {
-        in_reply_to_external_id: @raw_message.dig(:message, :reactionMessage, :key, :id),
-        is_reaction: true
-      }
+      content_attributes[:in_reply_to_external_id] = @raw_message.dig(:message, :reactionMessage, :key, :id)
+      content_attributes[:is_reaction] = true
     elsif message_type == 'unsupported'
-      {
-        is_unsupported: true
-      }
+      content_attributes[:is_unsupported] = true
     end
+
+    content_attributes
   end
 
   def incoming?
