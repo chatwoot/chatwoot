@@ -9,7 +9,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   sort_on :city, internal_name: :order_on_city, type: :scope, scope_params: [:direction]
   sort_on :country, internal_name: :order_on_country_name, type: :scope, scope_params: [:direction]
 
-  RESULTS_PER_PAGE = 30 
+  RESULTS_PER_PAGE = 15
 
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
@@ -17,23 +17,18 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
 
   def get_all_ids
-    begin
-      
-      contacts = resolved_contacts.where.not(phone_number: [nil, ''])
-    
-    
+    contacts = resolved_contacts.where.not(phone_number: [nil, ''])
+
     contacts = contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
-    
+
     contact_ids = contacts.pluck(:id)
-    
-    
+
     render json: {
       contact_ids: contact_ids,
       total_count: contact_ids.length
     }
-    rescue StandardError => e
-      render json: { error: 'Unable to fetch contact IDs' }, status: :internal_server_error
-    end
+  rescue StandardError => e
+    render json: { error: 'Unable to fetch contact IDs' }, status: :internal_server_error
   end
 
   def index
@@ -154,9 +149,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @resolved_contacts = @resolved_contacts.tagged_with(params[:labels], any: true) if params[:labels].present?
 
     # Check if request is from campaign route
-    if from_campaign_route?
-      @resolved_contacts = @resolved_contacts.where.not(phone_number: [nil, ''])
-    end
+    @resolved_contacts = @resolved_contacts.where.not(phone_number: [nil, '']) if from_campaign_route?
 
     @resolved_contacts
   end

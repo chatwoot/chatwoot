@@ -14,6 +14,11 @@ import Spinner from 'shared/components/Spinner.vue';
 import ContactsAPI from 'dashboard/api/contacts';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
 
 const props = defineProps({
   contacts: {
@@ -46,6 +51,7 @@ const emit = defineEmits([
 const store = useStore();
 const { t } = useI18n();
 
+const itemsPerPage = 15;
 // State
 const searchQuery = ref('');
 const localSelectedContacts = ref([...props.selectedContacts]);
@@ -54,6 +60,7 @@ const isSelectingAll = ref(false);
 const showFiltersModal = ref(false);
 const currentPage = ref(1);
 const totalPages = ref(1);
+const totalContacts = ref(0);
 const contactList = ref([]);
 const allFilteredContacts = ref([]);
 const isLoadingContacts = ref(false);
@@ -158,6 +165,7 @@ const mergedFilterTypes = computed(() => [
 
 // Computed Properties
 const filteredContacts = computed(() => {
+  console.log('Initial contact list: ', contactList);
   const contactsToFilter =
     contactList.value.length > 0 ? contactList.value : props.contacts;
   if (!searchQuery.value) return contactsToFilter;
@@ -222,83 +230,38 @@ const shouldShowLoadingTrigger = computed(() => {
 
 // Methods
 const handleContactsResponse = (data, isFiltered = false) => {
+  console.log('New data: ', data);
   const { payload = [], meta = {} } = data;
   const filteredContacts = payload.filter(contact => contact.phone_number);
 
-  if (isFiltered) {
-    contactList.value =
-      currentPage.value === 1
-        ? filteredContacts
-        : [...contactList.value, ...filteredContacts];
-    if (currentPage.value === 1) {
-      allFilteredContacts.value = filteredContacts;
-    } else {
-      allFilteredContacts.value = [...allFilteredContacts.value];
-    }
-  } else {
-    contactList.value =
-      currentPage.value === 1
-        ? filteredContacts
-        : [...contactList.value, ...filteredContacts];
-  }
+  contactList.value = filteredContacts;
+  allFilteredContacts.value = filteredContacts;
+
+  // if (isFiltered) {
+  //   contactList.value =
+  //     currentPage.value === 1
+  //       ? filteredContacts
+  //       : [...contactList.value, ...filteredContacts];
+  //   if (currentPage.value === 1) {
+  //     allFilteredContacts.value = filteredContacts;
+  //   } else {
+  //     allFilteredContacts.value = [...allFilteredContacts.value];
+  //   }
+  // } else {
+  //   contactList.value =
+  //     currentPage.value === 1
+  //       ? filteredContacts
+  //       : [...filteredContacts];
+  // }
+
   emit('filter-contacts', contactList.value);
 
-  const totalpages = Math.ceil(meta.count / 30);
+  const totalpages = Math.ceil(meta.count / itemsPerPage);
   totalPages.value = Math.min(totalpages, 33);
+  totalContacts.value = meta.count;
 
   nextTick(() => {
     resetObserver();
-  });
-};
-
-const setupInfiniteScroll = () => {
-  const options = {
-    root: document.querySelector('.contacts-list'),
-    rootMargin: '0px',
-    threshold: 0.5,
-  };
-
-  observer.value = new IntersectionObserver(async ([entry]) => {
-    if (entry && entry.isIntersecting) {
-      const hasActiveFilters = appliedFilters.value.some(filter => {
-        if (filter.values === null || filter.values === undefined) {
-          return false;
-        }
-
-        if (typeof filter.values === 'string') {
-          return filter.values.trim() !== '';
-        }
-
-        if (Array.isArray(filter.values)) {
-          return filter.values.length > 0;
-        }
-
-        if (typeof filter.values === 'object') {
-          return Object.keys(filter.values).length > 0;
-        }
-
-        return !!filter.values;
-      });
-
-      if (hasActiveFilters) {
-        if (
-          currentPage.value < totalPages.value &&
-          !loadingMoreFiltered.value &&
-          !isLoadingContacts.value
-        ) {
-          await loadMoreFilteredContacts();
-        }
-      } else if (props.hasMore && !props.isLoading) {
-        emit('load-more');
-      }
-    }
-  }, options);
-
-  nextTick(() => {
-    const trigger = document.querySelector('.loading-trigger');
-    if (trigger) {
-      observer.value.observe(trigger);
-    }
   });
 };
 
@@ -405,7 +368,7 @@ const submitFilters = async () => {
     currentPage.value = 1;
     allFilteredContacts.value = [];
 
-    const formattedFilters = appliedFilters.value
+    let formattedFilters = appliedFilters.value
       .filter(filter => isFilterValueValid(filter))
       .map((filter, index, filteredArray) => {
         const baseFilter = {
@@ -421,6 +384,20 @@ const submitFilters = async () => {
 
         return useSnakeCase(baseFilter);
       });
+
+    console.log('formatted Filter list: ', formattedFilters);
+    if (formattedFilters.every(e => e.attribute_key != 'phone_number')) {
+      formattedFilters = [
+        {
+          attribute_key: 'phone_number',
+          attribute_model: 'standard',
+          filter_operator: 'contains',
+          query_operator: 'and',
+          values: '+',
+        },
+        ...formattedFilters,
+      ];
+    }
 
     if (formattedFilters.length === 0) {
       await fetchContacts(1);
@@ -440,24 +417,25 @@ const submitFilters = async () => {
     const validContacts = payload.filter(contact => contact.phone_number);
     allFilteredContacts.value = [...validContacts];
 
-    const totalpages = Math.ceil(meta.count / 30);
-    totalPages.value = totalpages;
-    for (let page = 2; page <= totalpages; page++) {
-      const response = await ContactsAPI.filter(page, 'name', queryPayload);
-      if (response.data && response.data.payload) {
-        const validPageContacts = response.data.payload.filter(
-          contact => contact.phone_number
-        );
-        allFilteredContacts.value = [
-          ...allFilteredContacts.value,
-          ...validPageContacts,
-        ];
-      }
-    }
+    // const totalpages = Math.ceil(meta.count / 30);
+    // totalPages.value = totalpages;
+    // for (let page = 2; page <= totalpages; page++) {
+    //   const response = await ContactsAPI.filter(page, 'name', queryPayload);
+    //   if (response.data && response.data.payload) {
+    //     const validPageContacts = response.data.payload.filter(
+    //       contact => contact.phone_number
+    //     );
+    //     allFilteredContacts.value = [
+    //       ...allFilteredContacts.value,
+    //       ...validPageContacts,
+    //     ];
+    //   }
+    // }
     nextTick(() => {
       resetObserver();
     });
   } catch (error) {
+    console.log('Error occurred: ', error);
     useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_ERROR'));
   } finally {
     isFetchingAllPages.value = false;
@@ -475,11 +453,12 @@ const clearFilters = async () => {
       attributeModel: 'standard',
     },
   ];
-  contactList.value = [];
-  allFilteredContacts.value = [];
-  currentPage.value = 1;
-  totalPages.value = 1;
-  emit('filters-cleared');
+  // // fetch
+  fetchContacts(1);
+  // allFilteredContacts.value = [];
+  // currentPage.value = 1;
+  // totalPages.value = 1;
+  // emit('filters-cleared');
 
   await nextTick();
   resetObserver();
@@ -488,54 +467,15 @@ const clearFilters = async () => {
 
 const fetchContacts = async (page = 1) => {
   try {
+    currentPage.value = page;
     isLoadingContacts.value = true;
     const { data } = await ContactsAPI.get(page, sortAttribute.value);
+    console.log('Got Contacts: ', data);
     handleContactsResponse(data, false);
   } catch (error) {
     useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
   } finally {
     isLoadingContacts.value = false;
-  }
-};
-
-const loadMoreFilteredContacts = async () => {
-  if (currentPage.value < totalPages.value && !isLoadingContacts.value) {
-    try {
-      loadingMoreFiltered.value = true;
-      isLoadingContacts.value = true;
-      currentPage.value += 1;
-
-      const formattedFilters = appliedFilters.value
-        .filter(filter => isFilterValueValid(filter))
-        .map((filter, index, filteredArray) => {
-          const baseFilter = {
-            attributeKey: filter.attributeKey,
-            attributeModel: filter.attributeModel || 'standard',
-            filterOperator: filter.filterOperator,
-            values: formatFilterValue(filter),
-          };
-
-          if (filteredArray.length > 1 && index < filteredArray.length - 1) {
-            baseFilter.queryOperator = filter.queryOperator;
-          }
-
-          return useSnakeCase(baseFilter);
-        });
-
-      const queryPayload = { payload: formattedFilters };
-      const { data } = await ContactsAPI.filter(
-        currentPage.value,
-        'name',
-        queryPayload
-      );
-      handleContactsResponse(data, true);
-    } catch (error) {
-      useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_ERROR'));
-      currentPage.value -= 1;
-    } finally {
-      isLoadingContacts.value = false;
-      loadingMoreFiltered.value = false;
-    }
   }
 };
 
@@ -579,11 +519,15 @@ const updateSelectVisiblePosition = () => {
   });
 };
 
+const onUpdatePage = page => {
+  console.log('New Page: ', page);
+  fetchContacts(page);
+};
+
 const resetObserver = () => {
   if (observer.value) {
     observer.value.disconnect();
   }
-  setupInfiniteScroll();
 };
 
 // Watchers
@@ -632,8 +576,8 @@ watch(
 
 // Lifecycle Hooks
 onMounted(() => {
-  setupInfiniteScroll();
   updateSelectVisiblePosition();
+  fetchContacts(1);
   window.addEventListener('resize', updateSelectVisiblePosition);
 });
 
@@ -693,13 +637,27 @@ defineExpose({
         :class="{ selected: isSelected(contact) }"
         @click="toggleContact(contact)"
       >
+        <Avatar
+          :name="contact.name"
+          :src="contact.thumbnail"
+          :size="48"
+          rounded-full
+        />
         <div class="contact-info">
-          <span class="contact-name">{{ contact.name }}</span>
-          <span class="contact-phone">{{ contact.phone_number }}</span>
-          <span v-if="contact.email" class="contact-email">{{
-            contact.email
-          }}</span>
+          <div>
+            <span class="contact-name">
+              {{ contact.name }}
+            </span>
+          </div>
+          <div class="flex flex-row items-center gap-2">
+            <span class="contact-phone">{{ contact.phone_number }}</span>
+            <div v-if="contact.email" class="w-px h-3 truncate bg-n-slate-6" />
+            <span v-if="contact.email" class="contact-email">{{
+              contact.email
+            }}</span>
+          </div>
         </div>
+        <div class="flex-1"></div>
         <input
           type="checkbox"
           :checked="isSelected(contact)"
@@ -720,13 +678,23 @@ defineExpose({
       </div>
     </div>
 
-    <div class="selection-summary">
+    <!-- <div class="selection-summary">
       {{
         t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.SELECTED_CONTACTS', {
           count: localSelectedContacts.length,
         })
       }}
-    </div>
+    </div> -->
+
+    <div class="bg-red-50"></div>
+    <PaginationFooter
+      current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
+      :current-page="currentPage"
+      :total-items="totalContacts"
+      :items-per-page="itemsPerPage"
+      @update:current-page="onUpdatePage"
+    />
+
     <woot-modal
       :show="showFiltersModal"
       size="medium"
@@ -774,7 +742,6 @@ defineExpose({
 
     .search-controls {
       @apply flex flex-row items-center justify-start;
-
 
       .search-input {
         @apply ml-2 w-48 border rounded my-0 py-2 px-3;
@@ -839,7 +806,7 @@ defineExpose({
     @apply dark:bg-[#1b1c21];
 
     .contact-item {
-      @apply flex items-center justify-between p-3 cursor-pointer border-b;
+      @apply flex items-center p-3 cursor-pointer border-b;
       border-color: #e2e8f0;
       @apply dark:border-[#23242b];
       &:hover {
@@ -852,7 +819,7 @@ defineExpose({
       }
 
       .contact-info {
-        @apply flex flex-col;
+        @apply flex flex-col mx-4;
 
         .contact-name {
           @apply font-medium;

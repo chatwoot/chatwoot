@@ -423,11 +423,16 @@ onBeforeUnmount(() => {
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
         @contacts-selected="contacts => (formState.selectedContacts = contacts)"
-        @load-more="loadMoreContacts"
+        @load-more="() => {}"
+        @select-all-contacts="() => {}"
+        @filter-contacts="() => {}"
+        @filters-cleared="() => {}"
+      />
+
+        <!-- @load-more="loadMoreContacts"
         @select-all-contacts="fetchAllContactIds"
         @filter-contacts="onFilteredContacts"
-        @filters-cleared="handleFiltersCleared"
-      />
+        @filters-cleared="handleFiltersCleared" -->
 
       <div class="flex justify-end w-full gap-2 px-0 py-2 mt-4">
         <Button
