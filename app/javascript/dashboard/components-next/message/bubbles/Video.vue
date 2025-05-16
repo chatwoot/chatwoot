@@ -2,6 +2,7 @@
 import { ref, computed } from 'vue';
 import BaseBubble from './Base.vue';
 import Icon from 'next/icon/Icon.vue';
+import { useGallery } from '../useGallery';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import { useMessageContext } from '../provider.js';
 import GalleryView from 'dashboard/components/widgets/conversation/components/GalleryView.vue';
@@ -9,7 +10,7 @@ import { ATTACHMENT_TYPES } from '../constants';
 
 const emit = defineEmits(['error']);
 const hasError = ref(false);
-const showGallery = ref(false);
+const { showGallery, isGalleryAllowed, toggleGallery } = useGallery();
 const { filteredCurrentChatAttachments, attachments } = useMessageContext();
 
 const handleError = () => {
@@ -30,7 +31,7 @@ const isReel = computed(() => {
   <BaseBubble
     class="overflow-hidden p-3"
     data-bubble-name="video"
-    @click="showGallery = true"
+    @click="toggleGallery(true)"
   >
     <div class="relative group rounded-lg overflow-hidden">
       <div
@@ -52,7 +53,7 @@ const isReel = computed(() => {
     </div>
   </BaseBubble>
   <GalleryView
-    v-if="showGallery"
+    v-if="showGallery && isGalleryAllowed"
     v-model:show="showGallery"
     :attachment="useSnakeCase(attachment)"
     :all-attachments="filteredCurrentChatAttachments"
