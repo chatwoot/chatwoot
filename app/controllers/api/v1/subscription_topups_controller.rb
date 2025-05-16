@@ -114,7 +114,7 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
         duitku_order_id: order_id,
         payment_url: response['paymentUrl'],
         payment_method: params[:payment_method],
-        expires_at: Time.now + 1.hour
+        expires_at: Time.current + response[:expiryPeriod].to_i.minutes
       )
       return payment
     else
