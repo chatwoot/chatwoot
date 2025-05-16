@@ -49,4 +49,6 @@ export const init = async () => {
 
 if (typeof window.chatwootCallback === 'function') {
   window.chatwootCallback(init);
+} else {
+  init();
 }
