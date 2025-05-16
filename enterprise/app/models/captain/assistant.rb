@@ -26,6 +26,7 @@ class Captain::Assistant < ApplicationRecord
            dependent: :destroy_async
   has_many :inboxes,
            through: :captain_inboxes
+  has_many :messages, as: :sender, dependent: :nullify
 
   validates :name, presence: true
   validates :description, presence: true
@@ -34,4 +35,27 @@ class Captain::Assistant < ApplicationRecord
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
+
+  def push_event_data
+    {
+      id: id,
+      name: name,
+      avatar_url: '/assets/images/dashboard/captain/logo.svg',
+      thumbnail: '/assets/images/dashboard/captain/logo.svg',
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      avatar_url: '/assets/images/dashboard/captain/logo.svg',
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
 end

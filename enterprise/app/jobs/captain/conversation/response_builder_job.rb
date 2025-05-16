@@ -77,6 +77,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       message_type: :outgoing,
       account_id: account.id,
       inbox_id: inbox.id,
+      sender: @assistant,
       content: message_content
     )
   end
