@@ -23,7 +23,8 @@ class Captain::InboxPendingConversationsResolutionJob < ApplicationJob
           message_type: :outgoing,
           account_id: conversation.account_id,
           inbox_id: conversation.inbox_id,
-          content: resolution_message.presence || I18n.t('conversations.activity.auto_resolution_message')
+          content: resolution_message.presence || I18n.t('conversations.activity.auto_resolution_message'),
+          sender: inbox.captain_assistant
         }
       )
     end
