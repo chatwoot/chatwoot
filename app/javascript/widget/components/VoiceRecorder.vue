@@ -79,7 +79,7 @@ export default {
     async uploadRecording(audioBlob) {
       this.isUploading = true;
       try {
-        const file = new File([audioBlob], 'voice-message.mp3', {
+        const file = new File([audioBlob], 'voice-'+Date.now()+'.mp3', {
           type: 'audio/mp3',
         });
 
@@ -105,38 +105,76 @@ export default {
     },
 
     async onDirectFileUpload(file) {
-      const { websiteToken } = window.chatwootWebChannel;
-      const upload = new DirectUpload(
-        file,
-        `/api/v1/widget/direct_uploads?website_token=${websiteToken}`,
-        {
-          directUploadWillCreateBlobWithXHR: xhr => {
-            xhr.setRequestHeader('X-Auth-Token', window.authToken);
-          },
-        }
-      );
+      if (!file) {
+        return;
+      }
+      this.isUploading = true;
+      try {
+        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+          const { websiteToken } = window.chatwootWebChannel;
+          const upload = new DirectUpload(
+            file.file,
+            `/api/v1/widget/direct_uploads?website_token=${websiteToken}`,
+            {
+              directUploadWillCreateBlobWithXHR: xhr => {
+                xhr.setRequestHeader('X-Auth-Token', window.authToken);
+              },
+            }
+          );
 
-      upload.create((error, blob) => {
-        if (error) {
-          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
-            message: error,
+          upload.create((error, blob) => {
+            if (error) {
+              emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+                message: error,
+              });
+            } else {
+              this.onAttach({
+                file: blob.signed_id,
+                ...this.getLocalFileAttributes(file),
+              });
+            }
           });
         } else {
-          this.onAttach({
-            file: blob.signed_id,
-            thumbUrl: window.URL.createObjectURL(file),
-            fileType: 'file',
+          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+            message: this.$t('FILE_SIZE_LIMIT', {
+              MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
+            }),
           });
         }
-      });
+      } catch (error) {
+        // Error
+      }
+      this.isUploading = false;
     },
 
     async onIndirectFileUpload(file) {
-      await this.onAttach({
-        file: file,
-        thumbUrl: window.URL.createObjectURL(file),
-        fileType: 'file',
-      });
+      if (!file) {
+        return;
+      }
+      this.isUploading = true;
+      try {
+        if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
+          await this.onAttach({
+            file: file.file,
+            ...this.getLocalFileAttributes(file),
+          });
+        } else {
+          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+            message: this.$t('FILE_SIZE_LIMIT', {
+              MAXIMUM_FILE_UPLOAD_SIZE: this.fileUploadSizeLimit,
+            }),
+          });
+        }
+      } catch (error) {
+        // Error
+      }
+      this.isUploading = false;
+    },
+    getLocalFileAttributes(file) {
+      return {
+        thumbUrl: window.URL.createObjectURL(file.file),
+        fileType: this.getFileType(file.type),
+      };
     },
   },
 };
