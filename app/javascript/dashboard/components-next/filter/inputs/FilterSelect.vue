@@ -38,8 +38,11 @@ const selected = defineModel({
 });
 
 const triggerRef = ref(null);
+const dropdownRef = ref(null);
+
 const { top } = useElementBounding(triggerRef);
 const { height } = useWindowSize();
+const { height: dropdownHeight } = useElementBounding(dropdownRef);
 
 const selectedOption = computed(() => {
   return props.options.find(o => o.value === selected.value) || {};
@@ -50,15 +53,19 @@ const iconToRender = computed(() => {
   return selectedOption.value.icon || 'i-lucide-chevron-down';
 });
 
+const dropdownPosition = computed(() => {
+  const DROPDOWN_MAX_HEIGHT = 340;
+  // Get actual height if available or use default
+  const menuHeight = dropdownHeight.value
+    ? dropdownHeight.value + 20
+    : DROPDOWN_MAX_HEIGHT;
+  const spaceBelow = height.value - top.value;
+  return spaceBelow < menuHeight ? 'bottom-0' : 'top-0';
+});
+
 const updateSelected = newValue => {
   selected.value = newValue;
 };
-
-const dropdownPosition = computed(() => {
-  const DROPDOWN_HEIGHT = 340;
-  const spaceBelow = height.value - top.value;
-  return spaceBelow < DROPDOWN_HEIGHT ? 'bottom-0' : 'top-0';
-});
 </script>
 
 <template>
@@ -77,7 +84,12 @@ const dropdownPosition = computed(() => {
         />
       </slot>
     </template>
-    <DropdownBody class="min-w-48 z-50" :class="dropdownPosition" strong>
+    <DropdownBody
+      ref="dropdownRef"
+      class="min-w-48 z-50"
+      :class="dropdownPosition"
+      strong
+    >
       <DropdownSection class="max-h-80 overflow-scroll">
         <DropdownItem
           v-for="option in options"
