@@ -3,12 +3,15 @@ import { computed, onMounted, ref, watch } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 const props = defineProps({
   data: {
     type: Object,
     required: true,
   },
 });
+
+const { t } = useI18n()
 
 const files = ref([]);
 const detectedCharacters = computed(() =>
@@ -83,6 +86,10 @@ function addFile(file) {
   if (!file.name.endsWith('.pdf')) {
     return
   }
+  if (file.size > 5242880) {
+    useAlert(t('CONVERSATION.UPLOAD_MAX_REACHED'))
+    return
+  }
   newFiles.value.push(file);
 }
 
@@ -149,9 +156,9 @@ const handleDrop = (event) => {
           @change="v => onInputChanged(v)"
         />
         <span class="text-center">
-          <span> Klik atau tarik dan lepas file di sini </span>
+          <span> {{ $t("CONVERSATION.PLACEHOLDER_UPLOAD.PART_1") }} </span>
           <br />
-          <span> Support file .pdf </span>
+          <span> {{ $t("CONVERSATION.PLACEHOLDER_UPLOAD.PART_2") }} </span>
         </span>
       </div>
 

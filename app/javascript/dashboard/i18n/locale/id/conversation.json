@@ -221,7 +221,12 @@
         "DELETE": "Hapus",
         "CANCEL": "Batalkan"
       }
-    }
+    },
+    "PLACEHOLDER_UPLOAD": {
+      "PART_1": "Klik atau tarik dan lepas file di sini (Maksimal ukuran 5MB)",
+      "PART_2": "Mendukung file .pdf"
+    },
+    "UPLOAD_MAX_REACHED": "File terlalu besar. Maksimal ukuran file adalah 5MB."
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Kirim transkrip percakapan",
