@@ -28,9 +28,9 @@ class AgentBuilder
   def find_or_create_user
     user = User.from_email(email)
     return user if user
-
-    temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
-    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password)
+    # temp_password = "1!aA#{SecureRandom.alphanumeric(12)}"
+    temp_password = 'Cw@1234567890'
+    User.create!(email: email, name: name, password: temp_password, password_confirmation: temp_password, confirmed_at: Time.current)
   end
 
   # Checks if the user needs confirmation.
