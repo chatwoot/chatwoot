@@ -33,14 +33,18 @@ window.__CHATWOOT_STORE__ = store;
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 
-store.dispatch('setUser').then(() => {
-  const app = createApp(MessageList);
+export const init = async () => {
+  return store.dispatch('setUser').then(() => {
+    const app = createApp(MessageList);
 
-  app.use(store);
-  app.use(i18n);
-  app.use(VueDOMPurifyHTML, domPurifyConfig);
-  // eslint-disable-next-line no-underscore-dangle
-  vueActionCable.init(store, window.__PUBSUB_TOKEN__);
+    app.use(store);
+    app.use(i18n);
+    app.use(VueDOMPurifyHTML, domPurifyConfig);
+    // eslint-disable-next-line no-underscore-dangle
+    vueActionCable.init(store, window.__PUBSUB_TOKEN__);
 
-  app.mount('#app');
-});
+    app.mount('#app');
+  });
+};
+
+window.initConversation = init;
