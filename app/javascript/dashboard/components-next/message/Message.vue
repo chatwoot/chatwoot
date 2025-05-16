@@ -186,7 +186,7 @@ const isBotOrAgentMessage = computed(() => {
     return true;
   }
   const senderId = props.senderId ?? props.sender?.id;
-  const senderType = props.senderType ?? props.sender?.type;
+  const senderType = props.sender?.type ?? props.senderType;
 
   if (!senderType || !senderId) {
     return true;
