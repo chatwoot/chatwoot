@@ -32,7 +32,7 @@ const topupType = ref(props.topupType);
 const subscriptionId = ref(props.id);
 const amount = ref(0);
 const total = ref(0);
-const selectedMethod = ref('VC');
+const selectedMethod = ref('M2');
 const isSubmitting = ref(false);
 
 const rules = {};
