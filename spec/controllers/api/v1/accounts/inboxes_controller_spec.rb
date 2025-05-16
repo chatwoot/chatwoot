@@ -717,6 +717,94 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.smtp_authentication).to eq('plain')
       end
     end
+
+    context 'when handling CSAT configuration' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:csat_config) do
+        {
+          'display_type' => 'emoji',
+          'message' => 'How would you rate your experience?',
+          'survey_rules' => {
+            'operator' => 'contains',
+            'values' => %w[support help]
+          }
+        }
+      end
+
+      it 'successfully updates the inbox with CSAT configuration' do
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: {
+                csat_survey_enabled: true,
+                csat_config: csat_config
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      context 'when CSAT is configured' do
+        before do
+          patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+                params: {
+                  csat_survey_enabled: true,
+                  csat_config: csat_config
+                },
+                headers: admin.create_new_auth_token,
+                as: :json
+        end
+
+        it 'returns configured CSAT settings in inbox details' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['csat_survey_enabled']).to be true
+
+          saved_config = json_response['csat_config']
+          expect(saved_config).to be_present
+          expect(saved_config['display_type']).to eq('emoji')
+        end
+
+        it 'returns configured CSAT message' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          json_response = response.parsed_body
+          saved_config = json_response['csat_config']
+          expect(saved_config['message']).to eq('How would you rate your experience?')
+        end
+
+        it 'returns configured CSAT survey rules' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          json_response = response.parsed_body
+          saved_config = json_response['csat_config']
+          expect(saved_config['survey_rules']['operator']).to eq('contains')
+          expect(saved_config['survey_rules']['values']).to match_array(%w[support help])
+        end
+
+        it 'includes CSAT configuration in inbox list' do
+          get "/api/v1/accounts/#{account.id}/inboxes",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          inbox_list = response.parsed_body
+          found_inbox = inbox_list['payload'].find { |i| i['id'] == inbox.id }
+
+          expect(found_inbox['csat_survey_enabled']).to be true
+          expect(found_inbox['csat_config']).to be_present
+          expect(found_inbox['csat_config']['display_type']).to eq('emoji')
+        end
+      end
+    end
   end
 
   describe 'GET /api/v1/accounts/{account.id}/inboxes/{inbox.id}/agent_bot' do
