@@ -21,34 +21,47 @@
       </button>
     </div>
   </div>
-  <!-- <div
+  <div
     v-else
-    class="customer-satisfaction w-full flex flex-col justify-center items-center shadow-[0px_0px_2px_rgba(0,0,0,0.05)] py-4 px-6 bg-[#FAFAFA] gap-2 min-h-[7.125rem] border-t border-solid border-[#d9d9d9]"
+    class="customer-satisfaction w-full shadow-[0px_0px_2px_rgba(0,0,0,0.05)] py-3 px-4 bg-[#FAFAFA] gap-2 min-h-[7.125rem] border-t border-solid border-[#d9d9d9]"
     :class="$dm('bg-[#FAFAFA]', 'dark:bg-slate-700')"
   >
-    <h6
-      class="text-sm font-medium leading-5 text-center"
-      :class="$dm('text-slate-900', 'dark:text-slate-50')"
+    <div
+      v-if="channelConfig.backPopulateConversation"
+      class="flex flex-col justify-between w-full gap-2"
     >
-      {{
-        channelConfig.backPopulateConversation
-          ? 'Continue to chat'
-          : 'Creating new conversation'
-      }}
-    </h6>
-    <button
-      v-if="!isUpdating"
-      class="bg-[#F0F0F0] border border-solid border-[#E6E6E6] w-auto flex justify-center items-center gap-2 text-xs py-2 px-3 rounded-md shadow-[0px_1px_0px_0px #0000000D] transition-all duration-300 create-chat-button"
-      @click.prevent="handleCreateConversation"
-    >
-      Create New Chat
-    </button>
-    <img
-      class="h-7"
-      src="~widget/assets/images/typing.gif"
-      alt="Spinner Message"
-    />
-  </div> -->
+      <h6
+        class="text-sm font-medium leading-5 text-center"
+        :class="$dm('text-slate-900', 'dark:text-slate-50')"
+      >
+        {{ 'Continue to Chat' }}
+      </h6>
+      <chat-input-wrap :on-send-message="handleSendMessage" />
+    </div>
+    <div v-else class="flex flex-col gap-3 justify-center items-center">
+      <h6
+        class="text-sm font-medium leading-5 text-center"
+        :class="$dm('text-slate-900', 'dark:text-slate-50')"
+      >
+        {{
+          isUpdating ? 'Creating new conversation' : 'Create new conversation'
+        }}
+      </h6>
+      <button
+        v-if="!isUpdating"
+        class="bg-[#F0F0F0] border border-solid border-[#E6E6E6] w-auto flex justify-center items-center gap-2 text-xs py-2 px-3 rounded-md shadow-[0px_1px_0px_0px #0000000D] transition-all duration-300 create-chat-button"
+        @click.prevent="handleCreateConversation"
+      >
+        Create New Chat
+      </button>
+      <img
+        v-if="isUpdating"
+        class="h-7"
+        src="~widget/assets/images/typing.gif"
+        alt="Spinner Message"
+      />
+    </div>
+  </div>
 </template>
 
 <script>
@@ -60,8 +73,12 @@ import darkModeMixin from 'widget/mixins/darkModeMixin';
 import configMixin from 'widget/mixins/configMixin';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import routerMixin from 'widget/mixins/routerMixin';
+import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 
 export default {
+  components: {
+    ChatInputWrap,
+  },
   mixins: [darkModeMixin, routerMixin, configMixin],
   props: {
     messageContentAttributes: {
@@ -122,7 +139,7 @@ export default {
   },
 
   methods: {
-    ...mapActions('conversation', ['createNewConversation']),
+    ...mapActions('conversation', ['createNewConversation', 'sendMessage']),
     ...mapActions('conversationAttributes', ['getAttributes']),
     buttonClass(rating) {
       return [
@@ -131,6 +148,12 @@ export default {
         { hover: this.isRatingSubmitted },
         'emoji-button',
       ];
+    },
+    async handleSendMessage(content) {
+      await this.sendMessage({
+        content,
+      });
+      this.handleCreateConversation();
     },
     async handleCreateConversation() {
       this.isUpdating = true;
@@ -166,7 +189,7 @@ export default {
       } finally {
         this.isUpdating = false;
       }
-      this.handleCreateConversation();
+      // this.handleCreateConversation();
     },
     selectRating(rating) {
       this.selectedRating = rating.value;

@@ -166,6 +166,10 @@ class Conversation < ApplicationRecord
     save
   end
 
+  def web_widget?
+    inbox.channel_type == 'Channel::WebWidget'
+  end
+
   def toggle_priority(priority = nil)
     self.priority = priority.presence
     save

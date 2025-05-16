@@ -86,7 +86,11 @@ module ActivityMessageHandler
     elsif Current.contact.present? && resolved?
       I18n.t('conversations.activity.status.contact_resolved', contact_name: Current.contact.name.capitalize)
     elsif resolved?
-      I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+      if web_widget?
+        'Conversation was marked resolved'
+      else
+        I18n.t('conversations.activity.status.auto_resolved', duration: auto_resolve_duration)
+      end
     end
   end
 

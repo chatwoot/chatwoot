@@ -41,6 +41,8 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     shop_url = permitted_params[:shop_url]
     source_id = contact_inbox.source_id
 
+    Rails.logger.info("source_id, #{source_id}")
+
     Rails.logger.info("get_checkout_url_called_Params, #{permitted_params[:line_items]}")
 
     response = fetch_checkout_url(shop_url, source_id, permitted_params[:line_items])

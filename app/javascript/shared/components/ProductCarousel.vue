@@ -205,7 +205,7 @@ export default {
   },
   data() {
     return {
-      isCheckoutLoading: true,
+      isCheckoutLoading: false,
     };
   },
   methods: {

@@ -12,7 +12,7 @@ class AssignConversationJob < ApplicationJob
       inbox_id: inbox_id,
       message_type: 'outgoing'
     )
-    conversation.update!(assignee_id: nil)
+    conversation.update!(assignee: nil)
 
     # Run auto assignment
     conversation.run_auto_assignment_for_web_widget_inbox
