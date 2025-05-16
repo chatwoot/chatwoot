@@ -43,7 +43,17 @@
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
         "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
-        "PICK_A_VALUE": "Izvēlieties vērtību"
+        "PICK_A_VALUE": "Izvēlieties vērtību",
+        "CREATE_INBOX": "Izveidot Iesūtni"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Turpināt ar Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Pievienot savu Instagram Profilu",
+        "HELP": "Lai pievienotu savu Instagram profilu kā kanālu, jums ir jāautentificē savs Instagram profils, noklikšķinot uz 'Turpināt ar Instagram' ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "ERROR_AUTH": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
@@ -753,7 +763,8 @@
       "EMAIL": "E-pasts",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanāls"
+      "API": "API Kanāls",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

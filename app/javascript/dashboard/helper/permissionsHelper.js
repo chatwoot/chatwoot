@@ -16,6 +16,15 @@ export const getUserPermissions = (user, accountId) => {
   return currentAccount.permissions || [];
 };
 
+export const getUserRole = (user, accountId) => {
+  const currentAccount = getCurrentAccount(user, accountId) || {};
+  if (currentAccount.custom_role_id) {
+    return 'custom_role';
+  }
+
+  return currentAccount.role || 'agent';
+};
+
 const isPermissionsPresentInRoute = route =>
   route.meta && route.meta.permissions;
 

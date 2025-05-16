@@ -7,8 +7,8 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
-import { shouldBeUrl } from 'shared/helpers/Validators';
+import { required, minLength, helpers } from '@vuelidate/validators';
+import { shouldBeUrl, isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -61,7 +61,16 @@ const liveChatWidgets = computed(() => {
 
 const rules = {
   name: { required, minLength: minLength(2) },
-  slug: { required },
+  slug: {
+    required: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR'),
+      required
+    ),
+    isValidSlug: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.FORMAT_ERROR'),
+      isValidSlug
+    ),
+  },
   homePageLink: { shouldBeUrl },
 };
 
@@ -71,9 +80,9 @@ const nameError = computed(() =>
   v$.value.name.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.ERROR') : ''
 );
 
-const slugError = computed(() =>
-  v$.value.slug.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR') : ''
-);
+const slugError = computed(() => {
+  return v$.value.slug.$errors[0]?.$message || '';
+});
 
 const homePageLinkError = computed(() =>
   v$.value.homePageLink.$error

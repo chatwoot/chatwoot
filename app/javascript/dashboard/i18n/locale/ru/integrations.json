@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Сообщение обновлено",
             "WEBWIDGET_TRIGGERED": "Виджет онлайн чата, открыт пользователем",
             "CONTACT_CREATED": "Контакт создан",
-            "CONTACT_UPDATED": "Контакт обновлен"
+            "CONTACT_UPDATED": "Контакт обновлен",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
@@ -329,11 +331,34 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Отправить сообщение...",
+      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
       "RESET": "Сброс",
-      "SELECT_ASSISTANT": "Выбрать ассистента"
+      "SELECT_ASSISTANT": "Выбрать ассистента",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Summarize this conversation",
+          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+        },
+        "SUGGEST": {
+          "LABEL": "Suggest an answer",
+          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+        },
+        "RATE": {
+          "LABEL": "Rate this conversation",
+          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Вы",
+      "ASSISTANT": "Ассистент",
+      "MESSAGE_PLACEHOLDER": "Введите сообщение...",
+      "HEADER": "Playground",
+      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
     },
     "PAYWALL": {
       "TITLE": "Обновите тарифный план, чтобы использовать Captain AI",
@@ -373,20 +398,44 @@
         "ERROR_MESSAGE": "При создании ассистента произошла ошибка, пожалуйста, попробуйте еще раз."
       },
       "FORM": {
+        "UPDATE": "Обновить",
+        "SECTIONS": {
+          "BASIC_INFO": "Basic Information",
+          "SYSTEM_MESSAGES": "System Messages",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "Возможности",
+          "TOOLS": "Tools "
+        },
         "NAME": {
-          "LABEL": "Имя ассистента",
-          "PLACEHOLDER": "Введите имя ассистента",
-          "ERROR": "Пожалуйста, укажите имя ассистента"
+          "LABEL": "Имя",
+          "PLACEHOLDER": "Enter assistant name",
+          "ERROR": "The name is required"
         },
         "DESCRIPTION": {
-          "LABEL": "Описание ассистента",
-          "PLACEHOLDER": "Опишите, как и где будет использоваться этот ассистент",
-          "ERROR": "Необходимо описание"
+          "LABEL": "Описание",
+          "PLACEHOLDER": "Enter assistant description",
+          "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
           "LABEL": "Название продукта",
-          "PLACEHOLDER": "Введите название продукта, для которого предназначен этот ассистент",
+          "PLACEHOLDER": "Enter product name",
           "ERROR": "Требуется название продукта"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Welcome Message",
+          "PLACEHOLDER": "Enter welcome message"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Handoff Message",
+          "PLACEHOLDER": "Enter handoff message"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Resolution Message",
+          "PLACEHOLDER": "Enter resolution message"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Enter instructions for the assistant"
         },
         "FEATURES": {
           "TITLE": "Возможности",
@@ -397,7 +446,8 @@
       "EDIT": {
         "TITLE": "Обновить ассистента",
         "SUCCESS_MESSAGE": "Ассистент успешно обновлен",
-        "ERROR_MESSAGE": "При обновлении ассистента произошла ошибка, пожалуйста, попробуйте еще раз."
+        "ERROR_MESSAGE": "При обновлении ассистента произошла ошибка, пожалуйста, попробуйте еще раз.",
+        "NOT_FOUND": "Could not find the assistant. Please try again."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Редактировать ассистента",

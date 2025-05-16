@@ -1,8 +1,8 @@
 class Conversations::FilterService < FilterService
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
 
-  def initialize(params, user, filter_account = nil)
-    @account = filter_account || Current.account
+  def initialize(params, user, account)
+    @account = account
     super(params, user)
   end
 
@@ -24,9 +24,25 @@ class Conversations::FilterService < FilterService
   end
 
   def base_relation
-    @account.conversations.includes(
+    conversations = @account.conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :messages, :contact_inbox
     )
+
+    account_user = @account.account_users.find_by(user_id: @user.id)
+    is_administrator = account_user&.role == 'administrator'
+
+    # Ensure we only include conversations from inboxes the user has access to
+    unless is_administrator
+      inbox_ids = @user.inboxes.where(account_id: @account.id).pluck(:id)
+      conversations = conversations.where(inbox_id: inbox_ids)
+    end
+
+    # Apply permission-based filtering
+    Conversations::PermissionFilterService.new(
+      conversations,
+      @user,
+      @account
+    ).perform
   end
 
   def current_page

@@ -241,4 +241,99 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
       end
     end
   end
+
+  describe 'POST /enterprise/api/v1/accounts/{account.id}/toggle_deletion' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion", as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      context 'when it is an agent' do
+        it 'returns unauthorized' do
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unauthorized)
+        end
+      end
+
+      context 'when deployment environment is not cloud' do
+        before do
+          # Set deployment environment to something other than cloud
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'self_hosted')
+        end
+
+        it 'returns not found' do
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'delete' },
+               as: :json
+
+          expect(response).to have_http_status(:not_found)
+          expect(JSON.parse(response.body)['error']).to eq('Not found')
+        end
+      end
+
+      context 'when it is an admin' do
+        before do
+          # Create the installation config for cloud environment
+          InstallationConfig.where(name: 'DEPLOYMENT_ENV').first_or_create(value: 'cloud')
+        end
+
+        it 'marks the account for deletion when action is delete' do
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'delete' },
+               as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_present
+          expect(account.custom_attributes['marked_for_deletion_reason']).to eq('manual_deletion')
+        end
+
+        it 'unmarks the account for deletion when action is undelete' do
+          # First mark the account for deletion
+          account.update!(
+            custom_attributes: {
+              'marked_for_deletion_at' => 7.days.from_now.iso8601,
+              'marked_for_deletion_reason' => 'manual_deletion'
+            }
+          )
+
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'undelete' },
+               as: :json
+
+          expect(response).to have_http_status(:ok)
+          expect(account.reload.custom_attributes['marked_for_deletion_at']).to be_nil
+          expect(account.custom_attributes['marked_for_deletion_reason']).to be_nil
+        end
+
+        it 'returns error for invalid action' do
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               params: { action_type: 'invalid' },
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(JSON.parse(response.body)['error']).to include('Invalid action_type')
+        end
+
+        it 'returns error when action parameter is missing' do
+          post "/enterprise/api/v1/accounts/#{account.id}/toggle_deletion",
+               headers: admin.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(JSON.parse(response.body)['error']).to include('Invalid action_type')
+        end
+      end
+    end
+  end
 end
