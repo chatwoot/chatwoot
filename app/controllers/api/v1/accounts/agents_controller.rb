@@ -16,9 +16,10 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
       availability: new_agent_params['availability'],
       auto_offline: new_agent_params['auto_offline'],
       inviter: current_user,
-      account: Current.account
+      account: Current.account,
+      confirmed_at: Time.current
     )
-
+    # Added confirmed_at by default as we want to skip email validation
     @agent = builder.perform
   end
 
