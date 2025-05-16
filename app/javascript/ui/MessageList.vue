@@ -13,12 +13,9 @@ import { useCamelCase } from '../dashboard/composables/useTransformKeys';
 import { useInfiniteScroll, useThrottleFn } from '@vueuse/core';
 import { useI18n } from 'vue-i18n';
 
-const props = defineProps({
-  conversationId: {
-    type: Number,
-    // eslint-disable-next-line no-underscore-dangle
-    default: window.__WOOT_CONVERSATION_ID__,
-  },
+const conversationId = computed(() => {
+  // eslint-disable-next-line no-underscore-dangle
+  return window.__WOOT_CONVERSATION_ID__;
 });
 
 const { t } = useI18n();
@@ -30,7 +27,7 @@ const isFetching = ref(false);
 
 const typingUserList = useFunctionGetter(
   'conversationTypingStatus/getUserList',
-  props.conversationId
+  conversationId.value
 );
 
 const isAnyoneTyping = computed(() => {
@@ -45,7 +42,7 @@ const typingUserNames = computed(() => {
 });
 
 const conversation = computed(() => {
-  return store.getters.getConversationById(props.conversationId);
+  return store.getters.getConversationById(conversationId.value);
 });
 
 const allMessages = computed(() => {
@@ -72,7 +69,7 @@ const fetchMore = () => {
 
 onMounted(() => {
   store.dispatch('inboxes/get');
-  store.dispatch('getConversation', props.conversationId);
+  store.dispatch('getConversation', conversationId.value);
 });
 
 watch(conversation, () => {
