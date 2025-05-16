@@ -42,11 +42,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    inbox_params = permitted_params.except(:channel)
-
-    # Handle nested JSON structure with defaults that permitted_params can't manage
-    inbox_params[:csat_config] = format_csat_config(params[:csat_config]) if params[:csat_config].present?
-
+    inbox_params = permitted_params.except(:channel, :csat_config)
+    inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
     @inbox.update!(inbox_params)
     update_inbox_working_hours
     update_channel if channel_update_required?
@@ -127,16 +124,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def format_csat_config(config)
-    # Parse JSON if it's a string
     config = JSON.parse(config) if config.is_a?(String)
-
-    # Ensure proper structure with defaults
     {
-      'display_type' => config['display_type'] || 'emoji',
-      'message' => config['message'] || '',
-      'survey_rules' => {
-        'operator' => config.dig('survey_rules', 'operator') || 'contains',
-        'values' => config.dig('survey_rules', 'values') || []
+      display_type: config['display_type'] || 'emoji',
+      message: config['message'] || '',
+      survey_rules: {
+        operator: config.dig('survey_rules', 'operator') || 'contains',
+        values: config.dig('survey_rules', 'values') || []
       }
     }
   end
