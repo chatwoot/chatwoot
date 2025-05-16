@@ -25,6 +25,10 @@ const props = defineProps({
     type: String,
     default: 'faded',
   },
+  label: {
+    type: String,
+    default: null,
+  },
 });
 
 const selected = defineModel({
@@ -56,7 +60,7 @@ const updateSelected = newValue => {
           :variant
           :icon="iconToRender"
           :trailing-icon="selectedOption.icon ? false : true"
-          :label="hideLabel ? null : selectedOption.label"
+          :label="label || (hideLabel ? null : selectedOption.label)"
           @click="toggle"
         />
       </slot>
