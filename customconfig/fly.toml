@@ -23,6 +23,7 @@ kill_timeout = 5
   CHATWOOT_INSTALLATION_TYPE="self_hosted"
   FRONTEND_URL="https://chatwoot-beehive.fly.dev"
   ENABLE_ACCOUNT_SIGNUP=true
+  ENABLE_RACK_ATTACK = true
 
 [http_service]
   internal_port = 3000
