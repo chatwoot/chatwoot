@@ -27,13 +27,13 @@ const i18n = createI18n({
   },
 });
 
-commonHelpers();
-// eslint-disable-next-line no-underscore-dangle
-window.__CHATWOOT_STORE__ = store;
-window.WootConstants = constants;
-window.axios = createAxios(axios);
-
 export const init = async () => {
+  commonHelpers();
+  // eslint-disable-next-line no-underscore-dangle
+  window.__CHATWOOT_STORE__ = store;
+  window.WootConstants = constants;
+  window.axios = createAxios(axios);
+
   return store.dispatch('setUser').then(() => {
     const app = createApp(MessageList);
 
@@ -47,4 +47,4 @@ export const init = async () => {
   });
 };
 
-window.initConversation = init;
+window.initChatUI = init;
