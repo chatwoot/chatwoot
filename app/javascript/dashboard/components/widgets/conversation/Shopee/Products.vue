@@ -159,7 +159,7 @@ export default {
               >
                 {{ product.name }}
               </a>
-              <div class="flex flex-row mt-1">
+              <div class="flex flex-row">
                 <span class="flex-1 text-slate-500 text-xs">
                   {{ product.sku }}
                 </span>
