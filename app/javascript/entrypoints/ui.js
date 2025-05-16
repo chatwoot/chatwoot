@@ -47,4 +47,6 @@ export const init = async () => {
   });
 };
 
-window.initChatUI = init;
+if (typeof window.chatwootCallback === 'function') {
+  window.chatwootCallback(init);
+}
