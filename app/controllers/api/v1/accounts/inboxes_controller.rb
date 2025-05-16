@@ -124,7 +124,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def format_csat_config(config)
-    config = JSON.parse(config) if config.is_a?(String)
     {
       display_type: config['display_type'] || 'emoji',
       message: config['message'] || '',
