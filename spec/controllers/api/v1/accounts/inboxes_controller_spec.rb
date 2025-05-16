@@ -723,11 +723,11 @@ RSpec.describe 'Inboxes API', type: :request do
       let(:inbox) { create(:inbox, account: account) }
       let(:csat_config) do
         {
-          display_type: 'emoji',
-          message: 'How would you rate your experience?',
-          survey_rules: {
-            operator: 'contains',
-            values: %w[support help]
+          'display_type' => 'emoji',
+          'message' => 'How would you rate your experience?',
+          'survey_rules' => {
+            'operator' => 'contains',
+            'values' => %w[support help]
           }
         }
       end
@@ -736,7 +736,7 @@ RSpec.describe 'Inboxes API', type: :request do
         patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
               params: {
                 csat_survey_enabled: true,
-                csat_config: csat_config.to_json
+                csat_config: csat_config
               },
               headers: admin.create_new_auth_token,
               as: :json
@@ -749,7 +749,7 @@ RSpec.describe 'Inboxes API', type: :request do
           patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
                 params: {
                   csat_survey_enabled: true,
-                  csat_config: csat_config.to_json
+                  csat_config: csat_config
                 },
                 headers: admin.create_new_auth_token,
                 as: :json
