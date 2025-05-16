@@ -54,7 +54,7 @@ const { t } = useI18n();
 const itemsPerPage = 15;
 // State
 const searchQuery = ref('');
-const localSelectedContacts = ref([...props.selectedContacts]);
+const localSelectedContacts = ref([]);
 const observer = ref(null);
 const isSelectingAll = ref(false);
 const showFiltersModal = ref(false);
@@ -79,6 +79,42 @@ const appliedFilters = ref([
     attributeModel: 'standard',
   },
 ]);
+
+const formattedFilters = computed(() => {
+  return appliedFilters.value
+    .filter(filter => isFilterValueValid(filter))
+    .map((filter, index, filteredArray) => {
+      const baseFilter = {
+        attributeKey: filter.attributeKey,
+        attributeModel: filter.attributeModel || 'standard',
+        filterOperator: filter.filterOperator,
+        values: formatFilterValue(filter),
+      };
+
+      if (filteredArray.length > 1 && index < filteredArray.length - 1) {
+        baseFilter.queryOperator = filter.queryOperator;
+      }
+
+      return useSnakeCase(baseFilter);
+    });
+});
+
+const formattedFilterWithPhoneNumber = computed(() => {
+  if (formattedFilters.value.every(e => e.attribute_key != 'phone_number')) {
+    return [
+      {
+        attribute_key: 'phone_number',
+        attribute_model: 'standard',
+        filter_operator: 'contains',
+        query_operator: formattedFilters.value.length > 0 ? 'and' : null,
+        values: '+',
+      },
+      ...formattedFilters.value,
+    ];
+  }
+
+  return formattedFilters.value;
+});
 
 // Filter Types
 const standardFilterTypes = [
@@ -266,9 +302,9 @@ const handleContactsResponse = (data, isFiltered = false) => {
 };
 
 const toggleContact = contact => {
-  const index = localSelectedContacts.value.findIndex(c => c.id === contact.id);
+  const index = localSelectedContacts.value.findIndex(c => c === contact.id);
   if (index === -1) {
-    localSelectedContacts.value.push(contact);
+    localSelectedContacts.value.push(contact.id);
   } else {
     localSelectedContacts.value.splice(index, 1);
   }
@@ -276,7 +312,7 @@ const toggleContact = contact => {
 };
 
 const isSelected = contact => {
-  return localSelectedContacts.value.some(c => c.id === contact.id);
+  return localSelectedContacts.value.some(c => c === contact.id);
 };
 
 const clearSelection = () => {
@@ -309,14 +345,15 @@ const selectAll = async () => {
 
   try {
     localSelectedContacts.value = [];
-    if (hasActiveFilters) {
-      localSelectedContacts.value = [...allFilteredContacts.value];
-      emit('select-all-contacts', true, allFilteredContacts.value);
-    } else {
-      localSelectedContacts.value = [...props.contacts];
-      emit('select-all-contacts', false, []);
-    }
-    emit('contacts-selected', localSelectedContacts.value);
+
+    const filters = formattedFilterWithPhoneNumber;
+    const result = await ContactsAPI.getFilteredAllIds({
+      payload: filters.value,
+    });
+    console.log('Reslts: ', result);
+
+    emit('contacts-selected', result.data.contact_ids);
+    localSelectedContacts.value = result.data.contact_ids;
   } finally {
     isSelectingAll.value = false;
   }
@@ -480,16 +517,14 @@ const fetchContacts = async (page = 1) => {
 };
 
 const updateSelectedContacts = contactIds => {
-  const currentSelectedIds = new Set(
-    localSelectedContacts.value.map(c => c.id)
-  );
+  const currentSelectedIds = new Set(localSelectedContacts.value);
   contactIds.forEach(id => {
     if (!currentSelectedIds.has(id)) {
       const contact = props.contacts.find(c => c.id === id);
       if (contact) {
-        localSelectedContacts.value.push(contact);
+        localSelectedContacts.value.push(contact.id);
       } else {
-        localSelectedContacts.value.push({ id });
+        localSelectedContacts.value.push(id);
       }
     }
   });
@@ -520,7 +555,6 @@ const updateSelectVisiblePosition = () => {
 };
 
 const onUpdatePage = page => {
-  console.log('New Page: ', page);
   fetchContacts(page);
 };
 
@@ -535,14 +569,14 @@ watch(selectAllVisible, newVal => {
   if (newVal) {
     filteredContacts.value.forEach(contact => {
       if (!isSelected(contact)) {
-        localSelectedContacts.value.push(contact);
+        localSelectedContacts.value.push(contact.id);
       }
     });
   } else {
     localSelectedContacts.value = localSelectedContacts.value.filter(
       selectedContact =>
         !filteredContacts.value.some(
-          contact => contact.id === selectedContact.id
+          contact => contact.id === selectedContact
         )
     );
   }
@@ -569,7 +603,9 @@ watch(
 watch(
   () => props.selectedContacts,
   newVal => {
-    localSelectedContacts.value = [...newVal];
+    localSelectedContacts.value = [
+      ...newVal.map(e => (typeof e == 'object' ? e.id : e)),
+    ];
   },
   { deep: true }
 );
@@ -688,7 +724,11 @@ defineExpose({
 
     <div class="bg-red-50"></div>
     <PaginationFooter
-      current-page-info="CONTACTS_LAYOUT.PAGINATION_FOOTER.SHOWING"
+      :count="
+        localSelectedContacts.length == 0
+          ? null
+          : localSelectedContacts.length
+      "
       :current-page="currentPage"
       :total-items="totalContacts"
       :items-per-page="itemsPerPage"

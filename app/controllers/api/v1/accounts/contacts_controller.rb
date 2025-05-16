@@ -31,6 +31,26 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     render json: { error: 'Unable to fetch contact IDs' }, status: :internal_server_error
   end
 
+  def filtered_all_ids
+    result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
+    contacts = result[:contacts]
+    @contacts_count = result[:count]
+    contacts2 = filtrate(contacts)
+
+    contact_ids = contacts.pluck(:id)
+
+    Rails.logger.info("Got contacts: #{contact_ids.length}")
+    render json: {
+      contact_ids: contact_ids,
+      total_count: contact_ids.length
+    }
+  rescue CustomExceptions::CustomFilter::InvalidAttribute,
+         CustomExceptions::CustomFilter::InvalidOperator,
+         CustomExceptions::CustomFilter::InvalidQueryOperator,
+         CustomExceptions::CustomFilter::InvalidValue => e
+    render_could_not_create_error(e.message)
+  end
+
   def index
     @contacts_count = resolved_contacts.count
     @contacts = fetch_contacts(resolved_contacts)

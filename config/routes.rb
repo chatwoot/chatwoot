@@ -145,6 +145,7 @@ Rails.application.routes.draw do
               get :active
               get :search
               get :get_all_ids
+              post :filtered_all_ids
               post :filter
               post :import
               post :export
@@ -263,7 +264,7 @@ Rails.application.routes.draw do
               delete :logo
             end
             collection do
-              get :check  
+              get :check
             end
             resources :categories
             resources :articles do
@@ -272,7 +273,6 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
-
         end
       end
       # end of account scoped api routes

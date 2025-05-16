@@ -222,15 +222,13 @@ const fetchAllContactIds = async (isFiltered, filteredContacts) => {
 const goToNext = async () => {
   // v$.value.$touch();
   // if (isStep1Valid.value) {
-    contactState.contactList = [];
-    contactState.currentPage = 1;
-    contactState.searchQuery = '';
-    await fetchContacts(1);
-    currentStep.value = 2;
+  contactState.contactList = [];
+  contactState.currentPage = 1;
+  contactState.searchQuery = '';
+  await fetchContacts(1);
+  currentStep.value = 2;
   // }
 };
-
-
 
 const goBack = () => {
   currentStep.value = 1;
@@ -422,14 +420,19 @@ onBeforeUnmount(() => {
         :selected-contacts="formState.selectedContacts"
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
-        @contacts-selected="contacts => (formState.selectedContacts = contacts)"
+        @contacts-selected="
+          contacts =>
+            (formState.selectedContacts = contacts.map(e =>
+              typeof e == 'object' ? e.id : e
+            ))
+        "
         @load-more="() => {}"
         @select-all-contacts="() => {}"
         @filter-contacts="() => {}"
         @filters-cleared="() => {}"
       />
 
-        <!-- @load-more="loadMoreContacts"
+      <!-- @load-more="loadMoreContacts"
         @select-all-contacts="fetchAllContactIds"
         @filter-contacts="onFilteredContacts"
         @filters-cleared="handleFiltersCleared" -->
