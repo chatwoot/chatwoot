@@ -116,6 +116,16 @@
           "INPUT": "Search for agents"
         }
       }
+    },
+    "FORM_CREATE": {
+      "AI_AGENT_NAME": "Bot AI Name",
+      "AI_AGENT_TEMPLATE": "Bot AI Template",
+      "EMPTY_AI_AGENT": "You haven't added Bot AI",
+      "FAILED_ADD": "Failed to add Bot AI",
+      "AI_AGENT_DESC": "Bot AI Description",
+      "AI_AGENT_SYSTEM_PROMPT": "System Prompt Bot AI",
+      "WELCOME_MESSAGE": "Welcome Message",
+      "ROUTING_CONDITION": "Routing Condition"
     }
   }
 }

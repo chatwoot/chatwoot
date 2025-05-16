@@ -110,20 +110,20 @@ const previewUrl = computed(() => {
       <div class="flex flex-col space-y-3">
         <div class="grid grid-cols-1 lg:grid-cols-2 gap-4">
           <div>
-            <label for="name">Nama Agen AI</label>
-            <Input id="name" v-model="state.name" placeholder="Nama Agen AI" />
+            <label for="name">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME') }}</label>
+            <Input id="name" v-model="state.name" :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME')" />
           </div>
           <div>
-            <label for="description">Deskripsi Agen AI</label>
+            <label for="description">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_DESC') }}</label>
             <Input
               id="description"
               v-model="state.description"
-              placeholder="Deskripsi Agen AI"
+              :placeholder="t('AGENT_MGMT.FORM_CREATE.AI_AGENT_DESC')"
             />
           </div>
         </div>
         <div>
-          <label for="system_prompts">Perintah AI</label>
+          <label for="system_prompts">{{ t('AGENT_MGMT.FORM_CREATE.AI_AGENT_SYSTEM_PROMPT') }}</label>
           <TextArea
             id="system_prompts"
             v-model="state.system_prompts"
@@ -133,7 +133,7 @@ const previewUrl = computed(() => {
           />
         </div>
         <div>
-          <label for="welcome_message">Pesan Selamat Datang</label>
+          <label for="welcome_message">{{ t('AGENT_MGMT.FORM_CREATE.WELCOME_MESSAGE') }}</label>
           <TextArea
             id="welcome_message"
             v-model="state.welcoming_message"
@@ -143,7 +143,7 @@ const previewUrl = computed(() => {
           />
         </div>
         <div>
-          <label for="routing_conditions">Kondisi Pengalihan</label>
+          <label for="routing_conditions">{{ t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION') }}</label>
           <TextArea
             id="routing_conditions"
             v-model="state.routing_conditions"

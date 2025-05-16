@@ -116,6 +116,16 @@
           "INPUT": "Mencari Agen"
         }
       }
+    },
+    "FORM_CREATE": {
+      "AI_AGENT_NAME": "Nama Bot AI",
+      "AI_AGENT_TEMPLATE": "Template Bot AI",
+      "EMPTY_AI_AGENT": "Kamu belum menambahkan Bot AI",
+      "FAILED_ADD": "Gagal menambahkan Bot AI",
+      "AI_AGENT_DESC": "Deskripsi Bot AI",
+      "AI_AGENT_SYSTEM_PROMPT": "Perintah Bot AI",
+      "WELCOME_MESSAGE": "Pesan Selamat Datang",
+      "ROUTING_CONDITION": "Kondisi Pengalihan"
     }
   }
 }

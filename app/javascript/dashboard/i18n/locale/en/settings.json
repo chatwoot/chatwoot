@@ -326,7 +326,8 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Read docs",
-    "AI_AGENTS": "AI Agents"
+    "AI_AGENTS": "Bot AI",
+    "AI_AGENTS_DESC": "Manage and modify the AI Bots you've created here. Create a new Bot AI whenever you like."
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
