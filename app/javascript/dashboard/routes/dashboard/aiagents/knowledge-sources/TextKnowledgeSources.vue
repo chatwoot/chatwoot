@@ -197,7 +197,7 @@ async function deleteData() {
 
 <template>
   <div class="flex flex-col justify-stretch gap-4">
-    <div class="flex flex-row gap-2">
+    <!-- <div class="flex flex-row gap-2">
       <Button
         icon="i-lucide-plus"
         :disabled="loadingAdd"
@@ -230,7 +230,7 @@ async function deleteData() {
           />
         </div>
       </div>
-    </div>
+    </div> -->
     <div v-show="selectedDoc">
       <div id="summernote" />
     </div>
