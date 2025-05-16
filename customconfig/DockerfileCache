@@ -97,7 +97,7 @@ RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
 
 # Copy customconfig and README separately to prevent rebuilds
 COPY customconfig/ /app/customconfig/
-COPY javascript/ /app/javascript/
+COPY app/javascript/ /app/app/javascript/
 COPY README* /app/
 
 # final build stage

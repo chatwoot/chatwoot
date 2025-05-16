@@ -1,5 +1,7 @@
 #!/bin/bash
 # Ensure installation type is set correctly
+bundle exec rails db:migrate
+
 bundle exec rails runner "
   begin
     installation_config = InstallationConfig.find_by(name: 'INSTALLATION_CONFIG')

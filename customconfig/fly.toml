@@ -22,6 +22,7 @@ kill_timeout = 5
   INSTALLATION_ENV="self_hosted"
   CHATWOOT_INSTALLATION_TYPE="self_hosted"
   FRONTEND_URL="https://chatwoot-beehive.fly.dev"
+  ENABLE_ACCOUNT_SIGNUP=true
 
 [http_service]
   internal_port = 3000
@@ -37,11 +38,11 @@ kill_timeout = 5
 
 [processes]
   app = "bundle exec rails server -b 0.0.0.0"
-  worker = "bundle exec sidekiq -C config/sidekiq.yml"
+  sidekiq = "bundle exec sidekiq -C config/sidekiq.yml"
 
 [deploy]
-release_command="bundle exec rails db:migrate"
+release_command="/bin/sh customconfig/post-deploy.sh"
 
-[mounts]
-  source = "chatwoot_beehive_data"
-  destination = "/data"
+# [mounts]
+# source = "chatwoot_beehive_data"
+# destination = "/data"
