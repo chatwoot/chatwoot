@@ -142,7 +142,7 @@ pt_BR:
         error_code: 'Código de erro: %{error_code}'
     activity:
       captain:
-        resolved: 'A conversa foi marcada como resolvida por %{user_name} devido à inatividade'
+        resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
         open: 'A conversa foi marcada como aberta por %{user_name}'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'

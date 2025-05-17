@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Anketa, rodoma prieš pokalbio internetu pradžią",
       "BUSINESS_HOURS": "Darbo valandos",
       "WIDGET_BUILDER": "Valdiklių kūrimo priemonė",
-      "BOT_CONFIGURATION": "Boto konfiguracija"
+      "BOT_CONFIGURATION": "Boto konfiguracija",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Nustatymai",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Leisti el. pašto surinkimo dėžutę",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Naujame pokalbyje leiskite arba drauskite el. pašto surinkimo dėžutę",
       "AUTO_ASSIGNMENT": "Įjunkti automatinį priskyrimą",
-      "ENABLE_CSAT": "Leisti CSAT",
       "SENDER_NAME_SECTION": "Leisti agento vardą el. pašte",
-      "ENABLE_CSAT_SUB_TEXT": "Leisti/neleisti CSAT (klientų pasitenkinimo) apklausą, kai baigsite pokalbį",
       "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Jei kontaktinis el. pašto adresas yra pasiekiamas, pokalbiai bus tęsiami el. paštu.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Prieš pradėdami pokalbį lankytojai turėtų nurodyti savo vardą ir el. pašto adresą"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Leisti CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Žinutė",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "sudėtyje yra",
+          "DOES_NOT_CONTAINS": "sudėtyje nėra"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
