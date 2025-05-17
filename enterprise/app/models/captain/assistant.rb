@@ -38,6 +38,10 @@ class Captain::Assistant < ApplicationRecord
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
 
+  def available_name
+    name
+  end
+
   def push_event_data
     {
       id: id,
