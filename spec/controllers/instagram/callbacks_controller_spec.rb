@@ -49,7 +49,23 @@ RSpec.describe Instagram::CallbacksController do
         expect(Channel::Instagram.last.instagram_id).to eq('12345')
         expect(Inbox.last.name).to eq('test_user')
 
+        expect(Inbox.last.channel.reauthorization_required?).to be false
         expect(response).to redirect_to(app_instagram_inbox_agents_url(account_id: account.id, inbox_id: Inbox.last.id))
+      end
+
+      it 'updates existing channel with new token' do
+        # Create an existing channel
+        existing_channel = create(:channel_instagram, account: account, instagram_id: '12345', access_token: 'old_token')
+        create(:inbox, channel: existing_channel, account: account, name: 'old_username')
+
+        expect do
+          get :show, params: valid_params
+        end.to not_change(Channel::Instagram, :count).and not_change(Inbox, :count)
+
+        existing_channel.reload
+        expect(existing_channel.access_token).to eq('long_lived_test_token')
+        expect(existing_channel.instagram_id).to eq('12345')
+        expect(existing_channel.reauthorization_required?).to be false
       end
     end
 

@@ -34,6 +34,7 @@ export const FEATURE_FLAGS = {
   CUSTOM_ROLES: 'custom_roles',
   CHATWOOT_V4: 'chatwoot_v4',
   REPORT_V4: 'report_v4',
+  CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
 };
 

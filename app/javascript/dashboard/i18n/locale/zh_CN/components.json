@@ -43,5 +43,11 @@
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "了解更多",
     "WATCH_VIDEO": "观看视频"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
   }
 }

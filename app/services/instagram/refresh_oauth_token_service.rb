@@ -37,7 +37,7 @@ class Instagram::RefreshOauthTokenService
     token_is_valid = Time.current < channel.expires_at
 
     # 2. Token is at least 24 hours old (based on updated_at)
-    token_is_old_enough = channel.updated_at.present? && channel.updated_at < 24.hours.ago
+    token_is_old_enough = channel.updated_at.present? && Time.current - channel.updated_at >= 24.hours
 
     # 3. Token is approaching expiry (within 10 days)
     approaching_expiry = channel.expires_at < 10.days.from_now

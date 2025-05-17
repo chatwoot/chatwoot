@@ -485,7 +485,7 @@ GEM
       uri
     net-http-persistent (4.0.2)
       connection_pool (~> 2.2)
-    net-imap (0.4.19)
+    net-imap (0.4.20)
       date
       net-protocol
     net-pop (0.1.2)
@@ -501,14 +501,14 @@ GEM
     newrelic_rpm (9.6.0)
       base64
     nio4r (2.7.3)
-    nokogiri (1.18.4)
+    nokogiri (1.18.8)
       mini_portile2 (~> 2.8.2)
       racc (~> 1.4)
-    nokogiri (1.18.4-arm64-darwin)
+    nokogiri (1.18.8-arm64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.4-x86_64-darwin)
+    nokogiri (1.18.8-x86_64-darwin)
       racc (~> 1.4)
-    nokogiri (1.18.4-x86_64-linux-gnu)
+    nokogiri (1.18.8-x86_64-linux-gnu)
       racc (~> 1.4)
     oauth (1.1.0)
       oauth-tty (~> 1.0, >= 1.0.1)
@@ -567,7 +567,7 @@ GEM
       activesupport (>= 3.0.0)
     raabro (1.4.0)
     racc (1.8.1)
-    rack (2.2.13)
+    rack (2.2.14)
     rack-attack (6.7.0)
       rack (>= 1.0, < 4)
     rack-contrib (2.5.0)

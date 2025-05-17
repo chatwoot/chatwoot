@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "Nastavení účtu",
     "SUBMIT": "Aktualizovat nastavení",
     "BACK": "Zpět",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Nelze aktualizovat nastavení, zkuste to znovu!",
       "SUCCESS": "Nastavení účtu bylo úspěšně aktualizováno"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Odstranit účet",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Odstranit účet",
+      "CONFIRM": {
+        "TITLE": "Odstranit účet",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Vymazat",
+        "DISMISS": "Zrušit",
+        "PLACE_HOLDER": "Please type {accountName} to confirm"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Účet nelze odstranit, zkuste to znovu!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
     },
     "FORM": {
       "ERROR": "Opravte chyby formuláře",
@@ -17,6 +43,10 @@
       "ACCOUNT_ID": {
         "TITLE": "Account ID",
         "NOTE": "This ID is required if you are building an API based integration"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
       },
       "NAME": {
         "LABEL": "Název účtu",
@@ -38,10 +68,23 @@
         "PLACEHOLDER": "E-mail podpory vaší společnosti",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Počet dnů, po kterých by měl být ticket automaticky vyřešen při žádné aktivitě",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Please enter a valid auto resolve duration (minimum 1 day and maximum 999 days)"
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Aktualizovat",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "E-mailová konverzace je u vašeho účtu povolena.",
@@ -51,6 +94,7 @@
     "UPDATE_CHATWOOT": "Je dostupná aktualizace {latestChatwootVersion} pro Chatwoot. Aktualizujte prosím svou instanci.",
     "LEARN_MORE": "Learn more",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },
