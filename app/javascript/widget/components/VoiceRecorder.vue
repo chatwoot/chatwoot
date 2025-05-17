@@ -80,9 +80,9 @@ export default {
       this.isUploading = true;
       try {
         const file = new File([audioBlob], 'voice-'+Date.now()+'.mp3', {
-          type: 'audio/mp3',
+          type: 'audio/mp3'
         });
-
+        
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
           if (this.globalConfig.directUploadsEnabled) {
             await this.onDirectFileUpload(file);
@@ -155,7 +155,7 @@ export default {
       try {
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
           await this.onAttach({
-            file: file.file,
+            file: file,
             ...this.getLocalFileAttributes(file),
           });
         } else {
@@ -172,7 +172,7 @@ export default {
     },
     getLocalFileAttributes(file) {
       return {
-        thumbUrl: window.URL.createObjectURL(file.file),
+        thumbUrl: window.URL.createObjectURL(file),
         fileType: this.getFileType(file.type),
       };
     },
