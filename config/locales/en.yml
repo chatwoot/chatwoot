@@ -155,6 +155,8 @@ en:
     activity:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
+        handoff: 'Transferring to another agent for further assistance.'
       status:
         resolved: 'Conversation was marked resolved by %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
