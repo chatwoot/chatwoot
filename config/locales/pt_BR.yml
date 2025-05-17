@@ -132,6 +132,8 @@ pt_BR:
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:
+    captain:
+      handoff: 'Transferindo para outro agente para mais assistência.'
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
@@ -139,6 +141,9 @@ pt_BR:
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
+      captain:
+        resolved: 'A conversa foi marcada como resolvida por %{user_name} devido à inatividade'
+        open: 'A conversa foi marcada como aberta por %{user_name}'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
@@ -203,7 +208,7 @@ pt_BR:
       meeting_name: '%{agent_name} começou a reunião'
     slack:
       name: 'Slack'
-      description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
+      description: 'Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack.'
     webhooks:
       name: 'Webhooks'
       description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
@@ -212,7 +217,7 @@ pt_BR:
       description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
     google_translate:
       name: 'Tradutor do Google'
-      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
+      description: 'Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador.'
     openai:
       name: 'OpenAI'
       description: 'Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos.'
