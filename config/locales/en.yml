@@ -146,6 +146,8 @@ en:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -155,6 +157,7 @@ en:
     activity:
       captain:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Conversation was marked resolved by %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
