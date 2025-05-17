@@ -46,7 +46,7 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Resolver conversas automaticamente",
-        "NOTE": "Essa configuração permite resolver automaticamente a conversa após um determinado período. Defina a duração e personalize a mensagem para o usuário abaixo."
+        "NOTE": "Essa configuração permite resolver automaticamente a conversa após um determinado período. Defina o período e personalize a mensagem para o usuário abaixo."
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -74,9 +74,9 @@
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Tempo de inatividade para resolução",
-        "HELP": "Duração após a qual a conversa deve ser encerrada automaticamente em caso de inatividade",
+        "HELP": "Tempo de inatividade após o qual a conversa deve ser encerrada automaticamente",
         "PLACEHOLDER": "30",
-        "ERROR": "A duração para encerramento automático deve estar entre 10 minutos e 999 dias",
+        "ERROR": "O tempo decorrido para encerramento automático deve estar entre 10 minutos e 999 dias",
         "API": {
           "SUCCESS": "Configurações de resolução automática atualizadas com sucesso",
           "ERROR": "Falha ao atualizar as configurações de resolução automática"
