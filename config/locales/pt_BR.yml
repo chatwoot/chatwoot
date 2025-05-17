@@ -132,6 +132,8 @@ pt_BR:
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:
+    captain:
+      handoff: 'Transferindo para outro agente para mais assistência.'
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
@@ -142,7 +144,6 @@ pt_BR:
       captain:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} devido à inatividade'
         open: 'A conversa foi marcada como aberta por %{user_name}'
-        handoff: 'Transferindo para outro agente para mais assistência.'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'

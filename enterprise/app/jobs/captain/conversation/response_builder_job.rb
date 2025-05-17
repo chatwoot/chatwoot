@@ -76,7 +76,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message
-    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.activity.captain.handoff'))
+    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'))
   end
 
   def create_messages
