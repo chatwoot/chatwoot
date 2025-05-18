@@ -135,6 +135,8 @@ pt_BR:
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:
+    captain:
+      handoff: 'Transferindo para outro agente para mais assistência.'
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
@@ -142,13 +144,18 @@ pt_BR:
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
+      captain:
+        resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
+        open: 'A conversa foi marcada como aberta por %{user_name}'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
         open: 'Conversa foi reaberta por %{user_name}'
         pending: 'Conversa foi marcada como pendente por %{user_name}'
         snoozed: 'Conversa foi adiada por %{user_name}'
-        auto_resolved: 'Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade'
+        auto_resolved_days: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} dias de inatividade'
+        auto_resolved_hours: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} horas de inatividade'
+        auto_resolved_minutes: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} minutos de inatividade'
         system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
       priority:
         added: '%{user_name} definiu a prioridade para %{new_priority}'

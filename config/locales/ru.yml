@@ -132,6 +132,8 @@ ru:
     attachment: 'Вложение'
     no_content: 'Нет содержимого'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
@@ -139,13 +141,18 @@ ru:
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} завершил диалог'
         contact_resolved: 'Разговор был закрыт %{contact_name}'
         open: '%{user_name} открыл заново диалог'
         pending: 'Разговор был помечен как ожидающий %{user_name}'
         snoozed: 'Разговор был помечен как отложенный %{user_name}'
-        auto_resolved: 'Разговор был помечен системой решённым из-за неактивности в течение %{duration} дней'
+        auto_resolved_days: 'Разговор был помечен системой решённым из-за неактивности в течение %{count} дней'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Система переоткрыла разговор из-за нового входящего сообщения.
       priority:
         added: '%{user_name} установил приоритет на %{new_priority}'

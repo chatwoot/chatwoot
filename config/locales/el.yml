@@ -132,6 +132,8 @@ el:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: 'Ο %{story_sender} σας ανέφερε στην ιστορία: '
       instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
@@ -139,13 +141,18 @@ el:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Η συνομιλία έχει επιλυθεί από τον %{user_name}'
         contact_resolved: 'Η συνομιλία επιλύθηκε από τον %{contact_name}'
         open: 'Έγινε επαναφορά της συνομιλίας από τον %{user_name}'
         pending: 'Η συνομιλία επισημάνθηκε ως εκκρεμής από τον %{user_name}'
         snoozed: 'Η συνομιλία σημάνθηκε ως "καθυστερημένη" (snoozed) από τον %{user_name}'
-        auto_resolved: 'Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{duration} ημερών άνευ δραστηριότητας'
+        auto_resolved_days: 'Η συνομιλία σημάνθηκε επιλυθείσα από το σύστημα με την παρέλευση %{count} ημερών άνευ δραστηριότητας'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'

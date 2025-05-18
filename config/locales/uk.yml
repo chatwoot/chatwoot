@@ -132,6 +132,8 @@ uk:
     attachment: 'Вкладення'
     no_content: 'Немає вмісту'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} згадав вас у сторіс: '
       instagram_deleted_story_content: Ця історія більше не доступна.
@@ -139,13 +141,18 @@ uk:
       delivery_status:
         error_code: 'Код помилки: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Розмова була відмічена як вирішена %{user_name}'
         contact_resolved: 'Діалог був закритий %{contact_name}'
         open: 'Розмову знову відкрито %{user_name}'
         pending: 'Бесіда була позначена як очікується %{user_name}'
         snoozed: 'Розмова була відкладена %{user_name}'
-        auto_resolved: 'Діалог був закритий системою через %{duration} днів неактивності'
+        auto_resolved_days: 'Діалог був закритий системою через %{count} днів неактивності'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Система повторно відкрила розмову через нове вхідне повідомлення.
       priority:
         added: '%{user_name} встановив пріоритет %{new_priority}'

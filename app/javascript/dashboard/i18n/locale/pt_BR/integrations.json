@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mensagem atualizada",
             "WEBWIDGET_TRIGGERED": "Widget de chat aberto pelo usuário",
             "CONTACT_CREATED": "Contato criado",
-            "CONTACT_UPDATED": "Contato atualizado"
+            "CONTACT_UPDATED": "Contato atualizado",
+            "CONVERSATION_TYPING_ON": "Status de Digitação ativado",
+            "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
         "NAME": {
@@ -298,7 +300,7 @@
             "SEARCH": "Pesquisar etiqueta"
           },
           "STATUS": {
-            "LABEL": "Situação",
+            "LABEL": "Status",
             "PLACEHOLDER": "Selecione Status",
             "SEARCH": "Pesquisar status"
           },
@@ -316,7 +318,7 @@
         "LOADING_TEAM_ENTITIES_ERROR": "Houve um erro ao buscar as entidades do time, por favor, tente novamente"
       },
       "ISSUE": {
-        "STATUS": "Situação",
+        "STATUS": "Status",
         "PRIORITY": "Prioridade",
         "ASSIGNEE": "Responsável",
         "LABELS": "Etiquetas",
@@ -345,7 +347,21 @@
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
-      "SELECT_ASSISTANT": "Selecione o Assistente"
+      "SELECT_ASSISTANT": "Selecione o Assistente",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Resumir esta conversa",
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o agente de suporte, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo agente de suporte"
+        },
+        "SUGGEST": {
+          "LABEL": "Sugerir uma resposta",
+          "CONTENT": "Analise a pergunta do cliente e elabore uma resposta que responda efetivamente às suas preocupações ou perguntas. Certifique-se de que a resposta seja clara, concisa e forneça informações úteis."
+        },
+        "RATE": {
+          "LABEL": "Avaliar esta conversa",
+          "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        }
+      }
     },
     "PLAYGROUND": {
       "USER": "Você",
@@ -403,15 +419,18 @@
         },
         "NAME": {
           "LABEL": "Nome",
-          "PLACEHOLDER": "Digite o nome do assistente"
+          "PLACEHOLDER": "Digite o nome do assistente",
+          "ERROR": "O nome é obrigatório"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Digite a descrição do assistente"
+          "PLACEHOLDER": "Digite a descrição do assistente",
+          "ERROR": "A descrição é obrigatória"
         },
         "PRODUCT_NAME": {
           "LABEL": "Nome do Produto",
-          "PLACEHOLDER": "Digite o nome do produto"
+          "PLACEHOLDER": "Digite o nome do produto",
+          "ERROR": "O nome do produto é obrigatório"
         },
         "WELCOME_MESSAGE": {
           "LABEL": "Mensagem de boas-vindas",
@@ -533,7 +552,7 @@
         "ALL_ASSISTANTS": "Todos"
       },
       "STATUS": {
-        "TITLE": "Situação",
+        "TITLE": "Status",
         "PENDING": "Pendentes",
         "APPROVED": "Aceito",
         "ALL": "Todos"

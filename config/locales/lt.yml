@@ -132,6 +132,8 @@ lt:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} paminėjo jus pasakojime: '
       instagram_deleted_story_content: Šis pasakojimas nebepasiekiamas.
@@ -139,13 +141,18 @@ lt:
       delivery_status:
         error_code: 'Klaidos kodas: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Pokalbį pažymėjo %{user_name} kaip baigtą'
         contact_resolved: 'Pokalbį užbaigė %{contact_name}'
         open: 'Pokalbį iš naujo pradėjo %{user_name}'
         pending: 'Pokalbį pažymėjo %{user_name} kaip laukiantį'
         snoozed: 'Pokalbį atidėjo %{user_name}'
-        auto_resolved: 'Sistema pokalbį pažymėjo kaip baigtą dėl %{duration} neaktyvumo dienų'
+        auto_resolved_days: 'Sistema pokalbį pažymėjo kaip baigtą dėl %{count} neaktyvumo dienų'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistema vėl atidarė pokalbį dėl naujo gaunamo pranešimo.
       priority:
         added: '%{user_name} nustatė prioritetą į %{new_priority}'

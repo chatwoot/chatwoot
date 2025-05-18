@@ -132,6 +132,8 @@ sl:
     attachment: 'Priponka'
     no_content: 'Ni vsebine'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
       instagram_deleted_story_content: Ta zgodba ni več na voljo.
@@ -139,13 +141,18 @@ sl:
       delivery_status:
         error_code: 'Koda napake: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} je pogovor označil za rešenega'
         contact_resolved: 'Pogovor je razrešil %{contact_name}'
         open: '%{user_name} je znova odprl pogovor'
         pending: '%{user_name} je pogovor označil kot čakajočega'
         snoozed: '%{user_name} je preložil pogovor'
-        auto_resolved: 'Sistem je označil pogovor kot razrešen zaradi %{duration} dni nedejavnosti'
+        auto_resolved_days: 'Sistem je označil pogovor kot razrešen zaradi %{count} dni nedejavnosti'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistem je znova odprl pogovor zaradi novega dohodnega sporočila.
       priority:
         added: '%{user_name} je nastavil prednost na %{new_priority}'

@@ -132,6 +132,8 @@ ca:
     attachment: 'Adjunt'
     no_content: 'Sense contingut'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} t''ha mencionat a la història: '
       instagram_deleted_story_content: Aquesta història ja no està disponible.
@@ -139,13 +141,18 @@ ca:
       delivery_status:
         error_code: 'Codi d''error: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'La conversa va ser marcada com resolta per %{user_name}'
         contact_resolved: 'La conversa va ser resolta per %{contact_name}'
         open: 'La conversa es va reobrir per %{user_name}'
         pending: 'La conversa va ser marcada com pendent per %{user_name}'
         snoozed: '%{user_name} ha posposat la conversa'
-        auto_resolved: 'El sistema ha marcat que la conversa s''ha resolt a causa de %{duration} dies d''inactivitat'
+        auto_resolved_days: 'El sistema ha marcat que la conversa s''ha resolt a causa de %{count} dies d''inactivitat'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: El sistema ha reobert la conversa a causa d'un nou missatge entrant.
       priority:
         added: '%{user_name} ha establert la prioritat a %{new_priority}'

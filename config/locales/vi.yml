@@ -132,6 +132,8 @@ vi:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} đã đề cập đến bạn trong hội thoại: '
       instagram_deleted_story_content: Hội thoại này không còn nữa.
@@ -139,13 +141,18 @@ vi:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Cuộc trò chuyện được đánh dấu là đã giải quyết bởi %{user_name}'
         contact_resolved: 'Hội thoại đã được giải quyết bởi %{contact_name}'
         open: 'Cuộc trò chuyện đã được mở lại bởi %{user_name}'
         pending: 'Hội thoại được đánh dấu là chưa giải quyết bởi %{user_name}'
         snoozed: 'Hội thoại đã được tạm dừng lại bởi %{user_name}'
-        auto_resolved: 'Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{duration} ngày không hoạt động'
+        auto_resolved_days: 'Hội thoại được đánh dấu là đã giải quyết bởi hệ thống vì %{count} ngày không hoạt động'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Hệ thống mở lại hội thoại do có tin nhắn mới.
       priority:
         added: '%{user_name} thiết lập độ ưu tiên thành %{new_priority}'

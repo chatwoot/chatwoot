@@ -132,6 +132,8 @@ sr-Latn:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} vas je pomenuo u priči: '
       instagram_deleted_story_content: Ova priča više nije dostupna.
@@ -139,13 +141,18 @@ sr-Latn:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Razgovor je označen kao rešen od strane %{user_name}'
         contact_resolved: 'Razgovor je rešen od strane %{contact_name}'
         open: 'Razgovor je ponovo otvoren od strane %{user_name}'
         pending: 'Razgovor je označen kao na čekanju od strane %{user_name}'
         snoozed: 'Razgovor je odložen od strane %{user_name}'
-        auto_resolved: 'Razgovor je označen kao rešen od strane sistema zbog %{duration} dana neaktivnosti'
+        auto_resolved_days: 'Razgovor je označen kao rešen od strane sistema zbog %{count} dana neaktivnosti'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'
