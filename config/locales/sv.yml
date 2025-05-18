@@ -132,6 +132,8 @@ sv:
     attachment: 'Bilaga'
     no_content: 'Inget innehåll'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
@@ -139,6 +141,9 @@ sv:
       delivery_status:
         error_code: 'Felkod: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Konversationen har markerats som löst av %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
