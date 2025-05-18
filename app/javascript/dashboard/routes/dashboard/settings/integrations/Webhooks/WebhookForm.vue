@@ -4,6 +4,8 @@ import { required, url, minLength } from '@vuelidate/validators';
 import wootConstants from 'dashboard/constants/globals';
 import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsHelper';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 const { EXAMPLE_WEBHOOK_URL } = wootConstants;
 
@@ -23,6 +25,7 @@ const SUPPORTED_WEBHOOK_EVENTS = [
 export default {
   components: {
     NextButton,
+    MultiselectDropdown,
   },
   props: {
     value: {
@@ -37,10 +40,17 @@ export default {
       type: String,
       required: true,
     },
+    isEditing: {
+      type: Boolean,
+      default: false,
+    },
   },
   emits: ['submit', 'cancel'],
   setup() {
-    return { v$: useVuelidate() };
+    return {
+      v$: useVuelidate(),
+      inboxes: useMapGetter('inboxes/getInboxes'),
+    };
   },
   validations: {
     url: {
@@ -55,11 +65,27 @@ export default {
   data() {
     return {
       url: this.value.url || '',
+      assignedInbox: this.value.inbox || null,
+      name: this.value.name || '',
       subscriptions: this.value.subscriptions || [],
       supportedWebhookEvents: SUPPORTED_WEBHOOK_EVENTS,
     };
   },
   computed: {
+    inboxesList() {
+      if (this.assignedInbox?.id) {
+        return [
+          {
+            id: 0,
+            name: this.$t(
+              'INTEGRATION_SETTINGS.WEBHOOK.FORM.INBOX.PLACEHOLDER'
+            ),
+          },
+          ...this.inboxes,
+        ];
+      }
+      return this.inboxes;
+    },
     webhookURLInputPlaceholder() {
       return this.$t(
         'INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.PLACEHOLDER',
@@ -68,13 +94,21 @@ export default {
         }
       );
     },
+    webhookNameInputPlaceholder() {
+      return this.$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.PLACEHOLDER');
+    },
   },
   methods: {
     onSubmit() {
       this.$emit('submit', {
         url: this.url,
+        inbox_id: this.assignedInbox?.id || null,
+        name: this.name,
         subscriptions: this.subscriptions,
       });
+    },
+    onClickAssignInbox(inbox) {
+      this.assignedInbox = inbox;
     },
     getI18nKey,
   },
@@ -90,12 +124,45 @@ export default {
           v-model="url"
           type="text"
           name="url"
+          :disabled="isEditing"
           :placeholder="webhookURLInputPlaceholder"
           @input="v$.url.$touch"
         />
         <span v-if="v$.url.$error" class="message">
           {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.END_POINT.ERROR') }}
         </span>
+      </label>
+      <label>
+        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.INBOX.LABEL') }}
+        <div class="multiselect-wrap--small">
+          <MultiselectDropdown
+            :options="inboxesList"
+            :selected-item="assignedInbox"
+            :multiselector-title="
+              $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.INBOX.TITLE')
+            "
+            :multiselector-placeholder="
+              $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.INBOX.PLACEHOLDER')
+            "
+            :no-search-result="
+              $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.INBOX.NO_RESULTS')
+            "
+            :input-placeholder="
+              $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.INBOX.INPUT_PLACEHOLDER')
+            "
+            :disabled="isEditing"
+            @select="onClickAssignInbox"
+          />
+        </div>
+      </label>
+      <label>
+        {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.NAME.LABEL') }}
+        <input
+          v-model="name"
+          type="text"
+          name="name"
+          :placeholder="webhookNameInputPlaceholder"
+        />
       </label>
       <label :class="{ error: v$.url.$error }" class="mb-2">
         {{ $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.SUBSCRIPTIONS.LABEL') }}
@@ -127,7 +194,6 @@ export default {
         </div>
       </div>
     </div>
-
     <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
       <NextButton
         faded

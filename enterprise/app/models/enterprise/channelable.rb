@@ -24,7 +24,7 @@ module Enterprise::Channelable
       # skip audit log creation if the only change is whatsapp channel template update
       return if messaging_template_updates?(audited_changes)
 
-      Enterprise::AuditLog.create(
+      Enterprise::AuditLog.create!(
         auditable_id: auditable_id,
         auditable_type: auditable_type,
         action: 'update',

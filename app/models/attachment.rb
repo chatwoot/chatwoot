@@ -111,7 +111,8 @@ class Attachment < ApplicationRecord
       id: id,
       message_id: message_id,
       file_type: file_type,
-      account_id: account_id
+      account_id: account_id,
+      meta: meta || {}
     }
   end
 
@@ -123,9 +124,9 @@ class Attachment < ApplicationRecord
   end
 
   def should_validate_file?
-    return unless file.attached?
+    return false unless file.attached?
     # we are only limiting attachment types in case of website widget
-    return unless message.inbox.channel_type == 'Channel::WebWidget'
+    return false unless message.inbox.channel_type == 'Channel::WebWidget'
 
     true
   end

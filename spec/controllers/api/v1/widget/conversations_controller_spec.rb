@@ -205,7 +205,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   describe 'POST /api/v1/widget/conversations/transcript' do
     context 'with a conversation' do
       it 'sends transcript email' do
-        contact.update(email: 'test@test.com')
+        contact.update!(email: 'test@test.com')
         mailer = double
         allow(ConversationReplyMailer).to receive(:with).and_return(mailer)
         allow(mailer).to receive(:conversation_transcript)
@@ -217,7 +217,7 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(mailer).to have_received(:conversation_transcript).with(conversation, 'test@test.com')
-        contact.update(email: nil)
+        contact.update!(email: nil)
       end
     end
   end

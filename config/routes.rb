@@ -179,6 +179,8 @@ Rails.application.routes.draw do
             get :campaigns, on: :member
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
+            post :setup_channel_provider, on: :member
+            post :disconnect_channel_provider, on: :member
             delete :avatar, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do

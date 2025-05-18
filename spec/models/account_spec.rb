@@ -49,21 +49,21 @@ RSpec.describe Account do
     let(:account) { create(:account) }
 
     it 'returns the domain from inbox if inbox value is present' do
-      account.update(domain: 'test.com')
+      account.update!(domain: 'test.com')
       with_modified_env MAILER_INBOUND_EMAIL_DOMAIN: 'test2.com' do
         expect(account.inbound_email_domain).to eq('test.com')
       end
     end
 
     it 'returns the domain from ENV if inbox value is nil' do
-      account.update(domain: nil)
+      account.update!(domain: nil)
       with_modified_env MAILER_INBOUND_EMAIL_DOMAIN: 'test.com' do
         expect(account.inbound_email_domain).to eq('test.com')
       end
     end
 
     it 'returns the domain from ENV if inbox value is empty string' do
-      account.update(domain: '')
+      account.update!(domain: '')
       with_modified_env MAILER_INBOUND_EMAIL_DOMAIN: 'test.com' do
         expect(account.inbound_email_domain).to eq('test.com')
       end
@@ -74,21 +74,21 @@ RSpec.describe Account do
     let(:account) { create(:account) }
 
     it 'returns the support email from inbox if inbox value is present' do
-      account.update(support_email: 'support@chatwoot.com')
+      account.update!(support_email: 'support@chatwoot.com')
       with_modified_env MAILER_SENDER_EMAIL: 'hello@chatwoot.com' do
         expect(account.support_email).to eq('support@chatwoot.com')
       end
     end
 
     it 'returns the support email from ENV if inbox value is nil' do
-      account.update(support_email: nil)
+      account.update!(support_email: nil)
       with_modified_env MAILER_SENDER_EMAIL: 'hello@chatwoot.com' do
         expect(account.support_email).to eq('hello@chatwoot.com')
       end
     end
 
     it 'returns the support email from ENV if inbox value is empty string' do
-      account.update(support_email: '')
+      account.update!(support_email: '')
       with_modified_env MAILER_SENDER_EMAIL: 'hello@chatwoot.com' do
         expect(account.support_email).to eq('hello@chatwoot.com')
       end
@@ -101,7 +101,7 @@ RSpec.describe Account do
       query = "select * from information_schema.sequences where sequence_name in  ('camp_dpid_seq_#{account.id}', 'conv_dpid_seq_#{account.id}');"
       expect(ActiveRecord::Base.connection.execute(query).count).to eq(2)
       expect(account.locale).to eq('en')
-      account.destroy
+      account.destroy!
       expect(ActiveRecord::Base.connection.execute(query).count).to eq(0)
     end
   end

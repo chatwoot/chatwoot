@@ -16,7 +16,7 @@ class Api::V1::Accounts::Integrations::SlackController < Api::V1::Accounts::Base
   end
 
   def update
-    @hook = channel_builder.update(permitted_params[:reference_id])
+    @hook = channel_builder.update_reference_id(permitted_params[:reference_id])
     render json: { error: I18n.t('errors.slack.invalid_channel_id') }, status: :unprocessable_entity if @hook.blank?
   end
 

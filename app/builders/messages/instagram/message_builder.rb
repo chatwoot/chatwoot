@@ -30,7 +30,7 @@ class Messages::Instagram::MessageBuilder < Messages::Instagram::BaseMessageBuil
     # https://developers.facebook.com/docs/graph-api/guides/error-handling/ search for error code 1609005
     if error_code == 1_609_005
       @message.attachments.destroy_all
-      @message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
+      @message.update!(content: I18n.t('conversations.messages.instagram_deleted_story_content'))
     end
 
     Rails.logger.error("[InstagramStoryFetchError]: #{parsed_response.dig('error', 'message')} #{error_code}")

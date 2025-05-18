@@ -38,19 +38,19 @@ describe Twilio::OneoffSmsCampaignService do
       contact_with_label1.update_labels([label1.title])
       contact_with_label2.update_labels([label2.title])
       contact_with_both_labels.update_labels([label1.title, label2.title])
-      expect(twilio_messages).to receive(:create).with(
+      expect(twilio_messages).to receive(:create!).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
         to: contact_with_label1.phone_number,
         status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
-      expect(twilio_messages).to receive(:create).with(
+      expect(twilio_messages).to receive(:create!).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
         to: contact_with_label2.phone_number,
         status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
-      expect(twilio_messages).to receive(:create).with(
+      expect(twilio_messages).to receive(:create!).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
         to: contact_with_both_labels.phone_number,

@@ -19,7 +19,7 @@ class Internal::AccountAnalysis::AccountUpdaterService
   def save_error(error_message)
     @account.internal_attributes['security_flagged'] = true
     @account.internal_attributes['security_flag_reason'] = "Error: #{error_message}"
-    @account.save
+    @account.save!
   end
 
   def save_analysis_results(analysis)

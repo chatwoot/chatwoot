@@ -63,7 +63,7 @@ class Captain::Agent
     "Tool execution failed: #{e.message}"
   end
 
-  def construct_prompt(config)
+  def construct_prompt(config) # rubocop:disable Metrics/MethodLength
     return config[:prompt] if config[:prompt]
 
     <<~PROMPT
