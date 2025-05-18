@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Formulir Pra Obrolan",
       "BUSINESS_HOURS": "Jam Kerja",
       "WIDGET_BUILDER": "Pembuat Widget",
-      "BOT_CONFIGURATION": "Konfigurasi Bot"
+      "BOT_CONFIGURATION": "Konfigurasi Bot",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Pengaturan",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Aktifkan kotak pengumpulan email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktifkan atau nonaktifkan kotak pengumpulan email pada percakpaan baru",
       "AUTO_ASSIGNMENT": "Aktifkan penugasan otomatis",
-      "ENABLE_CSAT": "Aktifkan CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Aktifkan/Nonaktifkan survey CSAT (Kepuasan pelanggan) setelah penyelesaian percakapan",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Aktifkan kontinuitas percakapan melalui email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Percakapan akan berlanjut melalui email jika alamat email kontak tersedia.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Pengunjung harus memberikan nama dan alamat email mereka sebelum memulai obrolan"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Aktifkan CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Pesan",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "berisi",
+          "DOES_NOT_CONTAINS": "tidak berisi"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
