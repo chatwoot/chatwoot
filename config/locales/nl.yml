@@ -132,6 +132,8 @@ nl:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} heeft je genoemd in het verhaal: '
       instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
@@ -139,6 +141,9 @@ nl:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Gesprek werd gemarkeerd door %{user_name}'
         contact_resolved: 'Gesprek werd opgelost door %{contact_name}'

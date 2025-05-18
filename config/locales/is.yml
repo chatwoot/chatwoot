@@ -132,6 +132,8 @@ is:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} minntist á þig í sögunni: '
       instagram_deleted_story_content: This story is no longer available.
@@ -139,6 +141,9 @@ is:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Samtal var merkt sem leyst af %{user_name}'
         contact_resolved: 'Samtal var leyst af %{contact_name}'
