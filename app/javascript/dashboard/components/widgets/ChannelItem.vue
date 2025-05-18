@@ -46,6 +46,7 @@ export default {
         'twilio',
         'api',
         'whatsapp',
+        'whatsapp_zapi',
         'sms',
         'telegram',
         'line',
@@ -56,6 +57,9 @@ export default {
   methods: {
     getChannelThumbnail() {
       if (this.channel.key === 'api' && this.channel.thumbnail) {
+        return this.channel.thumbnail;
+      }
+      if (this.channel.thumbnail) {
         return this.channel.thumbnail;
       }
       return `/assets/images/dashboard/channels/${this.channel.key}.png`;

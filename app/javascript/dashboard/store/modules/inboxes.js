@@ -9,6 +9,7 @@ import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
+import WhatsappZapiChannel from '../../api/channel/whatsappZapiChannel';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -218,6 +219,18 @@ export const actions = {
     } catch (error) {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       throw new Error(error);
+    }
+  },
+  createWhatsappZapiChannel: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+      const response = await WhatsappZapiChannel.create(params);
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw error;
     }
   },
   updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {

@@ -21,6 +21,7 @@ class Messages::MessageBuilder
     process_attachments
     process_emails
     @message.save!
+    Rails.logger.info "[ZAPI DEBUG] MessageBuilder: message criada id=#{@message.id} message_type=#{@message.message_type} inbox_id=#{@message.inbox_id} inbox_channel_type=#{@message.inbox&.channel_type}"
     @message
   end
 

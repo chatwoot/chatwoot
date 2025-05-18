@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_18_013912) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -473,6 +473,20 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
+  create_table "channel_whatsapp_zapi", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.string "instance_id", null: false
+    t.string "token", null: false
+    t.string "api_url", null: false
+    t.jsonb "provider_config", default: {}
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "security_token"
+    t.index ["account_id"], name: "index_channel_whatsapp_zapi_on_account_id"
+    t.index ["phone_number"], name: "index_channel_whatsapp_zapi_on_phone_number", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -1103,6 +1117,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
+  add_foreign_key "channel_whatsapp_zapi", "accounts"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").

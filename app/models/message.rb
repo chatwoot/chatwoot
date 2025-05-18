@@ -127,6 +127,7 @@ class Message < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
 
   after_create_commit :execute_after_create_commit_callbacks
+  after_create_commit :send_to_whatsapp_zapi, if: :outgoing_whatsapp_zapi?
 
   after_update_commit :dispatch_update_event
 
@@ -396,6 +397,24 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def outgoing_whatsapp_zapi?
+    Rails.logger.info "[ZAPI OUTBOUND] outgoing_whatsapp_zapi? chamado: message_id=#{id} message_type=#{message_type} inbox_id=#{inbox_id} inbox_channel_type=#{inbox&.channel_type}"
+    outgoing? && inbox.channel_type == 'Channel::WhatsappZapi'
+  end
+
+  def send_to_whatsapp_zapi
+    Rails.logger.info "[ZAPI OUTBOUND] send_to_whatsapp_zapi chamado para message_id=#{id}"
+    channel = inbox.channel
+    to = conversation.contact.phone_number
+    if attachments.any?
+      attachments.each do |att|
+        channel.send_message(to: to, message: content, type: att.file_type, media_url: att.external_url)
+      end
+    else
+      channel.send_message(to: to, message: content, type: 'text')
+    end
   end
 end
 

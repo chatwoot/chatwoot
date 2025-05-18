@@ -268,6 +268,39 @@
           "ERROR_MESSAGE": "Não foi possível salvar o canal do WhatsApp"
         }
       },
+      "WHATSAPP_ZAPI": {
+        "TITLE": "Canal WhatsApp Z-API",
+        "DESC": "Conecte o Chatwoot ao WhatsApp usando a Z-API para enviar e receber mensagens, imagens e áudios.",
+        "PHONE_NUMBER": {
+          "LABEL": "Número do WhatsApp",
+          "PLACEHOLDER": "Digite o número do WhatsApp (ex: 5511999999999)",
+          "ERROR": "Por favor, forneça um número válido."
+        },
+        "INSTANCE_ID": {
+          "LABEL": "Instance ID",
+          "PLACEHOLDER": "Digite o Instance ID da Z-API",
+          "ERROR": "Instance ID é obrigatório."
+        },
+        "TOKEN": {
+          "LABEL": "Token de Acesso",
+          "PLACEHOLDER": "Digite o token da Z-API",
+          "ERROR": "Token é obrigatório."
+        },
+        "SECURITY_TOKEN": {
+          "LABEL": "Token de Segurança da Conta",
+          "PLACEHOLDER": "Digite o token de segurança fornecido pela Z-API",
+          "ERROR": "Token de segurança é obrigatório."
+        },
+        "API_URL": {
+          "LABEL": "URL da API",
+          "PLACEHOLDER": "https://api.z-api.io",
+          "ERROR": "URL da API é obrigatória."
+        },
+        "SUBMIT_BUTTON": "Criar canal WhatsApp Z-API",
+        "API": {
+          "ERROR_MESSAGE": "Não foi possível criar o canal WhatsApp Z-API, tente novamente."
+        }
+      },
       "API_CHANNEL": {
         "TITLE": "Canal da API",
         "DESC": "Integre com canal API e comece a ajudar seus clientes.",

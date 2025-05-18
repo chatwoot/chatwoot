@@ -26,6 +26,11 @@ export default {
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
         { key: 'whatsapp', name: 'WhatsApp' },
+        {
+          key: 'whatsapp_zapi',
+          name: 'WhatsApp Z-API',
+          thumbnail: '/assets/images/dashboard/channels/whatsapp.png',
+        },
         { key: 'sms', name: 'SMS' },
         { key: 'email', name: 'Email' },
         {
