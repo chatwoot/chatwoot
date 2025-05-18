@@ -132,6 +132,8 @@ ar:
     attachment: 'المرفقات'
     no_content: 'لا يوجد محتوى'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
@@ -139,6 +141,9 @@ ar:
       delivery_status:
         error_code: 'رمز الخطأ: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'تم تحديث حالة المحادثة لـ"مغلقة" بواسطة %{user_name}'
         contact_resolved: 'تم حل المحادثة بواسطة %{contact_name}'

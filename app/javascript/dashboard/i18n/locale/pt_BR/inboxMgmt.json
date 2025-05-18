@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Formulário Chat Pré",
       "BUSINESS_HOURS": "Horário de funcionamento",
       "WIDGET_BUILDER": "Construtor de Widget",
-      "BOT_CONFIGURATION": "Configuração do Bot"
+      "BOT_CONFIGURATION": "Configuração do Bot",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Configurações",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de coleta de e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de coleta de e-mails em novas conversas",
       "AUTO_ASSIGNMENT": "Habilitar atribuição automática",
-      "ENABLE_CSAT": "Habilitar CSAT",
       "SENDER_NAME_SECTION": "Habilitar o Nome do Agente no E-mail",
-      "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar pesquisa CSAT(satisfação do cliente) após resolver uma conversa",
       "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do agente no e-mail, se estiver desativado, exibirá o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas continuarão sobre o e-mail se o endereço de e-mail de contato estiver disponível.",
@@ -578,6 +577,32 @@
         "LABEL": "Os visitantes devem fornecer seu nome e endereço de e-mail antes de iniciar o bate-papo"
       }
     },
+    "CSAT": {
+      "TITLE": "Habilitar CSAT",
+      "SUBTITLE": "Iniciar automaticamente pesquisas de CSAT no final das conversas para entender como os clientes se sentem em relação à sua experiência de suporte. Acompanhe as tendências de satisfação e identifique áreas para melhoria ao longo do tempo.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Tipo de exibição"
+      },
+      "MESSAGE": {
+        "LABEL": "Mensagem",
+        "PLACEHOLDER": "Digite uma mensagem para mostrar aos usuários com o formulário"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Regra de pesquisa",
+        "DESCRIPTION_PREFIX": "Enviar a pesquisa se a conversa",
+        "DESCRIPTION_SUFFIX": "qualquer uma das etiquetas",
+        "OPERATOR": {
+          "CONTAINS": "contém",
+          "DOES_NOT_CONTAINS": "não contém"
+        },
+        "SELECT_PLACEHOLDER": "selecionar etiquetas"
+      },
+      "NOTE": "Nota: pesquisas de CSAT são enviadas apenas uma vez por conversa",
+      "API": {
+        "SUCCESS_MESSAGE": "Configurações de CSAT atualizadas com sucesso",
+        "ERROR_MESSAGE": "Não foi possível atualizar as configurações do CSAT. Por favor, tente novamente mais tarde."
+      }
+    },
     "BUSINESS_HOURS": {
       "TITLE": "Definir a sua disponibilidade",
       "SUBTITLE": "Defina a sua disponibilidade no widget livechat",
@@ -594,7 +619,7 @@
         "VALIDATION_ERROR": "Hora inicial deve ser antes de hora de fechamento.",
         "CHOOSE": "Selecione"
       },
-      "ALL_DAY": "Todos os Dias"
+      "ALL_DAY": "O dia todo"
     },
     "IMAP": {
       "TITLE": "IMAP",
