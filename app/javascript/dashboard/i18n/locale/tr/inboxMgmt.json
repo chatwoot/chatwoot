@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Sohbet Öncesi Form",
       "BUSINESS_HOURS": "İş Saatleri",
       "WIDGET_BUILDER": "Widget Oluşturucu",
-      "BOT_CONFIGURATION": "Bot Yapılandırma"
+      "BOT_CONFIGURATION": "Bot Yapılandırma",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-posta toplama kutusunu etkinleştir",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Yeni konuşmalarda e-posta toplama kutusunu etkinleştir veya devre dışı bırak",
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
-      "ENABLE_CSAT": "CSAT'yi etkinleştir",
       "SENDER_NAME_SECTION": "E-postada Ajan Adını Etkinleştir",
-      "ENABLE_CSAT_SUB_TEXT": "Bir konuşma çözüldükten sonra Müşteri Memnuniyeti Anketi (CSAT) etkinleştir/devre dışı bırak",
       "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Ziyaretçilerin sohbeti başlamadan önce ad ve e-posta adresi sağlaması gerekmektedir"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT'yi etkinleştir",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "i̇çerir",
+          "DOES_NOT_CONTAINS": "i̇çermez"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {

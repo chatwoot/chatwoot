@@ -132,6 +132,8 @@ tr:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} hikayesinde senden bahsetti: '
       instagram_deleted_story_content: Bu hikaye artık mevcut değil.
@@ -139,13 +141,18 @@ tr:
       delivery_status:
         error_code: 'Hata kodu: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Konuşma %{user_name} tarafından çözümlendi olarak işaretlendi'
         contact_resolved: 'Konuşma %{contact_name} tarafından çözümlendi olarak işaretlendi'
         open: 'Konuşma %{user_name} tarafından açık olarak işaretlendi'
         pending: 'Konuşma, %{user_name} tarafından bekleyen olarak işaretlendi'
         snoozed: 'Konuşma, %{user_name} tarafından erteledi olarak işaretlendi'
-        auto_resolved: ' %{duration} günlük hareketsizlik nedeniyle konuşma, sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_days: ' %{count} günlük hareketsizlik nedeniyle konuşma, sistem tarafından çözümlendi olarak işaretlendi'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistem, yeni gelen bir mesaj nedeniyle konuşmayı tekrar açtı.
       priority:
         added: '%{user_name} önceliği %{new_priority} olarak ayarladı'

@@ -132,6 +132,8 @@ hu:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} megemlített egy storyban: '
       instagram_deleted_story_content: Ez a story már nem érhető el.
@@ -139,13 +141,18 @@ hu:
       delivery_status:
         error_code: 'Hibakód: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'A beszélgetést lezárta %{user_name}'
         contact_resolved: 'A beszélgetést megoldottra állította: %{contact_name}'
         open: 'A beszélgetést újranyitotta %{user_name}'
         pending: 'A beszélgetést %{user_name} folyamatban lévőnek jelölte'
         snoozed: 'A beszélgetést %{user_name} elnémította'
-        auto_resolved: 'A beszélgetést lezárta a rendszer mivel %{duration} napja inaktív volt'
+        auto_resolved_days: 'A beszélgetést lezárta a rendszer mivel %{count} napja inaktív volt'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: A rendszer újranyitotta a beszélgetést egy új bejövő üzenet miatt.
       priority:
         added: '%{user_name} beállította a prioritást erre: %{new_priority}'

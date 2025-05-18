@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_04_16_182131) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -58,6 +58,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_182131) do
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
+    t.jsonb "settings", default: {}
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -574,6 +575,31 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_182131) do
     t.index ["waiting_since"], name: "index_conversations_on_waiting_since"
   end
 
+  create_table "copilot_messages", force: :cascade do |t|
+    t.bigint "copilot_thread_id", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.string "message_type", null: false
+    t.jsonb "message", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_copilot_messages_on_account_id"
+    t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
+    t.index ["user_id"], name: "index_copilot_messages_on_user_id"
+  end
+
+  create_table "copilot_threads", force: :cascade do |t|
+    t.string "title", null: false
+    t.bigint "user_id", null: false
+    t.bigint "account_id", null: false
+    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_copilot_threads_on_account_id"
+    t.index ["user_id"], name: "index_copilot_threads_on_user_id"
+    t.index ["uuid"], name: "index_copilot_threads_on_uuid", unique: true
+  end
+
   create_table "csat_survey_responses", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "conversation_id", null: false
@@ -703,6 +729,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_04_16_182131) do
     t.bigint "portal_id"
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
+    t.jsonb "csat_config", default: {}, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"

@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Форма, що показується перед стартом діалогу",
       "BUSINESS_HOURS": "Робочий час",
       "WIDGET_BUILDER": "Конструктор віджетів",
-      "BOT_CONFIGURATION": "Налаштування бота"
+      "BOT_CONFIGURATION": "Налаштування бота",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Налаштування",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Включити збір електронної пошти",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Увімкнути або вимкнути ящик збору повідомлень в новій розмові",
       "AUTO_ASSIGNMENT": "Увімкнути автопризначення",
-      "ENABLE_CSAT": "Увімкнути CSAT",
       "SENDER_NAME_SECTION": "Увімкнути ім'я співробітника в електронній пошті",
-      "ENABLE_CSAT_SUB_TEXT": "Увімкнути/Вимкнути опитування CSAT(Задоволення клієнтів) після вирішення розмови",
       "SENDER_NAME_SECTION_TEXT": "Увімкнути/Вимкнути показ імені співробітника в електронній пошті, якщо це вимкнено, то буде відображатися бізнес-ім'я",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Увімкнути безперервність розмови через електронну пошту",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Розмови продовжуватимуться через електронну пошту, якщо доступна контактна адреса.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Відвідувачі повинні надати своє ім'я та адресу електронної пошти перед початком чату"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Увімкнути CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Текст повідомлення",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "містить",
+          "DOES_NOT_CONTAINS": "не містить"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {

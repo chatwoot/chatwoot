@@ -132,6 +132,8 @@ nl:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} heeft je genoemd in het verhaal: '
       instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
@@ -139,13 +141,18 @@ nl:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Gesprek werd gemarkeerd door %{user_name}'
         contact_resolved: 'Gesprek werd opgelost door %{contact_name}'
         open: 'Gesprek werd heropend door %{user_name}'
         pending: 'Gesprek werd gemarkeerd als in afwachting door %{user_name}'
         snoozed: 'Gesprek werd gesluimerd door %{user_name}'
-        auto_resolved: 'Gesprek werd door systeem gemarkeerd als opgelost na %{duration} dagen inactiviteit'
+        auto_resolved_days: 'Gesprek werd door systeem gemarkeerd als opgelost na %{count} dagen inactiviteit'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'

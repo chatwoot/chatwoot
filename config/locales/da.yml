@@ -132,6 +132,8 @@ da:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} nævnte dig i historien: '
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
@@ -139,13 +141,18 @@ da:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Samtalen blev markeret som løst af %{user_name}'
         contact_resolved: 'Samtalen blev løst af %{contact_name}'
         open: 'Samtalen blev genåbnet af %{user_name}'
         pending: 'Samtalen blev markeret som afventende af %{user_name}'
         snoozed: 'Samtalen blev udskudt af %{user_name}'
-        auto_resolved: 'Samtalen blev markeret som løst af systemet på grund af %{duration} dages inaktivitet'
+        auto_resolved_days: 'Samtalen blev markeret som løst af systemet på grund af %{count} dages inaktivitet'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'

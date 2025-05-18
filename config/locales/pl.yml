@@ -132,6 +132,8 @@ pl:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} wspomniał o Tobie w historii: '
       instagram_deleted_story_content: Ta historia już nie jest dostępna.
@@ -139,13 +141,18 @@ pl:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Rozmowa została oznaczona przez %{user_name}'
         contact_resolved: 'Rozmowa została rozwiązana przez %{contact_name}'
         open: 'Rozmowa została ponownie otwarta przez %{user_name}'
         pending: 'Rozmowa została oznaczona jako oczekująca przez %{user_name}'
         snoozed: 'Rozmowa została uśpiona przez %{user_name}'
-        auto_resolved: 'Rozmowa została oznaczona przez system jako rozwiązana z powodu %{duration} dni bezczynności'
+        auto_resolved_days: 'Rozmowa została oznaczona przez system jako rozwiązana z powodu %{count} dni bezczynności'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: System otworzył ponownie rozmowę z powodu nowej wiadomości przychodzącej.
       priority:
         added: '%{user_name} ustawił priorytet na %{new_priority}'

@@ -132,6 +132,8 @@ lv:
     attachment: 'Pielikums'
     no_content: 'Nav satura'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
@@ -139,13 +141,18 @@ lv:
       delivery_status:
         error_code: 'Kļūdas kods: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} sarunu atzīmēja kā atrisinātu'
         contact_resolved: '%{contact_name} atrisināja sarunu'
         open: '%{user_name} atkārtoti atvēra sarunu'
         pending: '%{user_name} sarunu atzīmēja kā neapstiprinātu'
         snoozed: '%{user_name} atlika sarunu'
-        auto_resolved: 'Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ'
+        auto_resolved_days: 'Sistēma sarunu atzīmēja kā atrisinātu %{count} dienu neaktivitātes dēļ'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistēma atkārtoti atvēra sarunu jauna ienākoša ziņojuma dēļ.
       priority:
         added: '%{user_name} iestatīja prioritāti uz %{new_priority}'

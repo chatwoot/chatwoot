@@ -132,6 +132,8 @@ it:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} ti ha menzionato nella storia: '
       instagram_deleted_story_content: Questa storia non è più disponibile.
@@ -139,13 +141,18 @@ it:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'La conversazione è stata contrassegnata come risolta da %{user_name}'
         contact_resolved: 'La conversazione è stata risolta da %{contact_name}'
         open: 'La conversazione è stata riaperta da %{user_name}'
         pending: 'La conversazione è stata contrassegnata come in attesa da %{user_name}'
         snoozed: 'La conversazione è stata posticipata da %{user_name}'
-        auto_resolved: 'La conversazione è stata contrassegnata come risolta dal sistema a causa di %{duration} giorni d''inattività'
+        auto_resolved_days: 'La conversazione è stata contrassegnata come risolta dal sistema a causa di %{count} giorni d''inattività'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: System reopened the conversation due to a new incoming message.
       priority:
         added: '%{user_name} set the priority to %{new_priority}'

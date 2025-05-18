@@ -132,6 +132,8 @@ id:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} menyebutmu dalam story: '
       instagram_deleted_story_content: Story ini tidak lagi tersedia.
@@ -139,13 +141,18 @@ id:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Percakapan ditandai selesai oleh %{user_name}'
         contact_resolved: 'Percakapan diselesaikan oleh %{contact_name}'
         open: 'Percakapan telah dibuka kembali oleh %{user_name}'
         pending: 'Percakapan telah ditandai sebagai tertunda oleh %{user_name}'
         snoozed: 'Percakapan telah ditunda oleh %{user_name}'
-        auto_resolved: 'Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{duration} hari'
+        auto_resolved_days: 'Percakapan ditandai terselesaikan oleh sistem karena tidak ada aktifitas dalam %{count} hari'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistem membuka kembali percakapan karena pesan masuk baru.
       priority:
         added: '%{user_name} tetapkan prioritas untuk %{new_priority}'

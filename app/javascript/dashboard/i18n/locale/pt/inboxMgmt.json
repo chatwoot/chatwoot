@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Formulário pré-chat",
       "BUSINESS_HOURS": "Horário comercial",
       "WIDGET_BUILDER": "Construtor de widgets",
-      "BOT_CONFIGURATION": "Configuração do bot"
+      "BOT_CONFIGURATION": "Configuração do bot",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Configurações",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Ativar caixa de receção de e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Ativar ou desativar caixa de receção de e-mails para as novas conversas",
       "AUTO_ASSIGNMENT": "Ativar atribuição automática",
-      "ENABLE_CSAT": "Ativar CSAT",
       "SENDER_NAME_SECTION": "Adicionar o nome do agente ao e-mail",
-      "ENABLE_CSAT_SUB_TEXT": "Ativar/Desativar envio do questionário CSAT (satisfação do cliente) depois de resolver uma conversa",
       "SENDER_NAME_SECTION_TEXT": "Ativar/Desativar exibição do nome do agente no e-mail. Se estiver desativado, exibirá o nome da empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Ativar continuidade das conversas por e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "As conversas irão continuar por e-mail se o endereço de e-mail do contacto estiver disponível.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Os visitantes devem digitar o seu nome e e-mail antes de iniciarem uma conversa"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Ativar CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Messagem",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contém",
+          "DOES_NOT_CONTAINS": "não contém"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
