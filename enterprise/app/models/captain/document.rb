@@ -1,6 +1,6 @@
 # == Schema Information
 #
-# Table name: captain_documents
+# Table name: ai_agent_documents
 #
 #  id            :bigint           not null, primary key
 #  content       :text
@@ -10,25 +10,25 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
-#  assistant_id  :bigint           not null
+#  topic_id      :bigint           not null
 #
 # Indexes
 #
-#  index_captain_documents_on_account_id                      (account_id)
-#  index_captain_documents_on_assistant_id                    (assistant_id)
-#  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
-#  index_captain_documents_on_status                          (status)
+#  index_ai_agent_documents_on_account_id               (account_id)
+#  index_ai_agent_documents_on_topic_id                 (topic_id)
+#  index_ai_agent_documents_on_topic_id_and_external_link  (topic_id,external_link) UNIQUE
+#  index_ai_agent_documents_on_status                   (status)
 #
-class Captain::Document < ApplicationRecord
+class AIAgent::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
-  self.table_name = 'captain_documents'
+  self.table_name = 'ai_agent_documents'
 
-  belongs_to :assistant, class_name: 'Captain::Assistant'
-  has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
+  belongs_to :topic, class_name: 'AIAgent::Topic'
+  has_many :responses, class_name: 'AIAgent::TopicResponse', dependent: :destroy, as: :documentable
   belongs_to :account
 
   validates :external_link, presence: true
-  validates :external_link, uniqueness: { scope: :assistant_id }
+  validates :external_link, uniqueness: { scope: :topic_id }
   validates :content, length: { maximum: 200_000 }
   before_validation :ensure_account_id
 
@@ -45,20 +45,20 @@ class Captain::Document < ApplicationRecord
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
-  scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+  scope :for_topic, ->(topic_id) { where(topic_id: topic_id) }
 
   private
 
   def enqueue_crawl_job
     return if status != 'in_progress'
 
-    Captain::Documents::CrawlJob.perform_later(self)
+    AIAgent::Documents::CrawlJob.perform_later(self)
   end
 
   def enqueue_response_builder_job
     return if status != 'available'
 
-    Captain::Documents::ResponseBuilderJob.perform_later(self)
+    AIAgent::Documents::ResponseBuilderJob.perform_later(self)
   end
 
   def update_document_usage
@@ -66,11 +66,11 @@ class Captain::Document < ApplicationRecord
   end
 
   def ensure_account_id
-    self.account_id = assistant&.account_id
+    self.account_id = topic&.account_id
   end
 
   def ensure_within_plan_limit
-    limits = account.usage_limits[:captain][:documents]
+    limits = account.usage_limits[:ai_agent][:documents]
     raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
   end
 end

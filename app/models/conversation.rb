@@ -9,6 +9,7 @@
 #  cached_label_list      :text
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
+#  content_attributes     :jsonb
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null
@@ -64,8 +65,10 @@ class Conversation < ApplicationRecord
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
   before_validation :validate_additional_attributes
+  before_validation :validate_content_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
+  validates :content_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
 
@@ -189,6 +192,24 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
+  def content_attributes
+    self[:content_attributes] || {}
+  end
+
+  def content_attributes=(attributes)
+    self[:content_attributes] = attributes
+  end
+
+  def update_content_attributes(attributes = {})
+    update(content_attributes: attributes)
+  end
+
+  def add_content_attribute(key, value)
+    attrs = content_attributes
+    attrs[key] = value
+    update(content_attributes: attrs)
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -207,6 +228,10 @@ class Conversation < ApplicationRecord
 
   def validate_additional_attributes
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
+  end
+
+  def validate_content_attributes
+    self.content_attributes = {} unless content_attributes.is_a?(Hash)
   end
 
   def determine_conversation_status
@@ -231,14 +256,15 @@ class Conversation < ApplicationRecord
   end
 
   def list_of_keys
-    %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+    %w[team_id assignee_id status snoozed_until custom_attributes content_attributes label_list waiting_since first_reply_created_at
        priority]
   end
 
   def allowed_keys?
     (
       previous_changes.keys.intersect?(list_of_keys) ||
-      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
+      (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language])) ||
+      (previous_changes['content_attributes'].present?)
     )
   end
 
