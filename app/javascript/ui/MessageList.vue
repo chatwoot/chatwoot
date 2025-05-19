@@ -2,11 +2,13 @@
 import { ref, onMounted, computed, watch, useTemplateRef } from 'vue';
 import Message from 'next/message/Message.vue';
 import TypingIndicator from 'next/message/TypingIndicator.vue';
+import Snipper from 'next/spinner/Spinner.vue';
 import LiteReplyBox from './LiteReplyBox.vue';
 import {
   useStore,
   useMapGetter,
   useFunctionGetter,
+  //
 } from '../dashboard/composables/store';
 import { getTypingUsersText } from '../dashboard/helper/commons';
 import { useCamelCase } from '../dashboard/composables/useTransformKeys';
@@ -51,14 +53,15 @@ const allMessages = computed(() => {
   return useCamelCase(conversation.value.messages, { deep: true }).reverse();
 });
 
-const fetchMore = () => {
+const fetchMore = async () => {
   if (isFetching.value) return;
   if (!conversation?.value?.id) return;
   if (!allMessages.value?.length) return;
+
   try {
     isFetching.value = true;
 
-    store.dispatch('fetchPreviousMessages', {
+    await store.dispatch('fetchPreviousMessages', {
       conversationId: conversation.value.id,
       before: allMessages.value[allMessages.value.length - 1].id,
     });
@@ -116,6 +119,9 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
         :inbox-supports-reply-to="inboxSupportsReplyTo"
         :current-user-id="currentUserId"
       />
+      <div v-show="isFetching" class="w-full py-4">
+        <Snipper class="mx-auto" />
+      </div>
     </ul>
     <div class="p-2 w-full bg-white absolute bottom-0">
       <LiteReplyBox />
