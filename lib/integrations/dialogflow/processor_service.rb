@@ -71,7 +71,8 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
   def detect_intent(session_id, message)
     client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
     session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
-    query_input = { text: { text: message, language_code: 'en-US' } }
+    language_code = hook.settings['language_code'] || 'en-US'
+    query_input = { text: { text: message, language_code: language_code } }
     client.detect_intent session: session, query_input: query_input
   end
 end

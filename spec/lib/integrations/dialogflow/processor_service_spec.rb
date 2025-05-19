@@ -153,19 +153,33 @@ describe Integrations::Dialogflow::ProcessorService do
     let(:google_dialogflow) { Google::Cloud::Dialogflow::V2::Sessions::Client }
     let(:session_client) { double }
     let(:session) { double }
-    let(:query_input) { { text: { text: message, language_code: 'en-US' } } }
+    let(:language_code) { 'es-419' }
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
     before do
-      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds', 'language_code' => language_code })
       allow(google_dialogflow).to receive(:new).and_return(session_client)
+      query_input = { text: { text: message, language_code: language_code } }
       allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
     end
 
     it 'returns intended response' do
       response = processor.send(:get_response, conversation.contact_inbox.source_id, message.content)
       expect(response[:query_input][:text][:text]).to eq(message)
-      expect(response[:query_input][:text][:language_code]).to eq('en-US')
+      expect(response[:query_input][:text][:language_code]).to eq(language_code)
+    end
+
+    context 'when language code is not set on the hook' do
+      before do
+        hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
+        allow(session_client).to receive(:detect_intent)
+          .and_return({ session: session, query_input: { text: { text: message, language_code: 'en-US' } } })
+      end
+
+      it 'defaults to en-US' do
+        response = processor.send(:get_response, conversation.contact_inbox.source_id, message.content)
+        expect(response[:query_input][:text][:language_code]).to eq('en-US')
+      end
     end
 
     it 'disables the hook if permission errors are thrown' do
