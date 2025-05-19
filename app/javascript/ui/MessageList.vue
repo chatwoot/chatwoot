@@ -96,7 +96,7 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
   <div class="relative">
     <ul
       ref="messageListRef"
-      class="px-4 pt-4 flex flex-col-reverse pb-64 bg-n-background h-screen overflow-scroll"
+      class="px-4 pt-4 flex flex-col-reverse pb-64 bg-n-background overflow-scroll h-screen"
     >
       <div
         v-if="isAnyoneTyping"
@@ -128,3 +128,10 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
     </div>
   </div>
 </template>
+
+<style>
+/* this will disable elastic scrolling on the y axis  */
+* {
+  overscroll-behavior-y: none;
+}
+</style>
