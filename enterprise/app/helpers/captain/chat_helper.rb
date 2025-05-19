@@ -2,12 +2,11 @@ module Captain::ChatHelper
   def request_chat_completion
     Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{@messages}" }
 
-    available_tools = @tool_registry&.registered_tools || []
     response = @client.chat(
       parameters: {
         model: @model,
         messages: @messages,
-        tools: available_tools,
+        tools: @tool_registry&.registered_tools || [],
         response_format: { type: 'json_object' }
       }
     )
@@ -37,15 +36,22 @@ module Captain::ChatHelper
   end
 
   def process_tool_call(tool_call)
+    arguments = JSON.parse(tool_call['function']['arguments'])
+    function_name = tool_call['function']['name']
     tool_call_id = tool_call['id']
     function_name = tool_call['function']['name']
     arguments = JSON.parse(tool_call['function']['arguments'])
 
     if @tool_registry.respond_to?(function_name)
-      execute_tool_call(tool_call_id, function_name, arguments)
+      execute_tool(function_name, arguments, tool_call_id)
     else
       process_invalid_tool_call(tool_call_id, function_name)
     end
+  end
+
+  def execute_tool(function_name, arguments, tool_call_id)
+    result = @tool_registry.send(function_name, arguments)
+    append_tool_response(result, tool_call_id)
   end
 
   def append_tool_calls(tool_calls)

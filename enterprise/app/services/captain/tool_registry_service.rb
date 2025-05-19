@@ -5,17 +5,12 @@ class Captain::ToolRegistryService
     @assistant = assistant
     @registered_tools = []
     @tools = {}
-    register_default_tools
   end
 
   def register_tool(tool_class)
     tool = tool_class.new(@assistant)
     @tools[tool.name] = tool
     @registered_tools << tool.to_registry_format
-  end
-
-  def register_default_tools
-    register_tool(Captain::Tools::SearchDocumentationService)
   end
 
   def method_missing(method_name, *arguments)

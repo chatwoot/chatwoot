@@ -61,6 +61,11 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
 
   private
 
+  def register_tools
+    @tool_registry = Captain::ToolRegistryService.new(@assistant)
+    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+  end
+
   def system_message
     Rails.logger.info("[CAPTAIN][CopilotChatService] Generating system message for product=#{@assistant.config['product_name']} language=#{@language}")
     {

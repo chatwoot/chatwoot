@@ -22,13 +22,13 @@ class Captain::Tools::SearchDocumentationService < Captain::Tools::BaseService
 
   def execute(arguments)
     query = arguments['search_query']
-    Rails.logger.debug { "[CAPTAIN][DocumentationSearch] #{query}" }
-    assistant
-      .responses
-      .approved
-      .search(query)
-      .map { |response| format_response(response) }
-      .join
+    Rails.logger.info { "#{self.class.name}: #{query}" }
+
+    responses = assistant.responses.approved.search(query)
+
+    return 'No FAQs found for the given query' if responses.empty?
+
+    responses.map { |response| format_response(response) }.join
   end
 
   private
