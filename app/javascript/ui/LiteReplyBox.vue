@@ -344,7 +344,7 @@ export default {
       <WootMessageEditor
         v-model="message"
         :editor-id="editorStateId"
-        class="input"
+        class="input px-1"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
