@@ -66,7 +66,7 @@ module Stark
       data = response['body']['data']
       {
         'content' => data['answer'],
-        'action' => data['human_redirect'] ? 'handoff' : nil
+        'action' => data['human_redirect'] ? nil : nil #'handoff if human_redirect is true'
       }
     end
 

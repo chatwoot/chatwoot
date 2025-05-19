@@ -4,10 +4,14 @@ module Enterprise::Account::PlanUsageAndLimits
   CAPTAIN_RESPONSES_USAGE = 'captain_responses_usage'.freeze
   CAPTAIN_DOCUMENTS_USAGE = 'captain_documents_usage'.freeze
 
+  def limits
+    super.with_indifferent_access
+  end
+
   def usage_limits
     {
-      'Agent Limit': agent_limits.to_i,
-      'Inbox Limit': get_limits('inboxes').to_i,
+      agents: agent_limits.to_i,
+      inboxes: get_limits('inboxes').to_i,
       captain: {
         documents: get_captain_limits(:documents),
         responses: get_captain_limits(:responses)
@@ -97,26 +101,14 @@ module Enterprise::Account::PlanUsageAndLimits
 
   def agent_limits
     subscribed_quantity = custom_attributes['subscribed_quantity']
-    subscribed_quantity || get_limits('Agent Limit')
+    subscribed_quantity || get_limits('agents')
   end
 
   def get_limits(limit_name)
-    config_key = case limit_name.to_s
-                when 'agents', 'Agent Limit' then 'AGENTS'
-                when 'inboxes', 'Inbox Limit' then 'INBOXES'
-                else limit_name.to_s.upcase
-                end
-    config_name = "ACCOUNT_#{config_key}_LIMIT"
+    config_name = "ACCOUNT_#{limit_name.to_s.upcase}_LIMIT"
 
-    # Try original database keys first
-    db_key = case limit_name.to_s
-             when 'Agent Limit' then 'agents'
-             when 'Inbox Limit' then 'inboxes'
-             else limit_name.to_s
-             end
-    return self[:limits][db_key].to_i if self[:limits][db_key].present?
-
-    return GlobalConfig.get(config_name)[config_name].to_i if GlobalConfig.get(config_name)[config_name].present?
+    return self[:limits][limit_name.to_s] if self[:limits][limit_name.to_s].present?
+    return GlobalConfig.get(config_name)[config_name] if GlobalConfig.get(config_name)[config_name].present?
 
     ChatwootApp.max_limit
   end
@@ -125,14 +117,7 @@ module Enterprise::Account::PlanUsageAndLimits
     errors.add(:limits, ': Invalid data') unless self[:limits].is_a? Hash
     self[:limits] = {} if self[:limits].blank?
 
-    # Keep original format if present
-    if self[:limits]['agents'].present? || self[:limits]['inboxes'].present?
-      self[:limits] = {
-        'agents' => self[:limits]['agents'].to_i,
-        'inboxes' => self[:limits]['inboxes'].to_i
-      }
-    # Transform display format to database format
-    elsif self[:limits]['Agent Limit'].present? || self[:limits]['Inbox Limit'].present?
+    if self[:limits]['Agent Limit'].present? || self[:limits]['Inbox Limit'].present?
       self[:limits] = {
         'agents' => self[:limits]['Agent Limit'].to_i,
         'inboxes' => self[:limits]['Inbox Limit'].to_i
@@ -142,8 +127,8 @@ module Enterprise::Account::PlanUsageAndLimits
     limit_schema = {
       'type' => 'object',
       'properties' => {
-        'agents' => { 'type': 'integer' },
-        'inboxes' => { 'type': 'integer' }
+        'agents' => { 'type': 'number' },
+        'inboxes' => { 'type': 'number' }
       },
       'required' => [],
       'additionalProperties' => false
