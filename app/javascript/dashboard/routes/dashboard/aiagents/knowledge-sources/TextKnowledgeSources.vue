@@ -26,7 +26,25 @@ async function updateKnowledge(data) {
   )[0];
   try {
     summerNoteBtn.setAttribute('disabled', '');
-    await aiAgents.updateKnowledgeText(props.data.id, data);
+    let knowledgeId = data.id
+    if (!docs.value.length) {
+      const request = {
+        id: null,
+        text: '<br>',
+        tab: 1,
+      };
+      let addResponse = await aiAgents
+        .addKnowledgeText(props.data.id, {
+          ...request,
+        })
+      knowledgeId = addResponse.data?.id
+    }
+
+    await aiAgents.updateKnowledgeText(props.data.id, {
+      id: knowledgeId,
+      tab: 1,
+      text: data.text,
+    });
     useAlert('Berhasil disimpan');
   } catch (e) {
     useAlert('Gagal simpan dapat');
@@ -131,7 +149,6 @@ onMounted(() => {
         }
       },
       onKeydown: function(e) {
-        console.log('fdsafdsafsda', e.keyCode)
         if (getLengthElement(e) >= charLimit) {
           if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
             e.preventDefault()
@@ -173,42 +190,42 @@ onMounted(() => {
   });
 });
 
-const loadingAdd = ref(false);
-async function addDoc() {
-  loadingAdd.value = true;
-  const maxTaNum =
-    docs.value.reduce(function (prev, current) {
-      return prev > current.tab ? prev : current;
-    }, 0) || undefined;
-  const nextTabNum = (maxTaNum?.tab || 0) + 1;
-  const request = {
-    id: null,
-    text: '<br>',
-    tab: nextTabNum,
-  };
-  try {
-    await aiAgents
-      .addKnowledgeText(props.data.id, {
-        ...request,
-      })
-      .then(v => {
-        docs.value.push({
-          ...v.data,
-        });
-        selectedDocIndex.value = docs.value.findIndex(
-          v => v.tab === nextTabNum
-        );
-        useAlert('Berhasil ditambahkan');
-      })
-      .catch(v => {
-        useAlert('Gagal menambahkan');
-      });
-  } catch (e) {
-    useAlert('Gagal menambahkan');
-  } finally {
-    loadingAdd.value = false;
-  }
-}
+// const loadingAdd = ref(false);
+// async function addDoc() {
+//   loadingAdd.value = true;
+//   const maxTaNum =
+//     docs.value.reduce(function (prev, current) {
+//       return prev > current.tab ? prev : current;
+//     }, 0) || undefined;
+//   const nextTabNum = (maxTaNum?.tab || 0) + 1;
+//   const request = {
+//     id: null,
+//     text: '<br>',
+//     tab: nextTabNum,
+//   };
+//   try {
+//     await aiAgents
+//       .addKnowledgeText(props.data.id, {
+//         ...request,
+//       })
+//       .then(v => {
+//         docs.value.push({
+//           ...v.data,
+//         });
+//         selectedDocIndex.value = docs.value.findIndex(
+//           v => v.tab === nextTabNum
+//         );
+//         useAlert('Berhasil ditambahkan');
+//       })
+//       .catch(v => {
+//         useAlert('Gagal menambahkan');
+//       });
+//   } catch (e) {
+//     useAlert('Gagal menambahkan');
+//   } finally {
+//     loadingAdd.value = false;
+//   }
+// }
 
 function selectDoc(index) {
   selectedDocIndex.value = index;
@@ -269,7 +286,7 @@ async function deleteData() {
         </div>
       </div>
     </div> -->
-    <div v-show="selectedDoc">
+    <div>
       <div id="summernote" />
       <div class="flex flex-row items-end justify-end">
         <span>{{ textCounter }} / {{ charLimit }}</span>
