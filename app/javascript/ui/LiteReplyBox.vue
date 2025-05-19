@@ -54,9 +54,16 @@ export default {
       return true;
     },
     isPrivate() {
-      if (this.currentChat.can_reply || this.isAWhatsAppChannel) {
+      // if the current chat is not loaded, assume we can reply
+      // this avoids rendering the editor with is-private yellow bg
+      // optimisitaclly defaulting to reply editor
+      if (!this.currentChat || !Object.keys(this.currentChat).length)
+        return false;
+
+      if (this.currentChat.can_reply) {
         return this.isOnPrivateNote;
       }
+
       return true;
     },
     inboxId() {
