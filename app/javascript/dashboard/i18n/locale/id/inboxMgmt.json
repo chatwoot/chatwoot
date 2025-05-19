@@ -27,6 +27,22 @@
       }
     },
     "ADD": {
+      "WHATSAPP_UNOFFICIAL_CHANNEL": {
+        "TITLE": "Add WhatsApp Unofficial Channel",
+        "DESC": "Configure your unofficial WhatsApp integration",
+        "CHANNEL_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "e.g., CS WA Unofficial",
+          "ERROR": "Inbox name is required"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "628xxxxxxxxxx",
+          "ERROR": "Phone number must start with 62"
+        },
+        "SUBMIT_BUTTON": "Create Channel",
+        "ERROR_MESSAGE": "Failed to create WhatsApp Unofficial channel"
+      },
       "CHANNEL_NAME": {
         "LABEL": "Nama Kotak Masuk",
         "PLACEHOLDER": "Masukkan nama kotak masuk anda (mis: Acme Inc)",
@@ -488,6 +504,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Skrip Messenger",
+      "DISABLE_AUTO_ASSIGNMENT_FIRST" : "Tolong Matikan Penugasan Automatis Terlebih dahulu",
       "MESSENGER_SUB_HEAD": "Tempatkan tombol ini di dalam tag <body> Anda",
       "INBOX_AGENTS": "Agen",
       "INBOX_AGENTS_SUB_TEXT": "Tambahkan atau hapus agen dari kotak masuk ini",
@@ -756,6 +773,7 @@
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
+      "WHATSAPP_UNOFFICIAL": "WhatsApp (Unofficial)",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",

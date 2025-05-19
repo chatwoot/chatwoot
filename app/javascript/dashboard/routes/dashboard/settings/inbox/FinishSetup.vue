@@ -11,6 +11,9 @@ export default {
         this.$route.params.inbox_id
       );
     },
+    webhookUrl() {
+      return this.$route.query.webhook_url || '';
+    },
     isATwilioInbox() {
       return this.currentInbox.channel_type === 'Channel::TwilioSms';
     },
@@ -30,6 +33,9 @@ export default {
       );
     },
     message() {
+      if (this.webhookUrl) {
+        return `Webhook URL: ${this.webhookUrl}`;
+      }
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
           'INBOX_MGMT.ADD.TWILIO.API_CALLBACK.SUBTITLE'

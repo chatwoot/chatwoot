@@ -26,6 +26,11 @@ export default {
         { key: 'website', name: 'Website' },
         { key: 'whatsapp', name: 'WhatsApp' },
         {
+          key: 'whatsapp_unofficial',
+          name: 'WhatsApp (Unofficial)',
+          thumbnail: '/assets/images/channels/whatsapp.png',
+        },
+        {
           key: 'api',
           name: apiChannelName || 'API',
           thumbnail: apiChannelThumbnail,
