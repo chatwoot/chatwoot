@@ -32,5 +32,6 @@ const handleCampaignUpdate = campaign => {
   <WhatsappCampaignData
     v-if="selectedCampaign !== null"
     :campaign="selectedCampaign"
+    :key="selectedCampaign.id"
   ></WhatsappCampaignData>
 </template>

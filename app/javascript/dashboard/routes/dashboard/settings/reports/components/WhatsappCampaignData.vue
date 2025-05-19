@@ -234,9 +234,6 @@ export default defineComponent({
         );
       }
     },
-    closeModal() {
-      this.$emit('close');
-    },
   },
 });
 </script>
@@ -271,104 +268,109 @@ export default defineComponent({
 
   <div v-else class="flex-grow overflow-auto p-6">
     <!-- Stats Grid -->
-    <div class="grid grid-cols-4 gap-4 mb-8">
+    <div class="grid grid-cols-6 gap-4 mb-8">
       <!-- Sent Messages -->
-      <div class="bg-slate-50 dark:bg-n-solid-3 rounded-lg p-1">
-        <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-blue-600 ml-4">{{
+      <div class="metric-card">
+        <div class="flex flex-col">
+          <span class="text-xl font-bold text-blue-600 ">{{
             metrics.sent
           }}</span>
-          <woot-button
-            icon="checkmark"
-            size="large"
-            color-scheme="primary"
-            class-names="button--only-icon mr-10 mt-3"
-          />
+          <p class="text-xs text-slate-600 dark:text-white ">Sent</p>
         </div>
-        <p class="text-sm text-slate-600 dark:text-white ml-3">Sent</p>
+
+        <woot-button
+          icon="checkmark"
+          size="medium"
+          color-scheme="primary"
+          class-names="button--only-icon"
+        />
       </div>
 
       <!-- Delivered Messages -->
-      <div class="bg-slate-50 dark:bg-n-solid-3 rounded-lg p-1">
-        <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-blue-600 ml-4">{{
+      <div class="metric-card">
+        <div class="flex flex-col">
+          <span class="text-xl font-bold text-blue-600 ">{{
             metrics.delivered
           }}</span>
-          <woot-button
-            icon="checkmark-double"
-            size="large"
-            color-scheme="primary"
-            class-names="button--only-icon mr-10 mt-3"
-          />
+          <p class="text-xs text-slate-600 dark:text-white ">Delivered</p>
         </div>
-        <p class="text-sm text-slate-600 dark:text-white ml-2">Delivered</p>
+
+        <woot-button
+          icon="checkmark-double"
+          size="medium"
+          color-scheme="primary"
+          class-names="button--only-icon"
+        />
       </div>
 
       <!-- Read Messages -->
-      <div class="bg-slate-50 dark:bg-n-solid-3 rounded-lg p-1">
-        <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-blue-600 ml-6">{{
+      <div class="metric-card">
+        <div class="flex flex-col">
+          <span class="text-xl font-bold text-blue-600 ">{{
             metrics.read
           }}</span>
-          <woot-button
-            icon="eye-show"
-            size="large"
-            color-scheme="primary"
-            class-names="button--only-icon mr-10 mt-3"
-          />
+          <p class="text-xs text-slate-600 dark:text-white ">Read</p>
         </div>
-        <p class="text-sm text-slate-600 dark:text-white ml-3">Read</p>
+
+        <woot-button
+          icon="eye-show"
+          size="medium"
+          color-scheme="primary"
+          class-names="button--only-icon"
+        />
       </div>
 
       <!-- Replied Messages -->
-      <div class="bg-slate-50 dark:bg-n-solid-3 rounded-lg p-1">
-        <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-blue-600 ml-6">{{
+      <div class="metric-card">
+        <div class="flex flex-col">
+          <span class="text-xl font-bold text-blue-600">{{
             metrics.replied
           }}</span>
-          <woot-button
-            icon="arrow-reply"
-            size="large"
-            color-scheme="primary"
-            class-names="button--only-icon mr-10 mt-3"
-          />
+          <p class="text-xs text-slate-600 dark:text-white">Replied</p>
         </div>
-        <p class="text-sm text-slate-600 dark:text-white ml-3">Replied</p>
+
+        <woot-button
+          icon="arrow-reply"
+          size="medium"
+          color-scheme="primary"
+          class-names="button--only-icon"
+        />
       </div>
 
       <!-- Failed Messages -->
-      <div class="bg-slate-50 dark:bg-n-solid-3 rounded-lg p-1">
-        <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-blue-600 ml-4">{{
+      <div class="metric-card">
+        <div class="flex flex-col">
+          <span class="text-xl font-bold text-blue-600 ">{{
             metrics.failed
           }}</span>
-          <woot-button
-            icon="error-circle"
-            size="large"
-            color-scheme="primary"
-            class-names="button--only-icon mr-10 mt-3"
-          />
+          <p class="text-xs text-slate-600 dark:text-white ">Failed</p>
         </div>
-        <p class="text-sm text-slate-600 dark:text-white ml-3">Failed</p>
+
+        <woot-button
+          icon="error-circle"
+          size="medium"
+          color-scheme="primary"
+          class-names="button--only-icon"
+        />
       </div>
 
       <!-- Processing Messages -->
-      <div class="bg-slate-50 dark:bg-n-solid-3 rounded-lg p-1">
-        <div class="flex items-center justify-between">
-          <span class="text-2xl font-bold text-blue-600 ml-5">{{
+      <div class="metric-card">
+        <div class="flex flex-col">
+          <span class="text-xl font-bold text-blue-600 ">{{
             metrics.processing
           }}</span>
-          <woot-button
-            icon="repeat"
-            size="large"
-            color-scheme="primary"
-            class-names="button--only-icon mr-10 mt-3"
-          />
+          <p class="text-xs text-slate-600 dark:text-white ">Processing</p>
         </div>
-        <p class="text-sm text-slate-600 dark:text-white ml-2">Processing</p>
+
+        <woot-button
+          icon="repeat"
+          size="medium"
+          color-scheme="primary"
+          class-names="button--only-icon"
+        />
       </div>
     </div>
-
     <!-- Controls -->
     <div class="flex justify-between items-center mb-2">
       <div class="flex items-center space-x-4">
@@ -512,26 +514,6 @@ export default defineComponent({
       </div>
     </div>
   </div>
-
-  <!-- Modal Footer -->
-  <div class="p-6 border-t dark:border-dark flex justify-between items-center">
-    <!-- <woot-button
-            variant="clear"
-            color-scheme="success"
-            class-names="clear flex items-center"
-            icon="download"
-            @click="exportContacts"
-          >
-            {{ $t('CAMPAIGN.WHATSAPP.REPORT.EXPORT_CSV') }}
-          </woot-button> -->
-
-    <button
-      class="px-4 py-2 border border-slate-300 rounded-lg text-slate-700 hover:bg-slate-50 dark:border-dark dark:text-white dark:hover:bg-n-solid-3 transition-colors"
-      @click="closeModal"
-    >
-      {{ $t('CAMPAIGN.WHATSAPP.REPORT.CLOSE') }}
-    </button>
-  </div>
 </template>
 
 <style scoped>
@@ -575,5 +557,18 @@ export default defineComponent({
   100% {
     transform: rotate(360deg);
   }
+}
+
+.metric-card {
+  display: flex;
+  flex-direction: row;
+  background-color: #f8fafc;
+  border-radius: 0.5rem;
+  justify-content: space-between;
+  padding: 12px;
+}
+
+.dark .metric-card {
+  background-color: #2c2d36;
 }
 </style>
