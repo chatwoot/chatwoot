@@ -1,161 +1,86 @@
-<div style="width:100%;max-width:600px;min-width:352px;font-family:'Lato',arial;font-size:14px;line-height:24px;color:#595959;box-sizing:border-box;margin:0 auto;border:solid 1px #ddd">
-  <div style="text-align:center;padding:30px 0;border-bottom:solid 2px #3570d2">
-    <img style="width:200px;height:150px" src="https://sdmntprwestus2.oaiusercontent.com/files/00000000-1930-61f8-acc1-e4d236fd0cd5/raw?se=2025-05-02T01%3A48%3A06Z&sp=r&sv=2024-08-04&sr=b&scid=5f59204b-5738-5000-9952-b7d8a6c6308c&skoid=b53ae837-f585-4db7-b46f-2d0322fce5a9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-01T03%3A48%3A19Z&ske=2025-05-02T03%3A48%3A19Z&sks=b&skv=2024-08-04&sig=WkGiolcJo8xyKSIEl4SYp0q3YALoBIyRDPmLyowZY14%3D" alt="jangkauai" title="jangkauai" class="CToWUd" data-bit="iit">
-  </div>
-  <div style="margin:32px 8px 40px 16px">
-    <h3 style="margin-bottom:24px;line-height:32px;font-size:22px;font-weight:800;text-align:center;color:#3570d2">Pembayaran Berhasil</h3>
-    <p style="font-style:normal;font-weight:normal;font-size:14px;line-height:24px;color:#595959">Yth. Bapak/Ibu <%= @customer_name %>, <br>
-      <br> Melalui email ini kami informasikan bahwa pembayaran Anda telah <strong style="font-weight:700;color:#3570d2">berhasil</strong>. <br>Rincian pembayaran dapat dilihat di bawah ini:
-    </p>
-    <div style="margin:24px 0px;padding:37px 10px;border:1px solid #d9d9d9;box-sizing:border-box;max-width:568px">
-      <div style="display:table;width:100%;margin-bottom:16px">
-        <div style="width:90%">
-          <img style="width:12.5em;height:auto;display:table-cell" src="https://sdmntprwestus2.oaiusercontent.com/files/00000000-1930-61f8-acc1-e4d236fd0cd5/raw?se=2025-05-02T01%3A48%3A06Z&sp=r&sv=2024-08-04&sr=b&scid=5f59204b-5738-5000-9952-b7d8a6c6308c&skoid=b53ae837-f585-4db7-b46f-2d0322fce5a9&sktid=a48cca56-e6da-484e-a814-9c849652bcb3&skt=2025-05-01T03%3A48%3A19Z&ske=2025-05-02T03%3A48%3A19Z&sks=b&skv=2024-08-04&sig=WkGiolcJo8xyKSIEl4SYp0q3YALoBIyRDPmLyowZY14%3D" alt="jangkauai" title="jangkauai" class="CToWUd" data-bit="iit">
-        </div>
-        <div style="font-size:100%;font-weight:bold;font-stretch:normal;font-style:normal;line-height:normal;letter-spacing:normal;color:#9b9b9b;display:table-cell;text-align:right">RECEIPT</div>
-      </div>
-      <div style="display:table;width:100%;margin-top:10px">
-        <div style="margin:0px 99px 20px 0px;float:left;display:block;min-height:60px">
-          <div style="font-size:14px;line-height:17px;color:#424242;font-weight:600">PT Radya Anugerah Digital</div>
-          <div style="font-size:12px;line-height:135%;color:#7f7f7f;font-weight:normal;width:210px;height:44px;margin-top:5px">
-            <div>Jl. Sidomukti No.14, Sukaluyu, <br>Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40123 </div>
-          </div>
-          <div style="margin-bottom:5px">&nbsp;</div>
-        </div>
-        <div style="float:left;display:block;margin-top:0px;min-height:60px">
-          <div style="display:table-cell;vertical-align:top;font-size:12px;line-height:17px">
-            <table style="font-family:'Lato',arial;border-collapse:collapse;border-spacing:0;color:#7f7f7f;margin-left:auto;color:#7f7f7f">
-              <tbody>
-                <tr>
-                  <td style="font-family:'Lato',arial">No. Invoice</td>
-                  <td>:</td>
-                  <td style="font-family:'Lato',arial;color:#3570d2;font-weight:600;text-align:left;text-align:-webkit-left"><%= @invoice_number %></td>
-                </tr>
-                <tr>
-                  <td style="font-family:'Lato',arial">Tanggal</td>
-                  <td>:</td>
-                  <td style="font-family:'Lato',arial;color:#424242;font-weight:600;text-align:left;text-align:-webkit-left"><%= @payment_date %></td>
-                </tr>
-                <tr>
-                  <td style="font-family:'Lato',arial">Status</td>
-                  <td>:</td>
-                  <td style="font-family:'Lato',arial;color:#424242;font-weight:600;text-align:left;text-align:-webkit-left">Lunas</td>
-                </tr>
-                <tr>
-                  <td style="font-family:'Lato',arial">Pembayaran</td>
-                  <td>:</td>
-                  <td style="font-family:'Lato',arial;color:#424242;font-weight:600;text-align:left;text-align:-webkit-left"><%= @product %></td>
-                </tr>
-              </tbody>
-            </table>
-          </div>
-        </div>
-        <div style="clear:both"></div>
-        <div style="display:table;width:100%;margin:20px 0px 20px 2px;font-size:0.87em;line-height:1.1em;font-family:'Lato',arial">
-          <div style="margin-bottom:5px;font-weight:normal;color:#7f7f7f;font-family:'Lato',arial">Kepada :</div>
-          <div style="margin-bottom:5px;font-weight:600;color:#424242;font-family:'Lato',arial"><%= @customer_name %></div>
-        #   <div style="margin-bottom:5px;font-weight:600;color:#424242;font-family:'Lato',arial">08986958466</div>
-        #   <div style="font-weight:600;color:#424242;text-decoration:none;font-family:'Lato',arial">
-        #     <a style="color:#424242;text-decoration:none">example@mail.com</a>
-        #   </div>
-        </div>
-        <div style="box-sizing:border-box;font-size:inherit;display:table;width:100%">
-          <table style="border-radius:6px;border-spacing:0px;border:solid 1px #ececec;width:100%;font-size:0.87em;line-height:1.3em;font-family:'Lato',arial">
-            <thead>
-              <tr style="font-family:'Lato',arial;color:#595959;font-weight:600;font-style:normal;background-color:#ececec;font-weight:600;font-size:0.87em;line-height:1em;height:40px">
-                <td style="font-family:'Lato',arial;color:#595959;font-weight:600;font-style:normal;background-color:#ececec;font-weight:600;height:40px;padding-left:20px">Nama Produk</td>
-                <td style="font-family:'Lato',arial;color:#595959;font-weight:600;font-style:normal;background-color:#ececec;font-weight:600;height:40px;padding:0px 20px 0px 0px;text-align:right">Qty</td>
-                <td style="font-family:'Lato',arial;color:#595959;font-weight:600;font-style:normal;background-color:#ececec;font-weight:600;height:40px;text-align:right;padding-right:20px">Harga Nett</td>
-              </tr>
-            </thead>
-            <tbody>
-              <tr style="color:#424242;font-family:'Lato',arial">
-                <td style="font-family:'Lato',arial;border-bottom:solid 1px #ececec;padding:20px 0px 20px 20px"><%= @product %> </td>
-                <td style="font-family:'Lato',arial;border-bottom:solid 1px #ececec;padding:20px 20px 20px 0px;text-align:right">1</td>
-                <td style="font-family:'Lato',arial;border-bottom:solid 1px #ececec;padding:20px 20px 20px 0px;text-align:right"><%= @amount %></td>
-              </tr>
-              <tr>
-                <td colspan="3" style="font-family:'Lato',arial;padding:20px 0px 20px 20px;color:#7f7f7f;font-style:italic"> rupiah</td>
-                <td colspan="2" style="font-family:'Lato',arial;padding:20px 20px 20px 0px;color:#3570d2;text-align:right;font-weight:600">Total Bayar : <%= @amount %></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-        <hr style="box-sizing:border-box;margin-top:20px;margin-bottom:20px;border:1px dashed #ececec">
-        <div style="font-family:'Lato',arial;padding:20px 13.87px;border-radius:24px;border:solid 1px #ececec">
-          <div style="font-size:12px;line-height:157%;color:#595959"> • Bila memiliki pertanyaan silakan hubungi kami via email di <strong style="color:#3570d2">
-              <a href="mailto:support@jangkau.ai" target="_blank">support@jangkau.ai</a>
-            </strong> atau di nomor telepon <strong style="color:#3570d2">(022) 20450511</strong>
-          </div>
-        </div>
-        <p style="font-family:'Lato',arial;text-align:center;font-size:10px;line-height:135%;color:#7f7f7f">Dokumen ini dicetak secara digital pada <strong><%= @payment_date %></strong>
-        </p>
-      </div>
-      <p style="font-family:'Lato',arial">Email ini dapat disimpan sebagai bukti pembayaran Anda. Terima kasih telah menggunakan Jangkau.ai.</p>
-      <p style="font-family:'Lato',arial;margin-top:24px">Salam Hangat, <br>
-        <a style="font-family:'Lato',arial;color:#3570d2;text-decoration:none" href="https://www.jangkau.ai" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.jangkau.ai&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw3sLHYYzBJWxvrZ88dLnP6x">Jangkau AI</a>
-      </p>
-    </div>
-    <div>
-      <div style="background:#3670d3;color:#fff;overflow:hidden;padding:20px 0 0 0;background:#3670d3;box-sizing:border-box;background:-moz-linear-gradient(top,#3670d3 0%,#2164d1 56%,#283d9b 100%);background:-webkit-linear-gradient(top,#3670d3 0%,#2164d1 56%,#283d9b 100%);background:linear-gradient(to bottom,#3670d3 0%,#2164d1 56%,#283d9b 100%)">
-        <div style="display:flex;width:290px;margin:0 auto">
-          <div style="margin-top:auto;height:160px">
-            <img style="width:100px;margin-top:auto" src="https://ci3.googleusercontent.com/meips/ADKq_NYW06L9hA5gppCn2aYAqN3sWDzfu9Vx-gCUS-QBkfRLuuZ990MqGAdYXgBhixWdbWYi-pCEWGpvxqOW6FOg4diw2MLu9jxHyEHfDt7LKPErBQ52OdJZypi1wQ-Q7pYHPWspJk1aujbKYNvNMs4eVm5JjQM=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/w_100,f_auto/v1545967189/unnamed_z0hsw2.png" class="CToWUd" data-bit="iit">
-          </div>
-          <div style="padding:0 0 0 10px;text-align:center;display:flex">
-            <div style="margin-bottom:10px">
-              <h3 style="margin:0 0 5px 0;letter-spacing:2px">JANGKAU AI</h3>
-              <h4 style="font-weight:900;font-size:24px;margin:0 0 10px 0;line-height:26px">Chat Dengan <br>AI! </h4>
-              <span style="display:block;margin:0 0 10px 0;font-size:14px">Download Sekarang</span>
-              <div>
-                <a href="https://app.IOS" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://app.IOS">
-                  <img style="width:80px" src="https://ci3.googleusercontent.com/meips/ADKq_NbCsIP8z0UviV5iZeBCd3Zctc6KXkcrvF0UAv18Lpabl7zXA6vFH-q2cFIL1rIirMobOGrtJuLshc1Zk9NrTvJnTJ6Tkeso30ZYflsfc8dTRRO-OifZ5hbM0r2krfM3lOtkR4iz1AvPL4KSpV3bh2sh3Gvy861nfZHpKw=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/w_80,f_auto/v1545112837/email_template/Appstore.svg" class="CToWUd" data-bit="iit">
-                </a>
-                <a href="https://playstore.com/jangkau-ai" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://jangkauai.onelink.me/1997390319?pid%3DWeb-Dekstop-Pageapp%26is_retargeting%3Dtrue%26af_dp%3Djangkauai%253A%252F%252F%26af_web_dp%3Dhttps%253A%252F%252Fplay.google.com%252Fstore%252Fapps%252Fdetails%253Fid%253Dcom.jangkauai.android&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw3_7Xb3knHZ3eABMD4vmSzm">
-                  <img style="width:80px" src="https://ci3.googleusercontent.com/meips/ADKq_NYfLpE6MJVB1xpFKzjKxtKxFmv_WA51oqe9ci7LjqLPMH_4wKmiW9yfTpFDFicu3lVJM_BRkb_bSKyPTO3QZZVgdi-6v3rvFJdSozSWELhj9BMPVc7sZPIm78LDMVXjc9uyTUsa4iOQxAzGvGJ1xhG_9fAMj4c5SRF_AZc=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/w_80,f_auto/v1545112839/email_template/Playstore.svg" class="CToWUd" data-bit="iit">
-                </a>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div style="background:#3670d3;color:#fff;overflow:hidden">
-        <div style="text-align:center;margin:16px 0px">
-          <h3 style="margin-bottom:4px;font-size:14px;line-height:22px;font-weight:bold">PT. Radya Anugerah Digital</h3>
-          <p style="font-size:12px;line-height:20px;margin:0px">
-            <a href="https://maps.google.com/?q=Jl.+Sidomukti+No.14,+Sukaluyu,+Kec.+Cibeunying+Kaler,+Kota+Bandung,+Jawa+Barat+40123&amp;entry=gmail&amp;source=g" style="color:white;text-decoration:none;font-size:13px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://maps.google.com/?q%3DJl.%2BSidomukti%2BNo.14,%2BSukaluyu,%2BKec.%2BCibeunying%2BKaler,%2BKota%2BBandung,%2BJawa%2BBarat%2B40123%26entry%3Dgmail%26source%3Dg&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw1Lnz1Hjpag1ToSDBo4tNQw">Jl. Sidomukti No.14, Sukaluyu, <br>Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40123 </a>
-          </p>
-        </div>
-        <div style="text-align:center;margin-bottom:16px">
-          <h3 style="margin-bottom:4px;font-size:14px;line-height:22px;font-weight:bold">Layanan Support</h3>
-          <p style="margin:0px;font-size:12px;line-height:20px">
-            <a style="color:#fff;text-decoration:none"> +62 21 20450511 </a>
-            <br>
-            <a style="color:#fff;text-decoration:none">info@jangkau.ai</a>
-          </p>
-        </div>
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Berhasil Berlangganan - Jangkau.ai</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light py-4">
+  <div class="container bg-white p-4 shadow-sm border rounded" style="max-width: 700px; margin: auto;">
+    <!-- Header -->
+    <div class="d-flex justify-content-between align-items-start mb-3">
+      <img src="<%= "#{ENV['FRONTEND_URL']}/assets/images/logo-primary-color.png" %>" alt="Logo Jangkau.ai" style="height: 40px;">
+      <div class="text-end">
+        <p class="mb-0">RECEIPT</p>
+        <p class="mb-0"><% @payment_date %></p>
+        <p class="mb-0"><% @invoice_number %></p>
       </div>
     </div>
-    <div style="padding:36px 0px 12px 0px">
-      <div style="text-align:center;padding:0;margin-bottom:16px">
-        <a href="https://www.facebook.com/jangkau-ai" style="display:inline-block;width:10%;max-width:40px;margin:0 11px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.facebook.com/jangkau-ai&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw10t10eKeXjZtoJBTsqGp-R">
-          <img style="width:100%" src="https://ci3.googleusercontent.com/meips/ADKq_NbY5HD7yJZR_5Ejw7azRqVhKaMid4pRmqVS4h603m41axcrvI6cmC8wuo4M8DU3m6uBnbHLighb8aYgA8Q78gGLYiU8WF1jcIXtf00IMRR9UMvVpThHsbM_-ZFphdImQDBANGs3ThHjpfrowv8aGNSnmp20okxg1YQ0vQ=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/f_auto/v1545112837/email_template/icon_facebook.svg" class="CToWUd" data-bit="iit">
-        </a>
-        <a href="https://www.instagram.com/jangkau_ai/" style="display:inline-block;width:10%;max-width:40px;margin:0 11px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.instagram.com/jangkau_ai/&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw1XMNhPkcJ8HHHRwpgjwJSX">
-          <img style="width:100%" src="https://ci3.googleusercontent.com/meips/ADKq_NZKpxtY5c3q4T-F-Wu_gISN1fSQO4dkTJG4YZ4vJWz5cU5YA3fd11uLW9MbLWj3b6Esim5D9RvvvcKXMqJKd46eIChov8kfIzHNfqYnCnjylgbiHFOptlMu6OyxBtn6fZfBrrT7mXHz8mtFqSbhkTdTseJNUzX9H8aQd1g=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/f_auto/v1545112837/email_template/icon_instagram.svg" class="CToWUd" data-bit="iit">
-        </a>
-        <a href="https://twitter.com/jangkau-ai" style="display:inline-block;width:10%;max-width:40px;margin:0 11px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://twitter.com/jangkau-ai&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw3MhGBFfUeVbglFpl_2WJL0">
-          <img style="width:100%" src="https://ci3.googleusercontent.com/meips/ADKq_NafbFaO0vtDv-ckkjw3yz7rM-C0CSl-pjKbK-273w41YlWwNTnzhz4gWl5OzK35_Fe0e_p8EH87RgBJadjgnKtCvBO7thARCsxCdNeryyEFPVJiQKcmqhqp0kyPTVbYzgPFJWeMUbc4efId_Ll-RtJrvfqS7D6e_FvC=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/f_auto/v1545112837/email_template/icon_twitter.svg" class="CToWUd" data-bit="iit">
-        </a>
-        <a href="https://www.youtube.com/channel/jangkau-ai" style="display:inline-block;width:10%;max-width:40px;margin:0 11px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.youtube.com/channel/jangkau-ai&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw3sOFF2KYJHo9AR_F4Ql9w6">
-          <img style="width:100%" src="https://ci3.googleusercontent.com/meips/ADKq_NbSSimgGTZlLhvM0yDFY3f1o-WlPUwVSo2dg8wYxYwa1YNhbttXTd_bSebT_ujsu9RoO_vQu5VSJ86DF0KuOJ_B6DQTmuRAtjhOOBlWq1C81F8lSw3FQ0SJ0XfQwh1WWinarOIXgNiBYUFsB47lT297aSY-vx-RqzXO=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/f_auto/v1545112838/email_template/icon_youtube.svg" class="CToWUd" data-bit="iit">
-        </a>
-        <a href="https://www.jangkau.ai" style="display:inline-block;width:10%;max-width:40px;margin:0 11px" target="_blank" data-saferedirecturl="https://www.google.com/url?q=https://www.jangkau.ai&amp;source=gmail&amp;ust=1746230902846000&amp;usg=AOvVaw3uzUZtxpEZY20uTpgOXaWE">
-          <img style="width:100%" src="https://ci3.googleusercontent.com/meips/ADKq_NYP2B6sTRDBof8Pz7Kn5DqI10wpenhHmI35pjngYwrw16XoN01QGIyZbQfhliW1owktB-5C32uzqeU4QPaqINfkSgusIiiBJJFo99_oY48YgeFPx7sXgXh4_FzYPcFZJ4JSQY3HFJl2P_99sNVcaqDjz1z8_MY=s0-d-e1-ft#https://res.cloudinary.com/dk0z4ums3/image/upload/f_auto/v1545112837/email_template/icon_web.svg" class="CToWUd" data-bit="iit">
-        </a>
+
+    <!-- Success Banner -->
+    <div class="bg-success text-white text-center py-2 my-3 rounded">
+      <strong>Selamat! Kamu berhasil berlangganan paket Jangkau.ai</strong>
+    </div>
+
+    <!-- Body -->
+    <div class="mb-4">
+      <p><strong>Body:</strong></p>
+      <p>Halo <strong><% @customer_name %></strong>,</p>
+      <p>Selamat! Pembayaran kamu berhasil dan langgananmu untuk paket <strong><% @product %></strong> sudah aktif.</p>
+      <p>Nikmati fitur-fitur terbaik dari Jangkau.ai untuk bantu bisnis kamu makin produktif!</p>
+    </div>
+
+    <hr>
+
+    <!-- Detail Langganan -->
+    <h6 class="mb-3">Detail Langganan</h6>
+    <table class="table table-borderless">
+      <tbody>
+        <tr>
+          <th scope="row">Nama Paket</th>
+          <td>: <% @product %></td>
+        </tr>
+        <tr>
+          <th scope="row">Total Pembayaran</th>
+          <td>: Rp<% @amount %></td>
+        </tr>
+        <tr>
+          <th scope="row">Metode Pembayaran</th>
+          <td>: <% @payment_method %></td>
+        </tr>
+        <tr>
+          <th scope="row">Berlaku Selama</th>
+          <td>: <% @subscription_expiry %> hari</td>
+        </tr>
+        # <tr>
+        #   <th scope="row">Akan Diperpanjang Otomatis Pada</th>
+        #   <td>: {{tanggal_perpanjangan}}</td>
+        # </tr>
+      </tbody>
+    </table>
+
+    <p class="mt-4">Kamu bisa mengelola langganan kapan saja di halaman Langganan Saya.</p>
+    <p class="mb-0">Terimakasih,<br>Tim Jangkau</p>
+
+    <!-- Footer -->
+    <div class="mt-5">
+      <div class="bg-success text-white text-center p-3 rounded-top">
+        <strong>PT. Radya Anugerah Digital</strong><br>
+        Jl. Sidomukti No.14, Sukaluyu,<br>
+        Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40123<br><br>
+        <strong>Layanan Support</strong><br>
+        +62 21 20450511<br>
+        <a href="mailto:info@jangkau.ai" class="text-white">info@jangkau.ai</a>
       </div>
-      <span style="text-align:center;line-height:16px;display:block;font-size:12px">© 2025 PT. Radya Anugerah Digital. All Rights Reserved</span>
+      <div class="bg-white text-center p-3 border-top">
+        <a href="#" class="mx-2"><img src="https://img.icons8.com/ios-filled/30/4caf50/facebook-new.png" alt="Facebook"></a>
+        <a href="#" class="mx-2"><img src="https://img.icons8.com/ios-filled/30/4caf50/instagram-new.png" alt="Instagram"></a>
+        <a href="#" class="mx-2"><img src="https://img.icons8.com/ios-filled/30/4caf50/twitter.png" alt="Twitter"></a>
+        <a href="#" class="mx-2"><img src="https://img.icons8.com/ios-filled/30/4caf50/youtube-play.png" alt="YouTube"></a>
+        <a href="#" class="mx-2"><img src="https://img.icons8.com/ios-filled/30/4caf50/internet.png" alt="Website"></a>
+        <p class="mt-3 text-muted" style="font-size: 0.9rem;">© 2025 PT. Radya Anugerah Digital. All Rights Reserved</p>
+      </div>
     </div>
   </div>
-  <img src="https://ci3.googleusercontent.com/meips/ADKq_NaASVm2n6qqN-3c7AtltJc5b831xoTsEkUlVvFc-iww4lhkpfHDOsqQ8A9d8m51OWykV3armbilPI18ANGKMGA6ZbUnX4ryDd7-juqxqLaHME_vekVwYZc6skCfxIxb80hUXCUFYRyb_Ik3IVUIDeXEV5UJiG-oOAHJtQjCvfV0veK0PZspIDWEGHVFQHmzY_BHzgvC2PkY4-qA6R-Q8BtCMLPMZlsw1TcvL_jvHrmy3vG5LNA6O7BHaknqyGJs3vhhascV6tBIe6lFwytP1b1Te36R9Cmbl0_mt7-JUCXsU38PwmIzkKGilQsn68baWUfNI0AJxjYa6cy8pqtQ0A8WRKo2aoUuAz1Pe9L-aWXMskRugro5ppD6iLhQzGyatmKVKP1eD1pi421nRQbR7iNDLQ1kc5Kc28v5oOWV8Q=s0-d-e1-ft#http://url3540.jangkauai.com/wf/open?upn=HhJuYR2bjDnEKkd704PiRkg-2FSVAJQr44d7-2BfPg1vSFlwDIYlZM7WI9z-2Fg3RrYxz8g8wnoxdvGrMIjzBK-2F3IZq7m3OQ7y30PnhLYZ-2FxeLsifyeAlBJrm4ElDjokij-2BpBGW4Qv1nmZI3kI4fqeuaHOseBY3rljj2mdpr80Cf87HRCzDhICciaflNXwaEMTPg5HwoNMu0eqUBUpzd-2BRsw0C3us6fWvRqYbDqaM2KJ-2FwCcY-3D" alt="" width="1" height="1" border="0" style="height:1px!important;width:1px!important;border-width:0!important;margin-top:0!important;margin-bottom:0!important;margin-right:0!important;margin-left:0!important;padding-top:0!important;padding-bottom:0!important;padding-right:0!important;padding-left:0!important" class="CToWUd" data-bit="iit">
-</div>
+</body>
+</html>
