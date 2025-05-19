@@ -11,7 +11,7 @@ class LlmFormatter::ArticleLlmFormatter
       ID: #{article.id}
       Status: #{article.status}
       Category: #{article.category&.name || 'Uncategorized'}
-      Author: #{article.author&.name}
+      Author: #{article.author&.name || 'Unknown'}
       Views: #{article.views}
       Created At: #{article.created_at}
       Updated At: #{article.updated_at}

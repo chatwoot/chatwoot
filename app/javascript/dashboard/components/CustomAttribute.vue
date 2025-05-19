@@ -49,12 +49,12 @@ export default {
       if (this.isAttributeTypeDate) {
         return this.value
           ? new Date(this.value || new Date()).toLocaleDateString()
-          : '';
+          : '---';
       }
       if (this.isAttributeTypeCheckbox) {
         return this.value === 'false' ? false : this.value;
       }
-      return this.value;
+      return this.hasValue ? this.value : '---';
     },
     formattedValue() {
       return this.isAttributeTypeDate
@@ -82,6 +82,9 @@ export default {
     },
     isAttributeTypeDate() {
       return this.attributeType === 'date';
+    },
+    hasValue() {
+      return this.value !== null && this.value !== '';
     },
     urlValue() {
       return isValidURL(this.value) ? this.value : '---';
@@ -223,7 +226,7 @@ export default {
             />
           </span>
           <NextButton
-            v-if="showActions && value"
+            v-if="showActions && hasValue"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"
             slate
             sm
@@ -281,13 +284,13 @@ export default {
           v-else
           class="group-hover:bg-n-slate-3 group-hover:dark:bg-n-solid-3 inline-block rounded-sm mb-0 break-all py-0.5 px-1"
         >
-          {{ displayValue || '---' }}
+          {{ displayValue }}
         </p>
         <div
           class="flex items-center max-w-[2rem] gap-1 ml-1 rtl:mr-1 rtl:ml-0"
         >
           <NextButton
-            v-if="showActions && value"
+            v-if="showActions && hasValue"
             v-tooltip="$t('CUSTOM_ATTRIBUTES.ACTIONS.COPY')"
             xs
             slate

@@ -1,5 +1,5 @@
 class LlmFormatter::ContactLlmFormatter < LlmFormatter::DefaultLlmFormatter
-  def format(_config)
+  def format(*)
     sections = []
     sections << "Contact ID: ##{@record.id}"
     sections << 'Contact Attributes:'

@@ -1,5 +1,5 @@
 class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
-  def format(include_contact_details: false)
+  def format(config = {})
     sections = []
     sections << "Conversation ID: ##{@record.display_id}"
     sections << "Channel: #{@record.inbox.channel.name}"
@@ -10,7 +10,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
                   'No messages in this conversation'
                 end
 
-    sections << "Contact Details: #{@record.contact.to_llm_text}" if include_contact_details
+    sections << "Contact Details: #{@record.contact.to_llm_text}" if config[:include_contact_details]
     sections.join("\n")
   end
 

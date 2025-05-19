@@ -3,7 +3,7 @@ class LlmFormatter::DefaultLlmFormatter
     @record = record
   end
 
-  def format(config)
+  def format(*)
     # override this
   end
 end
