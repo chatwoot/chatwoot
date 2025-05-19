@@ -1,10 +1,16 @@
 <script>
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import ReportMetricCard from './ReportMetricCard.vue';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 
 export default defineComponent({
   name: 'CampaignReportModal',
+  components: {
+    PaginationFooter,
+    ReportMetricCard,
+  },
   props: {
     campaign: {
       type: Object,
@@ -22,6 +28,7 @@ export default defineComponent({
       isLoading: true,
       error: null,
       rowsPerPage: 25,
+      currentPage: 1,
       searchQuery: '',
       activeTab: 'processed',
       contactTypes: [
@@ -100,6 +107,14 @@ export default defineComponent({
           return [];
       }
     },
+    visibleContacts() {
+      const startIdx = (this.currentPage - 1) * this.rowsPerPage;
+      const endIdx = Math.min(
+        this.activeContacts.length,
+        this.currentPage * this.rowsPerPage
+      );
+      return this.activeContacts.slice(startIdx, endIdx);
+    },
   },
   mounted() {
     this.$store
@@ -154,6 +169,9 @@ export default defineComponent({
       } finally {
         this.isLoading = false;
       }
+    },
+    onUpdatePage(page) {
+      this.currentPage = page;
     },
     updateMetrics(contacts) {
       const pending = contacts.pending_contacts || [];
@@ -241,19 +259,20 @@ export default defineComponent({
 
 <template>
   <!-- Modal Header -->
-  <div class="flex justify-between items-center p-6 border-b dark:border-dark">
-    <div class="flex flex-col">
-      <h2 class="text-xl font-semibold text-slate-900 dark:text-dark-primary">
-        {{ $t('CAMPAIGN.WHATSAPP.REPORT.TITLE', { title: campaign.title }) }}
-      </h2>
-      <p class="text-sm text-slate-500 dark:text-white">
-        {{
-          $t('CAMPAIGN.WHATSAPP.REPORT.CONTACTS_COUNT', {
-            count: totalContacts,
-          })
-        }}
-      </p>
-    </div>
+
+  <div
+    class="flex-col lg:flex-row flex flex-wrap mx-0 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-8 gap-16 mt-6"
+  >
+    <p class="text-slate-500 dark:text-white text-lg">
+      {{ $t('WHATSAPP_REPORTS.REPORT_TITLE', { title: campaign.title }) }}
+    </p>
+    <p class="text-lg text-slate-500 dark:text-white">
+      {{
+        $t('WHATSAPP_REPORTS.CONTACTS_COUNT', {
+          count: totalContacts,
+        })
+      }}
+    </p>
   </div>
 
   <!-- Modal Content -->
@@ -267,7 +286,7 @@ export default defineComponent({
     <div class="text-red-500">{{ error }}</div>
   </div>
 
-  <div v-else class="flex-grow overflow-auto p-6">
+  <div v-else class="flex-grow overflow-auto mt-8">
     <!-- Stats Grid -->
     <div
       class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-8"
@@ -401,104 +420,127 @@ export default defineComponent({
     </div>
 
     <!-- Table Container with Fixed Header and Scrollable Body -->
-    <div class="overflow-x-auto bg-white dark:bg-n-solid-3 rounded-lg">
-      <div class="max-h-[500px] overflow-y-auto">
-        <table class="w-full">
-          <thead class="sticky top-0 bg-white dark:bg-n-solid-3 z-10">
-            <tr class="border-b dark:border-dark">
-              <th
-                class="p-4 text-left font-medium text-slate-700 dark:text-white"
-              >
-                <div
-                  class="flex items-center cursor-pointer"
-                  @click="sortContacts('name')"
-                >
-                  Contact
-                  <span class="ml-2 text-xxs" v-if="sortConfig.key === 'name'">
-                    {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
-                  </span>
-                </div>
-              </th>
-              <th
-                class="p-4 text-left font-medium text-slate-700 dark:text-white"
-              >
-                <div
-                  class="flex items-center cursor-pointer"
-                  @click="sortContacts('phone_number')"
-                >
-                  Phone
-                  <span class="ml-2 text-xxs" v-if="sortConfig.key === 'phone_number'">
-                    {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
-                  </span>
-                </div>
-              </th>
-              <th
-                v-if="activeTab === 'failed'"
-                class="p-4 text-left font-medium text-slate-700 dark:text-white"
-              >
-                <div class="flex items-center">Reason</div>
-              </th>
-              <th
-                class="p-4 text-left font-medium text-slate-700 dark:text-white"
-              >
-                <div
-                  class="flex items-center cursor-pointer"
-                  @click="sortContacts('processed_at')"
-                >
-                  Time
 
-                  <span class="ml-2 text-xxs" v-if="sortConfig.key === 'processed_at'">
-                    {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
-                  </span>
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="contact in activeContacts"
-              :key="contact.id"
-              class="border-b last:border-b-0 dark:border-dark hover:bg-slate-50 dark:hover:bg-n-solid-2"
-            >
-              <td class="p-4 text-slate-900 dark:text-white">
-                {{ contact.name }}
-              </td>
-              <td class="p-4 text-slate-900 dark:text-white">
-                {{ contact.phone_number }}
-              </td>
-              <td
-                v-if="activeTab === 'failed'"
-                class="p-4 text-slate-900 dark:text-white"
+<!-- flex-col lg:flex-row  -->
+    <div
+      class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-4 py-4 gap-16 mt-6"
+    >
+      <div class="overflow-x-auto bg-white dark:bg-n-solid-3 rounded-lg">
+        <div class="max-h-[500px] overflow-y-auto">
+          <table class="w-full">
+            <thead class="sticky top-0 bg-white dark:bg-n-solid-3 z-10">
+              <tr class="border-b dark:border-dark">
+                <th
+                  class="p-4 text-left font-medium text-slate-700 dark:text-white"
+                >
+                  <div
+                    class="flex items-center cursor-pointer"
+                    @click="sortContacts('name')"
+                  >
+                    Contact
+                    <span
+                      class="ml-2 text-xxs"
+                      v-if="sortConfig.key === 'name'"
+                    >
+                      {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
+                    </span>
+                  </div>
+                </th>
+                <th
+                  class="p-4 text-left font-medium text-slate-700 dark:text-white"
+                >
+                  <div
+                    class="flex items-center cursor-pointer"
+                    @click="sortContacts('phone_number')"
+                  >
+                    Phone
+                    <span
+                      class="ml-2 text-xxs"
+                      v-if="sortConfig.key === 'phone_number'"
+                    >
+                      {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
+                    </span>
+                  </div>
+                </th>
+                <th
+                  v-if="activeTab === 'failed'"
+                  class="p-4 text-left font-medium text-slate-700 dark:text-white"
+                >
+                  <div class="flex items-center">Reason</div>
+                </th>
+                <th
+                  class="p-4 text-left font-medium text-slate-700 dark:text-white"
+                >
+                  <div
+                    class="flex items-center cursor-pointer"
+                    @click="sortContacts('processed_at')"
+                  >
+                    Time
+
+                    <span
+                      class="ml-2 text-xxs"
+                      v-if="sortConfig.key === 'processed_at'"
+                    >
+                      {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
+                    </span>
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="contact in visibleContacts"
+                :key="contact.id"
+                class="border-b last:border-b-0 dark:border-dark hover:bg-slate-50 dark:hover:bg-n-solid-2"
               >
-                {{ contact.error_message || 'Unknown Error' }}
-              </td>
-              <td class="p-4 text-slate-600 dark:text-white">
-                {{
-                  contact.processed_at
-                    ? new Date(contact.processed_at).toLocaleString()
-                    : '-'
-                }}
-              </td>
-            </tr>
-            <tr v-if="activeContacts.length === 0">
-              <td
-                :colspan="activeTab === 'failed' ? '4' : '3'"
-                class="p-4 text-center text-slate-500 dark:text-white"
-              >
-                {{
-                  $t('CAMPAIGN.WHATSAPP.REPORT.NO_CONTACTS', {
-                    type: activeTab,
-                  })
-                }}
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                <td class="p-4 text-slate-900 dark:text-white">
+                  {{ contact.name }}
+                </td>
+                <td class="p-4 text-slate-900 dark:text-white">
+                  {{ contact.phone_number }}
+                </td>
+                <td
+                  v-if="activeTab === 'failed'"
+                  class="p-4 text-slate-900 dark:text-white"
+                >
+                  {{ contact.error_message || 'Unknown Error' }}
+                </td>
+                <td class="p-4 text-slate-600 dark:text-white">
+                  {{
+                    contact.processed_at
+                      ? new Date(contact.processed_at).toLocaleString()
+                      : '-'
+                  }}
+                </td>
+              </tr>
+              <tr v-if="activeContacts.length === 0">
+                <td
+                  :colspan="activeTab === 'failed' ? '4' : '3'"
+                  class="p-4 text-center text-slate-500 dark:text-white"
+                >
+                  {{
+                    $t('CAMPAIGN.WHATSAPP.REPORT.NO_CONTACTS', {
+                      type: activeTab,
+                    })
+                  }}
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
     </div>
 
+    <PaginationFooter
+      class="mt-4"
+      :current-page="currentPage"
+      :total-items="activeContacts.length"
+      :items-per-page="rowsPerPage"
+      @update:current-page="onUpdatePage"
+    />
+
     <!-- Pagination -->
-    <div class="mt-4 flex items-center justify-between">
+    <!-- <div class="mt-4 flex items-center justify-between">
       <div class="text-sm text-slate-500 dark:text-white">
         Showing {{ activeContacts.length }} of
         {{
@@ -510,7 +552,7 @@ export default defineComponent({
         }}
         contacts
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

@@ -427,7 +427,9 @@
     "HEADER": "Whatsapp Reports",
     "FILTER_DROPDOWN_LABEL": "Select campaign",
     "EMPTY_TITLE": "No whatsapp campaign report selected",
-    "EMPTY_SUBTITLE":"Please select a campaign"
+    "EMPTY_SUBTITLE": "Please select a campaign",
+    "REPORT_TITLE": "Campaign name: {title}",
+    "CONTACTS_COUNT":  "Total contacts scheduled: {count} "
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",

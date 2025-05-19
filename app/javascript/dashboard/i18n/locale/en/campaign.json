@@ -5,14 +5,12 @@
       "HEADER_TITLE": "WhatsApp Campaigns",
       "NEW_CAMPAIGN": "Create campaign",
       "REPORT": {
-        "TITLE": "Campaign Report: {title}",
         "PROCESSED_CONTACTS": "Successful contacts",
         "FAILED_CONTACTS": "Failed contacts",
         "EXPORT_CSV": "Export CSV",
         "SEARCH_PLACEHOLDER": "Search the contacts",
         "CLOSE": "Close",
-        "NO_CONTACTS": "There are no {type} contacts",
-        "CONTACTS_COUNT": "Total Contacts Scheduled: {count} "
+        "NO_CONTACTS": "There are no {type} contacts"
       },
       "CARD": {
         "STATUS": {

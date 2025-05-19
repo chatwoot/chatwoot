@@ -74,22 +74,18 @@ export default defineComponent({
     <template #empty-state-item>
       <!-- Modal Header -->
       <div
-        class="flex justify-between items-center p-6 border-b dark:border-dark"
+        class="flex-col lg:flex-row flex flex-wrap mx-0 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-8 gap-16 mt-6"
       >
-        <div class="flex flex-col">
-          <h2
-            class="text-xl font-semibold text-slate-900 dark:text-dark-primary"
-          >
-            {{ $t('CAMPAIGN.WHATSAPP.REPORT.TITLE', { title: '--' }) }}
-          </h2>
-          <p class="text-sm text-slate-500 dark:text-white">
-            {{
-              $t('CAMPAIGN.WHATSAPP.REPORT.CONTACTS_COUNT', {
-                count: '--',
-              })
-            }}
-          </p>
-        </div>
+        <p class="text-slate-500 dark:text-white text-lg">
+          {{ $t('WHATSAPP_REPORTS.REPORT_TITLE', { title: '--' }) }}
+        </p>
+        <p class="text-lg text-slate-500 dark:text-white">
+          {{
+            $t('WHATSAPP_REPORTS.CONTACTS_COUNT', {
+              count: '--',
+            })
+          }}
+        </p>
       </div>
 
       <div class="flex-grow overflow-auto p-6">
