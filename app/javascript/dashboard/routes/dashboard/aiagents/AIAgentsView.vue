@@ -86,7 +86,7 @@ async function createAiAgent() {
     fetchAiAgents();
     showCreateAgentModal.value = false;
   } catch (e) {
-    const errorMessage = error?.response?.data?.message;
+    const errorMessage = e?.response?.data?.error;
     useAlert(errorMessage || t('AGENT_MGMT.FORM_CREATE.FAILED_ADD'));
   } finally {
     loadingCreate.value = false;
