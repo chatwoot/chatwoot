@@ -80,6 +80,18 @@ watch(
   }
 );
 
+const charLimit = 2500
+
+const textCounter = ref(0)
+
+function getLengthElement(e) {
+  return e.currentTarget.innerText?.trim()?.length || 0
+}
+
+function countCharacter(e) {
+  textCounter.value = getLengthElement(e)
+}
+
 onMounted(() => {
   var SaveButton = function (context) {
     var ui = $.summernote.ui;
@@ -118,6 +130,32 @@ onMounted(() => {
           summerNoteBtn.setAttribute('disabled', '');
         }
       },
+      onKeydown: function(e) {
+        console.log('fdsafdsafsda', e.keyCode)
+        if (getLengthElement(e) >= charLimit) {
+          if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
+            e.preventDefault()
+          }
+        }
+      },
+      onKeyup: function(e) {
+        countCharacter(e)
+      },
+      onPaste: function(e) {
+        const tlength = getLengthElement(e)
+        countCharacter(e)
+        var t = e.currentTarget.innerText;
+        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+        e.preventDefault();
+        var maxPaste = bufferText.length;
+        if (t.length + bufferText.length > charLimit) {
+          maxPaste = charLimit - t.length;
+        }
+        if (maxPaste > 0) {
+          document.execCommand('insertText', false, bufferText.substring(0, maxPaste));
+        }
+        $('#summernote').text(charLimit - tlength);
+      }
     },
     toolbar: [
       // ['style', ['style']],
@@ -233,6 +271,9 @@ async function deleteData() {
     </div> -->
     <div v-show="selectedDoc">
       <div id="summernote" />
+      <div class="flex flex-row items-end justify-end">
+        <span>{{ textCounter }} / {{ charLimit }}</span>
+      </div>
     </div>
 
     <woot-delete-modal
