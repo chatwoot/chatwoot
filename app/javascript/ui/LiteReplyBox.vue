@@ -2,7 +2,7 @@
 import { useTemplateRef } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+// import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
@@ -21,7 +21,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
+  mixins: [inboxMixin, fileUploadMixin],
   setup() {
     const replyEditor = useTemplateRef('replyEditor');
 
@@ -352,7 +352,7 @@ export default {
       <WootMessageEditor
         v-model="message"
         :editor-id="editorStateId"
-        class="input px-1"
+        class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
         :update-selection-with="updateEditorSelectionWith"
@@ -423,6 +423,22 @@ export default {
 
   &.is-private {
     @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
+  }
+}
+
+/* in safari the list marker is truncated */
+/* We could add, the following, but in Safari, it behaves weirdly with the curosr */
+/* ::v-deep .ProseMirror li {
+  list-style-position: inside !important;
+} */
+
+@supports (-webkit-hyphens: none) {
+  ::v-deep .ProseMirror ul {
+    margin-left: 2ch !important;
+  }
+
+  ::v-deep .ProseMirror ol {
+    margin-left: 2ch !important;
   }
 }
 
