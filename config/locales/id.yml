@@ -190,7 +190,7 @@ id:
       available_ai_agent: 'Halo, saya AI Agent dari %{business_name}. Silakan kirimkan pertanyaan Anda, dan saya akan berusaha memberikan solusi sebaik mungkin.'
       not_available_agent: 'Saat ini belum ada agen yang tersedia untuk menangani pertanyaan kamu. Pesan kamu sudah tercatat dan akan segera kami tindak lanjuti begitu tim kami siap membantu.'
       available_agent: 'Tentu, saya akan segera menghubungkan Anda ke tim kami. Mohon ditunggu sebentar ya.'
-      escalation_message: 'Mohon maaf, saya belum bisa membantu menjawab pertanyaan ini. Saya akan teruskan ke tim kami agar bisa dibantu lebih lanjut. Mohon ditunggu sebentar ya 😊'
+      escalation_message: 'Saya akan teruskan ke tim kami agar bisa dibantu lebih lanjut. Mohon ditunggu sebentar ya 😊'
       requested_human_message: 'Tentu, saya akan segera menghubungkan Anda ke tim kami. Mohon ditunggu sebentar ya.'
       long_running_message: 'Mohon tunggu sebentar, saya sedang menelusuri informasi yang Anda butuhkan.'
       failure: 'Terdapat kesalahan di sistem kami saat ini, jadi kami tidak dapat melanjutkan percakapan. Untuk bantuan lebih lanjut, silakan hubungi tim dukungan kami melalui [tautan kontak/support]. Mohon maaf atas ketidaknyaan dan terima kasih atas pengertian Anda.'
