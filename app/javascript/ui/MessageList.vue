@@ -70,9 +70,9 @@ const fetchMore = async () => {
   }
 };
 
-onMounted(() => {
-  store.dispatch('inboxes/get');
-  store.dispatch('getConversation', conversationId.value);
+onMounted(async () => {
+  await store.dispatch('inboxes/get');
+  await store.dispatch('getConversation', conversationId.value);
 });
 
 watch(conversation, () => {
@@ -110,15 +110,15 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
           <TypingIndicator class="text-n-slate-9" />
         </div>
       </div>
-      <Message
-        v-for="message in allMessages"
-        :key="message.id"
-        v-bind="message"
-        :is-email-inbox="isAnEmailChannel"
-        :group-with-next="false"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :current-user-id="currentUserId"
-      />
+      <template v-for="message in allMessages" :key="message.id">
+        <Message
+          v-bind="message"
+          :is-email-inbox="isAnEmailChannel"
+          :group-with-next="false"
+          :inbox-supports-reply-to="inboxSupportsReplyTo"
+          :current-user-id="currentUserId"
+        />
+      </template>
       <div v-show="isFetching" class="w-full py-4">
         <Snipper class="mx-auto" />
       </div>
