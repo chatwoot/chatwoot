@@ -139,16 +139,6 @@ class Api::V1::DuitkuController < Api::BaseController
             Rails.logger.warn("Transaction not found for transaction_id: #{merchant_order_id}")
           end
 
-          # # End subscription Free Trial
-          # subscription_free_trial = Subscription.find_by(account_id: subscription.account_id, plan_name: "Free Trial")
-          # if subscription_free_trial.present?
-          #   if subscription_free_trial.update(status: 'inactive')
-          #     Rails.logger.info("Deactivated Free Trial subscription")
-          #   else
-          #     Rails.logger.error("Failed to deactivate: #{subscription_free_trial.errors.full_messages}")
-          #   end
-          # end
-          
           # Update all active subscriptions for the account except the current one to inactive
           updated_count = Subscription.where(account_id: subscription.account_id, status: 'active', payment_status: 'paid')
           .where.not(id: subscription.id)

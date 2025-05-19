@@ -33,3 +33,8 @@ production:
   :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
 staging:
   :concurrency: <%= ENV.fetch("SIDEKIQ_CONCURRENCY", 10) %>
+
+:schedule:
+  transaction_timeout_job:
+    cron: "59 16 * * *"  # setiap hari jam 23:59 WIB
+    class: "SubscriptionPaymentTimeoutJob"

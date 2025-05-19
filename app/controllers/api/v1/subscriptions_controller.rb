@@ -71,12 +71,15 @@ class Api::V1::SubscriptionsController < Api::BaseController
             subscription_id: @subscription.id
           )
 
-          payment = create_payment_for_subscription(order_id)
+          payment_created = create_payment_for_subscription(order_id)
+          payment = payment_created[:payment]
 
           transaction.update!(
             payment_url: payment.payment_url,
             expiry_date: payment.expires_at
-          )
+          )  
+
+          PaymentExpireJob.set(wait: (payment_created[:expiry_period].to_i + 1).minutes).perform_later(transaction.transaction_id)
 
           render json: { 
             subscription: @subscription, 
@@ -181,7 +184,10 @@ class Api::V1::SubscriptionsController < Api::BaseController
         payment_method: params[:payment_method],
         expires_at: Time.current + response[:expiryPeriod].to_i.minutes
       )
-      return payment
+      return {
+        payment: payment,
+        expiry_period: response[:expiryPeriod]
+      }
     else
       raise "Payment URL not present in response: #{response.inspect}"
     end
