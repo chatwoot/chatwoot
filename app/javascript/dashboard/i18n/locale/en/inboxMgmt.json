@@ -27,6 +27,22 @@
       }
     },
     "ADD": {
+      "WHATSAPP_UNOFFICIAL_CHANNEL": {
+        "TITLE": "Add WhatsApp Unofficial Channel",
+        "DESC": "Configure your unofficial WhatsApp integration",
+        "CHANNEL_NAME": {
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "e.g., CS WA Unofficial",
+          "ERROR": "Inbox name is required"
+        },
+        "PHONE_NUMBER": {
+          "LABEL": "Phone Number",
+          "PLACEHOLDER": "628xxxxxxxxxx",
+          "ERROR": "Phone number must start with 62"
+        },
+        "SUBMIT_BUTTON": "Create Channel",
+        "ERROR_MESSAGE": "Failed to create WhatsApp Unofficial channel"
+      },
       "CHANNEL_NAME": {
         "LABEL": "Inbox Name",
         "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
@@ -483,6 +499,7 @@
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
+      "DISABLE_AUTO_ASSIGNMENT_FIRST" : "Please Turn Off Auto Assignment First",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agents",
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
@@ -751,6 +768,7 @@
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
       "WHATSAPP": "WhatsApp",
+      "WHATSAPP_UNOFFICIAL": "WhatsApp (Unofficial)",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",

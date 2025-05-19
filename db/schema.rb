@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_16_021731) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -514,6 +514,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated", precision: nil
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
+  end
+
+  create_table "channel_whatsapp_unofficials", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.string "webhook_url"
+    t.integer "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_channel_whatsapp_unofficials_on_account_id"
+    t.index ["phone_number"], name: "index_channel_whatsapp_unofficials_on_phone_number", unique: true
   end
 
   create_table "contact_inboxes", force: :cascade do |t|
@@ -1134,22 +1144,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_07_163848) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
-  end
-
-  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "max_mau", default: 0, null: false
-    t.integer "max_ai_agents", default: 0, null: false
-    t.integer "max_ai_responses", default: 0, null: false
-    t.integer "max_human_agents", default: 0, null: false
-    t.text "available_channels", default: [], array: true
-    t.string "support_level"
-    t.integer "duration_days"
-    t.decimal "monthly_price", precision: 16, scale: 2, null: false
-    t.decimal "annual_price", precision: 16, scale: 2, null: false
-    t.boolean "is_active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "subscription_topups", force: :cascade do |t|

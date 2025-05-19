@@ -20,15 +20,16 @@ export default {
       isActive() {
         const availableChannels = (this.enabledFeatures?.available_channels || []).map(c => c.toLowerCase());
         console.log(availableChannels)
-        return availableChannels.includes(this.channel.name.toLowerCase());
-
-}
-
+        return availableChannels.includes(this.channel.key.toLowerCase());
+      }
   },
   methods: {
     getChannelThumbnail() {
       if (this.channel.key === 'api' && this.channel.thumbnail) {
         return this.channel.thumbnail;
+      }
+      if (this.channel.key === 'whatsapp_unofficial') {
+        return `/assets/images/dashboard/channels/whatsapp.png`;
       }
       return `/assets/images/dashboard/channels/${this.channel.key}.png`;
     },

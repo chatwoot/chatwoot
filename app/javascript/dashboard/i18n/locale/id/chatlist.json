@@ -15,9 +15,9 @@
     },
     "FILTER_ALL": "Semua",
     "ASSIGNEE_TYPE_TABS": {
-      "me": "Milikku",
-      "unassigned": "Belum ditugaskan",
-      "all": "Semua"
+      "me": "Ditugaskan",
+      "unassigned": "Belum Ditugaskan",
+      "all": "Semua Chat"
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {

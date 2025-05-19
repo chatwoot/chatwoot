@@ -37,26 +37,36 @@ export default {
     this.$store.dispatch('agents/get');
   },
   methods: {
-    async addAgents() {
-      this.isCreating = true;
-      const inboxId = this.$route.params.inbox_id;
-      const selectedAgents = this.selectedAgents.map(x => x.id);
+  async addAgents() {
+    this.isCreating = true;
+    const inboxId = this.$route.params.inbox_id;
+    const selectedAgents = this.selectedAgents.map(x => x.id);
+    const webhookUrl = this.$route.query.webhook_url; // <-- Optional
 
-      try {
-        await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
-        router.replace({
-          name: 'settings_inbox_finish',
-          params: {
-            page: 'new',
-            inbox_id: this.$route.params.inbox_id,
-          },
-        });
-      } catch (error) {
-        useAlert(error.message);
+    try {
+      await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
+
+      const routeParams = {
+        name: 'settings_inbox_finish',
+        params: {
+          page: 'new',
+          inbox_id: inboxId,
+        },
+      };
+
+      if (webhookUrl) {
+        routeParams.query = { webhook_url: webhookUrl };
       }
-      this.isCreating = false;
-    },
+
+      router.replace(routeParams);
+    } catch (error) {
+      useAlert(error.message);
+    }
+
+    this.isCreating = false;
   },
+}
+
 };
 </script>
 
