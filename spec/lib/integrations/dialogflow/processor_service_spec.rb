@@ -175,4 +175,27 @@ describe Integrations::Dialogflow::ProcessorService do
         .to change(hook, :status).from('enabled').to('disabled')
     end
   end
+
+  describe '#configure_dialogflow_client_defaults' do
+    let(:google_dialogflow) { Google::Cloud::Dialogflow::V2::Sessions::Client }
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+
+    it 'does not set endpoint when region is global' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'global' })
+      config = OpenStruct.new
+      expect(google_dialogflow).to receive(:configure).and_yield(config)
+
+      processor.send(:configure_dialogflow_client_defaults)
+      expect(config.endpoint).to be_nil
+    end
+
+    it 'sets endpoint when region is not global' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
+      config = OpenStruct.new
+      expect(google_dialogflow).to receive(:configure).and_yield(config)
+
+      processor.send(:configure_dialogflow_client_defaults)
+      expect(config.endpoint).to eq('europe-west1-dialogflow.googleapis.com')
+    end
+  end
 end

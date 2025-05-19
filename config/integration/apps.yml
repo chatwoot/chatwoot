@@ -84,6 +84,7 @@ dialogflow:
         {
           'project_id': { 'type': 'string' },
           'credentials': { 'type': 'object' },
+          'region': { 'type': 'string' },
         },
       'required': ['project_id', 'credentials'],
       'additionalProperties': false,
@@ -106,8 +107,21 @@ dialogflow:
         'validation-messages':
           { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
       },
+      {
+        'label': 'Dialogflow Region',
+        'type': 'select',
+        'name': 'region',
+        'default': 'global',
+        'options': [
+          { 'label': 'Global', 'value': 'global' },
+          { 'label': 'Europe - Belgium', 'value': 'europe-west1' },
+          { 'label': 'Europe - London', 'value': 'europe-west2' },
+          { 'label': 'Asia Pacific - Sydney', 'value': 'australia-southeast1' },
+          { 'label': 'Asia Pacific - Tokyo', 'value': 'asia-northeast1' },
+        ],
+      },
     ]
-  visible_properties: ['project_id']
+  visible_properties: ['project_id', 'region']
 google_translate:
   id: google_translate
   logo: google-translate.png
