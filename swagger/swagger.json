@@ -5091,10 +5091,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of inboxes",
-                  "items": {
-                    "$ref": "#/components/schemas/inbox"
+                  "type": "object",
+                  "properties": {
+                    "payload": {
+                      "type": "array",
+                      "description": "Array of inboxes",
+                      "items": {
+                        "$ref": "#/components/schemas/inbox"
+                      }
+                    }
                   }
                 }
               }
@@ -5496,10 +5501,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of all active agents",
-                  "items": {
-                    "$ref": "#/components/schemas/agent"
+                  "type": "object",
+                  "properties": {
+                    "payload": {
+                      "type": "array",
+                      "description": "Array of all active agents",
+                      "items": {
+                        "$ref": "#/components/schemas/agent"
+                      }
+                    }
                   }
                 }
               }
@@ -5585,10 +5595,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of all active agents",
-                  "items": {
-                    "$ref": "#/components/schemas/agent"
+                  "type": "object",
+                  "properties": {
+                    "payload": {
+                      "type": "array",
+                      "description": "Array of all active agents",
+                      "items": {
+                        "$ref": "#/components/schemas/agent"
+                      }
+                    }
                   }
                 }
               }
@@ -5677,10 +5692,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of all active agents",
-                  "items": {
-                    "$ref": "#/components/schemas/agent"
+                  "type": "object",
+                  "properties": {
+                    "payload": {
+                      "type": "array",
+                      "description": "Array of all active agents",
+                      "items": {
+                        "$ref": "#/components/schemas/agent"
+                      }
+                    }
                   }
                 }
               }
@@ -5825,17 +5845,43 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of messages",
-                  "items": {
-                    "allOf": [
-                      {
-                        "$ref": "#/components/schemas/generic_id"
-                      },
-                      {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "labels": {
+                          "type": "array",
+                          "items": {
+                            "type": "string"
+                          }
+                        },
+                        "additional_attributes": {
+                          "type": "object"
+                        },
+                        "contact": {
+                          "$ref": "#/components/schemas/contact"
+                        },
+                        "assignee": {
+                          "$ref": "#/components/schemas/agent"
+                        },
+                        "agent_last_seen_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        },
+                        "assignee_last_seen_at": {
+                          "type": "string",
+                          "format": "date-time"
+                        }
+                      }
+                    },
+                    "payload": {
+                      "type": "array",
+                      "description": "Array of messages",
+                      "items": {
                         "$ref": "#/components/schemas/message"
                       }
-                    ]
+                    }
                   }
                 }
               }

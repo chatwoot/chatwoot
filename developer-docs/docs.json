@@ -16,7 +16,7 @@
     "tabs": [
       {
         "tab": "API Documentation",
-        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/bde4833e4f866b1fc9dcdbcc14267351406069a3/swagger/swagger.json"
+        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/ac94e34c723731ef7f9caf839c2616bd96ef89c1/swagger/swagger.json"
       }
     ]
   },
