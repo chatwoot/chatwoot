@@ -6058,10 +6058,15 @@
             "content": {
               "application/json": {
                 "schema": {
-                  "type": "array",
-                  "description": "Array of Integration apps",
-                  "items": {
-                    "$ref": "#/components/schemas/integrations_app"
+                  "type": "object",
+                  "properties": {
+                    "payload": {
+                      "type": "array",
+                      "description": "Array of Integration apps",
+                      "items": {
+                        "$ref": "#/components/schemas/integrations_app"
+                      }
+                    }
                   }
                 }
               }
@@ -8485,23 +8490,46 @@
           "id": {
             "type": "number"
           },
-          "uid": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "available_name": {
-            "type": "string"
-          },
-          "display_name": {
-            "type": "string"
-          },
-          "email": {
+          "access_token": {
             "type": "string"
           },
           "account_id": {
             "type": "number"
+          },
+          "available_name": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "display_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "message_signature": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "hmac_identifier": {
+            "type": "string"
+          },
+          "inviter_id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "pubsub_token": {
+            "type": "string"
           },
           "role": {
             "type": "string",
@@ -8510,8 +8538,15 @@
               "administrator"
             ]
           },
-          "confirmed": {
-            "type": "boolean"
+          "ui_settings": {
+            "type": "object"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
           },
           "custom_attributes": {
             "type": "object",
@@ -8520,7 +8555,52 @@
           "accounts": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/account"
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "active_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "administrator",
+                    "agent"
+                  ]
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "availability": {
+                  "type": "string"
+                },
+                "availability_status": {
+                  "type": "string"
+                },
+                "auto_offline": {
+                  "type": "boolean"
+                },
+                "custom_role_id": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "custom_role": {
+                  "type": "object",
+                  "nullable": true
+                }
+              }
             }
           }
         }
