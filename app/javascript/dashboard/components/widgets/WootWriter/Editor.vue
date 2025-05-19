@@ -422,10 +422,14 @@ function updateImgToolbarOnDelete() {
 }
 
 function isEnterToSendEnabled() {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) return false;
   return isEditorHotKeyEnabled('enter');
 }
 
 function isCmdPlusEnterToSendEnabled() {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) return true;
   return isEditorHotKeyEnabled('cmd_enter');
 }
 
