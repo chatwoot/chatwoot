@@ -21,7 +21,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('inboxes/get');
-    console.log('Options: ', this.options);
   },
   methods: {
     handleInput() {

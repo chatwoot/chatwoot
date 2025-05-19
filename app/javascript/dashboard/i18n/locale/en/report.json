@@ -424,7 +424,10 @@
     }
   },
   "WHATSAPP_REPORTS": {
-    "FILTER_DROPDOWN_LABEL": "Select campaign"
+    "HEADER": "Whatsapp Reports",
+    "FILTER_DROPDOWN_LABEL": "Select campaign",
+    "EMPTY_TITLE": "No whatsapp campaign report selected",
+    "EMPTY_SUBTITLE":"Please select a campaign"
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",

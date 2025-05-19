@@ -27,7 +27,6 @@ export default {
   },
   mounted() {
     this.$store.dispatch('campaigns/get');
-    console.log('Whatsapp options: ', this.options);
   },
   methods: {
     handleInput() {

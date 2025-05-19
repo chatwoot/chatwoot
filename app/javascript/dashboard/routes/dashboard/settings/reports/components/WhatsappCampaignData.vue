@@ -146,6 +146,7 @@ export default defineComponent({
         ];
 
         this.updateMetrics(contacts);
+        console.log('Processed:', contacts.processed_contacts);
       } catch (error) {
         this.error =
           error.message || this.$t('CAMPAIGN.WHATSAPP.REPORT.GENERIC_ERROR');
@@ -268,14 +269,16 @@ export default defineComponent({
 
   <div v-else class="flex-grow overflow-auto p-6">
     <!-- Stats Grid -->
-    <div class="grid grid-cols-6 gap-4 mb-8">
+    <div
+      class="grid sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6 gap-4 mb-8"
+    >
       <!-- Sent Messages -->
       <div class="metric-card">
         <div class="flex flex-col">
-          <span class="text-xl font-bold text-blue-600 ">{{
+          <span class="text-xl font-bold text-blue-600">{{
             metrics.sent
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white ">Sent</p>
+          <p class="text-xs text-slate-600 dark:text-white">Sent</p>
         </div>
 
         <woot-button
@@ -289,10 +292,10 @@ export default defineComponent({
       <!-- Delivered Messages -->
       <div class="metric-card">
         <div class="flex flex-col">
-          <span class="text-xl font-bold text-blue-600 ">{{
+          <span class="text-xl font-bold text-blue-600">{{
             metrics.delivered
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white ">Delivered</p>
+          <p class="text-xs text-slate-600 dark:text-white">Delivered</p>
         </div>
 
         <woot-button
@@ -306,10 +309,10 @@ export default defineComponent({
       <!-- Read Messages -->
       <div class="metric-card">
         <div class="flex flex-col">
-          <span class="text-xl font-bold text-blue-600 ">{{
+          <span class="text-xl font-bold text-blue-600">{{
             metrics.read
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white ">Read</p>
+          <p class="text-xs text-slate-600 dark:text-white">Read</p>
         </div>
 
         <woot-button
@@ -340,10 +343,10 @@ export default defineComponent({
       <!-- Failed Messages -->
       <div class="metric-card">
         <div class="flex flex-col">
-          <span class="text-xl font-bold text-blue-600 ">{{
+          <span class="text-xl font-bold text-blue-600">{{
             metrics.failed
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white ">Failed</p>
+          <p class="text-xs text-slate-600 dark:text-white">Failed</p>
         </div>
 
         <woot-button
@@ -357,10 +360,10 @@ export default defineComponent({
       <!-- Processing Messages -->
       <div class="metric-card">
         <div class="flex flex-col">
-          <span class="text-xl font-bold text-blue-600 ">{{
+          <span class="text-xl font-bold text-blue-600">{{
             metrics.processing
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white ">Processing</p>
+          <p class="text-xs text-slate-600 dark:text-white">Processing</p>
         </div>
 
         <woot-button
@@ -411,11 +414,9 @@ export default defineComponent({
                   @click="sortContacts('name')"
                 >
                   Contact
-                  <i
-                    v-if="sortConfig.key === 'name'"
-                    :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
-                    class="ml-1"
-                  />
+                  <span class="ml-2 text-xxs" v-if="sortConfig.key === 'name'">
+                    {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
+                  </span>
                 </div>
               </th>
               <th
@@ -426,11 +427,9 @@ export default defineComponent({
                   @click="sortContacts('phone_number')"
                 >
                   Phone
-                  <i
-                    v-if="sortConfig.key === 'phone_number'"
-                    :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
-                    class="ml-1"
-                  />
+                  <span class="ml-2 text-xxs" v-if="sortConfig.key === 'phone_number'">
+                    {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
+                  </span>
                 </div>
               </th>
               <th
@@ -447,11 +446,10 @@ export default defineComponent({
                   @click="sortContacts('processed_at')"
                 >
                   Time
-                  <i
-                    v-if="sortConfig.key === 'processed_at'"
-                    :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
-                    class="ml-1"
-                  />
+
+                  <span class="ml-2 text-xxs" v-if="sortConfig.key === 'processed_at'">
+                    {{ sortConfig.direction === 'asc' ? '▲' : '▼' }}
+                  </span>
                 </div>
               </th>
             </tr>

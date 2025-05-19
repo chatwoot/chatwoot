@@ -4,6 +4,7 @@ import WhatsappCampaigns from './components/Filters/WhatsappCampaigns.vue';
 import WhatsappInboxes from './components/Filters/WhatsappInboxes.vue';
 import WhatsappCampaignData from './components/WhatsappCampaignData.vue';
 import { ref } from 'vue';
+import EmptyWhatsappCampaignState from './components/EmptyWhatsappCampaignState.vue';
 
 const selectedInbox = ref(null);
 const handleInboxUpdate = inbox => {
@@ -12,12 +13,11 @@ const handleInboxUpdate = inbox => {
 
 const selectedCampaign = ref(null);
 const handleCampaignUpdate = campaign => {
-  console.log("Changed campaign: ", campaign)
   selectedCampaign.value = campaign;
 };
 </script>
 <template>
-  <ReportHeader :header-title="$t('BOT_REPORTS.HEADER')" />
+  <ReportHeader :header-title="$t('WHATSAPP_REPORTS.HEADER')" />
   <div class="flex flex-row gap-4 [&>*]:w-[200px]">
     <WhatsappInboxes
       @inbox-filter-selection="handleInboxUpdate"
@@ -34,4 +34,5 @@ const handleCampaignUpdate = campaign => {
     :campaign="selectedCampaign"
     :key="selectedCampaign.id"
   ></WhatsappCampaignData>
+  <EmptyWhatsappCampaignState v-else></EmptyWhatsappCampaignState>
 </template>
