@@ -142,7 +142,9 @@ export default {
           });
         }
       } catch (error) {
-        // Error
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('UPLOAD_ERROR'),
+        });
       }
       this.isUploading = false;
     },
