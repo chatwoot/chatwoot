@@ -67,6 +67,7 @@ export const createBubbleHolder = hideMessageBubble => {
   }
   addClasses(bubbleHolder, 'woot--bubble-holder');
   bubbleHolder.id = 'cw-bubble-holder';
+  bubbleHolder.dataset.turboPermanent = true;
   body.appendChild(bubbleHolder);
 };
 

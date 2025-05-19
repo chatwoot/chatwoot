@@ -16,7 +16,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   rescue Facebook::Messenger::FacebookError => e
     # TODO : handle specific errors or else page will get disconnected
     handle_facebook_error(e)
-    message.update!(status: :failed, external_error: e.message)
+    Messages::StatusUpdateService.new(message, 'failed', e.message).perform
   end
 
   def send_message_to_facebook(delivery_params)
@@ -24,7 +24,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     return if parsed_result.nil?
 
     if parsed_result['error'].present?
-      message.update!(status: :failed, external_error: external_error(parsed_result))
+      Messages::StatusUpdateService.new(message, 'failed', external_error(parsed_result)).perform
       Rails.logger.info "Facebook::SendOnFacebookService: Error sending message to Facebook : Page - #{channel.page_id} : #{parsed_result}"
     end
 
@@ -35,11 +35,11 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     result = Facebook::Messenger::Bot.deliver(delivery_params, page_id: channel.page_id)
     JSON.parse(result)
   rescue JSON::ParserError
-    message.update!(status: :failed, external_error: 'Facebook was unable to process this request')
+    Messages::StatusUpdateService.new(message, 'failed', 'Facebook was unable to process this request').perform
     Rails.logger.error "Facebook::SendOnFacebookService: Error parsing JSON response from Facebook : Page - #{channel.page_id} : #{result}"
     nil
   rescue Net::OpenTimeout
-    message.update!(status: :failed, external_error: 'Request timed out, please try again later')
+    Messages::StatusUpdateService.new(message, 'failed', 'Request timed out, please try again later').perform
     Rails.logger.error "Facebook::SendOnFacebookService: Timeout error sending message to Facebook : Page - #{channel.page_id}"
     nil
   end
