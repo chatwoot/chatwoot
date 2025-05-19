@@ -8,7 +8,7 @@ class InvoiceMailer < ApplicationMailer
       @payment_method = payment_method
       @subscription_expiry = subscription_expiry
   
-      mail(to: email, subject: "Invoice ##{@invoice_number} Telah Dibayar")
+      mail(to: email, subject: "Selamat! Kamu berhasil berlangganan paket Jangkau.ai")
     end
   end
   

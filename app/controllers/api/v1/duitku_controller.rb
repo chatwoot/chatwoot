@@ -172,7 +172,7 @@ class Api::V1::DuitkuController < Api::BaseController
               notification['amount'],
               notification['productDetail'],
               transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
-              subscription.ends_at,
+              ((subscription.ends_at.to_date - subscription.starts_at.to_date).to_i),
             ).deliver_later
             Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
           end
