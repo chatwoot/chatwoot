@@ -228,35 +228,25 @@ const handleDrop = (event) => {
         "
       />
     </div>
-    <div class="w-[200px] flex flex-col gap-2 px-2">
-      <div class="flex flex-col gap-0">
-        <span>Files</span>
-        <span class="text-xl font-bold">{{ files.length }}</span>
+    <div class="w-[200px]">
+      <div class="sticky top-0 flex flex-col gap-2 px-2">
+        <div class="flex flex-col gap-0">
+          <span>Files</span>
+          <span class="text-xl font-bold">{{ files.length }}</span>
+        </div>
+        <div class="flex flex-col gap-0">
+          <span>Karakter yg terdeteksi</span>
+          <span class="text-xl font-bold">{{ detectedCharacters }}</span>
+        </div>
+        <Button
+          class="w-full mt-2"
+          :is-loading="isSaving"
+          :disabled="isSaving || !newFiles.length"
+          @click="() => save()"
+        >
+          Simpan
+        </Button>
       </div>
-      <!-- <div class="flex flex-col gap-0">
-                <span>Input Karakter</span>
-                <span class="text-3xl font-bold">6</span>
-            </div>
-            <div class="flex flex-col gap-0">
-                <span>Links</span>
-                <span class="text-3xl font-bold">6</span>
-            </div> -->
-      <!-- <div class="flex flex-col gap-0">
-                <span>Q&A</span>
-                <span class="text-3xl font-bold">6</span>
-            </div> -->
-      <div class="flex flex-col gap-0">
-        <span>Karakter yg terdeteksi</span>
-        <span class="text-xl font-bold">{{ detectedCharacters }}</span>
-      </div>
-      <Button
-        class="w-full mt-2"
-        :is-loading="isSaving"
-        :disabled="isSaving || !newFiles.length"
-        @click="() => save()"
-      >
-        Simpan
-      </Button>
     </div>
   </div>
 </template>

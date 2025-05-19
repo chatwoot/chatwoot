@@ -172,18 +172,20 @@ const maxCharAnswer = 700
       />
     </div>
     <div class="w-[200px] flex flex-col gap-2 px-2">
-      <div class="flex flex-col gap-0">
-        <span>QnA</span>
-        <span class="text-xl font-bold">{{ qnas.length }}</span>
+      <div class="sticky top-0 flex flex-col gap-2 px-2">
+        <div class="flex flex-col gap-0">
+          <span>QnA</span>
+          <span class="text-xl font-bold">{{ qnas.length }}</span>
+        </div>
+        <Button
+          class="w-full mt-2"
+          :is-loading="isSaving"
+          :disabled="isSaving"
+          @click="() => save()"
+        >
+          Simpan
+        </Button>
       </div>
-      <Button
-        class="w-full mt-2"
-        :is-loading="isSaving"
-        :disabled="isSaving"
-        @click="() => save()"
-      >
-        Simpan
-      </Button>
     </div>
   </div>
 </template>
