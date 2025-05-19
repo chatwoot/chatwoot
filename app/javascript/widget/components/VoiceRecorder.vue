@@ -79,10 +79,10 @@ export default {
     async uploadRecording(audioBlob) {
       this.isUploading = true;
       try {
-        const file = new File([audioBlob], 'voice-'+Date.now()+'.mp3', {
-          type: 'audio/mp3'
+        const file = new File([audioBlob], 'voice-' + Date.now() + '.mp3', {
+          type: 'audio/mp3',
         });
-        
+
         if (checkFileSizeLimit(file, MAXIMUM_FILE_UPLOAD_SIZE)) {
           if (this.globalConfig.directUploadsEnabled) {
             await this.onDirectFileUpload(file);
@@ -166,14 +166,16 @@ export default {
           });
         }
       } catch (error) {
-        // Error
+        emitter.emit(BUS_EVENTS.SHOW_ALERT, {
+          message: this.$t('UPLOAD_ERROR'),
+        });
       }
       this.isUploading = false;
     },
     getLocalFileAttributes(file) {
       return {
         thumbUrl: window.URL.createObjectURL(file),
-        fileType: this.getFileType(file.type),
+        fileType: file.type,
       };
     },
   },
