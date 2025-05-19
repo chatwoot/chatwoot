@@ -68,26 +68,10 @@ export default defineComponent({
 
 <template>
   <EmptyStateLayout
-    :title="$t('WHATSAPP_REPORTS.EMPTY_TITLE')"
-    :subtitle="$t('WHATSAPP_REPORTS.EMPTY_SUBTITLE')"
+    :title="$t('CAMPAIGN_REPORTS.EMPTY_TITLE')"
+    :subtitle="$t('CAMPAIGN_REPORTS.EMPTY_SUBTITLE')"
   >
     <template #empty-state-item>
-      <!-- Modal Header -->
-      <div
-        class="flex-col lg:flex-row flex flex-wrap mx-0 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-8 gap-16 mt-6"
-      >
-        <p class="text-slate-500 dark:text-white text-lg">
-          {{ $t('WHATSAPP_REPORTS.REPORT_TITLE', { title: '--' }) }}
-        </p>
-        <p class="text-lg text-slate-500 dark:text-white">
-          {{
-            $t('WHATSAPP_REPORTS.CONTACTS_COUNT', {
-              count: '--',
-            })
-          }}
-        </p>
-      </div>
-
       <div class="flex-grow overflow-auto p-6">
         <!-- Stats Grid -->
         <div

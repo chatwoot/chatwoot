@@ -2,8 +2,14 @@
 import { mapGetters } from 'vuex';
 
 export default {
-  name: 'ReportsFiltersWhatsappInboxes',
+  name: 'ReportsFiltersInboxes',
   emits: ['inboxFilterSelection'],
+  props: {
+    type: {
+      type: String,
+      required: true,
+    },
+  },
   data() {
     return {
       selectedOption: null,
@@ -13,13 +19,12 @@ export default {
     ...mapGetters({
       options: 'inboxes/getInboxes',
     }),
-    whatsappInboxes() {
-      return this.options.filter(
-        e => e.channel_type == 'Channel::Whatsapp'
-      );
+    inboxes() {
+      return this.options.filter(e => e.channel_type == this.type);
     },
   },
   mounted() {
+    console.log('Selected type: ', this.type);
     this.$store.dispatch('inboxes/get');
   },
   methods: {
@@ -35,10 +40,10 @@ export default {
     <multiselect
       v-model="selectedOption"
       class="no-margin"
-      :placeholder="$t('INBOX_REPORTS.FILTER_DROPDOWN_LABEL')"
+      :placeholder="$t('CAMPAIGN_REPORTS.FILTER_DROPDOWN_LABEL')"
       label="name"
       track-by="id"
-      :options="whatsappInboxes"
+      :options="inboxes"
       :option-height="24"
       :show-labels="false"
       @update:model-value="handleInput"

@@ -258,23 +258,6 @@ export default defineComponent({
 </script>
 
 <template>
-  <!-- Modal Header -->
-
-  <div
-    class="flex-col lg:flex-row flex flex-wrap mx-0 shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-8 gap-16 mt-6"
-  >
-    <p class="text-slate-500 dark:text-white text-lg">
-      {{ $t('WHATSAPP_REPORTS.REPORT_TITLE', { title: campaign.title }) }}
-    </p>
-    <p class="text-lg text-slate-500 dark:text-white">
-      {{
-        $t('WHATSAPP_REPORTS.CONTACTS_COUNT', {
-          count: totalContacts,
-        })
-      }}
-    </p>
-  </div>
-
   <!-- Modal Content -->
   <div v-if="isLoading" class="flex-grow flex items-center justify-center p-6">
     <div

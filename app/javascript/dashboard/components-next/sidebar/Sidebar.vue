@@ -267,9 +267,9 @@ const menuItems = computed(() => {
           to: accountScopedRoute('csat_reports'),
         },
         {
-          name: 'Whatsapp',
-          label: t('SIDEBAR.WHATSAPP'),
-          to: accountScopedRoute('whatsapp_reports'),
+          name: 'Campaign Reports',
+          label: t('SIDEBAR.CAMPAIGN'),
+          to: accountScopedRoute('campaign_reports'),
         },
         {
           name: 'Reports Agent',

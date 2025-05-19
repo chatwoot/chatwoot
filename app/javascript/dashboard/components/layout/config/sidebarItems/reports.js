@@ -37,11 +37,11 @@ const reports = accountId => ({
       toStateName: 'csat_reports',
     },
     {
-      icon: 'whatsapp',
-      label: 'Whatsapp',
+      icon: 'campaign',
+      label: 'Campaign',
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/csat`),
-      toStateName: 'whatsapp_reports',
+      toStateName: 'campaign_reports',
     },
     {
       icon: 'bot',
