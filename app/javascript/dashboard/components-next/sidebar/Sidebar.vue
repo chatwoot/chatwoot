@@ -267,6 +267,11 @@ const menuItems = computed(() => {
           to: accountScopedRoute('csat_reports'),
         },
         {
+          name: 'Whatsapp',
+          label: t('SIDEBAR.WHATSAPP'),
+          to: accountScopedRoute('whatsapp_reports'),
+        },
+        {
           name: 'Reports Agent',
           label: t('SIDEBAR.REPORTS_AGENT'),
           to: accountScopedRoute('agent_reports'),

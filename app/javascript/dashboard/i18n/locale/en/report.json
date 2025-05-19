@@ -423,6 +423,9 @@
       }
     }
   },
+  "WHATSAPP_REPORTS": {
+    "FILTER_DROPDOWN_LABEL": "Select campaign"
+  },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
     "METRIC": {

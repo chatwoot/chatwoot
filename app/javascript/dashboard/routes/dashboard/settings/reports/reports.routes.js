@@ -11,6 +11,7 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import WhatsappReports from './WhatsappReports.vue';
 
 export default {
   routes: [
@@ -39,6 +40,14 @@ export default {
             permissions: ['administrator', 'report_manage'],
           },
           component: Index,
+        },
+        {
+          path: 'whatsapp',
+          name: 'whatsapp_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: WhatsappReports,
         },
         {
           path: 'agent',
