@@ -9,6 +9,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
     @assistant = assistant
     @messages = [system_message]
     @response = ''
+    register_tools
   end
 
   def generate_response(input, previous_messages = [], role = 'user')
@@ -18,6 +19,11 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
   end
 
   private
+
+  def register_tools
+    @tool_registry = Captain::ToolRegistryService.new(@assistant)
+    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+  end
 
   def system_message
     {
