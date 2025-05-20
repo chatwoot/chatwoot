@@ -12,6 +12,7 @@
 #  first_reply_created_at :datetime
 #  identifier             :string
 #  last_activity_at       :datetime         not null
+#  last_handoff_at        :datetime
 #  priority               :integer
 #  snoozed_until          :datetime
 #  status                 :integer          default("open"), not null
@@ -41,6 +42,7 @@
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_inbox_id                    (inbox_id)
+#  index_conversations_on_last_handoff_at             (last_handoff_at)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)

@@ -40,6 +40,12 @@ class ApplicationMailer < ActionMailer::Base
     end
   end
 
+  # Helper method to generate conversation URL
+  def conversation_url(conversation)
+    "#{ENV.fetch('FRONTEND_URL',
+                 nil)}/app/accounts/#{conversation.account_id}/inbox/#{conversation.inbox_id}/conversations/#{conversation.display_id}"
+  end
+
   def liquid_droppables
     # Merge additional objects into this in your mailer
     # liquid template handler converts these objects into drop objects

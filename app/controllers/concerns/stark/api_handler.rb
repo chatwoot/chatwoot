@@ -64,9 +64,11 @@ module Stark
 
     def parse_stark_response(response)
       data = response['body']['data']
+      ConversationHandoffService.new(conversation).process_handoff if data['human_redirect']
+
       {
         'content' => data['answer'],
-        'action' => data['human_redirect'] ? nil : nil #'handoff if human_redirect is true'
+        'action' => nil
       }
     end
 
