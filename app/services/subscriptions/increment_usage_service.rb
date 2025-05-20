@@ -18,7 +18,7 @@ class Subscriptions::IncrementUsageService
   private
 
   def subscription
-    @subscription ||= Subscription.find_by(account_id: @conversation.account_id)
+    @subscription ||= Subscription.find_by(account_id: @conversation.account_id, status: 'active')
   end
 
   def account_user
