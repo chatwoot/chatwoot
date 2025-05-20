@@ -17,6 +17,8 @@ class ContactInboxBuilder
       twilio_source_id
     when 'Channel::Whatsapp'
       wa_source_id
+    when 'Channel::WhatsappUnofficial' # rubocop:disable Lint/DuplicateBranch
+      wa_source_id
     when 'Channel::Email'
       email_source_id
     when 'Channel::Sms'
