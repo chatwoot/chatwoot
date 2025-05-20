@@ -11923,30 +11923,102 @@
     }
   },
   "tags": [
-    "Accounts",
-    "Account Users",
-    "AgentBots",
-    "Users",
-    "Account AgentBots",
-    "Agents",
-    "Canned Responses",
-    "Contacts",
-    "Conversations",
-    "Custom Attributes",
-    "Custom Filters",
-    "Inboxes",
-    "Integrations",
-    "Messages",
-    "Profile",
-    "Reports",
-    "Teams",
-    "Webhooks",
-    "Automation Rule",
-    "Help Center",
-    "Contacts API",
-    "Conversations API",
-    "Messages API",
-    "CSAT Survey Page"
+    {
+      "name": "Accounts",
+      "description": "Account management APIs"
+    },
+    {
+      "name": "Account Users",
+      "description": "Account Users management APIs"
+    },
+    {
+      "name": "AgentBots",
+      "description": "Bot management APIs"
+    },
+    {
+      "name": "Users",
+      "description": "User management APIs"
+    },
+    {
+      "name": "Account AgentBots",
+      "description": "Account-specific Agent Bots"
+    },
+    {
+      "name": "Agents",
+      "description": "Agent management APIs"
+    },
+    {
+      "name": "Canned Responses",
+      "description": "Pre-defined responses for common queries"
+    },
+    {
+      "name": "Contacts",
+      "description": "Contact management APIs"
+    },
+    {
+      "name": "Conversations",
+      "description": "Conversation management APIs"
+    },
+    {
+      "name": "Custom Attributes",
+      "description": "Custom fields for contacts and conversations"
+    },
+    {
+      "name": "Custom Filters",
+      "description": "Saved filters for conversations"
+    },
+    {
+      "name": "Inboxes",
+      "description": "Communication channels setup"
+    },
+    {
+      "name": "Integrations",
+      "description": "Third-party integrations"
+    },
+    {
+      "name": "Messages",
+      "description": "Message management APIs"
+    },
+    {
+      "name": "Profile",
+      "description": "User profile APIs"
+    },
+    {
+      "name": "Reports",
+      "description": "Analytics and reporting APIs"
+    },
+    {
+      "name": "Teams",
+      "description": "Team management APIs"
+    },
+    {
+      "name": "Webhooks",
+      "description": "Event notification webhooks"
+    },
+    {
+      "name": "Automation Rule",
+      "description": "Workflow automation rules"
+    },
+    {
+      "name": "Help Center",
+      "description": "Knowledge base management"
+    },
+    {
+      "name": "Contacts API",
+      "description": "Public APIs for contacts"
+    },
+    {
+      "name": "Conversations API",
+      "description": "Public APIs for conversations"
+    },
+    {
+      "name": "Messages API",
+      "description": "Public APIs for messages"
+    },
+    {
+      "name": "CSAT Survey Page",
+      "description": "Customer satisfaction survey"
+    }
   ],
   "x-tagGroups": [
     {
