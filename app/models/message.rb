@@ -187,9 +187,11 @@ class Message < ApplicationRecord
 
     survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
 
-    return inbox.csat_config['message'] + " #{survey_link}" if inbox.csat_config.present? && inbox.csat_config['message'].present?
-
-    I18n.t('conversations.survey.response', link: survey_link)
+    if inbox.csat_config&.dig('message').present?
+      "#{inbox.csat_config['message']} #{survey_link}"
+    else
+      I18n.t('conversations.survey.response', link: survey_link)
+    end
   end
 
   def email_notifiable_message?
