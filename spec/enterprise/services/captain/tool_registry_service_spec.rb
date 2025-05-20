@@ -2,6 +2,13 @@ require 'rails_helper'
 
 # Test tool implementation
 class TestTool < Captain::Tools::BaseService
+  attr_accessor :tool_active
+
+  def initialize(*args)
+    super
+    @tool_active = true
+  end
+
   def name
     'test_tool'
   end
@@ -24,6 +31,10 @@ class TestTool < Captain::Tools::BaseService
   def execute(*args)
     args
   end
+
+  def active?
+    @tool_active
+  end
 end
 
 RSpec.describe Captain::ToolRegistryService do
@@ -40,27 +51,41 @@ RSpec.describe Captain::ToolRegistryService do
   describe '#register_tool' do
     let(:tool_class) { TestTool }
 
-    it 'registers a new tool' do
-      service.register_tool(tool_class)
-
-      expect(service.tools['test_tool']).to be_a(TestTool)
-      expect(service.registered_tools).to include(
-        {
-          type: 'function',
-          function: {
-            name: 'test_tool',
-            description: 'A test tool for specs',
-            parameters: {
-              type: 'object',
-              properties: {
-                test_param: {
-                  type: 'string'
+    context 'when tool is active' do
+      it 'registers a new tool' do
+        service.register_tool(tool_class)
+        expect(service.tools['test_tool']).to be_a(TestTool)
+        expect(service.registered_tools).to include(
+          {
+            type: 'function',
+            function: {
+              name: 'test_tool',
+              description: 'A test tool for specs',
+              parameters: {
+                type: 'object',
+                properties: {
+                  test_param: {
+                    type: 'string'
+                  }
                 }
               }
             }
           }
-        }
-      )
+        )
+      end
+    end
+
+    context 'when tool is inactive' do
+      it 'does not register the tool' do
+        tool = tool_class.new(assistant)
+        tool.tool_active = false
+        allow(tool_class).to receive(:new).and_return(tool)
+
+        service.register_tool(tool_class)
+
+        expect(service.tools['test_tool']).to be_nil
+        expect(service.registered_tools).to be_empty
+      end
     end
   end
 
