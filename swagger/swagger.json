@@ -11922,6 +11922,32 @@
       }
     }
   },
+  "tags": [
+    "Accounts",
+    "Account Users",
+    "AgentBots",
+    "Users",
+    "Account AgentBots",
+    "Agents",
+    "Canned Responses",
+    "Contacts",
+    "Conversations",
+    "Custom Attributes",
+    "Custom Filters",
+    "Inboxes",
+    "Integrations",
+    "Messages",
+    "Profile",
+    "Reports",
+    "Teams",
+    "Webhooks",
+    "Automation Rule",
+    "Help Center",
+    "Contacts API",
+    "Conversations API",
+    "Messages API",
+    "CSAT Survey Page"
+  ],
   "x-tagGroups": [
     {
       "name": "Platform",
