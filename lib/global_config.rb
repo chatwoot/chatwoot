@@ -8,6 +8,8 @@ class GlobalConfig
       config_keys = *args
       config = {}
 
+      # clear_cache
+
       config_keys.each do |config_key|
         config[config_key] = load_from_cache(config_key)
       end
