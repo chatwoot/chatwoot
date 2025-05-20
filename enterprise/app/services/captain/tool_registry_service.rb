@@ -9,6 +9,8 @@ class Captain::ToolRegistryService
 
   def register_tool(tool_class)
     tool = tool_class.new(@assistant)
+    return unless tool.active?
+
     @tools[tool.name] = tool
     @registered_tools << tool.to_registry_format
   end

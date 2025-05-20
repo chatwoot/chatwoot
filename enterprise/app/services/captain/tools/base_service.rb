@@ -31,4 +31,8 @@ class Captain::Tools::BaseService
       }
     }
   end
+
+  def active?
+    true
+  end
 end
