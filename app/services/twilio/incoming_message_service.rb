@@ -139,12 +139,20 @@ class Twilio::IncomingMessageService
   def download_with_auth(media_url)
     Down.download(
       media_url,
-      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
+      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token]
+    )
+  rescue Down::Error, Down::ClientError => e
+    raise e unless e.is_a?(Down::ClientError) && e.response.code == '401'
+
+    Rails.logger.info "Authentication failed with account_sid: #{e.message}: Trying with api_key_sid"
+    Down.download(
+      media_url,
+      http_basic_authentication: [twilio_channel.api_key_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
     )
   end
 
   def handle_download_attachment_error(error, media_url)
-    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying"
+    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying without auth"
     Down.download(media_url)
   rescue StandardError => e
     Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
