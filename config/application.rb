@@ -8,7 +8,7 @@ require 'rails/all'
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
-require 'debug/open_nonstop'
+# require 'debug/open_nonstop'
 
 ## Load the specific APM agent
 # We rely on DOTENV to load the environment variables

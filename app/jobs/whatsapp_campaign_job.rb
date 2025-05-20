@@ -1,6 +1,7 @@
 # whatsapp_campaign_job.rb
 
 class WhatsappCampaignJob < ApplicationJob
+  # Contains logs
   queue_as :whatsapp_messages
   retry_on StandardError, wait: :exponentially_longer, attempts: 3
 
@@ -11,6 +12,7 @@ class WhatsappCampaignJob < ApplicationJob
   MAX_EXECUTION_TIME = 15 # Maximum time allowed for message processing
 
   def perform(campaign_contact_id:, campaign_id:, sequence_number:)
+    Rails.logger.info('Performing Whatsapp job')
     unless wait_and_acquire_lock(campaign_id, sequence_number)
 
       retry_job wait: 5.seconds
@@ -18,7 +20,9 @@ class WhatsappCampaignJob < ApplicationJob
     end
 
     begin
+      Rails.logger.info('1st step')
       Timeout.timeout(MAX_EXECUTION_TIME) do
+        Rails.logger.info('2st step')
         campaign_contact = CampaignContact.find(campaign_contact_id)
         campaign = Campaign.find(campaign_id)
 
@@ -102,6 +106,7 @@ class WhatsappCampaignJob < ApplicationJob
   end
 
   def process_contact(campaign_contact, campaign)
+    Rails.logger.info('3st step')
     return if campaign_contact.processed?
 
     template = fetch_template(campaign)
@@ -112,7 +117,7 @@ class WhatsappCampaignJob < ApplicationJob
                else
                  send_template_message(campaign_contact, template)
                end
-
+    Rails.logger.info('4st step')
     update_contact_status(campaign_contact, response)
   end
 
@@ -177,11 +182,22 @@ class WhatsappCampaignJob < ApplicationJob
   end
 
   def update_contact_status(campaign_contact, response)
-    campaign_contact.update!(
-      message_id: response,
-      status: 'processed',
-      processed_at: Time.current
-    )
+    Rails.logger.info("Whatsapp given response 5: #{response}")
+    if response.nil?
+      Rails.logger.info('Whatsapp failed status')
+      campaign_contact.update!(
+        status: 'failed',
+        processed_at: Time.current,
+        error_message: 'Facebook error'
+      )
+    else
+      Rails.logger.info('Whatsapp processed status')
+      campaign_contact.update!(
+        message_id: response,
+        status: 'processed',
+        processed_at: Time.current
+      )
+    end
   end
 
   def handle_job_failure(campaign_contact, error)
