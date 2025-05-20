@@ -6,6 +6,7 @@ import 'floating-vue/dist/style.css';
 // import tailwindStyles from '../dashboard/assets/scss/_woot.scss?inline';
 
 import VueDOMPurifyHTML from 'vue-dompurify-html';
+import WootUiKit from 'dashboard/components';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer.js';
 
 import store from '../dashboard/store';
@@ -39,6 +40,7 @@ export const init = async () => {
 
     app.use(store);
     app.use(i18n);
+    app.use(WootUiKit);
     app.use(VueDOMPurifyHTML, domPurifyConfig);
     // eslint-disable-next-line no-underscore-dangle
     vueActionCable.init(store, window.__PUBSUB_TOKEN__);

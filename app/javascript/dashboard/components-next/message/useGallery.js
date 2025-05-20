@@ -5,8 +5,8 @@ export function useGallery() {
   const [showGallery] = useToggle(false);
 
   const isGalleryAllowed = computed(() => {
-    // eslint-disable-next-line no-underscore-dangle
-    return !window.__WOOT_ISOLATED_SHELL__;
+    return true;
+    // return !window.__WOOT_ISOLATED_SHELL__;
   });
 
   const toggleGallery = value => {
