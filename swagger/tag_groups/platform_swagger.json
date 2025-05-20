@@ -5085,11 +5085,11 @@
     },
     {
       "name": "Account Users",
-      "description": "Account Users management APIs"
+      "description": "Account user management APIs"
     },
     {
       "name": "AgentBots",
-      "description": "Bot management APIs"
+      "description": "Bot integrations"
     },
     {
       "name": "Users",
@@ -5113,6 +5113,9 @@
         "Agents",
         "Canned Responses",
         "Contacts",
+        "Contact Labels",
+        "Conversation Assignments",
+        "Conversation Labels",
         "Conversations",
         "Custom Attributes",
         "Custom Filters",

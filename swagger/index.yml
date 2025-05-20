@@ -38,9 +38,9 @@ tags:
   - name: Accounts
     description: Account management APIs
   - name: Account Users
-    description: Account Users management APIs
+    description: Account user management APIs
   - name: AgentBots
-    description: Bot management APIs
+    description: Bot integrations
   - name: Users
     description: User management APIs
   - name: Account AgentBots
@@ -51,6 +51,12 @@ tags:
     description: Pre-defined responses for common queries
   - name: Contacts
     description: Contact management APIs
+  - name: Contact Labels
+    description: Manage contact labels
+  - name: Conversation Assignments
+    description: Manage conversation assignments
+  - name: Conversation Labels
+    description: Manage conversation labels
   - name: Conversations
     description: Conversation management APIs
   - name: Custom Attributes
@@ -76,11 +82,11 @@ tags:
   - name: Help Center
     description: Knowledge base management
   - name: Contacts API
-    description: Public APIs for contacts
+    description: Public contact APIs
   - name: Conversations API
-    description: Public APIs for conversations
+    description: Public conversation APIs
   - name: Messages API
-    description: Public APIs for messages
+    description: Public message APIs
   - name: CSAT Survey Page
     description: Customer satisfaction survey
 x-tagGroups:
@@ -96,6 +102,9 @@ x-tagGroups:
       - Agents
       - Canned Responses
       - Contacts
+      - Contact Labels
+      - Conversation Assignments
+      - Conversation Labels
       - Conversations
       - Custom Attributes
       - Custom Filters

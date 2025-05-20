@@ -1362,7 +1362,7 @@
       ],
       "get": {
         "tags": [
-          "Contacts"
+          "Contact Labels"
         ],
         "operationId": "list-all-labels-of-a-contact",
         "summary": "List Labels",
@@ -1409,7 +1409,7 @@
       },
       "post": {
         "tags": [
-          "Contacts"
+          "Contact Labels"
         ],
         "operationId": "contact-add-labels",
         "summary": "Add Labels",
@@ -3193,7 +3193,7 @@
       ],
       "post": {
         "tags": [
-          "Conversations"
+          "Conversation Assignments"
         ],
         "operationId": "assign-a-conversation",
         "summary": "Assign Conversation",
@@ -3277,7 +3277,7 @@
       ],
       "get": {
         "tags": [
-          "Conversations"
+          "Conversation Labels"
         ],
         "operationId": "list-all-labels-of-a-conversation",
         "summary": "List Labels",
@@ -3324,7 +3324,7 @@
       },
       "post": {
         "tags": [
-          "Conversations"
+          "Conversation Labels"
         ],
         "operationId": "conversation-add-labels",
         "summary": "Add Labels",
@@ -10235,6 +10235,18 @@
       "description": "Contact management APIs"
     },
     {
+      "name": "Contact Labels",
+      "description": "Manage contact labels"
+    },
+    {
+      "name": "Conversation Assignments",
+      "description": "Manage conversation assignments"
+    },
+    {
+      "name": "Conversation Labels",
+      "description": "Manage conversation labels"
+    },
+    {
       "name": "Conversations",
       "description": "Conversation management APIs"
     },
@@ -10300,6 +10312,9 @@
         "Agents",
         "Canned Responses",
         "Contacts",
+        "Contact Labels",
+        "Conversation Assignments",
+        "Conversation Labels",
         "Conversations",
         "Custom Attributes",
         "Custom Filters",

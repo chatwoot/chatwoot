@@ -20,6 +20,12 @@ tags:
     description: Manage canned responses
   - name: Contacts
     description: Manage contacts
+  - name: Contact Labels
+    description: Manage contact labels
+  - name: Conversation Assignments
+    description: Manage conversation assignments
+  - name: Conversation Labels
+    description: Manage conversation labels
   - name: Conversations
     description: Manage conversations
   - name: Custom Attributes

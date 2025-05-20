@@ -2881,7 +2881,7 @@
       ],
       "get": {
         "tags": [
-          "Contacts"
+          "Contact Labels"
         ],
         "operationId": "list-all-labels-of-a-contact",
         "summary": "List Labels",
@@ -2928,7 +2928,7 @@
       },
       "post": {
         "tags": [
-          "Contacts"
+          "Contact Labels"
         ],
         "operationId": "contact-add-labels",
         "summary": "Add Labels",
@@ -4862,7 +4862,7 @@
       ],
       "post": {
         "tags": [
-          "Conversations"
+          "Conversation Assignments"
         ],
         "operationId": "assign-a-conversation",
         "summary": "Assign Conversation",
@@ -4946,7 +4946,7 @@
       ],
       "get": {
         "tags": [
-          "Conversations"
+          "Conversation Labels"
         ],
         "operationId": "list-all-labels-of-a-conversation",
         "summary": "List Labels",
@@ -4993,7 +4993,7 @@
       },
       "post": {
         "tags": [
-          "Conversations"
+          "Conversation Labels"
         ],
         "operationId": "conversation-add-labels",
         "summary": "Add Labels",
@@ -11929,11 +11929,11 @@
     },
     {
       "name": "Account Users",
-      "description": "Account Users management APIs"
+      "description": "Account user management APIs"
     },
     {
       "name": "AgentBots",
-      "description": "Bot management APIs"
+      "description": "Bot integrations"
     },
     {
       "name": "Users",
@@ -11954,6 +11954,18 @@
     {
       "name": "Contacts",
       "description": "Contact management APIs"
+    },
+    {
+      "name": "Contact Labels",
+      "description": "Manage contact labels"
+    },
+    {
+      "name": "Conversation Assignments",
+      "description": "Manage conversation assignments"
+    },
+    {
+      "name": "Conversation Labels",
+      "description": "Manage conversation labels"
     },
     {
       "name": "Conversations",
@@ -12005,15 +12017,15 @@
     },
     {
       "name": "Contacts API",
-      "description": "Public APIs for contacts"
+      "description": "Public contact APIs"
     },
     {
       "name": "Conversations API",
-      "description": "Public APIs for conversations"
+      "description": "Public conversation APIs"
     },
     {
       "name": "Messages API",
-      "description": "Public APIs for messages"
+      "description": "Public message APIs"
     },
     {
       "name": "CSAT Survey Page",
@@ -12037,6 +12049,9 @@
         "Agents",
         "Canned Responses",
         "Contacts",
+        "Contact Labels",
+        "Conversation Assignments",
+        "Conversation Labels",
         "Conversations",
         "Custom Attributes",
         "Custom Filters",

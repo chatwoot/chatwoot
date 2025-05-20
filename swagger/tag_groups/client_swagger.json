@@ -4895,15 +4895,15 @@
   "tags": [
     {
       "name": "Contacts API",
-      "description": "Public APIs for contacts"
+      "description": "Public contact APIs"
     },
     {
       "name": "Conversations API",
-      "description": "Public APIs for conversations"
+      "description": "Public conversation APIs"
     },
     {
       "name": "Messages API",
-      "description": "Public APIs for messages"
+      "description": "Public message APIs"
     }
   ],
   "x-tagGroups": [
@@ -4923,6 +4923,9 @@
         "Agents",
         "Canned Responses",
         "Contacts",
+        "Contact Labels",
+        "Conversation Assignments",
+        "Conversation Labels",
         "Conversations",
         "Custom Attributes",
         "Custom Filters",
