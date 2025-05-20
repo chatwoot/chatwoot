@@ -53,7 +53,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create a new isolated test environment
         test_account = create(:account)
         test_inbox = create(:inbox, account: test_account)
-
+        test_inbox2 = create(:inbox, account: test_account)
         # Create test agent
         test_agent = create(:user, account: test_account, role: :agent)
         create(:inbox_member, user: test_agent, inbox: test_inbox)
@@ -67,6 +67,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
         unassigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: nil)
         other_assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: create(:user, account: test_account))
+        other_inbox_conversation = create(:conversation, account: test_account, inbox: test_inbox2, assignee: nil)
 
         # Run the test
         result = Conversations::PermissionFilterService.new(
@@ -80,6 +81,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         expect(result).to include(assigned_conversation)
         expect(result).to include(unassigned_conversation)
         expect(result).to include(other_assigned_conversation)
+        expect(result).not_to include(other_inbox_conversation)
       end
     end
 
@@ -88,6 +90,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create a new isolated test environment
         test_account = create(:account)
         test_inbox = create(:inbox, account: test_account)
+        test_inbox2 = create(:inbox, account: test_account)
 
         # Create test agent
         test_agent = create(:user, account: test_account, role: :agent)
@@ -102,6 +105,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create some conversations
         other_conversation = create(:conversation, account: test_account, inbox: test_inbox)
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
+        other_inbox_conversation = create(:conversation, account: test_account, inbox: test_inbox2, assignee: nil)
 
         # Run the test
         result = Conversations::PermissionFilterService.new(
@@ -115,6 +119,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         expect(result.first.assignee).to eq(test_agent)
         expect(result).to include(assigned_conversation)
         expect(result).not_to include(other_conversation)
+        expect(result).not_to include(other_inbox_conversation)
       end
     end
 
@@ -123,6 +128,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create a new isolated test environment
         test_account = create(:account)
         test_inbox = create(:inbox, account: test_account)
+        test_inbox2 = create(:inbox, account: test_account)
 
         # Create test agent
         test_agent = create(:user, account: test_account, role: :agent)
@@ -138,6 +144,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
         unassigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: nil)
         other_assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: create(:user, account: test_account))
+        other_inbox_conversation = create(:conversation, account: test_account, inbox: test_inbox2, assignee: nil)
 
         # Run the test
         result = Conversations::PermissionFilterService.new(
@@ -153,6 +160,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
 
         # Should NOT include conversations assigned to others
         expect(result).not_to include(other_assigned_conversation)
+        expect(result).not_to include(other_inbox_conversation)
       end
     end
 
@@ -161,6 +169,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         # Create a new isolated test environment
         test_account = create(:account)
         test_inbox = create(:inbox, account: test_account)
+        test_inbox2 = create(:inbox, account: test_account)
 
         # Create test agent
         test_agent = create(:user, account: test_account, role: :agent)
@@ -177,6 +186,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         assigned_to_agent = create(:conversation, account: test_account, inbox: test_inbox, assignee: test_agent)
         unassigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: nil)
         other_assigned_conversation = create(:conversation, account: test_account, inbox: test_inbox, assignee: create(:user, account: test_account))
+        other_inbox_conversation = create(:conversation, account: test_account, inbox: test_inbox2, assignee: nil)
 
         # Run the test
         result = Conversations::PermissionFilterService.new(
@@ -192,6 +202,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         expect(result).to include(unassigned_conversation)
         expect(result).to include(assigned_to_agent)
         expect(result).not_to include(other_assigned_conversation)
+        expect(result).not_to include(other_inbox_conversation)
       end
     end
   end

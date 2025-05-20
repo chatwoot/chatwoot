@@ -19,19 +19,19 @@ module Enterprise::Conversations::PermissionFilterService
     # Permission-based filtering with hierarchy
     # conversation_manage > conversation_unassigned_manage > conversation_participating_manage
     if permissions.include?('conversation_manage')
-      conversations
+      accessible_conversations
     elsif permissions.include?('conversation_unassigned_manage')
       filter_unassigned_and_mine
     elsif permissions.include?('conversation_participating_manage')
-      conversations.assigned_to(user)
+      accessible_conversations.assigned_to(user)
     else
       Conversation.none
     end
   end
 
   def filter_unassigned_and_mine
-    mine = conversations.assigned_to(user)
-    unassigned = conversations.unassigned
+    mine = accessible_conversations.assigned_to(user)
+    unassigned = accessible_conversations.unassigned
 
     Conversation.from("(#{mine.to_sql} UNION #{unassigned.to_sql}) as conversations")
                 .where(account_id: account.id)
