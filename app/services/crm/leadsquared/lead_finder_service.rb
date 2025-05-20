@@ -33,6 +33,8 @@ class Crm::Leadsquared::LeadFinderService
 
     lead_data = Crm::Leadsquared::Mappers::ContactMapper.map(contact)
 
+    return if lead_data.blank? || lead_data['Mobile'].nil?
+
     search_by_field(lead_data['Mobile'])
   end
 
