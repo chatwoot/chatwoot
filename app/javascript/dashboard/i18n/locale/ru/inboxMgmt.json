@@ -43,7 +43,17 @@
         "INBOX_NAME": "Имя источника",
         "ADD_NAME": "Введите имя источника",
         "PICK_NAME": "Выберите имя для папки \"Входящие\"",
-        "PICK_A_VALUE": "Выберите значение"
+        "PICK_A_VALUE": "Выберите значение",
+        "CREATE_INBOX": "Создать источник"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
       "BUSINESS_HOURS": "Время работы",
       "WIDGET_BUILDER": "Конструктор виджетов",
-      "BOT_CONFIGURATION": "Конфигурация бота"
+      "BOT_CONFIGURATION": "Конфигурация бота",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
       "AUTO_ASSIGNMENT": "Включить автоназначение",
-      "ENABLE_CSAT": "Включить CSAT",
       "SENDER_NAME_SECTION": "Включить имя агента в электронной почте",
-      "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Посетители должны указать свое имя и адрес электронной почты перед началом общения"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Включить CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Сообщение",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "содержит",
+          "DOES_NOT_CONTAINS": "не содержит"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Источник API"
+      "API": "Источник API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

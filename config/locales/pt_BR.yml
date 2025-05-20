@@ -53,8 +53,6 @@ pt_BR:
       invalid_message_type: 'Tipo de mensagem inválido. Ação não permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, tente novamente'
-    channel_service:
-      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Por favor, verifique a conexão de rede, endereço IMAP e tente novamente.
@@ -94,7 +92,7 @@ pt_BR:
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
     team_csv:
-      team_name: Nome da equipe
+      team_name: Nome do Time
       conversations_count: Contagem de conversas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
@@ -105,8 +103,8 @@ pt_BR:
     sla_csv:
       conversation_id: ID da conversa
       sla_policy_breached: Política SLA
-      assignee: Responsável
-      team: Equipe
+      assignee: Agente atribuído
+      team: Time
       inbox: Caixa de Entrada
       labels: Etiquetas
       conversation_link: Link para a Conversa
@@ -134,6 +132,8 @@ pt_BR:
     attachment: 'Anexo'
     no_content: 'Sem conteúdo'
   conversations:
+    captain:
+      handoff: 'Transferindo para outro agente para mais assistência.'
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
@@ -141,13 +141,18 @@ pt_BR:
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
+      captain:
+        resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
+        open: 'A conversa foi marcada como aberta por %{user_name}'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
         open: 'Conversa foi reaberta por %{user_name}'
         pending: 'Conversa foi marcada como pendente por %{user_name}'
         snoozed: 'Conversa foi adiada por %{user_name}'
-        auto_resolved: 'Conversa foi marcada como resolvida pelo sistema por ter %{duration} dias de inatividade'
+        auto_resolved_days: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} dias de inatividade'
+        auto_resolved_hours: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} horas de inatividade'
+        auto_resolved_minutes: 'A conversa foi marcada como resolvida pelo sistema por ter %{count} minutos de inatividade'
         system_auto_open: O sistema reabriu a conversa devido a uma nova mensagem recebida.
       priority:
         added: '%{user_name} definiu a prioridade para %{new_priority}'
@@ -172,7 +177,7 @@ pt_BR:
       auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
     templates:
       greeting_message_body: '%{account_name} normalmente responde em algumas horas.'
-      ways_to_reach_you_message_body: 'Informe uma forma para entrarmos em contato com você.'
+      ways_to_reach_you_message_body: 'Informe à equipe uma forma de contatá-lo.'
       email_input_box_message_body: 'Seja notificado por e-mail'
       csat_input_message_body: 'Por favor, classifique a conversa'
     reply:
@@ -203,7 +208,7 @@ pt_BR:
       meeting_name: '%{agent_name} começou a reunião'
     slack:
       name: 'Slack'
-      description: "Integre Chatwoot com Slack para manter sua equipe em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
+      description: 'Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack.'
     webhooks:
       name: 'Webhooks'
       description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
@@ -212,7 +217,7 @@ pt_BR:
       description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
     google_translate:
       name: 'Tradutor do Google'
-      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
+      description: 'Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador.'
     openai:
       name: 'OpenAI'
       description: 'Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos.'
@@ -222,6 +227,10 @@ pt_BR:
     shopify:
       name: 'Shopify'
       description: 'Conecte sua loja Shopify para acessar detalhes de pedidos, informações de clientes e dados de produtos diretamente em suas conversas e ajudar sua equipe de suporte a fornecer um atendimento mais rápido e contextual aos seus clientes.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sincronize seus contatos e conversas com LeadSquared CRM.'
+      description: 'Sincronize seus contatos e conversas com LeadSquared CRM. Essa integração cria automaticamente leads em LeadSquared quando novos contatos são adicionados, e registra a atividade de conversação para fornecer à sua equipe de vendas um contexto completo.'
   captain:
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
@@ -282,3 +291,25 @@ pt_BR:
     seconds:
       one: '%{count} segundo'
       other: '%{count} segundos'
+  automation:
+    system_name: 'Sistema de Automação'
+  crm:
+    no_message: 'Nenhuma mensagem na conversa'
+    attachment: '[Anexo: %{type}]'
+    no_content: '[Sem conteúdo]'
+    created_activity: |
+      Nova conversa iniciada em %{brand_name}
+
+      Canal: %{channel_info}
+      Criada: %{formatted_creation_time}
+      ID de conversa: %{display_id}
+      Veja em %{brand_name}: %{url}
+    transcript_activity: |
+      Transcrição de conversa de %{brand_name}
+
+      Canal: %{channel_info}
+      ID da conversa: %{display_id}
+      Veja em %{brand_name}: %{url}
+
+      Transcrição:
+      %{format_messages}
