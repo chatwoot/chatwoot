@@ -72,7 +72,10 @@ const fetchMore = async () => {
 
 onMounted(async () => {
   await store.dispatch('inboxes/get');
-  await store.dispatch('getConversation', conversationId.value);
+  await Promise.all([
+    store.dispatch('getConversation', conversationId.value),
+    store.dispatch('fetchAllAttachments', conversationId.value),
+  ]);
 });
 
 watch(conversation, () => {
