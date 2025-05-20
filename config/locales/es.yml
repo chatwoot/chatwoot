@@ -53,8 +53,6 @@ es:
       invalid_message_type: 'Tipo de mensaje inválido. Acción no permitida'
     slack:
       invalid_channel_id: 'Canal de slack inválido. Por favor, inténtalo de nuevo'
-    channel_service:
-      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Verifique la conexión de red, la dirección IMAP y vuelva a intentarlo.
@@ -134,6 +132,8 @@ es:
     attachment: 'Adjunto'
     no_content: 'Sin contenido'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} te mencionó en la historia: '
       instagram_deleted_story_content: Esta historia ya no está disponible.
@@ -141,13 +141,18 @@ es:
       delivery_status:
         error_code: 'Código de error: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'La conversación fue marcada por %{user_name}'
         contact_resolved: 'Conversación fue resuelta por %{contact_name}'
         open: 'La conversación fue reabierta por %{user_name}'
         pending: 'La conversación fue marcada como pendiente por %{user_name}'
         snoozed: 'La conversación fue pospuesta por %{user_name}'
-        auto_resolved: 'La conversación fue marcada por el sistema debido a %{duration} días de inactividad'
+        auto_resolved_days: 'La conversación fue marcada por el sistema debido a %{count} días de inactividad'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: El sistema reabrió la conversación debido a un nuevo mensaje entrante.
       priority:
         added: '%{user_name} estableció la prioridad a %{new_priority}'
@@ -222,6 +227,10 @@ es:
     shopify:
       name: 'Shopify'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
     copilot_error: 'Conecte un asistente a esta bandeja de entrada para utilizar Copilot'
     copilot_limit: 'Te quedaste sin créditos de Copilot. Puedes comprar más créditos desde la sección de facturación.'
@@ -282,3 +291,25 @@ es:
     seconds:
       one: '%{count} segundo'
       other: '%{count} segundos'
+  automation:
+    system_name: 'Automation System'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[Sin contenido]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}

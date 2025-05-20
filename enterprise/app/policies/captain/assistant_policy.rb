@@ -18,4 +18,8 @@ class Captain::AssistantPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
+
+  def playground?
+    true
+  end
 end

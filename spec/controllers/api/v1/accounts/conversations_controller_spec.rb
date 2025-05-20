@@ -843,9 +843,30 @@ RSpec.describe 'Conversations API', type: :request do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
       end
 
-      it 'updates last seen' do
+      it 'updates custom attributes' do
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
              headers: agent.create_new_auth_token,
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(conversation.reload.custom_attributes).not_to be_nil
+        expect(conversation.reload.custom_attributes.count).to eq 3
+      end
+    end
+
+    context 'when it is a bot' do
+      let(:agent_bot) { create(:agent_bot, account: account) }
+      let(:custom_attributes) { { bot_id: 1001, flow_name: 'support_flow', step: 'greeting' } }
+      let(:valid_params) { { custom_attributes: custom_attributes } }
+
+      before do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: conversation.inbox)
+      end
+
+      it 'updates custom attributes' do
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/custom_attributes",
+             headers: { api_access_token: agent_bot.access_token.token },
              params: valid_params,
              as: :json
 

@@ -202,7 +202,7 @@ export default {
       if (this.isALineChannel) {
         return ALLOWED_FILE_TYPES_FOR_LINE;
       }
-      if (this.isAInstagramChannel || this.isInstagramDM) {
+      if (this.isAnInstagramChannel || this.isInstagramDM) {
         return ALLOWED_FILE_TYPES_FOR_INSTAGRAM;
       }
 
