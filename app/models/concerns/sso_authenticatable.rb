@@ -21,8 +21,7 @@ module SsoAuthenticatable
   end
 
   def generate_sso_link_with_impersonation
-    encoded_email = ERB::Util.url_encode(email)
-    "#{ENV.fetch('FRONTEND_URL', nil)}/app/login?email=#{encoded_email}&sso_auth_token=#{generate_sso_auth_token}&impersonation=true"
+    "#{generate_sso_link}&impersonation=true"
   end
 
   private
