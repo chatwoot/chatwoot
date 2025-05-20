@@ -105,7 +105,7 @@ class Messages::MessageBuilder
   end
 
   def message_type
-    if @conversation.inbox.channel_type != 'Channel::Api' && @message_type == 'incoming'
+    if !['Channel::Api', 'Channel::WhatsappUnofficial'].include?(@conversation.inbox.channel_type) && @message_type == 'incoming'
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
 

@@ -92,7 +92,8 @@ describe Messages::MessageBuilder do
   end
 
   describe '#perform when message_type is incoming' do
-    context 'when channel is not api' do
+    context 'when channel is not api and not whatsappunofficial' do
+      let(:inbox) { create(:inbox, channel: create(:channel_web_widget)) } # or any other non-api, non-whatsappunofficial
       let(:params) do
         ActionController::Parameters.new({
                                            content: 'test',
@@ -100,7 +101,7 @@ describe Messages::MessageBuilder do
                                          })
       end
 
-      it 'creates throws error when channel is not api' do
+      it 'raises error for unsupported inbox types' do
         expect { message_builder }.to raise_error 'Incoming messages are only allowed in Api inboxes'
       end
     end
