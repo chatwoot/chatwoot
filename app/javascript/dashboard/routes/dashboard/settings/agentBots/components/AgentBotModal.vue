@@ -179,7 +179,7 @@ const handleSubmit = async () => {
       : t('AGENT_BOTS.EDIT.API.SUCCESS_MESSAGE');
     useAlert(alertKey);
 
-    // Show access token for both create and edit operations
+    // Show access token after creation
     if (isCreate) {
       const { access_token: responseAccessToken, id } = response || {};
 
@@ -235,6 +235,11 @@ const closeModal = () => {
   if (!showAccessToken.value) v$.value?.$reset();
   accessToken.value = '';
   toggleAccessToken(false);
+};
+
+const onClickClose = () => {
+  closeModal();
+  dialogRef.value.close();
 };
 
 watch(() => props.selectedBot, initializeForm, { immediate: true, deep: true });
@@ -316,10 +321,7 @@ defineExpose({ dialogRef });
           slate
           type="reset"
           :label="$t('AGENT_BOTS.FORM.CANCEL')"
-          @click="
-            closeModal();
-            dialogRef.close();
-          "
+          @click="onClickClose()"
         />
         <NextButton
           v-if="!showAccessToken"
