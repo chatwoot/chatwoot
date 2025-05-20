@@ -9,6 +9,8 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let!(:inbox) { create(:inbox, account: account) }
+  let!(:inbox2) { create(:inbox, account: account) }
+  let!(:another_inbox_conversation) { create(:conversation, account: account, inbox: inbox2) }
 
   # This inbox_member is used to establish the agent's access to the inbox
   before { create(:inbox_member, user: agent, inbox: inbox) }
@@ -25,16 +27,14 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         expect(result).to include(assigned_conversation)
         expect(result).to include(unassigned_conversation)
         expect(result).to include(another_assigned_conversation)
-        expect(result.count).to eq(3)
+        expect(result.count).to eq(4)
       end
     end
 
     context 'when user is a regular agent' do
       it 'returns all conversations in assigned inboxes' do
-        inbox_ids = agent.inboxes.where(account_id: account.id).pluck(:id)
-
         result = Conversations::PermissionFilterService.new(
-          account.conversations.where(inbox_id: inbox_ids),
+          account.conversations,
           agent,
           account
         ).perform
@@ -42,6 +42,7 @@ RSpec.describe Enterprise::Conversations::PermissionFilterService do
         expect(result).to include(assigned_conversation)
         expect(result).to include(unassigned_conversation)
         expect(result).to include(another_assigned_conversation)
+        expect(result).not_to include(another_inbox_conversation)
         expect(result.count).to eq(3)
       end
     end

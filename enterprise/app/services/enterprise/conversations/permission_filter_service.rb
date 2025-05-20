@@ -1,18 +1,19 @@
 module Enterprise::Conversations::PermissionFilterService
   def perform
-    account_user = AccountUser.find_by(account_id: account.id, user_id: user.id)
-    permissions = account_user&.permissions || []
-    user_role = account_user&.role
+    return filter_by_permissions(permissions) if user_has_custom_role?
 
-    # Skip filtering for administrators
-    return conversations if user_role == 'administrator'
-    # Skip filtering for regular agents (without custom roles/permissions)
-    return conversations if user_role == 'agent' && account_user&.custom_role_id.nil?
-
-    filter_by_permissions(permissions)
+    super
   end
 
   private
+
+  def user_has_custom_role?
+    user_role == 'agent' && account_user&.custom_role_id.present?
+  end
+
+  def permissions
+    account_user&.permissions || []
+  end
 
   def filter_by_permissions(permissions)
     # Permission-based filtering with hierarchy
