@@ -132,7 +132,7 @@ export default {
         </div>
       </div>
       <div class="flex flex-col items-stretch justify-stretch pb-6">
-        <a
+        <!-- <a
           v-if="!isACustomBrandedInstance"
           v-tooltip.right="$t(`SIDEBAR.DOCS`)"
           :href="helpDocsURL"
@@ -149,7 +149,7 @@ export default {
           </div>
           <span class="flex-1 line-clamp-1">{{ $t(`SIDEBAR.DOCS`) }}</span>
           <span class="sr-only">{{ $t(`SIDEBAR.DOCS`) }}</span>
-        </a>
+        </a> -->
         <NotificationBell
           class="mx-3"
           @open-notification-panel="openNotificationPanel"
