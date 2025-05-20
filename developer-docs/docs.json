@@ -16,7 +16,60 @@
     "tabs": [
       {
         "tab": "API Documentation",
-        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/90c600acd94cfe2f5c41d5cedebdec9534cba2d7/swagger/swagger.json"
+        "groups": [
+          {
+            "group": "Platform API",
+            "description": "APIs for managing platform aspects of Chatwoot",
+            "includeTags": [
+              "Accounts",
+              "Account Users",
+              "AgentBots",
+              "Users"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/90c600acd94cfe2f5c41d5cedebdec9534cba2d7/swagger/tag_groups/platform_swagger.json"
+          },
+          {
+            "group": "Application API",
+            "description": "APIs for managing application aspects of Chatwoot",
+            "includeTags": [
+              "Account AgentBots",
+              "Agents",
+              "Canned Responses",
+              "Contacts",
+              "Conversations",
+              "Custom Attributes",
+              "Custom Filters",
+              "Inboxes",
+              "Integrations",
+              "Messages",
+              "Profile",
+              "Reports",
+              "Teams",
+              "Webhooks",
+              "Automation Rule",
+              "Help Center"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/90c600acd94cfe2f5c41d5cedebdec9534cba2d7/swagger/tag_groups/application_swagger.json"
+          },
+          {
+            "group": "Client API",
+            "description": "APIs for client applications",
+            "includeTags": [
+              "Contacts API",
+              "Conversations API",
+              "Messages API"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/90c600acd94cfe2f5c41d5cedebdec9534cba2d7/swagger/tag_groups/client_swagger.json"
+          },
+          {
+            "group": "Other APIs",
+            "description": "Other Chatwoot APIs",
+            "includeTags": [
+              "CSAT Survey Page"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/90c600acd94cfe2f5c41d5cedebdec9534cba2d7/swagger/tag_groups/other_swagger.json"
+          }
+        ]
       }
     ]
   },
