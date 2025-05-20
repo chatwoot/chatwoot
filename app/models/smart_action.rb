@@ -21,7 +21,7 @@
 #  index_smart_actions_on_message_id       (message_id)
 #
 class SmartAction < ApplicationRecord
-  store :custom_attributes, accessors: [:to, :from, :link, :content, :criteria, :score, :sentiment]
+  store :custom_attributes, accessors: [:team_id, :to, :from, :link, :content, :criteria, :score, :sentiment]
 
   belongs_to :conversation
   belongs_to :message
@@ -41,6 +41,7 @@ class SmartAction < ApplicationRecord
   RECORD_OUTGOING_MESSAGE_SCORE = 'record_message_score'.freeze
   RECORD_INCOMING_MESSAGE_SENTIMENT = 'record_message_sentiment'.freeze
   ESCALATE_CONVERSATION = 'escalate_conversation'.freeze
+  UPDATE_CONVERSATION_TEAM = 'update_conversation_team'.freeze
 
   MANUAL_ACTION = [
     CREATE_BOOKING,
@@ -112,6 +113,8 @@ class SmartAction < ApplicationRecord
       record_incoming_message_sentiment
     when RESOLVE_CONVERSATION
       resolve_conversation
+    when UPDATE_CONVERSATION_TEAM
+      update_conversation_team
     end
   end
   # rubocop:enable Metrics/CyclomaticComplexity
@@ -157,6 +160,13 @@ class SmartAction < ApplicationRecord
     conversation.save!
   end
 
+  def update_conversation_team
+    return unless event == UPDATE_CONVERSATION_TEAM
+
+    conversation.team_id = team_id
+    conversation.save!
+  end
+
   def resolve_conversation
     return unless event == RESOLVE_CONVERSATION
 
@@ -177,7 +187,7 @@ class SmartAction < ApplicationRecord
   end
 
   def handover_team
-    conversation.account.teams.where(high_priority: true).first
+    conversation.account.teams.where(high_priority: true).order(id: :asc).first
   end
 
   def update_cached_message
