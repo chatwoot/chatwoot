@@ -85,4 +85,7 @@ properties:
     description: The applied SLA
   sla_events:
     type: array
+    items:
+      type: object
+      description: SLA event objects
 

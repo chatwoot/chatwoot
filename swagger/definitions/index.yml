@@ -20,6 +20,8 @@ automation_rule_item:
   $ref: ./resource/automation_rule_item.yml
 portal:
   $ref: ./resource/portal.yml
+portal_single:
+  $ref: ./resource/portal_single.yml
 portal_config:
   $ref: ./resource/portal_config.yml
 portal_logo:
@@ -44,6 +46,8 @@ agent:
   $ref: ./resource/agent.yml
 inbox:
   $ref: ./resource/inbox.yml
+inbox_contact:
+  $ref: ./resource/inbox_contact.yml
 agent_bot:
   $ref: ./resource/agent_bot.yml
 contact_inboxes:

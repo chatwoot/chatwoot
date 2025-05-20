@@ -906,6 +906,14 @@
           }
         }
       },
+      "portal_single": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/portal_item"
+          }
+        }
+      },
       "portal_config": {
         "type": "object",
         "description": "Configuration settings for the portal",
@@ -1335,7 +1343,11 @@
             "description": "The applied SLA"
           },
           "sla_events": {
-            "type": "array"
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "SLA event objects"
+            }
           }
         }
       },
@@ -1798,6 +1810,35 @@
           "provider": {
             "type": "string",
             "description": "Provider of the channel"
+          }
+        }
+      },
+      "inbox_contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the inbox"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The avatar image of the inbox"
+          },
+          "channel_id": {
+            "type": "number",
+            "description": "The ID of the channel"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the inbox"
+          },
+          "channel_type": {
+            "type": "string",
+            "description": "The type of the inbox"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The provider of the inbox"
           }
         }
       },
