@@ -145,7 +145,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       response['messages'].first['id']
     else
       Rails.logger.error response.body
-      nil
+      response
     end
   end
 

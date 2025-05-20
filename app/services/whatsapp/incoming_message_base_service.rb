@@ -2,11 +2,13 @@
 # https://docs.360dialog.com/whatsapp-api/whatsapp-api/media
 # https://developers.facebook.com/docs/whatsapp/api/media/
 class Whatsapp::IncomingMessageBaseService
+  # Contains logs
   include ::Whatsapp::IncomingMessageServiceHelpers
 
   pattr_initialize [:inbox!, :params!]
 
   def perform
+    Rails.logger.info('Performing incoming message base service')
     processed_params
 
     if processed_params.try(:[], :statuses).present?
@@ -19,6 +21,7 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
+    Rails.logger.info("Processing messages #{processed_params}")
     # We don't support reactions & ephemeral message now, we need to skip processing the message
     # if the webhook event is a reaction or an ephermal message or an unsupported message.
     update_campaign_replied_count if @processed_params.dig(:messages, 0, :context, :id)
@@ -39,6 +42,7 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def process_statuses
+    Rails.logger.info("Processing statuses #{processed_params}")
     update_campaign_failed_count if @processed_params[:statuses].first[:status] == 'failed'
     update_campaign_processed_count if @processed_params[:statuses].first[:status] == 'sent'
     update_campaign_read_count if @processed_params[:statuses].first[:status] == 'read'

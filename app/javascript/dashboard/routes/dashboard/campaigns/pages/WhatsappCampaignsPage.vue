@@ -69,7 +69,6 @@ const handleDelete = campaign => {
       v-else-if="!hasNoWhatsappCampaigns"
       :campaigns="WhatsappCampaigns"
       :campaignType="'whatsapp'"
-      @report="viewReport"
       @edit="handleEdit"
       @delete="handleDelete"
     />

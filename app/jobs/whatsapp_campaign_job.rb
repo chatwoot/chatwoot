@@ -20,9 +20,7 @@ class WhatsappCampaignJob < ApplicationJob
     end
 
     begin
-      Rails.logger.info('1st step')
       Timeout.timeout(MAX_EXECUTION_TIME) do
-        Rails.logger.info('2st step')
         campaign_contact = CampaignContact.find(campaign_contact_id)
         campaign = Campaign.find(campaign_id)
 
@@ -31,10 +29,12 @@ class WhatsappCampaignJob < ApplicationJob
         update_sequence(campaign_id, sequence_number)
       end
     rescue Timeout::Error => e
+      campaign_contact = CampaignContact.find(campaign_contact_id)
       Rails.logger.info("Timeout -> Whatsapp Campaign: #{e}")
       handle_job_failure(campaign_contact, e)
       raise
     rescue StandardError => e
+      campaign_contact = CampaignContact.find(campaign_contact_id)
       Rails.logger.info("Standard Error -> Whatsapp Campaign: #{e}")
       handle_job_failure(campaign_contact, e)
       raise
@@ -106,7 +106,7 @@ class WhatsappCampaignJob < ApplicationJob
   end
 
   def process_contact(campaign_contact, campaign)
-    Rails.logger.info('3st step')
+    Rails.logger.info("Processing contact #{campaign_contact}")
     return if campaign_contact.processed?
 
     template = fetch_template(campaign)
@@ -117,7 +117,6 @@ class WhatsappCampaignJob < ApplicationJob
                else
                  send_template_message(campaign_contact, template)
                end
-    Rails.logger.info('4st step')
     update_contact_status(campaign_contact, response)
   end
 
@@ -182,20 +181,19 @@ class WhatsappCampaignJob < ApplicationJob
   end
 
   def update_contact_status(campaign_contact, response)
-    Rails.logger.info("Whatsapp given response 5: #{response}")
-    if response.nil?
-      Rails.logger.info('Whatsapp failed status')
-      campaign_contact.update!(
-        status: 'failed',
-        processed_at: Time.current,
-        error_message: 'Facebook error'
-      )
-    else
-      Rails.logger.info('Whatsapp processed status')
+    if response['error'].nil?
+      Rails.logger.info("Updating campaign contact message_id #{response}")
       campaign_contact.update!(
         message_id: response,
         status: 'processed',
         processed_at: Time.current
+      )
+    else
+      Rails.logger.info("Whatsapp failed processing contact #{response['error']['message']}")
+      campaign_contact.update!(
+        status: 'failed',
+        processed_at: Time.current,
+        error_message: response['error']['message']
       )
     end
   end
