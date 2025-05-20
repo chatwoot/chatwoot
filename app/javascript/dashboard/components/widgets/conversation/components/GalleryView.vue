@@ -208,7 +208,7 @@ onMounted(() => {
           </div>
 
           <div
-            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12"
+            class="flex-1 mx-2 px-2 truncate text-sm font-medium text-center text-n-slate-12 hidden sm:block"
           >
             <span v-dompurify-html="fileNameFromDataUrl" class="truncate" />
           </div>
