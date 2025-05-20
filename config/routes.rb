@@ -350,6 +350,7 @@ Rails.application.routes.draw do
               get :agents
               get :inboxes
               get :labels
+              get :campaigns
               get :teams
               get :conversations
               get :conversation_traffic

@@ -207,6 +207,22 @@ export const actions = {
         console.error(error);
       });
   },
+
+  downloadCampaignReports(_, reportObj) {
+    console.log(reportObj);
+    return Report.getCampaignReports(reportObj)
+      .then(response => {
+        downloadCsvFile(reportObj.fileName, response.data);
+        AnalyticsHelper.track(REPORTS_EVENTS.DOWNLOAD_REPORT, {
+          reportType: 'campaign',
+          businessHours: false,
+        });
+      })
+      .catch(error => {
+        console.error(error);
+      });
+  },
+
   downloadInboxReports(_, reportObj) {
     return Report.getInboxReports(reportObj)
       .then(response => {

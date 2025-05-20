@@ -54,17 +54,16 @@ class Whatsapp::IncomingMessageBaseService
   def update_campaign_replied_count
     context_id = @processed_params.dig(:messages, 0, :context, :id)
     return unless context_id
-  
+
     # Find the campaign contact by the message ID
     campaign_contact = CampaignContact.find_by(message_id: context_id)
     return unless campaign_contact
-  
+
     # Update the campaign contact status to 'replied'
     campaign_contact.update!(
       status: 'replied',
       processed_at: Time.current
     )
-  
   rescue StandardError => e
     Rails.logger.error "Error updating campaign replied status: #{e.message}"
   end
@@ -79,6 +78,7 @@ class Whatsapp::IncomingMessageBaseService
     campaign_contact = CampaignContact.find_by(message_id: id)
 
     return unless campaign_contact
+
     # Update the specific campaign contact status to 'read'
     error_title = @processed_params.dig(:statuses, 0, :errors, 0, :title)
     campaign_contact.update!(
@@ -104,15 +104,15 @@ class Whatsapp::IncomingMessageBaseService
     return unless status == 'sent'
 
     # Find the campaign through the message
-  campaign_contact = CampaignContact.find_by(message_id: id)
+    campaign_contact = CampaignContact.find_by(message_id: id)
 
-  return unless campaign_contact
-  # Update the specific campaign contact status to 'read'
-  campaign_contact.update!(
-    status: 'processed',
-    processed_at: Time.current
-  )
+    return unless campaign_contact
 
+    # Update the specific campaign contact status to 'read'
+    campaign_contact.update!(
+      status: 'processed',
+      processed_at: Time.current
+    )
 
     # Find the campaign through the message
     campaign = CampaignContact.find_campaign_by_message_id(id)
@@ -123,7 +123,6 @@ class Whatsapp::IncomingMessageBaseService
   rescue StandardError => e
     Rails.logger.error "Error updating campaign read count: #{e.message}"
   end
-  
 
   def update_campaign_read_count
     # Only increment read count if status is 'read'
@@ -132,15 +131,15 @@ class Whatsapp::IncomingMessageBaseService
     return unless status == 'read'
 
     # Find the campaign through the message
-  campaign_contact = CampaignContact.find_by(message_id: id)
+    campaign_contact = CampaignContact.find_by(message_id: id)
 
-  return unless campaign_contact
-  # Update the specific campaign contact status to 'read'
-  campaign_contact.update!(
-    status: 'read',
-    processed_at: Time.current
-  )
+    return unless campaign_contact
 
+    # Update the specific campaign contact status to 'read'
+    campaign_contact.update!(
+      status: 'read',
+      processed_at: Time.current
+    )
 
     # Find the campaign through the message
     campaign = CampaignContact.find_campaign_by_message_id(id)
@@ -159,14 +158,15 @@ class Whatsapp::IncomingMessageBaseService
     return unless status == 'delivered'
 
     # Find the campaign through the message
-  campaign_contact = CampaignContact.find_by(message_id: id)
+    campaign_contact = CampaignContact.find_by(message_id: id)
 
-  return unless campaign_contact
-  # Update the specific campaign contact status to 'read'
-  campaign_contact.update!(
-    status: 'delivered',
-    processed_at: Time.current
-  )
+    return unless campaign_contact
+
+    # Update the specific campaign contact status to 'read'
+    campaign_contact.update!(
+      status: 'delivered',
+      processed_at: Time.current
+    )
   rescue StandardError => e
     Rails.logger.error "Error updating campaign delivered count: #{e.message}"
   end

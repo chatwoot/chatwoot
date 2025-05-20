@@ -33,6 +33,29 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
     generate_csv('labels_report', 'api/v2/accounts/reports/labels')
   end
 
+  def campaigns
+    @report_data = generate_campaigns_report(params[:campaign_id])
+    generate_csv('campaigns_report', 'api/v2/accounts/reports/campaigns')
+  end
+
+  def generate_campaigns_report(id)
+    camp = Current.account.campaigns.find_by(id: id)
+    #  .joins(:inbox)
+    #  .where(inboxes: { channel_type: type }).map do |camp|
+
+    camp.campaign_contacts.joins(:contact).map do |c|
+      contact = c.contact
+      camp_report = [
+        contact.name,
+        contact.phone_number,
+        c.status,
+        c.error_message,
+        c.processed_at.time.strftime('%d %b %y %H:%M:%S')
+      ]
+      camp_report
+    end
+  end
+
   def teams
     @report_data = generate_teams_report
     generate_csv('teams_report', 'api/v2/accounts/reports/teams')
