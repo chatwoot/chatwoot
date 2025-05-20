@@ -27,8 +27,8 @@ class Crm::Leadsquared::Mappers::ContactMapper
 
   def formatted_phone_number
     # it seems like leadsquared needs a different phone number format
-    # it's not documented anywhere, so don't bother trying.
-    # After some trial and error, we could figure this out
+    # it's not documented anywhere, so don't bother trying to look up online
+    # After some trial and error, I figured out the format, its +<country_code>-<national_number>
     return nil if contact.phone_number.blank?
 
     parsed = TelephoneNumber.parse(contact.phone_number)
