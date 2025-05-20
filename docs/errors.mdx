@@ -1,0 +1,60 @@
+---
+title: 'Error Handling'
+description: 'Learn about error responses from the Chatwoot API'
+---
+
+# Error Handling
+
+When using the Chatwoot API, you may encounter various error responses. This guide helps you understand and handle these errors effectively.
+
+## HTTP Status Codes
+
+Chatwoot APIs use standard HTTP status codes to indicate the success or failure of a request:
+
+| Status Code | Description |
+|-------------|-------------|
+| 200 OK | The request was successful |
+| 201 Created | The resource was successfully created |
+| 400 Bad Request | The request was invalid or cannot be served |
+| 401 Unauthorized | Authentication failed or user doesn't have permissions |
+| 403 Forbidden | The authenticated user doesn't have access to the requested resource |
+| 404 Not Found | The requested resource doesn't exist |
+| 422 Unprocessable Entity | The request was well-formed but was unable to be followed due to semantic errors |
+| 429 Too Many Requests | Too many requests, rate limiting applied |
+| 500 Internal Server Error | Something went wrong on our servers |
+
+## Error Response Format
+
+Error responses include a JSON object with an error message:
+
+```json
+{
+  "error": "Invalid login credentials"
+}
+```
+
+## Common Error Scenarios
+
+### Authentication Errors
+
+- **401 Unauthorized**: Invalid or missing API access token
+- **403 Forbidden**: Insufficient permissions for the requested operation
+
+### Resource Errors
+
+- **404 Not Found**: The requested resource does not exist
+- **422 Unprocessable Entity**: The request contained invalid data
+
+### Rate Limiting
+
+- **429 Too Many Requests**: You've exceeded the API rate limits
+
+## Handling Errors
+
+When building integrations with Chatwoot, always:
+
+1. Check HTTP status codes
+2. Parse error messages
+3. Implement appropriate retry logic
+4. Log errors for debugging
+5. Provide meaningful error messages to users 

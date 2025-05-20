@@ -1,0 +1,44 @@
+---
+title: 'Authentication'
+description: 'Learn how to authenticate with the Chatwoot API'
+---
+
+# Authentication
+
+All API requests to Chatwoot require authentication. Chatwoot uses API access tokens for authentication.
+
+## API Access Tokens
+
+### User API Access Token
+
+This token can be obtained from your profile page in the Chatwoot dashboard. It provides access to endpoints based on your user permission levels.
+
+```bash
+curl -X GET "https://app.chatwoot.com/api/v1/profile" \
+  -H "api_access_token: your_api_access_token"
+```
+
+### Agent Bot API Access Token
+
+This token should be provided by a system admin or obtained via the Rails console. It can be used to build bot integrations and can only access limited APIs.
+
+### Platform App API Access Token
+
+This token can be obtained by the system admin after creating a platform app. It should be used to provision agent bots, accounts, users, and their roles.
+
+## Adding Authentication to Requests
+
+Include your API access token in the request header:
+
+```bash
+curl -X GET "https://app.chatwoot.com/api/v1/accounts/{account_id}/inboxes" \
+  -H "api_access_token: your_api_access_token"
+```
+
+## Security Best Practices
+
+- Keep your API access tokens secure
+- Rotate your tokens periodically
+- Use HTTPS for all API requests
+- Only grant the minimum required permissions
+- Don't expose tokens in client-side code 
