@@ -185,7 +185,11 @@ class Message < ApplicationRecord
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
-    I18n.t('conversations.survey.response', link: "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
+    survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+
+    return inbox.csat_config['message'] + " #{survey_link}" if inbox.csat_config.present? && inbox.csat_config['message'].present?
+
+    I18n.t('conversations.survey.response', link: survey_link)
   end
 
   def email_notifiable_message?
