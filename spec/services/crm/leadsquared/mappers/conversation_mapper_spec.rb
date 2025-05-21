@@ -183,7 +183,7 @@ RSpec.describe Crm::Leadsquared::Mappers::ConversationMapper do
         expect(result.length).to be <= described_class::ACTIVITY_NOTE_MAX_SIZE + 100
 
         # Verify that not all messages are included (some were truncated)
-        expect(messages.count).to be > result.scan(/John Doe:/).count
+        expect(messages.count).to be > result.scan('John Doe:').count
       end
 
       it 'respects the ACTIVITY_NOTE_MAX_SIZE constant' do
