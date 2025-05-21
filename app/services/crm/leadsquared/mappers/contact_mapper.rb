@@ -38,7 +38,7 @@ class Crm::Leadsquared::Mappers::ContactMapper
     e164 = parsed.e164_number
     e164 = e164.sub(/^\+/, '')
 
-    national_number = e164.sub(/^#{country_code}/, '')
+    national_number = e164.sub(/^#{Regexp.escape(country_code)}/, '')
 
     "+#{country_code}-#{national_number}"
   end
