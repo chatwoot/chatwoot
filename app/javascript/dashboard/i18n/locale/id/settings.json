@@ -185,7 +185,8 @@
           "OFFLINE": "Offline"
         },
         "SET_AVAILABILITY_SUCCESS": "Ketersediaan berhasil diatur",
-        "SET_AVAILABILITY_ERROR": "Tidak dapat mengatur ketersediaan, silakan coba lagi"
+        "SET_AVAILABILITY_ERROR": "Tidak dapat mengatur ketersediaan, silakan coba lagi",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Alamat email Anda",
