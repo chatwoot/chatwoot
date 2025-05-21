@@ -793,8 +793,8 @@ RSpec.describe Conversation do
     end
 
     context 'when a new conversation is created' do
-      it 'sets last_activity_at to the created_at time' do
-        expect(conversation.last_activity_at).to eq(conversation.created_at)
+      it 'sets last_activity_at to the created_at time (within DB precision)' do
+        expect(conversation.last_activity_at).to be_within(1.second).of(conversation.created_at)
       end
     end
 
