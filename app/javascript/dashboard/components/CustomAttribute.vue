@@ -33,6 +33,7 @@ export default {
     regexCue: { type: String, default: null },
     attributeKey: { type: String, required: true },
     contactId: { type: Number, default: null },
+    conversationId: { type: Number, default: null },
   },
   emits: ['update', 'delete', 'copy'],
   setup() {
@@ -192,6 +193,9 @@ export default {
     onCopy() {
       this.$emit('copy', this.value);
     },
+    createCoreTicket() {
+        window.open(`https://core.ishangry.com/chatwoot/create-ticket/${this.conversationId}`, '_blank')
+    },
   },
 };
 </script>
@@ -222,6 +226,15 @@ export default {
               class="mt-0.5"
             />
           </span>
+	  <NextButton
+             v-if="showActions && !value && attributeKey === 'core_ticket_link'"
+             v-tooltip.left="'Create ticket on Core ERP'"
+             class="w-6"
+             variant="link"
+             @click="createCoreTicket"
+          >
+            <img src="https://core.ishangry.com/web/image/res.company/1/favicon" />
+          </NextButton>
           <NextButton
             v-if="showActions && value"
             v-tooltip.left="$t('CUSTOM_ATTRIBUTES.ACTIONS.DELETE')"

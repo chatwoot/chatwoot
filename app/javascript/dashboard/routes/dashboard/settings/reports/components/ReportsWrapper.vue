@@ -46,7 +46,7 @@
     .multiselect__tags,
     .multiselect__input,
     .multiselect {
-      @apply bg-n-alpha-3 !border-n-weak text-n-slate-12 rounded-lg text-sm min-h-[2.5rem];
+      @apply bg-n-alpha-3 border-n-weak text-n-slate-12 rounded-lg text-sm min-h-[2.5rem];
     }
 
     .mx-input-wrapper {
