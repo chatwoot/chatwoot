@@ -67,7 +67,6 @@ watch(unit, () => {
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
     class="flex-grow w-full disabled:"
   />
-  {{ duration }}
   <select
     v-model="unit"
     :disabled="disabled"
