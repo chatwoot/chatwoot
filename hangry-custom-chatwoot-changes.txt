@@ -1,7 +1,7 @@
 1. Add core ticket link button
- - changes to app/javascript/dashboard/components/CustomAttributes.vue
-    <woot-button
-	    v-if="showActions && !value && attributeKey === 'core_ticket_link'"
+ - changes to app/javascript/dashboard/components/CustomAttribute.vue
+    <NextButton
+	    v-if="showActions && attributeKey === 'core_ticket_count'"
 	    v-tooltip.left="'Create ticket on Core ERP'"
 	    class="w-6"
 	    variant="link"
