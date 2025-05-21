@@ -330,12 +330,14 @@
     "NAME": "Капитан",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
       "SEND_MESSAGE": "Отправить сообщение...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
       "RESET": "Сброс",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Выбрать ассистента",
       "PROMPTS": {
         "SUMMARIZE": {
