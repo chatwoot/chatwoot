@@ -5,9 +5,14 @@
 #  id           :bigint           not null, primary key
 #  phone_number :string           not null
 #  webhook_url  :string
-#  account_id   :integer          not null
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
+#  account_id   :integer          not null
+#
+# Indexes
+#
+#  index_channel_whatsapp_unofficials_on_account_id    (account_id)
+#  index_channel_whatsapp_unofficials_on_phone_number  (phone_number) UNIQUE
 #
 
 class Channel::WhatsappUnofficial < ApplicationRecord
