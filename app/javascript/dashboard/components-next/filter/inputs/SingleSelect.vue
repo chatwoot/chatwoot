@@ -96,7 +96,7 @@ const toggleSelected = option => {
             v-for="option in searchResults"
             :key="option.id"
             :icon="option.icon"
-            @click="toggleSelected(option)"
+            @click.stop="toggleSelected(option)"
           >
             <template #label>
               {{ option.name }}

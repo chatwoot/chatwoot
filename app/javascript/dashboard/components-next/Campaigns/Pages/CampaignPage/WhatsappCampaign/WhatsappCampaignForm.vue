@@ -169,64 +169,17 @@ const handleContactsResponse = data => {
   contactState.totalPages = Math.ceil(meta.count / 30);
 };
 
-const loadMoreContacts = () => {
-  if (
-    contactState.currentPage < contactState.totalPages &&
-    !contactState.isLoadingContacts
-  ) {
-    contactState.currentPage += 1;
-    fetchContacts(contactState.currentPage, contactState.searchQuery);
-  }
-};
-
-const handleSearch = query => {
-  contactState.searchQuery = query;
-  contactState.currentPage = 1;
-  fetchContacts(1, query);
-};
-
-const handleFiltersCleared = () => {
-  contactState.currentPage = 1;
-  contactState.totalPages = 1;
-  fetchContacts(1, contactState.searchQuery);
-};
-
-const onFilteredContacts = filteredContacts => {
-  contactState.contactList = filteredContacts;
-};
-
 const contactSelector = ref(null);
 
-const fetchAllContactIds = async (isFiltered, filteredContacts) => {
-  try {
-    let contactIds = [];
-    if (isFiltered) {
-      contactState.total_count = filteredContacts.length;
-      contactIds = filteredContacts.map(contact => contact.id);
-      formState.selectedContacts = contactIds;
-    } else {
-      const { data } = await ContactsAPI.getAllIds();
-      contactState.total_count = data.total_count;
-      contactIds = data.contact_ids;
-      formState.selectedContacts = contactIds;
-    }
-    if (contactSelector.value) {
-      contactSelector.value.updateSelectedContacts(contactIds);
-    }
-    useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.SELECTED_ALL.SUCCESS'));
-  } catch (error) {
-    useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.SELECTED_ALL.ERROR'));
-  }
-};
-
 const goToNext = async () => {
+  // TODO: Renable the validation
   // v$.value.$touch();
   // if (isStep1Valid.value) {
-  contactState.contactList = [];
-  contactState.currentPage = 1;
-  contactState.searchQuery = '';
-  await fetchContacts(1);
-  currentStep.value = 2;
+    contactState.contactList = [];
+    contactState.currentPage = 1;
+    contactState.searchQuery = '';
+    await fetchContacts(1);
+    currentStep.value = 2;
   // }
 };
 
@@ -426,16 +379,7 @@ onBeforeUnmount(() => {
               typeof e == 'object' ? e.id : e
             ))
         "
-        @load-more="() => {}"
-        @select-all-contacts="() => {}"
-        @filter-contacts="() => {}"
-        @filters-cleared="() => {}"
       />
-
-      <!-- @load-more="loadMoreContacts"
-        @select-all-contacts="fetchAllContactIds"
-        @filter-contacts="onFilteredContacts"
-        @filters-cleared="handleFiltersCleared" -->
 
       <div class="flex justify-end w-full gap-2 px-0 py-2 mt-4">
         <Button

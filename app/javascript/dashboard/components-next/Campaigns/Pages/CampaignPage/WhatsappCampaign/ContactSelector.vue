@@ -39,14 +39,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'contacts-selected',
-  'load-more',
-  'search',
-  'select-all-contacts',
-  'filter-contacts',
-  'filters-cleared',
-]);
+const emit = defineEmits(['contacts-selected', 'search']);
 
 const store = useStore();
 const { t } = useI18n();
@@ -201,7 +194,6 @@ const mergedFilterTypes = computed(() => [
 
 // Computed Properties
 const filteredContacts = computed(() => {
-  console.log('Initial contact list: ', contactList);
   const contactsToFilter =
     contactList.value.length > 0 ? contactList.value : props.contacts;
   if (!searchQuery.value) return contactsToFilter;
@@ -266,34 +258,13 @@ const shouldShowLoadingTrigger = computed(() => {
 
 // Methods
 const handleContactsResponse = (data, isFiltered = false) => {
-  console.log('New data: ', data);
   const { payload = [], meta = {} } = data;
   const filteredContacts = payload.filter(contact => contact.phone_number);
 
   contactList.value = filteredContacts;
   allFilteredContacts.value = filteredContacts;
 
-  // if (isFiltered) {
-  //   contactList.value =
-  //     currentPage.value === 1
-  //       ? filteredContacts
-  //       : [...contactList.value, ...filteredContacts];
-  //   if (currentPage.value === 1) {
-  //     allFilteredContacts.value = filteredContacts;
-  //   } else {
-  //     allFilteredContacts.value = [...allFilteredContacts.value];
-  //   }
-  // } else {
-  //   contactList.value =
-  //     currentPage.value === 1
-  //       ? filteredContacts
-  //       : [...filteredContacts];
-  // }
-
-  emit('filter-contacts', contactList.value);
-
-  const totalpages = Math.ceil(meta.count / itemsPerPage);
-  totalPages.value = Math.min(totalpages, 33);
+  totalPages.value = Math.ceil(meta.count / itemsPerPage);
   totalContacts.value = meta.count;
 
   nextTick(() => {
@@ -317,6 +288,7 @@ const isSelected = contact => {
 
 const clearSelection = () => {
   localSelectedContacts.value = [];
+  selectAllVisible.value = false;
   emit('contacts-selected', localSelectedContacts.value);
 };
 
@@ -454,20 +426,6 @@ const submitFilters = async () => {
     const validContacts = payload.filter(contact => contact.phone_number);
     allFilteredContacts.value = [...validContacts];
 
-    // const totalpages = Math.ceil(meta.count / 30);
-    // totalPages.value = totalpages;
-    // for (let page = 2; page <= totalpages; page++) {
-    //   const response = await ContactsAPI.filter(page, 'name', queryPayload);
-    //   if (response.data && response.data.payload) {
-    //     const validPageContacts = response.data.payload.filter(
-    //       contact => contact.phone_number
-    //     );
-    //     allFilteredContacts.value = [
-    //       ...allFilteredContacts.value,
-    //       ...validPageContacts,
-    //     ];
-    //   }
-    // }
     nextTick(() => {
       resetObserver();
     });
@@ -490,12 +448,8 @@ const clearFilters = async () => {
       attributeModel: 'standard',
     },
   ];
-  // // fetch
+
   fetchContacts(1);
-  // allFilteredContacts.value = [];
-  // currentPage.value = 1;
-  // totalPages.value = 1;
-  // emit('filters-cleared');
 
   await nextTick();
   resetObserver();
@@ -507,7 +461,6 @@ const fetchContacts = async (page = 1) => {
     currentPage.value = page;
     isLoadingContacts.value = true;
     const { data } = await ContactsAPI.get(page, sortAttribute.value);
-    console.log('Got Contacts: ', data);
     handleContactsResponse(data, false);
   } catch (error) {
     useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
@@ -554,8 +507,19 @@ const updateSelectVisiblePosition = () => {
   });
 };
 
-const onUpdatePage = page => {
-  fetchContacts(page);
+const onUpdatePage = async page => {
+  await fetchContacts(page);
+
+  // Correctly set selectAllVisible as per contact list and already selected contacts state
+  if (
+    contactList.value.some(
+      e => localSelectedContacts.value.find(f => f === e.id) === undefined
+    )
+  ) {
+    selectAllVisible.value = false;
+  } else {
+    selectAllVisible.value = true;
+  }
 };
 
 const resetObserver = () => {
@@ -575,9 +539,7 @@ watch(selectAllVisible, newVal => {
   } else {
     localSelectedContacts.value = localSelectedContacts.value.filter(
       selectedContact =>
-        !filteredContacts.value.some(
-          contact => contact.id === selectedContact
-        )
+        !filteredContacts.value.some(contact => contact.id === selectedContact)
     );
   }
   emit('contacts-selected', localSelectedContacts.value);
@@ -725,9 +687,7 @@ defineExpose({
     <div class="bg-red-50"></div>
     <PaginationFooter
       :count="
-        localSelectedContacts.length == 0
-          ? null
-          : localSelectedContacts.length
+        localSelectedContacts.length == 0 ? null : localSelectedContacts.length
       "
       :current-page="currentPage"
       :total-items="totalContacts"
