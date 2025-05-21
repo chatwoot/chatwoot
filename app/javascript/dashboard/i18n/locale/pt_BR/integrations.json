@@ -330,12 +330,14 @@
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copiloto",
       "SEND_MESSAGE": "Enviar mensagem...",
       "EMPTY_MESSAGE": "Houve um erro ao gerar a resposta. Por favor, tente novamente.",
       "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Selecione o Assistente",
       "PROMPTS": {
         "SUMMARIZE": {
