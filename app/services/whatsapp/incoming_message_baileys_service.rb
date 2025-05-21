@@ -189,24 +189,19 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def handle_attach_media
-    media = processed_params.dig(:extra, :media)
-    return if media.blank?
-
-    attachment_payload = media[message_id]
-    if attachment_payload.blank?
-      Rails.logger.error "Attachment not found for message: #{message_id}"
-      raise AttachmentNotFoundError
-    end
-
-    decoded_data = Base64.decode64(attachment_payload)
-    io = StringIO.new(decoded_data)
+    attachment_file = download_attachment_file
+    return unless attachment_file
 
     attachment = @message.attachments.build(
       account_id: @message.account_id,
       file_type: file_content_type.to_s,
-      file: { io: io, filename: filename }
+      file: { io: attachment_file, filename: filename, content_type: message_mimetype }
     )
     attachment.meta = { is_recorded_audio: true } if @raw_message.dig(:message, :audioMessage, :ptt)
+  end
+
+  def download_attachment_file
+    Down.download(@conversation.inbox.channel.media_url(@raw_message.dig(:key, :id)), headers: @conversation.inbox.channel.api_headers)
   end
 
   def file_content_type

@@ -22,7 +22,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
             body: {
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
-              webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token']
+              webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
+              includeMedia: false
             }.to_json
           )
           .to_return(status: 200)
@@ -41,7 +42,8 @@ describe Whatsapp::Providers::WhatsappBaileysService do
             body: {
               clientName: 'chatwoot-test',
               webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
-              webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token']
+              webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
+              includeMedia: false
             }.to_json
           )
           .to_return(
@@ -307,6 +309,15 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           service.send_message(test_send_phone_number, message)
         end.to raise_error(Whatsapp::Providers::WhatsappBaileysService::MessageNotSentError)
       end
+    end
+  end
+
+  describe '#media_url' do
+    it 'returns the media url' do
+      media_id = '12345'
+      expected_url = "#{whatsapp_channel.provider_config['provider_url']}/media/#{media_id}"
+
+      expect(service.media_url(media_id)).to eq(expected_url)
     end
   end
 

@@ -13,7 +13,9 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
       body: {
         clientName: DEFAULT_CLIENT_NAME,
         webhookUrl: whatsapp_channel.inbox.callback_webhook_url,
-        webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token']
+        webhookVerifyToken: whatsapp_channel.provider_config['webhook_verify_token'],
+        # TODO: Remove on Baileys v2, default will be false
+        includeMedia: false
       }.to_json
     )
 
@@ -51,7 +53,9 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
 
   def sync_templates; end
 
-  def media_url(media_id); end
+  def media_url(media_id)
+    "#{provider_url}/media/#{media_id}"
+  end
 
   def api_headers
     { 'x-api-key' => api_key, 'Content-Type' => 'application/json' }
