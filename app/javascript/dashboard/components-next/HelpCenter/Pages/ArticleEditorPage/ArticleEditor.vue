@@ -161,7 +161,7 @@ const previewArticle = () => {
 
   .editor-root .has-selection {
     .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-slate-50 dark:bg-slate-800 items-center gap-4 ml-0 mb-0 shadow-md border border-slate-75 dark:border-slate-700/50;
+      @apply h-8 rounded-lg px-2 z-50 bg-slate-50 dark:bg-slate-800 items-center gap-4 ml-0 mb-0 shadow-md border border-slate-75 dark:border-slate-700/50;
       display: flex;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
@@ -172,7 +172,7 @@ const previewArticle = () => {
         @apply mr-0;
 
         .ProseMirror-icon {
-          @apply p-0 mt-1 !mr-0;
+          @apply p-0 mt-1 mr-0;
 
           svg {
             width: 20px !important;

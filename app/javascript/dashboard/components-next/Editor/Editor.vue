@@ -151,26 +151,26 @@ watch(
 .editor-wrapper {
   ::v-deep {
     .ProseMirror-menubar-wrapper {
-      @apply gap-2 !important;
-
+      gap: 0.5rem !important;
       .ProseMirror-menubar {
-        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 !top-0 !relative !important;
-
+        @apply bg-transparent dark:bg-transparent w-fit left-1 pt-0 h-5 top-0 relative;
+        padding-top: 0 !important;
+        position: relative !important;
         .ProseMirror-menuitem {
-          @apply h-5 !important;
+          height: 1.25rem !important;
         }
 
         .ProseMirror-icon {
-          @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12 !important;
+          @apply p-1 w-3 h-3 text-n-slate-12 dark:text-n-slate-12;
         }
       }
       .ProseMirror.ProseMirror-woot-style {
         p {
-          @apply first:mt-0 !important;
+          @apply first:mt-0;
         }
 
         .empty-node {
-          @apply m-0 !important;
+          margin-top: 0 !important;
 
           &::before {
             @apply text-n-slate-11 dark:text-n-slate-11;

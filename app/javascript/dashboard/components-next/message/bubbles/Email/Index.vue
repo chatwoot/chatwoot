@@ -202,10 +202,10 @@ const handleSeeOriginal = () => {
 
 .letter-render [class*='gmail_drive_chip'] {
   box-sizing: initial;
-  @apply bg-n-slate-4 border-n-slate-6 rounded-md !important;
+  @apply bg-n-slate-4 border-n-slate-6 rounded-md;
 
   a {
-    @apply text-n-slate-12 !important;
+    @apply text-n-slate-12;
 
     img {
       display: inline-block;

@@ -24,7 +24,7 @@ export const useMacros = () => {
       case 'send_email_to_team':
         return teams.value;
       case 'assign_agent':
-        return [{ id: 'self', name: 'Self' }, ...agents.value];
+        return [{id: 'nil', name: 'None'}, { id: 'self', name: 'Self' }, ...agents.value];
       case 'add_label':
       case 'remove_label':
         return labels.value.map(i => ({
