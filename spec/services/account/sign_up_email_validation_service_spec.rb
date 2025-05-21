@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Account::SignUpAccount::SignUpEmailValidationService, type: :service do
+RSpec.describe Account::SignUpEmailValidationService, type: :service do
   let(:service) { described_class.new(email) }
   let(:blocked_domains) { "gmail.com\noutlook.com" }
 
