@@ -137,22 +137,15 @@ class Twilio::IncomingMessageService
   end
 
   def download_with_auth(media_url)
-    Down.download(
-      media_url,
-      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token]
-    )
-  rescue Down::Error, Down::ClientError => e
-    raise e unless e.is_a?(Down::ClientError) && e.response.code == '401'
+    auth_credentials = if twilio_channel.api_key_sid.present?
+                         # When using api_key_sid, the auth token should be the api_secret_key
+                         [twilio_channel.api_key_sid, twilio_channel.auth_token]
+                       else
+                         # When using account_sid, the auth token is the account's auth token
+                         [twilio_channel.account_sid, twilio_channel.auth_token]
+                       end
 
-    # Fallback to api_key_sid for authentication in case of 401 unauthorized errors
-    # This is necessary because some Twilio accounts, especially newer ones or those using
-    # API Keys instead of Account SIDs for authentication, require api_key_sid
-    # rather than account_sid for downloading media assets
-    Rails.logger.info "Authentication failed with account_sid: #{e.message}: Trying with api_key_sid"
-    Down.download(
-      media_url,
-      http_basic_authentication: [twilio_channel.api_key_sid, twilio_channel.auth_token]
-    )
+    Down.download(media_url, http_basic_authentication: auth_credentials)
   end
 
   def handle_download_attachment_error(error, media_url)
