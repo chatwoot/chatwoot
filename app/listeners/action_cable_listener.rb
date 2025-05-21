@@ -43,7 +43,7 @@ class ActionCableListener < BaseListener
     if message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
       inbox = message.conversation.inbox
       payload = message.webhook_data.merge(event: __method__.to_s)
-      WebhookListenerWaUnOfficial.perform(inbox, payload)
+      WebhookListenerWaUnofficial.perform(inbox, payload)
     end
 
     if message.sender_type == 'Contact'
@@ -69,7 +69,7 @@ class ActionCableListener < BaseListener
     if message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
       inbox = message.conversation.inbox
       payload = message.webhook_data.merge(event: __method__.to_s)
-      WebhookListenerWaUnOfficial.perform(inbox, payload)
+      WebhookListenerWaUnofficial.perform(inbox, payload)
     end
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
