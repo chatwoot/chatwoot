@@ -132,6 +132,8 @@ de:
     attachment: 'Anhang'
     no_content: 'Kein Inhalt'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} erwähnte sie in der Geschichte: '
       instagram_deleted_story_content: Diese Geschichte ist nicht mehr verfügbar.
@@ -139,6 +141,9 @@ de:
       delivery_status:
         error_code: 'Fehlercode: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Das Gespräch wurde von %{user_name} gelöst'
         contact_resolved: 'Konversation wurde von %{contact_name} gelöst'

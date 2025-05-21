@@ -100,7 +100,10 @@ const handleBasicInfoUpdate = async () => {
   const payload = {
     name: state.name,
     description: state.description,
-    product_name: state.productName,
+    config: {
+      ...props.assistant.config,
+      product_name: state.productName,
+    },
   };
 
   emit('submit', payload);

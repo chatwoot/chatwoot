@@ -132,6 +132,8 @@ ru:
     attachment: 'Вложение'
     no_content: 'Нет содержимого'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
@@ -139,6 +141,9 @@ ru:
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} завершил диалог'
         contact_resolved: 'Разговор был закрыт %{contact_name}'
