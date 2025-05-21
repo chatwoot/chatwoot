@@ -24,7 +24,7 @@ class Duitku::PaymentService
         callbackUrl: "#{ENV['DUITKU_CALLBACK_URL']}/api/v1/duitku/webhook",
         returnUrl: "#{params[:return_url]}",
         signature: generate_signature(params[:amount], params[:order_id]),
-        expiryPeriod: 1 # dalam menit
+        expiryPeriod: 2 # dalam menit
       }
       
       response = HTTParty.post(
