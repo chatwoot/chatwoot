@@ -125,7 +125,13 @@
       "AI_AGENT_DESC": "Deskripsi Bot AI",
       "AI_AGENT_SYSTEM_PROMPT": "Perintah Bot AI",
       "WELCOME_MESSAGE": "Pesan Selamat Datang",
-      "ROUTING_CONDITION": "Kondisi Pengalihan"
+      "ROUTING_CONDITION": "Kondisi Pengalihan",
+      "ROUTING_CONDITION_PLACEHOLDER": "Tentukan kapan Bot AI harus meneruskan chat ke agen manusia. Setelah itu, status chat akan berubah menjadi Open dan tampil di tab Chat Ditugaskan."
+    },
+    "TEXT_KNOWLEDGE_PLACEHOLDER": "Tulis informasi penting tentang bisnis, produk, layanan, atau kebijakan Anda di sini.<br><br>Contoh: Toko kami buka setiap hari Senin-Sabtu, pukul 08.00-17.00 WIB. Untuk pengembalian barang, pelanggan wajib menyertakan bukti transaksi dalam 7 hari.",
+    "QNA_PLACEHOLDER": {
+      "QUESTION": "Berapa harga produknya?",
+      "ANSWER": "Harga produknya Rp75.000"
     }
   }
 }

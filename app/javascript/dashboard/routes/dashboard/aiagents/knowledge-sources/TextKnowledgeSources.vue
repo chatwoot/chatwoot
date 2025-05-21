@@ -3,6 +3,7 @@ import { computed, nextTick, onMounted, ref, watch } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   data: {
@@ -10,6 +11,8 @@ const props = defineProps({
     required: true,
   },
 });
+
+const { t } = useI18n()
 
 async function fetchKnowledge(idAgent) {
   try {
@@ -139,6 +142,7 @@ onMounted(() => {
     tabsize: 2,
     height: 300,
     width: '100%',
+    placeholder: t('AGENT_MGMT.TEXT_KNOWLEDGE_PLACEHOLDER'),
     callbacks: {
       onChange: function (contents, $editable) {
         const summerNoteBtn = document.getElementsByClassName(

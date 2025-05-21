@@ -127,11 +127,11 @@ const maxCharAnswer = 700
           <div class="flex gap-6">
             <div class="flex flex-col gap-2 w-full">
               <span class="text-sm"> Pertanyaan </span>
-              <TextArea v-model="item.question" showCharacterCount="true" :maxLength="maxCharQuestion" />
+              <TextArea v-model="item.question" showCharacterCount="true" :maxLength="maxCharQuestion" :placeholder="$t('AGENT_MGMT.QNA_PLACEHOLDER.QUESTION')" />
             </div>
             <div class="flex flex-col gap-2 w-full">
               <span class="text-sm"> Jawaban </span>
-              <TextArea v-model="item.answer" showCharacterCount="true" :maxLength="maxCharAnswer" />
+              <TextArea v-model="item.answer" showCharacterCount="true" :maxLength="maxCharAnswer" :placeholder="$t('AGENT_MGMT.QNA_PLACEHOLDER.ANSWER')" />
             </div>
           </div>
           <div class="flex flex-row">

@@ -149,6 +149,7 @@ const previewUrl = computed(() => {
             v-model="state.routing_conditions"
             custom-text-area-wrapper-class=""
             custom-text-area-class="!outline-none"
+            :placeholder="t('AGENT_MGMT.FORM_CREATE.ROUTING_CONDITION_PLACEHOLDER')"
             auto-height
           />
         </div>
