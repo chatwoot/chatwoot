@@ -185,7 +185,8 @@
           "OFFLINE": "オフライン"
         },
         "SET_AVAILABILITY_SUCCESS": "利用可能ステータスが正常に設定されました",
-        "SET_AVAILABILITY_ERROR": "利用可能ステータスを設定できませんでした。もう一度お試しください"
+        "SET_AVAILABILITY_ERROR": "利用可能ステータスを設定できませんでした。もう一度お試しください",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "あなたのメールアドレス",
