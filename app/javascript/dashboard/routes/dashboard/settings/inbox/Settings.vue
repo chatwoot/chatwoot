@@ -15,6 +15,7 @@ import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
@@ -29,6 +30,7 @@ export default {
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
+    CustomerSatisfactionPage,
     FacebookReauthorize,
     GreetingsEditor,
     PreChatFormSettings,
@@ -55,7 +57,6 @@ export default {
       greetingEnabled: true,
       greetingMessage: '',
       emailCollectEnabled: false,
-      csatSurveyEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -108,6 +109,10 @@ export default {
         {
           key: 'businesshours',
           name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
+        {
+          key: 'csat',
+          name: this.$t('INBOX_MGMT.TABS.CSAT'),
         },
       ];
 
@@ -281,7 +286,6 @@ export default {
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
-        this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -304,7 +308,6 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
-          csat_survey_enabled: this.csatSurveyEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
@@ -596,21 +599,6 @@ export default {
             </p>
           </label>
 
-          <label class="pb-4">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
-            <select v-model="csatSurveyEnabled">
-              <option :value="true">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.ENABLED') }}
-              </option>
-              <option :value="false">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.DISABLED') }}
-              </option>
-            </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
-            </p>
-          </label>
-
           <label v-if="isAWebWidgetInbox" class="pb-4">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOW_MESSAGES_AFTER_RESOLVED') }}
             <select v-model="allowMessagesAfterResolved">
@@ -805,6 +793,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'configuration'">
         <ConfigurationPage :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'csat'">
+        <CustomerSatisfactionPage :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'preChatForm'">
         <PreChatFormSettings :inbox="inbox" />

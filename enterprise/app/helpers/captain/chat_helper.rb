@@ -1,24 +1,4 @@
 module Captain::ChatHelper
-  def search_documentation_tool
-    {
-      type: 'function',
-      function: {
-        name: 'search_documentation',
-        description: "Use this function to get documentation on functionalities you don't know about.",
-        parameters: {
-          type: 'object',
-          properties: {
-            search_query: {
-              type: 'string',
-              description: 'The search query to look up in the documentation.'
-            }
-          },
-          required: ['search_query']
-        }
-      }
-    }
-  end
-
   def request_chat_completion
     Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{@messages}" }
 
@@ -26,59 +6,47 @@ module Captain::ChatHelper
       parameters: {
         model: @model,
         messages: @messages,
-        tools: [search_documentation_tool],
+        tools: @tool_registry&.registered_tools || [],
         response_format: { type: 'json_object' }
       }
     )
 
     handle_response(response)
-    @response
   end
 
   def handle_response(response)
+    Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{response}" }
     message = response.dig('choices', 0, 'message')
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
     else
-      @response = JSON.parse(message['content'].strip)
+      JSON.parse(message['content'].strip)
     end
   end
 
   def process_tool_calls(tool_calls)
     append_tool_calls(tool_calls)
-    process_tool_call(tool_calls.first)
-  end
-
-  def process_tool_call(tool_call)
-    return unless tool_call['function']['name'] == 'search_documentation'
-
-    tool_call_id = tool_call['id']
-    query = JSON.parse(tool_call['function']['arguments'])['search_query']
-    sections = fetch_documentation(query)
-    append_tool_response(sections, tool_call_id)
+    tool_calls.each do |tool_call|
+      process_tool_call(tool_call)
+    end
     request_chat_completion
   end
 
-  def fetch_documentation(query)
-    @assistant
-      .responses
-      .approved
-      .search(query)
-      .map { |response| format_response(response) }.join
+  def process_tool_call(tool_call)
+    arguments = JSON.parse(tool_call['function']['arguments'])
+    function_name = tool_call['function']['name']
+    tool_call_id = tool_call['id']
+
+    if @tool_registry.respond_to?(function_name)
+      execute_tool(function_name, arguments, tool_call_id)
+    else
+      process_invalid_tool_call(tool_call_id)
+    end
   end
 
-  def format_response(response)
-    formatted_response = "
-    Question: #{response.question}
-    Answer: #{response.answer}
-    "
-    if response.documentable.present? && response.documentable.try(:external_link)
-      formatted_response += "
-      Source: #{response.documentable.external_link}
-      "
-    end
-
-    formatted_response
+  def execute_tool(function_name, arguments, tool_call_id)
+    result = @tool_registry.send(function_name, arguments)
+    append_tool_response(result, tool_call_id)
   end
 
   def append_tool_calls(tool_calls)
@@ -88,11 +56,15 @@ module Captain::ChatHelper
     }
   end
 
-  def append_tool_response(sections, tool_call_id)
+  def process_invalid_tool_call(tool_call_id)
+    append_tool_response('Tool not available', tool_call_id)
+  end
+
+  def append_tool_response(content, tool_call_id)
     @messages << {
       role: 'tool',
       tool_call_id: tool_call_id,
-      content: "Found the following FAQs in the documentation:\n #{sections}"
+      content: content
     }
   end
 end

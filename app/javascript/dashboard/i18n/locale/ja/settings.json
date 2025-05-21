@@ -387,7 +387,8 @@
         "LABEL": "企業名",
         "PLACEHOLDER": "例: Wayne Enterprise"
       },
-      "SUBMIT": "送信"
+      "SUBMIT": "送信",
+      "CANCEL": "キャンセル"
     }
   },
   "KEYBOARD_SHORTCUTS": {

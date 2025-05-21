@@ -53,11 +53,17 @@ Rails.application.routes.draw do
           end
           namespace :captain do
             resources :assistants do
+              member do
+                post :playground
+              end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
             end
-            resources :documents, only: [:index, :show, :create, :destroy]
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
+            resources :copilot_threads, only: [:index] do
+              resources :copilot_messages, only: [:index]
+            end
+            resources :documents, only: [:index, :show, :create, :destroy]
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
@@ -98,7 +104,7 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
-              resources :messages, only: [:index, :create, :destroy] do
+              resources :messages, only: [:index, :create, :destroy, :update] do
                 member do
                   post :translate
                   post :retry

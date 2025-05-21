@@ -43,7 +43,17 @@
         "INBOX_NAME": "Iesūtnes Nosaukums",
         "ADD_NAME": "Pievienojiet savas iesūtnes nosaukumu",
         "PICK_NAME": "Lūdzu ievadiet Iesūtnes nosaukumu",
-        "PICK_A_VALUE": "Izvēlieties vērtību"
+        "PICK_A_VALUE": "Izvēlieties vērtību",
+        "CREATE_INBOX": "Izveidot Iesūtni"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Turpināt ar Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Pievienot savu Instagram Profilu",
+        "HELP": "Lai pievienotu savu Instagram profilu kā kanālu, jums ir jāautentificē savs Instagram profils, noklikšķinot uz 'Turpināt ar Instagram' ",
+        "ERROR_MESSAGE": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "ERROR_AUTH": "Veidojot savienojumu ar Instagram, radās kļūda. Lūdzu, mēģiniet vēlreiz",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Lai pievienotu savu Twitter profilu kā kanālu, Jums ir jāautentificē savs Twitter profils, noklikšķinot uz \"Pierakstīties ar Twitter\"' ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Pirms-Tērzēšanas Veidlapa",
       "BUSINESS_HOURS": "Darba Laiks",
       "WIDGET_BUILDER": "Logrīku Veidotājs",
-      "BOT_CONFIGURATION": "Robota Konfigurācija"
+      "BOT_CONFIGURATION": "Robota Konfigurācija",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Iestatījumi",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Iespējot e-pasta iegūšanas lodziņu",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Iespējot vai atspējot e-pasta iegūšanas lodziņu jaunai sarunai",
       "AUTO_ASSIGNMENT": "Iespējot automātisko piešķiršanu",
-      "ENABLE_CSAT": "Iespējot CSAT",
       "SENDER_NAME_SECTION": "Iespējot Aģenta Vārdu E-pastā",
-      "ENABLE_CSAT_SUB_TEXT": "Iespējot/Atspējot CSAT (klientu apmierinātības) aptauju pēc sarunas atrisināšanas",
       "SENDER_NAME_SECTION_TEXT": "Iespējot/Atspējot aģenta vārda rādīšanu e-pastā. Ja tas ir atspējots, tiks rādīts uzņēmuma nosaukums",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Iespējot sarunas nepārtrauktību, izmantojot e-pastu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Sarunas turpināsies pa e-pastu, ja saziņas e-pasta adrese ir pieejama.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Apmeklētājiem pirms tērzēšanas ir jānorāda savs vārds un e-pasta adrese"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Iespējot CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Ziņojums",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "satur",
+          "DOES_NOT_CONTAINS": "nesatur"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "E-pasts",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanāls"
+      "API": "API Kanāls",
+      "INSTAGRAM": "Instagram"
     }
   }
 }
