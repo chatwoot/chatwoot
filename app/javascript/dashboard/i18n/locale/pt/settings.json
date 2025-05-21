@@ -185,7 +185,8 @@
           "OFFLINE": "Ausente"
         },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
-        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Seu endereço de e-mail",
