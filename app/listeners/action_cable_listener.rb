@@ -38,6 +38,14 @@ class ActionCableListener < BaseListener
     tokens = user_tokens(account, conversation.inbox.members) +
              contact_tokens(conversation.contact_inbox, message)
 
+    Rails.logger.info("Message Masuk message: #{message.inspect}")
+    Rails.logger.info("Message Masuk inbox: #{message.conversation.inbox.inspect}")
+    if message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
+      inbox = message.conversation.inbox
+      payload = message.webhook_data.merge(event: __method__.to_s)
+      WebhookListenerWaUnOfficial.perform(inbox, payload)
+    end
+
     if message.sender_type == 'Contact'
       chat_service = Captain::Copilot::ChatService.new(message)
       thread = Thread.new do
@@ -55,6 +63,14 @@ class ActionCableListener < BaseListener
 
   def message_updated(event)
     message, account = extract_message_and_account(event)
+
+    Rails.logger.info("Message Masuk message: #{message.inspect}")
+    Rails.logger.info("Message Updated Inbox: #{message.conversation.inbox.inspect}")
+    if message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
+      inbox = message.conversation.inbox
+      payload = message.webhook_data.merge(event: __method__.to_s)
+      WebhookListenerWaUnOfficial.perform(inbox, payload)
+    end
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
