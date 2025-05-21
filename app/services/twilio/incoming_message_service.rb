@@ -144,10 +144,14 @@ class Twilio::IncomingMessageService
   rescue Down::Error, Down::ClientError => e
     raise e unless e.is_a?(Down::ClientError) && e.response.code == '401'
 
+    # Fallback to api_key_sid for authentication in case of 401 unauthorized errors
+    # This is necessary because some Twilio accounts, especially newer ones or those using
+    # API Keys instead of Account SIDs for authentication, require api_key_sid
+    # rather than account_sid for downloading media assets
     Rails.logger.info "Authentication failed with account_sid: #{e.message}: Trying with api_key_sid"
     Down.download(
       media_url,
-      http_basic_authentication: [twilio_channel.api_key_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
+      http_basic_authentication: [twilio_channel.api_key_sid, twilio_channel.auth_token]
     )
   end
 
