@@ -2,7 +2,7 @@ export const showBadgeOnFavicon = () => {
   const favicons = document.querySelectorAll('.favicon');
 
   favicons.forEach(favicon => {
-    const newFileName = `/favicon-badge-${favicon.sizes[[0]]}.png`;
+    const newFileName = `/favicon-badge-${favicon.sizes[[0]]}.png?v1`;
     favicon.href = newFileName;
   });
 };

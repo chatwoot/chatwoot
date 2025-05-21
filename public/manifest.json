@@ -1,44 +1,60 @@
 {
-  "name": "Chatwoot",
-  "short_name": "Chatwoot",
-  "icons": [{
-    "src": "\/android-icon-36x36.png",
-    "sizes": "36x36",
-    "type": "image\/png",
-    "density": "0.75"
-   },
-   {
-    "src": "\/android-icon-48x48.png",
-    "sizes": "48x48",
-    "type": "image\/png",
-    "density": "1.0"
-   },
-   {
-    "src": "\/android-icon-72x72.png",
-    "sizes": "72x72",
-    "type": "image\/png",
-    "density": "1.5"
-   },
-   {
-    "src": "\/android-icon-96x96.png",
-    "sizes": "96x96",
-    "type": "image\/png",
-    "density": "2.0"
-   },
-   {
-    "src": "\/android-icon-144x144.png",
-    "sizes": "144x144",
-    "type": "image\/png",
-    "density": "3.0"
-   },
-   {
-    "src": "\/android-icon-192x192.png",
-    "sizes": "192x192",
-    "type": "image\/png",
-    "density": "4.0"
-   }],
-  "start_url": "/",
+  "name": "Jangkau",
+  "description": "Jangkau",
+  "short_name": "Jangkau",
+  "icons": [
+    {
+      "src": "/favicon-72x72.png",
+      "type": "image/png",
+      "sizes": "72x72",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-96x96.png",
+      "type": "image/png",
+      "sizes": "96x96",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-128x128.png",
+      "type": "image/png",
+      "sizes": "128x128",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-144x144.png",
+      "type": "image/png",
+      "sizes": "144x144",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-152x152.png",
+      "type": "image/png",
+      "sizes": "152x152",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-192x192.png",
+      "type": "image/png",
+      "sizes": "192x192",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-384x384.png",
+      "type": "image/png",
+      "sizes": "384x384",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "/favicon-512x512.png",
+      "type": "image/png",
+      "sizes": "512x512",
+      "purpose": "any maskable"
+    }
+  ],
+  "scope": "/",
+  "start_url": "/?source=pwa",
   "display": "standalone",
-  "background_color": "#1f93ff",
-  "theme_color": "#1f93ff"
+  "theme_color": "#ffffff",
+  "background_color": "#ffffff"
 }
