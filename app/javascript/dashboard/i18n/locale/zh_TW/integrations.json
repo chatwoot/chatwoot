@@ -330,12 +330,14 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
       "SEND_MESSAGE": "傳送訊息...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captain is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {
         "SUMMARIZE": {
