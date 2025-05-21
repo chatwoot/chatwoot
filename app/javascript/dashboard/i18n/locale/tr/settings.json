@@ -185,7 +185,8 @@
           "OFFLINE": "Çevrimdışı"
         },
         "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
-        "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
+        "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "E-posta Adresiniz",
