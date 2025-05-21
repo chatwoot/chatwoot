@@ -26,7 +26,7 @@
               "AgentBots",
               "Users"
             ],
-            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/3b421917058c6761aa138044fe518dacdca75e89/swagger/tag_groups/platform_swagger.json"
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/platform_swagger.json"
           },
           {
             "group": "Application API",
@@ -52,7 +52,7 @@
               "Automation Rule",
               "Help Center"
             ],
-            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/3b421917058c6761aa138044fe518dacdca75e89/swagger/tag_groups/application_swagger.json"
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/application_swagger.json"
           },
           {
             "group": "Client API",
@@ -62,7 +62,7 @@
               "Conversations API",
               "Messages API"
             ],
-            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/3b421917058c6761aa138044fe518dacdca75e89/swagger/tag_groups/client_swagger.json"
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/client_swagger.json"
           },
           {
             "group": "Other APIs",
@@ -70,7 +70,7 @@
             "includeTags": [
               "CSAT Survey Page"
             ],
-            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/3b421917058c6761aa138044fe518dacdca75e89/swagger/tag_groups/other_swagger.json"
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/other_swagger.json"
           }
         ]
       }
