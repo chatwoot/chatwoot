@@ -20,10 +20,10 @@ class Api::V1::DuitkuController < Api::BaseController
     # Log the notification for debugging
     Rails.logger.info("Processing Duitku webhook: #{notification.inspect}")
     
-    parts = merchant_order_id.split('-')
+    invoice_prefix = merchant_order_id.split('-')[1]
 
-    if parts[1] == 'TUP'
-      update_subscription_topup(notification, result_code, merchant_order_id)
+    if ['MAU', 'AR'].include?(invoice_prefix)
+      update_subscription_topup(notification, result_code, merchant_order_id, invoice_prefix)
     else
       update_subscription_payment(notification, result_code, merchant_order_id)
     end
@@ -33,9 +33,11 @@ class Api::V1::DuitkuController < Api::BaseController
 
   private
 
-  def update_subscription_topup(notification, result_code, merchant_order_id)
+  def update_subscription_topup(notification, result_code, merchant_order_id, invoice_prefix)
     # Koreksi: Perubahan variabel order_id menjadi merchant_order_id
     topup = SubscriptionTopup.find_by(duitku_order_id: merchant_order_id)
+      
+    Rails.logger.warn("TOPUP: #{topup.inspect}")
     
     if topup.nil?
       Rails.logger.warn("Topup not found for order ID: #{merchant_order_id}")
@@ -43,6 +45,7 @@ class Api::V1::DuitkuController < Api::BaseController
     end
 
     subscription = Subscription.find_by(id: topup.subscription_id)
+    Rails.logger.warn("SUBSCRIPTION: #{subscription.inspect}")
     
     if subscription.nil?
       Rails.logger.warn("Subscription not found for topup ID: #{topup.id}")
@@ -73,8 +76,39 @@ class Api::V1::DuitkuController < Api::BaseController
             Rails.logger.info("Updated subscription #{subscription.id} with additional #{topup.amount} AI responses")
           end
 
-          # Kirim notifikasi ke pengguna
-          # AccountMailer.topup_successful(topup).deliver_later
+          # Kirim email invoice
+          transaction = Transaction.find_by(transaction_id: merchant_order_id)
+          if transaction.present?
+            transaction.update!(status: 'success')
+            user = transaction.user
+  
+            case invoice_prefix
+            when 'MAU'
+              InvoiceMailer.mau_send_invoice(
+                user.email,
+                user.name,
+                transaction.transaction_id,
+                notification['settlementDate'],
+                notification['amount'],
+                notification['productDetail'],
+                transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+                topup.amount,
+              ).deliver_later
+              Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+            when 'AR'
+              InvoiceMailer.ai_send_invoice(
+                user.email,
+                user.name,
+                transaction.transaction_id,
+                notification['settlementDate'],
+                notification['amount'],
+                notification['productDetail'],
+                transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+                topup.amount,
+              ).deliver_later
+              Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+            end
+          end
         else
           topup.update!(
             status: 'failed',
@@ -139,16 +173,6 @@ class Api::V1::DuitkuController < Api::BaseController
             Rails.logger.warn("Transaction not found for transaction_id: #{merchant_order_id}")
           end
 
-          # # End subscription Free Trial
-          # subscription_free_trial = Subscription.find_by(account_id: subscription.account_id, plan_name: "Free Trial")
-          # if subscription_free_trial.present?
-          #   if subscription_free_trial.update(status: 'inactive')
-          #     Rails.logger.info("Deactivated Free Trial subscription")
-          #   else
-          #     Rails.logger.error("Failed to deactivate: #{subscription_free_trial.errors.full_messages}")
-          #   end
-          # end
-          
           # Update all active subscriptions for the account except the current one to inactive
           updated_count = Subscription.where(account_id: subscription.account_id, status: 'active', payment_status: 'paid')
           .where.not(id: subscription.id)
@@ -171,6 +195,8 @@ class Api::V1::DuitkuController < Api::BaseController
               notification['settlementDate'],
               notification['amount'],
               notification['productDetail'],
+              transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+              ((subscription.ends_at.to_date - subscription.starts_at.to_date).to_i),
             ).deliver_later
             Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
           end

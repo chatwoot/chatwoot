@@ -18,27 +18,26 @@
     </div>
 
     <!-- Success Banner -->
-    <div class="bg-success text-white text-center py-2 my-3 rounded">
-      <strong>Selamat! Kamu berhasil berlangganan paket Jangkau.ai</strong>
+    <div class="bg-danger text-white text-center py-2 my-3 rounded">
+      <strong>Pembelian Top-up <strong>MAU</strong> (Pengguna Aktif Bulanan) kamu gagal karena melewati batas waktu pembayaran</strong>
     </div>
 
     <!-- Body -->
     <div class="mb-4">
       <p><strong>Body:</strong></p>
       <p>Halo <strong><% @customer_name %></strong>,</p>
-      <p>Selamat! Pembayaran kamu berhasil dan langgananmu untuk paket <strong><% @product %></strong> sudah aktif.</p>
-      <p>Nikmati fitur-fitur terbaik dari Jangkau.ai untuk bantu bisnis kamu makin produktif!</p>
+      <p>Sayang sekali, permintaan top-up <strong>MAU</strong> kamu sudah melewati batas waktu pembayaran, jadi otomatis dibatalkan.</p>
     </div>
 
     <hr>
 
     <!-- Detail Langganan -->
-    <h6 class="mb-3">Detail Langganan</h6>
+    <h6 class="mb-3">Detail Top-up</h6>
     <table class="table table-borderless">
       <tbody>
         <tr>
-          <th scope="row">Nama Paket</th>
-          <td>: <% @product %></td>
+          <th scope="row">Jumlah MAU</th>
+          <td>: <% @mau_total %></td>
         </tr>
         <tr>
           <th scope="row">Total Pembayaran</th>
@@ -46,21 +45,17 @@
         </tr>
         <tr>
           <th scope="row">Metode Pembayaran</th>
-          <td>: <% @payment_method %></td>
+          <td>: <% payment_method %></td>
         </tr>
         <tr>
-          <th scope="row">Berlaku Selama</th>
-          <td>: <% @subscription_expiry %> hari</td>
+          <th scope="row">Status</th>
+          <td>: Gagal - Lewat batas waktu</td>
         </tr>
-        # <tr>
-        #   <th scope="row">Akan Diperpanjang Otomatis Pada</th>
-        #   <td>: {{tanggal_perpanjangan}}</td>
-        # </tr>
       </tbody>
     </table>
 
-    <p class="mt-4">Kamu bisa mengelola langganan kapan saja di halaman Langganan Saya.</p>
-    <p class="mb-0">Terimakasih,<br>Tim Jangkau</p>
+    <p class="mt-4">Jangan khawatir! Kamu bisa melakukan top-up lagi kapan saja melalui dashboard Jangkau.</p>
+    <p class="mb-0">Salam,<br>Tim Jangkau</p>
 
     <!-- Footer -->
     <div class="mt-5">

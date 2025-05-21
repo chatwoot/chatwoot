@@ -18,22 +18,22 @@
     </div>
 
     <!-- Success Banner -->
-    <div class="bg-success text-white text-center py-2 my-3 rounded">
-      <strong>Selamat! Kamu berhasil berlangganan paket Jangkau.ai</strong>
+    <div class="bg-danger text-white text-center py-2 my-3 rounded">
+      <strong>Pembelian paket kamu gagal karena melewati batas waktu pembayaran</strong>
     </div>
 
     <!-- Body -->
     <div class="mb-4">
       <p><strong>Body:</strong></p>
       <p>Halo <strong><% @customer_name %></strong>,</p>
-      <p>Selamat! Pembayaran kamu berhasil dan langgananmu untuk paket <strong><% @product %></strong> sudah aktif.</p>
-      <p>Nikmati fitur-fitur terbaik dari Jangkau.ai untuk bantu bisnis kamu makin produktif!</p>
+      <p>Sayang sekali! Pembelian paket <strong><% @product %></strong> kamu tidak berhasil karena melewati batas waktu pembayaran.</p>
+      <p>Kalau kamu masih ingin menggunakan paket ini, silakan lakukan pembelian ulang melalui dashboard Jangkau.ai.</p>
     </div>
 
     <hr>
 
     <!-- Detail Langganan -->
-    <h6 class="mb-3">Detail Langganan</h6>
+    <h6 class="mb-3">Detail Pesanan Gagal</h6>
     <table class="table table-borderless">
       <tbody>
         <tr>
@@ -41,25 +41,17 @@
           <td>: <% @product %></td>
         </tr>
         <tr>
-          <th scope="row">Total Pembayaran</th>
+          <th scope="row">Harga</th>
           <td>: Rp<% @amount %></td>
         </tr>
         <tr>
-          <th scope="row">Metode Pembayaran</th>
-          <td>: <% @payment_method %></td>
+          <th scope="row">Status</th>
+          <td>: Gagal (Batas waktu pembayaran terlewati)</td>
         </tr>
-        <tr>
-          <th scope="row">Berlaku Selama</th>
-          <td>: <% @subscription_expiry %> hari</td>
-        </tr>
-        # <tr>
-        #   <th scope="row">Akan Diperpanjang Otomatis Pada</th>
-        #   <td>: {{tanggal_perpanjangan}}</td>
-        # </tr>
       </tbody>
     </table>
 
-    <p class="mt-4">Kamu bisa mengelola langganan kapan saja di halaman Langganan Saya.</p>
+    <p class="mt-4">Jika kamu mengalami kendala, hubungi kami kapan saja.</p>
     <p class="mb-0">Terimakasih,<br>Tim Jangkau</p>
 
     <!-- Footer -->
