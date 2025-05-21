@@ -107,9 +107,7 @@ class WebhookListener < BaseListener
 
   def deliver_api_inbox_webhooks(payload, inbox)
     if inbox.channel_type == 'Channel::WhatsappUnofficial'
-      payload = message.webhook_data.merge(event: __method__.to_s)
       webhook_url = inbox.channel.webhook_url
-
       uri = URI.parse(webhook_url)
       params = URI.decode_www_form(uri.query).to_h
       params['incoming_message'] = 'jangkau'
