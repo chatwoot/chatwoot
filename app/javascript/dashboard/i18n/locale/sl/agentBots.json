@@ -59,6 +59,11 @@
         "ERROR_MESSAGE": "Bota ni bilo mogoče posodobiti. Prosimo poskusite ponovno."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Access Token",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"
