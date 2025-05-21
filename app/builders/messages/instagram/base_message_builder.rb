@@ -150,6 +150,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     params[:content_attributes][:is_unsupported] = true if message_is_unsupported?
     params
   end
+
   def message_already_exists?
     find_message_by_source_id(@messaging[:message][:mid]).present?
   end
