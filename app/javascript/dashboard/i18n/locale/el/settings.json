@@ -185,7 +185,8 @@
           "OFFLINE": "Εκτός"
         },
         "SET_AVAILABILITY_SUCCESS": "Η διαθεσιμότητα ορίστηκε με επιτυχία",
-        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά"
+        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Η διεύθυνση email",
