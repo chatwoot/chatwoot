@@ -691,6 +691,48 @@
         }
       }
     },
+    "/platform/api/v1/users/{id}/token": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/platform_user_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "get-user-token",
+        "summary": "Get User Access Token",
+        "description": "Get the access token of a user",
+        "security": [
+          {
+            "platformAppApiKey": [
+
+            ]
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "description": "Access token of the user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given user does not exist"
+          }
+        }
+      }
+    },
     "/public/api/v1/inboxes/{inbox_identifier}": {
       "parameters": [
         {
