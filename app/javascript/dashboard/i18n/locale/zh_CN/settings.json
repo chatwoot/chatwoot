@@ -185,7 +185,8 @@
           "OFFLINE": "离线"
         },
         "SET_AVAILABILITY_SUCCESS": "可用性已成功设置",
-        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试"
+        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
