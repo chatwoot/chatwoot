@@ -132,6 +132,8 @@ sr-Latn:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} vas je pomenuo u priči: '
       instagram_deleted_story_content: Ova priča više nije dostupna.
@@ -139,6 +141,9 @@ sr-Latn:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Razgovor je označen kao rešen od strane %{user_name}'
         contact_resolved: 'Razgovor je rešen od strane %{contact_name}'
