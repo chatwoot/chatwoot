@@ -185,7 +185,8 @@
           "OFFLINE": "Hors ligne"
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilité a bien été définie",
-        "SET_AVAILABILITY_ERROR": "Impossible de définir la disponibilité, veuillez réessayer"
+        "SET_AVAILABILITY_ERROR": "Impossible de définir la disponibilité, veuillez réessayer",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Votre adresse de courriel",
