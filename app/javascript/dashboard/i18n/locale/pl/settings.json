@@ -185,7 +185,8 @@
           "OFFLINE": "Niedostępny"
         },
         "SET_AVAILABILITY_SUCCESS": "Dostępność została pomyślnie ustawiona",
-        "SET_AVAILABILITY_ERROR": "Nie można ustawić dostępności, spróbuj ponownie"
+        "SET_AVAILABILITY_ERROR": "Nie można ustawić dostępności, spróbuj ponownie",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Twój adres e-mail",
