@@ -20,10 +20,7 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
     contact_id = arguments['contact_id']
     priority = arguments['priority']
 
-    conversations = permissible_conversations
-    conversations = conversations.where(contact_id: contact_id) if contact_id.present?
-    conversations = conversations.where(status: status) if status.present?
-    conversations = conversations.where(priority: priority) if priority.present?
+    conversations = get_conversations(status, contact_id, priority)
 
     return 'No conversations found' unless conversations.exists?
 
@@ -37,6 +34,14 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
   end
 
   private
+
+  def get_conversations(status, contact_id, priority)
+    conversations = permissible_conversations
+    conversations = conversations.where(contact_id: contact_id) if contact_id.present?
+    conversations = conversations.where(status: status) if status.present?
+    conversations = conversations.where(priority: priority) if priority.present?
+    conversations
+  end
 
   def permissible_conversations
     Conversations::PermissionFilterService.new(
