@@ -423,9 +423,14 @@ const selectedTabDisplay = computed(() => {
             >({{ activeSubscription?.max_mau ?? '0' }} MAU)</span
           >
         </div>
-        <p class="text-sm mb-2 text-white">
-          Tambahan MAU: {{ usage.additionalMau }}
-        </p>
+        <div class="flex items-center">
+          <span class="text-2xl font-bold text-white">
+            {{ activeSubscription?.subscription_usage?.additional_mau_count ?? 0 }}
+          </span>
+          <span class="text-sm ml-2 text-white">
+            ({{ activeSubscription?.additional_mau ?? 0 }} Tambahan MAU)
+          </span>
+        </div>
         <button
           class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
           @click="openTopupPopup('max_active_users')"
@@ -461,11 +466,10 @@ const selectedTabDisplay = computed(() => {
         <div class="flex items-center">
           <h2 class="text-2xl font-bold text-white">
             {{ activeSubscription?.subscription_usage?.ai_responses_count }}
-            Used
           </h2>
-          <span class="text-sm ml-2 text-white"
-            >(Batas {{ activeSubscription?.max_ai_responses }} Jawaban AI)</span
-          >
+          <span class="text-sm ml-2 text-white">
+            ({{ activeSubscription?.max_ai_responses }} Jawaban AI)
+          </span>
         </div>
         <div class="flex items-center text-sm mt-5">
           <span class="inline-block mr-2">
@@ -496,9 +500,14 @@ const selectedTabDisplay = computed(() => {
         <h3 class="text-sm font-medium mb-2 text-white">
           Jawaban AI Tambahan
         </h3>
-        <h2 class="text-2xl font-bold mb-2 text-white">
-          {{ usage.additionalResponses }} Jawaban
-        </h2>
+        <div class="flex items-center">
+          <h2 class="text-2xl font-bold mb-2 text-white">
+            {{ activeSubscription?.subscription_usage?.additional_ai_response_count ?? 0 }}
+          </h2>
+          <span class="text-sm ml-2 text-white">
+            ({{ activeSubscription?.additional_ai_responses ?? 0 }} Jawaban AI)
+          </span>
+        </div>
         <!-- <button @click="topUpResponses" class="bg-white text-blue-400 rounded px-2 py-1 text-xs font-medium mb-2">Top Up Responses</button> -->
          <!-- TODO: Add localization -->
         <button
