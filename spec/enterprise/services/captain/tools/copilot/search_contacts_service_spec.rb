@@ -14,7 +14,7 @@ RSpec.describe Captain::Tools::Copilot::SearchContactsService do
 
   describe '#description' do
     it 'returns the service description' do
-      expect(service.description).to eq('Search for contacts based on query parameters')
+      expect(service.description).to eq('Search contacts based on query parameters')
     end
   end
 
