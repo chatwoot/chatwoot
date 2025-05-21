@@ -132,6 +132,8 @@ onMounted(() => {
     return button.render(); // return button as jquery object
   };
 
+  let prevKeyCode = undefined
+
   $('#summernote').summernote({
     shortcuts: false,
     tabsize: 2,
@@ -150,12 +152,17 @@ onMounted(() => {
       },
       onKeydown: function(e) {
         if (getLengthElement(e) >= charLimit) {
-          if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
+          const selectAll = (prevKeyCode === 17 || prevKeyCode === 224) && e.keyCode === 65
+          if (e.keyCode != 8 && !selectAll && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
             e.preventDefault()
           }
         }
+        prevKeyCode = e.keyCode
       },
       onKeyup: function(e) {
+        if (e.keyCode === prevKeyCode) {
+          prevKeyCode = undefined
+        }
         countCharacter(e)
       },
       onPaste: function(e) {
