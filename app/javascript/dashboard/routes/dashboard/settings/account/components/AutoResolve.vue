@@ -1,5 +1,6 @@
 <script setup>
-import { ref, watch } from 'vue';
+import { ref, watch, computed } from 'vue';
+import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
@@ -9,16 +10,26 @@ import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DurationInput from 'next/input/DurationInput.vue';
+import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
 const { t } = useI18n();
 const duration = ref(0);
 const unit = ref(DURATION_UNITS.MINUTES);
 const message = ref('');
+const labelToApply = ref('');
 const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
 
 const { currentAccount, updateAccount } = useAccount();
+
+const labels = useMapGetter('labels/getLabels');
+
+const labelOptions = computed(() =>
+  labels.value?.length
+    ? labels.value.map(label => ({ label: label.title, value: label.title }))
+    : []
+);
 
 watch(
   currentAccount,
@@ -28,11 +39,13 @@ watch(
       auto_resolve_message,
       auto_resolve_ignore_waiting,
       auto_resolve_unit,
+      auto_resolve_label,
     } = currentAccount.value?.settings || {};
 
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
     ignoreWaiting.value = auto_resolve_ignore_waiting;
+    labelToApply.value = auto_resolve_label;
 
     if (
       auto_resolve_unit &&
@@ -67,6 +80,7 @@ const handleSubmit = async () => {
     auto_resolve_after: duration.value,
     auto_resolve_message: message.value,
     auto_resolve_ignore_waiting: ignoreWaiting.value,
+    auto_resolve_label: labelToApply.value,
     auto_resolve_unit: unit.value,
   });
 };
@@ -79,6 +93,7 @@ const handleDisable = async () => {
     auto_resolve_after: null,
     auto_resolve_message: '',
     auto_resolve_ignore_waiting: false,
+    auto_resolve_label: null,
     auto_resolve_unit: DURATION_UNITS.minutes,
   });
 };
@@ -130,6 +145,35 @@ const toggleAutoResolve = async () => {
           "
         />
       </WithLabel>
+      <div class="grid grid-cols-5">
+        <WithLabel
+          class="col-span-3"
+          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.TITLE')"
+          :help-message="
+            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.DESCRIPTION')
+          "
+        />
+
+        <div class="flex justify-end items-start gap-1 col-span-2">
+          <FilterSelect
+            v-model="labelToApply"
+            :options="labelOptions"
+            :label="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.PLACEHOLDER')"
+            variant="faded"
+            class="inline-flex shrink-0"
+          />
+          <NextButton
+            v-if="labelToApply"
+            v-tooltip="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.REMOVE')"
+            type="button"
+            faded
+            sm
+            slate
+            icon="i-lucide-x"
+            @click="labelToApply = ''"
+          />
+        </div>
+      </div>
       <WithLabel
         :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.LABEL')"
       >
