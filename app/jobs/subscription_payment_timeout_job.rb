@@ -1,11 +1,11 @@
 class SubscriptionPaymentTimeoutJob < ApplicationJob
   queue_as :default
 
-  def perform(*args)
+  def perform(*_args)
     timeout_minutes = 1
 
     transactions = Transaction.where(status: 'pending')
-               .where('expiry_date < ?', Time.current + timeout_minutes.minutes)
+                              .where('expiry_date < ?', Time.current + timeout_minutes.minutes)
 
     transactions.find_each do |transaction|
       transaction.update(status: 'failed')
@@ -22,14 +22,15 @@ class SubscriptionPaymentTimeoutJob < ApplicationJob
 
           user = transaction.user
           InvoiceMailer.send_invoice_expired(
-              user.email,
-              user.name,
-              transaction.transaction_id,
-              Time.current.strftime("%-d %B %Y"),
-              transaction.price.to_i,
-              transaction.package_name,
-            ).deliver_later
-            Rails.logger.info("Payment expired & invoice sent to #{user.email} (##{transaction.transaction_id})")
+            user.email,
+            user.name,
+            transaction.transaction_id,
+            Time.current.strftime('%-d %B %Y'),
+            transaction.price.to_i,
+            transaction.package_name
+          ).deliver_later
+          Rails.logger.info("Payment expired & invoice sent to #{user.email} (##{transaction.transaction_id})")
+        end
       end
     end
   end
