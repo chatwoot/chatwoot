@@ -1,6 +1,6 @@
 class ConversationHandoffService
   HANDOFF_COOLDOWN_MINUTES = 240 # 4 hours in minutes
-  HANDOFF_LABELS = %w[handoff human].freeze
+  HANDOFF_LABEL = %w[handoff].freeze
   LABELS_LIST = %w[handoff stark].freeze
 
   def initialize(conversation)
@@ -36,16 +36,14 @@ class ConversationHandoffService
   end
 
   def update_handoff_state
-    previous_labels = @conversation.label_list.to_a
+    conversation_labels = @conversation.label_list.to_a
 
-    @conversation.label_list.remove('stark') if @conversation.label_list.include?('stark')
-    current_handoff_label = previous_labels.find { |label| HANDOFF_LABELS.include?(label) }
-    available_label = current_handoff_label || HANDOFF_LABELS.first
+    @conversation.update_labels(conversation_labels - ['stark']) if @conversation.label_list.include?('stark')
+    current_handoff_label = conversation_labels.find { |label| HANDOFF_LABEL.include?(label) }
+    available_label = current_handoff_label || HANDOFF_LABEL.first
 
-    @conversation.label_list.add(available_label) unless @conversation.label_list.include?(available_label)
-
-    @conversation.last_handoff_at = Time.current
-    @conversation.save!
+    @conversation.add_labels(HANDOFF_LABEL) unless @conversation.label_list.include?(available_label)
+    @conversation.update_columns(last_handoff_at: Time.current) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def schedule_label_change
