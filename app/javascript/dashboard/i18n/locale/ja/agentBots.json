@@ -59,6 +59,11 @@
         "ERROR_MESSAGE": "ボットを更新できませんでした。再試行してください。"
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "アクセストークン",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"
