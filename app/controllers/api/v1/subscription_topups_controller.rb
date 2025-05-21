@@ -16,7 +16,8 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
         
         if @topup.save
           # Buat pembayaran melalui Duitku
-          payment = create_duitku_payment(@topup)
+          payment_created = create_duitku_payment(@topup)
+          payment = payment_created[:payment]
           
           if payment.present? && payment.payment_url.present?
             @topup.update!(
@@ -29,6 +30,8 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
             )
 
             transaction = create_transaction(payment)
+
+            PaymentExpireJob.set(wait: (payment_created[:expiry_period].to_i + 2).minutes).perform_later(transaction.transaction_id)
             
             render json: { 
               topup: @topup, 
@@ -91,7 +94,8 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
   end
   
   def create_duitku_payment(topup)
-    order_id = "RADAI-TUP-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
+    invoice_prefix = topup.topup_type.split('_').map { |word| word[0].upcase }.join
+    order_id = "RADAI-#{invoice_prefix}-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
     amount = topup.price.to_f.to_i
     
     payment_service = Duitku::PaymentService.new
@@ -116,7 +120,10 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
         payment_method: params[:payment_method],
         expires_at: Time.current + response[:expiryPeriod].to_i.minutes
       )
-      return payment
+      return {
+        payment: payment,
+        expiry_period: response[:expiryPeriod]
+      }
     else
       raise StandardError, "Payment URL not present in response: #{response.inspect}"
     end
@@ -129,7 +136,7 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
       user_id: current_user.id,
       account_id: @account.id,
       package_type: 'topup',
-      package_name: "#{@subscription.plan_name}_Credit_Topup",
+      package_name: "#{@subscription.plan_name}_Credit_Topup_#{@topup.topup_type}",
       price: payment.amount.to_f.to_i,
       duration: 1,
       duration_unit: 'one_time',
@@ -137,7 +144,8 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
       payment_method: params[:payment_method],
       transaction_date: Time.current,
       action: 'pay',
-      payment_url: payment.payment_url
+      payment_url: payment.payment_url,
+      expiry_date: payment.expires_at
     )
 
     return transaction;

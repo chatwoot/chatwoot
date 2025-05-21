@@ -45,7 +45,7 @@ class Subscription < ApplicationRecord
   # has_many :account, foreign_key: 'active_subscription_id'
 
   validates :plan_name, :starts_at, :ends_at, presence: true
-  validates :status, inclusion: { in: %w[pending active expired cancelled inactive] }
+  validates :status, inclusion: { in: %w[pending active expired cancelled inactive failed] }
   validates :payment_status, inclusion: { in: %w[pending paid failed cancelled] }
   validates :billing_cycle, inclusion: { in: %w[monthly quarterly halfyear yearly] }
   validates :price, numericality: { greater_than_or_equal_to: 0 }
