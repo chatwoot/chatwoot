@@ -1,5 +1,5 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, watch } from 'vue';
 import Input from './Input.vue';
 import { useI18n } from 'vue-i18n';
 import { DURATION_UNITS } from './constants';
@@ -20,6 +20,16 @@ const unit = defineModel('unit', {
   },
 });
 
+const convertToMinutes = newValue => {
+  if (unit.value === DURATION_UNITS.MINUTES) {
+    return Math.floor(newValue);
+  }
+  if (unit.value === DURATION_UNITS.HOURS) {
+    return Math.floor(newValue) * 60;
+  }
+  return Math.floor(newValue) * 24 * 60;
+};
+
 const transformedValue = computed({
   get() {
     if (unit.value === DURATION_UNITS.MINUTES) return duration.value;
@@ -31,17 +41,20 @@ const transformedValue = computed({
     return 0;
   },
   set(newValue) {
-    let minuteValue;
-    if (unit.value === DURATION_UNITS.MINUTES) {
-      minuteValue = Math.floor(newValue);
-    } else if (unit.value === DURATION_UNITS.HOURS) {
-      minuteValue = Math.floor(newValue * 60);
-    } else if (unit.value === DURATION_UNITS.DAYS) {
-      minuteValue = Math.floor(newValue * 24 * 60);
-    }
+    let minuteValue = convertToMinutes(newValue);
 
     duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
   },
+});
+
+// when unit is changed set the nearest value to that unit
+// soo if the minute is set to 900, and the user changes the unit to "days"
+// the transformed value will show 0, but the real value will still be 900
+// this might create some confusion, especially when saving
+// this watcher fixes it by rounding the duration basically, to the nearest unit value
+watch(unit, () => {
+  let adjustedValue = convertToMinutes(transformedValue.value);
+  duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
 });
 </script>
 
@@ -54,6 +67,7 @@ const transformedValue = computed({
     :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
     class="flex-grow w-full disabled:"
   />
+  {{ duration }}
   <select
     v-model="unit"
     :disabled="disabled"
