@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Twitterを追加"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "連絡先を削除",
       "DELETE_DIALOG": {
         "TITLE": "削除の確認",
-        "DESCRIPTION": "この {contactName} の連絡先を削除してもよろしいですか？",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "削除する",
         "API": {
           "SUCCESS_MESSAGE": "連絡先が正常に削除されました。",
