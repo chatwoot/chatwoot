@@ -22,11 +22,15 @@ class CreateOneClickConversationJob < ApplicationJob
     @inbox = Inbox.find_by(id: inbox_id)
     raise ActiveRecord::RecordNotFound, 'Inbox not found' unless @inbox
 
+    Rails.logger.info('Here Called')
+
     @contact = find_or_create_contact(contact, account, is_from_whatsapp)
     @contact.save!
     @contact_inbox = build_contact_inbox(@contact, @inbox)
 
     conversation = find_or_create_conversation(@contact, @contact_inbox, mail_subject)
+
+    Rails.logger.info("conversation_create_One_click_conversation, #{conversation.inspect}")
 
     # Send the initial message
     Messages::MessageBuilder.new(user, conversation, message).perform
@@ -59,7 +63,7 @@ class CreateOneClickConversationJob < ApplicationJob
 
     if latest_conversation.blank?
       params = {}
-      params[:additional_attributes] = mail_subject.present? ? ActionController::Parameters.new({ mail_subject: mail_subject }) : {}
+      params[:additional_attributes] = mail_subject.present? ? ActionController::Parameters.new({ mail_subject: mail_subject }) : nil
       conversation = ConversationBuilder.new(params: params, contact_inbox: contact_inbox).perform
       return conversation
     elsif latest_conversation.status != 'open'
