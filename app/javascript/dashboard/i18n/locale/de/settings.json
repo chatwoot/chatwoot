@@ -185,7 +185,8 @@
           "OFFLINE": "Offline"
         },
         "SET_AVAILABILITY_SUCCESS": "Verfügbarkeit wurde erfolgreich gesetzt",
-        "SET_AVAILABILITY_ERROR": "Verfügbarkeit konnte nicht gesetzt werden, bitte versuchen Sie es erneut"
+        "SET_AVAILABILITY_ERROR": "Verfügbarkeit konnte nicht gesetzt werden, bitte versuchen Sie es erneut",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Deine Emailadresse",
