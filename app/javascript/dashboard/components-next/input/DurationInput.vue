@@ -48,7 +48,7 @@ const transformedValue = computed({
 });
 
 // when unit is changed set the nearest value to that unit
-// soo if the minute is set to 900, and the user changes the unit to "days"
+// so if the minute is set to 900, and the user changes the unit to "days"
 // the transformed value will show 0, but the real value will still be 900
 // this might create some confusion, especially when saving
 // this watcher fixes it by rounding the duration basically, to the nearest unit value
