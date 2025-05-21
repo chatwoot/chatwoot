@@ -126,7 +126,7 @@ const toggleAutoResolve = async () => {
             v-model="duration"
             v-model:unit="unit"
             min="0"
-            max="1439856"
+            max="1438560"
             class="w-full"
           />
         </div>
