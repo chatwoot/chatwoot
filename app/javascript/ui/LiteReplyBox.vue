@@ -222,6 +222,33 @@ export default {
       });
       if (canReply) this.replyType = mode;
 
+      this.$nextTick(() => {
+        // This block addresses a scrolling issue on iOS Safari when the virtual
+        // keyboard opens and can obscure the focused ProseMirror editor.
+        // This behavior is primarily an iOS Safari quirk related to how it handles
+        // the viewport with the virtual keyboard. It's not something we
+        //  directly control or can easily fix at the component levels.
+        //
+        // `this.$nextTick()`: Ensures this code runs after Vue has finished its
+        // DOM update cycle. This is crucial if the editor's visibility or focus
+        // was just programmatically changed, guaranteeing we operate on the
+        // finalized DOM.
+        //
+        // `setTimeout(() => { ... }, 300)`: A delay is necessary because iOS
+        // Safari needs time for the virtual keyboard to fully animate into view
+        // and for the page layout to adjust. Attempting to scroll immediately
+        // (even after $nextTick) often fails as the keyboard isn't yet fully
+        // present or the viewport dimensions haven't updated. The 300ms is a
+        // common heuristic.
+        //
+        // The `scrollIntoView()` method then attempts to bring the editor
+        // into the visible part of the viewport. This manual scroll is a
+        // pragmatic workaround for this specific iOS Safari behavior.
+        setTimeout(() => {
+          document.querySelector('.ProseMirror')?.scrollIntoView();
+        }, 300);
+      });
+
       if (this.showRichContentEditor) {
         if (this.isRecordingAudio) {
           this.toggleAudioRecorder();
