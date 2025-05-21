@@ -8,7 +8,7 @@ class Account::SignUpAccount::SignUpEmailValidationService
     @email = email
   end
 
-  def validate
+  def perform
     address = ValidEmail2::Address.new(email)
 
     raise InvalidEmail.new({ valid: false, disposable: nil }) unless address.valid?
@@ -18,10 +18,6 @@ class Account::SignUpAccount::SignUpEmailValidationService
     raise InvalidEmail.new({ valid: true, disposable: true }) if address.disposable?
 
     true
-  end
-
-  def business_email?
-    !domain_blocked?
   end
 
   def domain_blocked?
