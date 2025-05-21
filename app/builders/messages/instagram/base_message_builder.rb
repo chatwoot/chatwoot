@@ -73,6 +73,10 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def find_or_build_for_multiple_conversations
+    # For echo events, we only want to add them to an existing open conversation
+    # If no open conversation exists, we should skip this event (handled by returning nil)
+    return find_conversation_scope.where.not(status: :resolved).order(created_at: :desc).first if @outgoing_echo
+
     last_conversation = find_conversation_scope.where.not(status: :resolved).order(created_at: :desc).first
     return build_conversation if last_conversation.nil?
 
@@ -152,6 +156,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def message_already_exists?
+    # Check if a message with this source_id exists in the current conversation
     cw_message = conversation.messages.where(
       source_id: @messaging[:message][:mid]
     ).first
