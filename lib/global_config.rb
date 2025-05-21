@@ -1,5 +1,5 @@
 class GlobalConfig
-  VERSION = 'V2'.freeze
+  VERSION = 'V3'.freeze
   KEY_PREFIX = 'GLOBAL_CONFIG'.freeze
   DEFAULT_EXPIRY = 1.day
 
