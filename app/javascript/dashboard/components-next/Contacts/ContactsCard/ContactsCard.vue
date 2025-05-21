@@ -165,6 +165,17 @@ const onClickViewDetails = () => emit('showContact', props.id);
               :contact-data="contactData"
               @update="handleFormUpdate"
             />
+            <div>
+              <Button
+                :label="
+                  t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')
+                "
+                size="sm"
+                :is-loading="isUpdating"
+                :disabled="isUpdating || isFormInvalid"
+                @click="handleUpdateContact"
+              />
+            </div>
           </div>
           <ContactDeleteSection
             :selected-contact="{
@@ -172,15 +183,6 @@ const onClickViewDetails = () => emit('showContact', props.id);
               name: props.name,
             }"
           />
-          <div class="border-t border-n-strong px-4 pb-5 pt-4">
-            <Button
-              :label="t('CONTACTS_LAYOUT.CARD.EDIT_DETAILS_FORM.UPDATE_BUTTON')"
-              size="sm"
-              :is-loading="isUpdating"
-              :disabled="isUpdating || isFormInvalid"
-              @click="handleUpdateContact"
-            />
-          </div>
         </div>
       </div>
     </template>
