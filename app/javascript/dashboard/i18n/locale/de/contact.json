@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Twitter hinzufügen"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "Kontakt löschen",
       "DELETE_DIALOG": {
         "TITLE": "Löschung bestätigen",
-        "DESCRIPTION": "Sind Sie sicher, dass Sie den Kontakt {contactName} löschen möchten?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "Ja, löschen",
         "API": {
           "SUCCESS_MESSAGE": "Kontakt erfolgreich gelöscht",
