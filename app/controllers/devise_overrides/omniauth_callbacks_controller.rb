@@ -55,7 +55,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def validate_business_account?
     # return true if the user is a business account, false if it is a blocked domain account
-    EmailValidationService.new(auth_hash['info']['email']).business_email?
+    Account::SignUpEmailValidationService.new(auth_hash['info']['email']).business_email?
   end
 
   def create_account_for_user

@@ -32,7 +32,7 @@ class AccountBuilder
   end
 
   def validate_email
-    EmailValidationService.new(@email).validate
+    Account::SignUpEmailValidationService.new(@email).validate
   end
 
   def validate_user

@@ -3,7 +3,7 @@ require 'rails_helper'
 RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
   let(:account_builder) { double }
   let(:user_double) { object_double(:user) }
-  let(:email_validation_service) { instance_double(EmailValidationService) }
+  let(:email_validation_service) { instance_double(Account::SignUpEmailValidationService) }
 
   def set_omniauth_config(for_email = 'test@example.com')
     OmniAuth.config.test_mode = true
@@ -19,7 +19,7 @@ RSpec.describe 'DeviseOverrides::OmniauthCallbacksController', type: :request do
   end
 
   before do
-    allow(EmailValidationService).to receive(:new).and_return(email_validation_service)
+    allow(Account::SignUpEmailValidationService).to receive(:new).and_return(email_validation_service)
     ENV['FRONTEND_URL'] = 'http://www.example.com'
   end
 

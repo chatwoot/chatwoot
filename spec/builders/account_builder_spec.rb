@@ -5,10 +5,10 @@ require 'rails_helper'
 RSpec.describe AccountBuilder, type: :builder do
   describe '#validate_email' do
     let(:builder) { described_class.new(email: email) }
-    let(:email_validation_service) { instance_double(EmailValidationService) }
+    let(:email_validation_service) { instance_double(Account::SignUpEmailValidationService) }
 
     before do
-      allow(EmailValidationService).to receive(:new).with(email).and_return(email_validation_service)
+      allow(Account::SignUpEmailValidationService).to receive(:new).with(email).and_return(email_validation_service)
     end
 
     context 'when email is valid' do
@@ -18,7 +18,7 @@ RSpec.describe AccountBuilder, type: :builder do
         allow(email_validation_service).to receive(:validate).and_return(true)
       end
 
-      it 'calls EmailValidationService#validate' do
+      it 'calls Account::SignUpEmailValidationService#validate' do
         builder.send(:validate_email)
         expect(email_validation_service).to have_received(:validate)
       end

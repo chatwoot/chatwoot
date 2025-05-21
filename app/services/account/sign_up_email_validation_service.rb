@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-class EmailValidationService
+class Account::SignUpAccount::SignUpEmailValidationService
   include CustomExceptions::Account
   attr_reader :email
 

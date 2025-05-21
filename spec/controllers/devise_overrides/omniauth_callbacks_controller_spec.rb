@@ -16,15 +16,15 @@ RSpec.describe DeviseOverrides::OmniauthCallbacksController do
       allow(controller).to receive(:auth_hash).and_return(auth_hash)
     end
 
-    context 'when using EmailValidationService' do
+    context 'when using Account::SignUpEmailValidationService' do
       let(:email) { 'test@example.com' }
-      let(:email_validation_service) { instance_double(EmailValidationService) }
+      let(:email_validation_service) { instance_double(Account::SignUpEmailValidationService) }
 
       before do
-        allow(EmailValidationService).to receive(:new).with(email).and_return(email_validation_service)
+        allow(Account::SignUpEmailValidationService).to receive(:new).with(email).and_return(email_validation_service)
       end
 
-      it 'delegates to EmailValidationService#business_email?' do
+      it 'delegates to Account::SignUpEmailValidationService#business_email?' do
         allow(email_validation_service).to receive(:business_email?).and_return(true)
         result = controller.send(:validate_business_account?)
         expect(result).to be(true)
