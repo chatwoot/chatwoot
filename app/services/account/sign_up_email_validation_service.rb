@@ -20,12 +20,12 @@ class Account::SignUpEmailValidationService
     true
   end
 
+  private
+
   def domain_blocked?
     domain = email.split('@').last&.downcase
     blocked_domains.any? { |blocked_domain| domain.match?(blocked_domain.downcase) }
   end
-
-  private
 
   def blocked_domains
     domains = GlobalConfigService.load('BLOCKED_EMAIL_DOMAINS', '')
