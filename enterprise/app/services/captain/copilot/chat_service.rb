@@ -59,7 +59,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchArticleService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchContactService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationsService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::SearchLinearService)
+    @tool_registry.register_tool(Captain::Tools::Copilot::SearchLinearIssuesService)
     @tool_registry.register_tool(Captain::Tools::Copilot::CreateLinearTicketsOnUiService)
   end
 
