@@ -5,6 +5,10 @@ import { useI18n } from 'vue-i18n';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
+  count: {
+    type: Number,
+    default: null,
+  },
   currentPage: {
     type: Number,
     required: true,
@@ -53,6 +57,18 @@ const currentPageInformation = computed(() => {
   );
 });
 
+const selectionInformation = computed(() => {
+  return t(
+    props.currentPageInfo
+      ? props.currentPageInfo
+      : 'PAGINATION_FOOTER.SELECTED',
+    {
+      count: props.count,
+      totalItems: props.totalItems,
+    }
+  );
+});
+
 const pageInfo = computed(() => {
   return t('PAGINATION_FOOTER.CURRENT_PAGE_INFO', {
     currentPage: '',
@@ -67,7 +83,9 @@ const pageInfo = computed(() => {
   >
     <div class="flex items-center gap-3">
       <span class="min-w-0 text-sm font-normal line-clamp-1 text-n-slate-11">
-        {{ currentPageInformation }}
+        {{
+          props.count == null ? currentPageInformation : selectionInformation
+        }}
       </span>
     </div>
     <div class="flex items-center gap-2">

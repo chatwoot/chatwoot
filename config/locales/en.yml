@@ -98,6 +98,12 @@ en:
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time (Minutes)
       avg_resolution_time: Avg resolution time (Minutes)
+    campaign_csv:
+      contact_name: Name
+      contact_phoneno: Phone number
+      status: Status
+      error_message: Error reason
+      last_processed: Last Processed
     label_csv:
       label_title: Label
       conversations_count: No. of conversations
@@ -181,13 +187,13 @@ en:
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
     templates:
-      greeting_message_body: "%{account_name} typically replies in a few hours."
-      ways_to_reach_you_message_body: "Give the team a way to reach you."
-      email_input_box_message_body: "Get notified by email"
-      csat_input_message_body: "Please rate the conversation"
-      connect_with_team_message_body: "Connect with team"
-      cal_event_message_body: "Schedule a meeting with us"
-      cal_event_confirmation_body: "Booking Successful 🗓️"
+      greeting_message_body: '%{account_name} typically replies in a few hours.'
+      ways_to_reach_you_message_body: 'Give the team a way to reach you.'
+      email_input_box_message_body: 'Get notified by email'
+      csat_input_message_body: 'Please rate the conversation'
+      connect_with_team_message_body: 'Connect with team'
+      cal_event_message_body: 'Schedule a meeting with us'
+      cal_event_confirmation_body: 'Booking Successful 🗓️'
 
     reply:
       email:
@@ -219,11 +225,11 @@ en:
       name: 'Slack'
       description: "Integrate Chatwoot with Slack to keep your team in sync. This integration allows you to receive notifications for new conversations and respond to them directly within Slack's interface."
     onehash_apps:
-      name: "OneHash"
-      description: "Integrate OneHash Chat with other in house OneHash products to keep your team in sync. "
+      name: 'OneHash'
+      description: 'Integrate OneHash Chat with other in house OneHash products to keep your team in sync. '
     onehash_cal:
-      name: "OneHash Cal"
-      description: "Integrate OneHash Chat with Cal to keep your team in sync. "
+      name: 'OneHash Cal'
+      description: 'Integrate OneHash Chat with Cal to keep your team in sync. '
     webhooks:
       name: 'Webhooks'
       description: 'Webhook events provide real-time updates about activities in your Chatwoot account. You can subscribe to your preferred events, and Chatwoot will send you HTTP callbacks with the updates.'

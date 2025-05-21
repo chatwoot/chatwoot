@@ -22,7 +22,7 @@
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"
     },
-    "BOOKING":{
+    "BOOKING": {
       "NO_BOOKINGS_FOUND": "There are no previous booking associated to this contact.",
       "TITLE": "Previous Bookings from Cal.ID",
       "EVENT": "Event : ",
@@ -287,7 +287,6 @@
       "ID": "(ID: {identifier})"
     }
   },
-
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "Contacts",
@@ -556,7 +555,6 @@
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
     }
   },
-
   "COMPOSE_NEW_CONVERSATION": {
     "CONTACT_SEARCH": {
       "ERROR_MESSAGE": "We couldn’t complete the search. Please try again."

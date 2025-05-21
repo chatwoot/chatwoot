@@ -11,6 +11,7 @@ import CsatResponses from './CsatResponses.vue';
 import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
+import CampaignReports from './CampaignReports.vue';
 
 export default {
   routes: [
@@ -39,6 +40,14 @@ export default {
             permissions: ['administrator', 'report_manage'],
           },
           component: Index,
+        },
+        {
+          path: 'campaign',
+          name: 'campaign_reports',
+          meta: {
+            permissions: ['administrator', 'report_manage'],
+          },
+          component: CampaignReports,
         },
         {
           path: 'agent',

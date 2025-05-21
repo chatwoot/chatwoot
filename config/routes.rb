@@ -147,6 +147,7 @@ Rails.application.routes.draw do
               get :active
               get :search
               get :get_all_ids
+              post :filtered_all_ids
               post :filter
               post :import
               post :export
@@ -352,6 +353,7 @@ Rails.application.routes.draw do
               get :agents
               get :inboxes
               get :labels
+              get :campaigns
               get :teams
               get :conversations
               get :conversation_traffic

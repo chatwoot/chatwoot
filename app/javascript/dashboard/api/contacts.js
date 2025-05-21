@@ -96,6 +96,10 @@ class ContactAPI extends ApiClient {
   getAllIds() {
     return axios.get(`${this.url}/get_all_ids`);
   }
+
+  getFilteredAllIds(filters) {
+    return axios.post(`${this.url}/filtered_all_ids`, filters);
+  }
 }
 
 export default new ContactAPI();

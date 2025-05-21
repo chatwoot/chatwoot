@@ -10,6 +10,8 @@ require 'debug/open_nonstop' if ENV['DEBUG']
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
 
+# require 'debug/open_nonstop'
+
 ## Load the specific APM agent
 # We rely on DOTENV to load the environment variables
 # We need these environment variables to load the specific APM agent
