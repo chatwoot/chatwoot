@@ -60,7 +60,6 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchContactsService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchConversationsService)
     @tool_registry.register_tool(Captain::Tools::Copilot::SearchLinearIssuesService)
-    @tool_registry.register_tool(Captain::Tools::Copilot::CreateLinearTicketsOnUiService)
   end
 
   def system_message
