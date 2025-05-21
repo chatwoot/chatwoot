@@ -5,13 +5,15 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useAlert } from 'dashboard/composables';
 import SectionLayout from './SectionLayout.vue';
 import WithLabel from 'v3/components/Form/WithLabel.vue';
-import DurationInput from 'next/input/DurationInput.vue';
 import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import DurationInput from 'next/input/DurationInput.vue';
+import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
 const { t } = useI18n();
 const duration = ref(0);
+const unit = ref(DURATION_UNITS.MINUTES);
 const message = ref('');
 const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
@@ -25,11 +27,19 @@ watch(
       auto_resolve_after,
       auto_resolve_message,
       auto_resolve_ignore_waiting,
+      auto_resolve_unit,
     } = currentAccount.value?.settings || {};
 
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
     ignoreWaiting.value = auto_resolve_ignore_waiting;
+
+    if (
+      auto_resolve_unit &&
+      Object.values(DURATION_UNITS).includes(auto_resolve_unit)
+    ) {
+      unit.value = auto_resolve_unit;
+    }
 
     if (duration.value) {
       isEnabled.value = true;
@@ -57,6 +67,7 @@ const handleSubmit = async () => {
     auto_resolve_after: duration.value,
     auto_resolve_message: message.value,
     auto_resolve_ignore_waiting: ignoreWaiting.value,
+    auto_resolve_unit: unit.value,
   });
 };
 
@@ -68,6 +79,7 @@ const handleDisable = async () => {
     auto_resolve_after: null,
     auto_resolve_message: '',
     auto_resolve_ignore_waiting: false,
+    auto_resolve_unit: DURATION_UNITS.minutes,
   });
 };
 
@@ -97,6 +109,7 @@ const toggleAutoResolve = async () => {
           <!-- allow 10 mins to 999 days -->
           <DurationInput
             v-model="duration"
+            v-model:unit="unit"
             min="0"
             max="1439856"
             class="w-full"
