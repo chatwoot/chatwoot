@@ -14,27 +14,26 @@ class Captain::Tools::Copilot::GetContactService < Captain::Tools::BaseService
         contact_id: {
           type: 'number',
           description: 'The ID of the contact to retrieve'
-        },
-        account_id: {
-          type: 'number',
-          description: 'The ID of the account the contact belongs to'
         }
       },
-      required: %w[contact_id account_id]
+      required: %w[contact_id]
     }
   end
 
   def execute(arguments)
     contact_id = arguments['contact_id']
-    account_id = arguments['account_id']
 
-    Rails.logger.info { "[CAPTAIN][GetContact] #{contact_id}, #{account_id}" }
+    Rails.logger.info "#{self.class.name}: Contact ID: #{contact_id}"
 
-    return 'Missing required parameters' if contact_id.blank? || account_id.blank?
+    return 'Missing required parameters' if contact_id.blank?
 
-    contact = Contact.find_by(id: contact_id, account_id: account_id)
+    contact = Contact.find_by(id: contact_id, account_id: @assistant.account_id)
     return 'Contact not found' if contact.nil?
 
     contact.to_llm_text
+  end
+
+  def active?
+    user_has_permission('contact_manage')
   end
 end
