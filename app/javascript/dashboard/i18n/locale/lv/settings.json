@@ -185,7 +185,8 @@
           "OFFLINE": "Bezsaistē"
         },
         "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
-        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
+        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Jūsu e-pasta adrese",
