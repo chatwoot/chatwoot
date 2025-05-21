@@ -32,10 +32,12 @@
     "LOADING_CONVERSATIONS": "Carregando conversas",
     "CANNOT_REPLY": "Você não pode responder porque",
     "24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
+    "API_HOURS_WINDOW": "Você só pode responder a esta conversa em {hours} horas",
     "NOT_ASSIGNED_TO_YOU": "Esta conversa não está atribuída a você. Gostaria de atribuir esta conversa a você mesmo?",
     "ASSIGN_TO_ME": "Atribuir a mim",
     "TWILIO_WHATSAPP_CAN_REPLY": "Você só pode responder a esta conversa usando um modelo de mensagem devido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restrições de janela de mensagem de 24 horas",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta conta do Instagram foi migrada para a nova caixa de entrada do canal do Instagram. Todas as novas mensagens serão mostradas lá. Você não poderá mais enviar mensagens desta conversa.",
     "REPLYING_TO": "Você está respondendo a:",
     "REMOVE_SELECTION": "Remover seleção",
     "DOWNLOAD": "Baixar",
@@ -130,7 +132,7 @@
       "ASSIGN_AGENT": "Atribuir Agente",
       "ASSIGN_LABEL": "Atribuir etiqueta",
       "AGENTS_LOADING": "Carregando agentes...",
-      "ASSIGN_TEAM": "Atribuir equipe",
+      "ASSIGN_TEAM": "Atribuir time",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID da conversa {conversationId} atribuído para \"{agentName}\"",
@@ -141,8 +143,8 @@
           "FAILED": "Não foi possível atribuir etiqueta. Por favor, tente novamente."
         },
         "TEAM_ASSIGNMENT": {
-          "SUCCESFUL": "Equipe {team} atribuído para o id de conversa {conversationId}",
-          "FAILED": "Não foi possível atribuir equipe. Por favor, tente novamente."
+          "SUCCESFUL": "Time {team} atribuído para o id de conversa {conversationId}",
+          "FAILED": "Não foi possível atribuir time. Por favor, tente novamente."
         }
       }
     },
@@ -197,14 +199,14 @@
         }
       }
     },
-    "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e sua equipe",
+    "VISIBLE_TO_AGENTS": "Mensagem Privada: Apenas visível para você e seu time",
     "CHANGE_STATUS": "Estado da conversa mudou",
-    "CHANGE_STATUS_FAILED": "Mudança de situação da conversa falhou",
-    "CHANGE_AGENT": "Responsável da conversa alterado",
+    "CHANGE_STATUS_FAILED": "Mudança de status da conversa falhou",
+    "CHANGE_AGENT": "Novo agente atribuído",
     "CHANGE_AGENT_FAILED": "Falha ao atribuir outro agente",
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha ao atribuir etiqueta",
-    "CHANGE_TEAM": "Situação da conversa mudou",
+    "CHANGE_TEAM": "Status da conversa mudou",
     "FILE_SIZE_LIMIT": "O arquivo excede os {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB do limite para anexos",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
     "SENT_BY": "Enviado por:",
@@ -232,7 +234,7 @@
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contato",
+      "CONTACT": "Contatos",
       "COPILOT": "Copiloto"
     }
   },
@@ -266,9 +268,9 @@
       "NEW_LINK": "Clique aqui para criar uma caixa de entrada"
     },
     "TEAM_MEMBERS": {
-      "TITLE": "Convidar membros da sua equipe",
-      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas de equipe adicionando os endereços de e-mail deles na lista de agentes.",
-      "NEW_LINK": "Clique aqui para convidar um membro da equipe"
+      "TITLE": "Convidar membros de seu time",
+      "DESCRIPTION": "Já que você está se preparando para conversar com seu cliente, traga seus colegas para ajudá-lo. Você pode convidar seus colegas adicionando os endereços de e-mail deles na lista de agentes.",
+      "NEW_LINK": "Clique aqui para convidar um membro do time"
     },
     "LABELS": {
       "TITLE": "Organizar conversas com etiquetas",
@@ -284,7 +286,7 @@
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Agente atribuído",
     "SELF_ASSIGN": "Atribuir a mim",
-    "TEAM_LABEL": "Equipe atribuída",
+    "TEAM_LABEL": "Time atribuído",
     "SELECT": {
       "PLACEHOLDER": "Nenhuma"
     },
@@ -293,28 +295,29 @@
       "CONVERSATION_ACTIONS": "Ações da conversa",
       "CONVERSATION_LABELS": "Etiquetas da conversa",
       "CONVERSATION_INFO": "Informação da conversa",
+      "CONTACT_NOTES": "Notas do contato",
       "CONTACT_ATTRIBUTES": "Atributos do contato",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
-      "SHOPIFY_ORDERS": "Pedidos Shopify"
+      "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
-      "ORDER_ID": "Pedido #{id}",
-      "ERROR": "Erro ao carregar pedidos",
-      "NO_SHOPIFY_ORDERS": "Nenhum pedido encontrado",
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
       "FINANCIAL_STATUS": {
         "PENDING": "Pendentes",
-        "AUTHORIZED": "Autorizado",
-        "PARTIALLY_PAID": "Parcialmente pago",
-        "PAID": "Pago",
-        "PARTIALLY_REFUNDED": "Parcialmente reembolsado",
-        "REFUNDED": "Reembolsado",
-        "VOIDED": "Anulado"
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
       },
       "FULFILLMENT_STATUS": {
-        "FULFILLED": "Processado",
-        "PARTIALLY_FULFILLED": "Parcialmente processado",
-        "UNFULFILLED": "Não processado"
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
       }
     }
   },

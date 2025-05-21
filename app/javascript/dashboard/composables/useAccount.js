@@ -1,6 +1,6 @@
 import { computed } from 'vue';
 import { useRoute } from 'vue-router';
-import { useMapGetter } from './store';
+import { useMapGetter, useStore } from './store';
 
 /**
  * Composable for account-related operations.
@@ -12,6 +12,7 @@ export function useAccount() {
    * @type {import('vue').ComputedRef<number>}
    */
   const route = useRoute();
+  const store = useStore();
   const getAccountFn = useMapGetter('accounts/getAccount');
   const isOnChatwootCloud = useMapGetter('globalConfig/isOnChatwootCloud');
   const isFeatureEnabledonAccount = useMapGetter(
@@ -44,6 +45,12 @@ export function useAccount() {
     };
   };
 
+  const updateAccount = async data => {
+    await store.dispatch('accounts/update', {
+      ...data,
+    });
+  };
+
   return {
     accountId,
     route,
@@ -52,5 +59,6 @@ export function useAccount() {
     accountScopedRoute,
     isCloudFeatureEnabled,
     isOnChatwootCloud,
+    updateAccount,
   };
 }

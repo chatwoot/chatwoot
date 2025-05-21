@@ -1,0 +1,31 @@
+<%
+  selected_features = field.selected_features
+  
+  # Get all feature names and their display names
+  all_feature_display_names = SuperAdmin::AccountFeaturesHelper.feature_display_names
+  
+  # Business and Enterprise plan features only
+  premium_features = Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES + 
+                     Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+%>
+
+<% if selected_features.present? %>
+  <div class="w-full">
+    <p class="text-gray-400 text-xs italic mb-2">Features that remain enabled even when account plan is downgraded</p>
+    
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+      <% selected_features.each do |feature| %>
+        <div class="flex items-center justify-between p-3 bg-white rounded-md outline outline-n-container outline-1 shadow-sm">
+          <span class="text-sm text-n-slate-12"><%= all_feature_display_names[feature] || feature.humanize %></span>
+          <span class="bg-green-400 text-white rounded-full p-1 inline-flex right-4 top-5">
+            <svg width="12" height="12"><use xlink:href="#icon-tick-line" /></svg>
+          </span>
+        </div>
+      <% end %>
+    </div>
+    
+    <hr class="my-8 border-t border-n-weak">
+  </div>
+<% else %>
+  <p class="text-gray-400 text-xs italic">No manually managed features configured</p>
+<% end %>

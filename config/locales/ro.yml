@@ -53,8 +53,6 @@ ro:
       invalid_message_type: 'Tip de mesaj nevalid. Acțiune nepermisă'
     slack:
       invalid_channel_id: 'Invalid slack channel. Please try again'
-    channel_service:
-      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: Verificați conexiunea la rețea, adresa IMAP și încercați din nou.
@@ -134,6 +132,8 @@ ro:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} menționat în poveste: '
       instagram_deleted_story_content: Această poveste nu mai este disponibilă.
@@ -141,13 +141,18 @@ ro:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Conversația a fost marcată de %{user_name}'
         contact_resolved: 'Conversația a fost rezolvată de %{contact_name}'
         open: 'Conversația a fost redeschisă de %{user_name}'
         pending: 'Conversația a fost marcată ca fiind în așteptare de către %{user_name}'
         snoozed: 'Conversația a fost snoozed de %{user_name}'
-        auto_resolved: 'Conversația a fost marcată de sistem din cauza %{duration} zile de inactivitate'
+        auto_resolved_days: 'Conversația a fost marcată de sistem din cauza %{count} zile de inactivitate'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistemul a redeschis conversația din cauza unui nou mesaj de intrare.
       priority:
         added: '%{user_name} setați prioritatea pentru a %{new_priority}'
@@ -222,6 +227,10 @@ ro:
     shopify:
       name: 'Shopify'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
@@ -286,3 +295,25 @@ ro:
       one: '%{count} second'
       few: '%{count} seconds'
       other: '%{count} seconds'
+  automation:
+    system_name: 'Automation System'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[No content]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}

@@ -1,6 +1,6 @@
 {
   "name": "@chatwoot/chatwoot",
-  "version": "4.1.0",
+  "version": "4.2.0",
   "license": "MIT",
   "scripts": {
     "eslint": "eslint app/**/*.{js,vue}",
@@ -34,9 +34,9 @@
     "@breezystack/lamejs": "^1.2.7",
     "@chatwoot/ninja-keys": "1.2.3",
     "@chatwoot/prosemirror-schema": "1.1.1-next",
-    "@chatwoot/utils": "^0.0.42",
-    "@formkit/core": "^1.6.9",
-    "@formkit/vue": "^1.6.9",
+    "@chatwoot/utils": "^0.0.43",
+    "@formkit/core": "^1.6.7",
+    "@formkit/vue": "^1.6.7",
     "@hcaptcha/vue3-hcaptcha": "^1.3.0",
     "@highlightjs/vue-plugin": "^2.1.0",
     "@iconify-json/material-symbols": "^1.2.20",
@@ -134,12 +134,12 @@
     "lint-staged": "14.0.1",
     "postcss": "^8.5.3",
     "postcss-preset-env": "^8.5.1",
-    "prettier": "^3.5.3",
-    "prosemirror-model": "^1.25.0",
-    "size-limit": "^8.2.6",
-    "tailwindcss": "^3.4.17",
-    "vite": "5.4.17",
-    "vite-plugin-ruby": "^5.1.1",
+    "prettier": "^3.3.3",
+    "prosemirror-model": "^1.22.3",
+    "size-limit": "^8.2.4",
+    "tailwindcss": "^3.4.13",
+    "vite": "^5.4.19",
+    "vite-plugin-ruby": "^5.0.0",
     "vitest": "3.0.5"
   },
   "engines": {
@@ -154,7 +154,7 @@
   "pnpm": {
     "overrides": {
       "vite-node": "2.0.1",
-      "vite": "5.4.17",
+      "vite": "5.4.19",
       "vitest": "3.0.5"
     }
   },
