@@ -1,5 +1,5 @@
 class GlobalConfig
-  VERSION = 'V1'.freeze
+  VERSION = 'V2'.freeze
   KEY_PREFIX = 'GLOBAL_CONFIG'.freeze
   DEFAULT_EXPIRY = 1.day
 
@@ -7,6 +7,8 @@ class GlobalConfig
     def get(*args)
       config_keys = *args
       config = {}
+
+      # clear_cache
 
       config_keys.each do |config_key|
         config[config_key] = load_from_cache(config_key)

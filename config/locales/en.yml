@@ -205,7 +205,7 @@ en:
       available_ai_agent: 'Hi, I am an AI Agent from %{business_name}. Please send your question and I will try my best to provide a solution.'
       not_available_agent: 'There is currently no agent available to handle your inquiry. Your message has been logged and will be followed up as soon as our team is available.'
       available_agent: 'Sure, I will connect you to our team right away. Please be patient.'
-      escalation_message: 'Sorry, I am unable to help with this question. I will continue to connect you to our team to assist further. Please be patient 😊'
+      escalation_message: 'I will continue to connect you to our team to assist further. Please be patient 😊'
       requested_human_message: 'Sure, I will connect you to our team right away. Please be patient.'
       long_running_message: 'Please wait a moment, I am currently retrieving the information you need.'
       failure: 'There is an error in our system at the moment, so we are unable to continue the conversation. For further assistance, please contact our support team via [contact/support link]. We apologize for the inconvenience and thank you for your understanding.'

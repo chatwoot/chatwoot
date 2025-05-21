@@ -1,5 +1,5 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue';
+import { computed, nextTick, ref, watch } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import aiAgents from '../../../../api/aiAgents';
 import { useAlert } from 'dashboard/composables';
@@ -13,6 +13,7 @@ const props = defineProps({
 });
 
 const qnas = ref([]);
+const reachedMaxQnas = computed(() => qnas.value.length >= 25)
 const isFetching = ref(false);
 async function fetchKnowledge() {
   try {
@@ -94,6 +95,9 @@ async function save() {
 }
 
 function addQna() {
+  if (reachedMaxQnas.value) {
+    return
+  }
   qnas.value.push({});
   nextTick(() => {
     document.getElementById('btnAddQna').scrollIntoView({
@@ -102,6 +106,9 @@ function addQna() {
     });
   });
 }
+
+const maxCharQuestion = 150
+const maxCharAnswer = 700
 </script>
 
 <template>
@@ -120,11 +127,11 @@ function addQna() {
           <div class="flex gap-6">
             <div class="flex flex-col gap-2 w-full">
               <span class="text-sm"> Pertanyaan </span>
-              <TextArea v-model="item.question" />
+              <TextArea v-model="item.question" showCharacterCount="true" :maxLength="maxCharQuestion" />
             </div>
             <div class="flex flex-col gap-2 w-full">
               <span class="text-sm"> Jawaban </span>
-              <TextArea v-model="item.answer" />
+              <TextArea v-model="item.answer" showCharacterCount="true" :maxLength="maxCharAnswer" />
             </div>
           </div>
           <div class="flex flex-row">
@@ -140,7 +147,7 @@ function addQna() {
         </div>
       </div>
 
-      <Button id="btnAddQna" class="scroll-m-4" @click="addQna">
+      <Button id="btnAddQna" :disabled="reachedMaxQnas" class="scroll-m-4" @click="addQna">
         Tambah QnA
       </Button>
 
@@ -165,18 +172,20 @@ function addQna() {
       />
     </div>
     <div class="w-[200px] flex flex-col gap-2 px-2">
-      <div class="flex flex-col gap-0">
-        <span>QnA</span>
-        <span class="text-xl font-bold">{{ qnas.length }}</span>
+      <div class="sticky top-0 flex flex-col gap-2 px-2">
+        <div class="flex flex-col gap-0">
+          <span>QnA</span>
+          <span class="text-xl font-bold">{{ qnas.length }}</span>
+        </div>
+        <Button
+          class="w-full mt-2"
+          :is-loading="isSaving"
+          :disabled="isSaving"
+          @click="() => save()"
+        >
+          Simpan
+        </Button>
       </div>
-      <Button
-        class="w-full mt-2"
-        :is-loading="isSaving"
-        :disabled="isSaving"
-        @click="() => save()"
-      >
-        Simpan
-      </Button>
     </div>
   </div>
 </template>

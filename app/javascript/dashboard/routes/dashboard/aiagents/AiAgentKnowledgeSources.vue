@@ -63,7 +63,7 @@ const activeIndex = ref(0);
       />
     </woot-tabs>
 
-    <div v-show="activeIndex === 0" class="w-full">
+    <div v-show="activeIndex === 0" class="w-full min-w-0">
       <TextKnowledgeSources :data="data" />
     </div>
     <div v-show="activeIndex === 1" class="w-full">

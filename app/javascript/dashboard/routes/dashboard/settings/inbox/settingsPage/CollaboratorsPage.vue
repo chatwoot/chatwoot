@@ -125,7 +125,7 @@ export default {
           name: e.name,
         }));
       } catch (e) {
-        useAlert('Gagal mendapatkan data Agen AI');
+        useAlert('Gagal mendapatkan data Bot AI');
       }
     },
     async fetchSelectedAiAgents() {

@@ -121,8 +121,8 @@
       "AGENTS_LOADING": "Sedang memuat agen...",
       "ASSIGN_TEAM": "Tugaskan tim",
       "API": {
-        "INBOX_AI_AGENTS": "Agen AI",
-        "INBOX_AI_AGENTS_SUB_TEXT": "Kelola agen AI dari kotak masuk ini",
+        "INBOX_AI_AGENTS": "Bot AI",
+        "INBOX_AI_AGENTS_SUB_TEXT": "Kelola bot AI dari kotak masuk ini",
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id percakapan {conversationId} ditugaskan ke \"{agentName}\"",
           "FAILED": "Tidak dapat menugaskan agen. Silakan coba lagi."
@@ -221,7 +221,12 @@
         "DELETE": "Hapus",
         "CANCEL": "Batalkan"
       }
-    }
+    },
+    "PLACEHOLDER_UPLOAD": {
+      "PART_1": "Klik atau tarik dan lepas file di sini (Maksimal ukuran 5MB)",
+      "PART_2": "Mendukung file .pdf"
+    },
+    "UPLOAD_MAX_REACHED": "File terlalu besar. Maksimal ukuran file adalah 5MB."
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Kirim transkrip percakapan",
@@ -337,5 +342,8 @@
     "ORIGINAL_CONTENT": "Konten Asli",
     "TRANSLATED_CONTENT": "Konten Terjemahan",
     "NO_TRANSLATIONS_AVAILABLE": "Tidak ada terjemahan yang tersedia untuk konten ini"
+  },
+  "AI_AGENTS": {
+    "CREATE_NEW": "Buat Bot AI"
   }
 }

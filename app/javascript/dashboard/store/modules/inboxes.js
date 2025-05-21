@@ -9,6 +9,7 @@ import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
+import WhatsAppUnofficialChannels from '../../api/WhatsAppUnofficialChannels';
 
 const buildInboxData = inboxParams => {
   const formData = new FormData();
@@ -192,6 +193,13 @@ export const actions = {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
       throw error;
     }
+  },
+  async createWhatsAppUnofficialChannel(_, { phoneNumber, inboxName }) {
+    const response = await WhatsAppUnofficialChannels.create({
+      phone_number: phoneNumber,
+      inbox_name: inboxName,
+    });
+    return response.data;
   },
   createFBChannel: async ({ commit }, params) => {
     try {

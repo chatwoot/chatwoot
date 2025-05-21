@@ -26,7 +26,25 @@ async function updateKnowledge(data) {
   )[0];
   try {
     summerNoteBtn.setAttribute('disabled', '');
-    await aiAgents.updateKnowledgeText(props.data.id, data);
+    let knowledgeId = data.id
+    if (!docs.value.length) {
+      const request = {
+        id: null,
+        text: '<br>',
+        tab: 1,
+      };
+      let addResponse = await aiAgents
+        .addKnowledgeText(props.data.id, {
+          ...request,
+        })
+      knowledgeId = addResponse.data?.id
+    }
+
+    await aiAgents.updateKnowledgeText(props.data.id, {
+      id: knowledgeId,
+      tab: 1,
+      text: data.text,
+    });
     useAlert('Berhasil disimpan');
   } catch (e) {
     useAlert('Gagal simpan dapat');
@@ -80,6 +98,18 @@ watch(
   }
 );
 
+const charLimit = 2500
+
+const textCounter = ref(0)
+
+function getLengthElement(e) {
+  return e.currentTarget.innerText?.trim()?.length || 0
+}
+
+function countCharacter(e) {
+  textCounter.value = getLengthElement(e)
+}
+
 onMounted(() => {
   var SaveButton = function (context) {
     var ui = $.summernote.ui;
@@ -118,6 +148,31 @@ onMounted(() => {
           summerNoteBtn.setAttribute('disabled', '');
         }
       },
+      onKeydown: function(e) {
+        if (getLengthElement(e) >= charLimit) {
+          if (e.keyCode != 8 && !(e.keyCode >= 37 && e.keyCode <= 40) && e.keyCode != 46 && !(e.keyCode == 88 && e.ctrlKey) && !(e.keyCode == 67 && e.ctrlKey)) {
+            e.preventDefault()
+          }
+        }
+      },
+      onKeyup: function(e) {
+        countCharacter(e)
+      },
+      onPaste: function(e) {
+        const tlength = getLengthElement(e)
+        countCharacter(e)
+        var t = e.currentTarget.innerText;
+        var bufferText = ((e.originalEvent || e).clipboardData || window.clipboardData).getData('Text');
+        e.preventDefault();
+        var maxPaste = bufferText.length;
+        if (t.length + bufferText.length > charLimit) {
+          maxPaste = charLimit - t.length;
+        }
+        if (maxPaste > 0) {
+          document.execCommand('insertText', false, bufferText.substring(0, maxPaste));
+        }
+        $('#summernote').text(charLimit - tlength);
+      }
     },
     toolbar: [
       // ['style', ['style']],
@@ -135,42 +190,42 @@ onMounted(() => {
   });
 });
 
-const loadingAdd = ref(false);
-async function addDoc() {
-  loadingAdd.value = true;
-  const maxTaNum =
-    docs.value.reduce(function (prev, current) {
-      return prev > current.tab ? prev : current;
-    }, 0) || undefined;
-  const nextTabNum = (maxTaNum?.tab || 0) + 1;
-  const request = {
-    id: null,
-    text: '<br>',
-    tab: nextTabNum,
-  };
-  try {
-    await aiAgents
-      .addKnowledgeText(props.data.id, {
-        ...request,
-      })
-      .then(v => {
-        docs.value.push({
-          ...v.data,
-        });
-        selectedDocIndex.value = docs.value.findIndex(
-          v => v.tab === nextTabNum
-        );
-        useAlert('Berhasil ditambahkan');
-      })
-      .catch(v => {
-        useAlert('Gagal menambahkan');
-      });
-  } catch (e) {
-    useAlert('Gagal menambahkan');
-  } finally {
-    loadingAdd.value = false;
-  }
-}
+// const loadingAdd = ref(false);
+// async function addDoc() {
+//   loadingAdd.value = true;
+//   const maxTaNum =
+//     docs.value.reduce(function (prev, current) {
+//       return prev > current.tab ? prev : current;
+//     }, 0) || undefined;
+//   const nextTabNum = (maxTaNum?.tab || 0) + 1;
+//   const request = {
+//     id: null,
+//     text: '<br>',
+//     tab: nextTabNum,
+//   };
+//   try {
+//     await aiAgents
+//       .addKnowledgeText(props.data.id, {
+//         ...request,
+//       })
+//       .then(v => {
+//         docs.value.push({
+//           ...v.data,
+//         });
+//         selectedDocIndex.value = docs.value.findIndex(
+//           v => v.tab === nextTabNum
+//         );
+//         useAlert('Berhasil ditambahkan');
+//       })
+//       .catch(v => {
+//         useAlert('Gagal menambahkan');
+//       });
+//   } catch (e) {
+//     useAlert('Gagal menambahkan');
+//   } finally {
+//     loadingAdd.value = false;
+//   }
+// }
 
 function selectDoc(index) {
   selectedDocIndex.value = index;
@@ -197,7 +252,7 @@ async function deleteData() {
 
 <template>
   <div class="flex flex-col justify-stretch gap-4">
-    <div class="flex flex-row gap-2">
+    <!-- <div class="flex flex-row gap-2">
       <Button
         icon="i-lucide-plus"
         :disabled="loadingAdd"
@@ -230,9 +285,12 @@ async function deleteData() {
           />
         </div>
       </div>
-    </div>
-    <div v-show="selectedDoc">
+    </div> -->
+    <div>
       <div id="summernote" />
+      <div class="flex flex-row items-end justify-end">
+        <span>{{ textCounter }} / {{ charLimit }}</span>
+      </div>
     </div>
 
     <woot-delete-modal

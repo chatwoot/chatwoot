@@ -172,6 +172,7 @@ Rails.application.routes.draw do
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
+            resources :whatsapp_unofficial_channels, only: [:create]
             resource :twilio_channel, only: [:create]
           end
 

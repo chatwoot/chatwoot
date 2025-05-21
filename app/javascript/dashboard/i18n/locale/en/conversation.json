@@ -233,7 +233,12 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
-    }
+    },
+    "PLACEHOLDER_UPLOAD": {
+      "PART_1": "Click or drag and drop the file here (Up to 5MB)",
+      "PART_2": "Support .pdf file"
+    },
+    "UPLOAD_MAX_REACHED": "File too large. Maximum size allowed is 5MB."
   },
   "EMAIL_TRANSCRIPT": {
     "TITLE": "Send conversation transcript",

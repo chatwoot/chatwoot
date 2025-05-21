@@ -7,6 +7,7 @@ import BaseSettingsHeader from '../settings/components/BaseSettingsHeader.vue';
 import { useAlert } from 'dashboard/composables';
 import { minLength, required } from '@vuelidate/validators';
 import useVuelidate from '@vuelidate/core';
+import { useI18n } from 'vue-i18n';
 
 const aiTemplates = ref();
 async function fetchAiAgentTemplates() {
@@ -14,6 +15,7 @@ async function fetchAiAgentTemplates() {
 }
 
 const { accountId } = useAccount();
+const { t } = useI18n()
 
 onMounted(() => {
   fetchAiAgents();
@@ -84,7 +86,8 @@ async function createAiAgent() {
     fetchAiAgents();
     showCreateAgentModal.value = false;
   } catch (e) {
-    useAlert('Gagal menambahkan agen AI');
+    const errorMessage = e?.response?.data?.error;
+    useAlert(errorMessage || t('AGENT_MGMT.FORM_CREATE.FAILED_ADD'));
   } finally {
     loadingCreate.value = false;
   }
@@ -107,8 +110,8 @@ watchEffect(() => {
 <template>
   <div class="w-full px-8 py-8 bg-n-background overflow-auto">
     <BaseSettingsHeader
-      title="Agen AI"
-      description="Kelola dan ubah AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!"
+      :title="$t('SIDEBAR.AI_AGENTS')"
+      :description="$t('SIDEBAR.AI_AGENTS_DESC')"
     >
       <template #actions>
         <woot-button
@@ -116,7 +119,7 @@ watchEffect(() => {
           icon="add-circle"
           @click="() => (showCreateAgentModal = true)"
         >
-          {{ 'Buat Agen AI' }}
+          {{ $t('AI_AGENTS.CREATE_NEW') }}
         </woot-button>
       </template>
     </BaseSettingsHeader>
@@ -125,7 +128,7 @@ watchEffect(() => {
         <span class="mt-4 mb-4 spinner" />
       </div>
       <div v-else-if="!aiAgentsRef || !aiAgentsRef.length">
-        <span>Anda belum menambahkan Agen AI</span>
+        <span>{{ $t('AGENT_MGMT.FORM_CREATE.EMPTY_AI_AGENT') }}</span>
       </div>
       <table v-else class="divide-y divide-slate-75 dark:divide-slate-700">
         <tbody class="divide-y divide-n-weak text-n-slate-11">
@@ -203,16 +206,16 @@ watchEffect(() => {
     :show="showCreateAgentModal"
     :on-close="() => (showCreateAgentModal = false)"
   >
-    <woot-modal-header header-title="Buat Agen AI Baru" />
+    <woot-modal-header :header-title="$t('AI_AGENTS.CREATE_NEW')" />
     <form @submit.prevent="() => createAiAgent()">
       <div class="flex flex-col">
         <div class="w-full mb-2">
           <label>
-            Nama Agen AI
+            {{ $t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME') }}
             <input
               v-model="state.agentName"
               type="text"
-              placeholder="Nama Agen AI"
+              :placeholder="$t('AGENT_MGMT.FORM_CREATE.AI_AGENT_NAME')"
               style="margin-bottom: 0px"
             />
           </label>
@@ -227,7 +230,7 @@ watchEffect(() => {
 
         <div class="w-full">
           <label>
-            Template Agen AI
+            {{ $t('AGENT_MGMT.FORM_CREATE.AI_AGENT_TEMPLATE') }}
             <select v-model="selectedTemplate">
               <option
                 v-for="template in templates"
@@ -244,7 +247,7 @@ watchEffect(() => {
       <div class="flex items-center justify-start gap-2 pt-2">
         <WootSubmitButton
           :disabled="loadingCreate || v$.$invalid"
-          button-text="Buat Agen AI"
+          :button-text="$t('AI_AGENTS.CREATE_NEW')"
           :loading="loadingCreate"
           type="submit"
         />

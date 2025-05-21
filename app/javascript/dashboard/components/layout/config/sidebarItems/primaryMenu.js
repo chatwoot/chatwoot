@@ -70,14 +70,14 @@ const primaryMenuItems = accountId => [
     toState: frontendURL(`accounts/${accountId}/settings/labels/list`),
     toStateName: 'labels_list',
   },
-  {
-    icon: 'megaphone-new',
-    key: 'campaigns',
-    label: 'CAMPAIGNS',
-    featureFlag: FEATURE_FLAGS.CAMPAIGNS,
-    toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'campaigns_ongoing_index',
-  },
+  // {
+  //   icon: 'megaphone-new',
+  //   key: 'campaigns',
+  //   label: 'CAMPAIGNS',
+  //   featureFlag: FEATURE_FLAGS.CAMPAIGNS,
+  //   toState: frontendURL(`accounts/${accountId}/campaigns`),
+  //   toStateName: 'campaigns_ongoing_index',
+  // },
   // {
   //   icon: 'library',
   //   key: 'helpcenter',

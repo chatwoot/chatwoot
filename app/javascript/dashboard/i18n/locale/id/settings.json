@@ -297,7 +297,7 @@
     "ONE_OFF": "Sekali",
     "REPORTS_SLA": "SLA",
     "REPORTS_BOT": "Bot",
-    "REPORTS_AI_AGENT": "Agen AI",
+    "REPORTS_AI_AGENT": "Bot AI",
     "REPORTS_AGENT": "Agen",
     "REPORTS_LABEL": "Label",
     "REPORTS_INBOX": "Kotak Masuk",
@@ -323,7 +323,8 @@
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Baca dokumen",
-    "AI_AGENTS": "Agen AI"
+    "AI_AGENTS": "Bot AI",
+    "AI_AGENTS_DESC": "Kelola dan ubah Bot AI yang Anda buat di sini. Buat chatbot baru kapan pun Anda inginkan!"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Pembayaran",
