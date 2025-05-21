@@ -1,4 +1,4 @@
-module WebhookListenerWaUnOfficial
+module WebhookListenerWaUnofficial
   def perform(inbox, payload)
     webhook_url = inbox.channel.webhook_url
     uri = URI.parse(webhook_url)
