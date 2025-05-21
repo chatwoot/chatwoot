@@ -1,6 +1,6 @@
 class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
   include Events::Types
-  before_action :render_not_found_if_empty, only: [:toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
+  before_action :render_not_found_if_empty, only: [:reject_call, :toggle_typing, :toggle_status, :set_custom_attributes, :destroy_custom_attributes]
 
   def index
     @conversation = conversation
@@ -65,6 +65,14 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     head :ok
   end
 
+  def reject_call
+    params.require(:room_id)
+    params.permit(:room_id)
+
+    Rails.configuration.dispatcher.dispatch(CALL_REJECTED, Time.zone.now, conversation: conversation, user: @contact, room_id: params[:room_id])
+    head :ok
+  end
+
   def set_custom_attributes
     conversation.update!(custom_attributes: permitted_params[:custom_attributes])
   end
@@ -89,5 +97,9 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
                                                                message: [:content, :referer_url, :timestamp, :echo_id],
                                                                custom_attributes: {})
+  end
+
+  def end_call
+    Rails.configuration.dispatcher.dispatch(CALL_ENDED, Time.zone.now, conversation: conversation, user: @contact, room_id: params[:room_id])
   end
 end

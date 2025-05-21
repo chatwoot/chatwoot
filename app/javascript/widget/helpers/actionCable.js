@@ -25,8 +25,52 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.created': this.onConversationCreated,
       'presence.update': this.onPresenceUpdate,
       'contact.merged': this.onContactMerge,
+      'call.created': this.onCallCreated,
+      'call.ended': this.onCallEnded,
     };
   }
+
+  onCallCreated = async data => {
+    try {
+      const { call_data, account_id, performer } = data;
+
+      if (!call_data) {
+        console.error('No call provided in call data');
+        return;
+      }
+
+      if (!performer?.name) return;
+
+      // Create caller object with available data
+      const caller = {
+        id: account_id,
+        name: performer.name,
+        avatar_url: performer?.avatar_url || null,
+        availability_status: 'online',
+      };
+
+      const { handleIncomingCall } = await import('./callHelper');
+      await handleIncomingCall({ call_data, caller });
+    } catch (error) {
+      console.error('Error handling incoming call:', error);
+    }
+  };
+
+  onCallEnded = async data => {
+    try {
+      const { call_data, account_id, performer } = data;
+
+      if (!call_data) {
+        console.error('No call provided in call data');
+        return;
+      }
+
+      const { endCall } = await import('./callHelper');
+      await endCall(call_data);
+    } catch (error) {
+      console.error('Error handling call end:', error);
+    }
+  };
 
   onDisconnected = () => {
     this.setLastMessageId();

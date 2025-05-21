@@ -22,6 +22,11 @@ module Events::Types
   CONVERSATION_OPENED = 'conversation.opened'
   CONVERSATION_RESOLVED = 'conversation.resolved'
 
+  # call events
+  CALL_CREATED = 'call.created'
+  CALL_ENDED = 'call.ended'
+  CALL_REJECTED = 'call.rejected'
+
   CONVERSATION_STATUS_CHANGED = 'conversation.status_changed'
   CONVERSATION_CONTACT_CHANGED = 'conversation.contact_changed'
   ASSIGNEE_CHANGED = 'assignee.changed'

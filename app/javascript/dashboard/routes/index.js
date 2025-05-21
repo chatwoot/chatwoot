@@ -15,17 +15,23 @@ export const routesWithPermissions = buildPermissionsFromRouter(routes);
 export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
   //const currentAccount = getAccount; // Get the account using the getter with account_id
-  await store.dispatch('accounts/get');
-  const getAccount = store.getters['accounts/getAccount'];
-  let currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
-  if (!currentAccount || Object.keys(currentAccount).length === 0) {
-    await store.dispatch('accounts/get');
-    currentAccount = getAccount(user.account_id);
-  }
 
   if (!isLoggedIn) {
     window.location.assign('/app/login');
     return '';
+  }
+
+  const getAccount = store.getters['accounts/getAccount'];
+  let currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
+
+  if (
+    !currentAccount ||
+    Object.keys(currentAccount).length === 0 ||
+    currentAccount.custom_attributes?.onboarding_step !== 'true'
+  ) {
+    await store.dispatch('accounts/getAccountById', user.account_id);
+    const getAccount = store.getters['accounts/getAccount'];
+    currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
   }
 
   if (to.fullPath === '/app?to=cal_integration') {
@@ -35,6 +41,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
       )
     );
   }
+
   if (!to.name) {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
@@ -44,6 +51,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     store.getters.getCurrentUser,
     currentAccount
   );
+
   return nextRoute ? next(frontendURL(nextRoute)) : next();
 };
 

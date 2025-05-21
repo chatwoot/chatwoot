@@ -30,7 +30,7 @@ gem 'haikunator'
 # Template parsing safely
 gem 'liquid'
 # Parse Markdown to HTML
-gem 'commonmarker'
+gem 'commonmarker', '0.23.10'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # Rack middleware for blocking & throttling abusive requests
@@ -179,9 +179,11 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
-# Reading files
-gem 'pdf-reader'
+gem 'iso-639'
 gem 'ruby-openai'
+
+gem 'shopify_api'
+gem 'concurrent-ruby', '1.3.4'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
@@ -212,8 +214,6 @@ group :development do
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
   gem 'meta_request', '>= 0.8.3'
-
-  gem 'tapioca', require: false
 end
 
 group :test do
@@ -250,5 +250,3 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
-
-gem 'sorbet', '~> 0.5.11953'

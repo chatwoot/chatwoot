@@ -35,7 +35,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
     contacts = result[:contacts]
     @contacts_count = result[:count]
-    contacts2 = filtrate(contacts)
+    contacts = filtrate(contacts)
 
     contact_ids = contacts.pluck(:id)
 
@@ -125,13 +125,20 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       @contact.save!
       @contact_inbox = build_contact_inbox
       process_avatar_from_url
+      enrich_data(permitted_params)
     end
   end
 
   def update
     @contact.assign_attributes(contact_update_params)
+    enrich_data(contact_update_params)
     @contact.save!
     process_avatar_from_url
+  end
+
+  def enrich_data(params)
+    EnrichmentJob.perform_later(id: @contact.id, email: params[:email], name: params[:name],
+                                company_name: params[:additional_attributes]&.dig('company_name'))
   end
 
   def destroy

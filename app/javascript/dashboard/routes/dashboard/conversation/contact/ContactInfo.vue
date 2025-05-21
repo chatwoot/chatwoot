@@ -54,7 +54,10 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({ uiFlags: 'contacts/getUIFlags' }),
+    ...mapGetters({
+      uiFlags: 'contacts/getUIFlags',
+      activeCall: 'getCallState'
+    }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -102,6 +105,9 @@ export default {
         BUS_EVENTS.NEW_CONVERSATION_MODAL,
         this.showConversationModal
       );
+    },
+    startCall() {
+      emitter.emit(BUS_EVENTS.START_CALL, true);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
@@ -245,6 +251,15 @@ export default {
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
+        <NextButton
+          v-tooltip.top-end="$t('CONTACT_PANEL.CALL')"
+          icon="i-ph-phone"
+          slate
+          faded
+          sm
+          :disabled="(activeCall != null) || (this.contact.availability_status != 'online')"
+          @click="startCall"
+        />
         <NextButton
           v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
           icon="i-ph-chat-circle-dots"

@@ -32,6 +32,13 @@ const toggleTyping = async ({ typingStatus }) => {
   );
 };
 
+const rejectCall = async ({ room_id }) => {
+  return API.post(
+    `/api/v1/widget/conversations/reject_call${window.location.search}`,
+    { room_id: room_id }
+  );
+};
+
 const setUserLastSeenAt = async ({ lastSeen }) => {
   return API.post(
     `/api/v1/widget/conversations/update_last_seen${window.location.search}`,
@@ -80,6 +87,7 @@ export {
   getMessagesAPI,
   sendAttachmentAPI,
   toggleTyping,
+  rejectCall,
   setUserLastSeenAt,
   sendEmailTranscript,
   toggleStatus,

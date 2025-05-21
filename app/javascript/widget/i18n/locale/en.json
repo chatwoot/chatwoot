@@ -43,6 +43,11 @@
     "COMPANY_FROM": "from",
     "BOT": "Bot"
   },
+  "CALL_VIEW": {
+    "INCOMING_CALL": "Incoming Call",
+    "ACCEPT_BUTTON": "Accept",
+    "DECLINE_BUTTON": "Decline"
+  },
   "BUBBLE": {
     "LABEL": "Chat with us"
   },

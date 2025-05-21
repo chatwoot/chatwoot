@@ -135,9 +135,27 @@ export const IFrameHelper = {
       iframe.setAttribute('style', `height: ${updatedIframeHeight} !important`);
   },
 
-  setupAudioListeners: () => {
+  setupAudioListeners: e => {
     const { baseUrl = '' } = window.$chatwoot;
-    getAlertAudio(baseUrl, { type: 'widget', alertTone: 'ding' }).then(() =>
+    getAlertAudio(baseUrl, {
+      type: 'widget',
+      alertTone: 'ding',
+      loop: false,
+    }).then(() =>
+      initOnEvents.forEach(event => {
+        document.removeEventListener(
+          event,
+          IFrameHelper.setupAudioListeners,
+          false
+        );
+      })
+    );
+
+    getAlertAudio(baseUrl, {
+      type: 'widget',
+      alertTone: 'ringtone',
+      loop: true,
+    }).then(() =>
       initOnEvents.forEach(event => {
         document.removeEventListener(
           event,
@@ -204,6 +222,13 @@ export const IFrameHelper = {
       updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
 
+    openBubble: () => {
+      let bubbleState = {};
+      bubbleState.toggleValue = true;
+
+      onBubbleClick(bubbleState);
+    },
+
     toggleBubble: state => {
       let bubbleState = {};
       if (state === 'open') {
@@ -250,6 +275,7 @@ export const IFrameHelper = {
     },
 
     resetUnreadMode: () => removeUnreadClass(),
+
     handleNotificationDot: event => {
       if (window.$chatwoot.hideMessageBubble) {
         return;
@@ -266,12 +292,43 @@ export const IFrameHelper = {
       }
     },
 
+    handleCallNotificationDot: event => {
+      if (window.$chatwoot.hideMessageBubble) {
+        return;
+      }
+
+      const bubbleElement = document.querySelector('.woot-widget-bubble');
+      if (
+        event.value &&
+        !bubbleElement.classList.contains('unread-notification')
+      ) {
+        addClasses(bubbleElement, 'unread-notification');
+      } else if (!event.value) {
+        removeClasses(bubbleElement, 'unread-notification');
+      }
+    },
+
     closeChat: () => {
       onBubbleClick({ toggleValue: false });
     },
 
     playAudio: () => {
-      window.playAudioAlert();
+      if (window.ding) window.ding().start();
+    },
+
+    playRingtone: () => {
+      if (window.ringtone) {
+        window.ringtoneSource = window.ringtone();
+        window.ringtoneSource.start();
+      }
+    },
+
+    stopRingtone: () => {
+      if (window.ringtoneSource) {
+        window.ringtoneSource.stop(0);
+        window.ringtoneSource.disconnect();
+        window.ringtoneSource = null;
+      }
     },
   },
   pushEvent: eventName => {

@@ -13,32 +13,33 @@ export const getAudioContext = () => {
 // eslint-disable-next-line default-param-last
 export const getAlertAudio = async (baseUrl = '', requestContext) => {
   const audioCtx = getAudioContext();
-  const playSound = audioBuffer => {
-    window.playAudioAlert = () => {
+  const getSoundSource = (audioBuffer, loop, name) => {
+    window[name] = () => {
       if (audioCtx) {
         const source = audioCtx.createBufferSource();
         source.buffer = audioBuffer;
         source.connect(audioCtx.destination);
-        source.loop = false;
-        source.start();
+        source.loop = loop;
+        return source;
       }
+      return null;
     };
   };
 
   if (audioCtx) {
-    const { type = 'dashboard', alertTone = 'ding' } = requestContext || {};
+    const {
+      type = 'dashboard',
+      alertTone = 'ding',
+      loop = false,
+    } = requestContext || {};
     const resourceUrl = `${baseUrl}/audio/${type}/${alertTone}.mp3`;
     const audioRequest = new Request(resourceUrl);
 
-    fetch(audioRequest)
-      .then(response => response.arrayBuffer())
-      .then(buffer => {
-        audioCtx.decodeAudioData(buffer).then(playSound);
-        // eslint-disable-next-line no-promise-executor-return
-        return new Promise(res => res());
-      })
-      .catch(() => {
-        // error
-      });
+    const array = await (await fetch(audioRequest)).arrayBuffer();
+
+    const ctx = await audioCtx.decodeAudioData(array);
+
+    getSoundSource(ctx, loop, alertTone);
   }
 };
+

@@ -103,7 +103,7 @@
       "TITLE": "Set up profile",
       "BODY": "These are details visible to end users, to make a positive first impression.",
       "SUBMIT": {
-        "BUTTON": "Continue to company setup",
+        "BUTTON": "Continue",
         "ERROR": "Error in setting up profile, try again.",
         "SUCCESS": "🔥 Lets add your business details"
       },
@@ -119,7 +119,7 @@
       "DISPLAY_NAME": {
         "LABEL": "Display name",
         "PLACEHOLDER": "Enter the name you want to display your customers",
-        "ERROR": "Add a valid display name or leave it blank"
+        "ERROR": "Add a valid display name"
       },
       "PHONE_NUMBER": {
         "LABEL": "Phone number (Optional)",

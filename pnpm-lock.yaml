@@ -46,6 +46,9 @@ importers:
       '@lk77/vue3-color':
         specifier: ^3.0.6
         version: 3.0.6
+      '@mycure/vue-jitsi-meet':
+        specifier: ^0.0.8
+        version: 0.0.8
       '@radix-ui/colors':
         specifier: ^3.0.0
         version: 3.0.0
@@ -327,7 +330,7 @@ importers:
         specifier: 5.4.8
         version: 5.4.8(@types/node@22.13.14)(sass-embedded@1.86.0)
       vite-plugin-ruby:
-        specifier: ^5.0.0
+        specifier: ^5.1.1
         version: 5.1.1(vite@5.4.8(@types/node@22.13.14)(sass-embedded@1.86.0))
       vitest:
         specifier: 2.0.1
@@ -1005,6 +1008,9 @@ packages:
   '@material/mwc-icon@0.25.3':
     resolution: {integrity: sha512-36076AWZIRSr8qYOLjuDDkxej/HA0XAosrj7TS1ZeLlUBnLUtbDtvc1S7KSa0hqez7ouzOqGaWK24yoNnTa2OA==}
     deprecated: MWC beta is longer supported. Please upgrade to @material/web
+
+  '@mycure/vue-jitsi-meet@0.0.8':
+    resolution: {integrity: sha512-02L4v42Og3UX9KBZjR/+OkRpBDVsWrrvTaS+PhP6D8o0IDqLJ9SycHxVOEzNjYNaCxsqjaaS2jrub0a1qrk3XA==}
 
   '@nodelib/fs.scandir@2.1.5':
     resolution: {integrity: sha512-vq24Bq3ym5HEQm2NKCr3yXDwjc7vTsEThRDnkp2DK9p1uqLR+DHurm/NOTo0KG7HYHU7eppKZj3MyqYuMBf62g==}
@@ -5818,6 +5824,8 @@ snapshots:
     dependencies:
       lit: 2.2.6
       tslib: 2.8.1
+
+  '@mycure/vue-jitsi-meet@0.0.8': {}
 
   '@nodelib/fs.scandir@2.1.5':
     dependencies:

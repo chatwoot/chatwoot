@@ -56,11 +56,6 @@ const skipToNextStep = async () => {
   await store.dispatch('accounts/update', {
     onboarding_step: 'true',
   });
-  // const account = store.getters['accounts/getAccount'](
-  //   store.getters.getCurrentAccountId
-  // );
-  // account.custom_attributes = { onboarding_complete: 'true' };
-  //console.log('account', JSON.stringify(account, null, 2));
   const accountId = route.params.accountId;
   if (accountId) {
     window.location = `/app/accounts/${accountId}/dashboard`;
@@ -71,15 +66,15 @@ const skipToNextStep = async () => {
 </script>
 
 <template>
-  <onboarding-base-modal
+  <OnboardingBaseModal
     :title="$t('INBOX_MGMT.ADD.AUTH.TITLE')"
     :subtitle="$t('INBOX_MGMT.ADD.AUTH.DESC_SHORT')"
   >
     <div class="space-y-6">
-      <page-header :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')" />
+      <PageHeader :header-title="$t('INBOX_MGMT.ADD.AUTH.TITLE')" />
 
       <div class="grid">
-        <channel-item
+        <ChannelItem
           v-for="channel in channelList"
           :key="channel.key"
           :channel="channel"
@@ -89,7 +84,7 @@ const skipToNextStep = async () => {
       </div>
 
       <button type="button" class="button clear w-39" @click="skipToNextStep">
-        {{ $t('AGENT_MGMT.ADD.FORM.SKIP') }}
+        {{ $t('START_ONBOARDING.INVITE_TEAM.SKIP') }}
       </button>
     </div>
 
@@ -98,7 +93,7 @@ const skipToNextStep = async () => {
         <component :is="Component" :key="$route.fullPath" />
       </transition>
     </router-view>
-  </onboarding-base-modal>
+  </OnboardingBaseModal>
 </template>
 
 <style scoped>

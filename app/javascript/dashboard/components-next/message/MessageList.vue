@@ -1,7 +1,7 @@
 <script setup>
 import { defineProps, computed } from 'vue';
 import Message from './Message.vue';
-import { MESSAGE_TYPES } from './constants.js';
+import { CONTENT_TYPES, MESSAGE_TYPES } from './constants.js';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 /**
@@ -77,6 +77,8 @@ const shouldGroupWithNext = (index, searchList) => {
   if (!hasSameSender || areBothTemplates) return false;
 
   if (currentMessageType !== nextMessageType) return false;
+
+  if (current.contentType === CONTENT_TYPES.CALLING_EVENT) return false;
 
   // Check if messages are in the same minute by rounding down to nearest minute
   return Math.floor(next.createdAt / 60) === Math.floor(current.createdAt / 60);

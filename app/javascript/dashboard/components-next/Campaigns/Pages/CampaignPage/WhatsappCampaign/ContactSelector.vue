@@ -325,6 +325,7 @@ const selectAll = async () => {
     console.log('Reslts: ', result);
 
     emit('contacts-selected', result.data.contact_ids);
+    selectAllVisible.value = true;
     localSelectedContacts.value = result.data.contact_ids;
   } finally {
     isSelectingAll.value = false;
@@ -460,7 +461,11 @@ const fetchContacts = async (page = 1) => {
   try {
     currentPage.value = page;
     isLoadingContacts.value = true;
-    const { data } = await ContactsAPI.get(page, sortAttribute.value);
+
+    const queryPayload = { payload: formattedFilterWithPhoneNumber.value };
+
+    const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
+
     handleContactsResponse(data, false);
   } catch (error) {
     useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
