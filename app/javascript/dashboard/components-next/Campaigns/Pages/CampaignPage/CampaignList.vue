@@ -12,12 +12,11 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['edit', 'delete', 'report']);
+const emit = defineEmits(['edit', 'delete']);
 const getters = useStoreGetters();
 const getInboxByCampaignId = inboxId =>
   getters['inboxes/getInbox'].value(inboxId);
 
-const handleReport = campaign => emit('report', campaign);
 const handleEdit = campaign => emit('edit', campaign);
 const handleDelete = campaign => emit('delete', campaign);
 </script>
@@ -39,7 +38,6 @@ const handleDelete = campaign => emit('delete', campaign);
       "
       :scheduled-at="campaign.scheduled_at"
       :campaign-type="campaignType"
-      @report="handleReport(campaign)"
       @edit="handleEdit(campaign)"
       @delete="handleDelete(campaign)"
     />

@@ -23,6 +23,7 @@ const deleteCampaign = async id => {
 
   try {
     await store.dispatch('campaigns/delete', id);
+    await store.dispatch('campaigns/get');
     useAlert(t('CAMPAIGN.CONFIRM_DELETE.API.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(t('CAMPAIGN.CONFIRM_DELETE.API.ERROR_MESSAGE'));
@@ -30,7 +31,8 @@ const deleteCampaign = async id => {
 };
 
 const handleDialogConfirm = async () => {
-  await deleteCampaign(props.selectedCampaign.id);
+  console.log('props.selectedCampaign', props.selectedCampaign);
+  await deleteCampaign(props.selectedCampaign.display_id);
   dialogRef.value?.close();
 };
 

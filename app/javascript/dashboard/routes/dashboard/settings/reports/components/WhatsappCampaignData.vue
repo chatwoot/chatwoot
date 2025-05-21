@@ -136,7 +136,6 @@ export default defineComponent({
 
       try {
         const contacts = this.contactDetails(this.campaign.display_id);
-        console.log(contacts);
 
         this.repliedContacts = [...(contacts.replied_contacts || [])];
         this.pendingContacts = [...(contacts.pending_contacts || [])];
@@ -161,7 +160,6 @@ export default defineComponent({
         ];
 
         this.updateMetrics(contacts);
-        console.log('Processed:', contacts.processed_contacts);
       } catch (error) {
         this.error =
           error.message || this.$t('CAMPAIGN.WHATSAPP.REPORT.GENERIC_ERROR');
