@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "מחק איש קשר",
       "DELETE_DIALOG": {
         "TITLE": "אשר מחיקה",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "כן, מחק",
         "API": {
           "SUCCESS_MESSAGE": "איש הקשר נמחק בהצלחה",
