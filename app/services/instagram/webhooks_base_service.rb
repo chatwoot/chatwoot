@@ -18,7 +18,7 @@ class Instagram::WebhooksBaseService
     update_instagram_profile_link(user) && return if @contact
 
     @contact_inbox = @inbox.channel.create_contact_inbox(
-      user['id'], user['name'] || user['username']
+      user['id'], user['name']
     )
 
     @contact = @contact_inbox.contact

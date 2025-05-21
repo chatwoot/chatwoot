@@ -38,18 +38,6 @@ export default {
       type: Boolean,
       default: true,
     },
-    showCloseButton: {
-      type: Boolean,
-      default: true,
-    },
-    closeIconName: {
-      type: String,
-      default: 'chevron-right',
-    },
-    conversationId: {
-      type: [Number, String],
-      required: true,
-    },
   },
   emits: ['panelClose'],
   setup() {
@@ -232,14 +220,6 @@ export default {
           {{ additionalAttributes.description }}
         </p>
         <div class="flex flex-col items-start w-full gap-2">
-          <ContactInfoRow
-            :href="'#'"
-            :value="conversationId"
-            icon="number-symbol"
-            emoji="🆔"
-            :title="'Conversation ID'"
-            show-copy
-          />
           <ContactInfoRow
             :href="contact.email ? `mailto:${contact.email}` : ''"
             :value="contact.email"

@@ -109,7 +109,6 @@ onMounted(() => {
     <ContactInfo
       :contact="contact"
       :channel-type="channelType"
-      :conversation-id="conversationId"
       @toggle-panel="onPanelToggle"
     />
     <div class="list-group pb-8">

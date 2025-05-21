@@ -7,7 +7,7 @@ class ActionService
   end
 
   def mute_conversation(_params)
-    @conversation.pending!
+    @conversation.mute!
   end
 
   def snooze_conversation(_params)

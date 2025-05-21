@@ -306,7 +306,6 @@ const evenClass = [
               @update="onUpdate"
               @delete="onDelete"
               @copy="onCopy"
-	      :conversation-id="conversationId"
             />
           </template>
         </div>
