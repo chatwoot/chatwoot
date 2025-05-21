@@ -26,12 +26,6 @@ class WebhookListener < BaseListener
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
 
-    if inbox.channel_type == 'Channel::WhatsappUnofficial'
-      payload = message.webhook_data.merge(event: __method__.to_s)
-      deliver_webhook_payloads(payload, inbox)
-      return
-    end
-
     return unless message.webhook_sendable?
 
     payload = message.webhook_data.merge(event: __method__.to_s)
@@ -41,12 +35,6 @@ class WebhookListener < BaseListener
   def message_updated(event)
     message = extract_message_and_account(event)[0]
     inbox = message.inbox
-
-    if inbox.channel_type == 'Channel::WhatsappUnofficial'
-      payload = message.webhook_data.merge(event: __method__.to_s)
-      deliver_webhook_payloads(payload, inbox)
-      return
-    end
 
     return unless message.webhook_sendable?
 
@@ -106,17 +94,6 @@ class WebhookListener < BaseListener
   end
 
   def deliver_api_inbox_webhooks(payload, inbox)
-    if inbox.channel_type == 'Channel::WhatsappUnofficial'
-      webhook_url = inbox.channel.webhook_url
-      uri = URI.parse(webhook_url)
-      params = URI.decode_www_form(uri.query).to_h
-      params['incoming_message'] = 'jangkau'
-      uri.query = URI.encode_www_form(params)
-      modified_webhook_url = uri.to_s
-      Rails.logger.info("modified_webhook_url to send: #{modified_webhook_url}")
-      WebhookJob.perform_later(modified_webhook_url, payload, :api_inbox_webhook)
-      return
-    end
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
 
