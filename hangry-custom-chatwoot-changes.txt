@@ -1,0 +1,65 @@
+1. Add core ticket link button
+ - changes to app/javascript/dashboard/components/CustomAttributes.vue
+    <woot-button
+	    v-if="showActions && !value && attributeKey === 'core_ticket_link'"
+	    v-tooltip.left="'Create ticket on Core ERP'"
+	    class="w-6"
+	    variant="link"
+	    @click="createCoreTicket"
+	  >
+	      <img src="https://core.ishangry.com/web/image/res.company/1/favicon" />
+	  </woot-button>
+    props: {
+      conversationId: { type: Number, default: null },
+    }
+    methods {
+      createCoreTicket() {
+        window.open(`https://core.ishangry.com/chatwoot/create-ticket/${this.conversationId}`, '_blank')
+      },
+    }
+ - changes to app/javascript/dashboard/routes/dashboard/conversation/customAttributes/CustomAttributes.vue
+    add props to custom-attribute
+    <custom-attribute
+      :conversation-id="conversationId" />
+
+2. Change instagram name generation to use username
+ - changes to app/services/instagram/webhooks_base_service.rb
+    @contact_inbox = @inbox.channel.create_contact_inbox(
+      user['id'], user['name'] || user['username']
+    )
+
+3. Change mute conversation to mark pending macro
+ - changes to app/services/action_service.rb
+    def mute_coversation(_params)
+      @conversation.pending!
+    end
+
+4. Update assign agent macro to be able to unassign agent
+ - changes to app/javascript/dashboard/composables/useMacros.js
+    case 'assign_agent':
+        return [{id: 'nil', name: 'None'}, { id: 'self', name: 'Self' }, ...agents.value];
+
+5. Add conversationId to contact info panel
+ - changes to app/javascript/dashboard/routes/dashboard/conversation/ContactPanel.vue
+    <ContactInfo
+       :contact="contact"
+       :channel-type="channelType"
+       :conversation-id="conversationId"
+       @toggle-panel="onPanelToggle"
+     />
+ - changes to app/javascript/dashboard/routes/dashboard/conversation/contact/ContactInfo.vue
+    props: {
+	conversationId: {
+	  type: [Number, String],
+	  required: true,
+	},
+    }
+
+    <ContactInfoRow
+      :href="''"
+      :value="conversationId"
+      icon="number-symbol"
+      emoji="🆔"
+      :title="'Conversation ID'"
+      show-copy
+    />

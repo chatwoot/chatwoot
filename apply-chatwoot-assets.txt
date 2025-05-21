@@ -1,0 +1,5 @@
+1. create favicon with https://www.favicon-generator.org/ and replace all in /public folder, make a variant for favicon-badge-16x16, 32, and 96 too manually
+2. put your long & short icons on /public/brand-assets and modify on database table installation_configs
+   LOGO_THUMBNAIL (square logo), LOGO (long logo), LOGO_DARK (long logo), INSTALLATION_NAME (Hangry Care Unit)
+3. reset redis cache
+    redis-cli flushall
