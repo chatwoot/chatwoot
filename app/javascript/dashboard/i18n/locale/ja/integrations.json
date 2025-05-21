@@ -330,12 +330,14 @@
     "NAME": "キャプテン",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "コパイロット",
       "SEND_MESSAGE": "メッセージを送信...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captainが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {
         "SUMMARIZE": {
