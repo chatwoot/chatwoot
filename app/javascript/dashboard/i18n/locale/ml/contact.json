@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
       "DELETE_DIALOG": {
         "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
         "API": {
           "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
