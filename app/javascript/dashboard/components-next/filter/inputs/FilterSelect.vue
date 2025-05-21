@@ -66,6 +66,14 @@ const dropdownPosition = computed(() => {
 const updateSelected = newValue => {
   selected.value = newValue;
 };
+
+const labelToShow = computed(() => {
+  if (selected.value && !props.hideLabel) {
+    return selectedOption.value.label;
+  }
+
+  return props.label;
+});
 </script>
 
 <template>
@@ -74,12 +82,13 @@ const updateSelected = newValue => {
       <slot name="trigger" :toggle="toggle">
         <Button
           ref="triggerRef"
+          type="button"
           sm
           slate
           :variant
           :icon="iconToRender"
           :trailing-icon="selectedOption.icon ? false : true"
-          :label="label || (hideLabel ? null : selectedOption.label)"
+          :label="labelToShow"
           @click="toggle"
         />
       </slot>
