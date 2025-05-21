@@ -227,7 +227,7 @@ export default {
             />
           </span>
 	  <NextButton
-             v-if="showActions && !value && attributeKey === 'core_ticket_link'"
+             v-if="showActions && attributeKey === 'core_ticket_count'"
              v-tooltip.left="'Create ticket on Core ERP'"
              class="w-6"
              variant="link"
