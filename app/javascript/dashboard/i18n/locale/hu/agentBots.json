@@ -59,6 +59,11 @@
         "ERROR_MESSAGE": "Nem tudta frissíteni a botot. Kérjük, próbálja újra."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Hozzáférési kulcs",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"
