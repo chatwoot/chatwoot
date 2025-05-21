@@ -330,12 +330,14 @@
     "NAME": "Kapteinis",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Kopilots",
       "SEND_MESSAGE": "Sūtīt ziņojumu...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
       "USE": "Izmantot šo",
       "RESET": "Atiestatīt",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Izvēlēties Asistentu",
       "PROMPTS": {
         "SUMMARIZE": {
