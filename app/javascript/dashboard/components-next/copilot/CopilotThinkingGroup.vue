@@ -2,19 +2,19 @@
 import { ref, watch, computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Icon from '../icon/Icon.vue';
-import CopilotThinkingBlock from 'dashboard/components/copilot/CopilotThinkingBlock.vue';
+import CopilotThinkingBlock from './CopilotThinkingBlock.vue';
 
 const props = defineProps({
   messages: { type: Array, required: true },
-  hasAssistantMessageAfter: { type: Boolean, default: false },
+  defaultCollapsed: { type: Boolean, default: false },
 });
 const { t } = useI18n();
-const isExpanded = ref(!props.hasAssistantMessageAfter);
+const isExpanded = ref(!props.defaultCollapsed);
 
 const thinkingCount = computed(() => props.messages.length);
 
 watch(
-  () => props.hasAssistantMessageAfter,
+  () => props.defaultCollapsed,
   newValue => {
     if (newValue) {
       isExpanded.value = false;

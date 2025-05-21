@@ -1,13 +1,11 @@
 <script setup>
 import Button from '../button/Button.vue';
-
 defineProps({
   hasMessages: {
     type: Boolean,
     default: false,
   },
 });
-
 defineEmits(['reset', 'close']);
 </script>
 
@@ -25,16 +23,9 @@ defineEmits(['reset', 'close']);
           icon="i-lucide-plus"
           ghost
           sm
-          tooltip-text="Create a new conversation"
           @click="$emit('reset')"
         />
-        <Button
-          icon="i-lucide-x"
-          ghost
-          sm
-          tooltip-text="Close Copilot"
-          @click="$emit('close')"
-        />
+        <Button icon="i-lucide-x" ghost sm @click="$emit('close')" />
       </div>
     </div>
   </div>
