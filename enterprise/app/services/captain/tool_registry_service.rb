@@ -15,9 +15,9 @@ class Captain::ToolRegistryService
     @registered_tools << tool.to_registry_format
   end
 
-  def method_missing(method_name, *arguments)
+  def method_missing(method_name, *)
     if @tools.key?(method_name.to_s)
-      @tools[method_name.to_s].execute(*arguments)
+      @tools[method_name.to_s].execute(*)
     else
       super
     end
