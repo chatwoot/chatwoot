@@ -482,7 +482,7 @@ export default defineComponent({
                 </td>
                 <td
                   v-if="activeTab === 'failed'"
-                  class="p-4 text-slate-900 dark:text-white"
+                  class="p-4 text-slate-900 dark:text-white whitespace-nowrap max-w-[200px] overflow-x-auto"
                 >
                   {{ contact.error_message || 'Unknown Error' }}
                 </td>
