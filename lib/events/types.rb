@@ -31,6 +31,7 @@ module Events::Types
   CONVERSATION_RECORDING = 'conversation.recording'
   CONVERSATION_TYPING_OFF = 'conversation.typing_off'
   CONVERSATION_MENTIONED = 'conversation.mentioned'
+  CONVERSATION_UNREAD = 'conversation.unread'
 
   # message events
   MESSAGE_CREATED = 'message.created'

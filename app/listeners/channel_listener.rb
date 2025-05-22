@@ -11,6 +11,14 @@ class ChannelListener < BaseListener
     handle_typing_event(event)
   end
 
+  def conversation_unread(event)
+    conversation = event.data[:conversation]
+    channel = conversation.inbox.channel
+    return unless channel.respond_to?(:unread_conversation)
+
+    channel.unread_conversation(conversation)
+  end
+
   def account_presence_updated(event)
     account_id, user_id, status = event.data.values_at(:account_id, :user_id, :status)
     account = Account.find(account_id)
@@ -26,13 +34,13 @@ class ChannelListener < BaseListener
     conversation, last_seen_at = event.data.values_at(:conversation, :last_seen_at)
 
     channel = conversation.inbox.channel
-    return unless channel.respond_to?(:send_read_messages)
+    return unless channel.respond_to?(:read_messages)
 
     messages = conversation.messages.where(message_type: :incoming).where.not(status: :read)
 
     messages = messages.where('updated_at > ?', last_seen_at) if last_seen_at.present?
 
-    channel.send_read_messages(messages, conversation: conversation) if messages.any?
+    channel.read_messages(messages, conversation: conversation) if messages.any?
   end
 
   private

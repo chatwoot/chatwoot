@@ -108,7 +108,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     process_response(response)
   end
 
-  def send_read_messages(phone_number, messages)
+  def read_messages(phone_number, messages)
     @phone_number = phone_number
 
     response = HTTParty.post(
@@ -123,6 +123,31 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
             fromMe: false
           }
         end
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
+  def unread_message(phone_number, message) # rubocop:disable Metrics/MethodLength
+    @phone_number = phone_number
+
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/chat-modify",
+      headers: api_headers,
+      body: {
+        jid: remote_jid,
+        mod: {
+          markRead: false,
+          lastMessages: {
+            key: {
+              id: message.source_id,
+              remoteJid: remote_jid,
+              fromMe: message.message_type == 'outgoing'
+            },
+            messageTimestamp: message.content_attributes[:external_created_at]
+          }
+        }
       }.to_json
     )
 
@@ -220,5 +245,6 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
                       :send_message,
                       :toggle_typing_status,
                       :update_presence,
-                      :send_read_messages
+                      :read_messages,
+                      :unread_message
 end

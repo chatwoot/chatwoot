@@ -4,7 +4,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
   let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false) }
-  let(:message) { create(:message, source_id: 'msg_123') }
+  let(:message) { create(:message, source_id: 'msg_123', content_attributes: { external_created_at: 123 }) }
 
   let(:test_send_phone_number) { '551187654321' }
   let(:test_send_jid) { '551187654321@s.whatsapp.net' }
@@ -371,7 +371,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
     end
   end
 
-  describe '#send_read_messages' do
+  describe '#read_messages' do
     it 'send read messages request' do
       stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/read-messages")
         .with(
@@ -379,7 +379,30 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           body: { keys: [{ id: message.source_id, remoteJid: test_send_jid, fromMe: false }] }.to_json
         ).to_return(status: 200, body: '', headers: {})
 
-      result = service.send_read_messages(test_send_phone_number, [message])
+      result = service.read_messages(test_send_phone_number, [message])
+
+      expect(result).to be(true)
+    end
+  end
+
+  describe '#unread_message' do
+    it 'send unread message request' do
+      stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/chat-modify")
+        .with(
+          headers: stub_headers(whatsapp_channel),
+          body: {
+            jid: test_send_jid,
+            mod: {
+              markRead: false,
+              lastMessages: {
+                key: { id: 'msg_123', remoteJid: test_send_jid, fromMe: false },
+                messageTimestamp: 123
+              }
+            }
+          }.to_json
+        ).to_return(status: 200)
+
+      result = service.unread_message(test_send_phone_number, message)
 
       expect(result).to be(true)
     end
