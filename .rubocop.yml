@@ -85,6 +85,10 @@ Metrics/ModuleLength:
     - lib/seeders/message_seeder.rb
     - spec/support/slack_stubs.rb
 
+Rails/HelperInstanceVariable:
+  Exclude:
+    - enterprise/app/helpers/captain/chat_helper.rb
+
 Rails/ApplicationController:
   Exclude:
     - 'app/controllers/api/v1/widget/messages_controller.rb'
@@ -111,6 +115,20 @@ Rails/TimeZoneAssignment:
 
 Rails/RedundantPresenceValidationOnBelongsTo:
   Enabled: false
+
+Rails/InverseOf:
+  Exclude:
+    - enterprise/app/models/captain/assistant.rb
+
+Rails/UniqueValidationWithoutIndex:
+  Exclude:
+    - 'app/models/canned_response.rb'
+    - 'app/models/telegram_bot.rb'
+    - 'enterprise/app/models/captain_inbox.rb'
+    - 'app/models/channel/twitter_profile.rb'
+    - 'app/models/webhook.rb'
+    - 'app/models/contact.rb'
+    - 'app/models/integrations/hook.rb'
 
 Style/ClassAndModuleChildren:
   EnforcedStyle: compact
@@ -153,15 +171,6 @@ Metrics/AbcSize:
   Max: 26
   Exclude:
     - 'app/controllers/concerns/auth_helper.rb'
-
-Rails/UniqueValidationWithoutIndex:
-  Exclude:
-    - 'app/models/channel/twitter_profile.rb'
-    - 'app/models/webhook.rb'
-    - 'app/models/contact.rb'
-    - 'app/models/integrations/hook.rb'
-    - 'app/models/canned_response.rb'
-    - 'app/models/telegram_bot.rb'
 
 Rails/RenderInline:
   Exclude:

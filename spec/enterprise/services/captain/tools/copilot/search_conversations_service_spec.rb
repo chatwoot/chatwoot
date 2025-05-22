@@ -26,6 +26,64 @@ RSpec.describe Captain::Tools::Copilot::SearchConversationsService do
     end
   end
 
+  describe '#active?' do
+    context 'when user has conversation_manage permission' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_manage']) }
+      let(:user) { create(:user, account: account) }
+
+      before do
+        account_user = AccountUser.find_by(user: user, account: account)
+        account_user.update(role: :agent, custom_role: custom_role)
+      end
+
+      it 'returns true' do
+        expect(service.active?).to be true
+      end
+    end
+
+    context 'when user has conversation_unassigned_manage permission' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_unassigned_manage']) }
+      let(:user) { create(:user, account: account) }
+
+      before do
+        account_user = AccountUser.find_by(user: user, account: account)
+        account_user.update(role: :agent, custom_role: custom_role)
+      end
+
+      it 'returns true' do
+        expect(service.active?).to be true
+      end
+    end
+
+    context 'when user has conversation_participating_manage permission' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: ['conversation_participating_manage']) }
+      let(:user) { create(:user, account: account) }
+
+      before do
+        account_user = AccountUser.find_by(user: user, account: account)
+        account_user.update(role: :agent, custom_role: custom_role)
+      end
+
+      it 'returns true' do
+        expect(service.active?).to be true
+      end
+    end
+
+    context 'when user has no relevant conversation permissions' do
+      let(:custom_role) { create(:custom_role, account: account, permissions: []) }
+      let(:user) { create(:user, account: account) }
+
+      before do
+        account_user = AccountUser.find_by(user: user, account: account)
+        account_user.update(role: :agent, custom_role: custom_role)
+      end
+
+      it 'returns false' do
+        expect(service.active?).to be false
+      end
+    end
+  end
+
   describe '#execute' do
     let(:contact) { create(:contact, account: account) }
     let!(:open_conversation) { create(:conversation, account: account, contact: contact, status: 'open', priority: 'high') }
