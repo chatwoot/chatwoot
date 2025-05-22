@@ -2,17 +2,9 @@ class MessageTemplates::HookExecutionService
   pattr_initialize [:message!]
 
   def perform
-    if conversation.campaign.present?
-      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not triggering templates because conversation has a campaign" }
-      return
-    end
+    return if conversation.campaign.present?
+    return if conversation.last_incoming_message.blank?
 
-    if conversation.last_incoming_message.blank?
-      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not triggering templates because there is no incoming message" }
-      return
-    end
-
-    Rails.logger.info "[OutOfOffice][#{conversation.id}] Triggering templates for conversation ##{conversation.id}"
     trigger_templates
   rescue StandardError => e
     Rails.logger.error "[OutOfOffice][#{conversation.id}] Error triggering templates: #{e.message}"
@@ -33,37 +25,16 @@ class MessageTemplates::HookExecutionService
 
   def should_send_out_of_office_message?
     # should not send if its a tweet message
-    if conversation.tweet?
-      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because it's a tweet conversation" }
-      return false
-    end
+    return false if conversation.tweet?
 
     # should not send for outbound messages
-    unless message.incoming?
-      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because the message is outgoing" }
-      return false
-    end
+    return false unless message.incoming?
 
     # prevents sending out-of-office message if an agent has sent a message in last 5 minutes
     # ensures better UX by not interrupting active conversations at the end of business hours
-    if conversation.messages.outgoing.exists?(['created_at > ?', 5.minutes.ago])
-      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because an agent responded in the last 5 minutes" }
-      return false
-    end
+    return false if conversation.messages.outgoing.where(private: false).exists?(['created_at > ?', 5.minutes.ago])
 
-    can_send = inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
-
-    if can_send
-      Rails.logger.info "[OutOfOffice][#{conversation.id}] Sending out-of-office message for conversation ##{conversation.id}"
-    else
-      reasons = []
-      reasons << 'inbox not in out-of-office mode' unless inbox.out_of_office?
-      reasons << 'conversation already has a template message today' unless conversation.messages.today.template.empty?
-      reasons << 'inbox has no out-of-office message configured' unless inbox.out_of_office_message.present?
-      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because: #{reasons.join(', ')}" }
-    end
-
-    can_send
+    inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
   rescue StandardError => e
     Rails.logger.error("[OutOfOffice][#{conversation.id}] Error triggering out of office message: #{e.message}")
     ChatwootExceptionTracker.new(e, account: conversation.account).capture_exception
