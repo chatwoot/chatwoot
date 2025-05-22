@@ -34,7 +34,7 @@ export default {
     <multiselect
       v-model="selectedOption"
       class="no-margin"
-      :placeholder="$t('CAMPAIGN_REPORTS.FILTER_DROPDOWN_LABEL')"
+      :placeholder="$t('CAMPAIGN_REPORTS.CHANNEL_FILTER_DROPDOWN_LABEL')"
       label="title"
       :options="options"
       :option-height="24"

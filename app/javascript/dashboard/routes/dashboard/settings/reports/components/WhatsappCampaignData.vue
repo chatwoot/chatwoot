@@ -402,9 +402,9 @@ export default defineComponent({
 
     <!-- Table Container with Fixed Header and Scrollable Body -->
 
-<!-- flex-col lg:flex-row  -->
+    <!-- flex-col lg:flex-row  -->
     <div
-      class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-4 py-4 gap-16 mt-6"
+      class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-4 py-4 gap-16 mt-6 mx-1 dark:mx-0"
     >
       <div class="overflow-x-auto bg-white dark:bg-n-solid-3 rounded-lg">
         <div class="max-h-[500px] overflow-y-auto">
@@ -512,13 +512,15 @@ export default defineComponent({
       </div>
     </div>
 
-    <PaginationFooter
-      class="mt-4"
-      :current-page="currentPage"
-      :total-items="activeContacts.length"
-      :items-per-page="rowsPerPage"
-      @update:current-page="onUpdatePage"
-    />
+    <div class="m-1 dark:m-0">
+      <PaginationFooter
+        class="mt-4"
+        :current-page="currentPage"
+        :total-items="activeContacts.length"
+        :items-per-page="rowsPerPage"
+        @update:current-page="onUpdatePage"
+      />
+    </div>
 
     <!-- Pagination -->
     <!-- <div class="mt-4 flex items-center justify-between">

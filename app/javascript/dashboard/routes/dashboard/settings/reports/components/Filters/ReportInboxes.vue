@@ -40,7 +40,7 @@ export default {
     <multiselect
       v-model="selectedOption"
       class="no-margin"
-      :placeholder="$t('CAMPAIGN_REPORTS.FILTER_DROPDOWN_LABEL')"
+      :placeholder="$t('CAMPAIGN_REPORTS.INBOX_FILTER_DROPDOWN_LABEL')"
       label="name"
       track-by="id"
       :options="inboxes"
