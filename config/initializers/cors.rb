@@ -14,6 +14,11 @@ Rails.application.config.middleware.insert_before 0, Rack::Cors do
     if ActiveModel::Type::Boolean.new.cast(ENV.fetch('CW_API_ONLY_SERVER', false)) || Rails.env.development?
       resource '*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]
     end
+
+    # This is temporary fix for the issue the loading APIs from the frontend, we will remove this once we have a proper solution
+    if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_API_CORS', false))
+      resource '/api/*', headers: :any, methods: :any, expose: %w[access-token client uid expiry]
+    end
   end
 end
 
