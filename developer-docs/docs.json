@@ -1,0 +1,84 @@
+{
+  "name": "Chatwoot Developer Docs",
+  "description": "Official developer documentation for Chatwoot - the open-source customer support platform. Learn about our APIs, integrations, and development guidelines.",
+  "logo": {
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#0069ED",
+    "light": "#4D9CFF",
+    "dark": "#0050B4"
+  },
+  "theme": "maple",
+  "navigation": {
+    "tabs": [
+      {
+        "tab": "API Documentation",
+        "groups": [
+          {
+            "group": "Platform API",
+            "description": "APIs for managing platform aspects of Chatwoot",
+            "includeTags": [
+              "Accounts",
+              "Account Users",
+              "AgentBots",
+              "Users"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/platform_swagger.json"
+          },
+          {
+            "group": "Application API",
+            "description": "APIs for managing application aspects of Chatwoot",
+            "includeTags": [
+              "Account AgentBots",
+              "Agents",
+              "Canned Responses",
+              "Contacts",
+              "Contact Labels",
+              "Conversation Assignments",
+              "Conversation Labels",
+              "Conversations",
+              "Custom Attributes",
+              "Custom Filters",
+              "Inboxes",
+              "Integrations",
+              "Messages",
+              "Profile",
+              "Reports",
+              "Teams",
+              "Webhooks",
+              "Automation Rule",
+              "Help Center"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/application_swagger.json"
+          },
+          {
+            "group": "Client API",
+            "description": "APIs for client applications",
+            "includeTags": [
+              "Contacts API",
+              "Conversations API",
+              "Messages API"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/client_swagger.json"
+          },
+          {
+            "group": "Other APIs",
+            "description": "Other Chatwoot APIs",
+            "includeTags": [
+              "CSAT Survey Page"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/other_swagger.json"
+          }
+        ]
+      }
+    ]
+  },
+  "footerSocials": {
+    "twitter": "https://twitter.com/chatwootapp",
+    "github": "https://github.com/chatwoot",
+    "linkedin": "https://www.linkedin.com/company/chatwoot"
+  }
+}

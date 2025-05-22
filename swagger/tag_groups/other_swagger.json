@@ -1,0 +1,4370 @@
+{
+  "openapi": "3.0.4",
+  "info": {
+    "title": "Chatwoot",
+    "description": "This is the API documentation for Chatwoot server.",
+    "version": "1.1.0",
+    "termsOfService": "https://www.chatwoot.com/terms-of-service/",
+    "contact": {
+      "email": "hello@chatwoot.com"
+    },
+    "license": {
+      "name": "MIT License",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "https://app.chatwoot.com/"
+    }
+  ],
+  "paths": {
+    "/survey/responses/{conversation_uuid}": {
+      "parameters": [
+        {
+          "$ref": "#/components/parameters/conversation_uuid"
+        }
+      ],
+      "get": {
+        "tags": [
+          "CSAT Survey Page"
+        ],
+        "operationId": "get-csat-survey-page",
+        "summary": "Get CSAT survey page",
+        "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
+        "security": [],
+        "responses": {
+          "200": {
+            "description": "Success"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "bad_request_error": {
+        "title": "data",
+        "type": "object",
+        "properties": {
+          "description": {
+            "type": "string"
+          },
+          "errors": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/request_error"
+            }
+          }
+        }
+      },
+      "request_error": {
+        "type": "object",
+        "properties": {
+          "field": {
+            "type": "string"
+          },
+          "message": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "generic_id": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          }
+        }
+      },
+      "canned_response": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the canned response"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "Account Id"
+          },
+          "short_code": {
+            "type": "string",
+            "description": "Short Code for quick access of the canned response"
+          },
+          "content": {
+            "type": "string",
+            "description": "Message content for canned response"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The date and time when the canned response was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The date and time when the canned response was updated"
+          }
+        }
+      },
+      "custom_attribute": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Identifier"
+          },
+          "attribute_display_name": {
+            "type": "string",
+            "description": "Attribute display name"
+          },
+          "attribute_display_type": {
+            "type": "string",
+            "description": "Attribute display type (text, number, currency, percent, link, date, list, checkbox)"
+          },
+          "attribute_description": {
+            "type": "string",
+            "description": "Attribute description"
+          },
+          "attribute_key": {
+            "type": "string",
+            "description": "Attribute unique key value"
+          },
+          "regex_pattern": {
+            "type": "string",
+            "description": "Regex pattern"
+          },
+          "regex_cue": {
+            "type": "string",
+            "description": "Regex cue"
+          },
+          "attribute_values": {
+            "type": "string",
+            "description": "Attribute values"
+          },
+          "attribute_model": {
+            "type": "string",
+            "description": "Attribute type(conversation_attribute/contact_attribute)"
+          },
+          "default_value": {
+            "type": "string",
+            "description": "Attribute default value"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "The date and time when the custom attribute was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "The date and time when the custom attribute was updated"
+          }
+        }
+      },
+      "automation_rule": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "description": "Response payload that contains automation rule(s)",
+            "oneOf": [
+              {
+                "type": "array",
+                "description": "Array of automation rules (for listing endpoint)",
+                "items": {
+                  "$ref": "#/components/schemas/automation_rule_item"
+                }
+              },
+              {
+                "type": "object",
+                "description": "Single automation rule (for show/create/update endpoints)",
+                "allOf": [
+                  {
+                    "$ref": "#/components/schemas/automation_rule_item"
+                  }
+                ]
+              }
+            ]
+          }
+        }
+      },
+      "automation_rule_item": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the automation rule"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "Account Id"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the rule",
+            "example": "Add label on message create event"
+          },
+          "description": {
+            "type": "string",
+            "description": "Description to give more context about the rule",
+            "example": "Add label support and sales on message create event if incoming message content contains text help"
+          },
+          "event_name": {
+            "type": "string",
+            "description": "Automation Rule event, on which we call the actions(conversation_created, conversation_updated, message_created)",
+            "enum": [
+              "conversation_created",
+              "conversation_updated",
+              "message_created"
+            ],
+            "example": "message_created"
+          },
+          "conditions": {
+            "type": "array",
+            "description": "Array of conditions on which conversation/message filter would work",
+            "items": {
+              "type": "object",
+              "properties": {
+                "values": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "attribute_key": {
+                  "type": "string"
+                },
+                "query_operator": {
+                  "type": "string"
+                },
+                "filter_operator": {
+                  "type": "string"
+                }
+              },
+              "example": {
+                "attribute_key": "content",
+                "filter_operator": "contains",
+                "values": [
+                  "help"
+                ],
+                "query_operator": "and"
+              }
+            }
+          },
+          "actions": {
+            "type": "array",
+            "description": "Array of actions which we perform when condition matches",
+            "items": {
+              "type": "object",
+              "properties": {
+                "action_name": {
+                  "type": "string"
+                },
+                "action_params": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              },
+              "example": {
+                "action_name": "add_label",
+                "action_params": [
+                  "support",
+                  "sales"
+                ]
+              }
+            }
+          },
+          "created_on": {
+            "type": "integer",
+            "description": "The timestamp when the rule was created"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Enable/disable automation rule"
+          }
+        }
+      },
+      "portal": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/portal_item"
+            }
+          }
+        }
+      },
+      "portal_single": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/portal_item"
+          }
+        }
+      },
+      "portal_config": {
+        "type": "object",
+        "description": "Configuration settings for the portal",
+        "properties": {
+          "allowed_locales": {
+            "type": "array",
+            "description": "List of allowed locales for the portal",
+            "items": {
+              "type": "object",
+              "properties": {
+                "code": {
+                  "type": "string",
+                  "description": "The language code"
+                },
+                "articles_count": {
+                  "type": "integer",
+                  "description": "Number of articles in this locale"
+                },
+                "categories_count": {
+                  "type": "integer",
+                  "description": "Number of categories in this locale"
+                }
+              }
+            }
+          }
+        }
+      },
+      "portal_logo": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the logo file"
+          },
+          "portal_id": {
+            "type": "integer",
+            "description": "ID of the portal this logo belongs to"
+          },
+          "file_type": {
+            "type": "string",
+            "description": "MIME type of the file"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID of the account"
+          },
+          "file_url": {
+            "type": "string",
+            "description": "URL to access the logo file"
+          },
+          "blob_id": {
+            "type": "integer",
+            "description": "ID of the blob"
+          },
+          "filename": {
+            "type": "string",
+            "description": "Name of the file"
+          }
+        }
+      },
+      "portal_meta": {
+        "type": "object",
+        "properties": {
+          "all_articles_count": {
+            "type": "integer",
+            "description": "Total number of articles"
+          },
+          "archived_articles_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of archived articles"
+          },
+          "published_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of published articles"
+          },
+          "draft_articles_count": {
+            "type": "integer",
+            "nullable": true,
+            "description": "Number of draft articles"
+          },
+          "categories_count": {
+            "type": "integer",
+            "description": "Number of categories"
+          },
+          "default_locale": {
+            "type": "string",
+            "description": "Default locale for the portal"
+          }
+        }
+      },
+      "portal_item": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "The ID of the portal"
+          },
+          "archived": {
+            "type": "boolean",
+            "description": "Whether the portal is archived"
+          },
+          "color": {
+            "type": "string",
+            "description": "The color code for the portal"
+          },
+          "config": {
+            "$ref": "#/components/schemas/portal_config"
+          },
+          "custom_domain": {
+            "type": "string",
+            "description": "Custom domain for the portal"
+          },
+          "header_text": {
+            "type": "string",
+            "description": "The header text for the portal"
+          },
+          "homepage_link": {
+            "type": "string",
+            "description": "Homepage link for the portal"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the portal"
+          },
+          "slug": {
+            "type": "string",
+            "description": "URL slug for the portal"
+          },
+          "page_title": {
+            "type": "string",
+            "description": "Page title for the portal"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID of the account the portal belongs to"
+          },
+          "inbox": {
+            "$ref": "#/components/schemas/inbox"
+          },
+          "logo": {
+            "$ref": "#/components/schemas/portal_logo"
+          },
+          "meta": {
+            "$ref": "#/components/schemas/portal_meta"
+          }
+        }
+      },
+      "category": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "description": {
+            "type": "string",
+            "description": "The text content."
+          },
+          "locale": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "position": {
+            "type": "integer"
+          },
+          "portal_id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "associated_category_id": {
+            "type": "integer",
+            "description": "To associate similar categories to each other, e.g same category of product documentation in different languages"
+          },
+          "parent_category_id": {
+            "type": "integer",
+            "description": "To define parent category, e.g product documentation has multiple level features in sales category or in engineering category."
+          }
+        }
+      },
+      "article": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content."
+          },
+          "meta": {
+            "type": "object"
+          },
+          "position": {
+            "type": "integer"
+          },
+          "status": {
+            "type": "integer",
+            "enum": [
+              "draft",
+              "published",
+              "archived"
+            ]
+          },
+          "title": {
+            "type": "string"
+          },
+          "slug": {
+            "type": "string"
+          },
+          "views": {
+            "type": "integer"
+          },
+          "portal_id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "author_id": {
+            "type": "integer"
+          },
+          "category_id": {
+            "type": "integer"
+          },
+          "folder_id": {
+            "type": "integer"
+          },
+          "associated_article_id": {
+            "type": "integer",
+            "description": "To associate similar articles to each other, e.g to provide the link for the reference."
+          }
+        }
+      },
+      "contact": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "additional_attributes": {
+                  "type": "object",
+                  "description": "The object containing additional attributes related to the contact"
+                },
+                "availability_status": {
+                  "type": "string",
+                  "description": "The availability status of the contact"
+                },
+                "email": {
+                  "type": "string",
+                  "description": "The email address of the contact"
+                },
+                "id": {
+                  "type": "integer",
+                  "description": "The ID of the contact"
+                },
+                "name": {
+                  "type": "string",
+                  "description": "The name of the contact"
+                },
+                "phone_number": {
+                  "type": "string",
+                  "description": "The phone number of the contact"
+                },
+                "blocked": {
+                  "type": "boolean",
+                  "description": "Whether the contact is blocked"
+                },
+                "identifier": {
+                  "type": "string",
+                  "description": "The identifier of the contact"
+                },
+                "thumbnail": {
+                  "type": "string",
+                  "description": "The thumbnail of the contact"
+                },
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The custom attributes of the contact",
+                  "example": {
+                    "attribute_key": "attribute_value",
+                    "signed_up_at": "dd/mm/yyyy"
+                  }
+                },
+                "last_activity_at": {
+                  "type": "integer",
+                  "description": "The last activity at of the contact"
+                },
+                "created_at": {
+                  "type": "integer",
+                  "description": "The created at of the contact"
+                },
+                "contact_inboxes": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/contact_inboxes"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "conversation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the conversation"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/message"
+            }
+          },
+          "account_id": {
+            "type": "number",
+            "description": "Account Id"
+          },
+          "uuid": {
+            "type": "string",
+            "description": "UUID of the conversation"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "The object containing additional attributes related to the conversation"
+          },
+          "agent_last_seen_at": {
+            "type": "number",
+            "description": "The last activity at of the agent"
+          },
+          "assignee_last_seen_at": {
+            "type": "number",
+            "description": "The last activity at of the assignee"
+          },
+          "can_reply": {
+            "type": "boolean",
+            "description": "Whether the conversation can be replied to"
+          },
+          "contact_last_seen_at": {
+            "type": "number",
+            "description": "The last activity at of the contact"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The object to save custom attributes for conversation, accepts custom attributes key and value"
+          },
+          "inbox_id": {
+            "type": "number",
+            "description": "ID of the inbox"
+          },
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "The labels of the conversation"
+          },
+          "muted": {
+            "type": "boolean",
+            "description": "Whether the conversation is muted"
+          },
+          "snoozed_until": {
+            "type": "number",
+            "description": "The time at which the conversation will be unmuted"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending"
+            ],
+            "description": "The status of the conversation"
+          },
+          "created_at": {
+            "type": "number",
+            "description": "The time at which conversation was created"
+          },
+          "updated_at": {
+            "type": "number",
+            "description": "The time at which conversation was updated"
+          },
+          "timestamp": {
+            "type": "string",
+            "description": "The time at which conversation was created"
+          },
+          "first_reply_created_at": {
+            "type": "number",
+            "description": "The time at which the first reply was created"
+          },
+          "unread_count": {
+            "type": "number",
+            "description": "The number of unread messages"
+          },
+          "last_non_activity_message": {
+            "$ref": "#/components/schemas/message"
+          },
+          "last_activity_at": {
+            "type": "number",
+            "description": "The last activity at of the conversation"
+          },
+          "priority": {
+            "type": "string",
+            "description": "The priority of the conversation"
+          },
+          "waiting_since": {
+            "type": "number",
+            "description": "The time at which the conversation was waiting"
+          },
+          "sla_policy_id": {
+            "type": "number",
+            "description": "The ID of the SLA policy"
+          },
+          "applied_sla": {
+            "type": "object",
+            "description": "The applied SLA"
+          },
+          "sla_events": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "description": "SLA event objects"
+            }
+          }
+        }
+      },
+      "message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the message"
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content of the message"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "The ID of the account"
+          },
+          "inbox_id": {
+            "type": "number",
+            "description": "The ID of the inbox"
+          },
+          "conversation_id": {
+            "type": "number",
+            "description": "The ID of the conversation"
+          },
+          "message_type": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2
+            ],
+            "description": "The type of the message"
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "The time at which message was created"
+          },
+          "updated_at": {
+            "type": "integer",
+            "description": "The time at which message was updated"
+          },
+          "private": {
+            "type": "boolean",
+            "description": "The flags which shows whether the message is private or not"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "sent",
+              "delivered",
+              "read",
+              "failed"
+            ],
+            "description": "The status of the message"
+          },
+          "source_id": {
+            "type": "string",
+            "description": "The source ID of the message"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "input_select",
+              "cards",
+              "form"
+            ],
+            "description": "The type of the template message"
+          },
+          "content_attributes": {
+            "type": "object",
+            "description": "The content attributes for each content_type"
+          },
+          "sender_type": {
+            "type": "string",
+            "enum": [
+              "contact",
+              "agent",
+              "agent_bot"
+            ],
+            "description": "The type of the sender"
+          },
+          "sender_id": {
+            "type": "number",
+            "description": "The ID of the sender"
+          },
+          "external_source_ids": {
+            "type": "object",
+            "description": "The external source IDs of the message"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "The additional attributes of the message"
+          },
+          "processed_message_content": {
+            "type": "string",
+            "description": "The processed message content"
+          },
+          "sentiment": {
+            "type": "object",
+            "description": "The sentiment of the message"
+          },
+          "conversation": {
+            "type": "object",
+            "description": "The conversation object"
+          },
+          "attachment": {
+            "type": "object",
+            "description": "The file object attached to the image"
+          },
+          "sender": {
+            "type": "object",
+            "description": "User/Agent/AgentBot object"
+          }
+        }
+      },
+      "user": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "access_token": {
+            "type": "string"
+          },
+          "account_id": {
+            "type": "number"
+          },
+          "available_name": {
+            "type": "string"
+          },
+          "avatar_url": {
+            "type": "string"
+          },
+          "confirmed": {
+            "type": "boolean"
+          },
+          "display_name": {
+            "type": "string",
+            "nullable": true
+          },
+          "message_signature": {
+            "type": "string",
+            "nullable": true
+          },
+          "email": {
+            "type": "string"
+          },
+          "hmac_identifier": {
+            "type": "string"
+          },
+          "inviter_id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "provider": {
+            "type": "string"
+          },
+          "pubsub_token": {
+            "type": "string"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "administrator"
+            ]
+          },
+          "ui_settings": {
+            "type": "object"
+          },
+          "uid": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string",
+            "nullable": true
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "Available for users who are created through platform APIs and has custom attributes associated."
+          },
+          "accounts": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "id": {
+                  "type": "number"
+                },
+                "name": {
+                  "type": "string"
+                },
+                "status": {
+                  "type": "string"
+                },
+                "active_at": {
+                  "type": "string",
+                  "format": "date-time"
+                },
+                "role": {
+                  "type": "string",
+                  "enum": [
+                    "administrator",
+                    "agent"
+                  ]
+                },
+                "permissions": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "availability": {
+                  "type": "string"
+                },
+                "availability_status": {
+                  "type": "string"
+                },
+                "auto_offline": {
+                  "type": "boolean"
+                },
+                "custom_role_id": {
+                  "type": "number",
+                  "nullable": true
+                },
+                "custom_role": {
+                  "type": "object",
+                  "nullable": true
+                }
+              }
+            }
+          }
+        }
+      },
+      "agent": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer"
+          },
+          "account_id": {
+            "type": "integer"
+          },
+          "availability_status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "busy",
+              "offline"
+            ],
+            "description": "The availability status of the agent computed by Chatwoot."
+          },
+          "auto_offline": {
+            "type": "boolean",
+            "description": "Whether the availability status of agent is configured to go offline automatically when away."
+          },
+          "confirmed": {
+            "type": "boolean",
+            "description": "Whether the agent has confirmed their email address."
+          },
+          "email": {
+            "type": "string",
+            "description": "The email of the agent"
+          },
+          "available_name": {
+            "type": "string",
+            "description": "The available name of the agent"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the agent"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "administrator"
+            ],
+            "description": "The role of the agent"
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the agent"
+          },
+          "custom_role_id": {
+            "type": "integer",
+            "description": "The custom role id of the agent"
+          }
+        }
+      },
+      "inbox": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the inbox"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the inbox"
+          },
+          "website_url": {
+            "type": "string",
+            "description": "Website URL"
+          },
+          "channel_type": {
+            "type": "string",
+            "description": "The type of the inbox"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The avatar image of the inbox"
+          },
+          "widget_color": {
+            "type": "string",
+            "description": "Widget Color used for customization of the widget"
+          },
+          "website_token": {
+            "type": "string",
+            "description": "Website Token"
+          },
+          "enable_auto_assignment": {
+            "type": "boolean",
+            "description": "The flag which shows whether Auto Assignment is enabled or not"
+          },
+          "web_widget_script": {
+            "type": "string",
+            "description": "Script used to load the website widget"
+          },
+          "welcome_title": {
+            "type": "string",
+            "description": "Welcome title to be displayed on the widget"
+          },
+          "welcome_tagline": {
+            "type": "string",
+            "description": "Welcome tagline to be displayed on the widget"
+          },
+          "greeting_enabled": {
+            "type": "boolean",
+            "description": "The flag which shows whether greeting is enabled"
+          },
+          "greeting_message": {
+            "type": "string",
+            "description": "A greeting message when the user starts the conversation"
+          },
+          "channel_id": {
+            "type": "number",
+            "description": "ID of the channel this inbox belongs to"
+          },
+          "working_hours_enabled": {
+            "type": "boolean",
+            "description": "The flag which shows whether working hours feature is enabled"
+          },
+          "enable_email_collect": {
+            "type": "boolean",
+            "description": "The flag to enable collecting email from contacts"
+          },
+          "csat_survey_enabled": {
+            "type": "boolean",
+            "description": "The flag to enable CSAT survey"
+          },
+          "auto_assignment_config": {
+            "type": "object",
+            "description": "Configuration settings for auto assignment"
+          },
+          "out_of_office_message": {
+            "type": "string",
+            "description": "Message to show when agents are out of office"
+          },
+          "working_hours": {
+            "type": "array",
+            "description": "Configuration for working hours of the inbox",
+            "items": {
+              "type": "object",
+              "properties": {
+                "day_of_week": {
+                  "type": "number",
+                  "description": "Day of the week (0-6, where 0 is Sunday)"
+                },
+                "closed_all_day": {
+                  "type": "boolean",
+                  "description": "Whether the inbox is closed for the entire day"
+                },
+                "open_hour": {
+                  "type": "number",
+                  "description": "Hour when inbox opens (0-23)"
+                },
+                "open_minutes": {
+                  "type": "number",
+                  "description": "Minutes of the hour when inbox opens (0-59)"
+                },
+                "close_hour": {
+                  "type": "number",
+                  "description": "Hour when inbox closes (0-23)"
+                },
+                "close_minutes": {
+                  "type": "number",
+                  "description": "Minutes of the hour when inbox closes (0-59)"
+                },
+                "open_all_day": {
+                  "type": "boolean",
+                  "description": "Whether the inbox is open for the entire day"
+                }
+              }
+            }
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone configuration for the inbox"
+          },
+          "callback_webhook_url": {
+            "type": "string",
+            "description": "Webhook URL for callbacks"
+          },
+          "allow_messages_after_resolved": {
+            "type": "boolean",
+            "description": "Whether to allow messages after a conversation is resolved"
+          },
+          "lock_to_single_conversation": {
+            "type": "boolean",
+            "description": "Whether to lock a contact to a single conversation"
+          },
+          "sender_name_type": {
+            "type": "string",
+            "description": "Type of sender name to display (e.g., friendly)"
+          },
+          "business_name": {
+            "type": "string",
+            "description": "Business name associated with the inbox"
+          },
+          "hmac_mandatory": {
+            "type": "boolean",
+            "description": "Whether HMAC verification is mandatory"
+          },
+          "selected_feature_flags": {
+            "type": "object",
+            "description": "Selected feature flags for the inbox"
+          },
+          "reply_time": {
+            "type": "string",
+            "description": "Expected reply time"
+          },
+          "messaging_service_sid": {
+            "type": "string",
+            "description": "Messaging service SID for SMS providers"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "Phone number associated with the inbox"
+          },
+          "medium": {
+            "type": "string",
+            "description": "Medium of communication (e.g., sms, email)"
+          },
+          "provider": {
+            "type": "string",
+            "description": "Provider of the channel"
+          }
+        }
+      },
+      "inbox_contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the inbox"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The avatar image of the inbox"
+          },
+          "channel_id": {
+            "type": "number",
+            "description": "The ID of the channel"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the inbox"
+          },
+          "channel_type": {
+            "type": "string",
+            "description": "The type of the inbox"
+          },
+          "provider": {
+            "type": "string",
+            "description": "The provider of the inbox"
+          }
+        }
+      },
+      "agent_bot": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "ID of the agent bot"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the agent bot"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description about the agent bot"
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the agent bot"
+          },
+          "outgoing_url": {
+            "type": "string",
+            "description": "The webhook URL for the bot"
+          },
+          "bot_type": {
+            "type": "string",
+            "description": "The type of the bot"
+          },
+          "bot_config": {
+            "type": "object",
+            "description": "The configuration of the bot"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "Account ID if it's an account specific bot"
+          },
+          "access_token": {
+            "type": "string",
+            "description": "The access token for the bot"
+          },
+          "system_bot": {
+            "type": "boolean",
+            "description": "Whether the bot is a system bot"
+          }
+        }
+      },
+      "contact_inboxes": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Contact Inbox Source Id"
+          },
+          "inbox": {
+            "$ref": "#/components/schemas/inbox_contact"
+          }
+        }
+      },
+      "contactable_inboxes": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Contact Inbox Source Id"
+          },
+          "inbox": {
+            "$ref": "#/components/schemas/inbox"
+          }
+        }
+      },
+      "custom_filter": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the custom filter"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the custom filter"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "conversation",
+              "contact",
+              "report"
+            ],
+            "description": "The description about the custom filter"
+          },
+          "query": {
+            "type": "object",
+            "description": "A query that needs to be saved as a custom filter"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time at which the custom filter was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "The time at which the custom filter was updated"
+          }
+        }
+      },
+      "webhook": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the webhook"
+          },
+          "url": {
+            "type": "string",
+            "description": "The url to which the events will be send"
+          },
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "conversation_created",
+                "conversation_status_changed",
+                "conversation_updated",
+                "contact_created",
+                "contact_updated",
+                "message_created",
+                "message_updated",
+                "webwidget_triggered"
+              ]
+            },
+            "description": "The list of subscribed events"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "The id of the account which the webhook object belongs to"
+          }
+        }
+      },
+      "account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Account ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the account"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "administrator",
+              "agent"
+            ],
+            "description": "The user role in the account"
+          }
+        }
+      },
+      "account_user": {
+        "type": "array",
+        "description": "Array of account users",
+        "items": {
+          "type": "object",
+          "properties": {
+            "account_id": {
+              "type": "integer",
+              "description": "The ID of the account"
+            },
+            "user_id": {
+              "type": "integer",
+              "description": "The ID of the user"
+            },
+            "role": {
+              "type": "string",
+              "description": "whether user is an administrator or agent"
+            }
+          }
+        }
+      },
+      "platform_account": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "Account ID"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the account"
+          }
+        }
+      },
+      "team": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the team"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the team"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description about the team"
+          },
+          "allow_auto_assign": {
+            "type": "boolean",
+            "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team"
+          },
+          "account_id": {
+            "type": "number",
+            "description": "The ID of the account with the team is a part of"
+          },
+          "is_member": {
+            "type": "boolean",
+            "description": "This field shows whether the current user is a part of the team"
+          }
+        }
+      },
+      "integrations_app": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the integration"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the integration"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description about the team"
+          },
+          "hook_type": {
+            "type": "string",
+            "description": "Whether the integration is an account or inbox integration"
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Whether the integration is enabled for the account"
+          },
+          "allow_multiple_hooks": {
+            "type": "boolean",
+            "description": "Whether multiple hooks can be created for the integration"
+          },
+          "hooks": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "If there are any hooks created for this integration"
+          }
+        }
+      },
+      "integrations_hook": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "The ID of the integration hook"
+          },
+          "app_id": {
+            "type": "string",
+            "description": "The ID of the integration app"
+          },
+          "inbox_id": {
+            "type": "string",
+            "description": "Inbox ID if its an Inbox integration"
+          },
+          "account_id": {
+            "type": "string",
+            "description": "Account ID of the integration"
+          },
+          "status": {
+            "type": "boolean",
+            "description": "Whether the integration hook is enabled for the account"
+          },
+          "hook_type": {
+            "type": "boolean",
+            "description": "Whether its an account or inbox integration hook"
+          },
+          "settings": {
+            "type": "object",
+            "description": "The associated settings for the integration"
+          }
+        }
+      },
+      "public_contact": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the contact"
+          },
+          "source_id": {
+            "type": "string",
+            "description": "The session identifier of the contact"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the contact"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the contact"
+          },
+          "pubsub_token": {
+            "type": "string",
+            "description": "The token to be used to connect to chatwoot websocket"
+          }
+        }
+      },
+      "public_conversation": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "Id of the conversation"
+          },
+          "inbox_id": {
+            "type": "string",
+            "description": "The inbox id of the conversation"
+          },
+          "messages": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/message"
+            },
+            "description": "Messages in the conversation"
+          },
+          "contact": {
+            "type": "object",
+            "description": "The contact information associated to the conversation"
+          }
+        }
+      },
+      "public_message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Id of the message"
+          },
+          "content": {
+            "type": "string",
+            "description": "Text content of the message"
+          },
+          "message_type": {
+            "type": "string",
+            "description": "Denotes the message type"
+          },
+          "content_type": {
+            "type": "string",
+            "description": "Content type of the message"
+          },
+          "content_attributes": {
+            "type": "string",
+            "description": "Additional content attributes of the message"
+          },
+          "created_at": {
+            "type": "string",
+            "description": "Created at time stamp of the message"
+          },
+          "conversation_id": {
+            "type": "string",
+            "description": "Conversation Id of the message"
+          },
+          "attachments": {
+            "type": "array",
+            "items": {
+              "type": "object"
+            },
+            "description": "Attachments if any"
+          },
+          "sender": {
+            "type": "object",
+            "description": "Details of the sender"
+          }
+        }
+      },
+      "public_inbox": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "Inbox identifier"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the inbox"
+          },
+          "timezone": {
+            "type": "string",
+            "description": "The timezone defined on the inbox"
+          },
+          "working_hours": {
+            "type": "array",
+            "description": "The working hours defined on the inbox",
+            "items": {
+              "type": "object",
+              "properties": {
+                "day_of_week": {
+                  "type": "integer",
+                  "description": "Day of the week as a number. Sunday -> 0, Saturday -> 6"
+                },
+                "open_all_day": {
+                  "type": "boolean",
+                  "description": "Whether or not the business is open the whole day"
+                },
+                "closed_all_day": {
+                  "type": "boolean",
+                  "description": "Whether or not the business is closed the whole day"
+                },
+                "open_hour": {
+                  "type": "integer",
+                  "description": "Opening hour. Can be null if closed all day"
+                },
+                "open_minutes": {
+                  "type": "integer",
+                  "description": "Opening minute. Can be null if closed all day"
+                },
+                "close_hour": {
+                  "type": "integer",
+                  "description": "Closing hour. Can be null if closed all day"
+                },
+                "close_minutes": {
+                  "type": "integer",
+                  "description": "Closing minute. Can be null if closed all day"
+                }
+              }
+            }
+          },
+          "working_hours_enabled": {
+            "type": "boolean",
+            "description": "Whether of not the working hours are enabled on the inbox"
+          },
+          "csat_survey_enabled": {
+            "type": "boolean",
+            "description": "Whether of not the Customer Satisfaction survey is enabled on the inbox"
+          },
+          "greeting_enabled": {
+            "type": "boolean",
+            "description": "Whether of not the Greeting Message is enabled on the inbox"
+          },
+          "identity_validation_enabled": {
+            "type": "boolean",
+            "description": "Whether of not the User Identity Validation is enforced on the inbox"
+          }
+        }
+      },
+      "account_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the account",
+            "example": "My Account"
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale of the account",
+            "example": "en"
+          },
+          "domain": {
+            "type": "string",
+            "description": "The domain of the account",
+            "example": "example.com"
+          },
+          "support_email": {
+            "type": "string",
+            "description": "The support email of the account",
+            "example": "support@example.com"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "active",
+              "suspended"
+            ],
+            "description": "The status of the account",
+            "example": "active"
+          },
+          "limits": {
+            "type": "object",
+            "description": "The limits of the account",
+            "example": {}
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The custom attributes of the account",
+            "example": {}
+          }
+        }
+      },
+      "account_user_create_update_payload": {
+        "type": "object",
+        "required": [
+          "user_id",
+          "role"
+        ],
+        "properties": {
+          "user_id": {
+            "type": "integer",
+            "description": "The ID of the user",
+            "example": 1
+          },
+          "role": {
+            "type": "string",
+            "description": "whether user is an administrator or agent",
+            "example": "administrator"
+          }
+        }
+      },
+      "platform_agent_bot_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the agent bot",
+            "example": "My Agent Bot"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the agent bot",
+            "example": "This is a sample agent bot"
+          },
+          "outgoing_url": {
+            "type": "string",
+            "description": "The webhook URL for the bot",
+            "example": "https://example.com/webhook"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "The account ID to associate the agent bot with",
+            "example": 1
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Send the form data with the avatar image binary or use the avatar_url"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The url to a jpeg, png file for the agent bot avatar",
+            "example": "https://example.com/avatar.png"
+          }
+        }
+      },
+      "agent_bot_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the agent bot",
+            "example": "My Agent Bot"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the agent bot",
+            "example": "This is a sample agent bot"
+          },
+          "outgoing_url": {
+            "type": "string",
+            "description": "The webhook URL for the bot",
+            "example": "https://example.com/webhook"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Send the form data with the avatar image binary or use the avatar_url"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The url to a jpeg, png file for the agent bot avatar",
+            "example": "https://example.com/avatar.png"
+          },
+          "bot_type": {
+            "type": "integer",
+            "description": "The type of the bot (0 for webhook)",
+            "example": 0
+          },
+          "bot_config": {
+            "type": "object",
+            "description": "The configuration for the bot",
+            "example": {}
+          }
+        }
+      },
+      "user_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Name of the user",
+            "example": "Daniel"
+          },
+          "display_name": {
+            "type": "string",
+            "description": "Display name of the user",
+            "example": "Dan"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the user",
+            "example": "daniel@acme.inc"
+          },
+          "password": {
+            "type": "string",
+            "description": "Password must contain uppercase, lowercase letters, number and a special character",
+            "example": "Password2!"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "Custom attributes you want to associate with the user",
+            "example": {}
+          }
+        }
+      },
+      "canned_response_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Message content for canned response",
+            "example": "Hello, {{contact.name}}! Welcome to our service."
+          },
+          "short_code": {
+            "type": "string",
+            "description": "Short Code for quick access of the canned response",
+            "example": "welcome"
+          }
+        }
+      },
+      "custom_attribute_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "attribute_display_name": {
+            "type": "string",
+            "description": "Attribute display name",
+            "example": "Custom Attribute"
+          },
+          "attribute_display_type": {
+            "type": "integer",
+            "description": "Attribute display type (text- 0, number- 1, currency- 2, percent- 3, link- 4, date- 5, list- 6, checkbox- 7)",
+            "example": 0
+          },
+          "attribute_description": {
+            "type": "string",
+            "description": "Attribute description",
+            "example": "This is a custom attribute"
+          },
+          "attribute_key": {
+            "type": "string",
+            "description": "Attribute unique key value",
+            "example": "custom_attribute"
+          },
+          "attribute_values": {
+            "type": "array",
+            "description": "Attribute values",
+            "items": {
+              "type": "string"
+            },
+            "example": [
+              "value1",
+              "value2"
+            ]
+          },
+          "attribute_model": {
+            "type": "integer",
+            "description": "Attribute type(conversation_attribute- 0, contact_attribute- 1)",
+            "example": 0
+          },
+          "regex_pattern": {
+            "type": "string",
+            "description": "Regex pattern (Only applicable for type- text). The regex pattern is used to validate the attribute value(s).",
+            "example": "^[a-zA-Z0-9]+$"
+          },
+          "regex_cue": {
+            "type": "string",
+            "description": "Regex cue message (Only applicable for type- text). The cue message is shown when the regex pattern is not matched.",
+            "example": "Please enter a valid value"
+          }
+        }
+      },
+      "agent_create_payload": {
+        "type": "object",
+        "required": [
+          "name",
+          "email",
+          "role"
+        ],
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Full Name of the agent",
+            "example": "John Doe"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the Agent",
+            "example": "john.doe@acme.inc"
+          },
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "administrator"
+            ],
+            "description": "Whether its administrator or agent",
+            "example": "agent"
+          },
+          "availability_status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "busy",
+              "offline"
+            ],
+            "description": "The availability setting of the agent.",
+            "example": "available"
+          },
+          "auto_offline": {
+            "type": "boolean",
+            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "example": true
+          }
+        }
+      },
+      "agent_update_payload": {
+        "type": "object",
+        "required": [
+          "role"
+        ],
+        "properties": {
+          "role": {
+            "type": "string",
+            "enum": [
+              "agent",
+              "administrator"
+            ],
+            "description": "Whether its administrator or agent",
+            "example": "agent"
+          },
+          "availability_status": {
+            "type": "string",
+            "enum": [
+              "available",
+              "busy",
+              "offline"
+            ],
+            "description": "The availability status of the agent.",
+            "example": "available"
+          },
+          "auto_offline": {
+            "type": "boolean",
+            "description": "Whether the availability status of agent is configured to go offline automatically when away.",
+            "example": true
+          }
+        }
+      },
+      "contact_create_payload": {
+        "type": "object",
+        "required": [
+          "inbox_id"
+        ],
+        "properties": {
+          "inbox_id": {
+            "type": "number",
+            "description": "ID of the inbox to which the contact belongs",
+            "example": 1
+          },
+          "name": {
+            "type": "string",
+            "description": "name of the contact",
+            "example": "Alice"
+          },
+          "email": {
+            "type": "string",
+            "description": "email of the contact",
+            "example": "alice@acme.inc"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "whether the contact is blocked or not",
+            "example": false
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "phone number of the contact",
+            "example": "+123456789"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Send the form data with the avatar image binary or use the avatar_url"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The url to a jpeg, png file for the contact avatar",
+            "example": "https://example.com/avatar.png"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "A unique identifier for the contact in external system",
+            "example": "1234567890"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "An object where you can store additional attributes for contact. example {\"type\":\"customer\", \"age\":30}",
+            "example": {
+              "type": "customer",
+              "age": 30
+            }
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
+            "example": {}
+          }
+        }
+      },
+      "contact_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "name of the contact",
+            "example": "Alice"
+          },
+          "email": {
+            "type": "string",
+            "description": "email of the contact",
+            "example": "alice@acme.inc"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "whether the contact is blocked or not",
+            "example": false
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "phone number of the contact",
+            "example": "+123456789"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Send the form data with the avatar image binary or use the avatar_url"
+          },
+          "avatar_url": {
+            "type": "string",
+            "description": "The url to a jpeg, png file for the contact avatar",
+            "example": "https://example.com/avatar.png"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "A unique identifier for the contact in external system",
+            "example": "1234567890"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "An object where you can store additional attributes for contact. example {\"type\":\"customer\", \"age\":30}",
+            "example": {
+              "type": "customer",
+              "age": 30
+            }
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
+            "example": {}
+          }
+        }
+      },
+      "conversation_create_payload": {
+        "type": "object",
+        "required": [
+          "source_id",
+          "inbox_id"
+        ],
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Conversation source id",
+            "example": "1234567890"
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email",
+            "example": 1
+          },
+          "contact_id": {
+            "type": "integer",
+            "description": "Contact Id for which conversation is created",
+            "example": 1
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Lets you specify attributes like browser information",
+            "example": {
+              "browser": "Chrome",
+              "browser_version": "89.0.4389.82",
+              "os": "Windows",
+              "os_version": "10"
+            }
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The object to save custom attributes for conversation, accepts custom attributes key and value",
+            "example": {
+              "attribute_key": "attribute_value",
+              "priority_conversation_number": 3
+            }
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "open",
+              "resolved",
+              "pending"
+            ],
+            "description": "Specify the conversation whether it's pending, open, closed",
+            "example": "open"
+          },
+          "assignee_id": {
+            "type": "integer",
+            "description": "Agent Id for assigning a conversation to an agent",
+            "example": 1
+          },
+          "team_id": {
+            "type": "integer",
+            "description": "Team Id for assigning a conversation to a team\\",
+            "example": 1
+          },
+          "snoozed_until": {
+            "type": "string",
+            "format": "date-time",
+            "description": "Snoozed until date time",
+            "example": "2030-07-21T17:32:28Z"
+          },
+          "message": {
+            "type": "object",
+            "description": "The initial message to be sent to the conversation",
+            "required": [
+              "content"
+            ],
+            "properties": {
+              "content": {
+                "type": "string",
+                "description": "The content of the message",
+                "example": "Hello, how can I help you?"
+              },
+              "template_params": {
+                "type": "object",
+                "description": "The template params for the message in case of whatsapp Channel",
+                "properties": {
+                  "name": {
+                    "type": "string",
+                    "description": "Name of the template",
+                    "example": "sample_issue_resolution"
+                  },
+                  "category": {
+                    "type": "string",
+                    "description": "Category of the template",
+                    "example": "UTILITY"
+                  },
+                  "language": {
+                    "type": "string",
+                    "description": "Language of the template",
+                    "example": "en_US"
+                  },
+                  "processed_params": {
+                    "type": "object",
+                    "description": "The processed param values for template variables in template",
+                    "example": {
+                      "1": "Chatwoot"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "conversation_message_create_payload": {
+        "type": "object",
+        "required": [
+          "content"
+        ],
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "The content of the message",
+            "example": "Hello, how can I help you?"
+          },
+          "message_type": {
+            "type": "string",
+            "enum": [
+              "outgoing",
+              "incoming"
+            ],
+            "description": "The type of the message",
+            "example": "outgoing"
+          },
+          "private": {
+            "type": "boolean",
+            "description": "Flag to identify if it is a private note",
+            "example": false
+          },
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "input_email",
+              "cards",
+              "input_select",
+              "form",
+              "article"
+            ],
+            "description": "Content type of the message",
+            "example": "text"
+          },
+          "content_attributes": {
+            "type": "object",
+            "description": "Attributes based on the content type",
+            "example": {}
+          },
+          "campaign_id": {
+            "type": "integer",
+            "description": "The campaign id to which the message belongs",
+            "example": 1
+          },
+          "template_params": {
+            "type": "object",
+            "description": "The template params for the message in case of whatsapp Channel",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "Name of the template",
+                "example": "sample_issue_resolution"
+              },
+              "category": {
+                "type": "string",
+                "description": "Category of the template",
+                "example": "UTILITY"
+              },
+              "language": {
+                "type": "string",
+                "description": "Language of the template",
+                "example": "en_US"
+              },
+              "processed_params": {
+                "type": "object",
+                "description": "The processed param values for template variables in template",
+                "example": {
+                  "1": "Chatwoot"
+                }
+              }
+            }
+          }
+        }
+      },
+      "inbox_create_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the inbox",
+            "example": "Support"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Image file for avatar"
+          },
+          "greeting_enabled": {
+            "type": "boolean",
+            "description": "Enable greeting message",
+            "example": true
+          },
+          "greeting_message": {
+            "type": "string",
+            "description": "Greeting message to be displayed on the widget",
+            "example": "Hello, how can I help you?"
+          },
+          "enable_email_collect": {
+            "type": "boolean",
+            "description": "Enable email collection",
+            "example": true
+          },
+          "csat_survey_enabled": {
+            "type": "boolean",
+            "description": "Enable CSAT survey",
+            "example": true
+          },
+          "enable_auto_assignment": {
+            "type": "boolean",
+            "description": "Enable Auto Assignment",
+            "example": true
+          },
+          "working_hours_enabled": {
+            "type": "boolean",
+            "description": "Enable working hours",
+            "example": true
+          },
+          "out_of_office_message": {
+            "type": "string",
+            "description": "Out of office message to be displayed on the widget",
+            "example": "We are currently out of office. Please leave a message and we will get back to you."
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the inbox",
+            "example": "America/New_York"
+          },
+          "allow_messages_after_resolved": {
+            "type": "boolean",
+            "description": "Allow messages after conversation is resolved",
+            "example": true
+          },
+          "lock_to_single_conversation": {
+            "type": "boolean",
+            "description": "Lock to single conversation",
+            "example": true
+          },
+          "portal_id": {
+            "type": "integer",
+            "description": "Id of the help center portal to attach to the inbox",
+            "example": 1
+          },
+          "sender_name_type": {
+            "type": "string",
+            "description": "Sender name type for the inbox",
+            "enum": [
+              "friendly",
+              "professional"
+            ],
+            "example": "friendly"
+          },
+          "business_name": {
+            "type": "string",
+            "description": "Business name for the inbox",
+            "example": "My Business"
+          },
+          "channel": {
+            "type": "object",
+            "properties": {
+              "type": {
+                "type": "string",
+                "description": "Type of the channel",
+                "enum": [
+                  "web_widget",
+                  "api",
+                  "email",
+                  "line",
+                  "telegram",
+                  "whatsapp",
+                  "sms"
+                ],
+                "example": "web_widget"
+              },
+              "website_url": {
+                "type": "string",
+                "description": "URL at which the widget will be loaded",
+                "example": "https://example.com"
+              },
+              "welcome_title": {
+                "type": "string",
+                "description": "Welcome title to be displayed on the widget",
+                "example": "Welcome to our support"
+              },
+              "welcome_tagline": {
+                "type": "string",
+                "description": "Welcome tagline to be displayed on the widget",
+                "example": "We are here to help you"
+              },
+              "widget_color": {
+                "type": "string",
+                "description": "A Hex-color string used to customize the widget",
+                "example": "#FF5733"
+              }
+            }
+          }
+        }
+      },
+      "inbox_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the inbox",
+            "example": "Support"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Image file for avatar"
+          },
+          "greeting_enabled": {
+            "type": "boolean",
+            "description": "Enable greeting message",
+            "example": true
+          },
+          "greeting_message": {
+            "type": "string",
+            "description": "Greeting message to be displayed on the widget",
+            "example": "Hello, how can I help you?"
+          },
+          "enable_email_collect": {
+            "type": "boolean",
+            "description": "Enable email collection",
+            "example": true
+          },
+          "csat_survey_enabled": {
+            "type": "boolean",
+            "description": "Enable CSAT survey",
+            "example": true
+          },
+          "enable_auto_assignment": {
+            "type": "boolean",
+            "description": "Enable Auto Assignment",
+            "example": true
+          },
+          "working_hours_enabled": {
+            "type": "boolean",
+            "description": "Enable working hours",
+            "example": true
+          },
+          "out_of_office_message": {
+            "type": "string",
+            "description": "Out of office message to be displayed on the widget",
+            "example": "We are currently out of office. Please leave a message and we will get back to you."
+          },
+          "timezone": {
+            "type": "string",
+            "description": "Timezone of the inbox",
+            "example": "America/New_York"
+          },
+          "allow_messages_after_resolved": {
+            "type": "boolean",
+            "description": "Allow messages after conversation is resolved",
+            "example": true
+          },
+          "lock_to_single_conversation": {
+            "type": "boolean",
+            "description": "Lock to single conversation",
+            "example": true
+          },
+          "portal_id": {
+            "type": "integer",
+            "description": "Id of the help center portal to attach to the inbox",
+            "example": 1
+          },
+          "sender_name_type": {
+            "type": "string",
+            "description": "Sender name type for the inbox",
+            "enum": [
+              "friendly",
+              "professional"
+            ],
+            "example": "friendly"
+          },
+          "business_name": {
+            "type": "string",
+            "description": "Business name for the inbox",
+            "example": "My Business"
+          },
+          "channel": {
+            "type": "object",
+            "properties": {
+              "website_url": {
+                "type": "string",
+                "description": "URL at which the widget will be loaded",
+                "example": "https://example.com"
+              },
+              "welcome_title": {
+                "type": "string",
+                "description": "Welcome title to be displayed on the widget",
+                "example": "Welcome to our support"
+              },
+              "welcome_tagline": {
+                "type": "string",
+                "description": "Welcome tagline to be displayed on the widget",
+                "example": "We are here to help you"
+              },
+              "widget_color": {
+                "type": "string",
+                "description": "A Hex-color string used to customize the widget",
+                "example": "#FF5733"
+              }
+            }
+          }
+        }
+      },
+      "team_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the team",
+            "example": "Support Team"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the team",
+            "example": "This is a team of support agents"
+          },
+          "allow_auto_assign": {
+            "type": "boolean",
+            "description": "If this setting is turned on, the system would automatically assign the conversation to an agent in the team while assigning the conversation to a team",
+            "example": true
+          }
+        }
+      },
+      "custom_filter_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the custom filter",
+            "example": "My Custom Filter"
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "conversation",
+              "contact",
+              "report"
+            ],
+            "description": "The description about the custom filter",
+            "example": "conversation"
+          },
+          "query": {
+            "type": "object",
+            "description": "A query that needs to be saved as a custom filter",
+            "example": {}
+          }
+        }
+      },
+      "webhook_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "description": "The url where the events should be sent",
+            "example": "https://example.com/webhook"
+          },
+          "subscriptions": {
+            "type": "array",
+            "items": {
+              "type": "string",
+              "enum": [
+                "conversation_created",
+                "conversation_status_changed",
+                "conversation_updated",
+                "message_created",
+                "message_updated",
+                "contact_created",
+                "contact_updated",
+                "webwidget_triggered"
+              ]
+            },
+            "description": "The events you want to subscribe to.",
+            "example": [
+              "conversation_created",
+              "conversation_status_changed"
+            ]
+          }
+        }
+      },
+      "integrations_hook_create_payload": {
+        "type": "object",
+        "properties": {
+          "app_id": {
+            "type": "integer",
+            "description": "The ID of app for which integration hook is being created",
+            "example": 1
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "The inbox ID, if the hook is an inbox hook",
+            "example": 1
+          },
+          "status": {
+            "type": "integer",
+            "description": "The status of the integration (0 for inactive, 1 for active)",
+            "example": 1
+          },
+          "settings": {
+            "type": "object",
+            "description": "The settings required by the integration",
+            "example": {}
+          }
+        }
+      },
+      "integrations_hook_update_payload": {
+        "type": "object",
+        "properties": {
+          "status": {
+            "type": "integer",
+            "description": "The status of the integration (0 for inactive, 1 for active)",
+            "example": 1
+          },
+          "settings": {
+            "type": "object",
+            "description": "The settings required by the integration",
+            "example": {}
+          }
+        }
+      },
+      "automation_rule_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "Rule name",
+            "example": "Add label on message create event"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description about the automation and actions",
+            "example": "Add label support and sales on message create event if incoming message content contains text help"
+          },
+          "event_name": {
+            "type": "string",
+            "enum": [
+              "conversation_created",
+              "conversation_updated",
+              "message_created"
+            ],
+            "example": "message_created",
+            "description": "The event when you want to execute the automation actions"
+          },
+          "active": {
+            "type": "boolean",
+            "description": "Enable/disable automation rule"
+          },
+          "actions": {
+            "type": "array",
+            "description": "Array of actions which you want to perform when condition matches, e.g add label support if message contains content help.",
+            "items": {
+              "type": "object",
+              "example": {
+                "action_name": "add_label",
+                "action_params": [
+                  "support"
+                ]
+              }
+            }
+          },
+          "conditions": {
+            "type": "array",
+            "description": "Array of conditions on which conversation filter would work, e.g message content contains text help.",
+            "items": {
+              "type": "object",
+              "example": {
+                "attribute_key": "content",
+                "filter_operator": "contains",
+                "query_operator": "OR",
+                "values": [
+                  "help"
+                ]
+              }
+            }
+          }
+        }
+      },
+      "portal_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "color": {
+            "type": "string",
+            "description": "Header color for help-center in hex format",
+            "example": "#FFFFFF"
+          },
+          "custom_domain": {
+            "type": "string",
+            "description": "Custom domain to display help center.",
+            "example": "chatwoot.help"
+          },
+          "header_text": {
+            "type": "string",
+            "description": "Help center header",
+            "example": "Handbook"
+          },
+          "homepage_link": {
+            "type": "string",
+            "description": "link to main dashboard",
+            "example": "https://www.chatwoot.com/"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name for the portal",
+            "example": "Handbook"
+          },
+          "page_title": {
+            "type": "string",
+            "description": "Page title for the portal",
+            "example": "Handbook"
+          },
+          "slug": {
+            "type": "string",
+            "description": "Slug for the portal to display in link",
+            "example": "handbook"
+          },
+          "archived": {
+            "type": "boolean",
+            "description": "Status to check if portal is live",
+            "example": false
+          },
+          "config": {
+            "type": "object",
+            "description": "Configuration about supporting locales",
+            "example": {
+              "allowed_locales": [
+                "en",
+                "es"
+              ],
+              "default_locale": "en"
+            }
+          }
+        }
+      },
+      "category_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string",
+            "description": "The name of the category",
+            "example": "Category Name"
+          },
+          "description": {
+            "type": "string",
+            "description": "A description for the category",
+            "example": "Category description"
+          },
+          "position": {
+            "type": "integer",
+            "description": "Category position in the portal list to sort",
+            "example": 1
+          },
+          "slug": {
+            "type": "string",
+            "description": "The category slug used in the URL",
+            "example": "category-name"
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale of the category",
+            "example": "en"
+          },
+          "icon": {
+            "type": "string",
+            "description": "The icon of the category as a string (emoji)",
+            "example": "📚"
+          },
+          "parent_category_id": {
+            "type": "integer",
+            "description": "To define parent category, e.g product documentation has multiple level features in sales category or in engineering category.",
+            "example": 1
+          },
+          "associated_category_id": {
+            "type": "integer",
+            "description": "To associate similar categories to each other, e.g same category of product documentation in different languages",
+            "example": 2
+          }
+        }
+      },
+      "article_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string",
+            "description": "The title of the article",
+            "example": "Article Title"
+          },
+          "slug": {
+            "type": "string",
+            "description": "The slug of the article",
+            "example": "article-title"
+          },
+          "position": {
+            "type": "integer",
+            "description": "article position in category",
+            "example": 1
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content.",
+            "example": "This is the content of the article"
+          },
+          "description": {
+            "type": "string",
+            "description": "The description of the article",
+            "example": "This is the description of the article"
+          },
+          "category_id": {
+            "type": "integer",
+            "description": "The category id of the article",
+            "example": 1
+          },
+          "author_id": {
+            "type": "integer",
+            "description": "The author agent id of the article",
+            "example": 1
+          },
+          "associated_article_id": {
+            "type": "integer",
+            "description": "To associate similar articles to each other, e.g to provide the link for the reference.",
+            "example": 2
+          },
+          "status": {
+            "type": "integer",
+            "description": "The status of the article. 0 for draft, 1 for published, 2 for archived",
+            "example": 1
+          },
+          "locale": {
+            "type": "string",
+            "description": "The locale of the article",
+            "example": "en"
+          },
+          "meta": {
+            "type": "object",
+            "description": "Use for search",
+            "example": {
+              "tags": [
+                "article_name"
+              ],
+              "title": "article title",
+              "description": "article description"
+            }
+          }
+        }
+      },
+      "public_contact_create_update_payload": {
+        "type": "object",
+        "properties": {
+          "identifier": {
+            "type": "string",
+            "description": "External identifier of the contact",
+            "example": "1234567890"
+          },
+          "identifier_hash": {
+            "type": "string",
+            "description": "Identifier hash prepared for HMAC authentication",
+            "example": "e93275d4eba0e5679ad55f5360af00444e2a888df9b0afa3e8b691c3173725f9"
+          },
+          "email": {
+            "type": "string",
+            "description": "Email of the contact",
+            "example": "alice@acme.inc"
+          },
+          "name": {
+            "type": "string",
+            "description": "Name of the contact",
+            "example": "Alice"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "Phone number of the contact",
+            "example": "+123456789"
+          },
+          "avatar": {
+            "type": "string",
+            "format": "binary",
+            "description": "Send the form data with the avatar image binary or use the avatar_url"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "Custom attributes of the customer",
+            "example": {}
+          }
+        }
+      },
+      "public_message_create_payload": {
+        "type": "object",
+        "properties": {
+          "content": {
+            "type": "string",
+            "description": "Content for the message",
+            "example": "Hello, how can I help you?"
+          },
+          "echo_id": {
+            "type": "string",
+            "description": "Temporary identifier which will be passed back via websockets",
+            "example": "1234567890"
+          }
+        }
+      },
+      "public_message_update_payload": {
+        "type": "object",
+        "properties": {
+          "submitted_values": {
+            "type": "object",
+            "description": "Replies to the Bot Message Types",
+            "properties": {
+              "name": {
+                "type": "string",
+                "description": "The name of the submiitted value",
+                "example": "My Name"
+              },
+              "title": {
+                "type": "string",
+                "description": "The title of the submitted value",
+                "example": "My Title"
+              },
+              "value": {
+                "type": "string",
+                "description": "The value of the submitted value",
+                "example": "value"
+              },
+              "csat_survey_response": {
+                "type": "object",
+                "description": "The CSAT survey response",
+                "properties": {
+                  "feedback_message": {
+                    "type": "string",
+                    "description": "The feedback message of the CSAT survey response",
+                    "example": "Great service!"
+                  },
+                  "rating": {
+                    "type": "integer",
+                    "description": "The rating of the CSAT survey response",
+                    "example": 5
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "public_conversation_create_payload": {
+        "type": "object",
+        "properties": {
+          "custom_attributes": {
+            "type": "object",
+            "description": "Custom attributes of the conversation",
+            "example": {}
+          }
+        }
+      },
+      "extended_contact": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/contact"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "number",
+                "description": "Id of the user"
+              },
+              "availability_status": {
+                "type": "string",
+                "enum": [
+                  "online",
+                  "offline"
+                ],
+                "description": "Availability status of the user"
+              }
+            }
+          }
+        ]
+      },
+      "contact_base": {
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/generic_id"
+          },
+          {
+            "$ref": "#/components/schemas/contact"
+          }
+        ]
+      },
+      "contact_list": {
+        "type": "array",
+        "description": "array of contacts",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/contact"
+            }
+          ]
+        }
+      },
+      "contact_conversations": {
+        "type": "array",
+        "description": "array of conversations",
+        "items": {
+          "allOf": [
+            {
+              "$ref": "#/components/schemas/conversation"
+            },
+            {
+              "type": "object",
+              "properties": {
+                "meta": {
+                  "type": "object",
+                  "properties": {
+                    "sender": {
+                      "type": "object",
+                      "properties": {
+                        "additional_attributes": {
+                          "type": "object",
+                          "description": "The additional attributes of the sender"
+                        },
+                        "availability_status": {
+                          "type": "string",
+                          "description": "The availability status of the sender"
+                        },
+                        "email": {
+                          "type": "string",
+                          "description": "The email of the sender"
+                        },
+                        "id": {
+                          "type": "number",
+                          "description": "ID fo the sender"
+                        },
+                        "name": {
+                          "type": "string",
+                          "description": "The name of the sender"
+                        },
+                        "phone_number": {
+                          "type": "string",
+                          "description": "The phone number of the sender"
+                        },
+                        "blocked": {
+                          "type": "boolean",
+                          "description": "Whether the sender is blocked"
+                        },
+                        "identifier": {
+                          "type": "string",
+                          "description": "The identifier of the sender"
+                        },
+                        "thumbnail": {
+                          "type": "string",
+                          "description": "Avatar URL of the contact"
+                        },
+                        "custom_attributes": {
+                          "type": "object",
+                          "description": "The custom attributes of the sender"
+                        },
+                        "last_activity_at": {
+                          "type": "number",
+                          "description": "The last activity at of the sender"
+                        },
+                        "created_at": {
+                          "type": "number",
+                          "description": "The created at of the sender"
+                        }
+                      }
+                    },
+                    "channel": {
+                      "type": "string",
+                      "description": "Channel Type"
+                    },
+                    "assignee": {
+                      "$ref": "#/components/schemas/user"
+                    },
+                    "hmac_verified": {
+                      "type": "boolean",
+                      "description": "Whether the hmac is verified"
+                    }
+                  }
+                }
+              }
+            },
+            {
+              "type": "object",
+              "properties": {
+                "display_id": {
+                  "type": "number"
+                }
+              }
+            }
+          ]
+        }
+      },
+      "contact_labels": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "description": "Array of labels",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "conversation_list": {
+        "type": "object",
+        "properties": {
+          "data": {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "mine_count": {
+                    "type": "number"
+                  },
+                  "unassigned_count": {
+                    "type": "number"
+                  },
+                  "assigned_count": {
+                    "type": "number"
+                  },
+                  "all_count": {
+                    "type": "number"
+                  }
+                }
+              },
+              "payload": {
+                "type": "array",
+                "description": "array of conversations",
+                "items": {
+                  "allOf": [
+                    {
+                      "$ref": "#/components/schemas/generic_id"
+                    },
+                    {
+                      "$ref": "#/components/schemas/conversation"
+                    },
+                    {
+                      "type": "object",
+                      "properties": {
+                        "meta": {
+                          "type": "object",
+                          "properties": {
+                            "sender": {
+                              "type": "object",
+                              "properties": {
+                                "additional_attributes": {
+                                  "type": "object",
+                                  "description": "The additional attributes of the sender"
+                                },
+                                "availability_status": {
+                                  "type": "string",
+                                  "description": "The availability status of the sender"
+                                },
+                                "email": {
+                                  "type": "string",
+                                  "description": "The email of the sender"
+                                },
+                                "id": {
+                                  "type": "number",
+                                  "description": "ID fo the sender"
+                                },
+                                "name": {
+                                  "type": "string",
+                                  "description": "The name of the sender"
+                                },
+                                "phone_number": {
+                                  "type": "string",
+                                  "description": "The phone number of the sender"
+                                },
+                                "blocked": {
+                                  "type": "boolean",
+                                  "description": "Whether the sender is blocked"
+                                },
+                                "identifier": {
+                                  "type": "string",
+                                  "description": "The identifier of the sender"
+                                },
+                                "thumbnail": {
+                                  "type": "string",
+                                  "description": "Avatar URL of the contact"
+                                },
+                                "custom_attributes": {
+                                  "type": "object",
+                                  "description": "The custom attributes of the sender"
+                                },
+                                "last_activity_at": {
+                                  "type": "number",
+                                  "description": "The last activity at of the sender"
+                                },
+                                "created_at": {
+                                  "type": "number",
+                                  "description": "The created at of the sender"
+                                }
+                              }
+                            },
+                            "channel": {
+                              "type": "string",
+                              "description": "Channel Type"
+                            },
+                            "assignee": {
+                              "$ref": "#/components/schemas/user"
+                            },
+                            "hmac_verified": {
+                              "type": "boolean",
+                              "description": "Whether the hmac is verified"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  ]
+                }
+              }
+            }
+          }
+        }
+      },
+      "conversation_show": {
+        "type": "object",
+        "allOf": [
+          {
+            "$ref": "#/components/schemas/conversation"
+          },
+          {
+            "type": "object",
+            "properties": {
+              "meta": {
+                "type": "object",
+                "properties": {
+                  "sender": {
+                    "type": "object",
+                    "properties": {
+                      "additional_attributes": {
+                        "type": "object",
+                        "description": "The additional attributes of the sender"
+                      },
+                      "availability_status": {
+                        "type": "string",
+                        "description": "The availability status of the sender"
+                      },
+                      "email": {
+                        "type": "string",
+                        "description": "The email of the sender"
+                      },
+                      "id": {
+                        "type": "number",
+                        "description": "ID fo the sender"
+                      },
+                      "name": {
+                        "type": "string",
+                        "description": "The name of the sender"
+                      },
+                      "phone_number": {
+                        "type": "string",
+                        "description": "The phone number of the sender"
+                      },
+                      "blocked": {
+                        "type": "boolean",
+                        "description": "Whether the sender is blocked"
+                      },
+                      "identifier": {
+                        "type": "string",
+                        "description": "The identifier of the sender"
+                      },
+                      "thumbnail": {
+                        "type": "string",
+                        "description": "Avatar URL of the contact"
+                      },
+                      "custom_attributes": {
+                        "type": "object",
+                        "description": "The custom attributes of the sender"
+                      },
+                      "last_activity_at": {
+                        "type": "number",
+                        "description": "The last activity at of the sender"
+                      },
+                      "created_at": {
+                        "type": "number",
+                        "description": "The created at of the sender"
+                      }
+                    }
+                  },
+                  "channel": {
+                    "type": "string",
+                    "description": "Channel Type"
+                  },
+                  "assignee": {
+                    "$ref": "#/components/schemas/user"
+                  },
+                  "hmac_verified": {
+                    "type": "boolean",
+                    "description": "Whether the hmac is verified"
+                  }
+                }
+              }
+            }
+          }
+        ]
+      },
+      "conversation_status_toggle": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "type": "object"
+          },
+          "payload": {
+            "type": "object",
+            "properties": {
+              "success": {
+                "type": "boolean"
+              },
+              "current_status": {
+                "type": "string",
+                "enum": [
+                  "open",
+                  "resolved"
+                ]
+              },
+              "conversation_id": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "conversation_labels": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "description": "Array of labels",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "account_summary": {
+        "type": "object",
+        "properties": {
+          "avg_first_response_time": {
+            "type": "string"
+          },
+          "avg_resolution_time": {
+            "type": "string"
+          },
+          "conversations_count": {
+            "type": "number"
+          },
+          "incoming_messages_count": {
+            "type": "number"
+          },
+          "outgoing_messages_count": {
+            "type": "number"
+          },
+          "resolutions_count": {
+            "type": "number"
+          },
+          "previous": {
+            "type": "object",
+            "properties": {
+              "avg_first_response_time": {
+                "type": "string"
+              },
+              "avg_resolution_time": {
+                "type": "string"
+              },
+              "conversations_count": {
+                "type": "number"
+              },
+              "incoming_messages_count": {
+                "type": "number"
+              },
+              "outgoing_messages_count": {
+                "type": "number"
+              },
+              "resolutions_count": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "agent_conversation_metrics": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number"
+          },
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "thumbnail": {
+            "type": "string"
+          },
+          "availability": {
+            "type": "string"
+          },
+          "metric": {
+            "type": "object",
+            "properties": {
+              "open": {
+                "type": "number"
+              },
+              "unattended": {
+                "type": "number"
+              }
+            }
+          }
+        }
+      },
+      "contact_detail": {
+        "type": "object",
+        "properties": {
+          "additional_attributes": {
+            "type": "object",
+            "description": "The object containing additional attributes related to the contact",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "City of the contact"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country of the contact"
+              },
+              "country_code": {
+                "type": "string",
+                "description": "Country code of the contact"
+              },
+              "created_at_ip": {
+                "type": "string",
+                "description": "IP address when the contact was created"
+              }
+            }
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The custom attributes of the contact"
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the contact"
+          },
+          "id": {
+            "type": "integer",
+            "description": "The ID of the contact"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The identifier of the contact",
+            "nullable": true
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the contact"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The phone number of the contact",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the contact"
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the contact is blocked"
+          },
+          "type": {
+            "type": "string",
+            "description": "The type of entity",
+            "enum": [
+              "contact"
+            ]
+          }
+        }
+      },
+      "message_detailed": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "number",
+            "description": "The ID of the message"
+          },
+          "content": {
+            "type": "string",
+            "description": "The text content of the message"
+          },
+          "inbox_id": {
+            "type": "number",
+            "description": "The ID of the inbox"
+          },
+          "conversation_id": {
+            "type": "number",
+            "description": "The ID of the conversation"
+          },
+          "message_type": {
+            "type": "integer",
+            "enum": [
+              0,
+              1,
+              2,
+              3
+            ],
+            "description": "The type of the message (0: incoming, 1: outgoing, 2: activity, 3: template)"
+          },
+          "content_type": {
+            "type": "string",
+            "enum": [
+              "text",
+              "input_select",
+              "cards",
+              "form",
+              "input_csat"
+            ],
+            "description": "The type of the message content"
+          },
+          "status": {
+            "type": "string",
+            "enum": [
+              "sent",
+              "delivered",
+              "read",
+              "failed"
+            ],
+            "description": "The status of the message"
+          },
+          "content_attributes": {
+            "type": "object",
+            "description": "The content attributes for each content_type",
+            "properties": {
+              "in_reply_to": {
+                "type": "string",
+                "description": "ID of the message this is replying to",
+                "nullable": true
+              }
+            }
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "The timestamp when message was created"
+          },
+          "private": {
+            "type": "boolean",
+            "description": "The flag which shows whether the message is private or not"
+          },
+          "source_id": {
+            "type": "string",
+            "description": "The source ID of the message",
+            "nullable": true
+          },
+          "sender": {
+            "$ref": "#/components/schemas/contact_detail"
+          }
+        }
+      },
+      "conversation_meta": {
+        "type": "object",
+        "properties": {
+          "labels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Labels associated with the conversation"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "properties": {
+              "browser": {
+                "type": "object",
+                "properties": {
+                  "device_name": {
+                    "type": "string",
+                    "description": "Name of the device"
+                  },
+                  "browser_name": {
+                    "type": "string",
+                    "description": "Name of the browser"
+                  },
+                  "platform_name": {
+                    "type": "string",
+                    "description": "Name of the platform"
+                  },
+                  "browser_version": {
+                    "type": "string",
+                    "description": "Version of the browser"
+                  },
+                  "platform_version": {
+                    "type": "string",
+                    "description": "Version of the platform"
+                  }
+                }
+              },
+              "referer": {
+                "type": "string",
+                "description": "Referrer URL"
+              },
+              "initiated_at": {
+                "type": "object",
+                "properties": {
+                  "timestamp": {
+                    "type": "string",
+                    "description": "Timestamp when the conversation was initiated"
+                  }
+                }
+              },
+              "browser_language": {
+                "type": "string",
+                "description": "Browser language setting"
+              },
+              "conversation_language": {
+                "type": "string",
+                "description": "Conversation language"
+              }
+            },
+            "description": "Additional attributes of the conversation"
+          },
+          "contact": {
+            "$ref": "#/components/schemas/contact_detail"
+          },
+          "agent_last_seen_at": {
+            "type": "string",
+            "description": "Timestamp when the agent last saw the conversation",
+            "nullable": true
+          },
+          "assignee_last_seen_at": {
+            "type": "string",
+            "description": "Timestamp when the assignee last saw the conversation",
+            "nullable": true
+          }
+        }
+      },
+      "conversation_messages": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/conversation_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/message_detailed"
+            },
+            "description": "List of messages in the conversation"
+          }
+        }
+      },
+      "contact_meta": {
+        "type": "object",
+        "properties": {
+          "count": {
+            "type": "integer",
+            "description": "Total number of contacts"
+          },
+          "current_page": {
+            "type": "string",
+            "description": "Current page number"
+          }
+        }
+      },
+      "contact_inbox": {
+        "type": "object",
+        "properties": {
+          "source_id": {
+            "type": "string",
+            "description": "Source identifier for the contact inbox"
+          },
+          "inbox": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID of the inbox"
+              },
+              "avatar_url": {
+                "type": "string",
+                "description": "URL for the inbox avatar"
+              },
+              "channel_id": {
+                "type": "integer",
+                "description": "ID of the channel"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the inbox"
+              },
+              "channel_type": {
+                "type": "string",
+                "description": "Type of channel"
+              },
+              "provider": {
+                "type": "string",
+                "description": "Provider of the inbox",
+                "nullable": true
+              }
+            }
+          }
+        }
+      },
+      "contact_list_item": {
+        "type": "object",
+        "properties": {
+          "additional_attributes": {
+            "type": "object",
+            "description": "The object containing additional attributes related to the contact",
+            "properties": {
+              "city": {
+                "type": "string",
+                "description": "City of the contact"
+              },
+              "country": {
+                "type": "string",
+                "description": "Country of the contact"
+              },
+              "country_code": {
+                "type": "string",
+                "description": "Country code of the contact"
+              },
+              "created_at_ip": {
+                "type": "string",
+                "description": "IP address when the contact was created"
+              }
+            }
+          },
+          "availability_status": {
+            "type": "string",
+            "description": "Availability status of the contact",
+            "enum": [
+              "online",
+              "offline"
+            ]
+          },
+          "email": {
+            "type": "string",
+            "description": "The email address of the contact",
+            "nullable": true
+          },
+          "id": {
+            "type": "integer",
+            "description": "The ID of the contact"
+          },
+          "name": {
+            "type": "string",
+            "description": "The name of the contact"
+          },
+          "phone_number": {
+            "type": "string",
+            "description": "The phone number of the contact",
+            "nullable": true
+          },
+          "blocked": {
+            "type": "boolean",
+            "description": "Whether the contact is blocked"
+          },
+          "identifier": {
+            "type": "string",
+            "description": "The identifier of the contact",
+            "nullable": true
+          },
+          "thumbnail": {
+            "type": "string",
+            "description": "The thumbnail of the contact"
+          },
+          "custom_attributes": {
+            "type": "object",
+            "description": "The custom attributes of the contact"
+          },
+          "last_activity_at": {
+            "type": "integer",
+            "description": "Timestamp of last activity",
+            "nullable": true
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Timestamp when contact was created"
+          },
+          "contact_inboxes": {
+            "type": "array",
+            "description": "List of inboxes associated with this contact",
+            "items": {
+              "$ref": "#/components/schemas/contact_inbox"
+            }
+          }
+        }
+      },
+      "contacts_list_response": {
+        "type": "object",
+        "properties": {
+          "meta": {
+            "$ref": "#/components/schemas/contact_meta"
+          },
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/contact_list_item"
+            },
+            "description": "List of contacts"
+          }
+        }
+      },
+      "contact_show_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "$ref": "#/components/schemas/contact_list_item"
+          }
+        }
+      },
+      "contact_conversation_message": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "integer",
+            "description": "ID of the message"
+          },
+          "content": {
+            "type": "string",
+            "description": "Content of the message"
+          },
+          "account_id": {
+            "type": "integer",
+            "description": "ID of the account"
+          },
+          "inbox_id": {
+            "type": "integer",
+            "description": "ID of the inbox"
+          },
+          "conversation_id": {
+            "type": "integer",
+            "description": "ID of the conversation"
+          },
+          "message_type": {
+            "type": "integer",
+            "description": "Type of the message"
+          },
+          "created_at": {
+            "type": "integer",
+            "description": "Timestamp when message was created"
+          },
+          "updated_at": {
+            "type": "string",
+            "description": "Formatted datetime when message was updated"
+          },
+          "private": {
+            "type": "boolean",
+            "description": "Whether the message is private"
+          },
+          "status": {
+            "type": "string",
+            "description": "Status of the message"
+          },
+          "source_id": {
+            "type": "string",
+            "description": "Source ID of the message",
+            "nullable": true
+          },
+          "content_type": {
+            "type": "string",
+            "description": "Type of the content"
+          },
+          "content_attributes": {
+            "type": "object",
+            "description": "Attributes of the content"
+          },
+          "sender_type": {
+            "type": "string",
+            "description": "Type of the sender",
+            "nullable": true
+          },
+          "sender_id": {
+            "type": "integer",
+            "description": "ID of the sender",
+            "nullable": true
+          },
+          "external_source_ids": {
+            "type": "object",
+            "description": "External source IDs"
+          },
+          "additional_attributes": {
+            "type": "object",
+            "description": "Additional attributes of the message"
+          },
+          "processed_message_content": {
+            "type": "string",
+            "description": "Processed message content",
+            "nullable": true
+          },
+          "sentiment": {
+            "type": "object",
+            "description": "Sentiment analysis of the message"
+          },
+          "conversation": {
+            "type": "object",
+            "description": "Conversation details",
+            "properties": {
+              "assignee_id": {
+                "type": "integer",
+                "description": "ID of the assignee",
+                "nullable": true
+              },
+              "unread_count": {
+                "type": "integer",
+                "description": "Count of unread messages"
+              },
+              "last_activity_at": {
+                "type": "integer",
+                "description": "Timestamp of last activity"
+              },
+              "contact_inbox": {
+                "type": "object",
+                "description": "Contact inbox details",
+                "properties": {
+                  "source_id": {
+                    "type": "string",
+                    "description": "Source ID of the contact inbox"
+                  }
+                }
+              }
+            }
+          },
+          "sender": {
+            "type": "object",
+            "description": "Details of the sender",
+            "properties": {
+              "id": {
+                "type": "integer",
+                "description": "ID of the sender"
+              },
+              "name": {
+                "type": "string",
+                "description": "Name of the sender"
+              },
+              "available_name": {
+                "type": "string",
+                "description": "Available name of the sender"
+              },
+              "avatar_url": {
+                "type": "string",
+                "description": "URL of the sender's avatar"
+              },
+              "type": {
+                "type": "string",
+                "description": "Type of the sender"
+              },
+              "availability_status": {
+                "type": "string",
+                "description": "Availability status of the sender"
+              },
+              "thumbnail": {
+                "type": "string",
+                "description": "Thumbnail URL of the sender"
+              }
+            }
+          }
+        }
+      },
+      "contact_conversations_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "allOf": [
+                {
+                  "$ref": "#/components/schemas/conversation"
+                },
+                {
+                  "type": "object",
+                  "properties": {
+                    "meta": {
+                      "type": "object",
+                      "properties": {
+                        "sender": {
+                          "type": "object",
+                          "properties": {
+                            "additional_attributes": {
+                              "type": "object",
+                              "description": "The additional attributes of the sender"
+                            },
+                            "availability_status": {
+                              "type": "string",
+                              "description": "The availability status of the sender"
+                            },
+                            "email": {
+                              "type": "string",
+                              "description": "The email of the sender"
+                            },
+                            "id": {
+                              "type": "number",
+                              "description": "ID fo the sender"
+                            },
+                            "name": {
+                              "type": "string",
+                              "description": "The name of the sender"
+                            },
+                            "phone_number": {
+                              "type": "string",
+                              "description": "The phone number of the sender"
+                            },
+                            "blocked": {
+                              "type": "boolean",
+                              "description": "Whether the sender is blocked"
+                            },
+                            "identifier": {
+                              "type": "string",
+                              "description": "The identifier of the sender"
+                            },
+                            "thumbnail": {
+                              "type": "string",
+                              "description": "Avatar URL of the contact"
+                            },
+                            "custom_attributes": {
+                              "type": "object",
+                              "description": "The custom attributes of the sender"
+                            },
+                            "last_activity_at": {
+                              "type": "number",
+                              "description": "The last activity at of the sender"
+                            },
+                            "created_at": {
+                              "type": "number",
+                              "description": "The created at of the sender"
+                            }
+                          }
+                        },
+                        "channel": {
+                          "type": "string",
+                          "description": "Channel Type"
+                        },
+                        "assignee": {
+                          "$ref": "#/components/schemas/user"
+                        },
+                        "hmac_verified": {
+                          "type": "boolean",
+                          "description": "Whether the hmac is verified"
+                        }
+                      }
+                    }
+                  }
+                }
+              ]
+            },
+            "description": "List of conversations for the contact"
+          }
+        }
+      },
+      "contactable_inboxes_response": {
+        "type": "object",
+        "properties": {
+          "payload": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/contact_inbox"
+            },
+            "description": "List of contactable inboxes for the contact"
+          }
+        }
+      }
+    },
+    "parameters": {
+      "account_id": {
+        "in": "path",
+        "name": "account_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the account"
+      },
+      "agent_bot_id": {
+        "in": "path",
+        "name": "id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The ID of the agentbot to be updated"
+      },
+      "team_id": {
+        "in": "path",
+        "name": "team_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The ID of the team to be updated"
+      },
+      "inbox_id": {
+        "in": "path",
+        "name": "inbox_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The ID of the Inbox"
+      },
+      "hook_id": {
+        "in": "path",
+        "name": "hook_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the integration hook"
+      },
+      "source_id": {
+        "in": "path",
+        "name": "source_id",
+        "required": true,
+        "schema": {
+          "type": "string"
+        },
+        "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+      },
+      "contact_sort_param": {
+        "in": "query",
+        "name": "sort",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "name",
+            "email",
+            "phone_number",
+            "last_activity_at",
+            "-name",
+            "-email",
+            "-phone_number",
+            "-last_activity_at"
+          ]
+        },
+        "required": false,
+        "description": "The attribute by which list should be sorted"
+      },
+      "conversation_id": {
+        "in": "path",
+        "name": "conversation_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the conversation"
+      },
+      "conversation_uuid": {
+        "in": "path",
+        "name": "conversation_uuid",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The uuid of the conversation"
+      },
+      "custom_filter_id": {
+        "in": "path",
+        "name": "custom_filter_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the custom filter"
+      },
+      "webhook_id": {
+        "in": "path",
+        "name": "webhook_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the webhook"
+      },
+      "message_id": {
+        "in": "path",
+        "name": "message_id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the message"
+      },
+      "page": {
+        "in": "query",
+        "name": "page",
+        "schema": {
+          "type": "integer",
+          "default": 1
+        },
+        "required": false,
+        "description": "The page parameter"
+      },
+      "platform_user_id": {
+        "in": "path",
+        "name": "id",
+        "schema": {
+          "type": "integer"
+        },
+        "required": true,
+        "description": "The numeric ID of the user on the platform"
+      },
+      "report_type": {
+        "in": "query",
+        "name": "type",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "account",
+            "agent",
+            "inbox",
+            "label",
+            "team"
+          ]
+        },
+        "required": true,
+        "description": "Type of report"
+      },
+      "report_metric": {
+        "in": "query",
+        "name": "metric",
+        "schema": {
+          "type": "string",
+          "enum": [
+            "conversations_count",
+            "incoming_messages_count",
+            "outgoing_messages_count",
+            "avg_first_response_time",
+            "avg_resolution_time",
+            "resolutions_count"
+          ]
+        },
+        "required": true,
+        "description": "The type of metric"
+      },
+      "public_inbox_identifier": {
+        "in": "path",
+        "name": "inbox_identifier",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "description": "The identifier obtained from API inbox channel"
+      },
+      "public_contact_identifier": {
+        "in": "path",
+        "name": "contact_identifier",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "description": "The source id of contact obtained on contact create"
+      },
+      "portal_id": {
+        "in": "path",
+        "name": "id",
+        "schema": {
+          "type": "string"
+        },
+        "required": true,
+        "description": "The slug identifier of the portal"
+      }
+    },
+    "securitySchemes": {
+      "userApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_access_token",
+        "description": "This token can be obtained by visiting the profile page or via rails console. Provides access to  endpoints based on the user permissions levels. This token can be saved by an external system when user is created via API, to perform activities on behalf of the user."
+      },
+      "agentBotApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_access_token",
+        "description": "This token should be provided by system admin or obtained via rails console. This token can be used to build bot integrations and can only access limited apis."
+      },
+      "platformAppApiKey": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "api_access_token",
+        "description": "This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles."
+      }
+    }
+  },
+  "tags": [
+    {
+      "name": "CSAT Survey Page",
+      "description": "Customer satisfaction survey"
+    }
+  ],
+  "x-tagGroups": [
+    {
+      "name": "Platform",
+      "tags": [
+        "Accounts",
+        "Account Users",
+        "AgentBots",
+        "Users"
+      ]
+    },
+    {
+      "name": "Application",
+      "tags": [
+        "Account AgentBots",
+        "Agents",
+        "Canned Responses",
+        "Contacts",
+        "Contact Labels",
+        "Conversation Assignments",
+        "Conversation Labels",
+        "Conversations",
+        "Custom Attributes",
+        "Custom Filters",
+        "Inboxes",
+        "Integrations",
+        "Messages",
+        "Profile",
+        "Reports",
+        "Teams",
+        "Webhooks",
+        "Automation Rule",
+        "Help Center"
+      ]
+    },
+    {
+      "name": "Client",
+      "tags": [
+        "Contacts API",
+        "Conversations API",
+        "Messages API"
+      ]
+    },
+    {
+      "name": "Others",
+      "tags": [
+        "CSAT Survey Page"
+      ]
+    }
+  ]
+}
