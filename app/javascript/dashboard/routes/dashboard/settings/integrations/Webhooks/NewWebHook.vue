@@ -45,7 +45,7 @@ export default {
       :header-content="
         useInstallationName(
           $t('INTEGRATION_SETTINGS.WEBHOOK.FORM.DESC'),
-          globalConfig.installationName
+          'Mooly.vn'
         )
       "
     />

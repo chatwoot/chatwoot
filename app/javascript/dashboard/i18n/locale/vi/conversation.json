@@ -67,16 +67,16 @@
       "HIDE_LABELS": "Ẩn nhãn"
     },
     "HEADER": {
-      "RESOLVE_ACTION": "Giải quyết",
-      "REOPEN_ACTION": "Mở lại",
-      "OPEN_ACTION": "Mở",
+      "RESOLVE_ACTION": "Đã Giải Quyết",
+      "REOPEN_ACTION": "Chuyển cho Nhân Viên",
+      "OPEN_ACTION": "Chuyển cho Nhân Viên",
       "OPEN": "Nhiều",
       "CLOSE": "Đóng",
       "DETAILS": "chi tiết",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Tạm dừng đến khi có phản hồi",
+      "SNOOZED_UNTIL": "Tạm Hoãn đến",
+      "SNOOZED_UNTIL_TOMORROW": "Tạm Hoãn đến ngày mai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm Hoãn đến tuần sau",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Tạm Hoãn đến khi có phản hồi",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -86,18 +86,18 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Đánh dấu chưa giải quyết",
-      "SNOOZE_UNTIL": "Báo lại",
+      "MARK_PENDING": "Giao lại cho Bot AI",
+      "SNOOZE_UNTIL": "Tạm Hoãn",
       "SNOOZE": {
-        "TITLE": "Tạm dừng đến khi",
+        "TITLE": "Tạm Hoãn đến khi",
         "NEXT_REPLY": "Phản hồi kế tiếp",
         "TOMORROW": "Ngày mai",
         "NEXT_WEEK": "Tuần sau"
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Tạm dừng đến khi",
-      "APPLY": "Báo lại",
+      "TITLE": "Tạm Hoãn đến khi",
+      "APPLY": "Tạm Hoãn",
       "CANCEL": "Huỷ"
     },
     "PRIORITY": {
@@ -118,13 +118,13 @@
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Đánh dấu chưa giải quyết",
-      "RESOLVED": "Đánh dấu là đã giải quyết",
+      "PENDING": "Giao lại cho Bot AI",
+      "RESOLVED": "Đánh dấu Đã Giải Quyết",
       "MARK_AS_UNREAD": "Đánh dấu là chưa đọc",
-      "MARK_AS_READ": "Mark as read",
-      "REOPEN": "Mở lại hội thoại",
+      "MARK_AS_READ": "Đánh dấu là đã đọc",
+      "REOPEN": "Chuyển cho Nhân Viên",
       "SNOOZE": {
-        "TITLE": "Báo lại",
+        "TITLE": "Tạm Hoãn",
         "NEXT_REPLY": "Cho đến phản hồi kế tiếp",
         "TOMORROW": "Cho đến ngày mai",
         "NEXT_WEEK": "Cho đến tuần sau"

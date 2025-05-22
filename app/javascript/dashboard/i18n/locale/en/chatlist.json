@@ -3,6 +3,7 @@
     "LOADING": "Fetching conversations",
     "LOAD_MORE_CONVERSATIONS": "Load more conversations",
     "EOF": "All conversations loaded 🎉",
+    "CURRENT_VIEW": "Current view",
     "LIST": {
       "404": "There are no active conversations in this group."
     },
@@ -21,16 +22,16 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Open"
+        "TEXT": "Waiting for Agent"
       },
       "resolved": {
         "TEXT": "Resolved"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "AI Bot Processing"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "Postponed"
       },
       "all": {
         "TEXT": "All"

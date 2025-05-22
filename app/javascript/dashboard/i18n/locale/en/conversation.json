@@ -67,16 +67,16 @@
       "HIDE_LABELS": "Hide labels"
     },
     "HEADER": {
-      "RESOLVE_ACTION": "Resolve",
-      "REOPEN_ACTION": "Reopen",
-      "OPEN_ACTION": "Open",
+      "RESOLVE_ACTION": "Mark as Resolved",
+      "REOPEN_ACTION": "Assign to Agent",
+      "OPEN_ACTION": "Assign to Agent",
       "OPEN": "More",
       "CLOSE": "Close",
       "DETAILS": "details",
-      "SNOOZED_UNTIL": "Snoozed until",
-      "SNOOZED_UNTIL_TOMORROW": "Snoozed until tomorrow",
-      "SNOOZED_UNTIL_NEXT_WEEK": "Snoozed until next week",
-      "SNOOZED_UNTIL_NEXT_REPLY": "Snoozed until next reply",
+      "SNOOZED_UNTIL": "Postponed until",
+      "SNOOZED_UNTIL_TOMORROW": "Postponed until tomorrow",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Postponed until next week",
+      "SNOOZED_UNTIL_NEXT_REPLY": "Postponed until next reply",
       "SLA_STATUS": {
         "FRT": "FRT {status}",
         "NRT": "NRT {status}",
@@ -86,18 +86,18 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Mark as pending",
-      "SNOOZE_UNTIL": "Snooze",
+      "MARK_PENDING": "Assign to AI Bot",
+      "SNOOZE_UNTIL": "Postpone",
       "SNOOZE": {
-        "TITLE": "Snooze until",
+        "TITLE": "Postpone until",
         "NEXT_REPLY": "Next reply",
         "TOMORROW": "Tomorrow",
         "NEXT_WEEK": "Next week"
       }
     },
     "CUSTOM_SNOOZE": {
-      "TITLE": "Snooze until",
-      "APPLY": "Snooze",
+      "TITLE": "Postpone until",
+      "APPLY": "Postpone",
       "CANCEL": "Cancel"
     },
     "PRIORITY": {
@@ -118,13 +118,13 @@
       }
     },
     "CARD_CONTEXT_MENU": {
-      "PENDING": "Mark as pending",
-      "RESOLVED": "Mark as resolved",
+      "PENDING": "Assign to AI Bot",
+      "RESOLVED": "Mark as Resolved",
       "MARK_AS_UNREAD": "Mark as unread",
       "MARK_AS_READ": "Mark as read",
-      "REOPEN": "Reopen conversation",
+      "REOPEN": "Assign to Agent",
       "SNOOZE": {
-        "TITLE": "Snooze",
+        "TITLE": "Postpone",
         "NEXT_REPLY": "Until next reply",
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"

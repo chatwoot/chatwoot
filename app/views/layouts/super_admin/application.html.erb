@@ -19,12 +19,13 @@ By default, it renders:
   <meta name="ROBOTS" content="NOODP">
   <meta name="viewport" content="initial-scale=1">
   <title>
-    <%= content_for(:title) %> - <%= application_title %>
+    <%= content_for(:title) %> - <%= GlobalConfig.get_value('INSTALLATION_NAME') || 'Mooly.vn' %>
   </title>
   <%= render "stylesheet" %>
   <%= vite_client_tag %>
   <%= vite_javascript_tag 'superadmin' %>
   <%= csrf_meta_tags %>
+  <link rel="icon" type="image/png" href="/mooly-icon.png">
 </head>
 <body class="antialiased w-full h-full">
   <%= render "icons" %>

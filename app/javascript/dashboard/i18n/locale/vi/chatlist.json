@@ -3,6 +3,7 @@
     "LOADING": "Đang tải các cuộc trò chuyện",
     "LOAD_MORE_CONVERSATIONS": "Tải thêm các cuộc trò chuyện",
     "EOF": "Tất cả các cuộc trò chuyện đã được tải 🎉",
+    "CURRENT_VIEW": "Đang xem",
     "LIST": {
       "404": "Không có bất kì hoạt động trò chuyện nào trong nhóm."
     },
@@ -21,16 +22,16 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Mở"
+        "TEXT": "Chờ Nhân Viên Xử Lý"
       },
       "resolved": {
-        "TEXT": "Đã được giải quyết"
+        "TEXT": "Đã Giải Quyết"
       },
       "pending": {
-        "TEXT": "Chờ giải quyết"
+        "TEXT": "Bot AI Đang Tiếp Nhận"
       },
       "snoozed": {
-        "TEXT": "Tạm dừng"
+        "TEXT": "Tạm Hoãn"
       },
       "all": {
         "TEXT": "Tất cả"

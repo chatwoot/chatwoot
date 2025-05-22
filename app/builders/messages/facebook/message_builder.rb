@@ -58,13 +58,16 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
     contact = @contact_inbox.contact
     return if contact.avatar.attached?
 
-    # Sử dụng URL trực tiếp từ Graph API với các tham số mới nhất
-    cache_buster = Time.now.to_i
-    avatar_url = "https://graph.facebook.com/#{@sender_id}/picture?type=large&width=200&height=200&redirect=false&access_token=#{@inbox.channel.page_access_token}&cb=#{cache_buster}"
-    Rails.logger.info("Scheduling avatar update for contact #{contact.id} with URL: #{avatar_url}")
+    # Sử dụng service để lấy URL avatar trực tiếp
+    avatar_url = Facebook::FetchProfileService.new(
+      user_id: @sender_id,
+      page_access_token: @inbox.channel.page_access_token
+    ).get_direct_avatar_url(@sender_id, @inbox.channel.page_access_token)
+
+    Rails.logger.info("Scheduling avatar update for contact #{contact.id} with direct URL from Facebook")
 
     # Sử dụng perform_later với delay để tránh blocking và để đảm bảo contact đã được lưu vào database
-    Avatar::AvatarFromUrlJob.set(wait: 2.seconds).perform_later(contact, avatar_url)
+    Avatar::AvatarFromUrlJob.set(wait: 5.seconds).perform_later(contact, avatar_url)
   end
 
   def build_message
@@ -151,8 +154,11 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   def process_contact_params_result(result)
     # Tạo URL avatar trực tiếp từ Facebook Graph API nếu có sender_id
     avatar_url = if @sender_id.present?
-                  cache_buster = Time.now.to_i
-                  "https://graph.facebook.com/#{@sender_id}/picture?type=large&width=200&height=200&redirect=false&access_token=#{@inbox.channel.page_access_token}&cb=#{cache_buster}"
+                  # Sử dụng service để lấy URL avatar trực tiếp
+                  Facebook::FetchProfileService.new(
+                    user_id: @sender_id,
+                    page_access_token: @inbox.channel.page_access_token
+                  ).get_direct_avatar_url(@sender_id, @inbox.channel.page_access_token)
                 else
                   result['profile_pic']
                 end

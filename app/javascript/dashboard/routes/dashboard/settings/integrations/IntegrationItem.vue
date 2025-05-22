@@ -28,7 +28,6 @@ const props = defineProps({
 
 const getters = useStoreGetters();
 const accountId = getters.getCurrentAccountId;
-const globalConfig = getters['globalConfig/get'];
 
 const { t } = useI18n();
 
@@ -80,7 +79,7 @@ const actionURL = computed(() =>
         </router-link>
       </div>
       <p class="text-n-slate-11">
-        {{ useInstallationName(description, globalConfig.installationName) }}
+        {{ useInstallationName(description, 'Mooly.vn') }}
       </p>
     </div>
   </div>

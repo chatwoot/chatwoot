@@ -42,13 +42,13 @@ export default {
           <div class="mb-4">
             <img
               :src="globalConfig.logo"
-              :alt="globalConfig.installationName"
+              :alt="Mooly.vn"
               class="block w-auto h-8 dark:hidden"
             />
             <img
               v-if="globalConfig.logoDark"
               :src="globalConfig.logoDark"
-              :alt="globalConfig.installationName"
+              :alt="Mooly.vn"
               class="hidden w-auto h-8 dark:block"
             />
             <h2
@@ -64,7 +64,7 @@ export default {
               {{
                 useInstallationName(
                   $t('LOGIN.TITLE'),
-                  globalConfig.installationName
+                  'Mooly.vn'
                 )
               }}
             </router-link>

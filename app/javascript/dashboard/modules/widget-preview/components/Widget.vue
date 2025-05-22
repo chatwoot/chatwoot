@@ -161,7 +161,7 @@ export default {
               {{
                 useInstallationName(
                   $t('INBOX_MGMT.WIDGET_BUILDER.BRANDING_TEXT'),
-                  globalConfig.installationName
+                  'Mooly.vn'
                 )
               }}
             </span>

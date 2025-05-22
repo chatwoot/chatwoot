@@ -31,7 +31,7 @@ export default {
         ...item,
         body: this.useInstallationName(
           item.body,
-          this.globalConfig.installationName
+          'Mooly.vn'
         ),
       }));
     },

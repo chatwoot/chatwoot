@@ -21,9 +21,10 @@ by providing a `content_for(:javascript)` block.
 <% end %>
 
 <script>
-window.chatwootSettings = {
+window.moolySettings = {
   hideMessageBubble: true,
 };
+window.chatwootSettings = window.moolySettings;
 
 (function(d,t) {
   var BASE_URL = '';

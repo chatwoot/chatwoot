@@ -2,8 +2,8 @@ export const showBadgeOnFavicon = () => {
   const favicons = document.querySelectorAll('.favicon');
 
   favicons.forEach(favicon => {
-    const newFileName = `/favicon-badge-${favicon.sizes[[0]]}.png`;
-    favicon.href = newFileName;
+    // Sử dụng mooly-icon.png cho tất cả các kích thước
+    favicon.href = '/mooly-icon.png';
   });
 };
 
@@ -13,8 +13,8 @@ export const initFaviconSwitcher = () => {
   document.addEventListener('visibilitychange', () => {
     if (document.visibilityState === 'visible') {
       favicons.forEach(favicon => {
-        const oldFileName = `/favicon-${favicon.sizes[[0]]}.png`;
-        favicon.href = oldFileName;
+        // Sử dụng mooly-icon.png cho tất cả các kích thước
+        favicon.href = '/mooly-icon.png';
       });
     }
   });

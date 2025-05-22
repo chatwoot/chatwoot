@@ -14,22 +14,7 @@ class Facebook::FetchProfileService
       # Điều này giúp tránh các vấn đề với URL tạm thời hoặc URL không truy cập được
       avatar_url = get_direct_avatar_url(user_id, page_access_token)
 
-      # Xử lý JSON response khi sử dụng redirect=false
-      if avatar_url.include?('redirect=false')
-        begin
-          response = HTTParty.get(avatar_url)
-          if response.success? && response.parsed_response.is_a?(Hash) && response.parsed_response['data'].present?
-            # Lấy URL trực tiếp từ JSON response
-            data = response.parsed_response['data']
-            if data['url'].present?
-              avatar_url = data['url']
-              Rails.logger.info("Extracted direct URL from Facebook JSON response: #{avatar_url}")
-            end
-          end
-        rescue => e
-          Rails.logger.error("Error processing Facebook JSON response: #{e.message}")
-        end
-      end
+      # URL đã được xử lý trong get_direct_avatar_url để lấy URL trực tiếp
 
       result['profile_pic'] = avatar_url
       Rails.logger.info("Using direct Graph API URL for avatar: #{result['profile_pic']}")
@@ -70,14 +55,29 @@ class Facebook::FetchProfileService
     end
   end
 
-  private
-
   # Tạo URL trực tiếp để lấy avatar từ Facebook Graph API theo tài liệu mới nhất
   def get_direct_avatar_url(user_id, access_token)
     # Thêm tham số redirect=false để nhận JSON thay vì redirect
     # Thêm width và height cụ thể
     # Thêm cache buster để tránh cache
     cache_buster = Time.now.to_i
-    "https://graph.facebook.com/#{user_id}/picture?type=large&width=200&height=200&redirect=false&access_token=#{access_token}&cb=#{cache_buster}"
+    url = "https://graph.facebook.com/#{user_id}/picture?type=large&width=200&height=200&redirect=false&access_token=#{access_token}&cb=#{cache_buster}"
+
+    # Lấy URL trực tiếp từ JSON response ngay tại đây
+    begin
+      response = HTTParty.get(url)
+      if response.success? && response.parsed_response.is_a?(Hash) && response.parsed_response['data'].present?
+        data = response.parsed_response['data']
+        if data['url'].present?
+          Rails.logger.info("Extracted direct URL from Facebook JSON response for user #{user_id}")
+          return data['url']
+        end
+      end
+    rescue => e
+      Rails.logger.error("Error processing Facebook JSON response: #{e.message}")
+    end
+
+    # Fallback to original URL if JSON processing fails
+    url
   end
 end

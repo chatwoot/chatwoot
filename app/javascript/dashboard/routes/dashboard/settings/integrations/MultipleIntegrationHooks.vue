@@ -62,7 +62,7 @@ export default {
       :description="
         $t(
           `INTEGRATION_APPS.SIDEBAR_DESCRIPTION.${integration.name.toUpperCase()}`,
-          { installationName: globalConfig.installationName }
+          { installationName: 'Mooly.vn' }
         )
       "
       :feature-name="integrationId"

@@ -220,7 +220,7 @@ export default {
   <aside class="flex h-full">
     <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
-      :installation-name="globalConfig.installationName"
+      :installation-name="'Mooly.vn'"
       :is-a-custom-branded-instance="isACustomBrandedInstance"
       :account-id="accountId"
       :menu-items="primaryMenuItems"

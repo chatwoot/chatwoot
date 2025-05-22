@@ -24,9 +24,7 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
     begin
       # Xử lý URL Facebook Graph API đặc biệt
       if avatar_url.include?('graph.facebook.com') && avatar_url.include?('/picture')
-        avatar_url = optimize_facebook_avatar_url(avatar_url)
-
-        # Kiểm tra nếu URL có redirect=false, cần xử lý JSON response
+        # Kiểm tra nếu URL chưa được xử lý (vẫn chứa redirect=false)
         if avatar_url.include?('redirect=false')
           begin
             response = HTTParty.get(avatar_url)
@@ -40,6 +38,8 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
             end
           rescue => e
             Rails.logger.error("Error processing Facebook JSON response: #{e.message}")
+            # Nếu xử lý JSON thất bại, sử dụng URL đã tối ưu
+            avatar_url = optimize_facebook_avatar_url(avatar_url)
           end
         end
       end
@@ -137,17 +137,30 @@ class Avatar::AvatarFromUrlJob < ApplicationJob
       # Tạo các URL fallback theo tài liệu mới nhất của Facebook
       base_url = original_url.split('?').first
 
-      # Thử với type=normal, redirect=false, width=100, height=100
-      fallback_urls << "#{base_url}?type=normal&redirect=false&width=100&height=100&cb=#{Time.now.to_i}"
+      # Lấy access_token từ URL gốc nếu có
+      access_token = nil
+      if original_url.include?('access_token=')
+        access_token_match = original_url.match(/access_token=([^&]+)/)
+        access_token = access_token_match[1] if access_token_match
+      end
 
-      # Thử với type=square, redirect=false, width=100, height=100
-      fallback_urls << "#{base_url}?type=square&redirect=false&width=100&height=100&cb=#{Time.now.to_i + 1}"
+      # Thêm access_token vào URL fallback nếu có
+      token_param = access_token.present? ? "&access_token=#{access_token}" : ""
 
-      # Thử với type=small, redirect=false, width=50, height=50
-      fallback_urls << "#{base_url}?type=small&redirect=false&width=50&height=50&cb=#{Time.now.to_i + 2}"
+      # Thử với type=normal, redirect=true (không sử dụng JSON response)
+      fallback_urls << "#{base_url}?type=normal&width=100&height=100#{token_param}&cb=#{Time.now.to_i}"
 
-      # Thử với chỉ width=200, height=200, redirect=false
-      fallback_urls << "#{base_url}?width=200&height=200&redirect=false&cb=#{Time.now.to_i + 3}"
+      # Thử với type=square, redirect=true
+      fallback_urls << "#{base_url}?type=square&width=100&height=100#{token_param}&cb=#{Time.now.to_i + 1}"
+
+      # Thử với type=large, redirect=true
+      fallback_urls << "#{base_url}?type=large#{token_param}&cb=#{Time.now.to_i + 2}"
+
+      # Thử với chỉ width=200, height=200
+      fallback_urls << "#{base_url}?width=200&height=200#{token_param}&cb=#{Time.now.to_i + 3}"
+
+      # Thử với URL không có tham số
+      fallback_urls << "#{base_url}?cb=#{Time.now.to_i + 4}#{token_param}"
 
       # Thử từng URL fallback
       fallback_urls.each do |fallback_url|

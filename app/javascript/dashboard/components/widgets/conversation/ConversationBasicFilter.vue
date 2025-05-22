@@ -29,7 +29,7 @@ const chatSortFilter = useMapGetter('getChatSortFilter');
 const [showActionsDropdown, toggleDropdown] = useToggle();
 
 const currentStatusFilter = computed(() => {
-  return chatStatusFilter.value || wootConstants.STATUS_TYPE.OPEN;
+  return chatStatusFilter.value || wootConstants.STATUS_TYPE.PENDING;
 });
 
 const currentSortBy = computed(() => {
@@ -37,6 +37,14 @@ const currentSortBy = computed(() => {
     chatSortFilter.value || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC
   );
 });
+
+const CHAT_STATUS_FILTER_ITEMS = Object.freeze([
+  'pending',
+  'open',
+  'resolved',
+  'snoozed',
+  'all',
+]);
 
 const chatStatusOptions = computed(() => [
   {

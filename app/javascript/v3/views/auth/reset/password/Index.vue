@@ -85,7 +85,7 @@ export default {
         {{
           useInstallationName(
             $t('RESET_PASSWORD.DESCRIPTION'),
-            globalConfig.installationName
+            'Mooly.vn'
           )
         }}
       </p>
