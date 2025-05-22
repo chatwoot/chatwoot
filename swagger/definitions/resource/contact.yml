@@ -24,8 +24,9 @@ properties:
           custom_attributes:
             type: object
             description: The object to save custom attributes for contact, accepts custom attributes key and value
-            example: { attribute_key: attribute_value, signed_up_at: dd/mm/yyyy }
+            example:
+              { attribute_key: attribute_value, signed_up_at: dd/mm/yyyy }
           contact_inboxes:
             type: array
             items:
-              $ref: '#/definitions/contact_inboxes'
+              $ref: '#/components/schemas/contact_inboxes'
