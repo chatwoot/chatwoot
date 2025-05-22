@@ -138,13 +138,23 @@ class SmartAction < ApplicationRecord
     return unless event == AUTOMATED_RESPONSE
     return unless conversation.handled_by == 'autopilot'
 
-    Messages::MessageBuilder.new(assignee, conversation, { content: content }).perform
+    Messages::MessageBuilder.new(assignee, conversation, { content: content_with_signature }).perform
   end
 
   def create_private_message
     return unless event == CREATE_PRIVATE_MESSAGE
 
     Messages::MessageBuilder.new(assignee, conversation, { content: content, private: true }).perform
+  end
+
+  def content_with_signature
+    return content if message_signature.blank?
+
+    [content, message_signature].compact.join("\n\n")
+  end
+
+  def message_signature
+    @prev_user&.message_signature
   end
 
   def create_escalate_conversation

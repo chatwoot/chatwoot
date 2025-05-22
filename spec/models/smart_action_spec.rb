@@ -48,16 +48,23 @@ RSpec.describe SmartAction do
     let(:handover_team) { create(:team, name: 'Handover Team', high_priority: true, account_id: account.id) }
 
     context 'when automated_response' do
+      let(:conversation) { create(:conversation, assignee: create(:user), handled_by: 'autopilot') }
+
       it 'creates automated response' do
-        conversation = create(:conversation, assignee: create(:user), handled_by: 'autopilot')
         smart_action = create(:smart_action, event: 'automated_response', content: 'test content', conversation: conversation)
         expect(smart_action.content).to eq conversation.messages.last.content
       end
 
       it 'sets bot as sender' do
-        conversation = create(:conversation, assignee: create(:user), handled_by: 'autopilot')
         smart_action = create(:smart_action, event: 'automated_response', conversation: conversation)
         expect(smart_action.conversation.messages.last.sender).to be_a(AgentBot)
+      end
+
+      it 'attaches signature to message' do
+        Current.user = create(:user, message_signature: 'Signature')
+        smart_action = create(:smart_action, event: 'automated_response', conversation: conversation, content: 'test content')
+        expect(smart_action.conversation.messages.last.content).to include('Signature')
+        Current.user = nil
       end
     end
 
