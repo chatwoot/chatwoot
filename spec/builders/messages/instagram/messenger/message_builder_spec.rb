@@ -197,7 +197,7 @@ describe Messages::Instagram::Messenger::MessageBuilder do
       instagram_messenger_inbox.reload
 
       # we would have contact created but message and attachments won't be created
-      expect(instagram_messenger_inbox.conversations.count).to be 1
+      expect(instagram_messenger_inbox.conversations.count).to be 0
       expect(instagram_messenger_inbox.messages.count).to be 0
 
       contact = instagram_messenger_channel.inbox.contacts.first
