@@ -19,4 +19,4 @@ properties:
             type: string
             description: Channel Type
       assignee:
-        $ref: '#/definitions/user'
+        $ref: '#/components/schemas/user'
