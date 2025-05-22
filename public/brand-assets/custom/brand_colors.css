@@ -1,0 +1,55 @@
+/* YourBrand Custom Colors
+ * This file overrides the default Chatwoot color scheme
+ */
+
+:root {
+  /* Override primary brand color (was #1f93ff) */
+  --w-500: #4263EB;
+  --color-woot: #4263EB;
+  
+  /* Shades of primary color */
+  --w-25: #F5F8FF; 
+  --w-50: #EBF0FF;
+  --w-75: #D6DFFF;
+  --w-100: #C2CFFF;
+  --w-200: #99AEFF;
+  --w-300: #708DFF;
+  --w-400: #476CFF;
+  --w-600: #3850CC;
+  --w-700: #293D99;
+  --w-800: #1C2A66;
+  --w-900: #0F1533;
+  
+  /* Brand color */
+  --brand: #4263EB;
+  
+  /* Action/primary color */
+  --color-primary: #4263EB;
+  --primary-color: #4263EB;
+  --action-color: #4263EB;
+}
+
+/* For components that use color directly */
+.woot-color {
+  color: #4263EB !important;
+}
+
+.woot-bg {
+  background-color: #4263EB !important;
+}
+
+/* Buttons and other components might use these classes */
+.button--primary, 
+.primary-button {
+  background-color: #4263EB !important;
+  border-color: #3850CC !important;
+}
+
+/* Link colors */
+a {
+  color: #4263EB;
+}
+
+a:hover {
+  color: #3850CC;
+} 

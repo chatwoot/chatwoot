@@ -1,0 +1,8 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 50 50" width="50" height="50">
+  <!-- Background circle -->
+  <circle cx="25" cy="25" r="23" fill="#4263EB" />
+  
+  <!-- Simple icon - Replace with your icon -->
+  <rect x="15" y="15" width="20" height="20" rx="5" fill="white" />
+  <path d="M20 25 L30 25 M25 20 L25 30" stroke="#4263EB" stroke-width="3" />
+</svg> 

@@ -1,0 +1,11 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 200 50" width="200" height="50">
+  <!-- Background rectangle -->
+  <rect width="200" height="50" rx="10" fill="#2A4DD1" />
+  
+  <!-- Text - Replace with your brand name -->
+  <text x="100" y="33" font-family="Arial, sans-serif" font-size="24" font-weight="bold" fill="white" text-anchor="middle">YourBrand</text>
+  
+  <!-- Simple icon - Replace with your icon -->
+  <circle cx="30" cy="25" r="15" fill="white" />
+  <path d="M25 20 L35 20 L35 30 L25 30 Z" fill="#2A4DD1" />
+</svg> 
