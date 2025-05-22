@@ -84,7 +84,7 @@
       }
     },
     "RESOLVE_DROPDOWN": {
-      "MARK_PENDING": "Managed by Stark",
+      "MARK_PENDING": "Assign to stark",
       "SNOOZE_UNTIL": "Snooze",
       "SNOOZE": {
         "TITLE": "Snooze until",

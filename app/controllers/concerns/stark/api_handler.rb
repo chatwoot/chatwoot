@@ -50,8 +50,25 @@ module Stark
       {
         question: content,
         session_id: conversation.id,
-        dealership_id: conversation.account&.dealership_id
+        dealership_id: conversation.account&.dealership_id,
+        customer_id: conversation.contact&.id,
+        recent_messages: format_recent_messages(conversation)
       }
+    end
+
+    def format_recent_messages(conversation)
+      conversation.messages
+                 .not_activity
+                 .not_template
+                 .last(10)
+                 .map do |message|
+        {
+          conversation_id: message.conversation_id,
+          message_type: message.message_type,
+          content: message.content,
+          created_at: message.created_at
+        }
+      end
     end
 
     def build_request_headers
