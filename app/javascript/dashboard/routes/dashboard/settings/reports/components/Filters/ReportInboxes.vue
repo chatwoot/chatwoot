@@ -24,7 +24,6 @@ export default {
     },
   },
   mounted() {
-    console.log('Selected type: ', this.type);
     this.$store.dispatch('inboxes/get');
   },
   methods: {

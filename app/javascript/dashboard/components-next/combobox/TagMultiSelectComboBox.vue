@@ -171,9 +171,8 @@ defineExpose({
       <p
         v-if="message"
         class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
-        :class="{
-          'text-n-ruby-9': hasError,
-          'text-n-slate-11': !hasError,
+        :style="{
+          color: hasError ? '#ef4444' : '#64748b', 
         }"
       >
         {{ message }}

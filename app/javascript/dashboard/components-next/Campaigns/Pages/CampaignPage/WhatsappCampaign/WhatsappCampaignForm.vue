@@ -199,17 +199,16 @@ const handleContactsResponse = data => {
 const contactSelector = ref(null);
 
 const goToNext = async () => {
-  // TODO: Renable the validation
-  // v$.value.$touch();
-  // if (isStep1Valid.value) {
-  contactState.contactList = [];
-  contactState.currentPage = 1;
-  contactState.searchQuery = '';
-  console.log(formState.selectedAudience);
-  contactState.selectedAudience = formState.selectedAudience;
-  await fetchContacts(1);
-  currentStep.value = 2;
-  // }
+  v$.value.$touch();
+  if (isStep1Valid.value) {
+    contactState.contactList = [];
+    contactState.currentPage = 1;
+    contactState.searchQuery = '';
+    console.log(formState.selectedAudience);
+    contactState.selectedAudience = formState.selectedAudience;
+    await fetchContacts(1);
+    currentStep.value = 2;
+  }
 };
 
 const goBack = () => {
@@ -281,19 +280,27 @@ onBeforeUnmount(() => {
     <div v-if="currentStep === 1" class="campaign-details-form">
       <form class="flex flex-col w-full">
         <div class="w-full space-y-4">
-          <Input
-            v-model="formState.title"
-            :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.LABEL')"
-            type="text"
-            :class="{ error: v$.title.$error }"
-            :error="
-              v$.title.$error
-                ? t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.ERROR')
-                : ''
-            "
-            :placeholder="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.PLACEHOLDER')"
-            @blur="v$.title.$touch"
-          />
+          <div>
+            <Input
+              v-model="formState.title"
+              :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.LABEL')"
+              type="text"
+              :placeholder="
+                t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.PLACEHOLDER')
+              "
+              @blur="v$.title.$touch"
+            />
+
+            <p
+              v-if="v$.title.$error"
+              class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+              :style="{
+                color: '#ef4444',
+              }"
+            >
+              {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.ERROR') }}
+            </p>
+          </div>
 
           <div class="flex flex-col mb-0">
             <label class="text-sm font-medium text-slate-700">
@@ -382,6 +389,11 @@ onBeforeUnmount(() => {
                 class="w-full mt-1"
                 :placeholder="
                   t('CAMPAIGN.WHATSAPP.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER')
+                "
+                :aria-errormessage="
+                  v$.scheduledAt.$error
+                    ? t('CAMPAIGN.WHATSAPP.CREATE.FORM.SCHEDULED_AT.ERROR')
+                    : null
                 "
                 :error="
                   v$.scheduledAt.$error

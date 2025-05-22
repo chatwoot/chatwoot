@@ -30,10 +30,8 @@ export default {
         'Channel::WebWidget': CAMPAIGN_TYPES.ONGOING,
         'Channel::Whatsapp': CAMPAIGN_TYPES.WHATSAPP,
       };
-      console.log('selected channel was: ', this.selectedChannel);
       const campaigns =
         this.getCampaigns(campaignTypeMap[this.selectedChannel]) || [];
-      console.log("Before filter, ", campaigns)
       return campaigns.filter(e => e.inbox_id == this.selectedInbox.id);
     },
   },
