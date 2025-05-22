@@ -1,7 +1,7 @@
 # PR #1: Logo and Brand Colors Update
 
 ## Description
-This PR updates the Chatwoot interface with custom branding elements including new logo files and a custom color scheme. It replaces the "Chatwoot" branding with "YourBrand" and updates the color scheme to use a blue-purple (#4263EB) as the primary color.
+This PR updates the Chatwoot interface with custom branding elements including new logo files and a custom color scheme. It replaces the "Chatwoot" branding with "Conversify" and updates the color scheme to use a teal/green (#2AC0A5) as the primary color.
 
 ## Changes
 - Added custom logo SVG files (regular, thumbnail, and dark mode versions)
@@ -19,11 +19,11 @@ This PR updates the Chatwoot interface with custom branding elements including n
 5. Verified favicon appears correctly in browser tabs
 
 ## UI Screenshots
-![YourBrand Logo](public/brand-assets/custom/logo.svg)
-![YourBrand Thumbnail](public/brand-assets/custom/logo_thumbnail.svg)
+![Conversify Logo](public/brand-assets/custom/logo.svg)
+![Conversify Thumbnail](public/brand-assets/custom/logo_thumbnail.svg)
 
 ## Notes
-- The custom color scheme uses #4263EB as the primary color
+- The custom color scheme uses #2AC0A5 (teal/green) as the primary color
 - Custom logos are stored in the public/brand-assets/custom directory
 - Color overrides are implemented through CSS variables
 - This PR only handles the visual brand identity. The "Captain" to "AIAgent" rebrand will be handled in a separate PR 

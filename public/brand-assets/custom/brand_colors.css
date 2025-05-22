@@ -1,55 +1,55 @@
-/* YourBrand Custom Colors
+/* Conversify Custom Colors
  * This file overrides the default Chatwoot color scheme
  */
 
 :root {
   /* Override primary brand color (was #1f93ff) */
-  --w-500: #4263EB;
-  --color-woot: #4263EB;
+  --w-500: #2AC0A5;
+  --color-woot: #2AC0A5;
   
   /* Shades of primary color */
-  --w-25: #F5F8FF; 
-  --w-50: #EBF0FF;
-  --w-75: #D6DFFF;
-  --w-100: #C2CFFF;
-  --w-200: #99AEFF;
-  --w-300: #708DFF;
-  --w-400: #476CFF;
-  --w-600: #3850CC;
-  --w-700: #293D99;
-  --w-800: #1C2A66;
-  --w-900: #0F1533;
+  --w-25: #F5FDFB; 
+  --w-50: #E6F7F4;
+  --w-75: #D1F1EA;
+  --w-100: #B3E6DC;
+  --w-200: #8CD9C9;
+  --w-300: #5ECDB5;
+  --w-400: #3CC6AA;
+  --w-600: #25A38B;
+  --w-700: #1D8A7A;
+  --w-800: #156A5E;
+  --w-900: #0F4C43;
   
   /* Brand color */
-  --brand: #4263EB;
+  --brand: #2AC0A5;
   
   /* Action/primary color */
-  --color-primary: #4263EB;
-  --primary-color: #4263EB;
-  --action-color: #4263EB;
+  --color-primary: #2AC0A5;
+  --primary-color: #2AC0A5;
+  --action-color: #2AC0A5;
 }
 
 /* For components that use color directly */
 .woot-color {
-  color: #4263EB !important;
+  color: #2AC0A5 !important;
 }
 
 .woot-bg {
-  background-color: #4263EB !important;
+  background-color: #2AC0A5 !important;
 }
 
 /* Buttons and other components might use these classes */
 .button--primary, 
 .primary-button {
-  background-color: #4263EB !important;
-  border-color: #3850CC !important;
+  background-color: #2AC0A5 !important;
+  border-color: #25A38B !important;
 }
 
 /* Link colors */
 a {
-  color: #4263EB;
+  color: #2AC0A5;
 }
 
 a:hover {
-  color: #3850CC;
+  color: #1D8A7A;
 } 
