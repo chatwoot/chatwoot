@@ -85,6 +85,12 @@ linear:
   enabled: true
   icon: 'icon-linear'
   config_key: 'linear'
+slack:
+  name: 'Slack'
+  description: 'Configuration for setting up Slack'
+  enabled: true
+  icon: 'icon-slack'
+  config_key: 'slack'
 instagram:
   name: 'Instagram'
   description: 'Configuration for setting up Instagram'
