@@ -1,5 +1,6 @@
 class Captain::Copilot::ChatService
   include SwitchLocale
+  include JsonHelper
 
   def initialize(message)
     @message = message
@@ -99,16 +100,9 @@ class Captain::Copilot::ChatService
   end
 
   def get_message_content(response)
-    is_handover = response.dig('json', 'is_handover')
-    message = if is_handover
-                if response.dig('json', 'user_requested_human')
-                  I18n.t('conversations.bot.requested_human_message')
-                else
-                  I18n.t('conversations.bot.escalation_message')
-                end
-              else
-                response['text']
-              end
+    json_data = extract_json_from_code_block(response['text'])
+    is_handover = json_data&.dig('is_handover_human') || false
+    message = json_data&.dig('response')
 
     [message, is_handover]
   end

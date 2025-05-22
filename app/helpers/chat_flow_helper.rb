@@ -1,5 +1,5 @@
 module ChatFlowHelper
-  WINDOW_SIZE = 5
+  WINDOW_SIZE = 6
   LLM_TEMPERATURE = 0.7
 
   def self.included(base)
@@ -11,9 +11,7 @@ module ChatFlowHelper
 
   def create_flow_data_and_store_config(store_id)
     default_system_message_prompt
-    handover_prompt_template
-    set_azure_openai_temperature
-    set_redis_for_chat_memory
+    set_buffer_for_chat_memory
     set_qdrant_vector_store
 
     [flow_data, store_config(store_id)]
@@ -24,7 +22,6 @@ module ChatFlowHelper
     self.flow_data = flow_data
 
     system_message_prompt
-    handover_prompt_template
 
     flow_data
   end
@@ -59,11 +56,13 @@ module ChatFlowHelper
 
   def default_system_message_prompt
     replace_business_name
+    replace_additional_rules_for_handover_prompt
     node = find_node_by_id('chatPromptTemplate_0')
-    node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n\n#{template.system_prompt_rules}"
+    node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n#{template.system_prompt_rules}"
   end
 
   def system_message_prompt
+    replace_additional_rules_for_handover_prompt
     node = find_node_by_id('chatPromptTemplate_0')
     node['data']['inputs']['systemMessagePrompt'] = combined_system_prompt
   end
@@ -77,6 +76,12 @@ module ChatFlowHelper
     node = find_node_by_id('RedisBackedChatMemory_0')
     node['data']['inputs']['memoryKey'] = SecureRandom.uuid
     node['data']['inputs']['windowSize'] = WINDOW_SIZE
+  end
+
+  def set_buffer_for_chat_memory
+    node = find_node_by_id('bufferWindowMemory_0')
+    node['data']['inputs']['memoryKey'] = SecureRandom.uuid
+    node['data']['inputs']['k'] = WINDOW_SIZE
   end
 
   def set_mongodb_atlas_chat_memory
@@ -101,7 +106,7 @@ module ChatFlowHelper
   end
 
   def replace_additional_rules_for_handover_prompt
-    template.handover_prompt.gsub('{additional_rules}', params[:routing_conditions] || '')
+    template.system_prompt_rules = template.system_prompt_rules.gsub('{additional_rules}', params[:routing_conditions] || '')
   end
 
   def combined_system_prompt
