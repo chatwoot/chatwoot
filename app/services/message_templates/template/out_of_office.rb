@@ -2,6 +2,7 @@ class MessageTemplates::Template::OutOfOffice
   pattr_initialize [:conversation!]
 
   def perform
+    Rails.logger.info("[OutOfOffice][#{conversation.id}] Triggering out of office message")
     ActiveRecord::Base.transaction do
       conversation.messages.create!(out_of_office_message_params)
     end

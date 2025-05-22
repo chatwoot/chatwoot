@@ -14,6 +14,9 @@ class MessageTemplates::HookExecutionService
 
     Rails.logger.info "[OutOfOffice][#{conversation.id}] Triggering templates for conversation ##{conversation.id}"
     trigger_templates
+  rescue StandardError => e
+    Rails.logger.error "[OutOfOffice][#{conversation.id}] Error triggering templates: #{e.message}"
+    raise e
   end
 
   private
