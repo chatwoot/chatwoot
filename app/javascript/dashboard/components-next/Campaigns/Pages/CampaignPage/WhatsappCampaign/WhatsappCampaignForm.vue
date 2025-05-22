@@ -116,7 +116,7 @@ const rules = computed(() => {
     selectedTemplate: { required },
     isTemplateValid: { required },
     scheduledAt: { required },
-    selectedAudience: { required },
+    selectedAudience: {},
   };
   const step2Rules = {
     selectedContacts: {
