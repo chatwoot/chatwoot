@@ -16,13 +16,13 @@
     "heading": {
       "family": "Haskoy",
       "weight": 500,
-      "source": "https://deploy-preview-223--chatwoot.netlify.app/fonts/haskoy/Haskoy-Medium.woff2",
+      "source": "https://chatwoot.com/fonts/haskoy/Haskoy-Medium.woff2",
       "format": "woff2"
     },
     "body": {
       "family": "Haskoy",
       "weight": 400,
-      "source": "https://deploy-preview-223--chatwoot.netlify.app/fonts/haskoy/Haskoy-Regular.woff2",
+      "source": "https://chatwoot.com/fonts/haskoy/Haskoy-Regular.woff2",
       "format": "woff2"
     }
   },
