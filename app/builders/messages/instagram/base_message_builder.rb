@@ -152,11 +152,13 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
   end
 
   def message_already_exists?
-    cw_message = conversation.messages.where(
-      source_id: @messaging[:message][:mid]
-    ).first
+    find_message_by_source_id(@messaging[:message][:mid]).present?
+  end
 
-    cw_message.present?
+  def find_message_by_source_id(source_id)
+    return unless source_id
+
+    @message = Message.find_by(source_id: source_id)
   end
 
   def all_unsupported_files?
