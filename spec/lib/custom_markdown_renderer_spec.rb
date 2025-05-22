@@ -146,10 +146,11 @@ describe CustomMarkdownRenderer do
     context 'when link is a wistia URL' do
       let(:wistia_url) { 'https://chatwoot.wistia.com/medias/kjwjeq6f9i' }
 
-      it 'renders a responsive iframe with Wistia embed code' do
+      it 'renders a custom element with Wistia embed code' do
         output = render_markdown_link(wistia_url)
         expect(output).to include('<script src="https://fast.wistia.com/player.js" async></script>')
-        expect(output).to include('<wistia-player media-id="kjwjeq6f9i"')
+        expect(output).to include('<wistia-player')
+        expect(output).to include('media-id="kjwjeq6f9i"')
       end
     end
 
