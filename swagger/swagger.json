@@ -697,11 +697,11 @@
           "$ref": "#/parameters/platform_user_id"
         }
       ],
-      "get": {
+      "post": {
         "tags": [
           "Users"
         ],
-        "operationId": "get-user-token",
+        "operationId": "post-user-token",
         "summary": "Get User Access Token",
         "description": "Get the access token of a user",
         "security": [

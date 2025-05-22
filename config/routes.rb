@@ -396,7 +396,7 @@ Rails.application.routes.draw do
         resources :users, only: [:create, :show, :update, :destroy] do
           member do
             get :login
-            get :token
+            post :token
           end
         end
         resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
