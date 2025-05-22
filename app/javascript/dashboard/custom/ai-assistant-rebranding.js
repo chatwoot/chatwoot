@@ -8,7 +8,7 @@ document.addEventListener('DOMContentLoaded', function() {
   transformUI();
   
   // Set up a MutationObserver to watch for DOM changes
-  const observer = new MutationObserver(function(mutations) {
+  const observer = new MutationObserver(function() {
     transformUI();
   });
   
@@ -16,8 +16,7 @@ document.addEventListener('DOMContentLoaded', function() {
   observer.observe(document.body, { 
     childList: true, 
     subtree: true,
-    characterData: true,
-    characterDataOldValue: true
+    characterData: true
   });
 });
 
@@ -26,10 +25,10 @@ function transformUI() {
   // Replace Captain with AI Assistant and Assistant with Topic in text nodes
   walkTextNodes(document.body, function(node) {
     const text = node.nodeValue;
-    if (text.includes('Captain')) {
+    if (text && text.includes('Captain')) {
       node.nodeValue = text.replace(/Captain/g, 'AI Assistant');
     }
-    if (text.includes('Assistant')) {
+    if (text && text.includes('Assistant')) {
       // Only replace standalone "Assistant" to avoid replacing in "AI Assistant"
       node.nodeValue = node.nodeValue.replace(/\bAssistant\b(?!\s+AI)/g, 'Topic');
     }
@@ -41,10 +40,10 @@ function transformUI() {
     ['title', 'placeholder', 'aria-label', 'alt'].forEach(attr => {
       if (el.hasAttribute(attr)) {
         const value = el.getAttribute(attr);
-        if (value.includes('Captain')) {
+        if (value && value.includes('Captain')) {
           el.setAttribute(attr, value.replace(/Captain/g, 'AI Assistant'));
         }
-        if (value.includes('Assistant')) {
+        if (value && value.includes('Assistant')) {
           el.setAttribute(attr, value.replace(/\bAssistant\b(?!\s+AI)/g, 'Topic'));
         }
       }
@@ -54,10 +53,10 @@ function transformUI() {
   // Replace in button text and labels
   const buttons = document.querySelectorAll('button, .button, .btn, label');
   buttons.forEach(button => {
-    if (button.innerText.includes('Captain')) {
+    if (button.innerText && button.innerText.includes('Captain')) {
       button.innerText = button.innerText.replace(/Captain/g, 'AI Assistant');
     }
-    if (button.innerText.includes('Assistant')) {
+    if (button.innerText && button.innerText.includes('Assistant')) {
       button.innerText = button.innerText.replace(/\bAssistant\b(?!\s+AI)/g, 'Topic');
     }
   });
@@ -66,10 +65,10 @@ function transformUI() {
   const links = document.querySelectorAll('a[href*="captain"]');
   links.forEach(link => {
     // We don't modify the href as that would break navigation, but we can change how it's displayed
-    if (link.innerText.includes('Captain')) {
+    if (link.innerText && link.innerText.includes('Captain')) {
       link.innerText = link.innerText.replace(/Captain/g, 'AI Assistant');
     }
-    if (link.innerText.includes('Assistant')) {
+    if (link.innerText && link.innerText.includes('Assistant')) {
       link.innerText = link.innerText.replace(/\bAssistant\b(?!\s+AI)/g, 'Topic');
     }
   });
@@ -79,7 +78,7 @@ function transformUI() {
 function walkTextNodes(node, func) {
   if (node.nodeType === 3) { // Text node
     func(node);
-  } else {
+  } else if (node.childNodes && node.childNodes.length) {
     for (let i = 0; i < node.childNodes.length; i++) {
       walkTextNodes(node.childNodes[i], func);
     }
