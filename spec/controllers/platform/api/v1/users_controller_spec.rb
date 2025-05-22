@@ -108,19 +108,18 @@ RSpec.describe 'Platform Users API', type: :request do
         expect(response).to have_http_status(:success)
         data = response.parsed_body
 
-        # Check access token
+        # Check access token and expiry
         expect(data['access_token']).to eq(user.access_token.token)
-
-        # Check expiry is nil
         expect(data['expiry']).to be_nil
 
         # Check user info
-        expect(data['user']).to be_present
-        expect(data['user']['id']).to eq(user.id)
-        expect(data['user']['name']).to eq(user.name)
-        expect(data['user']['display_name']).to eq(user.display_name)
-        expect(data['user']['email']).to eq(user.email)
-        expect(data['user']['pubsub_token']).to eq(user.pubsub_token)
+        expect(data['user']).to include(
+          'id' => user.id,
+          'name' => user.name,
+          'display_name' => user.display_name,
+          'email' => user.email,
+          'pubsub_token' => user.pubsub_token
+        )
       end
     end
   end
