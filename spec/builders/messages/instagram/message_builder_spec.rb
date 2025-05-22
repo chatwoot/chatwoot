@@ -163,12 +163,16 @@ describe Messages::Instagram::MessageBuilder do
     end
 
     it 'does not create message for unsupported file type' do
+      conversation
+
+      # try to create a message with unsupported file type
       story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
       messaging = story_mention_params[:entry][0][:messaging][0]
 
       described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
 
-      expect(instagram_inbox.conversations.count).to be 0
+      # Conversation should exist but no new message should be created
+      expect(instagram_inbox.conversations.count).to be 1
       expect(instagram_inbox.messages.count).to be 0
     end
 
