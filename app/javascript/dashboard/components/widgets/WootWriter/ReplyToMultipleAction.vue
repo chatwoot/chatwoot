@@ -10,7 +10,6 @@
         emoji="✅"
         @click="onReplyAndResolve"
       >
-        <AIButtonLoader v-if="showAiLoader" />
         and Resolve
       </woot-button>
 
@@ -23,7 +22,6 @@
         emoji="👀"
         @click="onReplyAsPending"
       >
-        <AIButtonLoader v-if="showAiLoader" />
         as Pending
       </woot-button>
 
@@ -77,14 +75,12 @@
   import alertMixin from 'shared/mixins/alertMixin';
   import uiSettingsMixin from 'dashboard/mixins/uiSettings';
   import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-  import AIButtonLoader from '../AIButtonLoader.vue';
 
   export default {
     name: 'ReplyTopMultipleAction',
     components: {
       WootDropdownItem,
       WootDropdownMenu,
-      AIButtonLoader,
     },
     mixins: [alertMixin, uiSettingsMixin],
     props: {
@@ -117,7 +113,6 @@
         selectedAction: '',
         STATUS_TYPE: wootConstants.STATUS_TYPE,
         currentConversationId: 0,
-        showAiLoader: false,
       };
     },
     computed: {
@@ -171,40 +166,8 @@
           FEATURE_FLAGS.REQUIRED_CONTACT_TYPE,
         );
       },
-      qualityCheckFeatureEnabled(){
-        return this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.AI_QUALITY_CHECK
-        );
-      },
-      translationFeatureEnabled(){
-        return this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.AI_TRANSLATION
-        );
-      },
-      translationAllowedForAgent() {
-        return this.uiSettings?.ai_translation_enabled === true;
-      },
-      qualityCheckForAgentAllowed() {
-        return this.uiSettings?.ai_quality_check_enabled === true;
-      },
-      translationEnabled() {
-        return this.qualityCheckFeatureEnabled && this.qualityCheckForAgentAllowed;
-      },
-      qualityCheckEnabled() {
-        return this.translationFeatureEnabled && this.translationAllowedForAgent;
-      }
     },
     methods: {
-      displayAILoader(){
-        if (this.translationEnabled || this.qualityCheckEnabled) {
-          this.showAiLoader = true;
-        }
-      },
-      hideAILoader(){
-        this.showAiLoader = false;
-      },
       setSelectedAction(action){
         this.selectedAction = action;
         this.closeDropdown()
@@ -216,7 +179,6 @@
         });
       },
       onReplyAndResolve(){
-        this.displayAILoader()
         this.onSend()
 
         if (this.isResolved) {
@@ -242,7 +204,6 @@
         }, 500)
       },
       onReplyAsPending(){
-        this.displayAILoader()
         this.onSend()
 
         if (this.isPending) {

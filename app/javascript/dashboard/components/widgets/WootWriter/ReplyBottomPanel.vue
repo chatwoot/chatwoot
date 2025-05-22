@@ -123,12 +123,11 @@
     <div class="right-wrap">
       <reply-to-multiple-action
         v-if="!isOnPrivateNote"
-        ref="replyToMultipleAction"
         :inbox="inbox"
         :conversation-id="conversationId"
         :is-disabled="isSendDisabled"
         :message="message"
-        :on-send="onSend"
+        :on-send="proceedWithSendingMessage"
         :is-on-private-note="isOnPrivateNote"
       />
       <woot-button
@@ -471,10 +470,6 @@ export default {
     },
     hideAILoader() {
       this.showAiLoader = false;
-
-      if (this.$refs.replyToMultipleAction) {
-        this.$refs.replyToMultipleAction.hideAILoader();
-      }
     },
     sendResponseWhenTranslationError() {
       this.translationError = false;
@@ -515,12 +510,8 @@ export default {
       const responseData = response.data;
       this.hideAILoader()
       try {
-        if (responseData.needs_translation) {
-          this.translatedMessage = responseData.translated_agent_message;
-          this.showAITranslationModal = true
-        } else {
-          this.proceedWithSendingMessage();
-        }
+        this.translatedMessage = responseData.translated_agent_message;
+        this.showAITranslationModal = true
       } catch (error) {
         console.log(error);
         this.translationError = true;

@@ -36,7 +36,7 @@ export default {
         return false;
       }
 
-      return this.aiCheckResponse?.needs_translation;
+      return true;
     },
     canShowTranslation(){
       return this.needsTranslation;
