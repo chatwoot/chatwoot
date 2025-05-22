@@ -3,12 +3,12 @@ class MessageTemplates::HookExecutionService
 
   def perform
     if conversation.campaign.present?
-      Rails.logger.debug { "[OutOfOffice][#{conversation.id}] Not triggering templates because conversation has a campaign" }
+      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not triggering templates because conversation has a campaign" }
       return
     end
 
     if conversation.last_incoming_message.blank?
-      Rails.logger.debug { "[OutOfOffice][#{conversation.id}] Not triggering templates because there is no incoming message" }
+      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not triggering templates because there is no incoming message" }
       return
     end
 
@@ -34,20 +34,20 @@ class MessageTemplates::HookExecutionService
   def should_send_out_of_office_message?
     # should not send if its a tweet message
     if conversation.tweet?
-      Rails.logger.debug { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because it's a tweet conversation" }
+      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because it's a tweet conversation" }
       return false
     end
 
     # should not send for outbound messages
     unless message.incoming?
-      Rails.logger.debug { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because the message is outgoing" }
+      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because the message is outgoing" }
       return false
     end
 
     # prevents sending out-of-office message if an agent has sent a message in last 5 minutes
     # ensures better UX by not interrupting active conversations at the end of business hours
     if conversation.messages.outgoing.exists?(['created_at > ?', 5.minutes.ago])
-      Rails.logger.debug { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because an agent responded in the last 5 minutes" }
+      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because an agent responded in the last 5 minutes" }
       return false
     end
 
@@ -60,7 +60,7 @@ class MessageTemplates::HookExecutionService
       reasons << 'inbox not in out-of-office mode' unless inbox.out_of_office?
       reasons << 'conversation already has a template message today' unless conversation.messages.today.template.empty?
       reasons << 'inbox has no out-of-office message configured' unless inbox.out_of_office_message.present?
-      Rails.logger.debug { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because: #{reasons.join(', ')}" }
+      Rails.logger.info { "[OutOfOffice][#{conversation.id}] Not sending out-of-office message because: #{reasons.join(', ')}" }
     end
 
     can_send
