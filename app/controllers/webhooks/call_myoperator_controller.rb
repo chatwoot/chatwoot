@@ -62,14 +62,10 @@ class Webhooks::CallMyoperatorController < ActionController::API
 
     agent_phone = parsed_body['agent_number']
 
-    if agent_phone.blank?
-      render json: { error: 'Agent phone number not found' }, status: :bad_request
-      return
+    if agent_phone.present?
+      agent = account.users.find_by("custom_attributes->>'phone_number' LIKE ?", "%#{agent_phone.gsub(/^0/, '')}%")
+      conversation.update!(assignee: agent)
     end
-
-    agent = account.users.find_by("custom_attributes->>'phone_number' LIKE ?", "%#{agent_phone.gsub(/^0/, '')}%")
-
-    conversation.update!(assignee: agent)
 
     total_call_duration = convert_duration_to_seconds(parsed_body['call_duration'])
 
