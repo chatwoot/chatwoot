@@ -34,6 +34,10 @@ class AgentBot < ApplicationRecord
     name
   end
 
+  def email
+    ENV['AGENT_BOT_EMAIL']
+  end
+
   def push_event_data(inbox = nil)
     {
       id: id,

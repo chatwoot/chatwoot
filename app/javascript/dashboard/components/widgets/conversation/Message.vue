@@ -714,7 +714,7 @@ export default {
       if (this.translateEnabled) {
         this.showTranslated = this.isChatMessage && !!this.translatedMessageByLocale;
 
-        if (this.isIncoming && !this.translatedMessage) {
+        if (this.isChatMessage && !this.translatedMessage) {
           this.handleTranslate()
         }
       }

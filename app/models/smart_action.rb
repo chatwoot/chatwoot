@@ -136,6 +136,7 @@ class SmartAction < ApplicationRecord
 
   def create_automated_response
     return unless event == AUTOMATED_RESPONSE
+    return unless conversation.handled_by == 'autopilot'
 
     Messages::MessageBuilder.new(assignee, conversation, { content: content }).perform
   end
@@ -212,7 +213,11 @@ class SmartAction < ApplicationRecord
   end
 
   def assignee
-    conversation_handled_by_bot? ? bot_agent : conversation.assignee
+    conversation_handled_by_bot? ? bot_agent : human_agent
+  end
+
+  def human_agent
+    conversation.assignee || @prev_user
   end
 
   def conversation_handled_by_bot?

@@ -49,14 +49,15 @@ RSpec.describe SmartAction do
 
     context 'when automated_response' do
       it 'creates automated response' do
-        smart_action = create(:smart_action, event: 'automated_response', content: 'test content')
-        expect(smart_action.content).to eq smart_action.conversation.messages.last.content
+        conversation = create(:conversation, assignee: create(:user), handled_by: 'autopilot')
+        smart_action = create(:smart_action, event: 'automated_response', content: 'test content', conversation: conversation)
+        expect(smart_action.content).to eq conversation.messages.last.content
       end
 
-      it 'sets assignee as sender' do
-        conversation = create(:conversation, assignee: create(:user))
+      it 'sets bot as sender' do
+        conversation = create(:conversation, assignee: create(:user), handled_by: 'autopilot')
         smart_action = create(:smart_action, event: 'automated_response', conversation: conversation)
-        expect(smart_action.conversation.messages.last.sender).to eq conversation.assignee
+        expect(smart_action.conversation.messages.last.sender).to be_a(AgentBot)
       end
     end
 

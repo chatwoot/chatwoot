@@ -37,6 +37,7 @@ locals {
     DT_LLM_HUB_URL            = "https://api-gateway.digitaltolk.se"
     DT_LLM_HUB_API_VERSION    = "api/v3/llm-hub"
     DT_ADMIN_USERNAME         = "engineering+chatwoot@digitaltolk.com"
+    AGENT_BOT_EMAIL           = "dt-automate@digitaltolk.com"
     RAILS_MAX_THREADS         = "10"
     WEB_CONCURRENCY           = "2"
     SIDEKIQ_CONCURRENCY       = "10"
