@@ -61,8 +61,8 @@
     },
     "ACCESS_TOKEN": {
       "TITLE": "Token de acesso",
-      "DESCRIPTION": "Copy the access token and save it securely",
-      "COPY_SUCCESSFUL": "Access token copied to clipboard"
+      "DESCRIPTION": "Copie o token de acesso e salve-o de forma segura",
+      "COPY_SUCCESSFUL": "Token de acesso copiado para área de transferência"
     },
     "FORM": {
       "AVATAR": {
