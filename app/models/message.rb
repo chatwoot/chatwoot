@@ -343,6 +343,7 @@ class Message < ApplicationRecord
   end
 
   def execute_message_template_hooks
+    Rails.logger.info("[Message][#{id}] Executing message template hooks")
     ::MessageTemplates::HookExecutionService.new(message: self).perform
   end
 
