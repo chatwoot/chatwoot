@@ -670,9 +670,7 @@
         "description": "Get the access token of a user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
