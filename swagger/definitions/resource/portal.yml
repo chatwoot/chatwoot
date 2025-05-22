@@ -27,8 +27,8 @@ properties:
   categories:
     type: array
     items:
-      $ref: '#/definitions/category'
+      $ref: '#/components/schemas/category'
   articles:
     type: array
     items:
-      $ref: '#/definitions/article'
+      $ref: '#/components/schemas/article'
