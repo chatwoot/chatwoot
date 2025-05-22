@@ -13,10 +13,13 @@ responses:
     content:
       application/json:
         schema:
-          type: array
-          description: 'Array of all active agents'
-          items:
-            $ref: '#/components/schemas/agent'
+          type: object
+          properties:
+            payload:
+              type: array
+              description: 'Array of all active agents'
+              items:
+                $ref: '#/components/schemas/agent'
   '404':
     description: Inbox not found
     content:

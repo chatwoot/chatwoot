@@ -34,7 +34,61 @@ components:
       in: header
       name: api_access_token
       description: This token can be obtained by the system admin after creating a platformApp. This token should be used to provision agent bots, accounts, users and their roles.
-
+tags:
+  - name: Accounts
+    description: Account management APIs
+  - name: Account Users
+    description: Account user management APIs
+  - name: AgentBots
+    description: Bot integrations
+  - name: Users
+    description: User management APIs
+  - name: Account AgentBots
+    description: Account-specific Agent Bots
+  - name: Agents
+    description: Agent management APIs
+  - name: Canned Responses
+    description: Pre-defined responses for common queries
+  - name: Contacts
+    description: Contact management APIs
+  - name: Contact Labels
+    description: Manage contact labels
+  - name: Conversation Assignments
+    description: Manage conversation assignments
+  - name: Conversation Labels
+    description: Manage conversation labels
+  - name: Conversations
+    description: Conversation management APIs
+  - name: Custom Attributes
+    description: Custom fields for contacts and conversations
+  - name: Custom Filters
+    description: Saved filters for conversations
+  - name: Inboxes
+    description: Communication channels setup
+  - name: Integrations
+    description: Third-party integrations
+  - name: Messages
+    description: Message management APIs
+  - name: Profile
+    description: User profile APIs
+  - name: Reports
+    description: Analytics and reporting APIs
+  - name: Teams
+    description: Team management APIs
+  - name: Webhooks
+    description: Event notification webhooks
+  - name: Automation Rule
+    description: Workflow automation rules
+  - name: Help Center
+    description: Knowledge base management
+  - name: Contacts API
+    description: Public contact APIs
+  - name: Conversations API
+    description: Public conversation APIs
+  - name: Messages API
+    description: Public message APIs
+  - name: CSAT Survey Page
+    description: Customer satisfaction survey
 x-tagGroups:
   - name: Platform
     tags:
@@ -48,6 +102,9 @@ x-tagGroups:
       - Agents
       - Canned Responses
       - Contacts
+      - Contact Labels
+      - Conversation Assignments
+      - Conversation Labels
       - Conversations
       - Custom Attributes
       - Custom Filters

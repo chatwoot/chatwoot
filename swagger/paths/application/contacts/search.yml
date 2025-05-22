@@ -21,10 +21,7 @@ get:
       content:
         application/json:
           schema:
-            type: object
-            properties:
-              payload:
-                $ref: '#/components/schemas/contact_list'
+            $ref: '#/components/schemas/contacts_list_response'
     '401':
       description: Authentication error
       content:

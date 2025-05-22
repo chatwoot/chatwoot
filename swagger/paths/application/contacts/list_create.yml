@@ -16,7 +16,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/contact_list'
+            $ref: '#/components/schemas/contacts_list_response'
     '400':
       description: Bad Request Error
       content:

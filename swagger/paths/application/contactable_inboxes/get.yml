@@ -20,7 +20,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/contactable_inboxes'
+            $ref: '#/components/schemas/contactable_inboxes_response'
     '401':
       description: Authentication error
       content:
