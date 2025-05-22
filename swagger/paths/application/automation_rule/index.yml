@@ -14,10 +14,7 @@ responses:
     content:
       application/json:
         schema:
-          type: array
-          description: Array of all automation rules
-          items:
-            $ref: '#/components/schemas/automation_rule'
+          $ref: '#/components/schemas/automation_rule'
   '403':
     description: Access denied
     content:

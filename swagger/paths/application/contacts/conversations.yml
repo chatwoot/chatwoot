@@ -28,7 +28,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/contact_conversations'
+            $ref: '#/components/schemas/contact_conversations_response'
     '404':
       description: Contact not found
       content:

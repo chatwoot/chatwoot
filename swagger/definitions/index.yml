@@ -16,8 +16,20 @@ custom_attribute:
   $ref: ./resource/custom_attribute.yml
 automation_rule:
   $ref: ./resource/automation_rule.yml
+automation_rule_item:
+  $ref: ./resource/automation_rule_item.yml
 portal:
   $ref: ./resource/portal.yml
+portal_single:
+  $ref: ./resource/portal_single.yml
+portal_config:
+  $ref: ./resource/portal_config.yml
+portal_logo:
+  $ref: ./resource/portal_logo.yml
+portal_meta:
+  $ref: ./resource/portal_meta.yml
+portal_item:
+  $ref: ./resource/portal_item.yml
 category:
   $ref: ./resource/category.yml
 article:
@@ -34,6 +46,8 @@ agent:
   $ref: ./resource/agent.yml
 inbox:
   $ref: ./resource/inbox.yml
+inbox_contact:
+  $ref: ./resource/inbox_contact.yml
 agent_bot:
   $ref: ./resource/agent_bot.yml
 contact_inboxes:
@@ -173,7 +187,6 @@ contact_list:
   description: 'array of contacts'
   items:
     allOf:
-      - $ref: '#/components/schemas/generic_id'
       - $ref: '#/components/schemas/contact'
 contact_conversations:
   type: array
@@ -201,3 +214,28 @@ account_summary:
   $ref: './resource/reports/summary.yml'
 agent_conversation_metrics:
   $ref: './resource/reports/conversation/agent.yml'
+
+contact_detail:
+  $ref: ./resource/contact_detail.yml
+message_detailed:
+  $ref: ./resource/message_detailed.yml
+conversation_meta:
+  $ref: ./resource/conversation_meta.yml
+conversation_messages:
+  $ref: ./resource/conversation_messages.yml
+contact_meta:
+  $ref: ./resource/contact_meta.yml
+contact_inbox:
+  $ref: ./resource/contact_inbox.yml
+contact_list_item:
+  $ref: ./resource/contact_list_item.yml
+contacts_list_response:
+  $ref: ./resource/contacts_list_response.yml
+contact_show_response:
+  $ref: ./resource/contact_show_response.yml
+contact_conversation_message:
+  $ref: ./resource/contact_conversation_message.yml
+contact_conversations_response:
+  $ref: ./resource/contact_conversations_response.yml
+contactable_inboxes_response:
+  $ref: ./resource/contactable_inboxes_response.yml
