@@ -52,8 +52,19 @@ module EmbedRenderer
       <div style="position: relative; padding-bottom: 56.25%; height: 0;">
         <script src="https://fast.wistia.com/player.js" async></script>
         <script src="https://fast.wistia.com/embed/#{video_id}.js" async type="module"></script>
-        <style>wistia-player[media-id='#{video_id}']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/#{video_id}/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
-        <wistia-player media-id="#{video_id}" aspect="1.7777777777777777" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></wistia-player>
+        <style>
+          wistia-player[media-id='#{video_id}']:not(:defined) {
+            background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/#{video_id}/swatch');
+            display: block;
+            filter: blur(5px);
+            padding-top:56.25%;
+          }
+        </style>
+        <wistia-player
+          media-id="#{video_id}"
+          aspect="1.7777777777777777"
+          style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+        </wistia-player>
       </div>
     )
   end
