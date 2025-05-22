@@ -6,6 +6,7 @@ import FormInput from '../../../components/Form/Input.vue';
 import SubmitButton from '../../../components/Button/SubmitButton.vue';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import { setNewPassword } from '../../../api/auth';
+import { ref } from 'vue';
 
 export default {
   components: {
@@ -30,6 +31,8 @@ export default {
         message: '',
         showLoading: false,
       },
+      showPassword: false,
+      showConfirmPassword: false,
       error: '',
     };
   },
@@ -100,26 +103,72 @@ export default {
       </h1>
 
       <div class="space-y-5">
-        <FormInput
-          v-model="credentials.password"
-          class="mt-3"
-          name="password"
-          type="password"
-          :has-error="v$.credentials.password.$error"
-          :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
-          :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
-          @blur="v$.credentials.password.$touch"
-        />
-        <FormInput
-          v-model="credentials.confirmPassword"
-          class="mt-3"
-          name="confirm_password"
-          type="password"
-          :has-error="v$.credentials.confirmPassword.$error"
-          :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
-          :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
-          @blur="v$.credentials.confirmPassword.$touch"
-        />
+        <div class="relative">
+          <FormInput
+            v-model="credentials.password"
+            class="mt-3"
+            name="password"
+            :type="showPassword ? 'text' : 'password'"
+            :has-error="v$.credentials.password.$error"
+            :error-message="$t('SET_NEW_PASSWORD.PASSWORD.ERROR')"
+            :placeholder="$t('SET_NEW_PASSWORD.PASSWORD.PLACEHOLDER')"
+            @blur="v$.credentials.password.$touch"
+          />
+          <button
+            type="button"
+            class="w-8 absolute bottom-0 right-0"
+            :class="v$.credentials.password.$error ? 'h-24' : 'h-12'"
+            @click="() => {
+              showPassword = !showPassword
+            }"
+          >
+            <fluent-icon
+              v-if="!showPassword"
+              icon="eye-hide"
+              size="18"
+              class="text-slate-900 dark:text-slate-50"
+            />
+            <fluent-icon
+              v-if="showPassword"
+              icon="eye-show"
+              size="18"
+              class="text-slate-900 dark:text-slate-50"
+            />
+          </button>
+        </div>
+        <div class="relative">
+          <FormInput
+            v-model="credentials.confirmPassword"
+            class="mt-3"
+            name="confirm_password"
+            :type="showConfirmPassword ? 'text' : 'password'"
+            :has-error="v$.credentials.confirmPassword.$error"
+            :error-message="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.ERROR')"
+            :placeholder="$t('SET_NEW_PASSWORD.CONFIRM_PASSWORD.PLACEHOLDER')"
+            @blur="v$.credentials.confirmPassword.$touch"
+          />
+          <button
+            type="button"
+            class="w-8 absolute bottom-0 right-0"
+            :class="v$.credentials.confirmPassword.$error ? 'h-24' : 'h-12'"
+            @click="() => {
+              showConfirmPassword = !showConfirmPassword
+            }"
+          >
+            <fluent-icon
+              v-if="!showConfirmPassword"
+              icon="eye-hide"
+              size="18"
+              class="text-slate-900 dark:text-slate-50"
+            />
+            <fluent-icon
+              v-if="showConfirmPassword"
+              icon="eye-show"
+              size="18"
+              class="text-slate-900 dark:text-slate-50"
+            />
+          </button>
+        </div>
         <SubmitButton
           :disabled="
             v$.credentials.password.$invalid ||
