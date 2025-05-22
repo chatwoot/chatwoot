@@ -21,7 +21,7 @@ get:
       content:
         application/json:
           schema:
-            $ref: '#/components/schemas/extended_contact'
+            $ref: '#/components/schemas/contact_show_response'
     '404':
       description: Contact not found
       content:
