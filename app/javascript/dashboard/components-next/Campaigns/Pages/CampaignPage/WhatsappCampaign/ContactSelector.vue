@@ -17,6 +17,7 @@ import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue'
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import { useRoute } from 'vue-router';
+import labels from '../../../../../api/labels';
 
 const route = useRoute();
 
@@ -26,6 +27,10 @@ const props = defineProps({
     required: true,
   },
   selectedContacts: {
+    type: Array,
+    default: () => [],
+  },
+  selectedAudience: {
     type: Array,
     default: () => [],
   },
@@ -295,25 +300,6 @@ const clearSelection = () => {
 const selectAll = async () => {
   if (isFetchingAllPages.value) return;
   isSelectingAll.value = true;
-  const hasActiveFilters = appliedFilters.value.some(filter => {
-    if (filter.values === null || filter.values === undefined) {
-      return false;
-    }
-
-    if (typeof filter.values === 'string') {
-      return filter.values.trim() !== '';
-    }
-
-    if (Array.isArray(filter.values)) {
-      return filter.values.length > 0;
-    }
-
-    if (typeof filter.values === 'object') {
-      return Object.keys(filter.values).length > 0;
-    }
-
-    return !!filter.values;
-  });
 
   try {
     localSelectedContacts.value = [];
@@ -321,6 +307,7 @@ const selectAll = async () => {
     const filters = formattedFilterWithPhoneNumber;
     const result = await ContactsAPI.getFilteredAllIds({
       payload: filters.value,
+      labels: props.selectedAudience
     });
     console.log('Reslts: ', result);
 
@@ -417,7 +404,10 @@ const submitFilters = async () => {
 
     isLoadingContacts.value = true;
     isFetchingAllPages.value = true;
-    const queryPayload = { payload: formattedFilters };
+    const queryPayload = {
+      payload: formattedFilters,
+      labels: props.selectedAudience,
+    };
 
     const { data } = await ContactsAPI.filter(1, 'name', queryPayload);
     handleContactsResponse(data, true);
@@ -462,7 +452,10 @@ const fetchContacts = async (page = 1) => {
     currentPage.value = page;
     isLoadingContacts.value = true;
 
-    const queryPayload = { payload: formattedFilterWithPhoneNumber.value };
+    const queryPayload = {
+      payload: formattedFilterWithPhoneNumber.value,
+      labels: props.selectedAudience,
+    };
 
     const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
 

@@ -17,6 +17,8 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ContactSelector from './ContactSelector.vue';
 import TemplatePreview from './TemplatePreview.vue';
 import ContactsAPI from 'dashboard/api/contacts';
+import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
+import { useMapGetter } from 'dashboard/composables/store';
 
 defineProps({
   accountId: {
@@ -31,11 +33,15 @@ const { t } = useI18n();
 
 // Form State
 const currentStep = ref(1);
+
+const labels = useMapGetter('labels/getLabels');
+
 const formState = reactive({
   title: '',
   selectedInbox: null,
   selectedTemplate: null,
   scheduledAt: null,
+  selectedAudience: [],
   selectedContacts: [],
   isTemplateValid: true,
   previewPosition: { right: 0, top: 0 },
@@ -45,6 +51,8 @@ const formState = reactive({
 const contactState = reactive({
   searchQuery: '',
   contactList: [],
+  selectedContacts: [],
+  selectedAudience: [],
   isLoadingContacts: false,
   currentPage: 1,
   totalPages: 1,
@@ -52,7 +60,25 @@ const contactState = reactive({
   sortAttribute: 'name',
 });
 
+const getErrorMessage = (field, errorKey) => {
+  const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
+  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
+};
+
+const formErrors = computed(() => ({
+  audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
+}));
+
 // Computed Properties
+
+const mapToOptions = (items, valueKey, labelKey) =>
+  items?.map(item => ({
+    value: item[valueKey],
+    label: item[labelKey],
+  })) ?? [];
+
+const audienceList = computed(() => mapToOptions(labels.value, 'id', 'title'));
+
 const inboxes = computed(() => {
   const allInboxes = store.getters['inboxes/getInboxes'];
   return allInboxes.filter(inbox => inbox.provider === 'whatsapp_cloud');
@@ -90,6 +116,7 @@ const rules = computed(() => {
     selectedTemplate: { required },
     isTemplateValid: { required },
     scheduledAt: { required },
+    selectedAudience: { required },
   };
   const step2Rules = {
     selectedContacts: {
@@ -172,15 +199,16 @@ const handleContactsResponse = data => {
 const contactSelector = ref(null);
 
 const goToNext = async () => {
-  // TODO: Renable the validation
-  // v$.value.$touch();
-  // if (isStep1Valid.value) {
+  v$.value.$touch();
+  if (isStep1Valid.value) {
     contactState.contactList = [];
     contactState.currentPage = 1;
     contactState.searchQuery = '';
+    console.log(formState.selectedAudience);
+    contactState.selectedAudience = formState.selectedAudience;
     await fetchContacts(1);
     currentStep.value = 2;
-  // }
+  }
 };
 
 const goBack = () => {
@@ -232,6 +260,7 @@ const createCampaign = async () => {
 
 // Lifecycle Hooks
 onMounted(() => {
+  store.dispatch('labels/get');
   calculatePreviewPosition();
   window.addEventListener('resize', calculatePreviewPosition);
 });
@@ -251,19 +280,27 @@ onBeforeUnmount(() => {
     <div v-if="currentStep === 1" class="campaign-details-form">
       <form class="flex flex-col w-full">
         <div class="w-full space-y-4">
-          <Input
-            v-model="formState.title"
-            :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.LABEL')"
-            type="text"
-            :class="{ error: v$.title.$error }"
-            :error="
-              v$.title.$error
-                ? t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.ERROR')
-                : ''
-            "
-            :placeholder="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.PLACEHOLDER')"
-            @blur="v$.title.$touch"
-          />
+          <div>
+            <Input
+              v-model="formState.title"
+              :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.LABEL')"
+              type="text"
+              :placeholder="
+                t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.PLACEHOLDER')
+              "
+              @blur="v$.title.$touch"
+            />
+
+            <p
+              v-if="v$.title.$error"
+              class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+              :style="{
+                color: '#ef4444',
+              }"
+            >
+              {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TITLE.ERROR') }}
+            </p>
+          </div>
 
           <div class="flex flex-col mb-0">
             <label class="text-sm font-medium text-slate-700">
@@ -321,6 +358,27 @@ onBeforeUnmount(() => {
             </label>
           </div>
 
+          <div class="flex flex-col gap-1">
+            <label
+              for="audience"
+              class="mb-0.5 text-sm font-medium text-n-slate-12"
+            >
+              {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.LABEL') }}
+            </label>
+
+            <TagMultiSelectComboBox
+              v-model="formState.selectedAudience"
+              :options="audienceList"
+              :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.LABEL')"
+              :placeholder="
+                t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.PLACEHOLDER')
+              "
+              :has-error="!!formErrors.audience"
+              :message="formErrors.audience"
+              class="[&>div>button]:bg-n-alpha-black2"
+            />
+          </div>
+
           <div class="flex flex-col">
             <label class="text-sm font-medium text-slate-700">
               {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.SCHEDULED_AT.LABEL') }}
@@ -331,6 +389,11 @@ onBeforeUnmount(() => {
                 class="w-full mt-1"
                 :placeholder="
                   t('CAMPAIGN.WHATSAPP.CREATE.FORM.SCHEDULED_AT.PLACEHOLDER')
+                "
+                :aria-errormessage="
+                  v$.scheduledAt.$error
+                    ? t('CAMPAIGN.WHATSAPP.CREATE.FORM.SCHEDULED_AT.ERROR')
+                    : null
                 "
                 :error="
                   v$.scheduledAt.$error
@@ -369,8 +432,9 @@ onBeforeUnmount(() => {
     <div v-else class="contact-selection">
       <ContactSelector
         ref="contactSelector"
-        :contacts="contactState.contactList"
+        :contacts="[]"
         :selected-contacts="formState.selectedContacts"
+        :selectedAudience="formState.selectedAudience"
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
         @contacts-selected="
