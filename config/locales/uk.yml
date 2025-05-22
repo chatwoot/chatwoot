@@ -132,6 +132,8 @@ uk:
     attachment: 'Вкладення'
     no_content: 'Немає вмісту'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} згадав вас у сторіс: '
       instagram_deleted_story_content: Ця історія більше не доступна.
@@ -139,6 +141,9 @@ uk:
       delivery_status:
         error_code: 'Код помилки: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Розмова була відмічена як вирішена %{user_name}'
         contact_resolved: 'Діалог був закритий %{contact_name}'

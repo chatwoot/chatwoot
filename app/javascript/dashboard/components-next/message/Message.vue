@@ -186,9 +186,17 @@ const isBotOrAgentMessage = computed(() => {
     return true;
   }
   const senderId = props.senderId ?? props.sender?.id;
-  const senderType = props.senderType ?? props.sender?.type;
+  const senderType = props.sender?.type ?? props.senderType;
 
   if (!senderType || !senderId) {
+    return true;
+  }
+
+  if (
+    [SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(
+      senderType
+    )
+  ) {
     return true;
   }
 
@@ -406,7 +414,7 @@ const avatarInfo = computed(() => {
   const { name, type, avatarUrl, thumbnail } = sender || {};
 
   // If sender type is agent bot, use avatarUrl
-  if (type === SENDER_TYPES.AGENT_BOT) {
+  if ([SENDER_TYPES.AGENT_BOT, SENDER_TYPES.CAPTAIN_ASSISTANT].includes(type)) {
     return {
       name: name ?? '',
       src: avatarUrl ?? '',

@@ -29,9 +29,7 @@
         "description": "Create an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -83,9 +81,7 @@
         "description": "Get the details of an account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -130,9 +126,7 @@
         "description": "Update an account's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -177,9 +171,7 @@
         "description": "Delete an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -224,9 +216,7 @@
         "description": "List all account users",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -261,9 +251,7 @@
         "description": "Create an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -322,9 +310,7 @@
         "description": "Delete an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -364,9 +350,7 @@
         "description": "List all agent bots available",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -405,9 +389,7 @@
         "description": "Create an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -459,9 +441,7 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -506,9 +486,7 @@
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -553,9 +531,7 @@
         "description": "Delete an AgentBot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -595,9 +571,7 @@
         "description": "Create a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -649,9 +623,7 @@
         "description": "Get the details of an user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -696,9 +668,7 @@
         "description": "Update a user's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -743,9 +713,7 @@
         "description": "Delete a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -790,9 +758,7 @@
         "description": "Get the sso link of a user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -848,9 +814,7 @@
         "operationId": "get-details-of-a-inbox",
         "summary": "Inbox details",
         "description": "Get the details of an inbox",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -898,9 +862,7 @@
         "operationId": "create-a-contact",
         "summary": "Create a contact",
         "description": "Create a contact",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -951,9 +913,7 @@
         "operationId": "get-details-of-a-contact",
         "summary": "Get a contact",
         "description": "Get the details of a contact",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -994,9 +954,7 @@
         "operationId": "update-a-contact",
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -1047,9 +1005,7 @@
         "operationId": "create-a-conversation",
         "summary": "Create a conversation",
         "description": "Create a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -1090,9 +1046,7 @@
         "operationId": "list-all-contact-conversations",
         "summary": "List all conversations",
         "description": "List all conversations for the contact",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -1140,9 +1094,7 @@
         "operationId": "get-single-conversation",
         "summary": "Get a single conversation",
         "description": "Retrieves the details of a specific conversation",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -1196,9 +1148,7 @@
         "operationId": "resolve-conversation",
         "summary": "Resolve a conversation",
         "description": "Marks a conversation as resolved",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Conversation resolved successfully",
@@ -1252,9 +1202,7 @@
         "operationId": "toggle-typing-status",
         "summary": "Toggle typing status",
         "description": "Toggles the typing status in a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "typing_status",
@@ -1333,9 +1281,7 @@
         "operationId": "update-last-seen",
         "summary": "Update last seen",
         "description": "Updates the last seen time of the contact in a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Last seen updated successfully"
@@ -1382,9 +1328,7 @@
         "operationId": "create-a-message",
         "summary": "Create a message",
         "description": "Create a message",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -1425,9 +1369,7 @@
         "operationId": "list-all-converation-messages",
         "summary": "List all messages",
         "description": "List all messages in the conversation",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -1478,9 +1420,7 @@
         "operationId": "update-a-message",
         "summary": "Update a message",
         "description": "Update a message",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -1528,9 +1468,7 @@
         "operationId": "get-csat-survey-page",
         "summary": "Get CSAT survey page",
         "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -1553,9 +1491,7 @@
         "description": "List all agent bots available for the current account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1594,9 +1530,7 @@
         "description": "Create an agent bot in the account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -1651,9 +1585,7 @@
         "description": "Get the details of an agent bot in the account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1698,9 +1630,7 @@
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -1745,9 +1675,7 @@
         "description": "Delete an AgentBot from the account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1792,9 +1720,7 @@
         "description": "Get Details of Agents in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1833,9 +1759,7 @@
         "description": "Add a new Agent to Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -1887,9 +1811,7 @@
         "description": "Update an Agent in Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1955,9 +1877,7 @@
         "description": "Remove an Agent from Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2013,9 +1933,7 @@
         "description": "Get Details of Canned Responses in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2054,9 +1972,7 @@
         "description": "Add a new Canned Response to Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -2108,9 +2024,7 @@
         "description": "Update a Canned Response in Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2176,9 +2090,7 @@
         "description": "Remove a Canned Response from Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2249,9 +2161,7 @@
         "description": "Get details of custom attributes in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2290,9 +2200,7 @@
         "description": "Add a new custom attribute to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -2352,9 +2260,7 @@
         "summary": "Get a custom attribute details",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get the details of a custom attribute in the account",
@@ -2414,9 +2320,7 @@
         "description": "Update a custom attribute in account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2482,9 +2386,7 @@
         "description": "Remove a custom attribute from account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2538,9 +2440,7 @@
         "summary": "List Contacts",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2586,9 +2486,7 @@
         "summary": "Create Contact",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2653,9 +2551,7 @@
         "summary": "Show Contact",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get a contact belonging to the account using ID",
@@ -2700,9 +2596,7 @@
         "summary": "Update Contact",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Update a contact belonging to the account using ID",
@@ -2757,9 +2651,7 @@
         "summary": "Delete Contact",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Delete a contact belonging to the account using ID",
@@ -2825,9 +2717,7 @@
         ],
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2888,9 +2778,7 @@
         "description": "Lists all the labels of a contact",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2935,9 +2823,7 @@
         "description": "Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3010,9 +2896,7 @@
         "summary": "Search Contacts",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3073,9 +2957,7 @@
         "summary": "Contact Filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3205,9 +3087,7 @@
         ],
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3278,9 +3158,7 @@
         "summary": "Get Contactable Inboxes",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3354,9 +3232,7 @@
         "description": "Get details of automation rules in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -3395,9 +3271,7 @@
         "description": "Add a new automation rule to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3458,9 +3332,7 @@
         "description": "Get the details of a automation rule in the account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3516,9 +3388,7 @@
         "description": "Update a automation rule in account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3584,9 +3454,7 @@
         "description": "Remove a automation rule from account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3642,9 +3510,7 @@
         "description": "Add a new portal to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3694,9 +3560,7 @@
         "description": "Get details of portals in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -3745,9 +3609,7 @@
         "description": "Update a portal to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3802,9 +3664,7 @@
         "description": "Add a new category to portal",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3859,9 +3719,7 @@
         "description": "Add a new article to portal",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -3913,9 +3771,7 @@
         "summary": "Get Conversation Counts",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4026,9 +3882,7 @@
         "summary": "Conversations List",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4137,14 +3991,10 @@
         "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://www.chatwoot.com/hc/user-guide/articles/1677839703-how-to-create-an-api-channel-inbox#send-messages-to-the-api-channel",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -4210,9 +4060,7 @@
         "summary": "Conversations Filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4332,9 +4180,7 @@
         "summary": "Conversation Details",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get all details regarding a conversation with all messages in the conversation",
@@ -4380,14 +4226,10 @@
         "description": "Update Conversation Attributes",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -4464,14 +4306,10 @@
         "description": "Toggles the status of the conversation between open and resolved",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -4551,14 +4389,10 @@
         "description": "Toggles the priority of conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -4633,9 +4467,7 @@
         "description": "Updates the custom attributes of a conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -4719,14 +4551,10 @@
         "description": "Assign a conversation to an agent or a team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -4802,9 +4630,7 @@
         "summary": "List Labels",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Lists all the labels of a conversation",
@@ -4849,9 +4675,7 @@
         "summary": "Add Labels",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Add labels to a conversation. Note that this API would overwrite the existing list of labels associated to the conversation.",
@@ -4925,9 +4749,7 @@
         "description": "List all inboxes available in the current account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4982,9 +4804,7 @@
         "summary": "Get an inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get an inbox available in the current account",
@@ -5046,9 +4866,7 @@
         "description": "You can create more than one website inbox in each account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -5109,9 +4927,7 @@
         "summary": "Update Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Update an existing inbox",
@@ -5183,9 +4999,7 @@
         "description": "See if an agent bot is associated to the Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -5245,9 +5059,7 @@
         "summary": "Add or remove agent bot",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "To add an agent bot pass agent_bot id, to remove agent bot from an inbox pass null",
@@ -5330,9 +5142,7 @@
         "description": "Get Details of Agents in an Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -5393,9 +5203,7 @@
         "description": "Add a new Agent to Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -5485,9 +5293,7 @@
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -5577,9 +5383,7 @@
         "description": "Remove an Agent from Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -5663,9 +5467,7 @@
         "summary": "Get messages",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "List all messages of a conversation",
@@ -5722,14 +5524,10 @@
         "description": "Create a new message in the conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "requestBody": {
@@ -5803,9 +5601,7 @@
         "summary": "Delete a message",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Delete a message and it's attachments from the conversation.",
@@ -5850,9 +5646,7 @@
         "summary": "List all the Integrations",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get the details of all Integrations available for the account",
@@ -5904,9 +5698,7 @@
         "description": "Create an integration hook",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -5958,9 +5750,7 @@
         "description": "Update an Integration Hook",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -6013,9 +5803,7 @@
         "description": "Delete an Integration Hook",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -6063,9 +5851,7 @@
         "description": "Get the user profile details",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -6106,9 +5892,7 @@
         "summary": "List all teams",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "List all teams available in the current account",
@@ -6147,9 +5931,7 @@
         "summary": "Create a team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Create a team in the account",
@@ -6209,9 +5991,7 @@
         "summary": "Get a team details",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get the details of a team in the account",
@@ -6256,9 +6036,7 @@
         "summary": "Update a team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Update a team's attributes",
@@ -6303,9 +6081,7 @@
         "summary": "Delete a team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Delete a team from the account",
@@ -6354,9 +6130,7 @@
         "description": "Get Details of Agents in an Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -6413,9 +6187,7 @@
         "description": "Add a new Agent to Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -6499,9 +6271,7 @@
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -6585,9 +6355,7 @@
         "description": "Remove an Agent from Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -6678,9 +6446,7 @@
         "description": "List all custom filters in a category of a user",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -6724,9 +6490,7 @@
         ],
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "requestBody": {
@@ -6781,9 +6545,7 @@
         "description": "Get the details of a custom filter in the account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -6827,9 +6589,7 @@
         "summary": "Update a custom filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Update a custom filter's attributes",
@@ -6874,9 +6634,7 @@
         "summary": "Delete a custom filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Delete a custom filter from the account",
@@ -6921,9 +6679,7 @@
         "summary": "List all webhooks",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "List all webhooks in the account",
@@ -6962,9 +6718,7 @@
         "summary": "Add a webhook",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Add a webhook subscription to the account",
@@ -7024,9 +6778,7 @@
         "summary": "Update a webhook object",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Update a webhook object in the account",
@@ -7076,9 +6828,7 @@
         "summary": "Delete a webhook",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Delete a webhook from the account",
@@ -7153,9 +6903,7 @@
         "summary": "Get Account reports",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get Account reports for a specific type, metric and date range",
@@ -7246,9 +6994,7 @@
         "summary": "Get Account reports summary",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get Account reports summary for a specific type and date range",
@@ -7312,9 +7058,7 @@
         "summary": "Account Conversation Metrics",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get conversation metrics for Account",
@@ -7398,9 +7142,7 @@
         "summary": "Agent Conversation Metrics",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "description": "Get conversation metrics for Agent",
@@ -8536,14 +8278,12 @@
           "limits": {
             "type": "object",
             "description": "The limits of the account",
-            "example": {
-            }
+            "example": {}
           },
           "custom_attributes": {
             "type": "object",
             "description": "The custom attributes of the account",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -8637,8 +8377,7 @@
           "bot_config": {
             "type": "object",
             "description": "The configuration for the bot",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -8668,8 +8407,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes you want to associate with the user",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -8872,8 +8610,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -8926,8 +8663,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -9082,8 +8818,7 @@
           "content_attributes": {
             "type": "object",
             "description": "Attributes based on the content type",
-            "example": {
-            }
+            "example": {}
           },
           "campaign_id": {
             "type": "integer",
@@ -9393,8 +9128,7 @@
           "query": {
             "type": "object",
             "description": "A query that needs to be saved as a custom filter",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -9450,8 +9184,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -9466,8 +9199,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -9731,8 +9463,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the customer",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -9799,8 +9530,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the conversation",
-            "example": {
-            }
+            "example": {}
           }
         }
       },

@@ -42,7 +42,9 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @inbox.update!(permitted_params.except(:channel))
+    inbox_params = permitted_params.except(:channel, :csat_config)
+    inbox_params[:csat_config] = format_csat_config(permitted_params[:csat_config]) if permitted_params[:csat_config].present?
+    @inbox.update!(inbox_params)
     update_inbox_working_hours
     update_channel if channel_update_required?
   end
@@ -121,10 +123,22 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     @inbox.channel.save!
   end
 
+  def format_csat_config(config)
+    {
+      display_type: config['display_type'] || 'emoji',
+      message: config['message'] || '',
+      survey_rules: {
+        operator: config.dig('survey_rules', 'operator') || 'contains',
+        values: config.dig('survey_rules', 'values') || []
+      }
+    }
+  end
+
   def inbox_attributes
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
-     :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name]
+     :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
+     { csat_config: [:display_type, :message, { survey_rules: [:operator, { values: [] }] }] }]
   end
 
   def permitted_params(channel_attributes = [])
