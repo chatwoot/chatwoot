@@ -125,6 +125,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
     )
   end
 
+  # Generates an HTML embed for a Wistia video.
+  # @param wistia_match [MatchData] A match object from the WISTIA_REGEX regex, where wistia_match[2] contains the video ID.
   def make_wistia_embed(wistia_match)
     video_id = wistia_match[2]
     %(
