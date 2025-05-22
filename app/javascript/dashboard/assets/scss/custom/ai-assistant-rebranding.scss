@@ -1,0 +1,75 @@
+// AI Assistant Rebranding CSS
+// This file applies custom styling to rebrand "Captain" to "AI Assistant" and "Assistant" to "Topic"
+// without modifying enterprise-licensed files
+
+// Replace Captain logo with AI Assistant logo
+img[src*="captain/logo.svg"],
+img[src*="captain/logo.png"] {
+  content: url("/assets/images/dashboard/ai_assistant/logo.svg");
+}
+
+// CSS selectors to replace text in UI elements that can't be changed via localization
+[data-testid="captain-header"],
+[data-testid="captain-title"] {
+  &::before {
+    content: "AI Assistant";
+    display: inline;
+  }
+  
+  // Hide the original text
+  span, div {
+    font-size: 0;
+    visibility: hidden;
+    
+    &::before {
+      font-size: initial;
+      visibility: visible;
+      content: "";
+    }
+  }
+}
+
+// Replace Assistant with Topic in UI elements
+[data-testid="assistant-header"],
+[data-testid="assistant-title"] {
+  &::before {
+    content: "Topic";
+    display: inline;
+  }
+  
+  // Hide the original text
+  span, div {
+    font-size: 0;
+    visibility: hidden;
+    
+    &::before {
+      font-size: initial;
+      visibility: visible;
+      content: "";
+    }
+  }
+}
+
+// Replace title attributes and other hard-coded text
+[title*="Captain"] {
+  title: attr(title);
+  title: attr(title) attr(title) "AI Assistant";
+}
+
+[title*="Assistant"] {
+  title: attr(title);
+  title: attr(title) attr(title) "Topic";
+}
+
+// Override specific components that might have hardcoded text
+.captain-header, .captain-nav, .captain-menu {
+  .captain-text:not(.i18n-text)::after {
+    content: "AI Assistant";
+    display: inline;
+  }
+  
+  .assistant-text:not(.i18n-text)::after {
+    content: "Topic";
+    display: inline;
+  }
+} 

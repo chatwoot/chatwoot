@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="32px" height="32px" viewBox="0 0 32 32" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <title>AI Assistant Logo</title>
+    <g id="AI-Assistant-Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <circle id="Background" fill="#2776F2" cx="16" cy="16" r="16"></circle>
+        <path d="M14.5,8 L17.5,8 C18.3284271,8 19,8.67157288 19,9.5 L19,11 L13,11 L13,9.5 C13,8.67157288 13.6715729,8 14.5,8 Z" id="Top" fill="#FFFFFF"></path>
+        <rect id="Body" fill="#FFFFFF" x="8" y="11" width="16" height="10" rx="2"></rect>
+        <path d="M12,14 L14,14 C14.5522847,14 15,14.4477153 15,15 L15,17 C15,17.5522847 14.5522847,18 14,18 L12,18 C11.4477153,18 11,17.5522847 11,17 L11,15 C11,14.4477153 11.4477153,14 12,14 Z" id="Eye-Left" fill="#2776F2"></path>
+        <path d="M18,14 L20,14 C20.5522847,14 21,14.4477153 21,15 L21,17 C21,17.5522847 20.5522847,18 20,18 L18,18 C17.4477153,18 17,17.5522847 17,17 L17,15 C17,14.4477153 17.4477153,14 18,14 Z" id="Eye-Right" fill="#2776F2"></path>
+        <path d="M13,21 L19,21 L19,22.5 C19,23.3284271 18.3284271,24 17.5,24 L14.5,24 C13.6715729,24 13,23.3284271 13,22.5 L13,21 Z" id="Bottom" fill="#FFFFFF"></path>
+    </g>
+</svg> 

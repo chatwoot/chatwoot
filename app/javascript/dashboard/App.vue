@@ -19,6 +19,8 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+// Import our custom module for AI Assistant rebranding
+import './custom';
 
 export default {
   name: 'App',
