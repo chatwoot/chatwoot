@@ -34,7 +34,12 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def filtered_all_ids
     result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
     contacts = result[:contacts]
-    @contacts_count = result[:count]
+
+
+    contacts = contacts.tagged_with(Current.account.labels.where(id: params[:labels]).pluck(:title), on: :labels, any: true) if params[:labels].present?
+
+    @contacts_count = contacts.length
+
     contacts = filtrate(contacts)
 
     contact_ids = contacts.pluck(:id)
@@ -99,7 +104,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def filter
     result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
     contacts = result[:contacts]
-    @contacts_count = result[:count]
+
+    contacts = contacts.tagged_with(Current.account.labels.where(id: params[:labels]).pluck(:title), on: :labels, any: true) if params[:labels].present?
+
+    @contacts_count = contacts.length
     @contacts = fetch_contacts(contacts)
   rescue CustomExceptions::CustomFilter::InvalidAttribute,
          CustomExceptions::CustomFilter::InvalidOperator,
