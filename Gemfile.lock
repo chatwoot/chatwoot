@@ -170,16 +170,10 @@ GEM
       activerecord (>= 5.a)
       database_cleaner-core (~> 2.0.0)
     database_cleaner-core (2.0.1)
-    datadog-ci (0.8.3)
-      msgpack
     date (3.4.1)
-    ddtrace (1.23.3)
-      datadog-ci (~> 0.8.1)
-      debase-ruby_core_source (= 3.3.1)
-      libdatadog (~> 7.0.0.1.0)
-      libddwaf (~> 1.14.0.0.0)
+    ddtrace (0.48.0)
+      ffi (~> 1.0)
       msgpack
-    debase-ruby_core_source (3.3.1)
     debug (1.10.0)
       irb (~> 1.10)
       reline (>= 0.3.8)
@@ -322,23 +316,23 @@ GEM
       google-cloud-errors (~> 1.0)
       grpc-google-iam-v1 (~> 1.1)
     google-logging-utils (0.1.0)
-    google-protobuf (4.30.0)
+    google-protobuf (4.31.0)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.30.0-arm64-darwin)
+    google-protobuf (4.31.0-arm64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.30.0-x86_64-darwin)
+    google-protobuf (4.31.0-x86_64-darwin)
       bigdecimal
       rake (>= 13)
-    google-protobuf (4.30.0-x86_64-linux)
+    google-protobuf (4.31.0-x86_64-linux-gnu)
       bigdecimal
       rake (>= 13)
     googleapis-common-protos (1.6.0)
       google-protobuf (>= 3.18, < 5.a)
       googleapis-common-protos-types (~> 1.7)
       grpc (~> 1.41)
-    googleapis-common-protos-types (1.18.0)
+    googleapis-common-protos-types (1.20.0)
       google-protobuf (>= 3.18, < 5.a)
     googleauth (1.13.1)
       faraday (>= 1.0, < 3.a)
@@ -350,16 +344,16 @@ GEM
       signet (>= 0.16, < 2.a)
     groupdate (6.5.1)
       activesupport (>= 7)
-    grpc (1.70.1)
+    grpc (1.72.0)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.70.1-arm64-darwin)
+    grpc (1.72.0-arm64-darwin)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.70.1-x86_64-darwin)
+    grpc (1.72.0-x86_64-darwin)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
-    grpc (1.70.1-x86_64-linux)
+    grpc (1.72.0-x86_64-linux)
       google-protobuf (>= 3.25, < 5.0)
       googleapis-common-protos-types (~> 1.0)
     grpc-google-iam-v1 (1.9.0)
@@ -456,16 +450,6 @@ GEM
       logger (~> 1.6)
     letter_opener (1.10.0)
       launchy (>= 2.2, < 4)
-    libdatadog (7.0.0.1.0)
-    libdatadog (7.0.0.1.0-x86_64-linux)
-    libddwaf (1.14.0.0.0)
-      ffi (~> 1.0)
-    libddwaf (1.14.0.0.0-arm64-darwin)
-      ffi (~> 1.0)
-    libddwaf (1.14.0.0.0-x86_64-darwin)
-      ffi (~> 1.0)
-    libddwaf (1.14.0.0.0-x86_64-linux)
-      ffi (~> 1.0)
     line-bot-api (1.29.1)
     lint_roller (1.1.0)
     liquid (5.8.1)
@@ -1066,7 +1050,7 @@ DEPENDENCIES
   working_hours
 
 RUBY VERSION
-   ruby 3.3.3p89
+   ruby 3.4.4p34
 
 BUNDLED WITH
    2.5.16
