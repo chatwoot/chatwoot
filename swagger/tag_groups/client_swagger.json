@@ -32,9 +32,7 @@
         "operationId": "create-a-contact",
         "summary": "Create a contact",
         "description": "Create a contact",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -85,9 +83,7 @@
         "operationId": "get-details-of-a-contact",
         "summary": "Get a contact",
         "description": "Get the details of a contact",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -128,9 +124,7 @@
         "operationId": "update-a-contact",
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -181,9 +175,7 @@
         "operationId": "create-a-conversation",
         "summary": "Create a conversation",
         "description": "Create a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -224,9 +216,7 @@
         "operationId": "list-all-contact-conversations",
         "summary": "List all conversations",
         "description": "List all conversations for the contact",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -274,9 +264,7 @@
         "operationId": "get-single-conversation",
         "summary": "Get a single conversation",
         "description": "Retrieves the details of a specific conversation",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -330,9 +318,7 @@
         "operationId": "resolve-conversation",
         "summary": "Resolve a conversation",
         "description": "Marks a conversation as resolved",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Conversation resolved successfully",
@@ -386,9 +372,7 @@
         "operationId": "toggle-typing-status",
         "summary": "Toggle typing status",
         "description": "Toggles the typing status in a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "typing_status",
@@ -467,9 +451,7 @@
         "operationId": "update-last-seen",
         "summary": "Update last seen",
         "description": "Updates the last seen time of the contact in a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Last seen updated successfully"
@@ -516,9 +498,7 @@
         "operationId": "create-a-message",
         "summary": "Create a message",
         "description": "Create a message",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -559,9 +539,7 @@
         "operationId": "list-all-converation-messages",
         "summary": "List all messages",
         "description": "List all messages in the conversation",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -612,9 +590,7 @@
         "operationId": "update-a-message",
         "summary": "Update a message",
         "description": "Update a message",
-        "security": [
-
-        ],
+        "security": [],
         "requestBody": {
           "required": true,
           "content": {
@@ -2332,14 +2308,12 @@
           "limits": {
             "type": "object",
             "description": "The limits of the account",
-            "example": {
-            }
+            "example": {}
           },
           "custom_attributes": {
             "type": "object",
             "description": "The custom attributes of the account",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2433,8 +2407,7 @@
           "bot_config": {
             "type": "object",
             "description": "The configuration for the bot",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2464,8 +2437,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes you want to associate with the user",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2668,8 +2640,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2722,8 +2693,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2878,8 +2848,7 @@
           "content_attributes": {
             "type": "object",
             "description": "Attributes based on the content type",
-            "example": {
-            }
+            "example": {}
           },
           "campaign_id": {
             "type": "integer",
@@ -3189,8 +3158,7 @@
           "query": {
             "type": "object",
             "description": "A query that needs to be saved as a custom filter",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3246,8 +3214,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3262,8 +3229,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3527,8 +3493,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the customer",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3595,8 +3560,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the conversation",
-            "example": {
-            }
+            "example": {}
           }
         }
       },

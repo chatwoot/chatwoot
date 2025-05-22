@@ -29,9 +29,7 @@
         "description": "Create an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -83,9 +81,7 @@
         "description": "Get the details of an account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -130,9 +126,7 @@
         "description": "Update an account's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -177,9 +171,7 @@
         "description": "Delete an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -224,9 +216,7 @@
         "description": "List all account users",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -261,9 +251,7 @@
         "description": "Create an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -322,9 +310,7 @@
         "description": "Delete an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -364,9 +350,7 @@
         "description": "List all agent bots available",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -405,9 +389,7 @@
         "description": "Create an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -459,9 +441,7 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -506,9 +486,7 @@
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -553,9 +531,7 @@
         "description": "Delete an AgentBot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -595,9 +571,7 @@
         "description": "Create a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -649,9 +623,7 @@
         "description": "Get the details of an user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -696,9 +668,7 @@
         "description": "Update a user's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "requestBody": {
@@ -743,9 +713,7 @@
         "description": "Delete a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -790,9 +758,7 @@
         "description": "Get the sso link of a user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -2518,14 +2484,12 @@
           "limits": {
             "type": "object",
             "description": "The limits of the account",
-            "example": {
-            }
+            "example": {}
           },
           "custom_attributes": {
             "type": "object",
             "description": "The custom attributes of the account",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2619,8 +2583,7 @@
           "bot_config": {
             "type": "object",
             "description": "The configuration for the bot",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2650,8 +2613,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes you want to associate with the user",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2854,8 +2816,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2908,8 +2869,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3064,8 +3024,7 @@
           "content_attributes": {
             "type": "object",
             "description": "Attributes based on the content type",
-            "example": {
-            }
+            "example": {}
           },
           "campaign_id": {
             "type": "integer",
@@ -3375,8 +3334,7 @@
           "query": {
             "type": "object",
             "description": "A query that needs to be saved as a custom filter",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3432,8 +3390,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3448,8 +3405,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3713,8 +3669,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the customer",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -3781,8 +3736,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the conversation",
-            "example": {
-            }
+            "example": {}
           }
         }
       },

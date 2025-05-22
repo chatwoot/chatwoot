@@ -32,9 +32,7 @@
         "operationId": "get-csat-survey-page",
         "summary": "Get CSAT survey page",
         "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -1725,14 +1723,12 @@
           "limits": {
             "type": "object",
             "description": "The limits of the account",
-            "example": {
-            }
+            "example": {}
           },
           "custom_attributes": {
             "type": "object",
             "description": "The custom attributes of the account",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -1826,8 +1822,7 @@
           "bot_config": {
             "type": "object",
             "description": "The configuration for the bot",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -1857,8 +1852,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes you want to associate with the user",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2061,8 +2055,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2115,8 +2108,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "An object where you can store custom attributes for contact. example {\"type\":\"customer\", \"age\":30}, this should have a valid custom attribute definition.",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2271,8 +2263,7 @@
           "content_attributes": {
             "type": "object",
             "description": "Attributes based on the content type",
-            "example": {
-            }
+            "example": {}
           },
           "campaign_id": {
             "type": "integer",
@@ -2582,8 +2573,7 @@
           "query": {
             "type": "object",
             "description": "A query that needs to be saved as a custom filter",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2639,8 +2629,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2655,8 +2644,7 @@
           "settings": {
             "type": "object",
             "description": "The settings required by the integration",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2920,8 +2908,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the customer",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
@@ -2988,8 +2975,7 @@
           "custom_attributes": {
             "type": "object",
             "description": "Custom attributes of the conversation",
-            "example": {
-            }
+            "example": {}
           }
         }
       },
