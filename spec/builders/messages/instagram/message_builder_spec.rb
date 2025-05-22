@@ -79,6 +79,18 @@ describe Messages::Instagram::MessageBuilder do
       expect(instagram_inbox.messages.count).to be 1
     end
 
+    it 'discards duplicate messages from webhook events with the same message_id' do
+      messaging = dm_params[:entry][0]['messaging'][0]
+      described_class.new(messaging, instagram_inbox).perform
+
+      initial_message_count = instagram_inbox.messages.count
+      expect(initial_message_count).to be 1
+
+      described_class.new(messaging, instagram_inbox).perform
+
+      expect(instagram_inbox.messages.count).to eq initial_message_count
+    end
+
     it 'creates message for shared reel' do
       messaging = shared_reel_params[:entry][0]['messaging'][0]
       described_class.new(messaging, instagram_inbox).perform
@@ -156,7 +168,7 @@ describe Messages::Instagram::MessageBuilder do
 
       described_class.new(messaging, instagram_inbox, outgoing_echo: false).perform
 
-      expect(instagram_inbox.conversations.count).to be 1
+      expect(instagram_inbox.conversations.count).to be 0
       expect(instagram_inbox.messages.count).to be 0
     end
 
