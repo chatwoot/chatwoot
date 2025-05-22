@@ -194,7 +194,7 @@ export default {
       this.$emit('copy', this.value);
     },
     createCoreTicket() {
-        window.open(`https://core.ishangry.com/chatwoot/create-ticket/${this.conversationId}`, '_blank')
+        window.open(`https://core.ishangry.com/api/ce-tracker/create-chatwoot-ticket/${this.conversationId}`, '_blank')
     },
   },
 };
@@ -229,7 +229,7 @@ export default {
 	  <NextButton
              v-if="showActions && attributeKey === 'core_ticket_count'"
              v-tooltip.left="'Create ticket on Core ERP'"
-             class="w-6"
+             class="w-6 mr-2"
              variant="link"
              @click="createCoreTicket"
           >
