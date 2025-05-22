@@ -64,6 +64,11 @@
     - $ref: '#/parameters/platform_user_id'
   get:
     $ref: './platform/users/login.yml'
+/platform/api/v1/users/{id}/token:
+  parameters:
+    - $ref: '#/parameters/platform_user_id'
+  post:
+    $ref: './platform/users/token.yml'
 
 
 # ---------------- end of platform path -----------#

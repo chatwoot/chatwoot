@@ -46,9 +46,7 @@
   },
   "security": [
     {
-      "userApiKey": [
-
-      ]
+      "userApiKey": []
     }
   ],
   "paths": {
@@ -62,9 +60,7 @@
         "description": "Create an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -105,9 +101,7 @@
         "description": "Get the details of an account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -134,9 +128,7 @@
         "description": "Update an account's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -170,9 +162,7 @@
         "description": "Delete an Account",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -203,9 +193,7 @@
         "description": "List all account users",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -247,9 +235,7 @@
         "description": "Create an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -310,9 +296,7 @@
         "description": "Delete an Account User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -357,9 +341,7 @@
         "description": "List all agent bots available",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -387,9 +369,7 @@
         "description": "Create an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -430,9 +410,7 @@
         "description": "Get the details of an agent bot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -459,9 +437,7 @@
         "description": "Update an agent bot's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -495,9 +471,7 @@
         "description": "Delete an AgentBot",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -523,9 +497,7 @@
         "description": "Create a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -566,9 +538,7 @@
         "description": "Get the details of an user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -595,9 +565,7 @@
         "description": "Update a user's attributes",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "parameters": [
@@ -631,9 +599,7 @@
         "description": "Delete a User",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -664,9 +630,7 @@
         "description": "Get the sso link of a user",
         "security": [
           {
-            "platformAppApiKey": [
-
-            ]
+            "platformAppApiKey": []
           }
         ],
         "responses": {
@@ -678,6 +642,78 @@
                 "url": {
                   "type": "string",
                   "description": "SSO url to autenticate the user"
+                }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "The given user does not exist"
+          }
+        }
+      }
+    },
+    "/platform/api/v1/users/{id}/token": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/platform_user_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Users"
+        ],
+        "operationId": "post-user-token",
+        "summary": "Get User Access Token",
+        "description": "Get the access token of a user",
+        "security": [
+          {
+            "platformAppApiKey": []
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "access_token": {
+                  "type": "string",
+                  "description": "Access token of the user"
+                },
+                "expiry": {
+                  "type": [
+                    "integer",
+                    "null"
+                  ],
+                  "description": "Expiry timestamp"
+                },
+                "user": {
+                  "type": "object",
+                  "properties": {
+                    "id": {
+                      "type": "integer",
+                      "description": "User ID"
+                    },
+                    "name": {
+                      "type": "string",
+                      "description": "User's full name"
+                    },
+                    "display_name": {
+                      "type": "string",
+                      "description": "User's display name"
+                    },
+                    "email": {
+                      "type": "string",
+                      "description": "User's email address"
+                    },
+                    "pubsub_token": {
+                      "type": "string",
+                      "description": "User's pubsub token"
+                    }
+                  }
                 }
               }
             }
@@ -704,9 +740,7 @@
         "operationId": "get-details-of-a-inbox",
         "summary": "Inbox details",
         "description": "Get the details of an inbox",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -736,9 +770,7 @@
         "operationId": "create-a-contact",
         "summary": "Create a contact",
         "description": "Create a contact",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -778,9 +810,7 @@
         "operationId": "get-details-of-a-contact",
         "summary": "Get a contact",
         "description": "Get the details of a contact",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success",
@@ -803,9 +833,7 @@
         "operationId": "update-a-contact",
         "summary": "Update a contact",
         "description": "Update a contact's attributes",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -845,9 +873,7 @@
         "operationId": "create-a-conversation",
         "summary": "Create a conversation",
         "description": "Create a conversation",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -1056,9 +1082,7 @@
         "operationId": "create-a-message",
         "summary": "Create a message",
         "description": "Create a message",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -1127,9 +1151,7 @@
         "operationId": "update-a-message",
         "summary": "Update a message",
         "description": "Update a message",
-        "security": [
-
-        ],
+        "security": [],
         "parameters": [
           {
             "name": "data",
@@ -1239,9 +1261,7 @@
         "operationId": "get-csat-survey-page",
         "summary": "Get CSAT survey page",
         "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
-        "security": [
-
-        ],
+        "security": [],
         "responses": {
           "200": {
             "description": "Success"
@@ -1406,9 +1426,7 @@
         "description": "Get Details of Agents in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1436,9 +1454,7 @@
         "description": "Add a new Agent to Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1515,9 +1531,7 @@
         "description": "Update an Agent in Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1587,9 +1601,7 @@
         "description": "Remove an Agent from Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1629,9 +1641,7 @@
         "description": "Get Details of Canned Responses in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1659,9 +1669,7 @@
         "description": "Add a new Canned Response to Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1702,9 +1710,7 @@
         "description": "Update a Canned Response in Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1748,9 +1754,7 @@
         "description": "Remove a Canned Response from Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1803,9 +1807,7 @@
         "description": "Get details of custom attributes in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -1833,9 +1835,7 @@
         "description": "Add a new custom attribute to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1917,9 +1917,7 @@
         "description": "Update a custom attribute in account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -1963,9 +1961,7 @@
         "description": "Remove a custom attribute from account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2246,14 +2242,10 @@
         "summary": "Contact Filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -2466,9 +2458,7 @@
         "description": "Get details of automation rules in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2496,9 +2486,7 @@
         "description": "Add a new automation rule to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2577,9 +2565,7 @@
         "description": "Update a automation rule in account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2623,9 +2609,7 @@
         "description": "Remove a automation rule from account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2665,9 +2649,7 @@
         "description": "Add a new portal to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2706,9 +2688,7 @@
         "description": "Get details of portals in an Account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "responses": {
@@ -2736,9 +2716,7 @@
         "description": "update a new portal to account",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2782,9 +2760,7 @@
         "description": "Add a new category to portal",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -2828,9 +2804,7 @@
         "description": "Add a new article to portal",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -3041,14 +3015,10 @@
         "description": "Creating a conversation in chatwoot requires a source id. \n\n Learn more about source_id: https://github.com/chatwoot/chatwoot/wiki/Building-on-Top-of-Chatwoot:-Importing-Existing-Contacts-and-Creating-Conversations",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3191,14 +3161,10 @@
         "summary": "Conversations Filter",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3329,14 +3295,10 @@
         "description": "Update Conversation Attributes",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3397,14 +3359,10 @@
         "description": "Toggles the status of the conversation between open and resolved",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3465,14 +3423,10 @@
         "description": "Toggles the priority of conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3532,14 +3486,10 @@
         "description": "Updates the custom attributes of a conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -3605,14 +3555,10 @@
         "description": "Assign a conversation to an agent or a team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -4063,9 +4009,7 @@
         "description": "Get Details of Agents in an Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4108,9 +4052,7 @@
         "description": "Add a new Agent to Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4171,9 +4113,7 @@
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4234,9 +4174,7 @@
         "description": "Remove an Agent from Inbox",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4333,14 +4271,10 @@
         "description": "Create a new message in the conversation",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           },
           {
-            "agentBotApiKey": [
-
-            ]
+            "agentBotApiKey": []
           }
         ],
         "parameters": [
@@ -4720,9 +4654,7 @@
         "description": "Get Details of Agents in an Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4761,9 +4693,7 @@
         "description": "Add a new Agent to Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4819,9 +4749,7 @@
         "description": "All agents except the one passed in params will be removed",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [
@@ -4877,9 +4805,7 @@
         "description": "Remove an Agent from Team",
         "security": [
           {
-            "userApiKey": [
-
-            ]
+            "userApiKey": []
           }
         ],
         "parameters": [

@@ -53,8 +53,6 @@ ja:
       invalid_message_type: '無効なメッセージタイプです。アクションは許可されていません'
     slack:
       invalid_channel_id: '無効なSlackチャンネルです。もう一度お試しください。'
-    channel_service:
-      invalid_source_id: "This conversation may have originally belonged to a different contact but is now showing here due to a merge or update. You won't be able to continue this conversation. Please create a new conversation to proceed."
     inboxes:
       imap:
         socket_error: ネットワーク接続、IMAPアドレスを確認の上、再度お試しください。
@@ -134,6 +132,8 @@ ja:
     attachment: '添付ファイル'
     no_content: 'コンテンツなし'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} さんがストーリーであなたについて言及しました: '
       instagram_deleted_story_content: このストーリーはもう利用できません。
@@ -141,13 +141,18 @@ ja:
       delivery_status:
         error_code: 'エラーコード: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} によって会話は解決済みになりました'
         contact_resolved: '%{contact_name} によって会話が解決されました'
         open: '%{user_name} によって会話が再開されました'
         pending: '%{user_name} によって会話が保留にされました'
         snoozed: '%{user_name} によって会話がスヌーズされました'
-        auto_resolved: '%{duration} 日間会話が非アクティブだったため、システムにより解決済みにされました'
+        auto_resolved_days: '%{count} 日間会話が非アクティブだったため、システムにより解決済みにされました'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: 新しい受信メッセージを受信したため、システムが会話が再開されました
       priority:
         added: '%{user_name} が優先度を "%{new_priority}" に設定しました'
@@ -222,6 +227,10 @@ ja:
     shopify:
       name: 'Shopify'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
@@ -278,3 +287,25 @@ ja:
       other: '%{count} 分'
     seconds:
       other: '%{count} 秒'
+  automation:
+    system_name: 'Automation System'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[コンテンツなし]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}

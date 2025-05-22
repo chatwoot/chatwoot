@@ -1,5 +1,6 @@
 <script setup>
 import { nextTick, ref, watch } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -39,6 +40,8 @@ const props = defineProps({
 
 const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
 
+const { t } = useI18n();
+
 const COPILOT_USER_ROLES = ['assistant', 'system'];
 
 const sendMessage = message => {
@@ -47,7 +50,7 @@ const sendMessage = message => {
 };
 
 const useSuggestion = opt => {
-  emit('sendMessage', opt.prompt);
+  emit('sendMessage', t(opt.prompt));
   useTrack(COPILOT_EVENTS.SEND_SUGGESTED);
 };
 
@@ -66,16 +69,16 @@ const scrollToBottom = async () => {
 
 const promptOptions = [
   {
-    label: 'Summarize this conversation',
-    prompt: `Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent`,
+    label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
+    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
   },
   {
-    label: 'Suggest an answer',
-    prompt: `Analyze the customer’s inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information.`,
+    label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
+    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
   },
   {
-    label: 'Rate this conversation',
-    prompt: `Review the conversation to see how well it meets the customer’s needs. Share a rating out of 5 based on tone, clarity, and effectiveness.`,
+    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
+    prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
   },
 ];
 
@@ -89,7 +92,7 @@ watch(
 </script>
 
 <template>
-  <div class="flex flex-col h-full text-sm leading-6 tracking-tight">
+  <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
     <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
@@ -121,7 +124,7 @@ watch(
           class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center gap-1"
           @click="() => useSuggestion(prompt)"
         >
-          <span>{{ prompt.label }}</span>
+          <span>{{ t(prompt.label) }}</span>
           <Icon icon="i-lucide-chevron-right" />
         </button>
       </div>
