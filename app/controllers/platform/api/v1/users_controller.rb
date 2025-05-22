@@ -18,9 +18,7 @@ class Platform::Api::V1::UsersController < PlatformController
     render json: { url: @resource.generate_sso_link }
   end
 
-  def token
-    render json: { access_token: @resource.access_token.token }
-  end
+  def token; end
 
   def update
     @resource.assign_attributes(user_update_params)
