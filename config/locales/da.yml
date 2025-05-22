@@ -132,6 +132,8 @@ da:
     attachment: 'Attachment'
     no_content: 'No content'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} nævnte dig i historien: '
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
@@ -139,6 +141,9 @@ da:
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Samtalen blev markeret som løst af %{user_name}'
         contact_resolved: 'Samtalen blev løst af %{contact_name}'

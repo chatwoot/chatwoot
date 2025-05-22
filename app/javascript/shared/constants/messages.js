@@ -100,6 +100,11 @@ export const CSAT_RATINGS = [
   },
 ];
 
+export const CSAT_DISPLAY_TYPES = {
+  EMOJI: 'emoji',
+  STAR: 'star',
+};
+
 export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
   OGG: 'audio/ogg',

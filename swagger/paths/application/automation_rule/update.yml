@@ -8,20 +8,32 @@ security:
 parameters:
   - in: path
     name: id
-    type: integer
+    schema:
+      type: integer
     required: true
     description: The ID of the automation rule to be updated.
-  - name: data
-    in: body
-    required: true
-    schema:
-      $ref: '#/definitions/automation_rule_create_update_payload'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/automation_rule_create_update_payload'
 responses:
   '200':
     description: Success
-    schema:
-      $ref: '#/definitions/automation_rule'
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/automation_rule'
   '403':
     description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
   '404':
     description: Rule not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

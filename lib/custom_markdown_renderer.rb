@@ -6,6 +6,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
   ARCADE_REGEX = %r{https?://(?:www\.)?app\.arcade\.software/share/([^&/]+)}
+  WISTIA_REGEX = %r{https?://(?:www\.)?([^/]+)\.wistia\.com/medias/([^&/]+)}
 
   def text(node)
     content = node.string_content
@@ -50,7 +51,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
       VIMEO_REGEX => :make_vimeo_embed,
       MP4_REGEX => :make_video_embed,
       LOOM_REGEX => :make_loom_embed,
-      ARCADE_REGEX => :make_arcade_embed
+      ARCADE_REGEX => :make_arcade_embed,
+      WISTIA_REGEX => :make_wistia_embed
     }
 
     embedding_methods.each do |regex, method|
@@ -76,67 +78,30 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def make_youtube_embed(youtube_match)
     video_id = youtube_match[1]
-    %(
-      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-       <iframe
-        src="https://www.youtube-nocookie.com/embed/#{video_id}"
-        frameborder="0"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen></iframe>
-      </div>
-    )
+    EmbedRenderer.youtube(video_id)
   end
 
   def make_loom_embed(loom_match)
     video_id = loom_match[1]
-    %(
-      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-        <iframe
-         src="https://www.loom.com/embed/#{video_id}"
-         frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen
-         style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-      </div>
-    )
+    EmbedRenderer.loom(video_id)
   end
 
   def make_vimeo_embed(vimeo_match)
     video_id = vimeo_match[1]
-    %(
-      <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-       <iframe
-        src="https://player.vimeo.com/video/#{video_id}?dnt=true"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe>
-       </div>
-    )
+    EmbedRenderer.vimeo(video_id)
   end
 
   def make_video_embed(link_url)
-    %(
-      <video width="640" height="360" controls>
-        <source src="#{link_url}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    )
+    EmbedRenderer.video(link_url)
+  end
+
+  def make_wistia_embed(wistia_match)
+    video_id = wistia_match[2]
+    EmbedRenderer.wistia(video_id)
   end
 
   def make_arcade_embed(arcade_match)
     video_id = arcade_match[1]
-    %(
-    <div style="position: relative; padding-bottom: 62.5%; height: 0;">
-      <iframe
-        src="https://app.arcade.software/embed/#{video_id}"
-        frameborder="0"
-        webkitallowfullscreen
-        mozallowfullscreen
-        allowfullscreen
-        allow="fullscreen"
-        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
-      </iframe>
-    </div>
-  )
+    EmbedRenderer.arcade(video_id)
   end
 end
