@@ -6,6 +6,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
   ARCADE_REGEX = %r{https?://(?:www\.)?app\.arcade\.software/share/([^&/]+)}
+  WISTIA_REGEX = %r{https?://(?:www\.)?([^/]+)\.wistia\.com/medias/([^&/]+)}
 
   def text(node)
     content = node.string_content
@@ -50,7 +51,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
       VIMEO_REGEX => :make_vimeo_embed,
       MP4_REGEX => :make_video_embed,
       LOOM_REGEX => :make_loom_embed,
-      ARCADE_REGEX => :make_arcade_embed
+      ARCADE_REGEX => :make_arcade_embed,
+      WISTIA_REGEX => :make_wistia_embed
     }
 
     embedding_methods.each do |regex, method|
@@ -120,6 +122,18 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
         <source src="#{link_url}" type="video/mp4">
         Your browser does not support the video tag.
       </video>
+    )
+  end
+
+  def make_wistia_embed(wistia_match)
+    video_id = wistia_match[2]
+    %(
+      <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+        <script src="https://fast.wistia.com/player.js" async></script>
+        <script src="https://fast.wistia.com/embed/#{video_id}.js" async type="module"></script>
+        <style>wistia-player[media-id='#{video_id}']:not(:defined) { background: center / contain no-repeat url('https://fast.wistia.com/embed/medias/#{video_id}/swatch'); display: block; filter: blur(5px); padding-top:56.25%; }</style>
+        <wistia-player media-id="#{video_id}" aspect="1.7777777777777777" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></wistia-player>
+      </div>
     )
   end
 
