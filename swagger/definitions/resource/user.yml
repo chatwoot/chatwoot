@@ -19,10 +19,10 @@ properties:
     enum: ['agent', 'administrator']
   confirmed:
     type: boolean
-  custom_attributes: 
+  custom_attributes:
     type: object
     description: Available for users who are created through platform APIs and has custom attributes associated.
   accounts:
     type: array
     items:
-      $ref: '#/definitions/account'
+      $ref: '#/components/schemas/account'
