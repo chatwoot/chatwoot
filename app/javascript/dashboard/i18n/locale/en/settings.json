@@ -144,7 +144,7 @@
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
           "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you're able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -280,8 +280,8 @@
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN": "AI Assistant",
+    "CAPTAIN_ASSISTANTS": "Topics",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Home",
@@ -359,12 +359,12 @@
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "TITLE": "AI Assistant",
+      "DESCRIPTION": "Manage usage and credits for AI Assistant.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "AI Assistant is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",

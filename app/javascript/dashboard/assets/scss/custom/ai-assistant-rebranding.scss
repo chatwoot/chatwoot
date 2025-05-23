@@ -1,0 +1,49 @@
+// AI Assistant Rebranding CSS
+
+// This file applies custom styling to rebrand "Captain" to "AI Assistant" and "Assistant" to "Topic"
+// without modifying enterprise-licensed files
+
+// Hide original text containing "Captain" and replace with "AI Assistant"
+[class*="captain"]:not(.woot-content-wrap *):not(.conversation-view *) {
+  position: relative;
+  
+  &::before {
+    content: attr(data-content, "AI Assistant");
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 100%;
+    height: 100%;
+    background: inherit;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+}
+
+// Replace "Assistant" with "Topic" in specific contexts
+.assistant-selector,
+.assistant-dropdown,
+.assistant-label,
+.assistant-name {
+  &::before {
+    content: "Topic";
+  }
+}
+
+// Custom styling for AI Assistant section
+.sidebar-item[title="AI Assistant"],
+.sidebar-item[title="Captain"] {
+  &::before {
+    content: "AI Assistant";
+  }
+}
+
+// Additional helper classes for manual replacement
+.replace-captain::before {
+  content: "AI Assistant" !important;
+}
+
+.replace-assistant::before {
+  content: "Topic" !important;
+} 
