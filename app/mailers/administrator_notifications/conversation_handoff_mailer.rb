@@ -5,6 +5,7 @@ class AdministratorNotifications::ConversationHandoffMailer < AdministratorNotif
     @conversation   = conversation
     @account        = conversation.account
     @action_url     = conversation_url(@conversation)
+    ensure_current_account(@account)
 
     subject = "Conversation Handoff for account #{@account.name} on platform #{@conversation.inbox.name}"
 

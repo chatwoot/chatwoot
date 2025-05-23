@@ -3,6 +3,7 @@ class AgentNotifications::ConversationHandoffMailer < ApplicationMailer
     return unless smtp_config_set_or_development?
 
     @account = conversation.account
+    ensure_current_account(@account)
     return if @account.agents.blank?
 
     @conversation   = conversation
