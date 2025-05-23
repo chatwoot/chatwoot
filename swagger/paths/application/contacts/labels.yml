@@ -9,7 +9,7 @@ parameters:
 
 get:
   tags:
-    - Contacts
+    - Contact Labels
   operationId: list-all-labels-of-a-contact
   summary: List Labels
   description: Lists all the labels of a contact
@@ -37,7 +37,7 @@ get:
 
 post:
   tags:
-    - Contacts
+    - Contact Labels
   operationId: contact-add-labels
   summary: Add Labels
   description: Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.
