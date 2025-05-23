@@ -58,10 +58,11 @@ module Stark
 
     def format_recent_messages(conversation)
       conversation.messages
-                 .not_activity
-                 .not_template
-                 .last(10)
-                 .map do |message|
+                  .not_activity
+                  .not_template
+                  .reorder(created_at: :desc)
+                  .limit(10)
+                  .map do |message|
         {
           conversation_id: message.conversation_id,
           message_type: message.message_type,
