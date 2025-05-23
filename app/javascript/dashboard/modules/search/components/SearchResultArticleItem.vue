@@ -2,6 +2,7 @@
 import { computed } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
+import MessageFormatter from 'shared/helpers/MessageFormatter';
 
 const props = defineProps({
   id: {
@@ -42,7 +43,11 @@ const navigateTo = computed(() => {
 
 const truncatedContent = computed(() => {
   if (!props.content) return props.description || '';
-  const plainText = props.content.replace(/<[^>]*>/g, '');
+
+  // Use MessageFormatter to properly convert markdown to plain text
+  const formatter = new MessageFormatter(props.content);
+  const plainText = formatter.plainText.trim();
+
   return plainText.length > 150
     ? `${plainText.substring(0, 150)}...`
     : plainText;
