@@ -20,8 +20,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
     @article.increment_view_count if @article&.published?
 
-    # Serve the 1x1 tracking pixel with 24-hour cache
-    expires_in 24.hours, public: true
+    # Serve the 1x1 tracking pixel with 24-hour private cache
+    # Private cache bypasses CDN but allows browser caching to prevent duplicate views from same user
+    expires_in 24.hours, public: false
     response.headers['Content-Type'] = 'image/png'
 
     pixel_path = Rails.public_path.join('assets/images/tracking-pixel.png')

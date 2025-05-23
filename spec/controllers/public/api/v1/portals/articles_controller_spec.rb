@@ -106,7 +106,7 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.headers['Content-Type']).to eq('image/png')
       expect(response.headers['Cache-Control']).to include('max-age=86400')
-      expect(response.headers['Cache-Control']).to include('public')
+      expect(response.headers['Cache-Control']).to include('private')
       expect(article.reload.views).to eq 1
     end
 
@@ -118,7 +118,7 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       expect(response.headers['Content-Type']).to eq('image/png')
       expect(response.headers['Cache-Control']).to include('max-age=86400')
-      expect(response.headers['Cache-Control']).to include('public')
+      expect(response.headers['Cache-Control']).to include('private')
       expect(draft_article.reload.views).to eq 0
     end
 
@@ -132,7 +132,7 @@ RSpec.describe 'Public Articles API', type: :request do
       get "/hc/#{portal.slug}/articles/#{article.slug}.png"
 
       expect(response.headers['Cache-Control']).to include('max-age=86400')
-      expect(response.headers['Cache-Control']).to include('public')
+      expect(response.headers['Cache-Control']).to include('private')
       expect(response.headers['Content-Type']).to eq('image/png')
     end
   end
