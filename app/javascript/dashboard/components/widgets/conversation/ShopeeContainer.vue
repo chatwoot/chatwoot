@@ -53,9 +53,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="ltr:border-l rtl:border-r border-n-weak h-full z-10 w-80 min-w-80 2xl:min-w-96 2xl:w-96 flex flex-col"
-  >
+  <div class="h-full z-10 w-80 min-w-80 2xl:min-w-96 2xl:w-96 flex flex-col">
     <div id="shopee-tabs" class="flex-1">
       <TabBar
         class="bg-white"

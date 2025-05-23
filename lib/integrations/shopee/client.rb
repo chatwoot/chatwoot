@@ -1,5 +1,4 @@
 class Integrations::Shopee::Client
-  class Error < StandardError; end
 
   pattr_initialize [:access_token, :shop_id]
 
@@ -75,8 +74,9 @@ class Integrations::Shopee::Client
       Rails.logger.info("Shopee Success: #{response.body}")
       JSON.parse(response.body)
     else
-      Rails.logger.error("Shopee Error: #{response.code}, #{response.body}")
-      raise Error, response
+      message = "Shopee Error: #{response.code}, #{response.body}"
+      Rails.logger.error(message)
+      raise Integrations::Shopee::Error.new(message, response)
     end
   end
 end

@@ -1,9 +1,9 @@
-class Shopee::SyncOrderInfoJob < ApplicationJob
-  queue_as :medium
+class Shopee::SyncOrderInfoService
+  pattr_initialize [:channel_id!, :order_number!]
 
-  def perform(channel_id:, order_number:)
+  def perform
     @channel = Channel::Shopee.find(channel_id)
-    @order_info = fetch_order_info(order_number)
+    @order_info = fetch_order_info
     return if order_info.blank?
 
     Shopee::Order.transaction do
@@ -27,7 +27,7 @@ class Shopee::SyncOrderInfoJob < ApplicationJob
     }
   end
 
-  def fetch_order_info(order_number)
+  def fetch_order_info
     Integrations::Shopee::Order.new(access_params)
       .detail([order_number])
       .first

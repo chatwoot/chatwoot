@@ -25,21 +25,22 @@ class ShopeeAPI extends ApiClient {
     });
   }
 
-  sendOrder(conversationID, orderId) {
+  sendOrder(conversationID, orderNumber) {
     return axios.post(`${this.url}/${conversationID}/shopee/send_order`, {
-      order_id: orderId,
+      order_number: orderNumber,
     });
   }
 
-  sendProduct(conversationID, productIds) {
+  sendProduct(conversationID, productCodes) {
     return axios.post(`${this.url}/${conversationID}/shopee/send_product`, {
-      product_ids: productIds,
+      product_codes: productCodes,
     });
   }
 
-  sendVoucher(conversationID, voucherId) {
+  sendVoucher(conversationID, voucherId, voucherCode) {
     return axios.post(`${this.url}/${conversationID}/shopee/send_voucher`, {
       voucher_id: voucherId,
+      voucher_code: voucherCode,
     });
   }
 }

@@ -9,15 +9,14 @@ const { t } = useI18n();
 export default {
   name: 'AddOnDealItemList',
   props: {
-    data: {
+    original: {
       type: Object,
       default: () => ({}),
     },
   },
   data() {
     return {
-      cardData: this.data,
-      items: this.data.addOnDealItemList || [],
+      items: this.original.addOnDealItemList || [],
     };
   },
   methods: {
@@ -30,26 +29,34 @@ export default {
 
 <template>
   <ul class="flex flex-col gap-2 list-none shopee-card">
-    <li v-for="(item, index) in items" :key="index">
+    <li v-for="(item, index) in items" :key="index" class="mb-2">
       <a
-        :href="`https://shopee.vn/product/${cardData.shopId}/${item.itemId}`"
+        :href="`https://shopee.vn/product/${original.shopId}/${item.itemId}`"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2"
+        class="flex items-center gap-2 w-full"
       >
-        <img class="itemImage" :src="item.image" />
-        <div class="itemInfo">
-          <p class="itemName">{{ item.name }}</p>
-          <p class="itemPrices">
+        <img class="w-16 h-16 rounded-lg" :src="item.image" />
+        <div class="flex flex-col gap-1 w-full text-xs">
+          <p
+            class="text-xs mb-0 text-slate-900 dark:text-slate-100 line-clamp-1"
+          >
+            {{ item.name }}
+          </p>
+          <p class="flex items-center gap-1 text-xs">
             <span>
               {{ t('CONVERSATION.SHOPEE.STOCK') }}
               {{ item.stock }}
             </span>
-            <span class="itemCurrentPrice">
-              {{ currencyFormat(item.price) }}
-            </span>
-            <span class="itemOriginalPrice">
+            <span
+              class="text-slate-400 dark:text-slate-400 line-through text-end"
+            >
               {{ currencyFormat(item.priceBeforeDiscount) }}
+            </span>
+            <span
+              class="flex-1 text-slate-900 dark:text-slate-900 font-semibold text-end me-2"
+            >
+              {{ currencyFormat(item.price) }}
             </span>
           </p>
         </div>
@@ -61,6 +68,7 @@ export default {
 <style lang="scss">
 ul.shopee-card {
   @apply bg-white p-4 rounded-lg shadow-lg mb-4;
+
   box-shadow:
     rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
     rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
@@ -69,40 +77,5 @@ ul.shopee-card {
     rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
     rgba(14, 63, 126, 0.04) 0px 24px 24px -12px,
     rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-
-  li {
-    @apply mb-2;
-
-    a {
-      @apply w-full;
-    }
-
-    img.itemImage {
-      @apply w-16 h-16 rounded-lg;
-    }
-
-    .itemInfo {
-      @apply flex flex-col gap-1 w-full;
-    }
-
-    p {
-      @apply text-xs;
-
-      &.itemName {
-        @apply text-slate-900 dark:text-slate-900;
-      }
-
-      &.itemPrices {
-        @apply flex items-center gap-1;
-
-        span.itemCurrentPrice {
-          @apply flex-1 text-slate-900 dark:text-slate-900 font-semibold text-end me-2;
-        }
-        span.itemOriginalPrice {
-          @apply text-slate-400 dark:text-slate-400 line-through text-end;
-        }
-      }
-    }
-  }
 }
 </style>

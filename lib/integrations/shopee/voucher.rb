@@ -5,6 +5,15 @@ class Integrations::Shopee::Voucher < Integrations::Shopee::Base
     ongoing_vouchers + upcoming_vouchers
   end
 
+  def detail(voucher_id)
+    raise(ArgumentError, 'voucher_id is required') if voucher_id.blank?
+
+    auth_client
+      .query({ voucher_id: voucher_id })
+      .get('/api/v2/voucher/get_voucher')
+      .dig('response')
+  end
+
   private
 
   def ongoing_vouchers

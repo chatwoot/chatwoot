@@ -2,21 +2,16 @@
 export default {
   name: 'Activity',
   props: {
-    data: {
+    original: {
       type: Object,
       default: () => ({}),
     },
-  },
-  data() {
-    return {
-      cardData: this.data || {},
-    };
   },
 };
 </script>
 
 <template>
   <p class="italic text-xs">
-    {{ cardData.text }}
+    {{ original.text }}
   </p>
 </template>

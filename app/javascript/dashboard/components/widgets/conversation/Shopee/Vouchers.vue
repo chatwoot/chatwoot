@@ -42,7 +42,8 @@ export default {
     sendVoucher(voucher) {
       this.$store.dispatch('shopee/sendVoucherMessage', {
         conversationId: this.currentChat.id,
-        voucherId: voucher.id,
+        voucherId: voucher.voucherId,
+        voucherCode: voucher.code,
       });
     },
   },
@@ -118,7 +119,7 @@ export default {
                 {{ t('CONVERSATION.SHOPEE.VOUCHERS.VALID_UNTIL') }}
               </span>
               <span class="field-value">
-                {{ timeFormatter(voucher.end_time) }}
+                {{ timeFormatter(voucher.endTime) }}
               </span>
             </p>
           </div>

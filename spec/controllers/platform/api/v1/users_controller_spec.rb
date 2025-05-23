@@ -151,7 +151,6 @@ RSpec.describe 'Platform Users API', type: :request do
         #                                             email: 'test@test.com', password: 'Password1!',
         #                                             custom_attributes: { test: 'test_create' } },
         #                                   headers: { api_access_token: platform_app.access_token.token }, as: :json
-        #   byebug
         # end.not_to have_enqueued_mail
 
         ##------ revert this block when the issue is fixed

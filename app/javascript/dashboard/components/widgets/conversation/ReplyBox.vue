@@ -200,7 +200,7 @@ export default {
       return true;
     },
     isTemplate() {
-      if ((this.currentChat.can_reply && !this.canReplyByCustomMessage)) {
+      if (this.currentChat.can_reply && !this.canReplyByCustomMessage) {
         return this.isOnTemplate;
       }
       return false;
@@ -214,7 +214,8 @@ export default {
     messagePlaceHolder() {
       if (this.isPrivate) {
         return this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT');
-      } else if (this.isTemplate) {
+      }
+      if (this.isTemplate) {
         return this.$t('CONVERSATION.FOOTER.TEMPLATE_MSG_INPUT');
       }
       return this.$t('CONVERSATION.FOOTER.MSG_INPUT');
@@ -279,6 +280,7 @@ export default {
     },
     showFileUpload() {
       return (
+        this.isAShopeeInbox ||
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isAWhatsAppChannel ||
@@ -417,9 +419,7 @@ export default {
       },
     },
     currentChat(conversation, oldConversation) {
-      const {
-        can_reply: canReply,
-      } = conversation;
+      const { can_reply: canReply } = conversation;
 
       if (oldConversation && oldConversation.id !== conversation.id) {
         // Only update email fields when switching to a completely different conversation (by ID)
@@ -825,7 +825,10 @@ export default {
       }, 100);
     },
     setInitialReplyType() {
-      this.canReplyByCustomMessage = this.currentChat.allowed_custom_message_user_ids.includes(this.currentUser.id);
+      this.canReplyByCustomMessage =
+        this.currentChat.allowed_custom_message_user_ids.includes(
+          this.currentUser.id
+        );
       this.replyType = this.canReplyByCustomMessage
         ? REPLY_EDITOR_MODES.REPLY
         : REPLY_EDITOR_MODES.TEMPLATE;
@@ -1180,7 +1183,7 @@ export default {
         :search-key="mentionSearchKey"
         :channel-type="channelType"
         @replace="replaceText"
-        @cannedSelected="handleCannedSelected"
+        @canned-selected="handleCannedSelected"
       />
       <EmojiInput
         v-if="showEmojiPicker"

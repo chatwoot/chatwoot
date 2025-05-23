@@ -263,14 +263,16 @@
       "SHOW_MORE": "Show more",
       "SHOW_LESS": "Show less",
       "ORDER": {
+        "LABEL": "Order",
         "COD": "COD",
         "CANCEL_BY": "Cancelled by",
         "GIFT": "Gift",
         "TOTAL": "Total",
+        "CHECKOUT_AT": "Checkout at",
         "SHIPPING_FEE": "Shipping fee",
         "SHIPPING_AT": "Shipping at",
+        "SHIPPING_SERVICE": "Shipping service",
         "PAID_AT": "Paid at",
-        "COMPLETED_AT": "Completed at",
         "EMPTY_MESSAGE": "No orders found",
         "CANCEL_BY": {
           "LABEL": "Cancelled by",

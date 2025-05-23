@@ -13,6 +13,5 @@ class CreateShopeeVouchers < ActiveRecord::Migration[7.0]
 
     add_index :shopee_vouchers, :shop_id
     add_index :shopee_vouchers, :voucher_id, unique: true
-    add_index :shopee_vouchers, :code, unique: true
   end
 end

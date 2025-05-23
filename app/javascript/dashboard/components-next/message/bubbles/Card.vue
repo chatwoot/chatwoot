@@ -2,10 +2,10 @@
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import ChatProductInfos from './Shopee/ChatProductInfos.vue';
 import AddOnDealItemList from './Shopee/AddOnDealItemList.vue';
-import Voucher from './Shopee/Voucher.vue';
+import VoucherCard from './Shopee/VoucherCard.vue';
 import Activity from './Shopee/Activity.vue';
-import ItemLink from './Shopee/ItemLink.vue';
-import OrderLink from './Shopee/OrderLink.vue';
+import ItemsCard from './Shopee/ItemsCard.vue';
+import OrderCard from './Shopee/OrderCard.vue';
 import { useMessageContext } from '../provider.js';
 import { useI18n } from 'vue-i18n';
 
@@ -22,35 +22,37 @@ export default {
     const { contentAttributes } = useMessageContext();
 
     return {
-      shopeeData: contentAttributes.value?.original || {},
+      original: contentAttributes.value?.original || {},
+      cached: contentAttributes.value?.loadedData || {},
     };
   },
   computed: {
     cardTitle() {
-      if (this.shopeeData?.name) return this.shopeeData?.name;
+      if (this.original?.name) return this.original?.name;
 
-      const itemLabel = this.shopeeData?.itemLabel;
+      const itemLabel = this.original?.itemLabel;
       if (!itemLabel) return '';
       if (itemLabel === 'custom') return '';
       return itemLabel.replace(/_/g, ' ');
     },
     isChatProductInfos() {
-      return this.shopeeData?.chatProductInfos?.length > 0;
+      return this.original?.chatProductInfos?.length > 0;
     },
     isAddOnDealItemList() {
-      return this.shopeeData?.addOnDealItemList?.length > 0;
+      return this.original?.addOnDealItemList?.length > 0;
     },
     isVoucher() {
-      return this.shopeeData?.voucherCode?.length > 0;
+      return this.original?.voucherCode?.length > 0;
     },
     isTextMessage() {
-      return this.shopeeData?.text?.length > 0;
+      return this.original?.text?.length > 0;
     },
-    isItemLink() {
-      return this.shopeeData?.itemId && this.shopeeData?.shopId;
+    isItems() {
+      const itemIds = this.original?.itemIds || this.original?.itemId;
+      return itemIds && this.original?.shopId;
     },
-    isOrderLink() {
-      return this.shopeeData?.orderSn && this.shopeeData?.shopId;
+    isOrderCard() {
+      return this.original?.orderSn && this.original?.shopId;
     },
   },
 };
@@ -61,12 +63,20 @@ export default {
     <p v-if="cardTitle" class="font-medium text-center capitalize">
       {{ cardTitle }}
     </p>
-    <ChatProductInfos v-if="isChatProductInfos" :data="shopeeData" />
-    <AddOnDealItemList v-else-if="isAddOnDealItemList" :data="shopeeData" />
-    <Voucher v-else-if="isVoucher" :data="shopeeData" />
-    <Activity v-else-if="isTextMessage" :data="shopeeData" />
-    <ItemLink v-else-if="isItemLink" :data="shopeeData" />
-    <OrderLink v-else-if="isOrderLink" :data="shopeeData" />
+    <ChatProductInfos
+      v-if="isChatProductInfos"
+      :original="original"
+      :cached="cached"
+    />
+    <AddOnDealItemList
+      v-else-if="isAddOnDealItemList"
+      :original="original"
+      :cached="cached"
+    />
+    <VoucherCard v-else-if="isVoucher" :original="original" :cached="cached" />
+    <Activity v-else-if="isTextMessage" :original="original" :cached="cached" />
+    <ItemsCard v-else-if="isItems" :original="original" :cached="cached" />
+    <OrderCard v-else-if="isOrderCard" :original="original" :cached="cached" />
     <template v-else>
       {{ t('CONVERSATION.SHOPEE.UNSUPPORTED_CARD') }}
     </template>

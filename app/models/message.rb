@@ -268,6 +268,7 @@ class Message < ApplicationRecord
 
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
+    set_metadata
     reopen_conversation
     notify_via_mail
     set_conversation_activity
@@ -324,6 +325,10 @@ class Message < ApplicationRecord
     # FIXME: Giving it few seconds for the attachment to be uploaded to the service
     # active storage attaches the file only after commit
     attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+  end
+
+  def set_metadata
+    Messages::SetMetadataJob.perform_later(id)
   end
 
   def reopen_conversation

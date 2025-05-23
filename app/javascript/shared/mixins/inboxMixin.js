@@ -49,6 +49,9 @@ export default {
     isAFacebookInbox() {
       return this.channelType === INBOX_TYPES.FB;
     },
+    isAShopeeInbox() {
+      return this.channelType === INBOX_TYPES.SHOPEE;
+    },
     isAWebWidgetInbox() {
       return this.channelType === INBOX_TYPES.WEB;
     },

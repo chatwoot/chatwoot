@@ -46,10 +46,10 @@ export const actions = {
       commit(SET_SHOPEE_UI_FLAG, { isSearchingProducts: false });
     }
   },
-  sendOrderMessage: async ({ commit }, { conversationId, orderId }) => {
+  sendOrderMessage: async ({ commit }, { conversationId, orderNumber }) => {
     commit(SET_SHOPEE_UI_FLAG, { isSendingOrderMessage: true });
     try {
-      const response = await ShopeeAPI.sendOrder(conversationId, orderId);
+      const response = await ShopeeAPI.sendOrder(conversationId, orderNumber);
       commit(SEND_ORDER_MESSAGE, response.data);
     } catch (error) {
       throw new Error(error);
@@ -57,10 +57,17 @@ export const actions = {
       commit(SET_SHOPEE_UI_FLAG, { isSendingOrderMessage: false });
     }
   },
-  sendVoucherMessage: async ({ commit }, { conversationId, voucherId }) => {
+  sendVoucherMessage: async (
+    { commit },
+    { conversationId, voucherId, voucherCode }
+  ) => {
     commit(SET_SHOPEE_UI_FLAG, { isSendingVoucherMessage: true });
     try {
-      const response = await ShopeeAPI.sendVoucher(conversationId, voucherId);
+      const response = await ShopeeAPI.sendVoucher(
+        conversationId,
+        voucherId,
+        voucherCode
+      );
       commit(SEND_VOUCHER_MESSAGE, response.data);
     } catch (error) {
       throw new Error(error);
@@ -68,10 +75,13 @@ export const actions = {
       commit(SET_SHOPEE_UI_FLAG, { isSendingVoucherMessage: false });
     }
   },
-  sendProductMessage: async ({ commit }, { conversationId, productIds }) => {
+  sendProductMessage: async ({ commit }, { conversationId, productCodes }) => {
     commit(SET_SHOPEE_UI_FLAG, { isSendingProductMessage: true });
     try {
-      const response = await ShopeeAPI.sendProduct(conversationId, productIds);
+      const response = await ShopeeAPI.sendProduct(
+        conversationId,
+        productCodes
+      );
       commit(SEND_PRODUCT_MESSAGE, response.data);
     } catch (error) {
       throw new Error(error);

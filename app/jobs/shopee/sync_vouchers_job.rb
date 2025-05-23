@@ -17,7 +17,7 @@ class Shopee::SyncVouchersJob < ApplicationJob
   def perform(channel_id:)
     @channel = Channel::Shopee.find(channel_id)
 
-    processed_vouchers
+    sync_vouchers
   end
 
   private
@@ -30,7 +30,7 @@ class Shopee::SyncVouchersJob < ApplicationJob
     ).sendable
   end
 
-  def processed_vouchers
+  def sync_vouchers
     shopee_vouchers.each do |shopee_voucher|
       Shopee::Voucher.find_or_initialize_by(
         shop_id: channel.shop_id,

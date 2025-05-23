@@ -61,7 +61,7 @@ const handleTabChange = selectedTab => {
 
 <template>
   <div
-    class="h-full overflow-hidden z-10 w-80 min-w-80 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background"
+    class="h-full overflow-hidden z-10 w-80 min-w-80 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background ltr:border-l rtl:border-r border-slate-100 dark:border-slate-900"
   >
     <div v-if="tabs.length > 1" class="flex-none p-2">
       <TabBar
@@ -71,7 +71,7 @@ const handleTabChange = selectedTab => {
         @tab-changed="handleTabChange"
       />
     </div>
-    <div class="flex-auto w-full overflow-auto">
+    <div class="flex-auto w-full overflow-hidden">
       <ContactPanel
         v-if="activeTabValue === 'contact'"
         :conversation-id="currentChat.id"

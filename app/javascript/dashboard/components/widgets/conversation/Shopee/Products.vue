@@ -91,7 +91,13 @@ export default {
     sendProduct(product) {
       this.$store.dispatch('shopee/sendProductMessage', {
         conversationId: this.currentChat.id,
-        productIds: [product.id],
+        productCodes: [product.code],
+      });
+    },
+    sendProducts() {
+      this.$store.dispatch('shopee/sendProductMessage', {
+        conversationId: this.currentChat.id,
+        productCodes: this.selectedProductCodes,
       });
     },
     onCheckboxChange(product) {
@@ -113,7 +119,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
+  <div class="flex flex-col h-full bg-slate-50 dark:bg-slate-800">
     <div id="search-product">
       <input
         ref="searchInput"
@@ -132,7 +138,7 @@ export default {
         v-else-if="!products.length"
         :message="t('CONVERSATION.SHOPEE.PRODUCTS.EMPTY_MESSAGE')"
       />
-      <ul v-else class="bg-slate-50 dark:bg-slate-800 p-2">
+      <ul v-else class="p-2">
         <li v-for="product in products" :key="product.code" class="product">
           <div class="flex flex-row pb-2">
             <div class="flex-none w-12 h-12">
@@ -244,6 +250,7 @@ export default {
         </button>
         <button
           class="bg-orange-700 text-white py-1 px-5 cursor-pointer rounded-md"
+          @click="sendProducts()"
         >
           {{ t('CONVERSATION.SHOPEE.SEND') }}
         </button>

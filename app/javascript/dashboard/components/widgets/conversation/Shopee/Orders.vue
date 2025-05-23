@@ -103,7 +103,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-col h-full w-full">
+  <div class="flex flex-col h-full w-full bg-slate-50 dark:bg-slate-800">
     <div id="shopee-order-tabs" ref="tabsContainer">
       <a
         v-if="!startOfTabs"
@@ -131,16 +131,13 @@ export default {
       v-else-if="orders.length === 0"
       :message="t('CONVERSATION.SHOPEE.ORDER.EMPTY_MESSAGE')"
     />
-    <ul
-      v-else
-      class="bg-slate-50 dark:bg-slate-800 p-2 flex flex-col overflow-y-auto"
-    >
+    <ul v-else class="flex flex-col p-2 overflow-y-auto">
       <li
         v-for="order in orders"
         :key="order.number"
-        class="order w-full flex flex-col p-2 mb-2 bg-white rounded-md shadow-sm dark:bg-slate-900"
+        class="w-full flex flex-col p-2 mb-2 bg-white dark:bg-slate-900 rounded-md"
       >
-        <OrderCard :order="order" />
+        <OrderCard :order="order" :chat="currentChat" />
       </li>
     </ul>
   </div>

@@ -9,7 +9,6 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
-    @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
 
     @in_reply_to = content_attributes&.dig(:in_reply_to)
@@ -31,13 +30,18 @@ class Messages::MessageBuilder
   # - Attempts to parse a JSON string if content is a string.
   # - Returns an empty hash if content is not present, if there's a parsing error, or if it's an unexpected type.
   def content_attributes
+    return @content_attributes if defined?(@content_attributes)
+
     params = convert_to_hash(@params)
-    content_attributes = params.fetch(:content_attributes, {})
-
-    return parse_json(content_attributes) if content_attributes.is_a?(String)
-    return content_attributes if content_attributes.is_a?(Hash)
-
-    {}
+    content_attrs = params.fetch(:content_attributes, {})
+    @content_attributes = case content_attrs
+                          when String
+                            parse_json(content_attrs)
+                          when Hash
+                            content_attrs
+                          else
+                            {}
+                          end
   end
 
   # Converts the given object to a hash.
@@ -120,10 +124,6 @@ class Messages::MessageBuilder
     @params[:external_created_at].present? ? { external_created_at: @params[:external_created_at] } : {}
   end
 
-  def automation_rule_id
-    @automation_rule.present? ? { content_attributes: { automation_rule_id: @automation_rule } } : {}
-  end
-
   def campaign_id
     @params[:campaign_id].present? ? { additional_attributes: { campaign_id: @params[:campaign_id] } } : {}
   end
@@ -136,6 +136,18 @@ class Messages::MessageBuilder
     return if @params[:sender_type] != 'AgentBot'
 
     AgentBot.where(account_id: [nil, @conversation.account.id]).find_by(id: @params[:sender_id])
+  end
+
+  def additional_attributes
+    content_attrs = {}
+    content_attrs[:automation_rule_id] = content_attributes[:automation_rule_id].presence
+    content_attrs[:original] = content_attributes[:original].presence
+    content_attrs.filter! { |_, v| v.present? }
+    final_attrs = {}
+    final_attrs[:content_attributes] = content_attrs if content_attrs.present?
+    final_attrs.merge(external_created_at)
+               .merge(campaign_id)
+               .merge(template_params)
   end
 
   def message_params
@@ -152,6 +164,6 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
+    }.merge(additional_attributes)
   end
 end

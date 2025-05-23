@@ -6,15 +6,14 @@ import { currencyFormatter } from './helper/formatter.js';
 export default {
   name: 'ChatProductInfos',
   props: {
-    data: {
+    original: {
       type: Object,
       default: () => ({}),
     },
   },
   data() {
     return {
-      cardData: this.data,
-      items: this.data.chatProductInfos || [],
+      items: this.original.chatProductInfos || [],
     };
   },
   methods: {
@@ -30,22 +29,30 @@ export default {
 
 <template>
   <ul class="flex flex-col gap-2 list-none shopee-card">
-    <li v-for="(item, index) in items" :key="index">
+    <li v-for="(item, index) in items" :key="index" class="mb-2">
       <a
         :href="`https://shopee.vn/product/${item.shopId}/${item.itemId}`"
         target="_blank"
         rel="noopener noreferrer"
-        class="flex items-center gap-2"
+        class="flex items-center gap-2 w-full"
       >
-        <img class="itemImage" :src="itemImage(item)" />
-        <div class="itemInfo">
-          <p class="itemName">{{ item.name }}</p>
-          <p class="itemPrices">
-            <span class="itemCurrentPrice">
-              {{ currencyFormat(item.price) }}
-            </span>
-            <span class="itemOriginalPrice">
+        <img class="w-10 h-10 rounded-lg" :src="itemImage(item)" />
+        <div class="text-xs flex flex-col gap-1 w-full text-ellipsis">
+          <p
+            class="text-xs mb-0 text-slate-900 dark:text-slate-100 line-clamp-1"
+          >
+            {{ item.name }}
+          </p>
+          <p class="flex items-center gap-1 text-xs">
+            <span
+              class="text-slate-400 dark:text-slate-500 line-through text-end"
+            >
               {{ currencyFormat(item.priceBeforeDiscount) }}
+            </span>
+            <span
+              class="flex-1 text-slate-900 dark:text-slate-100 font-semibold text-end me-2"
+            >
+              {{ currencyFormat(item.price) }}
             </span>
           </p>
         </div>
@@ -56,7 +63,8 @@ export default {
 
 <style lang="scss">
 ul.shopee-card {
-  @apply bg-white p-4 rounded-lg mb-4;
+  @apply p-4 mb-4 rounded-lg bg-white dark:bg-slate-800;
+
   box-shadow:
     rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
     rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
@@ -65,40 +73,5 @@ ul.shopee-card {
     rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
     rgba(14, 63, 126, 0.04) 0px 24px 24px -12px,
     rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-
-  li {
-    @apply mb-2;
-
-    a {
-      @apply w-full;
-    }
-
-    img.itemImage {
-      @apply w-16 h-16 rounded-lg;
-    }
-
-    .itemInfo {
-      @apply flex flex-col gap-1 w-full text-ellipsis;
-    }
-
-    p {
-      @apply text-xs;
-
-      &.itemName {
-        @apply text-slate-900 dark:text-slate-900;
-      }
-
-      &.itemPrices {
-        @apply flex items-center gap-1;
-
-        span.itemCurrentPrice {
-          @apply flex-1 text-slate-900 dark:text-slate-900 font-semibold text-end me-2;
-        }
-        span.itemOriginalPrice {
-          @apply text-slate-400 dark:text-slate-400 line-through text-end;
-        }
-      }
-    }
-  }
 }
 </style>

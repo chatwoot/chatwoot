@@ -57,8 +57,8 @@ class Integrations::Shopee::Order < Integrations::Shopee::Base
   end
 
   def detail(order_sn_list)
-    raise 'Order SN list is empty' if order_sn_list.blank?
-    raise "Order SN list is more than #{LIMIT_DETAIL_ORDER_SN}" if order_sn_list.size > LIMIT_DETAIL_ORDER_SN
+    raise(ArgumentError, 'Order SN list is required') if order_sn_list.blank?
+    raise(ArgumentError, "Order SN list is more than #{LIMIT_DETAIL_ORDER_SN}") if order_sn_list.size > LIMIT_DETAIL_ORDER_SN
 
     params = {
       order_sn_list: order_sn_list.join(','),

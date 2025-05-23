@@ -13,24 +13,12 @@ class SendReplyJob < ApplicationJob
       'Channel::Telegram' => ::Telegram::SendOnTelegramService,
       'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
       'Channel::Sms' => ::Sms::SendOnSmsService,
+      'Channel::Shopee' => ::Shopee::SendOnShopService,
+      'Channel::FacebookPage' => ::Facebook::SendOnInboxService,
       'Channel::Instagram' => ::Instagram::SendOnInstagramService
     }
 
-    case channel_name
-    when 'Channel::FacebookPage'
-      send_on_facebook_page(message)
-    else
-      services[channel_name].new(message: message).perform if services[channel_name].present?
-    end
-  end
-
-  private
-
-  def send_on_facebook_page(message)
-    if message.conversation.additional_attributes['type'] == 'instagram_direct_message'
-      ::Instagram::Messenger::SendOnInstagramService.new(message: message).perform
-    else
-      ::Facebook::SendOnFacebookService.new(message: message).perform
-    end
+    send_service = services[channel_name]
+    send_service.new(message: message).perform if send_service.present?
   end
 end

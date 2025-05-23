@@ -50,6 +50,10 @@ export const useInbox = () => {
     return channelType.value === INBOX_TYPES.API;
   });
 
+  const isAShopeeInbox = computed(() => {
+    return channelType.value === INBOX_TYPES.SHOPEE;
+  });
+
   const isAFacebookInbox = computed(() => {
     return channelType.value === INBOX_TYPES.FB;
   });
@@ -135,6 +139,7 @@ export const useInbox = () => {
 
   return {
     inbox,
+    isAShopeeInbox,
     isAFacebookInbox,
     isALineChannel,
     isAPIInbox,

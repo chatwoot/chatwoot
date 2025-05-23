@@ -22,10 +22,15 @@ export default {
       required: true,
       type: Object,
     },
+    chat: {
+      required: true,
+      type: Object,
+    },
   },
   data() {
     return {
       currentOrder: this.order,
+      currentChat: this.chat,
       itemsCollapsed: true,
       items: this.order?.order_items || [],
     };
@@ -90,7 +95,10 @@ export default {
       useAlert(this.$t('GENERAL.COPY_SUCCESSFUL'));
     },
     sendOrder() {
-      console.log("Send order action triggered", this.currentOrder.number);
+      this.$store.dispatch('shopee/sendOrderMessage', {
+        conversationId: this.currentChat.id,
+        orderNumber: this.currentOrder.number,
+      });
     },
   },
 };
