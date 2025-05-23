@@ -14,6 +14,7 @@ import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
 import { useAccount } from 'dashboard/composables/useAccount';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useLanguageSelection } from 'dashboard/composables/useLanguageSelection';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -38,12 +39,14 @@ export default {
     const { accountId } = useAccount();
     // Use the font size composable (it automatically sets up the watcher)
     const { currentFontSize } = useFontSize();
+    const { currentLanguage } = useLanguageSelection();
 
     return {
       router,
       store,
       currentAccountId: accountId,
       currentFontSize,
+      currentLanguage,
     };
   },
   data() {
@@ -56,8 +59,9 @@ export default {
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
-      isRTL: 'accounts/isRTL',
+      isRTLGetter: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
+      currentLanguage: 'currentLanguage',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
     }),
@@ -67,6 +71,11 @@ export default {
     },
     hideOnOnboardingView() {
       return !isOnOnboardingView(this.$route);
+    },
+    isRTL() {
+      const userLocale =
+        this.currentLanguage || this.getAccount(this.currentAccountId).locale;
+      return this.isRTLGetter(userLocale);
     },
   },
 
@@ -114,7 +123,9 @@ export default {
       const { locale, latest_chatwoot_version: latestChatwootVersion } =
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
-      this.setLocale(locale);
+
+      const userlocale = this.currentLanguage || locale;
+      this.setLocale(userlocale);
       this.latestChatwootVersion = latestChatwootVersion;
       vueActionCable.init(this.store, pubsubToken);
       this.reconnectService = new ReconnectService(this.store, this.router);

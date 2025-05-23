@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFontSize } from 'dashboard/composables/useFontSize';
+import { useLanguageSelection } from 'dashboard/composables/useLanguageSelection';
 import { clearCookiesOnLogout } from 'dashboard/store/utils/api.js';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
@@ -11,6 +12,7 @@ import UserProfilePicture from './UserProfilePicture.vue';
 import UserBasicDetails from './UserBasicDetails.vue';
 import MessageSignature from './MessageSignature.vue';
 import FontSize from './FontSize.vue';
+import LanguageSelect from './LanguageSelect.vue';
 import HotKeyCard from './HotKeyCard.vue';
 import ChangePassword from './ChangePassword.vue';
 import NotificationPreferences from './NotificationPreferences.vue';
@@ -28,6 +30,7 @@ export default {
     MessageSignature,
     FormSection,
     FontSize,
+    LanguageSelect,
     UserProfilePicture,
     Policy,
     UserBasicDetails,
@@ -41,12 +44,16 @@ export default {
   setup() {
     const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
-
+    const { languageOptions, currentLanguage, updateLanguage } =
+      useLanguageSelection();
     return {
       currentFontSize,
       updateFontSize,
       isEditorHotKeyEnabled,
       updateUISettings,
+      languageOptions,
+      currentLanguage,
+      updateLanguage,
     };
   },
   data() {
@@ -216,6 +223,16 @@ export default {
           $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.FONT_SIZE.NOTE')
         "
         @change="updateFontSize"
+      />
+      <LanguageSelect
+        v-model="currentLanguage"
+        :value="currentLanguage"
+        :options="languageOptions"
+        :label="$t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.TITLE')"
+        :description="
+          $t('PROFILE_SETTINGS.FORM.INTERFACE_SECTION.LANGUAGE.NOTE')
+        "
+        @change="updateLanguage"
       />
     </FormSection>
     <FormSection

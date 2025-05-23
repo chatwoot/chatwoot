@@ -29,6 +29,26 @@ RSpec.describe 'SwitchLocale Concern', type: :controller do
       end
     end
 
+    context 'when user has a locale set in ui_settings' do
+      let(:user) { create(:user, ui_settings: { 'locale' => 'es' }) }
+
+      before { controller.instance_variable_set(:@user, user) }
+
+      it 'returns the user locale' do
+        expect(controller.send(:locale_from_user)).to eq('es')
+      end
+    end
+
+    context 'when user does not have a locale set' do
+      let(:user) { create(:user, ui_settings: {}) }
+
+      before { controller.instance_variable_set(:@user, user) }
+
+      it 'returns nil' do
+        expect(controller.send(:locale_from_user)).to be_nil
+      end
+    end
+
     context 'when request is from custom domain' do
       before { request.host = portal.custom_domain }
 
