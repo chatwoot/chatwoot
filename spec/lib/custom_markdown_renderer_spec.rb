@@ -143,6 +143,17 @@ describe CustomMarkdownRenderer do
       end
     end
 
+    context 'when link is a wistia URL' do
+      let(:wistia_url) { 'https://chatwoot.wistia.com/medias/kjwjeq6f9i' }
+
+      it 'renders a custom element with Wistia embed code' do
+        output = render_markdown_link(wistia_url)
+        expect(output).to include('<script src="https://fast.wistia.com/player.js" async></script>')
+        expect(output).to include('<wistia-player')
+        expect(output).to include('media-id="kjwjeq6f9i"')
+      end
+    end
+
     context 'when multiple links including Arcade are present' do
       it 'renders Arcade embed along with other content types' do
         markdown = "\n[arcade](https://app.arcade.software/share/ARCADE_ID)\n\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\n"
