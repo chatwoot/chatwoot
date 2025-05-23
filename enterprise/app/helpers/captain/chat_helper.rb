@@ -1,6 +1,6 @@
 module Captain::ChatHelper
   def request_chat_completion
-    Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{@messages}" }
+    log_chat_completion_request
 
     response = @client.chat(
       parameters: {
@@ -15,13 +15,17 @@ module Captain::ChatHelper
     handle_response(response)
   end
 
+  private
+
   def handle_response(response)
-    Rails.logger.debug { "[CAPTAIN][ChatCompletion] #{response}" }
+    Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
     message = response.dig('choices', 0, 'message')
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
     else
-      JSON.parse(message['content'].strip)
+      message = JSON.parse(message['content'].strip)
+      persist_message(message, 'assistant')
+      message
     end
   end
 
@@ -41,12 +45,14 @@ module Captain::ChatHelper
     if @tool_registry.respond_to?(function_name)
       execute_tool(function_name, arguments, tool_call_id)
     else
-      process_invalid_tool_call(tool_call_id)
+      process_invalid_tool_call(function_name, tool_call_id)
     end
   end
 
   def execute_tool(function_name, arguments, tool_call_id)
+    persist_message({ content: "Using tool #{function_name}", function_name: function_name }, 'assistant_thinking')
     result = @tool_registry.send(function_name, arguments)
+    persist_message({ content: "Completed #{function_name} tool call", function_name: function_name }, 'assistant_thinking')
     append_tool_response(result, tool_call_id)
   end
 
@@ -57,7 +63,8 @@ module Captain::ChatHelper
     }
   end
 
-  def process_invalid_tool_call(tool_call_id)
+  def process_invalid_tool_call(function_name, tool_call_id)
+    persist_message({ content: 'Invalid tool call', function_name: function_name }, 'assistant_thinking')
     append_tool_response('Tool not available', tool_call_id)
   end
 
@@ -67,5 +74,13 @@ module Captain::ChatHelper
       tool_call_id: tool_call_id,
       content: content
     }
+  end
+
+  def log_chat_completion_request
+    Rails.logger.info(
+      "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
+      for messages #{@messages} with #{@tool_registry&.registered_tools&.length || 0} tools
+      "
+    )
   end
 end

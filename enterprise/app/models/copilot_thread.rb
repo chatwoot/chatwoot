@@ -40,7 +40,7 @@ class CopilotThread < ApplicationRecord
       .order(created_at: :asc)
       .map do |copilot_message|
         {
-          content: copilot_message.message,
+          content: copilot_message.message['content'],
           role: copilot_message.message_type
         }
       end
