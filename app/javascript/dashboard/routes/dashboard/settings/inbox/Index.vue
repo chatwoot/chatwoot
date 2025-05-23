@@ -9,6 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
 import ChannelName from './components/ChannelName.vue';
 import ChannelIcon from 'next/icon/ChannelIcon.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -76,13 +77,11 @@ const openDelete = inbox => {
         feature-name="inboxes"
       >
         <template #actions>
-          <router-link
-            v-if="isAdmin"
-            class="button nice rounded-md"
-            :to="{ name: 'settings_inbox_new' }"
-          >
-            <fluent-icon icon="add-circle" />
-            {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
+          <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
+            <Button
+              icon="i-lucide-circle-plus"
+              :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
+            />
           </router-link>
         </template>
       </BaseSettingsHeader>
@@ -128,25 +127,22 @@ const openDelete = inbox => {
                     params: { inboxId: inbox.id },
                   }"
                 >
-                  <woot-button
+                  <Button
                     v-if="isAdmin"
                     v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
-                    variant="smooth"
-                    size="tiny"
-                    icon="settings"
-                    color-scheme="secondary"
-                    class-names="grey-btn"
+                    icon="i-lucide-settings"
+                    slate
+                    xs
+                    faded
                   />
                 </router-link>
-
-                <woot-button
+                <Button
                   v-if="isAdmin"
                   v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                  variant="smooth"
-                  color-scheme="alert"
-                  size="tiny"
-                  class-names="grey-btn"
-                  icon="dismiss-circle"
+                  icon="i-lucide-trash-2"
+                  xs
+                  ruby
+                  faded
                   @click="openDelete(inbox)"
                 />
               </div>

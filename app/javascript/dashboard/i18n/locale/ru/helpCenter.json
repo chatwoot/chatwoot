@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "Метка",
         "PLACEHOLDER": "руководство пользователя",
-        "ERROR": "Необходимо указать метку"
+        "ERROR": "Необходимо указать метку",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {

@@ -50,7 +50,7 @@ onUnmounted(() => {
 
 <template>
   <div
-    class="input-container rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-center py-2 px-4 h-14 gap-2 border border-solid"
+    class="input-container rounded-xl transition-[border-bottom] duration-[0.2s] ease-[ease-in-out] relative flex items-center py-2 px-4 h-14 gap-2 border border-solid bg-n-alpha-black2"
     :class="{
       'border-n-brand': isInputFocused,
       'border-n-weak': !isInputFocused,

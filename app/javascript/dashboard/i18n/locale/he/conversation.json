@@ -12,6 +12,8 @@
     "NO_INBOX_2": " להתחיל",
     "NO_INBOX_AGENT": "או - או! נראה שאתה לא חלק מתיבת דואר נכנס כלשהי. אנא פנה למנהל המערכת שלך",
     "SEARCH_MESSAGES": "חפש הודעות בשיחות",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "to view keyboard shortcuts"
@@ -30,10 +32,12 @@
     "LOADING_CONVERSATIONS": "טוען שיחות",
     "CANNOT_REPLY": "לא ניתן להשיב עקב",
     "24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "השיחה לא שייכת לך, האם תרצה לשייך אותה אליך?",
     "ASSIGN_TO_ME": "שייך לעצמך",
     "TWILIO_WHATSAPP_CAN_REPLY": "אתה יכול להשיב לשיחה זו רק באמצעות הודעת תבנית בשל",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "הגבלת חלון הודעות של 24 שעות",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "אתה משיב ל:",
     "REMOVE_SELECTION": "הסר בחירה",
     "DOWNLOAD": "הורד",
@@ -291,9 +295,30 @@
       "CONVERSATION_ACTIONS": "פעולות בשיחה",
       "CONVERSATION_LABELS": "תוויות שיחה",
       "CONVERSATION_INFO": "מידע על שיחה",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
-      "MACROS": "מאקרו"
+      "MACROS": "מאקרו",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "ממתין ל",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {

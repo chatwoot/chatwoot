@@ -32,7 +32,7 @@ const buttonStyleClass = props.compact ? 'text-sm' : 'text-base';
     :class="buttonStyleClass"
     @click.capture="goBack"
   >
-    <fluent-icon icon="chevron-left" class="-ml-1" />
+    <i class="i-lucide-chevron-left -ml-1 text-lg" />
     {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
   </button>
 </template>

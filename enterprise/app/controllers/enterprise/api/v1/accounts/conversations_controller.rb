@@ -20,7 +20,8 @@ module Enterprise::Api::V1::Accounts::ConversationsController
     response = Captain::Copilot::ChatService.new(
       assistant,
       previous_messages: copilot_params[:previous_messages],
-      conversation_history: @conversation.to_llm_text
+      conversation_history: @conversation.to_llm_text,
+      language: @conversation.account.locale_english_name
     ).generate_response(copilot_params[:message])
 
     render json: { message: response['response'] }

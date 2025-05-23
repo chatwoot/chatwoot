@@ -284,12 +284,12 @@
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "مخاطبین",
-      "SEARCH_TITLE": "Search contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_TITLE": "جستجوی مخاطبین",
+      "SEARCH_PLACEHOLDER": "جستجو...",
       "MESSAGE_BUTTON": "پیام",
       "SEND_MESSAGE": "ارسال پیام",
-      "BLOCK_CONTACT": "Block contact",
-      "UNBLOCK_CONTACT": "Unblock contact",
+      "BLOCK_CONTACT": "مسدود کردن مخاطب",
+      "UNBLOCK_CONTACT": "رفع انسداد مخاطب",
       "BREADCRUMB": {
         "CONTACTS": "مخاطبین"
       },
@@ -544,6 +544,9 @@
         "WROTE": "نوشت",
         "YOU": "شما",
         "SAVE": "Save note",
+        "EXPAND": "Expand",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     },

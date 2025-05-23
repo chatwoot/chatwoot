@@ -5,6 +5,8 @@ import { useI18n } from 'vue-i18n';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { useInstallationName } from 'shared/mixins/globalConfigMixin';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   id: {
     type: [String, Number],
@@ -74,9 +76,7 @@ const actionURL = computed(() =>
       >
         <span class="text-base font-semibold">{{ name }}</span>
         <router-link :to="actionURL">
-          <woot-button class="clear link">
-            {{ $t('INTEGRATION_APPS.CONFIGURE') }}
-          </woot-button>
+          <Button :label="$t('INTEGRATION_APPS.CONFIGURE')" link />
         </router-link>
       </div>
       <p class="text-n-slate-11">

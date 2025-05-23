@@ -117,7 +117,7 @@ const STYLE_CONFIG = {
         'text-n-ruby-11 hover:enabled:bg-n-ruby-9/10 focus-visible:bg-n-ruby-9/10 outline-n-ruby-8',
       ghost:
         'text-n-ruby-11 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
-      link: 'text-n-ruby-9 hover:enabled:underline focus-visible:underline outline-transparent',
+      link: 'text-n-ruby-9 dark:text-n-ruby-11 hover:enabled:underline focus-visible:underline outline-transparent',
     },
     amber: {
       solid:
@@ -190,7 +190,7 @@ const STYLE_CONFIG = {
 const variantClasses = computed(() => {
   const variantMap = {
     ghost: `${STYLE_CONFIG.colors[computedColor.value].ghost}`,
-    link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-4`,
+    link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-2`,
     outline: STYLE_CONFIG.colors[computedColor.value].outline,
     faded: STYLE_CONFIG.colors[computedColor.value].faded,
     solid: STYLE_CONFIG.colors[computedColor.value].solid,

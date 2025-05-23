@@ -9,6 +9,9 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @assistant = assistant
     @conversation_history = config[:conversation_history]
     @previous_messages = config[:previous_messages] || []
+    @language = config[:language] || 'english'
+
+    register_tools
     @messages = [system_message, conversation_history_context] + @previous_messages
     @response = ''
   end
@@ -24,10 +27,15 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
 
   private
 
+  def register_tools
+    @tool_registry = Captain::ToolRegistryService.new(@assistant)
+    @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
+  end
+
   def system_message
     {
       role: 'system',
-      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'])
+      content: Captain::Llm::SystemPromptsService.copilot_response_generator(@assistant.config['product_name'], @language)
     }
   end
 

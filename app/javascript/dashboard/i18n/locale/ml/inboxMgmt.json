@@ -43,7 +43,17 @@
         "INBOX_NAME": "ഇൻ‌ബോക്സ് നാമം",
         "ADD_NAME": "നിങ്ങളുടെ ഇൻ‌ബോക്‌സിനായി ഒരു പേര് ചേർക്കുക",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക"
+        "PICK_A_VALUE": "ഒരു മൂല്യം തിരഞ്ഞെടുക്കുക",
+        "CREATE_INBOX": "ഇൻ‌ബോക്സ് സൃഷ്ടിക്കുക"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ ഒരു ചാനലായി ചേർക്കുന്നതിന്, 'ട്വിറ്ററിനൊപ്പം പ്രവേശിക്കുക' ക്ലിക്കുചെയ്ത് നിങ്ങളുടെ ട്വിറ്റർ പ്രൊഫൈൽ പ്രാമാണീകരിക്കേണ്ടതുണ്ട് ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "ഓട്ടോ അസൈൻമെന്റ് പ്രവർത്തനക്ഷമമാക്കുക",
-      "ENABLE_CSAT": "Enable CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ഇമെയിൽ വഴി സംഭാഷണ തുടർച്ച പ്രവർത്തനക്ഷമമാക്കുക",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "ബന്ധപ്പെടാനുള്ള ഇമെയിൽ വിലാസം ലഭ്യമാണെങ്കിൽ സംഭാഷണങ്ങൾ ഇമെയിൽ വഴി തുടരും.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Enable CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "സന്ദേശം",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "അടങ്ങിയിരിക്കുന്നു",
+          "DOES_NOT_CONTAINS": "ഉൾപ്പെട്ടിട്ടില്ല"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "ഇമെയിൽ",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel"
+      "API": "API Channel",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

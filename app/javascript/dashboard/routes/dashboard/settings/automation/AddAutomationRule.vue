@@ -82,7 +82,6 @@ export default {
   data() {
     return {
       automationRuleEvent: AUTOMATION_RULE_EVENTS[0].key,
-      automationRuleEvents: AUTOMATION_RULE_EVENTS,
       automationMutated: false,
       show: true,
       showDeleteConfirmationModal: false,
@@ -96,6 +95,12 @@ export default {
       accountId: 'getCurrentAccountId',
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
+    automationRuleEvents() {
+      return AUTOMATION_RULE_EVENTS.map(event => ({
+        ...event,
+        value: this.$t(`AUTOMATION.EVENTS.${event.value}`),
+      }));
+    },
     hasAutomationMutated() {
       if (
         this.automation.conditions[0].values ||
@@ -105,10 +110,14 @@ export default {
       return false;
     },
     automationActionTypes() {
-      const isSLAEnabled = this.isFeatureEnabled('sla');
-      return isSLAEnabled
+      const actionTypes = this.isFeatureEnabled('sla')
         ? AUTOMATION_ACTION_TYPES
-        : AUTOMATION_ACTION_TYPES.filter(action => action.key !== 'add_sla');
+        : AUTOMATION_ACTION_TYPES.filter(({ key }) => key !== 'add_sla');
+
+      return actionTypes.map(action => ({
+        ...action,
+        label: this.$t(`AUTOMATION.ACTIONS.${action.label}`),
+      }));
     },
   },
   mounted() {
@@ -136,6 +145,26 @@ export default {
         const automation = generateAutomationPayload(this.automation);
         this.$emit('saveAutomation', automation, this.mode);
       }
+    },
+    getTranslatedAttributes(type, event) {
+      return getAttributes(type, event).map(attribute => {
+        // Skip translation
+        // 1. If customAttributeType key is present then its rendering attributes from API
+        // 2. If contact_custom_attribute or conversation_custom_attribute is present then its rendering section title
+        const skipTranslation =
+          attribute.customAttributeType ||
+          [
+            'contact_custom_attribute',
+            'conversation_custom_attribute',
+          ].includes(attribute.key);
+
+        return {
+          ...attribute,
+          name: skipTranslation
+            ? attribute.name
+            : this.$t(`AUTOMATION.ATTRIBUTES.${attribute.name}`),
+        };
+      });
     },
   },
 };
@@ -204,7 +233,7 @@ export default {
               :key="i"
               v-model="automation.conditions[i]"
               :filter-attributes="
-                getAttributes(automationTypes, automation.event_name)
+                getTranslatedAttributes(automationTypes, automation.event_name)
               "
               :input-type="
                 getInputType(
@@ -250,10 +279,9 @@ export default {
                 blue
                 faded
                 sm
+                :label="$t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL')"
                 @click="appendNewCondition"
-              >
-                {{ $t('AUTOMATION.ADD.CONDITION_BUTTON_LABEL') }}
-              </NextButton>
+              />
             </div>
           </div>
         </section>
@@ -294,22 +322,29 @@ export default {
                 blue
                 faded
                 sm
+                :label="$t('AUTOMATION.ADD.ACTION_BUTTON_LABEL')"
                 @click="appendNewAction"
-              >
-                {{ $t('AUTOMATION.ADD.ACTION_BUTTON_LABEL') }}
-              </NextButton>
+              />
             </div>
           </div>
         </section>
         <!-- // Actions End -->
         <div class="w-full">
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <NextButton ghost blue @click.prevent="onClose">
-              {{ $t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT') }}
-            </NextButton>
-            <NextButton solid blue @click="emitSaveAutomation">
-              {{ $t('AUTOMATION.ADD.SUBMIT') }}
-            </NextButton>
+            <NextButton
+              faded
+              slate
+              type="reset"
+              :label="$t('AUTOMATION.ADD.CANCEL_BUTTON_TEXT')"
+              @click.prevent="onClose"
+            />
+            <NextButton
+              solid
+              blue
+              type="submit"
+              :label="$t('AUTOMATION.ADD.SUBMIT')"
+              @click="emitSaveAutomation"
+            />
           </div>
         </div>
       </div>

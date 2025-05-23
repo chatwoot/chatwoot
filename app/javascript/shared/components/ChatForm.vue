@@ -1,7 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   props: {
@@ -19,10 +18,6 @@ export default {
     },
   },
   emits: ['submit'],
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
-  },
   data() {
     return {
       formValues: {},
@@ -35,10 +30,6 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     isFormValid() {
       return this.items.reduce((acc, { name }) => {
@@ -83,25 +74,23 @@ export default {
 
 <template>
   <div
-    class="form chat-bubble agent"
-    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
+    class="form chat-bubble agent w-full p-4 bg-n-background dark:bg-n-solid-3"
   >
     <form @submit.prevent="onSubmit">
       <div
         v-for="item in items"
         :key="item.key"
-        class="form-block"
+        class="pb-2 w-full"
         :class="{
           'has-submitted': hasSubmitted,
         }"
       >
-        <label :class="getThemeClass('text-black-900', 'dark:text-slate-50')">{{
-          item.label
-        }}</label>
+        <label class="text-n-slate-12">
+          {{ item.label }}
+        </label>
         <input
           v-if="item.type === 'email'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :type="item.type"
           :pattern="item.regex"
           :title="item.title"
@@ -113,7 +102,6 @@ export default {
         <input
           v-else-if="item.type === 'text'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :required="item.required && 'required'"
           :pattern="item.pattern"
           :title="item.title"
@@ -125,7 +113,6 @@ export default {
         <textarea
           v-else-if="item.type === 'text_area'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :required="item.required && 'required'"
           :title="item.title"
           :name="item.name"
@@ -135,7 +122,6 @@ export default {
         <select
           v-else-if="item.type === 'select'"
           v-model="formValues[item.name]"
-          :class="inputColor"
           :required="item.required && 'required'"
         >
           <option
@@ -168,87 +154,31 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .form {
-  padding: $space-normal;
-  width: 80%;
-
-  .form-block {
-    width: 90%;
-    padding-bottom: $space-small;
-  }
-
   label {
-    display: block;
-    font-weight: $font-weight-medium;
-    padding: $space-smaller 0;
-    text-transform: capitalize;
-  }
-
-  input,
-  textarea {
-    border-radius: $space-smaller;
-    border: 1px solid $color-border;
-    display: block;
-    font-family: inherit;
-    font-size: $font-size-default;
-    line-height: 1.5;
-    padding: $space-one;
-    width: 100%;
-
-    &:disabled {
-      background: $color-background-light;
-    }
-  }
-
-  textarea {
-    resize: none;
-  }
-
-  select {
-    width: 110%;
-    padding: $space-smaller;
-    -webkit-appearance: none;
-    -moz-appearance: none;
-    appearance: none;
-    border: 1px solid $color-border;
-    border-radius: $space-smaller;
-    font-family: inherit;
-    font-size: $space-normal;
-    font-weight: normal;
-    line-height: 1.5;
-    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
-    background-origin: content-box;
-    background-position: right -1.6rem center;
-    background-repeat: no-repeat;
-    background-size: 9px 6px;
-    padding-right: 2.4rem;
+    @apply block font-medium py-1 px-0 capitalize;
   }
 
   .button {
-    font-size: $font-size-default;
+    @apply text-sm rounded-lg;
   }
 
   .error-message {
-    display: none;
-    margin-top: $space-smaller;
-    color: $color-error;
+    @apply text-n-ruby-9 mt-1 hidden;
+  }
+
+  input,
+  textarea,
+  select {
+    @apply dark:bg-n-alpha-black1;
   }
 
   .has-submitted {
-    input:invalid {
-      border: 1px solid $color-error;
-    }
-
-    input:invalid + .error-message {
-      display: block;
-    }
-
+    input:invalid,
     textarea:invalid {
-      border: 1px solid $color-error;
+      @apply outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9;
     }
-
+    input:invalid + .error-message,
     textarea:invalid + .error-message {
       display: block;
     }

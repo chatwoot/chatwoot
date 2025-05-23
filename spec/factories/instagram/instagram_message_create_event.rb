@@ -256,7 +256,7 @@ FactoryBot.define do
               },
               'timestamp': '2021-09-08T06:34:04+0000',
               'message': {
-                'mid': 'message-id-1',
+                'mid': 'mention-message-id-1',
                 'attachments': [
                   {
                     'type': 'story_mention',
@@ -353,6 +353,36 @@ FactoryBot.define do
               'timestamp': '2021-09-08T06:34:04+0000',
               'read': {
                 'mid': 'message-id-1'
+              }
+            }
+          ]
+        }
+      ]
+    end
+    initialize_with { attributes }
+  end
+
+  factory :instagram_test_event, class: Hash do
+    entry do
+      [
+        {
+          'id': '0',
+          'time': '2021-09-08T06:34:04+0000',
+          'changes': [
+            {
+              'field': 'messages',
+              'value': {
+                'sender': {
+                  'id': '12334'
+                },
+                'recipient': {
+                  'id': '23245'
+                },
+                'timestamp': '1527459824',
+                'message': {
+                  'mid': 'random_mid',
+                  'text': 'random_text'
+                }
               }
             }
           ]

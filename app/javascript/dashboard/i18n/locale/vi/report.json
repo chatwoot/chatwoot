@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Không tìm thấy kết quả"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -471,6 +472,18 @@
       "NO_AGENTS": "Không có cuộc hội thoại nào của các tổng đài viên",
       "TABLE_HEADER": {
         "AGENT": "Nhà cung cấp",
+        "OPEN": "Mở",
+        "UNATTENDED": "Không giám sát",
+        "STATUS": "Trạng thái"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Nhóm",
         "OPEN": "Mở",
         "UNATTENDED": "Không giám sát",
         "STATUS": "Trạng thái"

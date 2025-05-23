@@ -1,4 +1,6 @@
 <script setup>
+import Button from 'dashboard/components-next/button/Button.vue';
+
 defineProps({
   app: {
     type: Object,
@@ -24,26 +26,24 @@ defineEmits(['edit', 'delete']);
       {{ app.content[0].url }}
     </td>
     <td class="flex gap-1 py-4 ltr:pr-4 rtl:pl-4 text-sm sm:pr-0 justify-end">
-      <woot-button
+      <Button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.EDIT_TOOLTIP')
         "
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        class-names="grey-btn"
-        icon="edit"
+        icon="i-lucide-pen"
+        slate
+        xs
+        faded
         @click="$emit('edit', app)"
       />
-      <woot-button
+      <Button
         v-tooltip.top="
           $t('INTEGRATION_SETTINGS.DASHBOARD_APPS.LIST.DELETE_TOOLTIP')
         "
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="dismiss-circle"
-        class-names="grey-btn"
+        icon="i-lucide-trash-2"
+        xs
+        ruby
+        faded
         @click="$emit('delete', app)"
       />
     </td>

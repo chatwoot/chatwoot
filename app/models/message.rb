@@ -155,15 +155,6 @@ class Message < ApplicationRecord
     }
   end
 
-  # TODO: We will be removing this code after instagram_manage_insights is implemented
-  # Better logic is to listen to webhook and remove stories proactively rather than trying
-  # a fetch every time a message is returned
-  def validate_instagram_story
-    inbox.channel.fetch_instagram_story_link(self)
-    # we want to reload the message in case the story has expired and data got removed
-    reload
-  end
-
   def merge_sender_attributes(data)
     data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
     data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
@@ -194,7 +185,13 @@ class Message < ApplicationRecord
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
-    I18n.t('conversations.survey.response', link: "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
+    survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+
+    if inbox.csat_config&.dig('message').present?
+      "#{inbox.csat_config['message']} #{survey_link}"
+    else
+      I18n.t('conversations.survey.response', link: survey_link)
+    end
   end
 
   def email_notifiable_message?
@@ -206,10 +203,10 @@ class Message < ApplicationRecord
   end
 
   def valid_first_reply?
-    return false unless outgoing? && human_response? && !private?
+    return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: 'AgentBot')
+                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
                                 .where.not(private: true)
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 

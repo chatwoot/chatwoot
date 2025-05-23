@@ -107,9 +107,13 @@ export default {
       </div>
     </div>
     <div class="mt-auto w-full">
-      <NextButton blue solid class="w-full" @click="$emit('submit')">
-        {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
-      </NextButton>
+      <NextButton
+        blue
+        solid
+        :label="$t('MACROS.HEADER_BTN_TXT_SAVE')"
+        class="w-full"
+        @click="$emit('submit')"
+      />
     </div>
   </div>
 </template>

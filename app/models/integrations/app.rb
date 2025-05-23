@@ -18,6 +18,10 @@ class Integrations::App
     I18n.t("integration_apps.#{params[:i18n_key]}.description")
   end
 
+  def short_description
+    I18n.t("integration_apps.#{params[:i18n_key]}.short_description")
+  end
+
   def logo
     params[:logo]
   end
@@ -48,7 +52,11 @@ class Integrations::App
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
     when 'linear'
-      account.feature_enabled?('linear_integration')
+      GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'shopify'
+      account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
+    when 'leadsquared'
+      account.feature_enabled?('crm_integration')
     else
       true
     end

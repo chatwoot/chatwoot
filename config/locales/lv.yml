@@ -48,7 +48,7 @@ lv:
         invalid: vajadzētu būt E.164 formātā
     categories:
       locale:
-        unique: vajadzētu būt unikālai, kategorijā un portālā 
+        unique: vajadzētu būt unikālai, kategorijā un portālā
     dyte:
       invalid_message_type: 'Nederīgs ziņojuma veids. Darbība nav atļauta'
     slack:
@@ -69,7 +69,7 @@ lv:
       invalid_query_operator: Vaicājuma operatoram ir jābūt "UN" vai "VAI".
       invalid_value: Nederīga vērtība. Norādītās vērtības priekš %{attribute_name} nav derīgas
     custom_attribute_definition:
-      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+      key_conflict: Norādītā atslēga nav atļauta, jo tā var būt pretrunā ar noklusējuma atribūtiem.
   reports:
     period: Ziņošanas periods %{since} līdz %{until}
     utc_warning: Izveidotais pārskats atbilst UTC laika joslai
@@ -132,6 +132,8 @@ lv:
     attachment: 'Pielikums'
     no_content: 'Nav satura'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} pieminēja jūs stāstā: '
       instagram_deleted_story_content: Šis stāsts vairs nav pieejams.
@@ -139,13 +141,18 @@ lv:
       delivery_status:
         error_code: 'Kļūdas kods: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} sarunu atzīmēja kā atrisinātu'
         contact_resolved: '%{contact_name} atrisināja sarunu'
         open: '%{user_name} atkārtoti atvēra sarunu'
         pending: '%{user_name} sarunu atzīmēja kā neapstiprinātu'
         snoozed: '%{user_name} atlika sarunu'
-        auto_resolved: 'Sistēma sarunu atzīmēja kā atrisinātu %{duration} dienu neaktivitātes dēļ'
+        auto_resolved_days: 'Sistēma sarunu atzīmēja kā atrisinātu %{count} dienu neaktivitātes dēļ'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
         system_auto_open: Sistēma atkārtoti atvēra sarunu jauna ienākoša ziņojuma dēļ.
       priority:
         added: '%{user_name} iestatīja prioritāti uz %{new_priority}'
@@ -217,6 +224,13 @@ lv:
     linear:
       name: 'Lineārs'
       description: 'Izveidojiet problēmu pieteikumus programmā Linear, tieši no sarunas loga. Varat arī sasaistīt esošos Linear problēmu pieteikumus, lai nodrošinātu racionālāku un efektīvāku problēmu izsekošanas procesu.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
     copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
     copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
@@ -281,3 +295,25 @@ lv:
       zero: '%{count} sekundes'
       one: '%{count} sekunde'
       other: '%{count} sekundes'
+  automation:
+    system_name: 'Automatizācijas Sistēma'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[Nav satura]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}

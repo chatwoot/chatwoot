@@ -1,6 +1,11 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   name: 'FilterInput',
+  components: {
+    NextButton,
+  },
   props: {
     modelValue: {
       type: Object,
@@ -242,10 +247,11 @@ export default {
             :placeholder="$t('FILTER.INPUT_PLACEHOLDER')"
           />
         </div>
-        <woot-button
-          icon="dismiss"
-          variant="clear"
-          color-scheme="secondary"
+        <NextButton
+          icon="i-lucide-x"
+          slate
+          ghost
+          class="flex-shrink-0"
           @click="removeFilter"
         />
       </div>

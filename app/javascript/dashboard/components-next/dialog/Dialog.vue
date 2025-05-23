@@ -2,9 +2,9 @@
 import { ref, computed } from 'vue';
 import { OnClickOutside } from '@vueuse/components';
 import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store.js';
 
 import Button from 'dashboard/components-next/button/Button.vue';
+import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
 
 const props = defineProps({
   type: {
@@ -59,8 +59,6 @@ const emit = defineEmits(['confirm', 'close']);
 
 const { t } = useI18n();
 
-const isRTL = useMapGetter('accounts/isRTL');
-
 const dialogRef = ref(null);
 const dialogContentRef = ref(null);
 
@@ -80,10 +78,12 @@ const maxWidthClass = computed(() => {
 const open = () => {
   dialogRef.value?.showModal();
 };
+
 const close = () => {
   emit('close');
   dialogRef.value?.close();
 };
+
 const confirm = () => {
   emit('confirm');
 };
@@ -92,7 +92,7 @@ defineExpose({ open, close });
 </script>
 
 <template>
-  <Teleport to="body">
+  <TeleportWithDirection to="body">
     <dialog
       ref="dialogRef"
       class="w-full transition-all duration-300 ease-in-out shadow-xl rounded-xl"
@@ -100,13 +100,13 @@ defineExpose({ open, close });
         maxWidthClass,
         overflowYAuto ? 'overflow-y-auto' : 'overflow-visible',
       ]"
-      :dir="isRTL ? 'rtl' : 'ltr'"
       @close="close"
     >
       <OnClickOutside @trigger="close">
-        <div
+        <form
           ref="dialogContentRef"
           class="flex flex-col w-full h-auto gap-6 p-6 overflow-visible text-left align-middle transition-all duration-300 ease-in-out transform bg-n-alpha-3 backdrop-blur-[100px] shadow-xl rounded-xl"
+          @submit.prevent="confirm"
           @click.stop
         >
           <div v-if="title || description" class="flex flex-col gap-2">
@@ -122,13 +122,17 @@ defineExpose({ open, close });
           <slot />
           <!-- Dialog content will be injected here -->
           <slot name="footer">
-            <div class="flex items-center justify-between w-full gap-3">
+            <div
+              v-if="showCancelButton || showConfirmButton"
+              class="flex items-center justify-between w-full gap-3"
+            >
               <Button
                 v-if="showCancelButton"
                 variant="faded"
                 color="slate"
                 :label="cancelButtonLabel || t('DIALOG.BUTTONS.CANCEL')"
                 class="w-full"
+                type="button"
                 @click="close"
               />
               <Button
@@ -138,14 +142,14 @@ defineExpose({ open, close });
                 class="w-full"
                 :is-loading="isLoading"
                 :disabled="disableConfirmButton || isLoading"
-                @click="confirm"
+                type="submit"
               />
             </div>
           </slot>
-        </div>
+        </form>
       </OnClickOutside>
     </dialog>
-  </Teleport>
+  </TeleportWithDirection>
 </template>
 
 <style scoped>

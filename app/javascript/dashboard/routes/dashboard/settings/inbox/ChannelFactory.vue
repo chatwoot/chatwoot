@@ -9,6 +9,7 @@ import Sms from './channels/Sms.vue';
 import Whatsapp from './channels/Whatsapp.vue';
 import Line from './channels/Line.vue';
 import Telegram from './channels/Telegram.vue';
+import Instagram from './channels/Instagram.vue';
 
 const channelViewList = {
   facebook: Facebook,
@@ -20,6 +21,7 @@ const channelViewList = {
   whatsapp: Whatsapp,
   line: Line,
   telegram: Telegram,
+  instagram: Instagram,
 };
 
 export default defineComponent({

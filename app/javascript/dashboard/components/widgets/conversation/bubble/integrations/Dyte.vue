@@ -2,8 +2,12 @@
 import DyteAPI from 'dashboard/api/integrations/dyte';
 import { buildDyteURL } from 'shared/helpers/IntegrationHelper';
 import { useAlert } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     messageId: {
       type: Number,
@@ -41,31 +45,25 @@ export default {
 
 <template>
   <div>
-    <woot-button
-      size="small"
-      variant="smooth"
-      color-scheme="secondary"
-      icon="video-add"
-      class="join-call-button"
+    <NextButton
+      blue
+      sm
+      icon="i-lucide-video"
+      :label="$t('INTEGRATION_SETTINGS.DYTE.CLICK_HERE_TO_JOIN')"
       :is-loading="isLoading"
       @click="joinTheCall"
-    >
-      {{ $t('INTEGRATION_SETTINGS.DYTE.CLICK_HERE_TO_JOIN') }}
-    </woot-button>
+    />
     <div v-if="dyteAuthToken" class="video-call--container">
       <iframe
         :src="meetingLink"
         allow="camera;microphone;fullscreen;display-capture;picture-in-picture;clipboard-write;"
       />
-      <woot-button
-        size="small"
-        variant="smooth"
-        color-scheme="secondary"
-        class="join-call-button"
+      <NextButton
+        sm
+        class="mt-2"
+        :label="$t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM')"
         @click="leaveTheRoom"
-      >
-        {{ $t('INTEGRATION_SETTINGS.DYTE.LEAVE_THE_ROOM') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

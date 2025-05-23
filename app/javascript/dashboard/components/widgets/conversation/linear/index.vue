@@ -9,6 +9,7 @@ import Issue from './Issue.vue';
 import { useTrack } from 'dashboard/composables';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationId: {
@@ -99,29 +100,34 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="relative" :class="{ group: linkedIssue }">
-    <woot-button
+  <div
+    class="relative after:content-[''] after:h-5 after:bg-transparent after:top-5 after:w-full after:block after:absolute after:z-0"
+    :class="{ group: linkedIssue }"
+  >
+    <Button
       v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
-      variant="clear"
-      color-scheme="secondary"
+      sm
+      ghost
+      slate
+      class="!gap-1 group-hover:bg-n-alpha-2"
       @click="openIssue"
     >
       <fluent-icon
         icon="linear"
         size="19"
-        class="text-[#5E6AD2]"
+        class="text-[#5E6AD2] flex-shrink-0"
         view-box="0 0 19 19"
       />
-      <span v-if="linkedIssue" class="text-xs font-medium text-ash-800">
+      <span v-if="linkedIssue" class="text-xs font-medium text-n-slate-11">
         {{ linkedIssue.issue.identifier }}
       </span>
-    </woot-button>
+    </Button>
     <Issue
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
-      class="absolute right-0 top-[40px] invisible group-hover:visible"
+      class="absolute right-0 top-[36px] invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
     <woot-modal

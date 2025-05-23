@@ -33,12 +33,12 @@ describe V2::Reports::Conversations::ReportBuilder do
   end
 
   describe '#timeseries' do
-    include_examples 'valid metric handler', 'avg_first_response_time', :timeseries, V2::Reports::Timeseries::AverageReportBuilder
-    include_examples 'valid metric handler', 'conversations_count', :timeseries, V2::Reports::Timeseries::CountReportBuilder
+    it_behaves_like 'valid metric handler', 'avg_first_response_time', :timeseries, V2::Reports::Timeseries::AverageReportBuilder
+    it_behaves_like 'valid metric handler', 'conversations_count', :timeseries, V2::Reports::Timeseries::CountReportBuilder
   end
 
   describe '#aggregate_value' do
-    include_examples 'valid metric handler', 'avg_first_response_time', :aggregate_value, V2::Reports::Timeseries::AverageReportBuilder
-    include_examples 'valid metric handler', 'conversations_count', :aggregate_value, V2::Reports::Timeseries::CountReportBuilder
+    it_behaves_like 'valid metric handler', 'avg_first_response_time', :aggregate_value, V2::Reports::Timeseries::AverageReportBuilder
+    it_behaves_like 'valid metric handler', 'conversations_count', :aggregate_value, V2::Reports::Timeseries::CountReportBuilder
   end
 end

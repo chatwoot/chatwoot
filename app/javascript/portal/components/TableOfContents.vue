@@ -94,8 +94,8 @@ export default {
 </script>
 
 <template>
-  <div class="hidden lg:block flex-1 py-6 scroll-mt-24 pl-4">
-    <div v-if="rows.length > 0" class="sticky top-24 py-2 overflow-auto">
+  <div class="hidden lg:block flex-1 py-6 scroll-mt-24 pl-4 sticky top-24">
+    <div v-if="rows.length > 0" class="py-2 overflow-auto">
       <nav class="max-w-2xl">
         <ol
           role="list"

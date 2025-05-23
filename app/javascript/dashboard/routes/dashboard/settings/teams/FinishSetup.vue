@@ -1,8 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 
 export default {
   components: {
+    NextButton,
     EmptyState,
   },
 };
@@ -19,12 +21,11 @@ export default {
     >
       <div class="w-full text-center">
         <router-link
-          class="button success nice rounded"
           :to="{
             name: 'settings_teams_list',
           }"
         >
-          {{ $t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT') }}
+          <NextButton teal :label="$t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT')" />
         </router-link>
       </div>
     </EmptyState>

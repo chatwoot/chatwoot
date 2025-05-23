@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "接続解除"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflowは、モバイルアプリ、Webアプリ、デバイス、ボット、音声応答システムなどに会話型インターフェイスを簡単に設計・連携できる自然言語理解プラットフォームです。<br /> <br /> {installationName}とのDialogflow連携を利用すると、Dialogflowボットを受信トレイに設定し、最初にボットが問い合わせを処理し、必要に応じてエージェントに引き継ぐことが可能です。Dialogflowはリードの選別やFAQの提供を通じてエージェントの負担を軽減するのに役立ちます。<br /> <br /> Dialogflowを追加するには、Googleプロジェクトコンソールでサービスアカウントを作成し、その資格情報を共有する必要があります。詳細については、Dialogflowドキュメントをご参照ください。"
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

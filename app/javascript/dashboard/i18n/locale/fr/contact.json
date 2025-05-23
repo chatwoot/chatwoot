@@ -544,6 +544,9 @@
         "WROTE": "wrote",
         "YOU": "Vous",
         "SAVE": "Save note",
+        "EXPAND": "Développer",
+        "COLLAPSE": "Réduire",
+        "NO_NOTES": "Pas de notes, vous pouvez en ajouter depuis la page des détails du contact.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     },

@@ -2,12 +2,14 @@
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import NotificationPanelItem from './NotificationPanelItem.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     NotificationPanelItem,
     Spinner,
     EmptyState,
+    NextButton,
   },
   props: {
     notifications: {
@@ -59,16 +61,13 @@ export default {
       v-if="showEmptyResult"
       :title="$t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.EMPTY_MESSAGE')"
     />
-    <woot-button
+    <NextButton
       v-if="!isLoading && inLastPage"
-      size="expanded"
-      variant="clear"
-      color-scheme="primary"
-      class-names="mt-3"
+      ghost
+      class="!w-full mt-3"
+      :label="$t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.ALL_NOTIFICATIONS')"
       @click="openNotificationPage"
-    >
-      {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.ALL_NOTIFICATIONS') }}
-    </woot-button>
+    />
     <div
       v-if="isLoading"
       class="flex items-center justify-center mx-2 my-12 text-sm font-medium"
