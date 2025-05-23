@@ -41,7 +41,6 @@ describe('AccountSelector', () => {
           'fluent-icon': FluentIcon,
         },
         stubs: {
-          WootButton: { template: '<button />' },
           // override global stub
           WootModalHeader: false,
         },

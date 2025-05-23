@@ -43,5 +43,11 @@
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Mehr erfahren",
     "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
   }
 }
