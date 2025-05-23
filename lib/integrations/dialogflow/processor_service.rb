@@ -65,6 +65,8 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
       config.timeout = 10.0
       config.credentials = hook.settings['credentials']
+      region = hook.settings['region']
+      config.endpoint = "#{region}-dialogflow.googleapis.com" if region.present? && region != 'global'
     end
   end
 
