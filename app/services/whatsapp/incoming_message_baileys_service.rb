@@ -1,4 +1,6 @@
 class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseService # rubocop:disable Metrics/ClassLength
+  include BaileysHelper
+
   class InvalidWebhookVerifyToken < StandardError; end
   class MessageNotFoundError < StandardError; end
   class AttachmentNotFoundError < StandardError; end
@@ -171,9 +173,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def message_content_attributes
-    content_attributes = {
-      external_created_at: @raw_message[:messageTimestamp]
-    }
+    content_attributes = { external_created_at: extract_baileys_message_timestamp(@raw_message[:messageTimestamp]) }
     if message_type == 'reaction'
       content_attributes[:in_reply_to_external_id] = @raw_message.dig(:message, :reactionMessage, :key, :id)
       content_attributes[:is_reaction] = true

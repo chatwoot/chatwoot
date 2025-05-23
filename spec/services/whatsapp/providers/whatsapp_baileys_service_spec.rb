@@ -95,6 +95,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
 
   describe '#send_message' do
     let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-message" }
+    let(:result_body) { { 'data' => { 'key' => { 'id' => 'msg_123' } } } }
 
     context 'when message is unsupported' do
       it 'updates the message with content attribute is_unsupported' do
@@ -132,7 +133,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+            body: result_body.to_json
           )
 
         result = service.send_message(test_send_phone_number, message)
@@ -153,7 +154,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+            body: result_body.to_json
           )
 
         result = service.send_message(test_send_phone_number, message)
@@ -188,7 +189,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+            body: result_body.to_json
           )
 
         result = service.send_message(test_send_phone_number, message)
@@ -210,7 +211,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+            body: result_body.to_json
           )
 
         result = service.send_message(test_send_phone_number, message)
@@ -222,15 +223,42 @@ describe Whatsapp::Providers::WhatsappBaileysService do
     context 'when message is a text' do
       it 'sends the message' do
         stub_request(:post, request_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: test_send_jid,
+              messageContent: { text: message.content }
+            }.to_json
+          )
           .to_return(
             status: 200,
             headers: { 'Content-Type' => 'application/json' },
-            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+            body: result_body.to_json
           )
 
         result = service.send_message(test_send_phone_number, message)
 
         expect(result).to eq('msg_123')
+      end
+
+      it 'updates the message external_created_at' do
+        stub_request(:post, request_path)
+          .with(
+            headers: stub_headers(whatsapp_channel),
+            body: {
+              jid: test_send_jid,
+              messageContent: { text: message.content }
+            }.to_json
+          )
+          .to_return(
+            status: 200,
+            headers: { 'Content-Type' => 'application/json' },
+            body: { 'data' => { 'key' => { 'id' => 'msg_123' }, 'messageTimestamp' => 1_748_003_165 } }.to_json
+          )
+
+        service.send_message(test_send_phone_number, message)
+
+        expect(message.reload.content_attributes['external_created_at']).to eq(1_748_003_165)
       end
     end
 
@@ -302,7 +330,7 @@ describe Whatsapp::Providers::WhatsappBaileysService do
           .to_return(
             status: 400,
             headers: { 'Content-Type' => 'application/json' },
-            body: { 'data' => { 'key' => { 'id' => 'msg_123' } } }.to_json
+            body: result_body.to_json
           )
 
         expect do
@@ -394,10 +422,12 @@ describe Whatsapp::Providers::WhatsappBaileysService do
             jid: test_send_jid,
             mod: {
               markRead: false,
-              lastMessages: {
-                key: { id: 'msg_123', remoteJid: test_send_jid, fromMe: false },
-                messageTimestamp: 123
-              }
+              lastMessages: [
+                {
+                  key: { id: 'msg_123', remoteJid: test_send_jid, fromMe: false },
+                  messageTimestamp: 123
+                }
+              ]
             }
           }.to_json
         ).to_return(status: 200)

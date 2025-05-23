@@ -1,4 +1,6 @@
 class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseService # rubocop:disable Metrics/ClassLength
+  include BaileysHelper
+
   class MessageContentTypeNotSupported < StandardError; end
   class MessageNotSentError < StandardError; end
 
@@ -139,14 +141,14 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
         jid: remote_jid,
         mod: {
           markRead: false,
-          lastMessages: {
+          lastMessages: [{
             key: {
               id: message.source_id,
               remoteJid: remote_jid,
               fromMe: message.message_type == 'outgoing'
             },
             messageTimestamp: message.content_attributes[:external_created_at]
-          }
+          }]
         }
       }.to_json
     )
@@ -209,9 +211,10 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
       }.to_json
     )
 
-    return response.parsed_response.dig('data', 'key', 'id') if process_response(response)
+    raise MessageNotSentError unless process_response(response)
 
-    raise MessageNotSentError
+    update_external_created_at(response)
+    response.parsed_response.dig('data', 'key', 'id')
   end
 
   def process_response(response)
@@ -221,6 +224,14 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
 
   def remote_jid
     "#{@phone_number.delete('+')}@s.whatsapp.net"
+  end
+
+  def update_external_created_at(response)
+    timestamp = response.parsed_response.dig('data', 'messageTimestamp')
+    return unless timestamp
+
+    external_created_at = extract_baileys_message_timestamp(timestamp)
+    @message.update!(external_created_at: external_created_at)
   end
 
   private_class_method def self.with_error_handling(*method_names)

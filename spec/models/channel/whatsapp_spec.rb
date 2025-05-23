@@ -155,7 +155,7 @@ RSpec.describe Channel::Whatsapp do
     let(:conversation) { create(:conversation) }
 
     it 'calls provider service method' do
-      message = create(:message, conversation: conversation)
+      message = create(:message, conversation: conversation, message_type: 'incoming')
       provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, unread_message: nil)
       allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new).with(whatsapp_channel: channel).and_return(provider_double)
       allow(provider_double).to receive(:unread_message).with(conversation.contact.phone_number, [message])
@@ -167,7 +167,7 @@ RSpec.describe Channel::Whatsapp do
 
     it 'does not call method if provider service does not implement it' do
       # NOTE: This message ensures that there are messages but the provider does not implement the method.
-      create(:message, conversation: conversation)
+      create(:message, conversation: conversation, message_type: 'incoming')
 
       provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService)
       allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new).with(whatsapp_channel: channel).and_return(provider_double)
