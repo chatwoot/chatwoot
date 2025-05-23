@@ -25,6 +25,9 @@ export const hasMessageFailedWithExternalError = pendingMessage => {
   return status === MESSAGE_STATUS.FAILED && externalError !== '';
 };
 
+// abort controller
+let abortController = null;
+
 // actions
 const actions = {
   getConversation: async ({ commit }, conversationId) => {
@@ -38,12 +41,21 @@ const actions = {
   },
 
   fetchAllConversations: async ({ commit, state, dispatch }) => {
+    if (abortController) {
+      abortController.abort();
+    }
+
+    abortController = new AbortController();
+
     commit(types.SET_LIST_LOADING_STATUS);
     try {
       const params = state.conversationFilters;
       const {
         data: { data },
-      } = await ConversationApi.get(params);
+      } = await ConversationApi.get({
+        ...params,
+        signal: abortController.signal,
+      });
       buildConversationList(
         { commit, dispatch },
         params,
