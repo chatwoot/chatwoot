@@ -15,7 +15,8 @@ const isMessageInActiveConversation = (getters, message) => {
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
-    super(app, pubsubToken);
+    const { websocketURL = '' } = window.chatwootWebChannel || {};
+    super(app, pubsubToken, websocketURL);
     this.events = {
       'message.created': this.onMessageCreated,
       'message.updated': this.onMessageUpdated,
