@@ -32,6 +32,38 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
             transaction = create_transaction(payment)
 
             PaymentExpireJob.set(wait: (payment_created[:expiry_period].to_i + 2).minutes).perform_later(transaction.transaction_id)
+
+            user = transaction.user
+            invoice_prefix = payment.duitku_order_id.split('-')[1]
+
+            case invoice_prefix
+            when 'MAU'
+              InvoiceMailer.mau_send_invoice_waiting(
+                user.email,
+                user.name,
+                transaction.transaction_id,
+                transaction.payment_date,
+                transaction.price.to_i,
+                transaction.package_name,
+                transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+                @topup.amount.to_i, 
+                transaction.expiry_date
+              ).deliver_later
+              Rails.logger.info("Payment waiting & invoice sent to #{user.email} (##{transaction.transaction_id})")
+            when 'AR'
+              InvoiceMailer.ai_send_invoice_waiting(
+                user.email,
+                user.name,
+                transaction.transaction_id,
+                transaction.payment_date,
+                transaction.price.to_i,
+                transaction.package_name,
+                transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+                @topup.amount.to_i,
+                transaction.expiry_date
+              ).deliver_later
+              Rails.logger.info("Payment waiting & invoice sent to #{user.email} (##{transaction.transaction_id})")
+            end
             
             render json: { 
               topup: @topup, 

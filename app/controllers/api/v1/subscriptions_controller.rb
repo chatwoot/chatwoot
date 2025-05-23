@@ -81,6 +81,18 @@ class Api::V1::SubscriptionsController < Api::BaseController
 
           PaymentExpireJob.set(wait: (payment_created[:expiry_period].to_i + 1).minutes).perform_later(transaction.transaction_id)
 
+          user = transaction.user
+          InvoiceMailer.send_invoice_waiting(
+              user.email,
+              user.name,
+              transaction.transaction_id,
+              transaction.transaction_date,
+              transaction.price.to_i,
+              transaction.package_name,
+              transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
+            ).deliver_later
+            Rails.logger.info("Payment confirmed & invoice sent to #{user.email} (##{transaction.transaction_id})")
+
           render json: { 
             subscription: @subscription, 
             subscription_payment: payment,

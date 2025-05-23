@@ -11,6 +11,17 @@ class InvoiceMailer < ApplicationMailer
       mail(to: email, subject: "Selamat! Kamu berhasil berlangganan paket Jangkau.ai")
     end
 
+    def send_invoice_waiting(email, customer_name, invoice_number, payment_date, amount, product, payment_method)
+      @customer_name = customer_name
+      @invoice_number = invoice_number
+      @payment_date = payment_date
+      @amount = amount
+      @product = product
+      @payment_method = payment_method
+  
+      mail(to: email, subject: "📦 Menunggu pembayaran untuk paket Jangkau.ai")
+    end
+
     def send_invoice_expired(email, customer_name, invoice_number, payment_date, amount, product)
       @customer_name = customer_name
       @invoice_number = invoice_number
@@ -31,6 +42,19 @@ class InvoiceMailer < ApplicationMailer
       @mau_total = mau_total
   
       mail(to: email, subject: "🎉 Top-up MAU kamu berhasil – saldo langsung aktif!")
+    end
+
+    def mau_send_invoice_waiting(email, customer_name, invoice_number, payment_date, amount, product, payment_method, mau_total, payment_date_expiry)
+      @customer_name = customer_name
+      @invoice_number = invoice_number
+      @payment_date = payment_date
+      @amount = amount
+      @product = product
+      @payment_method = payment_method
+      @mau_total = mau_total
+      @payment_date_expiry = payment_date_expiry
+  
+      mail(to: email, subject: "📦 Top-up MAU kamu sedang diproses – tinggal selangkah lagi!")
     end
 
     def mau_send_invoice_expired(email, customer_name, invoice_number, payment_date, payment_method, amount, mau_total)
@@ -54,6 +78,19 @@ class InvoiceMailer < ApplicationMailer
       @response_total = response_total
   
       mail(to: email, subject: "🎉 Top-up MAU kamu berhasil – saldo langsung aktif!")
+    end
+
+    def ai_send_invoice_waiting(email, customer_name, invoice_number, payment_date, amount, product, payment_method, response_total, payment_date_expiry)
+      @customer_name = customer_name
+      @invoice_number = invoice_number
+      @payment_date = payment_date
+      @amount = amount
+      @product = product
+      @payment_method = payment_method
+      @response_total = response_total
+      @payment_date_expiry = payment_date_expiry
+  
+      mail(to: email, subject: "📦 Top-up AI Responses kamu sedang diproses – segera selesaikan pembayaran!")
     end
 
     def ai_send_invoice_expired(email, customer_name, invoice_number, payment_date, payment_method, amount, response_total)
