@@ -33,6 +33,12 @@ class Captain::Tools::Copilot::SearchConversationsService < Captain::Tools::Base
     RESPONSE
   end
 
+  def active?
+    user_has_permission('conversation_manage') ||
+      user_has_permission('conversation_unassigned_manage') ||
+      user_has_permission('conversation_participating_manage')
+  end
+
   private
 
   def get_conversations(status, contact_id, priority)

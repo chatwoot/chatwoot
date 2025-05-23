@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
+ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -577,27 +577,25 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
 
   create_table "copilot_messages", force: :cascade do |t|
     t.bigint "copilot_thread_id", null: false
-    t.bigint "user_id", null: false
     t.bigint "account_id", null: false
-    t.string "message_type", null: false
     t.jsonb "message", default: {}, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "message_type", default: 0
     t.index ["account_id"], name: "index_copilot_messages_on_account_id"
     t.index ["copilot_thread_id"], name: "index_copilot_messages_on_copilot_thread_id"
-    t.index ["user_id"], name: "index_copilot_messages_on_user_id"
   end
 
   create_table "copilot_threads", force: :cascade do |t|
     t.string "title", null: false
     t.bigint "user_id", null: false
     t.bigint "account_id", null: false
-    t.uuid "uuid", default: -> { "gen_random_uuid()" }, null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.integer "assistant_id"
     t.index ["account_id"], name: "index_copilot_threads_on_account_id"
+    t.index ["assistant_id"], name: "index_copilot_threads_on_assistant_id"
     t.index ["user_id"], name: "index_copilot_threads_on_user_id"
-    t.index ["uuid"], name: "index_copilot_threads_on_uuid", unique: true
   end
 
   create_table "csat_survey_responses", force: :cascade do |t|
