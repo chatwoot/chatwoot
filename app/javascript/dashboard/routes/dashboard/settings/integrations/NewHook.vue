@@ -115,8 +115,6 @@ export default {
 
 <template>
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
-    <!-- Uses short_description for integration modals -->
-    <!-- Note: webhooks and dashboard_apps use different modal components that don't show descriptions -->
     <woot-modal-header
       :header-title="integration.name"
       :header-content="integration.short_description"
