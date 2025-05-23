@@ -814,6 +814,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.jsonb "sentiment", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
     t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
+    t.index ["account_id", "inbox_id", "created_at"], name: "index_messages_account_inbox_created_at", order: { created_at: :desc }
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
     t.index ["content"], name: "index_messages_on_content", opclass: :gin_trgm_ops, using: :gin
