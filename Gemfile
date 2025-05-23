@@ -7,6 +7,8 @@ gem 'rack-cors', '2.0.0', require: 'rack/cors'
 gem 'rails', '~> 7.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
+# Turbo for SPA-like page acceleration
+gem 'turbo-rails'
 
 ##-- rails application helper gems --##
 gem 'acts-as-taggable-on'
