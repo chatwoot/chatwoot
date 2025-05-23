@@ -11,19 +11,29 @@ class Captain::Llm::AssistantChatService
   end
 
   def generate_response
-    self.class.post(
+    Rails.logger.info "[generate_response] Sending request to /prediction/#{@chat_flow_id} with body: #{request_body.to_json}"
+
+    response = self.class.post(
       "/prediction/#{@chat_flow_id}",
-      body: {
-        'question' => @question,
-        'overrideConfig' => {
-          'sessionId' => @session_id
-        }
-      }.to_json,
+      body: request_body.to_json,
       headers: headers
     )
+
+    Rails.logger.info "[generate_response] Received response: #{response.code} #{response.body}"
+
+    response
   end
 
   private
+
+  def request_body
+    {
+      'question' => @question,
+      'overrideConfig' => {
+        'sessionId' => @session_id
+      }
+    }
+  end
 
   def headers
     {
