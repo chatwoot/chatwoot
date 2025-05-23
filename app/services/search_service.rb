@@ -96,7 +96,7 @@ class SearchService
   def filter_articles
     @articles = current_account.articles.published
                                .text_search(search_query)
-                               .order('updated_at DESC')
+                               .reorder('updated_at DESC')
                                .page(params[:page])
                                .per(15)
   end
