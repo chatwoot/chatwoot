@@ -9,9 +9,15 @@
     "UPDATE_SUCCESS": "Your profile has been updated successfully",
     "PASSWORD_UPDATE_SUCCESS": "Your password has been changed successfully",
     "AFTER_EMAIL_CHANGED": "Your profile has been updated successfully, please login again as your login credentials are changed",
+    "CONTACT_NUMBER": {
+      "TITLE": "Contact number",
+      "DESCRIPTION": "Enter your phone number to receive notifications via SMS, email, etc."
+    },
     "FORM": {
       "PICTURE": "Profile Picture",
-      "AVATAR": "Profile Image",
+      "AVATAR": {
+        "LABEL": "Your Avatar"
+      },
       "ERROR": "Please fix form errors",
       "REMOVE_IMAGE": "Remove",
       "UPLOAD_IMAGE": "Upload image",
@@ -79,118 +85,94 @@
         "COPY": "Copy"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Audio Alerts",
-        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
-        "PLAY": "Play sound",
-        "ALERT_TYPES": {
-          "NONE": "None",
-          "MINE": "Assigned",
-          "ALL": "All",
-          "ASSIGNED": "My assigned conversations",
-          "UNASSIGNED": "Unassigned conversations",
-          "NOTME": "Open conversations assigned to others"
-        },
-        "ALERT_COMBINATIONS": {
-          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
-          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
-          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
-          "NOTME": "You'll receive alerts for conversations assigned to others.",
-          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
-          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
-          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
-          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
-        },
+        "TITLE": "Audio Notifications",
+        "NOTE": "Customize audio alerts for new messages, assignments, and other events in the dashboard.",
         "ALERT_TYPE": {
-          "TITLE": "Alert events for conversations",
-          "NONE": "None",
-          "ASSIGNED": "Assigned Conversations",
-          "ALL_CONVERSATIONS": "All Conversations"
+          "TITLE": "Alert Events",
+          "DESCRIPTION": "These are the types of events you can receive notifications for."
         },
         "DEFAULT_TONE": {
-          "TITLE": "Alert tone:"
+          "TITLE": "Default Tone",
+          "DESCRIPTION": "This sets the default sound for new message notifications."
         },
         "CONDITIONS": {
-          "TITLE": "Alert conditions:",
-          "CONDITION_ONE": "Send audio alerts only if the browser window is not active",
-          "CONDITION_TWO": "Send alerts every 30s until all the assigned conversations are read"
+          "TITLE": "Alert Conditions",
+          "DESCRIPTION": "When should audio alerts play?",
+          "CONDITION_ONE": "Only play when browser window is not active",
+          "CONDITION_TWO": "Play every 30 seconds until all unread messages are read"
         },
-        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
-        "READ_MORE": "Read more"
+        "VOLUME": {
+          "TITLE": "Volume",
+          "DESCRIPTION": "Adjust how loud your audio alerts are.",
+          "MUTE": "Mute",
+          "LOW": "Low",
+          "MEDIUM": "Medium",
+          "HIGH": "High"
+        },
+        "ALERT_TYPES": {
+          "TITLE": "Alert Types",
+          "ASSIGNMENT": "When conversation is assigned to me",
+          "NEW_MESSAGE": "When new message is received in an assigned conversation",
+          "MENTION": "When I am mentioned"
+        }
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Email Notifications",
         "NOTE": "Update your email notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in a participating conversation",
-        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
-      },
-      "NOTIFICATIONS": {
-        "TITLE": "Notification preferences",
-        "TYPE_TITLE": "Notification type",
-        "EMAIL": "Email",
-        "PUSH": "Push notification",
-        "TYPES": {
-          "CONVERSATION_CREATED": "A new conversation is created",
-          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
-          "CONVERSATION_MENTION": "You are mentioned in a conversation",
-          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
-          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
-          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
-          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
-          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        "EMAIL": {
+          "TITLE": "Email settings",
+          "CONVERSATION_ASSIGNMENT": "Send email notifications when a conversation is assigned to me",
+          "CONVERSATION_CREATION": "Send email notifications when a new conversation is created",
+          "CONVERSATION_MENTION": "Send email notifications when you are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send email notifications when a new message is created in an assigned conversation"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "PUSH": {
+          "TITLE": "Push notifications",
+          "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
+          "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
+          "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation"
+        },
+        "DESKTOP": {
+          "TITLE": "Desktop notifications",
+          "CONVERSATION_ASSIGNMENT": "Send desktop notifications when a conversation is assigned to me",
+          "CONVERSATION_CREATION": "Send desktop notifications when a new conversation is created",
+          "CONVERSATION_MENTION": "Send desktop notifications when you are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send desktop notifications when a new message is created in an assigned conversation"
+        },
+        "AUDIO_NOTIFICATIONS": {
+          "TITLE": "Audio notifications",
+          "CONVERSATION_ASSIGNMENT": "Play audio when a conversation is assigned to me",
+          "CONVERSATION_CREATION": "Play audio when a new conversation is created",
+          "CONVERSATION_MENTION": "Play audio when you are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Play audio when a new message is created in an assigned conversation",
+          "ALERT_TONE": "Alert tone"
+        }
       },
       "API": {
-        "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
-        "UPDATE_ERROR": "There is an error while updating the preferences, please try again"
+        "SUCCESS_MESSAGE": "Notifications preferences updated successfully"
       },
-      "PUSH_NOTIFICATIONS_SECTION": {
-        "TITLE": "Push Notifications",
-        "NOTE": "Update your push notification preferences here",
-        "CONVERSATION_ASSIGNMENT": "Send push notifications when a conversation is assigned to me",
-        "CONVERSATION_CREATION": "Send push notifications when a new conversation is created",
-        "CONVERSATION_MENTION": "Send push notifications when you are mentioned in a conversation",
-        "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in an assigned conversation",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Send push notifications when a new message is created in a participating conversation",
-        "HAS_ENABLED_PUSH": "You have enabled push for this browser.",
-        "REQUEST_PUSH": "Enable push notifications",
-        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
-        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
-        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
-      },
-      "PROFILE_IMAGE": {
-        "LABEL": "Profile Image"
+      "EMAIL": {
+        "LABEL": "Your email address",
+        "ERROR": "Please enter a valid email"
       },
       "NAME": {
-        "LABEL": "Your full name",
+        "LABEL": "Your name",
         "ERROR": "Please enter a valid full name",
         "PLACEHOLDER": "Please enter your full name"
       },
       "DISPLAY_NAME": {
         "LABEL": "Display name",
         "ERROR": "Please enter a valid display name",
-        "PLACEHOLDER": "Please enter a display name, this would be displayed in conversations"
+        "PLACEHOLDER": "Please enter a display name which would be displayed to contacts"
       },
       "AVAILABILITY": {
         "LABEL": "Availability",
-        "STATUS": {
+        "STATUSES": {
           "ONLINE": "Online",
           "BUSY": "Busy",
           "OFFLINE": "Offline"
-        },
-        "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
-      },
-      "EMAIL": {
-        "LABEL": "Your email address",
-        "ERROR": "Please enter a valid email address",
-        "PLACEHOLDER": "Please enter your email address, this would be displayed in conversations"
+        }
       },
       "CURRENT_PASSWORD": {
         "LABEL": "Current password",
@@ -207,6 +189,14 @@
         "ERROR": "Confirm password should match the password",
         "PLACEHOLDER": "Please re-enter your new password"
       }
+    },
+    "SUBMIT": "Save",
+    "BUTTON_TEXT": "Update Profile",
+    "API": {
+      "SUCCESS_MESSAGE": "Profile updated successfully",
+      "UPLOAD_SUCCESS": "Profile picture uploaded successfully",
+      "UPDATE_ERROR": "Error while updating profile, please try again!",
+      "UPLOAD_ERROR": "Error while uploading profile picture, please try again!"
     }
   },
   "SIDEBAR_ITEMS": {
@@ -280,8 +270,8 @@
     "REPORTS": "Reports",
     "SETTINGS": "Settings",
     "CONTACTS": "Contacts",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN": "AI Assistant",
+    "CAPTAIN_ASSISTANTS": "Topics",
     "CAPTAIN_DOCUMENTS": "Documents",
     "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Home",
@@ -341,7 +331,57 @@
       "INFO_TEXT": "Let the system automatically mark you offline when you aren't using the app or dashboard.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "DOCS": "Read docs"
+    "DOCS": "Read docs",
+    "CONTACT_PORTAL": "Contact Portal",
+    "AUDIT_LOGS": "Audit Logs",
+    "INSTALLATION_GUIDE": "Installation Guide",
+    "UPGRADE": "Upgrade",
+    "HELP_CENTER": "Help Center",
+    "CUSTOM_VIEWS_FOLDER": "Folders",
+    "CUSTOM_VIEWS_SEGMENTS": "Segments",
+    "CAPTAIN": "AI Assistant",
+    "CAPTAIN_ASSISTANTS": "Topics",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
+    "ALL_CONTACTS": "All Contacts",
+    "CONTACTS_ACTIVE": "Active",
+    "CONTACTS_SUSPENDED": "Suspended",
+    "CONTACTS_VERIFIED": "Verified",
+    "CONTACTS_BLOCKED": "Blocked",
+    "CONTACTS_VIP": "VIP",
+    "CONTACTS_IMPORT": "Import",
+    "CONTACTS_EXPORT": "Export",
+    "CONTACTS_FILTER": "Filter",
+    "CONTACTS_BLOCKED_CONTACTS": "Blocked Contacts",
+    "CONTACTS_CUSTOM_FILTERS": "Custom Filters",
+    "CONTACTS_DELETE": "Delete Contact",
+    "CONTACTS_MERGE": "Merge Contacts",
+    "CONTACTS_MERGE_CONTACT": "Merge Contact",
+    "CONTACTS_MERGE_CONTACT_DESCRIPTION": "Select the contact to merge with",
+    "CONTACTS_MERGE_CONTACT_CONFIRM": "Are you sure you want to merge these contacts?",
+    "CONTACTS_MERGE_CONTACT_SUCCESS": "Contacts merged successfully",
+    "CONTACTS_MERGE_CONTACT_ERROR": "Error merging contacts",
+    "CONTACTS_MERGE_CONTACT_SELECT": "Select a contact to merge with",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR": "Please select a contact to merge with",
+    "CONTACTS_MERGE_CONTACT_SELF_ERROR": "You cannot merge a contact with itself",
+    "CONTACTS_MERGE_CONTACT_SAME_ERROR": "You cannot merge the same contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_PLACEHOLDER": "Search for a contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_LABEL": "Select a contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_DESCRIPTION": "Search for a contact to merge with",
+    "CONTACTS_MERGE_CONTACT_SELECT_SEARCH": "Search for a contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_NO_RESULTS": "No contacts found",
+    "CONTACTS_MERGE_CONTACT_SELECT_LOADING": "Loading contacts",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_LOADING": "Error loading contacts",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_SEARCHING": "Error searching contacts",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_SELECTING": "Error selecting contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_MERGING": "Error merging contacts",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_SAVING": "Error saving merged contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_DELETING": "Error deleting merged contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_UPDATING": "Error updating merged contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_FETCHING": "Error fetching contacts",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_VALIDATING": "Error validating contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_PROCESSING": "Error processing contact",
+    "CONTACTS_MERGE_CONTACT_SELECT_ERROR_UNKNOWN": "Unknown error"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Billing",
@@ -359,19 +399,198 @@
       "BUTTON_TXT": "Go to the billing portal"
     },
     "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "TITLE": "AI Assistant",
+      "DESCRIPTION": "Manage usage and credits for AI Assistant.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "AI Assistant is not available on the free plan, upgrade now to get access to topics, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "PAYMENT": {
+      "TITLE": "Payment",
+      "DESCRIPTION": "Manage your payment settings",
+      "ADD_CARD": "Add Card",
+      "UPDATE_CARD": "Update Card",
+      "CANCEL": "Cancel",
+      "CARD_NUMBER": "Card Number",
+      "EXPIRATION_MONTH": "Expiration Month",
+      "EXPIRATION_YEAR": "Expiration Year",
+      "CVV": "CVV",
+      "BILLING_ZIP": "Billing Zip",
+      "CARD_HOLDER_NAME": "Card Holder Name",
+      "CARD_DETAILS": "Card Details",
+      "CARD_ENDING_WITH": "Card ending with",
+      "CARD_EXPIRY": "Expiry",
+      "CARD_TYPE": "Card Type",
+      "CARD_LAST_UPDATED": "Last Updated",
+      "CARD_ADDED_ON": "Added On",
+      "CARD_STATUS": "Status",
+      "CARD_STATUS_ACTIVE": "Active",
+      "CARD_STATUS_INACTIVE": "Inactive",
+      "CARD_STATUS_EXPIRED": "Expired",
+      "CARD_STATUS_PENDING": "Pending",
+      "CARD_STATUS_FAILED": "Failed",
+      "CARD_STATUS_CANCELLED": "Cancelled",
+      "CARD_STATUS_UNKNOWN": "Unknown",
+      "CARD_STATUS_PROCESSING": "Processing",
+      "CARD_STATUS_REQUIRES_ACTION": "Requires Action",
+      "CARD_STATUS_REQUIRES_PAYMENT_METHOD": "Requires Payment Method",
+      "CARD_STATUS_REQUIRES_CONFIRMATION": "Requires Confirmation",
+      "CARD_STATUS_REQUIRES_CAPTURE": "Requires Capture",
+      "CARD_STATUS_SUCCEEDED": "Succeeded",
+      "CARD_STATUS_CANCELED": "Canceled",
+      "CARD_STATUS_INCOMPLETE": "Incomplete",
+      "CARD_STATUS_INCOMPLETE_EXPIRED": "Incomplete Expired",
+      "CARD_STATUS_TRIALING": "Trialing",
+      "CARD_STATUS_PAST_DUE": "Past Due",
+      "CARD_STATUS_UNPAID": "Unpaid",
+      "CARD_STATUS_PAUSED": "Paused",
+      "CARD_STATUS_DELETED": "Deleted",
+      "CARD_STATUS_REFUNDED": "Refunded",
+      "CARD_STATUS_REFUND_PENDING": "Refund Pending",
+      "CARD_STATUS_REFUND_SUCCEEDED": "Refund Succeeded",
+      "CARD_STATUS_REFUND_FAILED": "Refund Failed",
+      "CARD_STATUS_REFUND_CANCELED": "Refund Canceled",
+      "CARD_STATUS_REFUND_REQUIRES_ACTION": "Refund Requires Action",
+      "CARD_STATUS_REFUND_REQUIRES_CONFIRMATION": "Refund Requires Confirmation",
+      "CARD_STATUS_REFUND_REQUIRES_PAYMENT_METHOD": "Refund Requires Payment Method",
+      "CARD_STATUS_REFUND_PROCESSING": "Refund Processing"
+    },
+    "PLAN": {
+      "TITLE": "Plan",
+      "DESCRIPTION": "Manage your plan and subscription",
+      "CURRENT_PLAN": "Current Plan",
+      "CURRENT_PLAN_DESCRIPTION": "Your current plan and subscription details",
+      "CURRENT_PLAN_NAME": "Plan Name",
+      "CURRENT_PLAN_PRICE": "Price",
+      "CURRENT_PLAN_BILLING_CYCLE": "Billing Cycle",
+      "CURRENT_PLAN_START_DATE": "Start Date",
+      "CURRENT_PLAN_END_DATE": "End Date",
+      "CURRENT_PLAN_STATUS": "Status",
+      "CURRENT_PLAN_STATUS_ACTIVE": "Active",
+      "CURRENT_PLAN_STATUS_INACTIVE": "Inactive",
+      "CURRENT_PLAN_STATUS_EXPIRED": "Expired",
+      "CURRENT_PLAN_STATUS_PENDING": "Pending",
+      "CURRENT_PLAN_STATUS_FAILED": "Failed",
+      "CURRENT_PLAN_STATUS_CANCELLED": "Cancelled",
+      "CURRENT_PLAN_STATUS_UNKNOWN": "Unknown",
+      "CURRENT_PLAN_STATUS_PROCESSING": "Processing",
+      "CURRENT_PLAN_STATUS_REQUIRES_ACTION": "Requires Action",
+      "CURRENT_PLAN_STATUS_REQUIRES_PAYMENT_METHOD": "Requires Payment Method",
+      "CURRENT_PLAN_STATUS_REQUIRES_CONFIRMATION": "Requires Confirmation",
+      "CURRENT_PLAN_STATUS_REQUIRES_CAPTURE": "Requires Capture",
+      "CURRENT_PLAN_STATUS_SUCCEEDED": "Succeeded",
+      "CURRENT_PLAN_STATUS_CANCELED": "Canceled",
+      "CURRENT_PLAN_STATUS_INCOMPLETE": "Incomplete",
+      "CURRENT_PLAN_STATUS_INCOMPLETE_EXPIRED": "Incomplete Expired",
+      "CURRENT_PLAN_STATUS_TRIALING": "Trialing",
+      "CURRENT_PLAN_STATUS_PAST_DUE": "Past Due",
+      "CURRENT_PLAN_STATUS_UNPAID": "Unpaid",
+      "CURRENT_PLAN_STATUS_PAUSED": "Paused",
+      "CURRENT_PLAN_STATUS_DELETED": "Deleted",
+      "CURRENT_PLAN_STATUS_REFUNDED": "Refunded",
+      "CURRENT_PLAN_STATUS_REFUND_PENDING": "Refund Pending",
+      "CURRENT_PLAN_STATUS_REFUND_SUCCEEDED": "Refund Succeeded",
+      "CURRENT_PLAN_STATUS_REFUND_FAILED": "Refund Failed",
+      "CURRENT_PLAN_STATUS_REFUND_CANCELED": "Refund Canceled",
+      "CURRENT_PLAN_STATUS_REFUND_REQUIRES_ACTION": "Refund Requires Action",
+      "CURRENT_PLAN_STATUS_REFUND_REQUIRES_CONFIRMATION": "Refund Requires Confirmation",
+      "CURRENT_PLAN_STATUS_REFUND_REQUIRES_PAYMENT_METHOD": "Refund Requires Payment Method",
+      "CURRENT_PLAN_STATUS_REFUND_PROCESSING": "Refund Processing"
+    },
+    "BILLING_ADDRESS": {
+      "TITLE": "Billing Address",
+      "DESCRIPTION": "Manage your billing address",
+      "ADD_ADDRESS": "Add Address",
+      "UPDATE_ADDRESS": "Update Address",
+      "CANCEL": "Cancel",
+      "NAME": "Name",
+      "ADDRESS_LINE_1": "Address Line 1",
+      "ADDRESS_LINE_2": "Address Line 2",
+      "CITY": "City",
+      "STATE": "State",
+      "ZIP": "Zip",
+      "COUNTRY": "Country",
+      "PHONE": "Phone",
+      "EMAIL": "Email",
+      "ADDRESS_DETAILS": "Address Details",
+      "ADDRESS_ADDED_ON": "Added On",
+      "ADDRESS_LAST_UPDATED": "Last Updated",
+      "ADDRESS_STATUS": "Status",
+      "ADDRESS_STATUS_ACTIVE": "Active",
+      "ADDRESS_STATUS_INACTIVE": "Inactive",
+      "ADDRESS_STATUS_EXPIRED": "Expired",
+      "ADDRESS_STATUS_PENDING": "Pending",
+      "ADDRESS_STATUS_FAILED": "Failed",
+      "ADDRESS_STATUS_CANCELLED": "Cancelled",
+      "ADDRESS_STATUS_UNKNOWN": "Unknown",
+      "ADDRESS_STATUS_PROCESSING": "Processing",
+      "ADDRESS_STATUS_REQUIRES_ACTION": "Requires Action",
+      "ADDRESS_STATUS_REQUIRES_PAYMENT_METHOD": "Requires Payment Method",
+      "ADDRESS_STATUS_REQUIRES_CONFIRMATION": "Requires Confirmation",
+      "ADDRESS_STATUS_REQUIRES_CAPTURE": "Requires Capture",
+      "ADDRESS_STATUS_SUCCEEDED": "Succeeded",
+      "ADDRESS_STATUS_CANCELED": "Canceled",
+      "ADDRESS_STATUS_INCOMPLETE": "Incomplete",
+      "ADDRESS_STATUS_INCOMPLETE_EXPIRED": "Incomplete Expired",
+      "ADDRESS_STATUS_TRIALING": "Trialing",
+      "ADDRESS_STATUS_PAST_DUE": "Past Due",
+      "ADDRESS_STATUS_UNPAID": "Unpaid",
+      "ADDRESS_STATUS_PAUSED": "Paused",
+      "ADDRESS_STATUS_DELETED": "Deleted",
+      "ADDRESS_STATUS_REFUNDED": "Refunded",
+      "ADDRESS_STATUS_REFUND_PENDING": "Refund Pending",
+      "ADDRESS_STATUS_REFUND_SUCCEEDED": "Refund Succeeded",
+      "ADDRESS_STATUS_REFUND_FAILED": "Refund Failed",
+      "ADDRESS_STATUS_REFUND_CANCELED": "Refund Canceled",
+      "ADDRESS_STATUS_REFUND_REQUIRES_ACTION": "Refund Requires Action",
+      "ADDRESS_STATUS_REFUND_REQUIRES_CONFIRMATION": "Refund Requires Confirmation",
+      "ADDRESS_STATUS_REFUND_REQUIRES_PAYMENT_METHOD": "Refund Requires Payment Method",
+      "ADDRESS_STATUS_REFUND_PROCESSING": "Refund Processing"
+    },
+    "INVOICES": {
+      "TITLE": "Invoices",
+      "DESCRIPTION": "Manage your invoices",
+      "INVOICE_NUMBER": "Invoice Number",
+      "INVOICE_DATE": "Invoice Date",
+      "INVOICE_AMOUNT": "Amount",
+      "INVOICE_STATUS": "Status",
+      "INVOICE_STATUS_PAID": "Paid",
+      "INVOICE_STATUS_UNPAID": "Unpaid",
+      "INVOICE_STATUS_PENDING": "Pending",
+      "INVOICE_STATUS_FAILED": "Failed",
+      "INVOICE_STATUS_CANCELLED": "Cancelled",
+      "INVOICE_STATUS_UNKNOWN": "Unknown",
+      "INVOICE_STATUS_PROCESSING": "Processing",
+      "INVOICE_STATUS_REQUIRES_ACTION": "Requires Action",
+      "INVOICE_STATUS_REQUIRES_PAYMENT_METHOD": "Requires Payment Method",
+      "INVOICE_STATUS_REQUIRES_CONFIRMATION": "Requires Confirmation",
+      "INVOICE_STATUS_REQUIRES_CAPTURE": "Requires Capture",
+      "INVOICE_STATUS_SUCCEEDED": "Succeeded",
+      "INVOICE_STATUS_CANCELED": "Canceled",
+      "INVOICE_STATUS_INCOMPLETE": "Incomplete",
+      "INVOICE_STATUS_INCOMPLETE_EXPIRED": "Incomplete Expired",
+      "INVOICE_STATUS_TRIALING": "Trialing",
+      "INVOICE_STATUS_PAST_DUE": "Past Due",
+      "INVOICE_STATUS_UNPAID": "Unpaid",
+      "INVOICE_STATUS_PAUSED": "Paused",
+      "INVOICE_STATUS_DELETED": "Deleted",
+      "INVOICE_STATUS_REFUNDED": "Refunded",
+      "INVOICE_STATUS_REFUND_PENDING": "Refund Pending",
+      "INVOICE_STATUS_REFUND_SUCCEEDED": "Refund Succeeded",
+      "INVOICE_STATUS_REFUND_FAILED": "Refund Failed",
+      "INVOICE_STATUS_REFUND_CANCELED": "Refund Canceled",
+      "INVOICE_STATUS_REFUND_REQUIRES_ACTION": "Refund Requires Action",
+      "INVOICE_STATUS_REFUND_REQUIRES_CONFIRMATION": "Refund Requires Confirmation",
+      "INVOICE_STATUS_REFUND_REQUIRES_PAYMENT_METHOD": "Refund Requires Payment Method",
+      "INVOICE_STATUS_REFUND_PROCESSING": "Refund Processing"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",
