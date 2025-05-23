@@ -8,3 +8,4 @@ json.portal_id article.portal_id
 json.account_id article.account_id
 json.created_at article.created_at
 json.updated_at article.updated_at
+json.category article.category.name

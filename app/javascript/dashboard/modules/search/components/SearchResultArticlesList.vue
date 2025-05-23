@@ -43,6 +43,7 @@ const accountId = useMapGetter('getCurrentAccountId');
           :content="article.content"
           :portal-id="article.portal_id"
           :account-id="accountId"
+          :category="article.category"
           :status="article.status"
         />
       </li>

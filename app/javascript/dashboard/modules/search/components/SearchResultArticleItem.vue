@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import Icon from 'next/icon/Icon.vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
 const props = defineProps({
@@ -15,6 +16,10 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  category: {
+    type: String,
+    default: '',
+  },
   content: {
     type: String,
     default: '',
@@ -26,10 +31,6 @@ const props = defineProps({
   accountId: {
     type: [String, Number],
     default: 0,
-  },
-  status: {
-    type: String,
-    default: '',
   },
 });
 
@@ -46,19 +47,6 @@ const truncatedContent = computed(() => {
     ? `${plainText.substring(0, 150)}...`
     : plainText;
 });
-
-const statusColor = computed(() => {
-  switch (props.status) {
-    case 'published':
-      return 'text-n-green-10';
-    case 'draft':
-      return 'text-n-yellow-10';
-    case 'archived':
-      return 'text-n-slate-10';
-    default:
-      return 'text-n-slate-10';
-  }
-});
 </script>
 
 <template>
@@ -69,7 +57,7 @@ const statusColor = computed(() => {
     <div
       class="flex items-center justify-center w-6 h-6 mt-0.5 rounded bg-n-slate-3"
     >
-      <fluent-icon icon="document" size="12px" class="text-n-slate-10" />
+      <Icon icon="i-lucide-library-big" class="text-n-slate-10" />
     </div>
     <div class="ml-2 rtl:mr-2 min-w-0 rtl:ml-0 flex-1">
       <div class="flex items-center gap-2">
@@ -77,11 +65,10 @@ const statusColor = computed(() => {
           {{ title }}
         </h5>
         <span
-          v-if="status"
-          :class="statusColor"
-          class="text-xs font-medium capitalize"
+          v-if="category"
+          class="text-xs font-medium capitalize bg-n-slate-3 px-1 py-0.5 rounded text-n-slate-10"
         >
-          {{ status }}
+          {{ category }}
         </span>
       </div>
       <p
