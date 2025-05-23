@@ -1,0 +1,79 @@
+type: object
+required:
+  - source_id
+  - inbox_id
+properties:
+  source_id:
+    type: string
+    description: Conversation source id
+    example: '1234567890'
+  inbox_id:
+    type: integer
+    description: 'Id of inbox in which the conversation is created <br/> Allowed Inbox Types: Website, Phone, Api, Email'
+    example: 1
+  contact_id:
+    type: integer
+    description: Contact Id for which conversation is created
+    example: 1
+  additional_attributes:
+    type: object
+    description: Lets you specify attributes like browser information
+    example:
+      {
+        browser: 'Chrome',
+        browser_version: '89.0.4389.82',
+        os: 'Windows',
+        os_version: '10',
+      }
+  custom_attributes:
+    type: object
+    description: The object to save custom attributes for conversation, accepts custom attributes key and value
+    example: { attribute_key: attribute_value, priority_conversation_number: 3 }
+  status:
+    type: string
+    enum: ['open', 'resolved', 'pending']
+    description: Specify the conversation whether it's pending, open, closed
+    example: open
+  assignee_id:
+    type: integer
+    description: Agent Id for assigning a conversation to an agent
+    example: 1
+  team_id:
+    type: integer
+    description: Team Id for assigning a conversation to a team\
+    example: 1
+  snoozed_until:
+    type: string
+    format: date-time
+    description: Snoozed until date time
+    example: '2030-07-21T17:32:28Z'
+  message:
+    type: object
+    description: The initial message to be sent to the conversation
+    required: ['content']
+    properties:
+      content:
+        type: string
+        description: The content of the message
+        example: 'Hello, how can I help you?'
+      template_params:
+        type: object
+        description: The template params for the message in case of whatsapp Channel
+        properties:
+          name:
+            type: string
+            description: Name of the template
+            example: 'sample_issue_resolution'
+          category:
+            type: string
+            description: Category of the template
+            example: UTILITY
+          language:
+            type: string
+            description: Language of the template
+            example: en_US
+          processed_params:
+            type: object
+            description: The processed param values for template variables in template
+            example:
+              1: 'Chatwoot'
