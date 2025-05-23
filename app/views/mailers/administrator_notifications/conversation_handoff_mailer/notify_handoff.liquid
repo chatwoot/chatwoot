@@ -1,68 +1,51 @@
 <p>Hello {{ account.name }}, Team</p>
 
 <p>
-  A conversation handoff has occurred that requires administrative attention. The bot has escalated this conversation because the customer’s query falls outside its predefined scope. Please review and take over the conversation manually.
+  Cruise Control is initiating a client handoff that requires your attention. Please take over this conversation manually via the link below.
 </p>
 
-<p><strong>Conversation Details:</strong></p>
-
-<table cellpadding="6" cellspacing="0" border="1" style="margin-bottom: 20px; font-family: Arial, sans-serif; font-size: 14px; color: #333; border-collapse: collapse; width: 100%; border-color: #cccccc;">
-  <tr style="background-color: #f9f9f9;">
-    <td style="font-weight: bold; width: 200px;">Account Name</td>
-    <td>{{ account.name }}</td>
+<p><strong>Conversation Summary:</strong></p>
+<table cellpadding="0" cellspacing="0" border="0" width="100%" style="margin-bottom: 20px;">
+  <tr>
+    <td style="padding: 5px 0;"><strong>Partner:</strong> {{ account.name }}</td>
   </tr>
   <tr>
-    <td style="font-weight: bold;">Inbox</td>
-    <td>{{ inbox.name }}</td>
+    <td style="padding: 5px 0;"><strong>Platform:</strong> {{ inbox.name }}</td>
   </tr>
   <tr>
-    <td style="font-weight: bold;">Conversation ID</td>
-    <td>{{ conversation.display_id }}</td>
-  </tr>
-  <tr>
-    <td style="font-weight: bold;">Handoff Time</td>
-    <td>{{ 'now' | date: '%B %d, %Y at %I:%M %p' }}</td>
+    <td style="padding: 5px 0;"><strong>Handoff Time:</strong> {{ 'now' | date: '%B %d, %Y at %I:%M %p' }}</td>
   </tr>
 </table>
 
-{% if conversation.latest_message %}
-  <p><strong>Customer's Initial Message</strong></p>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px; font-family: Arial, sans-serif; font-size: 14px;">
-    <tr>
-      <td style="background-color: #f3f4f6; border-left: 4px solid #0080f8; padding: 14px; border-radius: 6px; color: #333;">
-        <strong>{{ conversation.contact.name | default: 'Customer' }}:</strong>
-        {{ conversation.latest_message.content | truncate: 300 }}
-      </td>
-    </tr>
-  </table>
-{% endif %}
-
 {% if conversation.recent_messages %}
   <p><strong>Recent Messages</strong></p>
-  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px; font-family: Arial, sans-serif; font-size: 14px;">
+  <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
     {% for message in conversation.recent_messages %}
+      {% assign is_reply = false %}
+      {% assign sender_display = message.sender %}
+      {% if message.message_type == 'outgoing' or message.message_type == 'template' %}
+        {% assign is_reply = true %}
+        {% assign sender_display = 'You Replied' %}
+      {% endif %}
+
       <tr>
-        {% if message.sender == 'Stark' %}
-          <td width="30%"></td>
-          <td align="right" style="background-color: #0080f8; color: #ffffff; padding: 12px; border-radius: 10px; border-top-right-radius: 0;">
-            <strong>{{ message.sender }}:</strong> {{ message.content | truncate: 200 }}
-          </td>
-        {% else %}
-          <td align="left" style="background-color: #f3f4f6; color: #333; padding: 12px; border-radius: 10px; border-top-left-radius: 0;">
-            <strong>{{ message.sender }}:</strong> {{ message.content | truncate: 200 }}
-          </td>
-          <td width="30%"></td>
-        {% endif %}
+        <td class="message" align="left" style="padding: 5px 10px; border-radius: 4px;">
+          <strong style="font-size: 14px;" >{{ sender_display }}:</strong> <div style="background-color: {% if is_reply %}#f3f4f6{% else %}#f3f4f6{% endif %}; color: {% if is_reply %}#ffffff{% else %}#333333{% endif %}; border-radius: 6px;"> {{ message.content | truncate: 200 }}</div>
+        </td>
       </tr>
-      <tr><td colspan="2" style="height: 10px;"></td></tr>
+      <tr><td style="height: 10px;"></td></tr>
     {% endfor %}
   </table>
 {% endif %}
 
-<p>
-  <a href="{{ action_url }}" style="display: inline-block; padding: 10px 16px; background-color: #0080f8; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold;">
-    Review Conversation
-  </a>
-</p>
+<table cellpadding="0" cellspacing="0" border="0" style="margin-top: 20px;">
+  <tr>
+    <td>
+      <a href="{{ action_url }}" style="display: inline-block; padding: 10px 16px; background-color: #1f93ff; color: #ffffff; text-decoration: none; border-radius: 4px; font-weight: bold;">
+        Respond Now
+      </a>
+    </td>
+  </tr>
+</table>
 
 <p>Best regards,<br>{{ account.name }}</p>
