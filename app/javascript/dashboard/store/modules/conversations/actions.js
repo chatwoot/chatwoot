@@ -500,6 +500,15 @@ const actions = {
 
   ...messageReadActions,
   ...messageTranslateActions,
+
+  // Add this new action for updating content attributes
+  updateContentAttributes: async ({ commit }, { conversationId }) => {
+    try {
+      await ConversationApi.updateContentAttributes(conversationId);
+    } catch (error) {
+      // Error is handled silently, as this is an optional enhancement
+    }
+  },
 };
 
 export default actions;

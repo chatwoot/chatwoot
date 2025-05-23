@@ -19,6 +19,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from '../../../components/widgets/conversation/ShopifyOrdersList.vue';
+import ContentAttributesPanel from '../../../components/widgets/conversation/ContentAttributesPanel.vue';
 
 const props = defineProps({
   conversationId: {
@@ -126,7 +127,22 @@ onMounted(() => {
         <template #item="{ element }">
           <div :key="element.name" class="px-2">
             <div
-              v-if="element.name === 'conversation_actions'"
+              v-if="element.name === 'content_attributes'"
+              class="conversation--actions"
+            >
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTENT_ATTRIBUTES')"
+                :is-open="isContactSidebarItemOpen('is_content_attributes_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_content_attributes_open', value)
+                "
+              >
+                <ContentAttributesPanel />
+              </AccordionItem>
+            </div>
+            <div
+              v-else-if="element.name === 'conversation_actions'"
               class="conversation--actions"
             >
               <AccordionItem

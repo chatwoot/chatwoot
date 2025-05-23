@@ -124,6 +124,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     @conversation.save!
   end
 
+  def content_attributes
+    Conversations::ContentAttributesService.new(conversation: @conversation).analyze_and_update
+    head :ok
+  end
+
   private
 
   def permitted_update_params

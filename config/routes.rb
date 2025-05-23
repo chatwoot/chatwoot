@@ -51,14 +51,14 @@ Rails.application.routes.draw do
           resources :agents, only: [:index, :create, :update, :destroy] do
             post :bulk_create, on: :collection
           end
-          namespace :captain do
-            resources :assistants do
+          namespace :ai_assistant do
+            resources :topics do
               member do
                 post :playground
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
             end
-            resources :assistant_responses
+            resources :topic_responses
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index] do
               resources :copilot_messages, only: [:index]
@@ -126,6 +126,7 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              post :content_attributes
               get :attachments
               post :copilot
               get :inbox_assistant
