@@ -175,9 +175,6 @@ importers:
       tinykeys:
         specifier: ^3.0.0
         version: 3.0.0
-      turbolinks:
-        specifier: ^5.2.0
-        version: 5.2.0
       urlpattern-polyfill:
         specifier: ^10.0.0
         version: 10.0.0
@@ -4722,9 +4719,6 @@ packages:
 
   tslib@2.8.1:
     resolution: {integrity: sha512-oJFu94HQb+KVduSUQL7wnpmqnfmLsOA/nAh6b6EH0wCEoK0/mPeXU6c3wKDV83MkOuHPRHtSXKKU99IBazS/2w==}
-
-  turbolinks@5.2.0:
-    resolution: {integrity: sha512-pMiez3tyBo6uRHFNNZoYMmrES/IaGgMhQQM+VFF36keryjb5ms0XkVpmKHkfW/4Vy96qiGW3K9bz0tF5sK9bBw==}
 
   type-check@0.4.0:
     resolution: {integrity: sha512-XleUoc9uwGXqjWwXaUTZAmzMcFZ5858QA2vvx1Ur5xIcixXIP+8LnFDgRplU30us6teqdlskFfu+ae4K79Ooew==}
@@ -10221,8 +10215,6 @@ snapshots:
   tslib@2.7.0: {}
 
   tslib@2.8.1: {}
-
-  turbolinks@5.2.0: {}
 
   type-check@0.4.0:
     dependencies:
