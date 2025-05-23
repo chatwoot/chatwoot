@@ -101,7 +101,7 @@ export default {
       FEATURE_FLAGS.CHATWOOT_V4
     );
 
-    provide('conversationPanelRef', conversationPanelRef);
+    provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
       isEnterprise,

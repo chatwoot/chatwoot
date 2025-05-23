@@ -5,6 +5,7 @@ import {
   nextTick,
   onUnmounted,
   useTemplateRef,
+  inject,
 } from 'vue';
 import { useWindowSize, useElementBounding, useScrollLock } from '@vueuse/core';
 
@@ -13,14 +14,18 @@ import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirecti
 const props = defineProps({
   x: { type: Number, default: 0 },
   y: { type: Number, default: 0 },
-  scrollLockElement: { type: [HTMLElement, null], default: null },
 });
 
 const emit = defineEmits(['close']);
 
+const elementToLock = inject('contextMenuElementTarget', null);
+
 const menuRef = useTemplateRef('menuRef');
 
-const scrollLockElement = computed(() => props.scrollLockElement);
+const scrollLockElement = computed(() => {
+  if (!elementToLock?.value) return null;
+  return elementToLock.value.$el;
+});
 
 const isLocked = useScrollLock(scrollLockElement);
 

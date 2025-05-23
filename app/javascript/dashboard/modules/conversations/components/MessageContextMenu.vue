@@ -1,6 +1,5 @@
 <script>
 import { useAlert } from 'dashboard/composables';
-import { inject } from 'vue';
 import { mapGetters } from 'vuex';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
@@ -48,10 +47,9 @@ export default {
   emits: ['open', 'close', 'replyTo', 'forwardEmail'],
   setup() {
     const { getPlainText } = useMessageFormatter();
-    const conversationPanelRef = inject('conversationPanelRef', null);
+
     return {
       getPlainText,
-      conversationPanelRef,
     };
   },
   data() {
@@ -65,9 +63,6 @@ export default {
       getAccount: 'accounts/getAccount',
       currentAccountId: 'getCurrentAccountId',
     }),
-    conversationPanelElement() {
-      return this.conversationPanelRef?.$el;
-    },
     plainTextContent() {
       return this.getPlainText(this.messageContent);
     },
@@ -203,7 +198,6 @@ export default {
       v-if="isOpen && !isCannedResponseModalOpen"
       :x="contextMenuPosition.x"
       :y="contextMenuPosition.y"
-      :scroll-lock-element="conversationPanelElement"
       @close="handleClose"
     >
       <div class="menu-container">
