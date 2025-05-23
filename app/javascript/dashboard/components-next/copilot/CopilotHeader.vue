@@ -11,7 +11,7 @@ defineEmits(['reset', 'close']);
 
 <template>
   <div
-    class="flex items-center justify-between px-5 py-2 border-b border-n-weak h-12"
+    class="flex items-center justify-between px-4 py-2 border-b border-n-weak h-12"
   >
     <div class="flex items-center justify-between gap-2 flex-1">
       <span class="font-medium text-sm text-n-slate-12">

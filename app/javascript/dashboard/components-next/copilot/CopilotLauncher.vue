@@ -32,12 +32,16 @@ const toggleSidebar = () => {
 
 <template>
   <div class="fixed bottom-4 right-4 z-50">
-    <Button
+    <div
       v-if="!isSidebarOpen && !isConversationRoute"
-      icon="i-woot-captain"
-      class="!rounded-full bg-n-iris-9 text-xl"
-      lg
-      @click="toggleSidebar"
-    />
+      class="rounded-full bg-n-solid-2 p-2 hover:bg-n-solid-3"
+    >
+      <Button
+        icon="i-woot-captain"
+        class="!rounded-full !bg-n-alpha-2 text-n-slate-12 text-xl"
+        lg
+        @click="toggleSidebar"
+      />
+    </div>
   </div>
 </template>
