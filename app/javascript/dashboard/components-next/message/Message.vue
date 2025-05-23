@@ -355,7 +355,12 @@ const contextMenuEnabledOptions = computed(() => {
     forwardEmail:
       props.isEmailInbox &&
       !props.private &&
-      props.status !== MESSAGE_STATUS.PROGRESS,
+      props.status !== MESSAGE_STATUS.PROGRESS &&
+      ![
+        CONTENT_TYPES.FORM,
+        CONTENT_TYPES.INPUT_CSAT,
+        CONTENT_TYPES.CARDS,
+      ].includes(props.contentType),
   };
 });
 

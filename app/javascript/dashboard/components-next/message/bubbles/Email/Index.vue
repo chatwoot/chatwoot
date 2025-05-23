@@ -1,5 +1,12 @@
 <script setup>
-import { computed, useTemplateRef, ref, onMounted, reactive } from 'vue';
+import {
+  computed,
+  useTemplateRef,
+  ref,
+  onMounted,
+  reactive,
+  inject,
+} from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
 import { useToggle } from '@vueuse/core';
@@ -33,7 +40,7 @@ const contentContainer = useTemplateRef('contentContainer');
 // Forward form - managed locally but can be triggered by parent
 const [showForwardMessageModal, toggleForwardModal] = useToggle();
 const forwardFormPosition = reactive({ top: 0, right: 0 });
-const conversationPanelElement = document.querySelector('.conversation-panel');
+const conversationPanelRef = inject('conversationPanelRef', null);
 
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
@@ -229,7 +236,7 @@ defineExpose({
       v-if="showForwardMessageModal"
       :x="forwardFormPosition.x"
       :y="forwardFormPosition.y"
-      :scroll-lock-element="conversationPanelElement"
+      :scroll-lock-element="conversationPanelRef?.$el"
       @close="closeForwardModal"
     >
       <ForwardMessageForm
