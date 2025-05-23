@@ -288,6 +288,20 @@
   type: secret
 ## ------ End of Configs added for Linear ------ ##
 
+## ------ Configs added for Slack ------ ##
+- name: SLACK_CLIENT_ID
+  display_title: 'Slack Client ID'
+  value:
+  locked: false
+  description: 'Slack client ID'
+- name: SLACK_CLIENT_SECRET
+  display_title: 'Slack Client Secret'
+  value:
+  locked: false
+  description: 'Slack client secret'
+  type: secret
+## ------ End of Configs added for Slack ------ ##
+
 # ------- Shopify Integration Config ------- #
 - name: SHOPIFY_CLIENT_ID
   display_title: 'Shopify Client ID'
