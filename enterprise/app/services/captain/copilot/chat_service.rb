@@ -3,6 +3,8 @@ require 'openai'
 class Captain::Copilot::ChatService < Llm::BaseOpenAiService
   include Captain::ChatHelper
 
+  attr_reader :assistant, :account, :user, :copilot_thread, :previous_history, :messages
+
   def initialize(assistant, config)
     super()
 
@@ -10,7 +12,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
     @account = assistant.account
     @user = nil
     @copilot_thread = nil
-
+    @previous_history = []
     setup_user(config)
     setup_message_history(config)
     register_tools
