@@ -71,6 +71,77 @@ RSpec.describe Captain::Copilot::ChatService do
     it 'returns the response from request_chat_completion' do
       expect(service.generate_response('Hello')).to eq({ 'content' => 'Hey' })
     end
+
+    context 'when response contains tool calls' do
+      before do
+        allow(mock_openai_client).to receive(:chat).and_return(
+          {
+            choices: [{ message: { 'tool_calls' => tool_calls } }]
+          }.with_indifferent_access,
+          {
+            choices: [{ message: { content: '{ "content": "Tool response processed" }' } }]
+          }.with_indifferent_access
+        )
+      end
+
+      context 'when tool call is valid' do
+        let(:tool_calls) do
+          [{
+            'id' => 'call_123',
+            'function' => {
+              'name' => 'get_conversation',
+              'arguments' => "{ \"conversation_id\": #{conversation.display_id} }"
+            }
+          }]
+        end
+
+        it 'processes tool calls and appends them to messages' do
+          result = service.generate_response("Find conversation #{conversation.id}")
+
+          expect(result).to eq({ 'content' => 'Tool response processed' })
+          expect(service.messages).to include(
+            { role: 'assistant', tool_calls: tool_calls }
+          )
+          expect(service.messages).to include(
+            {
+              role: 'tool', tool_call_id: 'call_123', content: conversation.to_llm_text
+            }
+          )
+
+          expect(result).to eq({ 'content' => 'Tool response processed' })
+        end
+      end
+
+      context 'when tool call is invalid' do
+        let(:tool_calls) do
+          [{
+            'id' => 'call_123',
+            'function' => {
+              'name' => 'get_settings',
+              'arguments' => '{}'
+            }
+          }]
+        end
+
+        it 'handles invalid tool calls' do
+          result = service.generate_response('Find settings')
+
+          expect(result).to eq({ 'content' => 'Tool response processed' })
+          expect(service.messages).to include(
+            {
+              role: 'assistant', tool_calls: tool_calls
+            }
+          )
+          expect(service.messages).to include(
+            {
+              role: 'tool',
+              tool_call_id: 'call_123',
+              content: 'Tool not available'
+            }
+          )
+        end
+      end
+    end
   end
 
   describe '#setup_user' do
