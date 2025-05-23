@@ -13,9 +13,8 @@ class AdministratorNotifications::AccountComplianceMailer < AdministratorNotific
   def build_meta(account)
     deleted_users = params[:soft_deleted_users] || []
 
-    user_info_list = []
-    deleted_users.each do |user|
-      user_info_list << {
+    user_info_list = deleted_users.map do |user|
+      {
         'user_id' => user[:id].to_s,
         'user_email' => user[:original_email].to_s
       }
