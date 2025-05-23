@@ -38,12 +38,9 @@ class ActionCableListener < BaseListener
     tokens = user_tokens(account, conversation.inbox.members) +
              contact_tokens(conversation.contact_inbox, message)
 
-    Rails.logger.info("Message Masuk message: #{message.inspect}")
-    Rails.logger.info("Message Masuk inbox: #{message.conversation.inbox.inspect}")
     if message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
       inbox = message.conversation.inbox
       payload = message.webhook_data.merge(event: __method__.to_s)
-      Rails.logger.info("Message Updated payload: #{payload}")
       WebhookListenerWaUnofficial.perform(inbox, payload)
     end
 
@@ -65,12 +62,9 @@ class ActionCableListener < BaseListener
   def message_updated(event)
     message, account = extract_message_and_account(event)
 
-    Rails.logger.info("Message Masuk message: #{message.inspect}")
-    Rails.logger.info("Message Updated Inbox: #{message.conversation.inbox.inspect}")
     if message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
       inbox = message.conversation.inbox
       payload = message.webhook_data.merge(event: __method__.to_s)
-      Rails.logger.info("Message Updated payload: #{payload}")
       WebhookListenerWaUnofficial.perform(inbox, payload)
     end
     conversation = message.conversation
