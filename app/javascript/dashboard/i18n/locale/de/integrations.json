@@ -370,7 +370,6 @@
       "CANCEL_ANYTIME": "Sie können Ihr Paket jederzeit ändern oder kündigen"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI Funktion ist nur mit einem kostenpflichtigen Tarif verfügbar.",
       "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
       "ASK_ADMIN": "Bitte kontaktieren Sie Ihren Administrator für das Upgrade."
     },
@@ -412,6 +411,10 @@
           "LABEL": "Name",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Beschreibung",
