@@ -185,10 +185,17 @@ export default {
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
-        delete: this.hasText || this.hasAttachments,
-        cannedResponse: this.isOutgoing && this.hasText,
+        delete:
+          (this.hasText || this.hasAttachments) &&
+          !this.isMessageDeleted &&
+          !this.isFailed,
+        cannedResponse:
+          this.isOutgoing && this.hasText && !this.isMessageDeleted,
         copyLink: !this.isFailed || !this.isProcessing,
-        translate: !this.isFailed || !this.isProcessing,
+        translate:
+          (!this.isFailed || !this.isProcessing) &&
+          !this.isMessageDeleted &&
+          this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },

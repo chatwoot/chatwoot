@@ -168,7 +168,7 @@ export default {
     </woot-modal>
     <!-- Confirm Deletion -->
     <woot-delete-modal
-      v-if="showDeleteModal"
+      v-if="showDeleteModal && enabledOptions['delete']"
       v-model:show="showDeleteModal"
       class="context-menu--delete-modal"
       :on-close="closeDeleteModal"
