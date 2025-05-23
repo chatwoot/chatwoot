@@ -51,6 +51,10 @@ import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
 import captainInboxes from './captain/inboxes';
 import captainBulkActions from './captain/bulkActions';
+import copilotThreads from './captain/copilotThreads';
+import copilotMessages from './captain/copilotMessages';
+import uiState from './modules/uiState';
+
 const plugins = [];
 
 export default createStore({
@@ -106,6 +110,9 @@ export default createStore({
     captainResponses,
     captainInboxes,
     captainBulkActions,
+    copilotThreads,
+    copilotMessages,
+    uiState,
   },
   plugins,
 });

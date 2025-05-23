@@ -48,7 +48,7 @@ useKeyboardEvents(keyboardEvents);
 <template>
   <woot-tabs
     :index="activeTabIndex"
-    class="w-full px-4 py-0 tab--chat-type"
+    class="w-full px-3 -mt-1 py-0 tab--chat-type"
     @change="onTabChange"
   >
     <woot-tabs-item

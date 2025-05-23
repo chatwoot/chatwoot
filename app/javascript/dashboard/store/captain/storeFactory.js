@@ -10,6 +10,7 @@ export const generateMutationTypes = name => {
     EDIT: `EDIT_${capitalizedName}`,
     DELETE: `DELETE_${capitalizedName}`,
     SET_META: `SET_${capitalizedName}_META`,
+    UPSERT: `UPSERT_${capitalizedName}`,
   };
 };
 
@@ -51,6 +52,7 @@ export const createMutations = mutationTypes => ({
   [mutationTypes.ADD]: MutationHelpers.create,
   [mutationTypes.EDIT]: MutationHelpers.update,
   [mutationTypes.DELETE]: MutationHelpers.destroy,
+  [mutationTypes.UPSERT]: MutationHelpers.setSingleRecord,
 });
 
 // store/actions/crud.js
@@ -86,7 +88,7 @@ export const createCrudActions = (API, mutationTypes) => ({
     commit(mutationTypes.SET_UI_FLAG, { creatingItem: true });
     try {
       const response = await API.create(dataObj);
-      commit(mutationTypes.ADD, response.data);
+      commit(mutationTypes.UPSERT, response.data);
       return response.data;
     } catch (error) {
       return throwErrorMessage(error);
@@ -122,7 +124,7 @@ export const createCrudActions = (API, mutationTypes) => ({
   },
 });
 export const createStore = options => {
-  const { name, API, actions } = options;
+  const { name, API, actions, getters } = options;
   const mutationTypes = generateMutationTypes(name);
 
   const customActions = actions ? actions(mutationTypes) : {};
@@ -130,7 +132,10 @@ export const createStore = options => {
   return {
     namespaced: true,
     state: createInitialState(),
-    getters: createGetters(),
+    getters: {
+      ...createGetters(),
+      ...(getters || {}),
+    },
     mutations: createMutations(mutationTypes),
     actions: {
       ...createCrudActions(API, mutationTypes),

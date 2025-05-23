@@ -10,13 +10,17 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
+import PanelButtons from './PanelButtons.vue';
 
 export default {
   components: {
     ChatList,
     ConversationBox,
+    ConversationSidebar,
     PopOverSearch,
     CmdBarConversationSnooze,
+    PanelButtons,
   },
   beforeRouteLeave(to, from, next) {
     // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
@@ -86,14 +90,6 @@ export default {
       const { conversation_display_type: conversationDisplayType = CONDENSED } =
         this.uiSettings;
       return conversationDisplayType !== CONDENSED;
-    },
-    isContactPanelOpen() {
-      if (this.currentChat.id) {
-        const { is_contact_sidebar_open: isContactSidebarOpen } =
-          this.uiSettings;
-        return isContactSidebarOpen;
-      }
-      return false;
     },
     showPopOverSearch() {
       return !this.isFeatureEnabledonAccount(
@@ -189,11 +185,7 @@ export default {
         this.$store.dispatch('clearSelectedState');
       }
     },
-    onToggleContactPanel() {
-      this.updateUISettings({
-        is_contact_sidebar_open: !this.isContactPanelOpen,
-      });
-    },
+
     onSearch() {
       this.showSearchModal = true;
     },
@@ -225,10 +217,11 @@ export default {
     <ConversationBox
       v-if="showMessageView"
       :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
+    >
+      <PanelButtons v-if="currentChat.id" />
+    </ConversationBox>
+    <ConversationSidebar :current-chat="currentChat" />
     <CmdBarConversationSnooze />
   </section>
 </template>

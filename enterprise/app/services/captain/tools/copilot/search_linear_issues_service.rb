@@ -46,7 +46,7 @@ class Captain::Tools::Copilot::SearchLinearIssuesService < Captain::Tools::BaseS
   end
 
   def active?
-    @user.present? && @assistant.account.hooks.find_by(app_id: 'linear').present?
+    @user.present? && @assistant.account.hooks.exists?(app_id: 'linear')
   end
 
   private

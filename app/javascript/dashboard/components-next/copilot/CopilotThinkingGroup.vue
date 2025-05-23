@@ -53,8 +53,8 @@ watch(
       <CopilotThinkingBlock
         v-for="message in messages"
         :key="message.id"
-        :content="message.content"
-        :reasoning="message.reasoning"
+        :content="message.message.content"
+        :reasoning="message.messagereasoning"
       />
     </div>
   </div>

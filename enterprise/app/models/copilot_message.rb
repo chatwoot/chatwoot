@@ -26,7 +26,6 @@ class CopilotMessage < ApplicationRecord
   validates :message_type, presence: true, inclusion: { in: message_types.keys }
   validates :message, presence: true
   validate :validate_message_attributes
-
   after_create_commit :broadcast_message
 
   def push_event_data
@@ -37,6 +36,16 @@ class CopilotMessage < ApplicationRecord
       created_at: created_at.to_i,
       copilot_thread: copilot_thread.push_event_data
     }
+  end
+
+  def enqueue_response_job(conversation_id, user_id)
+    Captain::Copilot::ResponseJob.perform_later(
+      assistant: copilot_thread.assistant,
+      conversation_id: conversation_id,
+      user_id: user_id,
+      copilot_thread_id: copilot_thread.id,
+      message: message['content']
+    )
   end
 
   private
@@ -52,7 +61,7 @@ class CopilotMessage < ApplicationRecord
   def validate_message_attributes
     return if message.blank?
 
-    allowed_keys = %w[content reasoning function_name]
+    allowed_keys = %w[content reasoning function_name response]
     invalid_keys = message.keys - allowed_keys
 
     errors.add(:message, "contains invalid attributes: #{invalid_keys.join(', ')}") if invalid_keys.any?

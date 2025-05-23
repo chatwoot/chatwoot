@@ -1,11 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue';
-import CopilotContainer from '../../copilot/CopilotContainer.vue';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
-import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
-import { useI18n } from 'vue-i18n';
-import { useMapGetter } from 'dashboard/composables/store';
-import { FEATURE_FLAGS } from '../../../featureFlags';
+import Button from 'dashboard/components-next/button/Button.vue';
+import { computed } from 'vue';
+import { useMapGetter, useStore } from 'dashboard/composables/store';
 
 const props = defineProps({
   currentChat: {
@@ -14,69 +11,48 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['toggleContactPanel']);
-
-const { t } = useI18n();
-
-const channelType = computed(() => props.currentChat?.meta?.channel || '');
-
-const CONTACT_TABS_OPTIONS = [
-  { key: 'CONTACT', value: 'contact' },
-  { key: 'COPILOT', value: 'copilot' },
-];
-
-const tabs = computed(() => {
-  return CONTACT_TABS_OPTIONS.map(tab => ({
-    label: t(`CONVERSATION.SIDEBAR.${tab.key}`),
-    value: tab.value,
-  }));
-});
-const activeTab = ref(0);
-const toggleContactPanel = () => {
-  emit('toggleContactPanel');
-};
-
-const handleTabChange = selectedTab => {
-  activeTab.value = tabs.value.findIndex(
-    tabItem => tabItem.value === selectedTab.value
-  );
-};
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
+const getUIState = useMapGetter('uiState/getUIState');
+const isCopilotSidebarOpen = computed(() =>
+  getUIState.value('isCopilotSidebarOpen')
+);
+const isConversationSidebarOpen = computed(() =>
+  getUIState.value('isConversationSidebarOpen')
 );
 
-const showCopilotTab = computed(() =>
-  isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
+const showConversationSidebar = computed(
+  () =>
+    props.currentChat.id &&
+    !isCopilotSidebarOpen.value &&
+    isConversationSidebarOpen.value
 );
+
+const store = useStore();
+const closeConversationPanel = () => {
+  store.dispatch('uiState/set', { isConversationSidebarOpen: false });
+};
 </script>
 
 <template>
   <div
-    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-80 min-w-80 2xl:min-w-96 2xl:w-96 flex flex-col bg-n-background"
+    v-if="showConversationSidebar"
+    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-[20rem] min-w-[20rem] flex flex-col"
   >
-    <div v-if="showCopilotTab" class="p-2">
-      <TabBar
-        :tabs="tabs"
-        :initial-active-tab="activeTab"
-        class="w-full [&>button]:w-full"
-        @tab-changed="handleTabChange"
-      />
-    </div>
-    <div class="flex flex-1 overflow-auto">
+    <div class="flex flex-1 flex-col overflow-auto">
+      <div
+        class="flex items-center justify-between gap-2 px-4 py-2 border-b border-n-weak h-12"
+      >
+        <span class="font-medium text-sm text-n-slate-12">
+          {{ $t('CONVERSATION.SIDEBAR.ACTIONS') }}
+        </span>
+        <div class="flex items-center">
+          <Button icon="i-lucide-x" ghost sm @click="closeConversationPanel" />
+        </div>
+      </div>
       <ContactPanel
-        v-if="!activeTab"
-        :conversation-id="currentChat.id"
-        :inbox-id="currentChat.inbox_id"
-        :on-toggle="toggleContactPanel"
-      />
-      <CopilotContainer
-        v-else-if="activeTab === 1 && showCopilotTab"
-        :key="currentChat.id"
-        :conversation-inbox-type="channelType"
-        :conversation-id="currentChat.id"
-        class="flex-1"
+        :conversation-id="props.currentChat.id"
+        :inbox-id="props.currentChat.inbox_id"
       />
     </div>
   </div>
+  <div v-else class="hidden" />
 </template>

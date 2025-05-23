@@ -1,6 +1,5 @@
 <script setup>
-import { nextTick, ref, watch } from 'vue';
-import { useI18n } from 'vue-i18n';
+import { nextTick, ref, watch, computed } from 'vue';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 
@@ -8,14 +7,12 @@ import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
+import CopilotThinkingGroup from './CopilotThinkingGroup.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
-import Icon from '../icon/Icon.vue';
+import CopilotHeader from './CopilotHeader.vue';
+import CopilotEmptyState from './CopilotEmptyState.vue';
 
 const props = defineProps({
-  supportAgent: {
-    type: Object,
-    default: () => ({}),
-  },
   messages: {
     type: Array,
     default: () => [],
@@ -26,7 +23,7 @@ const props = defineProps({
   },
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
   assistants: {
     type: Array,
@@ -38,20 +35,11 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['sendMessage', 'reset', 'setAssistant']);
-
-const { t } = useI18n();
-
-const COPILOT_USER_ROLES = ['assistant', 'system'];
+const emit = defineEmits(['sendMessage', 'reset', 'setAssistant', 'close']);
 
 const sendMessage = message => {
   emit('sendMessage', message);
   useTrack(COPILOT_EVENTS.SEND_MESSAGE);
-};
-
-const useSuggestion = opt => {
-  emit('sendMessage', t(opt.prompt));
-  useTrack(COPILOT_EVENTS.SEND_SUGGESTED);
 };
 
 const handleReset = () => {
@@ -67,20 +55,28 @@ const scrollToBottom = async () => {
   }
 };
 
-const promptOptions = [
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUMMARIZE.CONTENT',
-  },
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.SUGGEST.CONTENT',
-  },
-  {
-    label: 'CAPTAIN.COPILOT.PROMPTS.RATE.LABEL',
-    prompt: 'CAPTAIN.COPILOT.PROMPTS.RATE.CONTENT',
-  },
-];
+const groupedMessages = computed(() => {
+  const result = [];
+  let thinkingGroup = [];
+
+  props.messages.forEach(message => {
+    if (message.message_type === 'assistant_thinking') {
+      thinkingGroup.push(message);
+    } else {
+      if (thinkingGroup.length > 0) {
+        result.push({ type: 'thinking_group-', messages: thinkingGroup });
+        thinkingGroup = [];
+      }
+      result.push({ type: 'message', message });
+    }
+  });
+
+  if (thinkingGroup.length > 0) {
+    result.push({ type: 'thinking_group-', messages: thinkingGroup });
+  }
+
+  return result;
+});
 
 watch(
   [() => props.messages, () => props.isCaptainTyping],
@@ -93,60 +89,69 @@ watch(
 
 <template>
   <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
-    <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
-      <template v-for="message in messages" :key="message.id">
-        <CopilotAgentMessage
-          v-if="message.role === 'user'"
-          :support-agent="supportAgent"
-          :message="message"
-        />
-        <CopilotAssistantMessage
-          v-else-if="COPILOT_USER_ROLES.includes(message.role)"
-          :message="message"
-          :conversation-inbox-type="conversationInboxType"
-        />
-      </template>
-
-      <CopilotLoader v-if="isCaptainTyping" />
-    </div>
-
+    <CopilotHeader
+      :has-messages="messages.length > 0"
+      @reset="handleReset"
+      @close="$emit('close')"
+    />
     <div
-      v-if="!messages.length"
-      class="h-full w-full flex items-center justify-center"
+      ref="chatContainer"
+      class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
     >
-      <div class="h-fit px-3 py-3 space-y-1">
-        <span class="text-xs text-n-slate-10">
-          {{ $t('COPILOT.TRY_THESE_PROMPTS') }}
-        </span>
-        <button
-          v-for="prompt in promptOptions"
-          :key="prompt.label"
-          class="px-2 py-1 rounded-md border border-n-weak bg-n-slate-2 text-n-slate-11 flex items-center gap-1"
-          @click="() => useSuggestion(prompt)"
+      <div
+        v-if="messages.length && assistants.length"
+        class="space-y-6 flex-1 flex flex-col w-full"
+      >
+        <template
+          v-for="item in groupedMessages"
+          :key="
+            item.type === 'message'
+              ? item.message.id
+              : 'thinking_group-' + item.messages[0].id
+          "
         >
-          <span>{{ t(prompt.label) }}</span>
-          <Icon icon="i-lucide-chevron-right" />
-        </button>
+          <template v-if="item.type === 'message'">
+            <CopilotAgentMessage
+              v-if="item.message.message_type === 'user'"
+              :message="item.message.message"
+            />
+            <CopilotAssistantMessage
+              v-else-if="
+                item.message.message_type === 'assistant' ||
+                item.message.message_type === 'system'
+              "
+              :message="item.message.message"
+              :conversation-inbox-type="conversationInboxType"
+            />
+          </template>
+          <CopilotThinkingGroup
+            v-else
+            :messages="item.messages"
+            :has-assistant-message-after="
+              groupedMessages[groupedMessages.indexOf(item) + 1]?.messages?.[0]
+                ?.message_type === 'assistant'
+            "
+          />
+        </template>
+
+        <CopilotLoader v-if="isCaptainTyping" />
       </div>
+      <CopilotEmptyState
+        v-else
+        :has-assistants="assistants.length > 0"
+        @use-suggestion="sendMessage"
+      />
     </div>
 
     <div class="mx-3 mt-px mb-2">
       <div class="flex items-center gap-2 justify-between w-full mb-1">
         <ToggleCopilotAssistant
-          v-if="assistants.length"
+          v-if="assistants.length > 1"
           :assistants="assistants"
           :active-assistant="activeAssistant"
           @set-assistant="$event => emit('setAssistant', $event)"
         />
         <div v-else />
-        <button
-          v-if="messages.length"
-          class="text-xs flex items-center gap-1 hover:underline"
-          @click="handleReset"
-        >
-          <i class="i-lucide-refresh-ccw" />
-          <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
-        </button>
       </div>
       <CopilotInput class="mb-1 w-full" @send="sendMessage" />
     </div>

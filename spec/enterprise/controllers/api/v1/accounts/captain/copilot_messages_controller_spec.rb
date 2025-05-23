@@ -44,7 +44,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotMessagesController', type: :r
         end.to change(CopilotMessage, :count).by(1)
 
         expect(response).to have_http_status(:success)
-        expect(CopilotMessage.last.message).to eq(message_content)
+        expect(CopilotMessage.last.message).to eq({ 'content' => message_content })
         expect(CopilotMessage.last.message_type).to eq('user')
         expect(CopilotMessage.last.copilot_thread_id).to eq(copilot_thread.id)
       end

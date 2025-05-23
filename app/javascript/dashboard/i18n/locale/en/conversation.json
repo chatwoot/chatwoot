@@ -234,8 +234,7 @@
       }
     },
     "SIDEBAR": {
-      "CONTACT": "Contact",
-      "COPILOT": "Copilot"
+      "ACTIONS": "Actions"
     }
   },
   "EMAIL_TRANSCRIPT": {
@@ -379,9 +378,6 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
-  },
-  "COPILOT": {
-    "TRY_THESE_PROMPTS": "Try these prompts"
   },
   "GALLERY_VIEW": {
     "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"

@@ -17,12 +17,14 @@ const props = defineProps({
   },
   conversationInboxType: {
     type: String,
-    required: true,
+    default: '',
   },
 });
 
 const messageContent = computed(() => {
-  const formatter = new MessageFormatter(props.message.content);
+  const formatter = new MessageFormatter(
+    props.message.content || props.message.response
+  );
   return formatter.formattedMessage;
 });
 

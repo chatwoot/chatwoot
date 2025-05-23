@@ -90,11 +90,14 @@ class Captain::Llm::SystemPromptsService
         7. Write the response in multiple paragraphs and in markdown format.
         8. DO NOT use headings in Markdown
         9. Cite the sources if you used a tool to find the response.
+        10. Do not use your own training data or assumptions to answer queries. Base responses strictly on the provided information.
+        11. Always provide a reasoning for the response.
+        12. Always double the check the information with tools unless you are very sure of the information.
 
         ```json
         {
           "reasoning": "Explain why the response was chosen based on the provided information.",
-          "response": "Provide the answer only in Markdown format for readability."
+          "content": "Provide the answer here only in Markdown format for readability."
         }
 
         [Error Handling]

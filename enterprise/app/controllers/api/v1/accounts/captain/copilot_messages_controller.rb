@@ -12,9 +12,10 @@ class Api::V1::Accounts::Captain::CopilotMessagesController < Api::V1::Accounts:
 
   def create
     @copilot_message = @copilot_thread.copilot_messages.create!(
-      message: params[:message],
+      message: { content: params[:message] },
       message_type: :user
     )
+    @copilot_message.enqueue_response_job(params[:conversation_id], Current.user.id)
   end
 
   private

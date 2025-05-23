@@ -1,30 +1,27 @@
 <script setup>
-import { ref, computed, onMounted, watchEffect } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
-import ConversationAPI from 'dashboard/api/inbox/conversation';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-
-const props = defineProps({
-  conversationId: {
-    type: [Number, String],
-    required: true,
-  },
-  conversationInboxType: {
-    type: String,
-    required: true,
-  },
-});
 
 const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const { uiSettings, updateUISettings } = useUISettings();
+const currentChat = useMapGetter('getSelectedChat');
 
-const messages = ref([]);
-const isCaptainTyping = ref(false);
+const getUIState = useMapGetter('uiState/getUIState');
+const isSidebarOpen = computed(() => getUIState.value('isCopilotSidebarOpen'));
+const selectedCopilotThreadId = computed(() =>
+  getUIState.value('selectedCopilotThreadId')
+);
+const messages = computed(() =>
+  store.getters['copilotMessages/getMessagesByThreadId'](
+    selectedCopilotThreadId.value
+  )
+);
 const selectedAssistantId = ref(null);
 
 const activeAssistant = computed(() => {
@@ -56,67 +53,57 @@ const setAssistant = async assistant => {
 };
 
 const handleReset = () => {
-  messages.value = [];
+  store.dispatch('uiState/set', { selectedCopilotThreadId: null });
 };
 
 const sendMessage = async message => {
-  // Add user message
-  messages.value.push({
-    id: messages.value.length + 1,
-    role: 'user',
-    content: message,
-  });
-  isCaptainTyping.value = true;
+  if (!isSidebarOpen.value) {
+    return;
+  }
 
-  try {
-    const { data } = await ConversationAPI.requestCopilot(
-      props.conversationId,
-      {
-        previous_history: messages.value
-          .map(m => ({
-            role: m.role,
-            content: m.content,
-          }))
-          .slice(0, -1),
-        message,
-        assistant_id: selectedAssistantId.value,
-      }
-    );
-    messages.value.push({
-      id: new Date().getTime(),
-      role: 'assistant',
-      content: data.message,
+  if (selectedCopilotThreadId.value) {
+    await store.dispatch('copilotMessages/create', {
+      assistant_id: activeAssistant.value.id,
+      conversation_id: currentChat.value?.id,
+      threadId: selectedCopilotThreadId.value,
+      message,
     });
-  } catch (error) {
-    // eslint-disable-next-line
-    console.log(error);
-  } finally {
-    isCaptainTyping.value = false;
+  } else {
+    const response = await store.dispatch('copilotThreads/create', {
+      assistant_id: activeAssistant.value.id,
+      conversation_id: currentChat.value?.id,
+      message,
+    });
+    store.dispatch('uiState/set', { selectedCopilotThreadId: response.id });
   }
 };
 
-onMounted(() => {
-  store.dispatch('captainAssistants/get');
-});
+onMounted(() => store.dispatch('captainAssistants/get'));
 
-watchEffect(() => {
-  if (props.conversationId) {
-    store.dispatch('getInboxCaptainAssistantById', props.conversationId);
-    selectedAssistantId.value = activeAssistant.value?.id;
-  }
-});
+const handleClose = () => {
+  store.dispatch('uiState/set', { isCopilotSidebarOpen: false });
+};
 </script>
 
 <template>
-  <Copilot
-    :messages="messages"
-    :support-agent="currentUser"
-    :is-captain-typing="isCaptainTyping"
-    :conversation-inbox-type="conversationInboxType"
-    :assistants="assistants"
-    :active-assistant="activeAssistant"
-    @set-assistant="setAssistant"
-    @send-message="sendMessage"
-    @reset="handleReset"
-  />
+  <div
+    v-if="isSidebarOpen"
+    class="border-l border-n-weak w-[20rem] min-w-[20rem]"
+  >
+    <Copilot
+      :messages="messages"
+      :support-agent="currentUser"
+      :is-captain-typing="
+        messages[messages.length - 1]?.message_type !== 'assistant'
+      "
+      :conversation-inbox-type="conversationInboxType"
+      :assistants="assistants"
+      :active-assistant="activeAssistant"
+      @set-assistant="setAssistant"
+      @send-message="sendMessage"
+      @reset="handleReset"
+      @close="handleClose"
+    />
+  </div>
+  <div v-else class="hidden" />
 </template>

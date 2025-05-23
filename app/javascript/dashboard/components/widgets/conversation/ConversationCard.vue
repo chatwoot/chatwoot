@@ -243,7 +243,7 @@ export default {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-3 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
         isActiveChat,
@@ -278,7 +278,7 @@ export default {
         :badge="inboxBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
-        size="40px"
+        size="32px"
       />
     </div>
     <div
