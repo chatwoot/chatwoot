@@ -7,7 +7,8 @@ module Captain::ChatHelper
         model: @model,
         messages: @messages,
         tools: @tool_registry&.registered_tools || [],
-        response_format: { type: 'json_object' }
+        response_format: { type: 'json_object' },
+        temperature: @assistant&.config&.[]('temperature').to_f || 1
       }
     )
 
