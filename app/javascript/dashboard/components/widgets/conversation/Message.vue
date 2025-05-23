@@ -197,6 +197,15 @@ export default {
           !this.isMessageDeleted &&
           this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
+        forwardEmail:
+          this.isAnEmailInbox &&
+          !this.data.private &&
+          this.status !== MESSAGE_STATUS.PROGRESS &&
+          ![
+            CONTENT_TYPES.FORM,
+            CONTENT_TYPES.INPUT_CSAT,
+            CONTENT_TYPES.CARDS,
+          ].includes(this.contentType),
       };
     },
     contentAttributes() {

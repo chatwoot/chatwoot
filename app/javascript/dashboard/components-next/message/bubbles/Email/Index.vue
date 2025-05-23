@@ -1,7 +1,8 @@
 <script setup>
-import { computed, useTemplateRef, ref, onMounted } from 'vue';
+import { computed, useTemplateRef, ref, onMounted, reactive } from 'vue';
 import { Letter } from 'vue-letter';
 import { allowedCssProperties } from 'lettersanitizer';
+import { useToggle } from '@vueuse/core';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -10,13 +11,18 @@ import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
+import ForwardMessageForm from 'dashboard/components-next/message/forwardMessage/ForwardMessage.vue';
+import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
 import { useMessageContext } from '../../provider.js';
+import { useInbox } from 'dashboard/composables/useInbox';
 import { MESSAGE_TYPES } from 'next/message/constants.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
-const { content, contentAttributes, attachments, messageType } =
+const { id, content, contentAttributes, attachments, messageType } =
   useMessageContext();
+
+const { inbox } = useInbox();
 
 const isExpandable = ref(false);
 const isExpanded = ref(false);
@@ -24,12 +30,18 @@ const showQuotedMessage = ref(false);
 const renderOriginal = ref(false);
 const contentContainer = useTemplateRef('contentContainer');
 
+// Forward form - managed locally but can be triggered by parent
+const [showForwardMessageModal, toggleForwardModal] = useToggle();
+const forwardFormPosition = reactive({ top: 0, right: 0 });
+
 onMounted(() => {
   isExpandable.value = contentContainer.value?.scrollHeight > 400;
 });
 
 const isOutgoing = computed(() => messageType.value === MESSAGE_TYPES.OUTGOING);
 const isIncoming = computed(() => !isOutgoing.value);
+
+const isForwarded = computed(() => contentAttributes.value?.forwardedMessageId);
 
 const { hasTranslations, translationContent } =
   useTranslations(contentAttributes);
@@ -92,6 +104,23 @@ const translationKeySuffix = computed(() => {
 const handleSeeOriginal = () => {
   renderOriginal.value = !renderOriginal.value;
 };
+
+const closeForwardModal = () => {
+  toggleForwardModal(false);
+  forwardFormPosition.x = 0;
+  forwardFormPosition.y = 0;
+};
+
+const openForwardModal = ({ x, y }) => {
+  forwardFormPosition.x = x;
+  forwardFormPosition.y = y;
+  toggleForwardModal(true);
+};
+
+defineExpose({
+  openForwardModal,
+  closeForwardModal,
+});
 </script>
 
 <template>
@@ -110,6 +139,7 @@ const handleSeeOriginal = () => {
         'border-b border-n-slate-8/20': isOutgoing,
       }"
     />
+
     <section ref="contentContainer" class="p-3">
       <div
         :class="{
@@ -130,7 +160,7 @@ const handleSeeOriginal = () => {
           </button>
         </div>
         <FormattedContent
-          v-if="isOutgoing && content"
+          v-if="isOutgoing && content && !isForwarded"
           class="text-n-slate-12"
           :content="messageContent"
         />
@@ -193,6 +223,22 @@ const handleSeeOriginal = () => {
     >
       <AttachmentChips :attachments="attachments" class="gap-1" />
     </section>
+
+    <ContextMenu
+      v-if="showForwardMessageModal"
+      :x="forwardFormPosition.x"
+      :y="forwardFormPosition.y"
+      @close="closeForwardModal"
+    >
+      <ForwardMessageForm
+        :message="contentAttributes?.email"
+        :content="content"
+        :inbox="inbox"
+        :attachments="attachments"
+        :message-id="id"
+        @close="closeForwardModal"
+      />
+    </ContextMenu>
   </BaseBubble>
 </template>
 

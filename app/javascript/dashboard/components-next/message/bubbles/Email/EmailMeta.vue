@@ -14,7 +14,8 @@ const fromEmail = computed(() => {
 });
 
 const toEmail = computed(() => {
-  return contentAttributes.value?.email?.to ?? [];
+  const { forwardedMessageId, toEmails, email } = contentAttributes.value;
+  return forwardedMessageId ? (toEmails ?? []) : (email?.to ?? []);
 });
 
 const ccEmail = computed(() => {
@@ -81,7 +82,7 @@ const showMeta = computed(() => {
           &lt;{{ fromEmail[0] }}&gt;
         </template>
         <template v-else>
-          {{ fromEmail[0] }}
+          {{ $t('EMAIL_HEADER.FROM') }}: {{ fromEmail[0] }}
         </template>
       </div>
       <div v-if="toEmail.length">

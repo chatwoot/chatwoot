@@ -9,22 +9,58 @@ class Messages::MessageBuilder
     @user = user
     @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
-    @automation_rule = content_attributes&.dig(:automation_rule_id)
-    return unless params.instance_of?(ActionController::Parameters)
-
-    @in_reply_to = content_attributes&.dig(:in_reply_to)
-    @items = content_attributes&.dig(:items)
+    process_content_attributes
   end
 
   def perform
+    process_forwarded_message if @forwarded_message_id.present?
     @message = @conversation.messages.build(message_params)
     process_attachments
+    process_forwarded_attachments if @forwarded_message_id.present?
     process_emails
     @message.save!
     @message
   end
 
   private
+
+  def process_forwarded_message
+    builder = Messages::ForwardedMessageBuilderService.new(@forwarded_message_id, { to_emails: @params[:to_emails] })
+    @forwarded_attributes = builder.perform
+    @forwarded_message_attachments = builder.forwarded_attachments
+
+    # Update content to include forwarded message
+    original_content = @params[:content_original] || @params[:content]
+    @params[:content] = builder.formatted_content(@params[:content])
+
+    # Update email data
+    return unless @forwarded_attributes[:content_attributes] && @conversation.inbox&.inbox_type == 'Email'
+
+    # Ensure we have valid email data structure to avoid breaking the rendering
+    @forwarded_attributes[:content_attributes][:email] = builder.forwarded_email_data(original_content)
+  end
+
+  # Process attachments from the forwarded message
+  def process_forwarded_attachments
+    return if @forwarded_message_attachments.blank?
+
+    @forwarded_message_attachments.each do |source_attachment|
+      # Create a new attachment for the current message
+      attachment = @message.attachments.build(
+        account_id: @message.account_id,
+        file_type: source_attachment.file_type
+      )
+
+      # Attach the file by directly copying it from the source attachment
+      next unless source_attachment.file.attached?
+
+      attachment.file.attach(
+        io: StringIO.new(source_attachment.file.download),
+        filename: source_attachment.file.filename.to_s,
+        content_type: source_attachment.file.content_type
+      )
+    end
+  end
 
   # Extracts content attributes from the given params.
   # - Converts ActionController::Parameters to a regular hash if needed.
@@ -56,6 +92,18 @@ class Messages::MessageBuilder
     JSON.parse(content, symbolize_names: true)
   rescue JSON::ParserError
     {}
+  end
+
+  def process_content_attributes
+    @automation_rule = content_attributes&.dig(:automation_rule_id)
+    return unless @params.instance_of?(ActionController::Parameters)
+
+    @forwarded_message_id = content_attributes&.dig(:forwarded_message_id)
+    @in_reply_to = content_attributes&.dig(:in_reply_to)
+    @items = content_attributes&.dig(:items)
+
+    # Store original content before any modifications
+    @params[:content_original] = @params[:content].dup if @params[:content].present?
   end
 
   def process_attachments
@@ -151,6 +199,11 @@ class Messages::MessageBuilder
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
-    }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
+    }
+      .merge(external_created_at)
+      .merge(automation_rule_id)
+      .merge(campaign_id)
+      .merge(template_params)
+      .merge(@forwarded_attributes || {})
   end
 end
