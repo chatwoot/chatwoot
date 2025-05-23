@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_16_021731) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_23_004355) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -608,6 +608,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_16_021731) do
     t.bigint "sla_policy_id"
     t.datetime "waiting_since"
     t.text "cached_label_list"
+    t.boolean "is_reminded", default: false, null: false
     t.index ["account_id", "display_id"], name: "index_conversations_on_account_id_and_display_id", unique: true
     t.index ["account_id", "id"], name: "index_conversations_on_id_and_account_id"
     t.index ["account_id", "inbox_id", "status", "assignee_id"], name: "conv_acid_inbid_stat_asgnid_idx"
@@ -1144,22 +1145,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_16_021731) do
     t.datetime "updated_at", null: false
     t.jsonb "features", default: [], null: false
     t.text "description"
-  end
-
-  create_table "subscription_plans_copy1", id: :bigint, default: -> { "nextval('subscription_plans_id_seq'::regclass)" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.integer "max_mau", default: 0, null: false
-    t.integer "max_ai_agents", default: 0, null: false
-    t.integer "max_ai_responses", default: 0, null: false
-    t.integer "max_human_agents", default: 0, null: false
-    t.text "available_channels", default: [], array: true
-    t.string "support_level"
-    t.integer "duration_days"
-    t.decimal "monthly_price", precision: 16, scale: 2, null: false
-    t.decimal "annual_price", precision: 16, scale: 2, null: false
-    t.boolean "is_active", default: true
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
   end
 
   create_table "subscription_topups", force: :cascade do |t|

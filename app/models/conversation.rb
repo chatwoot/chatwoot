@@ -11,6 +11,7 @@
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
 #  identifier             :string
+#  is_reminded            :boolean          default(FALSE), not null
 #  last_activity_at       :datetime         not null
 #  priority               :integer
 #  snoozed_until          :datetime
