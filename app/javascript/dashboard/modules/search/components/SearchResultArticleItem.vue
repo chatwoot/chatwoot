@@ -21,13 +21,17 @@ const props = defineProps({
     type: String,
     default: '',
   },
+  locale: {
+    type: String,
+    default: '',
+  },
   content: {
     type: String,
     default: '',
   },
-  portalId: {
-    type: [String, Number],
-    default: 0,
+  portalSlug: {
+    type: String,
+    required: true,
   },
   accountId: {
     type: [String, Number],
@@ -36,8 +40,9 @@ const props = defineProps({
 });
 
 const navigateTo = computed(() => {
+  // http://localhost:3000/app/accounts/1/portals/shivam-mishra/en/articles/edit/4
   return frontendURL(
-    `accounts/${props.accountId}/portals/${props.portalId}/articles/${props.id}`
+    `accounts/${props.accountId}/portals/${props.portalSlug}/${props.locale}/articles/edit/${props.id}`
   );
 });
 

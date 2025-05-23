@@ -1,11 +1,8 @@
 json.id article.id
 json.title article.title
-json.description article.description
+json.locale article.locale
 json.content article.content
 json.slug article.slug
-json.status article.status
-json.portal_id article.portal_id
+json.portal_slug article.portal.slug
 json.account_id article.account_id
-json.created_at article.created_at
-json.updated_at article.updated_at
-json.category article.category.name
+json.category_name article.category.name
