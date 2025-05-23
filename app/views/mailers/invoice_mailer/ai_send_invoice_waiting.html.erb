@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8">
-  <title>Berhasil Berlangganan - Jangkau.ai</title>
+  <title>Menunggu Pembayaran - Jangkau.ai</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
 <body class="bg-light py-4">
@@ -19,25 +19,25 @@
 
     <!-- Success Banner -->
     <div class="bg-success text-white text-center py-2 my-3 rounded">
-      <strong>Selamat! Kamu berhasil Top-up <strong>MAU</strong> (Pengguna Aktif Bulanan) di Jangkau.ai</strong>
+      <strong>Menunggu Pembayaran untuk Top-up AI Responses di Jangkau.ai kamu</strong>
     </div>
 
     <!-- Body -->
     <div class="mb-4">
       <p><strong>Body:</strong></p>
       <p>Halo <strong><% @customer_name %></strong>,</p>
-      <p>Pembayaran top-up MAU kamu sudah berhasil. Selamat! Saldo MAU-mu sekarang sudah bertambah dan siap digunakan.</p>
+      <p>Kamu sudah request top-up AI Responses. Yuk selesaikan pembayaran supaya bisa langsung digunakan untuk melayani pelangganmu!</p>
     </div>
 
     <hr>
 
     <!-- Detail Langganan -->
-    <h6 class="mb-3">Detail Top-up</h6>
+    <h6 class="mb-3">🧾 Detail Top-up</h6>
     <table class="table table-borderless">
       <tbody>
         <tr>
-          <th scope="row">Jumlah MAU</th>
-          <td>: <% @mau_totalt %></td>
+          <th scope="row">Jumlah Response</th>
+          <td>: <% @response_total %></td>
         </tr>
         <tr>
           <th scope="row">Total Pembayaran</th>
@@ -48,18 +48,18 @@
           <td>: <% @payment_method %></td>
         </tr>
         <tr>
-          <th scope="row">Status</th>
-          <td>: Berhasil</td>
+          <th scope="row">Batas Waktu Pembayaran</th>
+          <td>: <% @payment_date_expiry %></td>
         </tr>
         <tr>
-          <th scope="row">Tanggal Pembayaran</th>
-          <td>: <% @payment_date %></td>
+          <th scope="row">Status</th>
+          <td>: Menunggu Pembayaran</td>
         </tr>
       </tbody>
     </table>
 
-    <p class="mt-4">Terima kasih telah menggunakan Jangkau!<br>Selamat berkegiatan dengan MAU kamu 😄</p>
-    <p class="mb-0">Salam,<br>Tim Jangkau</p>
+    <p class="mt-4">Segera selesaikan pembayaran sebelum waktu habis ya!</p>
+    <p class="mb-0">Terimakasih,<br>Tim Jangkau</p>
 
     <!-- Footer -->
     <div class="mt-5">
