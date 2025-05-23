@@ -96,7 +96,7 @@ class Telegram::IncomingMessageService
   def file_content_type
     return :image if params[:message][:photo].present? || params.dig(:message, :sticker, :thumb).present?
     return :audio if params[:message][:voice].present? || params[:message][:audio].present?
-    return :video if params[:message][:video].present?
+    return :video if params[:message][:video].present? || params[:message][:video_note].present?
 
     file_type(params[:message][:document][:mime_type])
   end
@@ -174,6 +174,9 @@ class Telegram::IncomingMessageService
   end
 
   def visual_media_params
-    params[:message][:photo].presence&.last || params.dig(:message, :sticker, :thumb).presence || params[:message][:video].presence
+    params[:message][:photo].presence&.last ||
+    params.dig(:message, :sticker, :thumb).presence ||
+    params[:message][:video].presence ||
+    params[:message][:video_note].presence
   end
 end
