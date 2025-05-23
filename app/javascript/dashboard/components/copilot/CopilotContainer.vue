@@ -1,11 +1,10 @@
 <script setup>
-import { ref, computed, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
-import CopilotActionCableConnector from 'dashboard/helpers/CopilotActionCableConnector';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { emitter } from 'shared/helpers/mitt';
+
 const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
@@ -81,55 +80,34 @@ const sendMessage = message => {
   });
 };
 
-const initializeWebSocket = () => {
-  copilotConnector.value = new CopilotActionCableConnector({
-    accountId: currentUser.value.account_id,
-    userId: currentUser.value.id,
-    onDisconnect: () => {
-      // copilotConnector.value = null;
-    },
-    onCopilotResponse: data => {
-      if (data.type === 'final_response') {
-        messages.value.push({
-          id: new Date().getTime(),
-          role: 'assistant',
-          content: data.response.response,
-        });
-        isCaptainTyping.value = false;
-      } else if (data.type === 'ui_event') {
-        if (data.event === 'ui:linear_ticket_create') {
-          emitter.emit('ui:linear_ticket_create');
-          setTimeout(() => {
-            emitter.emit('ui:linear_ticket_create_data', data.response);
-          }, 100);
-        }
-      } else {
-        messages.value.push({
-          id: new Date().getTime(),
-          role: 'assistant_thinking',
-          content: data.response.response,
-          reasoning: data.response.reasoning,
-        });
-      }
-    },
-  });
-};
-
-const disconnectWebSocket = () => {
-  if (copilotConnector.value) {
-    copilotConnector.value.disconnect();
-    copilotConnector.value = null;
-  }
-};
-
 onMounted(() => {
-  initializeWebSocket();
   store.dispatch('captainAssistants/get');
 });
 
-onBeforeUnmount(() => {
-  disconnectWebSocket();
-});
+// const onCopilotResponse = data => {
+//   if (data.type === 'final_response') {
+//     messages.value.push({
+//       id: new Date().getTime(),
+//       role: 'assistant',
+//       content: data.response.response,
+//     });
+//     isCaptainTyping.value = false;
+//   } else if (data.type === 'ui_event') {
+//     if (data.event === 'ui:linear_ticket_create') {
+//       emitter.emit('ui:linear_ticket_create');
+//       setTimeout(() => {
+//         emitter.emit('ui:linear_ticket_create_data', data.response);
+//       }, 100);
+//     }
+//   } else {
+//     messages.value.push({
+//       id: new Date().getTime(),
+//       role: 'assistant_thinking',
+//       content: data.response.response,
+//       reasoning: data.response.reasoning,
+//     });
+//   }
+// };
 
 const handleClose = () => {
   store.dispatch('uiState/set', { isCopilotSidebarOpen: false });
