@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
+ActiveRecord::Schema[7.0].define(version: 2025_05_22_122201) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -452,7 +452,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
     t.string "website_token"
-    t.string "widget_color", default: "#1f93ff"
     t.string "welcome_title"
     t.string "welcome_tagline"
     t.integer "feature_flags", default: 7, null: false
@@ -462,6 +461,8 @@ ActiveRecord::Schema[7.0].define(version: 2025_01_16_061033) do
     t.jsonb "pre_chat_form_options", default: {}
     t.boolean "hmac_mandatory", default: false
     t.boolean "continuity_via_email", default: true, null: false
+    t.string "widget_color", default: "#1f93ff"
+    t.jsonb "logo_colors", default: {"dot1"=>"#33a854", "dot2"=>"#fabc05", "dot3"=>"#ea4234"}, null: false
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end

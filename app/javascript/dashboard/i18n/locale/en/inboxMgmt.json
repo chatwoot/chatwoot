@@ -97,6 +97,17 @@
           "LABEL": "Widget Color",
           "PLACEHOLDER": "Update the widget color used in widget"
         },
+
+        "DOT_COLOR1": {
+          "LABEL": "Dot Color 1"
+        },
+        "DOT_COLOR2": {
+          "LABEL": "Dot Color 2"
+        },
+        "DOT_COLOR3": {
+          "LABEL": "Dot Color 3"
+        },
+        
         "SUBMIT_BUTTON": "Create inbox",
         "SKIP": "Skip",
         "API": {
