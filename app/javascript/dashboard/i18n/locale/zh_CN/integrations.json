@@ -370,7 +370,6 @@
       "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI 功能仅在付费计划中可用。",
       "UPGRADE_PROMPT": "升级您的计划以获取我们的助手、副驾驶等功能。",
       "ASK_ADMIN": "请联系您的管理员进行升级。"
     },
@@ -412,6 +411,10 @@
           "LABEL": "姓名：",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
