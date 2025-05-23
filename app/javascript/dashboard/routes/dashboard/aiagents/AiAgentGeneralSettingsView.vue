@@ -160,13 +160,58 @@ const previewUrl = computed(() => {
       </div>
     </form>
 
-    <div v-if="previewUrl" class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
-      <iframe
-        height="100%"
-        width="100%"
-        class="rounded-lg shadow-md border border-slate-50 dark:border-transparent outline-none"
-        :src="previewUrl"
-      />
+    <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
+      <div class="w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full">
+        <div class="bg-green-600 px-4 py-2 flex justify-end items-center">
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+          </svg>
+        </div>
+        <div class="flex-1 flex flex-col space-y-4 p-4 overflow-y-auto">
+          <div class="flex justify-start">
+            <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
+              Hai! Ada yang bisa saya bantu?
+            </div>
+          </div>
+          <!-- User Message (Right aligned) -->
+          <div class="flex justify-end">
+            <div class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm max-w-[90%]">
+              Hallo
+            </div>
+          </div>
+          <!-- Bot Response (Left aligned) -->
+          <div class="flex justify-start">
+            <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
+              Halo! Ada yang bisa saya bantu terkait produk Cantika Glow? 😊
+            </div>
+          </div>
+          <!-- User Message (Right aligned) -->
+          <div class="flex justify-end">
+            <div class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm max-w-[90%]">
+              Ada produk apa saja yang ada di Cantika Glow?
+            </div>
+          </div>
+          <!-- Bot Response (Left aligned) -->
+          <div class="flex justify-start">
+            <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
+              Cantika Glow memiliki berbagai produk kecantikan yang terbagi dalam tiga kategori utama:
+
+Skincare: Produk perawatan kulit untuk menjaga kesehatan dan kecantikan kulit Anda.
+Makeup: Produk riasan untuk mempercantik penampilan.
+Parfum: Wewangian untuk melengkapi gaya Anda.
+Semua produk Cantika Glow sudah terdaftar di BPOM, jadi aman digunakan. Ada kategori tertentu yang ingin Anda eksplor lebih lanjut? 😊
+            </div>
+          </div>
+        </div>
+        <div class="flex items-center  p-4">
+          <input type="text" placeholder="Type your question" class="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
+          <button class="ml-2 bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 relative bottom-2">
+            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12l15-6-6 15-2.25-6-6.75-3z" />
+            </svg>
+          </button>
+        </div>
+      </div>
     </div>
   </div>
 </template>
