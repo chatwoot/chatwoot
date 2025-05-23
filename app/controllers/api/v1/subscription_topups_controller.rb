@@ -162,13 +162,15 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
   end
 
   def create_transaction(payment)
+    invoice_prefix = payment.duitku_order_id.split('-')[1]
+
     # Create the transaction record
     transaction = Transaction.create!(
       transaction_id: payment.duitku_order_id,
       user_id: current_user.id,
       account_id: @account.id,
       package_type: 'topup',
-      package_name: "#{@subscription.plan_name}_Credit_Topup_#{@topup.topup_type}",
+      package_name: "Top-up #{invoice_prefix == 'AR' ? 'AI Responses' : invoice_prefix} #{@subscription.plan_name}",
       price: payment.amount.to_f.to_i,
       duration: 1,
       duration_unit: 'one_time',
