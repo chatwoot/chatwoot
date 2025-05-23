@@ -1,0 +1,10 @@
+json.id article.id
+json.title article.title
+json.description article.description
+json.content article.content
+json.slug article.slug
+json.status article.status
+json.portal_id article.portal_id
+json.account_id article.account_id
+json.created_at article.created_at
+json.updated_at article.updated_at
