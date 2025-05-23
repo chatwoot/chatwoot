@@ -47,9 +47,9 @@ RSpec.describe CopilotThread, type: :model do
 
         expect(history.length).to eq(2)
         expect(history[0][:role]).to eq('user')
-        expect(history[0][:content]).to eq({ 'content' => 'User message' })
+        expect(history[0][:content]).to eq('User message')
         expect(history[1][:role]).to eq('assistant')
-        expect(history[1][:content]).to eq({ 'content' => 'Assistant message' })
+        expect(history[1][:content]).to eq('Assistant message')
       end
     end
 
