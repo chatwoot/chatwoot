@@ -10,6 +10,11 @@ describe SearchService do
   let!(:harry) { create(:contact, name: 'Harry Potter', email: 'test@test.com', account_id: account.id) }
   let!(:conversation) { create(:conversation, contact: harry, inbox: inbox, account: account) }
   let!(:message) { create(:message, account: account, inbox: inbox, content: 'Harry Potter is a wizard') }
+  let!(:portal) { create(:portal, account: account) }
+  let!(:article) do
+    create(:article, title: 'Harry Potter Magic Guide', content: 'Learn about wizardry', account: account, portal: portal, author: user,
+                     status: 'published')
+  end
 
   before do
     create(:inbox_member, user: user, inbox: inbox)
@@ -27,7 +32,7 @@ describe SearchService do
       it 'returns all for all' do
         search_type = 'all'
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
-        expect(search.perform.keys).to match_array(%i[contacts messages conversations])
+        expect(search.perform.keys).to match_array(%i[contacts messages conversations articles])
       end
 
       it 'returns contacts for contacts' do
@@ -46,6 +51,12 @@ describe SearchService do
         search_type = 'Conversation'
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
         expect(search.perform.keys).to match_array(%i[conversations])
+      end
+
+      it 'returns articles for articles' do
+        search_type = 'Article'
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: search_type)
+        expect(search.perform.keys).to match_array(%i[articles])
       end
     end
 
@@ -141,6 +152,67 @@ describe SearchService do
         params = { q: new_converstion.display_id }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Conversation')
         expect(search.perform[:conversations].map(&:id)).to include new_converstion.id
+      end
+    end
+
+    context 'when article search' do
+      it 'searches across article title, description, and content and returns published articles only' do
+        # Create additional articles for testing
+        article2 = create(:article, title: 'Magic Spells for Beginners', description: 'Learn basic Potter magic',
+                                    account: account, portal: portal, author: user, status: 'published')
+        # Draft article should not appear in search results
+        create(:article, title: 'Potter Advanced Magic', content: 'Advanced wizardry techniques',
+                         account: account, portal: portal, author: user, status: 'draft')
+        # Article in different account should not appear
+        other_account = create(:account)
+        other_user = create(:user, account: other_account)
+        other_portal = create(:portal, account: other_account)
+        create(:article, title: 'Harry Potter Encyclopedia', account: other_account, portal: other_portal, author: other_user, status: 'published')
+
+        params = { q: 'Potter' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        result_ids = search.perform[:articles].map(&:id)
+
+        expect(result_ids).to include(article.id, article2.id)
+        expect(result_ids.length).to eq(2)
+      end
+
+      it 'orders results by updated_at desc' do
+        # Create articles with explicit timestamps
+        older_time = 2.days.ago
+        newer_time = 1.hour.ago
+
+        article2 = create(:article, title: 'Spellcasting Guide',
+                                    account: account, portal: portal, author: user, status: 'published')
+        article2.update_column(:updated_at, older_time)
+
+        article3 = create(:article, title: 'Spellcasting Manual',
+                                    account: account, portal: portal, author: user, status: 'published')
+        article3.update_column(:updated_at, newer_time)
+
+        params = { q: 'Spellcasting' }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        results = search.perform[:articles]
+
+        # Check the timestamps to understand ordering
+        results.map { |a| [a.id, a.updated_at] }
+
+        # Should be ordered by updated_at desc (newer first)
+        expect(results.length).to eq(2)
+        expect(results.first.updated_at).to be > results.second.updated_at
+      end
+
+      it 'returns paginated results' do
+        # Create many articles to test pagination
+        16.times do |i|
+          create(:article, title: "Magic Article #{i}", account: account, portal: portal, author: user, status: 'published')
+        end
+
+        params = { q: 'Magic', page: 1 }
+        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
+        results = search.perform[:articles]
+
+        expect(results.length).to eq(15) # Default per_page is 15
       end
     end
   end
