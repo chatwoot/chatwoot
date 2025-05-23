@@ -1,5 +1,6 @@
 <script>
 import { useAlert } from 'dashboard/composables';
+import { inject } from 'vue';
 import { mapGetters } from 'vuex';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
@@ -47,8 +48,10 @@ export default {
   emits: ['open', 'close', 'replyTo'],
   setup() {
     const { getPlainText } = useMessageFormatter();
+    const conversationPanelRef = inject('conversationPanelRef', null);
     return {
       getPlainText,
+      conversationPanelRef,
     };
   },
   data() {
@@ -63,7 +66,7 @@ export default {
       currentAccountId: 'getCurrentAccountId',
     }),
     conversationPanelElement() {
-      return document.querySelector('.conversation-panel');
+      return this.conversationPanelRef?.$el;
     },
     plainTextContent() {
       return this.getPlainText(this.messageContent);
