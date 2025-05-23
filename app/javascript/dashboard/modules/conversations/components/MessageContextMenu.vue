@@ -175,7 +175,7 @@ export default {
     </woot-modal>
     <!-- Confirm Deletion -->
     <woot-delete-modal
-      v-if="showDeleteModal"
+      v-if="showDeleteModal && enabledOptions['delete']"
       v-model:show="showDeleteModal"
       class="context-menu--delete-modal"
       :on-close="closeDeleteModal"
@@ -220,7 +220,7 @@ export default {
           @click.stop="handleCopy"
         />
         <MenuItem
-          v-if="enabledOptions['copy']"
+          v-if="enabledOptions['translate']"
           :option="{
             icon: 'translate',
             label: $t('CONVERSATION.CONTEXT_MENU.TRANSLATE'),
@@ -230,6 +230,7 @@ export default {
         />
         <hr />
         <MenuItem
+          v-if="enabledOptions['copyLink']"
           :option="{
             icon: 'link',
             label: $t('CONVERSATION.CONTEXT_MENU.COPY_PERMALINK'),
