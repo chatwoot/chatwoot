@@ -7,7 +7,7 @@ const props = defineProps({
     default: '',
   },
 });
-const emit = defineEmits(['onCopy']);
+const emit = defineEmits(['onCopy', 'onReset']);
 const inputType = ref('password');
 const toggleMasked = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password';
@@ -19,6 +19,10 @@ const maskIcon = computed(() => {
 
 const onClick = () => {
   emit('onCopy', props.value);
+};
+
+const onReset = () => {
+  emit('onReset');
 };
 </script>
 
@@ -55,6 +59,16 @@ const onClick = () => {
       @click="onClick"
     >
       {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
+    </FormButton>
+    <FormButton
+      type="button"
+      size="large"
+      icon="key"
+      variant="outline"
+      color-scheme="primary"
+      @click="onReset"
+    >
+      {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET') }}
     </FormButton>
   </div>
 </template>

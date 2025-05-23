@@ -295,6 +295,7 @@ Rails.application.routes.draw do
           post :auto_offline
           put :set_active_account
           post :resend_confirmation
+          post :reset_access_token
         end
       end
 

@@ -181,6 +181,14 @@ export default {
       await copyTextToClipboard(value);
       useAlert(this.$t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
     },
+    async resetAccessToken() {
+      const success = await this.$store.dispatch('resetAccessToken');
+      if (success) {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_SUCCESS'));
+      } else {
+        useAlert(this.$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET_ERROR'));
+      }
+    },
   },
 };
 </script>
@@ -281,7 +289,11 @@ export default {
         )
       "
     >
-      <AccessToken :value="currentUser.access_token" @on-copy="onCopyToken" />
+      <AccessToken
+        :value="currentUser.access_token"
+        @on-copy="onCopyToken"
+        @on-reset="resetAccessToken"
+      />
     </FormSection>
   </div>
 </template>

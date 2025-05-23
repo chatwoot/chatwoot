@@ -213,6 +213,16 @@ export const actions = {
     }
   },
 
+  resetAccessToken: async ({ commit }) => {
+    try {
+      const response = await authAPI.resetAccessToken();
+      commit(types.SET_CURRENT_USER, response.data);
+      return true;
+    } catch (error) {
+      return false;
+    }
+  },
+
   resendConfirmation: async () => {
     try {
       await authAPI.resendConfirmation();
