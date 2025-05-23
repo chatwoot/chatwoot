@@ -68,7 +68,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    scrollLockElement: { type: [HTMLElement, null], default: null },
   },
   emits: [
     'contextMenuToggle',
@@ -349,7 +348,6 @@ export default {
       v-if="showContextMenu"
       :x="contextMenu.x"
       :y="contextMenu.y"
-      :scroll-lock-element="scrollLockElement"
       @close="closeContextMenu"
     >
       <ConversationContextMenu

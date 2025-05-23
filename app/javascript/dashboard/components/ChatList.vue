@@ -86,9 +86,8 @@ const store = useStore();
 
 const conversationListRef = ref(null);
 const conversationDynamicScroller = ref(null);
-const conversationListScrollableElement = computed(
-  () => conversationDynamicScroller.value?.$el
-);
+
+provide('contextMenuElementTarget', conversationDynamicScroller);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
@@ -916,7 +915,6 @@ watch(conversationFilters, (newVal, oldVal) => {
               :folders-id="foldersId"
               :conversation-type="conversationType"
               :show-assignee="showAssigneeInConversationCard"
-              :scroll-lock-element="conversationListScrollableElement"
               @select-conversation="selectConversation"
               @de-select-conversation="deSelectConversation"
             />
