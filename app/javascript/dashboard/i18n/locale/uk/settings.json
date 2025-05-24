@@ -185,7 +185,8 @@
           "OFFLINE": "Не в мережі"
         },
         "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
-        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
+        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",

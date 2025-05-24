@@ -185,7 +185,8 @@
           "OFFLINE": "Fora de línia"
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilitat s'ha establert correctament",
-        "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar"
+        "SET_AVAILABILITY_ERROR": "No s'ha pogut establir la disponibilitat, torna-ho a provar",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "La teva adreça de correu electrònic",

@@ -185,7 +185,8 @@
           "OFFLINE": "Atsijungęs"
         },
         "SET_AVAILABILITY_SUCCESS": "Pasiekiamumas nustatytas sėkmingai",
-        "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą"
+        "SET_AVAILABILITY_ERROR": "Nepavyko nustatyti pasiekiamumo, bandykite dar kartą",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Jūsų el. pašto adresas",

@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "Contacte esborrat",
       "DELETE_DIALOG": {
         "TITLE": "Confirma l'esborrat",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "Si, esborra",
         "API": {
           "SUCCESS_MESSAGE": "Contacte esborrat correctament",

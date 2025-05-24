@@ -185,7 +185,8 @@
           "OFFLINE": "לא מחובר"
         },
         "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
-        "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית"
+        "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "כתובת הדוא\"ל שלך",

@@ -185,7 +185,8 @@
           "OFFLINE": "Оффлайн"
         },
         "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
-        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
+        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",

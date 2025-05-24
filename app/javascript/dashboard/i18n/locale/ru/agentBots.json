@@ -59,6 +59,11 @@
         "ERROR_MESSAGE": "Не удалось обновить бота. Пожалуйста, повторите попытку позже."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Токен доступа",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"

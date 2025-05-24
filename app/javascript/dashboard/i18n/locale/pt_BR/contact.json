@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Adicionar Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "Esta ação é permanente e irreversível.",
+        "BUTTON": "Excluir agora"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "Excluir contato",
       "DELETE_DIALOG": {
         "TITLE": "Confirmar exclusão",
-        "DESCRIPTION": "Tem certeza de que deseja excluir este contato {contactName}?",
+        "DESCRIPTION": "Tem certeza de que deseja excluir este contato?",
         "CONFIRM": "Sim, excluir",
         "API": {
           "SUCCESS_MESSAGE": "Contato excluído com sucesso",

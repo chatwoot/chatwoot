@@ -185,7 +185,8 @@
           "OFFLINE": "Không Trực Tuyến"
         },
         "SET_AVAILABILITY_SUCCESS": "Tính khả dụng đã được thiết lập thành công",
-        "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại"
+        "SET_AVAILABILITY_ERROR": "Không thể đặt, vui lòng thử lại",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Địa chỉ email của bạn",

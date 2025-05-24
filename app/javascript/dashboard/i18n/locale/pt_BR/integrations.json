@@ -330,12 +330,14 @@
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copiloto",
       "SEND_MESSAGE": "Enviar mensagem...",
       "EMPTY_MESSAGE": "Houve um erro ao gerar a resposta. Por favor, tente novamente.",
       "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
+      "SHOW_STEPS": "Mostrar etapas",
       "SELECT_ASSISTANT": "Selecione o Assistente",
       "PROMPTS": {
         "SUMMARIZE": {
@@ -368,7 +370,6 @@
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "A função de Capitão AI só está disponível num plano pago.",
       "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilotos e muito mais.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
@@ -410,6 +411,10 @@
           "LABEL": "Nome",
           "PLACEHOLDER": "Digite o nome do assistente",
           "ERROR": "O nome é obrigatório"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",

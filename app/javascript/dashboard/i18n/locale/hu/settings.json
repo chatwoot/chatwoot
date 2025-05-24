@@ -185,7 +185,8 @@
           "OFFLINE": "Offline"
         },
         "SET_AVAILABILITY_SUCCESS": "Elérhetőség beállítása sikeres",
-        "SET_AVAILABILITY_ERROR": "Nem sikerült beállítani az elérhetőséget, kérlek, próbáld újra"
+        "SET_AVAILABILITY_ERROR": "Nem sikerült beállítani az elérhetőséget, kérlek, próbáld újra",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Az e-mailcímed",

@@ -457,6 +457,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +470,7 @@
       "DELETE_CONTACT": "연락처 지우기",
       "DELETE_DIALOG": {
         "TITLE": "삭제 확인",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "예, 삭제합니다",
         "API": {
           "SUCCESS_MESSAGE": "연락처가 성공적으로 삭제되었습니다",

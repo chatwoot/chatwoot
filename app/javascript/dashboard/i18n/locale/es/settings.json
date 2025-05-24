@@ -185,7 +185,8 @@
           "OFFLINE": "Desconectado"
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
-        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
+        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
