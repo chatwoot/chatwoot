@@ -85,10 +85,10 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 - CSAT Reports to measure customer satisfaction.
 - Downloadable Reports for offline analysis and reporting.
 
-## Prerequisties
+## ✅ Prerequisties 
 ### Install all of the pre-requisites:
 
-  #### Docker
+  #### 🛳️ Docker
 - Docker: (https://docs.docker.com/get-docker/)
 - Docker Compose: (https://docs.docker.com/compose/install/)
 
@@ -114,32 +114,165 @@ Please refer to your specific operating system to install PostgresSQL appropriat
   - Ubuntu: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/#installing-postgresql)
   - Windows 10: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows#installing-postgresql)
 
-#### Redis (version 7.0 or higher):
+#### 🕹️ Redis (version 7.0 or higher):
   - MacOS: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/mac-os#install-redis)
   - Ubuntu: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/#installing-redis)
   - Windows 10: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows#installing-redis)
 
-#### ImageMagick:
+#### 🪄 ImageMagick:
   - Installation: (https://imagemagick.org/script/download.php)
 
 #### Git: 
   - Installation: (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
 
-#### Speed up the installation process using "Make" command:
+#### 🏎️ Speed up the installation process using "Make" command:
   - Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/make#install-ruby--javascript-dependencies)
 
 
-### Unsure of any specific pre-requisites to install as per your operating system? Check out the links below to double check: 
+### 🤔 Unsure of any specific pre-requisites to install as per your operating system? Check out the links below to double check: 
   - MACOS Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/macos/)
   - Ubuntu Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/)
   - Windows 10 Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows/)
   - Docker Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/docker)
 
-## Front-end & Back-end environments
+## 💻 Front-end & Back-end environments
+  Please go back and check that the appropriate prerequisites are installed as per your operating system. 
 
-## How to run the application locally
+  Now that you've done it, let's begin the front-end and back-end setup :)
 
-## Testing the Core Functionality
+  ### 1. Clone the Repo:
+
+    # change location to the path you want chatwoot to be installed
+    cd ~
+
+    # clone the repo and cd to chatwoot dir
+    git clone https://github.com/chatwoot/chatwoot.git
+    cd chatwoot
+
+  ### 2. Install Ruby & Javascript dependencies:
+
+    Use the following command to run **bundle && pnpm install** to install ruby and Javascript dependencies.
+    <b> make burn </b>
+    It's important to note that this would install all required dependencies for Chatwoot application. 
+    Should errors pop up, please refer to (https://www.chatwoot.com/docs/contributing-guide/common-errors#pg-gem-installation-error)
+
+  ### 3. 🌎 Setup environment variables
+
+    **cp .env.example .env**
+
+  ##### Please refer to the following link setting up environment variables 
+  
+    https://www.chatwoot.com/docs/contributing-guide/environment-variables 
+
+  ### 4. Setup Rails Server
+
+      # run db migrations
+      make db
+      # fireup the server
+      foreman start -f Procfile.dev
+    
+  ### 5. Docker development. PLEASE NOTE: IF YOU ARE DEVELOPING WITH DOCKER, DO THIS PART. Skip otherwise
+
+
+  #### 1. Type the following commands IN ORDER
+    
+       # build base image first
+      docker compose build base
+
+       # build the server and worker
+      docker compose build   
+
+       # prepare the database
+      docker compose exec rails bundle exec rails db:chatwoot_prepare
+
+  #### 2. Docker Compose Up
+
+  ##### To summarize, the Docker Compose Up consists of a Chatwoot server, Postgres, Redis, and webpacker-dev-server
+      
+  ##### Run the following command
+    
+        docker compose run --rm rails bundle exec rails db:chatwoot_prepare
+
+  ##### Once all of the above is done, **copy and paste the link http://localhost:3000 onto your web search engine**
+
+  ##### Should you like to stop the local host execution, simply click Ctrl + C or Command + C if you have a Windows or Mac, respectively**
+
+  ##### If you decide to change the Dockerfile's service of the build factory content, run
+  
+        stop 
+  
+  ##### then 
+      
+        build
+      
+  ##### Below is an example code snippet on how to do this:
+
+         docker compose stop
+         docker compose build
+    
+  ##### If you decide to reset the database or encounter a seeding issue, then type the following command:
+
+         docker compose run -rm rails bundle exec rake db:reset
+
+ 
+
+
+## 🏃‍♂️ Run the application locally 
+
+  ### Follow the instructions below
+    
+      Type the localhost link into your web browser: http://localhost:3000
+      Type an example username: john@acme.inc
+      Type an example password: Password1!
+    
+
+## 🧪 Testing the Core Functionality
+
+  ### Testing the chatwoot widget
+  #### To access the chat widget part, simply type (or copy and paste) the following link into your web browser: 
+          
+          http://localhost:3000/widget_tests
+
+  #### If you're interested to test the user setting method, type the following link:
+          
+          http://localhost:3000/widget_tests?setUser=true
+          
+  ### ✅ Debugging the Docker Server
+  #### If you're interested in debugging the docker server, click the image link: https://hub.docker.com/r/chatwoot/chatwoot
+          
+  #### Or, simply type the following command:
+      
+      docker pull chatwoot/chatwoot
+
+  #### If you'd like to create the image by yourself, simply type the following command: 
+      
+      docker compose -f docker-compose.production.yaml build
+
+## Running into Errors? 
+
+  ### If you're running into Redis connection errors such as the one below: 
+
+      ArgumentError: invalid uri scheme
+
+  ### It's likely that you have not properly set up the redis environment variables correctly.
+  ### Please refer to the Redis dependency server section and check-out the following link: 
+      https://www.chatwoot.com/docs/environment-variables
+
+  ### Running into PG Gem errors? It's likely you're seeing the log below:
+    Gem::Ext::BuildError: ERROR: Failed to build gem native extension.
+
+    An error occurred while installing pg (x.x.x), and Bundler cannot
+    continue.
+    Make sure that `gem install pg -v 'x.x.x' --source 'https://rubygems.org/'`
+    succeeds before bundling.
+
+    checking for pg_config... no
+    No pg_config... trying anyway. If building fails, please try again with
+     --with-pg-config=/path/to/pg_config
+
+  ### Solution: Execute the command below
+    gem install pg -v 'x.x.x' --source 'https://rubygems.org/' -- --with-pg-config=path-to-postgres-installation/12/bin/pg_config
+
 
 ## Documentation
 
