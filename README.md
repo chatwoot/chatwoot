@@ -52,7 +52,7 @@ ENABLE_ACCOUNT_SIGNUP=true #set it to true if you want to sign up new user accou
 # POSTGRES_DATABASE
 POSTGRES_HOST=postgres
 POSTGRES_USERNAME=postgres
-POSTGRES_PASSWORD=123456
+POSTGRES_PASSWORD=YOUR_PASSWORD
 
 # Redis
 #for the URL: redis://:password@host:port/db_number
