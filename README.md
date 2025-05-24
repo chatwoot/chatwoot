@@ -86,6 +86,54 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 - Downloadable Reports for offline analysis and reporting.
 
 ## Prerequisties
+### Install all of the pre-requisites:
+
+  #### Docker
+- Docker: (https://docs.docker.com/get-docker/)
+- Docker Compose: (https://docs.docker.com/compose/install/)
+
+#### Ruby v3.2 or higher:
+  Chatwoot uses Ruby and RVM. Please refer to your specific operating system to install Ruby and RVM appropriately
+  - MacOS: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/mac-os#install-rvm-or-rbenv)
+  - Ubuntu: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/#installing-ruby)
+  - Windows 10: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows#installing-rvm--ruby)
+
+#### Node.JS: 
+  Use [nvm](https://github.com/nvm-sh/nvm) or [fnm](https://github.com/Schniz/fnm) for version management
+  Otherwise, please refer to your specific operating system to install Node.JS appropriately:
+  - MacOS: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/mac-os#install-nodejs)
+  - Ubuntu: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/#install-nodejs)
+  - Windows 10: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows#install-nodejs)
+
+#### PNPM:
+ - Install PNPM: (https://pnpm.io/installation)
+
+#### PostgresSQL 
+Please refer to your specific operating system to install PostgresSQL appropriately: 
+  - MACOS: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/mac-os#install-postgresql)
+  - Ubuntu: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/#installing-postgresql)
+  - Windows 10: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows#installing-postgresql)
+
+#### Redis (version 7.0 or higher):
+  - MacOS: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/mac-os#install-redis)
+  - Ubuntu: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/#installing-redis)
+  - Windows 10: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows#installing-redis)
+
+#### ImageMagick:
+  - Installation: (https://imagemagick.org/script/download.php)
+
+#### Git: 
+  - Installation: (https://git-scm.com/book/en/v2/Getting-Started-Installing-Git)
+
+#### Speed up the installation process using "Make" command:
+  - Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/make#install-ruby--javascript-dependencies)
+
+
+### Unsure of any specific pre-requisites to install as per your operating system? Check out the links below to double check: 
+  - MACOS Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/macos/)
+  - Ubuntu Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/ubuntu/)
+  - Windows 10 Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/windows/)
+  - Docker Setup Guide: (https://www.chatwoot.com/docs/contributing-guide/environment-setup/docker)
 
 ## Front-end & Back-end environments
 
