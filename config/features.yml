@@ -169,3 +169,6 @@
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+- name: chat_preserve_user_scroll
+  display_name: Preserve User Scroll on Chat
+  enabled: false

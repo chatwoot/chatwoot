@@ -36,6 +36,7 @@ export const FEATURE_FLAGS = {
   REPORT_V4: 'report_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
+  CHAT_PRESERVE_USER_SCROLL: 'chat_preserve_user_scroll',
 };
 
 export const PREMIUM_FEATURES = [
