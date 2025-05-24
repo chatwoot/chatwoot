@@ -135,7 +135,23 @@ describe Messages::MessageBuilder do
       end
 
       it 'creates attachment with is_recorded_audio metadata' do
+        params[:is_recorded_audio] = true
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with is_recorded_audio metadata when param is array of filenames' do
         params[:is_recorded_audio] = ['avatar.png']
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with is_recorded_audio metadata when param is string with array' do
+        params[:is_recorded_audio] = '["avatar.png"]'
 
         message = message_builder
 

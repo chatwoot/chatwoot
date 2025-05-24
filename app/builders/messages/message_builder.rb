@@ -79,12 +79,20 @@ class Messages::MessageBuilder
     end
   end
 
-  def process_metadata(attachment)
+  def process_metadata(attachment) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity
     # NOTE: `is_recorded_audio` can be either a boolean or an array of file names.
     return unless @is_recorded_audio
     return { is_recorded_audio: true } if @is_recorded_audio == true
 
-    { is_recorded_audio: true } if @is_recorded_audio.is_a?(Array) && attachment.original_filename.in?(@is_recorded_audio)
+    return { is_recorded_audio: true } if @is_recorded_audio.is_a?(Array) && attachment.original_filename.in?(@is_recorded_audio)
+
+    # FIXME: Remove backwards compatibility with old format.
+    if @is_recorded_audio.is_a?(String)
+      parsed = JSON.parse(@is_recorded_audio)
+      { is_recorded_audio: true } if parsed.is_a?(Array) && attachment.original_filename.in?(parsed)
+    end
+  rescue JSON::ParserError
+    nil
   end
 
   def process_emails

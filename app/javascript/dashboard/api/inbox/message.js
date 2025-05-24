@@ -23,7 +23,9 @@ export const buildCreatePayload = ({
     files.forEach(file => {
       payload.append('attachments[]', file);
     });
-    payload.append('is_recorded_audio', JSON.stringify(isRecordedAudio));
+    isRecordedAudio?.forEach(filename => {
+      payload.append('is_recorded_audio[]', filename);
+    });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
