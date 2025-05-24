@@ -18,7 +18,7 @@
           v-if="query"
           :tabs="tabs"
           :selected-tab="activeTabIndex"
-          @tab-change="tab => (selectedTab = tab)"
+          @tab-change="handleTabChange"
         />
       </header>
       <div class="search-results">
@@ -85,7 +85,7 @@ export default {
   },
   data() {
     return {
-      selectedTab: 'all',
+      selectedTab: 'messages',
       query: '',
     };
   },
@@ -115,17 +115,17 @@ export default {
         type: 'message',
       }));
     },
-    all() {
-      return [...this.contacts, ...this.conversations, ...this.messages];
-    },
+    // all() {
+    //   return [...this.contacts, ...this.conversations, ...this.messages];
+    // },
     filterContacts() {
-      return this.selectedTab === 'contacts' || this.isSelectedTabAll;
+      return this.selectedTab === 'contacts';
     },
     filterConversations() {
-      return this.selectedTab === 'conversations' || this.isSelectedTabAll;
+      return this.selectedTab === 'conversations';
     },
     filterMessages() {
-      return this.selectedTab === 'messages' || this.isSelectedTabAll;
+      return this.selectedTab === 'messages';
     },
     totalSearchResultsCount() {
       return (
@@ -134,10 +134,15 @@ export default {
     },
     tabs() {
       return [
+        // {
+        //   key: 'all',
+        //   name: this.$t('SEARCH.TABS.ALL'),
+        //   count: this.totalSearchResultsCount,
+        // },
         {
-          key: 'all',
-          name: this.$t('SEARCH.TABS.ALL'),
-          count: this.totalSearchResultsCount,
+          key: 'messages',
+          name: this.$t('SEARCH.TABS.MESSAGES'),
+          count: this.messages.length,
         },
         {
           key: 'contacts',
@@ -148,11 +153,6 @@ export default {
           key: 'conversations',
           name: this.$t('SEARCH.TABS.CONVERSATIONS'),
           count: this.conversations.length,
-        },
-        {
-          key: 'messages',
-          name: this.$t('SEARCH.TABS.MESSAGES'),
-          count: this.messages.length,
         },
       ];
     },
@@ -188,14 +188,21 @@ export default {
   },
   methods: {
     onSearch(q) {
-      this.selectedTab = 'all';
+      // this.selectedTab = 'all';
       this.query = q;
       if (!q) {
         this.$store.dispatch('conversationSearch/clearSearchResults');
         return;
       }
       this.$track(CONVERSATION_EVENTS.SEARCH_CONVERSATION);
-      this.$store.dispatch('conversationSearch/fullSearch', { q });
+      this.$store.dispatch('conversationSearch/fullSearch', {
+        q,
+        type: this.selectedTab,
+      });
+    },
+    handleTabChange(tab) {
+      this.selectedTab = tab;
+      this.onSearch(this.query);
     },
     onBack() {
       if (window.history.length > 2) {

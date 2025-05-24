@@ -35,6 +35,9 @@ export default {
       }
     },
   },
+  mounted() {
+    this.activeTab = this.selectedTab;
+  },
   methods: {
     onTabChange(index) {
       this.activeTab = index;

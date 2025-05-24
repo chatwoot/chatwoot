@@ -52,7 +52,7 @@ export const actions = {
       });
     }
   },
-  async fullSearch({ commit, dispatch }, { q }) {
+  async fullSearch({ commit, dispatch }, { q, type }) {
     if (!q) {
       return;
     }
@@ -60,12 +60,19 @@ export const actions = {
       isFetching: true,
       isSearchCompleted: false,
     });
+    const searchActions = {
+      messages: () => dispatch('messageSearch', { q }),
+      contacts: () => dispatch('contactSearch', { q }),
+      conversations: () => dispatch('conversationSearch', { q }),
+      default: () =>
+        Promise.all([
+          dispatch('contactSearch', { q }),
+          dispatch('conversationSearch', { q }),
+          dispatch('messageSearch', { q }),
+        ]),
+    };
     try {
-      await Promise.all([
-        dispatch('contactSearch', { q }),
-        dispatch('conversationSearch', { q }),
-        dispatch('messageSearch', { q }),
-      ]);
+      await (searchActions[type] || searchActions.default)();
     } catch (error) {
       // Ignore error
     } finally {
