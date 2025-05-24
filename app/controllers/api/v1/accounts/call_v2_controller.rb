@@ -255,15 +255,13 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
 
     Rails.logger.info("formatted_to_number #{payload['to']}")
 
-    url = 'https://in1-ccaas-api.ozonetel.com/ca_apis/PhoneManualDial'
+    url = 'https://in1-ccaas-api.ozonetel.com/ca_apis/AgentManualDial'
 
     params = {
       userName: external_provider_config['userName'],
-      custNumber: payload['to'],
-      phoneName: phone_name,
-      did: external_provider_config['outboundDid'],
-      campaignName: campaign_name,
-      checkStatus: true
+      customerNumber: payload['to'],
+      agentID: phone_name,
+      campaignName: campaign_name
     }
 
     Rails.logger.info("params, #{params.to_json.inspect}")
