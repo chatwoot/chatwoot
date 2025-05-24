@@ -199,33 +199,41 @@ pt_BR:
     online:
       delete: '%{contact_name} está Online, por favor, tente novamente mais tarde'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Painel de Aplicativos'
       description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
     dyte:
       name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
       description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
       meeting_name: '%{agent_name} começou a reunião'
     slack:
       name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
       description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
     webhooks:
       name: 'Webhooks'
       description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
     dialogflow:
       name: 'Dialogflow'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
       description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
     google_translate:
       name: 'Tradutor do Google'
+      short_description: 'Automatically translate customer messages for agents.'
       description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
     openai:
       name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
       description: 'Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos.'
     linear:
       name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
     shopify:
       name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Conecte sua loja Shopify para acessar detalhes de pedidos, informações de clientes e dados de produtos diretamente em suas conversas e ajudar sua equipe de suporte a fornecer um atendimento mais rápido e contextual aos seus clientes.'
     leadsquared:
       name: 'LeadSquared'
