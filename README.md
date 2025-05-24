@@ -85,6 +85,13 @@ Publish help articles, FAQs, and guides through the built-in Help Center Portal.
 - CSAT Reports to measure customer satisfaction.
 - Downloadable Reports for offline analysis and reporting.
 
+## Prerequisties
+
+## Front-end & Back-end environments
+
+## How to run the application locally
+
+## Testing the Core Functionality
 
 ## Documentation
 
