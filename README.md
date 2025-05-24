@@ -138,3 +138,133 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
+
+
+# Installing Guide for Windows with WSL2
+
+## 🐧 Installation of WSL2
+
+1. First, install the Windows Subsystem for Linux (WSL2).
+2. Go to **Settings → Update & Security → For Developers**, and enable **Developer Mode**.
+3. Search for **Windows Features**, open it, and enable:
+   - **Windows Subsystem for Linux**
+   - **Virtual Machine Platform**
+4. Restart your computer if prompted.
+5. Open the Microsoft Store, search for **Ubuntu**, and install your preferred version (e.g., Ubuntu 22.04 LTS).
+
+---
+
+## ⚙️ Installation of Libraries and Environment Setup
+
+### 1. Open Ubuntu and Setup Login
+
+- Launch the Ubuntu app and create a user with a password.
+
+### 2. Install Core Linux Libraries
+
+```bash
+sudo apt-get update
+sudo apt-get install -y git-core curl zlib1g-dev build-essential libssl-dev libreadline-dev \
+libyaml-dev libsqlite3-dev sqlite3 libxml2-dev libxslt1-dev libcurl4-openssl-dev \
+software-properties-common libffi-dev
+```
+
+### 3. Install Ruby (via RVM)
+
+```bash
+sudo apt-get install -y libgdbm-dev libncurses5-dev automake libtool bison libffi-dev
+gpg --keyserver hkp://keys.gnupg.net --recv-keys \
+409B6B1796C275462A1703113804BB82D39DC0E3 \
+7D2BAF1CF37B13E2069D6956105BD0E739499BDB
+curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+rvm install 3.2.2     # Or any required version like 3.4.4
+rvm use 3.2.2 --default
+```
+
+### 4. Install Node.js
+
+```bash
+curl -sL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt-get install -y nodejs
+```
+
+### 5. Install pnpm
+
+```bash
+curl -fsSL https://get.pnpm.io/install.sh | sh -
+```
+
+> 💡 After installation, restart your terminal or run `source ~/.bashrc`.
+
+### 6. Install PostgreSQL
+
+```bash
+sudo apt install -y postgresql postgresql-contrib
+sudo apt-get install -y libpq-dev
+```
+
+> 🔧 **Note:** Edit PostgreSQL configuration to use password authentication:
+> - Open: `/etc/postgresql/<version>/main/pg_hba.conf`
+> - Replace `peer` with `md5` for `local` connections.
+> - Restart PostgreSQL: `sudo service postgresql restart`
+
+### 7. Install Redis
+
+```bash
+sudo apt-get install -y redis-server
+sudo systemctl enable redis-server.service
+```
+
+### 8. Install ImageMagick
+
+```bash
+sudo apt-get install -y imagemagick
+```
+
+---
+
+## 🚀 Cloning the Repository and Setup
+
+1. Fork the [Chatwoot GitHub repository](https://github.com/chatwoot/chatwoot) to your own account.
+2. Open the Ubuntu terminal and clone your fork:
+
+```bash
+git clone <your_forked_repo_url>
+cd chatwoot
+git checkout master
+```
+
+### 3. Install Ruby and JavaScript Dependencies
+
+```bash
+make burn
+```
+
+### 4. Setup Environment Variables
+
+```bash
+cp .env.example .env
+```
+Open the .env and setup Postgres password and Redis password make host localhost.
+
+### 5. Setup Rails Database
+
+```bash
+make db
+```
+
+### 6. Start the Development Server
+
+```bash
+foreman start -f Procfile.dev
+```
+
+---
+
+## ✅ Launch the App
+
+- Once the server is running, open your browser and navigate to [http://localhost:3000](http://localhost:3000)
+- You should see Chatwoot running locally!
+
+
