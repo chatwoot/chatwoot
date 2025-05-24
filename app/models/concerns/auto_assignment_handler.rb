@@ -9,7 +9,7 @@ module AutoAssignmentHandler
   def run_auto_assignment_for_web_widget_inbox
     return if stop_auto_assignment_for_web_widget
 
-    return unless should_run_auto_assignment?
+    # return unless should_run_auto_assignment?
 
     Rails.logger.info("member_ids_with_assignment_capacity, #{inbox.member_ids_with_assignment_capacity}")
 
