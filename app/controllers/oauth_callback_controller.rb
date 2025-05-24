@@ -47,6 +47,7 @@ class OauthCallbackController < ApplicationController
     channel_email.update!({
                             imap_login: users_data['email'], imap_address: imap_address,
                             imap_port: '993', imap_enabled: true,
+                            smtp_enabled: false,
                             provider: provider_name,
                             provider_config: {
                               access_token: parsed_body['access_token'],
