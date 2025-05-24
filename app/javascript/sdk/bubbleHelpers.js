@@ -2,8 +2,9 @@ import { addClasses, removeClasses, toggleClass } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
 import { isExpandedView } from './settingsHelper';
 
-export const bubbleSVGStandard =
-  'M33,0A33,33,0,1,0,66,33,33,33,0,0,0,33,0ZM20,37.38A4.38,4.38,0,1,1,24.34,33,4.38,4.38,0,0,1,20,37.38Zm13,0A4.38,4.38,0,1,1,37.38,33,4.38,4.38,0,0,1,33,37.38Zm13,0A4.38,4.38,0,1,1,50.42,33,4.38,4.38,0,0,1,46,37.38Z';
+// export const bubbleSVGStandard = 'M45,0A45,45,0,1,0,90,45,45,45,0,0,0,45,0Z';
+export const bubbleSVGStandard = 'M41,0A41,41,0,1,0,82,41,41,41,0,0,0,41,0Z';
+// 'M66,0A66,66,0,1,0,132,66 A66,66,0,1,0,66,0Z';
 
 export const bubbleSVGExpanded =
   'M197.48,196.66c1-.9,1.9-1.82,2.84-2.75A113.59,113.59,0,1,0,39.68,33.27a113.59,113.59,0,0,0,0,160.64,112.71,112.71,0,0,0,66.67,32.46l83.85,12.69c18.8,3.22,18-1.45,13.16-19.9ZM79.3,127.27A13.68,13.68,0,1,1,93,113.59,13.68,13.68,0,0,1,79.3,127.27Zm40.7,0a13.68,13.68,0,1,1,13.68-13.68A13.68,13.68,0,0,1,120,127.27Zm40.7,0a13.68,13.68,0,1,1,13.68-13.68A13.69,13.69,0,0,1,160.7,127.27Z';
@@ -23,16 +24,17 @@ export const setBubbleText = bubbleText => {
   }
 };
 
-export const createBubbleIcon = ({ className, path, target }) => {
+export const createBubbleIcon = ({ className, path, target, logoColors }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
   const bubbleIcon = document.createElementNS(
     'http://www.w3.org/2000/svg',
     'svg'
   );
   bubbleIcon.setAttributeNS(null, 'id', 'woot-widget-bubble-icon');
-  bubbleIcon.setAttributeNS(null, 'width', '24');
-  bubbleIcon.setAttributeNS(null, 'height', '24');
+  bubbleIcon.setAttributeNS(null, 'width', '100%');
+  bubbleIcon.setAttributeNS(null, 'height', '100%');
   bubbleIcon.setAttributeNS(null, 'viewBox', '0 0 240 240');
+
   bubbleIcon.setAttributeNS(null, 'fill', 'none');
   bubbleIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
@@ -53,7 +55,38 @@ export const createBubbleIcon = ({ className, path, target }) => {
     target.appendChild(textNode);
     bubbleClassName += ' woot-widget--expanded';
   }
+  const xStart = 23;
+  const xSep = 18;
+  const rad = 7;
+  const yOff = 41;
 
+  console.log('Logo colors got: ', logoColors);
+  const c1 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+  c1.setAttribute('cx', xStart);
+  c1.setAttribute('cy', yOff);
+  c1.setAttribute('r', '7');
+  c1.setAttribute('fill', logoColors.dot1);
+
+  bubbleIcon.appendChild(c1);
+
+  const c2 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+  c2.setAttribute('cx', `${xStart + xSep}`);
+  c2.setAttribute('cy', yOff);
+  c2.setAttribute('r', '7');
+  c2.setAttribute('fill', logoColors.dot2);
+
+  bubbleIcon.appendChild(c2);
+
+  const c3 = document.createElementNS('http://www.w3.org/2000/svg', 'circle');
+
+  c3.setAttribute('cx', `${xStart + 2* xSep}`);
+  c3.setAttribute('cy', yOff);
+  c3.setAttribute('r', '7');
+  c3.setAttribute('fill', logoColors.dot3);
+
+  bubbleIcon.appendChild(c3);
   target.className = bubbleClassName;
   target.title = 'Open chat window';
   return target;

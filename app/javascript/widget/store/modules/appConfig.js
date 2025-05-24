@@ -4,6 +4,7 @@ import {
   SET_REFERRER_HOST,
   SET_WIDGET_APP_CONFIG,
   SET_WIDGET_COLOR,
+  SET_LOGO_COLORS,
   TOGGLE_WIDGET_OPEN,
 } from '../types';
 
@@ -17,6 +18,7 @@ const state = {
   referrerHost: '',
   showPopoutButton: false,
   widgetColor: '',
+  logoColors: {},
   widgetStyle: 'standard',
   darkMode: 'light',
 };
@@ -60,6 +62,9 @@ export const actions = {
   setWidgetColor({ commit }, widgetColor) {
     commit(SET_WIDGET_COLOR, widgetColor);
   },
+  setLogoColors({ commit }, logoColors) {
+    commit(SET_LOGO_COLORS, logoColors);
+  },
   setColorScheme({ commit }, darkMode) {
     commit(SET_COLOR_SCHEME, darkMode);
   },
@@ -86,6 +91,10 @@ export const mutations = {
   },
   [SET_WIDGET_COLOR]($state, widgetColor) {
     $state.widgetColor = widgetColor;
+  },
+
+  [SET_LOGO_COLORS]($state, logoColors) {
+    $state.logoColors = logoColors;
   },
   [SET_REFERRER_HOST]($state, referrerHost) {
     $state.referrerHost = referrerHost;

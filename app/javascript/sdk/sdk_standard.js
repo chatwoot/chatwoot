@@ -65,7 +65,7 @@ export const SDK_CSS_STANDARD = `
     101% 100%,
     0 100%
   );
-  overflow:; hidden;
+  overflow: hidden;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
@@ -157,8 +157,11 @@ export const SDK_CSS_STANDARD = `
   all: revert;
   height: 138px;
   // margin: 13.5px;
-  margin-left: 17.85px;
-  margin-top: 9.5px;
+  // margin-left: 17.85px;
+  // margin-top: 9.5px;
+  margin-left: 11.8px;
+  margin-top: 4.4px;
+
   width: 138px;
   border-radius: 0%;
   transform: rotate(-5deg) !important;

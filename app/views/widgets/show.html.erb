@@ -33,6 +33,10 @@
       window.authToken = '<%= @token %>'
       window.globalConfig = <%= raw @global_config.to_json %>
     </script>
+    <script nonce="<%= content_security_policy_nonce %>">
+      const logoColors = <%= raw @web_widget.logo_colors.to_json %>;
+      window.chatwootWebChannel.logoColors = logoColors;
+    </script>
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'widget' %>
   </head>
