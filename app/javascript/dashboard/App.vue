@@ -45,6 +45,8 @@ import {
   verifyServiceWorkerExistence,
 } from './helper/pushHelper';
 import ReconnectService from 'dashboard/helper/ReconnectService';
+import { loadIntercom, shutdownIntercom } from 'shared/helpers/intercom';
+import axios from 'axios';
 
 export default {
   name: 'App',
@@ -121,7 +123,24 @@ export default {
     setLocale(locale) {
       this.$root.$i18n.locale = locale;
     },
+    async fetchShopUrl(accountId) {
+      try {
+        const response = await axios.get(
+          `https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/accountDetails/${accountId}`
+        );
+        return response.data.accountDetails.shopUrl;
+      } catch (error) {
+        this.$store.dispatch('notifications/create', {
+          type: 'error',
+          message: 'Failed to fetch shop URL',
+        });
+        return null;
+      }
+    },
     async initializeAccount() {
+      // Shutdown Intercom before switching accounts
+      shutdownIntercom();
+
       await this.$store.dispatch('accounts/get');
       this.$store.dispatch('setActiveAccount', {
         accountId: this.currentAccountId,
@@ -142,6 +161,16 @@ export default {
           }
         })
       );
+
+      // Fetch shop URL and initialize Intercom
+      const shopUrl = await this.fetchShopUrl(this.currentAccountId);
+      // eslint-disable-next-line no-console
+      console.log('shopUrl', shopUrl);
+      if (shopUrl) {
+        loadIntercom({
+          shopUrl,
+        });
+      }
     },
   },
 };

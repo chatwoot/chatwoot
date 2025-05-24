@@ -375,8 +375,6 @@ GEM
       blingfire (>= 0.1.7)
       numo-narray
       onnxruntime (>= 0.5.1)
-    intercom-rails (1.0.0)
-      activesupport (> 4.0)
     io-console (0.6.0)
     irb (1.7.2)
       reline (>= 0.3.6)
@@ -897,7 +895,6 @@ DEPENDENCIES
   html2text!
   image_processing
   informers
-  intercom-rails
   jbuilder
   json_refs
   json_schemer
