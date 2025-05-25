@@ -41,10 +41,16 @@ Rails.application.reloader.to_prepare do
   Facebook::Messenger::Bot.on :message_echo do |message|
     Webhooks::FacebookEventsJob.perform_later(message.to_json)
   end
-  
+
   # Thêm xử lý postback message
   Facebook::Messenger::Bot.on :postback do |postback|
     Rails.logger.info "Received postback #{postback.to_json}"
     Webhooks::FacebookEventsJob.perform_later(postback.to_json)
+  end
+
+  # Thêm xử lý messaging_referrals để track nguồn từ ads
+  Facebook::Messenger::Bot.on :referral do |referral|
+    Rails.logger.info "Received referral from ads #{referral.to_json}"
+    Webhooks::FacebookEventsJob.perform_later(referral.to_json)
   end
 end

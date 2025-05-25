@@ -725,7 +725,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
     t.boolean "csat_survey_enabled", default: false
     t.boolean "allow_messages_after_resolved", default: true
     t.jsonb "auto_assignment_config", default: {}
-    t.boolean "lock_to_single_conversation", default: false, null: false
+    t.boolean "lock_to_single_conversation", default: true, null: false
     t.bigint "portal_id"
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"

@@ -45,7 +45,7 @@ class Channel::FacebookPage < ApplicationRecord
     Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
-        messages message_deliveries message_echoes message_reads standby messaging_handovers messaging_postbacks
+        messages message_deliveries message_echoes message_reads standby messaging_handovers messaging_postbacks messaging_referrals
       ]
     )
   rescue StandardError => e
@@ -58,5 +58,20 @@ class Channel::FacebookPage < ApplicationRecord
   rescue StandardError => e
     Rails.logger.debug { "Rescued: #{e.inspect}" }
     true
+  end
+
+  # Facebook Dataset configuration
+  def facebook_dataset_enabled?
+    provider_config&.dig('facebook_dataset', 'enabled') == true
+  end
+
+  def facebook_dataset_config
+    provider_config&.dig('facebook_dataset') || {}
+  end
+
+  def update_facebook_dataset_config(config)
+    current_config = provider_config || {}
+    current_config['facebook_dataset'] = config
+    update!(provider_config: current_config)
   end
 end

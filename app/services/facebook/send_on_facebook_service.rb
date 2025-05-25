@@ -6,6 +6,9 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def perform_reply
+    # Kiểm tra và refresh token nếu cần trước khi gửi tin nhắn
+    ensure_valid_token
+
     # Gửi typing indicator trước khi gửi tin nhắn
     # Sử dụng phương thức mới mark_seen_and_typing để đảm bảo typing hoạt động trên di động
     enable_typing_indicator
@@ -254,13 +257,54 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     conversation.messages.outgoing.where('id > ?', conversation.last_incoming_message.id).count == 1
   end
 
+  # Kiểm tra và đảm bảo token hợp lệ trước khi gửi tin nhắn
+  def ensure_valid_token
+    refresh_service = Facebook::RefreshOauthTokenService.new(channel: channel)
+
+    # Kiểm tra token hiện tại
+    unless refresh_service.token_valid?
+      Rails.logger.warn("Invalid Facebook token detected for page #{channel.page_id}, attempting refresh")
+
+      # Thử refresh token
+      refreshed_token = refresh_service.attempt_token_refresh
+
+      # Kiểm tra lại sau khi refresh
+      unless refresh_service.token_valid?
+        Rails.logger.error("Failed to refresh Facebook token for page #{channel.page_id}")
+        raise Facebook::Messenger::FacebookError.new("Token refresh failed - manual reauthorization required")
+      else
+        Rails.logger.info("Successfully refreshed Facebook token for page #{channel.page_id}")
+      end
+    end
+  end
+
   def handle_facebook_error(exception)
     error_message = exception.message
 
-    if error_message.include?('The session has been invalidated') ||
-       error_message.include?('Error validating access token') ||
-       error_message.include?('Invalid OAuth access token')
+    # Kiểm tra các loại lỗi token khác nhau
+    token_error_patterns = [
+      'The session has been invalidated',
+      'Error validating access token',
+      'Invalid OAuth access token',
+      'OAuthException',
+      'The user has not authorized application',
+      'Token refresh failed'
+    ]
+
+    if token_error_patterns.any? { |pattern| error_message.include?(pattern) }
+      Rails.logger.error("Facebook token error detected: #{error_message}")
       channel.authorization_error!
+
+      # Thử refresh token một lần nữa nếu chưa thử
+      unless error_message.include?('Token refresh failed')
+        begin
+          refresh_service = Facebook::RefreshOauthTokenService.new(channel: channel)
+          refresh_service.attempt_token_refresh
+        rescue StandardError => refresh_error
+          Rails.logger.error("Final token refresh attempt failed: #{refresh_error.message}")
+        end
+      end
+
       raise exception
     end
 

@@ -73,11 +73,15 @@ class Inbox < ApplicationRecord
   has_one :agent_bot, through: :agent_bot_inbox
   has_many :webhooks, dependent: :destroy_async
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
+  has_many :facebook_ads_trackings, dependent: :destroy
+  has_many :inbox_dataset_mappings, dependent: :destroy
+  has_many :dataset_configurations, through: :inbox_dataset_mappings
 
   enum sender_name_type: { friendly: 0, professional: 1 }
 
   after_destroy :delete_round_robin_agents
 
+  before_create :set_default_lock_to_single_conversation
   after_create_commit :dispatch_create_event
   after_update_commit :dispatch_update_event
 
@@ -200,6 +204,12 @@ class Inbox < ApplicationRecord
 
   def check_channel_type?
     ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+  end
+
+  def set_default_lock_to_single_conversation
+    # Set lock_to_single_conversation to true by default for all new inboxes
+    # This ensures each contact has only one conversation per inbox, optimized for AI chatbot integration
+    self.lock_to_single_conversation = true if lock_to_single_conversation.nil?
   end
 end
 

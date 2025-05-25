@@ -81,6 +81,8 @@ Rails.application.routes.draw do
               get :register_facebook_page
               post :facebook_pages
               post :reauthorize_page
+              get 'facebook_token_status/:inbox_id', action: :check_facebook_token_status
+              post 'refresh_facebook_token/:inbox_id', action: :refresh_facebook_token
             end
           end
           resources :canned_responses, only: [:index, :create, :update, :destroy]
@@ -180,6 +182,17 @@ Rails.application.routes.draw do
             get :agent_bot, on: :member
             post :set_agent_bot, on: :member
             delete :avatar, on: :member
+
+            # Facebook Dataset routes
+            resource :facebook_dataset, only: [:show, :update], controller: 'inboxes/facebook_dataset' do
+              member do
+                post :test_connection
+                get :tracking_data
+                post 'resend_conversion/:tracking_id', action: :resend_conversion
+                get :pixels
+                post :generate_token
+              end
+            end
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
@@ -228,6 +241,41 @@ Rails.application.routes.draw do
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
+
+          # Facebook Dataset routes (legacy - for backward compatibility)
+          resources :facebook_dataset, only: [:index, :show] do
+            collection do
+              get :stats
+              get :export
+              post :bulk_resend
+            end
+            member do
+              post :resend_conversion
+              post :send_custom_event
+            end
+          end
+
+          # Dataset Management (new centralized approach)
+          resources :dataset_configurations do
+            member do
+              post :test_connection
+              get :pixels
+              post :generate_token
+            end
+            collection do
+              get :available_inboxes
+            end
+          end
+
+          # Inbox Dataset Mappings
+          resources :inboxes, only: [] do
+            resources :dataset_mappings, controller: 'inbox_dataset_mappings' do
+              collection do
+                get :available_datasets
+              end
+            end
+          end
+
           namespace :integrations do
             resources :apps, only: [:index, :show]
             resources :hooks, only: [:show, :create, :update, :destroy] do

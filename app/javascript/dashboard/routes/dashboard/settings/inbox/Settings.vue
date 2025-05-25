@@ -7,6 +7,7 @@ import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
+import FacebookDataset from './facebook/FacebookDataset.vue';
 import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
@@ -31,6 +32,7 @@ export default {
     ConfigurationPage,
     CustomerSatisfactionPage,
     FacebookReauthorize,
+    FacebookDataset,
     GreetingsEditor,
     PreChatFormSettings,
     SettingIntroBanner,
@@ -156,6 +158,18 @@ export default {
           },
         ];
       }
+
+      // Add Facebook Dataset tab for Facebook channels
+      if (this.isAFacebookInbox) {
+        visibleToAllChannelTabs = [
+          ...visibleToAllChannelTabs,
+          {
+            key: 'facebookDataset',
+            name: this.$t('INBOX_MGMT.TABS.FACEBOOK_DATASET'),
+          },
+        ];
+      }
+
       return visibleToAllChannelTabs;
     },
     currentInboxId() {
@@ -312,7 +326,7 @@ export default {
                 portal => portal.slug === this.selectedPortalSlug
               ).id
             : null,
-          lock_to_single_conversation: this.locktoSingleConversation,
+          // lock_to_single_conversation: this.locktoSingleConversation, // Commented out - now handled by default
           sender_name_type: this.senderNameType,
           business_name: this.businessName || null,
           channel: {
@@ -649,6 +663,9 @@ export default {
               {{ $t('INBOX_MGMT.HELP_CENTER.SUB_TEXT') }}
             </p>
           </div>
+          <!-- Temporarily commented out Lock to Single Conversation UI setting -->
+          <!-- This feature is now enabled by default for all inboxes to optimize AI chatbot integration -->
+          <!--
           <label v-if="canLocktoSingleConversation" class="pb-4">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.LOCK_TO_SINGLE_CONVERSATION') }}
             <select v-model="locktoSingleConversation">
@@ -667,6 +684,7 @@ export default {
               }}
             </p>
           </label>
+          -->
 
           <label v-if="isAWebWidgetInbox">
             {{ $t('INBOX_MGMT.FEATURES.LABEL') }}
@@ -804,6 +822,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'botConfiguration'">
         <BotConfiguration :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'facebookDataset'" class="mx-8">
+        <FacebookDataset :inbox-id="currentInboxId" />
       </div>
     </section>
   </div>

@@ -1,0 +1,274 @@
+// Facebook Dataset Settings Styles
+.facebook-dataset-settings {
+  .settings-header {
+    margin-bottom: 2rem;
+    
+    .block-title {
+      font-size: 1.25rem;
+      font-weight: 600;
+      margin-bottom: 0.5rem;
+      color: var(--color-heading);
+    }
+    
+    .block-description {
+      color: var(--color-body);
+      line-height: 1.5;
+    }
+  }
+
+  .spinner-container {
+    display: flex;
+    justify-content: center;
+    padding: 2rem;
+  }
+
+  .settings-item {
+    margin-bottom: 1.5rem;
+    
+    .toggle-label {
+      display: flex;
+      align-items: center;
+      gap: 0.75rem;
+      font-weight: 500;
+      cursor: pointer;
+      
+      .toggle-input {
+        margin: 0;
+      }
+    }
+  }
+
+  .config-form {
+    background: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    
+    .form-group {
+      margin-bottom: 1rem;
+      
+      label {
+        display: block;
+        font-weight: 500;
+        margin-bottom: 0.5rem;
+        color: var(--color-heading);
+        
+        .required {
+          color: var(--color-error);
+        }
+      }
+      
+      .form-input,
+      .form-select {
+        width: 100%;
+        padding: 0.75rem;
+        border: 1px solid var(--color-border);
+        border-radius: 4px;
+        font-size: 0.875rem;
+        
+        &:focus {
+          outline: none;
+          border-color: var(--color-primary);
+          box-shadow: 0 0 0 2px var(--color-primary-light);
+        }
+      }
+      
+      .form-help {
+        font-size: 0.75rem;
+        color: var(--color-body-light);
+        margin-top: 0.25rem;
+      }
+    }
+    
+    .form-row {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+      gap: 1rem;
+    }
+  }
+
+  .action-buttons {
+    display: flex;
+    gap: 1rem;
+    margin-top: 1.5rem;
+    
+    .btn {
+      padding: 0.75rem 1.5rem;
+      border-radius: 4px;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      
+      &:disabled {
+        opacity: 0.6;
+        cursor: not-allowed;
+      }
+      
+      &.btn-primary {
+        background: var(--color-primary);
+        color: white;
+        
+        &:hover:not(:disabled) {
+          background: var(--color-primary-dark);
+        }
+      }
+      
+      &.btn-secondary {
+        background: var(--color-background);
+        color: var(--color-body);
+        border: 1px solid var(--color-border);
+        
+        &:hover:not(:disabled) {
+          background: var(--color-background-light);
+        }
+      }
+    }
+  }
+
+  .stats-section {
+    background: var(--color-background-light);
+    border: 1px solid var(--color-border);
+    border-radius: 8px;
+    padding: 1.5rem;
+    margin-bottom: 2rem;
+    
+    h4 {
+      margin-bottom: 1rem;
+      color: var(--color-heading);
+    }
+    
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+      gap: 1rem;
+      
+      .stat-item {
+        text-align: center;
+        
+        .stat-value {
+          display: block;
+          font-size: 1.5rem;
+          font-weight: 600;
+          color: var(--color-primary);
+        }
+        
+        .stat-label {
+          font-size: 0.75rem;
+          color: var(--color-body-light);
+          margin-top: 0.25rem;
+        }
+      }
+    }
+  }
+
+  .tracking-data-section {
+    .section-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      
+      h4 {
+        margin: 0;
+        color: var(--color-heading);
+      }
+      
+      .btn-link {
+        background: none;
+        border: none;
+        color: var(--color-primary);
+        cursor: pointer;
+        font-size: 0.875rem;
+        
+        &:hover {
+          text-decoration: underline;
+        }
+      }
+    }
+    
+    .tracking-table {
+      overflow-x: auto;
+      
+      .table {
+        width: 100%;
+        border-collapse: collapse;
+        
+        th,
+        td {
+          padding: 0.75rem;
+          text-align: left;
+          border-bottom: 1px solid var(--color-border);
+        }
+        
+        th {
+          background: var(--color-background-light);
+          font-weight: 600;
+          color: var(--color-heading);
+        }
+        
+        .status-badge {
+          padding: 0.25rem 0.5rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          
+          &.sent {
+            background: var(--color-success-light);
+            color: var(--color-success);
+          }
+          
+          &.pending {
+            background: var(--color-warning-light);
+            color: var(--color-warning);
+          }
+        }
+        
+        .btn-sm {
+          padding: 0.375rem 0.75rem;
+          font-size: 0.75rem;
+        }
+      }
+    }
+    
+    .empty-state {
+      text-align: center;
+      padding: 2rem;
+      color: var(--color-body-light);
+    }
+  }
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .facebook-dataset-settings {
+    .config-form .form-row {
+      grid-template-columns: 1fr;
+    }
+    
+    .action-buttons {
+      flex-direction: column;
+    }
+    
+    .stats-section .stats-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+    
+    .tracking-data-section .section-header {
+      flex-direction: column;
+      align-items: flex-start;
+      gap: 0.5rem;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .facebook-dataset-settings {
+    .stats-section .stats-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+}

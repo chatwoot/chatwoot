@@ -144,9 +144,60 @@ export const getInboxIconByType = (type, phoneNumber, variant = 'fill') => {
 };
 
 export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
-  const allowedInboxTypes = [INBOX_TYPES.FB, INBOX_TYPES.EMAIL];
+  const allowedInboxTypes = [
+    INBOX_TYPES.FB,
+    INBOX_TYPES.EMAIL,
+    INBOX_TYPES.INSTAGRAM,
+    'Channel::FacebookPage',
+    'Channel::Instagram',
+    'Microsoft',
+    'Google'
+  ];
   if (allowedInboxTypes.includes(type) && reauthorizationRequired) {
     return 'warning';
   }
   return '';
+};
+
+export const getInboxConnectionStatus = (inbox) => {
+  if (!inbox) return { status: 'unknown', message: '' };
+
+  const { channel_type: type, reauthorization_required: reauthorizationRequired } = inbox;
+
+  if (reauthorizationRequired) {
+    let message = 'Cần kết nối lại';
+    let actionText = 'Kết nối lại';
+
+    switch (type) {
+      case 'Channel::FacebookPage':
+      case INBOX_TYPES.FB:
+        message = 'Facebook token đã hết hạn';
+        actionText = 'Kết nối lại Facebook';
+        break;
+      case 'Channel::Instagram':
+      case INBOX_TYPES.INSTAGRAM:
+        message = 'Instagram token đã hết hạn';
+        actionText = 'Kết nối lại Instagram';
+        break;
+      case 'Microsoft':
+      case 'Google':
+      case INBOX_TYPES.EMAIL:
+        message = 'Email authentication đã hết hạn';
+        actionText = 'Kết nối lại Email';
+        break;
+    }
+
+    return {
+      status: 'disconnected',
+      message,
+      actionText,
+      severity: 'error'
+    };
+  }
+
+  return {
+    status: 'connected',
+    message: 'Đã kết nối',
+    severity: 'success'
+  };
 };

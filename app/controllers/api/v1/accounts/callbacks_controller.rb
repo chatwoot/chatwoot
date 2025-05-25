@@ -106,4 +106,72 @@ class Api::V1::Accounts::CallbacksController < Api::V1::Accounts::BaseController
     avatar_url = "https://graph.facebook.com/#{page_id}/picture?type=large"
     Avatar::AvatarFromUrlJob.perform_later(facebook_inbox, avatar_url)
   end
+
+  # API endpoint để kiểm tra trạng thái token Facebook
+  def check_facebook_token_status
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+
+    unless inbox.facebook?
+      render json: { error: 'Not a Facebook inbox' }, status: :unprocessable_entity
+      return
+    end
+
+    refresh_service = Facebook::RefreshOauthTokenService.new(channel: inbox.channel)
+
+    render json: {
+      inbox_id: inbox.id,
+      page_id: inbox.channel.page_id,
+      token_valid: refresh_service.token_valid?,
+      reauthorization_required: inbox.channel.reauthorization_required?,
+      last_checked: Time.current.iso8601
+    }
+  rescue StandardError => e
+    render json: { error: e.message }, status: :internal_server_error
+  end
+
+  # API endpoint để trigger refresh token Facebook
+  def refresh_facebook_token
+    inbox = Current.account.inboxes.find(params[:inbox_id])
+
+    unless inbox.facebook?
+      render json: { error: 'Not a Facebook inbox' }, status: :unprocessable_entity
+      return
+    end
+
+    refresh_service = Facebook::RefreshOauthTokenService.new(channel: inbox.channel)
+
+    # Kiểm tra token hiện tại
+    was_valid_before = refresh_service.token_valid?
+
+    # Thử refresh
+    result = refresh_service.attempt_token_refresh
+
+    # Kiểm tra lại sau refresh
+    is_valid_after = refresh_service.token_valid?
+
+    if is_valid_after
+      render json: {
+        success: true,
+        message: was_valid_before ? 'Token was already valid' : 'Token successfully refreshed',
+        inbox_id: inbox.id,
+        page_id: inbox.channel.page_id,
+        token_valid: true,
+        reauthorization_required: inbox.channel.reauthorization_required?
+      }
+    else
+      render json: {
+        success: false,
+        message: 'Token refresh failed - manual reauthorization required',
+        inbox_id: inbox.id,
+        page_id: inbox.channel.page_id,
+        token_valid: false,
+        reauthorization_required: inbox.channel.reauthorization_required?
+      }, status: :unprocessable_entity
+    end
+  rescue StandardError => e
+    render json: {
+      success: false,
+      error: e.message
+    }, status: :internal_server_error
+  end
 end

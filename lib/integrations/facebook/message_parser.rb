@@ -14,6 +14,15 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('recipient', 'id')
   end
 
+  def sender_name
+    # Facebook không cung cấp tên trong webhook, sẽ được lấy từ Graph API sau
+    nil
+  end
+
+  def params
+    @messaging
+  end
+
   def time_stamp
     @messaging['timestamp']
   end
@@ -21,7 +30,7 @@ class Integrations::Facebook::MessageParser
   def content
     # Nếu là postback message, lấy title từ postback
     return @messaging.dig('postback', 'title') if postback?
-    
+
     @messaging.dig('message', 'text')
   end
 
@@ -35,7 +44,7 @@ class Integrations::Facebook::MessageParser
 
   def identifier
     return @messaging.dig('postback', 'mid') if postback?
-    
+
     @messaging.dig('message', 'mid')
   end
 
@@ -63,7 +72,7 @@ class Integrations::Facebook::MessageParser
   def postback?
     @messaging['postback'].present?
   end
-  
+
   # Lấy payload từ postback
   def postback_payload
     @messaging.dig('postback', 'payload')
@@ -81,6 +90,38 @@ class Integrations::Facebook::MessageParser
 
   def in_reply_to_external_id
     @messaging.dig('message', 'reply_to', 'mid')
+  end
+
+  # Thêm hỗ trợ messaging_referrals để track nguồn từ ads
+  def referral?
+    @messaging['referral'].present?
+  end
+
+  def referral_ref
+    @messaging.dig('referral', 'ref')
+  end
+
+  def referral_source
+    @messaging.dig('referral', 'source')
+  end
+
+  def referral_type
+    @messaging.dig('referral', 'type')
+  end
+
+  def referral_ad_id
+    @messaging.dig('referral', 'ad_id')
+  end
+
+  def referral_ads_context_data
+    @messaging.dig('referral', 'ads_context_data')
+  end
+
+  # Lấy toàn bộ referral data để lưu trữ
+  def referral_data
+    return nil unless referral?
+
+    @messaging['referral']
   end
 end
 
@@ -116,5 +157,27 @@ end
 #     "mid":"mid.1457764197618:41d102a3e1ae206a38",
 #     "title":"TITLE-FOR-THE-CTA",
 #     "payload":"USER-DEFINED-PAYLOAD"
+#   }
+# }
+
+# Sample Referral Response (from ads)
+# {
+#   "sender":{
+#     "id":"USER_ID"
+#   },
+#   "recipient":{
+#     "id":"PAGE_ID"
+#   },
+#   "timestamp":1458692752478,
+#   "referral":{
+#     "ref":"REF_DATA_IN_M_DOT_ME_PARAM",
+#     "source":"SHORTLINK",
+#     "type":"OPEN_THREAD",
+#     "ad_id":"AD_ID",
+#     "ads_context_data":{
+#       "ad_title":"AD_TITLE",
+#       "photo_url":"AD_PHOTO_URL",
+#       "video_url":"AD_VIDEO_URL"
+#     }
 #   }
 # }
