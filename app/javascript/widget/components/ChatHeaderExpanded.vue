@@ -37,7 +37,16 @@
       }"
       @click="onTrackOrderClick"
     >
-      <div class="flex items-center gap-2 rounded-lg hover:bg-[#F0F0F0] p-1">
+      <div
+        class="flex items-center gap-2 rounded-lg hover:bg-[#F0F0F0] p-1 relative"
+      >
+        <div
+          v-if="isTrackOrderLoading"
+          style="backdrop-filter: blur(2px)"
+          class="absolute w-full h-full flex justify-center items-center"
+        >
+          <spinner size="medium" :color-scheme="'primary'" />
+        </div>
         <img
           class="w-8 h-8"
           src="~dashboard/assets/images/delivery_icon.svg"
@@ -66,14 +75,17 @@ import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import routerMixin from 'widget/mixins/routerMixin';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { mapActions } from 'vuex';
+import { mapActions, mapGetters } from 'vuex';
+import configMixin from 'widget/mixins/configMixin';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'ChatHeaderExpanded',
   components: {
     FluentIcon,
+    Spinner,
   },
-  mixins: [darkModeMixin, routerMixin],
+  mixins: [darkModeMixin, routerMixin, configMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -96,17 +108,47 @@ export default {
       default: '',
     },
   },
+  data() {
+    return {
+      isTrackOrderLoading: false,
+    };
+  },
+  computed: {
+    ...mapGetters({
+      lastMessage: 'conversation/getLastMessage',
+      conversationSize: 'conversation/getConversationSize',
+    }),
+    isLastMessageCSATAndIsSubmitted() {
+      return (
+        this.lastMessage.content_type === 'input_csat' &&
+        this.lastMessage.content_attributes?.submitted_values
+          ?.csat_survey_response?.rating
+      );
+    },
+  },
   methods: {
-    ...mapActions('conversation', ['sendMessage']),
+    ...mapActions('conversation', ['sendMessage', 'createNewConversation']),
     ...mapActions('conversationAttributes', ['getAttributes']),
-    onTrackOrderClick() {
-      this.sendMessage({
-        content: 'Hey, I want to track my order.',
-      });
-      if (this.conversationSize === 0) {
-        this.getAttributes();
+    async onTrackOrderClick() {
+      this.isTrackOrderLoading = true;
+      try {
+        if (this.isLastMessageCSATAndIsSubmitted) {
+          await this.createNewConversation('Hey, I want to track my order.');
+        } else {
+          this.sendMessage({
+            content: 'Hey, I want to track my order.',
+          });
+        }
+        if (this.conversationSize === 0) {
+          this.getAttributes();
+        }
+        this.replaceRoute('messages');
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      } finally {
+        this.isTrackOrderLoading = false;
       }
-      this.replaceRoute('messages');
     },
     closeWindow() {
       if (IFrameHelper.isIFrame()) {

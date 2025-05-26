@@ -1,4 +1,5 @@
 class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
+  include WorkingHoursHelper
   include Api::V1::InboxesHelper
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
@@ -29,6 +30,29 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def channel_avatar
     @inbox.channel.avatar.attachment.destroy! if @inbox.channel.respond_to?(:avatar) && @inbox.channel.avatar.attached?
     head :ok
+  end
+
+  def add_web_widget_inbox_multichannel # rubocop:disable Metrics/MethodLength
+    shop_url = fetch_shop_url(@inbox.account.id)
+    response = HTTParty.post(
+      'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/addWebWidgetInbox',
+      headers: {
+        'Content-Type' => 'application/json'
+      },
+      body: {
+        shopUrl: shop_url,
+        liveChatWebsiteToken: @inbox.channel.website_token,
+        liveChatWebsiteURL: @inbox.channel.website_url
+      }.to_json
+    )
+    if response.success?
+      render json: response.body
+    else
+      Rails.logger.error('Error Adding web Widget')
+      render json: { error: 'Failed to Add web widget' }, status: response.code
+    end
+  rescue StandardError => e
+    handle_error(e)
   end
 
   def create

@@ -22,15 +22,17 @@ const createConversation = params => {
   };
 };
 
-const createNewConversation = () => {
+const createNewConversation = (content = '') => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
   return {
     url: `/api/v1/widget/conversations/create_new_conversation${search}`,
     params: {
       message: {
+        content: content !== '' ? content : null,
         timestamp: new Date().toString(),
         referer_url: referrerURL,
+        private: false,
       },
     },
   };

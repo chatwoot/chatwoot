@@ -109,9 +109,10 @@ export const actions = {
     commit('setLastMessageId');
   },
 
-  createNewConversation: async ({ dispatch }) => {
+  createNewConversation: async ({ commit, dispatch }, content = '') => {
     try {
-      await createNewConversationAPI();
+      commit('setIsCreatingNewConversation', true);
+      await createNewConversationAPI(content);
     } catch (error) {
       // Ignore error
     } finally {
@@ -122,6 +123,8 @@ export const actions = {
         { root: true }
       );
       dispatch('conversationAttributes/getAttributes', {}, { root: true });
+      dispatch('conversation/fetchOldConversations', {}, { root: true });
+      commit('setIsCreatingNewConversation', false);
     }
   },
 

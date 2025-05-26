@@ -20,6 +20,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
     back_populates_conversation = @web_widget.back_populates_conversation
     ConversationImport.perform_later(@conversation.id, previous_conversation.id) if back_populates_conversation
+    sleep(1)
+    @conversation.messages.create!(message_params) if permitted_params[:message][:content].present?
     head :ok
   end
 
@@ -94,7 +96,7 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
 
   def permitted_params
     params.permit(:id, :typing_status, :website_token, :email, contact: [:name, :email, :phone_number],
-                                                               message: [:content, :referer_url, :timestamp, :echo_id],
+                                                               message: [:content, :referer_url, :timestamp, :echo_id, :private],
                                                                custom_attributes: {})
   end
 end

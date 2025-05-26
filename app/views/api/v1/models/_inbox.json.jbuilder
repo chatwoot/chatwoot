@@ -52,6 +52,7 @@ if resource.web_widget?
   json.pre_chat_form_options resource.channel.try(:pre_chat_form_options)
   json.continuity_via_email resource.channel.try(:continuity_via_email)
   json.channel_avatar_url resource.channel.try(:avatar_url)
+  json.webhook_url resource.channel.try(:webhook_url)
 end
 
 ## Facebook Attributes

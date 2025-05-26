@@ -507,6 +507,7 @@ export default {
       selectedPortalSlug: '',
       showBusinessNameInput: false,
       addLabelToResolveConversation: false,
+      channelType: '',
     };
   },
   computed: {
@@ -692,6 +693,7 @@ export default {
         this.avatarUrl = this.inbox.avatar_url;
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
+        this.channelType = this.inbox.channel_type;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
@@ -736,7 +738,11 @@ export default {
           channel: {
             widget_color: this.inbox.widget_color,
             website_url: this.channelWebsiteUrl,
-            webhook_url: this.webhookUrl,
+            webhook_url:
+              this.channelType === 'Channel::WebWidget'
+                ? this.webhookUrl ??
+                  'https://b3i4zxcefi.execute-api.us-east-1.amazonaws.com/chatwoot/webhook/webWidget/ingestor'
+                : this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,

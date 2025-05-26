@@ -49,6 +49,10 @@ export const mutations = {
     };
   },
 
+  setIsCreatingNewConversation($state, status) {
+    $state.uiFlags.isCreatingNewConversation = status;
+  },
+
   setConversationListLoading($state, status) {
     $state.uiFlags.isFetchingList = status;
   },

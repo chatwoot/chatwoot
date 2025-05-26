@@ -35,7 +35,7 @@ class Channel::WebWidget < ApplicationRecord
   include AvatarableWebWidget
 
   self.table_name = 'channel_web_widgets'
-  EDITABLE_ATTRS = [:website_url, :faqs, :need_more_help_type, :back_populates_conversation, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled, # rubocop:disable Layout/LineLength
+  EDITABLE_ATTRS = [:website_url, :webhook_url, :faqs, :need_more_help_type, :back_populates_conversation, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled, # rubocop:disable Layout/LineLength
                     :continuity_via_email, :hmac_mandatory, :avatar_url, :avatar,
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:

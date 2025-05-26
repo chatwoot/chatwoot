@@ -69,4 +69,8 @@ class InboxPolicy < ApplicationPolicy
   def channel_avatar?
     @account_user.administrator?
   end
+
+  def add_web_widget_inbox_multichannel?
+    @account_user.administrator?
+  end
 end

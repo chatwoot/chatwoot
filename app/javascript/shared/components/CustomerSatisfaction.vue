@@ -29,6 +29,9 @@
     <div
       v-if="channelConfig.backPopulateConversation"
       class="flex flex-col justify-between w-full gap-2"
+      :class="{
+        'items-center': isUpdating,
+      }"
     >
       <h6
         class="text-sm font-medium leading-5 text-center"
@@ -36,7 +39,16 @@
       >
         {{ 'Continue to Chat' }}
       </h6>
-      <chat-input-wrap :on-send-message="handleSendMessage" />
+      <chat-input-wrap
+        v-if="!isUpdating && !isCreatingNewConversation"
+        :on-send-message="handleSendMessage"
+      />
+      <img
+        v-else
+        class="h-7"
+        src="~widget/assets/images/typing.gif"
+        alt="Spinner Message"
+      />
     </div>
     <div v-else class="flex flex-col gap-3 justify-center items-center">
       <h6
@@ -50,7 +62,7 @@
       <button
         v-if="!isUpdating"
         class="bg-[#F0F0F0] border border-solid border-[#E6E6E6] w-auto flex justify-center items-center gap-2 text-xs py-2 px-3 rounded-md shadow-[0px_1px_0px_0px #0000000D] transition-all duration-300 create-chat-button"
-        @click.prevent="handleCreateConversation"
+        @click.prevent="handleCreateConversation('')"
       >
         Create New Chat
       </button>
@@ -103,6 +115,7 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       conversationSize: 'conversation/getConversationSize',
+      isCreatingNewConversation: 'conversation/isCreatingNewConversation',
     }),
     isRatingSubmitted() {
       return this.messageContentAttributes?.csat_survey_response?.rating;
@@ -150,15 +163,12 @@ export default {
       ];
     },
     async handleSendMessage(content) {
-      await this.sendMessage({
-        content,
-      });
-      this.handleCreateConversation();
+      this.handleCreateConversation(content);
     },
-    async handleCreateConversation() {
+    async handleCreateConversation(content = '') {
       this.isUpdating = true;
       try {
-        await this.createNewConversation();
+        await this.createNewConversation(content);
         if (!this.channelConfig.backPopulateConversation) {
           this.replaceRoute('home');
         }

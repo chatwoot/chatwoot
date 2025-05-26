@@ -384,7 +384,9 @@ export default {
       this.needMoreHelpType = need_more_help_type;
       this.backPopulateConversationMessages = back_populates_conversation;
 
-      this.setNeedMoreHelpOptionsData(need_more_help_type);
+      this.setNeedMoreHelpOptionsData(
+        need_more_help_type ?? 'need_more_help_type'
+      );
 
       const savedInformation = this.getSavedInboxInformation();
       if (savedInformation) {

@@ -24,12 +24,19 @@
       >
         <div
           role="button"
-          class="p-2 w-full flex justify-between items-center"
-          @click="handleFaqClick(faq)"
+          class="p-2 w-full flex justify-between items-center relative"
+          @click="handleFaqClick(faq, index + 1)"
         >
           <h3 class="m-0 text-[12px] text-gray-800 font-medium">
             {{ faq.question }}
           </h3>
+          <div
+            v-if="isFAQLoading.index === index + 1 && isFAQLoading.loading"
+            style="backdrop-filter: blur(2px)"
+            class="absolute w-full h-full flex justify-center items-center"
+          >
+            <spinner size="medium" :color-scheme="'primary'" />
+          </div>
           <fluent-icon icon="chevron-right" size="14" />
         </div>
       </div>
@@ -114,11 +121,13 @@ import timeMixin from 'dashboard/mixins/time';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { mapActions } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import Spinner from 'shared/components/Spinner.vue';
 
 export default {
   name: 'Home',
   components: {
     FluentIcon,
+    Spinner,
   },
   mixins: [configMixin, routerMixin, darkModeMixin, timeMixin],
   props: {
@@ -134,6 +143,7 @@ export default {
   data() {
     return {
       question: '',
+      isFAQLoading: {},
     };
   },
   computed: {
@@ -150,6 +160,13 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    isLastMessageCSATAndIsSubmitted() {
+      return (
+        this.lastMessage.content_type === 'input_csat' &&
+        this.lastMessage.content_attributes?.submitted_values
+          ?.csat_survey_response?.rating
+      );
     },
     widgetLocale() {
       return this.$i18n.locale || 'en';
@@ -188,7 +205,7 @@ export default {
     }
   },
   methods: {
-    ...mapActions('conversation', ['sendMessage']),
+    ...mapActions('conversation', ['sendMessage', 'createNewConversation']),
     ...mapActions('conversationAttributes', ['getAttributes']),
     readableTimeStamp(message) {
       const { created_at: createdAt = '' } = message;
@@ -209,8 +226,30 @@ export default {
     redirectToChat() {
       return this.replaceRoute('messages');
     },
-    handleFaqClick(faq) {
-      this.handleMessage(faq.question);
+    async handleFaqClick(faq, index) {
+      this.isFAQLoading = {
+        index,
+        loading: true,
+      };
+      try {
+        if (this.isLastMessageCSATAndIsSubmitted) {
+          await this.createNewConversation(faq.question);
+          if (this.conversationSize === 0) {
+            this.getAttributes();
+          }
+          this.replaceRoute('messages');
+        } else {
+          this.handleMessage(faq.question);
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.error(error);
+      } finally {
+        this.isFAQLoading = {
+          index,
+          loading: false,
+        };
+      }
     },
     handleMessageInput() {
       this.handleMessage(this.question);

@@ -46,7 +46,7 @@ export default {
       // Set a new timeout to hide the bubble after 15 seconds
       this.timeout = setTimeout(() => {
         this.isVisible = false;
-      }, 15000);
+      }, 20000);
     },
   },
 };

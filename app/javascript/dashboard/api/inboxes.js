@@ -23,6 +23,12 @@ class Inboxes extends CacheEnabledApiClient {
     return axios.delete(`${this.url}/${inboxId}/channel_avatar`);
   }
 
+  addWebWidgetToMultiChannel(inboxId) {
+    return axios.post(
+      `${this.url}/${inboxId}/add_web_widget_inbox_multichannel`
+    );
+  }
+
   getAgentBot(inboxId) {
     return axios.get(`${this.url}/${inboxId}/agent_bot`);
   }

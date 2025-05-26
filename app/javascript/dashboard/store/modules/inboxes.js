@@ -261,6 +261,13 @@ export const actions = {
       throw new Error(error);
     }
   },
+  addWebWidgetToMultiChannel: async (_, inboxId) => {
+    try {
+      await InboxesAPI.addWebWidgetToMultiChannel(inboxId);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
   deleteChannelAvatar: async (_, inboxId) => {
     try {
       await InboxesAPI.deleteChannelAvatar(inboxId);

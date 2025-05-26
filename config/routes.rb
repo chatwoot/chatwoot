@@ -183,6 +183,7 @@ Rails.application.routes.draw do
             post :comment_messageable_status, on: :member
             delete :avatar, on: :member
             delete :channel_avatar, on: :member
+            post :add_web_widget_inbox_multichannel, on: :member
           end
           resources :inbox_members, only: [:create, :show], param: :inbox_id do
             collection do
