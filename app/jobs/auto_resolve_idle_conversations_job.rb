@@ -32,7 +32,6 @@ class AutoResolveIdleConversationsJob < ApplicationJob
                                           .where('conversations.updated_at < ?', cutoff_time)
                                           .joins(:messages)
                                           .group('conversations.id')
-                                          .having('MAX(messages.sender_type) = ?', 'Contact')
 
     Rails.logger.info(conversations_to_remind.inspect)
     conversations_to_remind.find_each do |conversation|
