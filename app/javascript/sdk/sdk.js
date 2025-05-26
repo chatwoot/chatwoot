@@ -138,9 +138,9 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble.woot-widget--expanded svg {
-  height: 20px;
-  margin: 14px 8px 14px 16px;
-  width: 20px;
+  height: 30px;
+  margin: 14px 6px 12px 16px;
+  width: 30px;
   transform: rotate(-1deg) !important;
 }
 
