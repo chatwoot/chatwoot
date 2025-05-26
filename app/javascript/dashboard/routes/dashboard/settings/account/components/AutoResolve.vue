@@ -1,5 +1,5 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { h, ref, watch, computed } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -27,7 +27,14 @@ const labels = useMapGetter('labels/getLabels');
 
 const labelOptions = computed(() =>
   labels.value?.length
-    ? labels.value.map(label => ({ label: label.title, value: label.title }))
+    ? labels.value.map(label => ({
+        label: label.title,
+        value: label.title,
+        icon: h('span', {
+          class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
+          style: { backgroundColor: label.color },
+        }),
+      }))
     : []
 );
 
