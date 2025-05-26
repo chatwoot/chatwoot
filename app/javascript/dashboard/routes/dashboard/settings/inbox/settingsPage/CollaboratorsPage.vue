@@ -136,12 +136,15 @@ export default {
         const {
           data: { payload: inboxBotMembers },
         } = response;
-        this.selectedAiAgents = inboxBotMembers;
+        console.log()
+        this.selectedAiAgents = inboxBotMembers[0];
+        console.log(this.selectedAiAgents)
       } catch (e) {
         useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
       }
     },
     async updateAiAgents() {
+      console.log(this.selectedAiAgents)
       const aiAgentListId = this.selectedAiAgents
         ? [this.selectedAiAgents.id]
         : [];

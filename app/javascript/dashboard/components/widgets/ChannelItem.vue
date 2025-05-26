@@ -19,7 +19,6 @@ export default {
     },
       isActive() {
         const availableChannels = (this.enabledFeatures?.available_channels || []).map(c => c.toLowerCase());
-        console.log(availableChannels)
         return availableChannels.includes(this.channel.key.toLowerCase());
       }
   },

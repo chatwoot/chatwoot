@@ -51,7 +51,6 @@ export default {
     async initializeEnabledFeatures() {
   try {
     const response = await this.$store.dispatch('myActiveSubscription');
-        console.log('Active Subscription Response:', response);
         this.enabledFeatures = response;
       } catch (error) {
         console.error('Failed to fetch active subscription:', error);
