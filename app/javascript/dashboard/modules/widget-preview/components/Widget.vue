@@ -179,22 +179,22 @@ export default {
       }
     },
     widgetBubbleType(newVal) {
-      if(this.isWidgetVisible) return;
+      if (this.isWidgetVisible) return;
       this.removeLogo();
       this.addLogo();
     },
     dot1(newVal) {
-      if(this.isWidgetVisible) return;
+      if (this.isWidgetVisible) return;
       this.removeLogo();
       this.addLogo();
     },
     dot2(newVal) {
-      if(this.isWidgetVisible) return;
+      if (this.isWidgetVisible) return;
       this.removeLogo();
       this.addLogo();
     },
     dot3(newVal) {
-      if(this.isWidgetVisible) return;
+      if (this.isWidgetVisible) return;
       this.removeLogo();
       this.addLogo();
     },
@@ -246,11 +246,18 @@ export default {
       <button
         ref="svgButton"
         class="relative flex items-center justify-center rounded-full cursor-pointer p-0"
-        :style="{ background: color }"
+        :style="{
+          background: color,
+          ...(isBubbleExpanded
+            ? {}: {
+                'border-radius': '100% 100% 100% 100% / 100% 100% 0% 100%',
+                'box-shadow': '0 8px 24px rgba(0, 0, 0, .16)',
+              }),
+        }"
         :class="
           isBubbleExpanded
             ? 'w-auto font-medium text-base text-white dark:text-white h-12 pl-1 pr-4 m-0'
-            : 'w-16 h-16 bg-[#1f93ff] rounded-[100%_100%_100%_100%_/_100%_100%_0%_100%] overflow-hidden cursor-pointer select-none z-[2147483000] p-0 m-0 border-0'
+            : 'w-16 h-16 bg-[#1f93ff] cursor-pointer select-none overflow-hidden z-[2147483000] rounded-full'
         "
         @click="toggleWidget"
       >
