@@ -110,6 +110,10 @@ class AiAgents extends ApiClient {
       `${this.url}/${idAgent}/knowledge_sources/qna/${qnaId}`
     );
   }
+
+  chat(idAgent, data) {
+    return axios.post(`${this.url}/${idAgent}/chat`, data);
+  }
 }
 
 export default new AiAgents();

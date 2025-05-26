@@ -1,4 +1,7 @@
 class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
+  include JsonHelper
+
+  before_action :ai_agent, only: [:chat]
   before_action :check_max_ai_agents, only: [:create]
 
   def index
@@ -28,12 +31,26 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def destroy
-    Rails.logger.info("🤖 AI Agent params: #{params}")
-    builder = V2::AiAgents::AiAgentBuilder.new(Current.account, params)
-    builder.destroy
+    V2::AiAgents::AiAgentBuilder.new(Current.account, params).destroy
     head :no_content
   rescue StandardError => e
     handle_error('Failed to delete AI Agent', exception: e)
+  end
+
+  def chat
+    Captain::Llm::AssistantChatService.new(
+      params[:question],
+      params[:session_id],
+      ai_agent.chat_flow_id
+    ).generate_response.then do |response|
+      if response.success?
+        parsed_response = response.parsed_response
+        json_data = extract_json_from_code_block(parsed_response['text'])
+        render json: json_data, status: :ok
+      else
+        handle_error('Failed to generate AI response', status: :unprocessable_entity, exception: response)
+      end
+    end
   end
 
   def ai_agent_templates
@@ -42,6 +59,10 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   private
+
+  def ai_agent
+    @ai_agent ||= Current.account.ai_agents.find(params[:id])
+  end
 
   def check_max_ai_agents
     render_error('Maximum number of AI agents reached') unless Current.account.ai_agents.count < Current.account.current_max_ai_agents

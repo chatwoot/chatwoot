@@ -15,6 +15,10 @@ import useVuelidate from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import aiAgents from '../../../api/aiAgents';
+import MarkdownIt from 'markdown-it';
+
+const md = new MarkdownIt();
+
 const props = defineProps({
   data: {
     type: Object,
@@ -25,6 +29,12 @@ const props = defineProps({
 const { t } = useI18n();
 
 const chatflowId = ref();
+const chatInput = ref('');
+const messages = ref([]);
+const sessionId = ref(crypto.randomUUID());
+const loadingChat = ref(false);
+const chatContainer = ref(null);
+
 watch(
   () => props.data,
   v => {
@@ -99,9 +109,58 @@ async function submit() {
   }
 }
 
-const previewUrl = computed(() => {
-  return `https://ai.radyalabs.id/chatbot/${chatflowId.value}`;
-});
+function scrollToBottom() {
+  nextTick(() => {
+    if (chatContainer.value) {
+      chatContainer.value.scrollTop = chatContainer.value.scrollHeight;
+    }
+  });
+}
+
+
+function renderMarkdown(text) {
+  return md.render(text);
+}
+
+async function chat() {
+  if (loadingChat.value || !chatInput.value.trim()) return;
+  console.log('chat', chatInput.value);
+
+  const question = chatInput.value.trim();
+  messages.value.push({
+    role: 'user',
+    content: question,
+  });
+  chatInput.value = '';
+  scrollToBottom();
+
+  try {
+    loadingChat.value = true;
+    const res = await aiAgents.chat(props.data.id, {
+      question,
+      session_id: sessionId.value,
+    });
+    
+    messages.value.push({
+      role: 'assistant',
+      content: res.data.response,
+    });
+    scrollToBottom();
+  } catch (error) {
+    messages.value.push({
+      role: 'assistant',
+      content: 'Maaf, terjadi kesalahan saat memproses pertanyaan Anda.',
+    });
+    scrollToBottom();
+  } finally {
+    loadingChat.value = false;
+  }
+}
+
+function resetChat() {
+  messages.value = [];
+  sessionId.value = crypto.randomUUID();
+}
 </script>
 
 <template>
@@ -159,59 +218,55 @@ const previewUrl = computed(() => {
         </button>
       </div>
     </form>
-
+    <!-- Chat Preview Section -->
     <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
       <div class="w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full">
         <div class="bg-green-600 px-4 py-2 flex justify-end items-center">
-          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
-          </svg>
+          <button @click="resetChat" class="text-white hover:text-gray-200 flex items-center space-x-1">
+            <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" />
+            </svg>
+          </button>
         </div>
-        <div class="flex-1 flex flex-col space-y-4 p-4 overflow-y-auto">
+        <div ref="chatContainer" class="flex-1 flex flex-col space-y-4 p-4 overflow-y-auto">
           <div class="flex justify-start">
             <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
               Hai! Ada yang bisa saya bantu?
             </div>
           </div>
-          <!-- User Message (Right aligned) -->
-          <div class="flex justify-end">
-            <div class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm max-w-[90%]">
-              Hallo
-            </div>
-          </div>
-          <!-- Bot Response (Left aligned) -->
-          <div class="flex justify-start">
-            <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
-              Halo! Ada yang bisa saya bantu terkait produk Cantika Glow? 😊
-            </div>
-          </div>
-          <!-- User Message (Right aligned) -->
-          <div class="flex justify-end">
-            <div class="bg-green-600 text-white px-4 py-2 rounded-lg text-sm max-w-[90%]">
-              Ada produk apa saja yang ada di Cantika Glow?
-            </div>
-          </div>
-          <!-- Bot Response (Left aligned) -->
-          <div class="flex justify-start">
-            <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
-              Cantika Glow memiliki berbagai produk kecantikan yang terbagi dalam tiga kategori utama:
-
-Skincare: Produk perawatan kulit untuk menjaga kesehatan dan kecantikan kulit Anda.
-Makeup: Produk riasan untuk mempercantik penampilan.
-Parfum: Wewangian untuk melengkapi gaya Anda.
-Semua produk Cantika Glow sudah terdaftar di BPOM, jadi aman digunakan. Ada kategori tertentu yang ingin Anda eksplor lebih lanjut? 😊
-            </div>
+          <div
+            v-for="(message, index) in messages"
+            :key="index"
+            :class="message.role === 'user' ? 'flex justify-end' : 'flex justify-start'"
+          >
+            <div
+              :class="[
+                'px-4 py-2 rounded-lg text-sm max-w-[90%]',
+                message.role === 'user' ? 'bg-green-600 text-white' : 'bg-slate-50',
+              ]"
+              v-html="message.role === 'user' ? message.content.replace(/\n/g, '<br>') : renderMarkdown(message.content)"
+            ></div>
           </div>
         </div>
-        <div class="flex items-center  p-4">
-          <input type="text" placeholder="Type your question" class="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-2 focus:ring-green-600">
-          <button class="ml-2 bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 relative bottom-2">
+        <form class="flex items-center p-4" @submit.prevent="chat">
+          <input 
+            v-model="chatInput"
+            type="text"
+            placeholder="Type your question" 
+            class="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 text-sm"
+          />
+          <button 
+            class="ml-2 bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 relative bottom-2"
+            type="submit"
+            :disabled="loadingChat"
+          >
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-5 h-5">
               <path stroke-linecap="round" stroke-linejoin="round" d="M4.5 12l15-6-6 15-2.25-6-6.75-3z" />
             </svg>
           </button>
-        </div>
+        </form>
       </div>
     </div>
+    <!-- Chat Preview Section -->
   </div>
 </template>
