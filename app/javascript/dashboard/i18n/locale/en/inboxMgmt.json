@@ -94,10 +94,9 @@
           "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Widget Color",
+          "LABEL": "Main Color",
           "PLACEHOLDER": "Update the widget color used in widget"
         },
-
         "DOT_COLOR1": {
           "LABEL": "Dot Color 1"
         },
@@ -704,7 +703,7 @@
           "IN_A_FEW_HOURS": "In a few hours",
           "IN_A_DAY": "In a day"
         },
-        "WIDGET_COLOR_LABEL": "Widget Color",
+        "WIDGET_COLOR_LABEL": "Main Color",
         "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
         "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {

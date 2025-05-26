@@ -114,21 +114,6 @@ export default {
           {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
           <woot-color-picker v-model="channelWidgetColor" />
         </label>
-
-        <div class="w-px h-20 truncate bg-n-slate-6" />
-
-        <label class="flex flex-col pb-4">
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR1.LABEL') }}
-          <woot-color-picker v-model="channelLogoColors['dot1']" />
-        </label>
-        <label class="flex flex-col pb-4">
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR2.LABEL') }}
-          <woot-color-picker v-model="channelLogoColors['dot2']" />
-        </label>
-        <label class="flex flex-col pb-4">
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR3.LABEL') }}
-          <woot-color-picker v-model="channelLogoColors['dot3']" />
-        </label>
       </div>
 
       <div class="w-full">
