@@ -17,8 +17,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def tracking_pixel
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
+    return head :not_found unless @article
 
-    @article.increment_view_count if @article&.published?
+    @article.increment_view_count if @article.published?
 
     # Serve the 1x1 tracking pixel with 24-hour private cache
     # Private cache bypasses CDN but allows browser caching to prevent duplicate views from same user

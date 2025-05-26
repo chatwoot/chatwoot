@@ -85,9 +85,15 @@ By default, it renders:
           }
         };
         
-        document.body.addEventListener('mouseenter', function() {
-          setTimeout(trackView, 5000);
-        }, { once: true });
+        const addTrackingListeners = function() {
+          const events = ['mouseenter', 'touchstart', 'focus'];
+          events.forEach(event => {
+            document.body.addEventListener(event, function() {
+              setTimeout(trackView, 5000);
+            }, { once: true });
+          });
+        };
+        addTrackingListeners();
       })();
     </script>
     <% end %>
