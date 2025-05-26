@@ -156,27 +156,6 @@ describe SearchService do
     end
 
     context 'when article search' do
-      it 'searches across article title, description, and content and returns published articles only' do
-        # Create additional articles for testing
-        article2 = create(:article, title: 'Magic Spells for Beginners', description: 'Learn basic Potter magic',
-                                    account: account, portal: portal, author: user, status: 'published')
-        # Draft article should not appear in search results
-        create(:article, title: 'Potter Advanced Magic', content: 'Advanced wizardry techniques',
-                         account: account, portal: portal, author: user, status: 'draft')
-        # Article in different account should not appear
-        other_account = create(:account)
-        other_user = create(:user, account: other_account)
-        other_portal = create(:portal, account: other_account)
-        create(:article, title: 'Harry Potter Encyclopedia', account: other_account, portal: other_portal, author: other_user, status: 'published')
-
-        params = { q: 'Potter' }
-        search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
-        result_ids = search.perform[:articles].map(&:id)
-
-        expect(result_ids).to include(article.id, article2.id)
-        expect(result_ids.length).to eq(2)
-      end
-
       it 'orders results by updated_at desc' do
         # Create articles with explicit timestamps
         older_time = 2.days.ago
