@@ -1031,6 +1031,7 @@ DEPENDENCIES
   pry-rails
   puma
   pundit
+  rack (= 2.2.13)
   rack-attack (>= 6.7.0)
   rack-cors (= 2.0.0)
   rack-mini-profiler (>= 3.2.0)

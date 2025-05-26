@@ -59,7 +59,6 @@ export const SDK_CSS = `
   overflow: hidden;
 }
 
-
 .woot-widget-bubble.woot-widget-bubble--flat {
   border-radius: 0;
 }
