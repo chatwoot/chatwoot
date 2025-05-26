@@ -76,7 +76,7 @@ const truncatedContent = computed(() => {
         </h5>
         <span
           v-if="category"
-          class="text-xs font-medium capitalize bg-n-slate-3 px-1 py-0.5 rounded text-n-slate-10"
+          class="text-xs font-medium whitespace-nowrap capitalize bg-n-slate-3 px-1 py-0.5 rounded text-n-slate-10"
         >
           {{ category }}
         </span>
