@@ -943,11 +943,8 @@ function report_event() {
 
   CHATWOOT_HUB_URL="https://hub.2.chatwoot.com/events"
 
-  # get installation identifier
-  local installation_identifier=$(get_installation_identifier)
-
   # Prepare the data for the request
-  local data="{\"installation_identifier\":\"$installation_identifier\",\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
+  local data="{\"event_name\":\"$event_name\",\"event_data\":{\"action\":\"$event_data\"}}"
 
   # Make the curl request to report the event
   curl -X POST -H "Content-Type: application/json" -d "$data" "$CHATWOOT_HUB_URL" -s -o /dev/null
@@ -963,17 +960,17 @@ function report_event() {
 # Outputs:
 #   installation_identifier
 ##############################################################################
-function get_installation_identifier() {
+# function get_installation_identifier() {
 
-  local installation_identifier
+#   local installation_identifier
 
-  installation_identifier=$(sudo -i -u chatwoot << "EOF"
-  cd chatwoot
-  RAILS_ENV=production bundle exec rake instance_id:get_installation_identifier
-EOF
-)
-  echo "$installation_identifier"
-}
+#   installation_identifier=$(sudo -i -u chatwoot << "EOF"
+#   cd chatwoot
+#   RAILS_ENV=production bundle exec rake instance_id:get_installation_identifier
+# EOF
+# )
+#   echo "$installation_identifier"
+# }
 
 ##############################################################################
 # Print cwctl version (-v/--version)

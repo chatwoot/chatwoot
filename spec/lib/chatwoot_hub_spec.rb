@@ -1,12 +1,6 @@
 require 'rails_helper'
 
 describe ChatwootHub do
-  it 'generates installation identifier' do
-    installation_identifier = described_class.installation_identifier
-    expect(installation_identifier).not_to be_nil
-    expect(described_class.installation_identifier).to eq installation_identifier
-  end
-
   context 'when fetching sync_with_hub' do
     it 'get latest version from chatwoot hub' do
       version = '1.1.1'
@@ -74,7 +68,7 @@ describe ChatwootHub do
     it 'returns the captain settings' do
       account = create(:account)
       stub_request(:post, ChatwootHub::CAPTAIN_ACCOUNTS_URL).with(
-        body: { installation_identifier: described_class.installation_identifier, chatwoot_account_id: account.id, account_name: account.name }
+        body: { chatwoot_account_id: account.id, account_name: account.name }
       ).to_return(
         body: { account_email: 'test@test.com', account_id: '123', access_token: '123', assistant_id: '123' }.to_json
       )

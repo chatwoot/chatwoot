@@ -41,7 +41,7 @@ window.chatwootSettings = {
 })(document,"script");
 
 window.addEventListener('chatwoot:ready', function() {
-  window.$chatwoot.setUser('<%= ChatwootHub.installation_identifier %>', {
+  window.$chatwoot.setUser('<%= SuperAdmin.first.email %>', {
     identifier_hash: '<%= ChatwootHub.support_config[:support_identifier_hash] %>',
     email: '<%= SuperAdmin.first.email %>',
     name: '<%= SuperAdmin.first.name %>'
