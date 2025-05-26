@@ -118,8 +118,10 @@
       <div class="flex flex-row justify-end gap-2 py-2 px-0 w-full">
         <div class="w-full">
           <woot-submit-button
-            :loading="uiFlags.isCreating"
-            :disabled="!channelWebsiteUrl || !inboxName"
+            :loading="uiFlags.isCreating || isChannelCreateLoading"
+            :disabled="
+              !channelWebsiteUrl || !inboxName || isChannelCreateLoading
+            "
             :button-text="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.SUBMIT_BUTTON')"
           />
         </div>
@@ -150,6 +152,7 @@ export default {
       channelWelcomeTagline: '',
       greetingEnabled: false,
       greetingMessage: '',
+      isChannelCreateLoading: false,
     };
   },
   computed: {
@@ -168,6 +171,7 @@ export default {
   },
   methods: {
     async createChannel() {
+      this.isChannelCreateLoading = true;
       try {
         const website = await this.$store.dispatch(
           'inboxes/createWebsiteChannel',
@@ -206,6 +210,8 @@ export default {
           error.message ||
             this.$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.API.ERROR_MESSAGE')
         );
+      } finally {
+        this.isChannelCreateLoading = false;
       }
     },
   },
