@@ -69,7 +69,7 @@ const truncatedContent = computed(() => {
     >
       <Icon icon="i-lucide-library-big" class="text-n-slate-10" />
     </div>
-    <div class="ml-2 rtl:mr-2 min-w-0 rtl:ml-0 flex-1">
+    <div class="ltr:ml-2 rtl:mr-2 min-w-0 flex-1">
       <div class="flex items-center gap-2">
         <h5 class="text-sm font-medium truncate min-w-0 text-n-slate-12">
           {{ title }}
