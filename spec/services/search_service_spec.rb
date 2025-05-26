@@ -163,11 +163,15 @@ describe SearchService do
 
         article2 = create(:article, title: 'Spellcasting Guide',
                                     account: account, portal: portal, author: user, status: 'published')
+        # rubocop:disable Rails/SkipsModelValidations
         article2.update_column(:updated_at, older_time)
+        # rubocop:enable Rails/SkipsModelValidations
 
         article3 = create(:article, title: 'Spellcasting Manual',
                                     account: account, portal: portal, author: user, status: 'published')
+        # rubocop:disable Rails/SkipsModelValidations
         article3.update_column(:updated_at, newer_time)
+        # rubocop:enable Rails/SkipsModelValidations
 
         params = { q: 'Spellcasting' }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
