@@ -300,6 +300,7 @@ export default {
           business_name: this.businessName || null,
           channel: {
             widget_color: this.inbox.widget_color,
+            logoColors: this.inbox.logo_colors,
             website_url: this.channelWebsiteUrl,
             webhook_url: this.webhookUrl,
             welcome_title: this.channelWelcomeTitle || '',
@@ -469,10 +470,27 @@ export default {
           "
         />
 
-        <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
-          {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
-          <woot-color-picker v-model="inbox.widget_color" />
-        </label>
+        <div class="flex flex-row gap-6">
+          <label v-if="isAWebWidgetInbox" class="flex flex-col pb-4">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
+            <woot-color-picker v-model="inbox.widget_color" />
+          </label>
+
+          <div class="w-px h-20 truncate bg-n-slate-6" />
+
+          <label v-if="isAWebWidgetInbox" class="flex flex-col pb-4">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR1.LABEL') }}
+            <woot-color-picker v-model="inbox.logo_colors['dot1']" />
+          </label>
+          <label v-if="isAWebWidgetInbox" class="flex flex-col pb-4">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR2.LABEL') }}
+            <woot-color-picker v-model="inbox.logo_colors['dot2']" />
+          </label>
+          <label v-if="isAWebWidgetInbox" class="flex flex-col pb-4">
+            {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR3.LABEL') }}
+            <woot-color-picker v-model="inbox.logo_colors['dot3']" />
+          </label>
+        </div>
 
         <label v-if="isAWhatsAppChannel" class="w-3/4 pb-4">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}

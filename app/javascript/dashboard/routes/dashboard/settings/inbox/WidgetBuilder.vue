@@ -26,6 +26,9 @@ export default {
     return {
       isWidgetPreview: true,
       color: '#1f93ff',
+      dot1: '#33a854',
+      dot2: '#fabc05',
+      dot3: '#ea4234',
       websiteName: '',
       welcomeHeading: '',
       welcomeTagline: '',
@@ -156,6 +159,7 @@ export default {
         welcome_title,
         welcome_tagline,
         widget_color,
+        logo_colors,
         reply_time,
         avatar_url,
       } = this.inbox;
@@ -163,6 +167,9 @@ export default {
       this.welcomeHeading = welcome_title;
       this.welcomeTagline = welcome_tagline;
       this.color = widget_color;
+      this.dot1 = logo_colors.dot1;
+      this.dot2 = logo_colors.dot2;
+      this.dot3 = logo_colors.dot3;
       this.replyTime = reply_time;
       this.avatarUrl = avatar_url;
 
@@ -234,6 +241,7 @@ export default {
           name: this.websiteName,
           channel: {
             widget_color: this.color,
+            logoColors: {dot1: this.dot1, dot2: this.dot2, dot3: this.dot3},
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
@@ -335,14 +343,31 @@ export default {
                 </option>
               </select>
             </label>
-            <label>
-              {{
-                $t(
-                  'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_COLOR_LABEL'
-                )
-              }}
-              <woot-color-picker v-model="color" />
-            </label>
+            <div class="flex flex-row gap-6">
+              <label>
+                {{
+                  $t(
+                    'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_COLOR_LABEL'
+                  )
+                }}
+                <woot-color-picker v-model="color" />
+              </label>
+
+              <div class="w-px h-20 truncate bg-n-slate-6" />
+
+              <label class="flex flex-col pb-4">
+                {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR1.LABEL') }}
+                <woot-color-picker v-model="dot1" />
+              </label>
+              <label class="flex flex-col pb-4">
+                {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR2.LABEL') }}
+                <woot-color-picker v-model="dot2" />
+              </label>
+              <label class="flex flex-col pb-4">
+                {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.DOT_COLOR3.LABEL') }}
+                <woot-color-picker v-model="dot3" />
+              </label>
+            </div>
             <InputRadioGroup
               name="widget-bubble-position"
               :label="
@@ -409,6 +434,9 @@ export default {
             :reply-time="replyTime"
             :color="color"
             :widget-bubble-position="widgetBubblePosition"
+            :dot1="dot1"
+            :dot2="dot2"
+            :dot3="dot3"
             :widget-bubble-launcher-title="widgetBubbleLauncherTitle"
             :widget-bubble-type="widgetBubbleType"
           />

@@ -16,7 +16,7 @@ const buildInboxData = inboxParams => {
   Object.keys(inboxProperties).forEach(key => {
     formData.append(key, inboxProperties[key]);
   });
-  const { selectedFeatureFlags, ...channelParams } = channel;
+  const { selectedFeatureFlags, logoColors,  ...channelParams } = channel;
   // selectedFeatureFlags needs to be empty when creating a website channel
   if (selectedFeatureFlags) {
     if (selectedFeatureFlags.length) {
@@ -26,6 +26,9 @@ const buildInboxData = inboxParams => {
     } else {
       formData.append('channel[selected_feature_flags][]', '');
     }
+  }
+  if(logoColors) {
+      formData.append('channel[logo_colors]', JSON.stringify(logoColors));
   }
   Object.keys(channelParams).forEach(key => {
     formData.append(`channel[${key}]`, channel[key]);
@@ -145,6 +148,7 @@ export const actions = {
     commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: true });
     try {
       const response = await InboxesAPI.get(true);
+      console.log("GOT inboxes", response.data.payload)
       commit(types.default.SET_INBOXES_UI_FLAG, { isFetching: false });
       commit(types.default.SET_INBOXES, response.data.payload);
     } catch (error) {

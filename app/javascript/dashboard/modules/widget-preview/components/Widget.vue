@@ -40,10 +40,10 @@ export default {
       type: String,
       default: '',
     },
-    color: {
-      type: String,
-      default: '',
-    },
+    color: { type: String, default: '' },
+    dot1: { type: String, default: '' },
+    dot2: { type: String, default: '' },
+    dot3: { type: String, default: '' },
     widgetBubblePosition: {
       type: String,
       default: '',
@@ -118,12 +118,85 @@ export default {
     },
   },
   methods: {
+    addLogo() {
+      const svgns = 'http://www.w3.org/2000/svg';
+
+      // Create SVG
+      const svg = document.createElementNS(svgns, 'svg');
+      svg.setAttribute('viewBox', '0 0 208.85 217.51');
+
+      const size = this.isBubbleExpanded ? 42 : 64;
+      svg.setAttribute('width', size);
+      svg.setAttribute('height', size);
+
+      svg.setAttribute('id', 'dynamic-svg');
+
+      const circle = document.createElementNS(svgns, 'circle');
+      circle.setAttribute('cx', '103.95');
+      circle.setAttribute('cy', '105.93');
+      circle.setAttribute('r', '76.66');
+      circle.setAttribute('fill', '#ffffff');
+      svg.appendChild(circle);
+
+      // Dots
+      const dots = [
+        { cx: '70.18', cy: '105.93', color: this.dot1 }, // Green
+        { cx: '103.95', cy: '105.93', color: this.dot2 }, // Yellow
+        { cx: '137.68', cy: '105.93', color: this.dot3 }, // Red
+      ];
+
+      dots.forEach(dot => {
+        const dotEl = document.createElementNS(svgns, 'circle');
+        dotEl.setAttribute('cx', dot.cx);
+        dotEl.setAttribute('cy', dot.cy);
+        dotEl.setAttribute('r', '11.97');
+        dotEl.setAttribute('fill', dot.color);
+        svg.appendChild(dotEl);
+      });
+
+      this.$refs.svgButton.insertBefore(svg, this.$refs.svgButton.firstChild);
+    },
+    removeLogo() {
+      const svg = this.$refs.svgButton.querySelector('#dynamic-svg');
+      if (svg) {
+        this.$refs.svgButton.removeChild(svg);
+      }
+    },
     handleScreenChange(item) {
       this.isDefaultScreen = item.id === 'default';
     },
     toggleWidget() {
       this.isWidgetVisible = !this.isWidgetVisible;
       this.isDefaultScreen = true;
+    },
+  },
+  watch: {
+    isWidgetVisible(newVal) {
+      if (newVal) {
+        this.removeLogo();
+      } else {
+        this.addLogo();
+      }
+    },
+    widgetBubbleType(newVal) {
+      if(this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+    dot1(newVal) {
+      if(this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+    dot2(newVal) {
+      if(this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+    dot3(newVal) {
+      if(this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
     },
   },
 };
@@ -171,23 +244,24 @@ export default {
     </div>
     <div class="flex mt-4 w-[320px]" :style="getBubblePositionStyle">
       <button
-        class="relative flex items-center justify-center rounded-full cursor-pointer"
+        ref="svgButton"
+        class="relative flex items-center justify-center rounded-full cursor-pointer p-0"
         :style="{ background: color }"
         :class="
           isBubbleExpanded
-            ? 'w-auto font-medium text-base text-white dark:text-white h-12 px-4'
-            : 'w-16 h-16'
+            ? 'w-auto font-medium text-base text-white dark:text-white h-12 pl-1 pr-4 m-0'
+            : 'w-16 h-16 bg-[#1f93ff] rounded-[100%_100%_100%_100%_/_100%_100%_0%_100%] overflow-hidden cursor-pointer select-none z-[2147483000] p-0 m-0 border-0'
         "
         @click="toggleWidget"
       >
-        <img
+        <!-- <img
           v-if="!isWidgetVisible"
           src="~dashboard/assets/images/bubble-logo.svg"
           alt=""
           draggable="false"
           class="w-6 h-6 mx-auto"
-        />
-        <div v-if="isBubbleExpanded" class="ltr:pl-2.5 rtl:pr-2.5">
+        /> -->
+        <div v-if="isBubbleExpanded">
           {{ getWidgetBubbleLauncherTitle }}
         </div>
         <div v-if="isWidgetVisible" class="relative">

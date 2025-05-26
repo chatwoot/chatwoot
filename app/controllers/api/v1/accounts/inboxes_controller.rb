@@ -81,7 +81,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def create_channel
     return unless %w[web_widget api email line telegram whatsapp sms].include?(permitted_params[:channel][:type])
 
-    account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
+    account_channels_method.create!(valid_channel_params(channel_type_from_params::EDITABLE_ATTRS).except(:type))
   end
 
   def update_inbox_working_hours
@@ -110,8 +110,19 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def reauthorize_and_update_channel(channel_attributes)
     @inbox.channel.reauthorized! if @inbox.channel.respond_to?(:reauthorized!)
-    @inbox.channel.update!(permitted_params(channel_attributes)[:channel])
+    @inbox.channel.update!(valid_channel_params(channel_attributes))
   end
+
+  private
+  
+  def valid_channel_params(channel_attributes)
+    valid_params = permitted_params(channel_attributes)[:channel]
+    if(valid_params[:logo_colors].present?) 
+      valid_params[:logo_colors] = JSON.parse(valid_params[:logo_colors])
+    end
+    valid_params
+  end
+
 
   def update_channel_feature_flags
     return unless @inbox.web_widget?

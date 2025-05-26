@@ -67,9 +67,12 @@ export default {
     },
   },
   mounted() {
-    const { websiteToken, locale, widgetColor } = window.chatwootWebChannel;
+    const { websiteToken, locale, widgetColor, logoColors } =
+      window.chatwootWebChannel;
+    console.log('Logo colors: ', logoColors.dot1);
     this.setLocale(locale);
-    this.setWidgetColor(widgetColor);
+    this.setWidgetColor(logoColors.dot1);
+    this.setLogoColors(logoColors);
     setHeader(window.authToken);
     if (this.isIFrame) {
       this.registerListeners();
@@ -93,6 +96,7 @@ export default {
       'setAppConfig',
       'setReferrerHost',
       'setWidgetColor',
+      'setLogoColors',
       'setBubbleVisibility',
       'setColorScheme',
     ]),
