@@ -71,6 +71,9 @@ class MessageTemplates::HookExecutionService
     # only send CSAT once in a conversation
     return if conversation.messages.where(content_type: :input_csat).present?
 
+    # only send CSAT if customer can still reply
+    return unless conversation.can_reply?
+
     true
   end
 end

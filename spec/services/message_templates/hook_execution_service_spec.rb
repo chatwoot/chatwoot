@@ -121,8 +121,9 @@ describe MessageTemplates::HookExecutionService do
       create(:message, conversation: conversation, message_type: 'incoming')
     end
 
-    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do
+    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled and can reply' do
       conversation.inbox.update(csat_survey_enabled: true)
+      allow(conversation).to receive(:can_reply?).and_return(true)
 
       conversation.resolved!
       Conversations::ActivityMessageJob.perform_now(conversation,
@@ -163,6 +164,19 @@ describe MessageTemplates::HookExecutionService do
     it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
       conversation.inbox.update(csat_survey_enabled: true)
       conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
+
+      conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
+
+      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
+      expect(csat_survey).not_to have_received(:perform)
+    end
+
+    it 'will not call ::MessageTemplates::Template::CsatSurvey if cannot reply' do
+      conversation.inbox.update(csat_survey_enabled: true)
+      allow(conversation).to receive(:can_reply?).and_return(false)
 
       conversation.resolved!
       Conversations::ActivityMessageJob.perform_now(conversation,
