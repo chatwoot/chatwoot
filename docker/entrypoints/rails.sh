@@ -4,21 +4,22 @@ set -x
 
 # Remove a potentially pre-existing server.pid for Rails.
 rm -rf /app/tmp/pids/server.pid
-rm -rf /app/tmp/cache/*
+rm -rf '/app/tmp/cache/*'
 
-echo "Waiting for postgres to become ready...."
-
-# Let DATABASE_URL env take presedence over individual connection params.
-# This is done to avoid printing the DATABASE_URL in the logs
-$(docker/entrypoints/helpers/pg_database_url.rb)
-PG_READY="pg_isready -h $POSTGRES_HOST -p $POSTGRES_PORT -U $POSTGRES_USERNAME"
+echo 'Waiting for postgres to become ready....'
+export POSTGRES_PORT=5432
+PG_READY="pg_isready -h pgvector -p 5432 -U postgres"
 
 until $PG_READY
 do
-  sleep 2;
+  echo "Waiting for postgres to become ready...."
+  sleep 2
 done
 
-echo "Database ready to accept connections."
+echo 'Database ready to accept connections.'
+
+# Executa as migrações do banco de dados
+bundle exec rails db:migrate
 
 #install missing gems for local dev as we are using base image compiled for production
 bundle install
