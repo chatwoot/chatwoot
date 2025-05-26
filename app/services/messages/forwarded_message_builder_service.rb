@@ -47,7 +47,7 @@ class Messages::ForwardedMessageBuilderService
   end
 
   def forwarded_attachments
-    forwarded_message.attachments if forwarded_message&.attachments&.present?
+    forwarded_message.attachments if forwarded_message&.attachments.present?
   end
 
   private
