@@ -11,7 +11,7 @@ describe SearchService do
   let!(:conversation) { create(:conversation, contact: harry, inbox: inbox, account: account) }
   let!(:message) { create(:message, account: account, inbox: inbox, content: 'Harry Potter is a wizard') }
   let!(:portal) { create(:portal, account: account) }
-  let!(:article) do
+  let(:article) do
     create(:article, title: 'Harry Potter Magic Guide', content: 'Learn about wizardry', account: account, portal: portal, author: user,
                      status: 'published')
   end
