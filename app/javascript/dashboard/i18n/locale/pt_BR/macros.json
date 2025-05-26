@@ -83,6 +83,22 @@
       "ACTION_PARAMETERS_REQUIRED": "Os parâmetros de ação são necessários",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é necessária",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é necessária"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Atribuir um Time",
+      "ASSIGN_AGENT": "Atribuir um Agente",
+      "ADD_LABEL": "Adicionar uma Etiqueta",
+      "REMOVE_LABEL": "Remover uma Etiqueta",
+      "REMOVE_ASSIGNED_TEAM": "Remover Time Atribuído",
+      "SEND_EMAIL_TRANSCRIPT": "Enviar uma transcrição por e-mail",
+      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "SNOOZE_CONVERSATION": "Adiar Conversa",
+      "RESOLVE_CONVERSATION": "Resolver Conversa",
+      "SEND_ATTACHMENT": "Enviar Anexo",
+      "SEND_MESSAGE": "Enviar uma Mensagem",
+      "CHANGE_PRIORITY": "Alterar Prioridade",
+      "ADD_PRIVATE_NOTE": "Adicionar uma Nota Privada",
+      "SEND_WEBHOOK_EVENT": "Enviar evento de Webhook"
     }
   }
 }

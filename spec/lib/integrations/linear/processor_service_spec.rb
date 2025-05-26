@@ -76,6 +76,7 @@ describe Integrations::Linear::ProcessorService do
         description: 'Issue description',
         assignee_id: 'user1',
         priority: 2,
+        state_id: 'state1',
         label_ids: %w[bug]
       }
     end

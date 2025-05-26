@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Message mis à jour",
             "WEBWIDGET_TRIGGERED": "Widget de discussion instantanée ouvert par l'utilisateur",
             "CONTACT_CREATED": "Contact créé",
-            "CONTACT_UPDATED": "Contact mis à jour"
+            "CONTACT_UPDATED": "Contact mis à jour",
+            "CONVERSATION_TYPING_ON": "Saisie de conversation activée",
+            "CONVERSATION_TYPING_OFF": "Saisie de conversation désactivée"
           }
         },
         "END_POINT": {
@@ -329,11 +331,34 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Envoyer un message...",
+      "EMPTY_MESSAGE": "Une erreur s'est produite lors de la génération de la réponse. Veuillez réessayer.",
       "LOADER": "Captain is thinking",
       "YOU": "Vous",
       "USE": "Use this",
       "RESET": "Reset",
-      "SELECT_ASSISTANT": "Select Assistant"
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Résumer cette conversation",
+          "CONTENT": "Résumé des points clés de la conversation entre le client et l'agent de support, y compris les préoccupations et questions du client, ainsi que les solutions ou réponses fournies par l'agent de support"
+        },
+        "SUGGEST": {
+          "LABEL": "Suggérer une réponse",
+          "CONTENT": "Analysez la demande du client et rédigez une réponse qui traite efficacement ses préoccupations ou questions. Assurez-vous que la réponse soit claire, concise et fournisse des informations utiles."
+        },
+        "RATE": {
+          "LABEL": "Évaluer cette conversation",
+          "CONTENT": "Revue de la conversation pour évaluer dans quelle mesure elle répond aux besoins du client. Partagez une note sur 5 en fonction du ton, de la clarté et de l'efficacité."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Vous",
+      "ASSISTANT": "Assistant",
+      "MESSAGE_PLACEHOLDER": "Tapez votre message...",
+      "HEADER": "Terrain de jeu",
+      "DESCRIPTION": "Utilisez ce terrain de jeu pour envoyer des messages à votre assistant et vérifier s'il répond de manière précise, rapide et dans le ton que vous attendez.",
+      "CREDIT_NOTE": "Les messages envoyés ici compteront pour vos crédits Captain."
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -373,20 +398,44 @@
         "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
       },
       "FORM": {
+        "UPDATE": "Mettre à jour",
+        "SECTIONS": {
+          "BASIC_INFO": "Informations de base",
+          "SYSTEM_MESSAGES": "Messages système",
+          "INSTRUCTIONS": "Instructions",
+          "FEATURES": "Fonctionnalités",
+          "TOOLS": "Outils "
+        },
         "NAME": {
-          "LABEL": "Assistant Name",
-          "PLACEHOLDER": "Enter a name for the assistant",
-          "ERROR": "Please provide a name for the assistant"
+          "LABEL": "Nom",
+          "PLACEHOLDER": "Entrez le nom de l'assistant",
+          "ERROR": "Le nom est requis"
         },
         "DESCRIPTION": {
-          "LABEL": "Assistant Description",
-          "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "ERROR": "A description is required"
+          "LABEL": "Description",
+          "PLACEHOLDER": "Entrez la description de l'assistant",
+          "ERROR": "La description est requise"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
+          "PLACEHOLDER": "Entrez le nom du produit",
           "ERROR": "The product name is required"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Message de bienvenue",
+          "PLACEHOLDER": "Entrez le message de bienvenue"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Message de transfert",
+          "PLACEHOLDER": "Entrez le message de transfert"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Message de résolution",
+          "PLACEHOLDER": "Entrez le message de résolution"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Instructions",
+          "PLACEHOLDER": "Entrez les instructions pour l'assistant"
         },
         "FEATURES": {
           "TITLE": "Fonctionnalités",
@@ -397,7 +446,8 @@
       "EDIT": {
         "TITLE": "Update the assistant",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
+        "NOT_FOUND": "Impossible de trouver l'assistant. Veuillez réessayer."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",

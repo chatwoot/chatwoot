@@ -4,6 +4,7 @@
 # i18n_key: the key under which translations for the integration is placed in en.yml
 # action: if integration requires external redirect url
 # hook_type: ( account / inbox )
+# feature_flag: (string) feature flag to enable/disable the integration
 # allow_multiple_hooks: whether multiple hooks can be created for the integration
 # settings_json_schema: the json schema used to validate the settings hash (https://json-schema.org/)
 # settings_form_schema: the formulate schema used in frontend to render settings form (https://vueformulate.com/)
@@ -186,3 +187,79 @@ shopify:
   i18n_key: shopify
   hook_type: account
   allow_multiple_hooks: false
+
+leadsquared:
+  id: leadsquared
+  feature_flag: crm_integration
+  logo: leadsquared.png
+  i18n_key: leadsquared
+  action: /leadsquared
+  hook_type: account
+  allow_multiple_hooks: false
+  settings_json_schema:
+    {
+      'type': 'object',
+      'properties':
+        {
+          'access_key': { 'type': 'string' },
+          'secret_key': { 'type': 'string' },
+          'endpoint_url': { 'type': 'string' },
+          'app_url': { 'type': 'string' },
+          'enable_conversation_activity': { 'type': 'boolean' },
+          'enable_transcript_activity': { 'type': 'boolean' },
+          'conversation_activity_score': { 'type': 'string' },
+          'transcript_activity_score': { 'type': 'string' },
+          'conversation_activity_code': { 'type': 'integer' },
+          'transcript_activity_code': { 'type': 'integer' },
+        },
+      'required': ['access_key', 'secret_key'],
+      'additionalProperties': false,
+    }
+  settings_form_schema:
+    [
+      {
+        'label': 'Access Key',
+        'type': 'text',
+        'name': 'access_key',
+        'validation': 'required',
+      },
+      {
+        'label': 'Secret Key',
+        'type': 'text',
+        'name': 'secret_key',
+        'validation': 'required',
+      },
+      {
+        'label': 'Push Conversation Activity',
+        'type': 'checkbox',
+        'name': 'enable_conversation_activity',
+        'help': 'Enable this option to push an activity when a conversation is created',
+      },
+      {
+        'label': 'Conversation Activity Score',
+        'type': 'number',
+        'name': 'conversation_activity_score',
+        'help': 'Score to assign to the conversation created activity, default is 0',
+      },
+      {
+        'label': 'Push Transcript Activity',
+        'type': 'checkbox',
+        'name': 'enable_transcript_activity',
+        'help': 'Enable this option to push an activity when a transcript is created',
+      },
+      {
+        'label': 'Transcript Activity Score',
+        'type': 'number',
+        'name': 'transcript_activity_score',
+        'help': 'Score to assign to the conversation transcript activity, default is 0',
+      },
+    ]
+  visible_properties:
+    [
+      'access_key',
+      'endpoint_url',
+      'enable_conversation_activity',
+      'enable_transcript_activity',
+      'conversation_activity_score',
+      'transcript_activity_score',
+    ]

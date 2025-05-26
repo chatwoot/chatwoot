@@ -39,10 +39,13 @@ describe('#actions', () => {
 
   describe('#update', () => {
     it('sends correct actions if API is success', async () => {
-      axios.patch.mockResolvedValue();
+      axios.patch.mockResolvedValue({
+        data: { id: 1, name: 'John' },
+      });
       await actions.update({ commit, getters }, accountData);
       expect(commit.mock.calls).toEqual([
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true }],
+        [types.default.EDIT_ACCOUNT, { id: 1, name: 'John' }],
         [types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false }],
       ]);
     });
