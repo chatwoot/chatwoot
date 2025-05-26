@@ -19,9 +19,9 @@ module Enterprise::Api::V1::Accounts::ConversationsController
 
     response = Captain::Copilot::ChatService.new(
       assistant,
-      previous_messages: copilot_params[:previous_messages],
-      conversation_history: @conversation.to_llm_text,
-      language: @conversation.account.locale_english_name
+      previous_history: copilot_params[:previous_history],
+      conversation_id: @conversation.display_id,
+      user_id: Current.user.id
     ).generate_response(copilot_params[:message])
 
     render json: { message: response['response'] }
@@ -44,6 +44,6 @@ module Enterprise::Api::V1::Accounts::ConversationsController
   private
 
   def copilot_params
-    params.permit(:previous_messages, :message, :assistant_id)
+    params.permit(:previous_history, :message, :assistant_id)
   end
 end

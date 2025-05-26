@@ -132,6 +132,8 @@ fa:
     attachment: 'پیوست'
     no_content: 'فاقد محتوا'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} در داستان به شما اشاره کرده: '
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
@@ -139,6 +141,9 @@ fa:
       delivery_status:
         error_code: 'کد خطا " %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'مکالمه توسط ایجنت %{user_name} حل شده، اعلام شده بود'
         contact_resolved: 'گفتگو توسط %{contact_name} حل شد'

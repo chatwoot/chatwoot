@@ -132,6 +132,8 @@
     attachment: 'Vedlegg'
     no_content: 'Ingen innhold'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} nevnte deg i historien: '
       instagram_deleted_story_content: Denne historien er ikke lenger tilgjengelig.
@@ -139,6 +141,9 @@
       delivery_status:
         error_code: 'Feilkode: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: 'Samtale ble løst av %{user_name}'
         contact_resolved: 'Conversation was resolved by %{contact_name}'
