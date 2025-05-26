@@ -5,4 +5,4 @@ json.content article.content
 json.slug article.slug
 json.portal_slug article.portal.slug
 json.account_id article.account_id
-json.category_name article.category.name
+json.category_name article.category&.name
