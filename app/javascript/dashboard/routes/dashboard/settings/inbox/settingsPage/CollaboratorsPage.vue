@@ -136,7 +136,7 @@ export default {
         const {
           data: { payload: inboxBotMembers },
         } = response;
-        this.selectedAiAgents = inboxBotMembers;
+        this.selectedAiAgents = inboxBotMembers[0];
       } catch (e) {
         useAlert(this.$t('AGENT_MGMT.GET.API.ERROR_MESSAGE'));
       }
@@ -145,8 +145,6 @@ export default {
       const aiAgentListId = this.selectedAiAgents
         ? [this.selectedAiAgents.id]
         : [];
-
-      console.log('🔥 [UpdateAiAgents] Called', aiAgentListId);
       this.isAiAgentListUpdating = true;
       try {
         await this.$store.dispatch('inboxBotMembers/create', {
