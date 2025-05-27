@@ -83,62 +83,84 @@ const getTimeDifference = (targetTime, currentTime) => {
   };
 };
 
-// Format response based on time difference
-const formatTimeResponse = ({ dayDiff, hours, minutes, config, locale }) => {
-  // Multiple days away (Tomorrow)
-  if (dayDiff === 1) return { type: 'BACK_ON', value: 'tomorrow' };
-  // Multiple days away (Next Monday)
-  if (dayDiff > 1 || hours >= HOURS_IN_DAY) {
-    return { type: 'BACK_ON', value: DAY_NAMES[config.day_of_week] };
-  }
+// Response type builders
+const backOnResponse = value => ({ type: 'BACK_ON', value });
+const backAtResponse = value => ({ type: 'BACK_AT', value });
+const backInResponse = value => ({ type: 'BACK_IN', value });
+const backInSomeTimeResponse = () => ({ type: 'BACK_IN_SOME_TIME' });
 
-  // Same day (9:30 AM)
+// Get response for multiple days
+const getMultipleDayResponse = (dayDiff, hours, config) => {
+  if (dayDiff === 1) return backOnResponse('tomorrow');
+  if (dayDiff > 1 || hours >= HOURS_IN_DAY) {
+    return backOnResponse(DAY_NAMES[config.day_of_week]);
+  }
+  return null;
+};
+
+// Get response for same day
+const getSameDayResponse = (hours, minutes, config, locale) => {
   if (hours >= 3) {
     const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
     const targetMinute = config.open_minutes ?? 0;
-    return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
+    return backAtResponse(getTime(targetHour, targetMinute));
   }
-  // Same day (in 2 hours)
+
   if (hours > 0) {
     const roundedHours = minutes > 0 ? hours + 1 : hours;
-    return {
-      type: 'BACK_IN',
-      value: generateRelativeTime(roundedHours, 'hour', locale),
-    };
+    return backInResponse(generateRelativeTime(roundedHours, 'hour', locale));
   }
-  // Same day (in 15 minutes)
+
   if (minutes > 0) {
     const roundedMinutes = Math.ceil(minutes / 5) * 5;
-    return {
-      type: 'BACK_IN',
-      value: generateRelativeTime(roundedMinutes, 'minutes', locale),
-    };
+    return backInResponse(
+      generateRelativeTime(roundedMinutes, 'minutes', locale)
+    );
   }
 
-  return { type: 'BACK_IN_SOME_TIME' };
+  return null;
 };
 
-// Get next available time
-export const getNextAvailableTime = (
-  { currentDay, currentHour, currentMinute, todayConfig, workingHours },
-  locale
+// Format response based on time difference
+const formatTimeResponse = ({ dayDiff, hours, minutes, config, locale }) => {
+  const multipleDayResponse = getMultipleDayResponse(dayDiff, hours, config);
+  if (multipleDayResponse) return multipleDayResponse;
+
+  const sameDayResponse = getSameDayResponse(hours, minutes, config, locale);
+  return sameDayResponse || backInSomeTimeResponse();
+};
+
+// Get target configuration
+const getTargetConfig = (
+  todayConfig,
+  workingHours,
+  currentDay,
+  currentHour
 ) => {
-  if (!workingHours?.length) return { type: 'BACK_IN_SOME_TIME' };
-
-  const currentTime = toMinutes(currentHour, currentMinute);
-
-  // Check if we need to find next day
   const needsNextDay =
     todayConfig.closed_all_day ||
     (todayConfig.close_hour && currentHour >= todayConfig.close_hour);
 
-  const nextSlot = needsNextDay
-    ? findNextOpenSlot(workingHours, currentDay)
-    : { config: todayConfig, dayDiff: 0 };
+  if (!needsNextDay) return { config: todayConfig, dayDiff: 0 };
 
-  if (!nextSlot) return { type: 'BACK_IN_SOME_TIME' };
+  return findNextOpenSlot(workingHours, currentDay) || null;
+};
 
-  const { config, dayDiff } = nextSlot;
+// Calculate next available time details
+const calculateNextAvailable = (workingHoursInfo, locale) => {
+  const { currentDay, currentHour, currentMinute, todayConfig, workingHours } =
+    workingHoursInfo;
+  const currentTime = toMinutes(currentHour, currentMinute);
+
+  const targetConfig = getTargetConfig(
+    todayConfig,
+    workingHours,
+    currentDay,
+    currentHour
+  );
+  if (!targetConfig) return null;
+
+  const { config, dayDiff } = targetConfig;
   const targetTime = toMinutes(
     config.open_all_day ? 0 : (config.open_hour ?? 0),
     config.open_minutes ?? 0
@@ -147,4 +169,12 @@ export const getNextAvailableTime = (
   const { hours, minutes } = getTimeDifference(targetTime, currentTime);
 
   return formatTimeResponse({ dayDiff, hours, minutes, config, locale });
+};
+
+// Get next available time
+export const getNextAvailableTime = (workingHoursInfo, locale) => {
+  if (!workingHoursInfo.workingHours?.length) return backInSomeTimeResponse();
+
+  const result = calculateNextAvailable(workingHoursInfo, locale);
+  return result || backInSomeTimeResponse();
 };
