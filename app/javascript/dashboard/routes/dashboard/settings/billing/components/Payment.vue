@@ -182,10 +182,11 @@ const submit = async () => {
           @click="isDropdownOpen = !isDropdownOpen"
         >
           <div>{{ selectedBillingCycle.name }}</div>
-          <div class="font-medium">{{ totalPrice.toLocaleString() }} IDR</div>
+          <div class="font-medium mr-8">{{ totalPrice.toLocaleString() }} IDR</div>
 
           <!-- Dropdown arrow -->
-          <div class="absolute top-0 right-0 px-4 py-3">
+          <div class="absolute top-0 right-0 px-4 py-4 transform duration-300"
+            :class="isDropdownOpen ? '-rotate-180' : 'rotate-0'">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               class="h-4 w-4"
