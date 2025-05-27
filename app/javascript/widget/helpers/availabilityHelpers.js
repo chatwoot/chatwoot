@@ -84,16 +84,14 @@ const getTimeDifference = (targetTime, currentTime) => {
 };
 
 // Response type builders
-const backOnResponse = value => ({ type: 'BACK_ON', value });
-const backAtResponse = value => ({ type: 'BACK_AT', value });
 const backInResponse = value => ({ type: 'BACK_IN', value });
 const backInSomeTimeResponse = () => ({ type: 'BACK_IN_SOME_TIME' });
 
 // Get response for multiple days
 const getMultipleDayResponse = (dayDiff, hours, config) => {
-  if (dayDiff === 1) return backOnResponse('tomorrow');
+  if (dayDiff === 1) return { type: 'BACK_TOMORROW' };
   if (dayDiff > 1 || hours >= HOURS_IN_DAY) {
-    return backOnResponse(DAY_NAMES[config.day_of_week]);
+    return { type: 'BACK_ON', value: DAY_NAMES[config.day_of_week] };
   }
   return null;
 };
@@ -102,7 +100,7 @@ const getMultipleDayResponse = (dayDiff, hours, config) => {
 const getSpecificTimeResponse = config => {
   const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
   const targetMinute = config.open_minutes ?? 0;
-  return backAtResponse(getTime(targetHour, targetMinute));
+  return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
 };
 
 // Get relative hours response

@@ -16,18 +16,7 @@ vi.mock('date-fns-tz', () => ({
 vi.mock(
   'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js',
   () => ({
-    getTime: vi.fn((hour, minute) => {
-      // Determine if it's AM or PM based on hour
-      const merdian = hour > 11 ? 'PM' : 'AM';
-      // Convert 24-hour to 12-hour format (13:00 becomes 1:00)
-      const modHour = hour > 12 ? hour % 12 : hour || 12;
-      // Add leading zero if hour is single digit
-      const parsedHour = modHour < 10 ? `0${modHour}` : modHour;
-      // Add leading zero if minute is single digit
-      const parsedMinute = minute < 10 ? `0${minute}` : minute;
-      // Return formatted time string like "09:00 AM"
-      return `${parsedHour}:${parsedMinute} ${merdian}`;
-    }),
+    getTime: vi.fn(),
   })
 );
 
@@ -337,7 +326,7 @@ describe('availabilityHelpers', () => {
 
       const result = getNextAvailableTime(workingHoursInfo, 'en');
       // Should show "tomorrow" for next day
-      expect(result).toEqual({ type: 'BACK_ON', value: 'tomorrow' });
+      expect(result).toEqual({ type: 'BACK_TOMORROW' });
     });
 
     it('should return day name when 2+ days away', () => {
@@ -448,7 +437,7 @@ describe('availabilityHelpers', () => {
 
       const result = getNextAvailableTime(workingHoursInfo, 'en');
       // Should show tomorrow (Friday)
-      expect(result).toEqual({ type: 'BACK_ON', value: 'tomorrow' });
+      expect(result).toEqual({ type: 'BACK_TOMORROW' });
     });
 
     it('should handle when all days are closed', () => {
@@ -485,7 +474,7 @@ describe('availabilityHelpers', () => {
 
       const result = getNextAvailableTime(workingHoursInfo, 'en');
       // Should show tomorrow since we're at closing time
-      expect(result).toEqual({ type: 'BACK_ON', value: 'tomorrow' });
+      expect(result).toEqual({ type: 'BACK_TOMORROW' });
     });
 
     it('should handle opening time with minutes', () => {

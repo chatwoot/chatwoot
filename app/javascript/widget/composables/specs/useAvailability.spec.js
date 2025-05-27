@@ -327,7 +327,7 @@ describe('useAvailability', () => {
         expect(replyWaitMessage.value).toBe('REPLY_TIME.BACK_IN 2 hours');
       });
 
-      it('should handle BACK_ON with day parameter', () => {
+      it('should handle BACK_TOMORROW', () => {
         getWorkingHoursInfo.mockReturnValue({
           enabled: true,
           isInWorkingHours: false,
@@ -336,13 +336,12 @@ describe('useAvailability', () => {
 
         // Mock next available time as specific day
         getNextAvailableTime.mockReturnValue({
-          type: 'BACK_ON',
-          value: 'tomorrow', // Back tomorrow
+          type: 'BACK_TOMORROW',
         });
         const { replyWaitMessage } = useAvailability();
 
         // Should show message with day parameter
-        expect(replyWaitMessage.value).toBe('REPLY_TIME.BACK_ON tomorrow');
+        expect(replyWaitMessage.value).toBe('REPLY_TIME.BACK_TOMORROW');
       });
     });
   });

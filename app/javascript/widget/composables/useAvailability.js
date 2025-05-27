@@ -68,10 +68,6 @@ export function useAvailability(availableAgents = ref([])) {
     // Handle next available time
     const { type, value } = nextAvailableTime.value;
 
-    if (type === 'BACK_IN_SOME_TIME') {
-      return t(`REPLY_TIME.${type}`);
-    }
-
     return t(`REPLY_TIME.${type}`, { time: value });
   });
 

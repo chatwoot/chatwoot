@@ -23,6 +23,7 @@
     "BACK_IN": "We will be back online {time}",
     "BACK_AT": "We will be back online at {time}",
     "BACK_ON": "We will be back online on {time}",
+    "BACK_TOMORROW": "We will be back online tomorrow",
     "BACK_IN_SOME_TIME": "We will be back online in some time"
   },
   "DAY_NAMES": {
