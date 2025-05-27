@@ -1,23 +1,21 @@
 <script>
 import { mapGetters } from 'vuex';
+import { toRef } from 'vue';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import configMixin from 'widget/mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
+import { useAvailability } from 'widget/composables/useAvailability';
 
 export default {
   name: 'TeamAvailability',
   components: {
     GroupedAvatars,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
     hasConversation: {
       type: Boolean,
@@ -25,7 +23,15 @@ export default {
     },
   },
   emits: ['startConversation'],
+  setup(props) {
+    const availableAgents = toRef(props, 'availableAgents');
+    const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
 
+    return {
+      replyWaitMessage,
+      isOnline,
+    };
+  },
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
@@ -39,15 +45,6 @@ export default {
         avatar: agent.avatar_url,
         id: agent.id,
       }));
-    },
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
     },
   },
   methods: {

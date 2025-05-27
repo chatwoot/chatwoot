@@ -3,8 +3,8 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
+import { useAvailability } from 'widget/composables/useAvailability';
 import configMixin from './mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import { isEmptyObject } from 'widget/helpers/utils';
@@ -28,10 +28,11 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin],
+  mixins: [configMixin, routerMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
-    return { prefersDarkMode };
+    const { isInBusinessHours } = useAvailability();
+    return { prefersDarkMode, isInBusinessHours };
   },
   data() {
     return {

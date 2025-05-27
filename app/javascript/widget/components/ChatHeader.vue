@@ -1,9 +1,9 @@
 <script>
-import availabilityMixin from 'widget/mixins/availability';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
+import { toRef } from 'vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
+import { useAvailability } from 'widget/composables/useAvailability';
 
 export default {
   name: 'ChatHeader',
@@ -11,7 +11,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
+  mixins: [routerMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -31,19 +31,17 @@ export default {
     },
     availableAgents: {
       type: Array,
-      default: () => {},
+      default: () => [],
     },
   },
-  computed: {
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
+  setup(props) {
+    const availableAgents = toRef(props, 'availableAgents');
+    const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
 
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
+    return {
+      replyWaitMessage,
+      isOnline,
+    };
   },
   methods: {
     onBackButtonClick() {
