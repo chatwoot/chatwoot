@@ -98,26 +98,32 @@ const getMultipleDayResponse = (dayDiff, hours, config) => {
   return null;
 };
 
-// Get response for same day
+// Get specific time response
+const getSpecificTimeResponse = config => {
+  const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
+  const targetMinute = config.open_minutes ?? 0;
+  return backAtResponse(getTime(targetHour, targetMinute));
+};
+
+// Get relative hours response
+const getRelativeHoursResponse = (hours, minutes, locale) => {
+  const roundedHours = minutes > 0 ? hours + 1 : hours;
+  return backInResponse(generateRelativeTime(roundedHours, 'hour', locale));
+};
+
+// Get relative minutes response
+const getRelativeMinutesResponse = (minutes, locale) => {
+  const roundedMinutes = Math.ceil(minutes / 5) * 5;
+  return backInResponse(
+    generateRelativeTime(roundedMinutes, 'minutes', locale)
+  );
+};
+
+// Get same day response
 const getSameDayResponse = (hours, minutes, config, locale) => {
-  if (hours >= 3) {
-    const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
-    const targetMinute = config.open_minutes ?? 0;
-    return backAtResponse(getTime(targetHour, targetMinute));
-  }
-
-  if (hours > 0) {
-    const roundedHours = minutes > 0 ? hours + 1 : hours;
-    return backInResponse(generateRelativeTime(roundedHours, 'hour', locale));
-  }
-
-  if (minutes > 0) {
-    const roundedMinutes = Math.ceil(minutes / 5) * 5;
-    return backInResponse(
-      generateRelativeTime(roundedMinutes, 'minutes', locale)
-    );
-  }
-
+  if (hours >= 3) return getSpecificTimeResponse(config);
+  if (hours > 0) return getRelativeHoursResponse(hours, minutes, locale);
+  if (minutes > 0) return getRelativeMinutesResponse(minutes, locale);
   return null;
 };
 
