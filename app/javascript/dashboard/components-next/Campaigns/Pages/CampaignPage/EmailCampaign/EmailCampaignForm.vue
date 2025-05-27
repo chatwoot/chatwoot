@@ -1,11 +1,11 @@
 <script setup>
 import CodeHighlighter from 'dashboard/components/widgets/CodeHighlighter.vue';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
-import { ref, computed, reactive, onMounted, onBeforeUnmount } from 'vue';
+import { ref, computed, reactive, onMounted, onBeforeUnmount, toRaw } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
-import { required } from '@vuelidate/validators';
+import { required, helpers } from '@vuelidate/validators';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -97,7 +97,13 @@ const currentDateTime = computed(() => {
 const rules = computed(() => {
   const step1Rules = {
     title: { required },
-    selectedInbox: { required },
+    selectedInbox: {
+      required,
+      isSmtpAvailable: value => {
+        const inbox = toRaw(inboxes.value.filter(e => e.id == value)[0]);
+        return inbox.smtp_enabled === true;
+      },
+    },
     scheduledAt: { required },
     selectedAudience: {},
   };
@@ -125,9 +131,12 @@ const calculatePreviewPosition = () => {
 };
 
 const handleInboxSelection = () => {
+  v$.value.selectedInbox.$validate();
+
+  // REVIEW: This doesn't seem to be needed, selectedInbox should never be 'create_new'
   if (formState.selectedInbox === 'create_new') {
     const baseUrl = window.location.origin;
-    window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/whatsapp`;
+    window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/email`;
     formState.selectedInbox = null;
   }
 };
@@ -258,11 +267,11 @@ const createCampaign = async () => {
         : formState.selectedContacts;
 
     const audienceData = formState.selectedAudience.map(e => {
-          return {
-            type: 'Label',
-            id: e,
-          };
-        });
+      return {
+        type: 'Label',
+        id: e,
+      };
+    });
 
     const campaignDetails = {
       campaign: {
@@ -353,11 +362,21 @@ onBeforeUnmount(() => {
                     {{ inbox.name }}
                   </option>
                 </select>
+
                 <span
-                  v-if="v$.selectedInbox.$error"
+                  v-if="v$.selectedInbox.required.$invalid"
                   class="text-xs text-red-500"
                 >
-                  {{ t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERROR') }}
+                  {{ t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERRORS.REQUIRED') }}
+                </span>
+
+                <span
+                  v-else-if="v$.selectedInbox.isSmtpAvailable.$invalid"
+                  class="text-xs text-red-500"
+                >
+                  {{
+                    t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERRORS.SMTP_REQUIRED')
+                  }}
                 </span>
               </label>
             </div>

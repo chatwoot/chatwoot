@@ -544,7 +544,12 @@ watch(
 // Lifecycle Hooks
 onMounted(() => {
   updateSelectVisiblePosition();
-  fetchContacts(1);
+  fetchContacts(1).then(e => {
+    localSelectedContacts.value = props.selectedContacts.filter(e =>
+      contactList.value.some(c => c.id == e)
+    );
+  });
+
   window.addEventListener('resize', updateSelectVisiblePosition);
 });
 

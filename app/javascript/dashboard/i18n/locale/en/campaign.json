@@ -296,6 +296,11 @@
           "ON": "on"
         }
       },
+
+      "UPDATE": {
+        "TITLE": "Update Email campaign",
+        "DESC": "Update and Schedule Email campaign"
+      },
       "CREATE": {
         "TITLE": "Create Email campaign",
         "DESC": "Create and Schedule Email campaign",
@@ -317,7 +322,11 @@
           "INBOX": {
             "LABEL": "Select Inbox",
             "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "ERROR": "Inbox is required",
+            "ERRORS": {
+              "REQUIRED": "Inbox is required",
+              "SMTP_REQUIRED": "SMTP must be enabled for the inbox"
+            }
           },
           "AUDIENCE": {
             "LABEL": "Audience",
