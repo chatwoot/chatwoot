@@ -186,6 +186,19 @@ describe MessageTemplates::HookExecutionService do
       expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
       expect(csat_survey).not_to have_received(:perform)
     end
+
+    it 'creates activity message when CSAT not sent due to messaging window restriction' do
+      conversation.inbox.update(csat_survey_enabled: true)
+      allow(conversation).to receive(:can_reply?).and_return(false)
+      allow(conversation).to receive(:create_csat_not_sent_activity_message)
+
+      conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
+
+      expect(conversation).to have_received(:create_csat_not_sent_activity_message)
+    end
   end
 
   context 'when it is after working hours' do
