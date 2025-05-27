@@ -34,8 +34,9 @@
       <button
         v-for="size in sizes"
         :key="size.name"
+        type="button"
         class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
-        @click="setURLWithQueryAndImageSize(size)"
+        @click.stop="setURLWithQueryAndImageSize(size)"
       >
         {{ size.name }}
       </button>

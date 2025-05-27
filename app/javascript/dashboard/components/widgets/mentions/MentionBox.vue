@@ -18,14 +18,24 @@
           }"
           @click="onListItemSelection(index)"
         >
-          <p
-            class="text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 font-medium mb-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap min-w-0 max-w-full"
-            :class="{
-              'text-woot-500 dark:text-woot-500': index === selectedIndex,
-            }"
+          <template
+            v-if="isCannedResponse && isContentContainImage(item.description)"
           >
-            {{ item.description }}
-          </p>
+            <div
+              v-dompurify-html="contentFormatter(item.description)"
+              class="canned-message-content"
+            />
+          </template>
+          <template v-else>
+            <p
+              class="text-slate-900 dark:text-slate-100 group-hover:text-woot-500 dark:group-hover:text-woot-500 font-medium mb-0 text-sm overflow-hidden text-ellipsis whitespace-nowrap min-w-0 max-w-full"
+              :class="{
+                'text-woot-500 dark:text-woot-500': index === selectedIndex,
+              }"
+            >
+              {{ item.description }}
+            </p>
+          </template>
           <p
             class="text-slate-500 dark:text-slate-300 group-hover:text-woot-500 dark:group-hover:text-woot-500 mb-0 text-xs overflow-hidden text-ellipsis whitespace-nowrap min-w-0 max-w-full"
             :class="{
@@ -42,8 +52,9 @@
 
 <script>
 import mentionSelectionKeyboardMixin from './mentionSelectionKeyboardMixin';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 export default {
-  mixins: [mentionSelectionKeyboardMixin],
+  mixins: [mentionSelectionKeyboardMixin, messageFormatterMixin],
   props: {
     items: {
       type: Array,
@@ -52,6 +63,10 @@ export default {
     type: {
       type: String,
       default: 'canned',
+    },
+    isCannedResponse: {
+      type: Boolean,
+      default: false,
     },
   },
   data() {
@@ -98,6 +113,14 @@ export default {
     variableKey(item = {}) {
       return this.type === 'variable' ? `{{${item.label}}}` : `/${item.label}`;
     },
+    isContentContainImage(content) {
+      const markdownImageRegex = /!\[\]\((.*?)\)/g;
+      const hasImage = markdownImageRegex.test(content);
+      return hasImage;
+    },
+    contentFormatter(content) {
+      return this.formatMessage(content, false, false);
+    },
   },
 };
 </script>
@@ -111,5 +134,20 @@ export default {
 
 .canned-item__button::v-deep .button__content {
   @apply overflow-hidden text-ellipsis whitespace-nowrap;
+}
+
+:deep(.canned-message-content > p) {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+:deep(.canned-message-content img) {
+  width: 30px;
+  height: 30px;
+}
+:deep(.canned-message-content a) {
+  text-decoration: none;
+  color: inherit;
+  cursor: auto;
 }
 </style>

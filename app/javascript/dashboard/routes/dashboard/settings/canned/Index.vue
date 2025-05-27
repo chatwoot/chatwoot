@@ -67,7 +67,15 @@
               </td>
               <!-- Content -->
               <td class="break-all whitespace-normal">
-                {{ cannedItem.content }}
+                <template v-if="isContentContainImage(cannedItem.content)">
+                  <div
+                    v-dompurify-html="contentFormatter(cannedItem.content)"
+                    class="canned-message-content"
+                  />
+                </template>
+                <template v-else>
+                  {{ cannedItem.content }}
+                </template>
               </td>
               <!-- Action Buttons -->
               <td class="flex justify-end gap-1 min-w-[12.5rem]">
@@ -133,13 +141,14 @@ import { mapGetters } from 'vuex';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
 import alertMixin from 'shared/mixins/alertMixin';
+import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 
 export default {
   components: {
     AddCanned,
     EditCanned,
   },
-  mixins: [alertMixin],
+  mixins: [alertMixin, messageFormatterMixin],
   data() {
     return {
       loading: {},
@@ -242,6 +251,33 @@ export default {
           this.showAlertMessage(errorMessage);
         });
     },
+    isContentContainImage(content) {
+      const markdownImageRegex = /!\[\]\((.*?)\)/g;
+      const hasImage = markdownImageRegex.test(content);
+      return hasImage;
+    },
+    contentFormatter(content) {
+      return this.formatMessage(content, false, false);
+    },
   },
 };
 </script>
+
+<style>
+.canned-message-content > p {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.canned-message-content img {
+  width: 30px;
+  height: 30px;
+}
+
+.canned-message-content a {
+  text-decoration: none;
+  color: inherit;
+  cursor: auto;
+}
+</style>

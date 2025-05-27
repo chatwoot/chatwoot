@@ -2,6 +2,7 @@
   <mention-box
     v-if="items.length"
     :items="items"
+    :is-canned-response="true"
     @mention-select="handleMentionClick"
   >
     <template slot-scope="{ item }">

@@ -21,12 +21,15 @@
           </label>
           <div class="editor-wrap">
             <woot-message-editor
+              id="message-canned-edit-input"
               v-model="content"
-              class="message-editor [&>div]:px-1"
+              class="message-editor h-[12.5rem] !px-3"
               :class="{ editor_warning: $v.content.$error }"
               :enable-variables="true"
               :enable-canned-responses="false"
               :placeholder="$t('CANNED_MGMT.EDIT.FORM.CONTENT.PLACEHOLDER')"
+              :enabled-menu-options="customEditorMenuList"
+              :show-image-resize-toolbar="true"
               @blur="$v.content.$touch"
             />
           </div>
@@ -80,6 +83,7 @@ export default {
       shortCode: this.edshortCode,
       content: this.edcontent,
       show: true,
+      customEditorMenuList: ['imageUpload'],
     };
   },
   validations: {
@@ -137,16 +141,21 @@ export default {
 };
 </script>
 <style scoped lang="scss">
-::v-deep {
-  .ProseMirror-menubar {
-    @apply hidden;
-  }
+.message-editor {
+  @apply px-3;
 
-  .ProseMirror-woot-style {
-    @apply min-h-[12.5rem];
-
-    p {
-      @apply text-base;
+  ::v-deep {
+    .ProseMirror-menubar {
+      position: relative !important;
+      left: 0 !important;
+      right: 0 !important;
+      top: 0 !important;
+    }
+    .ProseMirror-menubar-spacer {
+      display: none !important;
+    }
+    .ProseMirror-woot-style {
+      @apply min-h-[10rem];
     }
   }
 }
