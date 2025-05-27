@@ -19,13 +19,25 @@ const DAY_NAMES = [
 export const getDateWithOffset = utcOffsetOrTimezone =>
   utcToZonedTime(new Date().toISOString(), utcOffsetOrTimezone);
 
-// Helper to convert time to minutes
+// Convert hours and minutes to minutes
 const timeToMinutes = (hours = 0, minutes = 0) =>
   hours * MINUTES_IN_HOUR + minutes;
 
 // Check if current time is within open hours
 const isWithinOpenHours = (currentMinutes, openMinutes, closeMinutes) =>
   currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+
+// Check if today's config is open
+const checkWorkingHours = (todayConfig, currentHour, currentMinute) => {
+  if (todayConfig.open_all_day) return true;
+  if (todayConfig.closed_all_day) return false;
+
+  return isWithinOpenHours(
+    timeToMinutes(currentHour, currentMinute),
+    timeToMinutes(todayConfig.open_hour, todayConfig.open_minutes),
+    timeToMinutes(todayConfig.close_hour, todayConfig.close_minutes)
+  );
+};
 
 // Get working hours info for current time
 export const getWorkingHoursInfo = (workingHours, utcOffset, enabled) => {
@@ -37,18 +49,13 @@ export const getWorkingHoursInfo = (workingHours, utcOffset, enabled) => {
   const currentMinute = now.getMinutes();
 
   const todayConfig =
-    workingHours.find(slot => slot.day_of_week === currentDay) || {};
+    workingHours.find(slot => slot.day_of_week === currentDay) ?? {};
   const allClosed = workingHours.every(slot => slot.closed_all_day);
-
-  // Determine if currently in working hours
-  const isInWorkingHours =
-    todayConfig.open_all_day ||
-    (!todayConfig.closed_all_day &&
-      isWithinOpenHours(
-        timeToMinutes(currentHour, currentMinute),
-        timeToMinutes(todayConfig.open_hour, todayConfig.open_minutes),
-        timeToMinutes(todayConfig.close_hour, todayConfig.close_minutes)
-      ));
+  const isInWorkingHours = checkWorkingHours(
+    todayConfig,
+    currentHour,
+    currentMinute
+  );
 
   return {
     enabled: true,
@@ -101,28 +108,25 @@ const calculateTimeDifference = (
   };
 };
 
-// Format time based on difference
-const formatTimeResponse = (dayDiff, hours, minutes, targetConfig, locale) => {
-  // Tomorrow
-  if (dayDiff === 1) {
-    return { type: 'BACK_ON', value: 'tomorrow' };
-  }
-
-  // Multiple days away
+// Get response for multiple days (Tomorrow, Next Monday, etc.)
+const getResponseForMultipleDays = (dayDiff, hours, targetConfig) => {
+  if (dayDiff === 1) return { type: 'BACK_ON', value: 'tomorrow' };
   if (dayDiff > 1 || hours >= HOURS_IN_DAY) {
     return { type: 'BACK_ON', value: DAY_NAMES[targetConfig.day_of_week] };
   }
+  return null;
+};
 
-  // Same day, specific time
+// Get response for same day (9:30 AM, in 2 hours, in 15 minutes, etc.)
+const getResponseForSameDay = (hours, minutes, targetConfig, locale) => {
   if (hours >= 3) {
     const targetHour = targetConfig.open_all_day
       ? 0
-      : targetConfig.open_hour || 0;
-    const targetMinute = targetConfig.open_minutes || 0;
+      : (targetConfig.open_hour ?? 0);
+    const targetMinute = targetConfig.open_minutes ?? 0;
     return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
   }
 
-  // Relative hours
   if (hours > 0) {
     const roundedHours = minutes > 0 ? hours + 1 : hours;
     return {
@@ -131,7 +135,6 @@ const formatTimeResponse = (dayDiff, hours, minutes, targetConfig, locale) => {
     };
   }
 
-  // Relative minutes
   if (minutes > 0) {
     const roundedMinutes = Math.ceil(minutes / 5) * 5;
     return {
@@ -143,36 +146,57 @@ const formatTimeResponse = (dayDiff, hours, minutes, targetConfig, locale) => {
   return { type: 'BACK_IN_SOME_TIME' };
 };
 
-// Get next available time
-export const getNextAvailableTime = (workingHoursInfo, locale) => {
-  const { currentDay, currentHour, currentMinute, todayConfig, workingHours } =
-    workingHoursInfo;
+const formatTimeResponse = (dayDiff, hours, minutes, targetConfig, locale) => {
+  const multipleDayResponse = getResponseForMultipleDays(
+    dayDiff,
+    hours,
+    targetConfig
+  );
+  return (
+    multipleDayResponse ??
+    getResponseForSameDay(hours, minutes, targetConfig, locale)
+  );
+};
 
-  if (!workingHours?.length) {
-    return { type: 'BACK_IN_SOME_TIME' };
-  }
-
-  // Determine if we need to check next day
+const getTargetConfig = (
+  todayConfig,
+  workingHours,
+  currentDay,
+  currentHour
+) => {
   const needsNextDay =
     todayConfig.closed_all_day ||
     (todayConfig.close_hour && currentHour >= todayConfig.close_hour);
 
-  // Get target day configuration
-  let targetConfig = todayConfig;
-  let dayDiff = 0;
-
-  if (needsNextDay) {
-    const next = getNextWorkingDay(workingHours, currentDay);
-    if (!next) return { type: 'BACK_IN_SOME_TIME' };
-    targetConfig = next.config;
-    dayDiff = next.dayDiff;
+  if (!needsNextDay) {
+    return { targetConfig: todayConfig, dayDiff: 0 };
   }
 
-  // Calculate time difference
-  const targetHour = targetConfig.open_all_day
-    ? 0
-    : targetConfig.open_hour || 0;
-  const targetMinute = targetConfig.open_minutes || 0;
+  const next = getNextWorkingDay(workingHours, currentDay);
+  return next ? { targetConfig: next.config, dayDiff: next.dayDiff } : null;
+};
+
+const calculateTargetTime = targetConfig => ({
+  targetHour: targetConfig.open_all_day ? 0 : (targetConfig.open_hour ?? 0),
+  targetMinute: targetConfig.open_minutes ?? 0,
+});
+
+export const getNextAvailableTime = (workingHoursInfo, locale) => {
+  const { currentDay, currentHour, currentMinute, todayConfig, workingHours } =
+    workingHoursInfo;
+
+  if (!workingHours?.length) return { type: 'BACK_IN_SOME_TIME' };
+
+  const configInfo = getTargetConfig(
+    todayConfig,
+    workingHours,
+    currentDay,
+    currentHour
+  );
+  if (!configInfo) return { type: 'BACK_IN_SOME_TIME' };
+
+  const { targetConfig, dayDiff } = configInfo;
+  const { targetHour, targetMinute } = calculateTargetTime(targetConfig);
   const { hours, minutes } = calculateTimeDifference(
     targetHour,
     targetMinute,
