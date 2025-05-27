@@ -4,6 +4,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
   let(:account) { create(:account) }
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:conversation) { create(:conversation, account: account) }
 
   def json_response
     JSON.parse(response.body, symbolize_names: true)
@@ -50,7 +51,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/captain/copilot_threads' do
     let(:assistant) { create(:captain_assistant, account: account) }
-    let(:valid_params) { { message: 'Hello, how can you help me?', assistant_id: assistant.id } }
+    let(:valid_params) { { message: 'Hello, how can you help me?', assistant_id: assistant.id, conversation_id: conversation.display_id } }
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized' do
@@ -103,7 +104,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
           message = thread.copilot_messages.last
           expect(message.message_type).to eq('user')
-          expect(message.message).to eq(valid_params[:message])
+          expect(message.message).to eq({ 'content' => valid_params[:message] })
         end
       end
     end
