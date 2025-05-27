@@ -186,7 +186,8 @@ describe Webhooks::InstagramEventsJob do
 
         stub_request(:get, 'https://graph.instagram.com/v22.0/Sender-id-1')
           .with(query: hash_including(
-            'fields' => 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user', 'access_token' => 'valid_instagram_token'
+            'fields' => 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user',
+            'access_token' => 'valid_instagram_token'
           ))
           .to_return(
             status: 200,
