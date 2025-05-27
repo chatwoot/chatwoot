@@ -702,6 +702,10 @@ export default {
     handleTranslate() {
       const { locale } = this.getAccount(this.accountId);
 
+      if (!Number.isInteger(this.data.id)) {
+        return;
+      }
+
       this.$store.dispatch('translateMessage', {
         conversationId: this.data.conversation_id,
         messageId: this.data.id,

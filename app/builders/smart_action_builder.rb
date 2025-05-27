@@ -43,6 +43,7 @@ class SmartActionBuilder
       :content,
       :score,
       :sentiment,
+      :team_id,
       criteria: {}
     )
   end
