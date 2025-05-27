@@ -132,6 +132,8 @@ sl:
     attachment: 'Priponka'
     no_content: 'Ni vsebine'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
       instagram_deleted_story_content: Ta zgodba ni več na voljo.
@@ -139,6 +141,9 @@ sl:
       delivery_status:
         error_code: 'Koda napake: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '%{user_name} je pogovor označil za rešenega'
         contact_resolved: 'Pogovor je razrešil %{contact_name}'
