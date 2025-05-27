@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Webhooks::InstagramEventsJob do
+describe Webhooks::InstagramEventsJob, :serial do
   subject(:instagram_webhook) { described_class }
 
   before do
