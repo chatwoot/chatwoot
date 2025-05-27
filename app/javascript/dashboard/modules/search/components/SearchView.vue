@@ -23,6 +23,16 @@
       </header>
       <div class="search-results">
         <div v-if="showResultsSection">
+          <div
+            v-if="selectedTab === 'contacts'"
+            class="flex justify-center items-center"
+          >
+            <p class="empty-state__text p-4 pb-0 mb-0">
+              {{
+                "Searching contacts only. Switch to 'Messages' to search your conversation history"
+              }}
+            </p>
+          </div>
           <search-result-contacts-list
             v-if="filterContacts"
             :is-fetching="uiFlags.contact.isFetching"
@@ -85,7 +95,7 @@ export default {
   },
   data() {
     return {
-      selectedTab: 'messages',
+      selectedTab: 'contacts',
       query: '',
     };
   },
@@ -140,14 +150,14 @@ export default {
         //   count: this.totalSearchResultsCount,
         // },
         {
-          key: 'messages',
-          name: this.$t('SEARCH.TABS.MESSAGES'),
-          count: this.messages.length,
-        },
-        {
           key: 'contacts',
           name: this.$t('SEARCH.TABS.CONTACTS'),
           count: this.contacts.length,
+        },
+        {
+          key: 'messages',
+          name: this.$t('SEARCH.TABS.MESSAGES'),
+          count: this.messages.length,
         },
         {
           key: 'conversations',
