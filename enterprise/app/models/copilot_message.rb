@@ -19,14 +19,12 @@ class CopilotMessage < ApplicationRecord
   belongs_to :copilot_thread
   belongs_to :account
 
-  before_validation :ensure_account
-
   enum message_type: { user: 0, assistant: 1, assistant_thinking: 2 }
 
-  validates :message_type, presence: true, inclusion: { in: message_types.keys }
+  validates :message_type, presence: true
   validates :message, presence: true
+  before_validation :ensure_account
   validate :validate_message_attributes
-
   after_create_commit :broadcast_message
 
   def push_event_data
@@ -42,7 +40,7 @@ class CopilotMessage < ApplicationRecord
   private
 
   def ensure_account
-    self.account = copilot_thread.account
+    self.account_id = copilot_thread&.account_id
   end
 
   def broadcast_message
