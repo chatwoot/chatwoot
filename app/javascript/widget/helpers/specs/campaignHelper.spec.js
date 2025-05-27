@@ -45,13 +45,13 @@ describe('#Campaigns Helper', () => {
           id: 1,
           timeOnPage: 3,
           triggerOnlyDuringBusinessHours: false,
-          url: 'https://www.buzzcrm.ai/pricing',
+          url: 'https://www.buzzcrm.ai',
         },
         {
           id: 2,
           triggerOnlyDuringBusinessHours: false,
           timeOnPage: 6,
-          url: 'https://www.buzzcrm.ai/about',
+          url: 'https://www.buzzcrm.ai',
         },
       ]);
     });
@@ -64,7 +64,7 @@ describe('#Campaigns Helper', () => {
             {
               id: 1,
               timeOnPage: 3,
-              url: 'https://www.buzzcrm.ai',
+              url: 'https://www.buzzcrm.aig',
               triggerOnlyDuringBusinessHours: false,
             },
             {

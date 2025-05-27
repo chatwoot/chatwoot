@@ -2,8 +2,8 @@
 <html lang="es">
 <head>
   <meta charset="UTF-8">
-  <title>Lo sentimos, algo salió mal (500)</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>El cambio que solicitaste fue rechazado (422)</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
     /* Import Google Font */
     @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
@@ -72,19 +72,20 @@
 
     @keyframes fadeIn {
       from { opacity: 0; transform: translateY(20px); }
-      to   { opacity: 1; transform: translateY(0); }
+      to { opacity: 1; transform: translateY(0); }
     }
   </style>
 </head>
 <body>
-  <!-- Este archivo se encuentra en public/500.html -->
+  <!-- Este archivo se encuentra en public/422.html -->
   <div class="dialog">
     <header>
-      <h1>¡Ups! Algo salió mal</h1>
+      <h1>¡Oops! Solicitud rechazada</h1>
     </header>
     <div class="content">
-      <p>Lo sentimos, pero algo inesperado ocurrió.</p>
-      <p>Si eres el propietario de la aplicación, revisa los registros para más información.</p>
+      <p>El cambio que solicitaste no pudo realizarse.</p>
+      <p>Quizás intentaste modificar algo al que no tenías acceso.</p>
+      <p>Si eres el propietario de la aplicación, por favor revisa los registros para más detalles.</p>
       <a href="/">Volver al inicio</a>
     </div>
   </div>
