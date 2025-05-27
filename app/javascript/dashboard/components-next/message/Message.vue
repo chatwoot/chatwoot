@@ -315,11 +315,7 @@ const componentToRender = computed(() => {
 });
 
 const shouldShowContextMenu = computed(() => {
-  return !(
-    props.status === MESSAGE_STATUS.FAILED ||
-    props.status === MESSAGE_STATUS.PROGRESS ||
-    props.contentAttributes?.isUnsupported
-  );
+  return !props.contentAttributes?.isUnsupported;
 });
 
 const isBubble = computed(() => {
@@ -344,12 +340,23 @@ const contextMenuEnabledOptions = computed(() => {
   const hasAttachments = !!(props.attachments && props.attachments.length > 0);
 
   const isOutgoing = props.messageType === MESSAGE_TYPES.OUTGOING;
+  const isFailedOrProcessing =
+    props.status === MESSAGE_STATUS.FAILED ||
+    props.status === MESSAGE_STATUS.PROGRESS;
 
   return {
     copy: hasText,
-    delete: hasText || hasAttachments,
-    cannedResponse: isOutgoing && hasText,
-    replyTo: !props.private && props.inboxSupportsReplyTo.outgoing,
+    delete:
+      (hasText || hasAttachments) &&
+      !isFailedOrProcessing &&
+      !isMessageDeleted.value,
+    cannedResponse: isOutgoing && hasText && !isMessageDeleted.value,
+    copyLink: !isFailedOrProcessing,
+    translate: !isFailedOrProcessing && !isMessageDeleted.value && hasText,
+    replyTo:
+      !props.private &&
+      props.inboxSupportsReplyTo.outgoing &&
+      !isFailedOrProcessing,
   };
 });
 
@@ -499,8 +506,8 @@ provideMessageContext({
       <div
         class="[grid-area:bubble] flex"
         :class="{
-          'ltr:pl-8 rtl:pr-8 justify-end': orientation === ORIENTATION.RIGHT,
-          'ltr:pr-8 rtl:pl-8': orientation === ORIENTATION.LEFT,
+          'ltr:ml-8 rtl:mr-8 justify-end': orientation === ORIENTATION.RIGHT,
+          'ltr:mr-8 rtl:ml-8': orientation === ORIENTATION.LEFT,
           'min-w-0': variant === MESSAGE_VARIANTS.EMAIL,
         }"
         @contextmenu="openContextMenu($event)"
@@ -516,7 +523,7 @@ provideMessageContext({
     </div>
     <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
-        v-if="isBubble && !isMessageDeleted"
+        v-if="isBubble"
         :context-menu-position="contextMenuPosition"
         :is-open="showContextMenu"
         :enabled-options="contextMenuEnabledOptions"
