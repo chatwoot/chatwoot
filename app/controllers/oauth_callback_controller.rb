@@ -69,25 +69,15 @@ class OauthCallbackController < ApplicationController
   end
 
   def create_channel_with_inbox
-    Rails.logger.debug '=== DEBUG: create_channel_with_inbox called ==='
-    Rails.logger.debug { "User data: #{users_data.inspect}" }
-    Rails.logger.debug { "Sanitized inbox name: #{sanitized_inbox_name.inspect}" }
-
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
-      Rails.logger.debug { "Channel created: #{channel_email.inspect}" }
 
-      inbox = account.inboxes.create!(
+      account.inboxes.create!(
         account: account,
         channel: channel_email,
         name: sanitized_inbox_name
       )
-      Rails.logger.debug { "Inbox created: #{inbox.inspect}" }
       channel_email
-    rescue StandardError => e
-      Rails.logger.error "Error in create_channel_with_inbox: #{e.class}: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
-      raise
     end
   end
 
