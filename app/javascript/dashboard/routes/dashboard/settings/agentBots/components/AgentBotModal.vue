@@ -231,6 +231,16 @@ const onCopyToken = async value => {
   useAlert(t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
 };
 
+const onResetToken = async () => {
+  const response = await store.dispatch('agentBots/resetAccessToken', props.selectedBot.id);
+  if (response) {
+    accessToken.value = response.access_token;
+    useAlert(t('AGENT_BOTS.RESET_SUCCESS'));
+  } else {
+    useAlert(t('AGENT_BOTS.RESET_ERROR'));
+  }
+};
+
 const closeModal = () => {
   if (!showAccessToken.value) v$.value?.$reset();
   accessToken.value = '';
@@ -312,7 +322,13 @@ defineExpose({ dialogRef });
         >
           {{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}
         </label>
-        <AccessToken :value="accessToken" @on-copy="onCopyToken" />
+        <AccessToken
+          v-if="type === MODAL_TYPES.EDIT"
+          :value="accessToken"
+          @on-copy="onCopyToken"
+          @on-reset="onResetToken"
+        />
+        <AccessToken v-else :value="accessToken" @on-copy="onCopyToken" />
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">

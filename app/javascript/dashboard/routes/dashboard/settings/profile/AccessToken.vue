@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, getCurrentInstance } from 'vue';
 import FormButton from 'v3/components/Form/Button.vue';
 const props = defineProps({
   value: {
@@ -8,6 +8,7 @@ const props = defineProps({
   },
 });
 const emit = defineEmits(['onCopy', 'onReset']);
+const instance = getCurrentInstance();
 const inputType = ref('password');
 const toggleMasked = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password';
@@ -15,6 +16,10 @@ const toggleMasked = () => {
 
 const maskIcon = computed(() => {
   return inputType.value === 'password' ? 'eye-hide' : 'eye-show';
+});
+
+const hasResetHandler = computed(() => {
+  return !!(instance?.vnode?.props?.onOnReset);
 });
 
 const onClick = () => {
@@ -61,6 +66,7 @@ const onReset = () => {
       {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
     </FormButton>
     <FormButton
+      v-if="hasResetHandler"
       type="button"
       size="large"
       icon="key"
