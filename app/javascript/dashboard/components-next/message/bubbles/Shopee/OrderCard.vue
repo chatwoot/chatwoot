@@ -57,6 +57,18 @@ export default {
       };
       return statusIcons[this.cached.status] || 'i-lucide-shopping-cart';
     },
+    cancelledByText() {
+      switch (this.cached.meta?.cancelBy) {
+        case 'buyer':
+          return this.$t('CONVERSATION.SHOPEE.ORDER.CANCEL_BY.BUYER');
+        case 'seller':
+          return this.$t('CONVERSATION.SHOPEE.ORDER.CANCEL_BY.SELLER');
+        case 'system':
+          return this.$t('CONVERSATION.SHOPEE.ORDER.CANCEL_BY.SYSTEM');
+        default:
+          return '';
+      }
+    },
   },
   methods: {
     onCopyToClipboard(text) {
@@ -111,7 +123,7 @@ export default {
                     {{ item.itemName }}
                   </span>
                   <span
-                    class="flex-1 ms-3 text-xs text-slate-800 dark:text-slate-200 text-end"
+                    class="flex-1 ms-3 text-xs text-slate-200 dark:text-slate-800 text-end"
                   >
                     {{ `x${item.meta.quantity}` }}
                   </span>
@@ -168,17 +180,6 @@ export default {
           </span>
         </li>
         <li
-          v-if="cached.meta.shippingCarrier"
-          class="w-full flex flex-row justify-between"
-        >
-          <span class="flex-1">
-            {{ t('CONVERSATION.SHOPEE.ORDER.SHIPPING_SERVICE') }}
-          </span>
-          <span class="flex-auto text-end">
-            {{ cached.meta.shippingCarrier }}
-          </span>
-        </li>
-        <li
           v-if="cached.meta.actualShippingFee"
           class="w-full flex flex-row justify-between"
         >
@@ -197,6 +198,45 @@ export default {
             {{ currencyFormatter(cached.totalAmount) }}
           </span>
         </li>
+        <li
+          v-if="cached.meta.cancelBy"
+          class="w-full flex flex-row justify-between"
+        >
+          <span class="flex-1">
+            {{ t('CONVERSATION.SHOPEE.ORDER.CANCEL_BY.LABEL') }}
+          </span>
+          <span class="flex-auto text-end text-slate-500">
+            {{ cancelledByText }}
+          </span>
+        </li>
+        <li
+          v-if="cached.meta.cancelReason"
+          class="w-full flex flex-row justify-between"
+        >
+          <span class="flex-1">
+            {{ t('CONVERSATION.SHOPEE.ORDER.CANCEL_BY.REASON') }}
+          </span>
+          <span class="flex-auto text-end text-orange-700">
+            {{ cached.meta.cancelReason }}
+          </span>
+        </li>
+        <li
+          v-if="cached.meta.shippingCarrier || cached.cod"
+          class="w-full flex flex-row mt-2 border-t border-slate-200 border-dashed pt-2"
+        >
+          <span
+            v-if="cached.meta.shippingCarrier"
+            class="flex-none border border-orange-700 text-orange-700 dark:text-slate-300 dark:border-slate-300 px-1 py-0.25 me-1 rounded-full text-xs"
+          >
+            {{ cached.meta.shippingCarrier }}
+          </span>
+          <span
+            v-if="cached.cod"
+            class="flex-none border border-iris-700 text-iris-700 dark:text-slate-300 dark:border-slate-300 px-1 py-0.25 me-1 rounded-full text-xs"
+          >
+            {{ t('CONVERSATION.SHOPEE.ORDER.COD') }}
+          </span>
+        </li>
       </ul>
     </div>
     <div v-else>
@@ -212,6 +252,15 @@ export default {
 
 <style lang="scss">
 .shopee-order {
-  @apply p-4 my-4 rounded-lg shadow-lg bg-white dark:bg-slate-800 min-w-[400px];
+  @apply p-4 my-4 rounded-lg bg-white dark:bg-slate-800 min-w-[400px];
+
+  box-shadow:
+    rgba(14, 63, 126, 0.04) 0px 0px 0px 1px,
+    rgba(42, 51, 69, 0.04) 0px 1px 1px -0.5px,
+    rgba(42, 51, 70, 0.04) 0px 3px 3px -1.5px,
+    rgba(42, 51, 70, 0.04) 0px 6px 6px -3px,
+    rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
+    rgba(14, 63, 126, 0.04) 0px 24px 24px -12px,
+    rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
 }
 </style>

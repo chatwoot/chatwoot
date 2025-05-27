@@ -70,6 +70,14 @@ export default {
       ],
     };
   },
+  watch: {
+    currentChat() {
+      this.$store.dispatch('shopee/getOrders', {
+        conversationID: this.currentChat.id,
+        orderStatus: this.activeTabValue,
+      });
+    },
+  },
   mounted() {
     this.$store.dispatch('shopee/getOrders', {
       conversationID: this.currentChat.id,

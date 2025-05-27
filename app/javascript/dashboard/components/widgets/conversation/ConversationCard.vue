@@ -15,6 +15,7 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import ContextMenu from 'dashboard/components/ui/ContextMenu.vue';
 
 export default {
+  name: 'ConversationCard',
   components: {
     CardLabels,
     InboxName,

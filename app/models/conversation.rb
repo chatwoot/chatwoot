@@ -74,6 +74,7 @@ class Conversation < ApplicationRecord
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
+  scope :unresolved, -> { where.not(status: :resolved) }
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
@@ -130,9 +131,7 @@ class Conversation < ApplicationRecord
     additional_attributes&.dig('conversation_language')
   end
 
-  def allowed_custom_message_user_ids
-    self.inbox.allowed_custom_message_user_ids
-  end
+  delegate :allowed_custom_message_user_ids, to: :inbox
 
   # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.
   # Our DB column (see schema) stores timestamps with second-level precision (no microseconds), so

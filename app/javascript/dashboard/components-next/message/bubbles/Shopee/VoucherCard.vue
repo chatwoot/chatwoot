@@ -33,7 +33,7 @@ export default {
         >
           {{ cached.code }}
         </div>
-        <div class="voucherInfo flex flex-col flex-auto">
+        <div class="px-5 py-3 flex flex-col flex-auto">
           <div
             v-if="cached.meta.discountAmount"
             class="text-lg text-slate-900 dark:text-slate-100 font-semibold"
@@ -79,7 +79,9 @@ export default {
         >
           {{ t('CONVERSATION.SHOPEE.VOUCHER') }}
         </span>
-        <span class="voucherCode">
+        <span
+          class="font-semibold text-center text-n-slate-12 text-end px-5 py-3 text-base tracking-[0.2rem]"
+        >
           {{ original.voucherCode }}
         </span>
       </div>
@@ -99,18 +101,5 @@ export default {
     rgba(14, 63, 126, 0.04) 0px 12px 12px -6px,
     rgba(14, 63, 126, 0.04) 0px 24px 24px -12px,
     rgba(0, 0, 0, 0.45) 0px 25px 20px -20px;
-
-  .voucherLabel {
-    border-right: 3px dashed #e0e0e0;
-  }
-
-  .voucherCode {
-    @apply font-semibold text-center text-n-slate-12 text-end px-5 py-3 text-base;
-    letter-spacing: 0.2rem;
-  }
-
-  .voucherInfo {
-    @apply px-5 py-3;
-  }
 }
 </style>

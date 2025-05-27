@@ -168,7 +168,7 @@ export default {
             >
               {{ item.itemName }}
             </a>
-            <span class="text-slate-500 dark:text-slate-300 text-xs ms-3">
+            <span class="text-slate-200 dark:text-slate-800 text-xs ms-3">
               {{ `x${item.meta?.quantity || 1}` }}
             </span>
           </div>
@@ -270,7 +270,7 @@ export default {
         {{ t('CONVERSATION.SHOPEE.ORDER.SHIPPING_AT') }}
       </span>
       <span class="text-xs text-slate-500 dark:text-slate-300">
-        {{ timeFormatter(currentOrder.meta?.pickup_done_time * 1000) }}
+        {{ timeFormatter(currentOrder.meta?.ship_by_date * 1000) }}
       </span>
     </div>
     <div

@@ -271,7 +271,6 @@
         "CHECKOUT_AT": "Checkout at",
         "SHIPPING_FEE": "Shipping fee",
         "SHIPPING_AT": "Shipping at",
-        "SHIPPING_SERVICE": "Shipping service",
         "PAID_AT": "Paid at",
         "EMPTY_MESSAGE": "No orders found",
         "CANCEL_BY": {
@@ -297,6 +296,7 @@
         "PRODUCT": "Products"
       },
       "PRODUCTS": {
+        "LABEL": "Product",
         "EMPTY_MESSAGE": "No products found",
         "LIMITATION": "You can only select {limit} products",
         "SELECTED_MSG": "{selected}/{limit} selected products",

@@ -49,8 +49,14 @@ const tabs = computed(() => {
 });
 const activeTabValue = ref('contact');
 const activeTabIndex = computed(() => {
-  return tabs.value.findIndex(tab => tab.value === activeTabValue.value);
+  const activeIndex = tabs.value.findIndex(
+    tab => tab.value === activeTabValue.value
+  );
+  return activeIndex === -1 ? 0 : activeIndex;
 });
+const activeContent = value => {
+  return tabs.value[activeTabIndex.value].value === value;
+};
 const toggleContactPanel = () => {
   emit('toggleContactPanel');
 };
@@ -73,20 +79,20 @@ const handleTabChange = selectedTab => {
     </div>
     <div class="flex-auto w-full overflow-hidden">
       <ContactPanel
-        v-if="activeTabValue === 'contact'"
+        v-if="activeContent('contact')"
         :conversation-id="currentChat.id"
         :inbox-id="currentChat.inbox_id"
         :on-toggle="toggleContactPanel"
       />
       <CopilotContainer
-        v-else-if="activeTabValue === 'copilot' && copilotEnabled"
+        v-else-if="activeContent('copilot') && copilotEnabled"
         :key="currentChat.id"
         :conversation-inbox-type="channelType"
         :conversation-id="currentChat.id"
         class="flex-1"
       />
       <ShopeeContainer
-        v-else-if="activeTabValue === 'shopee' && shopeeEnabled"
+        v-else-if="activeContent('shopee') && shopeeEnabled"
         :current-chat="currentChat"
         class="flex-1"
       />

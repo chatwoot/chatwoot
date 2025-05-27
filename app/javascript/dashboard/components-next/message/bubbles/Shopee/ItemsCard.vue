@@ -72,6 +72,7 @@ export default {
         target="_blank"
         rel="noopener noreferrer"
       >
+        {{ t('CONVERSATION.SHOPEE.PRODUCTS.LABEL') }}
         {{ original.itemId }}
       </a>
     </div>

@@ -40,10 +40,9 @@ class Inboxes::Shopee::CreateConversationJob < ApplicationJob
                     end
 
     @conversation ||= current_channel.inbox.conversations.create!(
-      account_id: current_channel.account_id,
-      inbox_id: current_channel.inbox.id,
       contact_inbox_id: contact_inbox.id,
-      contact_id: contact_inbox.contact_id
+      contact_id: contact_inbox.contact_id,
+      account_id: current_channel.account_id
     )
   end
 
