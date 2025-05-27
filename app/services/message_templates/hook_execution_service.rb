@@ -67,20 +67,20 @@ class MessageTemplates::HookExecutionService
 
   def should_send_csat_survey?
     return unless csat_enabled_conversation?
-
+    # only send CSAT once in a conversation
     return if csat_already_sent?
-    return false unless within_messaging_window?
+
+    # Only send CSAT if agent can still reply by checking the messaging window restriction
+    # https://www.chatwoot.com/docs/self-hosted/supported-features#outgoing-message-restriction
+    return unless within_messaging_window?
 
     true
   end
 
-  # only send CSAT once in a conversation
   def csat_already_sent?
     conversation.messages.where(content_type: :input_csat).present?
   end
 
-  # Only send CSAT if agent can still reply by checking the messaging window restriction
-  # https://www.chatwoot.com/docs/self-hosted/supported-features#outgoing-message-restriction
   def within_messaging_window?
     if conversation.can_reply?
       true
