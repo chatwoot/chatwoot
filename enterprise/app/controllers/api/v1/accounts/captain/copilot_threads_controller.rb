@@ -18,7 +18,12 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
         assistant: assistant
       )
 
-      @copilot_thread.copilot_messages.create!(message_type: :user, message: copilot_thread_params[:message])
+      copilot_message = @copilot_thread.copilot_messages.create!(
+        message_type: :user,
+        message: { content: copilot_thread_params[:message] }
+      )
+
+      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
     end
   end
 
@@ -33,7 +38,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def copilot_thread_params
-    params.permit(:message, :assistant_id)
+    params.permit(:message, :assistant_id, :conversation_id)
   end
 
   def permitted_params
