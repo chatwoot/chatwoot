@@ -23,7 +23,7 @@ class Captain::Copilot::MessageContext
   end
 
   def subscription
-    @subscription ||= Subscription.find_by(account_id: @account_id, status: 'active')
+    @subscription ||= Subscription.active.find_by(account_id: @account_id)
   end
 
   def usage
