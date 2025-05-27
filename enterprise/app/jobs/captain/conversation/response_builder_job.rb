@@ -1,4 +1,4 @@
-class Captain::Conversation::ResponseBuilderJob < ApplicationJob
+class AI-Agent::Conversation::ResponseBuilderJob < ApplicationJob
   MAX_MESSAGE_LENGTH = 10_000
 
   def perform(conversation, assistant)
@@ -22,7 +22,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+    @response = AI-Agent::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
       @conversation.messages.incoming.last.content,
       collect_previous_messages
     )
@@ -30,7 +30,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return process_action('handoff') if handoff_requested?
 
     create_messages
-    Rails.logger.info("[CAPTAIN][ResponseBuilderJob] Incrementing response usage for #{account.id}")
+    Rails.logger.info("[AI-Agent][ResponseBuilderJob] Incrementing response usage for #{account.id}")
     account.increment_response_usage
   end
 
@@ -76,7 +76,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message
-    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'))
+    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.ai_agent.handoff'))
   end
 
   def create_messages
