@@ -30,6 +30,7 @@ import signup from './signup.json';
 import teamsSettings from './teamsSettings.json';
 import whatsappTemplates from './whatsappTemplates.json';
 import billing from './billing.json';
+import payment from './payment.json';
 
 export default {
   ...advancedFilters,
@@ -64,4 +65,5 @@ export default {
   ...teamsSettings,
   ...whatsappTemplates,
   ...billing,
+  ...payment,
 };

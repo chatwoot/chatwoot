@@ -39,7 +39,9 @@ const rules = {};
 
 const v$ = useVuelidate(rules, {});
 
-const pageTitle = computed(() => `Add ${props.topupType}`);
+const pageTitle = computed(() => t('PAYMENT.ADD_TOPUP_TITLE', {
+  topupType: t(`PAYMENT.TOPUP_${props.topupType}`),
+}));
 
 const updateTotal = () => {
   // block_size = 1000

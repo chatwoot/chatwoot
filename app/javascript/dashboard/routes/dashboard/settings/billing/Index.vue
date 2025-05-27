@@ -24,6 +24,12 @@ import {
   getCoreRowModel,
 } from '@tanstack/vue-table';
 
+import package1 from 'dashboard/assets/images/payment/package1.png'
+import package2 from 'dashboard/assets/images/payment/package2.png'
+import package3 from 'dashboard/assets/images/payment/package3.png'
+import package4 from 'dashboard/assets/images/payment/package4.png'
+import { useAccount } from 'dashboard/composables/useAccount';
+
 const { pageIndex } = defineProps({
   pageIndex: {
     type: Number,
@@ -33,6 +39,9 @@ const { pageIndex } = defineProps({
 const getters = useStoreGetters();
 const store = useStore();
 const { t } = useI18n();
+
+// const { accountId } = useAccount();
+// const getAccount = getters['accounts/getAccount']
 
 const loading = ref({});
 const showPaymentPopup = ref(false);
@@ -44,6 +53,23 @@ const currentPackage = ref({});
 const plans = ref([]);
 const activeSubscription = ref({});
 const subscriptionHistories = ref([]);
+const planIcon = computed(() => {
+  const planName = activeSubscription.value?.plan_name?.toString()
+  return getPlanIcon(planName)
+})
+function getPlanIcon(planName) {
+  planName = planName?.toUpperCase()
+  if (planName === 'FREE TRIAL') {
+    return package1
+  } else if (planName === 'STARTER') {
+    return package2
+  } else if (planName === 'GROWTH') {
+    return package3
+  } else if (planName === 'ENTERPRISE') {
+    return package4
+  }
+  return undefined
+}
 
 const route = useRoute();
 const router = useRouter();
@@ -166,15 +192,14 @@ const columns = [
         'span',
         {
           class: `inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium 
-                 ${
-                   status === 'Pending'
-                     ? 'bg-yellow-100 text-yellow-800'
-                     : status === 'Paid'
-                       ? 'bg-green-100 text-green-800'
-                       : status === 'Failed'
-                         ? 'bg-red-100 text-red-800'
-                         : 'bg-gray-100 text-gray-800'
-                 }`,
+                 ${status === 'Pending'
+              ? 'bg-yellow-100 text-yellow-800'
+              : status === 'Paid'
+                ? 'bg-green-100 text-green-800'
+                : status === 'Failed'
+                  ? 'bg-red-100 text-red-800'
+                  : 'bg-gray-100 text-gray-800'
+            }`,
         },
         status
       );
@@ -347,242 +372,115 @@ const selectedTabDisplay = computed(() => {
 
 <template>
   <woot-modal v-model:show="showPaymentPopup" :on-close="hidePaymentPopup">
-    <Payment
-      :id="currentPackage.id"
-      :name="currentPackage.name"
-      :plan="currentPackage"
-      :plans="plans"
-      :duration="selectedTab"
-      :qty="qty"
-      :billing-cycle-tabs="billingCycleTabs"
-      @close="hidePaymentPopup"
-    />
+    <Payment :id="currentPackage.id" :name="currentPackage.name" :plan="currentPackage" :plans="plans"
+      :duration="selectedTab" :qty="qty" :billing-cycle-tabs="billingCycleTabs" @close="hidePaymentPopup" />
   </woot-modal>
 
   <woot-modal v-model:show="showTopupPopup" :on-close="hideTopupPopup">
-    <Topup
-      :id="activeSubscription.id"
-      :topup-type="topupType"
-      @close="hideTopupPopup"
-    />
+    <Topup :id="activeSubscription.id" :topup-type="topupType" @close="hideTopupPopup" />
   </woot-modal>
 
-  <div class="billing-page p-4">
-    <!-- Current Plan Information Cards -->
-    <div class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
-      <!-- Package Details -->
-      <div
-        class="bg-gradient-to-r from-cyan-500 to-cyan-400 text-white rounded-lg p-4"
-      >
-        <!-- TODO: Add localization -->
-        <h3 class="text-sm font-medium mb-2 text-white">Detail Paket</h3>
-        <pre>{{ subscription }}</pre>
-        <h2 class="text-2xl font-bold mb-3 text-white">
-          {{ activeSubscription?.plan_name ?? 'N/A' }}
-        </h2>
-        <div class="flex items-center text-sm">
-          <span class="inline-block mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 6v6l4 2" />
-            </svg>
+  <div class="billing-page p-4 w-full">
+    <div
+      class="bg-gradient-to-t from-[#F0F5F0] to-white border border-[#0000001A] rounded-lg p-5 flex flex-col gap-4 mb-8"
+      v-if="activeSubscription">
+      <div class="flex flex-col lg:flex-row">
+        <div class="flex-1">
+          <span class="font-bold">{{ $t('PAYMENT.STATUS_SUBS') }}</span>
+        </div>
+        <div>
+          <span class="text-sm">
+            <span v-html="$t('PAYMENT.RESET_LABEL')"></span>
           </span>
-          <span
-            >Berlaku sampai
-            {{
-              activeSubscription?.ends_at
+        </div>
+      </div>
+      <div class="flex flex-col gap-2 lg:flex-row lg:items-center">
+        <div class="flex-1 min-w-0 flex flex-row gap-3 items-center">
+          <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center p-1">
+            <img v-if="planIcon" :src="planIcon">
+          </div>
+          <div class="flex flex-col flex-1 min-w-0">
+            <span class="text-[#52964D] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
+            <div class="flex flex-col mt-1">
+              <span class="text-xs">{{ $t('PAYMENT.SUBS_ACTIVE_UNTIL') }}</span>
+              <span class="text-sm font-bold text-[#2C4D3D]">{{
+                activeSubscription?.ends_at
                 ? formatDate(activeSubscription?.ends_at)
                 : 'N/A'
-            }}</span
-          >
+                }}</span>
+            </div>
+          </div>
         </div>
-      </div>
-
-      <!-- Monthly Active Users -->
-      <div
-        class="bg-gradient-to-r from-violet-500 to-violet-400 text-white rounded-lg p-4"
-      >
-        <h3 class="text-sm font-medium mb-2 text-white">
-          Jumlah Pengguna Aktif per Bulan (Batas Chat)
-        </h3>
-        <div class="flex items-center">
-          <h2 class="text-2xl font-bold text-white">
-            {{ activeSubscription?.subscription_usage?.mau_count }}
-          </h2>
-          <span class="text-sm ml-2 text-white"
-            >({{ activeSubscription?.max_mau ?? '0' }} MAU)</span
-          >
-        </div>
-        <div class="flex items-center">
-          <span class="text-2xl font-bold text-white">
-            {{ activeSubscription?.subscription_usage?.additional_mau_count ?? 0 }}
-          </span>
-          <span class="text-sm ml-2 text-white">
-            ({{ activeSubscription?.additional_mau ?? 0 }} Tambahan MAU)
-          </span>
-        </div>
-        <button
-          class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
-          @click="openTopupPopup('max_active_users')"
-        >
-          Isi Ulang Pengguna Bulanan
-        </button>
-        <div class="flex items-center text-sm mt-3">
-          <span class="inline-block mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 6v6l4 2" />
-            </svg>
-          </span>
-          <span>Reset Pengaturan Setiap Tanggal: {{ usage.resetDate }}</span>
-        </div>
-      </div>
-
-      <!-- AI Responses -->
-      <div
-        class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4"
-      >
-        <h3 class="text-sm font-medium mb-2 text-white">Jawaban AI</h3>
-        <div class="flex items-center">
-          <h2 class="text-2xl font-bold text-white">
-            {{ activeSubscription?.subscription_usage?.ai_responses_count }}
-          </h2>
-          <span class="text-sm ml-2 text-white">
-            ({{ activeSubscription?.max_ai_responses }} Jawaban AI)
-          </span>
-        </div>
-        <div class="flex items-center text-sm mt-5">
-          <span class="inline-block mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M12 6v6l4 2" />
-            </svg>
-          </span>
-          <span>Reset Pengaturan Setiap Tanggal: {{ usage.resetDate }}</span>
-        </div>
-      </div>
-
-      <!-- Additional AI Responses -->
-      <div
-        class="bg-gradient-to-r from-blue-500 to-blue-400 text-white rounded-lg p-4"
-      >
-        <!-- TODO: Add localization -->
-        <h3 class="text-sm font-medium mb-2 text-white">
-          Jawaban AI Tambahan
-        </h3>
-        <div class="flex items-center">
-          <h2 class="text-2xl font-bold mb-2 text-white">
-            {{ activeSubscription?.subscription_usage?.additional_ai_response_count ?? 0 }}
-          </h2>
-          <span class="text-sm ml-2 text-white">
-            ({{ activeSubscription?.additional_ai_responses ?? 0 }} Jawaban AI)
-          </span>
-        </div>
-        <!-- <button @click="topUpResponses" class="bg-white text-blue-400 rounded px-2 py-1 text-xs font-medium mb-2">Top Up Responses</button> -->
-         <!-- TODO: Add localization -->
-        <button
-          class="bg-white text-purple-500 rounded px-2 py-1 text-xs font-medium"
-          @click="openTopupPopup('ai_responses')"
-        >
-          Isi Ulang Jawaban
-        </button>
-        <div class="flex items-center text-sm">
-          <span class="inline-block mr-2">
-            <svg
-              xmlns="http://www.w3.org/2000/svg"
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              stroke="currentColor"
-              stroke-width="2"
-              stroke-linecap="round"
-              stroke-linejoin="round"
-            >
-              <circle cx="12" cy="12" r="10" />
-              <path d="M18 6l-12 12" />
-              <path d="M6 6l12 12" />
-            </svg>
-          </span>
-          <span>Jawaban AI Permanen</span>
+        <div class="flex flex-row gap-5">
+          <div class="w-[2px] bg-[#CDD8CD] rounded"></div>
+          <div class="flex flex-col gap-2">
+            <span class="text-xs">{{ $t('PAYMENT.TOTAL_MAU_LABEL') }}</span>
+            <div class="flex flex-row gap-3">
+              <div class="rounded-lg bg-[#DDEBDD] px-3 py-[4px]">
+                <span>
+                  <span class="font-bold text-2xl text-[#2C4D3D]">{{ activeSubscription?.subscription_usage?.mau_count
+                    }}</span>
+                  <span> /{{ activeSubscription?.max_mau }}</span>
+                  <span v-if="activeSubscription?.subscription_usage?.additional_mau_count"
+                    class="text-[#2F9428] font-bold"> +{{ activeSubscription?.subscription_usage?.additional_mau_count
+                    }}</span>
+                </span>
+              </div>
+              <div
+                class="border border-[#377832] rounded-lg bg-gradient-to-t from-[#4D8F48] to-[#57A852] flex items-center justify-center p-2 cursor-pointer"
+                @click="openTopupPopup('max_active_users')">
+                <img src="~dashboard/assets/images/payment/ic_total_user.svg">
+              </div>
+            </div>
+          </div>
+          <div class="w-[2px] bg-[#CDD8CD] rounded"></div>
+          <div class="flex flex-col gap-2">
+            <span class="text-xs">{{ $t('PAYMENT.TOTAL_AI_RESPONSE_LABEL') }}</span>
+            <div class="flex flex-row gap-3">
+              <div class="rounded-lg bg-[#EFEEC5] px-3 py-[4px]">
+                <span>
+                  <span class="font-bold text-2xl text-[#4D422C]">{{
+                    activeSubscription?.subscription_usage?.ai_responses_count }}</span>
+                  <span> /{{ activeSubscription?.max_ai_responses }}</span>
+                  <span v-if="activeSubscription?.subscription_usage?.additional_ai_response_count"
+                    class="text-[#2F9428] font-bold"> +{{
+                    activeSubscription?.subscription_usage?.additional_ai_response_count }}</span>
+                </span>
+              </div>
+              <div
+                class="border border-[#99601D] rounded-lg bg-gradient-to-t from-[#BE7625] to-[#F8AB40] flex items-center justify-center p-2 cursor-pointer"
+                @click="openTopupPopup('ai_responses')">
+                <img src="~dashboard/assets/images/payment/ic_total_answer.svg">
+              </div>
+            </div>
+          </div>
         </div>
       </div>
     </div>
 
     <!-- Ramadan Special Package -->
-    <div
-      v-if="specialPromo"
-      class="mb-6 border border-gray-300 rounded-lg relative overflow-hidden"
-    >
+    <div v-if="specialPromo" class="mb-6 border border-gray-300 rounded-lg relative overflow-hidden">
       <!-- Ribbon -->
       <div
-        class="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white transform rotate-45 translate-x-8 translate-y-2 py-1 px-8 text-xs font-bold"
-      >
+        class="absolute top-0 right-0 bg-gradient-to-r from-yellow-500 to-yellow-600 text-white transform rotate-45 translate-x-8 translate-y-2 py-1 px-8 text-xs font-bold">
         POPULER
       </div>
 
       <div class="p-5">
         <div class="flex flex-wrap md:flex-nowrap">
           <!-- Left Side with Gift Icon -->
-          <div
-            class="w-full md:w-auto flex justify-center md:justify-start md:mr-4"
-          >
-            <div
-              class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full"
-            >
-              <svg
-                xmlns="http://www.w3.org/2000/svg"
-                width="24"
-                height="24"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                stroke-width="2"
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                class="text-blue-500"
-              >
+          <div class="w-full md:w-auto flex justify-center md:justify-start md:mr-4">
+            <div class="w-16 h-16 flex items-center justify-center bg-gray-200 rounded-full">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                class="text-blue-500">
                 <rect x="3" y="8" width="18" height="4" rx="1" />
                 <path d="M12 8v13" />
                 <path d="M19 12v7a2 2 0 01-2 2H7a2 2 0 01-2-2v-7" />
                 <path d="M7.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
                 <path d="M16.5 8a2.5 2.5 0 100-5 2.5 2.5 0 000 5z" />
-                <path
-                  d="M12 8H7.5C6.12 8 5 6.88 5 5.5 5 4.12 6.12 3 7.5 3h0a2.5 2.5 0 014.5 2v3"
-                />
-                <path
-                  d="M12 8h4.5C17.88 8 19 6.88 19 5.5 19 4.12 17.88 3 16.5 3h0a2.5 2.5 0 00-4.5 2v3"
-                />
+                <path d="M12 8H7.5C6.12 8 5 6.88 5 5.5 5 4.12 6.12 3 7.5 3h0a2.5 2.5 0 014.5 2v3" />
+                <path d="M12 8h4.5C17.88 8 19 6.88 19 5.5 19 4.12 17.88 3 16.5 3h0a2.5 2.5 0 00-4.5 2v3" />
               </svg>
             </div>
           </div>
@@ -597,24 +495,14 @@ const selectedTabDisplay = computed(() => {
             </h2>
 
             <div class="flex items-center mb-3">
-              <span class="text-xl md:text-2xl font-bold text-blue-600"
-                >Rp {{ formatPrice(specialPromo.price) }}</span
-              >
-              <span class="text-sm line-through text-gray-500 ml-2"
-                >Rp {{ formatPrice(specialPromo.originalPrice) }}</span
-              >
-              <span
-                class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded"
-                >{{ specialPromo.promoTag }}</span
-              >
+              <span class="text-xl md:text-2xl font-bold text-blue-600">Rp {{ formatPrice(specialPromo.price) }}</span>
+              <span class="text-sm line-through text-gray-500 ml-2">Rp {{ formatPrice(specialPromo.originalPrice)
+                }}</span>
+              <span class="ml-2 bg-red-500 text-white text-xs px-2 py-0.5 rounded">{{ specialPromo.promoTag }}</span>
             </div>
 
             <ul class="space-y-2 mb-4">
-              <li
-                v-for="(feature, index) in specialPromo.features"
-                :key="index"
-                class="flex items-start"
-              >
+              <li v-for="(feature, index) in specialPromo.features" :key="index" class="flex items-start">
                 <span class="text-gray-700 mr-2">•</span>
                 <span v-html="feature" />
               </li>
@@ -629,23 +517,10 @@ const selectedTabDisplay = computed(() => {
               <div>
                 <h4 class="font-medium mb-2">Manfaat Utama</h4>
                 <ul class="space-y-2">
-                  <li
-                    v-for="(benefit, index) in specialPromo.mainBenefits"
-                    :key="index"
-                    class="flex items-start"
-                  >
+                  <li v-for="(benefit, index) in specialPromo.mainBenefits" :key="index" class="flex items-start">
                     <span class="text-blue-500 mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <circle cx="12" cy="12" r="10" />
                         <path d="M8 14s1.5 2 4 2 4-2 4-2" />
                         <line x1="9" y1="9" x2="9.01" y2="9" />
@@ -666,23 +541,10 @@ const selectedTabDisplay = computed(() => {
               <div>
                 <h4 class="font-medium mb-2">Bonus Eksklusif</h4>
                 <ul class="space-y-2">
-                  <li
-                    v-for="(bonus, index) in specialPromo.exclusiveBonuses"
-                    :key="index"
-                    class="flex items-start"
-                  >
+                  <li v-for="(bonus, index) in specialPromo.exclusiveBonuses" :key="index" class="flex items-start">
                     <span class="text-green-500 mr-2">
-                      <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        width="16"
-                        height="16"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        stroke-width="2"
-                        stroke-linecap="round"
-                        stroke-linejoin="round"
-                      >
+                      <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                         <path d="M22 11.08V12a10 10 0 11-5.93-9.14" />
                         <polyline points="22 4 12 14.01 9 11.01" />
                       </svg>
@@ -705,21 +567,10 @@ const selectedTabDisplay = computed(() => {
             <div class="text-center">
               <button
                 class="bg-blue-500 hover:bg-blue-600 text-white font-medium py-2 px-6 rounded-full inline-flex items-center"
-                @click="purchaseSpecialPromo"
-              >
+                @click="purchaseSpecialPromo">
                 {{ specialPromo.ctaText }}
-                <svg
-                  xmlns="http://www.w3.org/2000/svg"
-                  width="16"
-                  height="16"
-                  viewBox="0 0 24 24"
-                  fill="none"
-                  stroke="currentColor"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
-                  class="ml-1"
-                >
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+                  stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="ml-1">
                   <line x1="5" y1="12" x2="19" y2="12" />
                   <polyline points="12 5 19 12 12 19" />
                 </svg>
@@ -741,13 +592,8 @@ const selectedTabDisplay = computed(() => {
       <!-- Tabs Navigation -->
       <div class="billing-cycle-tabs">
         <div class="tabs-wrapper">
-          <button
-            v-for="tab in billingCycleTabs"
-            :key="tab.id"
-            class="tab-button"
-            :class="[{ active: selectedTab === tab.id }]"
-            @click="selectedTab = tab.id"
-          >
+          <button v-for="tab in billingCycleTabs" :key="tab.id" class="tab-button"
+            :class="[{ active: selectedTab === tab.id }]" @click="selectedTab = tab.id">
             {{ tab.name }}
             <span v-if="tab.badge" class="tab-badge">{{ tab.badge }}</span>
           </button>
@@ -757,8 +603,13 @@ const selectedTabDisplay = computed(() => {
       <!-- Pricing Plans -->
       <div class="pricing-plans">
         <div v-for="plan in plans" :key="plan.id" class="pricing-card">
-          <div class="plan-header">
-            <h3 class="plan-title">{{ plan.name }}</h3>
+          <div class="plan-header flex flex-row">
+            <div class="flex-1">
+              <h3 class="plan-title">{{ plan.name }}</h3>
+            </div>
+            <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
+              <img :src="getPlanIcon(plan.name)">
+            </div>
           </div>
 
           <div class="plan-price">
@@ -775,21 +626,14 @@ const selectedTabDisplay = computed(() => {
             <h4>{{ plan.name }} Fitur</h4>
 
             <ul class="feature-list">
-              <li
-                v-for="(feature, index) in plan.features"
-                :key="index"
-                class="feature-item"
-              >
+              <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
                 <span class="icon-check" />
                 <span class="feature-text">{{ feature }}</span>
               </li>
             </ul>
           </div>
 
-          <button
-            class="button-primary buy-button"
-            @click="openPaymentPopup(plan)"
-          >
+          <button class="button-primary buy-button" @click="openPaymentPopup(plan)">
             Beli Paket
           </button>
         </div>
@@ -798,27 +642,18 @@ const selectedTabDisplay = computed(() => {
 
     <!-- Recent Transactions Section -->
     <div class="flex flex-col flex-wrap self-center">
-      <div
-        class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5"
-      >
+      <div class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5">
         <div class="transactions-container">
           <h2 class="mt-8 text-center text-base font-semibold">
             {{ $t('BILLING.RECENT_TRANSACTIONS') }}
           </h2>
 
-          <div
-            class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200"
-          >
+          <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
             <div class="overflow-x-auto">
-              <Table
-                :table="table"
-                class="min-w-full divide-y divide-gray-200"
-              />
+              <Table :table="table" class="min-w-full divide-y divide-gray-200" />
 
-              <div
-                v-show="!tableData.length"
-                class="h-48 flex items-center justify-center text-n-slate-12 text-sm flex-col"
-              >
+              <div v-show="!tableData.length"
+                class="h-48 flex items-center justify-center text-n-slate-12 text-sm flex-col">
                 <!-- <chatwoot-icon name="currency-dollar" size="medium" class="mb-2 text-slate-400"></chatwoot-icon> -->
                 <p>{{ $t('BILLING.NO_TRANSACTIONS') }}</p>
               </div>
@@ -1098,7 +933,7 @@ export default {
     // Utility methods
     formatDate(dateString) {
       const date = new Date(dateString);
-      return new Intl.DateTimeFormat('en-US', {
+      return new Intl.DateTimeFormat(this.$root.$i18n.locale || 'id-ID', {
         year: 'numeric',
         month: 'long',
         day: 'numeric',
@@ -1399,6 +1234,7 @@ export default {
     margin-bottom: 0.5rem;
   }
 }
+
 /* ./ END TAB PRICING & PAKCAGES */
 .shadow-lg {
   --tw-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.1),
@@ -1406,30 +1242,37 @@ export default {
   --tw-shadow-colored: 0 10px 15px -3px var(--tw-shadow-color),
     0 4px 6px -4px var(--tw-shadow-color);
 }
+
 .shadow-inner,
 .shadow-lg {
   box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000),
     var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
 }
+
 .bg-white {
   --tw-bg-opacity: 1;
   background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
+
 .border-gray-200 {
   --tw-border-opacity: 1;
   border-color: rgb(229 231 235 / var(--tw-border-opacity));
 }
+
 .border {
   border-width: 1px;
 }
+
 .rounded-lg {
   border-radius: 0.5rem;
 }
+
 .transactions-container {
   max-width: 650px;
   margin: 0 auto;
   font-size: 0.75rem;
 }
+
 table {
   border-radius: 6px;
   overflow: hidden;
@@ -1443,6 +1286,7 @@ table {
   --tw-shadow-color: rgba(59, 63, 92, 0.6);
   --tw-shadow: var(--tw-shadow-colored);
 }
+
 .btn {
   position: relative;
   display: flex;
@@ -1489,36 +1333,45 @@ table {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   transition-duration: 0.3s;
 }
+
 .billing-page {
   font-family: 'Inter', sans-serif;
 }
+
 .bg-gradient-to-r {
   background-image: linear-gradient(to right, var(--tw-gradient-stops));
 }
+
 .from-cyan-500 {
   --tw-gradient-from: #06b6d4 var(--tw-gradient-from-position);
   --tw-gradient-to: rgba(6, 182, 212, 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+
 .to-cyan-400 {
   --tw-gradient-to: #22d3ee var(--tw-gradient-to-position) !important;
 }
+
 .to-violet-400 {
   --tw-gradient-to: #a78bfa var(--tw-gradient-to-position) !important;
 }
+
 .from-violet-500 {
   --tw-gradient-from: #8b5cf6 var(--tw-gradient-from-position);
   --tw-gradient-to: rgba(139, 92, 246, 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+
 .to-blue-400 {
   --tw-gradient-to: #60a5fa var(--tw-gradient-to-position) !important;
 }
+
 .from-blue-500 {
   --tw-gradient-from: #3b82f6 var(--tw-gradient-from-position);
   --tw-gradient-to: rgba(59, 130, 246, 0) var(--tw-gradient-to-position);
   --tw-gradient-stops: var(--tw-gradient-from), var(--tw-gradient-to);
 }
+
 .panel {
   position: relative;
   --tw-bg-opacity: 1;

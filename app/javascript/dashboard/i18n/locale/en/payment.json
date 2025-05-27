@@ -1,0 +1,13 @@
+{
+    "PAYMENT": {
+      "STATUS_SUBS": "Subscription Status",
+      "TOTAL_MAU_LABEL": "TOTAL MONTHLY ACTIVE USERS",
+      "TOTAL_AI_RESPONSE_LABEL": "TOTAL AI RESPONSES PER MONTH",
+      "RESET_LABEL": "Reset of <b>Total Active Users</b> and <b>Total AI Responses</b> is done every <b>1st of the month</b>",
+      "ADD_TOPUP_TITLE": "Top up {topupType}",
+      "TOPUP_max_active_users": "Users",
+      "TOPUP_ai_responses": "Responses",
+      "SUBS_ACTIVE_UNTIL": "ACTIVE UNTIL :"
+    }
+  }
+  
