@@ -69,9 +69,8 @@ export default {
   mounted() {
     const { websiteToken, locale, widgetColor, logoColors } =
       window.chatwootWebChannel;
-    console.log('Logo colors: ', logoColors.dot1);
     this.setLocale(locale);
-    this.setWidgetColor(logoColors.dot1);
+    this.setWidgetColor(widgetColor);
     this.setLogoColors(logoColors);
     setHeader(window.authToken);
     if (this.isIFrame) {
