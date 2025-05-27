@@ -1,7 +1,7 @@
 FactoryBot.define do
   factory :article, class: 'Article' do
     account
-    category
+    category { nil }
     portal
     locale { 'en' }
     association :author, factory: :user
@@ -9,7 +9,6 @@ FactoryBot.define do
     content { 'MyText' }
     description { 'MyDescrption' }
     status { :published }
-    slug { title.parameterize }
     views { 0 }
   end
 end
