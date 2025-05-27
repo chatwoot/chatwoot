@@ -1,66 +1,92 @@
 <!DOCTYPE html>
-<html>
+<html lang="es">
 <head>
-  <title>We're sorry, but something went wrong (500)</title>
-  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <meta charset="UTF-8">
+  <title>Lo sentimos, algo salió mal (500)</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
   <style>
-  body {
-    background-color: #EFEFEF;
-    color: #2E2F30;
-    text-align: center;
-    font-family: arial, sans-serif;
-    margin: 0;
-  }
+    /* Import Google Font */
+    @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap');
 
-  div.dialog {
-    width: 95%;
-    max-width: 33em;
-    margin: 4em auto 0;
-  }
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-  div.dialog > div {
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #BBB;
-    border-top: #B00100 solid 4px;
-    border-top-left-radius: 9px;
-    border-top-right-radius: 9px;
-    background-color: white;
-    padding: 7px 12% 0;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    body {
+      background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+      font-family: 'Inter', sans-serif;
+      color: #333;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 100vh;
+      padding: 1rem;
+    }
 
-  h1 {
-    font-size: 100%;
-    color: #730E15;
-    line-height: 1.5em;
-  }
+    .dialog {
+      background: #fff;
+      border-radius: 12px;
+      box-shadow: 0 8px 24px rgba(0, 0, 0, 0.1);
+      max-width: 400px;
+      width: 100%;
+      overflow: hidden;
+      text-align: center;
+      animation: fadeIn 0.5s ease-out both;
+    }
 
-  div.dialog > p {
-    margin: 0 0 1em;
-    padding: 1em;
-    background-color: #F7F7F7;
-    border: 1px solid #CCC;
-    border-right-color: #999;
-    border-left-color: #999;
-    border-bottom-color: #999;
-    border-bottom-left-radius: 4px;
-    border-bottom-right-radius: 4px;
-    border-top-color: #DADADA;
-    color: #666;
-    box-shadow: 0 3px 8px rgba(50, 50, 50, 0.17);
-  }
+    .dialog header {
+      background: #ff6b6b;
+      color: #fff;
+      padding: 1.5rem 1rem;
+    }
+
+    .dialog header h1 {
+      font-size: 1.5rem;
+      font-weight: 600;
+    }
+
+    .dialog .content {
+      padding: 1.5rem 1rem;
+    }
+
+    .dialog .content p {
+      margin-bottom: 1rem;
+      line-height: 1.5;
+      font-size: 1rem;
+    }
+
+    .dialog .content a {
+      display: inline-block;
+      margin-top: 0.5rem;
+      text-decoration: none;
+      font-weight: 600;
+      color: #ff6b6b;
+      transition: color 0.2s;
+    }
+
+    .dialog .content a:hover {
+      color: #d94c4c;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to   { opacity: 1; transform: translateY(0); }
+    }
   </style>
 </head>
-
 <body>
-  <!-- This file lives in public/500.html -->
+  <!-- Este archivo se encuentra en public/500.html -->
   <div class="dialog">
-    <div>
-      <h1>We're sorry, but something went wrong.</h1>
+    <header>
+      <h1>¡Ups! Algo salió mal</h1>
+    </header>
+    <div class="content">
+      <p>Lo sentimos, pero algo inesperado ocurrió.</p>
+      <p>Si eres el propietario de la aplicación, revisa los registros para más información.</p>
+      <a href="/">Volver al inicio</a>
     </div>
-    <p>If you are the application owner check the logs for more information.</p>
   </div>
 </body>
 </html>
