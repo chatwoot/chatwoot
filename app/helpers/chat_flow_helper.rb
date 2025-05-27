@@ -11,7 +11,7 @@ module ChatFlowHelper
 
   def create_flow_data_and_store_config(store_id)
     default_system_message_prompt
-    set_redis_for_chat_memory
+    set_buffer_for_chat_memory
     set_qdrant_vector_store
 
     [flow_data, store_config(store_id)]
