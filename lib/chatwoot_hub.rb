@@ -8,14 +8,8 @@ class ChatwootHub
   BILLING_URL = "#{BASE_URL}/billing".freeze
   CAPTAIN_ACCOUNTS_URL = "#{BASE_URL}/instance_captain_accounts".freeze
 
-  def self.installation_identifier
-    identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
-    identifier ||= InstallationConfig.create!(name: 'INSTALLATION_IDENTIFIER', value: SecureRandom.uuid).value
-    identifier
-  end
-
   def self.billing_url
-    "#{BILLING_URL}?installation_identifier=#{installation_identifier}"
+    BILLING_URL
   end
 
   def self.pricing_plan
@@ -36,7 +30,6 @@ class ChatwootHub
 
   def self.instance_config
     {
-      installation_identifier: installation_identifier,
       installation_version: Chatwoot.config[:version],
       installation_host: URI.parse(ENV.fetch('FRONTEND_URL', '')).host,
       installation_env: ENV.fetch('INSTALLATION_ENV', ''),
@@ -94,7 +87,6 @@ class ChatwootHub
 
   def self.get_captain_settings(account)
     info = {
-      installation_identifier: installation_identifier,
       chatwoot_account_id: account.id,
       account_name: account.name
     }
