@@ -22,7 +22,7 @@ const { t } = useI18n();
 const updateCampaign = async campaignDetails => {
   try {
     await store.dispatch('campaigns/update', {
-      id: props.selectedCampaign.id,
+      id: props.selectedCampaign.display_id,
       ...campaignDetails,
     });
 

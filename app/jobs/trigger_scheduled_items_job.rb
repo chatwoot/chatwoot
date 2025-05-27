@@ -13,7 +13,7 @@ class TriggerScheduledItemsJob < ApplicationJob
       Campaigns::ProcessCampaignJob.perform_later(campaign.id)
     end
     Campaign.where(campaign_type: :email,
-                   campaign_status: :active).where(scheduled_at: 3.days.ago..Time.current).all.find_each(batch_size: 100) do |campaign|
+                   campaign_status: :scheduled).where(scheduled_at: 3.days.ago..Time.current).all.find_each(batch_size: 100) do |campaign|
       Campaigns::TriggerOneoffCampaignJob.perform_later(campaign)
     end
 

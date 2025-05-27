@@ -27,8 +27,6 @@ const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
 const confirmDeleteCampaignDialogRef = ref(null);
 
-const showReportModal = ref(false); // Control modal visibility
-const selectedReportCampaign = ref(null); // Track selected campaign for report
 
 const EmailCampaigns = computed(() =>
   getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.EMAIL)

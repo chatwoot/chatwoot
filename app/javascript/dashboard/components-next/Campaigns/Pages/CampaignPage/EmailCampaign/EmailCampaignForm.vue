@@ -64,7 +64,6 @@ const formErrors = computed(() => ({
 
 // Computed Properties
 
-
 const mapToOptions = (items, valueKey, labelKey) =>
   items?.map(item => ({
     value: item[valueKey],
@@ -72,7 +71,6 @@ const mapToOptions = (items, valueKey, labelKey) =>
   })) ?? [];
 
 const audienceList = computed(() => mapToOptions(labels.value, 'id', 'title'));
-
 
 const inboxes = computed(() => {
   const allInboxes = store.getters['inboxes/getEmailInboxes'];
@@ -259,6 +257,13 @@ const createCampaign = async () => {
         ? formState.selectedContacts.map(contact => contact.id)
         : formState.selectedContacts;
 
+    const audienceData = formState.selectedAudience.map(e => {
+          return {
+            type: 'Label',
+            id: e,
+          };
+        });
+
     const campaignDetails = {
       campaign: {
         title: formState.title,
@@ -268,6 +273,7 @@ const createCampaign = async () => {
           ? formatToUTCString(formState.scheduledAt)
           : null,
         contacts: contactIds,
+        audience: audienceData,
         enabled: true,
         trigger_only_during_business_hours: false,
       },

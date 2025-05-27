@@ -39,7 +39,7 @@ export const actions = {
 
       await Promise.all(
         response.data.map(campaign =>
-          dispatch('fetchCampaignContacts', campaign.id)
+          dispatch('fetchCampaignContacts', campaign.display_id)
         )
       );
 
@@ -137,9 +137,6 @@ export const actions = {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: true });
     try {
       const response = await CampaignsAPI.fetchCampaignContacts(campaignId);
-
-      console.log('Campaign Contacts');
-      console.log(response.data);
 
       commit(types.SET_CAMPAIGN_CONTACTS, {
         campaignId,

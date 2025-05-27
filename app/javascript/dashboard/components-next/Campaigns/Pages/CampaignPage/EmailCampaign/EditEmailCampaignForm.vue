@@ -1,4 +1,6 @@
 <script setup>
+import { useMapGetter } from 'dashboard/composables/store';
+import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import CodeHighlighter from 'dashboard/components/widgets/CodeHighlighter.vue';
 import { ref, computed, reactive, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
@@ -25,11 +27,15 @@ const { t } = useI18n();
 
 // Form State
 const currentStep = ref(1);
+
+const labels = useMapGetter('labels/getLabels');
+
 const formState = reactive({
   title: '',
   message: '<div>Hello world</div>',
   selectedInbox: null,
   scheduledAt: null,
+  selectedAudience: [],
   selectedContacts: [],
   isTemplateValid: true,
   previewPosition: { right: 0, top: 0 },
@@ -39,6 +45,7 @@ const formState = reactive({
 const contactState = reactive({
   searchQuery: '',
   contactList: [],
+  selectedAudience: [],
   isLoadingContacts: false,
   currentPage: 1,
   totalPages: 1,
@@ -46,7 +53,25 @@ const contactState = reactive({
   sortAttribute: 'name',
 });
 
+const getErrorMessage = (field, errorKey) => {
+  const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
+  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
+};
+
+const formErrors = computed(() => ({
+  audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
+}));
+
 // Computed Properties
+
+const mapToOptions = (items, valueKey, labelKey) =>
+  items?.map(item => ({
+    value: item[valueKey],
+    label: item[labelKey],
+  })) ?? [];
+
+const audienceList = computed(() => mapToOptions(labels.value, 'id', 'title'));
+
 const inboxes = computed(() => {
   const allInboxes = store.getters['inboxes/getEmailInboxes'];
   return allInboxes;
@@ -74,6 +99,7 @@ const rules = computed(() => {
     title: { required },
     selectedInbox: { required },
     scheduledAt: { required },
+    selectedAudience: {},
   };
   const step2Rules = {
     selectedContacts: {
@@ -235,6 +261,13 @@ const handleUpdate = async () => {
       ? formState.selectedContacts.map(contact => contact.id)
       : formState.selectedContacts;
 
+  const audienceData = formState.selectedAudience.map(e => {
+    return {
+      type: 'Label',
+      id: e,
+    };
+  });
+
   const campaignDetails = {
     campaign: {
       title: formState.title,
@@ -244,6 +277,7 @@ const handleUpdate = async () => {
         ? formatToUTCString(formState.scheduledAt)
         : null,
       contacts: contactIds,
+      audience: audienceData,
       enabled: true,
       trigger_only_during_business_hours: false,
     },
@@ -257,6 +291,7 @@ onMounted(() => {
   formState.message = props.selectedCampaign.message || '';
   formState.selectedInbox = props.selectedCampaign.inbox_id || null;
   formState.selectedTemplate = props.selectedCampaign.template || null;
+  formState.selectedAudience = props.selectedCampaign.audience.map(e => e.id);
 
   if (props.selectedCampaign.scheduled_at) {
     const utcDate = new Date(props.selectedCampaign.scheduled_at);
@@ -337,6 +372,27 @@ onBeforeUnmount(() => {
               </label>
             </div>
 
+            <div class="flex flex-col gap-1">
+              <label
+                for="audience"
+                class="mb-0.5 text-sm font-medium text-n-slate-12"
+              >
+                {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.LABEL') }}
+              </label>
+
+              <TagMultiSelectComboBox
+                v-model="formState.selectedAudience"
+                :options="audienceList"
+                :label="t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.LABEL')"
+                :placeholder="
+                  t('CAMPAIGN.WHATSAPP.CREATE.FORM.AUDIENCE.PLACEHOLDER')
+                "
+                :has-error="!!formErrors.audience"
+                :message="formErrors.audience"
+                class="[&>div>button]:bg-n-alpha-black2"
+              />
+            </div>
+
             <div class="flex flex-col">
               <label class="text-sm font-medium text-slate-700">
                 {{ t('CAMPAIGN.EMAIL.CREATE.FORM.SCHEDULED_AT.LABEL') }}
@@ -389,6 +445,7 @@ onBeforeUnmount(() => {
         ref="contactSelector"
         :contacts="contactState.contactList"
         :selected-contacts="formState.selectedContacts"
+        :selectedAudience="formState.selectedAudience"
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
         @contacts-selected="contacts => (formState.selectedContacts = contacts)"
