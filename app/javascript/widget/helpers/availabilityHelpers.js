@@ -117,32 +117,38 @@ const getResponseForMultipleDays = (dayDiff, hours, targetConfig) => {
   return null;
 };
 
+// Get response for specific time (9:30 AM)
+const getSpecificTimeResponse = targetConfig => {
+  const targetHour = targetConfig.open_all_day
+    ? 0
+    : (targetConfig.open_hour ?? 0);
+  const targetMinute = targetConfig.open_minutes ?? 0;
+  return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
+};
+
+// Get response for relative hours (in 2 hours)
+const getRelativeHoursResponse = (hours, minutes, locale) => {
+  const roundedHours = minutes > 0 ? hours + 1 : hours;
+  return {
+    type: 'BACK_IN',
+    value: generateRelativeTime(roundedHours, 'hour', locale),
+  };
+};
+
+// Get response for relative minutes (in 15 minutes)
+const getRelativeMinutesResponse = (minutes, locale) => {
+  const roundedMinutes = Math.ceil(minutes / 5) * 5;
+  return {
+    type: 'BACK_IN',
+    value: generateRelativeTime(roundedMinutes, 'minutes', locale),
+  };
+};
+
 // Get response for same day (9:30 AM, in 2 hours, in 15 minutes, etc.)
 const getResponseForSameDay = (hours, minutes, targetConfig, locale) => {
-  if (hours >= 3) {
-    const targetHour = targetConfig.open_all_day
-      ? 0
-      : (targetConfig.open_hour ?? 0);
-    const targetMinute = targetConfig.open_minutes ?? 0;
-    return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
-  }
-
-  if (hours > 0) {
-    const roundedHours = minutes > 0 ? hours + 1 : hours;
-    return {
-      type: 'BACK_IN',
-      value: generateRelativeTime(roundedHours, 'hour', locale),
-    };
-  }
-
-  if (minutes > 0) {
-    const roundedMinutes = Math.ceil(minutes / 5) * 5;
-    return {
-      type: 'BACK_IN',
-      value: generateRelativeTime(roundedMinutes, 'minutes', locale),
-    };
-  }
-
+  if (hours >= 3) return getSpecificTimeResponse(targetConfig);
+  if (hours > 0) return getRelativeHoursResponse(hours, minutes, locale);
+  if (minutes > 0) return getRelativeMinutesResponse(minutes, locale);
   return { type: 'BACK_IN_SOME_TIME' };
 };
 
