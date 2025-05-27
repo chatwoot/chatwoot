@@ -7,6 +7,10 @@ describe Webhooks::InstagramEventsJob, :serial do
     stub_request(:post, /graph\.facebook\.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
       .to_return(status: 200, body: '', headers: {})
+
+    # Clear Redis mutex key to prevent lock conflicts in parallel tests
+    mutex_key = format(Redis::Alfred::IG_MESSAGE_MUTEX, sender_id: 'Sender-id-1', ig_account_id: 'chatwoot-app-user-id-1')
+    Redis::Alfred.delete(mutex_key)
   end
 
   let!(:account) { create(:account) }
