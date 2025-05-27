@@ -39,3 +39,10 @@ process_stale_contacts_job:
   cron: '30 04 * * *'
   class: 'Internal::ProcessStaleContactsJob'
   queue: housekeeping
+
+# executed daily at 0100 UTC
+# to delete accounts marked for deletion
+delete_accounts_job:
+  cron: '0 1 * * *'
+  class: 'Internal::DeleteAccountsJob'
+  queue: scheduled_jobs
