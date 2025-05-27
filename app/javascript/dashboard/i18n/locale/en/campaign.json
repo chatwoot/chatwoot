@@ -5,14 +5,12 @@
       "HEADER_TITLE": "WhatsApp Campaigns",
       "NEW_CAMPAIGN": "Create campaign",
       "REPORT": {
-        "TITLE": "Campaign Report: {title}",
         "PROCESSED_CONTACTS": "Successful contacts",
         "FAILED_CONTACTS": "Failed contacts",
         "EXPORT_CSV": "Export CSV",
         "SEARCH_PLACEHOLDER": "Search the contacts",
         "CLOSE": "Close",
-        "NO_CONTACTS": "There are no {type} contacts",
-        "CONTACTS_COUNT": "Total Contacts Scheduled: {count} "
+        "NO_CONTACTS": "There are no {type} contacts"
       },
       "CARD": {
         "STATUS": {
@@ -40,7 +38,7 @@
         "FILTER_VALUE": "Value",
         "APPLY": "Apply",
         "RESET": "Reset",
-        "SEARCH_PLACEHOLDER": "Search The contacts",
+        "SEARCH_PLACEHOLDER": "Search the contacts",
         "SELECT_ALL": "Select All",
         "SELECTED_ALL": {
           "SUCCESS": "All Contacts Selected",
@@ -62,7 +60,6 @@
           "SUCCESS_MESSAGE": "Whatsapp campaign created successfully",
           "ERROR_MESSAGE": "There was an error. Please try again."
         },
-
         "EDIT": {
           "TITLE": "Edit the campaign"
         },

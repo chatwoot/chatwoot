@@ -28,9 +28,20 @@ export const getLoginRedirectURL = ({
   user,
 }) => {
   const accountPath = getSSOAccountPath({ ssoAccountId, user });
+  let sessionInfo = {};
+  let isNewUser = false;
+  try {
+    const sessionCookie = Cookies.get('cw_d_session_info');
+    sessionInfo = sessionCookie ? JSON.parse(sessionCookie) : {};
+    isNewUser =
+      user && user.available_name === user.email && user.display_name === null;
+  } catch (error) {}
   if (accountPath) {
     if (ssoConversationId) {
       return frontendURL(`${accountPath}/conversations/${ssoConversationId}`);
+    }
+    if (isNewUser) {
+      return frontendURL(`${accountPath}/start/setup-profile`);
     }
     return frontendURL(`${accountPath}/dashboard`);
   }

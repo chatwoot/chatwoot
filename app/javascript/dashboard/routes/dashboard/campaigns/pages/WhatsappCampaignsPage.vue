@@ -12,7 +12,6 @@ import WhatsappCampaignDialog from 'dashboard/components-next/Campaigns/Pages/Ca
 import ConfirmDeleteCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/ConfirmDeleteCampaignDialog.vue';
 import EditWhatsappCampaignDialog from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsappCampaign/EditWhatsappCampaignDialog.vue';
 import WhatsappCampaignEmptyState from 'dashboard/components-next/Campaigns/EmptyState/WhatsappCampaignEmptyState.vue';
-import CampaignReportModal from 'dashboard/components-next/Campaigns/Pages/CampaignPage/WhatsappCampaign/CampaignReportModal.vue';
 
 const { t } = useI18n();
 const getters = useStoreGetters();
@@ -21,9 +20,6 @@ const selectedCampaign = ref(null);
 const [showWhatsappCampaignDialog, toggleWhatsappCampaignDialog] = useToggle();
 const [showEditWhatsappCampaignDialog, toggleEditWhatsappCampaignDialog] =
   useToggle();
-
-const showReportModal = ref(false); // Control modal visibility
-const selectedReportCampaign = ref(null); // Track selected campaign for report
 
 const uiFlags = useMapGetter('campaigns/getUIFlags');
 const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
@@ -48,14 +44,6 @@ const handleDelete = campaign => {
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
 };
 
-const viewReport = campaign => {
-  selectedReportCampaign.value = campaign;
-  showReportModal.value = true;
-};
-
-const closeReportModal = () => {
-  showReportModal.value = false;
-};
 </script>
 
 <template>
@@ -81,7 +69,6 @@ const closeReportModal = () => {
       v-else-if="!hasNoWhatsappCampaigns"
       :campaigns="WhatsappCampaigns"
       :campaignType="'whatsapp'"
-      @report="viewReport"
       @edit="handleEdit"
       @delete="handleDelete"
     />
@@ -99,11 +86,6 @@ const closeReportModal = () => {
     <ConfirmDeleteCampaignDialog
       ref="confirmDeleteCampaignDialogRef"
       :selected-campaign="selectedCampaign"
-    />
-    <CampaignReportModal
-      v-if="showReportModal"
-      :campaign="selectedReportCampaign"
-      @close="closeReportModal"
     />
   </CampaignLayout>
 </template>

@@ -36,6 +36,60 @@ const actions = {
     }
   },
 
+  createCall: async ({ commit, dispatch }, body) => {
+    try {
+      let messagePayload = {
+        conversationId: body.chat_id,
+        message: 'Started a call',
+        private: false,
+        sender: body.sender,
+        content_type: 14,
+        contentAttributes: {
+          call_start_time: new Date().toISOString(),
+          call_room: body.room_id
+        },
+      };
+
+      // await new Promise(resolve => setTimeout(resolve, 1000))
+
+      const call = await ConversationApi.createCall(body.chat_id, {
+        ...body,
+        message_id: 20,
+      });
+
+
+      body.jwt = call.data.jwt;
+
+      commit(types.ACTIVE_CALL, body);
+
+      const message = await dispatch(
+        'createPendingMessageAndSend',
+        messagePayload
+      );
+
+      return call;
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  endCall: async ({ commit }, body) => {
+    try {
+      await ConversationApi.endCall(body.chat_id, body);
+      commit(types.REMOVE_CALL);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
+  closeCall: async ({ commit }) => {
+    try {
+      commit(types.REMOVE_CALL);
+    } catch (error) {
+      // Handle error
+    }
+  },
+
   fetchAllConversations: async ({ commit, state, dispatch }) => {
     commit(types.SET_LIST_LOADING_STATUS);
     try {
@@ -262,7 +316,8 @@ const actions = {
 
   createPendingMessageAndSend: async ({ dispatch }, data) => {
     const pendingMessage = createPendingMessage(data);
-    dispatch('sendMessageWithData', pendingMessage);
+    const response = await dispatch('sendMessageWithData', pendingMessage);
+    return response;
   },
 
   sendMessageWithData: async ({ commit }, pendingMessage) => {
@@ -283,6 +338,7 @@ const actions = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
       });
+      return response;
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error

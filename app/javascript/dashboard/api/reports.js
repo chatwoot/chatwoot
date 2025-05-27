@@ -67,6 +67,12 @@ class ReportsAPI extends ApiClient {
     });
   }
 
+  getCampaignReports({ campaign_id }) {
+    return axios.get(`${this.url}/campaigns`, {
+      params: { campaign_id },
+    });
+  }
+
   getLabelReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/labels`, {
       params: { since, until, business_hours: businessHours },

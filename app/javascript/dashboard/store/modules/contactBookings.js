@@ -1,7 +1,5 @@
-import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import ContactAPI from '../../api/contacts';
-
 const state = {
   records: {},
   uiFlags: {
@@ -14,7 +12,7 @@ export const getters = {
     return $state.uiFlags;
   },
   getContactBookings: $state => id => {
-    return $state.records[Number(id)] || [];
+    return $state.records[id] || [];
   },
 };
 
@@ -52,8 +50,8 @@ export const mutations = {
       ...data,
     };
   },
-  [types.default.SET_CONTACT_BOOKINGS]: ($state, { id, data }) => {
-    MutationHelpers.set($state.records, id, data);
+  [types.default.SET_CONTACT_BOOKINGS]($state, { id, data }) {
+    $state.records[id] = data;
   },
 };
 

@@ -41,6 +41,11 @@ const validateActiveAccountRoutes = (to, user) => {
   // If the current account is active, then check for the route permissions
   const accountDashboardURL = `accounts/${to.params.accountId}/dashboard`;
 
+  if (to.fullPath.includes('start')) {
+    // Ignoring start routes for now, no route protection
+    return null;
+  }
+
   // If the user is trying to access suspended route, redirect them to dashboard
   if (to.name === 'account_suspended') {
     return accountDashboardURL;
@@ -53,12 +58,27 @@ const validateActiveAccountRoutes = (to, user) => {
   return isAccessible ? null : defaultRedirectPage(to, userPermissions);
 };
 
-export const validateLoggedInRoutes = (to, user) => {
+export const validateLoggedInRoutes = (to, user, account) => {
+  // Don't validate if already on setup route
+  if (to.name === 'onboarding_setup_profile') {
+    return null;
+  }
+
   const currentAccount = getCurrentAccount(user, Number(to.params.accountId));
-  // If current account is missing, either user does not have
-  // access to the account or the account is deleted, return to login screen
   if (!currentAccount) {
-    return `app/login`;
+    return 'app/login';
+  }
+  // Check if account needs onboarding and user isn't already on an onboarding route
+
+  if (
+    Object.keys(account).length > 0 &&
+    account.custom_attributes?.onboarding_step !== 'true' &&
+    !to.fullPath?.includes('start')
+  ) {
+    if (!account.custom_attributes?.onboarding_step) {
+      return `accounts/${to.params.accountId}/start/setup-profile`;
+    }
+    return `accounts/${to.params.accountId}/start/${account.custom_attributes?.onboarding_step}`;
   }
 
   const isCurrentAccountActive = currentAccount.status === 'active';
@@ -67,12 +87,10 @@ export const validateLoggedInRoutes = (to, user) => {
     return validateActiveAccountRoutes(to, user);
   }
 
-  // If the current account is not active, then redirect the user to the suspended screen
   if (to.name !== 'account_suspended') {
     return `accounts/${to.params.accountId}/suspended`;
   }
 
-  // Proceed to the route if none of the above conditions are met
   return null;
 };
 

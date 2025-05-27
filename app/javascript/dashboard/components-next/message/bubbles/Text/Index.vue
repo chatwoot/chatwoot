@@ -3,10 +3,14 @@ import { computed } from 'vue';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
-import { MESSAGE_TYPES } from '../../constants';
+import { CONTENT_TYPES, MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
+import { onMounted } from 'vue';
+import { useStore } from 'vuex';
 
-const { content, attachments, contentAttributes, messageType } =
+const store = useStore();
+
+const { content, contentType, attachments, contentAttributes, messageType } =
   useMessageContext();
 
 const isTemplate = computed(() => {
@@ -15,6 +19,10 @@ const isTemplate = computed(() => {
 
 const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
+});
+
+const activeCall = computed(() => {
+  return store.getters['getCallState'];
 });
 </script>
 
@@ -26,6 +34,22 @@ const isEmpty = computed(() => {
       </span>
       <FormattedContent v-if="content" :content="content" />
       <AttachmentChips :attachments="attachments" class="gap-2" />
+
+      <div
+        v-if="
+          contentType == 'calling_event' &&
+          activeCall?.room_id != contentAttributes.callRoom
+        "
+        class="px-2 py-1 rounded-lg bg-n-alpha-3"
+      >
+        {{
+          !contentAttributes.callStatus
+            ? 'Missed'
+            : contentAttributes.callStatus[0].toUpperCase() +
+              contentAttributes.callStatus.slice(1)
+        }}
+      </div>
+
       <template v-if="isTemplate">
         <div
           v-if="contentAttributes.submittedEmail"

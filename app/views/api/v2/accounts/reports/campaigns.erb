@@ -1,0 +1,13 @@
+<% headers = [
+    I18n.t('reports.campaign_csv.contact_name'),
+    I18n.t('reports.campaign_csv.contact_phoneno'),
+    I18n.t('reports.campaign_csv.status'),
+    I18n.t('reports.campaign_csv.error_message'),
+    I18n.t('reports.campaign_csv.last_processed'),
+  ]
+%>
+<%= CSVSafe.generate_line headers -%>
+
+<% @report_data.each do |row| %>
+<%= raw CSVSafe.generate_line row -%>
+<% end %>

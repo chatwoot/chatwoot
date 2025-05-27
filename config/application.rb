@@ -2,11 +2,14 @@
 
 require_relative 'boot'
 
+require 'debug/open_nonstop' if ENV['DEBUG']
 require 'rails/all'
 
 # Require the gems listed in Gemfile, including any gems
 # you've limited to :test, :development, or :production.
 Bundler.require(*Rails.groups)
+
+# require 'debug/open_nonstop'
 
 ## Load the specific APM agent
 # We rely on DOTENV to load the environment variables

@@ -423,6 +423,15 @@
       }
     }
   },
+  "CAMPAIGN_REPORTS": {
+    "HEADER": "Campaign Reports",
+    "CHANNEL_FILTER_DROPDOWN_LABEL": "Select channel",
+    "INBOX_FILTER_DROPDOWN_LABEL": "Select inbox",
+    "FILTER_DROPDOWN_LABEL": "Select campaign",
+    "EMPTY_TITLE": "No campaign report selected",
+    "EMPTY_SUBTITLE": "Please select a campaign",
+    "DOWNLOAD_REPORTS": "Download reports"
+  },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",
     "METRIC": {

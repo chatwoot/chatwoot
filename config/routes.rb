@@ -124,6 +124,8 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_priority
               post :toggle_typing_status
+              post :create_call
+              post :end_call
               post :update_last_seen
               post :unread
               post :custom_attributes
@@ -145,6 +147,7 @@ Rails.application.routes.draw do
               get :active
               get :search
               get :get_all_ids
+              post :filtered_all_ids
               post :filter
               post :import
               post :export
@@ -263,7 +266,7 @@ Rails.application.routes.draw do
               delete :logo
             end
             collection do
-              get :check  
+              get :check
             end
             resources :categories
             resources :articles do
@@ -272,7 +275,6 @@ Rails.application.routes.draw do
           end
 
           resources :upload, only: [:create]
-
         end
       end
       # end of account scoped api routes
@@ -312,12 +314,13 @@ Rails.application.routes.draw do
             post :update_last_seen
             post :toggle_typing
             post :transcript
+            post :reject_call
             get  :toggle_status
           end
         end
         resource :contact, only: [:show, :update] do
           collection do
-            post :destroy_custom_attributes
+            post  :destroy_custom_attributes
             patch :set_user
           end
         end
@@ -350,6 +353,7 @@ Rails.application.routes.draw do
               get :agents
               get :inboxes
               get :labels
+              get :campaigns
               get :teams
               get :conversations
               get :conversation_traffic

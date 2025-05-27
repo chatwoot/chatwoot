@@ -14,6 +14,12 @@ import Spinner from 'shared/components/Spinner.vue';
 import ContactsAPI from 'dashboard/api/contacts';
 import { useSnakeCase } from 'dashboard/composables/useTransformKeys';
 import ContactsFilter from 'dashboard/components-next/filter/ContactsFilter.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
+import { useRoute } from 'vue-router';
+import labels from '../../../../../api/labels';
+
+const route = useRoute();
 
 const props = defineProps({
   contacts: {
@@ -21,6 +27,10 @@ const props = defineProps({
     required: true,
   },
   selectedContacts: {
+    type: Array,
+    default: () => [],
+  },
+  selectedAudience: {
     type: Array,
     default: () => [],
   },
@@ -34,26 +44,21 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits([
-  'contacts-selected',
-  'load-more',
-  'search',
-  'select-all-contacts',
-  'filter-contacts',
-  'filters-cleared',
-]);
+const emit = defineEmits(['contacts-selected', 'search']);
 
 const store = useStore();
 const { t } = useI18n();
 
+const itemsPerPage = 15;
 // State
 const searchQuery = ref('');
-const localSelectedContacts = ref([...props.selectedContacts]);
+const localSelectedContacts = ref([]);
 const observer = ref(null);
 const isSelectingAll = ref(false);
 const showFiltersModal = ref(false);
 const currentPage = ref(1);
 const totalPages = ref(1);
+const totalContacts = ref(0);
 const contactList = ref([]);
 const allFilteredContacts = ref([]);
 const isLoadingContacts = ref(false);
@@ -72,6 +77,42 @@ const appliedFilters = ref([
     attributeModel: 'standard',
   },
 ]);
+
+const formattedFilters = computed(() => {
+  return appliedFilters.value
+    .filter(filter => isFilterValueValid(filter))
+    .map((filter, index, filteredArray) => {
+      const baseFilter = {
+        attributeKey: filter.attributeKey,
+        attributeModel: filter.attributeModel || 'standard',
+        filterOperator: filter.filterOperator,
+        values: formatFilterValue(filter),
+      };
+
+      if (filteredArray.length > 1 && index < filteredArray.length - 1) {
+        baseFilter.queryOperator = filter.queryOperator;
+      }
+
+      return useSnakeCase(baseFilter);
+    });
+});
+
+const formattedFilterWithEmail = computed(() => {
+  if (formattedFilters.value.every(e => e.attribute_key != 'phone_number')) {
+    return [
+      {
+        attribute_key: 'email',
+        attribute_model: 'standard',
+        filter_operator: 'contains',
+        query_operator: formattedFilters.value.length > 0 ? 'and' : null,
+        values: '@',
+      },
+      ...formattedFilters.value,
+    ];
+  }
+
+  return formattedFilters.value;
+});
 
 // Filter Types
 const standardFilterTypes = [
@@ -174,15 +215,47 @@ const filteredContacts = computed(() => {
 });
 
 const hasAppliedFilters = computed(() =>
-  appliedFilters.value.some(
-    filter => filter.values && filter.values.trim() !== ''
-  )
+  appliedFilters.value.some(filter => {
+    if (filter.values === null || filter.values === undefined) {
+      return false;
+    }
+
+    if (typeof filter.values === 'string') {
+      return filter.values.trim() !== '';
+    }
+
+    if (Array.isArray(filter.values)) {
+      return filter.values.length > 0;
+    }
+
+    if (typeof filter.values === 'object') {
+      return Object.keys(filter.values).length > 0;
+    }
+
+    return !!filter.values;
+  })
 );
 
 const shouldShowLoadingTrigger = computed(() => {
-  const hasActiveFilters = appliedFilters.value.some(
-    filter => filter.values.trim() !== ''
-  );
+  const hasActiveFilters = appliedFilters.value.some(filter => {
+    if (filter.values === null || filter.values === undefined) {
+      return false;
+    }
+
+    if (typeof filter.values === 'string') {
+      return filter.values.trim() !== '';
+    }
+
+    if (Array.isArray(filter.values)) {
+      return filter.values.length > 0;
+    }
+
+    if (typeof filter.values === 'object') {
+      return Object.keys(filter.values).length > 0;
+    }
+
+    return !!filter.values;
+  });
   return hasActiveFilters
     ? currentPage.value < totalPages.value
     : props.hasMore;
@@ -191,75 +264,23 @@ const shouldShowLoadingTrigger = computed(() => {
 // Methods
 const handleContactsResponse = (data, isFiltered = false) => {
   const { payload = [], meta = {} } = data;
-  const filteredContacts = payload.filter(contact => contact.email);
+  const filteredContacts = payload;
 
-  if (isFiltered) {
-    contactList.value =
-      currentPage.value === 1
-        ? filteredContacts
-        : [...contactList.value, ...filteredContacts];
-    if (currentPage.value === 1) {
-      allFilteredContacts.value = filteredContacts;
-    } else {
-      allFilteredContacts.value = [...allFilteredContacts.value];
-    }
-  } else {
-    contactList.value =
-      currentPage.value === 1
-        ? filteredContacts
-        : [...contactList.value, ...filteredContacts];
-  }
-  emit('filter-contacts', contactList.value);
+  contactList.value = filteredContacts;
+  allFilteredContacts.value = filteredContacts;
 
-  const totalpages = Math.ceil(meta.count / 30);
-  totalPages.value = Math.min(totalpages, 33);
+  totalPages.value = Math.ceil(meta.count / itemsPerPage);
+  totalContacts.value = meta.count;
 
   nextTick(() => {
     resetObserver();
   });
 };
 
-const setupInfiniteScroll = () => {
-  const options = {
-    root: document.querySelector('.contacts-list'),
-    rootMargin: '0px',
-    threshold: 0.5,
-  };
-
-  observer.value = new IntersectionObserver(async ([entry]) => {
-    if (entry && entry.isIntersecting) {
-      const hasActiveFilters = appliedFilters.value.some(
-        filter => filter.values.trim() !== ''
-      );
-
-      if (hasActiveFilters) {
-        if (
-          currentPage.value < totalPages.value &&
-          !loadingMoreFiltered.value &&
-          !isLoadingContacts.value
-        ) {
-          await loadMoreFilteredContacts();
-        }
-      } else if (props.hasMore && !props.isLoading) {
-        emit('load-more');
-      }
-    }
-  }, options);
-
-  nextTick(() => {
-    const trigger = document.querySelector('.loading-trigger');
-    if (trigger) {
-      observer.value.observe(trigger);
-    }
-  });
-};
-
 const toggleContact = contact => {
-  const index = localSelectedContacts.value
-    .flat()
-    .findIndex(c => c.id === contact.id);
+  const index = localSelectedContacts.value.findIndex(c => c === contact.id);
   if (index === -1) {
-    localSelectedContacts.value.push(contact);
+    localSelectedContacts.value.push(contact.id);
   } else {
     localSelectedContacts.value.splice(index, 1);
   }
@@ -267,37 +288,75 @@ const toggleContact = contact => {
 };
 
 const isSelected = contact => {
-  const res = localSelectedContacts.value
-    .flat()
-    .some(c => c.id === contact.id || c == contact.id);
-  return res;
+  return localSelectedContacts.value.some(c => c === contact.id);
 };
 
 const clearSelection = () => {
   localSelectedContacts.value = [];
+  selectAllVisible.value = false;
   emit('contacts-selected', localSelectedContacts.value);
 };
 
 const selectAll = async () => {
   if (isFetchingAllPages.value) return;
   isSelectingAll.value = true;
-  const hasActiveFilters = appliedFilters.value.some(
-    filter => filter.values.trim() !== ''
-  );
 
   try {
     localSelectedContacts.value = [];
-    if (hasActiveFilters) {
-      localSelectedContacts.value = [...allFilteredContacts.value];
-      emit('select-all-contacts', true, allFilteredContacts.value);
-    } else {
-      localSelectedContacts.value = [...props.contacts];
-      emit('select-all-contacts', false, []);
-    }
-    emit('contacts-selected', localSelectedContacts.value);
+
+    const filters = formattedFilterWithEmail;
+    const result = await ContactsAPI.getFilteredAllIds({
+      payload: filters.value,
+      labels: props.selectedAudience,
+    });
+    console.log('Reslts: ', result);
+
+    emit('contacts-selected', result.data.contact_ids);
+    selectAllVisible.value = true;
+    localSelectedContacts.value = result.data.contact_ids;
   } finally {
     isSelectingAll.value = false;
   }
+};
+
+const isFilterValueValid = filter => {
+  if (filter.values === null || filter.values === undefined) {
+    return false;
+  }
+
+  if (typeof filter.values === 'string') {
+    return filter.values.trim() !== '';
+  }
+
+  if (Array.isArray(filter.values)) {
+    return filter.values.length > 0;
+  }
+
+  if (typeof filter.values === 'object') {
+    return Object.keys(filter.values).length > 0;
+  }
+
+  return !!filter.values;
+};
+
+const formatFilterValue = filter => {
+  if (typeof filter.values === 'string') {
+    return [filter.values.trim()];
+  } else if (Array.isArray(filter.values)) {
+    return filter.values;
+  } else if (
+    typeof filter.values === 'object' &&
+    Object.keys(filter.values).length > 0
+  ) {
+    return [
+      filter.values.id ||
+        filter.values.value ||
+        Object.values(filter.values)[0],
+    ];
+  } else if (typeof filter.values === 'boolean') {
+    return [filter.values.toString()];
+  }
+  return [filter.values];
 };
 
 const submitFilters = async () => {
@@ -306,22 +365,7 @@ const submitFilters = async () => {
     currentPage.value = 1;
     allFilteredContacts.value = [];
 
-    const formattedFilters = appliedFilters.value
-      .filter(filter => filter.values.trim() !== '')
-      .map((filter, index, filteredArray) => {
-        const baseFilter = {
-          attributeKey: filter.attributeKey,
-          attributeModel: filter.attributeModel || 'standard',
-          filterOperator: filter.filterOperator,
-          values: [filter.values.trim()],
-        };
-
-        if (filteredArray.length > 1 && index < filteredArray.length - 1) {
-          baseFilter.queryOperator = filter.queryOperator;
-        }
-
-        return useSnakeCase(baseFilter);
-      });
+    let formattedFilters = formattedFilterWithEmail.value;
 
     if (formattedFilters.length === 0) {
       await fetchContacts(1);
@@ -331,34 +375,24 @@ const submitFilters = async () => {
 
     isLoadingContacts.value = true;
     isFetchingAllPages.value = true;
-    const queryPayload = { payload: formattedFilters };
+    const queryPayload = {
+      payload: formattedFilters,
+      labels: props.selectedAudience,
+    };
 
     const { data } = await ContactsAPI.filter(1, 'name', queryPayload);
     handleContactsResponse(data, true);
     showFiltersModal.value = false;
 
     const { payload = [], meta = {} } = data;
-    const validContacts = payload.filter(contact => contact.email);
+    const validContacts = payload.filter(contact => contact.phone_number);
     allFilteredContacts.value = [...validContacts];
 
-    const totalpages = Math.ceil(meta.count / 30);
-    totalPages.value = totalpages;
-    for (let page = 2; page <= totalpages; page++) {
-      const response = await ContactsAPI.filter(page, 'name', queryPayload);
-      if (response.data && response.data.payload) {
-        const validPageContacts = response.data.payload.filter(
-          contact => contact.email
-        );
-        allFilteredContacts.value = [
-          ...allFilteredContacts.value,
-          ...validPageContacts,
-        ];
-      }
-    }
     nextTick(() => {
       resetObserver();
     });
   } catch (error) {
+    console.log('Error occurred: ', error);
     useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_ERROR'));
   } finally {
     isFetchingAllPages.value = false;
@@ -376,11 +410,8 @@ const clearFilters = async () => {
       attributeModel: 'standard',
     },
   ];
-  contactList.value = [];
-  allFilteredContacts.value = [];
-  currentPage.value = 1;
-  totalPages.value = 1;
-  emit('filters-cleared');
+
+  fetchContacts(1);
 
   await nextTick();
   resetObserver();
@@ -389,8 +420,16 @@ const clearFilters = async () => {
 
 const fetchContacts = async (page = 1) => {
   try {
+    currentPage.value = page;
     isLoadingContacts.value = true;
-    const { data } = await ContactsAPI.get(page, sortAttribute.value);
+
+    const queryPayload = {
+      payload: formattedFilterWithEmail.value,
+      labels: props.selectedAudience,
+    };
+
+    const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
+
     handleContactsResponse(data, false);
   } catch (error) {
     useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
@@ -399,58 +438,15 @@ const fetchContacts = async (page = 1) => {
   }
 };
 
-const loadMoreFilteredContacts = async () => {
-  if (currentPage.value < totalPages.value && !isLoadingContacts.value) {
-    try {
-      loadingMoreFiltered.value = true;
-      isLoadingContacts.value = true;
-      currentPage.value += 1;
-
-      const formattedFilters = appliedFilters.value
-        .filter(filter => filter.values.trim() !== '')
-        .map((filter, index, filteredArray) => {
-          const baseFilter = {
-            attributeKey: filter.attributeKey,
-            attributeModel: filter.attributeModel || 'standard',
-            filterOperator: filter.filterOperator,
-            values: [filter.values.trim()],
-          };
-
-          if (filteredArray.length > 1 && index < filteredArray.length - 1) {
-            baseFilter.queryOperator = filter.queryOperator;
-          }
-
-          return useSnakeCase(baseFilter);
-        });
-
-      const queryPayload = { payload: formattedFilters };
-      const { data } = await ContactsAPI.filter(
-        currentPage.value,
-        'name',
-        queryPayload
-      );
-      handleContactsResponse(data, true);
-    } catch (error) {
-      useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_ERROR'));
-      currentPage.value -= 1;
-    } finally {
-      isLoadingContacts.value = false;
-      loadingMoreFiltered.value = false;
-    }
-  }
-};
-
 const updateSelectedContacts = contactIds => {
-  const currentSelectedIds = new Set(
-    localSelectedContacts.value.map(c => c.id)
-  );
+  const currentSelectedIds = new Set(localSelectedContacts.value);
   contactIds.forEach(id => {
     if (!currentSelectedIds.has(id)) {
       const contact = props.contacts.find(c => c.id === id);
       if (contact) {
-        localSelectedContacts.value.push(contact);
+        localSelectedContacts.value.push(contact.id);
       } else {
-        localSelectedContacts.value.push({ id });
+        localSelectedContacts.value.push(id);
       }
     }
   });
@@ -480,11 +476,25 @@ const updateSelectVisiblePosition = () => {
   });
 };
 
+const onUpdatePage = async page => {
+  await fetchContacts(page);
+
+  // Correctly set selectAllVisible as per contact list and already selected contacts state
+  if (
+    contactList.value.some(
+      e => localSelectedContacts.value.find(f => f === e.id) === undefined
+    )
+  ) {
+    selectAllVisible.value = false;
+  } else {
+    selectAllVisible.value = true;
+  }
+};
+
 const resetObserver = () => {
   if (observer.value) {
     observer.value.disconnect();
   }
-  setupInfiniteScroll();
 };
 
 // Watchers
@@ -492,15 +502,13 @@ watch(selectAllVisible, newVal => {
   if (newVal) {
     filteredContacts.value.forEach(contact => {
       if (!isSelected(contact)) {
-        localSelectedContacts.value.push(contact);
+        localSelectedContacts.value.push(contact.id);
       }
     });
   } else {
     localSelectedContacts.value = localSelectedContacts.value.filter(
       selectedContact =>
-        !filteredContacts.value.some(
-          contact => contact.id === selectedContact.id
-        )
+        !filteredContacts.value.some(contact => contact.id === selectedContact)
     );
   }
   emit('contacts-selected', localSelectedContacts.value);
@@ -526,15 +534,17 @@ watch(
 watch(
   () => props.selectedContacts,
   newVal => {
-    localSelectedContacts.value = [...newVal];
+    localSelectedContacts.value = [
+      ...newVal.map(e => (typeof e == 'object' ? e.id : e)),
+    ];
   },
   { deep: true }
 );
 
 // Lifecycle Hooks
 onMounted(() => {
-  setupInfiniteScroll();
   updateSelectVisiblePosition();
+  fetchContacts(1);
   window.addEventListener('resize', updateSelectVisiblePosition);
 });
 
@@ -560,23 +570,12 @@ defineExpose({
           "
           class="search-input"
         />
-        <div class="filter-button-container">
-          <div
-            v-if="hasAppliedFilters"
-            class="absolute w-2 h-2 rounded-full top-1 right-1 bg-slate-500 dark:bg-slate-500"
-          />
-          <woot-button
-            v-tooltip.top-end="t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER')"
-            icon="filter"
-            size="medium"
-            color-scheme="secondary"
-            class="clear [&>span]:hidden xs:[&>span]:block"
-            @click="showFiltersModal = true"
-          />
-        </div>
       </div>
       <div class="selection-wrapper">
         <div class="selection-controls">
+          <button @click="showFiltersModal = true">
+            {{ 'Filters' }}
+          </button>
           <button :disabled="isFetchingAllPages" @click="selectAll">
             {{ $t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.SELECT_ALL') }}
           </button>
@@ -584,10 +583,7 @@ defineExpose({
             {{ $t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.CLEAR') }}
           </button>
         </div>
-        <div
-          class="select-visible-checkbox"
-          :style="selectVisibleCheckboxStyle"
-        >
+        <div class="select-visible-checkbox">
           <input v-model="selectAllVisible" type="checkbox" />
         </div>
       </div>
@@ -608,13 +604,27 @@ defineExpose({
         :class="{ selected: isSelected(contact) }"
         @click="toggleContact(contact)"
       >
+        <Avatar
+          :name="contact.name"
+          :src="contact.thumbnail"
+          :size="48"
+          rounded-full
+        />
         <div class="contact-info">
-          <span class="contact-name">{{ contact.name }}</span>
-          <span class="contact-phone">{{ contact.phone_number }}</span>
-          <span v-if="contact.email" class="contact-email">{{
-            contact.email
-          }}</span>
+          <div>
+            <span class="contact-name">
+              {{ contact.name }}
+            </span>
+          </div>
+          <div class="flex flex-row items-center gap-2">
+            <span class="contact-phone">{{ contact.phone_number }}</span>
+            <div v-if="contact.email" class="w-px h-3 truncate bg-n-slate-6" />
+            <span v-if="contact.email" class="contact-email">{{
+              contact.email
+            }}</span>
+          </div>
         </div>
+        <div class="flex-1"></div>
         <input
           type="checkbox"
           :checked="isSelected(contact)"
@@ -635,13 +645,25 @@ defineExpose({
       </div>
     </div>
 
-    <div class="selection-summary">
+    <!-- <div class="selection-summary">
       {{
         t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.SELECTED_CONTACTS', {
           count: localSelectedContacts.length,
         })
       }}
-    </div>
+    </div> -->
+
+    <div class="bg-red-50"></div>
+    <PaginationFooter
+      :count="
+        localSelectedContacts.length == 0 ? null : localSelectedContacts.length
+      "
+      :current-page="currentPage"
+      :total-items="totalContacts"
+      :items-per-page="itemsPerPage"
+      @update:current-page="onUpdatePage"
+    />
+
     <woot-modal
       :show="showFiltersModal"
       size="medium"
@@ -650,7 +672,8 @@ defineExpose({
       <ContactsFilter
         v-if="showFiltersModal"
         v-model="appliedFilters"
-        class="contacts-filter"
+        class="w-full"
+        :is-campaign="true"
         @apply-filter="submitFilters"
         @clear-filters="clearFilters"
         @close="showFiltersModal = false"
@@ -681,16 +704,16 @@ defineExpose({
   @apply flex flex-col h-full;
 
   .search-header {
-    @apply flex items-center justify-between p-4 border-b;
+    @apply flex flex-row items-center px-3 py-4 w-full gap-4;
     background-color: #f8f9fa;
     border-color: #e2e8f0;
     @apply dark:bg-[#23242b] dark:border-[#23242b];
 
     .search-controls {
-      @apply flex items-center gap-2;
+      @apply flex flex-row items-center justify-start;
 
       .search-input {
-        @apply w-64 px-3 py-2 border rounded;
+        @apply ml-2 w-48 border rounded my-0 py-2 px-3;
         background-color: #ffffff;
         border-color: #d1d5db;
         color: #000000;
@@ -702,20 +725,16 @@ defineExpose({
           @apply outline-none ring-2 ring-slate-500;
         }
       }
-
-      .filter-button-container {
-        @apply relative top-[-7px];
-      }
     }
 
     .selection-wrapper {
-      @apply flex flex-col;
+      @apply flex flex-row flex-1 justify-between;
 
       .selection-controls {
-        @apply flex flex-row gap-2;
+        @apply flex flex-row mx-2 gap-2;
 
         button {
-          @apply px-3 py-1 text-sm border rounded;
+          @apply px-4 py-2 text-sm border rounded;
           background-color: #ffffff;
           border-color: #e2e8f0;
           color: #000000;
@@ -727,7 +746,7 @@ defineExpose({
       }
 
       .select-visible-checkbox {
-        @apply flex items-center mt-4 text-sm;
+        @apply flex flex-row items-center;
         color: #000000;
         @apply dark:text-[#ffffff];
         input[type='checkbox'] {
@@ -756,7 +775,7 @@ defineExpose({
     @apply dark:bg-[#1b1c21];
 
     .contact-item {
-      @apply flex items-center justify-between p-3 cursor-pointer border-b;
+      @apply flex items-center p-3 cursor-pointer border-b;
       border-color: #e2e8f0;
       @apply dark:border-[#23242b];
       &:hover {
@@ -769,7 +788,7 @@ defineExpose({
       }
 
       .contact-info {
-        @apply flex flex-col;
+        @apply flex flex-col mx-4;
 
         .contact-name {
           @apply font-medium;

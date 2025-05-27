@@ -63,6 +63,22 @@ export const actions = {
       });
     }
   },
+
+  getAccountById: async ({ commit, getters }, id) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
+    try {
+      const response = await AccountAPI.getById(id);
+      commit(types.default.ADD_ACCOUNT, response.data);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, {
+        isFetchingItem: false,
+      });
+    }
+  },
+
   update: async ({ commit }, updateObj) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
     try {

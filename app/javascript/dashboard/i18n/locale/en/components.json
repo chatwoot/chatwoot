@@ -1,7 +1,8 @@
 {
   "PAGINATION_FOOTER": {
     "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
-    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages",
+    "SELECTED": "Selected {count} of {totalItems} contacts"
   },
   "COMBOBOX": {
     "PLACEHOLDER": "Select an option...",

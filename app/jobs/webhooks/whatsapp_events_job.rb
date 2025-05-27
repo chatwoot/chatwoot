@@ -1,7 +1,9 @@
 class Webhooks::WhatsappEventsJob < ApplicationJob
+  # Contains logs
   queue_as :low
 
   def perform(params = {})
+    Rails.logger.info('Performing whatsapp events job')
     channel = find_channel_from_whatsapp_business_payload(params)
     return if channel_is_inactive?(channel)
 

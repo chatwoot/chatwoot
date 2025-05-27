@@ -107,7 +107,7 @@ export default {
 <template>
   <div>
     <div
-      class="flex flex-col items-start bg-white justify-between md:flex-row md:items-center shadow-lg border-1 rounded-md py-2"
+      class="flex flex-col items-start bg-n-solid-2 justify-between md:flex-row md:items-center shadow-lg outline-n-container outline-2 outline rounded-md py-2"
     >
       <div class="flex items-center justify-start flex-1 m-0 mx-4">
         <img
@@ -120,7 +120,7 @@ export default {
           >
             {{ integrationName }}
           </h3>
-          <p class="text-slate-700 dark:text-slate-200">
+          <p class="text-slate-700 dark:text-slate-300">
             {{
               useInstallationName(
                 integrationDescription,
@@ -143,12 +143,6 @@ export default {
               $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
             }}
           </woot-button>
-          <!-- <button class="button alert" @click="openDeletePopup">
-          {{
-            deleteButtonText ||
-            $t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')
-          }}
-        </button> -->
         </div>
         <div v-else>
           <woot-button
@@ -164,7 +158,7 @@ export default {
       </div>
 
       <woot-delete-modal
-        :show.sync="showDeleteConfirmationPopup"
+        v-model:show="showDeleteConfirmationPopup"
         :on-close="closeDeletePopup"
         :on-confirm="confirmDeletion"
         :title="
@@ -180,22 +174,22 @@ export default {
       />
 
       <woot-modal
-        :show.sync="showCalIntegrationPopup"
+        v-model:show="showCalIntegrationPopup"
         :on-close="closeCalIntegrationPopup"
       >
-        <div class="bg-white p-6 rounded-lg text-center">
-          <!-- Modal Title -->
-          <h2 class="text-xl font-semibold mb-4">
+        <div class="bg-n-solid-2 p-6 rounded-lg text-center">
+          <h2
+            class="text-xl font-semibold mb-4 text-gray-900 dark:text-gray-100"
+          >
             {{ $t('INTEGRATION_SETTINGS.ONEHASH_CAL.ADD_TITLE') }}
           </h2>
-
-          <p class="text-gray-700 mb-4">
+          <p class="text-gray-700 dark:text-gray-300 mb-4">
             {{ $t('INTEGRATION_SETTINGS.ONEHASH_CAL.ADD_MESSAGE') }}
           </p>
 
           <input
             v-model="cal_user_slug"
-            class="w-full p-2 mb-4 border border-gray-300 rounded-md"
+            class="w-full p-2 mb-4 border border-gray-300 dark:border-gray-600 bg-gray-100 dark:bg-gray-700 text-gray-900 dark:text-gray-100 rounded-md"
             type="text"
             @keydown.enter="addCalIntegration"
           />
@@ -206,7 +200,10 @@ export default {
         </div>
       </woot-modal>
     </div>
-    <p v-if="requestRaised" class="mx-3 mt-2 text-sm text-gray-500">
+    <p
+      v-if="requestRaised"
+      class="mx-3 mt-2 text-sm text-gray-500 dark:text-gray-400"
+    >
       {{
         'Note : After accepting request from Cal, please refresh this page to view changes'
       }}

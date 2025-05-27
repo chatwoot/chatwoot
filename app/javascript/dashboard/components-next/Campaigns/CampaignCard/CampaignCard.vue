@@ -44,7 +44,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['edit', 'delete', 'report']);
+const emit = defineEmits(['edit', 'delete']);
 
 const { t } = useI18n();
 
@@ -131,14 +131,6 @@ const inboxIcon = computed(() => {
       </div>
     </div>
     <div class="flex items-center justify-end w-50 gap-2">
-      <Button
-        v-if="campaignType === 'whatsapp'"
-        variant="faded"
-        size="sm"
-        color="slate"
-        icon="i-lucide-file-text"
-        @click="emit('report')"
-      />
       <Button
         v-if="
           campaignType === 'liveChat' ||

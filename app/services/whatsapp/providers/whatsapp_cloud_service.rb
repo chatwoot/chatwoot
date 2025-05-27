@@ -1,5 +1,4 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
-
   def send_message(phone_number, message)
     if message.attachments.present?
       send_attachment_message(phone_number, message)
@@ -31,10 +30,8 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     if template_info[:media].present?
       media_url = template_info[:media].first[:image][:link]
       media_id = upload_media_to_whatsapp(media_url)
-      
-      if media_id
-        parameters << { type: 'image', image: { id: media_id } }
-      end
+
+      parameters << { type: 'image', image: { id: media_id } } if media_id
     end
 
     {
@@ -148,7 +145,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       response['messages'].first['id']
     else
       Rails.logger.error response.body
-      nil
+      response
     end
   end
 
@@ -181,17 +178,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   private
 
   def download_from_whatsapp(url)
-    
     response = HTTParty.get(
       url,
       headers: { 'Authorization' => "Bearer #{whatsapp_channel.provider_config['api_key']}" },
       follow_redirects: true
     )
 
-    unless response.success?
-      
-      return nil
-    end
+    return nil unless response.success?
 
     {
       content: response.body,
@@ -222,11 +215,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       }
     )
 
-    if upload_response.success?
-      upload_response['id']
-    else
-      nil
-    end
+    upload_response['id'] if upload_response.success?
   rescue StandardError => e
     nil
   ensure
