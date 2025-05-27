@@ -13,7 +13,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   def create
     ActiveRecord::Base.transaction do
       @copilot_thread = Current.account.copilot_threads.create!(
-        title: copilot_thread_params[:message],
+        title: copilot_thread_params[:message][:content],
         user: Current.user,
         assistant: assistant
       )
@@ -25,7 +25,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   private
 
   def ensure_message
-    return render_could_not_create_error('Message is required') if copilot_thread_params[:message].blank?
+    return render_could_not_create_error('Message is required') if copilot_thread_params[:message][:content].blank?
   end
 
   def assistant
@@ -33,7 +33,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def copilot_thread_params
-    params.permit(:message, :assistant_id)
+    params.permit(:assistant_id, message: [:content])
   end
 
   def permitted_params

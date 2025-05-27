@@ -50,7 +50,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
   describe 'POST /api/v1/accounts/{account.id}/captain/copilot_threads' do
     let(:assistant) { create(:captain_assistant, account: account) }
-    let(:valid_params) { { message: 'Hello, how can you help me?', assistant_id: assistant.id } }
+    let(:valid_params) { { message: { content: 'Hello, how can you help me?' }, assistant_id: assistant.id } }
 
     context 'when it is an un-authenticated user' do
       it 'returns unauthorized' do
@@ -66,7 +66,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       context 'with invalid params' do
         it 'returns error when message is blank' do
           post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
-               params: { message: '', assistant_id: assistant.id },
+               params: { message: { content: '' }, assistant_id: assistant.id },
                headers: agent.create_new_auth_token,
                as: :json
 
@@ -76,7 +76,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
         it 'returns error when assistant_id is invalid' do
           post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
-               params: { message: 'Hello', assistant_id: 0 },
+               params: { message: { content: 'Hello' }, assistant_id: 0 },
                headers: agent.create_new_auth_token,
                as: :json
 
@@ -97,13 +97,13 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           expect(response).to have_http_status(:success)
 
           thread = CopilotThread.last
-          expect(thread.title).to eq(valid_params[:message])
+          expect(thread.title).to eq(valid_params[:message][:content])
           expect(thread.user_id).to eq(agent.id)
           expect(thread.assistant_id).to eq(assistant.id)
 
           message = thread.copilot_messages.last
           expect(message.message_type).to eq('user')
-          expect(message.message).to eq(valid_params[:message])
+          expect(message.message).to eq(valid_params[:message].stringify_keys)
         end
       end
     end
