@@ -87,7 +87,10 @@ const hideTopupPopup = () => {
 
 const openPaymentPopup = plan => {
   showPaymentPopup.value = true;
-  currentPackage.value = plan;
+  currentPackage.value = {
+    subsDuration: durationMap[selectedTab.value || 'halfyear'],
+    ...plan,
+  };
 };
 const hidePaymentPopup = () => {
   showPaymentPopup.value = false;
@@ -273,13 +276,15 @@ const table = useVueTable({
 const selectedTab = ref('quarterly');
 const qty = ref(3);
 
+const durationMap = {
+  monthly: 1,
+  quarterly: 3,
+  halfyear: 6,
+  yearly: 12,
+}
+
 const calculatePackagePrice = price => {
-  const duration = {
-    monthly: 1,
-    quarterly: 3,
-    halfyear: 6,
-    yearly: 12,
-  }[selectedTab.value ?? 'halfyear'];
+  const duration = durationMap[selectedTab.value ?? 'halfyear'];
   qty.value = duration;
 
   return price * duration;

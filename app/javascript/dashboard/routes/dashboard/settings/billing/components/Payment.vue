@@ -58,9 +58,11 @@ const isDropdownOpen = ref(false);
 const dropdownRef = ref(null);
 const selectedBillingCycle = ref(props.billingCycleTabs[0]); // Default ke opsi pertama
 
+const selectedPlanMonthlyPrice = computed(() => selectedPlan.value.monthly_price * props.plan.subsDuration)
+
 // Kalkulasi total harga berdasarkan siklus penagihan
 const totalPrice = computed(() => {
-  return selectedBillingCycle.value.qty * selectedPlan.value.monthly_price;
+  return selectedBillingCycle.value.qty * selectedPlanMonthlyPrice.value;
 });
 
 // Fungsi untuk handle klik di luar dropdown
@@ -223,7 +225,7 @@ const submit = async () => {
               </span>
             </div>
             <div class="font-medium">
-              {{ (cycle.qty * selectedPlan.monthly_price).toLocaleString() }}
+              {{ (cycle.qty * selectedPlanMonthlyPrice).toLocaleString() }}
               IDR
             </div>
           </div>
