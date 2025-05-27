@@ -2,8 +2,9 @@ require 'rails_helper'
 
 RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
   let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
   let(:assistant) { create(:captain_assistant, account: account) }
-  let(:service) { described_class.new(assistant) }
+  let(:service) { described_class.new(assistant, user: user) }
 
   describe '#name' do
     it 'returns the correct service name' do
