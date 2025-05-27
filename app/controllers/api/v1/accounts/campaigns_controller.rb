@@ -127,7 +127,20 @@ class Api::V1::Accounts::CampaignsController < Api::V1::Accounts::BaseController
   end
 
   def update
-    if @campaign.update(campaign_params)
+    @campaign.campaign_contacts.destroy_all
+
+    if @campaign.update(campaign_params.except(:contacts))
+      # Get contact objects - ensure we're working with Contact objects
+      contact_objects = Current.account.contacts.where(id: params[:campaign][:contacts])
+
+      contact_objects.each do |contact|
+        CampaignContact.create!(
+          campaign: @campaign,
+          contact: contact,
+          status: 'pending'
+        )
+      end
+
       render json: @campaign
     else
       render json: { error: @campaign.errors.full_messages.join(', ') },

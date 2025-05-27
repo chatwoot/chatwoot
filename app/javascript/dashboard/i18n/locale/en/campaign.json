@@ -60,7 +60,6 @@
           "SUCCESS_MESSAGE": "Whatsapp campaign created successfully",
           "ERROR_MESSAGE": "There was an error. Please try again."
         },
-
         "EDIT": {
           "TITLE": "Edit the campaign"
         },
@@ -275,6 +274,78 @@
           "API": {
             "SUCCESS_MESSAGE": "SMS campaign created successfully",
             "ERROR_MESSAGE": "There was an error. Please try again."
+          }
+        }
+      }
+    },
+    "EMAIL": {
+      "HEADER_TITLE": "Email campaigns",
+      "NEW_CAMPAIGN": "Create campaign",
+      "UPDATE_BUTTON_TEXT": "Update",
+      "EMPTY_STATE": {
+        "TITLE": "No Email campaigns are available",
+        "SUBTITLE": "Launch an Email campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+      },
+      "CARD": {
+        "STATUS": {
+          "COMPLETED": "Completed",
+          "SCHEDULED": "Scheduled"
+        },
+        "CAMPAIGN_DETAILS": {
+          "SENT_FROM": "Sent from",
+          "ON": "on"
+        }
+      },
+
+      "UPDATE": {
+        "TITLE": "Update Email campaign",
+        "DESC": "Update and Schedule Email campaign"
+      },
+      "CREATE": {
+        "TITLE": "Create Email campaign",
+        "DESC": "Create and Schedule Email campaign",
+        "CANCEL_BUTTON_TEXT": "Cancel",
+        "CREATE_BUTTON_TEXT": "Create",
+        "NEXT_BUTTON_TEXT": "Next",
+        "BACK_BUTTON_TEXT": "Back",
+        "FORM": {
+          "TITLE": {
+            "LABEL": "Title",
+            "PLACEHOLDER": "Please enter the title of campaign",
+            "ERROR": "Title is required"
+          },
+          "BODY": {
+            "LABEL": "Body",
+            "PLACEHOLDER": "Please enter the html body",
+            "ERROR": "Body is required"
+          },
+          "INBOX": {
+            "LABEL": "Select Inbox",
+            "PLACEHOLDER": "Select Inbox",
+            "ERROR": "Inbox is required",
+            "ERRORS": {
+              "REQUIRED": "Inbox is required",
+              "SMTP_REQUIRED": "SMTP must be enabled for the inbox"
+            }
+          },
+          "AUDIENCE": {
+            "LABEL": "Audience",
+            "PLACEHOLDER": "Select the customer labels",
+            "ERROR": "Audience is required"
+          },
+          "SCHEDULED_AT": {
+            "LABEL": "Scheduled time",
+            "PLACEHOLDER": "Please select the time",
+            "ERROR": "Scheduled time is required"
+          },
+          "BUTTONS": {
+            "CREATE": "Create",
+            "CANCEL": "Cancel"
+          },
+          "API": {
+            "SUCCESS_MESSAGE": "Email campaign created successfully",
+            "ERROR_MESSAGE": "There was an error. Please try again.",
+            "CONTACTS_ERROR": "Please select valid contacts"
           }
         }
       }

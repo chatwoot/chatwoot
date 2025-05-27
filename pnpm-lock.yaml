@@ -91,6 +91,9 @@ importers:
       '@vueuse/core':
         specifier: ^12.0.0
         version: 12.8.2(typescript@4.9.5)
+      ace-builds:
+        specifier: ^1.39.1
+        version: 1.39.1
       activestorage:
         specifier: ^5.2.6
         version: 5.2.8
@@ -214,6 +217,9 @@ importers:
       vue-virtual-scroller:
         specifier: ^2.0.0-beta.8
         version: 2.0.0-beta.8(vue@3.5.13(typescript@4.9.5))
+      vue3-ace-editor:
+        specifier: ^2.2.4
+        version: 2.2.4(ace-builds@1.39.1)(vue@3.5.13(typescript@4.9.5))
       vue3-click-away:
         specifier: ^1.2.4
         version: 1.2.4
@@ -1911,6 +1917,9 @@ packages:
   abbrev@2.0.0:
     resolution: {integrity: sha512-6/mh1E2u2YgEsCHdY0Yx5oW+61gZU+1vXaoiHHrpKeuRNNgFvS+/jrwHiQhB5apAf5oB7UB7E19ol2R2LKH8hQ==}
     engines: {node: ^14.17.0 || ^16.13.0 || >=18.0.0}
+
+  ace-builds@1.39.1:
+    resolution: {integrity: sha512-HcJbBzx8qY66t9gZo/sQu7pi0wO/CFLdYn1LxQO1WQTfIkMfyc7LRnBpsp/oNCSSU/LL83jXHN1fqyOTuIhUjg==}
 
   acorn-globals@7.0.1:
     resolution: {integrity: sha512-umOSDSDrfHbTNPuNpC2NSnnA3LUrqpevPb4T9jRx4MagXNS0rs+gwiTcAvqCRmsD6utzsrzNt+ebm00SNWiC3Q==}
@@ -4154,6 +4163,9 @@ packages:
   requires-port@1.0.0:
     resolution: {integrity: sha512-KigOCHcocU3XODJxsu8i/j8T9tzT4adHiecwORRQ0ZZFcp7ahwXuRU1m+yuO90C5ZUyGeGfocHDI14M3L3yDAQ==}
 
+  resize-observer-polyfill@1.5.1:
+    resolution: {integrity: sha512-LwZrotdHOo12nQuZlHEmtuXdqGoOD0OhaxopaNFxWzInpEgaLWoVuAMbTzixuosCx2nEG58ngzW3vxdWoxIgdg==}
+
   resolve-from@4.0.0:
     resolution: {integrity: sha512-pb/MYmXstAkysRFx8piNI1tGFNQIFA3vkE3Gq4EuA1dF6gHp/+vgZqsCGJapvy8N3Q+4o7FwvquPJcnZ7RYy4g==}
     engines: {node: '>=4'}
@@ -4934,6 +4946,12 @@ packages:
     resolution: {integrity: sha512-b8/f5NQ5nIEBRTNi6GcPItE4s7kxNHw2AIHLtDp+2QvqdTjVN0FgONwX9cr53jWRgnu+HRLPaWDOR2JPI5MTfQ==}
     peerDependencies:
       vue: ^3.2.0
+
+  vue3-ace-editor@2.2.4:
+    resolution: {integrity: sha512-FZkEyfpbH068BwjhMyNROxfEI8135Sc+x8ouxkMdCNkuj/Tuw83VP/gStFQqZHqljyX9/VfMTCdTqtOnJZGN8g==}
+    peerDependencies:
+      ace-builds: '*'
+      vue: ^3
 
   vue3-click-away@1.2.4:
     resolution: {integrity: sha512-O9Z2KlvIhJT8OxaFy04eiZE9rc1Mk/bp+70dLok68ko3Kr8AW5dU+j8avSk4GDQu94FllSr4m5ul4BpzlKOw1A==}
@@ -6850,6 +6868,8 @@ snapshots:
   abab@2.0.6: {}
 
   abbrev@2.0.0: {}
+
+  ace-builds@1.39.1: {}
 
   acorn-globals@7.0.1:
     dependencies:
@@ -9405,6 +9425,8 @@ snapshots:
 
   requires-port@1.0.0: {}
 
+  resize-observer-polyfill@1.5.1: {}
+
   resolve-from@4.0.0: {}
 
   resolve@1.22.10:
@@ -10230,6 +10252,12 @@ snapshots:
       vue: 3.5.13(typescript@4.9.5)
       vue-observe-visibility: 2.0.0-alpha.1(vue@3.5.13(typescript@4.9.5))
       vue-resize: 2.0.0-alpha.1(vue@3.5.13(typescript@4.9.5))
+
+  vue3-ace-editor@2.2.4(ace-builds@1.39.1)(vue@3.5.13(typescript@4.9.5)):
+    dependencies:
+      ace-builds: 1.39.1
+      resize-observer-polyfill: 1.5.1
+      vue: 3.5.13(typescript@4.9.5)
 
   vue3-click-away@1.2.4: {}
 

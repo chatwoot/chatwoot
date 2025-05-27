@@ -9,7 +9,7 @@ internal_check_new_versions_job:
   queue: scheduled_jobs
 # # executed At every 5th minute..
 trigger_scheduled_items_job:
-  cron: '*/5 * * * *'
+  cron: '*/1 * * * *'
   class: 'TriggerScheduledItemsJob'
   queue: scheduled_jobs
 

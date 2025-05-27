@@ -2,7 +2,6 @@ require Rails.root.join('lib/redis/config')
 require 'debug/open_nonstop' if ENV['RUBY_DEBUG_OPEN']
 schedule_file = 'config/schedule.yml'
 
-
 Sidekiq.configure_client do |config|
   config.redis = Redis::Config.app
 end

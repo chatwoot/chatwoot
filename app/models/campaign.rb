@@ -55,50 +55,51 @@ class Campaign < ApplicationRecord
   has_many :campaign_contacts, dependent: :destroy
   has_many :contacts, through: :campaign_contacts
 
-  enum campaign_type: { ongoing: 0, one_off: 1, whatsapp: 2 }
+  enum campaign_type: { ongoing: 0, one_off: 1, whatsapp: 2, email: 3 }
   enum campaign_status: { draft: 0, active: 1, completed: 2, scheduled: 3 }
 
   before_validation :ensure_correct_campaign_attributes
   after_commit :set_display_id, unless: :display_id?
 
   def pending_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'pending', campaign_id: self.id })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'pending', campaign_id: id })
   end
 
   def processed_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'processed', campaign_id: self.id })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'processed', campaign_id: id })
   end
-  
+
   def failed_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'failed', campaign_id: self.id })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'failed', campaign_id: id })
   end
-  
+
   def delivered_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'delivered', campaign_id: self.id })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'delivered', campaign_id: id })
   end
 
   # New Methods for Read and Replied Contacts
   def read_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'read', campaign_id: self.id })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'read', campaign_id: id })
   end
 
   def replied_contacts
-    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'replied', campaign_id: self.id })
+    contacts.joins(:campaign_contacts).where(campaign_contacts: { status: 'replied', campaign_id: id })
   end
 
   def processing?
     campaign_status == 'active'
   end
-  
+
   def complete?
     campaign_contacts.where(status: ['pending']).empty?
   end
-  
 
   def trigger!
     return if completed?
 
     case inbox.inbox_type
+    when 'Email'
+      Email::OneoffEmailCampaignService.new(campaign: self).perform
     when 'Twilio SMS'
       return unless one_off?
 
@@ -131,7 +132,7 @@ class Campaign < ApplicationRecord
   def validate_campaign_inbox
     return unless inbox
 
-    return if ['Website', 'Twilio SMS', 'Sms', 'Whatsapp'].include? inbox.inbox_type
+    return if ['Website', 'Twilio SMS', 'Sms', 'Whatsapp', 'Email'].include? inbox.inbox_type
 
     errors.add :inbox, 'Unsupported Inbox type'
   end
@@ -140,6 +141,12 @@ class Campaign < ApplicationRecord
     return if inbox.blank?
 
     case inbox.inbox_type
+    when 'Email'
+      self.campaign_type = 'email'
+      # Only set campaign_status to scheduled if it's a new record or status is nil
+      self.campaign_status = 'scheduled' if scheduled_at.present? && (new_record? || campaign_status.nil?)
+
+      self.scheduled_at ||= Time.now.utc
     when 'Twilio SMS', 'Sms'
       self.campaign_type = 'one_off'
       self.scheduled_at ||= Time.now.utc

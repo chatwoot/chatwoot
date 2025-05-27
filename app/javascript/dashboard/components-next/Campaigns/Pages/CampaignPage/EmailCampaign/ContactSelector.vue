@@ -97,15 +97,15 @@ const formattedFilters = computed(() => {
     });
 });
 
-const formattedFilterWithPhoneNumber = computed(() => {
+const formattedFilterWithEmail = computed(() => {
   if (formattedFilters.value.every(e => e.attribute_key != 'phone_number')) {
     return [
       {
-        attribute_key: 'phone_number',
+        attribute_key: 'email',
         attribute_model: 'standard',
         filter_operator: 'contains',
         query_operator: formattedFilters.value.length > 0 ? 'and' : null,
-        values: '+',
+        values: '@',
       },
       ...formattedFilters.value,
     ];
@@ -304,10 +304,10 @@ const selectAll = async () => {
   try {
     localSelectedContacts.value = [];
 
-    const filters = formattedFilterWithPhoneNumber;
+    const filters = formattedFilterWithEmail;
     const result = await ContactsAPI.getFilteredAllIds({
       payload: filters.value,
-      labels: props.selectedAudience
+      labels: props.selectedAudience,
     });
     console.log('Reslts: ', result);
 
@@ -365,36 +365,7 @@ const submitFilters = async () => {
     currentPage.value = 1;
     allFilteredContacts.value = [];
 
-    let formattedFilters = appliedFilters.value
-      .filter(filter => isFilterValueValid(filter))
-      .map((filter, index, filteredArray) => {
-        const baseFilter = {
-          attributeKey: filter.attributeKey,
-          attributeModel: filter.attributeModel || 'standard',
-          filterOperator: filter.filterOperator,
-          values: formatFilterValue(filter),
-        };
-
-        if (filteredArray.length > 1 && index < filteredArray.length - 1) {
-          baseFilter.queryOperator = filter.queryOperator;
-        }
-
-        return useSnakeCase(baseFilter);
-      });
-
-    console.log('formatted Filter list: ', formattedFilters);
-    if (formattedFilters.every(e => e.attribute_key != 'phone_number')) {
-      formattedFilters = [
-        {
-          attribute_key: 'phone_number',
-          attribute_model: 'standard',
-          filter_operator: 'contains',
-          query_operator: 'and',
-          values: '+',
-        },
-        ...formattedFilters,
-      ];
-    }
+    let formattedFilters = formattedFilterWithEmail.value;
 
     if (formattedFilters.length === 0) {
       await fetchContacts(1);
@@ -453,7 +424,7 @@ const fetchContacts = async (page = 1) => {
     isLoadingContacts.value = true;
 
     const queryPayload = {
-      payload: formattedFilterWithPhoneNumber.value,
+      payload: formattedFilterWithEmail.value,
       labels: props.selectedAudience,
     };
 
@@ -573,7 +544,12 @@ watch(
 // Lifecycle Hooks
 onMounted(() => {
   updateSelectVisiblePosition();
-  fetchContacts(1);
+  fetchContacts(1).then(e => {
+    localSelectedContacts.value = props.selectedContacts.filter(e =>
+      contactList.value.some(c => c.id == e)
+    );
+  });
+
   window.addEventListener('resize', updateSelectVisiblePosition);
 });
 

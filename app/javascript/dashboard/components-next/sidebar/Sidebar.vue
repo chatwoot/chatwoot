@@ -323,6 +323,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.WHATSAPP'),
           to: accountScopedRoute('campaigns_whatsapp_index'),
         },
+        {
+          name: 'Email',
+          label: t('SIDEBAR.EMAIL'),
+          to: accountScopedRoute('campaigns_email_index'),
+        },
       ],
     },
     {

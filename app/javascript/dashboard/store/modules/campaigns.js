@@ -32,35 +32,91 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getCampaigns({ commit }) {
+  get: async function getCampaigns({ commit, dispatch, getters, rootGetters }) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
       const response = await CampaignsAPI.get();
-      commit(types.SET_CAMPAIGNS, response.data);
+
+      await Promise.all(
+        response.data.map(campaign =>
+          dispatch('fetchCampaignContacts', campaign.display_id)
+        )
+      );
+
+      const contactsForCampaigns = response.data.map(campaign => ({
+        ...campaign,
+        contacts: getters.getContactsForCampaign(campaign.id).pending_contacts,
+      }));
+
+      commit(types.SET_CAMPAIGNS, contactsForCampaigns);
     } catch (error) {
       // Ignore error
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: false });
     }
   },
-  create: async function createCampaign({ commit }, campaignObj) {
+  create: async function createCampaign(
+    { commit, dispatch, rootGetters },
+    campaignObj
+  ) {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: true });
     try {
       const response = await CampaignsAPI.create(campaignObj);
-      commit(types.ADD_CAMPAIGN, response.data);
+
+      const campaign = campaignObj.campaign;
+
+      const result = await Promise.all(
+        campaign.contacts.map(async function (id) {
+          const getContact = () => rootGetters['contacts/getContact'](id);
+          let contact = getContact();
+          if (Object.keys(contact).length === 0) {
+            await dispatch('contacts/show', { id }, { root: true });
+            contact = getContact();
+          }
+
+          return contact;
+        })
+      );
+
+      const contactsForCampaigns = {
+        ...response.data,
+        contacts: result,
+      };
+
+      commit(types.ADD_CAMPAIGN, contactsForCampaigns);
     } catch (error) {
       throw new Error(error);
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isCreating: false });
     }
   },
-  update: async ({ commit }, { id, ...updateObj }) => {
+  update: async ({ commit, dispatch, rootGetters }, { id, ...updateObj }) => {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: true });
     try {
       const response = await CampaignsAPI.update(id, updateObj);
+
+      const campaign = updateObj.campaign;
+
+      const result = await Promise.all(
+        campaign.contacts.map(async function (id) {
+          const getContact = () => rootGetters['contacts/getContact'](id);
+          let contact = getContact();
+          if (Object.keys(contact).length === 0) {
+            await dispatch('contacts/show', { id }, { root: true });
+            contact = getContact();
+          }
+          return contact;
+        })
+      );
+
+      const contactsForCampaigns = {
+        ...response.data,
+        contacts: result,
+      };
+
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
-      commit(types.EDIT_CAMPAIGN, response.data);
-      return response.data;
+      commit(types.EDIT_CAMPAIGN, contactsForCampaigns);
+      return contactsForCampaigns;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }
@@ -81,6 +137,7 @@ export const actions = {
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: true });
     try {
       const response = await CampaignsAPI.fetchCampaignContacts(campaignId);
+
       commit(types.SET_CAMPAIGN_CONTACTS, {
         campaignId,
         contacts: response.data,
