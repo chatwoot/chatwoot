@@ -403,9 +403,34 @@ You can create an image yourselves by running the following command on the root 
 docker compose -f docker-compose.production.yaml build
 ```
 
-### Test
+## Test
 
 You can run the test cases to check the functionality 
 ```
 bundle exec rspec
 ```
+
+### Add channel and Test
+You can add a Telegram channel and then test conversations
+#### Install ngrok 
+```
+sudo snap install ngrok
+```
+
+start ngrok at port 3000 or based on your env settings
+
+```
+ngrok http 5000
+```
+
+Replace frontend URL with in .env with the ngrok https url
+
+#### Create a bot
+Create a bot using bot father in telegram and get the token.
+
+#### Add a new telegram channel and set the token
+
+![alt text](image-4.png)
+
+send a message to your bot and it should appear under conversations.
+![alt text](image-5.png)
