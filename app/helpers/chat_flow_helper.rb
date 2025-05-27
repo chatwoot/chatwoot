@@ -1,5 +1,5 @@
 module ChatFlowHelper
-  WINDOW_SIZE = 6
+  WINDOW_SIZE = 10
   LLM_TEMPERATURE = 0.7
 
   def self.included(base)
@@ -11,7 +11,7 @@ module ChatFlowHelper
 
   def create_flow_data_and_store_config(store_id)
     default_system_message_prompt
-    set_buffer_for_chat_memory
+    set_redis_for_chat_memory
     set_qdrant_vector_store
 
     [flow_data, store_config(store_id)]
@@ -58,7 +58,7 @@ module ChatFlowHelper
     replace_business_name
     replace_additional_rules_for_handover_prompt
     node = find_node_by_id('chatPromptTemplate_0')
-    node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n#{template.system_prompt_rules}"
+    node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n\n#{template.system_prompt_rules}"
   end
 
   def system_message_prompt
@@ -74,13 +74,11 @@ module ChatFlowHelper
 
   def set_redis_for_chat_memory
     node = find_node_by_id('RedisBackedChatMemory_0')
-    node['data']['inputs']['memoryKey'] = SecureRandom.uuid
     node['data']['inputs']['windowSize'] = WINDOW_SIZE
   end
 
   def set_buffer_for_chat_memory
     node = find_node_by_id('bufferWindowMemory_0')
-    node['data']['inputs']['memoryKey'] = SecureRandom.uuid
     node['data']['inputs']['k'] = WINDOW_SIZE
   end
 
