@@ -69,14 +69,25 @@ class OauthCallbackController < ApplicationController
   end
 
   def create_channel_with_inbox
+    Rails.logger.debug '=== DEBUG: create_channel_with_inbox called ==='
+    Rails.logger.debug { "User data: #{users_data.inspect}" }
+    Rails.logger.debug { "Sanitized inbox name: #{sanitized_inbox_name.inspect}" }
+
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
-      account.inboxes.create!(
+      Rails.logger.debug { "Channel created: #{channel_email.inspect}" }
+
+      inbox = account.inboxes.create!(
         account: account,
         channel: channel_email,
-        name: users_data['name'] || fallback_name
+        name: sanitized_inbox_name
       )
+      Rails.logger.debug { "Inbox created: #{inbox.inspect}" }
       channel_email
+    rescue StandardError => e
+      Rails.logger.error "Error in create_channel_with_inbox: #{e.class}: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
+      raise
     end
   end
 
@@ -96,6 +107,22 @@ class OauthCallbackController < ApplicationController
   # Fallback name, for when name field is missing from users_data
   def fallback_name
     users_data['email'].split('@').first.parameterize.titleize
+  end
+
+  def sanitized_inbox_name
+    raw_name = users_data['name'] || fallback_name
+
+    # Remove forbidden characters: / \ < > @
+    sanitized = raw_name.gsub(%r{[/\\<>@]}, '')
+
+    # Remove leading and trailing symbols, keep only alphanumeric and safe characters
+    sanitized = sanitized.gsub(/\A[^\w]+|[^\w]+\z/, '')
+
+    # If the name becomes empty or too short, use fallback
+    sanitized = fallback_name.gsub(%r{[/\\<>@]}, '').gsub(/\A[^\w]+|[^\w]+\z/, '') if sanitized.blank? || sanitized.length < 2
+
+    # Final fallback if still empty
+    (sanitized.presence || 'Email Inbox')
   end
 
   def oauth_code
