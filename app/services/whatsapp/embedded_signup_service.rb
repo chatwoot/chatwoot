@@ -149,11 +149,13 @@ class Whatsapp::EmbeddedSignupService
 
   def generate_inbox_name(waba_info, phone_info)
     business_name = waba_info[:business_name] || phone_info[:business_name]
+    sanitized_business_name = business_name.present? ? "[redacted]" : nil
+    sanitized_phone_number = phone_info[:phone_number].present? ? "[redacted]" : nil
 
-    if business_name.present?
-      "#{business_name} WhatsApp"
+    if sanitized_business_name.present?
+      "#{sanitized_business_name} WhatsApp"
     else
-      "WhatsApp (#{phone_info[:phone_number]})"
+      "WhatsApp (#{sanitized_phone_number})"
     end
   end
 
