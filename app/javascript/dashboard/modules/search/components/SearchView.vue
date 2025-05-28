@@ -79,7 +79,7 @@ const filterConversations = filterByTab('conversations');
 const filterMessages = filterByTab('messages');
 const filterArticles = filterByTab('articles');
 
-const { shouldShow } = usePolicy();
+const { shouldShow, isFeatureFlagEnabled } = usePolicy();
 
 const TABS_CONFIG = {
   all: {
@@ -121,7 +121,15 @@ const tabs = computed(() => {
       featureFlag: config.featureFlag,
     }))
     .filter(config => {
-      return shouldShow(config.featureFlag, config.permissions, null);
+      // why the double check, glad you asked.
+      // Some features are marked as premium features, that means
+      // the feature will be visible, but a Paywall will be shown instead
+      // this works for pages and routes, but fails for UI elements like search here
+      // so we explicitly check if the feature is enabled
+      return (
+        shouldShow(config.featureFlag, config.permissions, null) &&
+        isFeatureFlagEnabled(config.featureFlag)
+      );
     });
 });
 
@@ -144,7 +152,15 @@ const totalSearchResultsCount = computed(() => {
 
   return permissionCounts
     .filter(config => {
-      return shouldShow(config.featureFlag, config.permissions, null);
+      // why the double check, glad you asked.
+      // Some features are marked as premium features, that means
+      // the feature will be visible, but a Paywall will be shown instead
+      // this works for pages and routes, but fails for UI elements like search here
+      // so we explicitly check if the feature is enabled
+      return (
+        shouldShow(config.featureFlag, config.permissions, null) &&
+        isFeatureFlagEnabled(config.featureFlag)
+      );
     })
     .map(config => {
       return config.count();
@@ -353,6 +369,7 @@ onUnmounted(() => {
             </Policy>
 
             <Policy
+              v-if="isFeatureFlagEnabled(FEATURE_FLAGS.HELP_CENTER)"
               :permissions="[...ROLES, PORTAL_PERMISSIONS]"
               :feature-flag="FEATURE_FLAGS.HELP_CENTER"
               class="flex flex-col justify-center"
