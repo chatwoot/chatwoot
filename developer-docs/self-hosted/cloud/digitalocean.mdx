@@ -1,0 +1,670 @@
+---
+title: DigitalOcean Deployment
+description: Deploy Chatwoot on DigitalOcean with Droplets, App Platform, or Kubernetes
+sidebarTitle: DigitalOcean
+---
+
+# DigitalOcean Deployment Guide
+
+Deploy Chatwoot on DigitalOcean using Droplets, App Platform, or DigitalOcean Kubernetes for a scalable, cost-effective solution.
+
+## Deployment Options
+
+<CardGroup cols={3}>
+  <Card title="Droplets" icon="server" href="#droplets-deployment">
+    Traditional VPS deployment with full control
+  </Card>
+  <Card title="App Platform" icon="cloud" href="#app-platform">
+    Platform-as-a-Service deployment
+  </Card>
+  <Card title="Kubernetes" icon="kubernetes" href="#kubernetes-deployment">
+    Container orchestration with DOKS
+  </Card>
+</CardGroup>
+
+## Droplets Deployment
+
+### Quick Start with One-Click Install
+
+DigitalOcean offers a one-click Chatwoot installation from the Marketplace:
+
+1. **Navigate to DigitalOcean Marketplace**
+2. **Search for "Chatwoot"**
+3. **Click "Create Chatwoot Droplet"**
+4. **Configure your Droplet:**
+   - **Plan**: Basic ($12/month minimum recommended)
+   - **CPU options**: Regular Intel
+   - **Region**: Choose closest to your users
+   - **Authentication**: SSH keys (recommended)
+   - **Hostname**: chatwoot-production
+
+5. **Access your installation:**
+   ```bash
+   ssh root@your-droplet-ip
+   ```
+
+### Manual Installation
+
+#### Create Droplet
+
+```bash
+# Using doctl CLI
+doctl compute droplet create chatwoot-prod \
+  --image ubuntu-20-04-x64 \
+  --size s-2vcpu-4gb \
+  --region nyc3 \
+  --ssh-keys your-ssh-key-id \
+  --enable-monitoring \
+  --enable-ipv6
+```
+
+#### Install Chatwoot
+
+```bash
+# SSH to droplet
+ssh root@your-droplet-ip
+
+# Download and run installation script
+wget https://get.chatwoot.app/linux/install.sh
+chmod +x install.sh
+./install.sh --install
+```
+
+### Database Setup
+
+#### Managed PostgreSQL
+
+```bash
+# Create managed database cluster
+doctl databases create chatwoot-db \
+  --engine postgres \
+  --version 13 \
+  --size db-s-1vcpu-1gb \
+  --region nyc3 \
+  --num-nodes 1
+
+# Create database
+doctl databases db create chatwoot-db-id chatwoot_production
+
+# Create user
+doctl databases user create chatwoot-db-id chatwoot
+```
+
+#### Managed Redis
+
+```bash
+# Create managed Redis cluster
+doctl databases create chatwoot-redis \
+  --engine redis \
+  --version 6 \
+  --size db-s-1vcpu-1gb \
+  --region nyc3 \
+  --num-nodes 1
+```
+
+### Configuration
+
+Update Chatwoot configuration to use managed services:
+
+```bash
+# Switch to chatwoot user
+sudo -i -u chatwoot
+cd chatwoot
+
+# Edit environment file
+nano .env
+```
+
+Add managed database configuration:
+
+```bash
+# Database (from DigitalOcean dashboard)
+DATABASE_URL="postgresql://chatwoot:password@chatwoot-db-do-user-123456-0.b.db.ondigitalocean.com:25060/chatwoot_production?sslmode=require"
+
+# Redis (from DigitalOcean dashboard)
+REDIS_URL="rediss://default:password@chatwoot-redis-do-user-123456-0.b.db.ondigitalocean.com:25061"
+
+# Frontend URL
+FRONTEND_URL="https://chatwoot.yourdomain.com"
+FORCE_SSL=true
+
+# Storage (DigitalOcean Spaces)
+ACTIVE_STORAGE_SERVICE="amazon"
+S3_BUCKET_NAME="your-chatwoot-space"
+AWS_ACCESS_KEY_ID="your-spaces-key"
+AWS_SECRET_ACCESS_KEY="your-spaces-secret"
+AWS_REGION="nyc3"
+S3_ENDPOINT="https://nyc3.digitaloceanspaces.com"
+```
+
+### Load Balancer Setup
+
+```bash
+# Create load balancer
+doctl compute load-balancer create \
+  --name chatwoot-lb \
+  --forwarding-rules entry_protocol:https,entry_port:443,target_protocol:http,target_port:3000,certificate_id:your-cert-id \
+  --forwarding-rules entry_protocol:http,entry_port:80,target_protocol:http,target_port:3000 \
+  --health-check protocol:http,port:3000,path:/api,check_interval_seconds:10,response_timeout_seconds:5,healthy_threshold:3,unhealthy_threshold:3 \
+  --region nyc3 \
+  --droplet-ids droplet-id-1,droplet-id-2
+```
+
+## App Platform Deployment
+
+### App Spec Configuration
+
+Create `app.yaml`:
+
+```yaml
+name: chatwoot-app
+services:
+- name: web
+  source_dir: /
+  github:
+    repo: your-username/chatwoot-fork
+    branch: main
+  run_command: bundle exec rails server -b 0.0.0.0 -p $PORT
+  environment_slug: ruby
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  envs:
+  - key: RAILS_ENV
+    value: production
+  - key: DATABASE_URL
+    value: ${chatwoot-db.DATABASE_URL}
+  - key: REDIS_URL
+    value: ${chatwoot-redis.REDIS_URL}
+  - key: FRONTEND_URL
+    value: ${APP_URL}
+  - key: FORCE_SSL
+    value: "true"
+  http_port: 8080
+
+- name: worker
+  source_dir: /
+  github:
+    repo: your-username/chatwoot-fork
+    branch: main
+  run_command: bundle exec sidekiq -C config/sidekiq.yml
+  environment_slug: ruby
+  instance_count: 1
+  instance_size_slug: basic-xxs
+  envs:
+  - key: RAILS_ENV
+    value: production
+  - key: DATABASE_URL
+    value: ${chatwoot-db.DATABASE_URL}
+  - key: REDIS_URL
+    value: ${chatwoot-redis.REDIS_URL}
+
+databases:
+- name: chatwoot-db
+  engine: PG
+  version: "13"
+  size: db-s-dev-database
+
+- name: chatwoot-redis
+  engine: REDIS
+  version: "6"
+  size: db-s-dev-database
+
+static_sites:
+- name: assets
+  source_dir: /public
+  github:
+    repo: your-username/chatwoot-fork
+    branch: main
+  build_command: bundle exec rails assets:precompile
+```
+
+### Deploy with App Platform
+
+```bash
+# Deploy using doctl
+doctl apps create --spec app.yaml
+
+# Or deploy via DigitalOcean Control Panel
+# 1. Go to App Platform
+# 2. Create App
+# 3. Connect your GitHub repository
+# 4. Configure build and run commands
+# 5. Add environment variables
+# 6. Deploy
+```
+
+## Kubernetes Deployment
+
+### Create DOKS Cluster
+
+```bash
+# Create Kubernetes cluster
+doctl kubernetes cluster create chatwoot-k8s \
+  --region nyc3 \
+  --version 1.24.4-do.0 \
+  --count 3 \
+  --size s-2vcpu-4gb \
+  --auto-upgrade=true \
+  --maintenance-window="saturday=06:00"
+
+# Get kubeconfig
+doctl kubernetes cluster kubeconfig save chatwoot-k8s
+```
+
+### Helm Deployment
+
+```bash
+# Add Chatwoot Helm repository
+helm repo add chatwoot https://chatwoot.github.io/charts
+helm repo update
+
+# Create namespace
+kubectl create namespace chatwoot
+
+# Install with DigitalOcean-specific values
+helm install chatwoot chatwoot/chatwoot \
+  --namespace chatwoot \
+  --set ingress.enabled=true \
+  --set ingress.className=nginx \
+  --set ingress.hosts[0].host=chatwoot.yourdomain.com \
+  --set postgresql.enabled=false \
+  --set redis.enabled=false \
+  --set env.DATABASE_URL="postgresql://..." \
+  --set env.REDIS_URL="redis://..."
+```
+
+### DigitalOcean-Specific Values
+
+Create `do-values.yaml`:
+
+```yaml
+# DigitalOcean Kubernetes values
+ingress:
+  enabled: true
+  className: nginx
+  annotations:
+    cert-manager.io/cluster-issuer: "letsencrypt-prod"
+    kubernetes.digitalocean.com/load-balancer-id: "your-lb-id"
+  hosts:
+    - host: chatwoot.yourdomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Use DigitalOcean managed databases
+postgresql:
+  enabled: false
+
+redis:
+  enabled: false
+
+# DigitalOcean Spaces for storage
+env:
+  ACTIVE_STORAGE_SERVICE: "amazon"
+  S3_BUCKET_NAME: "your-chatwoot-space"
+  AWS_ACCESS_KEY_ID: "your-spaces-key"
+  AWS_SECRET_ACCESS_KEY: "your-spaces-secret"
+  AWS_REGION: "nyc3"
+  S3_ENDPOINT: "https://nyc3.digitaloceanspaces.com"
+
+# Resource limits for DigitalOcean
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+# Storage class for DigitalOcean Block Storage
+persistence:
+  enabled: true
+  storageClass: "do-block-storage"
+  size: 20Gi
+```
+
+## Storage Configuration
+
+### DigitalOcean Spaces
+
+```bash
+# Create Spaces bucket
+doctl compute cdn create \
+  --origin nyc3.digitaloceanspaces.com/your-chatwoot-space \
+  --ttl 3600
+
+# Configure CORS for Spaces
+# Create cors.json:
+{
+  "CORSRules": [
+    {
+      "AllowedOrigins": ["https://chatwoot.yourdomain.com"],
+      "AllowedMethods": ["GET", "PUT", "POST", "DELETE"],
+      "AllowedHeaders": ["*"],
+      "MaxAgeSeconds": 3000
+    }
+  ]
+}
+
+# Apply CORS configuration
+s3cmd setcors cors.json s3://your-chatwoot-space
+```
+
+### Block Storage for Droplets
+
+```bash
+# Create and attach block storage
+doctl compute volume create chatwoot-storage \
+  --size 100GiB \
+  --region nyc3
+
+doctl compute volume-action attach chatwoot-storage \
+  --droplet-id your-droplet-id
+
+# Mount the volume
+sudo mkdir /mnt/chatwoot-storage
+sudo mount -o discard,defaults /dev/disk/by-id/scsi-0DO_Volume_chatwoot-storage /mnt/chatwoot-storage
+echo '/dev/disk/by-id/scsi-0DO_Volume_chatwoot-storage /mnt/chatwoot-storage ext4 defaults,nofail,discard 0 0' | sudo tee -a /etc/fstab
+```
+
+## SSL Certificate
+
+### Let's Encrypt with Certbot
+
+```bash
+# Install Certbot
+sudo apt update
+sudo apt install certbot python3-certbot-nginx
+
+# Obtain certificate
+sudo certbot --nginx -d chatwoot.yourdomain.com
+
+# Auto-renewal
+sudo crontab -e
+# Add: 0 12 * * * /usr/bin/certbot renew --quiet
+```
+
+### DigitalOcean Load Balancer SSL
+
+```bash
+# Upload certificate to DigitalOcean
+doctl compute certificate create \
+  --name chatwoot-cert \
+  --private-key-path private.key \
+  --leaf-certificate-path certificate.crt \
+  --certificate-chain-path ca_bundle.crt
+
+# Update load balancer with certificate
+doctl compute load-balancer update your-lb-id \
+  --forwarding-rules entry_protocol:https,entry_port:443,target_protocol:http,target_port:3000,certificate_id:your-cert-id
+```
+
+## Monitoring and Alerting
+
+### DigitalOcean Monitoring
+
+```bash
+# Enable monitoring for droplets
+doctl compute droplet create chatwoot-prod \
+  --enable-monitoring \
+  --enable-ipv6
+
+# Create alert policies
+doctl monitoring alert-policy create \
+  --type v1/insights/droplet/cpu \
+  --description "High CPU usage" \
+  --compare GreaterThan \
+  --value 80 \
+  --window 5m \
+  --entities droplet:your-droplet-id
+```
+
+### Custom Metrics with Prometheus
+
+```yaml
+# prometheus-config.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: monitoring
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+    - job_name: 'chatwoot'
+      static_configs:
+      - targets: ['chatwoot-service:3000']
+      metrics_path: /metrics
+```
+
+## Backup Strategy
+
+### Database Backups
+
+```bash
+# Automated backups for managed databases are enabled by default
+# Manual backup
+doctl databases backups list chatwoot-db-id
+
+# Restore from backup
+doctl databases backups restore chatwoot-db-id backup-id
+```
+
+### Droplet Snapshots
+
+```bash
+# Create snapshot
+doctl compute droplet-action snapshot your-droplet-id \
+  --snapshot-name "chatwoot-backup-$(date +%Y%m%d)"
+
+# Schedule automated snapshots
+doctl compute droplet-action enable-backups your-droplet-id
+```
+
+### Application Data Backup
+
+```bash
+#!/bin/bash
+# backup-script.sh
+DATE=$(date +%Y%m%d_%H%M%S)
+
+# Database backup (if using managed database)
+pg_dump $DATABASE_URL | gzip > "/tmp/chatwoot_db_$DATE.sql.gz"
+
+# Upload to Spaces
+s3cmd put "/tmp/chatwoot_db_$DATE.sql.gz" s3://your-backup-space/db/
+
+# File uploads backup
+s3cmd sync s3://your-chatwoot-space/ s3://your-backup-space/files/
+
+# Cleanup local backup
+rm "/tmp/chatwoot_db_$DATE.sql.gz"
+```
+
+## Scaling and Performance
+
+### Horizontal Scaling with Load Balancer
+
+```bash
+# Create additional droplets
+for i in {2..3}; do
+  doctl compute droplet create chatwoot-prod-$i \
+    --image ubuntu-20-04-x64 \
+    --size s-2vcpu-4gb \
+    --region nyc3 \
+    --ssh-keys your-ssh-key-id \
+    --user-data-file cloud-init.yaml
+done
+
+# Add droplets to load balancer
+doctl compute load-balancer add-droplets your-lb-id \
+  --droplet-ids droplet-id-2,droplet-id-3
+```
+
+### Vertical Scaling
+
+```bash
+# Resize droplet
+doctl compute droplet-action resize your-droplet-id \
+  --size s-4vcpu-8gb \
+  --resize-disk
+```
+
+### Auto-scaling with Kubernetes
+
+```yaml
+# hpa.yaml
+apiVersion: autoscaling/v2
+kind: HorizontalPodAutoscaler
+metadata:
+  name: chatwoot-hpa
+  namespace: chatwoot
+spec:
+  scaleTargetRef:
+    apiVersion: apps/v1
+    kind: Deployment
+    name: chatwoot
+  minReplicas: 2
+  maxReplicas: 10
+  metrics:
+  - type: Resource
+    resource:
+      name: cpu
+      target:
+        type: Utilization
+        averageUtilization: 70
+  - type: Resource
+    resource:
+      name: memory
+      target:
+        type: Utilization
+        averageUtilization: 80
+```
+
+## Cost Optimization
+
+### Reserved Instances
+
+```bash
+# DigitalOcean doesn't offer reserved instances
+# But you can optimize costs by:
+
+# 1. Right-sizing droplets
+doctl compute size list
+
+# 2. Using appropriate database sizes
+doctl databases options sizes
+
+# 3. Implementing auto-scaling to scale down during low usage
+```
+
+### Cost Monitoring
+
+```bash
+# Check current usage and costs
+doctl account get
+
+# Monitor resource usage
+doctl monitoring metrics bandwidth droplet:your-droplet-id
+doctl monitoring metrics cpu droplet:your-droplet-id
+doctl monitoring metrics memory droplet:your-droplet-id
+```
+
+## Troubleshooting
+
+### Common Issues
+
+<Accordion title="Droplet connection issues">
+Check:
+- Firewall rules (ufw status)
+- DigitalOcean Cloud Firewalls
+- SSH key configuration
+- Network connectivity
+</Accordion>
+
+<Accordion title="Database connection problems">
+Verify:
+- Database cluster status
+- Connection string format
+- SSL requirements for managed databases
+- Firewall rules for database access
+</Accordion>
+
+<Accordion title="Load balancer health check failures">
+Solutions:
+- Verify health check path (/api)
+- Check application startup time
+- Ensure proper port configuration
+- Review application logs
+</Accordion>
+
+### Diagnostic Commands
+
+```bash
+# Check droplet status
+doctl compute droplet get your-droplet-id
+
+# View load balancer status
+doctl compute load-balancer get your-lb-id
+
+# Check database status
+doctl databases get chatwoot-db-id
+
+# Monitor application logs
+sudo journalctl -u chatwoot-web.1.service -f
+sudo journalctl -u chatwoot-worker.1.service -f
+```
+
+### Performance Monitoring
+
+```bash
+# System resources
+htop
+iostat -x 1
+free -h
+df -h
+
+# Network monitoring
+iftop
+netstat -tulpn
+
+# Application metrics
+curl http://localhost:3000/api
+curl http://localhost:3000/metrics
+```
+
+## Best Practices
+
+### Security
+- Enable DigitalOcean Cloud Firewalls
+- Use SSH keys instead of passwords
+- Enable automatic security updates
+- Implement fail2ban for SSH protection
+- Use managed databases for better security
+
+### Performance
+- Use DigitalOcean Spaces CDN for static assets
+- Implement Redis caching
+- Monitor with DigitalOcean Monitoring
+- Use SSD-backed droplets
+- Place resources in the same region
+
+### Reliability
+- Use multiple availability zones
+- Implement automated backups
+- Set up monitoring and alerting
+- Use load balancers for high availability
+- Test disaster recovery procedures
+
+### Cost Management
+- Right-size your resources
+- Use managed services to reduce operational overhead
+- Implement monitoring to track usage
+- Clean up unused resources regularly
+- Consider using Kubernetes for better resource utilization
+
+---
+
+This DigitalOcean deployment guide provides multiple options for hosting Chatwoot on DigitalOcean's infrastructure. Choose the deployment method that best fits your technical requirements and budget constraints. 

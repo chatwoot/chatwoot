@@ -1,0 +1,322 @@
+---
+title: Contributing to Chatwoot
+description: Complete guide to contributing to Chatwoot - from setting up your development environment to submitting pull requests.
+sidebarTitle: Introduction
+---
+
+Thank you for your interest in contributing to Chatwoot! This guide will help you get started with contributing to our open-source customer support platform. Whether you're fixing bugs, adding features, or improving documentation, your contributions are valuable to the community.
+
+## Why Contribute to Chatwoot?
+
+Contributing to Chatwoot offers many benefits:
+
+- **Learn and Grow**: Work with modern technologies like Ruby on Rails, Vue.js, and PostgreSQL
+- **Make an Impact**: Help thousands of businesses improve their customer support
+- **Build Your Portfolio**: Showcase your contributions to a popular open-source project
+- **Join the Community**: Connect with developers and users from around the world
+- **Give Back**: Support the open-source ecosystem
+
+## Ways to Contribute
+
+There are many ways to contribute to Chatwoot:
+
+### 🐛 Bug Reports and Fixes
+- Report bugs you encounter
+- Fix existing bugs in the codebase
+- Improve error handling and edge cases
+
+### ✨ Feature Development
+- Implement new features
+- Enhance existing functionality
+- Improve user experience
+
+### 📚 Documentation
+- Improve existing documentation
+- Write new guides and tutorials
+- Translate documentation to other languages
+
+### 🧪 Testing
+- Write unit and integration tests
+- Perform manual testing
+- Improve test coverage
+
+### 🎨 Design and UX
+- Improve user interface design
+- Enhance user experience
+- Create mockups and prototypes
+
+### 🌍 Localization
+- Translate Chatwoot to new languages
+- Improve existing translations
+- Help with internationalization
+
+## Getting Started
+
+### Prerequisites
+
+Before you start contributing, make sure you have:
+
+- **Git**: Version control system
+- **GitHub Account**: For submitting pull requests
+- **Development Environment**: See our environment setup guides
+- **Basic Knowledge**: Familiarity with Ruby, JavaScript, or the technology you want to work with
+
+### Development Workflow
+
+Our development workflow follows these steps:
+
+1. **Find an Issue**: Look for issues tagged with "Good first issue" or create a new one
+2. **Fork the Repository**: Create your own copy of the Chatwoot repository
+3. **Create a Branch**: Make a feature branch for your changes
+4. **Make Changes**: Implement your fix or feature
+5. **Test Your Changes**: Ensure everything works correctly
+6. **Submit a Pull Request**: Open a PR with a clear description
+7. **Code Review**: Collaborate with maintainers to refine your changes
+8. **Merge**: Your contribution becomes part of Chatwoot!
+
+## Before You Start
+
+### 1. Check Existing Issues
+
+Before starting work, check if someone else is already working on the same issue:
+
+- Browse [open issues](https://github.com/chatwoot/chatwoot/issues)
+- Look for issues labeled "Good first issue" for beginners
+- Check if there's an existing pull request for the same feature
+
+### 2. Create or Comment on an Issue
+
+- **For new features**: Create an issue to discuss the feature before implementing
+- **For existing issues**: Comment that you'd like to work on it
+- **Wait for assignment**: This helps avoid duplicate work
+
+### 3. Understand the Codebase
+
+Familiarize yourself with:
+- **Architecture**: How Chatwoot is structured
+- **Coding Standards**: Our style guides and conventions
+- **Testing Practices**: How we write and run tests
+
+## Pull Request Guidelines
+
+### Branch Naming
+
+Use descriptive branch names that follow our conventions:
+
+```bash
+# Feature branches
+feature/issue-id-short-description
+feature/235-contact-panel
+
+# Bug fix branches
+fix/issue-id-short-description
+fix/123-email-validation
+
+# Chore branches
+chore/update-dependencies
+chore/improve-documentation
+```
+
+### Commit Messages
+
+Write clear, descriptive commit messages:
+
+```bash
+# Good commit messages
+feat: Add contact search functionality (#235)
+fix: Resolve email validation issue (#123)
+docs: Update installation guide
+test: Add unit tests for contact model
+
+# Avoid
+Update stuff
+Fix bug
+WIP
+```
+
+### Pull Request Template
+
+When creating a pull request, include:
+
+**Description:**
+- Clear description of what the PR does
+- Link to related issues
+- Screenshots for UI changes
+
+**Testing:**
+- How you tested the changes
+- Test cases covered
+- Any manual testing performed
+
+**Checklist:**
+- [ ] Code follows style guidelines
+- [ ] Self-review completed
+- [ ] Tests added/updated
+- [ ] Documentation updated
+- [ ] No breaking changes (or clearly documented)
+
+### Example Pull Request
+
+```markdown
+## Description
+Adds a new contact search feature that allows agents to quickly find contacts by name, email, or phone number.
+
+Fixes #235
+
+## Changes Made
+- Added search input to contact panel
+- Implemented backend search API
+- Added debounced search functionality
+- Updated contact list component
+
+## Testing
+- Added unit tests for search API
+- Tested search with various input types
+- Verified performance with large contact lists
+- Manual testing on different browsers
+
+## Screenshots
+[Include screenshots of the new feature]
+
+## Checklist
+- [x] Code follows style guidelines
+- [x] Self-review completed
+- [x] Tests added
+- [x] Documentation updated
+- [x] No breaking changes
+```
+
+## Code Standards
+
+### Ruby/Rails Standards
+
+- Follow [Ruby Style Guide](https://rubystyle.guide/)
+- Use [RuboCop](https://github.com/rubocop/rubocop) for linting
+- Write descriptive method and variable names
+- Add comments for complex logic
+- Follow Rails conventions
+
+### JavaScript/Vue.js Standards
+
+- Follow [JavaScript Standard Style](https://standardjs.com/)
+- Use [ESLint](https://eslint.org/) for linting
+- Write modular, reusable components
+- Use meaningful component and variable names
+- Follow Vue.js best practices
+
+### Testing Standards
+
+- Write tests for new features
+- Maintain or improve test coverage
+- Use descriptive test names
+- Test both happy path and edge cases
+- Mock external dependencies
+
+## Development Environment
+
+Choose your preferred development environment:
+
+<CardGroup cols={2}>
+  <Card title="macOS Setup" icon="apple" href="/contributing/environment-setup/macos">
+    Set up development environment on macOS
+  </Card>
+  <Card title="Ubuntu Setup" icon="ubuntu" href="/contributing/environment-setup/ubuntu">
+    Set up development environment on Ubuntu Linux
+  </Card>
+  <Card title="Windows Setup" icon="windows" href="/contributing/environment-setup/windows">
+    Set up development environment on Windows
+  </Card>
+  <Card title="Docker Setup" icon="docker" href="/contributing/environment-setup/docker">
+    Use Docker for consistent development environment
+  </Card>
+</CardGroup>
+
+## Issue Labels
+
+Understanding our issue labels helps you find the right issues to work on:
+
+| Label | Description |
+|-------|-------------|
+| `good first issue` | Perfect for new contributors |
+| `help wanted` | Community help needed |
+| `bug` | Something isn't working |
+| `enhancement` | New feature or improvement |
+| `documentation` | Documentation improvements |
+| `question` | Further information requested |
+| `wontfix` | This will not be worked on |
+| `duplicate` | This issue already exists |
+
+## Community Guidelines
+
+### Be Respectful
+
+- Treat everyone with respect and kindness
+- Be patient with new contributors
+- Provide constructive feedback
+- Help others learn and grow
+
+### Communication
+
+- Use clear, concise language
+- Ask questions when unsure
+- Share knowledge and resources
+- Be responsive to feedback
+
+### Collaboration
+
+- Work together towards common goals
+- Share credit for collaborative work
+- Help review others' contributions
+- Mentor new contributors
+
+## Getting Help
+
+If you need help while contributing:
+
+### Documentation
+- Read our comprehensive guides
+- Check the API documentation
+- Review existing code examples
+
+### Community Support
+- **Discord**: [Join our community chat](https://discord.gg/cJXdrwS)
+- **GitHub Discussions**: [Ask questions and share ideas](https://github.com/chatwoot/chatwoot/discussions)
+- **Issues**: Create an issue for bugs or feature requests
+
+### Maintainer Support
+- Tag maintainers in issues or PRs when needed
+- Be patient - maintainers are volunteers
+- Provide detailed information when asking for help
+
+## Recognition
+
+We value all contributions and recognize contributors in several ways:
+
+- **Contributors Page**: Listed on our website and README
+- **Release Notes**: Mentioned in release announcements
+- **Social Media**: Highlighted on our social channels
+- **Swag**: Occasional contributor swag for significant contributions
+
+## Code of Conduct
+
+All contributors must follow our [Code of Conduct](https://github.com/chatwoot/chatwoot/blob/develop/CODE_OF_CONDUCT.md). We are committed to providing a welcoming and inclusive environment for everyone.
+
+## Next Steps
+
+Ready to start contributing? Here's what to do next:
+
+1. **Set up your development environment** using one of our setup guides
+2. **Find a good first issue** to work on
+3. **Fork the repository** and create a feature branch
+4. **Make your changes** following our guidelines
+5. **Submit a pull request** with a clear description
+
+---
+
+<Note>
+Remember, contributing to open source is a learning process. Don't be afraid to ask questions, make mistakes, and learn from the community. Every contribution, no matter how small, makes a difference!
+</Note>
+
+<Tip>
+Start small with documentation improvements or bug fixes to get familiar with the codebase and contribution process before tackling larger features.
+</Tip> 

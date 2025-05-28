@@ -1,0 +1,675 @@
+---
+title: Linux VM Deployment Guide
+description: Complete guide to deploy Chatwoot on Linux virtual machines using the automated installation script.
+sidebarTitle: Linux VM
+---
+
+This guide covers deploying Chatwoot on Linux virtual machines using our automated installation script. This method is ideal for traditional server environments and provides full control over the installation process.
+
+## Prerequisites
+
+Before starting, ensure you have:
+
+- Ubuntu 20.04 LTS or later (recommended)
+- At least 4GB RAM and 2 CPU cores
+- 50GB+ available disk space
+- Root or sudo access
+- Domain name with DNS configured (optional but recommended)
+- SMTP server for email notifications
+
+### Supported Operating Systems
+
+| OS | Version | Status |
+|---|---|---|
+| **Ubuntu** | 20.04 LTS, 22.04 LTS, 24.04 LTS | ✅ Recommended |
+| **Debian** | 10, 11, 12 | ✅ Supported |
+| **CentOS** | 8, 9 | ✅ Supported |
+| **RHEL** | 8, 9 | ✅ Supported |
+| **Amazon Linux** | 2 | ✅ Supported |
+
+## Quick Installation
+
+### 1. Download Installation Script
+
+```bash
+# Download the installation script
+wget https://get.chatwoot.app/linux/install.sh
+
+# Make it executable
+chmod +x install.sh
+```
+
+### 2. Run Installation
+
+```bash
+# Run the installation script
+./install.sh --install
+```
+
+The script will:
+- Install all required dependencies
+- Set up PostgreSQL and Redis
+- Install Ruby, Node.js, and other runtime dependencies
+- Clone and configure Chatwoot
+- Set up systemd services
+- Configure Nginx (if domain is provided)
+- Set up SSL with Let's Encrypt (if domain is provided)
+
+### 3. Domain Configuration (Optional)
+
+If you have a domain name:
+
+1. **Create DNS A Record**: Point your domain to your server's IP address
+2. **During installation**: Enter `yes` when prompted about domain setup
+3. **Enter your domain**: The script will configure Nginx and SSL automatically
+
+### 4. Access Your Installation
+
+- **With domain**: `https://your-domain.com`
+- **Without domain**: `http://your-server-ip:3000`
+
+**Default login credentials:**
+```
+URL: https://your-domain.com
+Email: john@acme.inc
+Password: Password1!
+```
+
+## Manual Installation
+
+For more control over the installation process, you can install manually:
+
+### 1. System Preparation
+
+```bash
+# Update system packages
+sudo apt update && sudo apt upgrade -y
+
+# Install essential packages
+sudo apt install -y curl wget gnupg2 software-properties-common apt-transport-https ca-certificates lsb-release
+```
+
+### 2. Install Dependencies
+
+**PostgreSQL:**
+```bash
+# Install PostgreSQL
+sudo apt install -y postgresql postgresql-contrib
+
+# Start and enable PostgreSQL
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# Create database and user
+sudo -u postgres psql << EOF
+CREATE DATABASE chatwoot;
+CREATE USER chatwoot WITH ENCRYPTED PASSWORD 'your_secure_password';
+GRANT ALL PRIVILEGES ON DATABASE chatwoot TO chatwoot;
+ALTER USER chatwoot CREATEDB;
+\q
+EOF
+```
+
+**Redis:**
+```bash
+# Install Redis
+sudo apt install -y redis-server
+
+# Configure Redis
+sudo sed -i 's/^# requirepass foobared/requirepass your_redis_password/' /etc/redis/redis.conf
+
+# Start and enable Redis
+sudo systemctl start redis-server
+sudo systemctl enable redis-server
+```
+
+**Ruby (using RVM):**
+```bash
+# Install RVM
+curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+
+# Install Ruby
+rvm install 3.3.3
+rvm use 3.3.3 --default
+```
+
+**Node.js:**
+```bash
+# Install Node.js 20.x
+curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+sudo apt install -y nodejs
+
+# Install pnpm
+npm install -g pnpm
+```
+
+**Additional Dependencies:**
+```bash
+# Install build tools and libraries
+sudo apt install -y git build-essential libssl-dev libreadline-dev zlib1g-dev libncurses5-dev libffi-dev libgdbm-dev libyaml-dev libsqlite3-dev libgdbm-compat-dev libncurses5-dev libreadline6-dev
+
+# Install ImageMagick for image processing
+sudo apt install -y imagemagick libmagickwand-dev
+
+# Install FFmpeg for media processing
+sudo apt install -y ffmpeg
+```
+
+### 3. Install Chatwoot
+
+```bash
+# Create chatwoot user
+sudo adduser --disabled-login --gecos "" chatwoot
+
+# Switch to chatwoot user
+sudo -i -u chatwoot
+
+# Clone Chatwoot repository
+git clone https://github.com/chatwoot/chatwoot.git
+cd chatwoot
+
+# Checkout latest stable version
+git checkout master
+
+# Install Ruby dependencies
+bundle install
+
+# Install Node.js dependencies
+pnpm install
+
+# Copy environment file
+cp .env.example .env
+```
+
+### 4. Configure Environment
+
+Edit the `.env` file:
+
+```bash
+nano .env
+```
+
+**Essential configurations:**
+
+```env
+# Database Configuration
+DATABASE_URL=postgresql://chatwoot:your_secure_password@localhost:5432/chatwoot
+
+# Redis Configuration
+REDIS_URL=redis://localhost:6379/0
+REDIS_PASSWORD=your_redis_password
+
+# Application Configuration
+SECRET_KEY_BASE=generate_a_64_character_secret_key
+FRONTEND_URL=https://your-domain.com
+
+# Email Configuration
+MAILER_SENDER_EMAIL=noreply@your-domain.com
+SMTP_ADDRESS=smtp.your-provider.com
+SMTP_PORT=587
+SMTP_USERNAME=your-smtp-username
+SMTP_PASSWORD=your-smtp-password
+SMTP_AUTHENTICATION=plain
+SMTP_ENABLE_STARTTLS_AUTO=true
+
+# File Storage (optional)
+ACTIVE_STORAGE_SERVICE=local
+# For S3: ACTIVE_STORAGE_SERVICE=amazon
+# AWS_ACCESS_KEY_ID=your_access_key
+# AWS_SECRET_ACCESS_KEY=your_secret_key
+# AWS_REGION=us-east-1
+# AWS_BUCKET=your-bucket-name
+
+# Security
+FORCE_SSL=true
+RAILS_ENV=production
+NODE_ENV=production
+```
+
+### 5. Setup Database
+
+```bash
+# Prepare the database
+RAILS_ENV=production bundle exec rails db:chatwoot_prepare
+
+# Precompile assets
+RAILS_ENV=production bundle exec rails assets:precompile
+```
+
+### 6. Configure Systemd Services
+
+Create systemd service files:
+
+**Web Service (`/etc/systemd/system/chatwoot-web.1.service`):**
+```ini
+[Unit]
+Description=Chatwoot web server
+After=network.target
+
+[Service]
+Type=simple
+User=chatwoot
+WorkingDirectory=/home/chatwoot/chatwoot
+Environment=RAILS_ENV=production
+Environment=BUNDLE_GEMFILE=/home/chatwoot/chatwoot/Gemfile
+ExecStart=/home/chatwoot/.rvm/bin/rvm default do bundle exec rails server -b 0.0.0.0 -p 3000 -e production
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**Worker Service (`/etc/systemd/system/chatwoot-worker.1.service`):**
+```ini
+[Unit]
+Description=Chatwoot sidekiq worker
+After=network.target
+
+[Service]
+Type=simple
+User=chatwoot
+WorkingDirectory=/home/chatwoot/chatwoot
+Environment=RAILS_ENV=production
+Environment=BUNDLE_GEMFILE=/home/chatwoot/chatwoot/Gemfile
+ExecStart=/home/chatwoot/.rvm/bin/rvm default do bundle exec sidekiq -C config/sidekiq.yml
+Restart=always
+RestartSec=1
+
+[Install]
+WantedBy=multi-user.target
+```
+
+**Target Service (`/etc/systemd/system/chatwoot.target`):**
+```ini
+[Unit]
+Description=Chatwoot services
+Wants=chatwoot-web.1.service chatwoot-worker.1.service
+
+[Install]
+WantedBy=multi-user.target
+```
+
+Enable and start services:
+```bash
+# Reload systemd
+sudo systemctl daemon-reload
+
+# Enable and start Chatwoot services
+sudo systemctl enable chatwoot.target
+sudo systemctl start chatwoot.target
+
+# Check status
+sudo systemctl status chatwoot.target
+```
+
+### 7. Configure Nginx
+
+Install and configure Nginx:
+
+```bash
+# Install Nginx
+sudo apt install -y nginx
+
+# Create Nginx configuration
+sudo nano /etc/nginx/sites-available/chatwoot
+```
+
+**Nginx configuration:**
+```nginx
+server {
+    server_name your-domain.com;
+    
+    # Point upstream to Chatwoot App Server
+    set $upstream 127.0.0.1:3000;
+    
+    # Nginx strips out underscore in headers by default
+    # Chatwoot relies on underscore in headers for API
+    underscores_in_headers on;
+    
+    # Increase client max body size for file uploads
+    client_max_body_size 50M;
+    
+    location /.well-known {
+        alias /var/www/ssl-proof/chatwoot/.well-known;
+    }
+    
+    location / {
+        proxy_pass_header Authorization;
+        proxy_pass http://$upstream;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+        proxy_set_header Host $host;
+        proxy_set_header X-Forwarded-Proto $scheme;
+        proxy_set_header X-Forwarded-Ssl on;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        
+        proxy_http_version 1.1;
+        proxy_buffering off;
+        proxy_read_timeout 36000s;
+        proxy_redirect off;
+    }
+    
+    listen 80;
+}
+```
+
+Enable the site:
+```bash
+# Enable site
+sudo ln -s /etc/nginx/sites-available/chatwoot /etc/nginx/sites-enabled/
+
+# Test configuration
+sudo nginx -t
+
+# Restart Nginx
+sudo systemctl restart nginx
+```
+
+### 8. Setup SSL with Let's Encrypt
+
+```bash
+# Install Certbot
+sudo apt install -y certbot python3-certbot-nginx
+
+# Create directory for SSL verification
+sudo mkdir -p /var/www/ssl-proof/chatwoot/.well-known
+
+# Get SSL certificate
+sudo certbot --webroot -w /var/www/ssl-proof/chatwoot/ -d your-domain.com -i nginx
+
+# Test automatic renewal
+sudo certbot renew --dry-run
+```
+
+## Chatwoot CLI (cwctl)
+
+Starting with Chatwoot v2.7.0, the installation includes the Chatwoot CLI for easier management:
+
+### Installation
+
+If you don't have `cwctl` installed:
+
+```bash
+# Download and install cwctl
+sudo wget https://get.chatwoot.app/linux/install.sh -O /usr/local/bin/cwctl
+sudo chmod +x /usr/local/bin/cwctl
+
+# Verify installation
+cwctl --help
+```
+
+### Usage
+
+```bash
+# Restart Chatwoot services
+cwctl -r
+
+# Upgrade Chatwoot
+cwctl --upgrade
+
+# Access Rails console
+cwctl -c
+
+# View logs
+cwctl -l web    # Web server logs
+cwctl -l worker # Worker logs
+
+# Get help
+cwctl --help
+```
+
+## Maintenance Operations
+
+### Upgrading Chatwoot
+
+**Using cwctl (recommended):**
+```bash
+cwctl --upgrade
+```
+
+**Manual upgrade:**
+```bash
+# Switch to chatwoot user
+sudo -i -u chatwoot
+cd chatwoot
+
+# Pull latest changes
+git checkout master && git pull
+
+# Update Ruby version if needed
+rvm install "ruby-3.3.3"
+rvm use 3.3.3 --default
+
+# Update dependencies
+bundle install
+pnpm install
+
+# Precompile assets
+RAILS_ENV=production bundle exec rails assets:precompile
+
+# Run database migrations
+RAILS_ENV=production bundle exec rails db:migrate
+
+# Exit to root user
+exit
+
+# Update systemd service files
+sudo cp /home/chatwoot/chatwoot/deployment/chatwoot-web.1.service /etc/systemd/system/
+sudo cp /home/chatwoot/chatwoot/deployment/chatwoot-worker.1.service /etc/systemd/system/
+sudo cp /home/chatwoot/chatwoot/deployment/chatwoot.target /etc/systemd/system/
+
+# Reload and restart services
+sudo systemctl daemon-reload
+sudo systemctl restart chatwoot.target
+```
+
+### Backup and Restore
+
+**Database Backup:**
+```bash
+# Create backup
+sudo -u postgres pg_dump chatwoot > chatwoot_backup_$(date +%Y%m%d_%H%M%S).sql
+
+# Restore backup
+sudo -u postgres psql chatwoot < chatwoot_backup_file.sql
+```
+
+**File Storage Backup:**
+```bash
+# Backup storage directory
+sudo tar -czf chatwoot_storage_$(date +%Y%m%d_%H%M%S).tar.gz /home/chatwoot/chatwoot/storage/
+```
+
+**Complete System Backup:**
+```bash
+# Create backup script
+cat > /home/chatwoot/backup.sh << 'EOF'
+#!/bin/bash
+BACKUP_DIR="/backup/chatwoot/$(date +%Y%m%d_%H%M%S)"
+mkdir -p $BACKUP_DIR
+
+# Database backup
+sudo -u postgres pg_dump chatwoot > $BACKUP_DIR/database.sql
+
+# Application files
+tar -czf $BACKUP_DIR/application.tar.gz /home/chatwoot/chatwoot/
+
+# Storage files
+tar -czf $BACKUP_DIR/storage.tar.gz /home/chatwoot/chatwoot/storage/
+
+# Environment file
+cp /home/chatwoot/chatwoot/.env $BACKUP_DIR/
+
+echo "Backup completed: $BACKUP_DIR"
+EOF
+
+chmod +x /home/chatwoot/backup.sh
+```
+
+### Monitoring and Logs
+
+**View logs:**
+```bash
+# Web server logs
+sudo journalctl -u chatwoot-web.1.service -f
+
+# Worker logs
+sudo journalctl -u chatwoot-worker.1.service -f
+
+# Nginx logs
+sudo tail -f /var/log/nginx/access.log
+sudo tail -f /var/log/nginx/error.log
+
+# PostgreSQL logs
+sudo tail -f /var/log/postgresql/postgresql-*.log
+```
+
+**System monitoring:**
+```bash
+# Check service status
+sudo systemctl status chatwoot.target
+
+# Check resource usage
+htop
+df -h
+free -h
+
+# Check database connections
+sudo -u postgres psql -c "SELECT count(*) FROM pg_stat_activity;"
+```
+
+### Rails Console Access
+
+```bash
+# Using cwctl
+cwctl -c
+
+# Manual access
+sudo -i -u chatwoot
+cd chatwoot
+RAILS_ENV=production bundle exec rails console
+```
+
+## Troubleshooting
+
+### Common Issues
+
+**1. Asset Precompilation Fails:**
+```bash
+# Clear and rebuild assets
+sudo -i -u chatwoot
+cd chatwoot
+RAILS_ENV=production bundle exec rails assets:clean assets:clobber assets:precompile
+```
+
+**2. Database Connection Issues:**
+```bash
+# Check PostgreSQL status
+sudo systemctl status postgresql
+
+# Test database connection
+sudo -u postgres psql -c "SELECT version();"
+
+# Check database configuration
+sudo -i -u chatwoot
+cd chatwoot
+RAILS_ENV=production bundle exec rails db:version
+```
+
+**3. Permission Issues:**
+```bash
+# Fix file permissions
+sudo chown -R chatwoot:chatwoot /home/chatwoot/chatwoot/
+```
+
+**4. Service Won't Start:**
+```bash
+# Check service logs
+sudo journalctl -u chatwoot-web.1.service --no-pager
+sudo journalctl -u chatwoot-worker.1.service --no-pager
+
+# Check configuration
+sudo systemctl status chatwoot.target
+```
+
+### Performance Optimization
+
+**1. Database Optimization:**
+```sql
+-- Connect to database
+sudo -u postgres psql chatwoot
+
+-- Check database size
+SELECT pg_size_pretty(pg_database_size('chatwoot'));
+
+-- Check slow queries (if pg_stat_statements is enabled)
+SELECT query, mean_time, calls 
+FROM pg_stat_statements 
+ORDER BY mean_time DESC 
+LIMIT 10;
+```
+
+**2. System Optimization:**
+```bash
+# Increase file limits for chatwoot user
+echo "chatwoot soft nofile 65536" | sudo tee -a /etc/security/limits.conf
+echo "chatwoot hard nofile 65536" | sudo tee -a /etc/security/limits.conf
+
+# Optimize PostgreSQL configuration
+sudo nano /etc/postgresql/*/main/postgresql.conf
+# Adjust shared_buffers, effective_cache_size, work_mem based on available RAM
+```
+
+### Security Hardening
+
+**1. Firewall Configuration:**
+```bash
+# Install and configure UFW
+sudo ufw enable
+sudo ufw default deny incoming
+sudo ufw default allow outgoing
+sudo ufw allow ssh
+sudo ufw allow 80/tcp
+sudo ufw allow 443/tcp
+```
+
+**2. Fail2ban Setup:**
+```bash
+# Install Fail2ban
+sudo apt install -y fail2ban
+
+# Configure Fail2ban for SSH
+sudo cp /etc/fail2ban/jail.conf /etc/fail2ban/jail.local
+sudo systemctl enable fail2ban
+sudo systemctl start fail2ban
+```
+
+**3. Regular Updates:**
+```bash
+# Create update script
+cat > /home/chatwoot/update_system.sh << 'EOF'
+#!/bin/bash
+sudo apt update
+sudo apt upgrade -y
+sudo apt autoremove -y
+sudo apt autoclean
+EOF
+
+chmod +x /home/chatwoot/update_system.sh
+
+# Add to crontab for weekly updates
+echo "0 2 * * 0 /home/chatwoot/update_system.sh" | sudo crontab -
+```
+
+---
+
+<Warning>
+Always test upgrades in a staging environment before applying to production. Keep regular backups of your database and application files.
+</Warning>
+
+<Note>
+For high-availability deployments, consider setting up multiple servers with load balancing and database replication.
+</Note> 

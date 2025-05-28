@@ -1,0 +1,416 @@
+---
+title: Chatwoot CTL (cwctl)
+description: Command-line tool for managing Chatwoot installations with ease
+sidebarTitle: Chatwoot CTL
+---
+
+# Chatwoot CTL (cwctl)
+
+Chatwoot CTL (`cwctl`) is a command-line tool that simplifies the management of your Chatwoot installation. It provides convenient commands for common administrative tasks like upgrades, restarts, console access, and log viewing.
+
+## Installation
+
+### Automatic Installation
+
+`cwctl` is automatically installed when you use the Linux installation script (v2.7.0+):
+
+```bash
+wget https://get.chatwoot.app/linux/install.sh
+chmod +x install.sh
+./install.sh --install
+```
+
+### Manual Installation
+
+If you have an older installation or need to install `cwctl` separately:
+
+```bash
+# Download and install cwctl
+wget https://get.chatwoot.app/linux/install.sh -O /usr/local/bin/cwctl
+chmod +x /usr/local/bin/cwctl
+
+# Verify installation
+cwctl --help
+```
+
+<Note>
+The manual installation requires root access to install `cwctl` to `/usr/local/bin`.
+</Note>
+
+## Available Commands
+
+### Help and Version
+
+```bash
+# Display help information
+cwctl --help
+cwctl -h
+
+# Show version information
+cwctl --version
+cwctl -v
+```
+
+### Installation Management
+
+```bash
+# Install Chatwoot (same as running install.sh --install)
+cwctl --install
+
+# Upgrade to the latest version
+cwctl --upgrade
+
+# Restart Chatwoot services
+cwctl --restart
+cwctl -r
+```
+
+### Console and Debugging
+
+```bash
+# Access Rails console
+cwctl --console
+cwctl -c
+
+# View web server logs
+cwctl --logs web
+cwctl -l web
+
+# View worker logs
+cwctl --logs worker
+cwctl -l worker
+
+# View all logs
+cwctl --logs
+cwctl -l
+```
+
+### Service Management
+
+```bash
+# Check service status
+cwctl --status
+cwctl -s
+
+# Stop Chatwoot services
+cwctl --stop
+
+# Start Chatwoot services
+cwctl --start
+```
+
+## Detailed Command Usage
+
+### Upgrading Chatwoot
+
+The upgrade command handles the complete upgrade process:
+
+```bash
+cwctl --upgrade
+```
+
+This command performs the following steps:
+1. Switches to the chatwoot user
+2. Navigates to the Chatwoot directory
+3. Pulls the latest code from the master branch
+4. Updates Ruby version if needed
+5. Installs/updates dependencies (bundle, pnpm)
+6. Precompiles assets
+7. Runs database migrations
+8. Updates systemd service files
+9. Restarts services
+
+<Warning>
+Always backup your database before upgrading:
+```bash
+# Create a backup before upgrading
+sudo -u postgres pg_dump chatwoot_production > chatwoot_backup_$(date +%Y%m%d).sql
+```
+</Warning>
+
+### Console Access
+
+Access the Rails console for debugging and administration:
+
+```bash
+cwctl --console
+```
+
+This opens an interactive Ruby console where you can:
+
+```ruby
+# Check application version
+Rails.application.config.version
+
+# List all accounts
+Account.all
+
+# Find a specific user
+User.find_by(email: 'admin@example.com')
+
+# Check system statistics
+Account.count
+User.count
+Conversation.count
+
+# Clear cache
+Rails.cache.clear
+```
+
+### Log Management
+
+View real-time logs for troubleshooting:
+
+```bash
+# Web server logs (Rails application)
+cwctl -l web
+
+# Worker logs (Sidekiq background jobs)
+cwctl -l worker
+
+# All logs (both web and worker)
+cwctl -l
+```
+
+### Service Management
+
+Control Chatwoot services:
+
+```bash
+# Check if services are running
+cwctl --status
+
+# Restart all services (web + worker)
+cwctl --restart
+
+# Stop all services
+cwctl --stop
+
+# Start all services
+cwctl --start
+```
+
+## Configuration
+
+### Environment Variables
+
+`cwctl` respects the same environment variables as your Chatwoot installation. Key variables include:
+
+```bash
+# Chatwoot installation directory
+CHATWOOT_DIR="/home/chatwoot/chatwoot"
+
+# Rails environment
+RAILS_ENV="production"
+
+# Database configuration
+DATABASE_URL="postgresql://..."
+
+# Redis configuration
+REDIS_URL="redis://..."
+```
+
+### Custom Installation Paths
+
+If Chatwoot is installed in a non-standard location, you can specify the path:
+
+```bash
+# Set custom Chatwoot directory
+export CHATWOOT_DIR="/opt/chatwoot"
+cwctl --restart
+```
+
+## Troubleshooting
+
+### Common Issues
+
+<Accordion title="cwctl command not found">
+If `cwctl` is not found, ensure it's installed and in your PATH:
+
+```bash
+# Check if cwctl exists
+which cwctl
+
+# If not found, install it
+wget https://get.chatwoot.app/linux/install.sh -O /usr/local/bin/cwctl
+chmod +x /usr/local/bin/cwctl
+
+# Add to PATH if needed
+echo 'export PATH="/usr/local/bin:$PATH"' >> ~/.bashrc
+source ~/.bashrc
+```
+</Accordion>
+
+<Accordion title="Permission denied errors">
+Ensure you have the necessary permissions:
+
+```bash
+# Run with sudo if needed
+sudo cwctl --restart
+
+# Or ensure your user is in the chatwoot group
+sudo usermod -a -G chatwoot $USER
+```
+</Accordion>
+
+<Accordion title="Service restart failures">
+If services fail to restart, check the logs:
+
+```bash
+# Check systemd status
+sudo systemctl status chatwoot.target
+sudo systemctl status chatwoot-web.1.service
+sudo systemctl status chatwoot-worker.1.service
+
+# View detailed logs
+sudo journalctl -u chatwoot-web.1.service -f
+sudo journalctl -u chatwoot-worker.1.service -f
+```
+</Accordion>
+
+### Debug Mode
+
+For verbose output during operations:
+
+```bash
+# Enable debug mode
+export CWCTL_DEBUG=1
+cwctl --upgrade
+```
+
+### Manual Operations
+
+If `cwctl` fails, you can perform operations manually:
+
+```bash
+# Manual upgrade process
+sudo -i -u chatwoot
+cd chatwoot
+git checkout master && git pull
+rvm use 3.3.3 --default
+bundle install
+pnpm install
+RAILS_ENV=production bundle exec rake assets:precompile
+RAILS_ENV=production bundle exec rake db:migrate
+exit
+
+# Restart services manually
+sudo systemctl restart chatwoot.target
+```
+
+## Best Practices
+
+### Regular Maintenance
+
+```bash
+# Weekly upgrade check
+cwctl --upgrade
+
+# Daily log monitoring
+cwctl -l | grep ERROR
+
+# Monthly service restart
+cwctl --restart
+```
+
+### Backup Before Operations
+
+```bash
+# Create backup script
+#!/bin/bash
+DATE=$(date +%Y%m%d_%H%M%S)
+sudo -u postgres pg_dump chatwoot_production > "/backup/chatwoot_$DATE.sql"
+cwctl --upgrade
+```
+
+### Monitoring
+
+```bash
+# Check service health
+cwctl --status
+
+# Monitor logs for errors
+cwctl -l | grep -E "(ERROR|FATAL|Exception)"
+
+# Check disk space before upgrades
+df -h /home/chatwoot
+```
+
+## Integration with System Tools
+
+### Systemd Integration
+
+`cwctl` works seamlessly with systemd:
+
+```bash
+# These commands are equivalent
+cwctl --restart
+sudo systemctl restart chatwoot.target
+
+cwctl --status
+sudo systemctl status chatwoot.target
+```
+
+### Cron Jobs
+
+Automate maintenance tasks:
+
+```bash
+# Add to crontab
+# Weekly upgrade (Sundays at 2 AM)
+0 2 * * 0 /usr/local/bin/cwctl --upgrade
+
+# Daily restart (to clear memory leaks)
+0 3 * * * /usr/local/bin/cwctl --restart
+```
+
+### Monitoring Scripts
+
+```bash
+#!/bin/bash
+# Health check script
+if ! cwctl --status > /dev/null 2>&1; then
+    echo "Chatwoot services are down, attempting restart..."
+    cwctl --restart
+    # Send alert notification
+fi
+```
+
+## Advanced Usage
+
+### Custom Commands
+
+You can extend `cwctl` functionality by creating wrapper scripts:
+
+```bash
+#!/bin/bash
+# custom-cwctl.sh - Extended cwctl with additional features
+
+case "$1" in
+    --backup)
+        echo "Creating backup..."
+        sudo -u postgres pg_dump chatwoot_production > "backup_$(date +%Y%m%d).sql"
+        ;;
+    --health-check)
+        echo "Performing health check..."
+        curl -f http://localhost:3000/api || echo "Health check failed"
+        ;;
+    *)
+        cwctl "$@"
+        ;;
+esac
+```
+
+### Environment-Specific Operations
+
+```bash
+# Development environment
+RAILS_ENV=development cwctl --console
+
+# Staging environment
+RAILS_ENV=staging cwctl --restart
+```
+
+---
+
+`cwctl` simplifies Chatwoot administration by providing a unified interface for common tasks. Use it regularly to maintain your installation and troubleshoot issues efficiently. 

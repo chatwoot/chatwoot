@@ -1,0 +1,745 @@
+---
+title: Google Cloud Platform (GCP) Deployment
+description: Deploy Chatwoot on Google Cloud Platform with Compute Engine, Cloud Run, or GKE
+sidebarTitle: GCP
+---
+
+# Google Cloud Platform Deployment Guide
+
+Deploy Chatwoot on Google Cloud Platform using Compute Engine, Cloud Run, or Google Kubernetes Engine for a scalable, enterprise-ready solution.
+
+## Deployment Options
+
+<CardGroup cols={3}>
+  <Card title="Compute Engine" icon="server" href="#compute-engine">
+    Traditional VM deployment with full control
+  </Card>
+  <Card title="Cloud Run" icon="cloud" href="#cloud-run">
+    Serverless container deployment
+  </Card>
+  <Card title="GKE" icon="kubernetes" href="#google-kubernetes-engine">
+    Managed Kubernetes deployment
+  </Card>
+</CardGroup>
+
+## Compute Engine Deployment
+
+### Prerequisites
+
+```bash
+# Install and configure gcloud CLI
+curl https://sdk.cloud.google.com | bash
+exec -l $SHELL
+gcloud init
+
+# Set project and region
+gcloud config set project your-project-id
+gcloud config set compute/region us-central1
+gcloud config set compute/zone us-central1-a
+```
+
+### Network Setup
+
+```bash
+# Create VPC network
+gcloud compute networks create chatwoot-vpc --subnet-mode=custom
+
+# Create subnet
+gcloud compute networks subnets create chatwoot-subnet \
+  --network=chatwoot-vpc \
+  --range=10.0.1.0/24 \
+  --region=us-central1
+
+# Create firewall rules
+gcloud compute firewall-rules create chatwoot-allow-http \
+  --network=chatwoot-vpc \
+  --allow=tcp:80,tcp:443,tcp:3000 \
+  --source-ranges=0.0.0.0/0 \
+  --target-tags=chatwoot-server
+
+gcloud compute firewall-rules create chatwoot-allow-ssh \
+  --network=chatwoot-vpc \
+  --allow=tcp:22 \
+  --source-ranges=0.0.0.0/0 \
+  --target-tags=chatwoot-server
+```
+
+### Database Setup
+
+#### Cloud SQL PostgreSQL
+
+```bash
+# Create Cloud SQL instance
+gcloud sql instances create chatwoot-db \
+  --database-version=POSTGRES_13 \
+  --tier=db-g1-small \
+  --region=us-central1 \
+  --storage-type=SSD \
+  --storage-size=100GB \
+  --storage-auto-increase \
+  --backup-start-time=03:00 \
+  --enable-bin-log \
+  --maintenance-window-day=SUN \
+  --maintenance-window-hour=04
+
+# Create database
+gcloud sql databases create chatwoot_production --instance=chatwoot-db
+
+# Create user
+gcloud sql users create chatwoot \
+  --instance=chatwoot-db \
+  --password=your-secure-password
+
+# Get connection name
+gcloud sql instances describe chatwoot-db --format="value(connectionName)"
+```
+
+#### Memorystore Redis
+
+```bash
+# Create Redis instance
+gcloud redis instances create chatwoot-redis \
+  --size=1 \
+  --region=us-central1 \
+  --redis-version=redis_6_x \
+  --network=chatwoot-vpc
+```
+
+### Storage Setup
+
+```bash
+# Create Cloud Storage bucket
+gsutil mb -p your-project-id -c STANDARD -l us-central1 gs://your-chatwoot-bucket
+
+# Set bucket permissions
+gsutil iam ch allUsers:objectViewer gs://your-chatwoot-bucket
+
+# Enable CORS
+cat > cors.json << EOF
+[
+  {
+    "origin": ["https://chatwoot.yourdomain.com"],
+    "method": ["GET", "PUT", "POST", "DELETE"],
+    "responseHeader": ["Content-Type"],
+    "maxAgeSeconds": 3600
+  }
+]
+EOF
+
+gsutil cors set cors.json gs://your-chatwoot-bucket
+```
+
+### Compute Instance
+
+#### Create Instance Template
+
+```bash
+# Create startup script
+cat > startup-script.sh << 'EOF'
+#!/bin/bash
+apt-get update
+apt-get install -y wget curl
+
+# Download and install Chatwoot
+wget https://get.chatwoot.app/linux/install.sh
+chmod +x install.sh
+./install.sh --install
+
+# Configure environment
+sudo -u chatwoot bash << 'INNER_EOF'
+cd /home/chatwoot/chatwoot
+cat > .env << 'ENV_EOF'
+RAILS_ENV=production
+NODE_ENV=production
+FRONTEND_URL=https://chatwoot.yourdomain.com
+FORCE_SSL=true
+
+# Database
+DATABASE_URL=postgresql://chatwoot:password@/chatwoot_production?host=/cloudsql/your-project:us-central1:chatwoot-db
+
+# Redis
+REDIS_URL=redis://10.0.0.3:6379/0
+
+# Storage
+ACTIVE_STORAGE_SERVICE=google
+GCS_PROJECT=your-project-id
+GCS_BUCKET=your-chatwoot-bucket
+
+# Email (using SendGrid)
+MAILER_SENDER_EMAIL=noreply@yourdomain.com
+SMTP_ADDRESS=smtp.sendgrid.net
+SMTP_PORT=587
+SMTP_USERNAME=apikey
+SMTP_PASSWORD=your-sendgrid-api-key
+SMTP_AUTHENTICATION=plain
+SMTP_ENABLE_STARTTLS_AUTO=true
+ENV_EOF
+
+# Prepare database
+RAILS_ENV=production bundle exec rake db:chatwoot_prepare
+INNER_EOF
+
+# Restart services
+systemctl restart chatwoot.target
+EOF
+
+# Create instance template
+gcloud compute instance-templates create chatwoot-template \
+  --machine-type=e2-standard-2 \
+  --network-interface=network=chatwoot-vpc,subnet=chatwoot-subnet \
+  --boot-disk-size=50GB \
+  --boot-disk-type=pd-ssd \
+  --image-family=ubuntu-2004-lts \
+  --image-project=ubuntu-os-cloud \
+  --tags=chatwoot-server \
+  --metadata-from-file startup-script=startup-script.sh \
+  --service-account=chatwoot-sa@your-project-id.iam.gserviceaccount.com \
+  --scopes=https://www.googleapis.com/auth/cloud-platform
+```
+
+#### Create Managed Instance Group
+
+```bash
+# Create instance group
+gcloud compute instance-groups managed create chatwoot-ig \
+  --template=chatwoot-template \
+  --size=2 \
+  --zone=us-central1-a
+
+# Configure autoscaling
+gcloud compute instance-groups managed set-autoscaling chatwoot-ig \
+  --max-num-replicas=5 \
+  --min-num-replicas=2 \
+  --target-cpu-utilization=0.7 \
+  --zone=us-central1-a
+```
+
+### Load Balancer
+
+```bash
+# Create health check
+gcloud compute health-checks create http chatwoot-health-check \
+  --port=3000 \
+  --request-path=/api
+
+# Create backend service
+gcloud compute backend-services create chatwoot-backend \
+  --protocol=HTTP \
+  --health-checks=chatwoot-health-check \
+  --global
+
+# Add instance group to backend service
+gcloud compute backend-services add-backend chatwoot-backend \
+  --instance-group=chatwoot-ig \
+  --instance-group-zone=us-central1-a \
+  --global
+
+# Create URL map
+gcloud compute url-maps create chatwoot-map \
+  --default-service=chatwoot-backend
+
+# Create SSL certificate
+gcloud compute ssl-certificates create chatwoot-ssl \
+  --domains=chatwoot.yourdomain.com
+
+# Create HTTPS proxy
+gcloud compute target-https-proxies create chatwoot-https-proxy \
+  --url-map=chatwoot-map \
+  --ssl-certificates=chatwoot-ssl
+
+# Create global forwarding rule
+gcloud compute forwarding-rules create chatwoot-https-rule \
+  --global \
+  --target-https-proxy=chatwoot-https-proxy \
+  --ports=443
+
+# Create HTTP to HTTPS redirect
+gcloud compute url-maps create chatwoot-redirect \
+  --default-url-redirect-response-code=301 \
+  --default-url-redirect-https-redirect
+
+gcloud compute target-http-proxies create chatwoot-http-proxy \
+  --url-map=chatwoot-redirect
+
+gcloud compute forwarding-rules create chatwoot-http-rule \
+  --global \
+  --target-http-proxy=chatwoot-http-proxy \
+  --ports=80
+```
+
+## Cloud Run Deployment
+
+### Containerize Chatwoot
+
+Create `Dockerfile`:
+
+```dockerfile
+FROM chatwoot/chatwoot:latest
+
+# Set environment variables
+ENV RAILS_ENV=production
+ENV NODE_ENV=production
+ENV PORT=8080
+
+# Expose port
+EXPOSE 8080
+
+# Start command
+CMD ["bundle", "exec", "rails", "server", "-b", "0.0.0.0", "-p", "8080"]
+```
+
+### Build and Deploy
+
+```bash
+# Build container image
+gcloud builds submit --tag gcr.io/your-project-id/chatwoot
+
+# Deploy to Cloud Run
+gcloud run deploy chatwoot \
+  --image gcr.io/your-project-id/chatwoot \
+  --platform managed \
+  --region us-central1 \
+  --allow-unauthenticated \
+  --memory 2Gi \
+  --cpu 2 \
+  --max-instances 10 \
+  --set-env-vars RAILS_ENV=production \
+  --set-env-vars DATABASE_URL="postgresql://..." \
+  --set-env-vars REDIS_URL="redis://..." \
+  --set-env-vars FRONTEND_URL="https://chatwoot.yourdomain.com"
+
+# Deploy worker service
+gcloud run deploy chatwoot-worker \
+  --image gcr.io/your-project-id/chatwoot \
+  --platform managed \
+  --region us-central1 \
+  --no-allow-unauthenticated \
+  --memory 1Gi \
+  --cpu 1 \
+  --max-instances 5 \
+  --command "bundle,exec,sidekiq,-C,config/sidekiq.yml" \
+  --set-env-vars RAILS_ENV=production \
+  --set-env-vars DATABASE_URL="postgresql://..." \
+  --set-env-vars REDIS_URL="redis://..."
+```
+
+### Custom Domain
+
+```bash
+# Map custom domain
+gcloud run domain-mappings create \
+  --service chatwoot \
+  --domain chatwoot.yourdomain.com \
+  --region us-central1
+```
+
+## Google Kubernetes Engine (GKE)
+
+### Create GKE Cluster
+
+```bash
+# Create GKE cluster
+gcloud container clusters create chatwoot-cluster \
+  --zone us-central1-a \
+  --num-nodes 3 \
+  --machine-type e2-standard-2 \
+  --disk-size 50GB \
+  --disk-type pd-ssd \
+  --enable-autoscaling \
+  --min-nodes 1 \
+  --max-nodes 5 \
+  --enable-autorepair \
+  --enable-autoupgrade \
+  --network chatwoot-vpc \
+  --subnetwork chatwoot-subnet
+
+# Get credentials
+gcloud container clusters get-credentials chatwoot-cluster --zone us-central1-a
+```
+
+### Helm Deployment
+
+```bash
+# Add Chatwoot Helm repository
+helm repo add chatwoot https://chatwoot.github.io/charts
+helm repo update
+
+# Create namespace
+kubectl create namespace chatwoot
+
+# Create values file for GCP
+cat > gcp-values.yaml << EOF
+# GCP-specific values
+ingress:
+  enabled: true
+  className: gce
+  annotations:
+    kubernetes.io/ingress.global-static-ip-name: "chatwoot-ip"
+    networking.gke.io/managed-certificates: "chatwoot-ssl"
+    kubernetes.io/ingress.allow-http: "false"
+  hosts:
+    - host: chatwoot.yourdomain.com
+      paths:
+        - path: /
+          pathType: Prefix
+
+# Use Cloud SQL and Memorystore
+postgresql:
+  enabled: false
+
+redis:
+  enabled: false
+
+env:
+  DATABASE_URL: "postgresql://chatwoot:password@/chatwoot_production?host=/cloudsql/your-project:us-central1:chatwoot-db"
+  REDIS_URL: "redis://10.0.0.3:6379/0"
+  ACTIVE_STORAGE_SERVICE: "google"
+  GCS_PROJECT: "your-project-id"
+  GCS_BUCKET: "your-chatwoot-bucket"
+
+# Resource limits
+resources:
+  limits:
+    cpu: 1000m
+    memory: 2Gi
+  requests:
+    cpu: 500m
+    memory: 1Gi
+
+# Workload Identity
+serviceAccount:
+  create: true
+  annotations:
+    iam.gke.io/gcp-service-account: chatwoot-sa@your-project-id.iam.gserviceaccount.com
+EOF
+
+# Install Chatwoot
+helm install chatwoot chatwoot/chatwoot \
+  --namespace chatwoot \
+  --values gcp-values.yaml
+```
+
+### SSL Certificate
+
+```yaml
+# managed-cert.yaml
+apiVersion: networking.gke.io/v1
+kind: ManagedCertificate
+metadata:
+  name: chatwoot-ssl
+  namespace: chatwoot
+spec:
+  domains:
+    - chatwoot.yourdomain.com
+```
+
+```bash
+kubectl apply -f managed-cert.yaml
+```
+
+## Service Account and IAM
+
+### Create Service Account
+
+```bash
+# Create service account
+gcloud iam service-accounts create chatwoot-sa \
+  --display-name="Chatwoot Service Account"
+
+# Grant necessary permissions
+gcloud projects add-iam-policy-binding your-project-id \
+  --member="serviceAccount:chatwoot-sa@your-project-id.iam.gserviceaccount.com" \
+  --role="roles/cloudsql.client"
+
+gcloud projects add-iam-policy-binding your-project-id \
+  --member="serviceAccount:chatwoot-sa@your-project-id.iam.gserviceaccount.com" \
+  --role="roles/storage.objectAdmin"
+
+gcloud projects add-iam-policy-binding your-project-id \
+  --member="serviceAccount:chatwoot-sa@your-project-id.iam.gserviceaccount.com" \
+  --role="roles/redis.editor"
+
+# Create and download key
+gcloud iam service-accounts keys create chatwoot-key.json \
+  --iam-account=chatwoot-sa@your-project-id.iam.gserviceaccount.com
+```
+
+## Monitoring and Logging
+
+### Cloud Monitoring
+
+```bash
+# Enable APIs
+gcloud services enable monitoring.googleapis.com
+gcloud services enable logging.googleapis.com
+
+# Create notification channel
+gcloud alpha monitoring channels create \
+  --display-name="Email Alerts" \
+  --type=email \
+  --channel-labels=email_address=admin@yourdomain.com
+```
+
+### Custom Metrics
+
+```yaml
+# monitoring.yaml
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: prometheus-config
+  namespace: chatwoot
+data:
+  prometheus.yml: |
+    global:
+      scrape_interval: 15s
+    scrape_configs:
+    - job_name: 'chatwoot'
+      static_configs:
+      - targets: ['chatwoot-service:3000']
+      metrics_path: /metrics
+```
+
+### Alerting Policies
+
+```bash
+# Create alerting policy for high CPU
+gcloud alpha monitoring policies create \
+  --policy-from-file=cpu-alert-policy.yaml
+
+# cpu-alert-policy.yaml
+cat > cpu-alert-policy.yaml << EOF
+displayName: "High CPU Usage"
+conditions:
+  - displayName: "CPU usage above 80%"
+    conditionThreshold:
+      filter: 'resource.type="gce_instance"'
+      comparison: COMPARISON_GREATER_THAN
+      thresholdValue: 0.8
+      duration: 300s
+combiner: OR
+enabled: true
+notificationChannels:
+  - projects/your-project-id/notificationChannels/CHANNEL_ID
+EOF
+```
+
+## Backup and Disaster Recovery
+
+### Database Backups
+
+```bash
+# Cloud SQL automatic backups are enabled by default
+# Create on-demand backup
+gcloud sql backups create --instance=chatwoot-db
+
+# List backups
+gcloud sql backups list --instance=chatwoot-db
+
+# Restore from backup
+gcloud sql backups restore BACKUP_ID --restore-instance=chatwoot-db-restore
+```
+
+### Application Backups
+
+```bash
+#!/bin/bash
+# backup-script.sh
+DATE=$(date +%Y%m%d_%H%M%S)
+
+# Database backup
+gcloud sql export sql chatwoot-db gs://your-backup-bucket/db/chatwoot_$DATE.sql
+
+# File storage backup
+gsutil -m rsync -r -d gs://your-chatwoot-bucket gs://your-backup-bucket/files/
+
+# Kubernetes configuration backup
+kubectl get all -n chatwoot -o yaml > k8s-backup-$DATE.yaml
+gsutil cp k8s-backup-$DATE.yaml gs://your-backup-bucket/k8s/
+```
+
+## Security Best Practices
+
+### Network Security
+
+```bash
+# Create private cluster
+gcloud container clusters create chatwoot-private \
+  --enable-private-nodes \
+  --master-ipv4-cidr-block 172.16.0.0/28 \
+  --enable-ip-alias \
+  --enable-network-policy
+
+# Create firewall rules for private access
+gcloud compute firewall-rules create allow-chatwoot-private \
+  --network chatwoot-vpc \
+  --allow tcp:443,tcp:80 \
+  --source-ranges 10.0.0.0/8
+```
+
+### Secret Management
+
+```bash
+# Create secrets in Secret Manager
+gcloud secrets create database-password --data-file=db-password.txt
+gcloud secrets create redis-password --data-file=redis-password.txt
+
+# Grant access to service account
+gcloud secrets add-iam-policy-binding database-password \
+  --member="serviceAccount:chatwoot-sa@your-project-id.iam.gserviceaccount.com" \
+  --role="roles/secretmanager.secretAccessor"
+```
+
+### Binary Authorization
+
+```bash
+# Enable Binary Authorization
+gcloud container binauthz policy import policy.yaml
+
+# policy.yaml
+cat > policy.yaml << EOF
+defaultAdmissionRule:
+  requireAttestationsBy:
+  - projects/your-project-id/attestors/prod-attestor
+  enforcementMode: ENFORCED_BLOCK_AND_AUDIT_LOG
+globalPolicyEvaluationMode: ENABLE
+EOF
+```
+
+## Cost Optimization
+
+### Preemptible Instances
+
+```bash
+# Create preemptible node pool
+gcloud container node-pools create preemptible-pool \
+  --cluster=chatwoot-cluster \
+  --zone=us-central1-a \
+  --machine-type=e2-standard-2 \
+  --preemptible \
+  --num-nodes=2 \
+  --enable-autoscaling \
+  --min-nodes=0 \
+  --max-nodes=5
+```
+
+### Committed Use Discounts
+
+```bash
+# Purchase committed use discount
+gcloud compute commitments create chatwoot-commitment \
+  --plan=12-month \
+  --region=us-central1 \
+  --resources=type=VCPU,amount=4 \
+  --resources=type=MEMORY,amount=16
+```
+
+### Resource Optimization
+
+```yaml
+# resource-quota.yaml
+apiVersion: v1
+kind: ResourceQuota
+metadata:
+  name: chatwoot-quota
+  namespace: chatwoot
+spec:
+  hard:
+    requests.cpu: "4"
+    requests.memory: 8Gi
+    limits.cpu: "8"
+    limits.memory: 16Gi
+    persistentvolumeclaims: "4"
+```
+
+## Troubleshooting
+
+### Common Issues
+
+<Accordion title="Cloud SQL connection issues">
+Check:
+- Cloud SQL Proxy configuration
+- Service account permissions
+- Network connectivity
+- SSL requirements
+</Accordion>
+
+<Accordion title="GKE pod startup failures">
+Verify:
+- Resource quotas and limits
+- Image pull permissions
+- Service account configuration
+- Network policies
+</Accordion>
+
+<Accordion title="Load balancer health check failures">
+Solutions:
+- Verify health check path (/api)
+- Check firewall rules
+- Ensure proper backend configuration
+- Review application startup time
+</Accordion>
+
+### Diagnostic Commands
+
+```bash
+# Check Compute Engine instances
+gcloud compute instances list
+
+# View Cloud Run services
+gcloud run services list
+
+# Check GKE cluster status
+gcloud container clusters describe chatwoot-cluster --zone us-central1-a
+
+# View logs
+gcloud logging read "resource.type=gce_instance" --limit 50
+gcloud logging read "resource.type=cloud_run_revision" --limit 50
+
+# Check Cloud SQL status
+gcloud sql instances describe chatwoot-db
+```
+
+### Performance Monitoring
+
+```bash
+# View metrics
+gcloud monitoring metrics list --filter="metric.type:compute"
+
+# Create dashboard
+gcloud monitoring dashboards create --config-from-file=dashboard.json
+```
+
+## Best Practices
+
+### Security
+- Use private GKE clusters
+- Enable Workload Identity
+- Implement Binary Authorization
+- Use Secret Manager for sensitive data
+- Enable audit logging
+
+### Performance
+- Use Cloud CDN for static assets
+- Implement Cloud Memorystore for caching
+- Use SSD persistent disks
+- Enable HTTP/2 and gRPC
+- Optimize container images
+
+### Reliability
+- Deploy across multiple zones
+- Use managed services (Cloud SQL, Memorystore)
+- Implement proper health checks
+- Set up monitoring and alerting
+- Test disaster recovery procedures
+
+### Cost Management
+- Use preemptible instances for non-critical workloads
+- Implement resource quotas
+- Purchase committed use discounts
+- Monitor usage with Cloud Billing
+- Use Cloud Functions for event-driven tasks
+
+---
+
+This GCP deployment guide provides comprehensive options for hosting Chatwoot on Google Cloud Platform. Choose the deployment method that best aligns with your scalability, security, and operational requirements. 

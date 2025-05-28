@@ -1,0 +1,1004 @@
+---
+title: Common Errors and Solutions
+description: Troubleshooting guide for common errors during Chatwoot development setup
+sidebarTitle: Common Errors
+---
+
+# Common Errors and Solutions
+
+This guide covers the most common errors encountered during Chatwoot development setup and their solutions. Use this as a quick reference when troubleshooting issues.
+
+## Installation and Setup Errors
+
+### Ruby and Bundler Issues
+
+<Accordion title="Bundle install fails with native extension errors">
+**Error Message**:
+```
+An error occurred while installing pg (1.5.4), and Bundler cannot continue.
+Make sure that `gem install pg -v '1.5.4'` succeeds before bundling.
+```
+
+**Cause**: Missing PostgreSQL development headers or incorrect pg_config path.
+
+**Solutions**:
+
+<Tabs>
+<Tab title="macOS">
+```bash
+# Install PostgreSQL with Homebrew
+brew install postgresql
+
+# Configure bundle to use correct pg_config
+bundle config build.pg --with-pg-config=/opt/homebrew/bin/pg_config
+
+# For Intel Macs
+bundle config build.pg --with-pg-config=/usr/local/bin/pg_config
+
+# Retry bundle install
+bundle install
+```
+</Tab>
+
+<Tab title="Ubuntu/Debian">
+```bash
+# Install PostgreSQL development headers
+sudo apt-get update
+sudo apt-get install libpq-dev postgresql-client
+
+# Install build essentials
+sudo apt-get install build-essential
+
+# Retry bundle install
+bundle install
+```
+</Tab>
+
+<Tab title="CentOS/RHEL">
+```bash
+# Install PostgreSQL development packages
+sudo yum install postgresql-devel
+
+# Install development tools
+sudo yum groupinstall "Development Tools"
+
+# Retry bundle install
+bundle install
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+<Accordion title="Ruby version mismatch">
+**Error Message**:
+```
+Your Ruby version is 3.1.0, but your Gemfile specified 3.3.3
+```
+
+**Cause**: Wrong Ruby version installed.
+
+**Solutions**:
+
+<Tabs>
+<Tab title="rbenv">
+```bash
+# Install correct Ruby version
+rbenv install 3.3.3
+
+# Set as global version
+rbenv global 3.3.3
+
+# Verify version
+ruby --version
+
+# Rehash to update shims
+rbenv rehash
+```
+</Tab>
+
+<Tab title="RVM">
+```bash
+# Install correct Ruby version
+rvm install 3.3.3
+
+# Use the version
+rvm use 3.3.3 --default
+
+# Verify version
+ruby --version
+```
+</Tab>
+
+<Tab title="asdf">
+```bash
+# Install correct Ruby version
+asdf install ruby 3.3.3
+
+# Set as global version
+asdf global ruby 3.3.3
+
+# Verify version
+ruby --version
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+<Accordion title="Bundler version conflicts">
+**Error Message**:
+```
+Bundler could not find compatible versions for gem "bundler"
+```
+
+**Cause**: Incompatible Bundler version.
+
+**Solution**:
+```bash
+# Check current Bundler version
+bundler --version
+
+# Install specific Bundler version (check Gemfile.lock)
+gem install bundler:2.4.22
+
+# Update Bundler
+gem update bundler
+
+# Clean bundle cache
+bundle clean --force
+
+# Retry installation
+bundle install
+```
+</Accordion>
+
+### Node.js and Package Manager Issues
+
+<Accordion title="Node.js version incompatibility">
+**Error Message**:
+```
+error @chatwoot/chatwoot@1.0.0: The engine "node" is incompatible with this module.
+```
+
+**Cause**: Wrong Node.js version.
+
+**Solutions**:
+
+<Tabs>
+<Tab title="nvm">
+```bash
+# Install correct Node.js version
+nvm install 20
+
+# Use the version
+nvm use 20
+
+# Set as default
+nvm alias default 20
+
+# Verify version
+node --version
+```
+</Tab>
+
+<Tab title="n">
+```bash
+# Install correct Node.js version
+n 20
+
+# Verify version
+node --version
+```
+</Tab>
+
+<Tab title="asdf">
+```bash
+# Install correct Node.js version
+asdf install nodejs 20.10.0
+
+# Set as global version
+asdf global nodejs 20.10.0
+
+# Verify version
+node --version
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+<Accordion title="pnpm installation issues">
+**Error Message**:
+```
+pnpm: command not found
+```
+
+**Cause**: pnpm not installed.
+
+**Solutions**:
+```bash
+# Install pnpm globally
+npm install -g pnpm
+
+# Or using corepack (Node.js 16.10+)
+corepack enable
+corepack prepare pnpm@latest --activate
+
+# Or using Homebrew (macOS)
+brew install pnpm
+
+# Verify installation
+pnpm --version
+```
+</Accordion>
+
+<Accordion title="Package installation failures">
+**Error Message**:
+```
+ERR_PNPM_PEER_DEP_ISSUES  Unmet peer dependencies
+```
+
+**Cause**: Peer dependency conflicts or corrupted cache.
+
+**Solutions**:
+```bash
+# Clear pnpm cache
+pnpm store prune
+
+# Remove node_modules and lock file
+rm -rf node_modules pnpm-lock.yaml
+
+# Reinstall with legacy peer deps
+pnpm install --legacy-peer-deps
+
+# Or force installation
+pnpm install --force
+
+# Alternative: use npm
+npm install
+```
+</Accordion>
+
+## Database Errors
+
+### PostgreSQL Connection Issues
+
+<Accordion title="Database connection refused">
+**Error Message**:
+```
+PG::ConnectionBad: could not connect to server: Connection refused
+```
+
+**Cause**: PostgreSQL service not running or incorrect connection parameters.
+
+**Solutions**:
+
+<Tabs>
+<Tab title="macOS">
+```bash
+# Check if PostgreSQL is running
+brew services list | grep postgresql
+
+# Start PostgreSQL
+brew services start postgresql
+
+# Check connection
+psql postgres -c "SELECT 1;"
+
+# If user doesn't exist, create it
+createuser -s chatwoot
+```
+</Tab>
+
+<Tab title="Ubuntu/Debian">
+```bash
+# Check PostgreSQL status
+sudo systemctl status postgresql
+
+# Start PostgreSQL
+sudo systemctl start postgresql
+sudo systemctl enable postgresql
+
+# Switch to postgres user and create chatwoot user
+sudo -u postgres createuser -s chatwoot
+
+# Set password for chatwoot user
+sudo -u postgres psql -c "ALTER USER chatwoot PASSWORD 'password';"
+```
+</Tab>
+
+<Tab title="Docker">
+```bash
+# Start PostgreSQL container
+docker run --name postgres-chatwoot \
+  -e POSTGRES_USER=chatwoot \
+  -e POSTGRES_PASSWORD=password \
+  -e POSTGRES_DB=chatwoot_development \
+  -p 5432:5432 \
+  -d postgres:15
+
+# Check if container is running
+docker ps | grep postgres
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+<Accordion title="Database does not exist">
+**Error Message**:
+```
+ActiveRecord::NoDatabaseError: FATAL: database "chatwoot_development" does not exist
+```
+
+**Cause**: Database not created.
+
+**Solution**:
+```bash
+# Create databases
+bundle exec rails db:create
+
+# If that fails, create manually
+createdb chatwoot_development
+createdb chatwoot_test
+
+# Or using psql
+psql postgres -c "CREATE DATABASE chatwoot_development;"
+psql postgres -c "CREATE DATABASE chatwoot_test;"
+```
+</Accordion>
+
+<Accordion title="Migration errors">
+**Error Message**:
+```
+ActiveRecord::PendingMigrationError: Migrations are pending
+```
+
+**Cause**: Database schema is not up to date.
+
+**Solutions**:
+```bash
+# Run pending migrations
+bundle exec rails db:migrate
+
+# If migrations fail, check status
+bundle exec rails db:migrate:status
+
+# Reset database (WARNING: destroys data)
+bundle exec rails db:drop db:create db:migrate db:seed
+
+# For specific migration issues
+bundle exec rails db:migrate:up VERSION=20231201000000
+```
+</Accordion>
+
+### Redis Connection Issues
+
+<Accordion title="Redis connection refused">
+**Error Message**:
+```
+Redis::CannotConnectError: Error connecting to Redis on localhost:6379
+```
+
+**Cause**: Redis service not running.
+
+**Solutions**:
+
+<Tabs>
+<Tab title="macOS">
+```bash
+# Check if Redis is running
+brew services list | grep redis
+
+# Start Redis
+brew services start redis
+
+# Test connection
+redis-cli ping
+```
+</Tab>
+
+<Tab title="Ubuntu/Debian">
+```bash
+# Check Redis status
+sudo systemctl status redis
+
+# Start Redis
+sudo systemctl start redis
+sudo systemctl enable redis
+
+# Test connection
+redis-cli ping
+```
+</Tab>
+
+<Tab title="Docker">
+```bash
+# Start Redis container
+docker run --name redis-chatwoot \
+  -p 6379:6379 \
+  -d redis:7-alpine
+
+# Test connection
+docker exec redis-chatwoot redis-cli ping
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+## Application Runtime Errors
+
+### Rails Server Issues
+
+<Accordion title="Port already in use">
+**Error Message**:
+```
+Address already in use - bind(2) for "127.0.0.1" port 3000
+```
+
+**Cause**: Another process is using port 3000.
+
+**Solutions**:
+```bash
+# Find process using port 3000
+lsof -ti:3000
+
+# Kill the process
+kill -9 $(lsof -ti:3000)
+
+# Or use a different port
+bundle exec rails server -p 3001
+
+# Check what's running on the port
+netstat -tulpn | grep :3000
+```
+</Accordion>
+
+<Accordion title="Secret key base missing">
+**Error Message**:
+```
+ArgumentError: Missing `secret_key_base` for 'development' environment
+```
+
+**Cause**: SECRET_KEY_BASE not set in environment.
+
+**Solution**:
+```bash
+# Generate a new secret key
+bundle exec rails secret
+
+# Add to .env file
+echo "SECRET_KEY_BASE=$(bundle exec rails secret)" >> .env
+
+# Or set temporarily
+export SECRET_KEY_BASE=$(bundle exec rails secret)
+bundle exec rails server
+```
+</Accordion>
+
+<Accordion title="Webpacker compilation errors">
+**Error Message**:
+```
+Webpacker::Manifest::MissingEntryError: Webpacker can't find application.js
+```
+
+**Cause**: Webpack assets not compiled or compilation failed.
+
+**Solutions**:
+```bash
+# Check if webpack dev server is running
+ps aux | grep webpack
+
+# Start webpack dev server
+pnpm run dev
+
+# Or compile assets manually
+bundle exec rails assets:precompile
+
+# Clear webpack cache
+rm -rf tmp/cache/webpacker
+rm -rf public/packs
+
+# Reinstall node modules
+rm -rf node_modules
+pnpm install
+```
+</Accordion>
+
+### Sidekiq Worker Issues
+
+<Accordion title="Sidekiq not processing jobs">
+**Error Message**:
+```
+Jobs are queued but not being processed
+```
+
+**Cause**: Sidekiq worker not running.
+
+**Solutions**:
+```bash
+# Check if Sidekiq is running
+ps aux | grep sidekiq
+
+# Start Sidekiq
+bundle exec sidekiq
+
+# Check Sidekiq web interface
+open http://localhost:3000/sidekiq
+
+# Clear failed jobs
+bundle exec rails runner "Sidekiq::Queue.new.clear"
+```
+</Accordion>
+
+<Accordion title="Redis memory issues">
+**Error Message**:
+```
+Redis::CommandError: OOM command not allowed when used memory > 'maxmemory'
+```
+
+**Cause**: Redis running out of memory.
+
+**Solutions**:
+```bash
+# Check Redis memory usage
+redis-cli info memory
+
+# Clear Redis cache
+redis-cli flushall
+
+# Increase Redis memory limit (redis.conf)
+# maxmemory 256mb
+
+# Or restart Redis
+brew services restart redis  # macOS
+sudo systemctl restart redis  # Linux
+```
+</Accordion>
+
+## Testing Errors
+
+### RSpec Test Failures
+
+<Accordion title="Database not prepared for testing">
+**Error Message**:
+```
+ActiveRecord::StatementInvalid: PG::UndefinedTable: ERROR: relation "users" does not exist
+```
+
+**Cause**: Test database not set up properly.
+
+**Solution**:
+```bash
+# Prepare test database
+RAILS_ENV=test bundle exec rails db:create
+RAILS_ENV=test bundle exec rails db:migrate
+
+# Or use the combined command
+bundle exec rails db:test:prepare
+
+# Reset test database if needed
+RAILS_ENV=test bundle exec rails db:drop db:create db:migrate
+```
+</Accordion>
+
+<Accordion title="Factory Bot errors">
+**Error Message**:
+```
+FactoryBot::DuplicateDefinitionError: Factory already registered
+```
+
+**Cause**: Factory definitions loaded multiple times.
+
+**Solution**:
+```bash
+# Clear Spring cache
+bundle exec spring stop
+
+# Restart test suite
+bundle exec rspec
+
+# Check for duplicate factory definitions
+grep -r "FactoryBot.define" spec/
+```
+</Accordion>
+
+<Accordion title="Capybara/Selenium errors">
+**Error Message**:
+```
+Selenium::WebDriver::Error::WebDriverError: unable to connect to chromedriver
+```
+
+**Cause**: ChromeDriver not installed or incompatible version.
+
+**Solutions**:
+```bash
+# Install ChromeDriver
+# macOS
+brew install chromedriver
+
+# Ubuntu/Debian
+sudo apt-get install chromium-chromedriver
+
+# Or use webdrivers gem (should be automatic)
+bundle exec rails runner "Webdrivers::Chromedriver.update"
+
+# Run tests in headless mode
+HEADLESS=true bundle exec rspec spec/system/
+```
+</Accordion>
+
+## Development Environment Issues
+
+### IDE and Editor Problems
+
+<Accordion title="VS Code Ruby extension not working">
+**Error**: Ruby IntelliSense not working, no syntax highlighting.
+
+**Solutions**:
+```bash
+# Install Ruby LSP
+gem install ruby-lsp
+
+# Or add to Gemfile
+echo 'gem "ruby-lsp", group: :development' >> Gemfile
+bundle install
+
+# Restart VS Code
+# Install recommended extensions:
+# - Ruby LSP
+# - Ruby Solargraph
+# - Ruby Test Explorer
+```
+</Accordion>
+
+<Accordion title="Solargraph not working">
+**Error**: Ruby documentation and autocomplete not working.
+
+**Solutions**:
+```bash
+# Install Solargraph
+gem install solargraph
+
+# Generate documentation
+bundle exec yard gems
+bundle exec solargraph bundle
+
+# Create .solargraph.yml config
+solargraph config
+
+# Restart your editor
+```
+</Accordion>
+
+### Git and Version Control Issues
+
+<Accordion title="Pre-commit hooks failing">
+**Error**: Git commit rejected due to linting errors.
+
+**Solutions**:
+```bash
+# Fix RuboCop issues
+bundle exec rubocop -a
+
+# Fix ESLint issues
+pnpm run lint:fix
+
+# Format code
+pnpm run format
+
+# Skip hooks temporarily (not recommended)
+git commit --no-verify -m "Your commit message"
+
+# Update pre-commit hooks
+pre-commit autoupdate
+```
+</Accordion>
+
+<Accordion title="Large file errors">
+**Error**: Git LFS or large file warnings.
+
+**Solutions**:
+```bash
+# Install Git LFS
+git lfs install
+
+# Track large files
+git lfs track "*.png"
+git lfs track "*.jpg"
+git lfs track "*.pdf"
+
+# Add .gitattributes
+git add .gitattributes
+
+# Check LFS status
+git lfs status
+```
+</Accordion>
+
+## Performance Issues
+
+### Slow Application Startup
+
+<Accordion title="Rails server takes too long to start">
+**Cause**: Large codebase, slow database, or memory issues.
+
+**Solutions**:
+```bash
+# Use Spring for faster Rails commands
+bundle exec spring binstub --all
+
+# Check Spring status
+bundle exec spring status
+
+# Restart Spring if needed
+bundle exec spring stop
+
+# Increase memory if needed
+export RUBY_GC_HEAP_INIT_SLOTS=10000
+export RUBY_GC_HEAP_FREE_SLOTS=10000
+
+# Profile startup time
+time bundle exec rails runner "puts 'Rails loaded'"
+```
+</Accordion>
+
+<Accordion title="Slow test suite">
+**Cause**: Database setup, factory creation, or inefficient tests.
+
+**Solutions**:
+```bash
+# Use parallel testing
+bundle exec rspec --parallel
+
+# Profile slow tests
+bundle exec rspec --profile
+
+# Use database cleaner strategies
+# Add to spec/rails_helper.rb:
+# config.use_transactional_fixtures = true
+
+# Optimize factories
+# Use build_stubbed instead of create when possible
+```
+</Accordion>
+
+## Email and Communication Issues
+
+### Email Delivery Problems
+
+<Accordion title="Emails not being sent in development">
+**Cause**: SMTP configuration or email service issues.
+
+**Solutions**:
+
+<Tabs>
+<Tab title="MailHog">
+```bash
+# Install and start MailHog
+brew install mailhog  # macOS
+mailhog
+
+# Configure .env
+MAILER_SENDER_EMAIL=dev@chatwoot.local
+SMTP_ADDRESS=localhost
+SMTP_PORT=1025
+
+# Check web interface
+open http://localhost:8025
+```
+</Tab>
+
+<Tab title="Letter Opener">
+```bash
+# Add to Gemfile
+echo 'gem "letter_opener", group: :development' >> Gemfile
+bundle install
+
+# Configure in development.rb
+# config.action_mailer.delivery_method = :letter_opener
+
+# Emails will open in browser
+```
+</Tab>
+
+<Tab title="Gmail SMTP">
+```bash
+# Use app password, not regular password
+MAILER_SENDER_EMAIL=your-email@gmail.com
+SMTP_ADDRESS=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@gmail.com
+SMTP_PASSWORD=your-app-password
+SMTP_DOMAIN=gmail.com
+SMTP_ENABLE_STARTTLS_AUTO=true
+```
+</Tab>
+</Tabs>
+</Accordion>
+
+### WebSocket Connection Issues
+
+<Accordion title="ActionCable not working">
+**Error**: Real-time features not working, WebSocket connection failed.
+
+**Solutions**:
+```bash
+# Check if ActionCable is mounted
+grep -r "mount ActionCable" config/routes.rb
+
+# Check Redis connection
+redis-cli ping
+
+# Configure ActionCable for development
+# In config/environments/development.rb:
+# config.action_cable.url = "ws://localhost:3000/cable"
+# config.action_cable.allowed_request_origins = ["http://localhost:3000"]
+
+# Test WebSocket connection
+# Open browser console and check for WebSocket errors
+```
+</Accordion>
+
+## Debugging and Logging Issues
+
+### Log File Problems
+
+<Accordion title="Log files too large or not rotating">
+**Cause**: Excessive logging in development.
+
+**Solutions**:
+```bash
+# Clear log files
+> log/development.log
+> log/test.log
+
+# Configure log rotation in development.rb
+# config.logger = ActiveSupport::Logger.new("log/development.log", 5, 10.megabytes)
+
+# Reduce log level
+# config.log_level = :info
+
+# Use logrotate (Linux)
+sudo logrotate -f /etc/logrotate.conf
+```
+</Accordion>
+
+### Debugging Tool Issues
+
+<Accordion title="Pry or byebug not stopping execution">
+**Cause**: Debugger not properly configured or running in wrong context.
+
+**Solutions**:
+```bash
+# Make sure gems are in Gemfile
+echo 'gem "pry-rails", group: [:development, :test]' >> Gemfile
+echo 'gem "pry-byebug", group: [:development, :test]' >> Gemfile
+bundle install
+
+# Use correct debugger syntax
+# binding.pry  # for Pry
+# debugger     # for built-in debugger
+# byebug       # for byebug
+
+# Check if running in correct environment
+puts Rails.env
+```
+</Accordion>
+
+## Quick Diagnostic Commands
+
+### System Health Check
+
+```bash
+#!/bin/bash
+# health_check.sh - Quick system diagnostic
+
+echo "=== Chatwoot Development Health Check ==="
+
+# Check Ruby version
+echo "Ruby version: $(ruby --version)"
+
+# Check Node.js version
+echo "Node.js version: $(node --version)"
+
+# Check database connection
+if bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" > /dev/null 2>&1; then
+  echo "✅ Database connection: OK"
+else
+  echo "❌ Database connection: FAILED"
+fi
+
+# Check Redis connection
+if redis-cli ping > /dev/null 2>&1; then
+  echo "✅ Redis connection: OK"
+else
+  echo "❌ Redis connection: FAILED"
+fi
+
+# Check if services are running
+echo "Running processes:"
+ps aux | grep -E "(rails|sidekiq|webpack|mailhog)" | grep -v grep
+
+# Check ports
+echo "Port usage:"
+lsof -i :3000,3035,6379,5432,8025 2>/dev/null || echo "No processes found on common ports"
+
+echo "=== Health Check Complete ==="
+```
+
+### Environment Validation
+
+```bash
+#!/bin/bash
+# validate_env.sh - Validate development environment
+
+required_vars=(
+  "RAILS_ENV"
+  "DATABASE_URL"
+  "REDIS_URL"
+  "SECRET_KEY_BASE"
+  "FRONTEND_URL"
+)
+
+echo "=== Environment Variable Check ==="
+for var in "${required_vars[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "❌ Missing: $var"
+  else
+    echo "✅ Set: $var"
+  fi
+done
+
+echo "=== Dependency Check ==="
+commands=("ruby" "node" "psql" "redis-cli" "git")
+for cmd in "${commands[@]}"; do
+  if command -v $cmd > /dev/null 2>&1; then
+    echo "✅ $cmd: $(command -v $cmd)"
+  else
+    echo "❌ $cmd: Not found"
+  fi
+done
+```
+
+## Getting Additional Help
+
+If you're still experiencing issues after trying these solutions:
+
+1. **Search GitHub Issues**: Check if others have reported similar problems
+2. **Check Logs**: Look at `log/development.log` for detailed error messages
+3. **Discord Community**: Join the Chatwoot Discord for real-time help
+4. **Documentation**: Review the official documentation
+5. **Create an Issue**: If it's a bug, create a detailed GitHub issue
+
+### Creating a Good Bug Report
+
+When reporting issues, include:
+
+```markdown
+## Environment
+- OS: [e.g., macOS 13.0, Ubuntu 22.04]
+- Ruby version: [e.g., 3.3.3]
+- Node.js version: [e.g., 20.10.0]
+- Database: [e.g., PostgreSQL 15.0]
+
+## Steps to Reproduce
+1. Step one
+2. Step two
+3. Step three
+
+## Expected Behavior
+What you expected to happen
+
+## Actual Behavior
+What actually happened
+
+## Error Messages
+```
+Full error message and stack trace
+```
+
+## Additional Context
+Any other relevant information
+```
+
+---
+
+This guide covers the most common development issues. For production deployment issues, see the [Self-hosted documentation](../../self-hosted/). 
