@@ -1,5 +1,3 @@
-require 'yaml'
-
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   CONFIG_PATH = Rails.root.join('config/markdown_embeds.yml')
 
@@ -49,19 +47,24 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def render_embedded_content(node)
     link_url = node.url
+    embed_html = find_matching_embed(link_url)
 
+    return false unless embed_html
+
+    out(embed_html)
+    true
+  end
+
+  def find_matching_embed(link_url)
     self.class.embed_regexes.each do |embed_key, regex|
       match = link_url.match(regex)
       next unless match
 
       embed_html = render_embed_from_match(embed_key, match)
-      if embed_html
-        out(embed_html)
-        return true
-      end
+      return embed_html if embed_html
     end
 
-    false
+    nil
   end
 
   def render_embed_from_match(embed_key, match_data)
