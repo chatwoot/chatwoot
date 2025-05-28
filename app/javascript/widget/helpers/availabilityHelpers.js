@@ -60,12 +60,17 @@ export const getWorkingHoursInfo = (workingHours, utcOffset, enabled) => {
 
 // Find next open slot
 const findNextOpenSlot = (workingHours, currentDay) => {
-  const openSlots = workingHours.filter(slot => !slot.closed_all_day);
+  const openSlotsByDay = workingHours.reduce((acc, slot) => {
+    if (!slot.closed_all_day) {
+      acc[slot.day_of_week] = slot;
+    }
+    return acc;
+  }, {});
 
   // Check next 7 days
   for (let i = 1; i <= DAYS_IN_WEEK; i += 1) {
     const day = (currentDay + i) % DAYS_IN_WEEK;
-    const slot = openSlots.find(s => s.day_of_week === day);
+    const slot = openSlotsByDay[day];
     if (slot) return { config: slot, dayDiff: i };
   }
 
@@ -143,7 +148,8 @@ const getTargetConfig = (
 ) => {
   const needsNextDay =
     todayConfig.closed_all_day ||
-    (todayConfig.close_hour && currentHour >= todayConfig.close_hour);
+    (todayConfig.close_hour && currentHour >= todayConfig.close_hour) ||
+    (todayConfig.open_hour === 0 && currentHour > 0); // Special case: if working hours start at midnight and we're past midnight, we need to go to next occurrence of this day
 
   if (!needsNextDay) return { config: todayConfig, dayDiff: 0 };
 
