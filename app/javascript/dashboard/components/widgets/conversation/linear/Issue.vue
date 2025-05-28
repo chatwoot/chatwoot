@@ -50,7 +50,7 @@ const priorityLabel = computed(() => {
 });
 
 const unlinkIssue = () => {
-  emit('unlinkIssue', props.linkId);
+  emit('unlinkIssue', props.linkId, props.issue.identifier);
 };
 </script>
 
