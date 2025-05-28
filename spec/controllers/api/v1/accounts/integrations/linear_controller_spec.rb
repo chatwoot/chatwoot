@@ -100,6 +100,7 @@ RSpec.describe 'Linear Integration API', type: :request do
         description: 'This is a sample issue.',
         assignee_id: 'user1',
         priority: 'high',
+        state_id: 'state1',
         label_ids: ['label1']
       }
     end

@@ -60,8 +60,8 @@ Rails.application.routes.draw do
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
-            resources :copilot_threads, only: [:index] do
-              resources :copilot_messages, only: [:index]
+            resources :copilot_threads, only: [:index, :create] do
+              resources :copilot_messages, only: [:index, :create]
             end
             resources :documents, only: [:index, :show, :create, :destroy]
           end
@@ -137,6 +137,7 @@ Rails.application.routes.draw do
               get :conversations
               get :messages
               get :contacts
+              get :articles
             end
           end
 
@@ -396,6 +397,7 @@ Rails.application.routes.draw do
         resources :users, only: [:create, :show, :update, :destroy] do
           member do
             get :login
+            post :token
           end
         end
         resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
