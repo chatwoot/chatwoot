@@ -7,6 +7,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
   ARCADE_REGEX = %r{https?://(?:www\.)?app\.arcade\.software/share/([^&/]+)}
   WISTIA_REGEX = %r{https?://(?:www\.)?([^/]+)\.wistia\.com/medias/([^&/]+)}
+  BUNNY_REGEX = %r{https?://iframe\.mediadelivery\.net/play/(\d+)/([^&/?]+)}
 
   def text(node)
     content = node.string_content
@@ -52,7 +53,8 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
       MP4_REGEX => :make_video_embed,
       LOOM_REGEX => :make_loom_embed,
       ARCADE_REGEX => :make_arcade_embed,
-      WISTIA_REGEX => :make_wistia_embed
+      WISTIA_REGEX => :make_wistia_embed,
+      BUNNY_REGEX => :make_bunny_embed
     }
 
     embedding_methods.each do |regex, method|
@@ -103,5 +105,11 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
   def make_arcade_embed(arcade_match)
     video_id = arcade_match[1]
     EmbedRenderer.arcade(video_id)
+  end
+
+  def make_bunny_embed(bunny_match)
+    library_id = bunny_match[1]
+    video_id = bunny_match[2]
+    EmbedRenderer.bunny(library_id, video_id)
   end
 end
