@@ -38,16 +38,9 @@ export const openExternalLinksInNewTab = () => {
   document.addEventListener('click', event => {
     if (!isOnArticlePage) return;
 
-    // Some of the links come wrapped in strong tag through prosemirror
+    const link = event.target.closest('a');
 
-    const isTagAnchor = event.target.tagName === 'A';
-    const isParentTagAnchor =
-      event.target.tagName === 'STRONG' &&
-      event.target.parentNode.tagName === 'A';
-
-    if (isTagAnchor || isParentTagAnchor) {
-      const link = isTagAnchor ? event.target : event.target.parentNode;
-
+    if (link) {
       const isInternalLink =
         link.hostname === window.location.hostname ||
         link.href.includes(customDomain) ||

@@ -13,6 +13,9 @@ module Captain::ChatHelper
     )
 
     handle_response(response)
+  rescue StandardError => e
+    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
+    raise e
   end
 
   private
