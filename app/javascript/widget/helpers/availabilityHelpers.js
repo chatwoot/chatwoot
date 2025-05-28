@@ -92,7 +92,28 @@ const getTimeDifference = (targetTime, currentTime) => {
 const backInResponse = value => ({ type: 'BACK_IN', value });
 const backInSomeTimeResponse = () => ({ type: 'BACK_IN_SOME_TIME' });
 
-// Get response for multiple days
+// Get specific time response (eg: at 09:00 AM)
+const getSpecificTimeResponse = config => {
+  const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
+  const targetMinute = config.open_minutes ?? 0;
+  return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
+};
+
+// Get relative hours response (eg: in 2 hours)
+const getRelativeHoursResponse = (hours, minutes, locale) => {
+  const roundedHours = minutes > 0 ? hours + 1 : hours;
+  return backInResponse(generateRelativeTime(roundedHours, 'hour', locale));
+};
+
+// Get relative minutes response (eg: in 15 minutes)
+const getRelativeMinutesResponse = (minutes, locale) => {
+  const roundedMinutes = Math.ceil(minutes / 5) * 5;
+  return backInResponse(
+    generateRelativeTime(roundedMinutes, 'minutes', locale)
+  );
+};
+
+// Get response for multiple days (eg: tomorrow, on Friday)
 const getMultipleDayResponse = (dayDiff, hours, config) => {
   if (dayDiff === 1) return { type: 'BACK_TOMORROW' };
   if (dayDiff > 1 || hours >= HOURS_IN_DAY) {
@@ -101,28 +122,7 @@ const getMultipleDayResponse = (dayDiff, hours, config) => {
   return null;
 };
 
-// Get specific time response
-const getSpecificTimeResponse = config => {
-  const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
-  const targetMinute = config.open_minutes ?? 0;
-  return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
-};
-
-// Get relative hours response
-const getRelativeHoursResponse = (hours, minutes, locale) => {
-  const roundedHours = minutes > 0 ? hours + 1 : hours;
-  return backInResponse(generateRelativeTime(roundedHours, 'hour', locale));
-};
-
-// Get relative minutes response
-const getRelativeMinutesResponse = (minutes, locale) => {
-  const roundedMinutes = Math.ceil(minutes / 5) * 5;
-  return backInResponse(
-    generateRelativeTime(roundedMinutes, 'minutes', locale)
-  );
-};
-
-// Get same day response
+// Get same day response (eg: in 2 hours, in 15 minutes, at 09:00 AM)
 const getSameDayResponse = (hours, minutes, config, locale) => {
   if (hours >= 3) return getSpecificTimeResponse(config);
   if (hours > 0) return getRelativeHoursResponse(hours, minutes, locale);
@@ -133,10 +133,10 @@ const getSameDayResponse = (hours, minutes, config, locale) => {
 // Format response based on time difference
 const formatTimeResponse = ({ dayDiff, hours, minutes, config, locale }) => {
   const multipleDayResponse = getMultipleDayResponse(dayDiff, hours, config);
-  if (multipleDayResponse) return multipleDayResponse;
+  if (multipleDayResponse) return multipleDayResponse; // eg: tomorrow, on Friday
 
   const sameDayResponse = getSameDayResponse(hours, minutes, config, locale);
-  return sameDayResponse || backInSomeTimeResponse();
+  return sameDayResponse || backInSomeTimeResponse(); // eg: in 2 hours, in 15 minutes, at 09:00 AM
 };
 
 // Get target configuration
