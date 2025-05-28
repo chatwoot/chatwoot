@@ -1,13 +1,14 @@
 FactoryBot.define do
   factory :article, class: 'Article' do
-    account_id { 1 }
-    category_id { 1 }
+    account
+    category { nil }
+    portal
     locale { 'en' }
-    author_id { 1 }
+    association :author, factory: :user
     title { "#{Faker::Movie.title} #{SecureRandom.hex}" }
     content { 'MyText' }
     description { 'MyDescrption' }
-    status { 1 }
+    status { :published }
     views { 0 }
   end
 end
