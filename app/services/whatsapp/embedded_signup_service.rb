@@ -148,15 +148,21 @@ class Whatsapp::EmbeddedSignupService
   end
 
   def generate_inbox_name(waba_info, phone_info)
-    business_name = waba_info[:business_name] || phone_info[:business_name]
-    sanitized_business_name = business_name.present? ? "[redacted]" : nil
-    sanitized_phone_number = phone_info[:phone_number].present? ? "[redacted]" : nil
+    sanitized_business_name = sanitize_business_name(waba_info, phone_info)
 
-    if sanitized_business_name.present?
-      "#{sanitized_business_name} WhatsApp"
-    else
-      "WhatsApp (#{sanitized_phone_number})"
-    end
+    return "#{sanitized_business_name} WhatsApp" if sanitized_business_name.present?
+
+    sanitized_phone_number = sanitize_phone_number(phone_info)
+    "WhatsApp (#{sanitized_phone_number})"
+  end
+
+  def sanitize_business_name(waba_info, phone_info)
+    business_name = waba_info[:business_name] || phone_info[:business_name]
+    business_name.present? ? '[redacted]' : nil
+  end
+
+  def sanitize_phone_number(phone_info)
+    phone_info[:phone_number].present? ? '[redacted]' : nil
   end
 
   def validate_token_waba_access(access_token, waba_id)
