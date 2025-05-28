@@ -133,7 +133,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col items-center justify-between px-4 py-2 border-b bg-n-background border-n-weak md:flex-row"
+    class="flex flex-col items-center justify-between px-3 py-2 border-b bg-n-background border-n-weak md:flex-row h-12"
   >
     <div
       class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
@@ -150,6 +150,7 @@ export default {
           :badge="inboxBadge"
           :username="currentContact.name"
           :status="currentContact.availability_status"
+          size="32px"
         />
         <div
           class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
@@ -159,7 +160,7 @@ export default {
           >
             <NextButton link slate @click.prevent="$emit('contactPanelToggle')">
               <span
-                class="text-base font-medium truncate leading-tight text-n-slate-12"
+                class="text-sm font-medium truncate leading-tight text-n-slate-12"
               >
                 {{ currentContact.name }}
               </span>
