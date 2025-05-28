@@ -78,8 +78,8 @@
         "NOTE": "This token can be used if you are building an API based integration",
         "COPY": "Copy",
         "RESET": "Reset",
-        "RESET_SUCCESS": "Access token regenerated",
-        "RESET_ERROR": "Could not reset token"
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",

@@ -64,7 +64,7 @@
       "DESCRIPTION": "Copy the access token and save it securely",
       "COPY_SUCCESSFUL": "Access token copied to clipboard",
       "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Could not reset access token. Please try again."
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
     },
     "FORM": {
       "AVATAR": {
