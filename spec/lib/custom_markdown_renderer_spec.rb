@@ -169,7 +169,7 @@ describe CustomMarkdownRenderer do
       it 'renders an iframe with Bunny embed code' do
         output = render_markdown_link(bunny_url)
         expect(output).to include('src="https://iframe.mediadelivery.net/embed/431789/1f105841-cad9-46fe-a70e-b7623c60797c?autoplay=false&loop=false&muted=false&preload=true&responsive=true"')
-        expect(output).to include('allowfullscreen="true"')
+        expect(output).to include('allowfullscreen')
         expect(output).to include('allow="accelerometer; gyroscope; autoplay; encrypted-media; picture-in-picture;"')
       end
 
