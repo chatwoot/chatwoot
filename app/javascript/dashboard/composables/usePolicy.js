@@ -51,7 +51,8 @@ export function usePolicy() {
   };
 
   const isPremiumFeature = featureFlag => {
-      return false
+      if (!featureFlag) return true;
+    return PREMIUM_FEATURES.includes(featureFlag);
   };
 
   const hasPremiumEnterprise = computed(() => {
