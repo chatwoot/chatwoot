@@ -138,6 +138,7 @@ Rails.application.routes.draw do
               get :conversations
               get :messages
               get :contacts
+              get :articles
             end
           end
 
