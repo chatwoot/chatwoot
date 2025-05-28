@@ -124,7 +124,14 @@ export default {
 
     handleSignupMessage(event) {
       // Handle Facebook embedded signup message events
-      if (!event.origin.endsWith('facebook.com')) return;
+      try {
+        const originUrl = new URL(event.origin);
+        const allowedHosts = ['facebook.com', 'www.facebook.com'];
+        if (!allowedHosts.includes(originUrl.hostname)) return;
+      } catch (error) {
+        // Invalid origin URL, reject the event
+        return;
+      }
 
       try {
         const data = JSON.parse(event.data);
