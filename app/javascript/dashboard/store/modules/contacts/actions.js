@@ -45,15 +45,12 @@ export const handleContactOperationErrors = error => {
 };
 
 export const actions = {
-  search: async (
-    { commit },
-    { search, page, sortAttr, label, visitors = false }
-  ) => {
+  search: async ({ commit }, { search, page, sortAttr, label }) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.search(search, page, sortAttr, label, visitors);
+      } = await ContactAPI.search(search, page, sortAttr, label);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);
@@ -63,15 +60,27 @@ export const actions = {
     }
   },
 
-  get: async (
-    { commit },
-    { page = 1, sortAttr, label, visitors = false } = {}
-  ) => {
+  get: async ({ commit }, { page = 1, sortAttr, label } = {}) => {
     commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
     try {
       const {
         data: { payload, meta },
-      } = await ContactAPI.get(page, sortAttr, label, visitors);
+      } = await ContactAPI.get(page, sortAttr, label);
+      commit(types.CLEAR_CONTACTS);
+      commit(types.SET_CONTACTS, payload);
+      commit(types.SET_CONTACT_META, meta);
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    } catch (error) {
+      commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
+    }
+  },
+
+  active: async ({ commit }, { page = 1, sortAttr } = {}) => {
+    commit(types.SET_CONTACT_UI_FLAG, { isFetching: true });
+    try {
+      const {
+        data: { payload, meta },
+      } = await ContactAPI.active(page, sortAttr);
       commit(types.CLEAR_CONTACTS);
       commit(types.SET_CONTACTS, payload);
       commit(types.SET_CONTACT_META, meta);

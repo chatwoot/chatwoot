@@ -236,6 +236,12 @@ const menuItems = computed(() => {
           activeOn: ['contacts_dashboard_index', 'contacts_edit'],
         },
         {
+          name: 'Active',
+          label: t('SIDEBAR.ACTIVE'),
+          to: accountScopedRoute('active'),
+          activeOn: ['active'],
+        },
+        {
           name: 'Segments',
           icon: 'i-lucide-group',
           label: t('SIDEBAR.CUSTOM_VIEWS_SEGMENTS'),

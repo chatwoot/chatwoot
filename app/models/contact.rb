@@ -128,8 +128,6 @@ class Contact < ApplicationRecord
     )
   }
 
-  scope :visitor_users, -> { where(phone_number: nil) }
-
   # Find contacts that:
   # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
   # 2. Have no conversations

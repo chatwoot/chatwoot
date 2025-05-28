@@ -34,15 +34,6 @@ const primaryMenuItems = accountId => [
     toStateName: 'contacts_dashboard_index',
   },
   {
-    icon: 'visitor-contacts',
-    key: 'visitors',
-    label: 'VISITORS',
-    featureFlag: FEATURE_FLAGS.CRM,
-    toState: frontendURL(`accounts/${accountId}/visitors`),
-    toStateName: 'visitors',
-    roles: ['administrator', 'agent'],
-  },
-  {
     icon: 'arrow-trending-lines',
     key: 'reports',
     label: 'REPORTS',

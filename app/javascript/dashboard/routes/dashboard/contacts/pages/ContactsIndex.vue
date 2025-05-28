@@ -53,6 +53,7 @@ const sortState = reactive({
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
+const isActiveRoute = computed(() => route.name === 'active');
 const isFetchingList = computed(
   () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
 );
@@ -132,6 +133,15 @@ const fetchSavedOrAppliedFilteredContact = async (payload, page = 1) => {
   updatePageParam(page);
 };
 
+const fetchActiveContacts = async (page = 1) => {
+  await store.dispatch('contacts/clearContactFilters');
+  await store.dispatch('contacts/active', {
+    page,
+    sortAttr: buildSortAttr(),
+  });
+  updatePageParam(page);
+};
+
 const searchContacts = debounce(async (value, page = 1) => {
   await store.dispatch('contacts/clearContactFilters');
   searchValue.value = value;
@@ -158,6 +168,11 @@ const fetchContactsBasedOnContext = async page => {
   }
   // Reset the search value when we change the view
   searchValue.value = '';
+  // If we're on the active route, fetch active contacts
+  if (isActiveRoute.value) {
+    await fetchActiveContacts(page);
+    return;
+  }
   // If there are applied filters or active segment with query
   if (
     (hasAppliedFilters.value || activeSegment.value?.query) &&

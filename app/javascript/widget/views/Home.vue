@@ -3,7 +3,6 @@ import TeamAvailability from 'widget/components/TeamAvailability.vue';
 import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
-import messageMixin from '../mixins/messageMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
 export default {
   name: 'Home',
@@ -11,7 +10,7 @@ export default {
     ArticleContainer,
     TeamAvailability,
   },
-  mixins: [configMixin, routerMixin, messageMixin],
+  mixins: [configMixin, routerMixin],
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
@@ -21,10 +20,7 @@ export default {
   },
   methods: {
     startConversation() {
-      if (
-        this.preChatFormEnabled &&
-        (this.totalMessagesSentByContact() === 0 || !this.conversationSize)
-      ) {
+      if (this.preChatFormEnabled && !this.conversationSize) {
         return this.replaceRoute('prechat-form');
       }
       return this.replaceRoute('messages');

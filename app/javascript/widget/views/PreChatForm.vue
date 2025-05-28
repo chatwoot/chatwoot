@@ -2,7 +2,6 @@
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
 import routerMixin from '../mixins/routerMixin';
-import messageMixin from '../mixins/messageMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -11,7 +10,7 @@ export default {
   components: {
     PreChatForm,
   },
-  mixins: [configMixin, routerMixin, messageMixin],
+  mixins: [configMixin, routerMixin],
   mounted() {
     // Register event listener for conversation creation
     emitter.on(ON_CONVERSATION_CREATED, this.handleConversationCreated);

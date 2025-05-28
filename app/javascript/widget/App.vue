@@ -4,7 +4,6 @@ import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
-import messageMixin from './mixins/messageMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
@@ -29,7 +28,7 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [availabilityMixin, configMixin, routerMixin, messageMixin],
+  mixins: [availabilityMixin, configMixin, routerMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
     return { prefersDarkMode };
@@ -158,11 +157,7 @@ export default {
         this.setUnreadView();
       });
       emitter.on(ON_UNREAD_MESSAGE_CLICK, () => {
-        if (this.totalMessagesSentByContact() === 0) {
-          this.replaceRoute('prechat-form').then(() => this.unsetUnreadView());
-        } else {
-          this.replaceRoute('messages').then(() => this.unsetUnreadView());
-        }
+        this.replaceRoute('messages').then(() => this.unsetUnreadView());
       });
     },
     registerCampaignEvents() {
@@ -318,10 +313,7 @@ export default {
             !message.isOpen &&
             ['unread-messages', 'campaigns'].includes(this.$route.name);
 
-          if (
-            shouldShowMessageView &&
-            this.totalMessagesSentByContact() !== 0
-          ) {
+          if (shouldShowMessageView) {
             this.replaceRoute('messages');
           }
           if (shouldShowHomeView) {

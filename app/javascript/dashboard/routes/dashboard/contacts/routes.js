@@ -60,10 +60,10 @@ export const routes = [
     ],
   },
   {
-    path: frontendURL('accounts/:accountId/visitors'),
-    name: 'visitors',
-    roles: ['administrator', 'agent'],
-    component: ContactsView,
+    path: frontendURL('accounts/:accountId/active'),
+    name: 'active',
+    component: ContactsIndex,
+    meta: commonMeta,
     props: {
       reload: true,
     },
