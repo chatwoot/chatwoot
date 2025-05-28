@@ -1,0 +1,117 @@
+<% content_for(:title) do %>
+  Settings
+<% end %>
+<header class="flex px-8 py-4 items-center border-b border-n-weak" role="banner">
+  <div class="border border-n-weak mr-4 p-2 rounded-full">
+    <svg width="24" height="24"><use xlink:href="#icon-settings-2-line" /></svg>
+  </div>
+  <div class="flex flex-col h-14 justify-center">
+    <h1 class="text-base font-medium leading-6 text-n-slate-12" id="page-title">
+      <%= content_for(:title) %>
+    </h1>
+    <p class="text-sm font-normal leading-5 text-slate-500 m-0">Update your instance settings, access billing portal</p>
+  </div>
+</header>
+<section class="main-content__body px-8">
+  <% if Redis::Alfred.get(Redis::Alfred::CHATWOOT_INSTALLATION_CONFIG_RESET_WARNING) %>
+    <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-5" role="alert">
+    <strong class="font-bold">Alert!</strong>
+    <span class="block sm:inline">Unauthorized premium changes detected in Chatwoot. To keep using them, please upgrade your plan.
+      Contact for help :</span><span class="inline rounded-full bg-red-200 px-2  text-white  ml-2">sales@chatwoot.com</span>
+    </div>
+  <% end %>
+
+  <div class="bg-white py-2 px-4 xl:px-0">
+    <div class="mb-4">
+      <div class="flex items-center gap-2">
+        <h2 class="h-5 leading-5 text-n-slate-12 font-medium">Current plan</h2>
+        <a href="<%= refresh_super_admin_settings_url %>" class="inline-flex gap-1 text-xs font-medium items-center text-woot-500 hover:text-woot-700">
+          <svg width="16" height="16"><use xlink:href="#icon-refresh-line" /></svg>
+          <span>Refresh</span>
+        </a>
+      </div>
+      <p class="text-n-slate-11 mt-1"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
+      <div class="flex items-center mt-6">
+        <h4 class="text-sm font-medium leading-5 h-5 text-n-slate-12 mr-4">Installation Identifier</h4>
+        <span class="text-sm leading-5 h-5 text-n-slate-11"><%= ChatwootHub.installation_identifier %></span>
+      </div>
+    </div>
+    <div class="flex p-4 outline outline-1 outline-n-container rounded-lg mt-8 items-start md:items-center shadow-sm flex-col md:flex-row">
+      <div class="flex flex-col flex-grow gap-1">
+        <h2 class="h-5 leading-5 text-n-slate-12 text-sm font-medium">Current plan</h2>
+        <p class="text-n-slate-11 m-0 text-sm"><%= SuperAdmin::FeaturesHelper.plan_details.html_safe %></p>
+      </div>
+      <a href="<%= ChatwootHub.billing_url %>" target="_blank" rel="noopener noreferrer">
+        <button class="mt-4 md:mt-0 flex gap-1 items-center bg-transparent shadow-sm h-9 hover:text-n-slate-12 hover:bg-slate-50 outline outline-1 outline-n-container rounded text-n-slate-11 font-medium p-2">
+          <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
+          <span class="px-1">Manage</span>
+        </button>
+      </a>
+    </div>
+
+    <% if ChatwootHub.pricing_plan != 'community' &&  User.count > ChatwootHub.pricing_plan_quantity %>
+    <div role="alert">
+      <div class="border border-t-0 border-red-400 rounded-b bg-red-100 px-4 py-3 text-red-700">
+        <p>You have <%= User.count %> agents. Please add more licenses to add more users.</p>
+      </div>
+    </div>
+    <% end %>
+
+
+    <div class="flex p-4 outline outline-1 outline-n-container rounded-lg mt-4 items-start md:items-center shadow-sm flex-col md:flex-row">
+      <div class="flex flex-col flex-grow gap-1">
+        <h2 class="h-5 leading-5 text-n-slate-12 text-sm font-medium">Need help?</h2>
+        <p class="text-n-slate-11 m-0 text-sm">Do you face any issues? We are here to help.</p>
+      </div>
+      <a href="https://discord.gg/cJXdrwS" target="_blank">
+        <button class="flex mt-4 md:mt-0 gap-1 items-center bg-transparent shadow-sm h-9 bg-violet-500 hover:bg-violet-600 text-white border border-solid border-violet-600 rounded font-medium p-2">
+          <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
+          <span class="px-1">Community Support</span>
+        </button>
+      </a>
+      <% if ChatwootHub.pricing_plan !='community' %>
+        <button class="ml-4 flex gap-1 items-center bg-transparent h-9 hover:text-n-slate-12 hover:bg-slate-50 border border-solid border-slate-100 rounded text-n-slate-11 font-medium p-2" onclick="window.$chatwoot.toggle('open')">
+          <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M12 2c5.523 0 10 4.477 10 10s-4.477 10-10 10a9.96 9.96 0 0 1-4.587-1.112l-3.826 1.067a1.25 1.25 0 0 1-1.54-1.54l1.068-3.823A9.96 9.96 0 0 1 2 12C2 6.477 6.477 2 12 2Zm0 1.5A8.5 8.5 0 0 0 3.5 12c0 1.47.373 2.883 1.073 4.137l.15.27-1.112 3.984 3.987-1.112.27.15A8.5 8.5 0 1 0 12 3.5ZM8.75 13h4.498a.75.75 0 0 1 .102 1.493l-.102.007H8.75a.75.75 0 0 1-.102-1.493L8.75 13h4.498H8.75Zm0-3.5h6.505a.75.75 0 0 1 .101 1.493l-.101.007H8.75a.75.75 0 0 1-.102-1.493L8.75 9.5h6.505H8.75Z" fill="currentColor"/></svg>
+          <span class="px-1">Chat Support</span>
+        </button>
+      <% end %>
+    </div>
+    <div class="mt-10 py-4">
+      <h3 class="h-5 leading-5 text-n-slate-12 font-medium text-base">Features</h3>
+    </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-x-2 gap-y-3">
+      <% SuperAdmin::FeaturesHelper.available_features.each do |feature, attrs| %>
+        <div class="group outline outline-1 outline-n-container p-4 rounded-lg relative shadow-sm">
+          <span class="<%= attrs[:enabled] ? 'bg-green-400 text-white': 'bg-slate-300 text-slate-800' %> absolute rounded-full p-1 inline-flex right-4 top-5">
+            <svg width="14" height="14"><use xlink:href="<%= attrs[:enabled] ? '#icon-tick-line': '#icon-lock-line' %>" /></svg>
+          </span>
+          <div class="visible <% if !attrs[:enabled] %> group-hover:invisible <% end %> flex items-center justify-center w-10 h-10 mb-2 border border-slate-100 border-solid text-slate-800 rounded-full">
+            <svg width="20" height="20"><use xlink:href="#<%= attrs[:icon] %>" /></svg>
+          </div>
+          <% if !attrs[:enabled] %>
+          <div class="flex h-9 absolute top-5 items-center invisible group-hover:visible">
+            <a href="<%= ChatwootHub.billing_url %>" target="_blank" rel="noopener noreferrer" class="flex gap-1 items-center bg-slate-100 h-9 hover:bg-slate-300 hover:text-n-slate-12 border border-solid border-slate-100 rounded text-n-slate-11 font-medium p-2">
+              <svg class="h-4 w-4" width="24" height="24" fill="none" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path d="M13.209 3.103c-.495-1.004-1.926-1.004-2.421 0L8.43 7.88l-5.273.766c-1.107.161-1.55 1.522-.748 2.303l3.815 3.72-.9 5.25c-.19 1.103.968 1.944 1.959 1.424l4.715-2.48 4.716 2.48c.99.52 2.148-.32 1.96-1.424l-.902-5.25 3.816-3.72c.8-.78.359-2.142-.748-2.303l-5.273-.766-2.358-4.777ZM9.74 8.615l2.258-4.576 2.259 4.576a1.35 1.35 0 0 0 1.016.738l5.05.734-3.654 3.562a1.35 1.35 0 0 0-.388 1.195l.862 5.03-4.516-2.375a1.35 1.35 0 0 0-1.257 0l-4.516 2.374.862-5.029a1.35 1.35 0 0 0-.388-1.195l-3.654-3.562 5.05-.734c.44-.063.82-.34 1.016-.738ZM1.164 3.782a.75.75 0 0 0 .118 1.054l2.5 2a.75.75 0 1 0 .937-1.172l-2.5-2a.75.75 0 0 0-1.055.118Z" fill="currentColor"/><path d="M22.836 18.218a.75.75 0 0 0-.117-1.054l-2.5-2a.75.75 0 0 0-.938 1.172l2.5 2a.75.75 0 0 0 1.055-.117ZM1.282 17.164a.75.75 0 1 0 .937 1.172l2.5-2a.75.75 0 0 0-.937-1.172l-2.5 2ZM22.836 3.782a.75.75 0 0 1-.117 1.054l-2.5 2a.75.75 0 0 1-.938-1.172l2.5-2a.75.75 0 0 1 1.055.118Z"  fill="currentColor"/></svg>
+              <span class="px-1">Upgrade now</span>
+            </a>
+          </div>
+          <% end %>
+          <div class="flex items-center justify-between mb-1.5 mt-4">
+            <div class="flex items-center gap-2">
+              <h3 class="text-n-slate-12 font-medium"><%= attrs[:name] %></h3>
+              <% if attrs[:enterprise] %>
+                <span class="px-2 h-4 leading-4 rounded-xl text-green-800 font-medium bg-green-100/70 text-xxs">EE</span>
+              <% end %>
+              <% if attrs[:config_key].present? && attrs[:enabled] %>
+                <a class="inline-flex items-center justify-center h-5 w-5 hover:bg-slate-50 rounded-sm" href="/super_admin/app_config?config=<%= attrs[:config_key] %>">
+                  <svg width="18" height="18"><use xlink:href="#icon-gear" /></svg>
+                </a>
+              <% end %>
+            </div>
+          </div>
+          <p class="text-n-slate-11 mb-0"><%= attrs[:description] %></p>
+        </div>
+      <% end %>
+    </div>
+  </div>
+</section>

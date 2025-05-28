@@ -1,20 +1,27 @@
+# TODO : Move this to inboxes controller and deprecate this controller
+# No need to retain this controller as we could handle everything centrally in inboxes controller
+
 class Api::V1::Accounts::Channels::TwilioChannelsController < Api::V1::Accounts::BaseController
   before_action :authorize_request
 
   def create
-    ActiveRecord::Base.transaction do
-      authenticate_twilio
-      build_inbox
-      setup_webhooks if @twilio_channel.sms?
-    rescue StandardError => e
-      render_could_not_create_error(e.message)
-    end
+    process_create
+  rescue StandardError => e
+    render_could_not_create_error(e.message)
   end
 
   private
 
   def authorize_request
     authorize ::Inbox
+  end
+
+  def process_create
+    ActiveRecord::Base.transaction do
+      authenticate_twilio
+      build_inbox
+      setup_webhooks if @twilio_channel.sms?
+    end
   end
 
   def authenticate_twilio

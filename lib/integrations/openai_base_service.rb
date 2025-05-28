@@ -1,10 +1,11 @@
 class Integrations::OpenaiBaseService
-  # 3.5 support 4,096 tokens
+  # gpt-4o-mini supports 128,000 tokens
   # 1 token is approx 4 characters
-  # 4,096 * 4 = 16,384 characters, sticking to 15,000 to be safe
-  TOKEN_LIMIT = 15_000
+  # sticking with 120000 to be safe
+  # 120000 * 4 = 480,000 characters (rounding off downwards to 400,000 to be safe)
+  TOKEN_LIMIT = 400_000
   API_URL = 'https://api.openai.com/v1/chat/completions'.freeze
-  GPT_MODEL = 'gpt-3.5-turbo'.freeze
+  GPT_MODEL = ENV.fetch('OPENAI_GPT_MODEL', 'gpt-4o-mini').freeze
 
   ALLOWED_EVENT_NAMES = %w[rephrase summarize reply_suggestion fix_spelling_grammar shorten expand make_friendly make_formal simplify].freeze
   CACHEABLE_EVENTS = %w[].freeze
@@ -31,7 +32,6 @@ class Integrations::OpenaiBaseService
   def cache_key
     return nil unless event_is_cacheable?
 
-    conversation = find_conversation
     return nil unless conversation
 
     # since the value from cache depends on the conversation last_activity_at, it will always be fresh
@@ -43,17 +43,30 @@ class Integrations::OpenaiBaseService
     return nil unless event_is_cacheable?
     return nil if cache_key.blank?
 
-    Redis::Alfred.get(cache_key)
+    deserialize_cached_value(Redis::Alfred.get(cache_key))
+  end
+
+  def deserialize_cached_value(value)
+    return nil if value.blank?
+
+    JSON.parse(value, symbolize_names: true)
+  rescue JSON::ParserError
+    # If json parse failed, returning the value as is will fail too
+    # since we access the keys as symbols down the line
+    # So it's best to return nil
+    nil
   end
 
   def save_to_cache(response)
     return nil unless event_is_cacheable?
 
-    Redis::Alfred.setex(cache_key, response)
+    # Serialize to JSON
+    # This makes parsing easy when response is a hash
+    Redis::Alfred.setex(cache_key, response.to_json)
   end
 
-  def find_conversation
-    hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
+  def conversation
+    @conversation ||= hook.account.conversations.find_by(display_id: event['data']['conversation_display_id'])
   end
 
   def valid_event_name?
@@ -78,8 +91,12 @@ class Integrations::OpenaiBaseService
     response = HTTParty.post(API_URL, headers: headers, body: body)
     Rails.logger.info("OpenAI API response: #{response.body}")
 
+    return { error: response.parsed_response, error_code: response.code } unless response.success?
+
     choices = JSON.parse(response.body)['choices']
 
-    choices.present? ? choices.first['message']['content'] : nil
+    return { message: choices.first['message']['content'] } if choices.present?
+
+    { message: nil }
   end
 end

@@ -1,8 +1,8 @@
 import { API } from 'widget/helpers/axios';
 import { actions } from '../../message';
 
-const commit = jest.fn();
-jest.mock('widget/helpers/axios');
+const commit = vi.fn();
+vi.mock('widget/helpers/axios');
 
 describe('#actions', () => {
   describe('#update', () => {

@@ -1,0 +1,203 @@
+// scss-lint:disable QualifyingElement
+
+// Base typography
+// -------------------------
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+  @apply font-medium text-n-slate-12;
+}
+
+p {
+  text-rendering: optimizeLegibility;
+  @apply mb-2 leading-[1.65] text-sm;
+
+  a {
+    @apply text-n-brand dark:text-n-brand cursor-pointer;
+  }
+}
+
+a {
+  @apply text-sm;
+}
+
+hr {
+  @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
+}
+
+ul,
+ol,
+dl {
+  @apply list-disc list-outside leading-[1.65];
+}
+
+ul:not(.reset-base),
+ol:not(.reset-base),
+dl:not(.reset-base) {
+  @apply mb-0;
+}
+
+// Button base
+button {
+  font-family: inherit;
+  @apply inline-block text-center align-middle cursor-pointer text-sm m-0 py-1 px-2.5 transition-all duration-200 ease-in-out border-0 border-none rounded-lg disabled:opacity-50;
+}
+
+// Form elements
+// -------------------------
+label {
+  @apply text-n-slate-12 block m-0 leading-7 text-sm font-medium;
+}
+
+.input-wrap,
+.help-text {
+  @apply text-n-slate-11 text-sm font-medium;
+}
+
+// Focus outline removal
+.button,
+textarea {
+  outline: none;
+}
+
+// Field base styles (Input, TextArea, Select)
+@layer components {
+  .field-base {
+    @apply block box-border w-full transition-colors duration-[0.25s] ease-[ease-in-out] focus:outline-n-brand dark:focus:outline-n-brand appearance-none mx-0 mt-0 mb-4 py-2 px-3 rounded-lg text-base font-normal bg-n-alpha-black2 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-none outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6;
+  }
+
+  .field-disabled {
+    @apply opacity-50 outline-n-weak dark:outline-n-weak cursor-not-allowed;
+  }
+
+  .field-error {
+    @apply outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
+  }
+}
+
+$form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='button']):not([type='submit']):not([type='reset']):not([type='color']):not([type='image']):not([type='hidden']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
+
+#{$form-input-selector} {
+  @apply field-base h-10;
+
+  &[disabled] {
+    @apply field-disabled;
+  }
+
+  &.error {
+    @apply field-error mb-1;
+  }
+}
+
+input[type='file']:not(.multiselect__input) {
+  @apply leading-[1.15] mb-4 border-0 bg-transparent text-sm;
+}
+
+// Select
+select {
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
+  background-size: 9px 6px;
+
+  @apply field-base h-10 bg-origin-content focus-visible:outline-none bg-no-repeat py-2 ltr:bg-[right_-1rem_center] rtl:bg-[left_-1rem_center] ltr:pr-6 rtl:pl-6 rtl:pr-3 ltr:pl-3;
+
+  &[disabled] {
+    @apply field-disabled;
+  }
+}
+
+// Textarea
+textarea {
+  @apply field-base h-16;
+
+  &[disabled] {
+    @apply field-disabled;
+  }
+}
+
+// Add mb-1 when .help-text exists within the same label container
+label:has(.help-text) {
+  input,
+  textarea,
+  select {
+    margin-bottom: 0.25rem !important;
+  }
+}
+
+// Error handling
+.has-multi-select-error {
+  div.multiselect {
+    @apply mb-1;
+  }
+}
+
+// FormKit support
+.formkit-outer[data-invalid='true'] {
+  #{$form-input-selector},
+  textarea,
+  select {
+    @apply field-error;
+  }
+
+  .formkit-message {
+    @apply text-n-ruby-9 dark:text-n-ruby-9 block text-sm mb-2.5 w-full;
+  }
+}
+
+.error {
+  #{$form-input-selector},
+  input:not([type]),
+  textarea,
+  select,
+  .multiselect > .multiselect__tags,
+  .multiselect:not(.no-margin) {
+    @apply field-error;
+  }
+
+  // Only add mb-1 when .message exists within the same .error container
+  // And exclude no-margin from the margin-bottom
+  &:has(.message) {
+    input:not(.no-margin),
+    textarea,
+    select {
+      margin-bottom: 0.25rem !important;
+    }
+  }
+
+  .message {
+    @apply text-n-ruby-9 dark:text-n-ruby-9 block text-sm mb-2.5 w-full;
+  }
+}
+
+.input-group.small {
+  input {
+    @apply text-sm h-8;
+  }
+
+  .error {
+    @apply text-n-ruby-9 dark:text-n-ruby-9;
+  }
+}
+
+// Code styling
+code {
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    '"Liberation Mono"', '"Courier New"', 'monospace';
+  @apply text-xs border-0;
+
+  &.hljs {
+    @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12 rounded-lg p-5;
+
+    .hljs-number,
+    .hljs-string {
+      @apply text-n-ruby-9 dark:text-n-ruby-9;
+    }
+
+    .hljs-name,
+    .hljs-tag {
+      @apply text-n-slate-11;
+    }
+  }
+}

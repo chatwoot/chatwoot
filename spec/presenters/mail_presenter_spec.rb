@@ -99,5 +99,17 @@ RSpec.describe MailPresenter do
         end
       end
     end
+
+    describe 'auto_reply?' do
+      let(:auto_reply_mail) { create_inbound_email_from_fixture('auto_reply.eml').mail }
+      let(:auto_reply_with_auto_submitted_mail) { create_inbound_email_from_fixture('auto_reply_with_auto_submitted.eml').mail }
+      let(:decorated_auto_reply_mail) { described_class.new(auto_reply_mail) }
+      let(:decorated_auto_reply_with_auto_submitted_mail) { described_class.new(auto_reply_with_auto_submitted_mail) }
+
+      it 'returns true for auto-reply emails' do
+        expect(decorated_auto_reply_mail.auto_reply?).to be true
+        expect(decorated_auto_reply_with_auto_submitted_mail.auto_reply?).to be true
+      end
+    end
   end
 end

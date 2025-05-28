@@ -1,17 +1,3 @@
-<template>
-  <div class="video message-text__wrap">
-    <video :src="url" muted playsInline @click="onClick" />
-    <woot-modal :show.sync="show" :on-close="onClose">
-      <video
-        :src="url"
-        controls
-        playsInline
-        class="modal-video skip-context-menu"
-      />
-    </woot-modal>
-  </div>
-</template>
-
 <script>
 export default {
   props: {
@@ -20,9 +6,15 @@ export default {
       required: true,
     },
   },
+  emits: ['error'],
   data() {
     return {
       show: false,
+    };
+  },
+  mounted() {
+    this.$refs.videoElement.onerror = () => {
+      this.$emit('error');
     };
   },
   methods: {
@@ -35,3 +27,17 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="video message-text__wrap">
+    <video ref="videoElement" :src="url" muted playsInline @click="onClick" />
+    <woot-modal v-model:show="show" :on-close="onClose">
+      <video
+        :src="url"
+        controls
+        playsInline
+        class="modal-video skip-context-menu mx-auto"
+      />
+    </woot-modal>
+  </div>
+</template>

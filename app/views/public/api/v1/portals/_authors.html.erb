@@ -1,0 +1,24 @@
+<% author_count = category.articles.published.order(position: :asc).map(&:author).uniq.size %>
+<% if author_count > 0 %>
+  <div class="flex flex-row items-center gap-1">
+    <div class="flex flex-row items-center -space-x-2">
+        <% category.articles.published.order(position: :asc).map(&:author).uniq.take(3).each do |author| %>
+          <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
+        <% end %>
+    </div>
+
+    <% first_author = category.articles.published.order(position: :asc).map(&:author).uniq.first&.name || '' %>
+    <% author_text = author_count > 1 ? "#{author_count} #{I18n.t('public_portal.common.authors')}" : "#{author_count} #{I18n.t('public_portal.common.author')}" %>
+    <% other_authors_count = author_count - 1 %>
+    <% other_authors_text = other_authors_count > 1 ? I18n.t('public_portal.common.others') : I18n.t('public_portal.common.other') %>
+
+    <span class="<%= show_expanded ? 'text-base' : 'text-sm' %> font-medium text-slate-600 dark:text-slate-400">
+    <% if show_expanded %>
+        <%= "#{I18n.t('public_portal.common.by')} #{first_author}" %>
+        <%= other_authors_count.positive? ? " and #{other_authors_count} #{other_authors_text}" : '' %>
+    <% else %>
+        <%= author_text %>
+    <% end %>
+    </span>
+  </div>
+<% end %>

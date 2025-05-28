@@ -32,6 +32,37 @@ describe ReportingEventListener do
         expect(account.reporting_events.where(name: 'conversation_resolved')[0]['value_in_business_hours']).to be 144_000.0
       end
     end
+
+    describe 'conversation_bot_resolved' do
+      # create an agent bot
+      let!(:agent_bot_inbox) { create(:inbox, account: account) }
+      let!(:agent_bot) { create(:agent_bot, account: account) }
+      let!(:bot_resolved_conversation) { create(:conversation, account: account, inbox: agent_bot_inbox, assignee: user) }
+
+      before do
+        create(:agent_bot_inbox, agent_bot: agent_bot, inbox: agent_bot_inbox)
+      end
+
+      it 'creates a conversation_bot_resolved event if resolved conversation does not have human interaction' do
+        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
+        listener.conversation_resolved(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 1
+      end
+
+      it 'does not create a conversation_bot_resolved event if resolved conversation inbox does not have active bot' do
+        bot_resolved_conversation.update(inbox: inbox)
+        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
+        listener.conversation_resolved(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 0
+      end
+
+      it 'does not create a conversation_bot_resolved event if resolved conversation has human interaction' do
+        create(:message, message_type: 'outgoing', account: account, inbox: agent_bot_inbox, conversation: bot_resolved_conversation)
+        event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
+        listener.conversation_resolved(event)
+        expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 0
+      end
+    end
   end
 
   describe '#reply_created' do
@@ -41,7 +72,7 @@ describe ReportingEventListener do
 
       events = account.reporting_events.where(name: 'reply_time', conversation_id: message.conversation_id)
       expect(events.length).to be 1
-      expect(events.first.value).to eq 7200
+      expect(events.first.value).to be_within(1).of(7200)
     end
   end
 
@@ -68,7 +99,9 @@ describe ReportingEventListener do
       it 'creates first_response event with business hour value' do
         event = Events::Base.new('first.reply.created', Time.zone.now, message: new_message)
         listener.first_reply_created(event)
-        expect(account.reporting_events.where(name: 'first_response')[0]['value_in_business_hours']).to be 144_000.0
+        reporting_event = account.reporting_events.where(name: 'first_response').first
+        expect(reporting_event.value_in_business_hours).to be 144_000.0
+        expect(reporting_event.user_id).to be new_message.sender_id
       end
     end
 

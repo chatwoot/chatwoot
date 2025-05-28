@@ -1,4 +1,4 @@
-@import '~dashboard/assets/scss/variables';
+@import 'dashboard/assets/scss/variables';
 
 .formulate-input {
   .formulate-input-errors {
@@ -14,5 +14,25 @@
     font-weight: $font-weight-normal;
     margin-bottom: $space-one;
     width: 100%;
+  }
+}
+
+.integration-hooks {
+  .formulate-input[data-type='checkbox'] {
+    .formulate-input-wrapper {
+      @apply flex;
+
+      .formulate-input-element {
+        @apply pr-2;
+
+        input {
+          @apply mb-0;
+        }
+      }
+    }
+
+    .formulate-input-element-decorator {
+      @apply hidden;
+    }
   }
 }

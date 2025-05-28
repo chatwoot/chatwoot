@@ -8,8 +8,7 @@ class PublicController < ActionController::Base
 
   def ensure_custom_domain_request
     domain = request.host
-
-    return if [URI.parse(ENV.fetch('FRONTEND_URL', '')).host, URI.parse(ENV.fetch('HELPCENTER_URL', '')).host].include?(domain)
+    return if DomainHelper.chatwoot_domain?(domain)
 
     @portal = ::Portal.find_by(custom_domain: domain)
     return if @portal.present?

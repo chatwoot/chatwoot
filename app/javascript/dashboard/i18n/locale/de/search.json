@@ -11,8 +11,12 @@
       "CONVERSATIONS": "Gespräche",
       "MESSAGES": "Nachrichten"
     },
-    "EMPTY_STATE": "Keine %{item} für Abfrage '%{query} ' gefunden",
-    "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '%{query} ' gefunden",
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Suchen",
+    "LOADING_DATA": "Wird geladen",
+    "EMPTY_STATE": "Keine {item} für Abfrage '{query} ' gefunden",
+    "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '{query} ' gefunden",
     "PLACEHOLDER_KEYBINDING": "/ fokussieren",
     "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
@@ -20,6 +24,7 @@
     "READ_MORE": "Mehr erfahren",
     "WROTE": "schrieb:",
     "FROM": "von",
-    "EMAIL": "e-Mail"
+    "EMAIL": "e-Mail",
+    "EMAIL_SUBJECT": "betreff"
   }
 }

@@ -1,3 +1,181 @@
+<script>
+import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import { messageTimestamp } from 'shared/helpers/timeHelper';
+
+export default {
+  mixins: [inboxMixin],
+  props: {
+    sender: {
+      type: Object,
+      default: () => ({}),
+    },
+    createdAt: {
+      type: Number,
+      default: 0,
+    },
+    storySender: {
+      type: String,
+      default: '',
+    },
+    externalError: {
+      type: String,
+      default: '',
+    },
+    storyId: {
+      type: String,
+      default: '',
+    },
+    isEmail: {
+      type: Boolean,
+      default: true,
+    },
+    isPrivate: {
+      type: Boolean,
+      default: true,
+    },
+    isATweet: {
+      type: Boolean,
+      default: true,
+    },
+    messageType: {
+      type: Number,
+      default: 1,
+    },
+    messageStatus: {
+      type: String,
+      default: '',
+    },
+    sourceId: {
+      type: String,
+      default: '',
+    },
+    inboxId: {
+      type: [String, Number],
+      default: 0,
+    },
+  },
+  computed: {
+    inbox() {
+      return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
+    isIncoming() {
+      return MESSAGE_TYPE.INCOMING === this.messageType;
+    },
+    isOutgoing() {
+      return MESSAGE_TYPE.OUTGOING === this.messageType;
+    },
+    isTemplate() {
+      return MESSAGE_TYPE.TEMPLATE === this.messageType;
+    },
+    isDelivered() {
+      return MESSAGE_STATUS.DELIVERED === this.messageStatus;
+    },
+    isRead() {
+      return MESSAGE_STATUS.READ === this.messageStatus;
+    },
+    isSent() {
+      return MESSAGE_STATUS.SENT === this.messageStatus;
+    },
+    readableTime() {
+      return messageTimestamp(this.createdAt, 'LLL d, h:mm a');
+    },
+    screenName() {
+      const { additional_attributes: additionalAttributes = {} } =
+        this.sender || {};
+      return additionalAttributes?.screen_name || '';
+    },
+    linkToTweet() {
+      if (!this.sourceId || !this.inbox.name) {
+        return '';
+      }
+      const { screenName, sourceId } = this;
+      return `https://twitter.com/${
+        screenName || this.inbox.name
+      }/status/${sourceId}`;
+    },
+    linkToStory() {
+      if (!this.storyId || !this.storySender) {
+        return '';
+      }
+      const { storySender, storyId } = this;
+      return `https://www.instagram.com/stories/direct/${storySender}_${storyId}`;
+    },
+    showStatusIndicators() {
+      if ((this.isOutgoing || this.isTemplate) && !this.isPrivate) {
+        return true;
+      }
+      return false;
+    },
+    showSentIndicator() {
+      if (!this.showStatusIndicators) {
+        return false;
+      }
+      // Messages will be marked as sent for the Email channel if they have a source ID.
+      if (this.isAnEmailChannel) {
+        return !!this.sourceId;
+      }
+
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox ||
+        this.isASmsInbox ||
+        this.isATelegramChannel
+      ) {
+        return this.sourceId && this.isSent;
+      }
+      // All messages will be mark as sent for the Line channel, as there is no source ID.
+      if (this.isALineChannel) {
+        return true;
+      }
+
+      return false;
+    },
+    showDeliveredIndicator() {
+      if (!this.showStatusIndicators) {
+        return false;
+      }
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isASmsInbox ||
+        this.isAFacebookInbox
+      ) {
+        return this.sourceId && this.isDelivered;
+      }
+      // All messages marked as delivered for the web widget inbox and API inbox once they are sent.
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+        return this.isSent;
+      }
+      if (this.isALineChannel) {
+        return this.isDelivered;
+      }
+
+      return false;
+    },
+    showReadIndicator() {
+      if (!this.showStatusIndicators) {
+        return false;
+      }
+      if (
+        this.isAWhatsAppChannel ||
+        this.isATwilioChannel ||
+        this.isAFacebookInbox
+      ) {
+        return this.sourceId && this.isRead;
+      }
+
+      if (this.isAWebWidgetInbox || this.isAPIInbox) {
+        return this.isRead;
+      }
+
+      return false;
+    },
+  },
+};
+</script>
+
 <template>
   <div class="message-text--metadata">
     <span
@@ -72,174 +250,6 @@
     </a>
   </div>
 </template>
-
-<script>
-import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
-import inboxMixin from 'shared/mixins/inboxMixin';
-import { mapGetters } from 'vuex';
-import timeMixin from '../../../../mixins/time';
-
-export default {
-  mixins: [inboxMixin, timeMixin],
-  props: {
-    sender: {
-      type: Object,
-      default: () => ({}),
-    },
-    createdAt: {
-      type: Number,
-      default: 0,
-    },
-    storySender: {
-      type: String,
-      default: '',
-    },
-    externalError: {
-      type: String,
-      default: '',
-    },
-    storyId: {
-      type: String,
-      default: '',
-    },
-    isEmail: {
-      type: Boolean,
-      default: true,
-    },
-    isPrivate: {
-      type: Boolean,
-      default: true,
-    },
-    isATweet: {
-      type: Boolean,
-      default: true,
-    },
-    hasInstagramStory: {
-      type: Boolean,
-      default: true,
-    },
-    messageType: {
-      type: Number,
-      default: 1,
-    },
-    messageStatus: {
-      type: String,
-      default: '',
-    },
-    sourceId: {
-      type: String,
-      default: '',
-    },
-    id: {
-      type: [String, Number],
-      default: '',
-    },
-    inboxId: {
-      type: [String, Number],
-      default: 0,
-    },
-  },
-  computed: {
-    ...mapGetters({ currentChat: 'getSelectedChat' }),
-    inbox() {
-      return this.$store.getters['inboxes/getInbox'](this.inboxId);
-    },
-    isIncoming() {
-      return MESSAGE_TYPE.INCOMING === this.messageType;
-    },
-    isOutgoing() {
-      return MESSAGE_TYPE.OUTGOING === this.messageType;
-    },
-    isTemplate() {
-      return MESSAGE_TYPE.TEMPLATE === this.messageType;
-    },
-    isDelivered() {
-      return MESSAGE_STATUS.DELIVERED === this.messageStatus;
-    },
-    isRead() {
-      return MESSAGE_STATUS.READ === this.messageStatus;
-    },
-    isSent() {
-      return MESSAGE_STATUS.SENT === this.messageStatus;
-    },
-    readableTime() {
-      return this.messageTimestamp(this.createdAt, 'LLL d, h:mm a');
-    },
-    screenName() {
-      const { additional_attributes: additionalAttributes = {} } =
-        this.sender || {};
-      return additionalAttributes?.screen_name || '';
-    },
-    linkToTweet() {
-      if (!this.sourceId || !this.inbox.name) {
-        return '';
-      }
-      const { screenName, sourceId } = this;
-      return `https://twitter.com/${
-        screenName || this.inbox.name
-      }/status/${sourceId}`;
-    },
-    linkToStory() {
-      if (!this.storyId || !this.storySender) {
-        return '';
-      }
-      const { storySender, storyId } = this;
-      return `https://www.instagram.com/stories/direct/${storySender}_${storyId}`;
-    },
-    showStatusIndicators() {
-      if ((this.isOutgoing || this.isTemplate) && !this.isPrivate) {
-        return true;
-      }
-      return false;
-    },
-    showSentIndicator() {
-      if (!this.showStatusIndicators) {
-        return false;
-      }
-
-      if (this.isAnEmailChannel) {
-        return !!this.sourceId;
-      }
-
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
-        return this.sourceId && this.isSent;
-      }
-      return false;
-    },
-    showDeliveredIndicator() {
-      if (!this.showStatusIndicators) {
-        return false;
-      }
-
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
-        return this.sourceId && this.isDelivered;
-      }
-      // We will consider messages as delivered for web widget inbox if they are sent
-      if (this.isAWebWidgetInbox) {
-        return this.isSent;
-      }
-
-      return false;
-    },
-    showReadIndicator() {
-      if (!this.showStatusIndicators) {
-        return false;
-      }
-
-      if (this.isAWebWidgetInbox || this.isAPIInbox) {
-        const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-        return contactLastSeenAt >= this.createdAt;
-      }
-
-      if (this.isAWhatsAppChannel || this.isATwilioChannel) {
-        return this.sourceId && this.isRead;
-      }
-
-      return false;
-    },
-  },
-};
-</script>
 
 <style lang="scss" scoped>
 .right {

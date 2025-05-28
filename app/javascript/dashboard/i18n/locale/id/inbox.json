@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Kotak Masuk Saya",
+      "DISPLAY_DROPDOWN": "Tampilan",
+      "LOADING": "Memuat notifikasi",
+      "404": "Tidak ada percakapan aktif di grup ini.",
+      "NO_NOTIFICATIONS": "Tidak Ada Notifikasi",
+      "NOTE": "Notifikasi dari semua kotak masuk yang Anda langgani",
+      "NO_MESSAGES_AVAILABLE": "Aduh! Tidak dapat mengambil pesan",
+      "SNOOZED_UNTIL": "Ditunda hingga",
+      "SNOOZED_UNTIL_TOMORROW": "Ditunda hingga besok",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Ditunda hingga minggu depan"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Tunda notifikasi",
+      "DELETE": "Hapus notifikasi",
+      "BACK": "Kembali"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Anda telah disebut dalam sebuah percakapan",
+      "CONVERSATION_CREATION": "Percakapan dibuat",
+      "CONVERSATION_ASSIGNMENT": "Sebuah percakapan telah ditugaskan kepada Anda",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "Target penyelesaian SLA terlewatkan untuk percakapan"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Disebutkan",
+      "CONVERSATION_ASSIGNMENT": "Ditugaskan kepada Anda",
+      "CONVERSATION_CREATION": "Percakapan baru",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Pesan baru",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Pesan baru",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Tidak ada konten yang tersedia",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Tanda telah dibaca",
+      "MARK_AS_UNREAD": "Tandai sebagai belum terbaca",
+      "SNOOZE": "Tunda",
+      "DELETE": "Hapus",
+      "MARK_ALL_READ": "Tandai semua telah dibaca",
+      "DELETE_ALL": "Hapus semua",
+      "DELETE_ALL_READ": "Hapus semua telah dibaca"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Terbaru",
+        "OLDEST": "Terlama",
+        "PRIORITY": "Prioritas"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Ditunda Sebentar",
+        "READ": "Dibaca",
+        "LABELS": "Label",
+        "CONVERSATION_ID": "Conversation ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
+    }
+  }
+}

@@ -6,6 +6,7 @@
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
+#  cached_label_list      :text
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
@@ -40,7 +41,6 @@
 #  index_conversations_on_first_reply_created_at      (first_reply_created_at)
 #  index_conversations_on_id_and_account_id           (account_id,id)
 #  index_conversations_on_inbox_id                    (inbox_id)
-#  index_conversations_on_last_activity_at            (last_activity_at)
 #  index_conversations_on_priority                    (priority)
 #  index_conversations_on_status_and_account_id       (status,account_id)
 #  index_conversations_on_status_and_priority         (status,priority)
@@ -51,15 +51,18 @@
 
 class Conversation < ApplicationRecord
   include Labelable
+  include LlmFormattable
   include AssignmentHandler
   include AutoAssignmentHandler
   include ActivityMessageHandler
   include UrlHelper
   include SortHandler
+  include PushDataHelper
   include ConversationMuteHelpers
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
+  validates :contact_id, presence: true
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
@@ -73,10 +76,15 @@ class Conversation < ApplicationRecord
   scope :assigned, -> { where.not(assignee_id: nil) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
   scope :unattended, -> { where(first_reply_created_at: nil).or(where.not(waiting_since: nil)) }
-  scope :resolvable, lambda { |auto_resolve_duration|
-    return none if auto_resolve_duration.to_i.zero?
+  scope :resolvable_not_waiting, lambda { |auto_resolve_after|
+    return none if auto_resolve_after.to_i.zero?
 
-    open.where('last_activity_at < ? ', Time.now.utc - auto_resolve_duration.days)
+    open.where('last_activity_at < ? AND waiting_since IS NULL', Time.now.utc - auto_resolve_after.minutes)
+  }
+  scope :resolvable_all, lambda { |auto_resolve_after|
+    return none if auto_resolve_after.to_i.zero?
+
+    open.where('last_activity_at < ?', Time.now.utc - auto_resolve_after.minutes)
   }
 
   scope :last_user_message_at, lambda {
@@ -88,7 +96,7 @@ class Conversation < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :assignee, class_name: 'User', optional: true
+  belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true
@@ -100,52 +108,38 @@ class Conversation < ApplicationRecord
   has_many :conversation_participants, dependent: :destroy_async
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
+  has_many :reporting_events, dependent: :destroy_async
 
   before_save :ensure_snooze_until_reset
-  before_create :mark_conversation_pending_if_bot
+  before_create :determine_conversation_status
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
-  after_commit :set_display_id, unless: :display_id?
+  after_create_commit :load_attributes_created_by_db_triggers
 
-  delegate :auto_resolve_duration, to: :account
+  delegate :auto_resolve_after, to: :account
 
   def can_reply?
-    channel = inbox&.channel
+    Conversations::MessageWindowService.new(self).can_reply?
+  end
 
-    return can_reply_on_instagram? if additional_attributes['type'] == 'instagram_direct_message'
+  def language
+    additional_attributes&.dig('conversation_language')
+  end
 
-    return true unless channel&.messaging_window_enabled?
-
-    messaging_window = inbox.api? ? channel.additional_attributes['agent_reply_time_window'].to_i : 24
-    last_message_in_messaging_window?(messaging_window)
+  # Be aware: The precision of created_at and last_activity_at may differ from Ruby's Time precision.
+  # Our DB column (see schema) stores timestamps with second-level precision (no microseconds), so
+  # if you assign a Ruby Time with microseconds, the DB will truncate it. This may cause subtle differences
+  # if you compare or copy these values in Ruby, also in our specs
+  # So in specs rely on to be_with(1.second) instead of to eq()
+  # TODO: Migrate to use a timestamp with microsecond precision
+  def last_activity_at
+    self[:last_activity_at] || created_at
   end
 
   def last_incoming_message
     messages&.incoming&.last
-  end
-
-  def last_message_in_messaging_window?(time)
-    return false if last_incoming_message.nil?
-
-    Time.current < last_incoming_message.created_at + time.hours
-  end
-
-  def can_reply_on_instagram?
-    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
-
-    return false if last_incoming_message.nil?
-
-    if global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
-      Time.current < last_incoming_message.created_at + 7.days
-    else
-      last_message_in_messaging_window?(24)
-    end
-  end
-
-  def update_assignee(agent = nil)
-    update!(assignee: agent)
   end
 
   def toggle_status
@@ -173,16 +167,8 @@ class Conversation < ApplicationRecord
     unread_messages.where(account_id: account_id).incoming.last(10)
   end
 
-  def push_event_data
-    Conversations::EventDataPresenter.new(self).push_data
-  end
-
-  def lock_event_data
-    Conversations::EventDataPresenter.new(self).lock_data
-  end
-
-  def webhook_data
-    Conversations::EventDataPresenter.new(self).push_data
+  def cached_label_list_array
+    (cached_label_list || '').split(',').map(&:strip)
   end
 
   def notifiable_assignee_change?
@@ -205,6 +191,10 @@ class Conversation < ApplicationRecord
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{uuid}"
   end
 
+  def dispatch_conversation_updated_event(previous_changes = nil)
+    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -225,7 +215,13 @@ class Conversation < ApplicationRecord
     self.additional_attributes = {} unless additional_attributes.is_a?(Hash)
   end
 
-  def mark_conversation_pending_if_bot
+  def determine_conversation_status
+    self.status = :resolved and return if contact.blocked?
+
+    # Message template hooks aren't executed for conversations from campaigns
+    # So making these conversations open for agent visibility
+    return if campaign.present?
+
     # TODO: make this an inbox config instead of assuming bot conversations should start as pending
     self.status = :pending if inbox.active_bot?
   end
@@ -237,23 +233,28 @@ class Conversation < ApplicationRecord
   def notify_conversation_updation
     return unless previous_changes.keys.present? && allowed_keys?
 
-    dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+    dispatch_conversation_updated_event(previous_changes)
+  end
+
+  def list_of_keys
+    %w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
+       priority]
   end
 
   def allowed_keys?
     (
-      previous_changes.keys.intersect?(%w[team_id assignee_id status snoozed_until custom_attributes label_list waiting_since first_reply_created_at
-                                          priority]) ||
+      previous_changes.keys.intersect?(list_of_keys) ||
       (previous_changes['additional_attributes'].present? && previous_changes['additional_attributes'][1].keys.intersect?(%w[conversation_language]))
     )
   end
 
-  def self_assign?(assignee_id)
-    assignee_id.present? && Current.user&.id == assignee_id
-  end
-
-  def set_display_id
-    reload
+  def load_attributes_created_by_db_triggers
+    # Display id is set via a trigger in the database
+    # So we need to specifically fetch it after the record is created
+    # We can't use reload because it will clear the previous changes, which we need for the dispatcher
+    obj_from_db = self.class.find(id)
+    self[:display_id] = obj_from_db[:display_id]
+    self[:uuid] = obj_from_db[:uuid]
   end
 
   def notify_status_change
@@ -304,5 +305,5 @@ class Conversation < ApplicationRecord
   end
 end
 
-Conversation.include_mod_with('EnterpriseConversationConcern')
-Conversation.include_mod_with('SentimentAnalysisHelper')
+Conversation.include_mod_with('Concerns::Conversation')
+Conversation.prepend_mod_with('Conversation')

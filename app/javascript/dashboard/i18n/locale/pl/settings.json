@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Twoje hasło zostało zmienione",
     "AFTER_EMAIL_CHANGED": "Twój profil został pomyślnie zaktualizowany, zaloguj się ponownie po zmianie danych logowania",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Zdjęcie profilowe",
       "ERROR": "Proszę naprawić błędy formularza",
       "REMOVE_IMAGE": "Usuń",
@@ -31,6 +32,24 @@
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
             "CONTENT": "Wyślij wiadomości, naciskając klawisze Cmd/Ctrl + Enter zamiast kliknięcia przycisku Wyślij."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Domyślny",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
           }
         }
       },
@@ -56,13 +75,33 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token dostępu",
-        "NOTE": "Ten token może być użyty, jeśli budujesz integrację opartą na API"
+        "NOTE": "Ten token może być użyty, jeśli budujesz integrację opartą na API",
+        "COPY": "Kopiuj"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Powiadomienia dźwiękowe",
-        "NOTE": "Włącz powiadomienia dźwiękowe na pulpicie dla nowych wiadomości i konwersacji.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "Brak",
+          "MINE": "Assigned",
+          "ALL": "Wszystkie",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
         "ALERT_TYPE": {
-          "TITLE": "Wydarzenia powiadomień:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Brak",
           "ASSIGNED": "Przypisane rozmowy",
           "ALL_CONVERSATIONS": "Rozmowy"
@@ -74,7 +113,9 @@
           "TITLE": "Warunki powiadomień:",
           "CONDITION_ONE": "Wysyłaj dźwiękowe powiadomienia tylko wtedy, gdy okno przeglądarki nie jest aktywne",
           "CONDITION_TWO": "Wysyłaj powiadomienia co 30 sekund, dopóki wszystkie przypisane rozmowy nie zostaną odczytane"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Czytaj więcej"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Powiadomienia e-mail",
@@ -83,7 +124,27 @@
         "CONVERSATION_CREATION": "Wysyłaj powiadomienia e-mail po utworzeniu nowej rozmowy",
         "CONVERSATION_MENTION": "Wysyłaj powiadomienia e-mail, gdy zostaniesz wymieniony w rozmowie",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy w przypisanej konwersacji zostanie utworzona nowa wiadomość",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy w rozmowie, w której bierzesz udział, zostanie utworzona nowa wiadomość"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia e-mail, gdy w rozmowie, w której bierzesz udział, zostanie utworzona nowa wiadomość",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "E-mail",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Twoje preferencje powiadomień zostały pomyślnie zaktualizowane",
@@ -98,7 +159,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Wysyłaj powiadomienia push, gdy w przypisanej konwersacji zostanie utworzona nowa wiadomość",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Wyślij powiadomienia push, gdy w rozmowie, w której bierzesz udział, zostanie utworzona nowa wiadomość",
         "HAS_ENABLED_PUSH": "Włączyłeś opcję powiadomień push dla tej przeglądarki.",
-        "REQUEST_PUSH": "Włącz powiadomienia push"
+        "REQUEST_PUSH": "Włącz powiadomienia push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Zdjęcie profilowe"
@@ -115,11 +179,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Dostępność",
-        "STATUSES_LIST": [
-          "Online",
-          "Zajęty",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Dostępny",
+          "BUSY": "Zajęty",
+          "OFFLINE": "Niedostępny"
+        },
         "SET_AVAILABILITY_SUCCESS": "Dostępność została pomyślnie ustawiona",
         "SET_AVAILABILITY_ERROR": "Nie można ustawić dostępności, spróbuj ponownie"
       },
@@ -147,19 +211,24 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Zmień dostępność",
-    "CHANGE_ACCOUNTS": "Przełącz konto",
-    "CONTACT_SUPPORT": "Skontaktuj się z pomocą techniczną",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Wybierz konto z poniższej listy",
-    "PROFILE_SETTINGS": "Ustawienia profilu",
-    "KEYBOARD_SHORTCUTS": "Skróty klawiszowe",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Super Admin Console",
-    "LOGOUT": "Wyloguj się"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "dni pozostało w okresie próbnym.",
     "TRAIL_BUTTON": "Kup teraz",
     "DELETED_USER": "Usunięty użytkownik",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Konto zawieszone",
       "MESSAGE": "Twoje konto zostało zawieszone. Skontaktuj się z zespołem pomocy technicznej w celu uzyskania dodatkowych informacji."
@@ -185,6 +254,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Wyślij"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Weryfikacja...",
@@ -194,9 +267,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Aktualnie przeglądane konto:",
     "SWITCH": "Przełącz",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Rozmowy",
+    "INBOX": "My Inbox",
     "ALL_CONVERSATIONS": "Rozmowy",
     "MENTIONED_CONVERSATIONS": "Wzmianki",
     "PARTICIPATING_CONVERSATIONS": "Udział",
@@ -204,6 +280,10 @@
     "REPORTS": "Raporty",
     "SETTINGS": "Ustawienia",
     "CONTACTS": "Kontakty",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Strona główna",
     "AGENTS": "Agenci",
     "AGENT_BOTS": "Boty",
@@ -230,43 +310,61 @@
     "NEW_INBOX": "Nowa skrzynka odbiorcza",
     "REPORTS_CONVERSATION": "Rozmowy",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampanie",
     "ONGOING": "Trwające",
     "ONE_OFF": "Jednorazowe",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agenci",
     "REPORTS_LABEL": "Etykiety",
     "REPORTS_INBOX": "Skrzynka odbiorcza",
     "REPORTS_TEAM": "Zespół",
     "SET_AVAILABILITY_TITLE": "Ustaw dostępność jako",
+    "SET_YOUR_AVAILABILITY": "Ustaw swoją dostępność",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Przegląd",
-    "FACEBOOK_REAUTHORIZE": "Twoje połączenie z Facebookiem wygasło, aby kontynuować usługi, ponownie połącz swoją stronę na Facebooku",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Centrum pomocy",
-      "ALL_ARTICLES": "Wszystkie artykuły",
-      "MY_ARTICLES": "Moje artykuły",
-      "DRAFT": "Szkic",
-      "ARCHIVED": "Zarchiwizowane",
-      "CATEGORY": "Kategoria",
-      "SETTINGS": "Ustawienia",
-      "CATEGORY_EMPTY_MESSAGE": "Nie znaleziono kategorii"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategorie",
+      "LOCALES": "Języki",
+      "SETTINGS": "Ustawienia"
     },
+    "CHANNELS": "Channels",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Automatycznie oznaczaj jako offline",
-      "INFO_TEXT": "Pozwól systemowi automatycznie oznaczać Cię jako offline, gdy nie korzystasz z aplikacji lub panelu"
+      "INFO_TEXT": "Pozwól systemowi automatycznie oznaczać Cię jako offline, gdy nie korzystasz z aplikacji lub panelu",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Czytaj dokumentację"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Rozliczenia",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Obecny plan",
-      "PLAN_NOTE": "Obecnie subskrybujesz plan **%{plan}** z **%{quantity}** licencjami"
+      "PLAN_NOTE": "Obecnie subskrybujesz plan **{plan}** z **{quantity}** licencjami",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Zarządzaj subskrypcją",
       "DESCRIPTION": "Wyświetl swoje poprzednie faktury, edytuj dane rozliczeniowe lub anuluj subskrypcję.",
       "BUTTON_TXT": "Przejdź do portalu rozliczeniowego"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Potrzebujesz pomocy?",
@@ -289,7 +387,8 @@
         "LABEL": "Nazwa firmy",
         "PLACEHOLDER": "Przedsiębiorstwo Wayne"
       },
-      "SUBMIT": "Wyślij"
+      "SUBMIT": "Wyślij",
+      "CANCEL": "Anuluj"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -306,15 +405,9 @@
       "GO_TO_REPORTS_SIDEBAR": "Przejdź do panelu raportów",
       "MOVE_TO_NEXT_TAB": "Przejdź do następnej karty na liście rozmów",
       "GO_TO_SETTINGS": "Przejdź do ustawień",
-      "SWITCH_CONVERSATION_STATUS": "Przełącz do następnego statusu rozmowy",
       "SWITCH_TO_PRIVATE_NOTE": "Przełącz do prywatnej notatki",
       "SWITCH_TO_REPLY": "Przełącz do odpowiedzi",
       "TOGGLE_SNOOZE_DROPDOWN": "Przełącz menu rozwijane drzemki"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

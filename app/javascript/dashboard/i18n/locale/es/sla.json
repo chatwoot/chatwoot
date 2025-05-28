@@ -1,0 +1,108 @@
+{
+  "SLA": {
+    "HEADER": "Acuerdos de Nivel de Servicio",
+    "ADD_ACTION": "Añadir SLA",
+    "ADD_ACTION_LONG": "Crear una nueva política de SLA",
+    "DESCRIPTION": "Los Acuerdos de Nivel de Servicio (SLA) son contratos que definen expectativas claras entre su equipo y sus clientes. Establecen normas para los tiempos de respuesta y resolución, creando un marco para la responsabilidad y garantiza una experiencia coherente y de alta calidad.",
+    "LEARN_MORE": "Más información sobre SLA",
+    "LOADING": "Obteniendo SLAs",
+    "PAYWALL": {
+      "TITLE": "Actualiza para crear SLAs",
+      "AVAILABLE_ON": "La función SLA sólo está disponible en los planes Empresariales (Business) y Corporativos (Enterprise).",
+      "UPGRADE_PROMPT": "Actualiza tu plan para tener acceso a funciones avanzadas como gestión de equipos, automatizaciones, atributos personalizados y más.",
+      "UPGRADE_NOW": "Actualizar ahora",
+      "CANCEL_ANYTIME": "Puede cambiar o cancelar su plan en cualquier momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "La función de SLA sólo está disponible en los planes de pago.",
+      "UPGRADE_PROMPT": "Actualice a un plan pago para acceder a funciones avanzadas como registros de auditoría, capacidad de agente y más.",
+      "ASK_ADMIN": "Por favor, comuníquese con su administrador para la actualización."
+    },
+    "LIST": {
+      "404": "No hay SLAs disponibles en esta cuenta.",
+      "EMPTY": {
+        "TITLE_1": "Empresa P0",
+        "DESC_1": "Problemas planteados por los clientes empresariales, que requieren una atención inmediata.",
+        "TITLE_2": "Empresa P1",
+        "DESC_2": "Problemas planteados por los clientes empresariales, deben reconocerse con rapidez."
+      },
+      "BUSINESS_HOURS_ON": "Horas laborables",
+      "BUSINESS_HOURS_OFF": "Horas de descanso",
+      "RESPONSE_TYPES": {
+        "FRT": "Umbral de tiempo de primera respuesta",
+        "NRT": "Umbral de tiempo de siguiente respuesta",
+        "RT": "Umbral de tiempo de resolución",
+        "SHORT_HAND": {
+          "FRT": "FRT",
+          "NRT": "NRT",
+          "RT": "RT"
+        }
+      }
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nombre de SLA",
+        "PLACEHOLDER": "Nombre de SLA",
+        "REQUIRED_ERROR": "El nombre de SLA es requerido",
+        "MINIMUM_LENGTH_ERROR": "La longitud mínima es de 2 caracteres",
+        "VALID_ERROR": "Sólo letras, números, guión y guión bajo son permitidos"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripción",
+        "PLACEHOLDER": "SLA para clientes premium"
+      },
+      "FIRST_RESPONSE_TIME": {
+        "LABEL": "Tiempo de primera respuesta",
+        "PLACEHOLDER": "5"
+      },
+      "NEXT_RESPONSE_TIME": {
+        "LABEL": "Próximo tiempo de respuesta",
+        "PLACEHOLDER": "5"
+      },
+      "RESOLUTION_TIME": {
+        "LABEL": "Tiempo de resolución",
+        "PLACEHOLDER": "60"
+      },
+      "BUSINESS_HOURS": {
+        "LABEL": "Horarios",
+        "PLACEHOLDER": "Sólo durante las horas de trabajo"
+      },
+      "THRESHOLD_TIME": {
+        "INVALID_FORMAT_ERROR": "El umbral debe ser un número y mayor que cero"
+      },
+      "EDIT": "Editar",
+      "CREATE": "Crear",
+      "DELETE": "Eliminar",
+      "CANCEL": "Cancelar"
+    },
+    "ADD": {
+      "TITLE": "Añadir SLA",
+      "DESC": "¡Promesas amigables para un servicio excelente!",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA añadido correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      }
+    },
+    "DELETE": {
+      "TITLE": "Eliminar SLA",
+      "API": {
+        "SUCCESS_MESSAGE": "SLA eliminado correctamente",
+        "ERROR_MESSAGE": "Hubo un error, por favor inténtelo de nuevo"
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar eliminación",
+        "MESSAGE": "¿Está seguro que desea eliminar? ",
+        "YES": "Sí, eliminar ",
+        "NO": "No, mantenerlo "
+      }
+    },
+    "EVENTS": {
+      "TITLE": "SLA perdidos",
+      "FRT": "Primera respuesta",
+      "NRT": "Tiempo de respuesta siguiente",
+      "RT": "Tiempo de resolución",
+      "SHOW_MORE": "{count} más",
+      "HIDE": "Esconder {count} filas"
+    }
+  }
+}

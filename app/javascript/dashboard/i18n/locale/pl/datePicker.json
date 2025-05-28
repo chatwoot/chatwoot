@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Zastosuj",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Ostatnie 7 dni",
+      "LAST_30_DAYS": "Ostatnie 30 dni",
+      "LAST_3_MONTHS": "Ostatnie 3 miesiące",
+      "LAST_6_MONTHS": "Ostatnie 6 miesięcy",
+      "LAST_YEAR": "Ostatni rok",
+      "CUSTOM_RANGE": "Niestandardowy zakres dat"
+    }
+  }
+}

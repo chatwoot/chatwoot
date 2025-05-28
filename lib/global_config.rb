@@ -12,6 +12,7 @@ class GlobalConfig
         config[config_key] = load_from_cache(config_key)
       end
 
+      typecast_config(config)
       config.with_indifferent_access
     end
 
@@ -27,6 +28,14 @@ class GlobalConfig
     end
 
     private
+
+    def typecast_config(config)
+      general_configs = ConfigLoader.new.general_configs
+      config.each do |config_key, config_value|
+        config_type = general_configs.find { |c| c['name'] == config_key }&.dig('type')
+        config[config_key] = ActiveRecord::Type::Boolean.new.cast(config_value) if config_type == 'boolean'
+      end
+    end
 
     def load_from_cache(config_key)
       cache_key = "#{VERSION}:#{KEY_PREFIX}:#{config_key}"

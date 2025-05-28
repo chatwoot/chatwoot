@@ -71,6 +71,35 @@ RSpec.describe '/api/v1/widget/messages', type: :request do
         expect(json_response['message']).to eq('Content is too long (maximum is 150000 characters)')
       end
 
+      it 'creates message in conversation with a valid reply to' do
+        message_params = { content: 'hello world reply', timestamp: Time.current, reply_to: conversation.messages.first.id }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['content']).to eq(message_params[:content])
+        expect(json_response['content_attributes']['in_reply_to']).to eq(conversation.messages.first.id)
+        # check nil for external id since this is a web widget conversation
+        expect(json_response['content_attributes']['in_reply_to_external_id']).to be_nil
+      end
+
+      it 'creates message in conversation with an in-valid reply to' do
+        message_params = { content: 'hello world reply', timestamp: Time.current, reply_to: conversation.messages.first.id + 300 }
+        post api_v1_widget_messages_url,
+             params: { website_token: web_widget.website_token, message: message_params },
+             headers: { 'X-Auth-Token' => token },
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['content']).to eq(message_params[:content])
+        expect(json_response['content_attributes']['in_reply_to']).to be_nil
+        expect(json_response['content_attributes']['in_reply_to_external_id']).to be_nil
+      end
+
       it 'creates attachment message in conversation' do
         file = fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png')
         message_params = { content: 'hello world', timestamp: Time.current, attachments: [file] }

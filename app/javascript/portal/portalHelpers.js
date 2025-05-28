@@ -1,8 +1,12 @@
-import slugifyWithCounter from '@sindresorhus/slugify';
-import Vue from 'vue';
+import { createApp } from 'vue';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import { directive as onClickaway } from 'vue3-click-away';
 
+import slugifyWithCounter from '@sindresorhus/slugify';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import { initializeTheme } from './portalThemeHelper.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -21,6 +25,82 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
+/**
+ * Converts various input formats to URL objects.
+ * Handles URL objects, domain strings, relative paths, and full URLs.
+ * @param {string|URL} input - Input to convert to URL object
+ * @returns {URL|null} URL object or null if input is invalid
+ */
+const toURL = input => {
+  if (!input) return null;
+  if (input instanceof URL) return input;
+
+  if (
+    typeof input === 'string' &&
+    !input.includes('://') &&
+    !input.startsWith('/')
+  ) {
+    return new URL(`https://${input}`);
+  }
+
+  if (typeof input === 'string' && input.startsWith('/')) {
+    return new URL(input, window.location.origin);
+  }
+
+  return new URL(input);
+};
+
+/**
+ * Determines if two URLs belong to the same host by comparing their normalized URL objects.
+ * Handles various input formats including URL objects, domain strings, relative paths, and full URLs.
+ * Returns false if either URL cannot be parsed or normalized.
+ * @param {string|URL} url1 - First URL to compare
+ * @param {string|URL} url2 - Second URL to compare
+ * @returns {boolean} True if both URLs have the same host, false otherwise
+ */
+const isSameHost = (url1, url2) => {
+  try {
+    const urlObj1 = toURL(url1);
+    const urlObj2 = toURL(url2);
+
+    if (!urlObj1 || !urlObj2) return false;
+
+    return urlObj1.hostname === urlObj2.hostname;
+  } catch (error) {
+    return false;
+  }
+};
+
+export const openExternalLinksInNewTab = () => {
+  const { customDomain, hostURL } = window.portalConfig;
+  const isOnArticlePage =
+    document.querySelector('#cw-article-content') !== null;
+
+  document.addEventListener('click', event => {
+    if (!isOnArticlePage) return;
+
+    const link = event.target.closest('a');
+
+    if (link) {
+      const currentLocation = window.location.href;
+      const linkHref = link.href;
+
+      // Check against current location and custom domains
+      const isInternalLink =
+        isSameHost(linkHref, currentLocation) ||
+        (customDomain && isSameHost(linkHref, customDomain)) ||
+        (hostURL && isSameHost(linkHref, hostURL));
+
+      if (!isInternalLink) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer'; // Security and performance benefits
+        // Prevent default if you want to stop the link from opening in the current tab
+        event.stopPropagation();
+      }
+    }
+  });
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -36,29 +116,40 @@ export const InitializationHelpers = {
     return false;
   },
 
-  initalizeSearch: () => {
+  initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
-      new Vue({
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
         components: { PublicArticleSearch },
         template: '<PublicArticleSearch />',
-      }).$mount('#search-wrap');
+      });
+
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.directive('on-clickaway', onClickaway);
+      app.mount('#search-wrap');
     }
   },
 
   initializeTableOfContents: () => {
     const isOnArticlePage = document.querySelector('#cw-hc-toc');
     if (isOnArticlePage) {
-      new Vue({
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
         components: { TableOfContents },
-        data: { rows: getHeadingsfromTheArticle() },
+        data() {
+          return { rows: getHeadingsfromTheArticle() };
+        },
         template: '<table-of-contents :rows="rows" />',
-      }).$mount('#cw-hc-toc');
+      });
+
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.mount('#cw-hc-toc');
     }
   },
 
   appendPlainParamToURLs: () => {
-    document.getElementsByTagName('a').forEach(aTagElement => {
+    [...document.getElementsByTagName('a')].forEach(aTagElement => {
       if (aTagElement.href && aTagElement.href.includes('/hc/')) {
         const url = new URL(aTagElement.href);
         url.searchParams.set('show_plain_layout', 'true');
@@ -68,12 +159,16 @@ export const InitializationHelpers = {
     });
   },
 
+  initializeThemesInPortal: initializeTheme,
+
   initialize: () => {
+    openExternalLinksInNewTab();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {
+      InitializationHelpers.initializeThemesInPortal();
       InitializationHelpers.navigateToLocalePage();
-      InitializationHelpers.initalizeSearch();
+      InitializationHelpers.initializeSearch();
       InitializationHelpers.initializeTableOfContents();
     }
   },

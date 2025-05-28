@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "显示第 {startItem} - {endItem} 项，共 {totalItems} 项",
+    "CURRENT_PAGE_INFO": "第 {currentPage} 页，共 {totalPages} 页"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "请选择一个选项……",
+    "EMPTY_SEARCH_RESULTS": "未找到与搜索词 `{searchTerm}` 匹配的项",
+    "EMPTY_STATE": "未找到结果。",
+    "SEARCH_PLACEHOLDER": "搜索……",
+    "MORE": "+{count} 更多"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "搜索……",
+    "EMPTY_STATE": "未找到结果。",
+    "SEARCHING": "搜索中……"
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "取消",
+      "CONFIRM": "确认"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "搜索国家/地区",
+    "ERROR": "电话号码应为空或E.164格式",
+    "DIAL_CODE_ERROR": "请从列表中选择拨号代码"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "作者不可用"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "面包屑导航"
+  },
+  "SWITCH": {
+    "TOGGLE": "切换开关"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "标签"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "了解更多",
+    "WATCH_VIDEO": "观看视频"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

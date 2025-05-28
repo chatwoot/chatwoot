@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "Display",
+      "LOADING": "Fetching notifications",
+      "404": "There are no active notifications in this group.",
+      "NO_NOTIFICATIONS": "No notifications",
+      "NOTE": "Notifications from all subscribed inboxes",
+      "NO_MESSAGES_AVAILABLE": "Oops! Not able to fetch messages",
+      "SNOOZED_UNTIL": "Snoozed until",
+      "SNOOZED_UNTIL_TOMORROW": "Odloženo do zítřka",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Odloženo do příštího týdne"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Snooze notification",
+      "DELETE": "Delete notification",
+      "BACK": "Zpět"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "You have been mentioned in a conversation",
+      "CONVERSATION_CREATION": "New conversation created",
+      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Žádný obsah k dispozici",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Mark as unread",
+      "SNOOZE": "Odložit",
+      "DELETE": "Vymazat",
+      "MARK_ALL_READ": "Mark all as read",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Priority"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Odložené",
+        "READ": "Přečtené",
+        "LABELS": "Štítky",
+        "CONVERSATION_ID": "Conversation ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
+    }
+  }
+}

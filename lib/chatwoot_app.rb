@@ -17,8 +17,16 @@ module ChatwootApp
     @enterprise ||= root.join('enterprise').exist?
   end
 
+  def self.chatwoot_cloud?
+    enterprise? && GlobalConfig.get_value('DEPLOYMENT_ENV') == 'cloud'
+  end
+
   def self.custom?
     @custom ||= root.join('custom').exist?
+  end
+
+  def self.help_center_root
+    ENV.fetch('HELPCENTER_URL', nil) || ENV.fetch('FRONTEND_URL', nil)
   end
 
   def self.extensions

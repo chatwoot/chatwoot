@@ -16,6 +16,13 @@ describe('#MessageFormatter', () => {
         '<p>Chatwoot is an opensource tool. <a href="https://www.chatwoot.com" class="link" rel="noreferrer noopener nofollow" target="_blank">https://www.chatwoot.com</a></p>'
       );
     });
+    it('should not convert template variables to links when linkify is disabled', () => {
+      const message = 'Hey {{customer.name}}, check https://chatwoot.com';
+      const formatter = new MessageFormatter(message, false, false, false);
+      expect(formatter.formattedMessage).toMatch(
+        '<p>Hey {{customer.name}}, check https://chatwoot.com</p>'
+      );
+    });
   });
 
   describe('parses heading to strong', () => {
@@ -24,6 +31,32 @@ describe('#MessageFormatter', () => {
       expect(new MessageFormatter(message).formattedMessage).toMatch(
         `<h3>opensource</h3>
 <h2>tool</h2>`
+      );
+    });
+  });
+
+  describe('content with image and has "cw_image_height" query at the end of URL', () => {
+    it('should set image height correctly', () => {
+      const message =
+        'Chatwoot is an opensource tool. ![](http://chatwoot.com/chatwoot.png?cw_image_height=24px)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Chatwoot is an opensource tool. <img src="http://chatwoot.com/chatwoot.png?cw_image_height=24px" alt="" style="height: 24px;" /></p>'
+      );
+    });
+
+    it('should set image height correctly if its original size', () => {
+      const message =
+        'Chatwoot is an opensource tool. ![](http://chatwoot.com/chatwoot.png?cw_image_height=auto)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Chatwoot is an opensource tool. <img src="http://chatwoot.com/chatwoot.png?cw_image_height=auto" alt="" style="height: auto;" /></p>'
+      );
+    });
+
+    it('should not set height', () => {
+      const message =
+        'Chatwoot is an opensource tool. ![](http://chatwoot.com/chatwoot.png)';
+      expect(new MessageFormatter(message).formattedMessage).toMatch(
+        '<p>Chatwoot is an opensource tool. <img src="http://chatwoot.com/chatwoot.png" alt="" /></p>'
       );
     });
   });

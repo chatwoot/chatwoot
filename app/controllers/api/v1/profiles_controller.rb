@@ -10,12 +10,14 @@ class Api::V1::ProfilesController < Api::BaseController
       @user.update!(password_params.except(:current_password))
     end
 
-    @user.update!(profile_params)
+    @user.assign_attributes(profile_params)
+    @user.custom_attributes.merge!(custom_attributes_params)
+    @user.save!
   end
 
   def avatar
     @user.avatar.attachment.destroy! if @user.avatar.attached?
-    head :ok
+    @user.reload
   end
 
   def auto_offline
@@ -28,6 +30,11 @@ class Api::V1::ProfilesController < Api::BaseController
 
   def set_active_account
     @user.account_users.find_by(account_id: profile_params[:account_id]).update(active_at: Time.now.utc)
+    head :ok
+  end
+
+  def resend_confirmation
+    @user.send_confirmation_instructions unless @user.confirmed?
     head :ok
   end
 
@@ -55,6 +62,10 @@ class Api::V1::ProfilesController < Api::BaseController
       :account_id,
       ui_settings: {}
     )
+  end
+
+  def custom_attributes_params
+    params.require(:profile).permit(:phone_number)
   end
 
   def password_params

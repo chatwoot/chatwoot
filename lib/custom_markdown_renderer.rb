@@ -1,7 +1,13 @@
 class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
+  # TODO: let move this regex from here to a config file where we can update this list much more easily
+  # the config file will also have the matching embed template as well.
   YOUTUBE_REGEX = %r{https?://(?:www\.)?(?:youtube\.com/watch\?v=|youtu\.be/)([^&/]+)}
+  LOOM_REGEX = %r{https?://(?:www\.)?loom\.com/share/([^&/]+)}
   VIMEO_REGEX = %r{https?://(?:www\.)?vimeo\.com/(\d+)}
   MP4_REGEX = %r{https?://(?:www\.)?.+\.(mp4)}
+  ARCADE_REGEX = %r{https?://(?:www\.)?app\.arcade\.software/share/([^&/]+)}
+  WISTIA_REGEX = %r{https?://(?:www\.)?([^/]+)\.wistia\.com/medias/([^&/]+)}
+  BUNNY_REGEX = %r{https?://iframe\.mediadelivery\.net/play/(\d+)/([^&/?]+)}
 
   def text(node)
     content = node.string_content
@@ -41,23 +47,22 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def render_embedded_content(node)
     link_url = node.url
+    embedding_methods = {
+      YOUTUBE_REGEX => :make_youtube_embed,
+      VIMEO_REGEX => :make_vimeo_embed,
+      MP4_REGEX => :make_video_embed,
+      LOOM_REGEX => :make_loom_embed,
+      ARCADE_REGEX => :make_arcade_embed,
+      WISTIA_REGEX => :make_wistia_embed,
+      BUNNY_REGEX => :make_bunny_embed
+    }
 
-    youtube_match = link_url.match(YOUTUBE_REGEX)
-    if youtube_match
-      out(make_youtube_embed(youtube_match))
-      return true
-    end
-
-    vimeo_match = link_url.match(VIMEO_REGEX)
-    if vimeo_match
-      out(make_vimeo_embed(vimeo_match))
-      return true
-    end
-
-    mp4_match = link_url.match(MP4_REGEX)
-    if mp4_match
-      out(make_video_embed(link_url))
-      return true
+    embedding_methods.each do |regex, method|
+      match = link_url.match(regex)
+      if match
+        out(send(method, match))
+        return true
+      end
     end
 
     false
@@ -75,38 +80,36 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
 
   def make_youtube_embed(youtube_match)
     video_id = youtube_match[1]
-    %(
-      <iframe
-        width="560"
-        height="315"
-        src="https://www.youtube.com/embed/#{video_id}"
-        frameborder="0"
-        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    )
+    EmbedRenderer.youtube(video_id)
+  end
+
+  def make_loom_embed(loom_match)
+    video_id = loom_match[1]
+    EmbedRenderer.loom(video_id)
   end
 
   def make_vimeo_embed(vimeo_match)
     video_id = vimeo_match[1]
-    %(
-      <iframe
-        src="https://player.vimeo.com/video/#{video_id}"
-        width="640"
-        height="360"
-        frameborder="0"
-        allow="autoplay; fullscreen; picture-in-picture"
-        allowfullscreen
-      ></iframe>
-    )
+    EmbedRenderer.vimeo(video_id)
   end
 
   def make_video_embed(link_url)
-    %(
-      <video width="640" height="360" controls>
-        <source src="#{link_url}" type="video/mp4">
-        Your browser does not support the video tag.
-      </video>
-    )
+    EmbedRenderer.video(link_url)
+  end
+
+  def make_wistia_embed(wistia_match)
+    video_id = wistia_match[2]
+    EmbedRenderer.wistia(video_id)
+  end
+
+  def make_arcade_embed(arcade_match)
+    video_id = arcade_match[1]
+    EmbedRenderer.arcade(video_id)
+  end
+
+  def make_bunny_embed(bunny_match)
+    library_id = bunny_match[1]
+    video_id = bunny_match[2]
+    EmbedRenderer.bunny(library_id, video_id)
   end
 end

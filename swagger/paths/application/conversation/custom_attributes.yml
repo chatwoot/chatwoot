@@ -1,0 +1,45 @@
+tags:
+  - Conversations
+operationId: update-custom-attributes-of-a-conversation
+summary: Update Custom Attributes
+description: Updates the custom attributes of a conversation
+security:
+  - userApiKey: []
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        type: object
+        required:
+          - custom_attributes
+        properties:
+          custom_attributes:
+            type: object
+            description: The custom attributes to be set for the conversation
+            example:
+              order_id: '12345'
+              previous_conversation: '67890'
+responses:
+  '200':
+    description: Success
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            custom_attributes:
+              type: object
+              description: The custom attributes of the conversation
+  '401':
+    description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
+    description: Conversation not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

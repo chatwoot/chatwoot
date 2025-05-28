@@ -30,6 +30,9 @@
       "is_lesser_than": "Is minder dan",
       "days_before": "Is x dagen vóór"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Waarde is vereist"
+    },
     "ATTRIBUTES": {
       "NAME": "Naam",
       "EMAIL": "E-mailadres",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Selectievakje",
       "CREATED_AT": "Aangemaakt op",
       "LAST_ACTIVITY": "Laatste Activiteit",
-      "REFERER_LINK": "Verwijzer link"
+      "REFERER_LINK": "Verwijzer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standaard Filters",

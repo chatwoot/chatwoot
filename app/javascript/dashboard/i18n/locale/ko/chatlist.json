@@ -6,6 +6,7 @@
     "LIST": {
       "404": "이 그룹에는 활성 대화가 없습니다."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "대화",
     "MENTION_HEADING": "멘션",
     "UNATTENDED_HEADING": "Unattended",
@@ -43,26 +44,38 @@
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
-        "OLDEST": "Created at:"
+        "LATEST": "만들어짐",
+        "OLDEST": "에 만들어짐:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "최근 활동:",
+        "ACTIVE": "최근 활동"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      "sort_on_created_at": {
-        "TEXT": "Created at"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
@@ -81,8 +94,14 @@
       "location": {
         "CONTENT": "장소"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "URL을 공유함"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -91,15 +110,15 @@
       "ITEMS": {
         "LATEST": {
           "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "LABEL": "최근 활동"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "에 만들어짐",
+          "LABEL": "에 만들어짐"
         },
         "LAST_USER_MESSAGE_AT": {
           "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "LABEL": "최근 메세지"
         }
       }
     },
@@ -114,6 +133,7 @@
     "NO_CONTENT": "콘텐츠 이용 불가",
     "HIDE_QUOTED_TEXT": "인용문 가리기",
     "SHOW_QUOTED_TEXT": "인용문 보이기",
-    "MESSAGE_READ": "읽기"
+    "MESSAGE_READ": "읽기",
+    "SENDING": "Sending"
   }
 }

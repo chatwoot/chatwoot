@@ -30,6 +30,9 @@
       "is_lesser_than": "Lebih kecil dari",
       "days_before": "X hari sebelum"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai dibutuhkan"
+    },
     "ATTRIBUTES": {
       "NAME": "Nama",
       "EMAIL": "Email",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Centang Kustom",
       "CREATED_AT": "Dibuat pada",
       "LAST_ACTIVITY": "Aktivitas Terakhir",
-      "REFERER_LINK": "Tautan Referrer"
+      "REFERER_LINK": "Tautan Referrer",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filter Standar",

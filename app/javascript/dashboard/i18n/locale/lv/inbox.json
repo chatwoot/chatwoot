@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "Mana Iesūtne",
+      "DISPLAY_DROPDOWN": "Parādīt",
+      "LOADING": "Notiek paziņojumu iegūšana",
+      "404": "Šajā grupā nav aktīvu paziņojumu.",
+      "NO_NOTIFICATIONS": "Nav paziņojumu",
+      "NOTE": "Paziņojumi no visām abonētajām iesūtnēm",
+      "NO_MESSAGES_AVAILABLE": "Nevar iegūt ziņojumus",
+      "SNOOZED_UNTIL": "Atlikts līdz",
+      "SNOOZED_UNTIL_TOMORROW": "Atlikts līdz rītdienai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Atlikts līdz nākamajai nedēļai"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Atlikt paziņojumu",
+      "DELETE": "Dzēst paziņojumu",
+      "BACK": "Atpakaļ"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Jūs esat pieminēts sarunā",
+      "CONVERSATION_CREATION": "Izveidota jauna saruna",
+      "CONVERSATION_ASSIGNMENT": "Jums ir piešķirta saruna",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums piešķirtajā sarunā",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums sarunā, kurā piedalāties",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA pirmā sarunas atbilde nokavēta",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA nākamā sarunas atbilde nokavēta",
+      "SLA_MISSED_RESOLUTION": "SLA sarunas atrisināšanas laiks nokavēts"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Pieminēts",
+      "CONVERSATION_ASSIGNMENT": "Jums piešķirts",
+      "CONVERSATION_CREATION": "Jauna Saruna",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA pārkāpums",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA pārkāpums",
+      "SLA_MISSED_RESOLUTION": "SLA pārkāpums",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums",
+      "SNOOZED_UNTIL": "Atlikts uz {time}",
+      "SNOOZED_ENDS": "Atlikšana beidzās"
+    },
+    "NO_CONTENT": "Saturs nav pieejams",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Atzīmēt kā lasītu",
+      "MARK_AS_UNREAD": "Atzīmēt kā nelasītu",
+      "SNOOZE": "Atlikt",
+      "DELETE": "Dzēst",
+      "MARK_ALL_READ": "Atzīmēt visu kā izlasītu",
+      "DELETE_ALL": "Dzēst visu",
+      "DELETE_ALL_READ": "Dzēst visu izlasīto"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Šķirot",
+      "DISPLAY": "Parādīt :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Jaunākais",
+        "OLDEST": "Vecākais",
+        "PRIORITY": "Prioritāte"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Atlikts",
+        "READ": "Lasīts",
+        "LABELS": "Etiķetes",
+        "CONVERSATION_ID": "Sarunas ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Paziņojums atzīmēts kā izlasīts",
+      "MARK_AS_UNREAD": "Paziņojums atzīmēts kā nelasīts",
+      "SNOOZE": "Paziņojums atlikts",
+      "DELETE": "Paziņojums izdzēsts",
+      "MARK_ALL_READ": "Visi paziņojumi ir atzīmēti kā lasīti",
+      "DELETE_ALL": "Visi paziņojumi izdzēsti",
+      "DELETE_ALL_READ": "Visi lasīšanas paziņojumi ir izdzēsti"
+    }
+  }
+}

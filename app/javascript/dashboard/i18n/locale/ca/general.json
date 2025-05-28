@@ -1,0 +1,9 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Es mostren {firstIndex}-{lastIndex} de {totalCount} elements",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Cercar",
+      "EMPTY_STATE": "No s'ha trobat agents"
+    }
+  }
+}

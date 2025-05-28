@@ -81,6 +81,22 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       expect(Whatsapp::IncomingMessageService).not_to receive(:new)
       job.perform_now(params)
     end
+
+    it 'logs a warning when channel is inactive' do
+      channel.prompt_reauthorization!
+      allow(Rails.logger).to receive(:warn)
+
+      expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: #{channel.phone_number}")
+      job.perform_now(params)
+    end
+
+    it 'logs a warning with unknown phone number when channel does not exist' do
+      unknown_phone = '+1234567890'
+      allow(Rails.logger).to receive(:warn)
+
+      expect(Rails.logger).to receive(:warn).with("Inactive WhatsApp channel: unknown - #{unknown_phone}")
+      job.perform_now(phone_number: unknown_phone)
+    end
   end
 
   context 'when default provider' do
@@ -144,6 +160,61 @@ RSpec.describe Webhooks::WhatsappEventsJob do
       expect do
         Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
       end.not_to change(Message, :count)
+    end
+
+    it 'ignore reaction type message, would not create contact if the reaction is the first event' do
+      other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
+                                                validate_provider_config: false)
+      wb_params = {
+        phone_number: channel.phone_number,
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              contacts: [{ profile: { name: 'Test Test' }, wa_id: '1111981136571' }],
+              messages: [{
+                from: '1111981136571', reaction: { emoji: '👍' }, timestamp: '1664799904', type: 'reaction'
+              }],
+              metadata: {
+                phone_number_id: other_channel.provider_config['phone_number_id'],
+                display_phone_number: other_channel.phone_number.delete('+')
+              }
+            }
+          }]
+        }]
+      }.with_indifferent_access
+      expect do
+        Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
+      end.not_to change(Contact, :count)
+    end
+
+    it 'ignore request_welcome type message, would not create contact or conversation' do
+      other_channel = create(:channel_whatsapp, phone_number: '+1987654', provider: 'whatsapp_cloud', sync_templates: false,
+                                                validate_provider_config: false)
+      wb_params = {
+        phone_number: channel.phone_number,
+        object: 'whatsapp_business_account',
+        entry: [{
+          changes: [{
+            value: {
+              messages: [{
+                from: '1111981136571', timestamp: '1664799904', type: 'request_welcome'
+              }],
+              metadata: {
+                phone_number_id: other_channel.provider_config['phone_number_id'],
+                display_phone_number: other_channel.phone_number.delete('+')
+              }
+            }
+          }]
+        }]
+      }.with_indifferent_access
+      expect do
+        Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
+      end.not_to change(Contact, :count)
+
+      expect do
+        Whatsapp::IncomingMessageWhatsappCloudService.new(inbox: other_channel.inbox, params: wb_params).perform
+      end.not_to change(Conversation, :count)
     end
 
     it 'will not enque Whatsapp::IncomingMessageWhatsappCloudService when invalid phone number id' do

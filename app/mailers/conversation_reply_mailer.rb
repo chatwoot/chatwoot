@@ -1,4 +1,8 @@
 class ConversationReplyMailer < ApplicationMailer
+  # We needs to expose large attachments to the view as links
+  # Small attachments are linked as mail attachments directly
+  attr_reader :large_attachments
+
   include ConversationReplyMailerHelper
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
@@ -45,6 +49,9 @@ class ConversationReplyMailer < ApplicationMailer
 
     @messages = @conversation.messages.chat.select(&:conversation_transcriptable?)
 
+    Rails.logger.info("Email sent from #{from_email_with_name} \
+      to #{to_email} with subject #{@conversation.display_id} \
+      #{I18n.t('conversations.reply.transcript_subject')} ")
     mail({
            to: to_email,
            from: from_email_with_name,

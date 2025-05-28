@@ -10,6 +10,7 @@
     "PASSWORD_UPDATE_SUCCESS": "Kata sandi Anda berhasil diubah",
     "AFTER_EMAIL_CHANGED": "Profil Anda telah berhasil diperbarui, silakan masuk lagi dengan data akun yang baru diubah",
     "FORM": {
+      "PICTURE": "Profile Picture",
       "AVATAR": "Foto Profil",
       "ERROR": "Perbaiki kesalahan formulir",
       "REMOVE_IMAGE": "Hapus",
@@ -31,6 +32,24 @@
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
             "CONTENT": "Kirim pesan dengan menekan tombol Cmd/Ctrl + Enter daripada mengklik tombol kirim."
+          }
+        }
+      },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Default",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
           }
         }
       },
@@ -56,13 +75,33 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "Token Akses",
-        "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API"
+        "NOTE": "Token ini dapat digunakan jika Anda sedang membangun integrasi berbasis API",
+        "COPY": "Salin"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
-        "TITLE": "Pemberitahuan Audio",
-        "NOTE": "Aktifkan pemberitahuan audio di dashboard untuk pesan dan percakapan baru.",
+        "TITLE": "Audio Alerts",
+        "NOTE": "Enable audio alerts in dashboard for new messages and conversations.",
+        "PLAY": "Play sound",
+        "ALERT_TYPES": {
+          "NONE": "Tidak ada",
+          "MINE": "Assigned",
+          "ALL": "Semua",
+          "ASSIGNED": "My assigned conversations",
+          "UNASSIGNED": "Unassigned conversations",
+          "NOTME": "Open conversations assigned to others"
+        },
+        "ALERT_COMBINATIONS": {
+          "NONE": "You haven't selected any options, you won't receive any audio alerts.",
+          "ASSIGNED": "You'll receive alerts for conversations assigned to you.",
+          "UNASSIGNED": "You'll receive alerts for any unassigned conversations.",
+          "NOTME": "You'll receive alerts for conversations assigned to others.",
+          "ASSIGNED+UNASSIGNED": "You'll receive alerts for your assigned conversations and any unattended ones.",
+          "ASSIGNED+NOTME": "You'll receive alerts for conversations assigned to you and to others, but not for unassigned ones.",
+          "NOTME+UNASSIGNED": "You'll receive alerts for unattended conversations and those assigned to others.",
+          "ASSIGNED+NOTME+UNASSIGNED": "You'll receive alerts for all conversations."
+        },
         "ALERT_TYPE": {
-          "TITLE": "Jenis pemberitahuan:",
+          "TITLE": "Alert events for conversations",
           "NONE": "Tidak ada",
           "ASSIGNED": "Percakapan yang ditetapkan",
           "ALL_CONVERSATIONS": "Semua Percakapan"
@@ -74,7 +113,9 @@
           "TITLE": "Kondisi pemberitahuan:",
           "CONDITION_ONE": "Kirim pemberitahuan audio hanya jika jendela browser tidak aktif",
           "CONDITION_TWO": "Kirim pemberitahuan setiap 30 detik hingga semua percakapan yang ditetapkan dibaca"
-        }
+        },
+        "SOUND_PERMISSION_ERROR": "Autoplay is disabled in your browser. To hear alerts automatically, enable sound permission in your browser settings or interact with the page.",
+        "READ_MORE": "Baca lebih lanjut"
       },
       "EMAIL_NOTIFICATIONS_SECTION": {
         "TITLE": "Notifikasi Email",
@@ -83,7 +124,27 @@
         "CONVERSATION_CREATION": "Kirim notifikasi email ketika percakapan baru dibuat",
         "CONVERSATION_MENTION": "Kirim notifikasi email saat Anda disebut dalam percakapan",
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
-        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang Anda ikuti"
+        "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi email ketika pesan baru dibuat dalam percakapan yang Anda ikuti",
+        "SLA_MISSED_FIRST_RESPONSE": "Send email notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send email notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send email notifications when a conversation misses resolution SLA"
+      },
+      "NOTIFICATIONS": {
+        "TITLE": "Notification preferences",
+        "TYPE_TITLE": "Notification type",
+        "EMAIL": "Email",
+        "PUSH": "Push notification",
+        "TYPES": {
+          "CONVERSATION_CREATED": "A new conversation is created",
+          "CONVERSATION_ASSIGNED": "A conversation is assigned to you",
+          "CONVERSATION_MENTION": "You are mentioned in a conversation",
+          "ASSIGNED_CONVERSATION_NEW_MESSAGE": "A new message is created in an assigned conversation",
+          "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "A new message is created in a participating conversation",
+          "SLA_MISSED_FIRST_RESPONSE": "A conversation misses first response SLA",
+          "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
+          "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
+        },
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Preferensi notifikasi Anda berhasil diperbarui",
@@ -98,7 +159,10 @@
         "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi push ketika pesan baru dibuat dalam percakapan yang telah ditugaskan",
         "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Kirim notifikasi push ketika pesan baru dibuat dalam percakapan yang Anda ikuti",
         "HAS_ENABLED_PUSH": "Anda telah mengaktifkan notifikasi push untuk browser ini.",
-        "REQUEST_PUSH": "Aktifkan notifikasi push"
+        "REQUEST_PUSH": "Aktifkan notifikasi push",
+        "SLA_MISSED_FIRST_RESPONSE": "Send push notifications when a conversation misses first response SLA",
+        "SLA_MISSED_NEXT_RESPONSE": "Send push notifications when a conversation misses next response SLA",
+        "SLA_MISSED_RESOLUTION": "Send push notifications when a conversation misses resolution SLA"
       },
       "PROFILE_IMAGE": {
         "LABEL": "Foto Profil"
@@ -115,11 +179,11 @@
       },
       "AVAILABILITY": {
         "LABEL": "Ketersediaan",
-        "STATUSES_LIST": [
-          "Online",
-          "Sibuk",
-          "Offline"
-        ],
+        "STATUS": {
+          "ONLINE": "Online",
+          "BUSY": "Sibuk",
+          "OFFLINE": "Offline"
+        },
         "SET_AVAILABILITY_SUCCESS": "Ketersediaan berhasil diatur",
         "SET_AVAILABILITY_ERROR": "Tidak dapat mengatur ketersediaan, silakan coba lagi"
       },
@@ -147,19 +211,24 @@
   },
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
-    "CHANGE_ACCOUNTS": "Ganti Akun",
-    "CONTACT_SUPPORT": "Hubungi Dukungan",
+    "CHANGE_ACCOUNTS": "Switch account",
+    "SWITCH_ACCOUNT": "Switch account",
+    "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
-    "PROFILE_SETTINGS": "Pengaturan Profil",
-    "KEYBOARD_SHORTCUTS": "Pintasan Keyboard",
-    "APPEARANCE": "Change Appearance",
-    "SUPER_ADMIN_CONSOLE": "Konsol Super Admin",
-    "LOGOUT": "Keluar"
+    "PROFILE_SETTINGS": "Profile settings",
+    "KEYBOARD_SHORTCUTS": "Keyboard shortcuts",
+    "APPEARANCE": "Change appearance",
+    "SUPER_ADMIN_CONSOLE": "SuperAdmin console",
+    "DOCS": "Read documentation",
+    "LOGOUT": "Log out"
   },
   "APP_GLOBAL": {
     "TRIAL_MESSAGE": "hari percobaan tersisa.",
     "TRAIL_BUTTON": "Beli Sekarang",
     "DELETED_USER": "Pengguna Dihapus",
+    "EMAIL_VERIFICATION_PENDING": "It seems that you haven't verified your email address yet. Please check your inbox for the verification email.",
+    "RESEND_VERIFICATION_MAIL": "Resend verification email",
+    "EMAIL_VERIFICATION_SENT": "Verification email has been sent. Please check your inbox.",
     "ACCOUNT_SUSPENDED": {
       "TITLE": "Akun Ditangguhkan",
       "MESSAGE": "Akun Anda ditangguhkan. Silakan hubungi tim dukungan untuk informasi lebih lanjut."
@@ -185,6 +254,10 @@
     },
     "FORM_BUBBLE": {
       "SUBMIT": "Kirim"
+    },
+    "MEDIA": {
+      "IMAGE_UNAVAILABLE": "This image is no longer available.",
+      "LOADING_FAILED": "Loading failed"
     }
   },
   "CONFIRM_EMAIL": "Memverifikasi...",
@@ -194,9 +267,12 @@
     }
   },
   "SIDEBAR": {
+    "NO_ITEMS": "No items",
     "CURRENTLY_VIEWING_ACCOUNT": "Saat ini dilihat:",
     "SWITCH": "Ganti",
+    "INBOX_VIEW": "Inbox View",
     "CONVERSATIONS": "Percakapan",
+    "INBOX": "Kotak Masuk Saya",
     "ALL_CONVERSATIONS": "Semua Percakapan",
     "MENTIONED_CONVERSATIONS": "Disebutkan",
     "PARTICIPATING_CONVERSATIONS": "Berpartisipasi",
@@ -204,6 +280,10 @@
     "REPORTS": "Laporan",
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
+    "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Beranda",
     "AGENTS": "Agen",
     "AGENT_BOTS": "Bot Agen",
@@ -230,43 +310,61 @@
     "NEW_INBOX": "Kotak Masuk Baru",
     "REPORTS_CONVERSATION": "Percakapan",
     "CSAT": "CSAT",
+    "LIVE_CHAT": "Live Chat",
+    "SMS": "SMS",
     "CAMPAIGNS": "Kampanye",
     "ONGOING": "Berlangsung",
     "ONE_OFF": "Sekali",
+    "REPORTS_SLA": "SLA",
+    "REPORTS_BOT": "Bot",
     "REPORTS_AGENT": "Agen",
     "REPORTS_LABEL": "Label",
     "REPORTS_INBOX": "Kotak Masuk",
     "REPORTS_TEAM": "Tim",
     "SET_AVAILABILITY_TITLE": "Atur diri anda sebagai",
+    "SET_YOUR_AVAILABILITY": "Atur ketersediaan Anda",
+    "SLA": "SLA",
+    "CUSTOM_ROLES": "Custom Roles",
     "BETA": "Beta",
     "REPORTS_OVERVIEW": "Gambaran",
-    "FACEBOOK_REAUTHORIZE": "Koneksi Facebook Anda telah kedaluwarsa, hubungkan kembali halaman Facebook Anda untuk melanjutkan layanan",
+    "REAUTHORIZE": "Your inbox connection has expired, please reconnect\n to continue receiving and sending messages",
     "HELP_CENTER": {
       "TITLE": "Pusat Bantuan",
-      "ALL_ARTICLES": "Semua Artikel",
-      "MY_ARTICLES": "Artikel Saya",
-      "DRAFT": "Konsep",
-      "ARCHIVED": "Arsip",
-      "CATEGORY": "Kategori",
-      "SETTINGS": "Pengaturan",
-      "CATEGORY_EMPTY_MESSAGE": "Tidak ada kategori ditemukan"
+      "ARTICLES": "Articles",
+      "CATEGORIES": "Kategori",
+      "LOCALES": "Bahasa",
+      "SETTINGS": "Pengaturan"
     },
+    "CHANNELS": "Channel",
     "SET_AUTO_OFFLINE": {
       "TEXT": "Tandai offline secara otomatis",
-      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor."
+      "INFO_TEXT": "Biarkan sistem secara otomatis menandai Anda offline saat Anda tidak menggunakan aplikasi atau dasbor.",
+      "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
     "DOCS": "Baca dokumen"
   },
   "BILLING_SETTINGS": {
     "TITLE": "Pembayaran",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Paket Saat Ini",
-      "PLAN_NOTE": "Anda saat ini berlangganan paket **%{plan}** dengan **%{quantity}** lisensi"
+      "PLAN_NOTE": "Anda saat ini berlangganan paket **{plan}** dengan **{quantity}** lisensi",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Kelola langganan Anda",
       "DESCRIPTION": "Lihat faktur sebelumnya, edit rincian pembayaran, atau batalkan langganan Anda.",
       "BUTTON_TXT": "Buka portal pembayaran"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Butuh bantuan?",
@@ -289,7 +387,8 @@
         "LABEL": "Nama Perusahaan",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Kirim"
+      "SUBMIT": "Kirim",
+      "CANCEL": "Batalkan"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -306,15 +405,9 @@
       "GO_TO_REPORTS_SIDEBAR": "Buka sidebar Laporan",
       "MOVE_TO_NEXT_TAB": "Pindah ke tab berikutnya dalam daftar percakapan",
       "GO_TO_SETTINGS": "Buka Pengaturan",
-      "SWITCH_CONVERSATION_STATUS": "Beralih ke status percakapan berikutnya",
       "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Catatan Pribadi",
       "SWITCH_TO_REPLY": "Beralih ke Balasan",
       "TOGGLE_SNOOZE_DROPDOWN": "Buka/Tutup dropdown penundaan"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

@@ -36,7 +36,8 @@ class UserDashboard < Administrate::BaseDashboard
     updated_at: Field::DateTime,
     pubsub_token: Field::String,
     type: Field::Select.with_options(collection: [nil, 'SuperAdmin']),
-    accounts: CountField
+    accounts: CountField,
+    access_token: Field::HasOne
   }.freeze
 
   # COLLECTION_ATTRIBUTES
@@ -67,6 +68,7 @@ class UserDashboard < Administrate::BaseDashboard
     updated_at
     confirmed_at
     account_users
+    access_token
   ].freeze
 
   # FORM_ATTRIBUTES
@@ -92,7 +94,12 @@ class UserDashboard < Administrate::BaseDashboard
   #   COLLECTION_FILTERS = {
   #     open: ->(resources) { resources.where(open: true) }
   #   }.freeze
-  COLLECTION_FILTERS = {}.freeze
+  COLLECTION_FILTERS = {
+    super_admin: ->(resources) { resources.where(type: 'SuperAdmin') },
+    confirmed: ->(resources) { resources.where.not(confirmed_at: nil) },
+    unconfirmed: ->(resources) { resources.where(confirmed_at: nil) },
+    recent: ->(resources) { resources.where('created_at > ?', 30.days.ago) }
+  }.freeze
 
   # Overwrite this method to customize how users are displayed
   # across all pages of the admin dashboard.

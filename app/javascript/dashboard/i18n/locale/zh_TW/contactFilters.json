@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "x 天前"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "此欄位為必填項目"
+    },
     "ATTRIBUTES": {
       "NAME": "姓名",
       "EMAIL": "Email",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "勾選框",
       "CREATED_AT": "建立於",
       "LAST_ACTIVITY": "最後活動",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "一般篩選條件",

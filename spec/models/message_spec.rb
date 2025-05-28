@@ -11,7 +11,7 @@ RSpec.describe Message do
   end
 
   describe 'length validations' do
-    let(:message) { create(:message) }
+    let!(:message) { create(:message) }
 
     context 'when it validates name length' do
       it 'valid when within limit' do
@@ -26,6 +26,17 @@ RSpec.describe Message do
 
         expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+      end
+
+      it 'adds error in case of message flooding' do
+        with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+          conversation = message.conversation
+          create(:message, conversation: conversation)
+          conv_new_message = build(:message, conversation: message.conversation)
+
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
       end
     end
   end
@@ -96,7 +107,11 @@ RSpec.describe Message do
   end
 
   describe 'message create event' do
-    let(:conversation) { create(:conversation) }
+    let!(:conversation) { create(:conversation) }
+
+    before do
+      conversation.reload
+    end
 
     it 'updates the conversation first reply created at if it is the first outgoing message' do
       expect(conversation.first_reply_created_at).to be_nil
@@ -457,6 +472,37 @@ RSpec.describe Message do
       it 'does not set in_reply_to' do
         new_message.send(:ensure_in_reply_to)
         expect(new_message.content_attributes[:in_reply_to]).to be_nil
+      end
+    end
+  end
+
+  describe '#content' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Original content') }
+
+    it 'returns original content for web widget inbox' do
+      allow(message.inbox).to receive(:web_widget?).and_return(true)
+      expect(message.content).to eq('Original content')
+    end
+
+    context 'when inbox is not a web widget' do
+      before do
+        allow(message.inbox).to receive(:web_widget?).and_return(false)
+        allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('https://app.chatwoot.com')
+      end
+
+      it 'returns custom message with survey link when csat message is configured' do
+        allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom survey message:' })
+        expected_content = "Custom survey message: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+        expect(message.content).to eq(expected_content)
+      end
+
+      it 'returns default message with survey link when no custom csat message' do
+        allow(message.inbox).to receive(:csat_config).and_return(nil)
+        allow(I18n).to receive(:t).with('conversations.survey.response', link: "https://app.chatwoot.com/survey/responses/#{conversation.uuid}")
+                                  .and_return("Please rate your conversation: https://app.chatwoot.com/survey/responses/#{conversation.uuid}")
+        expected_content = "Please rate your conversation: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+        expect(message.content).to eq(expected_content)
       end
     end
   end

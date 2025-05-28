@@ -80,8 +80,10 @@ RSpec.describe 'Enterprise SLA API', type: :request do
   describe 'POST #create' do
     let(:valid_params) do
       { sla_policy: { name: 'SLA 2',
-                      frt_threshold: 1000,
-                      rt_threshold: 1000,
+                      description: 'SLA for premium customers',
+                      first_response_time_threshold: 1000,
+                      next_response_time_threshold: 2000,
+                      resolution_time_threshold: 3000,
                       only_during_business_hours: false } }
     end
 

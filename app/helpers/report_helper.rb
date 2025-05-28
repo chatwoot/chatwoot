@@ -32,6 +32,14 @@ module ReportHelper
     (get_grouped_values resolutions).count
   end
 
+  def bot_resolutions_count
+    (get_grouped_values bot_resolutions).count
+  end
+
+  def bot_handoffs_count
+    (get_grouped_values bot_handoffs).count
+  end
+
   def conversations
     scope.conversations.where(account_id: account.id, created_at: range)
   end
@@ -47,6 +55,16 @@ module ReportHelper
   def resolutions
     scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_resolved,
                                                                                conversations: { status: :resolved }, created_at: range).distinct
+  end
+
+  def bot_resolutions
+    scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_bot_resolved,
+                                                                               conversations: { status: :resolved }, created_at: range).distinct
+  end
+
+  def bot_handoffs
+    scope.reporting_events.joins(:conversation).select(:conversation_id).where(account_id: account.id, name: :conversation_bot_handoff,
+                                                                               created_at: range).distinct
   end
 
   def avg_first_response_time

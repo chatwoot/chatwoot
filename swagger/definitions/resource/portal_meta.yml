@@ -1,0 +1,23 @@
+type: object
+properties:
+  all_articles_count:
+    type: integer
+    description: Total number of articles
+  archived_articles_count:
+    type: integer
+    nullable: true
+    description: Number of archived articles
+  published_count:
+    type: integer
+    nullable: true
+    description: Number of published articles
+  draft_articles_count:
+    type: integer
+    nullable: true
+    description: Number of draft articles
+  categories_count:
+    type: integer
+    description: Number of categories
+  default_locale:
+    type: string
+    description: Default locale for the portal 

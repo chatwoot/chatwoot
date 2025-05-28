@@ -1,24 +1,19 @@
 import axios from 'axios';
 import Cookies from 'js-cookie';
 import { actions } from '../../auth';
-import * as types from '../../../mutation-types';
-import { setUser, clearCookiesOnLogout } from '../../../utils/api';
+import types from '../../../mutation-types';
+import * as APIHelpers from '../../../utils/api';
 import '../../../../routes';
 
-jest.mock('../../../../routes', () => {});
-jest.mock('../../../utils/api', () => ({
-  setUser: jest.fn(),
-  clearCookiesOnLogout: jest.fn(),
-  getHeaderExpiry: jest.fn(),
-}));
-jest.mock('js-cookie', () => ({
-  getJSON: jest.fn(),
-}));
+vi.spyOn(APIHelpers, 'setUser');
+vi.spyOn(APIHelpers, 'clearCookiesOnLogout');
+vi.spyOn(APIHelpers, 'getHeaderExpiry');
+vi.spyOn(Cookies, 'get');
 
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#validityCheck', () => {
@@ -28,9 +23,9 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.validityCheck({ commit });
-      expect(setUser).toHaveBeenCalledTimes(1);
+      expect(APIHelpers.setUser).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
+        [types.SET_CURRENT_USER, { id: 1, name: 'John' }],
       ]);
     });
     it('sends correct actions if API is error', async () => {
@@ -38,7 +33,7 @@ describe('#actions', () => {
         response: { status: 401 },
       });
       await actions.validityCheck({ commit });
-      expect(clearCookiesOnLogout);
+      expect(APIHelpers.clearCookiesOnLogout);
     });
   });
 
@@ -50,7 +45,7 @@ describe('#actions', () => {
       });
       await actions.updateProfile({ commit }, { name: 'Pranav' });
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CURRENT_USER, { id: 1, name: 'John' }],
+        [types.SET_CURRENT_USER, { id: 1, name: 'John' }],
       ]);
     });
   });
@@ -66,12 +61,13 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.updateAvailability(
-        { commit, dispatch },
+        { commit, dispatch, getters: { getCurrentUserAvailability: 'online' } },
         { availability: 'offline', account_id: 1 }
       );
       expect(commit.mock.calls).toEqual([
+        [types.SET_CURRENT_USER_AVAILABILITY, 'offline'],
         [
-          types.default.SET_CURRENT_USER,
+          types.SET_CURRENT_USER,
           {
             id: 1,
             name: 'John',
@@ -84,6 +80,18 @@ describe('#actions', () => {
           'agents/updateSingleAgentPresence',
           { availabilityStatus: 'offline', id: 1 },
         ],
+      ]);
+    });
+
+    it('sends correct actions if API is a failure', async () => {
+      axios.post.mockRejectedValue({ error: 'Authentication Failure' });
+      await actions.updateAvailability(
+        { commit, dispatch, getters: { getCurrentUserAvailability: 'online' } },
+        { availability: 'offline', account_id: 1 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CURRENT_USER_AVAILABILITY, 'offline'],
+        [types.SET_CURRENT_USER_AVAILABILITY, 'online'],
       ]);
     });
   });
@@ -104,18 +112,30 @@ describe('#actions', () => {
         headers: { expiry: 581842904 },
       });
       await actions.updateAutoOffline(
-        { commit, dispatch },
+        { commit, dispatch, getters: { getCurrentUserAutoOffline: true } },
         { autoOffline: false, accountId: 1 }
       );
       expect(commit.mock.calls).toEqual([
+        [types.SET_CURRENT_USER_AUTO_OFFLINE, false],
         [
-          types.default.SET_CURRENT_USER,
+          types.SET_CURRENT_USER,
           {
             id: 1,
             name: 'John',
             accounts: [{ account_id: 1, auto_offline: false }],
           },
         ],
+      ]);
+    });
+    it('sends correct actions if API is failure', async () => {
+      axios.post.mockRejectedValue({ error: 'Authentication Failure' });
+      await actions.updateAutoOffline(
+        { commit, dispatch, getters: { getCurrentUserAutoOffline: true } },
+        { autoOffline: false, accountId: 1 }
+      );
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CURRENT_USER_AUTO_OFFLINE, false],
+        [types.SET_CURRENT_USER_AUTO_OFFLINE, true],
       ]);
     });
   });
@@ -137,11 +157,11 @@ describe('#actions', () => {
       );
       expect(commit.mock.calls).toEqual([
         [
-          types.default.SET_CURRENT_USER_UI_SETTINGS,
+          types.SET_CURRENT_USER_UI_SETTINGS,
           { uiSettings: { is_contact_sidebar_open: false } },
         ],
         [
-          types.default.SET_CURRENT_USER,
+          types.SET_CURRENT_USER,
           {
             id: 1,
             name: 'John',
@@ -155,18 +175,18 @@ describe('#actions', () => {
 
   describe('#setUser', () => {
     it('sends correct actions if user is logged in', async () => {
-      Cookies.getJSON.mockImplementation(() => true);
+      Cookies.get.mockImplementation(() => true);
       actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([]);
       expect(dispatch.mock.calls).toEqual([['validityCheck']]);
     });
 
     it('sends correct actions if user is not logged in', async () => {
-      Cookies.getJSON.mockImplementation(() => false);
+      Cookies.get.mockImplementation(() => false);
       actions.setUser({ commit, dispatch });
       expect(commit.mock.calls).toEqual([
-        [types.default.CLEAR_USER],
-        [types.default.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],
+        [types.CLEAR_USER],
+        [types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }],
       ]);
       expect(dispatch).toHaveBeenCalledTimes(0);
     });
@@ -182,7 +202,7 @@ describe('#actions', () => {
         { 1: 'online' }
       );
       expect(commit.mock.calls).toEqual([
-        [types.default.SET_CURRENT_USER_AVAILABILITY, 'online'],
+        [types.SET_CURRENT_USER_AVAILABILITY, 'online'],
       ]);
     });
 

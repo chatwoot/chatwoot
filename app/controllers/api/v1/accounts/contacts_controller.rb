@@ -14,7 +14,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
-  before_action :set_include_contact_inboxes, only: [:index, :search, :filter]
+  before_action :set_include_contact_inboxes, only: [:index, :search, :filter, :show, :update]
 
   def index
     @contacts_count = resolved_contacts.count
@@ -46,7 +46,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def export
     column_names = params['column_names']
-    Account::ContactsExportJob.perform_later(Current.account.id, column_names)
+    filter_params = { :payload => params.permit!['payload'], :label => params.permit!['label'] }
+    Account::ContactsExportJob.perform_later(Current.account.id, Current.user.id, column_names, filter_params)
     head :ok, message: I18n.t('errors.contacts.export.success')
   end
 
@@ -61,10 +62,15 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def show; end
 
   def filter
-    result = ::Contacts::FilterService.new(params.permit!, current_user).perform
+    result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
     contacts = result[:contacts]
     @contacts_count = result[:count]
     @contacts = fetch_contacts(contacts)
+  rescue CustomExceptions::CustomFilter::InvalidAttribute,
+         CustomExceptions::CustomFilter::InvalidOperator,
+         CustomExceptions::CustomFilter::InvalidQueryOperator,
+         CustomExceptions::CustomFilter::InvalidValue => e
+    render_could_not_create_error(e.message)
   end
 
   def contactable_inboxes
@@ -83,14 +89,14 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
       @contact = Current.account.contacts.new(permitted_params.except(:avatar_url))
       @contact.save!
       @contact_inbox = build_contact_inbox
-      process_avatar
+      process_avatar_from_url
     end
   end
 
   def update
     @contact.assign_attributes(contact_update_params)
     @contact.save!
-    process_avatar if permitted_params[:avatar].present? || permitted_params[:avatar_url].present?
+    process_avatar_from_url
   end
 
   def destroy
@@ -153,7 +159,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def permitted_params
-    params.permit(:name, :identifier, :email, :phone_number, :avatar, :avatar_url, additional_attributes: {}, custom_attributes: {})
+    params.permit(:name, :identifier, :email, :phone_number, :avatar, :blocked, :avatar_url, additional_attributes: {}, custom_attributes: {})
   end
 
   def contact_custom_attributes
@@ -162,9 +168,16 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contact.custom_attributes
   end
 
+  def contact_additional_attributes
+    return @contact.additional_attributes.merge(permitted_params[:additional_attributes]) if permitted_params[:additional_attributes]
+
+    @contact.additional_attributes
+  end
+
   def contact_update_params
-    # we want the merged custom attributes not the original one
-    permitted_params.except(:custom_attributes, :avatar_url).merge({ custom_attributes: contact_custom_attributes })
+    permitted_params.except(:custom_attributes, :avatar_url)
+                    .merge({ custom_attributes: contact_custom_attributes })
+                    .merge({ additional_attributes: contact_additional_attributes })
   end
 
   def set_include_contact_inboxes
@@ -179,7 +192,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     @contact = Current.account.contacts.includes(contact_inboxes: [:inbox]).find(params[:id])
   end
 
-  def process_avatar
+  def process_avatar_from_url
     ::Avatar::AvatarFromUrlJob.perform_later(@contact, params[:avatar_url]) if params[:avatar_url].present?
   end
 

@@ -51,3 +51,6 @@ public_inbox_identifier:
 
 public_contact_identifier:
   $ref: ./public/contact_identifier.yml
+
+portal_id:
+  $ref: ./portal_id.yml

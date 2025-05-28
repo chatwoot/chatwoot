@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su %{inboxName}.",
+    "DESCRIPTION": "Gerbiamas kliente 👋, skirkite kelias minutes ir pasidalykite atsiliepimais apie pokalbį su {inboxName}.",
     "RATING": {
       "LABEL": "Įvertinkite savo pokalbį",
       "SUCCESS_MESSAGE": "Dėkojame, kad pateikėte įvertinimą"

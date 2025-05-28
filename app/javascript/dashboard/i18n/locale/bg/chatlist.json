@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Няма активни разговори в тази група."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Разговори",
     "MENTION_HEADING": "Споменавания",
     "UNATTENDED_HEADING": "Unattended",
@@ -51,18 +52,30 @@
         "ACTIVE": "Last activity"
       }
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "Last activity: Oldest first"
       },
-      "sort_on_created_at": {
-        "TEXT": "Създаден в"
+      "last_activity_at_desc": {
+        "TEXT": "Last activity: Newest first"
       },
-      "sort_on_priority": {
-        "TEXT": "Priority"
+      "created_at_desc": {
+        "TEXT": "Created at: Newest first"
       },
-      "sort_on_waiting_since": {
-        "TEXT": "Pending Response"
+      "created_at_asc": {
+        "TEXT": "Created at: Oldest first"
+      },
+      "priority_desc": {
+        "TEXT": "Priority: Highest first"
+      },
+      "priority_asc": {
+        "TEXT": "Priority: Lowest first"
+      },
+      "waiting_since_asc": {
+        "TEXT": "Pending Response: Longest first"
+      },
+      "waiting_since_desc": {
+        "TEXT": "Pending Response: Shortest first"
       }
     },
     "ATTACHMENTS": {
@@ -81,8 +94,14 @@
       "location": {
         "CONTENT": "Локация"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "сподели линк"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -114,6 +133,7 @@
     "NO_CONTENT": "Няма налично съдържание",
     "HIDE_QUOTED_TEXT": "Скриване на цитирания текст",
     "SHOW_QUOTED_TEXT": "Показване на цитирания текст",
-    "MESSAGE_READ": "Read"
+    "MESSAGE_READ": "Read",
+    "SENDING": "Sending"
   }
 }
