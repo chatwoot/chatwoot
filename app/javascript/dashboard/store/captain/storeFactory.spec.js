@@ -9,7 +9,6 @@ import {
   createStore,
 } from './storeFactory';
 
-// Mock the dependencies
 vi.mock('dashboard/store/utils/api', () => ({
   throwErrorMessage: vi.fn(),
 }));
