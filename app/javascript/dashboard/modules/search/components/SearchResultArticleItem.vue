@@ -5,42 +5,19 @@ import { frontendURL } from 'dashboard/helper/URLHelper';
 import MessageFormatter from 'shared/helpers/MessageFormatter';
 
 const props = defineProps({
-  id: {
-    type: [String, Number],
-    default: 0,
-  },
-  title: {
-    type: String,
-    default: '',
-  },
-  description: {
-    type: String,
-    default: '',
-  },
-  category: {
-    type: String,
-    default: '',
-  },
-  locale: {
-    type: String,
-    default: '',
-  },
-  content: {
-    type: String,
-    default: '',
-  },
-  portalSlug: {
-    type: String,
-    required: true,
-  },
-  accountId: {
-    type: [String, Number],
-    default: 0,
-  },
+  id: { type: [String, Number], default: 0 },
+  title: { type: String, default: '' },
+  description: { type: String, default: '' },
+  category: { type: String, default: '' },
+  locale: { type: String, default: '' },
+  content: { type: String, default: '' },
+  portalSlug: { type: String, required: true },
+  accountId: { type: [String, Number], default: 0 },
 });
 
+const MAX_LENGTH = 300;
+
 const navigateTo = computed(() => {
-  // http://localhost:3000/app/accounts/1/portals/shivam-mishra/en/articles/edit/4
   return frontendURL(
     `accounts/${props.accountId}/portals/${props.portalSlug}/${props.locale}/articles/edit/${props.id}`
   );
@@ -53,8 +30,8 @@ const truncatedContent = computed(() => {
   const formatter = new MessageFormatter(props.content);
   const plainText = formatter.plainText.trim();
 
-  return plainText.length > 150
-    ? `${plainText.substring(0, 150)}...`
+  return plainText.length > MAX_LENGTH
+    ? `${plainText.substring(0, MAX_LENGTH)}...`
     : plainText;
 });
 </script>
