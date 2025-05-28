@@ -10,10 +10,7 @@ import {
   CONTACT_PERMISSIONS,
   PORTAL_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
-import {
-  getUserPermissions,
-  filterItemsByPermission,
-} from 'dashboard/helper/permissionsHelper.js';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
@@ -40,8 +37,6 @@ const pages = ref({
   articles: 1,
 });
 
-const currentUser = useMapGetter('getCurrentUser');
-const currentAccountId = useMapGetter('getCurrentAccountId');
 const contactRecords = useMapGetter('conversationSearch/getContactRecords');
 const conversationRecords = useMapGetter(
   'conversationSearch/getConversationRecords'
@@ -84,9 +79,7 @@ const filterConversations = filterByTab('conversations');
 const filterMessages = filterByTab('messages');
 const filterArticles = filterByTab('articles');
 
-const userPermissions = computed(() =>
-  getUserPermissions(currentUser.value, currentAccountId.value)
-);
+const { shouldShow } = usePolicy();
 
 const TABS_CONFIG = {
   all: {
@@ -112,47 +105,51 @@ const TABS_CONFIG = {
   },
   articles: {
     permissions: [...ROLES, PORTAL_PERMISSIONS],
+    featureFlag: FEATURE_FLAGS.HELP_CENTER,
     count: () => mappedArticles.value.length,
   },
 };
 
 const tabs = computed(() => {
-  const configs = Object.entries(TABS_CONFIG).map(([key, config]) => ({
-    key,
-    name: t(`SEARCH.TABS.${key.toUpperCase()}`),
-    count: config.count(),
-    showBadge: key !== 'all',
-    permissions: config.permissions,
-  }));
-
-  return filterItemsByPermission(
-    configs,
-    userPermissions.value,
-    item => item.permissions
-  );
+  return Object.entries(TABS_CONFIG)
+    .map(([key, config]) => ({
+      key,
+      name: t(`SEARCH.TABS.${key.toUpperCase()}`),
+      count: config.count(),
+      showBadge: key !== 'all',
+      permissions: config.permissions,
+      featureFlag: config.featureFlag,
+    }))
+    .filter(config => {
+      return shouldShow(config.featureFlag, config.permissions, null);
+    });
 });
 
 const totalSearchResultsCount = computed(() => {
-  const permissionCounts = {
-    contacts: {
+  const permissionCounts = [
+    {
       permissions: [...ROLES, CONTACT_PERMISSIONS],
       count: () => contacts.value.length,
     },
-    conversations: {
+    {
       permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
       count: () => conversations.value.length + messages.value.length,
     },
-    articles: {
+    {
       permissions: [...ROLES, PORTAL_PERMISSIONS],
+      featureFlag: FEATURE_FLAGS.HELP_CENTER,
       count: () => articles.value.length,
     },
-  };
-  return filterItemsByPermission(
-    permissionCounts,
-    userPermissions.value,
-    item => item.permissions,
-    (_, item) => item.count
-  ).reduce((total, count) => total + count(), 0);
+  ];
+
+  return permissionCounts
+    .filter(config => {
+      return shouldShow(config.featureFlag, config.permissions, null);
+    })
+    .map(config => {
+      return config.count();
+    })
+    .reduce((sum, count) => sum + count, 0);
 });
 
 const activeTabIndex = computed(() => {
