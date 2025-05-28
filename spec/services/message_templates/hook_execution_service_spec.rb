@@ -121,8 +121,9 @@ describe MessageTemplates::HookExecutionService do
       create(:message, conversation: conversation, message_type: 'incoming')
     end
 
-    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do
+    it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled and can reply' do
       conversation.inbox.update(csat_survey_enabled: true)
+      allow(conversation).to receive(:can_reply?).and_return(true)
 
       conversation.resolved!
       Conversations::ActivityMessageJob.perform_now(conversation,
@@ -172,6 +173,32 @@ describe MessageTemplates::HookExecutionService do
       expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
       expect(csat_survey).not_to have_received(:perform)
     end
+
+    it 'will not call ::MessageTemplates::Template::CsatSurvey if cannot reply' do
+      conversation.inbox.update(csat_survey_enabled: true)
+      allow(conversation).to receive(:can_reply?).and_return(false)
+
+      conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
+
+      expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new).with(conversation: conversation)
+      expect(csat_survey).not_to have_received(:perform)
+    end
+
+    it 'creates activity message when CSAT not sent due to messaging window restriction' do
+      conversation.inbox.update(csat_survey_enabled: true)
+      allow(conversation).to receive(:can_reply?).and_return(false)
+      allow(conversation).to receive(:create_csat_not_sent_activity_message)
+
+      conversation.resolved!
+      Conversations::ActivityMessageJob.perform_now(conversation,
+                                                    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity,
+                                                      content: 'Conversation marked resolved!!' })
+
+      expect(conversation).to have_received(:create_csat_not_sent_activity_message)
+    end
   end
 
   context 'when it is after working hours' do
@@ -194,23 +221,44 @@ describe MessageTemplates::HookExecutionService do
       expect(out_of_office_service).to have_received(:perform)
     end
 
-    it 'does not call ::MessageTemplates::Template::OutOfOffice when there are recent outgoing messages' do
-      contact = create(:contact)
-      conversation = create(:conversation, contact: contact)
+    context 'with recent outgoing messages' do
+      it 'does not call ::MessageTemplates::Template::OutOfOffice when there are recent outgoing messages' do
+        contact = create(:contact)
+        conversation = create(:conversation, contact: contact)
 
-      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
-      conversation.inbox.working_hours.today.update!(closed_all_day: true)
+        conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+        conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
-      create(:message, conversation: conversation, message_type: :outgoing, created_at: 2.minutes.ago)
+        create(:message, conversation: conversation, message_type: :outgoing, created_at: 2.minutes.ago)
 
-      out_of_office_service = double
-      allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
-      allow(out_of_office_service).to receive(:perform).and_return(true)
+        out_of_office_service = double
+        allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+        allow(out_of_office_service).to receive(:perform).and_return(true)
 
-      create(:message, conversation: conversation)
+        create(:message, conversation: conversation)
 
-      expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
-      expect(out_of_office_service).not_to have_received(:perform)
+        expect(MessageTemplates::Template::OutOfOffice).not_to have_received(:new)
+        expect(out_of_office_service).not_to have_received(:perform)
+      end
+
+      it 'ignores private note and calls ::MessageTemplates::Template::OutOfOffice' do
+        contact = create(:contact)
+        conversation = create(:conversation, contact: contact)
+
+        conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+        conversation.inbox.working_hours.today.update!(closed_all_day: true)
+
+        create(:message, conversation: conversation, private: true, message_type: :outgoing, created_at: 2.minutes.ago)
+
+        out_of_office_service = double
+        allow(MessageTemplates::Template::OutOfOffice).to receive(:new).and_return(out_of_office_service)
+        allow(out_of_office_service).to receive(:perform).and_return(true)
+
+        create(:message, conversation: conversation)
+
+        expect(MessageTemplates::Template::OutOfOffice).to have_received(:new).with(conversation: conversation)
+        expect(out_of_office_service).to have_received(:perform)
+      end
     end
 
     it 'will not calls ::MessageTemplates::Template::OutOfOffice when outgoing message' do

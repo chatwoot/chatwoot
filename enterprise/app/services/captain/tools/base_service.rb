@@ -1,8 +1,9 @@
 class Captain::Tools::BaseService
   attr_accessor :assistant
 
-  def initialize(assistant)
+  def initialize(assistant, user: nil)
     @assistant = assistant
+    @user = user
   end
 
   def name
@@ -30,5 +31,23 @@ class Captain::Tools::BaseService
         parameters: parameters
       }
     }
+  end
+
+  def active?
+    true
+  end
+
+  private
+
+  def user_has_permission(permission)
+    return false if @user.blank?
+
+    account_user = AccountUser.find_by(account_id: @assistant.account_id, user_id: @user.id)
+    return false if account_user.blank?
+
+    return account_user.custom_role.permissions.include?(permission) if account_user.custom_role.present?
+
+    # Default permission for agents without custom roles
+    account_user.administrator? || account_user.agent?
   end
 end

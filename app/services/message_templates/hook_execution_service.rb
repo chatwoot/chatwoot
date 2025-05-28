@@ -17,7 +17,7 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
-    ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform if should_send_csat_survey?
+    handle_csat_survey
   end
 
   def should_send_out_of_office_message?
@@ -27,7 +27,7 @@ class MessageTemplates::HookExecutionService
     return false unless message.incoming?
     # prevents sending out-of-office message if an agent has sent a message in last 5 minutes
     # ensures better UX by not interrupting active conversations at the end of business hours
-    return false if conversation.messages.outgoing.exists?(['created_at > ?', 5.minutes.ago])
+    return false if conversation.messages.outgoing.where(private: false).exists?(['created_at > ?', 5.minutes.ago])
 
     inbox.out_of_office? && conversation.messages.today.template.empty? && inbox.out_of_office_message.present?
   end
@@ -65,13 +65,26 @@ class MessageTemplates::HookExecutionService
     true
   end
 
-  def should_send_csat_survey?
+  def handle_csat_survey
     return unless csat_enabled_conversation?
-
     # only send CSAT once in a conversation
-    return if conversation.messages.where(content_type: :input_csat).present?
+    return if csat_already_sent?
 
-    true
+    # Only send CSAT if agent can still reply by checking the messaging window restriction
+    # https://www.chatwoot.com/docs/self-hosted/supported-features#outgoing-message-restriction
+    if within_messaging_window?
+      ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
+    else
+      conversation.create_csat_not_sent_activity_message
+    end
+  end
+
+  def csat_already_sent?
+    conversation.messages.where(content_type: :input_csat).present?
+  end
+
+  def within_messaging_window?
+    conversation.can_reply?
   end
 end
 MessageTemplates::HookExecutionService.prepend_mod_with('MessageTemplates::HookExecutionService')

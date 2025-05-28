@@ -435,6 +435,20 @@ RSpec.describe Conversation do
     end
   end
 
+  describe '#create_csat_not_sent_activity_message' do
+    subject(:create_csat_not_sent_activity_message) { conversation.create_csat_not_sent_activity_message }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'creates CSAT not sent activity message' do
+      create_csat_not_sent_activity_message
+      expect(Conversations::ActivityMessageJob)
+        .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
+                                                                    message_type: :activity,
+                                                                    content: 'CSAT survey not sent due to outgoing message restrictions' }))
+    end
+  end
+
   describe 'unread_messages' do
     subject(:unread_messages) { conversation.unread_messages }
 
@@ -793,8 +807,8 @@ RSpec.describe Conversation do
     end
 
     context 'when a new conversation is created' do
-      it 'sets last_activity_at to the created_at time' do
-        expect(conversation.last_activity_at).to eq(conversation.created_at)
+      it 'sets last_activity_at to the created_at time (within DB precision)' do
+        expect(conversation.last_activity_at).to be_within(1.second).of(conversation.created_at)
       end
     end
 
