@@ -1,6 +1,8 @@
 require 'rails_helper'
 
+# rubocop:disable RSpec/DescribeClass
 describe 'Markdown Embeds Configuration' do
+  # rubocop:enable RSpec/DescribeClass
   let(:config) { YAML.load_file(Rails.root.join('config/markdown_embeds.yml')) }
 
   describe 'YAML structure' do
