@@ -1,5 +1,5 @@
 # Markdown Embed Configuration
-# 
+#
 # This file defines patterns and templates for converting URLs into embedded content
 # in markdown rendering. Each embed type has:
 #   - regex: Pattern with named capture groups (?<name>...)
@@ -101,3 +101,58 @@ bunny:
         allowfullscreen>
       </iframe>
     </div>
+
+twitch_video:
+  regex: 'https?://(?:www\.)?twitch\.tv/videos/(?<video_id>\d+)'
+  template: |
+    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+      <iframe
+        src="https://player.twitch.tv/?video=%{video_id}&parent=localhost"
+        frameborder="0"
+        allowfullscreen
+        scrolling="no"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      </iframe>
+    </div>
+
+twitch_clip:
+  regex: 'https?://clips\.twitch\.tv/(?<clip_id>\w+)'
+  template: |
+    <div style="position: relative; padding-bottom: 56.25%; height: 0;">
+      <iframe
+        src="https://clips.twitch.tv/embed?clip=%{clip_id}&parent=localhost"
+        frameborder="0"
+        allowfullscreen
+        scrolling="no"
+        style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;">
+      </iframe>
+    </div>
+
+codepen:
+  regex: 'https?://(?:www\.)?codepen\.io/(?<user>[^/]+)/pen/(?<pen_id>[^/?]+)'
+  template: |
+    <div style="height: 400px; box-sizing: border-box; display: flex; align-items: center; justify-content: center;">
+      <iframe
+        height="400"
+        style="width: 100%;"
+        scrolling="no"
+        title="CodePen Embed"
+        src="https://codepen.io/%{user}/embed/%{pen_id}?default-tab=result"
+        frameborder="no"
+        loading="lazy"
+        allowtransparency="true"
+        allowfullscreen="true">
+      </iframe>
+    </div>
+
+github_gist:
+  regex: 'https?://gist\.github\.com/(?<username>[^/]+)/(?<gist_id>[a-f0-9]+)'
+  template: |
+    <script src="https://gist.github.com/%{username}/%{gist_id}.js"></script>
+    <noscript>
+      <div style="border: 1px solid #d1d9e0; border-radius: 6px; padding: 16px; margin: 16px 0; background: #f6f8fa;">
+        <a href="https://gist.github.com/%{username}/%{gist_id}" target="_blank" style="color: #0969da; text-decoration: none;">
+          View this gist on GitHub
+        </a>
+      </div>
+    </noscript>
