@@ -3,9 +3,9 @@ info:
   description: This is the API documentation for Buzz server.
   version: 1.0.0
   title: Buzz
-  termsOfService:	https://tumenteai.com/terms-of-service/
+  termsOfService:	https://buzzcrm.ai/terms-of-service/
   contact:
-    email: info@tumenteai.com
+    email: info@buzzcrm.ai
   license:
     name: MIT License
     url: https://opensource.org/licenses/MIT

@@ -23,14 +23,14 @@
   deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
-  enabled: false
+  enabled: true
 - name: disable_branding
   display_name: Disable Branding
   enabled: false
   premium: true
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
-  enabled: false
+  enabled: true
 - name: help_center
   display_name: Help Center
   enabled: true
@@ -103,7 +103,7 @@
   enabled: false
 - name: audit_logs
   display_name: Audit Logs
-  enabled: false
+  enabled: true
   premium: true
 - name: response_bot
   display_name: Response Bot
@@ -121,16 +121,16 @@
   deprecated: true
 - name: inbox_view
   display_name: Inbox View
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: sla
   display_name: SLA
-  enabled: false
+  enabled: true
   premium: true
   help_url: https://chwt.app/hc/sla
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: linear_integration
@@ -146,7 +146,7 @@
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
-  enabled: false
+  enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: false
@@ -156,7 +156,7 @@
   chatwoot_internal: true
 - name: shopify_integration
   display_name: Shopify Integration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN

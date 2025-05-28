@@ -65,7 +65,7 @@ export const documentsList = [
       'Comprehensive guide on using conversation filters to manage chats effectively.',
     created_at: 1736143272,
     external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688192-how-to-use-conversation-filters',
+      '',
     id: 3059,
     name: 'How to use Conversation Filters? | User Guide | Chatwoot',
     status: 'available',
@@ -77,7 +77,7 @@ export const documentsList = [
       'Step-by-step guide for automating ticket assignments and improving support workflow in Chatwoot.',
     created_at: 1736143273,
     external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688200-automating-ticket-assignments',
+      'https://www.buzzcrm.ai',
     id: 3060,
     name: 'Automating Ticket Assignments | User Guide | Chatwoot',
     status: 'available',
@@ -89,7 +89,7 @@ export const documentsList = [
       'A detailed guide on managing and organizing customer profiles for better relationship management.',
     created_at: 1736143274,
     external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688210-managing-customer-profiles',
+      'https://www.buzzcrm.ai',
     id: 3061,
     name: 'Managing Customer Profiles | User Guide | Chatwoot',
     status: 'available',
@@ -101,7 +101,7 @@ export const documentsList = [
       'Learn how to optimize sales tracking and improve your sales forecasting using advanced features.',
     created_at: 1736143275,
     external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688220-sales-tracking-guide',
+      'https://www.buzzcrm.ai',
     id: 3062,
     name: 'Sales Tracking Guide | User Guide | Chatwoot',
     status: 'available',
@@ -113,7 +113,7 @@ export const documentsList = [
       'How to efficiently create, manage, and resolve tickets in Chatwoot.',
     created_at: 1736143276,
     external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688230-managing-tickets',
+      'https://www.buzzcrm.ai',
     id: 3063,
     name: 'Managing Tickets | User Guide | Chatwoot',
     status: 'available',
@@ -125,7 +125,7 @@ export const documentsList = [
       'Detailed guide on how to use financial reporting tools and generate insightful analytics.',
     created_at: 1736143277,
     external_link:
-      'https://www.chatwoot.com/hc/user-guide/articles/1677688240-financial-reporting',
+      'https://www.buzzcrm.ai',
     id: 3064,
     name: 'Financial Reporting | User Guide | Chatwoot',
     status: 'available',

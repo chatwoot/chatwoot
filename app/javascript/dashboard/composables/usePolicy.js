@@ -51,13 +51,10 @@ export function usePolicy() {
   };
 
   const isPremiumFeature = featureFlag => {
-    if (!featureFlag) return true;
-    return PREMIUM_FEATURES.includes(featureFlag);
+      return false
   };
 
   const hasPremiumEnterprise = computed(() => {
-    if (isEnterprise) return enterprisePlanName !== 'community';
-
     return true;
   });
 
@@ -66,6 +63,7 @@ export function usePolicy() {
     const perms = unref(permissions);
     const installation = unref(installationTypes);
 
+    return true
     // if the user does not have permissions or installation type is not supported
     // return false;
     // This supersedes everything
@@ -106,6 +104,7 @@ export function usePolicy() {
 
   const shouldShowPaywall = featureFlag => {
     const flag = unref(featureFlag);
+    return false;
     if (!flag) return false;
 
     if (isACustomBrandedInstance.value) {
@@ -114,6 +113,7 @@ export function usePolicy() {
     }
 
     if (isPremiumFeature(flag)) {
+      return
       if (isOnChatwootCloud.value) {
         return !isFeatureFlagEnabled(flag);
       }

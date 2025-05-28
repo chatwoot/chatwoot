@@ -30,11 +30,11 @@
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.tumenteai.com'
+  value: 'https://www.buzzcrm.ai'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.tumenteai.com'
+  value: 'https://www.buzzcrm.ai'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
@@ -42,11 +42,11 @@
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://tumenteai.com/politica-de-privacidad'
+  value: 'https://buzzcrm.ai/politica-de-privacidad'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://tumenteai.com/politica-de-privacidad'
+  value: 'https://buzzcrm.ai/politica-de-privacidad'
   display_title: 'Privacidad URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST

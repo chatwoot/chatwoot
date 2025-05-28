@@ -4,7 +4,7 @@
     "description": "This is the API documentation for Chatwoot server.",
     "version": "1.0.0",
     "title": "Buzz",
-    "termsOfService": "https://tumenteai.com",
+    "termsOfService": "https://buzzcrm.ai",
     "contact": {
       "email": "hello@chatwoot.com"
     },
@@ -6856,7 +6856,7 @@
         "custom_domain": {
           "type": "string",
           "description": "Custom domain to  display help center.",
-          "example": "https://chatwoot.help/."
+          "example": "https://buzzcrm.ai."
         },
         "header_text": {
           "type": "string",
@@ -6866,7 +6866,7 @@
         "homepage_link": {
           "type": "string",
           "description": "link to main dashboard",
-          "example": "https://tumenteai.com"
+          "example": "https://buzzcrm.ai"
         },
         "name": {
           "type": "string",

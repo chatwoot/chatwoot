@@ -16,7 +16,7 @@ export default [
       },
     },
     availabilityStatus: 'offline',
-    email: 'cande@tumenteai.com',
+    email: 'cande@buzzcrm.ai',
     id: 22,
     name: 'Cande',
     phoneNumber: '+55552671',
