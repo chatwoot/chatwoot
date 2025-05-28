@@ -29,11 +29,7 @@ export default {
   props: {
     chat: {
       type: Object,
-      default: () => {},
-    },
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
+      default: () => ({}),
     },
     showBackButton: {
       type: Boolean,
@@ -98,13 +94,6 @@ export default {
         )} ${snoozedReopenTime(snoozedUntil)}`;
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
-    },
-    contactPanelToggleText() {
-      return `${
-        this.isContactPanelOpen
-          ? this.$t('CONVERSATION.HEADER.CLOSE')
-          : this.$t('CONVERSATION.HEADER.OPEN')
-      } ${this.$t('CONVERSATION.HEADER.DETAILS')}`;
     },
     inbox() {
       const { inbox_id: inboxId } = this.chat;
@@ -181,19 +170,11 @@ export default {
             <span v-if="isSnoozed" class="font-medium text-n-amber-10">
               {{ snoozedDisplayText }}
             </span>
-            <NextButton
-              link
-              xs
-              blue
-              :label="contactPanelToggleText"
-              @click="$emit('contactPanelToggle')"
-            />
           </div>
         </div>
       </div>
       <div
         class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
-        :class="{ 'justify-end': isContactPanelOpen }"
       >
         <SLACardLabel v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
         <Linear
