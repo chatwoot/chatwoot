@@ -365,6 +365,34 @@ describe('availabilityHelpers', () => {
       expect(result).toEqual({ type: 'BACK_ON', value: 'Friday' });
     });
 
+    it('should handle midnight opening window when past midnight same day', () => {
+      // Wednesday 9:00 AM, working hours Wednesday 12:00 AM - 12:30 AM
+      const workingHoursInfo = {
+        currentDay: 3,
+        currentHour: 9,
+        currentMinute: 0,
+        todayConfig: {
+          day_of_week: 3,
+          open_hour: 0, // Midnight opening
+          open_minutes: 0,
+          close_hour: 0, // Same hour (30 min window)
+          close_minutes: 30,
+        },
+        workingHours: [
+          {
+            day_of_week: 3,
+            open_hour: 0,
+            open_minutes: 0,
+            close_hour: 0,
+            close_minutes: 30,
+          },
+        ],
+      };
+
+      const result = getNextAvailableTime(workingHoursInfo, 'en');
+      expect(result).toEqual({ type: 'BACK_ON', value: 'Wednesday' });
+    });
+
     it('should return specific time when 3+ hours away same day', () => {
       // Monday at 5 AM, opens at 9 AM (4 hours away)
       const workingHoursInfo = {
