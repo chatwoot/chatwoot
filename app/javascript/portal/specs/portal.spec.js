@@ -103,7 +103,6 @@ describe('openExternalLinksInNewTab', () => {
     openExternalLinksInNewTab();
 
     const link = simulateClick('#external');
-
     expect(link.target).toBe('_blank');
     expect(link.rel).toBe('noopener noreferrer');
   });
@@ -138,5 +137,49 @@ describe('openExternalLinksInNewTab', () => {
     const link = document.getElementById('list-link');
     expect(link.target).toBe('_blank');
     expect(link.rel).toBe('noopener noreferrer');
+  });
+
+  it('opens external links in a new tab even if customDomain is empty', () => {
+    window = dom.window;
+    window.portalConfig = {
+      hostURL: 'app.chatwoot.com',
+    };
+
+    global.window = window;
+
+    openExternalLinksInNewTab();
+
+    const link = simulateClick('#external');
+    const internal = simulateClick('#internal');
+    const custom = simulateClick('#custom');
+
+    expect(link.target).toBe('_blank');
+    expect(link.rel).toBe('noopener noreferrer');
+
+    expect(internal.target).not.toBe('_blank');
+    // this will be blank since the configs customDomain is empty
+    // which is a fair expectation
+    expect(custom.target).toBe('_blank');
+  });
+
+  it('opens external links in a new tab even if hostURL is empty', () => {
+    window = dom.window;
+    window.portalConfig = {
+      customDomain: 'custom.domain.com',
+    };
+
+    global.window = window;
+
+    openExternalLinksInNewTab();
+
+    const link = simulateClick('#external');
+    const internal = simulateClick('#internal');
+    const custom = simulateClick('#custom');
+
+    expect(link.target).toBe('_blank');
+    expect(link.rel).toBe('noopener noreferrer');
+
+    expect(internal.target).not.toBe('_blank');
+    expect(custom.target).not.toBe('_blank');
   });
 });
