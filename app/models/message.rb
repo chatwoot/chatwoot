@@ -185,6 +185,12 @@ class Message < ApplicationRecord
     # move this to a presenter
     return self[:content] if !input_csat? || inbox.web_widget?
 
+    # For non-web widget channels, check if survey_url exists in content_attributes
+    # If it exists, return only the base content (URL will be appended by channel delivery)
+    survey_url = content_attributes['survey_url']
+    return self[:content] if survey_url.present?
+
+    # Fallback to original logic for backward compatibility
     survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
 
     if inbox.csat_config&.dig('message').present?
@@ -192,6 +198,16 @@ class Message < ApplicationRecord
     else
       I18n.t('conversations.survey.response', link: survey_link)
     end
+  end
+
+  # Method to get content with survey URL for external channel delivery
+  def content_for_channel
+    return content unless input_csat? && !inbox.web_widget?
+
+    survey_url = content_attributes['survey_url']
+    return "#{self[:content]} #{survey_url}" if survey_url.present?
+
+    content
   end
 
   def email_notifiable_message?
