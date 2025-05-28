@@ -44,7 +44,7 @@ export const openExternalLinksInNewTab = () => {
       const isInternalLink =
         link.hostname === window.location.hostname ||
         (customDomain && link.hostname.includes(customDomain)) ||
-        (hostURL && link.href.setAttribute(hostURL));
+        (hostURL && link.href.startsWith(hostURL));
 
       if (!isInternalLink) {
         link.target = '_blank';
