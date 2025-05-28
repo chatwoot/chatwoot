@@ -232,7 +232,10 @@ const onCopyToken = async value => {
 };
 
 const onResetToken = async () => {
-  const response = await store.dispatch('agentBots/resetAccessToken', props.selectedBot.id);
+  const response = await store.dispatch(
+    'agentBots/resetAccessToken',
+    props.selectedBot.id
+  );
   if (response) {
     accessToken.value = response.access_token;
     useAlert(t('AGENT_BOTS.RESET_SUCCESS'));

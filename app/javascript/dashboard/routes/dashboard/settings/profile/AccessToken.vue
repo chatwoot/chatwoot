@@ -19,7 +19,7 @@ const maskIcon = computed(() => {
 });
 
 const hasResetHandler = computed(() => {
-  return !!(instance?.vnode?.props?.onOnReset);
+  return !!instance?.vnode?.props?.onOnReset;
 });
 
 const onClick = () => {
