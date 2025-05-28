@@ -29,10 +29,6 @@ const props = defineProps({
     type: Number,
     default: undefined,
   },
-  onToggle: {
-    type: Function,
-    default: () => {},
-  },
 });
 
 const {
@@ -89,8 +85,6 @@ watch(conversationId, (newConversationId, prevConversationId) => {
 
 watch(contactId, getContactDetails);
 
-const onPanelToggle = props.onToggle;
-
 const onDragEnd = () => {
   dragging.value = false;
   updateUISettings({
@@ -107,11 +101,7 @@ onMounted(() => {
 
 <template>
   <div class="w-full">
-    <ContactInfo
-      :contact="contact"
-      :channel-type="channelType"
-      @toggle-panel="onPanelToggle"
-    />
+    <ContactInfo :contact="contact" :channel-type="channelType" />
     <div class="list-group pb-8">
       <Draggable
         :list="conversationSidebarItems"
