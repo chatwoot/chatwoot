@@ -17,7 +17,7 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::OutOfOffice.new(conversation: conversation).perform if should_send_out_of_office_message?
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
-    ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform if should_send_csat_survey?
+    handle_csat_survey
   end
 
   def should_send_out_of_office_message?
@@ -65,16 +65,18 @@ class MessageTemplates::HookExecutionService
     true
   end
 
-  def should_send_csat_survey?
+  def handle_csat_survey
     return unless csat_enabled_conversation?
     # only send CSAT once in a conversation
     return if csat_already_sent?
 
     # Only send CSAT if agent can still reply by checking the messaging window restriction
     # https://www.chatwoot.com/docs/self-hosted/supported-features#outgoing-message-restriction
-    return unless within_messaging_window?
-
-    true
+    if within_messaging_window?
+      ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
+    else
+      conversation.create_csat_not_sent_activity_message
+    end
   end
 
   def csat_already_sent?
@@ -82,12 +84,7 @@ class MessageTemplates::HookExecutionService
   end
 
   def within_messaging_window?
-    if conversation.can_reply?
-      true
-    else
-      conversation.create_csat_not_sent_activity_message
-      false
-    end
+    conversation.can_reply?
   end
 end
 MessageTemplates::HookExecutionService.prepend_mod_with('MessageTemplates::HookExecutionService')
