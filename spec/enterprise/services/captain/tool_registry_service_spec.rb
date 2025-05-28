@@ -4,7 +4,7 @@ require 'rails_helper'
 class TestTool < Captain::Tools::BaseService
   attr_accessor :tool_active
 
-  def initialize(*args)
+  def initialize(assistant, user: nil)
     super
     @tool_active = true
   end

@@ -50,7 +50,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def message_content(message)
     return message.content if message.content.present?
 
-    'User has shared an attachment' if message.attachments.any?
+    return 'User has shared an attachment' if message.attachments.any?
 
     'User has shared a message without content'
   end
