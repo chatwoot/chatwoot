@@ -17,7 +17,7 @@ RSpec.describe Captain::Copilot::ChatService do
   let(:previous_history) { [{ role: copilot_message.message_type, content: copilot_message.message['content'] }] }
 
   let(:config) do
-    { user_id: user.id, thread_id: copilot_thread.id, conversation_id: conversation.display_id }
+    { user_id: user.id, copilot_thread_id: copilot_thread.id, conversation_id: conversation.display_id }
   end
 
   before do
@@ -157,16 +157,16 @@ RSpec.describe Captain::Copilot::ChatService do
   end
 
   describe '#setup_message_history' do
-    context 'when thread_id is present' do
+    context 'when copilot_thread_id is present' do
       it 'finds the copilot thread and sets previous history from it' do
-        service = described_class.new(assistant, { thread_id: copilot_thread.id })
+        service = described_class.new(assistant, { copilot_thread_id: copilot_thread.id })
 
         expect(service.copilot_thread).to eq(copilot_thread)
         expect(service.previous_history).to eq previous_history
       end
     end
 
-    context 'when thread_id is not present' do
+    context 'when copilot_thread_id is not present' do
       it 'uses previous_history from config if present' do
         custom_history = [{ role: 'user', content: 'Custom message' }]
         service = described_class.new(assistant, { previous_history: custom_history })
@@ -222,7 +222,7 @@ RSpec.describe Captain::Copilot::ChatService do
         }.with_indifferent_access)
 
         expect do
-          described_class.new(assistant, { thread_id: copilot_thread.id }).generate_response('Hello')
+          described_class.new(assistant, { copilot_thread_id: copilot_thread.id }).generate_response('Hello')
         end.to change(CopilotMessage, :count).by(1)
 
         last_message = CopilotMessage.last
