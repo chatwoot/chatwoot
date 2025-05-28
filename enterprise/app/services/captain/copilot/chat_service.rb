@@ -51,7 +51,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
       "#{self.class.name} Assistant: #{@assistant.id}, Previous History: #{config[:previous_history]&.length || 0}, Language: #{config[:language]}"
     )
 
-    @copilot_thread = @account.copilot_threads.find_by(id: config[:thread_id]) if config[:thread_id].present?
+    @copilot_thread = @account.copilot_threads.find_by(id: config[:copilot_thread_id]) if config[:copilot_thread_id].present?
     @previous_history = if @copilot_thread.present?
                           @copilot_thread.previous_history
                         else
