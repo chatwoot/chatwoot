@@ -102,17 +102,11 @@ class OauthCallbackController < ApplicationController
   def sanitized_inbox_name
     raw_name = users_data['name'] || fallback_name
 
-    # Remove forbidden characters: / \ < > @
-    sanitized = raw_name.gsub(%r{[/\\<>@]}, '')
+    sanitized = raw_name
+                .gsub(%r{[/\\<>@]}, '')            # Remove forbidden characters
+                .gsub(/\A[^\w]+|[^\w]+\z/, '')     # Remove leading/trailing non-word chars
 
-    # Remove leading and trailing symbols, keep only alphanumeric and safe characters
-    sanitized = sanitized.gsub(/\A[^\w]+|[^\w]+\z/, '')
-
-    # If the name becomes empty or too short, use fallback
-    sanitized = fallback_name.gsub(%r{[/\\<>@]}, '').gsub(/\A[^\w]+|[^\w]+\z/, '') if sanitized.blank? || sanitized.length < 2
-
-    # Final fallback if still empty
-    (sanitized.presence || 'Email Inbox')
+    (sanitized.presence || fallback_name)
   end
 
   def oauth_code

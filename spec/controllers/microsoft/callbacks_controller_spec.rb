@@ -133,11 +133,6 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
         expect(controller.send(:sanitized_inbox_name)).to eq 'Test'
       end
 
-      it 'uses fallback when name is too short after sanitization' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => 'test@example.com', 'name' => '@a@' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'Test'
-      end
-
       it 'preserves valid names unchanged' do
         allow(controller).to receive(:users_data).and_return({ 'email' => email, 'name' => 'Valid User Name' })
         expect(controller.send(:sanitized_inbox_name)).to eq 'Valid User Name'
