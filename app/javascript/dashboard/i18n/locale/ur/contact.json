@@ -183,10 +183,6 @@
       "ERROR_MESSAGE": "نہیں بھیج سکا! دوبارہ کوشش کریں"
     }
   },
-  "VISITOR_CONTACTS_PAGE": {
-    "HEADER": "Visitor Contacts",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
-  },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {

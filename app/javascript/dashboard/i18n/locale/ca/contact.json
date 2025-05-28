@@ -183,10 +183,6 @@
       "ERROR_MESSAGE": "No s'ha pogut enviar! torna-ho a provar"
     }
   },
-  "VISITOR_CONTACTS_PAGE": {
-    "HEADER": "Visitor Contacts",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
-  },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {

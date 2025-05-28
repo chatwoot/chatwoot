@@ -183,10 +183,6 @@
       "ERROR_MESSAGE": "¡No se pudo enviar! intente nuevamente"
     }
   },
-  "VISITOR_CONTACTS_PAGE": {
-    "HEADER": "Contactos de visitantes",
-    "SEARCH_INPUT_PLACEHOLDER": "Buscar contactos de visitantes"
-  },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {

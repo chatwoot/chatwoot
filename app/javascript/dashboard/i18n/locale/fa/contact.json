@@ -183,10 +183,6 @@
       "ERROR_MESSAGE": "ارسال نشد! دوباره امتحان کنید"
     }
   },
-  "VISITOR_CONTACTS_PAGE": {
-    "HEADER": "مخاطبین بازدیدکنندگان",
-    "SEARCH_INPUT_PLACEHOLDER": "جستجوی مخاطبین بازدیدکننده"
-  },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {

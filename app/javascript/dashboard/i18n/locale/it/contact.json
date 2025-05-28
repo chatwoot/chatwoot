@@ -183,10 +183,6 @@
       "ERROR_MESSAGE": "Impossibile inviare! Riprova"
     }
   },
-  "VISITOR_CONTACTS_PAGE": {
-    "HEADER": "Visitor Contacts",
-    "SEARCH_INPUT_PLACEHOLDER": "Search for visitor contacts"
-  },
   "CONTACTS_PAGE": {
     "LIST": {
       "TABLE_HEADER": {
