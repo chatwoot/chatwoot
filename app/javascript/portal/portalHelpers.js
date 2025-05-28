@@ -51,21 +51,21 @@ const toURL = input => {
 };
 
 /**
- * Determines if two URLs belong to the same origin by comparing their normalized URL objects.
+ * Determines if two URLs belong to the same host by comparing their normalized URL objects.
  * Handles various input formats including URL objects, domain strings, relative paths, and full URLs.
  * Returns false if either URL cannot be parsed or normalized.
  * @param {string|URL} url1 - First URL to compare
  * @param {string|URL} url2 - Second URL to compare
- * @returns {boolean} True if both URLs have the same origin, false otherwise
+ * @returns {boolean} True if both URLs have the same host, false otherwise
  */
-const isSameOrigin = (url1, url2) => {
+const isSameHost = (url1, url2) => {
   try {
     const urlObj1 = toURL(url1);
     const urlObj2 = toURL(url2);
 
     if (!urlObj1 || !urlObj2) return false;
 
-    return urlObj1.origin === urlObj2.origin;
+    return urlObj1.hostname === urlObj2.hostname;
   } catch (error) {
     return false;
   }
@@ -87,9 +87,9 @@ export const openExternalLinksInNewTab = () => {
 
       // Check against current location and custom domains
       const isInternalLink =
-        isSameOrigin(linkHref, currentLocation) ||
-        (customDomain && isSameOrigin(linkHref, customDomain)) ||
-        (hostURL && isSameOrigin(linkHref, hostURL));
+        isSameHost(linkHref, currentLocation) ||
+        (customDomain && isSameHost(linkHref, customDomain)) ||
+        (hostURL && isSameHost(linkHref, hostURL));
 
       if (!isInternalLink) {
         link.target = '_blank';
