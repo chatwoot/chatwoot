@@ -26,6 +26,31 @@ export const getHeadingsfromTheArticle = () => {
 };
 
 /**
+ * Converts various input formats to URL objects.
+ * Handles URL objects, domain strings, relative paths, and full URLs.
+ * @param {string|URL} input - Input to convert to URL object
+ * @returns {URL|null} URL object or null if input is invalid
+ */
+const toURL = input => {
+  if (!input) return null;
+  if (input instanceof URL) return input;
+
+  if (
+    typeof input === 'string' &&
+    !input.includes('://') &&
+    !input.startsWith('/')
+  ) {
+    return new URL(`https://${input}`);
+  }
+
+  if (typeof input === 'string' && input.startsWith('/')) {
+    return new URL(input, window.location.origin);
+  }
+
+  return new URL(input);
+};
+
+/**
  * Determines if two URLs belong to the same origin by comparing their normalized URL objects.
  * Handles various input formats including URL objects, domain strings, relative paths, and full URLs.
  * Returns false if either URL cannot be parsed or normalized.
@@ -35,25 +60,6 @@ export const getHeadingsfromTheArticle = () => {
  */
 const isSameOrigin = (url1, url2) => {
   try {
-    const toURL = input => {
-      if (!input) return null;
-      if (input instanceof URL) return input;
-
-      if (
-        typeof input === 'string' &&
-        !input.includes('://') &&
-        !input.startsWith('/')
-      ) {
-        return new URL(`https://${input}`);
-      }
-
-      if (typeof input === 'string' && input.startsWith('/')) {
-        return new URL(input, window.location.origin);
-      }
-
-      return new URL(input);
-    };
-
     const urlObj1 = toURL(url1);
     const urlObj2 = toURL(url2);
 
