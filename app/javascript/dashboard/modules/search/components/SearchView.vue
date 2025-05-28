@@ -14,6 +14,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 
 import Policy from 'dashboard/components/policy.vue';
@@ -356,6 +357,7 @@ onUnmounted(() => {
 
             <Policy
               :permissions="[...ROLES, PORTAL_PERMISSIONS]"
+              :feature-flag="FEATURE_FLAGS.HELP_CENTER"
               class="flex flex-col justify-center"
             >
               <SearchResultArticlesList
