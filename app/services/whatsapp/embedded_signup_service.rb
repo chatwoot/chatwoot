@@ -1,0 +1,183 @@
+class Whatsapp::EmbeddedSignupService
+  include Rails.application.routes.url_helpers
+
+  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:)
+    @account = account
+    @code = code
+    @business_id = business_id
+    @waba_id = waba_id
+    @phone_number_id = phone_number_id
+  end
+
+  def perform
+    # Validate required parameters
+    unless @code.present? && @business_id.present? && @waba_id.present? && @phone_number_id.present?
+      raise ArgumentError, 'Code, business_id, waba_id, and phone_number_id are all required'
+    end
+
+    # Exchange code for user access token
+    access_token = exchange_code_for_token
+
+    # Use the provided business info directly (more efficient)
+    phone_info = fetch_phone_info_via_waba(@waba_id, @phone_number_id, access_token)
+
+    # Validate that the token has access to the provided WABA (security check)
+    validate_token_waba_access(access_token, @waba_id)
+
+    waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
+
+    create_or_update_channel(waba_info, phone_info, access_token)
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Signup failed: #{e.message}")
+    raise e
+  end
+
+  private
+
+  def exchange_code_for_token
+    response = Faraday.get(
+      'https://graph.facebook.com/v21.0/oauth/access_token',
+      {
+        client_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
+        client_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', ''),
+        code: @code
+      }
+    )
+
+    raise "Token exchange failed: #{response.body}" unless response.success?
+
+    data = JSON.parse(response.body)
+    raise "No access token in response: #{data}" unless data['access_token']
+
+    data['access_token']
+  end
+
+  def fetch_phone_info_via_waba(waba_id, phone_number_id, access_token)
+    # Get all phone numbers for the WABA
+    response = Faraday.get(
+      "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers",
+      { access_token: access_token }
+    )
+
+    raise "WABA phone numbers fetch failed: #{response.body}" unless response.success?
+
+    data = JSON.parse(response.body)
+    phone_numbers = data['data']
+
+    # Find the specific phone number we're looking for
+    phone_data = phone_numbers.find { |phone| phone['id'] == phone_number_id }
+
+    phone_data = phone_numbers.first if phone_data.nil?
+
+    raise "No phone numbers found for WABA #{waba_id}" if phone_data.nil?
+
+    {
+      phone_number_id: phone_data['id'],
+      phone_number: phone_data['display_phone_number'],
+      verified: phone_data['code_verification_status'] == 'VERIFIED',
+      business_name: phone_data['verified_name'] || phone_data['display_phone_number']
+    }
+  end
+
+  def create_or_update_channel(waba_info, phone_info, access_token)
+    existing_channel = find_existing_channel(phone_info[:phone_number])
+    channel_attributes = build_channel_attributes(waba_info, phone_info, access_token)
+
+    if existing_channel
+      update_existing_channel(existing_channel, channel_attributes, waba_info, phone_info)
+    else
+      create_new_channel(channel_attributes, waba_info, phone_info)
+    end
+  end
+
+  def find_existing_channel(phone_number)
+    Channel::Whatsapp.find_by(
+      account: @account,
+      phone_number: phone_number
+    )
+  end
+
+  def build_channel_attributes(waba_info, phone_info, access_token)
+    {
+      phone_number: phone_info[:phone_number],
+      provider: 'whatsapp_cloud',
+      provider_config: {
+        api_key: access_token,
+        phone_number_id: phone_info[:phone_number_id],
+        business_account_id: waba_info[:waba_id]
+      }
+    }
+  end
+
+  def update_existing_channel(channel, attributes, waba_info, phone_info)
+    channel.update!(attributes)
+    ensure_channel_has_inbox(channel, waba_info, phone_info)
+    channel
+  end
+
+  def create_new_channel(attributes, waba_info, phone_info)
+    channel = Channel::Whatsapp.create!(
+      account: @account,
+      **attributes
+    )
+
+    create_inbox_for_channel(channel, waba_info, phone_info)
+    channel.reload
+    channel
+  end
+
+  def ensure_channel_has_inbox(channel, waba_info, phone_info)
+    return if channel.inbox
+
+    inbox_name = generate_inbox_name(waba_info, phone_info)
+    Inbox.create!(
+      account: @account,
+      name: inbox_name,
+      channel: channel
+    )
+    channel.reload
+  end
+
+  def create_inbox_for_channel(channel, waba_info, phone_info)
+    inbox_name = generate_inbox_name(waba_info, phone_info)
+    Inbox.create!(
+      account: @account,
+      name: inbox_name,
+      channel: channel
+    )
+  end
+
+  def generate_inbox_name(waba_info, phone_info)
+    business_name = waba_info[:business_name] || phone_info[:business_name]
+
+    if business_name.present?
+      "#{business_name} WhatsApp"
+    else
+      "WhatsApp (#{phone_info[:phone_number]})"
+    end
+  end
+
+  def validate_token_waba_access(access_token, waba_id)
+    response = Faraday.get(
+      'https://graph.facebook.com/v21.0/debug_token',
+      {
+        input_token: access_token,
+        access_token: "#{GlobalConfigService.load('WHATSAPP_APP_ID', '')}|#{GlobalConfigService.load('WHATSAPP_APP_SECRET', '')}"
+      }
+    )
+
+    raise "Token validation failed: #{response.body}" unless response.success?
+
+    data = JSON.parse(response.body)
+    granular_scopes = data.dig('data', 'granular_scopes')
+
+    waba_scope = granular_scopes&.find { |scope| scope['scope'] == 'whatsapp_business_management' }
+    raise 'No WABA scope found in token' unless waba_scope
+
+    authorized_waba_ids = waba_scope['target_ids'] || []
+
+    return if authorized_waba_ids.include?(waba_id)
+
+    raise "Token does not have access to WABA #{waba_id}. Authorized WABAs: #{authorized_waba_ids}"
+  end
+end

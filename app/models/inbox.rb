@@ -8,6 +8,7 @@
 #  allow_messages_after_resolved :boolean          default(TRUE)
 #  auto_assignment_config        :jsonb
 #  business_name                 :string
+#  channel_attributes            :jsonb
 #  channel_type                  :string
 #  csat_config                   :jsonb            not null
 #  csat_survey_enabled           :boolean          default(FALSE)

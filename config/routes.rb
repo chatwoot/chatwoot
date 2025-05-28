@@ -468,6 +468,12 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
 
+  namespace :whatsapp do
+    get 'signup', to: 'embedded#new'
+    get 'signup/callback', to: 'embedded#callback'
+    post 'embedded_signup', to: 'embedded#embedded_signup'
+  end
+
   namespace :twitter do
     resource :callback, only: [:show]
   end

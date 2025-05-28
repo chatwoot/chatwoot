@@ -1,12 +1,10 @@
 <script>
 /* eslint-env browser */
-/* global FB */
 import { mapGetters } from 'vuex';
 import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
-import { loadScript } from 'dashboard/helper/DOMHelpers';
 import { isPhoneE164OrEmpty, isNumber } from 'shared/helpers/Validators';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
@@ -37,73 +35,8 @@ export default {
     phoneNumberId: { required, isNumber },
     businessAccountId: { required, isNumber },
   },
-  mounted() {
-    this.initializeFacebookSDK();
-  },
+
   methods: {
-    async initializeFacebookSDK() {
-      try {
-        await this.loadFBsdk();
-        this.runFBInit();
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_LOADING'));
-      }
-    },
-
-    runFBInit() {
-      FB.init({
-        appId: window.chatwootConfig.fbAppId,
-        xfbml: true,
-        version: window.chatwootConfig.fbApiVersion,
-        status: true,
-      });
-      window.fbSDKLoaded = true;
-      FB.AppEvents.logPageView();
-    },
-
-    async loadFBsdk() {
-      return loadScript('https://connect.facebook.net/en_US/sdk.js', {
-        id: 'facebook-jssdk',
-      });
-    },
-
-    fbLoginCallback(response) {
-      console.log('fbLoginCallback', response);
-      if (response.authResponse) {
-        const code = response.authResponse.code;
-        // Handle the code here
-        this.handleWhatsAppCode(code);
-      } else {
-        useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
-      }
-    },
-
-    handleWhatsAppCode(code) {
-      // TODO: Implement code handling logic
-      console.log('Received WhatsApp code:', code);
-    },
-
-    async launchWhatsAppSignup() {
-      if (!window.fbSDKLoaded) {
-        await this.initializeFacebookSDK();
-      }
-
-      try {
-        FB.login(this.fbLoginCallback, {
-          config_id: window.chatwootConfig.fbAppId,
-          response_type: 'code',
-          override_default_response_type: true,
-          extras: {
-            setup: {},
-            featureType: '',
-            sessionInfoVersion: '3',
-          },
-        });
-      } catch (error) {
-        useAlert(this.$t('INBOX_MGMT.DETAILS.ERROR_FB_AUTH'));
-      }
-    },
-
     async createChannel() {
       this.v$.$touch();
       if (this.v$.$invalid) {
@@ -146,14 +79,7 @@ export default {
 </script>
 
 <template>
-  <NextButton
-    type="submit"
-    solid
-    blue
-    :label="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
-    @click="launchWhatsAppSignup"
-  />
-  <!-- <form class="flex flex-col flex-wrap mx-0" @submit.prevent="createChannel()">
+  <form class="flex flex-col flex-wrap mx-0" @submit.prevent="createChannel()">
     <div class="flex-grow-0 flex-shrink-0">
       <label :class="{ error: v$.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.INBOX_NAME.LABEL') }}
@@ -248,5 +174,5 @@ export default {
         :label="$t('INBOX_MGMT.ADD.WHATSAPP.SUBMIT_BUTTON')"
       />
     </div>
-  </form> -->
+  </form>
 </template>

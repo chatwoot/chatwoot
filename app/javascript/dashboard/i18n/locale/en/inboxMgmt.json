@@ -222,6 +222,7 @@
         "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API Provider",
+          "WHATSAPP_EMBEDDED": "WhatsApp Business (Embedded Signup)",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
           "360_DIALOG": "360Dialog"
@@ -264,6 +265,28 @@
           "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
+        "EMBEDDED_SIGNUP": {
+          "TITLE": "Quick Setup with Meta",
+          "DESC": "Connect your WhatsApp Business Account directly through Meta's secure signup flow.",
+          "BENEFITS": {
+            "TITLE": "Benefits of Embedded Signup:",
+            "EASY_SETUP": "One-click setup with no manual configuration required",
+            "SECURE_AUTH": "Secure OAuth-based authentication with Meta",
+            "AUTO_CONFIG": "Automatic webhook and phone number configuration"
+          },
+          "SUBMIT_BUTTON": "Connect with WhatsApp Business",
+          "AUTH_PROCESSING": "Authenticating with Meta...",
+          "WAITING_FOR_BUSINESS_INFO": "Please complete business setup in the Meta window...",
+          "PROCESSING": "Setting up your WhatsApp Business Account...",
+          "PROCESSING_DESC": "Please wait while we configure your WhatsApp Business Account. This may take a few moments.",
+          "LOADING_SDK": "Loading Facebook SDK...",
+          "CANCELLED": "WhatsApp signup was cancelled",
+          "STEP_AUTH": "Step 1: Authenticating with Meta",
+          "STEP_BUSINESS": "Step 2: Selecting business account",
+          "STEP_CREATING": "Step 3: Creating WhatsApp channel",
+          "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "SUCCESS_DESC": "Your WhatsApp Business Account has been successfully connected. Please provide a name for your inbox to complete the setup."
+        },
         "API": {
           "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
