@@ -25,12 +25,13 @@ const props = defineProps({
   modelValue: String, // Prop passed from parent (via v-model)
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'changeVal']);
 
 const internalCode = ref(props.modelValue || '');
 
 // Emit changes to parent
 watch(internalCode, newVal => {
   emit('update:modelValue', newVal);
+
 });
 </script>

@@ -84,8 +84,8 @@ const scheduledTime = computed(() => {
 });
 
 const inboxIcon = computed(() => {
-  const { phone_number: phoneNumber, channel_type: type } = props.inbox;
-  return getInboxIconByType(type, phoneNumber);
+  const { channel_type: type } = props.inbox;
+  return getInboxIconByType(type, props.inbox.phone_number);
 });
 </script>
 

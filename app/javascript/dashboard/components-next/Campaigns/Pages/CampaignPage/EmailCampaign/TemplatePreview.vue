@@ -16,10 +16,7 @@ const emailFrame = ref(null);
 
 const writeToIframe = () => {
   if (emailFrame.value?.contentWindow?.document) {
-    console.log('got here');
     const doc = emailFrame.value.contentWindow.document;
-    console.log('this is doc');
-    console.log(doc);
     doc.open();
     doc.write(props.modelValue);
     doc.close();
@@ -50,7 +47,7 @@ watch(() => props.modelValue, writeToIframe);
 .template-preview-wrapper {
   position: fixed;
   width: 441.17px;
-  height: 750px;
+  height: 850px;
   transform: scale(0.88);
   transform-origin: top left;
   background: white;

@@ -46,8 +46,8 @@ import { LocalStorage } from 'shared/helpers/localStorage';
 import SelectCalendar from 'dashboard/routes/dashboard/conversation/contact/SelectCalendar.vue';
 import { emitter } from 'shared/helpers/mitt';
 
-const EmojiInput = defineAsyncComponent(() =>
-  import('shared/components/emoji/EmojiInput.vue')
+const EmojiInput = defineAsyncComponent(
+  () => import('shared/components/emoji/EmojiInput.vue')
 );
 
 export default {

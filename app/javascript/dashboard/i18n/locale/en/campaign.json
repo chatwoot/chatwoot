@@ -317,7 +317,11 @@
           "BODY": {
             "LABEL": "Body",
             "PLACEHOLDER": "Please enter the html body",
-            "ERROR": "Body is required"
+            "TOOLTIP_VARIABLES": "Click to see the available variables",
+            "ERRORS": {
+              "REQUIRED": "Body is required",
+              "VARS_INVALID": "Variable `{var}` is invalid"
+            }
           },
           "INBOX": {
             "LABEL": "Select Inbox",
