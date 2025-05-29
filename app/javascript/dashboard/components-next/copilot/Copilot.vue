@@ -3,13 +3,15 @@ import { nextTick, ref, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useTrack } from 'dashboard/composables';
 import { COPILOT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import CopilotInput from './CopilotInput.vue';
 import CopilotLoader from './CopilotLoader.vue';
 import CopilotAgentMessage from './CopilotAgentMessage.vue';
 import CopilotAssistantMessage from './CopilotAssistantMessage.vue';
 import ToggleCopilotAssistant from './ToggleCopilotAssistant.vue';
-import Icon from '../icon/Icon.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
+import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 
 const props = defineProps({
   supportAgent: {
@@ -54,10 +56,6 @@ const useSuggestion = opt => {
   useTrack(COPILOT_EVENTS.SEND_SUGGESTED);
 };
 
-const handleReset = () => {
-  emit('reset');
-};
-
 const chatContainer = ref(null);
 
 const scrollToBottom = async () => {
@@ -82,6 +80,21 @@ const promptOptions = [
   },
 ];
 
+const { updateUISettings } = useUISettings();
+
+const closeCopilotPanel = () => {
+  updateUISettings({
+    is_copilot_panel_open: false,
+    is_contact_sidebar_open: false,
+  });
+};
+
+const handleSidebarAction = action => {
+  if (action === 'reset') {
+    emit('reset');
+  }
+};
+
 watch(
   [() => props.messages, () => props.isCaptainTyping],
   () => {
@@ -93,6 +106,18 @@ watch(
 
 <template>
   <div class="flex flex-col h-full text-sm leading-6 tracking-tight w-full">
+    <SidebarActionsHeader
+      :title="$t('CAPTAIN.COPILOT.TITLE')"
+      :buttons="[
+        {
+          key: 'reset',
+          icon: 'i-lucide-refresh-ccw',
+          tooltip: $t('CAPTAIN.COPILOT.RESET'),
+        },
+      ]"
+      @click="handleSidebarAction"
+      @close="closeCopilotPanel"
+    />
     <div ref="chatContainer" class="flex-1 px-4 py-4 space-y-6 overflow-y-auto">
       <template v-for="message in messages" :key="message.id">
         <CopilotAgentMessage
@@ -139,14 +164,6 @@ watch(
           @set-assistant="$event => emit('setAssistant', $event)"
         />
         <div v-else />
-        <button
-          v-if="messages.length"
-          class="text-xs flex items-center gap-1 hover:underline"
-          @click="handleReset"
-        >
-          <i class="i-lucide-refresh-ccw" />
-          <span>{{ $t('CAPTAIN.COPILOT.RESET') }}</span>
-        </button>
       </div>
       <CopilotInput class="mb-1 w-full" @send="sendMessage" />
     </div>
