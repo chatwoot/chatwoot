@@ -285,6 +285,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
 
   def update_status
     status = status_mapper
+    update_last_seen_at if incoming? && status == 'read'
     @message.update!(status: status) if status.present? && status_transition_allowed?(status)
   end
 
@@ -312,6 +313,14 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     else
       Rails.logger.warn "Baileys unsupported message update status: #{status}"
     end
+  end
+
+  def update_last_seen_at
+    conversation = @message.conversation
+    to_update = { agent_last_seen_at: Time.current }
+    to_update[:assignee_last_seen_at] = Time.current if conversation.assignee_id.present?
+
+    conversation.update_columns(to_update) # rubocop:disable Rails/SkipsModelValidations
   end
 
   def status_transition_allowed?(new_status)

@@ -567,10 +567,13 @@ describe Whatsapp::IncomingMessageBaileysService do
     end
 
     context 'when processing messages.update event' do
-      let!(:message) { create(:message, source_id: 'msg_123', status: 'sent') }
-      let(:update_payload) do
-        { key: { id: 'msg_123' }, update: { status: 3 } }
+      let(:conversation) do
+        contact = create(:contact, account: inbox.account)
+        contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact)
+        create(:conversation, inbox: inbox, contact_inbox: contact_inbox, assignee_id: contact.id)
       end
+      let!(:message) { create(:message, inbox: inbox, conversation: conversation, source_id: 'msg_123', status: 'sent') }
+      let(:update_payload) { { key: { id: 'msg_123' }, update: { status: 3 } } }
       let(:params) do
         {
           webhookVerifyToken: webhook_verify_token,
@@ -589,36 +592,34 @@ describe Whatsapp::IncomingMessageBaileysService do
         end
       end
 
-      context 'when message is found' do
+      context 'when is a status update' do
         it 'updates the message status' do
           described_class.new(inbox: inbox, params: params).perform
 
           expect(message.reload.status).to eq('delivered')
         end
 
-        it 'updates the message content' do
-          update_payload[:update] = { message: { editedMessage: { message: { conversation: 'New message content' } } } }
+        it 'updates conversation agent_last_seen_at and assignee_last_seen_at' do
+          freeze_time
+          update_payload[:key][:fromMe] = false
+          update_payload[:update][:status] = 4
+
+          conversation.update!(agent_last_seen_at: 1.day.ago, assignee_last_seen_at: 1.day.ago)
 
           described_class.new(inbox: inbox, params: params).perform
 
-          original_content = message.content
-          expect(message.reload.content).to eq('New message content')
-          expect(message.is_edited).to be(true)
-          expect(message.previous_content).to eq(original_content)
+          expect(conversation.reload.agent_last_seen_at).to eq(Time.current)
+          expect(conversation.assignee_last_seen_at).to eq(Time.current)
         end
-      end
 
-      context 'when the status transition is not allowed (message already read)' do
-        it 'does not update the status' do
+        it "does not downgrade a 'read' message to delivered" do
           message.update!(status: 'read')
 
           described_class.new(inbox: inbox, params: params).perform
 
           expect(message.reload.status).to eq('read')
         end
-      end
 
-      context 'when update unsupported status' do
         it 'logs warning for unsupported played status' do
           update_payload[:update][:status] = 5
 
@@ -637,6 +638,19 @@ describe Whatsapp::IncomingMessageBaileysService do
           described_class.new(inbox: inbox, params: params).perform
 
           expect(Rails.logger).to have_received(:warn)
+        end
+      end
+
+      context 'when is a content update' do
+        it 'updates the message content' do
+          original_content = message.content
+          update_payload[:update] = { message: { editedMessage: { message: { conversation: 'New message content' } } } }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(message.reload.content).to eq('New message content')
+          expect(message.is_edited).to be(true)
+          expect(message.previous_content).to eq(original_content)
         end
       end
     end
