@@ -19,6 +19,7 @@ class Seeders::AccountSeeder
   def perform!
     set_up_account
     seed_teams
+    seed_custom_roles
     set_up_users
     seed_labels
     seed_canned_responses
@@ -32,11 +33,24 @@ class Seeders::AccountSeeder
     @account.labels.destroy_all
     @account.inboxes.destroy_all
     @account.contacts.destroy_all
+    @account.custom_roles.destroy_all if @account.respond_to?(:custom_roles)
   end
 
   def seed_teams
     @account_data['teams'].each do |team_name|
       @account.teams.create!(name: team_name)
+    end
+  end
+
+  def seed_custom_roles
+    return unless @account_data['custom_roles'].present? && @account.respond_to?(:custom_roles)
+
+    @account_data['custom_roles'].each do |role_data|
+      @account.custom_roles.create!(
+        name: role_data['name'],
+        description: role_data['description'],
+        permissions: role_data['permissions']
+      )
     end
   end
 
@@ -52,7 +66,14 @@ class Seeders::AccountSeeder
       user_record.skip_confirmation!
       user_record.save!
       Avatar::AvatarFromUrlJob.perform_later(user_record, "https://xsgames.co/randomusers/avatar.php?g=#{user['gender']}")
-      AccountUser.create_with(role: (user['role'] || 'agent')).find_or_create_by!(account_id: @account.id, user_id: user_record.id)
+
+      # Find custom role if specified
+      custom_role = find_custom_role(user['custom_role']) if user['custom_role'].present?
+
+      account_user_attrs = { role: (user['role'] || 'agent') }
+      account_user_attrs[:custom_role] = custom_role if custom_role
+
+      AccountUser.create_with(account_user_attrs).find_or_create_by!(account_id: @account.id, user_id: user_record.id)
       next if user['team'].blank?
 
       add_user_to_teams(user: user_record, teams: user['team'])
@@ -64,6 +85,12 @@ class Seeders::AccountSeeder
       team_record = @account.teams.where('name LIKE ?', "%#{team.downcase}%").first if team.present?
       TeamMember.find_or_create_by!(team_id: team_record.id, user_id: user.id) unless team_record.nil?
     end
+  end
+
+  def find_custom_role(role_name)
+    return nil unless @account.respond_to?(:custom_roles)
+
+    @account.custom_roles.find_by(name: role_name)
   end
 
   def seed_canned_responses(count: 50)
