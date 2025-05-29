@@ -7,6 +7,7 @@ const props = defineProps({
   confirmLabel: { type: [String, Number], default: '' },
   color: { type: String, default: 'blue' },
   confirmColor: { type: String, default: 'ruby' },
+  confirmHint: { type: String, default: '' },
   variant: { type: String, default: null },
   size: { type: String, default: null },
   justify: { type: String, default: null },
@@ -51,6 +52,7 @@ const handleClick = () => {
     }"
   >
     <Button
+      type="button"
       :label="currentLabel"
       :color="currentColor"
       :variant="variant"
@@ -69,6 +71,12 @@ const handleClick = () => {
         <slot name="icon" />
       </template>
     </Button>
+    <div
+      v-if="isConfirmMode && confirmHint"
+      class="absolute mt-1 w-full text-[10px] text-center text-n-slate-10"
+    >
+      {{ confirmHint }}
+    </div>
   </div>
 </template>
 
