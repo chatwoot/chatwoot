@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Piekļuves Token",
         "NOTE": "Šo token var izmantot, ja veidojat uz API balstītu integrāciju",
-        "COPY": "Kopēt"
+        "COPY": "Kopēt",
+        "RESET": "Atiestatīt",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Brīdinājumi",
