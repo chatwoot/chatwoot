@@ -31,8 +31,6 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     imagemagick \
     tmux \
     zsh \
-    git-flow-avh \
-    libyaml-0-2 \
     libyaml-dev \
     curl \
     ca-certificates \
