@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import BackButton from '../BackButton.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
@@ -39,15 +38,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  emits: ['contactPanelToggle'],
-  setup(props, { emit }) {
-    const keyboardEvents = {
-      'Alt+KeyO': {
-        action: () => emit('contactPanelToggle'),
-      },
-    };
-    useKeyboardEvents(keyboardEvents);
   },
   computed: {
     ...mapGetters({
@@ -147,7 +137,7 @@ export default {
           <div
             class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
           >
-            <NextButton link slate @click.prevent="$emit('contactPanelToggle')">
+            <NextButton link slate>
               <span
                 class="text-sm font-medium truncate leading-tight text-n-slate-12"
               >
