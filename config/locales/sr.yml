@@ -171,6 +171,8 @@ sr-Latn:
         removed: '%{user_name} je uklonio %{labels}'
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} je utišao razgovor'
       unmuted: '%{user_name} je uklonio utišanje razgovora'
