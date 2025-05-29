@@ -101,9 +101,10 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
+  # [:survey_url] : Used to store CSAT survey URL separately from content for non-web widget channels
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported, :survey_url], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -183,14 +184,31 @@ class Message < ApplicationRecord
 
   def content
     # move this to a presenter
-    return self[:content] if !input_csat? || inbox.web_widget?
+    return self[:content] unless input_csat_non_web_widget?
 
-    # For non-web widget channels, check if survey_url exists in content_attributes
-    # If it exists, return only the base content (URL will be appended by channel delivery)
-    survey_url = content_attributes['survey_url']
-    return self[:content] if survey_url.present?
+    # For CSAT messages on non-web widget channels, return only the base content
+    # Survey URL is stored separately to prevent agents from seeing it in dashboard
+    self[:content]
+  end
 
-    # Fallback to original logic for backward compatibility
+  # Method to get content with survey URL for external channel delivery
+  def content_for_channel
+    return content unless input_csat_non_web_widget?
+
+    # If survey URL is stored separately, append it to the content
+    return "#{content} #{survey_url}" if survey_url.present?
+
+    # Fallback for backward compatibility with older messages that don't have separate URL storage
+    generate_csat_content_with_url
+  end
+
+  private
+
+  def input_csat_non_web_widget?
+    input_csat? && !inbox.web_widget?
+  end
+
+  def generate_csat_content_with_url
     survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
 
     if inbox.csat_config&.dig('message').present?
@@ -198,16 +216,6 @@ class Message < ApplicationRecord
     else
       I18n.t('conversations.survey.response', link: survey_link)
     end
-  end
-
-  # Method to get content with survey URL for external channel delivery
-  def content_for_channel
-    return content unless input_csat? && !inbox.web_widget?
-
-    survey_url = content_attributes['survey_url']
-    return "#{self[:content]} #{survey_url}" if survey_url.present?
-
-    content
   end
 
   def email_notifiable_message?
@@ -239,8 +247,6 @@ class Message < ApplicationRecord
     )
     save!
   end
-
-  private
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
