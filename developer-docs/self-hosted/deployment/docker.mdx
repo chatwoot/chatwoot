@@ -1,572 +1,205 @@
 ---
-title: Docker Deployment Guide
-description: Complete guide to deploy Chatwoot using Docker containers for production environments.
+title: Docker Chatwoot Production deployment guide
+description: Deploy Chatwoot using Docker containers for production environments
 sidebarTitle: Docker
 ---
 
-Docker provides a consistent, portable way to deploy Chatwoot across different environments. This guide covers production deployment using Docker Compose with best practices for security, performance, and maintenance.
+## Pre-requisites
 
-## Prerequisites
+Before proceeding, make sure you have the latest version of `docker` and `docker-compose` installed.
 
-Before starting, ensure you have:
-
-- Docker 20.10+ installed
-- Docker Compose 2.0+ installed
-- At least 4GB RAM and 2 CPU cores
-- Domain name with DNS configured (recommended)
-- Basic understanding of Docker concepts
-
-### Version Check
-
-Verify your Docker installation:
+As of now [at the time of writing this doc], we recommend a version equal to or higher than the following.
 
 ```bash
 $ docker --version
-Docker version 25.0.4, build 1a576c5
-
+Docker version 20.10.10, build b485636
 $ docker compose version
-Docker Compose version v2.24.7
+Docker Compose version v2.14.1
 ```
 
 <Note>
-Container names use dashes instead of underscores by default with newer Docker Compose versions. If using an older version, replace `-` with `_` and use `docker-compose` instead of `docker compose`.
+Container name uses dashes instead of underscores by default with new docker/compose versions. If you are using an older version of docker/compose, replace `-` with `_`. Also, use `docker-compose` instead of `docker compose`.
 </Note>
 
-## Quick Start
+## Steps to deploy Chatwoot using docker-compose
 
-### 1. Install Docker
+### 1. Install Docker on your VM
 
-**Ubuntu/Debian:**
 ```bash
-# Update package index
-apt-get update && apt-get upgrade -y
-
-# Install Docker
+# example in ubuntu
+apt-get update
+apt-get upgrade
 curl -fsSL https://get.docker.com -o get-docker.sh
 sudo sh get-docker.sh
-
-# Install Docker Compose plugin
 apt install docker-compose-plugin
-
-# Add user to docker group (optional)
-sudo usermod -aG docker $USER
 ```
 
-**CentOS/RHEL:**
-```bash
-# Install Docker
-sudo yum install -y yum-utils
-sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
-sudo yum install docker-ce docker-ce-cli containerd.io docker-compose-plugin
-
-# Start Docker service
-sudo systemctl start docker
-sudo systemctl enable docker
-```
-
-### 2. Download Configuration Files
+### 2. Download the required files
 
 ```bash
-# Create project directory
-mkdir chatwoot && cd chatwoot
-
-# Download environment template
+# Download the env file template
 wget -O .env https://raw.githubusercontent.com/chatwoot/chatwoot/develop/.env.example
-
-# Download Docker Compose configuration
+# Download the Docker compose template
 wget -O docker-compose.yaml https://raw.githubusercontent.com/chatwoot/chatwoot/develop/docker-compose.production.yaml
 ```
 
-### 3. Configure Environment
+### 3. Configure environment variables
 
-Edit the `.env` file with your settings:
+Tweak the `.env` and `docker-compose.yaml` according to your preferences. Refer to the available [environment variables](/docs/self-hosted/configuration/environment-variables). You could also remove the dependant services like `Postgres`, `Redis` etc., in favor of managed services configured via environment variables.
 
 ```bash
+# update redis and postgres passwords
 nano .env
+# update docker-compose.yaml same postgres pass
+nano docker-compose.yaml
 ```
 
-**Essential configurations:**
-
-```env
-# Database Configuration
-POSTGRES_PASSWORD=your_secure_postgres_password
-REDIS_PASSWORD=your_secure_redis_password
-
-# Application Configuration
-SECRET_KEY_BASE=your_secret_key_base_64_chars_long
-FRONTEND_URL=https://your-domain.com
-
-# Email Configuration (required for notifications)
-MAILER_SENDER_EMAIL=noreply@your-domain.com
-SMTP_ADDRESS=smtp.your-provider.com
-SMTP_PORT=587
-SMTP_USERNAME=your-smtp-username
-SMTP_PASSWORD=your-smtp-password
-SMTP_AUTHENTICATION=plain
-SMTP_ENABLE_STARTTLS_AUTO=true
-
-# File Storage (optional - defaults to local)
-ACTIVE_STORAGE_SERVICE=local
-# For S3: ACTIVE_STORAGE_SERVICE=amazon
-# AWS_ACCESS_KEY_ID=your_access_key
-# AWS_SECRET_ACCESS_KEY=your_secret_key
-# AWS_REGION=us-east-1
-# AWS_BUCKET=your-bucket-name
-```
-
-### 4. Update Docker Compose
-
-Edit `docker-compose.yaml` to match your `.env` passwords:
-
-```yaml
-services:
-  postgres:
-    environment:
-      - POSTGRES_PASSWORD=your_secure_postgres_password  # Match .env
-
-  redis:
-    command: ["sh", "-c", "redis-server --requirepass your_secure_redis_password"]
-```
-
-### 5. Initialize Database
+### 4. Prepare the database
 
 ```bash
-# Prepare the database
 docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 ```
 
-### 6. Start Services
+### 5. Start the services
 
 ```bash
-# Start all services in background
 docker compose up -d
-
-# Check service status
-docker compose ps
 ```
 
-### 7. Verify Installation
+### 6. Access your installation
+
+Your Chatwoot installation is complete. Please note that the containers are not exposed to the internet and they only bind to the localhost. Setup something like Nginx or any other proxy server to proxy the requests to the container.
+
+If you want to verify whether the installation is working, try `curl -I localhost:3000/api` to see if it returns `200`. Also, you could temporarily drop the `127.0.0.1:3000:3000` for rails to `3000:3000` in the compose file to access your instance at `http://<your-external-ip>:3000`. It's recommended to revert this change back and use Nginx or some proxy server in the front.
+
+## Additional Steps
+
+1. Have an `Nginx` web server acting as a reverse proxy for Chatwoot installation. So that you can access Chatwoot from `https://chat.yourdomain.com`
+2. Run `docker compose run --rm rails bundle exec rails db:chatwoot_prepare` whenever you decide to update the Chatwoot images to handle the migrations.
+
+### Configure Nginx and Let's Encrypt
+
+#### 1. Configure Nginx to serve as a frontend proxy
 
 ```bash
-# Check if Chatwoot is responding
-curl -I localhost:3000/api
-
-# Should return: HTTP/1.1 200 OK
+sudo apt-get install nginx
+cd /etc/nginx/sites-enabled
+nano yourdomain.com.conf
 ```
 
-## Production Configuration
+#### 2. Use the following Nginx config
 
-### Docker Compose Setup
-
-Here's a complete production-ready `docker-compose.yaml`:
-
-```yaml
-version: '3.8'
-
-services:
-  base: &base
-    image: chatwoot/chatwoot:latest
-    env_file: .env
-    volumes:
-      - ./data/storage:/app/storage
-    depends_on:
-      - postgres
-      - redis
-
-  rails:
-    <<: *base
-    container_name: chatwoot-rails
-    command: ["sh", "-c", "bundle exec rails s -b 0.0.0.0 -p 3000"]
-    ports:
-      - "127.0.0.1:3000:3000"
-    environment:
-      - NODE_ENV=production
-      - RAILS_ENV=production
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:3000/api"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  sidekiq:
-    <<: *base
-    container_name: chatwoot-sidekiq
-    command: ["sh", "-c", "bundle exec sidekiq -C config/sidekiq.yml"]
-    restart: unless-stopped
-    healthcheck:
-      test: ["CMD", "pgrep", "-f", "sidekiq"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  postgres:
-    image: postgres:14-alpine
-    container_name: chatwoot-postgres
-    restart: unless-stopped
-    ports:
-      - "127.0.0.1:5432:5432"
-    volumes:
-      - ./data/postgres:/var/lib/postgresql/data
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=your_secure_postgres_password
-    healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-  redis:
-    image: redis:7-alpine
-    container_name: chatwoot-redis
-    restart: unless-stopped
-    command: ["sh", "-c", "redis-server --requirepass your_secure_redis_password"]
-    ports:
-      - "127.0.0.1:6379:6379"
-    volumes:
-      - ./data/redis:/data
-    healthcheck:
-      test: ["CMD", "redis-cli", "--raw", "incr", "ping"]
-      interval: 30s
-      timeout: 10s
-      retries: 3
-
-volumes:
-  postgres_data:
-  redis_data:
-  storage_data:
-```
-
-### Nginx Reverse Proxy
-
-Create `/etc/nginx/sites-available/chatwoot.conf`:
+Use the following Nginx config after replacing the `yourdomain.com` in `server_name`.
 
 ```nginx
 server {
-    server_name your-domain.com;
-    
-    # Point upstream to Chatwoot App Server
-    set $upstream 127.0.0.1:3000;
-    
-    # Nginx strips out underscore in headers by default
-    # Chatwoot relies on underscore in headers for API
-    underscores_in_headers on;
-    
-    # Increase client max body size for file uploads
-    client_max_body_size 50M;
-    
-    location /.well-known {
-        alias /var/www/ssl-proof/chatwoot/.well-known;
-    }
-    
-    location / {
-        proxy_pass_header Authorization;
-        proxy_pass http://$upstream;
-        proxy_set_header Upgrade $http_upgrade;
-        proxy_set_header Connection "upgrade";
-        proxy_set_header Host $host;
-        proxy_set_header X-Forwarded-Proto $scheme;
-        proxy_set_header X-Forwarded-Ssl on;
-        proxy_set_header X-Real-IP $remote_addr;
-        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
-        
-        proxy_http_version 1.1;
-        proxy_buffering off;
-        proxy_read_timeout 36000s;
-        proxy_redirect off;
-    }
-    
-    listen 80;
+  server_name <yourdomain.com>;
+
+  # Point upstream to Chatwoot App Server
+  set $upstream 127.0.0.1:3000;
+
+  # Nginx strips out underscore in headers by default
+  # Chatwoot relies on underscore in headers for API
+  # Make sure that the config is set to on.
+  underscores_in_headers on;
+  location /.well-known {
+    alias /var/www/ssl-proof/chatwoot/.well-known;
+  }
+
+  location / {
+    proxy_pass_header Authorization;
+    proxy_pass http://$upstream;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-Ssl on; # Optional
+
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+
+    proxy_http_version 1.1;
+    proxy_buffering off;
+
+    client_max_body_size 0;
+    proxy_read_timeout 36000s;
+    proxy_redirect off;
+  }
+  listen 80;
 }
 ```
 
-Enable the site and configure SSL:
+#### 3. Verify and reload Nginx config
 
 ```bash
-# Enable site
-sudo ln -s /etc/nginx/sites-available/chatwoot.conf /etc/nginx/sites-enabled/
-sudo nginx -t
-sudo systemctl reload nginx
-
-# Install Certbot and get SSL certificate
-sudo apt install certbot python3-certbot-nginx
-sudo mkdir -p /var/www/ssl-proof/chatwoot/.well-known
-sudo certbot --webroot -w /var/www/ssl-proof/chatwoot/ -d your-domain.com -i nginx
+nginx -t
+systemctl reload nginx
 ```
 
-## Advanced Configuration
-
-### Environment Variables
-
-Key environment variables for production:
-
-```env
-# Application
-RAILS_ENV=production
-NODE_ENV=production
-SECRET_KEY_BASE=generate_64_character_secret
-FRONTEND_URL=https://your-domain.com
-
-# Database
-DATABASE_URL=postgresql://postgres:password@postgres:5432/chatwoot
-REDIS_URL=redis://redis:6379/0
-REDIS_PASSWORD=your_redis_password
-
-# Email
-MAILER_SENDER_EMAIL=noreply@your-domain.com
-SMTP_ADDRESS=smtp.your-provider.com
-SMTP_PORT=587
-SMTP_USERNAME=your_username
-SMTP_PASSWORD=your_password
-SMTP_AUTHENTICATION=plain
-SMTP_ENABLE_STARTTLS_AUTO=true
-
-# File Storage
-ACTIVE_STORAGE_SERVICE=amazon
-AWS_ACCESS_KEY_ID=your_access_key
-AWS_SECRET_ACCESS_KEY=your_secret_key
-AWS_REGION=us-east-1
-AWS_BUCKET=your-bucket-name
-
-# Security
-FORCE_SSL=true
-RAILS_LOG_TO_STDOUT=true
-
-# Performance
-RAILS_MAX_THREADS=5
-WEB_CONCURRENCY=2
-```
-
-### Resource Limits
-
-Add resource limits to your `docker-compose.yaml`:
-
-```yaml
-services:
-  rails:
-    deploy:
-      resources:
-        limits:
-          cpus: '2.0'
-          memory: 2G
-        reservations:
-          cpus: '1.0'
-          memory: 1G
-
-  sidekiq:
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-
-  postgres:
-    deploy:
-      resources:
-        limits:
-          cpus: '1.0'
-          memory: 1G
-        reservations:
-          cpus: '0.5'
-          memory: 512M
-
-  redis:
-    deploy:
-      resources:
-        limits:
-          cpus: '0.5'
-          memory: 512M
-        reservations:
-          cpus: '0.25'
-          memory: 256M
-```
-
-### Logging Configuration
-
-Configure centralized logging:
-
-```yaml
-services:
-  rails:
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-
-  sidekiq:
-    logging:
-      driver: "json-file"
-      options:
-        max-size: "10m"
-        max-file: "3"
-```
-
-## Maintenance Operations
-
-### Upgrading Chatwoot
+#### 4. Run Let's Encrypt to configure SSL certificate
 
 ```bash
-# Pull latest images
+apt install certbot
+apt-get install python3-certbot-nginx
+mkdir -p /var/www/ssl-proof/chatwoot/.well-known
+certbot --webroot -w /var/www/ssl-proof/chatwoot/ -d yourdomain.com -i nginx
+```
+
+#### 5. Access your installation
+
+Your Chatwoot installation should be accessible from the `https://yourdomain.com` now.
+
+## Steps to build images yourself
+
+We publish our base images to the Docker hub. You should be able to build your Chatwoot web/worker images from these base images.
+
+### Web
+
+```dockerfile
+FROM chatwoot/chatwoot:latest
+RUN chmod +x docker/entrypoints/rails.sh
+ENTRYPOINT ["docker/entrypoints/rails.sh"]
+CMD bundle exec bundle exec rails s -b 0.0.0.0 -p 3000
+```
+
+### Worker
+
+```dockerfile
+FROM chatwoot/chatwoot:latest
+RUN chmod +x docker/entrypoints/rails.sh
+ENTRYPOINT ["docker/entrypoints/rails.sh"]
+CMD bundle exec sidekiq -C config/sidekiq.yml
+```
+
+The app servers will run available on port `3000`. Ensure the images connect to the same database and Redis servers. Provide the configuration for these services via [environment variables](/docs/self-hosted/configuration/environment-variables).
+
+### Initial database setup
+
+To set up the database for the first time, you must run `rails db:chatwoot_prepare`. You may get errors if you try to run `rails db:migrate` at this point.
+
+## Upgrading
+
+If you're not using the `latest` or `latest-ce` tag, you first need to change the desired tag in your docker-compose file.
+
+After that you can pull the new image and start using them:
+
+```bash
 docker compose pull
-
-# Stop services
-docker compose down
-
-# Start with new images
 docker compose up -d
+```
 
-# Run database migrations
+Finally you may need to update the database:
+
+```bash
 docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 ```
 
-### Backup and Restore
-
-**Database Backup:**
-```bash
-# Create backup
-docker compose exec postgres pg_dump -U postgres chatwoot > backup_$(date +%Y%m%d_%H%M%S).sql
-
-# Restore backup
-docker compose exec -T postgres psql -U postgres chatwoot < backup_file.sql
-```
-
-**File Storage Backup:**
-```bash
-# Backup storage directory
-tar -czf storage_backup_$(date +%Y%m%d_%H%M%S).tar.gz ./data/storage/
-```
-
-### Monitoring and Logs
-
-**View logs:**
-```bash
-# All services
-docker compose logs -f
-
-# Specific service
-docker compose logs -f rails
-docker compose logs -f sidekiq
-
-# Last 100 lines
-docker compose logs --tail=100 rails
-```
-
-**Monitor resources:**
-```bash
-# Container stats
-docker stats
-
-# Service health
-docker compose ps
-```
-
-### Rails Console Access
+## Running Rails Console
 
 ```bash
-# Access Rails console
-docker compose exec rails bundle exec rails console
-
-# Run one-off commands
-docker compose run --rm rails bundle exec rails runner "puts User.count"
+docker exec -it $(basename $(pwd))-rails-1 sh -c 'RAILS_ENV=production bundle exec rails c'
 ```
 
-## Troubleshooting
+## Chatwoot CE edition docker images
 
-### Common Issues
-
-**1. Permission Issues:**
-```bash
-# Fix file permissions
-sudo chown -R 1000:1000 ./data/
-```
-
-**2. Database Connection Issues:**
-```bash
-# Check database connectivity
-docker compose exec rails bundle exec rails db:version
-```
-
-**3. Memory Issues:**
-```bash
-# Check memory usage
-docker stats --no-stream
-```
-
-**4. SSL Certificate Issues:**
-```bash
-# Renew certificates
-sudo certbot renew --dry-run
-```
-
-### Performance Optimization
-
-**1. Database Optimization:**
-```sql
--- Connect to database
-docker compose exec postgres psql -U postgres chatwoot
-
--- Check slow queries
-SELECT query, mean_time, calls 
-FROM pg_stat_statements 
-ORDER BY mean_time DESC 
-LIMIT 10;
-```
-
-**2. Redis Optimization:**
-```bash
-# Check Redis memory usage
-docker compose exec redis redis-cli info memory
-```
-
-### Security Hardening
-
-**1. Network Security:**
-```yaml
-# Add to docker-compose.yaml
-networks:
-  chatwoot:
-    driver: bridge
-    internal: true
-
-services:
-  rails:
-    networks:
-      - chatwoot
-      - default  # Only rails needs external access
-```
-
-**2. Secrets Management:**
-```bash
-# Use Docker secrets for sensitive data
-echo "your_secret_password" | docker secret create postgres_password -
-```
-
-## Community Edition vs Enterprise
-
-This guide covers Chatwoot Community Edition (CE). For Enterprise features:
-
-**CE Docker Tags:**
-- `chatwoot/chatwoot:latest-ce` (latest CE)
-- `chatwoot/chatwoot:v2.3.2-ce` (specific version CE)
-
-**Enterprise Features:**
-- Advanced reporting and analytics
-- SAML SSO integration
-- Advanced automation rules
-- Priority support
-
----
-
-<Warning>
-Always test upgrades in a staging environment before applying to production. Keep regular backups of your database and file storage.
-</Warning>
-
-<Note>
-For high-availability deployments, consider using Docker Swarm or Kubernetes instead of Docker Compose.
-</Note> 
+If you want to run Chatwoot CE edition, replace the docker image tag with equivalent foss version tag. Docker tag for current `master` would be `latest-ce`. Version specific tags would follow the pattern `v*-ce`. For example the docker ce edition tag for Chatwoot `v2.3.2` would be `v2.3.2-ce`. 

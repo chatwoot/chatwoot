@@ -28,23 +28,36 @@
   },
   "theme": "maple",
   "navigation": {
-    "groups": [
+    "anchors": [
       {
-        "group": "Getting Started",
+        "anchor": "Introduction",
+        "icon": "house",
         "pages": [
           "introduction"
         ]
       },
       {
-        "group": "Self-Hosted Installation",
+        "anchor": "Installation & Setup",
+        "icon": "server",
         "pages": [
-          "self-hosted/introduction",
-          "self-hosted/architecture",
           {
-            "group": "Deployment",
+            "group": "Getting Started",
             "pages": [
-              "self-hosted/deployment/linux-vm",
-              "self-hosted/deployment/docker",
+              "self-hosted/introduction",
+              "self-hosted/architecture",
+              "self-hosted/requirements"
+            ]
+          },
+          {
+            "group": "Deployment Methods",
+            "pages": [
+              {
+                "group": "Linux",
+                "pages": [
+                  "self-hosted/deployment/linux-vm",
+                  "self-hosted/deployment/docker"
+                ]
+              },
               "self-hosted/deployment/kubernetes",
               "self-hosted/deployment/chatwoot-ctl"
             ]
@@ -52,96 +65,232 @@
           {
             "group": "Cloud Providers",
             "pages": [
-              "self-hosted/cloud/aws",
+              {
+                "group": "AWS",
+                "pages": [
+                  "self-hosted/cloud/aws",
+                  "self-hosted/cloud/aws-marketplace"
+                ]
+              },
               "self-hosted/cloud/azure",
               "self-hosted/cloud/digitalocean",
               "self-hosted/cloud/gcp",
-              "self-hosted/cloud/heroku"
+              "self-hosted/cloud/heroku",
+              {
+                "group": "Community Contributed",
+                "pages": [
+                  "self-hosted/cloud/caprover",
+                  "self-hosted/cloud/clevercloud",
+                  "self-hosted/cloud/cloudron",
+                  "self-hosted/cloud/restack",
+                  "self-hosted/cloud/easypanel",
+                  "self-hosted/cloud/elestio"
+                ]
+              }
             ]
           },
           {
             "group": "Configuration",
             "pages": [
-              "self-hosted/configuration/environment-variables"
+              "self-hosted/configuration/environment-variables",
+              {
+                "group": "Performance",
+                "pages": [
+                  "self-hosted/configuration/performance/optimizing-configurations",
+                  "self-hosted/configuration/performance/cloudfront-cdn"
+                ]
+              },
+              {
+                "group": "Monitoring",
+                "pages": [
+                  "self-hosted/configuration/monitoring/super-admin-console",
+                  "self-hosted/configuration/monitoring/apm-and-tracing",
+                  "self-hosted/configuration/monitoring/rate-limiting"
+                ]
+              },
+              {
+                "group": "Storage",
+                "pages": [
+                  "self-hosted/configuration/storage/supported-providers",
+                  "self-hosted/configuration/storage/s3-bucket",
+                  "self-hosted/configuration/storage/gcs-bucket"
+                ]
+              },
+              {
+                "group": "Email Channel",
+                "pages": [
+                  "self-hosted/configuration/features/email-channel/conversation-continuity",
+                  "self-hosted/configuration/features/email-channel/conversation-continuity-using-sendgrid",
+                  "self-hosted/configuration/features/email-channel/email-channel-setup",
+                  "self-hosted/configuration/features/email-channel/azure-app-setup",
+                  "self-hosted/configuration/features/email-channel/google-workspace-setup"
+                ]
+              },
+              {
+                "group": "Help Center",
+                "pages": [
+                  "self-hosted/configuration/help-center"
+                ]
+              }
+            ]
+          },
+          {
+            "group": "Integrations",
+            "pages": [
+              "self-hosted/configuration/integrations/facebook-channel-setup",
+              "self-hosted/configuration/integrations/instagram-channel-setup",
+              "self-hosted/configuration/integrations/instagram-via-instagram-business-login",
+              "self-hosted/configuration/integrations/slack-integration-setup",
+              "self-hosted/configuration/integrations/linear-integration-setup",
+              "self-hosted/configuration/integrations/shopify-integration-setup"
+            ]
+          },
+          {
+            "group": "Maintenance",
+            "pages": [
+              "self-hosted/maintenance/upgrade",
+              "self-hosted/maintenance/backup"
+            ]
+          },
+          {
+            "group": "Runbooks",
+            "pages": [
+              "self-hosted/runbook/migrate-chatwoot-database",
+              "self-hosted/runbook/upgrade-to-chatwoot-v4",
+              "self-hosted/runbook/enable-ip-logging",
+              "self-hosted/runbook/email-notifications"
+            ]
+          },
+          {
+            "group": "Others",
+            "pages": [
+              "self-hosted/others/telemetry",
+              "self-hosted/others/enterprise-edition",
+              "self-hosted/others/supported-features",
+              "self-hosted/others/restricted-instances",
+              "self-hosted/others/instagram-app-review",
+              "self-hosted/others/faq"
             ]
           }
         ]
       },
       {
-        "group": "Contributing Guide",
+        "anchor": "Contributing Guide",
+        "icon": "code",
         "pages": [
-          "contributing/introduction",
+          {
+            "group": "Getting Started",
+            "pages": [
+              "contributing/introduction"
+            ]
+          },
+          {
+            "group": "Environment Setup",
+            "pages": [
+              "contributing/project-setup/macos-setup",
+              "contributing/project-setup/ubuntu-setup",
+              "contributing/project-setup/windows-setup",
+              "contributing/project-setup/docker-setup",
+              "contributing/project-setup/make-setup"
+            ]
+          },
           {
             "group": "Project Setup",
             "pages": [
               "contributing/project-setup/setup-guide",
               "contributing/project-setup/environment-variables",
-              "contributing/project-setup/common-errors"
+              "contributing/project-setup/common-errors",
+              "contributing/project-setup/telegram-channel-setup",
+              "contributing/project-setup/line-channel-setup",
+              "contributing/project-setup/mobile-app-setup"
             ]
           },
-          "contributing/testing",
-          "contributing/guidelines",
-          "contributing/code-of-conduct"
+          {
+            "group": "Testing",
+            "pages": [
+              "contributing/cypress"
+            ]
+          },
+          {
+            "group": "Others",
+            "pages": [
+              "contributing/code-of-conduct",
+              "contributing/security-reports",
+              "contributing/translation-guidelines",
+              "contributing/community-guidelines",
+              "contributing/contributors"
+            ]
+          }
         ]
       },
       {
-        "group": "API Reference",
-        "pages": []
-      },
-      {
-        "group": "Application API",
-        "description": "APIs for managing application aspects of Chatwoot",
-        "includeTags": [
-          "Agents",
-          "Automation Rule",
-          "Account AgentBots",
-          "Canned Responses",
-          "Contact Labels",
-          "Contacts",
-          "Conversation Assignments",
-          "Conversation Labels",
-          "Conversations",
-          "Custom Attributes",
-          "Custom Filters",
-          "Help Center",
-          "Inboxes",
-          "Integrations",
-          "Messages",
-          "Profile",
-          "Reports",
-          "Teams",
-          "Webhooks"
-        ],
-        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/application_swagger.json"
-      },
-      {
-        "group": "Platform API",
-        "description": "APIs for managing platform aspects of Chatwoot",
-        "includeTags": [
-          "Accounts",
-          "Account Users",
-          "AgentBots",
-          "Users"
-        ],
-        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/platform_swagger.json"
-      },
-      {
-        "group": "Client API",
-        "description": "APIs for client applications",
-        "includeTags": [
-          "Contacts API",
-          "Conversations API",
-          "Messages API"
-        ],
-        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/client_swagger.json"
-      },
-      {
-        "group": "Other APIs",
-        "description": "Other Chatwoot APIs",
-        "includeTags": [
-          "CSAT Survey Page"
-        ],
-        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/other_swagger.json"
+        "anchor": "API Reference",
+        "icon": "square-terminal",
+        "pages": [],
+        "groups": [
+          {
+            "group": "Getting Started",
+            "description": "Learn about Chatwoot APIs and how to use them",
+            "pages": [
+              "api-reference/introduction"
+            ]
+          },
+          {
+            "group": "Application APIs",
+            "description": "APIs for managing application aspects of Chatwoot",
+            "includeTags": [
+              "Agents",
+              "Automation Rule",
+              "Account AgentBots",
+              "Canned Responses",
+              "Contact Labels",
+              "Contacts",
+              "Conversation Assignments",
+              "Conversation Labels",
+              "Conversations",
+              "Custom Attributes",
+              "Custom Filters",
+              "Help Center",
+              "Inboxes",
+              "Integrations",
+              "Messages",
+              "Profile",
+              "Reports",
+              "Teams",
+              "Webhooks"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/application_swagger.json"
+          },
+          {
+            "group": "Platform APIs",
+            "description": "APIs for managing platform aspects of Chatwoot",
+            "includeTags": [
+              "Accounts",
+              "Account Users",
+              "AgentBots",
+              "Users"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/platform_swagger.json"
+          },
+          {
+            "group": "Client APIs",
+            "description": "APIs for client applications",
+            "includeTags": [
+              "Contacts API",
+              "Conversations API",
+              "Messages API"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/client_swagger.json"
+          },
+          {
+            "group": "Other APIs",
+            "description": "Additional Chatwoot APIs",
+            "includeTags": [
+              "CSAT Survey Page"
+            ],
+            "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/other_swagger.json"
+          }
+        ]
       }
     ]
   },

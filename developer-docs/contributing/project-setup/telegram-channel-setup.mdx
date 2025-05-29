@@ -1,0 +1,129 @@
+---
+title: Telegram App Integration Setup
+description: Setup Telegram app integration on your local machine for development
+sidebarTitle: Telegram Setup
+---
+
+# Setup Telegram app integration on your local machine
+
+Please follow the steps if you are trying to work with the Telegram integration on your local machine.
+
+## Prerequisites
+
+- Telegram Bot Token from [BotFather](https://t.me/botfather)
+- Ngrok or similar tunneling service
+- Running Chatwoot development environment
+
+## Setup Steps
+
+### 1. Start Ngrok Server
+
+Start a Ngrok server listening at port `3000` or the port you will be running the Chatwoot installation:
+
+```bash
+# Install ngrok if you haven't already
+# Download from https://ngrok.com/download
+
+# Start ngrok tunnel
+ngrok http 3000
+```
+
+### 2. Update Environment Variables
+
+Update the `.env` variable `FRONTEND_URL` in Chatwoot with the `https` version of the Ngrok URL:
+
+```bash
+# In your .env file
+FRONTEND_URL=https://your-ngrok-subdomain.ngrok.io
+```
+
+### 3. Start Chatwoot Server
+
+Start the Chatwoot server and create a new Telegram channel with the token obtained from Telegram BotFather.
+
+```bash
+# Start the development server
+make run
+# or
+foreman start -f Procfile.dev
+```
+
+### 4. Create Telegram Channel
+
+1. **Access Chatwoot**: Go to your Chatwoot instance (http://localhost:3000)
+2. **Navigate to Settings** → **Inboxes** → **Add Inbox**
+3. **Select Telegram** as the channel type
+4. **Enter Bot Token**: Paste the token you received from BotFather
+5. **Configure Channel**: Set up the channel name and other settings
+
+## Verify Webhook Registration
+
+While creating the channel, Chatwoot should have registered a webhook callback URL in Telegram for your Bot. You can verify whether this URL registration was done successfully by calling the Telegram API:
+
+```bash
+GET https://api.telegram.org/bot{your_bot_token}/getWebhookInfo
+```
+
+## Testing the Integration
+
+If the webhook is registered correctly with Telegram, your Ngrok server should receive events for new Telegram messages, and new conversations will be created in Chatwoot.
+
+### Test Steps
+
+1. **Send a message** to your Telegram bot
+2. **Check Ngrok logs** to see if the webhook request is received
+3. **Check Chatwoot** to see if a new conversation is created
+4. **Reply from Chatwoot** to test bidirectional communication
+
+## Troubleshooting
+
+<Accordion title="Webhook not registered">
+**Problem**: Telegram webhook registration fails
+
+**Solution**:
+- Ensure your Ngrok URL is accessible publicly
+- Check that `FRONTEND_URL` is set correctly in your `.env` file
+- Verify the bot token is correct
+- Restart Chatwoot after updating environment variables
+</Accordion>
+
+<Accordion title="Messages not appearing in Chatwoot">
+**Problem**: Telegram messages don't create conversations in Chatwoot
+
+**Solution**:
+- Check Ngrok logs for incoming webhook requests
+- Verify the webhook URL in Telegram using the API call above
+- Check Chatwoot logs for any error messages
+- Ensure the channel is properly configured and enabled
+</Accordion>
+
+<Accordion title="SSL/TLS errors">
+**Problem**: SSL certificate issues with webhook
+
+**Solution**:
+- Use the `https` version of your Ngrok URL
+- Ensure Ngrok is running properly
+- Try restarting Ngrok and updating the webhook
+</Accordion>
+
+## Next Steps
+
+After successful setup:
+
+1. **Test message flow** between Telegram and Chatwoot
+2. **Configure agent assignments** for Telegram conversations
+3. **Set up automated responses** if needed
+4. **Review webhook logs** for debugging
+
+## Getting Help
+
+If you encounter issues:
+
+- **Check Logs**: Review both Chatwoot and Ngrok logs
+- **Telegram Bot API**: [Official Documentation](https://core.telegram.org/bots/api)
+- **Common Errors**: See [Common Errors](/contributing/project-setup/common-errors)
+- **Community Support**: [Discord](https://discord.com/invite/cJXdrwS)
+
+---
+
+Your Telegram integration is now ready for development and testing! 📱 

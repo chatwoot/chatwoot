@@ -1,339 +1,108 @@
 ---
 title: System Requirements
-description: Hardware, software, and infrastructure requirements for deploying Chatwoot in different environments.
+description: Hardware and software requirements for self-hosting Chatwoot
 sidebarTitle: Requirements
 ---
 
-Before deploying Chatwoot, ensure your infrastructure meets the minimum requirements for your expected usage. This guide covers requirements for different deployment scenarios and scales.
+This page includes useful information on the requirements that are needed to install and run Chatwoot on your servers.
 
-## Minimum System Requirements
+## Operating Systems
 
-### Development Environment
+### Supported Linux distribution
 
-For local development and testing:
+- Ubuntu (20.04)
 
-| Component | Requirement |
-|-----------|-------------|
-| **CPU** | 2 cores (2.0 GHz+) |
-| **RAM** | 4GB |
-| **Storage** | 20GB available space |
-| **OS** | Ubuntu 20.04+, macOS 10.15+, Windows 10+ |
-| **Network** | Broadband internet connection |
+Installation of Chatwoot is possible on most unix environments, but not officially supported.
 
-### Small Production (1-10 agents)
+### Microsoft Windows
 
-For small teams and low-volume usage:
+Chatwoot is developed for Linux-based operating systems. Please consider using a virtual machine to run Chatwoot on windows.
 
-| Component | Requirement |
-|-----------|-------------|
-| **CPU** | 2 cores (2.4 GHz+) |
-| **RAM** | 4GB |
-| **Storage** | 50GB SSD |
-| **Network** | 100 Mbps bandwidth |
-| **Concurrent Users** | Up to 100 |
+## Software requirements
 
-### Medium Production (10-50 agents)
+### Ruby versions
 
-For growing teams with moderate usage:
+- Ruby 3.2 and later is required.
 
-| Component | Requirement |
-|-----------|-------------|
-| **CPU** | 4 cores (2.4 GHz+) |
-| **RAM** | 8GB |
-| **Storage** | 100GB SSD |
-| **Network** | 500 Mbps bandwidth |
-| **Concurrent Users** | Up to 500 |
+You must use the standard MRI implementation of Ruby. Chatwoot needs several Gems that have native extensions.
 
-### Large Production (50+ agents)
+### Node.js versions
 
-For enterprise deployments with high volume:
+We only support Node.js 10.13.0 or higher.
 
-| Component | Requirement |
-|-----------|-------------|
-| **CPU** | 8+ cores (2.4 GHz+) |
-| **RAM** | 16GB+ |
-| **Storage** | 200GB+ SSD |
-| **Network** | 1 Gbps+ bandwidth |
-| **Concurrent Users** | 1000+ |
+We recommend Node 20.x, as it's faster and the latest.
 
-## Software Requirements
+Chatwoot uses [webpack](https://webpack.js.org/) to compile frontend assets, which requires a minimum version of Node.js 20.x.0.
 
-### Operating System
+You can check which version you're running with `node -v`. If you're running a version older than `v10.13.0`, you need to update it to a newer version. You can find instructions to install from community maintained packages or compile from source at the [Node.js website](https://nodejs.org/en/download/).
 
-**Supported Linux Distributions:**
-- Ubuntu 20.04 LTS or later (recommended)
-- Ubuntu 22.04 LTS
-- Debian 10 or later
-- CentOS 8 or later
-- RHEL 8 or later
-- Amazon Linux 2
+## Hardware requirements
 
-**Container Platforms:**
-- Docker 20.10+ with Docker Compose 2.0+
-- Kubernetes 1.20+
-- OpenShift 4.6+
+### Storage
 
-### Runtime Dependencies
+The necessary hard drive space largely depends on your usage, the size and number of attachments that you receive through your conversations etc.
 
-| Component | Version | Purpose |
-|-----------|---------|---------|
-| **Ruby** | 3.3.3+ | Application runtime |
-| **Node.js** | 20.x LTS | Frontend build tools |
-| **PostgreSQL** | 12+ | Primary database |
-| **Redis** | 6.0+ | Cache and job queue |
-| **Nginx** | 1.18+ | Reverse proxy |
+<Tip>
+Consider using a storage option provided by AWS, Azure, Google Cloud etc, if you want to stay flexible and accommodate the growing storage requirements. Chatwoot also supports other S3 API compatible services viz Minio, DigitalOcean Spaces, Linode Objects etc.
+</Tip>
 
-### Development Dependencies
+### CPU
 
-For building from source:
+CPU requirements are dependent on the usage and expected workload. Your workload is influenced by factors such as - but not limited to - how active your users are, how many conversations do you receive and the conversation channels which you are using.
 
-| Component | Version | Purpose |
-|-----------|---------|---------|
-| **Git** | 2.25+ | Source code management |
-| **Build tools** | Latest | Compiling native extensions |
-| **ImageMagick** | 7.0+ | Image processing |
-| **FFmpeg** | 4.0+ | Video/audio processing |
+The following is the recommended minimum CPU hardware guidance for a handful of example Chatwoot conversation base sizes.
 
-## Database Requirements
+- **4 cores** is the **recommended** minimum number of cores and supports up to 10,000 conversations a day.
+- 8 cores supports up to 20,000 conversations a day.
+- More conversations? Consider scaling horizontally by adding more application servers.
 
-### PostgreSQL Configuration
+### Memory
 
-**Minimum Version:** PostgreSQL 12+
-**Recommended Version:** PostgreSQL 14+
+Memory requirements are dependent on the usage and expected workload. Your workload is influenced by factors such as - but not limited to - How active your users are, how many conversations do you receive and the conversation channels which you are using.
 
-**Required Extensions:**
-- `pg_stat_statements` (performance monitoring)
-- `uuid-ossp` (UUID generation)
-- `pg_trgm` (full-text search)
+The following is the recommended minimum Memory hardware guidance for a handful of example Chatwoot conversation base sizes.
 
-**Configuration Recommendations:**
-
-```sql
--- Memory settings (adjust based on available RAM)
-shared_buffers = 256MB                    # 25% of RAM for small instances
-effective_cache_size = 1GB                # 75% of RAM
-work_mem = 4MB                            # Per connection
-maintenance_work_mem = 64MB               # For maintenance operations
-
--- Connection settings
-max_connections = 100                     # Adjust based on expected load
-max_prepared_transactions = 100           # For prepared statements
-
--- Write-ahead logging
-wal_buffers = 16MB                        # WAL buffer size
-checkpoint_completion_target = 0.9        # Checkpoint target
-```
-
-### Redis Configuration
-
-**Minimum Version:** Redis 6.0+
-**Recommended Version:** Redis 7.0+
-
-**Memory Requirements:**
-- **Small deployment:** 512MB
-- **Medium deployment:** 2GB
-- **Large deployment:** 4GB+
-
-**Configuration Recommendations:**
-
-```redis
-# Memory management
-maxmemory 2gb
-maxmemory-policy allkeys-lru
-
-# Persistence (choose one)
-save 900 1                               # RDB snapshots
-# appendonly yes                         # AOF logging
-
-# Security
-requirepass your_secure_password
-```
-
-## Network Requirements
-
-### Ports
-
-| Port | Protocol | Purpose | External Access |
-|------|----------|---------|-----------------|
-| **80** | HTTP | Web traffic (redirect to HTTPS) | Yes |
-| **443** | HTTPS | Secure web traffic | Yes |
-| **3000** | HTTP | Application server (behind proxy) | No |
-| **5432** | TCP | PostgreSQL database | No |
-| **6379** | TCP | Redis cache | No |
-| **22** | SSH | Server administration | Admin only |
-
-### Firewall Configuration
-
-**Inbound Rules:**
-```bash
-# Allow HTTP and HTTPS
-ufw allow 80/tcp
-ufw allow 443/tcp
-
-# Allow SSH (restrict to admin IPs)
-ufw allow from YOUR_ADMIN_IP to any port 22
-
-# Deny all other inbound traffic
-ufw default deny incoming
-```
-
-**Outbound Rules:**
-```bash
-# Allow all outbound (for updates, integrations)
-ufw default allow outgoing
-
-# Or restrict to specific services
-ufw allow out 53/udp    # DNS
-ufw allow out 80/tcp    # HTTP
-ufw allow out 443/tcp   # HTTPS
-ufw allow out 587/tcp   # SMTP
-```
-
-### Bandwidth Estimation
-
-**Per Agent (monthly):**
-- **Light usage:** 1-2 GB
-- **Medium usage:** 3-5 GB
-- **Heavy usage:** 8-10 GB
-
-**Per Customer Conversation:**
-- **Text only:** 10-50 KB
-- **With images:** 500 KB - 2 MB
-- **With files:** 1-10 MB
-
-## Storage Requirements
-
-### Disk Space Planning
-
-**Base Installation:** 5-10 GB
-**Database Growth:** 100 MB - 1 GB per 1000 conversations
-**File Attachments:** Varies by usage (plan for 10-50 GB)
-**Logs:** 1-5 GB per month
-**Backups:** 2x database size + file storage
-
-### Storage Performance
-
-| Deployment Size | IOPS | Throughput |
-|-----------------|------|------------|
-| **Small** | 1,000 IOPS | 50 MB/s |
-| **Medium** | 3,000 IOPS | 150 MB/s |
-| **Large** | 10,000+ IOPS | 500+ MB/s |
-
-### File Storage Options
-
-**Local Storage:**
-- Suitable for small deployments
-- Requires backup strategy
-- Limited scalability
-
-**Object Storage (Recommended):**
-- AWS S3, Google Cloud Storage, Azure Blob
-- Unlimited scalability
-- Built-in redundancy
-- CDN integration
-
-## Security Requirements
-
-### SSL/TLS Certificates
-
-**Required for Production:**
-- Valid SSL certificate for your domain
-- TLS 1.2 or higher
-- Strong cipher suites
-
-**Certificate Options:**
-- Let's Encrypt (free, automated)
-- Commercial certificates
-- Wildcard certificates for subdomains
-
-### Access Control
-
-**Server Access:**
-- SSH key-based authentication
-- Disable password authentication
-- Regular security updates
-- Fail2ban or similar intrusion prevention
-
-**Application Security:**
-- Strong database passwords
-- Redis authentication
-- Regular security updates
-- Web Application Firewall (optional)
-
-## Cloud Provider Specifications
-
-### AWS EC2 Instance Types
-
-| Use Case | Instance Type | vCPU | RAM | Storage |
-|----------|---------------|------|-----|---------|
-| **Development** | t3.medium | 2 | 4 GB | 20 GB gp3 |
-| **Small Production** | t3.large | 2 | 8 GB | 50 GB gp3 |
-| **Medium Production** | m5.xlarge | 4 | 16 GB | 100 GB gp3 |
-| **Large Production** | m5.2xlarge | 8 | 32 GB | 200 GB gp3 |
-
-### DigitalOcean Droplets
-
-| Use Case | Droplet Size | vCPU | RAM | Storage |
-|----------|--------------|------|-----|---------|
-| **Development** | 2 GB | 1 | 2 GB | 50 GB SSD |
-| **Small Production** | 4 GB | 2 | 4 GB | 80 GB SSD |
-| **Medium Production** | 8 GB | 4 | 8 GB | 160 GB SSD |
-| **Large Production** | 16 GB | 6 | 16 GB | 320 GB SSD |
-
-### Google Cloud Compute Engine
-
-| Use Case | Machine Type | vCPU | RAM | Storage |
-|----------|--------------|------|-----|---------|
-| **Development** | e2-medium | 2 | 4 GB | 50 GB SSD |
-| **Small Production** | e2-standard-2 | 2 | 8 GB | 100 GB SSD |
-| **Medium Production** | e2-standard-4 | 4 | 16 GB | 200 GB SSD |
-| **Large Production** | e2-standard-8 | 8 | 32 GB | 500 GB SSD |
-
-## Performance Benchmarks
-
-### Expected Performance
-
-| Metric | Small | Medium | Large |
-|--------|-------|--------|-------|
-| **Concurrent Users** | 100 | 500 | 1000+ |
-| **Messages/minute** | 1,000 | 5,000 | 20,000+ |
-| **Response Time** | <200ms | <300ms | <500ms |
-| **Uptime** | 99.5% | 99.9% | 99.95% |
-
-### Load Testing
-
-Before production deployment, consider load testing:
-
-```bash
-# Example using Apache Bench
-ab -n 1000 -c 10 https://your-chatwoot-domain.com/api/v1/accounts
-
-# Example using wrk
-wrk -t12 -c400 -d30s https://your-chatwoot-domain.com/
-```
-
-## Monitoring Requirements
-
-### Essential Metrics
-
-- **System:** CPU, memory, disk, network
-- **Application:** Response times, error rates
-- **Database:** Connection count, query performance
-- **Redis:** Memory usage, hit rates
-
-### Recommended Tools
-
-- **System Monitoring:** Prometheus + Grafana, DataDog, New Relic
-- **Log Management:** ELK Stack, Fluentd, Splunk
-- **Uptime Monitoring:** Pingdom, UptimeRobot
-- **APM:** New Relic, DataDog APM, Scout
-
----
-
-<Warning>
-These requirements are guidelines. Your actual needs may vary based on usage patterns, integrations, and performance expectations. Monitor your deployment and adjust resources accordingly.
-</Warning>
+- **4GB RAM** is the **required** minimum memory size and supports up to 10,000 conversations a day.
+  - we are always working to reduce the memory requirement.
+- 8GB RAM supports up to 20,000 conversations a day.
+- More conversations? Consider scaling horizontally by adding more application servers.
 
 <Note>
-For high-availability deployments, consider redundancy in all components and implement proper backup and disaster recovery procedures.
+Add at least 1GB of swap memory to the machine to ensure that the machine doesn't run out of resources during an upgrade.
+</Note>
+
+## Database
+
+PostgreSQL is the only supported database. We don't have plans to support any other alternatives as of now.
+
+### PostgreSQL Requirements
+
+The server running PostgreSQL should have _at least_ 5-10 GB of storage available, though the exact requirements depends on the usage on your Chatwoot Instance.
+
+We highly recommend using the latest stable PostgreSQL versions as these were used for development and testing.
+
+### Redis 
+
+Redis stores the background task queue and various chatwoot configurations cached. The storage requirements for Redis are minimal, You can start with 100MB and scale up as required.
+
+Redis version 7.0 or higher is recommended
+
+## Sidekiq
+
+Sidekiq processes the background jobs with a multi-threaded process. This process starts with the entire Rails stack but it can grow over time due to memory leaks. On a very active server the Sidekiq process can use 1GB+ of memory.
+
+You can opt to have both the sidekiq workers and rails servers to run on the same machine. But we recommend keeping the worker process and rails server on separate webservers for better scalability.
+
+## Supported web browsers
+
+Chatwoot supports the following web browsers:
+
+- [Mozilla Firefox](https://www.mozilla.org/en-US/firefox/new/)
+- [Google Chrome](https://www.google.com/chrome/)
+- [Chromium](https://www.chromium.org/getting-involved/dev-channel)
+- [Apple Safari](https://www.apple.com/safari/)
+- [Microsoft Edge](https://www.microsoft.com/en-us/edge)
+
+<Note>
+We don't support running Chatwoot with JavaScript disabled in the browser.
 </Note> 

@@ -1,0 +1,127 @@
+---
+title: Reporting Security Issues
+description: How to report security vulnerabilities in Chatwoot
+sidebarTitle: Security Reports
+---
+
+# Reporting Security Issues
+
+Chatwoot is looking forward to working with security researchers worldwide to keep Chatwoot and our users safe. If you have found an issue in our systems/applications, please reach out to us.
+
+## Reporting a Vulnerability
+
+We use GitHub for security issues that affect our project. If you believe you have found a vulnerability, please disclose it via this [form](https://github.com/chatwoot/chatwoot/security/advisories/new).
+
+This will enable us to review the vulnerability, fix it promptly, and reward you for your efforts.
+
+If you have any questions about the process, contact **security@chatwoot.com**.
+
+Please try your best to describe a clear and realistic impact for your report, and please don't open any public issues on GitHub or social media; we're doing our best to respond through GitHub as quickly as possible.
+
+<Note>
+Please use the email for questions related to the process. Disclosures should be done via [GitHub](https://github.com/chatwoot/chatwoot/security/advisories/new).
+</Note>
+
+## Supported Versions
+
+| Version  | Supported |
+| -------- | --------- |
+| latest   | ️✅        |
+| < latest | ❌         |
+
+## Vulnerabilities We Care About 🫣
+
+<Warning>
+Please do not perform testing against Chatwoot production services. Use a `self-hosted instance` to perform tests.
+</Warning>
+
+We consider the following vulnerabilities as high priority:
+
+- Remote command execution
+- SQL Injection
+- Authentication bypass
+- Privilege Escalation
+- Cross-site scripting (XSS)
+- Performing limited admin actions without authorization
+- CSRF
+
+## Non-Qualifying Vulnerabilities
+
+We consider the following out of scope, though there may be exceptions:
+
+- Missing HTTP security headers
+- Incomplete/Missing SPF/DKIM
+- Reports from automated tools or scanners
+- Theoretical attacks without proof of exploitability
+- Social engineering
+- Reflected file download
+- Physical attacks
+- Weak SSL/TLS/SSH algorithms or protocols
+- Attacks involving physical access to a user's device or a device or network that's already seriously compromised (e.g., man-in-the-middle)
+- The user attacks themselves
+- Incomplete/Missing SPF/DKIM
+- Denial of Service attacks
+- Brute force attacks
+- DNSSEC
+
+If you are unsure about the scope, please create a [report](https://github.com/chatwoot/chatwoot/security/advisories/new).
+
+## Triaging Process
+
+Chatwoot team triages the issues in GitHub weekly. We're doing our best to respond through GitHub as quickly as we can, so please don't open any public issues on GitHub or social media and avoid duplicate reports over emails.
+
+- Based on reviewing the report, the team will assign a priority to the issue and move it into the internal backlog to prioritize a fix.
+- In cases where the team needs more information or disagreements of severity, the team will communicate the same over GitHub before completing the triaging.
+
+After triage, the team will start working on the issue based on the following severity and timelines:
+
+## Response Timeline
+
+| Severity      | Timeline  |
+| ------------- | --------- |
+| Critical (P0) | ️  7 Days |
+| High          | 30 Days   |
+| Medium        | 60 Days   |
+| Low           | 90 Days   |
+
+## Security Best Practices
+
+### For Researchers
+
+- **Test Responsibly**: Only test on your own self-hosted instances
+- **Provide Clear Details**: Include steps to reproduce, impact assessment, and suggested fixes
+- **Be Patient**: Allow time for our team to investigate and respond
+- **Follow Responsible Disclosure**: Don't publish vulnerabilities publicly until they're fixed
+
+### For Users
+
+- **Keep Updated**: Always use the latest version of Chatwoot
+- **Secure Configuration**: Follow security best practices for your deployment
+- **Monitor Logs**: Regularly check logs for suspicious activity
+- **Report Issues**: If you notice anything unusual, report it through proper channels
+
+## Bounty Program
+
+While we don't currently have a formal bug bounty program, we do recognize and appreciate security researchers who help us improve Chatwoot's security:
+
+- **Hall of Fame**: Recognition on our security acknowledgments page
+- **Direct Communication**: Work directly with our security team
+- **Early Access**: Get early access to security updates and patches
+
+## Getting Help
+
+If you need assistance with security reporting:
+
+- **Process Questions**: Contact security@chatwoot.com
+- **Technical Issues**: Use our [Discord community](https://discord.com/invite/cJXdrwS)
+- **General Support**: Check our [documentation](/contributing/project-setup/common-errors)
+
+## Thanks
+
+Thank you for keeping Chatwoot and our users safe. 🙇
+
+Your efforts help us maintain a secure platform for thousands of businesses worldwide. We appreciate the time and expertise you contribute to making Chatwoot better for everyone.
+
+---
+
+Remember: Security is a shared responsibility. Together, we can make Chatwoot safer for everyone. 

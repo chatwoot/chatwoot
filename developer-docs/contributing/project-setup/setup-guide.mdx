@@ -1,589 +1,181 @@
 ---
 title: Project Setup Guide
-description: Complete guide to setting up Chatwoot for development and contribution
+description: Complete guide to setting up and running Chatwoot in development mode
 sidebarTitle: Setup Guide
 ---
 
-# Project Setup Guide
+# Project Setup
 
-This comprehensive guide will walk you through setting up Chatwoot for development, from initial repository setup to running your first successful build.
+This guide will help you to setup and run Chatwoot in development mode. Please make sure you have completed the environment setup.
 
-## Prerequisites Check
-
-Before starting, ensure you have completed the [Local Development Setup](../environment-setup/local-development) guide and have all required dependencies installed.
-
-### Quick Prerequisites Verification
+## Clone the repo
 
 ```bash
-# Check Ruby version (should be 3.3.3)
-ruby --version
+# change location to the path you want chatwoot to be installed
+cd ~
 
-# Check Node.js version (should be 20+)
-node --version
-
-# Check PostgreSQL
-psql --version
-
-# Check Redis
-redis-cli --version
-
-# Check Git
-git --version
-```
-
-## Repository Setup
-
-### 1. Fork and Clone
-
-```bash
-# Fork the repository on GitHub first
-# Then clone your fork
-git clone https://github.com/YOUR_USERNAME/chatwoot.git
+# clone the repo and cd to chatwoot dir
+git clone https://github.com/chatwoot/chatwoot.git
 cd chatwoot
-
-# Add upstream remote for syncing
-git remote add upstream https://github.com/chatwoot/chatwoot.git
-
-# Verify remotes
-git remote -v
-# Should show:
-# origin    https://github.com/YOUR_USERNAME/chatwoot.git (fetch)
-# origin    https://github.com/YOUR_USERNAME/chatwoot.git (push)
-# upstream  https://github.com/chatwoot/chatwoot.git (fetch)
-# upstream  https://github.com/chatwoot/chatwoot.git (push)
 ```
 
-### 2. Branch Strategy
+## Install Ruby & Javascript dependencies
+
+Use the following command to run `bundle && pnpm install` to install ruby and Javascript dependencies.
 
 ```bash
-# Create a development branch
-git checkout -b develop
-
-# For feature work, create feature branches
-git checkout -b feature/your-feature-name
-
-# Keep your fork synced
-git fetch upstream
-git checkout develop
-git merge upstream/develop
-git push origin develop
+make burn
 ```
 
-## Environment Configuration
+This would install all required dependencies for Chatwoot application.
 
-### 1. Environment File Setup
+<Warning>
+If you face issue with pg gem, please refer to [Common Errors](/contributing/project-setup/common-errors#pg-gem-installation-error)
+</Warning>
+
+## Setup environment variables
 
 ```bash
-# Copy the example environment file
 cp .env.example .env
-
-# Open the file for editing
-nano .env
 ```
 
-### 2. Basic Configuration
+Please refer to [environment-variables](/contributing/project-setup/environment-variables) to read on setting environment variables.
 
-Update your `.env` file with the following essential settings:
-
-```bash
-# Rails Environment
-RAILS_ENV=development
-NODE_ENV=development
-
-# Application URLs
-FRONTEND_URL=http://localhost:3000
-FORCE_SSL=false
-
-# Database Configuration
-DATABASE_URL=postgresql://chatwoot:password@localhost:5432/chatwoot_development
-REDIS_URL=redis://localhost:6379/0
-
-# Email Configuration (for development)
-MAILER_SENDER_EMAIL=dev@chatwoot.local
-SMTP_ADDRESS=localhost
-SMTP_PORT=1025
-
-# File Storage
-ACTIVE_STORAGE_SERVICE=local
-
-# Development Features
-ENABLE_DEVELOPMENT_FEATURES=true
-LOG_LEVEL=debug
-RAILS_LOG_LEVEL=debug
-
-# Disable SSL in development
-SMTP_ENABLE_STARTTLS_AUTO=false
-SMTP_TLS=false
-```
-
-### 3. Generate Secret Keys
+## Setup rails server
 
 ```bash
-# Generate secret key base
-bundle exec rails secret
-
-# Add to your .env file
-echo "SECRET_KEY_BASE=your-generated-secret" >> .env
-```
-
-## Database Setup
-
-### 1. Database Creation
-
-```bash
-# Create development and test databases
-bundle exec rails db:create
-
-# Expected output:
-# Created database 'chatwoot_development'
-# Created database 'chatwoot_test'
-```
-
-### 2. Database Migration
-
-```bash
-# Run database migrations
-bundle exec rails db:migrate
-
-# Check migration status
-bundle exec rails db:migrate:status
-```
-
-### 3. Database Seeding
-
-```bash
-# Seed the database with sample data
-bundle exec rails db:seed
-
-# This creates:
-# - Sample account
-# - Admin user
-# - Sample conversations
-# - Test data for development
-```
-
-### 4. Test Database Setup
-
-```bash
-# Prepare test database
-RAILS_ENV=test bundle exec rails db:create
-RAILS_ENV=test bundle exec rails db:migrate
-```
-
-## Dependency Installation
-
-### 1. Ruby Dependencies
-
-```bash
-# Install Ruby gems
-bundle install
-
-# If you encounter issues, try:
-bundle install --retry=3
-
-# For development and test gems
-bundle install --with development test
-```
-
-### 2. Node.js Dependencies
-
-```bash
-# Install Node.js packages
-pnpm install
-
-# If pnpm is not available, install it first:
-npm install -g pnpm
-
-# Clear cache if needed
-pnpm store prune
-```
-
-### 3. Additional Tools
-
-```bash
-# Install Foreman for process management
-gem install foreman
-
-# Install MailHog for email testing (optional)
-# macOS
-brew install mailhog
-
-# Ubuntu/Debian
-sudo apt-get install mailhog
-
-# Or download binary from GitHub releases
-```
-
-## Application Startup
-
-### 1. Using Foreman (Recommended)
-
-```bash
-# Start all services with Foreman
+# run db migrations
+make db
+# fireup the server
 foreman start -f Procfile.dev
-
-# This starts:
-# - Rails server (port 3000)
-# - Webpack dev server
-# - Sidekiq worker
 ```
 
-### 2. Manual Startup
+<Note>
+If you have overmind installed, use `make run` to run the server.
+</Note>
 
-If you prefer to run services separately:
+## Login with credentials
 
 ```bash
-# Terminal 1: Rails server
-bundle exec rails server -p 3000
-
-# Terminal 2: Webpack dev server
-pnpm run dev
-
-# Terminal 3: Sidekiq worker
-bundle exec sidekiq
-
-# Terminal 4: MailHog (optional)
-mailhog
+http://localhost:3000
+user name: john@acme.inc
+password: Password1!
 ```
 
-### 3. Verify Installation
+## Testing chat widget in your local environment
 
-Once all services are running, verify your setup:
-
-- **Web Application**: http://localhost:3000
-- **API Health Check**: http://localhost:3000/api
-- **Sidekiq Web UI**: http://localhost:3000/sidekiq
-- **MailHog**: http://localhost:8025 (if running)
-
-## Initial Login
-
-### Default Credentials
-
-After seeding the database, you can log in with:
+When running Chatwoot in development environment, the chat widget can be accessed under the following URL.
 
 ```
-Email: john@acme.inc
-Password: Password1!
+http://localhost:3000/widget_tests
 ```
 
-### Creating Additional Users
+You can also test the `setUser` method by using
+
+```
+http://localhost:3000/widget_tests?setUser=true
+```
+
+## Docker for development
+
+<Note>
+Follow this section only if you are trying to setup Chatwoot via docker. Else skip this.
+</Note>
+
+The first time you start your development environment run the following two commands:
 
 ```bash
-# Access Rails console
-bundle exec rails console
+# build base image first
+docker compose build base
 
-# Create a new user
-user = User.create!(
-  name: "Your Name",
-  email: "your.email@example.com",
-  password: "Password123!",
-  password_confirmation: "Password123!"
-)
+# build the server and worker
+docker compose build
 
-# Make user an administrator
-user.account_users.first.update!(role: 'administrator')
+# prepare the database
+docker compose exec rails bundle exec rails db:chatwoot_prepare
+
+# docker compose up
 ```
 
-## Development Workflow
-
-### 1. Code Quality Setup
+Then browse http://localhost:3000
 
 ```bash
-# Install pre-commit hooks (optional but recommended)
-# Create .git/hooks/pre-commit
-cat > .git/hooks/pre-commit << 'EOF'
-#!/bin/sh
-# Run RuboCop
-bundle exec rubocop --parallel
-
-# Run ESLint
-pnpm run lint
-
-# Run tests
-bundle exec rspec --fail-fast
-EOF
-
-chmod +x .git/hooks/pre-commit
+# To stop your environment use Control+C (on Mac) CTRL+C (on Win) or
+docker compose down
+# start the services
+docker compose up
 ```
 
-### 2. Running Tests
+When you change the service's Dockerfile or the contents of the build directory, run stop then build. (For example after modifying package.json or Gemfile)
 
 ```bash
-# Run Ruby tests
-bundle exec rspec
-
-# Run specific test file
-bundle exec rspec spec/models/user_spec.rb
-
-# Run JavaScript tests
-pnpm run test
-
-# Run E2E tests (requires Playwright)
-pnpm exec playwright install
-pnpm run test:e2e
-
-# Run tests with coverage
-COVERAGE=true bundle exec rspec
+docker compose stop
+docker compose build
 ```
 
-### 3. Code Linting and Formatting
+The docker-compose environment consists of:
+- chatwoot server
+- postgres
+- redis
+- webpacker-dev-server
+
+If in case you encounter a seeding issue or you want reset the database you can do it using the following command:
 
 ```bash
-# Ruby linting with RuboCop
-bundle exec rubocop
-
-# Auto-fix Ruby issues
-bundle exec rubocop -a
-
-# JavaScript linting
-pnpm run lint
-
-# Auto-fix JavaScript issues
-pnpm run lint:fix
-
-# Format code with Prettier
-pnpm run format
+docker compose run --rm rails bundle exec rake db:reset
 ```
 
-## IDE Configuration
+This command essentially runs postgres and redis containers and then run the rake command inside the chatwoot server container.
 
-### VS Code Setup
+## Running Cypress Tests
 
-Create `.vscode/settings.json`:
-
-```json
-{
-  "ruby.intellisense": "rubyLocate",
-  "ruby.codeCompletion": "rcodetools",
-  "ruby.format": "rubocop",
-  "editor.formatOnSave": true,
-  "editor.rulers": [120],
-  "files.trimTrailingWhitespace": true,
-  "files.insertFinalNewline": true,
-  "eslint.autoFixOnSave": true,
-  "prettier.requireConfig": true,
-  "ruby.rubocop.executePath": "./bin/",
-  "ruby.rubocop.onSave": true
-}
-```
-
-Create `.vscode/extensions.json`:
-
-```json
-{
-  "recommendations": [
-    "rebornix.ruby",
-    "wingrunr21.vscode-ruby",
-    "bradlc.vscode-tailwindcss",
-    "esbenp.prettier-vscode",
-    "dbaeumer.vscode-eslint",
-    "ms-vscode.vscode-typescript-next",
-    "shopify.ruby-lsp"
-  ]
-}
-```
-
-### RubyMine Setup
-
-1. **Open Project**: File → Open → Select chatwoot directory
-2. **Configure Ruby SDK**: File → Project Structure → SDKs → Add Ruby SDK
-3. **Database Connection**: Database tool window → Add PostgreSQL connection
-4. **Code Style**: File → Settings → Editor → Code Style → Import scheme
-
-## Debugging Setup
-
-### Rails Debugging
-
-Add to your code for debugging:
-
-```ruby
-# Using Pry (recommended)
-binding.pry
-
-# Using built-in debugger
-debugger
-
-# Using byebug
-byebug
-```
-
-### JavaScript Debugging
-
-```javascript
-// Browser debugging
-console.log('Debug info:', variable);
-debugger;
-
-// Node.js debugging
-console.log('Debug info:', variable);
-```
-
-### Database Debugging
+Refer the docs to learn how to write cypress specs:
+- https://github.com/shakacode/cypress-on-rails
+- https://docs.cypress.io/guides/overview/why-cypress.html
 
 ```bash
-# Rails console
-bundle exec rails console
-
-# Database console
-bundle exec rails dbconsole
-
-# Check queries in development log
-tail -f log/development.log | grep -E "(SELECT|INSERT|UPDATE|DELETE)"
+# in terminal tab1
+overmind start -f Procfile.test
+# in terminal tab2
+pnpm cypress open --project ./test
 ```
 
-## Performance Optimization
+## Debugging Docker for production
 
-### Development Performance
+You can use our official Docker image from [https://hub.docker.com/r/chatwoot/chatwoot](https://hub.docker.com/r/chatwoot/chatwoot)
 
 ```bash
-# Use Spring for faster Rails commands
-bundle exec spring binstub --all
-
-# Precompile assets for faster loading
-bundle exec rails assets:precompile
-
-# Use parallel testing
-bundle exec rspec --parallel
-
-# Monitor memory usage
-ps aux | grep -E "(ruby|node)" | head -10
+docker pull chatwoot/chatwoot
 ```
 
-### Database Performance
-
-```ruby
-# Add to config/environments/development.rb for query analysis
-config.active_record.verbose_query_logs = true
-
-# Enable query plan logging
-config.active_record.dump_schema_after_migration = false
-```
-
-## Troubleshooting Setup Issues
-
-### Common Setup Problems
-
-<Accordion title="Bundle install fails">
-**Error**: `An error occurred while installing pg`
-
-**Solution**:
-```bash
-# macOS
-brew install postgresql
-bundle config build.pg --with-pg-config=/usr/local/bin/pg_config
-
-# Ubuntu/Debian
-sudo apt-get install libpq-dev
-bundle install
-```
-</Accordion>
-
-<Accordion title="Database connection refused">
-**Error**: `could not connect to server: Connection refused`
-
-**Solution**:
-```bash
-# Check if PostgreSQL is running
-sudo systemctl status postgresql
-
-# Start PostgreSQL
-sudo systemctl start postgresql
-
-# macOS with Homebrew
-brew services start postgresql
-```
-</Accordion>
-
-<Accordion title="Redis connection refused">
-**Error**: `Redis::CannotConnectError`
-
-**Solution**:
-```bash
-# Check if Redis is running
-redis-cli ping
-
-# Start Redis
-sudo systemctl start redis
-
-# macOS with Homebrew
-brew services start redis
-```
-</Accordion>
-
-<Accordion title="Webpack compilation fails">
-**Error**: `Module not found` or compilation errors
-
-**Solution**:
-```bash
-# Clear webpack cache
-rm -rf tmp/cache/webpacker
-
-# Reinstall node modules
-rm -rf node_modules
-pnpm install
-
-# Restart webpack dev server
-pnpm run dev
-```
-</Accordion>
-
-### Verification Commands
+You can create an image yourselves by running the following command on the root directory.
 
 ```bash
-# Check all services are running
-ps aux | grep -E "(rails|sidekiq|webpack|mailhog)"
-
-# Test database connection
-bundle exec rails runner "puts ActiveRecord::Base.connection.execute('SELECT 1').first"
-
-# Test Redis connection
-bundle exec rails runner "puts Redis.new.ping"
-
-# Check application health
-curl http://localhost:3000/api
+docker compose -f docker-compose.production.yaml build
 ```
+
+This will build the image which you can deploy in Kubernetes (GCP, Openshift, AWS, Azure or anywhere), Amazon ECS or Docker Swarm. You can tag this image and push this image to docker registry of your choice.
+
+Remember to make the required environment variables available during the deployment.
 
 ## Next Steps
 
-After successful setup:
+After completing this setup:
 
-1. **Explore the Codebase**: Familiarize yourself with the project structure
-2. **Read Contributing Guidelines**: Review code standards and workflow
-3. **Pick Your First Issue**: Look for "good first issue" labels
-4. **Join the Community**: Connect with other contributors
-
-### Useful Development Commands
-
-```bash
-# Generate new migration
-bundle exec rails generate migration AddColumnToTable column:type
-
-# Generate new model
-bundle exec rails generate model ModelName attribute:type
-
-# Generate new controller
-bundle exec rails generate controller ControllerName
-
-# Run specific migration
-bundle exec rails db:migrate:up VERSION=20231201000000
-
-# Rollback migration
-bundle exec rails db:rollback STEP=1
-
-# Reset database (careful!)
-bundle exec rails db:drop db:create db:migrate db:seed
-```
+1. **Verify Installation**: Access http://localhost:3000 and log in with the provided credentials
+2. **Explore the Code**: Start making changes and see them reflected in your development environment
+3. **Run Tests**: Execute the test suite to ensure everything works correctly
+4. **Check Troubleshooting**: If you encounter issues, refer to [Common Errors](/contributing/project-setup/common-errors)
 
 ## Getting Help
 
 If you encounter issues during setup:
 
-- **Check Common Errors**: See [Common Errors](./common-errors) guide
-- **Environment Variables**: Review [Environment Variables](./environment-variables) guide
-- **GitHub Issues**: Search existing issues or create a new one
-- **Discord Community**: Join the Chatwoot Discord server
-- **Documentation**: Check the official documentation
+- **Common Errors**: Check [Common Errors](/contributing/project-setup/common-errors)
+- **Environment Variables**: See [Environment Variables](/contributing/project-setup/environment-variables)
+- **Discord Community**: Join our [Discord](https://discord.com/invite/cJXdrwS)
+- **GitHub Issues**: [Create an issue](https://github.com/chatwoot/chatwoot/issues)
 
 ---
 
-You're now ready to start developing with Chatwoot! Your development environment should be fully functional and ready for contribution. 
+Your Chatwoot development environment is now ready for contribution! 🚀 

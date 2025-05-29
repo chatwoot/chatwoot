@@ -1,49 +1,96 @@
 ---
-title: Introduction to Chatwoot APIs
-description: Learn how to use Chatwoot APIs to build integrations, customize chat experiences, and manage your installation.
+title: Welcome to Chatwoot Developer Docs
+description: Your comprehensive guide to installing, configuring, developing with, and integrating Chatwoot - the open-source customer support platform.
 sidebarTitle: Introduction
 ---
 
-Welcome to the Chatwoot API documentation. Whether you're building custom workflows for your support team, integrating Chatwoot into your product, or managing users across installations, our APIs provide the flexibility and power to help you do more with Chatwoot.
+# Welcome to Chatwoot Developer Documentation
 
-Chatwoot provides three categories of APIs, each designed with a specific use case in mind:
+Welcome to the complete developer documentation for Chatwoot, the open-source customer support platform trusted by thousands of businesses worldwide. Whether you're setting up your own instance, contributing to the project, or building integrations, this documentation will guide you through every step.
 
-- **Application APIs** – For account-level automation and agent-facing integrations.
-- **Client APIs** – For building custom chat interfaces for end-users
-- **Platform APIs** – For managing and administering installations at scale
+## What You'll Find Here
+
+<CardGroup cols={2}>
+  <Card
+    title="Installation & Setup"
+    icon="server"
+    href="/self-hosted/introduction"
+  >
+    Deploy Chatwoot on your infrastructure with Docker, Kubernetes, or cloud providers
+  </Card>
+  <Card
+    title="Development Guide"
+    icon="code"
+    href="/contributing/introduction"
+  >
+    Contribute to Chatwoot with our development setup, testing guidelines, and best practices
+  </Card>
+  <Card
+    title="API Reference"
+    icon="square-terminal"
+    href="/api-reference/introduction"
+  >
+    Build powerful integrations with our comprehensive REST APIs
+  </Card>
+  <Card
+    title="Architecture"
+    icon="sitemap"
+    href="/self-hosted/architecture"
+  >
+    Understand Chatwoot's system architecture and components
+  </Card>
+</CardGroup>
+
+## Getting Started Paths
+
+Choose your path based on what you want to accomplish:
+
+### 🚀 **I want to install Chatwoot**
+Perfect! Head to our [Installation Guide](/self-hosted/introduction) to deploy Chatwoot on your preferred platform. We support:
+- Docker containers for quick setup
+- Kubernetes for scalable deployments  
+- Major cloud providers (AWS, GCP, Azure)
+- Traditional Linux VMs
+
+### 🛠️ **I want to contribute to Chatwoot**
+Amazing! Check out our [Contributing Guide](/contributing/introduction) to:
+- Set up your development environment
+- Understand our coding standards
+- Learn our testing practices
+- Submit your first pull request
+
+### 🔌 **I want to build integrations**
+Great! Explore our [API Reference](/api-reference/introduction) with three categories of APIs:
+- **Application APIs** - Manage accounts, agents, and conversations
+- **Platform APIs** - Administrative control for installations
+- **Client APIs** - Build custom chat interfaces
+
+### 📚 **I want to understand the architecture**
+Excellent! Our [Architecture Guide](/self-hosted/architecture) covers:
+- System components and their interactions
+- Database schemas and relationships
+- Scalability considerations
+- Security best practices
+
+## Why Chatwoot?
+
+Chatwoot is built with modern technologies and follows industry best practices:
+
+- **Open Source**: Full transparency and community-driven development
+- **Multi-channel**: Support customers across web, mobile, email, and social platforms
+- **Scalable**: From small teams to enterprise deployments
+- **Extensible**: Rich APIs and webhook system for custom integrations
+- **Modern Stack**: Ruby on Rails backend, Vue.js frontend, PostgreSQL database
+
+## Community & Support
+
+Join our thriving community of developers and users:
+
+- **GitHub**: [github.com/chatwoot/chatwoot](https://github.com/chatwoot/chatwoot)
+- **Community Slack**: [chatwoot.com/slack](https://chatwoot.com/slack)  
+- **Discussions**: [GitHub Discussions](https://github.com/chatwoot/chatwoot/discussions)
+- **Twitter**: [@chatwootapp](https://twitter.com/chatwootapp)
 
 ---
 
-## Application APIs
-
-Application APIs are designed for interacting with a Chatwoot account from an agent/admin perspective. Use them to build internal tools, automate workflows, or perform bulk operations like data import/export.
-
-- **Authentication**: Requires a user `access_token`, which can be generated from **Profile Settings** after logging into your Chatwoot account.
-- **Availability**: Supported on both **Cloud** and **Self-hosted** Chatwoot installations.
-- **Example**: [Google Cloud Functions Demo](https://github.com/chatwoot/google-cloud-functions-demo)
-
----
-
-## Client APIs
-
-Client APIs are intended for building custom messaging experiences over Chatwoot. If you're not using the native website widget or want to embed chat in your mobile app, these APIs are the way to go.
-
-- **Authentication**: Uses `inbox_identifier` (from **Settings → Configuration** in API inboxes) and `contact_identifier` (returned when creating a contact).
-- **Availability**: Supported on both **Cloud** and **Self-hosted** Chatwoot installations.
-- **Examples**:
-
-  - [Client API Demo](https://github.com/chatwoot/client-api-demo)
-  - [Flutter SDK](https://github.com/chatwoot/chatwoot-flutter-sdk)
-
----
-
-## Platform APIs
-
-Platform APIs are used to manage Chatwoot installations at the admin level. These APIs allow you to control users, roles, and accounts, or sync data from external authentication systems.
-
-- **Authentication**: Requires an `access_token` generated by a **Platform App**, which can be created in the **Super Admin Console**.
-- **Availability**: Available on **Self-hosted** / **Managed Hosting** Chatwoot installations only.
-
----
-
-Use the right API for your use case, and you'll be able to extend, customize, and integrate Chatwoot into your stack with ease.
+Ready to dive in? Choose your path above and let's build something amazing together! 🚀
