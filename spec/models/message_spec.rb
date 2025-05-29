@@ -515,24 +515,8 @@ RSpec.describe Message do
           end
         end
 
-        context 'when survey_url is not in content_attributes (backward compatibility)' do
-          before do
-            allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('https://app.chatwoot.com')
-          end
-
-          it 'returns custom message with survey link when csat config exists' do
-            allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom survey message:' })
-            expected_content = "Custom survey message: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-            expect(message.content).to eq(expected_content)
-          end
-
-          it 'returns default message with survey link when no csat config' do
-            allow(message.inbox).to receive(:csat_config).and_return(nil)
-            allow(I18n).to receive(:t).with('conversations.survey.response', link: "https://app.chatwoot.com/survey/responses/#{conversation.uuid}")
-                                      .and_return("Please rate: https://app.chatwoot.com/survey/responses/#{conversation.uuid}")
-            expected_content = "Please rate: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-            expect(message.content).to eq(expected_content)
-          end
+        it 'returns only the stored content (clean for dashboard)' do
+          expect(message.content).to eq('Rate your experience')
         end
       end
     end
@@ -587,18 +571,6 @@ RSpec.describe Message do
           it 'returns CSAT config message with survey URL appended' do
             expect(message.content_for_channel).to eq('Custom CSAT message https://app.chatwoot.com/survey/responses/12345')
           end
-        end
-      end
-
-      context 'when survey_url is not in content_attributes (backward compatibility)' do
-        before do
-          allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('https://app.chatwoot.com')
-        end
-
-        it 'generates content with survey URL using fallback logic' do
-          allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom survey:' })
-          expected_content = "Custom survey: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-          expect(message.content_for_channel).to eq(expected_content)
         end
       end
     end
