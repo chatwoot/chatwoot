@@ -75,17 +75,20 @@ RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmi
 
 # Do the set up required for chatwoot app
 WORKDIR /workspace
+RUN chown vscode:vscode /workspace
 
 # set up node js and pnpm in single layer
 RUN npm install -g pnpm@${PNPM_VERSION} \
     && npm cache clean --force
 
+# Switch to vscode user
+USER vscode
+ENV PATH="/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims:$PATH"
+
 # Copy dependency files first for better caching
 COPY --chown=vscode:vscode Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
 
 # Install dependencies as vscode user
-USER vscode
-ENV PATH="/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims:$PATH"
 RUN eval "$(rbenv init -)" \
     && gem install bundler -N \
     && bundle install --jobs=$(nproc) \
