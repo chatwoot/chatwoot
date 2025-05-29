@@ -30,7 +30,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },
       message: {
-        text: message.content_for_channel
+        text: message.channel_content
       }
     }
 

@@ -48,7 +48,7 @@ class Line::SendOnLineService < Base::SendOnChannelService
   def text_message
     {
       type: 'text',
-      text: message.content_for_channel
+      text: message.channel_content
     }
   end
 

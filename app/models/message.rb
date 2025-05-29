@@ -183,7 +183,7 @@ class Message < ApplicationRecord
   end
 
   # Method to get content with survey URL for external channel delivery
-  def content_for_channel
+  def channel_content
     return content unless input_csat_non_web_widget?
 
     survey_link = survey_url.presence || "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"

@@ -61,7 +61,7 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     return if body_object.blank?
 
     template_match_regex = build_template_match_regex(body_object['text'])
-    message.content_for_channel.match(template_match_regex)
+    message.channel_content.match(template_match_regex)
   end
 
   def build_template_match_regex(template_text)

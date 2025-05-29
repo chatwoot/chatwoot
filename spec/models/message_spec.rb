@@ -522,14 +522,14 @@ RSpec.describe Message do
     end
   end
 
-  describe '#content_for_channel' do
+  describe '#channel_content' do
     let(:conversation) { create(:conversation) }
 
     context 'when message is not input_csat' do
       let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
 
       it 'returns regular content method result' do
-        expect(message.content_for_channel).to eq('Regular message')
+        expect(message.channel_content).to eq('Regular message')
       end
     end
 
@@ -541,7 +541,7 @@ RSpec.describe Message do
       end
 
       it 'returns regular content method result' do
-        expect(message.content_for_channel).to eq('Rate your experience')
+        expect(message.channel_content).to eq('Rate your experience')
       end
     end
 
@@ -561,7 +561,7 @@ RSpec.describe Message do
           it 'returns I18n default message with survey URL' do
             allow(I18n).to receive(:t).with('conversations.survey.response', link: 'https://app.chatwoot.com/survey/responses/12345')
                                       .and_return('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
-            expect(message.content_for_channel).to eq('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
+            expect(message.channel_content).to eq('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
           end
         end
 
@@ -571,7 +571,7 @@ RSpec.describe Message do
           end
 
           it 'returns CSAT config message with survey URL appended' do
-            expect(message.content_for_channel).to eq('Custom CSAT message https://app.chatwoot.com/survey/responses/12345')
+            expect(message.channel_content).to eq('Custom CSAT message https://app.chatwoot.com/survey/responses/12345')
           end
         end
       end
