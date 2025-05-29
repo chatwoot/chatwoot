@@ -18,6 +18,13 @@ describe '/app/login', type: :request do
     end
   end
 
+  context 'with non-HTML format' do
+    it 'returns not acceptable for JSON' do
+      get '/app/login', params: { format: 'json' }
+      expect(response).to have_http_status(:not_acceptable)
+    end
+  end
+
   # Routes are loaded once on app start
   # hence Rails.application.reload_routes! is used in this spec
   # ref : https://stackoverflow.com/a/63584877/939299

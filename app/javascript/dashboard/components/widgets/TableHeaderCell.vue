@@ -29,7 +29,7 @@ const spanClass = computed(() => {
 
 <template>
   <div
-    class="flex items-center px-0 py-2 text-xs font-medium text-left uppercase text-slate-700 dark:text-slate-100 rtl:text-right"
+    class="flex items-center px-0 py-2 text-xs font-medium text-right uppercase text-n-slate-11 rtl:text-left"
     :class="spanClass"
   >
     <slot>

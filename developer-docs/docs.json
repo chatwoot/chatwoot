@@ -1,0 +1,100 @@
+{
+  "$schema": "https://mintlify.com/docs.json",
+  "name": "Chatwoot Developer Docs",
+  "description": "Official developer documentation for Chatwoot - the open-source customer support platform. Learn about our APIs, integrations, and development guidelines.",
+  "logo": {
+    "dark": "/logo/dark.png",
+    "light": "/logo/light.png"
+  },
+  "favicon": "/favicon.png",
+  "colors": {
+    "primary": "#0069ED",
+    "light": "#4D9CFF",
+    "dark": "#0050B4"
+  },
+  "fonts": {
+    "heading": {
+      "family": "Haskoy",
+      "weight": 500,
+      "source": "https://d1j5ayohogpcd2.cloudfront.net/fonts/haskoy/Haskoy-Medium.woff2",
+      "format": "woff2"
+    },
+    "body": {
+      "family": "Haskoy",
+      "weight": 400,
+      "source": "https://d1j5ayohogpcd2.cloudfront.net/fonts/haskoy/Haskoy-Regular.woff2",
+      "format": "woff2"
+    }
+  },
+  "theme": "maple",
+  "navigation": {
+    "groups": [
+      {
+        "group": "API Reference",
+        "pages": [
+          "introduction"
+        ]
+      },
+      {
+        "group": "Application API",
+        "description": "APIs for managing application aspects of Chatwoot",
+        "includeTags": [
+          "Agents",
+          "Automation Rule",
+          "Account AgentBots",
+          "Canned Responses",
+          "Contact Labels",
+          "Contacts",
+          "Conversation Assignments",
+          "Conversation Labels",
+          "Conversations",
+          "Custom Attributes",
+          "Custom Filters",
+          "Help Center",
+          "Inboxes",
+          "Integrations",
+          "Messages",
+          "Profile",
+          "Reports",
+          "Teams",
+          "Webhooks"
+        ],
+        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/application_swagger.json"
+      },
+      {
+        "group": "Platform API",
+        "description": "APIs for managing platform aspects of Chatwoot",
+        "includeTags": [
+          "Accounts",
+          "Account Users",
+          "AgentBots",
+          "Users"
+        ],
+        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/platform_swagger.json"
+      },
+      {
+        "group": "Client API",
+        "description": "APIs for client applications",
+        "includeTags": [
+          "Contacts API",
+          "Conversations API",
+          "Messages API"
+        ],
+        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/client_swagger.json"
+      },
+      {
+        "group": "Other APIs",
+        "description": "Other Chatwoot APIs",
+        "includeTags": [
+          "CSAT Survey Page"
+        ],
+        "openapi": "https://raw.githubusercontent.com/chatwoot/chatwoot/develop/swagger/tag_groups/other_swagger.json"
+      }
+    ]
+  },
+  "footerSocials": {
+    "twitter": "https://twitter.com/chatwootapp",
+    "github": "https://github.com/chatwoot",
+    "linkedin": "https://www.linkedin.com/company/chatwoot"
+  }
+}

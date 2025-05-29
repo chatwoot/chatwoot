@@ -3,8 +3,8 @@
     "HEADER": "Пользовательские атрибуты",
     "HEADER_BTN_TXT": "Добавить пользовательский атрибут",
     "LOADING": "Получение пользовательских атрибутов",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "DESCRIPTION": "Пользовательский атрибут отслеживает дополнительную информацию о ваших контактах или разговорах, таких как план подписки или дата их первой покупки. Вы можете добавить различные типы пользовательских атрибутов, такие как текст, списки или цифры, чтобы захватить нужную вам информацию.",
+    "LEARN_MORE": "Узнайте больше о пользовательских атрибутах",
     "ADD": {
       "TITLE": "Добавить пользовательский атрибут",
       "SUBMIT": "Создать",
@@ -30,7 +30,7 @@
           "PLACEHOLDER": "Пожалуйста выберите тип",
           "ERROR": "Необходимо указать тип",
           "LIST": {
-            "LABEL": "Список занчений",
+            "LABEL": "Список значений",
             "PLACEHOLDER": "Пожалуйста, введите значение и нажмите клавишу Enter",
             "ERROR": "Должно быть хотя бы одно значение"
           }
@@ -77,7 +77,7 @@
       "UPDATE_BUTTON_TEXT": "Обновить",
       "TYPE": {
         "LIST": {
-          "LABEL": "Список занчений",
+          "LABEL": "Список значений",
           "PLACEHOLDER": "Пожалуйста, введите значения и нажмите клавишу Enter"
         }
       },
@@ -92,12 +92,12 @@
       "CONTACT": "Контакт"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Имя",
-        "Описание",
-        "Тип",
-        "Ключ"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Имя",
+        "DESCRIPTION": "Описание",
+        "TYPE": "Тип",
+        "KEY": "Ключ"
+      },
       "BUTTONS": {
         "EDIT": "Редактировать",
         "DELETE": "Удалить"

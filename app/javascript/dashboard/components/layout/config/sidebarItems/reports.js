@@ -11,6 +11,7 @@ const reports = accountId => ({
     'agent_reports',
     'label_reports',
     'inbox_reports',
+    'inbox_reports_show',
     'team_reports',
     'sla_reports',
   ],

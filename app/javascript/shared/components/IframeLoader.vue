@@ -11,12 +11,42 @@ export default {
       type: String,
       default: '',
     },
+    isRtl: {
+      type: Boolean,
+      default: false,
+    },
   },
   data() {
     return {
       isLoading: true,
       showEmptyState: !this.url,
     };
+  },
+  watch: {
+    isRtl: {
+      immediate: true,
+      handler(value) {
+        this.$nextTick(() => {
+          const iframeElement = this.$el.querySelector('iframe');
+          if (iframeElement) {
+            iframeElement.onload = () => {
+              try {
+                const iframeDocument =
+                  iframeElement.contentDocument ||
+                  (iframeElement.contentWindow &&
+                    iframeElement.contentWindow.document);
+
+                if (iframeDocument) {
+                  iframeDocument.documentElement.dir = value ? 'rtl' : 'ltr';
+                }
+              } catch (e) {
+                // error
+              }
+            };
+          }
+        });
+      },
+    },
   },
   methods: {
     handleIframeLoad() {

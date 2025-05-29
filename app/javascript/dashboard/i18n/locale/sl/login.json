@@ -2,26 +2,26 @@
   "LOGIN": {
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
-      "LABEL": "Email",
-      "PLACEHOLDER": "example{'@'}companyname.com",
-      "ERROR": "Please enter a valid email address"
+      "LABEL": "E-pošta",
+      "PLACEHOLDER": "primer{'@'}imepodjetja.com",
+      "ERROR": "Prosimo vnesite veljaven elektronski naslov"
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password"
+      "LABEL": "Geslo",
+      "PLACEHOLDER": "Geslo"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Login successful",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again.",
-      "UNAUTH": "Username or password is incorrect. Please try again."
+      "SUCCESS_MESSAGE": "Prijava uspešna",
+      "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom. Prosimo poskusite ponovno.",
+      "UNAUTH": "Uporabniško ime ali geslo ni pravilno. Prosimo poskusite ponovno"
     },
     "OAUTH": {
-      "GOOGLE_LOGIN": "Login with Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
+      "GOOGLE_LOGIN": "Prijavite se z Googlom",
+      "BUSINESS_ACCOUNTS_ONLY": "Prosimo, da za prijavo uporabite e-poštni naslov vašega podjetja",
+      "NO_ACCOUNT_FOUND": "Nismo mogli najti računa za vaš e-poštni naslov."
     },
-    "FORGOT_PASSWORD": "Forgot your password?",
-    "CREATE_NEW_ACCOUNT": "Create a new account",
-    "SUBMIT": "Login"
+    "FORGOT_PASSWORD": "Ste pozabili geslo?",
+    "CREATE_NEW_ACCOUNT": "Ustvarite nov račun",
+    "SUBMIT": "Prijava"
   }
 }

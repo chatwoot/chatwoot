@@ -10,11 +10,11 @@
       "404": "Il n'y a aucune étiquette disponible dans ce compte.",
       "TITLE": "Gérer les étiquettes",
       "DESC": "Les étiquettes vous permettent de grouper les conversations ensemble.",
-      "TABLE_HEADER": [
-        "Nom",
-        "Description",
-        "Couleur"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nom",
+        "DESCRIPTION": "Description",
+        "COLOR": "Couleur"
+      }
     },
     "FORM": {
       "NAME": {

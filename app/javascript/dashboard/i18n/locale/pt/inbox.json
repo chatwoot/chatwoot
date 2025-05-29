@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Caixa de entrada",
+      "TITLE": "My Inbox",
       "DISPLAY_DROPDOWN": "Mostrar",
       "LOADING": "A obter notificações",
       "404": "Não há notificações ativas neste grupo.",
@@ -27,6 +27,19 @@
       "SLA_MISSED_NEXT_RESPONSE": "SLA da próxima resposta não atingido na conversa",
       "SLA_MISSED_RESOLUTION": "SLA de resolução não atingido na conversa"
     },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova mensagem",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova mensagem",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Sem conteúdo disponível",
     "MENU_ITEM": {
       "MARK_AS_READ": "Marcar como lida",
       "MARK_AS_UNREAD": "Marcar como não lida",

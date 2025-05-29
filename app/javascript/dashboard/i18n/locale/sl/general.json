@@ -1,9 +1,9 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "SHOWING_RESULTS": "Prikaz {firstIndex}-{lastIndex} od {totalCount} elementov",
     "PHONE_INPUT": {
-      "PLACEHOLDER": "Search",
-      "EMPTY_STATE": "No results found"
+      "PLACEHOLDER": "Iskanje",
+      "EMPTY_STATE": "Ni rezultatov"
     }
   }
 }

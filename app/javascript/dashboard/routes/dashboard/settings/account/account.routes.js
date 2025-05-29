@@ -1,6 +1,6 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import SettingsContent from '../Wrapper.vue';
 import Index from './Index.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 
 export default {
   routes: [
@@ -9,12 +9,7 @@ export default {
       meta: {
         permissions: ['administrator'],
       },
-      component: SettingsContent,
-      props: {
-        headerTitle: 'GENERAL_SETTINGS.TITLE',
-        icon: 'briefcase',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',

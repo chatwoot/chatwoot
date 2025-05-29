@@ -40,14 +40,14 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-row overflow-auto p-4 h-full bg-slate-25 dark:bg-slate-800"
-  >
+  <div class="grid grid-cols-1 md:grid-cols-8 overflow-auto h-full">
     <woot-wizard
-      class="hidden md:block w-1/4"
+      class="hidden md:block col-span-2"
       :global-config="globalConfig"
       :items="items"
     />
-    <router-view />
+    <div class="col-span-6">
+      <router-view />
+    </div>
   </div>
 </template>

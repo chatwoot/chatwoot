@@ -1,9 +1,9 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "SHOWING_RESULTS": "{firstIndex}-{lastIndex} の {totalCount} アイテムを表示",
     "PHONE_INPUT": {
-      "PLACEHOLDER": "Search",
-      "EMPTY_STATE": "No results found"
+      "PLACEHOLDER": "検索",
+      "EMPTY_STATE": "結果が見つかりませんでした。"
     }
   }
 }

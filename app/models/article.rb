@@ -23,12 +23,17 @@
 #
 # Indexes
 #
+#  index_articles_on_account_id             (account_id)
 #  index_articles_on_associated_article_id  (associated_article_id)
 #  index_articles_on_author_id              (author_id)
+#  index_articles_on_portal_id              (portal_id)
 #  index_articles_on_slug                   (slug) UNIQUE
+#  index_articles_on_status                 (status)
+#  index_articles_on_views                  (views)
 #
 class Article < ApplicationRecord
   include PgSearch::Model
+  include LlmFormattable
 
   has_many :associated_articles,
            class_name: :Article,

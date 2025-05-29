@@ -20,10 +20,10 @@ export default {
       isPasswordChanging: false,
       errorMessage: '',
       inputStyles: {
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-        marginBottom: '2px',
+        borderRadius: '0.75rem',
+        padding: '0.375rem 0.75rem',
+        fontSize: '0.875rem',
+        marginBottom: '0.125rem',
       },
     };
   },

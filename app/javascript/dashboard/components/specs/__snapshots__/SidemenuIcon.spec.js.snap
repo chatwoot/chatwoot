@@ -2,11 +2,11 @@
 
 exports[`SidemenuIcon > matches snapshot 1`] = `
 <button
-  class="-ml-3 text-black-900 dark:text-slate-300"
-  color-scheme="secondary"
-  icon="list"
-  size="small"
-  variant="clear"
+  class="-ml-3"
+  ghost=""
+  icon="i-lucide-menu"
+  size="sm"
+  slate=""
 >
   
   

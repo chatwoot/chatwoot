@@ -6,7 +6,6 @@ import axios from 'axios';
 import hljsVuePlugin from '@highlightjs/vue-plugin';
 
 import Multiselect from 'vue-multiselect';
-// import VueFormulate from '@braid/vue-formulate';
 import { plugin, defaultConfig } from '@formkit/vue';
 import WootSwitch from 'components/ui/Switch.vue';
 import WootWizard from 'components/ui/Wizard.vue';
@@ -22,7 +21,6 @@ import router, { initalizeRouter } from 'dashboard/routes';
 import store from 'dashboard/store';
 import constants from 'dashboard/constants/globals';
 import * as Sentry from '@sentry/vue';
-// import { Integrations } from '@sentry/tracing';
 import {
   initializeAnalyticsEvents,
   initializeChatwootEvents,
@@ -101,7 +99,6 @@ app.directive('on-clickaway', onClickaway);
 
 // load common helpers into js
 commonHelpers();
-window.WOOT_STORE = store;
 window.WootConstants = constants;
 window.axios = createAxios(axios);
 // [VITE] Disabled this we don't need it, we can use `useEmitter` directly
@@ -114,7 +111,3 @@ initalizeRouter();
 window.onload = () => {
   app.mount('#app');
 };
-
-window.addEventListener('load', () => {
-  window.playAudioAlert = () => {};
-});

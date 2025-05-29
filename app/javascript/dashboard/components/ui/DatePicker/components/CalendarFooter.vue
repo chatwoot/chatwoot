@@ -1,4 +1,6 @@
 <script setup>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 const emit = defineEmits(['clear', 'change']);
 
 const onClickClear = () => {
@@ -11,18 +13,19 @@ const onClickApply = () => {
 </script>
 
 <template>
-  <div class="h-[56px] flex justify-between px-5 py-3 items-center">
-    <button
-      class="p-1.5 rounded-lg w-fit text-sm font-medium text-slate-600 dark:text-slate-200 hover:text-slate-800 dark:hover:text-slate-100"
+  <div class="h-[56px] flex justify-between gap-2 px-2 py-3 items-center">
+    <NextButton
+      slate
+      ghost
+      sm
+      :label="$t('DATE_PICKER.CLEAR_BUTTON')"
       @click="onClickClear"
-    >
-      {{ $t('DATE_PICKER.CLEAR_BUTTON') }}
-    </button>
-    <button
-      class="p-1.5 rounded-lg w-fit text-sm font-medium text-woot-500 dark:text-woot-300 hover:text-woot-700 dark:hover:text-woot-500"
+    />
+    <NextButton
+      sm
+      ghost
+      :label="$t('DATE_PICKER.APPLY_BUTTON')"
       @click="onClickApply"
-    >
-      {{ $t('DATE_PICKER.APPLY_BUTTON') }}
-    </button>
+    />
   </div>
 </template>

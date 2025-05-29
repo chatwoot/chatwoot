@@ -69,6 +69,25 @@ export const actions = {
     }
   },
 
+  updateAsync: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
+    commit(types.UPDATE_ARTICLE_FLAG, {
+      uiFlags: { isUpdating: true },
+      articleId,
+    });
+
+    try {
+      await articlesAPI.updateArticle({ portalSlug, articleId, articleObj });
+      return articleId;
+    } catch (error) {
+      return throwErrorMessage(error);
+    } finally {
+      commit(types.UPDATE_ARTICLE_FLAG, {
+        uiFlags: { isUpdating: false },
+        articleId,
+      });
+    }
+  },
+
   update: async ({ commit }, { portalSlug, articleId, ...articleObj }) => {
     commit(types.UPDATE_ARTICLE_FLAG, {
       uiFlags: {
@@ -96,6 +115,21 @@ export const actions = {
         },
         articleId,
       });
+    }
+  },
+
+  updateArticleMeta: async ({ commit }, { portalSlug, locale }) => {
+    try {
+      const { data } = await articlesAPI.getArticles({
+        pageNumber: 1,
+        portalSlug,
+        locale,
+      });
+      const meta = camelcaseKeys(data.meta);
+      const { currentPage, ...metaWithoutCurrentPage } = meta;
+      commit(types.SET_ARTICLES_META, metaWithoutCurrentPage);
+    } catch (error) {
+      throwErrorMessage(error);
     }
   },
 

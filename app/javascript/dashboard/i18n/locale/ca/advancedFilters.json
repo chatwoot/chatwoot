@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "Igual a",
       "not_equal_to": "No és igual a",
-      "contains": "Conté",
       "does_not_contain": "No conté",
       "is_present": "És present",
       "is_not_present": "No és present",
       "is_greater_than": "És més gran que",
       "is_less_than": "És més petit que",
       "days_before": "És x dies abans",
-      "starts_with": "Comença amb"
+      "starts_with": "Comença amb",
+      "equalTo": "Igual a",
+      "notEqualTo": "No és igual a",
+      "contains": "Conté",
+      "doesNotContain": "No conté",
+      "isPresent": "És present",
+      "isNotPresent": "No és present",
+      "isGreaterThan": "És més gran que",
+      "isLessThan": "És més petit que",
+      "daysBefore": "És x dies abans",
+      "startsWith": "Comença amb"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Cert",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "Última activitat"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "El valor és necessari"
+      "VALUE_REQUIRED": "El valor és necessari",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Filtres estàndard",

@@ -2,18 +2,16 @@
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
-    AvailableAgents,
-    FluentIcon,
+    GroupedAvatars,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
@@ -34,6 +32,13 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    agentAvatars() {
+      return this.availableAgents.map(agent => ({
+        name: agent.name,
+        avatar: agent.avatar_url,
+        id: agent.id,
+      }));
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -61,35 +66,37 @@ export default {
 </script>
 
 <template>
-  <div class="p-4 bg-white rounded-md shadow-sm dark:bg-slate-700">
-    <div class="flex items-center justify-between">
-      <div class="">
-        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
+  <div
+    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
+  >
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1">
+        <div class="font-medium text-n-slate-12">
           {{
             isOnline
               ? $t('TEAM_AVAILABILITY.ONLINE')
               : $t('TEAM_AVAILABILITY.OFFLINE')
           }}
         </div>
-        <div class="mt-1 text-sm text-slate-500 dark:text-slate-100">
+        <div class="text-n-slate-11">
           {{ replyWaitMessage }}
         </div>
       </div>
-      <AvailableAgents v-if="isOnline" :agents="availableAgents" />
+      <GroupedAvatars v-if="isOnline" :users="availableAgents" />
     </div>
     <button
-      class="inline-flex items-center justify-between px-2 py-1 mt-2 -ml-2 text-sm font-medium leading-6 rounded-md text-slate-800 dark:text-slate-50 hover:bg-slate-25 dark:hover:bg-slate-800"
+      class="inline-flex items-center gap-1 font-medium text-n-slate-12"
       :style="{ color: widgetColor }"
       @click="startConversation"
     >
-      <span class="pr-2 text-sm">
+      <span>
         {{
           hasConversation
             ? $t('CONTINUE_CONVERSATION')
             : $t('START_CONVERSATION')
         }}
       </span>
-      <FluentIcon icon="arrow-right" size="14" />
+      <i class="i-lucide-chevron-right size-5 mt-px" />
     </button>
   </div>
 </template>

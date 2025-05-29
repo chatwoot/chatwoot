@@ -1,8 +1,6 @@
 <script setup>
-import { computed } from 'vue';
-import ProfileAvatar from 'v3/components/Form/ProfileAvatar.vue';
-import { removeEmoji } from 'shared/helpers/emoji';
-const props = defineProps({
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+defineProps({
   src: {
     type: String,
     default: '',
@@ -14,8 +12,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['change', 'delete']);
-
-const userNameWithoutEmoji = computed(() => removeEmoji(props.name));
 
 const updateProfilePicture = e => {
   emit('change', e);
@@ -31,10 +27,12 @@ const deleteProfilePicture = () => {
     <span class="text-sm font-medium text-ash-900">
       {{ $t('PROFILE_SETTINGS.FORM.PICTURE') }}
     </span>
-    <ProfileAvatar
-      :src="src"
-      :name="userNameWithoutEmoji"
-      @change="updateProfilePicture"
+    <Avatar
+      :src="src || ''"
+      :name="name || ''"
+      :size="72"
+      allow-upload
+      @upload="updateProfilePicture"
       @delete="deleteProfilePicture"
     />
   </div>

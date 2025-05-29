@@ -10,11 +10,11 @@
       "404": "Det finns inga svarsmallar tillgängliga på detta konto.",
       "TITLE": "Hantera svarsmallar",
       "DESC": "Svarsmallar är fördefinierade mallar som kan användas för att snabbt skicka ut svar i konversationer.",
-      "TABLE_HEADER": [
-        "Kortkod",
-        "Innehåll",
-        "Åtgärder"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Kortkod",
+        "CONTENT": "Innehåll",
+        "ACTIONS": "Åtgärder"
+      }
     },
     "ADD": {
       "TITLE": "Lägg till svarsmall",

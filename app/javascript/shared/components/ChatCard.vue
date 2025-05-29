@@ -1,6 +1,5 @@
 <script>
 import CardButton from 'shared/components/CardButton.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
@@ -24,71 +23,27 @@ export default {
       default: () => [],
     },
   },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
-  },
 };
 </script>
 
 <template>
   <div
-    class="card-message chat-bubble agent"
-    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
+    class="card-message chat-bubble agent bg-n-background dark:bg-n-solid-3 max-w-56 rounded-lg overflow-hidden"
   >
-    <img class="media" :src="mediaUrl" />
+    <img
+      class="w-full object-contain max-h-[150px] rounded-[5px]"
+      :src="mediaUrl"
+    />
     <div class="card-body">
       <h4
-        class="title"
-        :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
+        class="!text-base !font-medium !mt-1 !mb-1 !leading-[1.5] text-n-slate-12"
       >
         {{ title }}
       </h4>
-      <p
-        class="body"
-        :class="getThemeClass('text-black-700', 'dark:text-slate-100')"
-      >
+      <p class="!mb-1 text-n-slate-11">
         {{ description }}
       </p>
       <CardButton v-for="action in actions" :key="action.id" :action="action" />
     </div>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-@import 'dashboard/assets/scss/mixins.scss';
-
-.card-message {
-  max-width: 220px;
-  padding: $space-small;
-  border-radius: $space-small;
-  overflow: hidden;
-
-  .title {
-    font-size: $font-size-default;
-    font-weight: $font-weight-medium;
-    margin-top: $space-smaller;
-    margin-bottom: $space-smaller;
-    line-height: 1.5;
-  }
-
-  .body {
-    margin-bottom: $space-smaller;
-  }
-
-  .media {
-    @include border-light;
-    width: 100%;
-    object-fit: contain;
-    max-height: 150px;
-    border-radius: 5px;
-  }
-
-  .action-button + .action-button {
-    background: $color-white;
-    @include thin-border($color-woot);
-    color: $color-woot;
-  }
-}
-</style>

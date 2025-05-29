@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "ไม่เชื่อมต่อ"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow เป็นเครื่องมือประมวลผลภาษาธรรมชาติ ที่ช่วยให้ง่ายต่อการออกแบบและการเชื่อมต่อหน้าจอสนทนากับแอปพลิเคชันมือถือ, เว็บแอปพลิเคชัน, บอท, ระบบตอบรับอัตโนมัติ และอื่นๆอีกมากมาย <br /><br /> Dialogflow ที่เชื่อมกับ {installationName} ทำให้คุณสามารถตั้งค่าบอท Dialogflow ในกล่องข้อความของคุณซึ่งจะทำหน้าที่ในการรับมือกับการสนทนาเบื้องต้นก่อนส่งต่อไปให้พนักงานเมื่อจำเป็น Dialogflow ช่วยให้การทำงานง่ายขึ้นและลดภาระงานของพนักงานโดยการให้ข้อมูลเบื้องต้นกับลูกค้า หรือด้วยวิธีการอื่นๆอ<br /><br /> หากต้องการใช้งาน Dialogflow คุณจำเป็นต้องสร้าง Service Account ใน Google project ที่ใช้ข้อมูลประจำตัวร่วมกัน โปรดอ่านเอกสารของ Dialogflow หากต้องการข้อมูลเพิ่มเติม"
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

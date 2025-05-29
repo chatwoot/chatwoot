@@ -92,7 +92,12 @@
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": ["Ime", "Opis", "Tip", "Ključ"],
+      "TABLE_HEADER": {
+        "NAME": "Ime",
+        "DESCRIPTION": "Opis",
+        "TYPE": "Tip",
+        "KEY": "Ključ"
+      },
       "BUTTONS": {
         "EDIT": "Uredi",
         "DELETE": "Izbriši"

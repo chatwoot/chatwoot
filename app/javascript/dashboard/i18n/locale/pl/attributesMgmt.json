@@ -92,12 +92,12 @@
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Opis",
-        "Typ",
-        "Klucz"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "TYPE": "Typ",
+        "KEY": "Klucz"
+      },
       "BUTTONS": {
         "EDIT": "Edytuj",
         "DELETE": "Usuń"

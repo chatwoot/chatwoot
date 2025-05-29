@@ -11,11 +11,11 @@
       "404": "Não há logs de auditoria referentes a esta conta.",
       "TITLE": "Gerir logs de auditoria",
       "DESC": "Logs de auditoria são registos de eventos e ações do Sistema Chatwoot.",
-      "TABLE_HEADER": [
-        "User",
-        "Horário",
-        "Endereço IP"
-      ]
+      "TABLE_HEADER": {
+        "ACTIVITY": "User",
+        "TIME": "Horário",
+        "IP_ADDRESS": "Endereço IP"
+      }
     },
     "API": {
       "SUCCESS_MESSAGE": "Logs de auditoria recuperados com sucesso",
@@ -23,9 +23,9 @@
     },
     "DEFAULT_USER": "Sistema",
     "AUTOMATION_RULE": {
-      "ADD": "{agentName} criou uma nova regra de automação (#{id})",
-      "EDIT": "{agentName} atualizou a regra de automação (#{id})",
-      "DELETE": "{agentName} apagou a regra de automação (#{id})"
+      "ADD": "{agentName} created a new automation rule (#{id})",
+      "EDIT": "{agentName} updated an automation rule (#{id})",
+      "DELETE": "{agentName} deleted an automation rule (#{id})"
     },
     "ACCOUNT_USER": {
       "ADD": "{agentName} convidou {invitee} para a conta como {role}",
@@ -36,39 +36,39 @@
       }
     },
     "INBOX": {
-      "ADD": "{agentName} criou uma nova caixa de entrada (#{id})",
-      "EDIT": "{agentName} atualizou a caixa de entrada (#{id})",
-      "DELETE": "{agentName} apagou a caixa de entrada (#{id})"
+      "ADD": "{agentName} created a new inbox (#{id})",
+      "EDIT": "{agentName} updated an inbox (#{id})",
+      "DELETE": "{agentName} deleted an inbox (#{id})"
     },
     "WEBHOOK": {
-      "ADD": "{agentName} criou o novo webhook (#{id})",
-      "EDIT": "{agentName} atualizou o webhook (#{id})",
-      "DELETE": "{agentName} apagou o webhook (#{id})"
+      "ADD": "{agentName} created a new webhook (#{id})",
+      "EDIT": "{agentName} updated a webhook (#{id})",
+      "DELETE": "{agentName} deleted a webhook (#{id})"
     },
     "USER_ACTION": {
       "SIGN_IN": "{agentName} iniciou sessão",
       "SIGN_OUT": "{agentName} terminou sessão"
     },
     "TEAM": {
-      "ADD": "{agentName} criou a nova equipa (#{id})",
-      "EDIT": "{agentName} atualizou a equipa (#{id})",
-      "DELETE": "{agentName} apagou a equipa (#{id})"
+      "ADD": "{agentName} created a new team (#{id})",
+      "EDIT": "{agentName} updated a team (#{id})",
+      "DELETE": "{agentName} deleted a team (#{id})"
     },
     "MACRO": {
-      "ADD": "{agentName} criou a nova macro (#{id})",
-      "EDIT": "{agentName} atualizou a macro (#{id})",
-      "DELETE": "{agentName} apagou a macro (#{id})"
+      "ADD": "{agentName} created a new macro (#{id})",
+      "EDIT": "{agentName} updated a macro (#{id})",
+      "DELETE": "{agentName} deleted a macro (#{id})"
     },
     "INBOX_MEMBER": {
-      "ADD": "{agentName} adicionou {user} à caixa de entrada(#{inbox_id})",
-      "REMOVE": "{agentName} removeu {user} da caixa de entrada(#{inbox_id})"
+      "ADD": "{agentName} added {user} to the inbox(#{inbox_id})",
+      "REMOVE": "{agentName} removed {user} from the inbox(#{inbox_id})"
     },
     "TEAM_MEMBER": {
-      "ADD": "{agentName} adicionou {user} à equipa(#{team_id})",
-      "REMOVE": "{agentName} removeu {user} da equipa(#{team_id})"
+      "ADD": "{agentName} added {user} to the team(#{team_id})",
+      "REMOVE": "{agentName} removed {user} from the team(#{team_id})"
     },
     "ACCOUNT": {
-      "EDIT": "{agentName} atualizou a configuração da conta (#{id})"
+      "EDIT": "{agentName} updated the account configuration (#{id})"
     }
   }
 }

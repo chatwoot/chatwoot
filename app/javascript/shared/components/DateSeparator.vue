@@ -1,6 +1,5 @@
 <script>
 import { formatDate } from 'shared/helpers/DateHelper';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   props: {
@@ -8,10 +7,6 @@ export default {
       type: String,
       required: true,
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
   computed: {
     formattedDate() {
@@ -27,40 +22,8 @@ export default {
 
 <template>
   <div
-    class="date--separator"
-    :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
+    class="text-sm text-n-slate-11 h-[50px] leading-[50px] relative text-center w-full before:content-[''] before:h-px before:absolute before:top-6 before:w-[calc((100%-120px)/2)] before:bg-n-slate-4 before:dark:bg-n-slate-6 before:left-0 after:content-[''] after:h-px after:absolute after:top-6 after:w-[calc((100%-120px)/2)] after:bg-n-slate-4 after:dark:bg-n-slate-6 after:right-0"
   >
     {{ formattedDate }}
   </div>
 </template>
-
-<style lang="scss" scoped>
-@import 'widget/assets/scss/variables';
-
-.date--separator {
-  font-size: $font-size-default;
-  height: 50px;
-  line-height: 50px;
-  position: relative;
-  text-align: center;
-  width: 100%;
-}
-
-.date--separator::before,
-.date--separator::after {
-  background-color: $color-border;
-  content: '';
-  height: 1px;
-  position: absolute;
-  top: 24px;
-  width: calc((100% - 120px) / 2);
-}
-
-.date--separator::before {
-  left: 0;
-}
-
-.date--separator::after {
-  right: 0;
-}
-</style>

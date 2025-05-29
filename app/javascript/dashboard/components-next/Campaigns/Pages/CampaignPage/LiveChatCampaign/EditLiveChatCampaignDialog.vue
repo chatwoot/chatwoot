@@ -63,14 +63,12 @@ defineExpose({ dialogRef });
     overflow-y-auto
     @confirm="handleSubmit"
   >
-    <template #form>
-      <LiveChatCampaignForm
-        ref="liveChatCampaignFormRef"
-        mode="edit"
-        :selected-campaign="selectedCampaign"
-        :show-action-buttons="false"
-        @submit="handleSubmit"
-      />
-    </template>
+    <LiveChatCampaignForm
+      ref="liveChatCampaignFormRef"
+      mode="edit"
+      :selected-campaign="selectedCampaign"
+      :show-action-buttons="false"
+      @submit="handleSubmit"
+    />
   </Dialog>
 </template>
