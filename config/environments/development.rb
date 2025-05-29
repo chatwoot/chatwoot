@@ -70,11 +70,6 @@ Rails.application.configure do
     # Allow CSRF from codespace URLs
     config.force_ssl = false
     config.action_controller.forgery_protection_origin_check = false
-    # Set proper hosts for codespaces
-    if ENV['CODESPACE_NAME']
-      config.hosts << "#{ENV['CODESPACE_NAME']}-3000.app.github.dev"
-      config.hosts << "#{ENV['CODESPACE_NAME']}-3000.githubpreview.dev"
-    end
   end
 
   # customize using the environment variables
