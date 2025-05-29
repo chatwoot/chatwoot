@@ -230,7 +230,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
     timestamp = response.parsed_response.dig('data', 'messageTimestamp')
     return unless timestamp
 
-    external_created_at = extract_baileys_message_timestamp(timestamp)
+    external_created_at = baileys_extract_message_timestamp(timestamp)
     @message.update!(external_created_at: external_created_at)
   end
 

@@ -1,4 +1,6 @@
 class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
+  include BaileysHelper
+
   private
 
   def channel_class
@@ -9,6 +11,8 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     should_send_template_message = template_params.present? || !message.conversation.can_reply?
     if should_send_template_message
       send_template_message
+    elsif channel.provider == 'baileys'
+      send_baileys_session_message
     else
       send_session_message
     end
@@ -106,6 +110,10 @@ class Whatsapp::SendOnWhatsappService < Base::SendOnChannelService
     # we only care about text body object in template. if not present we discard the template
     # we don't support other forms of templates
     template['components'].find { |obj| obj['type'] == 'BODY' && obj.key?('text') }
+  end
+
+  def send_baileys_session_message
+    with_baileys_channel_lock_on_outgoing_message(channel.id) { send_session_message }
   end
 
   def send_session_message

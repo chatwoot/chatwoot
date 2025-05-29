@@ -45,20 +45,25 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       @contact_inbox = nil
       @contact = nil
       @raw_message = message
-      handle_message
+
+      next handle_message if incoming?
+
+      # NOTE: Shared lock with Whatsapp::SendOnWhatsappService
+      # Avoids race conditions when sending messages.
+      with_baileys_channel_lock_on_outgoing_message(inbox.channel.id) { handle_message }
     end
   end
 
   def handle_message
     return if jid_type != 'user'
-    return if find_message_by_source_id(message_id) || message_under_process?
     return if message_type == 'protocol'
+    return if find_message_by_source_id(raw_message_id) || message_under_process?
 
     cache_message_source_id_in_redis
     set_contact
 
     unless @contact
-      Rails.logger.warn "Contact not found for message: #{message_id}"
+      Rails.logger.warn "Contact not found for message: #{raw_message_id}"
       return
     end
 
@@ -160,7 +165,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
       content: message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      source_id: message_id,
+      source_id: raw_message_id,
       sender: incoming? ? @contact : @inbox.account.account_users.first.user,
       sender_type: incoming? ? 'Contact' : 'User',
       message_type: incoming? ? :incoming : :outgoing,
@@ -173,7 +178,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def message_content_attributes
-    content_attributes = { external_created_at: extract_baileys_message_timestamp(@raw_message[:messageTimestamp]) }
+    content_attributes = { external_created_at: baileys_extract_message_timestamp(@raw_message[:messageTimestamp]) }
     if message_type == 'reaction'
       content_attributes[:in_reply_to_external_id] = @raw_message.dig(:message, :reactionMessage, :key, :id)
       content_attributes[:is_reaction] = true
@@ -217,7 +222,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     return filename if filename.present?
 
     ext = ".#{message_mimetype.split(';').first.split('/').last}" if message_mimetype.present?
-    "#{file_content_type}_#{message_id}_#{Time.current.strftime('%Y%m%d')}#{ext}"
+    "#{file_content_type}_#{raw_message_id}_#{Time.current.strftime('%Y%m%d')}#{ext}"
   end
 
   def message_content
@@ -233,7 +238,7 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     end
   end
 
-  def message_id
+  def raw_message_id
     @raw_message[:key][:id]
   end
 
@@ -253,17 +258,17 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
   end
 
   def message_under_process?
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: message_id)
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: raw_message_id)
     Redis::Alfred.get(key)
   end
 
   def cache_message_source_id_in_redis
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: message_id)
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: raw_message_id)
     ::Redis::Alfred.setex(key, true)
   end
 
   def clear_message_source_id_from_redis
-    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: message_id)
+    key = format(Redis::RedisKeys::MESSAGE_SOURCE_KEY, id: raw_message_id)
     ::Redis::Alfred.delete(key)
   end
 
@@ -272,12 +277,17 @@ class Whatsapp::IncomingMessageBaileysService < Whatsapp::IncomingMessageBaseSer
     updates.each do |update|
       @message = nil
       @raw_message = update
-      handle_update
+
+      next handle_update if incoming?
+
+      # NOTE: Shared lock with Whatsapp::SendOnWhatsappService
+      # Avoids race conditions when sending messages.
+      with_baileys_channel_lock_on_outgoing_message(inbox.channel.id) { handle_update }
     end
   end
 
   def handle_update
-    raise MessageNotFoundError unless find_message_by_source_id(message_id)
+    raise MessageNotFoundError unless find_message_by_source_id(raw_message_id)
 
     update_status if @raw_message.dig(:update, :status).present?
     handle_edited_content if @raw_message.dig(:update, :message).present?
