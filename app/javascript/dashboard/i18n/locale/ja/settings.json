@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "アクセストークン",
         "NOTE": "このトークンは、API連携を構築する場合に利用します。",
-        "COPY": "コピー"
+        "COPY": "コピー",
+        "RESET": "リセット",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "オーディオアラート",
