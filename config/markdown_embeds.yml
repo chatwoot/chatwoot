@@ -107,7 +107,7 @@ twitch_video:
   template: |
     <div style="position: relative; padding-bottom: 56.25%; height: 0;">
       <iframe
-        src="https://player.twitch.tv/?video=%{video_id}&parent=localhost"
+        src="https://player.twitch.tv/?video=%{video_id}"
         frameborder="0"
         allowfullscreen
         scrolling="no"
@@ -120,7 +120,7 @@ twitch_clip:
   template: |
     <div style="position: relative; padding-bottom: 56.25%; height: 0;">
       <iframe
-        src="https://clips.twitch.tv/embed?clip=%{clip_id}&parent=localhost"
+        src="https://clips.twitch.tv/embed?clip=%{clip_id}"
         frameborder="0"
         allowfullscreen
         scrolling="no"
