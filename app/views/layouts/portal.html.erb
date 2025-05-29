@@ -73,6 +73,30 @@ By default, it renders:
         <% end %>
       </main>
     </div>
+    <% if @article.present? %>
+    <script>
+      (function() {
+        let viewTracked = false;
+        const trackView = function() {
+          if (!viewTracked) {
+            viewTracked = true;
+            const img = new Image();
+            img.src = '<%= request.base_url %>/hc/<%= @portal.slug %>/articles/<%= @article.slug %>.png';
+          }
+        };
+        
+        const addTrackingListeners = function() {
+          const events = ['mouseenter', 'touchstart', 'focus'];
+          events.forEach(event => {
+            document.body.addEventListener(event, function() {
+              setTimeout(trackView, 5000);
+            }, { once: true });
+          });
+        };
+        addTrackingListeners();
+      })();
+    </script>
+    <% end %>
   </body>
   <style>
   html.dark {
