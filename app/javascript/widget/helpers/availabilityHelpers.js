@@ -5,6 +5,7 @@ import { generateRelativeTime } from 'shared/helpers/DateHelper';
 const DAYS_IN_WEEK = 7;
 const HOURS_IN_DAY = 24;
 const MINUTES_IN_HOUR = 60;
+const THREE_HOURS = 3;
 const DAY_NAMES = [
   'Sunday',
   'Monday',
@@ -124,7 +125,7 @@ const getMultipleDayResponse = (dayDiff, hours, config) => {
 
 // Get same day response (eg: in 2 hours, in 15 minutes, at 09:00 AM)
 const getSameDayResponse = (hours, minutes, config, locale) => {
-  if (hours >= 3) return getSpecificTimeResponse(config);
+  if (hours >= THREE_HOURS) return getSpecificTimeResponse(config);
   if (hours > 0) return getRelativeHoursResponse(hours, minutes, locale);
   if (minutes > 0) return getRelativeMinutesResponse(minutes, locale);
   return null;
