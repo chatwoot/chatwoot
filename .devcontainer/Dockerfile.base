@@ -1,7 +1,8 @@
-
-ARG VARIANT
+ARG VARIANT="ubuntu-22.04"
 
 FROM mcr.microsoft.com/vscode/devcontainers/base:0-${VARIANT}
+
+ENV DEBIAN_FRONTEND=noninteractive
 
 ARG NODE_VERSION
 ARG RUBY_VERSION
@@ -9,6 +10,7 @@ ARG USER_UID
 ARG USER_GID
 ARG PNPM_VERSION="10.2.0"
 ENV PNPM_VERSION ${PNPM_VERSION}
+ENV RUBY_CONFIGURE_OPTS=--disable-install-doc
 
 # Update args in docker-compose.yaml to set the UID/GID of the "vscode" user.
 RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
@@ -17,36 +19,33 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
         && chmod -R $USER_UID:$USER_GID /home/vscode; \
     fi
 
-RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get -y install --no-install-recommends \
-    build-essential \
-    libssl-dev \
-    zlib1g-dev \
-    gnupg \
-    tar \
-    tzdata \
-    postgresql-client \
-    libpq-dev \
-    git \
-    imagemagick \
-    libyaml-dev \
-    curl \
-    ca-certificates \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
-
-# Install Node.js from NodeSource in separate layer
-RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
-  && apt-get install -y nodejs \
-  && apt-get clean \
-  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
+    && apt-get update \
+    && apt-get -y install --no-install-recommends \
+        build-essential \
+        libssl-dev \
+        zlib1g-dev \
+        gnupg \
+        tar \
+        tzdata \
+        postgresql-client \
+        libpq-dev \
+        git \
+        imagemagick \
+        libyaml-dev \
+        curl \
+        ca-certificates \
+        tmux \
+        nodejs \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
 # Install rbenv and ruby
-RUN git clone https://github.com/rbenv/rbenv.git ~/.rbenv \
+RUN git clone --depth 1 https://github.com/rbenv/rbenv.git ~/.rbenv \
     &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
     &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
 ENV PATH "/root/.rbenv/bin/:/root/.rbenv/shims/:$PATH"
-RUN git clone https://github.com/rbenv/ruby-build.git && \
+RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git && \
     PREFIX=/usr/local ./ruby-build/install.sh
 
 RUN rbenv install $RUBY_VERSION && \
@@ -74,12 +73,14 @@ RUN npm install -g pnpm@${PNPM_VERSION} \
     && npm cache clean --force
 
 # Copy dependency files first for better caching
-COPY Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
+COPY --chown=vscode:vscode Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN gem install bundler \
+RUN gem install bundler -N \
     && bundle install --jobs=$(nproc) \
     && pnpm install --frozen-lockfile
 
 # Copy source code after dependencies are installed
-COPY . /workspace
+COPY --chown=vscode:vscode . /workspace
+
+USER vscode
