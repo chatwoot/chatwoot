@@ -18,24 +18,25 @@ RUN if [ "$USER_GID" != "1000" ] || [ "$USER_UID" != "1000" ]; then \
     fi
 
 RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
-  && apt-get -y install --no-install-recommends --no-install-suggests \
+  && apt-get -y install --no-install-recommends \
     build-essential \
     libssl-dev \
     zlib1g-dev \
-    gnupg2 \
+    gnupg \
     tar \
     tzdata \
     postgresql-client \
     libpq-dev \
     git \
     imagemagick \
-    tmux \
-    zsh \
     libyaml-dev \
     curl \
     ca-certificates \
-    software-properties-common \
-  && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+  && apt-get clean \
+  && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+
+# Install Node.js from NodeSource in separate layer
+RUN curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
   && apt-get install -y nodejs \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
