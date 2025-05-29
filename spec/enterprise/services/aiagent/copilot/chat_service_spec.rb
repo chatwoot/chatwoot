@@ -2,12 +2,12 @@ require 'rails_helper'
 
 RSpec.describe Aiagent::Copilot::ChatService do
   let(:account) { create(:account, custom_attributes: { plan_name: 'startups' }) }
-  let(:aiagent_inbox_association) { create(:aiagent_inbox, aiagent_assistant: assistant, inbox: inbox) }
+  let(:aiagent_inbox_association) { create(:aiagent_inbox, aiagent_topic: topic, inbox: inbox) }
   let(:mock_aiagent_agent) { instance_double(Aiagent::Agent) }
   let(:mock_aiagent_tool) { instance_double(Aiagent::Tool) }
   let(:mock_openai_client) { instance_double(OpenAI::Client) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:assistant) { create(:aiagent_assistant, account: account) }
+  let(:topic) { create(:aiagent_topic, account: account) }
 
   before do
     create(:installation_config, name: 'AIAGENT_OPEN_AI_API_KEY', value: 'test-key')
@@ -15,12 +15,12 @@ RSpec.describe Aiagent::Copilot::ChatService do
 
   describe '#initialize' do
     it 'sets default language to english when not specified' do
-      service = described_class.new(assistant, { previous_messages: [], conversation_history: '' })
+      service = described_class.new(topic, { previous_messages: [], conversation_history: '' })
       expect(service.instance_variable_get(:@language)).to eq('english')
     end
 
     it 'uses the specified language when provided' do
-      service = described_class.new(assistant, {
+      service = described_class.new(topic, {
                                       previous_messages: [],
                                       conversation_history: '',
                                       language: 'spanish'
@@ -45,19 +45,19 @@ RSpec.describe Aiagent::Copilot::ChatService do
     end
 
     it 'increments usage' do
-      described_class.new(assistant, { previous_messages: ['Hello'], conversation_history: 'Hi' }).generate_response('Hey')
+      described_class.new(topic, { previous_messages: ['Hello'], conversation_history: 'Hi' }).generate_response('Hey')
       expect(account).to have_received(:increment_response_usage).once
     end
 
     it 'includes language in system message' do
-      service = described_class.new(assistant, {
+      service = described_class.new(topic, {
                                       previous_messages: [],
                                       conversation_history: '',
                                       language: 'spanish'
                                     })
 
       allow(Aiagent::Llm::SystemPromptsService).to receive(:copilot_response_generator)
-        .with(assistant.config['product_name'], 'spanish')
+        .with(topic.config['product_name'], 'spanish')
         .and_return('Spanish system prompt')
 
       system_message = service.send(:system_message)
@@ -81,7 +81,7 @@ RSpec.describe Aiagent::Copilot::ChatService do
     end
 
     it 'increments usage' do
-      described_class.new(assistant, { previous_messages: ['Hello'], conversation_history: 'Hi' }).generate_response('Hey')
+      described_class.new(topic, { previous_messages: ['Hello'], conversation_history: 'Hi' }).generate_response('Hey')
       expect(account).to have_received(:increment_response_usage).once
     end
   end

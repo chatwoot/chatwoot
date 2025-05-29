@@ -1,7 +1,7 @@
 <script setup>
 import EmptyStateLayout from 'dashboard/components-next/EmptyStateLayout.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import DocumentCard from 'dashboard/components-next/aiagent/assistant/DocumentCard.vue';
+import DocumentCard from 'dashboard/components-next/aiagent/topic/DocumentCard.vue';
 import FeatureSpotlight from 'dashboard/components-next/feature-spotlight/FeatureSpotlight.vue';
 import { documentsList } from 'dashboard/components-next/aiagent/pageComponents/emptyStates/aiagentEmptyStateContent.js';
 
@@ -33,7 +33,7 @@ const onClick = () => {
           :id="document.id"
           :key="`document-${index}`"
           :name="document.name"
-          :assistant="document.assistant"
+          :topic="document.topic"
           :external-link="document.external_link"
           :created-at="document.created_at"
         />

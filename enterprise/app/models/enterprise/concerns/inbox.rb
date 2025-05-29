@@ -3,8 +3,8 @@ module Enterprise::Concerns::Inbox
 
   included do
     has_one :aiagent_inbox, dependent: :destroy, class_name: 'AiagentInbox'
-    has_one :aiagent_assistant,
+    has_one :aiagent_topic,
             through: :aiagent_inbox,
-            class_name: 'Aiagent::Assistant'
+            class_name: 'Aiagent::Topic'
   end
 end

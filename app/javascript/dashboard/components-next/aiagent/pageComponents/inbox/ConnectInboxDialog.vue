@@ -8,7 +8,7 @@ import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import ConnectInboxForm from './ConnectInboxForm.vue';
 
 defineProps({
-  assistantId: {
+  topicId: {
     type: Number,
     required: true,
   },
@@ -56,7 +56,7 @@ defineExpose({ dialogRef });
   >
     <ConnectInboxForm
       ref="connectForm"
-      :assistant-id="assistantId"
+      :topic-id="topicId"
       @submit="handleSubmit"
       @cancel="handleCancel"
     />

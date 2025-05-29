@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Aiagent::Tools::FirecrawlParserJob, type: :job do
   describe '#perform' do
-    let(:assistant) { create(:aiagent_assistant) }
+    let(:topic) { create(:aiagent_topic) }
     let(:payload) do
       {
         markdown: 'Launch Week I is here! 🚀',
@@ -16,10 +16,10 @@ RSpec.describe Aiagent::Tools::FirecrawlParserJob, type: :job do
 
     it 'creates a new document when one does not exist' do
       expect do
-        described_class.perform_now(assistant_id: assistant.id, payload: payload)
-      end.to change(assistant.documents, :count).by(1)
+        described_class.perform_now(topic_id: topic.id, payload: payload)
+      end.to change(topic.documents, :count).by(1)
 
-      document = assistant.documents.last
+      document = topic.documents.last
       expect(document).to have_attributes(
         content: payload[:markdown],
         name: payload[:metadata]['title'],
@@ -30,16 +30,16 @@ RSpec.describe Aiagent::Tools::FirecrawlParserJob, type: :job do
 
     it 'updates existing document when one exists' do
       existing_document = create(:aiagent_document,
-                                 assistant: assistant,
-                                 account: assistant.account,
+                                 topic: topic,
+                                 account: topic.account,
                                  external_link: payload[:metadata]['url'],
                                  content: 'old content',
                                  name: 'old title',
                                  status: :in_progress)
 
       expect do
-        described_class.perform_now(assistant_id: assistant.id, payload: payload)
-      end.not_to change(assistant.documents, :count)
+        described_class.perform_now(topic_id: topic.id, payload: payload)
+      end.not_to change(topic.documents, :count)
 
       existing_document.reload
       expect(existing_document).to have_attributes(
@@ -51,10 +51,10 @@ RSpec.describe Aiagent::Tools::FirecrawlParserJob, type: :job do
 
     context 'when an error occurs' do
       it 'raises an error with a descriptive message' do
-        allow(Aiagent::Assistant).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
+        allow(Aiagent::Topic).to receive(:find).and_raise(ActiveRecord::RecordNotFound)
 
         expect do
-          described_class.perform_now(assistant_id: -1, payload: payload)
+          described_class.perform_now(topic_id: -1, payload: payload)
         end.to raise_error(/Failed to parse FireCrawl data/)
       end
     end

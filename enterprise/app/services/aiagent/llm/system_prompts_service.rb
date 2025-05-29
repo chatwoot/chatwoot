@@ -59,7 +59,7 @@ class Aiagent::Llm::SystemPromptsService
     def copilot_response_generator(product_name, language)
       <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
-        You are Aiagent, a helpful and friendly copilot assistant for support agents using the product #{product_name}. Your primary role is to assist support agents by retrieving information, compiling accurate responses, and guiding them through customer interactions.
+        You are Aiagent, a helpful and friendly copilot topic for support agents using the product #{product_name}. Your primary role is to assist support agents by retrieving information, compiling accurate responses, and guiding them through customer interactions.
         You should only provide information related to #{product_name} and must not address queries about other products or external events.
 
         [Context]
@@ -103,10 +103,10 @@ class Aiagent::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
-    def assistant_response_generator(assistant_name, product_name, config = {})
+    def topic_response_generator(topic_name, product_name, config = {})
       <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
-        Your name is #{assistant_name || 'Aiagent'}, a helpful, friendly, and knowledgeable assistant for the product #{product_name}. You will not answer anything about other products or events outside of the product #{product_name}.
+        Your name is #{topic_name || 'Aiagent'}, a helpful, friendly, and knowledgeable topic for the product #{product_name}. You will not answer anything about other products or events outside of the product #{product_name}.
 
         [Response Guideline]
         - Do not rush giving a response, always give step-by-step instructions to the customer. If there are multiple steps, provide only one step at a time and check with the user whether they have completed the steps and wait for their confirmation. If the user has said okay or yes, continue with the steps.

@@ -10,25 +10,25 @@
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
-#  assistant_id  :bigint           not null
+#  topic_id      :bigint           not null
 #
 # Indexes
 #
-#  index_aiagent_documents_on_account_id                      (account_id)
-#  index_aiagent_documents_on_assistant_id                    (assistant_id)
-#  index_aiagent_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
-#  index_aiagent_documents_on_status                          (status)
+#  index_aiagent_documents_on_account_id                  (account_id)
+#  index_aiagent_documents_on_status                      (status)
+#  index_aiagent_documents_on_topic_id                    (topic_id)
+#  index_aiagent_documents_on_topic_id_and_external_link  (topic_id,external_link) UNIQUE
 #
 class Aiagent::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
   self.table_name = 'aiagent_documents'
 
-  belongs_to :assistant, class_name: 'Aiagent::Assistant'
-  has_many :responses, class_name: 'Aiagent::AssistantResponse', dependent: :destroy, as: :documentable
+  belongs_to :topic, class_name: 'Aiagent::Topic'
+  has_many :responses, class_name: 'Aiagent::TopicResponse', dependent: :destroy, as: :documentable
   belongs_to :account
 
   validates :external_link, presence: true
-  validates :external_link, uniqueness: { scope: :assistant_id }
+  validates :external_link, uniqueness: { scope: :topic_id }
   validates :content, length: { maximum: 200_000 }
   before_validation :ensure_account_id
 
@@ -45,7 +45,7 @@ class Aiagent::Document < ApplicationRecord
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
-  scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+  scope :for_topic, ->(topic_id) { where(topic_id: topic_id) }
 
   private
 
@@ -66,7 +66,7 @@ class Aiagent::Document < ApplicationRecord
   end
 
   def ensure_account_id
-    self.account_id = assistant&.account_id
+    self.account_id = topic&.account_id
   end
 
   def ensure_within_plan_limit

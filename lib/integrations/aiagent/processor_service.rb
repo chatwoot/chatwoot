@@ -32,7 +32,7 @@ class Integrations::Aiagent::ProcessorService < Integrations::BotProcessorServic
 
   def call_aiagent(message_content)
     url = "#{GlobalConfigService.load('AIAGENT_API_URL',
-                                      '')}/accounts/#{hook.settings['account_id']}/assistants/#{hook.settings['assistant_id']}/chat"
+                                      '')}/accounts/#{hook.settings['account_id']}/topics/#{hook.settings['topic_id']}/chat"
 
     headers = {
       'X-USER-EMAIL' => hook.settings['account_email'],

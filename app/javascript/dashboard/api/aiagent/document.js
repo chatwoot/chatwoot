@@ -6,12 +6,12 @@ class AiagentDocument extends ApiClient {
     super('aiagent/documents', { accountScoped: true });
   }
 
-  get({ page = 1, searchKey, assistantId } = {}) {
+  get({ page = 1, searchKey, topicId } = {}) {
     return axios.get(this.url, {
       params: {
         page,
         searchKey,
-        assistant_id: assistantId,
+        topic_id: topicId,
       },
     });
   }

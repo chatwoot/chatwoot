@@ -1,7 +1,7 @@
 class Aiagent::Llm::ContactAttributesService < Llm::BaseOpenAiService
-  def initialize(assistant, conversation)
+  def initialize(topic, conversation)
     super()
-    @assistant = assistant
+    @topic = topic
     @conversation = conversation
     @contact = conversation.contact
     @content = "#Contact\n\n#{@contact.to_llm_text} \n\n#Conversation\n\n#{@conversation.to_llm_text}"

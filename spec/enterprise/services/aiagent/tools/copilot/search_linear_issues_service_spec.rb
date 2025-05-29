@@ -2,8 +2,8 @@ require 'rails_helper'
 
 RSpec.describe Aiagent::Tools::Copilot::SearchLinearIssuesService do
   let(:account) { create(:account) }
-  let(:assistant) { create(:aiagent_assistant, account: account) }
-  let(:service) { described_class.new(assistant) }
+  let(:topic) { create(:aiagent_topic, account: account) }
+  let(:service) { described_class.new(topic) }
 
   describe '#name' do
     it 'returns the correct service name' do

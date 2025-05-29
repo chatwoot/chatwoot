@@ -309,19 +309,19 @@ describe('#getters', () => {
     });
   });
 
-  describe('#getCopilotAssistant', () => {
-    it('get copilot assistant', () => {
+  describe('#getCopilotTopic', () => {
+    it('get copilot topic', () => {
       const state = {
-        copilotAssistant: {
+        copilotTopic: {
           id: 1,
-          name: 'Assistant',
-          description: 'Assistant description',
+          name: 'Topic',
+          description: 'Topic description',
         },
       };
-      expect(getters.getCopilotAssistant(state)).toEqual({
+      expect(getters.getCopilotTopic(state)).toEqual({
         id: 1,
-        name: 'Assistant',
-        description: 'Assistant description',
+        name: 'Topic',
+        description: 'Topic description',
       });
     });
   });

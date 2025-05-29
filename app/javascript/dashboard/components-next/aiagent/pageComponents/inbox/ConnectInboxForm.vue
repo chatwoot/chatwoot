@@ -9,7 +9,7 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 
 const props = defineProps({
-  assistantId: {
+  topicId: {
     type: Number,
     required: true,
   },
@@ -64,7 +64,7 @@ const handleCancel = () => emit('cancel');
 
 const prepareInboxPayload = () => ({
   inboxId: state.inboxId,
-  assistantId: props.assistantId,
+  topicId: props.topicId,
 });
 
 const handleSubmit = async () => {

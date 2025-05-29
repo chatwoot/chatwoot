@@ -27,7 +27,7 @@ export default createStore({
 
     handleBulkDelete: async function handleBulkDelete({ dispatch }, ids) {
       const response = await dispatch('processBulkAction', {
-        type: 'AssistantResponse',
+        type: 'TopicResponse',
         actionType: 'delete',
         ids,
       });
@@ -41,7 +41,7 @@ export default createStore({
 
     handleBulkApprove: async function handleBulkApprove({ dispatch }, ids) {
       const response = await dispatch('processBulkAction', {
-        type: 'AssistantResponse',
+        type: 'TopicResponse',
         actionType: 'approve',
         ids,
       });

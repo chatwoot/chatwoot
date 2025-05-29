@@ -336,7 +336,7 @@
       "YOU": "您",
       "USE": "使用此",
       "RESET": "重置",
-      "SELECT_ASSISTANT": "选择助手",
+      "SELECT_TOPIC": "选择助手",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Summarize this conversation",
@@ -354,10 +354,10 @@
     },
     "PLAYGROUND": {
       "USER": "您",
-      "ASSISTANT": "助手",
+      "TOPIC": "助手",
       "MESSAGE_PLACEHOLDER": "输入您的消息...",
       "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "DESCRIPTION": "Use this playground to send messages to your topic and check if it responds accurately, quickly, and in the tone you expect.",
       "CREDIT_NOTE": "Messages sent here will count toward your Aiagent credits."
     },
     "PAYWALL": {
@@ -381,7 +381,7 @@
       "CREATE": "创建",
       "EDIT": "更新"
     },
-    "ASSISTANTS": {
+    "TOPICS": {
       "HEADER": "助手",
       "ADD_NEW": "创建新的助手",
       "DELETE": {
@@ -408,12 +408,12 @@
         },
         "NAME": {
           "LABEL": "姓名：",
-          "PLACEHOLDER": "Enter assistant name",
+          "PLACEHOLDER": "Enter topic name",
           "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
-          "PLACEHOLDER": "Enter assistant description",
+          "PLACEHOLDER": "Enter topic description",
           "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
@@ -435,7 +435,7 @@
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "PLACEHOLDER": "Enter instructions for the topic"
         },
         "FEATURES": {
           "TITLE": "特性",
@@ -447,11 +447,11 @@
         "TITLE": "更新助手",
         "SUCCESS_MESSAGE": "助手已成功更新",
         "ERROR_MESSAGE": "更新助手时出错，请重试",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Could not find the topic. Please try again."
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "编辑助手",
-        "DELETE_ASSISTANT": "删除助手",
+        "EDIT_TOPIC": "编辑助手",
+        "DELETE_TOPIC": "删除助手",
         "VIEW_CONNECTED_INBOXES": "查看连接的收件箱"
       },
       "EMPTY_STATE": {
@@ -482,7 +482,7 @@
           "PLACEHOLDER": "输入文档的 URL",
           "ERROR": "请提供有效的文档 URL"
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "助手",
           "PLACEHOLDER": "选择助手",
           "ERROR": "助手字段是必需的"
@@ -536,9 +536,9 @@
         "ERROR_MESSAGE": "删除常见问题时出错，请重试"
       },
       "FILTER": {
-        "ASSISTANT": "助手：{selected}",
+        "TOPIC": "助手：{selected}",
         "STATUS": "状态：{selected}",
-        "ALL_ASSISTANTS": "所有"
+        "ALL_TOPICS": "所有"
       },
       "STATUS": {
         "TITLE": "状态",
@@ -563,7 +563,7 @@
           "PLACEHOLDER": "在此输入答案",
           "ERROR": "请提供有效的答案"
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "助手",
           "PLACEHOLDER": "选择助手",
           "ERROR": "请选择助手"

@@ -26,13 +26,13 @@ const { t } = useI18n();
 
 const formState = {
   uiFlags: useMapGetter('aiagentResponses/getUIFlags'),
-  assistants: useMapGetter('aiagentAssistants/getRecords'),
+  topics: useMapGetter('aiagentTopics/getRecords'),
 };
 
 const initialState = {
   question: '',
   answer: '',
-  assistantId: null,
+  topicId: null,
 };
 
 const state = reactive({ ...initialState });
@@ -40,13 +40,13 @@ const state = reactive({ ...initialState });
 const validationRules = {
   question: { required, minLength: minLength(1) },
   answer: { required, minLength: minLength(1) },
-  assistantId: { required },
+  topicId: { required },
 };
 
-const assistantList = computed(() =>
-  formState.assistants.value.map(assistant => ({
-    value: assistant.id,
-    label: assistant.name,
+const topicList = computed(() =>
+  formState.topics.value.map(topic => ({
+    value: topic.id,
+    label: topic.name,
   }))
 );
 
@@ -63,7 +63,7 @@ const getErrorMessage = (field, errorKey) => {
 const formErrors = computed(() => ({
   question: getErrorMessage('question', 'QUESTION'),
   answer: getErrorMessage('answer', 'ANSWER'),
-  assistantId: getErrorMessage('assistantId', 'ASSISTANT'),
+  topicId: getErrorMessage('topicId', 'TOPIC'),
 }));
 
 const handleCancel = () => emit('cancel');
@@ -71,7 +71,7 @@ const handleCancel = () => emit('cancel');
 const prepareDocumentDetails = () => ({
   question: state.question,
   answer: state.answer,
-  assistant_id: state.assistantId,
+  topic_id: state.topicId,
 });
 
 const handleSubmit = async () => {
@@ -86,12 +86,12 @@ const handleSubmit = async () => {
 const updateStateFromResponse = response => {
   if (!response) return;
 
-  const { question, answer, assistant } = response;
+  const { question, answer, topic } = response;
 
   Object.assign(state, {
     question,
     answer,
-    assistantId: assistant.id,
+    topicId: topic.id,
   });
 };
 
@@ -126,17 +126,17 @@ watch(
     />
 
     <div class="flex flex-col gap-1">
-      <label for="assistant" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        {{ t('AIAGENT.RESPONSES.FORM.ASSISTANT.LABEL') }}
+      <label for="topic" class="mb-0.5 text-sm font-medium text-n-slate-12">
+        {{ t('AIAGENT.RESPONSES.FORM.TOPIC.LABEL') }}
       </label>
       <ComboBox
-        id="assistant"
-        v-model="state.assistantId"
-        :options="assistantList"
-        :has-error="!!formErrors.assistantId"
-        :placeholder="t('AIAGENT.RESPONSES.FORM.ASSISTANT.PLACEHOLDER')"
+        id="topic"
+        v-model="state.topicId"
+        :options="topicList"
+        :has-error="!!formErrors.topicId"
+        :placeholder="t('AIAGENT.RESPONSES.FORM.TOPIC.PLACEHOLDER')"
         class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
-        :message="formErrors.assistantId"
+        :message="formErrors.topicId"
       />
     </div>
 

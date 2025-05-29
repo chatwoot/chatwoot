@@ -20,7 +20,7 @@ class Aiagent::Documents::ResponseBuilderJob < ApplicationJob
     document.responses.create!(
       question: faq['question'],
       answer: faq['answer'],
-      assistant: document.assistant,
+      topic: document.topic,
       documentable: document
     )
   rescue ActiveRecord::RecordInvalid => e

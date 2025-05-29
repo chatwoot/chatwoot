@@ -2,14 +2,14 @@ require 'rails_helper'
 
 RSpec.describe Aiagent::Documents::CrawlJob, type: :job do
   let(:document) { create(:aiagent_document, external_link: 'https://example.com/page') }
-  let(:assistant_id) { document.assistant_id }
+  let(:topic_id) { document.topic_id }
   let(:webhook_url) { Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url }
 
   describe '#perform' do
     context 'when AIAGENT_FIRECRAWL_API_KEY is configured' do
       let(:firecrawl_service) { instance_double(Aiagent::Tools::FirecrawlService) }
       let(:account) { document.account }
-      let(:token) { Digest::SHA256.hexdigest("-key#{document.assistant_id}#{document.account_id}") }
+      let(:token) { Digest::SHA256.hexdigest("-key#{document.topic_id}#{document.account_id}") }
 
       before do
         allow(Aiagent::Tools::FirecrawlService).to receive(:new).and_return(firecrawl_service)
@@ -25,7 +25,7 @@ RSpec.describe Aiagent::Documents::CrawlJob, type: :job do
         it 'uses FirecrawlService with the correct crawl limit' do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            "#{webhook_url}?topic_id=#{topic_id}&token=#{token}",
             20
           )
 
@@ -41,7 +41,7 @@ RSpec.describe Aiagent::Documents::CrawlJob, type: :job do
         it 'caps the crawl limit at 500' do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            "#{webhook_url}?topic_id=#{topic_id}&token=#{token}",
             500
           )
 
@@ -57,7 +57,7 @@ RSpec.describe Aiagent::Documents::CrawlJob, type: :job do
         it 'uses default crawl limit of 10' do
           expect(firecrawl_service).to receive(:perform).with(
             document.external_link,
-            "#{webhook_url}?assistant_id=#{assistant_id}&token=#{token}",
+            "#{webhook_url}?topic_id=#{topic_id}&token=#{token}",
             10
           )
 
@@ -84,7 +84,7 @@ RSpec.describe Aiagent::Documents::CrawlJob, type: :job do
           expect(Aiagent::Tools::SimplePageCrawlParserJob)
             .to receive(:perform_later)
             .with(
-              assistant_id: assistant_id,
+              topic_id: topic_id,
               page_link: link
             )
         end
@@ -93,7 +93,7 @@ RSpec.describe Aiagent::Documents::CrawlJob, type: :job do
         expect(Aiagent::Tools::SimplePageCrawlParserJob)
           .to receive(:perform_later)
           .with(
-            assistant_id: assistant_id,
+            topic_id: topic_id,
             page_link: document.external_link
           )
 

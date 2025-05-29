@@ -22,6 +22,6 @@ class CopilotMessage < ApplicationRecord
   belongs_to :user
   belongs_to :account
 
-  validates :message_type, presence: true, inclusion: { in: %w[user assistant assistant_thinking] }
+  validates :message_type, presence: true, inclusion: { in: %w[user topic topic_thinking] }
   validates :message, presence: true
 end

@@ -76,7 +76,7 @@ describe ChatwootHub do
       stub_request(:post, ChatwootHub::AIAGENT_ACCOUNTS_URL).with(
         body: { installation_identifier: described_class.installation_identifier, chatwoot_account_id: account.id, account_name: account.name }
       ).to_return(
-        body: { account_email: 'test@test.com', account_id: '123', access_token: '123', assistant_id: '123' }.to_json
+        body: { account_email: 'test@test.com', account_id: '123', access_token: '123', topic_id: '123' }.to_json
       )
 
       expect(described_class.get_aiagent_settings(account).body).to eq(
@@ -84,7 +84,7 @@ describe ChatwootHub do
           account_email: 'test@test.com',
           account_id: '123',
           access_token: '123',
-          assistant_id: '123'
+          topic_id: '123'
         }.to_json
       )
     end

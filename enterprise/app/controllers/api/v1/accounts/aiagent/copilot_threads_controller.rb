@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Aiagent::CopilotThreadsController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action -> { check_authorization(Aiagent::Assistant) }
+  before_action -> { check_authorization(Aiagent::Topic) }
 
   def index
     @copilot_threads = Current.account.copilot_threads

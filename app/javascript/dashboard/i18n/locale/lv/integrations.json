@@ -336,7 +336,7 @@
       "YOU": "Jūs",
       "USE": "Izmantot šo",
       "RESET": "Atiestatīt",
-      "SELECT_ASSISTANT": "Izvēlēties Asistentu",
+      "SELECT_TOPIC": "Izvēlēties Asistentu",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Summarize this conversation",
@@ -354,10 +354,10 @@
     },
     "PLAYGROUND": {
       "USER": "Jūs",
-      "ASSISTANT": "Asistents",
+      "TOPIC": "Asistents",
       "MESSAGE_PLACEHOLDER": "Rakstiet savu ziņojumu...",
       "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "DESCRIPTION": "Use this playground to send messages to your topic and check if it responds accurately, quickly, and in the tone you expect.",
       "CREDIT_NOTE": "Messages sent here will count toward your Aiagent credits."
     },
     "PAYWALL": {
@@ -381,7 +381,7 @@
       "CREATE": "Izveidot",
       "EDIT": "Atjaunināt"
     },
-    "ASSISTANTS": {
+    "TOPICS": {
       "HEADER": "Asistenti",
       "ADD_NEW": "Izveidot jaunu asistentu",
       "DELETE": {
@@ -408,12 +408,12 @@
         },
         "NAME": {
           "LABEL": "Nosaukums",
-          "PLACEHOLDER": "Enter assistant name",
+          "PLACEHOLDER": "Enter topic name",
           "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "Apraksts",
-          "PLACEHOLDER": "Enter assistant description",
+          "PLACEHOLDER": "Enter topic description",
           "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
@@ -435,7 +435,7 @@
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "PLACEHOLDER": "Enter instructions for the topic"
         },
         "FEATURES": {
           "TITLE": "Īpašības",
@@ -447,19 +447,19 @@
         "TITLE": "Atjaunināt asistentu",
         "SUCCESS_MESSAGE": "Asistents ir veiksmīgi atjaunināts",
         "ERROR_MESSAGE": "Atjauninot asistentu radās kļūda. Lūdzu, mēģiniet vēlreiz.",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Could not find the topic. Please try again."
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "Rediģēt Asistentu",
-        "DELETE_ASSISTANT": "Dzēst Asistentu",
+        "EDIT_TOPIC": "Rediģēt Asistentu",
+        "DELETE_TOPIC": "Dzēst Asistentu",
         "VIEW_CONNECTED_INBOXES": "Skatīt pievienotās iesūtnes"
       },
       "EMPTY_STATE": {
         "TITLE": "Asistenti nav pieejami",
         "SUBTITLE": "Izveidot palīgu, lai sniegtu lietotājiem ātras un precīzas atbildes. Tas var mācīties no Jūsu palīdzības rakstiem un iepriekšējām sarunām.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Aiagent Assistant",
-          "NOTE": "Aiagent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Aiagent Topic",
+          "NOTE": "Aiagent Topic engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       }
     },
@@ -482,7 +482,7 @@
           "PLACEHOLDER": "Ievadiet dokumenta URL",
           "ERROR": "Lūdzu, norādiet pareizu dokumenta URL"
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "Asistents",
           "PLACEHOLDER": "Izvēlēties asistentu",
           "ERROR": "Asistenta lauks ir obligāti jāaizpilda"
@@ -504,7 +504,7 @@
         "SUBTITLE": "Jūsu palīgs izmanto dokumentus, lai izveidotu bieži uzdotos jautājumus. Jūs varat importēt dokumentus, lai nodrošinātu kontekstu savam palīgam.",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Aiagent Document",
-          "NOTE": "A document in Aiagent serves as a knowledge resource for the assistant. By connecting your help center or guides, Aiagent can analyze the content and provide accurate responses for customer inquiries."
+          "NOTE": "A document in Aiagent serves as a knowledge resource for the topic. By connecting your help center or guides, Aiagent can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -536,9 +536,9 @@
         "ERROR_MESSAGE": "Dzēšot bieži uzdotos jautājumus radās kļūda. Lūdzu, mēģiniet vēlreiz."
       },
       "FILTER": {
-        "ASSISTANT": "Asistents: {selected}",
+        "TOPIC": "Asistents: {selected}",
         "STATUS": "Statuss: {selected}",
-        "ALL_ASSISTANTS": "Visi"
+        "ALL_TOPICS": "Visi"
       },
       "STATUS": {
         "TITLE": "Statuss",
@@ -563,7 +563,7 @@
           "PLACEHOLDER": "Ievadiet atbildi šeit",
           "ERROR": "Lūdzu, ievadiet derīgu atbildi."
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "Asistents",
           "PLACEHOLDER": "Izvēlieties asistentu",
           "ERROR": "Lūdzu, izvēlieties asistentu."

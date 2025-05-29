@@ -38,7 +38,7 @@ class Aiagent::Agent
   def setup_messages(input, context)
     if @messages.empty?
       push_to_messages({ role: 'system', content: @prompt })
-      push_to_messages({ role: 'assistant', content: context }) if context.present?
+      push_to_messages({ role: 'topic', content: context }) if context.present?
     end
     push_to_messages({ role: 'user', content: input })
   end
@@ -46,9 +46,9 @@ class Aiagent::Agent
   def handle_llm_result(result)
     if result[:tool_call]
       tool_result = execute_tool(result[:tool_call])
-      push_to_messages({ role: 'assistant', content: tool_result })
+      push_to_messages({ role: 'topic', content: tool_result })
     else
-      push_to_messages({ role: 'assistant', content: result[:output] })
+      push_to_messages({ role: 'topic', content: result[:output] })
     end
     result[:output]
   end

@@ -66,7 +66,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
             { role: 'system',
               content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
             { role: 'user', content: customer_message.content },
-            { role: 'assistant', content: agent_message.content }
+            { role: 'topic', content: agent_message.content }
           ]
         }.to_json
 

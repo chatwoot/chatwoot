@@ -137,8 +137,8 @@ const getters = {
     return _state.contextMenuChatId;
   },
 
-  getCopilotAssistant: _state => {
-    return _state.copilotAssistant;
+  getCopilotTopic: _state => {
+    return _state.copilotTopic;
   },
 };
 

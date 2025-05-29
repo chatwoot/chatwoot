@@ -46,7 +46,7 @@ import teamMembers from './modules/teamMembers';
 import teams from './modules/teams';
 import userNotificationSettings from './modules/userNotificationSettings';
 import webhooks from './modules/webhooks';
-import aiagentAssistants from './aiagent/assistant';
+import aiagentTopics from './aiagent/topic';
 import aiagentDocuments from './aiagent/document';
 import aiagentResponses from './aiagent/response';
 import aiagentInboxes from './aiagent/inboxes';
@@ -101,7 +101,7 @@ export default createStore({
     teams,
     userNotificationSettings,
     webhooks,
-    aiagentAssistants,
+    aiagentTopics,
     aiagentDocuments,
     aiagentResponses,
     aiagentInboxes,

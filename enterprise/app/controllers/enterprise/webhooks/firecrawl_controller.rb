@@ -2,7 +2,7 @@ class Enterprise::Webhooks::FirecrawlController < ActionController::API
   before_action :validate_token
 
   def process_payload
-    Aiagent::Tools::FirecrawlParserJob.perform_later(assistant_id: assistant.id, payload: payload) if crawl_page_event?
+    Aiagent::Tools::FirecrawlParserJob.perform_later(topic_id: topic.id, payload: payload) if crawl_page_event?
 
     head :ok
   end
@@ -16,15 +16,15 @@ class Enterprise::Webhooks::FirecrawlController < ActionController::API
   end
 
   def validate_token
-    render json: { error: 'Invalid access_token' }, status: :unauthorized if assistant_token != permitted_params[:token]
+    render json: { error: 'Invalid access_token' }, status: :unauthorized if topic_token != permitted_params[:token]
   end
 
-  def assistant
-    @assistant ||= Aiagent::Assistant.find(permitted_params[:assistant_id])
+  def topic
+    @topic ||= Aiagent::Topic.find(permitted_params[:topic_id])
   end
 
-  def assistant_token
-    generate_firecrawl_token(assistant.id, assistant.account_id)
+  def topic_token
+    generate_firecrawl_token(topic.id, topic.account_id)
   end
 
   def crawl_page_event?
@@ -34,7 +34,7 @@ class Enterprise::Webhooks::FirecrawlController < ActionController::API
   def permitted_params
     params.permit(
       :type,
-      :assistant_id,
+      :topic_id,
       :token,
       :success,
       :id,

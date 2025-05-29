@@ -11,14 +11,14 @@ import FeatureSpotlightPopover from './FeatureSpotlightPopover.vue';
       <div class="p-6 h-[450px] bg-n-background">
         <div class="flex gap-8">
           <FeatureSpotlightPopover
-            button-label="Learn about Assistant"
-            title="Aiagent Assistant"
-            note="Aiagent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before transferring to an agent when needed."
+            button-label="Learn about Topic"
+            title="Aiagent Topic"
+            note="Aiagent Topic engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before transferring to an agent when needed."
             video-url=""
             thumbnail=""
-            fallback-thumbnail="/assets/images/dashboard/aiagent/assistant-popover-light.svg"
-            fallback-thumbnail-dark="/assets/images/dashboard/aiagent/assistant-popover-dark.svg"
-            learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-assistant-with-aiagent"
+            fallback-thumbnail="/assets/images/dashboard/aiagent/topic-popover-light.svg"
+            fallback-thumbnail-dark="/assets/images/dashboard/aiagent/topic-popover-dark.svg"
+            learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-topic-with-aiagent"
           />
         </div>
       </div>
@@ -28,14 +28,14 @@ import FeatureSpotlightPopover from './FeatureSpotlightPopover.vue';
       <div class="p-6 h-[450px] bg-n-background">
         <div class="flex gap-8">
           <FeatureSpotlightPopover
-            button-label="Learn about Assistant"
-            title="Aiagent Assistant"
-            note="Aiagent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before transferring to an agent when needed."
+            button-label="Learn about Topic"
+            title="Aiagent Topic"
+            note="Aiagent Topic engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before transferring to an agent when needed."
             video-url="https://www.youtube.com/watch?v=E4xUHyAAktY"
             thumbnail="https://i.ytimg.com/an_webp/E4xUHyAAktY/mqdefault_6s.webp?du=3000&sqp=CJaKmL4G&rs=AOn4CLCmfy1TMOcW4UsjQTgyKRp4TSGZgg"
-            fallback-thumbnail="/assets/images/dashboard/aiagent/assistant-popover-light.svg"
-            fallback-thumbnail-dark="/assets/images/dashboard/aiagent/assistant-popover-dark.svg"
-            learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-assistant-with-aiagent"
+            fallback-thumbnail="/assets/images/dashboard/aiagent/topic-popover-light.svg"
+            fallback-thumbnail-dark="/assets/images/dashboard/aiagent/topic-popover-dark.svg"
+            learn-more-url="https://www.chatwoot.com/hc/user-guide/articles/1738101547-creating-an-topic-with-aiagent"
           />
         </div>
       </div>

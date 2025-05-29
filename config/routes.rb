@@ -52,13 +52,13 @@ Rails.application.routes.draw do
             post :bulk_create, on: :collection
           end
           namespace :aiagent do
-            resources :assistants do
+            resources :topics do
               member do
                 post :playground
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
             end
-            resources :assistant_responses
+            resources :topic_responses
             resources :bulk_actions, only: [:create]
             resources :copilot_threads, only: [:index] do
               resources :copilot_messages, only: [:index]
@@ -128,7 +128,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               post :copilot
-              get :inbox_assistant
+              get :inbox_topic
             end
           end
 

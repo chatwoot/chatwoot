@@ -51,7 +51,7 @@ module Aiagent::ChatHelper
 
   def append_tool_calls(tool_calls)
     @messages << {
-      role: 'assistant',
+      role: 'topic',
       tool_calls: tool_calls
     }
   end

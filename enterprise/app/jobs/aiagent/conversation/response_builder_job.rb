@@ -1,12 +1,12 @@
 class Aiagent::Conversation::ResponseBuilderJob < ApplicationJob
   MAX_MESSAGE_LENGTH = 10_000
 
-  def perform(conversation, assistant)
+  def perform(conversation, topic)
     @conversation = conversation
     @inbox = conversation.inbox
-    @assistant = assistant
+    @topic = topic
 
-    Current.executed_by = @assistant
+    Current.executed_by = @topic
 
     ActiveRecord::Base.transaction do
       generate_and_process_response
@@ -22,7 +22,7 @@ class Aiagent::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Aiagent::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+    @response = Aiagent::Llm::TopicChatService.new(topic: @topic).generate_response(
       @conversation.messages.incoming.last.content,
       collect_previous_messages
     )
@@ -68,7 +68,7 @@ class Aiagent::Conversation::ResponseBuilderJob < ApplicationJob
   def process_action(action)
     case action
     when 'handoff'
-      I18n.with_locale(@assistant.account.locale) do
+      I18n.with_locale(@topic.account.locale) do
         create_handoff_message
         @conversation.bot_handoff!
       end
@@ -76,7 +76,7 @@ class Aiagent::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def create_handoff_message
-    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.aiagent.handoff'))
+    create_outgoing_message(@topic.config['handoff_message'].presence || I18n.t('conversations.aiagent.handoff'))
   end
 
   def create_messages
@@ -93,7 +93,7 @@ class Aiagent::Conversation::ResponseBuilderJob < ApplicationJob
       message_type: :outgoing,
       account_id: account.id,
       inbox_id: inbox.id,
-      sender: @assistant,
+      sender: @topic,
       content: message_content
     )
   end

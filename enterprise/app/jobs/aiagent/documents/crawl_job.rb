@@ -18,13 +18,13 @@ class Aiagent::Documents::CrawlJob < ApplicationJob
 
     page_links.each do |page_link|
       Aiagent::Tools::SimplePageCrawlParserJob.perform_later(
-        assistant_id: document.assistant_id,
+        topic_id: document.topic_id,
         page_link: page_link
       )
     end
 
     Aiagent::Tools::SimplePageCrawlParserJob.perform_later(
-      assistant_id: document.assistant_id,
+      topic_id: document.topic_id,
       page_link: document.external_link
     )
   end
@@ -46,6 +46,6 @@ class Aiagent::Documents::CrawlJob < ApplicationJob
   def firecrawl_webhook_url(document)
     webhook_url = Rails.application.routes.url_helpers.enterprise_webhooks_firecrawl_url
 
-    "#{webhook_url}?assistant_id=#{document.assistant_id}&token=#{generate_firecrawl_token(document.assistant_id, document.account_id)}"
+    "#{webhook_url}?topic_id=#{document.topic_id}&token=#{generate_firecrawl_token(document.topic_id, document.account_id)}"
   end
 end

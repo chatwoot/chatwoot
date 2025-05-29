@@ -688,20 +688,20 @@ describe('#addMentions', () => {
     });
   });
 
-  describe('#getInboxAiagentAssistantById', () => {
-    it('fetches inbox assistant by id', async () => {
+  describe('#getInboxAiagentTopicById', () => {
+    it('fetches inbox topic by id', async () => {
       axios.get.mockResolvedValue({
         data: {
           id: 1,
-          name: 'Assistant',
-          description: 'Assistant description',
+          name: 'Topic',
+          description: 'Topic description',
         },
       });
-      await actions.getInboxAiagentAssistantById({ commit }, 1);
+      await actions.getInboxAiagentTopicById({ commit }, 1);
       expect(commit.mock.calls).toEqual([
         [
-          types.SET_INBOX_AIAGENT_ASSISTANT,
-          { id: 1, name: 'Assistant', description: 'Assistant description' },
+          types.SET_INBOX_AIAGENT_TOPIC,
+          { id: 1, name: 'Topic', description: 'Topic description' },
         ],
       ]);
     });

@@ -4,12 +4,12 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import DeleteDialog from 'dashboard/components-next/aiagent/pageComponents/DeleteDialog.vue';
-import DocumentCard from 'dashboard/components-next/aiagent/assistant/DocumentCard.vue';
+import DocumentCard from 'dashboard/components-next/aiagent/topic/DocumentCard.vue';
 import PageLayout from 'dashboard/components-next/aiagent/PageLayout.vue';
 import AiagentPaywall from 'dashboard/components-next/aiagent/pageComponents/Paywall.vue';
 import RelatedResponses from 'dashboard/components-next/aiagent/pageComponents/document/RelatedResponses.vue';
 import CreateDocumentDialog from 'dashboard/components-next/aiagent/pageComponents/document/CreateDocumentDialog.vue';
-import AssistantSelector from 'dashboard/components-next/aiagent/pageComponents/AssistantSelector.vue';
+import TopicSelector from 'dashboard/components-next/aiagent/pageComponents/TopicSelector.vue';
 import DocumentPageEmptyState from 'dashboard/components-next/aiagent/pageComponents/emptyStates/DocumentPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/aiagent/pageComponents/document/LimitBanner.vue';
@@ -18,10 +18,10 @@ const store = useStore();
 
 const uiFlags = useMapGetter('aiagentDocuments/getUIFlags');
 const documents = useMapGetter('aiagentDocuments/getRecords');
-const assistants = useMapGetter('aiagentAssistants/getRecords');
+const topics = useMapGetter('aiagentTopics/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
 const documentsMeta = useMapGetter('aiagentDocuments/getMeta');
-const selectedAssistant = ref('all');
+const selectedTopic = ref('all');
 
 const selectedDocument = ref(null);
 const deleteDocumentDialog = ref(null);
@@ -35,8 +35,8 @@ const showCreateDialog = ref(false);
 const createDocumentDialog = ref(null);
 const relationQuestionDialog = ref(null);
 
-const shouldShowAssistantSelector = computed(() => {
-  if (assistants.value.length === 0) return false;
+const shouldShowTopicSelector = computed(() => {
+  if (topics.value.length === 0) return false;
 
   return !isFetching.value;
 });
@@ -75,14 +75,14 @@ const handleAction = ({ action, id }) => {
 const fetchDocuments = (page = 1) => {
   const filterParams = { page };
 
-  if (selectedAssistant.value !== 'all') {
-    filterParams.assistantId = selectedAssistant.value;
+  if (selectedTopic.value !== 'all') {
+    filterParams.topicId = selectedTopic.value;
   }
   store.dispatch('aiagentDocuments/get', filterParams);
 };
 
-const handleAssistantFilterChange = assistant => {
-  selectedAssistant.value = assistant;
+const handleTopicFilterChange = topic => {
+  selectedTopic.value = topic;
   fetchDocuments();
 };
 
@@ -95,8 +95,8 @@ const onDeleteSuccess = () => {
 };
 
 onMounted(() => {
-  if (!assistants.value.length) {
-    store.dispatch('aiagentAssistants/get');
+  if (!topics.value.length) {
+    store.dispatch('aiagentTopics/get');
   }
   fetchDocuments();
 });
@@ -136,10 +136,10 @@ onMounted(() => {
     </template>
 
     <template #controls>
-      <div v-if="shouldShowAssistantSelector" class="mb-4 -mt-3 flex gap-3">
-        <AssistantSelector
-          :assistant-id="selectedAssistant"
-          @update="handleAssistantFilterChange"
+      <div v-if="shouldShowTopicSelector" class="mb-4 -mt-3 flex gap-3">
+        <TopicSelector
+          :topic-id="selectedTopic"
+          @update="handleTopicFilterChange"
         />
       </div>
     </template>
@@ -154,7 +154,7 @@ onMounted(() => {
           :key="doc.id"
           :name="doc.name || doc.external_link"
           :external-link="doc.external_link"
-          :assistant="doc.assistant"
+          :topic="doc.topic"
           :created-at="doc.created_at"
           @action="handleAction"
         />

@@ -9,10 +9,10 @@ RSpec.describe Aiagent::InboxPendingConversationsResolutionJob, type: :job do
   let!(:recent_pending_conversation) { create(:conversation, inbox: inbox, last_activity_at: 10.minutes.ago, status: :pending) }
   let!(:open_conversation) { create(:conversation, inbox: inbox, last_activity_at: 1.hour.ago, status: :open) }
 
-  let!(:aiagent_assistant) { create(:aiagent_assistant, account: inbox.account) }
+  let!(:aiagent_topic) { create(:aiagent_topic, account: inbox.account) }
 
   before do
-    create(:aiagent_inbox, inbox: inbox, aiagent_assistant: aiagent_assistant)
+    create(:aiagent_inbox, inbox: inbox, aiagent_topic: aiagent_topic)
     stub_const('Limits::BULK_ACTIONS_LIMIT', 2)
   end
 
@@ -31,7 +31,7 @@ RSpec.describe Aiagent::InboxPendingConversationsResolutionJob, type: :job do
 
   it 'creates exactly one outgoing message with configured content' do
     custom_message = 'This is a custom resolution message.'
-    aiagent_assistant.update!(config: { 'resolution_message' => custom_message })
+    aiagent_topic.update!(config: { 'resolution_message' => custom_message })
 
     expect do
       perform_enqueued_jobs { described_class.perform_later(inbox) }
@@ -42,7 +42,7 @@ RSpec.describe Aiagent::InboxPendingConversationsResolutionJob, type: :job do
   end
 
   it 'creates an outgoing message with default auto resolution message if not configured' do
-    aiagent_assistant.update!(config: {})
+    aiagent_topic.update!(config: {})
 
     perform_enqueued_jobs { described_class.perform_later(inbox) }
     outgoing_message = resolvable_pending_conversation.messages.outgoing.last
@@ -56,7 +56,7 @@ RSpec.describe Aiagent::InboxPendingConversationsResolutionJob, type: :job do
     activity_message = resolvable_pending_conversation.messages.activity.last
     expect(activity_message).not_to be_nil
     expect(activity_message.content).to eq(
-      I18n.t('conversations.activity.aiagent.resolved', user_name: aiagent_assistant.name)
+      I18n.t('conversations.activity.aiagent.resolved', user_name: aiagent_topic.name)
     )
   end
 end

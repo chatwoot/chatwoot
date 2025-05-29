@@ -1,9 +1,9 @@
 require 'rails_helper'
 
 RSpec.describe Aiagent::Llm::ConversationFaqService do
-  let(:aiagent_assistant) { create(:aiagent_assistant) }
+  let(:aiagent_topic) { create(:aiagent_topic) }
   let(:conversation) { create(:conversation, first_reply_created_at: Time.zone.now) }
-  let(:service) { described_class.new(aiagent_assistant, conversation) }
+  let(:service) { described_class.new(aiagent_topic, conversation) }
   let(:client) { instance_double(OpenAI::Client) }
   let(:embedding_service) { instance_double(Aiagent::Llm::EmbeddingService) }
 
@@ -37,19 +37,19 @@ RSpec.describe Aiagent::Llm::ConversationFaqService do
       before do
         allow(client).to receive(:chat).and_return(openai_response)
         allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
-        allow(aiagent_assistant.responses).to receive(:nearest_neighbors).and_return([])
+        allow(aiagent_topic.responses).to receive(:nearest_neighbors).and_return([])
       end
 
       it 'creates new FAQs' do
         expect do
           service.generate_and_deduplicate
-        end.to change(aiagent_assistant.responses, :count).by(2)
+        end.to change(aiagent_topic.responses, :count).by(2)
       end
 
       it 'saves the correct FAQ content' do
         service.generate_and_deduplicate
         expect(
-          aiagent_assistant.responses.pluck(:question, :answer, :status, :documentable_id)
+          aiagent_topic.responses.pluck(:question, :answer, :status, :documentable_id)
         ).to contain_exactly(
           ['What is the purpose?', 'To help users.', 'pending', conversation.id],
           ['How does it work?', 'Through AI.', 'pending', conversation.id]
@@ -67,10 +67,10 @@ RSpec.describe Aiagent::Llm::ConversationFaqService do
 
     context 'when finding duplicates' do
       let(:existing_response) do
-        create(:aiagent_assistant_response, assistant: aiagent_assistant, question: 'Similar question', answer: 'Similar answer')
+        create(:aiagent_topic_response, topic: aiagent_topic, question: 'Similar question', answer: 'Similar answer')
       end
       let(:similar_neighbor) do
-        # Using OpenStruct here to mock as the Aiagent:AssistantResponse does not implement
+        # Using OpenStruct here to mock as the Aiagent:TopicResponse does not implement
         # neighbor_distance as a method or attribute rather it is returned directly
         # from SQL query in neighbor gem
         OpenStruct.new(
@@ -84,13 +84,13 @@ RSpec.describe Aiagent::Llm::ConversationFaqService do
       before do
         allow(client).to receive(:chat).and_return(openai_response)
         allow(embedding_service).to receive(:get_embedding).and_return([0.1, 0.2, 0.3])
-        allow(aiagent_assistant.responses).to receive(:nearest_neighbors).and_return([similar_neighbor])
+        allow(aiagent_topic.responses).to receive(:nearest_neighbors).and_return([similar_neighbor])
       end
 
       it 'filters out duplicate FAQs' do
         expect do
           service.generate_and_deduplicate
-        end.not_to change(aiagent_assistant.responses, :count)
+        end.not_to change(aiagent_topic.responses, :count)
       end
     end
 

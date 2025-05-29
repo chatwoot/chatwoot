@@ -29,7 +29,7 @@ class Aiagent::Tools::Copilot::SearchLinearIssuesService < Aiagent::Tools::BaseS
 
     return 'Missing required parameters' if term.blank?
 
-    linear_service = Integrations::Linear::ProcessorService.new(account: @assistant.account)
+    linear_service = Integrations::Linear::ProcessorService.new(account: @topic.account)
     result = linear_service.search_issue(term)
 
     return result[:error] if result[:error]
@@ -46,7 +46,7 @@ class Aiagent::Tools::Copilot::SearchLinearIssuesService < Aiagent::Tools::BaseS
   end
 
   def active?
-    @assistant.account.hooks.find_by(app_id: 'linear').present?
+    @topic.account.hooks.find_by(app_id: 'linear').present?
   end
 
   private

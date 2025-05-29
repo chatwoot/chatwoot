@@ -336,7 +336,7 @@
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
-      "SELECT_ASSISTANT": "Select Assistant",
+      "SELECT_TOPIC": "Select Topic",
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Summarize this conversation",
@@ -354,10 +354,10 @@
     },
     "PLAYGROUND": {
       "USER": "あなた",
-      "ASSISTANT": "アシスタント",
+      "TOPIC": "アシスタント",
       "MESSAGE_PLACEHOLDER": "Type your message...",
       "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
+      "DESCRIPTION": "Use this playground to send messages to your topic and check if it responds accurately, quickly, and in the tone you expect.",
       "CREDIT_NOTE": "Messages sent here will count toward your Aiagent credits."
     },
     "PAYWALL": {
@@ -381,7 +381,7 @@
       "CREATE": "作成",
       "EDIT": "更新"
     },
-    "ASSISTANTS": {
+    "TOPICS": {
       "HEADER": "アシスタント",
       "ADD_NEW": "新しいアシスタントを作成",
       "DELETE": {
@@ -408,12 +408,12 @@
         },
         "NAME": {
           "LABEL": "名前",
-          "PLACEHOLDER": "Enter assistant name",
+          "PLACEHOLDER": "Enter topic name",
           "ERROR": "The name is required"
         },
         "DESCRIPTION": {
           "LABEL": "説明",
-          "PLACEHOLDER": "Enter assistant description",
+          "PLACEHOLDER": "Enter topic description",
           "ERROR": "The description is required"
         },
         "PRODUCT_NAME": {
@@ -435,7 +435,7 @@
         },
         "INSTRUCTIONS": {
           "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "PLACEHOLDER": "Enter instructions for the topic"
         },
         "FEATURES": {
           "TITLE": "機能",
@@ -447,19 +447,19 @@
         "TITLE": "アシスタントを更新",
         "SUCCESS_MESSAGE": "アシスタントが正常に更新されました",
         "ERROR_MESSAGE": "アシスタントの更新中にエラーが発生しました。もう一度お試しください。",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "Could not find the topic. Please try again."
       },
       "OPTIONS": {
-        "EDIT_ASSISTANT": "アシスタントを編集",
-        "DELETE_ASSISTANT": "アシスタントを削除",
+        "EDIT_TOPIC": "アシスタントを編集",
+        "DELETE_TOPIC": "アシスタントを削除",
         "VIEW_CONNECTED_INBOXES": "接続された受信トレイを表示"
       },
       "EMPTY_STATE": {
         "TITLE": "利用可能なアシスタントがありません",
         "SUBTITLE": "アシスタントを作成して、お客様に迅速かつ正確な回答を提供します。アシスタントは、ヘルプ記事や過去の会話から学習します。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Aiagent Assistant",
-          "NOTE": "Aiagent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Aiagent Topic",
+          "NOTE": "Aiagent Topic engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       }
     },
@@ -482,7 +482,7 @@
           "PLACEHOLDER": "ドキュメントのURLを入力",
           "ERROR": "有効なURLを入力してください"
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "アシスタント",
           "PLACEHOLDER": "アシスタントを選択",
           "ERROR": "アシスタントの選択が必要です"
@@ -504,7 +504,7 @@
         "SUBTITLE": "ドキュメントはアシスタントがFAQを生成するために使用されます。ドキュメントをインポートしてアシスタントにコンテキストを提供できます。",
         "FEATURE_SPOTLIGHT": {
           "TITLE": "Aiagent Document",
-          "NOTE": "A document in Aiagent serves as a knowledge resource for the assistant. By connecting your help center or guides, Aiagent can analyze the content and provide accurate responses for customer inquiries."
+          "NOTE": "A document in Aiagent serves as a knowledge resource for the topic. By connecting your help center or guides, Aiagent can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -536,9 +536,9 @@
         "ERROR_MESSAGE": "FAQの削除中にエラーが発生しました。もう一度お試しください。"
       },
       "FILTER": {
-        "ASSISTANT": "アシスタント: {selected}",
+        "TOPIC": "アシスタント: {selected}",
         "STATUS": "状況: {selected}",
-        "ALL_ASSISTANTS": "すべて"
+        "ALL_TOPICS": "すべて"
       },
       "STATUS": {
         "TITLE": "状況",
@@ -563,7 +563,7 @@
           "PLACEHOLDER": "ここに回答を入力",
           "ERROR": "有効な回答を入力してください。"
         },
-        "ASSISTANT": {
+        "TOPIC": {
           "LABEL": "アシスタント",
           "PLACEHOLDER": "アシスタントを選択",
           "ERROR": "アシスタントを選択してください。"

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Aiagent::Tools::SimplePageCrawlParserJob, type: :job do
   describe '#perform' do
-    let(:assistant) { create(:aiagent_assistant) }
+    let(:topic) { create(:aiagent_topic) }
     let(:page_link) { 'https://example.com/page' }
     let(:page_title) { 'Example Page Title' }
     let(:content) { 'Some page content here' }
@@ -20,10 +20,10 @@ RSpec.describe Aiagent::Tools::SimplePageCrawlParserJob, type: :job do
     context 'when the page is successfully crawled' do
       it 'creates a new document if one does not exist' do
         expect do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
-        end.to change(assistant.documents, :count).by(1)
+          described_class.perform_now(topic_id: topic.id, page_link: page_link)
+        end.to change(topic.documents, :count).by(1)
 
-        document = assistant.documents.last
+        document = topic.documents.last
         expect(document.external_link).to eq(page_link)
         expect(document.name).to eq(page_title)
         expect(document.content).to eq(content)
@@ -32,14 +32,14 @@ RSpec.describe Aiagent::Tools::SimplePageCrawlParserJob, type: :job do
 
       it 'updates existing document if one exists' do
         existing_document = create(:aiagent_document,
-                                   assistant: assistant,
+                                   topic: topic,
                                    external_link: page_link,
                                    name: 'Old Title',
                                    content: 'Old content')
 
         expect do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
-        end.not_to change(assistant.documents, :count)
+          described_class.perform_now(topic_id: topic.id, page_link: page_link)
+        end.not_to change(topic.documents, :count)
 
         existing_document.reload
         expect(existing_document.name).to eq(page_title)
@@ -57,9 +57,9 @@ RSpec.describe Aiagent::Tools::SimplePageCrawlParserJob, type: :job do
         end
 
         it 'truncates the title and content' do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+          described_class.perform_now(topic_id: topic.id, page_link: page_link)
 
-          document = assistant.documents.last
+          document = topic.documents.last
           expect(document.name.length).to eq(255)
           expect(document.content.length).to eq(15_000)
         end
@@ -73,7 +73,7 @@ RSpec.describe Aiagent::Tools::SimplePageCrawlParserJob, type: :job do
 
       it 'raises an error with the page link' do
         expect do
-          described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+          described_class.perform_now(topic_id: topic.id, page_link: page_link)
         end.to raise_error("Failed to parse data: #{page_link} Failed to fetch")
       end
     end
@@ -85,9 +85,9 @@ RSpec.describe Aiagent::Tools::SimplePageCrawlParserJob, type: :job do
       end
 
       it 'creates document with empty strings and updates the status to available' do
-        described_class.perform_now(assistant_id: assistant.id, page_link: page_link)
+        described_class.perform_now(topic_id: topic.id, page_link: page_link)
 
-        document = assistant.documents.last
+        document = topic.documents.last
         expect(document.name).to eq('')
         expect(document.content).to eq('')
         expect(document.status).to eq('available')

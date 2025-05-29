@@ -1,8 +1,8 @@
 class Aiagent::Tools::BaseService
-  attr_accessor :assistant
+  attr_accessor :topic
 
-  def initialize(assistant)
-    @assistant = assistant
+  def initialize(topic)
+    @topic = topic
   end
 
   def name

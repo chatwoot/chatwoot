@@ -104,7 +104,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   end
 
   def format_message_in_array(message)
-    { role: (message.incoming? ? 'user' : 'assistant'), content: message.content }
+    { role: (message.incoming? ? 'user' : 'topic'), content: message.content }
   end
 
   def format_message_in_string(message)

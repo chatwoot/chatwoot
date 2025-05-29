@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Firecrawl Webhooks', type: :request do
-  describe 'POST /enterprise/webhooks/firecrawl?assistant_id=:assistant_id&token=:token' do
+  describe 'POST /enterprise/webhooks/firecrawl?topic_id=:topic_id&token=:token' do
     let!(:api_key) { create(:installation_config, name: 'AIAGENT_FIRECRAWL_API_KEY', value: 'test_api_key_123') }
     let!(:account) { create(:account) }
-    let!(:assistant) { create(:aiagent_assistant, account: account) }
+    let!(:topic) { create(:aiagent_topic, account: account) }
 
     let(:payload_data) do
       {
@@ -15,7 +15,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
 
     # Generate actual token using the helper
     let(:valid_token) do
-      token_base = "#{api_key.value[-4..]}#{assistant.id}#{assistant.account_id}"
+      token_base = "#{api_key.value[-4..]}#{topic.id}#{topic.account_id}"
       Digest::SHA256.hexdigest(token_base)
     end
 
@@ -31,12 +31,12 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
         it 'processes the webhook and returns success' do
           expect(Aiagent::Tools::FirecrawlParserJob).to receive(:perform_later)
             .with(
-              assistant_id: assistant.id,
+              topic_id: topic.id,
               payload: payload_data
             )
 
           post(
-            "/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
+            "/enterprise/webhooks/firecrawl?topic_id=#{topic.id}&token=#{valid_token}",
             params: valid_params,
             as: :json
           )
@@ -55,7 +55,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
         it 'returns success without enqueuing job' do
           expect(Aiagent::Tools::FirecrawlParserJob).not_to receive(:perform_later)
 
-          post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
+          post("/enterprise/webhooks/firecrawl?topic_id=#{topic.id}&token=#{valid_token}",
                params: valid_params,
                as: :json)
 
@@ -74,7 +74,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       end
 
       it 'returns unauthorized status' do
-        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=invalid_token",
+        post("/enterprise/webhooks/firecrawl?topic_id=#{topic.id}&token=invalid_token",
              params: invalid_params,
              as: :json)
 
@@ -82,10 +82,10 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       end
     end
 
-    context 'with invalid assistant_id' do
-      context 'with non-existent assistant_id' do
+    context 'with invalid topic_id' do
+      context 'with non-existent topic_id' do
         it 'returns not found status' do
-          post("/enterprise/webhooks/firecrawl?assistant_id=invalid_id&token=#{valid_token}",
+          post("/enterprise/webhooks/firecrawl?topic_id=invalid_id&token=#{valid_token}",
                params: { type: 'crawl.page', data: [payload_data] },
                as: :json)
 
@@ -93,7 +93,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
         end
       end
 
-      context 'with nil assistant_id' do
+      context 'with nil topic_id' do
         it 'returns not found status' do
           post("/enterprise/webhooks/firecrawl?token=#{valid_token}",
                params: { type: 'crawl.page', data: [payload_data] },
@@ -110,7 +110,7 @@ RSpec.describe 'Firecrawl Webhooks', type: :request do
       end
 
       it 'returns unauthorized status' do
-        post("/enterprise/webhooks/firecrawl?assistant_id=#{assistant.id}&token=#{valid_token}",
+        post("/enterprise/webhooks/firecrawl?topic_id=#{topic.id}&token=#{valid_token}",
              params: { type: 'crawl.page', data: [payload_data] },
              as: :json)
 

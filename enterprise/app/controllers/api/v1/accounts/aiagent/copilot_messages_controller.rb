@@ -1,6 +1,6 @@
 class Api::V1::Accounts::Aiagent::CopilotMessagesController < Api::V1::Accounts::BaseController
   before_action :current_account
-  before_action -> { check_authorization(Aiagent::Assistant) }
+  before_action -> { check_authorization(Aiagent::Topic) }
   before_action :set_copilot_thread
 
   def index

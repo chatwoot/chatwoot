@@ -1,8 +1,8 @@
 require 'rails_helper'
 
 RSpec.describe Aiagent::Documents::ResponseBuilderJob, type: :job do
-  let(:assistant) { create(:aiagent_assistant) }
-  let(:document) { create(:aiagent_document, assistant: assistant) }
+  let(:topic) { create(:aiagent_topic) }
+  let(:document) { create(:aiagent_document, topic: topic) }
   let(:faq_generator) { instance_double(Aiagent::Llm::FaqGeneratorService) }
   let(:faqs) do
     [
@@ -21,7 +21,7 @@ RSpec.describe Aiagent::Documents::ResponseBuilderJob, type: :job do
   describe '#perform' do
     context 'when processing a document' do
       it 'deletes previous responses' do
-        existing_response = create(:aiagent_assistant_response, documentable: document)
+        existing_response = create(:aiagent_topic_response, documentable: document)
 
         described_class.new.perform(document)
 
@@ -31,7 +31,7 @@ RSpec.describe Aiagent::Documents::ResponseBuilderJob, type: :job do
       it 'creates new responses for each FAQ' do
         expect do
           described_class.new.perform(document)
-        end.to change(Aiagent::AssistantResponse, :count).by(2)
+        end.to change(Aiagent::TopicResponse, :count).by(2)
 
         responses = document.responses.reload
         expect(responses.count).to eq(2)
@@ -39,7 +39,7 @@ RSpec.describe Aiagent::Documents::ResponseBuilderJob, type: :job do
         first_response = responses.first
         expect(first_response.question).to eq('What is Ruby?')
         expect(first_response.answer).to eq('A programming language')
-        expect(first_response.assistant).to eq(assistant)
+        expect(first_response.topic).to eq(topic)
         expect(first_response.documentable).to eq(document)
       end
     end
