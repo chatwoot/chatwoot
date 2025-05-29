@@ -186,20 +186,36 @@ class Message < ApplicationRecord
     # move this to a presenter
     return self[:content] unless input_csat_non_web_widget?
 
-    # For CSAT messages on non-web widget channels, return only the base content
-    # Survey URL is stored separately to prevent agents from seeing it in dashboard
-    self[:content]
+    # For CSAT messages on non-web widget channels, check if URL is stored separately
+    if survey_url.present?
+      # Survey URL is stored separately, return only the base content for dashboard
+      self[:content]
+    else
+      # Backward compatibility: if no separate URL storage, return the full content with URL
+      generate_csat_content_with_url
+    end
   end
 
   # Method to get content with survey URL for external channel delivery
   def content_for_channel
     return content unless input_csat_non_web_widget?
 
-    # If survey URL is stored separately, append it to the content
-    return "#{content} #{survey_url}" if survey_url.present?
+    # If survey URL is stored separately, use CSAT config message or content
+    if survey_url.present?
+      message_text = inbox.csat_config&.dig('message').presence || content
+      return "#{message_text} #{survey_url}"
+    end
 
     # Fallback for backward compatibility with older messages that don't have separate URL storage
     generate_csat_content_with_url
+  end
+
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
   end
 
   private
@@ -209,21 +225,13 @@ class Message < ApplicationRecord
   end
 
   def generate_csat_content_with_url
-    survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+    survey_link = (survey_url.presence || "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
 
     if inbox.csat_config&.dig('message').present?
       "#{inbox.csat_config['message']} #{survey_link}"
     else
       I18n.t('conversations.survey.response', link: survey_link)
     end
-  end
-
-  def email_notifiable_message?
-    return false if private?
-    return false if %w[outgoing template].exclude?(message_type)
-    return false if template? && %w[input_csat text].exclude?(content_type)
-
-    true
   end
 
   def valid_first_reply?
