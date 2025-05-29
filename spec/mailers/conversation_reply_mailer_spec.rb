@@ -87,7 +87,7 @@ RSpec.describe ConversationReplyMailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
       it 'has correct name' do
-        expect(mail[:from].display_names).to eq(["#{message.sender.available_name} from Inbox"])
+        expect(mail[:from].display_names).to eq(["#{message.sender.available_name} from #{message.conversation.inbox.sanitized_name}"])
       end
     end
 
@@ -240,19 +240,19 @@ RSpec.describe ConversationReplyMailer do
 
       it 'renders sender name in the from address' do
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.sanitized_name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders sender name even when assignee is not present' do
         conversation.update(assignee_id: nil)
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.sanitized_name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders assignee name in the from address when sender_name not available' do
         message.update(sender_id: nil)
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.sanitized_name} <#{smtp_email_channel.email}>"
       end
 
       it 'renders inbox name as sender and assignee or business_name not present' do
@@ -260,7 +260,7 @@ RSpec.describe ConversationReplyMailer do
         conversation.update(assignee_id: nil)
 
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "Notifications from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "Notifications from #{smtp_email_channel.inbox.sanitized_name} <#{smtp_email_channel.email}>"
       end
 
       context 'when friendly name enabled' do
@@ -276,7 +276,7 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message)
 
-          expect(mail['from'].value).to eq "Notifications from #{conversation.inbox.name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "Notifications from #{conversation.inbox.sanitized_name} <#{smtp_email_channel.email}>"
         end
 
         it 'renders sender name as sender and assignee nil and business_name present' do
@@ -321,7 +321,7 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message)
 
-          expect(mail['from'].value).to eq "#{conversation.inbox.name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "#{conversation.inbox.sanitized_name} <#{smtp_email_channel.email}>"
         end
 
         it 'renders sender name as business_name present' do
@@ -430,7 +430,7 @@ RSpec.describe ConversationReplyMailer do
 
       it 'sets reply to email to be based on the domain' do
         reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
-        reply_to = "#{message.sender.available_name} from #{conversation.inbox.name} <#{reply_to_email}>"
+        reply_to = "#{message.sender.available_name} from #{conversation.inbox.sanitized_name} <#{reply_to_email}>"
         expect(mail['REPLY-TO'].value).to eq(reply_to)
         expect(mail.reply_to).to eq([reply_to_email])
       end
