@@ -21,7 +21,7 @@ describe 'Markdown Embeds Configuration' do
     end
 
     it 'contains expected embed types' do
-      expected_types = %w[youtube loom vimeo mp4 arcade wistia bunny twitch_video twitch_clip codepen github_gist]
+      expected_types = %w[youtube loom vimeo mp4 arcade wistia bunny codepen github_gist]
       expect(config.keys).to match_array(expected_types)
     end
   end
@@ -58,14 +58,6 @@ describe 'Markdown Embeds Configuration' do
           { url: 'https://iframe.mediadelivery.net/play/431789/1f105841-cad9-46fe-a70e-b7623c60797c',
             expected: { 'library_id' => '431789', 'video_id' => '1f105841-cad9-46fe-a70e-b7623c60797c' } },
           { url: 'https://iframe.mediadelivery.net/play/12345/abcdef-ghijkl', expected: { 'library_id' => '12345', 'video_id' => 'abcdef-ghijkl' } }
-        ],
-        'twitch_video' => [
-          { url: 'https://www.twitch.tv/videos/123456789', expected: { 'video_id' => '123456789' } },
-          { url: 'https://twitch.tv/videos/987654321', expected: { 'video_id' => '987654321' } }
-        ],
-        'twitch_clip' => [
-          { url: 'https://clips.twitch.tv/CleverClipName', expected: { 'clip_id' => 'CleverClipName' } },
-          { url: 'https://clips.twitch.tv/AnotherClip123', expected: { 'clip_id' => 'AnotherClip123' } }
         ],
         'codepen' => [
           { url: 'https://codepen.io/username/pen/abcdef', expected: { 'user' => 'username', 'pen_id' => 'abcdef' } },
