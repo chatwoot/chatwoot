@@ -355,6 +355,10 @@ POSTGRES_USERNAME=postgres #change to your username
 POSTGRES_PASSWORD=... #change to your password
 RAILS_ENV=development
 ```
+Update redis host.
+```
+REDIS_URL=redis://localhost:6379 #changed from redis://redis:6379
+```
 ### Setup rails server
 ```
 # run db migrations
