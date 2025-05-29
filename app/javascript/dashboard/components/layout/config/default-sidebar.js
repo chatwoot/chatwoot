@@ -12,7 +12,6 @@ export const getSidebarItems = accountId => ({
     conversations(accountId),
     contacts(accountId),
     reports(accountId),
-    campaigns(accountId),
     settings(accountId),
     notifications(accountId),
   ],

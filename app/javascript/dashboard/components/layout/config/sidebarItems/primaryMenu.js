@@ -18,14 +18,6 @@ const primaryMenuItems = accountId => [
     toStateName: 'home',
   },
   {
-    icon: 'captain',
-    key: 'captain',
-    label: 'CAPTAIN',
-    featureFlag: FEATURE_FLAGS.CAPTAIN,
-    toState: frontendURL(`accounts/${accountId}/captain/documents`),
-    toStateName: 'captain',
-  },
-  {
     icon: 'book-contacts',
     key: 'contacts',
     label: 'CONTACTS',
@@ -40,14 +32,6 @@ const primaryMenuItems = accountId => [
     featureFlag: FEATURE_FLAGS.REPORTS,
     toState: frontendURL(`accounts/${accountId}/reports`),
     toStateName: 'account_overview_reports',
-  },
-  {
-    icon: 'megaphone',
-    key: 'campaigns',
-    label: 'CAMPAIGNS',
-    featureFlag: FEATURE_FLAGS.CAMPAIGNS,
-    toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'campaigns_ongoing_index',
   },
   {
     icon: 'library',
