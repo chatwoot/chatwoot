@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "அணுகுவதற்கான டோக்கன்",
         "NOTE": "நீங்கள் API அடிப்படையிலான ஒருங்கிணைப்பை உருவாக்கினால் இந்த டோக்கனைப் பயன்படுத்தலாம்",
-        "COPY": "நகல்"
+        "COPY": "நகல்",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
