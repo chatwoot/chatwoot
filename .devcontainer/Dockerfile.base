@@ -31,11 +31,14 @@ RUN apt-get update && export DEBIAN_FRONTEND=noninteractive \
     imagemagick \
     tmux \
     zsh \
-    git-flow \
-    npm \
+    git-flow-avh \
+    libyaml-0-2 \
     libyaml-dev \
     curl \
     ca-certificates \
+    software-properties-common \
+  && curl -fsSL https://deb.nodesource.com/setup_lts.x | bash - \
+  && apt-get install -y nodejs \
   && apt-get clean \
   && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
@@ -68,8 +71,7 @@ RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmi
 WORKDIR /workspace
 
 # set up node js and pnpm in single layer
-RUN npm install -g n@latest pnpm@${PNPM_VERSION} \
-    && n $NODE_VERSION \
+RUN npm install -g pnpm@${PNPM_VERSION} \
     && npm cache clean --force
 
 # Copy dependency files first for better caching
