@@ -1,6 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import ConfirmButton from 'dashboard/components-next/button/ConfirmButton.vue';
 
 const props = defineProps({
   value: { type: String, default: '' },
@@ -62,12 +63,14 @@ const onReset = () => {
         class="rounded-xl"
         @click="onClick"
       />
-      <NextButton
+      <ConfirmButton
         v-if="showResetButton"
         :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET')"
-        slate
-        outline
-        type="button"
+        :confirm-label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_RESET')"
+        :confirm-hint="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_HINT')"
+        color="slate"
+        confirm-color="ruby"
+        variant="outline"
         icon="i-lucide-key-round"
         class="rounded-xl"
         @click="onReset"
