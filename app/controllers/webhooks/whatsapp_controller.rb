@@ -27,8 +27,6 @@ class Webhooks::WhatsappController < ActionController::API
     head :unauthorized
   rescue Whatsapp::IncomingMessageBaileysService::MessageNotFoundError
     head :not_found
-  rescue Whatsapp::IncomingMessageBaileysService::AttachmentNotFoundError
-    head :unprocessable_entity
   end
 
   def valid_token?(token)

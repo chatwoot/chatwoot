@@ -423,6 +423,18 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}.png")
           expect(attachment.file.content_type).to eq('image/png')
         end
+
+        it 'sets message as unsupported and logs error if attachment download fails' do
+          allow(Down).to receive(:download).and_raise(Down::ResponseError.new('Attachment not found'))
+          allow(Rails.logger).to receive(:error).with('Failed to download attachment for message msg_123: Attachment not found')
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(Rails.logger).to have_received(:error)
+          message = inbox.conversations.last.messages.last
+          expect(message).to be_present
+          expect(message.is_unsupported).to be(true)
+        end
       end
 
       context 'when message type is video' do
@@ -638,6 +650,19 @@ describe Whatsapp::IncomingMessageBaileysService do
           described_class.new(inbox: inbox, params: params).perform
 
           expect(Rails.logger).to have_received(:warn)
+        end
+      end
+
+      context 'when is a content update' do
+        it 'updates the message content' do
+          original_content = message.content
+          update_payload[:update] = { message: { editedMessage: { message: { conversation: 'New message content' } } } }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(message.reload.content).to eq('New message content')
+          expect(message.is_edited).to be(true)
+          expect(message.previous_content).to eq(original_content)
         end
       end
 
