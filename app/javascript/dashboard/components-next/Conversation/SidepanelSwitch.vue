@@ -51,23 +51,25 @@ useKeyboardEvents(keyboardEvents);
     class="flex flex-col justify-center items-center absolute top-24 right-2 bg-n-solid-2 border border-n-weak rounded-full gap-2 p-1"
   >
     <Button
+      v-tooltip.top="$t('CONVERSATION.SIDEBAR.CONTACT')"
       ghost
       slate
       sm
-      class="!text-sm !rounded-full"
+      class="!rounded-full"
       :class="{
-        'bg-n-alpha-1': isContactSidebarOpen,
+        'bg-n-alpha-2': isContactSidebarOpen,
       }"
       icon="i-ph-user-bold"
       @click="handleConversationSidebarToggle"
     />
     <Button
       v-if="showCopilotTab"
+      v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.COPILOT')"
       ghost
       slate
-      class="!text-sm !rounded-full"
+      class="!rounded-full"
       :class="{
-        'bg-n-alpha-1': isCopilotPanelOpen,
+        'bg-n-alpha-2 !text-n-iris-9': isCopilotPanelOpen,
       }"
       sm
       icon="i-woot-captain"
