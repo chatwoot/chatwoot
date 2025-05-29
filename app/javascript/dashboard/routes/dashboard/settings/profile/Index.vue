@@ -245,7 +245,12 @@ export default {
         <button
           v-for="hotKey in hotKeys"
           :key="hotKey.key"
-          class="px-0 reset-base w-full sm:flex-1"
+          class="px-0 reset-base w-full sm:flex-1 rounded-xl outline-1 outline"
+          :class="
+            isEditorHotKeyEnabled(hotKey.key)
+              ? 'outline-n-brand/30'
+              : 'outline-n-weak'
+          "
         >
           <HotKeyCard
             :key="hotKey.title"
