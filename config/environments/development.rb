@@ -63,9 +63,18 @@ Rails.application.configure do
   # Disable host check during development
   config.hosts = nil
   
-  # Allow web console access from any IP in codespaces
+  # GitHub Codespaces configuration
   if ENV['CODESPACES']
+    # Allow web console access from any IP
     config.web_console.whitelisted_ips = %w(0.0.0.0/0 ::/0)
+    # Allow CSRF from codespace URLs
+    config.force_ssl = false
+    config.action_controller.forgery_protection_origin_check = false
+    # Set proper hosts for codespaces
+    if ENV['CODESPACE_NAME']
+      config.hosts << "#{ENV['CODESPACE_NAME']}-3000.app.github.dev"
+      config.hosts << "#{ENV['CODESPACE_NAME']}-3000.githubpreview.dev"
+    end
   end
 
   # customize using the environment variables
