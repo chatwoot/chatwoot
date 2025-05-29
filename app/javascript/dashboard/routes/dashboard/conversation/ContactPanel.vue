@@ -11,14 +11,14 @@ import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
 import ContactConversations from './ContactConversations.vue';
 import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
-
 import ContactInfo from './contact/ContactInfo.vue';
 import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
-import ShopifyOrdersList from '../../../components/widgets/conversation/ShopifyOrdersList.vue';
+import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
+import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 
 const props = defineProps({
   conversationId: {
@@ -28,10 +28,6 @@ const props = defineProps({
   inboxId: {
     type: Number,
     default: undefined,
-  },
-  onToggle: {
-    type: Function,
-    default: () => {},
   },
 });
 
@@ -89,12 +85,17 @@ watch(conversationId, (newConversationId, prevConversationId) => {
 
 watch(contactId, getContactDetails);
 
-const onPanelToggle = props.onToggle;
-
 const onDragEnd = () => {
   dragging.value = false;
   updateUISettings({
     conversation_sidebar_items_order: conversationSidebarItems.value,
+  });
+};
+
+const closeContactPanel = () => {
+  updateUISettings({
+    is_contact_sidebar_open: false,
+    is_copilot_panel_open: false,
   });
 };
 
@@ -107,11 +108,11 @@ onMounted(() => {
 
 <template>
   <div class="w-full">
-    <ContactInfo
-      :contact="contact"
-      :channel-type="channelType"
-      @toggle-panel="onPanelToggle"
+    <SidebarActionsHeader
+      :title="$t('CONVERSATION.SIDEBAR.CONTACT')"
+      @close="closeContactPanel"
     />
+    <ContactInfo :contact="contact" :channel-type="channelType" />
     <div class="list-group pb-8">
       <Draggable
         :list="conversationSidebarItems"
