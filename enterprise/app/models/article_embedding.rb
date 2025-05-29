@@ -24,6 +24,6 @@ class ArticleEmbedding < ApplicationRecord
   def update_response_embedding
     return unless saved_change_to_term? || embedding.nil?
 
-    Captain::Llm::UpdateEmbeddingJob.perform_later(self, term)
+    Aiagent::Llm::UpdateEmbeddingJob.perform_later(self, term)
   end
 end

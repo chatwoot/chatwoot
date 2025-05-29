@@ -52,10 +52,10 @@ describe Enterprise::Billing::HandleStripeEventService do
       expect(account).not_to be_feature_enabled('audit_logs')
     end
 
-    it 'resets captain usage on subscription update' do
+    it 'resets aiagent usage on subscription update' do
       # Prime the account with some usage
       5.times { account.increment_response_usage }
-      expect(account.custom_attributes['captain_responses_usage']).to eq(5)
+      expect(account.custom_attributes['aiagent_responses_usage']).to eq(5)
 
       # Setup for any plan
       allow(subscription).to receive(:[]).with('plan')
@@ -64,7 +64,7 @@ describe Enterprise::Billing::HandleStripeEventService do
       stripe_event_service.new.perform(event: event)
 
       # Verify usage was reset
-      expect(account.reload.custom_attributes['captain_responses_usage']).to eq(0)
+      expect(account.reload.custom_attributes['aiagent_responses_usage']).to eq(0)
     end
   end
 

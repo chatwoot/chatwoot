@@ -19,11 +19,11 @@
     "DESCRIPTION": "Chatwootは、チームの効率を向上させるために複数のツールやサービスと連携します。以下のリストを探索して、お気に入りのアプリを設定してください。",
     "LEARN_MORE": "連携について詳しく知る",
     "LOADING": "連携を取得中",
-    "CAPTAIN": {
-      "DISABLED": "Captainはあなたのアカウントで有効になっていません。",
+    "AIAGENT": {
+      "DISABLED": "Aiagentはあなたのアカウントで有効になっていません。",
       "CLICK_HERE_TO_CONFIGURE": "設定するにはここをクリック",
-      "LOADING_CONSOLE": "Captainコンソールを読み込み中...",
-      "FAILED_TO_LOAD_CONSOLE": "Captainコンソールの読み込みに失敗しました。リフレッシュしてもう一度お試しください。"
+      "LOADING_CONSOLE": "Aiagentコンソールを読み込み中...",
+      "FAILED_TO_LOAD_CONSOLE": "Aiagentコンソールの読み込みに失敗しました。リフレッシュしてもう一度お試しください。"
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "購読イベント",
@@ -326,13 +326,13 @@
       }
     }
   },
-  "CAPTAIN": {
+  "AIAGENT": {
     "NAME": "キャプテン",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "メッセージを送信...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captainが考え中",
+      "LOADER": "Aiagentが考え中",
       "YOU": "あなた",
       "USE": "これを使用",
       "RESET": "リセット",
@@ -358,23 +358,23 @@
       "MESSAGE_PLACEHOLDER": "Type your message...",
       "HEADER": "Playground",
       "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "CREDIT_NOTE": "Messages sent here will count toward your Aiagent credits."
     },
     "PAYWALL": {
-      "TITLE": "アップグレードしてCaptain AIを利用する",
-      "AVAILABLE_ON": "Captainは無料プランでは利用できません。",
+      "TITLE": "アップグレードしてAiagent AIを利用する",
+      "AVAILABLE_ON": "Aiagentは無料プランでは利用できません。",
       "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
       "UPGRADE_NOW": "今すぐアップグレード",
       "CANCEL_ANYTIME": "プランはいつでも変更またはキャンセルできます"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AIは有料プランのみで利用可能です。",
+      "AVAILABLE_ON": "Aiagent AIは有料プランのみで利用可能です。",
       "UPGRADE_PROMPT": "アシスタント、Copilotなどにアクセスするには、プランをアップグレードしてください。",
       "ASK_ADMIN": "管理者にアップグレードを依頼してください。"
     },
     "BANNER": {
-      "RESPONSES": "利用制限の 80% を超過しました。引き続き Captain AI を利用するには、アップグレードしてください。",
-      "DOCUMENTS": "ドキュメントの上限に達しました。Captain AI を引き続き利用するには、アップグレードしてください。"
+      "RESPONSES": "利用制限の 80% を超過しました。引き続き Aiagent AI を利用するには、アップグレードしてください。",
+      "DOCUMENTS": "ドキュメントの上限に達しました。Aiagent AI を引き続き利用するには、アップグレードしてください。"
     },
     "FORM": {
       "CANCEL": "キャンセル",
@@ -458,8 +458,8 @@
         "TITLE": "利用可能なアシスタントがありません",
         "SUBTITLE": "アシスタントを作成して、お客様に迅速かつ正確な回答を提供します。アシスタントは、ヘルプ記事や過去の会話から学習します。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Aiagent Assistant",
+          "NOTE": "Aiagent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       }
     },
@@ -503,8 +503,8 @@
         "TITLE": "利用可能なドキュメントがありません",
         "SUBTITLE": "ドキュメントはアシスタントがFAQを生成するために使用されます。ドキュメントをインポートしてアシスタントにコンテキストを提供できます。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Aiagent Document",
+          "NOTE": "A document in Aiagent serves as a knowledge resource for the assistant. By connecting your help center or guides, Aiagent can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -584,8 +584,8 @@
         "TITLE": "FAQが見つかりません",
         "SUBTITLE": "FAQは、アシスタントがお客様からの質問に迅速かつ正確に回答するのに役立ちます。コンテンツから自動的に生成することも、手動で追加することもできます。",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Aiagent FAQ",
+          "NOTE": "Aiagent FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
       }
     },

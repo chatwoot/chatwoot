@@ -280,10 +280,10 @@
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Asistenti",
-    "CAPTAIN_DOCUMENTS": "Dokumenti",
-    "CAPTAIN_RESPONSES": "Bieži uzdotie jautājumi",
+    "AIAGENT": "Aiagent",
+    "AIAGENT_ASSISTANTS": "Asistenti",
+    "AIAGENT_DOCUMENTS": "Dokumenti",
+    "AIAGENT_RESPONSES": "Bieži uzdotie jautājumi",
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
     "AGENT_BOTS": "Bots",
@@ -358,13 +358,13 @@
       "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
       "BUTTON_TXT": "Doties uz norēķinu portālu"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Pārvaldīt Captain AI lietošanu un kredītus.",
+    "AIAGENT": {
+      "TITLE": "Aiagent",
+      "DESCRIPTION": "Pārvaldīt Aiagent AI lietošanu un kredītus.",
       "BUTTON_TXT": "Iegādāties vairāk kredītu",
       "DOCUMENTS": "Dokumenti",
       "RESPONSES": "Atbildes",
-      "UPGRADE": "Captain nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot."
+      "UPGRADE": "Aiagent nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot."
     },
     "CHAT_WITH_US": {
       "TITLE": "Nepieciešama palīdzība?",

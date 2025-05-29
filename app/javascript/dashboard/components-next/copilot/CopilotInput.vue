@@ -20,7 +20,7 @@ const sendMessage = () => {
     <input
       v-model="message"
       type="text"
-      :placeholder="$t('CAPTAIN.COPILOT.SEND_MESSAGE')"
+      :placeholder="$t('AIAGENT.COPILOT.SEND_MESSAGE')"
       class="w-full reset-base bg-transparent px-4 py-3 text-n-slate-11 text-sm"
       @keyup.enter="sendMessage"
     />

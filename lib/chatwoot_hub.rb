@@ -6,7 +6,7 @@ class ChatwootHub
   PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
   EVENTS_URL = "#{BASE_URL}/events".freeze
   BILLING_URL = "#{BASE_URL}/billing".freeze
-  CAPTAIN_ACCOUNTS_URL = "#{BASE_URL}/instance_captain_accounts".freeze
+  AIAGENT_ACCOUNTS_URL = "#{BASE_URL}/instance_aiagent_accounts".freeze
 
   def self.installation_identifier
     identifier = InstallationConfig.find_by(name: 'INSTALLATION_IDENTIFIER')&.value
@@ -92,13 +92,13 @@ class ChatwootHub
     ChatwootExceptionTracker.new(e).capture_exception
   end
 
-  def self.get_captain_settings(account)
+  def self.get_aiagent_settings(account)
     info = {
       installation_identifier: installation_identifier,
       chatwoot_account_id: account.id,
       account_name: account.name
     }
-    HTTParty.post(CAPTAIN_ACCOUNTS_URL,
+    HTTParty.post(AIAGENT_ACCOUNTS_URL,
                   body: info.to_json,
                   headers: { 'Content-Type' => 'application/json', 'Accept' => 'application/json' })
   end

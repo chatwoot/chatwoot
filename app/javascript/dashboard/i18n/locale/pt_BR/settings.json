@@ -280,10 +280,10 @@
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contatos",
-    "CAPTAIN": "Capitão",
-    "CAPTAIN_ASSISTANTS": "Assistentes",
-    "CAPTAIN_DOCUMENTS": "Documentos",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "AIAGENT": "Capitão",
+    "AIAGENT_ASSISTANTS": "Assistentes",
+    "AIAGENT_DOCUMENTS": "Documentos",
+    "AIAGENT_RESPONSES": "FAQs",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Robôs",
@@ -358,9 +358,9 @@
       "DESCRIPTION": "Veja suas faturas anteriores, edite seus detalhes de cobrança, ou cancele sua assinatura.",
       "BUTTON_TXT": "Ir para o portal de cobrança"
     },
-    "CAPTAIN": {
+    "AIAGENT": {
       "TITLE": "Capitão",
-      "DESCRIPTION": "Gerenciar uso e créditos para o Captain AI.",
+      "DESCRIPTION": "Gerenciar uso e créditos para o Aiagent AI.",
       "BUTTON_TXT": "Comprar mais créditos",
       "DOCUMENTS": "Documentos",
       "RESPONSES": "Respostas",

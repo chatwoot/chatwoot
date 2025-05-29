@@ -280,10 +280,10 @@
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "AIAGENT": "Aiagent",
+    "AIAGENT_ASSISTANTS": "Assistants",
+    "AIAGENT_DOCUMENTS": "Documents",
+    "AIAGENT_RESPONSES": "FAQs",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "AGENT_BOTS": "Botlar",
@@ -358,13 +358,13 @@
       "DESCRIPTION": "Önceki faturalarınızı görüntüleyin, fatura detaylarınızı düzenleyin veya aboneliğinizi iptal edin.",
       "BUTTON_TXT": "Fatura portalına git"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+    "AIAGENT": {
+      "TITLE": "Aiagent",
+      "DESCRIPTION": "Manage usage and credits for Aiagent AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Aiagent is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Yardıma mı ihtiyacınız var?",

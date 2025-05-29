@@ -201,7 +201,7 @@ RSpec.describe 'Enterprise Billing APIs', type: :request do
             'limits' => {
               'agents' => {},
               'conversation' => {},
-              'captain' => {
+              'aiagent' => {
                 'documents' => { 'consumed' => 0, 'current_available' => ChatwootApp.max_limit, 'total_count' => ChatwootApp.max_limit },
                 'responses' => { 'consumed' => 0, 'current_available' => ChatwootApp.max_limit, 'total_count' => ChatwootApp.max_limit }
               },

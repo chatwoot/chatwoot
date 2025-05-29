@@ -136,8 +136,8 @@
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
-- name: captain_integration
-  display_name: Captain
+- name: aiagent_integration
+  display_name: Aiagent
   enabled: false
   premium: true
 - name: custom_roles

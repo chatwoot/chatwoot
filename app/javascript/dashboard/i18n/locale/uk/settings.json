@@ -280,10 +280,10 @@
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "AIAGENT": "Aiagent",
+    "AIAGENT_ASSISTANTS": "Assistants",
+    "AIAGENT_DOCUMENTS": "Documents",
+    "AIAGENT_RESPONSES": "FAQs",
     "HOME": "Головна",
     "AGENTS": "Агенти",
     "AGENT_BOTS": "Боти",
@@ -358,13 +358,13 @@
       "DESCRIPTION": "Перегляньте попередні рахунки, відредагуйте платіжні реквізити, або скасуйте вашу підписку.",
       "BUTTON_TXT": "Перейти на портал для платежів"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+    "AIAGENT": {
+      "TITLE": "Aiagent",
+      "DESCRIPTION": "Manage usage and credits for Aiagent AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Aiagent is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Потрібна допомога?",

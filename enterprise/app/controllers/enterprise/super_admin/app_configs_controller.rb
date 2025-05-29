@@ -9,8 +9,8 @@ module Enterprise::SuperAdmin::AppConfigsController
       @allowed_configs = custom_branding_options
     when 'internal'
       @allowed_configs = internal_config_options
-    when 'captain'
-      @allowed_configs = %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_FIRECRAWL_API_KEY]
+    when 'aiagent'
+      @allowed_configs = %w[AIAGENT_OPEN_AI_API_KEY AIAGENT_OPEN_AI_MODEL AIAGENT_FIRECRAWL_API_KEY]
     else
       super
     end
@@ -33,6 +33,6 @@ module Enterprise::SuperAdmin::AppConfigsController
 
   def internal_config_options
     %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY ANALYTICS_TOKEN CLEARBIT_API_KEY DASHBOARD_SCRIPTS INACTIVE_WHATSAPP_NUMBERS BLOCKED_EMAIL_DOMAINS
-       CAPTAIN_CLOUD_PLAN_LIMITS ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL]
+       AIAGENT_CLOUD_PLAN_LIMITS ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL]
   end
 end

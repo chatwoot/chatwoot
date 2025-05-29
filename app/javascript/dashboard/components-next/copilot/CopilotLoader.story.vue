@@ -4,7 +4,7 @@ import CopilotLoader from './CopilotLoader.vue';
 
 <template>
   <Story
-    title="Captain/CopilotLoader"
+    title="Aiagent/CopilotLoader"
     :layout="{ type: 'grid', width: '400px', height: '800px' }"
   >
     <CopilotLoader />

@@ -132,7 +132,7 @@ ru:
     attachment: 'Вложение'
     no_content: 'Нет содержимого'
   conversations:
-    captain:
+    aiagent:
       handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
@@ -141,7 +141,7 @@ ru:
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
-      captain:
+      aiagent:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
       status:
@@ -231,7 +231,7 @@ ru:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
-  captain:
+  aiagent:
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
   public_portal:

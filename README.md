@@ -37,9 +37,9 @@ The modern customer support platform, an open-source alternative to Intercom, Ze
 
 Chatwoot is the modern, open-source, and self-hosted customer support platform designed to help businesses deliver exceptional customer support experience. Built for scale and flexibility, Chatwoot gives you full control over your customer data while providing powerful tools to manage conversations across channels.
 
-### ✨ Captain – AI Agent for Support
+### ✨ Aiagent – AI Agent for Support
 
-Supercharge your support with Captain, Chatwoot’s AI agent. Captain helps automate responses, handle common queries, and reduce agent workload—ensuring customers get instant, accurate answers. With Captain, your team can focus on complex conversations while routine questions are resolved automatically. Read more about Captain [here](https://chwt.app/captain-docs).
+Supercharge your support with Aiagent, Chatwoot’s AI agent. Aiagent helps automate responses, handle common queries, and reduce agent workload—ensuring customers get instant, accurate answers. With Aiagent, your team can focus on complex conversations while routine questions are resolved automatically. Read more about Aiagent [here](https://chwt.app/aiagent-docs).
 
 ### 💬 Omnichannel Support Desk
 

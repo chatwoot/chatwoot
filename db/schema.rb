@@ -120,6 +120,59 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
     t.index ["account_id"], name: "index_agent_bots_on_account_id"
   end
 
+  create_table "aiagent_assistant_responses", force: :cascade do |t|
+    t.string "question", null: false
+    t.text "answer", null: false
+    t.vector "embedding", limit: 1536
+    t.bigint "assistant_id", null: false
+    t.bigint "documentable_id"
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 1, null: false
+    t.string "documentable_type"
+    t.index ["account_id"], name: "index_aiagent_assistant_responses_on_account_id"
+    t.index ["assistant_id"], name: "index_aiagent_assistant_responses_on_assistant_id"
+    t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
+    t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
+    t.index ["status"], name: "index_aiagent_assistant_responses_on_status"
+  end
+
+  create_table "aiagent_assistants", force: :cascade do |t|
+    t.string "name", null: false
+    t.bigint "account_id", null: false
+    t.string "description"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "config", default: {}, null: false
+    t.index ["account_id"], name: "index_aiagent_assistants_on_account_id"
+  end
+
+  create_table "aiagent_documents", force: :cascade do |t|
+    t.string "name"
+    t.string "external_link", null: false
+    t.text "content"
+    t.bigint "assistant_id", null: false
+    t.bigint "account_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "status", default: 0, null: false
+    t.index ["account_id"], name: "index_aiagent_documents_on_account_id"
+    t.index ["assistant_id", "external_link"], name: "index_aiagent_documents_on_assistant_id_and_external_link", unique: true
+    t.index ["assistant_id"], name: "index_aiagent_documents_on_assistant_id"
+    t.index ["status"], name: "index_aiagent_documents_on_status"
+  end
+
+  create_table "aiagent_inboxes", force: :cascade do |t|
+    t.bigint "aiagent_assistant_id", null: false
+    t.bigint "inbox_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["aiagent_assistant_id", "inbox_id"], name: "index_aiagent_inboxes_on_aiagent_assistant_id_and_inbox_id", unique: true
+    t.index ["aiagent_assistant_id"], name: "index_aiagent_inboxes_on_aiagent_assistant_id"
+    t.index ["inbox_id"], name: "index_aiagent_inboxes_on_inbox_id"
+  end
+
   create_table "applied_slas", force: :cascade do |t|
     t.bigint "account_id", null: false
     t.bigint "sla_policy_id", null: false
@@ -250,59 +303,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
     t.text "content"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-  end
-
-  create_table "captain_assistant_responses", force: :cascade do |t|
-    t.string "question", null: false
-    t.text "answer", null: false
-    t.vector "embedding", limit: 1536
-    t.bigint "assistant_id", null: false
-    t.bigint "documentable_id"
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 1, null: false
-    t.string "documentable_type"
-    t.index ["account_id"], name: "index_captain_assistant_responses_on_account_id"
-    t.index ["assistant_id"], name: "index_captain_assistant_responses_on_assistant_id"
-    t.index ["documentable_id", "documentable_type"], name: "idx_cap_asst_resp_on_documentable"
-    t.index ["embedding"], name: "vector_idx_knowledge_entries_embedding", using: :ivfflat
-    t.index ["status"], name: "index_captain_assistant_responses_on_status"
-  end
-
-  create_table "captain_assistants", force: :cascade do |t|
-    t.string "name", null: false
-    t.bigint "account_id", null: false
-    t.string "description"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.jsonb "config", default: {}, null: false
-    t.index ["account_id"], name: "index_captain_assistants_on_account_id"
-  end
-
-  create_table "captain_documents", force: :cascade do |t|
-    t.string "name"
-    t.string "external_link", null: false
-    t.text "content"
-    t.bigint "assistant_id", null: false
-    t.bigint "account_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.integer "status", default: 0, null: false
-    t.index ["account_id"], name: "index_captain_documents_on_account_id"
-    t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
-    t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
-    t.index ["status"], name: "index_captain_documents_on_status"
-  end
-
-  create_table "captain_inboxes", force: :cascade do |t|
-    t.bigint "captain_assistant_id", null: false
-    t.bigint "inbox_id", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["captain_assistant_id", "inbox_id"], name: "index_captain_inboxes_on_captain_assistant_id_and_inbox_id", unique: true
-    t.index ["captain_assistant_id"], name: "index_captain_inboxes_on_captain_assistant_id"
-    t.index ["inbox_id"], name: "index_captain_inboxes_on_inbox_id"
   end
 
   create_table "categories", force: :cascade do |t|
@@ -1104,33 +1104,68 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_14_045638) do
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
-  create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
-      on("accounts").
-      after(:insert).
-      for_each(:row) do
-    "execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);"
-  end
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.accounts_after_insert_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    execute format('create sequence IF NOT EXISTS conv_dpid_seq_%s', NEW.id);
+    RETURN NULL;
+END;
+$function$
+  SQL
 
-  create_trigger("conversations_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("conversations").
-      before(:insert).
-      for_each(:row) do
-    "NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);"
-  end
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER accounts_after_insert_row_tr AFTER INSERT ON \"accounts\" FOR EACH ROW EXECUTE FUNCTION accounts_after_insert_row_tr()")
 
-  create_trigger("camp_dpid_before_insert", :generated => true, :compatibility => 1).
-      on("accounts").
-      name("camp_dpid_before_insert").
-      after(:insert).
-      for_each(:row) do
-    "execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);"
-  end
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.camp_dpid_before_insert()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    execute format('create sequence IF NOT EXISTS camp_dpid_seq_%s', NEW.id);
+    RETURN NULL;
+END;
+$function$
+  SQL
 
-  create_trigger("campaigns_before_insert_row_tr", :generated => true, :compatibility => 1).
-      on("campaigns").
-      before(:insert).
-      for_each(:row) do
-    "NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);"
-  end
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER camp_dpid_before_insert AFTER INSERT ON \"accounts\" FOR EACH ROW EXECUTE FUNCTION camp_dpid_before_insert()")
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.campaigns_before_insert_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.display_id := nextval('camp_dpid_seq_' || NEW.account_id);
+    RETURN NEW;
+END;
+$function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER campaigns_before_insert_row_tr BEFORE INSERT ON \"campaigns\" FOR EACH ROW EXECUTE FUNCTION campaigns_before_insert_row_tr()")
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute(<<-SQL)
+CREATE OR REPLACE FUNCTION public.conversations_before_insert_row_tr()
+ RETURNS trigger
+ LANGUAGE plpgsql
+AS $function$
+BEGIN
+    NEW.display_id := nextval('conv_dpid_seq_' || NEW.account_id);
+    RETURN NEW;
+END;
+$function$
+  SQL
+
+  # no candidate create_trigger statement could be found, creating an adapter-specific one
+  execute("CREATE TRIGGER conversations_before_insert_row_tr BEFORE INSERT ON \"conversations\" FOR EACH ROW EXECUTE FUNCTION conversations_before_insert_row_tr()")
 
 end

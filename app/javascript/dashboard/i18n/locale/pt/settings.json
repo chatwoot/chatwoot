@@ -280,10 +280,10 @@
     "REPORTS": "relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contactos",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "AIAGENT": "Aiagent",
+    "AIAGENT_ASSISTANTS": "Assistants",
+    "AIAGENT_DOCUMENTS": "Documents",
+    "AIAGENT_RESPONSES": "FAQs",
     "HOME": "Principal",
     "AGENTS": "Agentes",
     "AGENT_BOTS": "Bots",
@@ -358,13 +358,13 @@
       "DESCRIPTION": "Visualize as suas faturas anteriores, edite os seus dados de pagamento, ou cancele o seu serviço.",
       "BUTTON_TXT": "Ir para a área de faturação"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+    "AIAGENT": {
+      "TITLE": "Aiagent",
+      "DESCRIPTION": "Manage usage and credits for Aiagent AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Aiagent is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Precisa de ajuda?",

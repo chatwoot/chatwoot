@@ -132,7 +132,7 @@ zh_CN:
     attachment: '附件'
     no_content: '无内容'
   conversations:
-    captain:
+    aiagent:
       handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} 会话中提到了你: '
@@ -141,7 +141,7 @@ zh_CN:
       delivery_status:
         error_code: '错误代码: %{error_code}'
     activity:
-      captain:
+      aiagent:
         resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
         open: 'Conversation was marked open by %{user_name}'
       status:
@@ -231,7 +231,7 @@ zh_CN:
       name: 'LeadSquared'
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
-  captain:
+  aiagent:
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
   public_portal:

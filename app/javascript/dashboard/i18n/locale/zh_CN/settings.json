@@ -280,10 +280,10 @@
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
-    "CAPTAIN": "Captain",
-    "CAPTAIN_ASSISTANTS": "助手",
-    "CAPTAIN_DOCUMENTS": "文档",
-    "CAPTAIN_RESPONSES": "常见问题",
+    "AIAGENT": "Aiagent",
+    "AIAGENT_ASSISTANTS": "助手",
+    "AIAGENT_DOCUMENTS": "文档",
+    "AIAGENT_RESPONSES": "常见问题",
     "HOME": "首页",
     "AGENTS": "客服代理",
     "AGENT_BOTS": "机器人",
@@ -358,13 +358,13 @@
       "DESCRIPTION": "查看您之前的发票，编辑您的账单详细信息或取消您的订阅。",
       "BUTTON_TXT": "前往账单门户"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "管理 Captain AI 的使用和积分。",
+    "AIAGENT": {
+      "TITLE": "Aiagent",
+      "DESCRIPTION": "管理 Aiagent AI 的使用和积分。",
       "BUTTON_TXT": "购买更多积分",
       "DOCUMENTS": "文档",
       "RESPONSES": "常见问题",
-      "UPGRADE": "Captain 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。"
+      "UPGRADE": "Aiagent 在免费计划中不可用，立即升级以获取助手、副驾驶等更多功能。"
     },
     "CHAT_WITH_US": {
       "TITLE": "需要帮助吗？",

@@ -26,7 +26,7 @@ const { t } = useI18n();
 const activeAssistantLabel = computed(() => {
   return props.activeAssistant
     ? props.activeAssistant.name
-    : t('CAPTAIN.COPILOT.SELECT_ASSISTANT');
+    : t('AIAGENT.COPILOT.SELECT_ASSISTANT');
 });
 </script>
 
@@ -36,7 +36,7 @@ const activeAssistantLabel = computed(() => {
       <template #trigger="{ toggle, isOpen }">
         <Button
           :label="activeAssistantLabel"
-          icon="i-woot-captain"
+          icon="i-woot-aiagent"
           ghost
           slate
           xs

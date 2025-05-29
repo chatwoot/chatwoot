@@ -19,11 +19,11 @@
     "DESCRIPTION": "Chatwoot integriert sich mit mehreren Tools und Diensten, um die Effizienz Ihres Teams zu verbessern. Erkunden Sie die folgende Liste, um Ihre Lieblingsapps zu konfigurieren.",
     "LEARN_MORE": "Mehr über Integrationen erfahren",
     "LOADING": "Integrationen werden abgerufen",
-    "CAPTAIN": {
-      "DISABLED": "Captain ist auf Ihrem Konto nicht aktiviert.",
+    "AIAGENT": {
+      "DISABLED": "Aiagent ist auf Ihrem Konto nicht aktiviert.",
       "CLICK_HERE_TO_CONFIGURE": "Hier klicken, um zu konfigurieren",
-      "LOADING_CONSOLE": "Captain-Konsole wird geladen...",
-      "FAILED_TO_LOAD_CONSOLE": "Fehler beim Laden der Captain-Konsole. Bitte aktualisieren und erneut versuchen."
+      "LOADING_CONSOLE": "Aiagent-Konsole wird geladen...",
+      "FAILED_TO_LOAD_CONSOLE": "Fehler beim Laden der Aiagent-Konsole. Bitte aktualisieren und erneut versuchen."
     },
     "WEBHOOK": {
       "SUBSCRIBED_EVENTS": "Abonnierte Events",
@@ -326,13 +326,13 @@
       }
     }
   },
-  "CAPTAIN": {
+  "AIAGENT": {
     "NAME": "Kapitän",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "SEND_MESSAGE": "Nachricht senden...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
-      "LOADER": "Captain denkt nach",
+      "LOADER": "Aiagent denkt nach",
       "YOU": "Sie",
       "USE": "Verwenden",
       "RESET": "Zurücksetzen",
@@ -358,22 +358,22 @@
       "MESSAGE_PLACEHOLDER": "Schreiben Sie Ihre Nachricht...",
       "HEADER": "Playground",
       "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "CREDIT_NOTE": "Messages sent here will count toward your Aiagent credits."
     },
     "PAYWALL": {
-      "TITLE": "Upgrade auf Captain AI",
-      "AVAILABLE_ON": "Captain is not available on the free plan.",
+      "TITLE": "Upgrade auf Aiagent AI",
+      "AVAILABLE_ON": "Aiagent is not available on the free plan.",
       "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
       "UPGRADE_NOW": "Jetzt upgraden",
       "CANCEL_ANYTIME": "Sie können Ihr Paket jederzeit ändern oder kündigen"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI Funktion ist nur mit einem kostenpflichtigen Tarif verfügbar.",
+      "AVAILABLE_ON": "Aiagent AI Funktion ist nur mit einem kostenpflichtigen Tarif verfügbar.",
       "UPGRADE_PROMPT": "Tarif upgraden, um Zugang zu unseren Assistenten, Copilot und mehr zu erhalten.",
       "ASK_ADMIN": "Bitte kontaktieren Sie Ihren Administrator für das Upgrade."
     },
     "BANNER": {
-      "RESPONSES": "You've used over 80% of your response limit. To continue using Captain AI, please upgrade.",
+      "RESPONSES": "You've used over 80% of your response limit. To continue using Aiagent AI, please upgrade.",
       "DOCUMENTS": "Dokumentenlimit erreicht. Upgraden um Cpatain AI weiter zu verwenden."
     },
     "FORM": {
@@ -458,8 +458,8 @@
         "TITLE": "No assistants available",
         "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Assistant",
-          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+          "TITLE": "Aiagent Assistant",
+          "NOTE": "Aiagent Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
         }
       }
     },
@@ -503,8 +503,8 @@
         "TITLE": "No documents available",
         "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain Document",
-          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+          "TITLE": "Aiagent Document",
+          "NOTE": "A document in Aiagent serves as a knowledge resource for the assistant. By connecting your help center or guides, Aiagent can analyze the content and provide accurate responses for customer inquiries."
         }
       }
     },
@@ -584,8 +584,8 @@
         "TITLE": "No FAQs Found",
         "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
         "FEATURE_SPOTLIGHT": {
-          "TITLE": "Captain FAQ",
-          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+          "TITLE": "Aiagent FAQ",
+          "NOTE": "Aiagent FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
         }
       }
     },

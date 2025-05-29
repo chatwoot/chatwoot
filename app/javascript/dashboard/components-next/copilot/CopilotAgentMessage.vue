@@ -22,7 +22,7 @@ defineProps({
       rounded-full
     />
     <div class="space-y-1 text-n-slate-12">
-      <div class="font-medium">{{ $t('CAPTAIN.COPILOT.YOU') }}</div>
+      <div class="font-medium">{{ $t('AIAGENT.COPILOT.YOU') }}</div>
       <div class="break-words">
         {{ message.content }}
       </div>

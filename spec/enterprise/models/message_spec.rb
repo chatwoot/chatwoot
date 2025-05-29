@@ -3,8 +3,8 @@ require 'rails_helper'
 RSpec.describe Message do
   let!(:conversation) { create(:conversation) }
 
-  it 'updates first reply if the message is human and even if there are messages from captain' do
-    captain_assistant = create(:captain_assistant, account: conversation.account)
+  it 'updates first reply if the message is human and even if there are messages from aiagent' do
+    aiagent_assistant = create(:aiagent_assistant, account: conversation.account)
     expect(conversation.first_reply_created_at).to be_nil
 
     ## There is a difference on how the time is stored in the database and how it is retrieved
@@ -12,7 +12,7 @@ RSpec.describe Message do
     # In the test, we will check whether the time is within the range
     expect(conversation.waiting_since).to be_within(0.000001.seconds).of(conversation.created_at)
 
-    create(:message, message_type: :outgoing, conversation: conversation, sender: captain_assistant)
+    create(:message, message_type: :outgoing, conversation: conversation, sender: aiagent_assistant)
 
     expect(conversation.first_reply_created_at).to be_nil
     expect(conversation.waiting_since).to be_within(0.000001.seconds).of(conversation.created_at)

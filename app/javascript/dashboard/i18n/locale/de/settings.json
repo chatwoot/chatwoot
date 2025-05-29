@@ -280,10 +280,10 @@
     "REPORTS": "Berichte",
     "SETTINGS": "Einstellungen",
     "CONTACTS": "Kontakte",
-    "CAPTAIN": "Kapitän",
-    "CAPTAIN_ASSISTANTS": "Assistants",
-    "CAPTAIN_DOCUMENTS": "Documents",
-    "CAPTAIN_RESPONSES": "FAQs",
+    "AIAGENT": "Kapitän",
+    "AIAGENT_ASSISTANTS": "Assistants",
+    "AIAGENT_DOCUMENTS": "Documents",
+    "AIAGENT_RESPONSES": "FAQs",
     "HOME": "Hauptseite",
     "AGENTS": "Agenten",
     "AGENT_BOTS": "Bots",
@@ -358,13 +358,13 @@
       "DESCRIPTION": "Zeigen Sie Ihre vorherigen Rechnungen an, bearbeiten Sie Ihre Rechnungsdaten oder kündigen Sie Ihr Abonnement.",
       "BUTTON_TXT": "Gehen Sie zum Abrechnungsportal"
     },
-    "CAPTAIN": {
+    "AIAGENT": {
       "TITLE": "Kapitän",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "DESCRIPTION": "Manage usage and credits for Aiagent AI.",
       "BUTTON_TXT": "Buy more credits",
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Aiagent is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Brauchen Sie Hilfe?",
