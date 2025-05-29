@@ -25,10 +25,6 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  isInboxView: {
-    type: Boolean,
-    default: false,
-  },
 });
 
 const { t } = useI18n();
@@ -111,70 +107,67 @@ const isLinearFeatureEnabled = computed(() =>
 <template>
   <div
     ref="conversationHeader"
-    class="flex flex-col items-center justify-between px-3 py-2 border-b bg-n-background border-n-weak md:flex-row h-12"
+    class="flex flex-col items-center justify-center flex-1 w-full min-w-0 xl:flex-row px-3 py-2 border-b bg-n-background border-n-weak h-24 xl:h-12"
   >
     <div
-      class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
-      :class="isInboxView ? 'sm:flex-row' : 'md:flex-row'"
+      class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0"
     >
-      <div class="flex items-center justify-start max-w-full min-w-0 w-fit">
-        <BackButton
-          v-if="showBackButton"
-          :back-url="backButtonUrl"
-          class="ltr:mr-2 rtl:ml-2"
-        />
-        <Thumbnail
-          :src="currentContact.thumbnail"
-          :username="currentContact.name"
-          :status="currentContact.availability_status"
-          size="32px"
-        />
-        <div
-          class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
-        >
-          <div
-            class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
+      <BackButton
+        v-if="showBackButton"
+        :back-url="backButtonUrl"
+        class="ltr:mr-2 rtl:ml-2"
+      />
+      <Thumbnail
+        :src="currentContact.thumbnail"
+        :username="currentContact.name"
+        :status="currentContact.availability_status"
+        size="32px"
+      />
+      <div
+        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
+      >
+        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit">
+          <span
+            class="text-sm font-medium truncate leading-tight text-n-slate-12"
           >
-            <span
-              class="text-sm font-medium truncate leading-tight text-n-slate-12"
-            >
-              {{ currentContact.name }}
-            </span>
-            <fluent-icon
-              v-if="!isHMACVerified"
-              v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
-              size="14"
-              class="text-n-amber-10 my-0 mx-0 min-w-[14px]"
-              icon="warning"
-            />
-          </div>
+            {{ currentContact.name }}
+          </span>
+          <fluent-icon
+            v-if="!isHMACVerified"
+            v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
+            size="14"
+            class="text-n-amber-10 my-0 mx-0 min-w-[14px]"
+            icon="warning"
+          />
+        </div>
 
-          <div
-            class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
-          >
-            <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
-            <span v-if="isSnoozed" class="font-medium text-n-amber-10">
-              {{ snoozedDisplayText }}
-            </span>
-          </div>
+        <div
+          class="flex items-center gap-2 overflow-hidden text-xs conversation--header--actions text-ellipsis whitespace-nowrap"
+        >
+          <InboxName v-if="hasMultipleInboxes" :inbox="inbox" class="!mx-0" />
+          <span v-if="isSnoozed" class="font-medium text-n-amber-10">
+            {{ snoozedDisplayText }}
+          </span>
         </div>
       </div>
-      <div
-        class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
-      >
-        <SLACardLabel
-          v-if="hasSlaPolicyId"
-          :chat="chat"
-          show-extended-info
-          :parent-width="width"
-        />
-        <Linear
-          v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
-          :conversation-id="currentChat.id"
-          :parent-width="width"
-        />
-        <MoreActions :conversation-id="currentChat.id" />
-      </div>
+    </div>
+    <div
+      class="flex flex-row items-center justify-start xl:justify-end flex-grow gap-2 w-full xl:w-auto mt-3 header-actions-wrap xl:mt-0"
+    >
+      <SLACardLabel
+        v-if="hasSlaPolicyId"
+        :chat="chat"
+        show-extended-info
+        :parent-width="width"
+        class="hidden lg:flex"
+      />
+      <Linear
+        v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
+        :conversation-id="currentChat.id"
+        :parent-width="width"
+        class="hidden lg:flex"
+      />
+      <MoreActions :conversation-id="currentChat.id" />
     </div>
   </div>
 </template>
