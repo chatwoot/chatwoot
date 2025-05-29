@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token truy cập",
         "NOTE": "Có thể sử dụng Token này nếu bạn đang xây dựng tích hợp dựa trên API",
-        "COPY": "Sao Chép"
+        "COPY": "Sao Chép",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
