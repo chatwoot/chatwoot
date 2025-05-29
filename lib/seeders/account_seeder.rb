@@ -62,22 +62,32 @@ class Seeders::AccountSeeder
 
   def set_up_users
     @account_data['users'].each do |user|
-      user_record = User.create_with(name: user['name'], password: 'Password1!.').find_or_create_by!(email: (user['email']).to_s)
-      user_record.skip_confirmation!
-      user_record.save!
-      Avatar::AvatarFromUrlJob.perform_later(user_record, "https://xsgames.co/randomusers/avatar.php?g=#{user['gender']}")
-
-      # Find custom role if specified
-      custom_role = find_custom_role(user['custom_role']) if user['custom_role'].present?
-
-      account_user_attrs = { role: (user['role'] || 'agent') }
-      account_user_attrs[:custom_role] = custom_role if custom_role
-
-      AccountUser.create_with(account_user_attrs).find_or_create_by!(account_id: @account.id, user_id: user_record.id)
-      next if user['team'].blank?
-
-      add_user_to_teams(user: user_record, teams: user['team'])
+      user_record = create_user_record(user)
+      create_account_user(user_record, user)
+      add_user_to_teams(user: user_record, teams: user['team']) if user['team'].present?
     end
+  end
+
+  private
+
+  def create_user_record(user)
+    user_record = User.create_with(name: user['name'], password: 'Password1!.').find_or_create_by!(email: user['email'].to_s)
+    user_record.skip_confirmation!
+    user_record.save!
+    Avatar::AvatarFromUrlJob.perform_later(user_record, "https://xsgames.co/randomusers/avatar.php?g=#{user['gender']}")
+    user_record
+  end
+
+  def create_account_user(user_record, user)
+    account_user_attrs = build_account_user_attrs(user)
+    AccountUser.create_with(account_user_attrs).find_or_create_by!(account_id: @account.id, user_id: user_record.id)
+  end
+
+  def build_account_user_attrs(user)
+    attrs = { role: (user['role'] || 'agent') }
+    custom_role = find_custom_role(user['custom_role']) if user['custom_role'].present?
+    attrs[:custom_role] = custom_role if custom_role
+    attrs
   end
 
   def add_user_to_teams(user:, teams:)
