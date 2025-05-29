@@ -75,7 +75,7 @@ class OauthCallbackController < ApplicationController
       account.inboxes.create!(
         account: account,
         channel: channel_email,
-        name: sanitized_inbox_name
+        name: users_data['name'] || fallback_name
       )
       channel_email
     end
@@ -97,16 +97,6 @@ class OauthCallbackController < ApplicationController
   # Fallback name, for when name field is missing from users_data
   def fallback_name
     users_data['email'].split('@').first.parameterize.titleize
-  end
-
-  def sanitized_inbox_name
-    raw_name = users_data['name'] || fallback_name
-
-    sanitized = raw_name
-                .gsub(%r{[/\\<>@]}, '')            # Remove forbidden characters
-                .gsub(/\A[^\w]+|[^\w]+\z/, '')     # Remove leading/trailing non-word chars
-
-    (sanitized.presence || fallback_name)
   end
 
   def oauth_code
