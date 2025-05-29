@@ -1,64 +1,32 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
 import { toRef } from 'vue';
-import { getContrastingTextColor } from '@chatwoot/utils';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 import { useAvailability } from 'widget/composables/useAvailability';
+import { useMapGetter } from 'dashboard/composables/store.js';
 
-export default {
-  name: 'TeamAvailability',
-  components: {
-    GroupedAvatars,
-  },
-  props: {
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
-    hasConversation: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['startConversation'],
-  setup(props) {
-    const availableAgents = toRef(props, 'availableAgents');
-    const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
+const props = defineProps({
+  availableAgents: { type: Array, default: () => [] },
+  hasConversation: { type: Boolean, default: false },
+});
 
-    return {
-      replyWaitMessage,
-      isOnline,
-    };
-  },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-    agentAvatars() {
-      return this.availableAgents.map(agent => ({
-        name: agent.name,
-        avatar: agent.avatar_url,
-        id: agent.id,
-      }));
-    },
-  },
-  methods: {
-    startConversation() {
-      this.$emit('startConversation');
-      if (!this.hasConversation) {
-        IFrameHelper.sendMessage({
-          event: 'onEvent',
-          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
-          data: { hasConversation: false },
-        });
-      }
-    },
-  },
+const emit = defineEmits(['startConversation']);
+
+const availableAgents = toRef(props, 'availableAgents');
+const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
+
+const widgetColor = useMapGetter('appConfig/getWidgetColor');
+
+const startConversation = () => {
+  emit('startConversation');
+  if (!props.hasConversation) {
+    IFrameHelper.sendMessage({
+      event: 'onEvent',
+      eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+      data: { hasConversation: false },
+    });
+  }
 };
 </script>
 

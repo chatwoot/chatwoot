@@ -8,7 +8,6 @@ import {
 export function useAvailability(availableAgents = ref([])) {
   const { t } = useI18n();
 
-  // Channel configuration
   const config = computed(() => {
     const channel = window.chatwootWebChannel ?? {};
     return {
@@ -22,7 +21,6 @@ export function useAvailability(availableAgents = ref([])) {
     };
   });
 
-  // Working hours info
   const workingHoursInfo = computed(() =>
     getWorkingHoursInfo(
       config.value.workingHours,
@@ -31,7 +29,6 @@ export function useAvailability(availableAgents = ref([])) {
     )
   );
 
-  // Online status
   const anyAgentOnline = computed(() => availableAgents.value?.length > 0);
   const isOnline = computed(() =>
     config.value.workingHoursEnabled
@@ -39,17 +36,13 @@ export function useAvailability(availableAgents = ref([])) {
       : anyAgentOnline.value
   );
 
-  // Next available time
   const nextAvailableTime = computed(() =>
     getNextAvailableTime(workingHoursInfo.value, config.value.locale)
   );
-
-  // Reply time status
   const replyTimeStatus = computed(() =>
     t(`REPLY_TIME.${config.value.replyTime.toUpperCase()}`)
   );
 
-  // Reply wait message
   const replyWaitMessage = computed(() => {
     if (!config.value.workingHoursEnabled) {
       return isOnline.value

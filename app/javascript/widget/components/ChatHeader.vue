@@ -1,53 +1,26 @@
-<script>
+<script setup>
 import { toRef } from 'vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
-import routerMixin from 'widget/mixins/routerMixin';
 import { useAvailability } from 'widget/composables/useAvailability';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 
-export default {
-  name: 'ChatHeader',
-  components: {
-    FluentIcon,
-    HeaderActions,
-  },
-  mixins: [routerMixin],
-  props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-    showBackButton: {
-      type: Boolean,
-      default: false,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => [],
-    },
-  },
-  setup(props) {
-    const availableAgents = toRef(props, 'availableAgents');
-    const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
+const props = defineProps({
+  avatarUrl: { type: String, default: '' },
+  title: { type: String, default: '' },
+  showPopoutButton: { type: Boolean, default: false },
+  showBackButton: { type: Boolean, default: false },
+  availableAgents: { type: Array, default: () => [] },
+});
 
-    return {
-      replyWaitMessage,
-      isOnline,
-    };
-  },
-  methods: {
-    onBackButtonClick() {
-      this.replaceRoute('home');
-    },
-  },
+const availableAgents = toRef(props, 'availableAgents');
+
+const { replaceRoute } = useReplaceRoute();
+
+const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
+
+const onBackButtonClick = () => {
+  replaceRoute('home');
 };
 </script>
 

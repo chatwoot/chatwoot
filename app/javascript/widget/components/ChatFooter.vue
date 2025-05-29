@@ -6,7 +6,7 @@ import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import routerMixin from 'widget/mixins/routerMixin';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import { IFrameHelper } from '../helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -17,7 +17,10 @@ export default {
     CustomButton,
     FooterReplyTo,
   },
-  mixins: [routerMixin],
+  setup() {
+    const { replaceRoute } = useReplaceRoute();
+    return { replaceRoute };
+  },
   data() {
     return {
       inReplyTo: null,

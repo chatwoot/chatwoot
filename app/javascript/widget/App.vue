@@ -9,7 +9,6 @@ import { getLocale } from './helpers/urlParamsHelper';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
-import routerMixin from './mixins/routerMixin';
 import {
   getExtraSpaceToScroll,
   loadedEventConfig,
@@ -20,6 +19,7 @@ import {
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
 import { useDarkMode } from 'widget/composables/useDarkMode';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
 import { emitter } from 'shared/helpers/mitt';
 
@@ -28,11 +28,13 @@ export default {
   components: {
     Spinner,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
     const { isInBusinessHours } = useAvailability();
-    return { prefersDarkMode, isInBusinessHours };
+    const { replaceRoute } = useReplaceRoute();
+
+    return { prefersDarkMode, isInBusinessHours, replaceRoute };
   },
   data() {
     return {

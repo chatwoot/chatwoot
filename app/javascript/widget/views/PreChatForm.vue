@@ -1,16 +1,20 @@
 <script>
 import PreChatForm from '../components/PreChat/Form.vue';
 import configMixin from '../mixins/configMixin';
-import routerMixin from '../mixins/routerMixin';
 import { isEmptyObject } from 'widget/helpers/utils';
 import { ON_CONVERSATION_CREATED } from '../constants/widgetBusEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 
 export default {
   components: {
     PreChatForm,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin],
+  setup() {
+    const { replaceRoute } = useReplaceRoute();
+    return { replaceRoute };
+  },
   mounted() {
     // Register event listener for conversation creation
     emitter.on(ON_CONVERSATION_CREATED, this.handleConversationCreated);

@@ -1,7 +1,7 @@
 <script>
 import TeamAvailability from 'widget/components/TeamAvailability.vue';
 import { mapGetters } from 'vuex';
-import routerMixin from 'widget/mixins/routerMixin';
+import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import configMixin from 'widget/mixins/configMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
 export default {
@@ -10,7 +10,11 @@ export default {
     ArticleContainer,
     TeamAvailability,
   },
-  mixins: [configMixin, routerMixin],
+  mixins: [configMixin],
+  setup() {
+    const { replaceRoute } = useReplaceRoute();
+    return { replaceRoute };
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
