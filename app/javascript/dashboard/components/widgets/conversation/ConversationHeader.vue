@@ -1,6 +1,5 @@
 <script>
 import { mapGetters } from 'vuex';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import BackButton from '../BackButton.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import InboxName from '../InboxName.vue';
@@ -29,11 +28,7 @@ export default {
   props: {
     chat: {
       type: Object,
-      default: () => {},
-    },
-    isContactPanelOpen: {
-      type: Boolean,
-      default: false,
+      default: () => ({}),
     },
     showBackButton: {
       type: Boolean,
@@ -43,15 +38,6 @@ export default {
       type: Boolean,
       default: false,
     },
-  },
-  emits: ['contactPanelToggle'],
-  setup(props, { emit }) {
-    const keyboardEvents = {
-      'Alt+KeyO': {
-        action: () => emit('contactPanelToggle'),
-      },
-    };
-    useKeyboardEvents(keyboardEvents);
   },
   computed: {
     ...mapGetters({
@@ -99,13 +85,6 @@ export default {
       }
       return this.$t('CONVERSATION.HEADER.SNOOZED_UNTIL_NEXT_REPLY');
     },
-    contactPanelToggleText() {
-      return `${
-        this.isContactPanelOpen
-          ? this.$t('CONVERSATION.HEADER.CLOSE')
-          : this.$t('CONVERSATION.HEADER.OPEN')
-      } ${this.$t('CONVERSATION.HEADER.DETAILS')}`;
-    },
     inbox() {
       const { inbox_id: inboxId } = this.chat;
       return this.$store.getters['inboxes/getInbox'](inboxId);
@@ -133,7 +112,7 @@ export default {
 
 <template>
   <div
-    class="flex flex-col items-center justify-between px-4 py-2 border-b bg-n-background border-n-weak md:flex-row"
+    class="flex flex-col items-center justify-between px-3 py-2 border-b bg-n-background border-n-weak md:flex-row h-12"
   >
     <div
       class="flex flex-col items-center justify-center flex-1 w-full min-w-0"
@@ -150,6 +129,7 @@ export default {
           :badge="inboxBadge"
           :username="currentContact.name"
           :status="currentContact.availability_status"
+          size="32px"
         />
         <div
           class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
@@ -157,9 +137,9 @@ export default {
           <div
             class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
           >
-            <NextButton link slate @click.prevent="$emit('contactPanelToggle')">
+            <NextButton link slate>
               <span
-                class="text-base font-medium truncate leading-tight text-n-slate-12"
+                class="text-sm font-medium truncate leading-tight text-n-slate-12"
               >
                 {{ currentContact.name }}
               </span>
@@ -180,19 +160,11 @@ export default {
             <span v-if="isSnoozed" class="font-medium text-n-amber-10">
               {{ snoozedDisplayText }}
             </span>
-            <NextButton
-              link
-              xs
-              blue
-              :label="contactPanelToggleText"
-              @click="$emit('contactPanelToggle')"
-            />
           </div>
         </div>
       </div>
       <div
         class="flex flex-row items-center justify-end flex-grow gap-2 mt-3 header-actions-wrap lg:mt-0"
-        :class="{ 'justify-end': isContactPanelOpen }"
       >
         <SLACardLabel v-if="hasSlaPolicyId" :chat="chat" show-extended-info />
         <Linear
