@@ -126,6 +126,44 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Нiчого"
+    "NONE_OPTION": "Нiчого",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Розмову створено",
+      "CONVERSATION_UPDATED": "Розмову оновлено",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Заглушити розмову",
+      "SNOOZE_CONVERSATION": "Відкласти розмову",
+      "RESOLVE_CONVERSATION": "Вирішити розмову",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Змінити пріоритет",
+      "ADD_SLA": "Додати SLA"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Email",
+      "INBOX": "Вхідні",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Номер телефону",
+      "STATUS": "Статус",
+      "BROWSER_LANGUAGE": "Мова браузера",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Країна",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Команда",
+      "PRIORITY": "Пріоритет"
+    }
   }
 }

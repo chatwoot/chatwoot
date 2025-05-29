@@ -43,7 +43,17 @@
         "INBOX_NAME": "收件箱名称",
         "ADD_NAME": "为收件箱添加名称",
         "PICK_NAME": "为收件箱选择一个名称",
-        "PICK_A_VALUE": "选择一个数值"
+        "PICK_A_VALUE": "选择一个数值",
+        "CREATE_INBOX": "新增收件箱"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "预聊天表单",
       "BUSINESS_HOURS": "工作时间",
       "WIDGET_BUILDER": "小部件生成器",
-      "BOT_CONFIGURATION": "机器人配置"
+      "BOT_CONFIGURATION": "机器人配置",
+      "CSAT": "客户满意度"
     },
     "SETTINGS": "设置",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "启用电子邮件收集框",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "在新对话中启用或禁用电子邮件收集框",
       "AUTO_ASSIGNMENT": "启用自动分配",
-      "ENABLE_CSAT": "启用CSAT",
       "SENDER_NAME_SECTION": "在电子邮件中启用代理名称",
-      "ENABLE_CSAT_SUB_TEXT": "在解决对话后启用/禁用CSAT（客户满意度）调查",
       "SENDER_NAME_SECTION_TEXT": "启用/禁用在电子邮件中显示代理名称，如果禁用，将显示业务名称",
       "ENABLE_CONTINUITY_VIA_EMAIL": "通过电子邮件启用对话连续性",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "如果有联系人的电子邮件地址，对话将会继续在电子邮件中进行。",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "访客在开始聊天前应提供他们的姓名和电子邮件地址"
+      }
+    },
+    "CSAT": {
+      "TITLE": "启用CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "消息",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "包含",
+          "DOES_NOT_CONTAINS": "不包含"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "电子邮件",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API 频道"
+      "API": "API 频道",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

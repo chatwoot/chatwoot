@@ -387,7 +387,8 @@
         "LABEL": "Nome azienda",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Invia"
+      "SUBMIT": "Invia",
+      "CANCEL": "annulla"
     }
   },
   "KEYBOARD_SHORTCUTS": {

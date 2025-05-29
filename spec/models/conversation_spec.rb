@@ -213,11 +213,18 @@ RSpec.describe Conversation do
     end
 
     it 'adds a message for system auto resolution if marked resolved by system' do
-      account.update(auto_resolve_duration: 40)
+      account.update(auto_resolve_after: 40 * 24 * 60)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.user = nil
 
-      system_resolved_message = "Conversation was marked resolved by system due to #{account.auto_resolve_duration} days of inactivity"
+      message_data = if account.auto_resolve_after >= 1440 && account.auto_resolve_after % 1440 == 0
+                       { key: 'auto_resolved_days', count: account.auto_resolve_after / 1440 }
+                     elsif account.auto_resolve_after >= 60 && account.auto_resolve_after % 60 == 0
+                       { key: 'auto_resolved_hours', count: account.auto_resolve_after / 60 }
+                     else
+                       { key: 'auto_resolved_minutes', count: account.auto_resolve_after }
+                     end
+      system_resolved_message = "Conversation was marked resolved by system due to #{message_data[:count]} days of inactivity"
       expect { conversation2.update(status: :resolved) }
         .to have_enqueued_job(Conversations::ActivityMessageJob)
         .with(conversation2, { account_id: conversation2.account_id, inbox_id: conversation2.inbox_id, message_type: :activity,
@@ -425,6 +432,20 @@ RSpec.describe Conversation do
 
     it 'returns false if conversation is not muted' do
       expect(muted?).to be(false)
+    end
+  end
+
+  describe '#create_csat_not_sent_activity_message' do
+    subject(:create_csat_not_sent_activity_message) { conversation.create_csat_not_sent_activity_message }
+
+    let(:conversation) { create(:conversation) }
+
+    it 'creates CSAT not sent activity message' do
+      create_csat_not_sent_activity_message
+      expect(Conversations::ActivityMessageJob)
+        .to(have_been_enqueued.at_least(:once).with(conversation, { account_id: conversation.account_id, inbox_id: conversation.inbox_id,
+                                                                    message_type: :activity,
+                                                                    content: 'CSAT survey not sent due to outgoing message restrictions' }))
     end
   end
 
@@ -786,8 +807,8 @@ RSpec.describe Conversation do
     end
 
     context 'when a new conversation is created' do
-      it 'sets last_activity_at to the created_at time' do
-        expect(conversation.last_activity_at).to eq(conversation.created_at)
+      it 'sets last_activity_at to the created_at time (within DB precision)' do
+        expect(conversation.last_activity_at).to be_within(1.second).of(conversation.created_at)
       end
     end
 

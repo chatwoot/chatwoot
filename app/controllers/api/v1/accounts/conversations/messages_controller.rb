@@ -1,4 +1,6 @@
 class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::Conversations::BaseController
+  before_action :ensure_api_inbox, only: :update
+
   def index
     @messages = message_finder.perform
   end
@@ -11,6 +13,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render_could_not_create_error(e.message)
   end
 
+  def update
+    Messages::StatusUpdateService.new(message, permitted_params[:status], permitted_params[:external_error]).perform
+    @message = message
+  end
+
   def destroy
     ActiveRecord::Base.transaction do
       message.update!(content: I18n.t('conversations.messages.deleted'), content_type: :text, content_attributes: { deleted: true })
@@ -21,7 +28,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   def retry
     return if message.blank?
 
-    message.update!(status: :sent, content_attributes: {})
+    service = Messages::StatusUpdateService.new(message, 'sent')
+    service.perform
+    message.update!(content_attributes: {})
     ::SendReplyJob.perform_later(message.id)
   rescue StandardError => e
     render_could_not_create_error(e.message)
@@ -56,10 +65,16 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def permitted_params
-    params.permit(:id, :target_language)
+    params.permit(:id, :target_language, :status, :external_error)
   end
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
+  end
+
+  # API inbox check
+  def ensure_api_inbox
+    # Only API inboxes can update messages
+    render json: { error: 'Message status update is only allowed for API inboxes' }, status: :forbidden unless @conversation.inbox.api?
   end
 end

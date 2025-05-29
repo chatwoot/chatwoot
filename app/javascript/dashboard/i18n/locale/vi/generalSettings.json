@@ -1,5 +1,11 @@
 {
   "GENERAL_SETTINGS": {
+    "LIMIT_MESSAGES": {
+      "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
+      "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
+      "AGENTS": "You have exceeded the agent limit. Hacker plan allows only 2 agents.",
+      "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
+    },
     "TITLE": "Cài đặt tài khoản",
     "SUBMIT": "Cập nhật cài đặt",
     "BACK": "Trờ về",
@@ -7,6 +13,26 @@
     "UPDATE": {
       "ERROR": "Không thể cập nhật cài đặt, hãy thử lại!",
       "SUCCESS": "Đã cập nhật thành công cài đặt tài khoản"
+    },
+    "ACCOUNT_DELETE_SECTION": {
+      "TITLE": "Delete your Account",
+      "NOTE": "Once you delete your account, all your data will be deleted.",
+      "BUTTON_TEXT": "Delete Your Account",
+      "CONFIRM": {
+        "TITLE": "Delete Account",
+        "MESSAGE": "Deleting your Account is irreversible. Enter your account name below to confirm you want to permanently delete it.",
+        "BUTTON_TEXT": "Xoá",
+        "DISMISS": "Huỷ",
+        "PLACE_HOLDER": "Vui lòng điền {accountName} để xác nhận"
+      },
+      "SUCCESS": "Account marked for deletion",
+      "FAILURE": "Could not delete account, try again!",
+      "SCHEDULED_DELETION": {
+        "TITLE": "Account Scheduled for Deletion",
+        "MESSAGE_MANUAL": "This account is scheduled for deletion on {deletionDate}. This was requested by an administrator. You can cancel the deletion before this date.",
+        "MESSAGE_INACTIVITY": "This account is scheduled for deletion on {deletionDate} due to account inactivity. You can cancel the deletion before this date.",
+        "CLEAR_BUTTON": "Cancel Scheduled Deletion"
+      }
     },
     "FORM": {
       "ERROR": "Vui lòng sửa lỗi biểu mẫu",
@@ -17,6 +43,10 @@
       "ACCOUNT_ID": {
         "TITLE": "Tài khoản SID",
         "NOTE": "ID này là bắt buộc nếu bạn đang xây dựng tích hợp dựa trên API"
+      },
+      "AUTO_RESOLVE": {
+        "TITLE": "Auto-resolve conversations",
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period. Set the duration and customize the message to the user below."
       },
       "NAME": {
         "LABEL": "Tên tài khoản",
@@ -38,10 +68,23 @@
         "PLACEHOLDER": "Email hỗ trợ của công ty bạn",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclude unattended conversations",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+      },
       "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Số ngày sau đó mà vé sẽ tự động giải quyết nếu không có hoạt động nào",
+        "LABEL": "Inactivity duration for resolution",
+        "HELP": "Duration after a conversation should auto resolve if there is no activity",
         "PLACEHOLDER": "30",
-        "ERROR": "Vui lòng điền thời lượng tự động giải quyết hợp lệ (tối thiểu 1 ngày và tối đa 999 ngày)"
+        "ERROR": "Auto resolve duration should be between 10 minutes and 999 days",
+        "API": {
+          "SUCCESS": "Auto resolve settings updated successfully",
+          "ERROR": "Failed to update auto resolve settings"
+        },
+        "UPDATE_BUTTON": "Cập nhật",
+        "MESSAGE_LABEL": "Custom resolution message",
+        "MESSAGE_PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
+        "MESSAGE_HELP": "This message is sent to the customer when a conversation is automatically resolved by the system due to inactivity."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "Tính liên tục của cuộc trò chuyện với email được kích hoạt cho tài khoản của bạn.",
@@ -51,6 +94,7 @@
     "UPDATE_CHATWOOT": "Đã có bản cập nhật {latestChatwootVersion} cho Chatwoot. Vui lòng cập nhật phiên bản của bạn.",
     "LEARN_MORE": "Tìm hiểu thêm",
     "PAYMENT_PENDING": "Your payment is pending. Please update your payment information to continue using Chatwoot",
+    "UPGRADE": "Upgrade to continue using Chatwoot",
     "LIMITS_UPGRADE": "Your account has exceeded the usage limits, please upgrade your plan to continue using Chatwoot",
     "OPEN_BILLING": "Open billing"
   },
