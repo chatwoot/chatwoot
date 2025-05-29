@@ -67,6 +67,7 @@ Rails.application.routes.draw do
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
+            post :reset_access_token, on: :member
           end
           resources :contact_inboxes, only: [] do
             collection do
@@ -296,6 +297,7 @@ Rails.application.routes.draw do
           post :auto_offline
           put :set_active_account
           post :resend_confirmation
+          post :reset_access_token
         end
       end
 
