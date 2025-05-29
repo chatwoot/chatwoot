@@ -60,8 +60,7 @@ class CustomMarkdownRenderer < CommonMarker::HtmlRenderer
       match = link_url.match(regex)
       next unless match
 
-      embed_html = render_embed_from_match(embed_key, match)
-      return embed_html if embed_html
+      return render_embed_from_match(embed_key, match)
     end
 
     nil
