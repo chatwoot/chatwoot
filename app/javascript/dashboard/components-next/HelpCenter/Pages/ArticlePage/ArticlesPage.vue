@@ -91,10 +91,7 @@ const articlesCount = computed(() => {
 });
 
 const showArticleHeaderControls = computed(
-  () =>
-    !hasNoArticlesInPortal.value &&
-    !props.isCategoryArticles &&
-    !isSwitchingPortal.value
+  () => !props.isCategoryArticles && !isSwitchingPortal.value
 );
 
 const showCategoryHeaderControls = computed(

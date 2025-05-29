@@ -4,6 +4,7 @@ import { useMapGetter, useStore } from 'dashboard/composables/store';
 import wootConstants from 'dashboard/constants/globals';
 import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { useImpersonation } from 'dashboard/composables/useImpersonation';
 
 import {
   DropdownContainer,
@@ -19,6 +20,8 @@ const store = useStore();
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const currentUserAutoOffline = useMapGetter('getCurrentUserAutoOffline');
+
+const { isImpersonating } = useImpersonation();
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 const statusList = computed(() => {
@@ -46,6 +49,10 @@ const activeStatus = computed(() => {
 });
 
 function changeAvailabilityStatus(availability) {
+  if (isImpersonating.value) {
+    useAlert(t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR'));
+    return;
+  }
   try {
     store.dispatch('updateAvailability', {
       availability,
@@ -67,7 +74,7 @@ function updateAutoOffline(autoOffline) {
 <template>
   <DropdownSection>
     <div class="grid gap-0">
-      <DropdownItem>
+      <DropdownItem preserve-open>
         <div class="flex-grow flex items-center gap-1">
           {{ $t('SIDEBAR.SET_YOUR_AVAILABILITY') }}
         </div>
@@ -90,7 +97,7 @@ function updateAutoOffline(autoOffline) {
               </div>
             </Button>
           </template>
-          <DropdownBody class="min-w-32">
+          <DropdownBody class="min-w-32 z-20">
             <DropdownItem
               v-for="status in availabilityStatuses"
               :key="status.value"

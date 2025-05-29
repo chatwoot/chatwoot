@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Mostrando {startItem}-{endItem} de {totalItems} elementos",
+    "CURRENT_PAGE_INFO": "{currentPage} de {totalPages} páginas"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Selecciona una opción...",
+    "EMPTY_SEARCH_RESULTS": "No se encontraron elementos para el término de búsqueda `{searchTerm}`",
+    "EMPTY_STATE": "No se encontraron resultados.",
+    "SEARCH_PLACEHOLDER": "Buscar...",
+    "MORE": "+{count} más"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Buscar...",
+    "EMPTY_STATE": "No se encontraron resultados.",
+    "SEARCHING": "Buscando..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "Cancelar",
+      "CONFIRM": "Confirmar"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Buscar país",
+    "ERROR": "El número de teléfono debe estar vacío o en formato E.164",
+    "DIAL_CODE_ERROR": "Por favor, seleccione un código de marcado de la lista"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "El autor no está disponible"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Migajas"
+  },
+  "SWITCH": {
+    "TOGGLE": "Interruptor"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "etiqueta"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "Más información",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

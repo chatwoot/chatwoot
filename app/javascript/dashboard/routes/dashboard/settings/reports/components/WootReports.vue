@@ -1,10 +1,12 @@
 <script>
+import V4Button from 'dashboard/components-next/button/Button.vue';
 import { useAlert, useTrack } from 'dashboard/composables';
 import ReportFilters from './ReportFilters.vue';
 import ReportContainer from '../ReportContainer.vue';
 import { GROUP_BY_FILTER } from '../constants';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
+import ReportHeader from './ReportHeader.vue';
 
 const GROUP_BY_OPTIONS = {
   DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
@@ -26,6 +28,8 @@ const GROUP_BY_OPTIONS = {
 
 export default {
   components: {
+    ReportHeader,
+    V4Button,
     ReportFilters,
     ReportContainer,
   },
@@ -46,12 +50,24 @@ export default {
       type: String,
       default: 'Download Reports',
     },
+    reportTitle: {
+      type: String,
+      default: 'Download Reports',
+    },
+    hasBackButton: {
+      type: Boolean,
+      default: false,
+    },
+    selectedItem: {
+      type: Object,
+      default: null,
+    },
   },
   data() {
     return {
       from: 0,
       to: 0,
-      selectedFilter: null,
+      selectedFilter: this.selectedItem,
       groupBy: GROUP_BY_FILTER[1],
       groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
       selectedGroupByFilter: null,
@@ -198,30 +214,29 @@ export default {
 </script>
 
 <template>
-  <div class="flex-1 p-4 overflow-auto">
-    <woot-button
-      color-scheme="success"
-      class-names="button--fixed-top"
-      icon="arrow-download"
+  <ReportHeader :header-title="reportTitle" :has-back-button="hasBackButton">
+    <V4Button
+      :label="downloadButtonLabel"
+      icon="i-ph-download-simple"
+      size="sm"
       @click="downloadReports"
-    >
-      {{ downloadButtonLabel }}
-    </woot-button>
-    <ReportFilters
-      v-if="filterItemsList"
-      :type="type"
-      :filter-items-list="filterItemsList"
-      :group-by-filter-items-list="groupByfilterItemsList"
-      :selected-group-by-filter="selectedGroupByFilter"
-      @date-range-change="onDateRangeChange"
-      @filter-change="onFilterChange"
-      @group-by-filter-change="onGroupByFilterChange"
-      @business-hours-toggle="onBusinessHoursToggle"
     />
-    <ReportContainer
-      v-if="filterItemsList.length"
-      :group-by="groupBy"
-      :report-keys="reportKeys"
-    />
-  </div>
+  </ReportHeader>
+  <ReportFilters
+    v-if="filterItemsList"
+    :type="type"
+    :filter-items-list="filterItemsList"
+    :group-by-filter-items-list="groupByfilterItemsList"
+    :selected-group-by-filter="selectedGroupByFilter"
+    :current-filter="selectedFilter"
+    @date-range-change="onDateRangeChange"
+    @filter-change="onFilterChange"
+    @group-by-filter-change="onGroupByFilterChange"
+    @business-hours-toggle="onBusinessHoursToggle"
+  />
+  <ReportContainer
+    v-if="filterItemsList.length"
+    :group-by="groupBy"
+    :report-keys="reportKeys"
+  />
 </template>

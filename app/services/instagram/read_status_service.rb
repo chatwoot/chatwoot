@@ -1,8 +1,8 @@
 class Instagram::ReadStatusService
-  pattr_initialize [:params!]
+  pattr_initialize [:params!, :channel!]
 
   def perform
-    return if instagram_channel.blank?
+    return if channel.blank?
 
     ::Conversations::UpdateMessageStatusJob.perform_later(message.conversation.id, message.created_at) if message.present?
   end
@@ -11,13 +11,9 @@ class Instagram::ReadStatusService
     params[:recipient][:id]
   end
 
-  def instagram_channel
-    @instagram_channel ||= Channel::FacebookPage.find_by(instagram_id: instagram_id)
-  end
-
   def message
     return unless params[:read][:mid]
 
-    @message ||= @instagram_channel.inbox.messages.find_by(source_id: params[:read][:mid])
+    @message ||= @channel.inbox.messages.find_by(source_id: params[:read][:mid])
   end
 end

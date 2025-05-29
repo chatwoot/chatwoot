@@ -1,11 +1,11 @@
 <script setup>
 import { computed } from 'vue';
 import Auth from 'dashboard/api/auth';
-import { useRouter } from 'vue-router';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import {
   DropdownContainer,
@@ -13,6 +13,7 @@ import {
   DropdownSeparator,
   DropdownItem,
 } from 'next/dropdown-menu/base';
+import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
 
 const emit = defineEmits(['close', 'openKeyShortcutModal']);
 
@@ -21,16 +22,29 @@ defineOptions({
 });
 
 const { t } = useI18n();
-const router = useRouter();
 
-const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+const accountId = useMapGetter('getCurrentAccountId');
+const globalConfig = useMapGetter('globalConfig/get');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
+const showChatSupport = computed(() => {
+  return (
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
+    ) && globalConfig.value.chatwootInboxToken
+  );
+});
 
 const menuItems = computed(() => {
   return [
     {
-      show: !!globalConfig.value.chatwootInboxToken,
+      show: showChatSupport.value,
+      showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
       icon: 'i-lucide-life-buoy',
       click: () => {
@@ -39,6 +53,7 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS'),
       icon: 'i-lucide-keyboard',
       click: () => {
@@ -47,14 +62,14 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.PROFILE_SETTINGS'),
       icon: 'i-lucide-user-pen',
-      click: () => {
-        router.push({ name: 'profile_settings_index' });
-      },
+      link: { name: 'profile_settings_index' },
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.APPEARANCE'),
       icon: 'i-lucide-palette',
       click: () => {
@@ -64,21 +79,25 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
-      click: () => {
-        window.open('https://www.chatwoot.com/hc/user-guide/en', '_blank');
-      },
+      link: 'https://www.chatwoot.com/hc/user-guide/en',
+      nativeLink: true,
+      target: '_blank',
     },
     {
       show: currentUser.value.type === 'SuperAdmin',
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
       icon: 'i-lucide-castle',
       link: '/super_admin',
+      nativeLink: true,
       target: '_blank',
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.LOGOUT'),
       icon: 'i-lucide-power',
       click: Auth.logout,
@@ -93,7 +112,8 @@ const allowedMenuItems = computed(() => {
 
 <template>
   <DropdownContainer
-    class="relative z-20 w-full min-w-0"
+    class="relative w-full min-w-0"
+    :class="{ 'z-20': isOpen }"
     @close="emit('close')"
   >
     <template #trigger="{ toggle, isOpen }">
@@ -120,11 +140,15 @@ const allowedMenuItems = computed(() => {
         </div>
       </button>
     </template>
-    <DropdownBody class="left-0 bottom-12 z-50 w-80 mb-1">
+    <DropdownBody class="ltr:left-0 rtl:right-0 bottom-12 z-50 w-80 mb-2">
       <SidebarProfileMenuStatus />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">
-        <DropdownItem v-if="item.show" v-bind="item" />
+        <CustomBrandPolicyWrapper
+          :show-on-custom-branded-instance="item.showOnCustomBrandedInstance"
+        >
+          <DropdownItem v-if="item.show" v-bind="item" />
+        </CustomBrandPolicyWrapper>
       </template>
     </DropdownBody>
   </DropdownContainer>

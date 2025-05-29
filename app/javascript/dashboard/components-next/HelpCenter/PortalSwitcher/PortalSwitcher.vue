@@ -92,7 +92,7 @@ const redirectToPortalHomePage = () => {
 
 <template>
   <div
-    class="pt-5 pb-3 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[440px] rounded-xl shadow-md flex flex-col gap-4"
+    class="pt-5 pb-3 bg-n-alpha-3 backdrop-blur-[100px] outline outline-n-container outline-1 z-50 absolute w-[27.5rem] rounded-xl shadow-md flex flex-col gap-4"
   >
     <div
       class="flex items-center justify-between gap-4 px-6 pb-3 border-b border-n-alpha-2"
@@ -108,6 +108,7 @@ const redirectToPortalHomePage = () => {
           <Button
             icon="i-lucide-arrow-up-right"
             variant="ghost"
+            color="slate"
             icon-lib="lucide"
             size="sm"
             class="!w-6 !h-6 hover:bg-n-slate-2 text-n-slate-11 !p-0.5 rounded-md"
@@ -133,6 +134,7 @@ const redirectToPortalHomePage = () => {
         :key="index"
         :label="portal.name"
         variant="ghost"
+        color="slate"
         trailing-icon
         :icon="isPortalActive(portal) ? 'i-lucide-check' : ''"
         class="!justify-end !px-2 !py-2 hover:!bg-n-alpha-2 [&>.i-lucide-check]:text-n-teal-10 h-9"

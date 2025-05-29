@@ -4,7 +4,12 @@ import { useAlert } from 'dashboard/composables';
 import validations, { getLabelTitleErrorMessage } from './validations';
 import { useVuelidate } from '@vuelidate/core';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     selectedResponse: {
       type: Object,
@@ -109,15 +114,19 @@ export default {
         </label>
       </div>
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">
-        <woot-button
-          :is-disabled="v$.title.$invalid || uiFlags.isUpdating"
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('LABEL_MGMT.FORM.CANCEL')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :label="$t('LABEL_MGMT.FORM.EDIT')"
+          :disabled="v$.title.$invalid || uiFlags.isUpdating"
           :is-loading="uiFlags.isUpdating"
-        >
-          {{ $t('LABEL_MGMT.FORM.EDIT') }}
-        </woot-button>
-        <woot-button class="button clear" @click.prevent="onClose">
-          {{ $t('LABEL_MGMT.FORM.CANCEL') }}
-        </woot-button>
+        />
       </div>
     </form>
   </div>

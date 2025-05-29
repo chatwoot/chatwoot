@@ -132,7 +132,7 @@ const iconStyles = computed(() => ({
 }));
 
 const initialsStyles = computed(() => ({
-  fontSize: `${props.size / 2}px`,
+  fontSize: `${Math.min(props.size / 2.5, 24)}px`,
 }));
 
 const invalidateCurrentImage = () => {
@@ -174,7 +174,7 @@ watch(
 </script>
 
 <template>
-  <span class="relative inline-flex group/avatar" :style="containerStyles">
+  <span class="relative inline-flex group/avatar z-0" :style="containerStyles">
     <!-- Status Badge -->
     <slot name="badge" :size="size">
       <div

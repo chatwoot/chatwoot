@@ -279,4 +279,79 @@ describe WebhookListener do
       end
     end
   end
+
+  describe '#conversation_typing_on' do
+    let(:event_name) { :'conversation.typing_on' }
+    let!(:typing_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: user) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.conversation_typing_on(typing_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['conversation_typing_on'])
+
+        payload = {
+          event: 'conversation_typing_on',
+          user: user.webhook_data,
+          conversation: conversation.webhook_data,
+          is_private: false
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        listener.conversation_typing_on(typing_event)
+      end
+    end
+
+    context 'when inbox is an API Channel' do
+      it 'triggers webhook if webhook_url is present' do
+        channel_api = create(:channel_api, account: account)
+        api_inbox = channel_api.inbox
+        api_conversation = create(:conversation, account: account, inbox: api_inbox, assignee: user)
+        api_event = Events::Base.new(event_name, Time.zone.now, conversation: api_conversation, user: user, is_private: false)
+
+        payload = {
+          event: 'conversation_typing_on',
+          user: user.webhook_data,
+          conversation: api_conversation.webhook_data,
+          is_private: false
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(channel_api.webhook_url, payload, :api_inbox_webhook).once
+        listener.conversation_typing_on(api_event)
+      end
+    end
+  end
+
+  describe '#conversation_typing_off' do
+    let(:event_name) { :'conversation.typing_off' }
+    let!(:typing_event) { Events::Base.new(event_name, Time.zone.now, conversation: conversation, user: user, is_private: false) }
+
+    context 'when webhook is not configured' do
+      it 'does not trigger webhook' do
+        expect(WebhookJob).not_to receive(:perform_later)
+        listener.conversation_typing_off(typing_event)
+      end
+    end
+
+    context 'when webhook is configured' do
+      it 'triggers webhook' do
+        webhook = create(:webhook, inbox: inbox, account: account, subscriptions: ['conversation_typing_off'])
+
+        payload = {
+          event: 'conversation_typing_off',
+          user: user.webhook_data,
+          conversation: conversation.webhook_data,
+          is_private: false
+        }
+
+        expect(WebhookJob).to receive(:perform_later).with(webhook.url, payload).once
+        listener.conversation_typing_off(typing_event)
+      end
+    end
+  end
 end

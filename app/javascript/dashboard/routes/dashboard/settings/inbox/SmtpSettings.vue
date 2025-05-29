@@ -6,12 +6,14 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import InputRadioGroup from './components/InputRadioGroup.vue';
 import SingleSelectDropdown from './components/SingleSelectDropdown.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     SettingsSection,
     InputRadioGroup,
     SingleSelectDropdown,
+    NextButton,
   },
   props: {
     inbox: {
@@ -231,9 +233,10 @@ export default {
             :action="handleAuthMechanismChange"
           />
         </div>
-        <woot-submit-button
-          :button-text="$t('INBOX_MGMT.SMTP.UPDATE')"
-          :loading="uiFlags.isUpdatingSMTP"
+        <NextButton
+          type="submit"
+          :label="$t('INBOX_MGMT.SMTP.UPDATE')"
+          :is-loading="uiFlags.isUpdatingSMTP"
           :disabled="(v$.$invalid && isSMTPEnabled) || uiFlags.isUpdatingSMTP"
         />
       </form>

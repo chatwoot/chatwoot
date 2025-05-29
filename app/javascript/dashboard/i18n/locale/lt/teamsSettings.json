@@ -20,23 +20,18 @@
         "TITLE": "Pridėti agentus prie komandos - {teamName}",
         "DESC": "Į naujai sukurtą komandą įtraukite agentus. Taip galėsite kaip komanda bendradarbiauti pokalbiuose, gauti pranešimus apie naujus įvykius tame pačiame pokalbyje."
       },
-      "WIZARD": [
-        {
-          "title": "Sukurti",
-          "route": "settings_teams_new",
-          "body": "Sukurkite naują agentų komandą."
-        },
-        {
-          "title": "Pridėti Agentus",
-          "route": "settings_teams_add_agents",
-          "body": "Pridėti agentus prie komandos."
-        },
-        {
-          "title": "Pabaigti",
-          "route": "settings_teams_finish",
-          "body": "Esate pasiruošę pradėti!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Sukurti",
+        "BODY": "Sukurkite naują agentų komandą."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Pridėti Agentus",
+        "BODY": "Pridėti agentus prie komandos."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Pabaigti",
+        "BODY": "Esate pasiruošę pradėti!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Pridėti agentus prie komandos - {teamName}",
         "DESC": "Pridėkite agentus į savo naujai sukurtą komandą. Visiems pridėtiems agentams bus pranešta, kai pokalbis bus priskirtas šiai komandai."
       },
-      "WIZARD": [
-        {
-          "title": "Komandos informacija",
-          "route": "settings_teams_edit",
-          "body": "Pakeiskite pavadinimą, aprašymą ir kitą informaciją."
-        },
-        {
-          "title": "Keisti Agentus",
-          "route": "settings_teams_edit_members",
-          "body": "Redaguokite agentus savo komandoje."
-        },
-        {
-          "title": "Pabaigti",
-          "route": "settings_teams_edit_finish",
-          "body": "Esate pasiruošę pradėti!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Komandos informacija",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Pakeiskite pavadinimą, aprašymą ir kitą informaciją."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Keisti Agentus",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Redaguokite agentus savo komandoje."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Pabaigti",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Esate pasiruošę pradėti!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nepavyko išsaugoti komandos informacijos. Bandyk iš naujo."

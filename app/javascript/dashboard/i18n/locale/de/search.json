@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Gespräche",
       "MESSAGES": "Nachrichten"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Suchen",
+    "LOADING_DATA": "Wird geladen",
     "EMPTY_STATE": "Keine {item} für Abfrage '{query} ' gefunden",
     "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '{query} ' gefunden",
     "PLACEHOLDER_KEYBINDING": "/ fokussieren",
@@ -21,6 +24,7 @@
     "READ_MORE": "Mehr erfahren",
     "WROTE": "schrieb:",
     "FROM": "von",
-    "EMAIL": "e-Mail"
+    "EMAIL": "e-Mail",
+    "EMAIL_SUBJECT": "betreff"
   }
 }

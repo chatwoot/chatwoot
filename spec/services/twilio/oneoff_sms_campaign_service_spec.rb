@@ -4,8 +4,8 @@ describe Twilio::OneoffSmsCampaignService do
   subject(:sms_campaign_service) { described_class.new(campaign: campaign) }
 
   let(:account) { create(:account) }
-  let!(:twilio_sms) { create(:channel_twilio_sms) }
-  let!(:twilio_inbox) { create(:inbox, channel: twilio_sms) }
+  let!(:twilio_sms) { create(:channel_twilio_sms, account: account) }
+  let!(:twilio_inbox) { create(:inbox, channel: twilio_sms, account: account) }
   let(:label1) { create(:label, account: account) }
   let(:label2) { create(:label, account: account) }
   let!(:campaign) do

@@ -19,13 +19,19 @@ jobs:
     steps:
       - checkout
       - node/install:
-          node-version: '20.12'
+          node-version: '23.7'
       - node/install-pnpm
       - node/install-packages:
           pkg-manager: pnpm
           override-ci-command: pnpm i
       - run: node --version
       - run: pnpm --version
+      - run:
+          name: Add PostgreSQL repository and update
+          command: |
+            sudo sh -c 'echo "deb http://apt.postgresql.org/pub/repos/apt/ $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list'
+            wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+            sudo apt-get update -y
 
       - run:
           name: Install System Dependencies
@@ -34,7 +40,9 @@ jobs:
             DEBIAN_FRONTEND=noninteractive sudo apt-get install -y \
               libpq-dev \
               redis-server \
-              postgresql \
+              postgresql-common \
+              postgresql-16 \
+              postgresql-16-pgvector \
               build-essential \
               git \
               curl \
@@ -65,16 +73,16 @@ jobs:
               libvips
 
       - run:
-          name: Install RVM and Ruby 3.3.3
+          name: Install RVM and Ruby 3.4.4
           command: |
             sudo apt-get install -y gpg
             gpg --keyserver hkp://keyserver.ubuntu.com --recv-keys 409B6B1796C275462A1703113804BB82D39DC0E3 7D2BAF1CF37B13E2069D6956105BD0E739499BDB
             \curl -sSL https://get.rvm.io | bash -s stable
             echo 'source ~/.rvm/scripts/rvm' >> $BASH_ENV
             source ~/.rvm/scripts/rvm
-            rvm install "3.3.3"
-            rvm use 3.3.3 --default
-            gem install bundler
+            rvm install "3.4.4"
+            rvm use 3.4.4 --default
+            gem install bundler -v 2.5.16
 
       - run:
           name: Install Application Dependencies

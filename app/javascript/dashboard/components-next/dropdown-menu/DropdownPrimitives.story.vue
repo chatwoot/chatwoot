@@ -14,22 +14,22 @@ const menuItems = ref([
   {
     label: 'Contact Support',
     icon: 'i-lucide-life-buoy',
-    click: () => window.alert('Contact Support'),
+    click: () => console.log('Contact Support'),
   },
   {
     label: 'Keyboard Shortcuts',
     icon: 'i-lucide-keyboard',
-    click: () => window.alert('Keyboard Shortcuts'),
+    click: () => console.log('Keyboard Shortcuts'),
   },
   {
     label: 'Profile Settings',
     icon: 'i-lucide-user-pen',
-    click: () => window.alert('Profile Settings'),
+    click: () => console.log('Profile Settings'),
   },
   {
     label: 'Change Appearance',
     icon: 'i-lucide-swatch-book',
-    click: () => window.alert('Change Appearance'),
+    click: () => console.log('Change Appearance'),
   },
   {
     label: 'Open SuperAdmin',
@@ -40,7 +40,7 @@ const menuItems = ref([
   {
     label: 'Log Out',
     icon: 'i-lucide-log-out',
-    click: () => window.alert('Log Out'),
+    click: () => console.log('Log Out'),
   },
 ]);
 </script>

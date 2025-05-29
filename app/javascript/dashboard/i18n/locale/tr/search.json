@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Konuşmalar",
       "MESSAGES": "Mesajlar"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Aranıyor",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "{query} sorgusunda hiç bir {item} bulunamadı",
     "EMPTY_STATE_FULL": "{query} sorgusu için hiç bir sonuç bulunamadı",
     "PLACEHOLDER_KEYBINDING": "odaklanmak için / basın",
@@ -21,6 +24,7 @@
     "READ_MORE": "Daha fazla bilgi edinin",
     "WROTE": "wrote:",
     "FROM": "dan",
-    "EMAIL": "e-Posta"
+    "EMAIL": "e-Posta",
+    "EMAIL_SUBJECT": "konu"
   }
 }

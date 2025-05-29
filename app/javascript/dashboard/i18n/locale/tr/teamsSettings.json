@@ -20,23 +20,18 @@
         "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
         "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bu özellik ekip olarak görüşme yapabilmenizi, aynı görüşmeye gelecek bildirimlerden haberdar olabilmenize olanak sağlar."
       },
-      "WIZARD": [
-        {
-          "title": "Yarat",
-          "route": "ayarlar_ekipler_yeni",
-          "body": "Temsilcilerden yeni bir ekip oluştur."
-        },
-        {
-          "title": "Kullanıcı Ekle",
-          "route": "ayarlar_ekipler_temsilci_ekle",
-          "body": "Ekibe temsilciler ekleyin."
-        },
-        {
-          "title": "Son",
-          "route": "ayarlar_ekipler_son",
-          "body": "Hepiniz gitmeye hazırsınız!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Yarat",
+        "BODY": "Temsilcilerden yeni bir ekip oluştur."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Kullanıcı Ekle",
+        "BODY": "Ekibe temsilciler ekleyin."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Son",
+        "BODY": "Hepiniz gitmeye hazırsınız!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Ekibe temsilciler ekleyin - {teamName}",
         "DESC": "Yeni oluşturduğunuz ekibe Temsilciler ekleyin. Bir görüşme bu ekibe atandığında tüm temsilcilere bildirim gider."
       },
-      "WIZARD": [
-        {
-          "title": "Ekip detayları",
-          "route": "ayarlar_ekipler_duzenle",
-          "body": "İsmi, açıklamayı ve diğer detayları düzenleyin."
-        },
-        {
-          "title": "Temsicileri Düzenle",
-          "route": "ayarlar_ekipler_uyeleri_duzenle",
-          "body": "Ekibinizdeki temsicileri düzenleyin."
-        },
-        {
-          "title": "Son",
-          "route": "ayarlar_ekipler_son",
-          "body": "Hepiniz gitmeye hazırsınız!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Ekip detayları",
+        "ROUTE": "ayarlar_ekipler_duzenle",
+        "BODY": "İsmi, açıklamayı ve diğer detayları düzenleyin."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Temsicileri Düzenle",
+        "ROUTE": "ayarlar_ekipler_uyeleri_duzenle",
+        "BODY": "Ekibinizdeki temsicileri düzenleyin."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Son",
+        "ROUTE": "ayarlar_ekipler_son",
+        "BODY": "Hepiniz gitmeye hazırsınız!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Ekip detayları kaydedilemedi. Tekrar deneyin."

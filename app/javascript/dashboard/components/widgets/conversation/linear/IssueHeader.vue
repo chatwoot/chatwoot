@@ -1,5 +1,7 @@
 <script setup>
 import { inject } from 'vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   identifier: {
     type: String,
@@ -37,30 +39,24 @@ const openIssue = () => {
       />
       <span class="text-xs font-medium text-ash-900">{{ identifier }}</span>
     </div>
-    <div class="flex items-center gap-0.5">
-      <woot-button
-        variant="clear"
-        color-scheme="secondary"
-        class="h-[24px]"
+    <div class="flex items-center gap-1">
+      <Button
+        ghost
+        xs
+        slate
+        icon="i-lucide-unlink"
+        class="!transition-none"
         :is-loading="isUnlinking"
         @click="unlinkIssue"
-      >
-        <fluent-icon
-          v-if="!isUnlinking"
-          icon="unlink"
-          size="12"
-          type="outline"
-          icon-lib="lucide"
-        />
-      </woot-button>
-      <woot-button
-        variant="clear"
-        class="h-[24px]"
-        color-scheme="secondary"
+      />
+      <Button
+        ghost
+        xs
+        slate
+        class="!transition-none"
+        icon="i-lucide-arrow-up-right"
         @click="openIssue"
-      >
-        <fluent-icon icon="arrow-up-right" size="14" />
-      </woot-button>
+      />
     </div>
   </div>
 </template>

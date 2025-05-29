@@ -182,6 +182,7 @@ onMounted(() => {
       <OnClickOutside @trigger="openAgentsList = false">
         <Button
           variant="ghost"
+          color="slate"
           class="!px-0 font-normal hover:!bg-transparent"
           text-variant="info"
           @click="openAgentsList = !openAgentsList"
@@ -199,7 +200,8 @@ onMounted(() => {
         <DropdownMenu
           v-if="openAgentsList && hasAgentList"
           :menu-items="agentList"
-          class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-52"
+          show-search
+          class="z-[100] w-48 mt-2 overflow-y-auto ltr:left-0 rtl:right-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>
@@ -214,6 +216,7 @@ onMounted(() => {
           "
           :icon="!selectedCategory?.icon ? 'i-lucide-shapes' : ''"
           variant="ghost"
+          color="slate"
           class="!px-2 font-normal hover:!bg-transparent"
           @click="openCategoryList = !openCategoryList"
         >
@@ -229,7 +232,8 @@ onMounted(() => {
         <DropdownMenu
           v-if="openCategoryList && hasCategoryMenuItems"
           :menu-items="categoryList"
-          class="w-48 mt-2 z-[100] overflow-y-auto left-0 top-full max-h-52"
+          show-search
+          class="w-48 mt-2 z-[100] overflow-y-auto left-0 top-full max-h-60"
           @action="handleArticleAction"
         />
       </OnClickOutside>
@@ -244,6 +248,7 @@ onMounted(() => {
           "
           icon="i-lucide-plus"
           variant="ghost"
+          color="slate"
           :disabled="isNewArticle"
           class="!px-2 font-normal hover:!bg-transparent hover:!text-n-slate-11"
           @click="openProperties = !openProperties"

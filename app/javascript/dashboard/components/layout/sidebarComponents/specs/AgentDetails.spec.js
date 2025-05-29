@@ -2,7 +2,7 @@ import { shallowMount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import AgentDetails from '../AgentDetails.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 describe('AgentDetails', () => {
   const currentUser = {
@@ -40,12 +40,12 @@ describe('AgentDetails', () => {
         plugins: [store],
         components: {
           Thumbnail,
-          WootButton,
+          NextButton,
         },
         directives: {
           tooltip: mockTooltipDirective, // Mocking the tooltip directive
         },
-        stubs: { WootButton: { template: '<button><slot /></button>' } },
+        stubs: { NextButton: { template: '<button><slot /></button>' } },
       },
     });
   });

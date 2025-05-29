@@ -9,11 +9,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portals = Current.account.portals
   end
 
-  def add_members
-    agents = Current.account.agents.where(id: portal_member_params[:member_ids])
-    @portal.members << agents
-  end
-
   def show
     @all_articles = @portal.articles
     @articles = @all_articles.search(locale: params[:locale])
@@ -83,10 +78,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     return {} unless inbox.web_widget?
 
     { channel_web_widget_id: inbox.channel.id }
-  end
-
-  def portal_member_params
-    params.require(:portal).permit(:account_id, member_ids: [])
   end
 
   def set_current_page

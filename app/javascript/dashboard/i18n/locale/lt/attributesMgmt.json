@@ -92,12 +92,12 @@
       "CONTACT": "Kontaktas"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Vardas",
-        "Aprašymas",
-        "Tipas",
-        "Raktas"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Vardas",
+        "DESCRIPTION": "Aprašymas",
+        "TYPE": "Tipas",
+        "KEY": "Raktas"
+      },
       "BUTTONS": {
         "EDIT": "Redaguoti",
         "DELETE": "Ištrinti"

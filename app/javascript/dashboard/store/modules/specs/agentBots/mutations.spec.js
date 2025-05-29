@@ -51,4 +51,16 @@ describe('#mutations', () => {
       expect(state.agentBotInbox).toEqual({ 3: 2 });
     });
   });
+  describe('#UPDATE_AGENT_BOT_AVATAR', () => {
+    it('update agent bot avatar', () => {
+      const state = { records: [agentBotRecords[0]] };
+      mutations[types.UPDATE_AGENT_BOT_AVATAR](state, {
+        id: 11,
+        thumbnail: 'https://example.com/thumbnail.jpg',
+      });
+      expect(state.records[0].thumbnail).toEqual(
+        'https://example.com/thumbnail.jpg'
+      );
+    });
+  });
 });

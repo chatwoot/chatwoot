@@ -1,35 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Entradas",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
+    "DESCRIPTION": "Un canal es el modo de comunicación que tu cliente elige para interactuar contigo. Una bandeja de entrada es donde administras interacciones para un canal específico. Puede incluir comunicaciones de diversas fuentes como correo electrónico, chat en vivo y redes sociales.",
+    "LEARN_MORE": "Aprende más sobre las entradas",
     "RECONNECTION_REQUIRED": "Tu bandeja de entrada está desconectada. No recibirás mensajes nuevos hasta que lo vuelvas a autorizar.",
     "CLICK_TO_RECONNECT": "Haga clic aquí para volver a conectar.",
     "LIST": {
       "404": "No hay entradas adjuntas a esta cuenta."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Elegir canal",
-        "route": "settings_inbox_new",
-        "body": "Elija el proveedor que desea integrar con Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Elegir canal",
+        "BODY": "Elija el proveedor que desea integrar con Chatwoot."
       },
-      {
-        "title": "Crear bandeja de entrada",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autenticar tu cuenta y crear una bandeja de entrada."
+      "INBOX": {
+        "TITLE": "Crear bandeja de entrada",
+        "BODY": "Autenticar tu cuenta y crear una bandeja de entrada."
       },
-      {
-        "title": "Añadir agentes",
-        "route": "settings_inboxes_add_agents",
-        "body": "Añadir agentes a la bandeja de entrada creada."
+      "AGENT": {
+        "TITLE": "Añadir agentes",
+        "BODY": "Añadir agentes a la bandeja de entrada creada."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "¡Todo está listo!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "¡Todo está listo!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nombre de la bandeja de entrada",
@@ -47,7 +43,17 @@
         "INBOX_NAME": "Nombre de la bandeja de entrada",
         "ADD_NAME": "Añada un nombre para su bandeja de entrada",
         "PICK_NAME": "Elija un nombre para su bandeja de entrada",
-        "PICK_A_VALUE": "Elija un valor"
+        "PICK_A_VALUE": "Elija un valor",
+        "CREATE_INBOX": "Crear bandeja de entrada"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' ",
@@ -371,16 +377,16 @@
         "ERROR_MESSAGE": "Hubo un error al conectarse a Microsoft, por favor inténtalo de nuevo"
       },
       "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
+        "TITLE": "Correo de Google",
+        "DESCRIPTION": "Haga clic en el botón Iniciar sesión con Google para empezar. Serás redirigido a la página de inicio de sesión de correo electrónico. Una vez que aceptes los permisos solicitados, serás redirigido al paso de creación de la bandeja de entrada.",
+        "SIGN_IN": "Iniciar sesión con Google",
         "EMAIL_PLACEHOLDER": "Introduzca la dirección de correo",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "ERROR_MESSAGE": "Se ha producido un error al conectar a Google, por favor inténtelo nuevamente"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autenticándote con Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
+      "ERROR_FB_LOADING": "Error al cargar Facebook SDK. Deshabilite cualquier bloqueador de anuncios e inténtelo de nuevo desde un navegador diferente.",
       "ERROR_FB_AUTH": "Algo salió mal, Por favor actualiza la página...",
       "ERROR_FB_UNAUTHORIZED": "No estás autorizado a realizar esta acción. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Asegúrate de tener acceso a la página de Facebook con control completo. Puedes leer más sobre los roles de Facebook <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -475,7 +481,8 @@
       "PRE_CHAT_FORM": "Pre-formulario de chat",
       "BUSINESS_HOURS": "Horarios",
       "WIDGET_BUILDER": "Constructor de Widget",
-      "BOT_CONFIGURATION": "Configuración del bot"
+      "BOT_CONFIGURATION": "Configuración del bot",
+      "CSAT": "Encuestas de Satisfacción"
     },
     "SETTINGS": "Ajustes",
     "FEATURES": {
@@ -496,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
-      "ENABLE_CSAT": "Habilitar Encuesta de Satisfacción",
       "SENDER_NAME_SECTION": "Habilitar nombre del agente en el correo electrónico",
-      "ENABLE_CSAT_SUB_TEXT": "Habilitar/deshabilitar encuesta CSAT(satisfacción del cliente) después de resolver una conversación",
       "SENDER_NAME_SECTION_TEXT": "Habilitar/Deshabilitar mostrando el nombre del agente en el correo electrónico, si está deshabilitado, mostrará el nombre del negocio",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidad de conversación por correo electrónico",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Las conversaciones continuarán por correo electrónico si la dirección de correo electrónico de contacto está disponible.",
@@ -570,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Los visitantes deben proporcionar su nombre y dirección de correo electrónico antes de iniciar el chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Habilitar Encuesta de Satisfacción",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Mensaje",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contiene",
+          "DOES_NOT_CONTAINS": "no contiene"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -757,7 +788,8 @@
       "EMAIL": "E-mail",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canal API"
+      "API": "Canal API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

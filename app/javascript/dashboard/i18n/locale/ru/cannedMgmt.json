@@ -1,8 +1,8 @@
 {
   "CANNED_MGMT": {
     "HEADER": "Шаблонные ответы",
-    "LEARN_MORE": "Learn more about canned responses",
-    "DESCRIPTION": "Canned Responses are pre-written reply templates that help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a canned response during a conversation. ",
+    "LEARN_MORE": "Подробнее о шаблонных ответах",
+    "DESCRIPTION": "Шаблоны ответов - это предварительно написанные шаблоны ответов, которые помогут вам быстро в диалог. Агенты могут ввести символ '/', за которым следует команда, чтобы вставить готовый ответ во время диалога. ",
     "HEADER_BTN_TXT": "Добавить шаблонный ответ",
     "LOADING": "Загружаем шаблонные ответы...",
     "SEARCH_404": "Нет категорий, соответствующих запросу.",
@@ -10,11 +10,11 @@
       "404": "У вас нет шаблонных ответов.",
       "TITLE": "Управление шаблонными ответами",
       "DESC": "Шаблонные ответы – это заранее подготовленные шаблоны для быстрого ответа в диалогах.",
-      "TABLE_HEADER": [
-        "Команда",
-        "Текст",
-        "Действия"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Команда",
+        "CONTENT": "Текст",
+        "ACTIONS": "Действия"
+      }
     },
     "ADD": {
       "TITLE": "Добавить шаблонный ответ",

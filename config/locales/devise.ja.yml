@@ -2,9 +2,9 @@
 ja:
   devise:
     confirmations:
-      confirmed: "あなたのメールアドレスを確認しました。"
+      confirmed: "あなたのメールアドレスは正常に確認されました。"
       send_instructions: "数分以内にメールアドレスを確認する方法が記載されたメールが届きます。"
-      send_paranoid_instructions: "メールアドレスがデータベースに存在する場合 数分後にメールアドレスの確認方法が記載されたメールが届きます。"
+      send_paranoid_instructions: "メールアドレスがデータベースに存在する場合、数分以内にメールアドレスの確認方法が記載されたメールが届きます。"
     failure:
       already_authenticated: "既にサインインしています。"
       inactive: "あなたのアカウントはまだアクティベートされていません。"

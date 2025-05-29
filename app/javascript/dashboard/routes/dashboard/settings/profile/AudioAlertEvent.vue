@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
-import { ALERT_EVENTS } from './constants';
+import CheckBox from 'v3/components/Form/CheckBox.vue';
+import { ALERT_EVENTS, EVENT_TYPES } from './constants';
 
 const props = defineProps({
   label: {
@@ -9,50 +10,83 @@ const props = defineProps({
   },
   value: {
     type: String,
-    default: 'all',
+    default: '',
   },
 });
 
 const emit = defineEmits(['update']);
 
 const alertEvents = ALERT_EVENTS;
+const alertEventValues = Object.values(EVENT_TYPES);
 
 const selectedValue = computed({
-  get: () => props.value,
-  set: value => {
-    emit('update', value);
+  get: () => {
+    // maintain backward compatibility
+    if (props.value === 'none') return [];
+    if (props.value === 'mine') return [EVENT_TYPES.ASSIGNED];
+    if (props.value === 'all') return [...alertEventValues];
+
+    const validValues = props.value
+      .split('+')
+      .filter(value => alertEventValues.includes(value));
+
+    return [...new Set(validValues)];
   },
+  set: value => {
+    const sortedValues = value.filter(Boolean).sort();
+    const uniqueValues = [...new Set(sortedValues)];
+
+    if (uniqueValues.length === 0) {
+      emit('update', 'none');
+      return;
+    }
+
+    emit('update', uniqueValues.join('+'));
+  },
+});
+
+const setValue = (isChecked, value) => {
+  let updatedValue = selectedValue.value;
+  if (isChecked) {
+    updatedValue.push(value);
+  } else {
+    updatedValue = updatedValue.filter(item => item !== value);
+  }
+
+  selectedValue.value = updatedValue;
+};
+
+const alertDescription = computed(() => {
+  const base =
+    'PROFILE_SETTINGS.FORM.AUDIO_NOTIFICATIONS_SECTION.ALERT_COMBINATIONS.';
+
+  if (props.value === '' || props.value === 'none') {
+    return base + 'NONE';
+  }
+
+  return base + selectedValue.value.join('+').toUpperCase();
 });
 </script>
 
 <template>
   <div>
-    <label
-      class="flex justify-between pb-1 text-sm font-medium leading-6 text-ash-900"
-    >
+    <label class="pb-1 text-sm font-medium leading-6 text-ash-900">
       {{ label }}
     </label>
-    <div
-      class="flex flex-row justify-between h-10 max-w-xl p-2 border border-solid rounded-xl border-ash-200"
-    >
+    <div class="grid gap-3 mt-2">
       <div
         v-for="option in alertEvents"
         :key="option.value"
-        class="flex flex-row items-center justify-center gap-2 px-4 border-r border-ash-200 grow last:border-r-0"
+        class="flex items-center gap-2"
       >
-        <input
-          :id="`radio-${option.value}`"
-          v-model="selectedValue"
-          class="shadow-sm cursor-pointer grid place-items-center border-2 border-ash-200 appearance-none rounded-full w-4 h-4 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-ash-25 checked:before:w-[14px] checked:before:h-[14px] checked:border checked:border-primary-600"
-          type="radio"
-          :value="option.value"
+        <CheckBox
+          :id="`checkbox-${option.value}`"
+          :is-checked="selectedValue.includes(option.value)"
+          @update="(_val, isChecked) => setValue(isChecked, option.value)"
         />
         <label
-          :for="`radio-${option.value}`"
-          class="text-sm font-medium"
-          :class="
-            selectedValue === option.value ? 'text-ash-900' : 'text-ash-800'
-          "
+          :for="`checkbox-${option.value}`"
+          class="text-sm text-ash-900 font-normal"
         >
           {{
             $t(
@@ -60,6 +94,9 @@ const selectedValue = computed({
             )
           }}
         </label>
+      </div>
+      <div class="text-n-slate-11 text-sm font-medium mt-2">
+        {{ $t(alertDescription) }}
       </div>
     </div>
   </div>

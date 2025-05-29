@@ -1,7 +1,7 @@
 {
   "SLA": {
     "HEADER": "Service Level Agreements",
-    "ADD_ACTION": "Add SLA",
+    "ADD_ACTION": "Dodaj",
     "ADD_ACTION_LONG": "Create a new SLA Policy",
     "DESCRIPTION": "Service Level Agreements (SLAs) are contracts that define clear expectations between your team and customers. They establish standards for response and resolution times, creating a framework for accountability and ensures a consistent, high-quality experience.",
     "LEARN_MORE": "Learn more about SLA",
@@ -26,12 +26,12 @@
         "TITLE_2": "Enterprise P1",
         "DESC_2": "Issues raised by enterprise customers, that needs to be acknowledged quickly."
       },
-      "BUSINESS_HOURS_ON": "Business hours on",
-      "BUSINESS_HOURS_OFF": "Business hours off",
+      "BUSINESS_HOURS_ON": "Delovni čas je vklopljen",
+      "BUSINESS_HOURS_OFF": "Delovni čas je izklopljen",
       "RESPONSE_TYPES": {
-        "FRT": "First response time threshold",
-        "NRT": "Next response time threshold",
-        "RT": "Resolution time threshold",
+        "FRT": "Prag časa prvega odziva",
+        "NRT": "Prag časa naslednjega odziva",
+        "RT": "Prag časa razrešitve",
         "SHORT_HAND": {
           "FRT": "FRT",
           "NRT": "NRT",
@@ -41,50 +41,50 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "SLA Name",
-        "PLACEHOLDER": "SLA Name",
-        "REQUIRED_ERROR": "SLA name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "LABEL": "Ime SLA",
+        "PLACEHOLDER": "Ime SLA",
+        "REQUIRED_ERROR": "Zahtevano je ime SLA",
+        "MINIMUM_LENGTH_ERROR": "Zahtevana je najmanjša dolžina 2",
+        "VALID_ERROR": "Dovoljene so samo črke, številke, vezaji in podčrtaji"
       },
       "DESCRIPTION": {
-        "LABEL": "Description",
-        "PLACEHOLDER": "SLA for premium customers"
+        "LABEL": "Opis",
+        "PLACEHOLDER": "SLA za premium stranke"
       },
       "FIRST_RESPONSE_TIME": {
-        "LABEL": "First Response Time",
+        "LABEL": "Čas prvega odziva",
         "PLACEHOLDER": "5"
       },
       "NEXT_RESPONSE_TIME": {
-        "LABEL": "Next Response Time",
+        "LABEL": "Čas naslednjega odziva",
         "PLACEHOLDER": "5"
       },
       "RESOLUTION_TIME": {
-        "LABEL": "Resolution Time",
+        "LABEL": "Čas razrešitve",
         "PLACEHOLDER": "60"
       },
       "BUSINESS_HOURS": {
-        "LABEL": "Business Hours",
-        "PLACEHOLDER": "Only during business hours"
+        "LABEL": "Delovni čas",
+        "PLACEHOLDER": "Samo v delovnem času"
       },
       "THRESHOLD_TIME": {
-        "INVALID_FORMAT_ERROR": "Threshold should be a number and greater than zero"
+        "INVALID_FORMAT_ERROR": "Prag mora biti število in večje od nič"
       },
-      "EDIT": "Edit",
-      "CREATE": "Create",
-      "DELETE": "Delete",
-      "CANCEL": "Cancel"
+      "EDIT": "Uredi",
+      "CREATE": "Ustvari",
+      "DELETE": "Izbriši",
+      "CANCEL": "Prekliči"
     },
     "ADD": {
-      "TITLE": "Add SLA",
-      "DESC": "Friendly promises for great service!",
+      "TITLE": "Dodaj",
+      "DESC": "Prijazne obljube za odlično storitev!",
       "API": {
-        "SUCCESS_MESSAGE": "SLA added successfully",
-        "ERROR_MESSAGE": "There was an error, please try again"
+        "SUCCESS_MESSAGE": "SLA je bil uspešno dodan",
+        "ERROR_MESSAGE": "Prišlo je do napake, prosimo, poskusite znova"
       }
     },
     "DELETE": {
-      "TITLE": "Delete SLA",
+      "TITLE": "Izbriši SLA",
       "API": {
         "SUCCESS_MESSAGE": "SLA deleted successfully",
         "ERROR_MESSAGE": "There was an error, please try again"

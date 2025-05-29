@@ -4,8 +4,12 @@ import { useAlert } from 'dashboard/composables';
 import { required, minLength } from '@vuelidate/validators';
 import { getRegexp } from 'shared/helpers/Validators';
 import { ATTRIBUTE_TYPES } from './constants';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
-  components: {},
+  components: {
+    NextButton,
+  },
   props: {
     selectedAttribute: {
       type: Object,
@@ -262,12 +266,19 @@ export default {
         />
       </div>
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button :is-loading="isUpdating" :disabled="isButtonDisabled">
-          {{ $t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT') }}
-        </woot-button>
-        <woot-button variant="clear" @click.prevent="onClose">
-          {{ $t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-        </woot-button>
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :label="$t('ATTRIBUTES_MGMT.EDIT.UPDATE_BUTTON_TEXT')"
+          :is-loading="isUpdating"
+          :disabled="isButtonDisabled"
+        />
       </div>
     </form>
   </div>

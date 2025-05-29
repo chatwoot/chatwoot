@@ -20,23 +20,18 @@
         "TITLE": "{teamName}팀에 에이전트 추가",
         "DESC": "생성된 팀에 에이전트를 추가해서 대화에 협업하여 대응하고, 해당 대화에 발생한 새 이벤트에 대해 알림도 받으세요."
       },
-      "WIZARD": [
-        {
-          "title": "만들기",
-          "route": "settings_teams_new",
-          "body": "에이전트들로 구성된 새 팀을 만드세요."
-        },
-        {
-          "title": "에이전트 추가",
-          "route": "settings_teams_add_agents",
-          "body": "팀에 에이전트 추가"
-        },
-        {
-          "title": "완료",
-          "route": "settings_teams_finish",
-          "body": "준비가 완료되었습니다."
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "만들기",
+        "BODY": "에이전트들로 구성된 새 팀을 만드세요."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "에이전트 추가",
+        "BODY": "팀에 에이전트 추가"
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "완료",
+        "BODY": "준비가 완료되었습니다."
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "{teamName}팀에 에이전트 추가",
         "DESC": "생성된 팀에 에이전트들을 추가하세요. 본 팀에 대화가 할당되면 추가된 에이전트들에게 알림이 갈 것입니다."
       },
-      "WIZARD": [
-        {
-          "title": "팀 내용",
-          "route": "settings_teams_edit",
-          "body": "팀명, 소개 등 내용을 수정하세요."
-        },
-        {
-          "title": "에이전트 수정",
-          "route": "settings_teams_edit_members",
-          "body": "팀 내 에이전트들을 수정하세요."
-        },
-        {
-          "title": "완료",
-          "route": "settings_teams_edit_finish",
-          "body": "준비가 완료되었습니다."
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "팀 내용",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "팀명, 소개 등 내용을 수정하세요."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "에이전트 수정",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "팀 내 에이전트들을 수정하세요."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "완료",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "준비가 완료되었습니다."
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "팀 내용을 저장할 수 없습니다. 다시 시도해주세요."

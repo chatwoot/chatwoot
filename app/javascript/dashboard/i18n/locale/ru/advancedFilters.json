@@ -18,18 +18,27 @@
       "AND": "И",
       "OR": "ИЛИ"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "Введите значение",
     "OPERATOR_LABELS": {
       "equal_to": "Равно",
       "not_equal_to": "Не равно",
-      "contains": "Содержит",
       "does_not_contain": "Не содержит",
       "is_present": "Присутствует",
       "is_not_present": "Отсутствует",
       "is_greater_than": "Больше чем",
       "is_less_than": "Меньше чем",
       "days_before": "x дней до",
-      "starts_with": "Начинается с"
+      "starts_with": "Начинается с",
+      "equalTo": "Равно",
+      "notEqualTo": "Не равно",
+      "contains": "Содержит",
+      "doesNotContain": "Не содержит",
+      "isPresent": "Присутствует",
+      "isNotPresent": "Отсутствует",
+      "isGreaterThan": "Больше чем",
+      "isLessThan": "Меньше чем",
+      "daysBefore": "x дней до",
+      "startsWith": "Начинается с"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "Истина",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "Последние действия"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "Необходимо указать значение"
+      "VALUE_REQUIRED": "Необходимо указать значение",
+      "ATTRIBUTE_KEY_REQUIRED": "Необходимо ввести ключ атрибута",
+      "FILTER_OPERATOR_REQUIRED": "Требуется оператор фильтра",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Значение должно быть между 1 и 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Стандартные фильтры",
