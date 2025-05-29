@@ -25,12 +25,20 @@ const isCopilotPanelOpen = computed(
   () => uiSettings.value.is_copilot_panel_open
 );
 
+const toggleConversationSidebarToggle = () => {
+  updateUISettings({
+    is_contact_sidebar_open: !isContactSidebarOpen.value,
+    is_copilot_panel_open: false,
+  });
+};
+
 const handleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: true,
     is_copilot_panel_open: false,
   });
 };
+
 const handleCopilotSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: false,
@@ -40,7 +48,7 @@ const handleCopilotSidebarToggle = () => {
 
 const keyboardEvents = {
   'Alt+KeyO': {
-    action: () => handleConversationSidebarToggle(),
+    action: toggleConversationSidebarToggle,
   },
 };
 useKeyboardEvents(keyboardEvents);
