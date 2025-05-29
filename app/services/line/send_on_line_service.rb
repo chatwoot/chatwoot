@@ -22,7 +22,9 @@ class Line::SendOnLineService < Base::SendOnChannelService
   end
 
   def build_payload
-    if message.content && message.attachments.any?
+    if message.content_type == "input_select" && message.content_attributes['items'].any?
+      text_input_select
+    elsif message.content && message.attachments.any?
       [text_message, *attachments]
     elsif message.content.nil? && message.attachments.any?
       attachments
@@ -49,6 +51,38 @@ class Line::SendOnLineService < Base::SendOnChannelService
     {
       type: 'text',
       text: message.content
+    }
+  end
+
+  def text_input_select
+    {
+      type: "flex",
+      altText: message.content,
+      contents: {
+        type: "bubble",
+        body: {
+          type: "box",
+          layout: "vertical",
+          contents: [
+            {
+              type: "text",
+              text: message.content
+            },
+            *message.content_attributes['items'].map do |item|
+              {
+                type: "button",
+                style: "link",
+                height: "sm",
+                action: {
+                  type: "message",
+                  label: item['title'],
+                  text: item['value']
+                }
+              }
+            end
+          ]
+        }
+      }
     }
   end
 
