@@ -62,6 +62,11 @@ Rails.application.configure do
 
   # Disable host check during development
   config.hosts = nil
+  
+  # Allow web console access from any IP in codespaces
+  if ENV['CODESPACES']
+    config.web_console.whitelisted_ips = %w(0.0.0.0/0 ::/0)
+  end
 
   # customize using the environment variables
   config.log_level = ENV.fetch('LOG_LEVEL', 'debug').to_sym
