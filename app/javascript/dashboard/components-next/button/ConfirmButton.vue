@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed } from 'vue';
 import Button from './Button.vue';
 
 const props = defineProps({
@@ -13,15 +13,12 @@ const props = defineProps({
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },
-  holdDuration: { type: Number, default: 2500 },
 });
 
 const emit = defineEmits(['click']);
 
 const isConfirmMode = ref(false);
-const isHolding = ref(false);
-const progress = ref(0);
-const progressAnimation = ref(null);
+const isClicked = ref(false);
 
 const currentLabel = computed(() => {
   return isConfirmMode.value ? props.confirmLabel : props.label;
@@ -30,64 +27,29 @@ const currentLabel = computed(() => {
 const currentColor = computed(() => {
   return isConfirmMode.value ? props.confirmColor : props.color;
 });
+const resetConfirmMode = () => {
+  isConfirmMode.value = false;
+  isClicked.value = false;
+};
 
 const handleClick = () => {
   if (!isConfirmMode.value) {
     isConfirmMode.value = true;
+  } else {
+    isClicked.value = true;
+    emit('click');
+    setTimeout(resetConfirmMode, 400);
   }
 };
-
-const stopHold = () => {
-  if (progressAnimation.value) {
-    cancelAnimationFrame(progressAnimation.value);
-  }
-  isHolding.value = false;
-  progress.value = 0;
-};
-
-const resetConfirmMode = () => {
-  stopHold();
-  isConfirmMode.value = false;
-};
-
-const completeHold = () => {
-  emit('click');
-  resetConfirmMode();
-};
-
-const startHold = () => {
-  if (!isConfirmMode.value) return;
-
-  isHolding.value = true;
-  progress.value = 0;
-
-  const startTime = Date.now();
-
-  const updateProgress = () => {
-    const elapsed = Date.now() - startTime;
-    const newProgress = Math.min((elapsed / props.holdDuration) * 100, 100);
-    progress.value = newProgress;
-    if (newProgress >= 100) {
-      completeHold();
-    } else {
-      progressAnimation.value = requestAnimationFrame(updateProgress);
-    }
-  };
-
-  progressAnimation.value = requestAnimationFrame(updateProgress);
-};
-
-onMounted(() => {
-  return () => {
-    if (progressAnimation.value) {
-      cancelAnimationFrame(progressAnimation.value);
-    }
-  };
-});
 </script>
 
 <template>
-  <div class="relative">
+  <div
+    class="relative"
+    :class="{
+      'animate-bounce-complete': isClicked,
+    }"
+  >
     <Button
       :label="currentLabel"
       :color="currentColor"
@@ -98,9 +60,6 @@ onMounted(() => {
       :trailing-icon="trailingIcon"
       :is-loading="isLoading"
       @click="handleClick"
-      @mousedown="startHold"
-      @mouseup="stopHold"
-      @mouseleave="resetConfirmMode"
       @blur="resetConfirmMode"
     >
       <template v-if="$slots.default" #default>
@@ -110,16 +69,23 @@ onMounted(() => {
         <slot name="icon" />
       </template>
     </Button>
-
-    <!-- Progress overlay -->
-    <div
-      v-if="isConfirmMode"
-      class="absolute inset-0 rounded-lg overflow-hidden pointer-events-none"
-    >
-      <div
-        class="h-full bg-white bg-opacity-10 transition-all duration-75 ease-linear"
-        :style="{ width: `${progress}%` }"
-      />
-    </div>
   </div>
 </template>
+
+<style scoped>
+@keyframes bounce-complete {
+  0% {
+    transform: scale(0.95);
+  }
+  50% {
+    transform: scale(1.02);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+.animate-bounce-complete {
+  animation: bounce-complete 0.2s cubic-bezier(0.68, -0.55, 0.265, 1.55);
+}
+</style>

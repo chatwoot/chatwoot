@@ -1,5 +1,12 @@
 <script setup>
 import ConfirmButton from './ConfirmButton.vue';
+import { ref } from 'vue';
+
+const count = ref(0);
+
+const incrementCount = () => {
+  count.value += 1;
+};
 </script>
 
 <template>
@@ -8,23 +15,25 @@ import ConfirmButton from './ConfirmButton.vue';
     :layout="{ type: 'grid', width: '400px' }"
   >
     <Variant title="Basic">
-      <div class="flex gap-2 p-4 bg-white dark:bg-slate-900">
+      <div class="grid gap-2 p-4 bg-white dark:bg-slate-900">
+        <p>{{ count }}</p>
         <ConfirmButton
           label="Delete"
-          confirm-label="Hold to confirm"
-          @click="() => alert('Deleted!')"
+          confirm-label="Confirm?"
+          @click="incrementCount"
         />
       </div>
     </Variant>
 
     <Variant title="Color Change">
-      <div class="flex gap-2 p-4 bg-white dark:bg-slate-900">
+      <div class="grid gap-2 p-4 bg-white dark:bg-slate-900">
+        <p>{{ count }}</p>
         <ConfirmButton
           label="Archive"
-          confirm-label="Hold to confirm"
+          confirm-label="Confirm?"
           color="slate"
           confirm-color="amber"
-          @click="() => alert('Archived!')"
+          @click="incrementCount"
         />
       </div>
     </Variant>
