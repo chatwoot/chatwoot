@@ -13,7 +13,6 @@ import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import Linear from './linear/index.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
 
@@ -136,13 +135,11 @@ const isLinearFeatureEnabled = computed(() =>
           <div
             class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit"
           >
-            <NextButton link slate>
-              <span
-                class="text-sm font-medium truncate leading-tight text-n-slate-12"
-              >
-                {{ currentContact.name }}
-              </span>
-            </NextButton>
+            <span
+              class="text-sm font-medium truncate leading-tight text-n-slate-12"
+            >
+              {{ currentContact.name }}
+            </span>
             <fluent-icon
               v-if="!isHMACVerified"
               v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
