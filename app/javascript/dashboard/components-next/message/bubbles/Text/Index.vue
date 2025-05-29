@@ -4,7 +4,7 @@ import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from './FormattedContent.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
-import { MESSAGE_TYPES, stripSurveyUrlFromContent } from '../../constants';
+import { MESSAGE_TYPES } from '../../constants';
 import { useMessageContext } from '../../provider.js';
 import { useTranslations } from 'dashboard/composables/useTranslations';
 
@@ -17,20 +17,15 @@ const { hasTranslations, translationContent } =
 const renderOriginal = ref(false);
 
 const renderContent = computed(() => {
-  let textContent = content.value;
-
   if (renderOriginal.value) {
-    textContent = content.value;
-  } else if (hasTranslations.value) {
-    textContent = translationContent.value;
+    return content.value;
   }
 
-  // Strip survey URL from content for template messages with input_csat content_type
-  return stripSurveyUrlFromContent(
-    textContent,
-    messageType.value,
-    contentAttributes.value?.content_type
-  );
+  if (hasTranslations.value) {
+    return translationContent.value;
+  }
+
+  return content.value;
 });
 
 const isTemplate = computed(() => {

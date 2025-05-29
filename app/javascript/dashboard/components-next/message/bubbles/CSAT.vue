@@ -4,20 +4,9 @@ import BaseBubble from './Base.vue';
 import { useI18n } from 'vue-i18n';
 import { CSAT_RATINGS, CSAT_DISPLAY_TYPES } from 'shared/constants/messages';
 import { useMessageContext } from '../provider.js';
-import { stripSurveyUrlFromContent } from '../constants.js';
 
-const { contentAttributes, content, messageType, contentType } =
-  useMessageContext();
+const { contentAttributes, content } = useMessageContext();
 const { t } = useI18n();
-
-// Strip survey URL from content for template messages with input_csat content_type
-const displayContent = computed(() => {
-  return stripSurveyUrlFromContent(
-    content.value,
-    messageType.value,
-    contentType.value
-  );
-});
 
 const response = computed(() => {
   return contentAttributes.value?.submittedValues?.csatSurveyResponse ?? {};
@@ -50,11 +39,9 @@ const starRatingValue = computed(() => {
 });
 </script>
 
-console.log('displayContent', displayContent.value);
-
 <template>
   <BaseBubble class="px-4 py-3" data-bubble-name="csat">
-    <h4>{{ displayContent || t('CONVERSATION.CSAT_REPLY_MESSAGE') }}</h4>
+    <h4>{{ content || t('CONVERSATION.CSAT_REPLY_MESSAGE') }}</h4>
     <dl v-if="isRatingSubmitted" class="mt-4">
       <dt class="italic text-n-slate-11">
         {{ t('CONVERSATION.RATING_TITLE') }}

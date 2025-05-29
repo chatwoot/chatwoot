@@ -16,7 +16,7 @@ class Twilio::SendOnTwilioService < Base::SendOnChannelService
 
   def message_params
     {
-      body: message.content,
+      body: message.content_for_channel,
       to: contact_inbox.source_id,
       media_url: attachments
     }

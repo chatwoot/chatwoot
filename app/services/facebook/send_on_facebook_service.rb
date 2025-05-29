@@ -47,7 +47,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   def fb_text_message_params
     {
       recipient: { id: contact.get_source_id(inbox.id) },
-      message: { text: message.content },
+      message: { text: message.content_for_channel },
       messaging_type: 'MESSAGE_TAG',
       tag: 'ACCOUNT_UPDATE'
     }

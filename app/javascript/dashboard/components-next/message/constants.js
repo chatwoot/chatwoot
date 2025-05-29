@@ -72,26 +72,3 @@ export const MEDIA_TYPES = [
   ATTACHMENT_TYPES.AUDIO,
   ATTACHMENT_TYPES.IG_REEL,
 ];
-
-/**
- * Strips survey URLs from message content for CSAT template messages
- * @param {string} content - The message content
- * @param {number} messageType - The message type
- * @param {string} contentType - The content type
- * @returns {string} - Content with survey URLs stripped if applicable
- */
-export const stripSurveyUrlFromContent = (
-  content,
-  messageType,
-  contentType
-) => {
-  if (
-    messageType === MESSAGE_TYPES.TEMPLATE &&
-    contentType === CONTENT_TYPES.INPUT_CSAT
-  ) {
-    return content
-      ?.replace(/\s*https?:\/\/[^\s]+\/survey\/responses\/[a-f0-9-]+\s*/g, '')
-      .trim();
-  }
-  return content;
-};
