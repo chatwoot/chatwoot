@@ -126,7 +126,6 @@ const isLinearFeatureEnabled = computed(() =>
         />
         <Thumbnail
           :src="currentContact.thumbnail"
-          :badge="inboxBadge"
           :username="currentContact.name"
           :status="currentContact.availability_status"
           size="32px"
