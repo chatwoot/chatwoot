@@ -171,6 +171,8 @@ lv:
         removed: '%{user_name} noņēma %{labels}'
       sla:
         added: '%{user_name} pievienoja SLA politiku %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} noņēma SLA politiku %{sla_name}'
       muted: '%{user_name} izslēdza sarunu'
       unmuted: '%{user_name} ieslēdza sarunu'
