@@ -15,8 +15,44 @@ export default {
   },
   data() {
     return {
-      provider: 'whatsapp_embedded',
+      provider: 'whatsapp_cloud',
     };
+  },
+  computed: {
+    hasWhatsappAppId() {
+      return (
+        window.chatwootConfig?.whatsappAppId &&
+        window.chatwootConfig.whatsappAppId !== 'none'
+      );
+    },
+    availableProviders() {
+      const providers = [];
+
+      if (this.hasWhatsappAppId) {
+        providers.push({
+          value: 'whatsapp_embedded',
+          label: this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_EMBEDDED'),
+        });
+      } else {
+        providers.push({
+          value: 'whatsapp_cloud',
+          label: this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
+        });
+      }
+
+      providers.push({
+        value: 'twilio',
+        label: this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
+      });
+
+      return providers;
+    },
+  },
+  mounted() {
+    // Set the appropriate default provider based on configuration
+    this.provider = this.hasWhatsappAppId
+      ? 'whatsapp_embedded'
+      : 'whatsapp_cloud';
   },
 };
 </script>
@@ -33,14 +69,12 @@ export default {
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
         <select v-model="provider">
-          <option value="whatsapp_embedded">
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_EMBEDDED') }}
-          </option>
-          <option value="whatsapp_cloud">
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
-          </option>
-          <option value="twilio">
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
+          <option
+            v-for="providerOption in availableProviders"
+            :key="providerOption.value"
+            :value="providerOption.value"
+          >
+            {{ providerOption.label }}
           </option>
         </select>
       </label>
