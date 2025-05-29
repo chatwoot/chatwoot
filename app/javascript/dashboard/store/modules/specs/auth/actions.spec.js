@@ -228,4 +228,20 @@ describe('#actions', () => {
       );
     });
   });
+
+  describe('#resetAccessToken', () => {
+    it('sends correct actions if API is success', async () => {
+      const mockResponse = {
+        data: { id: 1, name: 'John', access_token: 'new_token_123' },
+        headers: { expiry: 581842904 },
+      };
+      axios.post.mockResolvedValue(mockResponse);
+      const result = await actions.resetAccessToken({ commit });
+
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CURRENT_USER, mockResponse.data],
+      ]);
+      expect(result).toBe(true);
+    });
+  });
 });
