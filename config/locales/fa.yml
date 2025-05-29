@@ -171,6 +171,8 @@ fa:
         removed: '%{user_name}، %{labels} را حذف کرد'
       sla:
         added: '%{user_name} سیاست SLA %{sla_name} را اضافه کرد'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} سیاست SLA %{sla_name} را حذف کرد'
       muted: '%{user_name} مکالمه را بی صدا کرد'
       unmuted: '%{user_name} مکالمه را از حالت بی صدا خراج کرد'
