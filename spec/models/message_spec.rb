@@ -558,8 +558,10 @@ RSpec.describe Message do
         end
 
         context 'when no CSAT config message exists' do
-          it 'returns content with survey URL appended' do
-            expect(message.content_for_channel).to eq('Rate your experience https://app.chatwoot.com/survey/responses/12345')
+          it 'returns I18n default message with survey URL' do
+            allow(I18n).to receive(:t).with('conversations.survey.response', link: 'https://app.chatwoot.com/survey/responses/12345')
+                                      .and_return('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
+            expect(message.content_for_channel).to eq('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
           end
         end
 

@@ -186,9 +186,14 @@ class Message < ApplicationRecord
   def content_for_channel
     return content unless input_csat_non_web_widget?
 
-    # Use CSAT config message if available, otherwise use stored content
-    message_text = inbox.csat_config&.dig('message').presence || self[:content]
-    "#{message_text} #{survey_url}"
+    survey_link = survey_url.presence || "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+
+    # Use CSAT config message if available, otherwise use I18n constant (which already includes the link)
+    if inbox.csat_config&.dig('message').present?
+      "#{inbox.csat_config['message']} #{survey_link}"
+    else
+      I18n.t('conversations.survey.response', link: survey_link)
+    end
   end
 
   def email_notifiable_message?
