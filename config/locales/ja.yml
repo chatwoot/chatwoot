@@ -171,6 +171,8 @@ ja:
         removed: '%{user_name} がラベル "%{labels}" を削除しました'
       sla:
         added: '%{user_name} がSLAポリシー "%{sla_name}" を追加しました'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
