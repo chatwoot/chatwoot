@@ -25,6 +25,15 @@ export default {
       default: false,
     },
   },
+  computed: {
+    unescapedIntroBody() {
+      const txt = document.createElement('textarea');
+      txt.innerHTML = this.introBody;
+      const links = JSON.parse(txt.value);
+      txt.innerHTML = "By using this feature, you accept our <b><a target='_blank' href='" + links.t + "'>Terms</a></b> and our <b><a target='_blank' href='" + links.p + "'>Privacy Policy</a></b>, that responses may be AI-generated, and that your conversation will be recorded for AI training.";
+      return txt.value;
+    },
+  },
   setup() {
     const { getThemeClass } = useDarkMode();
     return { getThemeClass };
@@ -57,7 +66,7 @@ export default {
       :class="getThemeClass('text-slate-900', 'dark:text-slate-50')"
     />
     <p
-      v-dompurify-html="introBody"
+      v-html="unescapedIntroBody"
       class="text-base leading-normal"
       :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
     />
