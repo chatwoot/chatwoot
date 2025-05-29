@@ -171,6 +171,8 @@ ar:
         removed: '%{user_name} أزال %{labels}'
       sla:
         added: '%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} أزال سياسة مستوى الخدمة %{sla_name}'
       muted: '%{user_name} كتم صوت المحادثة'
       unmuted: '%{user_name} قام بإلغاء كتم المحادثة'
