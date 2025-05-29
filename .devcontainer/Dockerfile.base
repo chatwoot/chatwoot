@@ -40,7 +40,7 @@ RUN curl -fsSL https://deb.nodesource.com/setup_${NODE_VERSION}.x | bash - \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
 
-# Install rbenv and ruby
+# Install rbenv and ruby for root user first
 RUN git clone --depth 1 https://github.com/rbenv/rbenv.git ~/.rbenv \
     &&  echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc \
     &&  echo 'eval "$(rbenv init -)"' >> ~/.bashrc
@@ -51,6 +51,13 @@ RUN git clone --depth 1 https://github.com/rbenv/ruby-build.git && \
 RUN rbenv install $RUBY_VERSION && \
     rbenv global $RUBY_VERSION && \
     rbenv versions
+
+# Set up rbenv for vscode user
+RUN su - vscode -c "git clone --depth 1 https://github.com/rbenv/rbenv.git ~/.rbenv" \
+    && su - vscode -c "echo 'export PATH=\"\$HOME/.rbenv/bin:\$PATH\"' >> ~/.bashrc" \
+    && su - vscode -c "echo 'eval \"\$(rbenv init -)\"' >> ~/.bashrc" \
+    && su - vscode -c "PATH=\"/home/vscode/.rbenv/bin:\$PATH\" rbenv install $RUBY_VERSION" \
+    && su - vscode -c "PATH=\"/home/vscode/.rbenv/bin:\$PATH\" rbenv global $RUBY_VERSION"
 
 # Install overmind and gh in single layer
 RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmind-v2.1.0-linux-amd64.gz > overmind.gz \
@@ -75,12 +82,13 @@ RUN npm install -g pnpm@${PNPM_VERSION} \
 # Copy dependency files first for better caching
 COPY --chown=vscode:vscode Gemfile Gemfile.lock package.json pnpm-lock.yaml ./
 
-# Install dependencies
-RUN gem install bundler -N \
+# Install dependencies as vscode user
+USER vscode
+ENV PATH="/home/vscode/.rbenv/bin:/home/vscode/.rbenv/shims:$PATH"
+RUN eval "$(rbenv init -)" \
+    && gem install bundler -N \
     && bundle install --jobs=$(nproc) \
     && pnpm install --frozen-lockfile
 
 # Copy source code after dependencies are installed
 COPY --chown=vscode:vscode . /workspace
-
-USER vscode
