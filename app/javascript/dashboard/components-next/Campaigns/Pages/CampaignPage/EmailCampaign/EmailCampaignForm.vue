@@ -22,7 +22,6 @@ import Button from 'dashboard/components-next/button/Button.vue';
 import ContactSelector from './ContactSelector.vue';
 import TemplatePreview from './TemplatePreview.vue';
 import ContactsAPI from 'dashboard/api/contacts';
-import { getUndefinedVariablesInMessage } from '@chatwoot/utils';
 
 defineProps({
   accountId: {
@@ -51,14 +50,7 @@ const labels = useMapGetter('labels/getLabels');
 
 const formState = reactive({
   title: 'hi',
-  message: 
-`<div>
-  <div>Name {{contact.name}}</div>
-  <div>Full Name {{contact.first_name}}</div>
-  <div>Last Name {{contact.last_name}}</div>
-  <div>Phone {{contact.phone}}</div>
-  <div>Email {{contact.email}}</div>
-</div>`,
+  message: '<div>Name {{contact.name}}</div>',
   selectedInbox: null,
   selectedContacts: [],
   selectedAudience: [],
@@ -104,15 +96,6 @@ const inboxes = computed(() => {
 
 const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
 
-const isStep1Valid = computed(() => {
-  return (
-    !v$.value.title.$error &&
-    !v$.value.selectedInbox.$error &&
-    !v$.value.message.$error &&
-    !v$.value.scheduledAt.$error
-  );
-});
-
 const currentDateTime = computed(() => {
   const now = new Date();
   const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
@@ -136,12 +119,10 @@ const rules = computed(() => {
     message: {
       required,
       allVarsValid: value => {
-        console.log('testing: ', value);
         const vars = extractTemplateVariables(value);
         const validVars = Object.keys(validVarsData);
         const undefVars = new Set(vars.filter(x => !validVars.includes(x)));
 
-        console.log('undef: ', undefVars);
         undefVariables.value = undefVars;
         return undefVars.size === 0;
       },
@@ -180,19 +161,19 @@ const calculatePreviewPosition = () => {
   }
 };
 
-
-// Add this watcher after your reactive declarations
-watch(() => formState.message, () => {
-  if (v$.value.message) {
-    v$.value.message.$touch();
-    v$.value.message.$validate();
+watch(
+  () => formState.message,
+  () => {
+    if (v$.value.message) {
+      v$.value.message.$touch();
+      v$.value.message.$validate();
+    }
   }
-});
+);
 
 const handleInboxSelection = () => {
-
-    v$.value.selectedInbox.$touch();
-    v$.value.selectedInbox.$validate();
+  v$.value.selectedInbox.$touch();
+  v$.value.selectedInbox.$validate();
 
   // REVIEW: This doesn't seem to be needed, selectedInbox should never be 'create_new'
   if (formState.selectedInbox === 'create_new') {
@@ -431,9 +412,7 @@ onBeforeUnmount(() => {
                   @click="openPopup"
                 />
               </div>
-              <CodeHighlighter
-                v-model="formState.message"
-              ></CodeHighlighter>
+              <CodeHighlighter v-model="formState.message"></CodeHighlighter>
             </div>
 
             <div
@@ -479,14 +458,13 @@ onBeforeUnmount(() => {
                   </option>
                 </select>
 
-
-
-            <div
-              v-if="
-                v$.selectedInbox.$error ||
-                (v$.selectedInbox.$dirty && v$.selectedInbox.isSmtpAvailable.$invalid)
-              "
-            >
+                <div
+                  v-if="
+                    v$.selectedInbox.$error ||
+                    (v$.selectedInbox.$dirty &&
+                      v$.selectedInbox.isSmtpAvailable.$invalid)
+                  "
+                >
                   <span
                     v-if="v$.selectedInbox.required.$invalid"
                     class="text-xs text-red-500"
@@ -494,18 +472,15 @@ onBeforeUnmount(() => {
                     {{ t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERRORS.REQUIRED') }}
                   </span>
 
-                <span
-                  v-else-if="v$.selectedInbox.isSmtpAvailable.$invalid"
-                  class="text-xs text-red-500"
-                >
-                  {{
-                    t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERRORS.SMTP_REQUIRED')
-                  }}
-                </span>
-            </div>
-
-
-
+                  <span
+                    v-else-if="v$.selectedInbox.isSmtpAvailable.$invalid"
+                    class="text-xs text-red-500"
+                  >
+                    {{
+                      t('CAMPAIGN.EMAIL.CREATE.FORM.INBOX.ERRORS.SMTP_REQUIRED')
+                    }}
+                  </span>
+                </div>
               </label>
             </div>
 

@@ -32,6 +32,12 @@ const internalCode = ref(props.modelValue || '');
 // Emit changes to parent
 watch(internalCode, newVal => {
   emit('update:modelValue', newVal);
-
 });
+
+watch(
+  () => props.modelValue,
+  (newVal) => {
+    internalCode.value = newVal || '';
+  }
+);
 </script>

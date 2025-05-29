@@ -1,4 +1,6 @@
 <script setup>
+import VariablesPopup from './VariablesPopup.vue';
+import { watch } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store';
 import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiSelectComboBox.vue';
 import CodeHighlighter from 'dashboard/components/widgets/CodeHighlighter.vue';
@@ -39,7 +41,7 @@ const labels = useMapGetter('labels/getLabels');
 
 const formState = reactive({
   title: '',
-  message: '<div>Hello world</div>',
+  message: '<div>Name {{contact.name}}</div>',
   selectedInbox: null,
   scheduledAt: null,
   selectedAudience: [],
@@ -86,24 +88,61 @@ const inboxes = computed(() => {
 
 const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
 
-const isStep1Valid = computed(() => {
-  return (
-    !v$.value.title.$error &&
-    !v$.value.selectedInbox.$error &&
-    !v$.value.scheduledAt.$error
-  );
-});
-
 const currentDateTime = computed(() => {
   const now = new Date();
   const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
   return localTime.toISOString().slice(0, 16);
 });
 
+const variablesShown = ref(false);
+const popupX = ref(0);
+const popupY = ref(0);
+
+function openPopup(event) {
+  popupX.value = event.clientX;
+  popupY.value = event.clientY;
+  variablesShown.value = true;
+}
+
+const undefVariables = ref(new Set());
+
+const validVarsData = {
+  'contact.name': 'Name of the reciever contact',
+  'contact.first_name': 'First name of the reciever contact',
+  'contact.last_name': 'Last name of the reciever contact',
+  'contact.email': 'Email of the reciever contact',
+  'contact.phone': 'Phone no. of the reciever contact',
+};
+
+function extractTemplateVariables(str) {
+  const regex = /{{\s*([\w.]+)\s*}}/g;
+  const matches = [];
+  let match;
+
+  while ((match = regex.exec(str)) !== null) {
+    matches.push(match[1]);
+  }
+
+  return matches;
+}
+
 // Validation Rules
 const rules = computed(() => {
   const step1Rules = {
     title: { required },
+    message: {
+      required,
+      allVarsValid: value => {
+        console.log('testing: ', value);
+        const vars = extractTemplateVariables(value);
+        const validVars = Object.keys(validVarsData);
+        const undefVars = new Set(vars.filter(x => !validVars.includes(x)));
+
+        console.log('undef: ', undefVars);
+        undefVariables.value = undefVars;
+        return undefVars.size === 0;
+      },
+    },
     selectedInbox: {
       required,
       isSmtpAvailable: value => {
@@ -139,8 +178,21 @@ const calculatePreviewPosition = () => {
   }
 };
 
+watch(
+  () => formState.message,
+  () => {
+    if (v$.value.message) {
+      v$.value.message.$touch();
+      v$.value.message.$validate();
+    }
+  }
+);
+
 const handleInboxSelection = () => {
+  v$.value.selectedInbox.$touch();
   v$.value.selectedInbox.$validate();
+
+  // REVIEW: This doesn't seem to be needed, selectedInbox should never be 'create_new'
   if (formState.selectedInbox === 'create_new') {
     const baseUrl = window.location.origin;
     window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/email`;
@@ -247,8 +299,10 @@ const fetchAllContactIds = async (isFiltered, filteredContacts) => {
 };
 
 const goToNext = async () => {
+  v$.value.$reset();
   v$.value.$touch();
-  if (isStep1Valid.value) {
+
+  if (!v$.value.$invalid) {
     contactState.contactList = [];
     contactState.currentPage = 1;
     contactState.searchQuery = '';
@@ -303,6 +357,7 @@ const handleUpdate = async () => {
 
 // Lifecycle Hooks
 onMounted(() => {
+  console.log('Campaign body', props.selectedCampaign);
   formState.title = props.selectedCampaign.title || '';
   formState.message = props.selectedCampaign.message || '';
   formState.selectedInbox = props.selectedCampaign.inbox_id || null;
@@ -319,7 +374,8 @@ onMounted(() => {
     formState.scheduledAt = null;
   }
 
-  formState.selectedContacts = props.selectedCampaign.contacts?.map(e => e.id) || [];
+  formState.selectedContacts =
+    props.selectedCampaign.contacts?.map(e => e.id) || [];
 
   calculatePreviewPosition();
   window.addEventListener('resize', calculatePreviewPosition);
@@ -356,10 +412,48 @@ onBeforeUnmount(() => {
             />
 
             <div class="flex flex-col mb-0">
-              <label class="text-sm font-medium text-slate-700">
-                {{ t('CAMPAIGN.EMAIL.CREATE.FORM.BODY.LABEL') }}
-                <CodeHighlighter v-model="formState.message"></CodeHighlighter>
-              </label>
+              <div
+                class="flex flex-row items-center content-centerjustify-center mb-0 space-x-2"
+              >
+                <label class="text-sm font-medium text-slate-700">
+                  {{ t('CAMPAIGN.EMAIL.CREATE.FORM.BODY.LABEL') }}
+                </label>
+                <fluent-icon
+                  v-tooltip="
+                    $t('CAMPAIGN.EMAIL.CREATE.FORM.BODY.TOOLTIP_VARIABLES')
+                  "
+                  data-test-id="variables-popup"
+                  size="14"
+                  icon="info"
+                  class="text-n-slate-11 my-0 mx-1 mt-0.5"
+                  @click="openPopup"
+                />
+              </div>
+              <CodeHighlighter v-model="formState.message"></CodeHighlighter>
+            </div>
+            <div
+              v-if="
+                v$.message.$error ||
+                (v$.message.$dirty && v$.message.allVarsValid.$invalid)
+              "
+            >
+              <span
+                v-if="v$.message.required.$invalid"
+                class="text-xs text-red-500"
+              >
+                {{ t('CAMPAIGN.EMAIL.CREATE.FORM.BODY.ERRORS.REQUIRED') }}
+              </span>
+
+              <span
+                v-else-if="v$.message.allVarsValid.$invalid"
+                class="text-xs text-red-500"
+              >
+                {{
+                  t('CAMPAIGN.EMAIL.CREATE.FORM.BODY.ERRORS.VARS_INVALID', {
+                    var: Array.from(undefVariables)[0],
+                  })
+                }}
+              </span>
             </div>
 
             <div class="flex flex-col mb-0">
@@ -442,12 +536,7 @@ onBeforeUnmount(() => {
           </div>
 
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2 mt-4">
-            <Button
-              type="button"
-              :disabled="!isStep1Valid"
-              variant="primary"
-              @click="goToNext"
-            >
+            <Button type="button" variant="primary" @click="goToNext">
               {{ t('CAMPAIGN.EMAIL.CREATE.NEXT_BUTTON_TEXT') }}
             </Button>
             <Button type="button" variant="clear" @click.prevent="handleCancel">
@@ -503,6 +592,13 @@ onBeforeUnmount(() => {
         </Button>
       </div>
     </div>
+
+    <VariablesPopup
+      :variables="validVarsData"
+      v-model="variablesShown"
+      :x="popupX"
+      :y="popupY"
+    />
   </div>
 </template>
 
