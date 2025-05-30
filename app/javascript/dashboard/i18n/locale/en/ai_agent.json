@@ -1,0 +1,202 @@
+{
+  "CANCEL": "Cancel",
+  "AI_AGENT": {
+    "TITLE": "AI Agent",
+    "DESCRIPTION": "Create AI-powered assistants for your team",
+    "HEADER_KNOW_MORE": "Learn more",
+    "EMPTY": {
+      "TITLE": "You haven't created any AI Agent topics yet",
+      "DESCRIPTION": "Create AI Agent topics to assist your team with common inquiries.",
+      "CREATE": "Create new topic"
+    },
+    "TOPICS": {
+      "HEADER": "Topics",
+      "TITLE": "All Topics",
+      "ADD": "Add Topic",
+      "ADD_NEW": "Create a new topic",
+      "EDIT": "Edit Topic",
+      "FORM_DESCRIPTION": "Name your topic, describe its purpose, and it will help organize your knowledge base for your users. Your agents will be able to find information more easily.",
+      "CREATE_FIRST": "Create your first topic",
+      "EMPTY": "No topics found",
+      "EMPTY_SEARCH": "No topics match your search",
+      "EMPTY_DESCRIPTION": "Create topics to organize your AI Agent knowledge",
+      "EMPTY_STATE": {
+        "TITLE": "No topics available",
+        "SUBTITLE": "Create a topic to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Organize your knowledge with Topics",
+          "NOTE": "Create topics to categorize your knowledge and make it easier for agents to find relevant information."
+        }
+      },
+      "CREATE_BUTTON": "Create a new topic",
+      "NO_TOPICS_TITLE": "No topics available",
+      "NO_TOPICS_DESCRIPTION": "Create a topic to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+      "SEARCH_PLACEHOLDER": "Search topics...",
+      "NAME": {
+        "LABEL": "Topic Name",
+        "PLACEHOLDER": "Enter topic name",
+        "ERROR": "Topic name is required"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Enter topic description",
+        "ERROR": "Description is required"
+      },
+      "MANAGE_INBOXES": "Manage Inboxes",
+      "INBOXES": {
+        "HEADER": "Manage Topic Inboxes",
+        "DESCRIPTION": "Connect this topic to inboxes where it should be available",
+        "COUNT": "Inboxes",
+        "LINKED": "Linked Inboxes",
+        "NO_LINKED": "No inboxes linked to this topic",
+        "AVAILABLE": "Available Inboxes",
+        "NO_AVAILABLE": "All inboxes are already linked"
+      },
+      "DOCUMENTS_COUNT": "Documents",
+      "OPTIONS": {
+        "VIEW_CONNECTED_INBOXES": "View Connected Inboxes",
+        "EDIT_ASSISTANT": "Edit Topic",
+        "DELETE_ASSISTANT": "Delete Topic",
+        "EDIT_TOPIC": "Edit Topic",
+        "DELETE_TOPIC": "Delete Topic"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete this topic?",
+        "DESCRIPTION": "This action is permanent. Deleting this topic will remove it from all connected inboxes and permanently erase all generated knowledge.",
+        "CONFIRM": "Yes, delete",
+        "SUCCESS_MESSAGE": "The topic has been successfully deleted",
+        "ERROR_MESSAGE": "There was an error deleting the topic, please try again."
+      },
+      "CREATE": {
+        "TITLE": "Create a topic",
+        "SUCCESS_MESSAGE": "The topic has been successfully created",
+        "ERROR_MESSAGE": "There was an error creating the topic, please try again."
+      },
+      "EDIT": {
+        "TITLE": "Update the topic",
+        "SUCCESS_MESSAGE": "The topic has been successfully updated",
+        "ERROR_MESSAGE": "There was an error updating the topic, please try again.",
+        "NOT_FOUND": "Could not find the topic. Please try again."
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Documents",
+      "TITLE": "Knowledge Base",
+      "ADD": "Add Document",
+      "EDIT": "Edit Document",
+      "EMPTY": "No documents found",
+      "EMPTY_SEARCH": "No documents match your search",
+      "EMPTY_DESCRIPTION": "Upload documents to enhance your AI Agent's knowledge",
+      "EMPTY_STATE": {
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Enhance your knowledge with Documents",
+          "NOTE": "Upload documents to provide your AI Agent with comprehensive information to answer customer questions."
+        }
+      },
+      "UPLOAD_FIRST": "Upload your first document",
+      "SEARCH_PLACEHOLDER": "Search documents...",
+      "DELETE": {
+        "TITLE": "Delete Document",
+        "DESCRIPTION": "Are you sure you want to delete this document? This action is permanent and will erase all related knowledge.",
+        "CONFIRM": "Yes, delete"
+      },
+      "DELETE_CONFIRM": "Are you sure you want to delete this document?",
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "View Related Responses",
+        "DELETE_DOCUMENT": "Delete Document"
+      },
+      "TOPIC_ID": {
+        "LABEL": "Topic",
+        "PLACEHOLDER": "Select a topic",
+        "ERROR": "Topic is required"
+      },
+      "NAME": {
+        "LABEL": "Name",
+        "PLACEHOLDER": "Enter document name",
+        "ERROR": "Name is required"
+      },
+      "EXTERNAL_LINK": {
+        "LABEL": "URL",
+        "PLACEHOLDER": "Enter document URL",
+        "ERROR": "URL is required",
+        "INVALID": "Please enter a valid URL"
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "Responses",
+      "TITLE": "Frequently Asked Questions",
+      "ADD": "Add Response",
+      "EDIT": "Edit Response",
+      "EMPTY": "No responses found",
+      "EMPTY_SEARCH": "No responses match your search",
+      "EMPTY_DESCRIPTION": "Create responses to common questions for your AI Agent",
+      "EMPTY_STATE": {
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Create pre-defined responses for common questions",
+          "NOTE": "Create custom responses to frequently asked questions to help your AI Agent provide accurate answers."
+        }
+      },
+      "CREATE_FIRST": "Create your first response",
+      "SEARCH_PLACEHOLDER": "Search responses...",
+      "DELETE": "Delete Response",
+      "DELETE_CONFIRM": "Are you sure you want to delete this response?",
+      "STATUS": {
+        "TITLE": "Status",
+        "ALL": "All",
+        "PENDING": "Pending",
+        "APPROVED": "Approved"
+      },
+      "FILTER": {
+        "STATUS": "Status: {selected}"
+      },
+      "OPTIONS": {
+        "APPROVE": "Approve",
+        "EDIT_RESPONSE": "Edit Response",
+        "DELETE_RESPONSE": "Delete Response"
+      },
+      "EDIT": {
+        "APPROVE_SUCCESS_MESSAGE": "Response was approved successfully",
+        "ERROR_MESSAGE": "There was an error updating the response"
+      },
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "Responses were approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the responses"
+      },
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Conversation #{id}"
+      }
+    },
+    "LIMITS": {
+      "DOCUMENTS": "Document limits",
+      "RESPONSES": "Response limits",
+      "UPGRADE": "Upgrade your plan for additional limits"
+    },
+    "FORM": {
+      "NAME": "Name",
+      "DESCRIPTION": "Description",
+      "CONTENT": "Content",
+      "SAVE": "Save",
+      "CANCEL": "Cancel"
+    },
+    "FEATURE_FLAG": {
+      "UNAVAILABLE": "AI Agent is not available on your current plan",
+      "UPGRADE": "Upgrade to access AI Agent features"
+    },
+    "PAYWALL": {
+      "TITLE": "Upgrade to use AI Agent",
+      "AVAILABLE_ON": "AI Agent is not available on the free plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "UPGRADE_NOW": "Upgrade now",
+      "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "AI Agent AI feature is only available in a paid plan.",
+      "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
+      "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
+    },
+    "BANNER": {
+      "RESPONSES": "You've used over 80% of your response limit. To continue using AI Agent, please upgrade.",
+      "DOCUMENTS": "Document limit reached. Upgrade to continue using AI Agent."
+    }
+  }
+} 

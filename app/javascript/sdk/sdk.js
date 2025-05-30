@@ -1,7 +1,7 @@
 export const SDK_CSS = `
 :root {
   --b-100: #F2F3F7;
-  --s-700: #37546D;
+  --s-700: #0C0058;
 }
 
 .woot-widget-holder {
@@ -39,7 +39,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble {
-  background: #1f93ff;
+  background: #FF6E6E;
   border-radius: 100px;
   border-width: 0px;
   bottom: 20px;
@@ -129,7 +129,7 @@ export const SDK_CSS = `
 }
 
 .woot-widget-bubble:hover {
-  background: #1f93ff;
+  background: #FF6E6E;
   box-shadow: 0 8px 32px rgba(0, 0, 0, .4) !important;
 }
 

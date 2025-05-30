@@ -188,15 +188,20 @@ const STYLE_CONFIG = {
 };
 
 const variantClasses = computed(() => {
+  // Ensure computedColor.value is a valid color option
+  const colorValue = COLOR_OPTIONS.includes(computedColor.value)
+    ? computedColor.value
+    : 'blue';
+
   const variantMap = {
-    ghost: `${STYLE_CONFIG.colors[computedColor.value].ghost}`,
-    link: `${STYLE_CONFIG.colors[computedColor.value].link} p-0 font-medium underline-offset-2`,
-    outline: STYLE_CONFIG.colors[computedColor.value].outline,
-    faded: STYLE_CONFIG.colors[computedColor.value].faded,
-    solid: STYLE_CONFIG.colors[computedColor.value].solid,
+    ghost: `${STYLE_CONFIG.colors[colorValue].ghost}`,
+    link: `${STYLE_CONFIG.colors[colorValue].link} p-0 font-medium underline-offset-2`,
+    outline: STYLE_CONFIG.colors[colorValue].outline,
+    faded: STYLE_CONFIG.colors[colorValue].faded,
+    solid: STYLE_CONFIG.colors[colorValue].solid,
   };
 
-  return variantMap[computedVariant.value];
+  return variantMap[computedVariant.value] || variantMap.solid;
 });
 
 const isIconOnly = computed(() => !props.label && !slots.default);

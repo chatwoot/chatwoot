@@ -1,0 +1,202 @@
+{
+  "CANCEL": "Annuler",
+  "AI_AGENT": {
+    "TITLE": "Agent IA",
+    "DESCRIPTION": "Créez des assistants alimentés par l'IA pour votre équipe",
+    "HEADER_KNOW_MORE": "En savoir plus",
+    "EMPTY": {
+      "TITLE": "Vous n'avez pas encore créé de sujet d'Agent IA",
+      "DESCRIPTION": "Créez des sujets d'Agent IA pour aider votre équipe avec les questions courantes.",
+      "CREATE": "Créer un nouveau sujet"
+    },
+    "TOPICS": {
+      "HEADER": "Sujets",
+      "TITLE": "Tous les sujets",
+      "ADD": "Ajouter un sujet",
+      "ADD_NEW": "Créer un nouveau sujet",
+      "EDIT": "Modifier le sujet",
+      "FORM_DESCRIPTION": "Nommez votre sujet, décrivez son objectif, et il aidera à organiser votre base de connaissances pour vos utilisateurs. Vos agents pourront trouver plus facilement les informations.",
+      "CREATE_FIRST": "Créez votre premier sujet",
+      "EMPTY": "Aucun sujet trouvé",
+      "EMPTY_SEARCH": "Aucun sujet ne correspond à votre recherche",
+      "EMPTY_DESCRIPTION": "Créez des sujets pour organiser les connaissances de votre Agent IA",
+      "EMPTY_STATE": {
+        "TITLE": "Aucun sujet disponible",
+        "SUBTITLE": "Créez un sujet pour fournir des réponses rapides et précises à vos utilisateurs. Il peut apprendre à partir de vos articles d'aide et des conversations passées.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Organisez vos connaissances avec des sujets",
+          "NOTE": "Créez des sujets pour catégoriser vos connaissances et faciliter la recherche d'informations pertinentes par les agents."
+        }
+      },
+      "CREATE_BUTTON": "Créer un nouveau sujet",
+      "NO_TOPICS_TITLE": "Aucun sujet disponible",
+      "NO_TOPICS_DESCRIPTION": "Créez un sujet pour fournir des réponses rapides et précises à vos utilisateurs. Il peut apprendre à partir de vos articles d'aide et des conversations passées.",
+      "SEARCH_PLACEHOLDER": "Rechercher des sujets...",
+      "NAME": {
+        "LABEL": "Nom du sujet",
+        "PLACEHOLDER": "Entrez le nom du sujet",
+        "ERROR": "Le nom du sujet est requis"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Description",
+        "PLACEHOLDER": "Entrez la description du sujet",
+        "ERROR": "La description est requise"
+      },
+      "MANAGE_INBOXES": "Gérer les boîtes de réception",
+      "INBOXES": {
+        "HEADER": "Gérer les boîtes de réception du sujet",
+        "DESCRIPTION": "Connectez ce sujet aux boîtes de réception où il doit être disponible",
+        "COUNT": "Boîtes de réception",
+        "LINKED": "Boîtes de réception liées",
+        "NO_LINKED": "Aucune boîte de réception liée à ce sujet",
+        "AVAILABLE": "Boîtes de réception disponibles",
+        "NO_AVAILABLE": "Toutes les boîtes de réception sont déjà liées"
+      },
+      "DOCUMENTS_COUNT": "Documents",
+      "OPTIONS": {
+        "VIEW_CONNECTED_INBOXES": "Voir les boîtes de réception connectées",
+        "EDIT_ASSISTANT": "Modifier le sujet",
+        "DELETE_ASSISTANT": "Supprimer le sujet",
+        "EDIT_TOPIC": "Modifier le sujet",
+        "DELETE_TOPIC": "Supprimer le sujet"
+      },
+      "DELETE": {
+        "TITLE": "Êtes-vous sûr de vouloir supprimer ce sujet ?",
+        "DESCRIPTION": "Cette action est permanente. La suppression de ce sujet le supprimera de toutes les boîtes de réception connectées et effacera définitivement toutes les connaissances générées.",
+        "CONFIRM": "Oui, supprimer",
+        "SUCCESS_MESSAGE": "Le sujet a été supprimé avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la suppression du sujet, veuillez réessayer."
+      },
+      "CREATE": {
+        "TITLE": "Créer un sujet",
+        "SUCCESS_MESSAGE": "Le sujet a été créé avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la création du sujet, veuillez réessayer."
+      },
+      "EDIT": {
+        "TITLE": "Mettre à jour le sujet",
+        "SUCCESS_MESSAGE": "Le sujet a été mis à jour avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour du sujet, veuillez réessayer.",
+        "NOT_FOUND": "Impossible de trouver le sujet. Veuillez réessayer."
+      }
+    },
+    "DOCUMENTS": {
+      "HEADER": "Documents",
+      "TITLE": "Base de connaissances",
+      "ADD": "Ajouter un document",
+      "EDIT": "Modifier le document",
+      "EMPTY": "Aucun document trouvé",
+      "EMPTY_SEARCH": "Aucun document ne correspond à votre recherche",
+      "EMPTY_DESCRIPTION": "Téléchargez des documents pour améliorer les connaissances de votre Agent IA",
+      "EMPTY_STATE": {
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Améliorez vos connaissances avec des documents",
+          "NOTE": "Téléchargez des documents pour fournir à votre Agent IA des informations complètes pour répondre aux questions des clients."
+        }
+      },
+      "UPLOAD_FIRST": "Téléchargez votre premier document",
+      "SEARCH_PLACEHOLDER": "Rechercher des documents...",
+      "DELETE": {
+        "TITLE": "Supprimer le document",
+        "DESCRIPTION": "Êtes-vous sûr de vouloir supprimer ce document ? Cette action est permanente et effacera toutes les connaissances associées.",
+        "CONFIRM": "Oui, supprimer"
+      },
+      "DELETE_CONFIRM": "Êtes-vous sûr de vouloir supprimer ce document ?",
+      "OPTIONS": {
+        "VIEW_RELATED_RESPONSES": "Voir les réponses associées",
+        "DELETE_DOCUMENT": "Supprimer le document"
+      },
+      "TOPIC_ID": {
+        "LABEL": "Sujet",
+        "PLACEHOLDER": "Sélectionner un sujet",
+        "ERROR": "Le sujet est requis"
+      },
+      "NAME": {
+        "LABEL": "Nom",
+        "PLACEHOLDER": "Entrez le nom du document",
+        "ERROR": "Le nom est requis"
+      },
+      "EXTERNAL_LINK": {
+        "LABEL": "URL",
+        "PLACEHOLDER": "Entrez l'URL du document",
+        "ERROR": "L'URL est requise",
+        "INVALID": "Veuillez entrer une URL valide"
+      }
+    },
+    "RESPONSES": {
+      "HEADER": "Réponses",
+      "TITLE": "Questions fréquemment posées",
+      "ADD": "Ajouter une réponse",
+      "EDIT": "Modifier la réponse",
+      "EMPTY": "Aucune réponse trouvée",
+      "EMPTY_SEARCH": "Aucune réponse ne correspond à votre recherche",
+      "EMPTY_DESCRIPTION": "Créez des réponses aux questions courantes pour votre Agent IA",
+      "EMPTY_STATE": {
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Créez des réponses prédéfinies pour les questions courantes",
+          "NOTE": "Créez des réponses personnalisées aux questions fréquemment posées pour aider votre Agent IA à fournir des réponses précises."
+        }
+      },
+      "CREATE_FIRST": "Créez votre première réponse",
+      "SEARCH_PLACEHOLDER": "Rechercher des réponses...",
+      "DELETE": "Supprimer la réponse",
+      "DELETE_CONFIRM": "Êtes-vous sûr de vouloir supprimer cette réponse ?",
+      "STATUS": {
+        "TITLE": "Statut",
+        "ALL": "Tous",
+        "PENDING": "En attente",
+        "APPROVED": "Approuvé"
+      },
+      "FILTER": {
+        "STATUS": "Statut : {selected}"
+      },
+      "OPTIONS": {
+        "APPROVE": "Approuver",
+        "EDIT_RESPONSE": "Modifier la réponse",
+        "DELETE_RESPONSE": "Supprimer la réponse"
+      },
+      "EDIT": {
+        "APPROVE_SUCCESS_MESSAGE": "La réponse a été approuvée avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de la mise à jour de la réponse"
+      },
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "Les réponses ont été approuvées avec succès",
+        "ERROR_MESSAGE": "Une erreur s'est produite lors de l'approbation des réponses"
+      },
+      "DOCUMENTABLE": {
+        "CONVERSATION": "Conversation #{id}"
+      }
+    },
+    "LIMITS": {
+      "DOCUMENTS": "Limites de documents",
+      "RESPONSES": "Limites de réponses",
+      "UPGRADE": "Mettez à niveau votre abonnement pour des limites supplémentaires"
+    },
+    "FORM": {
+      "NAME": "Nom",
+      "DESCRIPTION": "Description",
+      "CONTENT": "Contenu",
+      "SAVE": "Enregistrer",
+      "CANCEL": "Annuler"
+    },
+    "FEATURE_FLAG": {
+      "UNAVAILABLE": "L'Agent IA n'est pas disponible dans votre abonnement actuel",
+      "UPGRADE": "Mettez à niveau pour accéder aux fonctionnalités de l'Agent IA"
+    },
+    "PAYWALL": {
+      "TITLE": "Mettez à niveau pour utiliser l'Agent IA",
+      "AVAILABLE_ON": "L'Agent IA n'est pas disponible dans le plan gratuit.",
+      "UPGRADE_PROMPT": "Mettez à niveau votre abonnement pour accéder à nos assistants, copilote et plus encore.",
+      "UPGRADE_NOW": "Mettre à niveau maintenant",
+      "CANCEL_ANYTIME": "Vous pouvez modifier ou annuler votre abonnement à tout moment"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "La fonctionnalité d'Agent IA est uniquement disponible dans un plan payant.",
+      "UPGRADE_PROMPT": "Mettez à niveau votre abonnement pour accéder à nos assistants, copilote et plus encore.",
+      "ASK_ADMIN": "Veuillez contacter votre administrateur pour la mise à niveau."
+    },
+    "BANNER": {
+      "RESPONSES": "Vous avez utilisé plus de 80 % de votre limite de réponses. Pour continuer à utiliser l'Agent IA, veuillez mettre à niveau.",
+      "DOCUMENTS": "Limite de documents atteinte. Mettez à niveau pour continuer à utiliser l'Agent IA."
+    }
+  }
+} 

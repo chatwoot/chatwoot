@@ -1,7 +1,7 @@
-import CaptainAssistantAPI from 'dashboard/api/captain/assistant';
+import AiAgentTopicAPI from 'dashboard/api/ai_agent/topic';
 import { createStore } from './storeFactory';
 
 export default createStore({
-  name: 'CaptainAssistant',
-  API: CaptainAssistantAPI,
+  name: 'AiAgentTopic',
+  API: AiAgentTopicAPI,
 });

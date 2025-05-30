@@ -51,6 +51,7 @@ import captainDocuments from './captain/document';
 import captainResponses from './captain/response';
 import captainInboxes from './captain/inboxes';
 import captainBulkActions from './captain/bulkActions';
+import aiAgentTopics from './ai_agent/topic';
 const plugins = [];
 
 export default createStore({
@@ -106,6 +107,7 @@ export default createStore({
     captainResponses,
     captainInboxes,
     captainBulkActions,
+    aiAgentTopics,
   },
   plugins,
 });

@@ -144,7 +144,7 @@
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
           "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you're able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Vos préférences de notifications ont été mises à jour avec succès",
@@ -174,8 +174,8 @@
       },
       "DISPLAY_NAME": {
         "LABEL": "Nom affiché",
-        "ERROR": "Veuillez entrer un nom d’affichage valide",
-        "PLACEHOLDER": "Veuillez entrer un nom d’affichage, il s’affichera dans les conversations"
+        "ERROR": "Veuillez entrer un nom d'affichage valide",
+        "PLACEHOLDER": "Veuillez entrer un nom d'affichage, il s'affichera dans les conversations"
       },
       "AVAILABILITY": {
         "LABEL": "Disponibilité",
@@ -341,7 +341,39 @@
       "INFO_TEXT": "Laissez le système vous passer automatiquement hors ligne lorsque vous n'utilisez pas l'application ou le tableau de bord.",
       "INFO_SHORT": "Automatically mark offline when you aren't using the app."
     },
-    "DOCS": "Lire la documentation"
+    "DOCS": "Lire la documentation",
+    "MENU": {
+      "DASHBOARD": "Dashboard",
+      "NOTIFICATIONS": "Notifications",
+      "CONVERSATION": "Conversations",
+      "AUTOMATION": "Automation",
+      "CONTACTS": "Contacts",
+      "CAMPAIGNS": "Campagnes",
+      "INBOXES": "Inboxes",
+      "CANNED_RESPONSES": "Réponses prédéfinies",
+      "PERSONALIZATION": "Personnalisation",
+      "SETTINGS": "Paramètres",
+      "HELP_CENTER": "Centre d'aide",
+      "AI_AGENT": "Agent IA",
+      "AI_AGENT_TOPICS": "Sujets",
+      "AI_AGENT_DOCUMENTS": "Documents",
+      "AI_AGENT_RESPONSES": "Réponses",
+      "PROFILE_SETTINGS": "Paramètres du profil",
+      "MACROS": "Macros",
+      "ACCOUNT": "Compte",
+      "LABELS": "Étiquettes",
+      "TEAMS": "Équipes",
+      "BILLING": "Facturation",
+      "APPLICATIONS": "Applications",
+      "CUSTOM_ATTRIBUTES": "Attributs personnalisés",
+      "WEBHOOKS": "Webhooks",
+      "AUDIT_LOGS": "Journal d'audit",
+      "INSTALLATION_GUIDES": "Installation guides",
+      "LOGOUT": "Déconnexion",
+      "OPEN_TICKET": "Open a ticket",
+      "COPY_TICKET_ID": "Copier l'ID du ticket",
+      "CUSTOM_ROLES": "Rôles personnalisés"
+    }
   },
   "BILLING_SETTINGS": {
     "TITLE": "Facturation",
@@ -358,13 +390,13 @@
       "DESCRIPTION": "Visualisez vos factures précédentes, modifiez vos coordonnées de facturation ou annulez votre abonnement.",
       "BUTTON_TXT": "Accéder au portail de facturation"
     },
-    "CAPTAIN": {
-      "TITLE": "Captain",
-      "DESCRIPTION": "Manage usage and credits for Captain AI.",
-      "BUTTON_TXT": "Buy more credits",
+    "AI_AGENT": {
+      "TITLE": "Agent IA",
+      "DESCRIPTION": "Gérez l'utilisation et les crédits pour l'Agent IA.",
+      "BUTTON_TXT": "Acheter plus de crédits",
       "DOCUMENTS": "Documents",
-      "RESPONSES": "Responses",
-      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "RESPONSES": "Réponses",
+      "UPGRADE": "L'Agent IA n'est pas disponible dans le plan gratuit, mettez à niveau maintenant pour accéder aux assistants, au copilote et plus encore."
     },
     "CHAT_WITH_US": {
       "TITLE": "Besoin d'aide ?",

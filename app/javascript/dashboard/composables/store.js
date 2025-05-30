@@ -22,6 +22,17 @@ export const useMapGetter = key => {
   return computed(() => store.getters[key]);
 };
 
+export const useMapGetters = (namespace, getters) => {
+  const store = useStore();
+  const result = {};
+  getters.forEach(getter => {
+    const key = `${namespace}/${getter}`;
+    result[getter.replace(/^get/, '').replace(/^./, c => c.toLowerCase())] =
+      computed(() => store.getters[key]);
+  });
+  return result;
+};
+
 export const useFunctionGetter = (key, ...args) => {
   const store = useStore();
   return computed(() => {

@@ -1,25 +1,25 @@
-<svg
-  width="16"
-  height="16"
-  viewBox="0 0 16 16"
-  fill="none"
-  xmlns="http://www.w3.org/2000/svg"
->
-  <g clip-path="url(#woot-logo-clip-2342424e23u32098)">
-    <path
-      d="M8 16C12.4183 16 16 12.4183 16 8C16 3.58172 12.4183 0 8 0C3.58172 0 0 3.58172 0 8C0 12.4183 3.58172 16 8 16Z"
-      fill="#2781F6"
-    />
-    <path
-      d="M11.4172 11.4172H7.70831C5.66383 11.4172 4 9.75328 4 7.70828C4 5.66394 5.66383 4 7.70835 4C9.75339 4 11.4172 5.66394 11.4172 7.70828V11.4172Z"
-      fill="white"
-      stroke="white"
-      stroke-width="0.1875"
-    />
-  </g>
-  <defs>
-    <clipPath id="woot-logo-clip-2342424e23u32098">
-      <rect width="16" height="16" fill="white" />
-    </clipPath>
-  </defs>
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="800px" height="800px" viewBox="-1 0 36 36" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
+    <!-- Uploaded to: SVG Repo, www.svgrepo.com, Generator: SVG Repo Mixer Tools -->
+    <title>chat</title>
+    <desc>Created with Sketch.</desc>
+    <defs>
+
+</defs>
+    <g id="Vivid.JS" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
+        <g id="Vivid-Icons" transform="translate(-668.000000, -409.000000)">
+            <g id="Icons" transform="translate(37.000000, 169.000000)">
+                <g id="chat" transform="translate(624.000000, 234.000000)">
+                    <g transform="translate(7.000000, 6.000000)" id="Shape">
+                        <path d="M17,31.765 C13.4557046,31.857522 9.95909276,30.9327036 6.924,29.1 L0,36 L0,15.882 L0.012,15.888 C0.011,15.791 0,15.7 0,15.6 C0,6.369 6.247,0 17,0 C27.753,0 34,6.652 34,15.882 C34,25.112 27.753,31.765 17,31.765 Z" fill="#FF6E6E">
+
+</path>
+                        <path d="M24.994,12.99 C26.6508542,12.99 27.994,14.3331458 27.994,15.99 C27.994,17.6468542 26.6508542,18.99 24.994,18.99 C23.3371458,18.99 21.994,17.6468542 21.994,15.99 C21.994,14.3331458 23.3371458,12.99 24.994,12.99 Z M17,13 C18.6568542,13 20,14.3431458 20,16 C20,17.6568542 18.6568542,19 17,19 C15.3431458,19 14,17.6568542 14,16 C14,14.3431458 15.3431458,13 17,13 Z M9,13 C10.6568542,13 12,14.3431458 12,16 C12,17.6568542 10.6568542,19 9,19 C7.34314575,19 6,17.6568542 6,16 C6,14.3431458 7.34314575,13 9,13 Z" fill="#0C0058">
+
+</path>
+                    </g>
+                </g>
+            </g>
+        </g>
+    </g>
 </svg>

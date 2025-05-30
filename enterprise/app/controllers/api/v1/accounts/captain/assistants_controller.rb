@@ -44,11 +44,11 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def assistant_params
     params.require(:assistant).permit(:name, :description,
-                                      config: [
-                                        :product_name, :feature_faq, :feature_memory,
-                                        :welcome_message, :handoff_message, :resolution_message,
-                                        :instructions, :temperature
-                                      ])
+                                  config: [
+                                    :product_name, :feature_faq, :feature_memory,
+                                    :welcome_message, :handoff_message, :resolution_message,
+                                    :instructions, :temperature
+                                  ])
   end
 
   def playground_params
