@@ -41,6 +41,7 @@ run:
 
 force_run:
 	rm -f ./.overmind.sock
+	rm -f tmp/pids/*.pid
 	overmind start -f Procfile.dev
 
 debug:
