@@ -82,7 +82,6 @@ export default {
             id: this.inbox.id,
             formData: false,
             channel: {
-              type: 'whatsapp',
               web_widget_script: `\u003Cscript>
   (function(d, t) {
     var position = '${this.widgetBubblePosition}';
@@ -113,7 +112,6 @@ export default {
             id: this.inbox.id,
             formData: false,
             channel: {
-              type: 'whatsapp',
               web_widget_script: `\u003Cscript>
   (function(d, t) {
     var position = '${this.widgetBubblePosition}';
