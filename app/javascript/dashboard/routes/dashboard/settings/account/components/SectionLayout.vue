@@ -9,11 +9,10 @@ defineProps({
 
 <template>
   <section
-    class="grid grid-cols-1 settings-section py-8"
+    class="grid grid-cols-1 settings-section pt-8 gap-5"
     :class="{
       'border-t border-n-weak': withBorder,
-      'gap-8': !hideContent && description,
-      'gap-4': !hideContent && !description,
+      'pb-8': !hideContent,
     }"
   >
     <header class="grid grid-cols-4">
