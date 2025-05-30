@@ -77,8 +77,8 @@ RUN curl -L https://github.com/DarthSim/overmind/releases/download/v2.1.0/overmi
 WORKDIR /workspace
 RUN chown vscode:vscode /workspace
 
-# set up node js and pnpm in single layer
-RUN npm install -g pnpm@${PNPM_VERSION} \
+# set up node js, pnpm and claude code in single layer
+RUN npm install -g pnpm@${PNPM_VERSION} @anthropic-ai/claude-code \
     && npm cache clean --force
 
 # Switch to vscode user
