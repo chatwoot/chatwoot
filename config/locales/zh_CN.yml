@@ -171,8 +171,6 @@ zh_CN:
         removed: '%{user_name} 移除 %{labels}'
       sla:
         added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
-      csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
