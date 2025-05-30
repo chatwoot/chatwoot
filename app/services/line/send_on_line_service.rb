@@ -23,8 +23,14 @@ class Line::SendOnLineService < Base::SendOnChannelService
 
   def build_payload
     if message.content_type == 'input_select' && message.content_attributes['items'].any?
-      text_input_select
-    elsif message.content && message.attachments.any?
+      build_input_select_payload
+    else
+      build_text_payload
+    end
+  end
+
+  def build_text_payload
+    if message.content && message.attachments.any?
       [text_message, *attachments]
     elsif message.content.nil? && message.attachments.any?
       attachments
@@ -54,7 +60,8 @@ class Line::SendOnLineService < Base::SendOnChannelService
     }
   end
 
-  def text_input_select
+  # https://developers.line.biz/en/reference/messaging-api/#flex-message
+  def build_input_select_payload
     {
       type: 'flex',
       altText: message.content,
