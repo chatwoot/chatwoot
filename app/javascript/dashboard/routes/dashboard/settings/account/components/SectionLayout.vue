@@ -1,28 +1,20 @@
 <script setup>
 defineProps({
-  title: {
-    type: String,
-    required: true,
-  },
-  description: {
-    type: String,
-    required: true,
-  },
-  withBorder: {
-    type: Boolean,
-    default: false,
-  },
-  hideContent: {
-    type: Boolean,
-    default: false,
-  },
+  title: { type: String, required: true },
+  description: { type: String, required: true },
+  withBorder: { type: Boolean, default: false },
+  hideContent: { type: Boolean, default: false },
 });
 </script>
 
 <template>
   <section
     class="grid grid-cols-1 settings-section py-8"
-    :class="{ 'border-t border-n-weak': withBorder, 'gap-8': !hideContent }"
+    :class="{
+      'border-t border-n-weak': withBorder,
+      'gap-8': !hideContent && description,
+      'gap-4': !hideContent && !description,
+    }"
   >
     <header class="grid grid-cols-4">
       <div class="col-span-3">
