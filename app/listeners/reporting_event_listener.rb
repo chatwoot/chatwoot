@@ -5,6 +5,8 @@ class ReportingEventListener < BaseListener
     conversation = extract_conversation_and_account(event)[0]
     time_to_resolve = conversation.updated_at.to_i - last_agent_assignment(conversation).to_i
 
+    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
+
     reporting_event = ReportingEvent.new(
       name: 'conversation_resolved',
       value: time_to_resolve,
@@ -27,6 +29,7 @@ class ReportingEventListener < BaseListener
     conversation = message.conversation
 
     return if conversation.resolved?
+    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
 
     first_response_time = message.created_at.to_i - last_agent_assignment(conversation).to_i
 
@@ -51,6 +54,7 @@ class ReportingEventListener < BaseListener
     conversation = message.conversation
 
     return if conversation.resolved?
+    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
 
     waiting_since = event.data[:waiting_since]
     reply_time = message.created_at.to_i - waiting_since.to_i
@@ -94,6 +98,7 @@ class ReportingEventListener < BaseListener
 
   def conversation_first_call(event)
     conversation = extract_conversation_and_account(event)[0]
+    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
 
     reporting_event = ReportingEvent.new(
       name: 'conversation_first_call',
@@ -112,6 +117,8 @@ class ReportingEventListener < BaseListener
   def conversation_call_converted(event)
     conversation = extract_conversation_and_account(event)[0]
 
+    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
+
     reporting_event = ReportingEvent.new(
       name: 'conversation_call_converted',
       value: conversation.updated_at.to_i - conversation.nudge_created.to_i,
@@ -128,6 +135,8 @@ class ReportingEventListener < BaseListener
 
   def conversation_call_dropped(event)
     conversation = extract_conversation_and_account(event)[0]
+
+    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
 
     reporting_event = ReportingEvent.new(
       name: 'conversation_call_dropped',
