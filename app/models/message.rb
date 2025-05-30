@@ -200,6 +200,17 @@ class Message < ApplicationRecord
     true
   end
 
+  def save_story_info(story_info)
+    self.content_attributes = content_attributes.merge(
+      {
+        story_id: story_info['id'],
+        story_sender: inbox.channel.instagram_id,
+        story_url: story_info['url']
+      }
+    )
+    save!
+  end
+
   private
 
   def should_append_survey_link?
@@ -219,17 +230,6 @@ class Message < ApplicationRecord
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
     true
-  end
-
-  def save_story_info(story_info)
-    self.content_attributes = content_attributes.merge(
-      {
-        story_id: story_info['id'],
-        story_sender: inbox.channel.instagram_id,
-        story_url: story_info['url']
-      }
-    )
-    save!
   end
 
   def prevent_message_flooding
