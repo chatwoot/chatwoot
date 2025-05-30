@@ -54,14 +54,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
   end
 
   def fb_text_message_payload
-    if message.content_type == "input_select" && message.content_attributes['items'].any?
+    if message.content_type == 'input_select' && message.content_attributes['items'].any?
       {
         text: message.content,
         quick_replies: message.content_attributes['items'].map do |item|
           {
-            content_type: "text",
-            payload: item["title"],
-            title: item["title"]
+            content_type: 'text',
+            payload: item['title'],
+            title: item['title']
           }
         end
       }

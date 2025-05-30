@@ -170,18 +170,23 @@ describe Facebook::SendOnFacebookService do
     context 'with input_select' do
       it 'if message with input_select is sent from chatwoot and is outgoing' do
         message = build(
-          :message, message_type: 'outgoing', inbox: facebook_inbox, account: account, conversation: conversation, content_type: 'input_select',
-          content_attributes: { 'items' => [{ 'title' => 'text 1', 'value' => 'value 1' }, { 'title' => 'text 2', 'value' => 'value 2' }] },
+          :message,
+          message_type: 'outgoing',
+          inbox: facebook_inbox,
+          account: account,
+          conversation: conversation,
+          content_type: 'input_select',
+          content_attributes: { 'items' => [{ 'title' => 'text 1', 'value' => 'value 1' }, { 'title' => 'text 2', 'value' => 'value 2' }] }
         )
 
         described_class.new(message: message).perform
         expect(bot).to have_received(:deliver).with({
                                                       recipient: { id: contact_inbox.source_id },
-                                                      message: { 
+                                                      message: {
                                                         text: message.content,
                                                         quick_replies: [
-                                                          { content_type: "text", payload: 'text 1', title: 'text 1' },
-                                                          { content_type: "text", payload: 'text 2', title: 'text 2' }
+                                                          { content_type: 'text', payload: 'text 1', title: 'text 1' },
+                                                          { content_type: 'text', payload: 'text 2', title: 'text 2' }
                                                         ]
                                                       },
                                                       messaging_type: 'MESSAGE_TAG',
