@@ -20,7 +20,7 @@ module SortHandler
 
     def last_messaged_conversations
       Message.except(:order).select(
-        'DISTINCT ON (conversation_id) conversation_id, id, created_at, message_type'
+        'DISTINCT ON (conversation_id) conversation_id, id, created_at, message_type, status'
       ).order('conversation_id, created_at DESC')
     end
 

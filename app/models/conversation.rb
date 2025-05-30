@@ -73,6 +73,7 @@ class Conversation < ApplicationRecord
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
 
+  scope :open, -> { where(status: 0) }
   scope :unassigned, -> { where(assignee_id: nil, status: 0) }
   scope :resolved, -> { where(status: 1) }
   scope :assigned_to, ->(agent) { where(assignee_id: agent.id) }
