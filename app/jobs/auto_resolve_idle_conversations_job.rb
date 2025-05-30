@@ -11,6 +11,7 @@ class AutoResolveIdleConversationsJob < ApplicationJob
   MESSAGE_STATUS_SENT = 0
 
   def perform
+    Rails.logger.info('[AutoResolveIdleConversationsJob] Starting job to process idle conversations')
     process_conversations(
       scope: conversations_to_remind,
       action: :remind,
@@ -23,37 +24,48 @@ class AutoResolveIdleConversationsJob < ApplicationJob
       message: RESOLUTION_MESSAGE,
       update_attrs: { status: STATUS_OPEN, assignee_id: nil, is_reminded: false }
     )
+    Rails.logger.info('[AutoResolveIdleConversationsJob] Finished processing idle conversations')
   end
 
   private
 
   def process_conversations(scope:, action:, message:, update_attrs:)
     scope.find_each do |conversation|
+      Rails.logger.info("[AutoResolveIdleConversationsJob] Processing conversation ##{conversation.id} for #{action}")
       create_message(conversation, message)
       conversation.update!(update_attrs)
+      Rails.logger.info("[AutoResolveIdleConversationsJob] Successfully processed conversation ##{conversation.id} for #{action}")
     rescue StandardError => e
       log_error(action.to_s.capitalize, conversation, e)
     end
   end
 
+  def latest_messages_sql
+    <<-SQL.squish
+      SELECT DISTINCT ON (conversation_id) *
+      FROM messages
+      ORDER BY conversation_id, created_at DESC
+    SQL
+  end
+
   def conversations_to_remind
     Conversation
+      .unscope(:order)
+      .joins("INNER JOIN (#{latest_messages_sql}) AS latest_messages ON conversations.id = latest_messages.conversation_id")
       .open
       .where(is_reminded: false)
-      .where('updated_at < ?', threshold_time)
-      .last_messaged_conversations
-      .where(grouped_conversations: { status: STATUS_OPEN })
-      .group('conversations.id')
+      .where('conversations.updated_at < ?', threshold_time)
+      .where(latest_messages: { message_type: Message.message_types[:outgoing] })
   end
 
   def conversations_to_resolve
     Conversation
+      .unscope(:order)
+      .joins("INNER JOIN (#{latest_messages_sql}) AS latest_messages ON conversations.id = latest_messages.conversation_id")
       .open
       .where(is_reminded: true)
-      .where('updated_at < ?', threshold_time)
-      .last_messaged_conversations
-      .where(grouped_conversations: { status: STATUS_OPEN })
-      .group('conversations.id')
+      .where('conversations.updated_at < ?', threshold_time)
+      .where(latest_messages: { message_type: Message.message_types[:outgoing] })
   end
 
   def create_message(conversation, content)
