@@ -10,14 +10,14 @@ import TextArea from 'next/textarea/TextArea.vue';
 import Switch from 'next/switch/Switch.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import DurationInput from 'next/input/DurationInput.vue';
-import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
+import SingleSelect from 'dashboard/components-next/filter/inputs/SingleSelect.vue';
 import { DURATION_UNITS } from 'dashboard/components-next/input/constants';
 
 const { t } = useI18n();
 const duration = ref(0);
 const unit = ref(DURATION_UNITS.MINUTES);
 const message = ref('');
-const labelToApply = ref('');
+const labelToApply = ref({});
 const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
 
@@ -28,8 +28,8 @@ const labels = useMapGetter('labels/getLabels');
 const labelOptions = computed(() =>
   labels.value?.length
     ? labels.value.map(label => ({
-        label: label.title,
-        value: label.title,
+        id: label.title,
+        name: label.title,
         icon: h('span', {
           class: `size-[12px] ring-1 ring-n-alpha-1 dark:ring-white/20 ring-inset rounded-sm`,
           style: { backgroundColor: label.color },
@@ -38,8 +38,12 @@ const labelOptions = computed(() =>
     : []
 );
 
+const selectedLabelName = computed(() => {
+  return labelToApply.value?.name ?? null;
+});
+
 watch(
-  currentAccount,
+  [currentAccount, labelOptions],
   () => {
     const {
       auto_resolve_after,
@@ -52,7 +56,13 @@ watch(
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
     ignoreWaiting.value = auto_resolve_ignore_waiting;
-    labelToApply.value = auto_resolve_label;
+
+    // find the correct label option from the list
+    // the single select component expects the full label object
+    // in our case, the label id and name are both the same
+    labelToApply.value = labelOptions.value.find(
+      option => option.name === auto_resolve_label
+    );
 
     if (
       auto_resolve_unit &&
@@ -87,7 +97,7 @@ const handleSubmit = async () => {
     auto_resolve_after: duration.value,
     auto_resolve_message: message.value,
     auto_resolve_ignore_waiting: ignoreWaiting.value,
-    auto_resolve_label: labelToApply.value,
+    auto_resolve_label: selectedLabelName.value,
     auto_resolve_unit: unit.value,
   });
 };
@@ -150,44 +160,31 @@ const toggleAutoResolve = async () => {
           "
         />
       </WithLabel>
-      <div class="grid grid-cols-5">
-        <WithLabel
-          class="col-span-3"
-          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.LABEL')"
-          :help-message="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.DESCRIPTION')
-          "
-        />
-
-        <div class="flex justify-end items-start gap-1 col-span-2">
-          <FilterSelect
-            v-model="labelToApply"
-            :options="labelOptions"
-            :label="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.PLACEHOLDER')"
-            variant="faded"
-            class="inline-flex shrink-0"
-          />
-          <NextButton
-            v-if="labelToApply"
-            v-tooltip="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.REMOVE')"
-            type="button"
-            faded
-            sm
-            slate
-            icon="i-lucide-x"
-            @click="labelToApply = ''"
-          />
+      <WithLabel :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.PREFERENCES')">
+        <div
+          class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 divide-y divide-n-weak"
+        >
+          <div class="p-3 flex items-center justify-between">
+            <span>
+              {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.LABEL') }}
+            </span>
+            <Switch v-model="ignoreWaiting" />
+          </div>
+          <div class="p-3 flex items-center justify-between">
+            <span>
+              {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.LABEL') }}
+            </span>
+            <SingleSelect
+              v-model="labelToApply"
+              :options="labelOptions"
+              :label="
+                $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.PLACEHOLDER')
+              "
+              variant="faded"
+              class="inline-flex shrink-0"
+            />
+          </div>
         </div>
-      </div>
-      <WithLabel
-        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.LABEL')"
-      >
-        <template #rightOfLabel>
-          <Switch v-model="ignoreWaiting" />
-        </template>
-        <p class="text-sm ml-px text-n-slate-10 max-w-lg">
-          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.HELP') }}
-        </p>
       </WithLabel>
       <div class="flex gap-2">
         <NextButton

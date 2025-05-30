@@ -62,15 +62,13 @@
           "PLACEHOLDER": "Conversation was marked resolved by system due to 15 days of inactivity",
           "HELP": "Message sent to the customer after conversation is auto-resolved"
         },
+        "PREFERENCES": "Preferences",
         "LABEL": {
-          "LABEL": "Add label after resolution",
-          "DESCRIPTION": "Add a label to the conversation after it is automatically resolved by the system.",
-          "PLACEHOLDER": "Select a label",
-          "REMOVE": "Remove label"
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Exclude unattended conversations",
-          "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+          "LABEL": "Skip conversations waiting for agent’s reply"
         },
         "UPDATE_BUTTON": "Save Changes"
       },
