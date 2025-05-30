@@ -45,11 +45,11 @@ defineProps({
 
 .content-transition {
   height: auto;
-  overflow: hidden;
   transition: height 0.3s ease;
 }
 
 .content-transition.content-hidden {
+  overflow: hidden;
   height: 0;
 }
 </style>
