@@ -183,7 +183,6 @@ const toggleAutoResolve = async () => {
               placeholder-icon="i-lucide-chevron-down"
               placeholder-trailing-icon
               variant="faded"
-              class="inline-flex shrink-0"
             />
           </div>
         </div>
