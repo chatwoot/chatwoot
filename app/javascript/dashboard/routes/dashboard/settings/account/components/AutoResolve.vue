@@ -20,8 +20,9 @@ const message = ref('');
 const labelToApply = ref({});
 const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
+const isSubmitting = ref(false);
 
-const { currentAccount, updateAccount } = useAccount();
+const { currentAccount, updateAccountSilently } = useAccount();
 
 const labels = useMapGetter('labels/getLabels');
 
@@ -80,10 +81,13 @@ watch(
 
 const updateAccountSettings = async settings => {
   try {
-    await updateAccount(settings);
+    isSubmitting.value = true;
+    await updateAccountSilently(settings);
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.API.SUCCESS'));
   } catch (error) {
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.API.ERROR'));
+  } finally {
+    isSubmitting.value = false;
   }
 };
 
@@ -192,6 +196,7 @@ const toggleAutoResolve = async () => {
         <NextButton
           blue
           type="submit"
+          :is-loading="isSubmitting"
           :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.UPDATE_BUTTON')"
         />
       </div>
