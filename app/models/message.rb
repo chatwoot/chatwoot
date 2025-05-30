@@ -211,16 +211,6 @@ class Message < ApplicationRecord
     save!
   end
 
-  private
-
-  def should_append_survey_link?
-    input_csat? && !inbox.web_widget?
-  end
-
-  def default_survey_url
-    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
-  end
-
   def valid_first_reply?
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
@@ -230,6 +220,16 @@ class Message < ApplicationRecord
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
     true
+  end
+
+  private
+
+  def should_append_survey_link?
+    input_csat? && !inbox.web_widget?
+  end
+
+  def default_survey_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
   end
 
   def prevent_message_flooding
