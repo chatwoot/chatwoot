@@ -171,8 +171,6 @@ pt:
         removed: '%{user_name} removeu a %{labels}'
       sla:
         added: '%{user_name} adicionou uma política de SLA %{sla_name}'
-      csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} removeu a política de SLA de %{sla_name}'
       muted: '%{user_name} bloqueou a conversa'
       unmuted: '%{user_name} reativou a conversa'
