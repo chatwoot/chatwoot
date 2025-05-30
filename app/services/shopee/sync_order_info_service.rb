@@ -2,6 +2,8 @@ class Shopee::SyncOrderInfoService
   pattr_initialize [:channel_id!, :order_number!]
 
   def perform
+    return if order_number.blank?
+
     @channel = Channel::Shopee.find(channel_id)
     @order_info = fetch_order_info
     return if order_info.blank?
@@ -11,32 +13,30 @@ class Shopee::SyncOrderInfoService
       sync_items!
     end
 
-    return order
+    order
   end
 
   private
 
-  attr_reader :channel
-  attr_reader :order_info
-  attr_reader :order
+  attr_reader :channel, :order_info, :order
 
   def access_params
     {
       shop_id: channel.shop_id,
-      access_token: channel.access_token,
+      access_token: channel.access_token
     }
   end
 
   def fetch_order_info
     Integrations::Shopee::Order.new(access_params)
-      .detail([order_number])
-      .first
+                               .detail([order_number])
+                               .first
   end
 
   def create_or_update_order!
     @order = Shopee::Order.find_or_initialize_by(
       shop_id: channel.shop_id,
-      number: order_info['order_sn'],
+      number: order_info['order_sn']
     )
     @order.assign_attributes(
       buyer_user_id: order_info['buyer_user_id'],
@@ -59,7 +59,7 @@ class Shopee::SyncOrderInfoService
         days_to_ship: order_info['days_to_ship'],
         payment_method: order_info['payment_method'],
         estimated_shipping_fee: order_info['estimated_shipping_fee'],
-        actual_shipping_fee: order_info['actual_shipping_fee'],
+        actual_shipping_fee: order_info['actual_shipping_fee']
       }
     )
     @order.save!
@@ -70,7 +70,7 @@ class Shopee::SyncOrderInfoService
     item_list.each do |item|
       order_item = order.order_items.find_or_initialize_by(
         shop_id: channel.shop_id,
-        code: item['order_item_id'],
+        code: item['order_item_id']
       )
       order_item.assign_attributes(
         item_code: item['item_id'],
@@ -81,11 +81,10 @@ class Shopee::SyncOrderInfoService
           quantity: item['model_quantity_purchased'],
           model_id: item['model_id'],
           model_name: item['model_name'],
-          image_url: item.dig('image_info', 'image_url'),
+          image_url: item.dig('image_info', 'image_url')
         }
       )
       order_item.save!
     end
   end
-
 end
