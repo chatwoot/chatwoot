@@ -100,6 +100,46 @@ describe Line::SendOnLineService do
         }.to_json
       end
 
+      let(:expect_message) do
+        {
+          type: 'flex',
+          altText: 'test',
+          contents: {
+            type: 'bubble',
+            body: {
+              type: 'box',
+              layout: 'vertical',
+              contents: [
+                {
+                  type: 'text',
+                  text: 'test'
+                },
+                {
+                  type: 'button',
+                  style: 'link',
+                  height: 'sm',
+                  action: {
+                    type: 'message',
+                    label: 'text 1',
+                    text: 'value 1'
+                  }
+                },
+                {
+                  type: 'button',
+                  style: 'link',
+                  height: 'sm',
+                  action: {
+                    type: 'message',
+                    label: 'text 2',
+                    text: 'value 2'
+                  }
+                }
+              ]
+            }
+          }
+        }
+      end
+
       it 'sends the message with input_select' do
         message = create(
           :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
@@ -109,43 +149,7 @@ describe Line::SendOnLineService do
 
         expect(line_client).to receive(:push_message).with(
           message.conversation.contact_inbox.source_id,
-          {
-            type: "flex",
-            altText: "test",
-            contents: {
-              type: "bubble",
-              body: {
-                type: "box",
-                layout: "vertical",
-                contents: [
-                  {
-                    type: "text",
-                    text: "test"
-                  },
-                  {
-                    type: "button",
-                    style: "link",
-                    height: "sm",
-                    action: {
-                      type: "message",
-                      label: "text 1",
-                      text: "value 1"
-                    }
-                  },
-                  {
-                    type: "button",
-                    style: "link",
-                    height: "sm",
-                    action: {
-                      type: "message",
-                      label: "text 2",
-                      text: "value 2"
-                    }
-                  }
-                ]
-              }
-            }
-          }
+          expect_message
         ).and_return(OpenStruct.new(code: '200', body: success_response))
 
         described_class.new(message: message).perform
