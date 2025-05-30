@@ -200,17 +200,6 @@ class Message < ApplicationRecord
     true
   end
 
-  def save_story_info(story_info)
-    self.content_attributes = content_attributes.merge(
-      {
-        story_id: story_info['id'],
-        story_sender: inbox.channel.instagram_id,
-        story_url: story_info['url']
-      }
-    )
-    save!
-  end
-
   def valid_first_reply?
     return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
@@ -220,6 +209,17 @@ class Message < ApplicationRecord
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
     true
+  end
+
+  def save_story_info(story_info)
+    self.content_attributes = content_attributes.merge(
+      {
+        story_id: story_info['id'],
+        story_sender: inbox.channel.instagram_id,
+        story_url: story_info['url']
+      }
+    )
+    save!
   end
 
   private
