@@ -184,16 +184,22 @@ class Message < ApplicationRecord
 
   # Method to get content with survey URL for external channel delivery
   def channel_content
-    return content unless input_csat? && !inbox.web_widget?
+    return content unless should_append_survey_link?
 
-    survey_link = survey_url.presence || "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+    survey_link = survey_url.presence || default_survey_url
+    custom_message = inbox.csat_config&.dig('message')
 
-    # Use CSAT config message if available, otherwise use I18n constant (which already includes the link)
-    if inbox.csat_config&.dig('message').present?
-      "#{inbox.csat_config['message']} #{survey_link}"
-    else
-      I18n.t('conversations.survey.response', link: survey_link)
-    end
+    custom_message.present? ? "#{custom_message} #{survey_link}" : I18n.t('conversations.survey.response', link: survey_link)
+  end
+
+  private
+
+  def should_append_survey_link?
+    input_csat? && !inbox.web_widget?
+  end
+
+  def default_survey_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
   end
 
   def email_notifiable_message?
@@ -203,8 +209,6 @@ class Message < ApplicationRecord
 
     true
   end
-
-  private
 
   def valid_first_reply?
     return false unless human_response? && !private?
