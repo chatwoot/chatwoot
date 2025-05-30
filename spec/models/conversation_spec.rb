@@ -847,6 +847,7 @@ RSpec.describe Conversation do
     end
 
     it 'triggers CSAT survey when conversation status changes to resolved' do
+      conversation.inbox.update!(csat_survey_enabled: true)
       conversation.update!(status: :resolved)
 
       expect(CsatSurveyService).to have_received(:new).with(conversation: conversation)
@@ -862,6 +863,14 @@ RSpec.describe Conversation do
 
     it 'does not trigger CSAT survey when other attributes change' do
       conversation.update!(priority: :high)
+
+      expect(CsatSurveyService).not_to have_received(:new)
+      expect(csat_service).not_to have_received(:perform)
+    end
+
+    it 'does not trigger CSAT survey when CSAT is not enabled' do
+      conversation.inbox.update!(csat_survey_enabled: false)
+      conversation.update!(status: :resolved)
 
       expect(CsatSurveyService).not_to have_received(:new)
       expect(csat_service).not_to have_received(:perform)

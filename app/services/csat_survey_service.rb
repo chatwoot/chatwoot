@@ -5,9 +5,9 @@ class CsatSurveyService
     return unless should_send_csat_survey?
 
     if within_messaging_window?
-      send_csat_survey
+      ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
     else
-      log_csat_not_sent_activity
+      conversation.create_csat_not_sent_activity_message
     end
   end
 
@@ -33,13 +33,5 @@ class CsatSurveyService
 
   def within_messaging_window?
     conversation.can_reply?
-  end
-
-  def send_csat_survey
-    ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
-  end
-
-  def log_csat_not_sent_activity
-    conversation.create_csat_not_sent_activity_message
   end
 end
