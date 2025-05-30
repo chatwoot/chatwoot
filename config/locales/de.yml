@@ -171,8 +171,6 @@ de:
         removed: '%{user_name} hat %{labels} entfernt'
       sla:
         added: '%{user_name} hat SLA-Richtlinie %{sla_name} hinzugefügt'
-      csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} hat SLA-Richtlinie %{sla_name} entfernt'
       muted: '%{user_name} hat das Gespräch stumm geschaltet'
       unmuted: '%{user_name} hat das Gespräch laut gestellt'
