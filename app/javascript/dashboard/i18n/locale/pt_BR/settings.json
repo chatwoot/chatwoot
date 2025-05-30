@@ -78,10 +78,10 @@
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
         "COPY": "Copiar",
         "RESET": "Reiniciar",
-        "CONFIRM_RESET": "Are you sure?",
-        "CONFIRM_HINT": "Click again to confirm",
-        "RESET_SUCCESS": "Access token regenerated successfully",
-        "RESET_ERROR": "Unable to regenerate access token. Please try again"
+        "CONFIRM_RESET": "Você tem certeza?",
+        "CONFIRM_HINT": "Clique novamente para confirmar",
+        "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+        "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de áudio",
