@@ -171,8 +171,6 @@
         removed: '%{user_name} fjernet %{labels}'
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
-      csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
         removed: '%{user_name} removed SLA policy %{sla_name}'
       muted: '%{user_name} har dempet samtalen'
       unmuted: '%{user_name} har opphevet dempingen av samtalen'
