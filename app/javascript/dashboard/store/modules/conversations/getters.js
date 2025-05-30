@@ -1,6 +1,7 @@
 import { MESSAGE_TYPE } from 'shared/constants/messages';
 import { applyPageFilters, applyRoleFilter, sortComparator } from './helpers';
 import filterQueryGenerator from 'dashboard/helper/filterQueryGenerator';
+import { matchesFilters } from './helpers/filterHelpers';
 import {
   getUserPermissions,
   getUserRole,
@@ -18,7 +19,7 @@ const getters = {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
   getFilteredConversations: (
-    { allConversations, chatSortFilter },
+    { allConversations, chatSortFilter, appliedFilters },
     _,
     __,
     rootGetters
@@ -32,12 +33,15 @@ const getters = {
 
     return allConversations
       .filter(conversation => {
-        return applyRoleFilter(
+        const allowFilters = matchesFilters(conversation, appliedFilters);
+        const allowRole = applyRoleFilter(
           conversation,
           userRole,
           permissions,
           currentUserId
         );
+
+        return allowFilters && allowRole;
       })
       .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
