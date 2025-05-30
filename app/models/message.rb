@@ -184,7 +184,7 @@ class Message < ApplicationRecord
 
   # Method to get content with survey URL for external channel delivery
   def channel_content
-    return content unless input_csat_non_web_widget?
+    return content unless input_csat? && !inbox.web_widget?
 
     survey_link = survey_url.presence || "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
 
@@ -205,10 +205,6 @@ class Message < ApplicationRecord
   end
 
   private
-
-  def input_csat_non_web_widget?
-    input_csat? && !inbox.web_widget?
-  end
 
   def valid_first_reply?
     return false unless human_response? && !private?
