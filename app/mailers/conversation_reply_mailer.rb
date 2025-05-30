@@ -39,7 +39,7 @@ class ConversationReplyMailer < ApplicationMailer
     init_conversation_attributes(message.conversation)
     @message = message
     reply_mail_object = prepare_mail(true)
-    message.update(source_id: reply_mail_object.message_id)
+    message.update!(source_id: reply_mail_object.message_id)
   end
 
   def conversation_transcript(conversation, to_email)
@@ -76,8 +76,8 @@ class ConversationReplyMailer < ApplicationMailer
 
   def conversation_already_viewed?
     # whether contact already saw the message on widget
-    return unless @conversation.contact_last_seen_at
-    return unless last_outgoing_message&.created_at
+    return false unless @conversation.contact_last_seen_at
+    return false unless last_outgoing_message&.created_at
 
     @conversation.contact_last_seen_at > last_outgoing_message&.created_at
   end

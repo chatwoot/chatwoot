@@ -687,6 +687,20 @@ RSpec.describe 'Conversations API', type: :request do
         expect(response).to have_http_status(:success)
         expect(conversation.reload.assignee_last_seen_at).not_to be_nil
       end
+
+      it 'dispatches messages.read event' do
+        freeze_time
+        conversation.update!(agent_last_seen_at: 1.hour.ago)
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          .with(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: conversation.agent_last_seen_at)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+      end
     end
   end
 
@@ -707,6 +721,19 @@ RSpec.describe 'Conversations API', type: :request do
       before do
         create(:inbox_member, user: agent, inbox: conversation.inbox)
         create(:message, conversation: conversation, account: account, inbox: conversation.inbox, content: 'Hello', message_type: 'incoming')
+      end
+
+      it 'dispatches conversation.unread event' do
+        freeze_time
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+          .with(Events::Types::CONVERSATION_UNREAD, Time.zone.now, conversation: conversation)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/unread",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
       end
 
       it 'updates last seen' do

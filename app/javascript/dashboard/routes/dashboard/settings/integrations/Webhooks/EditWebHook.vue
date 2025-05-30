@@ -53,6 +53,7 @@ export default {
       :value="value"
       :is-submitting="uiFlags.updatingItem"
       :submit-label="$t('INTEGRATION_SETTINGS.WEBHOOK.FORM.EDIT_SUBMIT')"
+      is-editing
       @submit="onSubmit"
       @cancel="onClose"
     />

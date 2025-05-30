@@ -160,15 +160,17 @@ class Inbox < ApplicationRecord
   end
 
   def callback_webhook_url
+    host = ENV.fetch('FRONTEND_URL', nil)
     case channel_type
     when 'Channel::TwilioSms'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/twilio/callback"
+      "#{host}/twilio/callback"
     when 'Channel::Sms'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
+      "#{host}/webhooks/sms/#{channel.phone_number.delete_prefix('+')}"
     when 'Channel::Line'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/line/#{channel.line_channel_id}"
+      "#{host}/webhooks/line/#{channel.line_channel_id}"
     when 'Channel::Whatsapp'
-      "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
+      host = ENV.fetch('INTERNAL_HOST_URL', nil) if channel.use_internal_host?
+      "#{host}/webhooks/whatsapp/#{channel.phone_number}"
     end
   end
 

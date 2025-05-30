@@ -50,7 +50,7 @@ RSpec.describe 'Enterprise Portal API', type: :request do
 
   describe 'POST /api/v1/accounts/:account_id/portals' do
     let(:portal_params) do
-      {  portal: {
+      { portal: {
         name: 'test_portal',
         slug: 'test_kbase',
         custom_domain: 'https://support.chatwoot.dev'

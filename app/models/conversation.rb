@@ -146,12 +146,12 @@ class Conversation < ApplicationRecord
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
     self.status = :open if pending? || snoozed?
-    save
+    save!
   end
 
   def toggle_priority(priority = nil)
     self.priority = priority.presence
-    save
+    save!
   end
 
   def bot_handoff!
@@ -277,8 +277,9 @@ class Conversation < ApplicationRecord
 
   def conversation_status_changed_to_open?
     return false unless open?
+
     # saved_change_to_status? method only works in case of update
-    return true if previous_changes.key?(:id) || saved_change_to_status?
+    true if previous_changes.key?(:id) || saved_change_to_status?
   end
 
   def create_label_change(user_name)

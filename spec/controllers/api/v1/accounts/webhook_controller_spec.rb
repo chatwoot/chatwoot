@@ -1,9 +1,10 @@
 require 'rails_helper'
 
 RSpec.describe 'Webhooks API', type: :request do
+  let(:url) { 'https://hello.com' }
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:webhook) { create(:webhook, account: account, inbox: inbox, url: 'https://hello.com') }
+  let(:webhook) { create(:webhook, account: account, inbox: inbox, url: url, name: 'My Webhook') }
   let(:administrator) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
 
@@ -47,6 +48,16 @@ RSpec.describe 'Webhooks API', type: :request do
         expect(response).to have_http_status(:success)
 
         expect(response.parsed_body['payload']['webhook']['url']).to eql 'https://hello.com'
+      end
+
+      it 'creates webhook with name' do
+        post "/api/v1/accounts/#{account.id}/webhooks",
+             params: { account_id: account.id, inbox_id: inbox.id, url: 'https://hello.com', name: 'My Webhook' },
+             headers: administrator.create_new_auth_token,
+             as: :json
+        expect(response).to have_http_status(:success)
+
+        expect(response.parsed_body['payload']['webhook']['name']).to eql 'My Webhook'
       end
 
       it 'throws error when invalid url provided' do
@@ -103,11 +114,23 @@ RSpec.describe 'Webhooks API', type: :request do
     context 'when it is an authenticated admin user' do
       it 'updates webhook' do
         put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
-            params: { url: 'https://hello.com' },
+            params: { name: 'Another Webhook' },
             headers: administrator.create_new_auth_token,
             as: :json
         expect(response).to have_http_status(:success)
-        expect(response.parsed_body['payload']['webhook']['url']).to eql 'https://hello.com'
+        expect(response.parsed_body['payload']['webhook']['name']).to eql 'Another Webhook'
+      end
+
+      it 'ignores trying to update inbox_id and url' do
+        new_inbox = create(:inbox, account: account)
+
+        put "/api/v1/accounts/#{account.id}/webhooks/#{webhook.id}",
+            params: { url: 'https://other.url.com', inbox_id: new_inbox.id },
+            headers: administrator.create_new_auth_token,
+            as: :json
+        expect(response).to have_http_status(:success)
+        expect(response.parsed_body['payload']['webhook']['url']).to eql url
+        expect(response.parsed_body['payload']['webhook']['inbox']['id']).to eql inbox.id
       end
     end
   end

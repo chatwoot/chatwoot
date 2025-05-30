@@ -1,4 +1,5 @@
 name: Run Chatwoot CE spec
+
 on:
   workflow_dispatch:
 

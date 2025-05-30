@@ -125,6 +125,8 @@ RSpec.describe Attachment do
 
       it 'preserves meta data with file attachments' do
         expect(image_attachment.meta['description']).to eq('Test image')
+        expect(image_attachment.file.filename.to_s).to eq('avatar.png')
+        expect(image_attachment.file.content_type).to eq('image/png')
       end
     end
   end

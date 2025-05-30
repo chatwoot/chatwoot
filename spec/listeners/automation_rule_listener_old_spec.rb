@@ -331,7 +331,7 @@ describe AutomationRuleListener do
             }.with_indifferent_access
           ]
         )
-        conversation.update(status: :snoozed)
+        conversation.update!(status: :snoozed)
       end
 
       let!(:event) do
@@ -351,7 +351,7 @@ describe AutomationRuleListener do
         end
 
         it 'triggers automation rule to assign team with OR operator' do
-          conversation.update(status: :open)
+          conversation.update!(status: :open)
           automation_rule.update!(
             conditions: [
               {
@@ -380,7 +380,7 @@ describe AutomationRuleListener do
 
       context 'when rule doesnt match' do
         it 'when automation rule is triggered it will not assign team' do
-          conversation.update(status: :open)
+          conversation.update!(status: :open)
 
           expect(conversation.team_id).not_to eq(team.id)
 
@@ -391,7 +391,7 @@ describe AutomationRuleListener do
         end
 
         it 'when automation rule is triggers, it will not assign team on attribute_changed values' do
-          conversation.update(status: :snoozed)
+          conversation.update!(status: :snoozed)
           event = Events::Base.new('conversation_updated', Time.zone.now, { conversation: conversation,
                                                                             changed_attributes: { company: %w[Marvel DC] } })
 
