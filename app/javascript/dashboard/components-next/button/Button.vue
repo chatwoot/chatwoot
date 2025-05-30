@@ -33,6 +33,10 @@ const props = defineProps({
     default: null,
     validator: value => JUSTIFY_OPTIONS.includes(value) || value === null,
   },
+  type: {
+    type: String,
+    default: 'button',
+  },
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },
@@ -226,6 +230,7 @@ const linkButtonClasses = computed(() => {
 <template>
   <button
     v-bind="filteredAttrs"
+    :type="type"
     :class="{
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
