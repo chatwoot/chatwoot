@@ -1,140 +1,222 @@
-<img src="./.github/screenshots/header.png#gh-light-mode-only" width="100%" alt="Header light mode"/>
-<img src="./.github/screenshots/header-dark.png#gh-dark-mode-only" width="100%" alt="Header dark mode"/>
+# Project Setup Guide
 
-___
-
-# Chatwoot
-
-The modern customer support platform, an open-source alternative to Intercom, Zendesk, Salesforce Service Cloud etc.
-
-<p>
-  <a href="https://codeclimate.com/github/chatwoot/chatwoot/maintainability"><img src="https://api.codeclimate.com/v1/badges/e6e3f66332c91e5a4c0c/maintainability" alt="Maintainability"></a>
-  <img src="https://img.shields.io/circleci/build/github/chatwoot/chatwoot" alt="CircleCI Badge">
-    <a href="https://hub.docker.com/r/chatwoot/chatwoot/"><img src="https://img.shields.io/docker/pulls/chatwoot/chatwoot" alt="Docker Pull Badge"></a>
-  <a href="https://hub.docker.com/r/chatwoot/chatwoot/"><img src="https://img.shields.io/docker/cloud/build/chatwoot/chatwoot" alt="Docker Build Badge"></a>
-  <img src="https://img.shields.io/github/commit-activity/m/chatwoot/chatwoot" alt="Commits-per-month">
-  <a title="Crowdin" target="_self" href="https://chatwoot.crowdin.com/chatwoot"><img src="https://badges.crowdin.net/e/37ced7eba411064bd792feb3b7a28b16/localized.svg"></a>
-  <a href="https://discord.gg/cJXdrwS"><img src="https://img.shields.io/discord/647412545203994635" alt="Discord"></a>
-  <a href="https://status.chatwoot.com"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchatwoot%2Fstatus%2Fmaster%2Fapi%2Fchatwoot%2Fuptime.json" alt="uptime"></a>
-  <a href="https://status.chatwoot.com"><img src="https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fchatwoot%2Fstatus%2Fmaster%2Fapi%2Fchatwoot%2Fresponse-time.json" alt="response time"></a>
-  <a href="https://artifacthub.io/packages/helm/chatwoot/chatwoot"><img src="https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/artifact-hub" alt="Artifact HUB"></a>
-</p>
-
-
-<p>
-  <a href="https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master" alt="Deploy to Heroku">
-     <img width="150" alt="Deploy" src="https://www.herokucdn.com/deploy/button.svg"/>
-  </a>
-  <a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
-     <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
-  </a>
-</p>
-
-<img src="./.github/screenshots/dashboard.png#gh-light-mode-only" width="100%" alt="Chat dashboard dark mode"/>
-<img src="./.github/screenshots/dashboard-dark.png#gh-dark-mode-only" width="100%" alt="Chat dashboard"/>
+This guide walks you through setting up [Chatwoot](https://github.com/chatwoot/chatwoot) locally from scratch, assuming no prior experience. It covers installing all tools, setting up environments, running the app, and validating core functionality.
 
 ---
 
-Chatwoot is the modern, open-source, and self-hosted customer support platform designed to help businesses deliver exceptional customer support experience. Built for scale and flexibility, Chatwoot gives you full control over your customer data while providing powerful tools to manage conversations across channels.
+## 🔧 Prerequisites
 
-### ✨ Captain – AI Agent for Support
+Install the following in order:
 
-Supercharge your support with Captain, Chatwoot’s AI agent. Captain helps automate responses, handle common queries, and reduce agent workload—ensuring customers get instant, accurate answers. With Captain, your team can focus on complex conversations while routine questions are resolved automatically. Read more about Captain [here](https://chwt.app/captain-docs).
+### 1. **Homebrew (Mac only)**
+```bash
+/bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+```
 
-### 💬 Omnichannel Support Desk
+### 2. **Git**
+```bash
+brew install git
+```
 
-Chatwoot centralizes all customer conversations into one powerful inbox, no matter where your customers reach out from. It supports live chat on your website, email, Facebook, Instagram, Twitter, WhatsApp, Telegram, Line, SMS etc.
+### 3. **rbenv and Ruby (v3.4.4)**
 
-### 📚 Help center portal
+```bash
+brew install rbenv
+rbenv init
+```
 
-Publish help articles, FAQs, and guides through the built-in Help Center Portal. Enable customers to find answers on their own, reduce repetitive queries, and keep your support team focused on more complex issues.
+Follow terminal instructions to add `eval "$(rbenv init -)"` to your shell config (`~/.zshrc` or `~/.bashrc`), then:
 
-### 🗂️ Other features
+```bash
+rbenv install 3.4.4
+rbenv global 3.4.4
+ruby -v  # confirm version
+```
 
-#### Collaboration & Productivity
+### 4. **Bundler**
+```bash
+gem install bundler
+```
 
-- Private Notes and @mentions for internal team discussions.
-- Labels to organize and categorize conversations.
-- Keyboard Shortcuts and a Command Bar for quick navigation.
-- Canned Responses to reply faster to frequently asked questions.
-- Auto-Assignment to route conversations based on agent availability.
-- Multi-lingual Support to serve customers in multiple languages.
-- Custom Views and Filters for better inbox organization.
-- Business Hours and Auto-Responders to manage response expectations.
-- Teams and Automation tools for scaling support workflows.
-- Agent Capacity Management to balance workload across the team.
+---
 
-#### Customer Data & Segmentation
-- Contact Management with profiles and interaction history.
-- Contact Segments and Notes for targeted communication.
-- Campaigns to proactively engage customers.
-- Custom Attributes for storing additional customer data.
-- Pre-Chat Forms to collect user information before starting conversations.
+### 5. **PostgreSQL**
 
-#### Integrations
-- Slack Integration to manage conversations directly from Slack.
-- Dialogflow Integration for chatbot automation.
-- Dashboard Apps to embed internal tools within Chatwoot.
-- Shopify Integration to view and manage customer orders right within Chatwoot.
-- Use Google Translate to translate messages from your customers in realtime.
-- Create and manage Linear tickets within Chatwoot.
+```bash
+brew install postgresql
+brew services start postgresql
+```
 
-#### Reports & Insights
-- Live View of ongoing conversations for real-time monitoring.
-- Conversation, Agent, Inbox, Label, and Team Reports for operational visibility.
-- CSAT Reports to measure customer satisfaction.
-- Downloadable Reports for offline analysis and reporting.
+To create the user and database:
 
+```bash
+psql postgres
+# then inside psql
+CREATE ROLE chatwoot WITH LOGIN CREATEDB PASSWORD 'chatwoot';
+\q
+```
 
-## Documentation
+---
 
-Detailed documentation is available at [chatwoot.com/help-center](https://www.chatwoot.com/help-center).
+### 6. **Redis**
+```bash
+brew install redis
+brew services start redis
+```
 
-## Translation process
+Test Redis is working:
 
-The translation process for Chatwoot web and mobile app is managed at [https://translate.chatwoot.com](https://translate.chatwoot.com) using Crowdin. Please read the [translation guide](https://www.chatwoot.com/docs/contributing/translating-chatwoot-to-your-language) for contributing to Chatwoot.
+```bash
+redis-cli ping  # should return "PONG"
+```
 
-## Branching model
+---
 
-We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
-If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`.
+### 7. **Node.js (v20+)**
+```bash
+brew install node
+node -v
+```
 
-## Deployment
+---
 
-### Heroku one-click deploy
+### 8. **Yarn**
+```bash
+npm install -g yarn
+```
 
-Deploying Chatwoot to Heroku is a breeze. It's as simple as clicking this button:
+---
 
-[![Deploy](https://www.herokucdn.com/deploy/button.svg)](https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot/tree/master)
+### 9. **Overmind + Tmux**
+Overmind is used to run multiple services at once.
 
-Follow this [link](https://www.chatwoot.com/docs/environment-variables) to understand setting the correct environment variables for the app to work with all the features. There might be breakages if you do not set the relevant environment variables.
+```bash
+brew install tmux
+brew install overmind
+```
 
+---
 
-### DigitalOcean 1-Click Kubernetes deployment
+## 🚀 Project Setup (Backend + Frontend)
 
-Chatwoot now supports 1-Click deployment to DigitalOcean as a kubernetes app.
+### 1. **Clone your forked repository**
+```bash
+git clone https://github.com/YOUR_USERNAME/chatwoot.git
+cd chatwoot
+```
 
-<a href="https://marketplace.digitalocean.com/apps/chatwoot?refcode=f2238426a2a8" alt="Deploy to DigitalOcean">
-  <img width="200" alt="Deploy to DO" src="https://www.deploytodo.com/do-btn-blue.svg"/>
-</a>
+### 2. **Install Ruby dependencies**
+```bash
+bundle install
+```
 
-### Other deployment options
+### 3. **Environment variables**
+```bash
+cp .env.example .env
+```
 
-For other supported options, checkout our [deployment page](https://chatwoot.com/deploy).
+### 4. **Setup Database**
+```bash
+bin/rails db:setup
+bin/rails db:seed
+```
 
-## Security
+---
 
-Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
+### 5. **Install JS dependencies**
+```bash
+yarn install
+yarn add -D sass-embedded  # fixes Vite/SASS issue
+```
 
-## Community
+---
 
-If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
+## ▶️ Running the Application Locally
 
-## Contributors
+Run everything with one command:
 
-Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contributors):
+```bash
+overmind start -f Procfile.dev
+```
 
-<a href="https://github.com/chatwoot/chatwoot/graphs/contributors"><img src="https://opencollective.com/chatwoot/contributors.svg?width=890&button=false" /></a>
+This will:
+- Run the Rails backend on http://localhost:3000
+- Run Sidekiq background worker
+- Start the Vite frontend server at http://localhost:3036/vite-dev/
 
+---
 
-*Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
+## 🧪 Test Core Functionality (Manual Admin Setup)
+
+### Step 1: Launch Rails console
+```bash
+bundle exec rails c
+```
+
+### Step 2: Create a user and account
+```ruby
+user = User.create!(
+  name: 'Admin',
+  email: 'admin@example.com',
+  password: 'Password@123',
+  password_confirmation: 'Password@123',
+  confirmed_at: Time.now
+)
+
+Account.create!(name: 'My Account', users: [user])
+```
+
+Go to [http://localhost:3000](http://localhost:3000), login using the admin email/password, and you should now see the Chatwoot dashboard.
+
+---
+
+## ❗ Troubleshooting
+
+### Redis not running?
+```bash
+redis-cli ping  # no response?
+brew services start redis
+```
+
+### PostgreSQL issues?
+Make sure Postgres is running:
+```bash
+brew services start postgresql
+```
+
+Recheck DB config in `.env` and `config/database.yml`.
+
+### Vite not responding?
+```bash
+yarn vite
+```
+
+If errors, try reinstalling:
+```bash
+rm -rf node_modules yarn.lock .yarn
+yarn install
+```
+
+### Overmind command not found?
+```bash
+brew install overmind
+```
+
+### Can’t push to GitHub?
+Use a **Personal Access Token** (PAT) instead of password:
+```bash
+git remote set-url origin https://<YOUR_PAT>@github.com/Arbaz8888/chatwoot.git
+```
+
+Then push your branch:
+```bash
+git push -u origin setup-docs
+```
+
+---
+
+## ✅ You’re Done!
+
+At this point, the full app should be running and accessible. You can now begin development and PR workflows per assessment instructions.
+
+---
