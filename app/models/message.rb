@@ -192,6 +192,14 @@ class Message < ApplicationRecord
     custom_message.present? ? "#{custom_message} #{survey_link}" : I18n.t('conversations.survey.response', link: survey_link)
   end
 
+  def email_notifiable_message?
+    return false if private?
+    return false if %w[outgoing template].exclude?(message_type)
+    return false if template? && %w[input_csat text].exclude?(content_type)
+
+    true
+  end
+
   private
 
   def should_append_survey_link?
@@ -200,14 +208,6 @@ class Message < ApplicationRecord
 
   def default_survey_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
-  end
-
-  def email_notifiable_message?
-    return false if private?
-    return false if %w[outgoing template].exclude?(message_type)
-    return false if template? && %w[input_csat text].exclude?(content_type)
-
-    true
   end
 
   def valid_first_reply?
