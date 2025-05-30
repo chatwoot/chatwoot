@@ -24,6 +24,7 @@ describe CsatSurveyService do
         service.perform
 
         expect(MessageTemplates::Template::CsatSurvey).to have_received(:new).with(conversation: conversation)
+        expect(csat_template).to have_received(:perform)
       end
     end
 
