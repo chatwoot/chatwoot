@@ -124,6 +124,7 @@ const toggleAutoResolve = async () => {
   <SectionLayout
     :title="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.TITLE')"
     :description="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.NOTE')"
+    :hide-content="!isEnabled"
     with-border
   >
     <template #headerActions>
@@ -164,13 +165,13 @@ const toggleAutoResolve = async () => {
         <div
           class="rounded-xl border border-n-weak bg-n-solid-1 w-full text-sm text-n-slate-12 divide-y divide-n-weak"
         >
-          <div class="p-3 flex items-center justify-between">
+          <div class="p-3 h-12 flex items-center justify-between">
             <span>
               {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.LABEL') }}
             </span>
             <Switch v-model="ignoreWaiting" />
           </div>
-          <div class="p-3 flex items-center justify-between">
+          <div class="p-3 h-12 flex items-center justify-between">
             <span>
               {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.LABEL') }}
             </span>

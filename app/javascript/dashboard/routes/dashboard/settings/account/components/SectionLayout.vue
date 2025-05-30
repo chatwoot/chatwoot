@@ -12,13 +12,17 @@ defineProps({
     type: Boolean,
     default: false,
   },
+  hideContent: {
+    type: Boolean,
+    default: false,
+  },
 });
 </script>
 
 <template>
   <section
-    class="grid grid-cols-1 py-8 gap-8"
-    :class="{ 'border-t border-n-weak': withBorder }"
+    class="grid grid-cols-1 settings-section py-8"
+    :class="{ 'border-t border-n-weak': withBorder, 'gap-8': !hideContent }"
   >
     <header class="grid grid-cols-4">
       <div class="col-span-3">
@@ -33,8 +37,27 @@ defineProps({
         <slot name="headerActions" />
       </div>
     </header>
-    <div class="text-n-slate-12">
+    <div
+      class="content-transition text-n-slate-12"
+      :class="{ 'content-hidden': hideContent }"
+    >
       <slot />
     </div>
   </section>
 </template>
+
+<style scoped>
+.settings-section {
+  interpolate-size: allow-keywords;
+}
+
+.content-transition {
+  height: auto;
+  overflow: hidden;
+  transition: height 0.3s ease;
+}
+
+.content-transition.content-hidden {
+  height: 0;
+}
+</style>
