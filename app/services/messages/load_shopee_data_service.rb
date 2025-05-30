@@ -36,9 +36,11 @@ class Messages::LoadShopeeDataService
   end
 
   def item_list?
-    original_data['chat_product_infos'].present? ||
-      original_data['item_ids'].present? ||
-      original_data['item_id'].present?
+    @item_codes = original_data['item_ids'].to_a.pluck('item_id').presence
+    @item_codes ||= original_data['item_ids'].presence
+    @item_codes ||= [original_data['item_id'].presence].compact
+    @item_codes = @item_codes.map(&:to_s) if @item_codes.is_a?(Array)
+    @item_codes.present?
   end
 
   def loaded?
@@ -59,7 +61,7 @@ class Messages::LoadShopeeDataService
       shopeId: channel.shop_id,
       startTime: voucher.start_time,
       endTime: voucher.end_time,
-      meta: voucher.meta,
+      meta: voucher.meta
     }
   end
 
@@ -75,7 +77,7 @@ class Messages::LoadShopeeDataService
         itemSku: item.item_sku,
         itemName: item.item_name,
         price: item.price,
-        meta: item.meta,
+        meta: item.meta
       }
     end
     {
@@ -85,21 +87,31 @@ class Messages::LoadShopeeDataService
       shopeId: channel.shop_id,
       totalAmount: order.total_amount,
       meta: order.meta,
-      items: items,
+      items: items
     }
   end
 
   def items_data
-    channel.items.where(code: original_data['item_ids']).map do |item|
+    sync_missing_items
+    channel.items.where(code: @item_codes).map do |item|
       {
         shopId: channel.shop_id,
         code: item.code,
         sku: item.sku,
         name: item.name,
         status: item.status,
-        meta: item.meta,
+        meta: item.meta
       }
     end
   end
 
+  def sync_missing_items
+    missing_item_codes = channel.items.where(code: @item_codes).pluck(:code) - @item_codes
+    return if missing_item_codes.empty?
+
+    Shopee::SyncProductInfoJob.new.perform(
+      channel_id: channel.id,
+      shopee_item_ids: missing_item_codes
+    )
+  end
 end

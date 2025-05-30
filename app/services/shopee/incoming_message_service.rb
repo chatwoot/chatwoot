@@ -3,12 +3,11 @@
 
 class Shopee::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
+  VALID_MESSAGE_TYPES = %w[text sticker voucher item_list add_on_deal order product item faq_liveagent crm_item_list].freeze
 
   def perform
     load_attributes
-
     return if invalid_payload?
-    return unless event_type_message?
 
     set_contact
     set_conversation
@@ -27,11 +26,9 @@ class Shopee::IncomingMessageService
   end
 
   def invalid_payload?
-    message_id.blank? || conversation_id.blank?
-  end
-
-  def event_type_message?
-    payload[:message_type] == 'text'
+    message_id.blank? ||
+      conversation_id.blank? ||
+      VALID_MESSAGE_TYPES.exclude?(payload[:message_type])
   end
 
   def set_contact
@@ -95,3 +92,4 @@ class Shopee::IncomingMessageService
     }
   end
 end
+# Parameters: {"msg_id"=>"TWIaUnyUsNtynUBJAUCopNBMKGHQeOGk", "data"=>{"type"=>"notification", "region"=>"VN", "content"=>{"user_id"=>88053954, "conversation_id"=>"378188853022549813", "type"=>"mark_as_replied", "content"=>{"conversation_id"=>"378188853022549813", "conversation_filter_type"=>"unreplied"}, "timestamp"=>1748596320, "msg_id"=>0, "business_type"=>0, "from_id"=>0}}, "shop_id"=>88052476, "code"=>10, "timestamp"=>1748596320, "shopee"=>{"msg_id"=>"TWIaUnyUsNtynUBJAUCopNBMKGHQeOGk", "data"=>{"type"=>"notification", "region"=>"VN", "content"=>{"user_id"=>88053954, "conversation_id"=>"378188853022549813", "type"=>"mark_as_replied", "content"=>{"conversation_id"=>"378188853022549813", "conversation_filter_type"=>"unreplied"}, "timestamp"=>1748596320, "msg_id"=>0, "business_type"=>0, "from_id"=>0}}, "shop_id"=>88052476, "code"=>10, "timestamp"=>1748596320}}
