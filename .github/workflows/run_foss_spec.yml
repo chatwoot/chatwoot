@@ -1,6 +1,9 @@
 name: Run Chatwoot CE spec
 
 on:
+  push:
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:

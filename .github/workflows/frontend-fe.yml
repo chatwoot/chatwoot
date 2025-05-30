@@ -1,6 +1,9 @@
 name: Frontend Lint & Test
 
 on:
+  push:
+    tags:
+      - '*'
   workflow_dispatch:
 
 jobs:
