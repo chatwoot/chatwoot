@@ -177,9 +177,11 @@ const toggleAutoResolve = async () => {
             <SingleSelect
               v-model="labelToApply"
               :options="labelOptions"
-              :label="
+              :placeholder="
                 $t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.PLACEHOLDER')
               "
+              placeholder-icon="i-lucide-chevron-down"
+              placeholder-trailing-icon
               variant="faded"
               class="inline-flex shrink-0"
             />
