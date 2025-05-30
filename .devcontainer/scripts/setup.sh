@@ -5,10 +5,10 @@ sed -i -e '/SMTP_ADDRESS/ s/=.*/=localhost/' .env
 sed -i -e "/FRONTEND_URL/ s/=.*/=https:\/\/$CODESPACE_NAME-3000.app.github.dev/" .env
 
 # Setup Claude Code API key if available
-if [ -n "$ANTHROPIC_API_KEY" ]; then
+if [ -n "$CLAUDE_CODE_API_KEY" ]; then
   mkdir -p ~/.claude
   echo '{"apiKeyHelper": "~/.claude/anthropic_key.sh"}' > ~/.claude/settings.json
-  echo "echo \"$ANTHROPIC_API_KEY\"" > ~/.claude/anthropic_key.sh
+  echo "echo \"$CLAUDE_CODE_API_KEY\"" > ~/.claude/anthropic_key.sh
   chmod +x ~/.claude/anthropic_key.sh
 fi
 
