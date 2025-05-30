@@ -33,15 +33,18 @@ const getters = {
 
     return allConversations
       .filter(conversation => {
-        const allowFilters = matchesFilters(conversation, appliedFilters);
-        const allowRole = applyRoleFilter(
+        const matchesFilterResult = matchesFilters(
+          conversation,
+          appliedFilters
+        );
+        const allowedForRole = applyRoleFilter(
           conversation,
           userRole,
           permissions,
           currentUserId
         );
 
-        return allowFilters && allowRole;
+        return matchesFilterResult && allowedForRole;
       })
       .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
