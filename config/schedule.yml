@@ -32,3 +32,13 @@ remove_stale_redis_keys_job.rb:
   cron: '30 22 * * *'
   class: 'Internal::RemoveStaleRedisKeysJob'
   queue: scheduled_jobs
+
+notify_waiting_for_customer_reply_job:
+  cron: '*/2 * * * *'
+  class: 'NotifyWaitingForCustomerReplyJob'
+  queue: scheduled_jobs
+
+auto_resolve_idle_conversations_job:
+  cron: '*/2 * * * *'
+  class: 'AutoResolveIdleConversationsJob'
+  queue: scheduled_jobs

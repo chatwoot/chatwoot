@@ -1,23 +1,17 @@
 class AutoResolveIdleConversationsJob < ApplicationJob
   queue_as :default
 
-  REMINDER_MESSAGE = 'Apakah Anda masih bersama kami? Jika masih memerlukan bantuan, silakan balas pesan ini. Kami siap membantu Anda.'
   RESOLUTION_MESSAGE = 'Karena belum ada respon, sesi chat ini akan kami akhiri. Jika Anda membutuhkan bantuan di lain waktu, jangan ragu untuk menghubungi kami kembali. Terima kasih.'
 
   STATUS_OPEN = 1
   MESSAGE_TYPE_OUTGOING = 1
   CONTENT_TYPE_TEXT = 0
   SENDER_TYPE_USER = 'User'.freeze
+  SENDER_TYPE_AI_AGENT = 'AiAgent'.freeze
   MESSAGE_STATUS_SENT = 0
 
   def perform
     Rails.logger.info('[AutoResolveIdleConversationsJob] Starting job to process idle conversations')
-    process_conversations(
-      scope: conversations_to_remind,
-      action: :remind,
-      message: REMINDER_MESSAGE,
-      update_attrs: { is_reminded: true }
-    )
     process_conversations(
       scope: conversations_to_resolve,
       action: :resolve,
@@ -48,16 +42,6 @@ class AutoResolveIdleConversationsJob < ApplicationJob
     SQL
   end
 
-  def conversations_to_remind
-    Conversation
-      .unscope(:order)
-      .joins("INNER JOIN (#{latest_messages_sql}) AS latest_messages ON conversations.id = latest_messages.conversation_id")
-      .open
-      .where(is_reminded: false)
-      .where('conversations.updated_at < ?', threshold_time)
-      .where(latest_messages: { message_type: Message.message_types[:outgoing] })
-  end
-
   def conversations_to_resolve
     Conversation
       .unscope(:order)
@@ -66,6 +50,7 @@ class AutoResolveIdleConversationsJob < ApplicationJob
       .where(is_reminded: true)
       .where('conversations.updated_at < ?', threshold_time)
       .where(latest_messages: { message_type: Message.message_types[:outgoing] })
+      .where(latest_messages: { sender_type: [SENDER_TYPE_USER, SENDER_TYPE_AI_AGENT] })
   end
 
   def create_message(conversation, content)
