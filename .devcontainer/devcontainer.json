@@ -4,7 +4,18 @@
   "dockerComposeFile": "docker-compose.yml",
 
   "settings": {
-    "terminal.integrated.shell.linux": "/bin/zsh"
+    "terminal.integrated.shell.linux": "/bin/zsh",
+    "extensions.showRecommendationsOnlyOnDemand": true,
+    "editor.formatOnSave": true,
+    "files.trimTrailingWhitespace": true,
+    "files.insertFinalNewline": true,
+    "search.exclude": {
+      "**/node_modules": true,
+      "**/tmp": true,
+      "**/log": true,
+      "**/coverage": true,
+      "**/public/packs": true
+    }
   },
 
 
