@@ -71,15 +71,15 @@ watch(
 const updateAccountSettings = async settings => {
   try {
     await updateAccount(settings);
-    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.API.SUCCESS'));
+    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.API.SUCCESS'));
   } catch (error) {
-    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.API.ERROR'));
+    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.API.ERROR'));
   }
 };
 
 const handleSubmit = async () => {
   if (duration.value < 10) {
-    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.ERROR'));
+    useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.ERROR'));
     return Promise.resolve();
   }
 
@@ -124,8 +124,8 @@ const toggleAutoResolve = async () => {
 
     <form class="grid gap-5" @submit.prevent="handleSubmit">
       <WithLabel
-        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.LABEL')"
-        :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.HELP')"
+        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.LABEL')"
+        :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.HELP')"
       >
         <div class="gap-2 w-full grid grid-cols-[3fr_1fr]">
           <!-- allow 10 mins to 999 days -->
@@ -139,25 +139,23 @@ const toggleAutoResolve = async () => {
         </div>
       </WithLabel>
       <WithLabel
-        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_LABEL')"
-        :help-message="
-          t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_HELP')
-        "
+        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.LABEL')"
+        :help-message="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.HELP')"
       >
         <TextArea
           v-model="message"
           class="w-full"
           :placeholder="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.MESSAGE_PLACEHOLDER')
+            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.MESSAGE.PLACEHOLDER')
           "
         />
       </WithLabel>
       <div class="grid grid-cols-5">
         <WithLabel
           class="col-span-3"
-          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.TITLE')"
+          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.LABEL')"
           :help-message="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.DESCRIPTION')
+            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.DESCRIPTION')
           "
         />
 
@@ -165,13 +163,13 @@ const toggleAutoResolve = async () => {
           <FilterSelect
             v-model="labelToApply"
             :options="labelOptions"
-            :label="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.PLACEHOLDER')"
+            :label="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.PLACEHOLDER')"
             variant="faded"
             class="inline-flex shrink-0"
           />
           <NextButton
             v-if="labelToApply"
-            v-tooltip="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_LABEL.REMOVE')"
+            v-tooltip="$t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.LABEL.REMOVE')"
             type="button"
             faded
             sm
@@ -182,22 +180,20 @@ const toggleAutoResolve = async () => {
         </div>
       </div>
       <WithLabel
-        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.LABEL')"
+        :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.LABEL')"
       >
         <template #rightOfLabel>
           <Switch v-model="ignoreWaiting" />
         </template>
         <p class="text-sm ml-px text-n-slate-10 max-w-lg">
-          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_IGNORE_WAITING.HELP') }}
+          {{ t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.IGNORE_WAITING.HELP') }}
         </p>
       </WithLabel>
       <div class="flex gap-2">
         <NextButton
           blue
           type="submit"
-          :label="
-            t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE_DURATION.UPDATE_BUTTON')
-          "
+          :label="t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.UPDATE_BUTTON')"
         />
       </div>
     </form>
