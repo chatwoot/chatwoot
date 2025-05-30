@@ -63,8 +63,8 @@
       "TITLE": "Token de acesso",
       "DESCRIPTION": "Copie o token de acesso e salve-o de forma segura",
       "COPY_SUCCESSFUL": "Token de acesso copiado para área de transferência",
-      "RESET_SUCCESS": "Access token regenerated successfully",
-      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+      "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+      "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
     },
     "FORM": {
       "AVATAR": {
