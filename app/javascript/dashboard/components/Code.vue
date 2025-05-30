@@ -86,6 +86,8 @@ const onCopy = async e => {
         @click="onCopy"
       />
     </div>
-    <highlightjs v-if="script" :language="lang" :code="scrubbedScript" />
+    <div class="max-h-[400px] overflow-auto ">
+      <highlightjs v-if="script" :language="lang" :code="scrubbedScript" />
+    </div>
   </div>
 </template>
