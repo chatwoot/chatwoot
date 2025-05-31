@@ -137,4 +137,147 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 <a href="https://github.com/chatwoot/chatwoot/graphs/contributors"><img src="https://opencollective.com/chatwoot/contributors.svg?width=890&button=false" /></a>
 
 
+---
+
+## 🛠️ Local Development Setup
+
+This section explains how to run Chatwoot locally on macOS using a Ruby environment and PostgreSQL without Docker.
+
+### ✅ Prerequisites
+
+- Ruby 3.4.4 installed via `rbenv`
+- PostgreSQL installed and running (via Homebrew)
+- Redis installed and running
+- Node.js and Yarn installed
+- Foreman installed (`gem install foreman`)
+
+---
+
+### 🚀 Setup Instructions
+
+1. **Clone the repository:**
+   ```bash
+   git clone https://github.com/chatwoot/chatwoot.git
+   cd chatwoot
+   ```
+
+2. **Install dependencies:**
+   ```bash
+   bundle install
+   yarn install
+   ```
+
+3. **Set up environment variables:**
+
+   Create a `.env` file or export in terminal:
+   ```bash
+   export POSTGRES_HOST=localhost
+   export POSTGRES_USERNAME=postgres
+   export POSTGRES_PASSWORD=""
+   ```
+
+4. **Database setup:**
+   ```bash
+   bundle exec rails db:drop db:create db:setup
+   ```
+
+5. **(Optional) Seed data:**
+   If running `bundle exec rails db:seed` throws a `Validation failed: Email has already been taken` error, ignore it — data may already exist.
+
+6. **Start the application:**
+
+   In one terminal:
+   ```bash
+   bundle exec rails server
+   ```
+
+   In another terminal:
+   ```bash
+   bin/vite dev
+   ```
+
+7. **Visit the app:**
+   Open [http://localhost:3000](http://localhost:3000) in your browser.
+
+---
+
+### 🧪 Test Integration Locally with Chatwoot Website Widget
+
+To test that the widget integration works with your local setup:
+
+1. Create a **Website Channel** in the Chatwoot UI.
+2. Copy the generated `websiteToken`.
+3. Create a simple `index.html` page in a new folder (`ChatwootTesting` for example) with the following:
+
+```html
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Chatwoot Integration</title>
+</head>
+<body>
+  This is the home page
+  <script>
+    (function(d, t) {
+      var BASE_URL = "http://localhost:3000";
+      var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+      g.src = BASE_URL + "/packs/js/sdk.js";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g, s);
+      g.onload = function() {
+        window.chatwootSDK.run({
+          websiteToken: 'YOUR_WEBSITE_TOKEN',
+          baseUrl: BASE_URL
+        });
+      };
+    })(document, "script");
+  </script>
+</body>
+</html>
+```
+
+4. Replace `'YOUR_WEBSITE_TOKEN'` with the token from the Website Channel you created.
+5. Open the HTML file in a browser to confirm the widget loads.
+
+---
+
+### 🧩 Common Issues and Fixes
+
+- **PID Error:**
+  ```
+  A server is already running. Check tmp/pids/server.pid.
+  ```
+  ❖ Fix: Delete the file manually:
+  ```bash
+  rm tmp/pids/server.pid
+  ```
+
+- **Gem::FilePermissionError (bundler install fails):**
+  ❖ Fix: Use:
+  ```bash
+  gem install -n /usr/local/bin bundler:2.5.16
+  ```
+
+- **PostgreSQL connection errors:**
+  ❖ Make sure PostgreSQL is running:
+  ```bash
+  brew services start postgresql
+  ```
+
+- **Redis not connected:**
+  ❖ Start Redis:
+  ```bash
+  brew services start redis
+  ```
+
+- **Missing `vite.config.ts` changed to `vite.config.mts`:**
+  ❖ This is due to Vite + TypeScript update. You can safely stage and commit the `.mts` version.
+
+---
+
+Now your local Chatwoot instance should be fully functional 🎉
+
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
