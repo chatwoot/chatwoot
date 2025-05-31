@@ -138,3 +138,8 @@ Thanks goes to all these [wonderful people](https://www.chatwoot.com/docs/contri
 
 
 *Chatwoot* &copy; 2017-2025, Chatwoot Inc - Released under the MIT License.
+
+
+run this command to see the  changes->
+
+cd "/Users/kartikbhardwaj/Desktop/open source project _3/chatwoot" && pnpm test app/javascript/shared/components/specs/Button.spec.js
