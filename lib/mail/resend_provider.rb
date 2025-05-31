@@ -2,7 +2,7 @@ module Mail # rubocop:disable Style/ClassAndModuleChildren
   class ResendProvider
     class DeliveryError < StandardError; end
 
-    def initialize(_settings); end # rubocop:disable Style/RedundantInitialize
+    def initialize(_settings); end
 
     def deliver!(mail)
       Resend::Emails.send(

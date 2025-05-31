@@ -338,12 +338,14 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
       "SEND_MESSAGE": "Send message...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captain is thinking",
       "YOU": "You",
       "USE": "Use this",
       "RESET": "Reset",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Select Assistant",
       "PROMPTS": {
         "SUMMARIZE": {
@@ -376,7 +378,6 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
@@ -418,6 +419,10 @@
           "LABEL": "Name",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Description",
