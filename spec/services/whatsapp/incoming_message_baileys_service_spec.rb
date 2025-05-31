@@ -580,9 +580,10 @@ describe Whatsapp::IncomingMessageBaileysService do
 
     context 'when processing messages.update event' do
       let(:conversation) do
+        agent = create(:user, account: inbox.account, role: :agent)
         contact = create(:contact, account: inbox.account)
         contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact)
-        create(:conversation, inbox: inbox, contact_inbox: contact_inbox, assignee_id: contact.id)
+        create(:conversation, inbox: inbox, contact_inbox: contact_inbox, assignee_id: agent.id)
       end
       let!(:message) { create(:message, inbox: inbox, conversation: conversation, source_id: 'msg_123', status: 'sent') }
       let(:update_payload) { { key: { id: 'msg_123' }, update: { status: 3 } } }
