@@ -1,21 +1,49 @@
-class JsonbAttributesLengthValidator < ActiveModel::EachValidator
-  def validate_each(record, attribute, value)
-    return if value.empty?
+# frozen_string_literal: true
 
-    @attribute = attribute
-    @record = record
+class JsonbAttributesLengthValidator < ActiveModel::Validator
+  MAX_ATTRIBUTE_LENGTH = 1000
+  MAX_NESTED_DEPTH = 3
 
-    value.each do |key, attribute_value|
-      validate_keys(key, attribute_value)
+  def validate(record)
+    return unless record.content_attributes.present?
+
+    validate_structure(record)
+    validate_length(record)
+    validate_depth(record.content_attributes, 0, record)
+  end
+
+  private
+
+  def validate_structure(record)
+    allowed_sections = %w[conversation_context interaction_patterns resolution_context customer_satisfaction]
+    
+    record.content_attributes.each_key do |section|
+      unless allowed_sections.include?(section.to_s)
+        record.errors.add(:content_attributes, "Invalid section: #{section}")
+      end
     end
   end
 
-  def validate_keys(key, attribute_value)
-    case attribute_value.class.name
-    when 'String'
-      @record.errors.add @attribute, "#{key} length should be < 1500" if attribute_value.length > 1500
-    when 'Integer'
-      @record.errors.add @attribute, "#{key} value should be < 9999999999" if attribute_value > 9_999_999_999
+  def validate_length(record)
+    record.content_attributes.each do |section, data|
+      next unless data.is_a?(Hash)
+
+      data.each do |key, value|
+        if value.is_a?(String) && value.length > MAX_ATTRIBUTE_LENGTH
+          record.errors.add(:content_attributes, "#{section}.#{key} exceeds maximum length of #{MAX_ATTRIBUTE_LENGTH}")
+        end
+      end
+    end
+  end
+
+  def validate_depth(hash, current_depth, record)
+    if current_depth > MAX_NESTED_DEPTH
+      record.errors.add(:content_attributes, "Exceeds maximum nesting depth of #{MAX_NESTED_DEPTH}")
+      return
+    end
+
+    hash.each_value do |value|
+      validate_depth(value, current_depth + 1, record) if value.is_a?(Hash)
     end
   end
 end

@@ -59,10 +59,15 @@ class Conversation < ApplicationRecord
   include SortHandler
   include PushDataHelper
   include ConversationMuteHelpers
+  include Events::Types
+  include ConversationHelpers
+  include RoundRobinHandler
+  include NotificationSubscriptionHandler
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
   validates :contact_id, presence: true
+  validates_with JsonbAttributesLengthValidator
   before_validation :validate_additional_attributes
   validates :additional_attributes, jsonb_attributes_length: true
   validates :custom_attributes, jsonb_attributes_length: true
@@ -70,7 +75,7 @@ class Conversation < ApplicationRecord
   validate :validate_referer_url
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
-  enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
+  enum priority: { nil => nil, urgent: 1, high: 2, medium: 3, low: 4 }
 
   scope :unassigned, -> { where(assignee_id: nil) }
   scope :assigned, -> { where.not(assignee_id: nil) }
@@ -109,16 +114,26 @@ class Conversation < ApplicationRecord
   has_many :notifications, as: :primary_actor, dependent: :destroy_async
   has_many :attachments, through: :messages
   has_many :reporting_events, dependent: :destroy_async
+  has_many :labels, through: :conversation_labels, source: :label
+  has_many :conversation_labels, dependent: :destroy
+  has_many :notes, dependent: :destroy
 
   before_save :ensure_snooze_until_reset
   before_create :determine_conversation_status
   before_create :ensure_waiting_since
+  before_create :set_bot_conversation
+  before_save :set_priority_from_additional_attributes
 
   after_update_commit :execute_after_update_commit_callbacks
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
+  after_update_commit :auto_update_interaction_patterns, if: :should_update_interaction_patterns?
+  after_update_commit :run_after_update_commit_callbacks
 
   delegate :auto_resolve_after, to: :account
+
+  store :additional_attributes, accessors: [:browser_language, :referer, :initiated_at, :custom_attributes], coder: JSON
+  store :content_attributes, accessors: [:conversation_context, :interaction_patterns, :resolution_context, :customer_satisfaction], coder: JSON
 
   def can_reply?
     Conversations::MessageWindowService.new(self).can_reply?
@@ -193,6 +208,111 @@ class Conversation < ApplicationRecord
 
   def dispatch_conversation_updated_event(previous_changes = nil)
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
+  def auto_update_interaction_patterns
+    update_interaction_patterns
+    save! if changed?
+  end
+
+  def should_update_interaction_patterns?
+    saved_change_to_status? || saved_change_to_assignee_id? || saved_change_to_priority?
+  end
+
+  def update_interaction_patterns
+    patterns = {
+      messages_count: messages.count,
+      agent_response_time: calculate_avg_agent_response_time,
+      customer_response_time: calculate_avg_customer_response_time,
+      handoff_count: calculate_handoff_count,
+      last_activity_type: determine_last_activity_type
+    }
+    
+    set_content_attribute('interaction_patterns', patterns)
+  end
+
+  def calculate_avg_agent_response_time
+    agent_messages = messages.outgoing.joins(:sender).where(users: { account_users: { role: ['agent', 'administrator'] } })
+    return 0 if agent_messages.empty?
+
+    total_time = 0
+    count = 0
+
+    agent_messages.each do |message|
+      previous_customer_message = messages.incoming.where('created_at < ?', message.created_at).last
+      if previous_customer_message
+        response_time = message.created_at - previous_customer_message.created_at
+        total_time += response_time
+        count += 1
+      end
+    end
+
+    count > 0 ? (total_time / count).round(2) : 0
+  end
+
+  def calculate_avg_customer_response_time
+    customer_messages = messages.incoming
+    return 0 if customer_messages.empty?
+
+    total_time = 0
+    count = 0
+
+    customer_messages.each do |message|
+      previous_agent_message = messages.outgoing.where('created_at < ?', message.created_at).last
+      if previous_agent_message
+        response_time = message.created_at - previous_agent_message.created_at
+        total_time += response_time
+        count += 1
+      end
+    end
+
+    count > 0 ? (total_time / count).round(2) : 0
+  end
+
+  def calculate_handoff_count
+    # Count how many times the conversation was reassigned
+    return 0 unless respond_to?(:audits)
+    
+    audits.where(auditable_type: 'Conversation', action: 'update')
+          .where("audited_changes ? 'assignee_id'")
+          .count
+  rescue
+    0
+  end
+
+  def determine_last_activity_type
+    last_message = messages.last
+    return nil unless last_message
+
+    case last_message.message_type
+    when 'incoming'
+      'customer_message'
+    when 'outgoing'
+      'agent_message'
+    else
+      'system_activity'
+    end
+  end
+
+  def set_content_attribute(key, value)
+    self.content_attributes = {} if content_attributes.nil?
+    self.content_attributes = content_attributes.merge(key => value)
+  end
+
+  def get_content_attribute(key)
+    content_attributes&.dig(key)
+  end
+
+  def track_conversation_context(context_data)
+    set_content_attribute('conversation_context', context_data)
+  end
+
+  def set_resolution_context(resolution_data)
+    set_content_attribute('resolution_context', resolution_data)
+  end
+
+  def set_customer_satisfaction(satisfaction_data)
+    set_content_attribute('customer_satisfaction', satisfaction_data)
   end
 
   private
@@ -297,6 +417,14 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def set_bot_conversation
+    self.status = :pending if inbox.active_bot?
+  end
+
+  def set_priority_from_additional_attributes
+    self.priority = additional_attributes['priority'].presence
   end
 
   # creating db triggers

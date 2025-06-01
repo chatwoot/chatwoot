@@ -2,6 +2,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   include Events::Types
   include DateRangeHelper
   include HmacConcern
+  include Api::V1::InboxesHelper
 
   before_action :conversation, except: [:index, :meta, :search, :create, :filter]
   before_action :inbox, :contact, :contact_inbox, only: [:create]
@@ -38,8 +39,11 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def create
     ActiveRecord::Base.transaction do
-      @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
-      Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
+      @conversation = ::ConversationBuilder.new(
+        params: permitted_params.except(:contact_id),
+        contact_inbox: @contact_inbox,
+        user: current_user
+      ).perform
     end
   end
 
@@ -76,52 +80,59 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def toggle_status
-    # FIXME: move this logic into a service object
-    if pending_to_open_by_bot?
-      @conversation.bot_handoff!
-    elsif params[:status].present?
-      set_conversation_status
-      @status = @conversation.save!
-    else
-      @status = @conversation.toggle_status
-    end
-    assign_conversation if should_assign_conversation?
-  end
-
-  def pending_to_open_by_bot?
-    return false unless Current.user.is_a?(AgentBot)
-
-    @conversation.status == 'pending' && params[:status] == 'open'
-  end
-
-  def should_assign_conversation?
-    @conversation.status == 'open' && Current.user.is_a?(User) && Current.user&.agent?
-  end
-
-  def toggle_priority
-    @conversation.toggle_priority(params[:priority])
-    head :ok
+    @conversation.toggle_status
+    @status = @conversation.reload.status
   end
 
   def toggle_typing_status
-    typing_status_manager = ::Conversations::TypingStatusManager.new(@conversation, current_user, params)
-    typing_status_manager.toggle_typing_status
+    case params[:typing_status]
+    when 'on'
+      trigger_typing_event(CONVERSATION_TYPING_ON)
+    when 'off'
+      trigger_typing_event(CONVERSATION_TYPING_OFF)
+    end
+
     head :ok
   end
 
   def update_last_seen
-    update_last_seen_on_conversation(DateTime.now.utc, assignee?)
+    @conversation.agent_last_seen_at = parsed_last_seen_at
+    @conversation.save!
+    head :ok
   end
 
   def unread
-    last_incoming_message = @conversation.messages.incoming.last
-    last_seen_at = last_incoming_message.created_at - 1.second if last_incoming_message.present?
-    update_last_seen_on_conversation(last_seen_at, true)
+    @conversation.unread!
+    head :ok
   end
 
   def custom_attributes
-    @conversation.custom_attributes = params.permit(custom_attributes: {})[:custom_attributes]
+    @conversation.custom_attributes = params[:custom_attributes]
     @conversation.save!
+  end
+
+  def content_attributes
+    @conversation.content_attributes = permitted_content_attributes
+    @conversation.save!
+    render json: @conversation.content_attributes
+  end
+
+  def update_content_attributes
+    case params[:section]
+    when 'conversation_context'
+      @conversation.track_conversation_context(params[:data])
+    when 'resolution_context'
+      @conversation.set_resolution_context(params[:data])
+    when 'customer_satisfaction'
+      @conversation.set_customer_satisfaction(params[:data])
+    when 'interaction_patterns'
+      @conversation.update_interaction_patterns
+    else
+      @conversation.content_attributes = @conversation.content_attributes.merge(params[:section] => params[:data])
+    end
+    
+    @conversation.save!
+    render json: @conversation.content_attributes
   end
 
   private
@@ -135,21 +146,9 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     params.permit(:page)
   end
 
-  def update_last_seen_on_conversation(last_seen_at, update_assignee)
-    # rubocop:disable Rails/SkipsModelValidations
-    @conversation.update_column(:agent_last_seen_at, last_seen_at)
-    @conversation.update_column(:assignee_last_seen_at, last_seen_at) if update_assignee.present?
-    # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def set_conversation_status
-    @conversation.status = params[:status]
-    @conversation.snoozed_until = parse_date_time(params[:snoozed_until].to_s) if params[:snoozed_until]
-  end
-
-  def assign_conversation
-    @conversation.assignee = current_user
-    @conversation.save!
+  def trigger_typing_event(event)
+    user = current_user.presence || @resource
+    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user)
   end
 
   def conversation
@@ -194,11 +193,24 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def conversation_finder
-    @conversation_finder ||= ConversationFinder.new(Current.user, params)
+    @conversation_finder ||= ConversationFinder.new(current_user, params.permit(ConversationFinder::ALLOWED_PARAMS))
   end
 
-  def assignee?
-    @conversation.assignee_id? && Current.user == @conversation.assignee
+  def permitted_params
+    params.permit(
+      :account_id, :inbox_id, :contact_id, :assignee_id, :team_id,
+      :additional_attributes, :status, :priority, :snoozed_until, :content_attributes,
+      message: [:content, :message_type, :private, :content_type, { content_attributes: {} }, { attachments: [] }],
+      content_attributes: {}
+    )
+  end
+
+  def permitted_content_attributes
+    params.require(:content_attributes).permit!
+  end
+
+  def parsed_last_seen_at
+    DateTime.strptime(params[:agent_last_seen_at].to_s, '%s')
   end
 end
 

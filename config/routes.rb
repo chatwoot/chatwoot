@@ -126,6 +126,8 @@ Rails.application.routes.draw do
               post :update_last_seen
               post :unread
               post :custom_attributes
+              post :content_attributes
+              post :update_content_attributes
               get :attachments
               post :copilot
               get :inbox_assistant

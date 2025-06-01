@@ -40,6 +40,7 @@
 class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
+  include MessageHelpers
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -224,6 +225,13 @@ class Message < ApplicationRecord
     save!
   end
 
+  def update_conversation_interaction_patterns
+    return unless conversation
+
+    conversation.update_interaction_patterns
+    conversation.save! if conversation.changed?
+  end
+
   private
 
   def prevent_message_flooding
@@ -271,6 +279,7 @@ class Message < ApplicationRecord
     send_reply
     execute_message_template_hooks
     update_contact_activity
+    update_conversation_interaction_patterns
   end
 
   def update_contact_activity
