@@ -9,6 +9,7 @@ import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
+import ConversationContentAttributes from 'dashboard/components/widgets/conversation/ConversationContentAttributes.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
@@ -28,6 +29,7 @@ export default {
     ComposeConversation,
     SocialIcons,
     ContactMergeModal,
+    ConversationContentAttributes,
   },
   props: {
     contact: {
@@ -38,8 +40,13 @@ export default {
       type: Boolean,
       default: true,
     },
+    // Add conversation prop to show content attributes
+    conversation: {
+      type: Object,
+      default: null,
+    },
   },
-  emits: ['panelClose'],
+  emits: ['panelClose', 'reload-conversation'],
   setup() {
     const { isAdmin } = useAdmin();
     return {
@@ -89,6 +96,10 @@ export default {
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
+    },
+    // Check if we should show content attributes
+    shouldShowContentAttributes() {
+      return this.conversation && this.conversation.id;
     },
   },
   watch: {
@@ -170,6 +181,10 @@ export default {
     },
     openMergeModal() {
       this.showMergeModal = true;
+    },
+    // Handle content attributes reload
+    onReloadConversation() {
+      this.$emit('reload-conversation');
     },
   },
 };
@@ -259,6 +274,14 @@ export default {
           <SocialIcons :social-profiles="socialProfiles" />
         </div>
       </div>
+
+      <!-- Add Conversation Content Attributes Section -->
+      <ConversationContentAttributes 
+        v-if="shouldShowContentAttributes"
+        :conversation="conversation"
+        @reload-conversation="onReloadConversation"
+      />
+
       <div class="flex items-center w-full mt-0.5 gap-2">
         <ComposeConversation
           :contact-id="String(contact.id)"

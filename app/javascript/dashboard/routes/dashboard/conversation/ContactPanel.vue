@@ -19,6 +19,8 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from '../../../components/widgets/conversation/ShopifyOrdersList.vue';
+// Add our ContentAttributes component
+import ConversationContentAttributes from '../../../components/widgets/conversation/ConversationContentAttributes.vue';
 
 const props = defineProps({
   conversationId: {
@@ -112,6 +114,13 @@ onMounted(() => {
       :channel-type="channelType"
       @toggle-panel="onPanelToggle"
     />
+    
+    <!-- Add ContentAttributes section right after ContactInfo -->
+    <ConversationContentAttributes 
+      v-if="currentChat && currentChat.id"
+      :conversation="currentChat"
+    />
+    
     <div class="list-group pb-8">
       <Draggable
         :list="conversationSidebarItems"
