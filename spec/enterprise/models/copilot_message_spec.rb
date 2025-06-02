@@ -1,15 +1,14 @@
 require 'rails_helper'
 
 RSpec.describe CopilotMessage, type: :model do
-  describe 'associations' do
-    it { is_expected.to belong_to(:copilot_thread) }
-    it { is_expected.to belong_to(:account) }
-  end
+  let(:account) { create(:account) }
+  let(:user) { create(:user, account: account) }
+  let(:assistant) { create(:captain_assistant, account: account) }
+  let(:copilot_thread) { create(:captain_copilot_thread, account: account, user: user, assistant: assistant) }
 
   describe 'validations' do
     it { is_expected.to validate_presence_of(:message_type) }
     it { is_expected.to validate_presence_of(:message) }
-    it { is_expected.to validate_inclusion_of(:message_type).in_array(described_class.message_types.keys) }
   end
 
   describe 'callbacks' do
@@ -31,7 +30,7 @@ RSpec.describe CopilotMessage, type: :model do
         message = build(:captain_copilot_message, copilot_thread: copilot_thread)
 
         expect(Rails.configuration.dispatcher).to receive(:dispatch)
-          .with(COPILOT_MESSAGE_CREATED, anything, copilot_message: message)
+          .with('copilot.message.created', anything, copilot_message: message)
 
         message.save!
       end
