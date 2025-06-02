@@ -215,29 +215,36 @@ class Seeders::LargeDatasetSeeder
       # Create the conversation following the account_seeder approach
       conversation = nil
 
-      # Use ActiveRecord::Base.transaction to ensure data consistency
+      # Use ActiveRecord::Base.transaction and travel_to for realistic timing
       ActiveRecord::Base.transaction do
-        # Create the conversation
-        conversation = contact_inbox.conversations.new(
-          account: @account,
-          inbox: inbox,
-          contact: contact,
-          assignee: assignee,
-          team: team,
-          priority: priority,
-          created_at: created_at,
-          updated_at: created_at
-        )
+        travel_to(created_at) do
+          # Create the conversation
+          conversation = contact_inbox.conversations.new(
+            account: @account,
+            inbox: inbox,
+            contact: contact,
+            assignee: assignee,
+            team: team,
+            priority: priority,
+            created_at: created_at,
+            updated_at: created_at
+          )
 
-        # Save the conversation - skip validations to avoid callbacks
-        conversation.save(validate: false)
+          # Save the conversation with callbacks to trigger events
+          conversation.save!
 
-        # Add random labels (5-20 labels per conversation)
-        labels_to_add = @labels.sample(rand(5..20))
-        conversation.update_labels(labels_to_add.map(&:title))
+          # Add random labels (5-20 labels per conversation)
+          labels_to_add = @labels.sample(rand(5..20))
+          conversation.update_labels(labels_to_add.map(&:title))
 
-        # Create messages for the conversation
-        create_messages_for_conversation(conversation)
+          # Create messages for the conversation with realistic timing
+          create_messages_for_conversation(conversation)
+
+          # Randomly resolve some conversations (70% chance)
+          if rand < 0.7
+            resolve_conversation(conversation)
+          end
+        end
       end
 
       # Log progress
@@ -253,45 +260,66 @@ class Seeders::LargeDatasetSeeder
   def create_messages_for_conversation(conversation)
     # Generate a sequence of messages with alternating sender types
     message_count = rand(MESSAGES_PER_CONVERSATION..MESSAGES_PER_CONVERSATION + 5)
+    current_time = Time.current
 
     message_count.times do |i|
       # Determine if this is an incoming or outgoing message
       is_incoming = i.even? # Even indices are incoming, odd are outgoing
 
-      created_at = conversation.created_at + i.hours
+      # Add realistic delays between messages
+      if i > 0
+        delay = if is_incoming
+          # Customer response time: 1 minute to 4 hours
+          rand(1.minute..4.hours)
+        else
+          # Agent response time: 30 seconds to 2 hours (faster during business hours)
+          if business_hours_active?(current_time)
+            rand(30.seconds..30.minutes)
+          else
+            rand(1.hour..8.hours)
+          end
+        end
+        current_time += delay
+      end
 
-      if is_incoming
-        # Create incoming message from contact
-        conversation.messages.create!(
-          account: @account,
-          inbox: conversation.inbox,
-          message_type: :incoming,
-          content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
-          sender: conversation.contact,
-          created_at: created_at,
-          updated_at: created_at
-        )
-      else
-        # Create outgoing message from agent
-        sender = conversation.assignee || @agents.sample
-        conversation.messages.create!(
-          account: @account,
-          inbox: conversation.inbox,
-          message_type: :outgoing,
-          content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
-          sender: sender,
-          created_at: created_at,
-          updated_at: created_at
-        )
+      travel_to(current_time) do
+        if is_incoming
+          # Create incoming message from contact
+          conversation.messages.create!(
+            account: @account,
+            inbox: conversation.inbox,
+            message_type: :incoming,
+            content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
+            sender: conversation.contact
+          )
+        else
+          # Create outgoing message from agent
+          sender = conversation.assignee || @agents.sample
+          conversation.messages.create!(
+            account: @account,
+            inbox: conversation.inbox,
+            message_type: :outgoing,
+            content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
+            sender: sender
+          )
+        end
       end
     end
+  end
 
-    # Update conversation timestamps to match the last message
-    last_message_time = conversation.messages.maximum(:created_at)
-    conversation.update_columns(
-      last_activity_at: last_message_time,
-      updated_at: last_message_time
-    )
+  def resolve_conversation(conversation)
+    # Add some time before resolving (30 minutes to 24 hours after last message)
+    resolution_delay = rand(30.minutes..24.hours)
+    travel(resolution_delay) do
+      conversation.update!(status: :resolved)
+    end
+  end
+
+  def business_hours_active?(time)
+    # Simple business hours check: Monday-Friday, 9 AM - 6 PM
+    weekday = time.wday
+    hour = time.hour
+    weekday.between?(1, 5) && hour.between?(9, 17)
   end
 end
 # rubocop:enable all
