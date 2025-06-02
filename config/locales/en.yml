@@ -48,6 +48,11 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    oauth:
+      insufficient_scopes: 'Insufficient permissions granted. Missing scopes: %{scopes}'
+      authorization_failed: 'Authorization failed for %{provider}'
+      token_exchange_failed: 'Failed to exchange authorization code for %{provider}'
+      invalid_state: 'Invalid or missing state parameter'
     data_import:
       data_type:
         invalid: Invalid data type
