@@ -1,3 +1,26 @@
+# frozen_string_literal: true
+
+# Reports Data Seeder
+#
+# Generates realistic test data for performance testing of reports and analytics.
+# Creates conversations, messages, contacts, agents, teams, and labels with proper
+# reporting events (first response times, resolution times, etc.) using time travel
+# to generate historical data with realistic timestamps.
+#
+# Usage:
+#   ACCOUNT_ID=1 ENABLE_ACCOUNT_SEEDING=true bundle exec rake db:seed:reports_data
+#
+# This will create:
+#   - 1000 conversations with realistic message exchanges
+#   - 100 contacts with realistic profiles
+#   - 20 agents assigned to teams and inboxes
+#   - 5 teams with realistic distribution
+#   - 30 labels with random assignments
+#   - 3 inboxes with agent assignments
+#   - Realistic reporting events with historical timestamps
+#
+# Note: This seeder clears existing data for the account before seeding.
+
 # rubocop:disable all
 require 'faker'
 require 'active_support/testing/time_helpers'
@@ -5,7 +28,6 @@ require 'active_support/testing/time_helpers'
 class Seeders::ReportsDataSeeder
   include ActiveSupport::Testing::TimeHelpers
 
-  # Constants for configuring the seeder
   TOTAL_CONVERSATIONS = 1000
   TOTAL_CONTACTS = 100
   TOTAL_AGENTS = 20
@@ -29,35 +51,26 @@ class Seeders::ReportsDataSeeder
   end
 
   def perform!
-    puts "Starting large dataset seeding for account: #{@account.name}"
-
-    # No need for job adapters - we'll trigger listeners directly
+    puts "Starting reports data seeding for account: #{@account.name}"
 
     # Clear existing data
     clear_existing_data
 
-    # Create teams, agents, labels, inboxes, and contacts
     create_teams
     create_agents
     create_labels
     create_inboxes
     create_contacts
 
-    # Create conversations with messages and labels
     create_conversations
 
-    puts "Completed large dataset seeding for account: #{@account.name}"
+    puts "Completed reports data seeding for account: #{@account.name}"
   end
 
   private
 
   def clear_existing_data
     puts "Clearing existing data for account: #{@account.id}"
-
-    # We're not actually deleting existing data in this seeder
-    # as it might be dangerous. Instead, we'll just add new data.
-    # If you want to clear data, uncomment the following lines:
-
     @account.teams.destroy_all
     @account.conversations.destroy_all
     @account.labels.destroy_all
@@ -79,7 +92,6 @@ class Seeders::ReportsDataSeeder
 
   def create_agents
     TOTAL_AGENTS.times do |i|
-      # Create user with agent role
       random_suffix = SecureRandom.hex(4)
       user = User.create!(
         name: Faker::Name.name,
@@ -90,14 +102,12 @@ class Seeders::ReportsDataSeeder
       user.skip_confirmation!
       user.save!
 
-      # Assign to account with agent role
       account_user = AccountUser.create!(
         account_id: @account.id,
         user_id: user.id,
         role: :agent
       )
 
-      # Assign to random teams (1-3 teams per agent)
       teams_to_assign = @teams.sample(rand(1..3))
       teams_to_assign.each do |team|
         TeamMember.create!(
@@ -129,13 +139,11 @@ class Seeders::ReportsDataSeeder
 
   def create_inboxes
     TOTAL_INBOXES.times do |_i|
-      # Create a website channel
       channel = Channel::WebWidget.create!(
         website_url: "https://#{Faker::Internet.domain_name}",
         account_id: @account.id
       )
 
-      # Create inbox for the channel
       inbox = @account.inboxes.create!(
         name: "#{Faker::Company.name} Website",
         channel: channel
