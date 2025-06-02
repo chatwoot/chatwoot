@@ -43,14 +43,14 @@ const starRatingValue = computed(() => {
   <BaseBubble class="px-4 py-3" data-bubble-name="csat">
     <h4>{{ content || t('CONVERSATION.CSAT_REPLY_MESSAGE') }}</h4>
     <dl v-if="isRatingSubmitted" class="mt-4">
-      <dt class="italic text-n-slate-11">
+      <dt class="text-n-slate-11 italic">
         {{ t('CONVERSATION.RATING_TITLE') }}
       </dt>
       <dd v-if="!isStarRating">
         {{ t(rating.translationKey) }}
       </dd>
       <dd v-else class="flex mt-1">
-        <span v-for="n in 5" :key="n" class="mr-1 text-2xl">
+        <span v-for="n in 5" :key="n" class="text-2xl mr-1">
           <i
             :class="[
               n <= starRatingValue
@@ -61,7 +61,7 @@ const starRatingValue = computed(() => {
         </span>
       </dd>
 
-      <dt v-if="response.feedbackMessage" class="mt-2 italic text-n-slate-11">
+      <dt v-if="response.feedbackMessage" class="text-n-slate-11 italic mt-2">
         {{ t('CONVERSATION.FEEDBACK_TITLE') }}
       </dt>
       <dd>{{ response.feedbackMessage }}</dd>
