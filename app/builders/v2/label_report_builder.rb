@@ -15,30 +15,40 @@ class V2::LabelReportBuilder
     labels = account.labels.to_a
     return [] if labels.empty?
 
-    conversation_filter = build_conversation_filter
-    use_business_hours = ActiveModel::Type::Boolean.new.cast(params[:business_hours])
-
-    conversation_counts = fetch_conversation_counts(conversation_filter)
-    resolved_counts = fetch_resolved_counts(conversation_filter)
-    resolution_metrics = fetch_metrics(conversation_filter, 'conversation_resolved', use_business_hours)
-    first_response_metrics = fetch_metrics(conversation_filter, 'first_response', use_business_hours)
-    reply_metrics = fetch_metrics(conversation_filter, 'reply', use_business_hours)
-
-    # Format the report data
-    labels.map do |label|
-      {
-        id: label.id,
-        name: label.title,
-        conversations_count: conversation_counts[label.title] || 0,
-        avg_resolution_time: resolution_metrics[label.title] || 0,
-        avg_first_response_time: first_response_metrics[label.title] || 0,
-        avg_reply_time: reply_metrics[label.title] || 0,
-        resolved_conversations_count: resolved_counts[label.title] || 0
-      }
-    end
+    report_data = collect_report_data
+    labels.map { |label| build_label_report(label, report_data) }
   end
 
   private
+
+  def collect_report_data
+    conversation_filter = build_conversation_filter
+    use_business_hours = use_business_hours?
+
+    {
+      conversation_counts: fetch_conversation_counts(conversation_filter),
+      resolved_counts: fetch_resolved_counts(conversation_filter),
+      resolution_metrics: fetch_metrics(conversation_filter, 'conversation_resolved', use_business_hours),
+      first_response_metrics: fetch_metrics(conversation_filter, 'first_response', use_business_hours),
+      reply_metrics: fetch_metrics(conversation_filter, 'reply', use_business_hours)
+    }
+  end
+
+  def build_label_report(label, report_data)
+    {
+      id: label.id,
+      name: label.title,
+      conversations_count: report_data[:conversation_counts][label.title] || 0,
+      avg_resolution_time: report_data[:resolution_metrics][label.title] || 0,
+      avg_first_response_time: report_data[:first_response_metrics][label.title] || 0,
+      avg_reply_time: report_data[:reply_metrics][label.title] || 0,
+      resolved_conversations_count: report_data[:resolved_counts][label.title] || 0
+    }
+  end
+
+  def use_business_hours?
+    ActiveModel::Type::Boolean.new.cast(params[:business_hours])
+  end
 
   def build_conversation_filter
     conversation_filter = { account_id: account.id }
