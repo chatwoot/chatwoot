@@ -108,7 +108,8 @@ const tableData = computed(() =>
     } = rowMetrics;
     return {
       id: row.id,
-      name: row.name,
+      // we fallback on title, label for instance does not have a name property
+      name: row.name ?? row.title,
       type: props.type,
       conversationsCount: renderCount(conversationsCount),
       avgFirstResponseTime: renderAvgTime(avgFirstResponseTime),
