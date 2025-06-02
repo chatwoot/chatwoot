@@ -44,6 +44,14 @@ const FORM_CONFIG = {
   COMPANY_NAME: { field: 'additionalAttributes.companyName' },
 };
 
+const socialMediaLinks = {
+  LINKEDIN: 'https://linkedin.com/',
+  FACEBOOK: 'https://facebook.com/',
+  INSTAGRAM: 'https://instagram.com/',
+  TWITTER: 'https://x.com/',
+  GITHUB: 'https://github.com/',
+};
+
 const SOCIAL_CONFIG = {
   LINKEDIN: 'i-ri-linkedin-box-fill',
   FACEBOOK: 'i-ri-facebook-circle-fill',
@@ -152,6 +160,7 @@ const socialProfilesForm = computed(() =>
     key,
     placeholder: t(`CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.FORM.${key}.PLACEHOLDER`),
     icon,
+    link: socialMediaLinks[key],
   }))
 );
 
@@ -163,7 +172,9 @@ const handleEmailUpdateEnrichment = async key => {
   const name = `${firstName} ${lastName}`;
 
   const result = await ContactAPI.enrich({
-    email, name, companyName
+    email,
+    name,
+    companyName,
   });
 
   const networks = result.data.networks;
@@ -304,11 +315,11 @@ defineExpose({
             class="w-full"
             @input="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
+              v$[getValidationKey(item.key)].$touch()
             "
             @blur="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
+              v$[getValidationKey(item.key)].$touch()
             "
             @change="handleEmailUpdateEnrichment"
           />
@@ -324,11 +335,11 @@ defineExpose({
             class="w-full"
             @input="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
+              v$[getValidationKey(item.key)].$touch()
             "
             @blur="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
+              v$[getValidationKey(item.key)].$touch()
             "
           />
         </template>
@@ -348,10 +359,32 @@ defineExpose({
             'bg-n-alpha-2 dark:bg-n-solid-3': !isDetailsView,
           }"
         >
-          <Icon
-            :icon="item.icon"
-            class="flex-shrink-0 text-n-slate-11 size-4"
-          />
+          <div class="flex justify-center">
+            <a
+              :key="item.key"
+              :href="`${item.link}${state.additionalAttributes.socialProfiles[item.key.toLowerCase()]}`"
+              target="_blank"
+              rel="noopener noreferrer nofollow"
+              class="flex-shrink-0 text-n-slate-11 size-4"
+              :class="{
+'pointer-events-none text-gray-400 cursor-not-allowed':
+                  !state.additionalAttributes.socialProfiles[
+                    item.key.toLowerCase()
+                  ],
+              }"
+            >
+              <Icon
+                :icon="item.icon"
+                class="flex-shrink-0 text-n-slate-11 size-4"
+                :class="{
+                  'text-slate-500 dark:text-slate-400 hover:text-slate-700 dark:hover:text-slate-200':
+                    state.additionalAttributes.socialProfiles[
+                      item.key.toLowerCase()
+                    ],
+                }"
+              />
+            </a>
+          </div>
           <input
             v-model="
               state.additionalAttributes.socialProfiles[item.key.toLowerCase()]

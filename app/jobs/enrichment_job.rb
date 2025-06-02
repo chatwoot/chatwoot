@@ -27,12 +27,20 @@ class EnrichmentJob < ApplicationJob
       contact.update(additional_attributes: contact.additional_attributes.merge({ city: enriched_data[:city] }))
     end
 
-    if contact.additional_attributes['country'].blank?
+    if contact.additional_attributes['country'].blank? && !enriched_data[:country].blank?
       c = enriched_data[:country]
       c_code = country_code_from_country_name(c)
       c_display_name = display_country_name_from_code(c_code)
 
-      contact.update(additional_attributes: contact.additional_attributes.merge({ country: c_display_name }))
+      Rails.logger.info("updating c_code #{c_code}");
+
+      contact.update(additional_attributes: contact.additional_attributes.merge({ country: c_display_name}))
+    end
+
+    if contact.additional_attributes['country_code'].blank? && !enriched_data[:country].blank?
+      c = enriched_data[:country]
+      c_code = country_code_from_country_name(c)
+      contact.update(additional_attributes: contact.additional_attributes.merge({country_code: c_code.upcase }))
     end
 
     if contact.additional_attributes['company_name'].blank?
@@ -75,6 +83,8 @@ class EnrichmentJob < ApplicationJob
 
     json_body = JSON.parse(response)
 
+    Rails.logger.info("Data: #{json_body.key?('data')}")
+
     return nil if !json_body.key?('data') || !json_body['data'].is_a?(Hash)
 
     json_data = json_body['data']
@@ -107,17 +117,17 @@ class EnrichmentJob < ApplicationJob
 
   def get_profiles(is_work_profile, json_data) # rubocop:disable Metrics/MethodLength
     user_profiles = {
-      'linkedin': json_data['linkedin_url'],
-      'twitter': json_data['twitter_url'],
-      'facebook': json_data['facebook_url'],
-      'github': json_data['github_url']
+      'linkedin': json_data['linkedin_url']&.split('/')&.last(2).join('/'),
+      'twitter': json_data['twitter_url']&.split('/')&.last,
+      'facebook': json_data['facebook_url']&.split('/')&.last,
+      'github': json_data['github_url']&.split('/')&.last
     }
     return user_profiles unless is_work_profile
 
     company_profiles = {
-      'linkedin': json_data['job_company_linkedin_url'],
-      'twitter': json_data['job_company_twitter_url'],
-      'facebook': json_data['job_company_facebook_url']
+      'linkedin': json_data['job_company_linkedin_url']&.split('/')&.last(2).join('/'),
+      'twitter': json_data['job_company_twitter_url']&.split('/')&.last,
+      'facebook': json_data['job_company_facebook_url']&.split('/')&.last,
     }
     user_profiles.merge!(company_profiles) { |_key, user_val, company_val| user_val.presence || company_val }
     user_profiles
