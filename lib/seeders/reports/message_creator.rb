@@ -19,15 +19,22 @@ class Seeders::Reports::MessageCreator
     first_agent_reply = true
 
     message_count.times do |i|
-      is_incoming = i.even?
-
-      add_realistic_delay(i, is_incoming) if i.positive?
-
-      message = create_message(is_incoming)
-
-      handle_agent_reply_events(message, first_agent_reply) unless is_incoming
-      first_agent_reply = false if !is_incoming && first_agent_reply
+      message = create_single_message(i)
+      first_agent_reply = handle_reply_tracking(message, i, first_agent_reply)
     end
+  end
+
+  def create_single_message(index)
+    is_incoming = index.even?
+    add_realistic_delay(index, is_incoming) if index.positive?
+    create_message(is_incoming)
+  end
+
+  def handle_reply_tracking(message, index, first_agent_reply)
+    return first_agent_reply if index.even? # Skip incoming messages
+
+    handle_agent_reply_events(message, first_agent_reply)
+    false # No longer first reply after any agent message
   end
 
   private
