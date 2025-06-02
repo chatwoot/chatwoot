@@ -30,6 +30,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   def show; end
 
   def create
+    Rails.logger.info("New Conversation #{params}")
     ActiveRecord::Base.transaction do
       @conversation = ConversationBuilder.new(params: params, contact_inbox: @contact_inbox).perform
       Messages::MessageBuilder.new(Current.user, @conversation, params[:message]).perform if params[:message].present?
@@ -126,6 +127,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
+    Rails.logger.info("Update last send: #{params}")
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
 
