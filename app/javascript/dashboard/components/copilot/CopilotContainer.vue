@@ -1,16 +1,11 @@
 <script setup>
-import { ref, computed, onMounted, watchEffect } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import Copilot from 'dashboard/components-next/copilot/Copilot.vue';
-import ConversationAPI from 'dashboard/api/inbox/conversation';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
-const props = defineProps({
-  conversationId: {
-    type: [Number, String],
-    required: true,
-  },
+defineProps({
   conversationInboxType: {
     type: String,
     required: true,
@@ -21,11 +16,15 @@ const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
-const { uiSettings, updateUISettings } = useUISettings();
-
-const messages = ref([]);
-const isCaptainTyping = ref(false);
+const currentChat = useMapGetter('getSelectedChat');
+const selectedCopilotThreadId = ref(null);
+const messages = computed(() =>
+  store.getters['copilotMessages/getMessagesByThreadId'](
+    selectedCopilotThreadId.value
+  )
+);
 const selectedAssistantId = ref(null);
+const { uiSettings, updateUISettings } = useUISettings();
 
 const activeAssistant = computed(() => {
   const preferredId = uiSettings.value.preferred_captain_assistant_id;
@@ -56,54 +55,29 @@ const setAssistant = async assistant => {
 };
 
 const handleReset = () => {
-  messages.value = [];
+  selectedCopilotThreadId.value = null;
 };
 
 const sendMessage = async message => {
-  // Add user message
-  messages.value.push({
-    id: messages.value.length + 1,
-    role: 'user',
-    content: message,
-  });
-  isCaptainTyping.value = true;
-
-  try {
-    const { data } = await ConversationAPI.requestCopilot(
-      props.conversationId,
-      {
-        previous_history: messages.value
-          .map(m => ({
-            role: m.role,
-            content: m.content,
-          }))
-          .slice(0, -1),
-        message,
-        assistant_id: selectedAssistantId.value,
-      }
-    );
-    messages.value.push({
-      id: new Date().getTime(),
-      role: 'assistant',
-      content: data.message,
+  if (selectedCopilotThreadId.value) {
+    await store.dispatch('copilotMessages/create', {
+      assistant_id: activeAssistant.value.id,
+      conversation_id: currentChat.value?.id,
+      threadId: selectedCopilotThreadId.value,
+      message,
     });
-  } catch (error) {
-    // eslint-disable-next-line
-    console.log(error);
-  } finally {
-    isCaptainTyping.value = false;
+  } else {
+    const response = await store.dispatch('copilotThreads/create', {
+      assistant_id: activeAssistant.value.id,
+      conversation_id: currentChat.value?.id,
+      message,
+    });
+    selectedCopilotThreadId.value = response.id;
   }
 };
 
 onMounted(() => {
   store.dispatch('captainAssistants/get');
-});
-
-watchEffect(() => {
-  if (props.conversationId) {
-    store.dispatch('getInboxCaptainAssistantById', props.conversationId);
-    selectedAssistantId.value = activeAssistant.value?.id;
-  }
 });
 </script>
 
@@ -111,7 +85,6 @@ watchEffect(() => {
   <Copilot
     :messages="messages"
     :support-agent="currentUser"
-    :is-captain-typing="isCaptainTyping"
     :conversation-inbox-type="conversationInboxType"
     :assistants="assistants"
     :active-assistant="activeAssistant"

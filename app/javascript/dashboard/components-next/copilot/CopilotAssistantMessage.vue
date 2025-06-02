@@ -57,7 +57,7 @@ const useCopilotResponse = () => {
     />
     <div class="flex flex-row mt-1">
       <Button
-        v-if="!hasEmptyMessageContent"
+        v-if="!hasEmptyMessageContent && false"
         :label="$t('CAPTAIN.COPILOT.USE')"
         faded
         sm

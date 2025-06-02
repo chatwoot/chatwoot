@@ -94,7 +94,7 @@ class Captain::Llm::SystemPromptsService
         ```json
         {
           "reasoning": "Explain why the response was chosen based on the provided information.",
-          "response": "Provide the answer only in Markdown format for readability."
+          "content": "Provide the answer only in Markdown format for readability."
         }
 
         [Error Handling]
