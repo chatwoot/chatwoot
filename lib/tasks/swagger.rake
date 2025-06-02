@@ -23,8 +23,8 @@ module SwaggerTaskActions
         logging: true
       )
       
-      # Add x-mcp property to the final build
-      final_build['x-mcp'] = { 'enabled' => true }
+      # Add x-mcp property right after openapi version
+      final_build = _insert_x_mcp_after_openapi(final_build)
       
       File.write(swagger_json_relative_path, JSON.pretty_generate(final_build))
 
@@ -90,8 +90,8 @@ module SwaggerTaskActions
       tag_spec['paths'] = _filter_paths_for_tag_group(tag_spec['paths'], tags_in_current_group)
       tag_spec['tags'] = _filter_tags_for_tag_group(tag_spec['tags'], tags_in_current_group)
 
-      # Add x-mcp property to the tag spec
-      tag_spec['x-mcp'] = { 'enabled' => true }
+      # Add x-mcp property right after openapi version
+      tag_spec = _insert_x_mcp_after_openapi(tag_spec)
 
       output_filename = _determine_output_filename(group_name)
       File.write(output_dir.join(output_filename), JSON.pretty_generate(tag_spec))
@@ -141,6 +141,24 @@ module SwaggerTaskActions
       else
         puts "Warning: Source file #{source_file_path} not found. Skipping symlink for #{File.basename(target_file_path)}."
       end
+    end
+
+    def _insert_x_mcp_after_openapi(spec)
+      ordered_spec = {}
+      
+      # First add openapi version
+      ordered_spec['openapi'] = spec['openapi'] if spec.key?('openapi')
+      
+      # Then add x-mcp property
+      ordered_spec['x-mcp'] = { 'enabled' => true }
+      
+      # Then add all other properties in their original order
+      spec.each do |key, value|
+        next if key == 'openapi' # Skip since we already added it
+        ordered_spec[key] = value
+      end
+      
+      ordered_spec
     end
   end
 end

@@ -1,5 +1,8 @@
 {
   "openapi": "3.0.4",
+  "x-mcp": {
+    "enabled": true
+  },
   "info": {
     "title": "Chatwoot",
     "description": "This is the API documentation for Chatwoot server.",
@@ -4366,8 +4369,5 @@
         "CSAT Survey Page"
       ]
     }
-  ],
-  "x-mcp": {
-    "enabled": true
-  }
+  ]
 }
