@@ -1,7 +1,8 @@
 <script setup>
 import Icon from 'next/icon/Icon.vue';
+import { onMounted } from 'vue';
 
-defineProps({
+const props = defineProps({
   to: { type: [Object, String], default: '' },
   label: { type: String, default: '' },
   icon: { type: [String, Object], default: '' },

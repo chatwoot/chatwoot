@@ -49,7 +49,7 @@ function openPopup(event) {
 const labels = useMapGetter('labels/getLabels');
 
 const formState = reactive({
-  title: 'hi',
+  title: '',
   message: '<div>Name {{contact.name}}</div>',
   selectedInbox: null,
   selectedContacts: [],

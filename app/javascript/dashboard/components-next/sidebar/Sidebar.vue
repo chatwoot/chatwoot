@@ -326,7 +326,8 @@ const menuItems = computed(() => {
         {
           name: 'Email',
           label: t('SIDEBAR.EMAIL'),
-          to: accountScopedRoute('campaigns_email_index'),
+          beta: true,
+          // to: accountScopedRoute('campaigns_email_index'),
         },
       ],
     },
