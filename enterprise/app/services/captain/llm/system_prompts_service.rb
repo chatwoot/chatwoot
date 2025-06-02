@@ -94,7 +94,8 @@ class Captain::Llm::SystemPromptsService
         ```json
         {
           "reasoning": "Explain why the response was chosen based on the provided information.",
-          "content": "Provide the answer only in Markdown format for readability."
+          "content": "Provide the answer only in Markdown format for readability.",
+          "reply_suggestion": "A boolean value that is true only if the support agent has explicitly asked to draft a response to the customer, and the response fulfills that request. Otherwise, it should be false."
         }
 
         [Error Handling]

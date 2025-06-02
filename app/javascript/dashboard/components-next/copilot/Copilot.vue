@@ -137,7 +137,7 @@ watch(
       class="flex-1 flex px-4 py-4 overflow-y-auto items-start"
     >
       <div v-if="hasMessages" class="space-y-6 flex-1 flex flex-col w-full">
-        <template v-for="item in groupedMessages" :key="item.id">
+        <template v-for="(item, index) in groupedMessages" :key="item.id">
           <CopilotAgentMessage
             v-if="item.message_type === 'user'"
             :message="item.message"
@@ -145,6 +145,7 @@ watch(
           <CopilotAssistantMessage
             v-else-if="item.message_type === 'assistant'"
             :message="item.message"
+            :is-last-message="index === groupedMessages.length - 1"
             :conversation-inbox-type="conversationInboxType"
           />
           <CopilotThinkingGroup
