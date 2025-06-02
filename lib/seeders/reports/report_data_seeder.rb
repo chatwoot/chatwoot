@@ -25,6 +25,7 @@ require 'faker'
 require_relative 'conversation_creator'
 require_relative 'message_creator'
 
+# rubocop:disable Rails/Output
 class Seeders::Reports::ReportDataSeeder
   include ActiveSupport::Testing::TimeHelpers
 
@@ -50,7 +51,7 @@ class Seeders::Reports::ReportDataSeeder
   end
 
   def perform!
-    Rails.logger.debug { "Starting reports data seeding for account: #{@account.name}" }
+    puts "Starting reports data seeding for account: #{@account.name}"
 
     # Clear existing data
     clear_existing_data
@@ -63,13 +64,13 @@ class Seeders::Reports::ReportDataSeeder
 
     create_conversations
 
-    Rails.logger.debug { "Completed reports data seeding for account: #{@account.name}" }
+    puts "Completed reports data seeding for account: #{@account.name}"
   end
 
   private
 
   def clear_existing_data
-    Rails.logger.debug { "Clearing existing data for account: #{@account.id}" }
+    puts "Clearing existing data for account: #{@account.id}"
     @account.teams.destroy_all
     @account.conversations.destroy_all
     @account.labels.destroy_all
@@ -83,10 +84,10 @@ class Seeders::Reports::ReportDataSeeder
         name: "#{Faker::Company.industry} Team #{i + 1}"
       )
       @teams << team
-      Rails.logger.debug { "\rCreating teams: #{i + 1}/#{TOTAL_TEAMS}" }
+      print "\rCreating teams: #{i + 1}/#{TOTAL_TEAMS}"
     end
 
-    Rails.logger.debug "\n"
+    print "\n"
   end
 
   def create_agents
@@ -94,10 +95,10 @@ class Seeders::Reports::ReportDataSeeder
       user = create_single_agent(i)
       assign_agent_to_teams(user)
       @agents << user
-      Rails.logger.debug { "\rCreating agents: #{i + 1}/#{TOTAL_AGENTS}" }
+      print "\rCreating agents: #{i + 1}/#{TOTAL_AGENTS}"
     end
 
-    Rails.logger.debug "\n"
+    print "\n"
   end
 
   def create_single_agent(index)
@@ -138,10 +139,10 @@ class Seeders::Reports::ReportDataSeeder
         color: Faker::Color.hex_color
       )
       @labels << label
-      Rails.logger.debug { "\rCreating labels: #{i + 1}/#{TOTAL_LABELS}" }
+      print "\rCreating labels: #{i + 1}/#{TOTAL_LABELS}"
     end
 
-    Rails.logger.debug "\n"
+    print "\n"
   end
 
   def create_inboxes
@@ -149,10 +150,10 @@ class Seeders::Reports::ReportDataSeeder
       inbox = create_single_inbox
       assign_agents_to_inbox(inbox)
       @inboxes << inbox
-      Rails.logger.debug { "\rCreating inboxes: #{@inboxes.size}/#{TOTAL_INBOXES}" }
+      print "\rCreating inboxes: #{@inboxes.size}/#{TOTAL_INBOXES}"
     end
 
-    Rails.logger.debug "\n"
+    print "\n"
   end
 
   def create_single_inbox
@@ -199,10 +200,10 @@ class Seeders::Reports::ReportDataSeeder
       )
       @contacts << contact
 
-      Rails.logger.debug { "\rCreating contacts: #{i + 1}/#{TOTAL_CONTACTS}" }
+      print "\rCreating contacts: #{i + 1}/#{TOTAL_CONTACTS}"
     end
 
-    Rails.logger.debug "\n"
+    print "\n"
   end
 
   def create_conversations
@@ -222,9 +223,10 @@ class Seeders::Reports::ReportDataSeeder
       conversation_creator.create_conversation(created_at: created_at)
 
       completion_percentage = ((i + 1).to_f / TOTAL_CONVERSATIONS * 100).round
-      Rails.logger.debug { "\rCreating conversations: #{i + 1}/#{TOTAL_CONVERSATIONS} (#{completion_percentage}%)" }
+      print "\rCreating conversations: #{i + 1}/#{TOTAL_CONVERSATIONS} (#{completion_percentage}%)"
     end
 
-    Rails.logger.debug "\n"
+    print "\n"
   end
 end
+# rubocop:enable Rails/Output
