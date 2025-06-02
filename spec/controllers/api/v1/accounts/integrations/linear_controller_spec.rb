@@ -110,7 +110,7 @@ RSpec.describe 'Linear Integration API', type: :request do
 
     context 'when it is an authenticated user' do
       context 'when the issue is created successfully' do
-        let(:created_issue) { { data: { 'identifier' => 'ENG-123', 'title' => 'Sample Issue' } } }
+        let(:created_issue) { { data: { identifier: 'ENG-123', title: 'Sample Issue' } } }
 
         it 'returns the created issue' do
           allow(processor_service).to receive(:create_issue).with(issue_params.stringify_keys).and_return(created_issue)

@@ -31,7 +31,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      create_linear_activity_message(:issue_created, { id: issue[:data]['identifier'] })
+      create_linear_activity_message(:issue_created, { id: issue[:data][:identifier] })
       render json: issue[:data], status: :ok
     end
   end
