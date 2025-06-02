@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
-  before_action :fetch_conversation, only: [:link_issue, :linked_issues]
+  before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
   before_action :fetch_hook, only: [:destroy]
 
   def destroy
@@ -31,6 +31,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
+      create_linear_activity_message(:issue_created, { id: issue[:data]['identifier'] })
       render json: issue[:data], status: :ok
     end
   end
@@ -42,17 +43,20 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
+      create_linear_activity_message(:issue_linked, { id: issue_id })
       render json: issue[:data], status: :ok
     end
   end
 
   def unlink_issue
     link_id = permitted_params[:link_id]
+    issue_id = permitted_params[:issue_id]
     issue = linear_processor_service.unlink_issue(link_id)
 
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
+      create_linear_activity_message(:issue_unlinked, { id: issue_id })
       render json: issue[:data], status: :ok
     end
   end
@@ -100,5 +104,18 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def fetch_hook
     @hook = Integrations::Hook.where(account: Current.account).find_by(app_id: 'linear')
+  end
+
+  def create_linear_activity_message(action_type, issue_data = {})
+    return unless @conversation
+
+    case action_type
+    when :issue_created
+      @conversation.create_linear_issue_created_activity(issue_data)
+    when :issue_linked
+      @conversation.create_linear_issue_linked_activity(issue_data)
+    when :issue_unlinked
+      @conversation.create_linear_issue_unlinked_activity(issue_data)
+    end
   end
 end

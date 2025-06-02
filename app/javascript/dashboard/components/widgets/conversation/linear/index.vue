@@ -59,10 +59,10 @@ const loadLinkedIssue = async () => {
   }
 };
 
-const unlinkIssue = async linkId => {
+const unlinkIssue = async (linkId, issueIdentifier) => {
   try {
     isUnlinking.value = true;
-    await LinearAPI.unlinkIssue(linkId);
+    await LinearAPI.unlinkIssue(linkId, issueIdentifier, props.conversationId);
     useTrack(LINEAR_EVENTS.UNLINK_ISSUE);
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
