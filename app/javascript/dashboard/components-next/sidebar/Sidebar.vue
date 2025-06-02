@@ -87,7 +87,7 @@ const newReportRoutes = () => [
   {
     name: 'Reports Label',
     label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
+    to: accountScopedRoute('label_reports_index'),
   },
   {
     name: 'Reports Inbox',
