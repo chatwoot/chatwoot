@@ -22,6 +22,7 @@ class V2::LabelReportBuilder
     resolved_counts = fetch_resolved_counts(conversation_filter)
     resolution_metrics = fetch_metrics(conversation_filter, 'conversation_resolved', use_business_hours)
     first_response_metrics = fetch_metrics(conversation_filter, 'first_response', use_business_hours)
+    reply_metrics = fetch_metrics(conversation_filter, 'reply', use_business_hours)
 
     # Format the report data
     labels.map do |label|
@@ -31,6 +32,7 @@ class V2::LabelReportBuilder
         conversations_count: conversation_counts[label.title] || 0,
         avg_resolution_time: resolution_metrics[label.title] || 0,
         avg_first_response_time: first_response_metrics[label.title] || 0,
+        avg_reply_time: reply_metrics[label.title] || 0,
         resolved_conversations_count: resolved_counts[label.title] || 0
       }
     end
