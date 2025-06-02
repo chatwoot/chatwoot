@@ -868,14 +868,6 @@ RSpec.describe Conversation do
       expect(csat_service).not_to have_received(:perform)
     end
 
-    it 'does not trigger CSAT survey when CSAT is not enabled' do
-      conversation.inbox.update!(csat_survey_enabled: false)
-      conversation.update!(status: :resolved)
-
-      expect(CsatSurveyService).not_to have_received(:new)
-      expect(csat_service).not_to have_received(:perform)
-    end
-
     it 'does not trigger CSAT survey if already resolved' do
       # Start with a resolved conversation
       resolved_conversation = create(:conversation, status: :resolved)

@@ -200,7 +200,6 @@ class Conversation < ApplicationRecord
 
   def trigger_csat_survey_if_resolved
     return unless saved_change_to_status? && resolved?
-    return unless inbox.csat_survey_enabled?
 
     CsatSurveyService.new(conversation: self).perform
   end
