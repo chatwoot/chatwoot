@@ -1,6 +1,12 @@
 class Api::V1::Accounts::OauthAuthorizationController < Api::V1::Accounts::BaseController
   before_action :check_authorization
 
+  protected
+
+  def scope
+    ''
+  end
+
   def state
     Current.account.to_sgid(expires_in: 15.minutes).to_s
   end

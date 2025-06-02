@@ -5,7 +5,7 @@ class Api::V1::Accounts::Microsoft::AuthorizationsController < Api::V1::Accounts
     redirect_url = microsoft_client.auth_code.authorize_url(
       {
         redirect_uri: "#{base_url}/microsoft/callback",
-        scope: 'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile',
+        scope: scope,
         state: state,
         prompt: 'consent'
       }
