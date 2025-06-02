@@ -16,6 +16,10 @@ const props = defineProps({
     type: [Number, String],
     required: true,
   },
+  parentWidth: {
+    type: Number,
+    default: 10000,
+  },
 });
 
 defineOptions({
@@ -73,6 +77,14 @@ const unlinkIssue = async linkId => {
   }
 };
 
+const shouldShowIssueIdentifier = computed(() => {
+  if (!linkedIssue.value) {
+    return false;
+  }
+
+  return props.parentWidth > 600;
+});
+
 const openIssue = () => {
   if (!linkedIssue.value) shouldShowPopup.value = true;
   shouldShow.value = true;
@@ -119,7 +131,10 @@ onMounted(() => {
         class="text-[#5E6AD2] flex-shrink-0"
         view-box="0 0 19 19"
       />
-      <span v-if="linkedIssue" class="text-xs font-medium text-n-slate-11">
+      <span
+        v-if="shouldShowIssueIdentifier"
+        class="text-xs font-medium text-n-slate-11"
+      >
         {{ linkedIssue.issue.identifier }}
       </span>
     </Button>
@@ -127,7 +142,7 @@ onMounted(() => {
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
-      class="absolute right-0 top-[36px] invisible group-hover:visible"
+      class="absolute rtl:left-0 ltr:right-0 top-9 invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
     <woot-modal
