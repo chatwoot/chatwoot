@@ -42,6 +42,7 @@ const initialState = {
     conversationFaqs: false,
     memories: false,
   },
+  temperature: 1,
 };
 
 const state = reactive({ ...initialState });
@@ -87,6 +88,7 @@ const updateStateFromAssistant = assistant => {
     conversationFaqs: config.feature_faq || false,
     memories: config.feature_memory || false,
   };
+  state.temperature = config.temperature || 1;
 };
 
 const handleBasicInfoUpdate = async () => {
@@ -136,6 +138,7 @@ const handleInstructionsUpdate = async () => {
   const payload = {
     config: {
       ...props.assistant.config,
+      temperature: state.temperature || 1,
       instructions: state.instructions,
     },
   };
@@ -212,7 +215,7 @@ watch(
 
     <!-- Instructions Section -->
     <Accordion :title="t('CAPTAIN.ASSISTANTS.FORM.SECTIONS.INSTRUCTIONS')">
-      <div class="flex flex-col gap-4 pt-4">
+      <div class="flex flex-col gap-4">
         <Editor
           v-model="state.instructions"
           :placeholder="t('CAPTAIN.ASSISTANTS.FORM.INSTRUCTIONS.PLACEHOLDER')"
@@ -221,6 +224,25 @@ watch(
           :message-type="formErrors.instructions ? 'error' : 'info'"
         />
 
+        <div class="flex flex-col gap-2 mt-4">
+          <label class="text-sm font-medium text-n-slate-12">
+            {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.LABEL') }}
+          </label>
+          <div class="flex items-center gap-4">
+            <input
+              v-model="state.temperature"
+              type="range"
+              min="0"
+              max="1"
+              step="0.1"
+              class="w-full"
+            />
+            <span class="text-sm text-n-slate-12">{{ state.temperature }}</span>
+          </div>
+          <p class="text-sm text-n-slate-11 italic">
+            {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.DESCRIPTION') }}
+          </p>
+        </div>
         <div class="flex justify-end">
           <Button
             size="small"
