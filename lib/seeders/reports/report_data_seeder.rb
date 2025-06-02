@@ -76,6 +76,8 @@ class Seeders::Reports::ReportDataSeeder
     @account.labels.destroy_all
     @account.inboxes.destroy_all
     @account.contacts.destroy_all
+    @account.agents.destroy_all
+    @account.reporting_events.destroy_all
   end
 
   def create_teams
