@@ -8,16 +8,16 @@ namespace :db do
         exit 1
       end
 
-      ENV['ENABLE_ACCOUNT_SEEDING'] = 'true' unless ENV['ENABLE_ACCOUNT_SEEDING'].present?
-      
-      account_id = ENV['ACCOUNT_ID']
+      ENV['ENABLE_ACCOUNT_SEEDING'] = 'true' if ENV['ENABLE_ACCOUNT_SEEDING'].blank?
+
+      account_id = ENV.fetch('ACCOUNT_ID', nil)
       account = Account.find(account_id)
-      
+
       puts "Starting large dataset seeding for account: #{account.name} (ID: #{account.id})"
-      
+
       seeder = Seeders::LargeDatasetSeeder.new(account: account)
       seeder.perform!
-      
+
       puts "Finished seeding large dataset for account: #{account.name}"
     end
   end
