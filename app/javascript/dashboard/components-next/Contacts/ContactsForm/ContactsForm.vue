@@ -52,6 +52,14 @@ const socialMediaLinks = {
   GITHUB: 'https://github.com/',
 };
 
+const toolTips = {
+  LINKEDIN: 'Enter in/name or company/name',
+  FACEBOOK: 'Enter facebook handle',
+  INSTAGRAM: 'Enter instagram handle',
+  TWITTER: 'Enter twitter handle',
+  GITHUB: 'Enter github username',
+};
+
 const SOCIAL_CONFIG = {
   LINKEDIN: 'i-ri-linkedin-box-fill',
   FACEBOOK: 'i-ri-facebook-circle-fill',
@@ -161,6 +169,7 @@ const socialProfilesForm = computed(() =>
     placeholder: t(`CONTACTS_LAYOUT.CARD.SOCIAL_MEDIA.FORM.${key}.PLACEHOLDER`),
     icon,
     link: socialMediaLinks[key],
+    tooltip: toolTips[key],
   }))
 );
 
@@ -352,6 +361,7 @@ defineExpose({
       <div class="flex flex-wrap gap-2">
         <div
           v-for="item in socialProfilesForm"
+          :title="item.tooltip"
           :key="item.key"
           class="flex items-center h-8 gap-2 px-2 rounded-lg"
           :class="{
@@ -367,7 +377,7 @@ defineExpose({
               rel="noopener noreferrer nofollow"
               class="flex-shrink-0 text-n-slate-11 size-4"
               :class="{
-'pointer-events-none text-gray-400 cursor-not-allowed':
+                'pointer-events-none text-gray-400 cursor-not-allowed':
                   !state.additionalAttributes.socialProfiles[
                     item.key.toLowerCase()
                   ],
