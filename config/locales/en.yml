@@ -50,7 +50,7 @@ en:
       failed: Signup failed
     oauth:
       insufficient_scopes: 'Insufficient permissions granted. Missing scopes: %{scopes}'
-      authorization_failed: 'Authorization failed for %{provider}'
+      authorization_failed: 'Authorization failed'
     data_import:
       data_type:
         invalid: Invalid data type

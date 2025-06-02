@@ -19,7 +19,7 @@ class Google::CallbacksController < OauthCallbackController
     missing_scopes = required_scopes - granted_scopes
     return if missing_scopes.empty?
 
-    raise CustomExceptions::OAuth::InsufficientScopes.new({ missing_scopes: missing_scopes })
+    raise StandardError, I18n.t('errors.oauth.insufficient_scopes', scopes: missing_scopes.join(', '))
   end
 
   def provider_name
@@ -38,10 +38,9 @@ class Google::CallbacksController < OauthCallbackController
   def handle_error(exception)
     ChatwootExceptionTracker.new(exception).capture_exception
 
-    error_code = exception.respond_to?(:code) ? exception.code : 'OAUTH_ERR'
-    error_message = exception.message || I18n.t('errors.oauth.authorization_failed', provider: 'Google')
-
+    error_message = exception.message || I18n.t('errors.oauth.authorization_failed')
     redirect_url = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/app/accounts/#{account.id}/settings/inboxes/new/email"
-    redirect_to "#{redirect_url}?error=#{CGI.escape(error_message)}&code=#{error_code}"
+
+    redirect_to "#{redirect_url}?error=#{CGI.escape(error_message)}"
   end
 end

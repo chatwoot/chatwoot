@@ -88,7 +88,6 @@ RSpec.describe 'Google::CallbacksController', type: :request do
 
       expect(response).to redirect_to(/#{Regexp.escape("#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/app/accounts/#{account.id}/settings/inboxes/new/email")}/)
       expect(response.location).to include('error=')
-      expect(response.location).to include('code=SCOPE_ERR')
       expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
     end
 
@@ -102,7 +101,6 @@ RSpec.describe 'Google::CallbacksController', type: :request do
 
       expect(response).to redirect_to(/#{Regexp.escape("#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/app/accounts/#{account.id}/settings/inboxes/new/email")}/)
       expect(response.location).to include('error=')
-      expect(response.location).to include('code=OAUTH_ERR')
       expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
     end
   end
