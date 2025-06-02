@@ -270,9 +270,7 @@ describe Integrations::Linear::ProcessorService do
         allow(linear_client).to receive(:unlink_issue).with(link_id).and_return(linear_client_response)
         result = service.unlink_issue(link_id)
 
-        expect(result).to have_key(:data)
-        expect(result[:data]).to have_key(:link_id)
-        expect(result[:data][:link_id]).to eq(link_id)
+        expect(result).to eq({ data: { link_id: link_id } })
       end
     end
   end
