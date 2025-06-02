@@ -51,8 +51,6 @@ en:
     oauth:
       insufficient_scopes: 'Insufficient permissions granted. Missing scopes: %{scopes}'
       authorization_failed: 'Authorization failed for %{provider}'
-      token_exchange_failed: 'Failed to exchange authorization code for %{provider}'
-      invalid_state: 'Invalid or missing state parameter'
     data_import:
       data_type:
         invalid: Invalid data type

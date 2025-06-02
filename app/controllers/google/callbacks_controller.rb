@@ -39,7 +39,7 @@ class Google::CallbacksController < OauthCallbackController
     ChatwootExceptionTracker.new(exception).capture_exception
 
     error_code = exception.respond_to?(:code) ? exception.code : 'OAUTH_ERR'
-    error_message = exception.message || 'OAuth authorization failed'
+    error_message = exception.message || I18n.t('errors.oauth.authorization_failed', provider: 'Google')
 
     redirect_url = "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/app/accounts/#{account.id}/settings/inboxes/new/email"
     redirect_to "#{redirect_url}?error=#{CGI.escape(error_message)}&code=#{error_code}"
