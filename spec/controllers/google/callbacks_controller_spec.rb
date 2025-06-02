@@ -13,12 +13,17 @@ RSpec.describe 'Google::CallbacksController', type: :request do
   describe 'GET /google/callback' do
     let(:response_body_success) do
       { id_token: JWT.encode({ email: email, name: 'test' }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
-        refresh_token: SecureRandom.hex(10) }
+        refresh_token: SecureRandom.hex(10), scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://mail.google.com/' }
     end
 
     let(:response_body_success_without_name) do
       { id_token: JWT.encode({ email: email }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
-        refresh_token: SecureRandom.hex(10) }
+        refresh_token: SecureRandom.hex(10), scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email https://mail.google.com/' }
+    end
+
+    let(:response_body_insufficient_scopes) do
+      { id_token: JWT.encode({ email: email, name: 'test' }, false), access_token: SecureRandom.hex(10), token_type: 'Bearer',
+        refresh_token: SecureRandom.hex(10), scope: 'https://www.googleapis.com/auth/userinfo.profile https://www.googleapis.com/auth/userinfo.email' }
     end
 
     it 'creates inboxes if authentication is successful' do
@@ -73,7 +78,21 @@ RSpec.describe 'Google::CallbacksController', type: :request do
       expect(inbox.name).to eq email.split('@').first.parameterize.titleize
     end
 
-    it 'redirects to google app in case of error' do
+    it 'redirects to custom error URL when insufficient scopes are granted' do
+      stub_request(:post, 'https://accounts.google.com/o/oauth2/token')
+        .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
+                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
+        .to_return(status: 200, body: response_body_insufficient_scopes.to_json, headers: { 'Content-Type' => 'application/json' })
+
+      get google_callback_url, params: { code: code }
+
+      expect(response).to redirect_to(/#{Regexp.escape("#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/app/accounts/#{account.id}/settings/inboxes/new/email")}/)
+      expect(response.location).to include('error=')
+      expect(response.location).to include('code=SCOPE_ERR')
+      expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
+    end
+
+    it 'redirects to custom error URL in case of OAuth error' do
       stub_request(:post, 'https://accounts.google.com/o/oauth2/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
                       'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback" })
@@ -81,7 +100,9 @@ RSpec.describe 'Google::CallbacksController', type: :request do
 
       get google_callback_url, params: { code: code }
 
-      expect(response).to redirect_to '/'
+      expect(response).to redirect_to(/#{Regexp.escape("#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/app/accounts/#{account.id}/settings/inboxes/new/email")}/)
+      expect(response.location).to include('error=')
+      expect(response.location).to include('code=OAUTH_ERR')
       expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
     end
   end
