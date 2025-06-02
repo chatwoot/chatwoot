@@ -22,6 +22,10 @@ module SwaggerTaskActions
         resolve_file_ref: true, # Uses CWD (swagger_dir) for resolving file refs
         logging: true
       )
+      
+      # Add x-mcp property to the final build
+      final_build['x-mcp'] = { 'enabled' => true }
+      
       File.write(swagger_json_relative_path, JSON.pretty_generate(final_build))
 
       # For user messages, provide the absolute path
@@ -85,6 +89,9 @@ module SwaggerTaskActions
 
       tag_spec['paths'] = _filter_paths_for_tag_group(tag_spec['paths'], tags_in_current_group)
       tag_spec['tags'] = _filter_tags_for_tag_group(tag_spec['tags'], tags_in_current_group)
+
+      # Add x-mcp property to the tag spec
+      tag_spec['x-mcp'] = { 'enabled' => true }
 
       output_filename = _determine_output_filename(group_name)
       File.write(output_dir.join(output_filename), JSON.pretty_generate(tag_spec))

@@ -11851,5 +11851,8 @@
         "CSAT Survey Page"
       ]
     }
-  ]
+  ],
+  "x-mcp": {
+    "enabled": true
+  }
 }
