@@ -2,7 +2,7 @@
 require 'faker'
 require 'active_support/testing/time_helpers'
 
-class Seeders::LargeDatasetSeeder
+class Seeders::ReportsDataSeeder
   include ActiveSupport::Testing::TimeHelpers
 
   # Constants for configuring the seeder
@@ -66,22 +66,18 @@ class Seeders::LargeDatasetSeeder
   end
 
   def create_teams
-    puts "Creating #{TOTAL_TEAMS} teams..."
-
     TOTAL_TEAMS.times do |i|
       team = @account.teams.create!(
         name: "#{Faker::Company.industry} Team #{i + 1}"
       )
       @teams << team
-      puts "Created team: #{team.name}"
+      print "\rCreating teams: #{i + 1}/#{TOTAL_TEAMS}"
     end
 
-    puts "Created #{@teams.size} teams."
+    print "\n"
   end
 
   def create_agents
-    puts "Creating #{TOTAL_AGENTS} agents..."
-
     TOTAL_AGENTS.times do |i|
       # Create user with agent role
       random_suffix = SecureRandom.hex(4)
@@ -111,15 +107,13 @@ class Seeders::LargeDatasetSeeder
       end
 
       @agents << user
-      puts "Created agent: #{user.name} (#{user.email})"
+      print "\rCreating agents: #{i + 1}/#{TOTAL_AGENTS}"
     end
 
-    puts "Created #{@agents.size} agents."
+    print "\n"
   end
 
   def create_labels
-    puts "Creating #{TOTAL_LABELS} labels..."
-
     TOTAL_LABELS.times do |i|
       label = @account.labels.create!(
         title: "Label-#{i + 1}-#{Faker::Lorem.word}",
@@ -127,15 +121,13 @@ class Seeders::LargeDatasetSeeder
         color: Faker::Color.hex_color
       )
       @labels << label
-      puts "Created label: #{label.title}"
+      print "\rCreating labels: #{i + 1}/#{TOTAL_LABELS}"
     end
 
-    puts "Created #{@labels.size} labels."
+    print "\n"
   end
 
   def create_inboxes
-    puts "Creating #{TOTAL_INBOXES} web inboxes..."
-
     TOTAL_INBOXES.times do |_i|
       # Create a website channel
       channel = Channel::WebWidget.create!(
@@ -165,15 +157,13 @@ class Seeders::LargeDatasetSeeder
       end
 
       @inboxes << inbox
-      puts "Created inbox: #{inbox.name}"
+      print "\rCreating inboxes: #{@inboxes.size}/#{TOTAL_INBOXES}"
     end
 
-    puts "Created #{@inboxes.size} inboxes."
+    print "\n"
   end
 
   def create_contacts
-    puts "Creating #{TOTAL_CONTACTS} contacts..."
-
     TOTAL_CONTACTS.times do |i|
       contact = @account.contacts.create!(
         name: Faker::Name.name,
@@ -189,18 +179,13 @@ class Seeders::LargeDatasetSeeder
       )
       @contacts << contact
 
-      puts "Created #{i + 1} contacts so far..." if (i + 1) % 100 == 0
+      print "\rCreating contacts: #{i + 1}/#{TOTAL_CONTACTS}"
     end
 
-    puts "Created #{@contacts.size} contacts."
+    print "\n"
   end
 
   def create_conversations
-    puts "Creating #{TOTAL_CONVERSATIONS} conversations..."
-
-    # Create a progress tracker
-    progress_step = TOTAL_CONVERSATIONS / 10
-
     TOTAL_CONVERSATIONS.times do |i|
       # Select a random contact and inbox
       contact = @account.contacts.sample
@@ -260,14 +245,12 @@ class Seeders::LargeDatasetSeeder
         travel_back
       end
 
-      # Log progress
-      if (i + 1) % progress_step == 0
-        completion_percentage = ((i + 1).to_f / TOTAL_CONVERSATIONS * 100).round
-        puts "#{completion_percentage}% complete: Created #{i + 1} conversations..."
-      end
+      # Show progress
+      completion_percentage = ((i + 1).to_f / TOTAL_CONVERSATIONS * 100).round
+      print "\rCreating conversations: #{i + 1}/#{TOTAL_CONVERSATIONS} (#{completion_percentage}%)"
     end
 
-    puts "Created #{TOTAL_CONVERSATIONS} conversations with messages and labels."
+    print "\n"
   end
 
   def create_messages_for_conversation(conversation)
