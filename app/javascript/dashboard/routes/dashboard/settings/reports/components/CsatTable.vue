@@ -90,6 +90,7 @@ const columns = [
       const [ratingObject = {}] = CSAT_RATINGS.filter(
         rating => rating.value === giveRating
       );
+
       return h(
         'span',
         {
@@ -109,13 +110,7 @@ const columns = [
   columnHelper.accessor('conversationId', {
     header: '',
     width: 100,
-    cell: cellProps => {
-      const { row } = cellProps;
-      return h(ConversationCell, {
-        key: row.original.conversationId,
-        row,
-      });
-    },
+    cell: cellProps => h(ConversationCell, cellProps),
   }),
 ];
 
