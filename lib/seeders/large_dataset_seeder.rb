@@ -1,16 +1,19 @@
 # rubocop:disable all
 require 'faker'
+require 'active_support/testing/time_helpers'
 
 class Seeders::LargeDatasetSeeder
+  include ActiveSupport::Testing::TimeHelpers
+
   # Constants for configuring the seeder
-  TOTAL_CONVERSATIONS = 10_000
-  TOTAL_CONTACTS = 1000
-  TOTAL_AGENTS = 200
-  TOTAL_TEAMS = 8
-  TOTAL_LABELS = 100
+  TOTAL_CONVERSATIONS = 1000
+  TOTAL_CONTACTS = 100
+  TOTAL_AGENTS = 20
+  TOTAL_TEAMS = 5
+  TOTAL_LABELS = 30
   TOTAL_INBOXES = 3
   MESSAGES_PER_CONVERSATION = 5
-  START_DATE = 1.year.ago
+  START_DATE = 3.months.ago
   END_DATE = Time.current
 
   def initialize(account:)
@@ -27,6 +30,8 @@ class Seeders::LargeDatasetSeeder
 
   def perform!
     puts "Starting large dataset seeding for account: #{@account.name}"
+
+    # No need for job adapters - we'll trigger listeners directly
 
     # Clear existing data
     clear_existing_data
@@ -58,8 +63,6 @@ class Seeders::LargeDatasetSeeder
     @account.labels.destroy_all
     @account.inboxes.destroy_all
     @account.contacts.destroy_all
-
-    puts 'Existing data preserved.'
   end
 
   def create_teams
@@ -146,8 +149,17 @@ class Seeders::LargeDatasetSeeder
         channel: channel
       )
 
-      # Assign some agents to the inbox
-      agents_to_assign = @agents.sample(rand(10..50))
+      # Assign agents to the inbox - ensure all agents are covered across inboxes
+      if @inboxes.empty?
+        # First inbox gets all agents to ensure coverage
+        agents_to_assign = @agents
+      else
+        # Subsequent inboxes get random selection with some overlap
+        min_agents = [@agents.size / TOTAL_INBOXES, 10].max
+        max_agents = [(@agents.size * 0.8).to_i, 50].min
+        agents_to_assign = @agents.sample(rand(min_agents..max_agents))
+      end
+
       agents_to_assign.each do |agent|
         InboxMember.create!(inbox: inbox, user: agent)
       end
@@ -225,9 +237,7 @@ class Seeders::LargeDatasetSeeder
             contact: contact,
             assignee: assignee,
             team: team,
-            priority: priority,
-            created_at: created_at,
-            updated_at: created_at
+            priority: priority
           )
 
           # Save the conversation with callbacks to trigger events
@@ -245,6 +255,9 @@ class Seeders::LargeDatasetSeeder
             resolve_conversation(conversation)
           end
         end
+
+        # Reset time for next conversation
+        travel_back
       end
 
       # Log progress
@@ -260,7 +273,7 @@ class Seeders::LargeDatasetSeeder
   def create_messages_for_conversation(conversation)
     # Generate a sequence of messages with alternating sender types
     message_count = rand(MESSAGES_PER_CONVERSATION..MESSAGES_PER_CONVERSATION + 5)
-    current_time = Time.current
+    first_agent_reply = true
 
     message_count.times do |i|
       # Determine if this is an incoming or outgoing message
@@ -273,35 +286,41 @@ class Seeders::LargeDatasetSeeder
           rand(1.minute..4.hours)
         else
           # Agent response time: 30 seconds to 2 hours (faster during business hours)
-          if business_hours_active?(current_time)
+          if business_hours_active?(Time.current)
             rand(30.seconds..30.minutes)
           else
             rand(1.hour..8.hours)
           end
         end
-        current_time += delay
+        travel(delay)
       end
 
-      travel_to(current_time) do
-        if is_incoming
-          # Create incoming message from contact
-          conversation.messages.create!(
-            account: @account,
-            inbox: conversation.inbox,
-            message_type: :incoming,
-            content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
-            sender: conversation.contact
-          )
+      if is_incoming
+        # Create incoming message from contact
+        message = conversation.messages.create!(
+          account: @account,
+          inbox: conversation.inbox,
+          message_type: :incoming,
+          content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
+          sender: conversation.contact
+        )
+      else
+        # Create outgoing message from agent
+        sender = conversation.assignee || @agents.sample
+        message = conversation.messages.create!(
+          account: @account,
+          inbox: conversation.inbox,
+          message_type: :outgoing,
+          content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
+          sender: sender
+        )
+
+        # Trigger reporting events for agent replies
+        if first_agent_reply
+          trigger_first_reply_event(message)
+          first_agent_reply = false
         else
-          # Create outgoing message from agent
-          sender = conversation.assignee || @agents.sample
-          conversation.messages.create!(
-            account: @account,
-            inbox: conversation.inbox,
-            message_type: :outgoing,
-            content: Faker::Lorem.paragraph(sentence_count: rand(1..5)),
-            sender: sender
-          )
+          trigger_reply_event(message)
         end
       end
     end
@@ -310,9 +329,11 @@ class Seeders::LargeDatasetSeeder
   def resolve_conversation(conversation)
     # Add some time before resolving (30 minutes to 24 hours after last message)
     resolution_delay = rand(30.minutes..24.hours)
-    travel(resolution_delay) do
-      conversation.update!(status: :resolved)
-    end
+    travel(resolution_delay)
+    conversation.update!(status: :resolved)
+
+    # Trigger conversation resolved reporting event
+    trigger_conversation_resolved_event(conversation)
   end
 
   def business_hours_active?(time)
@@ -320,6 +341,48 @@ class Seeders::LargeDatasetSeeder
     weekday = time.wday
     hour = time.hour
     weekday.between?(1, 5) && hour.between?(9, 17)
+  end
+
+  def trigger_first_reply_event(message)
+    event_data = {
+      message: message,
+      conversation: message.conversation
+    }
+
+    ReportingEventListener.instance.first_reply_created(
+      Events::Base.new('first_reply_created', Time.current, event_data)
+    )
+  end
+
+  def trigger_reply_event(message)
+    # Calculate waiting_since as the time of the last customer message
+    last_customer_message = message.conversation.messages
+                                  .where(message_type: :incoming)
+                                  .where('created_at < ?', message.created_at)
+                                  .order(:created_at)
+                                  .last
+
+    waiting_since = last_customer_message&.created_at || message.conversation.created_at
+
+    event_data = {
+      message: message,
+      conversation: message.conversation,
+      waiting_since: waiting_since
+    }
+
+    ReportingEventListener.instance.reply_created(
+      Events::Base.new('reply_created', Time.current, event_data)
+    )
+  end
+
+  def trigger_conversation_resolved_event(conversation)
+    event_data = {
+      conversation: conversation
+    }
+
+    ReportingEventListener.instance.conversation_resolved(
+      Events::Base.new('conversation_resolved', Time.current, event_data)
+    )
   end
 end
 # rubocop:enable all
