@@ -25,6 +25,7 @@ class Seeders::AccountSeeder
     seed_canned_responses
     seed_inboxes
     seed_contacts
+    seed_csat_responses
   end
 
   def set_up_account
@@ -126,11 +127,20 @@ class Seeders::AccountSeeder
 
   def create_conversation(contact_inbox:, conversation_data:)
     assignee = User.from_email(conversation_data['assignee']) if conversation_data['assignee'].present?
+
+    # Assign random agent if no assignee specified and inbox has CSAT enabled
+    assignee = @account.agents.sample if assignee.nil? && contact_inbox.inbox.csat_survey_enabled
+
     conversation = contact_inbox.conversations.create!(account: contact_inbox.inbox.account, contact: contact_inbox.contact,
                                                        inbox: contact_inbox.inbox, assignee: assignee)
     create_messages(conversation: conversation, messages: conversation_data['messages'])
     conversation.update_labels(conversation_data[:labels]) if conversation_data[:labels].present?
     conversation.update!(priority: conversation_data[:priority]) if conversation_data[:priority].present?
+
+    # Resolve some conversations (about 60%) that have assignees to generate CSAT data
+    return unless assignee.present? && rand > 0.4
+
+    conversation.update!(status: :resolved)
   end
 
   def create_messages(conversation:, messages:)
@@ -154,5 +164,9 @@ class Seeders::AccountSeeder
 
   def seed_inboxes
     Seeders::InboxSeeder.new(account: @account, company_data: @account_data[:company]).perform!
+  end
+
+  def seed_csat_responses
+    Seeders::CsatSeeder.new(account: @account).perform!
   end
 end

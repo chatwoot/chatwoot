@@ -30,13 +30,31 @@ class Seeders::InboxSeeder
 
   def seed_website_inbox
     channel = Channel::WebWidget.create!(account: @account, website_url: "https://#{@company_data['domain']}")
-    Inbox.create!(channel: channel, account: @account, name: "#{@company_data['name']} Website")
+    Inbox.create!(
+      channel: channel,
+      account: @account,
+      name: "#{@company_data['name']} Website",
+      csat_survey_enabled: true,
+      csat_config: {
+        'display_type' => 'emoji',
+        'message' => 'How would you rate your experience?'
+      }
+    )
   end
 
   def seed_facebook_inbox
     channel = Channel::FacebookPage.create!(account: @account, user_access_token: SecureRandom.hex, page_access_token: SecureRandom.hex,
                                             page_id: SecureRandom.hex)
-    Inbox.create!(channel: channel, account: @account, name: "#{@company_data['name']} Facebook")
+    Inbox.create!(
+      channel: channel,
+      account: @account,
+      name: "#{@company_data['name']} Facebook",
+      csat_survey_enabled: true,
+      csat_config: {
+        'display_type' => 'star',
+        'message' => 'Please rate your support experience'
+      }
+    )
   end
 
   def seed_twitter_inbox
@@ -71,7 +89,16 @@ class Seeders::InboxSeeder
   def seed_email_inbox
     channel = Channel::Email.create!(account: @account, email: "test#{SecureRandom.hex}@#{@company_data['domain']}",
                                      forward_to_email: "test_fwd#{SecureRandom.hex}@#{@company_data['domain']}")
-    Inbox.create!(channel: channel, account: @account, name: "#{@company_data['name']} Email")
+    Inbox.create!(
+      channel: channel,
+      account: @account,
+      name: "#{@company_data['name']} Email",
+      csat_survey_enabled: true,
+      csat_config: {
+        'display_type' => 'emoji',
+        'message' => 'How was your support experience today?'
+      }
+    )
   end
 
   def seed_api_inbox

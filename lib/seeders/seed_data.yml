@@ -477,4 +477,55 @@ contacts:
             - message_type: outgoing
               sender: michael_scott@paperlayer.test
               content: How may i help you ?
-              sender: michael_scott@paperlayer.test
+    - name: "Robert Maxwell"
+      email: "rmaxwell@example.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::WebWidget
+          assignee: karn@paperlayer.test
+          messages:
+            - message_type: incoming
+              content: "Hi, I need help with my account settings."
+            - message_type: outgoing
+              sender: karn@paperlayer.test
+              content: "I'd be happy to help you with your account settings. What specifically would you like to change?"
+            - message_type: incoming
+              content: "I want to update my billing information."
+            - message_type: outgoing
+              sender: karn@paperlayer.test
+              content: "Perfect! I've sent you a secure link to update your billing information. Please check your email."
+    - name: "Sarah Johnson"
+      email: "sjohnson@demo.test"
+      gender: 'female'
+      conversations:
+        - channel: Channel::FacebookPage
+          assignee: danny@paperlayer.test
+          messages:
+            - message_type: incoming
+              content: "Hello, I'm having trouble with the mobile app."
+            - message_type: outgoing
+              sender: danny@paperlayer.test
+              content: "Sorry to hear that! Can you tell me what specific issue you're experiencing?"
+            - message_type: incoming
+              content: "The app keeps crashing when I try to upload a document."
+            - message_type: outgoing
+              sender: danny@paperlayer.test
+              content: "I understand how frustrating that must be. Let me help you troubleshoot this issue right away."
+    - name: "David Chen"
+      email: "dchen@sample.test"
+      gender: 'male'
+      conversations:
+        - channel: Channel::Email
+          source_id: "dchen@sample.test"
+          assignee: ben@paperlayer.test
+          messages:
+            - message_type: incoming
+              content: "I need assistance with integrating your API."
+            - message_type: outgoing
+              sender: ben@paperlayer.test
+              content: "I'll be happy to help with the API integration. What programming language are you using?"
+            - message_type: incoming
+              content: "We're using Python for our backend."
+            - message_type: outgoing
+              sender: ben@paperlayer.test
+              content: "Great! I'll send you our Python SDK documentation and some sample code to get you started."
