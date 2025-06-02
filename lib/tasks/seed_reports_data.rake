@@ -15,7 +15,7 @@ namespace :db do
 
       puts "Starting reports data seeding for account: #{account.name} (ID: #{account.id})"
 
-      seeder = Seeders::ReportsDataSeeder.new(account: account)
+      seeder = Seeders::Reports::ReportDataSeeder.new(account: account)
       seeder.perform!
 
       puts "Finished seeding reports data for account: #{account.name}"
