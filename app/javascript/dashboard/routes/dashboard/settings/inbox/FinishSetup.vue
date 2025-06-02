@@ -82,6 +82,8 @@ export default {
           <woot-code
             v-if="currentInbox.web_widget_script"
             :script="currentInbox.web_widget_script"
+            lang="html"
+            :max-height="300"
           />
         </div>
         <div class="w-[50%] max-w-[50%] ml-[25%]">
