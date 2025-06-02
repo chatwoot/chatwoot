@@ -123,7 +123,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     valid_params
   end
 
-
   def update_channel_feature_flags
     return unless @inbox.web_widget?
     return unless permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel].key? :selected_feature_flags

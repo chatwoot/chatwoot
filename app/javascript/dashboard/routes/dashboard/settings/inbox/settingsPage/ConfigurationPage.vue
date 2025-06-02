@@ -7,6 +7,7 @@ import InputRadioGroup from '../components/InputRadioGroup.vue';
 import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import { getWebWidgetScript } from '../../../../../helper/inbox';
 
 export default {
   components: {
@@ -74,70 +75,18 @@ export default {
     async handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
       try {
-        const formattedPhoneNumber = this.inbox.phone_number.replace(/^\+/, '');
-        const name = this.inbox.name || 'Whatsapp';
-        let payload = '';
-        if (this.widgetBubblePosition === 'left') {
-          payload = {
-            id: this.inbox.id,
-            formData: false,
-            channel: {
-              web_widget_script: `\u003Cscript>
-  (function(d, t) {
-    var position = '${this.widgetBubblePosition}';
-    var config = {
-      link: "https://wa.me/${formattedPhoneNumber}?text=Hello%20there!",
-      user: {
-        name: "${name}",
-        avatar: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
-        status: ""
-      },
-      text: "Hey There 👋<br><br>We're here to help, so let us know what's up and we'll be happy to find a solution 🤓",
-      button_text: ""
-    };
-    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-    g.src = "https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-left-updated.min.js";
-    g.defer = true;
-    g.async = true;
-    s.parentNode.insertBefore(g, s);
-    g.onload = function() {
-      new WAChatBox(config);
-    };
-  })(document, "script");
-\u003C/script>`,
-            },
-          };
-        } else {
-          payload = {
-            id: this.inbox.id,
-            formData: false,
-            channel: {
-              web_widget_script: `\u003Cscript>
-  (function(d, t) {
-    var position = '${this.widgetBubblePosition}';
-    var config = {
-      link: "https://wa.me/${formattedPhoneNumber}?text=Hello%20there!",
-      user: {
-        name: "${name}",
-        avatar: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
-        status: ""
-      },
-      text: "Hey There 👋<br><br>We're here to help, so let us know what's up and we'll be happy to find a solution 🤓",
-      button_text: ""
-    };
-    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-    g.src = "https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-right.min.js";
-    g.defer = true;
-    g.async = true;
-    s.parentNode.insertBefore(g, s);
-    g.onload = function() {
-      new WAChatBox(config);
-    };
-  })(document, "script");
-\u003C/script>`,
-            },
-          };
-        }
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            web_widget_script: getWebWidgetScript(
+              this.widgetBubblePosition,
+              this.inbox.phone_number,
+              this.inbox.name,
+              this.inbox.web_widget_script
+            ),
+          },
+        };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         useAlert(
           this.$t(

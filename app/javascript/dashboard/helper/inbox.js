@@ -144,3 +144,49 @@ export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
   }
   return '';
 };
+
+export const getWebWidgetScript = (
+  widgetBubblePosition,
+  phoneNumber,
+  inboxName,
+  oldScript
+) => {
+  const formattedPhoneNumber = phoneNumber.replace(/^\+/, '');
+  const leftWidgetScript =
+    'https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-left-updated.min.js';
+  const rightWidgetScript =
+    'https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-right.min.js';
+
+  if (!widgetBubblePosition) {
+    const positionMatch = oldScript.match(/var position = '(\w+)'/);
+    widgetBubblePosition = positionMatch ? positionMatch[1] : 'right';
+  }
+  const script =
+    widgetBubblePosition === 'left' ? leftWidgetScript : rightWidgetScript;
+
+  return `
+<script>
+(function(d, t) {
+  var position = '${widgetBubblePosition}';
+  var config = {
+    link: "https://wa.me/${formattedPhoneNumber}?text=Hello%20there!",
+    user: {
+      name: "${inboxName}",
+      avatar: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
+      status: ""
+    },
+    text: "Hey There 👋<br><br>We're here to help, so let us know what's up and we'll be happy to find a solution 🤓",
+    button_text: ""
+  };
+  var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+  g.src = "${script}";
+  g.defer = true;
+  g.async = true;
+  s.parentNode.insertBefore(g, s);
+  g.onload = function() {
+    new WAChatBox(config);
+  };
+})(document, "script");
+</script>
+  `;
+};
