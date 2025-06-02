@@ -52,7 +52,7 @@ const defaultSpanRender = cellProps => {
   return h(
     'span',
     {
-      class: 'line-clamp-2 break-all max-w-full text-n-slate-12',
+      class: 'line-clamp-5 break-words max-w-full text-n-slate-12',
       title: value,
     },
     value
