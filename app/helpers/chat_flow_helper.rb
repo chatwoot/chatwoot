@@ -21,7 +21,7 @@ module ChatFlowHelper
     flow_data = ai_agent.flow_data
     self.flow_data = flow_data
 
-    system_message_prompt
+    update_system_message_prompt
 
     flow_data
   end
@@ -55,14 +55,13 @@ module ChatFlowHelper
   end
 
   def default_system_message_prompt
-    replace_business_name
-    replace_additional_rules_for_handover_prompt
+    replace_placeholder
+
     node = find_node_by_id('chatPromptTemplate_0')
     node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n\n#{template.system_prompt_rules}"
   end
 
-  def system_message_prompt
-    replace_additional_rules_for_handover_prompt
+  def update_system_message_prompt
     node = find_node_by_id('chatPromptTemplate_0')
     node['data']['inputs']['systemMessagePrompt'] = combined_system_prompt
   end
@@ -98,17 +97,25 @@ module ChatFlowHelper
     end
   end
 
-  def replace_business_name
-    template.welcoming_message = template.welcoming_message.gsub('{business_name}', business_name)
-    template.system_prompt = template.system_prompt.gsub('{business_name}', business_name)
-  end
-
-  def replace_additional_rules_for_handover_prompt
-    template.system_prompt_rules = template.system_prompt_rules.gsub('{additional_rules}', params[:routing_conditions] || '')
+  def replace_placeholder
+    template.welcoming_message = multi_gsub(template.welcoming_message, placeholders)
+    template.system_prompt = multi_gsub(template.system_prompt, placeholders)
+    template.system_prompt_rules = multi_gsub(template.system_prompt_rules, placeholders)
   end
 
   def combined_system_prompt
-    "#{params[:system_prompts]}\n\n#{template.system_prompt_rules}"
+    "#{params[:system_prompts]}\n\n#{multi_gsub(template.system_prompt_rules, placeholders)}"
+  end
+
+  def placeholders
+    {
+      '{business_name}' => business_name,
+      '{additional_rules}' => params[:routing_conditions] || ''
+    }
+  end
+
+  def multi_gsub(str, replacements)
+    replacements.reduce(str) { |result, (pattern, value)| result.gsub(pattern, value) }
   end
 
   def business_name

@@ -35,7 +35,27 @@ class AiAgents::FlowiseService
 
       raise "Error loading chat flow: #{response.code} #{response.message}" unless response.success?
 
-      response.parsed_response
+      Rails.logger.info("🤖 #{name} chat flow saved successfully")
+
+      parsed = response.parsed_response
+
+      setup_langfuse(parsed['id'])
+
+      parsed
+    end
+
+    def setup_langfuse(id)
+      response = put(
+        "/chatflows/#{id}",
+        body: {
+          'analytic' => '{"langFuse":{"credentialId":"8092df26-55eb-407f-aefc-d9e515943cc8","release":"jangkau","status":true}}'
+        }.to_json,
+        headers: headers
+      )
+
+      raise "Error saving chat flow: #{response.code} #{response.message}" unless response.success?
+
+      Rails.logger.info('🤖 Langfuse setup successfully')
     end
 
     def save_as_chat_flow(id, name, flow_data)
@@ -52,7 +72,7 @@ class AiAgents::FlowiseService
 
       raise "Error saving chat flow: #{response.code} #{response.message}" unless response.success?
 
-      Rails.logger.info("🤖 Chat flow saved successfully: #{response.body}")
+      Rails.logger.info("🤖 #{name} chat flow saved successfully")
 
       response.parsed_response
     end

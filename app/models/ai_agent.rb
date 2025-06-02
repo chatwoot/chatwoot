@@ -44,7 +44,7 @@ class AiAgent < ApplicationRecord
   end
 
   def self.add_ai_agent(params, template, chat_flow, document_store)
-    agent = Current.account.ai_agents.new(
+    agent = new(
       params.merge(
         system_prompts: template.system_prompt,
         welcoming_message: template.welcoming_message,
