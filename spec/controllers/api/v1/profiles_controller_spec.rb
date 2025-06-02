@@ -296,4 +296,32 @@ RSpec.describe 'Profile API', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/profile/reset_access_token' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/reset_access_token'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'regenerates the access token' do
+        old_token = agent.access_token.token
+
+        post '/api/v1/profile/reset_access_token',
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.access_token.token).not_to eq(old_token)
+        json_response = response.parsed_body
+        expect(json_response['access_token']).to eq(agent.access_token.token)
+      end
+    end
+  end
 end
