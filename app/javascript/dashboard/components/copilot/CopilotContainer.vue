@@ -15,6 +15,7 @@ defineProps({
 const store = useStore();
 const currentUser = useMapGetter('getCurrentUser');
 const assistants = useMapGetter('captainAssistants/getRecords');
+const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const inboxAssistant = useMapGetter('getCopilotAssistant');
 const currentChat = useMapGetter('getSelectedChat');
 
@@ -67,7 +68,7 @@ const shouldShowCopilotPanel = computed(() => {
     FEATURE_FLAGS.CAPTAIN
   );
   const { is_copilot_panel_open: isCopilotPanelOpen } = uiSettings.value;
-  return isCaptainEnabled && isCopilotPanelOpen;
+  return isCaptainEnabled && isCopilotPanelOpen && !uiFlags.value.fetchingList;
 });
 
 const handleReset = () => {
