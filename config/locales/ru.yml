@@ -242,6 +242,11 @@ ru:
   captain:
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
