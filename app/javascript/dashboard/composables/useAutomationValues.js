@@ -86,6 +86,7 @@ export default function useAutomationValues() {
       contacts: contacts.value,
       customAttributes: getters['attributes/getAttributes'].value,
       inboxes: inboxes.value,
+      labels: labels.value,
       statusFilterOptions: statusFilterOptions.value,
       teams: teams.value,
       languages,

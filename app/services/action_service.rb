@@ -45,8 +45,14 @@ class ActionService
   def remove_label(labels)
     return if labels.empty?
 
-    labels = @conversation.label_list - labels
-    @conversation.update(label_list: labels)
+    old_labels = @conversation.label_list.dup
+    new_labels = @conversation.label_list - labels
+    @conversation.update(label_list: new_labels)
+
+    # Ensure label update event is dispatched
+    return unless @conversation.respond_to?(:dispatch_label_update_event) && old_labels != new_labels
+
+    @conversation.send(:dispatch_label_update_event, old_labels, new_labels)
   end
 
   def assign_team(team_ids = [])

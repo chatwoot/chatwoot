@@ -151,7 +151,22 @@ class AutomationRules::ConditionsFilterService < FilterService
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        " tags.id #{filter_operator_value} #{query_operator} "
+        # For labels, we need to check if the tag name is present in the queried values
+        if query_hash['filter_operator'] == 'equal_to'
+          value_placeholder = "value_#{current_index}"
+          @filter_values[value_placeholder] = query_hash['values'].first
+          " tags.name = :#{value_placeholder} #{query_operator} "
+        elsif query_hash['filter_operator'] == 'not_equal_to'
+          value_placeholder = "value_#{current_index}"
+          @filter_values[value_placeholder] = query_hash['values'].first
+          " tags.name != :#{value_placeholder} #{query_operator} "
+        elsif query_hash['filter_operator'] == 'is_present'
+          " tags.id IS NOT NULL #{query_operator} "
+        elsif query_hash['filter_operator'] == 'is_not_present'
+          " tags.id IS NULL #{query_operator} "
+        else
+          " tags.id #{filter_operator_value} #{query_operator} "
+        end
       else
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
@@ -165,6 +180,10 @@ class AutomationRules::ConditionsFilterService < FilterService
       'LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id'
     ).joins(
       'LEFT OUTER JOIN messages on messages.conversation_id = conversations.id'
+    ).joins(
+      'LEFT OUTER JOIN taggings ON taggings.taggable_id = conversations.id AND taggings.taggable_type = \'Conversation\''
+    ).joins(
+      'LEFT OUTER JOIN tags ON taggings.tag_id = tags.id'
     )
     records = records.where(messages: { id: @options[:message].id }) if @options[:message].present?
     records
