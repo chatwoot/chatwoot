@@ -1,5 +1,5 @@
 <script setup>
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 import IssueHeader from './IssueHeader.vue';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 
@@ -19,9 +19,9 @@ const priorityMap = {
   4: 'Low',
 };
 
-const getFormattedDate = createdAt => {
-  return format(new Date(createdAt), 'hh:mm a, MMM dd');
-};
+// const getFormattedDate = createdAt => {
+//   return format(new Date(createdAt), 'hh:mm a, MMM dd');
+// };
 
 const getAssignee = issue => {
   const assigneeDetails = issue.assignee;
@@ -48,7 +48,7 @@ const unlinkIssue = linkId => {
 
 <template>
   <div
-    class="flex flex-col items-start bg-n-alpha-3 backdrop-blur-[100px] px-4 py-3 border border-solid border-n-container rounded-xl gap-4"
+    class="flex flex-col items-start gap-2 px-4 py-3 border-b border-n-strong group/note"
   >
     <!-- Issue Header -->
     <div class="flex flex-col w-full">
@@ -135,7 +135,7 @@ const unlinkIssue = linkId => {
     </div>
 
     <!-- Created Date -->
-    <div class="flex items-center">
+    <!-- <div class="flex items-center">
       <span class="text-xs text-n-slate-11">
         {{
           $t('INTEGRATION_SETTINGS.LINEAR.ISSUE.CREATED_AT', {
@@ -143,6 +143,6 @@ const unlinkIssue = linkId => {
           })
         }}
       </span>
-    </div>
+    </div> -->
   </div>
 </template>

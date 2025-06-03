@@ -93,7 +93,7 @@ onMounted(() => {
 <template>
   <div class="space-y-3">
     <!-- Create or link button -->
-    <div class="p-3 border-b border-n-container">
+    <div class="p-3 border-b border-n-strong">
       <NextButton
         faded
         xs
@@ -104,25 +104,23 @@ onMounted(() => {
     </div>
 
     <!-- Loading state -->
-    <div v-if="isLoading" class="flex items-center justify-center py-4">
-      <span class="text-sm">{{
-        $t('INTEGRATION_SETTINGS.LINEAR.LOADING')
-      }}</span>
-      <Spinner class="size-5" />
+    <div v-if="isLoading" class="grid p-8 place-content-center">
+      <Spinner />
     </div>
 
     <!-- Empty state -->
-    <div v-else-if="!hasIssues" class="py-4 text-center">
-      <p class="text-sm text-slate-600 dark:text-slate-400">
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
+    <div v-else-if="!hasIssues" class="grid p-8 place-content-center">
+      <p class="text-center">
+        {{ t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
       </p>
     </div>
 
     <!-- Issues list -->
-    <div v-else class="space-y-3">
+    <div v-else class="max-h-[300px] overflow-scroll">
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
+        class="p-4 last-of-type:border-b-0"
         :linked-issue="linkedIssue"
         @unlink-issue="unlinkIssue"
       />
