@@ -1,7 +1,8 @@
 class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
-  include ReportHelper
   attr_reader :account, :params
 
+  # rubocop:disable Lint/MissingSuper
+  # the parent class has no initialize
   def initialize(account:, params:)
     @account = account
     @params = params
@@ -9,6 +10,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
     timezone_offset = (params[:timezone_offset] || 0).to_f
     @timezone = ActiveSupport::TimeZone[timezone_offset]&.name
   end
+  # rubocop:enable Lint/MissingSuper
 
   def build
     labels = account.labels.to_a
