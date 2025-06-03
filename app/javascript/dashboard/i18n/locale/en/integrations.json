@@ -328,6 +328,9 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "Try these prompts",
+      "PANEL_TITLE": "Get started with Copilot",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Send message...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Captain is thinking",
@@ -348,6 +351,14 @@
         "RATE": {
           "LABEL": "Rate this conversation",
           "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "High priority conversations",
+          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "List contacts",
+          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
       }
     },
@@ -381,6 +392,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistants",
+      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
