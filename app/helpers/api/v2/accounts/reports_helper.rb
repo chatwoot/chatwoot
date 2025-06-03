@@ -36,9 +36,9 @@ module Api::V2::Accounts::ReportsHelper
   end
 
   def generate_labels_report
-    reports = V2::LabelReportBuilder.new(
-      Current.account,
-      build_params({})
+    reports = V2::Reports::LabelSummaryBuilder.new(
+      account: Current.account,
+      params: build_params({})
     ).build
 
     reports.map do |report|
