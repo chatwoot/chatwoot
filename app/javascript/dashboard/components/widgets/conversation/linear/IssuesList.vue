@@ -1,14 +1,12 @@
 <script setup>
 import { computed, ref, onMounted, watch } from 'vue';
-import { format } from 'date-fns';
 import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
-import IssueHeader from './IssueHeader.vue';
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
+import LinearIssueItem from './LinearIssueItem.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useTrack } from 'dashboard/composables';
 import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
@@ -34,35 +32,6 @@ const currentAccountId = getters.getCurrentAccountId;
 const conversation = computed(
   () => getters.getConversationById.value(props.conversationId) || {}
 );
-
-const priorityMap = {
-  1: 'Urgent',
-  2: 'High',
-  3: 'Medium',
-  4: 'Low',
-};
-
-const getFormattedDate = createdAt => {
-  return format(new Date(createdAt), 'hh:mm a, MMM dd');
-};
-
-const getAssignee = issue => {
-  const assigneeDetails = issue.assignee;
-  if (!assigneeDetails) return null;
-  const { name, avatarUrl } = assigneeDetails;
-  return {
-    name,
-    thumbnail: avatarUrl,
-  };
-};
-
-const getLabels = issue => {
-  return issue.labels?.nodes || [];
-};
-
-const getPriorityLabel = priority => {
-  return priorityMap[priority];
-};
 
 const loadLinkedIssues = async () => {
   isLoading.value = true;
@@ -124,15 +93,15 @@ onMounted(() => {
 <template>
   <div class="space-y-3">
     <!-- Create or link button -->
-    <Button
-      ghost
-      sm
-      class="justify-start w-full gap-2 text-blue-500 hover:bg-blue-50 dark:hover:bg-blue-900/20"
-      @click="openCreateModal"
-    >
-      <fluent-icon icon="add" size="16" />
-      {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON') }}
-    </Button>
+    <div class="p-3 border-b border-n-container">
+      <NextButton
+        faded
+        xs
+        icon="i-lucide-plus"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
+        @click="openCreateModal"
+      />
+    </div>
 
     <!-- Loading state -->
     <div v-if="isLoading" class="flex items-center justify-center py-4">
@@ -151,106 +120,12 @@ onMounted(() => {
 
     <!-- Issues list -->
     <div v-else class="space-y-3">
-      <div
+      <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
-        class="flex flex-col items-start bg-n-alpha-3 backdrop-blur-[100px] px-4 py-3 border border-solid border-n-container rounded-xl gap-4"
-      >
-        <!-- Issue Header -->
-        <div class="flex flex-col w-full">
-          <IssueHeader
-            :identifier="linkedIssue.issue.identifier"
-            :link-id="linkedIssue.id"
-            :issue-url="linkedIssue.issue.url"
-            @unlink-issue="unlinkIssue"
-          />
-
-          <!-- Issue Title -->
-          <span class="mt-2 text-sm font-medium text-n-slate-12">
-            {{ linkedIssue.issue.title }}
-          </span>
-
-          <!-- Issue Description -->
-          <span
-            v-if="linkedIssue.issue.description"
-            class="mt-1 text-sm text-n-slate-11 line-clamp-3"
-          >
-            {{ linkedIssue.issue.description }}
-          </span>
-        </div>
-
-        <!-- Issue Metadata -->
-        <div class="flex flex-row items-center h-6 gap-2">
-          <!-- Assignee -->
-          <UserAvatarWithName
-            v-if="getAssignee(linkedIssue.issue)"
-            :user="getAssignee(linkedIssue.issue)"
-            class="py-1"
-          />
-          <div
-            v-if="getAssignee(linkedIssue.issue)"
-            class="w-px h-3 bg-n-slate-4"
-          />
-
-          <!-- Status -->
-          <div class="flex items-center gap-1 py-1">
-            <fluent-icon
-              icon="status"
-              size="14"
-              :style="{ color: linkedIssue.issue.state?.color }"
-            />
-            <h6 class="text-xs text-n-slate-12">
-              {{ linkedIssue.issue.state?.name }}
-            </h6>
-          </div>
-
-          <!-- Priority -->
-          <div
-            v-if="getPriorityLabel(linkedIssue.issue.priority)"
-            class="w-px h-3 bg-n-slate-4"
-          />
-          <div
-            v-if="getPriorityLabel(linkedIssue.issue.priority)"
-            class="flex items-center gap-1 py-1"
-          >
-            <fluent-icon
-              :icon="`priority-${getPriorityLabel(linkedIssue.issue.priority).toLowerCase()}`"
-              size="14"
-              view-box="0 0 12 12"
-            />
-            <h6 class="text-xs text-n-slate-12">
-              {{ getPriorityLabel(linkedIssue.issue.priority) }}
-            </h6>
-          </div>
-        </div>
-
-        <!-- Labels -->
-        <div
-          v-if="getLabels(linkedIssue.issue).length"
-          class="flex flex-wrap items-center gap-1"
-        >
-          <woot-label
-            v-for="label in getLabels(linkedIssue.issue)"
-            :key="label.id"
-            :title="label.name"
-            :description="label.description"
-            :color="label.color"
-            variant="smooth"
-            small
-          />
-        </div>
-
-        <!-- Created Date -->
-        <div class="flex items-center">
-          <span class="text-xs text-n-slate-11">
-            {{
-              $t('INTEGRATION_SETTINGS.LINEAR.ISSUE.CREATED_AT', {
-                createdAt: getFormattedDate(linkedIssue.issue.createdAt),
-              })
-            }}
-          </span>
-        </div>
-      </div>
+        :linked-issue="linkedIssue"
+        @unlink-issue="unlinkIssue"
+      />
     </div>
 
     <woot-modal
