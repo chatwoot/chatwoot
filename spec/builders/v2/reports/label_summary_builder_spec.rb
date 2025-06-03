@@ -60,35 +60,21 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
         feature_request = report.find { |r| r[:name] == 'label_2' }
         customer_support = report.find { |r| r[:name] == 'label_3' }
 
-        expect(bug_report).to include(
-          id: label_1.id,
-          name: 'label_1',
-          conversations_count: 0,
-          avg_resolution_time: 0,
-          avg_first_response_time: 0,
-          avg_reply_time: 0,
-          resolved_conversations_count: 0
-        )
-
-        expect(feature_request).to include(
-          id: label_2.id,
-          name: 'label_2',
-          conversations_count: 0,
-          avg_resolution_time: 0,
-          avg_first_response_time: 0,
-          avg_reply_time: 0,
-          resolved_conversations_count: 0
-        )
-
-        expect(customer_support).to include(
-          id: label_3.id,
-          name: 'label_3',
-          conversations_count: 0,
-          avg_resolution_time: 0,
-          avg_first_response_time: 0,
-          avg_reply_time: 0,
-          resolved_conversations_count: 0
-        )
+        [
+          [bug_report, label_1, 'label_1'],
+          [feature_request, label_2, 'label_2'],
+          [customer_support, label_3, 'label_3']
+        ].each do |report_data, label, label_name|
+          expect(report_data).to include(
+            id: label.id,
+            name: label_name,
+            conversations_count: 0,
+            avg_resolution_time: 0,
+            avg_first_response_time: 0,
+            avg_reply_time: 0,
+            resolved_conversations_count: 0
+          )
+        end
       end
     end
 
@@ -186,21 +172,23 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
           label_2_report = report.find { |r| r[:name] == 'label_2' }
           label_3_report = report.find { |r| r[:name] == 'label_3' }
 
-          expect(label_1_report).not_to be_nil
-          expect(label_2_report).not_to be_nil
-          expect(label_3_report).not_to be_nil
+          expect(label_1_report).to include(
+            conversations_count: 3,
+            avg_first_response_time: be > 0,
+            avg_reply_time: be > 0
+          )
 
-          expect(label_1_report[:conversations_count]).to eq(3)
-          expect(label_1_report[:avg_first_response_time]).to be > 0
-          expect(label_1_report[:avg_reply_time]).to be > 0
+          expect(label_2_report).to include(
+            conversations_count: 2,
+            avg_first_response_time: be > 0,
+            avg_reply_time: be > 0
+          )
 
-          expect(label_2_report[:conversations_count]).to eq(2)
-          expect(label_2_report[:avg_first_response_time]).to be > 0
-          expect(label_2_report[:avg_reply_time]).to be > 0
-
-          expect(label_3_report[:conversations_count]).to eq(0)
-          expect(label_3_report[:avg_first_response_time]).to eq(0)
-          expect(label_3_report[:avg_reply_time]).to eq(0)
+          expect(label_3_report).to include(
+            conversations_count: 0,
+            avg_first_response_time: 0,
+            avg_reply_time: 0
+          )
         end
       end
 
@@ -214,9 +202,6 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
 
           label_1_report = report.find { |r| r[:name] == 'label_1' }
           label_2_report = report.find { |r| r[:name] == 'label_2' }
-
-          expect(label_1_report).not_to be_nil
-          expect(label_2_report).not_to be_nil
 
           expect(label_1_report[:conversations_count]).to eq(3)
           expect(label_1_report[:avg_first_response_time]).to be > 0
@@ -287,7 +272,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
       end
     end
 
-    context 'business hours parameter handling' do
+    context 'with business hours parameter' do
       let(:business_hours) { 'true' }
 
       before do
