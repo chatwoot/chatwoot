@@ -16,7 +16,7 @@ class NotifyWaitingForAgentReplyJob < ApplicationJob
       scope: conversations_to_remind,
       action: :remind,
       message: WAITING_MESSAGE,
-      update_attrs: {}
+      update_attrs: { is_handover_reminder: false }
     )
   end
 

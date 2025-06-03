@@ -22,6 +22,7 @@ class Messages::MessageBuilder
     process_emails
     @message.save!
     handover_reminder_off?
+    reminder_off?
     @message
   end
 
@@ -121,6 +122,12 @@ class Messages::MessageBuilder
     return unless sender_type == 'USER' && @conversation.is_handover_reminder == true
 
     @conversation.update!(is_handover_reminder: false)
+  end
+
+  def reminder_off?
+    return unless sender_type == 'CONTACT' && @conversation.is_reminded == true
+
+    @conversation.update!(is_reminded: false)
   end
 
   def sender
