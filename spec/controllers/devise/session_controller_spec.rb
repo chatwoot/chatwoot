@@ -50,7 +50,7 @@ RSpec.describe 'Session', type: :request do
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(response.parsed_body['data']['permissions']).to eq(['agent'])
+        expect(response.parsed_body['data']['accounts'].first['permissions']).to eq(['agent'])
       end
     end
 

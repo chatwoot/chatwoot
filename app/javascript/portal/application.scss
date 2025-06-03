@@ -3,10 +3,6 @@
 @import 'tailwindcss/utilities';
 
 @import 'widget/assets/scss/reset';
-@import 'widget/assets/scss/variables';
-@import 'widget/assets/scss/buttons';
-@import 'widget/assets/scss/mixins';
-@import 'widget/assets/scss/forms';
 @import 'shared/assets/fonts/InterDisplay/inter-display';
 
 html,
@@ -17,7 +13,6 @@ body {
   height: 100%;
   letter-spacing: 0.2px;
 }
-
 
 // Taking these utils from tailwind 3.x.x, need to remove once we upgrade
 .scroll-mt-24 {

@@ -4,13 +4,6 @@ import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.
 import IssueHeader from './IssueHeader.vue';
 import { computed } from 'vue';
 
-const priorityMap = {
-  1: 'Urgent',
-  2: 'High',
-  3: 'Medium',
-  4: 'Low',
-};
-
 const props = defineProps({
   issue: {
     type: Object,
@@ -22,7 +15,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['unlink-issue']);
+const emit = defineEmits(['unlinkIssue']);
+
+const priorityMap = {
+  1: 'Urgent',
+  2: 'High',
+  3: 'Medium',
+  4: 'Low',
+};
 
 const formattedDate = computed(() => {
   const { createdAt } = props.issue;
@@ -50,53 +50,53 @@ const priorityLabel = computed(() => {
 });
 
 const unlinkIssue = () => {
-  emit('unlink-issue', props.linkId);
+  emit('unlinkIssue', props.linkId);
 };
 </script>
 
 <template>
   <div
-    class="absolute flex flex-col items-start bg-white dark:bg-slate-800 z-50 px-4 py-3 border border-solid border-ash-200 w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
+    class="absolute flex flex-col items-start bg-n-alpha-3 backdrop-blur-[100px] z-50 px-4 py-3 border border-solid border-n-container w-[384px] rounded-xl gap-4 max-h-96 overflow-auto"
   >
     <div class="flex flex-col w-full">
-      <issue-header
+      <IssueHeader
         :identifier="issue.identifier"
         :link-id="linkId"
         :issue-url="issue.url"
         @unlink-issue="unlinkIssue"
       />
 
-      <span class="mt-2 text-sm font-medium text-ash-900">
+      <span class="mt-2 text-sm font-medium text-n-slate-12">
         {{ issue.title }}
       </span>
       <span
         v-if="issue.description"
-        class="mt-1 text-sm text-ash-800 line-clamp-3"
+        class="mt-1 text-sm text-n-slate-11 line-clamp-3"
       >
         {{ issue.description }}
       </span>
     </div>
     <div class="flex flex-row items-center h-6 gap-2">
-      <user-avatar-with-name v-if="assignee" :user="assignee" class="py-1" />
-      <div v-if="assignee" class="w-px h-3 bg-ash-200" />
+      <UserAvatarWithName v-if="assignee" :user="assignee" class="py-1" />
+      <div v-if="assignee" class="w-px h-3 bg-n-slate-4" />
       <div class="flex items-center gap-1 py-1">
         <fluent-icon
           icon="status"
           size="14"
           :style="{ color: issue.state.color }"
         />
-        <h6 class="text-xs text-ash-900">
+        <h6 class="text-xs text-n-slate-12">
           {{ issue.state.name }}
         </h6>
       </div>
-      <div v-if="priorityLabel" class="w-px h-3 bg-ash-200" />
+      <div v-if="priorityLabel" class="w-px h-3 bg-n-slate-4" />
       <div v-if="priorityLabel" class="flex items-center gap-1 py-1">
         <fluent-icon
           :icon="`priority-${priorityLabel.toLowerCase()}`"
           size="14"
           view-box="0 0 12 12"
         />
-        <h6 class="text-xs text-ash-900">{{ priorityLabel }}</h6>
+        <h6 class="text-xs text-n-slate-12">{{ priorityLabel }}</h6>
       </div>
     </div>
     <div v-if="labels.length" class="flex flex-wrap items-center gap-1">
@@ -111,7 +111,7 @@ const unlinkIssue = () => {
       />
     </div>
     <div class="flex items-center">
-      <span class="text-xs text-ash-800">
+      <span class="text-xs text-n-slate-11">
         {{
           $t('INTEGRATION_SETTINGS.LINEAR.ISSUE.CREATED_AT', {
             createdAt: formattedDate,

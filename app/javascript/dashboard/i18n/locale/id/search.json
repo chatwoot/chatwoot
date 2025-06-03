@@ -11,8 +11,12 @@
       "CONVERSATIONS": "Percakapan",
       "MESSAGES": "Pesan"
     },
-    "EMPTY_STATE": "Tidak ada %{item} ditemukan untuk kueri '%{query}'",
-    "EMPTY_STATE_FULL": "Tidak ada hasil ditemukan untuk kueri '%{query}'",
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Sedang mencari",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Tidak ada {item} ditemukan untuk kueri '{query}'",
+    "EMPTY_STATE_FULL": "Tidak ada hasil ditemukan untuk kueri '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ untuk fokus",
     "INPUT_PLACEHOLDER": "Cari pesan, kontak, atau percakapan",
     "EMPTY_STATE_DEFAULT": "Cari dengan ID percakapan, email, nomor telepon, atau pesan untuk hasil pencarian yang lebih baik.",
@@ -20,6 +24,7 @@
     "READ_MORE": "Baca lebih lanjut",
     "WROTE": "menulis:",
     "FROM": "dari",
-    "EMAIL": "email"
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "masukkan subjek"
   }
 }

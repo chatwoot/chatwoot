@@ -1,23 +1,12 @@
 <script setup>
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 import { ref } from 'vue';
 
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-
-const { t } = useI18n();
-
-const emits = defineEmits(['update', 'close']);
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
-  selectedInboxes: {
-    type: Array,
-    default: () => [],
-  },
-  conversationCount: {
-    type: Number,
-    default: 0,
-  },
   showResolve: {
     type: Boolean,
     default: true,
@@ -32,10 +21,14 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['update', 'close']);
+
+const { t } = useI18n();
+
 const actions = ref([
-  { icon: 'checkmark', key: 'resolved' },
-  { icon: 'arrow-redo', key: 'open' },
-  { icon: 'send-clock', key: 'snoozed' },
+  { icon: 'i-lucide-check', key: 'resolved' },
+  { icon: 'i-lucide-redo', key: 'open' },
+  { icon: 'i-lucide-alarm-clock', key: 'snoozed' },
 ]);
 
 const updateConversations = key => {
@@ -45,12 +38,12 @@ const updateConversations = key => {
     const ninja = document.querySelector('ninja-keys');
     ninja?.open({ parent: 'bulk_action_snooze_conversation' });
   } else {
-    emits('update', key);
+    emit('update', key);
   }
 };
 
 const onClose = () => {
-  emits('close');
+  emit('close');
 };
 
 const showAction = key => {
@@ -75,7 +68,7 @@ const actionLabel = key => {
 <template>
   <div
     v-on-clickaway="onClose"
-    class="absolute right-2 top-12 origin-top-right w-auto z-20 bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md"
+    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md right-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
   >
     <div
       class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
@@ -85,7 +78,7 @@ const actionLabel = key => {
           d="M20 12l-8-8-12 12"
           fill-rule="evenodd"
           stroke-width="1px"
-          class="fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50"
+          class="fill-n-alpha-3 backdrop-blur-[100px] stroke-n-weak"
         />
       </svg>
     </div>
@@ -93,30 +86,24 @@ const actionLabel = key => {
       <span class="text-sm font-medium text-slate-600 dark:text-slate-100">
         {{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}
       </span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <Button ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="px-2.5 pt-0 pb-2.5">
-      <woot-dropdown-menu class="m-0 list-none">
+      <WootDropdownMenu class="m-0 list-none">
         <template v-for="action in actions">
-          <woot-dropdown-item v-if="showAction(action.key)" :key="action.key">
-            <woot-button
-              variant="clear"
-              color-scheme="secondary"
-              size="small"
+          <WootDropdownItem v-if="showAction(action.key)" :key="action.key">
+            <Button
+              ghost
+              sm
+              slate
+              class="!w-full ltr:!justify-start rtl:!justify-end"
               :icon="action.icon"
+              :label="actionLabel(action.key)"
               @click="updateConversations(action.key)"
-            >
-              {{ actionLabel(action.key) }}
-            </woot-button>
-          </woot-dropdown-item>
+            />
+          </WootDropdownItem>
         </template>
-      </woot-dropdown-menu>
+      </WootDropdownMenu>
     </div>
   </div>
 </template>

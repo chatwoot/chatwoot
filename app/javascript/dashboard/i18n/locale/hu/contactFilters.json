@@ -30,6 +30,9 @@
       "is_lesser_than": "Kisebb mint",
       "days_before": "x nappal előtte"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Kötelező megadni"
+    },
     "ATTRIBUTES": {
       "NAME": "Név",
       "EMAIL": "E-mail",

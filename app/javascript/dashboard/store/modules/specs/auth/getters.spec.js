@@ -42,6 +42,26 @@ describe('#getters', () => {
     });
   });
 
+  describe('#getCurrentCustomRoleId', () => {
+    it('returns current custom role id', () => {
+      expect(
+        getters.getCurrentCustomRoleId(
+          { currentUser: { accounts: [{ id: 1, custom_role_id: 1 }] } },
+          { getCurrentAccountId: 1 }
+        )
+      ).toEqual(1);
+    });
+
+    it('returns undefined if account is not available', () => {
+      expect(
+        getters.getCurrentCustomRoleId(
+          { currentUser: { accounts: [{ id: 1, custom_role_id: 1 }] } },
+          { getCurrentAccountId: 2 }
+        )
+      ).toEqual(undefined);
+    });
+  });
+
   describe('#getCurrentUserAvailability', () => {
     it('returns correct availability status', () => {
       expect(

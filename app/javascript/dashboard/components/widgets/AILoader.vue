@@ -12,8 +12,6 @@
   </div>
 </template>
 
-<script></script>
-
 <style lang="scss" scoped>
 .animation-container {
   position: relative;

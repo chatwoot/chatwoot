@@ -2,7 +2,12 @@
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 
-@import 'shared/assets/fonts/plus-jakarta';
+@import 'shared/assets/fonts/InterDisplay/inter-display';
+@import 'shared/assets/fonts/inter';
+
+// Next Colors
+@import 'next-colors';
+
 @import 'shared/assets/stylesheets/animations';
 @import 'shared/assets/stylesheets/colors';
 @import 'shared/assets/stylesheets/spacing';
@@ -24,25 +29,46 @@
 @import 'rtl';
 
 @import 'widgets/base';
-@import 'widgets/buttons';
 @import 'widgets/conversation-view';
 @import 'widgets/tabs';
 @import 'widgets/woot-tables';
 
 @import 'plugins/multiselect';
 @import 'plugins/dropdown';
-@import '~shared/assets/stylesheets/ionicons';
 
 .tooltip {
-  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900;
+  @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900 max-w-96;
+}
+
+#app {
+  @apply h-full w-full;
 }
 
 .hide {
   @apply hidden;
 }
 
+.n-blue-border {
+  @apply border-n-blue-border;
+}
+
+.n-blue-text {
+  @apply text-n-blue-text;
+}
+
+.custom-dashed-border {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23E2E3E7' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+}
+
+.dark .custom-dashed-border {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23343434' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+}
+
+// scss-lint:disable PropertySortOrder
 @layer base {
-  // scss-lint:disable PropertySortOrder
   :root {
     --color-amber-25: 254 253 251;
     --color-amber-50: 255 249 237;
@@ -213,6 +239,7 @@
     --color-orange-800: 204 78 0;
     --color-orange-900: 88 45 29;
   }
+
   // scss-lint:disable QualifyingElement
   body.dark {
     --color-amber-25: 31 19 0;
@@ -382,5 +409,17 @@
     --color-orange-700: 255 128 31;
     --color-orange-800: 255 160 87;
     --color-orange-900: 255 224 194;
+  }
+}
+
+@layer utilities {
+  /* Hide scrollbar for Chrome, Safari and Opera */
+  .no-scrollbar::-webkit-scrollbar {
+    display: none;
+  }
+  /* Hide scrollbar for IE, Edge and Firefox */
+  .no-scrollbar {
+    -ms-overflow-style: none; /* IE and Edge */
+    scrollbar-width: none; /* Firefox */
   }
 }

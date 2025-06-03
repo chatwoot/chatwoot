@@ -9,18 +9,13 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     @portals = Current.account.portals
   end
 
-  def add_members
-    agents = Current.account.agents.where(id: portal_member_params[:member_ids])
-    @portal.members << agents
-  end
-
   def show
     @all_articles = @portal.articles
     @articles = @all_articles.search(locale: params[:locale])
   end
 
   def create
-    @portal = Current.account.portals.build(portal_params)
+    @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
     process_attached_logo
@@ -28,7 +23,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      @portal.update!(portal_params) if params[:portal].present?
+      @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
     rescue StandardError => e
@@ -70,13 +65,19 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived, { config: [:default_locale,
-                                                                                                                          { allowed_locales: [] }] }
+      :account_id, :color, :custom_domain, :header_text, :homepage_link,
+      :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
     )
   end
 
-  def portal_member_params
-    params.require(:portal).permit(:account_id, member_ids: [])
+  def live_chat_widget_params
+    permitted_params = params.permit(:inbox_id)
+    return {} if permitted_params[:inbox_id].blank?
+
+    inbox = Inbox.find(permitted_params[:inbox_id])
+    return {} unless inbox.web_widget?
+
+    { channel_web_widget_id: inbox.channel.id }
   end
 
   def set_current_page

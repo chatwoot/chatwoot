@@ -1,3 +1,50 @@
+<script setup>
+import { computed } from 'vue';
+import { formatBytes } from 'shared/helpers/FileHelper';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const props = defineProps({
+  attachments: {
+    type: Array,
+    default: () => [],
+  },
+});
+
+const emit = defineEmits(['removeAttachment']);
+
+const nonRecordedAudioAttachments = computed(() => {
+  return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
+});
+
+const recordedAudioAttachments = computed(() =>
+  props.attachments.filter(attachment => attachment.isRecordedAudio)
+);
+
+const onRemoveAttachment = itemIndex => {
+  emit(
+    'removeAttachment',
+    nonRecordedAudioAttachments.value
+      .filter((_, index) => index !== itemIndex)
+      .concat(recordedAudioAttachments.value)
+  );
+};
+
+const formatFileSize = file => {
+  const size = file.byte_size || file.size;
+  return formatBytes(size, 0);
+};
+
+const isTypeImage = file => {
+  const type = file.content_type || file.type;
+  return type.includes('image');
+};
+
+const fileName = file => {
+  return file.filename || file.name;
+};
+</script>
+
 <template>
   <div class="flex overflow-auto max-h-[12.5rem]">
     <div
@@ -28,57 +75,14 @@
         </span>
       </div>
       <div class="flex items-center justify-center">
-        <woot-button
-          class="!w-6 !h-6 text-sm rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 clear secondary"
-          icon="dismiss"
+        <Button
+          ghost
+          slate
+          xs
+          icon="i-lucide-x"
           @click="onRemoveAttachment(index)"
         />
       </div>
     </div>
   </div>
 </template>
-
-<script setup>
-import { computed } from 'vue';
-import { formatBytes } from 'shared/helpers/FileHelper';
-
-const props = defineProps({
-  attachments: {
-    type: Array,
-    default: () => [],
-  },
-});
-
-const emits = defineEmits(['remove-attachment']);
-
-const nonRecordedAudioAttachments = computed(() => {
-  return props.attachments.filter(attachment => !attachment?.isRecordedAudio);
-});
-
-const recordedAudioAttachments = computed(() =>
-  props.attachments.filter(attachment => attachment.isRecordedAudio)
-);
-
-const onRemoveAttachment = itemIndex => {
-  emits(
-    'remove-attachment',
-    nonRecordedAudioAttachments.value
-      .filter((_, index) => index !== itemIndex)
-      .concat(recordedAudioAttachments.value)
-  );
-};
-
-const formatFileSize = file => {
-  const size = file.byte_size || file.size;
-  return formatBytes(size, 0);
-};
-
-const isTypeImage = file => {
-  const type = file.content_type || file.type;
-  return type.includes('image');
-};
-
-const fileName = file => {
-  return file.filename || file.name;
-};
-</script>

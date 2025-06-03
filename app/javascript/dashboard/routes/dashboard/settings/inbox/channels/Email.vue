@@ -1,28 +1,3 @@
-<template>
-  <div
-    v-if="!provider"
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full md:w-full max-w-full md:max-w-[75%] flex-shrink-0 flex-grow-0"
-  >
-    <page-header
-      class="max-w-4xl"
-      :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
-    />
-    <div class="grid max-w-3xl grid-cols-4 mx-0 mt-6">
-      <channel-selector
-        v-for="emailProvider in emailProviderList"
-        :key="emailProvider.key"
-        :class="{ inactive: !emailProvider.isEnabled }"
-        :title="emailProvider.title"
-        :src="emailProvider.src"
-        @click="() => onClick(emailProvider)"
-      />
-    </div>
-  </div>
-  <microsoft v-else-if="provider === 'microsoft'" />
-  <google v-else-if="provider === 'google'" />
-  <forward-to-option v-else-if="provider === 'other_provider'" />
-</template>
 <script setup>
 import { ref, computed } from 'vue';
 import ForwardToOption from './emailChannels/ForwardToOption.vue';
@@ -32,7 +7,7 @@ import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const provider = ref('');
 
@@ -72,7 +47,33 @@ const emailProviderList = computed(() => {
 
 function onClick(emailProvider) {
   if (emailProvider.isEnabled) {
-    this.provider = emailProvider.key;
+    provider.value = emailProvider.key;
   }
 }
 </script>
+
+<template>
+  <div
+    v-if="!provider"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+  >
+    <PageHeader
+      class="max-w-4xl"
+      :header-title="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.TITLE')"
+      :header-content="$t('INBOX_MGMT.ADD.EMAIL_PROVIDER.DESCRIPTION')"
+    />
+    <div class="grid max-w-3xl grid-cols-4 mx-0 mt-6">
+      <ChannelSelector
+        v-for="emailProvider in emailProviderList"
+        :key="emailProvider.key"
+        :class="{ inactive: !emailProvider.isEnabled }"
+        :title="emailProvider.title"
+        :src="emailProvider.src"
+        @click="() => onClick(emailProvider)"
+      />
+    </div>
+  </div>
+  <Microsoft v-else-if="provider === 'microsoft'" />
+  <Google v-else-if="provider === 'google'" />
+  <ForwardToOption v-else-if="provider === 'other_provider'" />
+</template>

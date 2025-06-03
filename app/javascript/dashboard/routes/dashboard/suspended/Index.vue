@@ -22,7 +22,7 @@ onMounted(() => {
 
 <template>
   <div class="items-center bg-slate-50 flex justify-center h-full w-full">
-    <empty-state
+    <EmptyState
       :title="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.TITLE')"
       :message="$t('APP_GLOBAL.ACCOUNT_SUSPENDED.MESSAGE')"
     />

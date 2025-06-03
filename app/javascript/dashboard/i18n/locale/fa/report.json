@@ -23,13 +23,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "زمان انتظار مشتری",
-        "TOOLTIP_TEXT": "زمان انتظار %{metricValue} (بر اساس %{conversationCount} پاسخ)"
+        "TOOLTIP_TEXT": "زمان انتظار {metricValue} (بر اساس {conversationCount} پاسخ)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "پارسال",
       "CUSTOM_DATE_RANGE": "محدوده تاریخ سفارشی"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "در ۷ روز گذشته"
-      },
-      {
-        "id": 1,
-        "name": "در ۳۰ روز گذشته"
-      },
-      {
-        "id": 0,
-        "name": "۳ ماه گذشته"
-      },
-      {
-        "id": 0,
-        "name": "۶ ماه گذشته"
-      },
-      {
-        "id": 0,
-        "name": "پارسال"
-      },
-      {
-        "id": 0,
-        "name": "محدوده تاریخ سفارشی"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "درخواست دادن",
       "PLACEHOLDER": "محدوده تاریخ را انتخاب کنید"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "پاک کردن فیلتر",
       "EMPTY_LIST": "نتیجه‌ای یافت نشد"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "نمای کلی اپراتور ها",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_AGENT_REPORTS": "دانلود گزارش ایجنت",
@@ -167,13 +147,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -234,13 +214,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "( میانگین )",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -280,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "نمای کلی صندوق ورودی",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_INBOX_REPORTS": "دانلود گزارش های صندوق ورودی",
@@ -301,13 +282,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -320,7 +301,7 @@
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "۱",
         "name": "در ۳۰ روز گذشته"
       },
       {
@@ -347,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "نمای کلی تیم",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "در حال دریافت اطلاعات...",
     "NO_ENOUGH_DATA": "متاسفانه اطلاعات کافی دریافت نشد، لطفا بعدا دوباره امتحان کنید",
     "DOWNLOAD_TEAM_REPORTS": "دانلود گزارشات تیم",
@@ -368,13 +350,13 @@
         "NAME": "اولین زمان پاسخگویی",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان پاسخ اول %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان پاسخ اول {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_TIME": {
         "NAME": "زمان تا حل شدن مساله",
         "DESC": "« میانگین »",
         "INFO_TEXT": "تعداد کل مکالمات مورد استفاده برای محاسبه:",
-        "TOOLTIP_TEXT": "زمان اتمام گفتگو %{metricValue} (بر اساس %{conversationCount} گفتگو)"
+        "TOOLTIP_TEXT": "زمان اتمام گفتگو {metricValue} (بر اساس {conversationCount} گفتگو)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "تعداد مسائل حل شده",
@@ -387,7 +369,7 @@
         "name": "در ۷ روز گذشته"
       },
       {
-        "id": 0,
+        "id": "۱",
         "name": "در ۳۰ روز گذشته"
       },
       {
@@ -480,8 +462,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "ترافیک گفتگو",
       "NO_CONVERSATIONS": "بدون هیچ گفتگویی",
-      "CONVERSATION": "%{count} گفتگو",
-      "CONVERSATIONS": "%{count} گفتگو"
+      "CONVERSATION": "{count} گفتگو",
+      "CONVERSATIONS": "{count} گفتگو",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "گفتگوهای اپراتور ها",
@@ -489,6 +472,18 @@
       "NO_AGENTS": "هیچ مکالمه ای توسط اپراتور ها وجود ندارد",
       "TABLE_HEADER": {
         "AGENT": "ایجنت",
+        "OPEN": "باز",
+        "UNATTENDED": "بی سرپرست",
+        "STATUS": "وضعیت"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "تیم‌",
         "OPEN": "باز",
         "UNATTENDED": "بی سرپرست",
         "STATUS": "وضعیت"
@@ -536,6 +531,7 @@
       "LABELS": "برچسب",
       "TEAMS": "تیم‌"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "نرخ برخورد",
@@ -558,5 +554,15 @@
       },
       "VIEW_DETAILS": "مشاهده جزئیات"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "صندوق ورودی",
+    "AGENT": "ایجنت",
+    "TEAM": "تیم‌",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "تعداد مسائل حل شده",
+    "CONVERSATIONS": "تعداد گفتگوها"
   }
 }

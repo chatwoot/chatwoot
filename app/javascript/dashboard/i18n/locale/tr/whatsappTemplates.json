@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "WhatsApp Şablonları",
             "SUBTITLE": "Göndermek istediğiniz WhatsApp şablonunu seçin",
-            "TEMPLATE_SELECTED_SUBTITLE": "%{templateName} işleniyor"
+            "TEMPLATE_SELECTED_SUBTITLE": "{templateName} işleniyor"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Şablon Ara",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Değişkenler",
-            "VARIABLE_PLACEHOLDER": "%{variable} değerini girin",
+            "VARIABLE_PLACEHOLDER": "{variable} değerini girin",
             "GO_BACK_LABEL": "Geri Git",
             "SEND_MESSAGE_LABEL": "Mesaj Gönder",
             "FORM_ERROR_MESSAGE": "Lütfen göndermeden önce tüm değişkenleri doldurun"

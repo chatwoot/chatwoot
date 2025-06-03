@@ -1,58 +1,9 @@
-<template>
-  <header
-    class="flex justify-between p-5 w-full"
-    :class="$dm('bg-white', 'dark:bg-slate-900')"
-  >
-    <div class="flex items-center">
-      <button
-        v-if="showBackButton"
-        class="-ml-3 px-2"
-        @click="onBackButtonClick"
-      >
-        <fluent-icon
-          icon="chevron-left"
-          size="24"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        />
-      </button>
-      <img
-        v-if="avatarUrl"
-        class="h-8 w-8 rounded-full mr-3"
-        :src="avatarUrl"
-        alt="avatar"
-      />
-      <div>
-        <div
-          class="font-medium text-base leading-4 flex items-center"
-          :class="$dm('text-black-900', 'dark:text-slate-50')"
-        >
-          <span v-dompurify-html="title" class="mr-1" />
-          <div
-            :class="`h-2 w-2 rounded-full
-              ${isOnline ? 'bg-green-500' : 'hidden'}`"
-          />
-        </div>
-        <div
-          class="text-xs mt-1 leading-3"
-          :class="$dm('text-black-700', 'dark:text-slate-400')"
-        >
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-    </div>
-    <header-actions :show-popout-button="showPopoutButton" />
-  </header>
-</template>
-
 <script>
-import { mapGetters } from 'vuex';
-
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'ChatHeader',
@@ -60,7 +11,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -84,9 +35,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;
@@ -104,3 +52,38 @@ export default {
   },
 };
 </script>
+
+<template>
+  <header class="flex justify-between w-full p-5 bg-n-background gap-2">
+    <div class="flex items-center">
+      <button
+        v-if="showBackButton"
+        class="px-2 ltr:-ml-3 rtl:-mr-3"
+        @click="onBackButtonClick"
+      >
+        <FluentIcon icon="chevron-left" size="24" class="text-n-slate-12" />
+      </button>
+      <img
+        v-if="avatarUrl"
+        class="w-8 h-8 ltr:mr-3 rtl:ml-3 rounded-full"
+        :src="avatarUrl"
+        alt="avatar"
+      />
+      <div class="flex flex-col gap-1">
+        <div
+          class="flex items-center text-base font-medium leading-4 text-n-slate-12"
+        >
+          <span v-dompurify-html="title" class="ltr:mr-1 rtl:ml-1" />
+          <div
+            :class="`h-2 w-2 rounded-full
+              ${isOnline ? 'bg-green-500' : 'hidden'}`"
+          />
+        </div>
+        <div class="text-xs leading-3 text-n-slate-11">
+          {{ replyWaitMessage }}
+        </div>
+      </div>
+    </div>
+    <HeaderActions :show-popout-button="showPopoutButton" />
+  </header>
+</template>

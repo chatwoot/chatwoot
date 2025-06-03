@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Innbokser",
-    "SIDEBAR_TXT": "<p><b>Innboks</b></p> <p> Når du kobler til et nettsted eller en facebook-side til Chatwoot blir den kalt en <b>Innboks</b>. Du kan ha ubegrensede innbokser i din Chatwoot-konto. </p><p> Klikk på <b>Legg til innboks</b> for å koble sammen en nettside eller en facebook-side. </p><p> I oversikten kan du se alle samtalene fra innboksene på et sted og svare på de i samtaler-fanen. </p><p> Du kan også se samtaler for hver enkelt innboks ved å klikke på innboksen på venstre siden av oversikten. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Det er ingen innbokser tilknyttet denne kontoen."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Velg kanal",
-        "route": "settings_inbox_new",
-        "body": "Velg tilbyderen du vil integrere med Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Velg kanal",
+        "BODY": "Velg tilbyderen du vil integrere med Chatwoot."
       },
-      {
-        "title": "Opprett innboks",
-        "route": "settings_inboxes_page_channel",
-        "body": "Autoriser din konto og opprett en innboks."
+      "INBOX": {
+        "TITLE": "Opprett innboks",
+        "BODY": "Autoriser din konto og opprett en innboks."
       },
-      {
-        "title": "Legg til agenter",
-        "route": "settings_inboxes_add_agents",
-        "body": "Legg agenter til i den opprettede innboksen."
+      "AGENT": {
+        "TITLE": "Legg til agenter",
+        "BODY": "Legg agenter til i den opprettede innboksen."
       },
-      {
-        "title": "Voilà!",
-        "route": "settings_inbox_finish",
-        "body": "Klar - ferdig - gå!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Klar - ferdig - gå!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Navn på innboks",
@@ -44,7 +43,17 @@
         "INBOX_NAME": "Navn på innboks",
         "ADD_NAME": "Legge til et navn på innboksen din",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Velg en verdi"
+        "PICK_A_VALUE": "Velg en verdi",
+        "CREATE_INBOX": "Opprett innboks"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "For å legge til din Twitter-profil som kanal, må du autorisere din Twitter-profil ved å klikke på 'Logg inn med Twitter' ",
@@ -364,12 +373,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autentiserer deg med Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Noe gikk galt, oppdater siden...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -464,7 +481,8 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Innstillinger",
     "FEATURES": {
@@ -485,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Aktiver autotilordning",
-      "ENABLE_CSAT": "Enable CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
@@ -559,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Visitors should provide their name and email address before starting the chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Enable CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Melding",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contains",
+          "DOES_NOT_CONTAINS": "does not contain"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -733,7 +775,21 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "E-post",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "API Kanal",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

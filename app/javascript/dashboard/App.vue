@@ -1,45 +1,19 @@
-<template>
-  <div
-    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
-    id="app"
-    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
-    :class="{ 'app-rtl--wrapper': isRTLView }"
-    :dir="isRTLView ? 'rtl' : 'ltr'"
-  >
-    <update-banner :latest-chatwoot-version="latestChatwootVersion" />
-    <template v-if="currentAccountId">
-      <pending-email-verification-banner v-if="hideOnOnboardingView" />
-      <payment-pending-banner v-if="hideOnOnboardingView" />
-      <upgrade-banner />
-    </template>
-    <transition name="fade" mode="out-in">
-      <router-view />
-    </transition>
-    <add-account-modal
-      :show="showAddAccountModal"
-      :has-accounts="hasAccounts"
-    />
-    <woot-snackbar-box />
-    <network-notification />
-  </div>
-  <loading-state v-else />
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import router from '../dashboard/routes';
 import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
-import UpgradeBanner from './components/app/UpgradeBanner.vue';
 import PaymentPendingBanner from './components/app/PaymentPendingBanner.vue';
 import PendingEmailVerificationBanner from './components/app/PendingEmailVerificationBanner.vue';
 import vueActionCable from './helper/actionCable';
+import { useRouter } from 'vue-router';
+import { useStore } from 'dashboard/composables/store';
 import WootSnackbarBox from './components/SnackbarContainer.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
 import { setColorTheme } from './helper/themeHelper';
 import { isOnOnboardingView } from 'v3/helpers/RouteHelper';
+import { useAccount } from 'dashboard/composables/useAccount';
+import { useFontSize } from 'dashboard/composables/useFontSize';
 import {
   registerSubscription,
   verifyServiceWorkerExistence,
@@ -56,12 +30,22 @@ export default {
     UpdateBanner,
     PaymentPendingBanner,
     WootSnackbarBox,
-    UpgradeBanner,
     PendingEmailVerificationBanner,
   },
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    const { accountId } = useAccount();
+    // Use the font size composable (it automatically sets up the watcher)
+    const { currentFontSize } = useFontSize();
 
-  mixins: [rtlMixin],
-
+    return {
+      router,
+      store,
+      currentAccountId: accountId,
+      currentFontSize,
+    };
+  },
   data() {
     return {
       showAddAccountModal: false,
@@ -69,15 +53,13 @@ export default {
       reconnectService: null,
     };
   },
-
   computed: {
     ...mapGetters({
       getAccount: 'accounts/getAccount',
+      isRTL: 'accounts/isRTL',
       currentUser: 'getCurrentUser',
-      globalConfig: 'globalConfig/get',
       authUIFlags: 'getAuthUIFlags',
       accountUIFlags: 'accounts/getUIFlags',
-      currentAccountId: 'getCurrentAccountId',
     }),
     hasAccounts() {
       const { accounts = [] } = this.currentUser || {};
@@ -94,10 +76,13 @@ export default {
         this.showAddAccountModal = true;
       }
     },
-    currentAccountId() {
-      if (this.currentAccountId) {
-        this.initializeAccount();
-      }
+    currentAccountId: {
+      immediate: true,
+      handler() {
+        if (this.currentAccountId) {
+          this.initializeAccount();
+        }
+      },
     },
   },
   mounted() {
@@ -105,7 +90,7 @@ export default {
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
   },
-  beforeDestroy() {
+  unmounted() {
     if (this.reconnectService) {
       this.reconnectService.disconnect();
     }
@@ -130,10 +115,10 @@ export default {
         this.getAccount(this.currentAccountId);
       const { pubsub_token: pubsubToken } = this.currentUser || {};
       this.setLocale(locale);
-      this.updateRTLDirectionView(locale);
       this.latestChatwootVersion = latestChatwootVersion;
-      vueActionCable.init(pubsubToken);
-      this.reconnectService = new ReconnectService(this.$store, router);
+      vueActionCable.init(this.store, pubsubToken);
+      this.reconnectService = new ReconnectService(this.store, this.router);
+      window.reconnectService = this.reconnectService;
 
       verifyServiceWorkerExistence(registration =>
         registration.pushManager.getSubscription().then(subscription => {
@@ -147,8 +132,49 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    v-if="!authUIFlags.isFetching && !accountUIFlags.isFetchingItem"
+    id="app"
+    class="flex-grow-0 w-full h-full min-h-0 app-wrapper"
+    :class="{ 'app-rtl--wrapper': isRTL }"
+    :dir="isRTL ? 'rtl' : 'ltr'"
+  >
+    <UpdateBanner :latest-chatwoot-version="latestChatwootVersion" />
+    <template v-if="currentAccountId">
+      <PendingEmailVerificationBanner v-if="hideOnOnboardingView" />
+      <PaymentPendingBanner v-if="hideOnOnboardingView" />
+    </template>
+    <router-view v-slot="{ Component }">
+      <transition name="fade" mode="out-in">
+        <component :is="Component" />
+      </transition>
+    </router-view>
+    <AddAccountModal :show="showAddAccountModal" :has-accounts="hasAccounts" />
+    <WootSnackbarBox />
+    <NetworkNotification />
+  </div>
+  <LoadingState v-else />
+</template>
+
 <style lang="scss">
 @import './assets/scss/app';
+
+.v-popper--theme-tooltip .v-popper__inner {
+  background: black !important;
+  font-size: 0.75rem;
+  padding: 4px 8px !important;
+  border-radius: 6px;
+  font-weight: 400;
+}
+
+.v-popper--theme-tooltip .v-popper__arrow-container {
+  display: none;
+}
+
+.multiselect__input {
+  margin-bottom: 0px !important;
+}
 </style>
 
-<style src="vue-multiselect/dist/vue-multiselect.min.css"></style>
+<style src="vue-multiselect/dist/vue-multiselect.css"></style>

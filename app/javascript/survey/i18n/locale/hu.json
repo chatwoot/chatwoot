@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Kedves felhasználónk 👋, kérlek szánj rá kis időt, és értékeld a beszélgetést %{inboxName} munkatársunkkal.",
+    "DESCRIPTION": "Kedves felhasználónk 👋, kérlek szánj rá kis időt, és értékeld a beszélgetést {inboxName} munkatársunkkal.",
     "RATING": {
       "LABEL": "Értékeld a beszélgetést",
       "SUCCESS_MESSAGE": "Köszönjük, hogy elküldted az értékelést"

@@ -42,6 +42,7 @@ class Contact < ApplicationRecord
   include Avatarable
   include AvailabilityStatusable
   include Labelable
+  include LlmFormattable
 
   validates :account_id, presence: true
   validates :email, allow_blank: true, uniqueness: { scope: [:account_id], case_sensitive: false },
@@ -127,6 +128,18 @@ class Contact < ApplicationRecord
     )
   }
 
+  # Find contacts that:
+  # 1. Have no identification (email, phone_number, and identifier are NULL or empty string)
+  # 2. Have no conversations
+  # 3. Are older than the specified time period
+  scope :stale_without_conversations, lambda { |time_period|
+    where('contacts.email IS NULL OR contacts.email = ?', '')
+      .where('contacts.phone_number IS NULL OR contacts.phone_number = ?', '')
+      .where('contacts.identifier IS NULL OR contacts.identifier = ?', '')
+      .where('contacts.created_at < ?', time_period)
+      .where.missing(:conversations)
+  }
+
   def get_source_id(inbox_id)
     contact_inboxes.find_by!(inbox_id: inbox_id).source_id
   end
@@ -141,6 +154,7 @@ class Contact < ApplicationRecord
       name: name,
       phone_number: phone_number,
       thumbnail: avatar_url,
+      blocked: blocked,
       type: 'contact'
     }
   end
@@ -156,7 +170,8 @@ class Contact < ApplicationRecord
       identifier: identifier,
       name: name,
       phone_number: phone_number,
-      thumbnail: avatar_url
+      thumbnail: avatar_url,
+      blocked: blocked
     }
   end
 

@@ -22,19 +22,19 @@
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
     "BACK_IN": "Wir werden wieder online sein"
   },
-  "DAY_NAMES": [
-    "Sonntag",
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Sonntag",
+    "MONDAY": "Montag",
+    "TUESDAY": "Dienstag",
+    "WEDNESDAY": "Mittwoch",
+    "THURSDAY": "Donnerstag",
+    "FRIDAY": "Freitag",
+    "SATURDAY": "Samstag"
+  },
   "START_CONVERSATION": "Unterhaltung beginnen",
   "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",
-  "YOU": "You",
+  "YOU": "Sie",
   "START_NEW_CONVERSATION": "Neue Unterhaltung starten",
   "VIEW_UNREAD_MESSAGES": "Sie haben ungelesene Nachrichten",
   "UNREAD_VIEW": {
@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Telefonnummer ist erforderlich",
         "DIAL_CODE_VALID_ERROR": "Bitte wählen Sie eine Landesvorwahl",
         "VALID_ERROR": "Bitte geben Sie eine gültige Telefonnummer ein",
-        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden"
+        "DROPDOWN_EMPTY": "Keine Ergebnisse gefunden",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Nachricht",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Emojis durchsuchen",
-    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche"
+    "NOT_FOUND": "Kein Emoji entspricht Ihrer Suche",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Bewerten Sie Ihre Konversation",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "hat eine URL geteilt"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Antwort auf:"
   }
 }

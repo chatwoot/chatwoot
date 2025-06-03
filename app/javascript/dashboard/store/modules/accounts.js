@@ -4,6 +4,7 @@ import AccountAPI from '../../api/account';
 import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 
 const findRecordById = ($state, id) =>
   $state.records.find(record => record.id === Number(id)) || {};
@@ -26,6 +27,13 @@ export const getters = {
   },
   getUIFlags($state) {
     return $state.uiFlags;
+  },
+  isRTL: ($state, _, rootState) => {
+    const accountId = rootState.route?.params?.accountId;
+    if (!accountId) return false;
+
+    const { locale } = findRecordById($state, Number(accountId));
+    return locale ? getLanguageDirection(locale) : false;
   },
   isTrialAccount: $state => id => {
     const account = findRecordById($state, id);
@@ -58,7 +66,31 @@ export const actions = {
   update: async ({ commit }, updateObj) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
     try {
-      await AccountAPI.update('', updateObj);
+      const response = await AccountAPI.update('', updateObj);
+      commit(types.default.EDIT_ACCOUNT, response.data);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throw new Error(error);
+    }
+  },
+  delete: async ({ commit }, { id }) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      await AccountAPI.delete(id);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throw new Error(error);
+    }
+  },
+  toggleDeletion: async (
+    { commit },
+    { action_type } = { action_type: 'delete' }
+  ) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      await EnterpriseAccountAPI.toggleDeletion(action_type);
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });

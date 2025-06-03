@@ -1,21 +1,6 @@
-<template>
-  <div class="flex flex-col gap-2">
-    <span class="text-sm font-medium text-ash-900">
-      {{ $t('PROFILE_SETTINGS.FORM.PICTURE') }}
-    </span>
-    <profile-avatar
-      :src="src"
-      :name="userNameWithoutEmoji"
-      @change="updateProfilePicture"
-      @delete="deleteProfilePicture"
-    />
-  </div>
-</template>
 <script setup>
-import { computed } from 'vue';
-import ProfileAvatar from 'v3/components/Form/ProfileAvatar.vue';
-import { removeEmoji } from 'shared/helpers/emoji';
-const props = defineProps({
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+defineProps({
   src: {
     type: String,
     default: '',
@@ -26,15 +11,29 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['change', 'delete']);
-
-const userNameWithoutEmoji = computed(() => removeEmoji(props.name));
+const emit = defineEmits(['change', 'delete']);
 
 const updateProfilePicture = e => {
-  emits('change', e);
+  emit('change', e);
 };
 
 const deleteProfilePicture = () => {
-  emits('delete');
+  emit('delete');
 };
 </script>
+
+<template>
+  <div class="flex flex-col gap-2">
+    <span class="text-sm font-medium text-ash-900">
+      {{ $t('PROFILE_SETTINGS.FORM.PICTURE') }}
+    </span>
+    <Avatar
+      :src="src || ''"
+      :name="name || ''"
+      :size="72"
+      allow-upload
+      @upload="updateProfilePicture"
+      @delete="deleteProfilePicture"
+    />
+  </div>
+</template>

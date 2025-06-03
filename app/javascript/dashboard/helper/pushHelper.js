@@ -1,7 +1,7 @@
 /* eslint-disable no-console */
 import NotificationSubscriptions from '../api/notificationSubscription';
 import auth from '../api/auth';
-import { emitter } from 'shared/helpers/mitt';
+import { useAlert } from 'dashboard/composables';
 
 export const verifyServiceWorkerExistence = (callback = () => {}) => {
   if (!('serviceWorker' in navigator)) {
@@ -69,19 +69,13 @@ export const registerSubscription = (onSuccess = () => {}) => {
       onSuccess();
     })
     .catch(() => {
-      emitter.emit(
-        'newToastMessage',
-        'This browser does not support desktop notification'
-      );
+      useAlert('This browser does not support desktop notification');
     });
 };
 
 export const requestPushPermissions = ({ onSuccess }) => {
   if (!('Notification' in window)) {
-    emitter.emit(
-      'newToastMessage',
-      'This browser does not support desktop notification'
-    );
+    useAlert('This browser does not support desktop notification');
   } else if (Notification.permission === 'granted') {
     registerSubscription(onSuccess);
   } else if (Notification.permission !== 'denied') {

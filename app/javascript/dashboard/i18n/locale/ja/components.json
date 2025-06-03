@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "{startItem} - {endItem} 件を表示中（全 {totalItems} 件）",
+    "CURRENT_PAGE_INFO": "{currentPage} ページ中 {totalPages} ページ"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "オプションを選択...",
+    "EMPTY_SEARCH_RESULTS": "`{searchTerm}` に該当する項目が見つかりませんでした。",
+    "EMPTY_STATE": "該当結果が見つかりませんでした。",
+    "SEARCH_PLACEHOLDER": "検索...",
+    "MORE": "+{count} 件をさらに表示"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "検索...",
+    "EMPTY_STATE": "該当結果が見つかりませんでした。",
+    "SEARCHING": "検索中..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "キャンセル",
+      "CONFIRM": "確認"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "国を検索",
+    "ERROR": "電話番号は空白または E.164 形式である必要があります。",
+    "DIAL_CODE_ERROR": "リストからダイヤルコードを選択してください。"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "著者情報は利用できません"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "パンくずリスト"
+  },
+  "SWITCH": {
+    "TOGGLE": "スイッチを切り替え"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "タグ"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "詳細を見る",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

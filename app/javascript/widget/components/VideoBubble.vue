@@ -4,14 +4,15 @@ defineProps({
   readableTime: { type: String, default: '' },
 });
 
-const emits = defineEmits(['error']);
+const emit = defineEmits(['error']);
 
 const onVideoError = () => {
-  emits('error');
+  emit('error');
 };
 </script>
+
 <template>
-  <div class="block relative max-w-full">
+  <div class="relative block max-w-full">
     <video
       class="w-full max-w-[250px] h-auto"
       :src="url"
@@ -19,7 +20,7 @@ const onVideoError = () => {
       @error="onVideoError"
     />
     <span
-      class="text-xs absolute text-white dark:text-white right-3 bottom-1 whitespace-nowrap"
+      class="absolute text-xs text-white dark:text-white right-3 bottom-1 whitespace-nowrap"
     >
       {{ readableTime }}
     </span>

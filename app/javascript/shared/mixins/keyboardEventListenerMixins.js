@@ -14,7 +14,7 @@ export default {
       this.addEventHandler(keydownHandler);
     }
   },
-  beforeDestroy() {
+  unmounted() {
     if (this.$el && this.$el.dataset?.keydownHandlerIndex) {
       const handlerToRemove =
         taggedHandlers[this.$el.dataset.keydownHandlerIndex];
@@ -24,13 +24,16 @@ export default {
   methods: {
     addEventHandler(keydownHandler) {
       const indexToAppend = taggedHandlers.push(keydownHandler) - 1;
-      const root = this.$el;
+      const root = this.getElementToBind();
       if (root && root.dataset) {
         // For the components with a top level v-if Vue renders it as an empty comment in the DOM
         // so we need to check if the root element has a dataset property to ensure it is a valid element
         document.addEventListener('keydown', keydownHandler);
         root.dataset.keydownHandlerIndex = indexToAppend;
       }
+    },
+    getElementToBind() {
+      return this.$el;
     },
     getKeyboardEvents() {
       return null;

@@ -1,189 +1,147 @@
-<template>
-  <div class="agent-table-container">
-    <ve-table
-      max-height="calc(100vh - 21.875rem)"
-      :fixed-header="true"
-      :columns="columns"
-      :table-data="tableData"
-    />
-    <div v-if="isLoading" class="agents-loader">
-      <spinner />
-      <span>{{
-        $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE')
-      }}</span>
-    </div>
-    <empty-state
-      v-else-if="!isLoading && !agentMetrics.length"
-      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
-    />
-    <div v-if="agentMetrics.length > 0" class="table-pagination">
-      <ve-pagination
-        :total="agents.length"
-        :page-index="pageIndex"
-        :page-size="25"
-        :page-size-option="[25]"
-        @on-page-number-change="onPageNumberChange"
-      />
-    </div>
-  </div>
-</template>
+<script setup>
+import { computed, h } from 'vue';
+import {
+  useVueTable,
+  createColumnHelper,
+  getCoreRowModel,
+  getPaginationRowModel,
+} from '@tanstack/vue-table';
+import { useI18n } from 'vue-i18n';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
-<script>
-import { VeTable, VePagination } from 'vue-easytable';
 import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
-import rtlMixin from 'shared/mixins/rtlMixin';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import Table from 'dashboard/components/table/Table.vue';
+import Pagination from 'dashboard/components/table/Pagination.vue';
+import AgentCell from './AgentCell.vue';
 
-export default {
-  name: 'AgentTable',
-  components: {
-    EmptyState,
-    Spinner,
-    VeTable,
-    VePagination,
+const { agents, agentMetrics } = defineProps({
+  agents: {
+    type: Array,
+    default: () => [],
   },
-  mixins: [rtlMixin],
-  props: {
-    agents: {
-      type: Array,
-      default: () => [],
-    },
-    agentMetrics: {
-      type: Array,
-      default: () => [],
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    pageIndex: {
-      type: Number,
-      default: 1,
-    },
+  agentMetrics: {
+    type: Array,
+    default: () => [],
   },
-  computed: {
-    tableData() {
-      return this.agentMetrics
-        .filter(agentMetric => this.getAgentInformation(agentMetric.id))
-        .map(agent => {
-          const agentInformation = this.getAgentInformation(agent.id);
-          return {
-            agent: agentInformation.name || agentInformation.available_name,
-            email: agentInformation.email,
-            thumbnail: agentInformation.thumbnail,
-            open: agent.metric.open || 0,
-            unattended: agent.metric.unattended || 0,
-            status: agentInformation.availability_status,
-          };
-        });
-    },
-    columns() {
-      return [
-        {
-          field: 'agent',
-          key: 'agent',
-          title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'
-          ),
-          fixed: 'left',
-          align: this.isRTLView ? 'right' : 'left',
-          width: 25,
-          renderBodyCell: ({ row }) => (
-            <div class="row-user-block">
-              <Thumbnail
-                src={row.thumbnail}
-                size="32px"
-                username={row.agent}
-                status={row.status}
-              />
-              <div class="user-block">
-                <h6 class="title overflow-hidden whitespace-nowrap text-ellipsis">
-                  {row.agent}
-                </h6>
-                <span class="sub-title">{row.email}</span>
-              </div>
-            </div>
-          ),
-        },
-        {
-          field: 'open',
-          key: 'open',
-          title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'
-          ),
-          align: this.isRTLView ? 'right' : 'left',
-          width: 10,
-        },
-        {
-          field: 'unattended',
-          key: 'unattended',
-          title: this.$t(
-            'OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'
-          ),
-          align: this.isRTLView ? 'right' : 'left',
-          width: 10,
-        },
-      ];
-    },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-  methods: {
-    onPageNumberChange(pageIndex) {
-      this.$emit('page-change', pageIndex);
-    },
-    getAgentInformation(id) {
-      return this.agents?.find(agent => agent.id === Number(id));
-    },
-  },
+});
+
+const { t } = useI18n();
+const { uiSettings, updateUISettings } = useUISettings();
+
+// UI Settings key for agent table page size
+const AGENT_TABLE_PAGE_SIZE_KEY = 'report_overview_agent_table_page_size';
+
+// Get the saved page size from UI settings or default to 10
+const getPageSize = () => {
+  return uiSettings.value[AGENT_TABLE_PAGE_SIZE_KEY] || 10;
 };
+
+const handlePageSizeChange = pageSize => {
+  updateUISettings({ [AGENT_TABLE_PAGE_SIZE_KEY]: pageSize });
+};
+
+const getAgentMetrics = id =>
+  agentMetrics.find(metrics => metrics.assignee_id === Number(id)) || {};
+
+const tableData = computed(() =>
+  agents
+    .map(agent => {
+      const metric = getAgentMetrics(agent.id);
+      return {
+        agent: agent.available_name || agent.name,
+        email: agent.email,
+        thumbnail: agent.thumbnail,
+        open: metric.open || 0,
+        unattended: metric.unattended || 0,
+        status: agent.availability_status,
+      };
+    })
+    .sort((a, b) => {
+      // First sort by open tickets (descending)
+      const openDiff = b.open - a.open;
+      // If open tickets are equal, sort by name (ascending)
+      if (openDiff === 0) {
+        return a.agent.localeCompare(b.agent);
+      }
+      return openDiff;
+    })
+);
+
+const defaulSpanRender = cellProps =>
+  h(
+    'span',
+
+    {
+      class: cellProps.getValue()
+        ? 'capitalize text-n-slate-12'
+        : 'capitalize text-n-slate-11',
+    },
+    cellProps.getValue() ? cellProps.getValue() : '---'
+  );
+
+const columnHelper = createColumnHelper();
+const columns = [
+  columnHelper.accessor('agent', {
+    header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.AGENT'),
+    cell: cellProps => h(AgentCell, cellProps),
+
+    size: 250,
+  }),
+  columnHelper.accessor('open', {
+    header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.OPEN'),
+    cell: defaulSpanRender,
+    size: 100,
+  }),
+  columnHelper.accessor('unattended', {
+    header: t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.TABLE_HEADER.UNATTENDED'),
+    cell: defaulSpanRender,
+    size: 100,
+  }),
+];
+
+const table = useVueTable({
+  get data() {
+    return tableData.value;
+  },
+  columns,
+  enableSorting: false,
+  getCoreRowModel: getCoreRowModel(),
+  getPaginationRowModel: getPaginationRowModel(),
+  initialState: {
+    pagination: {
+      pageSize: getPageSize(),
+    },
+  },
+});
 </script>
 
-<style lang="scss" scoped>
-.agent-table-container {
-  @apply flex flex-col flex-1;
-
-  .ve-table {
-    &::v-deep {
-      th.ve-table-header-th {
-        font-size: var(--font-size-mini) !important;
-        padding: var(--space-small) var(--space-two) !important;
-      }
-
-      td.ve-table-body-td {
-        padding: var(--space-one) var(--space-two) !important;
-      }
-    }
-  }
-
-  &::v-deep .ve-pagination {
-    @apply bg-transparent dark:bg-transparent;
-  }
-
-  &::v-deep .ve-pagination-select {
-    @apply hidden;
-  }
-
-  .row-user-block {
-    @apply items-center flex text-left;
-
-    .user-block {
-      @apply items-start flex flex-col min-w-0 my-0 mx-2;
-
-      .title {
-        @apply text-sm m-0 leading-[1.2] text-slate-800 dark:text-slate-100;
-      }
-      .sub-title {
-        @apply text-xs text-slate-600 dark:text-slate-200;
-      }
-    }
-  }
-
-  .table-pagination {
-    @apply mt-4 text-right;
-  }
-}
-
-.agents-loader {
-  @apply items-center flex text-base justify-center p-8;
-}
-</style>
+<template>
+  <div class="flex flex-col flex-1">
+    <Table :table="table" class="max-h-[calc(100vh-21.875rem)]" />
+    <Pagination
+      class="mt-2"
+      :table="table"
+      show-page-size-selector
+      :default-page-size="getPageSize()"
+      @page-size-change="handlePageSizeChange"
+    />
+    <div
+      v-if="isLoading"
+      class="items-center flex text-base justify-center p-8"
+    >
+      <Spinner />
+      <span>
+        {{ $t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.LOADING_MESSAGE') }}
+      </span>
+    </div>
+    <EmptyState
+      v-else-if="!isLoading && !agents.length"
+      :title="$t('OVERVIEW_REPORTS.AGENT_CONVERSATIONS.NO_AGENTS')"
+    />
+  </div>
+</template>

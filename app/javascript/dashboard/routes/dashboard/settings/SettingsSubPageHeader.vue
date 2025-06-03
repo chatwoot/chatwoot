@@ -1,5 +1,14 @@
+<script>
+export default {
+  props: {
+    headerTitle: { type: String, default: '' },
+    headerContent: { type: String, default: '' },
+  },
+};
+</script>
+
 <template>
-  <div class="flex flex-col w-full items-start">
+  <div class="flex flex-col w-full items-start mb-4">
     <h2
       class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100 break-words"
     >
@@ -11,12 +20,3 @@
     />
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    headerTitle: { type: String, default: '' },
-    headerContent: { type: String, default: '' },
-  },
-};
-</script>

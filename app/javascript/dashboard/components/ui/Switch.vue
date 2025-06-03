@@ -1,29 +1,32 @@
-<template>
-  <button
-    type="button"
-    class="toggle-button p-0"
-    :class="{ active: value, small: size === 'small' }"
-    role="switch"
-    :aria-checked="value.toString()"
-    @click="onClick"
-  >
-    <span aria-hidden="true" :class="{ active: value }" />
-  </button>
-</template>
-
 <script>
 export default {
   props: {
-    value: { type: Boolean, default: false },
+    modelValue: { type: Boolean, default: false },
     size: { type: String, default: '' },
   },
+  emits: ['update:modelValue', 'input'],
   methods: {
     onClick() {
-      this.$emit('input', !this.value);
+      this.$emit('update:modelValue', !this.modelValue);
+      this.$emit('input', !this.modelValue);
     },
   },
 };
 </script>
+
+<template>
+  <button
+    type="button"
+    class="toggle-button p-0"
+    :class="{ active: modelValue, small: size === 'small' }"
+    role="switch"
+    :aria-checked="modelValue.toString()"
+    @click="onClick"
+  >
+    <span aria-hidden="true" :class="{ active: modelValue }" />
+  </button>
+</template>
+
 <style lang="scss" scoped>
 .toggle-button {
   @apply bg-slate-200 dark:bg-slate-600;
@@ -35,20 +38,20 @@ export default {
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
-  height: 19px;
+  height: 1.188rem;
   position: relative;
   transition-duration: 200ms;
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  width: 34px;
+  width: 2.125rem;
 
   &.active {
     background-color: var(--w-500);
   }
 
   &.small {
-    width: 22px;
-    height: 14px;
+    width: 1.375rem;
+    height: 0.875rem;
 
     span {
       height: var(--space-one);

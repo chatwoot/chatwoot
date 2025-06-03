@@ -23,13 +23,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Ostatni rok",
       "CUSTOM_DATE_RANGE": "Niestandardowy zakres dat"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Ostatnie 7 dni"
-      },
-      {
-        "id": 1,
-        "name": "Ostatnie 30 dni"
-      },
-      {
-        "id": 2,
-        "name": "Ostatnie 3 miesiące"
-      },
-      {
-        "id": 3,
-        "name": "Ostatnie 6 miesięcy"
-      },
-      {
-        "id": 4,
-        "name": "Ostatni rok"
-      },
-      {
-        "id": 5,
-        "name": "Niestandardowy zakres dat"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Zastosuj",
       "PLACEHOLDER": "Wybierz zakres dat"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nie znaleziono rekordów"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Przegląd agentów",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
     "DOWNLOAD_AGENT_REPORTS": "Pobierz raporty agenta",
@@ -167,13 +147,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -234,13 +214,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -280,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Przegląd skrzynki odbiorczej",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
     "DOWNLOAD_INBOX_REPORTS": "Pobierz raporty skrzynki odbiorczej",
@@ -301,13 +282,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -347,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Przegląd zespołu",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Ładowanie danych wykresów...",
     "NO_ENOUGH_DATA": "Nie ma wystarczającej ilości danych do wygenerowania raportu. Spróbuj ponownie później.",
     "DOWNLOAD_TEAM_REPORTS": "Pobierz raporty zespołu",
@@ -368,13 +350,13 @@
         "NAME": "Czas pierwszej odpowiedzi",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas pierwszej odpowiedzi to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Czas rozwiązania",
         "DESC": "(średni)",
         "INFO_TEXT": "Całkowita liczba rozmów używanych do obliczeń:",
-        "TOOLTIP_TEXT": "Czas rozwiązania to %{metricValue} (na podstawie %{conversationCount} rozmów)"
+        "TOOLTIP_TEXT": "Czas rozwiązania to {metricValue} (na podstawie {conversationCount} rozmów)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Liczba rozwiązań",
@@ -480,8 +462,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Ruch rozmów",
       "NO_CONVERSATIONS": "Brak rozmów",
-      "CONVERSATION": "%{count} rozmowa",
-      "CONVERSATIONS": "%{count} rozmowy"
+      "CONVERSATION": "{count} rozmowa",
+      "CONVERSATIONS": "{count} rozmowy",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Rozmowy według agentów",
@@ -489,16 +472,28 @@
       "NO_AGENTS": "Brak rozmów według agentów",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "OTWARTE",
+        "OPEN": "Otwórz",
+        "UNATTENDED": "Nieobsługiwane",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Zespół",
+        "OPEN": "Otwórz",
         "UNATTENDED": "Nieobsługiwane",
         "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
       "HEADER": "Status agenta",
-      "ONLINE": "Online",
+      "ONLINE": "Dostępny",
       "BUSY": "Zajęty",
-      "OFFLINE": "Offline"
+      "OFFLINE": "Niedostępny"
     }
   },
   "DAYS_OF_WEEK": {
@@ -536,6 +531,7 @@
       "LABELS": "Etykieta",
       "TEAMS": "Zespół"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -558,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Skrzynka odbiorcza",
+    "AGENT": "Agent",
+    "TEAM": "Zespół",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Liczba rozwiązań",
+    "CONVERSATIONS": "Ilość rozmów"
   }
 }

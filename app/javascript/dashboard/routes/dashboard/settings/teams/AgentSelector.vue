@@ -1,85 +1,10 @@
-<template>
-  <div>
-    <div class="add-agents__header" />
-    <table class="woot-table">
-      <thead>
-        <tr>
-          <td class="ltr:pl-2.5 rtl:pr-2.5">
-            <div class="flex items-center">
-              <input
-                name="select-all-agents"
-                type="checkbox"
-                :checked="allAgentsSelected ? 'checked' : ''"
-                :title="$t('TEAMS_SETTINGS.AGENTS.SELECT_ALL')"
-                @click.self="selectAllAgents"
-              />
-            </div>
-          </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
-            {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
-          </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
-            {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
-          </td>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="agent in agentList"
-          :key="agent.id"
-          :class="agentRowClass(agent.id)"
-        >
-          <td class="w-12">
-            <div class="flex items-center">
-              <input
-                type="checkbox"
-                :checked="isAgentSelected(agent.id)"
-                @click.self="() => handleSelectAgent(agent.id)"
-              />
-            </div>
-          </td>
-          <td>
-            <div class="flex items-center gap-2">
-              <thumbnail
-                :src="agent.thumbnail"
-                size="24px"
-                :username="agent.name"
-                :status="agent.availability_status"
-              />
-              <h4 class="text-base mb-0 text-slate-800 dark:text-slate-100">
-                {{ agent.name }}
-              </h4>
-            </div>
-          </td>
-          <td>
-            {{ agent.email || '---' }}
-          </td>
-        </tr>
-      </tbody>
-    </table>
-    <div class="flex items-center justify-between mt-2">
-      <p>
-        {{
-          $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
-            selected: selectedAgents.length,
-            total: agentList.length,
-          })
-        }}
-      </p>
-      <woot-submit-button
-        :button-text="submitButtonText"
-        :loading="isWorking"
-        :disabled="disableSubmitButton"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 
 export default {
   components: {
+    NextButton,
     Thumbnail,
   },
   props: {
@@ -144,6 +69,84 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div>
+    <div class="add-agents__header" />
+    <table class="woot-table">
+      <thead>
+        <tr>
+          <td class="ltr:pl-2.5 rtl:pr-2.5">
+            <div class="flex items-center">
+              <input
+                name="select-all-agents"
+                type="checkbox"
+                :checked="allAgentsSelected ? 'checked' : ''"
+                :title="$t('TEAMS_SETTINGS.AGENTS.SELECT_ALL')"
+                @click.self="selectAllAgents"
+              />
+            </div>
+          </td>
+          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+            {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
+          </td>
+          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+            {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
+          </td>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="agent in agentList"
+          :key="agent.id"
+          :class="agentRowClass(agent.id)"
+        >
+          <td class="w-12">
+            <div class="flex items-center">
+              <input
+                type="checkbox"
+                :checked="isAgentSelected(agent.id)"
+                @click.self="() => handleSelectAgent(agent.id)"
+              />
+            </div>
+          </td>
+          <td>
+            <div class="flex items-center gap-2">
+              <Thumbnail
+                :src="agent.thumbnail"
+                size="24px"
+                :username="agent.name"
+                :status="agent.availability_status"
+              />
+              <h4 class="text-base mb-0 text-slate-800 dark:text-slate-100">
+                {{ agent.name }}
+              </h4>
+            </div>
+          </td>
+          <td>
+            {{ agent.email || '---' }}
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="flex items-center justify-between mt-2">
+      <p>
+        {{
+          $t('TEAMS_SETTINGS.AGENTS.SELECTED_COUNT', {
+            selected: selectedAgents.length,
+            total: agentList.length,
+          })
+        }}
+      </p>
+      <NextButton
+        type="submit"
+        :label="submitButtonText"
+        :disabled="disableSubmitButton"
+        :is-loading="isWorking"
+      />
+    </div>
+  </div>
+</template>
 
 <style scoped>
 input {

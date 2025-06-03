@@ -1,20 +1,7 @@
-import NotificationBell from '../NotificationBell.vue';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueI18n from 'vue-i18n';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
-
-import i18n from 'dashboard/i18n';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-localVue.use(VueI18n);
-localVue.component('fluent-icon', FluentIcon);
-
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
+import NotificationBell from '../NotificationBell.vue';
 
 const $route = {
   name: 'notifications_index',
@@ -33,43 +20,51 @@ describe('notificationBell', () => {
     };
     modules = {
       auth: {
+        namespaced: false,
         getters: {
           getCurrentAccountId: () => accountId,
         },
       },
       notifications: {
+        namespaced: false,
         getters: {
           'notifications/getMeta': () => notificationMetadata,
         },
       },
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       actions,
       modules,
     });
   });
 
-  it('it should return unread count 19 ', () => {
+  it('it should return unread count 19', () => {
     const wrapper = shallowMount(NotificationBell, {
-      localVue,
-      i18n: i18nConfig,
-      store,
-      mocks: {
-        $route,
+      global: {
+        plugins: [store],
+        mocks: {
+          $route,
+        },
+        components: {
+          'fluent-icon': FluentIcon,
+        },
       },
     });
     expect(wrapper.vm.unreadCount).toBe('19');
   });
 
-  it('it should return unread count 99+ ', async () => {
+  it('it should return unread count 99+', async () => {
     notificationMetadata.unreadCount = 100;
     const wrapper = shallowMount(NotificationBell, {
-      localVue,
-      i18n: i18nConfig,
-      store,
-      mocks: {
-        $route,
+      global: {
+        plugins: [store],
+        mocks: {
+          $route,
+        },
+        components: {
+          'fluent-icon': FluentIcon,
+        },
       },
     });
     expect(wrapper.vm.unreadCount).toBe('99+');
@@ -77,11 +72,14 @@ describe('notificationBell', () => {
 
   it('isNotificationPanelActive', async () => {
     const notificationBell = shallowMount(NotificationBell, {
-      store,
-      localVue,
-      i18n: i18nConfig,
-      mocks: {
-        $route,
+      global: {
+        plugins: [store],
+        mocks: {
+          $route,
+        },
+        components: {
+          'fluent-icon': FluentIcon,
+        },
       },
     });
 

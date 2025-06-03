@@ -18,29 +18,27 @@ defineProps({
   },
 });
 </script>
+
 <template>
   <div
-    ref="reportMetricContainer"
-    class="m-0 p-4"
+    data-test-id="reportMetricContainer"
     :class="{
       'grayscale pointer-events-none opacity-30': disabled,
     }"
   >
-    <h3
-      class="flex items-center text-sm font-medium m-0 text-slate-800 dark:text-slate-100"
-    >
-      <span ref="reportMetricLabel">{{ label }}</span>
+    <h3 class="flex items-center m-0 text-sm font-medium text-n-slate-11">
+      <span data-test-id="reportMetricLabel">{{ label }}</span>
       <fluent-icon
-        ref="reportMetricInfo"
         v-tooltip="infoText"
+        data-test-id="reportMetricInfo"
         size="14"
         icon="info"
-        class="text-slate-500 dark:text-slate-200 my-0 mx-1 mt-0.5"
+        class="text-n-slate-11 my-0 mx-1 mt-0.5"
       />
     </h3>
     <h4
-      ref="reportMetricValue"
-      class="text-slate-700 dark:text-slate-100 mb-0 mt-1 font-thin text-3xl"
+      data-test-id="reportMetricValue"
+      class="mt-1 mb-0 text-2xl text-n-slate-12"
     >
       {{ value }}
     </h4>

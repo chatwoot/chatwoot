@@ -30,6 +30,9 @@
       "is_lesser_than": "Yra mažesnis nei",
       "days_before": "Yra prieš x dienų"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Reikalinga vertė"
+    },
     "ATTRIBUTES": {
       "NAME": "Vardas",
       "EMAIL": "El. paštas",

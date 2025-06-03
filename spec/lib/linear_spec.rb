@@ -1,10 +1,10 @@
 require 'rails_helper'
 
 describe Linear do
-  let(:api_key) { 'valid_api_key' }
+  let(:access_token) { 'valid_access_token' }
   let(:url) { 'https://api.linear.app/graphql' }
-  let(:linear_client) { described_class.new(api_key) }
-  let(:headers) { { 'Content-Type' => 'application/json', 'Authorization' => api_key } }
+  let(:linear_client) { described_class.new(access_token) }
+  let(:headers) { { 'Content-Type' => 'application/json', 'Authorization' => "Bearer #{access_token}" } }
 
   it 'raises an exception if the API key is absent' do
     expect { described_class.new(nil) }.to raise_error(ArgumentError, 'Missing Credentials')

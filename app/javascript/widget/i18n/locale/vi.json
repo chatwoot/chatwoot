@@ -22,21 +22,21 @@
     "IN_A_DAY": "Thường trả lời trong một ngày",
     "BACK_IN": "Chúng tôi sẽ quay lại"
   },
-  "DAY_NAMES": [
-    "Chủ Nhật",
-    "Thứ Hai",
-    "Thứ Ba",
-    "Thứ Tư",
-    "Thứ Năm",
-    "Thứ Sáu",
-    "Thứ Bảy"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Chủ Nhật",
+    "MONDAY": "Thứ Hai",
+    "TUESDAY": "Thứ Ba",
+    "WEDNESDAY": "Thứ Tư",
+    "THURSDAY": "Thứ Năm",
+    "FRIDAY": "Thứ Sáu",
+    "SATURDAY": "Thứ Bảy"
+  },
   "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
   "YOU": "You",
   "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Bạn có tin nhắn chưa đọc",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
     "CLOSE_MESSAGES_BUTTON": "Đóng",
@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Cần phải nhập số điện thoại",
         "DIAL_CODE_VALID_ERROR": "Vui lòng chọn quốc gia",
         "VALID_ERROR": "Vui lòng nhập số điện thoại đúng",
-        "DROPDOWN_EMPTY": "Không tìm thấy kết quả"
+        "DROPDOWN_EMPTY": "Không tìm thấy kết quả",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Tin nhắn",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Tìm kiếm biểu tượng cảm xúc",
-    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn"
+    "NOT_FOUND": "Không có biểu tượng cảm xúc nào phù hợp với tìm kiếm của bạn",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Đánh giá hội thoại",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "có một đường dẫn chia sẻ"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

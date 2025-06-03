@@ -3,7 +3,7 @@
     "HEADER": "المحادثات",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
-    "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
+    "DOWNLOAD_AGENT_REPORTS": "تحميل تقارير وكيل",
     "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
     "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
@@ -23,13 +23,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -44,8 +44,9 @@
         "DESC": "(الإجمالي)"
       },
       "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "NAME": "وقت انتظار العميل",
+        "TOOLTIP_TEXT": "وقت الانتظار هو {metricValue} (بناء على ردود {conversationCount})",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "العام الماضي",
       "CUSTOM_DATE_RANGE": "تحديد نطاق المدة"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "آخر 7 أيام"
-      },
-      {
-        "id": 1,
-        "name": "آخر 30 يوماً"
-      },
-      {
-        "id": 2,
-        "name": "آخر 3 أشهر"
-      },
-      {
-        "id": 3,
-        "name": "آخر 6 أشهر"
-      },
-      {
-        "id": 4,
-        "name": "العام الماضي"
-      },
-      {
-        "id": 5,
-        "name": "تحديد نطاق المدة"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "تطبيق",
       "PLACEHOLDER": "اختر نطاق المدة"
@@ -142,11 +117,16 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "لم يتم العثور على النتائج"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "نظرة عامة للوكلاء",
-    "LOADING_CHART": "تحميل بيانات الرسم البياني...",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
+    "LOADING_CHART": "جاري جلب بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_AGENT_REPORTS": "تنزيل تقارير الوكيل",
     "FILTER_DROPDOWN_LABEL": "اختر وكيل",
@@ -167,13 +147,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -234,13 +214,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -280,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "نظرة عامة على صندوق الوارد",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_INBOX_REPORTS": "تحميل تقارير صندوق الوارد",
@@ -301,13 +282,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -347,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "نظرة عامة للفريق",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "تحميل بيانات الرسم البياني...",
     "NO_ENOUGH_DATA": "لم يتم جمع بيانات بقدر كافي لإنشاء التقرير، الرجاء المحاولة مرة أخرى لاحقاً.",
     "DOWNLOAD_TEAM_REPORTS": "تحميل تقارير الفريق",
@@ -368,13 +350,13 @@
         "NAME": "وقت الاستجابة الأولى",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الرد الأول هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الرد الأول هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_TIME": {
         "NAME": "وقت إغلاق المحادثات",
         "DESC": "(متوسط)",
         "INFO_TEXT": "العدد الإجمالي للمحادثات المستخدمة في الحساب:",
-        "TOOLTIP_TEXT": "وقت الحل هو %{metricValue} (على أساس %{conversationCount} محادثات)"
+        "TOOLTIP_TEXT": "وقت الحل هو {metricValue} (على أساس {conversationCount} محادثات)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "عدد مرات الإغلاق",
@@ -480,8 +462,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "تنزيل التقرير"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "المحادثات من قبل الوكلاء",
@@ -489,7 +472,19 @@
       "NO_AGENTS": "لا توجد أي محادثات من قبل الوكلاء",
       "TABLE_HEADER": {
         "AGENT": "موظف الدعم",
-        "OPEN": "افتتحت",
+        "OPEN": "فتح",
+        "UNATTENDED": "بدون حضور",
+        "STATUS": "الحالة"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "الفريق",
+        "OPEN": "فتح",
         "UNATTENDED": "بدون حضور",
         "STATUS": "الحالة"
       }
@@ -517,7 +512,7 @@
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
+      "ADD_FIlTER": "إضافة فلتر",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "لم يتم العثور على النتائج",
@@ -536,6 +531,7 @@
       "LABELS": "الوسم",
       "TEAMS": "الفريق"
     },
+    "WITH": "مع",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -554,9 +550,19 @@
       "HEADER": {
         "POLICY": "Policy",
         "CONVERSATION": "المحادثات",
-        "AGENT": "موظف الدعم"
+        "AGENT": "وكيل الدعم"
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "صندوق الوارد",
+    "AGENT": "وكيل الدعم",
+    "TEAM": "الفريق",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "عدد مرات الإغلاق",
+    "CONVERSATIONS": "عدد المحادثات"
   }
 }

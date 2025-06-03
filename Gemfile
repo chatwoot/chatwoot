@@ -1,10 +1,10 @@
 source 'https://rubygems.org'
 
-ruby '3.3.3'
+ruby '3.4.4'
 
 ##-- base gems for rails --##
 gem 'rack-cors', '2.0.0', require: 'rack/cors'
-gem 'rails', '~> 7.0.8.4'
+gem 'rails', '~> 7.1'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
@@ -33,6 +33,8 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# used in swagger build
+gem 'json_refs'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
@@ -49,7 +51,7 @@ gem 'aws-sdk-s3', require: false
 # original gem isn't maintained actively
 # we wanted updated version of faraday which is a dependency for slack-ruby-client
 gem 'azure-storage-blob', git: 'https://github.com/chatwoot/azure-storage-ruby', branch: 'chatwoot', require: false
-gem 'google-cloud-storage', require: false
+gem 'google-cloud-storage', '>= 1.48.0', require: false
 gem 'image_processing'
 
 ##-- gems for database --#
@@ -64,7 +66,7 @@ gem 'activerecord-import'
 gem 'dotenv-rails', '>= 3.0.0'
 gem 'foreman'
 gem 'puma'
-gem 'webpacker'
+gem 'vite_rails'
 # metrics on heroku
 gem 'barnes'
 
@@ -94,14 +96,14 @@ gem 'twitty', '~> 0.1.5'
 # facebook client
 gem 'koala'
 # slack client
-gem 'slack-ruby-client', '~> 2.2.0'
+gem 'slack-ruby-client', '~> 2.5.2'
 # for dialogflow integrations
-gem 'google-cloud-dialogflow-v2'
+gem 'google-cloud-dialogflow-v2', '>= 0.24.0'
 gem 'grpc'
 # Translate integrations
 # 'google-cloud-translate' gem depends on faraday 2.0 version
 # this dependency breaks the slack-ruby-client gem
-gem 'google-cloud-translate-v3'
+gem 'google-cloud-translate-v3', '>= 0.7.0'
 
 ##-- apm and error monitoring ---#
 # loaded only when environment variables are set.
@@ -111,12 +113,12 @@ gem 'elastic-apm', require: false
 gem 'newrelic_rpm', require: false
 gem 'newrelic-sidekiq-metrics', '>= 1.6.2', require: false
 gem 'scout_apm', require: false
-gem 'sentry-rails', '>= 5.18.1', require: false
+gem 'sentry-rails', '>= 5.19.0', require: false
 gem 'sentry-ruby', require: false
-gem 'sentry-sidekiq', '>= 5.18.1', require: false
+gem 'sentry-sidekiq', '>= 5.19.0', require: false
 
 ##-- background job processing --##
-gem 'sidekiq', '>= 7.3.0'
+gem 'sidekiq', '>= 7.3.1'
 # We want cron jobs
 gem 'sidekiq-cron', '>= 1.12.0'
 
@@ -138,9 +140,7 @@ gem 'procore-sift'
 # parse email
 gem 'email_reply_trimmer'
 
-# TODO: we might have to fork this gem since 0.3.1 has hard depency on nokogir 1.10.
-# and this gem hasn't been updated for a while.
-gem 'html2text', git: 'https://github.com/chatwoot/html2text_ruby', branch: 'chatwoot'
+gem 'html2text'
 
 # to calculate working hours
 gem 'working_hours'
@@ -165,7 +165,7 @@ gem 'audited', '~> 5.4', '>= 5.4.1'
 
 # need for google auth
 gem 'omniauth', '>= 2.1.2'
-gem 'omniauth-google-oauth2', '>= 1.1.2'
+gem 'omniauth-google-oauth2', '>= 1.1.3'
 gem 'omniauth-rails_csrf_protection', '~> 1.0', '>= 1.0.2'
 
 ## Gems for reponse bot
@@ -175,12 +175,20 @@ gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
 
+gem 'iso-639'
+gem 'ruby-openai'
+
+gem 'shopify_api'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
 group :production do
   # we dont want request timing out in development while using byebug
   gem 'rack-timeout'
+  # for heroku autoscaling
+  gem 'judoscale-rails', require: false
+  gem 'judoscale-sidekiq', require: false
 end
 
 group :development do
@@ -190,9 +198,6 @@ group :development do
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
 
-  # used in swagger build
-  gem 'json_refs'
-
   # When we want to squash migrations
   gem 'squasher'
 
@@ -200,12 +205,10 @@ group :development do
   gem 'rack-mini-profiler', '>= 3.2.0', require: false
   gem 'stackprof'
   # Should install the associated chrome extension to view query logs
-  gem 'meta_request', '>= 0.8.0'
+  gem 'meta_request', '>= 0.8.3'
 end
 
 group :test do
-  # Cypress in rails.
-  gem 'cypress-on-rails'
   # fast cleaning of database
   gem 'database_cleaner'
   # mock http calls
@@ -228,11 +231,12 @@ group :development, :test do
   gem 'mock_redis'
   gem 'pry-rails'
   gem 'rspec_junit_formatter'
-  gem 'rspec-rails', '>= 6.1.3'
+  gem 'rspec-rails', '>= 6.1.5'
   gem 'rubocop', require: false
   gem 'rubocop-performance', require: false
   gem 'rubocop-rails', require: false
   gem 'rubocop-rspec', require: false
+  gem 'rubocop-factory_bot', require: false
   gem 'seed_dump'
   gem 'shoulda-matchers'
   gem 'simplecov', '0.17.1', require: false

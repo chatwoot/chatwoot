@@ -1,124 +1,160 @@
+<script setup>
+import { useAlert } from 'dashboard/composables';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import SettingsLayout from '../SettingsLayout.vue';
+import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
+import { computed, ref } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useStoreGetters, useStore } from 'dashboard/composables/store';
+import ChannelName from './components/ChannelName.vue';
+import ChannelIcon from 'next/icon/ChannelIcon.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
+
+const getters = useStoreGetters();
+const store = useStore();
+const { t } = useI18n();
+const { isAdmin } = useAdmin();
+
+const showDeletePopup = ref(false);
+const selectedInbox = ref({});
+
+const inboxesList = computed(() => getters['inboxes/getInboxes'].value);
+const uiFlags = computed(() => getters['inboxes/getUIFlags'].value);
+
+const deleteConfirmText = computed(
+  () => `${t('INBOX_MGMT.DELETE.CONFIRM.YES')} ${selectedInbox.value.name}`
+);
+
+const deleteRejectText = computed(
+  () => `${t('INBOX_MGMT.DELETE.CONFIRM.NO')} ${selectedInbox.value.name}`
+);
+
+const confirmDeleteMessage = computed(
+  () => `${t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${selectedInbox.value.name}?`
+);
+const confirmPlaceHolderText = computed(
+  () =>
+    `${t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
+      inboxName: selectedInbox.value.name,
+    })}`
+);
+
+const deleteInbox = async ({ id }) => {
+  try {
+    await store.dispatch('inboxes/delete', id);
+    useAlert(t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
+  } catch (error) {
+    useAlert(t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
+  }
+};
+const closeDelete = () => {
+  showDeletePopup.value = false;
+  selectedInbox.value = {};
+};
+
+const confirmDeletion = () => {
+  deleteInbox(selectedInbox.value);
+  closeDelete();
+};
+const openDelete = inbox => {
+  showDeletePopup.value = true;
+  selectedInbox.value = inbox;
+};
+</script>
+
 <template>
-  <div class="flex-1 overflow-auto">
-    <div class="flex flex-row gap-4 p-8">
-      <div class="w-full lg:w-3/5">
-        <p
-          v-if="!inboxesList.length"
-          class="flex h-full items-center flex-col justify-center"
-        >
-          {{ $t('INBOX_MGMT.LIST.404') }}
-          <router-link
-            v-if="isAdmin"
-            :to="addAccountScoping('settings/inboxes/new')"
-          >
-            {{ $t('SETTINGS.INBOXES.NEW_INBOX') }}
+  <SettingsLayout
+    :no-records-found="!inboxesList.length"
+    :no-records-message="$t('INBOX_MGMT.LIST.404')"
+    :is-loading="uiFlags.isFetching"
+  >
+    <template #header>
+      <BaseSettingsHeader
+        :title="$t('INBOX_MGMT.HEADER')"
+        :description="$t('INBOX_MGMT.DESCRIPTION')"
+        :link-text="$t('INBOX_MGMT.LEARN_MORE')"
+        feature-name="inboxes"
+      >
+        <template #actions>
+          <router-link v-if="isAdmin" :to="{ name: 'settings_inbox_new' }">
+            <Button
+              icon="i-lucide-circle-plus"
+              :label="$t('SETTINGS.INBOXES.NEW_INBOX')"
+            />
           </router-link>
-        </p>
-
-        <table v-if="inboxesList.length" class="woot-table">
-          <tbody>
-            <tr v-for="item in inboxesList" :key="item.id">
-              <td>
-                <img
-                  v-if="item.avatar_url"
-                  class="woot-thumbnail"
-                  :src="item.avatar_url"
-                  alt="No Page Image"
+        </template>
+      </BaseSettingsHeader>
+    </template>
+    <template #body>
+      <table class="min-w-full overflow-x-auto">
+        <tbody
+          class="divide-y divide-n-weak flex-1 text-slate-700 dark:text-slate-100"
+        >
+          <tr v-for="inbox in inboxesList" :key="inbox.id">
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
+              <div class="flex items-center flex-row gap-4">
+                <Thumbnail
+                  v-if="inbox.avatar_url"
+                  class="bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                  :src="inbox.avatar_url"
+                  :username="inbox.name"
+                  size="48px"
                 />
-                <img
+                <div
                   v-else
-                  class="woot-thumbnail"
-                  src="~dashboard/assets/images/flag.svg"
-                  alt="No Page Image"
-                />
-              </td>
-              <!-- Short Code  -->
-              <td>
-                <span class="agent-name">{{ item.name }}</span>
-                <span v-if="item.channel_type === 'Channel::FacebookPage'">
-                  Facebook
-                </span>
-                <span v-if="item.channel_type === 'Channel::WebWidget'">
-                  Website
-                </span>
-                <span v-if="item.channel_type === 'Channel::TwitterProfile'">
-                  Twitter
-                </span>
-                <span v-if="item.channel_type === 'Channel::TwilioSms'">
-                  {{ twilioChannelName(item) }}
-                </span>
-                <span v-if="item.channel_type === 'Channel::Whatsapp'">
-                  Whatsapp
-                </span>
-                <span v-if="item.channel_type === 'Channel::Sms'"> Sms </span>
-                <span v-if="item.channel_type === 'Channel::Email'">
-                  Email
-                </span>
-                <span v-if="item.channel_type === 'Channel::Telegram'">
-                  Telegram
-                </span>
-                <span v-if="item.channel_type === 'Channel::Line'">Line</span>
-                <span v-if="item.channel_type === 'Channel::Api'">
-                  {{ globalConfig.apiChannelName || 'API' }}
-                </span>
-              </td>
-
-              <!-- Action Buttons -->
-              <td>
-                <div class="button-wrapper">
-                  <router-link
-                    :to="addAccountScoping(`settings/inboxes/${item.id}`)"
-                  >
-                    <woot-button
-                      v-if="isAdmin"
-                      v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
-                      variant="smooth"
-                      size="tiny"
-                      icon="settings"
-                      color-scheme="secondary"
-                      class-names="grey-btn"
-                    />
-                  </router-link>
-
-                  <woot-button
-                    v-if="isAdmin"
-                    v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
-                    variant="smooth"
-                    color-scheme="alert"
-                    size="tiny"
-                    class-names="grey-btn"
-                    :is-loading="loading[item.id]"
-                    icon="dismiss-circle"
-                    @click="openDelete(item)"
+                  class="w-[48px] h-[48px] flex justify-center items-center bg-n-alpha-3 rounded-full p-2 ring ring-n-solid-1 border border-n-strong shadow-sm"
+                >
+                  <ChannelIcon class="size-5" :inbox="inbox" />
+                </div>
+                <div>
+                  <span class="block font-medium capitalize">
+                    {{ inbox.name }}
+                  </span>
+                  <ChannelName
+                    :channel-type="inbox.channel_type"
+                    :medium="inbox.medium"
                   />
                 </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+              </div>
+            </td>
 
-      <div class="w-1/3 hidden lg:block">
-        <span
-          v-dompurify-html="
-            useInstallationName(
-              $t('INBOX_MGMT.SIDEBAR_TXT'),
-              globalConfig.installationName
-            )
-          "
-        />
-      </div>
-    </div>
-    <settings
-      v-if="showSettings"
-      :show.sync="showSettings"
-      :on-close="closeSettings"
-      :inbox="selectedInbox"
-    />
+            <td class="py-4">
+              <div class="flex gap-1 justify-end">
+                <router-link
+                  :to="{
+                    name: 'settings_inbox_show',
+                    params: { inboxId: inbox.id },
+                  }"
+                >
+                  <Button
+                    v-if="isAdmin"
+                    v-tooltip.top="$t('INBOX_MGMT.SETTINGS')"
+                    icon="i-lucide-settings"
+                    slate
+                    xs
+                    faded
+                  />
+                </router-link>
+                <Button
+                  v-if="isAdmin"
+                  v-tooltip.top="$t('INBOX_MGMT.DELETE.BUTTON_TEXT')"
+                  icon="i-lucide-trash-2"
+                  xs
+                  ruby
+                  faded
+                  @click="openDelete(inbox)"
+                />
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </template>
 
     <woot-confirm-delete-modal
       v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :title="$t('INBOX_MGMT.DELETE.CONFIRM.TITLE')"
       :message="confirmDeleteMessage"
       :confirm-text="deleteConfirmText"
@@ -128,91 +164,5 @@
       @on-confirm="confirmDeletion"
       @on-close="closeDelete"
     />
-  </div>
+  </SettingsLayout>
 </template>
-<script>
-import { mapGetters } from 'vuex';
-import Settings from './Settings.vue';
-import adminMixin from '../../../../mixins/isAdmin';
-import accountMixin from '../../../../mixins/account';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import alertMixin from 'shared/mixins/alertMixin';
-
-export default {
-  components: {
-    Settings,
-  },
-  mixins: [adminMixin, accountMixin, globalConfigMixin, alertMixin],
-  data() {
-    return {
-      loading: {},
-      showSettings: false,
-      showDeletePopup: false,
-      selectedInbox: {},
-    };
-  },
-  computed: {
-    ...mapGetters({
-      inboxesList: 'inboxes/getInboxes',
-      globalConfig: 'globalConfig/get',
-    }),
-    // Delete Modal
-    deleteConfirmText() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.YES')} ${
-        this.selectedInbox.name
-      }`;
-    },
-    deleteRejectText() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.NO')} ${
-        this.selectedInbox.name
-      }`;
-    },
-    confirmDeleteMessage() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.MESSAGE')} ${
-        this.selectedInbox.name
-      }?`;
-    },
-    confirmPlaceHolderText() {
-      return `${this.$t('INBOX_MGMT.DELETE.CONFIRM.PLACE_HOLDER', {
-        inboxName: this.selectedInbox.name,
-      })}`;
-    },
-  },
-  methods: {
-    twilioChannelName(item) {
-      const { medium = '' } = item;
-      if (medium === 'whatsapp') return 'WhatsApp';
-      return 'Twilio SMS';
-    },
-    openSettings(inbox) {
-      this.showSettings = true;
-      this.selectedInbox = inbox;
-    },
-    closeSettings() {
-      this.showSettings = false;
-      this.selectedInbox = {};
-    },
-    async deleteInbox({ id }) {
-      try {
-        await this.$store.dispatch('inboxes/delete', id);
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.SUCCESS_MESSAGE'));
-      } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.DELETE.API.ERROR_MESSAGE'));
-      }
-    },
-
-    confirmDeletion() {
-      this.deleteInbox(this.selectedInbox);
-      this.closeDelete();
-    },
-    openDelete(inbox) {
-      this.showDeletePopup = true;
-      this.selectedInbox = inbox;
-    },
-    closeDelete() {
-      this.showDeletePopup = false;
-      this.selectedInbox = {};
-    },
-  },
-};
-</script>

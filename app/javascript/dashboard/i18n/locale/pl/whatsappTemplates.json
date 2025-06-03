@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "Szablony WhatsApp",
             "SUBTITLE": "Wybierz szablon WhatsApp, który chcesz wysłać",
-            "TEMPLATE_SELECTED_SUBTITLE": "Przetwarzanie %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "Przetwarzanie {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "Wyszukaj szablony",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "Zmienne",
-            "VARIABLE_PLACEHOLDER": "Wprowadź wartość %{variable}",
+            "VARIABLE_PLACEHOLDER": "Wprowadź wartość {variable}",
             "GO_BACK_LABEL": "Powrót",
             "SEND_MESSAGE_LABEL": "Wyślij wiadomość",
             "FORM_ERROR_MESSAGE": "Proszę wypełnić wszystkie zmienne przed wysłaniem"

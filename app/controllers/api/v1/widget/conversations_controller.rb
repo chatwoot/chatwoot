@@ -11,6 +11,8 @@ class Api::V1::Widget::ConversationsController < Api::V1::Widget::BaseController
       process_update_contact
       @conversation = create_conversation
       conversation.messages.create!(message_params)
+      # TODO: Temporary fix for message type cast issue, since message_type is returning as string instead of integer
+      conversation.reload
     end
   end
 

@@ -11,8 +11,12 @@
       "CONVERSATIONS": "Konuşmalar",
       "MESSAGES": "Mesajlar"
     },
-    "EMPTY_STATE": "%{query} sorgusunda hiç bir %{item} bulunamadı",
-    "EMPTY_STATE_FULL": "%{query} sorgusu için hiç bir sonuç bulunamadı",
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Aranıyor",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "{query} sorgusunda hiç bir {item} bulunamadı",
+    "EMPTY_STATE_FULL": "{query} sorgusu için hiç bir sonuç bulunamadı",
     "PLACEHOLDER_KEYBINDING": "odaklanmak için / basın",
     "INPUT_PLACEHOLDER": "Aramak için 3 veya daha fazla karakter yazın",
     "EMPTY_STATE_DEFAULT": "Daha iyi arama sonuçları için konuşma id si, e-posta, telefon numarası, mesajlara göre arama yapın. ",
@@ -20,6 +24,7 @@
     "READ_MORE": "Daha fazla bilgi edinin",
     "WROTE": "wrote:",
     "FROM": "dan",
-    "EMAIL": "e-Posta"
+    "EMAIL": "e-Posta",
+    "EMAIL_SUBJECT": "konu"
   }
 }

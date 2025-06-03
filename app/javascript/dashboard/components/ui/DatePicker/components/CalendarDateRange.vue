@@ -8,17 +8,17 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['set-range']);
+const emit = defineEmits(['setRange']);
 
 const setDateRange = range => {
-  emit('set-range', range);
+  emit('setRange', range);
 };
 </script>
 
 <template>
   <div class="w-[200px] flex flex-col items-start">
     <h4
-      class="w-full px-5 py-4 text-sm font-medium capitalize text-start text-slate-600 dark:text-slate-200"
+      class="w-full px-5 py-4 text-sm font-medium capitalize text-start text-n-slate-12"
     >
       {{ $t('DATE_PICKER.DATE_RANGE_OPTIONS.TITLE') }}
     </h4>
@@ -26,11 +26,11 @@ const setDateRange = range => {
       <button
         v-for="range in dateRanges"
         :key="range.label"
-        class="w-full px-5 py-3 text-sm font-medium truncate border-none rounded-none text-start hover:bg-slate-50 dark:hover:bg-slate-700"
+        class="w-full px-5 py-3 text-sm font-medium truncate border-none rounded-none text-start hover:bg-n-alpha-2 dark:hover:bg-n-solid-3"
         :class="
           range.value === selectedRange
-            ? 'text-slate-800 dark:text-slate-50 bg-slate-50 dark:bg-slate-700'
-            : 'text-slate-600 dark:text-slate-200'
+            ? 'text-n-slate-12 bg-n-alpha-1 dark:bg-n-solid-active'
+            : 'text-n-slate-12'
         "
         @click="setDateRange(range)"
       >

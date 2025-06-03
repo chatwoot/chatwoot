@@ -1,5 +1,9 @@
 {
   "GENERAL": {
-    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items"
+    "SHOWING_RESULTS": "Showing {firstIndex}-{lastIndex} of {totalCount} items",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "തിരയുക",
+      "EMPTY_STATE": "ഒരു ഫലവും കണ്ടെത്താനായില്ല"
+    }
   }
 }

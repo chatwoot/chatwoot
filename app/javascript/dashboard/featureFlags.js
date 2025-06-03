@@ -16,7 +16,6 @@ export const FEATURE_FLAGS = {
   TEAM_MANAGEMENT: 'team_management',
   VOICE_RECORDER: 'voice_recorder',
   AUDIT_LOGS: 'audit_logs',
-  INSERT_ARTICLE_IN_REPLY: 'insert_article_in_reply',
   INBOX_VIEW: 'inbox_view',
   SLA: 'sla',
   RESPONSE_BOT: 'response_bot',
@@ -31,4 +30,18 @@ export const FEATURE_FLAGS = {
   INBOUND_EMAILS: 'inbound_emails',
   IP_LOOKUP: 'ip_lookup',
   LINEAR: 'linear_integration',
+  CAPTAIN: 'captain_integration',
+  CUSTOM_ROLES: 'custom_roles',
+  CHATWOOT_V4: 'chatwoot_v4',
+  REPORT_V4: 'report_v4',
+  CHANNEL_INSTAGRAM: 'channel_instagram',
+  CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
 };
+
+export const PREMIUM_FEATURES = [
+  FEATURE_FLAGS.SLA,
+  FEATURE_FLAGS.CAPTAIN,
+  FEATURE_FLAGS.CUSTOM_ROLES,
+  FEATURE_FLAGS.AUDIT_LOGS,
+  FEATURE_FLAGS.HELP_CENTER,
+];
