@@ -1,42 +1,22 @@
 <script setup>
 import { computed } from 'vue';
-import CopilotContainer from '../../copilot/CopilotContainer.vue';
 import ContactPanel from 'dashboard/routes/dashboard/conversation/ContactPanel.vue';
-import { useMapGetter } from 'dashboard/composables/store';
-import { FEATURE_FLAGS } from '../../../featureFlags';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
-const props = defineProps({
+defineProps({
   currentChat: {
     required: true,
     type: Object,
   },
 });
 
-const channelType = computed(() => props.currentChat?.meta?.channel || '');
-
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const showCopilotTab = computed(() =>
-  isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
-);
-
 const { uiSettings } = useUISettings();
 
 const activeTab = computed(() => {
-  const {
-    is_contact_sidebar_open: isContactSidebarOpen,
-    is_copilot_panel_open: isCopilotPanelOpen,
-  } = uiSettings.value;
+  const { is_contact_sidebar_open: isContactSidebarOpen } = uiSettings.value;
 
   if (isContactSidebarOpen) {
     return 0;
-  }
-  if (isCopilotPanelOpen) {
-    return 1;
   }
   return null;
 });
@@ -51,13 +31,6 @@ const activeTab = computed(() => {
         v-show="activeTab === 0"
         :conversation-id="currentChat.id"
         :inbox-id="currentChat.inbox_id"
-      />
-      <CopilotContainer
-        v-show="activeTab === 1 && showCopilotTab"
-        :key="currentChat.id"
-        :conversation-inbox-type="channelType"
-        :conversation-id="currentChat.id"
-        class="flex-1"
       />
     </div>
   </div>
