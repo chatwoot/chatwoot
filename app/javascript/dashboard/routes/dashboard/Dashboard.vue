@@ -25,6 +25,8 @@ const Sidebar = defineAsyncComponent(
   () => import('../../components/layout/Sidebar.vue')
 );
 import { emitter } from 'shared/helpers/mitt';
+import CopilotLauncher from 'dashboard/components-next/copilot/CopilotLauncher.vue';
+import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
 
 export default {
   components: {
@@ -37,6 +39,8 @@ export default {
     AddLabelModal,
     NotificationPanel,
     UpgradePage,
+    CopilotLauncher,
+    CopilotContainer,
   },
   setup() {
     const upgradePageRef = ref(null);
@@ -219,6 +223,9 @@ export default {
       <template v-if="!showUpgradePage">
         <router-view />
         <CommandBar />
+        <CopilotLauncher />
+        <CopilotContainer />
+
         <NotificationPanel
           v-if="isNotificationPanel"
           @close="closeNotificationPanel"
