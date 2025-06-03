@@ -33,10 +33,6 @@ const props = defineProps({
     default: null,
     validator: value => JUSTIFY_OPTIONS.includes(value) || value === null,
   },
-  type: {
-    type: String,
-    required: true,
-  },
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
   isLoading: { type: Boolean, default: false },

@@ -92,6 +92,7 @@ const toggleSelected = option => {
         sm
         slate
         faded
+        type="button"
         :icon="selectedItem.icon"
         :label="selectedItem.name"
         @click="toggle"
@@ -101,6 +102,7 @@ const toggleSelected = option => {
         sm
         slate
         faded
+        type="button"
         :trailing-icon="placeholderTrailingIcon"
         @click="toggle"
       >
