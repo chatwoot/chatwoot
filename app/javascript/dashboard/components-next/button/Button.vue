@@ -226,7 +226,6 @@ const linkButtonClasses = computed(() => {
 <template>
   <button
     v-bind="filteredAttrs"
-    :type="type"
     :class="{
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
