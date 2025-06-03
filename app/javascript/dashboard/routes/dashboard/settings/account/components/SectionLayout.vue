@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <section
-    class="grid grid-cols-1 settings-section pt-8 gap-5"
+    class="grid grid-cols-1 pt-8 gap-5 [interpolate-size:allow-keywords]"
     :class="{
       'border-t border-n-weak': withBorder,
       'pb-8': !hideContent,
@@ -29,26 +29,10 @@ defineProps({
       </div>
     </header>
     <div
-      class="content-transition text-n-slate-12"
-      :class="{ 'content-hidden': hideContent }"
+      class="transition-[height] duration-300 ease-in-out text-n-slate-12"
+      :class="{ 'overflow-hidden h-0': hideContent, 'h-auto': !hideContent }"
     >
       <slot />
     </div>
   </section>
 </template>
-
-<style scoped>
-.settings-section {
-  interpolate-size: allow-keywords;
-}
-
-.content-transition {
-  height: auto;
-  transition: height 0.3s ease;
-}
-
-.content-transition.content-hidden {
-  overflow: hidden;
-  height: 0;
-}
-</style>
