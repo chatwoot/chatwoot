@@ -229,7 +229,7 @@ class Message < ApplicationRecord
   end
 
   def default_survey_url
-    "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
+    SurveyHelper.survey_url(conversation.uuid)
   end
 
   def prevent_message_flooding

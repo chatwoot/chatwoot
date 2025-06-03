@@ -73,10 +73,7 @@ class MessageTemplates::Template::CsatSurvey
     }
 
     # Store survey URL separately for non-web widget channels
-    unless conversation.inbox.web_widget?
-      survey_url = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
-      attributes['survey_url'] = survey_url
-    end
+    attributes['survey_url'] = SurveyHelper.survey_url(conversation.uuid) unless conversation.inbox.web_widget?
 
     attributes
   end
