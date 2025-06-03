@@ -50,14 +50,12 @@ watch(
       auto_resolve_after,
       auto_resolve_message,
       auto_resolve_ignore_waiting,
-      auto_resolve_unit,
       auto_resolve_label,
     } = currentAccount.value?.settings || {};
 
     duration.value = auto_resolve_after;
     message.value = auto_resolve_message;
     ignoreWaiting.value = auto_resolve_ignore_waiting;
-
     // find the correct label option from the list
     // the single select component expects the full label object
     // in our case, the label id and name are both the same
@@ -65,11 +63,15 @@ watch(
       option => option.name === auto_resolve_label
     );
 
-    if (
-      auto_resolve_unit &&
-      Object.values(DURATION_UNITS).includes(auto_resolve_unit)
-    ) {
-      unit.value = auto_resolve_unit;
+    // Set unit based on duration and its divisibility
+    if (duration.value) {
+      if (duration.value % (24 * 60) === 0) {
+        unit.value = DURATION_UNITS.DAYS;
+      } else if (duration.value % 60 === 0) {
+        unit.value = DURATION_UNITS.HOURS;
+      } else {
+        unit.value = DURATION_UNITS.MINUTES;
+      }
     }
 
     if (duration.value) {
@@ -102,7 +104,6 @@ const handleSubmit = async () => {
     auto_resolve_message: message.value,
     auto_resolve_ignore_waiting: ignoreWaiting.value,
     auto_resolve_label: selectedLabelName.value,
-    auto_resolve_unit: unit.value,
   });
 };
 
@@ -115,7 +116,6 @@ const handleDisable = async () => {
     auto_resolve_message: '',
     auto_resolve_ignore_waiting: false,
     auto_resolve_label: null,
-    auto_resolve_unit: DURATION_UNITS.minutes,
   });
 };
 
