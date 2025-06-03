@@ -4,9 +4,10 @@ class NotifyWaitingForCustomerReplyJob < ApplicationJob
   REMINDER_MESSAGE = 'Apakah Anda masih bersama kami? Jika masih memerlukan bantuan, silakan balas pesan ini. Kami siap membantu Anda.'
 
   STATUS_OPEN = 1
-  MESSAGE_TYPE_OUTGOING = 1
+  MESSAGE_TYPE_TEMPLATE = 3
   CONTENT_TYPE_TEXT = 0
   SENDER_TYPE_USER = 'User'.freeze
+  SENDER_TYPE_SYSTEM = 'System'.freeze
   SENDER_TYPE_AI_AGENT = 'AiAgent'.freeze
   MESSAGE_STATUS_SENT = 0
 
@@ -82,9 +83,9 @@ class NotifyWaitingForCustomerReplyJob < ApplicationJob
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       conversation_id: conversation.id,
-      message_type: MESSAGE_TYPE_OUTGOING,
+      message_type: MESSAGE_TYPE_TEMPLATE,
       content_type: CONTENT_TYPE_TEXT,
-      sender_type: SENDER_TYPE_USER,
+      # sender_type: SENDER_TYPE_SYSTEM,
       sender_id: conversation.assignee_id,
       status: MESSAGE_STATUS_SENT
     )

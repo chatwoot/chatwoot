@@ -62,13 +62,13 @@ class Captain::Copilot::ChatService
     response = send_message.parsed_response
     message, is_handover = get_message_content(response)
 
-    send_reply(message, is_handover: is_handover)
+    send_reply(message, is_handover: is_handover, additional_attributes: { message_type: 1, sender_type: 'AiAgent' })
   end
 
-  def send_reply(content, is_handover: false)
+  def send_reply(content, is_handover: false, additional_attributes: {})
     message_content = is_handover ? handover_processing(content) : content
 
-    message_created(message_content)
+    message_created(message_content, additional_attributes)
     send_log_reply(is_handover: is_handover)
   rescue StandardError => e
     Rails.logger.error("❌ Failed to save AI reply: #{e.message}")
@@ -76,18 +76,18 @@ class Captain::Copilot::ChatService
 
   def send_reply_failure(reason)
     Rails.logger.error("❌ Bot failure: #{reason}")
-    send_reply(reason, is_handover: false)
+    send_reply(reason, is_handover: false, additional_attributes: { message_type: 3 })
   end
 
   def long_running_notify
     Rails.logger.info('🤖 Bot is running long time, notifying...')
-    send_reply(I18n.t('conversations.bot.long_running_message'), is_handover: false)
+    send_reply(I18n.t('conversations.bot.long_running_message'), is_handover: false, additional_attributes: { message_type: 3 })
   end
 
   def handover_processing(content)
     agent_available = find_available_agent
 
-    @context.conversation.update!(assignee_id: agent_available.id) if agent_available
+    @context.conversation.update!(assignee_id: agent_available.id, is_handover_reminder: true) if agent_available
     agent_available ? content : I18n.t('conversations.bot.not_available_agent')
   end
 
@@ -117,19 +117,21 @@ class Captain::Copilot::ChatService
     User.find_by(id: agent_id)
   end
 
-  def message_created(content)
+  def message_created(content, additional_attributes)
     attrs = {
       content: content,
       account_id: @context.account_id,
       inbox_id: @context.conversation.inbox_id,
       conversation_id: @context.conversation.id,
-      message_type: 1,
+      # message_type: 1,
       content_type: 0,
-      status: 0,
-      sender_type: 'AiAgent'
+      status: 0
+      # sender_type: 'AiAgent'
     }
 
     attrs[:sender_id] = @context.ai_agent&.id
+
+    attrs.merge!(additional_attributes) if additional_attributes.present?
 
     Message.create!(attrs)
   end

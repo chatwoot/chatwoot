@@ -4,9 +4,10 @@ class AutoResolveIdleConversationsJob < ApplicationJob
   RESOLUTION_MESSAGE = 'Karena belum ada respon, sesi chat ini akan kami akhiri. Jika Anda membutuhkan bantuan di lain waktu, jangan ragu untuk menghubungi kami kembali. Terima kasih.'
 
   STATUS_OPEN = 1
-  MESSAGE_TYPE_OUTGOING = 1
+  MESSAGE_TYPE_TEMPLATE = 3
   CONTENT_TYPE_TEXT = 0
   SENDER_TYPE_USER = 'User'.freeze
+  SENDER_TYPE_SYSTEM = 'System'.freeze
   SENDER_TYPE_AI_AGENT = 'AiAgent'.freeze
   MESSAGE_STATUS_SENT = 0
 
@@ -49,8 +50,8 @@ class AutoResolveIdleConversationsJob < ApplicationJob
       .open
       .where(is_reminded: true)
       .where('conversations.updated_at < ?', threshold_time)
-      .where(latest_messages: { message_type: Message.message_types[:outgoing] })
-      .where(latest_messages: { sender_type: [SENDER_TYPE_USER, SENDER_TYPE_AI_AGENT] })
+    # .where(latest_messages: { message_type: Message.message_types[:outgoing] })
+    # .where(latest_messages: { sender_type: SENDER_TYPE_SYSTEM })
   end
 
   def create_message(conversation, content)
@@ -59,9 +60,9 @@ class AutoResolveIdleConversationsJob < ApplicationJob
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       conversation_id: conversation.id,
-      message_type: MESSAGE_TYPE_OUTGOING,
+      message_type: MESSAGE_TYPE_TEMPLATE,
       content_type: CONTENT_TYPE_TEXT,
-      sender_type: SENDER_TYPE_USER,
+      # sender_type: SENDER_TYPE_SYSTEM,
       sender_id: conversation.assignee_id,
       status: MESSAGE_STATUS_SENT
     )
