@@ -242,6 +242,11 @@ lv:
   captain:
     copilot_error: 'Lai izmantotu Copilot, lūdzu, pievienojiet šai iesūtnei palīgu'
     copilot_limit: 'Jums ir beigušies Copilot kredīti. Vairāk kredītu varat iegādāties norēķinu sadaļā.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
   public_portal:
     search:
       search_placeholder: Meklēt rakstu pēc nosaukuma vai pamatteksta...
