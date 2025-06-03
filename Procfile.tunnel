@@ -1,4 +1,3 @@
-backend: bin/rails s -p 3000
-# https://github.com/mperham/sidekiq/issues/3090#issuecomment-389748695
+backend: DISABLE_MINI_PROFILER=true bin/rails s -p 3000
 worker: dotenv bundle exec sidekiq -C config/sidekiq.yml
 vite: BUILD_MODE=dev bin/vite build --watch
