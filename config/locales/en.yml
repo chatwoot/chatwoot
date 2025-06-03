@@ -267,7 +267,7 @@ en:
       no_results: "No results found for '%{query}'"
       found_results:
         one: Found 1 result
-        other: "Found %{count} results"
+        other: 'Found %{count} results'
       submit: Search
     toc_header: 'On this page'
     hero:
@@ -284,6 +284,8 @@ en:
       others: others
       by: By
       no_articles: There are no articles here
+      previous: Previous
+      next: Next
     footer:
       made_with: Made with
     header:
