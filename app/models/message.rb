@@ -40,6 +40,7 @@
 class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
+  include SurveyHelper
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -229,7 +230,7 @@ class Message < ApplicationRecord
   end
 
   def default_survey_url
-    SurveyHelper.survey_url(conversation.uuid)
+    survey_url(conversation.uuid)
   end
 
   def prevent_message_flooding

@@ -1,4 +1,5 @@
 class MessageTemplates::Template::CsatSurvey
+  include SurveyHelper
   pattr_initialize [:conversation!]
 
   def perform
@@ -73,7 +74,7 @@ class MessageTemplates::Template::CsatSurvey
     }
 
     # Store survey URL separately for non-web widget channels
-    attributes['survey_url'] = SurveyHelper.survey_url(conversation.uuid) unless conversation.inbox.web_widget?
+    attributes['survey_url'] = survey_url(conversation.uuid) unless conversation.inbox.web_widget?
 
     attributes
   end
