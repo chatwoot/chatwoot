@@ -166,13 +166,13 @@ document.addEventListener('turbo:load', function() {
         <div class="flex justify-center mt-6">
           <nav class="inline-flex">
             <% if @articles.prev_page %>
-              <a href="<%= url_for(page: @articles.prev_page) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-l-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+              <a href="<%= url_for(params.permit(:query, :locale).merge(page: @articles.prev_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-l-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                 <%= I18n.t('public_portal.common.previous') %>
               </a>
             <% end %>
 
             <% if @articles.next_page %>
-              <a href="<%= url_for(page: @articles.next_page) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-r-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
+              <a href="<%= url_for(params.permit(:query, :locale).merge(page: @articles.next_page)) %>" class="px-3 py-2 border border-slate-200 dark:border-slate-700 rounded-r-md text-sm font-medium text-slate-700 dark:text-slate-300 hover:bg-slate-50 dark:hover:bg-slate-800">
                 <%= I18n.t('public_portal.common.next') %>
               </a>
             <% end %>
