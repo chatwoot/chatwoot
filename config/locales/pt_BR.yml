@@ -243,10 +243,10 @@ pt_BR:
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
     copilot:
-      using_tool: 'Using tool %{function_name}'
-      completed_tool_call: 'Completed %{function_name} tool call'
-      invalid_tool_call: 'Invalid tool call'
-      tool_not_available: 'Tool not available'
+      using_tool: 'Usando a ferramenta %{function_name}'
+      completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
+      invalid_tool_call: 'Ferramenta inválida'
+      tool_not_available: 'Ferramenta indisponível'
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
