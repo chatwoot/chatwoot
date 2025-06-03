@@ -17,6 +17,7 @@ class Messages::MessageBuilder
   end
 
   def perform
+    Rails.logger.info("[Messages::MessageBuilder] Message params: #{message_params}")
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
@@ -76,6 +77,10 @@ class Messages::MessageBuilder
                              end
     end
   end
+
+  # def update_is_handover_reminder
+  #   @params[:]
+  # end
 
   def process_emails
     return unless @conversation.inbox&.inbox_type == 'Email'
