@@ -79,10 +79,6 @@ class Messages::MessageBuilder
     end
   end
 
-  # def update_is_handover_reminder
-  #   @params[:]
-  # end
-
   def process_emails
     return unless @conversation.inbox&.inbox_type == 'Email'
 
@@ -119,9 +115,9 @@ class Messages::MessageBuilder
   end
 
   def handover_reminder_off?
-    return unless sender_type == 'USER' && @conversation.is_handover_reminder == true
+    return unless sender_type == 'USER' && @conversation.is_handover_reminded == true
 
-    @conversation.update!(is_handover_reminder: false)
+    @conversation.update!(is_handover_reminded: false)
   end
 
   def reminder_off?

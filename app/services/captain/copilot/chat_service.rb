@@ -87,7 +87,7 @@ class Captain::Copilot::ChatService
   def handover_processing(content)
     agent_available = find_available_agent
 
-    @context.conversation.update!(assignee_id: agent_available.id, is_handover_reminder: true) if agent_available
+    @context.conversation.update!(assignee_id: agent_available.id, is_reminded: false, is_handover_reminded: true) if agent_available
     agent_available ? content : I18n.t('conversations.bot.not_available_agent')
   end
 

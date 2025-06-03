@@ -16,7 +16,7 @@ class NotifyWaitingForAgentReplyJob < ApplicationJob
       scope: conversations_to_remind,
       action: :remind,
       message: WAITING_MESSAGE,
-      update_attrs: { is_handover_reminder: false }
+      update_attrs: { is_handover_reminded: false }
     )
   end
 
@@ -36,7 +36,7 @@ class NotifyWaitingForAgentReplyJob < ApplicationJob
   def conversations_to_remind
     Conversation
       .open
-      .where(is_handover_reminder: true)
+      .where(is_handover_reminded: true)
       .where.not(assignee_id: nil)
       .where('conversations.updated_at < ?', threshold_time)
       .group('conversations.id')
