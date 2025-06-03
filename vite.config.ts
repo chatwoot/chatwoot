@@ -1,7 +1,7 @@
 /// <reference types="vitest" />
 
 /**
-What's going on with library mode?
+What's going on with build modes?
 
 Glad you asked, here's a quick rundown:
 
@@ -13,8 +13,10 @@ This puts us in a deadlock, now there are two ways around this, either add anoth
 the app using vanilla rollup or rspack or something. The second option is to remove sdk building from the main pipeline
 and build it separately using Vite itself, toggled by an ENV variable.
 
-`BUILD_MODE=library bin/vite build` should build only the SDK and save it to `public/packs/js/sdk.js`
-`bin/vite build` will build the rest of the app as usual. But exclude the SDK.
+Build modes:
+- `BUILD_MODE=library bin/vite build` should build only the SDK and save it to `public/packs/js/sdk.js`
+- `BUILD_MODE=dev bin/vite build --watch` builds with fast dev settings (no minify, inline sourcemaps) for tunnels/codespace
+- `bin/vite build` will build the rest of the app as usual. But exclude the SDK.
 
 We need to edit the `asset:precompile` rake task to include the SDK in the precompile list.
 */
@@ -24,6 +26,7 @@ import path from 'path';
 import vue from '@vitejs/plugin-vue';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
+const isDevMode = process.env.BUILD_MODE === 'dev';
 const isTestMode = process.env.TEST === 'true';
 
 const vueOptions = {
@@ -45,6 +48,10 @@ if (isLibraryMode) {
 export default defineConfig({
   plugins: plugins,
   build: {
+    minify: isDevMode ? false : 'esbuild',
+    cssMinify: isDevMode ? false : true,
+    sourcemap: isDevMode ? false : false,
+    target: isDevMode ? 'es2019' : undefined,
     rollupOptions: {
       output: {
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
@@ -60,6 +67,7 @@ export default defineConfig({
               },
             }
           : {}),
+        ...(isDevMode ? { manualChunks: undefined } : {}), // single bundle for dev mode
         inlineDynamicImports: isLibraryMode, // Disable code-splitting for SDK
       },
     },
