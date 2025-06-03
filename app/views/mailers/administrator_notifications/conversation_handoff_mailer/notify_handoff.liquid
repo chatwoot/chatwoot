@@ -30,7 +30,7 @@
 
       <tr>
         <td class="message" align="left" style="padding: 5px 10px; border-radius: 4px;">
-          <strong style="font-size: 14px;" >{{ sender_display }}:</strong> <div style="background-color: {% if is_reply %}#f3f4f6{% else %}#f3f4f6{% endif %}; color: {% if is_reply %}#ffffff{% else %}#333333{% endif %}; border-radius: 6px;"> {{ message.content | truncate: 200 }}</div>
+          <strong style="font-size: 14px;" >{{ sender_display }}:</strong> <div style="background-color: #f3f4f6; color: #000000; border-radius: 6px;"> {{ message.content | truncate: 200 }}</div>
         </td>
       </tr>
       <tr><td style="height: 10px;"></td></tr>
