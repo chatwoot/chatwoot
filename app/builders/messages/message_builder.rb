@@ -22,6 +22,7 @@ class Messages::MessageBuilder
     process_attachments
     process_emails
     @message.save!
+    handover_reminder_off?
     @message
   end
 
@@ -117,8 +118,22 @@ class Messages::MessageBuilder
     @message_type
   end
 
+  def handover_reminder_off?
+    return unless sender_type == 'USER' && @conversation.is_handover_reminder == true
+
+    @conversation.update!(is_handover_reminder: false)
+  end
+
   def sender
     message_type == 'outgoing' ? (message_sender || @user) : @conversation.contact
+  end
+
+  def sender_type
+    if sender.is_a?(User)
+      'USER'
+    elsif sender.is_a?(Contact)
+      'CONTACT'
+    end
   end
 
   def external_created_at
