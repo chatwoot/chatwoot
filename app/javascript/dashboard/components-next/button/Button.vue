@@ -35,7 +35,7 @@ const props = defineProps({
   },
   type: {
     type: String,
-    default: 'button',
+    required: true,
   },
   icon: { type: [String, Object, Function], default: '' },
   trailingIcon: { type: Boolean, default: false },
