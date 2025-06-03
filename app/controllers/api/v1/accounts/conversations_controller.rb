@@ -128,7 +128,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def update_last_seen
     Rails.logger.info("Update last send: #{params}")
-    Rails.logger.info("Current conversation: #{@conversation}")
+    Rails.logger.info("Current conversation: #{@conversation.to_json}")
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
 
