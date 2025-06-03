@@ -45,16 +45,10 @@ export function useAccount() {
     };
   };
 
-  // this will update the account silently without showing the loading spinner
-  const updateAccountSilently = async data => {
-    await store.dispatch('accounts/updateSilent', {
-      ...data,
-    });
-  };
-
-  const updateAccount = async data => {
+  const updateAccount = async (data, options) => {
     await store.dispatch('accounts/update', {
       ...data,
+      options,
     });
   };
 
@@ -67,6 +61,5 @@ export function useAccount() {
     isCloudFeatureEnabled,
     isOnChatwootCloud,
     updateAccount,
-    updateAccountSilently,
   };
 }

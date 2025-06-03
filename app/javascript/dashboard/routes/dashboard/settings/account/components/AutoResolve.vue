@@ -22,7 +22,7 @@ const ignoreWaiting = ref(false);
 const isEnabled = ref(false);
 const isSubmitting = ref(false);
 
-const { currentAccount, updateAccountSilently } = useAccount();
+const { currentAccount, updateAccount } = useAccount();
 
 const labels = useMapGetter('labels/getLabels');
 
@@ -82,7 +82,7 @@ watch(
 const updateAccountSettings = async settings => {
   try {
     isSubmitting.value = true;
-    await updateAccountSilently(settings);
+    await updateAccount(settings, { silent: true });
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.API.SUCCESS'));
   } catch (error) {
     useAlert(t('GENERAL_SETTINGS.FORM.AUTO_RESOLVE.DURATION.API.ERROR'));
