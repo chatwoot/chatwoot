@@ -3,7 +3,7 @@
 import IssueHeader from './IssueHeader.vue';
 import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
 
-defineProps({
+const props = defineProps({
   linkedIssue: {
     type: Object,
     required: true,
@@ -41,8 +41,8 @@ const getPriorityLabel = priority => {
   return priorityMap[priority];
 };
 
-const unlinkIssue = linkId => {
-  emit('unlinkIssue', linkId);
+const unlinkIssue = () => {
+  emit('unlinkIssue', props.linkedIssue.id);
 };
 </script>
 
