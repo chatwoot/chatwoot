@@ -331,6 +331,9 @@
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
       "TITLE": "Copiloto",
+      "TRY_THESE_PROMPTS": "Experimente estes comandos",
+      "PANEL_TITLE": "Get started with Copilot",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Enviar mensagem...",
       "EMPTY_MESSAGE": "Houve um erro ao gerar a resposta. Por favor, tente novamente.",
       "LOADER": "Capitão está pensando",
@@ -351,6 +354,14 @@
         "RATE": {
           "LABEL": "Avaliar esta conversa",
           "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "High priority conversations",
+          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "List contacts",
+          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
       }
     },
@@ -384,6 +395,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistentes",
+      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
       "ADD_NEW": "Criar um novo assistente",
       "DELETE": {
         "TITLE": "Tem certeza que deseja excluir o assistente?",
