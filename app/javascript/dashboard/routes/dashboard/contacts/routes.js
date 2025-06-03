@@ -32,6 +32,12 @@ export const routes = [
         component: ContactsIndex,
         meta: commonMeta,
       },
+      {
+        path: 'active',
+        name: 'contacts_dashboard_active',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
     ],
   },
   {
@@ -58,14 +64,5 @@ export const routes = [
         meta: commonMeta,
       },
     ],
-  },
-  {
-    path: frontendURL('accounts/:accountId/active'),
-    name: 'active',
-    component: ContactsIndex,
-    meta: commonMeta,
-    props: {
-      reload: true,
-    },
   },
 ];

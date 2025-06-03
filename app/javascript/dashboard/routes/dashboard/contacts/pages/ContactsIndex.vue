@@ -53,7 +53,9 @@ const sortState = reactive({
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
-const isActiveRoute = computed(() => route.name === 'active');
+const isActiveRoute = computed(
+  () => route.name === 'contacts_dashboard_active'
+);
 const isFetchingList = computed(
   () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
 );
@@ -241,10 +243,32 @@ watch(searchQuery, value => {
   }
 });
 
+watch(
+  () => route.name,
+  async (newRouteName, oldRouteName) => {
+    if (isFetchingList.value) return;
+    if (newRouteName === oldRouteName) return;
+
+    // Handle route changes between different contact views
+    if (newRouteName === 'contacts_dashboard_active') {
+      await fetchActiveContacts(1);
+    } else if (
+      newRouteName === 'contacts_dashboard_index' &&
+      oldRouteName === 'contacts_dashboard_active'
+    ) {
+      await fetchContacts(1);
+    }
+  }
+);
+
 onMounted(async () => {
   if (!activeSegmentId.value) {
     if (searchQuery.value) {
       await searchContacts(searchQuery.value, pageNumber.value);
+      return;
+    }
+    if (isActiveRoute.value) {
+      await fetchActiveContacts(pageNumber.value);
       return;
     }
     await fetchContacts(pageNumber.value);
@@ -302,9 +326,11 @@ onMounted(async () => {
         >
           <span class="text-base text-n-slate-11">
             {{
-              searchQuery || !hasAppliedFilters
-                ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
-                : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
+              isActiveRoute
+                ? t('CONTACTS_LAYOUT.EMPTY_STATE.ACTIVE_EMPTY_STATE_TITLE')
+                : searchQuery || !hasAppliedFilters
+                  ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
+                  : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
             }}
           </span>
         </div>

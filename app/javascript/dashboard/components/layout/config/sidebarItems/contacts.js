@@ -9,7 +9,7 @@ const contacts = accountId => ({
     'contacts_edit',
     'contacts_edit_segment',
     'contacts_edit_label',
-    'active',
+    'contacts_dashboard_active',
   ],
   menuItems: [
     {
@@ -23,8 +23,8 @@ const contacts = accountId => ({
       icon: 'visitor-contacts',
       label: 'ACTIVE',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/active`),
-      toStateName: 'active',
+      toState: frontendURL(`accounts/${accountId}/contacts/active`),
+      toStateName: 'contacts_dashboard_active',
     },
   ],
 });

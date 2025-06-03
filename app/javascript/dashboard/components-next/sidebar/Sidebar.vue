@@ -238,8 +238,8 @@ const menuItems = computed(() => {
         {
           name: 'Active',
           label: t('SIDEBAR.ACTIVE'),
-          to: accountScopedRoute('active'),
-          activeOn: ['active'],
+          to: accountScopedRoute('contacts_dashboard_active'),
+          activeOn: ['contacts_dashboard_active'],
         },
         {
           name: 'Segments',
