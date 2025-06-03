@@ -14,43 +14,43 @@
 
 # ------- Branding Related Config ------- #
 - name: INSTALLATION_NAME
-  value: 'Chatwoot'
+  value: 'Cash Consult'
   display_title: 'Installation Name'
   description: 'The installation wide name that would be used in the dashboard, title etc.'
 - name: LOGO_THUMBNAIL
-  value: '/brand-assets/logo_thumbnail.svg'
+  value: 'https://app.cashconsult.com.br/assets/img/favicon/icon.png'
   display_title: 'Logo Thumbnail'
   description: 'The thumbnail that would be used for favicon (512px X 512px)'
 - name: LOGO
-  value: '/brand-assets/logo.svg'
+  value: 'https://app.cashconsult.com.br/assets/img/logo.png'
   display_title: 'Logo'
   description: 'The logo that would be used on the dashboard, login page etc.'
 - name: LOGO_DARK
-  value: '/brand-assets/logo_dark.svg'
+  value: 'https://app.cashconsult.com.br/assets/img/logo.png'
   display_title: 'Logo Dark Mode'
   description: 'The logo that would be used on the dashboard, login page etc. for dark mode'
 - name: BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://chat.cashconsult.com.br'
   display_title: 'Brand URL'
   description: 'The URL that would be used in emails under the section “Powered By”'
 - name: WIDGET_BRAND_URL
-  value: 'https://www.chatwoot.com'
+  value: 'https://chat.cashconsult.com.br'
   display_title: 'Widget Brand URL'
   description: 'The URL that would be used in the widget under the section “Powered By”'
 - name: BRAND_NAME
-  value: 'Chatwoot'
+  value: 'Cash Consult'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatwoot.com/terms-of-service'
+  value: 'https://chat.cashconsult.com.br/terms-of-service'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
-  value: 'https://www.chatwoot.com/privacy-policy'
+  value: 'https://chat.cashconsult.com.br/privacy-policy'
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
-  value: true
+  value: false
   display_title: 'Chatwoot Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean
@@ -235,14 +235,6 @@
   description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
-# ------- Compliance Related Config ----#
-- name: CHATWOOT_INSTANCE_ADMIN_EMAIL
-  display_title: 'Instance Admin Email'
-  value:
-  description: 'The email of the instance administrator to receive compliance-related notifications'
-  locked: false
-# ------- End of Compliance Related Config ----#
-
 ## ------ Configs added for enterprise clients ------ ##
 - name: API_CHANNEL_NAME
   value:
@@ -287,20 +279,6 @@
   description: 'Linear client secret'
   type: secret
 ## ------ End of Configs added for Linear ------ ##
-
-## ------ Configs added for Slack ------ ##
-- name: SLACK_CLIENT_ID
-  display_title: 'Slack Client ID'
-  value:
-  locked: false
-  description: 'Slack client ID'
-- name: SLACK_CLIENT_SECRET
-  display_title: 'Slack Client Secret'
-  value:
-  locked: false
-  description: 'Slack client secret'
-  type: secret
-## ------ End of Configs added for Slack ------ ##
 
 # ------- Shopify Integration Config ------- #
 - name: SHOPIFY_CLIENT_ID
