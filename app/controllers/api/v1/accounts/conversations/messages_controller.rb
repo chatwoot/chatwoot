@@ -4,6 +4,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def create
+    Rails.logger.info("[Api::V1::Accounts::Conversations::MessagesController] processing message #{@conversation}")
     user = Current.user || @resource
     mb = Messages::MessageBuilder.new(user, @conversation, params)
     @message = mb.perform
