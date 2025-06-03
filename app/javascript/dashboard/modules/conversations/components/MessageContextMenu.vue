@@ -258,6 +258,7 @@ export default {
         conversationId: this.conversationId,
         messageId: this.messageId,
         targetLanguage: locale || 'en',
+        retranslate: true,
       });
       this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();

@@ -111,11 +111,12 @@ class MessageApi extends ApiClient {
     return axios.get(`${this.url}/${conversationId}/messages`, { params });
   }
 
-  translateMessage(conversationId, messageId, targetLanguage) {
+  translateMessage(conversationId, messageId, targetLanguage, retranslate) {
     return axios.post(
       `${this.url}/${conversationId}/messages/${messageId}/translate`,
       {
         target_language: targetLanguage,
+        force_translate: retranslate,
       }
     );
   }

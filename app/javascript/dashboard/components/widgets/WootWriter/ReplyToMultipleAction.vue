@@ -118,6 +118,7 @@
         STATUS_TYPE: wootConstants.STATUS_TYPE,
         currentConversationId: 0,
         showAiLoader: false,
+        pendingAction: ''
       };
     },
     computed: {
@@ -195,11 +196,19 @@
       qualityCheckEnabled() {
         return this.translationFeatureEnabled && this.translationAllowedForAgent;
       },
+      aiFeatureEnabled() {
+        return this.translationEnabled || this.qualityCheckEnabled;
+      }
     },
     methods: {
       displayAILoader(){
-        if (this.translationEnabled || this.qualityCheckEnabled) {
+        if (this.aiFeatureEnabled) {
           this.showAiLoader = true;
+        }
+      },
+      setPendingAction(action) {
+        if (this.aiFeatureEnabled) {
+          this.pendingAction = action;
         }
       },
       hideAILoader(){
@@ -215,14 +224,7 @@
           is_conv_actions_open: true,
         });
       },
-      onReplyAndResolve(){
-        this.displayAILoader()
-        this.onSend()
-
-        if (this.isResolved) {
-          return;
-        }
-
+      triggerOnResolveActions(){
         if (this.inbox.label_required){
           if (this.currentChat.labels.length === 0){
             this.showAlert(this.$t('CONVERSATION.LABEL_REQUIRED'));
@@ -237,21 +239,40 @@
           return;
         }
 
-        setTimeout(() => {
-          this.toggleStatus(this.STATUS_TYPE.RESOLVED);
-        }, 500)
+        if (!this.isResolved) {
+          setTimeout(() => {
+            this.toggleStatus(this.STATUS_TYPE.RESOLVED);
+          }, 500);
+        }
       },
-      onReplyAsPending(){
+      triggerOnPendingActions(){
+        if (!this.isPending) {
+          setTimeout(() => {
+            this.toggleStatus(this.STATUS_TYPE.PENDING);
+          }, 500);
+        }
+      },
+      onReplyAndResolve(){
         this.displayAILoader()
+        this.setPendingAction('reply_and_resolve')
         this.onSend()
 
-        if (this.isPending) {
+        if (this.aiFeatureEnabled) {
           return;
         }
 
-        setTimeout(() => {
-          this.toggleStatus(this.STATUS_TYPE.PENDING);
-        }, 500)
+        this.triggerOnResolveActions();
+      },
+      onReplyAsPending(){
+        this.displayAILoader()
+        this.setPendingAction('reply_as_pending')
+        this.onSend()
+
+        if (this.aiFeatureEnabled) {
+          return;
+        }
+
+        this.triggerOnPendingActions();
       },
       openDropdown(){
         this.showActionsDropdown = true
@@ -272,8 +293,21 @@
             this.showAlert(this.$t('CONVERSATION.CHANGE_STATUS'));
             this.isLoading = false;
           });
-      }
+      },
+      executePendingAction() {
+        if (this.pendingAction === 'reply_and_resolve') {
+          this.triggerOnResolveActions();
+        } else if (this.pendingAction === 'reply_as_pending') {
+          this.triggerOnPendingActions();
+        }
+        this.pendingAction = '';
+      },
     },
+    watch: {
+      conversationId: () => {
+        this.pendingAction = '';
+      }
+    }
   }
 </script>
 

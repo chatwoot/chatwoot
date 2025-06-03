@@ -531,6 +531,9 @@ export default {
     hideTranslationError() {
       this.translationError = false;
     },
+    executePendingAction() {
+      this.$refs.replyToMultipleAction.executePendingAction();
+    },
     onSendReply() {
       if (!this.isOnPrivateNote) {
         this.showAiLoader = true;

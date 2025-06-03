@@ -41,11 +41,20 @@ class Digitaltolk::Openai::Base
   def call_openai
     client.chat(
       parameters: {
-        model: 'openai/gpt4o_mini',
+        model: ai_model,
         messages: messages,
+        temperature: temperature_score,
         response_format: { type: 'json_object' }
       }
     )
+  end
+
+  def ai_model
+    'openai/gpt4o_mini'
+  end
+
+  def temperature_score
+    0.3
   end
 
   def parse_response(response)

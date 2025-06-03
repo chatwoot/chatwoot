@@ -878,6 +878,7 @@ export default {
       if (this.isReplyButtonDisabled) {
         return;
       }
+
       if (!this.showMentions) {
         const isOnWhatsApp =
           this.isATwilioWhatsAppChannel ||
@@ -896,6 +897,7 @@ export default {
 
         this.clearMessage();
         this.hideEmojiPicker();
+        this.$refs.replyBottomPanel.executePendingAction();
         this.$emit('update:popoutReplyBox', false);
       }
     },

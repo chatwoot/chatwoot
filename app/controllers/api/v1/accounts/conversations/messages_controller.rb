@@ -28,10 +28,11 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def translate
-    return head :ok if already_translated_content_available?
+    if !already_translated_content_available? || params[:force_translate] == true
+      Digitaltolk::TranslationJob.perform_later(message, permitted_params[:target_language])
+    end
 
-    translated_content = Digitaltolk::TranslationService.new(message, permitted_params[:target_language]).perform
-    render json: { content: translated_content }
+    head :ok
   end
 
   def fix_formatting

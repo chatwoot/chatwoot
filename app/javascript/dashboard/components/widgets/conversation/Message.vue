@@ -111,7 +111,7 @@
           </small>
         </div>
         <div v-if="translateEnabled && isChatMessage">
-          <div v-if="translatedMessage" style="margin-left: -10px">
+          <div v-if="translatedMessage && !isAlreadyInLocale" style="margin-left: -10px">
             <woot-button
               v-if="showTranslated"
               v-tooltip.top-end="$t('CONVERSATION.CONTEXT_MENU.SEE_ORIGINAL')"
@@ -338,18 +338,12 @@ export default {
     hasTranslationObject() {
       return this.translations != null && Object.keys(this.translations).length > 0;
     },
-    englishTranslation() {
-      return this.translations['en'];
-    },
-    swedishTranslation() {
-      return this.translations['sv'];
-    },
     translatedMessageByLocale() {
       return this.translations[this.translationLocale];
     },
     translatedMessage() {
       if (this.translateEnabled && this.hasTranslationObject) {
-        return this.translatedMessageByLocale || this.englishTranslation || this.swedishTranslation;
+        return this.translatedMessageByLocale;
       } else {
         return null;
       }
@@ -357,9 +351,25 @@ export default {
     isChatMessage() {
       return !this.isPrivate && (this.isIncoming || this.isOutgoing);
     },
+    detectedLocale() {
+      return this.translations['detected_locale'];
+    },
+    isAlreadyInLocale() {
+      if (!this.hasTranslationObject) {
+        return false;
+      }
+
+      if (!this.detectedLocale) {
+        return false;
+      }
+
+      return this.detectedLocale[this.translationLocale] === true;
+    },
     message() {
-      if (this.translatedMessage && this.showTranslated) {
-        return this.translatedMessage;
+      if (!this.isAlreadyInLocale) {
+        if (this.translatedMessage && this.isChatMessage && this.showTranslated) {
+          return this.translatedMessage;
+        }
       }
 
       // If the message is an email, emailMessageContent would be present
@@ -615,11 +625,13 @@ export default {
   watch: {
     data() {
       this.hasMediaLoadError = false;
-
-      if (this.translateEnabled) {
-        this.showTranslated = this.isChatMessage && !!this.translatedMessageByLocale;
-      }
     },
+    'data.content_attributes.translations': {
+      handler(newVal, oldVal) {
+        this.showTranslated = this.isChatMessage && this.translatedMessageByLocale && !this.isAlreadyInLocale;
+      },
+      deep: true,
+    }
   },
   mounted() {
     this.hasMediaLoadError = false;
@@ -700,7 +712,7 @@ export default {
       this.showTranslated = value;
     },
     handleTranslate() {
-      const { locale } = this.getAccount(this.accountId);
+      const locale = this.translationLocale;
 
       if (!Number.isInteger(this.data.id)) {
         return;
@@ -710,6 +722,7 @@ export default {
         conversationId: this.data.conversation_id,
         messageId: this.data.id,
         targetLanguage: locale || 'en',
+        retranslate: true
       });
 
       this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
@@ -718,9 +731,15 @@ export default {
       if (this.translateEnabled) {
         this.showTranslated = this.isChatMessage && !!this.translatedMessageByLocale;
 
-        if (this.isChatMessage && !this.translatedMessage) {
-          this.handleTranslate()
+        if (!this.isChatMessage) {
+          return;
         }
+
+        if (this.detectedLocale && this.detectedLocale[this.translationLocale] != null) {
+          return;
+        }
+
+        this.handleTranslate();
       }
     }
   },

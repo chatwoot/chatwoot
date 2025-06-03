@@ -10,7 +10,7 @@
     <div v-else @click="handleClickOnContent">
       <letter
         class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
-        :html="fixedColorMessage"
+        :html="message"
       />
     </div>
     <button
@@ -79,12 +79,6 @@ export default {
       }
       return this.displayQuotedButton;
     },
-    fixedColorMessage() {
-      let msg = this.message;
-      msg = msg.replace(/(?:color\s*:\s*(?:#?ffffff|windowtext|white)\s*;?|color\s*=\s*['"]?\s*(?:#?ffffff|windowtext|white)\s*['"]?)/gi, 'color: black;');
-      msg = msg.replace(/(?:color\s*:\s*(?:#?fff)\s*;?|color\s*=\s*['"]?\s*(?:#?fff)\s*['"]?)/gi, 'color: black;');
-      return msg;
-    }
   },
   methods: {
     toggleQuotedContent() {

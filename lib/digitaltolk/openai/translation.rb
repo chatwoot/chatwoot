@@ -2,10 +2,12 @@ class Digitaltolk::Openai::Translation < Digitaltolk::Openai::Base
   attr_accessor :message, :target_language
 
   SYSTEM_PROMPT = %(
-    You are a translation agent. You will be translating messages between English and %<target_language>s.
-    Detect the language of the message and determine if it is in English or %<target_language>s.
-    If the message is in %<target_language>s, translate it into English.
-    If the message is in English, translate it into %<target_language>s.
+    You are a translation agent.
+    You will be translating messages to %<target_language>s.
+    Detect the language of the message and determine if it is in %<target_language>s.
+    If the message is in %<target_language>s, return it as-is.
+    If the message is not in %<target_language>s, translate it into %<target_language>s.
+
     Maintain the original meaning and context in the translation.
     Always preserve the line breaks and formatting in the translated_message.
     Do not shorten or summarize the translated message.
