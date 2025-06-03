@@ -97,11 +97,8 @@ export default {
         return false;
       }
 
-      const {
-        is_contact_sidebar_open: isContactSidebarOpen,
-        is_copilot_panel_open: isCopilotPanelOpen,
-      } = this.uiSettings;
-      return isContactSidebarOpen || isCopilotPanelOpen;
+      const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
+      return isContactSidebarOpen;
     },
     showPopOverSearch() {
       return !this.isFeatureEnabledonAccount(
@@ -208,7 +205,7 @@ export default {
 </script>
 
 <template>
-  <section class="flex w-full h-full">
+  <section class="flex w-full h-full min-w-0">
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
