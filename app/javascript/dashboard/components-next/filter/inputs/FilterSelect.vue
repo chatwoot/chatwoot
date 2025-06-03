@@ -66,14 +66,6 @@ const dropdownPosition = computed(() => {
 const updateSelected = newValue => {
   selected.value = newValue;
 };
-
-const labelToShow = computed(() => {
-  if (selected.value && !props.hideLabel) {
-    return selectedOption.value.label;
-  }
-
-  return props.label;
-});
 </script>
 
 <template>
@@ -88,7 +80,7 @@ const labelToShow = computed(() => {
           :variant
           :icon="iconToRender"
           :trailing-icon="selectedOption.icon ? false : true"
-          :label="labelToShow"
+          :label="label || (hideLabel ? null : selectedOption.label)"
           @click="toggle"
         />
       </slot>
