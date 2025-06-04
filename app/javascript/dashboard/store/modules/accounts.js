@@ -63,8 +63,11 @@ export const actions = {
       });
     }
   },
-  update: async ({ commit }, updateObj) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+  update: async ({ commit }, { options, ...updateObj }) => {
+    if (options?.silent !== true) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    }
+
     try {
       const response = await AccountAPI.update('', updateObj);
       commit(types.default.EDIT_ACCOUNT, response.data);
