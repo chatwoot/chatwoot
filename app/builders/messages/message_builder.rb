@@ -17,6 +17,7 @@ class Messages::MessageBuilder
   end
 
   def perform
+    Rails.logger.info("Message params: #{message_params}")
     @message = @conversation.messages.build(message_params)
     process_attachments
     process_emails
@@ -108,6 +109,7 @@ class Messages::MessageBuilder
 
   def message_type
     if !['Channel::Api', 'Channel::WhatsappUnofficial'].include?(@conversation.inbox.channel_type) && @message_type == 'incoming'
+      Rails.logger.error('Incoming messages are only allowed in Api inboxes')
       raise StandardError, 'Incoming messages are only allowed in Api inboxes'
     end
 
