@@ -107,8 +107,9 @@ export default {
     maxLength() {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
-    showFileUpload() {
-      return true;
+    allowFileUpload() {
+      // eslint-disable-next-line no-underscore-dangle
+      return window.__EDITOR_DISABLE_UPLOAD__ !== true;
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -412,7 +413,6 @@ export default {
     </div>
     <ReplyBottomPanel
       :conversation-id="conversationId"
-      enable-multiple-file-upload
       :inbox="inbox"
       :is-on-private-note="isOnPrivateNote"
       :is-send-disabled="isReplyButtonDisabled"
@@ -424,8 +424,10 @@ export default {
       :show-audio-recorder="showAudioRecorder"
       :show-editor-toggle="isAPIInbox && !isOnPrivateNote"
       :show-emoji-picker="false"
-      :show-file-upload="showFileUpload"
+      :show-file-upload="allowFileUpload"
       :message="message"
+      :enable-multiple-file-upload="allowFileUpload"
+      :allow-file-upload="allowFileUpload"
     />
   </div>
 </template>

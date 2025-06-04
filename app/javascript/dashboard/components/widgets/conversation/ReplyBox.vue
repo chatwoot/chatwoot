@@ -1245,6 +1245,7 @@ export default {
       allow-ai-assist
       allow-video-call
       allow-audio-recorder
+      allow-file-upload
       @select-whatsapp-template="openWhatsappTemplateModal"
       @toggle-editor="toggleRichContentEditor"
       @replace-text="replaceText"

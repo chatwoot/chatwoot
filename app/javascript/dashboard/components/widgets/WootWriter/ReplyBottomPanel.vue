@@ -122,6 +122,7 @@ export default {
     allowEmoji: { type: Boolean, default: false },
     allowAiAssist: { type: Boolean, default: false },
     allowVideoCall: { type: Boolean, default: false },
+    allowFileUpload: { type: Boolean, default: false },
     allowAudioRecorder: { type: Boolean, default: false },
   },
   emits: [
@@ -278,6 +279,7 @@ export default {
         @click="toggleEmojiPicker"
       />
       <FileUpload
+        v-if="allowFileUpload"
         ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
         input-id="conversationAttachment"
