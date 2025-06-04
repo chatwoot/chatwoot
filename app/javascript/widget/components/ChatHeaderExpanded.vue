@@ -1,6 +1,7 @@
 <script setup>
 import HeaderActions from './HeaderActions.vue';
 import { computed } from 'vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
   avatarUrl: {
@@ -20,6 +21,8 @@ const props = defineProps({
     default: false,
   },
 });
+
+const { formatMessage } = useMessageFormatter();
 
 const containerClasses = computed(() => [
   props.avatarUrl ? 'justify-between' : 'justify-end',
@@ -47,7 +50,7 @@ const containerClasses = computed(() => [
       class="mt-4 text-2xl mb-1.5 font-medium text-n-slate-12"
     />
     <p
-      v-dompurify-html="introBody"
+      v-dompurify-html="formatMessage(introBody)"
       class="text-lg leading-normal text-n-slate-11"
     />
   </header>
