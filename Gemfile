@@ -97,7 +97,7 @@ gem 'koala'
 gem 'slack-ruby-client', '~> 2.2.0'
 # for dialogflow integrations
 gem 'google-cloud-dialogflow-v2'
-gem 'grpc', '~> 1.57.0'
+gem 'grpc', '~> 1.72.0'
 # Translate integrations
 # 'google-cloud-translate' gem depends on faraday 2.0 version
 # this dependency breaks the slack-ruby-client gem
