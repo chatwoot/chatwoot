@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "联系人",
       "SEARCH_TITLE": "搜索联系人",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "搜索……",
       "MESSAGE_BUTTON": "消息",
       "SEND_MESSAGE": "发送消息",
@@ -559,7 +560,8 @@
       "SUBTITLE": "点击下方按钮开始添加新联系人",
       "BUTTON_LABEL": "添加联系人",
       "SEARCH_EMPTY_STATE_TITLE": "没有搜索到联系人🔍",
-      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋"
+      "LIST_EMPTY_STATE_TITLE": "此视图中没有可用的联系人📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
