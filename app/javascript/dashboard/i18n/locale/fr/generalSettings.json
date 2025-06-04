@@ -46,7 +46,31 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Résolution automatique des conversations",
-        "NOTE": "Cette configuration vous permet de résoudre automatiquement la conversation après un certain délai. Définissez la durée et personnalisez le message à l'utilisateur ci-dessous."
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "La durée de résolution automatique doit être comprise entre 10 minutes et 999 jours",
+          "API": {
+            "SUCCESS": "Paramètres de résolution automatique mis à jour avec succès",
+            "ERROR": "Échec de la mise à jour des paramètres de résolution automatique"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "La conversation a été marquée comme résolue par le système en raison de 15 jours d'inactivité",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
       },
       "NAME": {
         "LABEL": "Nom du compte",
@@ -67,24 +91,6 @@
         "LABEL": "Courriel d'assistance",
         "PLACEHOLDER": "L'adresse de courriel de support de votre entreprise",
         "ERROR": ""
-      },
-      "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Exclure les conversations non prises en charge",
-        "HELP": "Lorsque cette option est activée, le système ignorera la résolution des conversations qui attendent toujours une réponse d'un agent."
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Durée d'inactivité avant résolution",
-        "HELP": "Durée après laquelle une conversation doit être automatiquement résolue s'il n'y a pas d'activité",
-        "PLACEHOLDER": "30",
-        "ERROR": "La durée de résolution automatique doit être comprise entre 10 minutes et 999 jours",
-        "API": {
-          "SUCCESS": "Paramètres de résolution automatique mis à jour avec succès",
-          "ERROR": "Échec de la mise à jour des paramètres de résolution automatique"
-        },
-        "UPDATE_BUTTON": "Mettre à jour",
-        "MESSAGE_LABEL": "Message de résolution personnalisé",
-        "MESSAGE_PLACEHOLDER": "La conversation a été marquée comme résolue par le système en raison de 15 jours d'inactivité",
-        "MESSAGE_HELP": "Ce message est envoyé au client lorsque la conversation est automatiquement résolue par le système en raison d'une inactivité."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
