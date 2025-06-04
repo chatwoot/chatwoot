@@ -49,7 +49,7 @@ RSpec.describe Conversations::ResolutionJob do
   end
 
   it 'adds a label after resolution' do
-    account.update(auto_resolve_label: 'auto-resolved', auto_resolve_after: 14_400)
+    account.update!(auto_resolve_label: 'auto-resolved', auto_resolve_after: 14_400)
     conversation = create(:conversation, account: account, last_activity_at: 13.days.ago, waiting_since: 13.days.ago)
 
     described_class.perform_now(account: account)
