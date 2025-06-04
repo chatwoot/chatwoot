@@ -14,7 +14,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   before_action :check_authorization
   before_action :set_current_page, only: [:index, :active, :search, :filter]
   before_action :fetch_contact, only: [:show, :update, :destroy, :avatar, :contactable_inboxes, :destroy_custom_attributes]
-  before_action :set_include_contact_inboxes, only: [:index, :search, :filter, :show, :update]
+  before_action :set_include_contact_inboxes, only: [:index, :active, :search, :filter, :show, :update]
 
   def index
     @contacts_count = resolved_contacts.count
@@ -56,7 +56,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     contacts = Current.account.contacts.where(id: ::OnlineStatusTracker
                   .get_available_contact_ids(Current.account.id))
     @contacts_count = contacts.count
-    @contacts = contacts.page(@current_page)
+    @contacts = fetch_contacts(contacts)
   end
 
   def show; end
