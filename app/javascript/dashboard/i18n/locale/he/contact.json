@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "איש קשר",
       "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "הודעה",
       "SEND_MESSAGE": "שלח הודעה",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "אין אנשי קשר שתואמים לחיפוש שלך 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
