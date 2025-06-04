@@ -1,8 +1,9 @@
 <script setup>
+import { computed } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
-import IssueHeader from './IssueHeader.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
+import IssueHeader from './IssueHeader.vue';
 
 const props = defineProps({
   linkedIssue: {
@@ -20,23 +21,20 @@ const priorityMap = {
   4: 'Low',
 };
 
-const getAssignee = issue => {
-  const assigneeDetails = issue.assignee;
+const issue = computed(() => props.linkedIssue.issue);
+
+const assignee = computed(() => {
+  const assigneeDetails = issue.value.assignee;
   if (!assigneeDetails) return null;
-  const { name, avatarUrl } = assigneeDetails;
   return {
-    name,
-    thumbnail: avatarUrl,
+    name: assigneeDetails.name,
+    thumbnail: assigneeDetails.avatarUrl,
   };
-};
+});
 
-const getLabels = issue => {
-  return issue.labels?.nodes || [];
-};
+const labels = computed(() => issue.value.labels?.nodes || []);
 
-const getPriorityLabel = priority => {
-  return priorityMap[priority];
-};
+const priorityLabel = computed(() => priorityMap[issue.value.priority]);
 
 const unlinkIssue = () => {
   emit('unlinkIssue', props.linkedIssue.id);
@@ -44,82 +42,66 @@ const unlinkIssue = () => {
 </script>
 
 <template>
-  <div
-    class="flex flex-col items-start gap-4 px-4 py-3 border-b border-n-strong group/note"
-  >
+  <div class="flex flex-col gap-4">
     <div class="flex flex-col w-full">
       <IssueHeader
-        :identifier="linkedIssue.issue.identifier"
+        :identifier="issue.identifier"
         :link-id="linkedIssue.id"
-        :issue-url="linkedIssue.issue.url"
+        :issue-url="issue.url"
         @unlink-issue="unlinkIssue"
       />
 
-      <span class="mt-2 text-sm font-medium text-n-slate-12">
-        {{ linkedIssue.issue.title }}
-      </span>
+      <h3 class="mt-2 text-sm font-medium text-n-slate-12">
+        {{ issue.title }}
+      </h3>
 
-      <span
-        v-if="linkedIssue.issue.description"
+      <p
+        v-if="issue.description"
         class="mt-1 text-sm text-n-slate-11 line-clamp-3"
       >
-        {{ linkedIssue.issue.description }}
-      </span>
+        {{ issue.description }}
+      </p>
     </div>
+
     <div class="flex flex-col gap-2">
-      <div class="flex flex-row items-center gap-2">
-        <div
-          v-if="getAssignee(linkedIssue.issue)"
-          class="flex items-center gap-1.5 text-left"
-        >
+      <div class="flex items-center gap-2">
+        <div v-if="assignee" class="flex items-center gap-1.5">
           <Avatar
-            :src="getAssignee(linkedIssue.issue).thumbnail"
-            :username="getAssignee(linkedIssue.issue).name"
+            :src="assignee.thumbnail"
+            :username="assignee.name"
             :size="16"
           />
-          <span class="my-0 truncate text-capitalize">
-            {{ getAssignee(linkedIssue.issue).name }}
+          <span class="text-xs capitalize truncate text-n-slate-12">
+            {{ assignee.name }}
           </span>
         </div>
-        <div
-          v-if="getAssignee(linkedIssue.issue)"
-          class="w-px h-3 bg-n-slate-4"
-        />
 
-        <div class="flex items-center gap-1 py-1">
+        <div v-if="assignee" class="w-px h-3 bg-n-slate-4" />
+
+        <div class="flex items-center gap-1">
           <Icon
             icon="i-lucide-activity"
-            class="text-n-slate-11 size-4"
-            :style="{ color: linkedIssue.issue.state?.color }"
+            class="size-4"
+            :style="{ color: issue.state?.color }"
           />
-          <h6 class="text-xs text-n-slate-12">
-            {{ linkedIssue.issue.state?.name }}
-          </h6>
+          <span class="text-xs text-n-slate-12">
+            {{ issue.state?.name }}
+          </span>
         </div>
 
-        <div
-          v-if="getPriorityLabel(linkedIssue.issue.priority)"
-          class="w-px h-3 bg-n-slate-4"
-        />
+        <div v-if="priorityLabel" class="w-px h-3 bg-n-slate-4" />
 
-        <div class="flex items-center gap-1.5 text-left">
-          <CardPriorityIcon
-            :priority="
-              getPriorityLabel(linkedIssue.issue.priority).toLowerCase() || null
-            "
-          />
-          <h6 class="text-xs text-n-slate-12">
-            {{ getPriorityLabel(linkedIssue.issue.priority) }}
-          </h6>
+        <div v-if="priorityLabel" class="flex items-center gap-1.5">
+          <CardPriorityIcon :priority="priorityLabel.toLowerCase()" />
+          <span class="text-xs text-n-slate-12">
+            {{ priorityLabel }}
+          </span>
         </div>
       </div>
 
-      <div
-        v-if="getLabels(linkedIssue.issue).length"
-        class="flex flex-wrap items-center gap-1"
-      >
+      <div v-if="labels.length" class="flex flex-wrap gap-1">
         <woot-label
-          v-for="label in getLabels(linkedIssue.issue)"
+          v-for="label in labels"
           :key="label.id"
           :title="label.name"
           :description="label.description"
