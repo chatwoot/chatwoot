@@ -50,7 +50,16 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def message_content(message)
     return message.content if message.content.present?
 
-    return 'User has shared an attachment' if message.attachments.any?
+    if message.attachments.any?
+      audio_attachment = message.attachments.find_by(file_type: :audio)
+
+      if audio_attachment.present?
+        result = Messages::AudioTranscriptionService.new(message.id).perform
+        return result[:transcriptions] if result[:success]
+      end
+
+      'User has shared an attachment'
+    end
 
     'User has shared a message without content'
   end

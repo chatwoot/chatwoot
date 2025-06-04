@@ -47,6 +47,7 @@ class Attachment < ApplicationRecord
     return base_data.merge(location_metadata) if file_type.to_sym == :location
     return base_data.merge(fallback_data) if file_type.to_sym == :fallback
     return base_data.merge(contact_metadata) if file_type.to_sym == :contact
+    return base_data.merge(audio_metadata) if file_type.to_sym == :audio
 
     base_data.merge(file_metadata)
   end
@@ -75,6 +76,15 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def audio_metadata
+    audio_file_data = base_data.merge(file_metadata)
+    audio_file_data.merge(
+      {
+        transcribed_text: meta&.[]('transcribed_text') || ''
+      }
+    )
+  end
 
   def file_metadata
     metadata = {
@@ -149,3 +159,5 @@ class Attachment < ApplicationRecord
     file_content_type.start_with?('image/', 'video/', 'audio/')
   end
 end
+
+Attachment.include_mod_with('Concerns::Attachment')
