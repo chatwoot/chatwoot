@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "مخاطبین",
       "SEARCH_TITLE": "جستجوی مخاطبین",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "جستجو...",
       "MESSAGE_BUTTON": "پیام",
       "SEND_MESSAGE": "ارسال پیام",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
