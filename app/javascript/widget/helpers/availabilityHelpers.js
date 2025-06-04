@@ -15,6 +15,13 @@ const DAY_NAMES = [
   'Friday',
   'Saturday',
 ];
+const RESPONSE_TYPE = {
+  BACK_IN: 'BACK_IN',
+  BACK_AT: 'BACK_AT',
+  BACK_TOMORROW: 'BACK_TOMORROW',
+  BACK_ON: 'BACK_ON',
+  BACK_IN_SOME_TIME: 'BACK_IN_SOME_TIME',
+};
 
 // Get current date with UTC offset or timezone
 export const getDateWithOffset = utcOffsetOrTimezone =>
@@ -90,14 +97,19 @@ const getTimeDifference = (targetTime, currentTime) => {
 };
 
 // Response type builders
-const backInResponse = value => ({ type: 'BACK_IN', value });
-const backInSomeTimeResponse = () => ({ type: 'BACK_IN_SOME_TIME' });
+const backInResponse = value => ({ type: RESPONSE_TYPE.BACK_IN, value });
+const backInSomeTimeResponse = () => ({
+  type: RESPONSE_TYPE.BACK_IN_SOME_TIME,
+});
 
 // Get specific time response (eg: at 09:00 AM)
 const getSpecificTimeResponse = config => {
   const targetHour = config.open_all_day ? 0 : (config.open_hour ?? 0);
   const targetMinute = config.open_minutes ?? 0;
-  return { type: 'BACK_AT', value: getTime(targetHour, targetMinute) };
+  return {
+    type: RESPONSE_TYPE.BACK_AT,
+    value: getTime(targetHour, targetMinute),
+  };
 };
 
 // Get relative hours response (eg: in 2 hours)
@@ -116,9 +128,12 @@ const getRelativeMinutesResponse = (minutes, locale) => {
 
 // Get response for multiple days (eg: tomorrow, on Friday)
 const getMultipleDayResponse = (dayDiff, hours, config) => {
-  if (dayDiff === 1) return { type: 'BACK_TOMORROW' };
+  if (dayDiff === 1) return { type: RESPONSE_TYPE.BACK_TOMORROW };
   if (dayDiff > 1 || hours >= HOURS_IN_DAY) {
-    return { type: 'BACK_ON', value: DAY_NAMES[config.day_of_week] };
+    return {
+      type: RESPONSE_TYPE.BACK_ON,
+      value: DAY_NAMES[config.day_of_week],
+    };
   }
   return null;
 };
