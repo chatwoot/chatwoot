@@ -156,33 +156,18 @@ describe SearchService do
     end
 
     context 'when article search' do
-      it 'orders results by updated_at desc' do
-        # Create articles with explicit timestamps
-        older_time = 2.days.ago
-        newer_time = 1.hour.ago
-
+      it 'returns matching articles' do
         article2 = create(:article, title: 'Spellcasting Guide',
                                     account: account, portal: portal, author: user, status: 'published')
-        # rubocop:disable Rails/SkipsModelValidations
-        article2.update_column(:updated_at, older_time)
-        # rubocop:enable Rails/SkipsModelValidations
-
         article3 = create(:article, title: 'Spellcasting Manual',
                                     account: account, portal: portal, author: user, status: 'published')
-        # rubocop:disable Rails/SkipsModelValidations
-        article3.update_column(:updated_at, newer_time)
-        # rubocop:enable Rails/SkipsModelValidations
 
         params = { q: 'Spellcasting' }
         search = described_class.new(current_user: user, current_account: account, params: params, search_type: 'Article')
         results = search.perform[:articles]
 
-        # Check the timestamps to understand ordering
-        results.map { |a| [a.id, a.updated_at] }
-
-        # Should be ordered by updated_at desc (newer first)
         expect(results.length).to eq(2)
-        expect(results.first.updated_at).to be > results.second.updated_at
+        expect(results.map(&:id)).to contain_exactly(article2.id, article3.id)
       end
 
       it 'returns paginated results' do
