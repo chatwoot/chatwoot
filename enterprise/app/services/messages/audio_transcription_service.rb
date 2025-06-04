@@ -1,5 +1,5 @@
 class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
-  attr_reader :attachment
+  attr_reader :attachment, :message
 
   def initialize(attachment)
     super()
