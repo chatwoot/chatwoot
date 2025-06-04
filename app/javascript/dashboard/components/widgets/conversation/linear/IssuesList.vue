@@ -91,11 +91,10 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="space-y-3">
-    <!-- Create or link button -->
-    <div class="p-3 border-b border-n-strong">
+  <div>
+    <div class="px-2 pt-3 pb-3">
       <NextButton
-        faded
+        ghost
         xs
         icon="i-lucide-plus"
         :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK_BUTTON')"
@@ -103,19 +102,15 @@ onMounted(() => {
       />
     </div>
 
-    <!-- Loading state -->
     <div v-if="isLoading" class="grid p-8 place-content-center">
       <Spinner />
     </div>
 
-    <!-- Empty state -->
     <div v-else-if="!hasIssues" class="grid p-8 place-content-center">
       <p class="text-center">
         {{ t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
       </p>
     </div>
-
-    <!-- Issues list -->
     <div v-else class="max-h-[300px] overflow-scroll">
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"

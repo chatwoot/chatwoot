@@ -29,15 +29,30 @@ const openIssue = () => {
 <template>
   <div class="flex flex-row justify-between">
     <div
-      class="flex items-center justify-center gap-1 h-[24px] px-2 py-1 border rounded-lg border-ash-200"
+      class="flex items-center divide-x divide-n-border-weak justify-center gap-2 h-[28px] px-2 align-center border rounded-lg border-n-strong"
     >
-      <fluent-icon
-        icon="linear"
-        size="19"
-        class="text-[#5E6AD2]"
-        view-box="0 0 19 19"
+      <div class="flex items-center gap-1">
+        <fluent-icon
+          icon="linear"
+          size="19"
+          class="text-[#5E6AD2]"
+          view-box="0 0 19 19"
+        />
+        <span class="text-xs font-medium text-n-slate-12">
+          {{ identifier }}
+        </span>
+      </div>
+
+      <span class="w-px h-3 text-n-weak bg-n-border-weak" />
+
+      <Button
+        link
+        xs
+        slate
+        icon="i-lucide-arrow-up-right"
+        class="!size-4"
+        @click="openIssue"
       />
-      <span class="text-xs font-medium text-ash-900">{{ identifier }}</span>
     </div>
     <div class="flex items-center gap-1">
       <Button
@@ -48,14 +63,6 @@ const openIssue = () => {
         class="!transition-none"
         :is-loading="isUnlinking"
         @click="unlinkIssue"
-      />
-      <Button
-        ghost
-        xs
-        slate
-        class="!transition-none"
-        icon="i-lucide-arrow-up-right"
-        @click="openIssue"
       />
     </div>
   </div>

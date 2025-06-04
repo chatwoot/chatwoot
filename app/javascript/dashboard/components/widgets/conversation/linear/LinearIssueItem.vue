@@ -1,7 +1,7 @@
 <script setup>
-// import { format } from 'date-fns';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 import IssueHeader from './IssueHeader.vue';
-import UserAvatarWithName from 'dashboard/components/widgets/UserAvatarWithName.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   linkedIssue: {
@@ -18,10 +18,6 @@ const priorityMap = {
   3: 'Medium',
   4: 'Low',
 };
-
-// const getFormattedDate = createdAt => {
-//   return format(new Date(createdAt), 'hh:mm a, MMM dd');
-// };
 
 const getAssignee = issue => {
   const assigneeDetails = issue.assignee;
@@ -50,7 +46,6 @@ const unlinkIssue = () => {
   <div
     class="flex flex-col items-start gap-2 px-4 py-3 border-b border-n-strong group/note"
   >
-    <!-- Issue Header -->
     <div class="flex flex-col w-full">
       <IssueHeader
         :identifier="linkedIssue.issue.identifier"
@@ -59,12 +54,10 @@ const unlinkIssue = () => {
         @unlink-issue="unlinkIssue"
       />
 
-      <!-- Issue Title -->
       <span class="mt-2 text-sm font-medium text-n-slate-12">
         {{ linkedIssue.issue.title }}
       </span>
 
-      <!-- Issue Description -->
       <span
         v-if="linkedIssue.issue.description"
         class="mt-1 text-sm text-n-slate-11 line-clamp-3"
@@ -73,24 +66,26 @@ const unlinkIssue = () => {
       </span>
     </div>
 
-    <!-- Issue Metadata -->
     <div class="flex flex-row items-center h-6 gap-2">
-      <!-- Assignee -->
-      <UserAvatarWithName
-        v-if="getAssignee(linkedIssue.issue)"
-        :user="getAssignee(linkedIssue.issue)"
-        class="py-1"
-      />
+      <div class="flex items-center gap-1.5 text-left">
+        <Avatar
+          :src="getAssignee(linkedIssue.issue).thumbnail"
+          :username="getAssignee(linkedIssue.issue).name"
+          :size="16"
+        />
+        <span class="my-0 truncate text-capitalize" :class="textClass">
+          {{ getAssignee(linkedIssue.issue).name }}
+        </span>
+      </div>
       <div
         v-if="getAssignee(linkedIssue.issue)"
         class="w-px h-3 bg-n-slate-4"
       />
 
-      <!-- Status -->
       <div class="flex items-center gap-1 py-1">
-        <fluent-icon
-          icon="status"
-          size="14"
+        <Icon
+          icon="i-lucide-activity"
+          class="text-n-sate-11 size-4"
           :style="{ color: linkedIssue.issue.state?.color }"
         />
         <h6 class="text-xs text-n-slate-12">
@@ -118,7 +113,6 @@ const unlinkIssue = () => {
       </div>
     </div>
 
-    <!-- Labels -->
     <div
       v-if="getLabels(linkedIssue.issue).length"
       class="flex flex-wrap items-center gap-1"
@@ -133,16 +127,5 @@ const unlinkIssue = () => {
         small
       />
     </div>
-
-    <!-- Created Date -->
-    <!-- <div class="flex items-center">
-      <span class="text-xs text-n-slate-11">
-        {{
-          $t('INTEGRATION_SETTINGS.LINEAR.ISSUE.CREATED_AT', {
-            createdAt: getFormattedDate(linkedIssue.issue.createdAt),
-          })
-        }}
-      </span>
-    </div> -->
   </div>
 </template>
