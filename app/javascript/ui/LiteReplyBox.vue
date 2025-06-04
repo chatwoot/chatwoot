@@ -113,7 +113,7 @@ export default {
     },
     allowFileUpload() {
       // eslint-disable-next-line no-underscore-dangle
-      return window.__EDITOR_DISABLE_UPLOAD__ === true;
+      return window.__EDITOR_DISABLE_UPLOAD__ !== true;
     },
     replyButtonLabel() {
       if (this.isPrivate) {
