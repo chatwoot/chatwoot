@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Контакты",
       "SEARCH_TITLE": "Поиск контактов",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Поиск...",
       "MESSAGE_BUTTON": "Сообщение",
       "SEND_MESSAGE": "Отправить сообщение",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Начните добавлять новые контакты, нажав на кнопку ниже",
       "BUTTON_LABEL": "Добавить контакт",
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋"
+      "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
