@@ -200,6 +200,29 @@ describe Whatsapp::IncomingMessageBaileysService do
         end
       end
 
+      context 'when message is context message' do
+        it 'does not create contact inbox nor message' do
+          raw_message[:message] = { 'messageContextInfo': { 'deviceListMetadata': {},
+                                                            'deviceListMetadataVersion': 2,
+                                                            'messageSecret': '********' } }
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(inbox.messages).to be_empty
+          expect(inbox.contact_inboxes).to be_empty
+        end
+      end
+
+      context 'when message is edited message' do
+        it 'does not create contact inbox nor message' do
+          raw_message[:message] = { editedMessage: { message: { protocolMessage: { editedMessage: { documentMessage: 1 } } } } }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(inbox.messages).to be_empty
+          expect(inbox.contact_inboxes).to be_empty
+        end
+      end
+
       context 'when message is not from a user' do
         it 'does not create a conversation' do
           raw_message[:key][:remoteJid] = 'status@broadcast'
@@ -407,7 +430,6 @@ describe Whatsapp::IncomingMessageBaileysService do
           described_class.new(inbox: inbox, params: params).perform
 
           message = inbox.conversations.last.messages.last
-
           expect(message.content).to eq('Hello from Baileys')
         end
 
@@ -418,7 +440,6 @@ describe Whatsapp::IncomingMessageBaileysService do
 
           message = inbox.conversations.last.messages.last
           attachment = message.attachments.last
-
           expect(attachment.file_type).to eq('image')
           expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}.png")
           expect(attachment.file.content_type).to eq('image/png')
@@ -473,7 +494,6 @@ describe Whatsapp::IncomingMessageBaileysService do
 
           message = inbox.conversations.last.messages.last
           attachment = message.attachments.last
-
           expect(attachment.file_type).to eq('video')
           expect(attachment.file.filename.to_s).to eq("video_msg_123_#{Time.current.strftime('%Y%m%d')}.mp4")
           expect(attachment.file.content_type).to eq('video/mp4')
@@ -506,10 +526,29 @@ describe Whatsapp::IncomingMessageBaileysService do
 
           message = inbox.conversations.last.messages.last
           attachment = message.attachments.last
-
           expect(attachment.file_type).to eq('file')
           expect(attachment.file.filename.to_s).to eq(filename)
           expect(attachment.file.content_type).to eq('application/pdf')
+        end
+
+        it 'creates the message with caption' do
+          params[:data][:messages].first[:message] = {
+            documentWithCaptionMessage: {
+              message: {
+                documentMessage: {
+                  fileName: filename,
+                  caption: 'Hello from Baileys'
+                }
+              }
+            }
+          }
+          stub_download
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          message = inbox.conversations.last.messages.last
+          expect(message).to be_present
+          expect(message.content).to eq('Hello from Baileys')
         end
       end
 
@@ -538,7 +577,6 @@ describe Whatsapp::IncomingMessageBaileysService do
 
           message = inbox.conversations.last.messages.last
           attachment = message.attachments.last
-
           expect(attachment.file_type).to eq('audio')
           expect(attachment.file.filename.to_s).to eq("audio_msg_123_#{Time.current.strftime('%Y%m%d')}.opus")
           expect(attachment.file.content_type).to eq('audio/opus')
@@ -570,7 +608,6 @@ describe Whatsapp::IncomingMessageBaileysService do
 
           message = inbox.conversations.last.messages.last
           attachment = message.attachments.last
-
           expect(attachment.file_type).to eq('image')
           expect(attachment.file.filename.to_s).to eq("image_msg_123_#{Time.current.strftime('%Y%m%d')}.png")
           expect(attachment.file.content_type).to eq('image/png')
@@ -580,10 +617,9 @@ describe Whatsapp::IncomingMessageBaileysService do
 
     context 'when processing messages.update event' do
       let(:conversation) do
-        agent = create(:user, account: inbox.account, role: :agent)
-        contact = create(:contact, account: inbox.account)
-        contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact)
-        create(:conversation, inbox: inbox, contact_inbox: contact_inbox, assignee_id: agent.id)
+        contact = create(:contact, account: inbox.account, name: 'John Doe')
+        contact_inbox = create(:contact_inbox, inbox: inbox, contact: contact, source_id: '5511912345678')
+        create(:conversation, inbox: inbox, contact_inbox: contact_inbox, assignee_id: contact.id)
       end
       let!(:message) { create(:message, inbox: inbox, conversation: conversation, source_id: 'msg_123', status: 'sent') }
       let(:update_payload) { { key: { id: 'msg_123' }, update: { status: 3 } } }
