@@ -142,7 +142,7 @@ onMounted(() => {
       v-if="linkedIssue"
       :issue="linkedIssue.issue"
       :link-id="linkedIssue.id"
-      class="absolute rtl:left-0 ltr:right-0 top-9 invisible group-hover:visible"
+      class="absolute start-0 xl:start-auto xl:end-0 top-9 invisible group-hover:visible"
       @unlink-issue="unlinkIssue"
     />
     <woot-modal
