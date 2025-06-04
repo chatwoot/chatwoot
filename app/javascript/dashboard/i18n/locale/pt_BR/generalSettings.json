@@ -46,7 +46,31 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Resolver conversas automaticamente",
-        "NOTE": "Essa configuração permite resolver automaticamente a conversa após um determinado período. Defina o período e personalize a mensagem para o usuário abaixo."
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "O tempo decorrido para encerramento automático deve estar entre 10 minutos e 999 dias",
+          "API": {
+            "SUCCESS": "Configurações de resolução automática atualizadas com sucesso",
+            "ERROR": "Falha ao atualizar as configurações de resolução automática"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "A conversa foi marcada como resolvida pelo sistema por ter 15 dias de inatividade",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferências",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
       },
       "NAME": {
         "LABEL": "Nome da Conta",
@@ -67,24 +91,6 @@
         "LABEL": "E-mail de Suporte",
         "PLACEHOLDER": "E-mail de suporte da sua empresa",
         "ERROR": ""
-      },
-      "AUTO_RESOLVE_IGNORE_WAITING": {
-        "LABEL": "Excluir conversas não atendidas",
-        "HELP": "Se ativado, o sistema não resolverá conversas que estiverem aguardando a resposta de um atendente."
-      },
-      "AUTO_RESOLVE_DURATION": {
-        "LABEL": "Tempo de inatividade para resolução",
-        "HELP": "Tempo de inatividade após o qual a conversa deve ser encerrada automaticamente",
-        "PLACEHOLDER": "30",
-        "ERROR": "O tempo decorrido para encerramento automático deve estar entre 10 minutos e 999 dias",
-        "API": {
-          "SUCCESS": "Configurações de resolução automática atualizadas com sucesso",
-          "ERROR": "Falha ao atualizar as configurações de resolução automática"
-        },
-        "UPDATE_BUTTON": "Atualizar",
-        "MESSAGE_LABEL": "Mensagem de resolução personalizada",
-        "MESSAGE_PLACEHOLDER": "A conversa foi marcada como resolvida pelo sistema por ter 15 dias de inatividade",
-        "MESSAGE_HELP": "Esta mensagem é enviada ao cliente quando uma conversa é resolvida automaticamente pelo sistema devido à inatividade."
       },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "A continuidade das conversas com e-mails está ativada para sua conta.",
