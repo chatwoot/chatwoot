@@ -170,6 +170,10 @@ const shouldShowCannedResponses = computed(() => {
 });
 
 const editorMenuOptions = computed(() => {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) {
+    return [];
+  }
   return props.enabledMenuOptions.length
     ? props.enabledMenuOptions
     : MESSAGE_EDITOR_MENU_OPTIONS;
@@ -657,7 +661,7 @@ watch(sendWithSignature, newValue => {
   }
 });
 
-onMounted(() => {
+onMounted(async () => {
   // [VITE] state assignment was done in created before
   state = createState(
     props.modelValue,
@@ -737,6 +741,10 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
 .ProseMirror-menubar-wrapper {
   @apply flex flex-col;
+
+  .ProseMirror-menubar:empty {
+    display: none;
+  }
 
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
