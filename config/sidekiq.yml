@@ -38,3 +38,9 @@ staging:
   transaction_timeout_job:
     cron: "59 16 * * *"  # setiap hari jam 23:59 WIB
     class: "SubscriptionPaymentTimeoutJob"
+    queue: default
+
+  reset_subscription_usage:
+    cron: "0 0 1 * *"  # setiap tanggal 1 pukul 00:00
+    class: "ResetSubscriptionUsageJob"
+    queue: default
