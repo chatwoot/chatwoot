@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "プレチャットフォーム",
       "BUSINESS_HOURS": "営業時間",
       "WIDGET_BUILDER": "ウィジェットビルダー",
-      "BOT_CONFIGURATION": "ボット設定"
+      "BOT_CONFIGURATION": "ボット設定",
+      "CSAT": "顧客満足度"
     },
     "SETTINGS": "設定",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "メール収集ボックスを有効にする",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "新しい会話でメール収集ボックスを有効または無効にする",
       "AUTO_ASSIGNMENT": "自動割り当てを有効にする",
-      "ENABLE_CSAT": "CSATを有効にする",
       "SENDER_NAME_SECTION": "メールに担当者名を表示する",
-      "ENABLE_CSAT_SUB_TEXT": "会話解決後にCSAT（顧客満足度）調査を有効または無効にする",
       "SENDER_NAME_SECTION_TEXT": "担当者名をメールに表示するかどうかを設定します。無効にするとビジネス名が表示されます。",
       "ENABLE_CONTINUITY_VIA_EMAIL": "メールによる会話の継続を有効にする",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "連絡先のメールアドレスが利用可能な場合、会話はメールで継続されます。",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "訪問者はチャットを開始する前に名前とメールアドレスを提供する必要があります"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSATを有効にする",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "メッセージ",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "含む",
+          "DOES_NOT_CONTAINS": "含まない"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {

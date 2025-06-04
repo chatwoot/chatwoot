@@ -132,6 +132,8 @@ zh_CN:
     attachment: '附件'
     no_content: '无内容'
   conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
     messages:
       instagram_story_content: '%{story_sender} 会话中提到了你: '
       instagram_deleted_story_content: 本信息不存在
@@ -139,6 +141,9 @@ zh_CN:
       delivery_status:
         error_code: '错误代码: %{error_code}'
     activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
       status:
         resolved: '对话被标记由 %{user_name} 解决'
         contact_resolved: '对话被 %{contact_name} 重新打开'

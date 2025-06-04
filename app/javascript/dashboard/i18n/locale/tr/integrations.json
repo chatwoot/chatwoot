@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "Mesaj Güncellendi",
             "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
             "CONTACT_CREATED": "Kişi Oluşturuldu",
-            "CONTACT_UPDATED": "Kişi Güncellendi"
+            "CONTACT_UPDATED": "Kişi Güncellendi",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {

@@ -2,6 +2,8 @@ import types from '../mutation-types';
 import authAPI from '../../api/auth';
 
 import { setUser, clearCookiesOnLogout } from '../utils/api';
+import SessionStorage from 'shared/helpers/sessionStorage';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
 
 const initialState = {
   currentUser: {
@@ -148,8 +150,15 @@ export const actions = {
   updateUISettings: async ({ commit }, params) => {
     try {
       commit(types.SET_CURRENT_USER_UI_SETTINGS, params);
-      const response = await authAPI.updateUISettings(params);
-      commit(types.SET_CURRENT_USER, response.data);
+
+      const isImpersonating = SessionStorage.get(
+        SESSION_STORAGE_KEYS.IMPERSONATION_USER
+      );
+
+      if (!isImpersonating) {
+        const response = await authAPI.updateUISettings(params);
+        commit(types.SET_CURRENT_USER, response.data);
+      }
     } catch (error) {
       // Ignore error
     }
@@ -204,6 +213,16 @@ export const actions = {
       await authAPI.setActiveAccount({ accountId });
     } catch (error) {
       // Ignore error
+    }
+  },
+
+  resetAccessToken: async ({ commit }) => {
+    try {
+      const response = await authAPI.resetAccessToken();
+      commit(types.SET_CURRENT_USER, response.data);
+      return true;
+    } catch (error) {
+      return false;
     }
   },
 

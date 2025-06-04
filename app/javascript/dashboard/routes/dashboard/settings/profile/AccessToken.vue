@@ -1,14 +1,17 @@
 <script setup>
 import { ref, computed } from 'vue';
-import FormButton from 'v3/components/Form/Button.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import ConfirmButton from 'dashboard/components-next/button/ConfirmButton.vue';
+
 const props = defineProps({
-  value: {
-    type: String,
-    default: '',
-  },
+  value: { type: String, default: '' },
+  showResetButton: { type: Boolean, default: true },
 });
-const emit = defineEmits(['onCopy']);
+
+const emit = defineEmits(['onCopy', 'onReset']);
+
 const inputType = ref('password');
+
 const toggleMasked = () => {
   inputType.value = inputType.value === 'password' ? 'text' : 'password';
 };
@@ -19,6 +22,10 @@ const maskIcon = computed(() => {
 
 const onClick = () => {
   emit('onCopy', props.value);
+};
+
+const onReset = () => {
+  emit('onReset');
 };
 </script>
 
@@ -38,22 +45,36 @@ const onClick = () => {
     >
       <template #masked>
         <button
-          class="absolute top-1.5 ltr:right-0.5 rtl:left-0.5"
+          class="absolute top-0 bottom-0 ltr:right-0.5 rtl:left-0.5"
+          type="button"
           @click="toggleMasked"
         >
           <fluent-icon :icon="maskIcon" :size="16" />
         </button>
       </template>
     </woot-input>
-    <FormButton
-      type="submit"
-      size="large"
-      icon="text-copy"
-      variant="outline"
-      color-scheme="secondary"
-      @click="onClick"
-    >
-      {{ $t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY') }}
-    </FormButton>
+    <div class="flex flex-row gap-2">
+      <NextButton
+        :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.COPY')"
+        slate
+        outline
+        type="button"
+        icon="i-lucide-copy"
+        class="rounded-xl"
+        @click="onClick"
+      />
+      <ConfirmButton
+        v-if="showResetButton"
+        :label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.RESET')"
+        :confirm-label="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_RESET')"
+        :confirm-hint="$t('PROFILE_SETTINGS.FORM.ACCESS_TOKEN.CONFIRM_HINT')"
+        color="slate"
+        confirm-color="ruby"
+        variant="outline"
+        icon="i-lucide-key-round"
+        class="rounded-xl"
+        @click="onReset"
+      />
+    </div>
   </div>
 </template>

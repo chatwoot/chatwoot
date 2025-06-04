@@ -41,7 +41,9 @@
             "MESSAGE_UPDATED": "ההודעה עודכנה",
             "WEBWIDGET_TRIGGERED": "ווידג'ט צ'אט חי נפתח על ידי המשתמש",
             "CONTACT_CREATED": "צור קשר",
-            "CONTACT_UPDATED": "איש קשר עודכן"
+            "CONTACT_UPDATED": "איש קשר עודכן",
+            "CONVERSATION_TYPING_ON": "Conversation Typing On",
+            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
           }
         },
         "END_POINT": {
