@@ -1,13 +1,15 @@
 class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
-  attr_reader :attachment, :message
+  attr_reader :attachment, :message, :account
 
   def initialize(attachment)
     super()
     @attachment = attachment
     @message = attachment.message
+    @account = message.account
   end
 
   def perform
+    return { error: 'Transcription limit exceeded' } unless can_transcribe?
     return { error: 'Message not found' } if message.blank?
 
     begin
@@ -15,12 +17,17 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
       Rails.logger.info "Audio transcription successful: #{transcriptions}"
       { success: true, transcriptions: transcriptions }
     rescue StandardError => e
+      ChatwootExceptionTracker.new(e).capture_exception
       Rails.logger.error "Audio transcription failed: #{e.message}"
       { error: "Transcription failed: #{e.message}" }
     end
   end
 
   private
+
+  def can_transcribe?
+    account.audio_transcriptions.present? && account.usage_limits[:captain][:responses][:current_available].positive?
+  end
 
   def fetch_audio_file
     temp_dir = Rails.root.join('tmp/uploads')

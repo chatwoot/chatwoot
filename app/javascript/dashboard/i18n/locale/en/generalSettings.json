@@ -70,7 +70,15 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent’s reply."
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Inactivity duration for resolution",
