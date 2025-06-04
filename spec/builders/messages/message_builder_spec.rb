@@ -134,6 +134,30 @@ describe Messages::MessageBuilder do
         expect(message.attachments.first.file_type).to eq 'image'
       end
 
+      it 'creates attachment with is_recorded_audio metadata' do
+        params[:is_recorded_audio] = true
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with is_recorded_audio metadata when param is array of filenames' do
+        params[:is_recorded_audio] = ['avatar.png']
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
+      it 'creates attachment with is_recorded_audio metadata when param is string with array' do
+        params[:is_recorded_audio] = '["avatar.png"]'
+
+        message = message_builder
+
+        expect(message.attachments.first.meta).to eq({ 'is_recorded_audio' => true })
+      end
+
       context 'when DIRECT_UPLOAD_ENABLED' do
         let(:params) do
           ActionController::Parameters.new({

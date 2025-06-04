@@ -52,7 +52,8 @@
     },
     "UPLOADING_ATTACHMENTS": "Enviando anexos...",
     "REPLIED_TO_STORY": "Respondido ao seu story",
-    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
+    "UNSUPPORTED_MESSAGE": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do WhatsApp.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo Facebook Messenger.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "Esta mensagem não é suportada. Você pode ver esta mensagem no aplicativo do Instagram.",
     "SUCCESS_DELETE_MESSAGE": "Mensagem excluída com sucesso",
@@ -236,6 +237,13 @@
     "SIDEBAR": {
       "CONTACT": "Contatos",
       "COPILOT": "Copiloto"
+    },
+    "INBOX": {
+      "WHATSAPP_BAILEYS_PROVIDER_CONNECTION": {
+        "NOT_CONNECTED": "O WhatsApp não está conectado. Por favor conecte o seu dispositivo novamente.",
+        "NOT_CONNECTED_CONTACT_ADMIN": "O WhatsApp não está conectado. Por favor contate o seu administrador para conectar o dispositivo novamente.",
+        "LINK_DEVICE": "Conectar dispositivo"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {

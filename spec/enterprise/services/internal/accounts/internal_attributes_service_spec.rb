@@ -42,7 +42,7 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
     end
 
     it 'creates internal_attributes hash if it is empty' do
-      account.update(internal_attributes: {})
+      account.update!(internal_attributes: {})
 
       # Stub the validation to allow our test key
       allow(service).to receive(:validate_key!).and_return(true)
@@ -60,7 +60,7 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
     end
 
     it 'returns the features when they are set' do
-      account.update(internal_attributes: { 'manually_managed_features' => %w[feature1 feature2] })
+      account.update!(internal_attributes: { 'manually_managed_features' => %w[feature1 feature2] })
 
       expect(service.manually_managed_features).to eq(%w[feature1 feature2])
     end

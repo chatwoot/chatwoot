@@ -6,7 +6,7 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
 
   def subscription
     if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
-      @account.update(custom_attributes: { is_creating_customer: true })
+      @account.update!(custom_attributes: { is_creating_customer: true })
       Enterprise::CreateStripeCustomerJob.perform_later(@account)
     end
     head :no_content

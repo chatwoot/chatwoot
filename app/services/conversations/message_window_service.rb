@@ -23,6 +23,8 @@ class Conversations::MessageWindowService
     when 'Channel::Instagram'
       instagram_messaging_window
     when 'Channel::Whatsapp'
+      return if @conversation.inbox.channel.provider == 'baileys'
+
       MESSAGING_WINDOW_24_HOURS
     when 'Channel::TwilioSms'
       twilio_messaging_window

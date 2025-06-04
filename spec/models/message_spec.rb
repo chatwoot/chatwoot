@@ -237,7 +237,7 @@ RSpec.describe Message do
     end
 
     it 'sets the waiting_since if there is an incoming message' do
-      conversation.update(waiting_since: nil)
+      conversation.update!(waiting_since: nil)
       message.message_type = :incoming
       message.save!
 

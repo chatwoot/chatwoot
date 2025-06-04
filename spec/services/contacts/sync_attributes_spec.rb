@@ -16,7 +16,7 @@ RSpec.describe Contacts::SyncAttributes do
     context 'when contact has email or phone number' do
       it 'sets contact type to lead' do
         contact.email = 'test@test.com'
-        contact.save
+        contact.save!
         described_class.new(contact).perform
 
         expect(contact.reload.contact_type).to eq('lead')
@@ -26,7 +26,7 @@ RSpec.describe Contacts::SyncAttributes do
     context 'when contact has social details' do
       it 'sets contact type to lead' do
         contact.additional_attributes['social_facebook_user_id'] = '123456789'
-        contact.save
+        contact.save!
         described_class.new(contact).perform
 
         expect(contact.reload.contact_type).to eq('lead')

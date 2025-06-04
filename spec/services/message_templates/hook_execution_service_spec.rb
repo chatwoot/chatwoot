@@ -6,7 +6,7 @@ describe MessageTemplates::HookExecutionService do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
       # ensure greeting hook is enabled
-      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true)
+      conversation.inbox.update!(greeting_enabled: true, enable_email_collect: true)
 
       email_collect_service = double
 
@@ -27,7 +27,7 @@ describe MessageTemplates::HookExecutionService do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
       # ensure greeting hook is enabled
-      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true)
+      conversation.inbox.update!(greeting_enabled: true, enable_email_collect: true)
 
       email_collect_service = double
 
@@ -47,7 +47,7 @@ describe MessageTemplates::HookExecutionService do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       # ensure greeting hook is enabled and greeting_message is present
-      twitter_inbox.update(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message')
+      twitter_inbox.update!(greeting_enabled: true, greeting_message: 'Hi, this is a greeting message')
 
       conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
       greeting_service = double
@@ -65,7 +65,7 @@ describe MessageTemplates::HookExecutionService do
       conversation = create(:conversation, contact: contact)
 
       # ensure greeting hook is enabled and greeting_message is present
-      conversation.inbox.update(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
+      conversation.inbox.update!(greeting_enabled: true, enable_email_collect: true, greeting_message: 'Hi, this is a greeting message')
 
       email_collect_service = double
       greeting_service = double
@@ -99,9 +99,9 @@ describe MessageTemplates::HookExecutionService do
       contact = create(:contact, email: nil)
       conversation = create(:conversation, contact: contact)
 
-      conversation.inbox.update(enable_email_collect: false)
+      conversation.inbox.update!(enable_email_collect: false)
       # ensure prechat form is enabled
-      conversation.inbox.channel.update(pre_chat_form_enabled: true)
+      conversation.inbox.channel.update!(pre_chat_form_enabled: true)
       allow(MessageTemplates::Template::EmailCollect).to receive(:new).and_return(true)
 
       # described class gets called in message after commit
@@ -122,7 +122,7 @@ describe MessageTemplates::HookExecutionService do
     end
 
     it 'calls ::MessageTemplates::Template::CsatSurvey when a conversation is resolved in an inbox with survey enabled' do
-      conversation.inbox.update(csat_survey_enabled: true)
+      conversation.inbox.update!(csat_survey_enabled: true)
 
       conversation.resolved!
       Conversations::ActivityMessageJob.perform_now(conversation,
@@ -134,7 +134,7 @@ describe MessageTemplates::HookExecutionService do
     end
 
     it 'will not call ::MessageTemplates::Template::CsatSurvey when Csat is not enabled' do
-      conversation.inbox.update(csat_survey_enabled: false)
+      conversation.inbox.update!(csat_survey_enabled: false)
 
       conversation.resolved!
       Conversations::ActivityMessageJob.perform_now(conversation,
@@ -149,7 +149,7 @@ describe MessageTemplates::HookExecutionService do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
       conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
-      conversation.inbox.update(csat_survey_enabled: true)
+      conversation.inbox.update!(csat_survey_enabled: true)
 
       conversation.resolved!
       Conversations::ActivityMessageJob.perform_now(conversation,
@@ -161,7 +161,7 @@ describe MessageTemplates::HookExecutionService do
     end
 
     it 'will not call ::MessageTemplates::Template::CsatSurvey if another Csat was already sent' do
-      conversation.inbox.update(csat_survey_enabled: true)
+      conversation.inbox.update!(csat_survey_enabled: true)
       conversation.messages.create!(message_type: 'outgoing', content_type: :input_csat, account: conversation.account, inbox: conversation.inbox)
 
       conversation.resolved!
@@ -179,7 +179,7 @@ describe MessageTemplates::HookExecutionService do
       contact = create(:contact)
       conversation = create(:conversation, contact: contact)
 
-      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are out of office')
       conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
       out_of_office_service = double
@@ -199,7 +199,7 @@ describe MessageTemplates::HookExecutionService do
         contact = create(:contact)
         conversation = create(:conversation, contact: contact)
 
-        conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+        conversation.inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are out of office')
         conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
         create(:message, conversation: conversation, message_type: :outgoing, created_at: 2.minutes.ago)
@@ -218,7 +218,7 @@ describe MessageTemplates::HookExecutionService do
         contact = create(:contact)
         conversation = create(:conversation, contact: contact)
 
-        conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+        conversation.inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are out of office')
         conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
         create(:message, conversation: conversation, private: true, message_type: :outgoing, created_at: 2.minutes.ago)
@@ -238,7 +238,7 @@ describe MessageTemplates::HookExecutionService do
       contact = create(:contact)
       conversation = create(:conversation, contact: contact)
 
-      conversation.inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      conversation.inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are out of office')
       conversation.inbox.working_hours.today.update!(closed_all_day: true)
 
       out_of_office_service = double
@@ -256,7 +256,7 @@ describe MessageTemplates::HookExecutionService do
     it 'will not call ::MessageTemplates::Template::OutOfOffice if its a tweet conversation' do
       twitter_channel = create(:channel_twitter_profile)
       twitter_inbox = create(:inbox, channel: twitter_channel)
-      twitter_inbox.update(working_hours_enabled: true, out_of_office_message: 'We are out of office')
+      twitter_inbox.update!(working_hours_enabled: true, out_of_office_message: 'We are out of office')
 
       conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
 

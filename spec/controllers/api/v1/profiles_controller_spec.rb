@@ -207,6 +207,25 @@ RSpec.describe 'Profile API', type: :request do
         expect(response).to have_http_status(:success)
         expect(OnlineStatusTracker.get_status(account.id, agent.id)).to eq('busy')
       end
+
+      it 'dispatches account presence updated event' do
+        freeze_time
+        allow(Rails.configuration.dispatcher).to receive(:dispatch).with(
+          Events::Types::ACCOUNT_PRESENCE_UPDATED,
+          Time.zone.now,
+          account_id: account.id,
+          user_id: agent.id,
+          status: 'online'
+        )
+
+        post '/api/v1/profile/availability',
+             params: { profile: { availability: 'online', account_id: account.id } },
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+      end
     end
   end
 
