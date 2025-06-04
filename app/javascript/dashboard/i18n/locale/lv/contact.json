@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Kontaktpersonas",
       "SEARCH_TITLE": "Meklēt kontaktpersonas",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Meklēt...",
       "MESSAGE_BUTTON": "Ziņojums",
       "SEND_MESSAGE": "Sūtīt ziņojumu",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Sāciet pievienot jaunas kontaktpersonas, noklikšķinot uz tālāk esošās pogas",
       "BUTTON_LABEL": "Pievienot kontaktpersonu",
       "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋"
+      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
