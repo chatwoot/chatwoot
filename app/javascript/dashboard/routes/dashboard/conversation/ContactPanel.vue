@@ -20,7 +20,7 @@ import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
-import IntegrationCTA from 'dashboard/components/widgets/conversation/linear/IntegrationCTA.vue';
+import LinearSetupCTA from 'dashboard/components/widgets/conversation/linear/LinearSetupCTA.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const props = defineProps({
@@ -270,7 +270,7 @@ onMounted(() => {
                   value => toggleSidebarUIState('is_linear_issues_open', value)
                 "
               >
-                <IntegrationCTA v-if="!isLinearIntegrationEnabled" />
+                <LinearSetupCTA v-if="!isLinearIntegrationEnabled" />
                 <LinearIssuesList v-else :conversation-id="conversationId" />
               </AccordionItem>
             </div>
