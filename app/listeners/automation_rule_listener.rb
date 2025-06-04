@@ -97,6 +97,6 @@ class AutomationRuleListener < BaseListener
 
   def ignore_message_created_event?(event)
     message = event.data[:message]
-    performed_by_automation?(event) || message.activity? || backpopulated_message?(message) || automated_message?(message)
+    performed_by_automation?(event) || message.activity? || backpopulated_message?(message) || automated_message?(message) || message.private?
   end
 end
