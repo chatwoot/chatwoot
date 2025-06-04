@@ -426,8 +426,8 @@ const selectedTabDisplay = computed(() => {
                   <span class="font-bold text-2xl text-[#2C4D3D]">{{ activeSubscription?.subscription_usage?.mau_count
                     }}</span>
                   <span> /{{ activeSubscription?.max_mau }}</span>
-                  <span v-if="activeSubscription?.subscription_usage?.additional_mau_count"
-                    class="text-[#2F9428] font-bold"> +{{ activeSubscription?.subscription_usage?.additional_mau_count
+                  <span v-if="activeSubscription?.additional_mau"
+                    class="text-[#2F9428] font-bold"> +{{ activeSubscription?.additional_mau
                     }}</span>
                 </span>
               </div>
@@ -447,9 +447,9 @@ const selectedTabDisplay = computed(() => {
                   <span class="font-bold text-2xl text-[#4D422C]">{{
                     activeSubscription?.subscription_usage?.ai_responses_count }}</span>
                   <span> /{{ activeSubscription?.max_ai_responses }}</span>
-                  <span v-if="activeSubscription?.subscription_usage?.additional_ai_response_count"
+                  <span v-if="activeSubscription?.additional_ai_responses"
                     class="text-[#2F9428] font-bold"> +{{
-                    activeSubscription?.subscription_usage?.additional_ai_response_count }}</span>
+                    activeSubscription?.additional_ai_responses }}</span>
                 </span>
               </div>
               <div
