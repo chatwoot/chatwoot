@@ -51,7 +51,7 @@ const containerClasses = computed(() => [
     />
     <p
       v-dompurify-html="formatMessage(introBody)"
-      class="text-lg leading-normal text-n-slate-11"
+      class="text-lg leading-normal text-n-slate-11 [&_a]:underline"
     />
   </header>
 </template>
