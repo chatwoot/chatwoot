@@ -56,7 +56,7 @@ const isDefaultScreen = computed(() => {
         </div>
       </div>
       <div v-if="isDefaultScreen" class="overflow-auto max-h-60">
-        <h2 class="mb-2 text-2xl break-words text-n-slate-12 dark:text-white">
+        <h2 class="mb-2 text-2xl break-words text-n-slate-12">
           {{ config.welcomeHeading }}
         </h2>
         <p
