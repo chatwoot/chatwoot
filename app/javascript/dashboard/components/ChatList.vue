@@ -703,6 +703,15 @@ async function markAsRead(conversationId) {
     // Ignore error
   }
 }
+
+async function deleteConversation(conversationId) {
+  try {
+    await store.dispatch('deleteConversation', conversationId);
+    useAlert(t('CONVERSATION.SUCCESS_DELETE_CONVERSATION'));
+  } catch (error) {
+    useAlert(t('CONVERSATION.FAIL_DELETE_CONVERSATION'));
+  }
+}
 async function onAssignTeam(team, conversationId = null) {
   try {
     await store.dispatch('assignTeam', {
@@ -775,6 +784,7 @@ provide('markAsUnread', markAsUnread);
 provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
+provide('deleteConversation', deleteConversation);
 
 watch(activeTeam, () => resetAndFetchData());
 
