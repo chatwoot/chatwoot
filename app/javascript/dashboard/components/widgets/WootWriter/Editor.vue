@@ -170,6 +170,10 @@ const shouldShowCannedResponses = computed(() => {
 });
 
 const editorMenuOptions = computed(() => {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) {
+    return [];
+  }
   return props.enabledMenuOptions.length
     ? props.enabledMenuOptions
     : MESSAGE_EDITOR_MENU_OPTIONS;
@@ -739,9 +743,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   @apply flex flex-col;
 
   .ProseMirror-menubar:empty {
-    @supports (-webkit-touch-callout: none) {
-      display: none;
-    }
+    display: none;
   }
 
   .ProseMirror-menubar {
