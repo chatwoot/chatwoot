@@ -128,7 +128,6 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
-              post :copilot
               get :inbox_assistant
             end
           end
@@ -449,6 +448,7 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/articles/:article_slug.png', to: 'public/api/v1/portals/articles#tracking_pixel'
   get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
