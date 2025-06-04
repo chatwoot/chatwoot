@@ -21,6 +21,7 @@ import ShopifyOrdersList from 'dashboard/components/widgets/conversation/Shopify
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
 import IntegrationCTA from 'dashboard/components/widgets/conversation/linear/IntegrationCTA.vue';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const props = defineProps({
   conversationId: {
@@ -42,6 +43,13 @@ const {
 
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
+
+const currentAccountId = useMapGetter('getCurrentAccountId');
+
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
+
 const shopifyIntegration = useFunctionGetter(
   'integrations/getIntegration',
   'shopify'
@@ -56,8 +64,13 @@ const linearIntegration = useFunctionGetter(
   'linear'
 );
 
-const isLinearFeatureEnabled = computed(
+const isLinearIntegrationEnabled = computed(
   () => linearIntegration.value?.enabled || false
+);
+
+const isLinearFeatureEnabled = isFeatureEnabledonAccount.value(
+  currentAccountId.value,
+  FEATURE_FLAGS.LINEAR
 );
 
 const store = useStore();
@@ -244,7 +257,11 @@ onMounted(() => {
                 <MacrosList :conversation-id="conversationId" />
               </AccordionItem>
             </woot-feature-toggle>
-            <div v-else-if="element.name === 'linear_issues'">
+            <div
+              v-else-if="
+                element.name === 'linear_issues' && isLinearFeatureEnabled
+              "
+            >
               <AccordionItem
                 :title="$t('CONVERSATION_SIDEBAR.ACCORDION.LINEAR_ISSUES')"
                 :is-open="isContactSidebarItemOpen('is_linear_issues_open')"
@@ -253,7 +270,7 @@ onMounted(() => {
                   value => toggleSidebarUIState('is_linear_issues_open', value)
                 "
               >
-                <IntegrationCTA v-if="!isLinearFeatureEnabled" />
+                <IntegrationCTA v-if="!isLinearIntegrationEnabled" />
                 <LinearIssuesList v-else :conversation-id="conversationId" />
               </AccordionItem>
             </div>
