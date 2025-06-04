@@ -89,7 +89,7 @@ const unlinkIssue = () => {
       <div class="flex items-center gap-1 py-1">
         <Icon
           icon="i-lucide-activity"
-          class="text-n-sate-11 size-4"
+          class="text-n-slate-11 size-4"
           :style="{ color: linkedIssue.issue.state?.color }"
         />
         <h6 class="text-xs text-n-slate-12">
