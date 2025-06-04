@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Liên hệ",
       "SEARCH_TITLE": "Tìm kiếm liên hệ",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Tìm kiếm...",
       "MESSAGE_BUTTON": "Tin nhắn",
       "SEND_MESSAGE": "Gửi tin nhắn",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "Không có liên hệ nào khớp với tìm kiếm của bạn 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
