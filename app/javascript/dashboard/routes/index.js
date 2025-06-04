@@ -25,20 +25,21 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
-  // Exclude halaman tertentu agar tidak dicek (misalnya billing)
-  const exemptedPrefixes = ['billing', 'account_suspended'];
-  const isExempted = exemptedPrefixes.some(prefix => to.name?.startsWith(prefix));
-  if (!isExempted) {
-    // Lakukan pengecekan subscription
-    const { data } = await axios.get(`api/v1/accounts/${user.account_id}/subscriptions/status`);
-    if (!data.active) {
-      return next({
-        name: 'billing_settings_index',
-        params: { accountId: user.account_id },
-        query: { expired: 'true' },
-      });
-    }
-  }
+  // UNCOMMENT THIS FEATURE FOR RESTRICT USER MUST HAVE ACTVIE SUBSCRIPTION TO ACCESS MENUS
+  // // Exclude halaman tertentu agar tidak dicek (misalnya billing)
+  // const exemptedPrefixes = ['billing', 'account_suspended'];
+  // const isExempted = exemptedPrefixes.some(prefix => to.name?.startsWith(prefix));
+  // if (!isExempted) {
+  //   // Lakukan pengecekan subscription
+  //   const { data } = await axios.get(`api/v1/accounts/${user.account_id}/subscriptions/status`);
+  //   if (!data.active) {
+  //     return next({
+  //       name: 'billing_settings_index',
+  //       params: { accountId: user.account_id },
+  //       query: { expired: 'true' },
+  //     });
+  //   }
+  // }
 
   const nextRoute = validateLoggedInRoutes(to, store.getters.getCurrentUser);
   return nextRoute ? next(frontendURL(nextRoute)) : next();
