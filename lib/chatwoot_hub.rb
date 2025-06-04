@@ -19,11 +19,11 @@ class ChatwootHub
   end
 
   def self.pricing_plan
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
+    'enterprise'
   end
 
   def self.pricing_plan_quantity
-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
+    99999999999999999999999999999
   end
 
   def self.support_config
