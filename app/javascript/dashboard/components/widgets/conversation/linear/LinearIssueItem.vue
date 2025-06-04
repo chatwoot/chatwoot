@@ -45,7 +45,7 @@ const unlinkIssue = () => {
 
 <template>
   <div
-    class="flex flex-col items-start gap-2 px-4 py-3 border-b border-n-strong group/note"
+    class="flex flex-col items-start gap-4 px-4 py-3 border-b border-n-strong group/note"
   >
     <div class="flex flex-col w-full">
       <IssueHeader
@@ -66,67 +66,68 @@ const unlinkIssue = () => {
         {{ linkedIssue.issue.description }}
       </span>
     </div>
+    <div class="flex flex-col gap-2">
+      <div class="flex flex-row items-center gap-2">
+        <div
+          v-if="getAssignee(linkedIssue.issue)"
+          class="flex items-center gap-1.5 text-left"
+        >
+          <Avatar
+            :src="getAssignee(linkedIssue.issue).thumbnail"
+            :username="getAssignee(linkedIssue.issue).name"
+            :size="16"
+          />
+          <span class="my-0 truncate text-capitalize">
+            {{ getAssignee(linkedIssue.issue).name }}
+          </span>
+        </div>
+        <div
+          v-if="getAssignee(linkedIssue.issue)"
+          class="w-px h-3 bg-n-slate-4"
+        />
 
-    <div class="flex flex-row items-center h-6 gap-2 mt-2">
+        <div class="flex items-center gap-1 py-1">
+          <Icon
+            icon="i-lucide-activity"
+            class="text-n-slate-11 size-4"
+            :style="{ color: linkedIssue.issue.state?.color }"
+          />
+          <h6 class="text-xs text-n-slate-12">
+            {{ linkedIssue.issue.state?.name }}
+          </h6>
+        </div>
+
+        <div
+          v-if="getPriorityLabel(linkedIssue.issue.priority)"
+          class="w-px h-3 bg-n-slate-4"
+        />
+
+        <div class="flex items-center gap-1.5 text-left">
+          <CardPriorityIcon
+            :priority="
+              getPriorityLabel(linkedIssue.issue.priority).toLowerCase() || null
+            "
+          />
+          <h6 class="text-xs text-n-slate-12">
+            {{ getPriorityLabel(linkedIssue.issue.priority) }}
+          </h6>
+        </div>
+      </div>
+
       <div
-        v-if="getAssignee(linkedIssue.issue)"
-        class="flex items-center gap-1.5 text-left"
+        v-if="getLabels(linkedIssue.issue).length"
+        class="flex flex-wrap items-center gap-1"
       >
-        <Avatar
-          :src="getAssignee(linkedIssue.issue).thumbnail"
-          :username="getAssignee(linkedIssue.issue).name"
-          :size="16"
+        <woot-label
+          v-for="label in getLabels(linkedIssue.issue)"
+          :key="label.id"
+          :title="label.name"
+          :description="label.description"
+          :color="label.color"
+          variant="smooth"
+          small
         />
-        <span class="my-0 truncate text-capitalize" :class="textClass">
-          {{ getAssignee(linkedIssue.issue).name }}
-        </span>
       </div>
-      <div
-        v-if="getAssignee(linkedIssue.issue)"
-        class="w-px h-3 bg-n-slate-4"
-      />
-
-      <div class="flex items-center gap-1 py-1">
-        <Icon
-          icon="i-lucide-activity"
-          class="text-n-slate-11 size-4"
-          :style="{ color: linkedIssue.issue.state?.color }"
-        />
-        <h6 class="text-xs text-n-slate-12">
-          {{ linkedIssue.issue.state?.name }}
-        </h6>
-      </div>
-
-      <div
-        v-if="getPriorityLabel(linkedIssue.issue.priority)"
-        class="w-px h-3 bg-n-slate-4"
-      />
-
-      <div class="flex items-center gap-1.5 text-left">
-        <CardPriorityIcon
-          :priority="
-            getPriorityLabel(linkedIssue.issue.priority).toLowerCase() || null
-          "
-        />
-        <h6 class="text-xs text-n-slate-12">
-          {{ getPriorityLabel(linkedIssue.issue.priority) }}
-        </h6>
-      </div>
-    </div>
-
-    <div
-      v-if="getLabels(linkedIssue.issue).length"
-      class="flex flex-wrap items-center gap-1"
-    >
-      <woot-label
-        v-for="label in getLabels(linkedIssue.issue)"
-        :key="label.id"
-        :title="label.name"
-        :description="label.description"
-        :color="label.color"
-        variant="smooth"
-        small
-      />
     </div>
   </div>
 </template>
