@@ -73,7 +73,7 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
-      enabledMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -497,7 +497,7 @@ export default {
               )
             "
             :max-length="255"
-            :enabled-menu-options="enabledMenuOptions"
+            :enabled-menu-options="welcomeTaglineEditorMenuOptions"
           />
 
           <label v-if="isAWebWidgetInbox" class="pb-4">
