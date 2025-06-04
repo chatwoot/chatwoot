@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Contactos",
       "SEARCH_TITLE": "Buscar contactos",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Buscar...",
       "MESSAGE_BUTTON": "Mensaje",
       "SEND_MESSAGE": "Enviar mensaje",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Empieza a añadir nuevos contactos haciendo clic en el botón de abajo",
       "BUTTON_LABEL": "Añadir contacto",
       "SEARCH_EMPTY_STATE_TITLE": "No hay contactos que coincidan con tu búsqueda 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋"
+      "LIST_EMPTY_STATE_TITLE": "No hay contactos disponibles en esta vista 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
