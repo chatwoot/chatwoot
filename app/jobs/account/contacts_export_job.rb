@@ -18,13 +18,14 @@ class Account::ContactsExportJob < ApplicationJob
   private
 
   def generate_report_csv
+    Rails.logger.info("Generating reports csv")
     campaign_id = @params[:payload].first[:campaign_id]
     
     csv_data = CSV.generate do |csv|
       # Define the headers
       headers = %w[id name phone_number status processed_at error_message]
       csv << headers
-      
+
       # Fetch all campaign_contacts for the campaign_id, joined with contacts
       campaign_contacts = @account.contacts
         .joins(:campaign_contacts)
@@ -39,7 +40,7 @@ class Account::ContactsExportJob < ApplicationJob
           WHEN 'failed' THEN 6
           ELSE 7
         END"))
-      
+
       # Populate the CSV rows
       campaign_contacts.each do |cc|
         row = [
@@ -58,6 +59,7 @@ class Account::ContactsExportJob < ApplicationJob
 
 
   def generate_csv(headers)
+    Rails.logger.info("Generating contacts csv")
     csv_data = CSV.generate do |csv|
       csv << headers
       contacts.each do |contact|
@@ -91,10 +93,14 @@ class Account::ContactsExportJob < ApplicationJob
   end
 
   def valid_headers(column_names)
+    Rails.logger.info("Column names: #{column_names}")
+    Rails.logger.info("Default headers: #{default_columns}")
+    Rails.logger.info("Contact columns #{Contact.column_names}")
     (column_names.presence || default_columns) & Contact.column_names
   end
 
   def attach_export_file(csv_data)
+    Rails.logger.info("CSV data blank?: #{csv_data.blank?}")
     return if csv_data.blank?
 
     @account.contacts_export.attach(
