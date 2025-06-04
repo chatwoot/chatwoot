@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "聯絡人",
       "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "訊息",
       "SEND_MESSAGE": "傳送訊息",
@@ -559,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "找不到符合條件的聯絡人 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
