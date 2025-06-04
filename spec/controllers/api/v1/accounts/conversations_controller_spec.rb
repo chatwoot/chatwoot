@@ -688,18 +688,33 @@ RSpec.describe 'Conversations API', type: :request do
         expect(conversation.reload.assignee_last_seen_at).not_to be_nil
       end
 
-      it 'dispatches messages.read event' do
+      it 'dispatches messages.read event when user is assignee' do
         freeze_time
-        conversation.update!(agent_last_seen_at: 1.hour.ago)
+
+        previous_agent_last_seen_at = 1.hour.ago
+        conversation.update!(agent_last_seen_at: previous_agent_last_seen_at, assignee: agent)
+
         allow(Rails.configuration.dispatcher).to receive(:dispatch)
-          .with(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: conversation.agent_last_seen_at)
 
         post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
              headers: agent.create_new_auth_token,
              as: :json
 
         expect(response).to have_http_status(:success)
-        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+        expect(Rails.configuration.dispatcher)
+          .to have_received(:dispatch)
+          .with(Events::Types::MESSAGES_READ, Time.zone.now, conversation: conversation, last_seen_at: previous_agent_last_seen_at)
+      end
+
+      it 'does not dispatch messages.read event when user is not assignee' do
+        allow(Rails.configuration.dispatcher).to receive(:dispatch)
+
+        post "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}/update_last_seen",
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
       end
     end
   end

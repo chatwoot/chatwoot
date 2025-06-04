@@ -110,9 +110,7 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
   end
 
   def update_last_seen
-    # NOTE: Use old `agent_last_seen_at`, so we reference messages received after that
-    Rails.configuration.dispatcher.dispatch(Events::Types::MESSAGES_READ, Time.zone.now, conversation: @conversation,
-                                                                                         last_seen_at: @conversation.agent_last_seen_at)
+    dispatch_messages_read_event if assignee?
 
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end
@@ -205,6 +203,12 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
   def assignee?
     @conversation.assignee_id? && Current.user == @conversation.assignee
+  end
+
+  def dispatch_messages_read_event
+    # NOTE: Use old `agent_last_seen_at`, so we reference messages received after that
+    Rails.configuration.dispatcher.dispatch(Events::Types::MESSAGES_READ, Time.zone.now, conversation: @conversation,
+                                                                                         last_seen_at: @conversation.agent_last_seen_at)
   end
 end
 

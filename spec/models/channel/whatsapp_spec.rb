@@ -121,7 +121,9 @@ RSpec.describe Channel::Whatsapp do
   end
 
   describe '#read_messages' do
-    let(:channel) { create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false, sync_templates: false) }
+    let(:channel) do
+      create(:channel_whatsapp, provider: 'baileys', provider_config: { mark_as_read: true }, validate_provider_config: false, sync_templates: false)
+    end
     let(:conversation) { create(:conversation) }
     let(:message) { create(:message) }
 
@@ -137,12 +139,29 @@ RSpec.describe Channel::Whatsapp do
       expect(provider_double).to have_received(:read_messages)
     end
 
-    it 'does not call method if provider service does not implement it' do
-      channel = create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false)
-      provider_double = instance_double(Whatsapp::Providers::WhatsappCloudService)
-      allow(Whatsapp::Providers::WhatsappCloudService).to receive(:new)
+    it 'call method when the provider config mark_as_read is nil' do
+      channel.update!(provider_config: {})
+      provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, read_messages: nil)
+      allow(provider_double).to receive(:read_messages).with([message], conversation.contact.phone_number)
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
         .with(whatsapp_channel: channel)
         .and_return(provider_double)
+
+      channel.read_messages([message], conversation: conversation)
+
+      expect(provider_double).to have_received(:read_messages)
+    end
+
+    it 'does not call method if provider service does not implement it' do
+      channel.update!(provider: 'whatsapp_cloud')
+
+      expect do
+        channel.read_messages([message], conversation: conversation)
+      end.not_to raise_error
+    end
+
+    it 'does not call method if provider config mark_as_read is false' do
+      channel.update!(provider_config: { mark_as_read: false })
 
       expect do
         channel.read_messages([message], conversation: conversation)

@@ -10,6 +10,7 @@ import { requiredIf } from '@vuelidate/validators';
 import { isValidURL } from '../../../../../helper/URLHelper';
 import WhatsappBaileysLinkDeviceModal from '../components/WhatsappBaileysLinkDeviceModal.vue';
 import InboxName from '../../../../../components/widgets/InboxName.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 export default {
   components: {
@@ -19,6 +20,8 @@ export default {
     NextButton,
     WhatsappBaileysLinkDeviceModal,
     InboxName,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Switch,
   },
   mixins: [inboxMixin],
   props: {
@@ -36,6 +39,7 @@ export default {
       whatsAppInboxAPIKey: '',
       whatsAppProviderUrl: '',
       showBaileysLinkDeviceModal: false,
+      markAsRead: true,
     };
   },
   validations() {
@@ -57,6 +61,7 @@ export default {
   methods: {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
+      this.markAsRead = this.inbox.provider_config.mark_as_read ?? true;
     },
     handleHmacFlag() {
       this.updateInbox();
@@ -108,6 +113,24 @@ export default {
           },
         };
 
+        await this.$store.dispatch('inboxes/updateInbox', payload);
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+      } catch (error) {
+        useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+      }
+    },
+    async updateWhatsAppMarkAsRead() {
+      try {
+        const payload = {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            provider_config: {
+              ...this.inbox.provider_config,
+              mark_as_read: this.markAsRead,
+            },
+          },
+        };
         await this.$store.dispatch('inboxes/updateInbox', payload);
         useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
@@ -381,6 +404,23 @@ export default {
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
           </NextButton>
+        </div>
+      </SettingsSection>
+      <SettingsSection
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MARK_AS_READ_TITLE')"
+        :sub-title="
+          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MARK_AS_READ_SUBHEADER')
+        "
+      >
+        <div class="flex items-center gap-2">
+          <Switch
+            id="markAsRead"
+            v-model="markAsRead"
+            @change="updateWhatsAppMarkAsRead"
+          />
+          <label for="markAsRead">
+            {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_MARK_AS_READ_LABEL') }}
+          </label>
         </div>
       </SettingsSection>
     </div>

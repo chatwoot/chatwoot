@@ -267,7 +267,10 @@
         "PROVIDER_URL": {
           "LABEL": "URL do provedor",
           "PLACEHOLDER": "Se o provedor não está rodando localmente, por favor, insira a URL do provedor",
-          "ERROR":"Por favor, insira uma URL válida"
+          "ERROR": "Por favor, insira uma URL válida"
+        },
+        "MARK_AS_READ": {
+          "LABEL": "Enviar confirmações de leitura"
         },
         "ADVANCED_OPTIONS": "Opções avançadas",
         "BAILEYS": {
@@ -558,7 +561,10 @@
       "WHATSAPP_PROVIDER_URL_SUBHEADER": "Se o provedor não estiver rodando localmente, por favor, forneça a URL.",
       "WHATSAPP_PROVIDER_URL_PLACEHOLDER": "Digite a URL do provedor",
       "WHATSAPP_PROVIDER_URL_ERROR": "Por favor, insira uma URL válida",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat"
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atualizar configurações do Formulário Pre Chat",
+      "WHATSAPP_MARK_AS_READ_TITLE": "Confirmações de leitura",
+      "WHATSAPP_MARK_AS_READ_SUBHEADER": "Se essa opção estiver desativada, ao visualizar uma mensagem pelo Chatwoot, não será enviada uma confirmação de leitura para o remetente. As suas mensagens ainda poderão receber confirmações de leitura.",
+      "WHATSAPP_MARK_AS_READ_LABEL": "Enviar confirmações de leitura"
     },
     "HELP_CENTER": {
       "LABEL": "Centro de Ajuda",

@@ -8,10 +8,13 @@ import { isPhoneE164OrEmpty } from 'shared/helpers/Validators';
 import { isValidURL } from '../../../../../helper/URLHelper';
 
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Switch from 'dashboard/components-next/switch/Switch.vue';
 
 export default {
   components: {
     NextButton,
+    // eslint-disable-next-line vue/no-reserved-component-names
+    Switch,
   },
   setup() {
     return { v$: useVuelidate() };
@@ -23,6 +26,7 @@ export default {
       apiKey: '',
       providerUrl: '',
       showAdvancedOptions: false,
+      markAsRead: true,
     };
   },
   computed: {
@@ -47,6 +51,15 @@ export default {
       }
 
       try {
+        const providerConfig = {
+          mark_as_read: this.markAsRead,
+        };
+
+        if (this.apiKey || this.providerUrl) {
+          providerConfig.api_key = this.apiKey;
+          providerConfig.url = this.providerUrl;
+        }
+
         const whatsappChannel = await this.$store.dispatch(
           'inboxes/createChannel',
           {
@@ -55,13 +68,7 @@ export default {
               type: 'whatsapp',
               phone_number: this.phoneNumber,
               provider: 'baileys',
-              provider_config:
-                this.apiKey || this.providerUrl
-                  ? {
-                      api_key: this.apiKey,
-                      url: this.providerUrl,
-                    }
-                  : {},
+              provider_config: providerConfig,
             },
           }
         );
@@ -157,6 +164,17 @@ export default {
           <span v-if="v$.apiKey.$error" class="message">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_KEY.ERROR') }}
           </span>
+        </label>
+      </div>
+
+      <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+        <label>
+          <div class="flex mb-2 items-center">
+            <span class="mr-2 text-sm">
+              {{ $t('INBOX_MGMT.ADD.WHATSAPP.MARK_AS_READ.LABEL') }}
+            </span>
+            <Switch id="markAsRead" v-model="markAsRead" />
+          </div>
         </label>
       </div>
     </template>
