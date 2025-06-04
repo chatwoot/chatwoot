@@ -107,9 +107,13 @@ export default {
     maxLength() {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
+    isEditorDisabled() {
+      // eslint-disable-next-line no-underscore-dangle
+      return window.__DISABLE_EDITOR__;
+    },
     allowFileUpload() {
       // eslint-disable-next-line no-underscore-dangle
-      return window.__EDITOR_DISABLE_UPLOAD__ !== true;
+      return window.__EDITOR_DISABLE_UPLOAD__ === true;
     },
     replyButtonLabel() {
       if (this.isPrivate) {
@@ -121,6 +125,7 @@ export default {
       return {
         'is-private': this.isPrivate,
         'is-focused': this.isFocused || this.hasAttachments,
+        'pointer-events-none grayscale opacity-70': this.isEditorDisabled,
       };
     },
     hasAttachments() {
@@ -380,6 +385,7 @@ export default {
       <WootMessageEditor
         v-model="message"
         :editor-id="editorStateId"
+        :disabled="isEditorDisabled"
         class="input"
         :is-private="isOnPrivateNote"
         :placeholder="messagePlaceHolder"
