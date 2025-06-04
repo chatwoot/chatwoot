@@ -53,9 +53,6 @@ const sortState = reactive({
 
 const activeLabel = computed(() => route.params.label);
 const activeSegmentId = computed(() => route.params.segmentId);
-const isActiveRoute = computed(
-  () => route.name === 'contacts_dashboard_active'
-);
 const isFetchingList = computed(
   () => uiFlags.value.isFetching || customViewsUiFlags.value.isFetching
 );
@@ -70,9 +67,11 @@ const hasContacts = computed(() => contacts.value.length > 0);
 const isContactIndexView = computed(
   () => route.name === 'contacts_dashboard_index' && pageNumber.value === 1
 );
+const isActiveView = computed(() => route.name === 'contacts_dashboard_active');
 const hasAppliedFilters = computed(() => {
   return appliedFilters.value.length > 0;
 });
+
 const showEmptyStateLayout = computed(() => {
   return (
     !searchQuery.value &&
@@ -92,9 +91,18 @@ const showEmptyText = computed(() => {
 
 const headerTitle = computed(() => {
   if (searchQuery.value) return t('CONTACTS_LAYOUT.HEADER.SEARCH_TITLE');
+  if (isActiveView.value) return t('CONTACTS_LAYOUT.HEADER.ACTIVE_TITLE');
   if (activeSegmentId.value) return activeSegment.value?.name;
   if (activeLabel.value) return `#${activeLabel.value}`;
   return t('CONTACTS_LAYOUT.HEADER.TITLE');
+});
+
+const emptyStateMessage = computed(() => {
+  if (isActiveView.value)
+    return t('CONTACTS_LAYOUT.EMPTY_STATE.ACTIVE_EMPTY_STATE_TITLE');
+  if (!searchQuery.value || hasAppliedFilters.value)
+    return t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE');
+  return t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE');
 });
 
 const updatePageParam = (page, search = '') => {
@@ -171,7 +179,7 @@ const fetchContactsBasedOnContext = async page => {
   // Reset the search value when we change the view
   searchValue.value = '';
   // If we're on the active route, fetch active contacts
-  if (isActiveRoute.value) {
+  if (isActiveView.value) {
     await fetchActiveContacts(page);
     return;
   }
@@ -201,6 +209,11 @@ const handleSort = async ({ sort, order }) => {
     return;
   }
 
+  if (isActiveView.value) {
+    await fetchActiveContacts();
+    return;
+  }
+
   await (activeSegmentId.value || hasAppliedFilters.value
     ? fetchSavedOrAppliedFilteredContact(
         activeSegmentId.value
@@ -227,7 +240,7 @@ watch(
 );
 
 watch(
-  [activeLabel, activeSegment],
+  [activeLabel, activeSegment, isActiveView],
   () => {
     fetchContactsBasedOnContext(pageNumber.value);
   },
@@ -239,27 +252,16 @@ watch(searchQuery, value => {
   searchValue.value = value || '';
   // Reset the view if there is search query when we click on the sidebar group
   if (value === undefined) {
+    if (
+      isActiveView.value ||
+      activeLabel.value ||
+      activeSegment.value ||
+      hasAppliedFilters.value
+    )
+      return;
     fetchContacts();
   }
 });
-
-watch(
-  () => route.name,
-  async (newRouteName, oldRouteName) => {
-    if (isFetchingList.value) return;
-    if (newRouteName === oldRouteName) return;
-
-    // Handle route changes between different contact views
-    if (newRouteName === 'contacts_dashboard_active') {
-      await fetchActiveContacts(1);
-    } else if (
-      newRouteName === 'contacts_dashboard_index' &&
-      oldRouteName === 'contacts_dashboard_active'
-    ) {
-      await fetchContacts(1);
-    }
-  }
-);
 
 onMounted(async () => {
   if (!activeSegmentId.value) {
@@ -267,7 +269,7 @@ onMounted(async () => {
       await searchContacts(searchQuery.value, pageNumber.value);
       return;
     }
-    if (isActiveRoute.value) {
+    if (isActiveView.value) {
       await fetchActiveContacts(pageNumber.value);
       return;
     }
@@ -325,13 +327,7 @@ onMounted(async () => {
           class="flex items-center justify-center py-10"
         >
           <span class="text-base text-n-slate-11">
-            {{
-              isActiveRoute
-                ? t('CONTACTS_LAYOUT.EMPTY_STATE.ACTIVE_EMPTY_STATE_TITLE')
-                : searchQuery || !hasAppliedFilters
-                  ? t('CONTACTS_LAYOUT.EMPTY_STATE.SEARCH_EMPTY_STATE_TITLE')
-                  : t('CONTACTS_LAYOUT.EMPTY_STATE.LIST_EMPTY_STATE_TITLE')
-            }}
+            {{ emptyStateMessage }}
           </span>
         </div>
 
