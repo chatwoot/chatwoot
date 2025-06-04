@@ -38,7 +38,7 @@ const openLinearAccount = () => {
           $t('INTEGRATION_SETTINGS.LINEAR.CTA.TITLE')
         }}</span>
       </div>
-      <p class="text-n-slate-11">
+      <p class="text-sm leading-5 text-n-slate-11">
         {{ $t('INTEGRATION_SETTINGS.LINEAR.CTA.DESCRIPTION') }}
       </p>
     </div>

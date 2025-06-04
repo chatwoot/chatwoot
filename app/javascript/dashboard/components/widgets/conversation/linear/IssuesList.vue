@@ -106,7 +106,7 @@ onMounted(() => {
       <Spinner />
     </div>
 
-    <div v-else-if="!hasIssues" class="grid p-8 place-content-center">
+    <div v-else-if="!hasIssues" class="grid p-4 place-content-center">
       <p class="text-center">
         {{ t('INTEGRATION_SETTINGS.LINEAR.NO_LINKED_ISSUES') }}
       </p>

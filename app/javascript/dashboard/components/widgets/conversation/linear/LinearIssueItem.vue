@@ -2,6 +2,7 @@
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import IssueHeader from './IssueHeader.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
+import CardPriorityIcon from 'dashboard/components-next/Conversation/ConversationCard/CardPriorityIcon.vue';
 
 const props = defineProps({
   linkedIssue: {
@@ -66,8 +67,11 @@ const unlinkIssue = () => {
       </span>
     </div>
 
-    <div class="flex flex-row items-center h-6 gap-2">
-      <div class="flex items-center gap-1.5 text-left">
+    <div class="flex flex-row items-center h-6 gap-2 mt-2">
+      <div
+        v-if="getAssignee(linkedIssue.issue)"
+        class="flex items-center gap-1.5 text-left"
+      >
         <Avatar
           :src="getAssignee(linkedIssue.issue).thumbnail"
           :username="getAssignee(linkedIssue.issue).name"
@@ -93,19 +97,16 @@ const unlinkIssue = () => {
         </h6>
       </div>
 
-      <!-- Priority -->
       <div
         v-if="getPriorityLabel(linkedIssue.issue.priority)"
         class="w-px h-3 bg-n-slate-4"
       />
-      <div
-        v-if="getPriorityLabel(linkedIssue.issue.priority)"
-        class="flex items-center gap-1 py-1"
-      >
-        <fluent-icon
-          :icon="`priority-${getPriorityLabel(linkedIssue.issue.priority).toLowerCase()}`"
-          size="14"
-          view-box="0 0 12 12"
+
+      <div class="flex items-center gap-1.5 text-left">
+        <CardPriorityIcon
+          :priority="
+            getPriorityLabel(linkedIssue.issue.priority).toLowerCase() || null
+          "
         />
         <h6 class="text-xs text-n-slate-12">
           {{ getPriorityLabel(linkedIssue.issue.priority) }}
