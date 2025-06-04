@@ -20,6 +20,7 @@ import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from 'dashboard/components/widgets/conversation/ShopifyOrdersList.vue';
 import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import LinearIssuesList from 'dashboard/components/widgets/conversation/linear/IssuesList.vue';
+import IntegrationCTA from 'dashboard/components/widgets/conversation/linear/IntegrationCTA.vue';
 
 const props = defineProps({
   conversationId: {
@@ -125,7 +126,7 @@ onMounted(() => {
       @close="closeContactPanel"
     />
     <ContactInfo :contact="contact" :channel-type="channelType" />
-    <div class="list-group pb-8">
+    <div class="pb-8 list-group">
       <Draggable
         :list="conversationSidebarItems"
         animation="200"
@@ -243,11 +244,7 @@ onMounted(() => {
                 <MacrosList :conversation-id="conversationId" />
               </AccordionItem>
             </woot-feature-toggle>
-            <div
-              v-else-if="
-                element.name === 'linear_issues' && isLinearFeatureEnabled
-              "
-            >
+            <div v-else-if="element.name === 'linear_issues'">
               <AccordionItem
                 :title="$t('CONVERSATION_SIDEBAR.ACCORDION.LINEAR_ISSUES')"
                 :is-open="isContactSidebarItemOpen('is_linear_issues_open')"
@@ -256,7 +253,8 @@ onMounted(() => {
                   value => toggleSidebarUIState('is_linear_issues_open', value)
                 "
               >
-                <LinearIssuesList :conversation-id="conversationId" />
+                <IntegrationCTA v-if="!isLinearFeatureEnabled" />
+                <LinearIssuesList v-else :conversation-id="conversationId" />
               </AccordionItem>
             </div>
             <div

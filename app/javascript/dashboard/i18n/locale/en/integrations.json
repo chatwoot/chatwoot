@@ -321,6 +321,11 @@
         "MESSAGE": "Are you sure you want to delete the integration?",
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
+        "BUTTON_TEXT": "Connect Linear Account"
       }
     }
   },
