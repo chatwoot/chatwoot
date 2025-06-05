@@ -4,6 +4,7 @@
 #
 #  id           :bigint           not null, primary key
 #  phone_number :string           not null
+#  token        :string
 #  webhook_url  :string
 #  created_at   :datetime         not null
 #  updated_at   :datetime         not null
@@ -19,10 +20,11 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   include Channelable
 
   self.table_name = 'channel_whatsapp_unofficials'
+  EDITABLE_ATTRS = [:token].freeze
 
   validates :phone_number, presence: true
   validates :account_id, presence: true
-  validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
+  # validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
 
   belongs_to :account
   has_one :inbox, as: :channel, dependent: :destroy
@@ -38,12 +40,10 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     }
     payload[:url] = url if url.present?
 
-    api_key = 'gpjiPoMoHvEeZxcRj2UV' # sebaiknya di ENV variable ya, jangan hardcode
-
     response = HTTParty.post(
       'https://api.fonnte.com/send',
       headers: {
-        'Authorization' => api_key,
+        'Authorization' => token,
         'Content-Type' => 'application/json'
       },
       body: payload.to_json

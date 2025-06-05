@@ -38,8 +38,6 @@ class ActionCableListener < BaseListener
     tokens = user_tokens(account, conversation.inbox.members) +
              contact_tokens(conversation.contact_inbox, message)
 
-    notify_whatsapp_unofficial(message, __method__)
-
     if message.sender_type == 'Contact'
       chat_service = Captain::Copilot::ChatService.new(message)
       thread = Thread.new do
@@ -58,7 +56,6 @@ class ActionCableListener < BaseListener
   def message_updated(event)
     message, account = extract_message_and_account(event)
 
-    notify_whatsapp_unofficial(message, __method__)
     conversation = message.conversation
     tokens = user_tokens(account, conversation.inbox.members) + contact_tokens(conversation.contact_inbox, message)
     broadcast(account, tokens, MESSAGE_UPDATED, message.push_event_data.merge(previous_changes: event.data[:previous_changes]))
@@ -76,7 +73,6 @@ class ActionCableListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members) + contact_inbox_tokens(conversation.contact_inbox)
     Subscriptions::IncrementUsageService.new(conversation).perform
-    # MessageProcessor.increment_mau_usage(conversation)
     broadcast(account, tokens, CONVERSATION_CREATED, conversation.push_event_data)
   end
 
@@ -225,13 +221,5 @@ class ActionCableListener < BaseListener
     payload[:performer] = Current.user&.push_event_data if Current.user.present?
 
     ::ActionCableBroadcastJob.perform_later(tokens.uniq, event_name, payload)
-  end
-
-  def notify_whatsapp_unofficial(message, event_name)
-    return unless message.conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
-
-    inbox = message.conversation.inbox
-    payload = message.webhook_data.merge(event: event_name.to_s)
-    WebhookListenerWaUnofficial.perform(inbox, payload)
   end
 end
