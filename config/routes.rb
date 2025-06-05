@@ -60,13 +60,14 @@ Rails.application.routes.draw do
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
-            resources :copilot_threads, only: [:index] do
-              resources :copilot_messages, only: [:index]
+            resources :copilot_threads, only: [:index, :create] do
+              resources :copilot_messages, only: [:index, :create]
             end
             resources :documents, only: [:index, :show, :create, :destroy]
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
+            post :reset_access_token, on: :member
           end
           resources :contact_inboxes, only: [] do
             collection do
@@ -127,7 +128,6 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
-              post :copilot
               get :inbox_assistant
             end
           end
@@ -137,6 +137,7 @@ Rails.application.routes.draw do
               get :conversations
               get :messages
               get :contacts
+              get :articles
             end
           end
 
@@ -295,6 +296,7 @@ Rails.application.routes.draw do
           post :auto_offline
           put :set_active_account
           post :resend_confirmation
+          post :reset_access_token
         end
       end
 
@@ -446,6 +448,7 @@ Rails.application.routes.draw do
   get 'hc/:slug/:locale/categories', to: 'public/api/v1/portals/categories#index'
   get 'hc/:slug/:locale/categories/:category_slug', to: 'public/api/v1/portals/categories#show'
   get 'hc/:slug/:locale/categories/:category_slug/articles', to: 'public/api/v1/portals/articles#index'
+  get 'hc/:slug/articles/:article_slug.png', to: 'public/api/v1/portals/articles#tracking_pixel'
   get 'hc/:slug/articles/:article_slug', to: 'public/api/v1/portals/articles#show'
 
   # ----------------------------------------------------------------------
@@ -530,7 +533,7 @@ Rails.application.routes.draw do
       end
 
       # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :destroy]
+      resources :account_users, only: [:new, :create, :show, :destroy]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'

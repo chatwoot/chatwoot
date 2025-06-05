@@ -63,11 +63,6 @@
     - $ref: '#/components/parameters/platform_user_id'
   get:
     $ref: './platform/users/login.yml'
-/platform/api/v1/users/{id}/token:
-  parameters:
-    - $ref: '#/parameters/platform_user_id'
-  post:
-    $ref: './platform/users/token.yml'
 
 # ---------------- end of platform path -----------#
 
@@ -170,6 +165,15 @@
 # ----------- end of other routes -----------#
 
 # ------------  Application API routes  ------------#
+
+# Accounts
+/api/v1/accounts/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/accounts/show.yml
+  patch:
+    $ref: ./application/accounts/update.yml
 
 # AgentBots
 /api/v1/accounts/{account_id}/agent_bots:
@@ -605,3 +609,27 @@
       description: The numeric ID of the user
   get:
     $ref: './application/reports/conversation/agent.yml'
+
+# Conversations Messages
+/accounts/{account_id}/conversations/{conversation_id}/messages:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+    - name: conversation_id
+      in: path
+      description: ID of the conversation
+      required: true
+      schema:
+        type: number
+  get:
+    tags:
+      - Conversation
+    summary: Get messages from a conversation
+    description: Returns all messages from a specific conversation
+    operationId: getConversationMessages
+    responses:
+      '200':
+        description: Success
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/conversation_messages'

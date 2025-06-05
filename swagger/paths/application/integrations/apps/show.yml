@@ -11,10 +11,13 @@ responses:
     content:
       application/json:
         schema:
-          type: array
-          description: 'Array of Integration apps'
-          items:
-            $ref: '#/components/schemas/integrations_app'
+          type: object
+          properties:
+            payload:
+              type: array
+              description: 'Array of Integration apps'
+              items:
+                $ref: '#/components/schemas/integrations_app'
   '401':
     description: Unauthorized
     content:

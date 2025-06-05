@@ -8,7 +8,6 @@ import {
   computed,
   watch,
   onMounted,
-  onUnmounted,
   defineEmits,
 } from 'vue';
 import { useStore } from 'vuex';
@@ -44,7 +43,7 @@ import {
   useSnakeCase,
 } from 'dashboard/composables/useTransformKeys';
 import { useEmitter } from 'dashboard/composables/emitter';
-import { useEventListener, useScrollLock } from '@vueuse/core';
+import { useEventListener } from '@vueuse/core';
 
 import { emitter } from 'shared/helpers/mitt';
 
@@ -87,12 +86,8 @@ const store = useStore();
 
 const conversationListRef = ref(null);
 const conversationDynamicScroller = ref(null);
-const conversationListScrollableElement = computed(
-  () => conversationDynamicScroller.value?.$el
-);
-const conversationListScrollLock = useScrollLock(
-  conversationListScrollableElement
-);
+
+provide('contextMenuElementTarget', conversationDynamicScroller);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
 const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
@@ -746,7 +741,6 @@ function allSelectedConversationsStatus(status) {
 
 function onContextMenuToggle(state) {
   isContextMenuOpen.value = state;
-  conversationListScrollLock.value = state;
 }
 
 function toggleSelectAll(check) {
@@ -768,10 +762,6 @@ onMounted(() => {
   if (hasActiveFolders.value) {
     store.dispatch('campaigns/get');
   }
-});
-
-onUnmounted(() => {
-  conversationListScrollLock.value = false;
 });
 
 provide('selectConversation', selectConversation);
@@ -824,7 +814,7 @@ watch(conversationFilters, (newVal, oldVal) => {
     class="flex flex-col flex-shrink-0 bg-n-solid-1 conversations-list-wrap"
     :class="[
       { hidden: !showConversationList },
-      isOnExpandedLayout ? 'basis-full' : 'w-[360px] 2xl:w-[420px]',
+      isOnExpandedLayout ? 'basis-full' : 'w-[340px] 2xl:w-[412px]',
     ]"
   >
     <slot />
