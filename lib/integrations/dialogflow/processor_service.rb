@@ -69,18 +69,33 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     end
   end
 
-  def dialogflow_endpoint
+  def normalized_region
     region = hook.settings['region'].to_s.strip
-    region = 'global' if region.blank?
-    return nil if region == 'global'
+    (region.presence || 'global')
+  end
+
+  def dialogflow_endpoint
+    region = normalized_region
+    return 'dialogflow.googleapis.com' if region == 'global'
 
     "#{region}-dialogflow.googleapis.com"
   end
 
   def detect_intent(session_id, message)
     client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
-    session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
+    session = build_session_path(session_id)
     query_input = { text: { text: message, language_code: 'en-US' } }
     client.detect_intent session: session, query_input: query_input
+  end
+
+  def build_session_path(session_id)
+    project_id = hook.settings['project_id']
+    region = normalized_region
+
+    if region == 'global'
+      "projects/#{project_id}/agent/sessions/#{session_id}"
+    else
+      "projects/#{project_id}/locations/#{region}/agent/sessions/#{session_id}"
+    end
   end
 end

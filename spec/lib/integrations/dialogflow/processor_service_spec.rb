@@ -180,22 +180,22 @@ describe Integrations::Dialogflow::ProcessorService do
     let(:google_dialogflow) { Google::Cloud::Dialogflow::V2::Sessions::Client }
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
-    it 'does not set endpoint when region is global' do
+    it 'sets global endpoint when region is global' do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'global' })
       config = OpenStruct.new
       expect(google_dialogflow).to receive(:configure).and_yield(config)
 
       processor.send(:configure_dialogflow_client_defaults)
-      expect(config.endpoint).to be_nil
+      expect(config.endpoint).to eq('dialogflow.googleapis.com')
     end
 
-    it 'does not set endpoint when region is not specified (defaults to global)' do
+    it 'sets global endpoint when region is not specified (defaults to global)' do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => {} })
       config = OpenStruct.new
       expect(google_dialogflow).to receive(:configure).and_yield(config)
 
       processor.send(:configure_dialogflow_client_defaults)
-      expect(config.endpoint).to be_nil
+      expect(config.endpoint).to eq('dialogflow.googleapis.com')
     end
 
     it 'sets endpoint when region is not global' do
@@ -224,7 +224,7 @@ describe Integrations::Dialogflow::ProcessorService do
       expect(google_dialogflow).to receive(:configure).and_yield(config)
 
       processor.send(:configure_dialogflow_client_defaults)
-      expect(config.endpoint).to be_nil
+      expect(config.endpoint).to eq('dialogflow.googleapis.com')
     end
 
     it 'handles nil region value correctly (defaults to global)' do
@@ -233,21 +233,21 @@ describe Integrations::Dialogflow::ProcessorService do
       expect(google_dialogflow).to receive(:configure).and_yield(config)
 
       processor.send(:configure_dialogflow_client_defaults)
-      expect(config.endpoint).to be_nil
+      expect(config.endpoint).to eq('dialogflow.googleapis.com')
     end
   end
 
   describe '#dialogflow_endpoint' do
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
-    it 'returns nil for global region' do
+    it 'returns global endpoint for global region' do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'global' })
-      expect(processor.send(:dialogflow_endpoint)).to be_nil
+      expect(processor.send(:dialogflow_endpoint)).to eq('dialogflow.googleapis.com')
     end
 
-    it 'returns nil when region is not specified' do
+    it 'returns global endpoint when region is not specified' do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => {} })
-      expect(processor.send(:dialogflow_endpoint)).to be_nil
+      expect(processor.send(:dialogflow_endpoint)).to eq('dialogflow.googleapis.com')
     end
 
     it 'returns correct endpoint for non-global regions' do
@@ -257,7 +257,109 @@ describe Integrations::Dialogflow::ProcessorService do
 
     it 'handles empty string region' do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => '  ' })
-      expect(processor.send(:dialogflow_endpoint)).to be_nil
+      expect(processor.send(:dialogflow_endpoint)).to eq('dialogflow.googleapis.com')
+    end
+  end
+
+  describe '#normalized_region' do
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+
+    it 'returns global for blank region' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => '' })
+      expect(processor.send(:normalized_region)).to eq('global')
+    end
+
+    it 'returns global for nil region' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {} })
+      expect(processor.send(:normalized_region)).to eq('global')
+    end
+
+    it 'returns global for whitespace region' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => '  ' })
+      expect(processor.send(:normalized_region)).to eq('global')
+    end
+
+    it 'returns specified region when provided' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
+      expect(processor.send(:normalized_region)).to eq('europe-west1')
+    end
+
+    it 'trims whitespace from region' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => '  asia-northeast1  ' })
+      expect(processor.send(:normalized_region)).to eq('asia-northeast1')
+    end
+  end
+
+  describe '#detect_intent' do
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+    let(:mock_client) { instance_double(Google::Cloud::Dialogflow::V2::Sessions::Client) }
+
+    before do
+      allow(Google::Cloud::Dialogflow::V2::Sessions::Client).to receive(:new).and_return(mock_client)
+    end
+
+    it 'builds session path without location for global region' do
+      hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'global' })
+      expected_session = 'projects/test-project/agent/sessions/test-session'
+
+      expect(mock_client).to receive(:detect_intent).with(
+        session: expected_session,
+        query_input: { text: { text: 'Hello', language_code: 'en-US' } }
+      )
+
+      processor.send(:detect_intent, 'test-session', 'Hello')
+    end
+
+    it 'builds session path with specified location for regional deployment' do
+      hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+      expected_session = 'projects/test-project/locations/europe-west1/agent/sessions/test-session'
+
+      expect(mock_client).to receive(:detect_intent).with(
+        session: expected_session,
+        query_input: { text: { text: 'Hello', language_code: 'en-US' } }
+      )
+
+      processor.send(:detect_intent, 'test-session', 'Hello')
+    end
+
+    it 'defaults to global session path when region is not specified' do
+      hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+      expected_session = 'projects/test-project/agent/sessions/test-session'
+
+      expect(mock_client).to receive(:detect_intent).with(
+        session: expected_session,
+        query_input: { text: { text: 'Hello', language_code: 'en-US' } }
+      )
+
+      processor.send(:detect_intent, 'test-session', 'Hello')
+    end
+  end
+
+  describe '#build_session_path' do
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+
+    it 'builds session path without location for global region' do
+      hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'global' })
+      expected_path = 'projects/test-project/agent/sessions/test-session'
+      expect(processor.send(:build_session_path, 'test-session')).to eq(expected_path)
+    end
+
+    it 'builds session path with location for regional deployment' do
+      hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+      expected_path = 'projects/test-project/locations/europe-west1/agent/sessions/test-session'
+      expect(processor.send(:build_session_path, 'test-session')).to eq(expected_path)
+    end
+
+    it 'defaults to global session path when region is not specified' do
+      hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+      expected_path = 'projects/test-project/agent/sessions/test-session'
+      expect(processor.send(:build_session_path, 'test-session')).to eq(expected_path)
+    end
+
+    it 'handles different project IDs correctly' do
+      hook.update(settings: { 'project_id' => 'my-awesome-project-123', 'credentials' => {}, 'region' => 'asia-northeast1' })
+      expected_path = 'projects/my-awesome-project-123/locations/asia-northeast1/agent/sessions/session-abc-123'
+      expect(processor.send(:build_session_path, 'session-abc-123')).to eq(expected_path)
     end
   end
 end
