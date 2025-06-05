@@ -168,6 +168,9 @@ export default {
       // Don't show snooze if the conversation is already snoozed/resolved/pending
       return this.status === wootConstants.STATUS_TYPE.OPEN;
     },
+    isAdmin() {
+      return this.currentUser?.role === 'administrator';
+    },
   },
   mounted() {
     this.$store.dispatch('inboxAssignableAgents/fetch', [this.inboxId]);
@@ -286,11 +289,13 @@ export default {
         @click.stop="$emit('assignTeam', team)"
       />
     </MenuItemWithSubmenu>
-    <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
-    <MenuItem
-      :option="deleteOption"
-      variant="icon"
-      @click.stop="deleteConversation()"
-    />
+    <template v-if="isAdmin">
+      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <MenuItem
+        :option="deleteOption"
+        variant="icon"
+        @click.stop="deleteConversation()"
+      />
+    </template>
   </div>
 </template>
