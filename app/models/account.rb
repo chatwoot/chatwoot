@@ -36,7 +36,8 @@ class Account < ApplicationRecord
         'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
         'auto_resolve_message': { 'type': %w[string null] },
         'auto_resolve_ignore_waiting': { 'type': %w[boolean null] },
-        'audio_transcriptions': { 'type': %w[boolean null] }
+        'audio_transcriptions': { 'type': %w[boolean null] },
+        'auto_resolve_label': { 'type': %w[string null] }
       },
     'required': [],
     'additionalProperties': true
@@ -53,7 +54,7 @@ class Account < ApplicationRecord
                  attribute_resolver: ->(record) { record.settings }
 
   store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
-  store_accessor :settings, :audio_transcriptions
+  store_accessor :settings, :audio_transcriptions, :auto_resolve_label
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
