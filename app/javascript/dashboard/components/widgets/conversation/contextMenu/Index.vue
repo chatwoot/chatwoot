@@ -192,7 +192,7 @@ export default {
       this.$emit('assignPriority', priority);
     },
     deleteConversation() {
-      this.$emit('deleteConversation');
+      this.$emit('deleteConversation', this.chatId);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
@@ -298,7 +298,7 @@ export default {
       <MenuItem
         :option="deleteOption"
         variant="icon"
-        @click.stop="deleteConversation()"
+        @click.stop="deleteConversation"
       />
     </template>
   </div>
