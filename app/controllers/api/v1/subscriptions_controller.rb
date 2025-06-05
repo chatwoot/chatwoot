@@ -150,7 +150,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
   private
   
   def set_account
-    @account = current_user.accounts.find_by(status: 'active')
+    @account = current_user.accounts.where(status: 'active').find(params[:account_id])
   end
   
   def set_subscription
