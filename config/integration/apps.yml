@@ -113,11 +113,11 @@ dialogflow:
         'name': 'region',
         'default': 'global',
         'options': [
-          { 'label': 'Global (Default - US data-at-rest)', 'value': 'global' },
-          { 'label': 'Europe West 1 - Belgium (EU data-at-rest)', 'value': 'europe-west1' },
-          { 'label': 'Europe West 2 - London (EU/UK data-at-rest)', 'value': 'europe-west2' },
-          { 'label': 'Australia Southeast 1 - Sydney (APAC)', 'value': 'australia-southeast1' },
-          { 'label': 'Asia Northeast 1 - Tokyo (APAC)', 'value': 'asia-northeast1' },
+          { 'label': 'Global - Default', 'value': 'global' },
+          { 'label': 'AS-NE1 - Tokyo, Japan', 'value': 'asia-northeast1' },
+          { 'label': 'AU-SE1 - Sydney, Australia', 'value': 'australia-southeast1' },
+          { 'label': 'EU-W1 - St. Ghislain, Belgium', 'value': 'europe-west1' },
+          { 'label': 'EU-W2 - London, England', 'value': 'europe-west2' },
         ],
       },
     ]
