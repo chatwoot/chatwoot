@@ -82,6 +82,7 @@ const emit = defineEmits(['conversationLoad']);
 const { uiSettings } = useUISettings();
 const { t } = useI18n();
 const router = useRouter();
+const route = useRoute();
 const store = useStore();
 
 const conversationListRef = ref(null);
@@ -646,6 +647,30 @@ function openLastItemAfterDeleteInFolder() {
   }
 }
 
+function redirectToConversationList() {
+  const {
+    params: { accountId, inbox_id: inboxId, label, teamId },
+    name,
+  } = route;
+
+  let conversationType = '';
+  if (isOnMentionsView({ route: { name } })) {
+    conversationType = 'mention';
+  } else if (isOnUnattendedView({ route: { name } })) {
+    conversationType = 'unattended';
+  }
+  router.push(
+    conversationListPageURL({
+      accountId,
+      conversationType: conversationType,
+      customViewId: props.foldersId,
+      inboxId,
+      label,
+      teamId,
+    })
+  );
+}
+
 async function assignPriority(priority, conversationId = null) {
   store.dispatch('setCurrentChatPriority', {
     priority,
@@ -670,26 +695,7 @@ async function markAsUnread(conversationId) {
     await store.dispatch('markMessagesUnread', {
       id: conversationId,
     });
-    const {
-      params: { accountId, inbox_id: inboxId, label, teamId },
-      name,
-    } = useRoute();
-    let conversationType = '';
-    if (isOnMentionsView({ route: { name } })) {
-      conversationType = 'mention';
-    } else if (isOnUnattendedView({ route: { name } })) {
-      conversationType = 'unattended';
-    }
-    router.push(
-      conversationListPageURL({
-        accountId,
-        conversationType: conversationType,
-        customViewId: props.foldersId,
-        inboxId,
-        label,
-        teamId,
-      })
-    );
+    redirectToConversationList();
   } catch (error) {
     // Ignore error
   }
@@ -707,11 +713,13 @@ async function markAsRead(conversationId) {
 async function deleteConversation(conversationId) {
   try {
     await store.dispatch('deleteConversation', conversationId);
+    redirectToConversationList();
     useAlert(t('CONVERSATION.SUCCESS_DELETE_CONVERSATION'));
   } catch (error) {
     useAlert(t('CONVERSATION.FAIL_DELETE_CONVERSATION'));
   }
 }
+
 async function onAssignTeam(team, conversationId = null) {
   try {
     await store.dispatch('assignTeam', {

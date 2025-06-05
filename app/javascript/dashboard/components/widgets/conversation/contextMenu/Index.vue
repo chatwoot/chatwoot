@@ -8,6 +8,7 @@ import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 export default {
   components: {
@@ -47,6 +48,12 @@ export default {
     'assignLabel',
     'deleteConversation',
   ],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
@@ -167,9 +174,6 @@ export default {
     showSnooze() {
       // Don't show snooze if the conversation is already snoozed/resolved/pending
       return this.status === wootConstants.STATUS_TYPE.OPEN;
-    },
-    isAdmin() {
-      return this.currentUser?.role === 'administrator';
     },
   },
   mounted() {
