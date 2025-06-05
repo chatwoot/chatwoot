@@ -15,19 +15,20 @@ const {
 
 export const colors = {
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
-  },
+    25: 'rgba(255, 229, 191, 1)',  // muito claro
+    50: 'rgba(255, 217, 153, 1)',  // mais claro
+    75: 'rgba(255, 204, 128, 1)',  // claro
+    100: 'rgba(255, 194, 115, 1)',  // base +10%
+    200: 'rgba(255, 186, 90, 1)',   // cor base
+    300: 'rgba(235, 170, 80, 1)',   // um pouco mais escuro
+    400: 'rgba(215, 155, 70, 1)',   // escurecido
+    500: 'rgba(195, 140, 60, 1)',   // escurecido +
+    600: 'rgba(175, 125, 50, 1)',   // escurecido ++
+    700: 'rgba(145, 105, 40, 1)',   // escurecido +++
+    800: 'rgba(115, 85, 30, 1)',    // bem escuro
+    900: 'rgba(85, 65, 20, 1)',     // quase marrom
+  }
+  ,
   green: {
     50: greenDark.green12,
     100: green.green6,
@@ -391,7 +392,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#ffba5a',
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
@@ -399,7 +400,7 @@ export const colors = {
       3: 'rgb(var(--solid-3) / <alpha-value>)',
       active: 'rgb(var(--solid-active) / <alpha-value>)',
       amber: 'rgb(var(--solid-amber) / <alpha-value>)',
-      blue: 'rgb(var(--solid-blue) / <alpha-value>)',
+      blue: '255, 186, 90 / <alpha-value>)',
       iris: 'rgb(var(--solid-iris) / <alpha-value>)',
     },
     alpha: {
@@ -413,7 +414,7 @@ export const colors = {
     weak: 'rgb(var(--border-weak) / <alpha-value>)',
     container: 'rgba(var(--border-container))',
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
-    'blue-border': 'rgba(var(--border-blue))',
-    'blue-text': 'rgba(var(--text-blue))',
+    'blue-border': 'rgba(255, 186, 90)',
+    'blue-text': 'rgba(255, 186, 90)',
   },
 };
