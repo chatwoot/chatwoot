@@ -6,9 +6,10 @@ class Fonnte::IncomingMessageService
   def perform
     return if fonnte_channel.blank?
 
-    Rails.logger.info "Fonnte channel: #{fonnet_channel.inspect}"
+    Rails.logger.info "Fonnte channel: #{fonnte_channel.inspect}"
     begin
       set_contact
+      set_conversation
       @message = @conversation.messages.build(
         content: message_body,
         account_id: @inbox.account_id,
@@ -43,7 +44,8 @@ class Fonnte::IncomingMessageService
   end
 
   def phone_number
-    params[:device]
+    num = params[:device]
+    num.present? && !num.start_with?('+') ? "+#{num}" : num
   end
 
   def formatted_phone_number

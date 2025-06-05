@@ -7,11 +7,15 @@ class Fonnte::SendOnFonnteService < Base::SendOnChannelService
 
   def perform_reply
     begin
+      Rails.logger.info 'Fonnte::SendOnFonnteService#perform_reply'
       fonnte_message = channel.send_message(**message_params)
+      Rails.logger.info "Fonnte::SendOnFonnteService#perform_reply - fonnte_message: #{fonnte_message}"
     rescue ::WhatsappUnofficial::Error => e
       message.update!(status: :failed, external_error: e.message)
     end
-    message.update!(source_id: fonnte_message.id) if fonnte_message
+    if fonnte_message && fonnte_message["id"].present?
+      message.update!(source_id: fonnte_message["id"].is_a?(Array) ? fonnte_message["id"].first : fonnte_message["id"])
+    end
   end
 
   def message_params
