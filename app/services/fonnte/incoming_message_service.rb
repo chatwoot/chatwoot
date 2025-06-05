@@ -6,17 +6,22 @@ class Fonnte::IncomingMessageService
   def perform
     return if fonnte_channel.blank?
 
-    set_contact
-    @message = @conversation.messages.build(
-      content: message_body,
-      account_id: @inbox.account_id,
-      inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
-      source_id: params[:token]
-    )
-    attach_files
-    @message.save!
+    logger.info "Fonnte send_message"
+    begin
+      set_contact
+      @message = @conversation.messages.build(
+        content: message_body,
+        account_id: @inbox.account_id,
+        inbox_id: @inbox.id,
+        message_type: :incoming,
+        sender: @contact,
+        source_id: params[:token]
+      )
+      attach_files
+      @message.save!
+    rescue StandardError => e
+      logger.error "Fonnte send_message error: #{e.message}"
+    end
   end
 
   private
@@ -24,6 +29,8 @@ class Fonnte::IncomingMessageService
   def fonnte_channel
     @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by(phone_number: params[:phone_number])
     @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by!(phone_number: params[:phone_number]) if params[:phone_number].present?
+
+    logger.info "Fonnte channel: #{@fonnte_channel.inspect}"
     @fonnte_channel
   end
 

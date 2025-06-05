@@ -38,7 +38,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     }
     payload[:url] = url if url.present?
 
-    api_key = 'rojXXyVykRTvToyzyPub' # sebaiknya di ENV variable ya, jangan hardcode
+    api_key = 'gpjiPoMoHvEeZxcRj2UV' # sebaiknya di ENV variable ya, jangan hardcode
 
     response = HTTParty.post(
       'https://api.fonnte.com/send',
