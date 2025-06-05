@@ -547,6 +547,7 @@ Rails.application.routes.draw do
 
   namespace :fonnte do
     resources :callback, only: [:create]
+    get 'callback', to: 'callback#index'
   end
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
