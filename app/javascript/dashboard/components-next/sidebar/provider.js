@@ -11,7 +11,7 @@ export function useSidebarContext() {
   }
 
   const router = useRouter();
-  const { checkFeatureAllowed, checkPermissions } = usePolicy();
+  const { shouldShow } = usePolicy();
 
   const resolvePath = to => {
     if (to) return router.resolve(to)?.path || '/';
@@ -28,11 +28,17 @@ export function useSidebarContext() {
     return '';
   };
 
+  const resolveInstallationType = to => {
+    if (to) return router.resolve(to)?.meta?.installationTypes || [];
+    return [];
+  };
+
   const isAllowed = to => {
     const permissions = resolvePermissions(to);
     const featureFlag = resolveFeatureFlag(to);
+    const installationType = resolveInstallationType(to);
 
-    return checkPermissions(permissions) && checkFeatureAllowed(featureFlag);
+    return shouldShow(featureFlag, permissions, installationType);
   };
 
   return {

@@ -37,8 +37,10 @@ const buttonStyleClass = props.compact
   >
     <Icon
       icon="i-lucide-chevron-left"
-      class="size-5 ltr:-ml-1 rtl:-mr-1"
-      :class="props.compact ? 'text-n-slate-11' : 'text-n-blue-text'"
+      class="ltr:-ml-1 rtl:-mr-1"
+      :class="
+        props.compact ? 'text-n-slate-11 size-4' : 'text-n-blue-text size-5'
+      "
     />
     {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
   </button>

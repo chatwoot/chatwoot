@@ -1,8 +1,6 @@
 <script setup>
 import { h, isVNode } from 'vue';
 
-defineEmits('click');
-
 const props = defineProps({
   icon: { type: [String, Object, Function], required: true },
 });

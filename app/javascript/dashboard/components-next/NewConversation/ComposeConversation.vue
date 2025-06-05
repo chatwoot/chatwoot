@@ -171,6 +171,10 @@ watch(
   { immediate: true, deep: true }
 );
 
+const handleClickOutside = () => {
+  showComposeNewConversation.value = false;
+};
+
 onMounted(() => resetContacts());
 
 const keyboardEvents = {
@@ -188,7 +192,12 @@ useKeyboardEvents(keyboardEvents);
 
 <template>
   <div
-    v-on-click-outside="() => (showComposeNewConversation = false)"
+    v-on-click-outside="[
+      handleClickOutside,
+      // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
+      // This will prevent closing the compose conversation modal when the editor Create link popup is open.
+      { ignore: ['div.ProseMirror-prompt'] },
+    ]"
     class="relative"
     :class="{
       'z-40': showComposeNewConversation,

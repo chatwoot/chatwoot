@@ -24,10 +24,10 @@
     },
     "LABELS": {
       "ASSIGN_LABELS": "Atribuir rótulo",
-      "NO_LABELS_FOUND": "Não há rótulos encontrados para",
-      "ASSIGN_SELECTED_LABELS": "Atribuir rótulos selecionados",
+      "NO_LABELS_FOUND": "Não há etiquetas encontradas para",
+      "ASSIGN_SELECTED_LABELS": "Atribuir etiquetas selecionadas",
       "ASSIGN_SUCCESFUL": "Rótulos atribuídos com sucesso.",
-      "ASSIGN_FAILED": "Falha ao atribuir rótulos. Por favor, tente novamente."
+      "ASSIGN_FAILED": "Falha ao atribuir etiquetas. Por favor, tente novamente."
     },
     "TEAMS": {
       "TEAM_SELECT_LABEL": "Selecionar time",

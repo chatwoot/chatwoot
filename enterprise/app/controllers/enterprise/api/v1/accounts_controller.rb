@@ -15,7 +15,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   def limits
     limits = {
       'conversation' => {},
-      'non_web_inboxes' => {}
+      'non_web_inboxes' => {},
+      'captain' => @account.usage_limits[:captain]
     }
 
     if default_plan?(@account)

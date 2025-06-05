@@ -1,16 +1,20 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-// import SubmitButton from '../../components/Button/SubmitButton.vue';
-// import { mapGetters } from 'vuex';
+// utils and composables
+import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
-// import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-// import FormInput from '../../components/Form/Input.vue';
+import { useAlert } from 'dashboard/composables';
+import { required, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 import { login, keycloakRedirectUrl } from '../../api/auth';
-// import Spinner from 'shared/components/Spinner.vue';
-// import RedirectLoader from 'shared/components/RedirectLoader.vue';
+
+// mixins
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+// components
+import FormInput from '../../components/Form/Input.vue';
+import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import SubmitButton from '../../components/Button/SubmitButton.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',

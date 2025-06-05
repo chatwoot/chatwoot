@@ -20,10 +20,6 @@ const isTemplate = computed(() => {
 const isEmpty = computed(() => {
   return !content.value && !attachments.value?.length;
 });
-
-const activeCall = computed(() => {
-  return store.getters['getCallState'];
-});
 </script>
 
 <template>

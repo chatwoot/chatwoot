@@ -92,7 +92,7 @@ const articlesCount = computed(() => {
 
 const showArticleHeaderControls = computed(
   () =>
-    !hasNoArticlesInPortal.value &&
+    !hasNoArticlesInPortal.value && // REVIEW:CV4.0.2 this condition doesn't exist in cv4.0.2
     !props.isCategoryArticles &&
     !isSwitchingPortal.value
 );

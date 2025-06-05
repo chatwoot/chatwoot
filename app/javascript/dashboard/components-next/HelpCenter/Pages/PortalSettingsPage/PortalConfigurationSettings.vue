@@ -1,7 +1,10 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
+
 import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
+// REVIEW:CV4.0.2  DNSConfigurationDialog doesn't exist in our version but does in cv4.0.2, is this intentional
+import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -16,6 +19,7 @@ const emit = defineEmits(['updatePortalConfiguration']);
 const { t } = useI18n();
 
 const addCustomDomainDialogRef = ref(null);
+const dnsConfigurationDialogRef = ref(null);
 const updatedDomainAddress = ref('');
 
 const customDomainAddress = computed(
@@ -31,7 +35,13 @@ const updatePortalConfiguration = customDomain => {
   addCustomDomainDialogRef.value.dialogRef.close();
   if (customDomain) {
     updatedDomainAddress.value = customDomain;
+    dnsConfigurationDialogRef.value.dialogRef.open();
   }
+};
+
+const closeDNSConfigurationDialog = () => {
+  updatedDomainAddress.value = '';
+  dnsConfigurationDialogRef.value.dialogRef.close();
 };
 </script>
 
@@ -99,6 +109,11 @@ const updatePortalConfiguration = customDomain => {
       :mode="customDomainAddress ? 'edit' : 'add'"
       :custom-domain="customDomainAddress"
       @add-custom-domain="updatePortalConfiguration"
+    />
+    <DNSConfigurationDialog
+      ref="dnsConfigurationDialogRef"
+      :custom-domain="updatedDomainAddress || customDomainAddress"
+      @confirm="closeDNSConfigurationDialog"
     />
   </div>
 </template>

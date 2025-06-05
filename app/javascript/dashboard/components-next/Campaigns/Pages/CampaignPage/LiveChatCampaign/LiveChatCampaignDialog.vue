@@ -21,11 +21,11 @@ const addCampaign = async campaignDetails => {
       type: CAMPAIGN_TYPES.ONGOING,
     });
 
-    useAlert(t('CAMPAIGN.SMS.CREATE.FORM.API.SUCCESS_MESSAGE'));
+    useAlert(t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.SUCCESS_MESSAGE'));
   } catch (error) {
     const errorMessage =
       error?.response?.message ||
-      t('CAMPAIGN.SMS.CREATE.FORM.API.ERROR_MESSAGE');
+      t('CAMPAIGN.LIVE_CHAT.CREATE.FORM.API.ERROR_MESSAGE');
     useAlert(errorMessage);
   }
 };

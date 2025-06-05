@@ -30,7 +30,8 @@ class SearchService
                                     .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
                             ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
                                     .order('conversations.created_at DESC')
-                                    .limit(10)
+                                    .page(params[:page])
+                                    .per(15)
   end
 
   def filter_messages
@@ -38,13 +39,14 @@ class SearchService
                                .where('messages.content ILIKE :search', search: "%#{search_query}%")
                                .where('created_at >= ?', 3.months.ago)
                                .reorder('created_at DESC')
-                               .limit(10)
+                               .page(params[:page])
+                               .per(15)
   end
 
   def filter_contacts
     @contacts = current_account.contacts.where(
       "name ILIKE :search OR email ILIKE :search OR phone_number
       ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    ).resolved_contacts.order_on_last_activity_at('desc').limit(10)
+    ).resolved_contacts.order_on_last_activity_at('desc').page(params[:page]).per(15)
   end
 end

@@ -2,15 +2,16 @@ require 'openai'
 
 class Captain::LlmService
   def initialize(config)
-    @client = OpenAI::Client.new(access_token: config[:api_key]) do |f|
-      f.response :logger, Logger.new($stdout), bodies: true
-    end
+    @client = OpenAI::Client.new(
+      access_token: config[:api_key],
+      log_errors: Rails.env.development?
+    )
     @logger = Rails.logger
   end
 
   def call(messages, functions = [])
     openai_params = {
-      model: 'gpt-4o-mini',
+      model: 'gpt-4o',
       response_format: { type: 'json_object' },
       messages: messages
     }

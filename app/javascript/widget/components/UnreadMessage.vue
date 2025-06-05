@@ -10,7 +10,6 @@ import {
 import { emitter } from 'shared/helpers/mitt';
 
 import { useDarkMode } from 'widget/composables/useDarkMode';
-
 export default {
   name: 'UnreadMessage',
   components: { Thumbnail },

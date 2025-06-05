@@ -1,3 +1,4 @@
+
 <template>
   <div
     class="reports--wrapper overflow-auto bg-n-background w-full px-8 xl:px-0"
@@ -9,8 +10,9 @@
 </template>
 
 <style scoped lang="scss">
+ // REVIEW:CV4.0.2 taken stylings from cv4.0.2
 .reports--wrapper {
-  ::v-deep {
+  :deep() {
     .multiselect--disabled {
       @apply opacity-50 border border-n-weak rounded-md cursor-not-allowed;
     }
@@ -23,7 +25,7 @@
       @apply bg-n-slate-1 border border-n-weak m-0 min-h-[2.875rem] pt-0;
 
       input[type='text'] {
-        @apply bg-n-alpha-3 border-n-weak !min-h-[2.375rem] !h-[2.375rem] !ps-0.5 !py-0 !text-sm;
+        @apply bg-n-alpha-3 border-n-weak placeholder:text-n-slate-11 min-h-[2.375rem] h-[2.375rem] px-0.5 py-0 text-sm;
       }
     }
 
@@ -40,7 +42,7 @@
     }
 
     .multiselect__input {
-      @apply text-sm !h-[2.375rem] mb-0 !py-0;
+      @apply text-sm h-[2.375rem] mb-0 py-0;
     }
 
     .multiselect__tags,
@@ -50,7 +52,7 @@
     }
 
     .mx-input-wrapper {
-      @apply bg-n-alpha-3 !border-n-weak text-n-slate-12 rounded-lg text-sm;
+      @apply bg-n-alpha-3 border-n-weak text-n-slate-12 rounded-lg text-sm;
 
       input {
         @apply border-n-weak text-sm;

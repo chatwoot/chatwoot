@@ -95,7 +95,6 @@ const filterModalHeaderTitle = computed(() => {
 });
 
 onBeforeUnmount(() => emit('close'));
-
 const outsideClickHandler = [
   () => emit('close'),
   { ignore: ['#toggleContactsFilterButton'] },

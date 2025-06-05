@@ -18,6 +18,10 @@ const messages = ref([]);
 
 const isCaptainTyping = ref(false);
 
+const handleReset = () => {
+  messages.value = [];
+};
+
 const sendMessage = async message => {
   // Add user message
   messages.value.push({
@@ -62,5 +66,6 @@ const sendMessage = async message => {
     :is-captain-typing="isCaptainTyping"
     :conversation-inbox-type="conversationInboxType"
     @send-message="sendMessage"
+    @reset="handleReset"
   />
 </template>

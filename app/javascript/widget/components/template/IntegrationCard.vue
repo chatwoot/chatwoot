@@ -14,10 +14,6 @@ export default {
       type: Number,
       required: true,
     },
-    meetingData: {
-      type: Object,
-      default: () => ({}),
-    },
   },
   data() {
     return { isLoading: false, dyteAuthToken: '', isSDKMounted: false };
@@ -28,18 +24,18 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     meetingLink() {
-      return buildDyteURL(this.meetingData.room_name, this.dyteAuthToken);
+      return buildDyteURL(this.dyteAuthToken);
     },
   },
   methods: {
     async joinTheCall() {
       this.isLoading = true;
       try {
-        const { data: { authResponse: { authToken = '' } = {} } = {} } =
-          await IntegrationAPIClient.addParticipantToDyteMeeting(
-            this.messageId
-          );
-        this.dyteAuthToken = authToken;
+        const response = await IntegrationAPIClient.addParticipantToDyteMeeting(
+          this.messageId
+        );
+        const { data: { token } = {} } = response;
+        this.dyteAuthToken = token;
       } catch (error) {
         // Ignore Error for now
       } finally {

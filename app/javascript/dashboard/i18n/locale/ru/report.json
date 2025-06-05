@@ -124,6 +124,7 @@
   },
   "AGENT_REPORTS": {
     "HEADER": "Обзор агентов",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_AGENT_REPORTS": "Сказать отчёт по агентам",
@@ -258,6 +259,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Обзор входящих",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_INBOX_REPORTS": "Скачать отчет по входящим",
@@ -325,6 +327,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Обзор команды",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Загрузка данных графика...",
     "NO_ENOUGH_DATA": "Недостаточно данных для создания отчета, пожалуйста, повторите попытку позже.",
     "DOWNLOAD_TEAM_REPORTS": "Скачать отчет по команде",
@@ -538,5 +541,15 @@
       },
       "VIEW_DETAILS": "Просмотреть подробности"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Электронная почта",
+    "AGENT": "Оператор",
+    "TEAM": "Команда",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Количество завершенных",
+    "CONVERSATIONS": "Количество диалогов"
   }
 }

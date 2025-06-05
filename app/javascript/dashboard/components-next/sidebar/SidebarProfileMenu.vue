@@ -6,6 +6,7 @@ import { useI18n } from 'vue-i18n';
 import Avatar from 'next/avatar/Avatar.vue';
 import SidebarProfileMenuStatus from './SidebarProfileMenuStatus.vue';
 import { logoutFromKeycloakSession } from '../../../../javascript/v3/api/auth';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import {
   DropdownContainer,
@@ -25,6 +26,10 @@ const { t } = useI18n();
 const globalConfig = useMapGetter('globalConfig/get');
 const currentUser = useMapGetter('getCurrentUser');
 const currentUserAvailability = useMapGetter('getCurrentUserAvailability');
+const accountId = useMapGetter('getCurrentAccountId');
+const isFeatureEnabledonAccount = useMapGetter(
+  'accounts/isFeatureEnabledonAccount'
+);
 
 async function logout() {
   const keycloakRes = await logoutFromKeycloakSession();
@@ -42,11 +47,21 @@ async function logout() {
     Auth.logout();
   }
 }
+const showChatSupport = computed(() => {
+  return (
+    isFeatureEnabledonAccount.value(
+      accountId.value,
+      FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
+    ) && globalConfig.value.chatwootInboxToken
+  );
+});
 
 const menuItems = computed(() => {
   return [
     {
       show: !!globalConfig.value.chatwootInboxToken,
+        // REVIEW:CV4.0.2 Below code isn't in our version, why?
+      // show: showChatSupport.value,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
       icon: 'i-lucide-life-buoy',
       click: () => {

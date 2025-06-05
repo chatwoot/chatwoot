@@ -49,6 +49,10 @@ const read = computed(() => {
   return useCamelCase(props.readMessages, { deep: true });
 });
 
+const allMessages = computed(() => {
+  return useCamelCase(props.messages, { deep: true });
+});
+
 /**
  * Determines if a message should be grouped with the next message
  * @param {Number} index - Index of the current message

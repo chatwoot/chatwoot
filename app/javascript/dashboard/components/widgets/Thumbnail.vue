@@ -156,13 +156,14 @@ export default {
     </slot>
     <img
       v-if="badgeSrc"
-      class="source-badge"
+      class="source-badge z-20"
       :style="badgeStyle"
       :src="`/integrations/channels/badges/${badgeSrc}.png`"
       alt="Badge"
     />
     <div
       v-if="showStatusIndicator"
+      class="z-20"
       :class="`source-badge user-online-status user-online-status--${status}`"
       :style="statusStyle"
     />

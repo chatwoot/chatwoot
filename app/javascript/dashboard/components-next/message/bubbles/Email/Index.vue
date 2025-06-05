@@ -1,6 +1,7 @@
 <script setup>
 import { computed, useTemplateRef, ref, onMounted } from 'vue';
 import { Letter } from 'vue-letter';
+import { allowedCssProperties } from 'lettersanitizer';
 
 import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
@@ -29,8 +30,9 @@ const isOutgoing = computed(() => {
 });
 const isIncoming = computed(() => !isOutgoing.value);
 
+// Use TextContent as the default to fullHTML
 const fullHTML = computed(() => {
-  return contentAttributes?.value?.email?.htmlContent?.full ?? content.value;
+  return contentAttributes?.value?.email?.htmlContent?.full ?? textToShow.value;
 });
 
 const unquotedHTML = computed(() => {
@@ -92,6 +94,11 @@ const textToShow = computed(() => {
           <Letter
             v-if="showQuotedMessage"
             class-name="prose prose-bubble !max-w-none"
+            :allowed-css-properties="[
+              ...allowedCssProperties,
+              'transform',
+              'transform-origin',
+            ]"
             :html="fullHTML"
             :text="textToShow"
           />
@@ -99,6 +106,11 @@ const textToShow = computed(() => {
             v-else
             class-name="prose prose-bubble !max-w-none"
             :html="unquotedHTML"
+            :allowed-css-properties="[
+              ...allowedCssProperties,
+              'transform',
+              'transform-origin',
+            ]"
             :text="textToShow"
           />
         </template>

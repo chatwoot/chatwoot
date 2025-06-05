@@ -218,6 +218,18 @@ const settings = accountId => ({
       beta: true,
     },
     {
+      icon: 'scan-person',
+      label: 'CUSTOM_ROLES',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
+      toStateName: 'custom_roles_list',
+      isEnterpriseOnly: true,
+      beta: true,
+    },
+    {
       icon: 'document-list-clock',
       label: 'SLA',
       hasSubMenu: false,

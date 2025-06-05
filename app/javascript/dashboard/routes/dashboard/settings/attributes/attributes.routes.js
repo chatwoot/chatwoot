@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsWrapper from '../SettingsWrapper.vue';
 import AttributesHome from './Index.vue';
@@ -19,6 +20,7 @@ export default {
           name: 'attributes_list',
           component: AttributesHome,
           meta: {
+            featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
             permissions: ['administrator'],
           },
         },

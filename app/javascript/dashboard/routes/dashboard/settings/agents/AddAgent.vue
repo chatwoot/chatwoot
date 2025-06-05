@@ -84,7 +84,6 @@ const addAgent = async () => {
     }
 
     await store.dispatch('agents/create', payload);
-
     useAlert(t('AGENT_MGMT.ADD.API.SUCCESS_MESSAGE'));
     emit('close');
   } catch (error) {

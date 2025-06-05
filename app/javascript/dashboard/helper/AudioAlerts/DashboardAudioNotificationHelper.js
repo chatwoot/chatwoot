@@ -152,7 +152,10 @@ export class DashboardAudioNotificationHelper {
 
     const shouldPlayAudio = [];
 
-    if (audioAlertType.includes(EVENT_TYPES.ASSIGNED)) {
+    if (
+      audioAlertType.includes(EVENT_TYPES.ASSIGNED) ||
+      audioAlertType.includes('mine')
+    ) {
       shouldPlayAudio.push(assignedToMe);
     }
     if (audioAlertType.includes(EVENT_TYPES.UNASSIGNED)) {
@@ -169,6 +172,12 @@ export class DashboardAudioNotificationHelper {
     // If the user does not have the permission to view the conversation, then dismiss the alert
     // FIX ME: There shouldn't be a new message if the user has no access to the conversation.
     if (!this.store.hasConversationPermission(this.currentUser)) {
+      return;
+    }
+
+    // If the conversation status is pending, then dismiss the alert
+    // This case is common for all audio event types
+    if (this.store.isMessageFromPendingConversation(message)) {
       return;
     }
 

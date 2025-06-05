@@ -95,9 +95,6 @@ export default {
       activeInbox: 'getSelectedInbox',
       accountId: 'getCurrentAccountId',
     }),
-    bulkActionCheck() {
-      return !this.hideThumbnail && !this.hovered && !this.selected;
-    },
     chatMetadata() {
       return this.chat.meta || {};
     },
@@ -182,10 +179,10 @@ export default {
 
       router.push({ path });
     },
-    onCardHover() {
+    onThumbnailHover() {
       this.hovered = !this.hideThumbnail;
     },
-    onCardLeave() {
+    onThumbnailLeave() {
       this.hovered = false;
     },
     onSelectConversation(checked) {
@@ -249,28 +246,36 @@ export default {
       'has-inbox-name': showInboxName,
       'conversation-selected': selected,
     }"
-    @mouseenter="onCardHover"
-    @mouseleave="onCardLeave"
     @click="onCardClick"
     @contextmenu="openContextMenu($event)"
   >
-    <label v-if="hovered || selected" class="checkbox-wrapper" @click.stop>
-      <input
-        :value="selected"
-        :checked="selected"
-        class="checkbox"
-        type="checkbox"
-        @change="onSelectConversation($event.target.checked)"
+    <div
+      class="relative"
+      @mouseenter="onThumbnailHover"
+      @mouseleave="onThumbnailLeave"
+    >
+      <label
+        v-if="hovered || selected"
+        class="checkbox-wrapper absolute inset-0 z-20 backdrop-blur-[2px]"
+        @click.stop
+      >
+        <input
+          :value="selected"
+          :checked="selected"
+          class="checkbox"
+          type="checkbox"
+          @change="onSelectConversation($event.target.checked)"
+        />
+      </label>
+      <Thumbnail
+        v-if="!hideThumbnail"
+        :src="currentContact.thumbnail"
+        :badge="inboxBadge"
+        :username="currentContact.name"
+        :status="currentContact.availability_status"
+        size="40px"
       />
-    </label>
-    <Thumbnail
-      v-if="bulkActionCheck"
-      :src="currentContact.thumbnail"
-      :badge="inboxBadge"
-      :username="currentContact.name"
-      :status="currentContact.availability_status"
-      size="40px"
-    />
+    </div>
     <div
       class="px-0 py-3 border-b group-hover:border-transparent flex-1 border-n-slate-3 w-[calc(100%-40px)]"
     >
@@ -400,7 +405,7 @@ export default {
   }
 
   .checkbox-wrapper {
-    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4 hover:bg-woot-100 dark:hover:bg-woot-800;
+    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4;
 
     input[type='checkbox'] {
       @apply m-0 cursor-pointer;

@@ -5,13 +5,18 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { format } from 'date-fns';
 
-// import BillingMeter from './components/BillingMeter.vue';
+// REVIEW:CV4.0.2 Below code is commented in our version, why?
+import BillingMeter from './components/BillingMeter.vue';
+
+
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
+
+
 
 import AccountAPI from '../../../../api/account';
 import { useAlert } from 'dashboard/composables';
@@ -22,11 +27,14 @@ const inputValue = ref('');
 const { t } = useI18n();
 
 const { currentAccount } = useAccount();
+
 const {
-  // captainEnabled,
-  // captainLimits,
-  // documentLimits,
-  // responseLimits,
+
+  // REVIEW:CV4.0.2 Below code is commented in our version, why?
+  captainEnabled,
+  captainLimits,
+  documentLimits,
+  responseLimits,
   fetchLimits,
 } = useCaptain();
 
@@ -36,6 +44,7 @@ const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
 });
 const ltdAttributes = computed(() => {
+  // REVIEW:CV4.0.2 what's the ltd attributes
   return currentAccount.value.ltd_attributes || {};
 });
 
@@ -62,6 +71,9 @@ const subscriptionRenewsOn = computed(() => {
   return format(endDate, 'dd MMM, yyyy');
 });
 
+
+
+// REVIEW:CV4.0.2 what's the ltd attributes
 const ltdPlanName = computed(() => {
   if (!ltdAttributes.value.ltd_plan_name) return '';
   return ltdAttributes.value.ltd_plan_name;
@@ -93,12 +105,17 @@ const hasABillingPlan = computed(() => {
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
     store.dispatch('accounts/stripe_subscription');
+
+    // REVIEW:CV4.0.2 cv4.0.2 uses this, instead of the above
+    // store.dispatch('accounts/subscription');
     fetchLimits();
   }
 };
 
 const onClickBillingPortal = () => {
   store.dispatch('accounts/stripe_checkout');
+  // REVIEW:CV4.0.2 cv4.0.2 uses this, instead of the above
+  // store.dispatch('accounts/checkout');
 };
 
 const onToggleChatWindow = () => {
@@ -161,6 +178,7 @@ onMounted(fetchAccountDetails);
               {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
             </ButtonV4>
           </template>
+          
           <div
             v-if="
               (['Starter', 'Plus', 'Pro'].includes(planName) &&

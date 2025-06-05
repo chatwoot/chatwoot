@@ -7,12 +7,16 @@ class DashboardController < ActionController::Base
   around_action :switch_locale
   before_action :ensure_installation_onboarding, only: [:index]
   before_action :render_hc_if_custom_domain, only: [:index]
-
+  before_action :ensure_html_format
   layout 'vueapp'
 
   def index; end
 
   private
+
+  def ensure_html_format
+    head :not_acceptable unless request.format.html?
+  end
 
   def set_global_config
     @global_config = GlobalConfig.get(
@@ -32,7 +36,7 @@ class DashboardController < ActionController::Base
       'LOGOUT_REDIRECT_LINK',
       'DISABLE_USER_PROFILE_UPDATE',
       'DEPLOYMENT_ENV',
-      'CSML_EDITOR_HOST'
+      'CSML_EDITOR_HOST', 'INSTALLATION_PRICING_PLAN'
     ).merge(app_config)
   end
 

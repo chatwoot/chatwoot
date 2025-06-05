@@ -10,10 +10,49 @@ describe('#getters', () => {
     ]);
   });
 
+  it('getContactRecords', () => {
+    const state = {
+      contactRecords: [{ id: 1, name: 'Contact 1' }],
+    };
+    expect(getters.getContactRecords(state)).toEqual([
+      { id: 1, name: 'Contact 1' },
+    ]);
+  });
+
+  it('getConversationRecords', () => {
+    const state = {
+      conversationRecords: [{ id: 1, title: 'Conversation 1' }],
+    };
+    expect(getters.getConversationRecords(state)).toEqual([
+      { id: 1, title: 'Conversation 1' },
+    ]);
+  });
+
+  it('getMessageRecords', () => {
+    const state = {
+      messageRecords: [{ id: 1, content: 'Message 1' }],
+    };
+    expect(getters.getMessageRecords(state)).toEqual([
+      { id: 1, content: 'Message 1' },
+    ]);
+  });
+
   it('getUIFlags', () => {
     const state = {
-      uiFlags: { isFetching: false },
+      uiFlags: {
+        isFetching: false,
+        isSearchCompleted: true,
+        contact: { isFetching: true },
+        message: { isFetching: false },
+        conversation: { isFetching: false },
+      },
     };
-    expect(getters.getUIFlags(state)).toEqual({ isFetching: false });
+    expect(getters.getUIFlags(state)).toEqual({
+      isFetching: false,
+      isSearchCompleted: true,
+      contact: { isFetching: true },
+      message: { isFetching: false },
+      conversation: { isFetching: false },
+    });
   });
 });

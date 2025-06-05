@@ -40,6 +40,13 @@ export default {
 
     return { router, store, currentAccountId: accountId };
   },
+  setup() {
+    const router = useRouter();
+    const store = useStore();
+    const { accountId } = useAccount();
+
+    return { router, store, currentAccountId: accountId };
+  },
   data() {
     return {
       showAddAccountModal: false,

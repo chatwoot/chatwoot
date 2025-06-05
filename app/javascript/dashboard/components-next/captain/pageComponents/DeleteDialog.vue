@@ -20,6 +20,8 @@ const props = defineProps({
   },
 });
 
+const emit = defineEmits(['deleteSuccess']);
+
 const { t } = useI18n();
 const store = useStore();
 const deleteDialogRef = ref(null);
@@ -30,6 +32,7 @@ const deleteEntity = async payload => {
 
   try {
     await store.dispatch(`captain${props.type}/delete`, payload);
+    emit('deleteSuccess');
     useAlert(t(`CAPTAIN.${i18nKey.value}.DELETE.SUCCESS_MESSAGE`));
   } catch (error) {
     useAlert(t(`CAPTAIN.${i18nKey.value}.DELETE.ERROR_MESSAGE`));

@@ -508,8 +508,10 @@ Rails.application.routes.draw do
 
       resources :coupon_codes, only: [:index, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
-      resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-      resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      # REVIEW:CV4.0.2 removed in cv4.0.2
+      # resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy] 
+      # REVIEW:CV4.0.2 removed in cv4.0.2
+      # resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy] 
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar

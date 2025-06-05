@@ -243,6 +243,15 @@ export default {
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
     },
+    unreadMessageLabel() {
+      const count =
+        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
+      const label =
+        this.unreadMessageCount > 1
+          ? 'CONVERSATION.UNREAD_MESSAGES'
+          : 'CONVERSATION.UNREAD_MESSAGE';
+      return `${count} ${this.$t(label)}`;
+    },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
     },
@@ -516,6 +525,11 @@ export default {
                 ? $t('CONVERSATION.UNREAD_MESSAGES')
                 : $t('CONVERSATION.UNREAD_MESSAGE')
             }}
+              <!-- REVIEW:CV4.0.2 Below code isn't in our version, why? -->
+      <!-- <template #unreadBadge>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageLabel }} -->
           </span>
         </li>
       </template>

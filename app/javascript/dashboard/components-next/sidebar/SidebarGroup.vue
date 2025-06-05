@@ -15,6 +15,7 @@ const props = defineProps({
   to: { type: Object, default: null },
   activeOn: { type: Array, default: () => [] },
   children: { type: Array, default: undefined },
+  getterKeys: { type: Object, default: () => ({}) },
 });
 
 const {
@@ -141,6 +142,7 @@ onMounted(async () => {
       :name
       :label
       :to
+      :getter-keys="getterKeys"
       :is-active="isActive"
       :has-active-child="hasActiveChild"
       :expandable="hasChildren"
@@ -161,6 +163,9 @@ onMounted(async () => {
           :is-expanded="isExpanded"
           :active-child="activeChild"
         />
+
+            <!-- REVIEW:CV4.0.2 Below code isn't in our version, why?
+          v-else-if="isAllowed(child.to)" --> 
         <SidebarGroupLeaf
           v-else
           v-show="isExpanded || activeChild?.name === child.name"
