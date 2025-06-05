@@ -27,10 +27,10 @@ class Fonnte::IncomingMessageService
   private
 
   def fonnte_channel
-    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by(phone_number: params[:phone_number])
-    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by!(phone_number: params[:phone_number]) if params[:phone_number].present?
+    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by(phone_number: params[:device])
+    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by!(phone_number: phone_number) if params[:device].present?
 
-    logger.info "Fonnte channel: #{@fonnte_channel.inspect}"
+    Rails.logger.info "Fonnte channel: #{@fonnte_channel.inspect}"
     @fonnte_channel
   end
 
@@ -43,7 +43,7 @@ class Fonnte::IncomingMessageService
   end
 
   def phone_number
-    fonnte_channel.phone_number
+    params[:device]
   end
 
   def formatted_phone_number
@@ -51,12 +51,12 @@ class Fonnte::IncomingMessageService
   end
 
   def message_body
-    params[:message]&.delete("\u0000")
+    (params[:pesan] || params[:message])&.delete("\u0000")
   end
 
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
-      source_id: params[:phone_number],
+      source_id: params[:pengirim] || params[:sender],
       inbox: inbox,
       contact_attributes: contact_attributes
     ).perform
@@ -90,7 +90,7 @@ class Fonnte::IncomingMessageService
 
   def contact_attributes
     {
-      name: formatted_phone_number,
+      name: params[:name] || formatted_phone_number,
       phone_number: phone_number,
       additional_attributes: additional_attributes
     }

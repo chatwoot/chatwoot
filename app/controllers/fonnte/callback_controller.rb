@@ -8,22 +8,33 @@ class Fonnte::CallbackController < ApplicationController
   end
 
   def create
-    Rails.logger.info "Fonnte callback params: #{params.inspect}"
+    Rails.logger.info "Fonnte callback params: #{permitted_params.inspect}"
     Fonnte::IncomingMessageService.new(params: permitted_params).perform
     head :ok
   end
 
   private
 
-  def permitted_params
+  def permitted_params # rubocop:disable Metrics/MethodLength
     params.permit(
-      :token,
-      :phone_number,
+      :quick,
+      :device,
+      :pesan,
+      :pengirim,
+      :member,
       :message,
-      :timestamp,
+      :text,
+      :sender,
+      :name,
+      :location,
       :url,
       :type,
-      :token
+      :extension,
+      :filename,
+      :pollname,
+      :inboxid,
+      :isgroup,
+      :isforwarded
     )
   end
 end
