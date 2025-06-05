@@ -189,6 +189,15 @@ describe Integrations::Dialogflow::ProcessorService do
       expect(config.endpoint).to be_nil
     end
 
+    it 'does not set endpoint when region is not specified (defaults to global)' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {} })
+      config = OpenStruct.new
+      expect(google_dialogflow).to receive(:configure).and_yield(config)
+
+      processor.send(:configure_dialogflow_client_defaults)
+      expect(config.endpoint).to be_nil
+    end
+
     it 'sets endpoint when region is not global' do
       hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
       config = OpenStruct.new
@@ -196,6 +205,59 @@ describe Integrations::Dialogflow::ProcessorService do
 
       processor.send(:configure_dialogflow_client_defaults)
       expect(config.endpoint).to eq('europe-west1-dialogflow.googleapis.com')
+    end
+
+    it 'sets correct endpoint for different regions' do
+      %w[europe-west1 europe-west2 australia-southeast1 asia-northeast1].each do |region|
+        hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => region })
+        config = OpenStruct.new
+        expect(google_dialogflow).to receive(:configure).and_yield(config)
+
+        processor.send(:configure_dialogflow_client_defaults)
+        expect(config.endpoint).to eq("#{region}-dialogflow.googleapis.com")
+      end
+    end
+
+    it 'handles empty region value correctly (defaults to global)' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => '' })
+      config = OpenStruct.new
+      expect(google_dialogflow).to receive(:configure).and_yield(config)
+
+      processor.send(:configure_dialogflow_client_defaults)
+      expect(config.endpoint).to be_nil
+    end
+
+    it 'handles nil region value correctly (defaults to global)' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => nil })
+      config = OpenStruct.new
+      expect(google_dialogflow).to receive(:configure).and_yield(config)
+
+      processor.send(:configure_dialogflow_client_defaults)
+      expect(config.endpoint).to be_nil
+    end
+  end
+
+  describe '#dialogflow_endpoint' do
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+
+    it 'returns nil for global region' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'global' })
+      expect(processor.send(:dialogflow_endpoint)).to be_nil
+    end
+
+    it 'returns nil when region is not specified' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {} })
+      expect(processor.send(:dialogflow_endpoint)).to be_nil
+    end
+
+    it 'returns correct endpoint for non-global regions' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
+      expect(processor.send(:dialogflow_endpoint)).to eq('europe-west1-dialogflow.googleapis.com')
+    end
+
+    it 'handles empty string region' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => '  ' })
+      expect(processor.send(:dialogflow_endpoint)).to be_nil
     end
   end
 end

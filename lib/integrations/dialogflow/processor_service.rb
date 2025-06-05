@@ -65,9 +65,16 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
       config.timeout = 10.0
       config.credentials = hook.settings['credentials']
-      region = hook.settings['region']
-      config.endpoint = "#{region}-dialogflow.googleapis.com" if region.present? && region != 'global'
+      config.endpoint = dialogflow_endpoint
     end
+  end
+
+  def dialogflow_endpoint
+    region = hook.settings['region'].to_s.strip
+    region = 'global' if region.blank?
+    return nil if region == 'global'
+
+    "#{region}-dialogflow.googleapis.com"
   end
 
   def detect_intent(session_id, message)
