@@ -30,4 +30,42 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   def name
     'WhatsApp (Unofficial)'
   end
+
+  def send_message(to:, message:, url: nil)
+    payload = {
+      target: to,
+      message: message
+    }
+    payload[:url] = url if url.present?
+
+    api_key = 'rojXXyVykRTvToyzyPub' # sebaiknya di ENV variable ya, jangan hardcode
+
+    response = HTTParty.post(
+      'https://api.fonnte.com/send',
+      headers: {
+        'Authorization' => api_key,
+        'Content-Type' => 'application/json'
+      },
+      body: payload.to_json
+    )
+
+    unless response.success?
+      Rails.logger.error "Fonnte send_message error: #{response.body}"
+      raise StandardError, 'Failed to send message via Fonnte'
+    end
+
+    response.parsed_response
+  end
+
+  private
+
+  def client; end
+
+  def send_message_from
+    {
+      target: to,
+      message: message,
+      url: url
+    }
+  end
 end

@@ -545,6 +545,10 @@ Rails.application.routes.draw do
     resources :delivery_status, only: [:create]
   end
 
+  namespace :fonnte do
+    resources :callback, only: [:create]
+  end
+
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
 
