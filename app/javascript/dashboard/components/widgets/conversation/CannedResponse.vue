@@ -64,14 +64,19 @@ export default {
       if (!this.selectedCannedResponse) return '';
       const rawMessage = this.selectedCannedResponse.description;
 
-      const contextVars = this.currentChat && this.currentContact
-        ? getMessageVariables({
-            conversation: this.currentChat,
-            contact: this.currentContact,
-          })
-        : {};
+      const contextVars =
+        this.currentChat && this.currentContact
+          ? getMessageVariables({
+              conversation: this.currentChat,
+              contact: this.currentContact,
+            })
+          : {};
 
-      return this.formatVariablePreview(rawMessage, contextVars, this.userDefinedVariables);
+      return this.formatVariablePreview(
+        rawMessage,
+        contextVars,
+        this.userDefinedVariables
+      );
     },
     livePreviewMessageLength() {
       const parser = new DOMParser();
@@ -156,7 +161,7 @@ export default {
     },
     submitVariables() {
       let variables = {};
-      const hasContextData = this.currentChat & this.currentContact;
+      const hasContextData = this.currentChat && this.currentContact;
       if (hasContextData) {
         variables = getMessageVariables({
           conversation: this.currentChat,
@@ -214,20 +219,16 @@ export default {
     />
     <Modal v-model:show="showVariablePopup" :on-close="closeModal">
       <form
+        class="flex flex-col space-y-4 w-full p-6 max-h-[90vh] overflow-y-auto"
         @submit.prevent="submitVariables"
         @keydown.enter.exact="trySubmitOnEnter($event)"
         @keydown.esc="closeModal"
-        class="flex flex-col space-y-4 w-full p-6 max-h-[90vh] overflow-y-auto"
       >
         <h2 class="text-xl font-semibold text-slate-900 dark:text-white">
           {{ $t('ONBOARDING.CANNED_RESPONSES.ENTER_VARIABLE_VALUES') }}
         </h2>
 
-        <div
-          v-for="key in undefinedVariables"
-          :key="key"
-          class="flex flex-col"
-        >
+        <div v-for="key in undefinedVariables" :key="key" class="flex flex-col">
           <label
             :for="key"
             class="mb-1 text-sm font-medium text-slate-700 dark:text-slate-300 capitalize"
@@ -235,31 +236,48 @@ export default {
             {{ key.replace(/[\_\.]/g, ' ') }}
           </label>
           <textarea
-            v-model="userDefinedVariables[key]"
             :id="key"
+            v-model="userDefinedVariables[key]"
             rows="3"
             class="input-variable resize-y"
-            :placeholder="$t('ONBOARDING.CANNED_RESPONSES.VARIABLE_PLACEHOLDER', { variable: key })"
+            :placeholder="
+              $t('ONBOARDING.CANNED_RESPONSES.VARIABLE_PLACEHOLDER', {
+                variable: key,
+              })
+            "
             @keydown.stop
           />
         </div>
 
-        <h3 class="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2">
+        <h3
+          class="text-sm font-semibold text-slate-600 dark:text-slate-300 mb-2"
+        >
           {{ $t('ONBOARDING.CANNED_RESPONSES.PREVIEW_MESSAGE') }}
         </h3>
-        <div class="mt-6 p-4 border rounded-md bg-slate-50 dark:bg-slate-800 dark:border-slate-600">
-          <div v-if="isMessageLengthReachingThreshold" class="text-xs text-center">
+        <div
+          class="mt-6 p-4 border rounded-md bg-slate-50 dark:bg-slate-800 dark:border-slate-600"
+        >
+          <div
+            v-if="isMessageLengthReachingThreshold"
+            class="text-xs text-center"
+          >
             <span :class="charLengthClass">
               {{ characterLengthWarning }}
             </span>
           </div>
-          <p class="text-sm text-slate-800 dark:text-slate-100 whitespace-pre-wrap">
+          <p
+            class="text-sm text-slate-800 dark:text-slate-100 whitespace-pre-wrap"
+          >
             <span v-html="livePreviewMessage" />
           </p>
         </div>
 
         <div class="flex justify-end space-x-2 pt-4">
-          <button type="button" class="button clear" @click.prevent="closeModal">
+          <button
+            type="button"
+            class="button clear"
+            @click.prevent="closeModal"
+          >
             {{ $t('ONBOARDING.CANNED_RESPONSES.CANCEL') }}
           </button>
           <NextButton

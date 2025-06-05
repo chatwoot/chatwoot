@@ -206,9 +206,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   end
 
   def slack_mention(code)
-    if code.start_with?('U', 'W')
+    case code.first
+    when 'U', 'W'
       "<@#{code}>"
-    elsif code.start_with?('S')
+    when 'S'
       "<!subteam^#{code}>"
     end
   end
