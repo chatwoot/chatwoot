@@ -44,11 +44,8 @@ class Attachment < ApplicationRecord
 
   def push_event_data
     return unless file_type
-    return base_data.merge(location_metadata) if file_type.to_sym == :location
-    return base_data.merge(fallback_data) if file_type.to_sym == :fallback
-    return base_data.merge(contact_metadata) if file_type.to_sym == :contact
 
-    base_data.merge(file_metadata)
+    base_data.merge(metadata_for_file_type)
   end
 
   # NOTE: the URl returned does a 301 redirect to the actual file
@@ -75,6 +72,19 @@ class Attachment < ApplicationRecord
   end
 
   private
+
+  def metadata_for_file_type
+    case file_type.to_sym
+    when :location
+      location_metadata
+    when :fallback
+      fallback_data
+    when :contact
+      contact_metadata
+    else
+      file_metadata
+    end
+  end
 
   def file_metadata
     metadata = {
