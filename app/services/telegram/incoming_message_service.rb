@@ -8,17 +8,20 @@ class Telegram::IncomingMessageService
 
   def perform
     # chatwoot doesn't support group conversations at the moment
+    transform_business_message!
     return unless private_message?
 
     set_contact
     update_contact_avatar
     set_conversation
+    agent_tg = User.find_by(name: 'Telegram') # TODO: Mark this message posted by us directly from telegram. Add new sender_type like AgentBot?
+    # TODO: since recent Telegram Business update we should mark message as read by additional request
     @message = @conversation.messages.build(
       content: telegram_params_message_content,
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      message_type: :incoming,
-      sender: @contact,
+      message_type: business_message_outgoing? ? :outgoing : :incoming,
+      sender: business_message_outgoing? ? agent_tg : @contact,
       content_attributes: telegram_params_content_attributes,
       source_id: telegram_params_message_id.to_s
     )
@@ -89,7 +92,8 @@ class Telegram::IncomingMessageService
 
   def conversation_additional_attributes
     {
-      chat_id: telegram_params_chat_id
+      chat_id: telegram_params_chat_id,
+      business_connection_id: telegram_params_business_connection_id
     }
   end
 
@@ -175,5 +179,12 @@ class Telegram::IncomingMessageService
 
   def visual_media_params
     params[:message][:photo].presence&.last || params.dig(:message, :sticker, :thumb).presence || params[:message][:video].presence
+  end
+
+  def transform_business_message!
+    params[:message] = params[:business_message] if params[:business_message] && !params[:message]
+    return unless params[:callback_query] && params[:callback_query][:business_message] && !params[:callback_query][:message]
+
+    params[:callback_query][:message] = params[:callback_query][:business_message]
   end
 end

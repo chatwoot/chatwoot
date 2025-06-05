@@ -69,6 +69,10 @@ class Channel::Telegram < ApplicationRecord
     message.conversation[:additional_attributes]['chat_id']
   end
 
+  def business_connection_id(message)
+    message.conversation[:additional_attributes]['business_connection_id']
+  end
+
   def reply_to_message_id(message)
     message.content_attributes['in_reply_to_external_id']
   end
@@ -95,7 +99,8 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message(message)
-    response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message))
+    response = message_request(chat_id(message), message.content, reply_markup(message), reply_to_message_id(message),
+                               business_connection_id(message))
     process_error(message, response)
     response.parsed_response['result']['message_id'] if response.success?
   end
@@ -131,8 +136,11 @@ class Channel::Telegram < ApplicationRecord
     stripped_html.gsub('&lt;br&gt;', "\n")
   end
 
-  def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil)
+  def message_request(chat_id, text, reply_markup = nil, reply_to_message_id = nil, business_connection_id = nil)
     text_payload = convert_markdown_to_telegram_html(text)
+
+    business_body = {}
+    business_body[:business_connection_id] = business_connection_id if business_connection_id
 
     HTTParty.post("#{telegram_api_url}/sendMessage",
                   body: {
@@ -141,6 +149,6 @@ class Channel::Telegram < ApplicationRecord
                     reply_markup: reply_markup,
                     parse_mode: 'HTML',
                     reply_to_message_id: reply_to_message_id
-                  })
+                  }.merge(business_body))
   end
 end

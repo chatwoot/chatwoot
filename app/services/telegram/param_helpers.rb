@@ -13,6 +13,17 @@ module Telegram::ParamHelpers
     {}
   end
 
+  def business_message?
+    telegram_params_business_connection_id.present?
+  end
+
+  # In business bot mode we will receive messages from our telegram.
+  # This is our messages posted via telegram client.
+  # Such messages should be outgoint (from us to client)
+  def business_message_outgoing?
+    business_message? && telegram_params_base_object[:chat][:id] != telegram_params_base_object[:from][:id]
+  end
+
   def message_params?
     params[:message].present?
   end
@@ -30,6 +41,8 @@ module Telegram::ParamHelpers
   end
 
   def telegram_params_from_id
+    return telegram_params_base_object[:chat][:id] if business_message?
+
     telegram_params_base_object[:from][:id]
   end
 
@@ -54,6 +67,14 @@ module Telegram::ParamHelpers
       params[:callback_query][:message][:chat][:id]
     else
       telegram_params_base_object[:chat][:id]
+    end
+  end
+
+  def telegram_params_business_connection_id
+    if callback_query_params?
+      params[:callback_query][:message][:business_connection_id]
+    else
+      telegram_params_base_object[:business_connection_id]
     end
   end
 
