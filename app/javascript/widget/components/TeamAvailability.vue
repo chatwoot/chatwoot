@@ -1,9 +1,8 @@
 <script setup>
-import { toRef } from 'vue';
+import { computed } from 'vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
-import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
-import { useAvailability } from 'widget/composables/useAvailability';
+import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
 
 const props = defineProps({
@@ -13,8 +12,16 @@ const props = defineProps({
 
 const emit = defineEmits(['startConversation']);
 
-const availableAgents = toRef(props, 'availableAgents');
-const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
+const channelConfig = computed(() => window.chatwootWebChannel || {});
+
+const inboxConfig = computed(() => ({
+  workingHours: channelConfig.value.workingHours || [],
+  workingHoursEnabled: channelConfig.value.workingHoursEnabled || false,
+  timezone: channelConfig.value.timezone || 'UTC',
+  utcOffset:
+    channelConfig.value.utcOffset || channelConfig.value.timezone || 'UTC',
+  replyTime: channelConfig.value.replyTime || 'in_a_few_minutes',
+}));
 
 const widgetColor = useMapGetter('appConfig/getWidgetColor');
 
@@ -34,21 +41,13 @@ const startConversation = () => {
   <div
     class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
   >
-    <div class="flex items-center justify-between gap-2">
-      <div class="flex flex-col gap-1">
-        <div class="font-medium text-n-slate-12">
-          {{
-            isOnline
-              ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.OFFLINE')
-          }}
-        </div>
-        <div class="text-n-slate-11">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <GroupedAvatars v-if="isOnline" :users="availableAgents" />
-    </div>
+    <AvailabilityContainer
+      :inbox-config="inboxConfig"
+      :agents="availableAgents"
+      show-header
+      show-avatars
+    />
+
     <button
       class="inline-flex items-center gap-1 font-medium text-n-slate-12"
       :style="{ color: widgetColor }"

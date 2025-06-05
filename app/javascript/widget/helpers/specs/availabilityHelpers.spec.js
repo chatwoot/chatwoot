@@ -1,523 +1,580 @@
-// availabilityHelpers.spec.js with detailed comments
 import { utcToZonedTime } from 'date-fns-tz';
-import { getTime } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
 import {
-  getDateWithOffset,
-  getWorkingHoursInfo,
-  getNextAvailableTime,
+  isOpenAllDay,
+  isClosedAllDay,
+  isInWorkingHours,
+  findNextAvailableSlotDetails,
+  findNextAvailableSlotDiff,
+  isOnline,
 } from '../availabilityHelpers';
 
-// Mock the date-fns-tz library so we can control what it returns
+// Mock date-fns-tz
 vi.mock('date-fns-tz', () => ({
-  utcToZonedTime: vi.fn(), // Create a mock function we can control
+  utcToZonedTime: vi.fn(),
 }));
 
-// Mock the businessHour helper to simulate time formatting
-vi.mock(
-  'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js',
-  () => ({
-    getTime: vi.fn(),
-  })
-);
-
 describe('availabilityHelpers', () => {
-  describe('getDateWithOffset', () => {
-    beforeEach(() => {
-      // Clear all mock function calls before each test
-      vi.resetAllMocks();
-    });
+  beforeEach(() => {
+    vi.clearAllMocks();
+  });
 
-    it('should return date with UTC offset', () => {
-      const mockDate = new Date('2024-01-15T10:00:00.000Z');
-      mockDate.getHours = vi.fn().mockReturnValue(15); // 10:00 + 5:30 = 15:30
-      mockDate.getMinutes = vi.fn().mockReturnValue(30);
-
-      vi.spyOn(Date.prototype, 'toISOString').mockReturnValue(
-        '2024-01-15T10:00:00.000Z'
-      );
+  describe('isOpenAllDay', () => {
+    it('should return true when slot is marked as open_all_day', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z'); // Monday
+      mockDate.getDay = vi.fn().mockReturnValue(1);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getDateWithOffset('+05:30');
-      expect(result).toBeInstanceOf(Date);
-      expect(result.getHours()).toBe(15);
-      expect(result.getMinutes()).toBe(30);
+      const workingHours = [{ day_of_week: 1, open_all_day: true }];
+
+      expect(isOpenAllDay(new Date(), 'UTC', workingHours)).toBe(true);
     });
 
-    it('should work with timezone name', () => {
-      // Similar setup but testing with timezone name instead of offset
+    it('should return false when slot is not open_all_day', () => {
       const mockDate = new Date('2024-01-15T10:00:00.000Z');
-      mockDate.getHours = vi.fn().mockReturnValue(15);
-      mockDate.getMinutes = vi.fn().mockReturnValue(30);
-
-      vi.spyOn(Date.prototype, 'toISOString').mockReturnValue(
-        '2024-01-15T10:00:00.000Z'
-      );
+      mockDate.getDay = vi.fn().mockReturnValue(1);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      // Call with timezone name instead of offset
-      const result = getDateWithOffset('Asia/Kolkata');
-      expect(result).toBeInstanceOf(Date);
-      expect(result.getHours()).toBe(15);
-      expect(result.getMinutes()).toBe(30);
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, close_hour: 17, open_all_day: false },
+      ];
+
+      expect(isOpenAllDay(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+
+    it('should return false when no config exists for the day', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [
+        { day_of_week: 2, open_hour: 9, close_hour: 17 }, // Tuesday config
+      ];
+
+      expect(isOpenAllDay(new Date(), 'UTC', workingHours)).toBe(false);
     });
   });
 
-  describe('getWorkingHoursInfo', () => {
-    // Sample working hours configuration for testing
-    const mockWorkingHours = [
-      {
-        day_of_week: 1, // Monday
-        open_hour: 9, // Opens at 9:00 AM
-        open_minutes: 0,
-        close_hour: 17, // Closes at 5:00 PM
-        close_minutes: 0,
-      },
-      {
-        day_of_week: 2, // Tuesday
-        open_hour: 9,
-        open_minutes: 0,
-        close_hour: 17,
-        close_minutes: 0,
-      },
-      {
-        day_of_week: 3, // Wednesday
-        open_all_day: true, // Open 24 hours
-      },
-      {
-        day_of_week: 4, // Thursday
-        closed_all_day: true, // Closed all day
-      },
-      {
-        day_of_week: 5, // Friday
-        open_hour: 10,
-        open_minutes: 30, // Opens at 10:30 AM
-        close_hour: 16,
-        close_minutes: 30, // Closes at 4:30 PM
-      },
-    ];
-
-    beforeEach(() => {
-      vi.clearAllMocks();
-    });
-
-    it('should return disabled state when not enabled', () => {
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', false);
-      // Should return disabled state with default "open" status
-      expect(result).toEqual({
-        enabled: false,
-        isInWorkingHours: true, // Default to true when disabled
-      });
-    });
-
-    it('should detect when in working hours on regular day', () => {
-      // Create a mock date for Monday at 10:00 AM
+  describe('isClosedAllDay', () => {
+    it('should return true when slot is marked as closed_all_day', () => {
       const mockDate = new Date('2024-01-15T10:00:00.000Z');
-      mockDate.getDay = vi.fn().mockReturnValue(1); // Monday
-      mockDate.getHours = vi.fn().mockReturnValue(10); // 10 AM
-      mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
+      mockDate.getDay = vi.fn().mockReturnValue(1);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      expect(result.enabled).toBe(true);
-      expect(result.isInWorkingHours).toBe(true); // 10 AM is between 9 AM and 5 PM
-      expect(result.currentDay).toBe(1); // Monday
-      expect(result.todayConfig.day_of_week).toBe(1); // Found Monday's config
+      const workingHours = [{ day_of_week: 1, closed_all_day: true }];
+
+      expect(isClosedAllDay(new Date(), 'UTC', workingHours)).toBe(true);
     });
 
-    it('should detect when outside working hours', () => {
-      // Monday at 6:00 PM (after closing time)
+    it('should return false when slot is not closed_all_day', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, close_hour: 17, closed_all_day: false },
+      ];
+
+      expect(isClosedAllDay(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+
+    it('should return false when no config exists for the day', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 2, open_hour: 9, close_hour: 17 }];
+
+      expect(isClosedAllDay(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+  });
+
+  describe('isInWorkingHours', () => {
+    it('should return false when no working hours are configured', () => {
+      expect(isInWorkingHours(new Date(), 'UTC', [])).toBe(false);
+    });
+
+    it('should return true when open_all_day is true', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_all_day: true }];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
+    });
+
+    it('should return false when closed_all_day is true', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, closed_all_day: true }];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+
+    it('should return true when current time is within working hours', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [
+        {
+          day_of_week: 1,
+          open_hour: 9,
+          open_minutes: 0,
+          close_hour: 17,
+          close_minutes: 0,
+        },
+      ];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
+    });
+
+    it('should return false when current time is before opening', () => {
+      const mockDate = new Date('2024-01-15T08:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(8);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+
+    it('should return false when current time is after closing', () => {
       const mockDate = new Date('2024-01-15T18:00:00.000Z');
       mockDate.getDay = vi.fn().mockReturnValue(1);
-      mockDate.getHours = vi.fn().mockReturnValue(18); // 6 PM
+      mockDate.getHours = vi.fn().mockReturnValue(18);
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should not be in working hours (closed at 5 PM)
-      expect(result.isInWorkingHours).toBe(false);
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
     });
 
-    it('should handle open_all_day configuration', () => {
-      // Wednesday at 11:59 PM (open all day)
-      const mockDate = new Date('2024-01-17T23:59:00.000Z');
-      mockDate.getDay = vi.fn().mockReturnValue(3); // Wednesday
-      mockDate.getHours = vi.fn().mockReturnValue(23); // 11 PM
-      mockDate.getMinutes = vi.fn().mockReturnValue(59);
-
-      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
-
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should be in working hours even at 11:59 PM
-      expect(result.isInWorkingHours).toBe(true);
-    });
-
-    it('should handle closed_all_day configuration', () => {
-      // Thursday at noon (closed all day)
-      const mockDate = new Date('2024-01-18T12:00:00.000Z');
-      mockDate.getDay = vi.fn().mockReturnValue(4); // Thursday
-      mockDate.getHours = vi.fn().mockReturnValue(12);
-      mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
-      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
-
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should not be in working hours (closed all day)
-      expect(result.isInWorkingHours).toBe(false);
-    });
-
-    it('should detect all days closed', () => {
-      // Create array where every day is closed
-      const allClosedHours = [
-        { day_of_week: 0, closed_all_day: true }, // Sunday
-        { day_of_week: 1, closed_all_day: true }, // Monday
-        { day_of_week: 2, closed_all_day: true }, // Tuesday
-        { day_of_week: 3, closed_all_day: true }, // Wednesday
-        { day_of_week: 4, closed_all_day: true }, // Thursday
-        { day_of_week: 5, closed_all_day: true }, // Friday
-        { day_of_week: 6, closed_all_day: true }, // Saturday
-      ];
-
-      const mockDate = new Date('2024-01-15T12:00:00.000Z');
-      mockDate.getDay = vi.fn().mockReturnValue(1);
-      mockDate.getHours = vi.fn().mockReturnValue(12);
-      mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
-      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
-
-      const result = getWorkingHoursInfo(allClosedHours, 'UTC', true);
-      // Should detect that all days are closed
-      expect(result.allClosed).toBe(true);
-      expect(result.isInWorkingHours).toBe(false);
-    });
-
-    it('should handle minutes in time calculation', () => {
-      // Friday at 10:45 AM (opens at 10:30 AM)
-      const mockDate = new Date('2024-01-19T10:45:00.000Z');
-      mockDate.getDay = vi.fn().mockReturnValue(5); // Friday
-      mockDate.getHours = vi.fn().mockReturnValue(10);
-      mockDate.getMinutes = vi.fn().mockReturnValue(45); // 15 minutes after opening
-
-      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
-
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should be in working hours (10:45 is after 10:30 opening)
-      expect(result.isInWorkingHours).toBe(true);
-    });
-
-    it('should handle case at exact opening time', () => {
-      // Monday at exactly 9:00 AM
-      const mockDate = new Date('2024-01-15T09:00:00.000Z');
+    it('should handle minutes in time comparison', () => {
+      const mockDate = new Date('2024-01-15T09:30:00.000Z');
       mockDate.getDay = vi.fn().mockReturnValue(1);
       mockDate.getHours = vi.fn().mockReturnValue(9);
-      mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
+      mockDate.getMinutes = vi.fn().mockReturnValue(30);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should be in working hours at exact opening time
-      expect(result.isInWorkingHours).toBe(true);
+      const workingHours = [
+        {
+          day_of_week: 1,
+          open_hour: 9,
+          open_minutes: 15,
+          close_hour: 17,
+          close_minutes: 30,
+        },
+      ];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
     });
 
-    it('should handle edge case at exact closing time', () => {
-      // Monday at exactly 5:00 PM
-      const mockDate = new Date('2024-01-15T17:00:00.000Z');
+    it('should return false when no config for current day', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
       mockDate.getDay = vi.fn().mockReturnValue(1);
-      mockDate.getHours = vi.fn().mockReturnValue(17);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should NOT be in working hours at exact closing time
-      expect(result.isInWorkingHours).toBe(false);
-    });
+      const workingHours = [
+        { day_of_week: 2, open_hour: 9, close_hour: 17 }, // Only Tuesday
+      ];
 
-    it('should handle missing day configuration', () => {
-      // Saturday (no configuration for this day)
-      const mockDate = new Date('2024-01-20T12:00:00.000Z');
-      mockDate.getDay = vi.fn().mockReturnValue(6); // Saturday
-      mockDate.getHours = vi.fn().mockReturnValue(12);
-      mockDate.getMinutes = vi.fn().mockReturnValue(0);
-
-      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
-
-      const result = getWorkingHoursInfo(mockWorkingHours, 'UTC', true);
-      // Should not be in working hours (no config = closed)
-      expect(result.isInWorkingHours).toBe(false);
-      expect(result.todayConfig).toEqual({}); // Empty config object
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
     });
   });
 
-  describe('getNextAvailableTime', () => {
-    // Sample working hours for testing next available time
-    const mockWorkingHours = [
-      {
-        day_of_week: 1, // Monday
-        open_hour: 9,
-        open_minutes: 0,
-        close_hour: 17,
-        close_minutes: 0,
-      },
-      {
-        day_of_week: 2, // Tuesday
-        open_hour: 9,
-        open_minutes: 0,
-        close_hour: 17,
-        close_minutes: 0,
-      },
-      {
-        day_of_week: 3, // Wednesday
-        open_hour: 9,
-        open_minutes: 0,
-        close_hour: 17,
-        close_minutes: 0,
-      },
-      {
-        day_of_week: 4, // Thursday
-        closed_all_day: true, // Closed
-      },
-      {
-        day_of_week: 5, // Friday
-        open_hour: 10,
-        open_minutes: 30,
-        close_hour: 16,
-        close_minutes: 30,
-      },
-    ];
+  describe('findNextAvailableSlotDetails', () => {
+    it('should return null when no open days exist', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-    beforeEach(() => {
-      // Mock getTime to return formatted time strings
-      vi.mocked(getTime).mockImplementation((hour, minute) => {
-        const formattedHour = hour < 10 ? `0${hour}` : hour;
-        const formattedMinute = minute < 10 ? `0${minute}` : minute;
-        // Determine AM/PM
-        const meridian = hour >= 12 ? 'PM' : 'AM';
-        return `${formattedHour}:${formattedMinute} ${meridian}`;
+      const workingHours = [
+        { day_of_week: 0, closed_all_day: true },
+        { day_of_week: 1, closed_all_day: true },
+        { day_of_week: 2, closed_all_day: true },
+        { day_of_week: 3, closed_all_day: true },
+        { day_of_week: 4, closed_all_day: true },
+        { day_of_week: 5, closed_all_day: true },
+        { day_of_week: 6, closed_all_day: true },
+      ];
+
+      expect(
+        findNextAvailableSlotDetails(new Date(), 'UTC', workingHours)
+      ).toBe(null);
+    });
+
+    it('should return today slot when not opened yet', () => {
+      const mockDate = new Date('2024-01-15T08:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(8);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, open_minutes: 30, close_hour: 17 },
+      ];
+
+      const result = findNextAvailableSlotDetails(
+        new Date(),
+        'UTC',
+        workingHours
+      );
+
+      expect(result).toEqual({
+        config: workingHours[0],
+        minutesUntilOpen: 90, // 1.5 hours = 90 minutes
+        daysUntilOpen: 0,
+        dayOfWeek: 1,
       });
     });
 
-    it('should return empty state when no working hours', () => {
-      const workingHoursInfo = {
-        enabled: true,
-        isInWorkingHours: false,
-        currentDay: 1,
-        currentHour: 18,
-        currentMinute: 0,
-        todayConfig: {},
-        workingHours: [], // No working hours configured
-      };
+    it('should return tomorrow slot when today is past closing', () => {
+      const mockDate = new Date('2024-01-15T18:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(18);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should return "back in some time" when no hours configured
-      expect(result).toEqual({ type: 'BACK_IN_SOME_TIME' });
-    });
-
-    it('should return tomorrow when next day is tomorrow', () => {
-      // Monday at 6 PM (after closing), Tuesday opens next
-      const workingHoursInfo = {
-        currentDay: 1, // Monday
-        currentHour: 18, // 6 PM
-        currentMinute: 0,
-        todayConfig: { day_of_week: 1, close_hour: 17 }, // Closed at 5 PM
-        workingHours: mockWorkingHours,
-      };
-
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show "tomorrow" for next day
-      expect(result).toEqual({ type: 'BACK_TOMORROW' });
-    });
-
-    it('should return day name when 2+ days away', () => {
-      // Create scenario where next open day is Friday
-      const tuesdayToThursdayClosed = [
-        {
-          day_of_week: 1, // Monday
-          open_hour: 9,
-          open_minutes: 0,
-          close_hour: 17,
-          close_minutes: 0,
-        },
-        { day_of_week: 2, closed_all_day: true }, // Tuesday closed
-        { day_of_week: 3, closed_all_day: true }, // Wednesday closed
-        { day_of_week: 4, closed_all_day: true }, // Thursday closed
-        {
-          day_of_week: 5, // Friday
-          open_hour: 9,
-          open_minutes: 0,
-          close_hour: 17,
-          close_minutes: 0,
-        },
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, close_hour: 17 },
+        { day_of_week: 2, open_hour: 9, close_hour: 17 },
       ];
 
-      // Monday evening, next open is Friday
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 18,
-        currentMinute: 0,
-        todayConfig: { day_of_week: 1, close_hour: 17 },
-        workingHours: tuesdayToThursdayClosed,
-      };
+      const result = findNextAvailableSlotDetails(
+        new Date(),
+        'UTC',
+        workingHours
+      );
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show day name for 2+ days away
-      expect(result).toEqual({ type: 'BACK_ON', value: 'Friday' });
+      expect(result).toEqual({
+        config: workingHours[1],
+        minutesUntilOpen: 900, // 15 hours = 900 minutes
+        daysUntilOpen: 1,
+        dayOfWeek: 2,
+      });
     });
 
-    it('should handle midnight opening window when past midnight same day', () => {
-      // Wednesday 9:00 AM, working hours Wednesday 12:00 AM - 12:30 AM
-      const workingHoursInfo = {
-        currentDay: 3,
-        currentHour: 9,
-        currentMinute: 0,
-        todayConfig: {
-          day_of_week: 3,
-          open_hour: 0, // Midnight opening
-          open_minutes: 0,
-          close_hour: 0, // Same hour (30 min window)
-          close_minutes: 30,
-        },
-        workingHours: [
-          {
-            day_of_week: 3,
-            open_hour: 0,
-            open_minutes: 0,
-            close_hour: 0,
-            close_minutes: 30,
-          },
-        ],
-      };
+    it('should skip closed days and find next open day', () => {
+      const mockDate = new Date('2024-01-15T18:00:00.000Z'); // Monday evening
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(18);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      expect(result).toEqual({ type: 'BACK_ON', value: 'Wednesday' });
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, close_hour: 17 },
+        { day_of_week: 2, closed_all_day: true },
+        { day_of_week: 3, closed_all_day: true },
+        { day_of_week: 4, open_hour: 10, close_hour: 16 },
+      ];
+
+      const result = findNextAvailableSlotDetails(
+        new Date(),
+        'UTC',
+        workingHours
+      );
+
+      // Monday 18:00 to Thursday 10:00
+      // Rest of Monday: 6 hours (18:00 to 24:00) = 360 minutes
+      // Tuesday: 24 hours = 1440 minutes
+      // Wednesday: 24 hours = 1440 minutes
+      // Thursday morning: 10 hours = 600 minutes
+      // Total: 360 + 1440 + 1440 + 600 = 3840 minutes
+      expect(result).toEqual({
+        config: workingHours[3],
+        minutesUntilOpen: 3840, // 64 hours = 3840 minutes
+        daysUntilOpen: 3,
+        dayOfWeek: 4,
+      });
     });
 
-    it('should return specific time when 3+ hours away same day', () => {
-      // Monday at 5 AM, opens at 9 AM (4 hours away)
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 5,
-        currentMinute: 0,
-        todayConfig: { day_of_week: 1, open_hour: 9, open_minutes: 0 },
-        workingHours: mockWorkingHours,
-      };
+    it('should handle open_all_day slots', () => {
+      const mockDate = new Date('2024-01-15T18:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(18);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show specific opening time
-      expect(result).toEqual({ type: 'BACK_AT', value: '09:00 AM' });
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, close_hour: 17 },
+        { day_of_week: 2, open_all_day: true },
+      ];
+
+      const result = findNextAvailableSlotDetails(
+        new Date(),
+        'UTC',
+        workingHours
+      );
+
+      expect(result).toEqual({
+        config: workingHours[1],
+        minutesUntilOpen: 360, // 6 hours to midnight = 360 minutes
+        daysUntilOpen: 1,
+        dayOfWeek: 2,
+      });
     });
 
-    it('should return relative hours when 1-3 hours away', () => {
-      // Monday at 7 AM, opens at 9 AM (2 hours away)
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 7,
-        currentMinute: 0,
-        todayConfig: { day_of_week: 1, open_hour: 9, open_minutes: 0 },
-        workingHours: mockWorkingHours,
-      };
+    it('should wrap around week correctly', () => {
+      const mockDate = new Date('2024-01-20T18:00:00.000Z'); // Saturday evening
+      mockDate.getDay = vi.fn().mockReturnValue(6);
+      mockDate.getHours = vi.fn().mockReturnValue(18);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show relative time in hours
-      expect(result).toEqual({ type: 'BACK_IN', value: 'in 2 hours' });
+      const workingHours = [
+        { day_of_week: 1, open_hour: 9, close_hour: 17 }, // Monday
+      ];
+
+      const result = findNextAvailableSlotDetails(
+        new Date(),
+        'UTC',
+        workingHours
+      );
+
+      // Saturday 18:00 to Monday 9:00
+      // Rest of Saturday: 6 hours = 360 minutes
+      // Sunday: 24 hours = 1440 minutes
+      // Monday morning: 9 hours = 540 minutes
+      // Total: 360 + 1440 + 540 = 2340 minutes
+      expect(result).toEqual({
+        config: workingHours[0],
+        minutesUntilOpen: 2340, // 39 hours = 2340 minutes
+        daysUntilOpen: 2,
+        dayOfWeek: 1,
+      });
     });
 
-    it('should return relative minutes when less than 1 hour away', () => {
-      // Monday at 8:30 AM, opens at 9 AM (30 minutes away)
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 8,
-        currentMinute: 30,
-        todayConfig: { day_of_week: 1, open_hour: 9, open_minutes: 0 },
-        workingHours: mockWorkingHours,
-      };
+    it('should handle today open_all_day correctly', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show relative time in minutes
-      expect(result).toEqual({ type: 'BACK_IN', value: 'in 30 minutes' });
+      const workingHours = [
+        { day_of_week: 1, open_all_day: true },
+        { day_of_week: 2, open_hour: 9, close_hour: 17 },
+      ];
+
+      // Should skip today since it's open_all_day and look for next slot
+      const result = findNextAvailableSlotDetails(
+        new Date(),
+        'UTC',
+        workingHours
+      );
+
+      expect(result).toEqual({
+        config: workingHours[1],
+        minutesUntilOpen: 1380, // Rest of today + 9 hours tomorrow = 1380 minutes
+        daysUntilOpen: 1,
+        dayOfWeek: 2,
+      });
+    });
+  });
+
+  describe('findNextAvailableSlotDiff', () => {
+    it('should return 0 when currently in working hours', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(findNextAvailableSlotDiff(new Date(), 'UTC', workingHours)).toBe(
+        0
+      );
     });
 
-    it('should round minutes to nearest 5 when less than 1 hour away', () => {
-      // Monday at 8:47 AM, opens at 9 AM (13 minutes away)
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 8,
-        currentMinute: 47,
-        todayConfig: { day_of_week: 1, open_hour: 9, open_minutes: 0 },
-        workingHours: mockWorkingHours,
-      };
+    it('should return minutes until next slot when not in working hours', () => {
+      const mockDate = new Date('2024-01-15T08:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(8);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should round 13 minutes up to 15
-      expect(result).toEqual({ type: 'BACK_IN', value: 'in 15 minutes' });
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(findNextAvailableSlotDiff(new Date(), 'UTC', workingHours)).toBe(
+        60
+      );
     });
 
-    it('should handle closed all day - next day', () => {
-      // Thursday (closed), Friday opens next
-      const workingHoursInfo = {
-        currentDay: 4, // Thursday
-        currentHour: 12,
-        currentMinute: 0,
-        todayConfig: { day_of_week: 4, closed_all_day: true },
-        workingHours: mockWorkingHours,
-      };
+    it('should return null when no next slot available', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show tomorrow (Friday)
-      expect(result).toEqual({ type: 'BACK_TOMORROW' });
+      const workingHours = [
+        { day_of_week: 0, closed_all_day: true },
+        { day_of_week: 1, closed_all_day: true },
+        { day_of_week: 2, closed_all_day: true },
+        { day_of_week: 3, closed_all_day: true },
+        { day_of_week: 4, closed_all_day: true },
+        { day_of_week: 5, closed_all_day: true },
+        { day_of_week: 6, closed_all_day: true },
+      ];
+
+      expect(findNextAvailableSlotDiff(new Date(), 'UTC', workingHours)).toBe(
+        null
+      );
+    });
+  });
+
+  describe('isOnline', () => {
+    it('should return agent status when working hours disabled', () => {
+      expect(isOnline(false, new Date(), 'UTC', [], true)).toBe(true);
+      expect(isOnline(false, new Date(), 'UTC', [], false)).toBe(false);
     });
 
-    it('should handle when all days are closed', () => {
-      // Create array where every day is closed
-      const allClosed = Array(7)
-        .fill(null)
-        .map((_, i) => ({
-          day_of_week: i,
-          closed_all_day: true,
-        }));
+    it('should check both working hours and agents when enabled', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 12,
-        currentMinute: 0,
-        todayConfig: { day_of_week: 1, closed_all_day: true },
-        workingHours: allClosed,
-      };
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should return "some time" when all closed
-      expect(result).toEqual({ type: 'BACK_IN_SOME_TIME' });
+      // In working hours + agents available = online
+      expect(isOnline(true, new Date(), 'UTC', workingHours, true)).toBe(true);
+
+      // In working hours but no agents = offline
+      expect(isOnline(true, new Date(), 'UTC', workingHours, false)).toBe(
+        false
+      );
     });
 
-    it('should handle exact closing time edge case', () => {
-      // Monday at exactly 5:00 PM (closing time)
-      const workingHoursInfo = {
-        currentDay: 1,
-        currentHour: 17, // 5 PM
-        currentMinute: 0,
-        todayConfig: { day_of_week: 1, close_hour: 17, close_minutes: 0 },
-        workingHours: mockWorkingHours,
-      };
+    it('should return false when outside working hours even with agents', () => {
+      const mockDate = new Date('2024-01-15T08:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(8);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should show tomorrow since we're at closing time
-      expect(result).toEqual({ type: 'BACK_TOMORROW' });
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isOnline(true, new Date(), 'UTC', workingHours, true)).toBe(false);
     });
 
-    it('should handle opening time with minutes', () => {
-      // Friday at 8 AM, opens at 10:30 AM (2.5 hours)
-      const workingHoursInfo = {
-        currentDay: 5,
-        currentHour: 8,
-        currentMinute: 0,
-        todayConfig: { day_of_week: 5, open_hour: 10, open_minutes: 30 },
-        workingHours: mockWorkingHours,
-      };
+    it('should handle open_all_day with agents', () => {
+      const mockDate = new Date('2024-01-15T02:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(2);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const result = getNextAvailableTime(workingHoursInfo, 'en');
-      // Should round up to 3 hours
-      expect(result).toEqual({ type: 'BACK_IN', value: 'in 3 hours' });
+      const workingHours = [{ day_of_week: 1, open_all_day: true }];
+
+      expect(isOnline(true, new Date(), 'UTC', workingHours, true)).toBe(true);
+      expect(isOnline(true, new Date(), 'UTC', workingHours, false)).toBe(
+        false
+      );
+    });
+
+    it('should handle string date input', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(
+        isOnline(true, '2024-01-15T10:00:00.000Z', 'UTC', workingHours, true)
+      ).toBe(true);
+    });
+  });
+
+  describe('Timezone handling', () => {
+    it('should correctly handle different timezones', () => {
+      const mockDate = new Date('2024-01-15T15:30:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(15);
+      mockDate.getMinutes = vi.fn().mockReturnValue(30);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isInWorkingHours(new Date(), 'Asia/Kolkata', workingHours)).toBe(
+        true
+      );
+      expect(vi.mocked(utcToZonedTime)).toHaveBeenCalledWith(
+        expect.any(String),
+        'Asia/Kolkata'
+      );
+    });
+
+    it('should handle UTC offset format', () => {
+      const mockDate = new Date('2024-01-15T10:00:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(10);
+      mockDate.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isInWorkingHours(new Date(), '+05:30', workingHours)).toBe(true);
+      expect(vi.mocked(utcToZonedTime)).toHaveBeenCalledWith(
+        expect.any(String),
+        '+05:30'
+      );
+    });
+  });
+
+  describe('Edge cases', () => {
+    it('should handle working hours at exact boundaries', () => {
+      // Test at exact opening time
+      const mockDate1 = new Date('2024-01-15T09:00:00.000Z');
+      mockDate1.getDay = vi.fn().mockReturnValue(1);
+      mockDate1.getHours = vi.fn().mockReturnValue(9);
+      mockDate1.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate1);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
+
+      // Test at exact closing time
+      const mockDate2 = new Date('2024-01-15T17:00:00.000Z');
+      mockDate2.getDay = vi.fn().mockReturnValue(1);
+      mockDate2.getHours = vi.fn().mockReturnValue(17);
+      mockDate2.getMinutes = vi.fn().mockReturnValue(0);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate2);
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
+    });
+
+    it('should handle one minute before closing', () => {
+      const mockDate = new Date('2024-01-15T16:59:00.000Z');
+      mockDate.getDay = vi.fn().mockReturnValue(1);
+      mockDate.getHours = vi.fn().mockReturnValue(16);
+      mockDate.getMinutes = vi.fn().mockReturnValue(59);
+      vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
+
+      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+
+      expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
     });
   });
 });

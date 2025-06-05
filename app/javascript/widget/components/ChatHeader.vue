@@ -1,8 +1,9 @@
 <script setup>
-import { toRef } from 'vue';
+import { toRef, computed } from 'vue';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import HeaderActions from './HeaderActions.vue';
-import { useAvailability } from 'widget/composables/useAvailability';
+import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
+import { isOnline as checkIsOnline } from 'widget/helpers/availabilityHelpers';
 import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 
 const props = defineProps({
@@ -17,7 +18,36 @@ const availableAgents = toRef(props, 'availableAgents');
 
 const { replaceRoute } = useReplaceRoute();
 
-const { replyWaitMessage, isOnline } = useAvailability(availableAgents);
+const channelConfig = computed(() => window.chatwootWebChannel || {});
+
+const inboxConfig = computed(() => ({
+  workingHours: channelConfig.value.workingHours || [],
+  workingHoursEnabled: channelConfig.value.workingHoursEnabled || false,
+  timezone: channelConfig.value.timezone || 'UTC',
+  utcOffset:
+    channelConfig.value.utcOffset || channelConfig.value.timezone || 'UTC',
+  replyTime: channelConfig.value.replyTime || 'in_a_few_minutes',
+}));
+
+const currentTime = computed(() => new Date());
+const workingHours = computed(() => props.inboxConfig.workingHours || []);
+const workingHoursEnabled = computed(
+  () => props.inboxConfig.workingHoursEnabled || false
+);
+const utcOffset = computed(
+  () => props.inboxConfig.utcOffset || props.inboxConfig.timezone || 'UTC'
+);
+const hasOnlineAgents = computed(() => props.agents.length > 0);
+
+const isOnline = computed(() =>
+  checkIsOnline(
+    workingHoursEnabled.value,
+    currentTime.value,
+    utcOffset.value,
+    workingHours.value,
+    hasOnlineAgents.value
+  )
+);
 
 const onBackButtonClick = () => {
   replaceRoute('home');
@@ -50,9 +80,13 @@ const onBackButtonClick = () => {
               ${isOnline ? 'bg-green-500' : 'hidden'}`"
           />
         </div>
-        <div class="text-xs leading-3 text-n-slate-11">
-          {{ replyWaitMessage }}
-        </div>
+        <AvailabilityContainer
+          :inbox-config="inboxConfig"
+          :agents="availableAgents"
+          :show-header="false"
+          :show-avatars="false"
+          class="[&_.availability-text]:text-xs [&_.availability-text]:leading-3"
+        />
       </div>
     </div>
     <HeaderActions :show-popout-button="showPopoutButton" />

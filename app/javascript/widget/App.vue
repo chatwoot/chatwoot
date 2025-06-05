@@ -3,7 +3,6 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import { useAvailability } from 'widget/composables/useAvailability';
 import configMixin from './mixins/configMixin';
 import { getLocale } from './helpers/urlParamsHelper';
 import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
@@ -21,6 +20,7 @@ import {
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
+import { isInWorkingHours } from 'widget/helpers/availabilityHelpers';
 import { emitter } from 'shared/helpers/mitt';
 
 export default {
@@ -31,10 +31,9 @@ export default {
   mixins: [configMixin],
   setup() {
     const { prefersDarkMode } = useDarkMode();
-    const { isInBusinessHours } = useAvailability();
     const { replaceRoute } = useReplaceRoute();
 
-    return { prefersDarkMode, isInBusinessHours, replaceRoute };
+    return { prefersDarkMode, replaceRoute };
   },
   data() {
     return {
@@ -65,6 +64,11 @@ export default {
       return this.$root.$i18n.locale
         ? getLanguageDirection(this.$root.$i18n.locale)
         : false;
+    },
+    inWorkingHours() {
+      const { utcOffset, workingHours } = window.chatwootWebChannel;
+
+      return isInWorkingHours(new Date(), utcOffset, workingHours);
     },
   },
   watch: {
@@ -266,7 +270,7 @@ export default {
           this.initCampaigns({
             currentURL: referrerURL,
             websiteToken,
-            isInBusinessHours: this.isInBusinessHours,
+            isInBusinessHours: this.inWorkingHours,
           });
           window.referrerURL = referrerURL;
           this.setReferrerHost(referrerHost);
