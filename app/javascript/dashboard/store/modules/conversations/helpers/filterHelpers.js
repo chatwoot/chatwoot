@@ -159,6 +159,20 @@ const contains = (filterValue, conversationValue) => {
 };
 
 /**
+ * Compares two date values using a comparison function
+ * @param {*} conversationValue - The conversation value to compare
+ * @param {*} filterValue - The filter value to compare against
+ * @param {Function} compareFn - The comparison function to apply
+ * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
+ */
+const compareDates = (conversationValue, filterValue, compareFn) => {
+  const conversationDate = coerceToDate(conversationValue);
+  const filterDate = coerceToDate(filterValue);
+  if (conversationDate === null || filterDate === null) return false;
+  return compareFn(conversationDate, filterDate);
+};
+
+/**
  * Checks if a value matches a filter condition
  * @param {*} conversationValue - The value to check
  * @param {Object} filter - The filter condition
@@ -195,19 +209,11 @@ const matchesCondition = (conversationValue, filter) => {
     case 'is_not_present':
       return false; // We already handled null/undefined above
 
-    case 'is_greater_than': {
-      const conversationDate = coerceToDate(conversationValue);
-      const filterDate = coerceToDate(filterValue);
-      if (conversationDate === null || filterDate === null) return false;
-      return conversationDate > filterDate;
-    }
+    case 'is_greater_than':
+      return compareDates(conversationValue, filterValue, (a, b) => a > b);
 
-    case 'is_less_than': {
-      const conversationDate = coerceToDate(conversationValue);
-      const filterDate = coerceToDate(filterValue);
-      if (conversationDate === null || filterDate === null) return false;
-      return conversationDate < filterDate;
-    }
+    case 'is_less_than':
+      return compareDates(conversationValue, filterValue, (a, b) => a < b);
 
     case 'days_before': {
       const today = new Date();
