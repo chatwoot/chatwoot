@@ -15,7 +15,7 @@ RSpec.describe 'Conversation Audit', type: :model do
 
       expect do
         conversation.destroy!
-      end.to change { Audited::Audit.count }.by(1)
+      end.to change(Audited::Audit, :count).by(1)
 
       audit = Audited::Audit.last
       expect(audit.auditable_type).to eq('Conversation')
@@ -28,7 +28,7 @@ RSpec.describe 'Conversation Audit', type: :model do
 
       expect do
         conversation.update!(priority: 'high')
-      end.not_to(change { Audited::Audit.count })
+      end.not_to(change(Audited::Audit, :count))
     end
   end
 end

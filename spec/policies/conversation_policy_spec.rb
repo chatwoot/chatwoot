@@ -25,7 +25,7 @@ RSpec.describe ConversationPolicy, type: :policy do
   end
 
   permissions :index? do
-    context 'for any authenticated user' do
+    context 'when user is authenticated' do
       it 'allows index' do
         expect(subject).to permit(agent_context, conversation)
       end
