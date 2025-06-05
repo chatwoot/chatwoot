@@ -6,7 +6,7 @@ class Fonnte::IncomingMessageService
   def perform
     return if fonnte_channel.blank?
 
-    logger.info "Fonnte send_message"
+    Rails.logger.info "Fonnte channel: #{fonnet_channel.inspect}"
     begin
       set_contact
       @message = @conversation.messages.build(
@@ -20,7 +20,7 @@ class Fonnte::IncomingMessageService
       attach_files
       @message.save!
     rescue StandardError => e
-      logger.error "Fonnte send_message error: #{e.message}"
+      Rails.logger.error "Fonnte send_message error: #{e.message}"
     end
   end
 
