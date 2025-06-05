@@ -128,7 +128,6 @@ Rails.application.routes.draw do
               post :unread
               post :custom_attributes
               get :attachments
-              post :copilot
               get :inbox_assistant
             end
           end
@@ -534,7 +533,7 @@ Rails.application.routes.draw do
       end
 
       # resources that doesn't appear in primary navigation in super admin
-      resources :account_users, only: [:new, :create, :destroy]
+      resources :account_users, only: [:new, :create, :show, :destroy]
     end
     authenticated :super_admin do
       mount Sidekiq::Web => '/monitoring/sidekiq'
