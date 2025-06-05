@@ -675,6 +675,15 @@ async function markAsUnread(conversationId) {
     // Ignore error
   }
 }
+async function markAsRead(conversationId) {
+  try {
+    await store.dispatch('markMessagesRead', {
+      id: conversationId,
+    });
+  } catch (error) {
+    // Ignore error
+  }
+}
 async function onAssignTeam(team, conversationId = null) {
   try {
     await store.dispatch('assignTeam', {
@@ -744,6 +753,7 @@ provide('assignLabels', onAssignLabels);
 provide('updateConversationStatus', toggleConversationStatus);
 provide('toggleContextMenu', onContextMenuToggle);
 provide('markAsUnread', markAsUnread);
+provide('markAsRead', markAsRead);
 provide('assignPriority', assignPriority);
 provide('isConversationSelected', isConversationSelected);
 

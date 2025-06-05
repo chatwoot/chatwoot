@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Dane kontaktowe z <strong>{primaryContactName}</strong> zostaną skopiowane do <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "Błąd"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": "Połącz kontakty",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Wiadomość",
       "SEND_MESSAGE": "Wyślij wiadomość",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kontakty"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kontakt został pomyślnie zapisany",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "Importuj kontakty z pliku CSV.",

@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Şu: <strong>{primaryContactName}</strong> kişinin iletişim bilgileri, şu<strong>{parentContactName}</strong> kişiye kopyalanacaktır."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Kişileri birleştir",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Mesaj",
       "SEND_MESSAGE": "Mesajı Gönder",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kişiler"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kişi bilgileri başarıyla kaydedildi",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "Kişileri CSV dosyası olarak içe aktar.",

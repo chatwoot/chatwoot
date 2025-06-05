@@ -67,7 +67,7 @@ const dropdownValues = () => {
       :class="
         errorKey
           ? 'bg-red-50 animate-shake dark:bg-red-800'
-          : 'bg-white dark:bg-slate-700'
+          : 'bg-n-slate-2 dark:bg-n-solid-3'
       "
     >
       <ActionInput
@@ -89,6 +89,7 @@ const dropdownValues = () => {
       size="small"
       variant="smooth"
       color-scheme="alert"
+      class="flex-shrink-0"
       @click="$emit('deleteNode')"
     />
   </div>

@@ -27,7 +27,7 @@ const updateValue = () => {
   >
     <span class="sr-only">{{ t('SWITCH.TOGGLE') }}</span>
     <span
-      class="absolute top-px left-0.5 h-3 w-3 transform rounded-full shadow-sm transition-transform duration-200 ease-in-out"
+      class="absolute top-[0.07rem] left-0.5 h-3 w-3 transform rounded-full shadow-sm transition-transform duration-200 ease-in-out"
       :class="
         modelValue
           ? 'translate-x-2.5 bg-white'

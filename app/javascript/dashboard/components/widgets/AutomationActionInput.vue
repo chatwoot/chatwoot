@@ -201,10 +201,10 @@ export default {
 
 <style lang="scss" scoped>
 .filter {
-  @apply bg-slate-50 dark:bg-slate-800 p-2 border border-solid border-slate-75 dark:border-slate-600 rounded-md mb-2;
+  @apply bg-n-slate-3 dark:bg-n-solid-3 p-2 border border-solid border-n-strong dark:border-n-strong rounded-md mb-2;
 
   &.is-a-macro {
-    @apply mb-0 bg-white dark:bg-slate-700 p-0 border-0 rounded-none;
+    @apply mb-0 bg-n-slate-2 dark:bg-n-solid-3 p-0 border-0 rounded-none;
   }
 }
 

@@ -7,7 +7,8 @@ import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import SettingsContent from '../Wrapper.vue';
-import OneHash from './OneHash.vue'
+import OneHash from './OneHash.vue';
+import Linear from './Linear.vue';
 
 export default {
   routes: [
@@ -87,6 +88,15 @@ export default {
           meta: {
             permissions: ['administrator', 'agent'],
           },
+        },
+        {
+          path: 'linear',
+          name: 'settings_integrations_linear',
+          component: Linear,
+          meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
         },
         {
           path: ':integration_id',

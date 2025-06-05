@@ -14,6 +14,7 @@ import {
   DropdownSeparator,
   DropdownItem,
 } from 'next/dropdown-menu/base';
+import CustomBrandPolicyWrapper from '../../components/CustomBrandPolicyWrapper.vue';
 
 const emit = defineEmits(['close', 'openKeyShortcutModal']);
 
@@ -60,8 +61,11 @@ const menuItems = computed(() => {
   return [
     {
       show: !!globalConfig.value.chatwootInboxToken,
-        // REVIEW:CV4.0.2 Below code isn't in our version, why?
+
+      // REVIEW:CV4.0.2 Below code isn't in our version, why?
       // show: showChatSupport.value,
+
+      showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.CONTACT_SUPPORT'),
       icon: 'i-lucide-life-buoy',
       click: () => {
@@ -70,6 +74,7 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS'),
       icon: 'i-lucide-keyboard',
       click: () => {
@@ -78,12 +83,14 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.PROFILE_SETTINGS'),
       icon: 'i-lucide-user-pen',
       link: { name: 'profile_settings_index' },
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.APPEARANCE'),
       icon: 'i-lucide-palette',
       click: () => {
@@ -93,6 +100,7 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: false,
       label: t('SIDEBAR_ITEMS.DOCS'),
       icon: 'i-lucide-book',
       link: 'https://chat.onehash.ai/hc/onehash-help-center/en',
@@ -101,6 +109,7 @@ const menuItems = computed(() => {
     },
     {
       show: currentUser.value.type === 'SuperAdmin',
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE'),
       icon: 'i-lucide-castle',
       link: '/super_admin',
@@ -109,6 +118,7 @@ const menuItems = computed(() => {
     },
     {
       show: true,
+      showOnCustomBrandedInstance: true,
       label: t('SIDEBAR_ITEMS.LOGOUT'),
       icon: 'i-lucide-power',
       click: () => {
@@ -157,7 +167,11 @@ const allowedMenuItems = computed(() => {
       <SidebarProfileMenuStatus />
       <DropdownSeparator />
       <template v-for="item in allowedMenuItems" :key="item.label">
-        <DropdownItem v-if="item.show" v-bind="item" />
+        <CustomBrandPolicyWrapper
+          :show-on-custom-branded-instance="item.showOnCustomBrandedInstance"
+        >
+          <DropdownItem v-if="item.show" v-bind="item" />
+        </CustomBrandPolicyWrapper>
       </template>
     </DropdownBody>
   </DropdownContainer>

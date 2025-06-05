@@ -45,7 +45,7 @@ const statusDesiredOrder = [
 ];
 
 const isCreating = ref(false);
-const inputStyles = { borderRadius: '12px', fontSize: '14px' };
+const inputStyles = { borderRadius: '0.75rem', fontSize: '0.875rem' };
 
 const formState = reactive({
   title: '',
@@ -209,7 +209,7 @@ onMounted(getTeams);
       v-model="formState.title"
       :class="{ error: v$.title.$error }"
       class="w-full"
-      :styles="{ ...inputStyles, padding: '6px 12px' }"
+      :styles="{ ...inputStyles, padding: '0.375rem 0.75rem' }"
       :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.LABEL')"
       :placeholder="
         $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.TITLE.PLACEHOLDER')
@@ -221,7 +221,7 @@ onMounted(getTeams);
       {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.FORM.DESCRIPTION.LABEL') }}
       <textarea
         v-model="formState.description"
-        :style="{ ...inputStyles, padding: '8px 12px' }"
+        :style="{ ...inputStyles, padding: '0.5rem 0.75rem' }"
         rows="3"
         class="text-sm"
         :placeholder="

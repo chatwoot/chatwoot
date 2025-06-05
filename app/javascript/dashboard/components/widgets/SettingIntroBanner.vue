@@ -14,7 +14,7 @@ export default {
 </script>
 
 <template>
-  <div class="pt-4 pb-0 px-8 border-b border-solid border-n-weak">
+  <div class="pt-4 pb-0 px-8 border-b border-solid border-n-weak/60">
     <h2 class="text-2xl text-slate-800 dark:text-slate-100 mb-1 font-medium">
       {{ headerTitle }}
     </h2>

@@ -105,14 +105,14 @@ const openDelete = inbox => {
                 />
                 <div
                   v-else
-                  class="w-12 h-12 bg-black-50 dark:bg-black-800 rounded-full p-2 ring ring-opacity-20 dark:ring-opacity-80 ring-black-100 dark:ring-black-900 border border-slate-100 dark:border-slate-700/50 shadow-sm block"
+                  class="w-[48px] h-[48px] flex justify-center items-center bg-black-50 dark:bg-black-800 rounded-full p-2 ring ring-opacity-20 dark:ring-opacity-80 ring-black-100 dark:ring-black-900 border border-slate-100 dark:border-slate-700/50 shadow-sm"
                 >
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="32"
                     height="32"
                     viewBox="0 0 24 24"
-                    class="opacity-80 p-1"
+                    class="opacity-80 p-1 flex-shrink-0"
                   >
                     <path
                       fill="currentColor"

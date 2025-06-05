@@ -61,6 +61,7 @@ Rails.application.routes.draw do
             end
             resources :documents, only: [:index, :show, :create, :destroy]
             resources :assistant_responses
+            resources :bulk_actions, only: [:create]
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
@@ -247,6 +248,7 @@ Rails.application.routes.draw do
             end
             resource :linear, controller: 'linear', only: [] do
               collection do
+                delete :destroy
                 get :teams
                 get :team_entities
                 post :create_issue
@@ -360,6 +362,12 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resources :live_reports, only: [] do
+            collection do
+              get :conversation_metrics
+              get :grouped_conversation_metrics
+            end
+          end
         end
       end
     end
@@ -470,6 +478,10 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :linear do
+    resource :callback, only: [:show]
+  end
+
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
@@ -516,7 +528,7 @@ Rails.application.routes.draw do
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
-      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do

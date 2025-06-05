@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Kontakto informacija <strong>{primaryContactName}</strong> bus nukopijuota į <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "KLAIDOS_PRANEŠIMAS"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " Apjungti kontaktus",
@@ -288,6 +288,8 @@
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Žinutė",
       "SEND_MESSAGE": "Išsiųsti pranešimą",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kontaktai"
       },
@@ -302,6 +304,10 @@
           "SUCCESS_MESSAGE": "Kontaktas išsaugotas sėkmingai",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Šis kontaktas sėkmingai atblokuotas",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "Importuoti kontaktus CSV failo pagalba.",
