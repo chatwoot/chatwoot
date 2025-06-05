@@ -30,21 +30,14 @@ const inboxConfig = computed(() => ({
 }));
 
 const currentTime = computed(() => new Date());
-const workingHours = computed(() => props.inboxConfig.workingHours || []);
-const workingHoursEnabled = computed(
-  () => props.inboxConfig.workingHoursEnabled || false
-);
-const utcOffset = computed(
-  () => props.inboxConfig.utcOffset || props.inboxConfig.timezone || 'UTC'
-);
-const hasOnlineAgents = computed(() => props.agents.length > 0);
+const hasOnlineAgents = computed(() => availableAgents.value?.length > 0);
 
 const isOnline = computed(() =>
   checkIsOnline(
-    workingHoursEnabled.value,
+    inboxConfig.value.workingHoursEnabled,
     currentTime.value,
-    utcOffset.value,
-    workingHours.value,
+    inboxConfig.value.utcOffset,
+    inboxConfig.value.workingHours,
     hasOnlineAgents.value
   )
 );
