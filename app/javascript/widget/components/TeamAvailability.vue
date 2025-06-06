@@ -1,5 +1,4 @@
 <script setup>
-import { computed } from 'vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
 import AvailabilityContainer from 'widget/components/Availability/AvailabilityContainer.vue';
@@ -11,17 +10,6 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['startConversation']);
-
-const channelConfig = computed(() => window.chatwootWebChannel || {});
-
-const inboxConfig = computed(() => ({
-  workingHours: channelConfig.value.workingHours || [],
-  workingHoursEnabled: channelConfig.value.workingHoursEnabled || false,
-  timezone: channelConfig.value.timezone || 'UTC',
-  utcOffset:
-    channelConfig.value.utcOffset || channelConfig.value.timezone || 'UTC',
-  replyTime: channelConfig.value.replyTime || 'in_a_few_minutes',
-}));
 
 const widgetColor = useMapGetter('appConfig/getWidgetColor');
 
@@ -41,12 +29,7 @@ const startConversation = () => {
   <div
     class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
   >
-    <AvailabilityContainer
-      :inbox-config="inboxConfig"
-      :agents="availableAgents"
-      show-header
-      show-avatars
-    />
+    <AvailabilityContainer :agents="availableAgents" show-header show-avatars />
 
     <button
       class="inline-flex items-center gap-1 font-medium text-n-slate-12"

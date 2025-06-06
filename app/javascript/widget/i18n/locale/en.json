@@ -14,7 +14,8 @@
   },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We are online",
-    "OFFLINE": "We are away at the moment"
+    "OFFLINE": "We are away at the moment",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
@@ -24,7 +25,8 @@
     "BACK_AT": "We will be back online at {time}",
     "BACK_ON": "We will be back online on {time}",
     "BACK_TOMORROW": "We will be back online tomorrow",
-    "BACK_IN_SOME_TIME": "We will be back online in some time"
+    "BACK_IN_SOME_TIME": "We will be back online in some time",
+    "BACK_AS_SOON_AS_POSSIBLE": "We will be back as soon as possible"
   },
   "DAY_NAMES": {
     "SUNDAY": "Sunday",

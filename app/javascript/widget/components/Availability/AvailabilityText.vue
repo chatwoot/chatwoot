@@ -3,10 +3,10 @@ import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { getTime } from 'dashboard/routes/dashboard/settings/inbox/helpers/businessHour.js';
 import {
-  isInWorkingHours,
   findNextAvailableSlotDetails,
   DAY_NAMES,
 } from 'widget/helpers/availabilityHelpers';
+import { useAvailability } from 'widget/composables/useAvailability';
 
 const props = defineProps({
   time: {
@@ -37,10 +37,7 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-// Check if currently in working hours
-const inWorkingHours = computed(() =>
-  isInWorkingHours(props.time, props.utcOffset, props.workingHours)
-);
+const { isInWorkingHours } = useAvailability();
 
 // Check if all days are closed
 const allClosed = computed(() => {
@@ -112,16 +109,16 @@ const availabilityText = computed(() => {
   if (!props.workingHoursEnabled) {
     return props.isOnline
       ? replyTimeMessage.value
-      : t('TEAM_AVAILABILITY.OFFLINE');
+      : t('TEAM_AVAILABILITY.BACK_AS_SOON_AS_POSSIBLE');
   }
 
   // All days closed
   if (allClosed.value) {
-    return t('TEAM_AVAILABILITY.OFFLINE');
+    return t('REPLY_TIME.BACK_AS_SOON_AS_POSSIBLE');
   }
 
   // Currently online and in working hours
-  if (inWorkingHours.value && props.isOnline) {
+  if (isInWorkingHours.value && props.isOnline) {
     return replyTimeMessage.value;
   }
 

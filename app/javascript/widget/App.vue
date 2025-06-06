@@ -19,8 +19,8 @@ import {
 } from './constants/widgetBusEvents';
 import { useDarkMode } from 'widget/composables/useDarkMode';
 import { useReplaceRoute } from 'widget/composables/useReplaceRoute';
+import { useAvailability } from 'widget/composables/useAvailability';
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
-import { isInWorkingHours } from 'widget/helpers/availabilityHelpers';
 import { emitter } from 'shared/helpers/mitt';
 
 export default {
@@ -32,8 +32,9 @@ export default {
   setup() {
     const { prefersDarkMode } = useDarkMode();
     const { replaceRoute } = useReplaceRoute();
+    const { isInWorkingHours } = useAvailability();
 
-    return { prefersDarkMode, replaceRoute };
+    return { prefersDarkMode, replaceRoute, isInWorkingHours };
   },
   data() {
     return {
@@ -64,11 +65,6 @@ export default {
       return this.$root.$i18n.locale
         ? getLanguageDirection(this.$root.$i18n.locale)
         : false;
-    },
-    inWorkingHours() {
-      const { utcOffset, workingHours } = window.chatwootWebChannel;
-
-      return isInWorkingHours(new Date(), utcOffset, workingHours);
     },
   },
   watch: {
@@ -270,7 +266,7 @@ export default {
           this.initCampaigns({
             currentURL: referrerURL,
             websiteToken,
-            isInBusinessHours: this.inWorkingHours,
+            isInBusinessHours: this.isInWorkingHours,
           });
           window.referrerURL = referrerURL;
           this.setReferrerHost(referrerHost);

@@ -1,15 +1,11 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, toRef } from 'vue';
 import { useI18n } from 'vue-i18n';
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 import AvailabilityText from './AvailabilityText.vue';
-import { isOnline as checkIsOnline } from 'widget/helpers/availabilityHelpers';
+import { useAvailability } from 'widget/composables/useAvailability';
 
 const props = defineProps({
-  inboxConfig: {
-    type: Object,
-    required: true,
-  },
   agents: {
     type: Array,
     default: () => [],
@@ -26,27 +22,20 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const currentTime = computed(() => new Date());
-const workingHours = computed(() => props.inboxConfig.workingHours || []);
+const availableAgents = toRef(props, 'agents');
+
+const { currentTime, hasOnlineAgents, isOnline, inboxConfig } =
+  useAvailability(availableAgents);
+
+const workingHours = computed(() => inboxConfig.value.workingHours || []);
 const workingHoursEnabled = computed(
-  () => props.inboxConfig.workingHoursEnabled || false
+  () => inboxConfig.value.workingHoursEnabled || false
 );
 const utcOffset = computed(
-  () => props.inboxConfig.utcOffset || props.inboxConfig.timezone || 'UTC'
+  () => inboxConfig.value.utcOffset || inboxConfig.value.timezone || 'UTC'
 );
 const replyTime = computed(
-  () => props.inboxConfig.replyTime || 'in_a_few_minutes'
-);
-const hasOnlineAgents = computed(() => props.agents.length > 0);
-
-const isOnline = computed(() =>
-  checkIsOnline(
-    workingHoursEnabled.value,
-    currentTime.value,
-    utcOffset.value,
-    workingHours.value,
-    hasOnlineAgents.value
-  )
+  () => inboxConfig.value.replyTime || 'in_a_few_minutes'
 );
 
 const headerText = computed(() =>
