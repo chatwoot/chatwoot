@@ -1,0 +1,80 @@
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
+import AvailabilityText from './AvailabilityText.vue';
+import { isOnline as checkIsOnline } from 'widget/helpers/availabilityHelpers';
+
+const props = defineProps({
+  inboxConfig: {
+    type: Object,
+    required: true,
+  },
+  agents: {
+    type: Array,
+    default: () => [],
+  },
+  showHeader: {
+    type: Boolean,
+    default: true,
+  },
+  showAvatars: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const { t } = useI18n();
+
+const currentTime = computed(() => new Date());
+const workingHours = computed(() => props.inboxConfig.workingHours || []);
+const workingHoursEnabled = computed(
+  () => props.inboxConfig.workingHoursEnabled || false
+);
+const utcOffset = computed(
+  () => props.inboxConfig.utcOffset || props.inboxConfig.timezone || 'UTC'
+);
+const replyTime = computed(
+  () => props.inboxConfig.replyTime || 'in_a_few_minutes'
+);
+const hasOnlineAgents = computed(() => props.agents.length > 0);
+
+const isOnline = computed(() =>
+  checkIsOnline(
+    workingHoursEnabled.value,
+    currentTime.value,
+    utcOffset.value,
+    workingHours.value,
+    hasOnlineAgents.value
+  )
+);
+
+const headerText = computed(() =>
+  isOnline.value
+    ? t('TEAM_AVAILABILITY.ONLINE')
+    : t('TEAM_AVAILABILITY.OFFLINE')
+);
+</script>
+
+<template>
+  <div class="flex items-center justify-between gap-2">
+    <div class="flex flex-col gap-1">
+      <div v-if="showHeader" class="font-medium text-n-slate-12">
+        {{ headerText }}
+      </div>
+
+      <AvailabilityText
+        :time="currentTime"
+        :utc-offset="utcOffset"
+        :working-hours="workingHours"
+        :working-hours-enabled="workingHoursEnabled"
+        :has-online-agents="hasOnlineAgents"
+        :reply-time="replyTime"
+        :is-online="isOnline"
+        class="text-n-slate-11 availability-text"
+      />
+    </div>
+
+    <GroupedAvatars v-if="showAvatars && isOnline" :users="agents" />
+  </div>
+</template>
