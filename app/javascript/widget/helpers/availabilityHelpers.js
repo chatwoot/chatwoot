@@ -4,15 +4,6 @@ import { utcToZonedTime } from 'date-fns-tz';
 const DAYS_IN_WEEK = 7;
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 24 * 60;
-export const DAY_NAMES = [
-  'Sunday',
-  'Monday',
-  'Tuesday',
-  'Wednesday',
-  'Thursday',
-  'Friday',
-  'Saturday',
-];
 
 /**
  * Get date in timezone

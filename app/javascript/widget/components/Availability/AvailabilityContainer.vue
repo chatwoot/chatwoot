@@ -24,8 +24,13 @@ const { t } = useI18n();
 
 const availableAgents = toRef(props, 'agents');
 
-const { currentTime, hasOnlineAgents, isOnline, inboxConfig } =
-  useAvailability(availableAgents);
+const {
+  currentTime,
+  hasOnlineAgents,
+  isOnline,
+  inboxConfig,
+  isInWorkingHours,
+} = useAvailability(availableAgents);
 
 const workingHours = computed(() => inboxConfig.value.workingHours || []);
 const workingHoursEnabled = computed(
@@ -60,6 +65,7 @@ const headerText = computed(() =>
         :has-online-agents="hasOnlineAgents"
         :reply-time="replyTime"
         :is-online="isOnline"
+        :is-in-working-hours="isInWorkingHours"
         class="text-n-slate-11 availability-text"
       />
     </div>
