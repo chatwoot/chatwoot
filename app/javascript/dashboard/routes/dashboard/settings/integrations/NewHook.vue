@@ -189,10 +189,4 @@ export default {
 .formkit-actions {
   @apply hidden;
 }
-
-@media (prefers-color-scheme: dark) {
-  .pre-chat-header-message .link {
-    @apply text-woot-500 underline;
-  }
-}
 </style>

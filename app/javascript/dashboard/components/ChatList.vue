@@ -61,6 +61,7 @@ import {
   getUserPermissions,
   filterItemsByPermission,
 } from 'dashboard/helper/permissionsHelper.js';
+import { matchesFilters } from '../store/modules/conversations/helpers/filterHelpers';
 import { CONVERSATION_EVENTS } from '../helper/AnalyticsHelper/events';
 import { ASSIGNEE_TYPE_TAB_PERMISSIONS } from 'dashboard/constants/permissions.js';
 
@@ -105,7 +106,7 @@ const advancedFilterTypes = ref(
 );
 
 const currentUser = useMapGetter('getCurrentUser');
-const chatLists = useMapGetter('getAllConversations');
+const chatLists = useMapGetter('getFilteredConversations');
 const mineChatsList = useMapGetter('getMineChats');
 const allChatList = useMapGetter('getAllStatusChats');
 const unAssignedChatsList = useMapGetter('getUnAssignedChats');
@@ -324,6 +325,14 @@ const conversationList = computed(() => {
   } else {
     localConversationList = [...chatLists.value];
   }
+
+  if (activeFolder.value) {
+    const { payload } = activeFolder.value.query;
+    localConversationList = localConversationList.filter(conversation => {
+      return matchesFilters(conversation, payload);
+    });
+  }
+
   return localConversationList;
 });
 
@@ -460,6 +469,12 @@ function setParamsForEditFolderModal() {
     campaigns: campaigns.value,
     languages: languages,
     countries: countries,
+    priority: [
+      { id: 'low', name: t('CONVERSATION.PRIORITY.OPTIONS.LOW') },
+      { id: 'medium', name: t('CONVERSATION.PRIORITY.OPTIONS.MEDIUM') },
+      { id: 'high', name: t('CONVERSATION.PRIORITY.OPTIONS.HIGH') },
+      { id: 'urgent', name: t('CONVERSATION.PRIORITY.OPTIONS.URGENT') },
+    ],
     filterTypes: advancedFilterTypes.value,
     allCustomAttributes: conversationCustomAttributes.value,
   };

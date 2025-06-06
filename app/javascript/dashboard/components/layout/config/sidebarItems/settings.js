@@ -128,7 +128,6 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
       featureFlag: FEATURE_FLAGS.AGENT_BOTS,

@@ -95,13 +95,19 @@ class User < ApplicationRecord
   has_many :notifications, dependent: :destroy_async
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
-  has_many :articles, foreign_key: 'author_id', dependent: :nullify
-  has_many :portal_members, class_name: :PortalMember, dependent: :destroy_async
-  has_many :portals, through: :portal_members, source: :portal,
-                     class_name: :Portal,
-                     dependent: :nullify
-  has_many :macros, foreign_key: 'created_by_id'
+
+  # REVIEW:UP these two fields were removed in cv4.1.0, are we using it?
+  # has_many :portal_members, class_name: :PortalMember, dependent: :destroy_async
+  # has_many :portals, through: :portal_members, source: :portal,
+  #                   class_name: :Portal,
+  #                   dependent: :nullify
+
   has_many :contact_bookings, dependent: :destroy_async
+  has_many :articles, foreign_key: 'author_id', dependent: :nullify, inverse_of: :author
+  # rubocop:disable Rails/HasManyOrHasOneDependent
+  # we are handling this in `remove_macros` callback
+  has_many :macros, foreign_key: 'created_by_id', inverse_of: :created_by
+  # rubocop:enable Rails/HasManyOrHasOneDependent
 
   before_validation :set_password_and_uid, on: :create
   after_destroy :remove_macros

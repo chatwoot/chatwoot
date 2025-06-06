@@ -8,6 +8,7 @@
 #  phone_number                   :string           not null
 #  provider                       :string           default("default")
 #  provider_config                :jsonb
+#  web_widget_options             :jsonb
 #  web_widget_script              :text
 #  created_at                     :datetime         not null
 #  updated_at                     :datetime         not null
@@ -49,10 +50,6 @@ class Channel::Whatsapp < ApplicationRecord
     else
       Whatsapp::Providers::Whatsapp360DialogService.new(whatsapp_channel: self)
     end
-  end
-
-  def messaging_window_enabled?
-    true
   end
 
   def mark_message_templates_updated

@@ -94,3 +94,5 @@ yarn-debug.log*
 
 /sorbet/
 /bin/tapioca
+# Claude.ai config file
+CLAUDE.md

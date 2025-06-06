@@ -8,7 +8,7 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def limits?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.agent?
   end
 
   def update?
@@ -44,6 +44,9 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def usage_limits?
+    @account_user.administrator?
+  end
+  def toggle_deletion?
     @account_user.administrator?
   end
 end

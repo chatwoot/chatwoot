@@ -97,10 +97,10 @@ export default {
       if (!password.$error) {
         return '';
       }
-      if (!password.minLength) {
+      if (password.minLength.$invalid) {
         return this.$t('REGISTER.PASSWORD.ERROR');
       }
-      if (!password.isValidPassword) {
+      if (password.isValidPassword.$invalid) {
         return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
       }
       return '';
@@ -109,7 +109,11 @@ export default {
       return Boolean(window.chatwootConfig.googleOAuthClientId);
     },
     showOIDC() {
+      // REVIEW: seems unused
       return Boolean(window.chatwootConfig.keycloakClientId);
+    },
+    isFormValid() {
+      return !this.v$.$invalid && this.hasAValidCaptcha;
     },
   },
   methods: {
@@ -135,6 +139,7 @@ export default {
     onRecaptchaVerified(token) {
       this.credentials.hCaptchaClientResponse = token;
       this.didCaptchaReset = false;
+      this.v$.$touch();
     },
     resetCaptcha() {
       if (!this.globalConfig.hCaptchaSiteKey) {
@@ -213,7 +218,7 @@ export default {
       </div>
       <SubmitButton
         :button-text="$t('REGISTER.SUBMIT')"
-        :disabled="isSignupInProgress || !hasAValidCaptcha"
+        :disabled="isSignupInProgress || !isFormValid"
         :loading="isSignupInProgress"
         icon-class="arrow-chevron-right"
       />

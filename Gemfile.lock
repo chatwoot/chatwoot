@@ -125,15 +125,15 @@ GEM
       activerecord (>= 5.2, < 8.2)
       activesupport (>= 5.2, < 8.2)
     aws-eventstream (1.4.0)
-    aws-partitions (1.1111.0)
-    aws-sdk-core (3.225.0)
+    aws-partitions (1.1112.0)
+    aws-sdk-core (3.225.1)
       aws-eventstream (~> 1, >= 1.3.0)
       aws-partitions (~> 1, >= 1.992.0)
       aws-sigv4 (~> 1.9)
       base64
       jmespath (~> 1, >= 1.6.1)
       logger
-    aws-sdk-kms (1.102.0)
+    aws-sdk-kms (1.103.0)
       aws-sdk-core (~> 3, >= 3.225.0)
       aws-sigv4 (~> 1.5)
     aws-sdk-s3 (1.189.0)
@@ -813,7 +813,7 @@ GEM
       faraday (>= 1)
       faraday-multipart (>= 1)
     ruby-progressbar (1.13.0)
-    ruby-vips (2.2.3)
+    ruby-vips (2.2.4)
       ffi (~> 1.12)
       logger
     ruby2_keywords (0.0.5)
@@ -901,7 +901,7 @@ GEM
     snaky_hash (2.0.3)
       hashie (>= 0.1.0, < 6)
       version_gem (>= 1.1.8, < 3)
-    sorbet-runtime (0.5.12155)
+    sorbet-runtime (0.5.12157)
     spreadsheet (1.3.4)
       bigdecimal
       logger

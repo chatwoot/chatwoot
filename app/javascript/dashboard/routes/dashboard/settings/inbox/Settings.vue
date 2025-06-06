@@ -7,6 +7,8 @@ import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
+import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
+import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
@@ -20,6 +22,7 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import { getWebWidgetScript } from '../../../../helper/inbox';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   components: {
@@ -37,6 +40,8 @@ export default {
     MicrosoftReauthorize,
     GoogleReauthorize,
     NextButton,
+    InstagramReauthorize,
+    DuplicateInboxBanner,
   },
   mixins: [inboxMixin],
   setup() {
@@ -137,11 +142,7 @@ export default {
       }
 
       if (
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.AGENT_BOTS
-        ) &&
-        !(this.isAnEmailChannel || this.isATwitterInbox)
+        this.isFeatureEnabledonAccount(this.accountId, FEATURE_FLAGS.AGENT_BOTS)
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
@@ -202,6 +203,19 @@ export default {
       )
         return true;
       return false;
+    },
+    instagramUnauthorized() {
+      return this.isAInstagramChannel && this.inbox.reauthorization_required;
+    },
+    // Check if a instagram inbox exists with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.inbox.instagram_id;
+      const instagramInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
+          instagramId
+        );
+
+      return this.inbox.channel_type === INBOX_TYPES.FB && instagramInbox;
     },
     microsoftUnauthorized() {
       return this.isAMicrosoftInbox && this.inbox.reauthorization_required;
@@ -396,11 +410,18 @@ export default {
         />
       </woot-tabs>
     </SettingIntroBanner>
+    <section class="w-full max-w-6xl mx-auto">
     <!-- REVIEW:CV4.0.4 here was a massive incoming change, review our changes if any in settings are working -->
-    <section class="max-w-6xl mx-auto w-full">
+    <!-- <section class="max-w-6xl mx-auto w-full"> -->
       <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
+      <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
+      <DuplicateInboxBanner
+        v-if="hasDuplicateInstagramInbox"
+        :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"
+        class="mx-8 mt-5"
+      />
       <div v-if="selectedTabKey === 'inbox_settings'" class="mx-8">
         <SettingsSection
           :title="$t('INBOX_MGMT.SETTINGS_POPUP.INBOX_UPDATE_TITLE')"

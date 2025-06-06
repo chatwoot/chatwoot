@@ -1,11 +1,10 @@
 <script>
 import V4Button from 'dashboard/components-next/button/Button.vue';
 import { useAlert, useTrack } from 'dashboard/composables';
-import fromUnixTime from 'date-fns/fromUnixTime';
-import format from 'date-fns/format';
 import ReportFilterSelector from './components/FilterSelector.vue';
 import { GROUP_BY_FILTER } from './constants';
 import { REPORTS_EVENTS } from '../../../../helper/AnalyticsHelper/events';
+import { generateFileName } from 'dashboard/helper/downloadHelper';
 import ReportContainer from './ReportContainer.vue';
 import ReportHeader from './components/ReportHeader.vue';
 
@@ -79,11 +78,17 @@ export default {
     },
     downloadAgentReports() {
       const { from, to } = this;
-      const fileName = `agent-report-${format(
-        fromUnixTime(to),
-        'dd-MM-yyyy'
-      )}.csv`;
-      this.$store.dispatch('downloadAgentReports', { from, to, fileName });
+      const fileName = generateFileName({
+        type: 'agent',
+        to,
+        businessHours: this.businessHours,
+      });
+      this.$store.dispatch('downloadAgentReports', {
+        from,
+        to,
+        fileName,
+        businessHours: this.businessHours,
+      });
     },
     onFilterChange({ from, to, groupBy, businessHours }) {
       this.from = from;

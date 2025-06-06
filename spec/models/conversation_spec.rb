@@ -585,116 +585,6 @@ RSpec.describe Conversation do
     end
   end
 
-  describe '#can_reply?' do
-    describe 'on channels without 24 hour restriction' do
-      let(:conversation) { create(:conversation) }
-
-      it 'returns true' do
-        expect(conversation.can_reply?).to be true
-      end
-
-      it 'return true for facebook channels' do
-        stub_request(:post, /graph.facebook.com/)
-        facebook_channel = create(:channel_facebook_page)
-        facebook_inbox = create(:inbox, channel: facebook_channel, account: facebook_channel.account)
-        fb_conversation = create(:conversation, inbox: facebook_inbox, account: facebook_channel.account)
-
-        expect(fb_conversation.can_reply?).to be true
-        expect(facebook_channel.messaging_window_enabled?).to be false
-      end
-    end
-
-    describe 'on channels with 24 hour restriction' do
-      before do
-        stub_request(:post, /graph.facebook.com/)
-      end
-
-      let!(:facebook_channel) { create(:channel_facebook_page) }
-      let!(:facebook_inbox) { create(:inbox, channel: facebook_channel, account: facebook_channel.account) }
-      let!(:conversation) { create(:conversation, inbox: facebook_inbox, account: facebook_channel.account) }
-
-      context 'when instagram channel' do
-        it 'return true with HUMAN_AGENT if it is outside of 24 hour window' do
-          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: true)
-
-          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
-          create(
-            :message,
-            account: conversation.account,
-            inbox: facebook_inbox,
-            conversation: conversation,
-            created_at: 48.hours.ago
-          )
-
-          expect(conversation.can_reply?).to be true
-        end
-
-        it 'return false without HUMAN_AGENT if it is outside of 24 hour window' do
-          InstallationConfig.where(name: 'ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT').first_or_create(value: false)
-
-          conversation.update(additional_attributes: { type: 'instagram_direct_message' })
-          create(
-            :message,
-            account: conversation.account,
-            inbox: facebook_inbox,
-            conversation: conversation,
-            created_at: 48.hours.ago
-          )
-
-          expect(conversation.can_reply?).to be false
-        end
-      end
-    end
-
-    describe 'on API channels' do
-      let!(:api_channel) { create(:channel_api, additional_attributes: {}) }
-      let!(:api_channel_with_limit) { create(:channel_api, additional_attributes: { agent_reply_time_window: '12' }) }
-
-      context 'when agent_reply_time_window is not configured' do
-        it 'return true irrespective of the last message time' do
-          conversation = create(:conversation, inbox: api_channel.inbox)
-          create(
-            :message,
-            account: conversation.account,
-            inbox: api_channel.inbox,
-            conversation: conversation,
-            created_at: 13.hours.ago
-          )
-
-          expect(api_channel.additional_attributes['agent_reply_time_window']).to be_nil
-          expect(conversation.can_reply?).to be true
-        end
-      end
-
-      context 'when agent_reply_time_window is configured' do
-        it 'return false if it is outside of agent_reply_time_window' do
-          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
-          create(
-            :message,
-            account: conversation.account,
-            inbox: api_channel_with_limit.inbox,
-            conversation: conversation,
-            created_at: 13.hours.ago
-          )
-
-          expect(api_channel_with_limit.additional_attributes['agent_reply_time_window']).to eq '12'
-          expect(conversation.can_reply?).to be false
-        end
-
-        it 'return true if it is inside of agent_reply_time_window' do
-          conversation = create(:conversation, inbox: api_channel_with_limit.inbox)
-          create(
-            :message,
-            account: conversation.account,
-            inbox: api_channel_with_limit.inbox,
-            conversation: conversation
-          )
-          expect(conversation.can_reply?).to be true
-        end
-      end
-    end
-  end
-
   describe '#delete conversation' do
     include ActiveJob::TestHelper
 
@@ -916,6 +806,27 @@ RSpec.describe Conversation do
         conversation.reload
         expect(conversation.last_activity_at).to be_within(1.second).of(latest_message.created_at)
       end
+    end
+  end
+
+  describe '#can_reply?' do
+    let(:conversation) { create(:conversation) }
+    let(:message_window_service) { instance_double(Conversations::MessageWindowService) }
+
+    before do
+      allow(Conversations::MessageWindowService).to receive(:new).with(conversation).and_return(message_window_service)
+    end
+
+    it 'delegates to MessageWindowService' do
+      allow(message_window_service).to receive(:can_reply?).and_return(true)
+      expect(conversation.can_reply?).to be true
+      expect(message_window_service).to have_received(:can_reply?)
+    end
+
+    it 'returns false when MessageWindowService returns false' do
+      allow(message_window_service).to receive(:can_reply?).and_return(false)
+      expect(conversation.can_reply?).to be false
+      expect(message_window_service).to have_received(:can_reply?)
     end
   end
 end

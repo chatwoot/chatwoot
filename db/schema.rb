@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_06_050945) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -397,6 +397,16 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.index ["page_id"], name: "index_channel_facebook_pages_on_page_id"
   end
 
+  create_table "channel_instagram", force: :cascade do |t|
+    t.string "access_token", null: false
+    t.datetime "expires_at", null: false
+    t.integer "account_id", null: false
+    t.string "instagram_id", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["instagram_id"], name: "index_channel_instagram_on_instagram_id", unique: true
+  end
+
   create_table "channel_line", force: :cascade do |t|
     t.integer "account_id", null: false
     t.string "line_channel_id", null: false
@@ -482,6 +492,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.datetime "updated_at", null: false
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated"
+    t.jsonb "web_widget_options"
     t.text "web_widget_script"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
@@ -977,15 +988,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.string "name", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-  end
-
-  create_table "portal_members", force: :cascade do |t|
-    t.bigint "portal_id"
-    t.bigint "user_id"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.index ["portal_id", "user_id"], name: "index_portal_members_on_portal_id_and_user_id", unique: true
-    t.index ["user_id", "portal_id"], name: "index_portal_members_on_user_id_and_portal_id", unique: true
   end
 
   create_table "portals", force: :cascade do |t|

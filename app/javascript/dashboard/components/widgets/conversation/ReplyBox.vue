@@ -273,7 +273,8 @@ export default {
         this.isAnEmailChannel ||
         this.isASmsInbox ||
         this.isATelegramChannel ||
-        this.isALineChannel
+        this.isALineChannel ||
+        this.isAInstagramChannel
       );
     },
     replyButtonLabel() {
@@ -440,6 +441,7 @@ export default {
       if (conversationId !== oldConversationId) {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
+        this.resetRecorderAndClearAttachments();
       }
     },
     message(updatedMessage) {
@@ -548,6 +550,12 @@ export default {
           this.messageSignature
         );
       }
+    },
+    resetRecorderAndClearAttachments() {
+      // Reset audio recorder UI state
+      this.resetAudioRecorderInput();
+      // Reset attached files
+      this.attachedFiles = [];
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -698,7 +706,11 @@ export default {
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
-        if (isOnWhatsApp && !this.isPrivate) {
+        // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
+        // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
+        // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
+        const isOnInstagram = this.isAInstagramChannel;
+        if ((isOnWhatsApp || isOnInstagram) && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(this.message);
         } else {
           const messagePayload = this.getMessagePayload(this.message);
@@ -715,7 +727,7 @@ export default {
       }
     },
     sendMessageAsMultipleMessages(message) {
-      const messages = this.getMessagePayloadForWhatsapp(message);
+      const messages = this.getMultipleMessagesPayload(message);
       messages.forEach(messagePayload => {
         this.sendMessage(messagePayload);
       });
@@ -947,11 +959,11 @@ export default {
 
       return payload;
     },
-    getMessagePayloadForWhatsapp(message) {
+    getMultipleMessagesPayload(message) {
       const multipleMessagePayload = [];
 
       if (this.attachedFiles && this.attachedFiles.length) {
-        let caption = message;
+        let caption = this.isAInstagramChannel ? '' : message;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -966,9 +978,19 @@ export default {
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
-          caption = '';
+          // For WhatsApp, only the first attachment gets a caption
+          if (!this.isAInstagramChannel) caption = '';
         });
-      } else {
+      }
+
+      const hasNoAttachments =
+        !this.attachedFiles || !this.attachedFiles.length;
+      // For Instagram, we need a separate text message
+      // For WhatsApp, we only need a text message if there are no attachments
+      if (
+        (this.isAInstagramChannel && this.message) ||
+        (!this.isAInstagramChannel && hasNoAttachments)
+      ) {
         let messagePayload = {
           conversationId: this.currentChat.id,
           message,
@@ -1103,9 +1125,9 @@ export default {
 <template>
   <Banner
     v-if="showSelfAssignBanner"
-    action-button-variant="clear"
+    action-button-variant="ghost"
     color-scheme="secondary"
-    class="banner--self-assign mx-2 mb-2 rounded-lg"
+    class="mx-2 mb-2 rounded-lg banner--self-assign"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
     has-action-button
     :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
@@ -1164,7 +1186,7 @@ export default {
         v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
-        class="input"
+        class="rounded-none input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
@@ -1224,6 +1246,7 @@ export default {
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
+      :conversation-type="conversationType"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"

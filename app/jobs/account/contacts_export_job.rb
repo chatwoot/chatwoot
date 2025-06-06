@@ -112,13 +112,12 @@ class Account::ContactsExportJob < ApplicationJob
 
   def send_mail
     file_url = account_contact_export_url
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: @account)
+    mailer = AdministratorNotifications::AccountNotificationMailer.with(account: @account)
     if @params.present? && @params[:payload].present? && @params[:payload].first[:campaign_id].present?
       mailer.contact_report_export(file_url, @account_user.email)&.deliver_later
     else  
       mailer.contact_export_complete(file_url, @account_user.email)&.deliver_later
     end
-    
   end
 
   def account_contact_export_url

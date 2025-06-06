@@ -25,11 +25,6 @@ export const generateLabelForContactableInboxesList = ({
     channelType === INBOX_TYPES.TWILIO ||
     channelType === INBOX_TYPES.WHATSAPP
   ) {
-    // Handled separately for Twilio Inbox where phone number is  not mandatory.
-    // You can send message to a contact with Messaging Service Id.
-    if (!phoneNumber) {
-      return name;
-    }
     return `${name} (${phoneNumber})`;
   }
   return name;

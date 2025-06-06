@@ -5,9 +5,8 @@ describe Sms::SendOnSmsService do
     context 'when a valid message' do
       let(:sms_request) { double }
       let!(:sms_channel) { create(:channel_sms) }
-      let!(:contact) { create(:contact, phone_number: '+123456789') }
-      let!(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: sms_channel.inbox, source_id: '+123456789') }
-      let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: sms_channel.inbox, contact: contact) }
+      let!(:contact_inbox) { create(:contact_inbox, inbox: sms_channel.inbox, source_id: '+123456789') }
+      let!(:conversation) { create(:conversation, contact_inbox: contact_inbox, inbox: sms_channel.inbox) }
 
       it 'calls channel.send_message' do
         message = create(:message, message_type: :outgoing, content: 'test',

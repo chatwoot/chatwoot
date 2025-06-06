@@ -9,8 +9,6 @@ class Api::V1::Accounts::Contacts::ContactInboxesController < Api::V1::Accounts:
       source_id: params[:source_id],
       hmac_verified: hmac_verified?
     ).perform
-  rescue ArgumentError => e
-    render json: { error: e.message }, status: :unprocessable_entity
   end
 
   private
