@@ -4,7 +4,11 @@ default: &default
   host: <%= ENV.fetch('POSTGRES_HOST', 'localhost') %>
   port: <%= ENV.fetch('POSTGRES_PORT', '5432') %>
    # ref: https://github.com/mperham/sidekiq/issues/2985#issuecomment-531097962
-  pool: <%= ENV.fetch('DB_POOL', 20) %>
+  # pool: <%= ENV.fetch('DB_POOL', 20) %> REVIEW:CV4.0.4 used to be this pool pre cv4.0.4
+  pool: <%= Sidekiq.server? ? ENV.fetch('SIDEKIQ_CONCURRENCY', 10) : ENV.fetch('RAILS_MAX_THREADS', 5) %>
+  # frequency in seconds to periodically run the Reaper, which attempts
+  # to find and recover connections from dead threads
+  reaping_frequency: <%= ENV.fetch('DB_POOL_REAPING_FREQUENCY', 30) %>
   variables:
     # we are setting this value to be close to the racktimeout value. we will iterate and reduce this value going forward
     statement_timeout: <%= ENV["POSTGRES_STATEMENT_TIMEOUT"] || "14s" %>

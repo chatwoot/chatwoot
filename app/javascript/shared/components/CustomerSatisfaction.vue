@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import Spinner from 'shared/components/Spinner.vue';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
@@ -20,10 +19,6 @@ export default {
       type: Number,
       required: true,
     },
-  },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
   },
   data() {
     return {
@@ -45,10 +40,6 @@ export default {
     },
     isButtonDisabled() {
       return !(this.selectedRating && this.feedback);
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
     },
     textColor() {
       return getContrastingTextColor(this.widgetColor);
@@ -107,17 +98,13 @@ export default {
 
 <template>
   <div
-    class="customer-satisfaction"
-    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
+    class="customer-satisfaction w-full bg-n-background dark:bg-n-solid-3 shadow-[0_0.25rem_6px_rgba(50,50,93,0.08),0_1px_3px_rgba(0,0,0,0.05)] ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] rounded-lg inline-block leading-[1.5] mt-1 border-t-2 border-t-n-brand border-solid"
     :style="{ borderColor: widgetColor }"
   >
-    <h6
-      class="title"
-      :class="getThemeClass('text-slate-900', 'dark:text-slate-50')"
-    >
+    <h6 class="text-n-slate-12 text-sm font-medium pt-5 px-2.5 text-center">
       {{ title }}
     </h6>
-    <div class="ratings">
+    <div class="ratings flex justify-around py-5 px-4">
       <button
         v-for="rating in ratings"
         :key="rating.key"
@@ -129,13 +116,11 @@ export default {
     </div>
     <form
       v-if="!isFeedbackSubmitted"
-      class="feedback-form"
+      class="feedback-form flex"
       @submit.prevent="onSubmit()"
     >
       <input
         v-model="feedback"
-        class="form-input"
-        :class="inputColor"
         :placeholder="$t('CSAT.PLACEHOLDER')"
         @keydown.enter="onSubmit"
       />
@@ -156,80 +141,35 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
-@import 'widget/assets/scss/mixins.scss';
-
 .customer-satisfaction {
-  @include light-shadow;
-
-  border-bottom-left-radius: $space-smaller;
-  border-radius: $space-small;
-  border-top: $space-micro solid $color-woot;
-  color: $color-body;
-  display: inline-block;
-  line-height: 1.5;
-  margin-top: $space-smaller;
-  width: 80%;
-
-  .title {
-    font-size: $font-size-default;
-    font-weight: $font-weight-medium;
-    padding: $space-two $space-one 0;
-    text-align: center;
-  }
-
   .ratings {
-    display: flex;
-    justify-content: space-around;
-    padding: $space-two $space-normal;
-
     .emoji-button {
-      box-shadow: none;
-      filter: grayscale(100%);
-      font-size: $font-size-big;
-      outline: none;
+      @apply shadow-none grayscale text-2xl outline-none transition-all duration-200;
 
       &.selected,
       &:hover,
       &:focus,
       &:active {
-        filter: grayscale(0%);
-        transform: scale(1.32);
+        @apply grayscale-0 scale-[1.32];
       }
 
       &.disabled {
-        cursor: default;
-        opacity: 0.5;
-        pointer-events: none;
+        @apply cursor-not-allowed opacity-50 pointer-events-none;
       }
     }
   }
 
   .feedback-form {
-    display: flex;
-
     input {
-      border-bottom-right-radius: 0;
-      border-top-right-radius: 0;
-      border-bottom-left-radius: $space-small;
-      border: 0;
-      border-top: 1px solid $color-border;
-      padding: $space-one;
-      width: 100%;
+      @apply h-10 dark:bg-n-alpha-black1 rtl:rounded-tl-[0] rtl:rounded-tr-[0] ltr:rounded-tr-[0] ltr:rounded-tl-[0] rtl:rounded-bl-[0] ltr:rounded-br-[0] ltr:rounded-bl-[0.25rem] rtl:rounded-br-[0.25rem] rounded-lg p-2.5 w-full focus:ring-0 focus:outline-n-brand;
 
       &::placeholder {
-        color: $color-light-gray;
+        @apply text-n-slate-10;
       }
     }
 
     .button {
-      appearance: none;
-      border-bottom-left-radius: 0;
-      border-top-left-radius: 0;
-      border-bottom-right-radius: $space-small;
-      font-size: $font-size-large;
-      height: auto;
-      margin-left: -1px;
+      @apply rtl:rounded-tr-[0] rtl:rounded-tl-[0] appearance-none ltr:rounded-tl-[0] ltr:rounded-tr-[0] rtl:rounded-br-[0] ltr:rounded-bl-[0] rounded-lg h-auto ltr:-ml-px rtl:-mr-px text-xl;
 
       .spinner {
         display: block;
@@ -238,12 +178,6 @@ export default {
         width: auto;
       }
     }
-  }
-}
-
-@media (prefers-color-scheme: dark) {
-  .customer-satisfaction .feedback-form input {
-    border-top: 1px solid var(--b-500);
   }
 }
 </style>

@@ -28,7 +28,7 @@ const shouldRenderComponent = computed(() => {
     as="li"
     class="py-0.5 ltr:pl-3 rtl:pr-3 rtl:mr-3 ltr:ml-3 relative text-n-slate-11 child-item before:bg-n-slate-4 after:bg-transparent after:border-n-slate-4 before:left-0 rtl:before:right-0"
   >
-    <!-- REVIEW:UP This was the style pre v4.0.3 -->
+    <!-- REVIEW:CV4.0.3 This was the style pre v4.0.3 -->
     <!-- class="flex h-8 items-center gap-2 px-2 py-1 rounded-lg max-w-[151px] group" -->
     <component
       :is="to ? 'router-link' : 'div'"

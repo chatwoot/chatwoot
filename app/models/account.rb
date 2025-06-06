@@ -8,6 +8,7 @@
 #  custom_attributes     :jsonb
 #  domain                :string(100)
 #  feature_flags         :bigint           default(0), not null
+#  internal_attributes   :jsonb            not null
 #  limits                :jsonb
 #  locale                :integer          default("en")
 #  ltd_attributes        :jsonb
@@ -132,6 +133,14 @@ class Account < ApplicationRecord
       inboxes: get_inbox_limit.to_i
     }
     update_columns(limits: limit)
+  end
+
+  def locale_english_name
+    # the locale can also be something like pt_BR, en_US, fr_FR, etc.
+    # the format is `<locale_code>_<country_code>`
+    # we need to extract the language code from the locale
+    account_locale = locale&.split('_')&.first
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
   end
 
   private

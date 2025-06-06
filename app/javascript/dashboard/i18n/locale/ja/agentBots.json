@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "ボット",
     "LOADING_EDITOR": "エディターを読み込んでいます...",
-    "HEADER_BTN_TXT": "ボット設定を追加",
-    "SIDEBAR_TXT": "<p><b>エージェントボット</b> <p>エージェントボットは、あなたのチームの中で最も優れたメンバーのような存在です。些細なことを処理してくれるので、大事なことに集中できます。ぜひ試してみてください。</p> <p>このページでボットを管理するか、「ボット設定を追加」ボタンを使って新しいボットを作成できます。</p> <p> <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">エージェントボットハンドブック</a> を別のタブで開いてサポートを得ることもできます。</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "ボット名",

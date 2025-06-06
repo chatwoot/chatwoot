@@ -10,6 +10,7 @@ import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
+import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 import { useRouter } from 'vue-router';
 
@@ -83,6 +84,16 @@ onMounted(() => store.dispatch('captainAssistants/get'));
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @click="handleCreate"
   >
+    <template #knowMore>
+      <FeatureSpotlightPopover
+        :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
+        :title="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+        :note="$t('CAPTAIN.ASSISTANTS.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        fallback-thumbnail="/assets/images/dashboard/captain/assistant-popover-light.svg"
+        fallback-thumbnail-dark="/assets/images/dashboard/captain/assistant-popover-dark.svg"
+        learn-more-url="https://chwt.app/captain-assistant"
+      />
+    </template>
     <template #emptyState>
       <AssistantPageEmptyState @click="handleCreate" />
     </template>

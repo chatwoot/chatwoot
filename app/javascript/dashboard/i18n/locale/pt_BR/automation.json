@@ -94,7 +94,7 @@
     "ACTION": {
       "DELETE_MESSAGE": "Você precisa ter pelo menos uma ação para salvar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Escreva sua mensagem aqui",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione o time",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Selecione equipes",
       "EMAIL_INPUT_PLACEHOLDER": "Insira o e-mail",
       "URL_INPUT_PLACEHOLDER": "Insira a URL"
     },
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Os parâmetros de ação são necessários",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é necessária",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é necessária"
-    }
+    },
+    "NONE_OPTION": "Nenhuma"
   }
 }

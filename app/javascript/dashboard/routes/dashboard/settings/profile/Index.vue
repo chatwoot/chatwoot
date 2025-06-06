@@ -39,13 +39,14 @@ export default {
   },
   mixins: [globalConfigMixin],
   setup() {
-    const { isEditorHotKeyEnabled } = useUISettings();
+    const { isEditorHotKeyEnabled, updateUISettings } = useUISettings();
     const { currentFontSize, updateFontSize } = useFontSize();
 
     return {
       currentFontSize,
       updateFontSize,
       isEditorHotKeyEnabled,
+      updateUISettings,
     };
   },
   data() {

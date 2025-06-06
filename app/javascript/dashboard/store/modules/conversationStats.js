@@ -18,7 +18,7 @@ export const actions = {
     const lastUpdatedTime = new Date($state.updatedOn);
 
     // Skip large accounts from making too many requests
-    if (currentTime - lastUpdatedTime < 10000 && $state.allCount > 1000) {
+    if (currentTime - lastUpdatedTime < 10000 && $state.allCount > 100) {
       // eslint-disable-next-line no-console
       console.warn('Skipping conversation meta fetch');
       return;

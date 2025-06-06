@@ -43,6 +43,11 @@ class IntegrationsAPI extends ApiClient {
       `${this.baseUrl()}/integrations/${integrationId}?cal_user_slug=${slug}`
     );
   }
+  connectShopify({ shopDomain }) {
+    return axios.post(`${this.baseUrl()}/integrations/shopify/auth`, {
+      shop_domain: shopDomain,
+    });
+  }
 }
 
 export default new IntegrationsAPI();

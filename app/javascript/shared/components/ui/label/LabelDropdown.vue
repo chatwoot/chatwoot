@@ -135,7 +135,7 @@ export default {
     <div
       class="flex items-start justify-start flex-auto flex-grow flex-shrink overflow-auto"
     >
-      <div class="w-full">
+      <div class="w-full my-1">
         <woot-dropdown-menu>
           <LabelDropdownItem
             v-for="label in filteredActiveLabels"

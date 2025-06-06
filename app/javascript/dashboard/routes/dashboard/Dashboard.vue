@@ -3,7 +3,6 @@ import { mapGetters } from 'vuex';
 import { defineAsyncComponent } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
-import Sidebar from '../../components/layout/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
@@ -19,6 +18,10 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
+);
+
+const Sidebar = defineAsyncComponent(
+  () => import('../../components/layout/Sidebar.vue')
 );
 import { emitter } from 'shared/helpers/mitt';
 

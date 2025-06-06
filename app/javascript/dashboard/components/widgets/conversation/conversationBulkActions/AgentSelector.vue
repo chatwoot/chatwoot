@@ -2,11 +2,13 @@
 import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
+    NextButton,
   },
   props: {
     selectedInboxes: {
@@ -94,13 +96,7 @@ export default {
     </div>
     <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="container">
       <div
@@ -121,7 +117,7 @@ export default {
                 v-model="query"
                 type="search"
                 :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-                class="agent--search_input"
+                class="reset-base !outline-0 !text-sm agent--search_input"
               />
             </div>
           </li>
@@ -161,21 +157,21 @@ export default {
             }}
           </p>
           <div class="agent-confirmation-actions">
-            <woot-button
-              color-scheme="primary"
-              variant="smooth"
+            <NextButton
+              faded
+              sm
+              slate
+              type="reset"
+              :label="$t('BULK_ACTION.GO_BACK_LABEL')"
               @click="goBack"
-            >
-              {{ $t('BULK_ACTION.GO_BACK_LABEL') }}
-            </woot-button>
-            <woot-button
-              color-scheme="primary"
-              variant="flat"
+            />
+            <NextButton
+              sm
+              type="submit"
+              :label="$t('BULK_ACTION.YES')"
               :is-loading="uiFlags.isUpdating"
               @click="submit"
-            >
-              {{ $t('BULK_ACTION.YES') }}
-            </woot-button>
+            />
           </div>
         </div>
       </div>

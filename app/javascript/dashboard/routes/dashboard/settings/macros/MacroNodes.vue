@@ -1,12 +1,14 @@
 <script>
 import Draggable from 'vuedraggable';
 import MacroNode from './MacroNode.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { getFileName } from './macroHelper';
 
 export default {
   components: {
     Draggable,
     MacroNode,
+    NextButton,
   },
   props: {
     errors: {
@@ -45,10 +47,11 @@ export default {
   <div class="macros__nodes">
     <div class="macro__node">
       <div>
-        <woot-label
-          :title="$t('MACROS.EDITOR.START_FLOW')"
-          color-scheme="primary"
-        />
+        <span
+          class="bg-n-solid-blue text-n-blue-text py-1 px-1.5 leading-none text-sm rounded-md"
+        >
+          {{ $t('MACROS.EDITOR.START_FLOW') }}
+        </span>
       </div>
     </div>
     <Draggable
@@ -84,24 +87,25 @@ export default {
     </Draggable>
     <div class="macro__node">
       <div>
-        <woot-button
+        <NextButton
           :title="$t('MACROS.EDITOR.ADD_BTN_TOOLTIP')"
-          class="macros__action-button"
-          color-scheme="success"
-          variant="smooth"
-          icon="add-circle"
+          class="shadow-sm"
+          solid
+          teal
+          icon="i-lucide-plus-circle"
           @click="$emit('addNewNode')"
         >
           {{ $t('MACROS.EDITOR.ADD_BTN_TOOLTIP') }}
-        </woot-button>
+        </NextButton>
       </div>
     </div>
     <div class="macro__node">
       <div>
-        <woot-label
-          :title="$t('MACROS.EDITOR.END_FLOW')"
-          color-scheme="primary"
-        />
+        <span
+          class="bg-n-solid-blue text-n-blue-text py-1 px-1.5 leading-none text-sm rounded-md"
+        >
+          {{ $t('MACROS.EDITOR.END_FLOW') }}
+        </span>
       </div>
     </div>
   </div>
@@ -131,10 +135,6 @@ export default {
 .macros__nodes-draggable {
   position: relative;
   padding-bottom: var(--space-large);
-}
-
-.macros__action-button {
-  box-shadow: var(--shadow);
 }
 
 .macros__node-action-container {

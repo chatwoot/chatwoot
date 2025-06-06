@@ -8,8 +8,8 @@ vi.mock('dashboard/api/contacts');
 describe('composeConversationHelper', () => {
   describe('generateLabelForContactableInboxesList', () => {
     const contact = {
-      name: 'John Doe',
-      email: 'john@example.com',
+      name: 'Priority Inbox',
+      email: 'hello@example.com',
       phoneNumber: '+1234567890',
     };
 
@@ -19,7 +19,7 @@ describe('composeConversationHelper', () => {
           ...contact,
           channelType: INBOX_TYPES.EMAIL,
         })
-      ).toBe('John Doe (john@example.com)');
+      ).toBe('Priority Inbox (hello@example.com)');
     });
 
     it('generates label for twilio inbox', () => {
@@ -28,7 +28,14 @@ describe('composeConversationHelper', () => {
           ...contact,
           channelType: INBOX_TYPES.TWILIO,
         })
-      ).toBe('John Doe (+1234567890)');
+      ).toBe('Priority Inbox (+1234567890)');
+
+      expect(
+        helpers.generateLabelForContactableInboxesList({
+          name: 'Priority Inbox',
+          channelType: INBOX_TYPES.TWILIO,
+        })
+      ).toBe('Priority Inbox');
     });
 
     it('generates label for whatsapp inbox', () => {
@@ -37,7 +44,7 @@ describe('composeConversationHelper', () => {
           ...contact,
           channelType: INBOX_TYPES.WHATSAPP,
         })
-      ).toBe('John Doe (+1234567890)');
+      ).toBe('Priority Inbox (+1234567890)');
     });
 
     it('generates label for other inbox types', () => {
@@ -46,7 +53,7 @@ describe('composeConversationHelper', () => {
           ...contact,
           channelType: 'Channel::Api',
         })
-      ).toBe('John Doe');
+      ).toBe('Priority Inbox');
     });
   });
 

@@ -29,6 +29,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  labelClass: {
+    type: String,
+    default: '',
+  },
 });
 
 const emit = defineEmits(['action']);
@@ -71,7 +75,7 @@ onMounted(() => {
         :placeholder="
           searchPlaceholder || t('DROPDOWN_MENU.SEARCH_PLACEHOLDER')
         "
-        class="w-full h-8 py-2 pl-10 pr-2 text-sm border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
+        class="reset-base w-full h-8 py-2 pl-10 pr-2 text-sm focus:outline-none border-none rounded-lg bg-n-alpha-black2 dark:bg-n-solid-1 text-n-slate-12"
       />
     </div>
     <button
@@ -97,9 +101,13 @@ onMounted(() => {
       </slot>
       <Icon v-if="item.icon" :icon="item.icon" class="flex-shrink-0 size-3.5" />
       <span v-if="item.emoji" class="flex-shrink-0">{{ item.emoji }}</span>
-      <span v-if="item.label" class="min-w-0 text-sm truncate">{{
-        item.label
-      }}</span>
+      <span
+        v-if="item.label"
+        class="min-w-0 text-sm truncate"
+        :class="labelClass"
+      >
+        {{ item.label }}
+      </span>
     </button>
     <div
       v-if="filteredMenuItems.length === 0"

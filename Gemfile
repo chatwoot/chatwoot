@@ -182,6 +182,8 @@ gem 'iso-639'
 gem 'ruby-openai'
 
 gem 'shopify_api'
+
+# REVIEW is this gem needed?
 gem 'concurrent-ruby', '1.3.4'
 
 ### Gems required only in specific deployment environments ###

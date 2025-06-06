@@ -222,12 +222,17 @@ export const IFrameHelper = {
     setCampaignReadOn() {
       updateCampaignReadStatus(window.$chatwoot.baseDomain);
     },
-
     openBubble: () => {
       let bubbleState = {};
       bubbleState.toggleValue = true;
 
       onBubbleClick(bubbleState);
+    },
+    postback(data) {
+      dispatchWindowEvent({
+        eventName: 'chatwoot:postback',
+        data,
+      });
     },
 
     toggleBubble: state => {

@@ -59,12 +59,8 @@ describe CustomMarkdownRenderer do
 
       it 'renders an iframe with YouTube embed code' do
         output = render_markdown_link(youtube_url)
-        expect(output).to include(`
-          <iframe
-            width="560"
-            height="315"
-            src="https://www.youtube.com/embed/VIDEO_ID"
-        `)
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
+        expect(output).to include('allowfullscreen')
       end
     end
 
@@ -73,12 +69,8 @@ describe CustomMarkdownRenderer do
 
       it 'renders an iframe with Loom embed code' do
         output = render_markdown_link(loom_url)
-        expect(output).to include(`
-          <iframe
-            width="640"
-            height="360"
-            src="https://www.loom.com/embed/VIDEO_ID"
-        `)
+        expect(output).to include('src="https://www.loom.com/embed/VIDEO_ID"')
+        expect(output).to include('webkitallowfullscreen mozallowfullscreen allowfullscreen')
       end
     end
 
@@ -87,10 +79,8 @@ describe CustomMarkdownRenderer do
 
       it 'renders an iframe with Vimeo embed code' do
         output = render_markdown_link(vimeo_url)
-        expect(output).to include(`
-          <iframe
-            src="https://player.vimeo.com/video/1234567"
-        `)
+        expect(output).to include('src="https://player.vimeo.com/video/1234567?dnt=true"')
+        expect(output).to include('allowfullscreen')
       end
     end
 
@@ -99,12 +89,8 @@ describe CustomMarkdownRenderer do
 
       it 'renders a video element with the MP4 source' do
         output = render_markdown_link(mp4_url)
-        expect(output).to match(`
-          <video width="640" height="360" controls >
-            <source src="https://example.com/video.mp4" type="video/mp4">
-            Your browser does not support the video tag.
-          </video>
-        `)
+        expect(output).to include('<video width="640" height="360" controls')
+        expect(output).to include('<source src="https://example.com/video.mp4" type="video/mp4">')
       end
     end
 
@@ -121,8 +107,8 @@ describe CustomMarkdownRenderer do
       it 'renders all links when present between empty lines' do
         markdown = "\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\n\n[vimeo](https://vimeo.com/1234567)\n^ hello ^ [normal](https://example.com)"
         output = render_markdown(markdown)
-        expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
-        expect(output).to include('src="https://player.vimeo.com/video/1234567"')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
+        expect(output).to include('src="https://player.vimeo.com/video/1234567?dnt=true"')
         expect(output).to include('<a href="https://example.com">')
         expect(output).to include('<sup> hello </sup>')
       end
@@ -130,11 +116,11 @@ describe CustomMarkdownRenderer do
 
     context 'when links within text are present' do
       it 'renders only text within blank lines as embeds' do
-        markdown = "\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\nthis is such an amazing [vimeo](https://vimeo.com/1234567)\n[vimeo](https://vimeo.com/1234567)"
+        markdown = "\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\nthis is such an amazing [vimeo](https://vimeo.com/1234567)\n[vimeo](https://vimeo.com/1234567)\n"
         output = render_markdown(markdown)
-        expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
+        expect(output).to include('src="https://player.vimeo.com/video/1234567?dnt=true"')
         expect(output).to include('href="https://vimeo.com/1234567"')
-        expect(output).to include('src="https://player.vimeo.com/video/1234567"')
       end
     end
 
@@ -162,7 +148,7 @@ describe CustomMarkdownRenderer do
         markdown = "\n[arcade](https://app.arcade.software/share/ARCADE_ID)\n\n[youtube](https://www.youtube.com/watch?v=VIDEO_ID)\n"
         output = render_markdown(markdown)
         expect(output).to include('src="https://app.arcade.software/embed/ARCADE_ID"')
-        expect(output).to include('src="https://www.youtube.com/embed/VIDEO_ID"')
+        expect(output).to include('src="https://www.youtube-nocookie.com/embed/VIDEO_ID"')
       end
     end
   end

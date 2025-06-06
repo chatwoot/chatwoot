@@ -65,7 +65,7 @@
 
     .mx-datepicker {
       .mx-input {
-        @apply bg-n-alpha-3;
+        background-color: transparent !important;
       }
 
       .mx-input-wrapper input::placeholder {

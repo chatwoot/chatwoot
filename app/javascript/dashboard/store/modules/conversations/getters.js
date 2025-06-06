@@ -109,7 +109,10 @@ const getters = {
     return _state.contextMenuChatId;
   },
 
-  getCallState: _state => _state.activeCall
+  getCallState: _state => _state.activeCall,
+  getCopilotAssistant: _state => {
+    return _state.copilotAssistant;
+  },
 };
 
 export default getters;

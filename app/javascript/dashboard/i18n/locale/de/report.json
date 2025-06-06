@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Keine Ergebnisse gefunden"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -471,6 +472,18 @@
       "NO_AGENTS": "Es existieren keine Konversationen von Agenten",
       "TABLE_HEADER": {
         "AGENT": "Agent",
+        "OPEN": "Öffnen",
+        "UNATTENDED": "Unbeaufsichtigt",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
         "OPEN": "Öffnen",
         "UNATTENDED": "Unbeaufsichtigt",
         "STATUS": "Status"

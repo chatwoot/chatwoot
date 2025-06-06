@@ -77,6 +77,63 @@ describe Conversations::FilterService do
         expect(result[:count][:all_count]).to be conversations.count
       end
 
+      it 'filter conversations by priority' do
+        conversation = create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :high)
+        params[:payload] = [
+          {
+            attribute_key: 'priority',
+            filter_operator: 'equal_to',
+            values: ['high'],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to eq 1
+        expect(result[:conversations][0][:id]).to eq conversation.id
+      end
+
+      it 'filter conversations by multiple priority values' do
+        high_priority = create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :high)
+        urgent_priority = create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :urgent)
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :low)
+
+        params[:payload] = [
+          {
+            attribute_key: 'priority',
+            filter_operator: 'equal_to',
+            values: %w[high urgent],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+        expect(result[:conversations].length).to eq 2
+        expect(result[:conversations].pluck(:id)).to include(high_priority.id, urgent_priority.id)
+      end
+
+      it 'filter conversations with not_equal_to priority operator' do
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :high)
+        create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :urgent)
+        low_priority = create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :low)
+        medium_priority = create(:conversation, account: account, inbox: inbox, assignee: user_1, priority: :medium)
+
+        params[:payload] = [
+          {
+            attribute_key: 'priority',
+            filter_operator: 'not_equal_to',
+            values: %w[high urgent],
+            query_operator: nil,
+            custom_attribute_type: ''
+          }.with_indifferent_access
+        ]
+        result = filter_service.new(params, user_1).perform
+
+        # Only include conversations with medium and low priority, excluding high and urgent
+        expect(result[:conversations].length).to eq 2
+        expect(result[:conversations].pluck(:id)).to include(low_priority.id, medium_priority.id)
+      end
+
       it 'filter conversations by additional_attributes and status with pagination' do
         params[:payload] = payload
         params[:page] = 2

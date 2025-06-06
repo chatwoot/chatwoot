@@ -145,6 +145,9 @@ class ConversationApi extends ApiClient {
   endCall(conversationId, body) {
     return axios.post(`${this.url}/${conversationId}/end_call`, body);
   }
+  getInboxAssistant(conversationId) {
+    return axios.get(`${this.url}/${conversationId}/inbox_assistant`);
+  }
 }
 
 export default new ConversationApi();

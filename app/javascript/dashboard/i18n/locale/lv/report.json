@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Nav atrasts"
     },
     "PAGINATION": {
-      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem"
+      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -471,6 +472,18 @@
       "NO_AGENTS": "Aģentu sarunas nenotiek",
       "TABLE_HEADER": {
         "AGENT": "Aģents",
+        "OPEN": "Atvērt",
+        "UNATTENDED": "Bez uzraudzības",
+        "STATUS": "Statuss"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Visas Komandas",
+      "HEADER": "Komandu sarunas",
+      "LOADING_MESSAGE": "Notiek komandu metrikas ielāde...",
+      "NO_TEAMS": "Dati nav pieejami",
+      "TABLE_HEADER": {
+        "TEAM": "Komanda",
         "OPEN": "Atvērt",
         "UNATTENDED": "Bez uzraudzības",
         "STATUS": "Statuss"

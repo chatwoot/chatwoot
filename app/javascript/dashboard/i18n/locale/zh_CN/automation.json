@@ -101,8 +101,8 @@
     "TOGGLE": {
       "ACTIVATION_TITLE": "激活自动化规则",
       "DEACTIVATION_TITLE": "停用自动化规则",
-      "ACTIVATION_DESCRIPTION": "此操作将激活自动化规则 '{automationName}'。您确定要继续吗？",
-      "DEACTIVATION_DESCRIPTION": "此操作将停用自动化规则 '{automationName}'。您确定要继续吗？",
+      "ACTIVATION_DESCRIPTION": "此操作将激活自动化规则 “{automationName}”。您确定要继续吗？",
+      "DEACTIVATION_DESCRIPTION": "此操作将停用自动化规则 “{automationName}”。您确定要继续吗？",
       "ACTIVATION_SUCCESFUL": "自动化规则激活成功",
       "DEACTIVATION_SUCCESFUL": "自动化规则停用成功",
       "ACTIVATION_ERROR": "无法激活自动化，请稍后再试",
@@ -118,13 +118,14 @@
       "LABEL_UPLOAD_FAILED": "上传失败"
     },
     "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "属性键是必需的",
+      "FILTER_OPERATOR_REQUIRED": "需要过滤器操作符",
       "VALUE_REQUIRED": "必须填写值",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必须介于 1 到 998 之间。",
       "ACTION_PARAMETERS_REQUIRED": "需要操作参数",
       "ATLEAST_ONE_CONDITION_REQUIRED": "至少需要一个条件",
       "ATLEAST_ONE_ACTION_REQUIRED": "至少需要一个动作"
-    }
+    },
+    "NONE_OPTION": "无"
   }
 }

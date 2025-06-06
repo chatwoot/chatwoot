@@ -98,6 +98,10 @@ class Inbox < ApplicationRecord
     update_account_cache
   end
 
+  def sms?
+    channel_type == 'Channel::Sms'
+  end
+
   def facebook?
     channel_type == 'Channel::FacebookPage'
   end

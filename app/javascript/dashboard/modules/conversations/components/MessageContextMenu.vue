@@ -11,14 +11,12 @@ import {
   ACCOUNT_EVENTS,
   CONVERSATION_EVENTS,
 } from '../../../helper/AnalyticsHelper/events';
-import TranslateModal from 'dashboard/components/widgets/conversation/bubble/TranslateModal.vue';
 import MenuItem from '../../../components/widgets/conversation/contextMenu/menuItem.vue';
 import { useTrack } from 'dashboard/composables';
 
 export default {
   components: {
     AddCannedModal,
-    TranslateModal,
     MenuItem,
     ContextMenu,
   },
@@ -54,7 +52,6 @@ export default {
   data() {
     return {
       isCannedResponseModalOpen: false,
-      showTranslateModal: false,
       showDeleteModal: false,
     };
   },
@@ -125,14 +122,10 @@ export default {
       });
       useTrack(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
       this.handleClose();
-      this.showTranslateModal = true;
     },
     handleReplyTo() {
       this.$emit('replyTo', this.message);
       this.handleClose();
-    },
-    onCloseTranslateModal() {
-      this.showTranslateModal = false;
     },
     openDeleteModal() {
       this.handleClose();
@@ -170,13 +163,6 @@ export default {
         :on-close="hideCannedResponseModal"
       />
     </woot-modal>
-    <!-- Translate Content -->
-    <TranslateModal
-      v-if="showTranslateModal"
-      :content="messageContent"
-      :content-attributes="contentAttributes"
-      @close="onCloseTranslateModal"
-    />
     <!-- Confirm Deletion -->
     <woot-delete-modal
       v-if="showDeleteModal"

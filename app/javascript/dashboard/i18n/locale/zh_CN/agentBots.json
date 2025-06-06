@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "机器人",
     "LOADING_EDITOR": "正在加载编辑器...",
-    "HEADER_BTN_TXT": "添加机器人配置",
-    "SIDEBAR_TXT": "<p><b>客服机器人</b> <p>客服机器人就像您团队中最出色的成员。他们可以处理琐事，因此您可以专注于重要的事情。您值得一试。</p> <p> 您可以从此页面管理您的机器人，也可以使用“添加机器人配置”按钮创建新的机器人。</p> <p> 在新的标签页中打开 <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">客服机器人手册</a> 已获得更多帮助。</p>",
+    "DESCRIPTION": "客服机器人就像您团队中最出色的成员。它们可以处理琐事，让您专注于重要的事情。试试看吧。您可以在此页面管理您的机器人，或使用“配置新机器人”按钮创建新的机器人。",
+    "LEARN_MORE": "了解客服机器人",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "机器人名称",
@@ -21,14 +21,14 @@
       "SUBMIT": "验证并保存"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "选择一个代理机器人",
+      "TITLE": "选择一个客服机器人",
       "DESC": "将代理机器人分配到您的收件箱。他们可以处理初始对话，并在必要时将其转移给真人客服。",
       "SUBMIT": "更新",
       "DISCONNECT": "断开机器人",
       "SUCCESS_MESSAGE": "成功更新代理机器人。",
       "DISCONNECTED_SUCCESS_MESSAGE": "成功断开代理机器人。",
       "ERROR_MESSAGE": "无法更新代理机器人。请再试一次。",
-      "DISCONNECTED_ERROR_MESSAGE": "无法断开代理机器人。请再试一次。",
+      "DISCONNECTED_ERROR_MESSAGE": "无法断开客服机器人。请再试一次。",
       "SELECT_PLACEHOLDER": "选择机器人"
     },
     "ADD": {

@@ -48,16 +48,19 @@ class Integrations::App
     when 'slack'
       ENV['SLACK_CLIENT_SECRET'].present?
     when 'linear'
-      account.feature_enabled?('linear_integration')
+      GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'shopify'
+      account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
     else
       true
     end
   end
 
   def build_linear_action
+    app_id = GlobalConfigService.load('LINEAR_CLIENT_ID', nil)
     [
       "#{params[:action]}?response_type=code",
-      "client_id=#{ENV.fetch('LINEAR_CLIENT_ID', nil)}",
+      "client_id=#{app_id}",
       "redirect_uri=#{self.class.linear_integration_url}",
       "state=#{encode_state}",
       'scope=read,write',

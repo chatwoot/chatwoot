@@ -4,6 +4,7 @@ import CsmlEditBot from './csml/Edit.vue';
 import CsmlNewBot from './csml/New.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
 import SettingsContent from '../Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 
 export default {
   routes: [
@@ -12,12 +13,7 @@ export default {
       meta: {
         permissions: ['administrator'],
       },
-      component: SettingsContent,
-      props: {
-        headerTitle: 'AGENT_BOTS.HEADER',
-        icon: 'bot',
-        showNewButton: false,
-      },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
@@ -28,6 +24,19 @@ export default {
             permissions: ['administrator'],
           },
         },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/settings/agent-bots'),
+      component: SettingsContent,
+      props: () => {
+        return {
+          headerTitle: 'AGENT_BOTS.HEADER',
+          icon: 'bot',
+          showBackButton: true,
+        };
+      },
+      children: [
         {
           path: 'csml/new',
           name: 'agent_bots_csml_new',

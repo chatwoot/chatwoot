@@ -1,7 +1,7 @@
 {
   "AUTOMATION": {
     "HEADER": "Automatisierung",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
+    "DESCRIPTION": "Mittels Automatisierung können bestehende Prozesse ersetzt und rationalisiert werden, die manuellen Aufwand erfordern, z. B. das Hinzufügen von Etiketten und die Zuweisung von Gesprächen an den am besten geeigneten Agenten. So kann sich das Team auf seine Stärken konzentrieren und gleichzeitig den Zeitaufwand für Routineaufgaben reduzieren.",
     "LEARN_MORE": "Learn more about automation",
     "HEADER_BTN_TXT": "Automatisierungsregel hinzufügen",
     "LOADING": "Automatisierungsregeln abrufen",
@@ -125,6 +125,7 @@
       "ACTION_PARAMETERS_REQUIRED": "Aktionsparameter sind erforderlich",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Mindestens eine Bedingung ist erforderlich",
       "ATLEAST_ONE_ACTION_REQUIRED": "Mindestens eine Aktion ist erforderlich"
-    }
+    },
+    "NONE_OPTION": "Keine"
   }
 }

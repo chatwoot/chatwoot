@@ -2,8 +2,8 @@
   "AGENT_BOTS": {
     "HEADER": "الروبوتات",
     "LOADING_EDITOR": "جار جلب المحرر...",
-    "HEADER_BTN_TXT": "إضافة إعدادات الروبوت",
-    "SIDEBAR_TXT": "<p><b>الروبوتات</b> <p>الروبوتات هي مثل الأعضاء الأكثر روعة في فريقك. يمكنهم التعامل مع الأمور الصغيرة، حتى تتمكن من التركيز على الأمور التي تهمك. جربهم.</p> <p> يمكنك إدارة الروبوتات الخاصة بك من هذه الصفحة أو إنشاء روبوتات جديدة باستخدام زر 'إضافة تكوين روبوت'.</p> <p> افتح <a href=\"https://www.chatwoot.com/hc/chatwoot-user-guide-cloud-version/articles/1677497472-how-to-use-agent-bots\" target=\"blank\">دليل البوتات</a> في علامة تبويب أخرى للحصول على مساعدة.</p>",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
     "CSML_BOT_EDITOR": {
       "NAME": {
         "LABEL": "اسم الروبوت",

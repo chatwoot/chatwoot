@@ -23,8 +23,8 @@ importers:
         specifier: 1.1.1-next
         version: 1.1.1-next
       '@chatwoot/utils':
-        specifier: ^0.0.40
-        version: 0.0.40
+        specifier: ^0.0.46
+        version: 0.0.46
       '@formkit/core':
         specifier: ^1.6.7
         version: 1.6.9
@@ -98,7 +98,7 @@ importers:
         specifier: ^5.2.6
         version: 5.2.8
       axios:
-        specifier: ^1.7.7
+        specifier: ^1.8.2
         version: 1.8.4
       camelcase-keys:
         specifier: ^9.1.3
@@ -203,8 +203,8 @@ importers:
         specifier: ^5.1.0
         version: 5.2.0(vue@3.5.13(typescript@4.9.5))
       vue-i18n:
-        specifier: 9.14.2
-        version: 9.14.2(vue@3.5.13(typescript@4.9.5))
+        specifier: 9.14.3
+        version: 9.14.3(vue@3.5.13(typescript@4.9.5))
       vue-letter:
         specifier: ^0.2.1
         version: 0.2.1
@@ -408,8 +408,8 @@ packages:
   '@chatwoot/prosemirror-schema@1.1.1-next':
     resolution: {integrity: sha512-/M2qZ+ZF7GlQNt1riwVP499fvp3hxSqd5iy8hxyF9pkj9qQ+OKYn5JK+v3qwwqQY3IxhmNOn1Lp6tm7vstrd9Q==}
 
-  '@chatwoot/utils@0.0.40':
-    resolution: {integrity: sha512-Rg5wwQXi4mnEiv8scw66QVIgal9F1di+UDg4hHCw37zLXrqExQQ9CL7jDvO+ddvzEl6TUXw91Lu5L/qVlEyvdg==}
+  '@chatwoot/utils@0.0.46':
+    resolution: {integrity: sha512-a68CQ+aPFfyMr7dnXUUSt/kwHEazBd7Y8aidDZeDp5eL7sych7EpmT5XMTmhttlqMiRsmwETblXJJ2fBH6I44A==}
     engines: {node: '>=10'}
 
   '@codemirror/commands@6.8.0':
@@ -946,6 +946,10 @@ packages:
     resolution: {integrity: sha512-DZyQ4Hk22sC81MP4qiCDuU+LdaYW91A6lCjq8AWPvY3+mGMzhGDfOCzvyR6YBQxtlPjFqMoFk9ylnNYRAQwXtQ==}
     engines: {node: '>= 16'}
 
+  '@intlify/core-base@9.14.3':
+    resolution: {integrity: sha512-nbJ7pKTlXFnaXPblyfiH6awAx1C0PWNNuqXAR74yRwgi5A/Re/8/5fErLY0pv4R8+EHj3ZaThMHdnuC/5OBa6g==}
+    engines: {node: '>= 16'}
+
   '@intlify/eslint-plugin-vue-i18n@3.2.0':
     resolution: {integrity: sha512-TOIrD4tJE48WMyVIB8bNeQJJPYo1Prpqnm9Xpn1UZmcqlELhm8hmP8QyJnkgesfbG7hyiX/kvo63W7ClEQmhpg==}
     engines: {node: '>=18.0.0'}
@@ -956,8 +960,16 @@ packages:
     resolution: {integrity: sha512-YsKKuV4Qv4wrLNsvgWbTf0E40uRv+Qiw1BeLQ0LAxifQuhiMe+hfTIzOMdWj/ZpnTDj4RSZtkXjJM7JDiiB5LQ==}
     engines: {node: '>= 16'}
 
+  '@intlify/message-compiler@9.14.3':
+    resolution: {integrity: sha512-ANwC226BQdd+MpJ36rOYkChSESfPwu3Ss2Faw0RHTOknYLoHTX6V6e/JjIKVDMbzs0/H/df/rO6yU0SPiWHqNg==}
+    engines: {node: '>= 16'}
+
   '@intlify/shared@9.14.2':
     resolution: {integrity: sha512-uRAHAxYPeF+G5DBIboKpPgC/Waecd4Jz8ihtkpJQD5ycb5PwXp0k/+hBGl5dAjwF7w+l74kz/PKA8r8OK//RUw==}
+    engines: {node: '>= 16'}
+
+  '@intlify/shared@9.14.3':
+    resolution: {integrity: sha512-hJXz9LA5VG7qNE00t50bdzDv8Z4q9fpcL81wj4y4duKavrv0KM8YNLTwXNEFINHjTsfrG9TXvPuEjVaAvZ7yWg==}
     engines: {node: '>= 16'}
 
   '@isaacs/cliui@8.0.2':
@@ -4951,8 +4963,8 @@ packages:
     peerDependencies:
       eslint: '>=6.0.0'
 
-  vue-i18n@9.14.2:
-    resolution: {integrity: sha512-JK9Pm80OqssGJU2Y6F7DcM8RFHqVG4WkuCqOZTVsXkEzZME7ABejAUqUdA931zEBedc4thBgSUWxeQh4uocJAQ==}
+  vue-i18n@9.14.3:
+    resolution: {integrity: sha512-C+E0KE8ihKjdYCQx8oUkXX+8tBItrYNMnGJuzEPevBARQFUN2tKez6ZVOvBrWH0+KT5wEk3vOWjNk7ygb2u9ig==}
     engines: {node: '>= 16'}
     peerDependencies:
       vue: ^3.0.0
@@ -5253,7 +5265,7 @@ snapshots:
       prosemirror-utils: 1.2.2(prosemirror-model@1.25.0)(prosemirror-state@1.4.3)
       prosemirror-view: 1.38.1
 
-  '@chatwoot/utils@0.0.40':
+  '@chatwoot/utils@0.0.46':
     dependencies:
       date-fns: 2.30.0
 
@@ -5805,6 +5817,11 @@ snapshots:
       '@intlify/message-compiler': 9.14.2
       '@intlify/shared': 9.14.2
 
+  '@intlify/core-base@9.14.3':
+    dependencies:
+      '@intlify/message-compiler': 9.14.3
+      '@intlify/shared': 9.14.3
+
   '@intlify/eslint-plugin-vue-i18n@3.2.0(eslint@8.57.1)':
     dependencies:
       '@eslint/eslintrc': 3.3.1
@@ -5835,7 +5852,14 @@ snapshots:
       '@intlify/shared': 9.14.2
       source-map-js: 1.2.1
 
+  '@intlify/message-compiler@9.14.3':
+    dependencies:
+      '@intlify/shared': 9.14.3
+      source-map-js: 1.2.1
+
   '@intlify/shared@9.14.2': {}
+
+  '@intlify/shared@9.14.3': {}
 
   '@isaacs/cliui@8.0.2':
     dependencies:
@@ -10311,10 +10335,10 @@ snapshots:
     transitivePeerDependencies:
       - supports-color
 
-  vue-i18n@9.14.2(vue@3.5.13(typescript@4.9.5)):
+  vue-i18n@9.14.3(vue@3.5.13(typescript@4.9.5)):
     dependencies:
-      '@intlify/core-base': 9.14.2
-      '@intlify/shared': 9.14.2
+      '@intlify/core-base': 9.14.3
+      '@intlify/shared': 9.14.3
       '@vue/devtools-api': 6.6.4
       vue: 3.5.13(typescript@4.9.5)
 

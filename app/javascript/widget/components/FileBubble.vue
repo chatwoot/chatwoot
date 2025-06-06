@@ -1,6 +1,5 @@
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
@@ -25,10 +24,6 @@ export default {
       default: false,
     },
   },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
-  },
   computed: {
     title() {
       return this.isInProgress
@@ -46,11 +41,6 @@ export default {
         ? this.contrastingTextColor
         : '';
     },
-    titleColor() {
-      return !this.isUserBubble
-        ? this.getThemeClass('text-black-900', 'dark:text-slate-50')
-        : '';
-    },
   },
   methods: {
     openLink() {
@@ -66,11 +56,15 @@ export default {
     <div class="icon-wrap" :style="{ color: textColor }">
       <FluentIcon icon="document" size="28" />
     </div>
-    <div class="meta">
-      <div class="title" :class="titleColor" :style="{ color: textColor }">
+    <div class="ltr:pr-1 rtl:pl-1">
+      <div
+        class="m-0 font-medium text-sm"
+        :class="{ 'text-n-slate-12': !isUserBubble }"
+        :style="{ color: textColor }"
+      >
         {{ title }}
       </div>
-      <div class="link-wrap mb-1">
+      <div class="leading-none mb-1">
         <a
           class="download"
           rel="noreferrer noopener nofollow"
@@ -86,38 +80,13 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
-
 .file {
   .icon-wrap {
-    font-size: $font-size-mega;
-    color: $color-woot;
-    line-height: 1;
-    margin-left: $space-smaller;
-    margin-right: $space-small;
-  }
-
-  .title {
-    font-weight: $font-weight-medium;
-    font-size: $font-size-default;
-    margin: 0;
+    @apply text-[2.5rem] text-n-brand leading-none ltr:ml-1 rtl:mr-1 ltr:mr-2 rtl:ml-2;
   }
 
   .download {
-    color: $color-woot;
-    font-weight: $font-weight-medium;
-    padding: 0;
-    margin: 0;
-    font-size: $font-size-small;
-    text-decoration: none;
-  }
-
-  .link-wrap {
-    line-height: 1;
-  }
-
-  .meta {
-    padding-right: $space-smaller;
+    @apply text-n-brand font-medium p-0 m-0 text-xs no-underline;
   }
 }
 </style>

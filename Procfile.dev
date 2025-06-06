@@ -4,4 +4,3 @@ backend: DEBUG=0 bin/rails s -p 3000
 worker: RUBY_DEBUG_OPEN=0 dotenv bundle exec sidekiq -C config/sidekiq.yml
 
 vite: bin/vite dev
-# vite build --watch

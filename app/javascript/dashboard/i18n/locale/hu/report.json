@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Nincs találat"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -471,6 +472,18 @@
       "NO_AGENTS": "Nincsennek ügynökök általi beszélgetések",
       "TABLE_HEADER": {
         "AGENT": "Ügynök",
+        "OPEN": "Megnyitás",
+        "UNATTENDED": "Figyelmen kívül hagyott",
+        "STATUS": "Státusz"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Csapat",
         "OPEN": "Megnyitás",
         "UNATTENDED": "Figyelmen kívül hagyott",
         "STATUS": "Státusz"

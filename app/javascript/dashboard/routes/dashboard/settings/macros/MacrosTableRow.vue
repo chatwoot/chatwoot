@@ -3,6 +3,8 @@ import { computed } from 'vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import { useI18n } from 'vue-i18n';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   macro: {
     type: Object,
@@ -51,22 +53,20 @@ const visibilityLabel = computed(() => {
     <td class="py-4 ltr:pr-4 rtl:pl-4">{{ visibilityLabel }}</td>
     <td class="py-4 flex justify-end gap-1">
       <router-link :to="{ name: 'macros_edit', params: { macroId: macro.id } }">
-        <woot-button
+        <Button
           v-tooltip.top="$t('MACROS.EDIT.TOOLTIP')"
-          variant="smooth"
-          size="tiny"
-          color-scheme="secondary"
-          class-names="grey-btn"
-          icon="edit"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
         />
       </router-link>
-      <woot-button
+      <Button
         v-tooltip.top="$t('MACROS.DELETE.TOOLTIP')"
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="dismiss-circle"
-        class-names="grey-btn"
+        icon="i-lucide-trash-2"
+        xs
+        ruby
+        faded
         @click="$emit('delete')"
       />
     </td>

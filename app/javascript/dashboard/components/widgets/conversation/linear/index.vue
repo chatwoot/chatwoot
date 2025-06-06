@@ -6,7 +6,10 @@ import { useI18n } from 'vue-i18n';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import CreateOrLinkIssue from './CreateOrLinkIssue.vue';
 import Issue from './Issue.vue';
+import { useTrack } from 'dashboard/composables';
+import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationId: {
@@ -56,6 +59,7 @@ const unlinkIssue = async linkId => {
   try {
     isUnlinking.value = true;
     await LinearAPI.unlinkIssue(linkId);
+    useTrack(LINEAR_EVENTS.UNLINK_ISSUE);
     linkedIssue.value = null;
     useAlert(t('INTEGRATION_SETTINGS.LINEAR.UNLINK.SUCCESS'));
   } catch (error) {
@@ -97,23 +101,25 @@ onMounted(() => {
 
 <template>
   <div class="relative" :class="{ group: linkedIssue }">
-    <woot-button
+    <Button
       v-on-clickaway="closeIssue"
       v-tooltip="tooltipText"
-      variant="clear"
-      color-scheme="secondary"
+      sm
+      ghost
+      slate
+      class="!gap-1"
       @click="openIssue"
     >
       <fluent-icon
         icon="linear"
         size="19"
-        class="text-[#5E6AD2]"
+        class="text-[#5E6AD2] flex-shrink-0"
         view-box="0 0 19 19"
       />
-      <span v-if="linkedIssue" class="text-xs font-medium text-ash-800">
+      <span v-if="linkedIssue" class="text-xs font-medium text-n-slate-11">
         {{ linkedIssue.issue.identifier }}
       </span>
-    </woot-button>
+    </Button>
     <Issue
       v-if="linkedIssue"
       :issue="linkedIssue.issue"

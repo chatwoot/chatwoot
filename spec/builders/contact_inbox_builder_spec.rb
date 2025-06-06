@@ -59,7 +59,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: twilio_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+        end.to raise_error(ArgumentError, 'contact phone number required')
       end
     end
 
@@ -117,7 +117,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: twilio_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+        end.to raise_error(ArgumentError, 'contact phone number required')
       end
     end
 
@@ -174,7 +174,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: whatsapp_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+        end.to raise_error(ArgumentError, 'contact phone number required')
       end
     end
 
@@ -232,7 +232,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: sms_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact phone number')
+        end.to raise_error(ArgumentError, 'contact phone number required')
       end
     end
 
@@ -290,7 +290,7 @@ describe ContactInboxBuilder do
             contact: contact,
             inbox: email_inbox
           ).perform
-        end.to raise_error(ActionController::ParameterMissing, 'param is missing or the value is empty: contact email')
+        end.to raise_error(ArgumentError, 'contact email required')
       end
     end
 
@@ -328,6 +328,43 @@ describe ContactInboxBuilder do
         ).perform
 
         expect(contact_inbox.source_id).not_to be_nil
+      end
+    end
+
+    context 'when there is a race condition' do
+      let(:account) { create(:account) }
+      let(:contact) { create(:contact, account: account) }
+      let(:contact2) { create(:contact, account: account) }
+      let(:channel) { create(:channel_email, account: account) }
+      let(:channel_api) { create(:channel_api, account: account) }
+      let(:source_id) { 'source_123' }
+
+      it 'handles RecordNotUnique error by updating source_id and retrying' do
+        existing_contact_inbox = create(:contact_inbox, contact: contact2, inbox: channel.inbox, source_id: source_id)
+
+        described_class.new(
+          contact: contact,
+          inbox: channel.inbox,
+          source_id: source_id
+        ).perform
+
+        expect(ContactInbox.last.source_id).to eq(source_id)
+        expect(ContactInbox.last.contact_id).to eq(contact.id)
+        expect(ContactInbox.last.inbox_id).to eq(channel.inbox.id)
+        expect(existing_contact_inbox.reload.source_id).to include(source_id)
+        expect(existing_contact_inbox.reload.source_id).not_to eq(source_id)
+      end
+
+      it 'does not update source_id for channels other than email or phone number' do
+        create(:contact_inbox, contact: contact2, inbox: channel_api.inbox, source_id: source_id)
+
+        expect do
+          described_class.new(
+            contact: contact,
+            inbox: channel_api.inbox,
+            source_id: source_id
+          ).perform
+        end.to raise_error(ActiveRecord::RecordNotUnique)
       end
     end
   end

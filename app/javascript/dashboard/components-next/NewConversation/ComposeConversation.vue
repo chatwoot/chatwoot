@@ -27,7 +27,13 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  isModal: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['close']);
 
 const store = useStore();
 const { t } = useI18n();
@@ -61,6 +67,8 @@ const directUploadsEnabled = computed(
 const activeContact = computed(() => contactById.value(props.contactId));
 
 const composePopoverClass = computed(() => {
+  if (props.isModal) return '';
+
   return props.alignPosition === 'right'
     ? 'absolute ltr:left-0 ltr:right-[unset] rtl:right-0 rtl:left-[unset]'
     : 'absolute rtl:left-0 rtl:right-[unset] ltr:right-0 ltr:left-[unset]';
@@ -131,9 +139,14 @@ const clearSelectedContact = () => {
 
 const closeCompose = () => {
   showComposeNewConversation.value = false;
-  selectedContact.value = null;
+  if (!props.contactId) {
+    // If contactId is passed as prop
+    // Then don't allow to remove the selected contact
+    selectedContact.value = null;
+  }
   targetInbox.value = null;
   resetContacts();
+  emit('close');
 };
 
 const createConversation = async ({ payload, isFromWhatsApp }) => {
@@ -182,7 +195,15 @@ watch(
 );
 
 const handleClickOutside = () => {
+  if (!showComposeNewConversation.value) return;
+
   showComposeNewConversation.value = false;
+  emit('close');
+};
+
+const onModalBackdropClick = () => {
+  if (!props.isModal) return;
+  handleClickOutside();
 };
 
 onMounted(() => resetContacts());
@@ -205,7 +226,7 @@ useKeyboardEvents(keyboardEvents);
     v-on-click-outside="[
       handleClickOutside,
       // Fixed and edge case https://github.com/chatwoot/chatwoot/issues/10785
-      // This will prevent closing the compose conversation modal when the editor Create link popup is open.
+      // This will prevent closing the compose conversation modal when the editor Create link popup is open
       { ignore: ['div.ProseMirror-prompt'] },
     ]"
     class="relative"
@@ -218,29 +239,37 @@ useKeyboardEvents(keyboardEvents);
       :is-open="showComposeNewConversation"
       :toggle="toggle"
     />
-    <ComposeNewConversationForm
+    <div
       v-if="showComposeNewConversation"
-      :contacts="contacts"
-      :contact-id="contactId"
-      :is-loading="isSearching"
-      :current-user="currentUser"
-      :selected-contact="selectedContact"
-      :target-inbox="targetInbox"
-      :is-creating-contact="isCreatingContact"
-      :is-fetching-inboxes="isFetchingInboxes"
-      :is-direct-uploads-enabled="directUploadsEnabled"
-      :contact-conversations-ui-flags="uiFlags"
-      :contacts-ui-flags="contactsUiFlags"
-      :class="composePopoverClass"
-      :message-signature="messageSignature"
-      :send-with-signature="sendWithSignature"
-      @search-contacts="onContactSearch"
-      @reset-contact-search="resetContacts"
-      @update-selected-contact="handleSelectedContact"
-      @update-target-inbox="handleTargetInbox"
-      @clear-selected-contact="clearSelectedContact"
-      @create-conversation="createConversation"
-      @discard="closeCompose"
-    />
+      :class="{
+        'fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-start pt-[clamp(3rem,15vh,12rem)] justify-center inset-0':
+          isModal,
+      }"
+      @click.self="onModalBackdropClick"
+    >
+      <ComposeNewConversationForm
+        :class="[{ 'mt-2': !isModal }, composePopoverClass]"
+        :contacts="contacts"
+        :contact-id="contactId"
+        :is-loading="isSearching"
+        :current-user="currentUser"
+        :selected-contact="selectedContact"
+        :target-inbox="targetInbox"
+        :is-creating-contact="isCreatingContact"
+        :is-fetching-inboxes="isFetchingInboxes"
+        :is-direct-uploads-enabled="directUploadsEnabled"
+        :contact-conversations-ui-flags="uiFlags"
+        :contacts-ui-flags="contactsUiFlags"
+        :message-signature="messageSignature"
+        :send-with-signature="sendWithSignature"
+        @search-contacts="onContactSearch"
+        @reset-contact-search="resetContacts"
+        @update-selected-contact="handleSelectedContact"
+        @update-target-inbox="handleTargetInbox"
+        @clear-selected-contact="clearSelectedContact"
+        @create-conversation="createConversation"
+        @discard="closeCompose"
+      />
+    </div>
   </div>
 </template>

@@ -4,7 +4,7 @@ describe Instagram::SendOnInstagramService do
   subject(:send_reply_service) { described_class.new(message: message) }
 
   before do
-    stub_request(:post, /graph.facebook.com/)
+    stub_request(:post, /graph\.facebook\.com/)
     create(:message, message_type: :incoming, inbox: instagram_inbox, account: account, conversation: conversation)
   end
 
@@ -15,16 +15,49 @@ describe Instagram::SendOnInstagramService do
   let(:contact_inbox) { create(:contact_inbox, contact: contact, inbox: instagram_inbox) }
   let(:conversation) { create(:conversation, contact: contact, inbox: instagram_inbox, contact_inbox: contact_inbox) }
   let(:response) { double }
+  let(:mock_response) do
+    instance_double(
+      HTTParty::Response,
+      :success? => true,
+      :body => { message_id: 'anyrandommessageid1234567890' }.to_json,
+      :parsed_response => { 'message_id' => 'anyrandommessageid1234567890' }
+    )
+  end
+
+  let(:error_body) do
+    {
+      'error' => {
+        'message' => 'The Instagram account is restricted.',
+        'type' => 'OAuthException',
+        'code' => 400,
+        'fbtrace_id' => 'anyrandomfbtraceid1234567890'
+      }
+    }
+  end
+
+  let(:error_response) do
+    instance_double(
+      HTTParty::Response,
+      :success? => false,
+      :body => error_body.to_json,
+      :parsed_response => error_body
+    )
+  end
+
+  let(:response_with_error) do
+    instance_double(
+      HTTParty::Response,
+      :success? => true,
+      :body => error_body.to_json,
+      :parsed_response => error_body
+    )
+  end
 
   describe '#perform' do
     context 'with reply' do
       before do
         allow(Facebook::Messenger::Configuration::AppSecretProofCalculator).to receive(:call).and_return('app_secret_key', 'access_token')
-        allow(HTTParty).to receive(:post).and_return(
-          {
-            'message_id': 'anyrandommessageid1234567890'
-          }
-        )
+        allow(HTTParty).to receive(:post).and_return(mock_response)
       end
 
       context 'without message_tag HUMAN_AGENT' do
@@ -35,22 +68,26 @@ describe Instagram::SendOnInstagramService do
         it 'if message is sent from chatwoot and is outgoing' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
-          allow(HTTParty).to receive(:post).with(
-            {
-              recipient: { id: contact.get_source_id(instagram_inbox.id) },
-              message: {
-                text: message.content
-              }
-            }
-          ).and_return(
-            {
-              'message_id': 'anyrandommessageid1234567890'
-            }
-          )
-
           response = described_class.new(message: message).perform
+          expect(response['message_id']).to eq('anyrandommessageid1234567890')
+        end
 
-          expect(response).to eq({  message_id: 'anyrandommessageid1234567890' })
+        it 'if message is sent from chatwoot and is outgoing with multiple attachments' do
+          message = build(:message, content: nil, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+          avatar = message.attachments.new(account_id: message.account_id, file_type: :image)
+          avatar.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          sample = message.attachments.new(account_id: message.account_id, file_type: :image)
+          sample.file.attach(io: Rails.root.join('spec/assets/sample.png').open, filename: 'sample.png', content_type: 'image/png')
+          message.save!
+
+          service = described_class.new(message: message)
+
+          # Stub the send_to_facebook_page method on the service instance
+          allow(service).to receive(:send_to_facebook_page)
+          service.perform
+
+          # Now you can set expectations on the stubbed method for each attachment
+          expect(service).to have_received(:send_to_facebook_page).exactly(:twice)
         end
 
         it 'if message with attachment is sent from chatwoot and is outgoing' do
@@ -60,22 +97,13 @@ describe Instagram::SendOnInstagramService do
           message.save!
           response = described_class.new(message: message).perform
 
-          expect(response).to eq({ message_id: 'anyrandommessageid1234567890' })
+          expect(response['message_id']).to eq('anyrandommessageid1234567890')
         end
 
         it 'if message sent from chatwoot is failed' do
           message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
 
-          allow(HTTParty).to receive(:post).and_return(
-            {
-              'error': {
-                'message': 'The Instagram account is restricted.',
-                'type': 'OAuthException',
-                'code': 400,
-                'fbtrace_id': 'anyrandomfbtraceid1234567890'
-              }
-            }
-          )
+          allow(HTTParty).to receive(:post).and_return(response_with_error)
           described_class.new(message: message).perform
           expect(HTTParty).to have_received(:post)
           expect(message.reload.status).to eq('failed')
@@ -109,6 +137,40 @@ describe Instagram::SendOnInstagramService do
           described_class.new(message: message).perform
           expect(HTTParty).to have_received(:post)
         end
+      end
+    end
+
+    context 'when handling errors' do
+      before do
+        allow(Facebook::Messenger::Configuration::AppSecretProofCalculator).to receive(:call).and_return('app_secret_key', 'access_token')
+      end
+
+      it 'handles HTTP errors' do
+        message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+        allow(HTTParty).to receive(:post).and_return(error_response)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('400 - The Instagram account is restricted.')
+      end
+
+      it 'handles response errors' do
+        message = create(:message, message_type: 'outgoing', inbox: instagram_inbox, account: account, conversation: conversation)
+
+        error_response = instance_double(
+          HTTParty::Response,
+          success?: true,
+          body: { 'error' => { 'message' => 'Invalid message format', 'code' => 100 } }.to_json,
+          parsed_response: { 'error' => { 'message' => 'Invalid message format', 'code' => 100 } }
+        )
+
+        allow(HTTParty).to receive(:post).and_return(error_response)
+
+        described_class.new(message: message).perform
+
+        expect(message.reload.status).to eq('failed')
+        expect(message.reload.external_error).to eq('100 - Invalid message format')
       end
     end
   end
