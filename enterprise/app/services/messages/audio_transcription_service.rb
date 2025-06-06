@@ -12,15 +12,9 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
     return { error: 'Transcription limit exceeded' } unless can_transcribe?
     return { error: 'Message not found' } if message.blank?
 
-    begin
-      transcriptions = transcribe_audio
-      Rails.logger.info "Audio transcription successful: #{transcriptions}"
-      { success: true, transcriptions: transcriptions }
-    rescue StandardError => e
-      ChatwootExceptionTracker.new(e).capture_exception
-      Rails.logger.error "Audio transcription failed: #{e.message}"
-      { error: "Transcription failed: #{e.message}" }
-    end
+    transcriptions = transcribe_audio
+    Rails.logger.info "Audio transcription successful: #{transcriptions}"
+    { success: true, transcriptions: transcriptions }
   end
 
   private

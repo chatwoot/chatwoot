@@ -1,5 +1,6 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   MAX_MESSAGE_LENGTH = 10_000
+  retry_on ActiveStorage::FileNotFoundError, attempts: 3
 
   def perform(conversation, assistant)
     @conversation = conversation
