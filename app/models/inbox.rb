@@ -58,7 +58,7 @@ class Inbox < ApplicationRecord
 
   belongs_to :channel, polymorphic: true, dependent: :destroy
 
-  has_many :canned_response_inboxes, dependent: :destroy_async
+  has_many :canned_response_inboxes, dependent: :destroy
   has_many :canned_responses, through: :canned_response_inboxes
   has_many :campaigns, dependent: :destroy_async
   has_many :contact_inboxes, dependent: :destroy_async
