@@ -143,8 +143,6 @@ describe Line::IncomingMessageService do
   describe '#perform' do
     context 'when valid text message params' do
       it 'creates appropriate conversations, message and contacts' do
-        Contact.all.delete_all
-
         line_bot = double
         line_user_profile = double
         allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
@@ -166,8 +164,6 @@ describe Line::IncomingMessageService do
 
     context 'when valid sticker message params' do
       it 'creates appropriate conversations, message and contacts' do
-        Contact.all.delete_all
-
         line_bot = double
         line_user_profile = double
         allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
@@ -188,8 +184,6 @@ describe Line::IncomingMessageService do
 
     context 'when valid image message params' do
       it 'creates appropriate conversations, message and contacts' do
-        Contact.all.delete_all
-
         line_bot = double
         line_user_profile = double
         allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
@@ -220,8 +214,6 @@ describe Line::IncomingMessageService do
 
     context 'when valid video message params' do
       it 'creates appropriate conversations, message and contacts' do
-        Contact.all.delete_all
-
         line_bot = double
         line_user_profile = double
         allow(Line::Bot::Client).to receive(:new).and_return(line_bot)
@@ -271,14 +263,12 @@ describe Line::IncomingMessageService do
           }.to_json
         )
 
-        Contact.all.delete_all
-
-        contact_inbox = ::ContactInboxWithContactBuilder.new(
+        contact_inbox = ContactInboxWithContactBuilder.new(
           source_id: 'U4af4980629',
           inbox: line_channel.inbox,
           contact_attributes: {}
         ).perform
-        message = create(
+        create(
           :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
                     content_attributes: { 'items' => [{ 'title' => 'hello', 'value' => 'Hello, world' }, { 'title' => 'text 2', 'value' => 'value 2' }] },
                     conversation: create(:conversation, inbox: line_channel.inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
@@ -298,7 +288,6 @@ describe Line::IncomingMessageService do
       end
 
       it 'set submitted_values when send other message' do
-
         described_class.new(inbox: line_channel.inbox, params: sticker_params).perform
 
         expect(line_channel.inbox.conversations.length).to eq(1)
@@ -307,9 +296,6 @@ describe Line::IncomingMessageService do
         expect(conversation.messages.length).to eq(2)
         expect(conversation.messages.first.submitted_values).to be_nil
       end
-
     end
-
-    
   end
 end

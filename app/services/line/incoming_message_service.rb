@@ -47,18 +47,10 @@ class Line::IncomingMessageService
   end
 
   def update_last_input_select_response(event)
-    return unless @conversation
-
-    user_response_text = event.dig('message', 'text')
-    return if user_response_text.blank?
-
-    last_message = @conversation.messages.last
+    last_message = last_message_if_input_select
     return unless last_message
-    return unless last_message.content_type == "input_select" && last_message.content_attributes['items'].any?
 
-    selected_item_from_bot_options = last_message.content_attributes['items'].find do |item|
-      item['value'] == user_response_text
-    end
+    selected_item_from_bot_options = get_selected_item(event, last_message)
     return unless selected_item_from_bot_options
 
     new_submitted_value = {
@@ -71,6 +63,25 @@ class Line::IncomingMessageService
     )
 
     last_message.update!(content_attributes: updated_content_attributes)
+  end
+
+  def last_message_if_input_select
+    return unless @conversation
+
+    last_message = @conversation.messages.last
+    return unless last_message
+    return unless last_message.content_type == 'input_select' && last_message.content_attributes['items'].any?
+
+    last_message
+  end
+
+  def get_selected_item(event, last_message)
+    user_response_text = event.dig('message', 'text')
+    return if user_response_text.blank?
+
+    last_message.content_attributes['items'].find do |item|
+      item['value'] == user_response_text
+    end
   end
 
   def message_content(event)
