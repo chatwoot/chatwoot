@@ -1,0 +1,588 @@
+---
+title: Local Development Setup
+description: Set up Chatwoot for local development on your machine
+sidebarTitle: Local Development
+---
+
+# Local Development Setup
+
+This guide will help you set up Chatwoot for local development on your machine. Follow these steps to get a complete development environment running.
+
+## Prerequisites
+
+Before setting up Chatwoot locally, ensure you have the following installed:
+
+### Required Software
+
+<CardGroup cols={2}>
+  <Card title="Ruby" icon="gem">
+    Ruby 3.3.3 (managed with rbenv or RVM)
+  </Card>
+  <Card title="Node.js" icon="node-js">
+    Node.js 20+ with pnpm package manager
+  </Card>
+  <Card title="PostgreSQL" icon="database">
+    PostgreSQL 13+ for the database
+  </Card>
+  <Card title="Redis" icon="redis">
+    Redis 6+ for caching and background jobs
+  </Card>
+</CardGroup>
+
+### System Dependencies
+
+<Tabs>
+  <Tab title="macOS">
+    ```bash
+    # Install Homebrew if not already installed
+    /bin/bash -c "$(curl -fsSL https://raw.githubusercontent.com/Homebrew/install/HEAD/install.sh)"
+    
+    # Install dependencies
+    brew install postgresql@15 redis imagemagick git
+    
+    # Install rbenv for Ruby version management
+    brew install rbenv ruby-build
+    
+    # Install Node.js and pnpm
+    brew install node
+    npm install -g pnpm
+    
+    # Start services
+    brew services start postgresql@15
+    brew services start redis
+    ```
+  </Tab>
+  
+  <Tab title="Ubuntu/Debian">
+    ```bash
+    # Update package list
+    sudo apt update
+    
+    # Install dependencies
+    sudo apt install -y curl git build-essential libssl-dev libreadline-dev \
+      zlib1g-dev libpq-dev imagemagick libmagickwand-dev libffi-dev \
+      postgresql postgresql-contrib redis-server
+    
+    # Install rbenv
+    curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+    
+    # Install Node.js (using NodeSource)
+    curl -fsSL https://deb.nodesource.com/setup_20.x | sudo -E bash -
+    sudo apt install -y nodejs
+    
+    # Install pnpm
+    npm install -g pnpm
+    
+    # Start services
+    sudo systemctl start postgresql
+    sudo systemctl start redis-server
+    sudo systemctl enable postgresql
+    sudo systemctl enable redis-server
+    ```
+  </Tab>
+  
+  <Tab title="CentOS/RHEL">
+    ```bash
+    # Install EPEL repository
+    sudo yum install -y epel-release
+    
+    # Install dependencies
+    sudo yum groupinstall -y "Development Tools"
+    sudo yum install -y curl git openssl-devel readline-devel zlib-devel \
+      postgresql-devel ImageMagick-devel libffi-devel postgresql-server \
+      postgresql-contrib redis
+    
+    # Initialize PostgreSQL
+    sudo postgresql-setup initdb
+    
+    # Install rbenv
+    curl -fsSL https://github.com/rbenv/rbenv-installer/raw/HEAD/bin/rbenv-installer | bash
+    
+    # Install Node.js
+    curl -fsSL https://rpm.nodesource.com/setup_20.x | sudo bash -
+    sudo yum install -y nodejs
+    
+    # Install pnpm
+    npm install -g pnpm
+    
+    # Start services
+    sudo systemctl start postgresql
+    sudo systemctl start redis
+    sudo systemctl enable postgresql
+    sudo systemctl enable redis
+    ```
+  </Tab>
+</Tabs>
+
+## Ruby Setup
+
+### Install Ruby with rbenv
+
+```bash
+# Add rbenv to your shell profile
+echo 'export PATH="$HOME/.rbenv/bin:$PATH"' >> ~/.bashrc
+echo 'eval "$(rbenv init -)"' >> ~/.bashrc
+source ~/.bashrc
+
+# Install Ruby 3.3.3
+rbenv install 3.3.3
+rbenv global 3.3.3
+
+# Verify installation
+ruby --version
+# Should output: ruby 3.3.3
+
+# Install bundler
+gem install bundler
+```
+
+### Alternative: Using RVM
+
+```bash
+# Install RVM
+curl -sSL https://get.rvm.io | bash -s stable
+source ~/.rvm/scripts/rvm
+
+# Install Ruby 3.3.3
+rvm install 3.3.3
+rvm use 3.3.3 --default
+
+# Verify installation
+ruby --version
+gem install bundler
+```
+
+## Database Setup
+
+### PostgreSQL Configuration
+
+```bash
+# Create PostgreSQL user (macOS with Homebrew)
+createuser -s chatwoot
+
+# Create PostgreSQL user (Linux)
+sudo -u postgres createuser -s chatwoot
+
+# Set password for the user
+sudo -u postgres psql
+postgres=# ALTER USER chatwoot PASSWORD 'password';
+postgres=# \q
+
+# Create databases
+createdb chatwoot_development
+createdb chatwoot_test
+```
+
+### PostgreSQL Authentication Setup
+
+Edit PostgreSQL configuration to allow local connections:
+
+```bash
+# Find pg_hba.conf location
+sudo -u postgres psql -c "SHOW hba_file;"
+
+# Edit the file (example path)
+sudo nano /etc/postgresql/15/main/pg_hba.conf
+
+# Add or modify these lines:
+local   all             chatwoot                                md5
+host    all             chatwoot        127.0.0.1/32            md5
+host    all             chatwoot        ::1/128                 md5
+
+# Restart PostgreSQL
+sudo systemctl restart postgresql
+```
+
+## Project Setup
+
+### Clone the Repository
+
+```bash
+# Fork the repository on GitHub first, then clone your fork
+git clone https://github.com/YOUR_USERNAME/chatwoot.git
+cd chatwoot
+
+# Add upstream remote
+git remote add upstream https://github.com/chatwoot/chatwoot.git
+
+# Verify remotes
+git remote -v
+```
+
+### Install Dependencies
+
+```bash
+# Install Ruby dependencies
+bundle install
+
+# Install Node.js dependencies
+pnpm install
+
+# Install Playwright for E2E tests (optional)
+pnpm exec playwright install
+```
+
+### Environment Configuration
+
+```bash
+# Copy environment file
+cp .env.example .env
+
+# Edit the environment file
+nano .env
+```
+
+Update the `.env` file with your local configuration:
+
+```bash
+# Database configuration
+DATABASE_URL=postgresql://chatwoot:password@localhost:5432/chatwoot_development
+REDIS_URL=redis://localhost:6379/0
+
+# Application settings
+FRONTEND_URL=http://localhost:3000
+FORCE_SSL=false
+RAILS_ENV=development
+NODE_ENV=development
+
+# Email configuration (for development)
+MAILER_SENDER_EMAIL=dev@chatwoot.local
+SMTP_ADDRESS=localhost
+SMTP_PORT=1025
+
+# File storage (local)
+ACTIVE_STORAGE_SERVICE=local
+
+# Development features
+ENABLE_DEVELOPMENT_FEATURES=true
+LOG_LEVEL=debug
+```
+
+### Database Initialization
+
+```bash
+# Create and migrate the database
+bundle exec rails db:create
+bundle exec rails db:migrate
+
+# Seed the database with sample data
+bundle exec rails db:seed
+
+# Prepare the test database
+RAILS_ENV=test bundle exec rails db:create
+RAILS_ENV=test bundle exec rails db:migrate
+```
+
+## Running the Application
+
+### Start Development Servers
+
+You'll need to run multiple processes for full development:
+
+#### Option 1: Using Foreman (Recommended)
+
+```bash
+# Install foreman
+gem install foreman
+
+# Start all services
+foreman start -f Procfile.dev
+```
+
+#### Option 2: Manual Process Management
+
+Open multiple terminal windows/tabs:
+
+```bash
+# Terminal 1: Rails server
+bundle exec rails server -p 3000
+
+# Terminal 2: Webpack dev server
+pnpm run dev
+
+# Terminal 3: Sidekiq worker
+bundle exec sidekiq
+
+# Terminal 4: MailHog (for email testing)
+mailhog
+```
+
+### Access the Application
+
+Once all services are running:
+
+- **Web Application**: http://localhost:3000
+- **API Documentation**: http://localhost:3000/swagger
+- **Sidekiq Web UI**: http://localhost:3000/sidekiq
+- **MailHog (Email)**: http://localhost:8025
+
+### Default Login Credentials
+
+After seeding the database, you can log in with:
+
+- **Email**: john@acme.inc
+- **Password**: Password1!
+
+## Development Tools
+
+### Code Quality Tools
+
+```bash
+# Install development gems
+bundle install --with development test
+
+# Run RuboCop (Ruby linter)
+bundle exec rubocop
+
+# Run RuboCop with auto-fix
+bundle exec rubocop -a
+
+# Run ESLint (JavaScript linter)
+pnpm run lint
+
+# Run ESLint with auto-fix
+pnpm run lint:fix
+
+# Run Prettier (code formatter)
+pnpm run format
+```
+
+### Testing
+
+```bash
+# Run Ruby tests
+bundle exec rspec
+
+# Run specific test file
+bundle exec rspec spec/models/user_spec.rb
+
+# Run JavaScript tests
+pnpm run test
+
+# Run E2E tests
+pnpm run test:e2e
+
+# Run tests with coverage
+COVERAGE=true bundle exec rspec
+```
+
+### Database Operations
+
+```bash
+# Reset database
+bundle exec rails db:drop db:create db:migrate db:seed
+
+# Generate migration
+bundle exec rails generate migration AddColumnToTable column:type
+
+# Run migrations
+bundle exec rails db:migrate
+
+# Rollback migration
+bundle exec rails db:rollback
+
+# Check migration status
+bundle exec rails db:migrate:status
+```
+
+## IDE and Editor Setup
+
+### VS Code Configuration
+
+Create `.vscode/settings.json`:
+
+```json
+{
+  "ruby.intellisense": "rubyLocate",
+  "ruby.codeCompletion": "rcodetools",
+  "ruby.format": "rubocop",
+  "editor.formatOnSave": true,
+  "editor.rulers": [120],
+  "files.trimTrailingWhitespace": true,
+  "files.insertFinalNewline": true,
+  "eslint.autoFixOnSave": true,
+  "prettier.requireConfig": true
+}
+```
+
+### Recommended VS Code Extensions
+
+```json
+{
+  "recommendations": [
+    "rebornix.ruby",
+    "wingrunr21.vscode-ruby",
+    "bradlc.vscode-tailwindcss",
+    "esbenp.prettier-vscode",
+    "dbaeumer.vscode-eslint",
+    "ms-vscode.vscode-typescript-next",
+    "bradlc.vscode-tailwindcss"
+  ]
+}
+```
+
+### RubyMine Configuration
+
+1. Open the project in RubyMine
+2. Configure Ruby SDK: File → Project Structure → SDKs
+3. Set up database connection in Database tool window
+4. Configure code style: File → Settings → Editor → Code Style
+
+## Debugging
+
+### Rails Debugging
+
+```ruby
+# Add to your code for debugging
+binding.pry
+
+# Or use the built-in debugger
+debugger
+```
+
+### JavaScript Debugging
+
+```javascript
+// Add to your code
+console.log('Debug info:', variable);
+debugger;
+```
+
+### Database Debugging
+
+```bash
+# Rails console
+bundle exec rails console
+
+# Database console
+bundle exec rails dbconsole
+
+# Check database queries in logs
+tail -f log/development.log | grep SQL
+```
+
+## Common Issues and Solutions
+
+### Bundle Install Issues
+
+<Accordion title="pg gem installation fails">
+```bash
+# macOS
+brew install postgresql
+bundle config build.pg --with-pg-config=/usr/local/bin/pg_config
+
+# Ubuntu/Debian
+sudo apt-get install libpq-dev
+bundle install
+```
+</Accordion>
+
+<Accordion title="ImageMagick issues">
+```bash
+# macOS
+brew install imagemagick pkg-config
+
+# Ubuntu/Debian
+sudo apt-get install libmagickwand-dev
+
+# Then reinstall the gem
+bundle pristine rmagick
+```
+</Accordion>
+
+### Node.js Issues
+
+<Accordion title="pnpm install fails">
+```bash
+# Clear cache and reinstall
+pnpm store prune
+rm -rf node_modules
+pnpm install
+```
+</Accordion>
+
+<Accordion title="Webpack compilation errors">
+```bash
+# Clear webpack cache
+rm -rf tmp/cache/webpacker
+pnpm run dev
+```
+</Accordion>
+
+### Database Issues
+
+<Accordion title="Database connection refused">
+```bash
+# Check if PostgreSQL is running
+sudo systemctl status postgresql
+
+# Start PostgreSQL if not running
+sudo systemctl start postgresql
+
+# Check connection
+psql -U chatwoot -d chatwoot_development -h localhost
+```
+</Accordion>
+
+<Accordion title="Permission denied for database">
+```bash
+# Reset PostgreSQL user password
+sudo -u postgres psql
+postgres=# ALTER USER chatwoot PASSWORD 'password';
+postgres=# \q
+```
+</Accordion>
+
+## Performance Optimization
+
+### Development Performance Tips
+
+```bash
+# Use spring for faster Rails commands
+bundle exec spring binstub --all
+
+# Use bootsnap for faster boot times (already included)
+# Ensure tmp/cache directory exists
+mkdir -p tmp/cache
+
+# Use parallel testing
+bundle exec rspec --parallel
+
+# Optimize database queries
+# Add to config/environments/development.rb
+config.active_record.verbose_query_logs = true
+```
+
+### Memory Usage Optimization
+
+```bash
+# Monitor memory usage
+ps aux | grep ruby
+ps aux | grep node
+
+# Use jemalloc for better memory management
+export MALLOC_ARENA_MAX=2
+bundle exec rails server
+```
+
+## Next Steps
+
+Once you have your development environment set up:
+
+1. **Read the Contributing Guidelines**: Check out the [contributing guide](../introduction) for code standards and workflow
+2. **Explore the Codebase**: Familiarize yourself with the project structure
+3. **Pick an Issue**: Look for "good first issue" labels on GitHub
+4. **Join the Community**: Connect with other contributors on Discord or GitHub Discussions
+
+## Getting Help
+
+If you encounter issues during setup:
+
+- **GitHub Issues**: Search existing issues or create a new one
+- **Discord Community**: Join the Chatwoot Discord server
+- **Documentation**: Check the official documentation
+- **Stack Overflow**: Search for Chatwoot-related questions
+
+---
+
+You're now ready to start contributing to Chatwoot! The development environment should be fully functional and ready for coding. 

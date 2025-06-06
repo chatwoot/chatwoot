@@ -1,0 +1,339 @@
+---
+title: System Requirements
+description: Hardware, software, and infrastructure requirements for deploying Chatwoot in different environments.
+sidebarTitle: Requirements
+---
+
+Before deploying Chatwoot, ensure your infrastructure meets the minimum requirements for your expected usage. This guide covers requirements for different deployment scenarios and scales.
+
+## Minimum System Requirements
+
+### Development Environment
+
+For local development and testing:
+
+| Component | Requirement |
+|-----------|-------------|
+| **CPU** | 2 cores (2.0 GHz+) |
+| **RAM** | 4GB |
+| **Storage** | 20GB available space |
+| **OS** | Ubuntu 20.04+, macOS 10.15+, Windows 10+ |
+| **Network** | Broadband internet connection |
+
+### Small Production (1-10 agents)
+
+For small teams and low-volume usage:
+
+| Component | Requirement |
+|-----------|-------------|
+| **CPU** | 2 cores (2.4 GHz+) |
+| **RAM** | 4GB |
+| **Storage** | 50GB SSD |
+| **Network** | 100 Mbps bandwidth |
+| **Concurrent Users** | Up to 100 |
+
+### Medium Production (10-50 agents)
+
+For growing teams with moderate usage:
+
+| Component | Requirement |
+|-----------|-------------|
+| **CPU** | 4 cores (2.4 GHz+) |
+| **RAM** | 8GB |
+| **Storage** | 100GB SSD |
+| **Network** | 500 Mbps bandwidth |
+| **Concurrent Users** | Up to 500 |
+
+### Large Production (50+ agents)
+
+For enterprise deployments with high volume:
+
+| Component | Requirement |
+|-----------|-------------|
+| **CPU** | 8+ cores (2.4 GHz+) |
+| **RAM** | 16GB+ |
+| **Storage** | 200GB+ SSD |
+| **Network** | 1 Gbps+ bandwidth |
+| **Concurrent Users** | 1000+ |
+
+## Software Requirements
+
+### Operating System
+
+**Supported Linux Distributions:**
+- Ubuntu 20.04 LTS or later (recommended)
+- Ubuntu 22.04 LTS
+- Debian 10 or later
+- CentOS 8 or later
+- RHEL 8 or later
+- Amazon Linux 2
+
+**Container Platforms:**
+- Docker 20.10+ with Docker Compose 2.0+
+- Kubernetes 1.20+
+- OpenShift 4.6+
+
+### Runtime Dependencies
+
+| Component | Version | Purpose |
+|-----------|---------|---------|
+| **Ruby** | 3.3.3+ | Application runtime |
+| **Node.js** | 20.x LTS | Frontend build tools |
+| **PostgreSQL** | 12+ | Primary database |
+| **Redis** | 6.0+ | Cache and job queue |
+| **Nginx** | 1.18+ | Reverse proxy |
+
+### Development Dependencies
+
+For building from source:
+
+| Component | Version | Purpose |
+|-----------|---------|---------|
+| **Git** | 2.25+ | Source code management |
+| **Build tools** | Latest | Compiling native extensions |
+| **ImageMagick** | 7.0+ | Image processing |
+| **FFmpeg** | 4.0+ | Video/audio processing |
+
+## Database Requirements
+
+### PostgreSQL Configuration
+
+**Minimum Version:** PostgreSQL 12+
+**Recommended Version:** PostgreSQL 14+
+
+**Required Extensions:**
+- `pg_stat_statements` (performance monitoring)
+- `uuid-ossp` (UUID generation)
+- `pg_trgm` (full-text search)
+
+**Configuration Recommendations:**
+
+```sql
+-- Memory settings (adjust based on available RAM)
+shared_buffers = 256MB                    # 25% of RAM for small instances
+effective_cache_size = 1GB                # 75% of RAM
+work_mem = 4MB                            # Per connection
+maintenance_work_mem = 64MB               # For maintenance operations
+
+-- Connection settings
+max_connections = 100                     # Adjust based on expected load
+max_prepared_transactions = 100           # For prepared statements
+
+-- Write-ahead logging
+wal_buffers = 16MB                        # WAL buffer size
+checkpoint_completion_target = 0.9        # Checkpoint target
+```
+
+### Redis Configuration
+
+**Minimum Version:** Redis 6.0+
+**Recommended Version:** Redis 7.0+
+
+**Memory Requirements:**
+- **Small deployment:** 512MB
+- **Medium deployment:** 2GB
+- **Large deployment:** 4GB+
+
+**Configuration Recommendations:**
+
+```redis
+# Memory management
+maxmemory 2gb
+maxmemory-policy allkeys-lru
+
+# Persistence (choose one)
+save 900 1                               # RDB snapshots
+# appendonly yes                         # AOF logging
+
+# Security
+requirepass your_secure_password
+```
+
+## Network Requirements
+
+### Ports
+
+| Port | Protocol | Purpose | External Access |
+|------|----------|---------|-----------------|
+| **80** | HTTP | Web traffic (redirect to HTTPS) | Yes |
+| **443** | HTTPS | Secure web traffic | Yes |
+| **3000** | HTTP | Application server (behind proxy) | No |
+| **5432** | TCP | PostgreSQL database | No |
+| **6379** | TCP | Redis cache | No |
+| **22** | SSH | Server administration | Admin only |
+
+### Firewall Configuration
+
+**Inbound Rules:**
+```bash
+# Allow HTTP and HTTPS
+ufw allow 80/tcp
+ufw allow 443/tcp
+
+# Allow SSH (restrict to admin IPs)
+ufw allow from YOUR_ADMIN_IP to any port 22
+
+# Deny all other inbound traffic
+ufw default deny incoming
+```
+
+**Outbound Rules:**
+```bash
+# Allow all outbound (for updates, integrations)
+ufw default allow outgoing
+
+# Or restrict to specific services
+ufw allow out 53/udp    # DNS
+ufw allow out 80/tcp    # HTTP
+ufw allow out 443/tcp   # HTTPS
+ufw allow out 587/tcp   # SMTP
+```
+
+### Bandwidth Estimation
+
+**Per Agent (monthly):**
+- **Light usage:** 1-2 GB
+- **Medium usage:** 3-5 GB
+- **Heavy usage:** 8-10 GB
+
+**Per Customer Conversation:**
+- **Text only:** 10-50 KB
+- **With images:** 500 KB - 2 MB
+- **With files:** 1-10 MB
+
+## Storage Requirements
+
+### Disk Space Planning
+
+**Base Installation:** 5-10 GB
+**Database Growth:** 100 MB - 1 GB per 1000 conversations
+**File Attachments:** Varies by usage (plan for 10-50 GB)
+**Logs:** 1-5 GB per month
+**Backups:** 2x database size + file storage
+
+### Storage Performance
+
+| Deployment Size | IOPS | Throughput |
+|-----------------|------|------------|
+| **Small** | 1,000 IOPS | 50 MB/s |
+| **Medium** | 3,000 IOPS | 150 MB/s |
+| **Large** | 10,000+ IOPS | 500+ MB/s |
+
+### File Storage Options
+
+**Local Storage:**
+- Suitable for small deployments
+- Requires backup strategy
+- Limited scalability
+
+**Object Storage (Recommended):**
+- AWS S3, Google Cloud Storage, Azure Blob
+- Unlimited scalability
+- Built-in redundancy
+- CDN integration
+
+## Security Requirements
+
+### SSL/TLS Certificates
+
+**Required for Production:**
+- Valid SSL certificate for your domain
+- TLS 1.2 or higher
+- Strong cipher suites
+
+**Certificate Options:**
+- Let's Encrypt (free, automated)
+- Commercial certificates
+- Wildcard certificates for subdomains
+
+### Access Control
+
+**Server Access:**
+- SSH key-based authentication
+- Disable password authentication
+- Regular security updates
+- Fail2ban or similar intrusion prevention
+
+**Application Security:**
+- Strong database passwords
+- Redis authentication
+- Regular security updates
+- Web Application Firewall (optional)
+
+## Cloud Provider Specifications
+
+### AWS EC2 Instance Types
+
+| Use Case | Instance Type | vCPU | RAM | Storage |
+|----------|---------------|------|-----|---------|
+| **Development** | t3.medium | 2 | 4 GB | 20 GB gp3 |
+| **Small Production** | t3.large | 2 | 8 GB | 50 GB gp3 |
+| **Medium Production** | m5.xlarge | 4 | 16 GB | 100 GB gp3 |
+| **Large Production** | m5.2xlarge | 8 | 32 GB | 200 GB gp3 |
+
+### DigitalOcean Droplets
+
+| Use Case | Droplet Size | vCPU | RAM | Storage |
+|----------|--------------|------|-----|---------|
+| **Development** | 2 GB | 1 | 2 GB | 50 GB SSD |
+| **Small Production** | 4 GB | 2 | 4 GB | 80 GB SSD |
+| **Medium Production** | 8 GB | 4 | 8 GB | 160 GB SSD |
+| **Large Production** | 16 GB | 6 | 16 GB | 320 GB SSD |
+
+### Google Cloud Compute Engine
+
+| Use Case | Machine Type | vCPU | RAM | Storage |
+|----------|--------------|------|-----|---------|
+| **Development** | e2-medium | 2 | 4 GB | 50 GB SSD |
+| **Small Production** | e2-standard-2 | 2 | 8 GB | 100 GB SSD |
+| **Medium Production** | e2-standard-4 | 4 | 16 GB | 200 GB SSD |
+| **Large Production** | e2-standard-8 | 8 | 32 GB | 500 GB SSD |
+
+## Performance Benchmarks
+
+### Expected Performance
+
+| Metric | Small | Medium | Large |
+|--------|-------|--------|-------|
+| **Concurrent Users** | 100 | 500 | 1000+ |
+| **Messages/minute** | 1,000 | 5,000 | 20,000+ |
+| **Response Time** | <200ms | <300ms | <500ms |
+| **Uptime** | 99.5% | 99.9% | 99.95% |
+
+### Load Testing
+
+Before production deployment, consider load testing:
+
+```bash
+# Example using Apache Bench
+ab -n 1000 -c 10 https://your-chatwoot-domain.com/api/v1/accounts
+
+# Example using wrk
+wrk -t12 -c400 -d30s https://your-chatwoot-domain.com/
+```
+
+## Monitoring Requirements
+
+### Essential Metrics
+
+- **System:** CPU, memory, disk, network
+- **Application:** Response times, error rates
+- **Database:** Connection count, query performance
+- **Redis:** Memory usage, hit rates
+
+### Recommended Tools
+
+- **System Monitoring:** Prometheus + Grafana, DataDog, New Relic
+- **Log Management:** ELK Stack, Fluentd, Splunk
+- **Uptime Monitoring:** Pingdom, UptimeRobot
+- **APM:** New Relic, DataDog APM, Scout
+
+---
+
+<Warning>
+These requirements are guidelines. Your actual needs may vary based on usage patterns, integrations, and performance expectations. Monitor your deployment and adjust resources accordingly.
+</Warning>
+
+<Note>
+For high-availability deployments, consider redundancy in all components and implement proper backup and disaster recovery procedures.
+</Note> 

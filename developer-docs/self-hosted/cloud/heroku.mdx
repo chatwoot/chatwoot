@@ -1,0 +1,505 @@
+---
+title: Heroku Deployment
+description: Deploy Chatwoot on Heroku with one-click deployment and managed services
+sidebarTitle: Heroku
+---
+
+# Heroku Deployment Guide
+
+Deploy Chatwoot on Heroku using the one-click deployment option for a quick and managed hosting solution. This guide covers deployment, configuration, and maintenance on Heroku's platform.
+
+<Note>
+Heroku has discontinued free dynos, postgres and redis. [Chatwoot will use basic/mini plans](https://blog.heroku.com/new-low-cost-plans) for all new Heroku deployments going forward.
+</Note>
+
+## Quick Deployment
+
+### One-Click Deploy
+
+The fastest way to get Chatwoot running on Heroku is using the one-click deploy button:
+
+<Card title="Deploy to Heroku" icon="heroku" href="https://heroku.com/deploy?template=https://github.com/chatwoot/chatwoot">
+  Click here to deploy Chatwoot to Heroku with one click
+</Card>
+
+### Deployment Steps
+
+1. **Click the Deploy Button**: Use the one-click deploy button above
+2. **Configure App Settings**:
+   - Choose an app name (or let Heroku generate one)
+   - Select your region (US or Europe)
+   - Review the default configuration
+
+3. **Deploy the Application**: Click "Deploy app" and wait for the build to complete
+
+4. **Enable Worker Dynos**:
+   - Go to the **Resources** tab in your Heroku app dashboard
+   - Ensure the **worker** dynos are turned on
+   - This is crucial for background job processing
+
+5. **Configure Environment Variables**:
+   - Go to **Settings** tab in Heroku app dashboard
+   - Click **Reveal Config Vars**
+   - Configure additional variables as needed
+
+6. **Access Your Installation**: Navigate to `yourapp.herokuapp.com`
+
+## Configuration
+
+### Required Environment Variables
+
+Heroku automatically sets up basic configuration, but you'll need to configure additional variables:
+
+#### Email Configuration
+
+```bash
+# SMTP Settings (required for notifications)
+MAILER_SENDER_EMAIL=noreply@yourdomain.com
+SMTP_ADDRESS=smtp.sendgrid.net
+SMTP_PORT=587
+SMTP_USERNAME=apikey
+SMTP_PASSWORD=your-sendgrid-api-key
+SMTP_AUTHENTICATION=plain
+SMTP_ENABLE_STARTTLS_AUTO=true
+```
+
+#### File Storage Configuration
+
+<Warning>
+Heroku has an "ephemeral" hard disk. Files uploaded to Chatwoot will not persist after application restarts. You must configure cloud storage.
+</Warning>
+
+**Amazon S3 Configuration:**
+
+```bash
+ACTIVE_STORAGE_SERVICE=amazon
+S3_BUCKET_NAME=your-chatwoot-bucket
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=us-east-1
+```
+
+**Google Cloud Storage Configuration:**
+
+```bash
+ACTIVE_STORAGE_SERVICE=google
+GCS_PROJECT=your-project-id
+GCS_BUCKET=your-chatwoot-bucket
+GOOGLE_APPLICATION_CREDENTIALS={"type":"service_account",...}
+```
+
+#### Frontend URL
+
+```bash
+FRONTEND_URL=https://yourapp.herokuapp.com
+FORCE_SSL=true
+```
+
+### Setting Environment Variables
+
+#### Via Heroku Dashboard
+
+1. Go to your app's **Settings** tab
+2. Click **Reveal Config Vars**
+3. Add each variable name and value
+4. Click **Add** for each variable
+
+#### Via Heroku CLI
+
+```bash
+# Install Heroku CLI
+npm install -g heroku
+
+# Login to Heroku
+heroku login
+
+# Set environment variables
+heroku config:set MAILER_SENDER_EMAIL=noreply@yourdomain.com -a your-app-name
+heroku config:set SMTP_ADDRESS=smtp.sendgrid.net -a your-app-name
+heroku config:set SMTP_PORT=587 -a your-app-name
+
+# Set storage configuration
+heroku config:set ACTIVE_STORAGE_SERVICE=amazon -a your-app-name
+heroku config:set S3_BUCKET_NAME=your-bucket -a your-app-name
+heroku config:set AWS_ACCESS_KEY_ID=your-key -a your-app-name
+heroku config:set AWS_SECRET_ACCESS_KEY=your-secret -a your-app-name
+```
+
+## Add-ons and Services
+
+### Database (PostgreSQL)
+
+Heroku automatically provisions a PostgreSQL database:
+
+```bash
+# Check database info
+heroku pg:info -a your-app-name
+
+# Access database console
+heroku pg:psql -a your-app-name
+
+# Create database backup
+heroku pg:backups:capture -a your-app-name
+
+# Download backup
+heroku pg:backups:download -a your-app-name
+```
+
+### Redis
+
+Heroku automatically provisions Redis for caching and background jobs:
+
+```bash
+# Check Redis info
+heroku redis:info -a your-app-name
+
+# Access Redis CLI
+heroku redis:cli -a your-app-name
+
+# Monitor Redis
+heroku redis:monitor -a your-app-name
+```
+
+### Email Service (SendGrid)
+
+Add SendGrid for email delivery:
+
+```bash
+# Add SendGrid add-on
+heroku addons:create sendgrid:starter -a your-app-name
+
+# Get SendGrid credentials
+heroku config:get SENDGRID_USERNAME -a your-app-name
+heroku config:get SENDGRID_PASSWORD -a your-app-name
+```
+
+## Updating Your Deployment
+
+### Method 1: GitHub Integration (Recommended)
+
+1. **Connect GitHub Repository**:
+   - Go to the **Deploy** tab in your Heroku app dashboard
+   - Choose **GitHub** as the deployment method
+   - Connect the `chatwoot/chatwoot` repository
+
+2. **Enable Automatic Deploys** (Optional):
+   - Enable automatic deploys from the `master` branch
+   - This will automatically deploy when new releases are available
+
+3. **Manual Deploy**:
+   - Go to **Manual deploy** section
+   - Choose `master` branch
+   - Click **Deploy Branch**
+
+### Method 2: Heroku CLI
+
+```bash
+# Clone the Chatwoot repository
+git clone https://github.com/chatwoot/chatwoot.git
+cd chatwoot
+
+# Add Heroku remote
+heroku git:remote -a your-app-name
+
+# Deploy latest version
+git push heroku master
+```
+
+### Method 3: Docker Deployment
+
+```bash
+# Login to Heroku Container Registry
+heroku container:login
+
+# Build and push Docker image
+heroku container:push web -a your-app-name
+
+# Release the image
+heroku container:release web -a your-app-name
+```
+
+## Scaling and Performance
+
+### Dyno Management
+
+```bash
+# Scale web dynos
+heroku ps:scale web=2 -a your-app-name
+
+# Scale worker dynos
+heroku ps:scale worker=1 -a your-app-name
+
+# Check dyno status
+heroku ps -a your-app-name
+```
+
+### Performance Monitoring
+
+```bash
+# View application metrics
+heroku logs --tail -a your-app-name
+
+# Monitor dyno performance
+heroku ps:exec -a your-app-name
+
+# Check memory usage
+heroku logs --source app --tail -a your-app-name | grep "Memory usage"
+```
+
+## Monitoring and Logging
+
+### Application Logs
+
+```bash
+# View recent logs
+heroku logs -a your-app-name
+
+# Tail logs in real-time
+heroku logs --tail -a your-app-name
+
+# Filter logs by source
+heroku logs --source app -a your-app-name
+heroku logs --source heroku -a your-app-name
+```
+
+### Add Monitoring Services
+
+#### Papertrail (Log Management)
+
+```bash
+# Add Papertrail
+heroku addons:create papertrail:choklad -a your-app-name
+
+# View logs in Papertrail
+heroku addons:open papertrail -a your-app-name
+```
+
+#### New Relic (Application Monitoring)
+
+```bash
+# Add New Relic
+heroku addons:create newrelic:wayne -a your-app-name
+
+# Configure New Relic
+heroku config:set NEW_RELIC_APP_NAME="Chatwoot Production" -a your-app-name
+
+# Open New Relic dashboard
+heroku addons:open newrelic -a your-app-name
+```
+
+## Security Configuration
+
+### SSL/TLS
+
+Heroku automatically provides SSL certificates for custom domains:
+
+```bash
+# Add custom domain
+heroku domains:add chatwoot.yourdomain.com -a your-app-name
+
+# Check SSL certificate status
+heroku certs -a your-app-name
+
+# Enable Automated Certificate Management
+heroku certs:auto:enable -a your-app-name
+```
+
+### Environment Security
+
+```bash
+# Rotate database credentials
+heroku pg:credentials:rotate -a your-app-name
+
+# Rotate Redis credentials
+heroku redis:credentials:rotate -a your-app-name
+
+# Review security settings
+heroku config -a your-app-name
+```
+
+## Backup and Recovery
+
+### Database Backups
+
+```bash
+# Schedule automatic backups
+heroku pg:backups:schedule DATABASE_URL --at '02:00 America/Los_Angeles' -a your-app-name
+
+# Create manual backup
+heroku pg:backups:capture -a your-app-name
+
+# List all backups
+heroku pg:backups -a your-app-name
+
+# Restore from backup
+heroku pg:backups:restore b001 DATABASE_URL -a your-app-name
+```
+
+### File Storage Backups
+
+Since Heroku has ephemeral storage, ensure your cloud storage has backup policies:
+
+**For S3:**
+```bash
+# Enable versioning on S3 bucket
+aws s3api put-bucket-versioning \
+  --bucket your-chatwoot-bucket \
+  --versioning-configuration Status=Enabled
+
+# Set up lifecycle policy for old versions
+aws s3api put-bucket-lifecycle-configuration \
+  --bucket your-chatwoot-bucket \
+  --lifecycle-configuration file://lifecycle.json
+```
+
+## Troubleshooting
+
+### Common Issues
+
+<Accordion title="Application not starting">
+**Symptoms**: App crashes on startup, H10 errors
+
+**Solutions**:
+- Check that worker dynos are enabled in Resources tab
+- Verify all required environment variables are set
+- Check application logs: `heroku logs --tail -a your-app-name`
+- Ensure database migrations have run: `heroku run rails db:migrate -a your-app-name`
+</Accordion>
+
+<Accordion title="File uploads not working">
+**Symptoms**: Files upload but disappear after app restart
+
+**Solutions**:
+- Configure cloud storage (S3, GCS, etc.)
+- Verify storage credentials are correct
+- Check CORS settings on your storage bucket
+- Test storage configuration: `heroku run rails console -a your-app-name`
+</Accordion>
+
+<Accordion title="Email notifications not sending">
+**Symptoms**: Users not receiving email notifications
+
+**Solutions**:
+- Verify SMTP configuration in config vars
+- Check SendGrid add-on status
+- Test email configuration: `heroku run rails console -a your-app-name`
+- Review email logs in SendGrid dashboard
+</Accordion>
+
+<Accordion title="Build version shows as unknown">
+**Symptoms**: Settings page shows "unknown" build version
+
+**Solution**:
+Enable runtime dyno metadata:
+```bash
+heroku labs:enable runtime-dyno-metadata -a your-app-name
+```
+</Accordion>
+
+### Performance Issues
+
+<Accordion title="Slow response times">
+**Solutions**:
+- Scale up web dynos: `heroku ps:scale web=2 -a your-app-name`
+- Upgrade to higher performance dynos
+- Monitor database performance with `heroku pg:diagnose -a your-app-name`
+- Check Redis performance with `heroku redis:info -a your-app-name`
+</Accordion>
+
+<Accordion title="Background jobs not processing">
+**Solutions**:
+- Ensure worker dynos are running: `heroku ps -a your-app-name`
+- Scale worker dynos if needed: `heroku ps:scale worker=1 -a your-app-name`
+- Check Sidekiq logs: `heroku logs --source app --tail -a your-app-name | grep sidekiq`
+</Accordion>
+
+### Diagnostic Commands
+
+```bash
+# Check app status
+heroku ps -a your-app-name
+
+# View configuration
+heroku config -a your-app-name
+
+# Check add-ons
+heroku addons -a your-app-name
+
+# Run Rails console
+heroku run rails console -a your-app-name
+
+# Run database migrations
+heroku run rails db:migrate -a your-app-name
+
+# Check database status
+heroku pg:info -a your-app-name
+
+# Check Redis status
+heroku redis:info -a your-app-name
+```
+
+## Known Limitations
+
+### Platform Limitations
+
+1. **Ephemeral File System**: Files uploaded to local storage will be lost on dyno restart
+2. **Dyno Sleep**: Free tier dynos sleep after 30 minutes of inactivity (upgrade to paid tier to avoid)
+3. **Request Timeout**: Heroku has a 30-second request timeout limit
+4. **Memory Limits**: Dynos have memory limits based on the plan selected
+
+### Workarounds
+
+1. **File Storage**: Use cloud storage (S3, GCS) instead of local storage
+2. **Dyno Sleep**: Upgrade to paid dynos or use external monitoring to keep app awake
+3. **Long Requests**: Implement background job processing for long-running tasks
+4. **Memory Usage**: Monitor and optimize application memory usage
+
+## Cost Optimization
+
+### Dyno Sizing
+
+```bash
+# Check current dyno usage
+heroku ps -a your-app-name
+
+# Optimize dyno allocation
+heroku ps:scale web=1:standard-1x worker=1:standard-1x -a your-app-name
+```
+
+### Add-on Optimization
+
+- Use appropriate add-on tiers based on usage
+- Monitor add-on usage and costs in Heroku dashboard
+- Consider consolidating services where possible
+
+## Best Practices
+
+### Security
+- Use environment variables for all sensitive configuration
+- Enable Automated Certificate Management for SSL
+- Regularly rotate database and Redis credentials
+- Monitor access logs and set up alerts
+
+### Performance
+- Use appropriate dyno types for your workload
+- Monitor application performance with New Relic or similar
+- Implement caching strategies
+- Optimize database queries
+
+### Reliability
+- Set up automatic database backups
+- Monitor application health with external services
+- Implement proper error handling and logging
+- Use multiple dynos for high availability
+
+### Cost Management
+- Monitor dyno usage and scale appropriately
+- Use scheduler add-on for periodic tasks instead of always-on workers
+- Review and optimize add-on usage regularly
+- Consider reserved capacity for predictable workloads
+
+---
+
+This Heroku deployment guide provides a complete solution for hosting Chatwoot on Heroku's platform. The managed infrastructure and add-on ecosystem make it an excellent choice for teams who want to focus on using Chatwoot rather than managing infrastructure.
+
+For more information, visit the [official Chatwoot Heroku documentation](https://www.chatwoot.com/docs/self-hosted/deployment/heroku). 

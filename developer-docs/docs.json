@@ -30,10 +30,63 @@
   "navigation": {
     "groups": [
       {
-        "group": "API Reference",
+        "group": "Getting Started",
         "pages": [
           "introduction"
         ]
+      },
+      {
+        "group": "Self-Hosted Installation",
+        "pages": [
+          "self-hosted/introduction",
+          "self-hosted/architecture",
+          {
+            "group": "Deployment",
+            "pages": [
+              "self-hosted/deployment/linux-vm",
+              "self-hosted/deployment/docker",
+              "self-hosted/deployment/kubernetes",
+              "self-hosted/deployment/chatwoot-ctl"
+            ]
+          },
+          {
+            "group": "Cloud Providers",
+            "pages": [
+              "self-hosted/cloud/aws",
+              "self-hosted/cloud/azure",
+              "self-hosted/cloud/digitalocean",
+              "self-hosted/cloud/gcp",
+              "self-hosted/cloud/heroku"
+            ]
+          },
+          {
+            "group": "Configuration",
+            "pages": [
+              "self-hosted/configuration/environment-variables"
+            ]
+          }
+        ]
+      },
+      {
+        "group": "Contributing Guide",
+        "pages": [
+          "contributing/introduction",
+          {
+            "group": "Project Setup",
+            "pages": [
+              "contributing/project-setup/setup-guide",
+              "contributing/project-setup/environment-variables",
+              "contributing/project-setup/common-errors"
+            ]
+          },
+          "contributing/testing",
+          "contributing/guidelines",
+          "contributing/code-of-conduct"
+        ]
+      },
+      {
+        "group": "API Reference",
+        "pages": []
       },
       {
         "group": "Application API",

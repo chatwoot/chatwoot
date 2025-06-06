@@ -1,0 +1,658 @@
+---
+title: Environment Variables for Development
+description: Complete guide to environment variables for Chatwoot development and testing
+sidebarTitle: Environment Variables
+---
+
+# Environment Variables for Development
+
+This guide covers environment variables specifically for development and testing environments. For production environment variables, see the [Self-hosted Environment Variables](../../self-hosted/configuration/environment-variables) guide.
+
+## Development Environment Setup
+
+### Basic Development Configuration
+
+Create your `.env` file from the example:
+
+```bash
+cp .env.example .env
+```
+
+### Essential Development Variables
+
+```bash
+# Rails Environment
+RAILS_ENV=development
+NODE_ENV=development
+
+# Application Configuration
+FRONTEND_URL=http://localhost:3000
+FORCE_SSL=false
+SECRET_KEY_BASE=your-secret-key-here
+
+# Database Configuration
+DATABASE_URL=postgresql://chatwoot:password@localhost:5432/chatwoot_development
+REDIS_URL=redis://localhost:6379/0
+
+# Development Features
+ENABLE_DEVELOPMENT_FEATURES=true
+RAILS_LOG_LEVEL=debug
+LOG_LEVEL=debug
+```
+
+## Database Configuration
+
+### PostgreSQL Settings
+
+```bash
+# Primary database connection
+DATABASE_URL=postgresql://username:password@localhost:5432/chatwoot_development
+
+# Alternative format (individual variables)
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=chatwoot
+DB_PASSWORD=password
+DB_NAME=chatwoot_development
+
+# Test database
+TEST_DATABASE_URL=postgresql://username:password@localhost:5432/chatwoot_test
+```
+
+### Redis Configuration
+
+```bash
+# Redis connection for development
+REDIS_URL=redis://localhost:6379/0
+
+# Redis with authentication
+REDIS_URL=redis://:password@localhost:6379/0
+
+# Redis Sentinel (for advanced setups)
+REDIS_SENTINELS=localhost:26379
+REDIS_SENTINEL_MASTER_NAME=mymaster
+
+# Sidekiq Redis (can be separate)
+SIDEKIQ_REDIS_URL=redis://localhost:6379/1
+```
+
+## Email Configuration for Development
+
+### Local Email Testing
+
+```bash
+# MailHog configuration (recommended for development)
+MAILER_SENDER_EMAIL=dev@chatwoot.local
+SMTP_ADDRESS=localhost
+SMTP_PORT=1025
+SMTP_DOMAIN=chatwoot.local
+SMTP_ENABLE_STARTTLS_AUTO=false
+SMTP_TLS=false
+
+# Alternative: Letter Opener (emails open in browser)
+LETTER_OPENER=true
+```
+
+### Gmail SMTP (for testing real emails)
+
+```bash
+MAILER_SENDER_EMAIL=your-email@gmail.com
+SMTP_ADDRESS=smtp.gmail.com
+SMTP_PORT=587
+SMTP_USERNAME=your-email@gmail.com
+SMTP_PASSWORD=your-app-password
+SMTP_DOMAIN=gmail.com
+SMTP_ENABLE_STARTTLS_AUTO=true
+SMTP_TLS=true
+```
+
+### Mailtrap (for testing)
+
+```bash
+MAILER_SENDER_EMAIL=dev@chatwoot.local
+SMTP_ADDRESS=smtp.mailtrap.io
+SMTP_PORT=2525
+SMTP_USERNAME=your-mailtrap-username
+SMTP_PASSWORD=your-mailtrap-password
+SMTP_DOMAIN=chatwoot.local
+```
+
+## File Storage Configuration
+
+### Local Storage (Default for Development)
+
+```bash
+ACTIVE_STORAGE_SERVICE=local
+```
+
+### AWS S3 for Development
+
+```bash
+ACTIVE_STORAGE_SERVICE=amazon
+AWS_ACCESS_KEY_ID=your-access-key
+AWS_SECRET_ACCESS_KEY=your-secret-key
+AWS_REGION=us-east-1
+AWS_BUCKET_NAME=chatwoot-dev-bucket
+```
+
+### Google Cloud Storage
+
+```bash
+ACTIVE_STORAGE_SERVICE=google
+GCS_PROJECT_ID=your-project-id
+GCS_CREDENTIALS=path/to/credentials.json
+GCS_BUCKET=chatwoot-dev-bucket
+```
+
+## Development Features
+
+### Debug and Logging
+
+```bash
+# Enable development features
+ENABLE_DEVELOPMENT_FEATURES=true
+
+# Logging levels
+RAILS_LOG_LEVEL=debug
+LOG_LEVEL=debug
+SIDEKIQ_LOG_LEVEL=debug
+
+# SQL query logging
+ACTIVE_RECORD_VERBOSE_QUERY_LOGS=true
+
+# Bullet gem for N+1 query detection
+BULLET_ENABLED=true
+```
+
+### Performance Monitoring
+
+```bash
+# Enable query analysis
+QUERY_ANALYSIS=true
+
+# Memory profiling
+MEMORY_PROFILER=true
+
+# Rack Mini Profiler
+RACK_MINI_PROFILER=true
+
+# Benchmark mode
+BENCHMARK_MODE=true
+```
+
+### Code Quality Tools
+
+```bash
+# RuboCop configuration
+RUBOCOP_PARALLEL=true
+
+# Coverage reporting
+COVERAGE=true
+SIMPLECOV_FORMATTER=html
+
+# Test environment
+RSPEC_RETRY_COUNT=3
+PARALLEL_TEST_PROCESSORS=4
+```
+
+## Testing Environment Variables
+
+### Test Database Configuration
+
+```bash
+# Test environment
+RAILS_ENV=test
+
+# Test database
+TEST_DATABASE_URL=postgresql://username:password@localhost:5432/chatwoot_test
+
+# Test Redis
+TEST_REDIS_URL=redis://localhost:6379/15
+
+# Disable external services in tests
+DISABLE_EXTERNAL_HTTP=true
+MOCK_EXTERNAL_SERVICES=true
+```
+
+### Test-Specific Settings
+
+```bash
+# Faster tests
+RAILS_ENV=test
+DISABLE_SPRING=true
+PARALLEL_WORKERS=4
+
+# Test coverage
+COVERAGE=true
+COVERAGE_REPORTS=true
+
+# Selenium/Capybara configuration
+SELENIUM_REMOTE_URL=http://localhost:4444/wd/hub
+CAPYBARA_SERVER_PORT=3001
+HEADLESS_CHROME=true
+
+# Factory Bot settings
+FACTORY_BOT_ALLOW_CLASS_LOOKUP=false
+```
+
+## Integration Testing
+
+### External Service Mocking
+
+```bash
+# Mock external APIs
+MOCK_FACEBOOK_API=true
+MOCK_TWITTER_API=true
+MOCK_WHATSAPP_API=true
+MOCK_TELEGRAM_API=true
+
+# Webhook testing
+WEBHOOK_TEST_URL=http://localhost:3000/webhooks/test
+NGROK_TUNNEL_URL=https://your-tunnel.ngrok.io
+```
+
+### API Testing
+
+```bash
+# API testing configuration
+API_TEST_TOKEN=test-token-123
+API_TEST_ACCOUNT_ID=1
+API_TEST_USER_ID=1
+
+# Rate limiting (disabled for tests)
+RATE_LIMITING_ENABLED=false
+```
+
+## Development Tools
+
+### Code Analysis
+
+```bash
+# Brakeman security scanner
+BRAKEMAN_ENABLED=true
+
+# Bundle audit
+BUNDLE_AUDIT_ENABLED=true
+
+# Reek code smell detector
+REEK_ENABLED=true
+
+# Rails Best Practices
+RAILS_BEST_PRACTICES_ENABLED=true
+```
+
+### Development Servers
+
+```bash
+# Webpack dev server
+WEBPACK_DEV_SERVER_HOST=localhost
+WEBPACK_DEV_SERVER_PORT=3035
+
+# Hot module replacement
+HMR_ENABLED=true
+
+# Live reload
+LIVE_RELOAD=true
+```
+
+## Third-Party Integrations (Development)
+
+### Social Media (Test Credentials)
+
+```bash
+# Facebook (use test app credentials)
+FB_APP_ID=your-test-app-id
+FB_APP_SECRET=your-test-app-secret
+FB_VERIFY_TOKEN=test-verify-token
+
+# Twitter (use test credentials)
+TWITTER_APP_ID=your-test-app-id
+TWITTER_CONSUMER_KEY=your-test-consumer-key
+TWITTER_CONSUMER_SECRET=your-test-consumer-secret
+
+# WhatsApp (use test credentials)
+WHATSAPP_VERIFY_TOKEN=test-verify-token
+```
+
+### Push Notifications (Development)
+
+```bash
+# FCM (use development project)
+FCM_SERVER_KEY=your-dev-server-key
+FCM_PROJECT_ID=your-dev-project-id
+
+# Vapid keys for web push
+VAPID_PUBLIC_KEY=your-dev-public-key
+VAPID_PRIVATE_KEY=your-dev-private-key
+```
+
+## Security Settings for Development
+
+### Authentication
+
+```bash
+# JWT settings
+JWT_SECRET_KEY=your-dev-jwt-secret
+JWT_EXPIRY=24h
+
+# Session configuration
+SESSION_TIMEOUT=1440
+SECURE_COOKIES=false
+
+# CORS settings (permissive for development)
+CORS_ORIGINS=http://localhost:3000,http://localhost:3001
+```
+
+### Development Security
+
+```bash
+# Disable security features for development
+FORCE_SSL=false
+SECURE_HEADERS=false
+CSP_ENABLED=false
+
+# Allow insecure connections
+ALLOW_HTTP=true
+SKIP_SSL_VERIFICATION=true
+```
+
+## Environment-Specific Configurations
+
+### Development Environment
+
+```bash
+# .env.development
+RAILS_ENV=development
+NODE_ENV=development
+CACHE_CLASSES=false
+EAGER_LOAD=false
+CONSIDER_ALL_REQUESTS_LOCAL=true
+ACTION_CONTROLLER_PERFORM_CACHING=false
+```
+
+### Test Environment
+
+```bash
+# .env.test
+RAILS_ENV=test
+NODE_ENV=test
+CACHE_CLASSES=true
+EAGER_LOAD=false
+PUBLIC_FILE_SERVER_ENABLED=true
+SHOW_EXCEPTIONS=false
+```
+
+### Staging Environment
+
+```bash
+# .env.staging
+RAILS_ENV=staging
+NODE_ENV=production
+FORCE_SSL=true
+LOG_LEVEL=info
+RAILS_SERVE_STATIC_FILES=true
+```
+
+## Docker Development
+
+### Docker Compose Variables
+
+```bash
+# Docker-specific configuration
+POSTGRES_HOST=postgres
+POSTGRES_PORT=5432
+POSTGRES_USER=postgres
+POSTGRES_PASSWORD=postgres
+POSTGRES_DB=chatwoot
+
+REDIS_HOST=redis
+REDIS_PORT=6379
+
+# Rails configuration for Docker
+RAILS_ENV=development
+RAILS_MAX_THREADS=5
+WEB_CONCURRENCY=2
+```
+
+### Development with Docker
+
+```bash
+# Use Docker services
+DATABASE_URL=postgresql://postgres:postgres@postgres:5432/chatwoot_development
+REDIS_URL=redis://redis:6379/0
+
+# File permissions (for volume mounts)
+DOCKER_USER_ID=1000
+DOCKER_GROUP_ID=1000
+```
+
+## IDE and Editor Configuration
+
+### VS Code Settings
+
+```bash
+# Ruby LSP configuration
+RUBY_LSP_ENABLED=true
+RUBY_LSP_EXPERIMENTAL_FEATURES=true
+
+# Solargraph configuration
+SOLARGRAPH_ENABLED=true
+```
+
+### RubyMine Settings
+
+```bash
+# RubyMine-specific settings
+RUBYMINE_PROJECT_ROOT=/path/to/chatwoot
+RUBYMINE_RUBY_VERSION=3.3.3
+```
+
+## Performance and Monitoring
+
+### Development Monitoring
+
+```bash
+# New Relic (development license)
+NEW_RELIC_LICENSE_KEY=your-dev-license-key
+NEW_RELIC_APP_NAME=Chatwoot Development
+
+# Sentry (development DSN)
+SENTRY_DSN=your-dev-sentry-dsn
+SENTRY_ENVIRONMENT=development
+
+# DataDog (development)
+DD_API_KEY=your-dev-datadog-key
+DD_ENV=development
+```
+
+### Memory and Performance
+
+```bash
+# Memory settings
+RUBY_GC_HEAP_INIT_SLOTS=10000
+RUBY_GC_HEAP_FREE_SLOTS=10000
+RUBY_GC_HEAP_GROWTH_FACTOR=1.1
+
+# Puma configuration
+PUMA_WORKERS=1
+PUMA_THREADS=5
+PUMA_PRELOAD_APP=false
+```
+
+## Common Development Scenarios
+
+### API Development
+
+```bash
+# API-specific settings
+API_RATE_LIMIT=1000
+API_RATE_LIMIT_WINDOW=3600
+API_PAGINATION_LIMIT=100
+
+# CORS for API development
+API_CORS_ORIGINS=http://localhost:3001,http://localhost:8080
+```
+
+### Widget Development
+
+```bash
+# Widget development
+WIDGET_BASE_URL=http://localhost:3000
+WIDGET_API_URL=http://localhost:3000/api/v1
+WIDGET_WS_URL=ws://localhost:3000/cable
+```
+
+### Mobile App Development
+
+```bash
+# Mobile API endpoints
+MOBILE_API_URL=http://localhost:3000/api/v1
+MOBILE_WS_URL=ws://localhost:3000/cable
+
+# Push notification testing
+MOBILE_PUSH_ENABLED=true
+```
+
+## Troubleshooting Environment Issues
+
+### Common Environment Problems
+
+<Accordion title="Database connection issues">
+**Problem**: `ActiveRecord::ConnectionNotEstablished`
+
+**Check these variables**:
+```bash
+DATABASE_URL=postgresql://username:password@localhost:5432/chatwoot_development
+DB_HOST=localhost
+DB_PORT=5432
+```
+
+**Verify connection**:
+```bash
+psql $DATABASE_URL -c "SELECT 1;"
+```
+</Accordion>
+
+<Accordion title="Redis connection issues">
+**Problem**: `Redis::CannotConnectError`
+
+**Check these variables**:
+```bash
+REDIS_URL=redis://localhost:6379/0
+```
+
+**Verify connection**:
+```bash
+redis-cli -u $REDIS_URL ping
+```
+</Accordion>
+
+<Accordion title="Email delivery issues">
+**Problem**: Emails not being sent in development
+
+**Check these variables**:
+```bash
+MAILER_SENDER_EMAIL=dev@chatwoot.local
+SMTP_ADDRESS=localhost
+SMTP_PORT=1025
+```
+
+**For MailHog**:
+```bash
+# Start MailHog
+mailhog
+
+# Check web interface at http://localhost:8025
+```
+</Accordion>
+
+<Accordion title="Asset compilation issues">
+**Problem**: `Webpacker::Manifest::MissingEntryError`
+
+**Check these variables**:
+```bash
+NODE_ENV=development
+RAILS_ENV=development
+```
+
+**Recompile assets**:
+```bash
+pnpm run dev
+# or
+bundle exec rails assets:precompile
+```
+</Accordion>
+
+### Environment Validation
+
+Create a script to validate your environment:
+
+```bash
+#!/bin/bash
+# validate_env.sh
+
+echo "Validating development environment..."
+
+# Check required variables
+required_vars=(
+  "RAILS_ENV"
+  "DATABASE_URL"
+  "REDIS_URL"
+  "SECRET_KEY_BASE"
+  "FRONTEND_URL"
+)
+
+for var in "${required_vars[@]}"; do
+  if [ -z "${!var}" ]; then
+    echo "❌ Missing required variable: $var"
+  else
+    echo "✅ $var is set"
+  fi
+done
+
+# Test database connection
+if bundle exec rails runner "ActiveRecord::Base.connection.execute('SELECT 1')" > /dev/null 2>&1; then
+  echo "✅ Database connection successful"
+else
+  echo "❌ Database connection failed"
+fi
+
+# Test Redis connection
+if bundle exec rails runner "Redis.new.ping" > /dev/null 2>&1; then
+  echo "✅ Redis connection successful"
+else
+  echo "❌ Redis connection failed"
+fi
+
+echo "Environment validation complete!"
+```
+
+## Best Practices
+
+### Environment File Management
+
+1. **Never commit `.env` files** to version control
+2. **Use `.env.example`** as a template for required variables
+3. **Document all variables** with comments
+4. **Use different `.env` files** for different environments
+5. **Validate environment** before starting development
+
+### Security Considerations
+
+1. **Use weak credentials** only in development
+2. **Never use production credentials** in development
+3. **Rotate test API keys** regularly
+4. **Use local services** when possible
+5. **Mock external services** in tests
+
+### Performance Tips
+
+1. **Use local Redis** for faster development
+2. **Enable query caching** in development
+3. **Use parallel testing** for faster test runs
+4. **Profile memory usage** regularly
+5. **Monitor database queries** for N+1 issues
+
+---
+
+This guide covers the essential environment variables for Chatwoot development. For production deployment, refer to the [Self-hosted Environment Variables](../../self-hosted/configuration/environment-variables) guide. 
