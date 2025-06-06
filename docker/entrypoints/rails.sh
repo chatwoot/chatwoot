@@ -27,4 +27,4 @@ echo "Vite manifest missing or empty - building assets..."
 bundle exec vite build
 fi
  
-exec "_$@_"
+exec "$@"

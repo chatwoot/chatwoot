@@ -20,7 +20,7 @@
     RAILS_ENV=${RAILS_ENV} \
     RAILS_SERVE_STATIC_FILES=${RAILS_SERVE_STATIC_FILES} \
     POSTMARK_API_TOKEN=${POSTMARK_API_TOKEN} \
-    NODE_OPTIONS="--max-old-space-size=2048 --openssl-legacy-provider" \
+    NODE_OPTIONS="--max-old-space-size=8192 --openssl-legacy-provider" \
     GENERATE_SOURCEMAP=false \
     BUNDLE_PATH="/gems" \
     BUNDLE_JOBS=2 \
@@ -90,7 +90,7 @@
      
     # Precompile assets
     RUN if [ "$RAILS_ENV" = "production" ]; then \
-    NODE_OPTIONS="--max-old-space-size=2048" \
+    NODE_OPTIONS="--max-old-space-size=8192" \
     bundle exec rake assets:precompile && \
     rm -rf spec node_modules tmp/cache /root/.cache /root/.npm; \
     fi
@@ -115,7 +115,7 @@
     EXECJS_RUNTIME=Disabled \
     BUNDLE_FORCE_RUBY_PLATFORM=1 \
     BUNDLE_PATH="/gems" \
-    NODE_OPTIONS="--max-old-space-size=2048"
+    NODE_OPTIONS="--max-old-space-size=4096"
      
     # Runtime dependencies (keep git!)
     RUN apk update && apk add --no-cache \
