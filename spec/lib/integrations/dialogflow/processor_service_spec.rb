@@ -206,7 +206,7 @@ describe Integrations::Dialogflow::ProcessorService do
       expect(config.endpoint).to eq('europe-west1-dialogflow.googleapis.com')
     end
 
-    context 'detect_intent session paths' do
+    context 'when calling detect_intent' do
       let(:mock_client) { instance_double(Google::Cloud::Dialogflow::V2::Sessions::Client) }
 
       before do
