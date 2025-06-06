@@ -32,6 +32,8 @@ class Line::IncomingMessageService
   def message_created?(event)
     return unless event_type_message?(event)
 
+    update_last_input_select_response(event)
+
     @message = @conversation.messages.build(
       content: message_content(event),
       account_id: @inbox.account_id,
@@ -42,6 +44,33 @@ class Line::IncomingMessageService
       source_id: event['message']['id'].to_s
     )
     @message
+  end
+
+  def update_last_input_select_response(event)
+    return unless @conversation
+
+    user_response_text = event.dig('message', 'text')
+    return if user_response_text.blank?
+
+    last_message = @conversation.messages.last
+    return unless last_message
+    return unless last_message.content_type == "input_select" && last_message.content_attributes['items'].any?
+
+    selected_item_from_bot_options = last_message.content_attributes['items'].find do |item|
+      item['value'] == user_response_text
+    end
+    return unless selected_item_from_bot_options
+
+    new_submitted_value = {
+      title: selected_item_from_bot_options['title'],
+      value: selected_item_from_bot_options['value']
+    }
+
+    updated_content_attributes = last_message.content_attributes.merge(
+      'submitted_values' => [new_submitted_value]
+    )
+
+    last_message.update!(content_attributes: updated_content_attributes)
   end
 
   def message_content(event)
