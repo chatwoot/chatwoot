@@ -26,7 +26,7 @@ const openIssue = () => {
 <template>
   <div class="flex justify-between">
     <div
-      class="flex items-center gap-2 px-2 border divide-x rounded-lg h-7 border-n-strong divide-n-border-weak"
+      class="flex items-center gap-2 px-2 py-1.5 border divide-x rounded-lg border-n-strong divide-n-border-weak"
     >
       <div class="flex items-center gap-1">
         <fluent-icon
@@ -39,6 +39,7 @@ const openIssue = () => {
           {{ identifier }}
         </span>
       </div>
+      <span class="w-px h-3 text-n-weak bg-n-border-weak" />
 
       <Button
         link

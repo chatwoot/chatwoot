@@ -99,7 +99,7 @@ const unlinkIssue = () => {
         </div>
       </div>
 
-      <div v-if="labels.length" class="flex flex-wrap gap-1">
+      <div v-if="labels.length" class="flex flex-wrap">
         <woot-label
           v-for="label in labels"
           :key="label.id"
