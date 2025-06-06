@@ -92,6 +92,32 @@
         "PLACEHOLDER": "L'adresse de courriel de support de votre entreprise",
         "ERROR": ""
       },
+      "AUTO_RESOLVE_IGNORE_WAITING": {
+        "LABEL": "Exclure les conversations non prises en charge",
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
+      },
+      "AUTO_RESOLVE_DURATION": {
+        "LABEL": "Durée d'inactivité avant résolution",
+        "HELP": "Durée après laquelle une conversation doit être automatiquement résolue s'il n'y a pas d'activité",
+        "PLACEHOLDER": "30",
+        "ERROR": "La durée de résolution automatique doit être comprise entre 10 minutes et 999 jours",
+        "API": {
+          "SUCCESS": "Paramètres de résolution automatique mis à jour avec succès",
+          "ERROR": "Échec de la mise à jour des paramètres de résolution automatique"
+        },
+        "UPDATE_BUTTON": "Mettre à jour",
+        "MESSAGE_LABEL": "Message de résolution personnalisé",
+        "MESSAGE_PLACEHOLDER": "La conversation a été marquée comme résolue par le système en raison de 15 jours d'inactivité",
+        "MESSAGE_HELP": "Ce message est envoyé au client lorsque la conversation est automatiquement résolue par le système en raison d'une inactivité."
+      },
       "FEATURES": {
         "INBOUND_EMAIL_ENABLED": "La continuité des conversations avec les courriels est activée pour votre compte.",
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
