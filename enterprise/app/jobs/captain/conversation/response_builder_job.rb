@@ -49,10 +49,24 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def message_content(message)
     return message.content if message.content.present?
+    return 'User has shared a message without content' unless message.attachments.any?
 
-    return 'User has shared an attachment' if message.attachments.any?
+    audio_transcriptions = extract_audio_transcriptions(message.attachments)
+    return audio_transcriptions if audio_transcriptions.present?
 
-    'User has shared a message without content'
+    'User has shared an attachment'
+  end
+
+  def extract_audio_transcriptions(attachments)
+    audio_attachments = attachments.where(file_type: :audio)
+    return '' if audio_attachments.blank?
+
+    transcriptions = ''
+    audio_attachments.each do |attachment|
+      result = Messages::AudioTranscriptionService.new(attachment).perform
+      transcriptions += result[:transcriptions] if result[:success]
+    end
+    transcriptions
   end
 
   def determine_role(message)
