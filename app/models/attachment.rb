@@ -9,6 +9,7 @@
 #  external_url     :string
 #  fallback_title   :string
 #  file_type        :integer          default("image")
+#  meta             :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  account_id       :integer          not null

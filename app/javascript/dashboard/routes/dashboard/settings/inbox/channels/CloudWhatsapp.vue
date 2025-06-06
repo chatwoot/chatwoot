@@ -46,29 +46,9 @@ export default {
               type: 'whatsapp',
               phone_number: this.phoneNumber,
               provider: 'whatsapp_cloud',
-              web_widget_script: `\u003Cscript>
-  (function(d, t) {
-    var position = 'right';
-    var config = {
-      link: "https://wa.me/${formattedPhoneNumber}?text=Hello%20there!",
-      user: {
-        name: "${this.inboxName}",
-        avatar: "https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg",
-        status: ""
-      },
-      text: "Hey There 👋<br><br>We're here to help, so let us know what's up and we'll be happy to find a solution 🤓",
-      button_text: ""
-    };
-    var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
-    g.src = "https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-right.min.js";
-    g.defer = true;
-    g.async = true;
-    s.parentNode.insertBefore(g, s);
-    g.onload = function() {
-      new WAChatBox(config);
-    };
-  })(document, "script");
-\u003C/script>`,
+              web_widget_options: {
+                position: 'right',
+              },
               provider_config: {
                 api_key: this.apiKey,
                 phone_number_id: this.phoneNumberId,

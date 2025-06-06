@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_06_050945) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -59,6 +59,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.integer "status", default: 0
     t.integer "coupon_code_used", default: 0
     t.jsonb "ltd_attributes", default: {}
+    t.jsonb "internal_attributes", default: {}, null: false
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -160,9 +161,13 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.string "slug", null: false
     t.integer "position"
     t.string "locale", default: "en", null: false
+    t.index ["account_id"], name: "index_articles_on_account_id"
     t.index ["associated_article_id"], name: "index_articles_on_associated_article_id"
     t.index ["author_id"], name: "index_articles_on_author_id"
+    t.index ["portal_id"], name: "index_articles_on_portal_id"
     t.index ["slug"], name: "index_articles_on_slug", unique: true
+    t.index ["status"], name: "index_articles_on_status"
+    t.index ["views"], name: "index_articles_on_views"
   end
 
   create_table "attachments", id: :serial, force: :cascade do |t|
@@ -176,6 +181,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.datetime "updated_at", precision: nil, null: false
     t.string "fallback_title"
     t.string "extension"
+    t.jsonb "meta", default: {}
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end
@@ -476,7 +482,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_30_114455) do
     t.datetime "updated_at", null: false
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated"
-    t.text "web_widget_script"
+    t.jsonb "web_widget_options"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 

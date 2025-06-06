@@ -149,7 +149,6 @@ export const getWebWidgetScript = (
   widgetBubblePosition,
   phoneNumber,
   inboxName,
-  oldScript
 ) => {
   const formattedPhoneNumber = phoneNumber.replace(/^\+/, '');
   const leftWidgetScript =
@@ -157,10 +156,6 @@ export const getWebWidgetScript = (
   const rightWidgetScript =
     'https://cdn.jsdelivr.net/gh/onehashai/onehash-chat@whatsapp-widget/public/whatsapp-widget-right.min.js';
 
-  if (!widgetBubblePosition) {
-    const positionMatch = oldScript.match(/var position = '(\w+)'/);
-    widgetBubblePosition = positionMatch ? positionMatch[1] : 'right';
-  }
   const script =
     widgetBubblePosition === 'left' ? leftWidgetScript : rightWidgetScript;
 
