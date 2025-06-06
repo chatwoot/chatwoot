@@ -270,7 +270,9 @@ describe Line::IncomingMessageService do
         ).perform
         create(
           :message, message_type: :outgoing, content: 'test', content_type: 'input_select',
-                    content_attributes: { 'items' => [{ 'title' => 'hello', 'value' => 'Hello, world' }, { 'title' => 'text 2', 'value' => 'value 2' }] },
+                    content_attributes: { 'items' => [
+                      { 'title' => 'hello', 'value' => 'Hello, world' }, { 'title' => 'text 2', 'value' => 'value 2' }
+                    ] },
                     conversation: create(:conversation, inbox: line_channel.inbox, contact: contact_inbox.contact, contact_inbox: contact_inbox)
         )
       end
