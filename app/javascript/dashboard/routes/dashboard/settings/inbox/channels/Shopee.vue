@@ -28,8 +28,7 @@ export default {
   methods: {
     async shopeeAuthorize() {
       let redirectUri = `${window.location.origin}/shopee/callback/${this.accountId}`;
-      const authUri = 'https://open.shopee.com/auth';
-      authUri += `?auth_type=seller&response_type=code&partner_id=${window.chatwootConfig.shopeePartnerId}&redirect_uri=${redirectUri}`;
+      const authUri = `https://open.shopee.com/auth?auth_type=seller&response_type=code&partner_id=${window.chatwootConfig.shopeePartnerId}&redirect_uri=${redirectUri}`;
       window.location.href = authUri;
     },
   },
