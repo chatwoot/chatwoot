@@ -66,11 +66,8 @@ class Line::IncomingMessageService
   end
 
   def last_message_if_input_select
-    return unless @conversation
-
     last_message = @conversation.messages.last
-    return unless last_message
-    return unless last_message.content_type == 'input_select' && last_message.content_attributes['items'].any?
+    return unless last_message && last_message.content_type == 'input_select' && last_message.content_attributes['items'].any?
 
     last_message
   end
