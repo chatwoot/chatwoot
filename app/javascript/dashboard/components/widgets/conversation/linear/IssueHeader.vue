@@ -24,7 +24,7 @@ const openIssue = () => {
 </script>
 
 <template>
-  <div class="flex justify-between">
+  <div class="flex items-center justify-between">
     <div
       class="flex items-center gap-2 px-2 py-1.5 border divide-x rounded-lg border-n-strong divide-n-border-weak"
     >
@@ -46,7 +46,7 @@ const openIssue = () => {
         xs
         slate
         icon="i-lucide-arrow-up-right"
-        class="!size-4 pl-2"
+        class="!size-4"
         @click="openIssue"
       />
     </div>

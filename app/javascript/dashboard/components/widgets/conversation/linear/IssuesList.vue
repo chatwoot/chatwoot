@@ -86,7 +86,7 @@ onMounted(() => {
 
 <template>
   <div>
-    <div class="p-3">
+    <div class="px-4 pt-3 pb-4">
       <NextButton
         ghost
         xs
@@ -110,7 +110,7 @@ onMounted(() => {
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
-        class="p-4 border-b border-n-weak last:border-b-0"
+        class="pt-1.5 px-4 pb-4 border-b border-n-weak last:border-b-0"
         :linked-issue="linkedIssue"
         @unlink-issue="unlinkIssue"
       />
