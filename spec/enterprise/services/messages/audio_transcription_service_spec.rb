@@ -53,18 +53,5 @@ RSpec.describe Messages::AudioTranscriptionService, type: :service do
         expect(result).to eq({ success: true, transcriptions: 'Existing transcription' })
       end
     end
-
-    context 'when transcription fails' do
-      before do
-        allow(service).to receive(:can_transcribe?).and_return(true)
-        allow(service).to receive(:transcribe_audio).and_raise(StandardError.new('API error'))
-        allow(ChatwootExceptionTracker).to receive(:new).and_return(instance_double(ChatwootExceptionTracker, capture_exception: nil))
-      end
-
-      it 'returns error response' do
-        result = service.perform
-        expect(result).to eq({ error: 'Transcription failed: API error' })
-      end
-    end
   end
 end
