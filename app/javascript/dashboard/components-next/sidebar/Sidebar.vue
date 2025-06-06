@@ -105,11 +105,11 @@ const newReportRoutes = () => [
     name: 'Campaign Reports',
     label: t('SIDEBAR.CAMPAIGN'),
     to: accountScopedRoute('campaign_reports'),
-    // REVIEW:UP activeOn property missing, fix it
+    // REVIEW:CV4.1.0 activeOn property missing, fix it
   },
 ];
 
-// REVIEW:UP cv4.1.0 shows only new reports routes, might need to migrate campaign reports to that
+// REVIEW:CV4.1.0 cv4.1.0 shows only new reports routes, might need to migrate campaign reports to that
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {

@@ -183,3 +183,6 @@
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
+- name: crm_integration
+  display_name: CRM Integration
+  enabled: false

@@ -179,6 +179,8 @@ export default {
     <CustomerSatisfaction
       v-if="isCSAT"
       :message-content-attributes="messageContentAttributes.submitted_values"
+      :display-type="messageContentAttributes.display_type"
+      :message="message"
       :message-id="messageId"
     />
   </div>

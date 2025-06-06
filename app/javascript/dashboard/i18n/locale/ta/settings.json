@@ -372,7 +372,8 @@
         "LABEL": "Company Name",
         "PLACEHOLDER": "வெய்ன் எண்டர்பிரைசஸ்"
       },
-      "SUBMIT": "சமர்பிக்கவும்"
+      "SUBMIT": "சமர்பிக்கவும்",
+      "CANCEL": "ரத்துசெய்"
     }
   },
   "KEYBOARD_SHORTCUTS": {

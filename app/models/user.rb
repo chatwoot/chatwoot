@@ -96,7 +96,7 @@ class User < ApplicationRecord
   has_many :team_members, dependent: :destroy_async
   has_many :teams, through: :team_members
 
-  # REVIEW:UP these two fields were removed in cv4.1.0, are we using it?
+  # REVIEW:CV4.1.0 these two fields were removed in cv4.1.0, are we using it?
   # has_many :portal_members, class_name: :PortalMember, dependent: :destroy_async
   # has_many :portals, through: :portal_members, source: :portal,
   #                   class_name: :Portal,

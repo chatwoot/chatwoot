@@ -372,7 +372,8 @@
         "LABEL": "Nome da empresa",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "submeter"
+      "SUBMIT": "submeter",
+      "CANCEL": "Cancelar"
     }
   },
   "KEYBOARD_SHORTCUTS": {

@@ -15,6 +15,8 @@
 #  index_captain_assistants_on_account_id  (account_id)
 #
 class Captain::Assistant < ApplicationRecord
+  include Avatarable
+
   self.table_name = 'captain_assistants'
 
   belongs_to :account
@@ -26,6 +28,7 @@ class Captain::Assistant < ApplicationRecord
            dependent: :destroy_async
   has_many :inboxes,
            through: :captain_inboxes
+  has_many :messages, as: :sender, dependent: :nullify
 
   validates :name, presence: true
   validates :description, presence: true
@@ -34,4 +37,36 @@ class Captain::Assistant < ApplicationRecord
   scope :ordered, -> { order(created_at: :desc) }
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
+
+  def available_name
+    name
+  end
+
+  def push_event_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url.presence || default_avatar_url,
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
+
+  def webhook_data
+    {
+      id: id,
+      name: name,
+      avatar_url: avatar_url.presence || default_avatar_url,
+      description: description,
+      created_at: created_at,
+      type: 'captain_assistant'
+    }
+  end
+
+  private
+
+  def default_avatar_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
+  end
 end

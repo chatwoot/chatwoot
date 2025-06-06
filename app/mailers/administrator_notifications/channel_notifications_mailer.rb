@@ -1,5 +1,5 @@
-# REVIEW:UP Massive changes in channel_notification_mailer from cv4.1.0, are we using this ourselves?
-# REVIEW:UP Contact export shifted to account_notification_mailer
+# REVIEW:CV4.1.0 Massive changes in channel_notification_mailer from cv4.1.0, are we using this ourselves?
+# REVIEW:CV4.1.0 Contact export shifted to account_notification_mailer
 class AdministratorNotifications::ChannelNotificationsMailer < AdministratorNotifications::BaseMailer
   def facebook_disconnect(inbox)
     subject = 'Your Facebook page connection has expired'

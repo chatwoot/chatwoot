@@ -372,7 +372,8 @@
         "LABEL": "Företagsnamn",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Skicka"
+      "SUBMIT": "Skicka",
+      "CANCEL": "Avbryt"
     }
   },
   "KEYBOARD_SHORTCUTS": {

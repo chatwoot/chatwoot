@@ -372,7 +372,8 @@
         "LABEL": "اسم المنشأة",
         "PLACEHOLDER": "مؤسسة Wayne"
       },
-      "SUBMIT": "إرسال"
+      "SUBMIT": "إرسال",
+      "CANCEL": "إلغاء"
     }
   },
   "KEYBOARD_SHORTCUTS": {

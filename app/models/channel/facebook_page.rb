@@ -60,7 +60,7 @@ class Channel::FacebookPage < ApplicationRecord
     true
   end
 
-  # REVIEW:UP cv4.1.0 doesn't have this, is this used by us?
+  # REVIEW:CV4.1.0 cv4.1.0 doesn't have this, is this used by us?
   # TODO: We will be removing this code after instagram_manage_insights is implemented
   def fetch_instagram_story_link(message)
     k = Koala::Facebook::API.new(page_access_token)
@@ -73,7 +73,7 @@ class Channel::FacebookPage < ApplicationRecord
     delete_instagram_story(message)
   end
 
-  # REVIEW:UP cv4.1.0 doesn't have this, is this used by us?
+  # REVIEW:CV4.1.0 cv4.1.0 doesn't have this, is this used by us?
   def delete_instagram_story(message)
     message.attachments.destroy_all
     message.update(content: I18n.t('conversations.messages.instagram_deleted_story_content'), content_attributes: {})

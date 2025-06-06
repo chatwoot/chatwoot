@@ -8,6 +8,8 @@ export const loadCSS = () => {
     window.$chatwoot.type === 'expanded_bubble'
       ? `${SDK_CSS}`
       : `${SDK_CSS_STANDARD}`;
+
+  css.dataset.turboPermanent = true;
   document.body.appendChild(css);
 };
 

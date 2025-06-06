@@ -372,7 +372,8 @@
         "LABEL": "Nafn fyrirtækis",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Senda"
+      "SUBMIT": "Senda",
+      "CANCEL": "Hætta við"
     }
   },
   "KEYBOARD_SHORTCUTS": {

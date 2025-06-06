@@ -82,7 +82,7 @@ const hasQuotedMessage = computed(() =>
 );
 
 const textToShow = computed(() => {
-  // REVIEW:UP textToShow implementation changed in cv4.1.0, used to be for us
+  // REVIEW:CV4.1.0 textToShow implementation changed in cv4.1.0, used to be for us
   // const text =
   //   contentAttributes?.value?.email?.textContent?.full ?? content.value;
   // return text?.replace(/\n/g, '<br>');

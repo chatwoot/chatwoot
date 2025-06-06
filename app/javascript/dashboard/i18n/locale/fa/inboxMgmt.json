@@ -43,7 +43,17 @@
         "INBOX_NAME": "عنوان صندوق ورودی",
         "ADD_NAME": "یک اسم به صندوق ورودی خود اضافه کنید",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "یک مقدار انتخاب کنید"
+        "PICK_A_VALUE": "یک مقدار انتخاب کنید",
+        "CREATE_INBOX": "ساخت صندوق ورودی"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "برای اضافه کردن امکان گفتگو از صفحه پروفایل توییترتان، لازم است با زدن دکمه `ورود با توییتر` پروفایل توییتر خود را شناسایی کنید' ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "فرم پیش چت",
       "BUSINESS_HOURS": "ساعت کاری",
       "WIDGET_BUILDER": "سازنده ابزارک",
-      "BOT_CONFIGURATION": "پیکربندی ربات"
+      "BOT_CONFIGURATION": "پیکربندی ربات",
+      "CSAT": "رضایت مشتری"
     },
     "SETTINGS": "تنظیمات",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "فعال سازی فرم دریافت ایمیل از کاربر",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "فعال یا غیرفعال کردن فرم دریافت ایمیل از کاربر",
       "AUTO_ASSIGNMENT": "فعال کردن واگذاری خودکار گفتگو به ایجنت ها",
-      "ENABLE_CSAT": "فعال کردن رضایت مشتری",
       "SENDER_NAME_SECTION": "فعال سازی نام اپراتور در ایمیل",
-      "ENABLE_CSAT_SUB_TEXT": "پس از پایان گفتگو ، نظرسنجی CSAT (رضایت مشتری) را فعال/غیرفعال کنید",
       "SENDER_NAME_SECTION_TEXT": "فعال/غیرفعال کردن نمایش نام اپراتور در ایمیل، اگر غیرفعال باشد نام کسب و کار نشان داده می شود",
       "ENABLE_CONTINUITY_VIA_EMAIL": "ادامه مکالمه را از طریق ایمیل فعال کنید",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "اگر آدرس ایمیل تماس در دسترس باشد، مکالمات از طریق ایمیل ادامه خواهد یافت.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "بازدیدکنندگان باید قبل از شروع چت نام و آدرس ایمیل خود را ارائه دهند"
+      }
+    },
+    "CSAT": {
+      "TITLE": "فعال کردن رضایت مشتری",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "پیام",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "شامل",
+          "DOES_NOT_CONTAINS": "شامل نمی‌شود"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "ایمیل",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "کانال API"
+      "API": "کانال API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

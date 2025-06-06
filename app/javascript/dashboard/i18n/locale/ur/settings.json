@@ -372,7 +372,8 @@
         "LABEL": "کمپنی کا نام",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "جمع کرائیں"
+      "SUBMIT": "جمع کرائیں",
+      "CANCEL": "منسوخ کریں۔"
     }
   },
   "KEYBOARD_SHORTCUTS": {

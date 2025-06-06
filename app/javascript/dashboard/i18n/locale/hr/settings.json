@@ -372,7 +372,8 @@
         "LABEL": "Naziv tvrtke",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Pošalji"
+      "SUBMIT": "Pošalji",
+      "CANCEL": "Odustani"
     }
   },
   "KEYBOARD_SHORTCUTS": {
