@@ -120,7 +120,7 @@ const createVariant = (
 
   return {
     title,
-    props, // Added trailing comma
+    props,
   };
 };
 
