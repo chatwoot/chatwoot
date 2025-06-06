@@ -84,21 +84,27 @@ const nextSlot = computed(() => {
 
 <template>
   <span>
-    <!-- Working hours disabled or all closed -->
-    <template v-if="!workingHoursEnabled || allDayClosed">
+    <!-- 1. If currently in working hours, show reply time -->
+    <template v-if="isInWorkingHours">
+      {{ replyTimeMessage }}
+    </template>
+
+    <!-- 2. Else, if working hours are disabled, show based on online status -->
+    <template v-else-if="!workingHoursEnabled">
       {{
-        isOnline && !allDayClosed
+        isOnline
           ? replyTimeMessage
           : t('TEAM_AVAILABILITY.BACK_AS_SOON_AS_POSSIBLE')
       }}
     </template>
 
-    <!-- Currently online and in working hours -->
-    <template v-else-if="isInWorkingHours && isOnline">
-      {{ replyTimeMessage }}
+    <!-- 3. Else (not in working hours, but working hours ARE enabled) -->
+    <!-- Check if all configured slots are 'closedAllDay' -->
+    <template v-else-if="allDayClosed">
+      {{ t('TEAM_AVAILABILITY.BACK_AS_SOON_AS_POSSIBLE') }}
     </template>
 
-    <!-- Not available - need to calculate next slot -->
+    <!-- 4. Else (not in WH, WH enabled, not allDayClosed), calculate next slot -->
     <template v-else-if="!nextSlot">
       {{ t('REPLY_TIME.BACK_IN_SOME_TIME') }}
     </template>

@@ -44,7 +44,7 @@ const replyTime = computed(
 );
 
 const headerText = computed(() =>
-  isOnline.value
+  isOnline.value || (workingHoursEnabled.value && isInWorkingHours.value) // If online or in working hours
     ? t('TEAM_AVAILABILITY.ONLINE')
     : t('TEAM_AVAILABILITY.OFFLINE')
 );
