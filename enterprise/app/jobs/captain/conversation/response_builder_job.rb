@@ -13,6 +13,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       generate_and_process_response
     end
   rescue StandardError => e
+    raise e if e.is_a?(ActiveJob::FileNotFoundError)
+
     handle_error(e)
   ensure
     Current.executed_by = nil
