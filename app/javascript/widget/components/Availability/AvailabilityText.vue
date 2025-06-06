@@ -39,94 +39,107 @@ const { t } = useI18n();
 
 const { isInWorkingHours } = useAvailability();
 
-// Check if all days are closed
-const allClosed = computed(() => {
+// Check if all days in working hours are closed
+const allDayClosed = computed(() => {
   if (!props.workingHours.length) return false;
-  return props.workingHours.every(slot => slot.closed_all_day);
+  return props.workingHours.every(slot => slot.closedAllDay);
 });
 
-// Get reply time message
 const replyTimeMessage = computed(() => {
   const replyTimeKey = `REPLY_TIME.${props.replyTime.toUpperCase()}`;
   return t(replyTimeKey);
 });
 
-// Calculate next available time message
-const getNextAvailableMessage = () => {
-  const nextSlot = findNextAvailableSlotDetails(
+const nextSlot = computed(() => {
+  if (
+    !props.workingHoursEnabled ||
+    allDayClosed.value ||
+    (isInWorkingHours.value && props.isOnline)
+  ) {
+    return null;
+  }
+
+  const slot = findNextAvailableSlotDetails(
     props.time,
     props.utcOffset,
     props.workingHours
   );
+  if (!slot) return null;
 
-  if (!nextSlot) {
-    return t('REPLY_TIME.BACK_IN_SOME_TIME');
-  }
-
-  const { minutesUntilOpen, daysUntilOpen, config } = nextSlot;
-  const hoursUntilOpen = Math.floor(minutesUntilOpen / 60);
-  const remainingMinutes = minutesUntilOpen % 60;
-
-  // Tomorrow
-  if (daysUntilOpen === 1) {
-    return t('REPLY_TIME.BACK_TOMORROW');
-  }
-
-  // Multiple days away
-  if (daysUntilOpen > 1) {
-    return t('REPLY_TIME.BACK_ON', { time: DAY_NAMES[config.day_of_week] });
-  }
-
-  // Same day - less than 3 hours
-  if (hoursUntilOpen < 3) {
-    // Only minutes
-    if (hoursUntilOpen === 0) {
-      const roundedMinutes = Math.ceil(remainingMinutes / 5) * 5;
-      return t('REPLY_TIME.BACK_IN', { time: `${roundedMinutes} minutes` });
-    }
-
-    // Hours with minutes - round up
-    if (remainingMinutes > 0) {
-      return t('REPLY_TIME.BACK_IN', { time: `${hoursUntilOpen + 1} hours` });
-    }
-
-    // Exact hours
-    return t('REPLY_TIME.BACK_IN', {
-      time: `${hoursUntilOpen} ${hoursUntilOpen === 1 ? 'hour' : 'hours'}`,
-    });
-  }
-
-  // Same day - 3+ hours away, show specific time
-  const hour = config.open_hour || 0;
-  const minute = config.open_minutes || 0;
-  const formattedTime = getTime(hour, minute);
-  return t('REPLY_TIME.BACK_AT', { time: formattedTime });
-};
-
-// Main availability text logic
-const availabilityText = computed(() => {
-  // Working hours disabled
-  if (!props.workingHoursEnabled) {
-    return props.isOnline
-      ? replyTimeMessage.value
-      : t('TEAM_AVAILABILITY.BACK_AS_SOON_AS_POSSIBLE');
-  }
-
-  // All days closed
-  if (allClosed.value) {
-    return t('REPLY_TIME.BACK_AS_SOON_AS_POSSIBLE');
-  }
-
-  // Currently online and in working hours
-  if (isInWorkingHours.value && props.isOnline) {
-    return replyTimeMessage.value;
-  }
-
-  // Calculate when we'll be back
-  return getNextAvailableMessage();
+  return {
+    ...slot,
+    hoursUntilOpen: Math.floor(slot.minutesUntilOpen / 60),
+    remainingMinutes: slot.minutesUntilOpen % 60,
+  };
 });
 </script>
 
 <template>
-  <span>{{ availabilityText }}</span>
+  <span>
+    <!-- Working hours disabled or all closed -->
+    <template v-if="!workingHoursEnabled || allDayClosed">
+      {{
+        isOnline && !allDayClosed
+          ? replyTimeMessage
+          : t('TEAM_AVAILABILITY.BACK_AS_SOON_AS_POSSIBLE')
+      }}
+    </template>
+
+    <!-- Currently online and in working hours -->
+    <template v-else-if="isInWorkingHours && isOnline">
+      {{ replyTimeMessage }}
+    </template>
+
+    <!-- Not available - need to calculate next slot -->
+    <template v-else-if="!nextSlot">
+      {{ t('REPLY_TIME.BACK_IN_SOME_TIME') }}
+    </template>
+
+    <!-- Tomorrow -->
+    <template v-else-if="nextSlot.daysUntilOpen === 1">
+      {{ t('REPLY_TIME.BACK_TOMORROW') }}
+    </template>
+
+    <!-- Multiple days away (eg: on Monday) -->
+    <template v-else-if="nextSlot.daysUntilOpen > 1">
+      {{
+        t('REPLY_TIME.BACK_ON_DAY', {
+          day: DAY_NAMES[nextSlot.config.dayOfWeek],
+        })
+      }}
+    </template>
+
+    <!-- Same day - less than 1 hour (eg: in 5 minutes) -->
+    <template v-else-if="nextSlot.hoursUntilOpen === 0">
+      {{
+        t('REPLY_TIME.BACK_IN_MINUTES', {
+          time: `${Math.ceil(nextSlot.remainingMinutes / 5) * 5}`,
+        })
+      }}
+    </template>
+
+    <!-- Same day - less than 3 hours (eg: in 2 hours) -->
+    <template v-else-if="nextSlot.hoursUntilOpen < 3">
+      {{
+        t('REPLY_TIME.BACK_IN_HOURS', {
+          time:
+            nextSlot.remainingMinutes > 0
+              ? nextSlot.hoursUntilOpen + 1
+              : nextSlot.hoursUntilOpen,
+        })
+      }}
+    </template>
+
+    <!-- Same day - 3+ hours away (eg: at 10:00 AM) -->
+    <template v-else>
+      {{
+        t('REPLY_TIME.BACK_AT_TIME', {
+          time: getTime(
+            nextSlot.config.openHour || 0,
+            nextSlot.config.openMinutes || 0
+          ),
+        })
+      }}
+    </template>
+  </span>
 </template>

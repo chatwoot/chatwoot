@@ -3,6 +3,7 @@ import {
   isOnline as checkIsOnline,
   isInWorkingHours as checkInWorkingHours,
 } from 'widget/helpers/availabilityHelpers';
+import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
 /**
  * Composable for availability-related logic
@@ -15,7 +16,7 @@ export function useAvailability(agents = []) {
   const channelConfig = computed(() => window.chatwootWebChannel || {});
 
   const inboxConfig = computed(() => ({
-    workingHours: channelConfig.value.workingHours || [],
+    workingHours: channelConfig.value.workingHours.map(useCamelCase) || [],
     workingHoursEnabled: channelConfig.value.workingHoursEnabled || false,
     timezone: channelConfig.value.timezone || 'UTC',
     utcOffset:

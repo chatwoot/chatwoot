@@ -24,7 +24,7 @@ describe('availabilityHelpers', () => {
       mockDate.getDay = vi.fn().mockReturnValue(1);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_all_day: true }];
+      const workingHours = [{ dayOfWeek: 1, openAllDay: true }];
 
       expect(isOpenAllDay(new Date(), 'UTC', workingHours)).toBe(true);
     });
@@ -35,7 +35,7 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, close_hour: 17, open_all_day: false },
+        { dayOfWeek: 1, openHour: 9, closeHour: 17, openAllDay: false },
       ];
 
       expect(isOpenAllDay(new Date(), 'UTC', workingHours)).toBe(false);
@@ -47,7 +47,7 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 2, open_hour: 9, close_hour: 17 }, // Tuesday config
+        { dayOfWeek: 2, openHour: 9, closeHour: 17 }, // Tuesday config
       ];
 
       expect(isOpenAllDay(new Date(), 'UTC', workingHours)).toBe(false);
@@ -60,7 +60,7 @@ describe('availabilityHelpers', () => {
       mockDate.getDay = vi.fn().mockReturnValue(1);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, closed_all_day: true }];
+      const workingHours = [{ dayOfWeek: 1, closedAllDay: true }];
 
       expect(isClosedAllDay(new Date(), 'UTC', workingHours)).toBe(true);
     });
@@ -71,7 +71,7 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, close_hour: 17, closed_all_day: false },
+        { dayOfWeek: 1, openHour: 9, closeHour: 17, closedAllDay: false },
       ];
 
       expect(isClosedAllDay(new Date(), 'UTC', workingHours)).toBe(false);
@@ -82,7 +82,7 @@ describe('availabilityHelpers', () => {
       mockDate.getDay = vi.fn().mockReturnValue(1);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 2, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 2, openHour: 9, closeHour: 17 }];
 
       expect(isClosedAllDay(new Date(), 'UTC', workingHours)).toBe(false);
     });
@@ -100,7 +100,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_all_day: true }];
+      const workingHours = [{ dayOfWeek: 1, openAllDay: true }];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
     });
@@ -112,7 +112,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, closed_all_day: true }];
+      const workingHours = [{ dayOfWeek: 1, closedAllDay: true }];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
     });
@@ -126,11 +126,11 @@ describe('availabilityHelpers', () => {
 
       const workingHours = [
         {
-          day_of_week: 1,
-          open_hour: 9,
-          open_minutes: 0,
-          close_hour: 17,
-          close_minutes: 0,
+          dayOfWeek: 1,
+          openHour: 9,
+          openMinutes: 0,
+          closeHour: 17,
+          closeMinutes: 0,
         },
       ];
 
@@ -144,7 +144,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
     });
@@ -156,7 +156,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
     });
@@ -170,11 +170,11 @@ describe('availabilityHelpers', () => {
 
       const workingHours = [
         {
-          day_of_week: 1,
-          open_hour: 9,
-          open_minutes: 15,
-          close_hour: 17,
-          close_minutes: 30,
+          dayOfWeek: 1,
+          openHour: 9,
+          openMinutes: 15,
+          closeHour: 17,
+          closeMinutes: 30,
         },
       ];
 
@@ -189,7 +189,7 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 2, open_hour: 9, close_hour: 17 }, // Only Tuesday
+        { dayOfWeek: 2, openHour: 9, closeHour: 17 }, // Only Tuesday
       ];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(false);
@@ -205,13 +205,13 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 0, closed_all_day: true },
-        { day_of_week: 1, closed_all_day: true },
-        { day_of_week: 2, closed_all_day: true },
-        { day_of_week: 3, closed_all_day: true },
-        { day_of_week: 4, closed_all_day: true },
-        { day_of_week: 5, closed_all_day: true },
-        { day_of_week: 6, closed_all_day: true },
+        { dayOfWeek: 0, closedAllDay: true },
+        { dayOfWeek: 1, closedAllDay: true },
+        { dayOfWeek: 2, closedAllDay: true },
+        { dayOfWeek: 3, closedAllDay: true },
+        { dayOfWeek: 4, closedAllDay: true },
+        { dayOfWeek: 5, closedAllDay: true },
+        { dayOfWeek: 6, closedAllDay: true },
       ];
 
       expect(
@@ -227,7 +227,7 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, open_minutes: 30, close_hour: 17 },
+        { dayOfWeek: 1, openHour: 9, openMinutes: 30, closeHour: 17 },
       ];
 
       const result = findNextAvailableSlotDetails(
@@ -252,8 +252,8 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, close_hour: 17 },
-        { day_of_week: 2, open_hour: 9, close_hour: 17 },
+        { dayOfWeek: 1, openHour: 9, closeHour: 17 },
+        { dayOfWeek: 2, openHour: 9, closeHour: 17 },
       ];
 
       const result = findNextAvailableSlotDetails(
@@ -278,10 +278,10 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, close_hour: 17 },
-        { day_of_week: 2, closed_all_day: true },
-        { day_of_week: 3, closed_all_day: true },
-        { day_of_week: 4, open_hour: 10, close_hour: 16 },
+        { dayOfWeek: 1, openHour: 9, closeHour: 17 },
+        { dayOfWeek: 2, closedAllDay: true },
+        { dayOfWeek: 3, closedAllDay: true },
+        { dayOfWeek: 4, openHour: 10, closeHour: 16 },
       ];
 
       const result = findNextAvailableSlotDetails(
@@ -312,8 +312,8 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, close_hour: 17 },
-        { day_of_week: 2, open_all_day: true },
+        { dayOfWeek: 1, openHour: 9, closeHour: 17 },
+        { dayOfWeek: 2, openAllDay: true },
       ];
 
       const result = findNextAvailableSlotDetails(
@@ -338,7 +338,7 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_hour: 9, close_hour: 17 }, // Monday
+        { dayOfWeek: 1, openHour: 9, closeHour: 17 }, // Monday
       ];
 
       const result = findNextAvailableSlotDetails(
@@ -368,8 +368,8 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 1, open_all_day: true },
-        { day_of_week: 2, open_hour: 9, close_hour: 17 },
+        { dayOfWeek: 1, openAllDay: true },
+        { dayOfWeek: 2, openHour: 9, closeHour: 17 },
       ];
 
       // Should skip today since it's open_all_day and look for next slot
@@ -396,7 +396,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(findNextAvailableSlotDiff(new Date(), 'UTC', workingHours)).toBe(
         0
@@ -410,7 +410,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(findNextAvailableSlotDiff(new Date(), 'UTC', workingHours)).toBe(
         60
@@ -425,13 +425,13 @@ describe('availabilityHelpers', () => {
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
       const workingHours = [
-        { day_of_week: 0, closed_all_day: true },
-        { day_of_week: 1, closed_all_day: true },
-        { day_of_week: 2, closed_all_day: true },
-        { day_of_week: 3, closed_all_day: true },
-        { day_of_week: 4, closed_all_day: true },
-        { day_of_week: 5, closed_all_day: true },
-        { day_of_week: 6, closed_all_day: true },
+        { dayOfWeek: 0, closedAllDay: true },
+        { dayOfWeek: 1, closedAllDay: true },
+        { dayOfWeek: 2, closedAllDay: true },
+        { dayOfWeek: 3, closedAllDay: true },
+        { dayOfWeek: 4, closedAllDay: true },
+        { dayOfWeek: 5, closedAllDay: true },
+        { dayOfWeek: 6, closedAllDay: true },
       ];
 
       expect(findNextAvailableSlotDiff(new Date(), 'UTC', workingHours)).toBe(
@@ -453,7 +453,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       // In working hours + agents available = online
       expect(isOnline(true, new Date(), 'UTC', workingHours, true)).toBe(true);
@@ -471,7 +471,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isOnline(true, new Date(), 'UTC', workingHours, true)).toBe(false);
     });
@@ -483,7 +483,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_all_day: true }];
+      const workingHours = [{ dayOfWeek: 1, openAllDay: true }];
 
       expect(isOnline(true, new Date(), 'UTC', workingHours, true)).toBe(true);
       expect(isOnline(true, new Date(), 'UTC', workingHours, false)).toBe(
@@ -498,7 +498,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(
         isOnline(true, '2024-01-15T10:00:00.000Z', 'UTC', workingHours, true)
@@ -514,7 +514,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(30);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isInWorkingHours(new Date(), 'Asia/Kolkata', workingHours)).toBe(
         true
@@ -532,7 +532,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isInWorkingHours(new Date(), '+05:30', workingHours)).toBe(true);
       expect(vi.mocked(utcToZonedTime)).toHaveBeenCalledWith(
@@ -551,7 +551,7 @@ describe('availabilityHelpers', () => {
       mockDate1.getMinutes = vi.fn().mockReturnValue(0);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate1);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
 
@@ -572,7 +572,7 @@ describe('availabilityHelpers', () => {
       mockDate.getMinutes = vi.fn().mockReturnValue(59);
       vi.mocked(utcToZonedTime).mockReturnValue(mockDate);
 
-      const workingHours = [{ day_of_week: 1, open_hour: 9, close_hour: 17 }];
+      const workingHours = [{ dayOfWeek: 1, openHour: 9, closeHour: 17 }];
 
       expect(isInWorkingHours(new Date(), 'UTC', workingHours)).toBe(true);
     });

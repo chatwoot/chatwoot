@@ -43,7 +43,7 @@ const toMinutes = (hours = 0, minutes = 0) => hours * MINUTES_IN_HOUR + minutes;
 const getTodayConfig = (time, utcOffset, workingHours) => {
   const date = getDateInTimezone(time, utcOffset);
   const dayOfWeek = date.getDay();
-  return workingHours.find(slot => slot.day_of_week === dayOfWeek) || null;
+  return workingHours.find(slot => slot.dayOfWeek === dayOfWeek) || null;
 };
 
 /**
@@ -55,7 +55,7 @@ const getTodayConfig = (time, utcOffset, workingHours) => {
  */
 export const isOpenAllDay = (time, utcOffset, workingHours = []) => {
   const todayConfig = getTodayConfig(time, utcOffset, workingHours);
-  return todayConfig?.open_all_day === true;
+  return todayConfig?.openAllDay === true;
 };
 
 /**
@@ -67,7 +67,7 @@ export const isOpenAllDay = (time, utcOffset, workingHours = []) => {
  */
 export const isClosedAllDay = (time, utcOffset, workingHours = []) => {
   const todayConfig = getTodayConfig(time, utcOffset, workingHours);
-  return todayConfig?.closed_all_day === true;
+  return todayConfig?.closedAllDay === true;
 };
 
 /**
@@ -83,19 +83,19 @@ export const isInWorkingHours = (time, utcOffset, workingHours = []) => {
   const todayConfig = getTodayConfig(time, utcOffset, workingHours);
   if (!todayConfig) return false;
 
-  if (todayConfig.open_all_day) return true;
-  if (todayConfig.closed_all_day) return false;
+  if (todayConfig.openAllDay) return true;
+  if (todayConfig.closedAllDay) return false;
 
   const date = getDateInTimezone(time, utcOffset);
   const currentMinutes = toMinutes(date.getHours(), date.getMinutes());
 
   const openMinutes = toMinutes(
-    todayConfig.open_hour ?? 0,
-    todayConfig.open_minutes ?? 0
+    todayConfig.openHour ?? 0,
+    todayConfig.openMinutes ?? 0
   );
   const closeMinutes = toMinutes(
-    todayConfig.close_hour ?? 0,
-    todayConfig.close_minutes ?? 0
+    todayConfig.closeHour ?? 0,
+    todayConfig.closeMinutes ?? 0
   );
 
   // Handle normal case
@@ -123,8 +123,8 @@ export const findNextAvailableSlotDetails = (time, utcOffset, workingHours) => {
   // Create map of open days for quick lookup
   const openDays = new Map(
     workingHours
-      .filter(slot => !slot.closed_all_day)
-      .map(slot => [slot.day_of_week, slot])
+      .filter(slot => !slot.closedAllDay)
+      .map(slot => [slot.dayOfWeek, slot])
   );
 
   // No open days at all
@@ -132,10 +132,10 @@ export const findNextAvailableSlotDetails = (time, utcOffset, workingHours) => {
 
   // Check today first
   const todayConfig = openDays.get(currentDay);
-  if (todayConfig && !todayConfig.open_all_day) {
+  if (todayConfig && !todayConfig.openAllDay) {
     const todayOpenMinutes = toMinutes(
-      todayConfig.open_hour ?? 0,
-      todayConfig.open_minutes ?? 0
+      todayConfig.openHour ?? 0,
+      todayConfig.openMinutes ?? 0
     );
 
     // Haven't opened yet today
@@ -157,9 +157,9 @@ export const findNextAvailableSlotDetails = (time, utcOffset, workingHours) => {
       if (!config) return null;
 
       // Calculate minutes until this slot opens
-      const slotOpenMinutes = config.open_all_day
+      const slotOpenMinutes = config.openAllDay
         ? 0
-        : toMinutes(config.open_hour ?? 0, config.open_minutes ?? 0);
+        : toMinutes(config.openHour ?? 0, config.openMinutes ?? 0);
       const minutesUntilOpen =
         MINUTES_IN_DAY -
         currentMinutes + // Rest of today
