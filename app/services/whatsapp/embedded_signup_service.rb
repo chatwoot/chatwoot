@@ -87,7 +87,21 @@ class Whatsapp::EmbeddedSignupService
       update_existing_channel(existing_channel, channel_attributes, waba_info, phone_info)
     else
       create_new_channel(channel_attributes, waba_info, phone_info)
+      register_phone_number(phone_info[:phone_number_id], access_token)
     end
+  end
+
+  def register_phone_number(phone_number_id, access_token)
+    HTTParty.post(
+      "https://graph.facebook.com/v21.0/#{phone_number_id}/register",
+      {
+        headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
+        body: {
+          messaging_product: 'whatsapp',
+          pin: '212834' # TODO: figure out the correct value of this field
+        }.to_json
+      }
+    )
   end
 
   def find_existing_channel(phone_number)
