@@ -202,7 +202,7 @@ class Whatsapp::EmbeddedSignupService
   end
 
   def override_waba_webhook(waba_id, channel, access_token)
-    callback_url = "https://tanmay-local.chatwoot.dev/webhooks/whatsapp/#{channel.phone_number}"
+    callback_url = "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
     verify_token = channel.provider_config['webhook_verify_token']
 
     response = HTTParty.post(
