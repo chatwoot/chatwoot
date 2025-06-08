@@ -225,8 +225,16 @@
           "WHATSAPP_EMBEDDED": "WhatsApp Business",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_CLOUD_DESC": "Quick setup through Meta",
+          "TWILIO_DESC": "Connect via Twilio credentials",
           "360_DIALOG": "360Dialog"
         },
+        "SELECT_PROVIDER": {
+          "TITLE": "Select your API provider",
+          "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
+        },
+        "NEXT_BUTTON": "Next",
+        "BACK_TO_PROVIDER_SELECTION": "Back to provider selection",
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
           "PLACEHOLDER": "Please enter an inbox name",
@@ -267,11 +275,11 @@
         "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "EMBEDDED_SIGNUP": {
           "TITLE": "Quick Setup with Meta",
-          "DESC": "Connect your WhatsApp Business Account directly through Meta's secure signup flow.",
+          "DESC": "You will be redirected to Meta to log into your WhatsApp Business account. Having admin access will help make the setup smooth and easy.",
           "BENEFITS": {
             "TITLE": "Benefits of Embedded Signup:",
-            "EASY_SETUP": "One-click setup with no manual configuration required",
-            "SECURE_AUTH": "Secure OAuth-based authentication with Meta",
+            "EASY_SETUP": "No manual configuration required",
+            "SECURE_AUTH": "Secure OAuth based authentication",
             "AUTO_CONFIG": "Automatic webhook and phone number configuration"
           },
           "SUBMIT_BUTTON": "Connect with WhatsApp Business",

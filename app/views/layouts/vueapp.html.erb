@@ -39,8 +39,8 @@
         googleOAuthClientId: '<%= ENV.fetch('GOOGLE_OAUTH_CLIENT_ID', nil) %>',
         googleOAuthCallbackUrl: '<%= ENV.fetch('GOOGLE_OAUTH_CALLBACK_URL', nil) %>',
         fbApiVersion: '<%= @global_config['FACEBOOK_API_VERSION'] %>',
-        whatsappAppId: '<%= ENV.fetch('WHATSAPP_APP_ID', nil) %>',
-        whatsappConfigurationId: '<%= ENV.fetch('WHATSAPP_CONFIGURATION_ID', nil) %>',
+        whatsappAppId: '<%= @global_config['WHATSAPP_APP_ID'] %>',
+        whatsappConfigurationId: '<%= @global_config['WHATSAPP_CONFIGURATION_ID'] %>',
         signupEnabled: '<%= @global_config['ENABLE_ACCOUNT_SIGNUP'] %>',
         isEnterprise: '<%= @global_config['IS_ENTERPRISE'] %>',
         <% if @global_config['IS_ENTERPRISE'] %>
