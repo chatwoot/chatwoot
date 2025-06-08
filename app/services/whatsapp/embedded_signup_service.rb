@@ -84,7 +84,8 @@ class Whatsapp::EmbeddedSignupService
     channel_attributes = build_channel_attributes(waba_info, phone_info, access_token)
 
     if existing_channel
-      update_existing_channel(existing_channel, channel_attributes, waba_info, phone_info)
+      Rails.logger.error("Channel already exists: #{existing_channel.inspect}")
+      raise "Channel already exists: #{existing_channel.phone_number}"
     else
       channel = create_new_channel(channel_attributes, waba_info, phone_info)
       register_phone_number(phone_info[:phone_number_id], access_token)
@@ -125,12 +126,6 @@ class Whatsapp::EmbeddedSignupService
     }
   end
 
-  def update_existing_channel(channel, attributes, waba_info, phone_info)
-    channel.update!(attributes)
-    ensure_channel_has_inbox(channel, waba_info, phone_info)
-    channel
-  end
-
   def create_new_channel(attributes, waba_info, phone_info)
     channel = Channel::Whatsapp.create!(
       account: @account,
@@ -140,18 +135,6 @@ class Whatsapp::EmbeddedSignupService
     create_inbox_for_channel(channel, waba_info, phone_info)
     channel.reload
     channel
-  end
-
-  def ensure_channel_has_inbox(channel, waba_info, phone_info)
-    return if channel.inbox
-
-    inbox_name = generate_inbox_name(waba_info, phone_info)
-    Inbox.create!(
-      account: @account,
-      name: inbox_name,
-      channel: channel
-    )
-    channel.reload
   end
 
   def create_inbox_for_channel(channel, waba_info, phone_info)
