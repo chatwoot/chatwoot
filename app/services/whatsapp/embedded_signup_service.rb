@@ -73,7 +73,7 @@ class Whatsapp::EmbeddedSignupService
 
     {
       phone_number_id: phone_data['id'],
-      phone_number: phone_data['display_phone_number'],
+      phone_number: "+#{phone_data['display_phone_number']}",
       verified: phone_data['code_verification_status'] == 'VERIFIED',
       business_name: phone_data['verified_name'] || phone_data['display_phone_number']
     }
@@ -86,8 +86,10 @@ class Whatsapp::EmbeddedSignupService
     if existing_channel
       update_existing_channel(existing_channel, channel_attributes, waba_info, phone_info)
     else
-      create_new_channel(channel_attributes, waba_info, phone_info)
+      channel = create_new_channel(channel_attributes, waba_info, phone_info)
       register_phone_number(phone_info[:phone_number_id], access_token)
+      override_waba_webhook(waba_info[:waba_id], channel, access_token)
+      channel
     end
   end
 
@@ -213,5 +215,29 @@ class Whatsapp::EmbeddedSignupService
     app_id = GlobalConfigService.load('WHATSAPP_APP_ID', '')
     app_secret = GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
     "#{app_id}|#{app_secret}"
+  end
+
+  def override_waba_webhook(waba_id, channel, access_token)
+    callback_url = "https://tanmay-local.chatwoot.dev/webhooks/whatsapp/#{channel.phone_number}"
+    verify_token = channel.provider_config['webhook_verify_token']
+
+    response = HTTParty.post(
+      "https://graph.facebook.com/v21.0/#{waba_id}/subscribed_apps",
+      {
+        headers: {
+          'Authorization' => "Bearer #{access_token}",
+          'Content-Type' => 'application/json'
+        },
+        body: {
+          override_callback_uri: callback_url,
+          verify_token: verify_token
+        }.to_json
+      }
+    )
+
+    return if response.success?
+
+    Rails.logger.error("[WHATSAPP] Webhook override failed: #{response.body}")
+    raise "Webhook override failed: #{response.body}"
   end
 end
