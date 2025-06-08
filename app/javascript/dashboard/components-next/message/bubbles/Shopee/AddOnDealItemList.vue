@@ -29,7 +29,7 @@ export default {
 
 <template>
   <ul class="flex flex-col gap-2 list-none shopee-card">
-    <li v-for="(item, index) in items" :key="index" class="mb-2">
+    <li v-for="item in items" :key="item.itemId" class="mb-2">
       <a
         :href="`https://shopee.vn/product/${original.shopId}/${item.itemId}`"
         target="_blank"

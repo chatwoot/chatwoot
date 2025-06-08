@@ -36,7 +36,7 @@ export default {
 <template>
   <template v-if="items.length">
     <ul class="flex flex-col gap-2 list-none shopee-card mt-4">
-      <li v-for="(item, index) in items" :key="index">
+      <li v-for="item in items" :key="item.code">
         <a
           :href="`https://shopee.vn/product/${item.shopId}/${item.code}`"
           target="_blank"
