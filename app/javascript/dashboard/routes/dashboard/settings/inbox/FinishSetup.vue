@@ -67,9 +67,14 @@ export default {
       }
 
       if (this.isWhatsAppCloudInbox) {
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
-          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
-        )}`;
+        const isEmbeddedSignup =
+          this.currentInbox.provider_config?.source === 'embedded_signup';
+
+        const subtitleKey = isEmbeddedSignup
+          ? 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE_EMBEDDED'
+          : 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE';
+
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(subtitleKey)}`;
       }
 
       if (this.isAEmailInbox && !this.currentInbox.provider) {
