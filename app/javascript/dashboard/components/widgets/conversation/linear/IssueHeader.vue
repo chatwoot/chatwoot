@@ -39,7 +39,7 @@ const openIssue = () => {
           {{ identifier }}
         </span>
       </div>
-      <span class="w-px h-3 text-n-weak bg-n-border-weak" />
+      <span class="w-px h-3 text-n-weak bg-n-weak" />
 
       <Button
         link
