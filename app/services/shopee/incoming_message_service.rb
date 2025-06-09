@@ -3,7 +3,7 @@
 
 class Shopee::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
-  VALID_MESSAGE_TYPES = %w[text sticker voucher item_list add_on_deal order product item faq_liveagent crm_item_list video].freeze
+  VALID_MESSAGE_TYPES = %w[text sticker voucher item_list add_on_deal order product item faq_liveagent crm_item_list video image].freeze
 
   delegate :channel, to: :inbox
 

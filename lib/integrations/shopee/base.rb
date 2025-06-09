@@ -4,11 +4,11 @@ class Integrations::Shopee::Base
   private
 
   def client
-    @client ||= Integrations::Shopee::Client.new
+    @client = Integrations::Shopee::Client.new
   end
 
   def auth_client
-    @auth_client ||= Integrations::Shopee::Client.new(access_token: access_token, shop_id: shop_id)
+    @auth_client = Integrations::Shopee::Client.new(access_token: access_token, shop_id: shop_id)
   end
 
   def partner_id

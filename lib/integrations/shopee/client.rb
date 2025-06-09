@@ -1,5 +1,4 @@
 class Integrations::Shopee::Client
-
   pattr_initialize [:access_token, :shop_id]
 
   def query(params)
@@ -55,11 +54,19 @@ class Integrations::Shopee::Client
   end
 
   def final_body
-    @body&.to_json
+    return @final_body if defined?(@final_body)
+
+    hash_data = @body.presence || {}
+    file_uploading = hash_data.values.any? { |v| v.is_a?(File) || v.is_a?(Tempfile) }
+    @final_body = file_uploading ? hash_data : hash_data.to_json
   end
 
   def headers
-    { 'Content-Type' => 'application/json' }
+    if final_body.is_a?(Hash)
+      { 'Content-Type' => 'multipart/form-data' }
+    else
+      { 'Content-Type' => 'application/json' }
+    end
   end
 
   def url
