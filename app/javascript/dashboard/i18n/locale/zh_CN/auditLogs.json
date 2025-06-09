@@ -71,7 +71,7 @@
       "EDIT": "{agentName} 更新了账户配置 (##{id})"
     },
     "CONVERSATION": {
-      "DELETE": "{agentName} deleted conversation #{id}"
+      "DELETE": "{agentName} 删除了对话 #{id}"
     }
   }
 }
