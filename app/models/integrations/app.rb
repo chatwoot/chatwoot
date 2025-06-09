@@ -114,6 +114,8 @@ class Integrations::App
     end
 
     def handle_onehash_apps(app)
+      return unless Current.account_user
+
       enabled_map = {
         onehash_cal: Integrations::Hook.exists?(app_id: 'onehash_cal', account_user_id: Current.account_user.id)
       }

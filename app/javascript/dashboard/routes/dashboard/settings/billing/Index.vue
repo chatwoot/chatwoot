@@ -102,6 +102,8 @@ const hasABillingPlan = computed(() => {
   return !!planName.value;
 });
 
+
+
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
     store.dispatch('accounts/stripe_subscription');
