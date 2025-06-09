@@ -2,7 +2,7 @@
 export default {
   props: {
     selectedValue: {
-      type: String,
+      type: [String, Array],
       required: true,
     },
     items: {
@@ -27,7 +27,10 @@ export default {
   methods: {
     onTabChange() {
       if (this.type === 'status') {
-        this.$store.dispatch('setChatStatusFilter', this.activeValue);
+        const newValue = this.items.includes(this.activeValue)
+          ? [this.activeValue]
+          : this.activeValue;
+        this.$store.dispatch('setChatStatusFilter', newValue);
       } else {
         this.$store.dispatch('setChatSortFilter', this.activeValue);
       }

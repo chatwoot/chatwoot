@@ -34,7 +34,7 @@ const folderNameLocal = ref(props.folderName);
 const DEFAULT_FILTER = {
   attributeKey: 'status',
   filterOperator: 'equal_to',
-  values: [],
+  values: ['open'],
   queryOperator: 'and',
 };
 

@@ -100,12 +100,19 @@ export const useFilter = ({ filteri18nKey, attributeModel }) => {
         attribute_key: 'status',
         attribute_model: 'standard',
         filter_operator: 'equal_to',
-        values: [
-          {
-            id: activeStatus,
-            name: $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`),
-          },
-        ],
+        values: Array.isArray(activeStatus)
+          ? activeStatus.map(status => ({
+              id: status,
+              name: $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${status}.TEXT`),
+            }))
+          : [
+              {
+                id: activeStatus,
+                name: $t(
+                  `CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`
+                ),
+              },
+            ],
         query_operator: 'and',
         custom_attribute_type: '',
       };
