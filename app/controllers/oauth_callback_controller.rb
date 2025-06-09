@@ -84,7 +84,10 @@ class OauthCallbackController < ApplicationController
   def account_from_signed_id
     raise ActionController::BadRequest, 'Missing state variable' if params[:state].blank?
 
-    GlobalID::Locator.locate_signed(params[:state])
+    account = GlobalID::Locator.locate_signed(params[:state])
+    raise 'Invalid or expired state' if account.nil?
+
+    account
   end
 
   def account
