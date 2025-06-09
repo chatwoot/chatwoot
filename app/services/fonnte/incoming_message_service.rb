@@ -15,7 +15,7 @@ class Fonnte::IncomingMessageService
         inbox_id: @inbox.id,
         message_type: :incoming,
         sender: @contact,
-        source_id: params[:token]
+        source_id: params[:inboxid]
       )
       attach_files
       @message.save!
@@ -89,7 +89,10 @@ class Fonnte::IncomingMessageService
   end
 
   def additional_attributes
-    {}
+    {
+      inboxid: params[:inboxid],
+      location: params[:location]
+    }
   end
 
   def attach_files
