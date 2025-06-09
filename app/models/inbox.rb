@@ -103,15 +103,9 @@ class Inbox < ApplicationRecord
   # ALLOWS: /'._- and Unicode letters/numbers/emojis
   # REMOVES: Forbidden chars (\<>@") + spam-trigger symbols (!#$%&*+=?^`{|}~)
   def sanitized_name
-    return display_name_from_email if name.blank? && email?
-    return '' if name.blank?
+    return default_name_for_blank_name if name.blank?
 
-    sanitized = name.gsub(/[\\<>@"!#$%&*+=?^`{|}~]/, '')            # Remove forbidden chars
-                    .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
-                    .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
-                    .gsub(/\s+/, ' ')                               # Normalize spaces
-                    .strip
-
+    sanitized = apply_sanitization_rules(name)
     sanitized.blank? && email? ? display_name_from_email : sanitized
   end
 
@@ -193,6 +187,18 @@ class Inbox < ApplicationRecord
   end
 
   private
+
+  def default_name_for_blank_name
+    email? ? display_name_from_email : ''
+  end
+
+  def apply_sanitization_rules(name)
+    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~]/, '')            # Remove forbidden chars
+        .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
+        .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
+        .gsub(/\s+/, ' ')                               # Normalize spaces
+        .strip
+  end
 
   def display_name_from_email
     channel.email.split('@').first.parameterize.titleize
