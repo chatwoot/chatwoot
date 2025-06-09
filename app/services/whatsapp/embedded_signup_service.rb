@@ -15,6 +15,7 @@ class Whatsapp::EmbeddedSignupService
       raise ArgumentError, 'Code, business_id, waba_id, and phone_number_id are all required'
     end
 
+    GlobalConfig.clear_cache
     # Exchange code for user access token
     access_token = exchange_code_for_token
 

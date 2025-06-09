@@ -11,8 +11,7 @@ class Whatsapp::EmbeddedController < ApplicationController
       status: 'ready',
       app_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
       config_id: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
-      partner_id: GlobalConfigService.load('WHATSAPP_PARTNER_ID', ''),
-      graph_api_version: GlobalConfigService.load('WHATSAPP_GRAPH_API_VERSION', 'v21.0')
+      app_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
     }
   end
 

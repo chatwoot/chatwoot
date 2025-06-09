@@ -8,8 +8,7 @@ RSpec.describe 'WhatsApp Embedded API', type: :request do
     before do
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return('test_app_id')
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_CONFIGURATION_ID', '').and_return('test_config_id')
-      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_PARTNER_ID', '').and_return('test_partner_id')
-      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_GRAPH_API_VERSION', 'v21.0').and_return('v21.0')
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return('test_app_secret')
     end
 
     context 'when user is authenticated' do
@@ -24,8 +23,7 @@ RSpec.describe 'WhatsApp Embedded API', type: :request do
           'status' => 'ready',
           'app_id' => 'test_app_id',
           'config_id' => 'test_config_id',
-          'partner_id' => 'test_partner_id',
-          'graph_api_version' => 'v21.0'
+          'app_secret' => 'test_app_secret'
         )
       end
     end

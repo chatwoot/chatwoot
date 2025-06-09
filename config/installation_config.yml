@@ -135,14 +135,9 @@
   display_title: 'WhatsApp Configuration ID'
   description: 'The Configuration ID for WhatsApp Embedded Signup flow (required for embedded signup)'
   locked: false
-- name: WHATSAPP_PARTNER_ID
-  display_title: 'WhatsApp Partner ID'
-  description: 'Your Partner ID for WhatsApp Business (required for Solution Partners)'
-  locked: false
-- name: WHATSAPP_GRAPH_API_VERSION
-  display_title: 'WhatsApp Graph API Version'
-  description: 'The Graph API version to use for WhatsApp Business API'
-  value: 'v21.0'
+- name: WHATSAPP_APP_SECRET
+  display_title: 'WhatsApp App Secret'
+  description: 'The App Secret for WhatsApp Embedded Signup flow (required for embedded signup)'
   locked: false
 # ------- End of WhatsApp Channel Related Config ------- #
 
