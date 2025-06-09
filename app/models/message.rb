@@ -228,6 +228,11 @@ class Message < ApplicationRecord
     save!
   end
 
+  def send_update_event
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
+                                                                            previous_changes: previous_changes)
+  end
+
   private
 
   def prevent_message_flooding
@@ -317,8 +322,7 @@ class Message < ApplicationRecord
     # we want to skip the update event if the message is not updated
     return if previous_changes.blank?
 
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
-                                                                            previous_changes: previous_changes)
+    send_update_event
   end
 
   def send_reply
