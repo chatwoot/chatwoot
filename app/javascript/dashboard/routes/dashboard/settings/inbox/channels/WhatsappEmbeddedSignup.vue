@@ -364,13 +364,13 @@ export default {
 
       <div class="flex flex-col gap-2 mb-8">
         <div class="flex items-center gap-2 text-sm text-slate-11">
-          <Icon icon="i-lucide-check" class="text-white" />
+          <Icon icon="i-lucide-check" class="text-slate-11" />
           {{
             $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.EASY_SETUP')
           }}
         </div>
         <div class="flex items-center gap-2 text-sm text-slate-11">
-          <Icon icon="i-lucide-check" class="text-white" />
+          <Icon icon="i-lucide-check" class="text-slate-11" />
           <span>
             {{
               $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.SECURE_AUTH')
@@ -378,7 +378,7 @@ export default {
           </span>
         </div>
         <div class="flex items-center gap-2 text-sm text-slate-11">
-          <Icon icon="i-lucide-check" class="text-white" />
+          <Icon icon="i-lucide-check" class="text-slate-11" />
           {{
             $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.AUTO_CONFIG')
           }}
