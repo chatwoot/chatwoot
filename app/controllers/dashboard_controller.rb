@@ -23,7 +23,7 @@ class DashboardController < ActionController::Base
       'LOGO', 'LOGO_DARK', 'LOGO_THUMBNAIL',
       'INSTALLATION_NAME',
       'WIDGET_BRAND_URL', 'TERMS_URL',
-      'BRAND_URL', 'BRAND_NAME',
+      'BRAND_URL', 'BRAND_NAME', 'BRAND_PRIMARY_COLOR',
       'PRIVACY_URL',
       'DISPLAY_MANIFEST',
       'CREATE_NEW_ACCOUNT_FROM_DASHBOARD',

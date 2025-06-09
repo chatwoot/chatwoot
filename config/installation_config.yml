@@ -41,6 +41,10 @@
   value: 'Chatwoot'
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
+- name: BRAND_PRIMARY_COLOR
+  value: '#1F93FF'
+  display_title: 'Brand Primary Color'
+  description: 'The primary brand color used across the dashboard'
 - name: TERMS_URL
   value: 'https://www.chatwoot.com/terms-of-service'
   display_title: 'Terms URL'

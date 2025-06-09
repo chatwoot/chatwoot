@@ -15,3 +15,9 @@ export const setColorTheme = isOSOnDarkMode => {
     document.documentElement.style.setProperty('color-scheme', 'light');
   }
 };
+
+export const setBrandColor = color => {
+  if (!color) return;
+  document.documentElement.style.setProperty('--w-500', color);
+  document.documentElement.style.setProperty('--color-woot', color);
+};
