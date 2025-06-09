@@ -67,6 +67,7 @@ services:
       - NODE_ENV=production
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
+      - DEFAULT_LOCALE=pt_BR
       - FRONTEND_URL=${FRONTEND_URL}
       - INTERNAL_HOST_URL=${INTERNAL_HOST_URL}
       - POSTGRES_HOST=postgres
