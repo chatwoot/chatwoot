@@ -170,24 +170,6 @@ export default {
 
     <!-- Configuration View -->
     <div v-else-if="showConfiguration">
-      <!-- Back Button -->
-      <div class="mb-6">
-        <button
-          type="button"
-          class="inline-flex items-center transition-colors text-woot-500 hover:text-woot-600"
-          @click="goBackToProviderSelection"
-        >
-          <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
-            <path
-              fill-rule="evenodd"
-              d="M9.707 16.707a1 1 0 01-1.414 0l-6-6a1 1 0 010-1.414l6-6a1 1 0 011.414 1.414L5.414 9H17a1 1 0 110 2H5.414l4.293 4.293a1 1 0 010 1.414z"
-              clip-rule="evenodd"
-            />
-          </svg>
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.BACK_TO_PROVIDER_SELECTION') }}
-        </button>
-      </div>
-
       <!-- Configuration Form Container -->
       <div class="p-8 border bg-n-solid-2 border-n-weak rounded-2xl">
         <!-- Provider Configuration Forms -->

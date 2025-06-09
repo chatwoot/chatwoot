@@ -3,9 +3,11 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import router from '../../../../index';
 import Auth from 'dashboard/api/auth';
+import Icon from 'next/icon/Icon.vue';
+import NextButton from 'next/button/Button.vue';
 
 export default {
-  components: {},
+  components: { Icon, NextButton },
   data() {
     return {
       fbSdkLoaded: false,
@@ -313,14 +315,13 @@ export default {
 
 <template>
   <div class="h-full">
-    <!-- Processing State -->
-    <div v-if="isProcessing" class="text-center py-8">
+    <div v-if="isProcessing" class="py-8 text-center">
       <div class="mb-4">
         <div
-          class="animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mx-auto"
+          class="w-12 h-12 mx-auto border-b-2 border-blue-600 rounded-full animate-spin"
         />
       </div>
-      <h3 class="text-lg font-medium text-slate-800 dark:text-slate-100 mb-2">
+      <h3 class="mb-2 text-lg font-medium text-slate-800 dark:text-slate-100">
         {{ processingMessage }}
       </h3>
       <p class="text-slate-600 dark:text-slate-300">
@@ -341,126 +342,63 @@ export default {
       </div>
     </div>
 
-    <!-- Initial Setup State -->
-    <div
-      v-else
-      class="bg-n-solid-1 border border-n-weak rounded-2xl overflow-hidden"
-    >
-      <!-- Main Content -->
-      <div class="p-6">
-        <!-- WhatsApp Icon and Title -->
-        <div class="flex flex-col items-start text-left mb-6">
-          <!-- Icon with backdrop blur effect -->
-          <div class="relative mb-6">
-            <div
-              class="absolute inset-0 w-14 h-14 bg-n-solid-1 opacity-90 rounded-full blur-lg"
+    <div>
+      <div class="flex flex-col items-start mb-4 text-left">
+        <div class="flex justify-start mb-5">
+          <div class="flex items-center justify-center w-12 h-12 rounded-lg">
+            <img
+              src="dashboard/assets/images/whatsapp.png"
+              :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD')"
+              class="object-contain w-10 h-10"
             />
-            <div
-              class="relative w-14 h-14 rounded-full bg-n-solid-2 flex items-center justify-center"
-            >
-              <img
-                src="dashboard/assets/images/whatsapp.png"
-                alt="WhatsApp"
-                class="w-10 h-10 object-contain"
-              />
-            </div>
           </div>
-
-          <h3
-            class="text-lg font-medium text-slate-800 dark:text-slate-100 mb-2"
-          >
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.TITLE') }}
-          </h3>
-          <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
-            {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.DESC') }}
-          </p>
         </div>
 
-        <!-- Benefits List -->
-        <div class="space-y-3 mb-8">
-          <div
-            class="flex items-center text-sm text-slate-600 dark:text-slate-300"
-          >
-            <div
-              class="w-4 h-4 rounded-full bg-green-500 mr-3 flex items-center justify-center"
-            >
-              <svg
-                class="w-2.5 h-2.5 text-white"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-              >
-                <path
-                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
-                />
-              </svg>
-            </div>
-            {{
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.EASY_SETUP')
-            }}
-          </div>
-          <div
-            class="flex items-center text-sm text-slate-600 dark:text-slate-300"
-          >
-            <div
-              class="w-4 h-4 rounded-full bg-green-500 mr-3 flex items-center justify-center"
-            >
-              <svg
-                class="w-2.5 h-2.5 text-white"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-              >
-                <path
-                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
-                />
-              </svg>
-            </div>
+        <h3 class="mb-2 text-lg font-medium text-slate-12">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.TITLE') }}
+        </h3>
+        <p class="text-sm leading-relaxed text-slate-12">
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.DESC') }}
+        </p>
+      </div>
+
+      <div class="flex flex-col gap-2 mb-8">
+        <div class="flex items-center gap-2 text-sm text-slate-11">
+          <Icon icon="i-lucide-check" class="text-white" />
+          {{
+            $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.EASY_SETUP')
+          }}
+        </div>
+        <div class="flex items-center gap-2 text-sm text-slate-11">
+          <Icon icon="i-lucide-check" class="text-white" />
+          <span>
             {{
               $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.SECURE_AUTH')
             }}
-          </div>
-          <div
-            class="flex items-center text-sm text-slate-600 dark:text-slate-300"
-          >
-            <div
-              class="w-4 h-4 rounded-full bg-green-500 mr-3 flex items-center justify-center"
-            >
-              <svg
-                class="w-2.5 h-2.5 text-white"
-                viewBox="0 0 16 16"
-                fill="currentColor"
-              >
-                <path
-                  d="M12.736 3.97a.733.733 0 0 1 1.047 0c.286.289.29.756.01 1.05L7.88 12.01a.733.733 0 0 1-1.065.02L3.217 8.384a.757.757 0 0 1 0-1.06.733.733 0 0 1 1.047 0l3.052 3.093 5.4-6.425a.247.247 0 0 1 .02-.022Z"
-                />
-              </svg>
-            </div>
-            {{
-              $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.AUTO_CONFIG')
-            }}
-          </div>
+          </span>
         </div>
-
-        <!-- Connect Button -->
-        <button
-          :disabled="!fbSdkLoaded"
-          class="w-full bg-n-solid-3 hover:bg-n-solid-4 border border-n-weak text-slate-800 dark:text-slate-100 font-medium py-3 px-4 rounded-xl transition-all duration-200 flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
-          @click="launchEmbeddedSignup"
-        >
-          <img
-            src="dashboard/assets/images/whatsapp.png"
-            alt="WhatsApp"
-            class="w-4 h-4 object-contain"
-          />
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUBMIT_BUTTON') }}
-        </button>
-
-        <p
-          v-if="!fbSdkLoaded"
-          class="text-xs text-slate-500 dark:text-slate-400 mt-3 text-left"
-        >
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LOADING_SDK') }}
-        </p>
+        <div class="flex items-center gap-2 text-sm text-slate-11">
+          <Icon icon="i-lucide-check" class="text-white" />
+          {{
+            $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.BENEFITS.AUTO_CONFIG')
+          }}
+        </div>
       </div>
+
+      <NextButton
+        :disabled="!fbSdkLoaded"
+        faded
+        slate
+        @click="launchEmbeddedSignup"
+      >
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUBMIT_BUTTON') }}
+      </NextButton>
+      <p
+        v-if="!fbSdkLoaded"
+        class="mt-3 text-xs text-left text-slate-500 dark:text-slate-400"
+      >
+        {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LOADING_SDK') }}
+      </p>
     </div>
   </div>
 </template>
