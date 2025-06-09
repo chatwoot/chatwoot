@@ -39,8 +39,6 @@ class Fonnte::FonnteService
   def process_response(response)
     raise StandardError, 'Failed to send message via Fonnte' unless response.success?
 
-    Rails.logger.info "Fonnte send_message error: #{response.body}"
-
     response.parsed_response
   end
 end

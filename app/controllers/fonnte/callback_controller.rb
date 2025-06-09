@@ -8,7 +8,6 @@ class Fonnte::CallbackController < ApplicationController
   end
 
   def create
-    Rails.logger.info "Fonnte callback params: #{permitted_params.inspect}"
     Fonnte::IncomingMessageService.new(params: permitted_params).perform
     head :ok
   end
