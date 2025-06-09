@@ -91,11 +91,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Теперь вы можете получать письма на свой домен."
       }
     },
-    "UPDATE_CHATWOOT": "Доступно обновление {latestChatwootVersion} для Chatwoot. Пожалуйста, обновите свою версию.",
+    "UPDATE_CHATWOOT": "Доступно обновление {latestChatwootVersion} для OneHash Chat. Пожалуйста, обновите свою версию.",
     "LEARN_MORE": "Узнайте больше",
-    "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать Chatwoot",
+    "PAYMENT_PENDING": "Ваш платеж в ожидании. Пожалуйста, обновите платежную информацию, чтобы продолжить использовать OneHash Chat",
+    "UPGRADE": "Upgrade to continue using OneHash Chat",
+    "LIMITS_UPGRADE": "Превышен лимит использования вашего тарифного плана, пожалуйста, обновите тарифный план, чтобы продолжить использовать OneHash Chat",
     "OPEN_BILLING": "Открыть платеж"
   },
   "FORMS": {

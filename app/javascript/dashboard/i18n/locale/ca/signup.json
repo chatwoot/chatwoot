@@ -3,8 +3,8 @@
     "TRY_WOOT": "Crear un compte",
     "TITLE": "Registre",
     "TESTIMONIAL_HEADER": "Només cal un pas per avançar",
-    "TESTIMONIAL_CONTENT": "Ets a un pas de connectar amb els teus clients, fidelitzar-los i trobar-ne de nous.",
-    "TERMS_ACCEPT": "En registrar-te, acceptes els nostres <a href=\"https://www.onehash.ai/legal/terms-of-services\">Termes i Condicions</a> i la nostra <a href=\"https://www.onehash.ai/legal/privacy-policy\">Política de Privacitat</a>",
+    "TESTIMONIAL_CONTENT": "Esteu a un pas de captar els vostres clients, retenir-los i trobar-ne de nous.",
+    "TERMS_ACCEPT": "En crear un compte, acceptes els nostres <a href=\"https://www.chatwoot.com/terms\">T&C</a> i <a href=\"https://www.chatwoot.com/privacy-policy\">Política de privadesa</a>",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Registra't amb Google"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Email de treball",
-      "PLACEHOLDER": "Introdueix la teva adreça de correu electrònica de la feina. P. ex.: bruce{'@'}wayne{'.'}enterprises",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

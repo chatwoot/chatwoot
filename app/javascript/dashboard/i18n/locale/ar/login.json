@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "تسجيل الدخول إلى Chatwoot",
+    "TITLE": "تسجيل الدخول إلى OneHash Chat",
     "EMAIL": {
       "LABEL": "البريد الإلكتروني",
-      "PLACEHOLDER": "مثلاً: someone{'@'}example.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "الرجاء إدخال عنوان بريد إلكتروني صحيح"
     },
     "PASSWORD": {
@@ -19,10 +19,6 @@
       "GOOGLE_LOGIN": "تسجيل الدخول بواسطة جوجل",
       "BUSINESS_ACCOUNTS_ONLY": "الرجاء استخدام عنوان البريد الإلكتروني الخاص بشركتك لتسجيل الدخول",
       "NO_ACCOUNT_FOUND": "لم نتمكن من العثور على حساب لعنوان البريد الإلكتروني الخاص بك."
-    },
-    "OIDC":{
-      "OIDC_LOGIN": "Login with OIDC",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "نسيت كلمة المرور؟",
     "CREATE_NEW_ACCOUNT": "إنشاء حساب جديد",

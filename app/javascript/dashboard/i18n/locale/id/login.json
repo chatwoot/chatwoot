@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Masuk ke Chatwoot",
+    "TITLE": "Masuk ke OneHash Chat",
     "EMAIL": {
       "LABEL": "Email",
-      "PLACEHOLDER": "contoh{'@'}perusahan-mu.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Harap masukkan alamat email yang valid"
     },
     "PASSWORD": {
@@ -19,10 +19,6 @@
       "GOOGLE_LOGIN": "Masuk dengan Google",
       "BUSINESS_ACCOUNTS_ONLY": "Harap gunakan alamat email perusahaan Anda untuk masuk",
       "NO_ACCOUNT_FOUND": "Kami tidak dapat menemukan akun untuk alamat email Anda."
-    },
-    "OIDC":{
-      "OIDC_LOGIN": "Login with OIDC",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Lupa kata sandi Anda?",
     "CREATE_NEW_ACCOUNT": "Buat akun baru",

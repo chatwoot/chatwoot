@@ -771,7 +771,7 @@
         "AGENT_MESSAGE": "שלום"
       },
       "BRANDING_TEXT": "מופעל על ידי OneHash Chat",
-      "SCRIPT_SETTINGS": "\n      window.OneHash ChatSettings = {options};"
+      "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "מיקרוסופט",

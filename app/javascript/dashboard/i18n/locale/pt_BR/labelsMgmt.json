@@ -46,12 +46,12 @@
         "DESELECT": "Desmarcar etiqueta",
         "DISMISS": "Descartar sugestão"
       },
-      "POWERED_BY": "OneHash AI",
+      "POWERED_BY": "OneHash Chat AI",
       "DISMISS": "Recusar",
       "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
       "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
       "ADD_ALL_LABELS": "Adicionar todas as etiquetas",
-      "SUGGESTED_LABELS": "Rótulos sugeridos"
+      "SUGGESTED_LABELS": "Etiquetas sugeridos"
     },
     "ADD": {
       "TITLE": "Adicionar etiqueta",

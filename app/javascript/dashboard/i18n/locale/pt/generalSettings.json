@@ -93,9 +93,9 @@
     },
     "UPDATE_CHATWOOT": "Está disponível uma nova atualização {latestChatwootVersion} para o ChatWoot. Por favor, atualize a sua versão.",
     "LEARN_MORE": "Saber mais",
-    "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor, atualize as suas informações de pagamento para continuar a usar o Chatwoot",
-    "UPGRADE": "Upgrade to continue using Chatwoot",
-    "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor, faça um upgrade ao seu plano para continuar a utilizar o Chatwoot",
+    "PAYMENT_PENDING": "O seu pagamento está pendente. Por favor, atualize as suas informações de pagamento para continuar a usar o OneHash Chat",
+    "UPGRADE": "Upgrade to continue using OneHash Chat",
+    "LIMITS_UPGRADE": "A sua conta excedeu os limites de utilização. Por favor, faça um upgrade ao seu plano para continuar a utilizar o OneHash Chat",
     "OPEN_BILLING": "Abrir faturação"
   },
   "FORMS": {

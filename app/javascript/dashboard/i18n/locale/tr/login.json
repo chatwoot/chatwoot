@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Chatwoot'ta oturum açın",
+    "TITLE": "OneHash Chat'ta oturum açın",
     "EMAIL": {
       "LABEL": "E-Posta",
-      "PLACEHOLDER": "ornek{'@'}firmadi.com",
+      "PLACEHOLDER": "ornek{'@'}sirketadi.com",
       "ERROR": "Lütfen geçerli bir e-posta adresi girin"
     },
     "PASSWORD": {
@@ -19,10 +19,6 @@
       "GOOGLE_LOGIN": "Google ile giriş yap",
       "BUSINESS_ACCOUNTS_ONLY": "Lütfen giriş yapmak için şirket e-posta adresinizi kullanın",
       "NO_ACCOUNT_FOUND": "E-posta adresinizle ilişkilendirilmiş bir hesap bulunamadı."
-    },
-    "OIDC":{
-      "OIDC_LOGIN": "Login with OIDC",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Parolanızı mı unuttunuz?",
     "CREATE_NEW_ACCOUNT": "Yeni hesap oluştur",

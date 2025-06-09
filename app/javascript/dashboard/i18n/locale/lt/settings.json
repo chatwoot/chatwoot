@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your OneHash Chat dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -212,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Keisti",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pasirinkite paskyrą iš toliau pateikto sąrašo",
     "PROFILE_SETTINGS": "Profile settings",
@@ -281,6 +281,9 @@
     "SETTINGS": "Nustatymai",
     "CONTACTS": "Kontaktai",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Pagrindinis",
     "AGENTS": "Agentai",
     "AGENT_BOTS": "Botai",
@@ -342,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Atsiskaitymas",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Prenumeratos Dabartinis Planas",
-      "PLAN_NOTE": "Šiuo metu užsiprenumeravote OneHash Chat **%{plan}** planą su **%{quantity}** licencijomis"
+      "PLAN_NOTE": "Šiuo metu užsiprenumeravote **{plan}** planą su **{quantity}** licencijomis",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Tvarkykite savo prenumeratą",
       "DESCRIPTION": "Peržiūrėkite ankstesnes sąskaitas faktūras, redaguokite atsiskaitymo informaciją arba atšaukite prenumeratą.",
       "BUTTON_TXT": "Eiti į mokėjimų portalą"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Reikia pagalbos?",
@@ -359,7 +374,7 @@
     "NO_BILLING_USER": "Jūsų atsiskaitomoji sąskaita konfigūruojama. Atnaujinkite puslapį ir bandykite dar kartą."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Oi! Nepavyko rasti jokių Chatwoot paskyrų. Jei norite tęsti, susikurkite naują paskyrą.",
+    "NO_ACCOUNT_WARNING": "Oi! Nepavyko rasti jokių OneHash Chat paskyrų. Jei norite tęsti, susikurkite naują paskyrą.",
     "NEW_ACCOUNT": "Nauja Paskyra",
     "SELECTOR_SUBTITLE": "Sukurti naują paskyrą",
     "API": {
@@ -393,31 +408,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Perjungti į Privatų užrašą",
       "SWITCH_TO_REPLY": "Perjungti į Atsakyti",
       "TOGGLE_SNOOZE_DROPDOWN": "Perjungti snooze išskleidžiamąjį meniu"
-    }
-  },
-  "LTD_SETTINGS": {
-    "TITLE": "Kupono Kodas",
-    "CURRENT_PLAN": {
-        "TITLE": "Dabartinis Planas",
-        "PLAN_NOTE": "Šiuo metu esate prenumeratos OneHash Chat **%{plan}** LTD plane su **%{quantity}** licencijomis"
-    },
-    "APPLY": "Taikyti",
-    "COUPON_ERROR": {
-        "MESSAGE": "Pateiktas kupono kodas yra neteisingas"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   }
 }

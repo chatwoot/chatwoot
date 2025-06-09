@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your OneHash Chat dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -212,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Durumu Değiştir",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Listeden bir hesap seçin",
     "PROFILE_SETTINGS": "Profile settings",
@@ -281,6 +281,9 @@
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Anasayfa",
     "AGENTS": "Kullanıcılar",
     "AGENT_BOTS": "Botlar",
@@ -342,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Fatura",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Mevcut Plan",
-      "PLAN_NOTE": "Şu anda OneHash Chat **%{plan}** planına **%{quantity}** lisans abonesisiniz"
+      "PLAN_NOTE": "Şu anda **{plan}** planına **{quantity}** lisans abonesisiniz",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Aboneliğinizi yönetin",
       "DESCRIPTION": "Önceki faturalarınızı görüntüleyin, fatura detaylarınızı düzenleyin veya aboneliğinizi iptal edin.",
       "BUTTON_TXT": "Fatura portalına git"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Yardıma mı ihtiyacınız var?",
@@ -359,7 +374,7 @@
     "NO_BILLING_USER": "Fatura hesabınız yapılandırılıyor. Lütfen sayfayı yenileyip tekrar deneyin."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir Chatwoot hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",
+    "NO_ACCOUNT_WARNING": "Eyvah! Hiçbir OneHash Chat hesabı bulunamadı. Devam etmek için yeni bir hesap oluşturun.",
     "NEW_ACCOUNT": "Yeni hesap",
     "SELECTOR_SUBTITLE": "Yeni bir hesap oluştur",
     "API": {
@@ -393,31 +408,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Özel Not'a geç",
       "SWITCH_TO_REPLY": "Yanıt'a geç",
       "TOGGLE_SNOOZE_DROPDOWN": "Snooze açılır menüsünü aç/kapat"
-    }
-  },
-  "LTD_SETTINGS": {
-    "TITLE": "Coupon Code",
-    "CURRENT_PLAN": {
-      "TITLE": "Current Plan",
-      "PLAN_NOTE": "You are currently subscribed to the OneHash Chat **%{plan}** LTD plan with **%{quantity}** licenses"
-    },
-    "APPLY": "Apply",
-    "COUPON_ERROR": {
-      "MESSAGE": "The provided coupon code is invalid"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   }
 }

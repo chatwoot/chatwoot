@@ -606,7 +606,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Category slug for urls",
             "ERROR": "Slug is required",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chat.onehash.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "描述資訊",
@@ -689,7 +689,7 @@
       "CONFIRM_BUTTON_LABEL": "建立",
       "NAME": {
         "LABEL": "姓名",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneHash Chat",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "名稱為必填"
       },

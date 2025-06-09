@@ -606,7 +606,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Kategorijas slug priekš URL",
             "ERROR": "Nepieciešams slug",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chat.onehash.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Apraksts",
@@ -689,7 +689,7 @@
       "CONFIRM_BUTTON_LABEL": "Izveidot",
       "NAME": {
         "LABEL": "Nosaukums",
-        "PLACEHOLDER": "Lietotāja Rokasgrāmata | Chatwoot",
+        "PLACEHOLDER": "Lietotāja Rokasgrāmata | OneHash Chat",
         "MESSAGE": "Izvēlieties savam portālam nosaukumu.",
         "ERROR": "Nepieciešams nosaukums"
       },

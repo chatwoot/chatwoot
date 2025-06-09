@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Messagem"
     },
-    "SEARCHING_DATA": "Procurando",
+    "VIEW_MORE": "Ver mais",
+    "LOAD_MORE": "Carregar mais",
+    "SEARCHING_DATA": "Pesquisando",
+    "LOADING_DATA": "Carregando",
     "EMPTY_STATE": "Nenhum {item} foi encontrado para a consulta '{query}'",
     "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
@@ -20,7 +23,8 @@
     "BOT_LABEL": "Robôs",
     "READ_MORE": "Saiba mais",
     "WROTE": "escreveu:",
-    "FROM": "De",
-    "EMAIL": "e-mail"
+    "FROM": "de",
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "assunto"
   }
 }

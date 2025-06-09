@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interfeiss",
-        "NOTE": "Pielāgot sava Chatwoot informācijas paneļa izskatu un darbību.",
+        "NOTE": "Pielāgot sava OneHash Chat informācijas paneļa izskatu un darbību.",
         "FONT_SIZE": {
           "TITLE": "Fonta lielums",
           "NOTE": "Pielāgot teksta lielumu informācijas panelī, atbilstoši savām vēlmēm.",
@@ -212,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Mainīt",
     "CHANGE_ACCOUNTS": "Pārslēgt kontu",
-    "SWITCH_WORKSPACE": "Pārslēgt darbvietu",
+    "SWITCH_ACCOUNT": "Pārslēgt kontu",
     "CONTACT_SUPPORT": "Sazināties ar atbalstu",
     "SELECTOR_SUBTITLE": "Izvēlieties kontu no šī saraksta",
     "PROFILE_SETTINGS": "Profila iestatījumi",
@@ -281,6 +281,9 @@
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Asistenti",
+    "CAPTAIN_DOCUMENTS": "Dokumenti",
+    "CAPTAIN_RESPONSES": "Bieži uzdotie jautājumi",
     "HOME": "Sākums",
     "AGENTS": "Aģenti",
     "AGENT_BOTS": "Bots",
@@ -342,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Norēķini",
+    "DESCRIPTION": "Pārvaldiet savu abonementu šeit. Modernizējiet abonementu un iegūstiet papildu funkcijas savai komandai.",
     "CURRENT_PLAN": {
       "TITLE": "Pašreizējais Norēķinu Plāns",
-      "PLAN_NOTE": "Šobrīd Jūs abonējat OneHash Chat **%{plan}** plānu ar **%{quantity}** licencēm"
+      "PLAN_NOTE": "Šobrīd Jūs abonējat **{plan}** plānu ar **{quantity}** licencēm",
+      "SEAT_COUNT": "Lietotāju skaits",
+      "RENEWS_ON": "Atjaunojas"
     },
+    "VIEW_PRICING": "Skatīt Izcenojumu",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Pārvaldīt savu abonementu",
       "DESCRIPTION": "Apskatīt iepriekšējos rēķinus, rediģēt norēķinu informāciju vai atcelt abonementu.",
       "BUTTON_TXT": "Doties uz norēķinu portālu"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Pārvaldīt Captain AI lietošanu un kredītus.",
+      "BUTTON_TXT": "Iegādāties vairāk kredītu",
+      "DOCUMENTS": "Dokumenti",
+      "RESPONSES": "Atbildes",
+      "UPGRADE": "Captain nav pieejams bezmaksas abonementā. Modernizējiet abonementu tūlīt, lai piekļūtu asistentiem un copilot."
     },
     "CHAT_WITH_US": {
       "TITLE": "Nepieciešama palīdzība?",
@@ -393,31 +408,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Pārslēgties uz Privāto Piezīmi",
       "SWITCH_TO_REPLY": "Pārslēgties uz Atbildi",
       "TOGGLE_SNOOZE_DROPDOWN": "Pārslēgt atlikšanas nolaižamo izvēlni"
-    }
-  },
-  "LTD_SETTINGS": {
-    "TITLE": "Kupona kods",
-    "CURRENT_PLAN": {
-        "TITLE": "Pašreizējais plāns",
-        "PLAN_NOTE": "Jūs pašlaik esat abonējis OneHash Chat LTD plānu **%{plan}** ar **%{quantity}** licencēm"
-    },
-    "APPLY": "Pielietot",
-    "COUPON_ERROR": {
-        "MESSAGE": "Nodrošinātais kupona kods nav derīgs"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   }
 }

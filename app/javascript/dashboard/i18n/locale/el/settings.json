@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your OneHash Chat dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -212,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Να αλλάξει",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Επιλέξτε ένα λογαριασμό από την Λίστα",
     "PROFILE_SETTINGS": "Profile settings",
@@ -281,6 +281,9 @@
     "SETTINGS": "Ρυθμίσεις",
     "CONTACTS": "Επαφές",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Αρχική",
     "AGENTS": "Πράκτορες",
     "AGENT_BOTS": "Bots",
@@ -342,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Χρεώσεις",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Τρέχον Πλάνο",
-      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο OneHash Chat **%{plan}** με **%{quantity}** άδειες"
+      "PLAN_NOTE": "Αυτή τη στιγμή έχετε εγγραφεί στο πλάνο **{plan}** με **{quantity}** άδειες",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Διαχειριστείτε τη συνδρομή σας",
       "DESCRIPTION": "Δείτε τα προηγούμενα τιμολόγια σας, επεξεργαστείτε τα στοιχεία χρέωσης ή ακυρώστε τη συνδρομή σας.",
       "BUTTON_TXT": "Μετάβαση στην πύλη χρέωσης"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Χρειάζεστε βοήθεια;",
@@ -359,7 +374,7 @@
     "NO_BILLING_USER": "Ο λογαριασμός χρέωσης έχει ρυθμιστεί. Παρακαλώ ανανεώστε τη σελίδα και προσπαθήστε ξανά."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό Chatwoot. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
+    "NO_ACCOUNT_WARNING": "Ωχ! Δεν μπορέσαμε να βρούμε κανένα λογαριασμό OneHash Chat. Παρακαλούμε δημιουργήστε ένα νέο λογαριασμό για να συνεχίσετε.",
     "NEW_ACCOUNT": "Νέος Λογαριασμός",
     "SELECTOR_SUBTITLE": "Δημιουργία νέου Λογαριασμού",
     "API": {
@@ -393,31 +408,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Αλλαγή σε Ιδιωτική Σημείωση",
       "SWITCH_TO_REPLY": "Εναλλαγή σε απάντηση",
       "TOGGLE_SNOOZE_DROPDOWN": "Εναλλαγή αναβολής dropdown"
-    }
-  },
-  "LTD_SETTINGS": {
-    "TITLE": "Κωδικός Κουπονιού",
-    "CURRENT_PLAN": {
-        "TITLE": "Τρέχουσα Σχέδιο",
-        "PLAN_NOTE": "Είστε εγγεγραμμένοι αυτήν τη στιγμή στο OneHash Chat σχέδιο LTD **%{plan}** με **%{quantity}** άδειες"
-    },
-    "APPLY": "Εφαρμογή",
-    "COUPON_ERROR": {
-        "MESSAGE": "Ο παρεχόμενος κωδικός κουπονιού δεν είναι έγκυρος"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   }
 }

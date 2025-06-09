@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your OneHash Chat dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -212,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "Ubah",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "Pilih akun dari daftar berikut",
     "PROFILE_SETTINGS": "Profile settings",
@@ -281,6 +281,9 @@
     "SETTINGS": "Pengaturan",
     "CONTACTS": "Kontak",
     "CAPTAIN": "Captain",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "Beranda",
     "AGENTS": "Agen",
     "AGENT_BOTS": "Bot Agen",
@@ -342,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "Pembayaran",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "Paket Saat Ini",
-      "PLAN_NOTE": "Anda saat ini berlangganan paket OneHash Chat **%{plan}** dengan **%{quantity}** lisensi"
+      "PLAN_NOTE": "Anda saat ini berlangganan paket **{plan}** dengan **{quantity}** lisensi",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Kelola langganan Anda",
       "DESCRIPTION": "Lihat faktur sebelumnya, edit rincian pembayaran, atau batalkan langganan Anda.",
       "BUTTON_TXT": "Buka portal pembayaran"
+    },
+    "CAPTAIN": {
+      "TITLE": "Captain",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Butuh bantuan?",
@@ -359,7 +374,7 @@
     "NO_BILLING_USER": "Akun pembayaran Anda sedang dikonfigurasi. Silakan segarkan halaman dan coba lagi."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemukan akun Chatwoot apa pun. Harap buat akun baru untuk melanjutkan.",
+    "NO_ACCOUNT_WARNING": "Uh oh! Kami tidak dapat menemukan akun OneHash Chat apa pun. Harap buat akun baru untuk melanjutkan.",
     "NEW_ACCOUNT": "Akun Baru",
     "SELECTOR_SUBTITLE": "Buat akun baru",
     "API": {
@@ -393,31 +408,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Beralih ke Catatan Pribadi",
       "SWITCH_TO_REPLY": "Beralih ke Balasan",
       "TOGGLE_SNOOZE_DROPDOWN": "Buka/Tutup dropdown penundaan"
-    }
-  },
-  "LTD_SETTINGS": {
-    "TITLE": "Kode Kupon",
-    "CURRENT_PLAN": {
-        "TITLE": "Rencana Saat Ini",
-        "PLAN_NOTE": "Anda saat ini berlangganan paket OneHash Chat LTD **%{plan}** dengan lisensi **%{quantity}**"
-    },
-    "APPLY": "Terapkan",
-    "COUPON_ERROR": {
-        "MESSAGE": "Kode kupon yang diberikan tidak valid"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   }
 }

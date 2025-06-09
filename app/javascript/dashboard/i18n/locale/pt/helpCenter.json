@@ -391,8 +391,8 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria slug para URLs",
-          "HELP_TEXT": "chat.onehash.ai/hc/meu-portal/en-US/categories/meu-slug",
-          "ERROR": "Slug é obrigatório"
+          "HELP_TEXT": "chat.onehash.ai/hc/meu-portal/en-US/categorias/meu-slug",
+          "ERROR": "Slug obrigatória"
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
@@ -422,7 +422,7 @@
         "SLUG": {
           "LABEL": "Slug",
           "PLACEHOLDER": "Categoria slug para URLs",
-          "HELP_TEXT": "chat.onehash.ai/hc/meu-portal/en-US/categories/meu-slug",
+          "HELP_TEXT": "chat.onehash.ai/hc/meu-portal/en-US/categorias/meu-slug",
           "ERROR": "Slug é obrigatório"
         },
         "DESCRIPTION": {
@@ -606,7 +606,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Categoria slug para URLs",
             "ERROR": "Slug obrigatória",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chat.onehash.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Descrição",
@@ -689,7 +689,7 @@
       "CONFIRM_BUTTON_LABEL": "Criar",
       "NAME": {
         "LABEL": "Nome:",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneHash Chat",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Nome é obrigatório"
       },

@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your OneHash Chat dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -75,7 +75,7 @@
       },
       "ACCESS_TOKEN": {
         "TITLE": "رمز المصادقة",
-        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع Chatwoot",
+        "NOTE": "يمكن استخدام هذا رمز المصادقة إذا كنت تبني تطبيقات API للتكامل مع OneHash Chat",
         "COPY": "نسخ"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
@@ -212,7 +212,7 @@
   "SIDEBAR_ITEMS": {
     "CHANGE_AVAILABILITY_STATUS": "يتغيرون",
     "CHANGE_ACCOUNTS": "Switch account",
-    "SWITCH_WORKSPACE": "Switch workspace",
+    "SWITCH_ACCOUNT": "Switch account",
     "CONTACT_SUPPORT": "Contact support",
     "SELECTOR_SUBTITLE": "اختر حساباً من القائمة التالية",
     "PROFILE_SETTINGS": "Profile settings",
@@ -281,6 +281,9 @@
     "SETTINGS": "الإعدادات",
     "CONTACTS": "جهات الاتصال",
     "CAPTAIN": "قائد",
+    "CAPTAIN_ASSISTANTS": "Assistants",
+    "CAPTAIN_DOCUMENTS": "Documents",
+    "CAPTAIN_RESPONSES": "FAQs",
     "HOME": "الرئيسية",
     "AGENTS": "وكيل الدعم",
     "AGENT_BOTS": "الروبوتات",
@@ -342,14 +345,26 @@
   },
   "BILLING_SETTINGS": {
     "TITLE": "الفواتير",
+    "DESCRIPTION": "Manage your subscription here, upgrade your plan and get more for your team.",
     "CURRENT_PLAN": {
       "TITLE": "الباقة الحالية",
-      "PLAN_NOTE": "أنت مشترك حاليا في باقةOneHash Chat **%{plan}** مع تراخيص لـ **%{quantity}**."
+      "PLAN_NOTE": "أنت مشترك حاليا في باقة**{plan}** مع تراخيص **{quantity}**",
+      "SEAT_COUNT": "Number of seats",
+      "RENEWS_ON": "Renews on"
     },
+    "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "إدارة الاشتراك الخاص بك",
       "DESCRIPTION": "عرض فواتيرك السابقة، تحرير تفاصيل الفوترة الخاصة بك، أو إلغاء اشتراكك.",
       "BUTTON_TXT": "الذهاب إلى بوابة الفوترة"
+    },
+    "CAPTAIN": {
+      "TITLE": "قائد",
+      "DESCRIPTION": "Manage usage and credits for Captain AI.",
+      "BUTTON_TXT": "Buy more credits",
+      "DOCUMENTS": "Documents",
+      "RESPONSES": "Responses",
+      "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "تحتاج مساعدة؟",
@@ -393,31 +408,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "التبديل إلى الملاحظة الخاصة",
       "SWITCH_TO_REPLY": "التبديل إلى الرد",
       "TOGGLE_SNOOZE_DROPDOWN": "تبديل القائمة المنسدلة"
-    }
-  },
-  "LTD_SETTINGS": {
-    "TITLE": "كود القسيمة",
-    "CURRENT_PLAN": {
-        "TITLE": "الخطة الحالية",
-        "PLAN_NOTE": "أنت مشترك حاليًا في OneHash Chat خطة LTD **%{plan}** مع **%{quantity}** ترخيصًا"
-    },
-    "APPLY": "تطبيق",
-    "COUPON_ERROR": {
-        "MESSAGE": "رمز القسيمة المقدم غير صالح"
-    }
-  },
-  "ALL_PRODUCTS": {
-    "TITLE": "All Apps",
-    "PRODUCTS": {
-      "ONEHASH_CAL": {
-        "TITLE": "OneHash Cal"
-      },
-      "ONEHASH_CRM": {
-        "TITLE": "OneHash CRM"
-      },
-      "ONEHASH_ERP": {
-        "TITLE": "OneHash ERP"
-      }
     }
   }
 }
