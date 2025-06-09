@@ -12,7 +12,7 @@ class ContactPolicy < ApplicationPolicy
   end
 
   def export?
-    @account_user.administrator?
+    @account_user.administrator? || @account_user.agent?
   end
 
   def search?
