@@ -202,6 +202,11 @@ class Conversation < ApplicationRecord
     inbox.inbox_type == 'Twitter' && additional_attributes['type'] == 'tweet'
   end
 
+  def availability_agent?
+    agent_ids = InboxMember.where(inbox_id: @context.inbox_id).pluck(:user_id)
+    User.exists?(id: agent_ids, availability: User.availabilities[:online])
+  end
+
   def recent_messages
     messages.chat.last(5)
   end

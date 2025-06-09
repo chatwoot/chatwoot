@@ -16,8 +16,6 @@ class SendReplyJob < ApplicationJob
       'Channel::WhatsappUnofficial' => ::Fonnte::SendOnFonnteService
     }
 
-    Rails.logger.info "Sending message on channel #{channel_name}"
-    
     case channel_name
     when 'Channel::FacebookPage'
       send_on_facebook_page(message)

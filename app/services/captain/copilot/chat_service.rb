@@ -10,7 +10,6 @@ class Captain::Copilot::ChatService
 
   def perform
     switch_locale_using_account_locale do
-      Rails.logger.info("Locale: #{I18n.locale}")
       return unless @context.active_conversation
 
       failure_reason = pre_check_failure_reason

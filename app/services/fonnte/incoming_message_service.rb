@@ -6,7 +6,6 @@ class Fonnte::IncomingMessageService
   def perform
     return if fonnte_channel.blank?
 
-    Rails.logger.info "Fonnte channel: #{fonnte_channel.inspect}"
     begin
       set_contact
       set_conversation
@@ -28,10 +27,7 @@ class Fonnte::IncomingMessageService
   private
 
   def fonnte_channel
-    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by(phone_number: params[:device])
-    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by!(phone_number: phone_number) if params[:device].present?
-
-    Rails.logger.info "Fonnte channel: #{@fonnte_channel.inspect}"
+    @fonnte_channel ||= ::Channel::WhatsappUnofficial.find_by(phone_number: params[:device]) if params[:device].present?
     @fonnte_channel
   end
 
@@ -78,13 +74,7 @@ class Fonnte::IncomingMessageService
   end
 
   def set_conversation
-    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
-    @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
-                    else
-                      @contact_inbox.conversations.where
-                                    .not(status: :resolved).last
-                    end
+    @conversation = @contact_inbox.conversations.first
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
