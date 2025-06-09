@@ -26,7 +26,7 @@ const openIssue = () => {
 <template>
   <div class="flex items-center justify-between">
     <div
-      class="flex items-center gap-2 px-2 py-1.5 border divide-x rounded-lg border-n-strong divide-n-border-weak"
+      class="flex items-center gap-2 px-2 py-1.5 border divide-x rounded-lg border-n-strong divide-n-weak"
     >
       <div class="flex items-center gap-1">
         <fluent-icon
