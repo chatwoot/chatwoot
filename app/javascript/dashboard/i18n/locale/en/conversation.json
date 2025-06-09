@@ -52,7 +52,8 @@
     },
     "UPLOADING_ATTACHMENTS": "Uploading attachments...",
     "REPLIED_TO_STORY": "Replied to your story",
-    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the Facebook / Instagram app.",
+    "UNSUPPORTED_MESSAGE": "This message is unsupported. You can view this message on the app.",
+    "UNSUPPORTED_MESSAGE_WHATSAPP": "This message is unsupported. You can view this message on the WhatsApp app.",
     "UNSUPPORTED_MESSAGE_FACEBOOK": "This message is unsupported. You can view this message on the Facebook Messenger app.",
     "UNSUPPORTED_MESSAGE_INSTAGRAM": "This message is unsupported. You can view this message on the Instagram app.",
     "SUCCESS_DELETE_MESSAGE": "Message deleted successfully",
@@ -245,6 +246,13 @@
     "SIDEBAR": {
       "CONTACT": "Contact",
       "COPILOT": "Copilot"
+    },
+    "INBOX": {
+      "WHATSAPP_BAILEYS_PROVIDER_CONNECTION": {
+        "NOT_CONNECTED": "WhatsApp is not connected. Please link your device again.",
+        "NOT_CONNECTED_CONTACT_ADMIN": "WhatsApp is not connected. Please contact your administrator to link your device again.",
+        "LINK_DEVICE": "Link device"
+      }
     }
   },
   "EMAIL_TRANSCRIPT": {

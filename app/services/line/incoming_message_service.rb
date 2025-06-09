@@ -30,7 +30,7 @@ class Line::IncomingMessageService
   end
 
   def message_created?(event)
-    return unless event_type_message?(event)
+    return false unless event_type_message?(event)
 
     @message = @conversation.messages.build(
       content: message_content(event),

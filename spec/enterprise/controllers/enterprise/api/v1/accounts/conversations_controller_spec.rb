@@ -27,7 +27,7 @@ RSpec.describe 'Enterprise Conversations API', type: :request do
       end
 
       it 'throws error if conversation already has a different sla' do
-        conversation.update(sla_policy: create(:sla_policy, account: account))
+        conversation.update!(sla_policy: create(:sla_policy, account: account))
         patch "/api/v1/accounts/#{account.id}/conversations/#{conversation.display_id}",
               params: params,
               headers: agent.create_new_auth_token,

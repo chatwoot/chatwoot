@@ -8,6 +8,7 @@ export const buildCreatePayload = ({
   contentAttributes,
   echoId,
   files,
+  isRecordedAudio,
   ccEmails = '',
   bccEmails = '',
   toEmails = '',
@@ -21,6 +22,9 @@ export const buildCreatePayload = ({
     }
     files.forEach(file => {
       payload.append('attachments[]', file);
+    });
+    isRecordedAudio?.forEach(filename => {
+      payload.append('is_recorded_audio[]', filename);
     });
     payload.append('private', isPrivate);
     payload.append('echo_id', echoId);
@@ -60,6 +64,7 @@ class MessageApi extends ApiClient {
     contentAttributes,
     echo_id: echoId,
     files,
+    isRecordedAudio,
     ccEmails = '',
     bccEmails = '',
     toEmails = '',
@@ -74,6 +79,7 @@ class MessageApi extends ApiClient {
         contentAttributes,
         echoId,
         files,
+        isRecordedAudio,
         ccEmails,
         bccEmails,
         toEmails,

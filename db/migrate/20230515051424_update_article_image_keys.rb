@@ -5,15 +5,15 @@ class ArticleKeyConverter
 
   def process
     new_content = replace(@article.content)
-    @article.update(content: new_content)
+    @article.update!(content: new_content)
   end
 
   private
 
   def convert_key(id)
     verifier_name = 'ActiveStorage'
-    key_generator =  ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base, iterations: 1000,
-                                                                                                hash_digest_class: OpenSSL::Digest::SHA1)
+    key_generator = ActiveSupport::KeyGenerator.new(Rails.application.secrets.secret_key_base, iterations: 1000,
+                                                                                               hash_digest_class: OpenSSL::Digest::SHA1)
     key_generator = ActiveSupport::CachingKeyGenerator.new(key_generator)
     secret = key_generator.generate_key(verifier_name.to_s)
     verifier = ActiveSupport::MessageVerifier.new(secret)

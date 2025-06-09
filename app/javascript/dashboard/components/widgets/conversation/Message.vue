@@ -494,6 +494,9 @@ export default {
           <template v-else-if="isAFacebookInbox">
             {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_FACEBOOK') }}
           </template>
+          <template v-else-if="isAWhatsAppChannel">
+            {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE_WHATSAPP') }}
+          </template>
           <template v-else>
             {{ $t('CONVERSATION.UNSUPPORTED_MESSAGE') }}
           </template>
