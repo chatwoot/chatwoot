@@ -3,7 +3,7 @@
 
 class Shopee::IncomingMessageService
   pattr_initialize [:inbox!, :params!]
-  VALID_MESSAGE_TYPES = %w[text sticker voucher item_list add_on_deal order product item faq_liveagent crm_item_list].freeze
+  VALID_MESSAGE_TYPES = %w[text sticker voucher item_list add_on_deal order product item faq_liveagent crm_item_list video].freeze
 
   delegate :channel, to: :inbox
 
@@ -12,7 +12,7 @@ class Shopee::IncomingMessageService
     return if invalid_payload?
 
     set_contact
-    set_conversation
+    conversation
     update_or_create_message
     process_attachments if message.attachments.empty?
   end
@@ -44,8 +44,8 @@ class Shopee::IncomingMessageService
     sync_contact_avatar
   end
 
-  def set_conversation
-    @conversation = @contact_inbox.conversations.unresolved.last
+  def conversation
+    @conversation ||= @contact_inbox.conversations.unresolved.last
     @conversation ||= inbox.conversations.create!(
       contact_id: @contact.id,
       account_id: inbox.account_id,
@@ -54,8 +54,8 @@ class Shopee::IncomingMessageService
   end
 
   def update_or_create_message
-    @message = @conversation.messages.find_or_initialize_by(source_id: message_id)
-    @message.update(
+    @message = conversation.messages.find_or_initialize_by(source_id: message_id)
+    @message.update!(
       content: message_content,
       account_id: inbox.account_id,
       inbox_id: inbox.id,
@@ -103,7 +103,7 @@ class Shopee::IncomingMessageService
       Message.content_types[:shopee_card]
     when 'sticker'
       Message.content_types[:sticker]
-    else
+    else # 'text', 'video'
       Message.content_types[:text]
     end
   end
