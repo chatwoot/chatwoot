@@ -78,6 +78,7 @@ class Inbox < ApplicationRecord
   after_destroy :delete_round_robin_agents
 
   after_create_commit :dispatch_create_event
+  after_create_commit :assign_stark_as_default_bot
   after_update_commit :dispatch_update_event
 
   scope :order_by_name, -> { order('lower(name) ASC') }
@@ -199,6 +200,18 @@ class Inbox < ApplicationRecord
 
   def check_channel_type?
     ['Channel::Email', 'Channel::Api', 'Channel::WebWidget'].include?(channel_type)
+  end
+
+  # Assigns the default Stark bot to the inbox if it exists
+  def assign_stark_as_default_bot
+    agent_bot = AgentBot.find_by(bot_type: 'stark')
+    agent_bot ||= account.agent_bots.first if account.agent_bots.exists?
+
+    return unless agent_bot
+
+    AgentBotInbox.create!(inbox: self, agent_bot: agent_bot)
+  rescue StandardError => e
+    Rails.logger.error("Failed to assign bot to inbox: #{e.message}")
   end
 end
 
