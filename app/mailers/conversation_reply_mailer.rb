@@ -104,7 +104,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def business_name
-    @inbox.business_name || @inbox.name
+    @inbox.business_name || @inbox.sanitized_name
   end
 
   def from_email
