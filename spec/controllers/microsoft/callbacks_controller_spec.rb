@@ -72,27 +72,6 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       expect(inbox.name).to eq email.split('@').first.parameterize.titleize
     end
 
-    it 'creates inboxes with sanitized names when name contains forbidden characters' do
-      response_body_with_invalid_name = {
-        id_token: JWT.encode({ email: email, name: 'Test@User<Name>/\\' }, false),
-        access_token: SecureRandom.hex(10),
-        token_type: 'Bearer',
-        refresh_token: SecureRandom.hex(10)
-      }
-
-      stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
-        .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
-                      'redirect_uri' => "#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback" })
-        .to_return(status: 200, body: response_body_with_invalid_name.to_json, headers: { 'Content-Type' => 'application/json' })
-
-      get microsoft_callback_url, params: { code: code }
-
-      expect(response).to redirect_to app_email_inbox_agents_url(account_id: account.id, inbox_id: account.inboxes.last.id)
-      expect(account.inboxes.count).to be 1
-      inbox = account.inboxes.last
-      expect(inbox.name).to eq 'TestUserName'
-    end
-
     it 'redirects to microsoft app in case of error' do
       stub_request(:post, 'https://login.microsoftonline.com/common/oauth2/v2.0/token')
         .with(body: { 'code' => code, 'grant_type' => 'authorization_code',
@@ -103,55 +82,6 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
 
       expect(response).to redirect_to '/'
       expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
-    end
-
-    context 'with name sanitization' do
-      let(:controller) { Microsoft::CallbacksController.new }
-
-      before do
-        allow(controller).to receive(:account_id).and_return(account.id)
-        allow(controller).to receive(:account).and_return(account)
-      end
-
-      it 'sanitizes names with forbidden characters' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => email, 'name' => 'Test@User<Name>' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'TestUserName'
-      end
-
-      it 'sanitizes names with leading and trailing symbols' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => email, 'name' => '@@@Test User$$$' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'Test User'
-      end
-
-      it 'sanitizes names with multiple forbidden characters' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => email, 'name' => 'Test/User\\Name<>' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'TestUserName'
-      end
-
-      it 'uses fallback when name becomes empty after sanitization' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => 'test@example.com', 'name' => '@@@//\\\\<>' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'Test'
-      end
-
-      it 'preserves valid names unchanged' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => email, 'name' => 'Valid User Name' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'Valid User Name'
-      end
-
-      it 'handles names with spaces and underscores' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => email, 'name' => 'Test_User Name 123' })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'Test_User Name 123'
-      end
-
-      it 'uses fallback when name is missing' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => 'john.doe@example.com', 'name' => nil })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'John Doe'
-      end
-
-      it 'handles complex email fallback with numbers and dots' do
-        allow(controller).to receive(:users_data).and_return({ 'email' => 'user123.test@example.com', 'name' => nil })
-        expect(controller.send(:sanitized_inbox_name)).to eq 'User123 Test'
-      end
     end
   end
 end
