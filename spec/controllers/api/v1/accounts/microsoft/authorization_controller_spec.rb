@@ -37,7 +37,11 @@ RSpec.describe 'Microsoft Authorization API', type: :request do
         params = CGI.parse(uri.query)
 
         expect(url).to start_with('https://login.microsoftonline.com/common/oauth2/v2.0/authorize')
-        expect(params['scope']).to eq(['offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile'])
+        expected_scope = [
+          'offline_access https://outlook.office.com/IMAP.AccessAsUser.All ' \
+          'https://outlook.office.com/SMTP.Send openid profile'
+        ]
+        expect(params['scope']).to eq(expected_scope)
         expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/microsoft/callback"])
 
         # Validate state parameter exists and can be decoded back to the account
