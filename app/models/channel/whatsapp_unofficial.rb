@@ -24,7 +24,7 @@ class Channel::WhatsappUnofficial < ApplicationRecord
 
   validates :phone_number, presence: true
   validates :account_id, presence: true
-  # validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
+  validates :webhook_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
 
   belongs_to :account
   has_one :inbox, as: :channel, dependent: :destroy
@@ -34,48 +34,11 @@ class Channel::WhatsappUnofficial < ApplicationRecord
   end
 
   def send_message(to:, message:, url: nil)
-    payload = {
-      target: to,
-      message: message
-    }
-    payload[:url] = url if url.present?
-
-    response = HTTParty.post(
-      'https://api.fonnte.com/send',
-      headers: {
-        'Authorization' => token,
-        'Content-Type' => 'application/json'
-      },
-      body: payload.to_json
-    )
-
-    unless response.success?
-      Rails.logger.error "Fonnte send_message error: #{response.body}"
-      raise StandardError, 'Failed to send message via Fonnte'
-    end
-
-    response.parsed_response
+    Fonnte::FonnteService.new.send_message(to: to, message: message, token: token, url: url)
   end
 
   def set_token
-    update!(token: fetch_device_token) if fetch_device_token
-  end
-
-  private
-
-  def fetch_device_token
-    url = 'https://api.fonnte.com/get-devices'
-    headers = {
-      'Authorization' => ENV.fetch('FONNTE_ACCOUNT_TOKEN', nil)
-    }
-    response = HTTParty.post(url, headers: headers)
-    if response.success?
-      data = response.parsed_response
-      if data['status']
-        device = data['data'].find { |d| d['device'] == phone_number }
-        return device['token'] if device
-      end
-    end
-    nil
+    device_token = Fonnte::FonnteService.new.device_token(phone_number)
+    update!(token: device_token) if device_token
   end
 end
