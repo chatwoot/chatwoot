@@ -137,6 +137,10 @@ class ConversationApi extends ApiClient {
   getInboxAssistant(conversationId) {
     return axios.get(`${this.url}/${conversationId}/inbox_assistant`);
   }
+
+  delete(conversationId) {
+    return axios.delete(`${this.url}/${conversationId}`);
+  }
 }
 
 export default new ConversationApi();
