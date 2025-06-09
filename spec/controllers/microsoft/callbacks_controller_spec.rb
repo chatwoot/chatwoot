@@ -105,7 +105,7 @@ RSpec.describe 'Microsoft::CallbacksController', type: :request do
       expect(Redis::Alfred.get(cache_key).to_i).to eq account.id
     end
 
-    context 'name sanitization' do
+    context 'with name sanitization' do
       let(:controller) { Microsoft::CallbacksController.new }
 
       before do

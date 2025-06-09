@@ -393,7 +393,7 @@ RSpec.describe Inbox do
       end
     end
 
-    context 'edge cases' do
+    context 'with edge cases' do
       it 'handles nil name gracefully' do
         inbox = FactoryBot.build(:inbox)
         allow(inbox).to receive(:name).and_return(nil)
