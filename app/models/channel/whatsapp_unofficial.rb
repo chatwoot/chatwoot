@@ -57,15 +57,25 @@ class Channel::WhatsappUnofficial < ApplicationRecord
     response.parsed_response
   end
 
+  def set_token
+    update!(token: fetch_device_token) if fetch_device_token
+  end
+
   private
 
-  def client; end
-
-  def send_message_from
-    {
-      target: to,
-      message: message,
-      url: url
+  def fetch_device_token
+    url = 'https://api.fonnte.com/get-devices'
+    headers = {
+      'Authorization' => ENV.fetch('FONNTE_ACCOUNT_TOKEN', nil)
     }
+    response = HTTParty.post(url, headers: headers)
+    if response.success?
+      data = response.parsed_response
+      if data['status']
+        device = data['data'].find { |d| d['device'] == phone_number }
+        return device['token'] if device
+      end
+    end
+    nil
   end
 end

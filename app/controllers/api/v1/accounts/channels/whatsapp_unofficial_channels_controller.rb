@@ -1,18 +1,14 @@
 class Api::V1::Accounts::Channels::WhatsappUnofficialChannelsController < Api::V1::Accounts::BaseController
   def create
     account = Account.find(params[:account_id])
-    user = AccountUser.find_by(account_id: account.id, inviter_id: nil)
     inbox_name = params[:inbox_name]
     phone_number = params[:phone_number]
 
-    token = AccessToken.find_by(id: user.user_id).token
-
-    result = ::WhatsappUnofficial::CreateWhatsappUnofficialInboxService.call(
+    result = ::WhatsappUnofficial::CreateWhatsappUnofficialInboxService.new(
       account_id: account.id,
       phone_number: phone_number,
-      inbox_name: inbox_name,
-      token: token
-    )
+      inbox_name: inbox_name
+    ).perform
 
     inbox = result[:inbox]
     webhook_url = result[:webhook_url]
