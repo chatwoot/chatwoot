@@ -5,10 +5,6 @@ import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import router from '../../../../index';
 
-// Using direct paths instead of imports
-// import whatsappIcon from 'dashboard/assets/images/whatsapp.png';
-// import twilioIcon from 'dashboard/assets/images/twilio.png';
-
 export default {
   components: {
     Twilio,
@@ -101,74 +97,70 @@ export default {
 
 <template>
   <div
-    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
     <!-- Provider Selection View -->
     <div v-if="showProviderSelection">
       <!-- Title and Description -->
-      <div class="text-left mb-12">
-        <h1 class="text-lg font-medium text-slate-800 dark:text-slate-100 mb-2">
+      <div class="mb-10 text-left">
+        <h1 class="mb-2 text-lg font-medium text-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.TITLE') }}
         </h1>
-        <p class="text-sm text-slate-600 dark:text-slate-300 leading-relaxed">
+        <p class="text-sm leading-relaxed text-slate-11">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.SELECT_PROVIDER.DESCRIPTION') }}
         </p>
       </div>
 
       <!-- Provider Cards -->
-      <div class="flex gap-8 justify-start">
+      <div class="flex justify-start gap-6">
         <!-- WhatsApp Cloud Card -->
         <div
-          class="w-96 bg-n-solid-2 border border-n-weak rounded-2xl p-8 cursor-pointer transition-all duration-200 hover:border-woot-500 hover:bg-n-solid-3"
+          class="gap-6 px-5 py-6 transition-all duration-200 border cursor-pointer w-96 bg-n-solid-2 border-n-weak rounded-2xl hover:border-woot-500 hover:bg-n-solid-3"
           @click="selectProvider('whatsapp')"
         >
           <!-- WhatsApp Icon -->
-          <div class="flex justify-start mb-8">
-            <div class="w-12 h-12 rounded-lg flex items-center justify-center">
+          <div class="flex justify-start mb-5">
+            <div class="flex items-center justify-center w-12 h-12 rounded-lg">
               <img
                 src="dashboard/assets/images/whatsapp.png"
                 :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD')"
-                class="w-10 h-10 object-contain"
+                class="object-contain w-10 h-10"
               />
             </div>
           </div>
 
           <!-- Card Content -->
           <div class="text-left">
-            <h3
-              class="text-sm font-medium text-slate-800 dark:text-slate-100 mb-1.5"
-            >
+            <h3 class="mb-1.5 text-sm font-medium text-slate-12">
               {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD') }}
             </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-300">
+            <p class="text-sm text-slate-11">
               {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC') }}
             </p>
           </div>
         </div>
 
-        <!-- Twilio Card -->
         <div
-          class="w-96 bg-n-solid-2 border border-n-weak rounded-2xl p-8 cursor-pointer transition-all duration-200 hover:border-woot-500 hover:bg-n-solid-3"
-          @click="selectProvider('twilio')"
+          class="gap-6 px-5 py-6 transition-all duration-200 border cursor-pointer w-96 bg-n-solid-2 border-n-weak rounded-2xl hover:border-woot-500 hover:bg-n-solid-3"
+          @click="selectProvider('whatsapp')"
         >
-          <!-- Twilio Icon -->
-          <div class="flex justify-start mb-8">
-            <div class="w-12 h-12 rounded-lg flex items-center justify-center">
+          <!-- WhatsApp Icon -->
+          <div class="flex justify-start mb-5">
+            <div class="flex items-center justify-center w-12 h-12 rounded-lg">
               <img
                 src="dashboard/assets/images/twilio.png"
                 :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO')"
-                class="w-10 h-10 object-contain"
+                class="object-contain w-10 h-10"
               />
             </div>
           </div>
+
           <!-- Card Content -->
           <div class="text-left">
-            <h3
-              class="text-sm font-medium text-slate-800 dark:text-slate-100 mb-1.5"
-            >
+            <h3 class="mb-1.5 text-sm font-medium text-slate-12">
               {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO') }}
             </h3>
-            <p class="text-sm text-slate-600 dark:text-slate-300">
+            <p class="text-sm text-slate-11">
               {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC') }}
             </p>
           </div>
@@ -182,7 +174,7 @@ export default {
       <div class="mb-6">
         <button
           type="button"
-          class="inline-flex items-center text-woot-500 hover:text-woot-600 transition-colors"
+          class="inline-flex items-center transition-colors text-woot-500 hover:text-woot-600"
           @click="goBackToProviderSelection"
         >
           <svg class="w-4 h-4 mr-2" fill="currentColor" viewBox="0 0 20 20">
@@ -197,7 +189,7 @@ export default {
       </div>
 
       <!-- Configuration Form Container -->
-      <div class="bg-n-solid-2 border border-n-weak rounded-2xl p-8">
+      <div class="p-8 border bg-n-solid-2 border-n-weak rounded-2xl">
         <!-- Provider Configuration Forms -->
         <WhatsappEmbeddedSignup
           v-if="selectedProvider === 'whatsapp' && hasWhatsappAppId"
