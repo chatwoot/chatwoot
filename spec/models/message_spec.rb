@@ -517,48 +517,18 @@ RSpec.describe Message do
     end
   end
 
-  describe '#channel_content' do
+  describe '#outgoing_content' do
     let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
 
-    context 'when message is not input_csat' do
-      let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+    it 'delegates to MessageContentPresenter' do
+      presenter = instance_double(MessageContentPresenter)
+      allow(MessageContentPresenter).to receive(:new).with(message).and_return(presenter)
+      allow(presenter).to receive(:outgoing_content).and_return('Presented content')
 
-      it 'returns regular content method result' do
-        expect(message.channel_content).to eq('Regular message')
-      end
-    end
-
-    context 'when message is input_csat and inbox is web widget' do
-      let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience') }
-
-      before do
-        allow(message.inbox).to receive(:web_widget?).and_return(true)
-      end
-
-      it 'returns regular content method result' do
-        expect(message.channel_content).to eq('Rate your experience')
-      end
-    end
-
-    context 'when message is input_csat and inbox is not web widget' do
-      let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience') }
-
-      before do
-        allow(message.inbox).to receive(:web_widget?).and_return(false)
-      end
-
-      it 'returns I18n default message when no CSAT config and survey_url stored separately' do
-        message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
-        allow(I18n).to receive(:t).with('conversations.survey.response', link: 'https://app.chatwoot.com/survey/responses/12345')
-                                  .and_return('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
-        expect(message.channel_content).to eq('Please rate this conversation, https://app.chatwoot.com/survey/responses/12345')
-      end
-
-      it 'returns CSAT config message when config exists and survey_url stored separately' do
-        message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
-        allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom CSAT message' })
-        expect(message.channel_content).to eq('Custom CSAT message https://app.chatwoot.com/survey/responses/12345')
-      end
+      expect(message.outgoing_content).to eq('Presented content')
+      expect(MessageContentPresenter).to have_received(:new).with(message)
+      expect(presenter).to have_received(:outgoing_content)
     end
   end
 end

@@ -1,5 +1,4 @@
 class MessageTemplates::Template::CsatSurvey
-  include SurveyHelper
   pattr_initialize [:conversation!]
 
   def perform
@@ -69,13 +68,8 @@ class MessageTemplates::Template::CsatSurvey
   end
 
   def content_attributes
-    attributes = {
+    {
       display_type: csat_config['display_type'] || 'emoji'
     }
-
-    # Store survey URL separately for non-web widget channels
-    attributes['survey_url'] = survey_url(conversation.uuid) unless conversation.inbox.web_widget?
-
-    attributes
   end
 end

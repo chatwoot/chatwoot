@@ -40,7 +40,6 @@
 class Message < ApplicationRecord
   include MessageFilterHelpers
   include Liquidable
-  include SurveyHelper
   NUMBER_OF_PERMITTED_ATTACHMENTS = 15
 
   TEMPLATE_PARAMS_SCHEMA = {
@@ -102,10 +101,9 @@ class Message < ApplicationRecord
   # [:deleted] : Used to denote whether the message was deleted by the agent
   # [:external_created_at] : Can specify if the message was created at a different timestamp externally
   # [:external_error : Can specify if the message creation failed due to an error at external API
-  # [:survey_url] : Used to store CSAT survey URL separately from content for non-web widget channels
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported, :survey_url], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -183,14 +181,9 @@ class Message < ApplicationRecord
     data
   end
 
-  # Method to get content with survey URL for external channel delivery
-  def channel_content
-    return content unless should_append_survey_link?
-
-    survey_link = survey_url.presence || default_survey_url
-    custom_message = inbox.csat_config&.dig('message')
-
-    custom_message.present? ? "#{custom_message} #{survey_link}" : I18n.t('conversations.survey.response', link: survey_link)
+  # Method to get content with survey URL for outgoing channel delivery
+  def outgoing_content
+    MessageContentPresenter.new(self).outgoing_content
   end
 
   def email_notifiable_message?
@@ -229,14 +222,6 @@ class Message < ApplicationRecord
   end
 
   private
-
-  def should_append_survey_link?
-    input_csat? && !inbox.web_widget?
-  end
-
-  def default_survey_url
-    survey_url(conversation.uuid)
-  end
 
   def prevent_message_flooding
     # Added this to cover the validation specs in messages
