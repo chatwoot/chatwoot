@@ -100,7 +100,7 @@ export default {
               </option>
             </select>
           </label>
-          <div class="button-container space-x-2">
+          <div class="space-x-2">
             <NextButton
               type="submit"
               :label="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
