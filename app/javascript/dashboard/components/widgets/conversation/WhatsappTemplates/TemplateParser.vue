@@ -742,7 +742,7 @@ footer {
   @apply bg-red-100 dark:bg-red-100 rounded-md text-red-800 dark:text-red-800 p-2.5 text-center;
 }
 .template-input {
-  @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100 mt-2 min-h-[250px];
+  @apply bg-slate-25 dark:bg-slate-900 text-slate-700 dark:text-slate-100 mt-2;
 }
 .template__buttons-container {
   @apply p-2.5;

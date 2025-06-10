@@ -55,19 +55,9 @@
         class="text-sm font-medium leading-5 text-center"
         :class="$dm('text-slate-900', 'dark:text-slate-50')"
       >
-        {{
-          isUpdating ? 'Creating new conversation' : 'Create new conversation'
-        }}
+        {{ 'Creating new conversation' }}
       </h6>
-      <button
-        v-if="!isUpdating"
-        class="bg-[#F0F0F0] border border-solid border-[#E6E6E6] w-auto flex justify-center items-center gap-2 text-xs py-2 px-3 rounded-md shadow-[0px_1px_0px_0px #0000000D] transition-all duration-300 create-chat-button"
-        @click.prevent="handleCreateConversation('')"
-      >
-        Create New Chat
-      </button>
       <img
-        v-if="isUpdating"
         class="h-7"
         src="~widget/assets/images/typing.gif"
         alt="Spinner Message"
@@ -199,7 +189,9 @@ export default {
       } finally {
         this.isUpdating = false;
       }
-      // this.handleCreateConversation();
+      if (!this.channelConfig.backPopulateConversation) {
+        this.handleCreateConversation('');
+      }
     },
     selectRating(rating) {
       this.selectedRating = rating.value;

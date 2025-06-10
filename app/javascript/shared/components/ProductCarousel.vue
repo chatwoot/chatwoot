@@ -1,34 +1,45 @@
 <template>
-  <div class="carousel-container">
-    <!-- <h1 v-if="message">{{ message }}</h1> -->
-    <div class="carousel">
-      <div v-for="(item, index) in items" :key="index" class="carousel-item">
-        <div class="product-card" @click="onProductClick(item)">
-          <div class="product-image-container">
-            <img
-              :src="
-                item.image || '~dashboard/assets/product-image-fallback.svg'
-              "
-              :alt="item.title"
-              class="product-image"
-            />
-            <div
-              style="backdrop-filter: blur(4px)"
-              class="absolute bottom-0 w-full h-8 py-1 px-3 flex bg-[#D9D9D9B2]"
-              :class="{
-                'justify-end': !item.showMoreVariantsButton,
-                'justify-between': item.showMoreVariantsButton,
-              }"
-            >
+  <div class="main-carousel-wrapper">
+    <button
+      class="scroll-button left-button"
+      :disabled="!canScrollLeft"
+      @click="scrollLeft"
+    >
+      <img
+        class="h-4"
+        src="~dashboard/assets/images/ChevronLeft.svg"
+        alt="Left Arrow"
+      />
+    </button>
+    <div class="carousel-container">
+      <div ref="carousel" class="carousel">
+        <div v-for="(item, index) in items" :key="index" class="carousel-item">
+          <div class="product-card" @click="onProductClick(item)">
+            <div class="product-image-container">
+              <img
+                :src="
+                  item.image || '~dashboard/assets/product-image-fallback.svg'
+                "
+                :alt="item.title"
+                class="product-image"
+              />
               <div
-                v-if="item.showMoreVariantsButton"
-                class="flex justify-center items-center rounded-2xl px-3 py-1.5 bg-white font-medium text-xs leading-4 shadow-[0px_1.25px_0px_0px_#0000000d] hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer"
-                @click.stop="onViewMoreVariants(item)"
+                style="backdrop-filter: blur(4px)"
+                class="absolute bottom-0 w-full h-8 py-1 px-3 flex bg-[#D9D9D9B2]"
+                :class="{
+                  'justify-end': !item.showMoreVariantsButton,
+                  'justify-between': item.showMoreVariantsButton,
+                }"
               >
-                More variants
-              </div>
-              <div class="flex gap-3">
-                <!-- <button
+                <div
+                  v-if="item.showMoreVariantsButton"
+                  class="flex justify-center items-center rounded-2xl px-3 py-1.5 bg-white font-medium text-xs leading-4 shadow-[0px_1.25px_0px_0px_#0000000d] hover:shadow-md hover:scale-105 transition-all duration-200 cursor-pointer"
+                  @click.stop="onViewMoreVariants(item)"
+                >
+                  More variants
+                </div>
+                <div class="flex gap-3">
+                  <!-- <button
                   class="tooltip-container bg-white rounded-full h-6 w-6 flex justify-center items-center cursor-pointer relative"
                   @click.stop="() => {}"
                 >
@@ -43,111 +54,111 @@
                     alt="Stack Plus"
                   />
                 </button> -->
-                <button
-                  class="tooltip-container bg-white rounded-full h-6 w-6 flex justify-center items-center cursor-pointer relative"
-                  @click.stop="askMoreAboutProduct(item)"
-                >
-                  <div
-                    class="tooltip absolute right-0 bottom-full mb-1 py-0.5 px-2 bg-black-900 text-white text-xs rounded-md opacity-0 pointer-events-none whitespace-nowrap transition-opacity duration-200"
+                  <button
+                    class="tooltip-container bg-white rounded-full h-6 w-6 flex justify-center items-center cursor-pointer relative"
+                    @click.stop="askMoreAboutProduct(item)"
                   >
-                    Ask about this product
-                  </div>
-                  <img
-                    class="h-4"
-                    src="~dashboard/assets/images/ChatText.svg"
-                    alt="Chat Text"
-                  />
-                </button>
+                    <div
+                      class="tooltip absolute right-0 bottom-full mb-1 py-0.5 px-2 bg-black-900 text-white text-xs rounded-md opacity-0 pointer-events-none whitespace-nowrap transition-opacity duration-200"
+                    >
+                      Ask about this product
+                    </div>
+                    <img
+                      class="h-4"
+                      src="~dashboard/assets/images/ChatText.svg"
+                      alt="Chat Text"
+                    />
+                  </button>
+                </div>
               </div>
             </div>
-          </div>
-          <div class="product-details">
-            <h3 class="product-title">{{ item.title }}</h3>
-            <p class="product-price">
-              {{
-                item.shopUrl === 'hlfashions-78ce.myshopify.com'
-                  ? '£'
-                  : item.currency
-              }}
-              {{ item.price }}
-            </p>
-          </div>
-          <div class="product-actions">
-            <div
-              v-if="!isProductInSelectedProducts(item)"
-              class="w-full flex relative"
-            >
-              <div
-                v-if="isCheckoutLoading"
-                style="backdrop-filter: blur(2px)"
-                class="absolute w-full h-full flex justify-center items-center"
-              >
-                <spinner size="medium" :color-scheme="'primary'" />
-              </div>
-              <button
-                class="w-[50%] p-3 border-r border-[#E6E6E6] text-[13px] font-bold text-[#2E52E5] leading-5"
-                :disabled="isCheckoutLoading"
-                @click.stop="
-                  updateSelectedProducts(
-                    item.variant_id,
-                    1,
-                    item.currency,
-                    item.price,
-                    item.shopUrl,
-                    $event
-                  )
-                "
-              >
-                Add to cart
-              </button>
-              <button
-                class="w-[50%] p-3 text-[13px] font-bold text-[#2E52E5] leading-5"
-                :disabled="isCheckoutLoading"
-                @click.stop="onBuyNow(item, $event)"
-              >
-                Buy now
-              </button>
+            <div class="product-details">
+              <h3 class="product-title">{{ item.title }}</h3>
+              <p class="product-price">
+                {{
+                  item.shopUrl === 'hlfashions-78ce.myshopify.com'
+                    ? '£'
+                    : item.currency
+                }}
+                {{ item.price }}
+              </p>
             </div>
-            <div v-else class="w-full flex relative">
+            <div class="product-actions">
               <div
-                v-if="isCheckoutLoading"
-                style="backdrop-filter: blur(2px)"
-                class="absolute w-full h-full flex justify-center items-center"
+                v-if="!isProductInSelectedProducts(item)"
+                class="w-full flex relative"
               >
-                <spinner size="medium" :color-scheme="'primary'" />
-              </div>
-              <div
-                class="flex p-3 gap-3 items-center border-r border-solid border-[#E6E6E6]"
-              >
+                <div
+                  v-if="isCheckoutLoading"
+                  style="backdrop-filter: blur(2px)"
+                  class="absolute w-full h-full flex justify-center items-center"
+                >
+                  <spinner size="medium" :color-scheme="'primary'" />
+                </div>
                 <button
-                  class="quantity-button"
+                  class="w-[50%] p-3 border-r border-[#E6E6E6] text-[13px] font-bold text-[#2E52E5] leading-5"
                   :disabled="isCheckoutLoading"
-                  @click.stop="decreaseQuantity(item.variant_id, $event)"
+                  @click.stop="
+                    updateSelectedProducts(
+                      item.variant_id,
+                      1,
+                      item.currency,
+                      item.price,
+                      item.shopUrl,
+                      $event
+                    )
+                  "
                 >
-                  -
+                  Add to cart
                 </button>
-                <span
-                  class="flex justify-center items-center w-11 py-0.5 rounded-2xl border border-solid text-[13px] leading-4 font-semibold border-[#2E52E5] text-[#2E52E5]"
-                >
-                  {{ getQuantity(item.variant_id) }}
-                </span>
                 <button
+                  class="w-[50%] p-3 text-[13px] font-bold text-[#2E52E5] leading-5"
                   :disabled="isCheckoutLoading"
-                  class="quantity-button"
-                  @click.stop="increaseQuantity(item.variant_id, $event)"
+                  @click.stop="onBuyNow(item, $event)"
                 >
-                  +
+                  Buy now
                 </button>
               </div>
-              <button
-                class="w-[50%] p-3 text-[13px] font-bold text-[#2E52E5] leading-5"
-                @click.stop="openCheckoutPage(selectedProducts)"
-              >
-                Go to cart
-              </button>
+              <div v-else class="w-full flex relative">
+                <div
+                  v-if="isCheckoutLoading"
+                  style="backdrop-filter: blur(2px)"
+                  class="absolute w-full h-full flex justify-center items-center"
+                >
+                  <spinner size="medium" :color-scheme="'primary'" />
+                </div>
+                <div
+                  class="flex p-3 gap-3 items-center border-r border-solid border-[#E6E6E6]"
+                >
+                  <button
+                    class="quantity-button"
+                    :disabled="isCheckoutLoading"
+                    @click.stop="decreaseQuantity(item.variant_id, $event)"
+                  >
+                    -
+                  </button>
+                  <span
+                    class="flex justify-center items-center w-11 py-0.5 rounded-2xl border border-solid text-[13px] leading-4 font-semibold border-[#2E52E5] text-[#2E52E5]"
+                  >
+                    {{ getQuantity(item.variant_id) }}
+                  </span>
+                  <button
+                    :disabled="isCheckoutLoading"
+                    class="quantity-button"
+                    @click.stop="increaseQuantity(item.variant_id, $event)"
+                  >
+                    +
+                  </button>
+                </div>
+                <button
+                  class="w-[50%] p-3 text-[13px] font-bold text-[#2E52E5] leading-5"
+                  @click.stop="openCheckoutPage(selectedProducts)"
+                >
+                  Go to cart
+                </button>
+              </div>
             </div>
-          </div>
-          <!-- <div
+            <!-- <div
             v-if="item.showMoreVariantsButton"
             class="more-variants"
             @click="onViewMoreVariants(item)"
@@ -167,9 +178,21 @@
               </div>
             </div>
           </div> -->
+          </div>
         </div>
       </div>
     </div>
+    <button
+      class="scroll-button right-button"
+      :disabled="!canScrollRight"
+      @click="scrollRight"
+    >
+      <img
+        class="h-4"
+        src="~dashboard/assets/images/ChevronRight.svg"
+        alt="Right Arrow"
+      />
+    </button>
   </div>
 </template>
 
@@ -206,7 +229,16 @@ export default {
   data() {
     return {
       isCheckoutLoading: false,
+      canScrollLeft: false,
+      canScrollRight: false,
     };
+  },
+  mounted() {
+    this.checkScrollButtons();
+    this.$refs.carousel.addEventListener('scroll', this.checkScrollButtons);
+  },
+  beforeDestroy() {
+    this.$refs.carousel.removeEventListener('scroll', this.checkScrollButtons);
   },
   methods: {
     ...mapActions('conversation', ['sendMessage']),
@@ -319,6 +351,26 @@ export default {
       });
       emitter.emit(BUS_EVENTS.ASK_FOR_PRODUCT, productData);
     },
+    scrollLeft() {
+      const carousel = this.$refs.carousel;
+      carousel.scrollBy({
+        left: -carousel.offsetWidth,
+        behavior: 'smooth',
+      });
+    },
+    scrollRight() {
+      const carousel = this.$refs.carousel;
+      carousel.scrollBy({
+        left: carousel.offsetWidth,
+        behavior: 'smooth',
+      });
+    },
+    checkScrollButtons() {
+      const carousel = this.$refs.carousel;
+      this.canScrollLeft = carousel.scrollLeft > 0;
+      this.canScrollRight =
+        carousel.scrollLeft < carousel.scrollWidth - carousel.offsetWidth;
+    },
   },
 };
 </script>
@@ -331,18 +383,26 @@ h1 {
   color: #8c8c8c;
   margin-bottom: 10px;
 }
-.carousel-container {
-  width: 600px;
+
+.main-carousel-wrapper {
+  width: 100%;
+  max-width: 360px;
+  margin: 0 auto;
   position: relative;
-  overflow-x: hidden;
+  border-radius: 12px;
+}
+.carousel-container {
+  width: 100%;
+  position: relative;
+  overflow: hidden; /* Keep this for the carousel items */
 }
 
 .carousel {
-  @apply py-3 pl-3 bg-[#F2F2F2] rounded-lg;
+  @apply py-3 px-3 bg-[#F2F2F2] rounded-lg;
   display: flex;
   transition: transform 0.5s ease-in-out;
   overflow-x: auto;
-  width: 60%;
+  width: 100%;
   gap: 10px;
   scrollbar-width: none;
   scroll-behavior: smooth;
@@ -485,5 +545,41 @@ h1 {
 
 .tooltip-container:hover .tooltip {
   opacity: 1;
+}
+
+.scroll-button {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: white;
+  border: 1px solid #e6e6e6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  z-index: 1000;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+  transition: all 0.2s ease;
+}
+
+.scroll-button:hover:not(:disabled) {
+  background: #f5f5f5;
+  border-color: #d9d9d9;
+}
+
+.scroll-button:disabled {
+  opacity: 0.3;
+  cursor: not-allowed;
+}
+
+.left-button {
+  left: 0px;
+}
+
+.right-button {
+  right: 0px;
 }
 </style>
