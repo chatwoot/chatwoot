@@ -303,6 +303,12 @@ const billingCycleTabs = [
   { id: 'yearly', name: 'Tahunan', qty: 12, badge: '' },
 ];
 
+const menuTabs = [
+  { id: 'billing', name: 'PAKET PEMBELIAN' },
+  { id: 'history', name: 'RIWAYAT PEMBELIAN' },
+];
+const selectedMenuTab = ref(menuTabs[0].id)
+
 // Pricing plans data
 const plansMock = [
   {
@@ -592,80 +598,96 @@ const selectedTabDisplay = computed(() => {
       </div>
     </div>
 
-    <!-- Platform & Duration Tabs -->
-    <div class="pricing-container">
-      <!-- Tabs Navigation -->
-      <div class="billing-cycle-tabs">
-        <div class="tabs-wrapper">
-          <button v-for="tab in billingCycleTabs" :key="tab.id" class="tab-button"
-            :class="[{ active: selectedTab === tab.id }]" @click="selectedTab = tab.id">
+    <div>
+      <div class="border-b-4"
+        :class="[{
+          'border-[#52964D]': selectedMenuTab === 'billing',
+          'border-[#D78D30]': selectedMenuTab === 'history',
+        }]">
+        <div class="flex flex-row justify-center">
+          <button v-for="tab in menuTabs" :key="tab.id"
+            class="px-5 py-3 rounded-b-none rounded-t-xl font-normal"
+            :class="[{
+              '!font-bold text-[#FDFDFD]': selectedMenuTab === tab.id,
+              'bg-[#52964D]': selectedMenuTab === tab.id && selectedMenuTab == 'billing',
+              'bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'history',
+             }]" @click="selectedMenuTab = tab.id">
             {{ tab.name }}
-            <span v-if="tab.badge" class="tab-badge">{{ tab.badge }}</span>
           </button>
         </div>
       </div>
 
-      <!-- Pricing Plans -->
-      <div class="pricing-plans">
-        <div v-for="plan in plans" :key="plan.id" class="pricing-card">
-          <div class="plan-header flex flex-row">
-            <div class="flex-1">
-              <h3 class="plan-title">{{ plan.name }}</h3>
-            </div>
-            <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
-              <img :src="getPlanIcon(plan.name)">
+      <div class="bg-gradient-to-t from-[#F0F5F0] to-white border !border-t-0 border-[#0000001A] rounded-b-lg p-5">
+        <!-- Platform & Duration Tabs -->
+        <div v-if="selectedMenuTab === 'billing'" class="pricing-container">
+          <!-- Tabs Navigation -->
+          <div class="billing-cycle-tabs">
+            <div class="tabs-wrapper">
+              <button v-for="tab in billingCycleTabs" :key="tab.id" class="tab-button"
+                :class="[{ active: selectedTab === tab.id }]" @click="selectedTab = tab.id">
+                {{ tab.name }}
+                <span v-if="tab.badge" class="tab-badge">{{ tab.badge }}</span>
+              </button>
             </div>
           </div>
 
-          <div class="plan-price">
-            <div class="price">
-              {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
-            </div>
-            <div class="price-period">
-              IDR /{{ qty == 1 ? 'bulan' : `${qty}mo` }}
-            </div>
-            <div class="package-type">Paket {{ selectedTabDisplay }}</div>
-          </div>
-
-          <div class="plan-features">
-            <h4>{{ plan.name }} Fitur</h4>
-
-            <ul class="feature-list">
-              <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
-                <span class="icon-check" />
-                <span class="feature-text">{{ feature }}</span>
-              </li>
-            </ul>
-          </div>
-
-          <button class="button-primary buy-button" @click="openPaymentPopup(plan)">
-            Beli Paket
-          </button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Recent Transactions Section -->
-    <div class="flex flex-col flex-wrap self-center">
-      <div class="shadow outline-1 outline outline-n-container rounded-xl bg-n-solid-2 px-6 py-5">
-        <div class="transactions-container">
-          <h2 class="mt-8 text-center text-base font-semibold">
-            {{ $t('BILLING.RECENT_TRANSACTIONS') }}
-          </h2>
-
-          <div class="bg-white shadow-lg rounded-lg overflow-hidden border border-gray-200">
-            <div class="overflow-x-auto">
-              <Table :table="table" class="min-w-full divide-y divide-gray-200" />
-
-              <div v-show="!tableData.length"
-                class="h-48 flex items-center justify-center text-n-slate-12 text-sm flex-col">
-                <!-- <chatwoot-icon name="currency-dollar" size="medium" class="mb-2 text-slate-400"></chatwoot-icon> -->
-                <p>{{ $t('BILLING.NO_TRANSACTIONS') }}</p>
+          <!-- Pricing Plans -->
+          <div class="pricing-plans">
+            <div v-for="plan in plans" :key="plan.id" class="pricing-card">
+              <div class="plan-header flex flex-row">
+                <div class="flex-1">
+                  <h3 class="plan-title">{{ plan.name }}</h3>
+                </div>
+                <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
+                  <img :src="getPlanIcon(plan.name)">
+                </div>
               </div>
 
-              <!-- <div v-if="metrics?.totalTransactionCount" class="table-pagination">
-                <Pagination class="mt-2" :table="table" />
-              </div> -->
+              <div class="plan-price">
+                <div class="price">
+                  {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
+                </div>
+                <div class="price-period">
+                  IDR /{{ qty == 1 ? 'bulan' : `${qty}mo` }}
+                </div>
+                <div class="package-type">Paket {{ selectedTabDisplay }}</div>
+              </div>
+
+              <div class="plan-features">
+                <h4>{{ plan.name }} Fitur</h4>
+
+                <ul class="feature-list">
+                  <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
+                    <span class="icon-check" />
+                    <span class="feature-text">{{ feature }}</span>
+                  </li>
+                </ul>
+              </div>
+
+              <button class="button-primary buy-button" @click="openPaymentPopup(plan)">
+                Beli Paket
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Recent Transactions Section -->
+        <div v-else-if="selectedMenuTab === 'history'" class="flex flex-col flex-wrap self-center">
+          <div>
+            <div>
+              <div class="overflow-x-auto">
+                <Table :table="table" class="min-w-full divide-y divide-gray-200" />
+
+                <div v-show="!tableData.length"
+                  class="h-48 flex items-center justify-center text-n-slate-12 text-sm flex-col">
+                  <!-- <chatwoot-icon name="currency-dollar" size="medium" class="mb-2 text-slate-400"></chatwoot-icon> -->
+                  <p>{{ $t('BILLING.NO_TRANSACTIONS') }}</p>
+                </div>
+
+                <!-- <div v-if="metrics?.totalTransactionCount" class="table-pagination">
+                  <Pagination class="mt-2" :table="table" />
+                </div> -->
+              </div>
             </div>
           </div>
         </div>
@@ -1048,7 +1070,6 @@ export default {
 /* TAB PRICING & PAKCAGES */
 .pricing-container {
   max-width: 1200px;
-  margin: 2rem auto;
   font-family:
     system-ui,
     -apple-system,
@@ -1072,21 +1093,21 @@ export default {
 
 .tabs-wrapper {
   display: flex;
-  background-color: #f0f2f5;
-  border-radius: 1rem;
-  padding: 0.25rem;
+  background-color: #E9F5EC;
+  border-radius: 50px;
+  padding: 5px 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
 }
 
 .tab-button {
-  padding: 0.75rem 1.5rem;
+  padding: 0.7rem 1.5rem;
   border: none;
   background: transparent;
   cursor: pointer;
   font-size: 0.875rem;
   font-weight: 500;
   color: #475569;
-  border-radius: 0.75rem;
+  border-radius: 50px;
   position: relative;
   transition: all 0.2s ease;
 }
