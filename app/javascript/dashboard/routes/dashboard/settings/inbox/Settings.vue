@@ -325,17 +325,7 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
-            continuity_via_email: this.continuityViaEmail,
-            ...(this.isAWhatsAppChannel
-              ? {
-                  web_widget_script: getWebWidgetScript(
-                    null,
-                    this.inbox.phone_number,
-                    this.selectedInboxName,
-                    this.inbox.web_widget_script
-                  ),
-                }
-              : {}),
+            continuity_via_email: this.continuityViaEmail
           },
         };
 

@@ -11,6 +11,14 @@ export default {
     return { store };
   },
   computed: {
+    webWidgetScript() {
+      return getWebWidgetScript(
+        this.inbox.web_widget_options['options'],
+        this.inbox.phone_number,
+        this.inbox.name
+      );
+    },
+
     currentInbox() {
       return this.$store.getters['inboxes/getInbox'](
         this.$route.params.inbox_id
@@ -88,6 +96,12 @@ export default {
         <woot-code
           v-if="currentInbox.web_widget_script"
           :script="currentInbox.web_widget_script"
+          class="bg-slate-800"
+        />
+
+        <woot-code
+          v-else-if="isWhatsAppCloudInbox"
+          :script="webWidgetScript"
           class="bg-slate-800"
         />
       </div>

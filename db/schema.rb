@@ -494,7 +494,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_06_050945) do
     t.jsonb "message_templates", default: {}
     t.datetime "message_templates_last_updated"
     t.jsonb "web_widget_options"
-    t.text "web_widget_script"
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 

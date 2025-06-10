@@ -57,6 +57,13 @@ export default {
         },
       ];
     },
+    webWidgetScript() {
+      return getWebWidgetScript(
+        this.widgetBubblePosition,
+        this.inbox.phone_number,
+        this.inbox.name
+      );
+    },
   },
   watch: {
     inbox() {
@@ -70,23 +77,24 @@ export default {
   methods: {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
-      const script = this.inbox.web_widget_script || '';
-      const positionMatch = script.match(/var position = '(\w+)'/);
-      this.widgetBubblePosition = positionMatch ? positionMatch[1] : 'right';
+
+      if (this.isAWhatsAppChannel) {
+        this.widgetBubblePosition = this.inbox.web_widget_options['position'];
+      }
     },
     async handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
+      console.log(
+        `updated this.widgetBubblePosition: ${this.widgetBubblePosition}`
+      );
       try {
         const payload = {
           id: this.inbox.id,
           formData: false,
           channel: {
-            web_widget_script: getWebWidgetScript(
-              this.widgetBubblePosition,
-              this.inbox.phone_number,
-              this.inbox.name,
-              this.inbox.web_widget_script
-            ),
+            web_widget_options: {
+              position: this.widgetBubblePosition,
+            },
           },
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
@@ -269,7 +277,7 @@ export default {
           :action="handleWidgetBubblePositionChange"
         />
         <woot-code
-          :script="inbox.web_widget_script"
+          :script="webWidgetScript"
           lang="html"
           :codepen-title="`${inbox.name} - OneHash Chat Widget Test`"
           enable-code-pen
