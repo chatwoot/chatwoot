@@ -50,6 +50,7 @@ const { t } = useI18n();
       </div>
       <ComboBox
         id="inbox"
+        use-api-results
         :model-value="primaryContactId"
         :options="primaryContactList"
         :empty-state="

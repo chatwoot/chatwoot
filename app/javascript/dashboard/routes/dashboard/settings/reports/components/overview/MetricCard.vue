@@ -1,31 +1,25 @@
-<script>
+<script setup>
 import Spinner from 'shared/components/Spinner.vue';
 
-export default {
-  name: 'MetricCard',
-  components: {
-    Spinner,
+defineProps({
+  header: {
+    type: String,
+    default: '',
   },
-  props: {
-    header: {
-      type: String,
-      default: '',
-    },
-    isLoading: {
-      type: Boolean,
-      default: false,
-    },
-    loadingMessage: {
-      type: String,
-      default: '',
-    },
+  isLoading: {
+    type: Boolean,
+    default: false,
   },
-};
+  loadingMessage: {
+    type: String,
+    default: '',
+  },
+});
 </script>
 
 <template>
   <div
-    class="flex flex-col m-0.5 px-6 py-5 overflow-hidden rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
+    class="flex flex-col m-0.5 px-6 py-5 rounded-xl flex-grow text-n-slate-12 shadow outline-1 outline outline-n-container bg-n-solid-2 min-h-[10rem]"
   >
     <div
       class="card-header grid w-full mb-6 grid-cols-[repeat(auto-fit,minmax(max-content,50%))] gap-y-2"
@@ -46,9 +40,7 @@ export default {
             </span>
           </span>
         </div>
-        <div
-          class="transition-opacity duration-200 ease-in-out opacity-20 hover:opacity-100 flex flex-row items-center justify-end gap-2"
-        >
+        <div class="flex flex-row items-center justify-end gap-2">
           <slot name="control" />
         </div>
       </slot>

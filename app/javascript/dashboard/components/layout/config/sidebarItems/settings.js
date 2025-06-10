@@ -128,7 +128,6 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
       featureFlag: FEATURE_FLAGS.AGENT_BOTS,
@@ -204,6 +203,18 @@ const settings = accountId => ({
       },
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
+    },
+    {
+      icon: 'scan-person',
+      label: 'CUSTOM_ROLES',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
+      toStateName: 'custom_roles_list',
+      isEnterpriseOnly: true,
+      beta: true,
     },
     {
       icon: 'scan-person',

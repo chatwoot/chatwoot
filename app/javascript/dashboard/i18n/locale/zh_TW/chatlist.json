@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "分享了一個網址"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

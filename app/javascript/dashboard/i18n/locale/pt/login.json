@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Entrar no Chatwoot",
+    "TITLE": "Entrar no OneHash Chat",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "exemplo{'@'}nomedaempresa.pt",
+      "PLACEHOLDER": "Empresa{'@'}suaempresa.com.br",
       "ERROR": "Por favor, insira um endereço de e-mail válido"
     },
     "PASSWORD": {

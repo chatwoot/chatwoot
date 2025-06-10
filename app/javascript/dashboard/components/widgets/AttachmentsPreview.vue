@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { formatBytes } from 'shared/helpers/FileHelper';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   attachments: {
     type: Array,
@@ -73,9 +75,11 @@ const fileName = file => {
         </span>
       </div>
       <div class="flex items-center justify-center">
-        <woot-button
-          class="!w-6 !h-6 text-sm rounded-md hover:bg-slate-50 dark:hover:bg-slate-800 clear secondary"
-          icon="dismiss"
+        <Button
+          ghost
+          slate
+          xs
+          icon="i-lucide-x"
           @click="onRemoveAttachment(index)"
         />
       </div>

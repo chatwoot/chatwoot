@@ -12,6 +12,8 @@
     "NO_INBOX_2": " للبدء",
     "NO_INBOX_AGENT": "يبدو أنه لم يتم إسنادك لأي قنوات تواصل بعد. الرجاء التواصل مع المدير لإضافتك لصناديق الوارد الخاصة بقنوات التواصل",
     "SEARCH_MESSAGES": "ابحث عن رسائل في المحادثات",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "لفتح قائمة الأوامر",
       "KEYBOARD_SHORTCUTS": "لعرض اختصارات لوحة المفاتيح"
@@ -30,10 +32,12 @@
     "LOADING_CONVERSATIONS": "جاري جلب المحادثات",
     "CANNOT_REPLY": "لا يمكنك الرد بسبب",
     "24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "لم يتم تعيين هذه المحادثة لك. هل ترغب في تعيين هذه المحادثة لنفسك؟",
     "ASSIGN_TO_ME": "إسناد لي",
     "TWILIO_WHATSAPP_CAN_REPLY": "يمكنك فقط الرد على هذه المحادثة باستخدام رسالة قالب بسبب",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "قيد نافذة الـ 24 ساعة",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "أنت ترد على:",
     "REMOVE_SELECTION": "إزالة التحديد",
     "DOWNLOAD": "تحميل",
@@ -54,6 +58,7 @@
     "SUCCESS_DELETE_MESSAGE": "تم حذف الرسالة بنجاح",
     "FAIL_DELETE_MESSSAGE": "تعذر حذف الرسالة! حاول مرة أخرى",
     "NO_RESPONSE": "لا توجد استجابة",
+    "RESPONSE": "Response",
     "RATING_TITLE": "التقييم",
     "FEEDBACK_TITLE": "الملاحظات",
     "REPLY_MESSAGE_NOT_FOUND": "الرسالة غير متوفرة",
@@ -116,6 +121,7 @@
       "PENDING": "تحديد كمعلق",
       "RESOLVED": "تحديد كمحلولة",
       "MARK_AS_UNREAD": "وضع علامة كغير مقروء",
+      "MARK_AS_READ": "تحديد كمقروء",
       "REOPEN": "إعادة فتح المحادثة",
       "SNOOZE": {
         "TITLE": "تأجيل",
@@ -133,7 +139,7 @@
           "FAILED": "تعذر تعيين الوكيل. الرجاء المحاولة مرة أخرى."
         },
         "LABEL_ASSIGNMENT": {
-          "SUCCESFUL": "تعيين تسمية #{labelName} لمعرف المحادثة {conversationId}",
+          "SUCCESFUL": "تعيين تسمية ##{labelName} لمعرف المحادثة {conversationId}",
           "FAILED": "تعذر تعيين التسمية. الرجاء المحاولة مرة أخرى."
         },
         "TEAM_ASSIGNMENT": {
@@ -289,9 +295,30 @@
       "CONVERSATION_ACTIONS": "إجراءات المحادثة",
       "CONVERSATION_LABELS": "وسوم المحادثة",
       "CONVERSATION_INFO": "معلومات المحادثة",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "سمات جهة الاتصال",
       "PREVIOUS_CONVERSATION": "المحادثات السابقة",
-      "MACROS": "ماكروس"
+      "MACROS": "ماكروس",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "معلق",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +379,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

@@ -1,6 +1,10 @@
 <script setup>
 import { computed, watch, onMounted, ref } from 'vue';
-import { useMapGetter, useStore } from 'dashboard/composables/store';
+import {
+  useMapGetter,
+  useFunctionGetter,
+  useStore,
+} from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 
 import AccordionItem from 'dashboard/components/Accordion/AccordionItem.vue';
@@ -10,10 +14,12 @@ import ConversationAction from './ConversationAction.vue';
 import ConversationParticipant from './ConversationParticipant.vue';
 
 import ContactInfo from './contact/ContactInfo.vue';
+import ContactNotes from './contact/ContactNotes.vue';
 import ConversationInfo from './ConversationInfo.vue';
 import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
+import ShopifyOrdersList from '../../../components/widgets/conversation/ShopifyOrdersList.vue';
 
 const props = defineProps({
   conversationId: {
@@ -39,6 +45,14 @@ const {
 
 const dragging = ref(false);
 const conversationSidebarItems = ref([]);
+const shopifyIntegration = useFunctionGetter(
+  'integrations/getIntegration',
+  'shopify'
+);
+
+const isShopifyFeatureEnabled = computed(
+  () => shopifyIntegration.value.enabled
+);
 
 const store = useStore();
 const currentChat = useMapGetter('getSelectedChat');
@@ -231,6 +245,34 @@ onMounted(() => {
                 <MacrosList :conversation-id="conversationId" />
               </AccordionItem>
             </woot-feature-toggle>
+            <div
+              v-else-if="
+                element.name === 'shopify_orders' && isShopifyFeatureEnabled
+              "
+            >
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.SHOPIFY_ORDERS')"
+                :is-open="isContactSidebarItemOpen('is_shopify_orders_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_shopify_orders_open', value)
+                "
+              >
+                <ShopifyOrdersList :contact-id="contactId" />
+              </AccordionItem>
+            </div>
+            <div v-else-if="element.name === 'contact_notes'">
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.CONTACT_NOTES')"
+                :is-open="isContactSidebarItemOpen('is_contact_notes_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_contact_notes_open', value)
+                "
+              >
+                <ContactNotes :contact-id="contactId" />
+              </AccordionItem>
+            </div>
           </div>
         </template>
       </Draggable>

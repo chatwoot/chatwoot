@@ -606,7 +606,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug kategorija, skirta URL",
             "ERROR": "Yra reikalingas slug",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chat.onehash.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "Aprašymas",
@@ -689,14 +689,15 @@
       "CONFIRM_BUTTON_LABEL": "Sukurti",
       "NAME": {
         "LABEL": "Vardas",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneHash Chat",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "Yra reikalingas vardas"
       },
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Yra reikalingas slug"
+        "ERROR": "Yra reikalingas slug",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {

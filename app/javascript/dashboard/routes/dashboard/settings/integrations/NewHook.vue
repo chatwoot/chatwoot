@@ -4,9 +4,13 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import { useIntegrationHook } from 'dashboard/composables/useIntegrationHook';
 import { FormKit } from '@formkit/vue';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     FormKit,
+    NextButton,
   },
   props: {
     integrationId: {
@@ -76,7 +80,7 @@ export default {
       }, {});
 
       this.formItems.forEach(item => {
-        if (item.validation.includes('JSON')) {
+        if (item.validation?.includes('JSON')) {
           hookPayload.settings[item.name] = JSON.parse(
             hookPayload.settings[item.name]
           );
@@ -113,7 +117,7 @@ export default {
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header
       :header-title="integration.name"
-      :header-content="integration.description"
+      :header-content="integration.short_description || integration.description"
     />
     <FormKit
       v-model="values"
@@ -139,12 +143,18 @@ export default {
         validation-name="Inbox"
       />
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button type="submit" :loading="uiFlags.isCreatingHook">
-          {{ $t('INTEGRATION_APPS.ADD.FORM.SUBMIT') }}
-        </woot-button>
-        <woot-button type="reset" class="button clear" @click.prevent="onClose">
-          {{ $t('INTEGRATION_APPS.ADD.FORM.CANCEL') }}
-        </woot-button>
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('INTEGRATION_APPS.ADD.FORM.CANCEL')"
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :label="$t('INTEGRATION_APPS.ADD.FORM.SUBMIT')"
+          :is-loading="uiFlags.isCreatingHook"
+        />
       </div>
     </FormKit>
   </div>
@@ -157,6 +167,10 @@ export default {
 
 .formkit-form > .formkit-wrapper > ul.formkit-messages {
   @apply hidden;
+}
+
+.formkit-form .formkit-help {
+  @apply text-n-slate-10 text-sm font-normal mt-2 w-full;
 }
 
 /* equivalent of .reset-base */
@@ -178,11 +192,5 @@ export default {
 
 .formkit-actions {
   @apply hidden;
-}
-
-@media (prefers-color-scheme: dark) {
-  .pre-chat-header-message .link {
-    @apply text-woot-500 underline;
-  }
 }
 </style>

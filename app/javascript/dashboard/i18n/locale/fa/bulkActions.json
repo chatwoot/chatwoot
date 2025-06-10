@@ -1,7 +1,7 @@
 {
   "BULK_ACTION": {
     "CONVERSATIONS_SELECTED": "{conversationCount} گفتگو انتخاب شده است",
-    "AGENT_SELECT_LABEL": "انتخاب ایجنت",
+    "AGENT_SELECT_LABEL": "انتخاب اپراتور",
     "ASSIGN_CONFIRMATION_LABEL": "آیا مطمئن هستید که به {conversationCount} {conversationLabel} اختصاص می‌دهید",
     "UNASSIGN_CONFIRMATION_LABEL": "آیا مطمئنید که {conversationCount} {conversationLabel} را می‌خواهید اختصاص را لغو کنید؟",
     "GO_BACK_LABEL": "بازگشت",

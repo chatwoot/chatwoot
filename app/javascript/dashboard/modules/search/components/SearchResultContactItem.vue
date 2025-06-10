@@ -1,6 +1,8 @@
 <script setup>
-import { frontendURL } from 'dashboard/helper/URLHelper';
 import { computed } from 'vue';
+import { frontendURL } from 'dashboard/helper/URLHelper';
+
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 
 const props = defineProps({
   id: {
@@ -59,6 +61,8 @@ const navigateTo = computed(() => {
         <span v-if="phone" class="phone text-n-slate-12 dark:text-n-slate-12">
           {{ phone }}
         </span>
+        <span v-if="phone" class="text-n-slate-10">•</span>
+        <span v-if="phone" class="text-n-slate-12">{{ phone }}</span>
       </p>
     </div>
   </router-link>

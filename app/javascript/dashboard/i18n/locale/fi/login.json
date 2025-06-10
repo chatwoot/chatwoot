@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Kirjaudu sisään Chatwootiin",
+    "TITLE": "Kirjaudu sisään OneHash Chatiin",
     "EMAIL": {
       "LABEL": "Sähköposti",
-      "PLACEHOLDER": "Sähköposti, esim: someone{'@'}example.fi",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Ole hyvä ja syötä validi sähköposti"
     },
     "PASSWORD": {
@@ -18,10 +18,6 @@
     "OAUTH": {
       "GOOGLE_LOGIN": "Login with Google",
       "BUSINESS_ACCOUNTS_ONLY": "Please use your company email address to login",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
-    },
-    "OIDC":{
-      "OIDC_LOGIN": "Login with OIDC",
       "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Salasana unohtunut?",

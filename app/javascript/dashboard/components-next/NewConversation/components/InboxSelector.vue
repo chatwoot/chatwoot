@@ -52,7 +52,7 @@ const targetInboxLabel = computed(() => {
     </label>
     <div
       v-if="targetInbox"
-      class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 truncate px-3 h-7 min-w-0"
+      class="flex items-center gap-1.5 rounded-md bg-n-alpha-2 truncate ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 h-7 min-w-0"
     >
       <span class="text-sm truncate text-n-slate-12">
         {{ targetInboxLabel }}

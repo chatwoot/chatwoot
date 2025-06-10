@@ -36,6 +36,9 @@ import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
@@ -44,6 +47,7 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    NextButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -206,6 +210,22 @@ export default {
       return contactLastSeenAt;
     },
 
+    // Check there is a instagram inbox exists with the same instagram_id
+    hasDuplicateInstagramInbox() {
+      const instagramId = this.inbox.instagram_id;
+      const { additional_attributes: additionalAttributes = {} } = this.inbox;
+      const instagramInbox =
+        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
+          instagramId
+        );
+
+      return (
+        this.inbox.channel_type === INBOX_TYPES.FB &&
+        additionalAttributes.type === 'instagram_direct_message' &&
+        instagramInbox
+      );
+    },
+
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -215,16 +235,25 @@ export default {
         if (additionalAttributes) {
           const {
             agent_reply_time_window_message: agentReplyTimeWindowMessage,
+            agent_reply_time_window: agentReplyTimeWindow,
           } = additionalAttributes;
-          return agentReplyTimeWindowMessage;
+          return (
+            agentReplyTimeWindowMessage ||
+            this.$t('CONVERSATION.API_HOURS_WINDOW', {
+              hours: agentReplyTimeWindow,
+            })
+          );
         }
         return '';
       }
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAFacebookInbox || this.isAnInstagramChannel) {
         return REPLY_POLICY.FACEBOOK;
+      }
+      if (this.isAWhatsAppCloudChannel) {
+        return REPLY_POLICY.WHATSAPP_CLOUD;
       }
       if (!this.isAPIInbox) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
@@ -232,7 +261,11 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (this.isAWhatsAppChannel) {
+      if (
+        this.isAWhatsAppChannel ||
+        this.isAFacebookInbox ||
+        this.isAnInstagramChannel
+      ) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
       if (!this.isAPIInbox) {
@@ -242,6 +275,15 @@ export default {
     },
     unreadMessageCount() {
       return this.currentChat.unread_count || 0;
+    },
+    unreadMessageLabel() {
+      const count =
+        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
+      const label =
+        this.unreadMessageCount > 1
+          ? 'CONVERSATION.UNREAD_MESSAGES'
+          : 'CONVERSATION.UNREAD_MESSAGE';
+      return `${count} ${this.$t(label)}`;
     },
     isInstagramDM() {
       return this.conversationType === 'instagram_direct_message';
@@ -473,19 +515,27 @@ export default {
     <Banner
       v-if="!currentChat.can_reply"
       color-scheme="alert"
-      class="mt-2 mx-2 rounded-lg overflow-hidden"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"
       :href-link="replyWindowLink"
       :href-link-text="replyWindowLinkText"
     />
+    <Banner
+      v-else-if="hasDuplicateInstagramInbox"
+      color-scheme="alert"
+      class="mx-2 mt-2 overflow-hidden rounded-lg"
+      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
+    />
     <div class="flex justify-end">
-      <woot-button
-        variant="smooth"
-        size="tiny"
-        color-scheme="secondary"
-        class="box-border fixed z-10 bg-white border border-r-0 border-solid rounded-bl-calc rtl:rotate-180 rounded-tl-calc border-n-weak"
+      <NextButton
+        faded
+        xs
+        slate
+        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
+        :icon="
+          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
+        "
         :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
-        :icon="isRightOrLeftIcon"
         @click="onToggleContactPanel"
       />
     </div>
@@ -516,6 +566,11 @@ export default {
                 ? $t('CONVERSATION.UNREAD_MESSAGES')
                 : $t('CONVERSATION.UNREAD_MESSAGE')
             }}
+              <!-- REVIEW:CV4.0.2 Below code isn't in our version, why? -->
+      <!-- <template #unreadBadge>
+        <li v-show="unreadMessageCount != 0" class="unread--toast">
+          <span>
+            {{ unreadMessageLabel }} -->
           </span>
         </li>
       </template>
@@ -610,20 +665,6 @@ export default {
     </div>
   </div>
 </template>
-
-<style scoped>
-@tailwind components;
-
-@layer components {
-  .rounded-bl-calc {
-    border-bottom-left-radius: calc(1.5rem + 1px);
-  }
-
-  .rounded-tl-calc {
-    border-top-left-radius: calc(1.5rem + 1px);
-  }
-}
-</style>
 
 <style scoped lang="scss">
 .modal-mask {

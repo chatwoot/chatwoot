@@ -21,8 +21,11 @@ Rails.application.routes.draw do
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/instagram', to: 'dashboard#index', as: 'app_new_instagram_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_twitter_inbox_agents'
     get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_email_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/new/:inbox_id/agents', to: 'dashboard#index', as: 'app_instagram_inbox_agents'
+    get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_instagram_inbox_settings'
     get '/app/accounts/:account_id/settings/inboxes/:inbox_id', to: 'dashboard#index', as: 'app_email_inbox_settings'
 
     resource :widget, only: [:show]
@@ -57,10 +60,17 @@ Rails.application.routes.draw do
           end
           namespace :captain do
             resources :assistants do
+              member do
+                post :playground
+              end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
             end
-            resources :documents, only: [:index, :show, :create, :destroy]
             resources :assistant_responses
+            resources :bulk_actions, only: [:create]
+            resources :copilot_threads, only: [:index] do
+              resources :copilot_messages, only: [:index]
+            end
+            resources :documents, only: [:index, :show, :create, :destroy]
           end
           resources :agent_bots, only: [:index, :create, :show, :update, :destroy] do
             delete :avatar, on: :member
@@ -105,7 +115,7 @@ Rails.application.routes.draw do
               post :filter
             end
             scope module: :conversations do
-              resources :messages, only: [:index, :create, :destroy] do
+              resources :messages, only: [:index, :create, :destroy, :update] do
                 member do
                   post :translate
                   post :retry
@@ -131,6 +141,7 @@ Rails.application.routes.draw do
               post :custom_attributes
               get :attachments
               post :copilot
+              get :inbox_assistant
             end
           end
 
@@ -226,6 +237,10 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :instagram do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -245,8 +260,15 @@ Rails.application.routes.draw do
                 post :add_participant_to_meeting
               end
             end
+            resource :shopify, controller: 'shopify', only: [:destroy] do
+              collection do
+                post :auth
+                get :orders
+              end
+            end
             resource :linear, controller: 'linear', only: [] do
               collection do
+                delete :destroy
                 get :teams
                 get :team_entities
                 post :create_issue
@@ -262,7 +284,6 @@ Rails.application.routes.draw do
           resources :portals do
             member do
               patch :archive
-              put :add_members
               delete :logo
             end
             collection do
@@ -360,6 +381,12 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+          resources :live_reports, only: [] do
+            collection do
+              get :conversation_metrics
+              get :grouped_conversation_metrics
+            end
+          end
         end
       end
     end
@@ -374,6 +401,7 @@ Rails.application.routes.draw do
               post :checkout
               post :subscription
               get :limits
+              post :toggle_deletion
             end
           end
         end
@@ -470,6 +498,14 @@ Rails.application.routes.draw do
     resource :callback, only: [:show]
   end
 
+  namespace :linear do
+    resource :callback, only: [:show]
+  end
+
+  namespace :shopify do
+    resource :callback, only: [:show]
+  end
+
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
@@ -477,7 +513,7 @@ Rails.application.routes.draw do
 
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
-
+  get 'instagram/callback', to: 'instagram/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
@@ -508,13 +544,15 @@ Rails.application.routes.draw do
 
       resources :coupon_codes, only: [:index, :show, :edit, :update]
       resources :access_tokens, only: [:index, :show]
-      resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy]
-      resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy]
+      # REVIEW:CV4.0.2 removed in cv4.0.2
+      # resources :response_documents, only: [:index, :show, :new, :create, :edit, :update, :destroy] 
+      # REVIEW:CV4.0.2 removed in cv4.0.2
+      # resources :responses, only: [:index, :show, :new, :create, :edit, :update, :destroy] 
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
       resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
-      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update]
+      resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resource :instance_status, only: [:show]
 
       resource :settings, only: [:show] do

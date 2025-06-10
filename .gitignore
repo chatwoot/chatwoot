@@ -71,8 +71,6 @@ test/cypress/videos/*
 /config/master.key
 /config/*.enc
 
-#ignore files under .vscode directory
-.vscode
 
 # yalc for local testing
 .yalc
@@ -93,3 +91,10 @@ yarn-debug.log*
 
 /sorbet/
 /bin/tapioca
+# Claude.ai config file
+CLAUDE.md
+
+# TextEditors & AI Agents config files
+.vscode
+.claude/settings.local.json
+.cursor

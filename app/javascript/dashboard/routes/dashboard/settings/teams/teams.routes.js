@@ -1,5 +1,8 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+
+// REVIEW:CV4.0.2 our old import pre cv4.0.2
+// import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 
 import TeamsIndex from './Index.vue';
 import CreateStepWrap from './Create/Index.vue';

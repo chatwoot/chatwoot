@@ -2,7 +2,7 @@
   "INBOX_MGMT": {
     "HEADER": "Источники",
     "DESCRIPTION": "Канал — это способ коммуникации, который ваш клиент выбирает для связи с вами. Входящие — это место, где вы управляете диалогами для определенного канала. Он может включать диалоги из различных источников, таких как электронная почта, онлайн чат или социальные сети.",
-    "LEARN_MORE": "Узнать больше о \"Входящих\"",
+    "LEARN_MORE": "Узнать больше о «Входящих»",
     "RECONNECTION_REQUIRED": "Входящие сообщения отключены. Вы не будете получать новые сообщения пока не пройдете авторизацию повторно.",
     "CLICK_TO_RECONNECT": "Нажмите здесь для повторного подключения.",
     "LIST": {
@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Выберите источник",
-        "BODY": "Выберите канал, который вы хотите подключить к Chatwoot."
+        "BODY": "Выберите канал, который вы хотите подключить к OneHash Chat."
       },
       "INBOX": {
         "TITLE": "Создать источник",
@@ -37,13 +37,23 @@
         "PLACEHOLDER": "Введите имя вашего сайта (например: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: После авторизации мы получим доступ только к вашим сообщениям на странице. Личные сообщения недоступны Chatwoot.",
+        "HELP": "PS: После авторизации мы получим доступ только к вашим сообщениям на странице. Личные сообщения недоступны OneHash Chat.",
         "CHOOSE_PAGE": "Выберите страницы",
         "CHOOSE_PLACEHOLDER": "Выберите страницу из списка",
         "INBOX_NAME": "Имя источника",
         "ADD_NAME": "Введите имя источника",
         "PICK_NAME": "Выберите имя для папки \"Входящие\"",
-        "PICK_A_VALUE": "Выберите значение"
+        "PICK_A_VALUE": "Выберите значение",
+        "CREATE_INBOX": "Создать источник"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Чтобы добавить свой Twitter профиль в качестве источника, вам нужно авторизоваться при помощи входа через Twitter ",
@@ -208,8 +218,8 @@
         }
       },
       "WHATSAPP": {
-        "TITLE": "WhatsApp канал",
-        "DESC": "Начните поддерживать ваших клиентов через WhatsApp.",
+        "TITLE": "Канал WhatsApp",
+        "DESC": "Начните поддерживать своих клиентов через WhatsApp.",
         "PROVIDERS": {
           "LABEL": "Поставщик API",
           "TWILIO": "Twilio",
@@ -339,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Выберите источник",
-        "DESC": "Chatwoot поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
+        "DESC": "OneHash Chat поддерживает виджет чата, страницу Facebook, профиль Twitter, Whatsapp, Email и т. д., как канал связи с пользователями. Если вы хотите настроить пользовательский канал, вы можете создать его с помощью канала API. Выберите один канал из списка ниже, чтобы продолжить."
       },
       "AGENTS": {
         "TITLE": "Операторы",
@@ -353,7 +363,7 @@
       },
       "FINISH": {
         "TITLE": "Готово!",
-        "DESC": "Вы успешно подключили страницу Facebook к Chatwoot. В следующий раз когда покупатель напишет вашей странице, диалог автоматически отобразится здесь.<br>Мы также предоставляем вам скрипт виджета, который вы можете легко добавить на ваш сайт. Как только вы добавите его на сайт, клиенты смогут отправлять вам сообщения прямо с вашего сайта без помощи какого-либо внешнего инструмента и диалог появится прямо здесь, в Chatwoot.<br>Круто, да"
+        "DESC": "Вы успешно подключили страницу Facebook к OneHash Chat. В следующий раз когда покупатель напишет вашей странице, диалог автоматически отобразится здесь.<br>Мы также предоставляем вам скрипт виджета, который вы можете легко добавить на ваш сайт. Как только вы добавите его на сайт, клиенты смогут отправлять вам сообщения прямо с вашего сайта без помощи какого-либо внешнего инструмента и диалог появится прямо здесь, в OneHash Chat.<br>Круто, да"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Выберите почтового провайдера",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Форма, показываемая перед стартом диалога",
       "BUSINESS_HOURS": "Время работы",
       "WIDGET_BUILDER": "Конструктор виджетов",
-      "BOT_CONFIGURATION": "Конфигурация бота"
+      "BOT_CONFIGURATION": "Конфигурация бота",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Настройки",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Включить ящик сбора почты",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Включение или отключение ящик для сбора почты в новой беседе",
       "AUTO_ASSIGNMENT": "Включить автоназначение",
-      "ENABLE_CSAT": "Включить CSAT",
       "SENDER_NAME_SECTION": "Включить имя агента в электронной почте",
-      "ENABLE_CSAT_SUB_TEXT": "Включить/выключить опрос CSAT(степень удовлетворенности пользователя) после завершения беседы",
       "SENDER_NAME_SECTION_TEXT": "Включить/выключить отображение имени Сотрудника в электронной почте, если отключено, он будет показывать бизнес-имя",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Включить непрерывность диалогов по электронной почте",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Диалоги будут продолжаться по электронной почте, если доступен контактный адрес электронной почты.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Посетители должны указать свое имя и адрес электронной почты перед началом общения"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Включить CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Сообщение",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "содержит",
+          "DOES_NOT_CONTAINS": "не содержит"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,7 +770,7 @@
         "USER_MESSAGE": "Хай",
         "AGENT_MESSAGE": "Привет"
       },
-      "BRANDING_TEXT": "Работает на Chatwoot",
+      "BRANDING_TEXT": "Работает на OneHash Chat",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -753,7 +788,8 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Источник API"
+      "API": "Источник API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

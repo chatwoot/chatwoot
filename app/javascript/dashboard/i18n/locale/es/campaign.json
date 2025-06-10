@@ -1,8 +1,8 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Campañas de Live Chat",
+      "NEW_CAMPAIGN": "Crear campaña",
       "CARD": {
         "STATUS": {
           "ENABLED": "Activado",
@@ -16,11 +16,11 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "No hay campañas de Live Chat disponibles",
+        "SUBTITLE": "Conéctate con tus clientes usando mensajes proactivos. Haz clic en 'Crear campaña' para empezar."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "Crear una campaña de Live Chat",
         "CANCEL_BUTTON_TEXT": "Cancelar",
         "CREATE_BUTTON_TEXT": "Crear",
         "FORM": {
@@ -41,7 +41,7 @@
           },
           "SENT_BY": {
             "LABEL": "Enviado por",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "Por favor, seleccione remitente",
             "ERROR": "El remitente es obligatorio"
           },
           "END_POINT": {
@@ -55,7 +55,7 @@
             "ERROR": "La hora en la página es obligatoria"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "Otras preferencias",
             "ENABLED": "Habilitar campaña",
             "TRIGGER_ONLY_BUSINESS_HOURS": "Activar sólo durante horas de trabajo"
           },
@@ -64,40 +64,40 @@
             "CANCEL": "Cancelar"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "Campaña de Live Chat creada con éxito",
             "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "Editar campaña de Live Chat",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "Campaña de Live Chat actualizada correctamente",
             "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
           }
         }
       }
     },
     "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Campañas de SMS",
+      "NEW_CAMPAIGN": "Crear campaña",
       "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "No hay campañas de SMS disponibles",
+        "SUBTITLE": "Inicie una campaña SMS para llegar directamente a sus clientes. Envíe ofertas o haga anuncios con facilidad. Haga clic en \"Crear campaña\" para empezar."
       },
       "CARD": {
         "STATUS": {
           "COMPLETED": "Completado",
-          "SCHEDULED": "Scheduled"
+          "SCHEDULED": "Programado"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "Enviado desde",
+          "ON": "en"
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
+        "TITLE": "Crear campaña de SMS",
         "CANCEL_BUTTON_TEXT": "Cancelar",
         "CREATE_BUTTON_TEXT": "Crear",
         "FORM": {
@@ -131,7 +131,7 @@
             "CANCEL": "Cancelar"
           },
           "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
+            "SUCCESS_MESSAGE": "Campaña de SMS creada con éxito",
             "ERROR_MESSAGE": "Se presentó un error. Por favor intente nuevamente."
           }
         }
@@ -139,7 +139,7 @@
     },
     "CONFIRM_DELETE": {
       "TITLE": "¿Está seguro de eliminar?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "DESCRIPTION": "La acción de eliminación es permanente y no puede ser revertida.",
       "CONFIRM": "Eliminar",
       "API": {
         "SUCCESS_MESSAGE": "Campaña borrada satisfactoriamente",

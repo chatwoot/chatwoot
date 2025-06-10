@@ -21,7 +21,8 @@ const state = {
   conversationLastSeen: null,
   syncConversationsMessages: {},
   conversationFilters: {},
-  activeCall: null
+  activeCall: null,
+  copilotAssistant: {},
 };
 
 // mutations
@@ -78,10 +79,7 @@ export const mutations = {
     }
   },
   [types.SET_ALL_ATTACHMENTS](_state, { id, data }) {
-    const attachments = _state.attachments[id] || [];
-
-    attachments.push(...data);
-    _state.attachments[id] = [...attachments];
+    _state.attachments[id] = [...data];
   },
   [types.SET_MISSING_MESSAGES](_state, { id, data }) {
     const [chat] = _state.allConversations.filter(c => c.id === id);
@@ -209,16 +207,18 @@ export const mutations = {
 
   [types.UPDATE_CONVERSATION](_state, conversation) {
     const { allConversations } = _state;
-    const currentConversationIndex = allConversations.findIndex(
-      c => c.id === conversation.id
-    );
-    if (currentConversationIndex > -1) {
-      const { messages, ...conversationAttributes } = conversation;
-      const currentConversation = {
-        ...allConversations[currentConversationIndex],
-        ...conversationAttributes,
-      };
-      allConversations[currentConversationIndex] = currentConversation;
+    const index = allConversations.findIndex(c => c.id === conversation.id);
+
+    if (index > -1) {
+      const selectedConversation = allConversations[index];
+
+      // ignore out of order events
+      if (conversation.updated_at < selectedConversation.updated_at) {
+        return;
+      }
+
+      const { messages, ...updates } = conversation;
+      allConversations[index] = { ...selectedConversation, ...updates };
       if (_state.selectedChatId === conversation.id) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);
@@ -318,6 +318,9 @@ export const mutations = {
   },
   [types.UPDATE_CHAT_LIST_FILTERS](_state, data) {
     _state.conversationFilters = { ..._state.conversationFilters, ...data };
+  },
+  [types.SET_INBOX_CAPTAIN_ASSISTANT](_state, data) {
+    _state.copilotAssistant = data.assistant;
   },
 };
 

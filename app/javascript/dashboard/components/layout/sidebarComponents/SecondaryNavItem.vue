@@ -13,9 +13,10 @@ import {
   isOnUnattendedView,
 } from '../../../store/modules/conversations/helpers/actionHelpers';
 import Policy from '../../policy.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: { SecondaryChildNavItem, Policy },
+  components: { SecondaryChildNavItem, Policy, NextButton },
   props: {
     menuItem: {
       type: Object,
@@ -48,13 +49,6 @@ export default {
       return !!this.menuItem.children;
     },
     isMenuItemVisible() {
-      if (this.menuItem.globalConfigFlag) {
-        // this checks for the `csmlEditorHost` flag in the global config
-        // if this is present, we toggle the CSML editor menu item
-        // TODO: This is very specific, and can be handled better, fix it
-        return !!this.globalConfig[this.menuItem.globalConfigFlag];
-      }
-
       let isFeatureEnabled = true;
       if (this.menuItem.featureFlag) {
         isFeatureEnabled = this.isFeatureEnabledonAccount(
@@ -205,14 +199,7 @@ export default {
         {{ $t(`SIDEBAR.${menuItem.label}`) }}
       </span>
       <div v-if="menuItem.showNewButton" class="flex items-center">
-        <woot-button
-          size="tiny"
-          variant="clear"
-          color-scheme="secondary"
-          icon="add"
-          class="p-0 ml-2"
-          @click="onClickOpen"
-        />
+        <NextButton ghost xs slate icon="i-lucide-plus" @click="onClickOpen" />
       </div>
     </div>
     <router-link
@@ -272,16 +259,15 @@ export default {
         >
           <li class="pl-1">
             <a :href="href">
-              <woot-button
-                size="tiny"
-                variant="clear"
-                color-scheme="secondary"
-                icon="add"
+              <NextButton
+                ghost
+                xs
+                slate
+                icon="i-lucide-plus"
+                :label="$t(`SIDEBAR.${menuItem.newLinkTag}`)"
                 :data-testid="menuItem.dataTestid"
                 @click="e => newLinkClick(e, navigate)"
-              >
-                {{ $t(`SIDEBAR.${menuItem.newLinkTag}`) }}
-              </woot-button>
+              />
             </a>
           </li>
         </router-link>

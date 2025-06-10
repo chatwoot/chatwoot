@@ -46,7 +46,7 @@ const actions = {
         content_type: 14,
         contentAttributes: {
           call_start_time: new Date().toISOString(),
-          call_room: body.room_id
+          call_room: body.room_id,
         },
       };
 
@@ -56,7 +56,6 @@ const actions = {
         ...body,
         message_id: 20,
       });
-
 
       body.jwt = call.data.jwt;
 
@@ -557,6 +556,14 @@ const actions = {
       });
     } catch (error) {
       throw new Error(error);
+    }
+  },
+  getInboxCaptainAssistantById: async ({ commit }, conversationId) => {
+    try {
+      const response = await ConversationApi.getInboxAssistant(conversationId);
+      commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
+    } catch (error) {
+      // Handle error
     }
   },
 

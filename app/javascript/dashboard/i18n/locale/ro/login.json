@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Conectează-te la Chatwoot",
+    "TITLE": "Conectează-te la OneHash Chat",
     "EMAIL": {
       "LABEL": "E-mail",
-      "PLACEHOLDER": "exemplu{'@'}companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Vă rugăm să introduceți o adresă de e-mail validă"
     },
     "PASSWORD": {
@@ -19,10 +19,6 @@
       "GOOGLE_LOGIN": "Autentifica-te cu Google+",
       "BUSINESS_ACCOUNTS_ONLY": "Vă rugăm să utilizați adresa de e-mail a companiei pentru a vă autentifica",
       "NO_ACCOUNT_FOUND": "Nu am putut găsi un cont pentru adresa ta de e-mail."
-    },
-    "OIDC":{
-      "OIDC_LOGIN": "Login with OIDC",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Ai uitat parola?",
     "CREATE_NEW_ACCOUNT": "Creează un cont nou",

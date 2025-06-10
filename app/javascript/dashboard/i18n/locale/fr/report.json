@@ -119,11 +119,13 @@
       "EMPTY_LIST": "Aucun résultat trouvé"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Présentation des agents",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_AGENT_REPORTS": "Télécharger les rapports de l'agent",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Présentation de la boîte de réception",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_INBOX_REPORTS": "Télécharger les rapports de la boîte de réception",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Présentation de l'équipe",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_TEAM_REPORTS": "Télécharger les rapports d'équipe",
@@ -473,6 +477,18 @@
         "STATUS": "État"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Équipes",
+        "OPEN": "Ouvert",
+        "UNATTENDED": "Sans surveillance",
+        "STATUS": "État"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Statut de l'agent",
       "ONLINE": "En ligne",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Boîte de réception",
+    "AGENT": "Agent",
+    "TEAM": "Équipes",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Nombre de résolutions",
+    "CONVERSATIONS": "Nbre de conversations"
   }
 }

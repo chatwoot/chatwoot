@@ -1,5 +1,4 @@
 <script setup>
-import Icon from 'next/icon/Icon.vue';
 import router from '../../routes/index';
 const props = defineProps({
   backUrl: {
@@ -24,22 +23,16 @@ const goBack = () => {
   }
 };
 
-const buttonStyleClass = props.compact
-  ? 'text-sm text-n-slate-11'
-  : 'text-base text-n-blue-text';
+const buttonStyleClass = props.compact ? 'text-sm' : 'text-base';
 </script>
 
 <template>
   <button
-    class="flex items-center p-0 font-normal cursor-pointer gap-1"
+    class="flex items-center p-0 font-normal cursor-pointer text-n-slate-11"
     :class="buttonStyleClass"
     @click.capture="goBack"
   >
-    <Icon
-      icon="i-lucide-chevron-left"
-      class="size-5 ltr:-ml-1 rtl:-mr-1"
-      :class="props.compact ? 'text-n-slate-11' : 'text-n-blue-text'"
-    />
+    <i class="i-lucide-chevron-left -ml-1 text-lg" />
     {{ buttonLabel || $t('GENERAL_SETTINGS.BACK') }}
   </button>
 </template>

@@ -6,6 +6,7 @@ import {
   useStoreGetters,
 } from 'dashboard/composables/store';
 import { useRoute } from 'vue-router';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import BackButton from 'dashboard/components/widgets/BackButton.vue';
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
@@ -76,13 +77,19 @@ onMounted(() =>
   <PageLayout
     v-else
     :button-label="$t('CAPTAIN.INBOXES.ADD_NEW')"
+    :button-policy="['administrator']"
+    :is-fetching="isFetchingAssistant || isFetching"
+    :is-empty="!captainInboxes.length"
     :show-pagination-footer="false"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @click="handleCreate"
   >
-    <template #headerTitle>
+    <template v-if="!isFetchingAssistant" #headerTitle>
       <div class="flex flex-row items-center gap-4">
         <BackButton compact />
-        <span class="flex items-center gap-1 text-lg">
+        <span
+          class="flex items-center gap-1 text-lg font-medium text-n-slate-12"
+        >
           {{ assistant.name }}
           <span class="i-lucide-chevron-right text-xl text-n-slate-10" />
           {{ $t('CAPTAIN.INBOXES.HEADER') }}
@@ -106,6 +113,25 @@ onMounted(() =>
     </div>
 
     <InboxPageEmptyState v-else @click="handleCreate" />
+
+    
+    <!-- REVIEW:CV4.0.2 this is the cv4.0.2 version
+    <template #emptyState>
+      <InboxPageEmptyState @click="handleCreate" />
+    </template>
+
+    <template #body>
+      <div class="flex flex-col gap-4">
+        <InboxCard
+          v-for="captainInbox in captainInboxes"
+          :id="captainInbox.id"
+          :key="captainInbox.id"
+          :inbox="captainInbox"
+          @action="handleAction"
+        />
+      </div>
+    </template>
+  -->
 
     <DeleteDialog
       v-if="selectedInbox"

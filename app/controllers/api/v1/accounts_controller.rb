@@ -43,8 +43,9 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def update
-    @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
+    @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
     @account.custom_attributes.merge!(custom_attributes_params)
+    @account.settings.merge!(settings_params)
     @account.save!
   end
 
@@ -131,11 +132,15 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
   end
 
   def custom_attributes_params
     params.permit(:industry, :company_size, :timezone, :onboarding_step)
+  end
+
+  def settings_params
+    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting)
   end
 
   def check_signup_enabled

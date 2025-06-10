@@ -7,9 +7,9 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       {
         markdown: 'Launch Week I is here! 🚀',
         metadata: {
-          title: 'Home - Firecrawl',
-          ogTitle: 'Firecrawl',
-          ogUrl: 'https://www.firecrawl.dev/'
+          'title' => 'Home - Firecrawl',
+          'ogTitle' => 'Firecrawl',
+          'url' => 'https://www.firecrawl.dev/'
         }
       }
     end
@@ -22,8 +22,8 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       document = assistant.documents.last
       expect(document).to have_attributes(
         content: payload[:markdown],
-        name: payload[:metadata][:ogTitle],
-        external_link: payload[:metadata][:ogUrl],
+        name: payload[:metadata]['title'],
+        external_link: payload[:metadata]['url'],
         status: 'available'
       )
     end
@@ -32,7 +32,7 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       existing_document = create(:captain_document,
                                  assistant: assistant,
                                  account: assistant.account,
-                                 external_link: payload[:metadata][:ogUrl],
+                                 external_link: payload[:metadata]['url'],
                                  content: 'old content',
                                  name: 'old title',
                                  status: :in_progress)
@@ -44,7 +44,7 @@ RSpec.describe Captain::Tools::FirecrawlParserJob, type: :job do
       existing_document.reload
       expect(existing_document).to have_attributes(
         content: payload[:markdown],
-        name: payload[:metadata][:ogTitle],
+        name: payload[:metadata]['title'],
         status: 'available'
       )
     end

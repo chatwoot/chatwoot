@@ -15,17 +15,31 @@ const props = defineProps({
     type: String,
     default: null,
   },
+  installationTypes: {
+    type: Array,
+    default: null,
+  },
 });
 
-const { checkFeatureAllowed, checkPermissions } = usePolicy();
+const { shouldShow } = usePolicy();
 
-const isFeatureAllowed = computed(() => checkFeatureAllowed(props.featureFlag));
-const hasPermission = computed(() => checkPermissions(props.permissions));
+const show = computed(() =>
+  shouldShow(props.featureFlag, props.permissions, props.installationTypes)
+);
+
+// const { checkFeatureAllowed, checkPermissions } = usePolicy();
+
+// const isFeatureAllowed = computed(() => checkFeatureAllowed(props.featureFlag));
+// const hasPermission = computed(() => checkPermissions(props.permissions));
+
 </script>
 
 <!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <component :is="as" v-if="isFeatureAllowed && hasPermission">
+  <!-- <component :is="as" v-if="isFeatureAllowed && hasPermission"> -->
+  <!-- REVIEW:CV4.0.2 One of these condition should remain, room for refactoring -->
+  <!-- REVIEW:CV4.0.2 commented out is the cv4.0.2 version -->
+  <component :is="as" v-if="show">
     <slot />
   </component>
 </template>

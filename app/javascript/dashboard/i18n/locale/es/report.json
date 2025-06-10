@@ -119,11 +119,13 @@
       "EMPTY_LIST": "No se encontraron resultados"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Mostrando {start} a {end} de {total} resultados",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Resumen de agentes",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Resumen de bandeja de entrada",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Descargar reportes de bandeja de entrada",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Vista general del equipo",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_TEAM_REPORTS": "Descargar informes del equipo",
@@ -473,6 +477,18 @@
         "STATUS": "Estado"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Equipo",
+        "OPEN": "Abrir",
+        "UNATTENDED": "Desatendido",
+        "STATUS": "Estado"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Estado del agente",
       "ONLINE": "En línea",
@@ -492,9 +508,9 @@
   "SLA_REPORTS": {
     "HEADER": "Informes de SLA",
     "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
+    "LOADING": "Cargando datos de SLA...",
     "DOWNLOAD_SLA_REPORTS": "Descargar reportes de SLA",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
+    "DOWNLOAD_FAILED": "Error al descargar los informes de SLA",
     "DROPDOWN": {
       "ADD_FIlTER": "Añadir Filtro",
       "CLEAR_ALL": "Limpiar todo",
@@ -518,11 +534,11 @@
     "WITH": "con",
     "METRICS": {
       "HIT_RATE": {
-        "LABEL": "Hit Rate",
+        "LABEL": "Tasa de Aciertos",
         "TOOLTIP": "Percentage of SLAs created were completed successfully"
       },
       "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
+        "LABEL": "Número de Fallos",
         "TOOLTIP": "Total SLA misses in a certain period"
       },
       "NO_OF_CONVERSATIONS": {
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "Ver detalles"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Bandeja de entrada",
+    "AGENT": "Agente",
+    "TEAM": "Equipo",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Número de resoluciones",
+    "CONVERSATIONS": "Núm. de conversaciones"
   }
 }

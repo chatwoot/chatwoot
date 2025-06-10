@@ -4,7 +4,7 @@
     "TITLE": "Regisztrálás",
     "TESTIMONIAL_HEADER": "Már csak egy lépés van hátra",
     "TESTIMONIAL_CONTENT": "Már csak egy lépésre vagy!",
-    "TERMS_ACCEPT": "Regisztrációval elfogadod az <a href=\"https://www.onehash.ai/legal/terms-of-services\">ÁSZF</a>-ünket és az <a href=\"https://www.onehash.ai/legal/privacy-policy\">Adatvédelmi irányelveinket</a>",
+    "TERMS_ACCEPT": "A fiók létrehozásával elfogadod az <a href=\"https://www.chatwoot.com/terms\">ÁSZF</a> és az <a href=\"https://www.chatwoot.com/privacy-policy\">Adatkezelési nyilatkozat</a> tartalmát",
     "OAUTH": {
       "GOOGLE_SIGNUP": "Regisztráció Google-el"
     },
@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "Munkahelyi e-mail",
-      "PLACEHOLDER": "Add meg munkahelyi e-mailcímed. Pl. kovacs.janos{'@'}email.hu",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Please enter a valid work email address"
     },
     "PASSWORD": {

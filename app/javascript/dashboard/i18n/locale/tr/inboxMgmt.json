@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Kanal Seçin",
-        "BODY": "Chatwoot ile entegre etmek istediğiniz sağlayıcıyı seçin."
+        "BODY": "OneHash Chat ile entegre etmek istediğiniz sağlayıcıyı seçin."
       },
       "INBOX": {
         "TITLE": "Gelen Kutusu Oluştur",
@@ -37,13 +37,23 @@
         "PLACEHOLDER": "Web sitenizin adını girin"
       },
       "FB": {
-        "HELP": "Not: Oturum açarak, yalnızca Sayfanızın mesajlarına erişebiliriz. Özel mesajlarınıza Chatwoot ile asla erişilemez.",
+        "HELP": "Not: Oturum açarak, yalnızca Sayfanızın mesajlarına erişebiliriz. Özel mesajlarınıza OneHash Chat ile asla erişilemez.",
         "CHOOSE_PAGE": "Sayfa Seçin",
         "CHOOSE_PLACEHOLDER": "Listeden bir sayfa seçin",
         "INBOX_NAME": "Gelen Kutusu Adı",
         "ADD_NAME": "Gelen kutunuza bir isim ekleyin",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Bir değer seçin"
+        "PICK_A_VALUE": "Bir değer seçin",
+        "CREATE_INBOX": "Gelen Kutusu Oluştur"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
@@ -339,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Bir Kanal Seçin",
-        "DESC": "Chatwoot, canlı sohbet widget'ları, Facebook Messenger, Twitter profilleri, WhatsApp, E-postalar vb. olarak kanalları destekler. Özel bir kanal oluşturmak istiyorsanız, API kanalını kullanarak bunu oluşturabilirsiniz. Başlamak için aşağıdaki kanallardan birini seçin."
+        "DESC": "OneHash Chat, canlı sohbet widget'ları, Facebook Messenger, Twitter profilleri, WhatsApp, E-postalar vb. olarak kanalları destekler. Özel bir kanal oluşturmak istiyorsanız, API kanalını kullanarak bunu oluşturabilirsiniz. Başlamak için aşağıdaki kanallardan birini seçin."
       },
       "AGENTS": {
         "TITLE": "Kullanıcılar",
@@ -349,11 +359,11 @@
       },
       "DETAILS": {
         "TITLE": "Gelen Kutusu Ayrıntıları",
-        "DESC": "Chatwoot'a bağlanmak istediğiniz Facebook Sayfasını seçmek için aşağıdaki açılır menüden seçim yapın. Daha iyi tanımlama için gelen kutunuza özel bir ad da verebilirsiniz."
+        "DESC": "OneHash Chat'a bağlanmak istediğiniz Facebook Sayfasını seçmek için aşağıdaki açılır menüden seçim yapın. Daha iyi tanımlama için gelen kutunuza özel bir ad da verebilirsiniz."
       },
       "FINISH": {
         "TITLE": "Başardın!",
-        "DESC": "Facebook Sayfanızı Chatwoot ile entegre etmeyi başarıyla tamamladınız. Bir müşteri Sayfanıza bir dahaki sefere mesaj gönderdiğinde, konuşma otomatik olarak gelen kutunuzda görünecektir. <br> Ayrıca, web sitenize kolayca ekleyebileceğiniz bir pencere öğesi komut dosyası da sağlıyoruz. Bu web sitenizde yayınlandıktan sonra, müşteriler herhangi bir harici aracın yardımı olmadan doğrudan web sitenizden size mesaj gönderebilir ve sohbet burada, Chatwoot'ta görünecektir. <br> Harika, ha? Peki, emin olmaya çalışıyoruz :)"
+        "DESC": "Facebook Sayfanızı OneHash Chat ile entegre etmeyi başarıyla tamamladınız. Bir müşteri Sayfanıza bir dahaki sefere mesaj gönderdiğinde, konuşma otomatik olarak gelen kutunuzda görünecektir. <br> Ayrıca, web sitenize kolayca ekleyebileceğiniz bir pencere öğesi komut dosyası da sağlıyoruz. Bu web sitenizde yayınlandıktan sonra, müşteriler herhangi bir harici aracın yardımı olmadan doğrudan web sitenizden size mesaj gönderebilir ve sohbet burada, OneHash Chat'ta görünecektir. <br> Harika, ha? Peki, emin olmaya çalışıyoruz :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "E-posta Sağlayıcınızı Seçin",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Sohbet Öncesi Form",
       "BUSINESS_HOURS": "İş Saatleri",
       "WIDGET_BUILDER": "Widget Oluşturucu",
-      "BOT_CONFIGURATION": "Bot Yapılandırma"
+      "BOT_CONFIGURATION": "Bot Yapılandırma",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-posta toplama kutusunu etkinleştir",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Yeni konuşmalarda e-posta toplama kutusunu etkinleştir veya devre dışı bırak",
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
-      "ENABLE_CSAT": "CSAT'yi etkinleştir",
       "SENDER_NAME_SECTION": "E-postada Ajan Adını Etkinleştir",
-      "ENABLE_CSAT_SUB_TEXT": "Bir konuşma çözüldükten sonra Müşteri Memnuniyeti Anketi (CSAT) etkinleştir/devre dışı bırak",
       "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Ziyaretçilerin sohbeti başlamadan önce ad ve e-posta adresi sağlaması gerekmektedir"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT'yi etkinleştir",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "i̇çerir",
+          "DOES_NOT_CONTAINS": "i̇çermez"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,7 +770,7 @@
         "USER_MESSAGE": "Merhaba",
         "AGENT_MESSAGE": "Merhaba"
       },
-      "BRANDING_TEXT": "Chatwoot tarafından desteklenmektedir",
+      "BRANDING_TEXT": "OneHash Chat tarafından desteklenmektedir",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -753,7 +788,8 @@
       "EMAIL": "E-Posta",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Kanalı"
+      "API": "API Kanalı",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

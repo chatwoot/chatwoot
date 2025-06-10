@@ -1,149 +1,149 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "实时聊天活动",
+      "NEW_CAMPAIGN": "创建活动",
       "CARD": {
         "STATUS": {
           "ENABLED": "已启用",
           "DISABLED": "已禁用"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_BY": "Sent by",
+          "SENT_BY": "发送者",
           "BOT": "机器人",
           "FROM": "发自",
-          "URL": "URL:"
+          "URL": "网址："
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "暂无实时聊天活动",
+        "SUBTITLE": "通过主动消息与您的客户连接。点击 '创建活动' 开始。"
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "创建实时聊天活动",
         "CANCEL_BUTTON_TEXT": "取消",
         "CREATE_BUTTON_TEXT": "创建",
         "FORM": {
           "TITLE": {
             "LABEL": "标题",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
+            "PLACEHOLDER": "请输入活动标题",
+            "ERROR": "标题是必填项"
           },
           "MESSAGE": {
             "LABEL": "消息",
-            "PLACEHOLDER": "Please enter the message of campaign",
-            "ERROR": "Message is required"
+            "PLACEHOLDER": "请输入活动消息",
+            "ERROR": "消息是必填项"
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "选择收件箱",
+            "PLACEHOLDER": "选择收件箱",
+            "ERROR": "收件箱是必填项"
           },
           "SENT_BY": {
-            "LABEL": "Sent by",
-            "PLACEHOLDER": "Please select sender",
-            "ERROR": "Sender is required"
+            "LABEL": "发送者",
+            "PLACEHOLDER": "请选择发件人",
+            "ERROR": "发件人是必填项"
           },
           "END_POINT": {
-            "LABEL": "URL",
-            "PLACEHOLDER": "Please enter the URL",
-            "ERROR": "请输入一个有效的 URL"
+            "LABEL": "网址",
+            "PLACEHOLDER": "请输入网址",
+            "ERROR": "请输入有效的网址"
           },
           "TIME_ON_PAGE": {
-            "LABEL": "Time on page(Seconds)",
-            "PLACEHOLDER": "Please enter the time",
-            "ERROR": "Time on page is required"
+            "LABEL": "页面停留时间（秒）",
+            "PLACEHOLDER": "请输入时间",
+            "ERROR": "页面停留时间是必填项"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
-            "ENABLED": "Enable campaign",
-            "TRIGGER_ONLY_BUSINESS_HOURS": "Trigger only during business hours"
+            "TITLE": "其他设置",
+            "ENABLED": "启用活动",
+            "TRIGGER_ONLY_BUSINESS_HOURS": "仅在工作时间触发"
           },
           "BUTTONS": {
             "CREATE": "创建",
             "CANCEL": "取消"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "实时聊天活动创建成功",
+            "ERROR_MESSAGE": "发生错误，请重试。"
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "编辑实时聊天活动",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "实时聊天活动更新成功",
+            "ERROR_MESSAGE": "发生错误，请重试。"
           }
         }
       }
     },
     "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "短信活动",
+      "NEW_CAMPAIGN": "创建活动",
       "EMPTY_STATE": {
-        "TITLE": "No SMS campaigns are available",
-        "SUBTITLE": "Launch an SMS campaign to reach your customers directly. Send offers or make announcements with ease. Click 'Create campaign' to get started."
+        "TITLE": "暂无短信活动",
+        "SUBTITLE": "启动短信活动直接与客户沟通。轻松发送优惠或公告。点击 '创建活动' 开始。"
       },
       "CARD": {
         "STATUS": {
-          "COMPLETED": "Completed",
-          "SCHEDULED": "Scheduled"
+          "COMPLETED": "已完成",
+          "SCHEDULED": "已计划"
         },
         "CAMPAIGN_DETAILS": {
-          "SENT_FROM": "Sent from",
-          "ON": "on"
+          "SENT_FROM": "发自",
+          "ON": "于"
         }
       },
       "CREATE": {
-        "TITLE": "Create SMS campaign",
+        "TITLE": "创建短信活动",
         "CANCEL_BUTTON_TEXT": "取消",
         "CREATE_BUTTON_TEXT": "创建",
         "FORM": {
           "TITLE": {
             "LABEL": "标题",
-            "PLACEHOLDER": "Please enter the title of campaign",
-            "ERROR": "Title is required"
+            "PLACEHOLDER": "请输入活动标题",
+            "ERROR": "标题是必填项"
           },
           "MESSAGE": {
             "LABEL": "消息",
-            "PLACEHOLDER": "Please enter the message of campaign",
-            "ERROR": "Message is required"
+            "PLACEHOLDER": "请输入活动消息",
+            "ERROR": "消息是必填项"
           },
           "INBOX": {
-            "LABEL": "Select Inbox",
-            "PLACEHOLDER": "Select Inbox",
-            "ERROR": "Inbox is required"
+            "LABEL": "选择收件箱",
+            "PLACEHOLDER": "选择收件箱",
+            "ERROR": "收件箱是必填项"
           },
           "AUDIENCE": {
-            "LABEL": "Audience",
-            "PLACEHOLDER": "Select the customer labels",
-            "ERROR": "Audience is required"
+            "LABEL": "受众",
+            "PLACEHOLDER": "选择客户标签",
+            "ERROR": "受众是必填项"
           },
           "SCHEDULED_AT": {
-            "LABEL": "Scheduled time",
-            "PLACEHOLDER": "Please select the time",
-            "ERROR": "Scheduled time is required"
+            "LABEL": "计划时间",
+            "PLACEHOLDER": "请选择时间",
+            "ERROR": "计划时间是必填项"
           },
           "BUTTONS": {
             "CREATE": "创建",
             "CANCEL": "取消"
           },
           "API": {
-            "SUCCESS_MESSAGE": "SMS campaign created successfully",
-            "ERROR_MESSAGE": "There was an error. Please try again."
+            "SUCCESS_MESSAGE": "短信活动创建成功",
+            "ERROR_MESSAGE": "发生错误，请重试。"
           }
         }
       }
     },
     "CONFIRM_DELETE": {
-      "TITLE": "Are you sure to delete?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "TITLE": "确定删除吗？",
+      "DESCRIPTION": "删除操作是永久性的，无法恢复。",
       "CONFIRM": "删除",
       "API": {
-        "SUCCESS_MESSAGE": "Campaign deleted successfully",
-        "ERROR_MESSAGE": "There was an error. Please try again."
+        "SUCCESS_MESSAGE": "活动删除成功",
+        "ERROR_MESSAGE": "发生错误，请重试。"
       }
     }
   }

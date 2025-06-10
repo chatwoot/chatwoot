@@ -606,7 +606,7 @@
             "LABEL": "שבלול",
             "PLACEHOLDER": "שבלול קטגוריה עבור כתובות אתרים",
             "ERROR": "נדרש שבלול",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chat.onehash.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "תיאור",
@@ -689,14 +689,15 @@
       "CONFIRM_BUTTON_LABEL": "צור",
       "NAME": {
         "LABEL": "שם",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneHash Chat",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "שם שדה חובה"
       },
       "SLUG": {
         "LABEL": "שבלול",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "נדרש שבלול"
+        "ERROR": "נדרש שבלול",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {

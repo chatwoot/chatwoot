@@ -22,15 +22,15 @@
     "IN_A_DAY": "Svar vanligtvis inom en dag",
     "BACK_IN": "Vi kommer tillbaka online"
   },
-  "DAY_NAMES": [
-    "Söndag",
-    "Måndag",
-    "Tisdag",
-    "Onsdag",
-    "Torsdag",
-    "Fredag",
-    "Lördag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Söndag",
+    "MONDAY": "Måndag",
+    "TUESDAY": "Tisdag",
+    "WEDNESDAY": "Onsdag",
+    "THURSDAY": "Torsdag",
+    "FRIDAY": "Fredag",
+    "SATURDAY": "Lördag"
+  },
   "START_CONVERSATION": "Starta konversation",
   "END_CONVERSATION": "Avsluta konversation",
   "CONTINUE_CONVERSATION": "Fortsätt konversation",
@@ -46,7 +46,7 @@
   "BUBBLE": {
     "LABEL": "Chatta med oss"
   },
-  "POWERED_BY": "Drivs av Chatwoot",
+  "POWERED_BY": "Drivs av OneHash Chat",
   "EMAIL_PLACEHOLDER": "Ange din e-postadress",
   "CHAT_PLACEHOLDER": "Skriv ditt meddelande",
   "TODAY": "Idag",

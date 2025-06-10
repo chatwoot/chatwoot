@@ -151,7 +151,7 @@ const prepareStateBasedOnProps = () => {
 };
 
 const countryOptions = computed(() =>
-  countries.map(({ name }) => ({ label: name, value: name }))
+  countries.map(({ name, id }) => ({ label: name, value: id }))
 );
 
 const editDetailsForm = computed(() =>
@@ -172,28 +172,6 @@ const socialProfilesForm = computed(() =>
     tooltip: toolTips[key],
   }))
 );
-
-const handleEmailUpdateEnrichment = async key => {
-  const email = getFormBinding('EMAIL_ADDRESS').value;
-  const companyName = getFormBinding('COMPANY_NAME').value;
-  const firstName = getFormBinding('FIRST_NAME').value;
-  const lastName = getFormBinding('LAST_NAME').value;
-  const name = `${firstName} ${lastName}`;
-
-  const result = await ContactAPI.enrich({
-    email,
-    name,
-    companyName,
-  });
-
-  const networks = result.data.networks;
-
-  Object.keys(networks).forEach(key => {
-    state.additionalAttributes.socialProfiles[key] = networks[key];
-  });
-
-  emit('update', state);
-};
 
 const isValidationField = key => {
   const field = FORM_CONFIG[key]?.field;
@@ -257,8 +235,8 @@ const getMessageType = key => {
 };
 
 const handleCountrySelection = value => {
-  const selectedCountry = countries.find(option => option.name === value);
-  state.additionalAttributes.countryCode = selectedCountry?.id || '';
+  const selectedCountry = countries.find(option => option.id === value);
+  state.additionalAttributes.country = selectedCountry?.name || '';
   emit('update', state);
 };
 
@@ -294,15 +272,14 @@ defineExpose({
         <template v-for="item in editDetailsForm" :key="item.key">
           <ComboBox
             v-if="item.key === 'COUNTRY'"
-            v-model="state.additionalAttributes.country"
+            v-model="state.additionalAttributes.countryCode"
             :options="countryOptions"
             :placeholder="item.placeholder"
             class="[&>div>button]:h-8"
             :class="{
-              '[&>div>button]:bg-n-alpha-black2 [&>div>button]:!outline-transparent':
+              '[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:!outline-transparent':
                 !isDetailsView,
-              '[&>div>button]:!outline-n-weak [&>div>button]:hover:!outline-n-strong [&>div>button]:!bg-n-alpha-black2':
-                isDetailsView,
+              '[&>div>button]:!bg-n-alpha-black2': isDetailsView,
             }"
             @update:model-value="handleCountrySelection"
           />
@@ -330,7 +307,6 @@ defineExpose({
               isValidationField(item.key) &&
               v$[getValidationKey(item.key)].$touch()
             "
-            @change="handleEmailUpdateEnrichment"
           />
 
           <Input
@@ -339,16 +315,18 @@ defineExpose({
             :placeholder="item.placeholder"
             :message-type="getMessageType(item.key)"
             :custom-input-class="`h-8 !pt-1 !pb-1 ${
-              !isDetailsView ? '[&:not(.error,.focus)]:!border-transparent' : ''
+              !isDetailsView
+                ? '[&:not(.error,.focus)]:!outline-transparent'
+                : ''
             }`"
             class="w-full"
             @input="
               isValidationField(item.key) &&
-              v$[getValidationKey(item.key)].$touch()
+                v$[getValidationKey(item.key)].$touch()
             "
             @blur="
               isValidationField(item.key) &&
-              v$[getValidationKey(item.key)].$touch()
+                v$[getValidationKey(item.key)].$touch()
             "
           />
         </template>
@@ -399,7 +377,7 @@ defineExpose({
             v-model="
               state.additionalAttributes.socialProfiles[item.key.toLowerCase()]
             "
-            class="w-auto min-w-[100px] text-sm bg-transparent reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
+            class="w-auto min-w-[100px] text-sm bg-transparent outline-none reset-base text-n-slate-12 dark:text-n-slate-12 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10"
             :placeholder="item.placeholder"
             :size="item.placeholder.length"
             @input="emit('update', state)"

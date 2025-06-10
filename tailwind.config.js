@@ -55,10 +55,11 @@ const tailwindConfig = {
             },
             overflowWrap: 'anywhere',
 
+            // REVIEW:CV4.0.2 REMOVED IN cv4.0.2
             'br + br': {
               display: 'none',
             },
-
+            
             strong: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '700',

@@ -22,15 +22,15 @@
     "IN_A_DAY": "Zakonisht përgjigjemi brenda një dite",
     "BACK_IN": "Ne do të kthehemi serish online"
   },
-  "DAY_NAMES": [
-    "E diele",
-    "E Hënë",
-    "E Martë",
-    "E Mërkurë",
-    "E Enjte",
-    "E Premte",
-    "E Shtunë"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "E diele",
+    "MONDAY": "E Hënë",
+    "TUESDAY": "E Martë",
+    "WEDNESDAY": "E Mërkurë",
+    "THURSDAY": "E Enjte",
+    "FRIDAY": "E Premte",
+    "SATURDAY": "E Shtunë"
+  },
   "START_CONVERSATION": "Hap Bisedën",
   "END_CONVERSATION": "Mbyll bisedën",
   "CONTINUE_CONVERSATION": "Vazhdo bisedën",
@@ -46,7 +46,7 @@
   "BUBBLE": {
     "LABEL": "Chat with us"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Powered by OneHash Chat",
   "EMAIL_PLACEHOLDER": "Please enter your email",
   "CHAT_PLACEHOLDER": "Shkruani mesazhin tuaj",
   "TODAY": "Sot",
@@ -107,7 +107,7 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": " Connect",
+      "CLICK_HERE_TO_JOIN": "Click here to join",
       "LEAVE_THE_ROOM": "Leave the call"
     }
   },

@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Veldu rás",
-        "BODY": "Veldu þjónustuveituna sem þú vilt samþætta við Chatwoot."
+        "BODY": "Veldu þjónustuveituna sem þú vilt samþætta við OneHash Chat."
       },
       "INBOX": {
         "TITLE": "Nýtt innhólf",
@@ -37,13 +37,23 @@
         "PLACEHOLDER": "Sláðu inn nafn vefsíðu (Dæmi: Acme ehf)"
       },
       "FB": {
-        "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. Chatwoot getur aldrei nálgast einkaskilaboðin þín.",
+        "HELP": "PS: Með því að skrá þig inn fáum við aðeins aðgang að skilaboðum síðunnar þinnar. OneHash Chat getur aldrei nálgast einkaskilaboðin þín.",
         "CHOOSE_PAGE": "Veldu Síðu",
         "CHOOSE_PLACEHOLDER": "Veldu síðu úr listanum",
         "INBOX_NAME": "Nafn Innhólfs",
         "ADD_NAME": "Bættu við nafni á innhólfið",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Veldu gildi"
+        "PICK_A_VALUE": "Veldu gildi",
+        "CREATE_INBOX": "Nýtt innhólf"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Til að bæta Twitter prófílnum þínum við sem rás þarftu að auðkenna Twitter prófílinn þinn með því að smella á 'Skráðu þig inn með Twitter'",
@@ -339,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Veldu rás",
-        "DESC": "Chatwoot styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
+        "DESC": "OneHash Chat styður vefspjall, Facebook Messenger, Twitter prófíla, WhatsApp, tölvupóst osfrv., Sem rásir. Ef þú vilt búa til sérsniðna rás geturðu búið hana til með því að nota API rásina. Til að byrja skaltu velja eina af rásunum hér að neðan."
       },
       "AGENTS": {
         "TITLE": "Þjónustufulltrúar",
@@ -349,11 +359,11 @@
       },
       "DETAILS": {
         "TITLE": "Innhólfs Upplýsingar",
-        "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við Chatwoot. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
+        "DESC": "Í fellilistanum hér að neðan, veldu Facebook síðuna sem þú vilt tengja við OneHash Chat. Þú getur líka gefið innhólfinu sérsniðið nafn til að þekkja það betur."
       },
       "FINISH": {
         "TITLE": "Nailed It!",
-        "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í Chatwoot. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í Chatwoot.<br>Svalt, ha? Jæja, við reynum að vera það :)"
+        "DESC": "Þú hefur lokið við að innleiða Facebook síðuna þína í OneHash Chat. Næst þegar viðskiptavinur sendir skilaboð á síðunni þinni birtist samtalið sjálfkrafa í innhólfinu þínu.<br>Við erum líka að útvega þér netspjalls skriftu sem þú getur auðveldlega bætt við vefsíðuna þína. Þegar þetta er komið á vefsvæðið þitt geta viðskiptavinir sent þér skilaboð beint frá vefsíðunni þinni án hjálpar utanaðkomandi tóla og samtalið mun birtast hér, í OneHash Chat.<br>Svalt, ha? Jæja, við reynum að vera það :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Business Hours",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot stillingar"
+      "BOT_CONFIGURATION": "Bot stillingar",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Stillingar",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Virkja eða slökkva á söfnunarreit tölvupósts í nýju samtali",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "ENABLE_CSAT": "Enable CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Virkja/slökkva á CSAT (ánægju viðskiptavina) könnun eftir að hafa leyst samtal",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Samtöl halda áfram með tölvupósti ef tengiliðanetfangið er tiltækt.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Gestir ættu að gefa upp nafn sitt og netfang áður en spjallið hefst"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Enable CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Skilaboð",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contains",
+          "DOES_NOT_CONTAINS": "does not contain"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,7 +770,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Keyrt af Chatwoot",
+      "BRANDING_TEXT": "Keyrt af OneHash Chat",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -753,7 +788,8 @@
       "EMAIL": "Tölvupóstfang",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel"
+      "API": "API Channel",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

@@ -7,7 +7,7 @@ on:
 
 jobs:
   test:
-    runs-on: ubuntu-20.04
+    runs-on: ubuntu-22.04
 
     steps:
       - uses: actions/checkout@v3
@@ -22,10 +22,11 @@ jobs:
       - uses: pnpm/action-setup@v2
         with:
           version: 9.3.0
+          # REVIEW:CV4.0.2 in cv4.0.2, there's no version lock
 
       - uses: actions/setup-node@v4
         with:
-          node-version: 20
+          node-version: 23
           cache: 'pnpm'
 
       - name: pnpm

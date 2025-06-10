@@ -121,6 +121,7 @@ export default {
         })
         .then(() => {
           useAlert(this.$t('INBOX.ALERTS.MARK_AS_READ'));
+          this.$store.dispatch('notifications/unReadCount'); // to update the unread count in the store real time
         });
     },
     markNotificationAsUnRead(notification) {
@@ -133,6 +134,7 @@ export default {
         })
         .then(() => {
           useAlert(this.$t('INBOX.ALERTS.MARK_AS_UNREAD'));
+          this.$store.dispatch('notifications/unReadCount'); // to update the unread count in the store real time
         });
     },
     deleteNotification(notification) {
@@ -186,12 +188,16 @@ export default {
           notificationType,
         });
 
-        this.$store.dispatch('notifications/read', {
-          id,
-          primaryActorId,
-          primaryActorType,
-          unreadCount: this.meta.unreadCount,
-        });
+        this.$store
+          .dispatch('notifications/read', {
+            id,
+            primaryActorId,
+            primaryActorType,
+            unreadCount: this.meta.unreadCount,
+          })
+          .then(() => {
+            this.$store.dispatch('notifications/unReadCount'); // to update the unread count in the store real time
+          });
 
         this.$router.push({
           name: 'inbox_view_conversation',

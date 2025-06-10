@@ -14,7 +14,6 @@ export const routesWithPermissions = buildPermissionsFromRouter(routes);
 
 export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
-  //const currentAccount = getAccount; // Get the account using the getter with account_id
 
   if (!isLoggedIn) {
     window.location.assign('/app/login');

@@ -12,6 +12,8 @@
     "NO_INBOX_2": " om te beginnen",
     "NO_INBOX_AGENT": "Oh Oh! Het lijkt erop dat u geen deel uitmaakt van een inbox. Neem contact op met uw beheerder",
     "SEARCH_MESSAGES": "Zoek naar berichten in gesprekken",
+    "VIEW_ORIGINAL": "View original",
+    "VIEW_TRANSLATED": "View translated",
     "EMPTY_STATE": {
       "CMD_BAR": "to open command menu",
       "KEYBOARD_SHORTCUTS": "sneltoetsen weergeven"
@@ -30,10 +32,12 @@
     "LOADING_CONVERSATIONS": "Conversaties laden",
     "CANNOT_REPLY": "Je kunt niet reageren omdat",
     "24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "API_HOURS_WINDOW": "You can only reply to this conversation within {hours} hours",
     "NOT_ASSIGNED_TO_YOU": "Dit gesprek is niet aan je toegewezen. Wil je dit gesprek aan jezelf toewijzen?",
     "ASSIGN_TO_ME": "Aan mij toewijzen",
     "TWILIO_WHATSAPP_CAN_REPLY": "Je kunt dit gesprek alleen beantwoorden met een sjabloon bericht vanwege",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Beperking van 24-uur berichtenvenster",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
     "REPLYING_TO": "Je antwoordt op:",
     "REMOVE_SELECTION": "Verwijder selectie",
     "DOWNLOAD": "Download",
@@ -54,6 +58,7 @@
     "SUCCESS_DELETE_MESSAGE": "Bericht succesvol verwijderd",
     "FAIL_DELETE_MESSSAGE": "Kon bericht niet verwijderen! Probeer het opnieuw",
     "NO_RESPONSE": "Geen reactie",
+    "RESPONSE": "Response",
     "RATING_TITLE": "Beoordeling",
     "FEEDBACK_TITLE": "Feedback",
     "REPLY_MESSAGE_NOT_FOUND": "Bericht niet beschikbaar",
@@ -116,6 +121,7 @@
       "PENDING": "Markeren als in afwachting van",
       "RESOLVED": "Markeer als opgelost",
       "MARK_AS_UNREAD": "Markeer als ongelezen",
+      "MARK_AS_READ": "Mark as read",
       "REOPEN": "Heropen gesprek",
       "SNOOZE": {
         "TITLE": "Sluimeren",
@@ -289,9 +295,30 @@
       "CONVERSATION_ACTIONS": "Conversation Actions",
       "CONVERSATION_LABELS": "Labels voor gesprekken",
       "CONVERSATION_INFO": "Conversation Information",
+      "CONTACT_NOTES": "Contact Notes",
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Vorige gesprekken",
-      "MACROS": "Macro's"
+      "MACROS": "Macro's",
+      "SHOPIFY_ORDERS": "Shopify Orders"
+    },
+    "SHOPIFY": {
+      "ORDER_ID": "Order #{id}",
+      "ERROR": "Error loading orders",
+      "NO_SHOPIFY_ORDERS": "No orders found",
+      "FINANCIAL_STATUS": {
+        "PENDING": "Afwachtend",
+        "AUTHORIZED": "Authorized",
+        "PARTIALLY_PAID": "Partially Paid",
+        "PAID": "Paid",
+        "PARTIALLY_REFUNDED": "Partially Refunded",
+        "REFUNDED": "Refunded",
+        "VOIDED": "Voided"
+      },
+      "FULFILLMENT_STATUS": {
+        "FULFILLED": "Fulfilled",
+        "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "UNFULFILLED": "Unfulfilled"
+      }
     }
   },
   "CONVERSATION_CUSTOM_ATTRIBUTES": {
@@ -352,5 +379,11 @@
     "ONE": "{user} is typing",
     "TWO": "{user} and {secondUser} are typing",
     "MULTIPLE": "{user} and {count} others are typing"
+  },
+  "COPILOT": {
+    "TRY_THESE_PROMPTS": "Try these prompts"
+  },
+  "GALLERY_VIEW": {
+    "ERROR_DOWNLOADING": "Unable to download attachment. Please try again"
   }
 }

@@ -2,6 +2,7 @@
 import { computed, onMounted, useTemplateRef, ref } from 'vue';
 import Icon from 'next/icon/Icon.vue';
 import { timeStampAppendedURL } from 'dashboard/helper/URLHelper';
+import { downloadFile } from '@chatwoot/utils';
 
 const { attachment } = defineProps({
   attachment: {
@@ -24,22 +25,29 @@ const isPlaying = ref(false);
 const isMuted = ref(false);
 const currentTime = ref(0);
 const duration = ref(0);
+const playbackSpeed = ref(1);
 
 const onLoadedMetadata = () => {
   duration.value = audioPlayer.value?.duration;
 };
+
+const playbackSpeedLabel = computed(() => {
+  return `${playbackSpeed.value}x`;
+});
 
 // There maybe a chance that the audioPlayer ref is not available
 // When the onLoadMetadata is called, so we need to set the duration
 // value when the component is mounted
 onMounted(() => {
   duration.value = audioPlayer.value?.duration;
+  audioPlayer.value.playbackRate = playbackSpeed.value;
 });
 
 const formatTime = time => {
+  if (!time || Number.isNaN(time)) return '00:00';
   const minutes = Math.floor(time / 60);
   const seconds = Math.floor(time % 60);
-  return `${minutes}:${seconds.toString().padStart(2, '0')}`;
+  return `${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`;
 };
 
 const toggleMute = () => {
@@ -48,7 +56,7 @@ const toggleMute = () => {
 };
 
 const onTimeUpdate = () => {
-  currentTime.value = audioPlayer.value.currentTime;
+  currentTime.value = audioPlayer.value?.currentTime;
 };
 
 const seek = event => {
@@ -70,20 +78,21 @@ const playOrPause = () => {
 const onEnd = () => {
   isPlaying.value = false;
   currentTime.value = 0;
+  playbackSpeed.value = 1;
+  audioPlayer.value.playbackRate = 1;
+};
+
+const changePlaybackSpeed = () => {
+  const speeds = [1, 1.5, 2];
+  const currentIndex = speeds.indexOf(playbackSpeed.value);
+  const nextIndex = (currentIndex + 1) % speeds.length;
+  playbackSpeed.value = speeds[nextIndex];
+  audioPlayer.value.playbackRate = playbackSpeed.value;
 };
 
 const downloadAudio = async () => {
-  const response = await fetch(timeStampURL.value);
-  const blob = await response.blob();
-  const url = window.URL.createObjectURL(blob);
-  const anchor = document.createElement('a');
-  anchor.href = url;
-  const filename = timeStampURL.value.split('/').pop().split('?')[0] || 'audio';
-  anchor.download = filename;
-  document.body.appendChild(anchor);
-  anchor.click();
-  window.URL.revokeObjectURL(url);
-  document.body.removeChild(anchor);
+  const { fileType, dataUrl, extension } = attachment;
+  downloadFile({ url: dataUrl, type: fileType, extension });
 };
 </script>
 
@@ -113,7 +122,7 @@ const downloadAudio = async () => {
     <div class="tabular-nums text-xs">
       {{ formatTime(currentTime) }} / {{ formatTime(duration) }}
     </div>
-    <div class="flex items-center px-2">
+    <div class="flex-1 items-center flex px-2">
       <input
         type="range"
         min="0"
@@ -123,6 +132,14 @@ const downloadAudio = async () => {
         @input="seek"
       />
     </div>
+    <button
+      class="border-0 w-10 h-6 grid place-content-center bg-n-alpha-2 hover:bg-alpha-3 rounded-2xl"
+      @click="changePlaybackSpeed"
+    >
+      <span class="text-xs text-n-slate-11 font-medium">
+        {{ playbackSpeedLabel }}
+      </span>
+    </button>
     <button
       class="p-0 border-0 size-8 grid place-content-center"
       @click="toggleMute"

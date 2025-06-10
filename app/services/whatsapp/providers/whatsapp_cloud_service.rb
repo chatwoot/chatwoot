@@ -1,5 +1,7 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
+    @message = message
+
     if message.attachments.present?
       send_attachment_message(phone_number, message)
     elsif message.content_type == 'input_select'
@@ -147,6 +149,10 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       Rails.logger.error response.body
       response
     end
+  end
+  def error_message(response)
+    # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
+    response.parsed_response&.dig('error', 'message')
   end
 
   def whatsapp_reply_context(message)

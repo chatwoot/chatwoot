@@ -1,6 +1,11 @@
 import { addClasses, removeClasses, toggleClass } from './DOMHelpers';
 import { IFrameHelper } from './IFrameHelper';
 import { isExpandedView } from './settingsHelper';
+import {
+  CHATWOOT_CLOSED,
+  CHATWOOT_OPENED,
+} from '../widget/constants/sdkEvents';
+import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 
 // export const bubbleSVGStandard = 'M45,0A45,45,0,1,0,90,45,45,45,0,0,0,45,0Z';
 export const bubbleSVGStandard = 'M41,0A41,41,0,1,0,82,41,41,41,0,0,0,41,0Z';
@@ -114,25 +119,34 @@ export const createBubbleHolder = hideMessageBubble => {
   }
   addClasses(bubbleHolder, 'woot--bubble-holder');
   bubbleHolder.id = 'cw-bubble-holder';
+  bubbleHolder.dataset.turboPermanent = true;
   body.appendChild(bubbleHolder);
+};
+
+const handleBubbleToggle = newIsOpen => {
+  IFrameHelper.events.onBubbleToggle(newIsOpen);
+
+  if (newIsOpen) {
+    dispatchWindowEvent({ eventName: CHATWOOT_OPENED });
+  } else {
+    dispatchWindowEvent({ eventName: CHATWOOT_CLOSED });
+    chatBubble.focus();
+  }
 };
 
 export const onBubbleClick = (props = {}) => {
   const { toggleValue } = props;
   const { isOpen } = window.$chatwoot;
-  if (isOpen !== toggleValue) {
-    const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
-    window.$chatwoot.isOpen = newIsOpen;
+  if (isOpen === toggleValue) return;
 
-    toggleClass(chatBubble, 'woot--hide');
-    toggleClass(closeBubble, 'woot--hide');
-    toggleClass(widgetHolder, 'woot--hide');
-    IFrameHelper.events.onBubbleToggle(newIsOpen);
+  const newIsOpen = toggleValue === undefined ? !isOpen : toggleValue;
+  window.$chatwoot.isOpen = newIsOpen;
 
-    if (!newIsOpen) {
-      chatBubble.focus();
-    }
-  }
+  toggleClass(chatBubble, 'woot--hide');
+  toggleClass(closeBubble, 'woot--hide');
+  toggleClass(widgetHolder, 'woot--hide');
+
+  handleBubbleToggle(newIsOpen);
 };
 
 export const onClickChatBubble = () => {

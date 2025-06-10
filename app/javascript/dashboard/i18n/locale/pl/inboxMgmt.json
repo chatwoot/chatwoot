@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Wybierz kanał",
-        "BODY": "Wybierz dostawcę, którego chcesz zintegrować z Chatwoot."
+        "BODY": "Wybierz dostawcę, którego chcesz zintegrować z OneHash Chat."
       },
       "INBOX": {
         "TITLE": "Utwórz skrzynkę odbiorczą",
@@ -37,13 +37,23 @@
         "PLACEHOLDER": "Wprowadź nazwę swojej witryny (np. Acme Inc.)."
       },
       "FB": {
-        "HELP": "PS: Logując się, uzyskujemy dostęp tylko do wiadomości na Twojej stronie. Chatwoot nigdy nie będzie miał dostępu do prywatnych wiadomości.",
+        "HELP": "PS: Logując się, uzyskujemy dostęp tylko do wiadomości na Twojej stronie. OneHash Chat nigdy nie będzie miał dostępu do prywatnych wiadomości.",
         "CHOOSE_PAGE": "Wybierz stronę",
         "CHOOSE_PLACEHOLDER": "Wybierz stronę z listy",
         "INBOX_NAME": "Nazwa skrzynki odbiorczej",
         "ADD_NAME": "Dodaj nazwę skrzynki odbiorczej",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Wybierz wartość"
+        "PICK_A_VALUE": "Wybierz wartość",
+        "CREATE_INBOX": "Utwórz skrzynkę odbiorczą"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Aby dodać swój profil na Twitterze jako kanał, musisz uwierzytelnić swój profil Twittera, klikając „Zaloguj się przez Twitter”",
@@ -339,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Wybierz kanał",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "OneHash Chat supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenci",
@@ -353,7 +363,7 @@
       },
       "FINISH": {
         "TITLE": "Twoja skrzynka odbiorcza jest gotowa!",
-        "DESC": "Pomyślnie zakończyłeś integrację strony na Facebooku z czatwootem. Następnym razem, gdy klient komunikuje Twoją stronę, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej.<br>Dostarczamy również skrypt widżetu, który można łatwo dodać do swojej witryny. Gdy tylko będzie on dostępny na Twojej stronie internetowej, klienci mogą wysyłać Ci wiadomości bezpośrednio z Twojej strony bez pomocy żadnego zewnętrznego narzędzia, a konwersacja pojawi się tutaj w Chatwoot.<br>Coś, co? Cóż, na pewno spróbujemy być :)"
+        "DESC": "Pomyślnie zakończyłeś integrację strony na Facebooku z czatwootem. Następnym razem, gdy klient komunikuje Twoją stronę, konwersacja pojawi się automatycznie na twojej skrzynce odbiorczej.<br>Dostarczamy również skrypt widżetu, który można łatwo dodać do swojej witryny. Gdy tylko będzie on dostępny na Twojej stronie internetowej, klienci mogą wysyłać Ci wiadomości bezpośrednio z Twojej strony bez pomocy żadnego zewnętrznego narzędzia, a konwersacja pojawi się tutaj w OneHash Chat.<br>Coś, co? Cóż, na pewno spróbujemy być :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Wybierz dostawcę poczty e-mail",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Formularz czatu wstępnego",
       "BUSINESS_HOURS": "Godziny pracy",
       "WIDGET_BUILDER": "Kreator widżetów",
-      "BOT_CONFIGURATION": "Konfiguracja bota"
+      "BOT_CONFIGURATION": "Konfiguracja bota",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Ustawienia",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Włącz skrzynkę odbiorczą e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Włącz lub wyłącz skrzynkę zbierania wiadomości e-mail w nowej konwersacji",
       "AUTO_ASSIGNMENT": "Włącz automatyczne przypisanie",
-      "ENABLE_CSAT": "Włącz CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Włącz/Wyłącz ankietę CSAT(Customer satisfraction) po rozwiązaniu rozmowy",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Włącz ciągłość rozmowy przez e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Rozmowy będą kontynuowane przez e-mail, jeśli adres e-mail kontaktu jest dostępny.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Odwiedzający powinni podać swoje imię i nazwisko oraz adres e-mail przed rozpoczęciem czatu"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Włącz CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Wiadomość",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "zawiera",
+          "DOES_NOT_CONTAINS": "nie zawiera"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,7 +770,7 @@
         "USER_MESSAGE": "Cześć",
         "AGENT_MESSAGE": "Witam"
       },
-      "BRANDING_TEXT": "Napędzany przez Chatwoot",
+      "BRANDING_TEXT": "Napędzany przez OneHash Chat",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -753,7 +788,8 @@
       "EMAIL": "E-mail",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Kanał API"
+      "API": "Kanał API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

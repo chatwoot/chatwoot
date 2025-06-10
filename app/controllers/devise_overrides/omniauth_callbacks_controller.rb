@@ -117,6 +117,13 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     ).first
   end
 
+  def validate_business_account?
+    # return true if the user is a business account, false if it is a gmail account
+    # REVIEW:CV4.1.0 cv4.1.0 does some validations for gmail: accounts fix: use stricter validation to restrict gmail signups (#11285); what is this
+
+    auth_hash['info']['email'].downcase.exclude?('@gmail.com')
+  end
+
   def create_account_for_user
     @resource, @account = AccountBuilder.new(
       account_name: extract_domain_without_tld(@user_info['email']),

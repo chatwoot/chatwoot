@@ -8,6 +8,7 @@ import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { getWebWidgetScript } from '../../../../../helper/inbox';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
@@ -15,6 +16,7 @@ export default {
     ImapSettings,
     SmtpSettings,
     InputRadioGroup,
+    NextButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -312,12 +314,12 @@ export default {
               )
             "
           />
-          <woot-button
+          <NextButton
             :disabled="v$.whatsAppInboxAPIKey.$invalid"
             @click="updateWhatsAppInboxAPIKey"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </woot-button>
+          </NextButton>
         </div>
       </SettingsSection>
     </div>

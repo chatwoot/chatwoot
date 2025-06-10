@@ -24,6 +24,12 @@ const phoneNumber = computed(() => {
   return attachment.value.fallbackTitle;
 });
 
+const contactName = computed(() => {
+  const { meta } = attachment.value ?? {};
+  const { firstName, lastName } = meta ?? {};
+  return `${firstName ?? ''} ${lastName ?? ''}`.trim();
+});
+
 const formattedPhoneNumber = computed(() => {
   return phoneNumber.value.replace(/\s|-|[A-Za-z]/g, '');
 });
@@ -39,6 +45,7 @@ const name = computed(() => {
 function getContactObject() {
   const contactItem = {
     name: name.value,
+    // name: contactName.value, // 
     phone_number: `+${rawPhoneNumber.value}`,
   };
   return contactItem;
@@ -99,6 +106,7 @@ const action = computed(() => ({
     icon="i-teenyicons-user-circle-solid"
     icon-bg-color="bg-[#D6409F]"
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.CONTACT"
+    :title="contactName"
     :content="phoneNumber"
     :action="formattedPhoneNumber ? action : null"
   />

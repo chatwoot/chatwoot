@@ -606,7 +606,7 @@
             "LABEL": "Slug",
             "PLACEHOLDER": "Slug دسته برای آدرس ها",
             "ERROR": "Slug مورد نیاز است",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
+            "HELP_TEXT": "chat.onehash.ai/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
           },
           "DESCRIPTION": {
             "LABEL": "توضیحات",
@@ -689,14 +689,15 @@
       "CONFIRM_BUTTON_LABEL": "ايجاد كردن",
       "NAME": {
         "LABEL": "نام",
-        "PLACEHOLDER": "User Guide | Chatwoot",
+        "PLACEHOLDER": "User Guide | OneHash Chat",
         "MESSAGE": "Choose an name for your portal.",
         "ERROR": "نام الزامی است"
       },
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug مورد نیاز است"
+        "ERROR": "Slug مورد نیاز است",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {

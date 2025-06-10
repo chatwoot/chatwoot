@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "قعط کردن"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow یک بستر درک زبان طبیعی است که طراحی و ادغام رابط کاربری مکالمه را در برنامه تلفن همراه ، برنامه وب ، دستگاه ، ربات ، سیستم پاسخ صوتی تعاملی و غیره آسان می کند. <br /> <br /> ادغام Dialogflow با {installationName} به شما امکان می دهد ربات Dialogflow را با صندوق ورودی خود پیکربندی کنید که به ربات اجازه می دهد ابتدا درخواست ها را مدیریت کرده و در صورت نیاز به یک ایجنت تحویل دهد. از Dialogflow می توان برای تعیین امتیازات ، کاهش حجم کار ایجنت ها با ارائه سوالات متداول و غیره استفاده کرد. <br /> <br /> برای افزودن Dialogflow ، باید یک حساب سرویس در کنسول پروژه Google خود ایجاد کرده و اعتبارنامه ها را به اشتراک بگذارید. لطفاً برای اطلاعات بیشتر به اسناد Dialogflow مراجعه کنید."
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

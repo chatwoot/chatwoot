@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "ir kopīgojis URL"
+      },
+      "contact": {
+        "CONTENT": "Koplietota kontaktpersona"
       }
     },
     "CHAT_SORT_BY_FILTER": {

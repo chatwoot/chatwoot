@@ -1,9 +1,9 @@
 {
   "LOGIN": {
-    "TITLE": "Entra a Chatwoot",
+    "TITLE": "Entra a OneHash Chat",
     "EMAIL": {
       "LABEL": "Correu electrònic",
-      "PLACEHOLDER": "exemple{'@'}nomdelacompanyia.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Introduïu una adreça de correu electrònic vàlida"
     },
     "PASSWORD": {
@@ -19,10 +19,6 @@
       "GOOGLE_LOGIN": "Inicieu sessió amb Google",
       "BUSINESS_ACCOUNTS_ONLY": "Si us plau, utilitzeu l'adreça de correu electrònic de la vostra empresa per iniciar sessió",
       "NO_ACCOUNT_FOUND": "No hem trobat cap compte per a la vostra adreça de correu electrònic."
-    },
-    "OIDC":{
-      "OIDC_LOGIN": "Login with OIDC",
-      "NO_ACCOUNT_FOUND": "We couldn't find an account for your email address."
     },
     "FORGOT_PASSWORD": "Has oblidat la contrasenya?",
     "CREATE_NEW_ACCOUNT": "Crear un nou compte",

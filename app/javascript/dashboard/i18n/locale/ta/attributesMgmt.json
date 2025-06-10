@@ -92,7 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": ["பெயர்", "Description", "Type", "Key"],
+      "TABLE_HEADER": {
+        "NAME": "பெயர்",
+        "DESCRIPTION": "Description",
+        "TYPE": "Type",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "திருத்து",
         "DELETE": "Delete"

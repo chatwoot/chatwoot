@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Välj kanal",
-        "BODY": "Välj den leverantör du vill integrera med Chatwoot."
+        "BODY": "Välj den leverantör du vill integrera med OneHash Chat."
       },
       "INBOX": {
         "TITLE": "Skapa inkorg",
@@ -37,13 +37,23 @@
         "PLACEHOLDER": "Ange namnet på din webbplats (t.ex. Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av Chatwoot.",
+        "HELP": "PS: Genom att logga in får vi bara tillgång till din sidas meddelanden. Dina privata meddelanden kan aldrig nås av OneHash Chat.",
         "CHOOSE_PAGE": "Välj sida",
         "CHOOSE_PLACEHOLDER": "Välj en sida från listan",
         "INBOX_NAME": "Inkorgsnamn",
         "ADD_NAME": "Lägg till ett namn för din inkorg",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Välj ett värde"
+        "PICK_A_VALUE": "Välj ett värde",
+        "CREATE_INBOX": "Skapa inkorg"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "För att lägga till din Twitter-profil som en kanal måste du autentisera din Twitter-profil genom att klicka på \"Logga in med Twitter\" ",
@@ -339,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Välj en kanal",
-        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
+        "DESC": "OneHash Chat supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agenter",
@@ -349,11 +359,11 @@
       },
       "DETAILS": {
         "TITLE": "Inkorgsdetaljer",
-        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till Chatwoot. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
+        "DESC": "Från rullgardinsmenyn nedan, välj den Facebook-sida du vill ansluta till OneHash Chat. Du kan också ge ett anpassat namn till din inkorg för bättre identifiering."
       },
       "FINISH": {
         "TITLE": "Där satt den!",
-        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med Chatwoot. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på Chatwoot.<br>Cool, va? Tja, vi försöker säkert att vara :)"
+        "DESC": "Du har framgångsrikt integrerat din Facebook-sida med OneHash Chat. Nästa gång en kund meddelar din sida kommer konversationen automatiskt att visas på din inkorg.<br>Vi ger dig också en widget skript som du enkelt kan lägga till din webbplats. När detta är live på din webbplats, kunder kan meddela dig direkt från din webbplats utan hjälp av något externt verktyg och konversationen kommer att visas här på OneHash Chat.<br>Cool, va? Tja, vi försöker säkert att vara :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Select your email provider",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Förchattformulär",
       "BUSINESS_HOURS": "Öppettider",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Inställningar",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Aktivera insamlingsbox för e-post",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Aktivera eller inaktivera insamlingsbox för e-post på ny konversation",
       "AUTO_ASSIGNMENT": "Aktivera automatisk tilldelning",
-      "ENABLE_CSAT": "Aktivera CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Aktivera/inaktivera CSAT(kundnöjdhet) undersökning efter att ha löst ett samtal",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Besökare bör uppge sitt namn och sin e-postadress innan de startar chatten"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Aktivera CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Meddelande",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contains",
+          "DOES_NOT_CONTAINS": "does not contain"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,7 +770,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Hello"
       },
-      "BRANDING_TEXT": "Drivs av Chatwoot",
+      "BRANDING_TEXT": "Drivs av OneHash Chat",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -753,7 +788,8 @@
       "EMAIL": "E-post",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API-kanal"
+      "API": "API-kanal",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

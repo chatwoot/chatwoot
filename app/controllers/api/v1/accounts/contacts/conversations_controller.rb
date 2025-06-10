@@ -1,17 +1,21 @@
 class Api::V1::Accounts::Contacts::ConversationsController < Api::V1::Accounts::Contacts::BaseController
   def index
-    @conversations = Current.account.conversations.includes(
+    # Start with all conversations for this contact
+    conversations = Current.account.conversations.includes(
       :assignee, :contact, :inbox, :taggings
-    ).where(inbox_id: inbox_ids, contact_id: @contact.id).order(id: :desc).limit(20)
-  end
+    ).where(contact_id: @contact.id)
 
-  private
+    # Apply permission-based filtering using the existing service
+    conversations = Conversations::PermissionFilterService.new(
+      conversations,
+      Current.user,
+      Current.account
+    ).perform
 
-  def inbox_ids
-    if Current.user.administrator? || Current.user.agent?
-      Current.user.assigned_inboxes.pluck(:id)
-    else
-      []
-    end
+    # Only allow conversations from inboxes the user has access to
+    inbox_ids = Current.user.assigned_inboxes.pluck(:id)
+    conversations = conversations.where(inbox_id: inbox_ids)
+
+    @conversations = conversations.order(last_activity_at: :desc).limit(20)
   end
 end

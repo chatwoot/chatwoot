@@ -22,15 +22,15 @@
     "IN_A_DAY": "Obvykle odpoví za den",
     "BACK_IN": "Budem online zase"
   },
-  "DAY_NAMES": [
-    "Neděle",
-    "Pondělí",
-    "Úterý",
-    "Středa",
-    "Čtvrtek",
-    "Pátek",
-    "Sobota"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Neděle",
+    "MONDAY": "Pondělí",
+    "TUESDAY": "Úterý",
+    "WEDNESDAY": "Středa",
+    "THURSDAY": "Čtvrtek",
+    "FRIDAY": "Pátek",
+    "SATURDAY": "Sobota"
+  },
   "START_CONVERSATION": "Zahájit konverzaci",
   "END_CONVERSATION": "Ukončit konverzaci",
   "CONTINUE_CONVERSATION": "Pokračovat v konverzaci",
@@ -46,7 +46,7 @@
   "BUBBLE": {
     "LABEL": "Napiště nám"
   },
-  "POWERED_BY": "Powered by Chatwoot",
+  "POWERED_BY": "Powered by OneHash Chat",
   "EMAIL_PLACEHOLDER": "Prosím, zadejte svůj e-mail",
   "CHAT_PLACEHOLDER": "Zde začněte psát",
   "TODAY": "Dnes",

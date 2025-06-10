@@ -19,6 +19,7 @@ const {
   isAWebWidgetInbox,
   isAWhatsAppChannel,
   isAnEmailChannel,
+  isAnInstagramChannel,
 } = useInbox();
 
 const {
@@ -44,6 +45,11 @@ const callStartTime = computed(() =>
 
 const showStatusIndicator = computed(() => {
   if (isPrivate.value) return false;
+  // Don't show status for failed messages, we already show error message
+  if (status.value === MESSAGE_STATUS.FAILED) return false;
+  // Don't show status for deleted messages
+  if (contentAttributes.value?.deleted) return false;
+
   if (messageType.value === MESSAGE_TYPES.OUTGOING) return true;
   if (messageType.value === MESSAGE_TYPES.TEMPLATE) return true;
 
@@ -61,7 +67,8 @@ const isSent = computed(() => {
     isATwilioChannel.value ||
     isAFacebookInbox.value ||
     isASmsInbox.value ||
-    isATelegramChannel.value
+    isATelegramChannel.value ||
+    isAnInstagramChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.SENT;
   }
@@ -100,7 +107,8 @@ const isRead = computed(() => {
   if (
     isAWhatsAppChannel.value ||
     isATwilioChannel.value ||
-    isAFacebookInbox.value
+    isAFacebookInbox.value ||
+    isAnInstagramChannel.value
   ) {
     return sourceId.value && status.value === MESSAGE_STATUS.READ;
   }

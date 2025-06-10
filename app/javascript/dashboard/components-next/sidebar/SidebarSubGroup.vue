@@ -9,7 +9,6 @@ import { useEventListener } from '@vueuse/core';
 
 const props = defineProps({
   isExpanded: { type: Boolean, default: false },
-
   label: { type: String, required: true },
   icon: { type: [Object, String], required: true },
   children: { type: Array, default: undefined },
@@ -19,8 +18,13 @@ const props = defineProps({
 const { isAllowed } = useSidebarContext();
 const scrollableContainer = ref(null);
 
-const accessibleItems = computed(() =>
-  props.children.filter(child => isAllowed(child.to))
+const accessibleItems = computed(
+  () => props.children.filter(child => isAllowed(child.to))
+
+  // REVIEW:CV4.0.2 Below code isn't in our version, why?
+  // props.children.filter(child => {
+  //   return child.to && isAllowed(child.to);
+  // })
 );
 
 const hasAccessibleItems = computed(() => {
@@ -29,6 +33,7 @@ const hasAccessibleItems = computed(() => {
     return true;
   }
 
+  // REVIEW:CV4.0.2 Below code isn't in our version, why?
   return accessibleItems.value.length > 0;
 });
 
@@ -43,7 +48,6 @@ useEventListener(scrollableContainer, 'scroll', () => {
   const { scrollHeight, scrollTop, clientHeight } = scrollableContainer.value;
   scrollEnd.value = scrollHeight - scrollTop === clientHeight;
 });
-
 </script>
 
 <template>
@@ -56,6 +60,8 @@ useEventListener(scrollableContainer, 'scroll', () => {
   />
 
   <ul class="m-0 list-none reset-base relative group">
+    <!-- REVIEW:CV4.0.2 Below code isn't in our version, why? -->
+    <!-- <ul v-if="children.length" class="m-0 list-none reset-base relative group"> -->
     <!-- Each element has h-8, which is 32px, we will show 7 items with one hidden at the end,
     which is 14rem. Then we add 16px so that we have some text visible from the next item  -->
     <div
@@ -65,6 +71,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
       }"
     >
       <template v-if="children.length">
+        <!-- REVIEW:CV4.0.2 this condition is only in our version, why? -->
         <SidebarGroupLeaf
           v-for="child in children"
           v-show="isExpanded || activeChild?.name === child.name"
@@ -73,6 +80,7 @@ useEventListener(scrollableContainer, 'scroll', () => {
           :active="activeChild?.name === child.name"
         />
       </template>
+      <!-- REVIEW:CV4.0.2 this leaf is only in our version, why? -->
       <SidebarGroupEmptyLeaf v-else v-show="isExpanded" class="ml-3 rtl:mr-3" />
     </div>
     <div

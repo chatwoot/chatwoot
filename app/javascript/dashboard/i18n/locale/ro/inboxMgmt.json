@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Alege canalul",
-        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu Chatwoot."
+        "BODY": "Alegeți serviciul pe care doriți să-l integrați cu OneHash Chat."
       },
       "INBOX": {
         "TITLE": "Crează căsuța",
@@ -37,13 +37,23 @@
         "PLACEHOLDER": "Introduceți numele website-ului dvs. (de exemplu: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de Chatwoot.",
+        "HELP": "PS: Prin conectare, vom avea acces doar la mesajele paginii tale. Mesajele tale private nu pot fi accesate niciodată de OneHash Chat.",
         "CHOOSE_PAGE": "Alege pagina",
         "CHOOSE_PLACEHOLDER": "Selectaţi o pagină din listă",
         "INBOX_NAME": "Nume Inbox",
         "ADD_NAME": "Adaugă un nume pentru inbox-ul tău",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Alege o valoare"
+        "PICK_A_VALUE": "Alege o valoare",
+        "CREATE_INBOX": "Crează căsuța"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Pentru a vă adăuga profilul de Twitter ca si canal, trebuie să vă autentificați profilul de Twitter făcând clic pe \"Conectați-vă cu Twitter\" ",
@@ -339,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Alege un canal",
-        "DESC": "Chatwoot acceptă widget-uri live-chat, Facebook Messenger, profiluri Twitter, WhatsApp, e-mailuri etc., ca canale. Dacă doriți să construiți un canal personalizat, îl puteți crea folosind canalul API. Pentru a începe, alegeți unul dintre canalele de mai jos."
+        "DESC": "OneHash Chat acceptă widget-uri live-chat, Facebook Messenger, profiluri Twitter, WhatsApp, e-mailuri etc., ca canale. Dacă doriți să construiți un canal personalizat, îl puteți crea folosind canalul API. Pentru a începe, alegeți unul dintre canalele de mai jos."
       },
       "AGENTS": {
         "TITLE": "Agenți",
@@ -349,11 +359,11 @@
       },
       "DETAILS": {
         "TITLE": "Detalii inbox",
-        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la Chatwoot. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
+        "DESC": "Din meniul derulant de mai jos, selectați pagina Facebook pe care doriți să vă conectați la OneHash Chat. Poți de asemenea să dai un nume personalizat inbox-ului pentru o mai bună identificare."
       },
       "FINISH": {
         "TITLE": "Corect!",
-        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu Chatwoot. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe Chatwoot.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
+        "DESC": "Ai reușit să integrezi pagina ta de Facebook cu OneHash Chat. Data viitoare când un client trimite un mesaj paginii tale, conversația va apărea automat pe căsuța ta poștală.<br>Vă oferim și un script de widget pe care îl puteți adăuga cu ușurință la site-ul dvs. Odată ce aceasta este în direct pe site-ul tău, clienții vă pot trimite mesaje direct de pe site-ul dvs fără ajutorul niciunui instrument extern și conversația va apărea aici, pe OneHash Chat.<br>Cool, nu? Păi, sigur că încercăm să fim :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Selectați furnizorul de e-mail",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Formular pre chat",
       "BUSINESS_HOURS": "Program de lucru",
       "WIDGET_BUILDER": "Widget Builder",
-      "BOT_CONFIGURATION": "Configurarea botului"
+      "BOT_CONFIGURATION": "Configurarea botului",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Setări",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Caseta Activare colectare e-mail",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Caseta Activarea sau dezactivarea colectării e-mailurilor în conversația nouă",
       "AUTO_ASSIGNMENT": "Activare atribuire automată",
-      "ENABLE_CSAT": "Activați CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Activați/dezactivați sondajul CSAT (Satisfacția clienților) după rezolvarea unei conversații",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activați continuitatea conversației prin e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversațiile vor continua prin e-mail dacă adresa de e-mail de contact este disponibilă.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Vizitatorii ar trebui să furnizeze numele și adresa lor de e-mail înainte de a începe chat-ul"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Activați CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "conține",
+          "DOES_NOT_CONTAINS": "nu conține"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -735,7 +770,7 @@
         "USER_MESSAGE": "Salut",
         "AGENT_MESSAGE": "Bună"
       },
-      "BRANDING_TEXT": "Oferit de Chatwoot",
+      "BRANDING_TEXT": "Oferit de OneHash Chat",
       "SCRIPT_SETTINGS": "\nwindow.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
@@ -753,7 +788,8 @@
       "EMAIL": "E-mail",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canal API"
+      "API": "Canal API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

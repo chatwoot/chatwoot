@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "ഒരു യു. ആർ. എൽ പങ്കിട്ടു"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

@@ -1,13 +1,13 @@
 class Captain::Tools::FirecrawlService
   def initialize
     @api_key = InstallationConfig.find_by!(name: 'CAPTAIN_FIRECRAWL_API_KEY').value
-    raise 'Missing API key' if @api_key.nil?
+    raise 'Missing API key' if @api_key.empty?
   end
 
-  def perform(url, webhook_url = '')
+  def perform(url, webhook_url, crawl_limit = 10)
     HTTParty.post(
       'https://api.firecrawl.dev/v1/crawl',
-      body: crawl_payload(url, webhook_url),
+      body: crawl_payload(url, webhook_url, crawl_limit),
       headers: headers
     )
   rescue StandardError => e
@@ -16,12 +16,12 @@ class Captain::Tools::FirecrawlService
 
   private
 
-  def crawl_payload(url, webhook_url)
+  def crawl_payload(url, webhook_url, crawl_limit)
     {
       url: url,
       maxDepth: 50,
       ignoreSitemap: false,
-      limit: 10,
+      limit: crawl_limit,
       webhook: webhook_url,
       scrapeOptions: {
         onlyMainContent: false,

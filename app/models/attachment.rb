@@ -117,7 +117,8 @@ class Attachment < ApplicationRecord
 
   def contact_metadata
     {
-      fallback_title: fallback_title
+      fallback_title: fallback_title,
+      meta: meta || {}
     }
   end
 

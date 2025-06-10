@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Llm::ConversationFaqService do
   let(:captain_assistant) { create(:captain_assistant) }
-  let(:conversation) { create(:conversation) }
+  let(:conversation) { create(:conversation, first_reply_created_at: Time.zone.now) }
   let(:service) { described_class.new(captain_assistant, conversation) }
   let(:client) { instance_double(OpenAI::Client) }
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
@@ -54,6 +54,14 @@ RSpec.describe Captain::Llm::ConversationFaqService do
           ['What is the purpose?', 'To help users.', 'pending', conversation.id],
           ['How does it work?', 'Through AI.', 'pending', conversation.id]
         )
+      end
+    end
+
+    context 'without human interaction' do
+      let(:conversation) { create(:conversation) }
+
+      it 'returns an empty array without generating FAQs' do
+        expect(service.generate_and_deduplicate).to eq([])
       end
     end
 
@@ -136,6 +144,26 @@ RSpec.describe Captain::Llm::ConversationFaqService do
         { role: 'system', content: 'system prompt' },
         { role: 'user', content: conversation.to_llm_text }
       )
+    end
+
+    context 'when conversation has different language' do
+      let(:account) { create(:account, locale: 'fr') }
+      let(:conversation) do
+        create(:conversation, account: account,
+                              first_reply_created_at: Time.zone.now)
+      end
+
+      it 'includes system prompt with correct language' do
+        allow(Captain::Llm::SystemPromptsService).to receive(:conversation_faq_generator)
+          .with('french')
+          .and_return('system prompt in french')
+
+        params = service.send(:chat_parameters)
+
+        expect(params[:messages]).to include(
+          { role: 'system', content: 'system prompt in french' }
+        )
+      end
     end
   end
 end

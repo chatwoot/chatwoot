@@ -13,6 +13,7 @@
 #  locale                :integer          default("en")
 #  ltd_attributes        :jsonb
 #  name                  :string           not null
+#  settings              :jsonb
 #  status                :integer          default("active")
 #  support_email         :string(100)
 #  created_at            :datetime         not null
@@ -30,6 +31,18 @@ class Account < ApplicationRecord
   include Featurable
   include CacheKeys
 
+  SETTINGS_PARAMS_SCHEMA = {
+    'type': 'object',
+    'properties':
+      {
+        'auto_resolve_after': { 'type': %w[integer null], 'minimum': 10, 'maximum': 1_439_856 },
+        'auto_resolve_message': { 'type': %w[string null] },
+        'auto_resolve_ignore_waiting': { 'type': %w[boolean null] }
+      },
+    'required': [],
+    'additionalProperties': true
+  }.to_json.freeze
+
   DEFAULT_QUERY_SETTING = {
     flag_query_mode: :bit_operator,
     check_for_column: false
@@ -38,6 +51,11 @@ class Account < ApplicationRecord
   validates :name, presence: true
   validates :auto_resolve_duration, numericality: { greater_than_or_equal_to: 1, less_than_or_equal_to: 999, allow_nil: true }
   validates :domain, length: { maximum: 100 }
+  validates_with JsonSchemaValidator,
+                 schema: SETTINGS_PARAMS_SCHEMA,
+                 attribute_resolver: ->(record) { record.settings }
+
+  store_accessor :settings, :auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting
 
   has_many :account_users, dependent: :destroy_async
   has_many :agent_bot_inboxes, dependent: :destroy_async
@@ -58,6 +76,7 @@ class Account < ApplicationRecord
   has_many :data_imports, dependent: :destroy_async
   has_many :email_channels, dependent: :destroy_async, class_name: '::Channel::Email'
   has_many :facebook_pages, dependent: :destroy_async, class_name: '::Channel::FacebookPage'
+  has_many :instagram_channels, dependent: :destroy_async, class_name: '::Channel::Instagram'
   has_many :hooks, dependent: :destroy_async, class_name: 'Integrations::Hook'
   has_many :inboxes, dependent: :destroy_async
   has_many :labels, dependent: :destroy_async
@@ -86,6 +105,8 @@ class Account < ApplicationRecord
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h
   enum status: { active: 0, suspended: 1 }
+
+  scope :with_auto_resolve, -> { where("(settings ->> 'auto_resolve_after')::int IS NOT NULL") }
 
   before_validation :validate_limit_keys
   after_create_commit :notify_creation
@@ -135,6 +156,14 @@ class Account < ApplicationRecord
     update_columns(limits: limit)
   end
 
+  def locale_english_name
+    # the locale can also be something like pt_BR, en_US, fr_FR, etc.
+    # the format is `<locale_code>_<country_code>`
+    # we need to extract the language code from the locale
+    account_locale = locale&.split('_')&.first
+    ISO_639.find(account_locale)&.english_name&.downcase || 'english'
+  end
+
   private
 
   def notify_creation
@@ -182,5 +211,6 @@ class Account < ApplicationRecord
 end
 
 Account.prepend_mod_with('Account')
+Account.prepend_mod_with('Account::PlanUsageAndLimits')
 Account.include_mod_with('Concerns::Account')
 Account.include_mod_with('Audit::Account')

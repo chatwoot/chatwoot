@@ -119,11 +119,13 @@
       "EMPTY_LIST": "Nav atrasts"
     },
     "PAGINATION": {
-      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem"
+      "RESULTS": "Rāda {start} līdz {end} no {total} rezultātiem",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Aģentu Pārskats",
+    "DESCRIPTION": "Ērti izsekojiet aģenta darbībai, izmantojot galvenos rādītājus, piemēram, sarunas, atbildes laikus, atrisināšanas laikus un atrisinātos gadījumus. Noklikšķiniet uz aģenta vārda, lai uzzinātu vairāk.",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_AGENT_REPORTS": "Lejupielādēt aģentu pārskatus",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Iesūtnes Pārskats",
+    "DESCRIPTION": "Ātri apskatiet iesūtnes veiktspēju, izmantojot galvenos rādītājus, piemēram, sarunas, atbildes laikus, atrisināšanas laikus un atrisinātos gadījumus. Lai iegūtu plašāku informāciju, noklikšķiniet uz iesūtnes nosaukuma.",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_INBOX_REPORTS": "Lejupielādēt iesūtnes pārskatus",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Komandas Pārskats",
+    "DESCRIPTION": "Iegūstiet pārskatu par savas komandas veiktspēju, izmantojot būtiskus rādītājus, tostarp sarunas, atbildes laikus, atrisināšanas laikus un atrisinātos gadījumus. Lai iegūtu sīkāku informāciju, noklikšķiniet uz komandas nosaukuma.",
     "LOADING_CHART": "Notiek diagrammas datu ielāde...",
     "NO_ENOUGH_DATA": "Mēs neesam saņēmuši pietiekami daudz datu punktu, lai izveidotu pārskatu. Lūdzu, vēlāk mēģiniet vēlreiz.",
     "DOWNLOAD_TEAM_REPORTS": "Lejupielādēt komandas pārskatus",
@@ -473,6 +477,18 @@
         "STATUS": "Statuss"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Visas Komandas",
+      "HEADER": "Komandu sarunas",
+      "LOADING_MESSAGE": "Notiek komandu metrikas ielāde...",
+      "NO_TEAMS": "Dati nav pieejami",
+      "TABLE_HEADER": {
+        "TEAM": "Komanda",
+        "OPEN": "Atvērt",
+        "UNATTENDED": "Bez uzraudzības",
+        "STATUS": "Statuss"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Aģenta statuss",
       "ONLINE": "Tiešsaistē",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "Skatīt Detaļas"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Iesūtne",
+    "AGENT": "Aģents",
+    "TEAM": "Komanda",
+    "AVG_RESOLUTION_TIME": "Vid. Atrisināšanas Laiks",
+    "AVG_FIRST_RESPONSE_TIME": "Vid. Pirmās Atbildes Laiks",
+    "AVG_REPLY_TIME": "Vid. Klientu Gaidīšanas Laiks",
+    "RESOLUTION_COUNT": "Atrisināšanas Skaits",
+    "CONVERSATIONS": "Sarunu skaits"
   }
 }

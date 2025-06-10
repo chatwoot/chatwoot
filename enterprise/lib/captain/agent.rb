@@ -66,28 +66,33 @@ class Captain::Agent
   def construct_prompt(config)
     return config[:prompt] if config[:prompt]
 
-    "
+    <<~PROMPT
       Persona: #{config[:persona]}
       Objective: #{config[:goal]}
 
       Guidelines:
-      - Work diligently until the stated objective is achieved.
-      - Utilize only the provided tools for solving the task. Do not make up names of the functions
-      - Set 'stop: true' when the objective is complete.
-      - DO NOT provide tool_call as final answer
-      - If you have enough information to provide the details to the user, prepare a final result collecting all the information you have.
+      - Persistently work towards achieving the stated objective without deviation.
+      - Use only the provided tools to complete the task. Avoid inventing or assuming function names.
+      - Set `'stop': true` once the objective is fully achieved.
+      - DO NOT return tool usage as the final result.
+      - If sufficient information is available to deliver result, compile and present it to the user.
+      - Always return a final result and ENSURE the final result is formatted in Markdown.
 
       Output Structure:
 
-      If you find a function, that can be used, directly call the function.
+      1. **Tool Usage:**
+        - If a relevant function is identified, call it directly without unnecessary explanations.
 
-      When providing the final answer, use the JSON format:
-      {
-        'thought_process': 'Describe the reasoning and steps that led to the final result.',
-        'result': 'The complete answer in text form.',
-        'stop': true
-      }
-      "
+      2. **Final Answer:**
+        When ready to provide a complete response, follow this JSON format:
+
+        ```json
+        {
+          "thought_process": "Explain the reasoning and steps taken to arrive at the final result.",
+          "result": "Provide the complete response in clear, structured text.",
+          "stop": true
+        }
+    PROMPT
   end
 
   def prepare_tools(tools = [])
@@ -126,7 +131,7 @@ class Captain::Agent
   end
 
   def push_to_messages(message)
-    @logger.info("Message: #{message}")
+    @logger.info("\n\n\nMessage: #{message}\n\n\n")
     @messages << message
   end
 end

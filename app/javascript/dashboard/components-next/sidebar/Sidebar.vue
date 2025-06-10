@@ -77,6 +77,41 @@ const sortedInboxes = computed(() =>
   inboxes.value.slice().sort((a, b) => a.name.localeCompare(b.name))
 );
 
+const newReportRoutes = () => [
+  {
+    name: 'Reports Agent',
+    label: t('SIDEBAR.REPORTS_AGENT'),
+    to: accountScopedRoute('agent_reports_index'),
+    activeOn: ['agent_reports_show'],
+  },
+  {
+    name: 'Reports Label',
+    label: t('SIDEBAR.REPORTS_LABEL'),
+    to: accountScopedRoute('label_reports'),
+  },
+  {
+    name: 'Reports Inbox',
+    label: t('SIDEBAR.REPORTS_INBOX'),
+    to: accountScopedRoute('inbox_reports_index'),
+    activeOn: ['inbox_reports_show'],
+  },
+  {
+    name: 'Reports Team',
+    label: t('SIDEBAR.REPORTS_TEAM'),
+    to: accountScopedRoute('team_reports_index'),
+    activeOn: ['team_reports_show'],
+  },
+  {
+    name: 'Campaign Reports',
+    label: t('SIDEBAR.CAMPAIGN'),
+    to: accountScopedRoute('campaign_reports'),
+    // REVIEW:CV4.1.0 activeOn property missing, fix it
+  },
+];
+
+// REVIEW:CV4.1.0 cv4.1.0 shows only new reports routes, might need to migrate campaign reports to that
+const reportRoutes = computed(() => newReportRoutes());
+
 const menuItems = computed(() => {
   return [
     {
@@ -85,6 +120,9 @@ const menuItems = computed(() => {
       icon: 'i-lucide-inbox',
       to: accountScopedRoute('inbox_view'),
       activeOn: ['inbox_view', 'inbox_view_conversation'],
+      getterKeys: {
+        badge: 'notifications/getHasUnreadNotifications',
+      },
     },
     {
       name: 'Conversation',
@@ -261,35 +299,11 @@ const menuItems = computed(() => {
           label: t('SIDEBAR.REPORTS_CONVERSATION'),
           to: accountScopedRoute('conversation_reports'),
         },
+        ...reportRoutes.value,
         {
           name: 'Reports CSAT',
           label: t('SIDEBAR.CSAT'),
           to: accountScopedRoute('csat_reports'),
-        },
-        {
-          name: 'Campaign Reports',
-          label: t('SIDEBAR.CAMPAIGN'),
-          to: accountScopedRoute('campaign_reports'),
-        },
-        {
-          name: 'Reports Agent',
-          label: t('SIDEBAR.REPORTS_AGENT'),
-          to: accountScopedRoute('agent_reports'),
-        },
-        {
-          name: 'Reports Label',
-          label: t('SIDEBAR.REPORTS_LABEL'),
-          to: accountScopedRoute('label_reports'),
-        },
-        {
-          name: 'Reports Inbox',
-          label: t('SIDEBAR.REPORTS_INBOX'),
-          to: accountScopedRoute('inbox_reports'),
-        },
-        {
-          name: 'Reports Team',
-          label: t('SIDEBAR.REPORTS_TEAM'),
-          to: accountScopedRoute('team_reports'),
         },
         {
           name: 'Reports SLA',
@@ -455,6 +469,7 @@ const menuItems = computed(() => {
           icon: 'i-lucide-briefcase',
           to: accountScopedRoute('auditlogs_list'),
         },
+        // REVIEW:CV4.0.2 is commenting intentional? cv4.0.2 has this uncommented
         // {
         //   name: 'Settings Custom Roles',
         //   label: t('SIDEBAR.CUSTOM_ROLES'),
@@ -481,12 +496,12 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
+    class="w-[12.5rem] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
         <div class="grid flex-shrink-0 size-6 place-content-center">
-          <Logo />
+          <Logo class="size-4" />
         </div>
         <div class="flex-shrink-0 w-px h-3 bg-n-strong" />
         <SidebarAccountSwitcher

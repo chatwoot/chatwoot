@@ -35,4 +35,7 @@ export const getters = {
   getNotificationFilters($state) {
     return $state.notificationFilters;
   },
+  getHasUnreadNotifications: $state => {
+    return $state.meta.unreadCount > 0;
+  },
 };

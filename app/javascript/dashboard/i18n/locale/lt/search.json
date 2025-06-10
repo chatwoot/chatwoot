@@ -11,7 +11,10 @@
       "CONVERSATIONS": "Pokalbiai",
       "MESSAGES": "Pranešimai"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Ieškoma",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Nerasta {item} pagal užklausą '{query}'",
     "EMPTY_STATE_FULL": "Nerasta rezultatų pagal užklausą '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ sutelkti dėmesį",
@@ -21,6 +24,7 @@
     "READ_MORE": "Skaityti daugiau",
     "WROTE": "parašei:",
     "FROM": "nuo",
-    "EMAIL": "el. paštas"
+    "EMAIL": "el. paštas",
+    "EMAIL_SUBJECT": "tema"
   }
 }

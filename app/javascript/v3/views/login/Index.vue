@@ -1,16 +1,20 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-// import SubmitButton from '../../components/Button/SubmitButton.vue';
-// import { mapGetters } from 'vuex';
+// utils and composables
+import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
-// import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
-// import FormInput from '../../components/Form/Input.vue';
+import { useAlert } from 'dashboard/composables';
+import { required, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
 import { login, keycloakRedirectUrl } from '../../api/auth';
-// import Spinner from 'shared/components/Spinner.vue';
-// import RedirectLoader from 'shared/components/RedirectLoader.vue';
+
+// mixins
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+// components
+import FormInput from '../../components/Form/Input.vue';
+import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+import Spinner from 'shared/components/Spinner.vue';
+import SubmitButton from '../../components/Button/SubmitButton.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -166,7 +170,7 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
     <!-- <section class="max-w-5xl mx-auto">
       <img
@@ -180,25 +184,20 @@ export default {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2
-        class="mt-6 text-3xl font-medium text-center text-slate-900 dark:text-woot-50"
-      >
+      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
         {{
           useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
         }}
       </h2>
-      <p
-        v-if="showSignupLink"
-        class="mt-3 text-sm text-center text-slate-600 dark:text-slate-400"
-      >
+      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link">
+        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
     </section>
     <section
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,

@@ -1,13 +1,10 @@
-class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
-  DEFAULT_MODEL = 'gpt-4o'.freeze
-
-  def initialize(assistant, conversation, model = DEFAULT_MODEL)
+class Captain::Llm::ContactNotesService < Llm::BaseOpenAiService
+  def initialize(assistant, conversation)
     super()
     @assistant = assistant
     @conversation = conversation
     @contact = conversation.contact
     @content = "#Contact\n\n#{@contact.to_llm_text} \n\n#Conversation\n\n#{@conversation.to_llm_text}"
-    @model = model
   end
 
   def generate_and_update_notes
@@ -29,7 +26,9 @@ class Captain::Llm::ContactNotesService < Captain::Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.notes_generator
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.notes_generator(account_language)
+
     {
       model: @model,
       response_format: { type: 'json_object' },
