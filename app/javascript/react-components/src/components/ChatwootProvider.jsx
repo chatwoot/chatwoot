@@ -11,11 +11,11 @@ const ChatwootContext = createContext();
 
 export const ChatwootProvider = ({
   baseURL,
-  userId,
+  accountId,
   userToken,
   websocketURL,
   pubsubToken,
-  children
+  children,
 }) => {
   const isInitialized = useRef(false);
   const originalGlobals = useRef({});
@@ -31,54 +31,14 @@ export const ChatwootProvider = ({
   // Configuration object passed to all child components
   const config = {
     baseURL: baseURL.replace(/\/$/, ''), // Remove trailing slash
-    userId,
     userToken,
+    accountId,
     websocketURL: websocketURL || `${baseURL.replace('http', 'ws')}/cable`,
     pubsubToken: pubsubToken || userToken, // Fallback to userToken if pubsubToken not provided
   };
 
-  useEffect(() => {
-    if (isInitialized.current) return;
-
-    initializeChatwootGlobals();
-    isInitialized.current = true;
-
-    // Cleanup on unmount
-    return () => {
-      cleanupChatwootGlobals();
-    };
-  }, [config.baseURL, config.userToken, config.websocketURL, config.pubsubToken]);
-
-  function initializeChatwootGlobals() {
-    // Store original globals for cleanup
-    storeOriginalGlobals();
-
-    // Register Web Components
-    registerVueWebComponents();
-
-    // Set up global variables that Vue components expect
-    window.__WOOT_API_HOST__ = config.baseURL;
-    window.__WOOT_ACCESS_TOKEN__ = config.userToken;
-    window.__WEBSOCKET_URL__ = config.websocketURL;
-    window.__PUBSUB_TOKEN__ = config.pubsubToken;
-    window.__WOOT_USER_ID__ = config.userId ? Number(config.userId) : undefined;
-    window.__WOOT_ISOLATED_SHELL__ = true;
-
-    // Initialize common helpers
-    commonHelpers();
-
-    // Set up global objects
-    window.__CHATWOOT_STORE__ = store;
-    window.WootConstants = constants;
-    window.axios = createAxios(axios);
-
-    // Initialize user in store and ActionCable
-    store.dispatch('setUser').then(() => {
-      vueActionCable.init(store, config.pubsubToken);
-    });
-  }
-
   function storeOriginalGlobals() {
+    /* eslint-disable no-underscore-dangle */
     originalGlobals.current = {
       __WOOT_API_HOST__: window.__WOOT_API_HOST__,
       __WOOT_ACCESS_TOKEN__: window.__WOOT_ACCESS_TOKEN__,
@@ -88,8 +48,9 @@ export const ChatwootProvider = ({
       __WOOT_ISOLATED_SHELL__: window.__WOOT_ISOLATED_SHELL__,
       __CHATWOOT_STORE__: window.__CHATWOOT_STORE__,
       WootConstants: window.WootConstants,
-      axios: window.axios
+      axios: window.axios,
     };
+    /* eslint-enable no-underscore-dangle */
   }
 
   function cleanupChatwootGlobals() {
@@ -107,6 +68,56 @@ export const ChatwootProvider = ({
       vueActionCable.connection.disconnect();
     }
   }
+
+  function initializeChatwootGlobals() {
+    // Store original globals for cleanup
+    storeOriginalGlobals();
+
+    // Register Web Components
+    registerVueWebComponents();
+
+    // Set up global variables that Vue components expect
+    /* eslint-disable no-underscore-dangle */
+    window.__WOOT_API_HOST__ = config.baseURL;
+    window.__WOOT_ACCOUNT_ID__ = config.accountId;
+    window.__WOOT_ACCESS_TOKEN__ = config.userToken;
+    window.__WEBSOCKET_URL__ = config.websocketURL;
+    window.__PUBSUB_TOKEN__ = config.pubsubToken;
+    window.__WOOT_ISOLATED_SHELL__ = true;
+    /* eslint-enable no-underscore-dangle */
+
+    // Initialize common helpers
+    commonHelpers();
+
+    // Set up global objects
+    // eslint-disable-next-line no-underscore-dangle
+    window.__CHATWOOT_STORE__ = store;
+    window.WootConstants = constants;
+    window.axios = createAxios(axios);
+
+    // Initialize user in store and ActionCable
+    store.dispatch('setUser').then(() => {
+      vueActionCable.init(store, config.pubsubToken);
+    });
+  }
+
+  useEffect(() => {
+    if (isInitialized.current) return;
+
+    initializeChatwootGlobals();
+    isInitialized.current = true;
+
+    // Cleanup on unmount
+    // eslint-disable-next-line  consistent-return
+    return () => {
+      cleanupChatwootGlobals();
+    };
+  }, [
+    config.baseURL,
+    config.userToken,
+    config.websocketURL,
+    config.pubsubToken,
+  ]);
 
   return (
     <ChatwootContext.Provider value={config}>
