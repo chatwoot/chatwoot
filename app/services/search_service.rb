@@ -28,7 +28,9 @@ class SearchService
     @conversations = current_account.conversations.where(inbox_id: accessable_inbox_ids)
                                     .joins('INNER JOIN contacts ON conversations.contact_id = contacts.id')
                                     .where("cast(conversations.display_id as text) ILIKE :search OR contacts.name ILIKE :search OR contacts.email
-                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search", search: "%#{search_query}%")
+                            ILIKE :search OR contacts.phone_number ILIKE :search OR contacts.identifier ILIKE :search OR
+                            contacts.additional_attributes->'social_profiles'->>'instagram' ILIKE :search OR
+                            contacts.additional_attributes->>'social_instagram_user_name' ILIKE :search", search: "%#{search_query}%")
                                     .order('conversations.created_at DESC')
                                     .limit(10)
   end
@@ -42,9 +44,31 @@ class SearchService
   end
 
   def filter_contacts
-    @contacts = current_account.contacts.where(
-      "name ILIKE :search OR email ILIKE :search OR phone_number
-      ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
-    ).resolved_contacts.order_on_last_activity_at('desc').limit(10)
+    query = current_account.contacts
+                           .where(search_conditions)
+                           .where(non_empty_conditions)
+                           .order(Arel.sql('contacts.last_activity_at DESC NULLS LAST'))
+                           .limit(10)
+    @contacts = query
+  end
+
+  def search_conditions
+    [
+      "COALESCE(name, '') ILIKE :search OR
+      COALESCE(email, '') ILIKE :search OR
+      COALESCE(phone_number, '') ILIKE :search OR
+      COALESCE(identifier, '') ILIKE :search OR
+      COALESCE(additional_attributes->'social_profiles'->>'instagram', '') ILIKE :search OR
+      COALESCE(additional_attributes->>'social_instagram_user_name', '') ILIKE :search",
+      { search: "%#{search_query}%" }
+    ]
+  end
+
+  def non_empty_conditions
+    "COALESCE(email, '') <> '' OR
+    COALESCE(phone_number, '') <> '' OR
+    COALESCE(identifier, '') <> '' OR
+    COALESCE(additional_attributes->'social_profiles'->>'instagram', '') <> '' OR
+    COALESCE(additional_attributes->>'social_instagram_user_name', '') <> ''"
   end
 end
