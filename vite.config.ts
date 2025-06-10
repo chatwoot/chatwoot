@@ -49,7 +49,7 @@ if (isLibraryMode) {
   plugins = [vue(vueOptions)];
 }
 
-let lib = undefined;
+let lib;
 let rollupOptions = {};
 
 if (isLibraryMode) {
@@ -66,20 +66,16 @@ if (isLibraryMode) {
   };
 } else if (reactComponentMode) {
   lib = {
-    entry: path.resolve(__dirname, './app/javascript/react-components/src/index.jsx'),
-    formats: ['iife'], // IIFE format for single file
-    name: 'ChatwootReactComponents',
-    fileName: () => 'index.js'
+    entry: path.resolve(
+      __dirname,
+      './app/javascript/react-components/src/index.jsx'
+    ),
+    formats: ['es', 'cjs'], // ES modules and CommonJS only
+    fileName: format => `react-components.${format}.js`,
   };
-  
+
   rollupOptions = {
     external: ['react', 'react-dom'],
-    output: {
-      globals: {
-        react: 'React',
-        'react-dom': 'ReactDOM'
-      }
-    }
   };
 }
 
@@ -91,6 +87,9 @@ const chunkBuilder = chunkInfo => {
   if (chunkInfo.name === 'ui') {
     return `js/ui.js`;
   }
+
+  // For react components, we need to return different names but can't access format here
+  // So we'll handle this differently
   return '[name].js';
 };
 
@@ -106,10 +105,15 @@ export default defineConfig({
         ...rollupOptions.output,
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
-        ...(isLibraryMode || uiMode || reactComponentMode
+        ...(isLibraryMode || uiMode
           ? {
               dir: 'public/packs',
               entryFileNames: chunkBuilder,
+            }
+          : {}),
+        ...(reactComponentMode
+          ? {
+              dir: 'public/packs',
             }
           : {}),
         inlineDynamicImports: isLibraryMode || uiMode || reactComponentMode, // Disable code-splitting for SDK
