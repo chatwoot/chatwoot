@@ -2,7 +2,10 @@ import { defineCustomElement } from 'vue';
 import tailwindStyles from '../../../dashboard/assets/scss/_woot.scss?inline';
 import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.vue';
 import en from '../../../dashboard/i18n/locale/en';
-import { createI18n } from 'vue-i18n';
+import { createI18n, I18nInjectionKey } from 'vue-i18n';
+
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 
 const i18n = createI18n({
   legacy: false,
@@ -14,7 +17,14 @@ const i18n = createI18n({
 
 const ceOptions = {
   configureApp(app) {
+    app.use(VueDOMPurifyHTML, domPurifyConfig);
+
+    // I18n has to be injected inside that can be picked
+    // up by the compononent, the API stays the same, just use `useI18n`
+    // https://vue-i18n.intlify.dev/guide/advanced/wc
+    // Adding this link for my goldfish brain
     app.use(i18n);
+    app.provide(I18nInjectionKey, i18n);
   },
   // Include tailwind styles in the shadow DOM of each custom element
   styles: [tailwindStyles],
