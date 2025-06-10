@@ -324,8 +324,9 @@
       },
       "CTA": {
         "TITLE": "Connect to Linear",
-        "DESCRIPTION": "Create Linear issues from conversations, or link existing ones for seamless tracking.",
-        "BUTTON_TEXT": "Connect Linear Account"
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },
