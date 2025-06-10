@@ -142,7 +142,7 @@ export default {
 
         <div
           class="gap-6 px-5 py-6 transition-all duration-200 border cursor-pointer w-96 bg-n-solid-2 border-n-weak rounded-2xl hover:border-woot-500 hover:bg-n-solid-3"
-          @click="selectProvider('whatsapp')"
+          @click="selectProvider('twilio')"
         >
           <!-- WhatsApp Icon -->
           <div class="flex justify-start mb-5">
