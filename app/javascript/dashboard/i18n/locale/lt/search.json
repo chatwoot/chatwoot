@@ -4,12 +4,14 @@
       "ALL": "Visi",
       "CONTACTS": "Kontaktai",
       "CONVERSATIONS": "Pokalbiai",
-      "MESSAGES": "Pranešimai"
+      "MESSAGES": "Pranešimai",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontaktai",
       "CONVERSATIONS": "Pokalbiai",
-      "MESSAGES": "Pranešimai"
+      "MESSAGES": "Pranešimai",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

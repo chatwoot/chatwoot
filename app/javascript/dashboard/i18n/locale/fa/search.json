@@ -4,12 +4,14 @@
       "ALL": "همه",
       "CONTACTS": "مخاطبین",
       "CONVERSATIONS": "گفتگوها",
-      "MESSAGES": "پیام‌ها"
+      "MESSAGES": "پیام‌ها",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "مخاطبین",
       "CONVERSATIONS": "گفتگوها",
-      "MESSAGES": "پیام‌ها"
+      "MESSAGES": "پیام‌ها",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

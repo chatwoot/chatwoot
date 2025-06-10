@@ -1,10 +1,10 @@
 <% author_count = category.articles.published.order(position: :asc).map(&:author).uniq.size %>
 <% if author_count > 0 %>
   <div class="flex flex-row items-center gap-1">
-    <div class="flex flex-row items-center -space-x-2">
-        <% category.articles.published.order(position: :asc).map(&:author).uniq.take(3).each do |author| %>
-          <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
-        <% end %>
+    <div class="flex items-center ltr:flex-row rtl:flex-row-reverse -space-x-2">
+      <% category.articles.published.order(position: :asc).map(&:author).uniq.take(3).each do |author| %>
+        <%= render "public/api/v1/portals/thumbnail", author: author, size: 5 %>
+      <% end %>
     </div>
 
     <% first_author = category.articles.published.order(position: :asc).map(&:author).uniq.first&.name || '' %>
