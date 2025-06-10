@@ -50,7 +50,7 @@ services:
     healthcheck:
       test:
         - CMD-SHELL
-        - 'wget -qO- http://127.0.0.1:3000/'
+        - 'wget -qO- --header="Accept: text/html" http://127.0.0.1:3000/'
       interval: 60s
       timeout: 20s
       retries: 10
