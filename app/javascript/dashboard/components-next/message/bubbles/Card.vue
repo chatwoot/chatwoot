@@ -49,7 +49,7 @@ export default {
     },
     isItems() {
       const itemIds = this.original?.itemIds || this.original?.itemId;
-      return itemIds && this.original?.shopId;
+      return !!(itemIds && this.original?.shopId);
     },
     isOrderCard() {
       return this.original?.orderSn && this.original?.shopId;

@@ -85,7 +85,7 @@ export default {
       <p class="flex flex-row justify-between mb-0">
         <span>
           {{ cached.number }}
-          <button class="p-0" @click="() => onCopyToClipboard(cached.number)">
+          <button class="p-0" @click="onCopyToClipboard(cached.number)">
             <Icon icon="i-lucide-copy" class="text-woot-500" />
           </button>
         </span>
