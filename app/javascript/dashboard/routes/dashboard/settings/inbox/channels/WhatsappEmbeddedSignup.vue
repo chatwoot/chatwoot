@@ -327,19 +327,6 @@ export default {
       <p class="text-slate-600 dark:text-slate-300">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING_DESC') }}
       </p>
-
-      <!-- Show current step for better UX -->
-      <div class="mt-4 text-sm text-slate-500 dark:text-slate-400">
-        <span v-if="currentStep === 'auth_processing'">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.STEP_AUTH') }}
-        </span>
-        <span v-else-if="currentStep === 'auth_received'">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.STEP_BUSINESS') }}
-        </span>
-        <span v-else-if="currentStep === 'processing'">
-          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.STEP_CREATING') }}
-        </span>
-      </div>
     </div>
 
     <div>
