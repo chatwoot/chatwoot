@@ -34,10 +34,10 @@ describe Digitaltolk::FormatOutgoingEmailService do
         }
       end
 
-      it 'does not format the email' do
+      it 'reformats email' do
         expect { subject.perform }.not_to raise_error
         expect(message.email).not_to be_nil
-        expect(message.email[:html_content][:full]).to include('sample')
+        expect(message.email[:html_content][:full]).to include('test')
       end
     end
 

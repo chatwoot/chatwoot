@@ -105,22 +105,31 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
   def translate_nodes(translated_message_hash)
     has_translation = false
     doc = nokogiri_parsed_content
+    translated_count = 0
+
+    # Normalize: squish spaces, downcase for hash use
+    normalized_translated_hash = translated_message_hash.transform_keys { |key| key.squish.downcase }
 
     doc.at('body').xpath('//text()').each do |node|
       text = node.text.strip
-      parent = node.parent
-
-      next if UNTRANSLATABLE_PARENT_NODES.include?(parent.name)
       next if text.blank?
-      next if translated_message_hash[text].blank?
 
-      translation = translated_message_hash[text]
+      parent = node.parent
+      next if UNTRANSLATABLE_PARENT_NODES.include?(parent.name)
+
+      normalized_key = text.squish.downcase
+
+      next if (translation = normalized_translated_hash[normalized_key]).blank?
+      break if translated_count > translated_message_hash.keys.count
+
+      translated_count += 1
+
       trans_msg = translation&.dig('translated_message')
       trans_locale = translation&.dig('translated_locale')
 
       next if trans_msg.blank? || trans_locale.blank?
       next if trans_locale != target_language_locale
-      next if trans_msg.downcase.strip == text.downcase.strip
+      next if trans_msg.downcase.squish == text.downcase.squish
 
       has_translation = true
 
@@ -169,7 +178,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
   def email_content
     if translations.present? && translations[target_language_locale].present?
       # return partially translated content if it exists
-      if translations.dig('detected_locale', target_language_locale).present?
+      unless translations.dig('detected_locale', target_language_locale).nil?
         return translations[target_language_locale]
       end
     end

@@ -201,7 +201,7 @@ export default {
       return this.isOutgoing && !this.hasEmailContent;
     },
     hasEmailContent() {
-      return this.message.content_attributes?.email !== null && this.message.content_attributes?.email !== undefined;
+      return this.contentAttributes?.email != null && Object.keys(this.contentAttributes.email).length > 0;
     },
     isOutgoing() {
       return this.message.message_type === MESSAGE_TYPE.OUTGOING;

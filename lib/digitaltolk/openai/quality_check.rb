@@ -17,6 +17,7 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
     1. Answer Quality Check
     - Assign a satisfaction score (0-100) based on accuracy and completeness.
       - #{ANSWER_QUALITY_THRESHOLD} is the minimum acceptable score.
+      - If <query> is empty, assign a score of 100.
       - Do not assess language alignment when evaluating relevance of the <answer>.
       - Focus only on content accuracy and thought, regardless of whether the <answer> matches the <query>'s language.
       - Allow for some flexibility in the <answer>'s language.
@@ -133,8 +134,6 @@ class Digitaltolk::Openai::QualityCheck < Digitaltolk::Openai::Base
 
   def should_skip_check?
     return true if response.blank?
-    return true if incoming_messages.blank?
-    return true if question.blank?
 
     false
   end

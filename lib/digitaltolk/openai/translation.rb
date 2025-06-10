@@ -9,7 +9,7 @@ class Digitaltolk::Openai::Translation < Digitaltolk::Openai::Base
     If the message is not in %<target_language>s, translate it into %<target_language>s.
 
     Maintain the original meaning and context in the translation.
-    Always preserve the line breaks and formatting in the translated_message.
+    Always preserve the line breaks, special characters and formatting in the translated_message.
     Do not shorten or summarize the translated message.
 
     Format:

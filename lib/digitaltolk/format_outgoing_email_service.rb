@@ -7,8 +7,7 @@ class Digitaltolk::FormatOutgoingEmailService
 
   def perform
     return unless message
-    return unless message.message_type == 'outgoing'
-    return if message.email.present?
+    return unless message.outgoing?
 
     format_outgoing_email
   end
@@ -16,13 +15,12 @@ class Digitaltolk::FormatOutgoingEmailService
   private
 
   def format_outgoing_email
-    # rubocop:disable Rails/SkipsModelValidations
-    message.update_column(:content_attributes, content_attributes)
-    # rubocop:enable Rails/SkipsModelValidations
+    message.update(content_attributes: content_attributes)
   end
 
   def content_attributes
-    message.content_attributes.merge(email: formatted_email_data)
+    # This also ensures that translations are reset
+    message.content_attributes.merge(email: formatted_email_data, translations: {})
   end
 
   def formatted_email_data

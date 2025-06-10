@@ -1,8 +1,8 @@
-class Digitaltolk::Openai::HtmlTranslation::ScheduleJobs
+class Digitaltolk::Openai::HtmlTranslation::TranslateByBatch
   UNTRANSLATABLE_PARENT_NODES = %w[head style script].freeze
 
   def initialize(message, target_language)
-    @message = message
+    @message = message.reload
     @target_language = target_language
     @chunk_messages = []
   end
@@ -12,7 +12,7 @@ class Digitaltolk::Openai::HtmlTranslation::ScheduleJobs
     return if html_content.blank?
 
     batch_messages(extracted_chunks_from_html).each_with_index do |_chunk, index|
-      Digitaltolk::TranslationForBatchHtmlJob.perform_later(message, @target_language, index)
+      Digitaltolk::Openai::HtmlTranslation::Translate.new.perform(@message, @target_language, batch_index: index)
     end
   end
 
@@ -30,9 +30,10 @@ class Digitaltolk::Openai::HtmlTranslation::ScheduleJobs
 
     doc.at('body').xpath('//text()').each do |node|
       text = node.text.strip
+      next if text.blank?
+
       parent = node.parent
       next if UNTRANSLATABLE_PARENT_NODES.include?(parent.name)
-      next if text.blank?
 
       @chunk_messages << text
     end
@@ -46,13 +47,5 @@ class Digitaltolk::Openai::HtmlTranslation::ScheduleJobs
 
   def batch_messages(chunks)
     Digitaltolk::Openai::HtmlTranslation::BatchByContentLength.perform(chunks)
-  end
-
-  def other_language
-    if @target_language.to_s.include?('en')
-      'sv'
-    else
-      'en'
-    end
   end
 end

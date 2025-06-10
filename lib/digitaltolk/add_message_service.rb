@@ -24,7 +24,7 @@ class Digitaltolk::AddMessageService
   end
 
   def schedule_formatting(message)
-    return unless message
+    return unless message.present?
 
     Digitaltolk::FormatOutgoingEmailJob.perform_later(message.id)
   end

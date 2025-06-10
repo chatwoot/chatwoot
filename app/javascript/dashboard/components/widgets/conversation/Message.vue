@@ -174,6 +174,7 @@
 </template>
 <script>
 import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import messageTranslationMixin from '../../../../shared/mixins/messageTranslationMixin';
 import BubbleActions from './bubble/Actions.vue';
 import BubbleContact from './bubble/Contact.vue';
 import BubbleFile from './bubble/File.vue';
@@ -194,7 +195,7 @@ import contentTypeMixin from 'shared/mixins/contentTypeMixin';
 import { MESSAGE_TYPE, MESSAGE_STATUS } from 'shared/constants/messages';
 import { generateBotMessageContent } from './helpers/botMessageContentHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { ACCOUNT_EVENTS, CONVERSATION_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
@@ -218,7 +219,7 @@ export default {
     InstagramStoryReply,
     Spinner,
   },
-  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin, uiSettingsMixin],
+  mixins: [alertMixin, messageFormatterMixin, contentTypeMixin, uiSettingsMixin, messageTranslationMixin],
   props: {
     data: {
       type: Object,
@@ -327,49 +328,12 @@ export default {
 
       return false;
     },
-    translations() {
-      return this.data?.content_attributes?.translations || {};
-    },
-    translationLocale() {
-      const rawLocale = navigator.language || navigator.userLanguage || 'en';
-
-      return rawLocale.split('-')[0];
-    },
-    hasTranslationObject() {
-      return this.translations != null && Object.keys(this.translations).length > 0;
-    },
-    translatedMessageByLocale() {
-      return this.translations[this.translationLocale];
-    },
-    translatedMessage() {
-      if (this.translateEnabled && this.hasTranslationObject) {
-        return this.translatedMessageByLocale;
-      } else {
-        return null;
-      }
-    },
     isChatMessage() {
       return !this.isPrivate && (this.isIncoming || this.isOutgoing);
     },
-    detectedLocale() {
-      return this.translations['detected_locale'];
-    },
-    isAlreadyInLocale() {
-      if (!this.hasTranslationObject) {
-        return false;
-      }
-
-      if (!this.detectedLocale) {
-        return false;
-      }
-
-      return this.detectedLocale[this.translationLocale] === true;
-    },
     message() {
-      if (!this.isAlreadyInLocale) {
-        if (this.translatedMessage && this.isChatMessage && this.showTranslated) {
-          return this.translatedMessage;
-        }
+      if (this.shouldShowTranslatedMessage) {
+        return this.formattedAndTranslatedMessage;
       }
 
       // If the message is an email, emailMessageContent would be present
@@ -430,15 +394,6 @@ export default {
         (this.isAnEmailInbox || this.isWebWidgetInbox)
       );
     },
-    translateEnabled() {
-      const isFeatEnabled = this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.AI_TRANSLATION
-      );
-
-      return isFeatEnabled && this.uiSettings?.ai_translation_enabled === true;
-    },
-
     contentAttributes() {
       return this.data.content_attributes || {};
     },
@@ -711,37 +666,6 @@ export default {
     toggleTranslatedMessage(value) {
       this.showTranslated = value;
     },
-    handleTranslate() {
-      const locale = this.translationLocale;
-
-      if (!Number.isInteger(this.data.id)) {
-        return;
-      }
-
-      this.$store.dispatch('translateMessage', {
-        conversationId: this.data.conversation_id,
-        messageId: this.data.id,
-        targetLanguage: locale || 'en',
-        retranslate: true
-      });
-
-      this.$track(CONVERSATION_EVENTS.TRANSLATE_A_MESSAGE);
-    },
-    autoTranslateIncomingMessage() {
-      if (this.translateEnabled) {
-        this.showTranslated = this.isChatMessage && !!this.translatedMessageByLocale;
-
-        if (!this.isChatMessage) {
-          return;
-        }
-
-        if (this.detectedLocale && this.detectedLocale[this.translationLocale] != null) {
-          return;
-        }
-
-        this.handleTranslate();
-      }
-    }
   },
 };
 </script>
@@ -845,6 +769,19 @@ export default {
 
 .wrap.is-email {
   --bubble-max-width: 84% !important;
+
+  .message-text__wrap p,
+  .message-text__wrap td,
+  .message-text__wrap th,
+  .message-text__wrap span {
+    color: #222222;
+  }
+
+  .message-text__wrap h1,
+  .message-text__wrap h2,
+  .message-text__wrap h3 {
+    color: #333333;
+  }
 }
 
 .sender--info {

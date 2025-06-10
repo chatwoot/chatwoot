@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-describe Digitaltolk::Openai::HtmlTranslation::ScheduleJobs do
+describe Digitaltolk::Openai::HtmlTranslation::TranslateByBatch do
   subject { described_class.new(message, target_language) }
 
   let(:message) { create(:message, content: 'This is a test message', content_attributes: content_attributes) }
@@ -26,13 +26,6 @@ describe Digitaltolk::Openai::HtmlTranslation::ScheduleJobs do
   end
 
   describe '#perform' do
-    it 'schedules 2 jobs for HTML translation' do
-      subject.perform
-
-      expect(Digitaltolk::TranslationForBatchHtmlJob).to have_been_enqueued.with(message, target_language, 0)
-      expect(Digitaltolk::TranslationForBatchHtmlJob).to have_been_enqueued.with(message, target_language, 1)
-    end
-
     context 'when the HTML content is empty' do
       let(:full_html_content) { '' }
 
