@@ -149,17 +149,24 @@ const renderTableHeader = labelKey =>
   );
 
 const tableData = computed(() => {
-  return subscriptionHistories.value.map(transaction => ({
-    package: transaction.package_name,
-    duration: transaction.duration_unit,
-    status: transaction.status_payment,
-    transactionDate: formatUnixDate(
-      toUnixTimestamp(transaction.transaction_date),
-      'd MMMM yyyy'
-    ),
-    paymentUrl: transaction.payment_url,
-    id: transaction.id,
-  }));
+  return subscriptionHistories.value.map(transaction => {
+    const subscriptionStartDate = transaction.subscriptions && transaction.subscriptions[0]?.starts_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.starts_at), 'd MMMM yyyy') : '-';
+    const subscriptionEndDate = transaction.subscriptions && transaction.subscriptions[0]?.ends_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.ends_at), 'd MMMM yyyy') : '-';
+    return {
+      transactionId: transaction.transaction_id,
+      package: transaction.package_name,
+      duration: transaction.duration_unit,
+      status: transaction.status_payment,
+      transactionDate: formatUnixDate(
+        toUnixTimestamp(transaction.transaction_date),
+        'd MMMM yyyy'
+      ),
+      subscriptionStartDate: subscriptionStartDate,
+      subscriptionEndDate: subscriptionEndDate,
+      paymentUrl: transaction.payment_url,
+      id: transaction.id,
+    }
+  });
 });
 
 const defaultSpanRender = cellProps =>
@@ -176,9 +183,14 @@ const defaultSpanRender = cellProps =>
 const columnHelper = createColumnHelper();
 
 const columns = [
+  columnHelper.accessor('transactionId', {
+    header: () => renderTableHeader('BILLING.TABLE.HEADER.ID'),
+    width: 100,
+    cell: defaultSpanRender,
+  }),
   columnHelper.accessor('package', {
     header: () => renderTableHeader('BILLING.TABLE.HEADER.PACKAGE'),
-    width: 150,
+    width: 100,
     cell: defaultSpanRender,
   }),
   columnHelper.accessor('duration', {
@@ -214,6 +226,28 @@ const columns = [
         'span',
         { class: 'text-xs font-medium' },
         t('BILLING.TABLE.HEADER.TRANSACTION_DATE')
+      );
+    },
+    width: 150,
+    cell: defaultSpanRender,
+  }),
+  columnHelper.accessor('subscriptionStartDate', {
+    header: ({ column }) => {
+      return h(
+        'span',
+        { class: 'text-xs font-medium' },
+        t('BILLING.TABLE.HEADER.SUBSCRIPTION_START')
+      );
+    },
+    width: 150,
+    cell: defaultSpanRender,
+  }),
+  columnHelper.accessor('subscriptionEndDate', {
+    header: ({ column }) => {
+      return h(
+        'span',
+        { class: 'text-xs font-medium' },
+        t('BILLING.TABLE.HEADER.SUBSCRIPTION_END')
       );
     },
     width: 150,
@@ -1294,7 +1328,6 @@ export default {
 }
 
 .transactions-container {
-  max-width: 650px;
   margin: 0 auto;
   font-size: 0.75rem;
 }

@@ -30,7 +30,7 @@ class SubscriptionPayment < ApplicationRecord
     
     validates :amount, numericality: { greater_than: 0 }
     validates :duitku_order_id, presence: true
-    validates :status, inclusion: { in: %w(pending paid failed cancelled) }
+    validates :status, inclusion: { in: %w(pending paid failed cancelled expired) }
     
     # Method untuk mengupdate status pembayaran
     def mark_as_paid

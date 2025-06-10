@@ -42,12 +42,12 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
                 user.email,
                 user.name,
                 transaction.transaction_id,
-                transaction.payment_date,
+                transaction.payment_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S"),
                 transaction.price.to_i,
                 transaction.package_name,
                 transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
                 @topup.amount.to_i, 
-                transaction.expiry_date
+                transaction.expiry_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S")
               ).deliver_later
               Rails.logger.info("Payment waiting & invoice sent to #{user.email} (##{transaction.transaction_id})")
             when 'AR'
@@ -55,12 +55,12 @@ class Api::V1::SubscriptionTopupsController < Api::BaseController
                 user.email,
                 user.name,
                 transaction.transaction_id,
-                transaction.payment_date,
+                transaction.payment_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S"),
                 transaction.price.to_i,
                 transaction.package_name,
                 transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
                 @topup.amount.to_i,
-                transaction.expiry_date
+                transaction.expiry_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S")
               ).deliver_later
               Rails.logger.info("Payment waiting & invoice sent to #{user.email} (##{transaction.transaction_id})")
             end

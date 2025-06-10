@@ -8,17 +8,17 @@ class SubscriptionPaymentTimeoutJob < ApplicationJob
                               .where('expiry_date < ?', Time.current + timeout_minutes.minutes)
 
     transactions.find_each do |transaction|
-      transaction.update(status: 'failed')
+      transaction.update(status: 'expired')
 
       # Update subscription_payment jika ada
       subscription_payment = SubscriptionPayment.find_by(duitku_order_id: transaction.transaction_id)
       if subscription_payment.present?
-        subscription_payment.update(status: 'failed')
+        subscription_payment.update(status: 'expired')
 
         # Update subscription jika ada
         subscription = Subscription.find_by(id: subscription_payment.subscription_id)
         if subscription.present?
-          subscription.update(status: 'failed')
+          subscription.update(status: 'expired')
 
           user = transaction.user
           InvoiceMailer.send_invoice_expired(

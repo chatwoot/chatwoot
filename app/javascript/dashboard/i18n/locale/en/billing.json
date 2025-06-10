@@ -6,10 +6,13 @@
     "PAY": "Pay",
     "TABLE": {
       "HEADER": {
+        "ID": "ID",
         "PACKAGE": "PACKAGE",
         "DURATION": "DURATION",
         "STATUS": "STATUS",
-        "TRANSACTION_DATE": "DATE",
+        "TRANSACTION_DATE": "TRANSACTION DATE",
+        "SUBSCRIPTION_START": "START DATE",
+        "SUBSCRIPTION_END": "END DATE",
         "ACTION": "ACTION"
       }
     }
