@@ -21,6 +21,7 @@ class Integrations::Shopee::Voucher < Integrations::Shopee::Base
       .query({ page_size: MAX_PAGE_SIZE, status: :ongoing })
       .get('/api/v2/voucher/get_voucher_list')
       .dig('response', 'voucher_list')
+      .to_a
   end
 
   def upcoming_vouchers
@@ -28,5 +29,6 @@ class Integrations::Shopee::Voucher < Integrations::Shopee::Base
       .query({ page_size: MAX_PAGE_SIZE, status: :upcoming })
       .get('/api/v2/voucher/get_voucher_list')
       .dig('response', 'voucher_list')
+      .to_a
   end
 end
