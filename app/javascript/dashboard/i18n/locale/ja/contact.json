@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "連絡先",
       "SEARCH_TITLE": "連絡先を検索",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "検索...",
       "MESSAGE_BUTTON": "メッセージ",
       "SEND_MESSAGE": "メッセージを送信",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Twitterを追加"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "連絡先を削除",
       "DELETE_DIALOG": {
         "TITLE": "削除の確認",
-        "DESCRIPTION": "この {contactName} の連絡先を削除してもよろしいですか？",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "削除する",
         "API": {
           "SUCCESS_MESSAGE": "連絡先が正常に削除されました。",
@@ -555,7 +560,8 @@
       "SUBTITLE": "以下のボタンをクリックして新しい連絡先を追加してください。",
       "BUTTON_LABEL": "連絡先を追加",
       "SEARCH_EMPTY_STATE_TITLE": "検索に一致する連絡先はありません 🔍",
-      "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋"
+      "LIST_EMPTY_STATE_TITLE": "このビューには利用可能な連絡先がありません 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
