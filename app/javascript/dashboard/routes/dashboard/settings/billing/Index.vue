@@ -10,6 +10,7 @@ import {
 
 import Payment from './components/Payment.vue';
 import Topup from './components/Topup.vue';
+import StatusBadge from './components/StatusBadge.vue';
 
 // helpers
 import { formatUnixDate, toUnixTimestamp } from 'shared/helpers/DateHelper';
@@ -144,8 +145,8 @@ const transactionPayment = paymentUrl => {
 const renderTableHeader = labelKey =>
   h(
     'div',
-    { class: 'bg-gray-50 px-2 py-1' },
-    h('span', { class: 'text-xs font-medium' }, t(labelKey))
+    { class: 'text-xs bg-gray-50 px-2 py-1' },
+    h('span', { class: 'font-medium' }, t(labelKey))
   );
 
 const tableData = computed(() => {
@@ -155,7 +156,9 @@ const tableData = computed(() => {
     return {
       transactionId: transaction.transaction_id,
       package: transaction.package_name,
-      duration: transaction.duration_unit,
+      duration: t('BILLING.COL_SUBS_DURATION', {
+        duration: transaction.duration,
+      }),
       status: transaction.status_payment,
       transactionDate: formatUnixDate(
         toUnixTimestamp(transaction.transaction_date),
@@ -174,8 +177,8 @@ const defaultSpanRender = cellProps =>
     'span',
     {
       class: cellProps.getValue()
-        ? 'text-xs'
-        : 'text-xs text-slate-300 dark:text-slate-700',
+        ? ''
+        : 'text-slate-300 dark:text-slate-700',
     },
     cellProps.getValue() ? cellProps.getValue() : '---'
   );
@@ -194,30 +197,22 @@ const columns = [
     cell: defaultSpanRender,
   }),
   columnHelper.accessor('duration', {
-    header: t('BILLING.TABLE.HEADER.DURATION'),
+    header: () => renderTableHeader('BILLING.TABLE.HEADER.DURATION'),
     width: 100,
+    cell: defaultSpanRender,
+  }),
+  columnHelper.accessor('transactionDate', {
+    header: () => renderTableHeader('BILLING.TABLE.HEADER.TRANSACTION_DATE'),
+    width: 150,
     cell: defaultSpanRender,
   }),
   columnHelper.accessor('status', {
     header: () => renderTableHeader('BILLING.TABLE.HEADER.STATUS'),
     width: 100,
-    cell: cellProps => {
-      const status = cellProps.getValue();
-      return h(
-        'span',
-        {
-          class: `inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium 
-                 ${status === 'Pending'
-              ? 'bg-yellow-100 text-yellow-800'
-              : status === 'Paid'
-                ? 'bg-green-100 text-green-800'
-                : status === 'Failed'
-                  ? 'bg-red-100 text-red-800'
-                  : 'bg-gray-100 text-gray-800'
-            }`,
-        },
-        status
-      );
+    cell: c => {
+      return h(StatusBadge, {
+        data: c.getValue(),
+      })
     },
   }),
   columnHelper.accessor('transactionDate', {
@@ -706,10 +701,10 @@ const selectedTabDisplay = computed(() => {
         </div>
 
         <!-- Recent Transactions Section -->
-        <div v-else-if="selectedMenuTab === 'history'" class="flex flex-col flex-wrap self-center">
+        <div v-else-if="selectedMenuTab === 'history'" class="flex flex-col flex-wrap self-center overflow-x-auto">
           <div>
             <div>
-              <div class="overflow-x-auto">
+              <div>
                 <Table :table="table" class="min-w-full divide-y divide-gray-200" />
 
                 <div v-show="!tableData.length"

@@ -1,7 +1,6 @@
 {
   "BILLING": {
     "SUBSCRIPTION_EXPIRED": "Subscription Anda telah berakhir",
-    "RECENT_TRANSACTIONS": "Transaksi Terbaru",
     "NO_TRANSACTIONS": "Tidak ada transaksi ditemukan",
     "PAY": "Bayar",
     "TABLE": {
@@ -11,10 +10,16 @@
         "DURATION": "DURASI",
         "STATUS": "STATUS",
         "TRANSACTION_DATE": "TANGGAL TRANSAKSI",
-        "SUBSCRIPTION_START": "TANGGAL MULAI",
-        "SUBSCRIPTION_END": "TANGGAL BERAKHIR",
+        "SUBSCRIPTION_START": "PAKET MULAI",
+        "SUBSCRIPTION_END": "PAKET BERAKHIR",
         "ACTION": "AKSI"
       }
+    },
+    "COL_SUBS_DURATION": "{duration} bulan",
+    "STATUS_PAYMENT": {
+      "pending": "Tertunda",
+      "paid": "Dibayar",
+      "canceled": "Dibatalkan"
     }
   }
 }

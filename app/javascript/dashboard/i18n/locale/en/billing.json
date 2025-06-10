@@ -1,7 +1,6 @@
 {
   "BILLING": {
     "SUBSCRIPTION_EXPIRED": "Your subscription has expired",
-    "RECENT_TRANSACTIONS": "Recent Transactions",
     "NO_TRANSACTIONS": "No transactions found",
     "PAY": "Pay",
     "TABLE": {
@@ -15,6 +14,12 @@
         "SUBSCRIPTION_END": "END DATE",
         "ACTION": "ACTION"
       }
+    },
+    "COL_SUBS_DURATION": "{duration} months",
+    "STATUS_PAYMENT": {
+      "pending": "Pending",
+      "paid": "Paid",
+      "canceled": "Canceled"
     }
   }
 }
