@@ -4,15 +4,17 @@
       "ALL": "Все",
       "CONTACTS": "Контакты",
       "CONVERSATIONS": "Диалоги",
-      "MESSAGES": "Сообщения"
+      "MESSAGES": "Сообщения",
+      "ARTICLES": "Статьи"
     },
     "SECTION": {
       "CONTACTS": "Контакты",
       "CONVERSATIONS": "Диалоги",
-      "MESSAGES": "Сообщения"
+      "MESSAGES": "Сообщения",
+      "ARTICLES": "Статьи"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
+    "VIEW_MORE": "Посмотреть больше",
+    "LOAD_MORE": "Загрузить ещё",
     "SEARCHING_DATA": "Идёт поиск",
     "LOADING_DATA": "Загрузка",
     "EMPTY_STATE": "Не найдено {item} для запроса '{query}'",

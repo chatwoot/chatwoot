@@ -30,8 +30,8 @@ export default {
       class="rounded-full bg-white top-0.5 absolute dark:bg-white w-3 h-3 translate-y-0 duration-200 transition-transform ease-in-out"
       :class="
         modelValue
-          ? 'ltr:translate-x-0 rtl:translate-x-[12px]'
-          : 'ltr:-translate-x-[12px] rtl:translate-x-0'
+          ? 'ltr:translate-x-0 rtl:translate-x-[0.75rem]'
+          : 'ltr:-translate-x-[0.75rem] rtl:translate-x-0'
       "
     />
   </button>

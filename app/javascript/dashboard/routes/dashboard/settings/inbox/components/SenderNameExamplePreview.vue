@@ -69,7 +69,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-row items-center gap-4">
+  <div class="flex flex-col lg:flex-row items-start lg:items-center gap-4">
     <button
       v-for="keyOption in senderNameKeyOptions"
       :key="keyOption.key"

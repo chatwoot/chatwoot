@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Geen resultaten gevonden"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -473,6 +474,18 @@
         "AGENT": "Medewerker",
         "OPEN": "Open",
         "UNATTENDED": "Unattended",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "Open",
+        "UNATTENDED": "Onbeheer",
         "STATUS": "Status"
       }
     },

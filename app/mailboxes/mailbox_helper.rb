@@ -35,8 +35,11 @@ module MailboxHelper
   end
 
   def group_attachments(attachments)
-    # If the email lacks a text body, treat inline attachments as standard attachments for processing.
-    inline_attachments = attachments.select { |attachment| attachment[:original].inline? && mail_content.present? }
+    # If the email lacks a text body or if inline attachments aren't images,
+    # treat them as standard attachments for processing.
+    inline_attachments = attachments.select do |attachment|
+      mail_content.present? && attachment[:original].inline? && attachment[:original].content_type.to_s.start_with?('image/')
+    end
 
     regular_attachments = attachments - inline_attachments
     { inline: inline_attachments, regular: regular_attachments }

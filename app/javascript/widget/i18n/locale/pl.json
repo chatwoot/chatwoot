@@ -22,15 +22,15 @@
     "IN_A_DAY": "Zwykle odpowiadamy w przeciągu jednego dnia",
     "BACK_IN": "Będziemy dostępni ponownie"
   },
-  "DAY_NAMES": [
-    "Niedziela",
-    "Poniedziałek",
-    "Wtorek",
-    "Środa",
-    "Czwartek",
-    "Piątek",
-    "Sobota"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Niedziela",
+    "MONDAY": "Poniedziałek",
+    "TUESDAY": "Wtorek",
+    "WEDNESDAY": "Środa",
+    "THURSDAY": "Czwartek",
+    "FRIDAY": "Piątek",
+    "SATURDAY": "Sobota"
+  },
   "START_CONVERSATION": "Rozpocznij rozmowę",
   "END_CONVERSATION": "Zakończ rozmowę",
   "CONTINUE_CONVERSATION": "Kontynuuj rozmowę",

@@ -20,17 +20,17 @@
     "IN_A_FEW_MINUTES": "通常在几分钟内回复您",
     "IN_A_FEW_HOURS": "通常在几小时内回复您",
     "IN_A_DAY": "通常在一天之内回复您",
-    "BACK_IN": "我们回到了线上"
+    "BACK_IN": "我们将重新上线"
   },
-  "DAY_NAMES": [
-    "周日",
-    "周一",
-    "周二",
-    "周三",
-    "周四",
-    "周五",
-    "周六"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "周日",
+    "MONDAY": "周一",
+    "TUESDAY": "周二",
+    "WEDNESDAY": "周三",
+    "THURSDAY": "周四",
+    "FRIDAY": "周五",
+    "SATURDAY": "周六"
+  },
   "START_CONVERSATION": "开始会话",
   "END_CONVERSATION": "结束对话",
   "CONTINUE_CONVERSATION": "继续对话",

@@ -105,6 +105,9 @@
         "AGENT": "Vybrať agenta",
         "TEAM": "Vybrať tím"
       },
+      "LIST": {
+        "NONE": "Žiadne"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Žiadni agenti neboli nájdení",

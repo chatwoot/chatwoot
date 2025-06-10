@@ -119,7 +119,8 @@
       "EMPTY_LIST": "結果が見つかりません"
     },
     "PAGINATION": {
-      "RESULTS": "{start}件から{end}件まで表示中（全{total}件）"
+      "RESULTS": "{start}件から{end}件まで表示中（全{total}件）",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -472,6 +473,18 @@
       "TABLE_HEADER": {
         "AGENT": "担当者",
         "OPEN": "未解決",
+        "UNATTENDED": "未対応",
+        "STATUS": "状況"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "チーム",
+        "OPEN": "再開する",
         "UNATTENDED": "未対応",
         "STATUS": "状況"
       }

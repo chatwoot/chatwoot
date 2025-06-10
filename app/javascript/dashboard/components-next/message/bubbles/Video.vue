@@ -35,13 +35,13 @@ const isReel = computed(() => {
     <div class="relative group rounded-lg overflow-hidden">
       <div
         v-if="isReel"
-        class="absolute p-2 flex items-start justify-end right-0"
+        class="absolute p-2 flex items-start justify-end right-0 pointer-events-none"
       >
         <Icon icon="i-lucide-instagram" class="text-white shadow-lg" />
       </div>
       <video
         controls
-        class="rounded-lg"
+        class="rounded-lg skip-context-menu"
         :src="attachment.dataUrl"
         :class="{
           'max-w-48': isReel,

@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Detail kontak dari <strong>{primaryContactName}</strong> akan disalin ke <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "PESAN_KESALAHAN"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": "Gabungkan Kontak",
@@ -285,9 +285,12 @@
     "HEADER": {
       "TITLE": "Kontak",
       "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "Pesan",
       "SEND_MESSAGE": "Kirim Pesan",
+      "BLOCK_CONTACT": "Block contact",
+      "UNBLOCK_CONTACT": "Unblock contact",
       "BREADCRUMB": {
         "CONTACTS": "Kontak"
       },
@@ -302,6 +305,10 @@
           "SUCCESS_MESSAGE": "Kontak berhasil disimpan",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "This contact is unblocked successfully",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Impor kontak",
           "DESCRIPTION": "Impor kontak melalui file CSV.",
@@ -451,6 +458,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -460,7 +471,7 @@
       "DELETE_CONTACT": "Hapus kontak",
       "DELETE_DIALOG": {
         "TITLE": "Konfirmasi Penghapusan",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "Ya, Hapus",
         "API": {
           "SUCCESS_MESSAGE": "Kontak berhasil dihapus",
@@ -538,6 +549,9 @@
         "WROTE": "menulis",
         "YOU": "Anda",
         "SAVE": "Save note",
+        "EXPAND": "Expand",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     },
@@ -546,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Tambahkan kontak",
       "SEARCH_EMPTY_STATE_TITLE": "Tidak ada kontak yang cocok dengan pencarian Anda 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

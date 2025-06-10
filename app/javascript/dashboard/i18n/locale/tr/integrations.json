@@ -1,5 +1,20 @@
 {
   "INTEGRATION_SETTINGS": {
+    "SHOPIFY": {
+      "DELETE": {
+        "TITLE": "Delete Shopify Integration",
+        "MESSAGE": "Are you sure you want to delete the Shopify integration?"
+      },
+      "STORE_URL": {
+        "TITLE": "Connect Shopify Store",
+        "LABEL": "Store URL",
+        "PLACEHOLDER": "your-store.myshopify.com",
+        "HELP": "Enter your Shopify store's myshopify.com URL",
+        "CANCEL": "İptal Et",
+        "SUBMIT": "Connect Store"
+      },
+      "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
+    },
     "HEADER": "Entegrasyonlar",
     "DESCRIPTION": "Chatwoot integrates with multiple tools and services to improve your team's efficiency. Explore the list below to configure your favorite apps.",
     "LEARN_MORE": "Learn more about integrations",
@@ -26,7 +41,9 @@
             "MESSAGE_UPDATED": "Mesaj Güncellendi",
             "WEBWIDGET_TRIGGERED": "Kullanıcı tarafından canlı sohbet widget'ı açıldı",
             "CONTACT_CREATED": "Kişi Oluşturuldu",
-            "CONTACT_UPDATED": "Kişi Güncellendi"
+            "CONTACT_UPDATED": "Kişi Güncellendi",
+            "CONVERSATION_TYPING_ON": "Sohbet Yazıyor Açık",
+            "CONVERSATION_TYPING_OFF": "Sohbet Yazıyor Kapalı"
           }
         },
         "END_POINT": {
@@ -300,17 +317,61 @@
         "TITLE": "Unlink",
         "SUCCESS": "Issue unlinked successfully",
         "ERROR": "There was an error unlinking the issue, please try again"
+      },
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the integration?",
+        "MESSAGE": "Are you sure you want to delete the integration?",
+        "CONFIRM": "Evet, sil",
+        "CANCEL": "İptal Et"
       }
     }
   },
   "CAPTAIN": {
     "NAME": "Captain",
+    "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "Try these prompts",
+      "PANEL_TITLE": "Copilot ile başlayın",
+      "KICK_OFF_MESSAGE": "Hızlı bir özet mi lazım, geçmiş sohbetleri mi kontrol etmek istiyorsunuz ya da daha iyi bir yanıt mı yazmak istiyorsunuz? Copilot işleri hızlandırmak için burada.",
       "SEND_MESSAGE": "Mesajı Gönder...",
+      "EMPTY_MESSAGE": "Yanıt oluşturulurken bir hata oluştu. Lütfen tekrar deneyin.",
       "LOADER": "Captain is thinking",
       "YOU": "Sen",
       "USE": "Use this",
-      "RESET": "Reset"
+      "RESET": "Reset",
+      "SHOW_STEPS": "Adımları göster",
+      "SELECT_ASSISTANT": "Select Assistant",
+      "PROMPTS": {
+        "SUMMARIZE": {
+          "LABEL": "Bu sohbeti özetle",
+          "CONTENT": "Müşteri ile destek temsilcisi arasında tartışılan ana noktaları özetle; müşterinin endişeleri, soruları ve temsilcinin sunduğu çözümler veya yanıtlar dahil"
+        },
+        "SUGGEST": {
+          "LABEL": "Bir yanıt öner",
+          "CONTENT": "Müşterinin sorusunu analiz edin ve endişelerini veya sorularını etkili bir şekilde ele alan bir yanıt taslağı oluşturun. Yanıtın açık, öz ve bilgilendirici olmasını sağlayın."
+        },
+        "RATE": {
+          "LABEL": "Bu sohbeti değerlendir",
+          "CONTENT": "Sohbetin müşterinin ihtiyaçlarını ne kadar karşıladığını gözden geçirin. Ton, açıklık ve etkililik açısından 5 üzerinden bir puan verin."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Yüksek öncelikli sohbetler",
+          "CONTENT": "Tüm yüksek öncelikli açık sohbetlerin bir özetini verin. Sohbet kimliği, müşteri adı (varsa), son mesaj içeriği ve atanan temsilciyi ekleyin. Gerekirse duruma göre gruplayın."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "Kişileri listele",
+          "CONTENT": "İlk 10 kişiyi göster. Ad, e-posta veya telefon numarası (varsa), son görülme zamanı ve etiketler (varsa) dahil olsun."
+        }
+      }
+    },
+    "PLAYGROUND": {
+      "USER": "Sen",
+      "ASSISTANT": "Assistant",
+      "MESSAGE_PLACEHOLDER": "Mesajınız...",
+      "HEADER": "Oyun Alanı",
+      "DESCRIPTION": "Bu oyun alanını asistanınıza mesaj göndermek ve yanıtlarının doğru, hızlı ve beklediğiniz tonda olup olmadığını kontrol etmek için kullanın.",
+      "CREDIT_NOTE": "Buradan gönderilen mesajlar Captain kredilerinize sayılacaktır."
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -320,7 +381,6 @@
       "CANCEL_ANYTIME": "You can change or cancel your plan anytime"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI feature is only available in a paid plan.",
       "UPGRADE_PROMPT": "Upgrade your plan to get access to our assistants, copilot and more.",
       "ASK_ADMIN": "Please reach out to your administrator for the upgrade."
     },
@@ -335,6 +395,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistants",
+      "NO_ASSISTANTS_AVAILABLE": "Hesabınızda kullanılabilir asistan yok.",
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
@@ -350,20 +411,48 @@
         "ERROR_MESSAGE": "There was an error creating the assistant, please try again."
       },
       "FORM": {
+        "UPDATE": "Güncelleme",
+        "SECTIONS": {
+          "BASIC_INFO": "Temel Bilgiler",
+          "SYSTEM_MESSAGES": "Sistem Mesajları",
+          "INSTRUCTIONS": "Talimatlar",
+          "FEATURES": "Özellikleri",
+          "TOOLS": "Araçlar "
+        },
         "NAME": {
-          "LABEL": "Assistant Name",
-          "PLACEHOLDER": "Enter a name for the assistant",
-          "ERROR": "Please provide a name for the assistant"
+          "LABEL": "İsim",
+          "PLACEHOLDER": "Asistan adını girin",
+          "ERROR": "Ad gereklidir"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Yanıt Sıcaklığı",
+          "DESCRIPTION": "Asistanın yanıtlarının ne kadar yaratıcı veya kısıtlayıcı olması gerektiğini ayarlayın. Düşük değerler daha odaklı ve deterministik yanıtlar üretir, yüksek değerler ise daha yaratıcı ve çeşitli yanıtlar sağlar."
         },
         "DESCRIPTION": {
-          "LABEL": "Assistant Description",
-          "PLACEHOLDER": "Describe how and where this assistant will be used",
-          "ERROR": "A description is required"
+          "LABEL": "Açıklama",
+          "PLACEHOLDER": "Asistan açıklamasını girin",
+          "ERROR": "Açıklama gereklidir"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter the name of the product this assistant is designed for",
+          "PLACEHOLDER": "Ürün adını girin",
           "ERROR": "The product name is required"
+        },
+        "WELCOME_MESSAGE": {
+          "LABEL": "Karşılama Mesajı",
+          "PLACEHOLDER": "Karşılama mesajı girin"
+        },
+        "HANDOFF_MESSAGE": {
+          "LABEL": "Aktarım Mesajı",
+          "PLACEHOLDER": "Aktarım mesajı girin"
+        },
+        "RESOLUTION_MESSAGE": {
+          "LABEL": "Çözüm Mesajı",
+          "PLACEHOLDER": "Çözüm mesajı girin"
+        },
+        "INSTRUCTIONS": {
+          "LABEL": "Talimatlar",
+          "PLACEHOLDER": "Asistan için talimatları girin"
         },
         "FEATURES": {
           "TITLE": "Özellikleri",
@@ -374,7 +463,8 @@
       "EDIT": {
         "TITLE": "Update the assistant",
         "SUCCESS_MESSAGE": "The assistant has been successfully updated",
-        "ERROR_MESSAGE": "There was an error updating the assistant, please try again."
+        "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
+        "NOT_FOUND": "Asistan bulunamadı. Lütfen tekrar deneyin."
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
@@ -383,7 +473,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No assistants available",
-        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations."
+        "SUBTITLE": "Create an assistant to provide quick and accurate responses to your users. It can learn from your help articles and past conversations.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Assistant",
+          "NOTE": "Captain Assistant engages directly with customers, learns from your help docs and past conversations, and delivers instant, accurate responses. It handles the initial queries, providing quick resolutions before  transferring to an agent when needed."
+        }
       }
     },
     "DOCUMENTS": {
@@ -424,7 +518,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No documents available",
-        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant."
+        "SUBTITLE": "Documents are used by your assistant to generate FAQs. You can import documents to provide context for your assistant.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain Document",
+          "NOTE": "A document in Captain serves as a knowledge resource for the assistant. By connecting your help center or guides, Captain can analyze the content and provide accurate responses for customer inquiries."
+        }
       }
     },
     "RESPONSES": {
@@ -432,6 +530,20 @@
       "ADD_NEW": "Create new FAQ",
       "DOCUMENTABLE": {
         "CONVERSATION": "Conversation #{id}"
+      },
+      "SELECTED": "{count} selected",
+      "BULK_APPROVE_BUTTON": "Approve",
+      "BULK_DELETE_BUTTON": "Sil",
+      "BULK_APPROVE": {
+        "SUCCESS_MESSAGE": "FAQs approved successfully",
+        "ERROR_MESSAGE": "There was an error approving the FAQs, please try again."
+      },
+      "BULK_DELETE": {
+        "TITLE": "Delete FAQs?",
+        "DESCRIPTION": "Are you sure you want to delete the selected FAQs? This action cannot be undone.",
+        "CONFIRM": "Yes, delete all",
+        "SUCCESS_MESSAGE": "FAQs deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the FAQs, please try again."
       },
       "DELETE": {
         "TITLE": "Are you sure to delete the FAQ?",
@@ -487,7 +599,11 @@
       },
       "EMPTY_STATE": {
         "TITLE": "No FAQs Found",
-        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually."
+        "SUBTITLE": "FAQs help your assistant provide quick and accurate answers to questions from your customers. They can be generated automatically from your content or can be added manually.",
+        "FEATURE_SPOTLIGHT": {
+          "TITLE": "Captain FAQ",
+          "NOTE": "Captain FAQs detects common customer questions—whether missing from your knowledge base or frequently asked—and generates relevant FAQs to improve support. You can review each suggestion and decide whether to approve or reject it."
+        }
       }
     },
     "INBOXES": {

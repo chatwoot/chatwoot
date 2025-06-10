@@ -22,15 +22,15 @@
     "IN_A_DAY": "De obicei, răspunsurile într-o zi",
     "BACK_IN": "Vom reveni online"
   },
-  "DAY_NAMES": [
-    "Duminică",
-    "Luni",
-    "Marți",
-    "Miercuri",
-    "Joi",
-    "Vineri",
-    "Sâmbătă"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Duminică",
+    "MONDAY": "Luni",
+    "TUESDAY": "Marți",
+    "WEDNESDAY": "Miercuri",
+    "THURSDAY": "Joi",
+    "FRIDAY": "Vineri",
+    "SATURDAY": "Sâmbătă"
+  },
   "START_CONVERSATION": "Începe conversația",
   "END_CONVERSATION": "Terminați conversația",
   "CONTINUE_CONVERSATION": "Continuați conversația",

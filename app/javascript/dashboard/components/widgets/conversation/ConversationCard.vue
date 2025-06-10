@@ -75,8 +75,10 @@ export default {
     'assignLabel',
     'assignTeam',
     'markAsUnread',
+    'markAsRead',
     'assignPriority',
     'updateConversationStatus',
+    'deleteConversation',
   ],
   data() {
     return {
@@ -228,8 +230,16 @@ export default {
       this.$emit('markAsUnread', this.chat.id);
       this.closeContextMenu();
     },
+    async markAsRead() {
+      this.$emit('markAsRead', this.chat.id);
+      this.closeContextMenu();
+    },
     async assignPriority(priority) {
       this.$emit('assignPriority', priority, this.chat.id);
+      this.closeContextMenu();
+    },
+    async deleteConversation() {
+      this.$emit('deleteConversation', this.chat.id);
       this.closeContextMenu();
     },
   },
@@ -238,7 +248,7 @@ export default {
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-3 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
         isActiveChat,
@@ -273,7 +283,7 @@ export default {
         :badge="inboxBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
-        size="40px"
+        size="32px"
       />
     </div>
     <div
@@ -356,7 +366,9 @@ export default {
         @assign-label="onAssignLabel"
         @assign-team="onAssignTeam"
         @mark-as-unread="markAsUnread"
+        @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
+        @delete-conversation="deleteConversation"
       />
     </ContextMenu>
   </div>
@@ -405,7 +417,7 @@ export default {
   }
 
   .checkbox-wrapper {
-    @apply h-10 w-10 flex items-center justify-center rounded-full cursor-pointer mt-4;
+    @apply flex items-center justify-center rounded-full cursor-pointer mt-4;
 
     input[type='checkbox'] {
       @apply m-0 cursor-pointer;

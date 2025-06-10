@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "Predeterminado",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Firma de mensaje personal",
         "NOTE": "Crea una firma de mensaje única para que aparezca al final de cada mensaje que envíes desde cualquier bandeja de entrada. También puede incluir una imagen en línea, que es soportada en las bandejas de entrada de live-chat, correo electrónico y API.",
@@ -58,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token de acceso",
         "NOTE": "Este token puede ser usado si estás construyendo una integración basada en API",
-        "COPY": "Copiar"
+        "COPY": "Copiar",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de audio",
@@ -167,7 +190,8 @@
           "OFFLINE": "Desconectado"
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilidad se ha establecido con éxito",
-        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo"
+        "SET_AVAILABILITY_ERROR": "No se pudo establecer la disponibilidad, inténtelo de nuevo",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Tu dirección de correo",
@@ -195,7 +219,7 @@
     "CHANGE_AVAILABILITY_STATUS": "Cambiar",
     "CHANGE_ACCOUNTS": "Cambiar de cuenta",
     "SWITCH_ACCOUNT": "Cambiar de cuenta",
-    "CONTACT_SUPPORT": "Contactar al soporte",
+    "CONTACT_SUPPORT": "Contactar a soporte",
     "SELECTOR_SUBTITLE": "Seleccione una cuenta de la siguiente lista",
     "PROFILE_SETTINGS": "Ajustes del perfil",
     "KEYBOARD_SHORTCUTS": "Atajos de teclado",
@@ -262,6 +286,7 @@
     "REPORTS": "Informes",
     "SETTINGS": "Ajustes",
     "CONTACTS": "Contactos",
+    "ACTIVE": "Activo",
     "CAPTAIN": "Capitán",
     "CAPTAIN_ASSISTANTS": "Asistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",
@@ -369,7 +394,8 @@
         "LABEL": "Empresa",
         "PLACEHOLDER": "Empresas de Wayne"
       },
-      "SUBMIT": "Enviar"
+      "SUBMIT": "Enviar",
+      "CANCEL": "Cancelar"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -389,11 +415,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Cambiar a nota privada",
       "SWITCH_TO_REPLY": "Cambiar a respuesta",
       "TOGGLE_SNOOZE_DROPDOWN": "Cambiar el menú desplegable"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Windows / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt \\ ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

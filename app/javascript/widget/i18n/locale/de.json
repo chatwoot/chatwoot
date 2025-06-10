@@ -22,15 +22,15 @@
     "IN_A_DAY": "Wir antworten üblicherweise innerhalb eines Tages",
     "BACK_IN": "Wir werden wieder online sein"
   },
-  "DAY_NAMES": [
-    "Sonntag",
-    "Montag",
-    "Dienstag",
-    "Mittwoch",
-    "Donnerstag",
-    "Freitag",
-    "Samstag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Sonntag",
+    "MONDAY": "Montag",
+    "TUESDAY": "Dienstag",
+    "WEDNESDAY": "Mittwoch",
+    "THURSDAY": "Donnerstag",
+    "FRIDAY": "Freitag",
+    "SATURDAY": "Samstag"
+  },
   "START_CONVERSATION": "Unterhaltung beginnen",
   "END_CONVERSATION": "Konversation beenden",
   "CONTINUE_CONVERSATION": "Konversation fortsetzen",

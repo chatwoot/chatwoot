@@ -7,6 +7,8 @@ import Webhook from './Webhooks/Index.vue';
 import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import SettingsContent from '../Wrapper.vue';
+import Linear from './Linear.vue';
+import Shopify from './Shopify.vue';
 
 export default {
   routes: [
@@ -48,6 +50,14 @@ export default {
       path: frontendURL('accounts/:accountId/settings/integrations'),
       component: SettingsContent,
       props: params => {
+        const integrationId = params.params?.integration_id;
+        const hideHeader = ['dialogflow'].includes(integrationId);
+
+        // Don't show header
+        if (hideHeader) {
+          return {};
+        }
+
         const showBackButton = params.name !== 'settings_integrations';
         const backUrl =
           params.name === 'settings_integrations_integration'
@@ -70,6 +80,25 @@ export default {
             permissions: ['administrator'],
           },
           props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'linear',
+          name: 'settings_integrations_linear',
+          component: Linear,
+          meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
+        },
+        {
+          path: 'shopify',
+          name: 'settings_integrations_shopify',
+          component: Shopify,
+          meta: {
+            featureFlag: FEATURE_FLAGS.INTEGRATIONS,
+            permissions: ['administrator'],
+          },
+          props: route => ({ error: route.query.error }),
         },
         {
           path: ':integration_id',

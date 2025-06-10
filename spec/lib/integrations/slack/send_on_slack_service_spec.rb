@@ -269,6 +269,19 @@ describe Integrations::Slack::SendOnSlackService do
         expect(hook).to be_disabled
         expect(hook).to have_received(:prompt_reauthorization!)
       end
+
+      it 'logs MissingScope error during link unfurl' do
+        unflur_payload = { channel: 'channel', ts: 'timestamp', unfurls: {} }
+        error = Slack::Web::Api::Errors::MissingScope.new('Missing required scope')
+
+        expect(slack_client).to receive(:chat_unfurl)
+          .with(unflur_payload)
+          .and_raise(error)
+
+        expect(Rails.logger).to receive(:warn).with('Slack: Missing scope error: Missing required scope')
+
+        link_builder.link_unfurl(unflur_payload)
+      end
     end
 
     context 'when message contains mentions' do
