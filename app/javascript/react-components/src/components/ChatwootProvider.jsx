@@ -52,6 +52,7 @@ export const ChatwootProvider = ({
     window.__PUBSUB_TOKEN__ = config.pubsubToken;
     window.__WOOT_CONVERSATION_ID__ = config.conversationId;
     window.__WOOT_ISOLATED_SHELL__ = true;
+    window.__EDITOR_DISABLE_UPLOAD__ = true;
     /* eslint-enable no-underscore-dangle */
 
     // Initialize common helpers
