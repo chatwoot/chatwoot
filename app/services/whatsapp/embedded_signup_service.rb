@@ -72,9 +72,10 @@ class Whatsapp::EmbeddedSignupService
 
     raise "No phone numbers found for WABA #{waba_id}" if phone_data.nil?
 
+    display_phone_number = sanitize_phone_number(phone_data['display_phone_number'])
     {
       phone_number_id: phone_data['id'],
-      phone_number: "+#{phone_data['display_phone_number']}",
+      phone_number: "+#{display_phone_number}",
       verified: phone_data['code_verification_status'] == 'VERIFIED',
       business_name: phone_data['verified_name'] || phone_data['display_phone_number']
     }
@@ -88,7 +89,7 @@ class Whatsapp::EmbeddedSignupService
       Rails.logger.error("Channel already exists: #{existing_channel.inspect}")
       raise "Channel already exists: #{existing_channel.phone_number}"
     else
-      channel = create_new_channel(channel_attributes, waba_info, phone_info)
+      channel = create_new_channel(channel_attributes, phone_info)
       register_phone_number(phone_info[:phone_number_id], access_token)
       override_waba_webhook(waba_info[:waba_id], channel, access_token)
       channel
@@ -128,19 +129,19 @@ class Whatsapp::EmbeddedSignupService
     }
   end
 
-  def create_new_channel(attributes, waba_info, phone_info)
+  def create_new_channel(attributes, phone_info)
     channel = Channel::Whatsapp.create!(
       account: @account,
       **attributes
     )
 
-    create_inbox_for_channel(channel, waba_info, phone_info)
+    create_inbox_for_channel(channel, phone_info)
     channel.reload
     channel
   end
 
-  def create_inbox_for_channel(channel, waba_info, phone_info)
-    inbox_name = generate_inbox_name(waba_info, phone_info)
+  def create_inbox_for_channel(channel, phone_info)
+    inbox_name = generate_inbox_name(phone_info)
     Inbox.create!(
       account: @account,
       name: inbox_name,
@@ -148,15 +149,14 @@ class Whatsapp::EmbeddedSignupService
     )
   end
 
-  def generate_inbox_name(waba_info, phone_info)
-    sanitized_business_name = sanitize_business_name(waba_info, phone_info)
-
-    "#{sanitized_business_name} WhatsApp"
+  def generate_inbox_name(phone_info)
+    "#{phone_info[:business_name]} WhatsApp"
   end
 
-  def sanitize_business_name(_waba_info, phone_info)
-    business_name = phone_info[:business_name]
-    (business_name.presence || '[redacted]')
+  def sanitize_phone_number(phone_number)
+    return phone_number if phone_number.blank?
+
+    phone_number.gsub(/[\s\-\(\)\.\+]/, '').strip
   end
 
   def validate_token_waba_access(access_token, waba_id)
