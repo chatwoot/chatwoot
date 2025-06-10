@@ -113,7 +113,7 @@ function generatePackageJson(packageDir) {
   );
 
   const packageJson = {
-    name: '@chatwoot/react-components',
+    name: '@chatwoot/agent-react-components',
     version: finalVersion,
     description:
       'React components for Chatwoot messaging interface with Vue Web Components',
@@ -183,11 +183,11 @@ React components for embedding Chatwoot messaging interface with Vue Web Compone
 ## Installation
 
 \`\`\`bash
-npm install @chatwoot/react-components
+npm install @chatwoot/agent-react-components
 # or
-yarn add @chatwoot/react-components
+yarn add @chatwoot/agent-react-components
 # or
-pnpm add @chatwoot/react-components
+pnpm add @chatwoot/agent-react-components
 \`\`\`
 
 ## Usage
@@ -196,8 +196,8 @@ pnpm add @chatwoot/react-components
 
 \`\`\`jsx
 import React from 'react';
-import { ChatwootProvider, ChatwootConversation } from '@chatwoot/react-components';
-import '@chatwoot/react-components/style.css';
+import { ChatwootProvider, ChatwootConversation } from '@chatwoot/agent-react-components';
+import '@chatwoot/agent-react-components/style.css';
 
 function App() {
   return (
@@ -238,7 +238,7 @@ Component that renders a specific conversation interface.
 Hook to access the Chatwoot configuration within a ChatwootProvider.
 
 \`\`\`jsx
-import { useChatwoot } from '@chatwoot/react-components';
+import { useChatwoot } from '@chatwoot/agent-react-components';
 
 function MyComponent() {
   const { baseURL, userId, userToken } = useChatwoot();
