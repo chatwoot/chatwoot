@@ -2,6 +2,7 @@ import { defineCustomElement } from 'vue';
 import tailwindStyles from '../../../dashboard/assets/scss/_woot.scss?inline';
 import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.vue';
 import en from '../../../dashboard/i18n/locale/en';
+import store from '../../../dashboard/store';
 import { createI18n, I18nInjectionKey } from 'vue-i18n';
 
 import VueDOMPurifyHTML from 'vue-dompurify-html';
@@ -17,6 +18,7 @@ const i18n = createI18n({
 
 const ceOptions = {
   configureApp(app) {
+    app.use(store);
     app.use(VueDOMPurifyHTML, domPurifyConfig);
 
     // I18n has to be injected inside that can be picked
