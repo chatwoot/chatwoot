@@ -2,6 +2,7 @@ const fs = require('fs');
 const path = require('path');
 const { execSync } = require('child_process');
 
+/* eslint-disable no-console */
 console.log('🚀 Building Chatwoot React Components for NPM...');
 
 async function publishReactComponents() {
@@ -81,9 +82,39 @@ function generatePackageJson(packageDir) {
   // Read version from main package.json
   const mainPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
+  // Get current git commit hash for development builds
+  function getVersionSuffix() {
+    try {
+      const gitHash = execSync('git rev-parse --short HEAD', {
+        encoding: 'utf8',
+        stdio: 'pipe',
+      }).trim();
+
+      // Check if we're in a clean working directory
+      const isClean =
+        execSync('git status --porcelain', {
+          encoding: 'utf8',
+          stdio: 'pipe',
+        }).trim() === '';
+
+      // Use git hash for development, beta for clean builds
+      return isClean ? 'beta.1' : `dev.${gitHash}`;
+    } catch (error) {
+      console.warn('   ⚠️  Could not get git hash, using beta.1');
+      return 'beta.1';
+    }
+  }
+
+  const versionSuffix = getVersionSuffix();
+  const finalVersion = `${mainPackage.version}-${versionSuffix}`;
+
+  console.log(
+    `   📋 Package version: ${finalVersion} (suffix: ${versionSuffix})`
+  );
+
   const packageJson = {
     name: '@chatwoot/react-components',
-    version: `${mainPackage.version}-beta.1`, // Use main version + beta suffix
+    version: finalVersion,
     description:
       'React components for Chatwoot messaging interface with Vue Web Components',
 
@@ -161,71 +192,146 @@ pnpm add @chatwoot/react-components
 
 ## Usage
 
-### Basic Hello World
+### Basic MessageList Integration
 
 \`\`\`jsx
 import React from 'react';
-import { HelloWorld } from '@chatwoot/react-components';
+import { ChatwootProvider, ChatwootConversation } from '@chatwoot/react-components';
 import '@chatwoot/react-components/style.css';
 
 function App() {
   return (
-    <div>
-      <HelloWorld />
-    </div>
+    <ChatwootProvider
+      baseURL="https://your-chatwoot-instance.com"
+      userId="user-123"
+      userToken="your-auth-token"
+      websocketURL="wss://your-chatwoot-instance.com/cable" // optional
+      pubsubToken="your-pubsub-token" // optional, defaults to userToken
+    >
+      <div style={{ height: '600px', width: '400px' }}>
+        <ChatwootConversation
+          conversationId={123}
+          onLoad={() => console.log('Conversation loaded')}
+          onError={(err) => console.error('Error:', err)}
+        />
+      </div>
+    </ChatwootProvider>
   );
 }
 \`\`\`
 
-### Vue Web Component Integration
+### Multiple Conversations
 
 \`\`\`jsx
-import React from 'react';
-import { VueWebComponentWrapper } from '@chatwoot/react-components';
-import '@chatwoot/react-components/style.css';
+import React, { useState } from 'react';
+import { ChatwootProvider, ChatwootConversation } from '@chatwoot/react-components';
 
 function App() {
+  const [activeConversation, setActiveConversation] = useState(123);
+
   return (
-    <div>
-      <VueWebComponentWrapper
-        initialCount={10}
-        title="Custom Title"
-        color="#ff6b6b"
-      />
-    </div>
+    <ChatwootProvider
+      baseURL="https://your-chatwoot-instance.com"
+      userId="user-123"
+      userToken="your-auth-token"
+    >
+      <div style={{ display: 'flex', gap: '20px' }}>
+        <div>
+          <button onClick={() => setActiveConversation(123)}>
+            Conversation 123
+          </button>
+          <button onClick={() => setActiveConversation(456)}>
+            Conversation 456
+          </button>
+        </div>
+
+        <div style={{ height: '600px', width: '400px' }}>
+          <ChatwootConversation conversationId={activeConversation} />
+        </div>
+      </div>
+    </ChatwootProvider>
   );
 }
 \`\`\`
 
 ## Components
 
+### ChatwootProvider
+
+Root provider component that manages global configuration and initialization.
+
+**Props:**
+- \`baseURL\` (string, required): Your Chatwoot instance URL
+- \`userId\` (string|number, required): User identifier
+- \`userToken\` (string, required): Authentication token
+- \`websocketURL\` (string, optional): WebSocket endpoint, defaults to baseURL/cable
+- \`pubsubToken\` (string, optional): PubSub token, defaults to userToken
+
+### ChatwootConversation
+
+Component that renders a specific conversation interface.
+
+**Props:**
+- \`conversationId\` (string|number, required): ID of the conversation to display
+- \`className\` (string, optional): CSS class name
+- \`style\` (object, optional): Inline styles
+- \`onLoad\` (function, optional): Callback when conversation loads
+- \`onError\` (function, optional): Callback when an error occurs
+
+### useChatwoot
+
+Hook to access the Chatwoot configuration within a ChatwootProvider.
+
+\`\`\`jsx
+import { useChatwoot } from '@chatwoot/react-components';
+
+function MyComponent() {
+  const { baseURL, userId, userToken } = useChatwoot();
+  // Use configuration as needed
+}
+\`\`\`
+
+## Demo Components
+
+The package also includes demo components for testing:
+
 ### HelloWorld
 
 A simple React component with counter functionality.
 
-**Props:** None
-
 ### VueWebComponentWrapper
 
-A React wrapper for Vue components converted to Web Components.
-
-**Props:**
-- \`initialCount\` (number): Starting count value (default: 0)
-- \`title\` (string): Display title (default: "Hello from Vue in React!")
-- \`color\` (string): Button color (default: "#42b883")
+A React wrapper demonstrating Vue Web Component integration.
 
 ## Architecture
 
-This package demonstrates:
+This package provides:
 - 🔄 **Vue → Web Components**: Using Vue 3's \`defineCustomElement\`
-- ⚛️ **React Integration**: Wrapping Web Components in React components
+- ⚛️ **React Integration**: Clean React API wrapping Web Components
 - 📦 **Dual Build**: ES modules + CommonJS for maximum compatibility
 - 🎨 **CSS Isolation**: Scoped styles via Shadow DOM
+- 🌐 **Global State**: Centralized Chatwoot ecosystem initialization
+- 🔌 **Real-time**: ActionCable integration for live updates
 
 ## Requirements
 
 - React 16.8+ (hooks support)
 - Modern browsers with Web Components support
+- Valid Chatwoot instance with API access
+
+## Error Handling
+
+The components include built-in error handling:
+
+\`\`\`jsx
+<ChatwootConversation
+  conversationId={123}
+  onError={(error) => {
+    console.error('Chatwoot error:', error);
+    // Handle error (show notification, fallback UI, etc.)
+  }}
+/>
+\`\`\`
 
 ## Development
 
@@ -242,3 +348,4 @@ MIT © [Chatwoot](https://chatwoot.com)
 
 // Run the script
 publishReactComponents();
+/* eslint-enable no-console */
