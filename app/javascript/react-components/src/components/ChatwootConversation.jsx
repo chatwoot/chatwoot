@@ -24,12 +24,3 @@ export const ChatwootConversation = ({
     </div>
   );
 };
-
-// Export props interface for TypeScript users (future)
-// export interface ChatwootConversationProps {
-//   conversationId: number | string;
-//   className?: string;
-//   style?: React.CSSProperties;
-//   onError?: (error: Error) => void;
-//   onLoad?: () => void;
-// }
