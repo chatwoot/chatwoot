@@ -1,5 +1,6 @@
 # frozen_string_literal: true
 
+# rubocop:disable Metrics/BlockLength
 namespace :chatwoot do
   namespace :dev do
     desc 'Toggle between Chatwoot variants with interactive menu'
@@ -15,16 +16,16 @@ namespace :chatwoot do
     desc 'Show current Chatwoot variant status'
     task show_variant: :environment do
       return unless Rails.env.development?
-      
+
       show_current_variant
     end
 
     private
 
     def show_current_variant
-      puts "\n" + "=" * 50
-      puts "🚀 CHATWOOT VARIANT MANAGER"
-      puts "=" * 50
+      puts "\n#{('=' * 50)}"
+      puts '🚀 CHATWOOT VARIANT MANAGER'
+      puts '=' * 50
 
       # Check InstallationConfig
       deployment_env = InstallationConfig.find_by(name: 'DEPLOYMENT_ENV')&.value
@@ -42,50 +43,56 @@ namespace :chatwoot do
       puts "📊 Current Variant: #{current_variant}"
       puts "   Deployment Environment: #{deployment_env || 'Not set'}"
       puts "   Pricing Plan: #{pricing_plan || 'community'}"
-      puts ""
+      puts ''
     end
 
     def show_variant_menu
-      puts "🎯 Select a variant to switch to:"
-      puts ""
-      puts "1. 🆓 Community   (Free version with basic features)"
-      puts "2. 🏢 Enterprise  (Self-hosted with premium features)"
-      puts "3. 🌥️  Cloud       (Cloud deployment with premium features)"
-      puts ""
-      puts "0. ❌ Cancel"
-      puts ""
-      print "Enter your choice (0-3): "
+      puts '🎯 Select a variant to switch to:'
+      puts ''
+      puts '1. 🆓 Community   (Free version with basic features)'
+      puts '2. 🏢 Enterprise  (Self-hosted with premium features)'
+      puts '3. 🌥️  Cloud       (Cloud deployment with premium features)'
+      puts ''
+      puts '0. ❌ Cancel'
+      puts ''
+      print 'Enter your choice (0-3): '
     end
 
     def handle_user_selection
-      choice = STDIN.gets.chomp
+      choice = $stdin.gets.chomp
 
       case choice
       when '1'
-        puts "\n🔄 Switching to Community variant..."
-        configure_community_variant
-        clear_cache
-        puts "✅ Successfully switched to Community variant!"
+        switch_to_variant('Community') { configure_community_variant }
       when '2'
-        puts "\n🔄 Switching to Enterprise variant..."
-        configure_enterprise_variant
-        clear_cache
-        puts "✅ Successfully switched to Enterprise variant!"
+        switch_to_variant('Enterprise') { configure_enterprise_variant }
       when '3'
-        puts "\n🔄 Switching to Cloud variant..."
-        configure_cloud_variant
-        clear_cache
-        puts "✅ Successfully switched to Cloud variant!"
+        switch_to_variant('Cloud') { configure_cloud_variant }
       when '0'
-        puts "\n❌ Cancelled. No changes made."
-        exit 0
+        cancel_operation
       else
-        puts "\n❌ Invalid choice. Please select 0-3."
-        puts "No changes made."
-        exit 1
+        invalid_choice
       end
 
       puts "\n🎉 Changes applied successfully! No restart required."
+    end
+
+    def switch_to_variant(variant_name)
+      puts "\n🔄 Switching to #{variant_name} variant..."
+      yield
+      clear_cache
+      puts "✅ Successfully switched to #{variant_name} variant!"
+    end
+
+    def cancel_operation
+      puts "\n❌ Cancelled. No changes made."
+      exit 0
+    end
+
+    def invalid_choice
+      puts "\n❌ Invalid choice. Please select 0-3."
+      puts 'No changes made.'
+      exit 1
     end
 
     def configure_community_variant
@@ -112,7 +119,8 @@ namespace :chatwoot do
 
     def clear_cache
       GlobalConfig.clear_cache
-      puts "   🗑️  Cleared configuration cache"
+      puts '   🗑️  Cleared configuration cache'
     end
   end
 end
+# rubocop:enable Metrics/BlockLength
