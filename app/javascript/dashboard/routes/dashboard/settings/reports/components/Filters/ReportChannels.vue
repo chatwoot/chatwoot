@@ -14,7 +14,7 @@ export default {
   computed: {
     options() {
       return [
-        { value: 'Channel::Whatsapp', title: 'Whatsapp', color: '#25D366' },
+        { value: 'Channel::Whatsapp', title: 'WhatsApp', color: '#25D366' },
         { value: 'Channel::WebWidget', title: 'Live Chat', color: '#6366F1' },
         { value: 'Channel::Sms', title: 'SMS', color: '#fbbf24' },
       ];
