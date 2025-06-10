@@ -47,3 +47,13 @@ notify_waiting_for_agent_reply_job:
   cron: '*/2 * * * *'
   class: 'NotifyWaitingForAgentReplyJob'
   queue: scheduled_jobs
+
+transaction_timeout_job:
+  cron: "59 16 * * *"  # setiap hari jam 23:59 WIB
+  class: "SubscriptionPaymentTimeoutJob"
+  queue: scheduled_jobs
+
+reset_subscription_usage:
+  cron: "0 17 * * *"  # setiap tanggal 1 pukul 00:00
+  class: "ResetSubscriptionUsageJob"
+  queue: scheduled_jobs
