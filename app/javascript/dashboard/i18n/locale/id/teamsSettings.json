@@ -30,7 +30,7 @@
       },
       "WIZARD_FINISH": {
         "TITLE": "Selesai",
-        "BODY": "Sekarang kotak masuk Anda sudah siap!"
+        "BODY": "Anda dapat mulai menerima dan membalas pesan pelanggan!"
       }
     },
     "EDIT_FLOW": {
@@ -57,7 +57,7 @@
       "EDIT_WIZARD_FINISH": {
         "TITLE": "Selesai",
         "ROUTE": "pengaturan_tim_edit_selesai",
-        "BODY": "Sekarang kotak masuk Anda sudah siap!"
+        "BODY": "Anda dapat mulai menerima dan membalas pesan pelanggan."
       }
     },
     "TEAM_FORM": {

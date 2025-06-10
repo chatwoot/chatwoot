@@ -205,7 +205,7 @@
             "BODY": "Kustomisasi portal"
           },
           "FINISH": {
-            "TITLE": "Voila! 🎉",
+            "TITLE": "Setup Berhasil!",
             "BODY": "Semuanya siap!"
           }
         },
@@ -222,7 +222,7 @@
             "UPDATE_PORTAL_BUTTON": "Perbarui pengaturan portal"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila! 🎉 Semuanya sudah siap!",
+            "TITLE": "Setup Berhasil! 🎉 Semuanya sudah siap!",
             "MESSAGE": "Anda sekarang dapat melihat portal yang dibuat di halaman semua portal Anda.",
             "FINISH": "Buka halaman semua portal"
           }

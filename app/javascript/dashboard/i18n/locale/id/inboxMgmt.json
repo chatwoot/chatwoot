@@ -22,8 +22,8 @@
         "BODY": "Tambahkan agen ke kotak masuk yang dibuat."
       },
       "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "Sekarang kotak masuk Anda sudah siap!"
+        "TITLE": "Setup Berhasil!",
+        "BODY": "Anda dapat mulai menerima dan membalas pesan pelanggan."
       }
     },
     "ADD": {
@@ -50,7 +50,7 @@
       },
       "WEBSITE_NAME": {
         "LABEL": "Nama Website",
-        "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)"
+        "PLACEHOLDER": "Masukkan nama situs web Anda (misalnya : Toko Batik Jaya)"
       },
       "FB": {
         "HELP": "NB: Dengan masuk, kami hanya mendapatkan akses ke pesan Halaman Anda. Pesan pribadi Anda tidak akan pernah bisa diakses oleh Jangkau.",
@@ -82,7 +82,7 @@
         },
         "CHANNEL_DOMAIN": {
           "LABEL": "Domain Website",
-          "PLACEHOLDER": "Masukkan domain situs web Anda (misalnya: acme.com)"
+          "PLACEHOLDER": "Masukkan domain situs web Anda (Misalnya: tokobatikjaya.co.id)"
         },
         "CHANNEL_WELCOME_TITLE": {
           "LABEL": "Judul Selamat Datang",
@@ -693,7 +693,7 @@
         },
         "WEBSITE_NAME": {
           "LABEL": "Nama Website",
-          "PLACE_HOLDER": "Masukkan nama situs web Anda (misalnya: Acme Inc)",
+          "PLACE_HOLDER": "Masukkan nama situs web Anda (misalnya : Toko Batik Jaya)",
           "ERROR": "Masukkan nama situs web yang valid"
         },
         "WELCOME_HEADING": {
