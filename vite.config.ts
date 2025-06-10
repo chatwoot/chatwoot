@@ -44,7 +44,7 @@ if (isLibraryMode) {
 } else if (uiMode) {
   plugins = [vue()];
 } else if (reactComponentMode) {
-  plugins = [vue(vueOptions), react()];
+  plugins = [vue({ ...vueOptions, customElement: true }), react()];
 } else if (isTestMode) {
   plugins = [vue(vueOptions)];
 }

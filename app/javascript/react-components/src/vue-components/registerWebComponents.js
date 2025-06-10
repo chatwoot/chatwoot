@@ -1,6 +1,6 @@
 import { defineCustomElement } from 'vue';
-import tailwindStyles from '../../../dashboard/assets/scss/_woot.scss?inline';
 import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.vue';
+import '../../../dashboard/assets/scss/app.scss';
 import en from '../../../dashboard/i18n/locale/en';
 import store from '../../../dashboard/store';
 import { createI18n, I18nInjectionKey } from 'vue-i18n';
@@ -28,8 +28,6 @@ const ceOptions = {
     app.use(i18n);
     app.provide(I18nInjectionKey, i18n);
   },
-  // Include tailwind styles in the shadow DOM of each custom element
-  styles: [tailwindStyles],
 };
 
 // Convert Vue components to Web Components
