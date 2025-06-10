@@ -9,8 +9,10 @@ class SearchService
       { conversations: filter_conversations }
     when 'Contact'
       { contacts: filter_contacts }
+    when 'Article'
+      { articles: filter_articles }
     else
-      { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations }
+      { contacts: filter_contacts, messages: filter_messages, conversations: filter_conversations, articles: filter_articles }
     end
   end
 
@@ -89,5 +91,12 @@ class SearchService
       "name ILIKE :search OR email ILIKE :search OR phone_number
       ILIKE :search OR identifier ILIKE :search", search: "%#{search_query}%"
     ).resolved_contacts.order_on_last_activity_at('desc').page(params[:page]).per(15)
+  end
+
+  def filter_articles
+    @articles = current_account.articles
+                               .text_search(search_query)
+                               .page(params[:page])
+                               .per(15)
   end
 end

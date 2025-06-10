@@ -92,7 +92,7 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def settings_params
-    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting)
+    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label)
   end
 
   def check_signup_enabled

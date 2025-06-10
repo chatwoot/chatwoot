@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "Контакты",
       "SEARCH_TITLE": "Поиск контактов",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Поиск...",
       "MESSAGE_BUTTON": "Сообщение",
       "SEND_MESSAGE": "Отправить сообщение",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Добавить Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "Удалить контакт",
       "DELETE_DIALOG": {
         "TITLE": "Подтвердите удаление",
-        "DESCRIPTION": "Вы уверены, что хотите удалить этот контакт {contactName}?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "Да, удалить",
         "API": {
           "SUCCESS_MESSAGE": "Кампания успешно удалена",
@@ -555,7 +560,8 @@
       "SUBTITLE": "Начните добавлять новые контакты, нажав на кнопку ниже",
       "BUTTON_LABEL": "Добавить контакт",
       "SEARCH_EMPTY_STATE_TITLE": "Нет контактов по вашему запросу 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋"
+      "LIST_EMPTY_STATE_TITLE": "Нет контактов в этом виде 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
