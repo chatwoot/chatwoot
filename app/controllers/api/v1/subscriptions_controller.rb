@@ -86,7 +86,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
               user.email,
               user.name,
               transaction.transaction_id,
-              transaction.transaction_date,
+              transaction.transaction_date.in_time_zone("Asia/Jakarta").strftime("%d-%m-%Y %H:%M:%S"),
               transaction.price.to_i,
               transaction.package_name,
               transaction.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
