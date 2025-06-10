@@ -131,13 +131,5 @@ export default {
         },
       ],
     },
-    {
-      path: '',
-      name: 'agent_settings_integrations_onehash_apps',
-      component: OneHash,
-      meta: {
-        permissions: ['agent'],
-      },
-    },
   ],
 };

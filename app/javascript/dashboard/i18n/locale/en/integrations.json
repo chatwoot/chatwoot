@@ -200,7 +200,10 @@
       "LIST": {
         "404": "There are no dashboard apps configured on this account yet",
         "LOADING": "Fetching dashboard apps...",
-        "TABLE_HEADER": { "NAME": "Name", "ENDPOINT": "Endpoint" },
+        "TABLE_HEADER": {
+          "NAME": "Name",
+          "ENDPOINT": "Endpoint"
+        },
         "EDIT_TOOLTIP": "Edit app",
         "DELETE_TOOLTIP": "Delete app"
       },
@@ -320,6 +323,20 @@
         "MESSAGE": "Are you sure you want to delete the integration?",
         "CONFIRM": "Yes, delete",
         "CANCEL": "Cancel"
+      }
+    },
+    "ONEHASH_CAL": {
+      "DELETE": "Remove",
+      "DELETE_CONFIRMATION": {
+        "TITLE": "Delete the integration",
+        "MESSAGE": "Are you sure you want to delete the integration?"
+      },
+      "ADD_TITLE": "Enter the Cal ID user's slug you wish to integrate with.",
+      "ADD_MESSAGE": "Note: This will send an integration request to the specified user's Cal account, which can be viewed in the side panel of the Cal app.",
+      "PROCEED": "Send request",
+      "API": {
+        "MESSAGE": "Request Raised Successfully",
+        "ERROR_MESSAGE": "An error occured adding the cal integration"
       }
     }
   },
@@ -492,7 +509,6 @@
         "SUCCESS_MESSAGE": "The document has been successfully deleted",
         "ERROR_MESSAGE": "There was an error deleting the document, please try again."
       },
-
       "OPTIONS": {
         "VIEW_RELATED_RESPONSES": "View Related Responses",
         "DELETE_DOCUMENT": "Delete Document"
@@ -561,7 +577,6 @@
           "PLACEHOLDER": "Enter the answer here",
           "ERROR": "Please provide a valid answer."
         },
-
         "ASSISTANT": {
           "LABEL": "Assistant",
           "PLACEHOLDER": "Select an assistant",

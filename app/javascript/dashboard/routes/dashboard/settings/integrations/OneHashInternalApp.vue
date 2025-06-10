@@ -87,7 +87,7 @@ export default {
         this.requestRaised = true;
         useAlert(res.data.message);
       } catch (error) {
-        useAlert(this.$t('INTEGRATION_SETTINGS.ADD.API.ERROR_MESSAGE'));
+        useAlert(this.$t('INTEGRATION_SETTINGS.ONEHASH_CAL.API.ERROR_MESSAGE'));
       } finally {
         this.loading = false;
       }
