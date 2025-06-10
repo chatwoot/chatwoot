@@ -40,7 +40,7 @@ class Fonnte::IncomingMessageService
   end
 
   def phone_number
-    num = params[:device]
+    num = params[:pengirim] || params[:sender]
     num.present? && !num.start_with?('+') ? "+#{num}" : num
   end
 
