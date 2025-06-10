@@ -15,7 +15,7 @@ class DashboardController < ActionController::Base
   private
 
   def ensure_html_format
-    head :not_acceptable if request.format.json?
+    render json: { error: 'Please use API routes instead of dashboard routes for JSON requests' }, status: :not_acceptable if request.format.json?
   end
 
   def set_global_config
