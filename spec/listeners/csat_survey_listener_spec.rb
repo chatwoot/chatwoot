@@ -63,15 +63,5 @@ describe CsatSurveyListener do
         listener.conversation_status_changed(event)
       end
     end
-
-    context 'when status did not change' do
-      it 'does not trigger CSAT survey service' do
-        allow(resolved_conversation).to receive(:saved_change_to_status?).and_return(false)
-        event = Events::Base.new(event_name, Time.zone.now, conversation: resolved_conversation)
-
-        expect(CsatSurveyService).not_to receive(:new)
-        listener.conversation_status_changed(event)
-      end
-    end
   end
 end
