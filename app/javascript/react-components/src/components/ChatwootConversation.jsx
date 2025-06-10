@@ -13,8 +13,8 @@ export const ChatwootConversation = ({
   // Ensure we're inside a ChatwootProvider
   useChatwoot(); // This will throw if not in Provider context
 
-  const [isLoaded, setIsLoaded] = useState(false);
-  const [error, setError] = useState(null);
+  const [, setIsLoaded] = useState(false);
+  const [, setError] = useState(null);
 
   // Validate required props
   if (!conversationId) {
@@ -27,11 +27,14 @@ export const ChatwootConversation = ({
     onLoad?.();
   }, [onLoad]);
 
-  const handleError = useCallback((err) => {
-    setError(err.message);
-    setIsLoaded(false);
-    onError?.(err);
-  }, [onError]);
+  const handleError = useCallback(
+    err => {
+      setError(err.message);
+      setIsLoaded(false);
+      onError?.(err);
+    },
+    [onError]
+  );
 
   return (
     <div
@@ -40,7 +43,7 @@ export const ChatwootConversation = ({
         height: '100%',
         width: '100%',
         position: 'relative',
-        ...style
+        ...style,
       }}
     >
       <ChatwootMessageListWrapper

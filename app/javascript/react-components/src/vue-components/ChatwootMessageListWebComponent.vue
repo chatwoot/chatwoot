@@ -17,7 +17,7 @@ const error = ref(null);
 async function waitForGlobalInitialization() {
   // Wait for global Chatwoot objects to be available
   let attempts = 0;
-  const maxAttempts = 50; // 5 seconds max wait
+  const maxAttempts = 5000; // 5 seconds max wait
 
   while (attempts < maxAttempts) {
     // eslint-disable-next-line no-underscore-dangle
