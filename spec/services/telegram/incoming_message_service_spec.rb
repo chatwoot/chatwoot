@@ -179,6 +179,35 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when valid video_note messages params' do
+      it 'creates appropriate conversations, message and contacts' do
+        allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mov')
+        params = {
+          'update_id' => 2_342_342_343_242,
+          'message' => {
+            'video_note' => {
+              'duration' => 3,
+              'length' => 240,
+              'thumb' => {
+                'file_id' => 'AAMCBQADGQEAA4ZhXd78Xz6_c6gCzbdIkgGiXJcwwwACqwMAAp3x8Fbhf3EWamgCWAEAB20AAyEE',
+                'file_unique_id' => 'AQADqwMAAp3x8FZy',
+                'file_size' => 11_462,
+                'width' => 240,
+                'height' => 240
+              },
+              'file_id' => 'DQACAgUAAxkBAAIBY2FdJlhf8PC2E3IalXSvXWO5m8GBAALJAwACwqHgVhb0truM0uhwIQQ',
+              'file_unique_id' => 'AgADyQMAAsKh4FY',
+              'file_size' => 132_446
+            }
+          }.merge(message_params)
+        }.with_indifferent_access
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(Contact.all.first.name).to eq('Sojan Jose')
+        expect(telegram_channel.inbox.messages.first.attachments.first.file_type).to eq('video')
+      end
+    end
+
     context 'when valid voice attachment params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.ogg')
