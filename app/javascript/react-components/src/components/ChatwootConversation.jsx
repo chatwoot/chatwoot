@@ -1,4 +1,3 @@
-import { useState, useCallback } from 'react';
 import { useChatwoot } from './ChatwootProvider';
 import { ChatwootMessageListWrapper } from './ChatwootMessageListWrapper';
 
@@ -6,35 +5,10 @@ export const ChatwootConversation = ({
   conversationId,
   className = '',
   style = {},
-  onError = null,
-  onLoad = null,
   ...otherProps
 }) => {
   // Ensure we're inside a ChatwootProvider
   useChatwoot(); // This will throw if not in Provider context
-
-  const [, setIsLoaded] = useState(false);
-  const [, setError] = useState(null);
-
-  // Validate required props
-  if (!conversationId) {
-    throw new Error('ChatwootConversation: conversationId is required');
-  }
-
-  const handleLoad = useCallback(() => {
-    setIsLoaded(true);
-    setError(null);
-    onLoad?.();
-  }, [onLoad]);
-
-  const handleError = useCallback(
-    err => {
-      setError(err.message);
-      setIsLoaded(false);
-      onError?.(err);
-    },
-    [onError]
-  );
 
   return (
     <div
@@ -46,13 +20,7 @@ export const ChatwootConversation = ({
         ...style,
       }}
     >
-      <ChatwootMessageListWrapper
-        conversationId={conversationId}
-        onLoad={handleLoad}
-        onError={handleError}
-        className="h-full w-full"
-        {...otherProps}
-      />
+      <ChatwootMessageListWrapper className="h-full w-full" {...otherProps} />
     </div>
   );
 };

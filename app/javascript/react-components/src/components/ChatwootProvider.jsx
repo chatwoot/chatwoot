@@ -1,4 +1,4 @@
-import { createContext, useContext, useEffect, useRef } from 'react';
+import { createContext, useContext, useEffect, useRef, useState } from 'react';
 import { registerVueWebComponents } from '../vue-components/registerWebComponents';
 import store from '../../../dashboard/store';
 import constants from '../../../dashboard/constants/globals';
@@ -15,10 +15,11 @@ export const ChatwootProvider = ({
   userToken,
   websocketURL,
   pubsubToken,
+  conversationId,
   children,
 }) => {
   const isInitialized = useRef(false);
-  const originalGlobals = useRef({});
+  const [initializationComplete, setInitializationComplete] = useState(false);
 
   // Validate required props
   if (!baseURL) {
@@ -33,6 +34,7 @@ export const ChatwootProvider = ({
     baseURL: baseURL.replace(/\/$/, ''), // Remove trailing slash
     userToken,
     accountId,
+    conversationId,
     websocketURL: websocketURL,
     pubsubToken: pubsubToken,
   };
@@ -48,6 +50,7 @@ export const ChatwootProvider = ({
     window.__WOOT_ACCESS_TOKEN__ = config.userToken;
     window.__WEBSOCKET_URL__ = config.websocketURL;
     window.__PUBSUB_TOKEN__ = config.pubsubToken;
+    window.__WOOT_CONVERSATION_ID__ = config.conversationId;
     window.__WOOT_ISOLATED_SHELL__ = true;
     /* eslint-enable no-underscore-dangle */
 
@@ -62,18 +65,14 @@ export const ChatwootProvider = ({
     // Initialize user in store and ActionCable
     store.dispatch('setUser').then(() => {
       vueActionCable.init(store, config.pubsubToken);
+      setInitializationComplete(true);
     });
   }
 
   useEffect(() => {
     if (isInitialized.current) return;
 
-    console.log('setting up chatwoot globals');
-    try {
-      initializeChatwootGlobals();
-    } catch (error) {
-      console.error('Error initializing Chatwoot globals:', error);
-    }
+    initializeChatwootGlobals();
     isInitialized.current = true;
   }, [
     config.baseURL,
@@ -81,6 +80,10 @@ export const ChatwootProvider = ({
     config.websocketURL,
     config.pubsubToken,
   ]);
+
+  if (!initializationComplete) {
+    return null;
+  }
 
   return (
     <ChatwootContext.Provider value={config}>
