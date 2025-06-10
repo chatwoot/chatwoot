@@ -203,52 +203,13 @@ function App() {
   return (
     <ChatwootProvider
       baseURL="https://your-chatwoot-instance.com"
-      userId="user-123"
+      accountId="123"
+      conversationId={123}
       userToken="your-auth-token"
-      websocketURL="wss://your-chatwoot-instance.com/cable" // optional
-      pubsubToken="your-pubsub-token" // optional, defaults to userToken
+      websocketURL="wss://your-chatwoot-instance.com"
+      pubsubToken="your-pubsub-token"
     >
-      <div style={{ height: '600px', width: '400px' }}>
-        <ChatwootConversation
-          conversationId={123}
-          onLoad={() => console.log('Conversation loaded')}
-          onError={(err) => console.error('Error:', err)}
-        />
-      </div>
-    </ChatwootProvider>
-  );
-}
-\`\`\`
-
-### Multiple Conversations
-
-\`\`\`jsx
-import React, { useState } from 'react';
-import { ChatwootProvider, ChatwootConversation } from '@chatwoot/react-components';
-
-function App() {
-  const [activeConversation, setActiveConversation] = useState(123);
-
-  return (
-    <ChatwootProvider
-      baseURL="https://your-chatwoot-instance.com"
-      userId="user-123"
-      userToken="your-auth-token"
-    >
-      <div style={{ display: 'flex', gap: '20px' }}>
-        <div>
-          <button onClick={() => setActiveConversation(123)}>
-            Conversation 123
-          </button>
-          <button onClick={() => setActiveConversation(456)}>
-            Conversation 456
-          </button>
-        </div>
-
-        <div style={{ height: '600px', width: '400px' }}>
-          <ChatwootConversation conversationId={activeConversation} />
-        </div>
-      </div>
+      <ChatwootConversation />
     </ChatwootProvider>
   );
 }
@@ -262,21 +223,15 @@ Root provider component that manages global configuration and initialization.
 
 **Props:**
 - \`baseURL\` (string, required): Your Chatwoot instance URL
-- \`userId\` (string|number, required): User identifier
+- \`accountId\` (string|number, required): account identifier
 - \`userToken\` (string, required): Authentication token
+- \`conversationId\` (number, required): ID of the conversation to display
 - \`websocketURL\` (string, optional): WebSocket endpoint, defaults to baseURL/cable
 - \`pubsubToken\` (string, optional): PubSub token, defaults to userToken
 
 ### ChatwootConversation
 
 Component that renders a specific conversation interface.
-
-**Props:**
-- \`conversationId\` (string|number, required): ID of the conversation to display
-- \`className\` (string, optional): CSS class name
-- \`style\` (object, optional): Inline styles
-- \`onLoad\` (function, optional): Callback when conversation loads
-- \`onError\` (function, optional): Callback when an error occurs
 
 ### useChatwoot
 
@@ -290,56 +245,6 @@ function MyComponent() {
   // Use configuration as needed
 }
 \`\`\`
-
-## Demo Components
-
-The package also includes demo components for testing:
-
-### HelloWorld
-
-A simple React component with counter functionality.
-
-### VueWebComponentWrapper
-
-A React wrapper demonstrating Vue Web Component integration.
-
-## Architecture
-
-This package provides:
-- 🔄 **Vue → Web Components**: Using Vue 3's \`defineCustomElement\`
-- ⚛️ **React Integration**: Clean React API wrapping Web Components
-- 📦 **Dual Build**: ES modules + CommonJS for maximum compatibility
-- 🎨 **CSS Isolation**: Scoped styles via Shadow DOM
-- 🌐 **Global State**: Centralized Chatwoot ecosystem initialization
-- 🔌 **Real-time**: ActionCable integration for live updates
-
-## Requirements
-
-- React 16.8+ (hooks support)
-- Modern browsers with Web Components support
-- Valid Chatwoot instance with API access
-
-## Error Handling
-
-The components include built-in error handling:
-
-\`\`\`jsx
-<ChatwootConversation
-  conversationId={123}
-  onError={(error) => {
-    console.error('Chatwoot error:', error);
-    // Handle error (show notification, fallback UI, etc.)
-  }}
-/>
-\`\`\`
-
-## Development
-
-This package is part of the [Chatwoot](https://chatwoot.com) project.
-
-## License
-
-MIT © [Chatwoot](https://chatwoot.com)
 `;
 
   fs.writeFileSync(path.join(packageDir, 'README.md'), readme);
