@@ -1,22 +1,33 @@
 import { defineCustomElement } from 'vue';
-import VueHelloWorld from './VueHelloWorld.vue';
+import tailwindStyles from '../../../dashboard/assets/scss/_woot.scss?inline';
 import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.vue';
+import en from '../../../dashboard/i18n/locale/en';
+import { createI18n } from 'vue-i18n';
+
+const i18n = createI18n({
+  legacy: false,
+  locale: 'en',
+  messages: {
+    en,
+  },
+});
+
+const ceOptions = {
+  configureApp(app) {
+    app.use(i18n);
+  },
+  // Include tailwind styles in the shadow DOM of each custom element
+  styles: [tailwindStyles],
+};
 
 // Convert Vue components to Web Components
-const VueHelloWorldElement = defineCustomElement(VueHelloWorld);
 const ChatwootMessageListElement = defineCustomElement(
-  ChatwootMessageListWebComponent
+  ChatwootMessageListWebComponent,
+  ceOptions
 );
 
 // Register Web Components
 export const registerVueWebComponents = () => {
-  // Check if already registered to prevent errors
-  if (!customElements.get('vue-hello-world')) {
-    customElements.define('vue-hello-world', VueHelloWorldElement);
-    // eslint-disable-next-line no-console
-    console.log('✅ Registered vue-hello-world Web Component');
-  }
-
   if (!customElements.get('chatwoot-message-list')) {
     customElements.define('chatwoot-message-list', ChatwootMessageListElement);
     // eslint-disable-next-line no-console
@@ -25,4 +36,4 @@ export const registerVueWebComponents = () => {
 };
 
 // Export for manual registration if needed
-export { VueHelloWorldElement, ChatwootMessageListElement };
+export { ChatwootMessageListElement };
