@@ -142,9 +142,17 @@ class Api::V1::SubscriptionsController < Api::BaseController
   end
 
   def histories
-    # @transactions = @subscription.transactions.order(created_at: :desc) # Order by transaction date
-    @transactions = @account.transactions.order(created_at: :desc)
-    render json: @transactions
+    # @transactions = @account.transactions.order(created_at: :desc)
+    # render json: @transactions
+    @transactions = @account.transactions
+      .includes(:subscriptions)
+      .order(created_at: :desc)
+
+    render json: @transactions.as_json(include: {
+      subscriptions: {
+        only: [:id, :plan_name, :starts_at, :ends_at, :status]
+      }
+    })
   end
   
   private

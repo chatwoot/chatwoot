@@ -6,10 +6,13 @@
     "PAY": "Bayar",
     "TABLE": {
       "HEADER": {
+        "ID": "ID",
         "PACKAGE": "PAKET",
         "DURATION": "DURASI",
         "STATUS": "STATUS",
-        "TRANSACTION_DATE": "TANGGAL",
+        "TRANSACTION_DATE": "TANGGAL TRANSAKSI",
+        "SUBSCRIPTION_START": "TANGGAL MULAI",
+        "SUBSCRIPTION_END": "TANGGAL BERAKHIR",
         "ACTION": "AKSI"
       }
     }
