@@ -1,4 +1,5 @@
 <script setup>
+import SubmitButton from 'dashboard/components-next/button/Button.vue';
 import { ref, computed } from 'vue';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
@@ -163,10 +164,11 @@ const skipToNextStep = async () => {
       </div>
 
       <div class="flex flex-row justify-start w-full gap-2 px-0 py-2">
-        <woot-submit-button
-          :disabled="v$.$invalid || uiFlags.isCreating"
-          :button-text="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
-          :loading="uiFlags.isCreating"
+        <SubmitButton
+          button-class="flex justify-center w-full text-sm text-center"
+          :label="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
+          :is-disabled="(v$.$invalid || uiFlags.isCreating)"
+          :is-loading="uiFlags.isCreating"
         />
         <button type="button" class="button clear" @click="skipToNextStep">
           {{ $t('AGENT_MGMT.ADD.FORM.SKIP') }}

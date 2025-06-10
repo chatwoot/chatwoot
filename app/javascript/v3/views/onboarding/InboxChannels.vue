@@ -35,6 +35,7 @@ const channelList = computed(() => {
     },
     { key: 'telegram', name: 'Telegram' },
     { key: 'line', name: 'Line' },
+    { key: 'instagram', name: 'Instagram' },
   ];
 });
 

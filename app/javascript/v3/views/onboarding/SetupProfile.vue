@@ -282,7 +282,7 @@ export default {
       </div>
       <SubmitButton
         button-class="flex justify-center w-full text-sm text-center"
-        :button-text="$t('START_ONBOARDING.PROFILE.SUBMIT.BUTTON')"
+        :label="$t('START_ONBOARDING.PROFILE.SUBMIT.BUTTON')"
       />
     </form>
   </OnboardingBaseModal>

@@ -18,6 +18,10 @@ const props = defineProps({
     default: null,
     validator: value => VARIANT_OPTIONS.includes(value) || value === null,
   },
+  isDisabled: {
+    type: Boolean,
+    default: false
+  },
   color: {
     type: String,
     default: null,
@@ -226,6 +230,7 @@ const linkButtonClasses = computed(() => {
 <template>
   <button
     v-bind="filteredAttrs"
+    :disabled="isDisabled"
     :class="{
       [STYLE_CONFIG.base]: true,
       [isLink ? linkButtonClasses : buttonClasses]: true,
