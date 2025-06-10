@@ -33,46 +33,11 @@ export const ChatwootProvider = ({
     baseURL: baseURL.replace(/\/$/, ''), // Remove trailing slash
     userToken,
     accountId,
-    websocketURL: websocketURL || `${baseURL.replace('http', 'ws')}/cable`,
-    pubsubToken: pubsubToken || userToken, // Fallback to userToken if pubsubToken not provided
+    websocketURL: websocketURL,
+    pubsubToken: pubsubToken,
   };
 
-  function storeOriginalGlobals() {
-    /* eslint-disable no-underscore-dangle */
-    originalGlobals.current = {
-      __WOOT_API_HOST__: window.__WOOT_API_HOST__,
-      __WOOT_ACCESS_TOKEN__: window.__WOOT_ACCESS_TOKEN__,
-      __WEBSOCKET_URL__: window.__WEBSOCKET_URL__,
-      __PUBSUB_TOKEN__: window.__PUBSUB_TOKEN__,
-      __WOOT_USER_ID__: window.__WOOT_USER_ID__,
-      __WOOT_ISOLATED_SHELL__: window.__WOOT_ISOLATED_SHELL__,
-      __CHATWOOT_STORE__: window.__CHATWOOT_STORE__,
-      WootConstants: window.WootConstants,
-      axios: window.axios,
-    };
-    /* eslint-enable no-underscore-dangle */
-  }
-
-  function cleanupChatwootGlobals() {
-    // Restore original globals
-    Object.entries(originalGlobals.current).forEach(([key, value]) => {
-      if (value !== undefined) {
-        window[key] = value;
-      } else {
-        delete window[key];
-      }
-    });
-
-    // Disconnect ActionCable
-    if (vueActionCable.connection) {
-      vueActionCable.connection.disconnect();
-    }
-  }
-
   function initializeChatwootGlobals() {
-    // Store original globals for cleanup
-    storeOriginalGlobals();
-
     // Register Web Components
     registerVueWebComponents();
 
@@ -91,7 +56,6 @@ export const ChatwootProvider = ({
 
     // Set up global objects
     // eslint-disable-next-line no-underscore-dangle
-    window.__CHATWOOT_STORE__ = store;
     window.WootConstants = constants;
     window.axios = createAxios(axios);
 
@@ -104,14 +68,13 @@ export const ChatwootProvider = ({
   useEffect(() => {
     if (isInitialized.current) return;
 
-    initializeChatwootGlobals();
+    console.log('setting up chatwoot globals');
+    try {
+      initializeChatwootGlobals();
+    } catch (error) {
+      console.error('Error initializing Chatwoot globals:', error);
+    }
     isInitialized.current = true;
-
-    // Cleanup on unmount
-    // eslint-disable-next-line  consistent-return
-    return () => {
-      cleanupChatwootGlobals();
-    };
   }, [
     config.baseURL,
     config.userToken,
