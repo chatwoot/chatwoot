@@ -615,5 +615,5 @@ Rails.application.routes.draw do
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
 
-  mount Sidekiq::Web => '/monitoring/_sidekiq', as: 'admin_sidekiq_web'
+  # mount Sidekiq::Web => '/monitoring/_sidekiq', as: 'admin_sidekiq_web'
 end
