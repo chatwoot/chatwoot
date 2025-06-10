@@ -22,23 +22,8 @@ class Twilio::OneoffSmsCampaignService
     campaign.account.contacts.tagged_with(audience_labels, any: true).each do |contact|
       next if contact.phone_number.blank?
 
-      message = campaign.message
-      message_drops = {
-        'contact' => ContactDrop.new(contact),
-        'agent' => UserDrop.new(campaign.sender),
-        'inbox' => InboxDrop.new(campaign.inbox),
-        'account' => AccountDrop.new(campaign.account)
-      }
-      content = process_liquid_in_content(message_drops, message)
+      content = Liquid::CampaignTemplateService.new(campaign: campaign, contact: contact).call(campaign.message)
       channel.send_message(to: contact.phone_number, body: content)
     end
-  end
-
-  def process_liquid_in_content(message_drops, message)
-    message = message.gsub(/`(.*?)`/m, '{% raw %}`\\1`{% endraw %}')
-    template = Liquid::Template.parse(message)
-    template.render(message_drops)
-  rescue Liquid::Error
-    # If there is an error in the liquid syntax, we don't want to process it
   end
 end
