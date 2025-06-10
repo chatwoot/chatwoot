@@ -1,5 +1,5 @@
 class Digitaltolk::Openai::HtmlTranslation::BatchByContentLength
-  CHARACTERS_LIMIT = 1000
+  CHARACTERS_LIMIT = 500
 
   def self.perform(arrays)
     batches = []

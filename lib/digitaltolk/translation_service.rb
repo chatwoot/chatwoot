@@ -59,9 +59,10 @@ class Digitaltolk::TranslationService
   def format_outgoing_email!
     return unless message.outgoing?
     return if email_content.present?
+    return if message.conversation.custom_attributes['booking_id'].blank?
 
     # specifically autoformat booking emails
-    is_a_booking_email = message.content.include?('Bokningsnummer:') ||
+    is_a_booking_email = message.content.include?('Bokningsnummer:') &&
                          message.content.include?('DigitalTolk kundservice')
 
     return unless is_a_booking_email

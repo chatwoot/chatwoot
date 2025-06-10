@@ -106,6 +106,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
     has_translation = false
     doc = nokogiri_parsed_content
     translated_count = 0
+    translated_batch_size = translated_message_hash.keys.count
 
     # Normalize: squish spaces, downcase for hash use
     normalized_translated_hash = translated_message_hash.transform_keys { |key| key.squish.downcase }
@@ -120,7 +121,8 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
       normalized_key = text.squish.downcase
 
       next if (translation = normalized_translated_hash[normalized_key]).blank?
-      break if translated_count > translated_message_hash.keys.count
+      # early exit if we have translated all batch messages
+      break if translated_count > translated_batch_size
 
       translated_count += 1
 

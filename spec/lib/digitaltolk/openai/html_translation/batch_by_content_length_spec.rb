@@ -13,7 +13,7 @@ describe Digitaltolk::Openai::HtmlTranslation::BatchByContentLength do
     end
 
     context 'when the total length of messages exceeds the limit' do
-      let(:chunk_messages) { ['a' * 800, 'b' * 200, 'c' * 200] }
+      let(:chunk_messages) { ['a' * 300, 'b' * 200, 'c' * 200] }
 
       it 'splits messages into batches based on the character limit' do
         expect(subject.size).to eq(2)
@@ -23,7 +23,7 @@ describe Digitaltolk::Openai::HtmlTranslation::BatchByContentLength do
     end
 
     context 'when 1 message exceeds the limit' do
-      let(:chunk_messages) { ['start', 'a' * 1000, 'b' * 600, 'c' * 400, 'a'] }
+      let(:chunk_messages) { ['start', 'a' * 500, 'b' * 200, 'c' * 300, 'a'] }
 
       it 'creates a batch for the long message and another for the rest' do
         expect(subject.length).to eq(4)
