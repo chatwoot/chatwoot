@@ -22,9 +22,11 @@ import { defineConfig } from 'vite';
 import ruby from 'vite-plugin-ruby';
 import path from 'path';
 import vue from '@vitejs/plugin-vue';
+import react from '@vitejs/plugin-react';
 
 const isLibraryMode = process.env.BUILD_MODE === 'library';
 const uiMode = process.env.BUILD_MODE === 'ui';
+const reactComponentMode = process.env.BUILD_MODE === 'react-components';
 const isTestMode = process.env.TEST === 'true';
 
 const vueOptions = {
@@ -41,11 +43,15 @@ if (isLibraryMode) {
   plugins = [];
 } else if (uiMode) {
   plugins = [vue()];
+} else if (reactComponentMode) {
+  plugins = [vue(vueOptions), react()];
 } else if (isTestMode) {
   plugins = [vue(vueOptions)];
 }
 
 let lib = undefined;
+let rollupOptions = {};
+
 if (isLibraryMode) {
   lib = {
     entry: path.resolve(__dirname, './app/javascript/entrypoints/sdk.js'),
@@ -57,6 +63,23 @@ if (isLibraryMode) {
     entry: path.resolve(__dirname, './app/javascript/entrypoints/ui.js'),
     formats: ['iife'], // IIFE format for single file
     name: 'ui',
+  };
+} else if (reactComponentMode) {
+  lib = {
+    entry: path.resolve(__dirname, './app/javascript/react-components/src/index.jsx'),
+    formats: ['iife'], // IIFE format for single file
+    name: 'ChatwootReactComponents',
+    fileName: () => 'index.js'
+  };
+  
+  rollupOptions = {
+    external: ['react', 'react-dom'],
+    output: {
+      globals: {
+        react: 'React',
+        'react-dom': 'ReactDOM'
+      }
+    }
   };
 }
 
@@ -78,16 +101,18 @@ export default defineConfig({
   },
   build: {
     rollupOptions: {
+      ...rollupOptions,
       output: {
+        ...rollupOptions.output,
         // [NOTE] when not in library mode, no new keys will be addedd or overwritten
         // setting dir: isLibraryMode ? 'public/packs' : undefined will not work
-        ...(isLibraryMode || uiMode
+        ...(isLibraryMode || uiMode || reactComponentMode
           ? {
               dir: 'public/packs',
               entryFileNames: chunkBuilder,
             }
           : {}),
-        inlineDynamicImports: isLibraryMode || uiMode, // Disable code-splitting for SDK
+        inlineDynamicImports: isLibraryMode || uiMode || reactComponentMode, // Disable code-splitting for SDK
       },
     },
     lib,
