@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Ieškoti",
       "EMPTY_STATE": "Nieko nerasta"
-    }
+    },
+    "CLOSE": "Uždaryti"
   }
 }
