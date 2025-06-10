@@ -275,6 +275,16 @@ export default {
         sm
         @click="toggleEmojiPicker"
       />
+
+      <NextButton
+        v-tooltip.top-end="$t('CONVERSATION.FOOTER.SEND_CALENDAR')"
+        icon="i-ph-calendar-check"
+        slate
+        faded
+        sm
+        @click="$emit('showAvailableCalendars')"
+      />
+
       <FileUpload
         ref="uploadRef"
         v-tooltip.top-end="$t('CONVERSATION.REPLYBOX.TIP_ATTACH_ICON')"
@@ -345,16 +355,7 @@ export default {
         sm
         @click="$emit('selectWhatsappTemplate')"
       />
-      <woot-button
-        v-if="calendarEvents && calendarEvents.length > 0"
-        v-tooltip.top-end="$t('CONVERSATION.FOOTER.SEND_CALENDAR')"
-        icon="calendar"
-        color-scheme="secondary"
-        variant="smooth"
-        size="small"
-        :title="$t('CONVERSATION.FOOTER.SEND_CALENDAR')"
-        @click="$emit('showAvailableCalendars')"
-      />
+
       <VideoCallButton
         v-if="(isAWebWidgetInbox || isAPIInbox) && !isOnPrivateNote"
         :conversation-id="conversationId"
