@@ -115,7 +115,6 @@ class Conversation < ApplicationRecord
   before_create :ensure_waiting_since
 
   after_update_commit :execute_after_update_commit_callbacks
-  after_update_commit :trigger_csat_survey_if_resolved
   after_create_commit :notify_conversation_creation
   after_create_commit :load_attributes_created_by_db_triggers
 
@@ -197,12 +196,6 @@ class Conversation < ApplicationRecord
   end
 
   private
-
-  def trigger_csat_survey_if_resolved
-    return unless saved_change_to_status? && resolved?
-
-    CsatSurveyService.new(conversation: self).perform
-  end
 
   def execute_after_update_commit_callbacks
     notify_status_change

@@ -12,7 +12,7 @@ describe CsatSurveyService do
     before do
       allow(MessageTemplates::Template::CsatSurvey).to receive(:new).and_return(csat_template)
       allow(csat_template).to receive(:perform)
-      allow(conversation).to receive(:create_csat_not_sent_activity_message)
+      allow(Conversations::ActivityMessageJob).to receive(:perform_later)
     end
 
     context 'when CSAT survey should be sent' do
@@ -36,7 +36,10 @@ describe CsatSurveyService do
       it 'creates activity message instead of sending survey' do
         service.perform
 
-        expect(conversation).to have_received(:create_csat_not_sent_activity_message)
+        expect(Conversations::ActivityMessageJob).to have_received(:perform_later).with(
+          conversation,
+          hash_including(content: I18n.t('conversations.activity.csat.not_sent_due_to_messaging_window'))
+        )
         expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
       end
     end
@@ -48,7 +51,7 @@ describe CsatSurveyService do
         service.perform
 
         expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
-        expect(conversation).not_to have_received(:create_csat_not_sent_activity_message)
+        expect(Conversations::ActivityMessageJob).not_to have_received(:perform_later)
       end
 
       it 'does nothing when CSAT survey is not enabled' do
@@ -57,7 +60,7 @@ describe CsatSurveyService do
         service.perform
 
         expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
-        expect(conversation).not_to have_received(:create_csat_not_sent_activity_message)
+        expect(Conversations::ActivityMessageJob).not_to have_received(:perform_later)
       end
 
       it 'does nothing when CSAT already sent' do
@@ -66,7 +69,7 @@ describe CsatSurveyService do
         service.perform
 
         expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
-        expect(conversation).not_to have_received(:create_csat_not_sent_activity_message)
+        expect(Conversations::ActivityMessageJob).not_to have_received(:perform_later)
       end
 
       it 'does nothing for Twitter conversations' do
@@ -81,7 +84,7 @@ describe CsatSurveyService do
         twitter_service.perform
 
         expect(MessageTemplates::Template::CsatSurvey).not_to have_received(:new)
-        expect(conversation).not_to have_received(:create_csat_not_sent_activity_message)
+        expect(Conversations::ActivityMessageJob).not_to have_received(:perform_later)
       end
     end
   end
