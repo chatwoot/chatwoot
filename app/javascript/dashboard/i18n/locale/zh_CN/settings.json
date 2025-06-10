@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
-        "COPY": "复制"
+        "COPY": "复制",
+        "RESET": "重置",
+        "CONFIRM_RESET": "您确定吗？",
+        "CONFIRM_HINT": "再次点击以确认",
+        "RESET_SUCCESS": "成功重新生成访问令牌",
+        "RESET_ERROR": "无法重新生成访问令牌。请重试"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "音频提醒",
@@ -185,7 +190,8 @@
           "OFFLINE": "离线"
         },
         "SET_AVAILABILITY_SUCCESS": "可用性已成功设置",
-        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试"
+        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试",
+        "IMPERSONATING_ERROR": "当您处于模拟用户状态时，无法更改其在线状态"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
@@ -280,6 +286,7 @@
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
+    "ACTIVE": "状态",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "助手",
     "CAPTAIN_DOCUMENTS": "文档",
