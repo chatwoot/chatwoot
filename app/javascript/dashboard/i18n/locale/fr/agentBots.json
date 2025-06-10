@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "Impossible de mettre à jour le bot, veuillez réessayer plus tard."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Jeton d'accès",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Avatar du bot"

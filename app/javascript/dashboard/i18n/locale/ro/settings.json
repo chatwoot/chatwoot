@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token acces",
         "NOTE": "Acest token poate fi utilizat dacă construiți o integrare bazată pe API",
-        "COPY": "Copiază"
+        "COPY": "Copiază",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "Deconectat"
         },
         "SET_AVAILABILITY_SUCCESS": "Avatar a fost șters cu succes",
-        "SET_AVAILABILITY_ERROR": "Nu s-a putut seta disponibilitatea, vă rugăm să încercați din nou"
+        "SET_AVAILABILITY_ERROR": "Nu s-a putut seta disponibilitatea, vă rugăm să încercați din nou",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Adresa ta de email",
@@ -280,6 +286,7 @@
     "REPORTS": "Rapoarte",
     "SETTINGS": "Setări",
     "CONTACTS": "Contacte",
+    "ACTIVE": "Activ",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
