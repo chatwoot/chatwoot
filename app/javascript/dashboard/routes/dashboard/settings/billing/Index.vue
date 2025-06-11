@@ -321,20 +321,20 @@ const calculatePackagePrice = price => {
 
 // Billing cycle tabs data
 const billingCycleTabs = [
-  { id: 'monthly', name: 'Bulanan', qty: 1 },
-  { id: 'quarterly', name: '3 Bulan', qty: 3 },
+  { id: 'monthly', name: t('BILLING.MONTHLY'), qty: 1 },
+  { id: 'quarterly', name: t('BILLING["3_MONTHS"]'), qty: 3 },
   {
     id: 'halfyear',
-    name: 'Setengah Tahun',
+    name: t('BILLING["6_MONTHS"]'),
     qty: 6,
     badge: '',
   },
-  { id: 'yearly', name: 'Tahunan', qty: 12, badge: '' },
+  { id: 'yearly', name: t('BILLING.YEARLY'), qty: 12, badge: '' },
 ];
 
 const menuTabs = [
-  { id: 'billing', name: 'PAKET PEMBELIAN' },
-  { id: 'history', name: 'RIWAYAT PEMBELIAN' },
+  { id: 'billing', name: t('BILLING.TAB_PAYMENT') },
+  { id: 'history', name: t('BILLING.TAB_HISTORY_PAYMENT') },
 ];
 const selectedMenuTab = ref(menuTabs[0].id)
 
@@ -397,16 +397,7 @@ const plansMock = [
 
 const selectedTabDisplay = computed(() => {
   const tab = selectedTab.value
-  if (tab === 'monthly') {
-    return 'Bulanan'
-  } else if (tab === 'yearly') {
-    return 'Tahunan'
-  } else if (tab === 'quarterly') {
-    return 'Per 3 Bulan'
-  } else if (tab === 'halfyear') {
-    return 'Per 6 Bulan'
-  }
-  return '-'
+  return t(`BILLING.TAB_DISPLAY.${tab}`)
 })
 </script>
 
@@ -677,13 +668,15 @@ const selectedTabDisplay = computed(() => {
                   {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
                 </div>
                 <div class="price-period">
-                  IDR /{{ qty == 1 ? 'bulan' : `${qty}mo` }}
+                  IDR /{{ qty == 1 ? t('BILLING.TAB_DISPLAY.qty_month') : `${qty}${t('BILLING.TAB_DISPLAY.qty_month')}` }}
                 </div>
-                <div class="package-type">Paket {{ selectedTabDisplay }}</div>
+                <div class="package-type">{{ selectedTabDisplay }}</div>
               </div>
 
               <div class="plan-features">
-                <h4>{{ plan.name }} Fitur</h4>
+                <h4>{{ $t('BILLING.PKG_FEATURE', {
+                  plan: plan.name,
+                }) }}</h4>
 
                 <ul class="feature-list">
                   <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
@@ -694,7 +687,7 @@ const selectedTabDisplay = computed(() => {
               </div>
 
               <button class="button-primary buy-button" @click="openPaymentPopup(plan)">
-                Beli Paket
+                {{ t('BILLING.BTN_BUY') }}
               </button>
             </div>
           </div>

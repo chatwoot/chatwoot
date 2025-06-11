@@ -22,6 +22,21 @@
       "success": "Success",
       "failed": "Failed",
       "expired": "Expired"
-    }
+    },
+    "TAB_PAYMENT": "PURCHASE PACKAGE",
+    "TAB_HISTORY_PAYMENT": "PURCHASE HISTORY",
+    "MONTHLY": "Monthly",
+    "3_MONTHS": "3 Months",
+    "6_MONTHS": "Half Year",
+    "YEARLY": "Yearly",
+    "TAB_DISPLAY": {
+      "monthly": "Monthly Package",
+      "yearly": "Yearly Package",
+      "quarterly": "3-Month Package",
+      "halfyear": "6-Month Package",
+      "qty_month": "month"
+    },
+    "BTN_BUY": "Buy Package",
+    "PKG_FEATURE": "{plan} Features"
   }
 }

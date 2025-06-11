@@ -22,6 +22,21 @@
       "success": "Sukses",
       "failed": "Gagal",
       "expired": "Kedaluwarsa"
-    }
+    },
+    "TAB_PAYMENT": "PAKET PEMBELIAN",
+    "TAB_HISTORY_PAYMENT": "RIWAYAT PEMBELIAN",
+    "MONTHLY": "Bulanan",
+    "3_MONTHS": "3 Bulan",
+    "6_MONTHS": "Setengah Tahun",
+    "YEARLY": "Tahunan",
+    "TAB_DISPLAY": {
+      "monthly": "Paket Bulanan",
+      "yearly": "Paket Tahunan",
+      "quarterly": "Paket Per 3 Bulan",
+      "halfyear": "Paket Per 6 Bulan",
+      "qty_month": "bulan"
+    },
+    "BTN_BUY": "Beli Paket",
+    "PKG_FEATURE": "{plan} Fitur"
   }
 }
