@@ -318,11 +318,18 @@
         "SUCCESS": "问题取消链接成功",
         "ERROR": "取消链接问题时出错，请重试"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "您确定要删除该集成吗？",
         "MESSAGE": "您确定要删除该集成吗？",
         "CONFIRM": "是，删除",
         "CANCEL": "取消"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },

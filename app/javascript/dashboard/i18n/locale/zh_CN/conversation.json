@@ -308,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "联系人属性",
       "PREVIOUS_CONVERSATION": "上一次对话",
       "MACROS": "宏",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
