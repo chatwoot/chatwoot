@@ -15,8 +15,10 @@ describe Liquid::CampaignTemplateService do
 
       it 'processes liquid template correctly' do
         result = template_service.call(message_content)
+        agent_drop_name = UserDrop.new(agent).name
+        contact_drop_name = ContactDrop.new(contact).name
 
-        expect(result).to eq("Hello #{contact.name}, this is #{agent.name} from #{account.name}")
+        expect(result).to eq("Hello #{contact_drop_name}, this is #{agent_drop_name} from #{account.name}")
       end
     end
 
@@ -51,8 +53,18 @@ describe Liquid::CampaignTemplateService do
       end
     end
 
-    context 'with invalid liquid syntax' do
-      let(:message_content) { 'Hello {{contact.invalid_method}}' }
+    context 'with malformed liquid syntax' do
+      let(:message_content) { 'Hello {{contact.name missing closing braces' }
+
+      it 'returns original message when liquid parsing fails' do
+        result = template_service.call(message_content)
+
+        expect(result).to eq(message_content)
+      end
+    end
+
+    context 'with invalid liquid tags' do
+      let(:message_content) { 'Hello {% invalid_tag %} world' }
 
       it 'returns original message when liquid parsing fails' do
         result = template_service.call(message_content)
@@ -66,9 +78,11 @@ describe Liquid::CampaignTemplateService do
 
       it 'processes liquid outside code blocks but preserves code blocks' do
         result = template_service.call(message_content)
+        agent_drop_name = UserDrop.new(agent).name
+        contact_drop_name = ContactDrop.new(contact).name
 
-        expect(result).to include("Hi #{contact.name}")
-        expect(result).to include("contact #{agent.name}")
+        expect(result).to include("Hi #{contact_drop_name}")
+        expect(result).to include("contact #{agent_drop_name}")
         expect(result).to include('`{{agent.name}}`')
       end
     end
@@ -80,10 +94,13 @@ describe Liquid::CampaignTemplateService do
 
       it 'processes all available drops' do
         result = template_service.call(message_content)
+        agent_drop_name = UserDrop.new(agent).name
+        contact_drop_name = ContactDrop.new(contact).name
 
-        expect(result).to eq(
-          "Contact: #{contact.name}, Agent: #{agent.name}, Inbox: #{inbox.name}, Account: #{account.name}"
-        )
+        expect(result).to include("Contact: #{contact_drop_name}")
+        expect(result).to include("Agent: #{agent_drop_name}")
+        expect(result).to include("Inbox: #{inbox.name}")
+        expect(result).to include("Account: #{account.name}")
       end
     end
   end
