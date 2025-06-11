@@ -233,8 +233,6 @@
           "TITLE": "Select your API provider",
           "DESCRIPTION": "Choose your WhatsApp provider. You can connect directly through Meta which requires no setup, or connect through Twilio using your account credentials."
         },
-        "NEXT_BUTTON": "Next",
-        "BACK_TO_PROVIDER_SELECTION": "Back to provider selection",
         "INBOX_NAME": {
           "LABEL": "Inbox Name",
           "PLACEHOLDER": "Please enter an inbox name",
