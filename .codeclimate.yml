@@ -25,11 +25,15 @@ checks:
     config:
       threshold: 300
   method-lines:
+    enabled: true
     config:
       threshold: 50
     exclude_paths:
       - 'app/javascript/dashboard/composables/'
   cognitive-complexity:
+    enabled: true
+    config:
+      threshold: 5
     exclude_paths:
       - 'app/javascript/dashboard/composables/'
 exclude_patterns:

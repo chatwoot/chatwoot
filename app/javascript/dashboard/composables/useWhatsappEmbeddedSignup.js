@@ -171,6 +171,14 @@ export function useWhatsappEmbeddedSignup() {
     }
   };
 
+  const isValidBusinessData = businessDataLocal => {
+    return (
+      businessDataLocal &&
+      (businessDataLocal.business_id || businessDataLocal.businessId) &&
+      (businessDataLocal.waba_id || businessDataLocal.wabaId)
+    );
+  };
+
   // Message handling
   const handleEmbeddedSignupData = async data => {
     // Handle different embedded signup events per Facebook documentation
@@ -184,11 +192,7 @@ export function useWhatsappEmbeddedSignup() {
       }
 
       // Validate we have the required business information
-      if (
-        businessDataLocal &&
-        (businessDataLocal.business_id || businessDataLocal.businessId) &&
-        (businessDataLocal.waba_id || businessDataLocal.wabaId)
-      ) {
+      if (isValidBusinessData(businessDataLocal)) {
         // Normalize the data structure to match our backend expectations
         const normalizedData = {
           business_id:
