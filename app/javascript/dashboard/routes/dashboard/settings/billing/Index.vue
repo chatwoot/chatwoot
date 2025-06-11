@@ -701,7 +701,7 @@ const selectedTabDisplay = computed(() => {
         </div>
 
         <!-- Recent Transactions Section -->
-        <div v-else-if="selectedMenuTab === 'history'" class="flex flex-col flex-wrap self-center overflow-x-auto">
+        <div v-else-if="selectedMenuTab === 'history'" class="flex flex-col flex-wrap self-center overflow-x-auto h-[500px]">
           <div>
             <div>
               <div>
