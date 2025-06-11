@@ -24,12 +24,9 @@ By default, it renders:
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'portal' %>
     <style>
-      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
-      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
-      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.light-theme,
-      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.system-theme,
-      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.dark-theme,
-      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.system-theme {
+      .appearance-menu[data-current-theme="system"] .check-mark-icon:is(.light-theme, .dark-theme),
+      .appearance-menu[data-current-theme="dark"] .check-mark-icon:is(.light-theme, .system-theme),
+      .appearance-menu[data-current-theme="light"] .check-mark-icon:is(.dark-theme, .system-theme) {
         display: none;
       }
     </style>
