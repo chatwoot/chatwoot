@@ -1,9 +1,9 @@
 {
   "swagger": "2.0",
   "info": {
-    "description": "This is the API documentation for Chatwoot server.",
+    "description": "This is the API documentation for VegaVision server.",
     "version": "1.0.0",
-    "title": "Chatwoot",
+    "title": "VegaVision",
     "termsOfService": "https://www.chatwoot.com/terms-of-service/",
     "contact": {
       "email": "hello@chatwoot.com"
@@ -3138,7 +3138,7 @@
                           "type": "object",
                           "description": "The processed param values for template variables in template",
                           "example": {
-                            "1": "Chatwoot"
+                            "1": "VegaVision"
                           }
                         }
                       }
@@ -5967,7 +5967,7 @@
             "busy",
             "offline"
           ],
-          "description": "The availability status of the agent computed by Chatwoot."
+          "description": "The availability status of the agent computed by VegaVision."
         },
         "auto_offline": {
           "type": "boolean",
@@ -6677,7 +6677,7 @@
               "type": "object",
               "description": "The processed param values for template variables in template",
               "example": {
-                "1": "Chatwoot"
+                "1": "VegaVision"
               }
             }
           }
@@ -7436,7 +7436,7 @@
       "name": "source_id",
       "required": true,
       "type": "string",
-      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: Chatwoot generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
+      "description": "Id of the session for which the conversation is created.\n\n\n\n Source Ids can be obtained through contactable inboxes API or via generated.<br/><br/>Website: VegaVision generated string which can be obtained from webhook events. <br/> Phone Channels(Twilio): Phone number in e164 format <br/> Email Channels: Contact Email address <br/> API Channel: Any Random String"
     },
     "contact_sort_param": {
       "in": "query",

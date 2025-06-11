@@ -2,19 +2,28 @@ module Enterprise::SuperAdmin::AppConfigsController
   private
 
   def allowed_configs
-    return super if ChatwootHub.pricing_plan == 'community'
-
-    case @config
-    when 'custom_branding'
-      @allowed_configs = custom_branding_options
-    when 'internal'
-      @allowed_configs = internal_config_options
-    when 'captain'
-      @allowed_configs = %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_FIRECRAWL_API_KEY]
+    if ChatwootHub.pricing_plan == 'community'
+      # Allow custom branding for the community plan
+      if @config == 'custom_branding'
+        @allowed_configs = custom_branding_options
+      else
+        @allowed_configs = super # Fallback to super for other configurations
+      end
     else
-      super
+      # Existing logic for non-community plans
+      case @config
+      when 'custom_branding'
+        @allowed_configs = custom_branding_options
+      when 'internal'
+        @allowed_configs = internal_config_options
+      when 'captain'
+        @allowed_configs = %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_FIRECRAWL_API_KEY]
+      else
+        @allowed_configs = super
+      end
     end
   end
+  
 
   def custom_branding_options
     %w[
