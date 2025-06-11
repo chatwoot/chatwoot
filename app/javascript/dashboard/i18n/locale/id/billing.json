@@ -19,8 +19,8 @@
     "STATUS_PAYMENT": {
       "pending": "Tertunda",
       "paid": "Dibayar",
-      "canceled": "Dibatalkan",
       "success": "Sukses",
+      "failed": "Gagal",
       "expired": "Kedaluwarsa"
     }
   }

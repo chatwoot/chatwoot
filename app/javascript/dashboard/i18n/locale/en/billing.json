@@ -19,8 +19,8 @@
     "STATUS_PAYMENT": {
       "pending": "Pending",
       "paid": "Paid",
-      "canceled": "Canceled",
       "success": "Success",
+      "failed": "Failed",
       "expired": "Expired"
     }
   }
