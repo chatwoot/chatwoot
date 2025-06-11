@@ -10,22 +10,22 @@
     },
     "COMPANY_NAME": {
       "LABEL": "Nama Perusahaan",
-      "PLACEHOLDER": "Masukkan nama perusahaan Anda. contoh: Wayne Enterprises",
+      "PLACEHOLDER": "Masukkan nama bisnis Anda. Contoh: Toko Bunda Sejahtera",
       "ERROR": "Nama perusahaan terlalu pendek"
     },
     "FULL_NAME": {
       "LABEL": "Nama Lengkap",
-      "PLACEHOLDER": "Masukkan nama lengkap Anda. contoh: Bruce Wayne",
+      "PLACEHOLDER": "Masukkan nama lengkap Anda. Contoh: Budi Santoso",
       "ERROR": "Nama lengkap terlalu pendek"
     },
     "EMAIL": {
-      "LABEL": "Email kantor",
-      "PLACEHOLDER": "Masukkan alamat email kantor Anda. contoh: bruce{'@'}wayne{'.'}enterprises",
+      "LABEL": "Alamat Email",
+      "PLACEHOLDER": "Masukkan alamat email Anda. Contoh: emailanda{'@'}gmail{'.'}com",
       "ERROR": "Harap masukkan alamat email kantor yang valid"
     },
     "PASSWORD": {
-      "LABEL": "Kata Sandi",
-      "PLACEHOLDER": "Kata Sandi",
+      "LABEL": "Buat Kata Sandi",
+      "PLACEHOLDER": "Minimal 8 karakter",
       "ERROR": "Kata sandi terlalu pendek",
       "IS_INVALID_PASSWORD": "Kata sandi harus mengandung setidaknya 1 huruf kapital, 1 huruf kecil, 1 angka, dan 1 karakter khusus"
     },
@@ -36,7 +36,7 @@
     },
     "PHONE_NUMBER": {
     "LABEL": "Nomor Telepon",
-    "PLACEHOLDER": "Masukkan nomor telepon",
+    "PLACEHOLDER": "Masukkan Nomor telepon. Contoh: 0812 3456 7890",
     "ERROR": "Silakan masukkan nomor telepon yang valid."
     },
     "API": {
