@@ -41,31 +41,18 @@ export const SDK_CSS_STANDARD = `
 
 /* gives css to outer circle that has a beak on it */
 .woot-widget-bubble {
-  background: #1f93ff;
-  border-radius: 100px;
-  border-width: 0px;
-  bottom: 20px;
-  // box-shadow: 0 8px 24px rgba(0, 0, 0, .16) !important;
-  cursor: pointer;
-  height: 64px;
-  padding: 0px;
+  background: transparent;
   position: fixed;
-  user-select: none;
+  bottom: 20px;
+  right: 20px;
   width: 64px;
+  height: 64px;
   z-index: 2147483000 !important;
-  border-radius: 50%;
-  border-radius: 100% 100% 100% 100% / 100% 100% 0% 100%;
-  clip-path: polygon(
-    0 0,
-    100% 0,
-    100% 55%,
-    98% 70%,
-    96% 80%,
-    98% 90%,
-    101% 100%,
-    0 100%
-  );
-  overflow: hidden;
+  cursor: pointer;
+  user-select: none;
+  padding: 0;
+  border: none;
+  overflow: visible;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
@@ -79,12 +66,6 @@ export const SDK_CSS_STANDARD = `
 .woot-widget-bubble.woot-widget-bubble--flat {
   height: 56px;
   width: 56px;
-}
-
-.woot-widget-bubble.woot-widget-bubble--flat.woot--close::before,
-.woot-widget-bubble.woot-widget-bubble--flat.woot--close::after {
-  left: 28px;
-  top: 16px;
 }
 
 /* must be for notification, do confirm before any update to this property */
@@ -122,9 +103,9 @@ export const SDK_CSS_STANDARD = `
   width: auto !important;
 }
 
-.woot-widget-bubble.woot-widget--expanded.woot-widget-bubble-color--lighter div{
-  color: var(--s-700);
-}
+// .woot-widget-bubble.woot-widget--expanded.woot-widget-bubble-color--lighter div{
+//   color: var(--s-700);
+// }
 
 /* fixes widget to the bottom right corner */
 .woot-widget-bubble.woot-elements--left {
@@ -136,10 +117,6 @@ export const SDK_CSS_STANDARD = `
   right: 20px;
 }
 
-.woot-widget-bubble:hover {
-  background: #1f93ff;
-  // box-shadow: 0 8px 32px rgba(0, 0, 0, .4) !important;
-}
 
 .woot-widget-bubble.woot-widget-bubble--flat svg {
   margin: 16px;
@@ -152,24 +129,23 @@ export const SDK_CSS_STANDARD = `
   transform: rotate(-1deg) !important;
 }
 
-/* change inner white circle i.e. svg from here */
 .woot-widget-bubble svg {
-  all: revert;
-  height: 138px;
-  // margin: 13.5px;
-  // margin-left: 17.85px;
-  // margin-top: 9.5px;
-  margin-left: 11.9px;
-  margin-top: 4.5px;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  // width: 100px;      /* or 64px for exact fit */
+  // height: 100px;     /* or 64px for exact fit */
 
-  width: 138px;
-  border-radius: 0%;
-  transform: rotate(-5deg) !important;
+  width: 64px;      /* or 64px for exact fit */
+  height: 64px;     /* or 64px for exact fit */
+  transform: translate(-50%, -50%);
+  transform-origin: center center;
+  /* Remove margin-left and margin-top */
 }
 
-.woot-widget-bubble.woot-widget-bubble-color--lighter path{
-  fill: var(--s-700);
-}
+// .woot-widget-bubble.woot-widget-bubble-color--lighter path{
+//   fill: var(--s-700);
+// }
 
 /* makes the chat box appear close to the widget */
 @media only screen and (min-width: 667px) {
@@ -185,31 +161,6 @@ export const SDK_CSS_STANDARD = `
   opacity: 1;
 }
 
-/* gives close icon when widget is opened */
-.woot--close::before, .woot--close::after {
-  background-color: #fff;
-  content: ' ';
-  display: inline;
-  height: 24px;
-  left: 32px;
-  position: absolute;
-  top: 20px;
-  width: 2px;
-}
-
-.woot-widget-bubble-color--lighter.woot--close::before, .woot-widget-bubble-color--lighter.woot--close::after {
-  background-color: var(--s-700);
-}
-
-/* gives an angle to the close icon lines */
-.woot--close::before {
-  transform: rotate(45deg);
-}
-
-/* gives an angle to the close icon lines */
-.woot--close::after {
-  transform: rotate(-45deg);
-}
 
 /* makes widget animation */
 .woot--hide {
@@ -241,7 +192,7 @@ export const SDK_CSS_STANDARD = `
 .woot-widget-bubble {
   transform-origin: center;
   will-change: transform, opacity;
-  transform: translateX(0) scale(1) rotate(0deg) rotate(5deg);
+  transform: translateX(0) scale(1) rotate(0deg);
   transition: transform 300ms ease, opacity 100ms ease, visibility 0ms linear 0ms, bottom 0ms linear 0ms;
 }
 

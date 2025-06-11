@@ -20,6 +20,7 @@ import {
   removeUnreadClass,
   bubbleSVGStandard,
   bubbleSVGExpanded,
+  createCloseBubbleIcon,
 } from './bubbleHelpers';
 import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
@@ -377,16 +378,31 @@ export const IFrameHelper = {
           ? bubbleSVGStandard
           : bubbleSVGExpanded,
       target: chatBubble,
-      logoColors: logoColors
+      logoColors: logoColors,
+      widgetColor:
+        window.$chatwoot.type === 'standard' ? widgetColor : '#FFFFFF',
     });
 
-    addClasses(closeBubble, closeBtnClassName);
-
-    chatIcon.style.background = widgetColor;
-    closeBubble.style.background = widgetColor;
+    // chatIcon.style.background = widgetColor;
 
     bubbleHolder.appendChild(chatIcon);
-    bubbleHolder.appendChild(closeBubble);
+
+    if (window.$chatwoot.type === 'standard') {
+      const closeIcon = createCloseBubbleIcon({
+        className: closeBtnClassName,
+        target: closeBubble,
+        widgetColor,
+      });
+
+      bubbleHolder.appendChild(closeIcon);
+    } else {
+      chatIcon.style.background = widgetColor;
+      closeBubble.style.background = widgetColor;
+      closeBubble.title = 'Close chat window';
+      addClasses(closeBubble, closeBtnClassName);
+      bubbleHolder.appendChild(closeBubble);
+    }
+
     onClickChatBubble();
   },
   toggleCloseButton: () => {

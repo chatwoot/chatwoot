@@ -128,6 +128,7 @@ export default {
       const size = this.isBubbleExpanded ? 42 : 64;
       svg.setAttribute('width', size);
       svg.setAttribute('height', size);
+      svg.setAttribute('preserveAspectRatio', "xMidYMid meet");
 
       svg.setAttribute('id', 'dynamic-svg');
 
