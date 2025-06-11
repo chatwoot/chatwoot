@@ -9,6 +9,7 @@ describe Whatsapp::EmbeddedSignupService do
   let(:access_token) { 'test_access_token' }
   let(:app_id) { 'test_app_id' }
   let(:app_secret) { 'test_app_secret' }
+  let(:api_version) { 'v22.0' }
 
   let(:service) do
     described_class.new(
@@ -24,6 +25,7 @@ describe Whatsapp::EmbeddedSignupService do
     # Mock global configuration
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return(app_id)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return(app_secret)
+    allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return(api_version)
     allow(GlobalConfig).to receive(:clear_cache)
 
     # Mock environment variables - allow any calls to ENV.fetch
@@ -41,7 +43,7 @@ describe Whatsapp::EmbeddedSignupService do
     context 'when all parameters are valid' do
       before do
         # Stub the token exchange
-        stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
           .with(query: hash_including(
             'client_id' => app_id,
             'client_secret' => app_secret,
@@ -54,7 +56,7 @@ describe Whatsapp::EmbeddedSignupService do
           )
 
         # Stub the phone numbers fetch
-        stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: hash_including('access_token' => access_token))
           .to_return(
             status: 200,
@@ -72,7 +74,7 @@ describe Whatsapp::EmbeddedSignupService do
           )
 
         # Stub the token validation
-        stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
           .with(query: hash_including(
             'input_token' => access_token,
             'access_token' => "#{app_id}|#{app_secret}"
@@ -102,7 +104,7 @@ describe Whatsapp::EmbeddedSignupService do
           )
 
         # Stub the phone number registration
-        stub_request(:post, "https://graph.facebook.com/v21.0/#{phone_number_id}/register")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/register")
           .to_return(
             status: 200,
             body: { success: true }.to_json,
@@ -110,7 +112,7 @@ describe Whatsapp::EmbeddedSignupService do
           )
 
         # Stub the webhook subscription
-        stub_request(:post, "https://graph.facebook.com/v21.0/#{waba_id}/subscribed_apps")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .to_return(
             status: 200,
             body: { success: true }.to_json,
@@ -142,7 +144,7 @@ describe Whatsapp::EmbeddedSignupService do
       it 'registers the phone number' do
         service.perform
 
-        expect(WebMock).to have_requested(:post, "https://graph.facebook.com/v21.0/#{phone_number_id}/register")
+        expect(WebMock).to have_requested(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/register")
           .with(
             body: {
               messaging_product: 'whatsapp',
@@ -157,7 +159,7 @@ describe Whatsapp::EmbeddedSignupService do
         channel = Channel::Whatsapp.find_by(account: account, phone_number: '+1234567890')
         callback_url = "https://app.chatwoot.com/webhooks/whatsapp/#{channel.phone_number}"
 
-        expect(WebMock).to have_requested(:post, "https://graph.facebook.com/v21.0/#{waba_id}/subscribed_apps")
+        expect(WebMock).to have_requested(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .with(
             body: hash_including(
               override_callback_uri: callback_url,
@@ -220,7 +222,7 @@ describe Whatsapp::EmbeddedSignupService do
     context 'when channel already exists' do
       before do
         # Stub all the required requests for successful flow
-        stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
           .with(query: hash_including(
             'client_id' => app_id,
             'client_secret' => app_secret,
@@ -232,7 +234,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: hash_including('access_token' => access_token))
           .to_return(
             status: 200,
@@ -249,7 +251,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
           .with(query: hash_including(
             'input_token' => access_token,
             'access_token' => "#{app_id}|#{app_secret}"
@@ -295,7 +297,7 @@ describe Whatsapp::EmbeddedSignupService do
 
     context 'when token exchange fails' do
       before do
-        stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
           .with(query: hash_including(
             'client_id' => app_id,
             'client_secret' => app_secret,
@@ -311,7 +313,7 @@ describe Whatsapp::EmbeddedSignupService do
 
     context 'when token has no access to WABA' do
       before do
-        stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
           .with(query: hash_including(
             'client_id' => app_id,
             'client_secret' => app_secret,
@@ -323,7 +325,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: hash_including('access_token' => access_token))
           .to_return(
             status: 200,
@@ -340,7 +342,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
           .with(query: hash_including(
             'input_token' => access_token,
             'access_token' => "#{app_id}|#{app_secret}"
@@ -368,7 +370,7 @@ describe Whatsapp::EmbeddedSignupService do
 
     context 'when phone numbers fetch fails' do
       before do
-        stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
           .with(query: hash_including(
             'client_id' => app_id,
             'client_secret' => app_secret,
@@ -380,7 +382,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: hash_including('access_token' => access_token))
           .to_return(status: 400, body: { error: 'Phone numbers fetch failed' }.to_json)
       end
@@ -393,7 +395,7 @@ describe Whatsapp::EmbeddedSignupService do
     context 'when webhook override fails' do
       before do
         # Stub all the successful requests
-        stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
           .with(query: hash_including(
             'client_id' => app_id,
             'client_secret' => app_secret,
@@ -405,7 +407,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: hash_including('access_token' => access_token))
           .to_return(
             status: 200,
@@ -422,7 +424,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
           .with(query: hash_including(
             'input_token' => access_token,
             'access_token' => "#{app_id}|#{app_secret}"
@@ -450,7 +452,7 @@ describe Whatsapp::EmbeddedSignupService do
             headers: { 'Content-Type' => 'application/json' }
           )
 
-        stub_request(:post, "https://graph.facebook.com/v21.0/#{phone_number_id}/register")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/register")
           .to_return(
             status: 200,
             body: { success: true }.to_json,
@@ -458,7 +460,7 @@ describe Whatsapp::EmbeddedSignupService do
           )
 
         # Stub the failing webhook request
-        stub_request(:post, "https://graph.facebook.com/v21.0/#{waba_id}/subscribed_apps")
+        stub_request(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
           .to_return(status: 400, body: { error: 'Webhook failed' }.to_json)
       end
 
@@ -472,7 +474,7 @@ describe Whatsapp::EmbeddedSignupService do
     describe '#exchange_code_for_token' do
       context 'when token exchange is successful' do
         before do
-          stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
             .with(query: hash_including(
               'client_id' => app_id,
               'client_secret' => app_secret,
@@ -493,7 +495,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       context 'when response has no access token' do
         before do
-          stub_request(:get, 'https://graph.facebook.com/v21.0/oauth/access_token')
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/oauth/access_token")
             .with(query: hash_including(
               'client_id' => app_id,
               'client_secret' => app_secret,
@@ -514,7 +516,7 @@ describe Whatsapp::EmbeddedSignupService do
 
     describe '#fetch_phone_info_via_waba' do
       before do
-        stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+        stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
           .with(query: hash_including('access_token' => access_token))
           .to_return(
             status: 200,
@@ -544,7 +546,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       context 'when specific phone number is not found' do
         before do
-          stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
             .with(query: hash_including('access_token' => access_token))
             .to_return(
               status: 200,
@@ -571,7 +573,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       context 'when no phone numbers are available' do
         before do
-          stub_request(:get, "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers")
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/#{waba_id}/phone_numbers")
             .with(query: hash_including('access_token' => access_token))
             .to_return(
               status: 200,
@@ -591,7 +593,7 @@ describe Whatsapp::EmbeddedSignupService do
     describe '#validate_token_waba_access' do
       context 'when token has access to WABA' do
         before do
-          stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
             .with(query: hash_including(
               'input_token' => access_token,
               'access_token' => "#{app_id}|#{app_secret}"
@@ -619,7 +621,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       context 'when token validation fails' do
         before do
-          stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
             .with(query: hash_including(
               'input_token' => access_token,
               'access_token' => "#{app_id}|#{app_secret}"
@@ -636,7 +638,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       context 'when token does not have access to WABA' do
         before do
-          stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
             .with(query: hash_including(
               'input_token' => access_token,
               'access_token' => "#{app_id}|#{app_secret}"
@@ -666,7 +668,7 @@ describe Whatsapp::EmbeddedSignupService do
 
       context 'when no WABA scope is found' do
         before do
-          stub_request(:get, 'https://graph.facebook.com/v21.0/debug_token')
+          stub_request(:get, "https://graph.facebook.com/#{api_version}/debug_token")
             .with(query: hash_including(
               'input_token' => access_token,
               'access_token' => "#{app_id}|#{app_secret}"

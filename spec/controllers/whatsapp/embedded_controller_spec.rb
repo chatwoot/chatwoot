@@ -9,6 +9,7 @@ RSpec.describe 'WhatsApp Embedded API', type: :request do
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return('test_app_id')
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_CONFIGURATION_ID', '').and_return('test_config_id')
       allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return('test_app_secret')
+      allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', '').and_return('v22.0')
     end
 
     context 'when user is authenticated' do
