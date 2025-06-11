@@ -52,10 +52,6 @@ const endPoints = {
     url: '/api/v1/profile/resend_confirmation',
   },
 
-  updatePassword: {
-    url: '/api/v1/profile/update_password',
-  },
-
   resetAccessToken: {
     url: '/api/v1/profile/reset_access_token',
   },
