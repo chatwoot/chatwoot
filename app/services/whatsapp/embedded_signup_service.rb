@@ -35,9 +35,13 @@ class Whatsapp::EmbeddedSignupService
 
   private
 
+  def whatsapp_api_version
+    @whatsapp_api_version ||= GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+  end
+
   def exchange_code_for_token
     response = Faraday.get(
-      'https://graph.facebook.com/v21.0/oauth/access_token',
+      "https://graph.facebook.com/#{whatsapp_api_version}/oauth/access_token",
       {
         client_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
         client_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', ''),
@@ -56,7 +60,7 @@ class Whatsapp::EmbeddedSignupService
   def fetch_phone_info_via_waba(waba_id, phone_number_id, access_token)
     # Get all phone numbers for the WABA
     response = Faraday.get(
-      "https://graph.facebook.com/v21.0/#{waba_id}/phone_numbers",
+      "https://graph.facebook.com/#{whatsapp_api_version}/#{waba_id}/phone_numbers",
       { access_token: access_token }
     )
 
@@ -64,11 +68,7 @@ class Whatsapp::EmbeddedSignupService
 
     data = JSON.parse(response.body)
     phone_numbers = data['data']
-
-    # Find the specific phone number we're looking for
-    phone_data = phone_numbers.find { |phone| phone['id'] == phone_number_id }
-
-    phone_data = phone_numbers.first if phone_data.nil?
+    phone_data = phone_numbers.find { |phone| phone['id'] == phone_number_id } || phone_numbers.first
 
     raise "No phone numbers found for WABA #{waba_id}" if phone_data.nil?
 
@@ -98,22 +98,16 @@ class Whatsapp::EmbeddedSignupService
 
   def register_phone_number(phone_number_id, access_token)
     HTTParty.post(
-      "https://graph.facebook.com/v21.0/#{phone_number_id}/register",
+      "https://graph.facebook.com/#{whatsapp_api_version}/#{phone_number_id}/register",
       {
         headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-        body: {
-          messaging_product: 'whatsapp',
-          pin: '212834' # TODO: figure out the correct value of this field
-        }.to_json
+        body: { messaging_product: 'whatsapp', pin: '212834' }.to_json
       }
     )
   end
 
   def find_existing_channel(phone_number)
-    Channel::Whatsapp.find_by(
-      account: @account,
-      phone_number: phone_number
-    )
+    Channel::Whatsapp.find_by(account: @account, phone_number: phone_number)
   end
 
   def build_channel_attributes(waba_info, phone_info, access_token)
@@ -130,27 +124,18 @@ class Whatsapp::EmbeddedSignupService
   end
 
   def create_new_channel(attributes, phone_info)
-    channel = Channel::Whatsapp.create!(
-      account: @account,
-      **attributes
-    )
-
+    channel = Channel::Whatsapp.create!(account: @account, **attributes)
     create_inbox_for_channel(channel, phone_info)
     channel.reload
     channel
   end
 
   def create_inbox_for_channel(channel, phone_info)
-    inbox_name = generate_inbox_name(phone_info)
     Inbox.create!(
       account: @account,
-      name: inbox_name,
+      name: "#{phone_info[:business_name]} WhatsApp",
       channel: channel
     )
-  end
-
-  def generate_inbox_name(phone_info)
-    "#{phone_info[:business_name]} WhatsApp"
   end
 
   def sanitize_phone_number(phone_number)
@@ -167,7 +152,7 @@ class Whatsapp::EmbeddedSignupService
 
   def fetch_token_debug_data(access_token)
     response = Faraday.get(
-      'https://graph.facebook.com/v21.0/debug_token',
+      "https://graph.facebook.com/#{whatsapp_api_version}/debug_token",
       {
         input_token: access_token,
         access_token: build_app_access_token
@@ -207,7 +192,7 @@ class Whatsapp::EmbeddedSignupService
     verify_token = channel.provider_config['webhook_verify_token']
 
     response = HTTParty.post(
-      "https://graph.facebook.com/v21.0/#{waba_id}/subscribed_apps",
+      "https://graph.facebook.com/#{whatsapp_api_version}/#{waba_id}/subscribed_apps",
       {
         headers: {
           'Authorization' => "Bearer #{access_token}",

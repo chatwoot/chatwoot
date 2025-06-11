@@ -293,7 +293,7 @@ export function useWhatsappEmbeddedSignup() {
         appId: window.chatwootConfig?.whatsappAppId,
         status: true,
         xfbml: true,
-        version: window.chatwootConfig?.fbApiVersion || 'v21.0',
+        version: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
       });
       fbSdkLoaded.value = true;
     };
