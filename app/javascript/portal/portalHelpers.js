@@ -59,16 +59,12 @@ export const openExternalLinksInNewTab = () => {
 
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
-    // Both desktop and mobile
-    const localeSwitchers = document.querySelectorAll('.locale-switcher');
-
-    if (!localeSwitchers.length) return;
-
     document.addEventListener('change', e => {
-      if (e.target.classList.contains('locale-switcher')) {
-        const { portalSlug } = e.target.dataset;
-        window.location.href = `/hc/${portalSlug}/${e.target.value}/`;
-      }
+      const localeSwitcher = e.target.closest('.locale-switcher');
+      if (!localeSwitcher) return;
+
+      const { portalSlug } = localeSwitcher.dataset;
+      window.location.href = `/hc/${encodeURIComponent(portalSlug)}/${encodeURIComponent(localeSwitcher.value)}/`;
     });
   },
 
