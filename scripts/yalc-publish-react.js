@@ -34,7 +34,7 @@ function yalcPublish() {
     console.log('✅ Published to yalc store!');
     console.log('');
     console.log('📖 Next steps in your test project:');
-    console.log('  1. yalc add @chatwoot/react-components');
+    console.log('  1. yalc add @chatwoot/agent-react-components');
     console.log('  2. npm install');
     console.log('  3. Import and use the components');
     console.log('');
