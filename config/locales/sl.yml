@@ -172,6 +172,8 @@ sl:
       sla:
         added: '%{user_name} je dodal politiko SLA %{sla_name}'
         removed: '%{user_name} je odstranil politiko SLA %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} je utišal pogovor'
       unmuted: '%{user_name} je vklopil sporočila pogovora'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ sl:
       made_with: Narejeno z
     header:
       go_to_homepage: Spletna stran
+      visit_website: Visit website
       appearance:
         system: Sistem
         light: Svetlo
