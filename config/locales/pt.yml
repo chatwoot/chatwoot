@@ -172,6 +172,8 @@ pt:
       sla:
         added: '%{user_name} adicionou uma política de SLA %{sla_name}'
         removed: '%{user_name} removeu a política de SLA de %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} bloqueou a conversa'
       unmuted: '%{user_name} reativou a conversa'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ pt:
       made_with: Feito com
     header:
       go_to_homepage: Website
+      visit_website: Visit website
       appearance:
         system: Sistema
         light: Claro
