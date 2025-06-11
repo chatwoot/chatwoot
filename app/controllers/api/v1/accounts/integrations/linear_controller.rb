@@ -31,7 +31,11 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      create_linear_activity_message(:issue_created, { id: issue[:data][:identifier] })
+      Linear::ActivityMessageService.new(
+        conversation: @conversation,
+        action_type: :issue_created,
+        issue_data: { id: issue[:data][:identifier] }
+      ).perform
       render json: issue[:data], status: :ok
     end
   end
@@ -43,7 +47,11 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      create_linear_activity_message(:issue_linked, { id: issue_id })
+      Linear::ActivityMessageService.new(
+        conversation: @conversation,
+        action_type: :issue_linked,
+        issue_data: { id: issue_id }
+      ).perform
       render json: issue[:data], status: :ok
     end
   end
@@ -56,7 +64,11 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
-      create_linear_activity_message(:issue_unlinked, { id: issue_id })
+      Linear::ActivityMessageService.new(
+        conversation: @conversation,
+        action_type: :issue_unlinked,
+        issue_data: { id: issue_id }
+      ).perform
       render json: issue[:data], status: :ok
     end
   end
@@ -104,18 +116,5 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def fetch_hook
     @hook = Integrations::Hook.where(account: Current.account).find_by(app_id: 'linear')
-  end
-
-  def create_linear_activity_message(action_type, issue_data = {})
-    return unless @conversation
-
-    case action_type
-    when :issue_created
-      @conversation.create_linear_issue_created_activity(issue_data)
-    when :issue_linked
-      @conversation.create_linear_issue_linked_activity(issue_data)
-    when :issue_unlinked
-      @conversation.create_linear_issue_unlinked_activity(issue_data)
-    end
   end
 end
