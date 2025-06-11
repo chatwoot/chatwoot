@@ -61,15 +61,19 @@ onBeforeUnmount(() => {
         </div>
       </div>
 
-      <NextButton
-        :disabled="!fbSdkLoaded || isAuthenticating"
-        :loading="isAuthenticating"
-        faded
-        slate
-        @click="launchEmbeddedSignup"
-      >
-        {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUBMIT_BUTTON') }}
-      </NextButton>
+      <div class="flex">
+        <NextButton
+          :disabled="!fbSdkLoaded || isAuthenticating"
+          :loading="isAuthenticating"
+          faded
+          slate
+          class="w-full"
+          @click="launchEmbeddedSignup"
+        >
+          {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUBMIT_BUTTON') }}
+        </NextButton>
+      </div>
+
       <p
         v-if="!fbSdkLoaded"
         class="mt-3 text-xs text-left text-slate-500 dark:text-slate-400"
