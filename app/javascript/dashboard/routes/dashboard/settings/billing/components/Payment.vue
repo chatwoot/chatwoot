@@ -1,5 +1,5 @@
 <script setup>
-import { ref, computed, onMounted, onUnmounted } from 'vue';
+import { ref, computed, onMounted, onUnmounted, watch } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { useStore, useMapGetter } from 'dashboard/composables/store';
@@ -58,7 +58,13 @@ const isDropdownOpen = ref(false);
 const dropdownRef = ref(null);
 const selectedBillingCycle = ref(props.billingCycleTabs[0]); // Default ke opsi pertama
 
-const selectedPlanMonthlyPrice = computed(() => selectedPlan.value.monthly_price * props.plan.subsDuration)
+watch(() => props.duration, duration => {
+  selectedBillingCycle.value = props.billingCycleTabs.find(e => e.id === duration)
+}, {
+  immediate: true,
+})
+
+const selectedPlanMonthlyPrice = computed(() => selectedPlan.value.monthly_price)
 
 // Kalkulasi total harga berdasarkan siklus penagihan
 const totalPrice = computed(() => {
