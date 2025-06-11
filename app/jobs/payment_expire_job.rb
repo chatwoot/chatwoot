@@ -27,7 +27,7 @@ class PaymentExpireJob < ApplicationJob
           user.name,
           transaction.transaction_id,
           Time.current.strftime("%-d %B %Y"),
-          subscriptionTopup.payment_method,
+          subscriptionTopup.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
           transaction.price.to_i,
           subscriptionTopup.amount,
         ).deliver_later
@@ -38,7 +38,7 @@ class PaymentExpireJob < ApplicationJob
           user.name,
           transaction.transaction_id,
           Time.current.strftime("%-d %B %Y"),
-          subscriptionTopup.payment_method,
+          subscriptionTopup.payment_method == 'M2' ? 'Virtual Account' : 'Credit Card',
           transaction.price.to_i,
           subscriptionTopup.amount,
         ).deliver_later
