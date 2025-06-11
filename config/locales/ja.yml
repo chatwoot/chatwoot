@@ -172,6 +172,8 @@ ja:
       sla:
         added: '%{user_name} がSLAポリシー "%{sla_name}" を追加しました'
         removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
       auto_resolution_message: '会話がしばらく非アクティブのため、解決済みとして処理します。引き続きサポートが必要な場合は、新しい会話を開始してください。'
@@ -272,6 +274,7 @@ ja:
       made_with: 作成
     header:
       go_to_homepage: ウェブサイト
+      visit_website: Visit website
       appearance:
         system: システム
         light: ライト
