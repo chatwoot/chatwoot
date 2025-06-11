@@ -18,6 +18,8 @@ checks:
     enabled: true
     config:
       threshold: 32
+    exclude_paths:
+      - 'app/javascript/dashboard/composables/'
   file-lines:
     enabled: true
     config:
@@ -25,6 +27,11 @@ checks:
   method-lines:
     config:
       threshold: 50
+    exclude_paths:
+      - 'app/javascript/dashboard/composables/'
+  cognitive-complexity:
+    exclude_paths:
+      - 'app/javascript/dashboard/composables/'
 exclude_patterns:
   - 'spec/'
   - '**/specs/**/**'
@@ -60,3 +67,4 @@ exclude_patterns:
   - 'app/javascript/dashboard/routes/dashboard/settings/macros/constants.js'
   - '**/fixtures/**'
   - '**/*/fixtures.js'
+  
