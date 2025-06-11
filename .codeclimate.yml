@@ -71,4 +71,3 @@ exclude_patterns:
   - 'app/javascript/dashboard/routes/dashboard/settings/macros/constants.js'
   - '**/fixtures/**'
   - '**/*/fixtures.js'
-  
