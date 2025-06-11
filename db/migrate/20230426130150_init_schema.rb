@@ -1,10 +1,11 @@
 class InitSchema < ActiveRecord::Migration[6.1]
   def up
     # These are extensions that must be enabled in order to support this database
-    enable_extension "pg_stat_statements"
-    enable_extension "pg_trgm"
-    enable_extension "pgcrypto"
-    enable_extension "plpgsql"
+    enable_extension "pg_stat_statements" unless extension_enabled?("pg_stat_statements")
+    enable_extension "pg_trgm" unless extension_enabled?("pg_trgm")
+    enable_extension "pgcrypto" unless extension_enabled?("pgcrypto")
+    enable_extension "plpgsql" unless extension_enabled?("plpgsql")
+
     create_table "access_tokens" do |t|
       t.string "owner_type"
       t.bigint "owner_id"
