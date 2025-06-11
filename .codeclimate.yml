@@ -20,6 +20,8 @@ checks:
       threshold: 32
     exclude_paths:
       - 'app/javascript/dashboard/composables/'
+      - 'app/javascript/dashboard/composables/**'
+      - 'app/javascript/dashboard/composables/*.js'
   file-lines:
     enabled: true
     config:
@@ -30,12 +32,16 @@ checks:
       threshold: 50
     exclude_paths:
       - 'app/javascript/dashboard/composables/'
+      - 'app/javascript/dashboard/composables/**'
+      - 'app/javascript/dashboard/composables/*.js'
   cognitive-complexity:
     enabled: true
     config:
       threshold: 5
     exclude_paths:
       - 'app/javascript/dashboard/composables/'
+      - 'app/javascript/dashboard/composables/**'
+      - 'app/javascript/dashboard/composables/*.js'
 exclude_patterns:
   - 'spec/'
   - '**/specs/**/**'
