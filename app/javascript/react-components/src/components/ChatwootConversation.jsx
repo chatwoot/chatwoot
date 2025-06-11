@@ -12,7 +12,7 @@ export const ChatwootConversation = ({
 
   return (
     <div
-      className={`chatwoot-conversation ${className}`}
+      className={`chatwoot-conversation ${className} text-n-slate-11`}
       style={{
         height: '100%',
         width: '100%',
