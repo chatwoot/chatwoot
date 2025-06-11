@@ -37,6 +37,31 @@
       "qty_month": "bulan"
     },
     "BTN_BUY": "Beli Paket",
-    "PKG_FEATURE": "{plan} Fitur"
+    "PLAN_NAME": {
+      "starter": "Paket Pemula",
+      "growth": "Paket Bisnis",
+      "enterprise": "Paket Premium"
+    },
+    "FEATURE": {
+      "starter": "Fitur Paket Pemula",
+      "growth": "Fitur Paket Bisnis",
+      "enterprise": "Fitur Paket Premium"
+    },
+    "1000 Maximum Active Users": "1.000 Pengguna Aktif",
+    "2 AI Agents": "2 BOT AI",
+    "5000 AI Responses": "5.000 Balasan AI",
+    "5 Human Agents": "5 Admin Manusia",
+    "Unlimited Inboxes": "Inbox Tanpa Batas",
+    "Complete Documentation": "Dokumentasi Lengkap",
+    "Standard Support": "Dukungan Standar",
+    "5000 Maximum Active Users": "5.000 Pengguna Aktif",
+    "5 AI Agents": "5 Agen AI",
+    "20000 AI Responses": "20.000 Balasan AI",
+    "20 Human Agents": "20 Admin Manusia",
+    "Unlimited Maximum Active Users": "Pengguna Aktif Tanpa Batas",
+    "Unlimited AI Agents": "Agen AI Tanpa Batas",
+    "200000 AI Responses": "200.000 Balasan AI",
+    "Unlimited Human Agents": "Admin Manusia Tanpa Batas",
+    "Dedicated Support": "Dukungan Khusus"
   }
 }

@@ -37,6 +37,31 @@
       "qty_month": "month"
     },
     "BTN_BUY": "Buy Package",
-    "PKG_FEATURE": "{plan} Features"
+    "PLAN_NAME": {
+      "starter": "Starter",
+      "growth": "Growth",
+      "enterprise": "Enterprise"
+    },
+    "FEATURE": {
+      "starter": "Starter Fitur",
+      "growth": "Growth Fitur",
+      "enterprise": "Enterprise Fitur"
+    },
+    "1000 Maximum Active Users": "1.000 Maximum Active users",
+    "2 AI Agents": "2 AI Agents",
+    "5000 AI Responses": "5.000 AI Responses",
+    "5 Human Agents": "5 Human Agents",
+    "Unlimited Inboxes": "Unlimited Inboxes",
+    "Complete Documentation": "Complete Documentation",
+    "Standard Support": "Standard Support",
+    "5000 Maximum Active Users": "5.000 Maximum Active users",
+    "5 AI Agents": "5 AI Agents",
+    "20000 AI Responses": "20.000 AI Responses",
+    "20 Human Agents": "20 Human Agents",
+    "Unlimited Maximum Active Users": "Unlimited Maximum Active users",
+    "Unlimited AI Agents": "Unlimited AI Agents",
+    "200000 AI Responses": "200.000 AI Responses",
+    "Unlimited Human Agents": "Unlimited Human Agents",
+    "Dedicated Support": "Dedicated Support"
   }
 }

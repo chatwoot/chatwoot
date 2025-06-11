@@ -656,7 +656,7 @@ const selectedTabDisplay = computed(() => {
             <div v-for="plan in plans" :key="plan.id" class="pricing-card">
               <div class="plan-header flex flex-row">
                 <div class="flex-1">
-                  <h3 class="plan-title">{{ plan.name }}</h3>
+                  <h3 class="plan-title">{{ $t(`BILLING.PLAN_NAME.${plan.name.toLowerCase()}`) }}</h3>
                 </div>
                 <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
                   <img :src="getPlanIcon(plan.name)">
@@ -674,14 +674,12 @@ const selectedTabDisplay = computed(() => {
               </div>
 
               <div class="plan-features">
-                <h4>{{ $t('BILLING.PKG_FEATURE', {
-                  plan: plan.name,
-                }) }}</h4>
+                <h4>{{ $t(`BILLING.FEATURE.${plan.name.toLowerCase()}`) }}</h4>
 
                 <ul class="feature-list">
                   <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
                     <span class="icon-check" />
-                    <span class="feature-text">{{ feature }}</span>
+                    <span class="feature-text">{{ $t(`BILLING.${feature.replaceAll('.', '')}`) }}</span>
                   </li>
                 </ul>
               </div>
