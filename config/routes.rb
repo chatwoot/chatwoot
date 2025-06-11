@@ -344,6 +344,7 @@ Rails.application.routes.draw do
               get :agent
               get :team
               get :inbox
+              get :label
             end
           end
           resources :reports, only: [:index] do
