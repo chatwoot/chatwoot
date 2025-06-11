@@ -31,6 +31,7 @@ export default {
         fullName: '',
         email: '',
         password: '',
+        confirmPassword: '',
         hCaptchaClientResponse: '',
       },
       didCaptchaReset: false,
@@ -61,6 +62,13 @@ export default {
           isValidPassword,
           minLength: minLength(6),
         },
+        confirmPassword: {
+          required,
+          minLength: minLength(6),
+          isEqPassword(value) {
+            return value === this.credentials.password;
+          },
+        },
       },
     };
   },
@@ -90,6 +98,16 @@ export default {
       }
       if (password.isValidPassword.$invalid) {
         return this.$t('REGISTER.PASSWORD.IS_INVALID_PASSWORD');
+      }
+      return '';
+    },
+    confirmPasswordErrorText() {
+      const { confirmPassword } = this.v$.credentials;
+      if (!confirmPassword.$error) {
+        return '';
+      }
+      if (confirmPassword.isEqPassword.$invalid) {
+        return this.$t('REGISTER.CONFIRM_PASSWORD.ERROR');
       }
       return '';
     },
@@ -185,6 +203,17 @@ export default {
         :has-error="v$.credentials.password.$error"
         :error-message="passwordErrorText"
         @blur="v$.credentials.password.$touch"
+      />
+      <FormInput
+        v-model="credentials.confirmPassword"
+        type="password"
+        name="confirm_password"
+        :class="{ error: v$.credentials.confirmPassword.$error }"
+        :label="$t('REGISTER.CONFIRM_PASSWORD.LABEL')"
+        :placeholder="$t('REGISTER.CONFIRM_PASSWORD.PLACEHOLDER')"
+        :has-error="v$.credentials.confirmPassword.$error"
+        :error-message="confirmPasswordErrorText"
+        @blur="v$.credentials.confirmPassword.$touch"
       />
       <div v-if="globalConfig.hCaptchaSiteKey" class="mb-3">
         <VueHcaptcha
