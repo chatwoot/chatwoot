@@ -48,7 +48,10 @@ onMounted(() => {
   }
 });
 onUnmounted(() => {
-  if (connection.value === 'connecting') {
+  if (
+    connection.value === 'connecting' ||
+    connection.value === 'reconnecting'
+  ) {
     disconnect();
   }
 });

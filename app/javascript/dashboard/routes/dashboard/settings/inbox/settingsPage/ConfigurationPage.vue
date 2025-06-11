@@ -61,6 +61,7 @@ export default {
   methods: {
     setDefaults() {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
+      this.whatsAppProviderUrl = this.inbox.provider_config?.provider_url ?? '';
       this.markAsRead = this.inbox.provider_config.mark_as_read ?? true;
     },
     handleHmacFlag() {
