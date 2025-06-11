@@ -119,11 +119,13 @@
       "EMPTY_LIST": "검색 결과가 없습니다"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agents Overview",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "차트 데이터 불러오는 중...",
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_AGENT_REPORTS": "다운로드 에이전트 보고서",
@@ -258,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Inbox Overview",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "차트 데이터 불러오는 중...",
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_INBOX_REPORTS": "Download inbox reports",
@@ -325,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Overview",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "차트 데이터 불러오는 중...",
     "NO_ENOUGH_DATA": "보고서를 생성할 수 있는 데이터 포인트가 부족합니다. 나중에 다시 시도하십시오.",
     "DOWNLOAD_TEAM_REPORTS": "Download team reports",
@@ -473,6 +477,18 @@
         "STATUS": "상태"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "열기",
+        "UNATTENDED": "Unattended",
+        "STATUS": "상태"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Agent status",
       "ONLINE": "온라인",
@@ -538,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "받은 메시지함",
+    "AGENT": "에이전트",
+    "TEAM": "Team",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "해결 수",
+    "CONVERSATIONS": "No. of conversations"
   }
 }

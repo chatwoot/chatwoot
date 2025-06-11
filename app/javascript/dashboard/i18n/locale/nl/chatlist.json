@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "heeft een url gedeeld"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

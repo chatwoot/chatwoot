@@ -1,8 +1,10 @@
 import { frontendURL } from '../../../helper/URLHelper';
 import ContactsIndex from './pages/ContactsIndex.vue';
 import ContactManageView from './pages/ContactManageView.vue';
+import { FEATURE_FLAGS } from '../../../featureFlags';
 
 const commonMeta = {
+  featureFlag: FEATURE_FLAGS.CRM,
   permissions: ['administrator', 'agent', 'contact_manage'],
 };
 
@@ -27,6 +29,12 @@ export const routes = [
       {
         path: 'labels/:label',
         name: 'contacts_dashboard_labels_index',
+        component: ContactsIndex,
+        meta: commonMeta,
+      },
+      {
+        path: 'active',
+        name: 'contacts_dashboard_active',
         component: ContactsIndex,
         meta: commonMeta,
       },

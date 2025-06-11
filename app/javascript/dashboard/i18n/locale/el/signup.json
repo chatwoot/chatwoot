@@ -20,7 +20,7 @@
     },
     "EMAIL": {
       "LABEL": "email εργασίας",
-      "PLACEHOLDER": "συμπληρώστε το email εργασίας πχ: papadopoulos{'@'}wyane.com",
+      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
       "ERROR": "Παρακαλώ εισάγετε μια έγκυρη διεύθυνση email"
     },
     "PASSWORD": {

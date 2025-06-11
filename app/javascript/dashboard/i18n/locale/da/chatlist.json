@@ -9,7 +9,7 @@
     "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Samtaler",
     "MENTION_HEADING": "Omtaler",
-    "UNATTENDED_HEADING": "Unattet",
+    "UNATTENDED_HEADING": "Ubehandlet",
     "SEARCH": {
       "INPUT": "Søg efter Mennesker, Chats, Gemte svar .."
     },
@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "har delt en URL"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

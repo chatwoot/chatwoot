@@ -63,10 +63,37 @@ export const actions = {
       });
     }
   },
-  update: async ({ commit }, updateObj) => {
+  update: async ({ commit }, { options, ...updateObj }) => {
+    if (options?.silent !== true) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    }
+
+    try {
+      const response = await AccountAPI.update('', updateObj);
+      commit(types.default.EDIT_ACCOUNT, response.data);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throw new Error(error);
+    }
+  },
+  delete: async ({ commit }, { id }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
     try {
-      await AccountAPI.update('', updateObj);
+      await AccountAPI.delete(id);
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+    } catch (error) {
+      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
+      throw new Error(error);
+    }
+  },
+  toggleDeletion: async (
+    { commit },
+    { action_type } = { action_type: 'delete' }
+  ) => {
+    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
+    try {
+      await EnterpriseAccountAPI.toggleDeletion(action_type);
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });

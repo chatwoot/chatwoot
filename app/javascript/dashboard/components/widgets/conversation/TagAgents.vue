@@ -69,10 +69,6 @@ const onAgentSelect = index => {
       v-if="items.length"
       ref="tagAgentsRef"
       class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
-      :class="{
-        'border-b-[0.5rem] border-solid border-white dark:!border-slate-700':
-          items.length <= 4,
-      }"
     >
       <li
         v-for="(agent, index) in items"

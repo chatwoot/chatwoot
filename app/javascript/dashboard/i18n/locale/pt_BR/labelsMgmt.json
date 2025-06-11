@@ -1,15 +1,15 @@
 {
   "LABEL_MGMT": {
-    "HEADER": "Marcadores",
-    "HEADER_BTN_TXT": "Adicionar marcador",
-    "LOADING": "Buscando marcadores",
+    "HEADER": "Etiquetas",
+    "HEADER_BTN_TXT": "Adicionar etiqueta",
+    "LOADING": "Buscando etiquetas",
     "DESCRIPTION": "As etiquetas ajudam você a categorizar e priorizar conversas e leads. Você pode atribuir uma etiqueta a uma conversa ou contato usando o painel lateral.",
     "LEARN_MORE": "Aprenda mais sobre etiquetas",
     "SEARCH_404": "Não existem itens correspondentes a esta consulta",
     "LIST": {
-      "404": "Não há marcadores disponíveis nesta conta.",
-      "TITLE": "Gerenciar marcadores",
-      "DESC": "Marcadores permitem agrupar as conversas.",
+      "404": "Não há etiquetas disponíveis nesta conta.",
+      "TITLE": "Gerenciar etiquetas",
+      "DESC": "Etiquetas permitem agrupar as conversas.",
       "TABLE_HEADER": {
         "NAME": "Nome",
         "DESCRIPTION": "Descrição",
@@ -18,21 +18,21 @@
     },
     "FORM": {
       "NAME": {
-        "LABEL": "Nome do marcador",
-        "PLACEHOLDER": "Nome do marcador",
-        "REQUIRED_ERROR": "O nome do marcador é obrigatório",
+        "LABEL": "Nome da Etiqueta",
+        "PLACEHOLDER": "Nome da etiqueta",
+        "REQUIRED_ERROR": "O nome da etiqueta é obrigatório",
         "MINIMUM_LENGTH_ERROR": "Tamanho mínimo 2 é necessário",
         "VALID_ERROR": "Somente Letras, Números, Hífen e Sublinhado são permitidos"
       },
       "DESCRIPTION": {
         "LABEL": "Descrição",
-        "PLACEHOLDER": "Descrição do marcador"
+        "PLACEHOLDER": "Descrição da etiqueta"
       },
       "COLOR": {
         "LABEL": "Cor"
       },
       "SHOW_ON_SIDEBAR": {
-        "LABEL": "Exibir marcador na barra lateral"
+        "LABEL": "Exibir etiqueta na barra lateral"
       },
       "EDIT": "Alterar",
       "CREATE": "Criar",
@@ -51,27 +51,27 @@
       "ADD_SELECTED_LABELS": "Adicionar etiquetas selecionadas",
       "ADD_SELECTED_LABEL": "Adicionar etiqueta selecionada",
       "ADD_ALL_LABELS": "Adicionar todas as etiquetas",
-      "SUGGESTED_LABELS": "Rótulos sugeridos"
+      "SUGGESTED_LABELS": "Etiquetas sugeridos"
     },
     "ADD": {
-      "TITLE": "Adicionar marcador",
-      "DESC": "Marcadores permitem agrupar as conversas.",
+      "TITLE": "Adicionar etiqueta",
+      "DESC": "Etiquetas permitem agrupar as conversas.",
       "API": {
-        "SUCCESS_MESSAGE": "Marcador adicionado com sucesso",
+        "SUCCESS_MESSAGE": "Etiqueta adicionada com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "EDIT": {
-      "TITLE": "Editar marcador",
+      "TITLE": "Alterar etiqueta",
       "API": {
-        "SUCCESS_MESSAGE": "Marcador atualizado com sucesso",
+        "SUCCESS_MESSAGE": "Etiqueta atualizada com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Marcador excluído com sucesso",
+        "SUCCESS_MESSAGE": "Etiqueta excluída com sucesso",
         "ERROR_MESSAGE": "Ocorreu um erro, por favor tente novamente"
       },
       "CONFIRM": {

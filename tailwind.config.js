@@ -55,10 +55,6 @@ const tailwindConfig = {
             },
             overflowWrap: 'anywhere',
 
-            'br + br': {
-              display: 'none',
-            },
-
             strong: {
               color: 'rgb(var(--slate-12))',
               fontWeight: '700',

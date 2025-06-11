@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "اطلاعات مخاطب <strong>{primaryContactName}</strong> کپی شود به <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "ERROR_MESSAGE"
+      "ERROR_MESSAGE": "Something went wrong. Please try again later."
     },
     "FORM": {
       "SUBMIT": " ادغام مخاطبین",
@@ -284,10 +284,13 @@
   "CONTACTS_LAYOUT": {
     "HEADER": {
       "TITLE": "مخاطبین",
-      "SEARCH_TITLE": "Search contacts",
-      "SEARCH_PLACEHOLDER": "Search...",
+      "SEARCH_TITLE": "جستجوی مخاطبین",
+      "ACTIVE_TITLE": "Active contacts",
+      "SEARCH_PLACEHOLDER": "جستجو...",
       "MESSAGE_BUTTON": "پیام",
       "SEND_MESSAGE": "ارسال پیام",
+      "BLOCK_CONTACT": "مسدود کردن مخاطب",
+      "UNBLOCK_CONTACT": "رفع انسداد مخاطب",
       "BREADCRUMB": {
         "CONTACTS": "مخاطبین"
       },
@@ -302,6 +305,10 @@
           "SUCCESS_MESSAGE": "مخاطب با موفقیت ذخیره شد",
           "ERROR_MESSAGE": "Unable to save contact. Please try again later."
         },
+        "BLOCK_SUCCESS_MESSAGE": "This contact is blocked successfully",
+        "BLOCK_ERROR_MESSAGE": "Unable to block contact. Please try again later.",
+        "UNBLOCK_SUCCESS_MESSAGE": "مخاطب با موفقیت رفع نسداد شد",
+        "UNBLOCK_ERROR_MESSAGE": "Unable to unblock contact. Please try again later.",
         "IMPORT_CONTACT": {
           "TITLE": "Import contacts",
           "DESCRIPTION": "مخاطبین را از طریق یک فایل CSV وارد کنید.",
@@ -451,6 +458,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -460,7 +471,7 @@
       "DELETE_CONTACT": "حذف مخاطب",
       "DELETE_DIALOG": {
         "TITLE": "تاییدیه حذف",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "بله، حذف شود",
         "API": {
           "SUCCESS_MESSAGE": "مخاطب با موفقیت حذف شد",
@@ -538,6 +549,9 @@
         "WROTE": "نوشت",
         "YOU": "شما",
         "SAVE": "Save note",
+        "EXPAND": "Expand",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
       }
     },
@@ -546,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

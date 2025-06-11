@@ -4,14 +4,19 @@
       "ALL": "Wszystkie",
       "CONTACTS": "Kontakty",
       "CONVERSATIONS": "Rozmowy",
-      "MESSAGES": "Wiadomości"
+      "MESSAGES": "Wiadomości",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontakty",
       "CONVERSATIONS": "Rozmowy",
-      "MESSAGES": "Wiadomości"
+      "MESSAGES": "Wiadomości",
+      "ARTICLES": "Articles"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Wyszukiwanie",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "Nie znaleziono {item} dla zapytania '{query}'",
     "EMPTY_STATE_FULL": "Nie znaleziono wyników dla zapytania '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ aby skupić się",
@@ -21,6 +26,7 @@
     "READ_MORE": "Czytaj więcej",
     "WROTE": "napisał/a:",
     "FROM": "od",
-    "EMAIL": "e-mail"
+    "EMAIL": "e-mail",
+    "EMAIL_SUBJECT": "temat"
   }
 }

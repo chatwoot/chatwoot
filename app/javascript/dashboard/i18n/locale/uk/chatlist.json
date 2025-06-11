@@ -9,7 +9,7 @@
     "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Бесіди",
     "MENTION_HEADING": "Згадування",
-    "UNATTENDED_HEADING": "Не зв'язаний",
+    "UNATTENDED_HEADING": "Без відповіді",
     "SEARCH": {
       "INPUT": "Пошук людей, чатів та збережених відповідей.."
     },
@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "поділився посиланням"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
