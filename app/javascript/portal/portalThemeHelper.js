@@ -52,13 +52,6 @@ export const updateThemeInHeader = theme => {
   });
 };
 
-const updateAppearanceMenus = theme => {
-  // Helper function to update both appearance menus
-  document.querySelectorAll('.appearance-menu').forEach(menu => {
-    menu.dataset.currentTheme = theme;
-  });
-};
-
 export const switchTheme = theme => {
   // Update localStorage
   if (theme === 'system') {
@@ -75,7 +68,9 @@ export const switchTheme = theme => {
   updateThemeInHeader(theme);
   removeQueryParamsFromUrl();
   // Update both dropdown data attributes
-  updateAppearanceMenus(theme);
+  document.querySelectorAll('.appearance-menu').forEach(menu => {
+    menu.dataset.currentTheme = theme;
+  });
 };
 
 export const initializeThemeHandlers = () => {
@@ -83,6 +78,7 @@ export const initializeThemeHandlers = () => {
   const dropdown = document.getElementById('appearance-dropdown');
   if (!toggle || !dropdown) return;
 
+  // Toggle appearance dropdown
   toggle.addEventListener('click', e => {
     e.stopPropagation();
     dropdown.dataset.dropdownOpen = String(
