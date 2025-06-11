@@ -129,7 +129,7 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                    content_type: 'input_select', content_attributes: { items: items })
 
         expected_action = {
-          button: I18n.t('whatsapp.interactive.list.button_label'),
+          button: I18n.t('conversations.messages.whatsapp.list_button_label'),
           sections: [{ rows: %w[Burito Pasta Sushi Salad].map { |i| { id: i, title: i } } }]
         }.to_json
 

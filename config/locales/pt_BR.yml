@@ -138,6 +138,8 @@ pt_BR:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
       deleted: Esta mensagem foi excluída
+      whatsapp:
+        list_button_label: 'Escolha um item'
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
@@ -213,7 +215,7 @@ pt_BR:
     slack:
       name: 'Slack'
       short_description: 'Receba notificações e responda as conversas diretamente no Slack.'
-      description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
+      description: 'Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack.'
     webhooks:
       name: 'Webhooks'
       description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
@@ -224,7 +226,7 @@ pt_BR:
     google_translate:
       name: 'Tradutor do Google'
       short_description: 'Traduzir automaticamente mensagens de clientes para agentes.'
-      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
+      description: 'Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador.'
     openai:
       name: 'OpenAI'
       short_description: 'Sugestões, resumos e aprimoramento de mensagem e resposta com IA.'
