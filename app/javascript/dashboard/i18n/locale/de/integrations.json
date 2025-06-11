@@ -318,11 +318,18 @@
         "SUCCESS": "Problem erfolgreich getrennt",
         "ERROR": "Beim Aufheben der Verknüpfung des Problems ist ein Fehler aufgetreten. Bitte versuchen Sie es erneut"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "Sind Sie sicher, dass Sie die Integration löschen möchten?",
         "MESSAGE": "Sind Sie sicher, dass Sie die Integration löschen möchten?",
         "CONFIRM": "Ja, löschen",
         "CANCEL": "Stornieren"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },
