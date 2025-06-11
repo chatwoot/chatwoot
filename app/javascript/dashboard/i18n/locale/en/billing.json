@@ -19,7 +19,9 @@
     "STATUS_PAYMENT": {
       "pending": "Pending",
       "paid": "Paid",
-      "canceled": "Canceled"
+      "canceled": "Canceled",
+      "success": "Success",
+      "expired": "Expired"
     }
   }
 }
