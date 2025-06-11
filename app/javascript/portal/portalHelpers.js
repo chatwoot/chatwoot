@@ -59,17 +59,17 @@ export const openExternalLinksInNewTab = () => {
 
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
-    const allLocaleSwitcher = document.querySelector('.locale-switcher');
+    // Both desktop and mobile
+    const localeSwitchers = document.querySelectorAll('.locale-switcher');
 
-    if (!allLocaleSwitcher) {
-      return false;
-    }
+    if (!localeSwitchers.length) return;
 
-    const { portalSlug } = allLocaleSwitcher.dataset;
-    allLocaleSwitcher.addEventListener('change', event => {
-      window.location = `/hc/${portalSlug}/${event.target.value}/`;
+    document.addEventListener('change', e => {
+      if (e.target.classList.contains('locale-switcher')) {
+        const { portalSlug } = e.target.dataset;
+        window.location.href = `/hc/${portalSlug}/${e.target.value}/`;
+      }
     });
-    return false;
   },
 
   initializeSearch: () => {
