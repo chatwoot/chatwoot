@@ -7,6 +7,7 @@ import { useWhatsappSignupState } from './whatsapp/useWhatsappSignupState';
 import { useWhatsappSignupHandlers } from './whatsapp/useWhatsappSignupHandlers';
 import { useWhatsappSignupApi } from './whatsapp/useWhatsappSignupApi';
 import { useWhatsappFacebookSDK } from './whatsapp/useWhatsappFacebookSDK';
+import { useWhatsappMessageHandler } from './whatsapp/useWhatsappMessageHandler';
 
 export function useWhatsappEmbeddedSignup() {
   const store = useStore();
@@ -68,6 +69,20 @@ export function useWhatsappEmbeddedSignup() {
     t,
   });
 
+  const { handleSignupMessage } = useWhatsappMessageHandler({
+    isValidBusinessData,
+    normalizeBusinessData,
+    businessData,
+    authCodeReceived,
+    authCode,
+    completeSignupFlow,
+    currentStep,
+    processingMessage,
+    handleSignupError,
+    handleSignupCancellation,
+    t,
+  });
+
   // Computed
   const benefits = computed(() => [
     {
@@ -87,63 +102,6 @@ export function useWhatsappEmbeddedSignup() {
   const showLoader = computed(
     () => hasSignupStarted.value || isProcessing.value
   );
-
-  // Message handling
-  const handleEmbeddedSignupData = async data => {
-    if (data.event === 'FINISH') {
-      const businessDataLocal =
-        data.data || data.business_data || data.details || data;
-
-      if (isValidBusinessData(businessDataLocal)) {
-        const normalizedData = normalizeBusinessData(businessDataLocal);
-        businessData.value = normalizedData;
-
-        if (authCodeReceived.value && authCode.value) {
-          await completeSignupFlow(normalizedData);
-        } else {
-          currentStep.value = 'waiting_for_auth';
-          processingMessage.value = t(
-            'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_AUTH'
-          );
-        }
-      } else {
-        handleSignupError({
-          error: t(
-            'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.INVALID_BUSINESS_DATA'
-          ),
-        });
-      }
-    } else if (data.event === 'CANCEL') {
-      handleSignupCancellation(data);
-    } else if (data.event === 'error') {
-      handleSignupError({
-        error:
-          data.error_message ||
-          t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SIGNUP_ERROR'),
-        error_id: data.error_id,
-        session_id: data.session_id,
-      });
-    }
-  };
-
-  const handleSignupMessage = event => {
-    try {
-      const originUrl = new URL(event.origin);
-      const allowedHosts = ['facebook.com', 'www.facebook.com'];
-      if (!allowedHosts.includes(originUrl.hostname)) return;
-    } catch (error) {
-      return;
-    }
-
-    try {
-      const data = JSON.parse(event.data);
-      if (data.type === 'WA_EMBEDDED_SIGNUP') {
-        handleEmbeddedSignupData(data);
-      }
-    } catch (error) {
-      // Handle non-JSON messages silently
-    }
-  };
 
   // Lifecycle
   const setupMessageListener = () => {

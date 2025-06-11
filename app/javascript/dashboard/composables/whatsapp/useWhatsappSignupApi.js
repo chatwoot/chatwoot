@@ -32,48 +32,69 @@ export function useWhatsappSignupApi({
     return {};
   });
 
+  const validateAuthRequirements = () => {
+    return authCodeReceived.value && authCode.value;
+  };
+
+  const createSignupPayload = businessDataParam => {
+    const accountId = store.getters.getCurrentAccountId;
+    return {
+      account_id: accountId,
+      code: authCode.value,
+      business_id: businessDataParam.business_id,
+      waba_id: businessDataParam.waba_id,
+      phone_number_id: businessDataParam.phone_number_id,
+    };
+  };
+
+  const createFetchOptions = payload => {
+    return {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'X-CSRF-Token': document
+          .querySelector('meta[name="csrf-token"]')
+          ?.getAttribute('content'),
+        ...authHeaders.value,
+      },
+      body: JSON.stringify(payload),
+    };
+  };
+
+  const setProcessingState = () => {
+    currentStep.value = 'processing';
+    isProcessing.value = true;
+    processingMessage.value = t(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
+    );
+  };
+
+  const handleApiResponse = async response => {
+    const responseData = await response.json();
+
+    if (response.ok) {
+      authCode.value = null;
+      handleSignupSuccess(responseData);
+    } else {
+      throw new Error(responseData.message || responseData.error);
+    }
+  };
+
   const completeSignupFlow = async businessDataParam => {
-    if (!authCodeReceived.value || !authCode.value) {
+    if (!validateAuthRequirements()) {
       handleSignupError({
         error: t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED'),
       });
       return;
     }
 
-    currentStep.value = 'processing';
-    isProcessing.value = true;
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
-    );
+    setProcessingState();
 
     try {
-      const accountId = store.getters.getCurrentAccountId;
-      const response = await fetch('/whatsapp/embedded_signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document
-            .querySelector('meta[name="csrf-token"]')
-            ?.getAttribute('content'),
-          ...authHeaders.value,
-        },
-        body: JSON.stringify({
-          account_id: accountId,
-          code: authCode.value,
-          business_id: businessDataParam.business_id,
-          waba_id: businessDataParam.waba_id,
-          phone_number_id: businessDataParam.phone_number_id,
-        }),
-      });
-
-      const responseData = await response.json();
-
-      if (response.ok) {
-        authCode.value = null;
-        handleSignupSuccess(responseData);
-      } else {
-        throw new Error(responseData.message || responseData.error);
-      }
+      const payload = createSignupPayload(businessDataParam);
+      const options = createFetchOptions(payload);
+      const response = await fetch('/whatsapp/embedded_signup', options);
+      await handleApiResponse(response);
     } catch (error) {
       handleSignupError({ error: error.message });
     }

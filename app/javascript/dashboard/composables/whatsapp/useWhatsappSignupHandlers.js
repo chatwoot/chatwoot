@@ -9,22 +9,63 @@ export function useWhatsappSignupHandlers({
   router,
   t,
 }) {
-  const handleSignupError = data => {
-    resetState();
-    const errorMessage =
+  const getErrorMessage = data => {
+    return (
       data.error ||
       data.message ||
-      t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE');
+      t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
+    );
+  };
+
+  const getCancellationMessage = data => {
+    let message = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED');
+    if (data.data?.current_step) {
+      message += ` (Step: ${data.data.current_step})`;
+    }
+    return message;
+  };
+
+  const handleSignupError = data => {
+    resetState();
+    const errorMessage = getErrorMessage(data);
     useAlert(errorMessage);
   };
 
   const handleSignupCancellation = data => {
     resetState();
-    let message = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED');
-    if (data.data?.current_step) {
-      message += ` (Step: ${data.data.current_step})`;
-    }
+    const message = getCancellationMessage(data);
     useAlert(message);
+  };
+
+  const navigateToAgentSelection = inboxId => {
+    router.replace({
+      name: 'settings_inboxes_add_agents',
+      params: {
+        page: 'new',
+        inbox_id: inboxId,
+      },
+    });
+  };
+
+  const navigateToInboxList = () => {
+    router.replace({
+      name: 'settings_inbox_list',
+    });
+  };
+
+  const updateStoreWithInbox = inboxData => {
+    store.commit('inboxes/ADD_INBOXES', inboxData);
+    useAlert(t('INBOX_MGMT.FINISH.MESSAGE'));
+  };
+
+  const handleValidInboxData = inboxData => {
+    updateStoreWithInbox(inboxData);
+    navigateToAgentSelection(inboxData.id);
+  };
+
+  const handleInvalidInboxData = () => {
+    useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUCCESS_FALLBACK'));
+    navigateToInboxList();
   };
 
   const handleSignupSuccess = inboxData => {
@@ -32,21 +73,10 @@ export function useWhatsappSignupHandlers({
     isProcessing.value = false;
     isAuthenticating.value = false;
 
-    if (inboxData && inboxData.id) {
-      store.commit('inboxes/ADD_INBOXES', inboxData);
-      useAlert(t('INBOX_MGMT.FINISH.MESSAGE'));
-      router.replace({
-        name: 'settings_inboxes_add_agents',
-        params: {
-          page: 'new',
-          inbox_id: inboxData.id,
-        },
-      });
+    if (inboxData?.id) {
+      handleValidInboxData(inboxData);
     } else {
-      useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUCCESS_FALLBACK'));
-      router.replace({
-        name: 'settings_inbox_list',
-      });
+      handleInvalidInboxData();
     }
   };
 
