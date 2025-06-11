@@ -318,11 +318,18 @@
         "SUCCESS": "Problema desvinculado com sucesso",
         "ERROR": "Houve um erro ao desvincular o problema, por favor, tente novamente"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the integration?",
         "MESSAGE": "Are you sure you want to delete the integration?",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },
