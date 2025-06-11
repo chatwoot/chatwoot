@@ -1,6 +1,5 @@
-import { useWhatsappAuth } from './useWhatsappAuth';
-import { useWhatsappApiRequest } from './useWhatsappApiRequest';
-import { useWhatsappSignupFlow } from './useWhatsappSignupFlow';
+import { computed } from 'vue';
+import Auth from 'dashboard/api/auth';
 
 export function useWhatsappSignupApi({
   authCodeReceived,
@@ -13,33 +12,70 @@ export function useWhatsappSignupApi({
   handleSignupError,
   handleSignupSuccess,
 }) {
-  const { authHeaders, validateAuthRequirements } = useWhatsappAuth();
-
-  const { createSignupPayload, makeSignupRequest, processApiResponse } =
-    useWhatsappApiRequest();
-
-  const { setProcessingState, handleAuthError, handleRequestError } =
-    useWhatsappSignupFlow({
-      currentStep,
-      isProcessing,
-      processingMessage,
-      t,
-    });
+  const authHeaders = computed(() => {
+    if (Auth.hasAuthCookie()) {
+      const {
+        'access-token': accessToken,
+        'token-type': tokenType,
+        client,
+        expiry,
+        uid,
+      } = Auth.getAuthData();
+      return {
+        'access-token': accessToken,
+        'token-type': tokenType,
+        client,
+        expiry,
+        uid,
+      };
+    }
+    return {};
+  });
 
   const completeSignupFlow = async businessDataParam => {
-    if (!validateAuthRequirements(authCodeReceived, authCode)) {
-      handleAuthError(handleSignupError, t);
+    if (!authCodeReceived.value || !authCode.value) {
+      handleSignupError({
+        error: t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_NOT_COMPLETED'),
+      });
       return;
     }
 
-    setProcessingState();
+    currentStep.value = 'processing';
+    isProcessing.value = true;
+    processingMessage.value = t(
+      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
+    );
 
     try {
-      const payload = createSignupPayload(authCode, store, businessDataParam);
-      const response = await makeSignupRequest(payload, authHeaders);
-      await processApiResponse(response, authCode, handleSignupSuccess);
+      const accountId = store.getters.getCurrentAccountId;
+      const response = await fetch('/whatsapp/embedded_signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+          'X-CSRF-Token': document
+            .querySelector('meta[name="csrf-token"]')
+            ?.getAttribute('content'),
+          ...authHeaders.value,
+        },
+        body: JSON.stringify({
+          account_id: accountId,
+          code: authCode.value,
+          business_id: businessDataParam.business_id,
+          waba_id: businessDataParam.waba_id,
+          phone_number_id: businessDataParam.phone_number_id,
+        }),
+      });
+
+      const responseData = await response.json();
+
+      if (response.ok) {
+        authCode.value = null;
+        handleSignupSuccess(responseData);
+      } else {
+        throw new Error(responseData.message || responseData.error);
+      }
     } catch (error) {
-      handleRequestError(error, handleSignupError);
+      handleSignupError({ error: error.message });
     }
   };
 

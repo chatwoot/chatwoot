@@ -1,5 +1,4 @@
 import { useAlert } from 'dashboard/composables';
-import { useWhatsappSuccessHandler } from './useWhatsappSuccessHandler';
 
 export function useWhatsappSignupHandlers({
   currentStep,
@@ -10,34 +9,21 @@ export function useWhatsappSignupHandlers({
   router,
   t,
 }) {
-  const { handleValidInboxData, handleInvalidInboxData } =
-    useWhatsappSuccessHandler({ store, router, t });
-
-  const getErrorMessage = data => {
-    return (
-      data.error ||
-      data.message ||
-      t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE')
-    );
-  };
-
-  const getCancellationMessage = data => {
-    let message = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED');
-    if (data.data?.current_step) {
-      message += ` (Step: ${data.data.current_step})`;
-    }
-    return message;
-  };
-
   const handleSignupError = data => {
     resetState();
-    const errorMessage = getErrorMessage(data);
+    const errorMessage =
+      data.error ||
+      data.message ||
+      t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE');
     useAlert(errorMessage);
   };
 
   const handleSignupCancellation = data => {
     resetState();
-    const message = getCancellationMessage(data);
+    let message = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED');
+    if (data.data?.current_step) {
+      message += ` (Step: ${data.data.current_step})`;
+    }
     useAlert(message);
   };
 
@@ -46,10 +32,21 @@ export function useWhatsappSignupHandlers({
     isProcessing.value = false;
     isAuthenticating.value = false;
 
-    if (inboxData?.id) {
-      handleValidInboxData(inboxData);
+    if (inboxData && inboxData.id) {
+      store.commit('inboxes/ADD_INBOXES', inboxData);
+      useAlert(t('INBOX_MGMT.FINISH.MESSAGE'));
+      router.replace({
+        name: 'settings_inboxes_add_agents',
+        params: {
+          page: 'new',
+          inbox_id: inboxData.id,
+        },
+      });
     } else {
-      handleInvalidInboxData();
+      useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUCCESS_FALLBACK'));
+      router.replace({
+        name: 'settings_inbox_list',
+      });
     }
   };
 

@@ -1,5 +1,4 @@
-import { useWhatsappSDKHelpers } from './useWhatsappSDKHelpers';
-import { useWhatsappAuthCallbacks } from './useWhatsappAuthCallbacks';
+import { useAlert } from 'dashboard/composables';
 
 export function useWhatsappFacebookSDK({
   fbSdkLoaded,
@@ -15,46 +14,56 @@ export function useWhatsappFacebookSDK({
   handleSignupError,
   t,
 }) {
-  const { createFacebookScript, createLoginOptions } = useWhatsappSDKHelpers();
-
-  const { fbLoginCallback } = useWhatsappAuthCallbacks({
-    authCode,
-    authCodeReceived,
-    currentStep,
-    processingMessage,
-    isProcessing,
-    isAuthenticating,
-    hasSignupStarted,
-    businessData,
-    completeSignupFlow,
-    handleSignupError,
-    t,
-  });
-
   const loadFacebookSdk = () => {
     if (window.FB) {
       fbSdkLoaded.value = true;
       return;
     }
-    createFacebookScript(fbSdkLoaded);
+
+    const script = document.createElement('script');
+    script.src = 'https://connect.facebook.net/en_US/sdk.js';
+    script.async = true;
+    script.defer = true;
+    script.onload = () => {
+      window.FB.init({
+        appId: window.chatwootConfig?.whatsappAppId,
+        status: true,
+        xfbml: true,
+        version: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
+      });
+      fbSdkLoaded.value = true;
+    };
+    document.body.appendChild(script);
   };
 
-  const setSignupProcessingState = () => {
+  const fbLoginCallback = response => {
+    if (response.authResponse && response.authResponse.code) {
+      authCode.value = response.authResponse.code;
+      authCodeReceived.value = true;
+      currentStep.value = 'auth_received';
+      processingMessage.value = t(
+        'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_BUSINESS_INFO'
+      );
+
+      if (businessData.value) {
+        completeSignupFlow(businessData.value);
+      }
+    } else if (response.error) {
+      handleSignupError({ error: response.error });
+    } else {
+      currentStep.value = 'initial';
+      isProcessing.value = false;
+      isAuthenticating.value = false;
+      hasSignupStarted.value = false;
+      useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
+    }
+  };
+
+  const launchEmbeddedSignup = () => {
     hasSignupStarted.value = true;
     processingMessage.value = t(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
     );
-  };
-
-  const executeSignup = () => {
-    isAuthenticating.value = true;
-    currentStep.value = 'auth_processing';
-    const options = createLoginOptions();
-    window.FB.login(fbLoginCallback, options);
-  };
-
-  const launchEmbeddedSignup = () => {
-    setSignupProcessingState();
 
     if (!window.FB) {
       loadFacebookSdk();
@@ -62,7 +71,19 @@ export function useWhatsappFacebookSDK({
       return;
     }
 
-    executeSignup();
+    isAuthenticating.value = true;
+    currentStep.value = 'auth_processing';
+
+    window.FB.login(fbLoginCallback, {
+      config_id: window.chatwootConfig?.whatsappConfigurationId,
+      response_type: 'code',
+      override_default_response_type: true,
+      extras: {
+        setup: {},
+        featureType: '',
+        sessionInfoVersion: '3',
+      },
+    });
   };
 
   return {
