@@ -53,12 +53,12 @@ export default {
     return axios.put(endPoints('profileUpdate').url, formData);
   },
 
-  profilePasswordUpdate({ current_password, password, password_confirmation }) {
+  profilePasswordUpdate({ currentPassword, password, passwordConfirmation }) {
     return axios.put(endPoints('profileUpdate').url, {
       profile: {
-        current_password,
+        current_password: currentPassword,
         password,
-        password_confirmation,
+        password_confirmation: passwordConfirmation,
       },
     });
   },

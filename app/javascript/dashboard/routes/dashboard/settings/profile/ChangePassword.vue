@@ -64,8 +64,8 @@ export default {
       try {
         await this.$store.dispatch('updatePassword', {
           password: this.password,
-          password_confirmation: this.passwordConfirmation,
-          current_password: this.currentPassword,
+          passwordConfirmation: this.passwordConfirmation,
+          currentPassword: this.currentPassword,
         });
       } catch (error) {
         alertMessage =
