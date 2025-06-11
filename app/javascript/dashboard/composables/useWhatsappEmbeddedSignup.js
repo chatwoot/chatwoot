@@ -15,11 +15,9 @@ export function useWhatsappEmbeddedSignup() {
   const isProcessing = ref(false);
   const processingMessage = ref('');
   const authCodeReceived = ref(false);
-  const currentStep = ref('initial');
   const authCode = ref(null);
   const businessData = ref(null);
   const isAuthenticating = ref(false);
-  const hasSignupStarted = ref(false);
 
   // Computed
   const authHeaders = computed(() => {
@@ -58,16 +56,14 @@ export function useWhatsappEmbeddedSignup() {
   ]);
 
   const showLoader = computed(
-    () => hasSignupStarted.value || isProcessing.value
+    () => isAuthenticating.value || isProcessing.value
   );
 
   // Error handling
   const handleSignupError = data => {
-    currentStep.value = 'initial';
     isProcessing.value = false;
     authCodeReceived.value = false;
     isAuthenticating.value = false;
-    hasSignupStarted.value = false;
 
     const errorMessage =
       data.error ||
@@ -77,11 +73,9 @@ export function useWhatsappEmbeddedSignup() {
   };
 
   const handleSignupCancellation = data => {
-    currentStep.value = 'initial';
     isProcessing.value = false;
     authCodeReceived.value = false;
     isAuthenticating.value = false;
-    hasSignupStarted.value = false;
 
     let message = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED');
     if (data.data?.current_step) {
@@ -92,7 +86,6 @@ export function useWhatsappEmbeddedSignup() {
   };
 
   const handleSignupSuccess = inboxData => {
-    currentStep.value = 'completed';
     isProcessing.value = false;
     isAuthenticating.value = false;
 
@@ -128,7 +121,6 @@ export function useWhatsappEmbeddedSignup() {
       return;
     }
 
-    currentStep.value = 'processing';
     isProcessing.value = true;
     processingMessage.value = t(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
@@ -210,7 +202,6 @@ export function useWhatsappEmbeddedSignup() {
         if (authCodeReceived.value && authCode.value) {
           await completeSignupFlow(normalizedData);
         } else {
-          currentStep.value = 'waiting_for_auth';
           processingMessage.value = t(
             'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_AUTH'
           );
@@ -240,7 +231,6 @@ export function useWhatsappEmbeddedSignup() {
       // Authorization code received from Facebook
       authCode.value = response.authResponse.code;
       authCodeReceived.value = true;
-      currentStep.value = 'auth_received';
       processingMessage.value = t(
         'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_BUSINESS_INFO'
       );
@@ -252,10 +242,8 @@ export function useWhatsappEmbeddedSignup() {
     } else if (response.error) {
       handleSignupError({ error: response.error });
     } else {
-      currentStep.value = 'initial';
       isProcessing.value = false;
       isAuthenticating.value = false;
-      hasSignupStarted.value = false;
       useAlert(t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED'));
     }
   };
@@ -305,7 +293,6 @@ export function useWhatsappEmbeddedSignup() {
   };
 
   const launchEmbeddedSignup = () => {
-    hasSignupStarted.value = true;
     processingMessage.value = t(
       'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
     );
@@ -317,7 +304,6 @@ export function useWhatsappEmbeddedSignup() {
     }
 
     isAuthenticating.value = true;
-    currentStep.value = 'auth_processing';
 
     // Following Facebook's embedded signup documentation
     window.FB.login(fbLoginCallback, {
@@ -353,11 +339,9 @@ export function useWhatsappEmbeddedSignup() {
     isProcessing,
     processingMessage,
     authCodeReceived,
-    currentStep,
     authCode,
     businessData,
     isAuthenticating,
-    hasSignupStarted,
 
     // Computed
     benefits,
