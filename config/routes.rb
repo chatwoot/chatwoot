@@ -98,7 +98,7 @@ Rails.application.routes.draw do
           namespace :channels do
             resource :twilio_channel, only: [:create]
           end
-          resources :conversations, only: [:index, :create, :show, :update] do
+          resources :conversations, only: [:index, :create, :show, :update, :destroy] do
             collection do
               get :meta
               get :search
@@ -344,6 +344,7 @@ Rails.application.routes.draw do
               get :agent
               get :team
               get :inbox
+              get :label
             end
           end
           resources :reports, only: [:index] do

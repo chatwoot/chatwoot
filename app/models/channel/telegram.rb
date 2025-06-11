@@ -33,7 +33,7 @@ class Channel::Telegram < ApplicationRecord
   end
 
   def send_message_on_telegram(message)
-    message_id = send_message(message) if message.content.present?
+    message_id = send_message(message) if message.outgoing_content.present?
     message_id = Telegram::SendAttachmentsService.new(message: message).perform if message.attachments.present?
     message_id
   end
@@ -101,7 +101,7 @@ class Channel::Telegram < ApplicationRecord
   def send_message(message)
     response = message_request(
       chat_id(message),
-      message.content,
+      message.outgoing_content,
       reply_markup(message),
       reply_to_message_id(message),
       business_connection_id: business_connection_id(message)

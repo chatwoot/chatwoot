@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "مخاطبین",
       "SEARCH_TITLE": "جستجوی مخاطبین",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "جستجو...",
       "MESSAGE_BUTTON": "پیام",
       "SEND_MESSAGE": "ارسال پیام",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "حذف مخاطب",
       "DELETE_DIALOG": {
         "TITLE": "تاییدیه حذف",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "بله، حذف شود",
         "API": {
           "SUCCESS_MESSAGE": "مخاطب با موفقیت حذف شد",
@@ -555,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "هیچ مخاطبی با جستجوی شما مطابقت ندارد 🔍",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
