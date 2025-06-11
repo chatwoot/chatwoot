@@ -122,9 +122,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-@import 'widget/assets/scss/mixins.scss';
-
 .conversation--container {
   display: flex;
   flex-direction: column;
@@ -143,7 +140,7 @@ export default {
 
 .conversation-wrap {
   flex: 1;
-  padding: $space-large $space-small $space-small $space-small;
+  @apply px-2 pt-8 pb-2;
 }
 
 .message--loader {

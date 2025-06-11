@@ -43,6 +43,7 @@ class Telegram::IncomingMessageService
   def process_message_attachments
     attach_location
     attach_files
+    attach_contact
   end
 
   def update_contact_avatar
@@ -93,11 +94,23 @@ class Telegram::IncomingMessageService
   end
 
   def file_content_type
-    return :image if params[:message][:photo].present? || params.dig(:message, :sticker, :thumb).present?
-    return :audio if params[:message][:voice].present? || params[:message][:audio].present?
-    return :video if params[:message][:video].present?
+    return :image if image_message?
+    return :audio if audio_message?
+    return :video if video_message?
 
     file_type(params[:message][:document][:mime_type])
+  end
+
+  def image_message?
+    params[:message][:photo].present? || params.dig(:message, :sticker, :thumb).present?
+  end
+
+  def audio_message?
+    params[:message][:voice].present? || params[:message][:audio].present?
+  end
+
+  def video_message?
+    params[:message][:video].present? || params[:message][:video_note].present?
   end
 
   def attach_files
@@ -136,6 +149,20 @@ class Telegram::IncomingMessageService
     )
   end
 
+  def attach_contact
+    return unless contact_card
+
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :contact,
+      fallback_title: contact_card['phone_number'].to_s,
+      meta: {
+        first_name: contact_card['first_name'],
+        last_name: contact_card['last_name']
+      }
+    )
+  end
+
   def file
     @file ||= visual_media_params || params[:message][:voice].presence || params[:message][:audio].presence || params[:message][:document].presence
   end
@@ -154,7 +181,14 @@ class Telegram::IncomingMessageService
     @location ||= params.dig(:message, :location).presence
   end
 
+  def contact_card
+    @contact_card ||= params.dig(:message, :contact).presence
+  end
+
   def visual_media_params
-    params[:message][:photo].presence&.last || params.dig(:message, :sticker, :thumb).presence || params[:message][:video].presence
+    params[:message][:photo].presence&.last ||
+      params.dig(:message, :sticker, :thumb).presence ||
+      params[:message][:video].presence ||
+      params[:message][:video_note].presence
   end
 end

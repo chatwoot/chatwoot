@@ -1,11 +1,46 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
+import { useI18n } from 'vue-i18n';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+import FilterSelect from 'dashboard/components-next/filter/inputs/FilterSelect.vue';
+
 const props = defineProps({
   table: {
     type: Object,
     required: true,
   },
+  defaultPageSize: {
+    type: Number,
+    default: 10,
+  },
+  showPageSizeSelector: {
+    type: Boolean,
+    default: false,
+  },
 });
+
+const emit = defineEmits(['pageSizeChange']);
+const { t } = useI18n();
+
+const pageSizeOptions = [
+  {
+    label: `${t('REPORT.PAGINATION.PER_PAGE_TEMPLATE', { size: 10 })}`,
+    value: 10,
+  },
+  {
+    label: `${t('REPORT.PAGINATION.PER_PAGE_TEMPLATE', { size: 20 })}`,
+    value: 20,
+  },
+  {
+    label: `${t('REPORT.PAGINATION.PER_PAGE_TEMPLATE', { size: 50 })}`,
+    value: 50,
+  },
+  {
+    label: `${t('REPORT.PAGINATION.PER_PAGE_TEMPLATE', { size: 100 })}`,
+    value: 100,
+  },
+];
 
 const getFormattedPages = (start, end) => {
   const formatter = new Intl.NumberFormat(navigator.language);
@@ -48,70 +83,98 @@ const end = computed(() => {
     total.value
   );
 });
+
+const currentPageSize = computed({
+  get() {
+    return props.table.getState().pagination.pageSize;
+  },
+  set(newValue) {
+    props.table.setPageSize(Number(newValue));
+    emit('pageSizeChange', Number(newValue));
+  },
+});
+
+onMounted(() => {
+  if (
+    props.showPageSizeSelector &&
+    props.defaultPageSize &&
+    props.defaultPageSize !== 10
+  ) {
+    props.table.setPageSize(props.defaultPageSize);
+  }
+});
 </script>
 
 <template>
   <div class="flex items-center justify-between">
-    <div class="flex flex-1 items-center justify-between">
-      <div>
-        <p class="text-sm text-gray-700">
-          {{ $t('REPORT.PAGINATION.RESULTS', { start, end, total }) }}
-        </p>
-      </div>
-      <nav class="isolate inline-flex gap-1">
-        <woot-button
-          :disabled="!table.getCanPreviousPage()"
-          variant="clear"
-          class="size-8 flex items-center border border-slate-50"
-          color-scheme="secondary"
-          @click="table.setPageIndex(0)"
-        >
-          <span class="i-lucide-chevrons-left size-3" aria-hidden="true" />
-        </woot-button>
-        <woot-button
-          variant="clear"
-          class="size-8 flex items-center border border-slate-50"
-          color-scheme="secondary"
-          :disabled="!table.getCanPreviousPage()"
-          @click="table.previousPage()"
-        >
-          <span class="i-lucide-chevron-left size-3" aria-hidden="true" />
-        </woot-button>
-        <woot-button
-          v-for="page in visiblePages"
-          :key="page"
-          variant="clear"
-          class="size-8 flex items-center justify-center border text-xs leading-none text-center"
-          :class="page == currentPage ? 'border-woot-500' : 'border-slate-50'"
-          color-scheme="secondary"
-          @click="table.setPageIndex(page - 1)"
-        >
-          <div
-            class="text-center"
-            :class="{ 'text-woot-500': page == currentPage }"
+    <div class="flex flex-1 items-center gap-2 justify-between">
+      <p class="text-sm truncate text-n-slate-11 mb-0">
+        {{ $t('REPORT.PAGINATION.RESULTS', { start, end, total }) }}
+      </p>
+      <div class="flex items-center gap-2">
+        <FilterSelect
+          v-if="showPageSizeSelector"
+          v-model="currentPageSize"
+          variant="outline"
+          hide-icon
+          class="[&>button]:text-n-slate-11 [&>button]:hover:text-n-slate-12 [&>button]:h-6"
+          :options="pageSizeOptions"
+        />
+        <nav class="isolate inline-flex items-center gap-1.5">
+          <Button
+            icon="i-lucide-chevrons-left"
+            ghost
+            slate
+            sm
+            class="!size-6"
+            :disabled="!table.getCanPreviousPage()"
+            @click="table.setPageIndex(0)"
+          />
+          <Button
+            icon="i-lucide-chevron-left"
+            ghost
+            slate
+            sm
+            class="!size-6"
+            :disabled="!table.getCanPreviousPage()"
+            @click="table.previousPage()"
+          />
+          <Button
+            v-for="page in visiblePages"
+            :key="page"
+            xs
+            outline
+            :color="page == currentPage ? 'blue' : 'slate'"
+            class="!h-6 min-w-6"
+            @click="table.setPageIndex(page - 1)"
           >
-            {{ page }}
-          </div>
-        </woot-button>
-        <woot-button
-          :disabled="!table.getCanNextPage()"
-          variant="clear"
-          class="size-8 flex items-center border border-slate-50"
-          color-scheme="secondary"
-          @click="table.nextPage()"
-        >
-          <span class="i-lucide-chevron-right size-3" aria-hidden="true" />
-        </woot-button>
-        <woot-button
-          :disabled="!table.getCanNextPage()"
-          variant="clear"
-          class="size-8 flex items-center border border-slate-50"
-          color-scheme="secondary"
-          @click="table.setPageIndex(table.getPageCount() - 1)"
-        >
-          <span class="i-lucide-chevrons-right size-3" aria-hidden="true" />
-        </woot-button>
-      </nav>
+            <span
+              class="text-center"
+              :class="{ 'text-n-brand': page == currentPage }"
+            >
+              {{ page }}
+            </span>
+          </Button>
+          <Button
+            icon="i-lucide-chevron-right"
+            ghost
+            slate
+            sm
+            class="!size-6"
+            :disabled="!table.getCanNextPage()"
+            @click="table.nextPage()"
+          />
+          <Button
+            icon="i-lucide-chevrons-right"
+            ghost
+            slate
+            sm
+            class="!size-6"
+            :disabled="!table.getCanNextPage()"
+            @click="table.setPageIndex(table.getPageCount() - 1)"
+          />
+        </nav>
+      </div>
     </div>
   </div>
 </template>

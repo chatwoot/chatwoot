@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "เท่ากับ",
       "not_equal_to": "ไม่เท่ากับ",
-      "contains": "มี",
       "does_not_contain": "ไม่มี",
       "is_present": "ที่แสดง",
       "is_not_present": "ไม่แสดงอยู่",
       "is_greater_than": "หลังจาก",
       "is_less_than": "ก่อนหน้า",
       "days_before": "x วันก่อน",
-      "starts_with": "Starts with"
+      "starts_with": "Starts with",
+      "equalTo": "เท่ากับ",
+      "notEqualTo": "ไม่เท่ากับ",
+      "contains": "มี",
+      "doesNotContain": "ไม่มี",
+      "isPresent": "ที่แสดง",
+      "isNotPresent": "ไม่แสดงอยู่",
+      "isGreaterThan": "หลังจาก",
+      "isLessThan": "ก่อนหน้า",
+      "daysBefore": "x วันก่อน",
+      "startsWith": "Starts with"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "จริง",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "Last activity"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "โปรดระบุค่า"
+      "VALUE_REQUIRED": "โปรดระบุค่า",
+      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
+      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standard filters",

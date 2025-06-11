@@ -1,8 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import EmptyState from '../../../../components/widgets/EmptyState.vue';
 
 export default {
   components: {
+    NextButton,
     EmptyState,
   },
 };
@@ -10,7 +12,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <EmptyState
       :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
@@ -19,12 +21,11 @@ export default {
     >
       <div class="w-full text-center">
         <router-link
-          class="button success nice rounded"
           :to="{
             name: 'settings_teams_list',
           }"
         >
-          {{ $t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT') }}
+          <NextButton teal :label="$t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT')" />
         </router-link>
       </div>
     </EmptyState>

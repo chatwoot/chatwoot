@@ -4,14 +4,19 @@
       "ALL": "Всі",
       "CONTACTS": "Контакти",
       "CONVERSATIONS": "Бесіди",
-      "MESSAGES": "Текст повідомлень"
+      "MESSAGES": "Текст повідомлень",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Контакти",
       "CONVERSATIONS": "Бесіди",
-      "MESSAGES": "Текст повідомлень"
+      "MESSAGES": "Текст повідомлень",
+      "ARTICLES": "Articles"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Шукаємо",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "На запит '{query} не знайдено {item}",
     "EMPTY_STATE_FULL": "Немає результатів за запитом '{query}",
     "PLACEHOLDER_KEYBINDING": "/ фокус",
@@ -21,6 +26,7 @@
     "READ_MORE": "Детальніше",
     "WROTE": "написав(ла):",
     "FROM": "від",
-    "EMAIL": "email"
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "тема"
   }
 }

@@ -175,7 +175,7 @@ export default {
 </script>
 
 <template>
-  <div class="h-full w-full md:w-[calc(100%-360px)]">
+  <div class="h-full w-full xl:w-[calc(100%-400px)]">
     <div v-if="showEmptyState" class="flex w-full h-full">
       <InboxEmptyState
         :empty-state-message="$t('INBOX.LIST.NO_MESSAGES_AVAILABLE')"
@@ -183,7 +183,6 @@ export default {
     </div>
     <div v-else class="flex flex-col w-full h-full">
       <InboxItemHeader
-        class="flex-1"
         :total-length="totalNotificationCount"
         :current-index="activeNotificationIndex"
         :active-notification="activeNotification"
@@ -198,7 +197,7 @@ export default {
       </div>
       <ConversationBox
         v-else
-        class="h-[calc(100%-56px)]"
+        class="h-[calc(100%-56px)] [&.conversation-details-wrap]:!border-0"
         is-inbox-view
         :inbox-id="inboxId"
         :is-contact-panel-open="isContactPanelOpen"

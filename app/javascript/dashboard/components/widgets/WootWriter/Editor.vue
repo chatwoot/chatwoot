@@ -65,6 +65,7 @@ const props = defineProps({
   modelValue: { type: String, default: '' },
   editorId: { type: String, default: '' },
   placeholder: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
   isPrivate: { type: Boolean, default: false },
   enableSuggestions: { type: Boolean, default: true },
   overrideLineBreaks: { type: Boolean, default: false },
@@ -219,6 +220,7 @@ const plugins = computed(() => {
       trigger: '@',
       showMenu: showUserMentions,
       searchTerm: mentionSearchKey,
+      isAllowed: () => props.isPrivate,
     }),
     createSuggestionPlugin({
       trigger: '/',
@@ -299,6 +301,8 @@ function handleEmptyBodyWithSignature() {
 }
 
 function focusEditor(content) {
+  if (props.disabled) return;
+
   const unrefContent = unref(content);
   if (isBodyEmpty(unrefContent) && sendWithSignature.value) {
     // reload state can be called when switching between conversations, or when drafts is loaded
@@ -561,6 +565,7 @@ function onKeydown(event) {
 function createEditorView() {
   editorView = new EditorView(editor.value, {
     state: state,
+    editable: () => !props.disabled,
     dispatchTransaction: tx => {
       state = state.apply(tx);
       editorView.updateState(state);
@@ -570,17 +575,21 @@ function createEditorView() {
     },
     handleDOMEvents: {
       keyup: () => {
-        typingIndicator.start();
-        updateImgToolbarOnDelete();
+        if (!props.disabled) {
+          typingIndicator.start();
+          updateImgToolbarOnDelete();
+        }
       },
-      keydown: (view, event) => onKeydown(event),
-      focus: () => emit('focus'),
-      click: isEditorMouseFocusedOnAnImage,
+      keydown: (view, event) => !props.disabled && onKeydown(event),
+      focus: () => !props.disabled && emit('focus'),
+      click: () => !props.disabled && isEditorMouseFocusedOnAnImage(),
       blur: () => {
+        if (props.disabled) return;
         typingIndicator.stop();
         emit('blur');
       },
       paste: (_view, event) => {
+        if (props.disabled) return;
         const data = event.clipboardData.files;
         if (data.length > 0) {
           event.preventDefault();
@@ -727,7 +736,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 
   .ProseMirror-menubar {
     min-height: var(--space-two) !important;
-    @apply -ml-2.5 pb-0 bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100;
+    @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
 
     .ProseMirror-menu-active {
       @apply bg-slate-75 dark:bg-slate-800;
@@ -766,28 +775,38 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .ProseMirror-prompt {
-  @apply z-[9999] bg-slate-25 dark:bg-slate-700 rounded-md border border-solid border-slate-75 dark:border-slate-800 shadow-lg;
+  @apply z-[9999] bg-n-alpha-3 backdrop-blur-[100px] border border-n-strong p-6 shadow-xl rounded-xl;
 
   h5 {
-    @apply dark:text-slate-25 text-slate-800;
+    @apply text-n-slate-12 mb-1.5;
+  }
+
+  .ProseMirror-prompt-buttons {
+    button {
+      @apply h-8 px-3;
+
+      &[type='submit'] {
+        @apply bg-n-brand text-white hover:bg-n-brand/90;
+      }
+
+      &[type='button'] {
+        @apply bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20;
+      }
+    }
   }
 }
 
 .is-private {
   .prosemirror-mention-node {
-    @apply font-medium bg-yellow-100 dark:bg-yellow-800 text-slate-900 dark:text-slate-25 py-0 px-1;
+    @apply font-medium bg-n-amber-2/80 dark:bg-n-amber-2/80 text-n-slate-12 py-0 px-1;
   }
 
   .ProseMirror-menubar-wrapper {
-    .ProseMirror-menubar {
-      @apply bg-yellow-100 dark:bg-yellow-800 text-slate-700 dark:text-slate-25;
-    }
-
     > .ProseMirror {
-      @apply text-slate-800 dark:text-slate-25;
+      @apply text-n-slate-12;
 
       p {
-        @apply text-slate-800 dark:text-slate-25;
+        @apply text-n-slate-12;
       }
     }
   }
@@ -798,11 +817,11 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .message-editor {
-  @apply border border-solid border-slate-200 dark:border-slate-600 bg-white dark:bg-slate-900 rounded-md py-0 px-1 mb-0;
+  @apply rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2 py-0 px-1 mb-0;
 }
 
 .editor_warning {
-  @apply border border-solid border-red-400 dark:border-red-400;
+  @apply outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9;
 }
 
 .editor-warning__message {

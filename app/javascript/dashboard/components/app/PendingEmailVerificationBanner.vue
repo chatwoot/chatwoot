@@ -35,7 +35,7 @@ export default {
     color-scheme="alert"
     :banner-message="bannerMessage"
     :action-button-label="actionButtonMessage"
-    action-button-icon="mail"
+    action-button-icon="i-lucide-mail"
     has-action-button
     @primary-action="resendVerificationEmail"
   />

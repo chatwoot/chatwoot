@@ -4,6 +4,8 @@ import { getI18nKey } from 'dashboard/routes/dashboard/settings/helper/settingsH
 import ShowMore from 'dashboard/components/widgets/ShowMore.vue';
 import { useI18n } from 'vue-i18n';
 
+import Button from 'dashboard/components-next/button/Button.vue';
+
 const props = defineProps({
   webhook: {
     type: Object,
@@ -47,20 +49,20 @@ const subscribedEvents = computed(() => {
     </td>
     <td class="py-4 min-w-xs">
       <div class="flex justify-end gap-1">
-        <woot-button
+        <Button
           v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.EDIT.BUTTON_TEXT')"
-          variant="smooth"
-          size="tiny"
-          color-scheme="secondary"
-          icon="edit"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
           @click="emit('edit', webhook)"
         />
-        <woot-button
+        <Button
           v-tooltip.top="$t('INTEGRATION_SETTINGS.WEBHOOK.DELETE.BUTTON_TEXT')"
-          variant="smooth"
-          color-scheme="alert"
-          size="tiny"
-          icon="dismiss-circle"
+          icon="i-lucide-trash-2"
+          xs
+          ruby
+          faded
           @click="emit('delete', webhook, index)"
         />
       </div>

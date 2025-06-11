@@ -59,21 +59,20 @@ defineExpose({ dialogRef });
         }}
       </p>
     </template>
-    <template #form>
-      <div class="flex flex-col gap-6">
-        <span
-          class="h-10 px-3 py-2.5 text-sm select-none bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
-        >
-          {{ subdomainCNAME }}
-        </span>
-        <p class="text-sm text-n-slate-12">
-          {{
-            t(
-              'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HELP_TEXT'
-            )
-          }}
-        </p>
-      </div>
-    </template>
+
+    <div class="flex flex-col gap-6">
+      <span
+        class="h-10 px-3 py-2.5 text-sm select-none bg-transparent border rounded-lg text-n-slate-11 border-n-strong"
+      >
+        {{ subdomainCNAME }}
+      </span>
+      <p class="text-sm text-n-slate-12">
+        {{
+          t(
+            'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.DNS_CONFIGURATION_DIALOG.HELP_TEXT'
+          )
+        }}
+      </p>
+    </div>
   </Dialog>
 </template>

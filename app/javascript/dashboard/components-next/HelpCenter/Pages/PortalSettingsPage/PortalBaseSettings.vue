@@ -7,12 +7,12 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 import { uploadFile } from 'dashboard/helper/uploadHelper';
 import { checkFileSizeLimit } from 'shared/helpers/FileHelper';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
-import { shouldBeUrl } from 'shared/helpers/Validators';
+import { required, minLength, helpers } from '@vuelidate/validators';
+import { shouldBeUrl, isValidSlug } from 'shared/helpers/Validators';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
-import EditableAvatar from 'dashboard/components-next/avatar/EditableAvatar.vue';
+import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import ColorPicker from 'dashboard/components-next/colorpicker/ColorPicker.vue';
 
@@ -61,7 +61,16 @@ const liveChatWidgets = computed(() => {
 
 const rules = {
   name: { required, minLength: minLength(2) },
-  slug: { required },
+  slug: {
+    required: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR'),
+      required
+    ),
+    isValidSlug: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.FORMAT_ERROR'),
+      isValidSlug
+    ),
+  },
   homePageLink: { shouldBeUrl },
 };
 
@@ -71,9 +80,9 @@ const nameError = computed(() =>
   v$.value.name.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.ERROR') : ''
 );
 
-const slugError = computed(() =>
-  v$.value.slug.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR') : ''
-);
+const slugError = computed(() => {
+  return v$.value.slug.$errors[0]?.$message || '';
+});
 
 const homePageLinkError = computed(() =>
   v$.value.homePageLink.$error
@@ -187,10 +196,12 @@ const handleAvatarDelete = () => {
       <label class="mb-0.5 text-sm font-medium text-gray-900 dark:text-gray-50">
         {{ t('HELP_CENTER.PORTAL_SETTINGS.FORM.AVATAR.LABEL') }}
       </label>
-      <EditableAvatar
-        label="Avatar"
+      <Avatar
         :src="state.logoUrl"
         :name="state.name"
+        :size="72"
+        allow-upload
+        icon-name="i-lucide-building-2"
         @upload="handleAvatarUpload"
         @delete="handleAvatarDelete"
       />
@@ -301,7 +312,7 @@ const handleAvatarDelete = () => {
           :message="
             t('HELP_CENTER.PORTAL_SETTINGS.FORM.LIVE_CHAT_WIDGET.HELP_TEXT')
           "
-          class="[&>div>button]:!outline-n-weak"
+          class="[&>div>button:not(.focused)]:!outline-n-weak"
         />
       </div>
       <div class="flex items-start justify-between w-full gap-2">

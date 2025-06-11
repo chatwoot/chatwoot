@@ -60,14 +60,14 @@ const togglePortalSwitcher = () => {
 <template>
   <section class="flex flex-col w-full h-full overflow-hidden bg-n-background">
     <header class="sticky top-0 z-10 px-6 pb-3 lg:px-0">
-      <div class="w-full max-w-[900px] mx-auto">
+      <div class="w-full max-w-[60rem] mx-auto lg:px-6">
         <div
           v-if="showHeaderTitle"
           class="flex items-center justify-start h-20 gap-2"
         >
           <span
             v-if="activePortalName"
-            class="text-xl font-medium text-slate-900 dark:text-white"
+            class="text-xl font-medium text-n-slate-12"
           >
             {{ activePortalName }}
           </span>
@@ -76,6 +76,7 @@ const togglePortalSwitcher = () => {
               <Button
                 icon="i-lucide-chevron-down"
                 variant="ghost"
+                color="slate"
                 size="xs"
                 class="rounded-md group-hover:bg-n-slate-3 hover:bg-n-slate-3"
                 @click="togglePortalSwitcher"
@@ -95,7 +96,7 @@ const togglePortalSwitcher = () => {
       </div>
     </header>
     <main class="flex-1 px-6 overflow-y-auto lg:px-0">
-      <div class="w-full max-w-[900px] mx-auto py-3">
+      <div class="w-full max-w-[60rem] mx-auto py-3 lg:px-6">
         <slot name="content" />
       </div>
     </main>

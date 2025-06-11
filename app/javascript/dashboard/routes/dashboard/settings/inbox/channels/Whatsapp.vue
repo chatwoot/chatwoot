@@ -21,13 +21,13 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.WHATSAPP.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.WHATSAPP.DESC')"
     />
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label>
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.LABEL') }}
         <select v-model="provider">

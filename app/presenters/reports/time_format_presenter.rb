@@ -3,12 +3,12 @@ class Reports::TimeFormatPresenter
 
   attr_reader :seconds
 
-  def initialize(seconds)
-    @seconds = seconds.to_i
+  def initialize(seconds = nil)
+    @seconds = seconds.to_i if seconds.present?
   end
 
   def format
-    return '--' if seconds.nil? || seconds.zero?
+    return 'N/A' if seconds.nil? || seconds.zero?
 
     days, remainder = seconds.divmod(86_400)
     hours, remainder = remainder.divmod(3600)

@@ -47,6 +47,10 @@ describe('#mutations', () => {
   });
 
   describe('#ARTICLES_META', () => {
+    beforeEach(() => {
+      state.meta = {};
+    });
+
     it('add meta to state', () => {
       mutations[types.SET_ARTICLES_META](state, {
         articles_count: 3,
@@ -55,6 +59,31 @@ describe('#mutations', () => {
       expect(state.meta).toEqual({
         articles_count: 3,
         current_page: 1,
+      });
+    });
+
+    it('preserves existing meta values and updates only provided keys', () => {
+      state.meta = {
+        all_articles_count: 56,
+        archived_articles_count: 5,
+        articles_count: 56,
+        current_page: '1',
+        draft_articles_count: 26,
+        published_count: 25,
+      };
+
+      mutations[types.SET_ARTICLES_META](state, {
+        articles_count: 3,
+        draft_articles_count: 27,
+      });
+
+      expect(state.meta).toEqual({
+        all_articles_count: 56,
+        archived_articles_count: 5,
+        current_page: '1',
+        articles_count: 3,
+        draft_articles_count: 27,
+        published_count: 25,
       });
     });
   });

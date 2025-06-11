@@ -3,11 +3,13 @@ import { mapGetters } from 'vuex';
 import { convertSecondsToTimeUnit } from '@chatwoot/utils';
 import validations from './validations';
 import SlaTimeInput from './SlaTimeInput.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { useVuelidate } from '@vuelidate/core';
 
 export default {
   components: {
     SlaTimeInput,
+    NextButton,
   },
   props: {
     selectedResponse: {
@@ -161,9 +163,9 @@ export default {
         :class="{ error: v$.name.$error }"
         class="w-full"
         :styles="{
-          borderRadius: '12px',
-          padding: '6px 12px',
-          fontSize: '14px',
+          borderRadius: '0.75rem',
+          padding: '0.375rem 0.75rem',
+          fontSize: '0.875rem',
         }"
         :label="$t('SLA.FORM.NAME.LABEL')"
         :placeholder="$t('SLA.FORM.NAME.PLACEHOLDER')"
@@ -175,9 +177,9 @@ export default {
         v-model="description"
         class="w-full"
         :styles="{
-          borderRadius: '12px',
-          padding: '6px 12px',
-          fontSize: '14px',
+          borderRadius: '0.75rem',
+          padding: '0.375rem 0.75rem',
+          fontSize: '0.875rem',
         }"
         :label="$t('SLA.FORM.DESCRIPTION.LABEL')"
         :placeholder="$t('SLA.FORM.DESCRIPTION.PLACEHOLDER')"
@@ -196,7 +198,7 @@ export default {
       />
 
       <div
-        class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-slate-200 dark:border-slate-600 px-3 py-1.5 rounded-xl justify-between"
+        class="mt-3 flex h-10 items-center text-sm w-full gap-2 border border-solid border-n-strong px-3 py-1.5 rounded-xl justify-between"
       >
         <span for="sla_bh" class="text-slate-700 dark:text-slate-200">
           {{ $t('SLA.FORM.BUSINESS_HOURS.PLACEHOLDER') }}
@@ -205,19 +207,19 @@ export default {
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 mt-8">
-        <woot-button
-          class="px-4 rounded-xl button clear outline-woot-200/50 outline"
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="$t('SLA.FORM.CANCEL')"
           @click.prevent="onClose"
-        >
-          {{ $t('SLA.FORM.CANCEL') }}
-        </woot-button>
-        <woot-button
-          :is-disabled="isSubmitDisabled"
-          class="px-4 rounded-xl"
+        />
+        <NextButton
+          type="submit"
+          :label="submitLabel"
+          :disabled="isSubmitDisabled"
           :is-loading="uiFlags.isUpdating"
-        >
-          {{ submitLabel }}
-        </woot-button>
+        />
       </div>
     </form>
   </div>

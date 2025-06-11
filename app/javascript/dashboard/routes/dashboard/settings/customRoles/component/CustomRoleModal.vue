@@ -12,7 +12,7 @@ import {
   CONVERSATION_PARTICIPATING_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 
-import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   mode: {
@@ -160,13 +160,12 @@ const isSubmitDisabled = computed(
     />
     <form class="flex flex-col w-full" @submit.prevent="handleCustomRole">
       <div class="w-full">
-        <label :class="{ 'text-red-500': v$.name.$error }">
+        <label :class="{ error: v$.name.$error }">
           {{ $t('CUSTOM_ROLE.FORM.NAME.LABEL') }}
           <input
             ref="nameInput"
             v-model.trim="name"
             type="text"
-            :class="{ '!border-red-500': v$.name.$error }"
             :placeholder="$t('CUSTOM_ROLE.FORM.NAME.PLACEHOLDER')"
             @blur="v$.name.$touch"
           />
@@ -174,13 +173,12 @@ const isSubmitDisabled = computed(
       </div>
 
       <div class="w-full">
-        <label :class="{ 'text-red-500': v$.description.$error }">
+        <label :class="{ error: v$.description.$error }">
           {{ $t('CUSTOM_ROLE.FORM.DESCRIPTION.LABEL') }}
 
           <textarea
             v-model="description"
             :rows="3"
-            :class="{ error: v$.description.$error }"
             :placeholder="$t('CUSTOM_ROLE.FORM.DESCRIPTION.PLACEHOLDER')"
             @blur="v$.description.$touch"
           />
@@ -213,14 +211,19 @@ const isSubmitDisabled = computed(
       </div>
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <WootSubmitButton
-          :disabled="isSubmitDisabled"
-          :button-text="submitButtonText"
-          :loading="addCustomRole.showLoading"
+        <Button
+          faded
+          slate
+          type="reset"
+          :label="$t('CUSTOM_ROLE.FORM.CANCEL_BUTTON_TEXT')"
+          @click.prevent="emit('close')"
         />
-        <button class="button clear" @click.prevent="emit('close')">
-          {{ $t('CUSTOM_ROLE.FORM.CANCEL_BUTTON_TEXT') }}
-        </button>
+        <Button
+          type="submit"
+          :label="submitButtonText"
+          :disabled="isSubmitDisabled"
+          :is-loading="addCustomRole.showLoading"
+        />
       </div>
     </form>
   </div>

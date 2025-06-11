@@ -101,4 +101,8 @@ export default {
     const urlData = endPoints('resendConfirmation');
     return axios.post(urlData.url);
   },
+  resetAccessToken() {
+    const urlData = endPoints('resetAccessToken');
+    return axios.post(urlData.url);
+  },
 };

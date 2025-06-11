@@ -55,6 +55,10 @@ const endPoints = {
   updatePassword: {
     url: '/api/v1/profile/update_password',
   },
+
+  resetAccessToken: {
+    url: '/api/v1/profile/reset_access_token',
+  },
 };
 
 export default page => {

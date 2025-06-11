@@ -2,9 +2,9 @@
   "AGENT_MGMT": {
     "HEADER": "担当者",
     "HEADER_BTN_TXT": "担当者を追加",
-    "LOADING": "担当者リストを設定",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
-    "LEARN_MORE": "Learn about user roles",
+    "LOADING": "担当者リストを設定中...",
+    "DESCRIPTION": "担当者は、カスタマーサポートチームのメンバーで、ユーザーからのメッセージを閲覧して返信することができます。以下のリストには、アカウントに登録されている全ての担当者が表示されます。",
+    "LEARN_MORE": "ユーザーのロールについて学ぶ",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "管理者",
       "AGENT": "担当者"
@@ -18,8 +18,8 @@
       "STATUS": "状況",
       "ACTIONS": "操作",
       "VERIFIED": "確認済み",
-      "VERIFICATION_PENDING": "確認保留中です。",
-      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
+      "VERIFICATION_PENDING": "確認保留中",
+      "AVAILABLE_CUSTOM_ROLE": "利用可能なカスタムロール権限"
     },
     "ADD": {
       "TITLE": "チームに担当者を追加",
@@ -31,9 +31,9 @@
           "PLACEHOLDER": "担当者の名前を入力してください"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "ロール",
+          "PLACEHOLDER": "ロールを選択してください",
+          "ERROR": "ロールは必須です"
         },
         "EMAIL": {
           "LABEL": "Eメールアドレス",
@@ -44,20 +44,20 @@
       "API": {
         "SUCCESS_MESSAGE": "担当者の追加が完了しました",
         "EXIST_MESSAGE": "入力された担当者のEメールアドレスは既に使用されています。別のメールアドレスをお試しください。",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "サーバーに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "削除",
       "API": {
         "SUCCESS_MESSAGE": "担当者の削除が完了しました",
-        "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
+        "ERROR_MESSAGE": "サーバーに接続できませんでした。後でもう一度お試しください。"
       },
       "CONFIRM": {
         "TITLE": "削除の確認",
-        "MESSAGE": "削除してもよろしいですか？ ",
-        "YES": "削除する ",
-        "NO": "いいえ "
+        "MESSAGE": "削除してもよろしいですか？",
+        "YES": "削除する",
+        "NO": "いいえ"
       }
     },
     "EDIT": {
@@ -68,18 +68,18 @@
           "PLACEHOLDER": "担当者の名前を入力してください"
         },
         "AGENT_TYPE": {
-          "LABEL": "Agent Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Agent type is required"
+          "LABEL": "ロール",
+          "PLACEHOLDER": "ロールを選択してください",
+          "ERROR": "ロールは必須です"
         },
         "EMAIL": {
           "LABEL": "Eメールアドレス",
           "PLACEHOLDER": "担当者のEメールアドレスを入力してください"
         },
         "AGENT_AVAILABILITY": {
-          "LABEL": "利用可能期間",
-          "PLACEHOLDER": "Please select an availability status",
-          "ERROR": "Availability is required"
+          "LABEL": "利用可能状況",
+          "PLACEHOLDER": "利用可能状況を選択してください",
+          "ERROR": "利用可能状況は必須です"
         },
         "SUBMIT": "担当者の編集"
       },
@@ -90,30 +90,33 @@
         "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
       },
       "PASSWORD_RESET": {
-        "ADMIN_RESET_BUTTON": "パスワードをリセットします",
+        "ADMIN_RESET_BUTTON": "パスワードをリセット",
         "ADMIN_SUCCESS_MESSAGE": "担当者にパスワードをリセットする手順を記載したメールを送信しました",
         "SUCCESS_MESSAGE": "担当者のパスワードは正常にリセットされました",
         "ERROR_MESSAGE": "Woot Serverに接続できませんでした。後でもう一度お試しください。"
       }
     },
     "SEARCH": {
-      "NO_RESULTS": "該当結果が見つかりませんでした。"
+      "NO_RESULTS": "該当する結果が見つかりませんでした。"
     },
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "該当なし",
       "TITLE": {
-        "AGENT": "Select agent",
-        "TEAM": "Select team"
+        "AGENT": "担当者を選択",
+        "TEAM": "チームを選択"
+      },
+      "LIST": {
+        "NONE": "なし"
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
-          "TEAM": "No teams found"
+          "AGENT": "担当者が見つかりません",
+          "TEAM": "チームが見つかりません"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
-          "TEAM": "Search teams",
-          "INPUT": "Search for agents"
+          "AGENT": "担当者を検索",
+          "TEAM": "チームを検索",
+          "INPUT": "担当者を検索"
         }
       }
     }

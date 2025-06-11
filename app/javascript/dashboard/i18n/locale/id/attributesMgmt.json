@@ -66,7 +66,7 @@
       },
       "CONFIRM": {
         "TITLE": "Anda yakin akan menghapus - {attributeName}",
-        "PLACE_HOLDER": "Silakan ketik {attributeName} untuk konfirmasi",
+        "PLACE_HOLDER": "Silakan ketik %{attributeName} untuk konfirmasi",
         "MESSAGE": "Menghapus akan menghapus atribut kustom",
         "YES": "Hapus ",
         "NO": "Batalkan"
@@ -92,12 +92,12 @@
       "CONTACT": "Kontak"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nama",
-        "Deskripsi",
-        "Tipe",
-        "Kunci"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nama",
+        "DESCRIPTION": "Deskripsi",
+        "TYPE": "Tipe",
+        "KEY": "Kunci"
+      },
       "BUTTONS": {
         "EDIT": "Edit",
         "DELETE": "Hapus"

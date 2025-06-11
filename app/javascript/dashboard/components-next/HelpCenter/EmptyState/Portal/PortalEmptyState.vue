@@ -28,7 +28,7 @@ const onPortalCreate = ({ slug: portalSlug, locale }) => {
     :subtitle="$t('HELP_CENTER.NEW_PAGE.DESCRIPTION')"
   >
     <template #empty-state-item>
-      <div class="grid grid-cols-2 gap-4">
+      <div class="grid grid-cols-2 gap-4 p-px">
         <div class="space-y-4">
           <ArticleCard
             v-for="(article, index) in articleContent"

@@ -22,14 +22,23 @@
     "OPERATOR_LABELS": {
       "equal_to": "يساوي",
       "not_equal_to": "لا يساوي",
-      "contains": "يحتوي",
       "does_not_contain": "لا يحتوي",
       "is_present": "موجود",
       "is_not_present": "غير موجود",
       "is_greater_than": "أكبر من",
       "is_less_than": "أقل من",
       "days_before": "قبل x أيام",
-      "starts_with": "يبدأ بـ"
+      "starts_with": "يبدأ بـ",
+      "equalTo": "يساوي",
+      "notEqualTo": "لا يساوي",
+      "contains": "يحتوي",
+      "doesNotContain": "لا يحتوي",
+      "isPresent": "موجود",
+      "isNotPresent": "غير موجود",
+      "isGreaterThan": "أكبر من",
+      "isLessThan": "هو أقل من",
+      "daysBefore": "قبل x أيام",
+      "startsWith": "يبدأ بـ"
     },
     "ATTRIBUTE_LABELS": {
       "TRUE": "صحيح",
@@ -56,7 +65,10 @@
       "LAST_ACTIVITY": "آخر نشاط"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "القيمة مطلوبة"
+      "VALUE_REQUIRED": "القيمة مطلوبة",
+      "ATTRIBUTE_KEY_REQUIRED": "مفتاح الخاصية مطلوب",
+      "FILTER_OPERATOR_REQUIRED": "عامل التصفية مطلوب",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "القيمة يجب أن تكون بين 1 و 998"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "التصفيات القياسية",

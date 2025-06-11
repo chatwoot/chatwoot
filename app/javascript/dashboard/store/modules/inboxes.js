@@ -1,12 +1,13 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
-import { INBOX_TYPES } from 'shared/mixins/inboxMixin';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import InboxesAPI from '../../api/inboxes';
 import WebChannel from '../../api/channel/webChannel';
 import FBChannel from '../../api/channel/fbChannel';
 import TwilioChannel from '../../api/channel/twilioChannel';
 import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
+import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
 
 const buildInboxData = inboxParams => {
@@ -92,6 +93,12 @@ export const getters = {
     );
     return inbox || {};
   },
+  getInboxById: $state => inboxId => {
+    const [inbox] = $state.records.filter(
+      record => record.id === Number(inboxId)
+    );
+    return camelcaseKeys(inbox || {}, { deep: true });
+  },
   getUIFlags($state) {
     return $state.uiFlags;
   },
@@ -113,6 +120,20 @@ export const getters = {
   dialogFlowEnabledInboxes($state) {
     return $state.records.filter(
       item => item.channel_type !== INBOX_TYPES.EMAIL
+    );
+  },
+  getFacebookInboxByInstagramId: $state => instagramId => {
+    return $state.records.find(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.FB
+    );
+  },
+  getInstagramInboxByInstagramId: $state => instagramId => {
+    return $state.records.find(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.INSTAGRAM
     );
   },
 };

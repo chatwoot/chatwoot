@@ -20,23 +20,18 @@
         "TITLE": "Pievienot aģentus komandai - {teamName}",
         "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Tas ļauj sarunās sadarboties kā komandai, kā arī saņemt paziņojumus par jauniem notikumiem tajā pašā sarunā."
       },
-      "WIZARD": [
-        {
-          "title": "Izveidot",
-          "route": "settings_teams_new",
-          "body": "Izveidot jaunu aģentu komandu."
-        },
-        {
-          "title": "Pievienot Aģentus",
-          "route": "settings_teams_add_agents",
-          "body": "Pievienot komandai aģentus."
-        },
-        {
-          "title": "Pabeigt",
-          "route": "settings_teams_finish",
-          "body": "Jūs varat sākt darboties!"
-        }
-      ]
+      "WIZARD_CREATE": {
+        "TITLE": "Izveidot",
+        "BODY": "Izveidot jaunu aģentu komandu."
+      },
+      "WIZARD_ADD_AGENTS": {
+        "TITLE": "Pievienot Aģentus",
+        "BODY": "Pievienot komandai aģentus."
+      },
+      "WIZARD_FINISH": {
+        "TITLE": "Pabeigt",
+        "BODY": "Jūs varat sākt darboties!"
+      }
     },
     "EDIT_FLOW": {
       "CREATE": {
@@ -49,23 +44,21 @@
         "TITLE": "Pievienot aģentus komandai - {teamName}",
         "DESC": "Pievienot aģentus savai jaunizveidotajai komandai. Visi pievienotie aģenti tiks informēti, kad saruna tiks piešķirta šai komandai."
       },
-      "WIZARD": [
-        {
-          "title": "Komandas informācija",
-          "route": "settings_teams_edit",
-          "body": "Mainīt nosaukumu, aprakstu un citu informāciju."
-        },
-        {
-          "title": "Rediģēt Aģentus",
-          "route": "settings_teams_edit_members",
-          "body": "Rediģēt savas komandas aģentus."
-        },
-        {
-          "title": "Pabeigt",
-          "route": "settings_teams_edit_finish",
-          "body": "Jūs varat sākt darboties!"
-        }
-      ]
+      "EDIT_WIZARD_DETAILS": {
+        "TITLE": "Komandas informācija",
+        "ROUTE": "settings_teams_edit",
+        "BODY": "Mainīt nosaukumu, aprakstu un citu informāciju."
+      },
+      "EDIT_WIZARD_AGENTS": {
+        "TITLE": "Rediģēt Aģentus",
+        "ROUTE": "settings_teams_edit_members",
+        "BODY": "Rediģēt savas komandas aģentus."
+      },
+      "EDIT_WIZARD_FINISH": {
+        "TITLE": "Pabeigt",
+        "ROUTE": "settings_teams_edit_finish",
+        "BODY": "Jūs varat sākt darboties!"
+      }
     },
     "TEAM_FORM": {
       "ERROR_MESSAGE": "Nevarēja saglabāt komandas informāciju. Lūdzu, mēģiniet vēlreiz."
@@ -77,7 +70,7 @@
       "ADD_AGENTS": "Notiek aģentu pievienošana Jūsu komandai...",
       "SELECT": "izvēlēties",
       "SELECT_ALL": "izvēlēties visus aģentus",
-      "SELECTED_COUNT": "{selected} no {total} aģentiem ir izvēlēti."
+      "SELECTED_COUNT": "{selected} no {total} aģentiem ir atlasīti."
     },
     "ADD": {
       "TITLE": "Pievienot aģentus komandai - {teamName}",

@@ -1,14 +1,14 @@
 <script>
+import { defineAsyncComponent, ref } from 'vue';
 import { mapGetters } from 'vuex';
-import { defineAsyncComponent } from 'vue';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
-import Sidebar from '../../components/layout/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
 import AddAccountModal from 'dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
 import AccountSelector from 'dashboard/components/layout/sidebarComponents/AccountSelector.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import NotificationPanel from 'dashboard/routes/dashboard/notifications/components/NotificationPanel.vue';
+import UpgradePage from 'dashboard/routes/dashboard/upgrade/UpgradePage.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAccount } from 'dashboard/composables/useAccount';
@@ -20,7 +20,13 @@ import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
 );
+
+const Sidebar = defineAsyncComponent(
+  () => import('../../components/layout/Sidebar.vue')
+);
 import { emitter } from 'shared/helpers/mitt';
+import CopilotLauncher from 'dashboard/components-next/copilot/CopilotLauncher.vue';
+import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
 
 export default {
   components: {
@@ -32,8 +38,12 @@ export default {
     AccountSelector,
     AddLabelModal,
     NotificationPanel,
+    UpgradePage,
+    CopilotLauncher,
+    CopilotContainer,
   },
   setup() {
+    const upgradePageRef = ref(null);
     const { uiSettings, updateUISettings } = useUISettings();
     const { accountId } = useAccount();
 
@@ -41,6 +51,7 @@ export default {
       uiSettings,
       updateUISettings,
       accountId,
+      upgradePageRef,
     };
   },
   data() {
@@ -60,6 +71,16 @@ export default {
     }),
     currentRoute() {
       return ' ';
+    },
+    showUpgradePage() {
+      return this.upgradePageRef?.shouldShowUpgradePage;
+    },
+    bypassUpgradePage() {
+      return [
+        'billing_settings_index',
+        'settings_inbox_list',
+        'agent_list',
+      ].includes(this.$route.name);
     },
     isSidebarOpen() {
       const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
@@ -178,7 +199,6 @@ export default {
     <NextSidebar
       v-if="showNextSidebar"
       @toggle-account-modal="toggleAccountModal"
-      @open-notification-panel="openNotificationPanel"
       @open-key-shortcut-modal="toggleKeyShortcutModal"
       @close-key-shortcut-modal="closeKeyShortcutModal"
       @show-create-account-modal="openCreateAccountModal"
@@ -195,8 +215,28 @@ export default {
       @show-add-label-popup="showAddLabelPopup"
     />
     <main class="flex flex-1 h-full min-h-0 px-0 overflow-hidden">
-      <router-view />
-      <CommandBar />
+      <UpgradePage
+        v-show="showUpgradePage"
+        ref="upgradePageRef"
+        :bypass-upgrade-page="bypassUpgradePage"
+      />
+      <template v-if="!showUpgradePage">
+        <router-view />
+        <CommandBar />
+        <CopilotLauncher />
+        <CopilotContainer />
+
+        <NotificationPanel
+          v-if="isNotificationPanel"
+          @close="closeNotificationPanel"
+        />
+        <woot-modal
+          v-model:show="showAddLabelModal"
+          :on-close="hideAddLabelPopup"
+        >
+          <AddLabelModal @close="hideAddLabelPopup" />
+        </woot-modal>
+      </template>
       <AccountSelector
         :show-account-modal="showAccountModal"
         @close-account-modal="toggleAccountModal"
@@ -211,16 +251,6 @@ export default {
         @close="closeKeyShortcutModal"
         @clickaway="closeKeyShortcutModal"
       />
-      <NotificationPanel
-        v-if="isNotificationPanel"
-        @close="closeNotificationPanel"
-      />
-      <woot-modal
-        v-model:show="showAddLabelModal"
-        :on-close="hideAddLabelPopup"
-      >
-        <AddLabelModal @close="hideAddLabelPopup" />
-      </woot-modal>
     </main>
   </div>
 </template>

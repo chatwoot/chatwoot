@@ -24,7 +24,8 @@ export default {
   },
   computed: {
     buttonClassName() {
-      let className = 'text-white py-3 px-4 rounded shadow-sm leading-4';
+      let className =
+        'text-white py-3 px-4 rounded-lg shadow-sm leading-4 cursor-pointer disabled:opacity-50';
       if (this.type === 'clear') {
         className = 'flex mx-auto mt-4 text-xs leading-3 w-auto text-black-600';
       }

@@ -100,6 +100,12 @@ export const OPEN_AI_EVENTS = Object.freeze({
   DISMISS_AI_SUGGESTION: 'OpenAI: Dismiss AI suggestions',
 });
 
+export const COPILOT_EVENTS = Object.freeze({
+  SEND_SUGGESTED: 'Copilot: Send suggested message',
+  SEND_MESSAGE: 'Copilot: Sent a message',
+  USE_CAPTAIN_RESPONSE: 'Copilot: Used captain response',
+});
+
 export const GENERAL_EVENTS = Object.freeze({
   COMMAND_BAR: 'Used commandbar',
 });
@@ -117,4 +123,10 @@ export const SLA_EVENTS = Object.freeze({
   CREATE: 'Created an SLA',
   UPDATE: 'Updated an SLA',
   DELETED: 'Deleted an SLA',
+});
+
+export const LINEAR_EVENTS = Object.freeze({
+  CREATE_ISSUE: 'Created a linear issue',
+  LINK_ISSUE: 'Linked a linear issue',
+  UNLINK_ISSUE: 'Unlinked a linear issue',
 });
