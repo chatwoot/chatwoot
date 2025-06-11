@@ -3,7 +3,7 @@
     "STATUS_SUBS": "Status Langganan",
     "TOTAL_MAU_LABEL": "TOTAL PENGGUNA AKTIF BER BULAN",
     "TOTAL_AI_RESPONSE_LABEL": "TOTAL JAWABAN AI PER BULAN",
-    "RESET_LABEL": "Reset <b>Total Pengguna Aktif</b> Dan <b>Total Jawaban AI</b> Dilakukan Setiap Tanggal 1",
+    "RESET_LABEL": "Reset <b>Total Pengguna Aktif</b> Dan <b>Total Jawaban AI</b> Dilakukan Setiap Tanggal 30 hari",
     "ADD_TOPUP_TITLE": "Topup {topupType}",
     "TOPUP_max_active_users": "Pengguna",
     "TOPUP_ai_responses": "Jawaban",
