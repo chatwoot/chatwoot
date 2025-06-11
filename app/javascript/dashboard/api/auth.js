@@ -54,12 +54,13 @@ export default {
   },
 
   profilePasswordUpdate({ current_password, password, password_confirmation }) {
-    const formData = new FormData();
-
-    formData.append('profile[current_password]', current_password);
-    formData.append('profile[password]', password);
-    formData.append('profile[password_confirmation]', password_confirmation);
-    return axios.put(endPoints('updatePassword').url, formData);
+    return axios.put(endPoints('profileUpdate').url, {
+      profile: {
+        current_password,
+        password,
+        password_confirmation,
+      },
+    });
   },
 
   updateUISettings({ uiSettings }) {
