@@ -101,13 +101,11 @@ const getContactDetails = () => {
   }
 };
 
-watch(conversationId, (newConversationId, prevConversationId) => {
-  if (newConversationId && newConversationId !== prevConversationId) {
+watch(contactId, (newContactId, prevContactId) => {
+  if (newContactId && newContactId !== prevContactId) {
     getContactDetails();
   }
 });
-
-watch(contactId, getContactDetails);
 
 const onDragEnd = () => {
   dragging.value = false;
