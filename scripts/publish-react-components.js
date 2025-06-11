@@ -90,15 +90,7 @@ function generatePackageJson(packageDir) {
         stdio: 'pipe',
       }).trim();
 
-      // Check if we're in a clean working directory
-      const isClean =
-        execSync('git status --porcelain', {
-          encoding: 'utf8',
-          stdio: 'pipe',
-        }).trim() === '';
-
-      // Use git hash for development, beta for clean builds
-      return isClean ? 'beta.1' : `dev.${gitHash}`;
+      return `dev.${gitHash}`;
     } catch (error) {
       console.warn('   ⚠️  Could not get git hash, using beta.1');
       return 'beta.1';
