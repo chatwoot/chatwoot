@@ -172,6 +172,8 @@ pt_BR:
       sla:
         added: '%{user_name} adicionou política de SLA %{sla_name}'
         removed: '%{user_name} removeu a política de SLA %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
       muted: '%{user_name} silenciou a conversa'
       unmuted: '%{user_name} reativou a conversa'
       auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
@@ -272,6 +274,7 @@ pt_BR:
       made_with: Criado com
     header:
       go_to_homepage: Site
+      visit_website: Visit website
       appearance:
         system: Sistema
         light: Claro
