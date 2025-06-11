@@ -6,11 +6,21 @@ description: Get the details of an account
 security:
   - platformAppApiKey: []
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      $ref: '#/definitions/platform_account'
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/platform_account'
+  '401':
     description: Unauthorized
-  404:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
+  '404':
     description: The given account does not exist
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

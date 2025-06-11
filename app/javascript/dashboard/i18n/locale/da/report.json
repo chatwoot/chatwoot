@@ -23,13 +23,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Sidste år",
       "CUSTOM_DATE_RANGE": "Tilpasset datointerval"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Seneste 7 dage"
-      },
-      {
-        "id": 1,
-        "name": "Seneste 30 dage"
-      },
-      {
-        "id": 2,
-        "name": "Seneste 3 måneder"
-      },
-      {
-        "id": 3,
-        "name": "Seneste 6 måneder"
-      },
-      {
-        "id": 4,
-        "name": "Sidste år"
-      },
-      {
-        "id": 5,
-        "name": "Tilpasset datointerval"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Anvend",
       "PLACEHOLDER": "Vælg datointerval"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Ingen resultater fundet"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agenter Oversigt",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Indlæser diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
     "DOWNLOAD_AGENT_REPORTS": "Download agentrapporter",
@@ -167,13 +147,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -234,13 +214,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -280,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Oversigt Over Indbakke",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Indlæser diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
     "DOWNLOAD_INBOX_REPORTS": "Download indbakke rapporter",
@@ -301,13 +282,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -347,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Team Oversigt",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Indlæser diagramdata...",
     "NO_ENOUGH_DATA": "Vi har ikke modtaget nok datapunkter til at generere rapport. Prøv igen senere.",
     "DOWNLOAD_TEAM_REPORTS": "Download teamrapporter",
@@ -368,13 +350,13 @@
         "NAME": "Første Respons Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Første svartid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Første svartid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Løsnings Tid",
         "DESC": "( Gns. )",
         "INFO_TEXT": "Samlet antal samtaler, der anvendes til beregning:",
-        "TOOLTIP_TEXT": "Opløsningstid er %{metricValue} (baseret på %{conversationCount} samtaler)"
+        "TOOLTIP_TEXT": "Opløsningstid er {metricValue} (baseret på {conversationCount} samtaler)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Antal Afsluttede",
@@ -480,8 +462,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "%{count} conversation",
-      "CONVERSATIONS": "%{count} conversations"
+      "CONVERSATION": "{count} conversation",
+      "CONVERSATIONS": "{count} conversations",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Samtaler af agenter",
@@ -489,7 +472,19 @@
       "NO_AGENTS": "Der er ingen samtaler af agenter",
       "TABLE_HEADER": {
         "AGENT": "Agent",
-        "OPEN": "ÅBN",
+        "OPEN": "Åbn",
+        "UNATTENDED": "Unattet",
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Team",
+        "OPEN": "Åbn",
         "UNATTENDED": "Unattet",
         "STATUS": "Status"
       }
@@ -536,6 +531,7 @@
       "LABELS": "Etiketter",
       "TEAMS": "Team"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -558,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Indbakke",
+    "AGENT": "Agent",
+    "TEAM": "Team",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Antal Afsluttede",
+    "CONVERSATIONS": "Antal samtaler"
   }
 }

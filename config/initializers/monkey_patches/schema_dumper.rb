@@ -17,7 +17,7 @@ module ActiveRecord
           extensions = @connection.extensions
           return unless extensions.any?
 
-          stream.puts '  # These are extensions that must be enabled in order to support this database'
+          stream.puts '  # These extensions should be enabled to support this database'
           extensions.sort.each do |extension|
             stream.puts "  enable_extension #{extension.inspect}" unless ignore_extentions.include?(extension)
           end
@@ -27,11 +27,3 @@ module ActiveRecord
     end
   end
 end
-
-## Extentions / Tables to be ignored
-ActiveRecord::ConnectionAdapters::PostgreSQL::SchemaDumper.ignore_extentions << 'vector'
-ActiveRecord::SchemaDumper.ignore_tables << 'responses'
-ActiveRecord::SchemaDumper.ignore_tables << 'response_sources'
-ActiveRecord::SchemaDumper.ignore_tables << 'response_documents'
-ActiveRecord::SchemaDumper.ignore_tables << 'inbox_response_sources'
-ActiveRecord::SchemaDumper.ignore_tables << 'article_embeddings'

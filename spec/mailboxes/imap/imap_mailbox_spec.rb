@@ -30,6 +30,51 @@ RSpec.describe Imap::ImapMailbox do
       end
     end
 
+    context 'when the email with has empty text content' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('attachments_without_text.eml') }
+
+      it 'creates a converstation and a message properly' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        expect(conversation.contact.email).to eq(inbound_mail.mail.from.first)
+        expect(conversation.messages.last.attachments.count).to be 2
+      end
+    end
+
+    context 'when the email has attachments with no filename' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('attachments_without_filename.eml') }
+
+      it 'creates a conversation and a message with properly named attachments' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        last_message = conversation.messages.last
+        expect(last_message.attachments.count).to be 2
+
+        filenames = last_message.attachments.map(&:file).map { |file| file.blob.filename.to_s }
+        expect(filenames.all? { |filename| filename.present? && filename.start_with?('attachment_') }).to be true
+      end
+    end
+
+    context 'when the email has inline attachments other than images' do
+      let(:inbound_mail) { create_inbound_email_from_fixture('email_with_inline_pdf.eml') }
+
+      it 'creates a conversation and a message with non-image files as regular attachments' do
+        expect do
+          class_instance.process(inbound_mail.mail, channel)
+        end.to change(Conversation, :count).by(1)
+
+        last_message = conversation.messages.last
+        expect(last_message.attachments.count).to be 1
+
+        attachment = last_message.attachments.first
+        expect(attachment.file.blob.filename.to_s).to eq 'dummy.pdf'
+      end
+    end
+
     context 'when the email has 15 or more attachments' do
       let(:inbound_mail) { create_inbound_email_from_fixture('multiple_attachments.eml') }
 
@@ -51,6 +96,22 @@ RSpec.describe Imap::ImapMailbox do
         expect(conversation.contact.email).to eq(contact.email)
         expect(conversation.additional_attributes['source']).to eq('email')
         expect(conversation.messages.empty?).to be false
+      end
+    end
+
+    context 'when a new email with invalid from' do
+      let(:inbound_mail) { create_inbound_email_from_mail(from: 'invalidemail', to: 'imap@gmail.com', subject: 'Hello!') }
+
+      it 'does not create a new conversation' do
+        expect { class_instance.process(inbound_mail.mail, channel) }.not_to raise_error
+      end
+    end
+
+    context 'when an auto reply email' do
+      let(:auto_reply_mail) { create_inbound_email_from_fixture('auto_reply.eml') }
+
+      it 'does not create a new conversation' do
+        expect { class_instance.process(auto_reply_mail.mail, channel) }.not_to change(Conversation, :count)
       end
     end
 

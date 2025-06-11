@@ -1,7 +1,7 @@
 require 'net/imap'
 
 class Imap::BaseFetchEmailService
-  pattr_initialize [:channel!]
+  pattr_initialize [:channel!, :interval]
 
   def fetch_emails
     # Override this method
@@ -99,10 +99,10 @@ class Imap::BaseFetchEmailService
   end
 
   # Sends a SEARCH command to search the mailbox for messages that were
-  # created between yesterday and today and returns message sequence numbers.
+  # created between yesterday (or given date) and today and returns message sequence numbers.
   # Return <message set>
   def fetch_available_mail_sequence_numbers
-    imap_client.search(['SINCE', yesterday])
+    imap_client.search(['SINCE', since])
   end
 
   def build_imap_client
@@ -123,7 +123,8 @@ class Imap::BaseFetchEmailService
     Mail.read_from_string(raw_email_content)
   end
 
-  def yesterday
-    (Time.zone.today - 1).strftime('%d-%b-%Y')
+  def since
+    previous_day = Time.zone.today - (interval || 1).to_i
+    previous_day.strftime('%d-%b-%Y')
   end
 end

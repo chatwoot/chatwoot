@@ -121,9 +121,7 @@ describe ActionCableListener do
 
     it 'sends message to account admins, inbox agents' do
       expect(ActionCableBroadcastJob).to receive(:perform_later).with(
-        a_collection_containing_exactly(
-          agent.pubsub_token, admin.pubsub_token
-        ),
+        ["account_#{account.id}"],
         'contact.deleted',
         contact.push_event_data.merge(account_id: account.id)
       )
@@ -142,7 +140,9 @@ describe ActionCableListener do
         'notification.deleted',
         {
           account_id: notification.account_id,
-          notification: notification.push_event_data,
+          notification: {
+            id: notification.id
+          },
           unread_count: 1,
           count: 1
         }

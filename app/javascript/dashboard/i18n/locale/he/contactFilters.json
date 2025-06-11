@@ -30,6 +30,9 @@
       "is_lesser_than": "הוא פחות מ",
       "days_before": "זה x ימים לפני"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "חובה ערך"
+    },
     "ATTRIBUTES": {
       "NAME": "שם",
       "EMAIL": "אימייל",

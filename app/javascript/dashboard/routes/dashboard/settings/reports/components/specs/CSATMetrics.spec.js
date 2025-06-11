@@ -1,16 +1,6 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import CsatMetrics from '../CsatMetrics.vue';
-
-const localVue = createLocalVue();
-localVue.use(Vuex);
-
-const mountParams = {
-  mocks: {
-    $t: msg => msg,
-  },
-  stubs: ['csat-metric-card', 'woot-horizontal-bar'],
-};
 
 describe('CsatMetrics.vue', () => {
   let getters;
@@ -21,20 +11,33 @@ describe('CsatMetrics.vue', () => {
   beforeEach(() => {
     getters = {
       'csat/getMetrics': () => ({ totalResponseCount: 100 }),
-      'csat/getRatingPercentage': () => ({ 1: 10, 2: 20, 3: 30, 4: 30, 5: 10 }),
+      'csat/getRatingPercentage': () => ({
+        1: 10,
+        2: 20,
+        3: 30,
+        4: 30,
+        5: 10,
+      }),
       'csat/getSatisfactionScore': () => 85,
       'csat/getResponseRate': () => 90,
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       getters,
     });
 
     wrapper = shallowMount(CsatMetrics, {
-      store,
-      localVue,
-      propsData: { filters },
-      ...mountParams,
+      global: {
+        plugins: [store], // Ensure the store is injected here
+        mocks: {
+          $t: msg => msg, // mock translation function
+        },
+        stubs: {
+          CsatMetricCard: '<csat-metric-card/>',
+          BarChart: '<woot-horizontal-bar/>',
+        },
+      },
+      props: { filters },
     });
   });
 
@@ -54,13 +57,11 @@ describe('CsatMetrics.vue', () => {
   });
 
   it('hides report card if rating filter is enabled', () => {
-    expect(wrapper.find({ ref: 'csatHorizontalBarChart' }).exists()).toBe(
-      false
-    );
+    expect(wrapper.html()).not.toContain('bar-chart-stub');
   });
 
   it('shows report card if rating filter is not enabled', async () => {
     await wrapper.setProps({ filters: {} });
-    expect(wrapper.find({ ref: 'csatHorizontalBarChart' }).exists()).toBe(true);
+    expect(wrapper.html()).toContain('bar-chart-stub');
   });
 });

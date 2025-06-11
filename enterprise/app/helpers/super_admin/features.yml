@@ -1,5 +1,12 @@
 # TODO: Move this values to features.yml itself
 # No need to replicate the same values in two places
+captain:
+  name: 'Captain'
+  description: 'Enable AI-powered conversations with your customers.'
+  enabled: <%= (ChatwootHub.pricing_plan != 'community') %>
+  icon: 'icon-captain'
+  config_key: 'captain'
+  enterprise: true
 custom_branding:
   name: 'Custom Branding'
   description: 'Apply your own branding to this installation.'
@@ -41,6 +48,12 @@ messenger:
   enabled: true
   icon: 'icon-messenger-line'
   config_key: 'facebook'
+instagram:
+  name: 'Instagram'
+  description: 'Stay connected with your customers on Instagram'
+  enabled: true
+  icon: 'icon-instagram'
+  config_key: 'instagram'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'
@@ -66,3 +79,27 @@ help_center:
   description: 'Allow agents to create help center articles and publish them in a portal.'
   enabled: true
   icon: 'icon-book-2-line'
+microsoft:
+  name: 'Microsoft'
+  description: 'Configuration for setting up Microsoft Email'
+  enabled: true
+  icon: 'icon-microsoft'
+  config_key: 'microsoft'
+linear:
+  name: 'Linear'
+  description: 'Configuration for setting up Linear Integration'
+  enabled: true
+  icon: 'icon-linear'
+  config_key: 'linear'
+slack:
+  name: 'Slack'
+  description: 'Configuration for setting up Slack Integration'
+  enabled: true
+  icon: 'icon-slack'
+  config_key: 'slack'
+shopify:
+  name: 'Shopify'
+  description: 'Configuration for setting up Shopify Integration'
+  enabled: true
+  icon: 'icon-shopify'
+  config_key: 'shopify'

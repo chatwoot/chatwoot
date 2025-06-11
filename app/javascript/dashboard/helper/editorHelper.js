@@ -3,7 +3,8 @@ import {
   MessageMarkdownTransformer,
   MessageMarkdownSerializer,
 } from '@chatwoot/prosemirror-schema';
-import * as Sentry from '@sentry/browser';
+import { replaceVariablesInMessage } from '@chatwoot/utils';
+import * as Sentry from '@sentry/vue';
 
 /**
  * The delimiter used to separate the signature from the rest of the body.
@@ -281,3 +282,92 @@ export function setURLWithQueryAndSize(selectedImageNode, size, editorView) {
     }
   }
 }
+
+/**
+ * Content Node Creation Helper Functions for
+ * - mention
+ * - canned response
+ * - variable
+ * - emoji
+ */
+
+/**
+ * Centralized node creation function that handles the creation of different types of nodes based on the specified type.
+ * @param {Object} editorView - The editor view instance.
+ * @param {string} nodeType - The type of node to create ('mention', 'cannedResponse', 'variable', 'emoji').
+ * @param {Object|string} content - The content needed to create the node, which varies based on node type.
+ * @returns {Object|null} - The created ProseMirror node or null if the type is not supported.
+ */
+const createNode = (editorView, nodeType, content) => {
+  const { state } = editorView;
+  switch (nodeType) {
+    case 'mention':
+      return state.schema.nodes.mention.create({
+        userId: content.id,
+        userFullName: content.name,
+      });
+    case 'cannedResponse':
+      return new MessageMarkdownTransformer(messageSchema).parse(content);
+    case 'variable':
+      return state.schema.text(`{{${content}}}`);
+    case 'emoji':
+      return state.schema.text(content);
+    default:
+      return null;
+  }
+};
+
+/**
+ * Object mapping types to their respective node creation functions.
+ */
+const nodeCreators = {
+  mention: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'mention', content),
+    from,
+    to,
+  }),
+  cannedResponse: (editorView, content, from, to, variables) => {
+    const updatedMessage = replaceVariablesInMessage({
+      message: content,
+      variables,
+    });
+    const node = createNode(editorView, 'cannedResponse', updatedMessage);
+    return {
+      node,
+      from: node.textContent === updatedMessage ? from : from - 1,
+      to,
+    };
+  },
+  variable: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'variable', content),
+    from,
+    to,
+  }),
+  emoji: (editorView, content, from, to) => ({
+    node: createNode(editorView, 'emoji', content),
+    from,
+    to,
+  }),
+};
+
+/**
+ * Retrieves a content node based on the specified type and content, using a functional approach to select the appropriate node creation function.
+ * @param {Object} editorView - The editor view instance.
+ * @param {string} type - The type of content node to create ('mention', 'cannedResponse', 'variable', 'emoji').
+ * @param {string|Object} content - The content to be transformed into a node.
+ * @param {Object} range - An object containing 'from' and 'to' properties indicating the range in the document where the node should be placed.
+ * @param {Object} variables - Optional. Variables to replace in the content, used for 'cannedResponse' type.
+ * @returns {Object} - An object containing the created node and the updated 'from' and 'to' positions.
+ */
+export const getContentNode = (
+  editorView,
+  type,
+  content,
+  { from, to },
+  variables
+) => {
+  const creator = nodeCreators[type];
+  return creator
+    ? creator(editorView, content, from, to, variables)
+    : { node: null, from, to };
+};

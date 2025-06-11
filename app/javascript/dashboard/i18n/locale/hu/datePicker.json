@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Alkalmaz",
+    "CLEAR_BUTTON": "Clear",
+    "DATE_RANGE_INPUT": {
+      "START": "Start Date",
+      "END": "End Date"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATE RANGE",
+      "LAST_7_DAYS": "Utolsó 7 nap",
+      "LAST_30_DAYS": "Utolsó 30 nap",
+      "LAST_3_MONTHS": "Elmúlt 3 hónapban",
+      "LAST_6_MONTHS": "Elmúlt 6 hónapban",
+      "LAST_YEAR": "Elmúlt 1 évben",
+      "CUSTOM_RANGE": "Egyedi időszak"
+    }
+  }
+}

@@ -23,13 +23,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "שנה שעברה",
       "CUSTOM_DATE_RANGE": "טווח תאריכים מותאם אישית"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "7 הימים האחרונים"
-      },
-      {
-        "id": 1,
-        "name": "30 הימים האחרונים"
-      },
-      {
-        "id": 2,
-        "name": "3 החודשים האחרונים"
-      },
-      {
-        "id": 3,
-        "name": "6 החודשים האחרונים"
-      },
-      {
-        "id": 4,
-        "name": "שנה שעברה"
-      },
-      {
-        "id": 5,
-        "name": "טווח תאריכים מותאם אישית"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "להגיש מועמדות",
       "PLACEHOLDER": "בחר טווח תאריכים"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "לא נמצאו תוצאות"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "סקירה כללית של סוכנים",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_AGENT_REPORTS": "הורד דוחות סוכן",
@@ -167,13 +147,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -234,13 +214,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -280,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "סקירה כללית של תיבת הדואר הנכנס",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_INBOX_REPORTS": "הורד דוחות תיבת דואר נכנס",
@@ -301,13 +282,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -347,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "סקירת צוות",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_TEAM_REPORTS": "הורד דוחות צוות",
@@ -368,13 +350,13 @@
         "NAME": "זמן תגובה ראשון",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן התגובה הראשון הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_TIME": {
         "NAME": "זמן רזולוציה",
         "DESC": "( Avg )",
         "INFO_TEXT": "מספר כולל של שיחות המשמשות לחישוב:",
-        "TOOLTIP_TEXT": "זמן הרזולוציה הוא %{metricValue} (מבוסס על %{conversationCount} שיחות)"
+        "TOOLTIP_TEXT": "זמן הרזולוציה הוא {metricValue} (מבוסס על {conversationCount} שיחות)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "ספירת רזולוציות",
@@ -480,8 +462,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "תנועת שיחות",
       "NO_CONVERSATIONS": "בלי שיחות",
-      "CONVERSATION": "שיחה %{count}",
-      "CONVERSATIONS": "%{count} שיחות"
+      "CONVERSATION": "שיחה {count}",
+      "CONVERSATIONS": "{count} שיחות",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "שיחות של סוכנים",
@@ -489,7 +472,19 @@
       "NO_AGENTS": "אין שיחות של סוכנים",
       "TABLE_HEADER": {
         "AGENT": "סוכן",
-        "OPEN": "פתוח",
+        "OPEN": "פתח",
+        "UNATTENDED": "ללא השגחה",
+        "STATUS": "מצב"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "צוות",
+        "OPEN": "פתח",
         "UNATTENDED": "ללא השגחה",
         "STATUS": "מצב"
       }
@@ -517,7 +512,7 @@
     "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
     "DOWNLOAD_FAILED": "Failed to download SLA Reports",
     "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
+      "ADD_FIlTER": "הוסף מסנן",
       "CLEAR_ALL": "Clear all",
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "לא נמצאו תוצאות",
@@ -536,6 +531,7 @@
       "LABELS": "תווית",
       "TEAMS": "צוות"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -558,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "תיבת הדואר הנכנס",
+    "AGENT": "סוכן",
+    "TEAM": "צוות",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "ספירת רזולוציות",
+    "CONVERSATIONS": "No. of conversations"
   }
 }

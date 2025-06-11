@@ -4,7 +4,7 @@ class ChatGpt
   end
 
   def initialize(context_sections = '')
-    @model = 'gpt-4-0125-preview'
+    @model = 'gpt-4o'
     @messages = [system_message(context_sections)]
   end
 

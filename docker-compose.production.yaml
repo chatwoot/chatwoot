@@ -5,7 +5,7 @@ services:
     image: chatwoot/chatwoot:latest
     env_file: .env ## Change this file for customized env variables
     volumes:
-      - /data/storage:/app/storage
+      - storage_data:/app/storage
 
   rails:
     <<: *base
@@ -20,6 +20,7 @@ services:
       - INSTALLATION_ENV=docker
     entrypoint: docker/entrypoints/rails.sh
     command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: always
 
   sidekiq:
     <<: *base
@@ -31,14 +32,15 @@ services:
       - RAILS_ENV=production
       - INSTALLATION_ENV=docker
     command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
 
   postgres:
-    image: postgres:12
+    image: pgvector/pgvector:pg16
     restart: always
     ports:
       - '127.0.0.1:5432:5432'
     volumes:
-      - /data/postgres:/var/lib/postgresql/data
+      - postgres_data:/var/lib/postgresql/data
     environment:
       - POSTGRES_DB=chatwoot
       - POSTGRES_USER=postgres
@@ -51,6 +53,11 @@ services:
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env
     volumes:
-      - /data/redis:/data
+      - redis_data:/data
     ports:
       - '127.0.0.1:6379:6379'
+
+volumes:
+  storage_data:
+  postgres_data:
+  redis_data:

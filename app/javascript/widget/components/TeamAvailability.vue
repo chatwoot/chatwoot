@@ -1,53 +1,17 @@
-<template>
-  <div class="p-4 shadow-sm rounded-md bg-white dark:bg-slate-700">
-    <div class="flex items-center justify-between">
-      <div class="  ">
-        <div class="text-sm font-medium text-slate-700 dark:text-slate-50">
-          {{
-            isOnline
-              ? $t('TEAM_AVAILABILITY.ONLINE')
-              : $t('TEAM_AVAILABILITY.OFFLINE')
-          }}
-        </div>
-        <div class="text-sm mt-1 text-slate-500 dark:text-slate-100">
-          {{ replyWaitMessage }}
-        </div>
-      </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
-    </div>
-    <button
-      class="inline-flex text-sm font-medium rounded-md py-1 mt-2 px-2 -ml-2 leading-6 text-slate-800 dark:text-slate-50 justify-between items-center hover:bg-slate-25 dark:hover:bg-slate-800"
-      :style="{ color: widgetColor }"
-      @click="startConversation"
-    >
-      <span class="pr-2 text-sm">
-        {{
-          hasConversation
-            ? $t('CONTINUE_CONVERSATION')
-            : $t('START_CONVERSATION')
-        }}
-      </span>
-      <fluent-icon icon="arrow-right" size="14" />
-    </button>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { IFrameHelper } from 'widget/helpers/utils';
 import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
-    AvailableAgents,
-    FluentIcon,
+    GroupedAvatars,
   },
   mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
@@ -59,11 +23,8 @@ export default {
       type: Boolean,
       default: false,
     },
-    unreadCount: {
-      type: Number,
-      default: 0,
-    },
   },
+  emits: ['startConversation'],
 
   computed: {
     ...mapGetters({
@@ -71,6 +32,13 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    agentAvatars() {
+      return this.availableAgents.map(agent => ({
+        name: agent.name,
+        avatar: agent.avatar_url,
+        id: agent.id,
+      }));
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -84,7 +52,7 @@ export default {
   },
   methods: {
     startConversation() {
-      this.$emit('start-conversation');
+      this.$emit('startConversation');
       if (!this.hasConversation) {
         IFrameHelper.sendMessage({
           event: 'onEvent',
@@ -96,3 +64,39 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col gap-3 w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
+  >
+    <div class="flex items-center justify-between gap-2">
+      <div class="flex flex-col gap-1">
+        <div class="font-medium text-n-slate-12">
+          {{
+            isOnline
+              ? $t('TEAM_AVAILABILITY.ONLINE')
+              : $t('TEAM_AVAILABILITY.OFFLINE')
+          }}
+        </div>
+        <div class="text-n-slate-11">
+          {{ replyWaitMessage }}
+        </div>
+      </div>
+      <GroupedAvatars v-if="isOnline" :users="availableAgents" />
+    </div>
+    <button
+      class="inline-flex items-center gap-1 font-medium text-n-slate-12"
+      :style="{ color: widgetColor }"
+      @click="startConversation"
+    >
+      <span>
+        {{
+          hasConversation
+            ? $t('CONTINUE_CONVERSATION')
+            : $t('START_CONVERSATION')
+        }}
+      </span>
+      <i class="i-lucide-chevron-right size-5 mt-px" />
+    </button>
+  </div>
+</template>

@@ -1,47 +1,10 @@
-<template>
-  <div
-    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white"
-    :class="bannerClasses"
-  >
-    <span class="banner-message">
-      {{ bannerMessage }}
-      <a
-        v-if="hrefLink"
-        :href="hrefLink"
-        rel="noopener noreferrer nofollow"
-        target="_blank"
-      >
-        {{ hrefLinkText }}
-      </a>
-    </span>
-    <div class="actions">
-      <woot-button
-        v-if="hasActionButton"
-        size="tiny"
-        :icon="actionButtonIcon"
-        :variant="actionButtonVariant"
-        color-scheme="primary"
-        class-names="banner-action__button"
-        @click="onClick"
-      >
-        {{ actionButtonLabel }}
-      </woot-button>
-      <woot-button
-        v-if="hasCloseButton"
-        size="tiny"
-        :color-scheme="colorScheme"
-        icon="dismiss-circle"
-        class-names="banner-action__button"
-        @click="onClickClose"
-      >
-        {{ $t('GENERAL_SETTINGS.DISMISS') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     bannerMessage: {
       type: String,
@@ -61,7 +24,7 @@ export default {
     },
     actionButtonVariant: {
       type: String,
-      default: '',
+      default: 'faded',
     },
     actionButtonLabel: {
       type: String,
@@ -69,7 +32,7 @@ export default {
     },
     actionButtonIcon: {
       type: String,
-      default: 'arrow-right',
+      default: 'i-lucide-arrow-right',
     },
     colorScheme: {
       type: String,
@@ -80,6 +43,7 @@ export default {
       default: false,
     },
   },
+  emits: ['primaryAction', 'close'],
   computed: {
     bannerClasses() {
       const classList = [this.colorScheme];
@@ -89,10 +53,22 @@ export default {
       }
       return classList;
     },
+    // TODO - Remove this method when we standardize
+    // the button color and variant names
+    getButtonColor() {
+      const colorMap = {
+        primary: 'blue',
+        secondary: 'blue',
+        alert: 'ruby',
+        warning: 'amber',
+      };
+
+      return colorMap[this.colorScheme] || 'blue';
+    },
   },
   methods: {
     onClick(e) {
-      this.$emit('click', e);
+      this.$emit('primaryAction', e);
     },
     onClickClose(e) {
       this.$emit('close', e);
@@ -101,34 +77,62 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    class="flex items-center justify-center h-12 gap-4 px-4 py-3 text-xs text-white banner dark:text-white woot-banner"
+    :class="bannerClasses"
+  >
+    <span class="banner-message">
+      {{ bannerMessage }}
+      <a
+        v-if="hrefLink"
+        :href="hrefLink"
+        rel="noopener noreferrer nofollow"
+        target="_blank"
+      >
+        {{ hrefLinkText }}
+      </a>
+    </span>
+    <div class="actions">
+      <NextButton
+        v-if="hasActionButton"
+        xs
+        :icon="actionButtonIcon"
+        :variant="actionButtonVariant"
+        :color="getButtonColor"
+        :label="actionButtonLabel"
+        @click="onClick"
+      />
+      <NextButton
+        v-if="hasCloseButton"
+        xs
+        icon="i-lucide-circle-x"
+        :color="getButtonColor"
+        :label="$t('GENERAL_SETTINGS.DISMISS')"
+        @click="onClickClose"
+      />
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .banner {
   &.primary {
     @apply bg-woot-500 dark:bg-woot-500;
-    .banner-action__button {
-      @apply bg-woot-600 dark:bg-woot-600 border-none text-white;
-
-      &:hover {
-        @apply bg-woot-700 dark:bg-woot-700;
-      }
-    }
   }
 
   &.secondary {
-    @apply bg-slate-200 dark:bg-slate-300 text-slate-800 dark:text-slate-800;
+    @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12;
     a {
       @apply text-slate-800 dark:text-slate-800;
     }
   }
 
   &.alert {
-    @apply bg-red-500 dark:bg-red-500;
-    .banner-action__button {
-      @apply bg-red-700 dark:bg-red-700 border-none text-white dark:text-white;
+    @apply bg-n-ruby-3 text-n-ruby-12;
 
-      &:hover {
-        @apply bg-red-800 dark:bg-red-800;
-      }
+    a {
+      @apply text-n-ruby-12;
     }
   }
 
@@ -141,19 +145,10 @@ export default {
 
   &.gray {
     @apply text-black-500 dark:text-black-500;
-    .banner-action__button {
-      @apply text-white dark:text-white;
-    }
   }
 
   a {
     @apply ml-1 underline text-white dark:text-white text-xs;
-  }
-
-  .banner-action__button {
-    ::v-deep .button__content {
-      @apply whitespace-nowrap;
-    }
   }
 
   .banner-message {

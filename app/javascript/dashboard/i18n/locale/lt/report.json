@@ -23,13 +23,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -45,7 +45,8 @@
       },
       "REPLY_TIME": {
         "NAME": "Kliento laukimo laikas",
-        "TOOLTIP_TEXT": "Waiting time is %{metricValue} (based on %{conversationCount} replies)"
+        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
+        "DESC": ""
       }
     },
     "DATE_RANGE_OPTIONS": {
@@ -56,32 +57,6 @@
       "LAST_YEAR": "Paskutinius metus",
       "CUSTOM_DATE_RANGE": "Pritaikytas datos intervalas"
     },
-    "DATE_RANGE": [
-      {
-        "id": 0,
-        "name": "Paskutines 7 dienas"
-      },
-      {
-        "id": 1,
-        "name": "Paskutines 30 dienų"
-      },
-      {
-        "id": 2,
-        "name": "Paskutinius 3 mėnesius"
-      },
-      {
-        "id": 3,
-        "name": "Paskutinius 6 mėnesius"
-      },
-      {
-        "id": 4,
-        "name": "Paskutinius metus"
-      },
-      {
-        "id": 5,
-        "name": "Pritaikytas datos intervalas"
-      }
-    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "Taikyti",
       "PLACEHOLDER": "Pasirinkti datos intervalą"
@@ -142,10 +117,15 @@
     "FILTER_ACTIONS": {
       "CLEAR_FILTER": "Clear filter",
       "EMPTY_LIST": "Nieko nerasta"
+    },
+    "PAGINATION": {
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
     "HEADER": "Agentų apžvalga",
+    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_AGENT_REPORTS": "Parsisiųsti agentų ataskaitas",
@@ -167,13 +147,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -234,13 +214,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -280,6 +260,7 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "Gautų Laiškų Aplanko Apžvalga",
+    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_INBOX_REPORTS": "Parsisiųsti gautų laiškų aplanko ataskaitas",
@@ -301,13 +282,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -347,6 +328,7 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "Komandos apžvalga",
+    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "Įkeliami diagramos duomenys...",
     "NO_ENOUGH_DATA": "Negavome pakankamai duomenų, kad galėtume sugeneruoti ataskaitą. Bandykite dar kartą vėliau.",
     "DOWNLOAD_TEAM_REPORTS": "Parsisiųsti komandos ataskaitas",
@@ -368,13 +350,13 @@
         "NAME": "Pirmojo atsakymo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Pirmo atsakymo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_TIME": {
         "NAME": "Sprendimo laikas",
         "DESC": "( Vid )",
         "INFO_TEXT": "Bendras pokalbių skaičius, naudotas skaičiavimui:",
-        "TOOLTIP_TEXT": "Sprendimo laikas yra %{metricValue} (remiantis %{conversationCount} pokalbių)"
+        "TOOLTIP_TEXT": "Sprendimo laikas yra {metricValue} (remiantis {conversationCount} pokalbių)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "Sprendimų skaičius",
@@ -480,8 +462,9 @@
     "CONVERSATION_HEATMAP": {
       "HEADER": "Pokalbių srautas",
       "NO_CONVERSATIONS": "Pokalbių nėra",
-      "CONVERSATION": "%{count} pokalbis",
-      "CONVERSATIONS": "%{count} pokalbiai"
+      "CONVERSATION": "{count} pokalbis",
+      "CONVERSATIONS": "{count} pokalbiai",
+      "DOWNLOAD_REPORT": "Download report"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "Agentų pokalbiai",
@@ -489,7 +472,19 @@
       "NO_AGENTS": "Agentų pokalbių nėra",
       "TABLE_HEADER": {
         "AGENT": "Agentas",
-        "OPEN": "ATIDARYTI",
+        "OPEN": "Atidaryti",
+        "UNATTENDED": "Be priežiūros",
+        "STATUS": "Būsena"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Komanda",
+        "OPEN": "Atidaryti",
         "UNATTENDED": "Be priežiūros",
         "STATUS": "Būsena"
       }
@@ -536,6 +531,7 @@
       "LABELS": "Etiketė",
       "TEAMS": "Komanda"
     },
+    "WITH": "with",
     "METRICS": {
       "HIT_RATE": {
         "LABEL": "Hit Rate",
@@ -558,5 +554,15 @@
       },
       "VIEW_DETAILS": "View Details"
     }
+  },
+  "SUMMARY_REPORTS": {
+    "INBOX": "Gautų laiškų aplankas",
+    "AGENT": "Agentas",
+    "TEAM": "Komanda",
+    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
+    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
+    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
+    "RESOLUTION_COUNT": "Sprendimų skaičius",
+    "CONVERSATIONS": "Pokalbių kiekis"
   }
 }

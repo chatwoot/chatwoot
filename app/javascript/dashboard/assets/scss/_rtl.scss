@@ -81,28 +81,6 @@
         margin-left: var(--space-small);
       }
     }
-
-    // Conversation sidebar close button
-    .close-button--rtl {
-      transform: rotate(180deg);
-    }
-
-    // Resolve actions button
-    .resolve-actions {
-      .button-group .button:first-child {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: var(--border-radius-normal);
-        border-top-left-radius: 0;
-        border-top-right-radius: var(--border-radius-normal);
-      }
-
-      .button-group .button:last-child {
-        border-bottom-left-radius: var(--border-radius-normal);
-        border-bottom-right-radius: 0;
-        border-top-left-radius: var(--border-radius-normal);
-        border-top-right-radius: 0;
-      }
-    }
   }
 
   // Conversation list
@@ -177,71 +155,6 @@
     }
   }
 
-  //   Help center
-  .article-container .row--article-block {
-    td:last-child {
-      direction: initial;
-    }
-  }
-
-  .portal-popover__container .portal {
-    .actions-container {
-      margin-left: unset;
-      margin-right: var(--space-one);
-    }
-  }
-
-  .edit-article--container {
-    .header-right--wrap {
-      .button-group .button:first-child {
-        border-bottom-left-radius: 0;
-        border-bottom-right-radius: var(--border-radius-normal);
-        border-top-left-radius: 0;
-        border-top-right-radius: var(--border-radius-normal);
-      }
-
-      .button-group .button:last-child {
-        border-bottom-left-radius: var(--border-radius-normal);
-        border-bottom-right-radius: 0;
-        border-top-left-radius: var(--border-radius-normal);
-        border-top-right-radius: 0;
-      }
-    }
-
-    .header-left--wrap {
-      .back-button {
-        direction: initial;
-      }
-    }
-
-    .article--buttons {
-      .dropdown-pane {
-        left: 0;
-        position: absolute;
-        right: unset;
-      }
-    }
-
-    .sidebar-button {
-      transform: rotate(180deg);
-    }
-  }
-
-  .article-settings--container {
-    border-left: 0;
-    border-right: 1px solid var(--color-border-light);
-    flex-direction: row-reverse;
-    margin-left: 0;
-    margin-right: var(--space-normal);
-    padding-left: 0;
-    padding-right: var(--space-normal);
-  }
-
-  .category-list--container .header-left--wrap {
-    direction: initial;
-    justify-content: flex-end;
-  }
-
   // Toggle switch
   .toggle-button {
     &.small {
@@ -264,11 +177,6 @@
     }
   }
 
-  // Widget builder
-  .widget-builder-container .widget-preview {
-    direction: initial;
-  }
-
   // Modal
   .modal-container {
     text-align: right;
@@ -282,21 +190,12 @@
   }
 
   // Other changes
-
   .colorpicker--chrome {
     direction: initial;
   }
 
   .mention--box {
     direction: initial;
-  }
-
-  .contact--details .contact--bio {
-    direction: ltr;
-  }
-
-  .merge-contacts .child-contact-wrap {
-    direction: ltr;
   }
 
   .contact--form .input-group {

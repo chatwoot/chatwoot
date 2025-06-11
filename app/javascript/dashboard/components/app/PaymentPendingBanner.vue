@@ -1,19 +1,8 @@
-<template>
-  <banner
-    v-if="shouldShowBanner"
-    color-scheme="alert"
-    :banner-message="bannerMessage"
-    :action-button-label="actionButtonMessage"
-    has-action-button
-    @click="routeToBilling"
-  />
-</template>
-
 <script>
-import Banner from 'dashboard/components/ui/Banner.vue';
 import { mapGetters } from 'vuex';
-import adminMixin from 'dashboard/mixins/isAdmin';
-import accountMixin from 'dashboard/mixins/account';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+import { useAccount } from 'dashboard/composables/useAccount';
+import Banner from 'dashboard/components/ui/Banner.vue';
 
 const EMPTY_SUBSCRIPTION_INFO = {
   status: null,
@@ -22,7 +11,16 @@ const EMPTY_SUBSCRIPTION_INFO = {
 
 export default {
   components: { Banner },
-  mixins: [adminMixin, accountMixin],
+  setup() {
+    const { isAdmin } = useAdmin();
+
+    const { accountId } = useAccount();
+
+    return {
+      accountId,
+      isAdmin,
+    };
+  },
   computed: {
     ...mapGetters({
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
@@ -80,3 +78,15 @@ export default {
   },
 };
 </script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <Banner
+    v-if="shouldShowBanner"
+    color-scheme="alert"
+    :banner-message="bannerMessage"
+    :action-button-label="actionButtonMessage"
+    has-action-button
+    @primary-action="routeToBilling"
+  />
+</template>

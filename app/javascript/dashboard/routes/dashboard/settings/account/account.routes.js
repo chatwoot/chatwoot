@@ -1,24 +1,23 @@
 import { frontendURL } from '../../../../helper/URLHelper';
-const SettingsContent = () => import('../Wrapper.vue');
-const Index = () => import('./Index.vue');
+import Index from './Index.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/general'),
-      roles: ['administrator'],
-      component: SettingsContent,
-      props: {
-        headerTitle: 'GENERAL_SETTINGS.TITLE',
-        icon: 'briefcase',
-        showNewButton: false,
+      meta: {
+        permissions: ['administrator'],
       },
+      component: SettingsWrapper,
       children: [
         {
           path: '',
           name: 'general_settings_index',
           component: Index,
-          roles: ['administrator'],
+          meta: {
+            permissions: ['administrator'],
+          },
         },
       ],
     },

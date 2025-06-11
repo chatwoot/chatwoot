@@ -13,6 +13,21 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
     Widget::TokenService.new(payload: { source_id: second_session.source_id, inbox_id: web_widget.inbox.id }).generate_token
   end
 
+  def conversation_params
+    {
+      website_token: web_widget.website_token,
+      contact: {
+        name: 'contact-name',
+        email: 'contact-email@chatwoot.com',
+        phone_number: '+919745313456'
+      },
+      message: {
+        content: 'This is a test message'
+      },
+      custom_attributes: { order_id: '12345' }
+    }
+  end
+
   describe 'GET /api/v1/widget/conversations' do
     context 'with a conversation' do
       it 'returns the correct conversation params' do
@@ -47,21 +62,10 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
   end
 
   describe 'POST /api/v1/widget/conversations' do
-    it 'creates a conversation' do
+    it 'creates a conversation with correct details' do
       post '/api/v1/widget/conversations',
            headers: { 'X-Auth-Token' => token },
-           params: {
-             website_token: web_widget.website_token,
-             contact: {
-               name: 'contact-name',
-               email: 'contact-email@chatwoot.com',
-               phone_number: '+919745313456'
-             },
-             message: {
-               content: 'This is a test message'
-             },
-             custom_attributes: { order_id: '12345' }
-           },
+           params: conversation_params,
            as: :json
 
       expect(response).to have_http_status(:success)
@@ -70,8 +74,19 @@ RSpec.describe '/api/v1/widget/conversations/toggle_typing', type: :request do
       expect(json_response['contact']['email']).to eq 'contact-email@chatwoot.com'
       expect(json_response['contact']['phone_number']).to eq '+919745313456'
       expect(json_response['contact']['name']).to eq 'contact-name'
+    end
+
+    it 'creates a conversation with correct message and custom attributes' do
+      post '/api/v1/widget/conversations',
+           headers: { 'X-Auth-Token' => token },
+           params: conversation_params,
+           as: :json
+
+      expect(response).to have_http_status(:success)
+      json_response = response.parsed_body
       expect(json_response['custom_attributes']['order_id']).to eq '12345'
       expect(json_response['messages'][0]['content']).to eq 'This is a test message'
+      expect(json_response['messages'][0]['message_type']).to eq 0
     end
 
     it 'create a conversation with a name and without an email' do

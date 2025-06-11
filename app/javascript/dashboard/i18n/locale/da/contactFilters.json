@@ -30,6 +30,9 @@
       "is_lesser_than": "Er mindre end",
       "days_before": "Er x dage før"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Værdi er påkrævet"
+    },
     "ATTRIBUTES": {
       "NAME": "Navn",
       "EMAIL": "E-mail",

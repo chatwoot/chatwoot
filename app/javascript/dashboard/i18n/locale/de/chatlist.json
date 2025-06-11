@@ -6,6 +6,7 @@
     "LIST": {
       "404": "In dieser Gruppe existieren keine aktiven Gespräche."
     },
+    "FAILED_TO_SEND": "Fehler beim Senden",
     "TAB_HEADING": "Gespräche",
     "MENTION_HEADING": "Erwähnungen",
     "UNATTENDED_HEADING": "Unbeaufsichtigt",
@@ -53,28 +54,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "Letzte Aktivität: Älteste zuerst"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "Letzte Aktivität: Neueste zuerst"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "Erstellt am: Neueste zuerst"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "Erstellt am: Älteste zuerst"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "Priorität: Höchste zuerst"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "Priorität: Niedrigste zuerst"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "Ausstehende Antwort: Längste zuerst"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "Ausstehende Antwort: Kürzeste zuerst"
       }
     },
     "ATTACHMENTS": {
@@ -93,8 +94,14 @@
       "location": {
         "CONTENT": "Ort"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "hat eine URL geteilt"
+      },
+      "contact": {
+        "CONTENT": "Geteilter Kontakt"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "Kein Inhalt verfügbar",
     "HIDE_QUOTED_TEXT": "Zitierten Text ausblenden",
     "SHOW_QUOTED_TEXT": "Zitierten Text anzeigen",
-    "MESSAGE_READ": "Lesen"
+    "MESSAGE_READ": "Lesen",
+    "SENDING": "Sende"
   }
 }

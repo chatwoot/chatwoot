@@ -30,6 +30,9 @@
       "is_lesser_than": "Şundan az",
       "days_before": "x gün önce"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Değer gereklidir"
+    },
     "ATTRIBUTES": {
       "NAME": "İsim",
       "EMAIL": "E-Posta",
