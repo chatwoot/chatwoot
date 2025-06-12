@@ -14,8 +14,20 @@ class AgentBuilder
   # Creates a user and account user in a transaction.
   # @return [User] the created user.
   def perform
+    # ActiveRecord::Base.transaction do
+    #   @user = find_or_create_user
+    #   create_account_user
+    # end
+    # @user
+
     ActiveRecord::Base.transaction do
+      existing_user = User.from_email(email)
+      if existing_user
+        raise ActiveRecord::RecordInvalid.new(existing_user), "User with email #{email} is already part of the account"
+      end
+      
       @user = find_or_create_user
+
       create_account_user
     end
     @user
