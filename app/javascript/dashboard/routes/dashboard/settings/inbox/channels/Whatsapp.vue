@@ -106,7 +106,7 @@ const shouldShowCloudWhatsapp = provider => {
           </div>
 
           <!-- Card Content -->
-          <div class="text-left">
+          <div class="text-start">
             <h3 class="mb-1.5 text-sm font-medium text-slate-12">
               {{ provider.label }}
             </h3>
