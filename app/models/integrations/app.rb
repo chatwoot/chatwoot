@@ -68,12 +68,10 @@ class Integrations::App
     config = INTEGRATION_CONFIGS[params[:id]]
     return true unless config
 
-    checks = [
-      config[:feature_flag] ? account.feature_enabled?(config[:feature_flag]) : true,
-      config[:config_key] ? GlobalConfigService.load(config[:config_key], nil).present? : true
-    ]
+    feature_enabled = config[:feature_flag].nil? || account.feature_enabled?(config[:feature_flag])
+    config_present = config[:config_key].nil? || GlobalConfigService.load(config[:config_key], nil).present?
 
-    checks.all?
+    feature_enabled && config_present
   end
 
   def build_linear_action
