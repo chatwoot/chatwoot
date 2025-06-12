@@ -91,6 +91,8 @@ zh_TW:
       conversations_count: No. of conversations
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: 已解決的數量
     team_csv:
       team_name: 團隊名稱
       conversations_count: 對話數量
@@ -138,6 +140,8 @@ zh_TW:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
       deleted: 訊息已被刪除
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
