@@ -31,10 +31,15 @@ class Integrations::App
     params[:fields]
   end
 
-  # There is no way to get the account_id from the linear callback
-  # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
+  # There is no way to get the account_id from the linear/github callback
+  # so we are using the generate token method to generate a token and encode it in the state parameter
   def encode_state
-    generate_linear_token(Current.account.id)
+    case params[:id]
+    when 'linear'
+      generate_linear_token(Current.account.id)
+    when 'github'
+      generate_github_token(Current.account.id)
+    end
   end
 
   def action
