@@ -91,6 +91,8 @@ sl:
       conversations_count: Število pogovorov
       avg_first_response_time: Povprečni prvi odzivni čas
       avg_resolution_time: Povprečni čas razrešitve
+      avg_reply_time: Avg reply time
+      resolution_count: Resolution Count
     team_csv:
       team_name: Ime ekipe
       conversations_count: Število pogovorov
@@ -138,6 +140,8 @@ sl:
       instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
       instagram_deleted_story_content: Ta zgodba ni več na voljo.
       deleted: To sporočilo je bilo izbrisano
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Koda napake: %{error_code}'
     activity:
