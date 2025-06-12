@@ -7,7 +7,7 @@ import { useAI } from 'dashboard/composables/useAI';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import NextMessageList from 'next/message/MessageList.vue';
+import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
 
@@ -37,7 +37,7 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   components: {
-    NextMessageList,
+    MessageList,
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
@@ -165,16 +165,6 @@ export default {
         (!this.listLoadingStatus && this.isLoadingPrevious)
       );
     },
-    conversationType() {
-      const { additional_attributes: additionalAttributes } = this.currentChat;
-      const type = additionalAttributes ? additionalAttributes.type : '';
-      return type || '';
-    },
-    getLastSeenAt() {
-      const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
-      return contactLastSeenAt;
-    },
-
     // Check there is a instagram inbox exists with the same instagram_id
     hasDuplicateInstagramInbox() {
       const instagramId = this.inbox.instagram_id;
@@ -473,7 +463,7 @@ export default {
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
-    <NextMessageList
+    <MessageList
       ref="conversationPanelRef"
       class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
       :current-user-id="currentUserId"
@@ -509,7 +499,7 @@ export default {
           :conversation-id="currentChat.id"
         />
       </template>
-    </NextMessageList>
+    </MessageList>
     <div
       class="flex relative flex-col"
       :class="{

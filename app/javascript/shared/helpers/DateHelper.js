@@ -16,10 +16,6 @@ export const formatDate = ({ date, todayText, yesterdayText }) => {
   return date;
 };
 
-export const formatDigitToString = val => {
-  return val > 9 ? `${val}` : `0${val}`;
-};
-
 export const isTimeAfter = (h1, m1, h2, m2) => {
   if (h1 < h2) {
     return false;
