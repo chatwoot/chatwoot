@@ -65,7 +65,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
   def fetch_resolved_counts(conversation_filter)
     # since the base query is ActsAsTaggableOn,
     # the status :resolved won't automatically be converted to integer status
-    fetch_counts(conversation_filter.merge(status: 1))
+    fetch_counts(conversation_filter.merge(status: Conversation.statuses[:resolved]))
   end
 
   def fetch_counts(conversation_filter)
