@@ -284,4 +284,5 @@ github:
   logo: github.png
   i18n_key: github
   hook_type: account
+  action: https://github.com/login/oauth/authorize
   allow_multiple_hooks: false
