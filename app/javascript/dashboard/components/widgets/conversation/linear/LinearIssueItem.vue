@@ -37,7 +37,7 @@ const labels = computed(() => issue.value.labels?.nodes || []);
 const priorityLabel = computed(() => priorityMap[issue.value.priority]);
 
 const unlinkIssue = () => {
-  emit('unlinkIssue', props.linkedIssue.id);
+  emit('unlinkIssue', props.linkedIssue.id, props.linkedIssue.issue.identifier);
 };
 </script>
 
