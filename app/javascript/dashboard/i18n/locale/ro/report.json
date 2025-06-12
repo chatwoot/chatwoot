@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Prezentare generală a etichetelor",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Încărcare date grafic...",
     "NO_ENOUGH_DATA": "Nu am primit suficiente date pentru a genera raportul. Vă rugăm să încercați din nou mai târziu.",
     "DOWNLOAD_LABEL_REPORTS": "Descărcarea rapoartelor de etichete",
@@ -559,6 +560,7 @@
     "INBOX": "Inbox",
     "AGENT": "Agent",
     "TEAM": "Echipa",
+    "LABEL": "Etichetă",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

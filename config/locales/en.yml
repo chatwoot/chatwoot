@@ -152,6 +152,8 @@ en:
       instagram_story_content: '%{story_sender} mentioned you in the story: '
       instagram_deleted_story_content: This story is no longer available.
       deleted: This message was deleted
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -190,6 +192,8 @@ en:
         issue_created: 'New Linear issue %{issue_id} has been created'
         issue_linked: 'Linear issue %{issue_id} is now linked'
         issue_unlinked: 'Linear issue %{issue_id} has been unlinked'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -290,6 +294,7 @@ en:
       made_with: Made with
     header:
       go_to_homepage: Website
+      visit_website: Visit website
       appearance:
         system: System
         light: Light

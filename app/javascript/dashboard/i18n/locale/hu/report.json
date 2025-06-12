@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Címkék áttekintése",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Táblázat adatok betöltése...",
     "NO_ENOUGH_DATA": "Nem érkezett elég adat hogy jelentést generáljunk, kérjük próbáld később.",
     "DOWNLOAD_LABEL_REPORTS": "Címkejelentések letöltése",
@@ -559,6 +560,7 @@
     "INBOX": "Fiók",
     "AGENT": "Ügynök",
     "TEAM": "Csapat",
+    "LABEL": "Cimke",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
