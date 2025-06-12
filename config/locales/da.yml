@@ -91,6 +91,8 @@ da:
       conversations_count: Antal samtaler
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Antal Afsluttede
     team_csv:
       team_name: Team navn
       conversations_count: Samtaler tæller
@@ -138,6 +140,8 @@ da:
       instagram_story_content: '%{story_sender} nævnte dig i historien: '
       instagram_deleted_story_content: Denne historie er ikke længere tilgængelig.
       deleted: Denne besked blev slettet
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
