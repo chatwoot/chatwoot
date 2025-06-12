@@ -1,5 +1,6 @@
 class Integrations::App
   include Linear::IntegrationHelper
+  include Github::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -39,8 +40,7 @@ class Integrations::App
   def action
     case params[:id]
     when 'slack'
-      client_id = GlobalConfigService.load('SLACK_CLIENT_ID', nil)
-      "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
+      "#{params[:action]}&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
     when 'github'
@@ -61,7 +61,7 @@ class Integrations::App
     when 'leadsquared'
       account.feature_enabled?('crm_integration')
     when 'github'
-      GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present?
+      account.feature_enabled?('github_integration') && GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present?
     else
       true
     end
@@ -80,11 +80,12 @@ class Integrations::App
   end
 
   def build_github_action
-    client_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
+    app_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
     [
-      'https://github.com/login/oauth/authorize?response_type=code',
-      "client_id=#{client_id}",
+      "#{params[:action]}?response_type=code",
+      "client_id=#{app_id}",
       "redirect_uri=#{self.class.github_integration_url}",
+      "state=#{encode_state}",
       'scope=repo'
     ].join('&')
   end
