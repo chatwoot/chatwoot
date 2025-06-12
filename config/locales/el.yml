@@ -91,6 +91,8 @@ el:
       conversations_count: Αριθμός συνομιλιών
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Αριθμός Αναλύσεων
     team_csv:
       team_name: Όνομα ομάδας
       conversations_count: Αριθμός συνομιλιών
@@ -138,6 +140,8 @@ el:
       instagram_story_content: 'Ο %{story_sender} σας ανέφερε στην ιστορία: '
       instagram_deleted_story_content: Η ιστορία δεν είναι πλέον διαθέσιμη.
       deleted: Το μήνυμα διαγράφηκε
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
