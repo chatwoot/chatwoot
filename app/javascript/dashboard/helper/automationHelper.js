@@ -168,7 +168,10 @@ export const getDefaultConditions = eventName => {
   if (eventName === 'message_created') {
     return DEFAULT_MESSAGE_CREATED_CONDITION;
   }
-  if (eventName === 'conversation_opened' || eventName === 'conversation_resolved') {
+  if (
+    eventName === 'conversation_opened' ||
+    eventName === 'conversation_resolved'
+  ) {
     return DEFAULT_CONVERSATION_CONDITION;
   }
   return DEFAULT_OTHER_CONDITION;
