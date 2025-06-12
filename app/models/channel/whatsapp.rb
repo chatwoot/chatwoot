@@ -109,8 +109,6 @@ class Channel::Whatsapp < ApplicationRecord
 
   def disconnect_channel_provider
     provider_service.disconnect_channel_provider
-  ensure
-    update_provider_connection!(connection: 'close')
   end
 
   delegate :setup_channel_provider, to: :provider_service

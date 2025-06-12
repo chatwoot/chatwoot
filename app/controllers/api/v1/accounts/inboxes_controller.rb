@@ -84,6 +84,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
     channel.disconnect_channel_provider
     head :ok
+  ensure
+    channel.update_provider_connection!(connection: 'close') if channel.respond_to?(:update_provider_connection!)
   end
 
   def destroy
