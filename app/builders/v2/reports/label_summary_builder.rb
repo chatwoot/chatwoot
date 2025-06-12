@@ -31,7 +31,7 @@ class V2::Reports::LabelSummaryBuilder < V2::Reports::BaseSummaryBuilder
       resolved_counts: fetch_resolved_counts(conversation_filter),
       resolution_metrics: fetch_metrics(conversation_filter, 'conversation_resolved', use_business_hours),
       first_response_metrics: fetch_metrics(conversation_filter, 'first_response', use_business_hours),
-      reply_metrics: fetch_metrics(conversation_filter, 'reply', use_business_hours)
+      reply_metrics: fetch_metrics(conversation_filter, 'reply_time', use_business_hours)
     }
   end
 
