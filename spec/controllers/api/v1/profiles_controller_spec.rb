@@ -94,6 +94,18 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.reload.valid_password?('Test1234!')).to be true
       end
 
+      it 'does not reset the display name if updates the password' do
+        display_name = agent.display_name
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.display_name).to eq(display_name)
+      end
+
       it 'throws error when current password provided is invalid' do
         put '/api/v1/profile',
             params: { profile: { current_password: 'Test', password: 'test123', password_confirmation: 'test123' } },

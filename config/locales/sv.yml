@@ -172,6 +172,8 @@ sv:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} har tystat konversationen'
       unmuted: '%{user_name} har avtystat konversationen'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ sv:
       made_with: Gjord med
     header:
       go_to_homepage: Hemsida
+      visit_website: Visit website
       appearance:
         system: System
         light: Ljus
