@@ -94,11 +94,13 @@ const shouldShowCloudWhatsapp = provider => {
         >
           <!-- Provider Icon -->
           <div class="flex justify-start mb-5">
-            <div class="flex items-center justify-center w-12 h-12 rounded-lg">
+            <div
+              class="flex items-center justify-center size-10 bg-n-alpha-2 rounded-full"
+            >
               <img
                 :src="provider.icon"
                 :alt="provider.label"
-                class="object-contain w-10 h-10"
+                class="object-contain size-[26px]"
               />
             </div>
           </div>

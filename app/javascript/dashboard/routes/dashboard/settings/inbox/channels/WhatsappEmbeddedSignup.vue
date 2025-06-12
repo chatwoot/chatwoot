@@ -33,11 +33,14 @@ onBeforeUnmount(() => {
     <div v-else>
       <div class="flex flex-col items-start mb-6 text-start">
         <div class="flex justify-start mb-6">
-          <div class="flex items-center justify-center w-12 h-12 rounded-lg">
+          <div
+            class="flex items-center justify-center w-12 h-12 bg-n-alpha-2 rounded-full"
+          >
             <img
               :src="whatsappIcon"
               :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD')"
-              class="object-contain w-11 h-11"
+              class="object-contain w-8 h-8"
+              draggable="false"
             />
           </div>
         </div>
