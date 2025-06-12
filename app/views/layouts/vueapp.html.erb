@@ -55,7 +55,8 @@
         keycloakCallbackUrl: '<%= ENV.fetch('KEYCLOAK_CALLBACK_URL', nil) %>',
         onehashCalUrl: '<%= ENV.fetch('ONEHASH_CAL_URL', nil) %>',
         onehashCRMUrl: '<%= ENV.fetch('ONEHASH_CRM_URL', nil) %>',
-        onehashERPUrl: '<%= ENV.fetch('ONEHASH_ERP_URL', nil) %>'
+        onehashERPUrl: '<%= ENV.fetch('ONEHASH_ERP_URL', nil) %>',
+        onehashWebsiteToken: '<%= ENV.fetch('ONEHASH_WEBSITE_TOKEN', nil) %>'
         // helpUrls: <%= feature_help_urls.to_json.html_safe %>,
       }
       window.globalConfig = <%= raw @global_config.to_json %>

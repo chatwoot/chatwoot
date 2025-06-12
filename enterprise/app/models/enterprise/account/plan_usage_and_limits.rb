@@ -61,11 +61,14 @@ module Enterprise::Account::PlanUsageAndLimits
 
     consumed = 0 if consumed.negative?
 
-    {
+    limits = {
       total_count: total_count,
       current_available: (total_count - consumed).clamp(0, total_count),
       consumed: consumed
     }
+
+    Rails.logger.info("Usage limits: #{limits}")
+    limits
   end
 
   def default_captain_limits

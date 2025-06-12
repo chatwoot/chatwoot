@@ -32,6 +32,7 @@ export default {
     EXPANDED: 'expanded',
   },
   DOCS_URL: '//https://help.onehash.ai/en/',
+
   HELP_CENTER_DOCS_URL: '//https://help.onehash.ai/en/',
   TESTIMONIAL_URL: 'https://testimonials.cdn.chatwoot.com/content.json',
   SMALL_SCREEN_BREAKPOINT: 1200,

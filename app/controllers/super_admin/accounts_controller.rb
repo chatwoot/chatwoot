@@ -36,7 +36,7 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
   def resource_params
     permitted_params = super
 
-    [:agents, :inboxes].each do |key|
+    [:agents, :inboxes, :captain_responses, :captain_documents].each do |key|
       permitted_params[:limits][key] = permitted_params[:limits][key].to_i
     end
 

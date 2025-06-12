@@ -8,15 +8,12 @@ import { format } from 'date-fns';
 // REVIEW:CV4.0.2 Below code is commented in our version, why?
 import BillingMeter from './components/BillingMeter.vue';
 
-
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
-
-
 
 import AccountAPI from '../../../../api/account';
 import { useAlert } from 'dashboard/composables';
@@ -29,7 +26,6 @@ const { t } = useI18n();
 const { currentAccount } = useAccount();
 
 const {
-
   // REVIEW:CV4.0.2 Below code is commented in our version, why?
   captainEnabled,
   captainLimits,
@@ -71,8 +67,6 @@ const subscriptionRenewsOn = computed(() => {
   return format(endDate, 'dd MMM, yyyy');
 });
 
-
-
 // REVIEW:CV4.0.2 what's the ltd attributes
 const ltdPlanName = computed(() => {
   if (!ltdAttributes.value.ltd_plan_name) return '';
@@ -102,8 +96,6 @@ const hasABillingPlan = computed(() => {
   return !!planName.value;
 });
 
-
-
 const fetchAccountDetails = async () => {
   if (!hasABillingPlan.value) {
     store.dispatch('accounts/stripe_subscription');
@@ -121,9 +113,7 @@ const onClickBillingPortal = () => {
 };
 
 const onToggleChatWindow = () => {
-  if (window.$chatwoot) {
-    window.$chatwoot.toggle();
-  }
+  window.$chatwoot.toggle();
 };
 
 const checkInput = couponCode => {
@@ -180,7 +170,7 @@ onMounted(fetchAccountDetails);
               {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
             </ButtonV4>
           </template>
-          
+
           <div
             v-if="
               (['Starter', 'Plus', 'Pro'].includes(planName) &&
@@ -287,7 +277,7 @@ onMounted(fetchAccountDetails);
             solid
             slate
             icon="i-lucide-life-buoy"
-            @open="onToggleChatWindow"
+            @click="onToggleChatWindow"
           >
             {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
           </ButtonV4>

@@ -32,6 +32,7 @@ import { domPurifyConfig } from 'shared/helpers/HTMLSanitizer.js';
 import { vResizeObserver } from '@vueuse/components';
 import { directive as onClickaway } from 'vue3-click-away';
 
+import './sdk';
 import 'floating-vue/dist/style.css';
 
 const i18n = createI18n({
@@ -110,4 +111,14 @@ initalizeRouter();
 
 window.onload = () => {
   app.mount('#app');
+
+  window.chatwootSettings = {
+    showPopoutButton: false,
+    hideMessageBubble: true,
+  };
+
+  window.chatwootSDK.run({
+    websiteToken: window.chatwootConfig.onehashWebsiteToken,
+    baseUrl: window.chatwootConfig.hostURL,
+  });
 };
