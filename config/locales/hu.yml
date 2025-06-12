@@ -91,6 +91,8 @@ hu:
       conversations_count: Beszélgetések száma
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Megoldások száma
     team_csv:
       team_name: Csapatnév
       conversations_count: Beszélgetésszám
@@ -138,6 +140,8 @@ hu:
       instagram_story_content: '%{story_sender} megemlített egy storyban: '
       instagram_deleted_story_content: Ez a story már nem érhető el.
       deleted: Az üzenet törölve lett
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Hibakód: %{error_code}'
     activity:
