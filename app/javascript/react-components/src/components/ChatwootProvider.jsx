@@ -35,8 +35,8 @@ export const ChatwootProvider = ({
   const config = {
     baseURL: baseURL.replace(/\/$/, ''), // Remove trailing slash
     userToken,
-    accountId,
-    conversationId,
+    accountId: Number(accountId),
+    conversationId: Number(conversationId),
     disableEditor: disableEditor || false,
     disableUpload: disableUpload || false,
     websocketURL: websocketURL,

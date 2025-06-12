@@ -3,6 +3,7 @@ import ChatwootMessageListWebComponent from './ChatwootMessageListWebComponent.v
 import '../../../dashboard/assets/scss/app.scss';
 import en from '../../../dashboard/i18n/locale/en';
 import store from '../../../dashboard/store';
+import vueActionCable from '../../../dashboard/helper/actionCable';
 import { createI18n, I18nInjectionKey } from 'vue-i18n';
 
 import VueDOMPurifyHTML from 'vue-dompurify-html';
@@ -27,6 +28,8 @@ const ceOptions = {
     // Adding this link for my goldfish brain
     app.use(i18n);
     app.provide(I18nInjectionKey, i18n);
+    // eslint-disable-next-line no-underscore-dangle
+    vueActionCable.init(store, window.__PUBSUB_TOKEN__);
   },
 };
 
