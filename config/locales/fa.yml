@@ -172,6 +172,8 @@ fa:
       sla:
         added: '%{user_name} سیاست SLA %{sla_name} را اضافه کرد'
         removed: '%{user_name} سیاست SLA %{sla_name} را حذف کرد'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} مکالمه را بی صدا کرد'
       unmuted: '%{user_name} مکالمه را از حالت بی صدا خراج کرد'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ fa:
       made_with: ساخته شده با
     header:
       go_to_homepage: وب سایت
+      visit_website: Visit website
       appearance:
         system: سیستم
         light: روشن

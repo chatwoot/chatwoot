@@ -193,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "過去 1 年",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "グラフデータを読み込んでいます...",
     "NO_ENOUGH_DATA": "レポートを生成するための十分なデータポイントを受信していません。後でもう一度お試しください。",
     "DOWNLOAD_LABEL_REPORTS": "ラベルレポートをダウンロード",
@@ -559,6 +560,7 @@
     "INBOX": "受信トレイ",
     "AGENT": "担当者",
     "TEAM": "チーム",
+    "LABEL": "ラベル",
     "AVG_RESOLUTION_TIME": "解決までの平均時間",
     "AVG_FIRST_RESPONSE_TIME": "初回応答の平均時間",
     "AVG_REPLY_TIME": "お客様の平均待ち時間",

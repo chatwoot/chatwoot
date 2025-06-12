@@ -172,6 +172,8 @@ az:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} has muted the conversation'
       unmuted: '%{user_name} has unmuted the conversation'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ az:
       made_with: Made with
     header:
       go_to_homepage: Website
+      visit_website: Visit website
       appearance:
         system: System
         light: Light
