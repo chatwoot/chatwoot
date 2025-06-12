@@ -91,6 +91,8 @@ ca:
       conversations_count: Nre. de converses
       avg_first_response_time: Temps mitjà de primera resposta
       avg_resolution_time: Temps mitjà de resolució
+      avg_reply_time: Avg reply time
+      resolution_count: Total de resolucions
     team_csv:
       team_name: Nom de l'equip
       conversations_count: Recompte de converses
@@ -138,6 +140,8 @@ ca:
       instagram_story_content: '%{story_sender} t''ha mencionat a la història: '
       instagram_deleted_story_content: Aquesta història ja no està disponible.
       deleted: Aquest missatge a sigut eliminat
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Codi d''error: %{error_code}'
     activity:
