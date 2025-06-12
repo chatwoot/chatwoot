@@ -46,7 +46,9 @@
           </div>
         </div>
 
-        <span class="h-px bg-slate-100/70 dark:bg-slate-800/70 w-full"></span>
+        <% if @portal.config["allowed_locales"].length > 1 %>
+          <span class="h-px bg-slate-100/70 dark:bg-slate-800/70 w-full"></span>
+        <% end %>
 
         <!-- Locale Switcher -->
         <% if @portal.config["allowed_locales"].length > 1 %>
