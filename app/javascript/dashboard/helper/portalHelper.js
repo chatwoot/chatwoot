@@ -66,42 +66,6 @@ export const getArticleStatus = status => {
   }
 };
 
-// Constants
-export const HELP_CENTER_MENU_ITEMS = [
-  {
-    label: 'Articles',
-    icon: 'i-lucide-book',
-    action: 'portals_articles_index',
-    value: [
-      'portals_articles_index',
-      'portals_articles_new',
-      'portals_articles_edit',
-    ],
-  },
-  {
-    label: 'Categories',
-    icon: 'i-lucide-folder',
-    action: 'portals_categories_index',
-    value: [
-      'portals_categories_index',
-      'portals_categories_articles_index',
-      'portals_categories_articles_edit',
-    ],
-  },
-  {
-    label: 'Locales',
-    icon: 'i-lucide-languages',
-    action: 'portals_locales_index',
-    value: ['portals_locales_index'],
-  },
-  {
-    label: 'Settings',
-    icon: 'i-lucide-settings',
-    action: 'portals_settings_index',
-    value: ['portals_settings_index'],
-  },
-];
-
 export const ARTICLE_STATUSES = {
   DRAFT: 'draft',
   PUBLISHED: 'published',

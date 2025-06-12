@@ -11,7 +11,6 @@ const props = defineProps({
   newButtonRoutes: { type: Array, default: () => [] },
   showBackButton: { type: Boolean, default: false },
   backUrl: { type: [String, Object], default: '' },
-  showSidemenuIcon: { type: Boolean, default: true },
   fullWidth: { type: Boolean, default: false },
 });
 
@@ -45,7 +44,6 @@ const showSettingsHeader = computed(
         :show-back-button="showBackButton"
         :back-url="backUrl"
         :show-new-button="showNewButton"
-        :show-sidemenu-icon="showSidemenuIcon"
         class="sticky top-0 z-20"
         :class="{ 'max-w-6xl w-full mx-auto': fullWidth }"
       />

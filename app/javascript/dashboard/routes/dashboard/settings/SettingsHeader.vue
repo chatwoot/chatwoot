@@ -35,10 +35,6 @@ export default {
       type: String,
       default: '',
     },
-    showSidemenuIcon: {
-      type: Boolean,
-      default: true,
-    },
   },
   setup() {
     const { isAdmin } = useAdmin();
@@ -59,7 +55,6 @@ export default {
     class="flex justify-between items-center h-20 min-h-[3.5rem] px-4 py-2 bg-n-background"
   >
     <h1 class="flex items-center mb-0 text-2xl text-n-slate-12">
-      <woot-sidemenu-icon v-if="showSidemenuIcon" />
       <BackButton
         v-if="showBackButton"
         :button-label="backButtonLabel"
