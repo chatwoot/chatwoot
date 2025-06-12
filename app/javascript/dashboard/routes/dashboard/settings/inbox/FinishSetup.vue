@@ -47,6 +47,13 @@ export default {
         this.currentInbox.provider === 'whatsapp_cloud'
       );
     },
+    // If the inbox is a whatsapp cloud inbox and the source is not embedded signup, then show the webhook details
+    shouldShowWhatsAppWebhookDetails() {
+      return (
+        this.isWhatsAppCloudInbox &&
+        this.currentInbox.provider_config?.source !== 'embedded_signup'
+      );
+    },
     message() {
       if (this.isATwilioInbox) {
         return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
@@ -66,15 +73,10 @@ export default {
         )}`;
       }
 
-      if (this.isWhatsAppCloudInbox) {
-        const isEmbeddedSignup =
-          this.currentInbox.provider_config?.source === 'embedded_signup';
-
-        const subtitleKey = isEmbeddedSignup
-          ? 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE_EMBEDDED'
-          : 'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE';
-
-        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(subtitleKey)}`;
+      if (this.isWhatsAppCloudInbox && this.shouldShowWhatsAppWebhookDetails) {
+        return `${this.$t('INBOX_MGMT.FINISH.MESSAGE')}. ${this.$t(
+          'INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.SUBTITLE'
+        )}`;
       }
 
       if (this.isAEmailInbox && !this.currentInbox.provider) {
@@ -118,7 +120,10 @@ export default {
             :script="currentInbox.callback_webhook_url"
           />
         </div>
-        <div v-if="isWhatsAppCloudInbox" class="w-[50%] max-w-[50%] ml-[25%]">
+        <div
+          v-if="shouldShowWhatsAppWebhookDetails"
+          class="w-[50%] max-w-[50%] ml-[25%]"
+        >
           <p class="mt-8 font-medium text-slate-700 dark:text-slate-200">
             {{ $t('INBOX_MGMT.ADD.WHATSAPP.API_CALLBACK.WEBHOOK_URL') }}
           </p>
