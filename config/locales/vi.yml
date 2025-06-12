@@ -91,6 +91,8 @@ vi:
       conversations_count: Số hội thoại
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Số lượng giải quyết
     team_csv:
       team_name: Tên nhóm
       conversations_count: Số hội thoại
@@ -138,6 +140,8 @@ vi:
       instagram_story_content: '%{story_sender} đã đề cập đến bạn trong hội thoại: '
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
