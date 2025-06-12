@@ -288,8 +288,6 @@ export default {
       this.message = '';
       this.attachedFiles = [];
       this.isRecordingAudio = false;
-      this.resetReplyToMessage();
-      this.resetAudioRecorderInput();
     },
     onTypingOn() {
       this.toggleTyping('on');
