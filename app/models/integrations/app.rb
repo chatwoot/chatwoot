@@ -53,8 +53,7 @@ class Integrations::App
   def active?(account)
     case params[:id]
     when 'slack'
-      client_id = GlobalConfigService.load('SLACK_CLIENT_ID', nil)
-      "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
+      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
