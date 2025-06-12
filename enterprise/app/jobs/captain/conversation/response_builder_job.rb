@@ -1,4 +1,6 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
+  include Captain::ChatHelper
+
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3
 
@@ -25,8 +27,9 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
+    latest_message = @conversation.messages.incoming.last
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      @conversation.messages.incoming.last.content,
+      message_content_multimodal(latest_message),
       collect_previous_messages
     )
 
@@ -37,39 +40,19 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     account.increment_response_usage
   end
 
-  def collect_previous_messages
-    @conversation
-      .messages
-      .where(message_type: [:incoming, :outgoing])
-      .where(private: false)
-      .map do |message|
-        {
-          content: message_content(message),
-          role: determine_role(message)
-        }
-      end
-  end
+  def collect_previous_messages(include_all: false)
+    messages_query = @conversation
+                     .messages
+                     .where(message_type: [:incoming, :outgoing])
 
-  def message_content(message)
-    return message.content if message.content.present?
-    return 'User has shared a message without content' unless message.attachments.any?
+    messages_query = messages_query.where(private: false) unless include_all
 
-    audio_transcriptions = extract_audio_transcriptions(message.attachments)
-    return audio_transcriptions if audio_transcriptions.present?
-
-    'User has shared an attachment'
-  end
-
-  def extract_audio_transcriptions(attachments)
-    audio_attachments = attachments.where(file_type: :audio)
-    return '' if audio_attachments.blank?
-
-    transcriptions = ''
-    audio_attachments.each do |attachment|
-      result = Messages::AudioTranscriptionService.new(attachment).perform
-      transcriptions += result[:transcriptions] if result[:success]
+    messages_query.map do |message|
+      {
+        content: message_content_multimodal(message),
+        role: determine_role(message)
+      }
     end
-    transcriptions
   end
 
   def determine_role(message)

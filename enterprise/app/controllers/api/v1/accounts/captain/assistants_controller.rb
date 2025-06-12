@@ -25,7 +25,7 @@ class Api::V1::Accounts::Captain::AssistantsController < Api::V1::Accounts::Base
 
   def playground
     response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      params[:message_content],
+      message_content_multimodal(params[:message_content]),
       message_history
     )
 
