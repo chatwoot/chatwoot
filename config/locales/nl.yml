@@ -91,6 +91,8 @@ nl:
       conversations_count: Aantal conversaties
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Aantal Resoluties
     team_csv:
       team_name: Team Naam
       conversations_count: Aantal gesprekken
@@ -138,6 +140,8 @@ nl:
       instagram_story_content: '%{story_sender} heeft je genoemd in het verhaal: '
       instagram_deleted_story_content: Dit verhaal is niet meer beschikbaar.
       deleted: Dit bericht werd verwijderd
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
