@@ -4,11 +4,9 @@ import { ref, provide } from 'vue';
 import { useConfig } from 'dashboard/composables/useConfig';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import { useAI } from 'dashboard/composables/useAI';
-import { useMapGetter } from 'dashboard/composables/store';
 
 // components
 import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
 import NextMessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
@@ -35,12 +33,10 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
 import wootConstants from 'dashboard/constants/globals';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { FEATURE_FLAGS } from '../../../featureFlags';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export default {
   components: {
-    Message,
     NextMessageList,
     ReplyBox,
     Banner,
@@ -75,16 +71,6 @@ export default {
       fetchLabelSuggestions,
     } = useAI();
 
-    const currentAccountId = useMapGetter('getCurrentAccountId');
-    const isFeatureEnabledonAccount = useMapGetter(
-      'accounts/isFeatureEnabledonAccount'
-    );
-
-    const showNextBubbles = isFeatureEnabledonAccount.value(
-      currentAccountId.value,
-      FEATURE_FLAGS.CHATWOOT_V4
-    );
-
     provide('contextMenuElementTarget', conversationPanelRef);
 
     return {
@@ -96,7 +82,6 @@ export default {
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
       fetchLabelSuggestions,
-      showNextBubbles,
       conversationPanelRef,
     };
   },
@@ -185,10 +170,6 @@ export default {
       const type = additionalAttributes ? additionalAttributes.type : '';
       return type || '';
     },
-
-    isATweet() {
-      return this.conversationType === 'tweet';
-    },
     getLastSeenAt() {
       const { contact_last_seen_at: contactLastSeenAt } = this.currentChat;
       return contactLastSeenAt;
@@ -268,9 +249,6 @@ export default {
           ? 'CONVERSATION.UNREAD_MESSAGES'
           : 'CONVERSATION.UNREAD_MESSAGE';
       return `${count} ${this.$t(label)}`;
-    },
-    isInstagramDM() {
-      return this.conversationType === 'instagram_direct_message';
     },
     inboxSupportsReplyTo() {
       const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
@@ -475,18 +453,6 @@ export default {
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-    getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
-
-      return this.currentChat?.messages.find(message => {
-        if (message.id === inReplyToMessageId) {
-          return true;
-        }
-        return false;
-      });
-    },
   },
 };
 </script>
@@ -508,9 +474,8 @@ export default {
       :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
     />
     <NextMessageList
-      v-if="showNextBubbles"
       ref="conversationPanelRef"
-      class="conversation-panel"
+      class="conversation-panel flex-shrink flex-grow basis-px flex flex-col overflow-y-auto relative h-full m-0 pb-4"
       :current-user-id="currentUserId"
       :first-unread-id="unReadMessages[0]?.id"
       :is-an-email-channel="isAnEmailChannel"
@@ -520,14 +485,18 @@ export default {
       <template #beforeAll>
         <transition name="slide-up">
           <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-          <li class="min-h-[4rem]">
+          <li
+            class="min-h-[4rem] flex flex-shrink-0 flex-grow-0 flex-auto max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0"
+          >
             <span v-if="shouldShowSpinner" class="spinner message" />
           </li>
         </transition>
       </template>
       <template #unreadBadge>
-        <li v-show="unreadMessageCount != 0" class="unread--toast">
-          <span>
+        <li v-show="unreadMessageCount != 0">
+          <span
+            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
+          >
             {{ unreadMessageLabel }}
           </span>
         </li>
@@ -541,64 +510,11 @@ export default {
         />
       </template>
     </NextMessageList>
-    <ul v-else ref="conversationPanelRef" class="conversation-panel">
-      <transition name="slide-up">
-        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
-        </li>
-      </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
-      </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <ConversationLabelSuggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
     <div
-      class="conversation-footer"
+      class="flex relative flex-col"
       :class="{
         'modal-mask': isPopOutReplyBox,
-        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
+        'bg-n-background': !isPopOutReplyBox,
       }"
     >
       <div

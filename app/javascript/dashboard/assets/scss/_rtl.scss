@@ -33,56 +33,6 @@
     direction: initial;
   }
 
-  // Conversation details
-  .conversation-details-wrap {
-    .conversation-panel {
-      // Message text
-      .text-content {
-        p {
-          unicode-bidi: plaintext;
-        }
-
-        ul {
-          padding-left: unset;
-          padding-right: var(--space-two);
-        }
-
-        li {
-          text-align: right;
-        }
-      }
-
-      // Message items and actions
-      li {
-        &.right {
-          .sender--info {
-            padding: var(--space-small) var(--space-smaller)
-              var(--space-smaller) 0;
-          }
-
-          .context-menu-wrap {
-            margin-left: 0;
-            margin-right: auto;
-          }
-        }
-      }
-    }
-
-    // Conversation footer
-    .conversation-footer {
-      .preview-item {
-        direction: initial;
-      }
-    }
-
-    // Custom attributes section in conversation sidebar
-    .conversation-sidebar-wrap .checkbox-wrap {
-      .checkbox {
-        margin-left: var(--space-small);
-      }
-    }
-  }
-
   // Conversation list
   .conversations-list-wrap {
     border-right: 0;
@@ -107,12 +57,6 @@
         margin: unset;
         transform: rotate(180deg);
       }
-    }
-
-    // Basic filter dropdown
-    .basic-filter {
-      left: 0;
-      right: unset;
     }
 
     // Bulk actions
@@ -145,13 +89,6 @@
         left: var(--space-small);
         right: unset;
       }
-    }
-  }
-
-  // Contact notes
-  .card.note-wrap {
-    .time-stamp {
-      unicode-bidi: plaintext;
     }
   }
 
