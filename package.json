@@ -16,7 +16,7 @@
     "build:ui": "BUILD_MODE=ui vite build",
     "build:react": "BUILD_MODE=react-components vite build",
     "dev:react": "BUILD_MODE=react-components vite build --watch",
-    "package:react": "node scripts/publish-react-components.js",
+    "package:react": "node scripts/package-react-components.js",
     "prepare": "husky install",
     "size": "size-limit",
     "story:dev": "histoire dev",
