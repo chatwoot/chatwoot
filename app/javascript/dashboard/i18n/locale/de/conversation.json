@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Fall schließen",
       "REOPEN_ACTION": "Wieder öffnen",
       "OPEN_ACTION": "Öffnen",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Mehr",
       "CLOSE": "Schließen",
       "DETAILS": "Einzelheiten",
@@ -117,6 +118,11 @@
         "FAILED": "Priorität konnte nicht geändert werden. Bitte versuchen Sie es erneut."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Löschen"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Als ausstehend markieren",
       "RESOLVED": "Als gelöst markieren",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Label zuweisen",
       "AGENTS_LOADING": "Agenten werden geladen...",
       "ASSIGN_TEAM": "Team zuweisen",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konversations-ID {conversationId} zugewiesen zu \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label erfolgreich zugewiesen",
     "ASSIGN_LABEL_FAILED": "Labelzuweisung fehlgeschlagen",
     "CHANGE_TEAM": "Das Konversationsteam hat sich geändert",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Die Datei überschreitet das Anhangslimit von {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Nachricht konnte nicht gesendet werden, bitte versuchen Sie es später erneut",
     "SENT_BY": "Gesendet von:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Kontakt-Attribute",
       "PREVIOUS_CONVERSATION": "Vorherige Konversationen",
       "MACROS": "Makros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

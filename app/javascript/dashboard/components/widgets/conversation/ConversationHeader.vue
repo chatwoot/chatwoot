@@ -11,8 +11,6 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import Linear from './linear/index.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
 
@@ -36,12 +34,6 @@ const { isAWebWidgetInbox } = useInbox();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
-const isFeatureEnabledonAccount = computed(
-  () => store.getters['accounts/isFeatureEnabledonAccount']
-);
-const appIntegrations = computed(
-  () => store.getters['integrations/getAppIntegrations']
-);
 
 const chatMetadata = computed(() => props.chat.meta);
 
@@ -92,16 +84,6 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
-
-const isLinearIntegrationEnabled = computed(() =>
-  appIntegrations.value.find(
-    integration => integration.id === 'linear' && !!integration.hooks.length
-  )
-);
-
-const isLinearFeatureEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.LINEAR)
-);
 </script>
 
 <template>
@@ -159,12 +141,6 @@ const isLinearFeatureEnabled = computed(() =>
         v-if="hasSlaPolicyId"
         :chat="chat"
         show-extended-info
-        :parent-width="width"
-        class="hidden md:flex"
-      />
-      <Linear
-        v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
-        :conversation-id="currentChat.id"
         :parent-width="width"
         class="hidden md:flex"
       />
