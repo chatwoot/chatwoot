@@ -30,6 +30,9 @@
       "is_lesser_than": "Меньше чем",
       "days_before": "x дней до"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Необходимо указать значение"
+    },
     "ATTRIBUTES": {
       "NAME": "Имя",
       "EMAIL": "Email",

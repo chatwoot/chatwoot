@@ -1,6 +1,6 @@
 class Twilio::DeliveryStatusController < ApplicationController
   def create
-    ::Twilio::DeliveryStatusService.new(params: permitted_params).perform
+    Webhooks::TwilioDeliveryStatusJob.perform_later(permitted_params.to_unsafe_hash)
 
     head :no_content
   end

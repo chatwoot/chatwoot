@@ -1,65 +1,16 @@
-<template>
-  <div class="mx-8">
-    <loading-state v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
-    <form
-      v-else
-      class="mx-0 flex flex-wrap"
-      @submit.prevent="updateActiveAgentBot"
-    >
-      <settings-section
-        :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
-        :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
-      >
-        <div class="w-3/5">
-          <label>
-            <select v-model="selectedAgentBotId">
-              <option value="" disabled selected>
-                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
-              </option>
-              <option
-                v-for="agentBot in agentBots"
-                :key="agentBot.id"
-                :value="agentBot.id"
-              >
-                {{ agentBot.name }}
-              </option>
-            </select>
-          </label>
-          <div class="button-container">
-            <woot-submit-button
-              :button-text="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
-              :loading="uiFlags.isSettingAgentBot"
-            />
-            <woot-button
-              type="button"
-              :disabled="!selectedAgentBotId"
-              :loading="uiFlags.isDisconnecting"
-              variant="smooth"
-              color-scheme="alert"
-              class="button--disconnect"
-              @click="disconnectBot"
-            >
-              {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
-            </woot-button>
-          </div>
-        </div>
-      </settings-section>
-    </form>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
+import { useAlert } from 'dashboard/composables';
 import SettingsSection from 'dashboard/components/SettingsSection.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
-import alertMixin from 'shared/mixins/alertMixin';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     LoadingState,
     SettingsSection,
+    NextButton,
   },
-  mixins: [alertMixin],
   props: {
     inbox: {
       type: Object,
@@ -98,9 +49,9 @@ export default {
           // Added this to make sure that empty values are not sent to the API
           botId: this.selectedAgentBotId ? this.selectedAgentBotId : undefined,
         });
-        this.showAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.SUCCESS_MESSAGE'));
+        useAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.ERROR_MESSAGE'));
+        useAlert(this.$t('AGENT_BOTS.BOT_CONFIGURATION.ERROR_MESSAGE'));
       }
     },
     async disconnectBot() {
@@ -108,11 +59,11 @@ export default {
         await this.$store.dispatch('agentBots/disconnectBot', {
           inboxId: this.inbox.id,
         });
-        this.showAlert(
+        useAlert(
           this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_SUCCESS_MESSAGE')
         );
       } catch (error) {
-        this.showAlert(
+        useAlert(
           error?.message ||
             this.$t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECTED_ERROR_MESSAGE')
         );
@@ -122,8 +73,52 @@ export default {
 };
 </script>
 
-<style scoped lang="scss">
-.button--disconnect {
-  @apply ml-2;
-}
-</style>
+<template>
+  <div class="mx-8">
+    <LoadingState v-if="uiFlags.isFetching || uiFlags.isFetchingAgentBot" />
+    <form
+      v-else
+      class="flex flex-wrap mx-0"
+      @submit.prevent="updateActiveAgentBot"
+    >
+      <SettingsSection
+        :title="$t('AGENT_BOTS.BOT_CONFIGURATION.TITLE')"
+        :sub-title="$t('AGENT_BOTS.BOT_CONFIGURATION.DESC')"
+      >
+        <div>
+          <label>
+            <select v-model="selectedAgentBotId">
+              <option value="" disabled selected>
+                {{ $t('AGENT_BOTS.BOT_CONFIGURATION.SELECT_PLACEHOLDER') }}
+              </option>
+              <option
+                v-for="agentBot in agentBots"
+                :key="agentBot.id"
+                :value="agentBot.id"
+              >
+                {{ agentBot.name }}
+              </option>
+            </select>
+          </label>
+          <div class="button-container space-x-2">
+            <NextButton
+              type="submit"
+              :label="$t('AGENT_BOTS.BOT_CONFIGURATION.SUBMIT')"
+              :is-loading="uiFlags.isSettingAgentBot"
+            />
+            <NextButton
+              type="button"
+              :disabled="!selectedAgentBotId"
+              :is-loading="uiFlags.isDisconnecting"
+              faded
+              ruby
+              @click="disconnectBot"
+            >
+              {{ $t('AGENT_BOTS.BOT_CONFIGURATION.DISCONNECT') }}
+            </NextButton>
+          </div>
+        </div>
+      </SettingsSection>
+    </form>
+  </div>
+</template>

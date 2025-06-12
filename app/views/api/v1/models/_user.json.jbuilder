@@ -14,7 +14,6 @@ json.provider resource.provider
 json.pubsub_token resource.pubsub_token
 json.custom_attributes resource.custom_attributes if resource.custom_attributes.present?
 json.role resource.active_account_user&.role
-json.permissions resource.active_account_user&.permissions
 json.ui_settings resource.ui_settings
 json.uid resource.uid
 json.type resource.type
@@ -31,5 +30,6 @@ json.accounts do
     # availability derived from presence
     json.availability_status account_user.availability_status
     json.auto_offline account_user.auto_offline
+    json.partial! 'api/v1/models/account_user', account_user: account_user if ChatwootApp.enterprise?
   end
 end

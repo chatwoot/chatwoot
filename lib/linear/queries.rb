@@ -54,6 +54,10 @@ module Linear::Queries
             title
             description
             identifier
+            state {
+              name
+              color
+            }
           }
         }
       }

@@ -1,6 +1,10 @@
 table {
   @apply border-spacing-0 text-sm w-full;
 
+
+}
+
+.woot-table {
   thead {
     th {
       @apply font-semibold tracking-[1px] text-left px-2.5 uppercase text-slate-900 dark:text-slate-200;
@@ -16,9 +20,7 @@ table {
       @apply p-2.5 text-slate-700 dark:text-slate-100;
     }
   }
-}
 
-.woot-table {
   tr {
     .show-if-hover {
       transition: opacity 0.2s $swift-ease-out-function;

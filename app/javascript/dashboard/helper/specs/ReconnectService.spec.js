@@ -8,26 +8,26 @@ import {
 } from 'dashboard/helper/routeHelpers';
 import ReconnectService from 'dashboard/helper/ReconnectService';
 
-jest.mock('shared/helpers/mitt', () => ({
+vi.mock('shared/helpers/mitt', () => ({
   emitter: {
-    on: jest.fn(),
-    off: jest.fn(),
-    emit: jest.fn(),
+    on: vi.fn(),
+    off: vi.fn(),
+    emit: vi.fn(),
   },
 }));
 
-jest.mock('date-fns', () => ({
-  differenceInSeconds: jest.fn(),
+vi.mock('date-fns', () => ({
+  differenceInSeconds: vi.fn(),
 }));
 
-jest.mock('dashboard/helper/routeHelpers', () => ({
-  isAConversationRoute: jest.fn(),
-  isAInboxViewRoute: jest.fn(),
-  isNotificationRoute: jest.fn(),
+vi.mock('dashboard/helper/routeHelpers', () => ({
+  isAConversationRoute: vi.fn(),
+  isAInboxViewRoute: vi.fn(),
+  isNotificationRoute: vi.fn(),
 }));
 
 const storeMock = {
-  dispatch: jest.fn(),
+  dispatch: vi.fn(),
   getters: {
     getAppliedConversationFiltersQuery: [],
     'customViews/getActiveConversationFolder': { query: {} },
@@ -37,8 +37,10 @@ const storeMock = {
 
 const routerMock = {
   currentRoute: {
-    name: '',
-    params: { conversation_id: null },
+    value: {
+      name: '',
+      params: { conversation_id: null },
+    },
   },
 };
 
@@ -46,17 +48,17 @@ describe('ReconnectService', () => {
   let reconnectService;
 
   beforeEach(() => {
-    window.addEventListener = jest.fn();
-    window.removeEventListener = jest.fn();
+    window.addEventListener = vi.fn();
+    window.removeEventListener = vi.fn();
     Object.defineProperty(window, 'location', {
       configurable: true,
-      value: { reload: jest.fn() },
+      value: { reload: vi.fn() },
     });
     reconnectService = new ReconnectService(storeMock, routerMock);
   });
 
   afterEach(() => {
-    jest.clearAllMocks();
+    vi.clearAllMocks();
   });
 
   describe('constructor', () => {
@@ -102,7 +104,7 @@ describe('ReconnectService', () => {
       expect(reconnectService.getSecondsSinceDisconnect()).toBe(0);
     });
 
-    it('should return the number of seconds since disconnect', () => {
+    it('should return the number of seconds + threshold since disconnect', () => {
       reconnectService.disconnectTime = new Date();
       differenceInSeconds.mockReturnValue(100);
       expect(reconnectService.getSecondsSinceDisconnect()).toBe(100);
@@ -111,7 +113,7 @@ describe('ReconnectService', () => {
 
   describe('handleOnlineEvent', () => {
     it('should reload the page if disconnected for more than 3 hours', () => {
-      reconnectService.getSecondsSinceDisconnect = jest
+      reconnectService.getSecondsSinceDisconnect = vi
         .fn()
         .mockReturnValue(10801);
       reconnectService.handleOnlineEvent();
@@ -119,7 +121,7 @@ describe('ReconnectService', () => {
     });
 
     it('should not reload the page if disconnected for less than 3 hours', () => {
-      reconnectService.getSecondsSinceDisconnect = jest
+      reconnectService.getSecondsSinceDisconnect = vi
         .fn()
         .mockReturnValue(10799);
       reconnectService.handleOnlineEvent();
@@ -128,22 +130,27 @@ describe('ReconnectService', () => {
   });
 
   describe('fetchConversations', () => {
-    it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
-      reconnectService.getSecondsSinceDisconnect = jest
-        .fn()
-        .mockReturnValue(100);
+    it('should update the filters with disconnected time and the threshold', async () => {
+      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
       expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
         page: null,
-        updatedWithin: 100,
+        updatedWithin: 115,
+      });
+    });
+
+    it('should dispatch updateChatListFilters and fetchAllConversations', async () => {
+      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
+      await reconnectService.fetchConversations();
+      expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
+        page: null,
+        updatedWithin: 115,
       });
       expect(storeMock.dispatch).toHaveBeenCalledWith('fetchAllConversations');
     });
 
     it('should dispatch updateChatListFilters and reset updatedWithin', async () => {
-      reconnectService.getSecondsSinceDisconnect = jest
-        .fn()
-        .mockReturnValue(100);
+      reconnectService.getSecondsSinceDisconnect = vi.fn().mockReturnValue(100);
       await reconnectService.fetchConversations();
       expect(storeMock.dispatch).toHaveBeenCalledWith('updateChatListFilters', {
         updatedWithin: null,
@@ -173,7 +180,7 @@ describe('ReconnectService', () => {
           },
         ],
       };
-      const spy = jest.spyOn(
+      const spy = vi.spyOn(
         reconnectService,
         'fetchFilteredOrSavedConversations'
       );
@@ -191,7 +198,7 @@ describe('ReconnectService', () => {
         query: null,
       };
 
-      const spy = jest.spyOn(reconnectService, 'fetchConversations');
+      const spy = vi.spyOn(reconnectService, 'fetchConversations');
 
       await reconnectService.fetchConversationsOnReconnect();
 
@@ -204,7 +211,7 @@ describe('ReconnectService', () => {
         query: { test: 'activeFolderQuery' },
       };
 
-      const spy = jest.spyOn(
+      const spy = vi.spyOn(
         reconnectService,
         'fetchFilteredOrSavedConversations'
       );
@@ -217,7 +224,7 @@ describe('ReconnectService', () => {
 
   describe('fetchConversationMessagesOnReconnect', () => {
     it('should dispatch syncActiveConversationMessages if conversationId exists', async () => {
-      routerMock.currentRoute.params.conversation_id = 1;
+      routerMock.currentRoute.value.params.conversation_id = 1;
       await reconnectService.fetchConversationMessagesOnReconnect();
       expect(storeMock.dispatch).toHaveBeenCalledWith(
         'syncActiveConversationMessages',
@@ -226,7 +233,7 @@ describe('ReconnectService', () => {
     });
 
     it('should not dispatch syncActiveConversationMessages if conversationId does not exist', async () => {
-      routerMock.currentRoute.params.conversation_id = null;
+      routerMock.currentRoute.value.params.conversation_id = null;
       await reconnectService.fetchConversationMessagesOnReconnect();
       expect(storeMock.dispatch).not.toHaveBeenCalledWith(
         'syncActiveConversationMessages',
@@ -270,11 +277,11 @@ describe('ReconnectService', () => {
   describe('handleRouteSpecificFetch', () => {
     it('should fetch conversations and messages if current route is a conversation route', async () => {
       isAConversationRoute.mockReturnValue(true);
-      const spyConversations = jest.spyOn(
+      const spyConversations = vi.spyOn(
         reconnectService,
         'fetchConversationsOnReconnect'
       );
-      const spyMessages = jest.spyOn(
+      const spyMessages = vi.spyOn(
         reconnectService,
         'fetchConversationMessagesOnReconnect'
       );
@@ -285,14 +292,14 @@ describe('ReconnectService', () => {
 
     it('should fetch notifications if current route is an inbox view route', async () => {
       isAInboxViewRoute.mockReturnValue(true);
-      const spy = jest.spyOn(reconnectService, 'fetchNotificationsOnReconnect');
+      const spy = vi.spyOn(reconnectService, 'fetchNotificationsOnReconnect');
       await reconnectService.handleRouteSpecificFetch();
       expect(spy).toHaveBeenCalled();
     });
 
     it('should fetch notifications if current route is a notification route', async () => {
       isNotificationRoute.mockReturnValue(true);
-      const spy = jest.spyOn(reconnectService, 'fetchNotificationsOnReconnect');
+      const spy = vi.spyOn(reconnectService, 'fetchNotificationsOnReconnect');
       await reconnectService.handleRouteSpecificFetch();
       expect(spy).toHaveBeenCalled();
     });
@@ -300,7 +307,7 @@ describe('ReconnectService', () => {
 
   describe('setConversationLastMessageId', () => {
     it('should dispatch setConversationLastMessageId if conversationId exists', async () => {
-      routerMock.currentRoute.params.conversation_id = 1;
+      routerMock.currentRoute.value.params.conversation_id = 1;
       await reconnectService.setConversationLastMessageId();
       expect(storeMock.dispatch).toHaveBeenCalledWith(
         'setConversationLastMessageId',
@@ -309,7 +316,7 @@ describe('ReconnectService', () => {
     });
 
     it('should not dispatch setConversationLastMessageId if conversationId does not exist', async () => {
-      routerMock.currentRoute.params.conversation_id = null;
+      routerMock.currentRoute.value.params.conversation_id = null;
       await reconnectService.setConversationLastMessageId();
       expect(storeMock.dispatch).not.toHaveBeenCalledWith(
         'setConversationLastMessageId',
@@ -320,7 +327,7 @@ describe('ReconnectService', () => {
 
   describe('onDisconnect', () => {
     it('should set disconnectTime and call setConversationLastMessageId', () => {
-      reconnectService.setConversationLastMessageId = jest.fn();
+      reconnectService.setConversationLastMessageId = vi.fn();
       reconnectService.onDisconnect();
       expect(reconnectService.disconnectTime).toBeInstanceOf(Date);
       expect(reconnectService.setConversationLastMessageId).toHaveBeenCalled();
@@ -329,8 +336,8 @@ describe('ReconnectService', () => {
 
   describe('onReconnect', () => {
     it('should handle route-specific fetch, revalidate caches, and emit WEBSOCKET_RECONNECT_COMPLETED event', async () => {
-      reconnectService.handleRouteSpecificFetch = jest.fn();
-      reconnectService.revalidateCaches = jest.fn();
+      reconnectService.handleRouteSpecificFetch = vi.fn();
+      reconnectService.revalidateCaches = vi.fn();
       await reconnectService.onReconnect();
       expect(reconnectService.handleRouteSpecificFetch).toHaveBeenCalled();
       expect(reconnectService.revalidateCaches).toHaveBeenCalled();

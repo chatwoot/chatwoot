@@ -1,50 +1,47 @@
+<script setup>
+import { ref, watch } from 'vue';
+
+const props = defineProps({
+  tabs: {
+    type: Array,
+    default: () => [],
+  },
+  selectedTab: {
+    type: Number,
+    default: 0,
+  },
+});
+
+const emit = defineEmits(['tabChange']);
+
+const activeTab = ref(props.selectedTab);
+
+watch(
+  () => props.selectedTab,
+  (value, oldValue) => {
+    if (value !== oldValue) {
+      activeTab.value = props.selectedTab;
+    }
+  }
+);
+
+const onTabChange = index => {
+  activeTab.value = index;
+  emit('tabChange', props.tabs[index].key);
+};
+</script>
+
 <template>
-  <div class="tab-container">
+  <div class="mt-1 border-b border-n-weak">
     <woot-tabs :index="activeTab" :border="false" @change="onTabChange">
       <woot-tabs-item
-        v-for="item in tabs"
+        v-for="(item, index) in tabs"
         :key="item.key"
+        :index="index"
         :name="item.name"
         :count="item.count"
+        :show-badge="item.showBadge"
       />
     </woot-tabs>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    tabs: {
-      type: Array,
-      default: () => [],
-    },
-    selectedTab: {
-      type: Number,
-      default: 0,
-    },
-  },
-  data() {
-    return {
-      activeTab: 0,
-    };
-  },
-  watch: {
-    selectedTab(value, oldValue) {
-      if (value !== oldValue) {
-        this.activeTab = this.selectedTab;
-      }
-    },
-  },
-  methods: {
-    onTabChange(index) {
-      this.activeTab = index;
-      this.$emit('tab-change', this.tabs[index].key);
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-.tab-container {
-  @apply mt-1 border-b border-solid border-slate-100 dark:border-slate-800/50;
-}
-</style>

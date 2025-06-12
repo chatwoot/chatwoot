@@ -31,7 +31,8 @@ class Macro < ApplicationRecord
   validate :json_actions_format
 
   ACTIONS_ATTRS = %w[send_message add_label assign_team assign_agent mute_conversation change_status remove_label remove_assigned_team
-                     resolve_conversation snooze_conversation change_priority send_email_transcript send_attachment add_private_note].freeze
+                     resolve_conversation snooze_conversation change_priority send_email_transcript send_attachment
+                     add_private_note send_webhook_event].freeze
 
   def set_visibility(user, params)
     self.visibility = params[:visibility]
@@ -40,7 +41,7 @@ class Macro < ApplicationRecord
 
   def self.with_visibility(user, _params)
     records = Current.account.macros.global
-    records = records.or(personal.where(created_by_id: user.id))
+    records = records.or(personal.where(created_by_id: user.id, account_id: Current.account.id))
     records.order(:id)
   end
 

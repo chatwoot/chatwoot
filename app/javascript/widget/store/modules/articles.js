@@ -1,5 +1,7 @@
-import Vue from 'vue';
 import { getMostReadArticles } from 'widget/api/article';
+import { getFromCache, setCache } from 'shared/helpers/cache';
+
+const CACHE_KEY_PREFIX = 'chatwoot_most_read_articles_';
 
 const state = {
   records: [],
@@ -21,9 +23,16 @@ export const actions = {
     commit('setError', false);
 
     try {
+      const cachedData = getFromCache(`${CACHE_KEY_PREFIX}${slug}_${locale}`);
+      if (cachedData) {
+        commit('setArticles', cachedData);
+        return;
+      }
+
       const { data } = await getMostReadArticles(slug, locale);
       const { payload = [] } = data;
 
+      setCache(`${CACHE_KEY_PREFIX}${slug}_${locale}`, payload);
       if (payload.length) {
         commit('setArticles', payload);
       }
@@ -37,13 +46,13 @@ export const actions = {
 
 export const mutations = {
   setArticles($state, data) {
-    Vue.set($state, 'records', data);
+    $state.records = data;
   },
   setError($state, value) {
-    Vue.set($state.uiFlags, 'isError', value);
+    $state.uiFlags.isError = value;
   },
   setIsFetching($state, value) {
-    Vue.set($state.uiFlags, 'isFetching', value);
+    $state.uiFlags.isFetching = value;
   },
 };
 

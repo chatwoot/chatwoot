@@ -22,15 +22,15 @@
     "IN_A_DAY": "Répond généralement dans la journée",
     "BACK_IN": "Nous serons de retour en ligne"
   },
-  "DAY_NAMES": [
-    "Dimanche",
-    "Lundi",
-    "Mardi",
-    "Mercredi",
-    "Jeudi",
-    "Vendredi",
-    "Samedi"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Dimanche",
+    "MONDAY": "Lundi",
+    "TUESDAY": "Mardi",
+    "WEDNESDAY": "Mercredi",
+    "THURSDAY": "Jeudi",
+    "FRIDAY": "Vendredi",
+    "SATURDAY": "Samedi"
+  },
   "START_CONVERSATION": "Démarrer la conversation",
   "END_CONVERSATION": "Clôturer la conversation",
   "CONTINUE_CONVERSATION": "Continuer la conversation",
@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Le numéro de téléphone est obligatoire",
         "DIAL_CODE_VALID_ERROR": "Veuillez sélectionner un code pays",
         "VALID_ERROR": "Veuillez saisir un numéro de téléphone valide",
-        "DROPDOWN_EMPTY": "Aucun résultat trouvé"
+        "DROPDOWN_EMPTY": "Aucun résultat trouvé",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Message",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Rechercher des émojis",
-    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche"
+    "NOT_FOUND": "Aucun émoji ne correspond à votre recherche",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Évaluer votre conversation",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "a partagé une URL"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Répondre à:"
   }
 }

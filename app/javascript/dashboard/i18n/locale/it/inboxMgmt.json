@@ -1,32 +1,31 @@
 {
   "INBOX_MGMT": {
     "HEADER": "Posta",
-    "SIDEBAR_TXT": "<p><b>Casella</b></p> <p> Quando colleghi un sito web o una pagina facebook a Chatwoot, si chiama <b>Casella</b>. Puoi avere caselle illimitate nel tuo account Chatwoot. </p><p> Clicca su <b>Aggiungi Casella</b> per collegare un sito web o una pagina Facebook. </p><p> Nella Dashboard, puoi vedere tutte le conversazioni da tutte le tue caselle di posta in un unico posto e rispondere ad esse nella scheda `Conversazioni`. </p><p> È anche possibile visualizzare le conversazioni specifiche di una casella facendo clic sul nome della casella nel riquadro sinistro del cruscotto. </p>",
+    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
+    "LEARN_MORE": "Learn more about inboxes",
+    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
+    "CLICK_TO_RECONNECT": "Click here to reconnect.",
     "LIST": {
       "404": "Non ci sono caselle allegate a questo account."
     },
-    "CREATE_FLOW": [
-      {
-        "title": "Scegli il canale",
-        "route": "Nuovo",
-        "body": "Scegli il provider che vuoi integrare con Chatwoot."
+    "CREATE_FLOW": {
+      "CHANNEL": {
+        "TITLE": "Scegli il canale",
+        "BODY": "Scegli il provider che vuoi integrare con Chatwoot."
       },
-      {
-        "title": "Crea casella",
-        "route": "Canale",
-        "body": "Autentica il tuo account e creare una casella."
+      "INBOX": {
+        "TITLE": "Crea casella",
+        "BODY": "Autentica il tuo account e creare una casella."
       },
-      {
-        "title": "Aggiungi agenti",
-        "route": "Inboxes_add_agenti",
-        "body": "Aggiungi agenti alla casella creata."
+      "AGENT": {
+        "TITLE": "Aggiungi agenti",
+        "BODY": "Aggiungi agenti alla casella creata."
       },
-      {
-        "title": "Voilà!",
-        "route": "Finitura",
-        "body": "Sei pronto per iniziare!"
+      "FINISH": {
+        "TITLE": "Voilà!",
+        "BODY": "Sei pronto per iniziare!"
       }
-    ],
+    },
     "ADD": {
       "CHANNEL_NAME": {
         "LABEL": "Nome casella",
@@ -44,7 +43,17 @@
         "INBOX_NAME": "Nome casella",
         "ADD_NAME": "Aggiungi un nome per la tua casella",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Scegli un valore"
+        "PICK_A_VALUE": "Scegli un valore",
+        "CREATE_INBOX": "Crea casella"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Per aggiungere il tuo profilo Twitter come canale, devi autenticare il tuo profilo Twitter cliccando su 'Accedi con Twitter' ",
@@ -364,12 +373,20 @@
         "TITLE": "Microsoft Email",
         "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Enter email address",
-        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "SIGN_IN": "Sign in with Microsoft",
         "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
+      },
+      "GOOGLE": {
+        "TITLE": "Google Email",
+        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
+        "SIGN_IN": "Sign in with Google",
+        "EMAIL_PLACEHOLDER": "Enter email address",
+        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
       }
     },
     "DETAILS": {
       "LOADING_FB": "Autenticazione con Facebook...",
+      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
       "ERROR_FB_AUTH": "Qualcosa è andato storto, per favore aggiorna la pagina...",
       "ERROR_FB_UNAUTHORIZED": "You're not authorized to perform this action. ",
       "ERROR_FB_UNAUTHORIZED_HELP": "Please ensure you have access to the Facebook page with full control. You can read more about Facebook roles <a href=\" https://www.facebook.com/help/187316341316631\">here</a>.",
@@ -464,7 +481,8 @@
       "PRE_CHAT_FORM": "Modulo pre-chat",
       "BUSINESS_HOURS": "Ore di lavoro",
       "WIDGET_BUILDER": "Costruttore Widget",
-      "BOT_CONFIGURATION": "Bot Configuration"
+      "BOT_CONFIGURATION": "Bot Configuration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Impostazioni",
     "FEATURES": {
@@ -485,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Abilita casella di raccolta email",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Abilita o disabilita la casella di raccolta email nella nuova conversazione",
       "AUTO_ASSIGNMENT": "Abilita assegnazione automatica",
-      "ENABLE_CSAT": "Abilita CSAT",
       "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "ENABLE_CSAT_SUB_TEXT": "Attiva/Disabilita il sondaggio CSAT (soddisfazione del cliente) dopo aver risolto una conversazione",
       "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Abilita la continuità della conversazione via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Le conversazioni continueranno via email se l'indirizzo email del contatto è disponibile.",
@@ -559,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "I visitatori devono fornire il proprio nome e indirizzo email prima di iniziare la chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Abilita CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Messaggio",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contiene",
+          "DOES_NOT_CONTAINS": "non contiene"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -733,7 +775,21 @@
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
+      "GOOGLE": "Google",
       "OTHER_PROVIDERS": "Other Providers"
+    },
+    "CHANNELS": {
+      "MESSENGER": "Messenger",
+      "WEB_WIDGET": "Website",
+      "TWITTER_PROFILE": "Twitter",
+      "TWILIO_SMS": "Twilio SMS",
+      "WHATSAPP": "WhatsApp",
+      "SMS": "SMS",
+      "EMAIL": "Email",
+      "TELEGRAM": "Telegram",
+      "LINE": "Line",
+      "API": "Canale API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

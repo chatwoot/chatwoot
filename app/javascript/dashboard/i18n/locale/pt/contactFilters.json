@@ -1,16 +1,16 @@
 {
   "CONTACTS_FILTER": {
-    "TITLE": "Filtrar Contactos",
-    "SUBTITLE": "Adicionar filtros abaixo e clicar 'Submeter' para filtrar contactos.",
+    "TITLE": "Filtrar contactos",
+    "SUBTITLE": "Adicione filtros, abaixo, e clique em 'Submeter' para filtrar contactos.",
     "EDIT_CUSTOM_SEGMENT": "Editar segmento",
-    "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualiza seu segmento.",
-    "ADD_NEW_FILTER": "Adicionar Filtro",
-    "CLEAR_ALL_FILTERS": "Limpar Todos os Filtros",
-    "FILTER_DELETE_ERROR": "Você deve ter pelo menos um filtro para guardar",
-    "SUBMIT_BUTTON_LABEL": "submeter",
-    "UPDATE_BUTTON_LABEL": "Atualizar Segmento",
-    "CANCEL_BUTTON_LABEL": "cancelar",
-    "CLEAR_BUTTON_LABEL": "Limpar Filtros",
+    "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize o seu segmento.",
+    "ADD_NEW_FILTER": "Adicionar filtro",
+    "CLEAR_ALL_FILTERS": "Limpar todos os filtros",
+    "FILTER_DELETE_ERROR": "Deve ter, pelo menos, um filtro para guardar",
+    "SUBMIT_BUTTON_LABEL": "Submeter",
+    "UPDATE_BUTTON_LABEL": "Atualizar segmento",
+    "CANCEL_BUTTON_LABEL": "Cancelar",
+    "CLEAR_BUTTON_LABEL": "Limpar filtros",
     "EMPTY_VALUE_ERROR": "Valor obrigatório",
     "SEGMENT_LABEL": "Nome do segmento",
     "SEGMENT_QUERY_LABEL": "Consulta de segmento",
@@ -30,9 +30,12 @@
       "is_lesser_than": "É menor do que",
       "days_before": "É x dias antes"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Valor obrigatório"
+    },
     "ATTRIBUTES": {
-      "NAME": "Nome:",
-      "EMAIL": "e-mail",
+      "NAME": "Nome",
+      "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de telefone",
       "IDENTIFIER": "Identificador",
       "CITY": "Cidade",
@@ -41,15 +44,15 @@
       "CUSTOM_ATTRIBUTE_TEXT": "Texto",
       "CUSTOM_ATTRIBUTE_NUMBER": "Número",
       "CUSTOM_ATTRIBUTE_LINK": "Endereço",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de Seleção",
-      "CREATED_AT": "Criado Em",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "Caixa de seleção",
+      "CREATED_AT": "Criado em",
       "LAST_ACTIVITY": "Última atividade",
       "REFERER_LINK": "Link de referência",
       "BLOCKED": "Bloqueado"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Filtros Padrão",
-      "ADDITIONAL_FILTERS": "Filtros Adicionais",
+      "STANDARD_FILTERS": "Filtros padrão",
+      "ADDITIONAL_FILTERS": "Filtros adicionais",
       "CUSTOM_ATTRIBUTES": "Atributos personalizados"
     }
   }

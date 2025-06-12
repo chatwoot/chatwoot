@@ -1,11 +1,12 @@
 <script setup>
 import OAuthChannel from './OAuthChannel.vue';
-import { defineComponent } from 'vue';
+import { defineOptions } from 'vue';
 
-defineComponent({
+defineOptions({
   name: 'GoogleOAuthChannel',
 });
 </script>
+
 <template>
   <OAuthChannel
     provider="google"

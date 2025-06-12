@@ -2,9 +2,9 @@ class Linear
   BASE_URL = 'https://api.linear.app/graphql'.freeze
   PRIORITY_LEVELS = (0..4).to_a
 
-  def initialize(api_key)
-    @api_key = api_key
-    raise ArgumentError, 'Missing Credentials' if api_key.blank?
+  def initialize(access_token)
+    @access_token = access_token
+    raise ArgumentError, 'Missing Credentials' if access_token.blank?
   end
 
   def teams
@@ -57,7 +57,8 @@ class Linear
       assigneeId: params[:assignee_id],
       priority: params[:priority],
       labelIds: params[:label_ids],
-      projectId: params[:project_id]
+      projectId: params[:project_id],
+      stateId: params[:state_id]
     }.compact
     mutation = Linear::Mutations.issue_create(variables)
     response = post({ query: mutation })
@@ -108,7 +109,7 @@ class Linear
   def post(payload)
     HTTParty.post(
       BASE_URL,
-      headers: { 'Authorization' => @api_key, 'Content-Type' => 'application/json' },
+      headers: { 'Authorization' => "Bearer #{@access_token}", 'Content-Type' => 'application/json' },
       body: payload.to_json
     )
   end

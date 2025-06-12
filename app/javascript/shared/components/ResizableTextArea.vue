@@ -1,16 +1,3 @@
-<template>
-  <textarea
-    ref="textarea"
-    :placeholder="placeholder"
-    :rows="rows"
-    :value="value"
-    @input="onInput"
-    @focus="onFocus"
-    @keyup="onKeyup"
-    @blur="onBlur"
-  />
-</template>
-
 <script>
 import {
   appendSignature,
@@ -26,7 +13,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -42,7 +29,7 @@ export default {
       type: Number,
       default: 2,
     },
-    // add this as a prop, so that we won't have to include uiSettingsMixin
+    // add this as a prop, so that we won't have to add useUISettings
     sendWithSignature: {
       type: Boolean,
       default: false,
@@ -53,14 +40,22 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'typingOn',
+    'typingOff',
+    'update:modelValue',
+    'input',
+    'blur',
+    'focus',
+  ],
   data() {
     return {
       typingIndicator: createTypingIndicator(
         () => {
-          this.$emit('typing-on');
+          this.$emit('typingOn');
         },
         () => {
-          this.$emit('typing-off');
+          this.$emit('typingOff');
         },
         TYPING_INDICATOR_IDLE_TIME
       ),
@@ -95,7 +90,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.value) {
+      if (this.modelValue) {
         this.resizeTextarea();
         this.setCursor();
       } else {
@@ -106,7 +101,7 @@ export default {
   methods: {
     resizeTextarea() {
       this.$el.style.height = 'auto';
-      if (!this.value) {
+      if (!this.modelValue) {
         this.$el.style.height = `${this.minHeight}rem`;
       } else {
         this.$el.style.height = `${this.$el.scrollHeight}px`;
@@ -117,9 +112,10 @@ export default {
     // is supposed to be added, else we remove it.
     toggleSignatureInEditor(signatureEnabled) {
       const valueWithSignature = signatureEnabled
-        ? appendSignature(this.value, this.cleanedSignature)
-        : removeSignature(this.value, this.cleanedSignature);
+        ? appendSignature(this.modelValue, this.cleanedSignature)
+        : removeSignature(this.modelValue, this.cleanedSignature);
 
+      this.$emit('update:modelValue', valueWithSignature);
       this.$emit('input', valueWithSignature);
 
       this.$nextTick(() => {
@@ -129,7 +125,7 @@ export default {
     },
     setCursor() {
       const bodyWithoutSignature = removeSignature(
-        this.value,
+        this.modelValue,
         this.cleanedSignature
       );
 
@@ -143,6 +139,7 @@ export default {
       }
     },
     onInput(event) {
+      this.$emit('update:modelValue', event.target.value);
       this.$emit('input', event.target.value);
       this.resizeTextarea();
     },
@@ -162,3 +159,16 @@ export default {
   },
 };
 </script>
+
+<template>
+  <textarea
+    ref="textarea"
+    :placeholder="placeholder"
+    :rows="rows"
+    :value="modelValue"
+    @input="onInput"
+    @focus="onFocus"
+    @keyup="onKeyup"
+    @blur="onBlur"
+  />
+</template>

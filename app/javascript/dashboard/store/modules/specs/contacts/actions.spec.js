@@ -21,9 +21,9 @@ const filterQueryData = {
   ],
 };
 
-const commit = jest.fn();
+const commit = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
@@ -66,6 +66,30 @@ describe('#actions', () => {
       expect(commit.mock.calls).toEqual([
         [types.SET_CONTACT_UI_FLAG, { isFetchingItem: true }],
         [types.SET_CONTACT_UI_FLAG, { isFetchingItem: false }],
+      ]);
+    });
+  });
+
+  describe('#active', () => {
+    it('sends correct mutations if API is success', async () => {
+      axios.get.mockResolvedValue({
+        data: { payload: contactList, meta: { count: 100, current_page: 1 } },
+      });
+      await actions.active({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetching: true }],
+        [types.CLEAR_CONTACTS],
+        [types.SET_CONTACTS, contactList],
+        [types.SET_CONTACT_META, { count: 100, current_page: 1 }],
+        [types.SET_CONTACT_UI_FLAG, { isFetching: false }],
+      ]);
+    });
+    it('sends correct mutations if API is error', async () => {
+      axios.get.mockRejectedValue({ message: 'Incorrect header' });
+      await actions.active({ commit });
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CONTACT_UI_FLAG, { isFetching: true }],
+        [types.SET_CONTACT_UI_FLAG, { isFetching: false }],
       ]);
     });
   });

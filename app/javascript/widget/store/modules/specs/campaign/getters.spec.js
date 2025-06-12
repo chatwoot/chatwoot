@@ -1,7 +1,8 @@
 import { getters } from '../../campaign';
 import { campaigns } from './data';
-jest.mock('widget/store/index.js');
-
+vi.mock('widget/store/index.js', () => ({
+  default: {},
+}));
 describe('#getters', () => {
   it('getCampaigns', () => {
     const state = {

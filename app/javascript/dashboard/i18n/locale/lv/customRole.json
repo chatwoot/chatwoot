@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Pielāgotas lomas",
+    "LEARN_MORE": "Uzzināt vairāk par pielāgotām lomām",
+    "DESCRIPTION": "Pielāgotas lomas ir lomas, kuras izveido konta īpašnieks vai administrators. Šīs lomas var piešķirt aģentiem, lai definētu viņu piekļuvi un atļaujas kontā. Pielāgotas lomas var izveidot ar īpašām atļaujām un piekļuves līmeņiem, lai tie atbilstu organizācijas prasībām.",
+    "HEADER_BTN_TXT": "Pievienot pielāgotu lomu",
+    "LOADING": "Notiek pielāgotu lomu iegūšana...",
+    "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu.",
+    "PAYWALL": {
+      "TITLE": "Pārejiet uz maksas versiju, lai izveidotu pielāgotas lomas",
+      "AVAILABLE_ON": "Pielāgotas lomas līdzeklis ir pieejams tikai biznesa un uzņēmuma plānos.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai iegūtu piekļuvi pie papildu funkcijām. Piemēram: komandas pārvaldībai, automatizācijai, pielāgotiem atribūtiem, un citām.",
+      "UPGRADE_NOW": "Pāriet uz maksas versiju tagad",
+      "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "Pielāgotu lomu funkcija ir pieejama tikai maksas plānos.",
+      "UPGRADE_PROMPT": "Pārejiet uz maksas versiju, lai piekļūtu papildu funkcijām. Piemēram: audita žurnāliem, aģentu kapacitātei, un citām.",
+      "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
+    },
+    "LIST": {
+      "404": "Šajā kontā nav pieejamas pielāgotas lomas.",
+      "TITLE": "Pārvaldīt pielāgotas lomas",
+      "DESC": "Pielāgotas lomas ir lomas, kuras izveido konta īpašnieks vai administrators. Šīs lomas var piešķirt aģentiem, lai definētu viņu piekļuvi un atļaujas kontā. Pielāgotas lomas var izveidot ar īpašām atļaujām un piekļuves līmeņiem, lai tie atbilstu organizācijas prasībām.",
+      "TABLE_HEADER": {
+        "NAME": "Nosaukums",
+        "DESCRIPTION": "Apraksts",
+        "PERMISSIONS": "Atļaujas",
+        "ACTIONS": "Darbības"
+      }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Pārvaldīt visas sarunas",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Pārvaldīt nepiešķirtās sarunas un tiem piešķirtās sarunas",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Pārvaldīt iesaistītās sarunas un tiem piešķirtās sarunas",
+      "CONTACT_MANAGE": "Pārvaldīt kontaktpersonas",
+      "REPORT_MANAGE": "Pārvaldīt atskaites",
+      "KNOWLEDGE_BASE_MANAGE": "Pārvaldīt zināšanu bāzi"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nosaukums",
+        "PLACEHOLDER": "Lūdzu, ievadiet vārdu.",
+        "ERROR": "Nepieciešams nosaukums."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Apraksts",
+        "PLACEHOLDER": "Lūdzu, ievadiet aprakstu.",
+        "ERROR": "Nepieciešams apraksts."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Atļaujas",
+        "ERROR": "Nepieciešamas atļaujas."
+      },
+      "CANCEL_BUTTON_TEXT": "Atcelt",
+      "API": {
+        "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
+      }
+    },
+    "ADD": {
+      "TITLE": "Pievienot pielāgotu lomu",
+      "DESC": " Pielāgotas lomas ļauj izveidot lomas ar īpašām atļaujām un piekļuves līmeņiem, kas atbilst organizācijas prasībām.",
+      "SUBMIT": "Iesniegt",
+      "API": {
+        "SUCCESS_MESSAGE": "Pielāgota loma ir veiksmīgi pievienota."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Rediģēt",
+      "TITLE": "Rediģēt pielāgotu lomu",
+      "DESC": " Pielāgotas lomas ļauj izveidot lomas ar īpašām atļaujām un piekļuves līmeņiem, kas atbilst organizācijas prasībām.",
+      "SUBMIT": "Atjaunināt",
+      "API": {
+        "SUCCESS_MESSAGE": "Pielāgota loma ir veiksmīgi atjaunināta."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Dzēst",
+      "API": {
+        "SUCCESS_MESSAGE": "Pielāgota loma ir veiksmīgi izdzēsta.",
+        "ERROR_MESSAGE": "Nevarēja izveidot savienojumu ar Woot serveri. Lūdzu mēģiniet vēlreiz."
+      },
+      "CONFIRM": {
+        "TITLE": "Apstiprināt dzēšanu",
+        "MESSAGE": "Vai vēlaties izdzēst ",
+        "YES": "Jā, dzēst ",
+        "NO": "Nē, paturēt "
+      }
+    }
+  }
+}

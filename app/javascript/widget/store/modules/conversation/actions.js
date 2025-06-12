@@ -43,7 +43,8 @@ export const actions = {
     try {
       const { data } = await sendMessageAPI(content, replyTo);
 
-      commit('deleteMessage', message.id);
+      // [VITE] Don't delete this manually, since `pushMessageToConversation` does the replacement for us anyway
+      // commit('deleteMessage', message.id);
       commit('pushMessageToConversation', { ...data, status: 'sent' });
     } catch (error) {
       commit('pushMessageToConversation', { ...message, status: 'failed' });

@@ -1,21 +1,7 @@
-<template>
-  <transition-group
-    name="toast-fade"
-    tag="div"
-    class="fixed left-0 right-0 mx-auto overflow-hidden text-center top-10 z-50 max-w-[40rem]"
-  >
-    <snackbar-item
-      v-for="snackbarAlertMessage in snackbarAlertMessages"
-      :key="snackbarAlertMessage.key"
-      :message="snackbarAlertMessage.message"
-      :action="snackbarAlertMessage.action"
-    />
-  </transition-group>
-</template>
-
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import SnackbarItem from './Item.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: { SnackbarItem },
@@ -33,13 +19,13 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
+    emitter.on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
-  beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
+  unmounted() {
+    emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage(message, action) {
+    onNewToastMessage({ message, action }) {
       this.snackbarAlertMessages.push({
         key: new Date().getTime(),
         message,
@@ -52,3 +38,18 @@ export default {
   },
 };
 </script>
+
+<template>
+  <transition-group
+    name="toast-fade"
+    tag="div"
+    class="fixed left-0 right-0 mx-auto overflow-hidden text-center top-10 z-50 max-w-[40rem]"
+  >
+    <SnackbarItem
+      v-for="snackbarAlertMessage in snackbarAlertMessages"
+      :key="snackbarAlertMessage.key"
+      :message="snackbarAlertMessage.message"
+      :action="snackbarAlertMessage.action"
+    />
+  </transition-group>
+</template>

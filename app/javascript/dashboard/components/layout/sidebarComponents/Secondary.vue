@@ -1,35 +1,13 @@
-<template>
-  <div
-    v-if="hasSecondaryMenu"
-    class="h-full overflow-auto w-48 flex flex-col bg-white dark:bg-slate-900 border-r dark:border-slate-800/50 rtl:border-r-0 rtl:border-l border-slate-50 text-sm px-2 pb-8"
-  >
-    <account-context @toggle-accounts="toggleAccountModal" />
-    <transition-group
-      name="menu-list"
-      tag="ul"
-      class="pt-2 list-none ml-0 mb-0"
-    >
-      <secondary-nav-item
-        v-for="menuItem in accessibleMenuItems"
-        :key="menuItem.toState"
-        :menu-item="menuItem"
-      />
-      <secondary-nav-item
-        v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
-        :key="menuItem.key"
-        :menu-item="menuItem"
-        @add-label="showAddLabelPopup"
-      />
-    </transition-group>
-  </div>
-</template>
 <script>
 import { frontendURL } from '../../../helper/URLHelper';
 import SecondaryNavItem from './SecondaryNavItem.vue';
 import AccountContext from './AccountContext.vue';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../featureFlags';
-import { hasPermissions } from '../../../helper/permissionsHelper';
+import {
+  getUserPermissions,
+  hasPermissions,
+} from '../../../helper/permissionsHelper';
 import { routesWithPermissions } from '../../../routes';
 
 export default {
@@ -71,20 +49,21 @@ export default {
       default: false,
     },
   },
+  emits: ['addLabel', 'toggleAccounts'],
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
-    hasSecondaryMenu() {
-      return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
-    },
     contactCustomViews() {
       return this.customViews.filter(view => view.filter_type === 'contact');
     },
     accessibleMenuItems() {
       const menuItemsFilteredByPermissions = this.menuConfig.menuItems.filter(
         menuItem => {
-          const { permissions: userPermissions = [] } = this.currentUser;
+          const userPermissions = getUserPermissions(
+            this.currentUser,
+            this.accountId
+          );
           return hasPermissions(
             routesWithPermissions[menuItem.toStateName],
             userPermissions
@@ -155,7 +134,7 @@ export default {
         icon: 'number-symbol',
         label: 'TAGGED_WITH',
         hasSubMenu: true,
-        key: 'label',
+        key: 'labels',
         newLink: this.showNewLink(FEATURE_FLAGS.TEAM_MANAGEMENT),
         newLinkTag: 'NEW_LABEL',
         toState: frontendURL(`accounts/${this.accountId}/settings/labels`),
@@ -168,7 +147,7 @@ export default {
           color: label.color,
           truncateLabel: true,
           toState: frontendURL(
-            `accounts/${this.accountId}/labels/${label.title}/contacts`
+            `accounts/${this.accountId}/contacts/labels/${label.title}`
           ),
         })),
       };
@@ -215,7 +194,7 @@ export default {
         icon: 'folder',
         label: 'CUSTOM_VIEWS_SEGMENTS',
         hasSubMenu: true,
-        key: 'custom_view',
+        key: 'segments',
         children: this.customViews
           .filter(view => view.filter_type === 'contact')
           .map(view => ({
@@ -223,7 +202,7 @@ export default {
             label: view.name,
             truncateLabel: true,
             toState: frontendURL(
-              `accounts/${this.accountId}/contacts/custom_view/${view.id}`
+              `accounts/${this.accountId}/contacts/segments/${view.id}`
             ),
           })),
       };
@@ -248,10 +227,10 @@ export default {
   },
   methods: {
     showAddLabelPopup() {
-      this.$emit('add-label');
+      this.$emit('addLabel');
     },
     toggleAccountModal() {
-      this.$emit('toggle-accounts');
+      this.$emit('toggleAccounts');
     },
     showNewLink(featureFlag) {
       return this.isFeatureEnabledonAccount(this.accountId, featureFlag);
@@ -259,3 +238,28 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col w-48 h-full px-2 pb-8 overflow-auto text-sm bg-white border-r dark:bg-slate-900 dark:border-slate-800/50 rtl:border-r-0 rtl:border-l border-slate-50"
+  >
+    <AccountContext @toggle-accounts="toggleAccountModal" />
+    <transition-group
+      name="menu-list"
+      tag="ul"
+      class="pt-2 list-none reset-base"
+    >
+      <SecondaryNavItem
+        v-for="menuItem in accessibleMenuItems"
+        :key="menuItem.toState"
+        :menu-item="menuItem"
+      />
+      <SecondaryNavItem
+        v-for="menuItem in additionalSecondaryMenuItems[menuConfig.parentNav]"
+        :key="menuItem.key"
+        :menu-item="menuItem"
+        @add-label="showAddLabelPopup"
+      />
+    </transition-group>
+  </div>
+</template>

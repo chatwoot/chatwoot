@@ -18,12 +18,20 @@ const primaryMenuItems = accountId => [
     toStateName: 'home',
   },
   {
+    icon: 'captain',
+    key: 'captain',
+    label: 'CAPTAIN',
+    featureFlag: FEATURE_FLAGS.CAPTAIN,
+    toState: frontendURL(`accounts/${accountId}/captain/documents`),
+    toStateName: 'captain',
+  },
+  {
     icon: 'book-contacts',
     key: 'contacts',
     label: 'CONTACTS',
     featureFlag: FEATURE_FLAGS.CRM,
     toState: frontendURL(`accounts/${accountId}/contacts`),
-    toStateName: 'contacts_dashboard',
+    toStateName: 'contacts_dashboard_index',
   },
   {
     icon: 'arrow-trending-lines',
@@ -39,7 +47,7 @@ const primaryMenuItems = accountId => [
     label: 'CAMPAIGNS',
     featureFlag: FEATURE_FLAGS.CAMPAIGNS,
     toState: frontendURL(`accounts/${accountId}/campaigns`),
-    toStateName: 'ongoing_campaigns',
+    toStateName: 'campaigns_ongoing_index',
   },
   {
     icon: 'library',
@@ -47,8 +55,8 @@ const primaryMenuItems = accountId => [
     label: 'HELP_CENTER.TITLE',
     featureFlag: FEATURE_FLAGS.HELP_CENTER,
     alwaysVisibleOnChatwootInstances: true,
-    toState: frontendURL(`accounts/${accountId}/portals`),
-    toStateName: 'default_portal_articles',
+    toState: frontendURL(`accounts/${accountId}/portals/portal_articles_index`),
+    toStateName: 'portals_index',
   },
   {
     icon: 'settings',

@@ -1,58 +1,14 @@
-<template>
-  <div
-    class="flex flex-col justify-between"
-    :class="shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
-  >
-    <filter-button
-      right-icon="chevron-down"
-      :button-text="linkIssueTitle"
-      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl border border-slate-50 bg-slate-25 dark:border-slate-600 dark:bg-slate-900 hover:bg-slate-50 dark:hover:bg-slate-900/50"
-      @click="toggleDropdown"
-    >
-      <template v-if="shouldShowDropdown" #dropdown>
-        <filter-list-dropdown
-          v-if="issues"
-          v-on-clickaway="toggleDropdown"
-          :show-clear-filter="false"
-          :list-items="issues"
-          :active-filter-id="selectedOption.id"
-          :is-loading="isFetching"
-          :input-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.SEARCH')"
-          :loading-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING')"
-          enable-search
-          class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
-          @on-search="onSearch"
-          @click="onSelectIssue"
-        />
-      </template>
-    </filter-button>
-    <div class="flex items-center justify-end w-full gap-2 mt-2">
-      <woot-button
-        class="px-4 rounded-xl button clear outline-woot-200/50 outline"
-        @click.prevent="onClose"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL') }}
-      </woot-button>
-      <woot-button
-        :is-disabled="isSubmitDisabled"
-        class="px-4 rounded-xl"
-        :is-loading="isLinking"
-        @click.prevent="linkIssue"
-      >
-        {{ $t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE') }}
-      </woot-button>
-    </div>
-  </div>
-</template>
-
 <script setup>
 import { ref, computed } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
+import { useTrack } from 'dashboard/composables';
 import { useAlert } from 'dashboard/composables';
 import LinearAPI from 'dashboard/api/integrations/linear';
 import FilterButton from 'dashboard/components/ui/Dropdown/DropdownButton.vue';
 import FilterListDropdown from 'dashboard/components/ui/Dropdown/DropdownList.vue';
 import { parseLinearAPIErrorResponse } from 'dashboard/store/utils/api';
+import { LINEAR_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   conversationId: {
@@ -65,7 +21,7 @@ const props = defineProps({
   },
 });
 
-const emits = defineEmits(['close']);
+const emit = defineEmits(['close']);
 
 const { t } = useI18n();
 const issues = ref([]);
@@ -96,7 +52,7 @@ const onSelectIssue = item => {
 };
 
 const onClose = () => {
-  emits('close');
+  emit('close');
 };
 
 const onSearch = async value => {
@@ -109,6 +65,8 @@ const onSearch = async value => {
     issues.value = response.data.map(issue => ({
       id: issue.id,
       name: `${issue.identifier} ${issue.title}`,
+      icon: 'status',
+      iconColor: issue.state.color,
     }));
   } catch (error) {
     const errorMessage = parseLinearAPIErrorResponse(
@@ -130,6 +88,7 @@ const linkIssue = async () => {
     searchQuery.value = '';
     issues.value = [];
     onClose();
+    useTrack(LINEAR_EVENTS.LINK_ISSUE);
   } catch (error) {
     const errorMessage = parseLinearAPIErrorResponse(
       error,
@@ -141,3 +100,51 @@ const linkIssue = async () => {
   }
 };
 </script>
+
+<template>
+  <div
+    class="flex flex-col justify-between"
+    :class="shouldShowDropdown ? 'h-[256px]' : 'gap-2'"
+  >
+    <FilterButton
+      trailing-icon
+      icon="i-lucide-chevron-down"
+      :button-text="linkIssueTitle"
+      class="justify-between w-full h-[2.5rem] py-1.5 px-3 rounded-xl bg-n-alpha-black2 outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6"
+      @click="toggleDropdown"
+    >
+      <template v-if="shouldShowDropdown" #dropdown>
+        <FilterListDropdown
+          v-if="issues"
+          v-on-clickaway="toggleDropdown"
+          :show-clear-filter="false"
+          :list-items="issues"
+          :active-filter-id="selectedOption.id"
+          :is-loading="isFetching"
+          :input-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.SEARCH')"
+          :loading-placeholder="$t('INTEGRATION_SETTINGS.LINEAR.LINK.LOADING')"
+          enable-search
+          class="left-0 flex flex-col w-full overflow-y-auto h-fit !max-h-[160px] md:left-auto md:right-0 top-10"
+          @on-search="onSearch"
+          @select="onSelectIssue"
+        />
+      </template>
+    </FilterButton>
+    <div class="flex items-center justify-end w-full gap-2 mt-2">
+      <Button
+        faded
+        slate
+        type="reset"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.ADD_OR_LINK.CANCEL')"
+        @click.prevent="onClose"
+      />
+      <Button
+        type="submit"
+        :label="$t('INTEGRATION_SETTINGS.LINEAR.LINK.TITLE')"
+        :disabled="isSubmitDisabled"
+        :is-loading="isLinking"
+        @click.prevent="linkIssue"
+      />
+    </div>
+  </div>
+</template>

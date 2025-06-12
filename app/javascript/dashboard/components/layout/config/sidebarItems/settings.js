@@ -39,6 +39,7 @@ const settings = accountId => ({
     'settings_teams_list',
     'settings_teams_new',
     'sla_list',
+    'custom_roles_list',
   ],
   menuItems: [
     {
@@ -126,7 +127,6 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      globalConfigFlag: 'csmlEditorHost',
       toState: frontendURL(`accounts/${accountId}/settings/agent-bots`),
       toStateName: 'agent_bots',
       featureFlag: FEATURE_FLAGS.AGENT_BOTS,
@@ -163,17 +163,6 @@ const settings = accountId => ({
         permissions: ['administrator'],
       },
       toState: frontendURL(`accounts/${accountId}/settings/integrations`),
-      toStateName: 'settings_integrations',
-      featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-    },
-    {
-      icon: 'star-emphasis',
-      label: 'APPLICATIONS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/applications`),
       toStateName: 'settings_applications',
       featureFlag: FEATURE_FLAGS.INTEGRATIONS,
     },
@@ -184,10 +173,21 @@ const settings = accountId => ({
       meta: {
         permissions: ['administrator'],
       },
-      toState: frontendURL(`accounts/${accountId}/settings/audit-log/list`),
+      toState: frontendURL(`accounts/${accountId}/settings/audit-logs/list`),
       toStateName: 'auditlogs_list',
       isEnterpriseOnly: true,
       featureFlag: FEATURE_FLAGS.AUDIT_LOGS,
+    },
+    {
+      icon: 'scan-person',
+      label: 'CUSTOM_ROLES',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['administrator'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/custom-roles/list`),
+      toStateName: 'custom_roles_list',
+      isEnterpriseOnly: true,
       beta: true,
     },
     {

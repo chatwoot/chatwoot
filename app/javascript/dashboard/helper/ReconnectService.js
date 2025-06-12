@@ -9,6 +9,11 @@ import {
 
 const MAX_DISCONNECT_SECONDS = 10800;
 
+// The disconnect delay threshold is added to account for delays in identifying
+// disconnections (for example, the websocket disconnection takes up to 3 seconds)
+// while fetching the latest updated conversations or messages.
+const DISCONNECT_DELAY_THRESHOLD = 15;
+
 class ReconnectService {
   constructor(store, router) {
     this.store = store;
@@ -47,7 +52,8 @@ class ReconnectService {
   fetchConversations = async () => {
     await this.store.dispatch('updateChatListFilters', {
       page: null,
-      updatedWithin: this.getSecondsSinceDisconnect(),
+      updatedWithin:
+        this.getSecondsSinceDisconnect() + DISCONNECT_DELAY_THRESHOLD,
     });
     await this.store.dispatch('fetchAllConversations');
     // Reset the updatedWithin in the store chat list filter after fetching conversations when the user is reconnected
@@ -79,7 +85,8 @@ class ReconnectService {
   };
 
   fetchConversationMessagesOnReconnect = async () => {
-    const { conversation_id: conversationId } = this.router.currentRoute.params;
+    const { conversation_id: conversationId } =
+      this.router.currentRoute.value.params;
     if (conversationId) {
       await this.store.dispatch('syncActiveConversationMessages', {
         conversationId: Number(conversationId),
@@ -103,7 +110,7 @@ class ReconnectService {
   };
 
   handleRouteSpecificFetch = async () => {
-    const currentRoute = this.router.currentRoute.name;
+    const currentRoute = this.router.currentRoute.value.name;
     if (isAConversationRoute(currentRoute, true)) {
       await this.fetchConversationsOnReconnect();
       await this.fetchConversationMessagesOnReconnect();
@@ -117,7 +124,8 @@ class ReconnectService {
   };
 
   setConversationLastMessageId = async () => {
-    const { conversation_id: conversationId } = this.router.currentRoute.params;
+    const { conversation_id: conversationId } =
+      this.router.currentRoute.value.params;
     if (conversationId) {
       await this.store.dispatch('setConversationLastMessageId', {
         conversationId: Number(conversationId),

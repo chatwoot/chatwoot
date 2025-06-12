@@ -25,7 +25,7 @@ class OauthCallbackController < ApplicationController
   end
 
   def find_or_create_inbox
-    channel_email = Channel::Email.find_by(email: users_data['email'], account: account)
+    channel_email = find_channel_by_email
     # we need this value to know where to redirect on sucessful processing of the callback
     channel_exists = channel_email.present?
 
@@ -37,6 +37,10 @@ class OauthCallbackController < ApplicationController
     channel_email.reauthorized!
 
     [channel_email.inbox, channel_exists]
+  end
+
+  def find_channel_by_email
+    Channel::Email.find_by(email: users_data['email'], account: account)
   end
 
   def update_channel(channel_email)
@@ -67,6 +71,7 @@ class OauthCallbackController < ApplicationController
   def create_channel_with_inbox
     ActiveRecord::Base.transaction do
       channel_email = Channel::Email.create!(email: users_data['email'], account: account)
+
       account.inboxes.create!(
         account: account,
         channel: channel_email,
