@@ -93,14 +93,14 @@ class Whatsapp::Providers::BaseService
   def create_button_payload(message)
     buttons = create_buttons(message.content_attributes['items'])
     json_hash = { 'buttons' => buttons }
-    create_payload('button', message.content, JSON.generate(json_hash))
+    create_payload('button', message.outgoing_content, JSON.generate(json_hash))
   end
 
   def create_list_payload(message)
     rows = create_rows(message.content_attributes['items'])
     section1 = { 'rows' => rows }
     sections = [section1]
-    json_hash = { :button => 'Choose an item', 'sections' => sections }
-    create_payload('list', message.content, JSON.generate(json_hash))
+    json_hash = { :button => I18n.t('conversations.messages.whatsapp.list_button_label'), 'sections' => sections }
+    create_payload('list', message.outgoing_content, JSON.generate(json_hash))
   end
 end

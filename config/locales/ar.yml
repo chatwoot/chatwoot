@@ -172,6 +172,8 @@ ar:
       sla:
         added: '%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}'
         removed: '%{user_name} أزال سياسة مستوى الخدمة %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} كتم صوت المحادثة'
       unmuted: '%{user_name} قام بإلغاء كتم المحادثة'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ ar:
       made_with: صنع بـ
     header:
       go_to_homepage: الموقع الإلكتروني
+      visit_website: Visit website
       appearance:
         system: النظام
         light: فاتح

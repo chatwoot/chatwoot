@@ -172,6 +172,8 @@ ru:
       sla:
         added: '%{user_name} добавил политику SLA %{sla_name}'
         removed: '%{user_name} удалил политику SLA %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} заглушил(а) этот разговор'
       unmuted: '%{user_name} включил(а) уведомления для разговора'
       auto_resolution_message: 'Разговор закрывается, поскольку он был неактивен в течение длительного времени. Пожалуйста, начните новый разговор, если потребуется дополнительная помощь.'
@@ -272,6 +274,7 @@ ru:
       made_with: Сделано с
     header:
       go_to_homepage: Сайт
+      visit_website: Visit website
       appearance:
         system: Система
         light: Светлая
