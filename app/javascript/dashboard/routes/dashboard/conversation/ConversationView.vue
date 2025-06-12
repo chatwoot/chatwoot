@@ -8,7 +8,6 @@ import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
 import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
@@ -73,7 +72,6 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
@@ -97,12 +95,6 @@ export default {
 
       const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
       return isContactSidebarOpen;
-    },
-    showPopOverSearch() {
-      return !this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHATWOOT_V4
-      );
     },
   },
   watch: {
