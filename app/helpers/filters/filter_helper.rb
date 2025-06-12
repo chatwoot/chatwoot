@@ -92,8 +92,13 @@ module Filters::FilterHelper
 
   def conversation_status_values(values)
     return Conversation.statuses.values if values.include?('all')
-
-    values.map { |x| Conversation.statuses[x.to_sym] }
+  
+    values.map do |x|
+      id_value = x.is_a?(Hash) ? x['id'] : x
+      next if id_value.is_a?(Array)
+  
+      Conversation.statuses[id_value.to_sym]
+    end.compact
   end
 
   def conversation_priority_values(values)

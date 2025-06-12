@@ -87,7 +87,10 @@ const conversationListRef = ref(null);
 const conversationDynamicScroller = ref(null);
 
 const activeAssigneeTab = ref(wootConstants.ASSIGNEE_TYPE.ME);
-const activeStatus = ref(wootConstants.STATUS_TYPE.OPEN);
+const activeStatus = ref([
+  wootConstants.STATUS_TYPE.OPEN,
+  wootConstants.STATUS_TYPE.PENDING,
+]);
 const activeSortBy = ref(wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC);
 const showAdvancedFilters = ref(false);
 // chatsOnView is to store the chats that are currently visible on the screen,
@@ -361,7 +364,10 @@ const uniqueInboxes = computed(() => {
 function setFiltersFromUISettings() {
   const { conversations_filter_by: filterBy = {} } = uiSettings.value;
   const { status, order_by: orderBy } = filterBy;
-  activeStatus.value = status || wootConstants.STATUS_TYPE.OPEN;
+  activeStatus.value = status || [
+    wootConstants.STATUS_TYPE.OPEN,
+    wootConstants.STATUS_TYPE.PENDING,
+  ];
   activeSortBy.value = Object.values(wootConstants.SORT_BY_TYPE).includes(
     orderBy
   )
@@ -618,7 +624,7 @@ function updateAssigneeTab(selectedTab) {
 
 function onBasicFilterChange(value, type) {
   if (type === 'status') {
-    activeStatus.value = value;
+    activeStatus.value = Array.isArray(value) ? value : [value];
   } else {
     activeSortBy.value = value;
   }

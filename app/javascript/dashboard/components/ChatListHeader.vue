@@ -4,6 +4,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import wootConstants from 'dashboard/constants/globals';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { useI18n } from 'vue-i18n';
 
 import ConversationBasicFilter from './widgets/conversation/ConversationBasicFilter.vue';
 import SwitchLayout from 'dashboard/routes/dashboard/conversation/search/SwitchLayout.vue';
@@ -23,7 +24,7 @@ const props = defineProps({
     required: true,
   },
   activeStatus: {
-    type: String,
+    type: [String, Array],
     required: true,
   },
   isOnExpandedLayout: {
@@ -41,6 +42,7 @@ const emit = defineEmits([
 ]);
 
 const { uiSettings, updateUISettings } = useUISettings();
+const { t } = useI18n();
 
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
@@ -76,6 +78,15 @@ const toggleConversationLayout = () => {
     previously_used_conversation_display_type: newViewType,
   });
 };
+
+const statusText = computed(() => {
+  if (Array.isArray(props.activeStatus)) {
+    return props.activeStatus
+      .map(status => t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${status}.TEXT`))
+      .join(' , ');
+  }
+  return t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${props.activeStatus}.TEXT`);
+});
 </script>
 
 <template>
@@ -98,7 +109,7 @@ const toggleConversationLayout = () => {
         v-if="!hasAppliedFiltersOrActiveFolders"
         class="px-2 py-1 my-0.5 mx-1 rounded-md capitalize bg-n-slate-3 text-xxs text-n-slate-12 shrink-0"
       >
-        {{ $t(`CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.${activeStatus}.TEXT`) }}
+        {{ statusText }}
       </span>
     </div>
     <div class="flex items-center gap-1">

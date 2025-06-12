@@ -1,4 +1,14 @@
 const setArrayValues = item => {
+  if (item.attribute_key === 'status') {
+    const flattenedValues = item.values.flat(Infinity);
+    const extractedValues = flattenedValues.map(val => {
+      if (typeof val === 'object' && val.id) {
+        return val.id;
+      }
+      return val;
+    });
+    return [...new Set(extractedValues)];
+  }
   return item.values[0]?.id ? item.values.map(val => val.id) : item.values;
 };
 

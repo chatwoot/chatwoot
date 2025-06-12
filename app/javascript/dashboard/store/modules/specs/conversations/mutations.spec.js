@@ -909,11 +909,14 @@ describe('#mutations', () => {
   describe('#CHANGE_CHAT_STATUS_FILTER', () => {
     it('should update chat status filter', () => {
       const state = {
-        chatStatusFilter: 'open',
+        chatStatusFilter: ['open', 'pending'],
       };
 
-      mutations[types.CHANGE_CHAT_STATUS_FILTER](state, 'resolved');
-      expect(state.chatStatusFilter).toBe('resolved');
+      mutations[types.CHANGE_CHAT_STATUS_FILTER](state, ['resolved']);
+      expect(state.chatStatusFilter).toEqual(['resolved']);
+
+      mutations[types.CHANGE_CHAT_STATUS_FILTER](state, ['open', 'pending']);
+      expect(state.chatStatusFilter).toEqual(['open', 'pending']);
     });
   });
 

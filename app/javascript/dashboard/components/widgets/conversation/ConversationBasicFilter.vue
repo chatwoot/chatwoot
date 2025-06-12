@@ -56,6 +56,11 @@ export default {
       chatSortFilter: 'getChatSortFilter',
     }),
     chatStatus() {
+      if (Array.isArray(this.chatStatusFilter)) {
+        return this.chatStatusFilter.length > 0
+          ? this.chatStatusFilter[0]
+          : wootConstants.STATUS_TYPE.OPEN;
+      }
       return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
     },
     sortFilter() {
