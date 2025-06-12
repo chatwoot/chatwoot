@@ -172,6 +172,8 @@ uk:
       sla:
         added: '%{user_name} додав політику SLA %{sla_name}'
         removed: '%{user_name} видалив політику SLA %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} включив безвучний режим'
       unmuted: '%{user_name} виключив безвучний режим'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -272,6 +274,7 @@ uk:
       made_with: Зроблено з
     header:
       go_to_homepage: Вебсайт
+      visit_website: Visit website
       appearance:
         system: Системна
         light: Світла
