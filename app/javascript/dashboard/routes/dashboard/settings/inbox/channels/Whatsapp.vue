@@ -118,7 +118,7 @@ const shouldShowCloudWhatsapp = provider => {
 
     <!-- Configuration View -->
     <div v-else-if="showConfiguration">
-      <div class="p-8 border bg-n-solid-2 border-n-weak rounded-2xl">
+      <div class="py-5 px-6 border bg-n-solid-2 border-n-weak rounded-2xl">
         <!-- Provider Configuration Forms -->
         <WhatsappEmbeddedSignup
           v-if="shouldShowEmbeddedSignup(selectedProvider)"

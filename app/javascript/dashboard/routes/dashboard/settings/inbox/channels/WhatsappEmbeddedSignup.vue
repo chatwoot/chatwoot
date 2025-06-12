@@ -31,40 +31,40 @@ onBeforeUnmount(() => {
     <LoadingState v-if="showLoader" :message="processingMessage" />
 
     <div v-else>
-      <div class="flex flex-col items-start mb-4 text-left">
-        <div class="flex justify-start mb-5">
+      <div class="flex flex-col items-start mb-6 text-start">
+        <div class="flex justify-start mb-6">
           <div class="flex items-center justify-center w-12 h-12 rounded-lg">
             <img
               :src="whatsappIcon"
               :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD')"
-              class="object-contain w-10 h-10"
+              class="object-contain w-11 h-11"
             />
           </div>
         </div>
 
-        <h3 class="mb-2 text-lg font-medium text-slate-12">
+        <h3 class="mb-2 text-base font-medium text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.TITLE') }}
         </h3>
-        <p class="text-sm leading-relaxed text-slate-12">
+        <p class="text-sm leading-[24px] text-n-slate-12">
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.DESC') }}
         </p>
       </div>
 
-      <div class="flex flex-col gap-2 mb-8">
+      <div class="flex flex-col gap-2 mb-6">
         <div
           v-for="benefit in benefits"
           :key="benefit.key"
-          class="flex items-center gap-2 text-sm text-slate-11"
+          class="flex items-center gap-2 text-sm text-n-slate-11"
         >
-          <Icon icon="i-lucide-check" class="text-slate-11" />
+          <Icon icon="i-lucide-check" class="text-n-slate-11 size-4" />
           {{ benefit.text }}
         </div>
       </div>
 
-      <div class="flex">
+      <div class="flex mt-4">
         <NextButton
           :disabled="!fbSdkLoaded || isAuthenticating"
-          :loading="isAuthenticating"
+          :is-loading="isAuthenticating"
           faded
           slate
           class="w-full"
@@ -74,10 +74,7 @@ onBeforeUnmount(() => {
         </NextButton>
       </div>
 
-      <p
-        v-if="!fbSdkLoaded"
-        class="mt-3 text-xs text-left text-slate-500 dark:text-slate-400"
-      >
+      <p v-if="!fbSdkLoaded" class="mt-3 text-xs text-start text-n-slate-11">
         {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LOADING_SDK') }}
       </p>
     </div>
