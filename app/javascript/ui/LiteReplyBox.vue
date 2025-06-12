@@ -2,7 +2,7 @@
 import { useTemplateRef } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-// import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
+import keyboardEventListenerMixins from 'shared/mixins/keyboardEventListenerMixins';
 
 import ReplyBottomPanel from 'dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue';
 import AttachmentPreview from 'dashboard/components/widgets/AttachmentsPreview.vue';
@@ -21,7 +21,7 @@ export default {
     ReplyBottomPanel,
     WootMessageEditor,
   },
-  mixins: [inboxMixin, fileUploadMixin],
+  mixins: [inboxMixin, fileUploadMixin, keyboardEventListenerMixins],
   setup() {
     const replyEditor = useTemplateRef('replyEditor');
 
@@ -365,6 +365,14 @@ export default {
         });
       }
       return messagePayload;
+    },
+    getKeyboardEvents() {
+      return {
+        '$mod+Enter': {
+          action: this.onSendReply,
+          allowOnFocusedInput: true,
+        },
+      };
     },
   },
 };
