@@ -17,6 +17,7 @@ export const ChatwootProvider = ({
   pubsubToken,
   conversationId,
   disableUpload,
+  disableEditor,
   children,
 }) => {
   const isInitialized = useRef(false);
@@ -36,6 +37,7 @@ export const ChatwootProvider = ({
     userToken,
     accountId,
     conversationId,
+    disableEditor: disableEditor || false,
     disableUpload: disableUpload || false,
     websocketURL: websocketURL,
     pubsubToken: pubsubToken,
@@ -54,6 +56,7 @@ export const ChatwootProvider = ({
     window.__PUBSUB_TOKEN__ = config.pubsubToken;
     window.__WOOT_CONVERSATION_ID__ = config.conversationId;
     window.__EDITOR_DISABLE_UPLOAD__ = config.disableUpload;
+    window.__DISABLE_EDITOR__ = config.disableEditor;
     window.__WOOT_ISOLATED_SHELL__ = true;
     /* eslint-enable no-underscore-dangle */
 
