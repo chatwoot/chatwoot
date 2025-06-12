@@ -103,6 +103,6 @@ class Crm::Leadsquared::SetupService
   end
 
   def brand_name
-    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'].presence || 'Chatwoot'
+    ::GlobalConfig.get('BRAND_NAME')['BRAND_NAME'].presence || 'VegaVision'
   end
 end
