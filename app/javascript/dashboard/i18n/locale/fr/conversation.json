@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Résoudre",
       "REOPEN_ACTION": "Ré-ouvrir",
       "OPEN_ACTION": "Ouvert",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Plus",
       "CLOSE": "Fermer",
       "DETAILS": "détails",
@@ -117,6 +118,11 @@
         "FAILED": "Impossible de modifier la priorité. Veuillez réessayer."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Supprimer"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marquer comme en attente",
       "RESOLVED": "Marquer comme résolu",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Assigner une étiquette",
       "AGENTS_LOADING": "Chargement des agents...",
       "ASSIGN_TEAM": "Assigner une équipe",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assignée à \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Étiquette attribuée avec succès",
     "ASSIGN_LABEL_FAILED": "Échec de l'attribution de l'étiquette",
     "CHANGE_TEAM": "L'équipe de conversation a été modifiée",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Le fichier dépasse la limite de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} pour les pièces jointes",
     "MESSAGE_ERROR": "Impossible d'envoyer ce message, veuillez réessayer plus tard",
     "SENT_BY": "Envoyé par:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Attributs du contact",
       "PREVIOUS_CONVERSATION": "Conversations précédentes",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

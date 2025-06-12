@@ -175,4 +175,65 @@ describe Integrations::Dialogflow::ProcessorService do
         .to change(hook, :status).from('enabled').to('disabled')
     end
   end
+
+  describe 'region configuration' do
+    let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
+
+    context 'when region is global or not specified' do
+      it 'uses global endpoint and session path' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+
+        expect(processor.send(:dialogflow_endpoint)).to eq('dialogflow.googleapis.com')
+        expect(processor.send(:build_session_path, 'test-session')).to eq('projects/test-project/agent/sessions/test-session')
+      end
+    end
+
+    context 'when region is specified' do
+      it 'uses regional endpoint and session path' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+
+        expect(processor.send(:dialogflow_endpoint)).to eq('europe-west1-dialogflow.googleapis.com')
+        expect(processor.send(:build_session_path, 'test-session')).to eq('projects/test-project/locations/europe-west1/agent/sessions/test-session')
+      end
+    end
+
+    it 'configures client with correct endpoint' do
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
+      config = OpenStruct.new
+      expect(Google::Cloud::Dialogflow::V2::Sessions::Client).to receive(:configure).and_yield(config)
+
+      processor.send(:configure_dialogflow_client_defaults)
+      expect(config.endpoint).to eq('europe-west1-dialogflow.googleapis.com')
+    end
+
+    context 'when calling detect_intent' do
+      let(:mock_client) { instance_double(Google::Cloud::Dialogflow::V2::Sessions::Client) }
+
+      before do
+        allow(Google::Cloud::Dialogflow::V2::Sessions::Client).to receive(:new).and_return(mock_client)
+      end
+
+      it 'uses global session path when region is not specified' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+
+        expect(mock_client).to receive(:detect_intent).with(
+          session: 'projects/test-project/agent/sessions/test-session',
+          query_input: { text: { text: 'Hello', language_code: 'en-US' } }
+        )
+
+        processor.send(:detect_intent, 'test-session', 'Hello')
+      end
+
+      it 'uses regional session path when region is specified' do
+        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+
+        expect(mock_client).to receive(:detect_intent).with(
+          session: 'projects/test-project/locations/europe-west1/agent/sessions/test-session',
+          query_input: { text: { text: 'Hello', language_code: 'en-US' } }
+        )
+
+        processor.send(:detect_intent, 'test-session', 'Hello')
+      end
+    end
+  end
 end

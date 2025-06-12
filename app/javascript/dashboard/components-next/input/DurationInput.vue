@@ -1,7 +1,8 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, watch } from 'vue';
 import Input from './Input.vue';
 import { useI18n } from 'vue-i18n';
+import { DURATION_UNITS } from './constants';
 
 const props = defineProps({
   min: { type: Number, default: 0 },
@@ -11,35 +12,49 @@ const props = defineProps({
 
 const { t } = useI18n();
 const duration = defineModel('modelValue', { type: Number, default: null });
+const unit = defineModel('unit', {
+  type: String,
+  default: DURATION_UNITS.MINUTES,
+  validate(value) {
+    return Object.values(DURATION_UNITS).includes(value);
+  },
+});
 
-const UNIT_TYPES = {
-  MINUTES: 'minutes',
-  HOURS: 'hours',
-  DAYS: 'days',
+const convertToMinutes = newValue => {
+  if (unit.value === DURATION_UNITS.MINUTES) {
+    return Math.floor(newValue);
+  }
+  if (unit.value === DURATION_UNITS.HOURS) {
+    return Math.floor(newValue) * 60;
+  }
+  return Math.floor(newValue) * 24 * 60;
 };
-const unit = ref(UNIT_TYPES.MINUTES);
 
 const transformedValue = computed({
   get() {
-    if (unit.value === UNIT_TYPES.MINUTES) return duration.value;
-    if (unit.value === UNIT_TYPES.HOURS) return Math.floor(duration.value / 60);
-    if (unit.value === UNIT_TYPES.DAYS)
+    if (unit.value === DURATION_UNITS.MINUTES) return duration.value;
+    if (unit.value === DURATION_UNITS.HOURS)
+      return Math.floor(duration.value / 60);
+    if (unit.value === DURATION_UNITS.DAYS)
       return Math.floor(duration.value / 24 / 60);
 
     return 0;
   },
   set(newValue) {
-    let minuteValue;
-    if (unit.value === UNIT_TYPES.MINUTES) {
-      minuteValue = Math.floor(newValue);
-    } else if (unit.value === UNIT_TYPES.HOURS) {
-      minuteValue = Math.floor(newValue * 60);
-    } else if (unit.value === UNIT_TYPES.DAYS) {
-      minuteValue = Math.floor(newValue * 24 * 60);
-    }
+    let minuteValue = convertToMinutes(newValue);
 
     duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
   },
+});
+
+// when unit is changed set the nearest value to that unit
+// so if the minute is set to 900, and the user changes the unit to "days"
+// the transformed value will show 0, but the real value will still be 900
+// this might create some confusion, especially when saving
+// this watcher fixes it by rounding the duration basically, to the nearest unit value
+watch(unit, () => {
+  let adjustedValue = convertToMinutes(transformedValue.value);
+  duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
 });
 </script>
 
@@ -57,10 +72,12 @@ const transformedValue = computed({
     :disabled="disabled"
     class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
   >
-    <option :value="UNIT_TYPES.MINUTES">
+    <option :value="DURATION_UNITS.MINUTES">
       {{ t('DURATION_INPUT.MINUTES') }}
     </option>
-    <option :value="UNIT_TYPES.HOURS">{{ t('DURATION_INPUT.HOURS') }}</option>
-    <option :value="UNIT_TYPES.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
+    <option :value="DURATION_UNITS.HOURS">
+      {{ t('DURATION_INPUT.HOURS') }}
+    </option>
+    <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
   </select>
 </template>
