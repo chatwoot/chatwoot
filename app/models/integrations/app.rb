@@ -1,6 +1,5 @@
 class Integrations::App
   include Linear::IntegrationHelper
-  include Github::IntegrationHelper
   attr_accessor :params
 
   def initialize(params)
@@ -19,6 +18,10 @@ class Integrations::App
     I18n.t("integration_apps.#{params[:i18n_key]}.description")
   end
 
+  def short_description
+    I18n.t("integration_apps.#{params[:i18n_key]}.short_description")
+  end
+
   def logo
     params[:logo]
   end
@@ -30,18 +33,14 @@ class Integrations::App
   # There is no way to get the account_id from the linear callback
   # so we are using the generate_linear_token method to generate a token and encode it in the state parameter
   def encode_state
-    case params[:id]
-    when 'linear'
-      generate_linear_token(Current.account.id)
-    when 'github'
-      generate_github_token(Current.account.id)
-    end
+    generate_linear_token(Current.account.id)
   end
 
   def action
     case params[:id]
     when 'slack'
-      "#{params[:action]}&client_id=#{ENV.fetch('SLACK_CLIENT_ID', nil)}&redirect_uri=#{self.class.slack_integration_url}"
+      client_id = GlobalConfigService.load('SLACK_CLIENT_ID', nil)
+      "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
     when 'github'
@@ -54,13 +53,15 @@ class Integrations::App
   def active?(account)
     case params[:id]
     when 'slack'
-      ENV['SLACK_CLIENT_SECRET'].present?
+      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'shopify'
       account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
+    when 'leadsquared'
+      account.feature_enabled?('crm_integration')
     when 'github'
-      account.feature_enabled?('github_integration') && GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present?
+      GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present?
     else
       true
     end
@@ -79,12 +80,11 @@ class Integrations::App
   end
 
   def build_github_action
-    app_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
+    client_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
     [
-      "#{params[:action]}?response_type=code",
-      "client_id=#{app_id}",
+      'https://github.com/login/oauth/authorize?response_type=code',
+      "client_id=#{client_id}",
       "redirect_uri=#{self.class.github_integration_url}",
-      "state=#{encode_state}",
       'scope=repo'
     ].join('&')
   end

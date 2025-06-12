@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "שבלול",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "נדרש שבלול"
+        "ERROR": "נדרש שבלול",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {

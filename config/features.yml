@@ -146,7 +146,7 @@
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
-  enabled: false
+  enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: true
@@ -166,6 +166,9 @@
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
+- name: crm_integration
+  display_name: CRM Integration
+  enabled: false
 - name: github_integration
   display_name: Github Integration
   enabled: false

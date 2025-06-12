@@ -175,4 +175,67 @@ RSpec.describe 'Api::V1::Accounts::Captain::Assistants', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/{account.id}/captain/assistants/{id}/playground' do
+    let(:assistant) { create(:captain_assistant, account: account) }
+    let(:valid_params) do
+      {
+        message_content: 'Hello assistant',
+        message_history: [
+          { role: 'user', content: 'Previous message' },
+          { role: 'assistant', content: 'Previous response' }
+        ]
+      }
+    end
+
+    context 'when it is an un-authenticated user' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params,
+             as: :json
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'generates a response' do
+        chat_service = instance_double(Captain::Llm::AssistantChatService)
+        allow(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant).and_return(chat_service)
+        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: valid_params,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(chat_service).to have_received(:generate_response).with(
+          valid_params[:message_content],
+          valid_params[:message_history]
+        )
+        expect(json_response[:content]).to eq('Assistant response')
+      end
+    end
+
+    context 'when message_history is not provided' do
+      it 'uses empty array as default' do
+        params_without_history = { message_content: 'Hello assistant' }
+        chat_service = instance_double(Captain::Llm::AssistantChatService)
+        allow(Captain::Llm::AssistantChatService).to receive(:new).with(assistant: assistant).and_return(chat_service)
+        allow(chat_service).to receive(:generate_response).and_return({ content: 'Assistant response' })
+
+        post "/api/v1/accounts/#{account.id}/captain/assistants/#{assistant.id}/playground",
+             params: params_without_history,
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(chat_service).to have_received(:generate_response).with(
+          params_without_history[:message_content],
+          []
+        )
+      end
+    end
+  end
 end
