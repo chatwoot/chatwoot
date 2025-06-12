@@ -12,24 +12,20 @@ class AutoResolveIdleConversationsJob < ApplicationJob
   MESSAGE_STATUS_SENT = 0
 
   def perform
-    Rails.logger.info('[AutoResolveIdleConversationsJob] Starting job to process idle conversations')
     process_conversations(
       scope: conversations_to_resolve,
       action: :resolve,
       message: RESOLUTION_MESSAGE,
       update_attrs: { status: STATUS_OPEN, assignee_id: nil, is_reminded: false }
     )
-    Rails.logger.info('[AutoResolveIdleConversationsJob] Finished processing idle conversations')
   end
 
   private
 
   def process_conversations(scope:, action:, message:, update_attrs:)
     scope.find_each do |conversation|
-      Rails.logger.info("[AutoResolveIdleConversationsJob] Processing conversation ##{conversation.id} for #{action}")
       create_message(conversation, message)
       conversation.update!(update_attrs)
-      Rails.logger.info("[AutoResolveIdleConversationsJob] Successfully processed conversation ##{conversation.id} for #{action}")
     rescue StandardError => e
       log_error(action.to_s.capitalize, conversation, e)
     end
@@ -62,7 +58,6 @@ class AutoResolveIdleConversationsJob < ApplicationJob
       conversation_id: conversation.id,
       message_type: MESSAGE_TYPE_TEMPLATE,
       content_type: CONTENT_TYPE_TEXT,
-      # sender_type: SENDER_TYPE_SYSTEM,
       sender_id: conversation.assignee_id,
       status: MESSAGE_STATUS_SENT
     )

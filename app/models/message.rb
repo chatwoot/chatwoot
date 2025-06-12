@@ -268,6 +268,7 @@ class Message < ApplicationRecord
   def execute_after_create_commit_callbacks
     # rails issue with order of active record callbacks being executed https://github.com/rails/rails/issues/20911
     reopen_conversation
+    reminder_off?
     notify_via_mail
     set_conversation_activity
     dispatch_create_events
@@ -349,6 +350,12 @@ class Message < ApplicationRecord
 
   def reopened_by_contact?
     incoming? && !private? && Current.user.class != sender.class && sender.instance_of?(Contact)
+  end
+
+  def reminder_off?
+    return unless sender.instance_of?(Contact) && conversation.is_reminded == true
+
+    conversation.update!(is_reminded: false)
   end
 
   def execute_message_template_hooks
