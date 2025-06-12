@@ -35,27 +35,34 @@ function generatePackageJson(packageDir) {
   // Read version from main package.json
   const mainPackage = JSON.parse(fs.readFileSync('package.json', 'utf8'));
 
-  // Get current git commit hash for development builds
-  function getVersionSuffix() {
+  // Generate a clean epoch-based version
+  function generateTimestampVersion() {
     try {
+      const epochSeconds = Math.floor(Date.now() / 1000);
+
+      // Get git hash for reference
       const gitHash = execSync('git rev-parse --short HEAD', {
         encoding: 'utf8',
         stdio: 'pipe',
       }).trim();
 
-      return `dev.${gitHash}`;
+      // Parse base version and increment patch
+      const [major, minor, patch] = mainPackage.version.split('.').map(Number);
+      const newPatch = patch + 1;
+
+      return `${major}.${minor}.${newPatch}-${epochSeconds}.${gitHash}`;
     } catch (error) {
-      console.warn('   ⚠️  Could not get git hash, using beta.1');
-      return 'beta.1';
+      console.warn(
+        '   ⚠️  Could not generate timestamp version, using incremented patch'
+      );
+      const [major, minor, patch] = mainPackage.version.split('.').map(Number);
+      return `${major}.${minor}.${patch + 1}`;
     }
   }
 
-  const versionSuffix = getVersionSuffix();
-  const finalVersion = `${mainPackage.version}-${versionSuffix}`;
+  const finalVersion = generateTimestampVersion();
 
-  console.log(
-    `   📋 Package version: ${finalVersion} (suffix: ${versionSuffix})`
-  );
+  console.log(`   📋 Package version: ${finalVersion}`);
 
   const packageJson = {
     name: '@chatwoot/agent-react-components',
