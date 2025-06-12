@@ -4,6 +4,7 @@ class ConversationReplyMailer < ApplicationMailer
   attr_reader :large_attachments
 
   include ConversationReplyMailerHelper
+  include ReferencesHeaderBuilder
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
 
@@ -167,6 +168,10 @@ class ConversationReplyMailer < ApplicationMailer
     end
 
     nil
+  end
+
+  def references_header
+    build_references_header(@conversation, in_reply_to_email)
   end
 
   def cc_bcc_emails

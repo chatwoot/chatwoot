@@ -6,7 +6,8 @@ module ConversationReplyMailerHelper
       reply_to: email_reply_to,
       subject: mail_subject,
       message_id: custom_message_id,
-      in_reply_to: in_reply_to_email
+      in_reply_to: in_reply_to_email,
+      references: references_header
     }
 
     if cc_bcc_enabled
