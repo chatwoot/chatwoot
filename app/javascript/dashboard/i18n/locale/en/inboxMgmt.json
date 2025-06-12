@@ -288,9 +288,12 @@
           "LOADING_SDK": "Loading Facebook SDK...",
           "CANCELLED": "WhatsApp Signup was cancelled",
           "SUCCESS_TITLE": "WhatsApp Business Account Connected!",
+          "SUCCESS_TITLE_BUSINESS_APP": "WhatsApp Business App Connected!",
           "WAITING_FOR_AUTH": "Waiting for authentication...",
           "INVALID_BUSINESS_DATA": "Invalid business data received from Facebook. Please try again.",
           "SIGNUP_ERROR": "Signup error occurred",
+          "PROCESSING_BUSINESS_APP": "Connecting your existing WhatsApp Business App...",
+          "PROCESSING_NEW_NUMBER": "Setting up your new WhatsApp Business number...",
           "AUTH_NOT_COMPLETED": "Authentication not completed. Please restart the process.",
           "SUCCESS_FALLBACK": "WhatsApp Business Account has been successfully configured"
         },

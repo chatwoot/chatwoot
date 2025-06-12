@@ -57,7 +57,8 @@ class Whatsapp::EmbeddedController < ApplicationController
       code: params[:code],
       business_id: params[:business_id],
       waba_id: params[:waba_id],
-      phone_number_id: params[:phone_number_id]
+      phone_number_id: params[:phone_number_id],
+      is_business_app_onboarding: params[:is_business_app_onboarding]
     )
 
     service.perform

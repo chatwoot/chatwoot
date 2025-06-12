@@ -122,9 +122,17 @@ export function useWhatsappEmbeddedSignup() {
     }
 
     isProcessing.value = true;
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING'
-    );
+
+    // Show different processing messages based on the signup type
+    if (businessDataParam.is_business_app_onboarding) {
+      processingMessage.value = t(
+        'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING_BUSINESS_APP'
+      );
+    } else {
+      processingMessage.value = t(
+        'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.PROCESSING_NEW_NUMBER'
+      );
+    }
 
     try {
       // Send both auth code and business info together (synchronous flow)
@@ -144,6 +152,8 @@ export function useWhatsappEmbeddedSignup() {
           business_id: businessDataParam.business_id,
           waba_id: businessDataParam.waba_id,
           phone_number_id: businessDataParam.phone_number_id,
+          is_business_app_onboarding:
+            businessDataParam.is_business_app_onboarding || false,
         }),
       });
 
@@ -174,7 +184,10 @@ export function useWhatsappEmbeddedSignup() {
   // Message handling
   const handleEmbeddedSignupData = async data => {
     // Handle different embedded signup events per Facebook documentation
-    if (data.event === 'FINISH') {
+    if (
+      data.event === 'FINISH' ||
+      data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING'
+    ) {
       // Facebook might send business data in different structures
       let businessDataLocal = data.data;
 
@@ -194,6 +207,9 @@ export function useWhatsappEmbeddedSignup() {
             businessDataLocal.phone_number_id ||
             businessDataLocal.phoneNumberId ||
             businessDataLocal.phone_id,
+          // Indicate if this is an existing WhatsApp Business App onboarding (coexistence)
+          is_business_app_onboarding:
+            data.event === 'FINISH_WHATSAPP_BUSINESS_APP_ONBOARDING',
         };
 
         // Store business data
@@ -312,7 +328,7 @@ export function useWhatsappEmbeddedSignup() {
       override_default_response_type: true,
       extras: {
         setup: {},
-        featureType: '', // Leave empty for default flow
+        featureType: 'whatsapp_business_app_onboarding', // Enable WhatsApp Business App coexistence
         sessionInfoVersion: '3',
       },
     });

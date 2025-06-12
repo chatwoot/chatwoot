@@ -1,12 +1,13 @@
 class Whatsapp::EmbeddedSignupService
   include Rails.application.routes.url_helpers
 
-  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:)
+  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:, is_business_app_onboarding: false)
     @account = account
     @code = code
     @business_id = business_id
     @waba_id = waba_id
     @phone_number_id = phone_number_id
+    @is_business_app_onboarding = is_business_app_onboarding
   end
 
   def perform
@@ -27,7 +28,12 @@ class Whatsapp::EmbeddedSignupService
 
     waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
 
-    create_or_update_channel(waba_info, phone_info, access_token)
+    channel = create_or_update_channel(waba_info, phone_info, access_token)
+
+    # Enable sync features for WhatsApp Business App coexistence
+    enable_sync_features(channel, access_token) if channel
+
+    channel
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Signup failed: #{e.message}")
     raise e
@@ -90,7 +96,11 @@ class Whatsapp::EmbeddedSignupService
       raise "Channel already exists: #{existing_channel.phone_number}"
     else
       channel = create_new_channel(channel_attributes, phone_info)
-      register_phone_number(phone_info[:phone_number_id], access_token)
+
+      # Skip phone number registration for WhatsApp Business App onboarding (coexistence)
+      # as the number is already registered in the WhatsApp Business App
+      register_phone_number(phone_info[:phone_number_id], access_token) unless @is_business_app_onboarding
+
       override_waba_webhook(waba_info[:waba_id], channel, access_token)
       channel
     end
@@ -200,7 +210,9 @@ class Whatsapp::EmbeddedSignupService
         },
         body: {
           override_callback_uri: callback_url,
-          verify_token: verify_token
+          verify_token: verify_token,
+          # Enable sync features for WhatsApp Business App coexistence
+          webhook_fields: %w[messages smb_app_state_sync smb_message_echoes]
         }.to_json
       }
     )
@@ -209,5 +221,62 @@ class Whatsapp::EmbeddedSignupService
 
     Rails.logger.error("[WHATSAPP] Webhook override failed: #{response.body}")
     raise "Webhook override failed: #{response.body}"
+  end
+
+  # Enable sync features for WhatsApp Business App coexistence
+  def enable_sync_features(channel, access_token)
+    # Initialize contact sync for existing WhatsApp Business App contacts
+    sync_contacts(channel, access_token)
+
+    # Request conversation history sync (if business allows)
+    request_conversation_history_sync(channel, access_token)
+  end
+
+  def sync_contacts(channel, access_token)
+    Rails.logger.info("[WHATSAPP] Initiating contact sync for channel #{channel.id}")
+
+    # Make API call to sync contacts from WhatsApp Business App
+    response = HTTParty.post(
+      "https://graph.facebook.com/#{whatsapp_api_version}/#{channel.provider_config['phone_number_id']}/request_sync",
+      {
+        headers: {
+          'Authorization' => "Bearer #{access_token}",
+          'Content-Type' => 'application/json'
+        },
+        body: {
+          sync_type: 'contact'
+        }.to_json
+      }
+    )
+
+    if response.success?
+      Rails.logger.info("[WHATSAPP] Contact sync initiated successfully for channel #{channel.id}")
+    else
+      Rails.logger.warn("[WHATSAPP] Contact sync failed for channel #{channel.id}: #{response.body}")
+    end
+  end
+
+  def request_conversation_history_sync(channel, access_token)
+    Rails.logger.info("[WHATSAPP] Initiating conversation history sync for channel #{channel.id}")
+
+    # Make API call to sync conversation history from WhatsApp Business App
+    response = HTTParty.post(
+      "https://graph.facebook.com/#{whatsapp_api_version}/#{channel.provider_config['phone_number_id']}/request_sync",
+      {
+        headers: {
+          'Authorization' => "Bearer #{access_token}",
+          'Content-Type' => 'application/json'
+        },
+        body: {
+          sync_type: 'history'
+        }.to_json
+      }
+    )
+
+    if response.success?
+      Rails.logger.info("[WHATSAPP] Conversation history sync initiated successfully for channel #{channel.id}")
+    else
+      Rails.logger.warn("[WHATSAPP] Conversation history sync failed for channel #{channel.id}: #{response.body}")
+    end
   end
 end
