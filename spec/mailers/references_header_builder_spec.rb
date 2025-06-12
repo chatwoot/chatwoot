@@ -75,9 +75,7 @@ RSpec.describe ReferencesHeaderBuilder do
 
         # First line has no leading space, continuation lines do
         expect(lines.first).not_to start_with(' ')
-        lines[1..].each do |line|
-          expect(line).to start_with(' ')
-        end
+        expect(lines[1..]).to all(start_with(' '))
       end
     end
   end
