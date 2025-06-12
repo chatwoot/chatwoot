@@ -5,7 +5,7 @@ import {
 } from 'dashboard/routes/dashboard/settings/automation/operators';
 import {
   DEFAULT_MESSAGE_CREATED_CONDITION,
-  DEFAULT_CONVERSATION_OPENED_CONDITION,
+  DEFAULT_CONVERSATION_CONDITION,
   DEFAULT_OTHER_CONDITION,
   DEFAULT_ACTIONS,
   MESSAGE_CONDITION_VALUES,
@@ -168,19 +168,8 @@ export const getDefaultConditions = eventName => {
   if (eventName === 'message_created') {
     return DEFAULT_MESSAGE_CREATED_CONDITION;
   }
-  if (eventName === 'conversation_opened') {
-    return DEFAULT_CONVERSATION_OPENED_CONDITION;
-  }
-  if (eventName === 'conversation_resolved') {
-    return [
-      {
-        attribute_key: 'browser_language',
-        filter_operator: 'equal_to',
-        values: '',
-        query_operator: 'and',
-        custom_attribute_type: '',
-      },
-    ];
+  if (eventName === 'conversation_opened' || eventName === 'conversation_resolved') {
+    return DEFAULT_CONVERSATION_CONDITION;
   }
   return DEFAULT_OTHER_CONDITION;
 };
