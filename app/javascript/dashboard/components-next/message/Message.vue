@@ -315,6 +315,9 @@ const componentToRender = computed(() => {
 });
 
 const shouldShowContextMenu = computed(() => {
+  // eslint-disable-next-line no-underscore-dangle
+  if (window.__WOOT_ISOLATED_SHELL__) return false;
+
   return !props.contentAttributes?.isUnsupported;
 });
 
