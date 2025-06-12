@@ -32,6 +32,7 @@ class Enterprise::Billing::HandleStripeEventService
         stripe_product_id: subscription['plan']['product'],
         stripe_subscription_id: subscription['id'],
         plan_name: plan,
+        onboarding_step: 'true',
         subscription_status: subscription['status'],
         subscription_ends_on: Time.zone.at(subscription['current_period_end'])
       }
