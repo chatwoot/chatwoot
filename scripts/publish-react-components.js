@@ -3,33 +3,43 @@ const path = require('path');
 const { execSync } = require('child_process');
 
 /* eslint-disable no-console */
-console.log('🚀 Building Chatwoot React Components for NPM...');
+
+// Check for copy-only mode
+const isCopyMode = process.argv.includes('--copyMode');
+
+if (isCopyMode) {
+  console.log('📋 Copy mode: Copying built files to dist/react-components...');
+} else {
+  console.log('🚀 Building Chatwoot React Components for NPM...');
+}
 
 async function publishReactComponents() {
   try {
-    // Step 1: Clean previous builds
-    console.log('📦 Cleaning previous builds...');
-    if (fs.existsSync('dist')) {
-      fs.rmSync('dist', { recursive: true, force: true });
-    }
-
-    // Clean previous React component builds
-    const reactFiles = [
-      'public/packs/react-components.es.js',
-      'public/packs/react-components.cjs.js',
-      'public/packs/style.css',
-    ];
-
-    reactFiles.forEach(file => {
-      if (fs.existsSync(file)) {
-        fs.unlinkSync(file);
-        console.log(`   🗑️  Removed ${file}`);
+    if (!isCopyMode) {
+      // Step 1: Clean previous builds
+      console.log('📦 Cleaning previous builds...');
+      if (fs.existsSync('dist')) {
+        fs.rmSync('dist', { recursive: true, force: true });
       }
-    });
 
-    // Step 2: Build the React components library
-    console.log('🔨 Building React components...');
-    execSync('pnpm build:react', { stdio: 'inherit' });
+      // Clean previous React component builds
+      const reactFiles = [
+        'public/packs/react-components.es.js',
+        'public/packs/react-components.cjs.js',
+        'public/packs/style.css',
+      ];
+
+      reactFiles.forEach(file => {
+        if (fs.existsSync(file)) {
+          fs.unlinkSync(file);
+          console.log(`   🗑️  Removed ${file}`);
+        }
+      });
+
+      // Step 2: Build the React components library
+      console.log('🔨 Building React components...');
+      execSync('pnpm build:react', { stdio: 'inherit' });
+    }
 
     // Step 3: Create package directory
     console.log('📁 Creating package directory...');
