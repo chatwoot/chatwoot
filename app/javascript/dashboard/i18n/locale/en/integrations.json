@@ -328,6 +328,28 @@
         "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
         "BUTTON_TEXT": "Connect Linear workspace"
       }
+    },
+    "GITHUB": {
+      "TITLE": "GitHub Integration",
+      "DESCRIPTION": "Connect your GitHub repositories to create issues directly from customer conversations. This integration helps you track bugs, feature requests, and development tasks seamlessly.",
+      "NOT_CONFIGURED": {
+        "TITLE": "GitHub Integration Not Configured",
+        "DESCRIPTION": "Contact your administrator to configure GitHub OAuth settings."
+      },
+      "CONNECT": {
+        "TITLE": "Connect GitHub",
+        "DESCRIPTION": "Connect your GitHub account to start creating issues from conversations.",
+        "BUTTON": "Connect GitHub"
+      },
+      "CONNECTED": {
+        "TITLE": "GitHub Connected",
+        "DESCRIPTION": "Your GitHub account is successfully connected. You can now create issues from conversations."
+      },
+      "DISCONNECT": {
+        "BUTTON": "Disconnect",
+        "SUCCESS": "GitHub integration disconnected successfully",
+        "ERROR": "Failed to disconnect GitHub integration"
+      }
     }
   },
   "CAPTAIN": {

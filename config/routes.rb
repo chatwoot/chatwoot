@@ -265,6 +265,9 @@ Rails.application.routes.draw do
                 get :linked_issues
               end
             end
+            namespace :integrations do
+              resource :github, only: [:show]
+            end
           end
           resources :working_hours, only: [:update]
 
@@ -493,6 +496,7 @@ Rails.application.routes.draw do
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
+  get 'github/callback', to: 'github/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'

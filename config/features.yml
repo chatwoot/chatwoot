@@ -169,3 +169,6 @@
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+- name: github_integration
+  display_name: Github Integration
+  enabled: false

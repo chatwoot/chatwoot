@@ -278,3 +278,10 @@ leadsquared:
       'conversation_activity_score',
       'transcript_activity_score',
     ]
+
+github:
+  id: github
+  logo: github.png
+  i18n_key: github
+  hook_type: account
+  allow_multiple_hooks: false

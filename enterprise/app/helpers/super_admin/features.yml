@@ -103,3 +103,9 @@ shopify:
   enabled: true
   icon: 'icon-shopify'
   config_key: 'shopify'
+github:
+  name: 'GitHub'
+  description: 'Configuration for setting up GitHub Integration'
+  enabled: true
+  icon: 'icon-github'
+  config_key: 'github'

@@ -43,6 +43,8 @@ class Integrations::App
       "#{params[:action]}&client_id=#{client_id}&redirect_uri=#{self.class.slack_integration_url}"
     when 'linear'
       build_linear_action
+    when 'github'
+      build_github_action
     else
       params[:action]
     end
@@ -58,6 +60,8 @@ class Integrations::App
       account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
     when 'leadsquared'
       account.feature_enabled?('crm_integration')
+    when 'github'
+      GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present?
     else
       true
     end
@@ -72,6 +76,16 @@ class Integrations::App
       "state=#{encode_state}",
       'scope=read,write',
       'prompt=consent'
+    ].join('&')
+  end
+
+  def build_github_action
+    client_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
+    [
+      'https://github.com/login/oauth/authorize?response_type=code',
+      "client_id=#{client_id}",
+      "redirect_uri=#{self.class.github_integration_url}",
+      'scope=repo'
     ].join('&')
   end
 
@@ -96,6 +110,10 @@ class Integrations::App
 
   def self.linear_integration_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/linear/callback"
+  end
+
+  def self.github_integration_url
+    "#{ENV.fetch('FRONTEND_URL', nil)}/github/callback"
   end
 
   class << self

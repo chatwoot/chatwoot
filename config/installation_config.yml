@@ -341,3 +341,17 @@
   value: 'v22.0'
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
+
+## ------ Configs added for GitHub ------ ##
+- name: GITHUB_CLIENT_ID
+  display_title: 'GitHub Client ID'
+  value:
+  locked: false
+  description: 'GitHub OAuth app client ID'
+- name: GITHUB_CLIENT_SECRET
+  display_title: 'GitHub Client Secret'
+  value:
+  locked: false
+  description: 'GitHub OAuth app client secret'
+  type: secret
+## ------ End of Configs added for GitHub ------ ##
