@@ -54,6 +54,7 @@ transaction_timeout_job:
   queue: scheduled_jobs
 
 reset_subscription_usage:
-  cron: "0 17 * * *"  # setiap tanggal 1 pukul 00:00
+  # cron: "0 17 * * *" # At 17:00
+  cron: "0 */2 * * *" # At minute 0 past every 2nd hour
   class: "ResetSubscriptionUsageJob"
   queue: scheduled_jobs
