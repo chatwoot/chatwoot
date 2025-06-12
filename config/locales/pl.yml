@@ -91,6 +91,8 @@ pl:
       conversations_count: Ilość rozmów
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Liczba rozwiązań
     team_csv:
       team_name: Nazwa zespołu
       conversations_count: Liczba rozmów
@@ -138,6 +140,8 @@ pl:
       instagram_story_content: '%{story_sender} wspomniał o Tobie w historii: '
       instagram_deleted_story_content: Ta historia już nie jest dostępna.
       deleted: Ta wiadomość została usunięta
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
