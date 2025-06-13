@@ -26,6 +26,10 @@ export default {
       type: String,
       default: '',
     },
+    darkLogoSource: {
+      type: String,
+      default: '',
+    },
     installationName: {
       type: String,
       default: '',
@@ -78,8 +82,15 @@ export default {
         :source="logoSource"
         :name="installationName"
         :account-id="accountId"
-        class="m-4 mb-10"
+        class="m-4 mb-10 dark:hidden"
       />
+      <Logo
+        :source="darkLogoSource"
+        :name="installationName"
+        :account-id="accountId"
+        class="m-4 mb-10 hidden dark:block"
+      />
+
       <PrimaryNavItem
         v-for="menuItem in menuItems"
         :id="menuItem.key"
@@ -90,6 +101,7 @@ export default {
         :is-child-menu-active="menuItem.key === activeMenuItem"
       />
     </div>
+
     <div class="flex flex-col items-center justify-end pb-6">
       <a
         v-if="!isACustomBrandedInstance"

@@ -83,7 +83,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
             },
             {
               'action_name': :send_message,
-              'action_params': ['Welcome to the chatwoot platform.']
+              'action_params': ['Welcome to the VegaVision platform.']
             },
             {
               'action_name': :resolve_conversation
@@ -143,7 +143,7 @@ RSpec.describe 'Api::V1::Accounts::MacrosController', type: :request do
         params[:actions] = [
           {
             'action_name': :send_message,
-            'action_params': ['Welcome to the chatwoot platform.']
+            'action_params': ['Welcome to the VegaVision platform.']
           },
           {
             'action_name': :send_attachment,
