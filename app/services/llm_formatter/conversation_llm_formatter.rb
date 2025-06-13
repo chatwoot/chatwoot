@@ -22,7 +22,7 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
     return "No messages in this conversation\n" if @record.messages.empty?
 
     message_text = ''
-    @record.messages.chat.order(created_at: :asc).each do |message|
+    @record.messages.where.not(message_type: :activity).order(created_at: :asc).each do |message|
       message_text << format_message(message)
     end
     message_text
@@ -30,13 +30,13 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
 
   def format_message(message)
     sender = message.message_type == 'incoming' ? 'User' : 'Support agent'
+    sender = "[Private] #{sender}" if message.private?
     "#{sender}: #{message.content}\n"
   end
 
   def build_attributes
-    attributes = []
-    @record.account.custom_attribute_definitions.with_attribute_model('conversation_attribute').each do |attribute|
-      attributes << "#{attribute.attribute_display_name}: #{@record.custom_attributes[attribute.attribute_key]}"
+    attributes = @record.account.custom_attribute_definitions.with_attribute_model('conversation_attribute').map do |attribute|
+      "#{attribute.attribute_display_name}: #{@record.custom_attributes[attribute.attribute_key]}"
     end
     attributes.join("\n")
   end
