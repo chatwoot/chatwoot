@@ -39,6 +39,7 @@ describe('#mutations', () => {
         accounts: [],
         email: null,
         name: null,
+        custom_attributes: {}
       });
     });
   });

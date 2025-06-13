@@ -41,7 +41,7 @@ const validateActiveAccountRoutes = (to, user) => {
   // If the current account is active, then check for the route permissions
   const accountDashboardURL = `accounts/${to.params.accountId}/dashboard`;
 
-  if (to.fullPath.includes('start')) {
+  if (to.fullPath?.includes('start')) {
     // Ignoring start routes for now, no route protection
     return null;
   }
@@ -65,12 +65,14 @@ export const validateLoggedInRoutes = (to, user, account) => {
   }
 
   const currentAccount = getCurrentAccount(user, Number(to.params.accountId));
+
   if (!currentAccount) {
     return 'app/login';
   }
   // Check if account needs onboarding and user isn't already on an onboarding route
 
   if (
+    account &&
     Object.keys(account).length > 0 &&
     account.custom_attributes?.onboarding_step !== 'true' &&
     !to.fullPath?.includes('start')

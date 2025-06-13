@@ -21,7 +21,8 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   }
 
   const getAccount = store.getters['accounts/getAccount'];
-  let currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
+  let currentAccount = getAccount(user.account_id);
+  console.log(currentAccount);
 
   if (
     !currentAccount ||
@@ -30,7 +31,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   ) {
     await store.dispatch('accounts/getAccountById', user.account_id);
     const getAccount = store.getters['accounts/getAccount'];
-    currentAccount = getAccount(user.account_id); // Assuming user has an account_id property
+    currentAccount = getAccount(user.account_id);
   }
 
   if (to.fullPath === '/app?to=cal_integration') {
@@ -45,6 +46,9 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
     return next(frontendURL(`accounts/${user.account_id}/dashboard`));
   }
 
+  console.log(
+    `validating account routes: ${to} ${store.getters.getCurrentUser} ${currentAccount}`
+  );
   const nextRoute = validateLoggedInRoutes(
     to,
     store.getters.getCurrentUser,

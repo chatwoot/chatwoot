@@ -9,6 +9,8 @@ gem 'rails', '~> 7.0.8.4'
 # Reduces boot times through caching; required in config/boot.rb
 gem 'bootsnap', require: false
 
+gem "net-pop", github: "ruby/net-pop"
+
 ##-- rails application helper gems --##
 gem 'acts-as-taggable-on'
 gem 'attr_extras'

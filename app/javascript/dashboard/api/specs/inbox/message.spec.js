@@ -77,6 +77,7 @@ describe('#ConversationAPI', () => {
         private: false,
         echo_id: 12,
         content_attributes: { in_reply_to: 12 },
+        content_type: null,
         cc_emails: '',
         bcc_emails: '',
         to_emails: '',

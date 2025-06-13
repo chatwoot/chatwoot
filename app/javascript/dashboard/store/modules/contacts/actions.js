@@ -71,7 +71,7 @@ export const actions = {
       commit(types.SET_CONTACT_META, meta);
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
 
-      return data;
+      return {payload, meta};
     } catch (error) {
       commit(types.SET_CONTACT_UI_FLAG, { isFetching: false });
     }

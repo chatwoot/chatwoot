@@ -22,6 +22,12 @@ GIT
       devise (>= 4.0.0, < 5.0.0)
       railties (>= 5.0.0, < 8.0.0)
 
+GIT
+  remote: https://github.com/ruby/net-pop.git
+  revision: e8d0afe2773b9eb6a23c39e9e437f6fc0fc7c733
+  specs:
+    net-pop (0.1.2)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -576,7 +582,6 @@ GEM
     net-imap (0.5.8)
       date
       net-protocol
-    net-pop (0.1.2)
     net-protocol (0.2.2)
       timeout
     net-smtp (0.5.1)
@@ -1071,6 +1076,7 @@ DEPENDENCIES
   meta_request (>= 0.8.3)
   mock_redis
   neighbor
+  net-pop!
   newrelic-sidekiq-metrics (>= 1.6.2)
   newrelic_rpm
   omniauth (>= 2.1.2)

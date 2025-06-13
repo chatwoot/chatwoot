@@ -12,7 +12,22 @@ vi.mock('../store', () => ({
         id: null,
         accounts: [],
       },
+      'accounts/getAccount': i => ({
+        id: 1,
+        name: 'Test Account',
+        custom_attributes: {
+          onboarding_step: 'true',
+        },
+      }),
     },
+    dispatch: vi.fn((type, payload) => {
+      if (type === 'accounts/getAccountById') {
+        // Return a mocked account object or a Promise, as expected by your code
+        return Promise.resolve({ id: payload, name: 'Mocked Account' });
+      }
+      // Optionally handle other actions or return a default
+      return Promise.resolve();
+    }),
   },
 }));
 

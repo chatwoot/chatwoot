@@ -63,20 +63,24 @@ export const actions = {
     try {
       const response = await CampaignsAPI.create(campaignObj);
 
-      const campaign = campaignObj.campaign;
+      // REVIEW: used to be ensure it works
+      // const campaign = campaignObj.campaign;
+      const campaign = campaignObj;
 
-      const result = await Promise.all(
-        campaign.contacts.map(async function (id) {
-          const getContact = () => rootGetters['contacts/getContact'](id);
-          let contact = getContact();
-          if (Object.keys(contact).length === 0) {
-            await dispatch('contacts/show', { id }, { root: true });
-            contact = getContact();
-          }
+      const result = campaign.contacts
+        ? await Promise.all(
+            campaign.contacts.map(async function (id) {
+              const getContact = () => rootGetters['contacts/getContact'](id);
+              let contact = getContact();
+              if (Object.keys(contact).length === 0) {
+                await dispatch('contacts/show', { id }, { root: true });
+                contact = getContact();
+              }
 
-          return contact;
-        })
-      );
+              return contact;
+            })
+          )
+        : [];
 
       const contactsForCampaigns = {
         ...response.data,
@@ -95,19 +99,23 @@ export const actions = {
     try {
       const response = await CampaignsAPI.update(id, updateObj);
 
-      const campaign = updateObj.campaign;
+      // REVIEW: used to be ensure it works
+      // const campaign = updateObj.campaign;
+      const campaign = updateObj;
 
-      const result = await Promise.all(
-        campaign.contacts.map(async function (id) {
-          const getContact = () => rootGetters['contacts/getContact'](id);
-          let contact = getContact();
-          if (Object.keys(contact).length === 0) {
-            await dispatch('contacts/show', { id }, { root: true });
-            contact = getContact();
-          }
-          return contact;
-        })
-      );
+      const result = campaign.contacts
+        ? await Promise.all(
+            campaign.contacts.map(async function (id) {
+              const getContact = () => rootGetters['contacts/getContact'](id);
+              let contact = getContact();
+              if (Object.keys(contact).length === 0) {
+                await dispatch('contacts/show', { id }, { root: true });
+                contact = getContact();
+              }
+              return contact;
+            })
+          )
+        : [];
 
       const contactsForCampaigns = {
         ...response.data,
@@ -117,6 +125,8 @@ export const actions = {
       AnalyticsHelper.track(CAMPAIGNS_EVENTS.UPDATE_CAMPAIGN);
       commit(types.EDIT_CAMPAIGN, contactsForCampaigns);
       return contactsForCampaigns;
+    } catch (error) {
+      throw new Error(error);
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isUpdating: false });
     }

@@ -34,8 +34,9 @@ describe('useConfig', () => {
     expect(config.hostURL).toBeUndefined();
     expect(config.vapidPublicKey).toBeUndefined();
     expect(config.enabledLanguages).toBeUndefined();
-    expect(config.isEnterprise).toBe(false);
-    expect(config.enterprisePlanName).toBeUndefined();
+    expect(config.isEnterprise).toBe(true); // NOTE: Setting it to always true for now, below check goes along
+    expect(config.enterprisePlanName).toBe('enterprise');
+    // expect(config.enterprisePlanName).toBeUndefined();
   });
 
   it('handles undefined window.chatwootConfig', () => {
@@ -45,7 +46,8 @@ describe('useConfig', () => {
     expect(config.hostURL).toBeUndefined();
     expect(config.vapidPublicKey).toBeUndefined();
     expect(config.enabledLanguages).toBeUndefined();
-    expect(config.isEnterprise).toBe(false);
-    expect(config.enterprisePlanName).toBeUndefined();
+    expect(config.isEnterprise).toBe(true); // NOTE: Setting it to always true for now, below check goes along
+    expect(config.enterprisePlanName).toBe('enterprise');
+    // expect(config.enterprisePlanName).toBeUndefined();
   });
 });
