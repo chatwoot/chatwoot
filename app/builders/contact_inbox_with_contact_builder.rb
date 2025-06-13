@@ -45,7 +45,7 @@ class ContactInboxWithContactBuilder
   end
 
   def update_contact_avatar(contact)
-    ::Avatar::AvatarFromUrlJob.perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
+    ::Avatar::AvatarFromUrlJob.set(wait: 1.second).perform_later(contact, contact_attributes[:avatar_url]) if contact_attributes[:avatar_url]
   end
 
   def create_contact
