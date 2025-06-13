@@ -62,7 +62,7 @@
       }
 
       &.multiselect__option--highlight {
-        @apply bg-n-alpha-black2 text-n-slate-12 flex justify-between;
+        @apply bg-n-alpha-black2 text-n-slate-12 flex justify-between items-center;
       }
 
       &.multiselect__option--highlight:hover {
