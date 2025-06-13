@@ -12,8 +12,9 @@ const props = defineProps({
   },
 });
 
+const maxQna = 25
 const qnas = ref([]);
-const reachedMaxQnas = computed(() => qnas.value.length >= 25)
+const reachedMaxQnas = computed(() => qnas.value.length >= maxQna)
 const isFetching = ref(false);
 async function fetchKnowledge() {
   try {
@@ -175,7 +176,7 @@ const maxCharAnswer = 700
       <div class="sticky top-0 flex flex-col gap-2 px-2">
         <div class="flex flex-col gap-0">
           <span>QnA</span>
-          <span class="text-xl font-bold">{{ qnas.length }}</span>
+          <span class="text-xl font-bold">{{ qnas.length }}/{{ maxQna }}</span>
         </div>
         <Button
           class="w-full mt-2"
