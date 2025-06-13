@@ -17,7 +17,7 @@
     },
     "COL_SUBS_DURATION": "{duration} bulan",
     "STATUS_PAYMENT": {
-      "pending": "Tertunda",
+      "pending": "Menunggu Pembayaran",
       "paid": "Dibayar",
       "success": "Sukses",
       "failed": "Gagal",
