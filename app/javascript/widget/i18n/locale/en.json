@@ -44,7 +44,7 @@
     "BOT": "Bot"
   },
   "CALL_VIEW": {
-    "INCOMING_CALL": "Incoming Call",
+    "INCOMING_CALL": "Incoming Call...",
     "ACCEPT_BUTTON": "Accept",
     "DECLINE_BUTTON": "Decline"
   },

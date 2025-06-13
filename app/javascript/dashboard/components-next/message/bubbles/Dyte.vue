@@ -9,11 +9,7 @@ import { useI18n } from 'vue-i18n';
 import { useMessageContext } from '../provider.js';
 import BaseAttachmentBubble from './BaseAttachment.vue';
 
-const meetingData = computed(() => {
-  return useCamelCase(contentAttributes.value.data);
-});
-
-const { content, sender, id, contentAttributes } = useMessageContext();
+const { content, sender, id } = useMessageContext();
 
 const { t } = useI18n();
 

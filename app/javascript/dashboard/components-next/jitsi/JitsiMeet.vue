@@ -8,10 +8,6 @@ export default {
       type: String,
       required: true,
     },
-    agentId: {
-      type: Number,
-      required: true,
-    },
     displayName: {
       type: String,
       required: true,
@@ -29,6 +25,14 @@ export default {
     return {
       api: null,
     };
+  },
+  watch: {
+    roomName(newVal) {
+      if (newVal && this.api) {
+        this.api.dispose();
+        this.initializeJitsi();
+      }
+    },
   },
   mounted() {
     this.loadJitsiScript().then(() => {
@@ -77,11 +81,12 @@ export default {
         },
       };
 
-      if (this.jwt != '') {
+      if (this.jwt !== '') {
         options.jwt = this.jwt;
       }
 
-      this.api = new JitsiMeetExternalAPI(JITSI_CONFIG.domain, options);
+      // REVIEW: JitsiMeetExternalAPI undefined but still working?
+      this.api = new JitsiMeetExternalAPI(JITSI_CONFIG.domain, options); // eslint-disable-line no-undef
 
       this.api.on('videoConferenceJoined', () => {
         this.$emit('joined');
@@ -97,26 +102,32 @@ export default {
       this.api.on('readyToClose', () => {
         this.$emit('hangup');
       });
-
-      // Add error event listener
-      this.api.on('errorOccurred', error => {
-        console.error('Jitsi error:', error);
-      });
     },
     toggleFloating() {
+      // REVIEW: vue/custom-event-name-casing
+      // eslint-disable-line vue/custom-event-name-casing
       this.$emit('toggle-floating');
-    },
-  },
-  watch: {
-    roomName(newVal) {
-      if (newVal && this.api) {
-        this.api.dispose();
-        this.initializeJitsi();
-      }
     },
   },
 };
 </script>
+
+<template>
+  <div ref="jitsiContainer" class="jitsi-iframe-container">
+    <div ref="buttonContainer" class="button-container">
+      <button
+        ref="minimizeButton"
+        class="minimize-button"
+        @click="toggleFloating"
+      >
+        <img
+          src="https://img.icons8.com/ios-glyphs/30/minimize-window.png"
+          alt="Minimize"
+        />
+      </button>
+    </div>
+  </div>
+</template>
 
 <style>
 .jitsi-iframe-container {
@@ -156,20 +167,3 @@ export default {
   filter: invert(1);
 }
 </style>
-
-<template>
-  <div ref="jitsiContainer" class="jitsi-iframe-container">
-    <div ref="buttonContainer" class="button-container">
-      <button
-        ref="minimizeButton"
-        class="minimize-button"
-        @click="toggleFloating"
-      >
-        <img
-          src="https://img.icons8.com/ios-glyphs/30/minimize-window.png"
-          alt="Minimize"
-        />
-      </button>
-    </div>
-  </div>
-</template>

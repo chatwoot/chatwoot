@@ -79,14 +79,11 @@ export default {
       this.hmacMandatory = this.inbox.hmac_mandatory || false;
 
       if (this.isAWhatsAppChannel) {
-        this.widgetBubblePosition = this.inbox.web_widget_options['position'];
+        this.widgetBubblePosition = this.inbox.web_widget_options.position;
       }
     },
     async handleWidgetBubblePositionChange(item) {
       this.widgetBubblePosition = item.id;
-      console.log(
-        `updated this.widgetBubblePosition: ${this.widgetBubblePosition}`
-      );
       try {
         const payload = {
           id: this.inbox.id,

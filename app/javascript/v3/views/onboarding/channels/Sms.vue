@@ -1,11 +1,9 @@
 <script>
-import PageHeader from '../../../../dashboard/routes/dashboard/settings/SettingsSubPageHeader.vue';
 import BandwidthSms from './BandwidthSms.vue';
 import Twilio from './Twilio.vue';
 
 export default {
   components: {
-    PageHeader,
     Twilio,
     BandwidthSms,
   },

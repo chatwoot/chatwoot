@@ -42,4 +42,3 @@ export const getAlertAudio = async (baseUrl = '', requestContext) => {
     getSoundSource(ctx, loop, alertTone);
   }
 };
-

@@ -117,6 +117,39 @@ export default {
         : this.widgetBubbleLauncherTitle;
     },
   },
+  watch: {
+    isWidgetVisible(newVal) {
+      if (newVal) {
+        this.removeLogo();
+      } else {
+        this.addLogo();
+      }
+    },
+    // eslint-disable-line no-unused-vars
+    widgetBubbleType(_) {
+      if (this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+    // eslint-disable-line no-unused-vars
+    dot1(_) {
+      if (this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+    // eslint-disable-line no-unused-vars
+    dot2(_) {
+      if (this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+    // eslint-disable-line no-unused-vars
+    dot3(_) {
+      if (this.isWidgetVisible) return;
+      this.removeLogo();
+      this.addLogo();
+    },
+  },
   methods: {
     addLogo() {
       const svgns = 'http://www.w3.org/2000/svg';
@@ -128,7 +161,7 @@ export default {
       const size = this.isBubbleExpanded ? 42 : 64;
       svg.setAttribute('width', size);
       svg.setAttribute('height', size);
-      svg.setAttribute('preserveAspectRatio', "xMidYMid meet");
+      svg.setAttribute('preserveAspectRatio', 'xMidYMid meet');
 
       svg.setAttribute('id', 'dynamic-svg');
 
@@ -169,35 +202,6 @@ export default {
     toggleWidget() {
       this.isWidgetVisible = !this.isWidgetVisible;
       this.isDefaultScreen = true;
-    },
-  },
-  watch: {
-    isWidgetVisible(newVal) {
-      if (newVal) {
-        this.removeLogo();
-      } else {
-        this.addLogo();
-      }
-    },
-    widgetBubbleType(newVal) {
-      if (this.isWidgetVisible) return;
-      this.removeLogo();
-      this.addLogo();
-    },
-    dot1(newVal) {
-      if (this.isWidgetVisible) return;
-      this.removeLogo();
-      this.addLogo();
-    },
-    dot2(newVal) {
-      if (this.isWidgetVisible) return;
-      this.removeLogo();
-      this.addLogo();
-    },
-    dot3(newVal) {
-      if (this.isWidgetVisible) return;
-      this.removeLogo();
-      this.addLogo();
     },
   },
 };
@@ -250,7 +254,8 @@ export default {
         :style="{
           background: color,
           ...(isBubbleExpanded
-            ? {}: {
+            ? {}
+            : {
                 'border-radius': '100% 100% 100% 100% / 100% 100% 0% 100%',
                 'box-shadow': '0 8px 24px rgba(0, 0, 0, .16)',
               }),

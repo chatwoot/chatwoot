@@ -16,10 +16,9 @@ export const EVENTS = {
 
 // Function to handle an incoming call
 export const handleIncomingCall = async callAndCaller => {
-  const { call_data, caller } = callAndCaller;
+  const { call_data } = callAndCaller;
 
   if (!call_data) {
-    console.error('No call provided in call data');
     return false;
   }
 
@@ -31,7 +30,6 @@ export const handleIncomingCall = async callAndCaller => {
 
     return true;
   } catch (error) {
-    console.error('Error handling incoming call:', error);
     return false;
   }
 };
@@ -39,7 +37,6 @@ export const handleIncomingCall = async callAndCaller => {
 // Function to accept a call
 export const acceptCall = async call => {
   if (!call) {
-    console.error('No call provided to acceptCall');
     return;
   }
 
@@ -51,15 +48,12 @@ export const acceptCall = async call => {
     if (currentRoute.name === 'incoming-call') {
       router.push({ name: 'messages' });
     }
-  } catch (error) {
-    console.error('Error accepting call:', error);
-  }
+  } catch (error) {}
 };
 
 // Function to reject a call
 export const rejectCall = async call => {
   if (!call) {
-    console.error('No call provided to rejectCall');
     return;
   }
 
@@ -71,16 +65,13 @@ export const rejectCall = async call => {
     if (currentRoute.name === 'incoming-call') {
       router.push({ name: 'messages' });
     }
-  } catch (error) {
-    console.error('Error rejecting call:', error);
-  }
+  } catch (error) {}
 };
 
 // Function to end a call
 export const endCall = async call => {
   // NOTE: Only used during signaling handling, after signaling it will not be handled due to IFrame not supported on customer
   if (!call) {
-    console.error('No call provided to endCall');
     return;
   }
 
@@ -95,7 +86,5 @@ export const endCall = async call => {
     if (currentRoute.name === 'incoming-call') {
       router.push({ name: 'messages' });
     }
-  } catch (error) {
-    console.error('Error ending call:', error);
-  }
+  } catch (error) {}
 };

@@ -1,4 +1,3 @@
-
 <template>
   <div
     class="reports--wrapper overflow-auto bg-n-background w-full px-8 xl:px-0"
@@ -10,7 +9,7 @@
 </template>
 
 <style scoped lang="scss">
- // REVIEW:CV4.0.2 taken stylings from cv4.0.2
+// REVIEW:CV4.0.2 taken stylings from cv4.0.2
 .reports--wrapper {
   :deep() {
     .multiselect--disabled {

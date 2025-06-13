@@ -2,8 +2,6 @@
 import { computed } from 'vue';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
-import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
-
 const props = defineProps({
   id: {
     type: [String, Number],

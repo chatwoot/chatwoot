@@ -8,11 +8,13 @@ import WhatsappCampaignData from './components/WhatsappCampaignData.vue';
 import { ref } from 'vue';
 import EmptyCampaignReportState from './components/EmptyCampaignReportState.vue';
 import { useStore } from 'vuex';
-import { walk } from '@vue/compiler-sfc';
 
 const store = useStore();
 
 const selectedChannel = ref(null);
+const selectedInbox = ref(null);
+const selectedCampaign = ref(null);
+
 const handleChannelUpdate = channel => {
   if (channel !== selectedChannel.value) {
     selectedChannel.value = channel;
@@ -21,7 +23,6 @@ const handleChannelUpdate = channel => {
   }
 };
 
-const selectedInbox = ref(null);
 const handleInboxUpdate = inbox => {
   if (inbox?.id !== selectedInbox?.value?.id) {
     selectedInbox.value = inbox;
@@ -29,7 +30,6 @@ const handleInboxUpdate = inbox => {
   }
 };
 
-const selectedCampaign = ref(null);
 const handleCampaignUpdate = campaign => {
   selectedCampaign.value = campaign;
 };
@@ -41,6 +41,7 @@ const downloadReports = () => {
   });
 };
 </script>
+
 <template>
   <ReportHeader :header-title="$t('CAMPAIGN_REPORTS.HEADER')">
     <V4Button
@@ -52,26 +53,24 @@ const downloadReports = () => {
     />
   </ReportHeader>
   <div class="flex flex-row gap-4 [&>*]:w-[200px]">
-    <ReportChannels
-      @report-channel-selection="handleChannelUpdate"
-    ></ReportChannels>
+    <ReportChannels @report-channel-selection="handleChannelUpdate" />
     <ReportInboxes
       v-if="selectedChannel !== null"
       :type="selectedChannel"
       @inbox-filter-selection="handleInboxUpdate"
-    ></ReportInboxes>
+    />
     <ReportCampaigns
       v-if="selectedInbox !== null"
       :selected-inbox="selectedInbox"
       :selected-channel="selectedChannel"
       @campaign-filter-selection="handleCampaignUpdate"
-    ></ReportCampaigns>
-    <div class="flex-1"></div>
+    />
+    <div class="flex-1" />
   </div>
   <WhatsappCampaignData
     v-if="selectedCampaign !== null && selectedChannel == 'Channel::Whatsapp'"
-    :campaign="selectedCampaign"
     :key="selectedCampaign.id"
-  ></WhatsappCampaignData>
-  <EmptyCampaignReportState v-else></EmptyCampaignReportState>
+    :campaign="selectedCampaign"
+  />
+  <EmptyCampaignReportState v-else />
 </template>

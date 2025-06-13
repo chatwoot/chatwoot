@@ -335,7 +335,9 @@ export default defineComponent({
                   class-names="button--only-icon mr-10 mt-3"
                 />
               </div>
-              <p class="text-s text-slate-600 dark:text-slate-300 ml-3">Sent</p>
+              <p class="text-s text-slate-600 dark:text-slate-300 ml-3">
+                {{ $t('CAMPAIGN_REPORTS.SENT') }}
+              </p>
             </div>
 
             <!-- Delivered Messages -->
@@ -352,7 +354,7 @@ export default defineComponent({
                 />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-2">
-                Delivered
+                {{ $t('CAMPAIGN_REPORTS.DELIVERED') }}
               </p>
             </div>
 
@@ -369,7 +371,9 @@ export default defineComponent({
                   class-names="button--only-icon mr-10 mt-3"
                 />
               </div>
-              <p class="text-s text-slate-600 dark:text-slate-300 ml-3">Read</p>
+              <p class="text-s text-slate-600 dark:text-slate-300 ml-3">
+                {{ $t('CAMPAIGN_REPORTS.READ') }}
+              </p>
             </div>
 
             <!-- Replied Messages -->
@@ -386,7 +390,7 @@ export default defineComponent({
                 />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-3">
-                Replied
+                {{ $t('CAMPAIGN_REPORTS.REPLIED') }}
               </p>
             </div>
 
@@ -404,7 +408,7 @@ export default defineComponent({
                 />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-3">
-                Failed
+                {{ $t('CAMPAIGN_REPORTS.FAILED') }}
               </p>
             </div>
 
@@ -422,7 +426,7 @@ export default defineComponent({
                 />
               </div>
               <p class="text-s text-slate-600 dark:text-slate-300 ml-2">
-                Processing
+                {{ $t('CAMPAIGN_REPORTS.PROCESSING') }}
               </p>
             </div>
           </div>
@@ -463,7 +467,7 @@ export default defineComponent({
                         class="flex items-center cursor-pointer"
                         @click="sortContacts('name')"
                       >
-                        Contact
+                        {{ $t('CAMPAIGN_REPORTS.CONTACT') }}
                         <i
                           v-if="sortConfig.key === 'name'"
                           :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
@@ -478,7 +482,7 @@ export default defineComponent({
                         class="flex items-center cursor-pointer"
                         @click="sortContacts('phone_number')"
                       >
-                        Phone
+                        {{ $t('CAMPAIGN_REPORTS.PHONE') }}
                         <i
                           v-if="sortConfig.key === 'phone_number'"
                           :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
@@ -490,7 +494,9 @@ export default defineComponent({
                       v-if="activeTab === 'failed'"
                       class="p-4 text-left font-medium text-slate-700 dark:text-slate-200"
                     >
-                      <div class="flex items-center">Reason</div>
+                      <div class="flex items-center">
+                        {{ $t('CAMPAIGN_REPORTS.REASON') }}
+                      </div>
                     </th>
                     <th
                       class="p-4 text-left font-medium text-slate-700 dark:text-slate-200"
@@ -499,7 +505,7 @@ export default defineComponent({
                         class="flex items-center cursor-pointer"
                         @click="sortContacts('processed_at')"
                       >
-                        Time
+                        {{ $t('CAMPAIGN_REPORTS.TIME') }}
                         <i
                           v-if="sortConfig.key === 'processed_at'"
                           :class="sortConfig.direction === 'asc' ? '▲' : '▼'"
@@ -558,10 +564,10 @@ export default defineComponent({
                 activeTab === 'pending'
                   ? totalProcessedCount + totalFailedCount
                   : ['processed', 'read', 'delivered', 'replied'].includes(
-                      activeTab
-                    )
-                  ? totalProcessedCount
-                  : totalFailedCount
+                        activeTab
+                      )
+                    ? totalProcessedCount
+                    : totalFailedCount
               }}
               contacts
             </div>

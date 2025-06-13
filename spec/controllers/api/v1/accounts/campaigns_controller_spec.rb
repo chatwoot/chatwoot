@@ -147,7 +147,7 @@ RSpec.describe 'Campaigns API', type: :request do
         response_data = JSON.parse(response.body, symbolize_names: true)
         expect(response_data[:campaign_type]).to eq('one_off')
         expect(response_data[:scheduled_at].present?).to be true
-        expect(response_data[:scheduled_at]).to eq(scheduled_at.to_i)
+        expect(response_data[:scheduled_at]).to eq(JSON.parse({s: scheduled_at}.to_json)['s'])
         expect(response_data[:audience].pluck(:id)).to include(label1.id, label2.id)
       end
     end

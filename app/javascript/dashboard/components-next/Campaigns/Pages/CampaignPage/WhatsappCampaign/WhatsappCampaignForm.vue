@@ -1,12 +1,5 @@
 <script setup>
-import {
-  ref,
-  computed,
-  reactive,
-  onMounted,
-  onBeforeUnmount,
-  watch,
-} from 'vue';
+import { ref, computed, reactive, onMounted, onBeforeUnmount } from 'vue';
 import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
@@ -21,6 +14,7 @@ import TagMultiSelectComboBox from 'dashboard/components-next/combobox/TagMultiS
 import { useMapGetter } from 'dashboard/composables/store';
 
 defineProps({
+  // eslint-disable-line  vue/no-unused-properties
   accountId: {
     type: [String, Number],
     required: true,
@@ -28,6 +22,7 @@ defineProps({
 });
 
 const emit = defineEmits(['submit', 'cancel']);
+
 const store = useStore();
 const { t } = useI18n();
 
@@ -59,6 +54,27 @@ const contactState = reactive({
   total_count: 0,
   sortAttribute: 'name',
 });
+
+// Validation Rules
+const rules = computed(() => {
+  const step1Rules = {
+    title: { required },
+    selectedInbox: { required },
+    selectedTemplate: { required },
+    isTemplateValid: { required },
+    scheduledAt: { required },
+    selectedAudience: {},
+  };
+  const step2Rules = {
+    selectedContacts: {
+      required,
+      minLength: value => (value || []).length > 0,
+    },
+  };
+  return currentStep.value === 1 ? step1Rules : step2Rules;
+});
+
+const v$ = useVuelidate(rules, formState);
 
 const getErrorMessage = (field, errorKey) => {
   const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
@@ -108,27 +124,6 @@ const currentDateTime = computed(() => {
   return localTime.toISOString().slice(0, 16);
 });
 
-// Validation Rules
-const rules = computed(() => {
-  const step1Rules = {
-    title: { required },
-    selectedInbox: { required },
-    selectedTemplate: { required },
-    isTemplateValid: { required },
-    scheduledAt: { required },
-    selectedAudience: {},
-  };
-  const step2Rules = {
-    selectedContacts: {
-      required,
-      minLength: value => (value || []).length > 0,
-    },
-  };
-  return currentStep.value === 1 ? step1Rules : step2Rules;
-});
-
-const v$ = useVuelidate(rules, formState);
-
 // Methods
 const calculatePreviewPosition = () => {
   const campaignForm = document.querySelector('.campaign-details-form');
@@ -146,13 +141,28 @@ const handleTemplateValidation = isValid => {
 };
 
 const handleInboxSelection = () => {
-  if (formState.selectedInbox === 'create_new') {
-    const baseUrl = window.location.origin;
-    window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/whatsapp`;
-    formState.selectedInbox = null;
-  }
+  // REVIEW: seems unneeded
+  // if (formState.selectedInbox === 'create_new') {
+  //   const baseUrl = window.location.origin;
+  //   window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/whatsapp`;
+  //   formState.selectedInbox = null;
+  // }
 };
 
+const handleContactsResponse = data => {
+  const { payload = [], meta = {} } = data;
+  const filteredContacts = payload.filter(contact => contact.phone_number);
+  if (contactState.currentPage === 1) {
+    contactState.contactList = filteredContacts;
+  } else {
+    contactState.contactList = [
+      ...contactState.contactList,
+      ...filteredContacts,
+    ];
+  }
+  contactState.total_count = meta.count || 0;
+  contactState.totalPages = Math.ceil(meta.count / 30);
+};
 const fetchContacts = async (page = 1, search = '') => {
   try {
     contactState.isLoadingContacts = true;
@@ -181,21 +191,6 @@ const fetchContacts = async (page = 1, search = '') => {
   }
 };
 
-const handleContactsResponse = data => {
-  const { payload = [], meta = {} } = data;
-  const filteredContacts = payload.filter(contact => contact.phone_number);
-  if (contactState.currentPage === 1) {
-    contactState.contactList = filteredContacts;
-  } else {
-    contactState.contactList = [
-      ...contactState.contactList,
-      ...filteredContacts,
-    ];
-  }
-  contactState.total_count = meta.count || 0;
-  contactState.totalPages = Math.ceil(meta.count / 30);
-};
-
 const contactSelector = ref(null);
 
 const goToNext = async () => {
@@ -204,7 +199,6 @@ const goToNext = async () => {
     contactState.contactList = [];
     contactState.currentPage = 1;
     contactState.searchQuery = '';
-    console.log(formState.selectedAudience);
     contactState.selectedAudience = formState.selectedAudience;
     await fetchContacts(1);
     currentStep.value = 2;
@@ -434,7 +428,7 @@ onBeforeUnmount(() => {
         ref="contactSelector"
         :contacts="[]"
         :selected-contacts="formState.selectedContacts"
-        :selectedAudience="formState.selectedAudience"
+        :selected-audience="formState.selectedAudience"
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
         @contacts-selected="

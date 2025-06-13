@@ -193,7 +193,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
   };
 
-  onRejectCall = data => {
+  onRejectCall = _ => {
     this.app.$store.dispatch('closeCall', {});
   };
 }

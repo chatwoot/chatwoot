@@ -4,7 +4,6 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'FilterCampaign',
-  emits: ['campaignFilterSelection'],
   props: {
     selectedInbox: {
       type: Object,
@@ -15,6 +14,7 @@ export default {
       required: true,
     },
   },
+  emits: ['campaignFilterSelection'],
   data() {
     return {
       selectedOption: null,
@@ -32,7 +32,7 @@ export default {
       };
       const campaigns =
         this.getCampaigns(campaignTypeMap[this.selectedChannel]) || [];
-      return campaigns.filter(e => e.inbox_id == this.selectedInbox.id);
+      return campaigns.filter(e => e.inbox_id === this.selectedInbox.id);
     },
   },
   mounted() {
@@ -58,7 +58,6 @@ export default {
       :option-height="24"
       :show-labels="false"
       @update:model-value="handleInput"
-    >
-    </multiselect>
+    />
   </div>
 </template>

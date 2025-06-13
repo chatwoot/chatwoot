@@ -14,10 +14,6 @@ const { t } = useI18n();
 
 const addCampaign = async campaignDetails => {
   try {
-
-    console.log("These are the details")
-    console.log(campaignDetails)
-
     await store.dispatch('campaigns/create', campaignDetails);
 
     // tracking this here instead of the store to track the type of campaign

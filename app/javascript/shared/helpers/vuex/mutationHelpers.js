@@ -35,10 +35,10 @@ export const updateAttributes = (state, data) => {
 export const updatedAttributes = (state, data) => {
   const recordIndex = state.records.findIndex(record => record.id === data.id);
   if (recordIndex > -1) {
-    Vue.set(state.records, recordIndex, {
+    state.records[recordIndex] = {
       ...state.records[recordIndex],
       ...data,
-    });
+    };
   } else {
     create(state, data);
   }

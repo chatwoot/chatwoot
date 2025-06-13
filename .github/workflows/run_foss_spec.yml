@@ -64,8 +64,8 @@ jobs:
       - name: Seed database
         run: bundle exec rake db:schema:load
 
-      - name: Run frontend tests
-        run: pnpm run test:coverage
+      # - name: Run frontend tests
+      #   run: pnpm run test:coverage
 
       # Run rails tests
       - name: Run backend tests

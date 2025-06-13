@@ -434,7 +434,19 @@
     "FILTER_DROPDOWN_LABEL": "Select campaign",
     "EMPTY_TITLE": "No campaign report selected",
     "EMPTY_SUBTITLE": "Please select a campaign",
-    "DOWNLOAD_REPORTS": "Download reports"
+    "DOWNLOAD_REPORTS": "Download reports",
+    "WHATSAPP": {
+      "SENT": "Sent",
+      "DELIVERED": "Delivered",
+      "READ": "Read",
+      "REPLIED": "Replied",
+      "FAILED": "Failed",
+      "PROCESSING": "Processing",
+      "CONTACT": "Contact",
+      "PHONE": "Phone",
+      "REASON": "Reason",
+      "TIME": "Time"
+    }
   },
   "BOT_REPORTS": {
     "HEADER": "Bot Reports",

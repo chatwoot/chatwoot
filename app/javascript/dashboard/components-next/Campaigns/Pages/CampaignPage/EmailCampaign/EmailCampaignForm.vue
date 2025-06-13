@@ -70,38 +70,6 @@ const contactState = reactive({
   sortAttribute: 'name',
 });
 
-const getErrorMessage = (field, errorKey) => {
-  const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
-  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
-};
-
-const formErrors = computed(() => ({
-  audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
-}));
-
-// Computed Properties
-
-const mapToOptions = (items, valueKey, labelKey) =>
-  items?.map(item => ({
-    value: item[valueKey],
-    label: item[labelKey],
-  })) ?? [];
-
-const audienceList = computed(() => mapToOptions(labels.value, 'id', 'title'));
-
-const inboxes = computed(() => {
-  const allInboxes = store.getters['inboxes/getEmailInboxes'];
-  return allInboxes;
-});
-
-const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
-
-const currentDateTime = computed(() => {
-  const now = new Date();
-  const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-  return localTime.toISOString().slice(0, 16);
-});
-
 const undefVariables = ref(new Set());
 
 const validVarsData = {
@@ -111,6 +79,24 @@ const validVarsData = {
   'contact.email': 'Email of the reciever contact',
   'contact.phone': 'Phone no. of the reciever contact',
 };
+
+function extractTemplateVariables(str) {
+  const regex = /{{\s*([\w.]+)\s*}}/g;
+  const matches = [];
+
+  let match = regex.exec(str);
+  while (match !== null) {
+    match = regex.exec(str);
+    matches.push(match[1]);
+  }
+
+  return matches;
+}
+
+const inboxes = computed(() => {
+  const allInboxes = store.getters['inboxes/getEmailInboxes'];
+  return allInboxes;
+});
 
 // Validation Rules
 const rules = computed(() => {
@@ -130,7 +116,7 @@ const rules = computed(() => {
     selectedInbox: {
       required,
       isSmtpAvailable: value => {
-        const inbox = toRaw(inboxes.value.filter(e => e.id == value)[0]);
+        const inbox = toRaw(inboxes.value.filter(e => e.id === value)[0]);
         if (!inbox) return false;
         return inbox.smtp_enabled === true;
       },
@@ -148,6 +134,33 @@ const rules = computed(() => {
 });
 
 const v$ = useVuelidate(rules, formState);
+
+const getErrorMessage = (field, errorKey) => {
+  const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
+  return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
+};
+
+const formErrors = computed(() => ({
+  audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
+}));
+
+// Computed Properties
+
+const mapToOptions = (items, valueKey, labelKey) =>
+  items?.map(item => ({
+    value: item[valueKey],
+    label: item[labelKey],
+  })) ?? [];
+
+const audienceList = computed(() => mapToOptions(labels.value, 'id', 'title'));
+
+const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
+
+const currentDateTime = computed(() => {
+  const now = new Date();
+  const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  return localTime.toISOString().slice(0, 16);
+});
 
 // Methods
 const calculatePreviewPosition = () => {
@@ -176,11 +189,26 @@ const handleInboxSelection = () => {
   v$.value.selectedInbox.$validate();
 
   // REVIEW: This doesn't seem to be needed, selectedInbox should never be 'create_new'
-  if (formState.selectedInbox === 'create_new') {
-    const baseUrl = window.location.origin;
-    window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/email`;
-    formState.selectedInbox = null;
+  // if (formState.selectedInbox === 'create_new') {
+  //   const baseUrl = window.location.origin;
+  //   window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/email`;
+  //   formState.selectedInbox = null;
+  // }
+};
+
+const handleContactsResponse = data => {
+  const { payload = [], meta = {} } = data;
+  const filteredContacts = payload.filter(contact => contact.email);
+  if (contactState.currentPage === 1) {
+    contactState.contactList = filteredContacts;
+  } else {
+    contactState.contactList = [
+      ...contactState.contactList,
+      ...filteredContacts,
+    ];
   }
+  contactState.total_count = meta.count || 0;
+  contactState.totalPages = Math.ceil(meta.count / 30);
 };
 
 const fetchContacts = async (page = 1, search = '') => {
@@ -209,21 +237,6 @@ const fetchContacts = async (page = 1, search = '') => {
   } finally {
     contactState.isLoadingContacts = false;
   }
-};
-
-const handleContactsResponse = data => {
-  const { payload = [], meta = {} } = data;
-  const filteredContacts = payload.filter(contact => contact.email);
-  if (contactState.currentPage === 1) {
-    contactState.contactList = filteredContacts;
-  } else {
-    contactState.contactList = [
-      ...contactState.contactList,
-      ...filteredContacts,
-    ];
-  }
-  contactState.total_count = meta.count || 0;
-  contactState.totalPages = Math.ceil(meta.count / 30);
 };
 
 const loadMoreContacts = () => {
@@ -276,18 +289,6 @@ const fetchAllContactIds = async (isFiltered, filteredContacts) => {
   }
 };
 
-function extractTemplateVariables(str) {
-  const regex = /{{\s*([\w.]+)\s*}}/g;
-  const matches = [];
-  let match;
-
-  while ((match = regex.exec(str)) !== null) {
-    matches.push(match[1]);
-  }
-
-  return matches;
-}
-
 const goToNext = async () => {
   v$.value.$reset();
   v$.value.$touch();
@@ -299,7 +300,6 @@ const goToNext = async () => {
     await fetchContacts(1);
     currentStep.value = 2;
   } else {
-    console.log('Invalid input');
   }
 };
 
@@ -412,7 +412,7 @@ onBeforeUnmount(() => {
                   @click="openPopup"
                 />
               </div>
-              <CodeHighlighter v-model="formState.message"></CodeHighlighter>
+              <CodeHighlighter v-model="formState.message" />
             </div>
 
             <div
@@ -548,8 +548,8 @@ onBeforeUnmount(() => {
 
         <div class="flex-1">
           <TemplatePreview
-            :preview-position="formState.previewPosition"
             v-model="formState.message"
+            :preview-position="formState.previewPosition"
           />
         </div>
       </div>
@@ -561,7 +561,7 @@ onBeforeUnmount(() => {
         ref="contactSelector"
         :contacts="contactState.contactList"
         :selected-contacts="formState.selectedContacts"
-        :selectedAudience="formState.selectedAudience"
+        :selected-audience="formState.selectedAudience"
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
         @contacts-selected="contacts => (formState.selectedContacts = contacts)"
@@ -594,8 +594,8 @@ onBeforeUnmount(() => {
       </div>
     </div>
     <VariablesPopup
-      :variables="validVarsData"
       v-model="variablesShown"
+      :variables="validVarsData"
       :x="popupX"
       :y="popupY"
     />

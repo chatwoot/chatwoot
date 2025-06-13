@@ -8,6 +8,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-22.04
+    env:
+      NODE_OPTIONS: "--max-old-space-size=8192"
 
     steps:
       - uses: actions/checkout@v3
@@ -20,9 +22,6 @@ jobs:
           bundler-cache: true # runs 'bundle install' and caches installed gems automatically
 
       - uses: pnpm/action-setup@v2
-        with:
-          version: 9.3.0
-          # REVIEW:CV4.0.2 in cv4.0.2, there's no version lock
 
       - uses: actions/setup-node@v4
         with:

@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref } from 'vue';
+import { computed, ref } from 'vue';
 import SidebarGroupLeaf from './SidebarGroupLeaf.vue';
 import SidebarGroupSeparator from './SidebarGroupSeparator.vue';
 import SidebarGroupEmptyLeaf from './SidebarGroupEmptyLeaf.vue';

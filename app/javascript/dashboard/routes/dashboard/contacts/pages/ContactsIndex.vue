@@ -119,10 +119,7 @@ const getCommonFetchParams = (page = 1) => ({
 
 const fetchContacts = async (page = 1) => {
   await store.dispatch('contacts/clearContactFilters');
-  await store.dispatch(
-    'contacts/get',
-    getCommonFetchParams(page)
-  );
+  await store.dispatch('contacts/get', getCommonFetchParams(page));
   updatePageParam(page);
 };
 

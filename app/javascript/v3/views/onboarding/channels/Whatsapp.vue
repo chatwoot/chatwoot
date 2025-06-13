@@ -1,12 +1,10 @@
 <script>
-import PageHeader from '../../../../dashboard/routes/dashboard/settings/SettingsSubPageHeader.vue';
 import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 
 export default {
   components: {
-    PageHeader,
     Twilio,
     ThreeSixtyDialogWhatsapp,
     CloudWhatsapp,

@@ -173,6 +173,7 @@ export default {
             color-scheme="clear secondary-icon"
             class-names="button--only-icon call"
           />
+          <!-- eslint-disable-line  vue/no-bare-strings-in-template -->
           <span class="more-icon">⋮</span>
         </div>
       </div>
@@ -230,9 +231,11 @@ export default {
               </button>
             </div>
 
+            <!-- eslint-disable-line  vue/no-bare-strings-in-template -->
             <div v-if="hasMultipleCurlyBraces" class="error-message">
               Only 'NAMED' templates with up to 1 parameter are allowed.
               (parameter_name: 'name') <br />
+              <!-- eslint-disable-line  vue/no-bare-strings-in-template -->
               <span v-pre class="example-text">
                 Example: Hi {{ name }} Thanks for reaching *OneHash* Support! We
                 are looking into your queries.

@@ -31,7 +31,6 @@ const show = computed(() =>
 
 // const isFeatureAllowed = computed(() => checkFeatureAllowed(props.featureFlag));
 // const hasPermission = computed(() => checkPermissions(props.permissions));
-
 </script>
 
 <!-- eslint-disable vue/no-root-v-if -->

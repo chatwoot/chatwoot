@@ -114,10 +114,10 @@ export default {
       type: String,
       required: true,
     },
-    calendarEvents: {
-      type: Array,
-      default: () => [],
-    },
+    // calendarEvents: { // REVIEW: Seems unused
+    //   type: Array,
+    //   default: () => [],
+    // },
     conversationType: {
       type: String,
       default: '',

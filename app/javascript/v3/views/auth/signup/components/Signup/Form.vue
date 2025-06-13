@@ -8,14 +8,7 @@ import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
-// import { isValidPassword } from 'shared/helpers/Validators';
-import {
-  isUppercase,
-  isLowercase,
-  hasNumber,
-  hasSpecialChar,
-  hasLength,
-} from 'shared/helpers/Validators';
+import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 // import OIDCButton from '../../../../../components/SSO/OIDC/Button.vue';
 import { register } from '../../../../../api/auth';

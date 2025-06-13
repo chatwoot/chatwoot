@@ -5,8 +5,6 @@ import Microsoft from './emailChannels/Microsoft.vue';
 import Google from './emailChannels/Google.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 
-import PageHeader from '../../../../dashboard/routes/dashboard/settings/SettingsSubPageHeader.vue';
-
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useI18n } from 'vue-i18n';
 

@@ -27,7 +27,6 @@ const isFetchingCampaigns = computed(() => uiFlags.value.isFetching);
 
 const confirmDeleteCampaignDialogRef = ref(null);
 
-
 const EmailCampaigns = computed(() =>
   getters['campaigns/getCampaigns'].value(CAMPAIGN_TYPES.EMAIL)
 );
@@ -74,7 +73,7 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoEmailCampaigns"
       :campaigns="EmailCampaigns"
-      :campaignType="email"
+      :campaign-type="email"
       @delete="handleDelete"
       @edit="handleEdit"
     />

@@ -5,8 +5,8 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useCaptain } from 'dashboard/composables/useCaptain';
 import { format } from 'date-fns';
 
-// REVIEW:CV4.0.2 Below code is commented in our version, why?
-import BillingMeter from './components/BillingMeter.vue';
+// REVIEW:CV4.0.2 Below code is commented in our version, maybe a component for captain limits
+// import BillingMeter from './components/BillingMeter.vue';
 
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
@@ -26,11 +26,11 @@ const { t } = useI18n();
 const { currentAccount } = useAccount();
 
 const {
-  // REVIEW:CV4.0.2 Below code is commented in our version, why?
-  captainEnabled,
-  captainLimits,
-  documentLimits,
-  responseLimits,
+  // REVIEW:CV4.0.2 Below code is commented in our version cuz we don't open to public yet
+  // captainEnabled,
+  // captainLimits,
+  // documentLimits,
+  // responseLimits,
   fetchLimits,
 } = useCaptain();
 
@@ -40,7 +40,7 @@ const customAttributes = computed(() => {
   return currentAccount.value.custom_attributes || {};
 });
 const ltdAttributes = computed(() => {
-  // REVIEW:CV4.0.2 what's the ltd attributes
+  // REVIEW ltd is now deprecated
   return currentAccount.value.ltd_attributes || {};
 });
 

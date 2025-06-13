@@ -3,13 +3,13 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportsFiltersInboxes',
-  emits: ['inboxFilterSelection'],
   props: {
     type: {
       type: String,
       required: true,
     },
   },
+  emits: ['inboxFilterSelection'],
   data() {
     return {
       selectedOption: null,
@@ -20,7 +20,7 @@ export default {
       options: 'inboxes/getInboxes',
     }),
     inboxes() {
-      return this.options.filter(e => e.channel_type == this.type);
+      return this.options.filter(e => e.channel_type === this.type);
     },
   },
   mounted() {

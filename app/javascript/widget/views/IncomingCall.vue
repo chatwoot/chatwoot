@@ -54,15 +54,15 @@ export default {
 
           <div class="caller-info">
             <div class="caller-name">{{ caller.name || 'Unknown Caller' }}</div>
-            <div class="call-status">Incoming call...</div>
+            <div class="call-status">{{ $t('INCOMING_CALL') }}</div>
           </div>
         </div>
         <div class="call-actions">
           <button class="reject-button" @click="handleRejectCall">
-            Decline
+            {{ $t('DECLINE_BUTTON') }}
           </button>
           <button class="accept-button" @click="handleAcceptCall">
-            Accept
+            {{ $t('ACCEPT_BUTTON') }}
           </button>
         </div>
       </div>

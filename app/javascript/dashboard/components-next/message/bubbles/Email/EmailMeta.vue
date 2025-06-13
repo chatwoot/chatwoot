@@ -29,18 +29,18 @@ const senderName = computed(() => {
   return sender.value.name ?? '';
 
   // REVIEW:CV4.0.2 cv4.0.2 uses the below code
-  const fromEmailAddress = fromEmail.value[0] ?? '';
-  const senderEmail = sender.value.email ?? '';
+  // const fromEmailAddress = fromEmail.value[0] ?? '';
+  // const senderEmail = sender.value.email ?? '';
 
-  if (!fromEmailAddress && !senderEmail) return null;
+  // if (!fromEmailAddress && !senderEmail) return null;
 
-  // if the sender of the conversation and the sender of this particular
-  // email are the same, only then we return the sender name
-  if (fromEmailAddress === senderEmail) {
-    return sender.value.name;
-  }
+  // // if the sender of the conversation and the sender of this particular
+  // // email are the same, only then we return the sender name
+  // if (fromEmailAddress === senderEmail) {
+  //   return sender.value.name;
+  // }
 
-  return null;
+  // return null;
 });
 
 const bccEmail = computed(() => {

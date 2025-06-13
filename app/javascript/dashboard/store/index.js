@@ -86,7 +86,6 @@ export default createStore({
     csat,
     customRole,
     customViews,
-    customRole,
     dashboardApps,
     draftMessages,
     globalConfig,

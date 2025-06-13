@@ -4,8 +4,8 @@ import { mapGetters } from 'vuex';
 
 export default {
   name: 'ReportChannels',
-  emits: ['reportChannelSelection'],
   props: {},
+  emits: ['reportChannelSelection'],
   data() {
     return {
       selectedOption: null,
@@ -40,7 +40,6 @@ export default {
       :option-height="24"
       :show-labels="false"
       @update:model-value="handleInput"
-    >
-    </multiselect>
+    />
   </div>
 </template>

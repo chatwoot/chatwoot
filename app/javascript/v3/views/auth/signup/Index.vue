@@ -53,8 +53,10 @@ export default {
 };
 </script>
 
-<template>
-  <div class="w-full h-full bg-n-background">
+<!-- REVIEW: This appears to not be used at all -->
+<!-- eslint-disable-line vue/valid-template-root -->
+<!-- <template> -->
+<!-- <div class="w-full h-full bg-n-background">
     <div v-show="!isLoading" class="flex h-full min-h-screen items-center">
       <div
         class="flex-1 min-h-[640px] inline-flex items-center h-full justify-center overflow-auto py-6"
@@ -103,6 +105,6 @@ export default {
       class="flex items-center min-h-screen justify-center w-full h-full"
     >
       <Spinner color-scheme="primary" size="" />
-    </div> -->
-  </div>
-</template>
+    </div>
+  </div> -->
+<!-- </template> -->

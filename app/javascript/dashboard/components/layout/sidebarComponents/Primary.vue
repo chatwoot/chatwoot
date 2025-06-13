@@ -2,10 +2,8 @@
 import Logo from './Logo.vue';
 import PrimaryNavItem from './PrimaryNavItem.vue';
 import OptionsMenu from './OptionsMenu.vue';
-import ProductsMenu from './ProductsMenu.vue';
 import AgentDetails from './AgentDetails.vue';
 import NotificationBell from './NotificationBell.vue';
-import AllProducts from './AllProducts.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 import { ACCOUNT_EVENTS } from '../../../helper/AnalyticsHelper/events';
@@ -18,8 +16,6 @@ export default {
     OptionsMenu,
     AgentDetails,
     NotificationBell,
-    AllProducts,
-    ProductsMenu,
   },
   props: {
     isACustomBrandedInstance: {

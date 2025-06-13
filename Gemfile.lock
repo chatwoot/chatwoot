@@ -245,10 +245,10 @@ GEM
     facebook-messenger (2.0.1)
       httparty (~> 0.13, >= 0.13.7)
       rack (>= 1.4.5)
-    factory_bot (6.5.3)
+    factory_bot (6.5.4)
       activesupport (>= 6.1.0)
-    factory_bot_rails (6.4.4)
-      factory_bot (~> 6.5)
+    factory_bot_rails (6.4.3)
+      factory_bot (~> 6.4)
       railties (>= 5.0.0)
     faker (3.5.1)
       i18n (>= 1.8.11, < 2)
@@ -523,9 +523,7 @@ GEM
       ffi (~> 1.0)
     libddwaf (1.14.0.0.0-x86_64-linux)
       ffi (~> 1.0)
-    line-bot-api (2.0.0)
-      base64 (~> 0.2)
-      multipart-post (~> 2.4)
+    line-bot-api (1.28.0)
     lint_roller (1.1.0)
     liquid (5.8.6)
       bigdecimal
@@ -1068,7 +1066,7 @@ DEPENDENCIES
   keycloak
   koala
   letter_opener
-  line-bot-api
+  line-bot-api (= 1.28.0)
   liquid
   listen
   lograge (~> 0.14.0)

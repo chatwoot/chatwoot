@@ -64,7 +64,7 @@ export const actions = {
     }
   },
 
-  getAccountById: async ({ commit, getters }, id) => {
+  getAccountById: async ({ commit }, id) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isFetchingItem: true });
     try {
       const response = await AccountAPI.getById(id);

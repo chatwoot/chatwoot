@@ -30,7 +30,7 @@ defineProps({
           :sender="campaign.sender"
           :inbox="campaign.inbox"
           :scheduled-at="campaign.scheduled_at"
-          :campaignType="'sms'"
+          campaign-type="sms"
         />
       </div>
     </template>

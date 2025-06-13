@@ -1,6 +1,7 @@
 <script>
 import OnboardingBaseModal from './BaseModal.vue';
 import { useStore } from 'vuex';
+import { getWebWidgetScript } from 'dashboard/helper/inbox';
 
 export default {
   components: {
@@ -13,7 +14,7 @@ export default {
   computed: {
     webWidgetScript() {
       return getWebWidgetScript(
-        this.inbox.web_widget_options['options'],
+        this.inbox.web_widget_options.options,
         this.inbox.phone_number,
         this.inbox.name
       );

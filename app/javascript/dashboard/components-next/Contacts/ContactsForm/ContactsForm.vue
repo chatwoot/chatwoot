@@ -27,9 +27,9 @@ const props = defineProps({
   },
 });
 
-const store = useStore();
-
 const emit = defineEmits(['update']);
+
+const store = useStore();
 
 const { t } = useI18n();
 
@@ -322,11 +322,11 @@ defineExpose({
             class="w-full"
             @input="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
+              v$[getValidationKey(item.key)].$touch()
             "
             @blur="
               isValidationField(item.key) &&
-                v$[getValidationKey(item.key)].$touch()
+              v$[getValidationKey(item.key)].$touch()
             "
           />
         </template>
@@ -339,8 +339,8 @@ defineExpose({
       <div class="flex flex-wrap gap-2">
         <div
           v-for="item in socialProfilesForm"
-          :title="item.tooltip"
           :key="item.key"
+          :title="item.tooltip"
           class="flex items-center h-8 gap-2 px-2 rounded-lg"
           :class="{
             'bg-n-alpha-2 dark:bg-n-solid-2': isDetailsView,

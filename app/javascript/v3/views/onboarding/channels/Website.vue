@@ -3,12 +3,10 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import router from '../../../../dashboard/routes/index';
 
-import PageHeader from '../../../../dashboard/routes/dashboard/settings/SettingsSubPageHeader.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 
 export default {
   components: {
-    PageHeader,
     GreetingsEditor,
   },
   data() {

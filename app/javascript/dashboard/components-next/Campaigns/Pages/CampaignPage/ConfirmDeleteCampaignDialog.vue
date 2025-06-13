@@ -31,7 +31,6 @@ const deleteCampaign = async id => {
 };
 
 const handleDialogConfirm = async () => {
-  console.log('props.selectedCampaign', props.selectedCampaign);
   await deleteCampaign(props.selectedCampaign.display_id);
   dialogRef.value?.close();
 };

@@ -98,3 +98,4 @@ CLAUDE.md
 .vscode
 .claude/settings.local.json
 .cursor
+.env.real

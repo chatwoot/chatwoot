@@ -20,7 +20,6 @@ import SearchTabs from './SearchTabs.vue';
 import SearchResultConversationsList from './SearchResultConversationsList.vue';
 import SearchResultMessagesList from './SearchResultMessagesList.vue';
 import SearchResultContactsList from './SearchResultContactsList.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
 import { useTrack } from 'dashboard/composables';
 import Policy from 'dashboard/components/policy.vue';
 

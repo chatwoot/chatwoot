@@ -63,7 +63,7 @@ const campaignsRoutes = {
           name: 'campaigns_email_index',
           meta,
           component: EmailCampaignsPage,
-        }
+        },
       ],
     },
   ],

@@ -325,7 +325,7 @@ export default {
             welcome_tagline: this.channelWelcomeTagline || '',
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
-            continuity_via_email: this.continuityViaEmail
+            continuity_via_email: this.continuityViaEmail,
           },
         };
 
@@ -404,8 +404,8 @@ export default {
       </woot-tabs>
     </SettingIntroBanner>
     <section class="w-full max-w-6xl mx-auto">
-    <!-- REVIEW:CV4.0.4 here was a massive incoming change, review our changes if any in settings are working -->
-    <!-- <section class="max-w-6xl mx-auto w-full"> -->
+      <!-- REVIEW:CV4.0.4 here was a massive incoming change, review our changes if any in settings are working -->
+      <!-- <section class="max-w-6xl mx-auto w-full"> -->
       <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />

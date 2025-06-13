@@ -154,7 +154,7 @@ export const getInboxWarningIconClass = (type, reauthorizationRequired) => {
 export const getWebWidgetScript = (
   widgetBubblePosition,
   phoneNumber,
-  inboxName,
+  inboxName
 ) => {
   const formattedPhoneNumber = phoneNumber.replace(/^\+/, '');
   const leftWidgetScript =

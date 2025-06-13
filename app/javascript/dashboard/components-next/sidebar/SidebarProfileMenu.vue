@@ -48,14 +48,14 @@ async function logout() {
     Auth.logout();
   }
 }
-const showChatSupport = computed(() => {
-  return (
-    isFeatureEnabledonAccount.value(
-      accountId.value,
-      FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
-    ) && globalConfig.value.chatwootInboxToken
-  );
-});
+// const showChatSupport = computed(() => {
+//   return (
+//     isFeatureEnabledonAccount.value(
+//       accountId.value,
+//       FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
+//     ) && globalConfig.value.chatwootInboxToken
+//   );
+// });
 
 const menuItems = computed(() => {
   return [

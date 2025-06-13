@@ -38,7 +38,7 @@ const readableTime = computed(() =>
 
 const callStartTime = computed(() =>
   messageTimestamp(
-    (new Date(contentAttributes.value.callStartTime)).getTime() /1000,
+    new Date(contentAttributes.value.callStartTime).getTime() / 1000,
     'LLL d, h:mm a'
   )
 );
@@ -131,11 +131,11 @@ const statusToShow = computed(() => {
 
 <template>
   <div class="text-xs flex items-center gap-1.5">
-    <div class="inline" v-if="contentType != 'calling_event'">
+    <div v-if="contentType != 'calling_event'" class="inline">
       <time class="inline">{{ readableTime }}</time>
     </div>
 
-    <div class="inline" v-if="contentType == 'calling_event'">
+    <div v-if="contentType == 'calling_event'" class="inline">
       <time class="inline">{{ callStartTime }}</time>
     </div>
     <Icon v-if="isPrivate" icon="i-lucide-lock-keyhole" class="size-3" />

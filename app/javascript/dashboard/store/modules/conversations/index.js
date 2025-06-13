@@ -233,9 +233,8 @@ export const mutations = {
   },
 
   [types.REMOVE_CALL](_state) {
-    _state.activeCall= null;
+    _state.activeCall = null;
   },
-
 
   [types.SET_LIST_LOADING_STATUS](_state) {
     _state.listLoadingStatus = true;

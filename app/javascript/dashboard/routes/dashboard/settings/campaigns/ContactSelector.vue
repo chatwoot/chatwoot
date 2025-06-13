@@ -676,7 +676,7 @@ export default {
 
     <!-- Filters Modal -->
     <woot-modal
-      :show.sync="showFiltersModal"
+      v-model:show="showFiltersModal"
       :on-close="toggleFiltersModal"
       size="medium"
     >

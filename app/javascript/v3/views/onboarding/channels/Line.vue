@@ -5,12 +5,7 @@ import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../dashboard/routes/index';
 
-import PageHeader from '../../../../dashboard/routes/dashboard/settings/SettingsSubPageHeader.vue';
-
 export default {
-  components: {
-    PageHeader,
-  },
   setup() {
     return { v$: useVuelidate() };
   },

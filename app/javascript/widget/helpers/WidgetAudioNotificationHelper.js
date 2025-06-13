@@ -11,4 +11,3 @@ export const playNewCallNotificationInWidget = () => {
 export const stopCallNotificationInWidget = () => {
   IFrameHelper.sendMessage({ event: 'stopRingtone' });
 };
-

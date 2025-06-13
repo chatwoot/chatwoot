@@ -53,7 +53,7 @@ const modalSubtitle = computed(() =>
 </script>
 
 <template>
-  <onboarding-base-modal :title="modalTitle" :subtitle="modalSubtitle">
+  <OnboardingBaseModal :title="modalTitle" :subtitle="modalSubtitle">
     <component :is="ChannelComponent" v-if="ChannelComponent" />
-  </onboarding-base-modal>
+  </OnboardingBaseModal>
 </template>

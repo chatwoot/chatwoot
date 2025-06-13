@@ -68,7 +68,6 @@ const unquotedHTML = computed(() =>
   EmailQuoteExtractor.extractQuotes(fullHTML.value)
 );
 
-
 // Ensure unique keys for <Letter> when toggling between original and translated views.
 // This forces Vue to re-render the component and update content correctly.
 const translationKeySuffix = computed(() => {
@@ -86,7 +85,6 @@ const textToShow = computed(() => {
   // const text =
   //   contentAttributes?.value?.email?.textContent?.full ?? content.value;
   // return text?.replace(/\n/g, '<br>');
-
 
   // If translations exist and we're showing translations (not original)
   if (hasTranslations.value && !renderOriginal.value) {

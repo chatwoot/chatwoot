@@ -60,7 +60,7 @@ export default {
 </script>
 
 <template>
-  <onboarding-base-modal
+  <OnboardingBaseModal
     :title="$t('START_ONBOARDING.INBOX_ADD_AGENTS.TITLE')"
     :subtitle="$t('START_ONBOARDING.INBOX_ADD_AGENTS.DESC')"
   >
@@ -89,7 +89,7 @@ export default {
         :disabled="!selectedAgents.length"
       />
     </form>
-  </onboarding-base-modal>
+  </OnboardingBaseModal>
 </template>
 
 <style scoped>

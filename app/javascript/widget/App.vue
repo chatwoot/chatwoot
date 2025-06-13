@@ -3,7 +3,6 @@ import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
 import addHours from 'date-fns/addHours';
 import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
-import { onBubbleClick } from '../sdk/bubbleHelpers';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
@@ -118,6 +117,7 @@ export default {
       'resetCampaign',
     ]),
     ...mapActions('agent', ['fetchAvailableAgents']),
+    // eslint-disable-next-line vue/no-unused-properties
     ...mapActions('calls', ['setShowCallDialog', 'receiveCall']),
     scrollConversationToBottom() {
       const container = this.$el.querySelector('.conversation-wrap');

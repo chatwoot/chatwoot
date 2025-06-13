@@ -35,11 +35,7 @@ watch(() => props.modelValue, writeToIframe);
       top: `${props.previewPosition.top}px`,
     }"
   >
-    <iframe
-      ref="emailFrame"
-      class="email-preview"
-      title="Email Preview"
-    ></iframe>
+    <iframe ref="emailFrame" class="email-preview" title="Email Preview" />
   </div>
 </template>
 

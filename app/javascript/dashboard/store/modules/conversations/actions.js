@@ -68,7 +68,7 @@ const actions = {
 
       return call;
     } catch (error) {
-      // Handle error
+      return null;
     }
   },
 

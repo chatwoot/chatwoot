@@ -45,7 +45,7 @@ const name = computed(() => {
 function getContactObject() {
   const contactItem = {
     name: name.value,
-    // name: contactName.value, // 
+    // name: contactName.value, //
     phone_number: `+${rawPhoneNumber.value}`,
   };
   return contactItem;

@@ -1,5 +1,4 @@
 <script setup>
-import { onMounted } from 'vue';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import Icon from 'next/icon/Icon.vue';
 

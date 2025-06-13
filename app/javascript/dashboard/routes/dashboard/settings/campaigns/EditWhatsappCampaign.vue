@@ -290,7 +290,7 @@ export default {
       <ContactSelector
         :contacts="contactList"
         :selected-contacts="selectedContacts"
-        @contactsSelected="onContactsSelected"
+        @contacts-selected="onContactsSelected"
       />
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">

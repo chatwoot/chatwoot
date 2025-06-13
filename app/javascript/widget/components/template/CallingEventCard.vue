@@ -3,15 +3,11 @@ export default {
   props: {
     callStatus: {
       type: String,
-      required: true,
+      required: false,
       default: 'missed',
     },
     callStartTime: {
       type: String,
-      required: true,
-    },
-    messageId: {
-      type: Number,
       required: true,
     },
   },
@@ -37,17 +33,18 @@ export default {
 
       if (isToday) {
         return `Today ${timePart}`;
-      } else if (isYesterday) {
+      }
+      if (isYesterday) {
         return `Yesterday ${timePart}`;
-      } else if (date.getFullYear() === now.getFullYear()) {
+      }
+      if (date.getFullYear() === now.getFullYear()) {
         return `${date.getDate()} ${date.toLocaleString('default', {
           month: 'short',
         })} ${timePart}`;
-      } else {
-        return `${date.getDate()} ${date.toLocaleString('default', {
-          month: 'short',
-        })} ${String(date.getFullYear()).slice(-2)} ${timePart}`;
       }
+      return `${date.getDate()} ${date.toLocaleString('default', {
+        month: 'short',
+      })} ${String(date.getFullYear()).slice(-2)} ${timePart}`;
     },
     // formattedTime() {
     //   const date = new Date(this.callStartTime);
@@ -76,10 +73,8 @@ export default {
 <template>
   <div class="space-x-2">
     <div
-      :class="[
-        'inline-flex items-center space-x-2 rounded-full px-4 py-1 text-sm shadow-sm',
-        backgroundClass,
-      ]"
+      class="inline-flex items-center space-x-2 rounded-full px-4 py-1 text-sm shadow-sm"
+      :class="[backgroundClass]"
     >
       <span class="font-semibold text-gray-800">
         {{ callStatus[0].toUpperCase() + callStatus.slice(1) }}

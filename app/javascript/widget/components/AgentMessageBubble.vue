@@ -23,7 +23,7 @@ export default {
     IntegrationCard,
     CalEventCard,
     CalEventConfirmationCard,
-    CallingEventCard
+    CallingEventCard,
   },
   props: {
     message: { type: String, default: null },
@@ -117,7 +117,7 @@ export default {
         v-dompurify-html="formatMessage(message, false)"
         class="message-content text-n-slate-12"
       />
-      
+
       <CallingEventCard
         v-if="isCallingEvent"
         :call-status="messageContentAttributes.call_status"

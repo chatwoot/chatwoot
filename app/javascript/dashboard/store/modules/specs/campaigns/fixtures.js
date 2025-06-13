@@ -13,7 +13,7 @@ export default [
     },
     created_at: '2021-05-03T04:53:36.354Z',
     updated_at: '2021-05-03T04:53:36.354Z',
-    contacts: []
+    contacts: [],
   },
   {
     id: 2,
@@ -27,7 +27,7 @@ export default [
     },
     created_at: '2021-05-03T08:15:35.828Z',
     updated_at: '2021-05-03T08:15:35.828Z',
-    contacts: []
+    contacts: [],
   },
   {
     id: 3,
@@ -43,6 +43,6 @@ export default [
     },
     created_at: '2021-05-03T10:22:51.025Z',
     updated_at: '2021-05-03T10:22:51.025Z',
-    contacts: []
+    contacts: [],
   },
 ];

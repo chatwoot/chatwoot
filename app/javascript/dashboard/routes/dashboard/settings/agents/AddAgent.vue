@@ -74,7 +74,7 @@ const addAgent = async () => {
     const payload = {
       name: agentName.value,
       email: agentEmail.value,
-      selected_inboxes: [...(selectedInboxes.value.map((e) => e.id))],
+      selected_inboxes: [...selectedInboxes.value.map(e => e.id)],
     };
 
     if (selectedRole.value.name.startsWith('custom_')) {

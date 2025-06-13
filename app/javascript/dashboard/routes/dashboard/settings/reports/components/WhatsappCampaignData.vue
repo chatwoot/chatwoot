@@ -1,6 +1,5 @@
 <script>
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
-import ReportMetricCard from './ReportMetricCard.vue';
 import { defineComponent } from 'vue';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
@@ -9,7 +8,6 @@ export default defineComponent({
   name: 'CampaignReportModal',
   components: {
     PaginationFooter,
-    ReportMetricCard,
   },
   props: {
     campaign: {
@@ -278,7 +276,9 @@ export default defineComponent({
           <span class="text-xl font-bold text-blue-600">{{
             metrics.sent
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white">Sent</p>
+          <p class="text-xs text-slate-600 dark:text-white">
+            {{ $t('CAMPAIGN_REPORTS.SENT') }}
+          </p>
         </div>
 
         <woot-button
@@ -295,7 +295,9 @@ export default defineComponent({
           <span class="text-xl font-bold text-blue-600">{{
             metrics.delivered
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white">Delivered</p>
+          <p class="text-xs text-slate-600 dark:text-white">
+            {{ $t('CAMPAIGN_REPORTS.DELIVERED') }}
+          </p>
         </div>
 
         <woot-button
@@ -312,7 +314,9 @@ export default defineComponent({
           <span class="text-xl font-bold text-blue-600">{{
             metrics.read
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white">Read</p>
+          <p class="text-xs text-slate-600 dark:text-white">
+            {{ $t('CAMPAIGN_REPORTS.READ') }}
+          </p>
         </div>
 
         <woot-button
@@ -329,7 +333,9 @@ export default defineComponent({
           <span class="text-xl font-bold text-blue-600">{{
             metrics.replied
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white">Replied</p>
+          <p class="text-xs text-slate-600 dark:text-white">
+            {{ $t('CAMPAIGN_REPORTS.REPLIED') }}
+          </p>
         </div>
 
         <woot-button
@@ -346,7 +352,9 @@ export default defineComponent({
           <span class="text-xl font-bold text-blue-600">{{
             metrics.failed
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white">Failed</p>
+          <p class="text-xs text-slate-600 dark:text-white">
+            {{ $t('CAMPAIGN_REPORTS.FAILED') }}
+          </p>
         </div>
 
         <woot-button
@@ -363,7 +371,9 @@ export default defineComponent({
           <span class="text-xl font-bold text-blue-600">{{
             metrics.processing
           }}</span>
-          <p class="text-xs text-slate-600 dark:text-white">Processing</p>
+          <p class="text-xs text-slate-600 dark:text-white">
+            {{ $t('CAMPAIGN_REPORTS.PROCESSING') }}
+          </p>
         </div>
 
         <woot-button
@@ -418,7 +428,7 @@ export default defineComponent({
                     class="flex items-center cursor-pointer"
                     @click="sortContacts('name')"
                   >
-                    Contact
+                    {{ $t('CAMPAIGN_REPORTS.CONTACT') }}
                     <span
                       class="ml-2 text-xxs"
                       v-if="sortConfig.key === 'name'"
@@ -434,7 +444,7 @@ export default defineComponent({
                     class="flex items-center cursor-pointer"
                     @click="sortContacts('phone_number')"
                   >
-                    Phone
+                    {{ $t('CAMPAIGN_REPORTS.PHONE') }}
                     <span
                       class="ml-2 text-xxs"
                       v-if="sortConfig.key === 'phone_number'"
@@ -447,7 +457,9 @@ export default defineComponent({
                   v-if="activeTab === 'failed'"
                   class="p-4 text-left font-medium text-slate-700 dark:text-white"
                 >
-                  <div class="flex items-center">Reason</div>
+                  <div class="flex items-center">
+                    {{ $t('CAMPAIGN_REPORTS.REASON') }}
+                  </div>
                 </th>
                 <th
                   class="p-4 text-left font-medium text-slate-700 dark:text-white"
@@ -456,8 +468,7 @@ export default defineComponent({
                     class="flex items-center cursor-pointer"
                     @click="sortContacts('processed_at')"
                   >
-                    Time
-
+                    {{ $t('CAMPAIGN_REPORTS.TIME') }}
                     <span
                       class="ml-2 text-xxs"
                       v-if="sortConfig.key === 'processed_at'"

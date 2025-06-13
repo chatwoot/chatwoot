@@ -27,7 +27,7 @@ export default {
   setup() {
     const store = useStore();
     const router = useRouter();
-    const { t } = useI18n();
+    // const { t } = useI18n();
 
     const avatarUrl = ref('');
     const avatarFile = ref('');
@@ -68,7 +68,6 @@ export default {
       const {
         email,
         name: fullNameValue,
-        avatar_url: avatarUrlValue,
         display_name: displayNameValue,
         message_signature: signatureValue,
         custom_attributes: { phone_number: phoneNumberValue } = {},
@@ -195,7 +194,7 @@ export default {
                 :src="avatarUrl"
                 :username="fullName"
                 variant="square"
-                :has-border="true"
+                :has-border
               />
               <div
                 v-else
@@ -216,7 +215,6 @@ export default {
               </div>
               <input
                 id="user_avatar"
-                ref="imageUpload"
                 name="user_avatar"
                 class="invisible w-0 h-0"
                 type="file"

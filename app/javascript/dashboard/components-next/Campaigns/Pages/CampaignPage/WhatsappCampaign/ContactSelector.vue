@@ -19,8 +19,6 @@ import PaginationFooter from 'dashboard/components-next/pagination/PaginationFoo
 import { useRoute } from 'vue-router';
 import labels from '../../../../../api/labels';
 
-const route = useRoute();
-
 const props = defineProps({
   contacts: {
     type: Array,
@@ -45,6 +43,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['contacts-selected', 'search']);
+
+const route = useRoute();
 
 const store = useStore();
 const { t } = useI18n();
@@ -78,6 +78,49 @@ const appliedFilters = ref([
   },
 ]);
 
+const isFilterValueValid = filter => {
+  if (filter.values === null || filter.values === undefined) {
+    return false;
+  }
+
+  if (typeof filter.values === 'string') {
+    return filter.values.trim() !== '';
+  }
+
+  if (Array.isArray(filter.values)) {
+    return filter.values.length > 0;
+  }
+
+  if (typeof filter.values === 'object') {
+    return Object.keys(filter.values).length > 0;
+  }
+
+  return !!filter.values;
+};
+
+const formatFilterValue = filter => {
+  if (typeof filter.values === 'string') {
+    return [filter.values.trim()];
+  }
+  if (Array.isArray(filter.values)) {
+    return filter.values;
+  }
+  if (
+    typeof filter.values === 'object' &&
+    Object.keys(filter.values).length > 0
+  ) {
+    return [
+      filter.values.id ||
+        filter.values.value ||
+        Object.values(filter.values)[0],
+    ];
+  }
+  if (typeof filter.values === 'boolean') {
+    return [filter.values.toString()];
+  }
+  return [filter.values];
+};
+
 const formattedFilters = computed(() => {
   return appliedFilters.value
     .filter(filter => isFilterValueValid(filter))
@@ -98,7 +141,7 @@ const formattedFilters = computed(() => {
 });
 
 const formattedFilterWithPhoneNumber = computed(() => {
-  if (formattedFilters.value.every(e => e.attribute_key != 'phone_number')) {
+  if (formattedFilters.value.every(e => e.attribute_key !== 'phone_number')) {
     return [
       {
         attribute_key: 'phone_number',
@@ -261,13 +304,19 @@ const shouldShowLoadingTrigger = computed(() => {
     : props.hasMore;
 });
 
+const resetObserver = () => {
+  if (observer.value) {
+    observer.value.disconnect();
+  }
+};
+
 // Methods
 const handleContactsResponse = (data, isFiltered = false) => {
   const { payload = [], meta = {} } = data;
-  const filteredContacts = payload;
+  const filteredContactsPayload = payload;
 
-  contactList.value = filteredContacts;
-  allFilteredContacts.value = filteredContacts;
+  contactList.value = filteredContactsPayload;
+  allFilteredContacts.value = filteredContactsPayload;
 
   totalPages.value = Math.ceil(meta.count / itemsPerPage);
   totalContacts.value = meta.count;
@@ -284,6 +333,7 @@ const toggleContact = contact => {
   } else {
     localSelectedContacts.value.splice(index, 1);
   }
+  // eslint-disable-line vue/custom-event-name-casing
   emit('contacts-selected', localSelectedContacts.value);
 };
 
@@ -294,6 +344,7 @@ const isSelected = contact => {
 const clearSelection = () => {
   localSelectedContacts.value = [];
   selectAllVisible.value = false;
+  // eslint-disable-line vue/custom-event-name-casing
   emit('contacts-selected', localSelectedContacts.value);
 };
 
@@ -307,9 +358,8 @@ const selectAll = async () => {
     const filters = formattedFilterWithPhoneNumber;
     const result = await ContactsAPI.getFilteredAllIds({
       payload: filters.value,
-      labels: props.selectedAudience
+      labels: props.selectedAudience,
     });
-    console.log('Reslts: ', result);
 
     emit('contacts-selected', result.data.contact_ids);
     selectAllVisible.value = true;
@@ -319,44 +369,24 @@ const selectAll = async () => {
   }
 };
 
-const isFilterValueValid = filter => {
-  if (filter.values === null || filter.values === undefined) {
-    return false;
-  }
+const fetchContacts = async (page = 1) => {
+  try {
+    currentPage.value = page;
+    isLoadingContacts.value = true;
 
-  if (typeof filter.values === 'string') {
-    return filter.values.trim() !== '';
-  }
+    const queryPayload = {
+      payload: formattedFilterWithPhoneNumber.value,
+      labels: props.selectedAudience,
+    };
 
-  if (Array.isArray(filter.values)) {
-    return filter.values.length > 0;
-  }
+    const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
 
-  if (typeof filter.values === 'object') {
-    return Object.keys(filter.values).length > 0;
+    handleContactsResponse(data, false);
+  } catch (error) {
+    useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
+  } finally {
+    isLoadingContacts.value = false;
   }
-
-  return !!filter.values;
-};
-
-const formatFilterValue = filter => {
-  if (typeof filter.values === 'string') {
-    return [filter.values.trim()];
-  } else if (Array.isArray(filter.values)) {
-    return filter.values;
-  } else if (
-    typeof filter.values === 'object' &&
-    Object.keys(filter.values).length > 0
-  ) {
-    return [
-      filter.values.id ||
-        filter.values.value ||
-        Object.values(filter.values)[0],
-    ];
-  } else if (typeof filter.values === 'boolean') {
-    return [filter.values.toString()];
-  }
-  return [filter.values];
 };
 
 const submitFilters = async () => {
@@ -365,7 +395,7 @@ const submitFilters = async () => {
     currentPage.value = 1;
     allFilteredContacts.value = [];
 
-    let formattedFilters = appliedFilters.value
+    let formattedFiltersVal = appliedFilters.value
       .filter(filter => isFilterValueValid(filter))
       .map((filter, index, filteredArray) => {
         const baseFilter = {
@@ -382,9 +412,8 @@ const submitFilters = async () => {
         return useSnakeCase(baseFilter);
       });
 
-    console.log('formatted Filter list: ', formattedFilters);
-    if (formattedFilters.every(e => e.attribute_key != 'phone_number')) {
-      formattedFilters = [
+    if (formattedFiltersVal.every(e => e.attribute_key !== 'phone_number')) {
+      formattedFiltersVal = [
         {
           attribute_key: 'phone_number',
           attribute_model: 'standard',
@@ -392,11 +421,11 @@ const submitFilters = async () => {
           query_operator: 'and',
           values: '+',
         },
-        ...formattedFilters,
+        ...formattedFiltersVal,
       ];
     }
 
-    if (formattedFilters.length === 0) {
+    if (formattedFiltersVal.length === 0) {
       await fetchContacts(1);
       showFiltersModal.value = false;
       return;
@@ -405,7 +434,7 @@ const submitFilters = async () => {
     isLoadingContacts.value = true;
     isFetchingAllPages.value = true;
     const queryPayload = {
-      payload: formattedFilters,
+      payload: formattedFiltersVal,
       labels: props.selectedAudience,
     };
 
@@ -421,7 +450,6 @@ const submitFilters = async () => {
       resetObserver();
     });
   } catch (error) {
-    console.log('Error occurred: ', error);
     useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_ERROR'));
   } finally {
     isFetchingAllPages.value = false;
@@ -447,26 +475,6 @@ const clearFilters = async () => {
   showFiltersModal.value = false;
 };
 
-const fetchContacts = async (page = 1) => {
-  try {
-    currentPage.value = page;
-    isLoadingContacts.value = true;
-
-    const queryPayload = {
-      payload: formattedFilterWithPhoneNumber.value,
-      labels: props.selectedAudience,
-    };
-
-    const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
-
-    handleContactsResponse(data, false);
-  } catch (error) {
-    useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
-  } finally {
-    isLoadingContacts.value = false;
-  }
-};
-
 const updateSelectedContacts = contactIds => {
   const currentSelectedIds = new Set(localSelectedContacts.value);
   contactIds.forEach(id => {
@@ -479,6 +487,7 @@ const updateSelectedContacts = contactIds => {
       }
     }
   });
+  // eslint-disable-line vue/custom-event-name-casing
   emit('contacts-selected', localSelectedContacts.value);
 };
 
@@ -520,12 +529,6 @@ const onUpdatePage = async page => {
   }
 };
 
-const resetObserver = () => {
-  if (observer.value) {
-    observer.value.disconnect();
-  }
-};
-
 // Watchers
 watch(selectAllVisible, newVal => {
   if (newVal) {
@@ -540,6 +543,7 @@ watch(selectAllVisible, newVal => {
         !filteredContacts.value.some(contact => contact.id === selectedContact)
     );
   }
+  // eslint-disable-line vue/custom-event-name-casing
   emit('contacts-selected', localSelectedContacts.value);
 });
 
@@ -564,7 +568,7 @@ watch(
   () => props.selectedContacts,
   newVal => {
     localSelectedContacts.value = [
-      ...newVal.map(e => (typeof e == 'object' ? e.id : e)),
+      ...newVal.map(e => (typeof e === 'object' ? e.id : e)),
     ];
   },
   { deep: true }
@@ -653,7 +657,7 @@ defineExpose({
             }}</span>
           </div>
         </div>
-        <div class="flex-1"></div>
+        <div class="flex-1" />
         <input
           type="checkbox"
           :checked="isSelected(contact)"
@@ -682,10 +686,10 @@ defineExpose({
       }}
     </div> -->
 
-    <div class="bg-red-50"></div>
+    <div class="bg-red-50" />
     <PaginationFooter
       :count="
-        localSelectedContacts.length == 0 ? null : localSelectedContacts.length
+        localSelectedContacts.length === 0 ? null : localSelectedContacts.length
       "
       :current-page="currentPage"
       :total-items="totalContacts"

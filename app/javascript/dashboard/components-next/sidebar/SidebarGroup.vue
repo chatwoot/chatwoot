@@ -164,8 +164,8 @@ onMounted(async () => {
           :active-child="activeChild"
         />
 
-            <!-- REVIEW:CV4.0.2 Below code isn't in our version, why?
-          v-else-if="isAllowed(child.to)" --> 
+        <!-- REVIEW:CV4.0.2 Below code isn't in our version, why?
+          v-else-if="isAllowed(child.to)" -->
         <SidebarGroupLeaf
           v-else
           v-show="isExpanded || activeChild?.name === child.name"

@@ -167,7 +167,7 @@ const skipToNextStep = async () => {
         <SubmitButton
           button-class="flex justify-center w-full text-sm text-center"
           :label="$t('AGENT_MGMT.ADD.FORM.SUBMIT')"
-          :is-disabled="(v$.$invalid || uiFlags.isCreating)"
+          :is-disabled="v$.$invalid || uiFlags.isCreating"
           :is-loading="uiFlags.isCreating"
         />
         <button type="button" class="button clear" @click="skipToNextStep">

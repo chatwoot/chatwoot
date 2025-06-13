@@ -19,8 +19,6 @@ import PaginationFooter from 'dashboard/components-next/pagination/PaginationFoo
 import { useRoute } from 'vue-router';
 import labels from '../../../../../api/labels';
 
-const route = useRoute();
-
 const props = defineProps({
   contacts: {
     type: Array,
@@ -45,6 +43,8 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['contacts-selected', 'search']);
+
+const route = useRoute();
 
 const store = useStore();
 const { t } = useI18n();
@@ -77,6 +77,48 @@ const appliedFilters = ref([
     attributeModel: 'standard',
   },
 ]);
+const isFilterValueValid = filter => {
+  if (filter.values === null || filter.values === undefined) {
+    return false;
+  }
+
+  if (typeof filter.values === 'string') {
+    return filter.values.trim() !== '';
+  }
+
+  if (Array.isArray(filter.values)) {
+    return filter.values.length > 0;
+  }
+
+  if (typeof filter.values === 'object') {
+    return Object.keys(filter.values).length > 0;
+  }
+
+  return !!filter.values;
+};
+
+const formatFilterValue = filter => {
+  if (typeof filter.values === 'string') {
+    return [filter.values.trim()];
+  }
+  if (Array.isArray(filter.values)) {
+    return filter.values;
+  }
+  if (
+    typeof filter.values === 'object' &&
+    Object.keys(filter.values).length > 0
+  ) {
+    return [
+      filter.values.id ||
+        filter.values.value ||
+        Object.values(filter.values)[0],
+    ];
+  }
+  if (typeof filter.values === 'boolean') {
+    return [filter.values.toString()];
+  }
+  return [filter.values];
+};
 
 const formattedFilters = computed(() => {
   return appliedFilters.value
@@ -98,7 +140,7 @@ const formattedFilters = computed(() => {
 });
 
 const formattedFilterWithEmail = computed(() => {
-  if (formattedFilters.value.every(e => e.attribute_key != 'phone_number')) {
+  if (formattedFilters.value.every(e => e.attribute_key !== 'phone_number')) {
     return [
       {
         attribute_key: 'email',
@@ -261,13 +303,19 @@ const shouldShowLoadingTrigger = computed(() => {
     : props.hasMore;
 });
 
-// Methods
-const handleContactsResponse = (data, isFiltered = false) => {
-  const { payload = [], meta = {} } = data;
-  const filteredContacts = payload;
+const resetObserver = () => {
+  if (observer.value) {
+    observer.value.disconnect();
+  }
+};
 
-  contactList.value = filteredContacts;
-  allFilteredContacts.value = filteredContacts;
+// Methods
+const handleContactsResponse = data => {
+  const { payload = [], meta = {} } = data;
+  const filteredContactsPayload = payload;
+
+  contactList.value = filteredContactsPayload;
+  allFilteredContacts.value = filteredContactsPayload;
 
   totalPages.value = Math.ceil(meta.count / itemsPerPage);
   totalContacts.value = meta.count;
@@ -309,7 +357,6 @@ const selectAll = async () => {
       payload: filters.value,
       labels: props.selectedAudience,
     });
-    console.log('Reslts: ', result);
 
     emit('contacts-selected', result.data.contact_ids);
     selectAllVisible.value = true;
@@ -319,44 +366,24 @@ const selectAll = async () => {
   }
 };
 
-const isFilterValueValid = filter => {
-  if (filter.values === null || filter.values === undefined) {
-    return false;
-  }
+const fetchContacts = async (page = 1) => {
+  try {
+    currentPage.value = page;
+    isLoadingContacts.value = true;
 
-  if (typeof filter.values === 'string') {
-    return filter.values.trim() !== '';
-  }
+    const queryPayload = {
+      payload: formattedFilterWithEmail.value,
+      labels: props.selectedAudience,
+    };
 
-  if (Array.isArray(filter.values)) {
-    return filter.values.length > 0;
-  }
+    const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
 
-  if (typeof filter.values === 'object') {
-    return Object.keys(filter.values).length > 0;
+    handleContactsResponse(data, false);
+  } catch (error) {
+    useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
+  } finally {
+    isLoadingContacts.value = false;
   }
-
-  return !!filter.values;
-};
-
-const formatFilterValue = filter => {
-  if (typeof filter.values === 'string') {
-    return [filter.values.trim()];
-  } else if (Array.isArray(filter.values)) {
-    return filter.values;
-  } else if (
-    typeof filter.values === 'object' &&
-    Object.keys(filter.values).length > 0
-  ) {
-    return [
-      filter.values.id ||
-        filter.values.value ||
-        Object.values(filter.values)[0],
-    ];
-  } else if (typeof filter.values === 'boolean') {
-    return [filter.values.toString()];
-  }
-  return [filter.values];
 };
 
 const submitFilters = async () => {
@@ -365,9 +392,9 @@ const submitFilters = async () => {
     currentPage.value = 1;
     allFilteredContacts.value = [];
 
-    let formattedFilters = formattedFilterWithEmail.value;
+    let formattedFiltersVal = formattedFilterWithEmail.value;
 
-    if (formattedFilters.length === 0) {
+    if (formattedFiltersVal.length === 0) {
       await fetchContacts(1);
       showFiltersModal.value = false;
       return;
@@ -376,7 +403,7 @@ const submitFilters = async () => {
     isLoadingContacts.value = true;
     isFetchingAllPages.value = true;
     const queryPayload = {
-      payload: formattedFilters,
+      payload: formattedFiltersVal,
       labels: props.selectedAudience,
     };
 
@@ -392,7 +419,6 @@ const submitFilters = async () => {
       resetObserver();
     });
   } catch (error) {
-    console.log('Error occurred: ', error);
     useAlert(t('CAMPAIGN.WHATSAPP.CONTACT_SELECTOR.FILTER_ERROR'));
   } finally {
     isFetchingAllPages.value = false;
@@ -416,26 +442,6 @@ const clearFilters = async () => {
   await nextTick();
   resetObserver();
   showFiltersModal.value = false;
-};
-
-const fetchContacts = async (page = 1) => {
-  try {
-    currentPage.value = page;
-    isLoadingContacts.value = true;
-
-    const queryPayload = {
-      payload: formattedFilterWithEmail.value,
-      labels: props.selectedAudience,
-    };
-
-    const { data } = await ContactsAPI.filter(page, 'name', queryPayload);
-
-    handleContactsResponse(data, false);
-  } catch (error) {
-    useAlert(t('CAMPAIGN.ADD.API.CONTACTS_ERROR'));
-  } finally {
-    isLoadingContacts.value = false;
-  }
 };
 
 const updateSelectedContacts = contactIds => {
@@ -491,12 +497,6 @@ const onUpdatePage = async page => {
   }
 };
 
-const resetObserver = () => {
-  if (observer.value) {
-    observer.value.disconnect();
-  }
-};
-
 // Watchers
 watch(selectAllVisible, newVal => {
   if (newVal) {
@@ -535,7 +535,7 @@ watch(
   () => props.selectedContacts,
   newVal => {
     localSelectedContacts.value = [
-      ...newVal.map(e => (typeof e == 'object' ? e.id : e)),
+      ...newVal.map(e => (typeof e === 'object' ? e.id : e)),
     ];
   },
   { deep: true }
@@ -544,9 +544,9 @@ watch(
 // Lifecycle Hooks
 onMounted(() => {
   updateSelectVisiblePosition();
-  fetchContacts(1).then(e => {
+  fetchContacts(1).then(result => {
     localSelectedContacts.value = props.selectedContacts.filter(e =>
-      contactList.value.some(c => c.id == e)
+      contactList.value.some(c => c.id === e)
     );
   });
 
@@ -629,7 +629,7 @@ defineExpose({
             }}</span>
           </div>
         </div>
-        <div class="flex-1"></div>
+        <div class="flex-1" />
         <input
           type="checkbox"
           :checked="isSelected(contact)"
@@ -658,7 +658,7 @@ defineExpose({
       }}
     </div> -->
 
-    <div class="bg-red-50"></div>
+    <div class="bg-red-50" />
     <PaginationFooter
       :count="
         localSelectedContacts.length == 0 ? null : localSelectedContacts.length

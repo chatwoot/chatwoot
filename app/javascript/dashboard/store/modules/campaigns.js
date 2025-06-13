@@ -32,7 +32,8 @@ export const getters = {
 };
 
 export const actions = {
-  get: async function getCampaigns({ commit, dispatch, getters, rootGetters }) {
+  get: async function getCampaigns({ commit, dispatch, getters: myGetters }) {
+    // eslint-disable-line no-shadow
     commit(types.SET_CAMPAIGN_UI_FLAG, { isFetching: true });
     try {
       const response = await CampaignsAPI.get();
@@ -45,7 +46,8 @@ export const actions = {
 
       const contactsForCampaigns = response.data.map(campaign => ({
         ...campaign,
-        contacts: getters.getContactsForCampaign(campaign.id).pending_contacts,
+        contacts: myGetters.getContactsForCampaign(campaign.id)
+          .pending_contacts,
       }));
 
       commit(types.SET_CAMPAIGNS, contactsForCampaigns);
@@ -105,11 +107,16 @@ export const actions = {
 
       const result = campaign.contacts
         ? await Promise.all(
-            campaign.contacts.map(async function (id) {
-              const getContact = () => rootGetters['contacts/getContact'](id);
+            campaign.contacts.map(async function (contact_id) {
+              const getContact = () =>
+                rootGetters['contacts/getContact'](contact_id);
               let contact = getContact();
               if (Object.keys(contact).length === 0) {
-                await dispatch('contacts/show', { id }, { root: true });
+                await dispatch(
+                  'contacts/show',
+                  { id: contact_id },
+                  { root: true }
+                );
                 contact = getContact();
               }
               return contact;
@@ -153,9 +160,6 @@ export const actions = {
         contacts: response.data,
       });
       return response.data;
-    } catch (error) {
-      console.error('Failed to fetch campaign contacts', error);
-      throw error;
     } finally {
       commit(types.SET_CAMPAIGN_UI_FLAG, { isFetchingContacts: false });
     }
@@ -173,9 +177,9 @@ export const mutations = {
   [types.SET_CAMPAIGNS]: MutationHelpers.set,
   [types.EDIT_CAMPAIGN]: MutationHelpers.update,
   [types.DELETE_CAMPAIGN]: MutationHelpers.destroy,
-  [types.SET_CAMPAIGN_CONTACTS](state, { campaignId, contacts }) {
-    state.campaignContacts = {
-      ...state.campaignContacts,
+  [types.SET_CAMPAIGN_CONTACTS](_state, { campaignId, contacts }) {
+    _state.campaignContacts = {
+      ..._state.campaignContacts,
       [campaignId]: contacts,
     };
   },

@@ -43,7 +43,6 @@ const handleDelete = campaign => {
   selectedCampaign.value = campaign;
   confirmDeleteCampaignDialogRef.value.dialogRef.open();
 };
-
 </script>
 
 <template>
@@ -68,7 +67,7 @@ const handleDelete = campaign => {
     <CampaignList
       v-else-if="!hasNoWhatsappCampaigns"
       :campaigns="WhatsappCampaigns"
-      :campaignType="'whatsapp'"
+      campaign-type="whatsapp"
       @edit="handleEdit"
       @delete="handleDelete"
     />

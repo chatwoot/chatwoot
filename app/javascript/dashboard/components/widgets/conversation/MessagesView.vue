@@ -566,8 +566,8 @@ export default {
                 ? $t('CONVERSATION.UNREAD_MESSAGES')
                 : $t('CONVERSATION.UNREAD_MESSAGE')
             }}
-              <!-- REVIEW:CV4.0.2 Below code isn't in our version, why? -->
-      <!-- <template #unreadBadge>
+            <!-- REVIEW:CV4.0.2 Below code isn't in our version, why? -->
+            <!-- <template #unreadBadge>
         <li v-show="unreadMessageCount != 0" class="unread--toast">
           <span>
             {{ unreadMessageLabel }} -->

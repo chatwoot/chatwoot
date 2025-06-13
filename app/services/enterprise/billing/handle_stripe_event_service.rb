@@ -1,4 +1,29 @@
 class Enterprise::Billing::HandleStripeEventService
+
+
+  # REVIEW: these list are just chatwoot's list, as per their plans we might not need them like this.
+  # Update all the tests and other things that go along
+
+
+  # Basic features available starting with the Startups plan
+  STARTUP_PLAN_FEATURES = %w[
+    inbound_emails
+    help_center
+    campaigns
+    team_management
+    channel_twitter
+    channel_facebook
+    channel_email
+    channel_instagram
+    captain_integration
+  ].freeze
+
+  # Additional features available starting with the Business plan
+  BUSINESS_PLAN_FEATURES = %w[sla custom_roles].freeze
+
+  # Additional features available only in the Enterprise plan
+  ENTERPRISE_PLAN_FEATURES = %w[audit_logs disable_branding].freeze
+
   def perform(event:)
     ensure_event_context(event)
     case @event.type

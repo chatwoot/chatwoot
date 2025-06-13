@@ -243,7 +243,7 @@ export default {
           name: this.websiteName,
           channel: {
             widget_color: this.color,
-            logoColors: {dot1: this.dot1, dot2: this.dot2, dot3: this.dot3},
+            logoColors: { dot1: this.dot1, dot2: this.dot2, dot3: this.dot3 },
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,

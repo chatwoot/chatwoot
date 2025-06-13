@@ -59,22 +59,6 @@ const templateList = computed(() => {
 
 const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
 
-const isStep1Valid = computed(() => {
-  return (
-    !v$.value.title.$error &&
-    !v$.value.selectedInbox.$error &&
-    !v$.value.selectedTemplate.$error &&
-    !v$.value.scheduledAt.$error &&
-    formState.isTemplateValid
-  );
-});
-
-const currentDateTime = computed(() => {
-  const now = new Date();
-  const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
-  return localTime.toISOString().slice(0, 16);
-});
-
 // Validation Rules
 const rules = computed(() => {
   const step1Rules = {
@@ -94,6 +78,22 @@ const rules = computed(() => {
 });
 
 const v$ = useVuelidate(rules, formState);
+
+const isStep1Valid = computed(() => {
+  return (
+    !v$.value.title.$error &&
+    !v$.value.selectedInbox.$error &&
+    !v$.value.selectedTemplate.$error &&
+    !v$.value.scheduledAt.$error &&
+    formState.isTemplateValid
+  );
+});
+
+const currentDateTime = computed(() => {
+  const now = new Date();
+  const localTime = new Date(now.getTime() - now.getTimezoneOffset() * 60000);
+  return localTime.toISOString().slice(0, 16);
+});
 
 // Methods
 const calculatePreviewPosition = () => {
@@ -117,6 +117,21 @@ const handleInboxSelection = () => {
     window.location.href = `${baseUrl}/app/accounts/${props.selectedCampaign.account_id}/settings/inboxes/new/whatsapp`;
     formState.selectedInbox = null;
   }
+};
+
+const handleContactsResponse = data => {
+  const { payload = [], meta = {} } = data;
+  const filteredContacts = payload.filter(contact => contact.phone_number);
+  if (contactState.currentPage === 1) {
+    contactState.contactList = filteredContacts;
+  } else {
+    contactState.contactList = [
+      ...contactState.contactList,
+      ...filteredContacts,
+    ];
+  }
+  contactState.total_count = meta.count || 0;
+  contactState.totalPages = Math.ceil(meta.count / 30);
 };
 
 const fetchContacts = async (page = 1, search = '') => {
@@ -145,21 +160,6 @@ const fetchContacts = async (page = 1, search = '') => {
   } finally {
     contactState.isLoadingContacts = false;
   }
-};
-
-const handleContactsResponse = data => {
-  const { payload = [], meta = {} } = data;
-  const filteredContacts = payload.filter(contact => contact.phone_number);
-  if (contactState.currentPage === 1) {
-    contactState.contactList = filteredContacts;
-  } else {
-    contactState.contactList = [
-      ...contactState.contactList,
-      ...filteredContacts,
-    ];
-  }
-  contactState.total_count = meta.count || 0;
-  contactState.totalPages = Math.ceil(meta.count / 30);
 };
 
 const loadMoreContacts = () => {

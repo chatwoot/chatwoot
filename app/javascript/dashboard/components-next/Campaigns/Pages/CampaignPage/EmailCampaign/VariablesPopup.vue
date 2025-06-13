@@ -1,3 +1,14 @@
+<script setup>
+defineProps({
+  modelValue: Boolean,
+  variables: Object,
+  x: Number,
+  y: Number,
+});
+
+defineEmits(['update:modelValue']);
+</script>
+
 <template>
   <div
     v-if="modelValue"
@@ -29,22 +40,11 @@
 
       <button
         class="absolute top-2 right-2 text-black text-lg"
-        @click.stop="$emit('update:modelValue', false)"
         aria-label="Close"
+        @click.stop="$emit('update:modelValue', false)"
       >
         ✕
       </button>
     </div>
   </div>
 </template>
-
-<script setup>
-defineProps({
-  modelValue: Boolean,
-  variables: Object,
-  x: Number,
-  y: Number,
-});
-
-defineEmits(['update:modelValue']);
-</script>

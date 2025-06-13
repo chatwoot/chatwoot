@@ -114,7 +114,6 @@ onMounted(() =>
 
     <InboxPageEmptyState v-else @click="handleCreate" />
 
-    
     <!-- REVIEW:CV4.0.2 this is the cv4.0.2 version
     <template #emptyState>
       <InboxPageEmptyState @click="handleCreate" />

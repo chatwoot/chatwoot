@@ -62,6 +62,73 @@ const contactState = reactive({
   sortAttribute: 'name',
 });
 
+function extractTemplateVariables(str) {
+  const regex = /{{\s*([\w.]+)\s*}}/g;
+  const matches = [];
+  let match;
+
+  match = regex.exec(str);
+  while (match !== null) {
+    match = regex.exec(str);
+    matches.push(match[1]);
+  }
+
+  return matches;
+}
+
+const validVarsData = {
+  'contact.name': 'Name of the reciever contact',
+  'contact.first_name': 'First name of the reciever contact',
+  'contact.last_name': 'Last name of the reciever contact',
+  'contact.email': 'Email of the reciever contact',
+  'contact.phone': 'Phone no. of the reciever contact',
+};
+
+const undefVariables = ref(new Set());
+
+const inboxes = computed(() => {
+  const allInboxes = store.getters['inboxes/getEmailInboxes'];
+  return allInboxes;
+});
+
+// Validation Rules
+const rules = computed(() => {
+  const step1Rules = {
+    title: { required },
+    message: {
+      required,
+      allVarsValid: value => {
+        const vars = extractTemplateVariables(value);
+        const validVars = Object.keys(validVarsData);
+        const undefVars = new Set(vars.filter(x => !validVars.includes(x)));
+
+        undefVariables.value = undefVars;
+        return undefVars.size === 0;
+      },
+    },
+    selectedInbox: {
+      required,
+      isSmtpAvailable: value => {
+        const inbox = toRaw(inboxes.value.filter(e => e.id === value)[0]);
+        return inbox.smtp_enabled === true;
+      },
+    },
+    scheduledAt: {
+      required,
+    },
+    selectedAudience: {},
+  };
+  const step2Rules = {
+    selectedContacts: {
+      required,
+      minLength: value => (value || []).length > 0,
+    },
+  };
+  return currentStep.value === 1 ? step1Rules : step2Rules;
+});
+
+const v$ = useVuelidate(rules, formState);
+
 const getErrorMessage = (field, errorKey) => {
   const baseKey = 'CAMPAIGN.WHATSAPP.CREATE.FORM';
   return v$.value[field].$error ? t(`${baseKey}.${errorKey}.ERROR`) : '';
@@ -81,11 +148,6 @@ const mapToOptions = (items, valueKey, labelKey) =>
 
 const audienceList = computed(() => mapToOptions(labels.value, 'id', 'title'));
 
-const inboxes = computed(() => {
-  const allInboxes = store.getters['inboxes/getEmailInboxes'];
-  return allInboxes;
-});
-
 const uiFlags = computed(() => store.getters['campaigns/getUIFlags']);
 
 const currentDateTime = computed(() => {
@@ -103,68 +165,6 @@ function openPopup(event) {
   popupY.value = event.clientY;
   variablesShown.value = true;
 }
-
-const undefVariables = ref(new Set());
-
-const validVarsData = {
-  'contact.name': 'Name of the reciever contact',
-  'contact.first_name': 'First name of the reciever contact',
-  'contact.last_name': 'Last name of the reciever contact',
-  'contact.email': 'Email of the reciever contact',
-  'contact.phone': 'Phone no. of the reciever contact',
-};
-
-function extractTemplateVariables(str) {
-  const regex = /{{\s*([\w.]+)\s*}}/g;
-  const matches = [];
-  let match;
-
-  while ((match = regex.exec(str)) !== null) {
-    matches.push(match[1]);
-  }
-
-  return matches;
-}
-
-// Validation Rules
-const rules = computed(() => {
-  const step1Rules = {
-    title: { required },
-    message: {
-      required,
-      allVarsValid: value => {
-        console.log('testing: ', value);
-        const vars = extractTemplateVariables(value);
-        const validVars = Object.keys(validVarsData);
-        const undefVars = new Set(vars.filter(x => !validVars.includes(x)));
-
-        console.log('undef: ', undefVars);
-        undefVariables.value = undefVars;
-        return undefVars.size === 0;
-      },
-    },
-    selectedInbox: {
-      required,
-      isSmtpAvailable: value => {
-        const inbox = toRaw(inboxes.value.filter(e => e.id == value)[0]);
-        return inbox.smtp_enabled === true;
-      },
-    },
-    scheduledAt: {
-      required,
-    },
-    selectedAudience: {},
-  };
-  const step2Rules = {
-    selectedContacts: {
-      required,
-      minLength: value => (value || []).length > 0,
-    },
-  };
-  return currentStep.value === 1 ? step1Rules : step2Rules;
-});
-
-const v$ = useVuelidate(rules, formState);
 
 // Methods
 const calculatePreviewPosition = () => {
@@ -193,10 +193,31 @@ const handleInboxSelection = () => {
   v$.value.selectedInbox.$validate();
 
   // REVIEW: This doesn't seem to be needed, selectedInbox should never be 'create_new'
-  if (formState.selectedInbox === 'create_new') {
-    const baseUrl = window.location.origin;
-    window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/email`;
-    formState.selectedInbox = null;
+  // if (formState.selectedInbox === 'create_new') {
+  //   const baseUrl = window.location.origin;
+  //   window.location.href = `${baseUrl}/app/accounts/${accountId}/settings/inboxes/new/email`;
+  //   formState.selectedInbox = null;
+  // }
+};
+const contactSelector = ref(null);
+
+const handleContactsResponse = data => {
+  const { payload = [], meta = {} } = data;
+  const filteredContacts = payload.filter(contact => contact.email);
+  if (contactState.currentPage === 1) {
+    contactState.contactList = filteredContacts;
+  } else {
+    contactState.contactList = [
+      ...contactState.contactList,
+      ...filteredContacts,
+    ];
+  }
+  contactState.total_count = meta.count || 0;
+  contactState.totalPages = Math.ceil(meta.count / 30);
+
+  // Update selected contacts if we have contact IDs
+  if (formState.selectedContacts.length > 0 && contactSelector.value) {
+    contactSelector.value.updateSelectedContacts(formState.selectedContacts);
   }
 };
 
@@ -228,26 +249,6 @@ const fetchContacts = async (page = 1, search = '') => {
   }
 };
 
-const handleContactsResponse = data => {
-  const { payload = [], meta = {} } = data;
-  const filteredContacts = payload.filter(contact => contact.email);
-  if (contactState.currentPage === 1) {
-    contactState.contactList = filteredContacts;
-  } else {
-    contactState.contactList = [
-      ...contactState.contactList,
-      ...filteredContacts,
-    ];
-  }
-  contactState.total_count = meta.count || 0;
-  contactState.totalPages = Math.ceil(meta.count / 30);
-
-  // Update selected contacts if we have contact IDs
-  if (formState.selectedContacts.length > 0 && contactSelector.value) {
-    contactSelector.value.updateSelectedContacts(formState.selectedContacts);
-  }
-};
-
 const loadMoreContacts = () => {
   if (
     contactState.currentPage < contactState.totalPages &&
@@ -273,8 +274,6 @@ const handleFiltersCleared = () => {
 const onFilteredContacts = filteredContacts => {
   contactState.contactList = filteredContacts;
 };
-
-const contactSelector = ref(null);
 
 const fetchAllContactIds = async (isFiltered, filteredContacts) => {
   try {
@@ -309,7 +308,6 @@ const goToNext = async () => {
     await fetchContacts(1);
     currentStep.value = 2;
   } else {
-    console.log('Invalid input');
   }
 };
 
@@ -357,7 +355,6 @@ const handleUpdate = async () => {
 
 // Lifecycle Hooks
 onMounted(() => {
-  console.log('Campaign body', props.selectedCampaign);
   formState.title = props.selectedCampaign.title || '';
   formState.message = props.selectedCampaign.message || '';
   formState.selectedInbox = props.selectedCampaign.inbox_id || null;
@@ -429,7 +426,7 @@ onBeforeUnmount(() => {
                   @click="openPopup"
                 />
               </div>
-              <CodeHighlighter v-model="formState.message"></CodeHighlighter>
+              <CodeHighlighter v-model="formState.message" />
             </div>
             <div
               v-if="
@@ -547,8 +544,8 @@ onBeforeUnmount(() => {
 
         <div class="flex-1">
           <TemplatePreview
-            :preview-position="formState.previewPosition"
             v-model="formState.message"
+            :preview-position="formState.previewPosition"
           />
         </div>
       </div>
@@ -560,7 +557,7 @@ onBeforeUnmount(() => {
         ref="contactSelector"
         :contacts="contactState.contactList"
         :selected-contacts="formState.selectedContacts"
-        :selectedAudience="formState.selectedAudience"
+        :selected-audience="formState.selectedAudience"
         :is-loading="contactState.isLoadingContacts"
         :has-more="contactState.currentPage < contactState.totalPages"
         @contacts-selected="contacts => (formState.selectedContacts = contacts)"
@@ -594,8 +591,8 @@ onBeforeUnmount(() => {
     </div>
 
     <VariablesPopup
-      :variables="validVarsData"
       v-model="variablesShown"
+      :variables="validVarsData"
       :x="popupX"
       :y="popupY"
     />

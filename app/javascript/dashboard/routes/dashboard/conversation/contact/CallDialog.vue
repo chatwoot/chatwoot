@@ -2,13 +2,6 @@
 import JitsiMeet from 'dashboard/components-next/jitsi/JitsiMeet.vue';
 import { ref, onMounted, onBeforeUnmount } from 'vue';
 
-const emit = defineEmits(['close']);
-const isFloating = ref(false);
-const floatingDialog = ref(null);
-const position = ref({ x: null, y: null });
-const isDragging = ref(false);
-const dragOffset = ref({ x: 0, y: 0 });
-
 const props = defineProps({
   agentId: {
     type: Number,
@@ -30,15 +23,21 @@ const props = defineProps({
     type: String,
     required: true,
   },
-});   
+});
+const emit = defineEmits(['close']);
+const isFloating = ref(false);
+const floatingDialog = ref(null);
+const position = ref({ x: null, y: null });
+const isDragging = ref(false);
+const dragOffset = ref({ x: 0, y: 0 });
 
 const handleHangup = () => {
   emit('close');
-}
+};
 
 const handleCallLeft = () => {
   emit('left');
-}
+};
 
 const handleToggleFloating = () => {
   isFloating.value = !isFloating.value;
@@ -48,28 +47,28 @@ const handleToggleFloating = () => {
   }
 };
 
-const startDrag = (event) => {
+const startDrag = event => {
   if (!isFloating.value) return;
-  
+
   isDragging.value = true;
   const rect = floatingDialog.value.getBoundingClientRect();
-  
+
   dragOffset.value = {
     x: event.clientX - rect.left,
-    y: event.clientY - rect.top
+    y: event.clientY - rect.top,
   };
-  
+
   event.preventDefault();
 };
 
-const onDrag = (event) => {
+const onDrag = event => {
   if (!isDragging.value) return;
-  
+
   position.value = {
     x: event.clientX - dragOffset.value.x,
-    y: event.clientY - dragOffset.value.y
+    y: event.clientY - dragOffset.value.y,
   };
-  
+
   // Keep dialog within viewport bounds
   const rect = floatingDialog.value.getBoundingClientRect();
   if (position.value.x < 0) position.value.x = 0;
@@ -89,13 +88,17 @@ const endDrag = () => {
 onMounted(() => {
   document.addEventListener('mousemove', onDrag);
   document.addEventListener('mouseup', endDrag);
-  document.addEventListener('touchmove', event => {
-    if (isDragging.value) {
-      const touch = event.touches[0];
-      onDrag({ clientX: touch.clientX, clientY: touch.clientY });
-      event.preventDefault();
-    }
-  }, { passive: false });
+  document.addEventListener(
+    'touchmove',
+    event => {
+      if (isDragging.value) {
+        const touch = event.touches[0];
+        onDrag({ clientX: touch.clientX, clientY: touch.clientY });
+        event.preventDefault();
+      }
+    },
+    { passive: false }
+  );
   document.addEventListener('touchend', endDrag);
 });
 
@@ -105,30 +108,39 @@ onBeforeUnmount(() => {
   document.removeEventListener('touchmove', event => {}, { passive: false });
   document.removeEventListener('touchend', endDrag);
 });
-
 </script>
 
 <template>
-  <div 
+  <div
     ref="floatingDialog"
+    v-on-clickaway="() => !isFloating && emit('close')"
     :class="{
       'dialog-overlay': !isFloating,
-      'floating-dialog': isFloating
+      'floating-dialog': isFloating,
     }"
-    v-on-clickaway="() => !isFloating && emit('close')"
-    :style="isFloating && position.x !== null ? 
-      { left: `${position.x}px`, top: `${position.y}px`, right: 'auto', bottom: 'auto' } : {}"
+    :style="
+      isFloating && position.x !== null
+        ? {
+            left: `${position.x}px`,
+            top: `${position.y}px`,
+            right: 'auto',
+            bottom: 'auto',
+          }
+        : {}
+    "
   >
-    <div 
-      v-if="isFloating" 
+    <div
+      v-if="isFloating"
       class="drag-handle"
       @mousedown="startDrag"
       @touchstart.prevent="startDrag"
-    ></div>
-    <div :class="{
-      'dialog-center': !isFloating,
-      'floating-container': isFloating
-    }">
+    />
+    <div
+      :class="{
+        'dialog-center': !isFloating,
+        'floating-container': isFloating,
+      }"
+    >
       <JitsiMeet
         :room-id="roomId"
         :agent-id="agentId"

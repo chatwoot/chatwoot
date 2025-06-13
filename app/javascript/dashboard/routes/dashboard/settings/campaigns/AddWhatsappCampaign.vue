@@ -91,7 +91,7 @@ export default {
     this.calculatePreviewPosition();
     window.addEventListener('resize', this.calculatePreviewPosition);
   },
-  beforeDestroy() {
+  beforeUnmount() {
     window.removeEventListener('resize', this.calculatePreviewPosition);
   },
   methods: {
@@ -372,11 +372,11 @@ export default {
         :selected-contacts="selectedContacts"
         :is-loading="isLoadingContacts"
         :has-more="currentPage < totalPages"
-        @contactsSelected="onContactsSelected"
-        @loadMore="loadMoreContacts"
-        @selectAllContacts="fetchAllContactIds"
-        @filterContacts="onFilteredContacts"
-        @filtersCleared="handleFiltersCleared"
+        @contacts-selected="onContactsSelected"
+        @load-more="loadMoreContacts"
+        @select-all-contacts="fetchAllContactIds"
+        @filter-contacts="onFilteredContacts"
+        @filters-cleared="handleFiltersCleared"
       />
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">

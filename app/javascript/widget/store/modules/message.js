@@ -44,7 +44,7 @@ export const actions = {
   },
 
   updateCallStatus: async (
-    { commit, dispatch, getters: { getUIFlags: uiFlags } },
+    { commit, getters: { getUIFlags: uiFlags } },
     { callStatus, messageId }
   ) => {
     if (uiFlags.isUpdating) {

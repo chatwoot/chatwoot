@@ -55,7 +55,7 @@ export default {
   computed: {
     ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
-      activeCall: 'getCallState'
+      activeCall: 'getCallState',
     }),
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
@@ -267,11 +267,13 @@ export default {
           slate
           faded
           sm
-          :disabled="(activeCall != null) || (this.contact.availability_status != 'online')"
+          :disabled="
+            activeCall != null || contact.availability_status != 'online'
+          "
           @click="startCall"
         />
 
-        <!-- REVIEW:CV4.0.4 This is the old CONTACT_PANEL.NEW_MESSAGE, do we need this functionality --> 
+        <!-- REVIEW:CV4.0.4 This is the old CONTACT_PANEL.NEW_MESSAGE, do we need this functionality -->
         <!-- <NextButton
           v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
           icon="i-ph-chat-circle-dots"

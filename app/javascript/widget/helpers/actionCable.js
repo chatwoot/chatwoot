@@ -35,7 +35,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       const { call_data, account_id, performer } = data;
 
       if (!call_data) {
-        console.error('No call provided in call data');
         return;
       }
 
@@ -51,25 +50,20 @@ class ActionCableConnector extends BaseActionCableConnector {
 
       const { handleIncomingCall } = await import('./callHelper');
       await handleIncomingCall({ call_data, caller });
-    } catch (error) {
-      console.error('Error handling incoming call:', error);
-    }
+    } catch (error) {}
   };
 
   onCallEnded = async data => {
     try {
-      const { call_data, account_id, performer } = data;
+      const { call_data } = data;
 
       if (!call_data) {
-        console.error('No call provided in call data');
         return;
       }
 
       const { endCall } = await import('./callHelper');
       await endCall(call_data);
-    } catch (error) {
-      console.error('Error handling call end:', error);
-    }
+    } catch (error) {}
   };
 
   onDisconnected = () => {

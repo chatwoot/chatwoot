@@ -34,7 +34,6 @@ export default {
 
       // If iconPath is undefined, return an empty array or a default path
       if (!iconPath) {
-        console.warn(`No icon found for ${this.icon}-${this.type}`);
         return []; // or return a default icon path if needed
       }
 
