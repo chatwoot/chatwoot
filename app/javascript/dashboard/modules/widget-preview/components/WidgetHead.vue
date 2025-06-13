@@ -1,5 +1,6 @@
 <script setup>
 import { computed } from 'vue';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 const props = defineProps({
   config: {
@@ -7,6 +8,8 @@ const props = defineProps({
     default: () => ({}),
   },
 });
+
+const { formatMessage } = useMessageFormatter();
 
 const isDefaultScreen = computed(() => {
   return (
@@ -53,12 +56,13 @@ const isDefaultScreen = computed(() => {
         </div>
       </div>
       <div v-if="isDefaultScreen" class="overflow-auto max-h-60">
-        <h2 class="mb-2 text-2xl break-words text-slate-900 dark:text-white">
+        <h2 class="mb-2 text-2xl break-words text-n-slate-12">
           {{ config.welcomeHeading }}
         </h2>
-        <p class="text-sm break-words text-slate-600 dark:text-slate-100">
-          {{ config.welcomeTagline }}
-        </p>
+        <p
+          v-dompurify-html="formatMessage(config.welcomeTagline)"
+          class="text-sm break-words text-n-slate-11 [&_a]:!text-n-slate-11 [&_a]:underline"
+        />
       </div>
     </div>
   </div>

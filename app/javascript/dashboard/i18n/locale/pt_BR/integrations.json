@@ -318,11 +318,18 @@
         "SUCCESS": "Issue desvinculada com sucesso",
         "ERROR": "Houve um erro ao desvincular o atributo, por favor, tente novamente"
       },
+      "NO_LINKED_ISSUES": "Nenhuma tarefa vinculada foi encontrada",
       "DELETE": {
         "TITLE": "Tem certeza que deseja excluir esta integração?",
         "MESSAGE": "Tem certeza que deseja excluir esta integração?",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
+      },
+      "CTA": {
+        "TITLE": "Conectar ao Linear",
+        "AGENT_DESCRIPTION": "O espaço de trabalho do Linear não está conectado. Solicite ao seu administrador para conectar um espaço de trabalho para usar essa integração.",
+        "DESCRIPTION": "O espaço de trabalho do Linear não está conectado. Clique no botão abaixo para conectar seu espaço de trabalho para usar essa integração.",
+        "BUTTON_TEXT": "Conectar espaço de trabalho do Linear"
       }
     }
   },
@@ -330,12 +337,17 @@
     "NAME": "Capitão",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copiloto",
+      "TRY_THESE_PROMPTS": "Experimente estes comandos",
+      "PANEL_TITLE": "Comece a usar o Copiloto",
+      "KICK_OFF_MESSAGE": "Precisa de um resumo rápido, quer verificar conversas passadas ou redigir uma resposta melhor? O Copiloto está aqui para acelerar as coisas.",
       "SEND_MESSAGE": "Enviar mensagem...",
       "EMPTY_MESSAGE": "Houve um erro ao gerar a resposta. Por favor, tente novamente.",
       "LOADER": "Capitão está pensando",
       "YOU": "Você",
       "USE": "Use isto",
       "RESET": "Reiniciar",
+      "SHOW_STEPS": "Mostrar etapas",
       "SELECT_ASSISTANT": "Selecione o Assistente",
       "PROMPTS": {
         "SUMMARIZE": {
@@ -349,6 +361,14 @@
         "RATE": {
           "LABEL": "Avaliar esta conversa",
           "CONTENT": "Revise a conversa para ver o quanto ela atende às necessidades do cliente. Compartilhe uma classificação de 0 a 5 com base em tom, clareza e eficácia."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "Conversas de alta prioridade",
+          "CONTENT": "Dê um resumo de todas as conversas abertas com prioridade alta. Incluir o ID da conversa, nome do cliente (se disponível), o conteúdo da última mensagem e o agente atribuído. O grupo por status, se relevante."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "Listar contatos",
+          "CONTENT": "Mostre-me a lista dos 10 contatos mais frequentes. Inclua nome, e-mail ou número de telefone (se disponível), visto por última vez, etiquetas (se houver)."
         }
       }
     },
@@ -368,7 +388,6 @@
       "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "A função de Capitão AI só está disponível num plano pago.",
       "UPGRADE_PROMPT": "Atualize seu plano para ter acesso aos nossos assistentes, copilotos e muito mais.",
       "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
     },
@@ -383,6 +402,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistentes",
+      "NO_ASSISTANTS_AVAILABLE": "Não há assistentes disponíveis em sua conta.",
       "ADD_NEW": "Criar um novo assistente",
       "DELETE": {
         "TITLE": "Tem certeza que deseja excluir o assistente?",
@@ -410,6 +430,10 @@
           "LABEL": "Nome",
           "PLACEHOLDER": "Digite o nome do assistente",
           "ERROR": "O nome é obrigatório"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Temperatura da resposta",
+          "DESCRIPTION": "Ajuste o quão criativo ou restritivo as respostas do assistente devem ser. Valores mais baixos produzem respostas mais focadas e deterministas, enquanto valores mais altos permitem resultados mais criativos e variados."
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",

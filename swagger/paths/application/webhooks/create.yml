@@ -2,18 +2,27 @@ tags:
   - Webhooks
 operationId: create-a-webhook
 summary: Add a webhook
+security:
+  - userApiKey: []
 description: Add a webhook subscription to the account
 parameters:
-  - $ref: '#/parameters/account_id'
-  - name: data
-    in: body
-    required: true
-    schema:
-      $ref: '#/definitions/webhook_create_update_payload'
+  - $ref: '#/components/parameters/account_id'
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/webhook_create_update_payload'
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      $ref: '#/definitions/webhook'
-  401:
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/webhook'
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

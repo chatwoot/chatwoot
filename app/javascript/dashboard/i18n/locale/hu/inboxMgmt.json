@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Chat előtti űrlap",
       "BUSINESS_HOURS": "Nyitvatartás",
       "WIDGET_BUILDER": "Widget építő",
-      "BOT_CONFIGURATION": "Bot konfiguráció"
+      "BOT_CONFIGURATION": "Bot konfiguráció",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Beállítások",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-mail gyűjtődoboz engedélyezése",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Az e-mailek gyűjtődobozának engedélyezése vagy letiltása új beszélgetéseknél",
       "AUTO_ASSIGNMENT": "Automata hozzárendelés engedélyezése",
-      "ENABLE_CSAT": "CSAT engedélyezése",
       "SENDER_NAME_SECTION": "Ügynök nevének engedélyezése e-mailben",
-      "ENABLE_CSAT_SUB_TEXT": "A CSAT (Ügyfél-elégedettség) felmérés engedélyezése/letiltása egy beszélgetés megoldása után",
       "SENDER_NAME_SECTION_TEXT": "Az ügynök nevének megjelenítésének engedélyezése/letiltása az e-mailben, ha le van tiltva, akkor a cég neve jelenik meg",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Beszélgetés folytatásának engedélyezése emailen keresztül",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "A beszélgetések e-mailben folytatódnak, ha elérhető a kapcsolattartási e-mail cím.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "A látogatóknak nevük és e-mailcímük megadása szükséges a beszélgetés megkezdése előtt"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT engedélyezése",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Üzenet",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "tartalmaz",
+          "DOES_NOT_CONTAINS": "nem tartalmaz"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {

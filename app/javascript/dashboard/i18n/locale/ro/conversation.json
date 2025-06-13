@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Rezolvă",
       "REOPEN_ACTION": "Redeschide",
       "OPEN_ACTION": "Deschide",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Mai mult",
       "CLOSE": "Închide",
       "DETAILS": "detalii",
@@ -117,6 +118,11 @@
         "FAILED": "Nu s-a putut schimba prioritatea. Vă rugăm să încercați din nou."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Şterge"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Marchează ca în așteptare",
       "RESOLVED": "Marcați ca rezolvat",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Atribuiți eticheta",
       "AGENTS_LOADING": "Se încarcă agenții...",
       "ASSIGN_TEAM": "Atribuiți echipă",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Id conversație {conversationId} atribuit la \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etichetă atribuită cu succes",
     "ASSIGN_LABEL_FAILED": "Atribuirea etichetei a eșuat",
     "CHANGE_TEAM": "Echipa de conversație schimbată",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Fișierul depășește limita de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Mesajul nu poate fi trimis, te rugăm să încerci din nou mai târziu",
     "SENT_BY": "Trimis de:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Atribute Contacte",
       "PREVIOUS_CONVERSATION": "Conversații anterioare",
       "MACROS": "Macrocomenzi",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

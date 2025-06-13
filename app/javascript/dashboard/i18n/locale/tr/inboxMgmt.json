@@ -47,13 +47,13 @@
         "CREATE_INBOX": "Gelen Kutusu Oluştur"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "Instagram ile devam et",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Instagram profilinizi bağlayın",
+        "HELP": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız ",
+        "ERROR_MESSAGE": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
+        "ERROR_AUTH": "Instagram'a bağlanırken bir hata oluştu, lütfen tekrar deneyin",
+        "NEW_INBOX_SUGGESTION": "Bu Instagram hesabı daha önce farklı bir gelen kutusuna bağlıydı ve şimdi buraya taşındı. Tüm yeni mesajlar burada görünecek. Eski gelen kutusu artık bu hesap için mesaj gönderip alamayacak.",
+        "DUPLICATE_INBOX_BANNER": "Bu Instagram hesabı yeni Instagram kanal gelen kutusuna taşındı. Artık bu gelen kutusundan Instagram mesajı gönderip alamayacaksınız."
       },
       "TWITTER": {
         "HELP": "Twitter profilinizi bir kanal olarak eklemek için, 'Twitter ile Giriş Yap'ı tıklayarak Twitter Profilinizi doğrulamanız gerekir.",
@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Sohbet Öncesi Form",
       "BUSINESS_HOURS": "İş Saatleri",
       "WIDGET_BUILDER": "Widget Oluşturucu",
-      "BOT_CONFIGURATION": "Bot Yapılandırma"
+      "BOT_CONFIGURATION": "Bot Yapılandırma",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Ayarlar",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-posta toplama kutusunu etkinleştir",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Yeni konuşmalarda e-posta toplama kutusunu etkinleştir veya devre dışı bırak",
       "AUTO_ASSIGNMENT": "Otomatik atamayı etkinleştir",
-      "ENABLE_CSAT": "CSAT'yi etkinleştir",
       "SENDER_NAME_SECTION": "E-postada Ajan Adını Etkinleştir",
-      "ENABLE_CSAT_SUB_TEXT": "Bir konuşma çözüldükten sonra Müşteri Memnuniyeti Anketi (CSAT) etkinleştir/devre dışı bırak",
       "SENDER_NAME_SECTION_TEXT": "E-postada Ajanın adını göstermeyi/Devre dışı bırakmayı etkinleştirin, devre dışı bırakıldığında iş adını gösterir",
       "ENABLE_CONTINUITY_VIA_EMAIL": "E-posta aracılığıyla konuşma sürekliliğini etkinleştir",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "E-posta adresi mevcut ise konuşmalar e-posta aracılığıyla devam eder.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Ziyaretçilerin sohbeti başlamadan önce ad ve e-posta adresi sağlaması gerekmektedir"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT'yi etkinleştir",
+      "SUBTITLE": "Müşterilerin destek deneyimleri hakkında ne hissettiklerini anlamak için sohbetlerin sonunda otomatik olarak CSAT anketleri başlatın. Memnuniyet eğilimlerini takip edin ve zaman içinde iyileştirme alanlarını belirleyin.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Görüntüleme türü"
+      },
+      "MESSAGE": {
+        "LABEL": "Mesaj",
+        "PLACEHOLDER": "Form ile kullanıcılara göstermek için bir mesaj girin"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Anket kuralı",
+        "DESCRIPTION_PREFIX": "Sohbet olursa anketi gönder",
+        "DESCRIPTION_SUFFIX": "etiketlerden herhangi biri",
+        "OPERATOR": {
+          "CONTAINS": "i̇çerir",
+          "DOES_NOT_CONTAINS": "i̇çermez"
+        },
+        "SELECT_PLACEHOLDER": "etiketleri seç"
+      },
+      "NOTE": "Not: CSAT anketleri her sohbet için yalnızca bir kez gönderilir",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT ayarları başarıyla güncellendi",
+        "ERROR_MESSAGE": "CSAT ayarları güncellenemedi. Lütfen daha sonra tekrar deneyin."
       }
     },
     "BUSINESS_HOURS": {

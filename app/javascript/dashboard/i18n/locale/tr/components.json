@@ -45,9 +45,9 @@
     "WATCH_VIDEO": "Watch video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Dakika",
+    "HOURS": "Saat",
+    "DAYS": "Gün",
+    "PLACEHOLDER": "Süre girin"
   }
 }

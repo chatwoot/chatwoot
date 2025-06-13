@@ -1,5 +1,5 @@
 class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::BaseController
-  before_action :fetch_conversation, only: [:link_issue, :linked_issues]
+  before_action :fetch_conversation, only: [:create_issue, :link_issue, :unlink_issue, :linked_issues]
   before_action :fetch_hook, only: [:destroy]
 
   def destroy
@@ -31,6 +31,12 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
+      Linear::ActivityMessageService.new(
+        conversation: @conversation,
+        action_type: :issue_created,
+        issue_data: { id: issue[:data][:identifier] },
+        user: Current.user
+      ).perform
       render json: issue[:data], status: :ok
     end
   end
@@ -42,17 +48,30 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
+      Linear::ActivityMessageService.new(
+        conversation: @conversation,
+        action_type: :issue_linked,
+        issue_data: { id: issue_id },
+        user: Current.user
+      ).perform
       render json: issue[:data], status: :ok
     end
   end
 
   def unlink_issue
     link_id = permitted_params[:link_id]
+    issue_id = permitted_params[:issue_id]
     issue = linear_processor_service.unlink_issue(link_id)
 
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
+      Linear::ActivityMessageService.new(
+        conversation: @conversation,
+        action_type: :issue_unlinked,
+        issue_data: { id: issue_id },
+        user: Current.user
+      ).perform
       render json: issue[:data], status: :ok
     end
   end
@@ -94,7 +113,8 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def permitted_params
-    params.permit(:team_id, :project_id, :conversation_id, :issue_id, :link_id, :title, :description, :assignee_id, :priority, label_ids: [])
+    params.permit(:team_id, :project_id, :conversation_id, :issue_id, :link_id, :title, :description, :assignee_id, :priority, :state_id,
+                  label_ids: [])
   end
 
   def fetch_hook

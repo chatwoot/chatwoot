@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Κώδικας Πρόσβασης (Access Token)",
         "NOTE": "Χρησιμοποιείται σε περίπτωση εξωτερικής ενοποίησης της εφαρμογής με κώδικα (API)",
-        "COPY": "Αντιγραφή"
+        "COPY": "Αντιγραφή",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "Εκτός"
         },
         "SET_AVAILABILITY_SUCCESS": "Η διαθεσιμότητα ορίστηκε με επιτυχία",
-        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά"
+        "SET_AVAILABILITY_ERROR": "Αδυναμία ορισμού διαθεσιμότητας, παρακαλώ προσπαθήστε ξανά",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Η διεύθυνση email",
@@ -280,6 +286,7 @@
     "REPORTS": "Αναφορές",
     "SETTINGS": "Ρυθμίσεις",
     "CONTACTS": "Επαφές",
+    "ACTIVE": "Ενεργή",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
