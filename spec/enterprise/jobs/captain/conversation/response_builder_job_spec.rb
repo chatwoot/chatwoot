@@ -41,11 +41,14 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
 
       it 'includes image URL directly in the message content for OpenAI vision analysis' do
         # Expect the generate_response to receive multimodal content with image URL
-        expect(mock_llm_chat_service).to receive(:generate_response) do |content, _history|
-          # Content should be an array for multimodal
-          expect(content).to be_an(Array)
-          expect(content.any? { |part| part[:type] == 'text' && part[:text] == 'Can you help with this error?' }).to be true
-          expect(content.any? { |part| part[:type] == 'image_url' && part[:image_url][:url] == 'https://example.com/error.jpg' }).to be true
+        expect(mock_llm_chat_service).to receive(:generate_response) do |**kwargs|
+          history = kwargs[:message_history]
+          last_entry = history.last
+          expect(last_entry[:content]).to be_an(Array)
+          expect(last_entry[:content].any? { |part| part[:type] == 'text' && part[:text] == 'Can you help with this error?' }).to be true
+          expect(last_entry[:content].any? do |part|
+            part[:type] == 'image_url' && part[:image_url][:url] == 'https://example.com/error.jpg'
+          end).to be true
           { 'response' => 'I can see the error in your image. It appears to be a database connection issue.' }
         end
 

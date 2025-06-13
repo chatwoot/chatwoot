@@ -15,7 +15,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       generate_and_process_response
     end
   rescue StandardError => e
-    raise e if e.is_a?(ActiveJob::FileNotFoundError)
+    raise e if e.is_a?(ActiveStorage::FileNotFoundError)
 
     handle_error(e)
   ensure
@@ -27,10 +27,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    latest_message = @conversation.messages.incoming.last
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      message_content_multimodal(latest_message),
-      collect_previous_messages
+      message_history: collect_previous_messages
     )
 
     return process_action('handoff') if handoff_requested?
@@ -59,6 +57,65 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     return 'system' if message.content.blank?
 
     message.message_type == 'incoming' ? 'user' : 'system'
+  end
+
+  def message_content_multimodal(message)
+    parts = []
+
+    parts << text_part(message.content) if message.content.present?
+    parts.concat(attachment_parts(message.attachments)) if message.attachments.any?
+
+    finalize_content_parts(parts)
+  end
+
+  def text_part(text)
+    { type: 'text', text: text }
+  end
+
+  def attachment_parts(attachments)
+    [].tap do |parts|
+      parts.concat(image_parts(attachments.where(file_type: :image)))
+
+      transcription = extract_audio_transcriptions(attachments)
+      parts << text_part(transcription) if transcription.present?
+
+      parts << text_part('User has shared an attachment') if attachments.where.not(file_type: %i[image audio]).exists?
+    end
+  end
+
+  def image_parts(image_attachments)
+    image_attachments.each_with_object([]) do |attachment, parts|
+      url = get_attachment_url(attachment)
+      next if url.blank?
+
+      parts << {
+        type: 'image_url',
+        image_url: { url: url }
+      }
+    end
+  end
+
+  def finalize_content_parts(parts)
+    return 'Message without content' if parts.blank?
+    return parts.first[:text] if single_text_part?(parts)
+
+    parts
+  end
+
+  def single_text_part?(parts)
+    parts.one? && parts.first[:type] == 'text'
+  end
+
+  def get_attachment_url(attachment)
+    return attachment.external_url if attachment.external_url.present?
+
+    return unless attachment.file.attached?
+
+    begin
+      attachment.file_url
+    rescue ActiveStorage::FileNotFoundError
+      nil
+    end
   end
 
   def handoff_requested?

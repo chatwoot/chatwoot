@@ -8,9 +8,9 @@ class ChatGpt
     @messages = [system_message(context_sections)]
   end
 
-  def generate_response(input, previous_messages = [], role = 'user')
-    @messages += previous_messages
-    @messages << { 'role': role, 'content': input } if input.present?
+  def generate_response(additional_message: nil, message_history: [], role: 'user')
+    @messages += message_history
+    @messages << { 'role': role, 'content': additional_message } if additional_message.present?
 
     response = request_gpt
     JSON.parse(response['choices'][0]['message']['content'].strip)
