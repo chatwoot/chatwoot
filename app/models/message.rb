@@ -302,10 +302,10 @@ class Message < ApplicationRecord
     reopen_conversation
     notify_via_mail
     set_conversation_activity
-    execute_message_template_hooks
-    update_contact_activity
     dispatch_create_events
     send_reply
+    execute_message_template_hooks
+    update_contact_activity
   end
 
   def update_contact_activity
@@ -336,14 +336,9 @@ class Message < ApplicationRecord
     additional_attributes['ignore_automation_rules'] == true
   end
 
-  # rubocop:disable Metrics/AbcSize
   def dispatch_create_events
-    if inbox.web_widget?
-      Rails.configuration.dispatcher.dispatch(MESSAGE_CREATED, Time.zone.now, message: self, performed_by: Current.executed_by, sync_webhook: true)
-    else
-      # we are waiting for 2 seconds to dispatch the event so that the message also has attachments with it when sending back the event to frontend
-      DelayDispatchEventJob.set(wait: 2.seconds).perform_later(event_name: MESSAGE_CREATED, timestamp: Time.zone.now, message_id: id)
-    end
+    # we are waiting for 2 seconds to dispatch the event so that the message also has attachments with it when sending back the event to frontend
+    DelayDispatchEventJob.set(wait: 2.seconds).perform_later(event_name: MESSAGE_CREATED, timestamp: Time.zone.now, message_id: id)
 
     return if backpopulated_message?
 
@@ -354,7 +349,6 @@ class Message < ApplicationRecord
       update_waiting_since
     end
   end
-  # rubocop:enable Metrics/AbcSize
 
   def dispatch_update_event
     # ref: https://github.com/rails/rails/issues/44500
