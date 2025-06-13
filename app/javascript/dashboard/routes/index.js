@@ -16,8 +16,7 @@ export const validateAuthenticateRoutePermission = async (to, next) => {
   const { isLoggedIn, getCurrentUser: user } = store.getters;
 
   if (!isLoggedIn) {
-    window.location.assign('/app/pricing');
-    // window.location.assign('/app/login');
+    window.location.assign('/app/login');
     return '';
   }
 
