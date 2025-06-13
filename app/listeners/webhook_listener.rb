@@ -126,7 +126,7 @@ class WebhookListener < BaseListener
     return unless inbox.channel_type == 'Channel::WebWidget'
     return if inbox.channel.webhook_url.blank?
 
-    HighPriorityWebhookJob.perform_later(inbox.channel.webhook_url, payload, :web_widget_webhook)
+    HighPriorityWebhookJob.perform_now(inbox.channel.webhook_url, payload, :web_widget_webhook)
   end
 
   def deliver_webhook_payloads(payload, inbox)
