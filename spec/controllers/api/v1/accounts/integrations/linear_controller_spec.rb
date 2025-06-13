@@ -137,7 +137,7 @@ RSpec.describe 'Linear Integration API', type: :request do
                     account_id: conversation.account_id,
                     inbox_id: conversation.inbox_id,
                     message_type: :activity,
-                    content: 'New Linear issue ENG-123 has been created'
+                    content: "Linear issue ENG-123 was created by #{agent.name}"
                   })
         end
       end
@@ -183,7 +183,7 @@ RSpec.describe 'Linear Integration API', type: :request do
                     account_id: conversation.account_id,
                     inbox_id: conversation.inbox_id,
                     message_type: :activity,
-                    content: 'Linear issue ENG-456 is now linked'
+                    content: "Linear issue ENG-456 was linked by #{agent.name}"
                   })
 
           expect(response).to have_http_status(:ok)
@@ -231,7 +231,7 @@ RSpec.describe 'Linear Integration API', type: :request do
                     account_id: conversation.account_id,
                     inbox_id: conversation.inbox_id,
                     message_type: :activity,
-                    content: 'Linear issue ENG-789 has been unlinked'
+                    content: "Linear issue ENG-789 was unlinked by #{agent.name}"
                   })
 
           expect(response).to have_http_status(:ok)

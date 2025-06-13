@@ -4,6 +4,7 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
   let(:account) { create(:account) }
   let(:inbox) { create(:inbox, account: account) }
   let(:conversation) { create(:conversation, account: account, inbox: inbox) }
+  let(:user) { create(:user, account: account) }
 
   describe '#perform' do
     context 'when action_type is issue_created' do
@@ -11,7 +12,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         described_class.new(
           conversation: conversation,
           action_type: :issue_created,
-          issue_data: { id: 'ENG-123' }
+          issue_data: { id: 'ENG-123' },
+          user: user
         )
       end
 
@@ -23,7 +25,7 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
                   account_id: conversation.account_id,
                   inbox_id: conversation.inbox_id,
                   message_type: :activity,
-                  content: 'New Linear issue ENG-123 has been created'
+                  content: "Linear issue ENG-123 was created by #{user.name}"
                 })
       end
 
@@ -31,7 +33,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         service = described_class.new(
           conversation: conversation,
           action_type: :issue_created,
-          issue_data: { title: 'Some issue' }
+          issue_data: { title: 'Some issue' },
+          user: user
         )
 
         expect do
@@ -43,7 +46,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         service = described_class.new(
           conversation: conversation,
           action_type: :issue_created,
-          issue_data: {}
+          issue_data: {},
+          user: user
         )
 
         expect do
@@ -55,7 +59,21 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         service = described_class.new(
           conversation: nil,
           action_type: :issue_created,
-          issue_data: { id: 'ENG-123' }
+          issue_data: { id: 'ENG-123' },
+          user: user
+        )
+
+        expect do
+          service.perform
+        end.not_to have_enqueued_job(Conversations::ActivityMessageJob)
+      end
+
+      it 'does not enqueue job when user is nil' do
+        service = described_class.new(
+          conversation: conversation,
+          action_type: :issue_created,
+          issue_data: { id: 'ENG-123' },
+          user: nil
         )
 
         expect do
@@ -69,7 +87,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         described_class.new(
           conversation: conversation,
           action_type: :issue_linked,
-          issue_data: { id: 'ENG-456' }
+          issue_data: { id: 'ENG-456' },
+          user: user
         )
       end
 
@@ -81,7 +100,7 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
                   account_id: conversation.account_id,
                   inbox_id: conversation.inbox_id,
                   message_type: :activity,
-                  content: 'Linear issue ENG-456 is now linked'
+                  content: "Linear issue ENG-456 was linked by #{user.name}"
                 })
       end
 
@@ -89,7 +108,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         service = described_class.new(
           conversation: conversation,
           action_type: :issue_linked,
-          issue_data: { title: 'Some issue' }
+          issue_data: { title: 'Some issue' },
+          user: user
         )
 
         expect do
@@ -103,7 +123,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         described_class.new(
           conversation: conversation,
           action_type: :issue_unlinked,
-          issue_data: { id: 'ENG-789' }
+          issue_data: { id: 'ENG-789' },
+          user: user
         )
       end
 
@@ -115,7 +136,7 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
                   account_id: conversation.account_id,
                   inbox_id: conversation.inbox_id,
                   message_type: :activity,
-                  content: 'Linear issue ENG-789 has been unlinked'
+                  content: "Linear issue ENG-789 was unlinked by #{user.name}"
                 })
       end
 
@@ -123,7 +144,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         service = described_class.new(
           conversation: conversation,
           action_type: :issue_unlinked,
-          issue_data: { title: 'Some issue' }
+          issue_data: { title: 'Some issue' },
+          user: user
         )
 
         expect do
@@ -137,7 +159,8 @@ RSpec.describe Linear::ActivityMessageService, type: :service do
         described_class.new(
           conversation: conversation,
           action_type: :unknown_action,
-          issue_data: { id: 'ENG-999' }
+          issue_data: { id: 'ENG-999' },
+          user: user
         )
       end
 

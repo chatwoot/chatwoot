@@ -34,7 +34,8 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
       Linear::ActivityMessageService.new(
         conversation: @conversation,
         action_type: :issue_created,
-        issue_data: { id: issue[:data][:identifier] }
+        issue_data: { id: issue[:data][:identifier] },
+        user: Current.user
       ).perform
       render json: issue[:data], status: :ok
     end
@@ -50,7 +51,8 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
       Linear::ActivityMessageService.new(
         conversation: @conversation,
         action_type: :issue_linked,
-        issue_data: { id: issue_id }
+        issue_data: { id: issue_id },
+        user: Current.user
       ).perform
       render json: issue[:data], status: :ok
     end
@@ -67,7 +69,8 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
       Linear::ActivityMessageService.new(
         conversation: @conversation,
         action_type: :issue_unlinked,
-        issue_data: { id: issue_id }
+        issue_data: { id: issue_id },
+        user: Current.user
       ).perform
       render json: issue[:data], status: :ok
     end
