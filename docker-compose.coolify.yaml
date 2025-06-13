@@ -44,9 +44,9 @@ services:
     restart: always
     post_start:
       - command:
-        - 'bundle exec rails db:chatwoot_prepare &&'
-        - 'bundle exec rails branding:update &&'
-        - 'if [ -n "$${BRAND_ASSETS_URL}" ]; then deployment/extract_brand_assets.sh "$${BRAND_ASSETS_URL}"; fi'
+        - sh
+        - '-c'
+        - 'bundle exec rails db:chatwoot_prepare && bundle exec rails branding:update && if [ -n "$${BRAND_ASSETS_URL}" ]; then deployment/extract_brand_assets.sh "$${BRAND_ASSETS_URL}"; fi'
     healthcheck:
       test:
         - CMD-SHELL
