@@ -3,6 +3,8 @@ require 'json'
 require 'rexml/document'
 
 class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
+  include CommonCallHelper
+
   def create # rubocop:disable Metrics/AbcSize,Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/PerceivedComplexity
     account = Account.find_by(id: params[:account_id])
 
@@ -19,28 +21,15 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
       {}
     end
 
-    latest_open_conversation = Conversation.where(
-      contact_id: params[:contactId],
-      account_id: params[:account_id]
-    ).order(created_at: :desc).first
+    conversation = handle_get_or_create_conversation(account)
 
-    if latest_open_conversation.blank?
-      Rails.logger.info("No conversation found for contact #{params[:contactId]}")
-      render json: { success: false, error: 'No open conversation found for contact' }, status: :bad_request
-      return
-    end
-
-    if latest_open_conversation.status != 'open'
-      Rails.logger.info("Conversation #{latest_open_conversation.id} is not open")
-      latest_open_conversation.update(status: 'open')
-      latest_open_conversation.save!
-    end
+    Rails.logger.info("conversationData, #{conversation.inspect}")
 
     provider = call_config['externalProvider']
 
     response = case provider
                when 'exotel'
-                 handle_exotel_provider_call(call_config, payload, latest_open_conversation)
+                 handle_exotel_provider_call(call_config, payload, conversation)
                when 'ivrsolutions'
                  handle_ivrsolutions_provider_call(call_config, payload)
                when 'myoperator'
@@ -51,10 +40,6 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
                  render json: { success: false, error: 'Invalid provider configuration' }, status: :bad_request
                  return
                end
-
-    conversation = latest_open_conversation
-
-    Rails.logger.info("responseData, #{response}")
 
     if response.code != 200
       error_message = extract_error_message(response, provider)
@@ -88,6 +73,35 @@ class Api::V1::Accounts::CallV2Controller < Api::V1::Accounts::BaseController # 
     account.update(custom_attributes: updated_custom_attributes)
 
     render json: { success: true, message: 'Call config updated successfully' }
+  end
+
+  def handle_get_or_create_conversation(account) # rubocop:disable Metrics/AbcSize
+    matching_inboxes = Inbox.where(account_id: account.id, channel_type: 'Channel::Api')
+    Rails.logger.info("matching_inboxes Data, #{matching_inboxes.inspect}")
+    wa_api_inbox = matching_inboxes.find do |inbox|
+      inbox.channel.additional_attributes['agent_reply_time_window'].present?
+    end
+
+    Rails.logger.info("Wa_api_inbox, #{wa_api_inbox.inspect}")
+
+    if wa_api_inbox.blank?
+      render json: { error: 'WA Inbox not found' }, status: :bad_request
+      return
+    end
+
+    contact = Contact.find_by(id: params[:contactId])
+
+    Rails.logger.info("contact, #{contact.inspect}")
+
+    # Find latest conversation for the contact
+    latest_conversation = Conversation.where(
+      contact_id: contact.id,
+      account_id: account.id
+    ).order(created_at: :desc).first
+
+    Rails.logger.info("latest_conversation, #{latest_conversation.inspect}")
+
+    handle_conversation_creation(latest_conversation, contact, wa_api_inbox)
   end
 
   def private_message_params_error(error, conversation)
