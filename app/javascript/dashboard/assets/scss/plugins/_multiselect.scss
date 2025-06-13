@@ -58,11 +58,11 @@
       }
 
       &::after {
-        @apply bottom-0 flex items-center justify-center text-center;
+        @apply bottom-0 flex items-center justify-center text-center relative pl-1 pr-1 leading-normal;
       }
 
       &.multiselect__option--highlight {
-        @apply bg-n-alpha-black2 text-n-slate-12;
+        @apply bg-n-alpha-black2 text-n-slate-12 flex justify-between;
       }
 
       &.multiselect__option--highlight:hover {
@@ -74,7 +74,7 @@
       }
 
       &.multiselect__option--highlight::after {
-        @apply bg-transparent;
+        @apply bg-transparent text-n-slate-12;
       }
 
       &.multiselect__option--selected {
