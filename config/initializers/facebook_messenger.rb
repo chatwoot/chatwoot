@@ -34,11 +34,16 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :read do |read|
-    Rails.logger.info "Recieved read status  #{read.to_json}"
+    Rails.logger.info "Recieved read status #{read.to_json}"
     Webhooks::FacebookDeliveryJob.perform_later(read.to_json)
   end
 
   Facebook::Messenger::Bot.on :message_echo do |message|
     Webhooks::FacebookEventsJob.perform_later(message.to_json)
+  end
+
+  Facebook::Messenger::Bot.on :feed do |message|
+    Rails.logger.info "Received feed message #{message.to_json}"
+    Webhooks::FacebookFeedEventsJob.perform_later(message.to_json)
   end
 end

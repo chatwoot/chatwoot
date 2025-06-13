@@ -142,6 +142,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
     [:name, :avatar, :greeting_enabled, :greeting_message, :enable_email_collect, :csat_survey_enabled,
      :enable_auto_assignment, :working_hours_enabled, :out_of_office_message, :timezone, :allow_messages_after_resolved,
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name,
+     :auto_reply_post_comments_enabled, :auto_reply_post_comments_message,
      { csat_config: [:display_type, :message, { survey_rules: [:operator, { values: [] }] }] }]
   end
 

@@ -126,6 +126,10 @@ export const MESSAGE_VARIABLES = [
     key: 'contact.name',
   },
   {
+    label: 'Contact mention on external platform',
+    key: 'contact_mention',
+  },
+  {
     label: 'Contact first name',
     key: 'contact.first_name',
   },

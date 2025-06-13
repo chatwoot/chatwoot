@@ -19,6 +19,7 @@ import GoogleReauthorize from './channels/google/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
 import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
@@ -43,6 +44,7 @@ export default {
     CustomerSatisfactionPage,
     FacebookReauthorize,
     GreetingsEditor,
+    WootMessageEditor,
     PreChatFormSettings,
     SettingIntroBanner,
     SettingsSection,
@@ -65,7 +67,9 @@ export default {
       avatarFile: null,
       avatarUrl: '',
       greetingEnabled: true,
+      autoReplyPostCommentsEnabled: false,
       greetingMessage: '',
+      autoReplyPostCommentsMessage: '',
       emailCollectEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
@@ -200,6 +204,9 @@ export default {
         this.isAPIInbox
       );
     },
+    canAutoReplyPostComments() {
+      return true || this.isAFacebookInbox || this.isAnInstagramChannel;
+    },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
         return this.$t('INBOX_MGMT.ADD.WEBSITE_NAME.LABEL');
@@ -221,6 +228,7 @@ export default {
         return true;
       return false;
     },
+
     instagramUnauthorized() {
       return this.isAnInstagramChannel && this.inbox.reauthorization_required;
     },
@@ -325,7 +333,11 @@ export default {
         this.selectedInboxName = this.inbox.name;
         this.webhookUrl = this.inbox.webhook_url;
         this.greetingEnabled = this.inbox.greeting_enabled || false;
+        this.autoReplyPostCommentsEnabled =
+          this.inbox.auto_reply_post_comments_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
+        this.autoReplyPostCommentsMessage =
+          this.inbox.auto_reply_post_comments_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
@@ -356,6 +368,9 @@ export default {
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
+          auto_reply_post_comments_enabled: this.autoReplyPostCommentsEnabled,
+          auto_reply_post_comments_message:
+            this.autoReplyPostCommentsMessage || '',
           portal_id: this.selectedPortalSlug
             ? this.portals.find(
                 portal => portal.slug === this.selectedPortalSlug
@@ -601,6 +616,51 @@ export default {
                 )
               "
               :richtext="!textAreaChannels"
+            />
+          </div>
+          <label v-if="canAutoReplyPostComments" class="pb-4">
+            {{
+              $t(
+                'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AUTO_REPLY_POST_COMMENTS_TOGGLE.LABEL'
+              )
+            }}
+            <select v-model="autoReplyPostCommentsEnabled">
+              <option :value="true">
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AUTO_REPLY_POST_COMMENTS_TOGGLE.ENABLED'
+                  )
+                }}
+              </option>
+              <option :value="false">
+                {{
+                  $t(
+                    'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AUTO_REPLY_POST_COMMENTS_TOGGLE.DISABLED'
+                  )
+                }}
+              </option>
+            </select>
+            <p class="pb-1 text-sm not-italic text-n-slate-11">
+              {{
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AUTO_REPLY_POST_COMMENTS_TOGGLE.HELP_TEXT'
+                )
+              }}
+            </p>
+          </label>
+          <div
+            v-if="autoReplyPostCommentsEnabled"
+            class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
+          >
+            <WootMessageEditor
+              v-model="autoReplyPostCommentsMessage"
+              enable-variables
+              :placeholder="
+                $t(
+                  'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_AUTO_REPLY_POST_COMMENTS_MESSAGE.PLACEHOLDER'
+                )
+              "
+              :min-height="6"
             />
           </div>
           <label v-if="isAWebWidgetInbox" class="pb-4">

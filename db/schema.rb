@@ -496,6 +496,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["bot_token"], name: "index_channel_telegram_on_bot_token", unique: true
   end
 
+  create_table "channel_tiktok_shops", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "account_id", null: false
+    t.string "open_id", null: false
+    t.string "shop_id"
+    t.string "shop_cipher"
+    t.string "access_token", null: false
+    t.string "refresh_token", null: false
+    t.datetime "access_token_expires_at", null: false
+    t.datetime "refresh_token_expires_at", null: false
+    t.boolean "is_integrated", default: false, null: false
+  end
+
   create_table "channel_twilio_sms", force: :cascade do |t|
     t.string "phone_number"
     t.string "auth_token", null: false
@@ -820,6 +834,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.string "business_name"
     t.jsonb "csat_config", default: {}, null: false
     t.integer "allowed_custom_message_user_ids", default: [], array: true
+    t.boolean "auto_reply_post_comments_enabled", default: false
+    t.string "auto_reply_post_comments_message"
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
@@ -1267,6 +1283,72 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.integer "account_id"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
+  end
+
+  create_table "tiktok_shop_coupons", force: :cascade do |t|
+    t.string "shop_id", null: false
+    t.string "coupon_id", null: false
+    t.string "name", null: false
+    t.string "code", null: false
+    t.string "type", null: false
+    t.string "status", null: false
+    t.datetime "start_time"
+    t.datetime "end_time"
+    t.jsonb "meta"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_tiktok_shop_coupons_on_code", unique: true
+    t.index ["coupon_id"], name: "index_tiktok_shop_coupons_on_coupon_id", unique: true
+    t.index ["shop_id"], name: "index_tiktok_shop_coupons_on_shop_id"
+  end
+
+  create_table "tiktok_shop_items", force: :cascade do |t|
+    t.string "shop_id", null: false
+    t.string "product_id", null: false
+    t.string "name", null: false
+    t.string "sku", null: false
+    t.string "status", null: false
+    t.jsonb "meta", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["product_id"], name: "index_tiktok_shop_items_on_product_id", unique: true
+    t.index ["shop_id"], name: "index_tiktok_shop_items_on_shop_id"
+    t.index ["sku"], name: "index_tiktok_shop_items_on_sku", unique: true
+  end
+
+  create_table "tiktok_shop_order_items", force: :cascade do |t|
+    t.string "order_id", null: false
+    t.string "item_id", null: false
+    t.string "item_name", null: false
+    t.string "item_sku", null: false
+    t.boolean "is_gift"
+    t.jsonb "meta"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_tiktok_shop_order_items_on_order_id"
+  end
+
+  create_table "tiktok_shop_orders", force: :cascade do |t|
+    t.string "shop_id", null: false
+    t.string "order_id", null: false
+    t.string "buyer_id", null: false
+    t.string "delivery_option_name"
+    t.integer "sub_total", null: false
+    t.integer "shipping_fee", null: false
+    t.integer "total_amount", null: false
+    t.string "buyer_message"
+    t.string "status", null: false
+    t.datetime "created_time"
+    t.datetime "paid_time"
+    t.boolean "cod", default: false, null: false
+    t.string "recipient_address"
+    t.string "cancel_by"
+    t.string "cancel_reason"
+    t.datetime "cancel_time"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["order_id"], name: "index_tiktok_shop_orders_on_order_id", unique: true
+    t.index ["shop_id"], name: "index_tiktok_shop_orders_on_shop_id"
   end
 
   create_table "users", id: :serial, force: :cascade do |t|

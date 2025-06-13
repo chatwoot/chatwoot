@@ -99,6 +99,15 @@
           "ENABLED": "Bật",
           "DISABLED": "Không bật"
         },
+        "CHANNEL_AUTO_REPLY_POST_COMMENTS_TOGGLE": {
+          "LABEL": "Bật trả lời tự động cho bình luận bài viết",
+          "HELP_TEXT": "Tự động gửi bình luận phản hồi đến khách hàng khi họ bình luận trên bài viết",
+          "ENABLED": "Bật",
+          "DISABLED": "Không bật"
+        },
+        "CHANNEL_AUTO_REPLY_POST_COMMENTS_MESSAGE": {
+          "PLACEHOLDER": "Cảm ơn bạn đã bình luận. Vui lòng kiểm tra hộp thư của bạn."
+        },
         "REPLY_TIME": {
           "TITLE": "Đặt thời gian phản hồi",
           "IN_A_FEW_MINUTES": "Trong một vài phút",
