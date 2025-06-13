@@ -11,4 +11,8 @@ class Events::Base
   def method_name
     name.to_s.tr('.', '_')
   end
+
+  def sync_webhook?
+    @data[:sync_webhook] || false
+  end
 end
