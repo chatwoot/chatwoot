@@ -29,7 +29,7 @@ class ReportingEventListener < BaseListener
     conversation = message.conversation
 
     return if conversation.resolved?
-    return if conversation.account_id == 560 && (conversation.assignee_id == 1519 || conversation.assignee_id == 1520)
+    return if conversation.account_id == 560 && (message.sender_id == 1519 || message.sender_id == 1520)
 
     first_response_time = message.created_at.to_i - last_agent_assignment(conversation).to_i
 
