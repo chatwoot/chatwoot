@@ -222,20 +222,32 @@ class Message < ApplicationRecord
     true
   end
 
-  # rubocop:disable Layout/LineLength
   def valid_first_reply?
-    return false unless outgoing? && human_response? && !private?
+    return false unless valid_first_reply_conditions?
     return false if conversation.first_reply_created_at.present?
-    return false if conversation.messages.outgoing
-                                .where.not(sender_type: 'AgentBot')
-                                .where.not(private: true)
-                                .where("(additional_attributes->'campaign_id') is null")
-                                .where("(additional_attributes->'ignore_automation_rules') is null").where('created_at > ?', conversation.updated_at).count > 1
+    return false if conversation.messages.incoming.count.zero?
+
+    incoming_message = conversation.messages.incoming.last
+    return false if other_outgoing_messages?(incoming_message)
 
     true
   end
 
-  # rubocop:enable Layout/LineLength
+  def valid_first_reply_conditions?
+    outgoing? && human_response? && !private?
+  end
+
+  def other_outgoing_messages?(incoming_message)
+    conversation.messages.outgoing
+                .where.not(sender_type: 'AgentBot')
+                .where.not(private: true)
+                .where("(additional_attributes->'campaign_id') is null")
+                .where("(additional_attributes->'ignore_automation_rules') is null")
+                .where('created_at > ?', conversation.updated_at)
+                .where('created_at > ?', incoming_message.created_at)
+                .count > 1
+  end
+
   def save_story_info(story_info)
     self.content_attributes = content_attributes.merge(
       {
