@@ -9,6 +9,7 @@ module SwitchLocale
     locale ||= locale_from_custom_domain
     # if locale is not set in account, let's use DEFAULT_LOCALE env variable
     locale ||= locale_from_env_variable
+    printf "Ini localenya ya: %s\n", locale
     set_locale(locale, &)
   end
 
@@ -32,6 +33,7 @@ module SwitchLocale
   end
 
   def set_locale(locale, &)
+    I18n.default_locale = locale
     # if locale is empty, use default_locale
     locale ||= I18n.default_locale
     # Ensure locale won't bleed into other requests
