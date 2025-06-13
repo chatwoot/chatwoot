@@ -30,6 +30,7 @@ services:
       - BAILEYS_PROVIDER_USE_INTERNAL_HOST_URL=true
       - MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL}
       - RESEND_API_KEY=${RESEND_API_KEY}
+      - BRAND_ASSETS_URL=${BRAND_ASSETS_URL}
     entrypoint: docker/entrypoints/rails.sh
     command:
       - bundle
@@ -43,10 +44,9 @@ services:
     restart: always
     post_start:
       - command:
-          - bundle
-          - exec
-          - rails
-          - db:chatwoot_prepare
+        - 'bundle exec rails db:chatwoot_prepare &&'
+        - 'bundle exec rails branding:update &&'
+        - 'if [ -n "$${BRAND_ASSETS_URL}" ]; then deployment/extract_brand_assets.sh "$${BRAND_ASSETS_URL}"; fi'
     healthcheck:
       test:
         - CMD-SHELL
