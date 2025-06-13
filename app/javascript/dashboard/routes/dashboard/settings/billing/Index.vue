@@ -201,11 +201,11 @@ const columns = [
     width: 100,
     cell: defaultSpanRender,
   }),
-  columnHelper.accessor('transactionDate', {
-    header: () => renderTableHeader('BILLING.TABLE.HEADER.TRANSACTION_DATE'),
-    width: 150,
-    cell: defaultSpanRender,
-  }),
+  // columnHelper.accessor('transactionDate', {
+  //  header: () => renderTableHeader('BILLING.TABLE.HEADER.TRANSACTION_DATE'),
+  //  width: 150,
+  //  cell: defaultSpanRender,
+  // }),
   columnHelper.accessor('status', {
     header: () => renderTableHeader('BILLING.TABLE.HEADER.STATUS'),
     width: 100,
