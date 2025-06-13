@@ -149,5 +149,6 @@ export default {
   text-decoration: none;
   color: inherit;
   cursor: auto;
+  pointer-events: none;
 }
 </style>
