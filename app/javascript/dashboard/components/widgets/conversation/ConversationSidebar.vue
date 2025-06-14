@@ -77,7 +77,7 @@ const handleTabChange = selectedTab => {
         @tab-changed="handleTabChange"
       />
     </div>
-    <div class="flex-auto w-full overflow-hidden">
+    <div class="flex-auto w-full overflow-y-auto">
       <ContactPanel
         v-if="activeContent('contact')"
         :conversation-id="currentChat.id"
