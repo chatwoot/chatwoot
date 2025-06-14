@@ -1,26 +1,25 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<svg width="2458px" height="512px" viewBox="0 0 2458 512" version="1.1" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink">
-    <title>EBSY Logo Dark</title>
-    <desc>Custom EBSY branding logo for dark theme</desc>
-    <g id="Logo" stroke="none" stroke-width="1" fill="none" fill-rule="evenodd">
-        <g id="ebsy_logo_dark" fill-rule="nonzero">
-            <!-- Logo Icon Container -->
-            <g id="logo-icon" transform="translate(0, 0)">
-                <circle id="background-circle" fill="#6b7aff" cx="256" cy="256" r="256"></circle>
-                <!-- Three horizontal bars scaled and centered -->
-                <g id="bars" transform="translate(116, 150) scale(1.2, 1.2)">
-                    <rect x="0" y="0" width="120" height="36" fill="#ffffff" rx="4"></rect>
-                    <rect x="0" y="52" width="120" height="36" fill="#ffffff" rx="4"></rect>
-                    <rect x="0" y="104" width="120" height="36" fill="#ffffff" rx="4"></rect>
-                </g>
-            </g>
-            <!-- Brand Text -->
-            <g id="brand-text" transform="translate(600, 0)">
-                <path d="M100 120 L100 400 L450 400 L450 350 L170 350 L170 280 L420 280 L420 230 L170 230 L170 180 L440 180 L440 120 Z" fill="#ffffff" stroke="#6b7aff" stroke-width="4"></path>
-                <path d="M500 120 L500 400 L850 400 L850 350 L570 350 L570 280 L650 280 C720 280 780 250 780 200 C780 150 720 120 650 120 Z M570 180 L570 230 L630 230 C650 230 660 220 660 205 C660 190 650 180 630 180 Z" fill="#ffffff" stroke="#6b7aff" stroke-width="4"></path>
-                <path d="M850 280 C850 200 910 120 1000 120 C1070 120 1120 150 1150 200 L1100 230 C1080 200 1050 180 1000 180 C940 180 900 220 900 260 C900 300 940 340 1000 340 C1050 340 1080 320 1100 290 L1150 320 C1120 370 1070 400 1000 400 C910 400 850 320 850 280 Z" fill="#ffffff" stroke="#6b7aff" stroke-width="4"></path>
-                <path d="M1200 120 L1250 120 L1350 240 L1450 120 L1500 120 L1500 400 L1450 400 L1450 220 L1375 320 L1325 320 L1250 220 L1250 400 L1200 400 Z" fill="#ffffff" stroke="#6b7aff" stroke-width="4"></path>
-            </g>
-        </g>
-    </g>
-</svg>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<svg
+   xmlns:dc="http://purl.org/dc/elements/1.1/"
+   xmlns:cc="http://creativecommons.org/ns#"
+   xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+   xmlns:svg="http://www.w3.org/2000/svg"
+   xmlns="http://www.w3.org/2000/svg"
+   id="svg6"
+   xml:space="preserve"
+   enable-background="new 0 0 2458 512"
+   width="2458px"
+   height="512px"
+   viewBox="0 0 2458 512"
+   y="0px"
+   x="0px"
+   version="1.1"><metadata
+     id="metadata12"><rdf:RDF><cc:Work
+         rdf:about=""><dc:format>image/svg+xml</dc:format><dc:type
+           rdf:resource="http://purl.org/dc/dcmitype/StillImage" /></cc:Work></rdf:RDF></metadata><defs
+     id="defs10" /><g
+     id="g4"
+     transform="translate(0,128)"><path
+       style="fill:#ffffff"
+       id="path2"
+       d="m 565.88,313.31 c -31.553,0 -51.084,18.169 -51.768,40.434 v 3.6875 c 1.2296,31.144 27.728,38.11 49.447,43.301 13.933,3.2762 25.951,6.1461 25.951,13.385 0,5.8743 -6.2832,11.885 -20.488,11.885 -21.171,0 -34.832,-10.927 -41.115,-17.482 l -2.7305,-2.8711 -17.486,24.586 c 15.299,15.436 33.602,24.451 59.828,24.451 36.88,0 54.641,-18.848 54.641,-43.846 v -2.5957 c -1.231,-31.417 -28.414,-38.656 -50.678,-43.982 -13.113,-3.1414 -24.449,-5.8756 -24.449,-11.885 0,-6.5565 6.0108,-10.381 16.117,-10.381 14.205,0 27.865,5.1902 37.562,14.068 l 2.5957,2.459 18.303,-24.039 c -15.15,-14.61 -34,-21.17 -55.72,-21.17 z m -160.26,2.2539 v 28.275 h 33.191 c 7.6472,0 12.703,4.6449 12.703,11.611 0,6.9664 -5.056,11.473 -12.703,11.473 H 405.62 v 31.555 h 34.148 c 8.742,0 14.34,5.0546 14.34,12.703 0,10.927 -9.013,12.428 -14.34,12.428 H 405.62 v 28.686 h 41.797 c 25.951,0 39.748,-16.388 39.748,-36.879 0,-17.212 -11.746,-31.282 -26.227,-33.604 12.841,-2.7315 23.631,-14.206 23.631,-31.416 0,-18.168 -13.384,-34.832 -39.338,-34.832 z m 0,108.04 v -24.996 h -32.373 v 24.996 z m 0,-56.686 v -22.947 h -32.373 v 22.947 z M 256,315.7779 v 28.822 h 96.707 v -28.822 z m 378.13,0 50.951,78.133 v 58.461 h 32.373 v -58.46 l 50.55,-78.13 h -37.016 l -29.781,48.627 -30.051,-48.627 z m -378.13,54.5 v 28.822 h 96.707 v -28.822 z m 0,53.271 v 28.822 h 96.707 v -28.822 z" /></g></svg>
