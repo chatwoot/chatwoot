@@ -114,7 +114,7 @@ const handleSeeOriginal = () => {
       <div
         :class="{
           'max-h-[400px] overflow-hidden relative': !isExpanded && isExpandable,
-          'overflow-y-scroll relative': isExpanded,
+          'overflow-y-auto relative': isExpanded,
         }"
       >
         <div

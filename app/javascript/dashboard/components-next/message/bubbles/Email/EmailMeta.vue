@@ -2,8 +2,11 @@
 import { computed } from 'vue';
 import { MESSAGE_STATUS } from '../../constants';
 import { useMessageContext } from '../../provider.js';
+import { useStoreGetters } from 'dashboard/composables/store';
 
 const { contentAttributes, status, sender } = useMessageContext();
+const getters = useStoreGetters();
+const currentChat = computed(() => getters.getSelectedChat.value);
 
 const hasError = computed(() => {
   return status.value === MESSAGE_STATUS.FAILED;
@@ -50,7 +53,10 @@ const bccEmail = computed(() => {
 });
 
 const subject = computed(() => {
-  return contentAttributes.value?.email?.subject ?? '';
+  return (
+    contentAttributes.value?.email?.subject ??
+    currentChat.value?.additional_attributes?.mail_subject
+  );
 });
 
 const showMeta = computed(() => {
