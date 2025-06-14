@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+    <title>EBSY Square Logo</title>
+    <desc>Square version of EBSY logo for favicons and app icons</desc>
+
+    <!-- Background circle -->
+    <circle cx="100" cy="100" r="100" fill="#4c59da"/>
+
+    <!-- Three horizontal bars centered -->
+    <g transform="translate(40, 55)">
+        <rect x="0" y="0" width="120" height="25" rx="4" fill="#ffffff"/>
+        <rect x="0" y="45" width="120" height="25" rx="4" fill="#ffffff"/>
+        <rect x="0" y="90" width="120" height="25" rx="4" fill="#ffffff"/>
+    </g>
+</svg>

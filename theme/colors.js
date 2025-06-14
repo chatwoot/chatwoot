@@ -14,94 +14,58 @@ const {
 } = require('@radix-ui/colors');
 
 export const colors = {
-  woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+  // EBSY Blue Brand Colors
+  blue: {
+    50: '#f0f4ff',
+    100: '#e0e9ff',
+    200: '#c7d7ff',
+    300: '#a5bfff',
+    400: '#4c59da', // Main brand color
+    500: '#3d47c7',
+    600: '#2f38b4',
+    700: '#242ba1',
+    800: '#1d238e',
+    900: '#171d7b',
+    950: '#0f1454',
   },
-  green: {
-    50: greenDark.green12,
-    100: green.green6,
-    200: green.green7,
-    300: green.green8,
-    400: greenDark.green10,
-    500: greenDark.green9,
-    600: green.green10,
-    700: green.green11,
-    800: greenDark.green7,
-    900: greenDark.green6,
+  // Neutral System
+  neutral: {
+    50: '#fafafa',
+    100: '#f5f5f5',
+    200: '#e5e5e5',
+    300: '#d4d4d4',
+    400: '#a3a3a3',
+    500: '#737373',
+    600: '#525252',
+    700: '#404040',
+    800: '#262626',
+    850: '#1a1a1a',
+    900: '#171717',
+    950: '#0a0a0a',
   },
-  yellow: {
-    50: yellow.yellow2,
-    100: yellow.yellow3,
-    200: yellow.yellow5,
-    300: yellowDark.yellow10,
-    400: yellowDark.yellow9,
-    500: yellowDark.yellow11,
-    600: yellow.yellow8,
-    700: yellowDark.yellow7,
-    800: yellowDark.yellow2,
-    900: yellowDark.yellow1,
+  // Dark Theme Background System
+  bg: {
+    primary: '#000000', // Main black background
+    secondary: '#050505', // Slightly lighter black
+    card: '#0f0f0f', // Card backgrounds
+    'card-hover': '#1a1a1a', // Card hover states
+    muted: '#171717', // Muted backgrounds
   },
-  slate: {
-    25: slate.slate2,
-    50: slate.slate3,
-    75: slate.slate4,
-    100: slate.slate5,
-    200: slate.slate7,
-    300: slate.slate8,
-    400: slateDark.slate11,
-    500: slateDark.slate10,
-    600: slate.slate11,
-    700: slateDark.slate8,
-    800: slateDark.slate4,
-    900: slateDark.slate1,
+  // Border System
+  border: {
+    primary: 'rgba(255, 255, 255, 0.1)',
+    secondary: 'rgba(255, 255, 255, 0.05)',
+    purple: 'rgba(151, 71, 255, 0.3)',
+    'purple-light': 'rgba(151, 71, 255, 0.1)',
   },
-  black: {
-    50: slate.slate2,
-    100: slateDark.slate12,
-    200: slate.slate7,
-    300: slate.slate8,
-    400: slateDark.slate11,
-    500: slate.slate9,
-    600: slateDark.slate9,
-    700: slateDark.slate8,
-    800: slateDark.slate7,
-    900: slateDark.slate2,
+  // Status Colors
+  status: {
+    success: '#10b981',
+    warning: '#f59e0b',
+    error: '#ef4444',
+    info: '#3b82f6',
   },
-  red: {
-    50: redDark.red12,
-    100: red.red6,
-    200: red.red8,
-    300: redDark.red11,
-    400: redDark.red10,
-    500: red.red9,
-    600: red.red10,
-    700: red.red11,
-    800: redDark.red8,
-    900: red.red12,
-  },
-  violet: {
-    50: violet.violet1,
-    100: violetDark.violet12,
-    200: violet.violet6,
-    300: violet.violet8,
-    400: violet.violet11,
-    500: violet.violet9,
-    600: violetDark.violet8,
-    700: violetDark.violet7,
-    800: violetDark.violet6,
-    900: violet.violet12,
-  },
+  // Main primary color (aligned with purple)
   primary: {
     25: 'rgb(var(--color-primary-25) / <alpha-value>)',
     50: 'rgb(var(--color-primary-50) / <alpha-value>)',
@@ -116,6 +80,7 @@ export const colors = {
     800: 'rgb(var(--color-primary-800) / <alpha-value>)',
     900: 'rgb(var(--color-primary-900) / <alpha-value>)',
   },
+  // Secondary colors with RGB variables (kept for compatibility)
   ash: {
     25: 'rgb(var(--color-ash-25) / <alpha-value>)',
     50: 'rgb(var(--color-ash-50) / <alpha-value>)',
@@ -130,6 +95,98 @@ export const colors = {
     800: 'rgb(var(--color-ash-800) / <alpha-value>)',
     900: 'rgb(var(--color-ash-900) / <alpha-value>)',
   },
+  // Keep these color groups for compatibility with existing components
+  // Original woot colors - replaced with blue tones
+  woot: {
+    25: '#f0f4ff',
+    50: '#e0e9ff',
+    75: '#c7d7ff',
+    100: '#c7d7ff',
+    200: '#a5bfff',
+    300: '#8099ff',
+    400: '#4c59da',
+    500: '#3d47c7',
+    600: '#2f38b4',
+    700: '#242ba1',
+    800: '#1d238e',
+    900: '#171d7b',
+  },
+  // Status colors retained from original
+  green: {
+    50: '#f0fdf4',
+    100: '#dcfce7',
+    200: '#bbf7d0',
+    300: '#86efac',
+    400: '#10b981', // success
+    500: '#10b981',
+    600: '#059669',
+    700: '#047857',
+    800: '#065f46',
+    900: '#064e3b',
+  },
+  yellow: {
+    50: '#fffbeb',
+    100: '#fef3c7',
+    200: '#fde68a',
+    300: '#fcd34d',
+    400: '#f59e0b', // warning
+    500: '#f59e0b',
+    600: '#d97706',
+    700: '#b45309',
+    800: '#92400e',
+    900: '#78350f',
+  },
+  slate: {
+    25: '#f8fafc',
+    50: '#f1f5f9',
+    75: '#e2e8f0',
+    100: '#cbd5e1',
+    200: '#94a3b8',
+    300: '#64748b',
+    400: '#475569',
+    500: '#334155',
+    600: '#1e293b',
+    700: '#0f172a',
+    800: '#0a0f1a',
+    900: '#050814',
+  },
+  black: {
+    50: '#fafafa',
+    100: '#f5f5f5',
+    200: '#e5e5e5',
+    300: '#d4d4d4',
+    400: '#a3a3a3',
+    500: '#737373',
+    600: '#525252',
+    700: '#404040',
+    800: '#262626',
+    900: '#171717',
+  },
+  red: {
+    50: '#fef2f2',
+    100: '#fee2e2',
+    200: '#fecaca',
+    300: '#fca5a5',
+    400: '#ef4444', // error
+    500: '#ef4444',
+    600: '#dc2626',
+    700: '#b91c1c',
+    800: '#991b1b',
+    900: '#7f1d1d',
+  },
+  violet: {
+    50: '#faf5ff',
+    100: '#f3e8ff',
+    200: '#e9d5ff',
+    300: '#d8b4fe',
+    400: '#c084fc',
+    500: '#a855f7',
+    600: '#9333ea',
+    700: '#7e22ce',
+    800: '#6b21a8',
+    900: '#581c87',
+  },
+  // Design system colors (some retained for compatibility)
   teal: {
     25: 'rgb(var(--color-teal-25) / <alpha-value>)',
     50: 'rgb(var(--color-teal-50) / <alpha-value>)',
@@ -241,20 +298,6 @@ export const colors = {
     800: 'rgb(var(--color-iris-800) / <alpha-value>)',
     900: 'rgb(var(--color-iris-900) / <alpha-value>)',
   },
-  purple: {
-    25: 'rgb(var(--color-violet-25) / <alpha-value>)',
-    50: 'rgb(var(--color-violet-50) / <alpha-value>)',
-    75: 'rgb(var(--color-violet-75) / <alpha-value>)',
-    100: 'rgb(var(--color-violet-100) / <alpha-value>)',
-    200: 'rgb(var(--color-violet-200) / <alpha-value>)',
-    300: 'rgb(var(--color-violet-300) / <alpha-value>)',
-    400: 'rgb(var(--color-violet-400) / <alpha-value>)',
-    500: 'rgb(var(--color-violet-500) / <alpha-value>)',
-    600: 'rgb(var(--color-violet-600) / <alpha-value>)',
-    700: 'rgb(var(--color-violet-700) / <alpha-value>)',
-    800: 'rgb(var(--color-violet-800) / <alpha-value>)',
-    900: 'rgb(var(--color-violet-900) / <alpha-value>)',
-  },
   pink: {
     25: 'rgb(var(--color-pink-25) / <alpha-value>)',
     50: 'rgb(var(--color-pink-50) / <alpha-value>)',
@@ -283,7 +326,7 @@ export const colors = {
     800: 'rgb(var(--color-orange-800) / <alpha-value>)',
     900: 'rgb(var(--color-orange-900) / <alpha-value>)',
   },
-  // next design system color
+  // next design system color - updated with purple-centric values
   n: {
     slate: {
       1: 'rgb(var(--slate-1) / <alpha-value>)',
@@ -391,7 +434,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#9747FF', // Changed from blue to purple
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
@@ -415,5 +458,45 @@ export const colors = {
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
     'blue-border': 'rgba(var(--border-blue))',
     'blue-text': 'rgba(var(--text-blue))',
+  },
+
+  // NEW - EBSY specific additions
+  ebsy: {
+    // Purple Brand Colors
+    purple: {
+      50: '#faf7ff',
+      100: '#f3ecff',
+      200: '#e8d8ff',
+      300: '#d4b4ff',
+      400: '#9747FF', // Main brand color
+      500: '#8b3dff',
+      600: '#7928ca',
+      700: '#6a1fa6',
+      800: '#5a1a86',
+      900: '#4c156b',
+      950: '#300a4a',
+    },
+    // Dark Theme Background System
+    bg: {
+      primary: '#000000', // Main black background
+      secondary: '#050505', // Slightly lighter black
+      card: '#0f0f0f', // Card backgrounds
+      'card-hover': '#1a1a1a', // Card hover states
+      muted: '#171717', // Muted backgrounds
+    },
+    // Border System
+    border: {
+      primary: 'rgba(255, 255, 255, 0.1)',
+      secondary: 'rgba(255, 255, 255, 0.05)',
+      purple: 'rgba(151, 71, 255, 0.3)',
+      'purple-light': 'rgba(151, 71, 255, 0.1)',
+    },
+    // Status Colors
+    status: {
+      success: '#10b981',
+      warning: '#f59e0b',
+      error: '#ef4444',
+      info: '#3b82f6',
+    },
   },
 };
