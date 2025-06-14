@@ -20,4 +20,5 @@ export const MESSAGE_MAX_LENGTH = {
   TELEGRAM: 4096,
   LINE: 2000,
   EMAIL: 25000,
+  SHOPEE: 600,
 };

@@ -276,6 +276,9 @@ export default {
       if (this.isAWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
       }
+      if (this.isAShopeeInbox) {
+        return MESSAGE_MAX_LENGTH.SHOPEE;
+      }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
