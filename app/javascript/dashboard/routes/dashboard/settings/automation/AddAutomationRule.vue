@@ -64,6 +64,7 @@ export default {
       getActionDropdownValues,
       manifestCustomAttributes,
     } = useAutomation(start_value);
+
     return {
       automation,
       automationTypes,
@@ -102,12 +103,10 @@ export default {
       }));
     },
     hasAutomationMutated() {
-      if (
+      return (
         this.automation.conditions[0].values ||
         this.automation.actions[0].action_params.length
-      )
-        return true;
-      return false;
+      );
     },
     automationActionTypes() {
       const actionTypes = this.isFeatureEnabled('sla')

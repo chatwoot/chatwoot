@@ -170,16 +170,16 @@ export const getFileName = (action, files = []) => {
 };
 
 export const getDefaultConditions = eventName => {
-  if (eventName === 'message_created') {
-    return DEFAULT_MESSAGE_CREATED_CONDITION;
+  switch (eventName) {
+    case 'message_created':
+      return DEFAULT_MESSAGE_CREATED_CONDITION;
+    case 'conversation_opened':
+      return DEFAULT_CONVERSATION_OPENED_CONDITION;
+    case 'waiting':
+      return DEFAULT_WAITING_CONDITION;
+    default:
+      return DEFAULT_OTHER_CONDITION;
   }
-  if (eventName === 'conversation_opened') {
-    return DEFAULT_CONVERSATION_OPENED_CONDITION;
-  }
-  if (eventName === 'waiting') {
-    return DEFAULT_WAITING_CONDITION;
-  }
-  return DEFAULT_OTHER_CONDITION;
 };
 
 export const getDefaultActions = () => {
@@ -287,6 +287,7 @@ export const getInputType = (
     return getCustomAttributeInputType(customAttribute.attribute_display_type);
   }
   const type = getAutomationType(automationTypes, automation, key);
+  if (!type) return null;
   return type.inputType;
 };
 
@@ -313,6 +314,7 @@ export const getOperators = (
     }
   }
   const type = getAutomationType(automationTypes, automation, key);
+  if (!type) return [];
   return type.filterOperators;
 };
 
@@ -326,7 +328,7 @@ export const getOperators = (
 export const getCustomAttributeType = (automationTypes, automation, key) => {
   return automationTypes[automation.event_name].conditions.find(
     i => i.key === key
-  ).customAttributeType;
+  )?.customAttributeType;
 };
 
 /**

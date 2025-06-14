@@ -131,6 +131,7 @@
       "CONVERSATION_CREATED": "Conversation Created",
       "CONVERSATION_UPDATED": "Conversation Updated",
       "MESSAGE_CREATED": "Message Created",
+      "WAITING": "Waiting",
       "CONVERSATION_OPENED": "Conversation Opened"
     },
     "ACTIONS": {
@@ -151,6 +152,9 @@
       "OPEN_CONVERSATION": "Open conversation"
     },
     "ATTRIBUTES": {
+      "CONTACT_WAIT_TIME": "Contact Waiting (minutes)",
+      "AGENT_WAIT_TIME": "Agent Waiting (minutes)",
+      "LABELS": "Labels",
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",
       "EMAIL": "Email",
