@@ -112,14 +112,15 @@ const handleSeeOriginal = () => {
     />
     <section ref="contentContainer" class="p-3">
       <div
+        class="relative p-3 rounded-md bg-white dark:bg-n-slate-3"
         :class="{
-          'max-h-[400px] overflow-hidden relative': !isExpanded && isExpandable,
-          'overflow-y-auto relative': isExpanded,
+          'max-h-[400px] overflow-hidden': !isExpanded && isExpandable,
+          'overflow-y-auto': isExpanded,
         }"
       >
         <div
           v-if="isExpandable && !isExpanded"
-          class="absolute left-0 right-0 bottom-0 h-40 px-8 flex items-end bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-20% to-transparent"
+          class="absolute left-0 right-0 bottom-0 h-80 px-8 flex items-end bg-gradient-to-t from-n-slate-4 via-n-slate-4 via-30% to-transparent"
         >
           <button
             class="text-n-slate-12 py-2 px-8 mx-auto text-center flex items-center gap-2"
