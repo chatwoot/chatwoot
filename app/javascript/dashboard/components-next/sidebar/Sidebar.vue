@@ -511,7 +511,7 @@ const menuItems = computed(() => {
             {{ searchShortcut }}
           </span>
         </RouterLink>
-        <ComposeConversation align-position="right">
+        <ComposeConversation is-modal align-position="right">
           <template #trigger="{ toggle }">
             <Button
               icon="i-lucide-pen-line"

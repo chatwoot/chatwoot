@@ -85,7 +85,7 @@ const toggleBlock = () => {
                 :disabled="isUpdating"
                 @click="toggleBlock"
               />
-              <ComposeConversation :contact-id="contactId">
+              <ComposeConversation is-modal :contact-id="contactId">
                 <template #trigger="{ toggle }">
                   <Button
                     :label="$t('CONTACTS_LAYOUT.HEADER.SEND_MESSAGE')"

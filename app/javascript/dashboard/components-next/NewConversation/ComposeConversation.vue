@@ -242,7 +242,7 @@ useKeyboardEvents(keyboardEvents);
     <div
       v-if="showComposeNewConversation"
       :class="{
-        'fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-start pt-[clamp(3rem,15vh,12rem)] justify-center inset-0':
+        'fixed z-50 bg-n-alpha-black1 backdrop-blur-[4px] flex items-start pt-[clamp(3rem,8vh,12rem)] justify-center inset-0':
           isModal,
       }"
       @click.self="onModalBackdropClick"

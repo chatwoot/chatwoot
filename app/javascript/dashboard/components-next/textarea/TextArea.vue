@@ -146,7 +146,7 @@ onMounted(() => {
       {{ label }}
     </label>
     <div
-      class="flex flex-col gap-2 px-3 pt-3 pb-3 transition-all duration-500 ease-in-out border rounded-lg bg-n-alpha-black2"
+      class="flex flex-col transition-all duration-500 ease-in-out border rounded-lg bg-n-alpha-black2"
       :class="[
         customTextAreaWrapperClass,
         {

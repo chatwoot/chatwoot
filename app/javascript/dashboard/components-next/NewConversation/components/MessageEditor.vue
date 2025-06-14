@@ -79,11 +79,12 @@ const replaceText = async message => {
   <div class="flex-1 h-full" :class="[!hasAttachments && 'min-h-[200px]']">
     <template v-if="isEmailOrWebWidgetInbox">
       <Editor
+        id="email-message-on-popup"
         v-model="modelValue"
         :placeholder="
           t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
         "
-        class="[&>div]:!border-transparent [&>div]:px-4 [&>div]:py-4 [&>div]:!bg-transparent h-full [&_.ProseMirror-woot-style]:!max-h-[200px]"
+        class="h-full [&>div]:!border-transparent [&>div]:!bg-transparent [&_.editor-wrapper]:p-0 [&_.ProseMirror-woot-style]:!max-h-[30rem] [&_.ProseMirror-woot-style]:!p-4 [&_.ProseMirror-menubar]:!p-4 [&_.ProseMirror-menubar]:mt-3"
         :class="
           hasErrors
             ? '[&_.empty-node]:before:!text-n-ruby-9 [&_.empty-node]:dark:before:!text-n-ruby-9'
@@ -99,7 +100,8 @@ const replaceText = async message => {
         :placeholder="
           t('COMPOSE_NEW_CONVERSATION.FORM.MESSAGE_EDITOR.PLACEHOLDER')
         "
-        class="!px-0 [&>div]:!px-4 [&>div]:!border-transparent [&>div]:!bg-transparent"
+        class="px-0 [&>div]:!border-transparent [&>div]:!bg-transparent"
+        max-height="65vh"
         :custom-text-area-class="
           hasErrors
             ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
