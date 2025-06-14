@@ -184,6 +184,7 @@ vi:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} đã tắt tiếng hội thoại'
       unmuted: '%{user_name} đã bật tiếng cuộc trò chuyện'
+      read_email: '%{user_name} lần đầu mở email này lúc %{read_at}'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
     templates:
       greeting_message_body: '%{account_name} thường trả lời trong vài giờ.'
