@@ -156,7 +156,12 @@
       "vite-node": "2.0.1",
       "vite": "5.4.19",
       "vitest": "3.0.5"
-    }
+    },
+    "onlyBuiltDependencies": [
+      "core-js",
+      "esbuild",
+      "vue-demi"
+    ]
   },
   "lint-staged": {
     "app/**/*.{js,vue}": [
