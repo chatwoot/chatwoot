@@ -42,17 +42,18 @@ module Whatsapp::BaileysHandlers::MessagesUpsert
 
   def set_contact
     push_name = contact_name
+    source_id = phone_number_from_jid
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       # FIXME: update the source_id to complete jid in future
-      source_id: phone_number_from_jid,
+      source_id: source_id,
       inbox: inbox,
-      contact_attributes: { name: push_name, phone_number: "+#{phone_number_from_jid}" }
+      contact_attributes: { name: push_name, phone_number: "+#{source_id}" }
     ).perform
 
     @contact_inbox = contact_inbox
     @contact = contact_inbox.contact
 
-    @contact.update!(name: push_name) if @contact.name == phone_number_from_jid
+    @contact.update!(name: push_name) if @contact.name == source_id
   end
 
   def handle_create_message
@@ -77,11 +78,12 @@ module Whatsapp::BaileysHandlers::MessagesUpsert
   end
 
   def message_content_attributes
+    type = message_type
     content_attributes = { external_created_at: baileys_extract_message_timestamp(@raw_message[:messageTimestamp]) }
-    if message_type == 'reaction'
+    if type == 'reaction'
       content_attributes[:in_reply_to_external_id] = @raw_message.dig(:message, :reactionMessage, :key, :id)
       content_attributes[:is_reaction] = true
-    elsif message_type == 'unsupported'
+    elsif type == 'unsupported'
       content_attributes[:is_unsupported] = true
     end
 

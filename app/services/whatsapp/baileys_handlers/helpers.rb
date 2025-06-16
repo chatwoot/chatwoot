@@ -37,29 +37,29 @@ module Whatsapp::BaileysHandlers::Helpers # rubocop:disable Metrics/ModuleLength
 
   def message_type # rubocop:disable Metrics/CyclomaticComplexity,Metrics/PerceivedComplexity,Metrics/MethodLength
     msg = @raw_message[:message]
-    @message_type ||= if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text).present?
-                        'text'
-                      elsif msg.key?(:imageMessage)
-                        'image'
-                      elsif msg.key?(:audioMessage)
-                        'audio'
-                      elsif msg.key?(:videoMessage)
-                        'video'
-                      elsif msg.key?(:documentMessage) || msg.key?(:documentWithCaptionMessage)
-                        'file'
-                      elsif msg.key?(:stickerMessage)
-                        'sticker'
-                      elsif msg.key?(:reactionMessage)
-                        'reaction'
-                      elsif msg.key?(:editedMessage)
-                        'edited'
-                      elsif msg.key?(:protocolMessage)
-                        'protocol'
-                      elsif msg.key?(:messageContextInfo)
-                        'context'
-                      else
-                        'unsupported'
-                      end
+    if msg.key?(:conversation) || msg.dig(:extendedTextMessage, :text).present?
+      'text'
+    elsif msg.key?(:imageMessage)
+      'image'
+    elsif msg.key?(:audioMessage)
+      'audio'
+    elsif msg.key?(:videoMessage)
+      'video'
+    elsif msg.key?(:documentMessage) || msg.key?(:documentWithCaptionMessage)
+      'file'
+    elsif msg.key?(:stickerMessage)
+      'sticker'
+    elsif msg.key?(:reactionMessage)
+      'reaction'
+    elsif msg.key?(:editedMessage)
+      'edited'
+    elsif msg.key?(:protocolMessage)
+      'protocol'
+    elsif msg.key?(:messageContextInfo)
+      'context'
+    else
+      'unsupported'
+    end
   end
 
   def message_content # rubocop:disable Metrics/CyclomaticComplexity
@@ -105,7 +105,7 @@ module Whatsapp::BaileysHandlers::Helpers # rubocop:disable Metrics/ModuleLength
   def phone_number_from_jid
     # NOTE: jid shape is `<user>_<agent>:<device>@<server>`
     # https://github.com/WhiskeySockets/Baileys/blob/v6.7.16/src/WABinary/jid-utils.ts#L19
-    @phone_number_from_jid ||= @raw_message[:key][:remoteJid].split('@').first.split(':').first.split('_').first
+    @raw_message[:key][:remoteJid].split('@').first.split(':').first.split('_').first
   end
 
   def contact_name

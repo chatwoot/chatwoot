@@ -613,6 +613,48 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(attachment.file.content_type).to eq('image/png')
         end
       end
+
+      context 'when processing multiple messages' do
+        it 'creates separate contacts and conversations for each message' do # rubocop:disable RSpec/ExampleLength
+          raw_message1 = {
+            key: { id: 'msg_123', remoteJid: '5511912345678@s.whatsapp.net', fromMe: false },
+            pushName: 'John Doe',
+            messageTimestamp: timestamp,
+            message: { conversation: 'Hello from Baileys' }
+          }
+          raw_message2 = {
+            key: { id: 'msg_124', remoteJid: '5511987654321@s.whatsapp.net', fromMe: false },
+            pushName: 'Jane Doe',
+            messageTimestamp: timestamp,
+            message: { conversation: 'Hello from another user' }
+          }
+          params = {
+            webhookVerifyToken: webhook_verify_token,
+            event: 'messages.upsert',
+            data: {
+              type: 'notify',
+              messages: [raw_message1, raw_message2]
+            }
+          }
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          conversations = inbox.conversations.order(:created_at)
+          expect(conversations.count).to eq(2)
+
+          first_conversation = conversations.first
+          first_message = first_conversation.messages.last
+          expect(first_conversation.contact.name).to eq('John Doe')
+          expect(first_message.source_id).to eq('msg_123')
+          expect(first_message.content).to eq('Hello from Baileys')
+
+          second_conversation = conversations.second
+          second_message = second_conversation.messages.last
+          expect(second_conversation.contact.name).to eq('Jane Doe')
+          expect(second_message.source_id).to eq('msg_124')
+          expect(second_message.content).to eq('Hello from another user')
+        end
+      end
     end
 
     context 'when processing messages.update event' do
