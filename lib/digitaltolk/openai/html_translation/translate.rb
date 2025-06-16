@@ -13,14 +13,10 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
     Always preserve the line breaks and formatting in the translated_message.
     If the message is in html format, ensure the html tags are preserved in the translated_message.
     Do not shorten or summarize the translated message.
-    The translated_language_code should be a valid ISO 639-1 code.
 
     Follow this format for the each element in the array.
     {
-      "<untranslated_message>": {
-        "translated_message": "<translated_message>",
-        "translated_locale": "<translated_language_code>"
-      },
+      "<untranslated_message>": "<translated_message>",
     }
 
     Follow this format for the entire response:
@@ -34,15 +30,15 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
 
   UNTRANSLATABLE_PARENT_NODES = %w[head style script].freeze
 
-  def perform(message, target_language = 'sv', batch_index: nil)
+  def perform(message, chunk_messages, target_language = 'sv', batch_index: nil)
     @message = message
     @target_language = target_language
-    @chunk_messages = []
+    @chunk_messages = chunk_messages
     @batch_index = batch_index
     @translated_locale = nil
     return {} if @message.blank?
 
-    extract_chunks_from_html
+    # extract_chunks_from_html
     perform_batch_translation
     update_html_content
   rescue StandardError => e
@@ -53,7 +49,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
   private
 
   def perform_batch_translation
-    batch = batch_messages(@chunk_messages)[@batch_index || 0]
+    batch = @chunk_messages
     return if batch.blank?
 
     response = parse_response client.chat(
@@ -94,9 +90,10 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
 
     doc.at('body').xpath('//text()').each do |node|
       text = node.text.strip
+      next if text.blank?
+
       parent = node.parent
       next if UNTRANSLATABLE_PARENT_NODES.include?(parent.name)
-      next if text.blank?
 
       @chunk_messages << text
     end
@@ -105,7 +102,6 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
   def translate_nodes(translated_message_hash)
     has_translation = false
     doc = nokogiri_parsed_content
-    translated_count = 0
     translated_batch_size = translated_message_hash.keys.count
 
     # Normalize: squish spaces, downcase for hash use
@@ -120,17 +116,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
 
       normalized_key = text.squish.downcase
 
-      next if (translation = normalized_translated_hash[normalized_key]).blank?
-      # early exit if we have translated all batch messages
-      break if translated_count > translated_batch_size
-
-      translated_count += 1
-
-      trans_msg = translation&.dig('translated_message')
-      trans_locale = translation&.dig('translated_locale')
-
-      next if trans_msg.blank? || trans_locale.blank?
-      next if trans_locale != target_language_locale
+      next if (trans_msg = normalized_translated_hash[normalized_key]).blank?
       next if trans_msg.downcase.squish == text.downcase.squish
 
       has_translation = true
@@ -139,7 +125,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
     end
 
     # Set the detected locale only if a translation was made
-    # This is to avoid setting it when the message is already in the target language
+    # This is to avoid translation when the message is already in the target language
     set_detected_locale(has_translation)
 
     doc.to_html if has_translation
@@ -150,7 +136,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
     Digitaltolk::Openai::Translation::SetDetectedLocale.new(
       @message,
       target_language_locale,
-      has_translation
+      !has_translation
     ).perform
   end
 
@@ -180,7 +166,7 @@ class Digitaltolk::Openai::HtmlTranslation::Translate < Digitaltolk::Openai::Bas
   def email_content
     if translations.present? && translations[target_language_locale].present?
       # return partially translated content if it exists
-      unless translations.dig('detected_locale', target_language_locale).nil?
+      if translations.dig('detected_locale', target_language_locale) == false
         return translations[target_language_locale]
       end
     end

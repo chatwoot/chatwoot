@@ -480,4 +480,40 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe '#update_translation_status' do
+    let(:message) { create(:message, content: 'Hello', account: create(:account)) }
+    let(:locale) { 'sv' }
+    let(:translation_status) { 'completed' }
+
+    it 'updates status' do
+      message.update_translation_status(locale, translation_status)
+      expect(message.content_attributes[:translation_status]).to eq({ locale => translation_status })
+    end
+
+    context 'when there are existing content attributes' do
+      let(:message) { create(:message, content: 'Hello', content_attributes: content_attributes) }
+      let(:content_attributes) do
+        {
+          email: {
+            text_content: {
+              full: 'Hello'
+            }
+          }
+        }
+      end
+
+      before do
+        message.update_translation_status(locale, translation_status)
+      end
+
+      it 'retains existing content attributes' do
+        expect(message.content_attributes).to include(email: { text_content: { full: 'Hello' } })
+      end
+
+      it 'updates translation status' do
+        expect(message.content_attributes[:translation_status]).to eq({ locale => translation_status })
+      end
+    end
+  end
 end

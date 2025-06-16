@@ -1,8 +1,9 @@
 class Digitaltolk::Openai::Translation::SetDetectedLocale
-  def initialize(message, target_language_locale, has_translation)
+  def initialize(message, target_language_locale, same_language, force: false)
     @message = message
     @target_language_locale = target_language_locale
-    @has_translation = has_translation
+    @same_language = same_language
+    @force = force
   end
 
   def perform
@@ -14,15 +15,15 @@ class Digitaltolk::Openai::Translation::SetDetectedLocale
   def set_detected_locale
     hash = {}
 
-    if previous_detected_locale.blank?
-      hash = { @target_language_locale => is_currently_same_language? }
-    elsif previous_detected_locale.present?
+    if previous_detected_locale.blank? || @force
+      hash = { @target_language_locale => @same_language }
+    else
       hash = previous_detected_locale.dup
-      hash[@target_language_locale] = is_currently_same_language?
+      hash[@target_language_locale] = currently_same_language?
     end
 
     Messages::TranslationBuilder.new(
-      @message,
+      @message.reload,
       hash,
       'detected_locale'
     ).perform
@@ -41,12 +42,14 @@ class Digitaltolk::Openai::Translation::SetDetectedLocale
   end
 
   def detected_to_have_translation?
-    previous_detected_locale[@target_language_locale].present? && previous_detected_locale[@target_language_locale] == false
+    return false if previous_detected_locale.blank?
+
+    previous_detected_locale[@target_language_locale] == false
   end
 
-  def is_currently_same_language?
+  def currently_same_language?
     return false if detected_to_have_translation?
 
-    !@has_translation 
+    @same_language
   end
 end

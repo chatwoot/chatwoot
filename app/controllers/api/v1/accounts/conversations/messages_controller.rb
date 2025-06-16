@@ -28,7 +28,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   end
 
   def translate
-    if !already_translated_content_available? || params[:force_translate] == true
+    if message.should_translate?(permitted_params[:target_language]) || params[:force_translate] == true
       Digitaltolk::TranslationJob.perform_later(message, permitted_params[:target_language])
     end
 
@@ -57,9 +57,5 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
 
   def permitted_params
     params.permit(:id, :target_language)
-  end
-
-  def already_translated_content_available?
-    message.translations.present? && message.translations[permitted_params[:target_language]].present?
   end
 end

@@ -7,6 +7,7 @@ class Digitaltolk::TranslationService
   def perform
     if digitaltolk_translation_enabled?
       format_outgoing_email!
+      reset_target_language_translations!
 
       if email_content.present?
         # If the email content is HTML, we need to handle it differently
@@ -17,22 +18,17 @@ class Digitaltolk::TranslationService
         return if response_data.blank?
         return if response_data['translated_message'].blank?
 
-        same_content = message.content.to_s.strip.downcase == response_data['translated_message'].to_s.strip.downcase
+        same_content = message.content.to_s.squish.downcase == response_data['translated_message'].to_s.squish.downcase
 
         Digitaltolk::Openai::Translation::SetDetectedLocale.new(
           message,
           target_language,
-          !same_content
-        )
+          same_content
+        ).perform
 
-        return if response_data['translated_locale'] != target_language
         return if same_content
 
-        Messages::TranslationBuilder.new(
-          message,
-          response_data['translated_message'],
-          response_data['translated_locale']
-        ).perform
+        store_translation!(response_data['translated_message'], response_data['translated_locale'])
       end
     else
       translated_content = Integrations::GoogleTranslate::ProcessorService.new(
@@ -40,11 +36,7 @@ class Digitaltolk::TranslationService
         target_language: target_language
       ).perform
 
-      Messages::TranslationBuilder.new(
-        message,
-        translated_content,
-        target_language
-      ).perform
+      store_translation!(translated_content, target_language)
     end
   end
 
@@ -79,5 +71,30 @@ class Digitaltolk::TranslationService
 
   def digitaltolk_translation_enabled?
     account.feature_enabled?(:ai_translation)
+  end
+
+  def store_translation!(translated_message, translated_locale)
+    return if translated_locale.blank?
+
+    Messages::TranslationBuilder.new(
+      message,
+      translated_message,
+      translated_locale
+    ).perform
+  end
+
+  def reset_target_language_translations!
+    # This is to reset the translations for the target language
+    # ex. { detected_locale: { 'sv' => null } }
+    Digitaltolk::Openai::Translation::SetDetectedLocale.new(
+      message,
+      target_language,
+      nil,
+      force: true
+    ).perform
+
+    # This is to reset the translations for the target language
+    # ex. { 'sv' => null }
+    store_translation!(nil, target_language)
   end
 end

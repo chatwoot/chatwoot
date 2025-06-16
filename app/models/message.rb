@@ -105,7 +105,8 @@ class Message < ApplicationRecord
   # [:external_error : Can specify if the message creation failed due to an error at external API
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
-                                         :translations, :in_reply_to_external_id, :is_unsupported], coder: JSON
+                                         :translations, :in_reply_to_external_id, :is_unsupported,
+                                         :translation_status], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
@@ -307,6 +308,41 @@ class Message < ApplicationRecord
 
   def resend_message
     notify_via_mail
+  end
+
+  # rubocop:disable Metrics/CyclomaticComplexity
+  def should_translate?(locale)
+    return false unless incoming? || outgoing?
+    return false unless account.feature_enabled?('ai_translation')
+
+    # no translation occured yet
+    return true if translations.blank?
+
+    case translations.dig('detected_locale', locale)
+    when nil
+      # no translation for the requested locale yet
+      return true
+    when false
+      # there should be translations for the requested locale
+      # if not, retranslate
+      return translations[locale].blank?
+    when true
+      # when locale and message language are same, but there is translations saved
+      # retranslate; old translations are not valid anymore
+      return translations[locale].present?
+    end
+
+    false
+  end
+  # rubocop:enable Metrics/CyclomaticComplexity
+
+  def update_translation_status(locale, status)
+    self.translation_status ||= {}
+    self.translation_status[locale] = status
+
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:content_attributes, content_attributes)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   private

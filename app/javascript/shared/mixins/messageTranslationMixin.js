@@ -90,7 +90,13 @@ export default {
         }
 
         if (this.detectedLocale && this.detectedLocale[this.translationLocale] != null) {
-          return;
+          if (this.isAlreadyInLocale && !this.translatedMessageByLocale) {
+            return;
+          }
+
+          if (this.detectedLocale[this.translationLocale] == false && !!this.translatedMessageByLocale) {
+            return;
+          }
         }
 
         this.handleTranslate();

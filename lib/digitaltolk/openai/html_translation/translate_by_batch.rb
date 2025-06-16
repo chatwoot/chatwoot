@@ -12,7 +12,7 @@ class Digitaltolk::Openai::HtmlTranslation::TranslateByBatch
     return if html_content.blank?
 
     batch_messages(extracted_chunks_from_html).each_with_index do |_chunk, index|
-      Digitaltolk::Openai::HtmlTranslation::Translate.new.perform(@message, @target_language, batch_index: index)
+      Digitaltolk::Openai::HtmlTranslation::Translate.new.perform(@message, _chunk, @target_language, batch_index: index)
     end
   end
 

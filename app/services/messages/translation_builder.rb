@@ -6,12 +6,10 @@ class Messages::TranslationBuilder
   end
 
   def perform
-    if @translated_content.present?
-      translations = {}
-      translations[@target_language] = @translated_content
-      translations = @message.translations.merge!(translations) if @message.translations.present?
-      @message.update!(translations: translations)
-    end
+    translations = {}
+    translations[@target_language] = @translated_content
+    translations = @message.translations.merge!(translations) if @message.translations.present?
+    @message.update!(translations: translations)
 
     @translated_content
   end
