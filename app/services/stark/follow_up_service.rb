@@ -129,7 +129,8 @@ module Stark
       @conversation.messages
                    .not_activity
                    .not_template
-                   .reorder(created_at: :desc)
+                   .unscoped
+                   .order(created_at: :desc)
                    .limit(10)
                    .map do |message|
         {
