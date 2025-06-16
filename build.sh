@@ -1,17 +1,18 @@
 set -ex
+
 export SHELL=/bin/bash
-export NODE_OPTIONS="--max-old-space-size=3584"
+export NODE_OPTIONS="--max-old-space-size=3072"
 
-npm install -g pnpm@10.2.0
-corepack enable
-corepack prepare pnpm@10.2.0 --activate
+time npm install -g pnpm@10.2.0
+time corepack enable
+time corepack prepare pnpm@10.2.0 --activate
 
-pnpm setup
-bundle install
-pnpm install --ignore-scripts=false --unsafe-perm=true
-pnpm exec husky install
+time pnpm setup
+time bundle install
+time pnpm install --ignore-scripts=false --unsafe-perm=true
+time pnpm exec husky install
 
-NODE_OPTIONS="--max-old-space-size=3584" pnpm run build:sdk
+time pnpm run build:sdk
 
-bundle exec rake assets:precompile
-bundle exec rake assets:clean
+time bundle exec rake assets:precompile
+time bundle exec rake ass
