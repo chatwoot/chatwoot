@@ -14,8 +14,7 @@ module ConversationReplyMailerHelper
       @options[:cc] = cc_bcc_emails[0]
       @options[:bcc] = cc_bcc_emails[1]
     end
-    ms_smtp_settings
-    google_smtp_settings
+    oauth_smtp_settings
     set_delivery_method
 
     # Email type detection logic:
@@ -58,22 +57,14 @@ module ConversationReplyMailerHelper
 
   private
 
-  def google_smtp_settings
-    return unless @inbox.email? && @channel.imap_enabled && @inbox.channel.google?
+  def oauth_smtp_settings
+    return unless @inbox.email? && @channel.imap_enabled
+    return unless @inbox.channel.google? || @inbox.channel.microsoft?
 
-    smtp_settings = base_smtp_settings('smtp.gmail.com')
-
-    @options[:delivery_method] = :smtp
-    @options[:delivery_method_options] = smtp_settings
-  end
-
-  def ms_smtp_settings
-    return unless @inbox.email? && @channel.imap_enabled && @inbox.channel.microsoft?
-
-    smtp_settings = base_smtp_settings('smtp.office365.com')
+    domain = @inbox.channel.google? ? 'smtp.gmail.com' : 'smtp.office365.com'
 
     @options[:delivery_method] = :smtp
-    @options[:delivery_method_options] = smtp_settings
+    @options[:delivery_method_options] = base_smtp_settings(domain)
   end
 
   def base_smtp_settings(domain)
