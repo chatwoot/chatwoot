@@ -47,7 +47,7 @@
     @apply max-w-full;
 
     .multiselect__option {
-      @apply text-sm font-normal;
+      @apply text-sm font-normal flex justify-between items-center;
 
       span {
         @apply inline-block overflow-hidden text-ellipsis whitespace-nowrap w-fit;
@@ -58,11 +58,11 @@
       }
 
       &::after {
-        @apply bottom-0 flex items-center justify-center text-center relative pl-1 pr-1 leading-normal;
+        @apply bottom-0 flex items-center justify-center text-center relative px-1 leading-tight;
       }
 
       &.multiselect__option--highlight {
-        @apply bg-n-alpha-black2 text-n-slate-12 flex justify-between items-center;
+        @apply bg-n-alpha-black2 text-n-slate-12;
       }
 
       &.multiselect__option--highlight:hover {
