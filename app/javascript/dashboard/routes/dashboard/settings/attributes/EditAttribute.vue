@@ -32,7 +32,6 @@ export default {
       regexPattern: null,
       regexCue: null,
       regexEnabled: false,
-      types: ATTRIBUTE_TYPES,
       show: true,
       attributeKey: '',
       values: [],
@@ -59,6 +58,12 @@ export default {
     },
   },
   computed: {
+    types() {
+      return ATTRIBUTE_TYPES.map(item => ({
+        ...item,
+        option: this.$t(`ATTRIBUTES_MGMT.ATTRIBUTE_TYPES.${item.key}`),
+      }));
+    },
     setAttributeListValue() {
       return this.selectedAttribute.attribute_values.map(values => ({
         name: values,
@@ -84,9 +89,9 @@ export default {
     selectedAttributeType() {
       return this.types.find(
         item =>
-          item.option.toLowerCase() ===
+          item.key.toLowerCase() ===
           this.selectedAttribute.attribute_display_type
-      ).id;
+      )?.id;
     },
     keyErrorMessage() {
       if (!this.v$.attributeKey.isKey) {

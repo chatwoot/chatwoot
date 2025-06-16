@@ -13,6 +13,7 @@ import {
 } from 'dashboard/constants/automation';
 import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
+import { useI18n } from 'vue-i18n';
 
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
@@ -96,6 +97,31 @@ export const generateConditionOptions = (options, key = 'id') => {
   });
 };
 
+export const generateTranslatedOptions = (
+  options,
+  i18nPath = '',
+  originKey = 'id',
+  targetKey = 'name'
+) => {
+  if (!options || !Array.isArray(options)) return [];
+
+  return options.map(option => {
+    const keyValue = option[originKey];
+
+    if (!keyValue || i18nPath === '') {
+      return option;
+    }
+
+    const { t } = useI18n();
+    const translatedText = t(`${i18nPath}.${keyValue.toUpperCase()}`);
+
+    return {
+      ...option,
+      [targetKey]: translatedText,
+    };
+  });
+};
+
 export const getActionOptions = ({
   agents,
   teams,
@@ -110,7 +136,10 @@ export const getActionOptions = ({
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
     remove_label: generateConditionOptions(labels, 'title'),
-    change_priority: PRIORITY_CONDITION_VALUES,
+    change_priority: generateTranslatedOptions(
+      PRIORITY_CONDITION_VALUES,
+      'ENUMS.PRIORITY'
+    ),
     add_sla: slaPolicies,
   };
   return actionsMap[type];
@@ -147,8 +176,14 @@ export const getConditionOptions = ({
     browser_language: languages,
     conversation_language: languages,
     country_code: countries,
-    message_type: MESSAGE_CONDITION_VALUES,
-    priority: PRIORITY_CONDITION_VALUES,
+    message_type: generateTranslatedOptions(
+      MESSAGE_CONDITION_VALUES,
+      'ENUMS.MESSAGE_TYPE'
+    ),
+    priority: generateTranslatedOptions(
+      PRIORITY_CONDITION_VALUES,
+      'ENUMS.PRIORITY'
+    ),
   };
 
   return conditionFilterMaps[type];

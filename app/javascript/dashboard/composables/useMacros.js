@@ -1,6 +1,7 @@
 import { computed } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
+import { generateTranslatedOptions } from '../helper/automationHelper';
 
 /**
  * Composable for handling macro-related functionality
@@ -32,7 +33,10 @@ export const useMacros = () => {
           name: i.title,
         }));
       case 'change_priority':
-        return PRIORITY_CONDITION_VALUES;
+        return generateTranslatedOptions(
+          PRIORITY_CONDITION_VALUES,
+          'ENUMS.PRIORITY'
+        );
       default:
         return [];
     }
