@@ -1,6 +1,6 @@
 set -ex
 export SHELL=/bin/bash
-export NODE_OPTIONS="--max-old-space-size=1536"
+export NODE_OPTIONS="--max-old-space-size=3584"
 
 npm install -g pnpm@10.2.0
 corepack enable
@@ -11,7 +11,7 @@ bundle install
 pnpm install --ignore-scripts=false --unsafe-perm=true
 pnpm exec husky install
 
-NODE_OPTIONS="--max-old-space-size=1536" pnpm run build:sdk
+NODE_OPTIONS="--max-old-space-size=3584" pnpm run build:sdk
 
 bundle exec rake assets:precompile
 bundle exec rake assets:clean
