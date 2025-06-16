@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "เสร็จสิ้น",
       "REOPEN_ACTION": "เปิดใหม่อีกครั้ง",
       "OPEN_ACTION": "เปิด",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "เพิ่มเติม",
       "CLOSE": "ปิด",
       "DETAILS": "รายละเอียด",
@@ -117,6 +118,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "ลบ"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "ทำเครื่องหมายว่าอยู่ระหว่างดำเนินการ",
       "RESOLVED": "Mark as resolved",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Assign label",
       "AGENTS_LOADING": "Loading agents...",
       "ASSIGN_TEAM": "Assign team",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "รหัสการสนทนา {conversationId} ถูกมอบหมายให้กับ {agentName}",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "เปลี่ยนทีมการสนทนาเเล้ว",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ไฟล์ของคุณมีขนาดเกิน {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "ไม่สามารถส่งข้อความนี้ได้ โปรดลองใหม่อีกครั้ง",
     "SENT_BY": "ส่งโดย:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "แอตทริบิวต์ผู้ติดต่อ",
       "PREVIOUS_CONVERSATION": "การสนทนาก่อนหน้า",
       "MACROS": "คีย์ลัด",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
