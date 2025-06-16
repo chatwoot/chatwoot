@@ -27,7 +27,6 @@ module StarkRetryable
   def handle_human_handoff(conversation, _error)
     return unless conversation
 
-    conversation.open!
     conversation.messages.create!(
       content: '⚠️ AI reply (Stark) disabled. The AI auto-reply has been temporarily disabled and the conversation has been assigned to a human. Feel free to reply to the user, and once done, please switch the conversation back to pending, so it can be handled by Stark: our AI agent.', # rubocop:disable Layout/LineLength
       message_type: 'outgoing',
