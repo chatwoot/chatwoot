@@ -112,13 +112,18 @@ export const generateTranslatedOptions = (
       return option;
     }
 
-    const { t } = useI18n();
-    const translatedText = t(`${i18nPath}.${keyValue.toUpperCase()}`);
-
-    return {
-      ...option,
-      [targetKey]: translatedText,
-    };
+    // Since useI18n only works inside vue setup() we need to
+    // wrap it to avoid errors and in case of some error happens
+    // we just return the default value;
+    try {
+      const { t } = useI18n();
+      return {
+        ...option,
+        [targetKey]: t(`${i18nPath}.${keyValue.toUpperCase()}`),
+      };
+    } catch {
+      return option;
+    }
   });
 };
 
