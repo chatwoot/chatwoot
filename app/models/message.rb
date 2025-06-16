@@ -130,6 +130,10 @@ class Message < ApplicationRecord
 
   after_update_commit :dispatch_update_event
 
+  after_create :schedule_follow_up_job, if: :is_outgoing?
+
+  after_create :cancel_follow_up_job, if: :incoming?
+
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
@@ -396,6 +400,23 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def is_outgoing?
+    (outgoing? && !private?) || template?
+  end
+
+  def schedule_follow_up_job
+    return if content_attributes['follow_up']
+
+    conversation.cancel_existing_follow_up_job
+
+    jid = Conversations::FollowUpJob.set(wait: 24.hours).perform_later(conversation.id, 1)
+    conversation.update!(follow_up_jid: jid.provider_job_id)
+  end
+
+  def cancel_follow_up_job
+    conversation.cancel_existing_follow_up_job
   end
 end
 

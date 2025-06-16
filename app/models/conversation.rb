@@ -10,6 +10,7 @@
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
 #  first_reply_created_at :datetime
+#  follow_up_jid          :string
 #  identifier             :string
 #  last_activity_at       :datetime         not null
 #  last_handoff_at        :datetime
@@ -183,6 +184,17 @@ class Conversation < ApplicationRecord
 
   def dispatch_conversation_updated_event(previous_changes = nil)
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
+  end
+
+  def cancel_existing_follow_up_job
+    return unless follow_up_jid.present?
+
+    job = Sidekiq::ScheduledSet.new.find_job(follow_up_jid)
+
+    return unless job
+
+    job.delete
+    update!(follow_up_jid: nil)
   end
 
   private
