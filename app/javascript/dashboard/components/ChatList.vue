@@ -109,6 +109,7 @@ const advancedFilterTypes = ref(
     attributeName: t(`FILTER.ATTRIBUTES.${filter.attributeI18nKey}`),
   }))
 );
+const isInitialLoad = ref(false);
 
 const currentUser = useMapGetter('getCurrentUser');
 const chatLists = useMapGetter('getFilteredConversations');
@@ -376,6 +377,7 @@ function setFiltersFromUISettings() {
 
 function emitConversationLoaded() {
   emit('conversationLoad');
+  isInitialLoad.value = false;
   // [VITE] removing this since the library has changed
   // nextTick(() => {
   //   // Addressing a known issue in the virtual list library where dynamically added items
@@ -420,6 +422,7 @@ function onApplyFilter(payload) {
   foldersQuery.value = filterQueryGenerator(payload);
   store.dispatch('conversationPage/reset');
   store.dispatch('emptyAllConversations');
+  isInitialLoad.value = true;
   fetchFilteredConversations(payload);
 }
 
@@ -574,6 +577,7 @@ function resetAndFetchData() {
   store.dispatch('conversationPage/reset');
   store.dispatch('emptyAllConversations');
   store.dispatch('clearConversationFilters');
+  isInitialLoad.value = true;
   if (hasActiveFolders.value) {
     const payload = activeFolder.value.query;
     fetchSavedFilteredConversations(payload);
@@ -853,6 +857,8 @@ watch(conversationFilters, (newVal, oldVal) => {
       :has-active-folders="hasActiveFolders"
       :active-status="activeStatus"
       :is-on-expanded-layout="isOnExpandedLayout"
+      :conversation-stats="conversationStats"
+      :is-list-loading="isInitialLoad"
       @add-folders="onClickOpenAddFoldersModal"
       @delete-folders="onClickOpenDeleteFoldersModal"
       @filters-modal="onToggleAdvanceFiltersModal"

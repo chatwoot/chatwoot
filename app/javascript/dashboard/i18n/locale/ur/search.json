@@ -4,12 +4,14 @@
       "ALL": "تمام",
       "CONTACTS": "کانٹیکٹس",
       "CONVERSATIONS": "مکالمات",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Messages",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "کانٹیکٹس",
       "CONVERSATIONS": "مکالمات",
-      "MESSAGES": "Messages"
+      "MESSAGES": "Messages",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",
