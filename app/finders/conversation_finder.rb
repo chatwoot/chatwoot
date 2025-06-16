@@ -88,11 +88,20 @@ class ConversationFinder
 
   def find_conversation_by_inbox
     @conversations = current_account.conversations
-    @conversations = @conversations.where(inbox_id: @inbox_ids) unless params[:inbox_id].blank? && @is_admin
+
+    return unless params[:inbox_id]
+
+    @conversations = @conversations.where(inbox_id: @inbox_ids)
   end
 
   def find_all_conversations
     find_conversation_by_inbox
+    # Apply permission-based filtering
+    @conversations = Conversations::PermissionFilterService.new(
+      @conversations,
+      current_user,
+      current_account
+    ).perform
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end

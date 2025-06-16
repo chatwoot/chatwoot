@@ -11,7 +11,12 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
+  # Rails 7.1 automatically adds its own ConnectionPool around RedisCacheStore.
+  # Because `$velma` is *already* a ConnectionPool, double-wrapping causes
+  # Redis calls like `get` to hit the outer wrapper and explode.
+  # `pool: false` tells Rails to skip its internal pool and use ours directly.
+  # TODO: We can use build in connection pool in future upgrade
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma, pool: false)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address
@@ -21,8 +26,9 @@ class Rack::Attack
     end
 
     def allowed_ip?
-      allowed_ips = ['127.0.0.1', '::1']
-      allowed_ips.include?(remote_ip)
+      default_allowed_ips = ['127.0.0.1', '::1']
+      env_allowed_ips = ENV.fetch('RACK_ATTACK_ALLOWED_IPS', '').split(',').map(&:strip)
+      (default_allowed_ips + env_allowed_ips).include?(remote_ip)
     end
 
     # Rails would allow requests to paths with extentions, so lets compare against the path with extention stripped
@@ -31,6 +37,15 @@ class Rack::Attack
       path[/^[^.]+/]
     end
   end
+
+  ### Safelist IPs from Environment Variable ###
+  #
+  # This block ensures requests from any IP present in RACK_ATTACK_ALLOWED_IPS
+  # will bypass Rack::Attack’s throttling rules.
+  #
+  # Example: RACK_ATTACK_ALLOWED_IPS="127.0.0.1,::1,192.168.0.10"
+
+  Rack::Attack.safelist('trusted IPs', &:allowed_ip?)
 
   ### Throttle Spammy Clients ###
 

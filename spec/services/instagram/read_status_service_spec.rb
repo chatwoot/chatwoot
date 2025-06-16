@@ -30,7 +30,7 @@ describe Instagram::ReadStatusService do
             mid: message.source_id
           }
         }
-        described_class.new(params: params).perform
+        described_class.new(params: params, channel: instagram_channel).perform
         expect(Conversations::UpdateMessageStatusJob).to have_received(:perform_later).with(conversation.id, message.created_at)
       end
 
@@ -43,7 +43,7 @@ describe Instagram::ReadStatusService do
             mid: 'random-message-id'
           }
         }
-        described_class.new(params: params).perform
+        described_class.new(params: params, channel: instagram_channel).perform
         expect(Conversations::UpdateMessageStatusJob).not_to have_received(:perform_later)
       end
     end

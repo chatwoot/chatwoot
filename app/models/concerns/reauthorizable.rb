@@ -39,31 +39,26 @@ module Reauthorizable
   def prompt_reauthorization!
     ::Redis::Alfred.set(reauthorization_required_key, true)
 
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: account)
-
-    case self.class.name
-    when 'Integrations::Hook'
-      process_integration_hook_reauthorization_emails(mailer)
-    when 'Channel::FacebookPage'
-      mailer.facebook_disconnect(inbox).deliver_later
-    when 'Channel::Whatsapp'
-      mailer.whatsapp_disconnect(inbox).deliver_later
-    when 'Channel::Email'
-      mailer.email_disconnect(inbox).deliver_later
-    when 'AutomationRule'
-      update!(active: false)
-      mailer.automation_rule_disabled(self).deliver_later
-    end
+    reauthorization_handlers[self.class.name]&.call(self)
 
     invalidate_inbox_cache unless instance_of?(::AutomationRule)
   end
 
-  def process_integration_hook_reauthorization_emails(mailer)
+  def process_integration_hook_reauthorization_emails
     if slack?
-      mailer.slack_disconnect.deliver_later
+      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).slack_disconnect.deliver_later
     elsif dialogflow?
-      mailer.dialogflow_disconnect.deliver_later
+      AdministratorNotifications::IntegrationsNotificationMailer.with(account: account).dialogflow_disconnect.deliver_later
     end
+  end
+
+  def send_channel_reauthorization_email(disconnect_type)
+    AdministratorNotifications::ChannelNotificationsMailer.with(account: account).public_send(disconnect_type, inbox).deliver_later
+  end
+
+  def handle_automation_rule_reauthorization
+    update!(active: false)
+    AdministratorNotifications::AccountNotificationMailer.with(account: account).automation_rule_disabled(self).deliver_later
   end
 
   # call this after you successfully Reauthorized the object in UI
@@ -75,6 +70,17 @@ module Reauthorizable
   end
 
   private
+
+  def reauthorization_handlers
+    {
+      'Integrations::Hook' => ->(obj) { obj.process_integration_hook_reauthorization_emails },
+      'Channel::FacebookPage' => ->(obj) { obj.send_channel_reauthorization_email(:facebook_disconnect) },
+      'Channel::Instagram' => ->(obj) { obj.send_channel_reauthorization_email(:instagram_disconnect) },
+      'Channel::Whatsapp' => ->(obj) { obj.send_channel_reauthorization_email(:whatsapp_disconnect) },
+      'Channel::Email' => ->(obj) { obj.send_channel_reauthorization_email(:email_disconnect) },
+      'AutomationRule' => ->(obj) { obj.handle_automation_rule_reauthorization }
+    }
+  end
 
   def invalidate_inbox_cache
     inbox.update_account_cache if inbox.present?

@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "用户指南",
-        "ERROR": "Slug是必填项"
+        "ERROR": "Slug是必填项",
+        "FORMAT_ERROR": "请输入有效的 Slug，例如：user-guide"
       }
     },
     "PORTAL_SETTINGS": {

@@ -24,12 +24,9 @@ By default, it renders:
     <%= vite_client_tag %>
     <%= vite_javascript_tag 'portal' %>
     <style>
-      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.light-theme,
-      #appearance-dropdown[data-current-theme="system"] .check-mark-icon.dark-theme,
-      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.light-theme,
-      #appearance-dropdown[data-current-theme="dark"] .check-mark-icon.system-theme,
-      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.dark-theme,
-      #appearance-dropdown[data-current-theme="light"] .check-mark-icon.system-theme {
+      .appearance-menu[data-current-theme="system"] .check-mark-icon:is(.light-theme, .dark-theme),
+      .appearance-menu[data-current-theme="dark"] .check-mark-icon:is(.light-theme, .system-theme),
+      .appearance-menu[data-current-theme="light"] .check-mark-icon:is(.dark-theme, .system-theme) {
         display: none;
       }
     </style>
@@ -38,6 +35,10 @@ By default, it renders:
       <%= yield(:head) %>
     <% else %>
       <title><%= @portal.page_title%></title>
+    <% end %>
+    
+    <% if @portal.logo.present? %>
+      <link rel="icon" href="<%= url_for(@portal.logo) %>">
     <% end %>
 
     <% unless @theme_from_params.blank? %>
@@ -69,6 +70,30 @@ By default, it renders:
         <% end %>
       </main>
     </div>
+    <% if @article.present? %>
+    <script>
+      (function() {
+        let viewTracked = false;
+        const trackView = function() {
+          if (!viewTracked) {
+            viewTracked = true;
+            const img = new Image();
+            img.src = '<%= request.base_url %>/hc/<%= @portal.slug %>/articles/<%= @article.slug %>.png';
+          }
+        };
+        
+        const addTrackingListeners = function() {
+          const events = ['mouseenter', 'touchstart', 'focus'];
+          events.forEach(event => {
+            document.body.addEventListener(event, function() {
+              setTimeout(trackView, 5000);
+            }, { once: true });
+          });
+        };
+        addTrackingListeners();
+      })();
+    </script>
+    <% end %>
   </body>
   <style>
   html.dark {
