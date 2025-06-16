@@ -53,10 +53,10 @@ jobs:
       - name: Install pnpm dependencies
         run: pnpm i
 
-      - name: Strip enterprise code
-        run: |
-          rm -rf enterprise
-          rm -rf spec/enterprise
+      # - name: Strip enterprise code
+      #   run: |
+      #     rm -rf enterprise
+      #     rm -rf spec/enterprise
 
       - name: Create database
         run: bundle exec rake db:create

@@ -16,7 +16,7 @@ RSpec.describe 'Confirmation Instructions' do
     end
 
     it 'has the correct header data' do
-      expect(mail.reply_to).to contain_exactly('alerts@reply.chatstage.onehash.ai')
+      expect(mail.reply_to).to contain_exactly('alerts@reply.chat.onehash.ai')
       expect(mail.to).to contain_exactly(confirmable_user.email)
       expect(mail.subject).to eq('Confirmation Instructions')
     end
