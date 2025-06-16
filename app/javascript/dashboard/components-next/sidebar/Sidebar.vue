@@ -8,7 +8,6 @@ import { useStore } from 'vuex';
 import { useI18n } from 'vue-i18n';
 import { useStorage } from '@vueuse/core';
 import { useSidebarKeyboardShortcuts } from './useSidebarKeyboardShortcuts';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import SidebarGroup from './SidebarGroup.vue';
@@ -36,18 +35,6 @@ const toggleShortcutModalFn = show => {
     emit('closeKeyShortcutModal');
   }
 };
-
-const currentAccountId = useMapGetter('getCurrentAccountId');
-const isFeatureEnabledonAccount = useMapGetter(
-  'accounts/isFeatureEnabledonAccount'
-);
-
-const showV4Routes = computed(() => {
-  return isFeatureEnabledonAccount.value(
-    currentAccountId.value,
-    FEATURE_FLAGS.REPORT_V4
-  );
-});
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
@@ -100,7 +87,7 @@ const newReportRoutes = () => [
   {
     name: 'Reports Label',
     label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
+    to: accountScopedRoute('label_reports_index'),
   },
   {
     name: 'Reports Inbox',
@@ -116,32 +103,7 @@ const newReportRoutes = () => [
   },
 ];
 
-const oldReportRoutes = () => [
-  {
-    name: 'Reports Agent',
-    label: t('SIDEBAR.REPORTS_AGENT'),
-    to: accountScopedRoute('agent_reports'),
-  },
-  {
-    name: 'Reports Label',
-    label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
-  },
-  {
-    name: 'Reports Inbox',
-    label: t('SIDEBAR.REPORTS_INBOX'),
-    to: accountScopedRoute('inbox_reports'),
-  },
-  {
-    name: 'Reports Team',
-    label: t('SIDEBAR.REPORTS_TEAM'),
-    to: accountScopedRoute('team_reports'),
-  },
-];
-
-const reportRoutes = computed(() =>
-  showV4Routes.value ? newReportRoutes() : oldReportRoutes()
-);
+const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
   return [
@@ -272,6 +234,12 @@ const menuItems = computed(() => {
             { page: 1, search: undefined }
           ),
           activeOn: ['contacts_dashboard_index', 'contacts_edit'],
+        },
+        {
+          name: 'Active',
+          label: t('SIDEBAR.ACTIVE'),
+          to: accountScopedRoute('contacts_dashboard_active'),
+          activeOn: ['contacts_dashboard_active'],
         },
         {
           name: 'Segments',
@@ -515,7 +483,7 @@ const menuItems = computed(() => {
 
 <template>
   <aside
-    class="w-[12.5rem] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
+    class="w-[200px] bg-n-solid-2 rtl:border-l ltr:border-r border-n-weak h-screen flex flex-col text-sm pb-1"
   >
     <section class="grid gap-2 mt-2 mb-4">
       <div class="flex items-center min-w-0 gap-2 px-2">
@@ -557,7 +525,7 @@ const menuItems = computed(() => {
       </div>
     </section>
     <nav class="grid flex-grow gap-2 px-2 pb-5 overflow-y-scroll no-scrollbar">
-      <ul class="flex flex-col gap-2 m-0 list-none">
+      <ul class="flex flex-col gap-1.5 m-0 list-none">
         <SidebarGroup
           v-for="item in menuItems"
           :key="item.name"

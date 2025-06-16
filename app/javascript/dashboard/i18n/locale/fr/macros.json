@@ -83,6 +83,22 @@
       "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
+    },
+    "ACTIONS": {
+      "ASSIGN_TEAM": "Attribuer une équipe",
+      "ASSIGN_AGENT": "Attribuer un agent",
+      "ADD_LABEL": "Ajouter une étiquette",
+      "REMOVE_LABEL": "Supprimer une étiquette",
+      "REMOVE_ASSIGNED_TEAM": "Supprimer l’équipe assignée",
+      "SEND_EMAIL_TRANSCRIPT": "Envoyer une transcription par e-mail",
+      "MUTE_CONVERSATION": "Mettre la conversation en sourdine",
+      "SNOOZE_CONVERSATION": "Clôturer la conversation",
+      "RESOLVE_CONVERSATION": "Résoudre la conversation",
+      "SEND_ATTACHMENT": "Envoyer la pièce jointe",
+      "SEND_MESSAGE": "Envoyer un message",
+      "CHANGE_PRIORITY": "Modifier la priorité",
+      "ADD_PRIVATE_NOTE": "Ajouter une note privée",
+      "SEND_WEBHOOK_EVENT": "Envoyer un événement Webhook"
     }
   }
 }
