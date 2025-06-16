@@ -130,10 +130,24 @@
     "LIMITS_UPGRADE": "Sua conta excedeu os limites de uso. Por favor, faça um upgrade do seu plano para continuar usando o Chatwoot",
     "OPEN_BILLING": "Abrir faturamento"
   },
+  "ENUMS": {
+    "MESSAGE_TYPE": {
+      "INCOMING": "Mensagem recebida",
+      "OUTGOING": "Mensagem enviada"
+    },
+    "PRIORITY": {
+      "NIL": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
+    }
+  },
   "FORMS": {
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Digite enter para selecionar",
       "ENTER_TO_REMOVE": "Digite enter para remover",
+      "NO_OPTIONS": "Lista está vazia",
       "SELECT_ONE": "Selecione um",
       "SELECT": "Selecionar"
     }
