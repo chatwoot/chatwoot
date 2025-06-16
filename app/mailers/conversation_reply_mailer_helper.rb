@@ -59,12 +59,15 @@ module ConversationReplyMailerHelper
 
   def oauth_smtp_settings
     return unless @inbox.email? && @channel.imap_enabled
-    return unless @inbox.channel.google? || @inbox.channel.microsoft?
-
-    domain = @inbox.channel.google? ? 'smtp.gmail.com' : 'smtp.office365.com'
+    return unless oauth_provider_domain
 
     @options[:delivery_method] = :smtp
-    @options[:delivery_method_options] = base_smtp_settings(domain)
+    @options[:delivery_method_options] = base_smtp_settings(oauth_provider_domain)
+  end
+
+  def oauth_provider_domain
+    return 'smtp.gmail.com' if @inbox.channel.google?
+    return 'smtp.office365.com' if @inbox.channel.microsoft?
   end
 
   def base_smtp_settings(domain)
