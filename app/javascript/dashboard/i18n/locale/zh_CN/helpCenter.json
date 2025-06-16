@@ -689,7 +689,7 @@
       "CONFIRM_BUTTON_LABEL": "创建",
       "NAME": {
         "LABEL": "姓名",
-        "PLACEHOLDER": "用户指南 | Chatwoot",
+        "PLACEHOLDER": "用户指南 | VegaVision",
         "MESSAGE": "为您的门户选择一个名称。",
         "ERROR": "名字必填"
       },
@@ -697,7 +697,7 @@
         "LABEL": "Slug",
         "PLACEHOLDER": "用户指南",
         "ERROR": "Slug是必填项",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
+        "FORMAT_ERROR": "请输入有效的 Slug，例如：user-guide"
       }
     },
     "PORTAL_SETTINGS": {

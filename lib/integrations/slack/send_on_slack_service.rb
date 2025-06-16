@@ -153,12 +153,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def sender_type(sender)
     if sender.instance_of?(Contact)
       'Contact'
-    elsif message.message_type == 'template' && sender.nil?
-      'Bot'
+    elsif sender.instance_of?(User)
+      'Agent'
     elsif message.message_type == 'activity' && sender.nil?
       'System'
     else
-      'Agent'
+      'Bot'
     end
   end
 

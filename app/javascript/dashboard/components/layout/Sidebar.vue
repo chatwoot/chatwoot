@@ -220,6 +220,7 @@ export default {
   <aside class="flex h-full">
     <PrimarySidebar
       :logo-source="globalConfig.logoThumbnail"
+      :dark-logo-source="globalConfig.logoDark"
       :installation-name="globalConfig.installationName"
       :is-a-custom-branded-instance="isACustomBrandedInstance"
       :account-id="accountId"

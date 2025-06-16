@@ -16,7 +16,7 @@
       "ERROR": "There was an error connecting to Shopify. Please try again or contact support if the issue persists."
     },
     "HEADER": "Integrācijas",
-    "DESCRIPTION": "Chatwoot integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
+    "DESCRIPTION": "VegaVision integrējas ar vairākiem rīkiem un pakalpojumiem, lai uzlabotu jūsu komandas efektivitāti. Izpētiet tālāk esošo sarakstu, lai konfigurētu savas iecienītākās lietotnes.",
     "LEARN_MORE": "Uzzināt vairāk par integrācijām",
     "LOADING": "Integrāciju iegūšana",
     "CAPTAIN": {
@@ -30,7 +30,7 @@
       "LEARN_MORE": "Uzzināt vairāk par webhooks",
       "FORM": {
         "CANCEL": "Atcelt",
-        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu Chatwoot kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
+        "DESC": "Webhook notikumi sniedz Jums reāllaika informāciju par to, kas notiek jūsu VegaVision kontā. Lūdzu, ievadiet derīgu URL, lai nokonfigurētu atzvanīšanu.",
         "SUBSCRIPTIONS": {
           "LABEL": "Notikumi",
           "EVENTS": {
@@ -60,7 +60,7 @@
       "HEADER_BTN_TXT": "Pievienot jaunu webhook",
       "LOADING": "Notiek pievienoto webhook iegūšana",
       "SEARCH_404": "Šim vaicājumam nav atbilstošu vienumu",
-      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook ir HTTP atzvani, kurus var definēt katram kontam. Tos aktivizē tādi notikumi kā ziņojumu izveide pakalpojumā Chatwoot. Šim kontam varat izveidot vairāk nekā vienu webhook. <br /><br /> Lai izveidotu <b>webhook</b>, noklikšķiniet uz <b>Pievienot jaunu webhook</b> pogas. Jūs varat arī noņemt jebkuru esošo webhook, noklikšķinot uz pogas Dzēst.</p>",
+      "SIDEBAR_TXT": "<p><b>Webhook</b> </p> <p>Webhook ir HTTP atzvani, kurus var definēt katram kontam. Tos aktivizē tādi notikumi kā ziņojumu izveide pakalpojumā VegaVision. Šim kontam varat izveidot vairāk nekā vienu webhook. <br /><br /> Lai izveidotu <b>webhook</b>, noklikšķiniet uz <b>Pievienot jaunu webhook</b> pogas. Jūs varat arī noņemt jebkuru esošo webhook, noklikšķinot uz pogas Dzēst.</p>",
       "LIST": {
         "404": "Šim kontam nav nokonfigurēts neviens webhook.",
         "TITLE": "Pārvaldīt webhook",
@@ -107,14 +107,14 @@
       },
       "HELP_TEXT": {
         "TITLE": "Kā izmantot Slack integrāciju?",
-        "BODY": "Izmantojot šo integrāciju, visas jūsu ienākošās sarunas tiks sinhronizētas ar kanālu ***{selectedChannelName}*** jūsu Slack darbvietā. Jūs varat pārvaldīt visas savas klientu sarunas tieši kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠādas ir galvenās integrācijas īpašības:\n\n**Atbldēt uz sarunām no Slack:** Lai atbildētu uz sarunu ***{selectedChannelName}*** Slack kanālā, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Šādi tiks izveidota atbilde klientam, izmantojot Chatwoot.\n\n**Izveidot privātas piezīmes:** ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Saistīt aģenta profilu:** ja personai, kas atbildēja Slack, ir Chatwoot aģenta profils ar to pašu e-pasta adresi, atbildes tiks automātiski saistītas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav saistīta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
+        "BODY": "Izmantojot šo integrāciju, visas jūsu ienākošās sarunas tiks sinhronizētas ar kanālu ***{selectedChannelName}*** jūsu Slack darbvietā. Jūs varat pārvaldīt visas savas klientu sarunas tieši kanālā un nekad nepalaist garām nevienu ziņojumu.\n\nŠādas ir galvenās integrācijas īpašības:\n\n**Atbldēt uz sarunām no Slack:** Lai atbildētu uz sarunu ***{selectedChannelName}*** Slack kanālā, uzrakstiet savu ziņojumu un nosūtiet to kā pavedienu. Šādi tiks izveidota atbilde klientam, izmantojot VegaVision.\n\n**Izveidot privātas piezīmes:** ja vēlaties izveidot privātas piezīmes, nevis atbildes, sāciet ziņojumu ar ***`note:`***. Tas nodrošina, ka jūsu ziņojums ir privāts un nebūs redzams klientam.\n\n**Saistīt aģenta profilu:** ja personai, kas atbildēja Slack, ir VegaVision aģenta profils ar to pašu e-pasta adresi, atbildes tiks automātiski saistītas ar šo aģenta profilu. Tas nozīmē, ka varat viegli izsekot kurš ko teica un kad. No otras puses, ja atbildētājam nav saistīta aģenta profila, atbildes klientam tiks rādītas no robotprogrammatūras profila.",
         "SELECTED": "izvēlēts"
       },
       "SELECT_CHANNEL": {
         "OPTION_LABEL": "Izvēlēties kanālu",
         "UPDATE": "Atjaunināt",
         "BUTTON_TEXT": "Pievienot kanālu",
-        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar Chatwoot, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar Chatwoot, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni Chatwoot Slack kanālam.",
+        "DESCRIPTION": "Jūsu Slack workspace tagad ir saistīta ar VegaVision, taču integrācija pašlaik ir neaktīva. Lai aktivizētu integrāciju un savienotu kanālu ar VegaVision, lūdzu, noklikšķiniet uz tālāk esošās pogas.\n\n**Piezīme:** Ja mēģinat izveidot savienojumu ar privātu kanālu, pirms turpināt šo darbību, pievienojiet lietotni VegaVision Slack kanālam.",
         "ATTENTION_REQUIRED": "Nepieciešama uzmanība",
         "EXPIRED": "Jūsu Slack integrācijas derīguma termiņš ir beidzies. Lai turpinātu saņemt ziņojumus pakalpojumā Slack, lūdzu, izdzēsiet integrāciju un vēlreiz pievienojiet savu workspace."
       },
@@ -194,7 +194,7 @@
     "DASHBOARD_APPS": {
       "TITLE": "Informācijas paneļa lietotnes",
       "HEADER_BTN_TXT": "Pievienot jaunu informācijas paneļa lietotni",
-      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu Chatwoot informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot Chatwoot informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
+      "SIDEBAR_TXT": "<p><b>Informācijas Paneļa Lietotnes</b></p><p>Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu VegaVision informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums izveidot lietojumprogrammu neatkarīgi un iegult to informācijas panelī, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai viņu iepriekšējo maksājumu vēsturi.</p><p>Kad iegulsiet lietojumprogrammu, izmantojot VegaVision informācijas paneli, Jūsu lietojumprogramma iegūs sarunas un kontaktpersonas kontekstu kā loga notikumu. Ieviesiet savā lapā ziņojuma notikuma uztvērēju, lai saņemtu kontekstu.</p><p>Lai pievienotu jaunu informācijas paneļa lietotni, noklikšķiniet uz pogas 'Pievienot jaunu informācijas paneļa lietotni'.</p>",
       "DESCRIPTION": "Informācijas paneļa lietotnes ļauj organizācijām iegult lietojumprogrammu informācijas panelī, lai nodrošinātu kontekstu klientu atbalsta aģentiem. Šī funkcija ļauj Jums neatkarīgi izveidot lietojumprogrammu un iegult to, lai sniegtu informāciju par lietotāju, viņu pasūtījumiem vai iepriekšējo maksājumu vēsturi.",
       "LEARN_MORE": "Uzzināt vairāk par Informācijas paneļa Lietotnēm",
       "LIST": {
@@ -318,11 +318,18 @@
         "SUCCESS": "Problēma ir veiksmīgi atsaistīta",
         "ERROR": "Atsaistot jautājumu radās kļūda. Lūdzu, mēģiniet vēlreiz"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "Vai tiešām vēlaties dzēst integrāciju?",
         "MESSAGE": "Vai tiešām vēlaties dzēst integrāciju?",
         "CONFIRM": "Jā, dzēst",
         "CANCEL": "Atcelt"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },
@@ -330,12 +337,17 @@
     "NAME": "Kapteinis",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Kopilots",
+      "TRY_THESE_PROMPTS": "Pamēģiniet",
+      "PANEL_TITLE": "Get started with Copilot",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Sūtīt ziņojumu...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Kapteinis domā",
       "YOU": "Jūs",
       "USE": "Izmantot šo",
       "RESET": "Atiestatīt",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Izvēlēties Asistentu",
       "PROMPTS": {
         "SUMMARIZE": {
@@ -349,6 +361,14 @@
         "RATE": {
           "LABEL": "Rate this conversation",
           "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "High priority conversations",
+          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "List contacts",
+          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
       }
     },
@@ -368,7 +388,6 @@
       "CANCEL_ANYTIME": "Jūs varat jebkurā laikā mainīt vai atcelt savu versiju"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI funkcija ir pieejama tikai maksas abonementā.",
       "UPGRADE_PROMPT": "Modernizējiet savu abonementu, lai iegūtu piekļuvi viruālajiem asistentiem un copilot.",
       "ASK_ADMIN": "Lai pārietu uz maksas versiju, lūdzu sazinieties ar savu administratoru."
     },
@@ -383,6 +402,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Asistenti",
+      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
       "ADD_NEW": "Izveidot jaunu asistentu",
       "DELETE": {
         "TITLE": "Vai tiešām vēlaties izdzēst asistentu?",
@@ -410,6 +430,10 @@
           "LABEL": "Nosaukums",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Apraksts",

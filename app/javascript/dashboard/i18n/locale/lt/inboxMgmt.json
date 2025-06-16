@@ -11,7 +11,7 @@
     "CREATE_FLOW": {
       "CHANNEL": {
         "TITLE": "Pasirinkti Kanalą",
-        "BODY": "Pasirinkite paslaugų teikėją, kurį norite integruoti su Chatwoot."
+        "BODY": "Pasirinkite paslaugų teikėją, kurį norite integruoti su VegaVision."
       },
       "INBOX": {
         "TITLE": "Sukurti Gautų Laiškų Aplanką",
@@ -37,7 +37,7 @@
         "PLACEHOLDER": "Įveskite savo internetinio puslapio pavadinimą (pvz.: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Po autorizacijos turėsime prieigą tik prie jūsų pranešimų puslapyje. Chatwoot asmeniniai pranešimai nebus pasiekiami.",
+        "HELP": "PS: Po autorizacijos turėsime prieigą tik prie jūsų pranešimų puslapyje. VegaVision asmeniniai pranešimai nebus pasiekiami.",
         "CHOOSE_PAGE": "Pasirinkti Puslapį",
         "CHOOSE_PLACEHOLDER": "Psirinkti puslapį iš sąrašo",
         "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
@@ -349,7 +349,7 @@
       },
       "AUTH": {
         "TITLE": "Pasirinkti Kanalą",
-        "DESC": "Chatwoot palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų."
+        "DESC": "VegaVision palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų."
       },
       "AGENTS": {
         "TITLE": "Agentai",
@@ -359,11 +359,11 @@
       },
       "DETAILS": {
         "TITLE": "Gautų Laiškų Aplanko Detali Informacija",
-        "DESC": "Žemiau esančiame meniu pasirinkite Facebook puslapį, kurį norite prisijungti prie „Chatwoot“. Taip pat galite priskirti norimą pavadinimą savo gautų laiškų aplankui, kad būtų lengviau atpažinti."
+        "DESC": "Žemiau esančiame meniu pasirinkite Facebook puslapį, kurį norite prisijungti prie „VegaVision“. Taip pat galite priskirti norimą pavadinimą savo gautų laiškų aplankui, kad būtų lengviau atpažinti."
       },
       "FINISH": {
         "TITLE": "Atlikta!",
-        "DESC": "Sėkmingai užbaigėte savo Facebook puslapio integravimą su Chatwoot. Kai kitą kartą klientas parašys pranešimą jūsų puslapyje, pokalbis automatiškai pasirodys jūsų gautų laiškų aplanke.<br>Taip pat pateikiame valdiklio scenarijų, kurį galite lengvai pridėti prie savo svetainės. Kai tai bus įdiegta jūsų svetainėje, klientai gali jums siųsti pranešimus tiesiai iš jūsų svetainės, nenaudodami jokio išorinio įrankio, o pokalbis bus rodomas Chatwoot.<br>Puiku, ar ne? Na, mes tikrai stengiamės tokiais būti :)"
+        "DESC": "Sėkmingai užbaigėte savo Facebook puslapio integravimą su VegaVision. Kai kitą kartą klientas parašys pranešimą jūsų puslapyje, pokalbis automatiškai pasirodys jūsų gautų laiškų aplanke.<br>Taip pat pateikiame valdiklio scenarijų, kurį galite lengvai pridėti prie savo svetainės. Kai tai bus įdiegta jūsų svetainėje, klientai gali jums siųsti pranešimus tiesiai iš jūsų svetainės, nenaudodami jokio išorinio įrankio, o pokalbis bus rodomas VegaVision.<br>Puiku, ar ne? Na, mes tikrai stengiamės tokiais būti :)"
       },
       "EMAIL_PROVIDER": {
         "TITLE": "Pasirinkite el. pašto paslaugų teikėją",
@@ -481,7 +481,8 @@
       "PRE_CHAT_FORM": "Anketa, rodoma prieš pokalbio internetu pradžią",
       "BUSINESS_HOURS": "Darbo valandos",
       "WIDGET_BUILDER": "Valdiklių kūrimo priemonė",
-      "BOT_CONFIGURATION": "Boto konfiguracija"
+      "BOT_CONFIGURATION": "Boto konfiguracija",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Nustatymai",
     "FEATURES": {
@@ -502,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Leisti el. pašto surinkimo dėžutę",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Naujame pokalbyje leiskite arba drauskite el. pašto surinkimo dėžutę",
       "AUTO_ASSIGNMENT": "Įjunkti automatinį priskyrimą",
-      "ENABLE_CSAT": "Leisti CSAT",
       "SENDER_NAME_SECTION": "Leisti agento vardą el. pašte",
-      "ENABLE_CSAT_SUB_TEXT": "Leisti/neleisti CSAT (klientų pasitenkinimo) apklausą, kai baigsite pokalbį",
       "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Jei kontaktinis el. pašto adresas yra pasiekiamas, pokalbiai bus tęsiami el. paštu.",
@@ -576,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Prieš pradėdami pokalbį lankytojai turėtų nurodyti savo vardą ir el. pašto adresą"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Leisti CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Žinutė",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "sudėtyje yra",
+          "DOES_NOT_CONTAINS": "sudėtyje nėra"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -745,7 +770,7 @@
         "USER_MESSAGE": "Hi",
         "AGENT_MESSAGE": "Sveiki"
       },
-      "BRANDING_TEXT": "Parengta pagal Chatwoot",
+      "BRANDING_TEXT": "Parengta pagal VegaVision",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {

@@ -11,6 +11,13 @@ const globalConfig = useMapGetter('globalConfig/get');
     v-if="globalConfig.logoThumbnail"
     v-bind="attrs"
     :src="globalConfig.logoThumbnail"
+    class="dark:hidden"
+  />
+  <img
+    v-if="globalConfig.logoDark"
+    v-bind="attrs"
+    :src="globalConfig.logoDark"
+    class="hidden dark:block"
   />
   <svg
     v-else

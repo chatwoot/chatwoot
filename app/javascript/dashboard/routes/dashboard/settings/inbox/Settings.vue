@@ -15,6 +15,7 @@ import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
+import CustomerSatisfactionPage from './settingsPage/CustomerSatisfactionPage.vue';
 import CollaboratorsPage from './settingsPage/CollaboratorsPage.vue';
 import WidgetBuilder from './WidgetBuilder.vue';
 import BotConfiguration from './components/BotConfiguration.vue';
@@ -22,12 +23,15 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     BotConfiguration,
     CollaboratorsPage,
     ConfigurationPage,
+    CustomerSatisfactionPage,
     FacebookReauthorize,
     GreetingsEditor,
     PreChatFormSettings,
@@ -41,6 +45,7 @@ export default {
     NextButton,
     InstagramReauthorize,
     DuplicateInboxBanner,
+    Editor,
   },
   mixins: [inboxMixin],
   setup() {
@@ -53,7 +58,6 @@ export default {
       greetingEnabled: true,
       greetingMessage: '',
       emailCollectEnabled: false,
-      csatSurveyEnabled: false,
       senderNameType: 'friendly',
       businessName: '',
       locktoSingleConversation: false,
@@ -69,6 +73,7 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -106,6 +111,10 @@ export default {
         {
           key: 'businesshours',
           name: this.$t('INBOX_MGMT.TABS.BUSINESS_HOURS'),
+        },
+        {
+          key: 'csat',
+          name: this.$t('INBOX_MGMT.TABS.CSAT'),
         },
       ];
 
@@ -277,7 +286,6 @@ export default {
         this.greetingEnabled = this.inbox.greeting_enabled || false;
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
-        this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -300,7 +308,6 @@ export default {
           id: this.currentInboxId,
           name: this.selectedInboxName,
           enable_email_collect: this.emailCollectEnabled,
-          csat_survey_enabled: this.csatSurveyEnabled,
           allow_messages_after_resolved: this.allowMessagesAfterResolved,
           greeting_enabled: this.greetingEnabled,
           greeting_message: this.greetingMessage || '',
@@ -477,10 +484,10 @@ export default {
             "
           />
 
-          <woot-input
+          <Editor
             v-if="isAWebWidgetInbox"
             v-model="channelWelcomeTagline"
-            class="pb-4"
+            class="mb-4"
             :label="
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
             "
@@ -489,6 +496,8 @@ export default {
                 'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
               )
             "
+            :max-length="255"
+            :enabled-menu-options="welcomeTaglineEditorMenuOptions"
           />
 
           <label v-if="isAWebWidgetInbox" class="pb-4">
@@ -586,21 +595,6 @@ export default {
                   'INBOX_MGMT.SETTINGS_POPUP.ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT'
                 )
               }}
-            </p>
-          </label>
-
-          <label class="pb-4">
-            {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT') }}
-            <select v-model="csatSurveyEnabled">
-              <option :value="true">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.ENABLED') }}
-              </option>
-              <option :value="false">
-                {{ $t('INBOX_MGMT.EDIT.ENABLE_CSAT.DISABLED') }}
-              </option>
-            </select>
-            <p class="pb-1 text-sm not-italic text-n-slate-11">
-              {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
             </p>
           </label>
 
@@ -801,6 +795,9 @@ export default {
       </div>
       <div v-if="selectedTabKey === 'configuration'">
         <ConfigurationPage :inbox="inbox" />
+      </div>
+      <div v-if="selectedTabKey === 'csat'">
+        <CustomerSatisfactionPage :inbox="inbox" />
       </div>
       <div v-if="selectedTabKey === 'preChatForm'">
         <PreChatFormSettings :inbox="inbox" />

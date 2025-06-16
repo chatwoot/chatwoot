@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "Interface",
-        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "NOTE": "Customize the look and feel of your VegaVision dashboard.",
         "FONT_SIZE": {
           "TITLE": "Font size",
           "NOTE": "Adjust the text size across the dashboard based on your preference.",
@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token za pristup",
         "NOTE": "Ovaj token se može koristiti ako izgrađujete integraciju zasnovanu na API-ju",
-        "COPY": "Kopiraj"
+        "COPY": "Kopiraj",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "Nedostupan"
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Vaša adresa e-pošte",
@@ -280,6 +286,7 @@
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
+    "ACTIVE": "Aktivno",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -374,7 +381,7 @@
     "NO_BILLING_USER": "Vaš nalog za plaćanje se podešava. Molim vas osvežite stranicu i pokušajte ponovo."
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan Chatwoot nalog. Molim vas kreirajte novi da bi ste nastavili.",
+    "NO_ACCOUNT_WARNING": "O ne! Nismo mogli da pronađemo nijedan VegaVision nalog. Molim vas kreirajte novi da bi ste nastavili.",
     "NEW_ACCOUNT": "Novi nalog",
     "SELECTOR_SUBTITLE": "Napravite novi nalog",
     "API": {

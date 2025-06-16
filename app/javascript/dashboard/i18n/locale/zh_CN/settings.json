@@ -37,7 +37,7 @@
       },
       "INTERFACE_SECTION": {
         "TITLE": "界面",
-        "NOTE": "自定义您的 Chatwoot 仪表板的外观和感觉。",
+        "NOTE": "自定义您的 VegaVision 仪表板的外观和感觉。",
         "FONT_SIZE": {
           "TITLE": "字体大小",
           "NOTE": "根据您的偏好调整仪表板中的文本大小。",
@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "访问令牌",
         "NOTE": "如果您正在构建基于 API 的集成，这个令牌可以被使用",
-        "COPY": "复制"
+        "COPY": "复制",
+        "RESET": "重置",
+        "CONFIRM_RESET": "您确定吗？",
+        "CONFIRM_HINT": "再次点击以确认",
+        "RESET_SUCCESS": "成功重新生成访问令牌",
+        "RESET_ERROR": "无法重新生成访问令牌。请重试"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "音频提醒",
@@ -185,7 +190,8 @@
           "OFFLINE": "离线"
         },
         "SET_AVAILABILITY_SUCCESS": "可用性已成功设置",
-        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试"
+        "SET_AVAILABILITY_ERROR": "无法设置可用性，请重试",
+        "IMPERSONATING_ERROR": "当您处于模拟用户状态时，无法更改其在线状态"
       },
       "EMAIL": {
         "LABEL": "您的电子邮件地址",
@@ -280,6 +286,7 @@
     "REPORTS": "报告",
     "SETTINGS": "设置",
     "CONTACTS": "联系人",
+    "ACTIVE": "状态",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "助手",
     "CAPTAIN_DOCUMENTS": "文档",
@@ -374,7 +381,7 @@
     "NO_BILLING_USER": "您的计费账户正在配置中。请刷新页面并重试。"
   },
   "CREATE_ACCOUNT": {
-    "NO_ACCOUNT_WARNING": "哦，糟糕！我们找不到任何 Chatwoot 账户。请创建一个新账户以继续。",
+    "NO_ACCOUNT_WARNING": "哦，糟糕！我们找不到任何 VegaVision 账户。请创建一个新账户以继续。",
     "NEW_ACCOUNT": "新账户",
     "SELECTOR_SUBTITLE": "创建一个新账户",
     "API": {

@@ -2,19 +2,28 @@ module Enterprise::SuperAdmin::AppConfigsController
   private
 
   def allowed_configs
-    return super if ChatwootHub.pricing_plan == 'community'
-
-    case @config
-    when 'custom_branding'
-      @allowed_configs = custom_branding_options
-    when 'internal'
-      @allowed_configs = internal_config_options
-    when 'captain'
-      @allowed_configs = %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_FIRECRAWL_API_KEY]
+    if ChatwootHub.pricing_plan == 'community'
+      # Allow custom branding for the community plan
+      if @config == 'custom_branding'
+        @allowed_configs = custom_branding_options
+      else
+        @allowed_configs = super # Fallback to super for other configurations
+      end
     else
-      super
+      # Existing logic for non-community plans
+      case @config
+      when 'custom_branding'
+        @allowed_configs = custom_branding_options
+      when 'internal'
+        @allowed_configs = internal_config_options
+      when 'captain'
+        @allowed_configs = %w[CAPTAIN_OPEN_AI_API_KEY CAPTAIN_OPEN_AI_MODEL CAPTAIN_FIRECRAWL_API_KEY]
+      else
+        @allowed_configs = super
+      end
     end
   end
+  
 
   def custom_branding_options
     %w[
@@ -33,6 +42,6 @@ module Enterprise::SuperAdmin::AppConfigsController
 
   def internal_config_options
     %w[CHATWOOT_INBOX_TOKEN CHATWOOT_INBOX_HMAC_KEY ANALYTICS_TOKEN CLEARBIT_API_KEY DASHBOARD_SCRIPTS INACTIVE_WHATSAPP_NUMBERS BLOCKED_EMAIL_DOMAINS
-       CAPTAIN_CLOUD_PLAN_LIMITS ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL]
+       CAPTAIN_CLOUD_PLAN_LIMITS ACCOUNT_SECURITY_NOTIFICATION_WEBHOOK_URL CHATWOOT_INSTANCE_ADMIN_EMAIL]
   end
 end

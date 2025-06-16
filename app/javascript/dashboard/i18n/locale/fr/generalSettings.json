@@ -46,7 +46,31 @@
       },
       "AUTO_RESOLVE": {
         "TITLE": "Résolution automatique des conversations",
-        "NOTE": "Cette configuration vous permet de résoudre automatiquement la conversation après un certain délai. Définissez la durée et personnalisez le message à l'utilisateur ci-dessous."
+        "NOTE": "This configuration would allow you to automatically resolve the conversation after a certain period of inactivity.",
+        "DURATION": {
+          "LABEL": "Inactivity duration",
+          "HELP": "Time period of inactivity after which conversation is auto-resolved",
+          "PLACEHOLDER": "30",
+          "ERROR": "La durée de résolution automatique doit être comprise entre 10 minutes et 999 jours",
+          "API": {
+            "SUCCESS": "Paramètres de résolution automatique mis à jour avec succès",
+            "ERROR": "Échec de la mise à jour des paramètres de résolution automatique"
+          }
+        },
+        "MESSAGE": {
+          "LABEL": "Custom auto-resolution message",
+          "PLACEHOLDER": "La conversation a été marquée comme résolue par le système en raison de 15 jours d'inactivité",
+          "HELP": "Message sent to the customer after conversation is auto-resolved"
+        },
+        "PREFERENCES": "Preferences",
+        "LABEL": {
+          "LABEL": "Add label after auto-resolution",
+          "PLACEHOLDER": "Select a label"
+        },
+        "IGNORE_WAITING": {
+          "LABEL": "Skip conversations waiting for agent’s reply"
+        },
+        "UPDATE_BUTTON": "Save Changes"
       },
       "NAME": {
         "LABEL": "Nom du compte",
@@ -70,7 +94,15 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclure les conversations non prises en charge",
-        "HELP": "Lorsque cette option est activée, le système ignorera la résolution des conversations qui attendent toujours une réponse d'un agent."
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+      },
+      "AUDIO_TRANSCRIPTION": {
+        "TITLE": "Transcribe Audio Messages",
+        "NOTE": "Automatically transcribe audio messages in conversations. Generate a text transcript whenever an audio message is sent or received, and display it alongside the message.",
+        "API": {
+          "SUCCESS": "Audio transcription setting updated successfully",
+          "ERROR": "Failed to update audio transcription setting"
+        }
       },
       "AUTO_RESOLVE_DURATION": {
         "LABEL": "Durée d'inactivité avant résolution",
@@ -91,11 +123,11 @@
         "CUSTOM_EMAIL_DOMAIN_ENABLED": "Vous pouvez maintenant recevoir des courriels dans votre domaine personnalisé."
       }
     },
-    "UPDATE_CHATWOOT": "Une mise à jour {latestChatwootVersion} de Chatwoot est disponible. Veuillez mettre à jour votre instance.",
+    "UPDATE_CHATWOOT": "Une mise à jour {latestChatwootVersion} de VegaVision est disponible. Veuillez mettre à jour votre instance.",
     "LEARN_MORE": "En savoir plus",
-    "PAYMENT_PENDING": "Votre paiement est en attente. Merci de mettre à jour vos informations de paiement pour continuer à utiliser Chatwoot",
-    "UPGRADE": "Mettez à niveau pour continuer à utiliser Chatwoot",
-    "LIMITS_UPGRADE": "Votre compte a dépassé les limites d'utilisation, veuillez mettre à niveau votre plan pour continuer à utiliser Chatwoot",
+    "PAYMENT_PENDING": "Votre paiement est en attente. Merci de mettre à jour vos informations de paiement pour continuer à utiliser VegaVision",
+    "UPGRADE": "Mettez à niveau pour continuer à utiliser VegaVision",
+    "LIMITS_UPGRADE": "Votre compte a dépassé les limites d'utilisation, veuillez mettre à niveau votre plan pour continuer à utiliser VegaVision",
     "OPEN_BILLING": "Ouvrir la facturation"
   },
   "FORMS": {
