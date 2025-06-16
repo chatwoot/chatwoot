@@ -14,5 +14,5 @@ time pnpm exec husky install
 
 time pnpm run build:sdk
 
-time bundle exec rake assets:precompile
+bundle exec rake assets:precompile
 time bundle exec rake ass
