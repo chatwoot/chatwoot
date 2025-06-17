@@ -87,13 +87,7 @@ module Stark
       raise StandardError, 'Invalid response format from Stark server'
     end
 
-    def parse_stark_response(response)
-      data = response['body']['data']
-      {
-        'content' => data['answer'],
-        'action' => nil
-      }
-    end
+# Removed unused parse_stark_response method.
 
     def error_response?(response)
       return true unless response.is_a?(Hash)
