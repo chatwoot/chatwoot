@@ -65,7 +65,8 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(response).to have_http_status(:success)
       response_data = JSON.parse(response.body, symbolize_names: true)[:payload]
       expect(response_data.length).to eq(2)
-      expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
+      # Only count articles in the current locale (category.locale is 'en')
+      expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(3)
     end
 
     it 'uses default items per page if per_page is less than 1' do

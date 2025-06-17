@@ -20,17 +20,32 @@ const articleUiFlags = useMapGetter('article/uiFlags');
 
 const locale = computed(() => {
   const { locale: selectedLocale } = i18n;
-  const {
-    allowed_locales: allowedLocales,
-    default_locale: defaultLocale = 'en',
-  } = portal.value.config;
-  // IMPORTANT: Variation strict locale matching, Follow iso_639_1_code
-  // If the exact match of a locale is available in the list of portal locales, return it
-  // Else return the default locale. Eg: `es` will not work if `es_ES` is available in the list
-  if (allowedLocales.includes(selectedLocale)) {
-    return locale;
-  }
-  return defaultLocale;
+  const { allowed_locales: allowedLocales } = portal.value.config;
+
+  // IMPORTANT: Variation locale matching, Following priority order:
+  // 1. Exact match (e.g., "fr" === "fr")
+  // 2. Base language match (e.g., "fr" when selected is "fr_CA")
+  // 3. Variant match (e.g., "fr_BE" when selected is "fr")
+  // 4. Default locale fallback
+
+  const [lang] = selectedLocale.value.split('_');
+
+  // Priority 1: Exact match
+  const exactMatch = allowedLocales.includes(selectedLocale.value)
+    ? selectedLocale.value
+    : null;
+  if (exactMatch) return exactMatch;
+
+  // Priority 2: Base language match
+  const baseMatch = allowedLocales.includes(lang) ? lang : null;
+  if (baseMatch) return baseMatch;
+
+  // Priority 3: Variant match
+  const variantMatch = allowedLocales.find(l => l.startsWith(`${lang}_`));
+  if (variantMatch) return variantMatch;
+
+  // Don't show popular articles if locale doesn't match with allowed locales
+  return null;
 });
 
 const fetchArticles = () => {
@@ -46,6 +61,7 @@ const openArticleInArticleViewer = link => {
   const params = new URLSearchParams({
     show_plain_layout: 'true',
     theme: prefersDarkMode.value ? 'dark' : 'light',
+    ...(locale.value && { locale: locale.value }),
   });
 
   // Combine link with query parameters
@@ -64,7 +80,8 @@ const hasArticles = computed(
   () =>
     !articleUiFlags.value.isFetching &&
     !articleUiFlags.value.isError &&
-    !!popularArticles.value.length
+    !!popularArticles.value.length &&
+    !!locale.value
 );
 onMounted(() => fetchArticles());
 </script>
