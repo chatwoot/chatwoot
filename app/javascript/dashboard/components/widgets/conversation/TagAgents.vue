@@ -15,16 +15,32 @@ const emit = defineEmits(['selectAgent']);
 
 const getters = useStoreGetters();
 const agents = computed(() => getters['agents/getVerifiedAgents'].value);
+const teams = computed(() => getters['teams/getTeams'].value);
 
 const tagAgentsRef = ref(null);
 const selectedIndex = ref(0);
 
 const items = computed(() => {
-  if (!props.searchKey) {
-    return agents.value;
-  }
-  return agents.value.filter(agent =>
-    agent.name.toLowerCase().includes(props.searchKey.toLowerCase())
+  const agentItems = agents.value.map(agent => ({
+    ...agent,
+    type: 'user',
+    displayName: agent.name,
+    displayInfo: agent.email,
+  }));
+
+  const teamItems = teams.value.map(team => ({
+    ...team,
+    type: 'team',
+    displayName: team.name,
+    displayInfo: team.description,
+  }));
+
+  const allItems = [...agentItems, ...teamItems];
+
+  if (!props.searchKey) return allItems;
+
+  return allItems.filter(item =>
+    item.displayName.toLowerCase().includes(props.searchKey.toLowerCase())
   );
 });
 
@@ -71,9 +87,9 @@ const onAgentSelect = index => {
       class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
     >
       <li
-        v-for="(agent, index) in items"
+        v-for="(item, index) in items"
         :id="`mention-item-${index}`"
-        :key="agent.id"
+        :key="`${item.type}-${item.id}`"
         :class="{
           'bg-n-alpha-black2': index === selectedIndex,
           'last:mb-0': items.length <= 4,
@@ -83,18 +99,18 @@ const onAgentSelect = index => {
         @mouseover="onHover(index)"
       >
         <div class="mr-2">
-          <Avatar :src="agent.thumbnail" :name="agent.name" rounded-full />
+          <Avatar :src="item.thumbnail" :name="item.displayName" rounded-full />
         </div>
         <div
           class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
         >
           <h5
-            class="mb-0 overflow-hidden text-sm text-n-slate-11 whitespace-nowrap text-ellipsis"
+            class="mb-0 overflow-hidden text-sm capitalize text-n-slate-11 whitespace-nowrap text-ellipsis"
             :class="{
               'text-n-slate-12': index === selectedIndex,
             }"
           >
-            {{ agent.name }}
+            {{ item.displayName }}
           </h5>
           <div
             class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-n-slate-10"
@@ -102,7 +118,7 @@ const onAgentSelect = index => {
               'text-n-slate-11': index === selectedIndex,
             }"
           >
-            {{ agent.email }}
+            {{ item.displayInfo }}
           </div>
         </div>
       </li>
