@@ -572,7 +572,7 @@ export const AUTOMATION_RULE_EVENTS = [
   },
   {
     key: 'conversation_resolved',
-    value: 'Conversation Resolved',
+    value: 'CONVERSATION_RESOLVED',
   },
   {
     key: 'message_created',
