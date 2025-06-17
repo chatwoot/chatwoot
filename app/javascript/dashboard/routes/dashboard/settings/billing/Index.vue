@@ -177,8 +177,8 @@ const defaultSpanRender = cellProps =>
     'span',
     {
       class: cellProps.getValue()
-        ? ''
-        : 'text-slate-300 dark:text-slate-700',
+        ? 'text-[#000000]'
+        : 'text-[#000000]',
     },
     cellProps.getValue() ? cellProps.getValue() : '---'
   );
@@ -417,7 +417,7 @@ const selectedTabDisplay = computed(() => {
       v-if="activeSubscription">
       <div class="flex flex-col lg:flex-row">
         <div class="flex-1">
-          <span class="font-bold">{{ $t('PAYMENT.STATUS_SUBS') }}</span>
+          <span class="font-bold !text-black-700">{{ $t('PAYMENT.STATUS_SUBS') }}</span>
         </div>
         <div>
           <span class="text-sm">
