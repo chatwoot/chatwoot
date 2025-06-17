@@ -181,17 +181,9 @@ class Message < ApplicationRecord
     data
   end
 
-  def content
-    # move this to a presenter
-    return self[:content] if !input_csat? || inbox.web_widget?
-
-    survey_link = "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}"
-
-    if inbox.csat_config&.dig('message').present?
-      "#{inbox.csat_config['message']} #{survey_link}"
-    else
-      I18n.t('conversations.survey.response', link: survey_link)
-    end
+  # Method to get content with survey URL for outgoing channel delivery
+  def outgoing_content
+    MessageContentPresenter.new(self).outgoing_content
   end
 
   def email_notifiable_message?

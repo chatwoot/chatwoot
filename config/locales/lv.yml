@@ -172,6 +172,8 @@ lv:
       sla:
         added: '%{user_name} pievienoja SLA politiku %{sla_name}'
         removed: '%{user_name} noņēma SLA politiku %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} izslēdza sarunu'
       unmuted: '%{user_name} ieslēdza sarunu'
       auto_resolution_message: 'Saruna tiek pabeigta, jo tā kādu laiku ir bijusi neaktīva. Ja nepieciešama papildu palīdzība, lūdzu, sāciet jaunu sarunu.'
@@ -272,6 +274,7 @@ lv:
       made_with: Veidots ar
     header:
       go_to_homepage: Tīmekļa vietne
+      visit_website: Visit website
       appearance:
         system: Sistēma
         light: Gaišs

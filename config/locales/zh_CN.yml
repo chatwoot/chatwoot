@@ -172,6 +172,8 @@ zh_CN:
       sla:
         added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
         removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
       auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
@@ -272,6 +274,7 @@ zh_CN:
       made_with: 制作于
     header:
       go_to_homepage: 网站
+      visit_website: Visit website
       appearance:
         system: 系统
         light: 浅色
