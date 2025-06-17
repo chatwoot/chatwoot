@@ -136,7 +136,7 @@ export default {
       <Banner />
       <router-view />
 
-      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+      <!-- Branding removed for Mooly.vn customization -->
     </div>
   </div>
 </template>

@@ -3,7 +3,7 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   retry_on LockAcquisitionError, wait: 1.second, attempts: 8
 
   # @return [Array] We will support further events like reaction or seen in future
-  SUPPORTED_EVENTS = [:message, :read].freeze
+  SUPPORTED_EVENTS = [:message, :read, :referral].freeze
 
   def perform(entries)
     @entries = entries
@@ -41,7 +41,10 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
 
       next if channel.blank?
 
-      if (event_name = event_name(messaging))
+      # Xử lý referral events trước khi xử lý message thông thường
+      if messaging['referral'].present?
+        process_referral_event(messaging, channel)
+      elsif (event_name = event_name(messaging))
         send(event_name, messaging, channel)
       end
     end
@@ -107,6 +110,34 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def read(messaging, channel)
     # Use a single service to handle read status for both channel types since the params are same
     ::Instagram::ReadStatusService.new(params: messaging, channel: channel).perform
+  end
+
+  def process_referral_event(messaging, channel)
+    # Tìm hoặc tạo contact_inbox
+    contact_inbox = find_or_create_contact_inbox(messaging, channel)
+    return unless contact_inbox
+
+    # Xử lý referral data
+    Instagram::ReferralProcessorService.new(
+      inbox: channel.inbox,
+      contact_inbox: contact_inbox,
+      params: messaging
+    ).perform
+
+    Rails.logger.info("Processed Instagram referral event for sender #{messaging['sender']['id']}")
+  end
+
+  def find_or_create_contact_inbox(messaging, channel)
+    sender_id = messaging['sender']['id']
+
+    # Tìm hoặc tạo contact_inbox
+    ::ContactInboxBuilder.new(
+      source_id: sender_id,
+      inbox: channel.inbox,
+      contact_attributes: {
+        name: sender_id # Instagram sẽ được cập nhật tên sau từ API
+      }
+    ).perform
   end
 
   def messages(entry)

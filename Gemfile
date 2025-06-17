@@ -56,7 +56,7 @@ gem 'image_processing'
 gem 'groupdate'
 gem 'pg'
 gem 'redis'
-gem 'redis-namespace'
+gem 'redis-namespace', '~> 1.11'
 # super fast record imports in bulk
 gem 'activerecord-import'
 

@@ -13,8 +13,20 @@ class Instagram::BaseSendService < Base::SendOnChannelService
   end
 
   def send_attachments
-    message.attachments.each do |attachment|
-      send_message(attachment_message_params(attachment))
+    # Tối ưu gửi attachments song song để giảm thời gian
+    if message.attachments.size > 1
+      threads = []
+      message.attachments.each do |attachment|
+        threads << Thread.new do
+          send_message(attachment_message_params(attachment))
+        end
+      end
+      threads.each(&:join)
+    else
+      # Nếu chỉ có 1 attachment, gửi trực tiếp
+      message.attachments.each do |attachment|
+        send_message(attachment_message_params(attachment))
+      end
     end
   end
 
@@ -45,7 +57,7 @@ class Instagram::BaseSendService < Base::SendOnChannelService
                       attachment.download_url
                     end
 
-    Rails.logger.info "Instagram::BaseSendService: Sending attachment with URL: #{attachment_url}"
+    Rails.logger.info "Instagram::BaseSendService: Sending attachment with URL: #{attachment_url} (external: #{attachment.external_url.present?})"
 
     params = {
       recipient: { id: contact.get_source_id(inbox.id) },

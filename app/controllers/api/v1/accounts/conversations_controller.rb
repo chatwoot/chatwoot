@@ -34,6 +34,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
                                 .per(ATTACHMENT_RESULTS_PER_PAGE)
   end
 
+  def ads_tracking
+    @ads_tracking = @conversation.facebook_ads_trackings
+                                 .includes(:contact, :inbox)
+                                 .recent
+                                 .limit(10)
+
+    render json: {
+      data: @ads_tracking.map(&:summary_data),
+      total_count: @conversation.facebook_ads_trackings.count
+    }
+  end
+
   def show; end
 
   def create
@@ -107,6 +119,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     typing_status_manager = ::Conversations::TypingStatusManager.new(@conversation, current_user, params)
     typing_status_manager.toggle_typing_status
     head :ok
+  end
+
+  def test_typing_indicators
+    test_service = TypingIndicatorTestService.new(conversation: @conversation)
+    results = test_service.test_typing_indicators
+    render json: {
+      success: true,
+      results: results,
+      conversation_id: @conversation.id,
+      channel_type: @conversation.inbox.channel_type,
+      message: 'Typing indicator test completed. Check mobile device and logs for results.'
+    }
   end
 
   def update_last_seen

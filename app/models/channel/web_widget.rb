@@ -10,6 +10,7 @@
 #  pre_chat_form_enabled :boolean          default(FALSE)
 #  pre_chat_form_options :jsonb
 #  reply_time            :integer          default("in_a_few_minutes")
+#  typing_texts          :jsonb            default([])
 #  website_token         :string
 #  website_url           :string
 #  welcome_tagline       :string
@@ -22,6 +23,7 @@
 # Indexes
 #
 #  index_channel_web_widgets_on_hmac_token     (hmac_token) UNIQUE
+#  index_channel_web_widgets_on_typing_texts   (typing_texts) USING gin
 #  index_channel_web_widgets_on_website_token  (website_token) UNIQUE
 #
 
@@ -31,7 +33,7 @@ class Channel::WebWidget < ApplicationRecord
 
   self.table_name = 'channel_web_widgets'
   EDITABLE_ATTRS = [:website_url, :widget_color, :welcome_title, :welcome_tagline, :reply_time, :pre_chat_form_enabled,
-                    :continuity_via_email, :hmac_mandatory,
+                    :continuity_via_email, :hmac_mandatory, { typing_texts: [] },
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
@@ -39,8 +41,10 @@ class Channel::WebWidget < ApplicationRecord
                     { selected_feature_flags: [] }].freeze
 
   before_validation :validate_pre_chat_options
+  before_validation :set_default_typing_texts
   validates :website_url, presence: true
   validates :widget_color, presence: true
+  validate :validate_typing_texts
   has_many :portals, foreign_key: 'channel_web_widget_id', dependent: :nullify, inverse_of: :channel_web_widget
 
   has_secure_token :website_token
@@ -78,6 +82,51 @@ class Channel::WebWidget < ApplicationRecord
       })(document,\"script\");
     </script>
     "
+  end
+
+  private
+
+  def set_default_typing_texts
+    return if typing_texts.present? && typing_texts.is_a?(Array) && typing_texts.any?
+
+    self.typing_texts = [
+      'Xin chào! Tôi có thể giúp gì cho bạn?',
+      'Hỗ trợ 24/7 - Luôn sẵn sàng!',
+      'Chat ngay để được tư vấn miễn phí',
+      'Mooly.vn - Giải pháp AI thông minh',
+      'Bạn cần hỗ trợ gì không?',
+      'Nhấn để bắt đầu trò chuyện',
+      'AI Assistant đang chờ bạn...',
+      'Tư vấn nhanh - Phản hồi tức thì'
+    ]
+  end
+
+  def validate_typing_texts
+    return if typing_texts.blank?
+
+    unless typing_texts.is_a?(Array)
+      errors.add(:typing_texts, 'must be an array')
+      return
+    end
+
+    if typing_texts.length > 20
+      errors.add(:typing_texts, 'cannot have more than 20 texts')
+    end
+
+    typing_texts.each_with_index do |text, index|
+      unless text.is_a?(String)
+        errors.add(:typing_texts, "text at index #{index} must be a string")
+        next
+      end
+
+      if text.length > 100
+        errors.add(:typing_texts, "text at index #{index} cannot be longer than 100 characters")
+      end
+
+      if text.strip.empty?
+        errors.add(:typing_texts, "text at index #{index} cannot be empty")
+      end
+    end
   end
 
   def validate_pre_chat_options

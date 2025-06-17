@@ -1,8 +1,8 @@
 # frozen_string_literal: true
 
-class Integrations::Facebook::MessageParser
+class Integrations::Instagram::MessageParser
   def initialize(response_json)
-    @response = JSON.parse(response_json)
+    @response = response_json.is_a?(String) ? JSON.parse(response_json) : response_json
     @messaging = @response['messaging'] || @response['standby']
   end
 
@@ -15,7 +15,7 @@ class Integrations::Facebook::MessageParser
   end
 
   def sender_name
-    # Facebook không cung cấp tên trong webhook, sẽ được lấy từ Graph API sau
+    # Instagram không cung cấp tên trong webhook, sẽ được lấy từ Graph API sau
     nil
   end
 
@@ -78,12 +78,10 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('postback', 'payload')
   end
 
-  # TODO : i don't think the payload contains app_id. if not remove
   def app_id
     @messaging.dig('message', 'app_id')
   end
 
-  # TODO : does this work ?
   def sent_from_chatwoot_app?
     app_id && app_id == GlobalConfigService.load('FB_APP_ID', '').to_i
   end
@@ -92,7 +90,7 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('message', 'reply_to', 'mid')
   end
 
-  # Thêm hỗ trợ messaging_referrals để track nguồn từ ads
+  # Thêm hỗ trợ messaging_referrals để track nguồn từ Instagram ads
   def referral?
     @messaging['referral'].present?
   end
@@ -117,15 +115,15 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('referral', 'ads_context_data')
   end
 
-  # Lấy campaign_id từ referral data (Facebook API v22+ có thể cung cấp trực tiếp)
+  # Lấy campaign_id từ referral data (Instagram API v22+ có thể cung cấp trực tiếp)
   def referral_campaign_id
-    @messaging.dig('referral', 'campaign_id') ||
+    @messaging.dig('referral', 'campaign_id') || 
     @messaging.dig('referral', 'ads_context_data', 'campaign_id')
   end
 
-  # Lấy adset_id từ referral data (Facebook API v22+ có thể cung cấp trực tiếp)
+  # Lấy adset_id từ referral data (Instagram API v22+ có thể cung cấp trực tiếp)
   def referral_adset_id
-    @messaging.dig('referral', 'adset_id') ||
+    @messaging.dig('referral', 'adset_id') || 
     @messaging.dig('referral', 'ads_context_data', 'adset_id')
   end
 
@@ -137,53 +135,18 @@ class Integrations::Facebook::MessageParser
   end
 end
 
-# Sample Response
+# Sample Instagram Referral Response (from ads) - Updated for Instagram API v22+
 # {
 #   "sender":{
-#     "id":"USER_ID"
+#     "id":"INSTAGRAM_USER_ID"
 #   },
 #   "recipient":{
-#     "id":"PAGE_ID"
-#   },
-#   "timestamp":1458692752478,
-#   "message":{
-#     "mid":"mid.1457764197618:41d102a3e1ae206a38",
-#     "seq":73,
-#     "text":"hello, world!",
-#     "quick_reply": {
-#       "payload": "DEVELOPER_DEFINED_PAYLOAD"
-#     }
-#   }
-# }
-
-# Sample Postback Response
-# {
-#   "sender":{
-#     "id":"USER_ID"
-#   },
-#   "recipient":{
-#     "id":"PAGE_ID"
-#   },
-#   "timestamp":1458692752478,
-#   "postback":{
-#     "mid":"mid.1457764197618:41d102a3e1ae206a38",
-#     "title":"TITLE-FOR-THE-CTA",
-#     "payload":"USER-DEFINED-PAYLOAD"
-#   }
-# }
-
-# Sample Referral Response (from ads) - Updated for Facebook API v22+
-# {
-#   "sender":{
-#     "id":"USER_ID"
-#   },
-#   "recipient":{
-#     "id":"PAGE_ID"
+#     "id":"INSTAGRAM_BUSINESS_ID"
 #   },
 #   "timestamp":1458692752478,
 #   "referral":{
-#     "ref":"REF_DATA_IN_M_DOT_ME_PARAM",
-#     "source":"SHORTLINK",
+#     "ref":"REF_DATA_IN_INSTAGRAM_LINK",
+#     "source":"ADS",
 #     "type":"OPEN_THREAD",
 #     "ad_id":"AD_ID",
 #     "campaign_id":"CAMPAIGN_ID",  // Có thể có trong API v22+

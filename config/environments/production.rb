@@ -54,6 +54,15 @@ Rails.application.configure do
 
   # Use a different cache store in production.
   # config.cache_store = :mem_cache_store
+  # Use Redis cache store with direct connection to avoid namespace warnings
+  config.cache_store = :redis_cache_store, {
+    url: ENV.fetch('REDIS_URL', 'redis://127.0.0.1:6379'),
+    password: ENV.fetch('REDIS_PASSWORD', nil).presence,
+    ssl_params: { verify_mode: Chatwoot.redis_ssl_verify_mode },
+    reconnect_attempts: 2,
+    timeout: 1,
+    namespace: 'chatwoot_cache'
+  }
 
   # Use a real queuing backend for Active Job (and separate queues per environment)
   config.active_job.queue_adapter = :sidekiq

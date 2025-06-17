@@ -730,6 +730,11 @@
           "LABEL": "Tiêu đề trình khởi chạy bong bóng widget",
           "PLACE_HOLDER": "Trò chuyện với chúng tôi"
         },
+        "TYPING_TEXTS": {
+          "LABEL": "Văn bản Animation Typing",
+          "PLACEHOLDER": "Nhập tin nhắn để hiển thị...",
+          "HELP_TEXT": "Những văn bản này sẽ xoay vòng liên tục trong bubble mở rộng để thu hút người dùng. Chỉ hoạt động với loại 'Expanded Bubble'."
+        },
         "UPDATE": {
           "BUTTON_TEXT": "Cập nhật cài đặt widget",
           "API": {
@@ -819,7 +824,10 @@
       "REFRESH": "Làm mới",
       "DATE": "Ngày",
       "CONTACT": "Liên hệ",
+      "PLATFORM": "Nền tảng",
       "AD_ID": "ID Quảng cáo",
+      "CAMPAIGN_ID": "ID Chiến dịch",
+      "ADSET_ID": "ID Nhóm quảng cáo",
       "REF_PARAMETER": "Tham số Ref",
       "EVENT_NAME": "Tên Sự kiện",
       "CONVERSION_STATUS": "Trạng thái Chuyển đổi",

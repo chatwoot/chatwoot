@@ -25,12 +25,24 @@ class FacebookAdsTracking < ApplicationRecord
   def extract_campaign_and_adset_ids
     return unless raw_referral_data.present?
 
-    # Facebook ads context data might contain campaign and adset info
-    ads_context = raw_referral_data['ads_context_data'] || {}
+    # Facebook API v22+ có thể cung cấp trực tiếp campaign_id và adset_id
+    # Ưu tiên lấy từ root level trước, sau đó từ ads_context_data
+    self.campaign_id ||= raw_referral_data['campaign_id']
+    self.adset_id ||= raw_referral_data['adset_id']
 
-    # Try to extract from various possible fields
-    self.campaign_id ||= ads_context['campaign_id'] || extract_id_from_url(ads_context['ad_title'], 'campaign')
-    self.adset_id ||= ads_context['adset_id'] || extract_id_from_url(ads_context['ad_title'], 'adset')
+    # Fallback: lấy từ ads_context_data
+    if campaign_id.blank? || adset_id.blank?
+      ads_context = raw_referral_data['ads_context_data'] || {}
+      self.campaign_id ||= ads_context['campaign_id']
+      self.adset_id ||= ads_context['adset_id']
+    end
+
+    # Fallback cuối: thử extract từ ad_title hoặc các trường khác
+    if campaign_id.blank? || adset_id.blank?
+      ads_context = raw_referral_data['ads_context_data'] || {}
+      self.campaign_id ||= extract_id_from_url(ads_context['ad_title'], 'campaign')
+      self.adset_id ||= extract_id_from_url(ads_context['ad_title'], 'adset')
+    end
   end
 
   # Mark conversion as sent
@@ -42,7 +54,7 @@ class FacebookAdsTracking < ApplicationRecord
     )
   end
 
-  # Get conversion event data for Facebook Conversions API
+  # Get conversion event data for Facebook/Instagram Conversions API
   def conversion_event_data
     {
       event_name: event_name || 'Lead',
@@ -50,8 +62,8 @@ class FacebookAdsTracking < ApplicationRecord
       action_source: 'chat',
       user_data: {
         external_id: contact.id.to_s,
-        client_ip_address: nil, # We don't have IP from messenger
-        client_user_agent: nil, # We don't have user agent from messenger
+        client_ip_address: nil, # We don't have IP from messenger/instagram
+        client_user_agent: nil, # We don't have user agent from messenger/instagram
         fb_login_id: contact.get_source_id(inbox.id)
       },
       custom_data: {
@@ -68,9 +80,30 @@ class FacebookAdsTracking < ApplicationRecord
           }
         ].compact
       },
-      event_source_url: "https://m.me/#{inbox.channel.page_id}?ref=#{ref_parameter}",
+      event_source_url: build_event_source_url,
       opt_out: false
     }.compact
+  end
+
+  # Build appropriate source URL based on channel type
+  def build_event_source_url
+    if inbox.instagram?
+      # Instagram DM link
+      "https://www.instagram.com/direct/t/#{contact.get_source_id(inbox.id)}?ref=#{ref_parameter}"
+    else
+      # Facebook Messenger link
+      "https://m.me/#{inbox.channel.page_id}?ref=#{ref_parameter}"
+    end
+  end
+
+  # Check if this tracking is from Instagram
+  def instagram_tracking?
+    inbox.instagram?
+  end
+
+  # Check if this tracking is from Facebook
+  def facebook_tracking?
+    inbox.facebook?
   end
 
   # Get summary data for UI display
@@ -93,7 +126,9 @@ class FacebookAdsTracking < ApplicationRecord
       conversation_id: conversation_id,
       contact_name: contact.name,
       contact_email: contact.email,
-      contact_phone: contact.phone_number
+      contact_phone: contact.phone_number,
+      inbox_type: inbox.channel_type,
+      platform: instagram_tracking? ? 'Instagram' : 'Facebook'
     }
   end
 

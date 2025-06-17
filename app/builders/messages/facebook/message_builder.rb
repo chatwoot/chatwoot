@@ -248,6 +248,8 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
         referral_source: @response.referral_source,
         referral_type: @response.referral_type,
         ad_id: @response.referral_ad_id,
+        campaign_id: @response.referral_campaign_id,
+        adset_id: @response.referral_adset_id,
         raw_referral_data: @response.referral_data
       }
 

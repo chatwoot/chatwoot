@@ -19,8 +19,10 @@ class ChannelListener < BaseListener
   private
 
   def process_typing_event(conversation, typing_status, event)
-    # Chỉ xử lý cho kênh Facebook
-    return unless conversation.inbox.channel_type == 'Channel::FacebookPage'
+    # Xử lý cho kênh Facebook và Instagram
+    channel_type = conversation.inbox.channel_type
+    return unless %w[Channel::FacebookPage Channel::Instagram].include?(channel_type)
+
     # Không xử lý tin nhắn riêng tư
     return if event.data[:is_private]
 
@@ -43,32 +45,35 @@ class ChannelListener < BaseListener
     end
 
     begin
-      # Gửi typing indicator đến Facebook
-      typing_service = Facebook::TypingIndicatorService.new(channel, source_id)
+      # Tạo typing service tương ứng với channel type
+      typing_service = case channel_type
+                      when 'Channel::FacebookPage'
+                        Facebook::TypingIndicatorService.new(channel, source_id)
+                      when 'Channel::Instagram'
+                        Instagram::TypingIndicatorService.new(channel, source_id)
+                      end
 
-      # Nếu là typing_on, đánh dấu tin nhắn đã xem trước, sau đó mới gửi typing indicator
+      return if typing_service.blank?
+
+      # Nếu là typing_on, sử dụng phương thức mark_seen_and_typing tối ưu cho mobile
       if typing_status == 'typing_on'
-        # Đánh dấu tin nhắn đã xem trước khi gửi typing indicator
-        mark_seen_result = typing_service.mark_seen
-        Rails.logger.info "Marked message as seen for conversation #{conversation.id}" if mark_seen_result
-
-        # Đợi một khoảng thời gian ngắn để Facebook xử lý request mark_seen
-        sleep(0.3) if mark_seen_result
-
-        # Sau đó mới gửi typing indicator
-        result = typing_service.enable
+        result = typing_service.mark_seen_and_typing
       else
         # Nếu là typing_off, chỉ cần tắt typing indicator
         result = typing_service.disable
       end
 
+      platform_name = channel_type == 'Channel::FacebookPage' ? 'Facebook' : 'Instagram'
+
       if result
-        Rails.logger.info "Successfully sent #{typing_status} to Facebook for conversation #{conversation.id}"
+        Rails.logger.info "Successfully sent #{typing_status} to #{platform_name} v22 for conversation #{conversation.id}"
       else
-        Rails.logger.warn "Failed to send #{typing_status} to Facebook for conversation #{conversation.id}"
+        Rails.logger.warn "Failed to send #{typing_status} to #{platform_name} v22 for conversation #{conversation.id}"
       end
     rescue => e
-      Rails.logger.error "Error sending typing indicator to Facebook: #{e.message}"
+      platform_name = channel_type == 'Channel::FacebookPage' ? 'Facebook' : 'Instagram'
+      Rails.logger.error "Error sending typing indicator to #{platform_name}: #{e.message}"
+      Rails.logger.error e.backtrace.join("\n")
     end
   end
 end

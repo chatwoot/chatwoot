@@ -9,6 +9,8 @@ class Bot::TypingService
     case @inbox.channel_type
     when 'Channel::FacebookPage'
       enable_facebook_typing
+    when 'Channel::Instagram'
+      enable_instagram_typing
     when 'Channel::Whatsapp'
       enable_whatsapp_typing
     when 'Channel::Telegram'
@@ -17,11 +19,13 @@ class Bot::TypingService
       false
     end
   end
-  
+
   def disable_typing
     case @inbox.channel_type
     when 'Channel::FacebookPage'
       disable_facebook_typing
+    when 'Channel::Instagram'
+      disable_instagram_typing
     when 'Channel::Whatsapp'
       disable_whatsapp_typing
     when 'Channel::Telegram'
@@ -30,11 +34,13 @@ class Bot::TypingService
       false
     end
   end
-  
+
   def mark_seen
     case @inbox.channel_type
     when 'Channel::FacebookPage'
       mark_facebook_seen
+    when 'Channel::Instagram'
+      mark_instagram_seen
     when 'Channel::Whatsapp'
       mark_whatsapp_seen
     when 'Channel::Telegram'
@@ -48,7 +54,7 @@ class Bot::TypingService
   
   def enable_facebook_typing
     return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
-    
+
     # Sử dụng phương thức mark_seen_and_typing để đảm bảo typing hoạt động trên di động
     typing_service = Facebook::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
     typing_service.mark_seen_and_typing
@@ -56,24 +62,56 @@ class Bot::TypingService
     Rails.logger.error "Bot::TypingService: Error enabling Facebook typing indicator: #{e.message}"
     false
   end
-  
+
   def disable_facebook_typing
     return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
-    
+
     typing_service = Facebook::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
     typing_service.disable
   rescue => e
     Rails.logger.error "Bot::TypingService: Error disabling Facebook typing indicator: #{e.message}"
     false
   end
-  
+
   def mark_facebook_seen
     return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
-    
+
     typing_service = Facebook::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
     typing_service.mark_seen
   rescue => e
     Rails.logger.error "Bot::TypingService: Error marking Facebook message as seen: #{e.message}"
+    false
+  end
+
+  # Instagram typing methods
+  def enable_instagram_typing
+    return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
+
+    # Sử dụng phương thức mark_seen_and_typing để đảm bảo typing hoạt động trên di động
+    typing_service = Instagram::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
+    typing_service.mark_seen_and_typing
+  rescue => e
+    Rails.logger.error "Bot::TypingService: Error enabling Instagram typing indicator: #{e.message}"
+    false
+  end
+
+  def disable_instagram_typing
+    return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
+
+    typing_service = Instagram::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
+    typing_service.disable
+  rescue => e
+    Rails.logger.error "Bot::TypingService: Error disabling Instagram typing indicator: #{e.message}"
+    false
+  end
+
+  def mark_instagram_seen
+    return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
+
+    typing_service = Instagram::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
+    typing_service.mark_seen
+  rescue => e
+    Rails.logger.error "Bot::TypingService: Error marking Instagram message as seen: #{e.message}"
     false
   end
   

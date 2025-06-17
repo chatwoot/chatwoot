@@ -141,18 +141,42 @@ POST /api/v1/accounts/:account_id/bot/attachments/external
 
 ## Lưu ý quan trọng
 
-1. Luôn đánh dấu tin nhắn đã xem trước khi bật typing indicator để đảm bảo typing indicator hoạt động trên cả desktop và mobile
-2. Sử dụng external URL cho tệp đính kèm để tối ưu hiệu suất
-3. Đối với tin nhắn có nhiều tệp đính kèm, sử dụng API `batch_create` để gửi tất cả cùng lúc
-4. Đảm bảo URL của tệp đính kèm có thể truy cập công khai
+1. **Typing Indicator**: Hệ thống KHÔNG tự động gửi typing indicator khi gửi tin nhắn. Bạn cần chủ động gọi API typing khi cần thiết
+2. **External URL**: Ưu tiên sử dụng external URL cho tệp đính kèm để tối ưu hiệu suất và tránh duplicate storage
+3. **Batch Messages**: Đối với tin nhắn có nhiều tệp đính kèm, sử dụng API `batch_create` để gửi tất cả cùng lúc
+4. **URL Accessibility**: Đảm bảo URL của tệp đính kèm có thể truy cập công khai từ Facebook/Instagram
+5. **Performance**: Khi sử dụng external_url, hình ảnh sẽ được gửi trực tiếp đến Facebook mà không cần tải về server Chatwoot
 
 ## Ví dụ mã nguồn
 
-### Gửi tin nhắn với typing indicator (Node.js)
+### Gửi tin nhắn đơn giản (Node.js)
 
 ```javascript
 const axios = require('axios');
 
+async function sendMessage(conversationId, content, attachments = []) {
+  const baseUrl = 'https://your-chatwoot-instance.com/api/v1/accounts/1/bot';
+  const headers = {
+    'api_access_token': 'YOUR_API_KEY',
+    'Content-Type': 'application/json'
+  };
+
+  try {
+    // Gửi tin nhắn trực tiếp - không có typing tự động
+    const response = await axios.post(`${baseUrl}/messages`, {
+      conversation_id: conversationId,
+      content,
+      attachments
+    }, { headers });
+
+    return response.data;
+  } catch (error) {
+    console.error('Error sending message:', error);
+    throw error;
+  }
+}
+
+// Nếu cần typing indicator, gọi riêng biệt
 async function sendMessageWithTyping(conversationId, content, attachments = []) {
   const baseUrl = 'https://your-chatwoot-instance.com/api/v1/accounts/1/bot';
   const headers = {
@@ -161,25 +185,22 @@ async function sendMessageWithTyping(conversationId, content, attachments = []) 
   };
 
   try {
-    // Đánh dấu tin nhắn đã xem
-    await axios.post(`${baseUrl}/conversations/${conversationId}/mark_seen`, {}, { headers });
-    
-    // Bật typing indicator
+    // Bật typing indicator (tùy chọn)
     await axios.post(`${baseUrl}/conversations/${conversationId}/typing_on`, {}, { headers });
-    
+
     // Đợi 1.5 giây để hiển thị typing indicator
     await new Promise(resolve => setTimeout(resolve, 1500));
-    
+
     // Gửi tin nhắn
     const response = await axios.post(`${baseUrl}/messages`, {
       conversation_id: conversationId,
       content,
       attachments
     }, { headers });
-    
+
     // Tắt typing indicator
     await axios.post(`${baseUrl}/conversations/${conversationId}/typing_off`, {}, { headers });
-    
+
     return response.data;
   } catch (error) {
     console.error('Error sending message:', error);

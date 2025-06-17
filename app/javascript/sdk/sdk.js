@@ -52,6 +52,7 @@ export const SDK_CSS = `
   width: 64px;
   z-index: 2147483000 !important;
   overflow: hidden;
+  animation: mooly-pulse 2s infinite, mooly-glow 3s ease-in-out infinite alternate;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
@@ -88,6 +89,11 @@ export const SDK_CSS = `
   right: 0px;
   border: 2px solid #ffffff;
   transition: background 0.2s ease;
+  animation: mooly-pulse 1s infinite, mooly-glow 2s ease-in-out infinite alternate;
+}
+
+.woot-widget-bubble.unread-notification {
+  animation: mooly-pulse 2s infinite, mooly-glow 3s ease-in-out infinite alternate, mooly-shake 0.5s ease-in-out 3;
 }
 
 .woot-widget-bubble.woot-widget--expanded {
@@ -96,6 +102,12 @@ export const SDK_CSS = `
   height: 48px !important;
   width: auto !important;
   align-items: center;
+  transition: all 0.3s ease;
+}
+
+.woot-widget-bubble.woot-widget--expanded:hover {
+  transform: scale(1.05) translateY(-2px);
+  box-shadow: 0 12px 40px rgba(0, 0, 0, .3), 0 0 25px rgba(31, 147, 255, 0.8) !important;
 }
 
 .woot-widget-bubble.woot-widget--expanded div {
@@ -108,6 +120,18 @@ export const SDK_CSS = `
   justify-content: center;
   padding-right: 20px;
   width: auto !important;
+  min-width: 200px;
+  max-width: 300px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  position: relative;
+}
+
+.woot-widget-bubble.woot-widget--expanded div::after {
+  content: '|';
+  animation: mooly-cursor-blink 1s infinite;
+  margin-left: 2px;
 }
 
 .woot-widget-bubble.woot-widget--expanded.woot-widget-bubble-color--lighter div{
@@ -130,7 +154,9 @@ export const SDK_CSS = `
 
 .woot-widget-bubble:hover {
   background: #1f93ff;
-  box-shadow: 0 8px 32px rgba(0, 0, 0, .4) !important;
+  box-shadow: 0 8px 32px rgba(0, 0, 0, .4), 0 0 20px rgba(31, 147, 255, 0.6) !important;
+  animation: mooly-bounce 0.6s ease-in-out;
+  transform: scale(1.1);
 }
 
 .woot-widget-bubble svg {
@@ -276,6 +302,18 @@ export const SDK_CSS = `
     visibility: hidden !important;
     z-index: -1 !important;
   }
+
+  /* Mooly.vn: Mobile optimizations */
+  .woot-widget-bubble.woot-widget--expanded {
+    max-width: calc(100vw - 40px);
+    font-size: 14px;
+  }
+
+  .woot-widget-bubble.woot-widget--expanded div {
+    font-size: 14px;
+    min-width: 150px;
+    max-width: calc(100vw - 80px);
+  }
 }
 
 @media only screen and (min-width: 667px) {
@@ -291,5 +329,105 @@ export const SDK_CSS = `
 
 .woot-hidden {
   display: none !important;
+}
+
+/* Mooly.vn Custom Animations */
+@keyframes mooly-pulse {
+  0% {
+    transform: scale(1);
+  }
+  50% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
+  }
+}
+
+@keyframes mooly-glow {
+  0% {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .16), 0 0 0 0 rgba(31, 147, 255, 0.4);
+  }
+  100% {
+    box-shadow: 0 8px 24px rgba(0, 0, 0, .16), 0 0 0 10px rgba(31, 147, 255, 0);
+  }
+}
+
+@keyframes mooly-bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes mooly-typing {
+  0% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+
+@keyframes mooly-cursor-blink {
+  0%, 50% {
+    opacity: 1;
+  }
+  51%, 100% {
+    opacity: 0;
+  }
+}
+
+@keyframes mooly-shake {
+  0%, 100% {
+    transform: translateX(0);
+  }
+  25% {
+    transform: translateX(-2px);
+  }
+  75% {
+    transform: translateX(2px);
+  }
+}
+
+@keyframes mooly-float {
+  0%, 100% {
+    transform: translateY(0px);
+  }
+  50% {
+    transform: translateY(-5px);
+  }
+}
+
+@keyframes mooly-rainbow {
+  0% {
+    background: #1f93ff;
+  }
+  16% {
+    background: #ff6b6b;
+  }
+  33% {
+    background: #4ecdc4;
+  }
+  50% {
+    background: #45b7d1;
+  }
+  66% {
+    background: #96ceb4;
+  }
+  83% {
+    background: #feca57;
+  }
+  100% {
+    background: #1f93ff;
+  }
 }
 `;

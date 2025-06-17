@@ -730,6 +730,11 @@
           "LABEL": "Widget Bubble Launcher Title",
           "PLACE_HOLDER": "Chat with us"
         },
+        "TYPING_TEXTS": {
+          "LABEL": "Typing Animation Texts",
+          "PLACEHOLDER": "Enter a message to display...",
+          "HELP_TEXT": "These texts will rotate continuously in the expanded bubble to attract users. Works only with 'Expanded Bubble' type."
+        },
         "UPDATE": {
           "BUTTON_TEXT": "Update Widget Settings",
           "API": {
@@ -819,7 +824,10 @@
       "REFRESH": "Refresh",
       "DATE": "Date",
       "CONTACT": "Contact",
+      "PLATFORM": "Platform",
       "AD_ID": "Ad ID",
+      "CAMPAIGN_ID": "Campaign ID",
+      "ADSET_ID": "Adset ID",
       "REF_PARAMETER": "Ref Parameter",
       "EVENT_NAME": "Event Name",
       "CONVERSION_STATUS": "Conversion Status",

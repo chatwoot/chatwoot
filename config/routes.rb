@@ -125,10 +125,12 @@ Rails.application.routes.draw do
               post :toggle_status
               post :toggle_priority
               post :toggle_typing_status
+              post :test_typing_indicators
               post :update_last_seen
               post :unread
               post :custom_attributes
               get :attachments
+              get :ads_tracking
               post :copilot
               get :inbox_assistant
             end

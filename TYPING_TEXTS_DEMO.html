@@ -1,0 +1,227 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mooly.vn - Typing Texts Demo</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            color: white;
+        }
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            text-align: center;
+        }
+        h1 {
+            font-size: 3rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        .subtitle {
+            font-size: 1.2rem;
+            margin-bottom: 2rem;
+            opacity: 0.9;
+        }
+        .demo-section {
+            background: rgba(255,255,255,0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin: 2rem 0;
+            backdrop-filter: blur(10px);
+        }
+        .feature-list {
+            text-align: left;
+            display: inline-block;
+            margin: 1rem 0;
+        }
+        .feature-list li {
+            margin: 0.5rem 0;
+            padding-left: 1rem;
+        }
+        .api-demo {
+            background: rgba(0,0,0,0.2);
+            padding: 1rem;
+            border-radius: 10px;
+            margin: 1rem 0;
+            font-family: 'Courier New', monospace;
+            text-align: left;
+        }
+        .btn {
+            background: #1f93ff;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin: 5px;
+            font-size: 14px;
+        }
+        .btn:hover {
+            background: #0d7de8;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🎉 Mooly.vn Widget Demo</h1>
+        <p class="subtitle">Typing Animation với UI Configuration</p>
+        
+        <div class="demo-section">
+            <h2>✨ Tính năng đã hoàn thành</h2>
+            <ul class="feature-list">
+                <li>✅ Animation thu hút (pulse, glow, bounce, shake)</li>
+                <li>✅ Typing texts liên tục với cursor blink</li>
+                <li>✅ UI Configuration trong Widget Builder</li>
+                <li>✅ Database storage cho mỗi inbox</li>
+                <li>✅ Drag & drop reorder texts</li>
+                <li>✅ Real-time editing với validation</li>
+                <li>✅ API functions để control từ JavaScript</li>
+                <li>✅ Responsive design cho mobile</li>
+                <li>✅ Loại bỏ branding Chatwoot hoàn toàn</li>
+            </ul>
+        </div>
+
+        <div class="demo-section">
+            <h2>🎮 API Demo Functions</h2>
+            <p>Sau khi widget load, bạn có thể sử dụng các function sau:</p>
+            
+            <div class="api-demo">
+// Thay đổi typing texts
+window.MoolyWidget.setTypingTexts([
+    'Chào mừng đến với Mooly.vn!',
+    'AI Assistant thông minh',
+    'Hỗ trợ 24/7 miễn phí',
+    'Tư vấn chuyên nghiệp'
+]);
+
+// Control animation
+window.MoolyWidget.toggleAnimation(true);
+window.MoolyWidget.enableRainbow(true);
+window.MoolyWidget.setBubbleColor('#ff6b6b');
+            </div>
+
+            <div style="margin: 1rem 0;">
+                <button class="btn" onclick="demoCustomTexts()">Demo Custom Texts</button>
+                <button class="btn" onclick="demoRainbow()">Demo Rainbow</button>
+                <button class="btn" onclick="demoReset()">Reset Default</button>
+                <button class="btn" onclick="demoToggle()">Toggle Animation</button>
+            </div>
+        </div>
+
+        <div class="demo-section">
+            <h2>⚙️ Cách cấu hình trong Admin</h2>
+            <ol class="feature-list">
+                <li>Vào Dashboard → Settings → Inboxes</li>
+                <li>Chọn Web Widget inbox</li>
+                <li>Click tab "Widget Builder"</li>
+                <li>Scroll xuống "Typing Animation Texts"</li>
+                <li>Add/Edit/Remove texts theo ý muốn</li>
+                <li>Drag để sắp xếp thứ tự</li>
+                <li>Set Widget Type = "Expanded Bubble"</li>
+                <li>Click "Update Widget Settings"</li>
+                <li>Copy script và embed vào website</li>
+            </ol>
+        </div>
+
+        <div class="demo-section">
+            <h2>📱 Widget sẽ xuất hiện ở góc phải</h2>
+            <p>Với typing animation và tất cả tính năng đã tối ưu!</p>
+            <p><strong>Lưu ý:</strong> Cần set widget type = "expanded_bubble" để typing animation hoạt động.</p>
+        </div>
+    </div>
+
+    <!-- Chatwoot Widget Script -->
+    <script>
+        // Demo functions
+        function demoCustomTexts() {
+            if (window.MoolyWidget) {
+                window.MoolyWidget.setTypingTexts([
+                    'Demo: Chào mừng đến với Mooly.vn!',
+                    'Demo: AI Assistant thông minh',
+                    'Demo: Hỗ trợ 24/7 miễn phí',
+                    'Demo: Tư vấn chuyên nghiệp'
+                ]);
+                alert('Custom texts applied!');
+            } else {
+                alert('Widget chưa load. Vui lòng đợi...');
+            }
+        }
+
+        function demoRainbow() {
+            if (window.MoolyWidget) {
+                window.MoolyWidget.enableRainbow(true);
+                alert('Rainbow mode enabled!');
+            } else {
+                alert('Widget chưa load. Vui lòng đợi...');
+            }
+        }
+
+        function demoReset() {
+            if (window.MoolyWidget) {
+                window.MoolyWidget.enableRainbow(false);
+                window.MoolyWidget.setBubbleColor('#1f93ff');
+                window.MoolyWidget.setTypingTexts([
+                    'Xin chào! Tôi có thể giúp gì cho bạn?',
+                    'Hỗ trợ 24/7 - Luôn sẵn sàng!',
+                    'Chat ngay để được tư vấn miễn phí',
+                    'Mooly.vn - Giải pháp AI thông minh'
+                ]);
+                alert('Reset to default!');
+            } else {
+                alert('Widget chưa load. Vui lòng đợi...');
+            }
+        }
+
+        let animationEnabled = true;
+        function demoToggle() {
+            if (window.MoolyWidget) {
+                animationEnabled = !animationEnabled;
+                window.MoolyWidget.toggleAnimation(animationEnabled);
+                alert(`Animation ${animationEnabled ? 'enabled' : 'disabled'}!`);
+            } else {
+                alert('Widget chưa load. Vui lòng đợi...');
+            }
+        }
+
+        // Widget configuration
+        window.chatwootSettings = {
+            hideMessageBubble: false,
+            position: 'right',
+            locale: 'vi',
+            type: 'expanded_bubble', // Important for typing animation!
+            widgetStyle: 'rounded',
+            darkMode: 'light',
+        };
+
+        // Load widget script (replace with your actual widget script)
+        /*
+        (function(d,t) {
+            var BASE_URL = 'YOUR_CHATWOOT_URL';
+            var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+            g.src= BASE_URL + "/packs/js/sdk.js";
+            g.defer = true;
+            g.async = true;
+            s.parentNode.insertBefore(g,s);
+            g.onload=function(){
+                window.chatwootSDK.run({
+                    websiteToken: 'YOUR_WEBSITE_TOKEN',
+                    baseUrl: BASE_URL
+                })
+            }
+        })(document,"script");
+        */
+
+        // Demo ready event
+        window.addEventListener('chatwoot:ready', function() {
+            console.log('🎉 Mooly Widget Ready!');
+            console.log('Available functions:', window.MoolyWidget);
+        });
+    </script>
+</body>
+</html>

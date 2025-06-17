@@ -9,21 +9,10 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     # Kiểm tra và refresh token nếu cần trước khi gửi tin nhắn
     ensure_valid_token
 
-    # Gửi typing indicator trước khi gửi tin nhắn
-    # Sử dụng phương thức mới mark_seen_and_typing để đảm bảo typing hoạt động trên di động
-    enable_typing_indicator
-
-    # Đợi một khoảng thời gian ngắn để typing indicator hiển thị trước khi gửi tin nhắn
-    # Điều này giúp người dùng có thể thấy typing indicator trước khi nhận được tin nhắn
-    # Giảm thời gian chờ xuống 0.8 giây để tăng hiệu suất nhưng vẫn đảm bảo UX tốt
-    sleep(0.8)
-
     # Xử lý gửi tin nhắn và tệp đính kèm
+    # Loại bỏ logic typing tự động - người dùng sẽ chủ động gửi typing API khi cần
     send_message_content
     send_attachments_optimized if message.attachments.present?
-
-    # Tắt typing indicator sau khi gửi tin nhắn
-    disable_typing_indicator
 
     # Cập nhật trạng thái tin nhắn thành công nếu không có lỗi
     message.update!(status: :delivered) if message.status == 'sent'
@@ -49,7 +38,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     Rails.logger.info "Facebook::SendOnFacebookService: Sent message content in #{(Time.now - start_time).round(2)}s"
   end
 
-  # Phương thức tối ưu để xử lý gửi hình ảnh
+  # Phương thức tối ưu để xử lý gửi hình ảnh - LOẠI BỎ DELAY
   def send_attachments_optimized
     start_time = Time.now
     attachment_count = message.attachments.size
@@ -61,21 +50,21 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       return
     end
 
-    # Nếu có nhiều tệp đính kèm, sử dụng batch processing
-    # Để tránh gửi quá nhiều request liên tiếp đến Facebook API
-    # chúng ta sẽ gửi các tệp đính kèm với một khoảng thời gian ngắn giữa các lần gửi
+    # Gửi tất cả attachments song song để tối ưu hiệu suất
+    # Facebook API có thể xử lý multiple requests đồng thời
+    threads = []
 
-    message.attachments.each_with_index do |attachment, index|
-      # Gửi tệp đính kèm
-      send_single_attachment(attachment)
-
-      # Đợi một khoảng thời gian ngắn giữa các lần gửi
-      # trừ khi đây là tệp đính kèm cuối cùng
-      sleep(0.3) if index < attachment_count - 1
+    message.attachments.each do |attachment|
+      threads << Thread.new do
+        send_single_attachment(attachment)
+      end
     end
 
+    # Đợi tất cả threads hoàn thành
+    threads.each(&:join)
+
     # Ghi log thời gian gửi tất cả các tệp đính kèm
-    Rails.logger.info "Facebook::SendOnFacebookService: Sent #{attachment_count} attachments in #{(Time.now - start_time).round(2)}s"
+    Rails.logger.info "Facebook::SendOnFacebookService: Sent #{attachment_count} attachments in parallel in #{(Time.now - start_time).round(2)}s"
   end
 
   # Gửi một tệp đính kèm duy nhất
@@ -127,7 +116,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     @typing_service ||= Facebook::TypingIndicatorService.new(channel, contact.get_source_id(inbox.id))
   end
 
-  # Bật typing indicator
+  # CHUYÊN DỤNG CHO API TYPING RIÊNG BIỆT - KHÔNG TỰ ĐỘNG GỌI KHI GỬI TIN NHẮN
+  # Bật typing indicator (chỉ sử dụng khi được gọi từ API typing riêng biệt)
   def enable_typing_indicator
     return if contact.blank? || contact.get_source_id(inbox.id).blank?
 
@@ -152,7 +142,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     Rails.logger.error e.backtrace.join("\n")
   end
 
-  # Tắt typing indicator
+  # Tắt typing indicator (chỉ sử dụng khi được gọi từ API typing riêng biệt)
   def disable_typing_indicator
     return if contact.blank? || contact.get_source_id(inbox.id).blank?
 
@@ -199,11 +189,11 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
                       attachment.download_url
                     end
 
-    # Thêm cache buster vào URL để tránh cache của Facebook
-    # Điều này đặc biệt quan trọng khi gửi cùng một hình ảnh nhiều lần
-    attachment_url = add_cache_buster(attachment_url)
+    # Chỉ thêm cache buster cho download_url (internal), không thêm cho external_url
+    # External URL đã được quản lý bởi server bên ngoài
+    attachment_url = add_cache_buster(attachment_url) if attachment.external_url.blank?
 
-    Rails.logger.info "Facebook::SendOnFacebookService: Sending attachment with URL: #{attachment_url}"
+    Rails.logger.info "Facebook::SendOnFacebookService: Sending attachment with URL: #{attachment_url} (external: #{attachment.external_url.present?})"
 
     # Xác định messaging_type và tag phù hợp
     messaging_params = determine_messaging_params
@@ -214,8 +204,8 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
         attachment: {
           type: attachment_type(attachment),
           payload: {
-            url: attachment_url,
-            is_reusable: true # Cho phép Facebook cache lại attachment để tái sử dụng
+            url: attachment_url
+            # Loại bỏ is_reusable để tối ưu tốc độ gửi
           }
         }
       },

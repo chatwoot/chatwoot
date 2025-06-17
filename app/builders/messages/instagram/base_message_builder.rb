@@ -102,6 +102,7 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
 
     @message = conversation.messages.create!(message_params)
     save_story_id
+    save_instagram_ads_tracking
 
     attachments.each do |attachment|
       process_attachment(attachment)
@@ -112,6 +113,65 @@ class Messages::Instagram::BaseMessageBuilder < Messages::Messenger::MessageBuil
     return if story_reply_attributes.blank?
 
     @message.save_story_info(story_reply_attributes)
+  end
+
+  # Lưu trữ Instagram ads tracking data nếu có referral data
+  def save_instagram_ads_tracking
+    # Tạo parser để kiểm tra referral data
+    response = Integrations::Instagram::MessageParser.new(@messaging)
+    return unless response.referral_data.present?
+
+    begin
+      tracking_data = {
+        conversation: conversation,
+        message: @message,
+        contact: @contact_inbox.contact,
+        inbox: @inbox,
+        account: @inbox.account,
+        ref_parameter: response.referral_ref,
+        referral_source: response.referral_source,
+        referral_type: response.referral_type,
+        ad_id: response.referral_ad_id,
+        campaign_id: response.referral_campaign_id,
+        adset_id: response.referral_adset_id,
+        raw_referral_data: response.referral_data
+      }
+
+      # Thêm ads context data nếu có
+      if response.referral_ads_context_data.present?
+        ads_context = response.referral_ads_context_data
+        tracking_data.merge!(
+          ad_title: ads_context['ad_title'],
+          ad_photo_url: ads_context['photo_url'],
+          ad_video_url: ads_context['video_url']
+        )
+      end
+
+      # Sử dụng chung FacebookAdsTracking model vì Instagram cũng là Meta platform
+      instagram_tracking = FacebookAdsTracking.create!(tracking_data)
+      instagram_tracking.extract_campaign_and_adset_ids
+      instagram_tracking.save! if instagram_tracking.changed?
+
+      Rails.logger.info("Saved Instagram ads tracking data: #{instagram_tracking.id} for conversation #{conversation.id}")
+
+      # Gửi conversion event nếu được cấu hình
+      schedule_conversion_event(instagram_tracking) if should_send_conversion_event?
+
+    rescue StandardError => e
+      Rails.logger.error("Error saving Instagram ads tracking data: #{e.message}")
+      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
+    end
+  end
+
+  def should_send_conversion_event?
+    # Kiểm tra xem có cấu hình dataset cho inbox này không
+    dataset_config = @inbox.facebook_dataset_config
+    dataset_config&.enabled? && dataset_config&.auto_send_conversions?
+  end
+
+  def schedule_conversion_event(tracking)
+    # Schedule job để gửi conversion event
+    Facebook::SendConversionEventJob.perform_later(tracking.id)
   end
 
   def build_conversation

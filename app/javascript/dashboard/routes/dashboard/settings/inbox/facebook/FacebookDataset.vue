@@ -285,7 +285,10 @@
               <tr>
                 <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.DATE') }}</th>
                 <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.CONTACT') }}</th>
+                <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.PLATFORM') }}</th>
                 <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.AD_ID') }}</th>
+                <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.CAMPAIGN_ID') }}</th>
+                <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.ADSET_ID') }}</th>
                 <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.REF_PARAMETER') }}</th>
                 <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.EVENT_NAME') }}</th>
                 <th>{{ $t('INBOX_MGMT.FACEBOOK_DATASET.CONVERSION_STATUS') }}</th>
@@ -296,7 +299,14 @@
               <tr v-for="tracking in trackingData" :key="tracking.id">
                 <td>{{ formatDate(tracking.created_at) }}</td>
                 <td>{{ tracking.contact_name || tracking.contact_email }}</td>
+                <td>
+                  <span :class="['platform-badge', getPlatformClass(tracking)]">
+                    {{ getPlatformName(tracking) }}
+                  </span>
+                </td>
                 <td>{{ tracking.ad_id || '-' }}</td>
+                <td>{{ tracking.campaign_id || '-' }}</td>
+                <td>{{ tracking.adset_id || '-' }}</td>
                 <td>{{ tracking.ref_parameter }}</td>
                 <td>{{ tracking.event_name || 'Lead' }}</td>
                 <td>
@@ -561,6 +571,20 @@ export default {
 
     formatDate(dateString) {
       return new Date(dateString).toLocaleString();
+    },
+
+    getPlatformName(tracking) {
+      // Xác định platform dựa trên inbox type hoặc referral source
+      if (tracking.inbox_type === 'Channel::Instagram' ||
+          tracking.referral_source === 'INSTAGRAM_ADS') {
+        return 'Instagram';
+      }
+      return 'Facebook';
+    },
+
+    getPlatformClass(tracking) {
+      const platform = this.getPlatformName(tracking);
+      return platform.toLowerCase();
     },
   },
 };
@@ -891,6 +915,25 @@ export default {
           &.pending {
             background: var(--color-warning-light);
             color: var(--color-warning);
+          }
+        }
+
+        .platform-badge {
+          display: inline-block;
+          padding: 0.25rem 0.5rem;
+          border-radius: 12px;
+          font-size: 0.75rem;
+          font-weight: 500;
+          text-transform: uppercase;
+
+          &.facebook {
+            background: #1877f2;
+            color: white;
+          }
+
+          &.instagram {
+            background: linear-gradient(45deg, #f09433 0%, #e6683c 25%, #dc2743 50%, #cc2366 75%, #bc1888 100%);
+            color: white;
           }
         }
 

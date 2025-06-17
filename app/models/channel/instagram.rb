@@ -44,7 +44,7 @@ class Channel::Instagram < ApplicationRecord
     HTTParty.post(
       "https://graph.instagram.com/v22.0/#{instagram_id}/subscribed_apps",
       query: {
-        subscribed_fields: %w[messages message_reactions messaging_seen],
+        subscribed_fields: %w[messages message_reactions messaging_seen messaging_referrals],
         access_token: access_token
       }
     )
@@ -68,5 +68,20 @@ class Channel::Instagram < ApplicationRecord
 
   def access_token
     Instagram::RefreshOauthTokenService.new(channel: self).access_token
+  end
+
+  # Facebook Dataset configuration (Instagram uses same dataset as Facebook)
+  def facebook_dataset_enabled?
+    provider_config&.dig('facebook_dataset', 'enabled') == true
+  end
+
+  def facebook_dataset_config
+    provider_config&.dig('facebook_dataset') || {}
+  end
+
+  def update_facebook_dataset_config(config)
+    current_config = provider_config || {}
+    current_config['facebook_dataset'] = config
+    update!(provider_config: current_config)
   end
 end

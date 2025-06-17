@@ -19,6 +19,7 @@ import CustomAttributes from './customAttributes/CustomAttributes.vue';
 import Draggable from 'vuedraggable';
 import MacrosList from './Macros/List.vue';
 import ShopifyOrdersList from '../../../components/widgets/conversation/ShopifyOrdersList.vue';
+import AdsTrackingInfo from '../../../components/widgets/conversation/AdsTrackingInfo.vue';
 
 const props = defineProps({
   conversationId: {
@@ -256,6 +257,18 @@ onMounted(() => {
                 "
               >
                 <ContactNotes :contact-id="contactId" />
+              </AccordionItem>
+            </div>
+            <div v-else-if="element.name === 'ads_tracking' && (channelType === 'Channel::FacebookPage' || channelType === 'Channel::Instagram')">
+              <AccordionItem
+                :title="$t('CONVERSATION_SIDEBAR.ACCORDION.ADS_TRACKING')"
+                :is-open="isContactSidebarItemOpen('is_ads_tracking_open')"
+                compact
+                @toggle="
+                  value => toggleSidebarUIState('is_ads_tracking_open', value)
+                "
+              >
+                <AdsTrackingInfo :conversation-id="conversationId" />
               </AccordionItem>
             </div>
           </div>
