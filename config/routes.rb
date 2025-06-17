@@ -509,7 +509,7 @@ Rails.application.routes.draw do
   get 'webhooks/call/welcome_message', to: 'webhooks/call#welcome_message'
   get 'webhooks/call/missed_call_message', to: 'webhooks/call#missed_call_message'
   get 'webhooks/call/incoming_callback', to: 'webhooks/call#handle_incoming_call_callback'
-  get 'webhooks/call/missed_callback', to: 'webhooks/call#handle_missed_call_callback'
+  get 'webhooks/call/missed_callback(/:key_pressed)', to: 'webhooks/call#handle_missed_call_callback'
 
   namespace :twitter do
     resource :callback, only: [:show]

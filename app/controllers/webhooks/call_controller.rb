@@ -284,6 +284,8 @@ class Webhooks::CallController < ActionController::API
       return
     end
 
+    last_key_pressed = params[:key_pressed]
+
     call_settings = account&.custom_attributes&.[]('calling_settings')
     call_config = account&.custom_attributes&.[]('call_config')
 
@@ -325,9 +327,9 @@ class Webhooks::CallController < ActionController::API
     add_waiting_time_reporting_event(conversation, wait_time, start_time) if wait_time.positive?
 
     if working_hours?(call_settings)
-      mark_conversation_as_missed_call(conversation, 'busy')
+      mark_conversation_as_missed_call(conversation, last_key_pressed, 'busy')
     else
-      mark_conversation_as_missed_call(conversation, 'ooo')
+      mark_conversation_as_missed_call(conversation, last_key_pressed, 'ooo')
     end
   end
 
@@ -430,14 +432,18 @@ class Webhooks::CallController < ActionController::API
     conversation.add_labels(['missed-call'])
   end
 
-  def mark_conversation_as_missed_call(conversation, reason = 'busy')
+  def mark_conversation_as_missed_call(conversation, last_key_pressed, reason = 'busy')
     add_missed_call_label(conversation)
 
     if reason == 'busy'
-      conversation.messages.create!(private_message_params('Call was missed due to no agents available', conversation))
+      base_message = 'Call was missed due to no agents available'
+      message = last_key_pressed.present? ? "#{base_message}.\n Customer Last pressed key: #{last_key_pressed}" : base_message
     else
-      conversation.messages.create!(private_message_params('Call was missed due to out of office hours', conversation))
+      base_message = 'Call was missed due to out of office hours'
+      message = last_key_pressed.present? ? "#{base_message}.\n Customer Last pressed key: #{last_key_pressed}" : base_message
+      conversation.messages.create!(private_message_params(message, conversation))
     end
+    conversation.messages.create!(private_message_params(message, conversation))
 
     # TODO: - If an agent is assigned to the conversation, notify similar to calling Nudge
 
