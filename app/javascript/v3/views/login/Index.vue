@@ -164,8 +164,8 @@ export default {
     class="flex flex-col md:flex-row *:md:flex-1 w-full min-h-screen bg-woot-25 dark:bg-slate-900"
   >
     <AuthBackround />
-    <div class="px-5 md:px-8 flex flex-col min-h-0 min-w-0 md:justify-center">
-      <div class="w-1/2 mx-auto">
+    <div class="p-5 md:p-8 flex flex-col min-h-0 min-w-0 md:justify-center">
+      <div class="w-full mx-auto">
         <section class="text-center">
           <h1
             class="my-6 text-5xl font-medium text-slate-800 dark:text-woot-50"

@@ -73,9 +73,9 @@ export default {
   >
     <AuthBackground />
     <div
-      class="flex flex-col w-full md:justify-center md:py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+      class="flex flex-col w-full md:justify-center md:py-12 bg-woot-25 p-5 md:p-8 dark:bg-slate-900"
     >
-      <div class="w-1/2 mx-auto">
+      <div class="w-full mx-auto">
         <form class="sm:rounded-lg" @submit.prevent="submit">
           <h1
             class="mb-2 text-3xl font-medium tracking-tight text-center text-slate-900 dark:text-white"

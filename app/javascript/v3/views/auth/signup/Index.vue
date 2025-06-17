@@ -39,8 +39,8 @@ export default {
     <div v-show="!isLoading" class="flex h-full min-h-screen">
       <div class="flex flex-col md:flex-row *:md:flex-1 w-full">
         <AuthBackround />
-        <div class="px-8 w-full overflow-auto flex items-center">
-          <div class="w-1/2 mx-auto">
+        <div class="p-5 md:p-8 w-full overflow-auto flex items-center">
+          <div class="w-full mx-auto">
             <div class="mb-4">
               <h2
                 class="mt-6 text-3xl font-medium text-center mb-7 text-slate-900 dark:text-woot-50"
