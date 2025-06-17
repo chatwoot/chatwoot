@@ -208,6 +208,32 @@ RSpec.describe Channel::Whatsapp do
     end
   end
 
+  describe '#received_messages' do
+    let(:channel) { create(:channel_whatsapp, provider: 'baileys', validate_provider_config: false, sync_templates: false) }
+    let(:conversation) { create(:conversation) }
+    let(:messages) { [create(:message, conversation: conversation)] }
+
+    it 'calls provider service method' do
+      provider_double = instance_double(Whatsapp::Providers::WhatsappBaileysService, received_messages: nil)
+      allow(provider_double).to receive(:received_messages).with(conversation.contact.phone_number, messages)
+      allow(Whatsapp::Providers::WhatsappBaileysService).to receive(:new)
+        .with(whatsapp_channel: channel)
+        .and_return(provider_double)
+
+      channel.received_messages(messages, conversation)
+
+      expect(provider_double).to have_received(:received_messages)
+    end
+
+    it 'does not call method if provider service does not implement it' do
+      channel.update!(provider: 'whatsapp_cloud')
+
+      expect do
+        channel.received_messages(messages, conversation)
+      end.not_to raise_error
+    end
+  end
+
   describe 'callbacks' do
     describe '#disconnect_channel_provider' do
       context 'when provider is baileys' do

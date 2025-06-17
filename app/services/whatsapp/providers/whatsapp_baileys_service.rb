@@ -121,8 +121,7 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
           {
             id: message.source_id,
             remoteJid: remote_jid,
-            # NOTE: It only makes sense to mark received messages as read
-            fromMe: false
+            fromMe: message.message_type == 'outgoing'
           }
         end
       }.to_json
@@ -150,6 +149,26 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
             messageTimestamp: message.content_attributes[:external_created_at]
           }]
         }
+      }.to_json
+    )
+
+    process_response(response)
+  end
+
+  def received_messages(phone_number, messages)
+    @phone_number = phone_number
+
+    response = HTTParty.post(
+      "#{provider_url}/connections/#{whatsapp_channel.phone_number}/send-receipts",
+      headers: api_headers,
+      body: {
+        keys: messages.map do |message|
+          {
+            id: message.source_id,
+            remoteJid: remote_jid,
+            fromMe: message.message_type == 'outgoing'
+          }
+        end
       }.to_json
     )
 
@@ -257,5 +276,6 @@ class Whatsapp::Providers::WhatsappBaileysService < Whatsapp::Providers::BaseSer
                       :toggle_typing_status,
                       :update_presence,
                       :read_messages,
-                      :unread_message
+                      :unread_message,
+                      :received_messages
 end

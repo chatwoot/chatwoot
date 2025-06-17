@@ -111,6 +111,12 @@ class Channel::Whatsapp < ApplicationRecord
     provider_service.disconnect_channel_provider
   end
 
+  def received_messages(messages, conversation)
+    return unless provider_service.respond_to?(:received_messages)
+
+    provider_service.received_messages(conversation.contact.phone_number, messages)
+  end
+
   delegate :setup_channel_provider, to: :provider_service
   delegate :send_message, to: :provider_service
   delegate :send_template, to: :provider_service

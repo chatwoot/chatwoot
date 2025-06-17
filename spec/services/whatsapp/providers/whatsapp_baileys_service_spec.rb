@@ -438,6 +438,22 @@ describe Whatsapp::Providers::WhatsappBaileysService do
     end
   end
 
+  describe '#received_messages' do
+    it 'send received messages request' do
+      stub_request(:post, "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/send-receipts")
+        .with(
+          headers: stub_headers(whatsapp_channel),
+          body: {
+            keys: [{ id: message.source_id, remoteJid: test_send_jid, fromMe: false }]
+          }.to_json
+        ).to_return(status: 200)
+
+      result = service.received_messages(test_send_phone_number, [message])
+
+      expect(result).to be(true)
+    end
+  end
+
   describe '#toggle_typing_status' do
     let(:request_path) { "#{whatsapp_channel.provider_config['provider_url']}/connections/#{whatsapp_channel.phone_number}/presence" }
 

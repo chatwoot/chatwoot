@@ -75,6 +75,8 @@ module Whatsapp::BaileysHandlers::MessagesUpsert
     handle_attach_media if attach_media
 
     @message.save!
+
+    inbox.channel.received_messages([@message], @conversation) if incoming?
   end
 
   def message_content_attributes

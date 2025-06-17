@@ -7,7 +7,8 @@ describe Whatsapp::IncomingMessageBaileysService do
       create(:channel_whatsapp,
              provider: 'baileys',
              provider_config: { webhook_verify_token: webhook_verify_token },
-             validate_provider_config: false)
+             validate_provider_config: false,
+             received_messages: false)
     end
     let(:inbox) { whatsapp_channel.inbox }
 
@@ -198,6 +199,16 @@ describe Whatsapp::IncomingMessageBaileysService do
           expect(inbox.messages).to be_empty
           expect(inbox.contact_inboxes).to be_empty
         end
+
+        it 'does not call channel received_messages method' do
+          raw_message[:message] = { protocolMessage: { type: 1 } }
+
+          allow(inbox.channel).to receive(:received_messages)
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(inbox.channel).not_to have_received(:received_messages)
+        end
       end
 
       context 'when message is context message' do
@@ -230,6 +241,30 @@ describe Whatsapp::IncomingMessageBaileysService do
           described_class.new(inbox: inbox, params: params).perform
 
           expect(inbox.conversations).to be_empty
+        end
+      end
+
+      context 'when message is saved' do
+        it 'calls channel received_messages method' do
+          allow(inbox.channel).to receive(:received_messages)
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          conversation = inbox.conversations.last
+          message = conversation.messages.last
+
+          expect(inbox.channel).to have_received(:received_messages).with([message], conversation)
+        end
+
+        it 'does not call channel received_messages method if message is outgoing' do
+          raw_message[:key][:fromMe] = true
+          create(:account_user, account: inbox.account)
+
+          allow(inbox.channel).to receive(:received_messages)
+
+          described_class.new(inbox: inbox, params: params).perform
+
+          expect(inbox.channel).not_to have_received(:received_messages)
         end
       end
 
