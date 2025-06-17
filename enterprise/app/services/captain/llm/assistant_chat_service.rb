@@ -29,6 +29,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
 
   def register_tools
     @tool_registry = Captain::ToolRegistryService.new(@assistant, user: nil)
+    @tool_registry.register_tool(Captain::Tools::MintlifySearchService)
     @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
   end
 

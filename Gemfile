@@ -151,6 +151,9 @@ gem 'pg_search'
 # Subscriptions, Billing
 gem 'stripe'
 
+# MCP Client for integrating with Model Context Protocol servers
+gem 'ruby-mcp-client'
+
 ## - helper gems --##
 ## to populate db with sample data
 gem 'faker'

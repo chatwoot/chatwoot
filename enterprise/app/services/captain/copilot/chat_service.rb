@@ -61,6 +61,7 @@ class Captain::Copilot::ChatService < Llm::BaseOpenAiService
 
   def register_tools
     @tool_registry = Captain::ToolRegistryService.new(@assistant, user: @user)
+    @tool_registry.register_tool(Captain::Tools::MintlifySearchService)
     @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
     @tool_registry.register_tool(Captain::Tools::Copilot::GetArticleService)
     @tool_registry.register_tool(Captain::Tools::Copilot::GetContactService)
