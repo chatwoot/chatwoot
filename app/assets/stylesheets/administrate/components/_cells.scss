@@ -46,14 +46,15 @@
 
 .cell-data__secret-field {
   align-items: center;
+  color: $hint-grey;
   display: flex;
 
   span {
     flex: 0 0 auto;
   }
 
-  button[data-secret-toggler],
-  button[data-secret-copier] {
+  [data-secret-toggler],
+  [data-secret-copier] {
     background: transparent;
     border: 0;
     color: inherit;
@@ -66,6 +67,4 @@
       width: 1.25rem;
     }
   }
-
-  color: #64748b;
 }
