@@ -89,6 +89,61 @@ describe Telegram::IncomingMessageService do
       end
     end
 
+    context 'when business connection messages' do
+      subject do
+        described_class.new(inbox: telegram_channel.inbox, params: params).perform
+      end
+
+      let(:business_message_params) { message_params.merge('business_connection_id' => 'eooW3KF5WB5HxTD7T826') }
+      let(:params) do
+        {
+          'update_id' => 2_342_342_343_242,
+          'business_message' => { 'text' => 'test' }.deep_merge(business_message_params)
+        }.with_indifferent_access
+      end
+
+      it 'creates appropriate conversations, message and contacts' do
+        subject
+        expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+        expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
+                                                                                             'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+        contact = Contact.all.first
+        expect(contact.name).to eq('Sojan Jose')
+        expect(contact.additional_attributes['language_code']).to eq('en')
+        message = telegram_channel.inbox.messages.first
+        expect(message.content).to eq('test')
+        expect(message.message_type).to eq('incoming')
+        expect(message.sender).to eq(contact)
+      end
+
+      context 'when sender is your business account' do
+        let(:business_message_params) do
+          message_params.merge(
+            'business_connection_id' => 'eooW3KF5WB5HxTD7T826',
+            'from' => {
+              'id' => 42, 'is_bot' => false, 'first_name' => 'John', 'last_name' => 'Doe', 'username' => 'johndoe', 'language_code' => 'en'
+            }
+          )
+        end
+
+        it 'creates appropriate conversations, message and contacts' do
+          subject
+          expect(telegram_channel.inbox.conversations.count).not_to eq(0)
+          expect(telegram_channel.inbox.conversations.last.additional_attributes).to include({ 'chat_id' => 23,
+                                                                                               'business_connection_id' => 'eooW3KF5WB5HxTD7T826' })
+          contact = Contact.all.first
+          expect(contact.name).to eq('Sojan Jose')
+          # TODO: The language code is not present when we send the first message to the client.
+          # Should we update it when the user replies?
+          expect(contact.additional_attributes['language_code']).to be_nil
+          message = telegram_channel.inbox.messages.first
+          expect(message.content).to eq('test')
+          expect(message.message_type).to eq('outgoing')
+          expect(message.sender).to be_nil
+        end
+      end
+    end
+
     context 'when valid audio messages params' do
       it 'creates appropriate conversations, message and contacts' do
         allow(telegram_channel.inbox.channel).to receive(:get_telegram_file_path).and_return('https://chatwoot-assets.local/sample.mp3')
