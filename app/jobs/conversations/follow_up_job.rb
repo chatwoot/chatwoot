@@ -22,7 +22,7 @@ class Conversations::FollowUpJob < ApplicationJob
       create_follow_up_message(conversation, 1, stark_response)
       # Schedule Follow-up 2 (if still no reply in 23h)
       jid = Conversations::FollowUpJob.set(wait: 24.hours).perform_later(conversation.id, 2)
-      conversation.update!(follow_up_jid: jid)
+      conversation.update!(follow_up_jid: jid.provider_job_id)
 
     when 2
       create_follow_up_message(conversation, 2, stark_response)
