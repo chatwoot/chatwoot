@@ -38,14 +38,12 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     account.increment_response_usage
   end
 
-  def collect_previous_messages(include_all: false)
-    messages_query = @conversation
-                     .messages
-                     .where(message_type: [:incoming, :outgoing])
-
-    messages_query = messages_query.where(private: false) unless include_all
-
-    messages_query.map do |message|
+  def collect_previous_messages
+    @conversation
+      .messages
+      .where(message_type: [:incoming, :outgoing])
+      .where(private: false)
+      .map do |message|
       {
         content: message_content_multimodal(message),
         role: determine_role(message)
@@ -60,62 +58,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def message_content_multimodal(message)
-    parts = []
-
-    parts << text_part(message.content) if message.content.present?
-    parts.concat(attachment_parts(message.attachments)) if message.attachments.any?
-
-    finalize_content_parts(parts)
-  end
-
-  def text_part(text)
-    { type: 'text', text: text }
-  end
-
-  def attachment_parts(attachments)
-    [].tap do |parts|
-      parts.concat(image_parts(attachments.where(file_type: :image)))
-
-      transcription = extract_audio_transcriptions(attachments)
-      parts << text_part(transcription) if transcription.present?
-
-      parts << text_part('User has shared an attachment') if attachments.where.not(file_type: %i[image audio]).exists?
-    end
-  end
-
-  def image_parts(image_attachments)
-    image_attachments.each_with_object([]) do |attachment, parts|
-      url = get_attachment_url(attachment)
-      next if url.blank?
-
-      parts << {
-        type: 'image_url',
-        image_url: { url: url }
-      }
-    end
-  end
-
-  def finalize_content_parts(parts)
-    return 'Message without content' if parts.blank?
-    return parts.first[:text] if single_text_part?(parts)
-
-    parts
-  end
-
-  def single_text_part?(parts)
-    parts.one? && parts.first[:type] == 'text'
-  end
-
-  def get_attachment_url(attachment)
-    return attachment.external_url if attachment.external_url.present?
-
-    return unless attachment.file.attached?
-
-    begin
-      attachment.file_url
-    rescue ActiveStorage::FileNotFoundError
-      nil
-    end
+    OpenaiMultimodalContentService.new(message).generate_content
   end
 
   def handoff_requested?

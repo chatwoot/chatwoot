@@ -18,18 +18,6 @@ module Captain::ChatHelper
     raise e
   end
 
-  def extract_audio_transcriptions(attachments)
-    audio_attachments = attachments.where(file_type: :audio)
-    return '' if audio_attachments.blank?
-
-    transcriptions = ''
-    audio_attachments.each do |attachment|
-      result = Messages::AudioTranscriptionService.new(attachment).perform
-      transcriptions += result[:transcriptions] if result[:success]
-    end
-    transcriptions
-  end
-
   private
 
   def handle_response(response)
