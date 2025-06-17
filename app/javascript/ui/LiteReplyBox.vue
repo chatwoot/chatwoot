@@ -107,6 +107,10 @@ export default {
     maxLength() {
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
+    allowPrivateNote() {
+      // eslint-disable-next-line no-underscore-dangle
+      return window.__EDITOR_DISABLE_PRIVATE_NOTE__ !== true;
+    },
     isEditorDisabled() {
       // eslint-disable-next-line no-underscore-dangle
       return window.__DISABLE_EDITOR__;
@@ -123,7 +127,7 @@ export default {
     },
     replyBoxClass() {
       return {
-        'is-private': this.isPrivate,
+        'is-private': this.isPrivate && this.allowPrivateNote,
         'is-focused': this.isFocused || this.hasAttachments,
         'pointer-events-none grayscale opacity-70': this.isEditorDisabled,
       };
@@ -132,6 +136,7 @@ export default {
       return this.attachedFiles.length;
     },
     isOnPrivateNote() {
+      if (!this.allowPrivateNote) return false;
       return this.replyType === REPLY_EDITOR_MODES.NOTE;
     },
     isOnExpandedLayout() {
@@ -222,6 +227,8 @@ export default {
       }
     },
     setReplyMode(mode = REPLY_EDITOR_MODES.REPLY) {
+      if (!this.allowPrivateNote) return;
+
       const { can_reply: canReply } = this.currentChat;
       this.$store.dispatch('draftMessages/setReplyEditorMode', {
         mode,
@@ -381,6 +388,7 @@ export default {
 <template>
   <div ref="replyEditor" class="reply-box" :class="replyBoxClass">
     <ReplyTopPanel
+      v-if="allowPrivateNote"
       :mode="replyType"
       disable-popout
       :is-message-length-reaching-threshold="isMessageLengthReachingThreshold"
