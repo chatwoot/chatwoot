@@ -162,11 +162,12 @@ export default {
       return getContrastingTextColor(this.widgetColor);
     },
     isLastMessageCSATAndIsSubmitted() {
-      return (
-        this.lastMessage.content_type === 'input_csat' &&
-        this.lastMessage.content_attributes?.submitted_values
-          ?.csat_survey_response?.rating
-      );
+      return {
+        isCAST: this.lastMessage.content_type === 'input_csat',
+        isSubmitted:
+          this.lastMessage.content_attributes?.submitted_values
+            ?.csat_survey_response?.rating,
+      };
     },
     widgetLocale() {
       return this.$i18n.locale || 'en';
@@ -232,11 +233,14 @@ export default {
         loading: true,
       };
       try {
-        if (this.isLastMessageCSATAndIsSubmitted) {
+        const { isCAST, isSubmitted } = this.isLastMessageCSATAndIsSubmitted;
+        if (isCAST && isSubmitted) {
           await this.createNewConversation(faq.question);
           if (this.conversationSize === 0) {
             this.getAttributes();
           }
+          this.replaceRoute('messages');
+        } else if (isCAST && !isSubmitted) {
           this.replaceRoute('messages');
         } else {
           this.handleMessage(faq.question);

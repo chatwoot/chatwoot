@@ -86,7 +86,7 @@
       <chat-article :items="messageContentAttributes.items" />
     </div>
     <customer-satisfaction
-      v-if="isCSAT && isLastMessage"
+      v-if="isCSAT && isLastMessageCSAT"
       :message-content-attributes="messageContentAttributes.submitted_values"
       :message-id="messageId"
     />
@@ -111,6 +111,7 @@ import ProductCarousel from 'shared/components/ProductCarousel.vue';
 import OrderDetailsCard from './OrderDetailsCard.vue';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { mapGetters } from 'vuex';
 
 export default {
   name: 'AgentMessageBubble',
@@ -157,6 +158,9 @@ export default {
     },
   },
   computed: {
+    ...mapGetters({
+      lastMessage: 'conversation/getLastMessage',
+    }),
     isTemplate() {
       return this.messageType === 3;
     },
@@ -207,6 +211,12 @@ export default {
     },
     isCSAT() {
       return this.contentType === 'input_csat';
+    },
+    isLastMessageCSAT() {
+      return (
+        this.messageId === this.lastMessage.id &&
+        this.lastMessage.content_type === 'input_csat'
+      );
     },
     isIntegrations() {
       return this.contentType === 'integrations';
