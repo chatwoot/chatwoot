@@ -126,8 +126,5 @@ module Stark
       end
     end
 
-    def agent_bot
-      @agent_bot ||= @conversation.inbox.agent_bot
-    end
   end
 end
