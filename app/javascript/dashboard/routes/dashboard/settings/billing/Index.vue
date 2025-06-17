@@ -39,7 +39,7 @@ const { pageIndex } = defineProps({
 });
 const getters = useStoreGetters();
 const store = useStore();
-const { t } = useI18n();
+const { t, locale } = useI18n();
 
 // const { accountId } = useAccount();
 // const getAccount = getters['accounts/getAccount']
@@ -151,8 +151,8 @@ const renderTableHeader = labelKey =>
 
 const tableData = computed(() => {
   return subscriptionHistories.value.map(transaction => {
-    const subscriptionStartDate = transaction.subscriptions && transaction.subscriptions[0]?.starts_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.starts_at), 'd MMMM yyyy') : '-';
-    const subscriptionEndDate = transaction.subscriptions && transaction.subscriptions[0]?.ends_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.ends_at), 'd MMMM yyyy') : '-';
+    const subscriptionStartDate = transaction.subscriptions && transaction.subscriptions[0]?.starts_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.starts_at), 'd MMMM yyyy', locale.value) : '-';
+    const subscriptionEndDate = transaction.subscriptions && transaction.subscriptions[0]?.ends_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.ends_at), 'd MMMM yyyy', locale.value) : '-';
     return {
       transactionId: transaction.transaction_id,
       package: transaction.package_name,
@@ -162,7 +162,8 @@ const tableData = computed(() => {
       status: transaction.status_payment,
       transactionDate: formatUnixDate(
         toUnixTimestamp(transaction.transaction_date),
-        'd MMMM yyyy'
+        'd MMMM yyyy',
+        locale.value
       ),
       subscriptionStartDate: subscriptionStartDate,
       subscriptionEndDate: subscriptionEndDate,

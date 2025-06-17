@@ -3,6 +3,7 @@ import format from 'date-fns/format';
 import isToday from 'date-fns/isToday';
 import isYesterday from 'date-fns/isYesterday';
 import { endOfDay, getUnixTime, startOfDay, differenceInDays } from 'date-fns';
+import { id, enUS } from 'date-fns/locale'
 
 /**
  * Mengubah berbagai format tanggal menjadi UNIX timestamp (dalam detik)
@@ -28,9 +29,17 @@ export const toUnixTimestamp = date => {
   return Math.floor(parsedDate.getTime() / 1000); // konversi ke detik
 };
 
-export const formatUnixDate = (date, dateFormat = 'MMM dd, yyyy') => {
+export const formatUnixDate = (date, dateFormat = 'MMM dd, yyyy', locale = '') => {
   const unixDate = fromUnixTime(date);
-  return format(unixDate, dateFormat);
+  let fnsLocale = undefined
+  if (locale === 'id') {
+    fnsLocale = id
+  } else if (locale === 'en') {
+    fnsLocale = enUS
+  }
+  return format(unixDate, dateFormat, {
+    locale: fnsLocale,
+  });
 };
 
 export const formatDate = ({ date, todayText, yesterdayText }) => {
