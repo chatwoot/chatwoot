@@ -89,14 +89,7 @@ module Stark
 
 # Removed unused parse_stark_response method.
 
-    def error_response?(response)
-      return true unless response.is_a?(Hash)
-      return true unless response['body'].is_a?(Hash)
-
-      response['body']['status'] == 'error' ||
-        (response['metadata'] && response['metadata']['status_code'].to_i >= 400)
-    end
-
+# Removed unused `error_response?` method.
     def handle_error_response(response)
       error_message = response.dig('body', 'message')
       errors = response.dig('body', 'errors')
