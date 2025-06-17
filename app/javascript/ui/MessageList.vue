@@ -53,6 +53,11 @@ const allMessages = computed(() => {
   return useCamelCase(conversation.value.messages, { deep: true }).reverse();
 });
 
+const disablePrivateNote = computed(() => {
+  // eslint-disable-next-line no-underscore-dangle
+  return window.__EDITOR_DISABLE_PRIVATE_NOTE__ === true;
+});
+
 const fetchMore = async () => {
   if (isFetching.value) return;
   if (!conversation?.value?.id) return;
@@ -99,7 +104,11 @@ useInfiniteScroll(messageListRef, useThrottleFn(fetchMore, 1000), {
   <div class="relative">
     <ul
       ref="messageListRef"
-      class="px-4 pt-4 flex flex-col-reverse pb-60 bg-n-background overflow-scroll h-screen"
+      class="px-4 pt-4 flex flex-col-reverse bg-n-background overflow-scroll h-screen"
+      :class="{
+        'pb-60': !disablePrivateNote,
+        'pb-48': disablePrivateNote,
+      }"
     >
       <div
         v-if="isAnyoneTyping"
