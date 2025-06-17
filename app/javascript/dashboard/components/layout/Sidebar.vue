@@ -75,6 +75,7 @@ export default {
       isOnChatwootCloud: 'globalConfig/isOnChatwootCloud',
       labels: 'labels/getLabelsOnSidebar',
       teams: 'teams/getMyTeams',
+      getAccount: 'accounts/getAccount',
     }),
     activeCustomView() {
       if (this.activePrimaryMenu.key === 'contacts') {
@@ -84,6 +85,9 @@ export default {
         return 'conversation';
       }
       return '';
+    },
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
     },
     customViews() {
       return this.$store.getters['customViews/getCustomViewsByFilterType'](
@@ -103,6 +107,13 @@ export default {
       const menuItems = this.sideMenuConfig.primaryMenu;
       return menuItems.filter(menuItem => {
         const isAvailableForTheUser = menuItem.roles.includes(this.currentRole);
+
+        if (
+          menuItem.key === 'reports' &&
+          this.currentAccount?.custom_attributes?.show_reports_to_agent
+        ) {
+          return true;
+        }
 
         if (!isAvailableForTheUser) {
           return false;

@@ -1,3 +1,6 @@
+import store from '../store';
+import { REPORT_ROUTES_NAMES } from '../../widget/helpers/constants';
+
 // eslint-disable-next-line default-param-last
 export const getCurrentAccount = ({ accounts } = {}, accountId) => {
   return accounts.find(account => account.id === accountId);
@@ -9,7 +12,19 @@ export const getUserRole = ({ accounts } = {}, accountId) => {
   return currentAccount.role || null;
 };
 
-export const routeIsAccessibleFor = (route, role, roleWiseRoutes) => {
+export const routeIsAccessibleFor = (route, role, roleWiseRoutes, user) => {
+  const currentAccount = store.getters['accounts/getAccount'](
+    user.account_id,
+    true
+  );
+
+  if (
+    REPORT_ROUTES_NAMES.includes(route) &&
+    currentAccount?.custom_attributes?.show_reports_to_agent &&
+    role === 'agent'
+  ) {
+    return true;
+  }
   return roleWiseRoutes[role].includes(route);
 };
 
@@ -23,7 +38,12 @@ const validateActiveAccountRoutes = (to, user, roleWiseRoutes) => {
   }
 
   const userRole = getUserRole(user, Number(to.params.accountId));
-  const isAccessible = routeIsAccessibleFor(to.name, userRole, roleWiseRoutes);
+  const isAccessible = routeIsAccessibleFor(
+    to.name,
+    userRole,
+    roleWiseRoutes,
+    user
+  );
   // If the route is not accessible for the user, return to dashboard screen
   return isAccessible ? null : accountDashboardURL;
 };

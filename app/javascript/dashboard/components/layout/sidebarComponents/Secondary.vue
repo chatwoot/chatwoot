@@ -29,6 +29,7 @@ import SecondaryNavItem from './SecondaryNavItem.vue';
 import AccountContext from './AccountContext.vue';
 import { mapGetters } from 'vuex';
 import { FEATURE_FLAGS } from '../../../featureFlags';
+import { REPORT_ROUTES_NAMES } from '../../../../widget/helpers/constants';
 
 export default {
   components: {
@@ -72,6 +73,7 @@ export default {
   computed: {
     ...mapGetters({
       isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
+      getAccount: 'accounts/getAccount',
     }),
     hasSecondaryMenu() {
       return this.menuConfig.menuItems && this.menuConfig.menuItems.length;
@@ -79,15 +81,27 @@ export default {
     contactCustomViews() {
       return this.customViews.filter(view => view.filter_type === 'contact');
     },
+    currentAccount() {
+      return this.getAccount(this.accountId) || {};
+    },
     accessibleMenuItems() {
       if (!this.currentRole) {
         return [];
       }
       const menuItemsFilteredByRole = this.menuConfig.menuItems.filter(
-        menuItem =>
-          window.roleWiseRoutes[this.currentRole].indexOf(
-            menuItem.toStateName
-          ) > -1
+        menuItem => {
+          if (
+            REPORT_ROUTES_NAMES.includes(menuItem.toStateName) &&
+            this.currentAccount?.custom_attributes?.show_reports_to_agent
+          ) {
+            return true;
+          }
+          return (
+            window.roleWiseRoutes[this.currentRole].indexOf(
+              menuItem.toStateName
+            ) > -1
+          );
+        }
       );
       return menuItemsFilteredByRole.filter(item => {
         if (item.showOnlyOnCloud) {

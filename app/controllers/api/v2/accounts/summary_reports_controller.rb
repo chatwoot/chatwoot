@@ -17,6 +17,8 @@ class Api::V2::Accounts::SummaryReportsController < Api::V1::Accounts::BaseContr
   private
 
   def check_authorization
+    return if Current.account.custom_attributes['show_reports_to_agent']
+
     authorize :report, :view?
   end
 

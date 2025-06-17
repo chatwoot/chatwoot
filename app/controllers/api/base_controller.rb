@@ -13,6 +13,8 @@ class Api::BaseController < ApplicationController
 
   def check_authorization(model = nil)
     model ||= controller_name.classify.constantize
+    # Allow access if show_reports_to_agent is true and model is CsatSurveyResponse
+    return if model == CsatSurveyResponse && Current.account.custom_attributes['show_reports_to_agent']
 
     authorize(model)
   end

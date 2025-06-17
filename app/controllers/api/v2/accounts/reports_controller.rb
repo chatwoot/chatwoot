@@ -94,7 +94,10 @@ class Api::V2::Accounts::ReportsController < Api::V1::Accounts::BaseController
   end
 
   def check_authorization
-    raise Pundit::NotAuthorizedError unless Current.account_user.administrator?
+    authorized = Current.account_user.administrator? ||
+                 Current.account.custom_attributes['show_reports_to_agent']
+
+    raise Pundit::NotAuthorizedError unless authorized
   end
 
   def common_params

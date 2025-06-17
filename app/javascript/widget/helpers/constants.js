@@ -14,3 +14,17 @@ export const MESSAGE_TYPE = {
 };
 
 export const WOOT_PREFIX = 'chatwoot-widget:';
+
+export const REPORT_ROUTES_NAMES = [
+  'account_overview_reports',
+  'account_bot_analytics',
+  'account_call_analytics',
+  'conversation_reports',
+  'csat_reports',
+  'bot_reports',
+  'agent_reports',
+  'label_reports',
+  'inbox_reports',
+  'team_reports',
+  'sla_reports',
+];
