@@ -15,6 +15,7 @@ export const createTemporaryMessage = ({
   conversationResolved,
   assignToAgent,
   productIdForMoreInfo,
+  preChatFormResponse,
 }) => {
   const timestamp = new Date().getTime() / 1000;
   return {
@@ -34,6 +35,7 @@ export const createTemporaryMessage = ({
     conversationResolved,
     assignToAgent,
     productIdForMoreInfo,
+    preChatFormResponse,
   };
 };
 

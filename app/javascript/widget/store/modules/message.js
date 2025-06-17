@@ -25,6 +25,7 @@ export const actions = {
       conversationResolved,
       assignToAgent,
       productIdForMoreInfo,
+      preChatFormResponse,
     }
   ) => {
     if (uiFlags.isUpdating) {
@@ -44,6 +45,7 @@ export const actions = {
         conversationResolved,
         assignToAgent,
         productIdForMoreInfo,
+        preChatFormResponse,
       });
       commit(
         'conversation/updateMessage',
@@ -60,6 +62,7 @@ export const actions = {
             conversation_resolved: conversationResolved,
             assign_to_agent: assignToAgent,
             product_id_for_more_info: productIdForMoreInfo,
+            pre_chat_form_response: preChatFormResponse,
           },
         },
         { root: true }

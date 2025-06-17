@@ -85,3 +85,10 @@ $font-family: 'Inter',
 
 // Break points
 $break-point-medium: 667px;
+
+$white: #fff !default;
+$black: #000 !default;
+$grey-1: #f0f4f5 !default;
+
+$base-border-color: $grey-1 !default;
+$base-border: 1px solid $base-border-color !default;

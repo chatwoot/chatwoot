@@ -22,7 +22,8 @@ const sendMessageAPI = async (
   previousSelectedReplies = [],
   conversationResolved = false,
   assignToAgent = false,
-  productIdForMoreInfo = null
+  productIdForMoreInfo = null,
+  preChatFormResponse = {}
 ) => {
   const urlData = endPoints.sendMessage(
     content,
@@ -35,7 +36,8 @@ const sendMessageAPI = async (
     productId,
     conversationResolved,
     assignToAgent,
-    productIdForMoreInfo
+    productIdForMoreInfo,
+    preChatFormResponse
   );
   return API.post(urlData.url, urlData.params);
 };

@@ -49,7 +49,8 @@ const sendMessage = (
   productId,
   conversationResolved,
   assignToAgent,
-  productIdForMoreInfo
+  productIdForMoreInfo,
+  preChatFormResponse
 ) => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
@@ -70,6 +71,7 @@ const sendMessage = (
         conversation_resolved: conversationResolved,
         assign_to_agent: assignToAgent,
         product_id_for_more_info: productIdForMoreInfo,
+        pre_chat_form_response: preChatFormResponse,
       },
     },
   };

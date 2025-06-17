@@ -39,6 +39,14 @@
       v-if="shouldShowOrderDetailsCard"
       :message-id="messageId"
     />
+    <pre-chat-form
+      v-if="shouldShowPreChatForm"
+      :message-id="messageId"
+      :items="messageContentAttributes.items"
+      :pre-chat-form-response="
+        messageContentAttributes.pre_chat_form_response || {}
+      "
+    />
     <product-carousel
       v-if="isProductCarousel"
       :items="messageContentAttributes.items"
@@ -101,6 +109,7 @@ import ChatOptions from 'shared/components/ChatOptions.vue';
 import ChatArticle from './template/Article.vue';
 import EmailInput from './template/EmailInput.vue';
 import PhoneInput from './template/PhoneInput.vue';
+import PreChatForm from './PreChatForm.vue';
 import CustomerSatisfaction from 'shared/components/CustomerSatisfaction.vue';
 import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import IntegrationCard from './template/IntegrationCard.vue';
@@ -129,6 +138,7 @@ export default {
     // PhoneInput,
     OrderDetailsCard,
     MessageAction,
+    PreChatForm,
   },
   mixins: [messageFormatterMixin, darkModeMixin],
   props: {
@@ -190,6 +200,9 @@ export default {
           this.messageContentAttributes.user_order_id
         )
       );
+    },
+    shouldShowPreChatForm() {
+      return this.contentType === 'pre_chat_form';
     },
     isTemplateEmail() {
       return this.contentType === 'input_email';

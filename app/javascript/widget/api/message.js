@@ -14,6 +14,7 @@ export default {
     conversationResolved,
     assignToAgent,
     productIdForMoreInfo,
+    preChatFormResponse,
   }) => {
     const urlData = authEndPoint.updateMessage(messageId);
     return API.patch(urlData.url, {
@@ -28,6 +29,7 @@ export default {
         conversation_resolved: conversationResolved,
         assign_to_agent: assignToAgent,
         product_id_for_more_info: productIdForMoreInfo,
+        pre_chat_form_response: preChatFormResponse,
       },
     });
   },

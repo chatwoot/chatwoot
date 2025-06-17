@@ -15,6 +15,8 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
     message_content_attributes = message_params[:content_attributes]
 
+    send_private_note_message(message_content_attributes[:pre_chat_form_response]) if message_content_attributes[:pre_chat_form_response]&.present?
+
     if message_content_attributes[:conversation_resolved]
       ResolveConversationJob.perform_later(
         conversation.id,
@@ -69,6 +71,23 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
 
   private
 
+  def send_private_note_message(data)
+    conversation.messages.create!(outgoing_message_params('Thank you for your submission!', conversation, false))
+    message_parts = ['Pre Chat Form Details:']
+
+    message_parts << "Phone number: #{data['phoneNumber']}" if data['phoneNumber'].present?
+    message_parts << "Email Id: #{data['emailAddress']}" if data['emailAddress'].present?
+    message_parts << "Full name: #{data['fullName']}" if data['fullName'].present?
+
+    message = message_parts.join("\n")
+
+    conversation.messages.create!(outgoing_message_params(message, conversation, true))
+  end
+
+  def outgoing_message_params(content, conversation, is_private)
+    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :outgoing, content: content, private: is_private }
+  end
+
   def build_attachment
     return if params[:message][:attachments].blank?
 
@@ -102,13 +121,14 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # rubocop:disable Layout/LineLength
     params.permit(message: [
                     { submitted_values: [:name, :title, :value, { csat_survey_response: [:feedback_message, :rating] }, :user_phone_number, :user_order_id,
-                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :assign_to_agent, :conversation_resolved] },
+                                         :selected_reply, :previous_selected_replies, :product_id, :product_id_for_more_info, :pre_chat_form_response, :assign_to_agent, :conversation_resolved] },
                     :user_phone_number,
                     :user_order_id,
                     :selected_reply,
                     { previous_selected_replies: [] },
                     :product_id,
                     :product_id_for_more_info,
+                    { pre_chat_form_response: {} },
                     :assign_to_agent,
                     :conversation_resolved
                   ])
@@ -120,7 +140,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
     # timestamp parameter is used in create conversation method
 
     params.permit(:id, :before, :after, :website_token, contact: [:name, :email],
-                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :assign_to_agent, :conversation_resolved])
+                                                        message: [:content, :referer_url, :timestamp, :echo_id, :reply_to, :selected_reply, :previous_selected_replies, :phone_number, :order_id, :product_id, :private, :product_id_for_more_info, :assign_to_agent, :conversation_resolved, { pre_chat_form_response: [:emailAddress, :fullName, :phoneNumber] }])
   end
 
   # rubocop:enable Layout/LineLength

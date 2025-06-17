@@ -44,6 +44,7 @@ export const actions = {
       conversationResolved,
       assignToAgent,
       productIdForMoreInfo,
+      preChatFormResponse,
     } = params;
     const message = createTemporaryMessage({
       content,
@@ -57,6 +58,7 @@ export const actions = {
       conversationResolved,
       assignToAgent,
       productIdForMoreInfo,
+      preChatFormResponse,
     });
     dispatch('sendMessageWithData', message);
   },
@@ -75,6 +77,7 @@ export const actions = {
       conversationResolved,
       assignToAgent,
       productIdForMoreInfo,
+      preChatFormResponse,
     } = message;
     commit('pushMessageToConversation', message);
     commit('updateMessageMeta', { id, meta: { ...meta, error: '' } });
@@ -90,7 +93,8 @@ export const actions = {
         previousSelectedReplies,
         conversationResolved,
         assignToAgent,
-        productIdForMoreInfo
+        productIdForMoreInfo,
+        preChatFormResponse
       );
 
       commit('deleteMessage', message.id);

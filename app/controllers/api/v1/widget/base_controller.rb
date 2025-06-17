@@ -97,6 +97,7 @@ class Api::V1::Widget::BaseController < ApplicationController
         selected_reply: permitted_params[:message][:selected_reply],
         previous_selected_replies: permitted_params[:message][:previous_selected_replies],
         product_id_for_more_info: permitted_params[:message][:product_id_for_more_info],
+        pre_chat_form_response: permitted_params[:message][:pre_chat_form_response],
         assign_to_agent: permitted_params[:message][:assign_to_agent],
         conversation_resolved: permitted_params[:message][:conversation_resolved],
         phone_number: permitted_params[:message][:phone_number],

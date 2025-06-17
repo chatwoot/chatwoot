@@ -96,7 +96,8 @@ class Message < ApplicationRecord
     quick_reply: 12,
     order_input: 13,
     product_carousel: 14,
-    input_phone: 15
+    input_phone: 15,
+    pre_chat_form: 16
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :submitted_phone, :submitted_phone, :items, :submitted_values] : Used for bot message types
@@ -110,7 +111,7 @@ class Message < ApplicationRecord
   store :content_attributes, accessors: [:submitted_email, :items, :submitted_values, :email, :in_reply_to, :comment_id, :deleted,
                                          :external_created_at, :story_sender, :story_id, :external_error,
                                          :translations, :in_reply_to_external_id, :is_unsupported,
-                                         :reply_to_comment_id, :should_prompt_resolution, :is_dm_conversation_created, :user_phone_number, :previous_selected_replies, :user_order_id, :selected_reply, :product_id, :product_id_for_more_info, :assign_to_agent, :conversation_resolved], coder: JSON
+                                         :reply_to_comment_id, :should_prompt_resolution, :is_dm_conversation_created, :user_phone_number, :previous_selected_replies, :user_order_id, :selected_reply, :product_id, :product_id_for_more_info, :pre_chat_form_response, :assign_to_agent, :conversation_resolved], coder: JSON
 
   store :external_source_ids, accessors: [:slack], coder: JSON, prefix: :external_source_id
 
