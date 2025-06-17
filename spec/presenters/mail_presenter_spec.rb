@@ -46,6 +46,7 @@ RSpec.describe MailPresenter do
                                 :message_id,
                                 :multipart,
                                 :number_of_attachments,
+                                :references,
                                 :subject,
                                 :text_content,
                                 :to

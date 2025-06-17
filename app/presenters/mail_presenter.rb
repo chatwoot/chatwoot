@@ -100,6 +100,7 @@ class MailPresenter < SimpleDelegator
       message_id: message_id,
       multipart: multipart?,
       number_of_attachments: number_of_attachments,
+      references: references,
       subject: subject,
       text_content: text_content,
       to: to
@@ -113,6 +114,12 @@ class MailPresenter < SimpleDelegator
     # our current system does not have the capability to handle this.
     # FIX ME: Address this issue by returning the complete results and utilizing them for querying conversations.
     @mail.in_reply_to.is_a?(Array) ? @mail.in_reply_to.first : @mail.in_reply_to
+  end
+
+  def references
+    return [] if @mail.references.blank?
+
+    Array.wrap(@mail.references)
   end
 
   def from

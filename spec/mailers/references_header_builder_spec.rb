@@ -13,62 +13,102 @@ RSpec.describe ReferencesHeaderBuilder do
   describe '#build_references_header' do
     let(:in_reply_to_message_id) { '<reply-to-123@example.com>' }
 
-    context 'with an empty conversation' do
+    context 'with no current message (minimal approach)' do
       it 'returns only the in_reply_to message ID' do
         result = build_references_header(conversation, in_reply_to_message_id)
         expect(result).to eq('<reply-to-123@example.com>')
       end
     end
 
-    context 'with a conversation containing multiple messages' do
-      it 'includes all message IDs in chronological order' do
-        create(:message, conversation: conversation, account: account, source_id: '<msg-001@example.com>', created_at: 3.minutes.ago)
-        create(:message, conversation: conversation, account: account, source_id: 'msg-002@example.com', created_at: 2.minutes.ago)
-        create(:message, conversation: conversation, account: account, source_id: '<msg-003@example.com>', created_at: 1.minute.ago)
+    context 'with current message having no in_reply_to_external_id' do
+      let(:current_message) { create(:message, conversation: conversation, account: account) }
 
-        result = build_references_header(conversation, in_reply_to_message_id)
-
-        expect(result).to include('<msg-001@example.com>')
-        expect(result).to include('<msg-002@example.com>')
-        expect(result).to include('<msg-003@example.com>')
-        expect(result).to include('<reply-to-123@example.com>')
-      end
-
-      it 'maintains chronological order with in_reply_to as last element' do
-        create(:message, conversation: conversation, account: account, source_id: 'msg-001@example.com', created_at: 2.minutes.ago)
-        create(:message, conversation: conversation, account: account, source_id: 'msg-002@example.com', created_at: 1.minute.ago)
-
-        result = build_references_header(conversation, in_reply_to_message_id)
-        message_ids = result.split(/\s+/)
-
-        expect(message_ids).to eq(['<msg-001@example.com>', '<msg-002@example.com>', '<reply-to-123@example.com>'])
-      end
-
-      it 'removes duplicates while preserving order' do
-        create(:message, conversation: conversation, account: account, source_id: 'msg-001@example.com', created_at: 2.minutes.ago)
-        create(:message, conversation: conversation, account: account, source_id: 'msg-001@example.com', created_at: 1.minute.ago) # Duplicate
-
-        result = build_references_header(conversation, in_reply_to_message_id)
-        message_ids = result.split(/\s+/)
-
-        expect(message_ids.count('<msg-001@example.com>')).to eq(1)
-      end
-
-      it 'handles message IDs without angle brackets' do
-        create(:message, conversation: conversation, account: account, source_id: 'no-brackets@example.com', created_at: 1.minute.ago)
-
-        result = build_references_header(conversation, in_reply_to_message_id)
-        expect(result).to include('<no-brackets@example.com>')
+      it 'returns only the in_reply_to message ID' do
+        result = build_references_header(conversation, in_reply_to_message_id, current_message)
+        expect(result).to eq('<reply-to-123@example.com>')
       end
     end
 
-    context 'with multiple messages' do
-      it 'folds the header with CRLF between message IDs' do
-        create(:message, conversation: conversation, account: account, source_id: 'msg-001@example.com', created_at: 3.minutes.ago)
-        create(:message, conversation: conversation, account: account, source_id: 'msg-002@example.com', created_at: 2.minutes.ago)
-        create(:message, conversation: conversation, account: account, source_id: 'msg-003@example.com', created_at: 1.minute.ago)
+    context 'with current message having in_reply_to_external_id but no matching message' do
+      let(:current_message) do
+        create(:message, conversation: conversation, account: account,
+                         content_attributes: { 'in_reply_to_external_id' => 'nonexistent@example.com' })
+      end
 
-        result = build_references_header(conversation, in_reply_to_message_id)
+      it 'returns only the in_reply_to message ID' do
+        result = build_references_header(conversation, in_reply_to_message_id, current_message)
+        expect(result).to eq('<reply-to-123@example.com>')
+      end
+    end
+
+    context 'with current message referencing a message with stored References' do
+      let(:original_message) do
+        create(:message, conversation: conversation, account: account,
+                         source_id: 'original@example.com',
+                         content_attributes: {
+                           'email' => {
+                             'references' => ['<thread-001@example.com>', '<thread-002@example.com>']
+                           }
+                         })
+      end
+      let(:current_message) do
+        create(:message, conversation: conversation, account: account,
+                         content_attributes: { 'in_reply_to_external_id' => 'original@example.com' })
+      end
+
+      before { original_message } # Ensure it's created
+
+      it 'includes stored References plus in_reply_to' do
+        result = build_references_header(conversation, in_reply_to_message_id, current_message)
+        expect(result).to eq("<thread-001@example.com>\r\n <thread-002@example.com>\r\n <reply-to-123@example.com>")
+      end
+
+      it 'removes duplicates while preserving order' do
+        # If in_reply_to is already in the References, it should appear only once at the end
+        result = build_references_header(conversation, '<thread-002@example.com>', current_message)
+        message_ids = result.split("\r\n ").map(&:strip)
+        expect(message_ids).to eq(['<thread-001@example.com>', '<thread-002@example.com>'])
+      end
+    end
+
+    context 'with current message referencing a message with no stored References' do
+      let(:original_message) do
+        create(:message, conversation: conversation, account: account,
+                         source_id: 'original@example.com',
+                         content_attributes: { 'email' => {} })
+      end
+      let(:current_message) do
+        create(:message, conversation: conversation, account: account,
+                         content_attributes: { 'in_reply_to_external_id' => 'original@example.com' })
+      end
+
+      before { original_message } # Ensure it's created
+
+      it 'returns only the in_reply_to message ID (no rebuild)' do
+        result = build_references_header(conversation, in_reply_to_message_id, current_message)
+        expect(result).to eq('<reply-to-123@example.com>')
+      end
+    end
+
+    context 'with folding multiple References' do
+      let(:original_message) do
+        create(:message, conversation: conversation, account: account,
+                         source_id: 'original@example.com',
+                         content_attributes: {
+                           'email' => {
+                             'references' => ['<msg-001@example.com>', '<msg-002@example.com>', '<msg-003@example.com>']
+                           }
+                         })
+      end
+      let(:current_message) do
+        create(:message, conversation: conversation, account: account,
+                         content_attributes: { 'in_reply_to_external_id' => 'original@example.com' })
+      end
+
+      before { original_message } # Ensure it's created
+
+      it 'folds the header with CRLF between message IDs' do
+        result = build_references_header(conversation, in_reply_to_message_id, current_message)
 
         expect(result).to include("\r\n")
         lines = result.split("\r\n")
@@ -77,35 +117,6 @@ RSpec.describe ReferencesHeaderBuilder do
         expect(lines.first).not_to start_with(' ')
         expect(lines[1..]).to all(start_with(' '))
       end
-    end
-  end
-
-  describe '#collect_chronological_message_ids' do
-    it 'collects message IDs in chronological order' do
-      create(:message, conversation: conversation, account: account, source_id: 'msg-001@example.com', created_at: 3.minutes.ago)
-      create(:message, conversation: conversation, account: account, source_id: 'msg-002@example.com', created_at: 2.minutes.ago)
-      create(:message, conversation: conversation, account: account, source_id: 'msg-003@example.com', created_at: 1.minute.ago)
-
-      result = collect_chronological_message_ids(conversation)
-
-      expect(result).to eq(['<msg-001@example.com>', '<msg-002@example.com>', '<msg-003@example.com>'])
-    end
-
-    it 'only includes messages with source_id' do
-      create(:message, conversation: conversation, account: account, source_id: 'msg-001@example.com', created_at: 2.minutes.ago)
-      create(:message, conversation: conversation, account: account, created_at: 1.minute.ago) # No source_id
-
-      result = collect_chronological_message_ids(conversation)
-
-      expect(result).to eq(['<msg-001@example.com>'])
-    end
-
-    it 'formats message IDs with angle brackets' do
-      create(:message, conversation: conversation, account: account, source_id: 'no-brackets@example.com', created_at: 1.minute.ago)
-
-      result = collect_chronological_message_ids(conversation)
-
-      expect(result).to eq(['<no-brackets@example.com>'])
     end
   end
 
