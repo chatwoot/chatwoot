@@ -12,8 +12,9 @@ module ReferencesHeaderBuilder
   #
   # @param conversation [Conversation] The conversation containing the message thread
   # @param in_reply_to_message_id [String] The message ID being replied to
+  # @param current_message [Message, nil] The message being sent (for context)
   # @return [String] A properly formatted and folded References header value
-  def build_references_header(conversation, in_reply_to_message_id)
+  def build_references_header(conversation, in_reply_to_message_id, _current_message = nil)
     references = collect_chronological_message_ids(conversation)
     references << in_reply_to_message_id
 
