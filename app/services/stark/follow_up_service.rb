@@ -73,7 +73,7 @@ module Stark
     def build_request_headers
       {
         'Content-Type' => 'application/json',
-        'Authorization' => "Bearer #{ENV.fetch('STARK_API_KEY', nil)}"
+        'Authorization' => "Bearer #{ENV.fetch('STARK_API_KEY')}"
       }
     end
 
