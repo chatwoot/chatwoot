@@ -26,6 +26,7 @@ class Conversations::FollowUpJob < ApplicationJob
 
     when 2
       create_follow_up_message(conversation, 2, stark_response)
+      conversation.update!(follow_up_jid: nil)
     end
   end
 
