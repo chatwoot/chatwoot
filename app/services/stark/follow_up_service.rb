@@ -44,9 +44,6 @@ module Stark
         end
         Rails.logger.error("Stark server error persisted: #{e.message}")
         nil
-      rescue JSON::ParserError => e
-        Rails.logger.error("Failed to parse Stark response: #{e.message}")
-        nil
       end
     end
 
