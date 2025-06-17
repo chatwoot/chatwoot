@@ -288,6 +288,20 @@
   type: secret
 ## ------ End of Configs added for Linear ------ ##
 
+## ------ Configs added for Notion ------ ##
+- name: NOTION_CLIENT_ID
+  display_title: 'Notion Client ID'
+  value:
+  locked: false
+  description: 'Notion client ID'
+- name: NOTION_CLIENT_SECRET
+  display_title: 'Notion Client Secret'
+  value:
+  locked: false
+  description: 'Notion client secret'
+  type: secret
+## ------ End of Configs added for Notion ------ ##
+
 ## ------ Configs added for Slack ------ ##
 - name: SLACK_CLIENT_ID
   display_title: 'Slack Client ID'
