@@ -207,8 +207,11 @@ export default {
           onCloseDropdown();
         }
       "
-      :class="{ 'dropdown-pane--open': showDropDown }"
-      class="dropdown-pane"
+      :class="{
+        'block visible': showDropDown,
+        'hidden invisible': !showDropDown,
+      }"
+      class="border rounded-lg shadow-lg bg-n-alpha-3 absolute backdrop-blur-[100px] border-n-strong dark:border-n-strong p-2 z-[9999] box-border top-8 w-full"
     >
       <div class="flex items-center justify-between mb-1">
         <h4
@@ -227,9 +230,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.dropdown-pane {
-  @apply box-border top-8 w-full;
-}
-</style>
