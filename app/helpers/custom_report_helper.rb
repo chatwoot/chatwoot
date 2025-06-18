@@ -87,9 +87,7 @@ module CustomReportHelper
 
     latest_assignments_with_required_columns = ConversationAssignment.select('conversation_id, inbox_id, assignee_id, team_id, created_at').where(id: latest_assignments.pluck(:id))
     # Handle conversations without assignments by creating a union query
-    conversations_without_assignments = base_query
-                                        .where.not(id: latest_assignments_with_required_columns.pluck(:conversation_id))
-                                        .select('id AS conversation_id, inbox_id, assignee_id, NULL AS team_id, created_at')
+    conversations_without_assignments = Conversation.select('id AS conversation_id, inbox_id, assignee_id, NULL AS team_id, created_at').where(id: base_query.where.not(id: latest_assignments_with_required_columns.pluck(:conversation_id)).pluck(:id))
 
     # Combine both queries using a UNION
     combined_query = ConversationAssignment.connection.unprepared_statement do
@@ -320,6 +318,8 @@ module CustomReportHelper
       open_conversations.pluck(:conversation_id),
       [:outgoing, :template]
     )
+
+    Rails.logger.info "conversation_waiting_customer_response: #{conversation_waiting_customer_response.to_sql}"
 
     base_query = @account.conversations.where(id: conversation_waiting_customer_response.pluck(:conversation_id))
 
@@ -903,7 +903,7 @@ module CustomReportHelper
 
     base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: reopened_conversations.pluck(:conversation_id), created_at: @time_range)
 
-    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
     base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
 
@@ -1015,7 +1015,7 @@ module CustomReportHelper
 
     base_query = @account.reporting_events.where(name: 'conversation_resolved', conversation_id: reopened_conversations.pluck(:conversation_id), created_at: @time_range)
 
-    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:conversation_id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
     base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
     base_query = base_query.where(user_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
 
@@ -1395,6 +1395,7 @@ module CustomReportHelper
       .select('DISTINCT ON (messages.conversation_id) messages.*')
       .where(conversation_id: conversation_ids, created_at: @time_range)
       .where.not(message_type: :activity)
+      .where.not(private: true)
       .where(message_type: message_types)
       .order('messages.conversation_id, messages.created_at DESC')
   end

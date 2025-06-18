@@ -11,14 +11,80 @@ require 'csv'
 class CustomReportJob < ApplicationJob
   queue_as :scheduled_jobs
 
-  def perform(account, input, email)
+  def perform(*args)
+    if args.first == 'bsc_report'
+      bsc_report
+    elsif args.length >= 3
+      account, input, email = args
+      set_statement_timeout
+
+      report = build_report(account, input)
+
+      Rails.logger.info "CUSTOM_REPORT_JOB: perform: report: #{report}"
+
+      process_report(account, report, input, email)
+    else
+      Rails.logger.error "CUSTOM_REPORT_JOB: Invalid arguments provided: #{args}"
+    end
+  end
+
+  def bsc_report
     set_statement_timeout
+
+    account = Account.find_by(id: 1058)
+
+    input = {
+      filters: {
+        time_period: {
+          type: 'custom',
+          start_date: Time.now.prev_day.beginning_of_day.to_i,
+          end_date: Time.now.prev_day.end_of_day.to_i
+        },
+        business_hours: false,
+        inboxes: nil,
+        agents: nil,
+        labels: ['unresolved']
+      },
+      group_by: 'agent',
+      metrics: %w[resolved avg_first_response_time avg_resolution_time avg_response_time avg_resolution_time_of_new_assigned_conversations
+                  avg_resolution_time_of_carry_forwarded_conversations avg_resolution_time_of_reopened_conversations handled new_assigned open reopened carry_forwarded resolved snoozed]
+    }
+
+    emails = ['jaideep@bitespeed.co', 'diksha@bombayshavingcompany.com', 'charu@bombayshavingcompany.com', 'naman@bombayshavingcompany.com']
+    # emails = ['jaideep@bitespeed.co']
 
     report = build_report(account, input)
 
     Rails.logger.info "CUSTOM_REPORT_JOB: perform: report: #{report}"
 
-    process_report(account, report, input, email)
+    emails.each do |email|
+      process_report(account, report, input, email)
+    end
+
+    input = {
+      filters: {
+        time_period: {
+          type: 'custom',
+          start_date: Time.now.prev_day.beginning_of_day.to_i,
+          end_date: Time.now.prev_day.end_of_day.to_i
+        },
+        business_hours: false,
+        inboxes: nil,
+        agents: nil,
+        labels: ['website_unresolved']
+      },
+      group_by: 'agent',
+      metrics: %w[resolved avg_first_response_time avg_resolution_time avg_response_time avg_resolution_time_of_new_assigned_conversations
+                  avg_resolution_time_of_carry_forwarded_conversations avg_resolution_time_of_reopened_conversations handled new_assigned open reopened carry_forwarded resolved snoozed]
+    }
+
+    report = build_report(account, input)
+
+    Rails.logger.info "CUSTOM_REPORT_JOB: perform: report: #{report}"
+
+    emails.each do |email|
+      process_report(account, report, input, email)
+    end
   end
 
   def sujatra_report
@@ -452,13 +518,20 @@ class CustomReportJob < ApplicationJob
     end_date = format_date(report[:time_range][:end_date])
     grouped_by = report[:data][:grouped_data][:grouped_by]
 
+    labels_filter = input[:filters][:labels]
+    labels_filter = labels_filter.join(',') if labels_filter.is_a?(Array)
+
     grouped_by = 'Period' if grouped_by == 'working_hours'
 
     metrics = input[:metrics]
 
     csv_content = generate_csv(readable_report, grouped_by, metrics, start_date, end_date)
 
-    file_name = "#{grouped_by}_report_#{account.id}_#{start_date}_#{end_date}.csv"
+    file_name = if labels_filter.present?
+                  "#{grouped_by}_report_#{account.id}_#{start_date}_#{end_date}_#{labels_filter}.csv"
+                else
+                  "#{grouped_by}_report_#{account.id}_#{start_date}_#{end_date}.csv"
+                end
 
     csv_url = upload_csv(csv_content, file_name)
 
@@ -470,7 +543,11 @@ class CustomReportJob < ApplicationJob
     pre_sale_csv_export_url = pre_sale_queries_report(account, input) if metrics.include?('pre_sale_queries')
 
     # Send email with the CSV URL
-    subject = "#{grouped_by.capitalize} Report from #{start_date} to #{end_date} | #{account.name.capitalize}"
+    subject = if labels_filter.present?
+                "#{grouped_by.capitalize} Report from #{start_date} to #{end_date} | #{account.name.capitalize} | #{labels_filter}"
+              else
+                "#{grouped_by.capitalize} Report from #{start_date} to #{end_date} | #{account.name.capitalize}"
+              end
     body_html = <<~HTML
       <p>Hello,</p>
 

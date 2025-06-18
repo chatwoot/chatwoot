@@ -120,7 +120,7 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
         begin
           data[metric] = calculate_metric(metric)
         rescue StandardError => e
-          data[metric] = nil
+          data[metric] = {}
           Rails.logger.error "Error calculating metric #{metric}: #{e.message}"
         ensure
           @metric_timings[metric] = ((Time.current - start_time) * 1000).round(2)
