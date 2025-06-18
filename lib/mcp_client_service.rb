@@ -1,301 +1,189 @@
 # frozen_string_literal: true
 
-require 'mcp_client'
+require 'singleton'
+require 'timeout'
+require_relative 'mcp/clients/mintlify_client'
+require_relative 'mcp/clients/acme_mintlify_client'
 
-# MCP Client Service - manages connections to MCP servers
-# This service provides a centralized way to connect to and interact with
-# Model Context Protocol servers, including the Mintlify documentation server.
+# MCP Client Service
+# Main service that manages MCP client connections using a structured approach
 class McpClientService
   include Singleton
 
-  class ConfigurationError < StandardError; end
-  class ConnectionError < StandardError; end
-  class TimeoutError < StandardError; end
+  class ClientNotFoundError < StandardError; end
 
-  attr_reader :clients, :connection_stats
+  attr_reader :clients
 
   def initialize
     @clients = {}
-    @connection_stats = {}
-    @mutex = Mutex.new
-    setup_clients
+    # Don't auto-setup in initializer to avoid issues with Rails loading
   end
 
-  # Get or create a client for a specific server
-  def client_for(server_name)
-    @mutex.synchronize do
-      return @clients[server_name] if @clients[server_name]
-
-      Rails.logger.info("[McpClientService] Creating new client for #{server_name}")
-      @clients[server_name] = create_client_for(server_name)
-    end
-  end
-
-  # Execute a tool on a specific server with retry logic
-  def call_tool(server_name, tool_name, arguments = {})
-    validate_call_tool_params(server_name, tool_name, arguments)
-
+  # Initialize both servers with default configurations
+  def initialize_default_servers!
+    Rails.logger.info('[McpClientService] Initializing default MCP servers...')
     start_time = Time.current
-    attempt = 0
-    max_retries = 3
 
     begin
-      attempt += 1
-      client = client_for(server_name)
-      raise ConnectionError, "No client available for #{server_name}" unless client
+      initialize_mintlify_server
+      initialize_acme_server
 
-      Rails.logger.debug { "[McpClientService] Calling tool #{tool_name} on #{server_name} (attempt #{attempt})" }
+      duration = Time.current - start_time
+      Rails.logger.info("[McpClientService] All default servers initialized successfully in #{duration.round(2)}s")
 
-      result = Timeout.timeout(60) do # 60 second timeout
-        client.call_tool(tool_name, arguments)
-      end
-
-      record_successful_call(server_name, tool_name, Time.current - start_time)
-      Rails.logger.debug { "[McpClientService] Tool call successful in #{(Time.current - start_time).round(2)}s" }
-      result
+      log_connection_status
 
     rescue StandardError => e
-      record_failed_call(server_name, tool_name, e)
-
-      if attempt < max_retries && should_retry?(e)
-        Rails.logger.warn("[McpClientService] Retrying tool call #{tool_name} on #{server_name} (attempt #{attempt}/#{max_retries})")
-        sleep(2 * attempt) # Simple backoff
-        retry
-      end
-
-      Rails.logger.error("[McpClientService] Tool call failed after #{attempt} attempts: #{e.message}")
-      handle_tool_call_error(e, server_name, tool_name)
+      Rails.logger.error("[McpClientService] Failed to initialize some servers: #{e.message}")
+      Rails.logger.debug { "[McpClientService] Backtrace: #{e.backtrace.first(3).join(', ')}" }
     end
   end
 
-  # List available tools for a server
-  def list_tools(server_name)
-    client = client_for(server_name)
-    return [] unless client
+  # Get or create a client for a specific type
+  def client_for(type, config = {})
+    type = type.to_s.downcase
 
-    Rails.logger.debug { "[McpClientService] Listing tools for server: #{server_name}" }
-    tools = client.list_tools || []
+    return @clients[type] if @clients[type]&.connected?
 
-    Rails.logger.debug { "[McpClientService] Found #{tools.length} tools for #{server_name}" }
-    tools
+    Rails.logger.debug { "[McpClientService] Creating client for #{type}" }
+    connection_start = Time.current
 
-  rescue StandardError => e
-    Rails.logger.error("[McpClientService] Error listing tools for #{server_name}: #{e.message}")
-    record_failed_call(server_name, 'list_tools', e)
-    []
-  end
+    begin
+      # Create and connect the client with provided config
+      # Each client has its own default configuration
+      client = create_client(type, config)
+      client.connect!
 
-  # Get all available tools across all servers
-  def all_tools
-    tools = {}
-    @clients.each_key do |server_name|
-      tools[server_name] = list_tools(server_name)
-    end
-    tools
-  end
+      @clients[type] = client
 
-  # Reconnect all clients (useful for development/testing)
-  def reconnect_all!
-    @mutex.synchronize do
-      Rails.logger.info('[McpClientService] Reconnecting all MCP clients')
-      close_all_connections
-      @clients.clear
-      @connection_stats.clear
-      setup_clients
+      duration = Time.current - connection_start
+      Rails.logger.info("[McpClientService] #{type} client ready in #{duration.round(2)}s")
+
+      client
+    rescue StandardError => e
+      Rails.logger.error("[McpClientService] Failed to create #{type} client: #{e.message}")
+      raise
     end
   end
 
-  # Get connection statistics
-  def stats
-    {
-      clients: @clients.keys,
-      connection_stats: @connection_stats.dup
-    }
+  # Call a tool on a specific client
+  def call_tool(type, tool_name, arguments = {})
+    client = client_for(type)
+    client.call_tool(tool_name, arguments)
+  end
+
+  # List available tools for a client
+  def list_tools(type)
+    client = client_for(type)
+    client.list_tools
+  end
+
+  # Check if a client is connected
+  def connected?(type)
+    client = @clients[type.to_s.downcase]
+    client&.connected? || false
+  end
+
+  # Get available client types
+  def available_types
+    %w[mintlify acme_mintlify]
+  end
+
+  # Quick setup for a client type
+  def setup_client(type)
+    case type.to_s.downcase
+    when 'mintlify'
+      client = Mcp::Clients::MintlifyClient.new
+      client.setup_if_needed!
+      true
+    when 'acme_mintlify'
+      client = Mcp::Clients::AcmeMintlifyClient.new
+      client.setup_if_needed!
+      true
+    else
+      false
+    end
   end
 
   private
 
-  def setup_clients
-    # Set up Mintlify MCP server if enabled
-    setup_mintlify_client if mintlify_enabled?
-  end
+  def initialize_mintlify_server
+    connection_start = Time.current
 
-  def setup_mintlify_client
-    Rails.logger.info('[McpClientService] Setting up Mintlify MCP client')
-
-    validate_mintlify_configuration!
-
-    mcp_client = setup_mintlify_stdio_client
-
-    raise ConnectionError, 'Failed to setup Mintlify client' unless mcp_client
-
-    @clients['mintlify'] = mcp_client
-    initialize_connection_stats('mintlify')
-    Rails.logger.info('[McpClientService] Mintlify MCP client setup complete')
-
-    # Test connection by listing tools (but don't fail if empty)
     begin
-      tools = mcp_client.list_tools
-      tool_names = extract_tool_names(tools)
-      Rails.logger.info("[McpClientService] Found #{tools.length} tools: #{tool_names.join(', ')}")
-    rescue StandardError => e
-      Rails.logger.warn("[McpClientService] Could not list tools (but client may still work): #{e.message}")
-    end
+      config = {
+        server_id: 'chatwoot-447c5a93',
+        auto_setup: true,
+        test_on_connect: true
+      }
 
-  rescue StandardError => e
-    Rails.logger.error("[McpClientService] Failed to setup Mintlify client: #{e.message}")
-    record_failed_call('mintlify', 'setup', e)
-    raise e unless Rails.env.development?
+      client = create_client('mintlify', config)
+      client.connect!
+      @clients['mintlify'] = client
+      duration = Time.current - connection_start
+
+      Rails.logger.info("[McpClientService] Mintlify server connected successfully in #{duration.round(2)}s")
+      tools = client.list_tools
+      Rails.logger.info("[McpClientService] Mintlify server tools: #{tools.length} tools available")
+
+    rescue StandardError => e
+      Rails.logger.warn("[McpClientService] Mintlify server initialization failed: #{e.message}")
+      Rails.logger.debug { "[McpClientService] Mintlify error backtrace: #{e.backtrace.first(3).join(', ')}" }
+    end
   end
 
-  def create_client_for(server_name)
-    case server_name
+  def initialize_acme_server
+    connection_start = Time.current
+
+    begin
+      config = {
+        server_id: 'acme-d0cb791b',
+        auto_setup: true,
+        test_on_connect: true,
+        auth: {
+          config: { 'api_access_token' => get_acme_api_token }
+        }
+      }
+
+      client = create_client('acme_mintlify', config)
+      client.connect!
+      @clients['acme_mintlify'] = client
+      duration = Time.current - connection_start
+
+      Rails.logger.info("[McpClientService] Acme server connected successfully in #{duration.round(2)}s")
+      tools = client.list_tools
+      Rails.logger.info("[McpClientService] Acme server tools: #{tools.length} tools available")
+
+    rescue StandardError => e
+      Rails.logger.warn("[McpClientService] Acme server initialization failed: #{e.message}")
+      Rails.logger.debug { "[McpClientService] Acme error backtrace: #{e.backtrace.first(3).join(', ')}" }
+    end
+  end
+
+  def get_acme_api_token
+    # TODO: Update this to use the actual API token, or figure out a better way to get the token
+    ENV['ACME_MINTLIFY_API_TOKEN'] || 'demo_token'
+  end
+
+  def log_connection_status
+    Rails.logger.info('[McpClientService] Connection Status Summary:')
+
+    available_types.each do |type|
+      status = connected?(type) ? 'Connected' : 'Disconnected'
+      Rails.logger.info("[McpClientService]   #{type}: #{status}")
+    end
+
+    Rails.logger.info("[McpClientService] MCP setup complete - #{@clients.keys.size} clients ready")
+  end
+
+  def create_client(type, config)
+    case type.to_s.downcase
     when 'mintlify'
-      setup_mintlify_client
-      @clients['mintlify']
+      Mcp::Clients::MintlifyClient.new(config)
+    when 'acme_mintlify'
+      Mcp::Clients::AcmeMintlifyClient.new(config)
     else
-      raise ConfigurationError, "Unknown server: #{server_name}"
-    end
-  end
-
-  def mintlify_enabled?
-    # Always enabled - no configuration needed
-    true
-  end
-
-  def validate_mintlify_configuration!
-    home_dir = Dir.home || '/root'
-    mcp_dir = "#{home_dir}/.mcp/#{mcp_server_id}"
-
-    return if File.exist?(mcp_dir)
-
-    Rails.logger.warn('[McpClientService] MCP server directory not found, attempting setup...')
-    setup_mcp_server_if_needed
-
-    return if File.exist?(mcp_dir)
-
-    raise ConfigurationError, "MCP server not found at #{mcp_dir}. Run 'mcp add #{mcp_server_id}'"
-  end
-
-  def mintlify_command_array
-    home_dir = Dir.home || '/root'
-    command = "node #{home_dir}/.mcp/#{mcp_server_id}/src/index.js"
-    command.split
-  end
-
-  def setup_mcp_server_if_needed
-    home_dir = Dir.home || '/root'
-    mcp_dir = "#{home_dir}/.mcp/#{mcp_server_id}"
-
-    return if File.exist?(mcp_dir)
-
-    Rails.logger.info('[McpClientService] Setting up Mintlify MCP server for the first time...')
-
-    # Install MCP CLI and add the server with proper error handling
-    install_success = system('npm install -g @mintlify/mcp 2>/dev/null')
-    add_success = system("mcp add #{mcp_server_id} 2>/dev/null")
-
-    return if install_success && add_success
-
-    Rails.logger.error('[McpClientService] Failed to install or add MCP server')
-    raise ConfigurationError, 'Failed to setup MCP server automatically'
-  end
-
-  def setup_mintlify_stdio_client
-    command_array = mintlify_command_array
-    Rails.logger.info("[McpClientService] Creating stdio client with command: #{command_array.inspect}")
-
-    Timeout.timeout(30) do # 30 second connection timeout
-      mcp_client = MCPClient.create_client(
-        mcp_server_configs: [
-          MCPClient.stdio_config(
-            command: command_array,
-            name: 'mintlify'
-          )
-        ]
-      )
-
-      Rails.logger.info('[McpClientService] Stdio transport successful')
-      mcp_client
-    end
-  rescue StandardError => e
-    Rails.logger.error("[McpClientService] Stdio transport failed: #{e.message}")
-    raise ConnectionError, "Failed to connect to Mintlify MCP server: #{e.message}"
-  end
-
-  def should_retry?(error)
-    return false if error.is_a?(ConfigurationError)
-    return false if error.is_a?(ArgumentError)
-
-    true
-  end
-
-  def validate_call_tool_params(server_name, tool_name, arguments)
-    raise ArgumentError, 'server_name cannot be blank' if server_name.blank?
-    raise ArgumentError, 'tool_name cannot be blank' if tool_name.blank?
-    raise ArgumentError, 'arguments must be a Hash' unless arguments.is_a?(Hash)
-  end
-
-  def extract_tool_names(tools)
-    tools.filter_map do |tool|
-      case tool
-      when Hash
-        tool['name']
-      else
-        tool.respond_to?(:name) ? tool.name : tool.to_s
-      end
-    end
-  end
-
-  def initialize_connection_stats(server_name)
-    @connection_stats[server_name] = {
-      total_calls: 0,
-      successful_calls: 0,
-      failed_calls: 0,
-      average_response_time: 0.0,
-      last_error: nil,
-      created_at: Time.current
-    }
-  end
-
-  def record_successful_call(server_name, _tool_name, response_time)
-    stats = @connection_stats[server_name] ||= initialize_connection_stats(server_name)
-    stats[:total_calls] += 1
-    stats[:successful_calls] += 1
-    stats[:average_response_time] = ((stats[:average_response_time] * (stats[:total_calls] - 1)) + response_time) / stats[:total_calls]
-  end
-
-  def record_failed_call(server_name, _tool_name, error)
-    stats = @connection_stats[server_name] ||= initialize_connection_stats(server_name)
-    stats[:total_calls] += 1
-    stats[:failed_calls] += 1
-    stats[:last_error] = error.message
-  end
-
-  def handle_tool_call_error(error, server_name, tool_name)
-    case error
-    when Timeout::Error
-      "Tool call timed out: could not #{tool_name} on #{server_name}"
-    when ConnectionError
-      "Connection failed: could not #{tool_name} on #{server_name}"
-    when ConfigurationError
-      "Configuration error: could not #{tool_name} on #{server_name}"
-    else
-      "Error occurred: could not #{tool_name} on #{server_name} (#{error.message})"
-    end
-  end
-
-  def close_all_connections
-    @clients.each_value do |client|
-      client.close if client.respond_to?(:close)
-    rescue StandardError => e
-      Rails.logger.warn("[McpClientService] Error closing client connection: #{e.message}")
-    end
-  end
-
-  def mcp_server_id
-    ENV.fetch('MCP_SERVER_ID') do
-      raise ConfigurationError, 'MCP_SERVER_ID environment variable is required. Please set it to your MCP server identifier.'
+      raise ClientNotFoundError, "Unknown client type: #{type}"
     end
   end
 end

@@ -34,6 +34,7 @@ RUN apk update && apk add --no-cache \
   git \
   curl \
   xz \
+  expect \
   && mkdir -p /var/app \
   && gem install bundler
 
