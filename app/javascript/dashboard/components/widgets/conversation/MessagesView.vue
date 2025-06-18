@@ -50,17 +50,11 @@ export default {
     const conversationPanelRef = ref(null);
     const { isEnterprise } = useConfig();
 
-    const closePopOutReplyBox = () => {
-      isPopOutReplyBox.value = false;
-    };
-
-    const showPopOutReplyBox = () => {
-      isPopOutReplyBox.value = !isPopOutReplyBox.value;
-    };
-
     const keyboardEvents = {
       Escape: {
-        action: closePopOutReplyBox,
+        action: () => {
+          isPopOutReplyBox.value = false;
+        },
       },
     };
 
@@ -78,8 +72,6 @@ export default {
     return {
       isEnterprise,
       isPopOutReplyBox,
-      closePopOutReplyBox,
-      showPopOutReplyBox,
       isAIIntegrationEnabled,
       isLabelSuggestionFeatureEnabled,
       fetchIntegrationsIfRequired,
@@ -525,8 +517,8 @@ export default {
         </div>
       </div>
       <ReplyBox
-        v-model:popout-reply-box="isPopOutReplyBox"
-        @toggle-popout="showPopOutReplyBox"
+        :pop-out-reply-box="isPopOutReplyBox"
+        @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />
     </div>
   </div>
@@ -534,7 +526,7 @@ export default {
 
 <style scoped lang="scss">
 .modal-mask {
-  @apply absolute;
+  @apply fixed;
 
   &::v-deep {
     .ProseMirror-woot-style {
@@ -558,7 +550,7 @@ export default {
     }
 
     .emoji-dialog {
-      @apply absolute left-auto bottom-1;
+      @apply absolute ltr:left-auto rtl:right-auto bottom-1;
     }
   }
 }

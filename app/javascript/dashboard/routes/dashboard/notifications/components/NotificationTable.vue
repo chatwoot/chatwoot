@@ -142,8 +142,6 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'dashboard/assets/scss/mixins';
-
 .notification--title {
   @apply text-sm m-0 text-slate-800 dark:text-slate-100;
 }
