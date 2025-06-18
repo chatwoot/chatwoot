@@ -410,8 +410,7 @@ export default {
     openContextMenu(e) {
       const shouldSkipContextMenu =
         e.target?.classList.contains('skip-context-menu') ||
-        e.target?.tagName.toLowerCase() === 'a' ||
-        e.target?.tagName.toLowerCase() === 'img';
+        e.target?.tagName.toLowerCase() === 'a';
       if (shouldSkipContextMenu || getSelection().toString()) {
         return;
       }
