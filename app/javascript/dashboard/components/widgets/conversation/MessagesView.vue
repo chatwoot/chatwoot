@@ -10,6 +10,7 @@ import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 // stores and apis
 import { mapGetters } from 'vuex';
@@ -41,6 +42,7 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
+    Spinner,
   },
   mixins: [inboxMixin],
   setup() {
@@ -476,9 +478,9 @@ export default {
         <transition name="slide-up">
           <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
           <li
-            class="min-h-[4rem] flex flex-shrink-0 flex-grow-0 flex-auto max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0"
+            class="min-h-[4rem] flex flex-shrink-0 flex-grow-0 items-center flex-auto justify-center max-w-full mt-0 mr-0 mb-1 ml-0 relative first:mt-auto last:mb-0"
           >
-            <span v-if="shouldShowSpinner" class="spinner message" />
+            <Spinner v-if="shouldShowSpinner" class="text-n-brand" />
           </li>
         </transition>
       </template>

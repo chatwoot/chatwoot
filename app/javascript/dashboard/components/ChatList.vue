@@ -31,6 +31,7 @@ import DeleteCustomViews from 'dashboard/routes/dashboard/customviews/DeleteCust
 import ConversationBulkActions from './widgets/conversation/conversationBulkActions/Index.vue';
 import IntersectionObserver from './IntersectionObserver.vue';
 import TeleportWithDirection from 'dashboard/components-next/TeleportWithDirection.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useAlert } from 'dashboard/composables';
@@ -952,8 +953,8 @@ watch(conversationFilters, (newVal, oldVal) => {
           </DynamicScrollerItem>
         </template>
         <template #after>
-          <div v-if="chatListLoading" class="text-center">
-            <span class="mt-4 mb-4 spinner" />
+          <div v-if="chatListLoading" class="flex justify-center my-4">
+            <Spinner class="text-n-brand" />
           </div>
           <p
             v-else-if="showEndOfListMessage"
