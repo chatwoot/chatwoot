@@ -469,13 +469,12 @@ const menuItems = computed(() => {
           icon: 'i-lucide-briefcase',
           to: accountScopedRoute('auditlogs_list'),
         },
-        // REVIEW:CV4.0.2 is commenting intentional? cv4.0.2 has this uncommented
-        // {
-        //   name: 'Settings Custom Roles',
-        //   label: t('SIDEBAR.CUSTOM_ROLES'),
-        //   icon: 'i-lucide-shield-plus',
-        //   to: accountScopedRoute('custom_roles_list'),
-        // },
+        {
+          name: 'Settings Custom Roles',
+          label: t('SIDEBAR.CUSTOM_ROLES'),
+          icon: 'i-lucide-shield-plus',
+          to: accountScopedRoute('custom_roles_list'),
+        },
         {
           name: 'Settings Sla',
           label: t('SIDEBAR.SLA'),

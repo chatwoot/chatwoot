@@ -28,7 +28,7 @@
   # enabled: false
 - name: disable_branding
   display_name: Disable Branding
-  enabled: false
+  enabled: true
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
   enabled: true
@@ -79,7 +79,7 @@
   enabled: true
 - name: mobile_v2
   display_name: Mobile App V2
-  enabled: false
+  enabled: true
   deprecated: true
 - name: channel_website
   display_name: Website Channel
@@ -116,21 +116,21 @@
   premium: true
 - name: response_bot
   display_name: Response Bot
-  enabled: false
+  enabled: true
   premium: true
   deprecated: true
 - name: message_reply_to
   display_name: Message Reply To
-  enabled: false
+  enabled: true
   help_url: https://chwt.app/hc/reply-to
   deprecated: true
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
-  enabled: false
+  enabled: true
   deprecated: true
 - name: inbox_view
   display_name: Inbox View
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: sla
   display_name: SLA
@@ -153,11 +153,11 @@
   # enabled: false
 - name: captain_integration
   display_name: Captain
-  enabled: false
+  enabled: true
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
+  enabled: true
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
@@ -174,15 +174,15 @@
   chatwoot_internal: true
 - name: shopify_integration
   display_name: Shopify Integration
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
-  enabled: false
+  enabled: true
   chatwoot_internal: true
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
 - name: crm_integration
   display_name: CRM Integration
-  enabled: false
+  enabled: true
