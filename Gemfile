@@ -253,3 +253,4 @@ group :development, :test do
   gem 'spring'
   gem 'spring-watcher-listen'
 end
+gem 'shopify_app'

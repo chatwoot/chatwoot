@@ -152,7 +152,7 @@ export default {
           }, 3000);
         })
         .catch(response => {
-          this.showAlert(response?.message || this.$t('LOGIN.API.UNAUTH'));
+          this.showAlertMessage(response?.message || this.$t('LOGIN.API.UNAUTH'));
         });
     },
     // submitFormLogin() {

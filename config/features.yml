@@ -23,7 +23,7 @@
   deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
-  enabled: true 
+  enabled: true
   # REVIEW:CV4.0.2 cv4.0.2 has this false
   # enabled: false
 - name: disable_branding

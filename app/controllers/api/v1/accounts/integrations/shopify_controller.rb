@@ -81,26 +81,26 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     end
   end
 
-  def setup_shopify_context
-    return if client_id.blank? || client_secret.blank?
+  # def setup_shopify_context
+  #   return if client_id.blank? || client_secret.blank?
 
-    ShopifyAPI::Context.setup(
-      api_key: client_id,
-      api_secret_key: client_secret,
-      api_version: '2025-01'.freeze,
-      scope: REQUIRED_SCOPES.join(','),
-      is_embedded: true,
-      is_private: false
-    )
-  end
+  #   ShopifyAPI::Context.setup(
+  #     api_key: client_id,
+  #     api_secret_key: client_secret,
+  #     api_version: '2025-01'.freeze,
+  #     scope: REQUIRED_SCOPES.join(','),
+  #     is_embedded: true,
+  #     is_private: false
+  #   )
+  # end
 
-  def shopify_session
-    ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
-  end
+  # def shopify_session
+  #   ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
+  # end
 
-  def shopify_client
-    @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
-  end
+  # def shopify_client
+  #   @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
+  # end
 
   def validate_contact
     return unless contact.blank? || (contact.email.blank? && contact.phone_number.blank?)

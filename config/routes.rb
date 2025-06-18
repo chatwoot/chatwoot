@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  mount ShopifyApp::Engine, at: '/'
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
     confirmations: 'devise_overrides/confirmations',

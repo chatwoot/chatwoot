@@ -1,0 +1,3 @@
+<% content_for :javascript do %>
+  <%= content_tag(:div, nil, id: 'shopify-app-flash', data: { flash: { notice: flash[:notice], error: flash[:error] } }) %>
+<% end %>

@@ -83,11 +83,19 @@ GEM
       globalid (>= 0.3.6)
     activemodel (7.0.8.7)
       activesupport (= 7.0.8.7)
+    activemodel-serializers-xml (1.0.3)
+      activemodel (>= 5.0.0.a)
+      activesupport (>= 5.0.0.a)
+      builder (~> 3.1)
     activerecord (7.0.8.7)
       activemodel (= 7.0.8.7)
       activesupport (= 7.0.8.7)
     activerecord-import (2.2.0)
       activerecord (>= 4.2)
+    activeresource (6.1.4)
+      activemodel (>= 6.0)
+      activemodel-serializers-xml (~> 1.0)
+      activesupport (>= 6.0)
     activestorage (7.0.8.7)
       actionpack (= 7.0.8.7)
       activejob (= 7.0.8.7)
@@ -730,6 +738,8 @@ GEM
     rdoc (6.14.0)
       erb
       psych (>= 4.0.0)
+    redirect_safely (1.0.0)
+      activemodel
     redis (5.4.0)
       redis-client (>= 0.22.0)
     redis-client (0.24.0)
@@ -870,6 +880,14 @@ GEM
       securerandom
       sorbet-runtime
       zeitwerk (~> 2.5)
+    shopify_app (22.5.2)
+      activeresource
+      addressable (~> 2.7)
+      jwt (>= 2.2.3)
+      rails (> 5.2.1)
+      redirect_safely (~> 1.0)
+      shopify_api (>= 14.7.0, < 15.0)
+      sprockets-rails (>= 2.0.0)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.9)
@@ -1115,6 +1133,7 @@ DEPENDENCIES
   sentry-ruby
   sentry-sidekiq (>= 5.19.0)
   shopify_api
+  shopify_app
   shoulda-matchers
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)

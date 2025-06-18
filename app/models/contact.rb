@@ -95,6 +95,7 @@ class Contact < ApplicationRecord
       )
     )
   }
+
   scope :order_on_city, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
@@ -105,6 +106,7 @@ class Contact < ApplicationRecord
       )
     )
   }
+
   scope :order_on_country_name, lambda { |direction|
     order(
       Arel::Nodes::SqlLiteral.new(
