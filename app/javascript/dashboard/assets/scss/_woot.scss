@@ -1,3 +1,4 @@
+// scss-lint:disable SpaceAfterPropertyColon
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
@@ -8,12 +9,57 @@
 // Next Colors
 @import 'next-colors';
 
-@import 'layout';
+// Base styles for elements
+@import 'base';
 
-@import 'widgets/base';
-
+// Plugins
 @import 'plugins/multiselect';
 @import 'plugins/date-picker';
+
+html,
+body {
+  font-family:
+    'Inter',
+    -apple-system,
+    system-ui,
+    BlinkMacSystemFont,
+    'Segoe UI',
+    Roboto,
+    'Helvetica Neue',
+    Tahoma,
+    Arial,
+    sans-serif !important;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-font-smoothing: antialiased;
+  height: 100%;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+}
+
+.app-wrapper {
+  @apply h-screen flex-grow-0 min-h-0 w-full;
+
+  .button--fixed-top {
+    @apply fixed ltr:right-2 rtl:left-2 top-2 flex flex-row;
+  }
+}
+
+.banner + .app-wrapper {
+  // Reduce the height of the dashboard to make room for the banner.
+  // And causing the top right green-action button to be pushed down when scrolling.
+  @apply h-[calc(100%-48px)];
+
+  .button--fixed-top {
+    @apply top-14;
+  }
+
+  .off-canvas-content {
+    .button--fixed-top {
+      @apply top-2;
+    }
+  }
+}
 
 .tooltip {
   @apply bg-slate-900 text-white py-1 px-2 z-40 text-xs rounded-md dark:bg-slate-200 dark:text-slate-900 max-w-96;
@@ -21,18 +67,6 @@
 
 #app {
   @apply h-full w-full;
-}
-
-.hide {
-  @apply hidden;
-}
-
-.n-blue-border {
-  @apply border-n-blue-border;
-}
-
-.n-blue-text {
-  @apply text-n-blue-text;
 }
 
 .custom-dashed-border {
