@@ -10,12 +10,12 @@ services:
         EXECJS_RUNTIME: Disabled
         RAILS_ENV: 'production'
         RAILS_SERVE_STATIC_FILES: 'true'
-    image: chatwoot:latest
+    image: vegavision:latest
     env_file: .env ## Change this file for customized env variables
 
   rails:
     <<: *base
-    image: chatwoot:latest
+    image: vegavision:latest
     depends_on:
       - postgres
       - redis
@@ -29,7 +29,7 @@ services:
 
   sidekiq:
     <<: *base
-    image: chatwoot:latest
+    image: vegavision:latest
     depends_on:
       - postgres
       - redis
