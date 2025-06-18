@@ -91,6 +91,8 @@ ro:
       conversations_count: Conversații
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Număr de rezoluții
     team_csv:
       team_name: Numele echipei
       conversations_count: Conversațiile contează
@@ -138,6 +140,8 @@ ro:
       instagram_story_content: '%{story_sender} menționat în poveste: '
       instagram_deleted_story_content: Această poveste nu mai este disponibilă.
       deleted: Acest mesaj a fost șters
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ ro:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} a dezactivat conversația'
