@@ -21,6 +21,13 @@ class Notion
     process_response(response)
   end
 
+  def page_blocks(page_id)
+    raise ArgumentError, 'Missing page id' if page_id.blank?
+
+    response = get("blocks/#{page_id}/children")
+    process_response(response)
+  end
+
   private
 
   def get(path)
