@@ -14,51 +14,12 @@
     }
   }
 
-  // woot tables
-  table,
-  thead,
-  th {
-    text-align: right;
-  }
-
-  // Table footer
-  .footer {
-    .page-meta {
-      direction: initial;
-    }
-  }
-
   // Wizard box
   .wizard-box {
     direction: initial;
   }
 
-  // Conversation list
   .conversations-list-wrap {
-    border-right: 0;
-
-    .conversation {
-      .conversation--meta {
-        left: 1rem;
-        right: unset;
-
-        .unread {
-          margin-left: unset;
-          margin-right: auto;
-        }
-      }
-
-      .assignee-label {
-        margin-left: 0;
-        margin-right: var(--space-one);
-      }
-
-      .show-more--button {
-        margin: unset;
-        transform: rotate(180deg);
-      }
-    }
-
     // Bulk actions
     .bulk-action__container {
       .triangle {

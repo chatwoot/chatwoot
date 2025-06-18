@@ -130,7 +130,7 @@ export default {
           <table class="table w-full table-striped mt-4">
             <thead class="thead-dark">
               <tr
-                class="[&>th]:font-semibold [&>th]:tracking-[1px] [&>th]:text-left [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+                class="[&>th]:font-semibold [&>th]:tracking-[1px] ltr:[&>th]:text-left rtl:[&>th]:text-right [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
               >
                 <th scope="col" />
                 <th scope="col" />
