@@ -85,7 +85,7 @@ const action = computed(() => ({
   height: 100%;
   z-index: 1000;
   padding: 0.25rem;
-  background: var(--b-800);
+  @apply bg-n-background;
 
   iframe {
     width: 100%;

@@ -246,7 +246,10 @@ export default {
               @close="onTouch"
               @tag="addTagValue"
             />
-            <label v-show="isMultiselectInvalid" class="error-message">
+            <label
+              v-show="isMultiselectInvalid"
+              class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+            >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
@@ -302,20 +305,6 @@ export default {
 
 .multiselect--wrap {
   margin-bottom: 1rem;
-
-  .error-message {
-    color: var(--r-400);
-    font-size: 0.875rem;
-    font-weight: 400;
-  }
-
-  .invalid {
-    ::v-deep {
-      .multiselect__tags {
-        border: 1px solid var(--r-400);
-      }
-    }
-  }
 }
 
 ::v-deep {

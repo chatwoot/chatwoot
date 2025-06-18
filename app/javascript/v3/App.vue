@@ -50,10 +50,6 @@ export default {
 @tailwind utilities;
 
 @import '../dashboard/assets/scss/next-colors';
-@import 'shared/assets/stylesheets/colors';
-@import 'shared/assets/stylesheets/spacing';
-@import 'shared/assets/stylesheets/font-size';
-@import 'shared/assets/stylesheets/border-radius';
 
 html,
 body {

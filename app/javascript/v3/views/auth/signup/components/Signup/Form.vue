@@ -221,8 +221,7 @@ export default {
 .h-captcha--box {
   &::v-deep .error {
     iframe {
-      border: 1px solid var(--r-500);
-      border-radius: 0.3125rem;
+      @apply rounded-md border border-n-ruby-8 dark:border-n-ruby-8;
     }
   }
 }

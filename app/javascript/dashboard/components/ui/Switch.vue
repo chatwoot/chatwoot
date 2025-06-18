@@ -46,7 +46,7 @@ export default {
   width: 2.125rem;
 
   &.active {
-    background-color: var(--w-500);
+    @apply bg-n-brand;
   }
 
   &.small {

@@ -123,13 +123,7 @@ export default {
 
 .macro__node:not(:last-child):not(.sortable-chosen):after,
 .macros__nodes-draggable:after {
-  content: '';
-  position: absolute;
-  height: 2rem;
-  width: 0.25rem;
-  margin-left: 1.5rem;
-
-  border-left: 1px dashed var(--s-500);
+  @apply border-l dark:border-n-blue-11 border-n-blue-7 border-dashed ltr:ml-6 rtl:mr-6 absolute h-8 w-1 content-[""];
 }
 
 .macros__nodes-draggable {
@@ -144,7 +138,6 @@ export default {
     left: -1.5rem;
     top: 0.25rem;
     cursor: move;
-    color: var(--s-400);
   }
 }
 </style>

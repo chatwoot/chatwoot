@@ -136,10 +136,4 @@ export default {
     position: relative;
   }
 }
-
-.error {
-  color: var(--r-500);
-  font-size: 0.75rem;
-  font-weight: 500;
-}
 </style>

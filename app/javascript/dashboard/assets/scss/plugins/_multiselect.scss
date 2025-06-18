@@ -17,6 +17,10 @@
     @apply mb-4;
   }
 
+  &.invalid .multiselect__tags {
+    @apply border-0 outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
+  }
+
   &.multiselect--disabled {
     @apply opacity-50  rounded-lg cursor-not-allowed pointer-events-auto;
 

@@ -154,7 +154,7 @@ export default {
 <template>
   <li
     v-if="shouldShowSuggestions"
-    class="label-suggestion right"
+    class="label-suggestion right list-none"
     @mouseover="isHovered = true"
     @mouseleave="isHovered = false"
   >
@@ -180,9 +180,7 @@ export default {
             <woot-label
               variant="dashed"
               v-bind="label"
-              :bg-color="
-                selectedLabels.includes(label.title) ? 'var(--w-100)' : ''
-              "
+              :bg-color="selectedLabels.includes(label.title) ? '#2781F6' : ''"
             />
           </button>
           <NextButton
@@ -276,9 +274,7 @@ export default {
   }
 
   .label-suggestion--title {
-    color: var(--b-600);
-    margin-top: 0.125rem;
-    font-size: 0.625rem;
+    @apply text-n-slate-11 mt-0.5 text-xxs;
   }
 }
 </style>
