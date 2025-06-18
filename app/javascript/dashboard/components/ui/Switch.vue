@@ -58,26 +58,26 @@ export default {
       width: var(--space-one);
 
       &.active {
-        transform: translate(var(--space-small), var(--space-zero));
+        @apply ltr:translate-x-[0.5rem] ltr:translate-y-0 rtl:translate-x-[-0.5rem] rtl:translate-y-0;
       }
     }
   }
 
   span {
     @apply bg-white dark:bg-slate-900;
-    --space-one-point-five: 0.9375rem;
+
     border-radius: 100%;
     box-shadow: var(--toggle-button-box-shadow);
     display: inline-block;
-    height: var(--space-one-point-five);
+    height: 0.9375rem;
     transform: translate(0, 0);
     transition-duration: 200ms;
     transition-property: transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    width: var(--space-one-point-five);
+    width: 0.9375rem;
 
     &.active {
-      transform: translate(var(--space-one-point-five), var(--space-zero));
+      @apply ltr:translate-x-[0.9375rem] ltr:translate-y-0 rtl:translate-x-[-0.9375rem] rtl:translate-y-0;
     }
   }
 }

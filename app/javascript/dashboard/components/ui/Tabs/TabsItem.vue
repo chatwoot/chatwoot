@@ -44,7 +44,7 @@ const onTabClick = event => {
 
 <template>
   <li
-    class="flex-shrink-0 my-0 mx-2 first:ml-0 last:mr-0 hover:text-n-slate-12"
+    class="flex-shrink-0 my-0 mx-2 ltr:first:ml-0 rtl:first:mr-0 ltr:last:mr-0 rtl:last:ml-0 hover:text-n-slate-12"
   >
     <a
       class="flex items-center flex-row border-b select-none cursor-pointer text-sm relative top-[1px] transition-[border-color] duration-[150ms] ease-[cubic-bezier(0.37,0,0.63,1)]"

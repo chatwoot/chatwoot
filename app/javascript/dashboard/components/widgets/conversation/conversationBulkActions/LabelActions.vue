@@ -139,7 +139,7 @@ export default {
 }
 
 .labels-container {
-  @apply absolute right-2 top-12 origin-top-right w-auto z-20 max-w-[15rem] min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
+  @apply absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 max-w-[15rem] min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
 
   .header {
     @apply p-2.5;
@@ -158,8 +158,7 @@ export default {
   }
 
   .triangle {
-    right: var(--triangle-position);
-    @apply block z-10 absolute text-left -top-3;
+    @apply block z-10 absolute text-left -top-3 ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
     svg path {
       @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
@@ -190,7 +189,7 @@ ul {
     }
 
     .label-checkbox {
-      @apply my-0 mr-2.5 ml-0;
+      @apply my-0 ltr:mr-2.5 rtl:ml-2.5;
     }
 
     .label-title {

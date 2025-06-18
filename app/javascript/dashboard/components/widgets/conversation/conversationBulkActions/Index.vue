@@ -262,15 +262,6 @@ export default {
 </template>
 
 <style scoped lang="scss">
-// For RTL direction view
-.app-rtl--wrapper {
-  .bulk-action__actions {
-    ::v-deep .button--only-icon:last-child {
-      margin-right: var(--space-smaller);
-    }
-  }
-}
-
 .bulk-action__container {
   @apply p-4 relative border-b border-solid border-n-strong dark:border-n-weak;
 }

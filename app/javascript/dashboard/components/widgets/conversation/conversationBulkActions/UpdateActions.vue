@@ -68,7 +68,7 @@ const actionLabel = key => {
 <template>
   <div
     v-on-clickaway="onClose"
-    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md right-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
+    class="absolute z-20 w-auto origin-top-right border border-solid rounded-lg shadow-md ltr:right-2 rtl:left-2 top-12 bg-n-alpha-3 backdrop-blur-[100px] border-n-weak"
   >
     <div
       class="right-[var(--triangle-position)] block z-10 absolute text-left -top-3"
@@ -96,7 +96,7 @@ const actionLabel = key => {
               ghost
               sm
               slate
-              class="!w-full ltr:!justify-start rtl:!justify-end"
+              class="!w-full !justify-start"
               :icon="action.icon"
               :label="actionLabel(action.key)"
               @click="updateConversations(action.key)"

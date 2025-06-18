@@ -181,7 +181,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__agents {
-  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
+  @apply max-w-[75%] absolute ltr:right-2 rtl:left-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
   .header {
     @apply p-2.5;
 
@@ -207,8 +207,7 @@ export default {
     }
   }
   .triangle {
-    right: var(--triangle-position);
-    @apply block z-10 absolute -top-3 text-left;
+    @apply block z-10 absolute -top-3 text-left ltr:right-[--triangle-position] rtl:left-[--triangle-position];
 
     svg path {
       @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
