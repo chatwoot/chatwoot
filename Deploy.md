@@ -64,13 +64,13 @@ To publish your custom app container:
 
 ```bash
 # Tag the built image
-docker tag chatwoot:latest vegavision/chatwoot:latest
+docker tag vegavision:latest charlesmbv/vegavision:latest
 
 # Log in to Docker Hub (if not already)
 docker login
 
 # Push the image to your repository
-docker push vegavision/chatwoot:latest
+docker push charlesmbv/vegavision:latest
 ```
 
 ---
