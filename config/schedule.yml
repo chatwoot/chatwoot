@@ -55,6 +55,6 @@ transaction_timeout_job:
 
 reset_subscription_usage:
   # cron: "0 17 * * *" # At 17:00
-  cron: "0 */2 * * *" # At minute 0 past every 2nd hour
+  cron: "<%= ENV['RESET_SUBSCRIPTION_USAGE_JOB_CRON'] || '0 */2 * * *' %>" # Default At minute 0 past every 2nd hour
   class: "ResetSubscriptionUsageJob"
   queue: scheduled_jobs

@@ -142,17 +142,33 @@ class Api::V1::SubscriptionsController < Api::BaseController
   end
 
   def histories
-    # @transactions = @account.transactions.order(created_at: :desc)
-    # render json: @transactions
     @transactions = @account.transactions
       .includes(:subscriptions)
       .order(created_at: :desc)
 
-    render json: @transactions.as_json(include: {
-      subscriptions: {
-        only: [:id, :plan_name, :starts_at, :ends_at, :status]
-      }
-    })
+    user_data = current_user.as_json(only: [:email, :name, :phone])
+
+    transactions_json = @transactions.map do |transaction|
+      transaction_data = transaction.as_json(include: {
+        subscriptions: {
+          only: [:id, :plan_name, :starts_at, :ends_at, :status]
+        }
+      })
+
+      # Transformasi payment_method
+      payment_label = case transaction.payment_method
+                      when 'M2' then 'Virtual Account'
+                      when 'CC' then 'Credit Card'
+                      else transaction.payment_method
+                      end
+
+      transaction_data.merge(
+        payment_method: payment_label,
+        user: user_data
+      )
+    end
+
+    render json: transactions_json
   end
   
   private
