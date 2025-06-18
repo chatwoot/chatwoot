@@ -3,8 +3,8 @@ require 'resolv'
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
 
-  before_action :fetch_portal, except: [:index, :create, :check]
-  before_action :check_authorization, except: [:check]  # Skip check_authorization for the check action
+  before_action :fetch_portal, except: [:index, :create, :check, :remove_domain]
+  before_action :check_authorization, except: [:check, :remove_domain]  # Skip check_authorization for the check action
   before_action :set_current_page, only: [:index]
 
   def index
@@ -67,6 +67,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     end
     begin
       domain_ip = Resolv.getaddress(params[:domain])
+
       if domain_ip == current_ip
         DomainConfigJob.perform_later(params[:domain], params[:initialCustomDomain])
         render json: { message: true,error:'' }, status: :ok
@@ -80,9 +81,6 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def remove_domain
     DomainConfigJob.perform_later(nil, params[:initialCustomDomain])
-    @portal.custom_domain = nil
-    @portal.save
-
     render json: { message: true,error:'' }, status: :ok
   end
 
