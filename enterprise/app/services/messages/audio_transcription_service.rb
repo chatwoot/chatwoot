@@ -20,7 +20,10 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   private
 
   def can_transcribe?
-    account.audio_transcriptions.present? && account.usage_limits[:captain][:responses][:current_available].positive?
+    return false if account.feature_enabled?('captain_integration')
+    return false if account.audio_transcriptions.blank?
+
+    account.usage_limits[:captain][:responses][:current_available].positive?
   end
 
   def fetch_audio_file
