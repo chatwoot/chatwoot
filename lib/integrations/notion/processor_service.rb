@@ -15,7 +15,7 @@ class Integrations::Notion::ProcessorService
     format_page(response)
   end
 
-  def page_md(page_id)
+  def full_page(page_id)
     # Get page metadata
     page_data = page(page_id)
     return page_data if page_data[:error]
@@ -28,8 +28,14 @@ class Integrations::Notion::ProcessorService
     content_md = NotionToMarkdown.new.convert(blocks_response['results'])
     title_md = page_data['title'] ? "# #{page_data['title']}\n\n" : ''
 
-    # Add markdown to page data
-    page_data.merge('md' => "#{title_md}#{content_md}")
+    # Get child pages
+    child_pages = extract_child_page_ids(blocks_response['results'])
+
+    # Add markdown and child pages to page data
+    page_data.merge(
+      'md' => "#{title_md}#{content_md}",
+      'child_pages' => child_pages
+    )
   end
 
   private
@@ -60,6 +66,24 @@ class Integrations::Notion::ProcessorService
     end
 
     nil
+  end
+
+  def extract_child_page_ids(blocks)
+    child_pages = []
+
+    blocks.each do |block|
+      if block['type'] == 'child_page'
+        child_pages << {
+          'id' => block['id'],
+          'title' => block['child_page']['title']
+        }
+      end
+
+      # Recursively check nested blocks
+      child_pages.concat(extract_child_page_ids(block['children'])) if block['has_children'] && block['children']
+    end
+
+    child_pages
   end
 
   def notion_hook
