@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Prístupový token",
         "NOTE": "Tento token môžete použiť, ak vytvárate integráciu založenú na rozhraní API",
-        "COPY": "Copy"
+        "COPY": "Copy",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "Offline"
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Vaša e-mailová adresa",
@@ -280,6 +286,7 @@
     "REPORTS": "Reports",
     "SETTINGS": "Nastavenia",
     "CONTACTS": "Kontakty",
+    "ACTIVE": "Active",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

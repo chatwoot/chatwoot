@@ -91,6 +91,8 @@ pt_BR:
       conversations_count: Nº de Conversas
       avg_first_response_time: Tempo médio de primeira resposta
       avg_resolution_time: Tempo médio de resolução
+      avg_reply_time: Avg reply time
+      resolution_count: Contagem de Resolução
     team_csv:
       team_name: Nome do Time
       conversations_count: Contagem de conversas
@@ -133,17 +135,19 @@ pt_BR:
     no_content: 'Sem conteúdo'
   conversations:
     captain:
-      handoff: 'Transferindo para outro agente para mais assistência.'
+      handoff: 'Transferindo para que outro agente dê assistência.'
     messages:
       instagram_story_content: '%{story_sender} mencionou você na conversa: '
       instagram_deleted_story_content: Este Story não está mais disponível.
       deleted: Esta mensagem foi excluída
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
       captain:
         resolved: 'A conversa foi marcada como resolvida por %{user_name} por inatividade'
-        open: 'A conversa foi marcada como aberta por %{user_name}'
+        open: 'A conversa foi aberta por %{user_name}'
       status:
         resolved: 'Conversa foi marcada como resolvida por %{user_name}'
         contact_resolved: 'A conversa foi resolvida por %{contact_name}'
@@ -172,6 +176,12 @@ pt_BR:
       sla:
         added: '%{user_name} adicionou política de SLA %{sla_name}'
         removed: '%{user_name} removeu a política de SLA %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
       muted: '%{user_name} silenciou a conversa'
       unmuted: '%{user_name} reativou a conversa'
       auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
@@ -199,33 +209,41 @@ pt_BR:
     online:
       delete: '%{contact_name} está Online, por favor, tente novamente mais tarde'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Painel de Aplicativos'
       description: 'O Painel de Aplicativos permite que você crie e incorpore aplicativos que exibem informações, pedidos ou histórico de pagamento, fornecendo mais contexto aos seus agentes de suporte ao cliente.'
     dyte:
       name: 'Dyte'
+      short_description: 'Iniciar chamadas de vídeo/voz com clientes diretamente do Chatwoot.'
       description: 'Dyte é um produto que integra as funcionalidades de áudio e vídeo em sua aplicação. Com esta integração, os seus agentes podem iniciar chamadas de vídeo/voz com seus clientes diretamente do chatwoot.'
       meeting_name: '%{agent_name} começou a reunião'
     slack:
       name: 'Slack'
-      description: 'Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack.'
+      short_description: 'Receba notificações e responda as conversas diretamente no Slack.'
+      description: "Integre Chatwoot com Slack para manter seu time em sincronia. Essa integração permite que você receba notificações de novas conversas e as responda diretamente na interface do Slack."
     webhooks:
       name: 'Webhooks'
       description: 'Eventos webhook fornecem atualizações sobre atividades em tempo real na sua conta Chatwoot. Você pode se inscrever em seus eventos preferidos, e o Chatwoot enviará as chamadas HTTP com as atualizações.'
     dialogflow:
       name: 'Dialogflow'
+      short_description: 'Crie chatbots para lidar com as consultas iniciais antes de transferir para agentes.'
       description: 'Construa chatbots com o Dialogflow e integre-os facilmente na sua caixa de entrada. Esses bots podem lidar com as consultas iniciais antes de transferi-las para um agente de atendimento ao cliente.'
     google_translate:
       name: 'Tradutor do Google'
-      description: 'Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador.'
+      short_description: 'Traduzir automaticamente mensagens de clientes para agentes.'
+      description: "Integre o Google Tradutor para ajudar os agentes a traduzir facilmente as mensagens dos clientes. Esta integração detecta automaticamente o idioma e o converte para o idioma preferido do agente ou do administrador."
     openai:
       name: 'OpenAI'
+      short_description: 'Sugestões, resumos e aprimoramento de mensagem e resposta com IA.'
       description: 'Aproveite o poder dos grandes modelos de linguagem do OpenAI com recursos como sugestões de resposta, resumo, reformulação de mensagens, verificação ortográfica e classificação de rótulos.'
     linear:
       name: 'Linear'
+      short_description: 'Crie e vincule issues do Linear diretamente de conversas.'
       description: 'Crie issues em Linear diretamente da sua janela de conversa. Alternativamente, vincule as issues lineares existentes para um processo de rastreamento de problemas mais simples e eficiente.'
     shopify:
       name: 'Shopify'
+      short_description: 'Acessar detalhes do pedido e dados de clientes da sua loja Shopify.'
       description: 'Conecte sua loja Shopify para acessar detalhes de pedidos, informações de clientes e dados de produtos diretamente em suas conversas e ajudar sua equipe de suporte a fornecer um atendimento mais rápido e contextual aos seus clientes.'
     leadsquared:
       name: 'LeadSquared'
@@ -234,6 +252,11 @@ pt_BR:
   captain:
     copilot_error: 'Conecte com um assistente a esta caixa de entrada para usar Copilot'
     copilot_limit: 'Você está sem créditos de Copilot. Pode comprar mais créditos na seção de faturamento.'
+    copilot:
+      using_tool: 'Usando a ferramenta %{function_name}'
+      completed_tool_call: 'Uso da ferramenta %{function_name} concluída'
+      invalid_tool_call: 'Ferramenta inválida'
+      tool_not_available: 'Ferramenta indisponível'
   public_portal:
     search:
       search_placeholder: Pesquisar por artigo por título ou corpo...
@@ -259,6 +282,7 @@ pt_BR:
       made_with: Criado com
     header:
       go_to_homepage: Site
+      visit_website: Visit website
       appearance:
         system: Sistema
         light: Claro

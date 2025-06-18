@@ -7,13 +7,16 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     Widget,
     InputRadioGroup,
     NextButton,
+    Editor,
   },
   props: {
     inbox: {
@@ -71,6 +74,7 @@ export default {
           checked: false,
         },
       ],
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -310,7 +314,7 @@ export default {
                 )
               "
             />
-            <woot-input
+            <Editor
               v-model="welcomeTagline"
               :label="
                 $t(
@@ -322,6 +326,9 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
                 )
               "
+              :max-length="255"
+              :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+              class="mb-4"
             />
             <label>
               {{

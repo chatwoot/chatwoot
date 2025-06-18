@@ -91,6 +91,8 @@ ru:
       conversations_count: Количество диалогов
       avg_first_response_time: Среднее время первого ответа
       avg_resolution_time: Среднее время завершения
+      avg_reply_time: Avg reply time
+      resolution_count: Количество завершенных
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
@@ -138,6 +140,8 @@ ru:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
       deleted: Это сообщение было удалено
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
@@ -172,6 +176,12 @@ ru:
       sla:
         added: '%{user_name} добавил политику SLA %{sla_name}'
         removed: '%{user_name} удалил политику SLA %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} заглушил(а) этот разговор'
       unmuted: '%{user_name} включил(а) уведомления для разговора'
       auto_resolution_message: 'Разговор закрывается, поскольку он был неактивен в течение длительного времени. Пожалуйста, начните новый разговор, если потребуется дополнительная помощь.'
@@ -199,33 +209,41 @@ ru:
     online:
       delete: '%{contact_name} в сети, повторите попытку позже'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Панель приложений'
       description: 'Панель приложений позволяет вам создавать и вставлять приложения, отображающие информацию о пользователе, заказы или историю платежей, обеспечивая больший контекст для агентов поддержки.'
     dyte:
       name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
       description: 'Dyte - это продукт, который интегрирует функции аудио и видео в ваше приложение. С помощью этой интеграции ваши агенты могут начать видео/голосовые звонки с вашими клиентами прямо из Chatwoot.'
       meeting_name: '%{agent_name} приступил к встрече'
     slack:
       name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
       description: "Интегрируйте Chatwoot с Slack для синхронизации команды. Эта интеграция позволяет получать уведомления о новых разговорах и отвечать на них непосредственно в интерфейсе Slack."
     webhooks:
       name: 'Webhooks'
       description: 'События Webhook предоставляют обновления об активности в вашем аккаунте Chatwoot в режиме реального времени. Вы можете подписаться на ваши предпочтительные события, и Chatwoot будет отправлять вам HTTP-ответы с обновлениями.'
     dialogflow:
       name: 'Диалог'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
       description: 'Создайте чатботов с помощью Dialogflow и легко интегрируйте их в ваш источник. Эти боты могут обрабатывать начальные запросы, прежде чем передавать их агенту поддержки.'
     google_translate:
       name: 'Google Перевод'
+      short_description: 'Automatically translate customer messages for agents.'
       description: "Интегрируйте Google Translate, чтобы помочь агентам легко переводить сообщения клиентов. Эта интеграция автоматически определяет язык и преобразует его в язык, предпочтительный для агента или администратора."
     openai:
       name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
       description: 'Используйте LLM OpenAI с такими функциями, как предложение ответов, резюмирование, перефразирование сообщений, проверка орфографии и подстановка категорий.'
     linear:
       name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Создавайте или прикрепляйте уже существующие задачи в Linear непосредственно из окна диалога для более упорядоченного и эффективного процесса отслеживания проблем.'
     shopify:
       name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
     leadsquared:
       name: 'LeadSquared'
@@ -234,6 +252,11 @@ ru:
   captain:
     copilot_error: 'Пожалуйста, подключите ассистента к этому источнику входящих для использования Copilot'
     copilot_limit: 'У вас закончились кредиты для Copilot. Вы можете купить дополнительные кредиты в разделе биллинга.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
   public_portal:
     search:
       search_placeholder: Поиск статьи по названию или содержанию...
@@ -259,6 +282,7 @@ ru:
       made_with: Сделано с
     header:
       go_to_homepage: Сайт
+      visit_website: Visit website
       appearance:
         system: Система
         light: Светлая

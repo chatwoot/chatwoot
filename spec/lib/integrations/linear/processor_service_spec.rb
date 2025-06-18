@@ -76,20 +76,33 @@ describe Integrations::Linear::ProcessorService do
         description: 'Issue description',
         assignee_id: 'user1',
         priority: 2,
+        state_id: 'state1',
         label_ids: %w[bug]
       }
     end
     let(:issue_response) do
       {
-        'issueCreate' => { 'issue' => { 'id' => 'issue1', 'title' => 'Issue title' } }
+        'issueCreate' => {
+          'issue' => {
+            'id' => 'issue1',
+            'title' => 'Issue title',
+            'identifier' => 'ENG-123'
+          }
+        }
       }
     end
 
     context 'when Linear client returns valid data' do
-      it 'returns parsed issue data' do
+      it 'returns parsed issue data with identifier' do
         allow(linear_client).to receive(:create_issue).with(params).and_return(issue_response)
         result = service.create_issue(params)
-        expect(result).to eq({ data: { id: 'issue1', title: 'Issue title' } })
+        expect(result).to eq({
+                               data: {
+                                 id: 'issue1',
+                                 title: 'Issue title',
+                                 identifier: 'ENG-123'
+                               }
+                             })
       end
     end
 
@@ -132,13 +145,13 @@ describe Integrations::Linear::ProcessorService do
 
   describe '#unlink_issue' do
     let(:link_id) { 'attachment1' }
-    let(:unlink_response) { { data: { link_id: link_id } } }
+    let(:linear_client_response) { { success: true } }
 
     context 'when Linear client returns valid data' do
-      it 'returns parsed unlink data' do
-        allow(linear_client).to receive(:unlink_issue).with(link_id).and_return(unlink_response)
+      it 'returns unlink data with link_id' do
+        allow(linear_client).to receive(:unlink_issue).with(link_id).and_return(linear_client_response)
         result = service.unlink_issue(link_id)
-        expect(result).to eq(unlink_response)
+        expect(result).to eq({ data: { link_id: link_id } })
       end
     end
 
@@ -203,6 +216,61 @@ describe Integrations::Linear::ProcessorService do
         allow(linear_client).to receive(:linked_issues).with(url).and_return(error_response)
         result = service.linked_issues(url)
         expect(result).to eq(error_response)
+      end
+    end
+  end
+
+  # Tests specifically for activity message integration
+  describe 'activity message data compatibility' do
+    let(:linear_client_response) { { success: true } }
+
+    describe '#create_issue' do
+      it 'includes identifier field needed for activity messages' do
+        params = { title: 'Test Issue', team_id: 'team1' }
+        response = {
+          'issueCreate' => {
+            'issue' => {
+              'id' => 'internal_id_123',
+              'title' => 'Test Issue',
+              'identifier' => 'ENG-456'
+            }
+          }
+        }
+
+        allow(linear_client).to receive(:create_issue).with(params).and_return(response)
+        result = service.create_issue(params)
+
+        expect(result[:data]).to have_key(:identifier)
+        expect(result[:data][:identifier]).to eq('ENG-456')
+      end
+    end
+
+    describe '#link_issue' do
+      it 'returns issue_id in response for activity messages' do
+        link = 'https://example.com'
+        issue_id = 'ENG-789'
+        title = 'Test Issue'
+        response = {
+          'attachmentLinkURL' => {
+            'attachment' => { 'id' => 'attachment123' }
+          }
+        }
+
+        allow(linear_client).to receive(:link_issue).with(link, issue_id, title).and_return(response)
+        result = service.link_issue(link, issue_id, title)
+
+        expect(result[:data][:id]).to eq(issue_id)
+      end
+    end
+
+    describe '#unlink_issue' do
+      it 'returns structured data for activity messages' do
+        link_id = 'attachment456'
+
+        allow(linear_client).to receive(:unlink_issue).with(link_id).and_return(linear_client_response)
+        result = service.unlink_issue(link_id)
+
+        expect(result).to eq({ data: { link_id: link_id } })
       end
     end
   end

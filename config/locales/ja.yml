@@ -91,6 +91,8 @@ ja:
       conversations_count: 会話数
       avg_first_response_time: 初回応答の平均時間
       avg_resolution_time: 解決までの平均時間
+      avg_reply_time: Avg reply time
+      resolution_count: 処理件数
     team_csv:
       team_name: チーム名
       conversations_count: 会話回数
@@ -138,6 +140,8 @@ ja:
       instagram_story_content: '%{story_sender} さんがストーリーであなたについて言及しました: '
       instagram_deleted_story_content: このストーリーはもう利用できません。
       deleted: このメッセージは削除されました
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'エラーコード: %{error_code}'
     activity:
@@ -172,6 +176,12 @@ ja:
       sla:
         added: '%{user_name} がSLAポリシー "%{sla_name}" を追加しました'
         removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} が会話をミュートしました'
       unmuted: '%{user_name} が会話のミュートを解除しました'
       auto_resolution_message: '会話がしばらく非アクティブのため、解決済みとして処理します。引き続きサポートが必要な場合は、新しい会話を開始してください。'
@@ -199,33 +209,41 @@ ja:
     online:
       delete: '%{contact_name} はオンラインです。後でもう一度お試しください'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'ダッシュボードアプリ'
       description: 'ダッシュボードアプリを使用すると、ユーザー情報、注文、または支払い履歴を表示するアプリケーションを作成して埋め込むことができ、カスタマーサポートエージェントにより多くのコンテキストを提供します。'
     dyte:
       name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
       description: 'Dyteは、オーディオおよびビデオ機能をアプリケーションに統合する製品です。この統合により、エージェントはChatwootから直接顧客とビデオ/音声通話を開始できます。'
       meeting_name: '%{agent_name} がミーティングを開始しました'
     slack:
       name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
       description: "ChatwootとSlackを統合して、チームを同期させます。この統合により、新しい会話の通知を受け取り、Slackのインターフェース内で直接応答することができます。"
     webhooks:
       name: 'Webhooks'
       description: 'Webhookイベントは、Chatwootアカウント内のアクティビティに関するリアルタイムの更新を提供します。希望するイベントを購読すると、Chatwootは更新情報を含むHTTPコールバックを送信します。'
     dialogflow:
       name: 'Dialogflow'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
       description: 'Dialogflowでチャットボットを構築し、それらを受信トレイに簡単に統合します。これらのボットは、カスタマーサービスエージェントに転送する前に初期の問い合わせを処理できます。'
     google_translate:
       name: 'Google Translate'
+      short_description: 'Automatically translate customer messages for agents.'
       description: "Google翻訳を統合して、エージェントが顧客のメッセージを簡単に翻訳できるようにします。この統合は言語を自動的に検出し、エージェントまたは管理者の希望する言語に変換します。"
     openai:
       name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
       description: 'OpenAIの大規模言語モデルの力を活用して、返信の提案、要約、メッセージの言い換え、スペルチェック、ラベル分類などの機能を提供します。'
     linear:
       name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
       description: '会話ウィンドウから直接Linearに問題を作成します。あるいは、既存のLinearの問題をリンクして、より効率的な問題追跡プロセスを実現します。'
     shopify:
       name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
     leadsquared:
       name: 'LeadSquared'
@@ -234,6 +252,11 @@ ja:
   captain:
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
   public_portal:
     search:
       search_placeholder: タイトルまたは本文で記事を検索...
@@ -259,6 +282,7 @@ ja:
       made_with: 作成
     header:
       go_to_homepage: ウェブサイト
+      visit_website: Visit website
       appearance:
         system: システム
         light: ライト

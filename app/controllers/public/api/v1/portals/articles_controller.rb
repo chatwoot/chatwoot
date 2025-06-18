@@ -1,7 +1,7 @@
 class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::BaseController
   before_action :ensure_custom_domain_request, only: [:show, :index]
   before_action :portal
-  before_action :set_category, except: [:index, :show]
+  before_action :set_category, except: [:index, :show, :tracking_pixel]
   before_action :set_article, only: [:show]
   layout 'portal'
 
@@ -14,6 +14,21 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def show; end
+
+  def tracking_pixel
+    @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
+    return head :not_found unless @article
+
+    @article.increment_view_count if @article.published?
+
+    # Serve the 1x1 tracking pixel with 24-hour private cache
+    # Private cache bypasses CDN but allows browser caching to prevent duplicate views from same user
+    expires_in 24.hours, public: false
+    response.headers['Content-Type'] = 'image/png'
+
+    pixel_path = Rails.public_path.join('assets/images/tracking-pixel.png')
+    send_file pixel_path, type: 'image/png', disposition: 'inline'
+  end
 
   private
 
@@ -39,7 +54,6 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
 
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @article.increment_view_count if @article.published?
     @parsed_content = render_article_content(@article.content)
   end
 

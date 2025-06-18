@@ -116,7 +116,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
     before do
       allow(Crm::Leadsquared::Mappers::ConversationMapper).to receive(:map_conversation_activity)
-        .with(conversation)
+        .with(hook, conversation)
         .and_return(activity_note)
     end
 
@@ -180,7 +180,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
     before do
       allow(Crm::Leadsquared::Mappers::ConversationMapper).to receive(:map_transcript_activity)
-        .with(conversation)
+        .with(hook, conversation)
         .and_return(activity_note)
     end
 

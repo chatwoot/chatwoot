@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "אסימון",
         "NOTE": "משמש לחיבורי API",
-        "COPY": "עותק"
+        "COPY": "עותק",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "לא מחובר"
         },
         "SET_AVAILABILITY_SUCCESS": "זמינות הוגדרה בהצלחה",
-        "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית"
+        "SET_AVAILABILITY_ERROR": "לא ניתן להגדיר זמינות, אנא נסה שנית",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "כתובת הדוא\"ל שלך",
@@ -280,6 +286,7 @@
     "REPORTS": "דיווחים",
     "SETTINGS": "הגדרות",
     "CONTACTS": "איש קשר",
+    "ACTIVE": "פעיל",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

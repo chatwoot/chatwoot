@@ -475,4 +475,60 @@ RSpec.describe Message do
       end
     end
   end
+
+  describe '#content' do
+    let(:conversation) { create(:conversation) }
+
+    context 'when message is not input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+      it 'returns original content' do
+        expect(message.content).to eq('Regular message')
+      end
+    end
+
+    context 'when message is input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience') }
+
+      context 'when inbox is web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(true)
+        end
+
+        it 'returns original content without survey URL' do
+          expect(message.content).to eq('Rate your experience')
+        end
+      end
+
+      context 'when inbox is not web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(false)
+        end
+
+        it 'returns only the stored content (clean for dashboard)' do
+          expect(message.content).to eq('Rate your experience')
+        end
+
+        it 'returns only the base content without URL when survey_url stored separately' do
+          message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
+          expect(message.content).to eq('Rate your experience')
+        end
+      end
+    end
+  end
+
+  describe '#outgoing_content' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+    it 'delegates to MessageContentPresenter' do
+      presenter = instance_double(MessageContentPresenter)
+      allow(MessageContentPresenter).to receive(:new).with(message).and_return(presenter)
+      allow(presenter).to receive(:outgoing_content).and_return('Presented content')
+
+      expect(message.outgoing_content).to eq('Presented content')
+      expect(MessageContentPresenter).to have_received(:new).with(message)
+      expect(presenter).to have_received(:outgoing_content)
+    end
+  end
 end

@@ -33,9 +33,11 @@ class LinearAPI extends ApiClient {
     );
   }
 
-  unlinkIssue(linkId) {
+  unlinkIssue(linkId, issueIdentifier, conversationId) {
     return axios.post(`${this.url}/unlink_issue`, {
       link_id: linkId,
+      issue_id: issueIdentifier,
+      conversation_id: conversationId,
     });
   }
 

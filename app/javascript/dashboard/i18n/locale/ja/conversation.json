@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "解決する",
       "REOPEN_ACTION": "再開する",
       "OPEN_ACTION": "再開する",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "もっと見る",
       "CLOSE": "閉じる",
       "DETAILS": "詳細",
@@ -117,6 +118,11 @@
         "FAILED": "優先度を変更できませんでした。もう一度お試しください。"
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "削除"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "保留としてマークする",
       "RESOLVED": "解決済みとしてマークする",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "ラベルを割り当てる",
       "AGENTS_LOADING": "エージェントを読み込む...",
       "ASSIGN_TEAM": "チームを割り当てる",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "会話 ID {conversationId} が \"{agentName}\" に割り当てられました",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "ラベルが正常に割り当てられました",
     "ASSIGN_LABEL_FAILED": "ラベル割り当てに失敗しました",
     "CHANGE_TEAM": "会話のチームが変更されました",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "ファイルが {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB の添付ファイル制限を超えています",
     "MESSAGE_ERROR": "このメッセージを送信できません。後でもう一度お試しください",
     "SENT_BY": "送信者：",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "連絡先属性",
       "PREVIOUS_CONVERSATION": "以前の会話",
       "MACROS": "マクロ",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
