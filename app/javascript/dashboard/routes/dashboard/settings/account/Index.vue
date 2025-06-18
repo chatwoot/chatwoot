@@ -102,6 +102,9 @@ export default {
     currentAccount() {
       return this.getAccount(this.accountId) || {};
     },
+    commitLink() {
+      return `https://github.com/lixibox/chatwoot/commits/${this.globalConfig.gitSha}`;
+    },
   },
   mounted() {
     this.initializeAccount();
