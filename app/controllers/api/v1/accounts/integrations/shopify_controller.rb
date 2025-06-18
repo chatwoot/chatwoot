@@ -1,7 +1,7 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
-  before_action :setup_shopify_context, only: [:orders]
   before_action :fetch_hook, except: [:auth]
+  before_action :setup_shopify_context, only: [:orders]
   before_action :validate_contact, only: [:orders]
 
   def auth
@@ -22,10 +22,12 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   end
 
   def orders
-    customers = fetch_customers
-    return render json: { orders: [] } if customers.empty?
+    if !contact.custom_attributes['shopify_customer_id'].present?
+      render json: {orders: []} 
+      return
+    end
 
-    orders = fetch_orders(customers.first['id'])
+    orders = fetch_orders(contact.custom_attributes['shopify_customer_id'])
     render json: { orders: orders }
   rescue ShopifyAPI::Errors::HttpResponseError => e
     render json: { error: e.message }, status: :unprocessable_entity
@@ -50,20 +52,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
 
   def fetch_hook
     @hook = Integrations::Hook.find_by!(account: Current.account, app_id: 'shopify')
-  end
-
-  def fetch_customers
-    query = []
-    query << "email:#{contact.email}" if contact.email.present?
-    query << "phone:#{contact.phone_number}" if contact.phone_number.present?
-
-    shopify_client.get(
-      path: 'customers/search.json',
-      query: {
-        query: query.join(' OR '),
-        fields: 'id,email,phone'
-      }
-    ).body['customers'] || []
+    Rails.logger.info("Hook was fetched #{@hook}")
   end
 
   def fetch_orders(customer_id)
@@ -81,26 +70,18 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
     end
   end
 
-  # def setup_shopify_context
-  #   return if client_id.blank? || client_secret.blank?
 
-  #   ShopifyAPI::Context.setup(
-  #     api_key: client_id,
-  #     api_secret_key: client_secret,
-  #     api_version: '2025-01'.freeze,
-  #     scope: REQUIRED_SCOPES.join(','),
-  #     is_embedded: true,
-  #     is_private: false
-  #   )
-  # end
+  def setup_shopify_context
+    @shopify_service =  Shopify::ClientService.new(Current.account)
+  end
 
-  # def shopify_session
-  #   ShopifyAPI::Auth::Session.new(shop: @hook.reference_id, access_token: @hook.access_token)
-  # end
+  def shopify_session
+    @shopify_service.shopify_sesion
+  end
 
-  # def shopify_client
-  #   @shopify_client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
-  # end
+  def shopify_client
+    @shopify_service.shopify_client
+  end
 
   def validate_contact
     return unless contact.blank? || (contact.email.blank? && contact.phone_number.blank?)

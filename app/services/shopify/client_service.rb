@@ -1,17 +1,21 @@
 # app/services/shopify_client_service.rb
-class ShopifyClientService
+class Shopify::ClientService
   include Shopify::IntegrationHelper
-  def initialize(shop_domain:, access_token:)
-    @shop_domain = shop_domain
-    @access_token = access_token
+
+  def initialize(account_id)
+    fetch_hook(account_id)
+    @shop_domain = @hook.reference_id
+    @access_token = @hook.access_token
     setup_context
   end
 
-  def client
-    @client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
+  def fetch_hook(account_id)
+    @hook = Integrations::Hook.find_by!(account: account_id, app_id: 'shopify')
   end
 
-  private
+  def shopify_client
+    @client ||= ShopifyAPI::Clients::Rest::Admin.new(session: shopify_session)
+  end
 
   def setup_context
     return if client_id.blank? || client_secret.blank?

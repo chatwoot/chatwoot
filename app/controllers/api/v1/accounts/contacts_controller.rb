@@ -139,7 +139,8 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
 
   def update
     @contact.assign_attributes(contact_update_params)
-    enrich_data(contact_update_params)
+    # enrich_data(contact_update_params) // TODO: Re-enable
+    populate_shopify_customer_data(contact_update_params)
     @contact.save!
     process_avatar_from_url
   end
@@ -147,6 +148,10 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   def enrich_data(params)
     EnrichmentJob.perform_later(id: @contact.id, email: params[:email], name: params[:name],
                                 company_name: params[:additional_attributes]&.dig('company_name'))
+  end
+
+  def populate_shopify_customer_data(params)
+    PopulateShopifyContactDataJob.perform_later(id: @contact.id, email: params[:email], phone_number: params[:phone_number], account_id: Current.account)
   end
 
   def destroy
