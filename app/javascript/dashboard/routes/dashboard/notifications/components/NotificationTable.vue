@@ -66,7 +66,7 @@ export default {
         @click="onMarkAllDoneClick"
       />
     </div>
-    <table class="woot-table notifications-table overflow-auto">
+    <table class="notifications-table overflow-auto">
       <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"
@@ -74,9 +74,10 @@ export default {
           :class="{
             'is-unread': notificationItem.read_at === null,
           }"
+          class="border-b border-n-weak"
           @click="() => onClickNotification(notificationItem)"
         >
-          <td>
+          <td class="p-2.5 text-n-slate-12">
             <div
               class="overflow-hidden flex-view notification-contant--wrap whitespace-nowrap text-ellipsis"
             >
@@ -109,12 +110,12 @@ export default {
             <Thumbnail
               v-if="notificationItem.primary_actor.meta.assignee"
               :src="notificationItem.primary_actor.meta.assignee.thumbnail"
-              size="36px"
+              size="28px"
               :username="notificationItem.primary_actor.meta.assignee.name"
             />
           </td>
           <td>
-            <div class="text-right timestamp--column">
+            <div class="text-right timestamp--column ltr:mr-2 rtl:ml-2">
               <span class="notification--created-at">
                 {{ dynamicTime(notificationItem.last_activity_at) }}
               </span>

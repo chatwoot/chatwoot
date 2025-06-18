@@ -42,7 +42,7 @@ export default {
     @end="onDragEnd"
   >
     <template #item="{ element: item }">
-      <tr>
+      <tr class="border-b border-n-weak">
         <td class="pre-chat-field"><fluent-icon icon="drag" /></td>
         <td class="pre-chat-field">
           <woot-switch

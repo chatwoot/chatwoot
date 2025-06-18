@@ -73,8 +73,10 @@ export default {
 <template>
   <div>
     <div class="add-agents__header" />
-    <table class="woot-table">
-      <thead>
+    <table>
+      <thead
+        class="[&>th]:font-semibold [&>th]:tracking-[1px] [&>th]:text-left [&>th]:px-2.5 [&>th]:uppercase [&>th]:text-n-slate-12"
+      >
         <tr>
           <td class="ltr:pl-2.5 rtl:pr-2.5">
             <div class="flex items-center">
@@ -100,6 +102,7 @@ export default {
           v-for="agent in agentList"
           :key="agent.id"
           :class="agentRowClass(agent.id)"
+          class="border-b border-n-weak [&>td]:p-2.5 [&>td]:text-n-slate-12"
         >
           <td class="w-12">
             <div class="flex items-center">
