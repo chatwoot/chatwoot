@@ -26,6 +26,10 @@ const customDomainAddress = computed(
   () => props.activePortal?.custom_domain || ''
 );
 
+const slug = computed(
+  () => props.activePortal?.slug || ''
+);
+
 const updatePortalConfiguration = customDomain => {
   const portal = {
     id: props.activePortal?.id,
@@ -124,6 +128,7 @@ const removeCustomDomain = () => {
     <RemoveCustomDomainDialog
       ref="removeCustomDomainDialogRef"
       :custom-domain="customDomainAddress"
+      :id="slug"
       @remove-custom-domain="removeCustomDomain"
     />
 

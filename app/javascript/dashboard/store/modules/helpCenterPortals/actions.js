@@ -123,9 +123,9 @@ export const actions = {
     }
   },
 
-  removeDomain: async (_, { initialCustomDomain }) => {
+  removeDomain: async (_, { initialCustomDomain, id }) => {
     try {
-      const params = { initialCustomDomain };
+      const params = { initialCustomDomain, id };
       const { data } = await portalAPIs.removeDomain(params);
       return data;
     } catch (error) {

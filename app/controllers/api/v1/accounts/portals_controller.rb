@@ -80,6 +80,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def remove_domain
     DomainConfigJob.perform_later(nil, params[:initialCustomDomain])
+    @portal.custom_domain = nil
+    @portal.save
+
+    render json: { message: true,error:'' }, status: :ok
   end
 
   private

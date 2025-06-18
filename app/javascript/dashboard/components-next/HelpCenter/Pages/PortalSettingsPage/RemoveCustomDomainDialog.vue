@@ -1,18 +1,16 @@
 <script setup>
-import { ref, reactive, watch, computed } from 'vue';
+import { ref, reactive, watch } from 'vue';
 import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
-import Input from 'dashboard/components-next/input/Input.vue';
-import Button from 'dashboard/components-next/button/Button.vue';
 import { isDomain } from 'shared/helpers/Validators';
 import { useVuelidate } from '@vuelidate/core';
 import { useStore } from 'dashboard/composables/store.js';
 import { useAlert } from 'dashboard/composables';
 
 const props = defineProps({
-  mode: {
+  id: {
     type: String,
-    default: 'add',
+    required: true,
   },
   customDomain: {
     type: String,
@@ -26,12 +24,13 @@ const store = useStore();
 const { t } = useI18n();
 
 const dialogRef = ref(null);
-const errorMsg = ref(null);
 
 const removeDomain = async () => {
   try {
+    console.log(`initial custom domain ${props.initialCustomDomain} for slug ${props.id}`)
     const res = await store.dispatch('portals/removeDomain', {
       initialCustomDomain: props.customDomain,
+      id: props.id,
     });
     emit('removeCustomDomain');
     var alertMessage = t(
@@ -57,21 +56,6 @@ watch(
   () => props.customDomain,
   newVal => {
     state.domain = newVal;
-  }
-);
-
-const rules = {
-  domain: { isDomain },
-};
-
-const v$ = useVuelidate(rules, state);
-
-watch(
-  () => state.domain,
-  async () => {
-    isDomainValid.value = null;
-    errorMsg.value = null;
-    await v$.value.$validate();
   }
 );
 
