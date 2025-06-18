@@ -1,12 +1,14 @@
 @import 'shared/assets/stylesheets/animations';
 @import 'shared/assets/stylesheets/colors';
 
-@import 'reset';
+// @import 'reset';
+@import 'widget/assets/scss/reset';
 @import 'tailwindcss/base';
 @import 'tailwindcss/components';
 @import 'tailwindcss/utilities';
 @import 'shared/assets/fonts/widget_fonts';
-@import 'views/conversation';
+// @import 'views/conversation';
+@import "widget/assets/scss/views/conversation";
 
 html,
 body {
@@ -168,6 +170,7 @@ blockquote {
 
 // scss-lint:disable PropertySortOrder
 @layer base {
+
   // NEXT COLORS START
   :root {
     // slate
