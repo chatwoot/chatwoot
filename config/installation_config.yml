@@ -300,6 +300,11 @@
   locked: false
   description: 'Notion client secret'
   type: secret
+- name: NOTION_VERSION
+  display_title: 'Notion Version'
+  value: '2022-06-28'
+  locked: false
+  description: 'Notion version'
 ## ------ End of Configs added for Notion ------ ##
 
 ## ------ Configs added for Slack ------ ##
