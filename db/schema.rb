@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_05_111405) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_18_111601) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1316,6 +1316,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_05_111405) do
     t.jsonb "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.datetime "payment_expiry_date", precision: nil
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["package_type"], name: "index_transactions_on_package_type"
     t.index ["status"], name: "index_transactions_on_status"

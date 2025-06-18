@@ -2,26 +2,27 @@
 #
 # Table name: transactions
 #
-#  id               :bigint           not null, primary key
-#  action           :string           default("pay")
-#  duration         :integer
-#  duration_unit    :string
-#  expiry_date      :datetime
-#  metadata         :jsonb
-#  notes            :text
-#  package_name     :string
-#  package_type     :string           not null
-#  payment_date     :datetime
-#  payment_method   :string
-#  payment_url      :string
-#  price            :decimal(10, 2)   not null
-#  status           :string           not null
-#  transaction_date :datetime
-#  created_at       :datetime         not null
-#  updated_at       :datetime         not null
-#  account_id       :bigint           not null
-#  transaction_id   :string           not null
-#  user_id          :bigint           not null
+#  id                  :bigint           not null, primary key
+#  action              :string           default("pay")
+#  duration            :integer
+#  duration_unit       :string
+#  expiry_date         :datetime
+#  metadata            :jsonb
+#  notes               :text
+#  package_name        :string
+#  package_type        :string           not null
+#  payment_date        :datetime
+#  payment_expiry_date :datetime
+#  payment_method      :string
+#  payment_url         :string
+#  price               :decimal(10, 2)   not null
+#  status              :string           not null
+#  transaction_date    :datetime
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
+#  transaction_id      :string           not null
+#  user_id             :bigint           not null
 #
 # Indexes
 #
