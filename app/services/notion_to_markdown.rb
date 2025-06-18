@@ -40,7 +40,7 @@ class NotionToMarkdown
       quote_lines + children_to_md(block, depth)
     when 'code'
       lang = block['code']['language'] || ''
-      code = block['code']['rich_text'].map { |t| t['plain_text'] }.join
+      code = block['code']['rich_text'].pluck('plain_text').join
       "```#{lang}\n#{code}\n```"
     when 'callout'
       icon = block['callout']['icon']&.dig('emoji') || '💡'
@@ -50,7 +50,7 @@ class NotionToMarkdown
       '---'
     when 'image'
       url = block['image']['type'] == 'external' ? block['image']['external']['url'] : block['image']['file']['url']
-      caption = block['image']['caption']&.map { |c| c['plain_text'] }&.join || 'image'
+      caption = block['image']['caption']&.pluck('plain_text')&.join || 'image'
       "![#{caption}](#{url})"
     when 'bookmark'
       url = block['bookmark']['url']
