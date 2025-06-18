@@ -84,9 +84,8 @@ const removeCustomDomain = () => {
         </div>
         <div class="flex items-center justify-end w-full">
           <Button
-            v-if="customDomainAddress"
             color="slate"
-            class="px-4"
+            class="mx-2"
             :label="
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.REMOVE_BUTTON'
