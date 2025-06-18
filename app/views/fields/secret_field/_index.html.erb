@@ -3,7 +3,7 @@
 %>
 <%= javascript_include_tag "secretField" %>
 <div data-secret-text="<%= field.data %>" class="cell-data__secret-field">
-  <span data-secret-masked="true">••••••••••</span>
+  <span data-secret-masked="true"></span>
   <button onclick="toggleSecretField(event)" data-secret-toggler>
     <svg width="20" height="20">
       <use xlink:href="#eye-show" />
