@@ -99,4 +99,36 @@ RSpec.describe Notion do
       expect { notion_client.page('') }.to raise_error(ArgumentError, 'Missing page id')
     end
   end
+
+  describe '#page_blocks' do
+    let(:page_id) { 'page-123' }
+    let(:response_body) { { 'results' => [{ 'id' => 'block-1', 'type' => 'paragraph' }] } }
+    let(:response) { instance_double(HTTParty::Response, success?: true, parsed_response: response_body) }
+
+    before do
+      allow(HTTParty).to receive(:get).and_return(response)
+    end
+
+    it 'makes a GET request to blocks endpoint' do
+      notion_client.page_blocks(page_id)
+
+      expect(HTTParty).to have_received(:get).with(
+        "https://api.notion.com/v1/blocks/#{page_id}/children",
+        headers: {
+          'Authorization' => "Bearer #{access_token}",
+          'Notion-Version' => '2022-06-28',
+          'Content-Type' => 'application/json'
+        }
+      )
+    end
+
+    it 'returns parsed response on success' do
+      result = notion_client.page_blocks(page_id)
+      expect(result).to eq(response_body.with_indifferent_access)
+    end
+
+    it 'raises error when page_id is blank' do
+      expect { notion_client.page_blocks('') }.to raise_error(ArgumentError, 'Missing page id')
+    end
+  end
 end
