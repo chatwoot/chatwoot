@@ -91,6 +91,8 @@ ja:
       conversations_count: 会話数
       avg_first_response_time: 初回応答の平均時間
       avg_resolution_time: 解決までの平均時間
+      avg_reply_time: Avg reply time
+      resolution_count: 処理件数
     team_csv:
       team_name: チーム名
       conversations_count: 会話回数
@@ -138,6 +140,8 @@ ja:
       instagram_story_content: '%{story_sender} さんがストーリーであなたについて言及しました: '
       instagram_deleted_story_content: このストーリーはもう利用できません。
       deleted: このメッセージは削除されました
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'エラーコード: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ ja:
       sla:
         added: '%{user_name} がSLAポリシー "%{sla_name}" を追加しました'
         removed: '%{user_name} がSLAポリシー "%{sla_name}" を削除しました'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} が会話をミュートしました'

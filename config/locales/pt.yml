@@ -91,6 +91,8 @@ pt:
       conversations_count: Num de conversas
       avg_first_response_time: Média de tempo da primeira resposta
       avg_resolution_time: Média de tempo de resolução
+      avg_reply_time: Avg reply time
+      resolution_count: Contagem de resolução
     team_csv:
       team_name: Nome da equipa
       conversations_count: Número de conversas
@@ -138,6 +140,8 @@ pt:
       instagram_story_content: '%{story_sender} mencionou você na história: '
       instagram_deleted_story_content: Esta história já não está disponível.
       deleted: Esta mensagem foi apagada
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Código de erro: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ pt:
       sla:
         added: '%{user_name} adicionou uma política de SLA %{sla_name}'
         removed: '%{user_name} removeu a política de SLA de %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} bloqueou a conversa'
