@@ -17,25 +17,15 @@ class Integrations::Notion::ProcessorService
 
   def full_page(page_id)
     # Get page metadata
-    page_data = page(page_id)
-    return page_data if page_data[:error]
+    page_response = notion_client.page(page_id)
+    return { error: page_response[:error] } if page_response[:error]
 
     # Get page content blocks
     blocks_response = notion_client.page_blocks(page_id)
     return { error: blocks_response[:error] } if blocks_response[:error]
 
-    # Convert blocks to markdown
-    content_md = NotionToMarkdown.new.convert(blocks_response['results'])
-    title_md = page_data['title'] ? "# #{page_data['title']}\n\n" : ''
-
-    # Get child pages
-    child_pages = extract_child_page_ids(blocks_response['results'])
-
-    # Add markdown and child pages to page data
-    page_data.merge(
-      'md' => "#{title_md}#{content_md}",
-      'child_pages' => child_pages
-    )
+    # Use presenter to format the complete page data
+    NotionPagePresenter.new(page_response, blocks_response).to_hash
   end
 
   private
@@ -66,24 +56,6 @@ class Integrations::Notion::ProcessorService
     end
 
     nil
-  end
-
-  def extract_child_page_ids(blocks)
-    child_pages = []
-
-    blocks.each do |block|
-      if block['type'] == 'child_page'
-        child_pages << {
-          'id' => block['id'],
-          'title' => block['child_page']['title']
-        }
-      end
-
-      # Recursively check nested blocks
-      child_pages.concat(extract_child_page_ids(block['children'])) if block['has_children'] && block['children']
-    end
-
-    child_pages
   end
 
   def notion_hook
