@@ -222,7 +222,7 @@ export default {
   &::v-deep .error {
     iframe {
       border: 1px solid var(--r-500);
-      border-radius: var(--border-radius-normal);
+      border-radius: 0.3125rem;
     }
   }
 }

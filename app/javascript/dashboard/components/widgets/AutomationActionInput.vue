@@ -270,7 +270,7 @@ export default {
   }
 
   .operator__select {
-    margin-bottom: var(--space-zero) !important;
+    margin-bottom: 0 !important;
     @apply relative w-auto;
   }
 }

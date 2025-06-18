@@ -132,14 +132,14 @@ export default {
   width: 100%;
 
   .label-wrap {
-    line-height: var(--space-medium);
+    line-height: 1.5rem;
     position: relative;
   }
 }
 
 .error {
   color: var(--r-500);
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-medium);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 </style>

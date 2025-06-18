@@ -253,17 +253,14 @@ export default {
 .label-suggestion {
   flex-direction: row;
   justify-content: flex-end;
-  margin-top: var(--space-normal);
+  margin-top: 1rem;
 
   .label-suggestion--container {
     max-width: 300px;
   }
 
   .label-suggestion--options {
-    text-align: right;
-    display: flex;
-    align-items: center;
-    gap: var(--space-micro);
+    @apply gap-0.5 text-end flex items-center;
 
     button.label-suggestion--option {
       .label {
@@ -274,14 +271,14 @@ export default {
   }
 
   .chatwoot-ai-icon {
-    height: var(--font-size-mini);
-    width: var(--font-size-mini);
+    height: 0.75rem;
+    width: 0.75rem;
   }
 
   .label-suggestion--title {
     color: var(--b-600);
-    margin-top: var(--space-micro);
-    font-size: var(--font-size-micro);
+    margin-top: 0.125rem;
+    font-size: 0.625rem;
   }
 }
 </style>

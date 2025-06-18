@@ -27,15 +27,15 @@
   }
   label {
     display: inline-block;
-    margin-right: var(--space-smaller);
+    margin-right: 0.25rem;
     color: var(--v-400);
   }
   .loader {
     display: inline-block;
     width: 6px;
     height: 6px;
-    margin-right: var(--space-smaller);
-    margin-top: var(--space-slab);
+    margin-right: 0.25rem;
+    margin-top: 0.75rem;
     background-color: var(--v-300);
     border-radius: 50%;
     animation: bubble-scale 1.2s infinite;

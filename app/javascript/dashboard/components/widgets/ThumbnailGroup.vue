@@ -63,11 +63,11 @@ export default {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
   &:not(:first-child) {
-    margin-left: var(--space-minus-smaller);
+    margin-left: -0.25rem;
   }
 
   .gap-tight {
-    margin-left: var(--space-minus-small);
+    margin-left: -0.5rem;
   }
 }
 
@@ -76,15 +76,15 @@ export default {
   align-items: center;
   position: relative;
 
-  margin-left: var(--space-minus-small);
-  padding: 0 var(--space-small);
+  margin-left: -0.5rem;
+  padding: 0 0.5rem;
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   background: var(--color-background);
-  border-radius: var(--space-giga);
+  border-radius: 15rem;
   border: 1px solid var(--white);
 
   color: var(--s-600);
-  font-size: var(--font-size-mini);
-  font-weight: var(--font-weight-medium);
+  font-size: 0.75rem;
+  font-weight: 500;
 }
 </style>

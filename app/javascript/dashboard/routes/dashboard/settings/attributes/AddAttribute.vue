@@ -296,17 +296,17 @@ export default {
 
 <style lang="scss" scoped>
 .key-value {
-  padding: 0 var(--space-small) var(--space-small) 0;
+  padding: 0 0.5rem 0.5rem 0;
   font-family: monospace;
 }
 
 .multiselect--wrap {
-  margin-bottom: var(--space-normal);
+  margin-bottom: 1rem;
 
   .error-message {
     color: var(--r-400);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
+    font-size: 0.875rem;
+    font-weight: 400;
   }
 
   .invalid {
@@ -328,7 +328,7 @@ export default {
   }
 
   .multiselect--active .multiselect__tags {
-    border-radius: var(--border-radius-normal);
+    border-radius: 0.3125rem;
   }
 }
 </style>

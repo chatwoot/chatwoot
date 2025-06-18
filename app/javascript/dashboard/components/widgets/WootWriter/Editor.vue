@@ -735,7 +735,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   @apply flex flex-col;
 
   .ProseMirror-menubar {
-    min-height: var(--space-two) !important;
+    min-height: 1.25rem !important;
     @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
 
     .ProseMirror-menu-active {

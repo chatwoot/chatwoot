@@ -33,7 +33,7 @@ export default {
   --toggle-button-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
     rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  border-radius: var(--border-radius-large);
+  border-radius: 0.5625rem;
   border: 2px solid transparent;
   cursor: pointer;
   display: flex;
@@ -54,8 +54,7 @@ export default {
     height: 0.875rem;
 
     span {
-      height: var(--space-one);
-      width: var(--space-one);
+      @apply size-2.5;
 
       &.active {
         @apply ltr:translate-x-[0.5rem] ltr:translate-y-0 rtl:translate-x-[-0.5rem] rtl:translate-y-0;

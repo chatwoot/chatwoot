@@ -49,7 +49,7 @@ export default {
 
 <style scoped lang="scss">
 .menu {
-  width: calc(var(--space-mega) * 2);
+  width: calc(6.25rem * 2);
   @apply flex items-center flex-nowrap p-1 rounded-md overflow-hidden cursor-pointer;
 
   .menu-label {

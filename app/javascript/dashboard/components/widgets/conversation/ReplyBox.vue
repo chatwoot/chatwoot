@@ -1309,7 +1309,7 @@ export default {
 }
 
 .normal-editor__canned-box {
-  width: calc(100% - 2 * var(--space-normal));
-  left: var(--space-normal);
+  width: calc(100% - 2 * 1rem);
+  left: 1rem;
 }
 </style>

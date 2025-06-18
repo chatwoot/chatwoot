@@ -183,7 +183,7 @@ export default {
   .user-thumbnail {
     border-radius: 50%;
     &.thumbnail-square {
-      border-radius: var(--border-radius-large);
+      border-radius: 0.5625rem;
     }
     height: 100%;
     width: 100%;
@@ -193,20 +193,16 @@ export default {
   }
 
   .source-badge {
-    border-radius: var(--border-radius-small);
-    bottom: var(--space-minus-micro);
+    border-radius: 0.1875rem;
+    bottom: -0.125rem;
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-    height: var(--space-slab);
-    padding: var(--space-micro);
     position: absolute;
     right: 0;
-    width: var(--space-slab);
-    @apply bg-white dark:bg-slate-900;
+    @apply bg-white dark:bg-slate-900 p-0.5 size-3;
   }
 
   .user-online-status {
-    border-radius: 50%;
-    bottom: var(--space-micro);
+    @apply bottom-0.5 rounded-full;
 
     &:after {
       content: ' ';
