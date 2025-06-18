@@ -4,12 +4,19 @@
   class DomainConfigJob < ApplicationJob
     queue_as :default
 
-    def perform(domain_name,initial_domain)
-      Rails.logger.info "domain_name: #{domain_name}, initial_domain: #{initial_domain.inspect}"
+    def perform(domain_name, initial_domain)
+      Rails.logger.info "initial_domain: #{initial_domain.inspect}"
 
       if initial_domain.present? && initial_domain != "undefined"
         discard_domain(initial_domain)
       end
+
+      if domain_name == nil
+        Rails.logger.info("Removed domain")
+        return
+      end
+      Rails.logger.info("Adding new domain: #{domain_name}")
+
       formatted_domain_name = domain_name.tr('.', '_')
 
       # Define paths

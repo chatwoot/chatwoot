@@ -27,6 +27,12 @@ class PortalsAPI extends ApiClient {
       `${this.url}/check?domain=${domain}&initialCustomDomain=${initialCustomDomain}`
     );
   }
+
+  removeDomain({  initialCustomDomain }) {
+    return axios.delete(
+      `${this.url}/remove_domain?initialCustomDomain=${initialCustomDomain}`
+    );
+  }
 }
 
 export default PortalsAPI;

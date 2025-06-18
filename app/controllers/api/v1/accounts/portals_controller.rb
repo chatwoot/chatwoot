@@ -78,6 +78,10 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     end
   end
 
+  def remove_domain
+    DomainConfigJob.perform_later(nil, params[:initialCustomDomain])
+  end
+
   private
 
   def fetch_portal

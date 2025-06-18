@@ -288,6 +288,7 @@ Rails.application.routes.draw do
             end
             collection do
               get :check
+              delete :remove_domain
             end
             resources :categories
             resources :articles do

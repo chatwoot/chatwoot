@@ -122,6 +122,17 @@ export const actions = {
       return error.response.data;
     }
   },
+
+  removeDomain: async (_, { initialCustomDomain }) => {
+    try {
+      const params = { initialCustomDomain };
+      const { data } = await portalAPIs.removeDomain(params);
+      return data;
+    } catch (error) {
+      return error.response.data;
+    }
+  },
+
   switchPortal: async ({ commit }, isSwitching) => {
     commit(types.SET_PORTAL_SWITCHING_FLAG, {
       isSwitching,

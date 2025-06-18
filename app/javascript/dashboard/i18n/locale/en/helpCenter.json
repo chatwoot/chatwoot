@@ -760,6 +760,13 @@
             "PLACEHOLDER": "Portal custom domain",
             "ERROR": "Custom domain is required"
           },
+          "REMOVE_BUTTON": "Remove domain",
+          "REMOVE_CONFIRMATION": "Domain: {domain} removed successfully",
+          "REMOVE_DIALOG": {
+            "HEADER": "Remove custom domain {domain}?",
+            "CONFIRM_BUTTON_LABEL": "Remove domain",
+            "LABEL": "Custom domain"
+          },
           "DNS_CONFIGURATION_DIALOG": {
             "HEADER": "DNS configuration",
             "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",

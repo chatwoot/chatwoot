@@ -15,6 +15,10 @@ class PortalPolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
+  def remove_domain?
+    @account_user.administrator?
+  end
+
   def create?
     @account_user.administrator?
   end

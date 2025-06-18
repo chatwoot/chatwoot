@@ -3,8 +3,7 @@ import { computed, ref } from 'vue';
 import { useI18n } from 'vue-i18n';
 
 import AddCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/AddCustomDomainDialog.vue';
-// REVIEW:CV4.0.2  DNSConfigurationDialog doesn't exist in our version but does in cv4.0.2, is this intentional
-import DNSConfigurationDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/DNSConfigurationDialog.vue';
+import RemoveCustomDomainDialog from 'dashboard/components-next/HelpCenter/Pages/PortalSettingsPage/RemoveCustomDomainDialog.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
@@ -19,6 +18,7 @@ const emit = defineEmits(['updatePortalConfiguration']);
 const { t } = useI18n();
 
 const addCustomDomainDialogRef = ref(null);
+const removeCustomDomainDialogRef = ref(null);
 const dnsConfigurationDialogRef = ref(null);
 const updatedDomainAddress = ref('');
 
@@ -39,9 +39,8 @@ const updatePortalConfiguration = customDomain => {
   }
 };
 
-const closeDNSConfigurationDialog = () => {
-  updatedDomainAddress.value = '';
-  dnsConfigurationDialogRef.value.dialogRef.close();
+const removeCustomDomain = () => {
+  removeCustomDomainDialogRef.value.dialogRef.close();
 };
 </script>
 
@@ -84,6 +83,17 @@ const closeDNSConfigurationDialog = () => {
           <Button
             v-if="customDomainAddress"
             color="slate"
+            class="px-4"
+            :label="
+              t(
+                'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.REMOVE_BUTTON'
+              )
+            "
+            @click="removeCustomDomainDialogRef.dialogRef.open()"
+          />
+          <Button
+            v-if="customDomainAddress"
+            color="slate"
             :label="
               t(
                 'HELP_CENTER.PORTAL_SETTINGS.CONFIGURATION_FORM.CUSTOM_DOMAIN.EDIT_BUTTON'
@@ -110,10 +120,17 @@ const closeDNSConfigurationDialog = () => {
       :custom-domain="customDomainAddress"
       @add-custom-domain="updatePortalConfiguration"
     />
-    <DNSConfigurationDialog
+
+    <RemoveCustomDomainDialog
+      ref="removeCustomDomainDialogRef"
+      :custom-domain="customDomainAddress"
+      @remove-custom-domain="removeCustomDomain"
+    />
+
+    <!-- <DNSConfigurationDialog
       ref="dnsConfigurationDialogRef"
       :custom-domain="updatedDomainAddress || customDomainAddress"
       @confirm="closeDNSConfigurationDialog"
-    />
+    /> -->
   </div>
 </template>
