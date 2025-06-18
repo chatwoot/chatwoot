@@ -266,7 +266,7 @@
       "ATTRIBUTE_WARNING": "Kontaktpersonas <strong>{primaryContactName}</strong> informācija tiks kopēta uz <strong>{parentContactName}</strong>."
     },
     "SEARCH": {
-      "ERROR": "KĻŪDAS_PAZIŅOJUMS"
+      "ERROR_MESSAGE": "Radās kļūda. Lūdzu, vēlāk mēģiniet vēlreiz."
     },
     "FORM": {
       "SUBMIT": " Apvienot kontaktpersonas",
@@ -285,9 +285,12 @@
     "HEADER": {
       "TITLE": "Kontaktpersonas",
       "SEARCH_TITLE": "Meklēt kontaktpersonas",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Meklēt...",
       "MESSAGE_BUTTON": "Ziņojums",
       "SEND_MESSAGE": "Sūtīt ziņojumu",
+      "BLOCK_CONTACT": "Bloķēt kontaktpersonu",
+      "UNBLOCK_CONTACT": "Atbloķēt kontaktpersonu",
       "BREADCRUMB": {
         "CONTACTS": "Kontaktpersonas"
       },
@@ -302,6 +305,10 @@
           "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi saglabāta",
           "ERROR_MESSAGE": "Nevar saglabāt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz."
         },
+        "BLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi bloķēta",
+        "BLOCK_ERROR_MESSAGE": "Nevar bloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
+        "UNBLOCK_SUCCESS_MESSAGE": "Šī kontaktpersona ir veiksmīgi atbloķēta",
+        "UNBLOCK_ERROR_MESSAGE": "Nevar atbloķēt kontaktpersonu. Lūdzu, vēlāk mēģiniet vēlreiz.",
         "IMPORT_CONTACT": {
           "TITLE": "Importēt kontaktpersonas",
           "DESCRIPTION": "Importēt kontaktpersonas, izmantojot CSV failu.",
@@ -451,6 +458,10 @@
             "PLACEHOLDER": "Pievienot Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -460,7 +471,7 @@
       "DELETE_CONTACT": "Dzēst kontaktpersonu",
       "DELETE_DIALOG": {
         "TITLE": "Apstiprināt Dzēšanu",
-        "DESCRIPTION": "Vai tiešām vēlaties dzēst šo {contactName} kontaktpersonu?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "Jā, Dzēst",
         "API": {
           "SUCCESS_MESSAGE": "Kontaktpersona ir veiksmīgi izdzēsta",
@@ -538,6 +549,9 @@
         "WROTE": "rakstīja",
         "YOU": "Jūs",
         "SAVE": "Saglabāt piezīmi",
+        "EXPAND": "Izvērst",
+        "COLLAPSE": "Collapse",
+        "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "Ar šo kontaktpersonu nav saistītu piezīmju. Varat pievienot piezīmi, ierakstot iepriekšējā lodziņā."
       }
     },
@@ -546,7 +560,8 @@
       "SUBTITLE": "Sāciet pievienot jaunas kontaktpersonas, noklikšķinot uz tālāk esošās pogas",
       "BUTTON_LABEL": "Pievienot kontaktpersonu",
       "SEARCH_EMPTY_STATE_TITLE": "Neviena kontaktpersona neatbilst jūsu meklēšanas vaicājumam 🔍",
-      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋"
+      "LIST_EMPTY_STATE_TITLE": "Šajā skatā nav pieejama neviena kontaktpersona 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

@@ -6,7 +6,7 @@
             "TEMPLATE_SELECTED_SUBTITLE": "Processar {templateName}"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Pesquisar Templates",
+            "SEARCH_PLACEHOLDER": "Pesquisar modelos",
             "NO_TEMPLATES_FOUND": "Não há templates encontrados para",
             "LABELS": {
                 "LANGUAGE": "Idioma",

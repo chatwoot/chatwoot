@@ -16,7 +16,6 @@ import {
 export default function useAutomationValues() {
   const getters = useStoreGetters();
   const { t } = useI18n();
-
   const agents = useMapGetter('agents/getAgents');
   const campaigns = useMapGetter('campaigns/getAllCampaigns');
   const contacts = useMapGetter('contacts/getContacts');
@@ -62,6 +61,19 @@ export default function useAutomationValues() {
   });
 
   /**
+   * Adds a translated "None" option to the beginning of a list
+   * @param {Array} list - The list to add "None" to
+   * @returns {Array} A new array with "None" option at the beginning
+   */
+  const addNoneToList = list => [
+    {
+      id: 'nil',
+      name: t('AUTOMATION.NONE_OPTION') || 'None',
+    },
+    ...(list || []),
+  ];
+
+  /**
    * Gets the condition dropdown values for a given type.
    * @param {string} type - The type of condition.
    * @returns {Array} An array of condition dropdown values.
@@ -95,6 +107,7 @@ export default function useAutomationValues() {
       slaPolicies: slaPolicies.value,
       languages,
       type,
+      addNoneToListFn: addNoneToList,
     });
   };
 

@@ -152,7 +152,10 @@ export class DashboardAudioNotificationHelper {
 
     const shouldPlayAudio = [];
 
-    if (audioAlertType.includes(EVENT_TYPES.ASSIGNED)) {
+    if (
+      audioAlertType.includes(EVENT_TYPES.ASSIGNED) ||
+      audioAlertType.includes('mine')
+    ) {
       shouldPlayAudio.push(assignedToMe);
     }
     if (audioAlertType.includes(EVENT_TYPES.UNASSIGNED)) {

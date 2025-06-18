@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Atsijungti"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow yra natūrali kalbos supratimo platforma, leidžianti lengvai sukurti ir integruoti pokalbio vartotojo sąsają į mobiliąją programėlę, žiniatinklio programą, įrenginį, botą, interaktyvią balso atsako sistemą ir pan. <br /> <br /> Dialogflow integravimas su {installationName} leidžia sukonfigūruoti Dialogflow botą su gautų laiškų aplanku, kurie leidžia botui iš pradžių apdoroti užklausas ir prireikus perduoti jas agentui. Dialogflow gali būti naudojama norint įvertinti lyderius, sumažinti agentų darbo krūvį pateikiant dažniausiai užduodamus klausimus ir pan. <br /> <br /> Norėdami pridėti Dialogflow, Google konsolėje turite sukurti paslaugos paskyrą ir bendrinti prisijungimo duomenis. Daugiau informacijos rasite Dialogflow dokumentacijoje."
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

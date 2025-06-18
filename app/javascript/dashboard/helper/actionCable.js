@@ -3,6 +3,9 @@ import BaseActionCableConnector from '../../shared/helpers/BaseActionCableConnec
 import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
+import { useImpersonation } from 'dashboard/composables/useImpersonation';
+
+const { isImpersonating } = useImpersonation();
 
 class ActionCableConnector extends BaseActionCableConnector {
   constructor(app, pubsubToken) {
@@ -30,6 +33,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.read': this.onConversationRead,
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
+      'copilot.message.created': this.onCopilotMessageCreated,
     };
   }
 
@@ -52,6 +56,7 @@ class ActionCableConnector extends BaseActionCableConnector {
   };
 
   onPresenceUpdate = data => {
+    if (isImpersonating.value) return;
     this.app.$store.dispatch('contacts/updatePresence', data.contacts);
     this.app.$store.dispatch('agents/updatePresence', data.users);
     this.app.$store.dispatch('setCurrentUserAvailability', data.users);
@@ -183,6 +188,10 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onNotificationUpdated = data => {
     this.app.$store.dispatch('notifications/updateNotification', data);
+  };
+
+  onCopilotMessageCreated = data => {
+    this.app.$store.dispatch('copilotMessages/upsert', data);
   };
 
   onCacheInvalidate = data => {

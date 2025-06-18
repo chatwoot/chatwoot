@@ -85,7 +85,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex justify-between h-[52px] gap-2 ltr:pl-3 rtl:pr-3">
+  <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
     <EditorModeToggle
       :mode="mode"
       class="mt-3"
@@ -106,43 +106,3 @@ export default {
     />
   </div>
 </template>
-
-<style lang="scss" scoped>
-.button-group {
-  @apply flex border-0 p-0 m-0;
-
-  .button {
-    @apply text-sm font-medium py-2.5 px-4 m-0 relative z-10;
-
-    &.is-active {
-      @apply bg-white dark:bg-slate-900;
-    }
-  }
-
-  .button--reply {
-    @apply border-r rounded-none border-b-0 border-l-0 border-t-0 border-slate-50 dark:border-slate-700;
-
-    &:hover,
-    &:focus {
-      @apply border-r border-slate-50 dark:border-slate-700;
-    }
-  }
-
-  .button--note {
-    @apply border-l-0 rounded-none;
-
-    &.is-active {
-      @apply border-r border-b-0 bg-yellow-100 dark:bg-yellow-800 border-t-0 border-slate-50 dark:border-slate-700;
-    }
-
-    &:hover,
-    &:active {
-      @apply text-yellow-700 dark:text-yellow-700;
-    }
-  }
-}
-
-.button--note {
-  @apply text-yellow-600 dark:text-yellow-600 bg-transparent dark:bg-transparent;
-}
-</style>

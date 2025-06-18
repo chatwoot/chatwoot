@@ -6,7 +6,7 @@ import { nextTick } from 'vue';
 const config = {
   global: {
     stubs: {
-      WootButton: { template: '<button />' },
+      NextButton: { template: '<button />' },
       WootInput: { template: '<input />' },
     },
   },

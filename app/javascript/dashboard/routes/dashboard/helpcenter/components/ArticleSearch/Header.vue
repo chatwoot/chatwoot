@@ -1,6 +1,7 @@
 <script setup>
 import { ref, onMounted } from 'vue';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   title: {
@@ -49,13 +50,7 @@ useKeyboardEvents(keyboardEvents);
       <h3 class="text-base text-slate-900 dark:text-slate-25">
         {{ title }}
       </h3>
-      <woot-button
-        variant="clear"
-        size="tiny"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <Button ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
 
     <div class="relative">

@@ -20,23 +20,23 @@
     "IN_A_FEW_MINUTES": "Svarer typisk på et par minutter",
     "IN_A_FEW_HOURS": "Svarer typisk på et par timer",
     "IN_A_DAY": "Svarer typisk på en dag",
-    "BACK_IN": "We will be back online"
+    "BACK_IN": "Vi er tilbage online"
   },
-  "DAY_NAMES": [
-    "Sunday",
-    "Monday",
-    "Tuesday",
-    "Wednesday",
-    "Thursday",
-    "Friday",
-    "Saturday"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "søndag",
+    "MONDAY": "mandag",
+    "TUESDAY": "tirsdag",
+    "WEDNESDAY": "onsdag",
+    "THURSDAY": "torsdag",
+    "FRIDAY": "fredag",
+    "SATURDAY": "lørdag"
+  },
   "START_CONVERSATION": "Start Samtale",
   "END_CONVERSATION": "Afslut Samtale",
   "CONTINUE_CONVERSATION": "Fortsæt samtale",
-  "YOU": "You",
+  "YOU": "Dig",
   "START_NEW_CONVERSATION": "Start en ny samtale",
-  "VIEW_UNREAD_MESSAGES": "You have unread messages",
+  "VIEW_UNREAD_MESSAGES": "Du har ulæste beskeder",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Se nye beskeder",
     "CLOSE_MESSAGES_BUTTON": "Luk",
@@ -62,16 +62,16 @@
         "LABEL": "E-Mail Adresse",
         "PLACEHOLDER": "Indtast venligst din e-mail adresse",
         "REQUIRED_ERROR": "E-mail adresse er påkrævet",
-        "VALID_ERROR": "Indtast venligst en gyldig e-mailadresse"
+        "VALID_ERROR": "Angiv venligst en gyldig e-mailadresse"
       },
       "PHONE_NUMBER": {
         "LABEL": "Telefonnummer",
         "PLACEHOLDER": "Indtast venligst dit telefonnummer",
         "REQUIRED_ERROR": "Telefonnummer er påkrævet",
-        "DIAL_CODE_VALID_ERROR": "Please select a country code",
-        "VALID_ERROR": "Please enter a valid phone number",
+        "DIAL_CODE_VALID_ERROR": "Vælg venligst en landekode",
+        "VALID_ERROR": "Indtast et gyldigt telefonnummer",
         "DROPDOWN_EMPTY": "Ingen resultater fundet",
-        "DROPDOWN_SEARCH": "Search country"
+        "DROPDOWN_SEARCH": "Søg land"
       },
       "MESSAGE": {
         "LABEL": "Besked",
@@ -82,7 +82,7 @@
     "CAMPAIGN_HEADER": "Angiv venligst dit navn og e-mail, før du starter samtalen",
     "IS_REQUIRED": "er påkrævet",
     "REQUIRED": "Påkrævet",
-    "REGEX_ERROR": "Please provide a valid input"
+    "REGEX_ERROR": "Angiv venligst et gyldigt input"
   },
   "FILE_SIZE_LIMIT": "Filen overskrider grænsen på {MAXIMUM_FILE_UPLOAD_SIZE} for vedhæftede filer",
   "CHAT_FORM": {
@@ -93,7 +93,7 @@
   "EMOJI": {
     "PLACEHOLDER": "Søg efter emojis",
     "NOT_FOUND": "Ingen emoji matcher din søgning",
-    "ARIA_LABEL": "Emoji picker"
+    "ARIA_LABEL": "Emoji vælger"
   },
   "CSAT": {
     "TITLE": "Bedøm din samtale",
@@ -107,14 +107,14 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Click here to join",
-      "LEAVE_THE_ROOM": "Leave the call"
+      "CLICK_HERE_TO_JOIN": "Tryk her for at deltage",
+      "LEAVE_THE_ROOM": "Forlad opkaldet"
     }
   },
   "PORTAL": {
-    "POPULAR_ARTICLES": "Popular Articles",
-    "VIEW_ALL_ARTICLES": "View all articles",
-    "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+    "POPULAR_ARTICLES": "Populære Artikler",
+    "VIEW_ALL_ARTICLES": "Se alle artikler",
+    "IFRAME_LOAD_ERROR": "Der opstod en fejl under indlæsning af artiklen. Genindlæs venligst siden og prøv igen."
   },
   "ATTACHMENTS": {
     "image": {
@@ -137,6 +137,6 @@
     }
   },
   "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
+    "REPLY_TO": "Besvarer til:"
   }
 }

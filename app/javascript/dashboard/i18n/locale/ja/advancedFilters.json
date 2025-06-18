@@ -1,24 +1,24 @@
 {
   "FILTER": {
     "TITLE": "会話をフィルターする",
-    "SUBTITLE": "Add your filters below and hit 'Apply filters' to cut through the chat clutter.",
-    "EDIT_CUSTOM_FILTER": "Edit Folder",
-    "CUSTOM_VIEWS_SUBTITLE": "Add or remove filters and update your folder.",
-    "ADD_NEW_FILTER": "Add filter",
-    "FILTER_DELETE_ERROR": "Oops, looks like we can't save nothing! Please add at least one filter to save it.",
+    "SUBTITLE": "フィルターを追加して「フィルターを適用」を押すと、チャットを整理できます。",
+    "EDIT_CUSTOM_FILTER": "フォルダーを編集",
+    "CUSTOM_VIEWS_SUBTITLE": "フィルターを追加または削除し、フォルダーを更新します。",
+    "ADD_NEW_FILTER": "フィルターを追加",
+    "FILTER_DELETE_ERROR": "何も保存できないようです！保存するには、少なくとも1つのフィルターを追加してください。",
     "SUBMIT_BUTTON_LABEL": "フィルターを適用",
-    "UPDATE_BUTTON_LABEL": "Update folder",
+    "UPDATE_BUTTON_LABEL": "フォルダーを更新",
     "CANCEL_BUTTON_LABEL": "キャンセル",
-    "CLEAR_BUTTON_LABEL": "Clear filters",
-    "FOLDER_LABEL": "Folder Name",
-    "FOLDER_QUERY_LABEL": "Folder Query",
-    "EMPTY_VALUE_ERROR": "値は必須です.",
+    "CLEAR_BUTTON_LABEL": "フィルターをクリア",
+    "FOLDER_LABEL": "フォルダー名",
+    "FOLDER_QUERY_LABEL": "フォルダーのクエリ",
+    "EMPTY_VALUE_ERROR": "値は必須です。",
     "TOOLTIP_LABEL": "会話をフィルターする",
     "QUERY_DROPDOWN_LABELS": {
       "AND": "AND",
       "OR": "OR"
     },
-    "INPUT_PLACEHOLDER": "Enter value",
+    "INPUT_PLACEHOLDER": "値を入力",
     "OPERATOR_LABELS": {
       "equal_to": "等しい",
       "not_equal_to": "等しくない",
@@ -28,7 +28,7 @@
       "is_greater_than": "より大きい",
       "is_less_than": "より小さい",
       "days_before": "x日前",
-      "starts_with": "Starts with",
+      "starts_with": "で始まる",
       "equalTo": "等しい",
       "notEqualTo": "等しくない",
       "contains": "含む",
@@ -38,80 +38,80 @@
       "isGreaterThan": "より大きい",
       "isLessThan": "より小さい",
       "daysBefore": "x日前",
-      "startsWith": "Starts with"
+      "startsWith": "で始まる"
     },
     "ATTRIBUTE_LABELS": {
-      "TRUE": "True",
-      "FALSE": "False"
+      "TRUE": "真",
+      "FALSE": "偽"
     },
     "ATTRIBUTES": {
-      "STATUS": "状況",
-      "ASSIGNEE_NAME": "Assignee name",
-      "INBOX_NAME": "Inbox name",
-      "TEAM_NAME": "Team name",
-      "CONVERSATION_IDENTIFIER": "Conversation identifier",
-      "CAMPAIGN_NAME": "Campaign name",
+      "STATUS": "ステータス",
+      "ASSIGNEE_NAME": "担当者名",
+      "INBOX_NAME": "受信トレイ名",
+      "TEAM_NAME": "チーム名",
+      "CONVERSATION_IDENTIFIER": "会話識別子",
+      "CAMPAIGN_NAME": "キャンペーン名",
       "LABELS": "ラベル",
-      "BROWSER_LANGUAGE": "Browser language",
-      "PRIORITY": "Priority",
-      "COUNTRY_NAME": "Country name",
-      "REFERER_LINK": "参照者のリンク",
+      "BROWSER_LANGUAGE": "ブラウザ言語",
+      "PRIORITY": "優先度",
+      "COUNTRY_NAME": "国名",
+      "REFERER_LINK": "参照リンク",
       "CUSTOM_ATTRIBUTE_LIST": "リスト",
-      "CUSTOM_ATTRIBUTE_TEXT": "Text",
-      "CUSTOM_ATTRIBUTE_NUMBER": "Number",
-      "CUSTOM_ATTRIBUTE_LINK": "Link",
-      "CUSTOM_ATTRIBUTE_CHECKBOX": "Checkbox",
-      "CREATED_AT": "Created at",
-      "LAST_ACTIVITY": "Last activity"
+      "CUSTOM_ATTRIBUTE_TEXT": "テキスト",
+      "CUSTOM_ATTRIBUTE_NUMBER": "数値",
+      "CUSTOM_ATTRIBUTE_LINK": "リンク",
+      "CUSTOM_ATTRIBUTE_CHECKBOX": "チェックボックス",
+      "CREATED_AT": "作成日時",
+      "LAST_ACTIVITY": "最終活動日時"
     },
     "ERRORS": {
-      "VALUE_REQUIRED": "値は必須です",
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998"
+      "VALUE_REQUIRED": "値は必須です。",
+      "ATTRIBUTE_KEY_REQUIRED": "属性キーは必須です。",
+      "FILTER_OPERATOR_REQUIRED": "フィルター演算子は必須です。",
+      "VALUE_MUST_BE_BETWEEN_1_AND_998": "値は1から998の間でなければなりません。"
     },
     "GROUPS": {
-      "STANDARD_FILTERS": "Standard filters",
-      "ADDITIONAL_FILTERS": "Additional filters",
-      "CUSTOM_ATTRIBUTES": "Custom attributes"
+      "STANDARD_FILTERS": "標準フィルター",
+      "ADDITIONAL_FILTERS": "追加フィルター",
+      "CUSTOM_ATTRIBUTES": "カスタム属性"
     },
     "CUSTOM_VIEWS": {
       "ADD": {
-        "TITLE": "Do you want to save this filter?",
-        "LABEL": "Name this filter",
-        "PLACEHOLDER": "Name your filter to refer it later.",
-        "ERROR_MESSAGE": "名前が必須です.",
-        "SAVE_BUTTON": "フィルターの保存",
+        "TITLE": "このフィルターを保存しますか？",
+        "LABEL": "このフィルターに名前を付けてください",
+        "PLACEHOLDER": "後で参照するためにフィルターに名前を付けてください。",
+        "ERROR_MESSAGE": "名前が必須です。",
+        "SAVE_BUTTON": "フィルターを保存",
         "CANCEL_BUTTON": "キャンセル",
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "フォルダが正常に作成されました.",
-          "ERROR_MESSAGE": "フォルダの作成中にエラーが発生しました."
+          "SUCCESS_MESSAGE": "フォルダーが正常に作成されました。",
+          "ERROR_MESSAGE": "フォルダーの作成中にエラーが発生しました。"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment created successfully.",
-          "ERROR_MESSAGE": "Error while creating segment."
+          "SUCCESS_MESSAGE": "セグメントが正常に作成されました。",
+          "ERROR_MESSAGE": "セグメントの作成中にエラーが発生しました。"
         }
       },
       "EDIT": {
-        "EDIT_BUTTON": "Edit folder"
+        "EDIT_BUTTON": "フォルダーを編集"
       },
       "DELETE": {
-        "DELETE_BUTTON": "Delete filter",
+        "DELETE_BUTTON": "フィルターを削除",
         "MODAL": {
           "CONFIRM": {
-            "TITLE": "Confirm deletion",
-            "MESSAGE": "Are you sure to delete the filter ",
-            "YES": "Yes, delete",
-            "NO": "No, keep it"
+            "TITLE": "削除を確認",
+            "MESSAGE": "本当にこのフィルターを削除しますか",
+            "YES": "はい、削除します",
+            "NO": "いいえ、保持します"
           }
         },
         "API_FOLDERS": {
-          "SUCCESS_MESSAGE": "Folder deleted successfully.",
-          "ERROR_MESSAGE": "Error while deleting folder."
+          "SUCCESS_MESSAGE": "フォルダーが正常に削除されました。",
+          "ERROR_MESSAGE": "フォルダーの削除中にエラーが発生しました。"
         },
         "API_SEGMENTS": {
-          "SUCCESS_MESSAGE": "Segment deleted successfully.",
-          "ERROR_MESSAGE": "Error while deleting segment."
+          "SUCCESS_MESSAGE": "セグメントが正常に削除されました。",
+          "ERROR_MESSAGE": "セグメントの削除中にエラーが発生しました。"
         }
       }
     }

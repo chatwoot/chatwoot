@@ -38,20 +38,20 @@ export default {
   cursor: pointer;
   display: flex;
   flex-shrink: 0;
-  height: 19px;
+  height: 1.188rem;
   position: relative;
   transition-duration: 200ms;
   transition-property: background-color;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-  width: 34px;
+  width: 2.125rem;
 
   &.active {
     background-color: var(--w-500);
   }
 
   &.small {
-    width: 22px;
-    height: 14px;
+    width: 1.375rem;
+    height: 0.875rem;
 
     span {
       height: var(--space-one);

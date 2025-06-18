@@ -1,8 +1,8 @@
 {
   "CAMPAIGN": {
     "LIVE_CHAT": {
-      "HEADER_TITLE": "Live chat campaigns",
-      "NEW_CAMPAIGN": "Create campaign",
+      "HEADER_TITLE": "Campanhas de chat ao vivo",
+      "NEW_CAMPAIGN": "Criar campanha",
       "CARD": {
         "STATUS": {
           "ENABLED": "Ativado",
@@ -16,11 +16,11 @@
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No live chat campaigns are available",
-        "SUBTITLE": "Connect with your customers using proactive messages.  Click 'Create campaign' to get started."
+        "TITLE": "Não há campanhas de chat ao vivo disponíveis",
+        "SUBTITLE": "Conecte-se com seus clientes usando mensagens proativas. Clique em 'Criar campanha' para começar."
       },
       "CREATE": {
-        "TITLE": "Create a live chat campaign",
+        "TITLE": "Criar uma campanha de chat ao vivo",
         "CANCEL_BUTTON_TEXT": "Cancelar",
         "CREATE_BUTTON_TEXT": "Criar",
         "FORM": {
@@ -30,7 +30,7 @@
             "ERROR": "Título é obrigatório"
           },
           "MESSAGE": {
-            "LABEL": "Messagem",
+            "LABEL": "Mensagem",
             "PLACEHOLDER": "Por favor, insira a mensagem da campanha",
             "ERROR": "A mensagem é obrigatória"
           },
@@ -41,7 +41,7 @@
           },
           "SENT_BY": {
             "LABEL": "Enviado por",
-            "PLACEHOLDER": "Please select sender",
+            "PLACEHOLDER": "Por favor, selecione o remetente",
             "ERROR": "Remetente é obrigatório"
           },
           "END_POINT": {
@@ -55,7 +55,7 @@
             "ERROR": "Tempo na página é necessário"
           },
           "OTHER_PREFERENCES": {
-            "TITLE": "Other preferences",
+            "TITLE": "Outras preferências",
             "ENABLED": "Ativar campanha",
             "TRIGGER_ONLY_BUSINESS_HOURS": "Ativar somente durante o horário comercial"
           },
@@ -64,23 +64,23 @@
             "CANCEL": "Cancelar"
           },
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign created successfully",
+            "SUCCESS_MESSAGE": "Campanha do chat ao vivo criada com sucesso",
             "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
           }
         }
       },
       "EDIT": {
-        "TITLE": "Edit live chat campaign",
+        "TITLE": "Editar campanha de chat ao vivo",
         "FORM": {
           "API": {
-            "SUCCESS_MESSAGE": "Live chat campaign updated successfully",
+            "SUCCESS_MESSAGE": "Campanha do chat ao vivo atualizada com sucesso",
             "ERROR_MESSAGE": "Houve um erro. Por favor, tente novamente."
           }
         }
       }
     },
     "SMS": {
-      "HEADER_TITLE": "SMS campaigns",
+      "HEADER_TITLE": "Campanhas SMS",
       "NEW_CAMPAIGN": "Criar campanha",
       "EMPTY_STATE": {
         "TITLE": "Não há campanhas SMS disponíveis",
@@ -107,7 +107,7 @@
             "ERROR": "Título é obrigatório"
           },
           "MESSAGE": {
-            "LABEL": "Messagem",
+            "LABEL": "Mensagem",
             "PLACEHOLDER": "Por favor, insira a mensagem da campanha",
             "ERROR": "A mensagem é obrigatória"
           },
@@ -118,7 +118,7 @@
           },
           "AUDIENCE": {
             "LABEL": "Público",
-            "PLACEHOLDER": "Selecionar marcadores dos clientes",
+            "PLACEHOLDER": "Selecionar etiquetas dos clientes",
             "ERROR": "Público é necessário"
           },
           "SCHEDULED_AT": {
@@ -139,7 +139,7 @@
     },
     "CONFIRM_DELETE": {
       "TITLE": "Você tem certeza que deseja excluir?",
-      "DESCRIPTION": "The delete action is permanent and cannot be reversed.",
+      "DESCRIPTION": "A ação de exclusão é permanente e não pode ser revertida.",
       "CONFIRM": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Campanha excluída com sucesso",

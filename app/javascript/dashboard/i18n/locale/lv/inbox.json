@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "My Inbox",
+      "TITLE": "Mana Iesūtne",
       "DISPLAY_DROPDOWN": "Parādīt",
       "LOADING": "Notiek paziņojumu iegūšana",
       "404": "Šajā grupā nav aktīvu paziņojumu.",
@@ -28,16 +28,16 @@
       "SLA_MISSED_RESOLUTION": "SLA sarunas atrisināšanas laiks nokavēts"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
-      "CONVERSATION_ASSIGNMENT": "Assigned to you",
-      "CONVERSATION_CREATION": "New Conversation",
-      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
-      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
-      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "CONVERSATION_MENTION": "Pieminēts",
+      "CONVERSATION_ASSIGNMENT": "Jums piešķirts",
+      "CONVERSATION_CREATION": "Jauna Saruna",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA pārkāpums",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA pārkāpums",
+      "SLA_MISSED_RESOLUTION": "SLA pārkāpums",
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Jauns ziņojums",
-      "SNOOZED_UNTIL": "Snoozed for {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "SNOOZED_UNTIL": "Atlikts uz {time}",
+      "SNOOZED_ENDS": "Atlikšana beidzās"
     },
     "NO_CONTENT": "Saturs nav pieejams",
     "MENU_ITEM": {

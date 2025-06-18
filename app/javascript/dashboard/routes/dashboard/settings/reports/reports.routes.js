@@ -7,10 +7,12 @@ import Index from './Index.vue';
 import AgentReportsIndex from './AgentReportsIndex.vue';
 import InboxReportsIndex from './InboxReportsIndex.vue';
 import TeamReportsIndex from './TeamReportsIndex.vue';
+import LabelReportsIndex from './LabelReportsIndex.vue';
 
 import AgentReportsShow from './AgentReportsShow.vue';
 import InboxReportsShow from './InboxReportsShow.vue';
 import TeamReportsShow from './TeamReportsShow.vue';
+import LabelReportsShow from './LabelReportsShow.vue';
 
 import AgentReports from './AgentReports.vue';
 import InboxReports from './InboxReports.vue';
@@ -22,37 +24,34 @@ import BotReports from './BotReports.vue';
 import LiveReports from './LiveReports.vue';
 import SLAReports from './SLAReports.vue';
 
+const meta = {
+  featureFlag: FEATURE_FLAGS.REPORTS,
+  permissions: ['administrator', 'report_manage'],
+};
+
 const oldReportRoutes = [
   {
     path: 'agent',
     name: 'agent_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: AgentReports,
   },
   {
     path: 'inboxes',
     name: 'inbox_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: InboxReports,
   },
   {
     path: 'label',
     name: 'label_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: LabelReports,
   },
   {
     path: 'teams',
     name: 'team_reports',
-    meta: {
-      permissions: ['administrator', 'report_manage'],
-    },
+    meta,
     component: TeamReports,
   },
 ];
@@ -107,6 +106,22 @@ const revisedReportRoutes = [
     },
     component: TeamReportsShow,
   },
+  {
+    path: 'labels_overview',
+    name: 'label_reports_index',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: LabelReportsIndex,
+  },
+  {
+    path: 'labels/:id',
+    name: 'label_reports_show',
+    meta: {
+      permissions: ['administrator', 'report_manage'],
+    },
+    component: LabelReportsShow,
+  },
 ];
 
 export default {
@@ -124,17 +139,13 @@ export default {
         {
           path: 'overview',
           name: 'account_overview_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: LiveReports,
         },
         {
           path: 'conversation',
           name: 'conversation_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: Index,
         },
         ...oldReportRoutes,
@@ -142,26 +153,19 @@ export default {
         {
           path: 'sla',
           name: 'sla_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-            featureFlag: FEATURE_FLAGS.SLA,
-          },
+          meta,
           component: SLAReports,
         },
         {
           path: 'csat',
           name: 'csat_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: CsatResponses,
         },
         {
           path: 'bot',
           name: 'bot_reports',
-          meta: {
-            permissions: ['administrator', 'report_manage'],
-          },
+          meta,
           component: BotReports,
         },
       ],

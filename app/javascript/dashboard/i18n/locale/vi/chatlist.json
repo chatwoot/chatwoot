@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "có một đường dẫn chia sẻ"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

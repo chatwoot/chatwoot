@@ -1,30 +1,20 @@
-<script>
-export default {
-  emits: ['add'],
+<script setup>
+import Button from 'dashboard/components-next/button/Button.vue';
 
-  methods: {
-    addLabel() {
-      this.$emit('add');
-    },
-  },
+const emit = defineEmits(['add']);
+
+const addLabel = () => {
+  emit('add');
 };
 </script>
 
 <template>
-  <woot-button
-    variant="smooth"
-    class="label--add"
-    icon="add"
-    size="tiny"
+  <Button
+    faded
+    xs
+    icon="i-lucide-plus"
+    class="mb-0.5 ltr:mr-0.5 rtl:ml-0.5 !rounded-[4px]"
+    :label="$t('CONTACT_PANEL.LABELS.CONVERSATION.ADD_BUTTON')"
     @click="addLabel"
-  >
-    {{ $t('CONTACT_PANEL.LABELS.CONVERSATION.ADD_BUTTON') }}
-  </woot-button>
+  />
 </template>
-
-<style lang="scss" scoped>
-.label--add {
-  margin-bottom: var(--space-micro);
-  margin-right: var(--space-micro);
-}
-</style>

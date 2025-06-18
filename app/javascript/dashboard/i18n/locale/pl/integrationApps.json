@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Rozłącz"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow to platforma do rozpoznawania naturalnego języka, która ułatwia projektowanie i integrację interfejsu rozmowy z użytkownikiem w aplikacjach mobilnych, aplikacjach internetowych, urządzeniach, botach, systemach interaktywnego systemu odpowiedzi głosowej itp. <br /> <br /> Integracja Dialogflow z {installationName} umożliwia konfigurację bota Dialogflow z Twoimi skrzynkami odbiorczymi, co pozwala botowi obsługiwać zapytania początkowo i przekazywać je do agenta, gdy jest to potrzebne. Dialogflow można używać do kwalifikowania leadów, redukcji obciążenia agentów poprzez udzielanie odpowiedzi na często zadawane pytania itp. <br /> <br /> Aby dodać Dialogflow, musisz utworzyć Kontousługi w konsoli projektu Google i udostępnić poświadczenia. Więcej informacji można znaleźć w dokumentacji Dialogflow."
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

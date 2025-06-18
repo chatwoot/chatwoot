@@ -3,7 +3,7 @@
     "TITLE": "Přihlásit se do Chatwoot",
     "EMAIL": {
       "LABEL": "E-mailová adresa",
-      "PLACEHOLDER": "E-mail např: někdo{'@'}example.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "Zadejte prosím platnou e-mailovou adresu"
     },
     "PASSWORD": {

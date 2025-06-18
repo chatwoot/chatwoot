@@ -47,5 +47,19 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
         expect(formatter.format).to eq(expected_output)
       end
     end
+
+    context 'when include_contact_details is true' do
+      it 'includes contact details' do
+        expected_output = [
+          "Conversation ID: ##{conversation.display_id}",
+          "Channel: #{conversation.inbox.channel.name}",
+          'Message History:',
+          'No messages in this conversation',
+          "Contact Details: #{conversation.contact.to_llm_text}"
+        ].join("\n")
+
+        expect(formatter.format(include_contact_details: true)).to eq(expected_output)
+      end
+    end
   end
 end

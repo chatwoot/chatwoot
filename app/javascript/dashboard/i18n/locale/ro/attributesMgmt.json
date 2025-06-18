@@ -65,7 +65,7 @@
         "ERROR_MESSAGE": "Nu s-a putut șterge atributul personalizat. Încercați din nou."
       },
       "CONFIRM": {
-        "TITLE": "Ești sigur că vrei să ștergi - {attributeName}",
+        "TITLE": "Sunteți sigur că doriți să ștergeți - {attributeName}",
         "PLACE_HOLDER": "Te rugăm să introduci {attributeName} pentru a confirma",
         "MESSAGE": "Ștergerea va elimina atributul personalizat",
         "YES": "Şterge ",
@@ -92,12 +92,12 @@
       "CONTACT": "Contact"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nume",
-        "Descriere",
-        "Tip",
-        "Cheie"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nume",
+        "DESCRIPTION": "Descriere",
+        "TYPE": "Tip",
+        "KEY": "Cheie"
+      },
       "BUTTONS": {
         "EDIT": "Editare",
         "DELETE": "Şterge"

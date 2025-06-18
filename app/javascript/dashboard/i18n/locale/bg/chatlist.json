@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "сподели линк"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {

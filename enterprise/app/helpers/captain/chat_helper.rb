@@ -1,86 +1,101 @@
 module Captain::ChatHelper
-  def search_documentation_tool
-    {
-      type: 'function',
-      function: {
-        name: 'search_documentation',
-        description: "Use this function to get documentation on functionalities you don't know about.",
-        parameters: {
-          type: 'object',
-          properties: {
-            search_query: {
-              type: 'string',
-              description: 'The search query to look up in the documentation.'
-            }
-          },
-          required: ['search_query']
-        }
-      }
-    }
-  end
-
   def request_chat_completion
+    log_chat_completion_request
+
     response = @client.chat(
       parameters: {
         model: @model,
         messages: @messages,
-        tools: [search_documentation_tool],
-        response_format: { type: 'json_object' }
+        tools: @tool_registry&.registered_tools || [],
+        response_format: { type: 'json_object' },
+        temperature: @assistant&.config&.[]('temperature').to_f || 1
       }
     )
 
     handle_response(response)
-    @response
+  rescue StandardError => e
+    Rails.logger.error "#{self.class.name} Assistant: #{@assistant.id}, Error in chat completion: #{e}"
+    raise e
   end
 
+  private
+
   def handle_response(response)
+    Rails.logger.debug { "#{self.class.name} Assistant: #{@assistant.id}, Received response #{response}" }
     message = response.dig('choices', 0, 'message')
     if message['tool_calls']
       process_tool_calls(message['tool_calls'])
     else
-      @response = JSON.parse(message['content'].strip)
+      message = JSON.parse(message['content'].strip)
+      persist_message(message, 'assistant')
+      message
     end
   end
 
   def process_tool_calls(tool_calls)
-    process_tool_call(tool_calls.first)
-  end
-
-  def process_tool_call(tool_call)
-    return unless tool_call['function']['name'] == 'search_documentation'
-
-    query = JSON.parse(tool_call['function']['arguments'])['search_query']
-    sections = fetch_documentation(query)
-    append_tool_response(sections)
+    append_tool_calls(tool_calls)
+    tool_calls.each do |tool_call|
+      process_tool_call(tool_call)
+    end
     request_chat_completion
   end
 
-  def fetch_documentation(query)
-    @assistant
-      .responses
-      .approved
-      .search(query)
-      .map { |response| format_response(response) }.join
-  end
+  def process_tool_call(tool_call)
+    arguments = JSON.parse(tool_call['function']['arguments'])
+    function_name = tool_call['function']['name']
+    tool_call_id = tool_call['id']
 
-  def format_response(response)
-    formatted_response = "
-    Question: #{response.question}
-    Answer: #{response.answer}
-    "
-    if response.documentable.present? && response.documentable.try(:external_link)
-      formatted_response += "
-      Source: #{response.documentable.external_link}
-      "
+    if @tool_registry.respond_to?(function_name)
+      execute_tool(function_name, arguments, tool_call_id)
+    else
+      process_invalid_tool_call(function_name, tool_call_id)
     end
-
-    formatted_response
   end
 
-  def append_tool_response(sections)
+  def execute_tool(function_name, arguments, tool_call_id)
+    persist_message(
+      {
+        content: I18n.t('captain.copilot.using_tool', function_name: function_name),
+        function_name: function_name
+      },
+      'assistant_thinking'
+    )
+    result = @tool_registry.send(function_name, arguments)
+    persist_message(
+      {
+        content: I18n.t('captain.copilot.completed_tool_call', function_name: function_name),
+        function_name: function_name
+      },
+      'assistant_thinking'
+    )
+    append_tool_response(result, tool_call_id)
+  end
+
+  def append_tool_calls(tool_calls)
     @messages << {
       role: 'assistant',
-      content: "Found the following FAQs in the documentation:\n #{sections}"
+      tool_calls: tool_calls
     }
+  end
+
+  def process_invalid_tool_call(function_name, tool_call_id)
+    persist_message({ content: I18n.t('captain.copilot.invalid_tool_call'), function_name: function_name }, 'assistant_thinking')
+    append_tool_response(I18n.t('captain.copilot.tool_not_available'), tool_call_id)
+  end
+
+  def append_tool_response(content, tool_call_id)
+    @messages << {
+      role: 'tool',
+      tool_call_id: tool_call_id,
+      content: content
+    }
+  end
+
+  def log_chat_completion_request
+    Rails.logger.info(
+      "#{self.class.name} Assistant: #{@assistant.id}, Requesting chat completion
+      for messages #{@messages} with #{@tool_registry&.registered_tools&.length || 0} tools
+      "
+    )
   end
 end

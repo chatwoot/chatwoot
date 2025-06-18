@@ -4,9 +4,10 @@ import { useVuelidate } from '@vuelidate/core';
 
 import MergeContactSummary from 'dashboard/modules/contact/components/MergeContactSummary.vue';
 import ContactDropdownItem from './ContactDropdownItem.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
-  components: { MergeContactSummary, ContactDropdownItem },
+  components: { MergeContactSummary, ContactDropdownItem, NextButton },
   props: {
     primaryContact: {
       type: Object,
@@ -173,12 +174,18 @@ export default {
       :parent-contact-name="parentContactName"
     />
     <div class="flex justify-end gap-2 mt-6">
-      <woot-button variant="clear" @click.prevent="onCancel">
-        {{ $t('MERGE_CONTACTS.FORM.CANCEL') }}
-      </woot-button>
-      <woot-button type="submit" :is-loading="isMerging">
-        {{ $t('MERGE_CONTACTS.FORM.SUBMIT') }}
-      </woot-button>
+      <NextButton
+        faded
+        slate
+        type="reset"
+        :label="$t('MERGE_CONTACTS.FORM.CANCEL')"
+        @click.prevent="onCancel"
+      />
+      <NextButton
+        type="submit"
+        :is-loading="isMerging"
+        :label="$t('MERGE_CONTACTS.FORM.SUBMIT')"
+      />
     </div>
   </form>
 </template>

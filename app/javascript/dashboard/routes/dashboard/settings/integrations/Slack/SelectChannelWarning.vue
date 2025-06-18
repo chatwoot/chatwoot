@@ -1,109 +1,99 @@
-<script>
-import { mapGetters } from 'vuex';
+<script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+import { useInstallationName } from 'shared/mixins/globalConfigMixin';
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  mixins: [globalConfigMixin],
-  props: {
-    hasConnectedAChannel: {
-      type: Boolean,
-      default: true,
-    },
+const props = defineProps({
+  hasConnectedAChannel: {
+    type: Boolean,
+    default: true,
   },
-  setup() {
-    const { formatMessage } = useMessageFormatter();
-    return {
-      formatMessage,
-    };
-  },
-  data() {
-    return { selectedChannelId: '', availableChannels: [] };
-  },
-  computed: {
-    ...mapGetters({
-      globalConfig: 'globalConfig/get',
-      uiFlags: 'integrations/getUIFlags',
-    }),
-    errorDescription() {
-      return !this.hasConnectedAChannel
-        ? this.$t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.DESCRIPTION')
-        : this.$t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.EXPIRED');
-    },
-  },
-  methods: {
-    async fetchChannels() {
-      try {
-        this.availableChannels = await this.$store.dispatch(
-          'integrations/listAllSlackChannels'
-        );
-        this.availableChannels.sort((c1, c2) => c1.name - c2.name);
-      } catch {
-        this.$t('INTEGRATION_SETTINGS.SLACK.FAILED_TO_FETCH_CHANNELS');
-        this.availableChannels = [];
-      }
-    },
-    async updateIntegration() {
-      try {
-        await this.$store.dispatch('integrations/updateSlack', {
-          referenceId: this.selectedChannelId,
-        });
-        useAlert(this.$t('INTEGRATION_SETTINGS.SLACK.UPDATE_SUCCESS'));
-      } catch (error) {
-        useAlert(error.message || 'INTEGRATION_SETTINGS.SLACK.UPDATE_ERROR');
-      }
-    },
-  },
+});
+
+const store = useStore();
+const { t } = useI18n();
+
+const { formatMessage } = useMessageFormatter();
+
+const selectedChannelId = ref('');
+const availableChannels = ref([]);
+
+const uiFlags = computed(() => store.getters['integrations/getUIFlags']);
+
+const errorDescription = computed(() => {
+  return !props.hasConnectedAChannel
+    ? t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.DESCRIPTION')
+    : t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.EXPIRED');
+});
+const globalConfig = computed(() => store.getters['globalConfig/get']);
+
+const formattedErrorMessage = computed(() => {
+  return formatMessage(
+    useInstallationName(
+      errorDescription.value,
+      globalConfig.value.installationName
+    ),
+    false
+  );
+});
+
+const fetchChannels = async () => {
+  try {
+    availableChannels.value = await store.dispatch(
+      'integrations/listAllSlackChannels'
+    );
+    availableChannels.value.sort((c1, c2) => c1.name - c2.name);
+  } catch {
+    t('INTEGRATION_SETTINGS.SLACK.FAILED_TO_FETCH_CHANNELS');
+    availableChannels.value = [];
+  }
+};
+
+const updateIntegration = async () => {
+  try {
+    await store.dispatch('integrations/updateSlack', {
+      referenceId: selectedChannelId.value,
+    });
+    useAlert(t('INTEGRATION_SETTINGS.SLACK.UPDATE_SUCCESS'));
+  } catch (error) {
+    useAlert(error.message || 'INTEGRATION_SETTINGS.SLACK.UPDATE_ERROR');
+  }
 };
 </script>
 
 <template>
   <div
-    class="px-6 py-4 mb-4 border border-yellow-200 rounded-md bg-yellow-50 dark:border-slate-700 dark:bg-slate-800"
+    class="px-6 py-4 mb-4 outline outline-n-container outline-1 bg-n-alpha-3 rounded-md shadow"
   >
     <div class="flex">
-      <div class="flex-shrink-0 mt-0.5">
-        <fluent-icon
-          icon="alert"
-          class="text-yellow-500 dark:text-yellow-400"
-          size="24"
-        />
+      <div class="flex-shrink-0">
+        <div class="i-lucide-bell text-xl text-n-amber-11 mt-1" />
       </div>
       <div class="ml-3">
-        <p
-          class="mb-1 text-base font-semibold text-yellow-900 dark:text-yellow-500"
-        >
+        <p class="mb-1 text-base font-semibold text-n-slate-12">
           {{
             $t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.ATTENTION_REQUIRED')
           }}
         </p>
-        <div class="mt-2 text-sm text-yellow-800 dark:text-yellow-600">
-          <p
-            v-dompurify-html="
-              formatMessage(
-                useInstallationName(
-                  errorDescription,
-                  globalConfig.installationName
-                ),
-                false
-              )
-            "
-          />
+        <div class="mt-2 text-sm text-n-slate-11 mb-3">
+          <p v-dompurify-html="formattedErrorMessage" />
         </div>
       </div>
     </div>
-    <div v-if="!hasConnectedAChannel" class="mt-2 ml-8">
-      <woot-submit-button
+    <div v-if="!hasConnectedAChannel" class="mb-2 mt-1 ml-8">
+      <Button
         v-if="!availableChannels.length"
-        button-class="smooth small warning"
-        :loading="uiFlags.isFetchingSlackChannels"
-        :button-text="
-          $t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.BUTTON_TEXT')
-        "
-        spinner-class="warning"
+        amber
+        sm
+        :is-loading="uiFlags.isFetchingSlackChannels"
         @click="fetchChannels"
-      />
+      >
+        {{ $t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.BUTTON_TEXT') }}
+      </Button>
       <div v-else class="inline-flex">
         <select
           v-model="selectedChannelId"
@@ -120,13 +110,14 @@ export default {
             #{{ channel.name }}
           </option>
         </select>
-        <woot-submit-button
-          button-class="smooth small success"
-          :button-text="$t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.UPDATE')"
-          spinner-class="success"
-          :loading="uiFlags.isUpdatingSlack"
+        <Button
+          teal
+          sm
+          :is-loading="uiFlags.isUpdatingSlack"
           @click="updateIntegration"
-        />
+        >
+          {{ $t('INTEGRATION_SETTINGS.SLACK.SELECT_CHANNEL.UPDATE') }}
+        </Button>
       </div>
     </div>
   </div>

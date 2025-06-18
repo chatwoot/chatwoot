@@ -1,3 +1,4 @@
+import { FEATURE_FLAGS } from '../../../featureFlags';
 import { getPortalRoute } from './helpers/routeHelper';
 
 import HelpCenterPageRouteView from './pages/HelpCenterPageRouteView.vue';
@@ -21,21 +22,21 @@ const PortalsLocalesIndexPage = () =>
 const PortalsSettingsIndexPage = () =>
   import('./pages/PortalsSettingsIndexPage.vue');
 
+const meta = {
+  featureFlag: FEATURE_FLAGS.HELP_CENTER,
+  permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+};
 const portalRoutes = [
   {
     path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/:tab?'),
     name: 'portals_articles_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsArticlesIndexPage,
   },
   {
     path: getPortalRoute(':portalSlug/:locale/:categorySlug?/articles/new'),
     name: 'portals_articles_new',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsArticlesNewPage,
   },
   {
@@ -43,18 +44,14 @@ const portalRoutes = [
       ':portalSlug/:locale/:categorySlug?/articles/:tab?/edit/:articleSlug'
     ),
     name: 'portals_articles_edit',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsArticlesEditPage,
   },
 
   {
     path: getPortalRoute(':portalSlug/:locale/categories'),
     name: 'portals_categories_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsCategoriesIndexPage,
   },
   {
@@ -62,9 +59,7 @@ const portalRoutes = [
       ':portalSlug/:locale/categories/:categorySlug/articles'
     ),
     name: 'portals_categories_articles_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsArticlesIndexPage,
   },
   {
@@ -72,31 +67,26 @@ const portalRoutes = [
       ':portalSlug/:locale/categories/:categorySlug/articles/:articleSlug'
     ),
     name: 'portals_categories_articles_edit',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsArticlesEditPage,
   },
   {
     path: getPortalRoute(':portalSlug/locales'),
     name: 'portals_locales_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsLocalesIndexPage,
   },
   {
     path: getPortalRoute(':portalSlug/settings'),
     name: 'portals_settings_index',
-    meta: {
-      permissions: ['administrator', 'agent', 'knowledge_base_manage'],
-    },
+    meta,
     component: PortalsSettingsIndexPage,
   },
   {
     path: getPortalRoute('new'),
     name: 'portals_new',
     meta: {
+      featureFlag: FEATURE_FLAGS.HELP_CENTER,
       permissions: ['administrator', 'knowledge_base_manage'],
     },
     component: PortalsNew,
@@ -105,6 +95,7 @@ const portalRoutes = [
     path: getPortalRoute(':navigationPath'),
     name: 'portals_index',
     meta: {
+      featureFlag: FEATURE_FLAGS.HELP_CENTER,
       permissions: ['administrator', 'knowledge_base_manage'],
     },
     component: PortalsIndex,

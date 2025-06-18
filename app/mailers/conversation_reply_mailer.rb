@@ -1,4 +1,8 @@
 class ConversationReplyMailer < ApplicationMailer
+  # We needs to expose large attachments to the view as links
+  # Small attachments are linked as mail attachments directly
+  attr_reader :large_attachments
+
   include ConversationReplyMailerHelper
   default from: ENV.fetch('MAILER_SENDER_EMAIL', 'Chatwoot <accounts@chatwoot.com>')
   layout :choose_layout
@@ -100,7 +104,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def business_name
-    @inbox.business_name || @inbox.name
+    @inbox.business_name || @inbox.sanitized_name
   end
 
   def from_email

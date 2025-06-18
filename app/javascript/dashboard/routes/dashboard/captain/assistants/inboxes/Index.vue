@@ -72,14 +72,16 @@ onMounted(() =>
     :button-policy="['administrator']"
     :is-fetching="isFetchingAssistant || isFetching"
     :is-empty="!captainInboxes.length"
-    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     :show-pagination-footer="false"
+    :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @click="handleCreate"
   >
     <template v-if="!isFetchingAssistant" #headerTitle>
       <div class="flex flex-row items-center gap-4">
         <BackButton compact />
-        <span class="flex items-center gap-1 text-lg">
+        <span
+          class="flex items-center gap-1 text-lg font-medium text-n-slate-12"
+        >
           {{ assistant.name }}
           <span class="i-lucide-chevron-right text-xl text-n-slate-10" />
           {{ $t('CAPTAIN.INBOXES.HEADER') }}

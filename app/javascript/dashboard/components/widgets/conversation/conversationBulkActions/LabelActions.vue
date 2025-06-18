@@ -1,7 +1,11 @@
 <script>
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   emits: ['update', 'close', 'assign'],
   data() {
     return {
@@ -40,13 +44,7 @@ export default {
     </div>
     <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_LABELS') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="labels-list">
       <header class="labels-list__header">
@@ -58,7 +56,7 @@ export default {
             v-model="query"
             type="search"
             :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-            class="label--search_input"
+            class="reset-base !outline-0 !text-sm label--search_input"
           />
         </div>
       </header>
@@ -91,15 +89,13 @@ export default {
         </li>
       </ul>
       <footer class="labels-list__footer">
-        <woot-button
-          size="small"
-          is-expanded
-          color-scheme="primary"
+        <NextButton
+          sm
+          type="submit"
+          :label="$t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS')"
           :disabled="!selectedLabels.length"
           @click="$emit('assign', selectedLabels)"
-        >
-          <span>{{ $t('BULK_ACTION.LABELS.ASSIGN_SELECTED_LABELS') }}</span>
-        </woot-button>
+        />
       </footer>
     </div>
   </div>

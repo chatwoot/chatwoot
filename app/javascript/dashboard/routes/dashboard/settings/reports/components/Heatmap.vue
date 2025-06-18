@@ -10,9 +10,13 @@ import { groupHeatmapByDay } from 'helpers/ReportsDataHelper';
 import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
-  heatData: {
+  heatmapData: {
     type: Array,
     default: () => [],
+  },
+  numberOfRows: {
+    type: Number,
+    default: 7,
   },
   isLoading: {
     type: Boolean,
@@ -21,11 +25,11 @@ const props = defineProps({
 });
 const { t } = useI18n();
 const processedData = computed(() => {
-  return groupHeatmapByDay(props.heatData);
+  return groupHeatmapByDay(props.heatmapData);
 });
 
 const quantileRange = computed(() => {
-  const flattendedData = props.heatData.map(data => data.value);
+  const flattendedData = props.heatmapData.map(data => data.value);
   return getQuantileIntervals(flattendedData, [0.2, 0.4, 0.6, 0.8, 0.9, 0.99]);
 });
 
@@ -95,14 +99,14 @@ function getHeatmapLevelClass(value) {
     <template v-if="isLoading">
       <div class="grid gap-[5px] flex-shrink-0">
         <div
-          v-for="ii in 7"
+          v-for="ii in numberOfRows"
           :key="ii"
           class="w-full rounded-sm bg-slate-100 dark:bg-slate-900 animate-loader-pulse h-8 min-w-[70px]"
         />
       </div>
       <div class="grid gap-[5px] w-full min-w-[700px]">
         <div
-          v-for="ii in 7"
+          v-for="ii in numberOfRows"
           :key="ii"
           class="grid gap-[5px] grid-cols-[repeat(24,_1fr)]"
         >

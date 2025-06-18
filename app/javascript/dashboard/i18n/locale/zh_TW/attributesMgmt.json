@@ -3,7 +3,7 @@
     "HEADER": "自訂屬性",
     "HEADER_BTN_TXT": "新增自訂屬性",
     "LOADING": "正在取得自訂屬性",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "DESCRIPTION": "自定義屬性可用於追蹤有關聯絡人或對話的額外詳情，例如訂閱方案或首次購買的日期。您可以添加不同類型的自定義屬性，如文字、清單或數字，以捕捉您所需的特定資訊。",
     "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
       "TITLE": "新增自訂屬性",
@@ -92,7 +92,12 @@
       "CONTACT": "聯絡人"
     },
     "LIST": {
-      "TABLE_HEADER": ["姓名", "描述資訊", "類別", "Key"],
+      "TABLE_HEADER": {
+        "NAME": "姓名",
+        "DESCRIPTION": "描述資訊",
+        "TYPE": "類別",
+        "KEY": "Key"
+      },
       "BUTTONS": {
         "EDIT": "編輯",
         "DELETE": "刪除"

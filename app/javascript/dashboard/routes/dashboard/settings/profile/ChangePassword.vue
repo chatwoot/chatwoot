@@ -20,10 +20,10 @@ export default {
       isPasswordChanging: false,
       errorMessage: '',
       inputStyles: {
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
-        marginBottom: '2px',
+        borderRadius: '0.75rem',
+        padding: '0.375rem 0.75rem',
+        fontSize: '0.875rem',
+        marginBottom: '0.125rem',
       },
     };
   },
@@ -62,10 +62,10 @@ export default {
       }
       let alertMessage = this.$t('PROFILE_SETTINGS.PASSWORD_UPDATE_SUCCESS');
       try {
-        await this.$store.dispatch('updateProfile', {
+        await this.$store.dispatch('updatePassword', {
           password: this.password,
-          password_confirmation: this.passwordConfirmation,
-          current_password: this.currentPassword,
+          passwordConfirmation: this.passwordConfirmation,
+          currentPassword: this.currentPassword,
         });
       } catch (error) {
         alertMessage =

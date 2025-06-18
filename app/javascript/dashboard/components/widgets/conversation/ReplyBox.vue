@@ -30,7 +30,7 @@ import {
 import WhatsappTemplates from './WhatsappTemplates/Modal.vue';
 import { MESSAGE_MAX_LENGTH } from 'shared/helpers/MessageTypeHelper';
 import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-import { trimContent, debounce } from '@chatwoot/utils';
+import { trimContent, debounce, getRecipients } from '@chatwoot/utils';
 import wootConstants from 'dashboard/constants/globals';
 import { CONVERSATION_EVENTS } from '../../../helper/AnalyticsHelper/events';
 import fileUploadMixin from 'dashboard/mixins/fileUploadMixin';
@@ -241,14 +241,26 @@ export default {
       if (this.isAFacebookInbox) {
         return MESSAGE_MAX_LENGTH.FACEBOOK;
       }
-      if (this.isAWhatsAppChannel) {
+      if (this.isAnInstagramChannel) {
+        return MESSAGE_MAX_LENGTH.INSTAGRAM;
+      }
+      if (this.isATwilioWhatsAppChannel) {
         return MESSAGE_MAX_LENGTH.TWILIO_WHATSAPP;
+      }
+      if (this.isAWhatsAppCloudChannel) {
+        return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
       }
       if (this.isASmsInbox) {
         return MESSAGE_MAX_LENGTH.TWILIO_SMS;
       }
       if (this.isAnEmailChannel) {
         return MESSAGE_MAX_LENGTH.EMAIL;
+      }
+      if (this.isATwilioSMSChannel) {
+        return MESSAGE_MAX_LENGTH.TWILIO_SMS;
+      }
+      if (this.isAWhatsAppChannel) {
+        return MESSAGE_MAX_LENGTH.WHATSAPP_CLOUD;
       }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
@@ -261,7 +273,8 @@ export default {
         this.isAnEmailChannel ||
         this.isASmsInbox ||
         this.isATelegramChannel ||
-        this.isALineChannel
+        this.isALineChannel ||
+        this.isAnInstagramChannel
       );
     },
     replyButtonLabel() {
@@ -326,7 +339,8 @@ export default {
         this.isAnEmailChannel ||
         this.isAWebWidgetInbox ||
         this.isAPIInbox ||
-        this.isAWhatsAppChannel
+        this.isAWhatsAppChannel ||
+        this.isATelegramChannel
       );
     },
     isSignatureEnabledForInbox() {
@@ -386,10 +400,14 @@ export default {
     },
   },
   watch: {
-    currentChat(conversation) {
+    currentChat(conversation, oldConversation) {
       const { can_reply: canReply } = conversation;
-
-      this.setCCAndToEmailsFromLastChat();
+      if (oldConversation && oldConversation.id !== conversation.id) {
+        // Only update email fields when switching to a completely different conversation (by ID)
+        // This prevents overwriting user input (e.g., CC/BCC fields) when performing actions
+        // like self-assign or other updates that do not actually change the conversation context
+        this.setCCAndToEmailsFromLastChat();
+      }
 
       if (this.isOnPrivateNote) {
         return;
@@ -403,10 +421,23 @@ export default {
 
       this.fetchAndSetReplyTo();
     },
+    // When moving from one conversation to another, the store may not have the
+    // list of all the messages. A fetch is subsequently made to get the messages.
+    // This watcher handles two main cases:
+    // 1. When switching conversations and messages are fetched/updated, ensures CC/BCC fields are set from the latest OUTGOING/INCOMING email (not activity/private messages).
+    // 2. Fixes and issue where CC/BCC fields could be reset/lost after assignment/activity actions or message mutations that did not represent a true email context change.
+    lastEmail: {
+      handler(lastEmail) {
+        if (!lastEmail) return;
+        this.setCCAndToEmailsFromLastChat();
+      },
+      deep: true,
+    },
     conversationIdByRoute(conversationId, oldConversationId) {
       if (conversationId !== oldConversationId) {
         this.setToDraft(oldConversationId, this.replyType);
         this.getFromDraft();
+        this.resetRecorderAndClearAttachments();
       }
     },
     message(updatedMessage) {
@@ -515,6 +546,12 @@ export default {
           this.messageSignature
         );
       }
+    },
+    resetRecorderAndClearAttachments() {
+      // Reset audio recorder UI state
+      this.resetAudioRecorderInput();
+      // Reset attached files
+      this.attachedFiles = [];
     },
     saveDraft(conversationId, replyType) {
       if (this.message || this.message === '') {
@@ -665,7 +702,11 @@ export default {
           this.isATwilioWhatsAppChannel ||
           this.isAWhatsAppCloudChannel ||
           this.is360DialogWhatsAppChannel;
-        if (isOnWhatsApp && !this.isPrivate) {
+        // When users send messages containing both text and attachments on Instagram, Instagram treats them as separate messages.
+        // Although Chatwoot combines these into a single message, Instagram sends separate echo events for each component.
+        // This can create duplicate messages in Chatwoot. To prevent this issue, we'll handle text and attachments as separate messages.
+        const isOnInstagram = this.isAnInstagramChannel;
+        if ((isOnWhatsApp || isOnInstagram) && !this.isPrivate) {
           this.sendMessageAsMultipleMessages(this.message);
         } else {
           const messagePayload = this.getMessagePayload(this.message);
@@ -682,7 +723,7 @@ export default {
       }
     },
     sendMessageAsMultipleMessages(message) {
-      const messages = this.getMessagePayloadForWhatsapp(message);
+      const messages = this.getMultipleMessagesPayload(message);
       messages.forEach(messagePayload => {
         this.sendMessage(messagePayload);
       });
@@ -914,11 +955,11 @@ export default {
 
       return payload;
     },
-    getMessagePayloadForWhatsapp(message) {
+    getMultipleMessagesPayload(message) {
       const multipleMessagePayload = [];
 
       if (this.attachedFiles && this.attachedFiles.length) {
-        let caption = message;
+        let caption = this.isAnInstagramChannel ? '' : message;
         this.attachedFiles.forEach(attachment => {
           const attachedFile = this.globalConfig.directUploadsEnabled
             ? attachment.blobSignedId
@@ -933,9 +974,19 @@ export default {
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
           multipleMessagePayload.push(attachmentPayload);
-          caption = '';
+          // For WhatsApp, only the first attachment gets a caption
+          if (!this.isAnInstagramChannel) caption = '';
         });
-      } else {
+      }
+
+      const hasNoAttachments =
+        !this.attachedFiles || !this.attachedFiles.length;
+      // For Instagram, we need a separate text message
+      // For WhatsApp, we only need a text message if there are no attachments
+      if (
+        (this.isAnInstagramChannel && this.message) ||
+        (!this.isAnInstagramChannel && hasNoAttachments)
+      ) {
         let messagePayload = {
           conversationId: this.currentChat.id,
           message,
@@ -989,45 +1040,20 @@ export default {
       this.ccEmails = value.ccEmails;
     },
     setCCAndToEmailsFromLastChat() {
-      if (!this.lastEmail) return;
-
-      const {
-        content_attributes: { email: emailAttributes = {} },
-      } = this.lastEmail;
-
-      // Retrieve the email of the current conversation's sender
       const conversationContact = this.currentChat?.meta?.sender?.email || '';
-      let cc = emailAttributes.cc ? [...emailAttributes.cc] : [];
-      let to = [];
+      const { email: inboxEmail, forward_to_email: forwardToEmail } =
+        this.inbox;
 
-      // there might be a situation where the current conversation will include a message from a third person,
-      // and the current conversation contact is in CC.
-      // This is an edge-case, reported here: CW-1511 [ONLY FOR INTERNAL REFERENCE]
-      // So we remove the current conversation contact's email from the CC list if present
-      if (cc.includes(conversationContact)) {
-        cc = cc.filter(email => email !== conversationContact);
-      }
-
-      // If the last incoming message sender is different from the conversation contact, add them to the "to"
-      // and add the conversation contact to the CC
-      if (!emailAttributes.from.includes(conversationContact)) {
-        to.push(...emailAttributes.from);
-        cc.push(conversationContact);
-      }
-
-      // Remove the conversation contact's email from the BCC list if present
-      let bcc = (emailAttributes.bcc || []).filter(
-        email => email !== conversationContact
+      const { cc, bcc, to } = getRecipients(
+        this.lastEmail,
+        conversationContact,
+        inboxEmail,
+        forwardToEmail
       );
 
-      // Ensure only unique email addresses are in the CC list
-      bcc = [...new Set(bcc)];
-      cc = [...new Set(cc)];
-      to = [...new Set(to)];
-
+      this.toEmails = to.join(', ');
       this.ccEmails = cc.join(', ');
       this.bccEmails = bcc.join(', ');
-      this.toEmails = to.join(', ');
     },
     fetchAndSetReplyTo() {
       const replyStorageKey = LOCAL_STORAGE_KEYS.MESSAGE_REPLY_TO;
@@ -1079,9 +1105,9 @@ export default {
 <template>
   <Banner
     v-if="showSelfAssignBanner"
-    action-button-variant="clear"
+    action-button-variant="ghost"
     color-scheme="secondary"
-    class="banner--self-assign mx-2 mb-2 rounded-lg"
+    class="mx-2 mb-2 rounded-lg banner--self-assign"
     :banner-message="$t('CONVERSATION.NOT_ASSIGNED_TO_YOU')"
     has-action-button
     :action-button-label="$t('CONVERSATION.ASSIGN_TO_ME')"
@@ -1140,7 +1166,7 @@ export default {
         v-else-if="!showRichContentEditor"
         ref="messageInput"
         v-model="message"
-        class="input"
+        class="rounded-none input"
         :placeholder="messagePlaceHolder"
         :min-height="4"
         :signature="signatureToApply"
@@ -1200,6 +1226,7 @@ export default {
       :mode="replyType"
       :on-file-upload="onFileUpload"
       :on-send="onSendReply"
+      :conversation-type="conversationType"
       :recording-audio-duration-text="recordingAudioDurationText"
       :recording-audio-state="recordingAudioState"
       :send-button-text="replyButtonLabel"
@@ -1265,7 +1292,7 @@ export default {
   @apply relative py-0 px-4 -mt-px;
 
   textarea {
-    @apply shadow-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
+    @apply shadow-none outline-none border-transparent bg-transparent m-0 max-h-60 min-h-[3rem] pt-4 pb-0 px-0 resize-none;
   }
 }
 

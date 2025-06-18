@@ -1,14 +1,14 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Minha Caixa de Entrada",
+      "TITLE": "Caixa de Entrada",
       "DISPLAY_DROPDOWN": "Exibir",
       "LOADING": "Carregando notificações",
       "404": "Não há conversas ativas neste grupo.",
       "NO_NOTIFICATIONS": "Nenhuma notificação",
       "NOTE": "Notificações de todas as caixas inscritas",
       "NO_MESSAGES_AVAILABLE": "Ops! Não é possível obter mensagens",
-      "SNOOZED_UNTIL": "Suspender até",
+      "SNOOZED_UNTIL": "Adiar até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana"
     },
@@ -28,7 +28,7 @@
       "SLA_MISSED_RESOLUTION": "A resolução da meta de SLA foi perdida na conversa"
     },
     "TYPES_NEXT": {
-      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_MENTION": "Mencionado",
       "CONVERSATION_ASSIGNMENT": "Atribuídas a você",
       "CONVERSATION_CREATION": "Nova conversa",
       "SLA_MISSED_FIRST_RESPONSE": "Quebra SLA",
@@ -37,31 +37,31 @@
       "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Nova Mensagem",
       "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Nova Mensagem",
       "SNOOZED_UNTIL": "Adiado para {time}",
-      "SNOOZED_ENDS": "Snooze ended"
+      "SNOOZED_ENDS": "Adiamento encerrado"
     },
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "MENU_ITEM": {
-      "MARK_AS_READ": "Marcar como lido",
+      "MARK_AS_READ": "Marcar como lida",
       "MARK_AS_UNREAD": "Marcar como não lida",
       "SNOOZE": "Adiar",
       "DELETE": "Excluir",
       "MARK_ALL_READ": "Marcar todas como lidas",
-      "DELETE_ALL": "Excluir todos",
-      "DELETE_ALL_READ": "Excluir todos os lidos"
+      "DELETE_ALL": "Excluir todas",
+      "DELETE_ALL_READ": "Excluir todas as lidas"
     },
     "DISPLAY_MENU": {
       "SORT": "Ordenar",
-      "DISPLAY": "Exibir :",
+      "DISPLAY": "Exibir:",
       "SORT_OPTIONS": {
-        "NEWEST": "Mais recente",
-        "OLDEST": "Mais antigo",
+        "NEWEST": "Recentes",
+        "OLDEST": "Antigas",
         "PRIORITY": "Prioridade"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "Adiado",
+        "SNOOZED": "Adiadas",
         "READ": "Lida",
-        "LABELS": "Marcadores",
-        "CONVERSATION_ID": "Conversas"
+        "LABELS": "Etiquetas",
+        "CONVERSATION_ID": "ID da conversa"
       }
     },
     "ALERTS": {

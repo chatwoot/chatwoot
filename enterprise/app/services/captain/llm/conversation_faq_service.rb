@@ -1,4 +1,4 @@
-class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
+class Captain::Llm::ConversationFaqService < Llm::BaseOpenAiService
   DISTANCE_THRESHOLD = 0.3
 
   def initialize(assistant, conversation)
@@ -89,7 +89,9 @@ class Captain::Llm::ConversationFaqService < Captain::Llm::BaseOpenAiService
   end
 
   def chat_parameters
-    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator
+    account_language = @conversation.account.locale_english_name
+    prompt = Captain::Llm::SystemPromptsService.conversation_faq_generator(account_language)
+
     {
       model: @model,
       response_format: { type: 'json_object' },

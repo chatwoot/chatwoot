@@ -29,7 +29,7 @@ export default {
 
 <template>
   <div>
-    <div class="multiselect-wrap--small">
+    <div class="multiselect-wrap--small flex flex-col gap-1 mt-1">
       <multiselect
         v-model="selectedTeams"
         track-by="id"

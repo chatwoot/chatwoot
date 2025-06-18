@@ -1,7 +1,7 @@
 require 'json'
 
 class FilterService
-  include FilterHelper
+  include Filters::FilterHelper
   include CustomExceptions::CustomFilter
 
   ATTRIBUTE_MODEL = 'conversation_attribute'.freeze
@@ -43,18 +43,15 @@ class FilterService
   end
 
   def filter_values(query_hash)
-    case query_hash['attribute_key']
-    when 'status'
-      return Conversation.statuses.values if query_hash['values'].include?('all')
+    attribute_key = query_hash['attribute_key']
+    values = query_hash['values']
 
-      query_hash['values'].map { |x| Conversation.statuses[x.to_sym] }
-    when 'message_type'
-      query_hash['values'].map { |x| Message.message_types[x.to_sym] }
-    when 'content'
-      downcase_array_values(query_hash['values'])
-    else
-      case_insensitive_values(query_hash)
-    end
+    return conversation_status_values(values) if attribute_key == 'status'
+    return conversation_priority_values(values) if attribute_key == 'priority'
+    return message_type_values(values) if attribute_key == 'message_type'
+    return downcase_array_values(values) if attribute_key == 'content'
+
+    case_insensitive_values(query_hash)
   end
 
   def downcase_array_values(values)

@@ -6,10 +6,10 @@
     "LIST": {
       "404": "このグループには有効な会話データがありません"
     },
-    "FAILED_TO_SEND": "Failed to send",
+    "FAILED_TO_SEND": "送信に失敗しました",
     "TAB_HEADING": "会話データ",
-    "MENTION_HEADING": "Mentions",
-    "UNATTENDED_HEADING": "Unattended",
+    "MENTION_HEADING": "メンション",
+    "UNATTENDED_HEADING": "未対応",
     "SEARCH": {
       "INPUT": "人物、チャット、保存された返信を検索する"
     },
@@ -21,61 +21,61 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "開く"
+        "TEXT": "オープン"
       },
       "resolved": {
         "TEXT": "解決済み"
       },
       "pending": {
-        "TEXT": "Pending"
+        "TEXT": "保留中"
       },
       "snoozed": {
-        "TEXT": "Snoozed"
+        "TEXT": "スヌーズ中"
       },
       "all": {
         "TEXT": "すべて"
       }
     },
     "VIEW_FILTER": "表示",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "会話を並び替える",
     "CHAT_SORT": {
-      "STATUS": "状況",
-      "ORDER_BY": "Order by"
+      "STATUS": "ステータス",
+      "ORDER_BY": "並び順"
     },
     "CHAT_TIME_STAMP": {
       "CREATED": {
-        "LATEST": "Created",
-        "OLDEST": "Created at:"
+        "LATEST": "作成",
+        "OLDEST": "作成日時:"
       },
       "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Last activity:",
-        "ACTIVE": "Last activity"
+        "NOT_ACTIVE": "最終アクティビティ:",
+        "ACTIVE": "最終アクティビティ"
       }
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "最終アクティビティ: 古い順"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "最終アクティビティ: 新しい順"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "作成日時: 新しい順"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "作成日時: 古い順"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "優先度: 高い順"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "優先度: 低い順"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "保留時間: 長い順"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "保留時間: 短い順"
       }
     },
     "ATTACHMENTS": {
@@ -86,7 +86,7 @@
         "CONTENT": "音声メッセージ"
       },
       "video": {
-        "CONTENT": "ビデオ メッセージ"
+        "CONTENT": "ビデオメッセージ"
       },
       "file": {
         "CONTENT": "添付ファイル"
@@ -95,42 +95,45 @@
         "CONTENT": "場所"
       },
       "ig_reel": {
-        "CONTENT": "Instagram Reel"
+        "CONTENT": "Instagram リール"
       },
       "fallback": {
         "CONTENT": "URLを共有しています"
+      },
+      "contact": {
+        "CONTENT": "共有連絡先"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
-      "DROPDOWN_TITLE": "Sort by",
+      "TITLE": "会話の並び替え",
+      "DROPDOWN_TITLE": "並び替え",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "最終アクティビティ日時",
+          "LABEL": "最終アクティビティ"
         },
         "CREATED_AT": {
-          "NAME": "Created at",
-          "LABEL": "Created at"
+          "NAME": "作成日時",
+          "LABEL": "作成日時"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "最終ユーザーメッセージ日時",
+          "LABEL": "最終メッセージ"
         }
       }
     },
     "RECEIVED_VIA_EMAIL": "メールで受信しました",
     "VIEW_TWEET_IN_TWITTER": "ツイートをTwitterで見る",
     "REPLY_TO_TWEET": "このつぶやきに返信",
-    "LINK_TO_STORY": "Go to instagram story",
-    "SENT": "Sent successfully",
-    "READ": "Read successfully",
-    "DELIVERED": "Delivered successfully",
-    "NO_MESSAGES": "No Messages",
-    "NO_CONTENT": "No content available",
-    "HIDE_QUOTED_TEXT": "Hide Quoted Text",
-    "SHOW_QUOTED_TEXT": "Show Quoted Text",
-    "MESSAGE_READ": "Read",
-    "SENDING": "Sending"
+    "LINK_TO_STORY": "Instagramストーリーに移動",
+    "SENT": "送信成功",
+    "READ": "既読",
+    "DELIVERED": "配信済み",
+    "NO_MESSAGES": "メッセージなし",
+    "NO_CONTENT": "コンテンツが利用できません",
+    "HIDE_QUOTED_TEXT": "引用テキストを非表示",
+    "SHOW_QUOTED_TEXT": "引用テキストを表示",
+    "MESSAGE_READ": "既読",
+    "SENDING": "送信中"
   }
 }

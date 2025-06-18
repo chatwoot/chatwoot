@@ -1,7 +1,6 @@
 <script>
 import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 export default {
   components: {
@@ -15,8 +14,7 @@ export default {
   },
   setup() {
     const { truncateMessage } = useMessageFormatter();
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass, truncateMessage };
+    return { truncateMessage };
   },
 };
 </script>
@@ -25,52 +23,29 @@ export default {
 <template>
   <div
     v-if="!!items.length"
-    class="chat-bubble agent"
-    :class="getThemeClass('bg-white', 'dark:bg-slate-700')"
+    class="chat-bubble agent bg-n-background dark:bg-n-solid-3"
   >
-    <div v-for="item in items" :key="item.link" class="article-item">
-      <a :href="item.link" target="_blank" rel="noopener noreferrer nofollow">
-        <span class="title flex items-center text-black-900 font-medium">
-          <FluentIcon
-            icon="link"
-            class="mr-1"
-            :class="getThemeClass('text-black-900', 'dark:text-slate-50')"
-          />
-          <span :class="getThemeClass('text-slate-900', 'dark:text-slate-50')">
+    <div
+      v-for="item in items"
+      :key="item.link"
+      class="border-b border-solid border-n-weak text-sm py-2 px-0 last:border-b-0"
+    >
+      <a
+        :href="item.link"
+        target="_blank"
+        rel="noopener noreferrer nofollow"
+        class="text-n-slate-12 no-underline"
+      >
+        <span class="flex items-center text-black-900 font-medium">
+          <FluentIcon icon="link" class="ltr:mr-1 rtl:ml-1 text-n-slate-12" />
+          <span class="text-n-slate-12">
             {{ item.title }}
           </span>
         </span>
-        <span
-          class="description"
-          :class="getThemeClass('text-slate-700', 'dark:text-slate-200')"
-        >
+        <span class="block mt-1 text-n-slate-12">
           {{ truncateMessage(item.description) }}
         </span>
       </a>
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-@import 'widget/assets/scss/variables.scss';
-
-.article-item {
-  border-bottom: 1px solid $color-border;
-  font-size: $font-size-default;
-  padding: $space-small 0;
-
-  a {
-    color: $color-body;
-    text-decoration: none;
-  }
-
-  .description {
-    display: block;
-    margin-top: $space-smaller;
-  }
-
-  &:last-child {
-    border-bottom: 0;
-  }
-}
-</style>

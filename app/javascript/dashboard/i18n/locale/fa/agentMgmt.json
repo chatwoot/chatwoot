@@ -102,8 +102,11 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "هیچکدام",
       "TITLE": {
-        "AGENT": "انتخاب ایجنت",
+        "AGENT": "انتخاب اپراتور",
         "TEAM": "انتخاب تیم"
+      },
+      "LIST": {
+        "NONE": "هیچکدام"
       },
       "SEARCH": {
         "NO_RESULTS": {

@@ -3,8 +3,8 @@
     "HEADER": "ラベル",
     "HEADER_BTN_TXT": "ラベルを追加",
     "LOADING": "ラベルを取得中",
-    "DESCRIPTION": "Labels help you categorize and prioritize conversations and leads. You can assign a label to a conversation or contact using the side panel.",
-    "LEARN_MORE": "Learn more about labels",
+    "DESCRIPTION": "ラベルは会話やリードを分類し、優先順位をつけるのに役立ちます。サイドパネルを使用して会話や連絡先にラベルを割り当てることができます。",
+    "LEARN_MORE": "ラベルについて詳しく知る",
     "SEARCH_404": "検索内容（クエリ）に一致する項目はありませんでした",
     "LIST": {
       "404": "このアカウントには利用可能なラベルがありません。",
@@ -20,9 +20,9 @@
       "NAME": {
         "LABEL": "ラベル名",
         "PLACEHOLDER": "ラベル名",
-        "REQUIRED_ERROR": "Label name is required",
-        "MINIMUM_LENGTH_ERROR": "Minimum length 2 is required",
-        "VALID_ERROR": "Only Alphabets, Numbers, Hyphen and Underscore are allowed"
+        "REQUIRED_ERROR": "ラベル名は必須です",
+        "MINIMUM_LENGTH_ERROR": "最小2文字が必要です",
+        "VALID_ERROR": "アルファベット、数字、ハイフン、アンダースコアのみ使用可能です"
       },
       "DESCRIPTION": {
         "LABEL": "説明",
@@ -41,17 +41,17 @@
     },
     "SUGGESTIONS": {
       "TOOLTIP": {
-        "SINGLE_SUGGESTION": "Add label to conversation",
-        "MULTIPLE_SUGGESTION": "Select this label",
-        "DESELECT": "Deselect label",
-        "DISMISS": "Dismiss suggestion"
+        "SINGLE_SUGGESTION": "会話にラベルを追加",
+        "MULTIPLE_SUGGESTION": "このラベルを選択",
+        "DESELECT": "ラベルの選択を解除",
+        "DISMISS": "提案を無視"
       },
       "POWERED_BY": "Chatwoot AI",
-      "DISMISS": "Dismiss",
-      "ADD_SELECTED_LABELS": "Add selected labels",
-      "ADD_SELECTED_LABEL": "Add selected label",
-      "ADD_ALL_LABELS": "Add all labels",
-      "SUGGESTED_LABELS": "Suggested labels"
+      "DISMISS": "提案を無視",
+      "ADD_SELECTED_LABELS": "選択したラベルを追加",
+      "ADD_SELECTED_LABEL": "選択したラベルを追加",
+      "ADD_ALL_LABELS": "すべてのラベルを追加",
+      "SUGGESTED_LABELS": "提案されたラベル"
     },
     "ADD": {
       "TITLE": "ラベルを追加",

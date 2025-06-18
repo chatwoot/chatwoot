@@ -4,7 +4,7 @@ module Enterprise::DeleteObjectJob
   end
 
   def create_audit_entry(object, user, ip)
-    return unless ['Inbox'].include?(object.class.to_s) && user.present?
+    return unless %w[Inbox Conversation].include?(object.class.to_s) && user.present?
 
     Enterprise::AuditLog.create(
       auditable: object,

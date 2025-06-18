@@ -4,14 +4,19 @@
       "ALL": "Totes",
       "CONTACTS": "Contactes",
       "CONVERSATIONS": "Converses",
-      "MESSAGES": "Missatges"
+      "MESSAGES": "Missatges",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Contactes",
       "CONVERSATIONS": "Converses",
-      "MESSAGES": "Missatges"
+      "MESSAGES": "Missatges",
+      "ARTICLES": "Articles"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "S'està cercant",
+    "LOADING_DATA": "Carregant",
     "EMPTY_STATE": "No s'ha trobat cap {item} per a la consulta '{query}'",
     "EMPTY_STATE_FULL": "No s'han trobat resultats per a la consulta '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ centrar",
@@ -21,6 +26,7 @@
     "READ_MORE": "Llegir més",
     "WROTE": "va escriure:",
     "FROM": "des de",
-    "EMAIL": "correu electrònic"
+    "EMAIL": "correu electrònic",
+    "EMAIL_SUBJECT": "assumpte"
   }
 }

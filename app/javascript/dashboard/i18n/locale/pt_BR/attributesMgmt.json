@@ -115,7 +115,7 @@
         "PLACEHOLDER": "Por favor, insira uma dica para o padrão de expressão regular. (Opcional)"
       },
       "ENABLE_REGEX": {
-        "LABEL": "Habilitar validação do regex"
+        "LABEL": "Habilitar validação da expressão regular"
       }
     }
   }

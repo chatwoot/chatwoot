@@ -3,8 +3,8 @@
     "TITLE": "Entrar no Chatwoot",
     "EMAIL": {
       "LABEL": "e-mail",
-      "PLACEHOLDER": "exemplo{'@'}empresa.com",
-      "ERROR": "Digite um endereço de e-mail válido"
+      "PLACEHOLDER": "nome{'@'}empresa.com.br",
+      "ERROR": "Digite um endereço de endereço eletrônico válido"
     },
     "PASSWORD": {
       "LABEL": "Senha",
@@ -12,13 +12,13 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Acesso bem-sucedido",
-      "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Tente novamente.",
+      "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde.",
       "UNAUTH": "Usuário ou senha incorretos. Por favor, tente novamente."
     },
     "OAUTH": {
       "GOOGLE_LOGIN": "Entrar com o Google",
-      "BUSINESS_ACCOUNTS_ONLY": "Use o endereço de e-mail da empresa para fazer login",
-      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de e-mail."
+      "BUSINESS_ACCOUNTS_ONLY": "Use o endereço de endereço eletrônico da empresa para fazer ‘login’",
+      "NO_ACCOUNT_FOUND": "Não encontramos uma conta para seu endereço de correio eletrônico."
     },
     "FORGOT_PASSWORD": "Esqueceu-se da sua senha?",
     "CREATE_NEW_ACCOUNT": "Criar nova conta",

@@ -22,15 +22,15 @@
     "IN_A_DAY": "عادة نقوم بالرد خلال يوم واحد",
     "BACK_IN": "سوف نعود إلى الإنترنت"
   },
-  "DAY_NAMES": [
-    "الأحد",
-    "الإثنين",
-    "الثلاثاء",
-    "الأربعاء",
-    "الخميس",
-    "الجمعة",
-    "السبت"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Sunday",
+    "MONDAY": "Monday",
+    "TUESDAY": "Tuesday",
+    "WEDNESDAY": "Wednesday",
+    "THURSDAY": "Thursday",
+    "FRIDAY": "Friday",
+    "SATURDAY": "Saturday"
+  },
   "START_CONVERSATION": "ابدأ المحادثة",
   "END_CONVERSATION": "إنهاء المحادثة",
   "CONTINUE_CONVERSATION": "متابعة المحادثة",

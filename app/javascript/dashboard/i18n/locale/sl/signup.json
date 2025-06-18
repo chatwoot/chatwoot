@@ -1,44 +1,44 @@
 {
   "REGISTER": {
-    "TRY_WOOT": "Create an account",
-    "TITLE": "Register",
-    "TESTIMONIAL_HEADER": "All it takes is one step to move forward",
-    "TESTIMONIAL_CONTENT": "You're one step away from engaging your customers, retaining them and finding new ones.",
-    "TERMS_ACCEPT": "By creating an account, you agree to our <a href=\"https://www.chatwoot.com/terms\">T & C</a> and <a href=\"https://www.chatwoot.com/privacy-policy\">Privacy policy</a>",
+    "TRY_WOOT": "Ustvari račun",
+    "TITLE": "Registrirajte se",
+    "TESTIMONIAL_HEADER": "Le še en korak, da napredujete",
+    "TESTIMONIAL_CONTENT": "Ste le korak stran od tega, da pritegnete svoje stranke, jih obdržite in najdete nove.",
+    "TERMS_ACCEPT": "Z ustvarjanjem računa se strinjate z našimi <a href=\"https://www.chatwoot.com/terms\">Pogoji uporabe</a> in z <a href=\"https://www.chatwoot.com/privacy-policy\">Politiko zasebnosti</a>",
     "OAUTH": {
-      "GOOGLE_SIGNUP": "Sign up with Google"
+      "GOOGLE_SIGNUP": "Prijavite se z Googlom"
     },
     "COMPANY_NAME": {
-      "LABEL": "Company name",
-      "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Company name is too short."
+      "LABEL": "Ime podjetja",
+      "PLACEHOLDER": "Vnesite ime vašega podjetja. Npr. Wayne Enterprises",
+      "ERROR": "Ime podjetja je prekratko."
     },
     "FULL_NAME": {
-      "LABEL": "Full name",
-      "PLACEHOLDER": "Enter your full name. E.g., Bruce Wayne",
-      "ERROR": "Full name is too short."
+      "LABEL": "Polno ime",
+      "PLACEHOLDER": "Vnesite svoje polno ime. Npr. Bruce Wayne",
+      "ERROR": "Polno ime je prekratko."
     },
     "EMAIL": {
-      "LABEL": "Work email",
-      "PLACEHOLDER": "Enter your work email address. E.g., bruce{'@'}wayne{'.'}enterprises",
-      "ERROR": "Please enter a valid work email address."
+      "LABEL": "Službena e-pošta",
+      "PLACEHOLDER": "Vnesite svoj službeni e-poštni naslov. Npr. bruce{'@'}wayne{'.'}enterprises",
+      "ERROR": "Vnesite veljaven službeni e-poštni naslov."
     },
     "PASSWORD": {
-      "LABEL": "Password",
-      "PLACEHOLDER": "Password",
-      "ERROR": "Password is too short.",
-      "IS_INVALID_PASSWORD": "Password should contain atleast 1 uppercase letter, 1 lowercase letter, 1 number and 1 special character."
+      "LABEL": "Geslo",
+      "PLACEHOLDER": "Geslo",
+      "ERROR": "Geslo je prekratko.",
+      "IS_INVALID_PASSWORD": "Geslo mora vsebovati vsaj 1 veliko črko, 1 malo črko, 1 številko in 1 poseben znak."
     },
     "CONFIRM_PASSWORD": {
-      "LABEL": "Confirm password",
-      "PLACEHOLDER": "Confirm password",
-      "ERROR": "Password doesnot match."
+      "LABEL": "Potrdite geslo",
+      "PLACEHOLDER": "Potrdite geslo",
+      "ERROR": "Geslo se ne ujema."
     },
     "API": {
-      "SUCCESS_MESSAGE": "Registration Successfull",
-      "ERROR_MESSAGE": "Could not connect to Woot server. Please try again."
+      "SUCCESS_MESSAGE": "Registracija uspešna",
+      "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom. Prosimo poskusite ponovno."
     },
-    "SUBMIT": "Create account",
-    "HAVE_AN_ACCOUNT": "Already have an account?"
+    "SUBMIT": "Ustvari račun",
+    "HAVE_AN_ACCOUNT": "Že imate račun?"
   }
 }

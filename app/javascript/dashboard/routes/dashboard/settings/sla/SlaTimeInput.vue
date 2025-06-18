@@ -91,9 +91,9 @@ export default {
       :class="{ error: v$.thresholdTime.$error }"
       class="flex-grow"
       :styles="{
-        borderRadius: '12px',
-        padding: '6px 12px',
-        fontSize: '14px',
+        borderRadius: '0.75rem',
+        padding: '0.375rem 0.75rem',
+        fontSize: '0.875rem',
       }"
       :label="label"
       :placeholder="placeholder"
@@ -104,7 +104,7 @@ export default {
     <div class="mt-7">
       <select
         v-model="thresholdUnitValue"
-        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 bg-slate-50 rounded-xl hover:cursor-pointer pr-7 text-slate-800 dark:text-slate-300"
+        class="px-4 py-1.5 min-w-[6.5rem] h-10 text-sm font-medium border-0 rounded-xl hover:cursor-pointer pr-7"
         @change="onThresholdUnitChange"
       >
         <option

@@ -1,27 +1,27 @@
 {
   "CUSTOM_ROLE": {
-    "HEADER": "Custom Roles",
-    "LEARN_MORE": "Learn more about custom roles",
-    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
-    "HEADER_BTN_TXT": "Add custom role",
-    "LOADING": "Fetching custom roles...",
+    "HEADER": "Funções personalizadas",
+    "LEARN_MORE": "Aprenda mais sobre funções personalizadas",
+    "DESCRIPTION": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+    "HEADER_BTN_TXT": "Adicionar função personalizada",
+    "LOADING": "Buscando funções personalizadas...",
     "SEARCH_404": "Não há itens correspondentes a esta consulta.",
     "PAYWALL": {
-      "TITLE": "Upgrade to create custom roles",
-      "AVAILABLE_ON": "The custom role feature is only available in the Business and Enterprise plans.",
+      "TITLE": "Atualize para criar funções personalizadas",
+      "AVAILABLE_ON": "O recurso de função personalizada está disponível apenas nos planos \"Business\" e \"Enterprise\".",
       "UPGRADE_PROMPT": "Faça upgrade do seu plano para obter acesso a recursos avançados, como gestão de equipas, automações, atributos personalizados e muito mais.",
       "UPGRADE_NOW": "Fazer upgrade agora",
       "CANCEL_ANYTIME": "Pode alterar ou cancelar o plano a qualquer momento"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
+      "AVAILABLE_ON": "O recurso de função personalizada está disponível apenas nos planos pagos.",
       "UPGRADE_PROMPT": "Faça upgrade para um plano pago para obter recursos avançados, como logs de auditoria, capacidade de agentes e muito mais.",
       "ASK_ADMIN": "Por favor, entre em contato com o administrador para atualização."
     },
     "LIST": {
       "404": "There are no custom roles available in this account.",
-      "TITLE": "Manage custom roles",
-      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "Gerir funções personalizadas",
+      "DESC": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
       "TABLE_HEADER": {
         "NAME": "Nome:",
         "DESCRIPTION": "Descrição",
@@ -49,8 +49,8 @@
         "ERROR": "Descrição obrigatória."
       },
       "PERMISSIONS": {
-        "LABEL": "Permissions",
-        "ERROR": "Permissions are required."
+        "LABEL": "Permissões",
+        "ERROR": "Permissão requerida."
       },
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
@@ -58,26 +58,26 @@
       }
     },
     "ADD": {
-      "TITLE": "Add custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "Adicionar função personalizada",
+      "DESC": " Funções personalizadas permitem criar funções com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
       "SUBMIT": "Submeter",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role added successfully."
+        "SUCCESS_MESSAGE": "Função personalizada adicionada com sucesso."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Editar",
-      "TITLE": "Edit custom role",
-      "DESC": " Custom roles allows you to create roles with specific permissions and access levels to suit the requirements of the organization.",
+      "TITLE": "Editar função personalizada",
+      "DESC": " Funções personalizadas permitem criar funções com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
       "SUBMIT": "Atualização",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role updated successfully."
+        "SUCCESS_MESSAGE": "Função personalizada atualizada com sucesso."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Custom role deleted successfully.",
+        "SUCCESS_MESSAGE": "Função personalizada excluída com sucesso.",
         "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
       },
       "CONFIRM": {

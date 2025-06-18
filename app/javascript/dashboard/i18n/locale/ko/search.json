@@ -4,14 +4,19 @@
       "ALL": "모두",
       "CONTACTS": "연락처",
       "CONVERSATIONS": "대화",
-      "MESSAGES": "메시지"
+      "MESSAGES": "메시지",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "연락처",
       "CONVERSATIONS": "대화",
-      "MESSAGES": "메시지"
+      "MESSAGES": "메시지",
+      "ARTICLES": "Articles"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
     "EMPTY_STATE": "No {item} found for query '{query}'",
     "EMPTY_STATE_FULL": "No results found for query '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ to focus",
@@ -21,6 +26,7 @@
     "READ_MORE": "Read more",
     "WROTE": "wrote:",
     "FROM": "에서",
-    "EMAIL": "이메일"
+    "EMAIL": "이메일",
+    "EMAIL_SUBJECT": "subject"
   }
 }

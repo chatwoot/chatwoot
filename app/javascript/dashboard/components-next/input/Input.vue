@@ -70,12 +70,12 @@ const messageClass = computed(() => {
   }
 });
 
-const inputBorderClass = computed(() => {
+const inputOutlineClass = computed(() => {
   switch (props.messageType) {
     case 'error':
-      return 'border-n-ruby-8 dark:border-n-ruby-8 hover:border-n-ruby-9 dark:hover:border-n-ruby-9 disabled:border-n-ruby-8 dark:disabled:border-n-ruby-8';
+      return 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8';
     default:
-      return 'border-n-weak dark:border-n-weak hover:border-n-slate-6 dark:hover:border-n-slate-6 disabled:border-n-weak dark:disabled:border-n-weak focus:border-n-brand dark:focus:border-n-brand';
+      return 'outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 disabled:outline-n-weak dark:disabled:outline-n-weak focus:outline-n-brand dark:focus:outline-n-brand';
   }
 });
 
@@ -124,7 +124,7 @@ onMounted(() => {
       :value="modelValue"
       :class="[
         customInputClass,
-        inputBorderClass,
+        inputOutlineClass,
         {
           error: messageType === 'error',
           focus: isFocused,
@@ -134,7 +134,7 @@ onMounted(() => {
       :placeholder="placeholder"
       :disabled="disabled"
       :min="['date', 'datetime-local', 'time'].includes(type) ? min : undefined"
-      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 border rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
+      class="block w-full reset-base text-sm h-10 !px-3 !py-2.5 !mb-0 outline outline-1 border-none border-0 outline-offset-[-1px] rounded-lg bg-n-alpha-black2 file:border-0 file:bg-transparent file:text-sm file:font-medium placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 disabled:cursor-not-allowed disabled:opacity-50 text-n-slate-12 transition-all duration-500 ease-in-out"
       @input="handleInput"
       @focus="handleFocus"
       @blur="handleBlur"

@@ -105,6 +105,9 @@
         "AGENT": "Ügynök kiválasztása",
         "TEAM": "Csapat kiválasztása"
       },
+      "LIST": {
+        "NONE": "Nincs"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Nem találunk ügynököt",

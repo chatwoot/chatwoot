@@ -1,47 +1,50 @@
-<script>
+<script setup>
 import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  name: 'ArticleSearchResultItem',
-  props: {
-    id: {
-      type: Number,
-      default: 0,
-    },
-    title: {
-      type: String,
-      default: 'Untitled',
-    },
-    url: {
-      type: String,
-      default: '',
-    },
-    category: {
-      type: String,
-      default: '',
-    },
-    locale: {
-      type: String,
-      default: '',
-    },
+const props = defineProps({
+  id: {
+    type: Number,
+    default: 0,
   },
-  emits: ['insert', 'preview'],
-  methods: {
-    handleInsert(e) {
-      e.stopPropagation();
-      this.$emit('insert', this.id);
-    },
-    handlePreview(e) {
-      e.stopPropagation();
-      this.$emit('preview', this.id);
-    },
-    async handleCopy(e) {
-      e.stopPropagation();
-      await copyTextToClipboard(this.url);
-      useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
-    },
+  title: {
+    type: String,
+    default: 'Untitled',
   },
+  url: {
+    type: String,
+    default: '',
+  },
+  category: {
+    type: String,
+    default: '',
+  },
+  locale: {
+    type: String,
+    default: '',
+  },
+});
+
+const emit = defineEmits(['insert', 'preview']);
+
+const { t } = useI18n();
+
+const handleInsert = e => {
+  e.stopPropagation();
+  emit('insert', props.id);
+};
+
+const handlePreview = e => {
+  e.stopPropagation();
+  emit('preview', props.id);
+};
+
+const handleCopy = async e => {
+  e.stopPropagation();
+  await copyTextToClipboard(props.url);
+  useAlert(t('CONTACT_PANEL.COPY_SUCCESSFUL'));
 };
 </script>
 
@@ -65,24 +68,23 @@ export default {
         {{ category || $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.UNCATEGORIZED') }}
       </p>
       <div class="flex gap-0.5">
-        <woot-button
+        <Button
           :title="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.COPY_LINK')"
-          variant="hollow"
-          color-scheme="secondary"
-          size="tiny"
-          icon="copy"
+          faded
+          slate
+          xs
+          type="reset"
+          icon="i-lucide-copy"
           class="invisible group-hover:visible"
           @click="handleCopy"
         />
-        <woot-button
-          class="insert-button"
-          variant="smooth"
-          color-scheme="secondary"
-          size="tiny"
+        <Button
+          xs
+          faded
+          slate
+          :label="$t('HELP_CENTER.ARTICLE_SEARCH_RESULT.INSERT_ARTICLE')"
           @click="handleInsert"
-        >
-          {{ $t('HELP_CENTER.ARTICLE_SEARCH_RESULT.INSERT_ARTICLE') }}
-        </woot-button>
+        />
       </div>
     </div>
   </button>

@@ -56,7 +56,7 @@
       "BUTTON_TEXT": "Disconnetti"
     },
     "SIDEBAR_DESCRIPTION": {
-      "DIALOGFLOW": "Dialogflow è una piattaforma di comprensione del linguaggio naturale che rende facile progettare e integrare un'interfaccia utente conversazionale nella tua app mobile, applicazione web, dispositivo, bot, sistema di risposta vocale interattivo e così via. <br /> <br /> L'integrazione di Dialogflow con {installationName} ti permette di configurare un bot Dialogflow con le tue caselle che consente al bot di gestire le query inizialmente e consegnarle ad un agente quando necessario. Dialogflow può essere utilizzato per qualificare i lead, ridurre il carico di lavoro degli agenti fornendo domande frequenti, ecc. <br /> <br /> Per aggiungere Dialogflow, è necessario creare un account di servizio nella console del progetto Google e condividere le credenziali. Fare riferimento ai documenti di Dialogflow per ulteriori informazioni."
+      "DIALOGFLOW": "Dialogflow is a natural language processing platform for building conversational interfaces. Integrating it with {installationName} lets bots handle queries first and transfer them to agents when needed. It helps qualify leads and reduce agent workload by answering FAQs. To add Dialogflow, create a Service Account in Google Console and share the credentials. Refer to the docs for details"
     }
   }
 }

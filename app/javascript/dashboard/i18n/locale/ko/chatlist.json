@@ -99,6 +99,9 @@
       },
       "fallback": {
         "CONTENT": "URL을 공유함"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
