@@ -83,7 +83,7 @@ const action = computed(() => ({
   right: 0;
   width: 100%;
   height: 100%;
-  z-index: var(--z-index-high);
+  z-index: 1000;
   padding: var(--space-smaller);
   background: var(--b-800);
 
