@@ -33,7 +33,7 @@ export default {
     },
 
     isAEmailInbox() {
-      return this.currentInbox.channel_type === 'Channel::Email';
+      return this.currentInbox.channel_type === INBOX_TYPES.EMAIL;
     },
     isALineInbox() {
       return this.currentInbox.channel_type === 'Channel::Line';

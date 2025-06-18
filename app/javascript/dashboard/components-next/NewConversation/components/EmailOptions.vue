@@ -20,8 +20,6 @@ const emit = defineEmits([
   'updateDropdown',
 ]);
 
-const i18nPrefix = `COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS`;
-
 const showBccInput = ref(false);
 
 const toggleBccInput = () => {
@@ -63,6 +61,10 @@ const handleBccUpdate = value => {
   bccEmails.value = value.join(',');
 };
 
+const emailOptionText = key => {
+  return t(`COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.${key}`);
+};
+
 const inputClass = computed(() => {
   return props.hasErrors
     ? 'placeholder:!text-n-ruby-9 dark:placeholder:!text-n-ruby-9'
@@ -75,22 +77,23 @@ const inputClass = computed(() => {
     <div class="flex items-baseline flex-1 w-full h-8 gap-3 px-4 py-3">
       <InlineInput
         v-model="subject"
-        :placeholder="t(`${i18nPrefix}.SUBJECT_PLACEHOLDER`)"
-        :label="t(`${i18nPrefix}.SUBJECT_LABEL`)"
+        :label="emailOptionText('SUBJECT_LABEL')"
+        :placeholder="emailOptionText('SUBJECT_PLACEHOLDER')"
         focus-on-mount
         :custom-input-class="inputClass"
+        custom-label-class="w-[80px] text-end mb-0.5 text-sm font-medium whitespace-nowrap !text-n-slate-11"
       />
     </div>
     <div class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8">
       <label
-        class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
+        class="w-[80px] text-end mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
       >
-        {{ t(`${i18nPrefix}.CC_LABEL`) }}
+        {{ emailOptionText('CC_LABEL') }}
       </label>
       <div class="flex items-center w-full gap-3 min-h-7">
         <TagInput
+          :placeholder="emailOptionText('CC_PLACEHOLDER')"
           :model-value="ccEmailsArray"
-          :placeholder="t(`${i18nPrefix}.CC_PLACEHOLDER`)"
           :menu-items="contactEmailsList"
           :show-dropdown="showCcEmailsDropdown"
           :is-loading="isLoading"
@@ -102,7 +105,7 @@ const inputClass = computed(() => {
           @update:model-value="handleCcUpdate"
         />
         <Button
-          :label="t(`${i18nPrefix}.BCC_BUTTON`)"
+          :label="emailOptionText('BCC_BUTTON')"
           variant="ghost"
           size="sm"
           color="slate"
@@ -116,13 +119,13 @@ const inputClass = computed(() => {
       class="flex items-baseline flex-1 w-full gap-3 px-4 py-3 min-h-8"
     >
       <label
-        class="mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
+        class="w-[80px] text-end mb-0.5 text-sm font-medium whitespace-nowrap text-n-slate-11"
       >
-        {{ t(`${i18nPrefix}.BCC_LABEL`) }}
+        {{ emailOptionText('BCC_LABEL') }}
       </label>
       <TagInput
         :model-value="bccEmailsArray"
-        :placeholder="t(`${i18nPrefix}.BCC_PLACEHOLDER`)"
+        :placeholder="emailOptionText('BCC_PLACEHOLDER')"
         :menu-items="contactEmailsList"
         :show-dropdown="showBccEmailsDropdown"
         :is-loading="isLoading"

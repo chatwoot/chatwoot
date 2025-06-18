@@ -7,6 +7,7 @@ import Icon from 'next/icon/Icon.vue';
 import { EmailQuoteExtractor } from './removeReply.js';
 import BaseBubble from 'next/message/bubbles/Base.vue';
 import FormattedContent from 'next/message/bubbles/Text/FormattedContent.vue';
+import EmailSignature from 'next/message/bubbles/Email/Signature.vue';
 import AttachmentChips from 'next/message/chips/AttachmentChips.vue';
 import EmailMeta from './EmailMeta.vue';
 import TranslationToggle from 'dashboard/components-next/message/TranslationToggle.vue';
@@ -53,6 +54,10 @@ const messageContent = computed(() => {
   }
   // Otherwise show original content
   return content.value;
+});
+
+const inboxSignature = computed(() => {
+  return contentAttributes?.value?.signature;
 });
 
 const textToShow = computed(() => {
@@ -130,11 +135,10 @@ const handleSeeOriginal = () => {
             {{ $t('EMAIL_HEADER.EXPAND') }}
           </button>
         </div>
-        <FormattedContent
-          v-if="isOutgoing && content"
-          class="text-n-slate-12"
-          :content="messageContent"
-        />
+        <div v-if="isOutgoing && content">
+          <FormattedContent class="text-n-slate-12" :content="messageContent" />
+          <EmailSignature v-if="inboxSignature" :html="inboxSignature" />
+        </div>
         <template v-else>
           <Letter
             v-if="showQuotedMessage"

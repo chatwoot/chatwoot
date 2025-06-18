@@ -47,7 +47,8 @@ export default {
         ? [REPLY_EDITOR_MODES.REPLY, REPLY_EDITOR_MODES.NOTE]
         : [REPLY_EDITOR_MODES.TEMPLATE, REPLY_EDITOR_MODES.NOTE];
       const currentIndex = availableModes.indexOf(props.mode);
-      const newMode = availableModes[(currentIndex + 1) % availableModes.length];
+      const newMode =
+        availableModes[(currentIndex + 1) % availableModes.length];
       setReplyMode(newMode);
     };
     const keyboardEvents = {

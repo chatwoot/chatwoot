@@ -358,6 +358,10 @@ export default {
         this.isATelegramChannel
       );
     },
+    sendWithInboxSignature() {
+      const settingKey = `${this.channelType}.inbox_signature`;
+      return this.fetchSignatureFlagFromUISettings(settingKey);
+    },
     isSignatureEnabledForInbox() {
       return !this.isPrivate && this.sendWithSignature;
     },
@@ -1070,6 +1074,9 @@ export default {
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
       }
+      if (this.sendWithInboxSignature) {
+        messagePayload.inboxSignature = true;
+      }
 
       return messagePayload;
     },
@@ -1266,6 +1273,17 @@ export default {
     <MessageSignatureMissingAlert
       v-if="isSignatureEnabledForInbox && !isSignatureAvailable"
     />
+
+    <div
+      v-if="sendWithInboxSignature"
+      v-tooltip:top-start="
+        $t('COMPOSE_NEW_CONVERSATION.FORM.EMAIL_OPTIONS.SIGNATURE_EDIT_TOOLTIP')
+      "
+      class="w-full h-[6rem] overflow-y-auto p-4 border-t border-b border-n-weak bg-n-solid-1"
+    >
+      <div v-html="inbox.signature" />
+    </div>
+
     <ReplyBottomPanel
       :conversation-id="conversationId"
       :enable-multiple-file-upload="enableMultipleFileUpload"

@@ -72,6 +72,7 @@ if resource.email?
   ## Email Channel Attributes
   json.forward_to_email resource.channel.try(:forward_to_email)
   json.email resource.channel.try(:email)
+  json.signature resource.channel.try(:signature)
 
   ## IMAP
   if Current.account_user&.administrator?

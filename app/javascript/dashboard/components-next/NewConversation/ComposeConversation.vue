@@ -56,8 +56,15 @@ const uiFlags = useMapGetter('contactConversations/getUIFlags');
 const messageSignature = useMapGetter('getMessageSignature');
 const inboxesList = useMapGetter('inboxes/getInboxes');
 
+const inboxSignature = computed(() => targetInbox.value?.signature || null);
 const sendWithSignature = computed(() =>
   fetchSignatureFlagFromUISettings(targetInbox.value?.channelType)
+);
+
+const sendWithInboxSignature = computed(() =>
+  fetchSignatureFlagFromUISettings(
+    `${targetInbox.value?.channelType}.inbox_signature`
+  )
 );
 
 const directUploadsEnabled = computed(
@@ -262,6 +269,8 @@ useKeyboardEvents(keyboardEvents);
         :contacts-ui-flags="contactsUiFlags"
         :message-signature="messageSignature"
         :send-with-signature="sendWithSignature"
+        :inbox-signature="inboxSignature"
+        :send-with-inbox-signature="sendWithInboxSignature"
         @search-contacts="onContactSearch"
         @reset-contact-search="resetContacts"
         @update-selected-contact="handleSelectedContact"

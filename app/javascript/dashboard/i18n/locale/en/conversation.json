@@ -164,6 +164,8 @@
       "MESSAGE_SIGN_TOOLTIP": "Message signature",
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
+      "ENABLE_INBOX_SIGN_TOOLTIP": "Enable INBOX signature",
+      "DISABLE_INBOX_SIGN_TOOLTIP": "Disable INBOX signature",
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
       "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
       "TEMPLATE_MSG_INPUT": "Start with '/' to select a Canned Response.",

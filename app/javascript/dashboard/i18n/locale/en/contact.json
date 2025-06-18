@@ -585,12 +585,14 @@
         "BUTTON": "Show inboxes"
       },
       "EMAIL_OPTIONS": {
-        "SUBJECT_LABEL": "Subject :",
+        "SUBJECT_LABEL": "Subject:",
         "SUBJECT_PLACEHOLDER": "Enter your email subject here",
         "CC_LABEL": "Cc:",
         "CC_PLACEHOLDER": "Search for a contact with their email address",
         "BCC_LABEL": "Bcc:",
         "BCC_PLACEHOLDER": "Search for a contact with their email address",
+        "SIGNATURE_LABEL": "Signature:",
+        "SIGNATURE_EDIT_TOOLTIP": "Edit in Inbox settings",
         "BCC_BUTTON": "Bcc"
       },
       "MESSAGE_EDITOR": {

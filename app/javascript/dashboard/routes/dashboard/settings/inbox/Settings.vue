@@ -1,8 +1,13 @@
 <script>
+import 'quill/dist/quill.snow.css';
+
 import { mapGetters } from 'vuex';
 import { shouldBeUrl } from 'shared/helpers/Validators';
 import { useAlert } from 'dashboard/composables';
 import { useVuelidate } from '@vuelidate/core';
+import Quill from 'quill';
+import BlotFormatter2 from '@enzedonline/quill-blot-formatter2';
+import QuillInlineStyling from './helpers/quill_inline_styling';
 import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.vue';
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
@@ -25,6 +30,10 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import Editor from 'dashboard/components-next/Editor/Editor.vue';
+
+window.Quill = Quill;
+window.Quill.register(QuillInlineStyling, true);
+window.Quill.register('modules/blotFormatter2', BlotFormatter2);
 
 export default {
   components: {
@@ -64,6 +73,7 @@ export default {
       allowMessagesAfterResolved: true,
       continuityViaEmail: true,
       selectedInboxName: '',
+      channelSignature: '',
       channelWebsiteUrl: '',
       webhookUrl: '',
       channelWelcomeTitle: '',
@@ -168,7 +178,6 @@ export default {
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.currentInboxId);
     },
-
     inboxName() {
       if (this.isATwilioSMSChannel || this.isATwilioWhatsAppChannel) {
         return `${this.inbox.name} (${
@@ -248,10 +257,21 @@ export default {
         this.fetchInboxSettings();
       }
     },
+    channelSignature(newSignature) {
+      if (this.signatureEditor) {
+        this.signatureEditor.clipboard.dangerouslyPasteHTML(newSignature);
+      }
+    },
   },
   mounted() {
     this.fetchInboxSettings();
     this.fetchPortals();
+    this.loadEditor();
+  },
+  updated() {
+    if (!this.signatureEditor) {
+      this.loadEditor();
+    }
   },
   methods: {
     fetchPortals() {
@@ -272,6 +292,27 @@ export default {
     },
     onTabChange(selectedTabIndex) {
       this.selectedTabIndex = selectedTabIndex;
+    },
+    loadEditor() {
+      if (!this.$refs.signatureEditor) return;
+      this.signatureEditor = new Quill(this.$refs.signatureEditor, {
+        modules: {
+          blotFormatter2: {},
+          toolbar: [
+            ['bold', 'italic', 'underline'],
+            [{ list: 'ordered' }, { list: 'bullet' }],
+            [{ align: '' }, { align: 'center' }, { align: 'right' }],
+            ['link', 'image', 'table', 'code-block'],
+            [{ font: [] }, { header: [1, 2, 3, 4, 5, 6, false] }],
+            ['blockquote', { color: [] }, { background: [] }],
+            ['clean'],
+          ],
+          table: true,
+          history: true,
+        },
+        placeholder: this.$t('INBOX_MGMT.EDIT.SIGNATURE.PLACEHOLDER'),
+        theme: 'snow',
+      });
     },
     fetchInboxSettings() {
       this.selectedTabIndex = 0;
@@ -297,6 +338,7 @@ export default {
         this.selectedFeatureFlags = this.inbox.selected_feature_flags || [];
         this.replyTime = this.inbox.reply_time;
         this.locktoSingleConversation = this.inbox.lock_to_single_conversation;
+        this.channelSignature = this.inbox.signature || '';
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
@@ -328,6 +370,9 @@ export default {
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             continuity_via_email: this.continuityViaEmail,
+            signature: this.signatureEditor
+              ? this.signatureEditor.root.innerHTML
+              : this.channelSignature,
           },
         };
         if (this.avatarFile) {
@@ -771,6 +816,16 @@ export default {
             </div>
           </div>
         </SettingsSection>
+        <SettingsSection
+          v-if="isAnEmailChannel"
+          :title="$t('INBOX_MGMT.EDIT.SIGNATURE.TITLE')"
+          :sub-title="$t('INBOX_MGMT.EDIT.SIGNATURE.SUB_TEXT')"
+          :show-border="false"
+        >
+          <div class="w-full">
+            <div ref="signatureEditor"></div>
+          </div>
+        </SettingsSection>
         <SettingsSection :show-border="false">
           <NextButton
             v-if="isAPIInbox"
@@ -815,3 +870,21 @@ export default {
     </section>
   </div>
 </template>
+
+<style scoped lang="scss">
+.settings--tabs {
+  ::v-deep .tabs {
+    @apply p-0;
+  }
+}
+</style>
+
+<style lang="scss">
+.ql-toolbar.ql-snow {
+  border-top-left-radius: 10px;
+  border-top-right-radius: 10px;
+}
+.ql-container.ql-snow {
+  min-height: 10rem;
+}
+</style>

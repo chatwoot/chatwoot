@@ -99,7 +99,9 @@ const handleInput = value => {
 <template>
   <div class="relative flex-1 px-4 py-3 overflow-y-visible">
     <div class="flex items-baseline w-full gap-3 min-h-7">
-      <label class="text-sm font-medium text-n-slate-11 whitespace-nowrap">
+      <label
+        class="w-[80px] text-end text-sm font-medium text-n-slate-11 whitespace-nowrap"
+      >
         {{ t(`${i18nPrefix}.LABEL`) }}
       </label>
 

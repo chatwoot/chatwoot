@@ -127,6 +127,7 @@ export const prepareNewMessagePayload = ({
   currentUser,
   attachedFiles = [],
   directUploadsEnabled = false,
+  sendWithInboxSignature = false,
 }) => {
   const payload = {
     inboxId: targetInbox.id,
@@ -145,6 +146,10 @@ export const prepareNewMessagePayload = ({
 
   if (subject) {
     payload.mailSubject = subject;
+  }
+
+  if (sendWithInboxSignature) {
+    payload.message.inboxSignature = true;
   }
 
   if (ccEmails) {

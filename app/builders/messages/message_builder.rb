@@ -94,6 +94,9 @@ class Messages::MessageBuilder
     @message.content_attributes[:cc_emails] = cc_emails
     @message.content_attributes[:bcc_emails] = bcc_emails
     @message.content_attributes[:to_emails] = to_emails
+    if @params[:inbox_signature] && @conversation.inbox.channel.signature.present?
+      @message.content_attributes[:signature] = @conversation.inbox.channel.signature
+    end
   end
 
   def process_email_string(email_string)

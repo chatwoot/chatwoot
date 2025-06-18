@@ -5,6 +5,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import { useFileUpload } from 'dashboard/composables/useFileUpload';
 import { vOnClickOutside } from '@vueuse/components';
 import { ALLOWED_FILE_TYPES } from 'shared/constants/messages';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import FileUpload from 'vue-upload-component';
 import { extractTextFromMarkdown } from 'dashboard/helper/editorHelper';
@@ -25,6 +26,7 @@ const props = defineProps({
   hasNoInbox: { type: Boolean, default: false },
   isDropdownActive: { type: Boolean, default: false },
   messageSignature: { type: String, default: '' },
+  inboxSignature: { type: String, default: '' },
 });
 
 const emit = defineEmits([
@@ -34,6 +36,8 @@ const emit = defineEmits([
   'insertEmoji',
   'addSignature',
   'removeSignature',
+  'addInboxSignature',
+  'removeInboxSignature',
   'attachFile',
 ]);
 
@@ -52,6 +56,11 @@ const signatureToApply = computed(() =>
     : extractTextFromMarkdown(props.messageSignature)
 );
 
+const inboxSignatureToApply = computed(
+  () =>
+    props.channelType === INBOX_TYPES.EMAIL && props.inboxSignature.length > 0
+);
+
 const {
   fetchSignatureFlagFromUISettings,
   setSignatureFlagForInbox,
@@ -60,6 +69,17 @@ const {
 
 const sendWithSignature = computed(() => {
   return fetchSignatureFlagFromUISettings(props.channelType);
+});
+
+const sendWithInboxSignature = computed(() => {
+  const settingKey = [props.channelType, 'inbox_signature'].join('.');
+  return fetchSignatureFlagFromUISettings(settingKey);
+});
+
+const emailSignatureToggleTooltip = computed(() => {
+  return sendWithInboxSignature.value
+    ? t('CONVERSATION.FOOTER.ENABLE_INBOX_SIGN_TOOLTIP')
+    : t('CONVERSATION.FOOTER.ENABLE_INBOX_SIGN_TOOLTIP');
 });
 
 const setSignature = () => {
@@ -72,9 +92,27 @@ const setSignature = () => {
   }
 };
 
+const setInboxSignature = () => {
+  if (inboxSignatureToApply.value) {
+    if (sendWithInboxSignature.value) {
+      emit('addInboxSignature');
+    } else {
+      emit('removeInboxSignature');
+    }
+  }
+};
+
 const toggleMessageSignature = () => {
   setSignatureFlagForInbox(props.channelType, !sendWithSignature.value);
   setSignature();
+};
+
+const toggleInboxSignature = () => {
+  setSignatureFlagForInbox(
+    [props.channelType, 'inbox_signature'].join('.'),
+    !sendWithInboxSignature.value
+  );
+  setInboxSignature();
 };
 
 // Added this watch to dynamically set signature on target inbox change.
@@ -203,6 +241,15 @@ useKeyboardEvents(keyboardEvents);
         size="sm"
         class="!w-10"
         @click="toggleMessageSignature"
+      />
+      <Button
+        v-if="hasSelectedInbox && channelType === INBOX_TYPES.EMAIL"
+        v-tooltip.top="emailSignatureToggleTooltip"
+        icon="i-ri-sketching"
+        color="slate"
+        size="sm"
+        class="!w-10"
+        @click="toggleInboxSignature"
       />
     </div>
 

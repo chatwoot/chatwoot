@@ -484,6 +484,11 @@
           "SAVE_BUTTON_TEXT": "Save"
         }
       },
+      "SIGNATURE": {
+        "TITLE": "Signature",
+        "SUB_TEXT": "Customize the signature that will be appended to the emails sent from this inbox.",
+        "PLACEHOLDER": "Enter channel signature here"
+      },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Enabled",
         "DISABLED": "Disabled"

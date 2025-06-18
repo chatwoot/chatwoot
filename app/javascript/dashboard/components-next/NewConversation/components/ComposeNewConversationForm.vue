@@ -21,6 +21,7 @@ import MessageEditor from './MessageEditor.vue';
 import ActionButtons from './ActionButtons.vue';
 import InboxEmptyState from './InboxEmptyState.vue';
 import AttachmentPreviews from './AttachmentPreviews.vue';
+import EmailSignature from './EmailSignature.vue';
 
 const props = defineProps({
   contacts: { type: Array, default: () => [] },
@@ -35,7 +36,9 @@ const props = defineProps({
   contactConversationsUiFlags: { type: Object, default: null },
   contactsUiFlags: { type: Object, default: null },
   messageSignature: { type: String, default: '' },
+  inboxSignature: { type: String, default: '' },
   sendWithSignature: { type: Boolean, default: false },
+  sendWithInboxSignature: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -118,8 +121,13 @@ const newMessagePayload = () => {
     currentUser: props.currentUser,
     attachedFiles,
     directUploadsEnabled: props.isDirectUploadsEnabled,
+    sendWithInboxSignature: props.sendWithInboxSignature,
   });
 };
+
+const showInboxSignature = computed(() => {
+  return props.sendWithInboxSignature && props.inboxSignature;
+});
 
 const contactableInboxesList = computed(() => {
   return buildContactableInboxesList(props.selectedContact?.contactInboxes);
@@ -321,6 +329,8 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :target-inbox="targetInbox"
     />
 
+    <EmailSignature v-if="showInboxSignature" :html="inboxSignature" />
+
     <AttachmentPreviews
       v-if="state.attachedFiles.length > 0"
       :attachments="state.attachedFiles"
@@ -340,6 +350,7 @@ const handleSendWhatsappMessage = async ({ message, templateParams }) => {
       :has-no-inbox="showNoInboxAlert"
       :is-dropdown-active="isAnyDropdownActive"
       :message-signature="messageSignature"
+      :inbox-signature="inboxSignature"
       @insert-emoji="onClickInsertEmoji"
       @add-signature="handleAddSignature"
       @remove-signature="handleRemoveSignature"

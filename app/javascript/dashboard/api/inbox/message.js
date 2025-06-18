@@ -13,6 +13,7 @@ export const buildCreatePayload = ({
   bccEmails = '',
   toEmails = '',
   templateParams,
+  inboxSignature = false,
 }) => {
   let payload;
   if (files && files.length !== 0) {
@@ -28,6 +29,7 @@ export const buildCreatePayload = ({
     payload.append('canned_response_id', cannedResponseId);
     payload.append('cc_emails', ccEmails);
     payload.append('bcc_emails', bccEmails);
+    payload.append('inbox_signature', inboxSignature);
 
     if (toEmails) {
       payload.append('to_emails', toEmails);
@@ -45,6 +47,7 @@ export const buildCreatePayload = ({
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
       to_emails: toEmails,
+      inbox_signature: inboxSignature,
       template_params: templateParams,
     };
   }
@@ -68,6 +71,7 @@ class MessageApi extends ApiClient {
     bccEmails = '',
     toEmails = '',
     templateParams,
+    inboxSignature = false,
   }) {
     return axios({
       method: 'post',
@@ -83,6 +87,7 @@ class MessageApi extends ApiClient {
         bccEmails,
         toEmails,
         templateParams,
+        inboxSignature,
       }),
     });
   }

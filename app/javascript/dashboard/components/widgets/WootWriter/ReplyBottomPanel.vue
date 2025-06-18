@@ -6,6 +6,7 @@ import FileUpload from 'vue-upload-component';
 import * as ActiveStorage from 'activestorage';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import {
   ALLOWED_FILE_TYPES,
   ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP,
@@ -245,6 +246,13 @@ export default {
     showMessageSignatureButton() {
       return !this.isOnPrivateNote && !this.isTemplate;
     },
+    showInboxSignatureButton() {
+      return (
+        !this.isOnPrivateNote &&
+        !this.isTemplate &&
+        this.channelType === INBOX_TYPES.EMAIL
+      );
+    },
     showEmojiButton() {
       return !this.isTemplate;
     },
@@ -252,10 +260,19 @@ export default {
       // channelType is sourced from inboxMixin
       return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
+    sendWithEmailSignature() {
+      const settingKey = [this.channelType, 'inbox_signature'].join('.');
+      return this.fetchSignatureFlagFromUISettings(settingKey);
+    },
     signatureToggleTooltip() {
       return this.sendWithSignature
         ? this.$t('CONVERSATION.FOOTER.DISABLE_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
+    },
+    emailSignatureToggleTooltip() {
+      return this.sendWithEmailSignature
+        ? this.$t('CONVERSATION.FOOTER.ENABLE_INBOX_SIGN_TOOLTIP')
+        : this.$t('CONVERSATION.FOOTER.ENABLE_INBOX_SIGN_TOOLTIP');
     },
     enableInsertArticleInReply() {
       return this.portalSlug && !this.isTemplate;
@@ -270,6 +287,10 @@ export default {
   methods: {
     toggleMessageSignature() {
       this.setSignatureFlagForInbox(this.channelType, !this.sendWithSignature);
+    },
+    toggleInboxSignature() {
+      const settingKey = [this.channelType, 'inbox_signature'].join('.');
+      this.setSignatureFlagForInbox(settingKey, !this.sendWithEmailSignature);
     },
     replaceText(text) {
       this.$emit('replaceText', text);
@@ -364,6 +385,15 @@ export default {
         faded
         sm
         @click="toggleMessageSignature"
+      />
+      <NextButton
+        v-if="showInboxSignatureButton"
+        v-tooltip.top="emailSignatureToggleTooltip"
+        icon="i-ri-sketching"
+        slate
+        faded
+        sm
+        @click="toggleInboxSignature"
       />
       <NextButton
         v-if="hasWhatsappTemplates"
