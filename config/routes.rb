@@ -269,6 +269,11 @@ Rails.application.routes.draw do
                 get :linked_issues
               end
             end
+            resource :notion, controller: 'notion', only: [] do
+              collection do
+                delete :destroy
+              end
+            end
           end
           resources :working_hours, only: [:update]
 
