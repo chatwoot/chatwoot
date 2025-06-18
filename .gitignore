@@ -94,3 +94,7 @@ yarn-debug.log*
 .vscode
 .claude/settings.local.json
 .cursor
+
+
+# PNPM
+.pnpm-store
