@@ -5,10 +5,10 @@ class OauthCallbackController < ApplicationController
       redirect_uri: "#{base_url}/#{provider_name}/callback"
     )
 
+    verify_scopes
     handle_response
   rescue StandardError => e
-    ChatwootExceptionTracker.new(e).capture_exception
-    redirect_to '/'
+    handle_error(e)
   end
 
   private
@@ -61,6 +61,19 @@ class OauthCallbackController < ApplicationController
 
   def oauth_client
     raise NotImplementedError
+  end
+
+  def verify_scopes
+    true
+  end
+
+  def failure_redirect_url
+    '/'
+  end
+
+  def handle_error(exception)
+    ChatwootExceptionTracker.new(exception).capture_exception
+    redirect_to failure_redirect_url
   end
 
   def create_channel_with_inbox

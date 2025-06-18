@@ -39,7 +39,10 @@ RSpec.describe 'Google Authorization API', type: :request do
         params = CGI.parse(uri.query)
 
         expect(url).to start_with('https://accounts.google.com/o/oauth2/auth')
-        expect(params['scope']).to eq(['email profile https://mail.google.com/'])
+        expected_scope = 'https://www.googleapis.com/auth/userinfo.profile ' \
+                         'https://www.googleapis.com/auth/userinfo.email ' \
+                         'https://mail.google.com/'
+        expect(params['scope']).to eq([expected_scope])
         expect(params['redirect_uri']).to eq(["#{ENV.fetch('FRONTEND_URL', 'http://localhost:3000')}/google/callback"])
 
         # Validate state parameter exists and can be decoded back to the account

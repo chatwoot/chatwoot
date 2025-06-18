@@ -1,17 +1,21 @@
 <script setup>
-import { ref, computed } from 'vue';
+import { ref, computed, onMounted } from 'vue';
 import ForwardToOption from './emailChannels/ForwardToOption.vue';
 import Microsoft from './emailChannels/Microsoft.vue';
 import Google from './emailChannels/Google.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
+import { useAlert } from 'dashboard/composables';
 import { useStoreGetters } from 'dashboard/composables/store';
+
+import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 
 const provider = ref('');
 
 const getters = useStoreGetters();
+const route = useRoute();
 const { t } = useI18n();
 
 const globalConfig = getters['globalConfig/get'];
@@ -44,6 +48,15 @@ const emailProviderList = computed(() => {
     return providerConfig.isEnabled;
   });
 });
+
+const checkForOAuthError = () => {
+  const { error } = route.query;
+  if (error) {
+    useAlert(decodeURIComponent(error));
+  }
+};
+
+onMounted(checkForOAuthError);
 
 function onClick(emailProvider) {
   if (emailProvider.isEnabled) {
