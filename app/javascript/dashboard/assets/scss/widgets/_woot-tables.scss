@@ -1,7 +1,5 @@
 table {
   @apply border-spacing-0 text-sm w-full;
-
-
 }
 
 .woot-table {
@@ -48,43 +46,5 @@ table {
 
   .button {
     margin: 0;
-  }
-}
-
-.ve-table {
-  .ve-table-container.ve-table-border-around {
-    @apply border-slate-200 dark:border-slate-700;
-  }
-
-  .ve-table-content {
-    .ve-table-header .ve-table-header-tr .ve-table-header-th {
-      @apply bg-slate-50 dark:bg-slate-800 text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-700/50;
-    }
-
-    .ve-table-body .ve-table-body-tr .ve-table-body-td {
-      @apply bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-75 dark:border-slate-800;
-    }
-
-    .ve-table-body.ve-table-row-hover .ve-table-body-tr:hover td {
-      @apply bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-100;
-    }
-  }
-}
-
-.table-pagination {
-  .ve-pagination-total {
-    @apply text-slate-600 dark:text-slate-200;
-  }
-
-  .ve-pagination-goto {
-    @apply text-slate-600 dark:text-slate-200;
-
-    .ve-pagination-goto-input {
-      @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200;
-    }
-  }
-
-  .ve-pagination-li {
-    @apply bg-white dark:bg-slate-900 text-slate-600 dark:text-slate-200 border-slate-75 dark:border-slate-700;
   }
 }
