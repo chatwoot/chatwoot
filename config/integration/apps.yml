@@ -67,7 +67,6 @@ notion:
   id: notion
   logo: notion.png
   i18n_key: notion
-  action: https://api.notion.com/v1/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
 slack:
