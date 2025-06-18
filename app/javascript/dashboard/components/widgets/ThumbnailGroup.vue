@@ -60,7 +60,7 @@ export default {
 
 .overlapping-thumbnail {
   position: relative;
-  box-shadow: var(--shadow-small);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
 
   &:not(:first-child) {
     margin-left: var(--space-minus-smaller);
@@ -78,7 +78,7 @@ export default {
 
   margin-left: var(--space-minus-small);
   padding: 0 var(--space-small);
-  box-shadow: var(--shadow-small);
+  box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
   background: var(--color-background);
   border-radius: var(--space-giga);
   border: 1px solid var(--white);
