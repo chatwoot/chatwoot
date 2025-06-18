@@ -14,7 +14,7 @@ class Messages::Facebook::FeedMessageBuilder < Messages::Messenger::MessageBuild
     # This channel might require reauthorization, may be owner might have changed the fb password.
     # Skip creating new message if the auto reply service failed to create a message
     return if @inbox.channel.reauthorization_required?
-    return if skipped?
+    return if message_existed?
 
     ActiveRecord::Base.transaction do
       build_contact_inbox
@@ -34,7 +34,7 @@ class Messages::Facebook::FeedMessageBuilder < Messages::Messenger::MessageBuild
 
   attr_reader :response
 
-  def skipped?
+  def message_existed?
     Message.find_by(source_id: response.comment_id, message_type: :incoming).present?
   end
 

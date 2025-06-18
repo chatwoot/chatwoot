@@ -14,7 +14,7 @@ class Messages::Facebook::ReplyFeedMessageBuilder
 
   private
 
-  attr_reader :response, :page
+  attr_reader :response
 
   def user_id
     response.sender_id

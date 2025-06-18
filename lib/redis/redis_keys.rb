@@ -40,6 +40,7 @@ module Redis::RedisKeys
   FACEBOOK_MESSAGE_MUTEX = 'FB_MESSAGE_CREATE_LOCK::%<sender_id>s::%<recipient_id>s'.freeze
   FACEBOOK_FEED_MESSAGE_MUTEX = 'FB_FEED_MESSAGE_CREATE_LOCK::%<sender_id>s::%<post_id>s'.freeze
   IG_MESSAGE_MUTEX = 'IG_MESSAGE_CREATE_LOCK::%<sender_id>s::%<ig_account_id>s'.freeze
+  IG_COMMENT_MESSAGE_MUTEX = 'IG_COMMENT_MESSAGE_CREATE_LOCK::%<sender_id>s::%<post_id>s'.freeze
   SLACK_MESSAGE_MUTEX = 'SLACK_MESSAGE_LOCK::%<conversation_id>s::%<reference_id>s'.freeze
   EMAIL_MESSAGE_MUTEX = 'EMAIL_CHANNEL_LOCK::%<inbox_id>s'.freeze
   CRM_PROCESS_MUTEX = 'CRM_PROCESS_MUTEX::%<hook_id>s'.freeze
