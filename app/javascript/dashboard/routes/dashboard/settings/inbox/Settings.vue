@@ -346,6 +346,9 @@ export default {
     },
     async updateInbox() {
       try {
+        const isBlankSignature =
+          this.signatureEditor.root.innerText.replaceAll('\n', '').length === 0;
+
         const payload = {
           id: this.currentInboxId,
           name: this.selectedInboxName,
@@ -370,9 +373,9 @@ export default {
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             continuity_via_email: this.continuityViaEmail,
-            signature: this.signatureEditor
-              ? this.signatureEditor.root.innerHTML
-              : this.channelSignature,
+            signature: isBlankSignature
+              ? ''
+              : this.signatureEditor.root.innerHTML,
           },
         };
         if (this.avatarFile) {
@@ -823,7 +826,7 @@ export default {
           :show-border="false"
         >
           <div class="w-full">
-            <div ref="signatureEditor"></div>
+            <div ref="signatureEditor" />
           </div>
         </SettingsSection>
         <SettingsSection :show-border="false">
@@ -886,5 +889,7 @@ export default {
 }
 .ql-container.ql-snow {
   min-height: 10rem;
+  border-bottom-left-radius: 10px;
+  border-bottom-right-radius: 10px;
 }
 </style>

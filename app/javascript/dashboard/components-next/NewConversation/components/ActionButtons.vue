@@ -58,7 +58,7 @@ const signatureToApply = computed(() =>
 
 const inboxSignatureToApply = computed(
   () =>
-    props.channelType === INBOX_TYPES.EMAIL && props.inboxSignature.length > 0
+    props.channelType === INBOX_TYPES.EMAIL && props.inboxSignature?.length > 0
 );
 
 const {
@@ -114,6 +114,14 @@ const toggleInboxSignature = () => {
   );
   setInboxSignature();
 };
+
+const canUseInboxSignature = computed(() => {
+  return (
+    props.channelType === INBOX_TYPES.EMAIL &&
+    props.hasSelectedInbox &&
+    props.inboxSignature?.length > 0
+  );
+});
 
 // Added this watch to dynamically set signature on target inbox change.
 // Only targetInbox has value and is Advance Editor(used by isEmailOrWebWidgetInbox)
@@ -243,7 +251,7 @@ useKeyboardEvents(keyboardEvents);
         @click="toggleMessageSignature"
       />
       <Button
-        v-if="hasSelectedInbox && channelType === INBOX_TYPES.EMAIL"
+        v-if="canUseInboxSignature"
         v-tooltip.top="emailSignatureToggleTooltip"
         icon="i-ri-sketching"
         color="slate"

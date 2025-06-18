@@ -250,7 +250,8 @@ export default {
       return (
         !this.isOnPrivateNote &&
         !this.isTemplate &&
-        this.channelType === INBOX_TYPES.EMAIL
+        this.channelType === INBOX_TYPES.EMAIL &&
+        this.inbox.signature?.length
       );
     },
     showEmojiButton() {
@@ -260,7 +261,7 @@ export default {
       // channelType is sourced from inboxMixin
       return this.fetchSignatureFlagFromUISettings(this.channelType);
     },
-    sendWithEmailSignature() {
+    sendWithInboxSignature() {
       const settingKey = [this.channelType, 'inbox_signature'].join('.');
       return this.fetchSignatureFlagFromUISettings(settingKey);
     },
@@ -270,7 +271,7 @@ export default {
         : this.$t('CONVERSATION.FOOTER.ENABLE_SIGN_TOOLTIP');
     },
     emailSignatureToggleTooltip() {
-      return this.sendWithEmailSignature
+      return this.sendWithInboxSignature
         ? this.$t('CONVERSATION.FOOTER.ENABLE_INBOX_SIGN_TOOLTIP')
         : this.$t('CONVERSATION.FOOTER.ENABLE_INBOX_SIGN_TOOLTIP');
     },
@@ -290,7 +291,7 @@ export default {
     },
     toggleInboxSignature() {
       const settingKey = [this.channelType, 'inbox_signature'].join('.');
-      this.setSignatureFlagForInbox(settingKey, !this.sendWithEmailSignature);
+      this.setSignatureFlagForInbox(settingKey, !this.sendWithInboxSignature);
     },
     replaceText(text) {
       this.$emit('replaceText', text);

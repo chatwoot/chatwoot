@@ -122,9 +122,6 @@ export default {
       hasRecordedAudio: false,
     };
   },
-  created() {
-    this.setInitialReplyType();
-  },
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
@@ -495,7 +492,9 @@ export default {
       this.getFromDraft();
     },
   },
-
+  created() {
+    this.setInitialReplyType();
+  },
   mounted() {
     this.getFromDraft();
     // Don't use the keyboard listener mixin here as the events here are supposed to be
@@ -1074,6 +1073,7 @@ export default {
       if (this.toEmails && !this.isOnPrivateNote) {
         messagePayload.toEmails = this.toEmails;
       }
+
       if (this.sendWithInboxSignature) {
         messagePayload.inboxSignature = true;
       }
