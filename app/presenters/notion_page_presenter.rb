@@ -9,6 +9,7 @@ class NotionPagePresenter
       'id' => @page_response['id'],
       'icon' => @page_response['icon'],
       'title' => extract_page_title,
+      'url' => @page_response['url'],
       'created_time' => @page_response['created_time'],
       'last_edited_time' => @page_response['last_edited_time'],
       'md' => generate_markdown,
