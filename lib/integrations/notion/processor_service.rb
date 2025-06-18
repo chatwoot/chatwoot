@@ -36,8 +36,7 @@ class Integrations::Notion::ProcessorService
       'icon' => page_response['icon'],
       'title' => extract_page_title(page_response),
       'created_time' => page_response['created_time'],
-      'last_edited_time' => page_response['last_edited_time'],
-      '_raw' => page_response
+      'last_edited_time' => page_response['last_edited_time']
     }
   end
 

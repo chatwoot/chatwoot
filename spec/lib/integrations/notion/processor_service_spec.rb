@@ -17,15 +17,40 @@ RSpec.describe Integrations::Notion::ProcessorService do
     let(:sort) { { direction: 'ascending', timestamp: 'last_edited_time' } }
 
     context 'when search is successful' do
-      let(:search_response) { { 'results' => [{ 'id' => '123', 'object' => 'page' }] } }
+      let(:search_response) do
+        {
+          'results' => [
+            {
+              'id' => '123',
+              'icon' => { 'emoji' => '📄' },
+              'created_time' => '2023-01-01T10:00:00.000Z',
+              'last_edited_time' => '2023-01-02T15:30:00.000Z',
+              'properties' => {
+                'title' => {
+                  'type' => 'title',
+                  'title' => [{ 'plain_text' => 'Test Page' }]
+                }
+              }
+            }
+          ]
+        }
+      end
 
       before do
         allow(notion_client).to receive(:search).with(query, sort).and_return(search_response)
       end
 
-      it 'returns formatted data' do
+      it 'returns formatted pages with selected fields' do
         result = service.search_pages(query, sort)
-        expect(result).to eq([{ 'id' => '123', 'object' => 'page' }])
+        expect(result).to eq([
+                               {
+                                 'id' => '123',
+                                 'icon' => { 'emoji' => '📄' },
+                                 'title' => 'Test Page',
+                                 'created_time' => '2023-01-01T10:00:00.000Z',
+                                 'last_edited_time' => '2023-01-02T15:30:00.000Z'
+                               }
+                             ])
       end
     end
 
@@ -47,15 +72,34 @@ RSpec.describe Integrations::Notion::ProcessorService do
     let(:page_id) { 'page-123' }
 
     context 'when page retrieval is successful' do
-      let(:page_response) { { 'id' => page_id, 'object' => 'page' } }
+      let(:page_response) do
+        {
+          'id' => page_id,
+          'icon' => { 'emoji' => '📄' },
+          'created_time' => '2023-01-01T10:00:00.000Z',
+          'last_edited_time' => '2023-01-02T15:30:00.000Z',
+          'properties' => {
+            'title' => {
+              'type' => 'title',
+              'title' => [{ 'plain_text' => 'Test Page' }]
+            }
+          }
+        }
+      end
 
       before do
         allow(notion_client).to receive(:page).with(page_id).and_return(page_response)
       end
 
-      it 'returns formatted data' do
+      it 'returns formatted page data' do
         result = service.page(page_id)
-        expect(result).to eq({ 'id' => page_id, 'object' => 'page' })
+        expect(result).to eq({
+                               'id' => page_id,
+                               'icon' => { 'emoji' => '📄' },
+                               'title' => 'Test Page',
+                               'created_time' => '2023-01-01T10:00:00.000Z',
+                               'last_edited_time' => '2023-01-02T15:30:00.000Z'
+                             })
       end
     end
 
@@ -73,10 +117,25 @@ RSpec.describe Integrations::Notion::ProcessorService do
     end
   end
 
-  describe '#page_md' do
+  describe '#full_page' do
     let(:page_id) { 'page-123' }
 
-    context 'when page blocks retrieval is successful' do
+    context 'when both page and blocks retrieval are successful' do
+      let(:page_response) do
+        {
+          'id' => page_id,
+          'icon' => { 'emoji' => '📄' },
+          'created_time' => '2023-01-01T10:00:00.000Z',
+          'last_edited_time' => '2023-01-02T15:30:00.000Z',
+          'properties' => {
+            'title' => {
+              'type' => 'title',
+              'title' => [{ 'plain_text' => 'Test Page' }]
+            }
+          }
+        }
+      end
+
       let(:blocks_response) do
         {
           'results' => [
@@ -85,39 +144,88 @@ RSpec.describe Integrations::Notion::ProcessorService do
               'paragraph' => {
                 'rich_text' => [{ 'plain_text' => 'Hello world' }]
               }
+            },
+            {
+              'type' => 'child_page',
+              'id' => 'child-page-1',
+              'child_page' => {
+                'title' => 'Child Page 1'
+              }
             }
           ]
         }
       end
-      let(:markdown_converter) { instance_double(NotionToMarkdown) }
+
+      let(:presenter) { instance_double(NotionPagePresenter) }
+      let(:presenter_result) do
+        {
+          'id' => page_id,
+          'icon' => { 'emoji' => '📄' },
+          'title' => 'Test Page',
+          'created_time' => '2023-01-01T10:00:00.000Z',
+          'last_edited_time' => '2023-01-02T15:30:00.000Z',
+          'md' => "# Test Page\n\nHello world",
+          'child_pages' => [
+            {
+              'id' => 'child-page-1',
+              'title' => 'Child Page 1'
+            }
+          ]
+        }
+      end
 
       before do
+        allow(notion_client).to receive(:page).with(page_id).and_return(page_response)
         allow(notion_client).to receive(:page_blocks).with(page_id).and_return(blocks_response)
-        allow(NotionToMarkdown).to receive(:new).and_return(markdown_converter)
-        allow(markdown_converter).to receive(:convert).with(blocks_response['results']).and_return('Hello world')
+        allow(NotionPagePresenter).to receive(:new).with(page_response, blocks_response).and_return(presenter)
+        allow(presenter).to receive(:to_hash).and_return(presenter_result)
       end
 
-      it 'returns markdown content' do
-        result = service.page_md(page_id)
-        expect(result).to eq('Hello world')
+      it 'returns complete page data with markdown and child pages' do
+        result = service.full_page(page_id)
+        expect(result).to eq(presenter_result)
       end
 
-      it 'calls NotionToMarkdown converter with blocks' do
-        service.page_md(page_id)
-        expect(markdown_converter).to have_received(:convert).with(blocks_response['results'])
+      it 'creates presenter with page and blocks responses' do
+        service.full_page(page_id)
+        expect(NotionPagePresenter).to have_received(:new).with(page_response, blocks_response)
+      end
+
+      it 'calls to_hash on the presenter' do
+        service.full_page(page_id)
+        expect(presenter).to have_received(:to_hash)
+      end
+    end
+
+    context 'when page retrieval fails' do
+      let(:error_response) { { error: 'Page not found', error_code: 404 } }
+
+      before do
+        allow(notion_client).to receive(:page).with(page_id).and_return(error_response)
+        allow(notion_client).to receive(:page_blocks)
+      end
+
+      it 'returns error without calling page_blocks' do
+        result = service.full_page(page_id)
+        expect(result).to eq({ error: 'Page not found' })
+        expect(notion_client).not_to have_received(:page_blocks)
       end
     end
 
     context 'when page blocks retrieval fails' do
-      let(:error_response) { { error: 'Page not found', error_code: 404 } }
+      let(:page_response) { { 'id' => page_id, 'title' => 'Test Page' } }
+      let(:error_response) { { error: 'Blocks not found', error_code: 404 } }
 
       before do
+        allow(notion_client).to receive(:page).with(page_id).and_return(page_response)
         allow(notion_client).to receive(:page_blocks).with(page_id).and_return(error_response)
+        allow(NotionPagePresenter).to receive(:new)
       end
 
-      it 'returns error' do
-        result = service.page_md(page_id)
-        expect(result).to eq({ error: 'Page not found' })
+      it 'returns error without calling presenter' do
+        result = service.full_page(page_id)
+        expect(result).to eq({ error: 'Blocks not found' })
+        expect(NotionPagePresenter).not_to have_received(:new)
       end
     end
   end
