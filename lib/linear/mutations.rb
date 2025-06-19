@@ -25,6 +25,7 @@ module Linear::Mutations
           issue {
             id
             title
+            identifier
           }
         }
       }
