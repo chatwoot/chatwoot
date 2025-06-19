@@ -60,7 +60,7 @@ import Input from './Input.vue';
         <Input
           label="Custom Style"
           placeholder="Custom input class"
-          custom-input-class="border-yellow-500 dark:border-yellow-700"
+          custom-input-class="border-n-amber-5 dark:border-n-amber-5"
         />
       </div>
     </Variant>

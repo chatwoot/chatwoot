@@ -59,7 +59,7 @@ const description = ref('');
         <TextArea
           label="Custom Style"
           placeholder="Custom textarea class"
-          custom-text-area-class="border-yellow-500 dark:border-yellow-700"
+          custom-text-area-class="border-n-amber-5 dark:border-n-amber-5"
         />
       </div>
     </Variant>

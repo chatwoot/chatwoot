@@ -825,6 +825,6 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .editor-warning__message {
-  @apply text-red-400 dark:text-red-400 font-normal text-sm pt-1 pb-0 px-0;
+  @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
 }
 </style>

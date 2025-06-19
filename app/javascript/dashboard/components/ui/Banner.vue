@@ -137,9 +137,9 @@ export default {
   }
 
   &.warning {
-    @apply bg-yellow-500 dark:bg-yellow-500 text-yellow-500 dark:text-yellow-500;
+    @apply bg-n-amber-5 text-n-amber-12;
     a {
-      @apply text-yellow-500 dark:text-yellow-500;
+      @apply text-n-amber-12;
     }
   }
 
@@ -148,7 +148,7 @@ export default {
   }
 
   a {
-    @apply ml-1 underline text-white dark:text-white text-xs;
+    @apply ml-1 underline text-n-amber-12 text-xs;
   }
 
   .banner-message {

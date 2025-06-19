@@ -193,7 +193,7 @@ export default {
         />
       </div>
       <div v-if="hasError" class="date-error pt-1">
-        <span class="error text-xs text-red-300 dark:text-red-500">{{
+        <span class="error text-xs text-n-ruby-9">{{
           $t('INBOX_MGMT.BUSINESS_HOURS.DAY.VALIDATION_ERROR')
         }}</span>
       </div>

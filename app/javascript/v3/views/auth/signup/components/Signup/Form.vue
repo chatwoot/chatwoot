@@ -195,7 +195,7 @@ export default {
         />
         <span
           v-if="!hasAValidCaptcha && didCaptchaReset"
-          class="text-xs text-red-400"
+          class="text-xs text-n-ruby-9"
         >
           {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
         </span>
