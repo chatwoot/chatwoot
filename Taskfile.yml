@@ -13,13 +13,13 @@ tasks:
       - docker compose build base
 
   docker-setup-dev:
-    desc: "Setup Docker development environment"
+    desc: "Setup Docker development images"
     cmds:
       - docker compose build
       - docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 
   docker-setup-test:
-    desc: "Setup Docker unit-test environment"
+    desc: "Setup Docker unit-test images"
     cmds:
       - docker compose build
       - docker compose run --rm rails bundle exec rails db:chatwoot_prepare RAILS_ENV=test
