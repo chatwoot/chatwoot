@@ -45,7 +45,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       .where(private: false)
       .map do |message|
       {
-        content: message_content_multimodal(message),
+        content: prepare_multimodal_message_content(message),
         role: determine_role(message)
       }
     end
@@ -57,8 +57,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
     message.message_type == 'incoming' ? 'user' : 'system'
   end
 
-  def message_content_multimodal(message)
-    OpenaiMultimodalContentService.new(message).generate_content
+  def prepare_multimodal_message_content(message)
+    OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def handoff_requested?
