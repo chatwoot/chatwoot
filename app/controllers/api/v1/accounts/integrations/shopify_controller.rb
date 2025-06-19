@@ -1,5 +1,8 @@
 class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::BaseController
   include Shopify::IntegrationHelper
+  include ShopifyApp::LoginProtection
+  include ShopifyApp::RedirectForEmbedded
+
   before_action :fetch_hook, except: [:auth]
   before_action :setup_shopify_context, only: [:orders]
   before_action :validate_contact, only: [:orders]
@@ -18,6 +21,16 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
       state: state
     )
 
+    cookie = ShopifyAPI::Auth::Oauth::SessionCookie.new(value: state, expires: Time.now + 60)
+
+    cookies.encrypted[cookie.name] = {
+      expires: cookie.expires,
+      secure: true,
+      http_only: true,
+      value: cookie.value,
+    }
+
+    Rails.logger.info("Redirecting to #{auth_url}")
     render json: { redirect_url: auth_url }
   end
 

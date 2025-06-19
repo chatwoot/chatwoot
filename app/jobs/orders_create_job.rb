@@ -8,6 +8,7 @@ class OrdersCreateJob < ActiveJob::Base
   end
 
   def perform(topic:, shop_domain:, webhook:)
+    Rails.logger.info("Order creating #{webhook}")
     shop = Shop.find_by(shopify_domain: shop_domain)
 
     if shop.nil?
@@ -17,7 +18,7 @@ class OrdersCreateJob < ActiveJob::Base
     end
 
     shop.with_shopify_session do |session|
-    ## webhook processing logic
+      Rails.logger.info("Order created #{webhook} with session: #{session}")
     end
   end
 end

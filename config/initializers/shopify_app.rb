@@ -13,12 +13,12 @@ ShopifyApp.configure do |config|
   config.reauth_on_access_scope_changes = true
 
   config.webhooks = [
-    { topic: "orders/update", path: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/orders_update" },
-    { topic: "orders/create", path: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/orders_create" },
-    { topic: "shop/redact", path: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/shop_redact" },
-    { topic: "customers/redact", path: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/customers_redact" },
-    { topic: "customers/data_request", path: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/customers_data_request" },
-    { topic: "app/uninstalled", path: "#{ENV.fetch('FRONTEND_URL', '')}/webhooks/app_uninstalled" }
+    { topic: "orders/update", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/orders_update" },
+    { topic: "orders/create", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/orders_create" },
+    { topic: "shop/redact", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/shop_redact" },
+    { topic: "customers/redact", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/customers_redact" },
+    { topic: "customers/data_request", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/customers_data_request" },
+    { topic: "app/uninstalled", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/app_uninstalled" }
   ]
 
   config.api_key = ENV.fetch('SHOPIFY_API_KEY', '').presence
