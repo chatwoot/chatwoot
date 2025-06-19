@@ -48,7 +48,6 @@
       "
     />
     <product-carousel
-      v-if="isProductCarousel"
       :items="messageContentAttributes.items"
       :selected-products="selectedProducts"
       :update-selected-products="updateSelectedProducts"

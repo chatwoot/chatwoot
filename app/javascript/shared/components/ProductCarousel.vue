@@ -197,7 +197,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex';
+import { mapGetters, mapActions } from 'vuex';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import ContactsAPI from '../../widget/api/contacts';
@@ -233,9 +233,15 @@ export default {
       canScrollRight: false,
     };
   },
+  computed: {
+    ...mapGetters({
+      currentUser: 'contacts/getCurrentUser',
+    }),
+  },
   mounted() {
     this.checkScrollButtons();
     this.$refs.carousel.addEventListener('scroll', this.checkScrollButtons);
+    this.addCustomCartAttributeToShopifyCart();
   },
   beforeDestroy() {
     this.$refs.carousel.removeEventListener('scroll', this.checkScrollButtons);
@@ -370,6 +376,39 @@ export default {
       this.canScrollLeft = carousel.scrollLeft > 0;
       this.canScrollRight =
         carousel.scrollLeft < carousel.scrollWidth - carousel.offsetWidth;
+    },
+    addCustomCartAttributeToShopifyCart() {
+      let uuid = this.currentUser.source_id;
+      try {
+        // eslint-disable-next-line no-console
+        console.log('ShopifyData', {
+          parentWindow: window.parent,
+          parentShopify: window.parent?.Shopify,
+          routes: window.parent?.Shopify?.routes,
+          root: window.parent?.Shopify?.routes?.root,
+        });
+        if (
+          window.parent.Shopify &&
+          window.parent.Shopify.routes &&
+          window.parent.Shopify.routes.root &&
+          uuid
+        ) {
+          fetch(window.parent.Shopify.routes.root + 'cart/update.js', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            body: JSON.stringify({
+              attributes: {
+                bitespeed_live_chat_user: `live_chat_${uuid}`,
+              },
+            }),
+          });
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log('error', error);
+      }
     },
   },
 };
