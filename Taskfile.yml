@@ -1,0 +1,41 @@
+version: '3'
+
+env:
+  COMPOSE_FILE: docker-compose.yaml
+
+tasks:
+  # ---------------------------------------------------------------------
+  # docker
+  # ---------------------------------------------------------------------
+  docker-build-base:
+    desc: "Build base Docker image"
+    cmds:
+      - docker compose build base
+
+  docker-setup-dev:
+    desc: "Setup Docker development environment"
+    cmds:
+      - docker compose build
+      - docker compose run --rm rails bundle exec rails db:chatwoot_prepare
+
+  docker-setup-test:
+    desc: "Setup Docker unit-test environment"
+    cmds:
+      - docker compose build
+      - docker compose run --rm rails bundle exec rails db:chatwoot_prepare RAILS_ENV=test
+    
+  docker-test:
+    desc: "Run the full RSpec suite inside the Rails container"
+    cmds:
+      - docker compose run --rm -e RAILS_ENV=test rails bundle exec rspec
+    silent: true
+
+  docker-clean-volumes:
+    desc: "Delete all Docker volumes defined in docker-compose.yaml"
+    cmds:
+      - echo "Stopping and removing containers..."
+      - docker compose down -v --remove-orphans
+      - docker volume prune -f
+      - echo "Volume cleanup completed!"
+
+  
