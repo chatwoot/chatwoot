@@ -38,5 +38,52 @@
 #  index_users_on_reset_password_token  (reset_password_token) UNIQUE
 #  index_users_on_uid_and_provider      (uid,provider) UNIQUE
 #
+
 class SuperAdmin < User
+  # Super Admin com acesso total Enterprise
+
+  def enterprise_enabled?
+    true
+  end
+
+  def feature_enabled?(_feature)
+    true  # Super Admin tem acesso a todas as features
+  end
+
+  def can_access_enterprise_features?
+    true
+  end
+
+  def has_enterprise_access?
+    true
+  end
+
+  def enterprise_features_enabled?
+    true
+  end
+
+  # Sobrescrever verificações de limite
+  def usage_limits
+    {
+      agents: Float::INFINITY,
+      inboxes: Float::INFINITY,
+      campaigns: Float::INFINITY,
+      automations: Float::INFINITY
+    }
+  end
+
+  # Acesso a todas as contas
+  def accessible_accounts
+    Account.all
+  end
+
+  # CORRIGIDO: Super Admin deve retornar um AccountUser válido
+  def active_account_user
+    # Retornar a primeira associação de conta ou criar uma temporária
+    account_users.first || AccountUser.new(
+      account: Account.first || Account.create!(name: 'Super Admin Account'),
+      user: self,
+      role: 'administrator'
+    )
+  end
 end

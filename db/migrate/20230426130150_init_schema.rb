@@ -35,7 +35,7 @@ class InitSchema < ActiveRecord::Migration[6.1]
       t.integer "locale", default: 0
       t.string "domain", limit: 100
       t.string "support_email", limit: 100
-      t.integer "feature_flags", default: 0, null: false
+      t.bigint "feature_flags", default: 9223372036854775807, null: false
       t.integer "auto_resolve_duration"
       t.jsonb "limits", default: {}
       t.jsonb "custom_attributes", default: {}
