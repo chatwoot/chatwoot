@@ -18,6 +18,8 @@ import { formatUnixDate, toUnixTimestamp } from 'shared/helpers/DateHelper';
 // components
 import Table from 'dashboard/components/table/Table.vue';
 import WootButton from 'dashboard/components/ui/WootButton.vue';
+import WootModal from 'dashboard/components/Modal.vue';
+import Modal2 from 'dashboard/components/Modal2.vue';
 
 import {
   useVueTable,
@@ -25,10 +27,7 @@ import {
   getCoreRowModel,
 } from '@tanstack/vue-table';
 
-import package1 from 'dashboard/assets/images/payment/package1.png'
-import package2 from 'dashboard/assets/images/payment/package2.png'
-import package3 from 'dashboard/assets/images/payment/package3.png'
-import package4 from 'dashboard/assets/images/payment/package4.png'
+import { getPlanIcon } from './billing-icon-utils'
 import { useAccount } from 'dashboard/composables/useAccount';
 
 const { pageIndex } = defineProps({
@@ -58,19 +57,7 @@ const planIcon = computed(() => {
   const planName = activeSubscription.value?.plan_name?.toString()
   return getPlanIcon(planName)
 })
-function getPlanIcon(planName) {
-  planName = planName?.toUpperCase()
-  if (planName === 'FREE TRIAL') {
-    return package1
-  } else if (planName === 'STARTER') {
-    return package2
-  } else if (planName === 'GROWTH') {
-    return package3
-  } else if (planName === 'ENTERPRISE') {
-    return package4
-  }
-  return undefined
-}
+
 
 const route = useRoute();
 const router = useRouter();
@@ -154,6 +141,7 @@ const tableData = computed(() => {
     const subscriptionStartDate = transaction.subscriptions && transaction.subscriptions[0]?.starts_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.starts_at), 'd MMMM yyyy', locale.value) : '-';
     const subscriptionEndDate = transaction.subscriptions && transaction.subscriptions[0]?.ends_at ? formatUnixDate(toUnixTimestamp(transaction.subscriptions[0]?.ends_at), 'd MMMM yyyy', locale.value) : '-';
     return {
+      ...transaction,
       transactionId: transaction.transaction_id,
       package: transaction.package_name,
       duration: t('BILLING.COL_SUBS_DURATION', {
@@ -177,11 +165,17 @@ const defaultSpanRender = cellProps =>
   h(
     'span',
     {
-      class: cellProps.getValue()
+      class: `${(cellProps.getValue()
         ? 'text-[#000000]'
-        : 'text-[#000000]',
+        : 'text-[#000000]')} ${cellProps.column.id === 'transactionId' ? 'cursor-pointer underline' : ''}`,
+      onClick: () => {
+        if (cellProps.column.id === 'transactionId') {
+          showInvoicePopup.value = true
+          invoiceData.value = cellProps.row.original
+        }
+      },
     },
-    cellProps.getValue() ? cellProps.getValue() : '---'
+    cellProps.getValue() ? cellProps.getValue() : '---',
   );
 
 const columnHelper = createColumnHelper();
@@ -400,6 +394,9 @@ const selectedTabDisplay = computed(() => {
   const tab = selectedTab.value
   return t(`BILLING.TAB_DISPLAY.${tab}`)
 })
+
+const showInvoicePopup = ref(false)
+const invoiceData = ref(undefined)
 </script>
 
 <template>
@@ -411,6 +408,12 @@ const selectedTabDisplay = computed(() => {
   <woot-modal v-model:show="showTopupPopup" :on-close="hideTopupPopup">
     <Topup :id="activeSubscription.id" :topup-type="topupType" @close="hideTopupPopup" />
   </woot-modal>
+
+  <Modal2 v-model:show="showInvoicePopup" :on-close="() => {
+    showInvoicePopup = false
+  }">
+    <InvoiceModal :data="invoiceData" />
+  </Modal2>
 
   <div class="billing-page p-4 w-full">
     <div
@@ -719,6 +722,7 @@ const selectedTabDisplay = computed(() => {
 
 <script>
 import { mapState, mapActions } from 'vuex';
+import InvoiceModal from './components/InvoiceModal.vue';
 
 export default {
   name: 'BillingPage',

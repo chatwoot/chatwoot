@@ -62,6 +62,19 @@
     "Unlimited AI Agents": "Unlimited AI Agents",
     "200000 AI Responses": "200.000 AI Responses",
     "Unlimited Human Agents": "Unlimited Human Agents",
-    "Dedicated Support": "Dedicated Support"
+    "Dedicated Support": "Dedicated Support",
+    "INVOICE": {
+      "TITLE": "Invoice",
+      "NO_INVOICE": "Invoice Number",
+      "FOR_ID": "Addressed To",
+      "PUBLISHED_DATE": "Published Date: {date}",
+      "DETAIL_PAYMENT": "Payment Details",
+      "PRICE_LABEL": "PRICE",
+      "TOTAL": "Total",
+      "PAYMENT_METHOD": "Payment Method",
+      "PAY_TOTAL": "Total Payment",
+      "CLOSE": "Close",
+      "PAYMENT_WAITING": "Please make the payment before <b>{time}</b>, and ensure the amount matches <b>the payment information</b>"
+    }
   }
 }

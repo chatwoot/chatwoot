@@ -62,6 +62,19 @@
     "Unlimited AI Agents": "BOT AI Tanpa Batas",
     "200000 AI Responses": "200.000 Balasan AI",
     "Unlimited Human Agents": "Admin Manusia Tanpa Batas",
-    "Dedicated Support": "Dukungan Khusus"
+    "Dedicated Support": "Dukungan Khusus",
+    "INVOICE": {
+      "TITLE": "Invoice",
+      "NO_INVOICE": "Nomor Invoice",
+      "FOR_ID": "Ditujukan Untuk",
+      "PUBLISHED_DATE": "Tanggal Diterbitkan: {date}",
+      "DETAIL_PAYMENT": "Detail Pembayaran",
+      "PRICE_LABEL": "HARGA",
+      "TOTAL": "Total",
+      "PAYMENT_METHOD": "Metode Pembayaran",
+      "PAY_TOTAL": "Total Bayar",
+      "CLOSE": "Tutup",
+      "PAYMENT_WAITING": "Segera Lakukan pembayaran sebelum <b>{time}</b>. dan pastikan pembayaran sesuai informasi <b>jumlah bayar</b>"
+    }
   }
 }
