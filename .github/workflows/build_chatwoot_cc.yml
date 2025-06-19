@@ -1,0 +1,204 @@
+name: Build Chatwoot CC
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Environment to build for (dev/prod)'
+        required: true
+        type: choice
+        options:
+          - dev
+          - prod
+  push:
+    branches:
+      - main
+      - develop
+    paths:
+      - 'app/**'
+      - 'config/**'
+      - 'db/**'
+      - 'lib/**'
+      - 'public/**'
+      - 'docker/**'
+      - 'Gemfile'
+      - 'Gemfile.lock'
+      - 'package.json'
+      - 'pnpm-lock.yaml'
+      - '.github/workflows/build_chatwoot_cc.yml'
+    tags:
+      - 'v*'
+
+env:
+  AWS_ACCOUNT_ID: "008971651719"
+  AWS_REGION: us-east-1
+  PROJECT_NAME: chatscomm
+
+jobs:
+  build-dev:
+    if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev'
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [web, worker]
+    runs-on: ubuntu-latest
+    env:
+      GIT_REF: ${{ github.head_ref || github.ref_name }}
+      ENVIRONMENT: dev
+      SERVICE: ${{ matrix.service }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Strip enterprise code
+        run: |
+          rm -rf enterprise
+          rm -rf spec/enterprise
+
+      - name: Set Chatwoot edition
+        run: |
+          echo -en '\nENV CW_EDITION="cc"' >> docker/Dockerfile
+
+      - name: Set ECR repository and tags
+        run: |
+          REPO_NAME="${PROJECT_NAME}-chatwoot-${SERVICE}-${ENVIRONMENT}"
+          ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
+          echo "ECR_URL=${ECR_URL}" >> $GITHUB_ENV
+          
+          VERSION_TAG="${{ github.sha }}"
+          echo "VERSION_TAG=${VERSION_TAG}" >> $GITHUB_ENV
+          
+          SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
+          echo "MAIN_TAG=${ECR_URL}:${SANITIZED_REF}-cc" >> $GITHUB_ENV
+          echo "COMMIT_TAG=${ECR_URL}:${VERSION_TAG}" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          push: true
+          provenance: false
+          cache-from: type=registry,ref=${{ env.ECR_URL }}:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_URL }}:buildcache,mode=max
+          build-args: |
+            RAILS_ENV=production
+          tags: |
+            ${{ env.MAIN_TAG }}
+            ${{ env.COMMIT_TAG }}
+
+      - name: Image build notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: deployments
+          SLACK_TITLE: Chatwoot Dev ${{ matrix.service }} Images ${{ job.status }}
+          SLACK_MESSAGE: 'Images built for dev environment: ${{ env.PROJECT_NAME }}-chatwoot-${{ matrix.service }}-dev'
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+
+  build-prod:
+    if: (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod') || github.event_name == 'push'
+    strategy:
+      fail-fast: false
+      matrix:
+        service: [web, worker]
+    runs-on: ubuntu-latest
+    env:
+      GIT_REF: ${{ github.head_ref || github.ref_name }}
+      ENVIRONMENT: prod
+      SERVICE: ${{ matrix.service }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Strip enterprise code
+        run: |
+          rm -rf enterprise
+          rm -rf spec/enterprise
+
+      - name: Set Chatwoot edition
+        run: |
+          echo -en '\nENV CW_EDITION="cc"' >> docker/Dockerfile
+
+      - name: Set ECR repository and tags
+        run: |
+          REPO_NAME="${PROJECT_NAME}-chatwoot-${SERVICE}-${ENVIRONMENT}"
+          ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
+          echo "ECR_URL=${ECR_URL}" >> $GITHUB_ENV
+          
+          if [[ "${{ github.ref_type }}" == "tag" ]]; then
+            VERSION_TAG="${{ github.ref_name }}"
+          else
+            VERSION_TAG="${{ github.sha }}"
+          fi
+          echo "VERSION_TAG=${VERSION_TAG}" >> $GITHUB_ENV
+          
+          SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
+          if [ "${{ github.ref_name }}" = "main" ]; then
+            echo "MAIN_TAG=${ECR_URL}:latest-cc" >> $GITHUB_ENV
+          elif [ "${{ github.ref_type }}" = "tag" ]; then
+            echo "MAIN_TAG=${ECR_URL}:${VERSION_TAG}-cc" >> $GITHUB_ENV
+          else
+            echo "MAIN_TAG=${ECR_URL}:${SANITIZED_REF}-cc" >> $GITHUB_ENV
+          fi
+          echo "COMMIT_TAG=${ECR_URL}:${VERSION_TAG}" >> $GITHUB_ENV
+
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v4
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: Login to Amazon ECR
+        uses: aws-actions/amazon-ecr-login@v2
+
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+
+      - name: Build and push
+        uses: docker/build-push-action@v6
+        with:
+          context: .
+          file: docker/Dockerfile
+          platforms: linux/amd64
+          push: true
+          provenance: false
+          cache-from: type=registry,ref=${{ env.ECR_URL }}:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_URL }}:buildcache,mode=max
+          build-args: |
+            RAILS_ENV=production
+          tags: |
+            ${{ env.MAIN_TAG }}
+            ${{ env.COMMIT_TAG }}
+
+      - name: Image build notification
+        if: always()
+        uses: rtCamp/action-slack-notify@v2
+        env:
+          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
+          SLACK_CHANNEL: deployments
+          SLACK_TITLE: Chatwoot Prod ${{ matrix.service }} Images ${{ job.status }}
+          SLACK_MESSAGE: 'Images built for prod environment: ${{ env.PROJECT_NAME }}-chatwoot-${{ matrix.service }}-prod'
+          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
