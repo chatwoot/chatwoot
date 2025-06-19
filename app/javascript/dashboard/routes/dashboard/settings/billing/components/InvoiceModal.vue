@@ -112,7 +112,7 @@ function formatTimeLeft(expiryDate) {
                         <div class="flex flex-col items-end justify-end">
                             <div class="flex flex-col text-end">
                                 <span class="text-sm">{{ $t('BILLING.INVOICE.PRICE_LABEL') }}</span>
-                                <span class="text-sm font-bold">{{ new Intl.NumberFormat(this.$root.$i18n.locale ||
+                                <span class="text-sm font-bold">{{ new Intl.NumberFormat(locale ||
                                     'id').format(props.data.price) }}</span>
                             </div>
                         </div>
@@ -124,7 +124,7 @@ function formatTimeLeft(expiryDate) {
                 <div class="flex flex-row justify-end">
                     <div class="flex flex-row gap-6">
                         <span>{{ $t('BILLING.INVOICE.TOTAL') }}</span>
-                        <span class="text-[#2C4D3D] font-bold">{{ new Intl.NumberFormat(this.$root.$i18n.locale ||
+                        <span class="text-[#2C4D3D] font-bold">{{ new Intl.NumberFormat(locale ||
                             'id').format(props.data.price) }}</span>
                     </div>
                 </div>
@@ -147,7 +147,7 @@ function formatTimeLeft(expiryDate) {
                 <div class="flex flex-col gap-1">
                     <span>{{ $t('BILLING.INVOICE.PAY_TOTAL') }}</span>
                     <div class="flex flex-row gap-1 items-center">
-                        <span class="text-[#2C4D3D] text-lg font-bold">{{ new Intl.NumberFormat(this.$root.$i18n.locale
+                        <span class="text-[#2C4D3D] text-lg font-bold">{{ new Intl.NumberFormat(locale
                             ||
                             'id').format(props.data.price) }}</span>
                         <Button class="h-8 w-8" icon="i-lucide-copy" :bgColor="'bg-red'" @click="() => copyTotal()" />
