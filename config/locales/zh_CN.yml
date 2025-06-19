@@ -182,6 +182,8 @@ zh_CN:
         issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
       auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
