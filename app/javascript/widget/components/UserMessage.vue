@@ -14,7 +14,7 @@
         <div v-if="hasReplyTo" class="flex justify-end mt-2 mb-1 text-xs">
           <reply-to-chip :reply-to="replyTo" />
         </div>
-        <div class="flex justify-end gap-1">
+        <div class="flex justify-end gap-1 relative">
           <div class="flex flex-col justify-end">
             <message-reply-button
               v-if="!isInProgress && !isFailed"
@@ -63,6 +63,9 @@
               </div>
             </div>
           </drag-wrapper>
+          <div v-if="isInProgress" class="absolute bottom-0 right-0">
+            <spinner size="tiny" :color-scheme="'primary'" />
+          </div>
         </div>
         <div
           v-if="isFailed"
@@ -94,6 +97,7 @@ import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import Spinner from 'shared/components/Spinner.vue';
 
 import { mapGetters } from 'vuex';
 
@@ -108,6 +112,7 @@ export default {
     FluentIcon,
     ReplyToChip,
     DragWrapper,
+    Spinner,
   },
   mixins: [timeMixin, messageMixin],
   props: {
