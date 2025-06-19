@@ -91,7 +91,7 @@ tr:
       conversations_count: Konuşma sayısı
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
-      avg_reply_time: Avg reply time
+      avg_reply_time: Ortalama yanıt süresi
       resolution_count: Çözünürlük Sayısı
     team_csv:
       team_name: Ekip adı
@@ -141,7 +141,7 @@ tr:
       instagram_deleted_story_content: Bu hikaye artık mevcut değil.
       deleted: Bu mesaj silinmiş
       whatsapp:
-        list_button_label: 'Choose an item'
+        list_button_label: 'Bir öğe seçin'
       delivery_status:
         error_code: 'Hata kodu: %{error_code}'
     activity:
@@ -177,11 +177,13 @@ tr:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
       linear:
-        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
-        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
-        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+        issue_created: 'Linear sorun %{issue_id} %{user_name} tarafından oluşturuldu'
+        issue_linked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlandı'
+        issue_unlinked: 'Linear sorun %{issue_id} %{user_name} tarafından bağlantısı kaldırıldı'
       csat:
-        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: 'Giden mesaj kısıtlamaları nedeniyle CSAT anketi gönderilmedi'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name}, sohbeti sessize aldı'
       unmuted: '%{user_name} konuşmanın sesini açtı'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -282,7 +284,7 @@ tr:
       made_with: İle yapılmıştır
     header:
       go_to_homepage: Website
-      visit_website: Visit website
+      visit_website: Siteyi ziyaret et
       appearance:
         system: Sistem
         light: Açık Mod
