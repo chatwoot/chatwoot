@@ -1,9 +1,14 @@
 name: Run Size Limit Check
 
 on:
-  pull_request:
+  push:
     branches:
       - develop
+      - main
+  # pull_request:
+  #   branches:
+  #     - develop
+  workflow_dispatch:
 
 # If two pushes happen within a short time in the same PR, cancel the run of the oldest push
 concurrency:
@@ -16,9 +21,9 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          ref: ${{ github.event.pull_request.head.ref }}
-          repository: ${{ github.event.pull_request.head.repo.full_name }}
+        # with:
+        #   ref: ${{ github.event.pull_request.head.ref }}
+        #   repository: ${{ github.event.pull_request.head.repo.full_name }}
 
       - uses: ruby/setup-ruby@v1
         with:
