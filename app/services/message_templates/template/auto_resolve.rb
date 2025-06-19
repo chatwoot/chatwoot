@@ -5,9 +5,7 @@ class MessageTemplates::Template::AutoResolve
     return if conversation.account.auto_resolve_message.blank?
 
     if within_messaging_window?
-      ActiveRecord::Base.transaction do
-        conversation.messages.create!(auto_resolve_message_params)
-      end
+      conversation.messages.create!(auto_resolve_message_params)
     else
       create_auto_resolve_not_sent_activity_message
     end
