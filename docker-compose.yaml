@@ -76,6 +76,7 @@ services:
     ports:
       - "3036:3036" # Vite dev server
     environment:
+      - VITE_RUBY_HOST=0.0.0.0
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
