@@ -1,6 +1,4 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
-  include Captain::ChatHelper
-
   MAX_MESSAGE_LENGTH = 10_000
   retry_on ActiveStorage::FileNotFoundError, attempts: 3
 
@@ -58,7 +56,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def prepare_multimodal_message_content(message)
-    OpenAiMessageBuilderService.new(message: message).generate_content
+    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def handoff_requested?
