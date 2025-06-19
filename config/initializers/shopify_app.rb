@@ -1,14 +1,15 @@
 ShopifyApp.configure do |config|
-  config.application_name = "My Shopify App"
+  config.application_name = "OneHash Chat"
   config.old_secret = ""
-  config.scope = "read_products" # Consult this page for more scope options: https://shopify.dev/docs/api/usage/access-scopes
+  config.scope = "read_customers,read_orders,read_fulfillments" # Consult this page for more scope options: https://shopify.dev/docs/api/usage/access-scopes
   config.embedded_app = true
-  config.new_embedded_auth_strategy = true
+  # REVIEW: used to be true, what's the implications
+  config.new_embedded_auth_strategy = false
 
   config.after_authenticate_job = false
   config.api_version = "2025-04"
   config.shop_session_repository = 'Shop'
-  config.log_level = :info
+  config.log_level = :debug
   config.reauth_on_access_scope_changes = true
 
   config.webhooks = [
@@ -54,7 +55,7 @@ Rails.application.config.after_initialize do
       scope: ShopifyApp.configuration.scope,
       is_private: !ENV.fetch('SHOPIFY_APP_PRIVATE_SHOP', '').empty?,
       is_embedded: ShopifyApp.configuration.embedded_app,
-      log_level: :info,
+      log_level: :debug,
       logger: Rails.logger,
       private_shop: ENV.fetch('SHOPIFY_APP_PRIVATE_SHOP', nil),
       user_agent_prefix: "ShopifyApp/#{ShopifyApp::VERSION}"

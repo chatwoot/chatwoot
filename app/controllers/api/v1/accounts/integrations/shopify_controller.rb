@@ -43,7 +43,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   private
 
   def redirect_uri
-    "#{ENV.fetch('FRONTEND_URL', '')}/shopify/callback"
+    "#{ENV.fetch('FRONTEND_URL', '')}/auth/shopify/callback"
   end
 
   def contact
