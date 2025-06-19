@@ -231,7 +231,7 @@ function resetChat() {
         <div ref="chatContainer" class="flex-1 flex flex-col space-y-4 p-4 overflow-y-auto">
           <div class="flex justify-start">
             <div class="bg-slate-50 dark:bg-slate-800 px-4 py-3 rounded-lg text-sm max-w-[90%]">
-              <span>Hai! Ada yang bisa saya bantu?</span>
+              <span class="text-[#000000] dark:text-white">Hai! Ada yang bisa saya bantu?</span>
             </div>
           </div>
           <div
@@ -242,7 +242,7 @@ function resetChat() {
             <div
               :class="[
                 'px-4 py-2 rounded-lg text-sm max-w-[90%]',
-                message.role === 'user' ? 'bg-green-600 text-white' : 'bg-slate-50 dark:bg-slate-800',
+                message.role === 'user' ? 'bg-green-600 text-white' : 'bg-slate-50 dark:bg-slate-800 text-[#000000] dark:text-white',
               ]"
               v-html="message.role === 'user' ? message.content.replace(/\n/g, '<br>') : renderMarkdown(message.content)"
             ></div>
