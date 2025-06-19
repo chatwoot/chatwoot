@@ -198,7 +198,7 @@ export default {
     box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
     position: absolute;
     right: 0;
-    @apply bg-white dark:bg-slate-900 p-0.5 size-3;
+    @apply bg-n-background p-0.5 size-3;
   }
 
   .user-online-status {
@@ -210,15 +210,15 @@ export default {
   }
 
   .user-online-status--online {
-    @apply bg-green-400 dark:bg-green-400;
+    @apply bg-n-teal-10;
   }
 
   .user-online-status--busy {
-    @apply bg-yellow-500 dark:bg-yellow-500;
+    @apply bg-n-amber-10;
   }
 
   .user-online-status--offline {
-    @apply bg-slate-500 dark:bg-slate-500;
+    @apply bg-n-slate-10;
   }
 }
 </style>

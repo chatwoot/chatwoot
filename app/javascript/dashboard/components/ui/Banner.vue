@@ -144,7 +144,7 @@ export default {
   }
 
   &.gray {
-    @apply text-black-500 dark:text-black-500;
+    @apply text-n-gray-10 dark:text-n-gray-10;
   }
 
   a {

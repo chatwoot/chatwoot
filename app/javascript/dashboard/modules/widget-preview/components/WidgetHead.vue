@@ -47,7 +47,7 @@ const isDefaultScreen = computed(() => {
             </span>
             <div
               v-if="config.isOnline"
-              class="w-2 h-2 bg-green-500 rounded-full"
+              class="w-2 h-2 bg-n-teal-10 rounded-full"
             />
           </div>
           <span class="mt-1 text-xs text-slate-600 dark:text-slate-400">

@@ -21,9 +21,9 @@ export default {
   <div class="flex items-center">
     <i
       v-if="showSuccess"
-      class="ion-checkmark-circled text-3xl text-green-500 mr-1"
+      class="ion-checkmark-circled text-3xl text-n-teal-10 mr-1"
     />
-    <i v-if="showError" class="ion-android-alert text-3xl text-red-600 mr-1" />
+    <i v-if="showError" class="ion-android-alert text-3xl text-n-ruby-9 mr-1" />
     <label class="text-base font-medium text-n-slate-12 mt-4 mb-4">
       {{ message }}
     </label>

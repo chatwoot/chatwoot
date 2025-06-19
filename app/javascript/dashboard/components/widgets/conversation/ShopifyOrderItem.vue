@@ -52,11 +52,11 @@ const financialStatus = computed(() => {
 
 const getFulfillmentClass = status => {
   const classes = {
-    fulfilled: 'text-green-600',
-    partial: 'text-yellow-600',
-    unfulfilled: 'text-red-600',
+    fulfilled: 'text-n-teal-9',
+    partial: 'text-n-amber-9',
+    unfulfilled: 'text-n-ruby-9',
   };
-  return classes[status] || 'text-slate-600';
+  return classes[status] || 'text-n-slate-11';
 };
 </script>
 

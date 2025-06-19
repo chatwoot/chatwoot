@@ -38,8 +38,8 @@ export default {
       v-if="label"
       class="mb-2 text-xs font-medium"
       :class="{
-        'text-black-800': !error,
-        'text-red-400': error,
+        'text-n-gray-12': !error,
+        'text-n-ruby-9': error,
       }"
     >
       {{ label }}
