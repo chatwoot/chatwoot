@@ -220,7 +220,7 @@ function resetChat() {
     </form>
     <!-- Chat Preview Section -->
     <div class="h-[600px] w-full lg:h-[500px] lg:w-[350px]">
-      <div class="w-full bg-white rounded-xl shadow-lg overflow-hidden flex flex-col h-full">
+      <div class="w-full rounded-xl dark:bg-black-900/80 shadow-lg dark:shadow-slate-700 overflow-hidden flex flex-col h-full">
         <div class="bg-green-600 px-4 py-2 flex justify-end items-center">
           <button @click="resetChat" class="text-white hover:text-gray-200 flex items-center space-x-1">
             <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -230,8 +230,8 @@ function resetChat() {
         </div>
         <div ref="chatContainer" class="flex-1 flex flex-col space-y-4 p-4 overflow-y-auto">
           <div class="flex justify-start">
-            <div class="bg-slate-50 px-4 py-3 rounded-lg text-sm max-w-[90%]">
-              Hai! Ada yang bisa saya bantu?
+            <div class="bg-slate-50 dark:bg-slate-800 px-4 py-3 rounded-lg text-sm max-w-[90%]">
+              <span>Hai! Ada yang bisa saya bantu?</span>
             </div>
           </div>
           <div
@@ -242,21 +242,16 @@ function resetChat() {
             <div
               :class="[
                 'px-4 py-2 rounded-lg text-sm max-w-[90%]',
-                message.role === 'user' ? 'bg-green-600 text-white' : 'bg-slate-50',
+                message.role === 'user' ? 'bg-green-600 text-white' : 'bg-slate-50 dark:bg-slate-800',
               ]"
               v-html="message.role === 'user' ? message.content.replace(/\n/g, '<br>') : renderMarkdown(message.content)"
             ></div>
           </div>
         </div>
         <form class="flex items-center p-4" @submit.prevent="chat">
-          <input 
-            v-model="chatInput"
-            type="text"
-            placeholder="Type your question" 
-            class="flex-grow p-2 border rounded-lg focus:outline-none focus:ring-1 focus:ring-green-600 text-sm"
-          />
+          <Input v-model="chatInput" class="w-full" type="text" placeholder="Type your question" />
           <button 
-            class="ml-2 bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 relative bottom-2"
+            class="ml-3 bg-green-600 text-white p-2 rounded-lg hover:bg-green-700 relative"
             type="submit"
             :disabled="loadingChat"
           >
