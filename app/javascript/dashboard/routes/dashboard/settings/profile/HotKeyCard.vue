@@ -27,7 +27,7 @@ defineProps({
   <button
     class="flex flex-col gap-4 w-full h-fit p-4 rounded-md border border-n-weak dark:border-n-weak"
     :class="{
-      'border-primary-300 ': active,
+      'border-n-brand ': active,
     }"
   >
     <div class="flex flex-col gap-2 items-center w-full rounded-t-[5px]">
@@ -41,7 +41,7 @@ defineProps({
           :checked="active"
           type="radio"
           :name="`hotkey-${title}`"
-          class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-primary-600 before:content-[''] before:bg-primary-600 before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-primary-600"
+          class="shadow cursor-pointer grid place-items-center border-2 border-n-strong appearance-none rounded-full w-5 h-5 checked:bg-n-brand before:content-[''] before:bg-n-brand before:border-4 before:rounded-full before:border-n-strong checked:before:w-[18px] checked:before:h-[18px] checked:border checked:border-n-brand"
         />
       </div>
       <span
