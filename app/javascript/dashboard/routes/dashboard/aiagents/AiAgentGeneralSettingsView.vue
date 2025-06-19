@@ -124,7 +124,6 @@ function renderMarkdown(text) {
 
 async function chat() {
   if (loadingChat.value || !chatInput.value.trim()) return;
-  console.log('chat', chatInput.value);
 
   const question = chatInput.value.trim();
   messages.value.push({
