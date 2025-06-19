@@ -182,6 +182,8 @@ pt_BR:
         issue_unlinked: 'Problema linear %{issue_id} foi desvinculado por %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'Pesquisa CSAT não foi enviada devido a restrições de envio de mensagens'
+      auto_resolve:
+        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
       muted: '%{user_name} silenciou a conversa'
       unmuted: '%{user_name} reativou a conversa'
       auto_resolution_message: 'Resolvendo a conversa dado que está inativa por um tempo. Por favor, inicie uma nova conversa se precisar de mais ajuda.'
