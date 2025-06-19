@@ -73,6 +73,6 @@ export default {
 
 .thumbnail-more-text {
   box-shadow: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
-  @apply text-n-slate-11 bg-n-slate-5 border border-n-weak text-xs font-medium rounded-full px-2 ltr:-ml-2 rtl:-mr-2 inline-flex items-center relative;
+  @apply text-n-slate-11 bg-n-slate-4 border border-n-weak text-xs font-medium rounded-full px-2 ltr:-ml-2 rtl:-mr-2 inline-flex items-center relative;
 }
 </style>

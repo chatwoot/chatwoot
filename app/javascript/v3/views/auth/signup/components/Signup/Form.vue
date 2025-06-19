@@ -7,7 +7,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
-import SubmitButton from '../../../../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
 import { register } from '../../../../../api/auth';
@@ -17,7 +17,7 @@ export default {
   components: {
     FormInput,
     GoogleOAuthButton,
-    SubmitButton,
+    NextButton,
     VueHcaptcha,
   },
   mixins: [globalConfigMixin],
@@ -200,11 +200,16 @@ export default {
           {{ $t('SET_NEW_PASSWORD.CAPTCHA.ERROR') }}
         </span>
       </div>
-      <SubmitButton
-        :button-text="$t('REGISTER.SUBMIT')"
+      <NextButton
+        lg
+        type="submit"
+        data-testid="submit_button"
+        class="w-full"
+        icon="i-lucide-chevron-right"
+        trailing-icon
+        :label="$t('REGISTER.SUBMIT')"
         :disabled="isSignupInProgress || !isFormValid"
-        :loading="isSignupInProgress"
-        icon-class="arrow-chevron-right"
+        :is-loading="isSignupInProgress"
       />
     </form>
     <GoogleOAuthButton v-if="showGoogleOAuth" class="flex-col-reverse">
