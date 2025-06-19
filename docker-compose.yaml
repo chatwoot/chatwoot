@@ -90,10 +90,7 @@ services:
       - '5432:5432'
     volumes:
       - postgres:/data/postgres
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=password
+    env_file: .env
 
   redis:
     image: redis:alpine
