@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_21_210000) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -26,6 +26,19 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.datetime "updated_at", null: false
     t.index ["owner_type", "owner_id"], name: "index_access_tokens_on_owner_type_and_owner_id"
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
+  end
+
+  create_table "account_prompts", comment: "Stores customizable prompts for accounts", force: :cascade do |t|
+    t.bigint "account_id", comment: "Account ID that has access to this prompt. References accounts.id"
+    t.string "prompt_key", null: false, comment: "Name/identifier of the prompt"
+    t.text "text", null: false, comment: "The actual text content of the prompt"
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "prompt_key"], name: "index_account_prompts_on_account_id_and_prompt_key", unique: true
+    t.index ["account_id"], name: "index_account_prompts_on_account_id"
+    t.index ["prompt_key"], name: "index_account_prompts_on_prompt_key"
+    t.check_constraint "length(prompt_key::text) > 0", name: "account_prompts_prompt_key_not_empty"
+    t.check_constraint "length(text) > 0", name: "account_prompts_text_not_empty"
   end
 
   create_table "account_users", force: :cascade do |t|
@@ -1099,6 +1112,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_prompts", "accounts", name: "account_prompts_account_id_fkey"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"

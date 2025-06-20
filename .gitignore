@@ -98,3 +98,6 @@ yarn-debug.log*
 
 # PNPM
 .pnpm-store
+
+# Docs
+/docs

@@ -1,0 +1,36 @@
+{
+  "PROMPTS_PAGE": {
+    "TITLE": "Prompts",
+    "DESCRIPTION": "Configure prompts for your account. These prompts can be used in the composer to quickly write a message.",
+    "ADD_BUTTON": "Add prompt",
+    "SEARCH_PLACEHOLDER": "Search prompts",
+    "TABLE_HEADER": {
+      "PROMPT_KEY": "Prompt Key",
+      "TEXT": "Text",
+      "ACTIONS": "Actions"
+    },
+    "FORM": {
+      "EDIT_TITLE": "Edit prompt",
+      "PROMPT_KEY": {
+        "LABEL": "Prompt Key",
+        "PLACEHOLDER": "e.g., greeting"
+      },
+      "TEXT": {
+        "LABEL": "Text",
+        "PLACEHOLDER": "Enter the prompt text"
+      },
+      "SUBMIT_BUTTON": "Save",
+      "CANCEL_BUTTON": "Cancel"
+    },
+    "EDIT": {
+      "TITLE": "Edit Prompt",
+      "SUCCESS_MESSAGE": "Prompt updated successfully.",
+      "ERROR_MESSAGE": "Could not update prompt. Please try again."
+    },
+    "EDITOR": {
+      "SAVING": "Saving...",
+      "SAVED": "Saved",
+      "UPDATE_BUTTON_TEXT": "Update"
+    }
+  }
+} 
