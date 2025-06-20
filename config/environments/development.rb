@@ -9,6 +9,7 @@ Rails.application.configure do
   # Do not eager load code on boot.
   config.eager_load = false
 
+
   # Show full error reports.
   config.consider_all_requests_local = true
 
@@ -27,6 +28,7 @@ Rails.application.configure do
 
     config.cache_store = :null_store
   end
+  
   config.public_file_server.enabled = true
 
   # Store uploaded files on the local file system (see config/storage.yml for options).
@@ -60,8 +62,8 @@ Rails.application.configure do
   # routes, locales, etc. This feature depends on the listen gem.
   config.file_watcher = ActiveSupport::EventedFileUpdateChecker
 
-  # Disable host check during development
-  config.hosts = nil
+  # Disable host check during development - REMOVED FOR EXPLICIT HOSTS
+  # config.hosts = nil
   
   # GitHub Codespaces configuration
   if ENV['CODESPACES']

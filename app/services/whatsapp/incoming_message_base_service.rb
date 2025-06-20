@@ -129,14 +129,26 @@ class Whatsapp::IncomingMessageBaseService
 
   def attach_location
     location = @processed_params[:messages].first['location']
-    location_name = location['name'] ? "#{location['name']}, #{location['address']}" : ''
+    return if location.blank? # Safety check for nil location
+
+    # Handle different location formats - Whapi vs other providers
+    location_name = if location['name'] && location['address']
+                      "#{location['name']}, #{location['address']}"
+                    elsif location['name']
+                      location['name']
+                    elsif location['address']
+                      location['address']
+                    else
+                      "Location: #{location['latitude']}, #{location['longitude']}"
+                    end
+
     @message.attachments.new(
       account_id: @message.account_id,
       file_type: file_content_type(message_type),
       coordinates_lat: location['latitude'],
       coordinates_long: location['longitude'],
       fallback_title: location_name,
-      external_url: location['url']
+      external_url: location['url'] # This will be nil for Whapi, which is fine
     )
   end
 
