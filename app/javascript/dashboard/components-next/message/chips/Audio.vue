@@ -96,7 +96,6 @@ const downloadAudio = async () => {
   // Get the URL with fallback options
   const url = attachment?.dataUrl || attachment?.data_url || '';
   if (!url) {
-    console.error('No valid URL found for download');
     return;
   }
 
