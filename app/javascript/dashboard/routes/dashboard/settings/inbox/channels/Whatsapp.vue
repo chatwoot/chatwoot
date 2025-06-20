@@ -7,6 +7,7 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import Whapi from './Whapi.vue';
 import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -21,6 +22,7 @@ const PROVIDER_TYPES = {
   WHATSAPP_CLOUD: 'whatsapp_cloud',
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
   THREE_SIXTY_DIALOG: '360dialog',
+  WHAPI: 'whapi',
 };
 
 const hasWhatsappAppId = computed(() => {
@@ -93,6 +95,7 @@ const shouldShowCloudWhatsapp = provider => {
 </script>
 
 <template>
+<<<<<<< HEAD
   <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
@@ -127,6 +130,9 @@ const shouldShowCloudWhatsapp = provider => {
       />
       <ThreeSixtyDialogWhatsapp
         v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
+      />
+      <Whapi
+        v-else-if="selectedProvider === PROVIDER_TYPES.WHAPI"
       />
       <CloudWhatsapp v-else />
     </div>
