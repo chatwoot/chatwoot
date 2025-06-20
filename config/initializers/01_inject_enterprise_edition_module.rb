@@ -80,10 +80,10 @@ module InjectEnterpriseEditionModule
   end
 
   def const_get_maybe_false(mod, name)
-    puts "#{mod} #{name}"
+    Rails.logger.deb("#{mod} #{name}")
     mod&.const_defined?(name, false) && mod&.const_get(name, false)
   rescue StandardError => e
-    puts "Error retrieving constant #{name} from #{mod}: #{e.message}" if Rails.env.development?
+    Rails.logger.debug { "Error retrieving constant #{name} from #{mod}: #{e.message}" }
   end
 end
 
