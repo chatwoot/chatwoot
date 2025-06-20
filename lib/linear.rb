@@ -60,20 +60,9 @@ class Linear
     raise ArgumentError, 'Missing link' if link.blank?
     raise ArgumentError, 'Missing issue id' if issue_id.blank?
 
-    link_params = {
-      issue_id: issue_id,
-      link: link,
-      title: title
-    }
+    link_params = build_link_params(issue_id, link, title, user)
+    payload = { query: Linear::Mutations.issue_link(link_params) }
 
-    if user.present?
-      link_params[:user_name] = user.name if user.name.present?
-      link_params[:user_avatar_url] = user.avatar_url if user.avatar_url.present?
-    end
-
-    payload = {
-      query: Linear::Mutations.issue_link(link_params)
-    }
     response = post(payload)
     process_response(response)
   end
@@ -109,6 +98,21 @@ class Linear
     end
 
     variables
+  end
+
+  def build_link_params(issue_id, link, title, user)
+    params = {
+      issue_id: issue_id,
+      link: link,
+      title: title
+    }
+
+    if user.present?
+      params[:user_name] = user.name if user.name.present?
+      params[:user_avatar_url] = user.avatar_url if user.avatar_url.present?
+    end
+
+    params
   end
 
   def validate_team_and_title(params)
