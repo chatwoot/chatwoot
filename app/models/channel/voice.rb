@@ -1,3 +1,20 @@
+# == Schema Information
+#
+# Table name: channel_voice
+#
+#  id                    :bigint           not null, primary key
+#  additional_attributes :jsonb
+#  phone_number          :string           not null
+#  provider              :string           default("twilio"), not null
+#  provider_config       :jsonb            not null
+#  created_at            :datetime         not null
+#  updated_at            :datetime         not null
+#  account_id            :integer          not null
+#
+# Indexes
+#
+#  index_channel_voice_on_phone_number  (phone_number) UNIQUE
+#
 class Channel::Voice < ApplicationRecord
   include Channelable
   include Rails.application.routes.url_helpers
