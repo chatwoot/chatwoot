@@ -45,7 +45,7 @@ class Channel::FacebookPage < ApplicationRecord
     Facebook::Messenger::Subscriptions.subscribe(
       access_token: page_access_token,
       subscribed_fields: %w[
-        feed messages message_deliveries message_echoes message_reads standby messaging_handovers
+        feed messages message_deliveries message_echoes message_reads standby messaging_handovers messaging_postbacks
       ]
     )
   rescue StandardError => e

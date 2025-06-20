@@ -33,7 +33,7 @@ Rails.application.reloader.to_prepare do
   end
 
   Facebook::Messenger::Bot.on :referral do |message|
-    Webhooks::FacebookEventsJob.perform_later(message.to_json)
+    # TODO: Implement in next phase for ads post
   end
 
   Facebook::Messenger::Bot.on :delivery do |delivery|

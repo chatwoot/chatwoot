@@ -45,4 +45,43 @@ FactoryBot.define do
 
     initialize_with { attributes }
   end
+
+  factory :mocked_feed_message, class: Hash do
+    transient do
+      sender_id { '3383290475046708' }
+    end
+    change do
+      {
+        value: {
+          from: { id: sender_id, name: 'Jane Dae' },
+          post_id: '1_3',
+          comment_id: '3_5',
+          post: { permalink_url: 'https://www.facebook.com/1_3' },
+          item: 'comment',
+          verb: 'add',
+          message: 'comment message'
+        }
+      }
+    end
+
+    initialize_with { attributes }
+  end
+
+  factory :mocked_post_content, class: Hash do
+    message { 'post content' }
+    created_time { '2025-06-19T08:05:43+0000' }
+    attachments do
+      {
+        data: [
+          {
+            media: {
+              image: { src: 'https://example.com/image.jpg' }
+            }
+          }
+        ]
+      }
+    end
+
+    initialize_with { attributes }
+  end
 end
