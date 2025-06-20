@@ -11,6 +11,7 @@ const store = useStore();
 const appFrame = ref(null);
 const loading = ref(true);
 const error = ref(null);
+const isVisible = ref(true);
 
 const applications = useMapGetter('applications/getApplications');
 
@@ -24,6 +25,21 @@ const appUrl = computed(() => {
   return app.value.url;
 });
 
+// Send app context to iframe (following Chatwoot pattern)
+const sendAppContext = () => {
+  if (!appFrame.value || !app.value) return;
+
+  const context = {
+    event: 'appContext',
+    data: {
+      app: app.value,
+      // Add any other context you need
+    },
+  };
+
+  appFrame.value.contentWindow?.postMessage(context, appUrl.value);
+};
+
 const onLoad = () => {
   setTimeout(() => {
     loading.value = false;
@@ -32,6 +48,9 @@ const onLoad = () => {
     if (app.value) {
       store.dispatch('applications/updateLastUsed', app.value.id);
     }
+
+    // Send context to the iframe after load (similar to Chatwoot)
+    sendAppContext();
   }, 1000);
 };
 
@@ -57,23 +76,35 @@ const openExternal = () => {
   }
 };
 
-const handleIframeMessage = () => {
-  // Handle iframe messages if needed
+// Handle iframe messages (following Chatwoot pattern)
+const handleIframeMessage = event => {
+  // Only process messages from our app
+  if (!appUrl.value || !event.origin.includes(new URL(appUrl.value).hostname)) {
+    return;
+  }
+
+  // Handle fetch-info request (similar to Chatwoot)
+  if (event.data === 'dashboard-app:fetch-info') {
+    sendAppContext();
+  }
 };
 
 onMounted(() => {
   if (!app.value) {
     loading.value = false;
     error.value = 'Application not found';
-  } else {
-    setTimeout(() => {
-      if (loading.value) {
-        loading.value = false;
-      }
-    }, 5000);
+    return;
   }
 
+  // Add event listener (Chatwoot uses addEventListener instead of onmessage)
   window.addEventListener('message', handleIframeMessage);
+
+  // Fallback timeout
+  setTimeout(() => {
+    if (loading.value) {
+      loading.value = false;
+    }
+  }, 5000);
 });
 
 onUnmounted(() => {
@@ -85,13 +116,14 @@ watch(
   () => {
     loading.value = true;
     error.value = null;
+    isVisible.value = true;
   },
   { immediate: true }
 );
 </script>
 
 <template>
-  <div class="h-full flex flex-col">
+  <div class="dashboard-app-container">
     <header
       class="flex items-center gap-3 p-4 border-b border-slate-200 bg-white"
     >
@@ -134,7 +166,7 @@ watch(
       </div>
     </header>
 
-    <div v-if="loading && !app" class="flex-1 flex items-center justify-center">
+    <div v-if="loading && !app" class="dashboard-app-loading">
       <div class="text-center">
         <i class="i-lucide-loader-2 size-8 animate-spin text-woot-500 mb-2" />
         <p class="text-slate-600">
@@ -143,7 +175,7 @@ watch(
       </div>
     </div>
 
-    <div v-else-if="error" class="flex-1 flex items-center justify-center">
+    <div v-else-if="error" class="dashboard-app-error">
       <div class="text-center max-w-md">
         <i class="i-lucide-alert-circle size-12 text-red-500 mb-4" />
         <h3 class="text-lg font-semibold mb-2">
@@ -159,59 +191,93 @@ watch(
       </div>
     </div>
 
-    <div v-else class="flex-1 overflow-auto relative">
-      <div class="w-full h-full desktop-container">
-        <div
-          v-if="loading"
-          class="absolute inset-0 bg-white bg-opacity-90 flex items-center justify-center z-10"
-        >
-          <div class="text-center">
-            <i
-              class="i-lucide-loader-2 size-8 animate-spin text-woot-500 mb-2"
-            />
-            <p class="text-slate-600">
-              {{ $t('GENERAL_SETTINGS.INTEGRATIONS.LOADING') }}
-            </p>
-          </div>
+    <div v-else class="dashboard-app-frame-container">
+      <div v-if="loading" class="dashboard-app-frame-loading">
+        <div class="text-center">
+          <i class="i-lucide-loader-2 size-8 animate-spin text-woot-500 mb-2" />
+          <p class="text-slate-600">
+            {{ $t('GENERAL_SETTINGS.INTEGRATIONS.LOADING') }}
+          </p>
         </div>
-
-        <iframe
-          ref="appFrame"
-          :src="appUrl"
-          class="w-full h-full border-0 desktop-iframe"
-          @load="onLoad"
-          @error="onError"
-        />
       </div>
+
+      <iframe
+        ref="appFrame"
+        :src="appUrl"
+        class="dashboard-app-frame"
+        @load="onLoad"
+        @error="onError"
+      />
     </div>
   </div>
 </template>
 
 <style scoped>
-.desktop-container {
-  min-width: 1200px;
+/* Main container - following Chatwoot's approach */
+.dashboard-app-container {
+  height: 100%;
+  width: 100%;
+  max-width: 100%;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.desktop-iframe {
-  min-width: 1200px;
-  opacity: 1;
+/* Loading states */
+.dashboard-app-loading,
+.dashboard-app-error {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
-.overflow-auto::-webkit-scrollbar {
-  width: 8px;
-  height: 8px;
+/* Frame container - similar to Chatwoot's implementation */
+.dashboard-app-frame-container {
+  flex: 1;
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+  max-width: 100%;
+  min-height: 0;
 }
 
-.overflow-auto::-webkit-scrollbar-track {
-  background: #f1f5f9;
+/* Loading overlay */
+.dashboard-app-frame-loading {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: rgba(255, 255, 255, 0.9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 10;
 }
 
-.overflow-auto::-webkit-scrollbar-thumb {
-  background: #cbd5e1;
-  border-radius: 4px;
+/* Main iframe - following Chatwoot's exact approach */
+.dashboard-app-frame {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  max-width: 100%;
+  border: none;
+  background: white;
+  overflow: hidden;
+  box-sizing: border-box;
 }
 
-.overflow-auto::-webkit-scrollbar-thumb:hover {
-  background: #94a3b8;
+/* Prevent any scrollbars on the container */
+.dashboard-app-frame-container::-webkit-scrollbar {
+  display: none;
+}
+
+.dashboard-app-frame-container {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
 }
 </style>
