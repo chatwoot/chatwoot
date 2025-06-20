@@ -56,7 +56,7 @@
       <div class="h-auto overflow-auto flex flex-col">
         <woot-modal-header
           :header-title="'Enter Email Address'"
-          :header-content="'We’ll send the report on this email.'"
+          :header-content="'We will send the report on this email.'"
         />
         <form class="w-full" @submit.prevent="sendReport">
           <label class="block">
@@ -87,6 +87,7 @@
 import Spinner from 'shared/components/Spinner.vue';
 import alertMixin from 'shared/mixins/alertMixin';
 import CustomReportsAPI from 'dashboard/api/customReports';
+import reportsAPI from 'dashboard/api/reports';
 
 export default {
   name: 'MetricCard',
@@ -136,6 +137,13 @@ export default {
   },
   methods: {
     openDownloadModal() {
+      if (
+        this.downloadType === 'labelOverview' ||
+        this.downloadType === 'labelConversationStates'
+      ) {
+        this.downloadLabelReport();
+        return;
+      }
       this.showDownloadModal = true;
     },
     closeDownloadModal() {
@@ -188,6 +196,30 @@ export default {
 
       this.showAlert('Report sent successfully!');
       this.closeDownloadModal();
+    },
+    async downloadLabelReport() {
+      try {
+        const { since, until, businessHours } = this.downloadFilters;
+        const response = await reportsAPI.getLabelReports({
+          from: since,
+          to: until,
+          businessHours,
+        });
+        const blob = new Blob([response.data], { type: 'text/csv' });
+        const url = window.URL.createObjectURL(blob);
+        const link = document.createElement('a');
+        link.href = url;
+        link.setAttribute(
+          'download',
+          `label_report_${new Date().toISOString().split('T')[0]}.csv`
+        );
+        document.body.appendChild(link);
+        link.click();
+        link.remove();
+        window.URL.revokeObjectURL(url);
+      } catch (error) {
+        this.showAlert(this.$t('LABEL_REPORTS.DOWNLOAD_ERROR'));
+      }
     },
   },
 };
