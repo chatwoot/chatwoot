@@ -37,10 +37,6 @@ class Channel::Voice < ApplicationRecord
     "Voice (#{phone_number})"
   end
 
-  def supportable?
-    true
-  end
-
   def messaging_window_enabled?
     false
   end
