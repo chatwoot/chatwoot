@@ -147,10 +147,7 @@ const confirmDeletion = () => {
 
     <template #body>
       <CustomRolePaywall v-if="isBehindAPaywall" />
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"

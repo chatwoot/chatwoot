@@ -88,7 +88,7 @@ export default {
           >
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.LABEL') }}
           </p>
-          <p class="text-xs text-n-slate-11 dark:text-slate-200">
+          <p class="text-xs text-n-slate-11">
             {{ $t('MACROS.EDITOR.VISIBILITY.PERSONAL.DESCRIPTION') }}
           </p>
         </button>

@@ -185,10 +185,7 @@ export default {
         :show-more-thumbnails-count="showMoreThumbs"
         :users-list="thumbnailList"
       />
-      <p
-        v-if="isUserWatching"
-        class="m-0 text-sm text-slate-300 dark:text-slate-300"
-      >
+      <p v-if="isUserWatching" class="m-0 text-sm text-n-slate-10">
         {{ $t('CONVERSATION_PARTICIPANTS.YOU_ARE_WATCHING') }}
       </p>
       <NextButton

@@ -104,9 +104,7 @@ onBeforeMount(() => {
       </BaseSettingsHeader>
     </template>
     <template #body>
-      <table
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"
@@ -116,9 +114,7 @@ onBeforeMount(() => {
             {{ thHeader }}
           </th>
         </thead>
-        <tbody
-          class="flex-1 divide-y divide-slate-25 dark:divide-slate-800 text-n-slate-12"
-        >
+        <tbody class="flex-1 divide-y divide-n-weak text-n-slate-12">
           <tr v-for="(label, index) in records" :key="label.title">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span class="mb-1 font-medium break-words text-n-slate-12">
@@ -129,7 +125,7 @@ onBeforeMount(() => {
             <td class="py-4 leading-6 ltr:pr-4 rtl:pl-4">
               <div class="flex items-center">
                 <span
-                  class="w-4 h-4 mr-1 border border-solid rounded rtl:mr-0 rtl:ml-1 border-slate-50 dark:border-slate-700"
+                  class="w-4 h-4 mr-1 border border-solid rounded rtl:mr-0 rtl:ml-1 border-n-weak"
                   :style="{ backgroundColor: label.color }"
                 />
                 {{ label.color }}

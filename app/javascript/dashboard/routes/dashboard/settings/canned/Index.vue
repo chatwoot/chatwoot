@@ -145,10 +145,7 @@ const tableHeaders = computed(() => {
       >
         {{ $t('CANNED_MGMT.LIST.404') }}
       </p>
-      <table
-        v-else
-        class="min-w-full overflow-x-auto divide-y divide-slate-75 dark:divide-slate-700"
-      >
+      <table v-else class="min-w-full overflow-x-auto divide-y divide-n-weak">
         <thead>
           <th
             v-for="thHeader in tableHeaders"

@@ -249,7 +249,7 @@ export default {
         </div>
         <p
           v-if="showEmptyState"
-          class="p-4 text-sm font-medium text-center text-slate-400 dark:text-slate-400"
+          class="p-4 text-sm font-medium text-center text-n-slate-10"
         >
           {{ $t('INBOX.LIST.NO_NOTIFICATIONS') }}
         </p>

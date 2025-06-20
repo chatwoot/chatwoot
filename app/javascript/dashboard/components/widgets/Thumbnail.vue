@@ -93,7 +93,7 @@ export default {
     },
     thumbnailClass() {
       const className = this.hasBorder
-        ? 'border border-solid border-white dark:border-slate-700/50'
+        ? 'border border-solid border-white dark:border-n-weak'
         : '';
       const variant =
         this.variant === 'circle' ? 'thumbnail-rounded' : 'thumbnail-square';

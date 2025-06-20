@@ -135,7 +135,7 @@ export default {
 </script>
 
 <template>
-  <div class="flex flex-wrap app-wrapper dark:text-slate-300">
+  <div class="flex flex-wrap app-wrapper text-n-slate-12">
     <NextSidebar
       @toggle-account-modal="toggleAccountModal"
       @open-key-shortcut-modal="toggleKeyShortcutModal"

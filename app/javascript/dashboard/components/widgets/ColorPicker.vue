@@ -57,7 +57,7 @@ export default {
 }
 
 .colorpicker--selected {
-  @apply border border-solid border-slate-50 dark:border-slate-600 rounded cursor-pointer h-8 w-8 mb-4;
+  @apply border border-solid border-n-weak rounded cursor-pointer h-8 w-8 mb-4;
 }
 
 .colorpicker--chrome.vc-chrome {

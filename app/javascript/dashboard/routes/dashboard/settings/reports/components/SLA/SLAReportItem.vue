@@ -39,7 +39,7 @@ const conversationLabels = computed(() => {
       <span class="text-n-slate-12">
         {{ `#${conversationId} ` }}
       </span>
-      <span class="text-slate-11">
+      <span class="text-n-slate-11">
         {{ $t('SLA_REPORTS.WITH') }}
       </span>
       <span class="capitalize truncate text-n-slate-12">{{

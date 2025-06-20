@@ -757,7 +757,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     }
 
     blockquote {
-      @apply border-slate-400 dark:border-slate-500;
+      @apply border-n-slate-7;
 
       p {
         @apply text-n-slate-11;

@@ -9,7 +9,7 @@ defineProps({
 
 <template>
   <div
-    class="inline-flex items-center min-w-0 gap-1 px-1.5 sm:px-2 py-1 border border-solid rounded-lg border-slate-75 dark:border-slate-700/50"
+    class="inline-flex items-center min-w-0 gap-1 px-1.5 sm:px-2 py-1 border border-solid rounded-lg border-n-weak"
   >
     <fluent-icon
       size="14"

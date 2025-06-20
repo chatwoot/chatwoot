@@ -156,7 +156,7 @@ export default {
         </div>
         <div
           v-if="allowCreation && shouldShowCreate"
-          class="flex pt-1 border-t border-solid border-slate-100 dark:border-slate-900"
+          class="flex pt-1 border-t border-solid border-n-weak"
         >
           <NextButton
             icon="i-lucide-plus"
