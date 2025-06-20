@@ -45,32 +45,26 @@ class Linear
     process_response(response)
   end
 
-  def create_issue(params)
+  def create_issue(params, user = nil)
     validate_team_and_title(params)
     validate_priority(params[:priority])
     validate_label_ids(params[:label_ids])
 
-    variables = {
-      title: params[:title],
-      teamId: params[:team_id],
-      description: params[:description],
-      assigneeId: params[:assignee_id],
-      priority: params[:priority],
-      labelIds: params[:label_ids],
-      projectId: params[:project_id],
-      stateId: params[:state_id]
-    }.compact
+    variables = build_issue_variables(params, user)
     mutation = Linear::Mutations.issue_create(variables)
     response = post({ query: mutation })
     process_response(response)
   end
 
-  def link_issue(link, issue_id, title)
+  def link_issue(link, issue_id, title, user = nil)
     raise ArgumentError, 'Missing link' if link.blank?
     raise ArgumentError, 'Missing issue id' if issue_id.blank?
 
+    user_name = user&.name
+    user_avatar_url = user&.avatar_url if user&.avatar_url.present?
+
     payload = {
-      query: Linear::Mutations.issue_link(issue_id, link, title)
+      query: Linear::Mutations.issue_link(issue_id, link, title, user_name, user_avatar_url)
     }
     response = post(payload)
     process_response(response)
@@ -87,6 +81,27 @@ class Linear
   end
 
   private
+
+  def build_issue_variables(params, user)
+    variables = {
+      title: params[:title],
+      teamId: params[:team_id],
+      description: params[:description],
+      assigneeId: params[:assignee_id],
+      priority: params[:priority],
+      labelIds: params[:label_ids],
+      projectId: params[:project_id],
+      stateId: params[:state_id]
+    }.compact
+
+    # Add user attribution if available
+    if user&.name.present?
+      variables[:createAsUser] = user.name
+      variables[:displayIconUrl] = user.avatar_url if user.avatar_url.present?
+    end
+
+    variables
+  end
 
   def validate_team_and_title(params)
     raise ArgumentError, 'Missing team id' if params[:team_id].blank?
