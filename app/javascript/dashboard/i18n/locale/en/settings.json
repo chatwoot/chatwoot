@@ -156,7 +156,7 @@
           "SLA_MISSED_NEXT_RESPONSE": "A conversation misses next response SLA",
           "SLA_MISSED_RESOLUTION": "A conversation misses resolution SLA"
         },
-        "BROWSER_PERMISSION": "Enable push notifications for your browser so you’re able to receive them"
+        "BROWSER_PERMISSION": "Enable push notifications for your browser so you're able to receive them"
       },
       "API": {
         "UPDATE_SUCCESS": "Your notification preferences are updated successfully",
@@ -314,6 +314,7 @@
     "CUSTOM_ATTRIBUTES": "Custom Attributes",
     "AUTOMATION": "Automation",
     "MACROS": "Macros",
+    "PROMPTS": "Prompts",
     "TEAMS": "Teams",
     "BILLING": "Billing",
     "CUSTOM_VIEWS_FOLDER": "Folders",
@@ -570,6 +571,53 @@
         "SUCCESS_MESSAGE": "Assignment policy deleted successfully",
         "ERROR_MESSAGE": "Failed to delete assignment policy"
       }
+    }
+  },
+  "PROMPTS_PAGE": {
+    "TITLE": "Prompts",
+    "DESCRIPTION": "Configure prompts for your account. These prompts can be used in the composer to quickly write a message.",
+    "EMPTY_STATE": "No prompts found. Create your first prompt to get started.",
+    "LOADING": "Loading prompts...",
+    "EDIT": "Edit",
+    "DELETE": "Delete",
+    "ADD": {
+      "TITLE": "Add Prompt",
+      "DESC": "Create a new prompt template",
+      "SUCCESS_MESSAGE": "Prompt created successfully",
+      "ERROR_MESSAGE": "Failed to create prompt",
+      "VALIDATION_ERROR": "Please fill in all required fields"
+    },
+    "EDIT": {
+      "TITLE": "Edit Prompt",
+      "DESC": "Update the prompt template",
+      "SUCCESS_MESSAGE": "Prompt updated successfully",
+      "ERROR_MESSAGE": "Failed to update prompt",
+      "VALIDATION_ERROR": "Please fill in all required fields"
+    },
+    "EDITOR": {
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
+    },
+    "DELETE_CONFIRM": {
+      "TITLE": "Delete Prompt",
+      "MESSAGE": "Are you sure you want to delete this prompt?",
+      "YES": "Delete",
+      "NO": "Cancel"
+    },
+    "FORM": {
+      "PROMPT_KEY": {
+        "LABEL": "Prompt Key",
+        "PLACEHOLDER": "Enter a unique identifier for this prompt",
+        "ERROR": "Prompt key is required"
+      },
+      "TEXT": {
+        "LABEL": "Prompt Text",
+        "PLACEHOLDER": "Enter the prompt content",
+        "ERROR": "Prompt text is required"
+      },
+      "CANCEL": "Cancel",
+      "SUBMIT": "Create Prompt",
+      "UPDATE": "Update Prompt"
     }
   }
 }

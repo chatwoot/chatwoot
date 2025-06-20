@@ -1,0 +1,36 @@
+{
+  "PROMPTS_PAGE": {
+    "TITLE": "Prompts",
+    "DESCRIPTION": "Configura prompts para tu cuenta. Estos prompts se pueden usar en el editor para escribir un mensaje rápidamente.",
+    "ADD_BUTTON": "Agregar prompt",
+    "SEARCH_PLACEHOLDER": "Buscar prompts",
+    "TABLE_HEADER": {
+      "PROMPT_KEY": "Clave del prompt",
+      "TEXT": "Texto",
+      "ACTIONS": "Acciones"
+    },
+    "FORM": {
+      "EDIT_TITLE": "Editar prompt",
+      "PROMPT_KEY": {
+        "LABEL": "Clave del prompt",
+        "PLACEHOLDER": "p. ej., saludo"
+      },
+      "TEXT": {
+        "LABEL": "Texto",
+        "PLACEHOLDER": "Introduce el texto del prompt"
+      },
+      "SUBMIT_BUTTON": "Guardar",
+      "CANCEL_BUTTON": "Cancelar"
+    },
+    "EDIT": {
+      "TITLE": "Editar prompt",
+      "SUCCESS_MESSAGE": "Atajo actualizado correctamente.",
+      "ERROR_MESSAGE": "No se pudo actualizar el atajo. Por favor, inténtalo de nuevo."
+    },
+    "EDITOR": {
+      "SAVING": "Guardando...",
+      "SAVED": "Guardado",
+      "UPDATE_BUTTON_TEXT": "Actualizar"
+    }
+  }
+} 

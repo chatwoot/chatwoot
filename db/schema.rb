@@ -40,6 +40,20 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
     t.index ["account_id"], name: "index_account_saml_settings_on_account_id"
   end
 
+  create_table "account_prompts", comment: "Stores customizable prompts for accounts", force: :cascade do |t|
+    t.bigint "account_id", comment: "Account ID that has access to this prompt. References accounts.id"
+    t.string "prompt_key", null: false, comment: "Name/identifier of the prompt"
+    t.text "text", null: false, comment: "The actual text content of the prompt"
+    t.datetime "created_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.datetime "updated_at", precision: nil, default: -> { "CURRENT_TIMESTAMP" }, null: false
+    t.index ["account_id", "prompt_key"], name: "index_account_prompts_on_account_id_and_prompt_key", unique: true
+    t.index ["account_id"], name: "index_account_prompts_on_account_id"
+    t.index ["prompt_key"], name: "index_account_prompts_on_prompt_key"
+    t.check_constraint "length(prompt_key::text) > 0", name: "account_prompts_prompt_key_not_empty"
+    t.check_constraint "length(text) > 0", name: "account_prompts_text_not_empty"
+>>>>>>> be1f2222ea (CU-86a95qan1 Add prompts editor)
+  end
+
   create_table "account_users", force: :cascade do |t|
     t.bigint "account_id"
     t.bigint "user_id"
@@ -1215,6 +1229,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_08_25_070005) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_prompts", "accounts", name: "account_prompts_account_id_fkey"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
