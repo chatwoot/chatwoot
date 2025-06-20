@@ -1,6 +1,7 @@
 import advancedFilters from './advancedFilters.json';
 import agentBots from './agentBots.json';
 import agentMgmt from './agentMgmt.json';
+import applications from './applications.json';
 import attributesMgmt from './attributesMgmt.json';
 import auditLogs from './auditLogs.json';
 import automation from './automation.json';
@@ -34,12 +35,14 @@ import settings from './settings.json';
 import signup from './signup.json';
 import sla from './sla.json';
 import teamsSettings from './teamsSettings.json';
+import webhooks from './webhooks.json';
 import whatsappTemplates from './whatsappTemplates.json';
 
 export default {
   ...advancedFilters,
   ...agentBots,
   ...agentMgmt,
+  ...applications,
   ...attributesMgmt,
   ...auditLogs,
   ...automation,
@@ -73,5 +76,6 @@ export default {
   ...signup,
   ...sla,
   ...teamsSettings,
+  ...webhooks,
   ...whatsappTemplates,
 };

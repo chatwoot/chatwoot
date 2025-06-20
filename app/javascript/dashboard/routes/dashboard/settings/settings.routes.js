@@ -4,6 +4,7 @@ import {
   CONVERSATION_PERMISSIONS,
 } from 'dashboard/constants/permissions.js';
 
+import applications from './applications/applications.routes';
 import account from './account/account.routes';
 import agent from './agents/agent.routes';
 import agentBot from './agentBots/agentBot.routes';
@@ -42,6 +43,7 @@ export default {
         return { name: 'canned_list', params: to.params };
       },
     },
+    ...applications.routes,
     ...account.routes,
     ...agent.routes,
     ...agentBot.routes,

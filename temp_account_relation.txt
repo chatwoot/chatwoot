@@ -1,0 +1,4 @@
+
+# Adicionar no app/models/account.rb:
+has_many :applications, dependent: :destroy
+

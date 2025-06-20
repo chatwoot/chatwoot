@@ -6,9 +6,6 @@ const settings = accountId => ({
   routes: [
     'agent_bots',
     'agent_list',
-    'applications_list', // NOVO: Rota para aplicações
-    'applications_new', // NOVO: Rota para criar aplicação
-    'applications_edit', // NOVO: Rota para editar aplicação
     'attributes_list',
     'automation_list',
     'auditlogs_list',
@@ -157,17 +154,6 @@ const settings = accountId => ({
       ),
       toStateName: 'canned_list',
       featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
-    },
-    // NOVO: APLICAÇÕES - Versão corrigida
-    {
-      icon: 'apps',
-      label: 'APPLICATIONS',
-      hasSubMenu: false,
-      meta: {
-        permissions: ['administrator'],
-      },
-      toState: frontendURL(`accounts/${accountId}/settings/applications/list`),
-      toStateName: 'applications_list',
     },
     {
       icon: 'flash-on',

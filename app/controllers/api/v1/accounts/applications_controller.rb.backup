@@ -1,0 +1,95 @@
+# app/controllers/api/v1/accounts/applications_controller.rb
+class Api::V1::Accounts::ApplicationsController < Api::V1::Accounts::BaseController
+  before_action :check_authorization
+  before_action :set_application, only: [:show, :update, :destroy, :launch, :update_last_used]
+
+  def index
+    @applications = Current.account.application_configs
+                           .includes(:user)
+                           .order(:name)
+  end
+
+  def show; end
+
+  def create
+    @application = Current.account.application_configs.build(application_params)
+    @application.user = Current.user
+
+    if @application.save
+      render json: application_json(@application), status: :created
+    else
+      render json: { errors: @application.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def update
+    if @application.update(application_params)
+      render json: application_json(@application)
+    else
+      render json: { errors: @application.errors }, status: :unprocessable_entity
+    end
+  end
+
+  def destroy
+    @application.destroy
+    head :no_content
+  end
+
+  # Endpoint para gerar URL assinada e redirecionar
+  def launch
+    additional_params = params.permit(:conversation_id, :contact_id, :inbox_id).to_h
+    signed_url = @application.generate_signed_url(Current.user, additional_params)
+
+    @application.update_last_used!
+
+    render json: { url: signed_url }
+  end
+
+  # Endpoint para atualizar last_used_at
+  def update_last_used
+    @application.update_last_used!
+    head :ok
+  end
+
+  private
+
+  def set_application
+    @application = Current.account.application_configs.find(params[:id])
+  end
+
+  def application_params
+    params.require(:application).permit(
+      :name, :url, :description, :status, :open_new_tab,
+      custom_params: {}
+    )
+  end
+
+  def application_json(application)
+    {
+      id: application.id,
+      name: application.name,
+      url: application.url,
+      description: application.description,
+      status: application.status,
+      open_new_tab: application.open_new_tab,
+      custom_params: application.custom_params,
+      last_used_at: application.last_used_at,
+      created_at: application.created_at,
+      updated_at: application.updated_at,
+      creator: application.user ? {
+        id: application.user.id,
+        name: application.user.name,
+        email: application.user.email
+      } : nil
+    }
+  end
+
+  def check_authorization
+    authorize Current.account, :show?
+
+    # Verificar se é Enterprise (se necessário)
+    unless Current.account.feature_enabled?(:applications)
+      render json: { error: 'Feature not available' }, status: :forbidden
+    end
+  end
+end

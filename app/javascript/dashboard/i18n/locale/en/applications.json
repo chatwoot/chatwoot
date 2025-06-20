@@ -1,0 +1,48 @@
+{
+ "APPLICATIONS": {
+   "HEADER": "Applications",
+   "DESCRIPTION": "Manage external applications that integrate with your Chatwoot account",
+   "NEW_APPLICATION": "New Application",
+   "LIST": {
+     "404": "No applications found",
+     "EMPTY_STATE": {
+       "TITLE": "No applications yet",
+       "MESSAGE": "Create your first application to integrate external tools with Chatwoot"
+     }
+   },
+   "FORM": {
+     "NAME": "Application Name",
+     "URL": "Application URL",
+     "DESCRIPTION": "Description",
+     "STATUS": "Active"
+   },
+   "STATUS": {
+     "ACTIVE": "Active",
+     "INACTIVE": "Inactive"
+   },
+   "ACTIONS": {
+     "OPEN": "Open",
+     "EDIT": "Edit",
+     "DELETE": "Delete",
+     "COPY_URL": "Copy URL"
+   },
+   "CREATED_AT": "Created",
+   "LAST_USED": "Last used",
+   "DELETE": {
+     "CONFIRM": {
+       "TITLE": "Delete Application",
+       "MESSAGE": "Are you sure you want to delete this application?",
+       "YES": "Delete",
+       "NO": "Cancel"
+     },
+     "API": {
+       "SUCCESS_MESSAGE": "Application deleted successfully",
+       "ERROR_MESSAGE": "Error deleting application"
+     }
+   },
+   "API": {
+     "SUCCESS_MESSAGE": "Application saved successfully",
+     "ERROR_MESSAGE": "Error saving application"
+   }
+ }
+}

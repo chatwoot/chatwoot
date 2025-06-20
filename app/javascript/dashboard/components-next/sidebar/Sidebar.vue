@@ -421,6 +421,13 @@ const menuItems = computed(() => {
           icon: 'i-lucide-code',
           to: accountScopedRoute('attributes_list'),
         },
+
+        {
+          name: 'Settings Applications',
+          label: t('SIDEBAR.APPLICATIONS'), // ou simplesmente 'Applications'
+          icon: 'i-lucide-blocks', // ou 'i-lucide-grid-3x3'
+          to: accountScopedRoute('applications_list'),
+        },
         {
           name: 'Settings Automation',
           label: t('SIDEBAR.AUTOMATION'),

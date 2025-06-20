@@ -1,4 +1,5 @@
 import { createStore } from 'vuex';
+import applications from './modules/applications';
 
 import accounts from './modules/accounts';
 import agentBots from './modules/agentBots';
@@ -61,6 +62,7 @@ export default createStore({
     accounts,
     agentBots,
     agents,
+    applications,
     articles,
     attributes,
     auditlogs,

@@ -1,0 +1,48 @@
+{
+ "APPLICATIONS": {
+   "HEADER": "Aplicações",
+   "DESCRIPTION": "Gerencie aplicações externas que se integram com sua conta Chatwoot",
+   "NEW_APPLICATION": "Nova Aplicação",
+   "LIST": {
+     "404": "Nenhuma aplicação encontrada",
+     "EMPTY_STATE": {
+       "TITLE": "Ainda não há aplicações",
+       "MESSAGE": "Crie sua primeira aplicação para integrar ferramentas externas com o Chatwoot"
+     }
+   },
+   "FORM": {
+     "NAME": "Nome da Aplicação",
+     "URL": "URL da Aplicação",
+     "DESCRIPTION": "Descrição",
+     "STATUS": "Ativo"
+   },
+   "STATUS": {
+     "ACTIVE": "Ativo",
+     "INACTIVE": "Inativo"
+   },
+   "ACTIONS": {
+     "OPEN": "Abrir",
+     "EDIT": "Editar",
+     "DELETE": "Excluir",
+     "COPY_URL": "Copiar URL"
+   },
+   "CREATED_AT": "Criado",
+   "LAST_USED": "Último uso",
+   "DELETE": {
+     "CONFIRM": {
+       "TITLE": "Excluir Aplicação",
+       "MESSAGE": "Tem certeza que deseja excluir esta aplicação?",
+       "YES": "Excluir",
+       "NO": "Cancelar"
+     },
+     "API": {
+       "SUCCESS_MESSAGE": "Aplicação excluída com sucesso",
+       "ERROR_MESSAGE": "Erro ao excluir aplicação"
+     }
+   },
+   "API": {
+     "SUCCESS_MESSAGE": "Aplicação salva com sucesso",
+     "ERROR_MESSAGE": "Erro ao salvar aplicação"
+   }
+ }
+}

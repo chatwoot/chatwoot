@@ -1,0 +1,9 @@
+
+# Adicionar no config/routes.rb dentro de namespace :accounts:
+resources :applications do
+ member do
+   patch :update_last_used
+   get :launch
+ end
+end
+
