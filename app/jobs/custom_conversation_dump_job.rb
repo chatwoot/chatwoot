@@ -35,30 +35,34 @@ class CustomConversationDumpJob < ApplicationJob
 
   def generate_website_unresolved_report(account)
     sql = <<-SQL.squish
-      SELECT c.display_id,
-             CONCAT('https://chat.bitespeed.co/app/accounts/', :account_id, '/conversations/', c.display_id) AS conversation_link,
-             CASE
-                 WHEN m.sender_type IS NULL OR m.sender_id = 3933 THEN 'Bot'
-                 WHEN m.sender_type = 'User' THEN 'Agent'
-                 ELSE m.sender_type
-             END AS sender_type,
-             m.content,
-             TO_CHAR(m.created_at AT TIME ZONE 'UTC' AT TIME ZONE 'Asia/Kolkata', 'YYYY-MM-DD HH24:MI:SS') AS created_at_ist
+      SELECT
+          c.display_id,
+          CONCAT('https://chat.bitespeed.co/app/accounts/', 1058, '/conversations/', c.display_id) AS conversation_url,
+          i.name AS inbox_name,
+          CASE
+              WHEN i.channel_type = 'Channel::Api' AND i.name = 'WhatsApp' THEN 'whatsapp'
+              WHEN i.channel_type = 'Channel::FacebookPage' THEN 'instagram'
+              WHEN i.channel_type = 'Channel::WebWidget' THEN 'website'
+              ELSE i.channel_type
+          END AS channel_type
       FROM conversations c
-      JOIN messages m ON m.conversation_id = c.id
-      WHERE c.account_id = :account_id
-        AND c.cached_label_list ILIKE '%website_unresolved%'
-        AND m.private = false
-        AND m.created_at > NOW() - INTERVAL '1 Day'
-        AND m.message_type != 2
-      ORDER BY c.id, m.created_at
+      JOIN inboxes i ON i.id = c.inbox_id
+      WHERE c.account_id = 1058
+        AND (
+          c.cached_label_list ILIKE '%website_unresolved%'
+          OR (
+            c.cached_label_list ILIKE '%unresolved%'
+            AND c.cached_label_list NOT ILIKE '%unresolved_conversations%'
+            AND c.cached_label_list NOT ILIKE '%unresolved_urgent%'
+          )
+        )
+        AND c.created_at > NOW() - INTERVAL '1 Day'
+      ORDER BY c.id
     SQL
 
     Rails.logger.info "CUSTOM_REPORT_JOB: Executing website unresolved query for account_id: #{account.id}"
 
-    ActiveRecord::Base.connection.exec_query(
-      sql.gsub(':account_id', account.id.to_s)
-    ).to_a
+    ActiveRecord::Base.connection.exec_query(sql).to_a
   end
 
   def send_website_unresolved_report(account, report_data, email)
@@ -67,7 +71,7 @@ class CustomConversationDumpJob < ApplicationJob
 
     csv_url = upload_csv(csv_content, file_name)
 
-    subject = "Website Unresolved Conversations Report | #{account.name.capitalize} | #{Date.current.strftime('%Y-%m-%d')}"
+    subject = "Unresolved Conversations Report | #{account.name.capitalize} | #{Date.current.strftime('%Y-%m-%d')}"
 
     body_html = <<~HTML
       <p>Hello,</p>
@@ -88,19 +92,17 @@ class CustomConversationDumpJob < ApplicationJob
     CSV.generate(headers: true) do |csv|
       csv << [
         'Conversation ID',
-        'Conversation Link',
-        'Sender Type',
-        'Message Content',
-        'Created At (IST)'
+        'Conversation URL',
+        'Inbox Name',
+        'Channel Type'
       ]
 
       results.each do |row|
         csv << [
           row['display_id'],
-          row['conversation_link'],
-          row['sender_type'],
-          row['content'],
-          row['created_at_ist']
+          row['conversation_url'],
+          row['inbox_name'],
+          row['channel_type']
         ]
       end
     end
