@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Завершить",
       "REOPEN_ACTION": "Открыть заново",
       "OPEN_ACTION": "Открыть",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Открыть",
       "CLOSE": "Закрыть",
       "DETAILS": "подробности",
@@ -117,6 +118,11 @@
         "FAILED": "Не удалось изменить приоритет. Пожалуйста, попробуйте еще раз."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Удалить"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Отметить как ожидающие",
       "RESOLVED": "Пометить как разрешено",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Назначить метки",
       "AGENTS_LOADING": "Загрузка агентов...",
       "ASSIGN_TEAM": "Назначить команду",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID разговора {conversationId} присвоен \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Метка успешно назначена",
     "ASSIGN_LABEL_FAILED": "Назначение метки не удалось",
     "CHANGE_TEAM": "Команда назначенная в беседу изменена",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Превышен лимит вложений в {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Не удается отправить это сообщение, повторите попытку позже",
     "SENT_BY": "Отправитель:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Атрибуты контакта",
       "PREVIOUS_CONVERSATION": "Предыдущие диалоги",
       "MACROS": "Макросс",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

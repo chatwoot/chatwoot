@@ -18,13 +18,34 @@ const getters = {
   getAllConversations: ({ allConversations, chatSortFilter: sortKey }) => {
     return allConversations.sort((a, b) => sortComparator(a, b, sortKey));
   },
-  getFilteredConversations: ({
-    allConversations,
-    chatSortFilter,
-    appliedFilters,
-  }) => {
+  getFilteredConversations: (
+    { allConversations, chatSortFilter, appliedFilters },
+    _,
+    __,
+    rootGetters
+  ) => {
+    const currentUser = rootGetters.getCurrentUser;
+    const currentUserId = rootGetters.getCurrentUser.id;
+    const currentAccountId = rootGetters.getCurrentAccountId;
+
+    const permissions = getUserPermissions(currentUser, currentAccountId);
+    const userRole = getUserRole(currentUser, currentAccountId);
+
     return allConversations
-      .filter(conversation => matchesFilters(conversation, appliedFilters))
+      .filter(conversation => {
+        const matchesFilterResult = matchesFilters(
+          conversation,
+          appliedFilters
+        );
+        const allowedForRole = applyRoleFilter(
+          conversation,
+          userRole,
+          permissions,
+          currentUserId
+        );
+
+        return matchesFilterResult && allowedForRole;
+      })
       .sort((a, b) => sortComparator(a, b, chatSortFilter));
   },
   getSelectedChat: ({ selectedChatId, allConversations }) => {

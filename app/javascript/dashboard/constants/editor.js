@@ -33,6 +33,14 @@ export const ARTICLE_EDITOR_MENU_OPTIONS = [
   'code',
 ];
 
+export const WIDGET_BUILDER_EDITOR_MENU_OPTIONS = [
+  'strong',
+  'em',
+  'link',
+  'undo',
+  'redo',
+];
+
 export const MESSAGE_EDITOR_IMAGE_RESIZES = [
   {
     name: 'Small',

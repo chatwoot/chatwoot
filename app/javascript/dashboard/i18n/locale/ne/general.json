@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Search",
       "EMPTY_STATE": "No results found"
-    }
+    },
+    "CLOSE": "बन्दा गार्नुहोस्"
   }
 }

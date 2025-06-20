@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Пошук",
       "EMPTY_STATE": "Результатів не знайдено"
-    }
+    },
+    "CLOSE": "Закрити"
   }
 }

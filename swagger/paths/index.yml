@@ -166,6 +166,15 @@
 
 # ------------  Application API routes  ------------#
 
+# Accounts
+/api/v1/accounts/{id}:
+  parameters:
+    - $ref: '#/components/parameters/account_id'
+  get:
+    $ref: ./application/accounts/show.yml
+  patch:
+    $ref: ./application/accounts/update.yml
+
 # AgentBots
 /api/v1/accounts/{account_id}/agent_bots:
   parameters:

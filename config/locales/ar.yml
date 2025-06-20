@@ -91,6 +91,8 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
+      avg_reply_time: Avg reply time
+      resolution_count: عدد مرات الإغلاق
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
@@ -138,6 +140,8 @@ ar:
       instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'رمز الخطأ: %{error_code}'
     activity:
@@ -172,6 +176,12 @@ ar:
       sla:
         added: '%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}'
         removed: '%{user_name} أزال سياسة مستوى الخدمة %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} كتم صوت المحادثة'
       unmuted: '%{user_name} قام بإلغاء كتم المحادثة'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -199,33 +209,41 @@ ar:
     online:
       delete: '%{contact_name} متصل، يرجى المحاولة مرة أخرى لاحقاً'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'تطبيقات لوحة التحكم'
       description: 'تسمح لك تطبيقات لوحة التحكم بإنشاء وتضمين التطبيقات التي تعرض معلومات المستخدم أو الطلبات أو سجل الدفع، مما يوفر المزيد من السياق لوكلاء دعم العملاء الخاص بك.'
     dyte:
       name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
       description: 'Dyte هو منتج يدمج وظائف الصوت والفيديو في تطبيقك. مع هذا الدمج، يمكن لوكلائك بدء مكالمات الفيديو/الصوت مع عملائك مباشرة من Chatwoot.'
       meeting_name: 'بدأ %{agent_name} اجتماعاً'
     slack:
       name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
       description: "دمج Chatwoot مع Slack للحفاظ على مزامنة فريقك. هذا التكامل يسمح لك باستلام إشعارات للمحادثات الجديدة والرد عليها مباشرة داخل واجهة Slacks."
     webhooks:
       name: 'Webhook'
       description: 'أحداث Webhook توفر تحديثات في الوقت الحقيقي حول الأنشطة في حساب Chatwoot الخاص بك. يمكنك الاشتراك في الأحداث المفضلة الخاصة بك، وسترسل Chatwoot لك اتصالات HTTP مع التحديثات.'
     dialogflow:
       name: 'Dialogflow'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
       description: 'بناء روبوتات الدردشة مع حركة الاتصال ودمجها بسهولة في صندوق الوارد الخاص بك. يمكن لهذه الروبوتات التعامل مع الاستفسارات الأولية قبل نقلها إلى وكيل خدمة العملاء.'
     google_translate:
       name: 'ترجمة Google'
+      short_description: 'Automatically translate customer messages for agents.'
       description: "دمج ترجمة جوجل لمساعدة الوكلاء على ترجمة رسائل العملاء بسهولة. هذا الدمج يكشف تلقائياً اللغة ويحولها إلى اللغة المفضلة لدى الوكيل أو المدير."
     openai:
       name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
       description: 'الاستفادة من قوة نماذج اللغات الكبيرة من OpenAI مع ميزات مثل اقتراحات الرد، التلخيص، إعادة صياغة الرسائل، التحقق الإملائي، تصنيف البطاقات.'
     linear:
       name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
       description: 'إنشاء مشكلات في Linear مباشرة من نافذة المحادثة الخاصة بك. بدلاً من ذلك، قم بربط مشكلات Linear القائمة من أجل عملية تتبع أكثر تبسيطاً وكفاءة.'
     shopify:
       name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
     leadsquared:
       name: 'LeadSquared'
@@ -234,6 +252,11 @@ ar:
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
   public_portal:
     search:
       search_placeholder: البحث عن مقالة حسب العنوان أو الجسم...
@@ -259,6 +282,7 @@ ar:
       made_with: صنع بـ
     header:
       go_to_homepage: الموقع الإلكتروني
+      visit_website: Visit website
       appearance:
         system: النظام
         light: فاتح

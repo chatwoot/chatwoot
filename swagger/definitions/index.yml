@@ -60,6 +60,10 @@ webhook:
   $ref: ./resource/webhook.yml
 account:
   $ref: ./resource/account.yml
+account_detail:
+  $ref: ./resource/account_detail.yml
+account_show_response:
+  $ref: ./resource/account_show_response.yml
 account_user:
   $ref: ./resource/account_user.yml
 platform_account:
@@ -86,6 +90,9 @@ public_inbox:
 
 account_create_update_payload:
   $ref: ./request/account/create_update_payload.yml
+
+account_update_payload:
+  $ref: ./request/account/update_payload.yml
 
 account_user_create_update_payload:
   $ref: ./request/account_user/create_update_payload.yml

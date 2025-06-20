@@ -8,6 +8,7 @@ import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
 
 export default {
   components: {
@@ -45,7 +46,14 @@ export default {
     'assignAgent',
     'assignTeam',
     'assignLabel',
+    'deleteConversation',
   ],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
@@ -121,6 +129,11 @@ export default {
         icon: 'people-team-add',
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_TEAM'),
       },
+      deleteOption: {
+        key: 'delete',
+        icon: 'delete',
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.DELETE'),
+      },
     };
   },
   computed: {
@@ -177,6 +190,9 @@ export default {
     },
     assignPriority(priority) {
       this.$emit('assignPriority', priority);
+    },
+    deleteConversation() {
+      this.$emit('deleteConversation', this.chatId);
     },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
@@ -277,5 +293,13 @@ export default {
         @click.stop="$emit('assignTeam', team)"
       />
     </MenuItemWithSubmenu>
+    <template v-if="isAdmin">
+      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <MenuItem
+        :option="deleteOption"
+        variant="icon"
+        @click.stop="deleteConversation"
+      />
+    </template>
   </div>
 </template>

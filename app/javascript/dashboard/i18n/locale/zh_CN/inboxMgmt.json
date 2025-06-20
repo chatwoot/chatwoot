@@ -47,13 +47,13 @@
         "CREATE_INBOX": "新增收件箱"
       },
       "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "CONTINUE_WITH_INSTAGRAM": "在 Instagram 中继续",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "连接您的 Instagram 配置文件",
+        "HELP": "若要将您的 Instagram 配置文件添加为通道，您需要点击「继续使用 Instagram」来验证您的 Instagram 配置文件。 ",
+        "ERROR_MESSAGE": "连接到 Instagram 时出错，请重试",
+        "ERROR_AUTH": "连接到 Instagram 时出错，请重试",
+        "NEW_INBOX_SUGGESTION": "这个 Instagram 账户先前已连接到一个不同的收件箱，现在已经迁移到这里。 所有新消息都将出现在这里。旧收件箱将无法再发送或接收此账户的消息。",
+        "DUPLICATE_INBOX_BANNER": "此 Instagram 账户已迁移到新的 Instagram 通道收件箱。您将无法从此收件箱发送/接收 Instagram 消息。"
       },
       "TWITTER": {
         "HELP": "若要将您的Twitter个人资料添加为频道，您需要通过点击“使用Twitter登录”来验证您的Twitter个人资料。 ",
@@ -579,28 +579,28 @@
     },
     "CSAT": {
       "TITLE": "启用CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "SUBTITLE": "在对话结束时自动启动 CSAT 问卷，以了解客户如何感觉到他们的支持体验。 跟踪满意的趋势并查明一段时间内需要改进的领域。",
       "DISPLAY_TYPE": {
-        "LABEL": "Display type"
+        "LABEL": "显示类型"
       },
       "MESSAGE": {
         "LABEL": "消息",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "请输入一条消息以将此表格显示给用户"
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "问卷规则",
+        "DESCRIPTION_PREFIX": "发送此问卷如果对话",
+        "DESCRIPTION_SUFFIX": "任意标签",
         "OPERATOR": {
           "CONTAINS": "包含",
           "DOES_NOT_CONTAINS": "不包含"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "选择标签"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "NOTE": "注：每次对话只发送一次 CSAT 问卷",
       "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "SUCCESS_MESSAGE": "CSAT 设置更新成功",
+        "ERROR_MESSAGE": "我们无法更新 CSAT 设置。请稍后再试。"
       }
     },
     "BUSINESS_HOURS": {

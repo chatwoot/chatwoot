@@ -478,32 +478,57 @@ RSpec.describe Message do
 
   describe '#content' do
     let(:conversation) { create(:conversation) }
-    let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Original content') }
 
-    it 'returns original content for web widget inbox' do
-      allow(message.inbox).to receive(:web_widget?).and_return(true)
-      expect(message.content).to eq('Original content')
+    context 'when message is not input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+      it 'returns original content' do
+        expect(message.content).to eq('Regular message')
+      end
     end
 
-    context 'when inbox is not a web widget' do
-      before do
-        allow(message.inbox).to receive(:web_widget?).and_return(false)
-        allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('https://app.chatwoot.com')
+    context 'when message is input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience') }
+
+      context 'when inbox is web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(true)
+        end
+
+        it 'returns original content without survey URL' do
+          expect(message.content).to eq('Rate your experience')
+        end
       end
 
-      it 'returns custom message with survey link when csat message is configured' do
-        allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom survey message:' })
-        expected_content = "Custom survey message: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-        expect(message.content).to eq(expected_content)
-      end
+      context 'when inbox is not web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(false)
+        end
 
-      it 'returns default message with survey link when no custom csat message' do
-        allow(message.inbox).to receive(:csat_config).and_return(nil)
-        allow(I18n).to receive(:t).with('conversations.survey.response', link: "https://app.chatwoot.com/survey/responses/#{conversation.uuid}")
-                                  .and_return("Please rate your conversation: https://app.chatwoot.com/survey/responses/#{conversation.uuid}")
-        expected_content = "Please rate your conversation: https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-        expect(message.content).to eq(expected_content)
+        it 'returns only the stored content (clean for dashboard)' do
+          expect(message.content).to eq('Rate your experience')
+        end
+
+        it 'returns only the base content without URL when survey_url stored separately' do
+          message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
+          expect(message.content).to eq('Rate your experience')
+        end
       end
+    end
+  end
+
+  describe '#outgoing_content' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+    it 'delegates to MessageContentPresenter' do
+      presenter = instance_double(MessageContentPresenter)
+      allow(MessageContentPresenter).to receive(:new).with(message).and_return(presenter)
+      allow(presenter).to receive(:outgoing_content).and_return('Presented content')
+
+      expect(message.outgoing_content).to eq('Presented content')
+      expect(MessageContentPresenter).to have_received(:new).with(message)
+      expect(presenter).to have_received(:outgoing_content)
     end
   end
 end
