@@ -147,7 +147,7 @@ watch(
       <div class="text-center max-w-md">
         <i class="i-lucide-alert-circle size-12 text-red-500 mb-4" />
         <h3 class="text-lg font-semibold mb-2">
-          {{ $t('GENERAL_SETTINGS.INTEGRATIONS.FAILED_TO_LOAD') }}
+          {{ $t('GENERAL_SETTINGS.INTEGRATIONS.LOAD_ERROR') }}
         </h3>
         <p class="text-slate-600 mb-4">{{ error }}</p>
         <button
