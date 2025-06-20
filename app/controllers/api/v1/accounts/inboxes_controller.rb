@@ -81,7 +81,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create_channel
-    return unless %w[web_widget api email line telegram whatsapp sms].include?(permitted_params[:channel][:type])
+    return unless %w[web_widget api email line telegram whatsapp sms voice].include?(permitted_params[:channel][:type])
 
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
   end

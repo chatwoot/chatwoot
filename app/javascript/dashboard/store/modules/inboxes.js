@@ -220,6 +220,21 @@ export const actions = {
       throw new Error(error);
     }
   },
+  createVoiceChannel: async ({ commit }, params) => {
+    try {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
+      const response = await InboxesAPI.createChannel({
+        channel: { ...params.voice, type: 'voice' },
+      });
+      commit(types.default.ADD_INBOXES, response.data);
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      sendAnalyticsEvent('voice');
+      return response.data;
+    } catch (error) {
+      commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: false });
+      throw error;
+    }
+  },
   updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
     try {
