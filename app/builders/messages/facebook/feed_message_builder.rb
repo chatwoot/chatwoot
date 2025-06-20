@@ -39,7 +39,7 @@ class Messages::Facebook::FeedMessageBuilder < Messages::Messenger::MessageBuild
   end
 
   def build_activity_message
-    ::Conversations::ActivityMessageJob.new.perform(conversation, activity_message_params)
+    Messages::Facebook::FeedActivityMessageBuilder.new(response, conversation, @inbox).perform
   end
 
   # This method is used to build the message for feed activities like comments on posts.
@@ -93,14 +93,6 @@ class Messages::Facebook::FeedMessageBuilder < Messages::Messenger::MessageBuild
     }
   end
 
-  def activity_message_params
-    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: activity_content }
-  end
-
-  def activity_content
-    "Customer commented on <a href='#{response.post_url}' class='underline text-n-blue-text'>post</a>"
-  end
-
   def conversation_params
     {
       account_id: @inbox.account_id,
@@ -138,7 +130,7 @@ class Messages::Facebook::FeedMessageBuilder < Messages::Messenger::MessageBuild
       if e.message.include?('2018218')
         Rails.logger.warn e
       else
-        ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
+        ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
       end
     rescue StandardError => e
       result = {}

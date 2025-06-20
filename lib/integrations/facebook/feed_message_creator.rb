@@ -6,6 +6,9 @@ class Integrations::Facebook::FeedMessageCreator
   end
 
   def perform
+    # Skip processing if the response is a removal event
+    return if response.verb == 'remove'
+
     case response.item_type
     when 'comment'
       create_comment_message

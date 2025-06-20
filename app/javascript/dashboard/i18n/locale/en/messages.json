@@ -1,0 +1,12 @@
+{
+  "MESSAGES": {
+    "ACTIVITY_MESSAGE": {
+      "EXPAND": "Expand",
+      "COLLAPSE": "Collapse",
+      "ATTACHMENT": {
+        "UNSUPPORTED_BROWSER": "Your browser does not support attachment preview.",
+        "UNSUPPORTED_FILE_TYPE": "Unsupported file type."
+      }
+    }
+  }
+}

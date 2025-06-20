@@ -9,9 +9,7 @@ class Messages::Instagram::ReplyCommentMessageBuilder
     return unless @inbox.auto_reply_post_comments_enabled
 
     url = "#{base_uri}/#{@message[:id]}/replies?message=#{reply_content}&hide=false"
-    response = HTTParty.post(url, query: {
-                               access_token: @access_token
-                             })
+    HTTParty.post(url, query: { access_token: @access_token })
   end
 
   private

@@ -21,44 +21,16 @@ class Messages::Instagram::CommentMessageBuilder < Messages::Instagram::BaseMess
     @message.dig(:from, :id)
   end
 
-  def post_url
-    base_uri = "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
-    response = HTTParty.get("#{base_uri}/#{@message.dig(:media, :id)}?fields=permalink&access_token=#{@inbox.channel.access_token}")
-    response['permalink']
-  rescue Koala::Facebook::AuthenticationError => e
-    Rails.logger.warn("Facebook authentication error for inbox: #{@inbox.id} with error: #{e.message}")
-    Rails.logger.error e
-    @inbox.channel.authorization_error!
-    raise
-  rescue Koala::Facebook::ClientError => e
-    # OAuthException, code: 100, error_subcode: 2018218, message: (#100) No profile available for this user
-    if e.message.include?('2018218')
-      Rails.logger.warn e
-    else
-      ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception unless @outgoing_echo
-    end
-  rescue StandardError => e
-    ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
-  end
-
   def message_existed?
     Message.find_by(source_id: @message[:id], message_type: :incoming).present?
   end
 
   def build_activity_message
-    ::Conversations::ActivityMessageJob.new.perform(conversation, activity_message_params)
+    Messages::Instagram::CommentActivityMessageBuilder.new(@message, conversation, @inbox).perform
   end
 
   def build_comment_message
     @message = conversation.messages.create!(message_params)
-  end
-
-  def activity_message_params
-    { account_id: conversation.account_id, inbox_id: conversation.inbox_id, message_type: :activity, content: activity_content }
-  end
-
-  def activity_content
-    "Customer commented on <a href='#{post_url}' class='underline text-n-blue-text'>post</a>"
   end
 
   def message_params

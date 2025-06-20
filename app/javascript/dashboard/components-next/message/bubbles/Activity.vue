@@ -1,22 +1,57 @@
 <script setup>
-import { computed } from 'vue';
+import { ref, computed } from 'vue';
 import { messageTimestamp } from 'shared/helpers/timeHelper';
 import BaseBubble from './Base.vue';
+import PostContent from './ActivityContent/PostContent.vue';
 import { useMessageContext } from '../provider.js';
 
-const { content, createdAt } = useMessageContext();
+const { content, contentAttributes, createdAt } = useMessageContext();
 
 const readableTime = computed(() =>
   messageTimestamp(createdAt.value, 'LLL d, h:mm a')
 );
+
+const hasAdditionalContent = computed(() => {
+  return Object.keys(contentAttributes.value).length !== 0;
+});
+
+const isPostActivityMessage = computed(() => {
+  return contentAttributes.value.activityType === 'post';
+});
+
+const toggleExpand = ref(false);
 </script>
 
 <template>
   <BaseBubble
     v-tooltip.top="readableTime"
-    class="px-3 py-1 !rounded-xl flex min-w-0 items-center gap-2"
+    class="!rounded-xl flex flex-col items-center min-w-0 gap-2"
     data-bubble-name="activity"
   >
-    <span v-dompurify-html="content" :title="content" />
+    <span
+      v-dompurify-html="content"
+      class="text-sm leading-snug px-4 py-2"
+      :title="content"
+    />
+    <div
+      v-if="hasAdditionalContent"
+      class="flex flex-col items-center gap-2 py-1 w-full"
+    >
+      <PostContent
+        v-if="isPostActivityMessage"
+        :content-attributes="contentAttributes"
+        :toggle-expand="toggleExpand"
+      />
+      <button
+        class="text-n-blue-text text-sm font-medium hover:underline focus:outline-none"
+        @click="toggleExpand = !toggleExpand"
+      >
+        {{
+          toggleExpand
+            ? $t('MESSAGES.ACTIVITY_MESSAGE.COLLAPSE')
+            : $t('MESSAGES.ACTIVITY_MESSAGE.EXPAND')
+        }}
+      </button>
+    </div>
   </BaseBubble>
 </template>
