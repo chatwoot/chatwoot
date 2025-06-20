@@ -31,12 +31,34 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: @contact
   end
 
-  private
+  def verify_shopify_email
+    # Currently skipping all otp logic
+    if @contact.email.present?
+      render json: { errors: ['Email already exists for the user'] }, status: :unprocessable_entity
+    else
+      contact = Contact.find_by(email: params[:email])      
+      identify_contact(contact)
+
+      if (!@contact.custom_attributes['shopify_customer_id'].present?)
+        PopulateShopifyContactDataJob.perform_later(
+          account_id: inbox.account.id,
+          id: @contact.id,
+          email: params[:email],
+          phone_number: @contact.phone_number,
+        );
+      end
+
+      render json: {
+        shopify_customer_id: @contact.custom_attributes['shopify_customer_id']
+      }, status: :ok
+    end
+  end
 
   def identify_contact(contact)
     contact_identify_action = ContactIdentifyAction.new(
-      contact: contact,
+      contact: @contact,
       params: permitted_params.to_h.deep_symbolize_keys,
+      retain_original_contact_name: true,
       discard_invalid_attrs: true
     )
     @contact = contact_identify_action.perform

@@ -151,7 +151,7 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
   end
 
   def populate_shopify_customer_data(params)
-    PopulateShopifyContactDataJob.perform_later(id: @contact.id, email: params[:email], phone_number: params[:phone_number], account_id: Current.account)
+    PopulateShopifyContactDataJob.perform_later(id: @contact.id, email: params[:email], phone_number: params[:phone_number], account_id: Current.account.id)
   end
 
   def destroy

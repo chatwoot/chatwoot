@@ -23,7 +23,7 @@
 #  created_at         :datetime         not null
 #  updated_at         :datetime         not null
 #  account_id         :bigint
-#  customer_id        :integer
+#  customer_id        :bigint
 #
 # Indexes
 #

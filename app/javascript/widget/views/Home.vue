@@ -4,11 +4,13 @@ import { mapGetters } from 'vuex';
 import routerMixin from 'widget/mixins/routerMixin';
 import configMixin from 'widget/mixins/configMixin';
 import ArticleContainer from '../components/pageComponents/Home/Article/ArticleContainer.vue';
+import ShopifyOrdersContainer from '../components/pageComponents/Home/ShopifyOrders/ShopifyOrdersContainer.vue';
 export default {
   name: 'Home',
   components: {
     ArticleContainer,
     TeamAvailability,
+    ShopifyOrdersContainer
   },
   mixins: [configMixin, routerMixin],
   computed: {
@@ -38,6 +40,7 @@ export default {
       @start-conversation="startConversation"
     />
 
-    <ArticleContainer />
+    <!-- <ArticleContainer v-if="process.env.NODE_ENV !== 'development'"/> -->
+    <ShopifyOrdersContainer />
   </div>
 </template>

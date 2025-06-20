@@ -18,7 +18,7 @@ class PopulateShopifyContactDataJob < ApplicationJob
     return if customers.empty?
 
     customer = customers.first
-    Rails.logger.info("Populating shopify customer data #{customer['id']}")
+    Rails.logger.info("Populating shopify account: #{account_id} and customer data #{customer['id']}")
 
     contact = Contact.find_by(id: id)
 
@@ -29,11 +29,40 @@ class PopulateShopifyContactDataJob < ApplicationJob
     contact.save!
 
     # Update customer orders
-    update_customer_orders(account_id, customer['id']) if old_shopify_customer_id != customer['id']
+    update_customer_orders(account_id, customer['id'])
   end
 
   def update_customer_orders(account_id, customer_id)
-    orders = fetch_orders(customer_id)
+    orders = fetch_orders(account_id, customer_id)
+    account = Account.find(account_id)
+
+    orders.each do |shopify_order|
+      Rails.logger.info("Added order: #{shopify_order}")
+      account.orders.upsert(
+        {
+          id:                 shopify_order['id'],
+          billing_address:    shopify_order['billing_address'],
+          cancel_reason:      shopify_order['cancel_reason'],
+          cancelled_at:       shopify_order['cancelled_at'],
+          currency:           shopify_order['currency'],
+          financial_status:    shopify_order['financial_status'],
+          fulfillment_status:  shopify_order['fulfillment_status'],
+          line_items:         shopify_order['line_items'],
+          name:               shopify_order['name'],
+          note:               shopify_order['note'],
+          order_status_url:   shopify_order['order_status_url'],
+          refunds:            shopify_order['refunds'],
+          shipping_address:   shopify_order['shipping_address'],
+          shipping_lines:     shopify_order['shipping_lines'],
+          subtotal_price:     shopify_order['subtotal_price'],
+          tags:               shopify_order['tags'],
+          total_price:        shopify_order['total_price'],
+          total_tax:          shopify_order['total_tax'],
+          customer_id:        customer_id
+        },
+        unique_by: :id
+      )
+    end
   end
 
   def fetch_customers(email, phone_number)
@@ -50,7 +79,7 @@ class PopulateShopifyContactDataJob < ApplicationJob
     ).body['customers'] || []
   end
 
-  def fetch_orders(customer_id)
+  def fetch_orders(account_id, customer_id)
     orders = shopify_client.get(
       path: 'orders.json',
       query: {
@@ -59,6 +88,8 @@ class PopulateShopifyContactDataJob < ApplicationJob
         # fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status' // REVIEW: fetching all fields from now, but only a subset is being saved, maybe we can optimize the query
       }
     ).body['orders'] || []
+
+    @hook = Integrations::Hook.find_by!(account: account_id, app_id: 'shopify')
 
     orders.map do |order|
       order.merge('admin_url' => "https://#{@hook.reference_id}/admin/orders/#{order['id']}")

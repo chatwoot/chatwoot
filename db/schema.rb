@@ -1002,7 +1002,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_19_141557) do
 
   create_table "orders", force: :cascade do |t|
     t.string "name"
-    t.integer "customer_id"
+    t.bigint "customer_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "line_items", default: [], null: false

@@ -53,6 +53,7 @@
   },
   "POWERED_BY": "Powered by OneHash Chat",
   "EMAIL_PLACEHOLDER": "Please enter your email",
+  "VERIFY_EMAIL": "Verify",
   "CHAT_PLACEHOLDER": "Type your message",
   "TODAY": "Today",
   "YESTERDAY": "Yesterday",
@@ -119,6 +120,15 @@
     "POPULAR_ARTICLES": "Popular Articles",
     "VIEW_ALL_ARTICLES": "View all articles",
     "IFRAME_LOAD_ERROR": "There was an error loading the article, please refresh the page and try again."
+  },
+  "SHOPIFY_LOGIN": "Shopify Login",
+  "SHOPIFY_ORDERS": {
+    "TITLE": "Shopify Orders",
+    "VIEW_ALL_ORDERS": "View all orders",
+    "ENTER_EMAIL": "Enter your email",
+    "ORDER": "Order",
+    "SHIPMENT": "Shipment",
+    "TRACK": "Track"
   },
   "ATTACHMENTS": {
     "image": {

@@ -1,4 +1,13 @@
 Rails.application.routes.draw do
+  # namespace :api do
+  #   namespace :v1 do
+  #     namespace :widget do
+  #       namespace :shopify do
+  #         get 'orders/index'
+  #       end
+  #     end
+  #   end
+  # end
   mount ShopifyApp::Engine, at: '/'
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
@@ -325,6 +334,9 @@ Rails.application.routes.draw do
       resource :notification_subscriptions, only: [:create, :destroy]
 
       namespace :widget do
+        namespace :shopify do
+          resources :orders, only: [:index]
+        end
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
@@ -344,6 +356,7 @@ Rails.application.routes.draw do
         resource :contact, only: [:show, :update] do
           collection do
             post  :destroy_custom_attributes
+            post  :verify_shopify_email
             patch :set_user
           end
         end

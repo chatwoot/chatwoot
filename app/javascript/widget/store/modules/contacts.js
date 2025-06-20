@@ -101,6 +101,13 @@ export const actions = {
       // Ignore error
     }
   },
+  verifyShopifyEmail: async (_, params) => {
+    try {
+      await ContactsAPI.verifyShopifyEmail(params);
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 export const mutations = {

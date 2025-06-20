@@ -2,7 +2,7 @@ class CreateOrders < ActiveRecord::Migration[7.0]
   def change
     create_table :orders do |t|
       t.string   :name # Shopify order number (e.g., "#1001")
-      t.integer  :customer_id
+      t.bigint  :customer_id
 
       t.datetime :created_at, null: false
       t.datetime :updated_at, null: false
