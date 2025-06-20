@@ -47,7 +47,7 @@ useKeyboardEvents(keyboardEvents);
 <template>
   <div class="flex flex-col py-1">
     <div class="flex items-center justify-between py-2 mb-1">
-      <h3 class="text-base text-slate-900 dark:text-slate-25">
+      <h3 class="text-base text-n-slate-12">
         {{ title }}
       </h3>
       <Button ghost xs slate icon="i-lucide-x" @click="onClose" />

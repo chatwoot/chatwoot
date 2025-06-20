@@ -16,19 +16,11 @@ defineProps({
       :icon="hasBusinessHours ? 'alarm-on' : 'alarm-off'"
       type="outline"
       class="flex-shrink-0"
-      :class="
-        hasBusinessHours
-          ? 'text-slate-600 dark:text-slate-400'
-          : 'text-slate-300 dark:text-slate-700'
-      "
+      :class="hasBusinessHours ? 'text-n-slate-11' : 'text-n-slate-10'"
     />
     <span
       class="hidden text-xs tracking-[0.2%] font-normal truncate sm:block"
-      :class="
-        hasBusinessHours
-          ? 'text-slate-600 dark:text-slate-400'
-          : 'text-slate-300 dark:text-slate-700'
-      "
+      :class="hasBusinessHours ? 'text-n-slate-11' : 'text-n-slate-10'"
     >
       {{
         hasBusinessHours

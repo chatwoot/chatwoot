@@ -102,7 +102,7 @@ export default {
         />
       </template>
     </BaseSettingsHeader>
-    <div class="w-full overflow-x-auto text-slate-700 dark:text-slate-200">
+    <div class="w-full overflow-x-auto text-n-slate-11">
       <p
         v-if="!uiFlags.isFetching && !records.length"
         class="flex flex-col items-center justify-center h-full"
@@ -121,7 +121,7 @@ export default {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
           >
             {{ thHeader }}
           </th>

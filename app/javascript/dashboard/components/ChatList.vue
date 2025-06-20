@@ -959,7 +959,7 @@ watch(conversationFilters, (newVal, oldVal) => {
           </div>
           <p
             v-else-if="showEndOfListMessage"
-            class="p-4 text-center text-slate-400 dark:text-slate-300"
+            class="p-4 text-center text-n-slate-11"
           >
             {{ $t('CHAT_LIST.EOF') }}
           </p>

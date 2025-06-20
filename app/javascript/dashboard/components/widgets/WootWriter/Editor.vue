@@ -709,7 +709,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     <div ref="editor" />
     <div
       v-show="isImageNodeSelected && showImageResizeToolbar"
-      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-n-slate-12"
       :style="{
         top: toolbarPosition.top,
         left: toolbarPosition.left,
@@ -760,7 +760,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       @apply border-slate-400 dark:border-slate-500;
 
       p {
-        @apply text-slate-600 dark:text-slate-400;
+        @apply text-n-slate-11;
       }
     }
 

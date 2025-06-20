@@ -129,7 +129,7 @@ export default {
                 :username="agent.name"
                 size="22px"
               />
-              <span class="my-0 text-slate-800 dark:text-slate-75">
+              <span class="my-0 text-n-slate-12">
                 {{ agent.name }}
               </span>
             </div>
@@ -198,7 +198,7 @@ export default {
     .agent-list-search {
       @apply py-0 px-2.5 bg-n-alpha-black2 border border-solid border-n-strong rounded-md;
       .search-icon {
-        @apply text-slate-400 dark:text-slate-200;
+        @apply text-n-slate-10;
       }
 
       .agent--search_input {

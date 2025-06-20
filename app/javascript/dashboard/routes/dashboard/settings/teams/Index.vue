@@ -84,7 +84,7 @@ const confirmPlaceHolderText = computed(() =>
         </router-link>
       </template>
     </BaseSettingsHeader>
-    <div class="mt-6 flex-1 text-slate-700 dark:text-slate-300">
+    <div class="mt-6 flex-1 text-n-slate-11">
       <woot-loading-state
         v-if="uiFlags.isFetching"
         :message="$t('TEAMS_SETTINGS.LOADING')"

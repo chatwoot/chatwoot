@@ -19,10 +19,7 @@ export default {
       <h2 class="text-2xl text-n-slate-12 mb-1 font-medium">
         {{ headerTitle }}
       </h2>
-      <p
-        v-if="headerContent"
-        class="w-full text-slate-600 dark:text-slate-300 text-sm mb-2"
-      >
+      <p v-if="headerContent" class="w-full text-n-slate-11 text-sm mb-2">
         {{ headerContent }}
       </p>
       <slot />

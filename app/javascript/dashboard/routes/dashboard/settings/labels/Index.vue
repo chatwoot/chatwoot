@@ -111,19 +111,17 @@ onBeforeMount(() => {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-slate-700 dark:text-slate-300"
+            class="py-4 font-semibold text-left ltr:pr-4 rtl:pl-4 text-n-slate-11"
           >
             {{ thHeader }}
           </th>
         </thead>
         <tbody
-          class="flex-1 divide-y divide-slate-25 dark:divide-slate-800 text-slate-700 dark:text-slate-100"
+          class="flex-1 divide-y divide-slate-25 dark:divide-slate-800 text-n-slate-12"
         >
           <tr v-for="(label, index) in records" :key="label.title">
             <td class="py-4 ltr:pr-4 rtl:pl-4">
-              <span
-                class="mb-1 font-medium break-words text-slate-700 dark:text-slate-100"
-              >
+              <span class="mb-1 font-medium break-words text-n-slate-12">
                 {{ label.title }}
               </span>
             </td>

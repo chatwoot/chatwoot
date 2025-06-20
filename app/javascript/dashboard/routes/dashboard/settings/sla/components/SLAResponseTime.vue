@@ -16,7 +16,7 @@ defineProps({
     class="flex flex-row items-start w-full h-full gap-1 sm:items-end sm:px-6 sm:py-2 sm:gap-2 sm:flex-col"
   >
     <span
-      class="inline-flex items-center gap-1 tracking-[-0.6%] text-sm ltr:pl-1.5 sm:ltr:pl-0 rtl:pr-1.5 sm:rtl:pr-0 text-slate-600 dark:text-slate-300"
+      class="inline-flex items-center gap-1 tracking-[-0.6%] text-sm ltr:pl-1.5 sm:ltr:pl-0 rtl:pr-1.5 sm:rtl:pr-0 text-n-slate-11"
     >
       <fluent-icon
         v-tooltip.left="$t(`SLA.LIST.RESPONSE_TYPES.${responseType}`)"
@@ -29,7 +29,7 @@ defineProps({
       <span class="flex sm:hidden">:</span>
     </span>
     <span
-      class="text-sm sm:text-2xl font-medium tracking-[-1.5%] text-slate-900 dark:text-slate-25"
+      class="text-sm sm:text-2xl font-medium tracking-[-1.5%] text-n-slate-12"
     >
       {{ responseTime }}
     </span>

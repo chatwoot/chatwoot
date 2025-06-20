@@ -146,7 +146,7 @@ const previewArticle = () => {
 <style lang="scss" scoped>
 ::v-deep {
   .ProseMirror .empty-node::before {
-    @apply text-slate-200 dark:text-slate-500 text-base;
+    @apply text-n-slate-10 text-base;
   }
 
   .ProseMirror-menubar-wrapper {

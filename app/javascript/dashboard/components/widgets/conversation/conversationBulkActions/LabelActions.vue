@@ -130,7 +130,7 @@ export default {
   @apply bg-n-alpha-black2 py-0 px-2.5 border border-solid border-n-strong rounded-md;
 
   .search-icon {
-    @apply text-slate-400 dark:text-slate-200;
+    @apply text-n-slate-10;
   }
 
   .label--search_input {

@@ -44,7 +44,7 @@ export default {
             :style="{ backgroundColor: props.option.color }"
             class="w-5 h-5 rounded-full"
           />
-          <span class="my-0 text-slate-800 dark:text-slate-75">
+          <span class="my-0 text-n-slate-12">
             {{ props.option.title }}
           </span>
         </div>

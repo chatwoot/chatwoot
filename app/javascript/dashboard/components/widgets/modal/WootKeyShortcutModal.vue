@@ -63,7 +63,7 @@ onMounted(async () => {
           :key="shortcut.id"
           class="flex justify-between items-center min-w-[25rem]"
         >
-          <h5 class="text-sm text-slate-800 min-w-[36px] dark:text-slate-100">
+          <h5 class="text-sm text-n-slate-12 min-w-[36px]">
             {{ title(shortcut) }}
           </h5>
           <div class="flex items-center gap-2 mb-1 ml-2">
@@ -97,6 +97,6 @@ onMounted(async () => {
 
 <style scoped>
 .key {
-  @apply py-2 px-2.5 font-semibold text-xs text-slate-700 dark:text-slate-100 bg-slate-75 dark:bg-slate-900 shadow border-b-2 rtl:border-l-2 ltr:border-r-2 border-slate-200 dark:border-slate-700;
+  @apply py-2 px-2.5 font-semibold text-xs text-n-slate-12 bg-slate-75 dark:bg-slate-900 shadow border-b-2 rtl:border-l-2 ltr:border-r-2 border-slate-200 dark:border-slate-700;
 }
 </style>

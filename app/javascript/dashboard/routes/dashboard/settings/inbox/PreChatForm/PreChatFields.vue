@@ -98,14 +98,14 @@ export default {
 
 <style scoped lang="scss">
 .pre-chat-field {
-  @apply py-4 px-2 text-slate-700 dark:text-slate-100;
+  @apply py-4 px-2 text-n-slate-12;
 
   svg {
     @apply flex items-center;
   }
 }
 .disabled-text {
-  @apply text-slate-500 dark:text-slate-400;
+  @apply text-n-slate-11;
 }
 
 table {

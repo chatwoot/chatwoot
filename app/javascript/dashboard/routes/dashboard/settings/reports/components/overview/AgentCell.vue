@@ -31,7 +31,7 @@ const isRTL = useMapGetter('accounts/isRTL');
         >
           {{ row.original.agent }}
         </h6>
-        <span class="text-xs text-slate-600 dark:text-slate-200">
+        <span class="text-xs text-n-slate-11">
           {{ row.original.email }}
         </span>
       </div>

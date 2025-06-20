@@ -185,7 +185,7 @@ export default {
 }
 
 .notification--created-at {
-  @apply text-slate-700 dark:text-slate-200 text-xs;
+  @apply text-n-slate-11 text-xs;
 }
 
 .notification--type {
@@ -205,6 +205,6 @@ export default {
 }
 
 .notification--message-title {
-  @apply text-slate-700 dark:text-slate-100;
+  @apply text-n-slate-12;
 }
 </style>

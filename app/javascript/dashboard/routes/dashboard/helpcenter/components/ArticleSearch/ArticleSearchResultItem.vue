@@ -54,14 +54,14 @@ const handleCopy = async e => {
     @click="handlePreview"
   >
     <h4
-      class="w-full mb-0 -mx-1 text-sm rounded-sm ltr:text-left rtl:text-right text-slate-900 dark:text-slate-25 hover:underline group-hover:underline"
+      class="w-full mb-0 -mx-1 text-sm rounded-sm ltr:text-left rtl:text-right text-n-slate-12 hover:underline group-hover:underline"
     >
       {{ title }}
     </h4>
 
     <div class="flex content-between items-center gap-0.5 w-full">
       <p
-        class="w-full mb-0 text-sm ltr:text-left rtl:text-right text-slate-600 dark:text-slate-300"
+        class="w-full mb-0 text-sm ltr:text-left rtl:text-right text-n-slate-11"
       >
         {{ locale }}
         {{ ` / ` }}

@@ -40,7 +40,7 @@ defineProps({
       >
         {{ title }}
       </p>
-      <p class="text-slate-600 dark:text-slate-400 text-sm">
+      <p class="text-n-slate-11 text-sm">
         {{ description }}
       </p>
       <router-link

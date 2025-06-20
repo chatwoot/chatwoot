@@ -63,7 +63,7 @@ export default {
       />
 
       <slot />
-      <span class="text-xl font-medium text-slate-900 dark:text-slate-100">
+      <span class="text-xl font-medium text-n-slate-12">
         {{ headerTitle }}
       </span>
     </h1>

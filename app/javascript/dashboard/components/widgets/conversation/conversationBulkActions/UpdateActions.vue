@@ -83,7 +83,7 @@ const actionLabel = key => {
       </svg>
     </div>
     <div class="p-2.5 flex gap-1 items-center justify-between">
-      <span class="text-sm font-medium text-slate-600 dark:text-slate-100">
+      <span class="text-sm font-medium text-n-slate-12">
         {{ $t('BULK_ACTION.UPDATE.CHANGE_STATUS') }}
       </span>
       <Button ghost xs slate icon="i-lucide-x" @click="onClose" />

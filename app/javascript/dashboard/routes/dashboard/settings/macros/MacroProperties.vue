@@ -97,9 +97,7 @@ export default {
         class="mt-2 flex items-start p-2 bg-n-slate-3 dark:bg-n-solid-3 rounded-md"
       >
         <fluent-icon icon="info" size="16" class="flex-shrink-0 mt-0.5" />
-        <p
-          class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-slate-600 dark:text-slate-200"
-        >
+        <p class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-n-slate-11">
           {{ $t('MACROS.ORDER_INFO') }}
         </p>
       </div>

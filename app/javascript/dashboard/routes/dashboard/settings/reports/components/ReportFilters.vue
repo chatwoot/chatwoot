@@ -201,7 +201,7 @@ export default {
               :username="props.option.name"
               size="22px"
             />
-            <p class="my-0 text-slate-800 dark:text-slate-75">
+            <p class="my-0 text-n-slate-12">
               {{ props.option.name }}
             </p>
           </div>

@@ -101,7 +101,7 @@ const tableHeaders = computed(() => {
         </th>
       </thead>
       <tbody
-        class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-slate-700 dark:text-slate-100"
+        class="divide-y divide-slate-25 dark:divide-slate-800 flex-1 text-n-slate-12"
       >
         <tr v-for="attribute in attributes" :key="attribute.attribute_key">
           <td

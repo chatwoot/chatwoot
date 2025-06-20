@@ -163,7 +163,7 @@ export default {
             <Spinner v-if="watchersUiFlas.isFetching" size="tiny" />
             {{ totalWatchersText }}
           </p>
-          <p v-else class="m-0 text-sm text-slate-400 dark:text-slate-700">
+          <p v-else class="m-0 text-sm text-n-slate-10">
             {{ $t('CONVERSATION_PARTICIPANTS.NO_PARTICIPANTS_TEXT') }}
           </p>
         </div>

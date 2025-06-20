@@ -14,7 +14,7 @@ export default {
     </h2>
     <p
       v-dompurify-html="headerContent"
-      class="text-sm w-full text-slate-600 dark:text-slate-300"
+      class="text-sm w-full text-n-slate-11"
     />
   </div>
 </template>

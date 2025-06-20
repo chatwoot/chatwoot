@@ -155,7 +155,7 @@ const confirmDeletion = () => {
           <th
             v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
           >
             <span class="mb-0">
               {{ thHeader }}
