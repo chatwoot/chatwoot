@@ -81,9 +81,13 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create_channel
-    return unless %w[web_widget api email line telegram whatsapp sms voice].include?(permitted_params[:channel][:type])
+    return unless allowed_channel_types.include?(permitted_params[:channel][:type])
 
     account_channels_method.create!(permitted_params(channel_type_from_params::EDITABLE_ATTRS)[:channel].except(:type))
+  end
+
+  def allowed_channel_types
+    %w[web_widget api email line telegram whatsapp sms]
   end
 
   def update_inbox_working_hours
@@ -159,8 +163,7 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
       'line' => Channel::Line,
       'telegram' => Channel::Telegram,
       'whatsapp' => Channel::Whatsapp,
-      'sms' => Channel::Sms,
-      'voice' => Channel::Voice
+      'sms' => Channel::Sms
     }[permitted_params[:channel][:type]]
   end
 
