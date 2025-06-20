@@ -80,7 +80,7 @@ describe Integrations::Linear::ProcessorService do
         label_ids: %w[bug]
       }
     end
-    let(:user) { double('User', name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
     let(:issue_response) do
       {
         'issueCreate' => {
@@ -136,7 +136,7 @@ describe Integrations::Linear::ProcessorService do
     let(:link) { 'https://example.com' }
     let(:issue_id) { 'issue1' }
     let(:title) { 'Title' }
-    let(:user) { double('User', name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
     let(:link_issue_response) { { id: issue_id, link: link, 'attachmentLinkURL': { 'attachment': { 'id': 'attachment1' } } } }
     let(:link_response) { { data: { id: issue_id, link: link, link_id: 'attachment1' } } }
 

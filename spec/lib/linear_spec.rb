@@ -91,7 +91,7 @@ describe Linear do
         label_ids: ['bug']
       }
     end
-    let(:user) { double('User', name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
 
     context 'when the API response is success' do
       before do
@@ -106,10 +106,11 @@ describe Linear do
 
       context 'when user is provided' do
         it 'includes user attribution in the request' do
-          expect_any_instance_of(described_class).to receive(:post) do |_, payload|
+          allow(linear_client).to receive(:post) do |payload|
             expect(payload[:query]).to include('createAsUser: "John Doe"')
             expect(payload[:query]).to include('displayIconUrl: "https://example.com/avatar.jpg"')
-            double('response', success?: true, parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
+            instance_double(HTTParty::Response, success?: true,
+                                                parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
           end
 
           linear_client.create_issue(params, user)
@@ -117,13 +118,14 @@ describe Linear do
       end
 
       context 'when user has no avatar' do
-        let(:user_no_avatar) { double('User', name: 'Jane Doe', avatar_url: '') }
+        let(:user_no_avatar) { instance_double(User, name: 'Jane Doe', avatar_url: '') }
 
         it 'includes only user name in the request' do
-          expect_any_instance_of(described_class).to receive(:post) do |_, payload|
+          allow(linear_client).to receive(:post) do |payload|
             expect(payload[:query]).to include('createAsUser: "Jane Doe"')
             expect(payload[:query]).not_to include('displayIconUrl')
-            double('response', success?: true, parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
+            instance_double(HTTParty::Response, success?: true,
+                                                parsed_response: { 'data' => { 'issueCreate' => { 'id' => 'issue1', 'title' => 'Title' } } })
           end
 
           linear_client.create_issue(params, user_no_avatar)
@@ -209,7 +211,7 @@ describe Linear do
     let(:link) { 'https://example.com' }
     let(:issue_id) { 'issue1' }
     let(:title) { 'Title' }
-    let(:user) { double('User', name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
+    let(:user) { instance_double(User, name: 'John Doe', avatar_url: 'https://example.com/avatar.jpg') }
 
     context 'when the API response is success' do
       before do
@@ -224,10 +226,10 @@ describe Linear do
 
       context 'when user is provided' do
         it 'includes user attribution in the request' do
-          expect_any_instance_of(described_class).to receive(:post) do |_, payload|
+          allow(linear_client).to receive(:post) do |payload|
             expect(payload[:query]).to include('createAsUser: "John Doe"')
             expect(payload[:query]).to include('displayIconUrl: "https://example.com/avatar.jpg"')
-            double('response', success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
+            instance_double(HTTParty::Response, success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
           end
 
           linear_client.link_issue(link, issue_id, title, user)
@@ -235,13 +237,13 @@ describe Linear do
       end
 
       context 'when user has no avatar' do
-        let(:user_no_avatar) { double('User', name: 'Jane Doe', avatar_url: '') }
+        let(:user_no_avatar) { instance_double(User, name: 'Jane Doe', avatar_url: '') }
 
         it 'includes only user name in the request' do
-          expect_any_instance_of(described_class).to receive(:post) do |_, payload|
+          allow(linear_client).to receive(:post) do |payload|
             expect(payload[:query]).to include('createAsUser: "Jane Doe"')
             expect(payload[:query]).not_to include('displayIconUrl')
-            double('response', success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
+            instance_double(HTTParty::Response, success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
           end
 
           linear_client.link_issue(link, issue_id, title, user_no_avatar)
