@@ -16,7 +16,7 @@ module ChatwootApp
   end
 
   def self.chatwoot_cloud?
-    return false
+    false
   end
 
   def self.custom?

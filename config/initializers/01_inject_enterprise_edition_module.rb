@@ -23,6 +23,7 @@ require 'active_support/inflector'
 module InjectEnterpriseEditionModule
   def prepend_mod_with(constant_name, namespace: Object, with_descendants: false)
     each_extension_for(constant_name, namespace) do |constant|
+      puts "Prepending #{constant} to #{self}" # rubocop:disable Rails/Output
       prepend_module(constant, with_descendants)
     end
   end
@@ -62,6 +63,7 @@ module InjectEnterpriseEditionModule
   private
 
   def prepend_module(mod, with_descendants)
+    puts "Prepending #{mod} to #{self}" # rubocop:disable Rails/Output
     prepend(mod)
 
     descendants.each { |descendant| descendant.prepend(mod) } if with_descendants
@@ -80,10 +82,8 @@ module InjectEnterpriseEditionModule
   end
 
   def const_get_maybe_false(mod, name)
-    Rails.logger.deb("#{mod} #{name}")
+    puts "#{mod} #{name}" # rubocop:disable Rails/Output
     mod&.const_defined?(name, false) && mod&.const_get(name, false)
-  rescue StandardError => e
-    Rails.logger.debug { "Error retrieving constant #{name} from #{mod}: #{e.message}" }
   end
 end
 
