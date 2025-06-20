@@ -1,6 +1,7 @@
 import { describe, it, expect, vi } from 'vitest';
 import { useMacros } from '../useMacros';
 import { useStoreGetters } from 'dashboard/composables/store';
+import * as automationHelper from 'dashboard/helper/automationHelper.js';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
@@ -147,10 +148,19 @@ describe('useMacros', () => {
   });
 
   it('returns PRIORITY_CONDITION_VALUES for change_priority type', () => {
+    // Since all automationHelper functions are mocked
+    // we create a spy to simulate the case where
+    // it returns the options
+    const spy = vi
+      .spyOn(automationHelper, 'generateTranslatedOptions')
+      .mockImplementation(options => options);
+
     const { getMacroDropdownValues } = useMacros();
     expect(getMacroDropdownValues('change_priority')).toEqual(
       PRIORITY_CONDITION_VALUES
     );
+
+    spy.mockRestore();
   });
 
   it('returns an empty array for unknown types', () => {

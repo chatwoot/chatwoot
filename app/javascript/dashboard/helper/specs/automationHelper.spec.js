@@ -13,6 +13,7 @@ import {
   expectedOutputForCustomAttributeGenerator,
 } from './fixtures/automationFixtures';
 import { AUTOMATIONS } from 'dashboard/routes/dashboard/settings/automation/constants';
+import { PRIORITY_CONDITION_VALUES } from '../../constants/automation';
 
 describe('getCustomAttributeInputType', () => {
   it('returns the attribute input type', () => {
@@ -105,6 +106,40 @@ describe('generateConditionOptions', () => {
     expect(helpers.generateConditionOptions(testConditions)).toEqual(
       expectedConditions
     );
+  });
+});
+
+describe('generateTranslatedOptions', () => {
+  it('returns the original values when i18nPath is empty', () => {
+    expect(
+      helpers.generateTranslatedOptions(PRIORITY_CONDITION_VALUES)
+    ).toEqual(PRIORITY_CONDITION_VALUES);
+  });
+
+  it('translates names when i18nPath is provided', () => {
+    vi.mock('vue-i18n', () => ({
+      useI18n: () => ({
+        t: key => `translated:${key}`,
+      }),
+    }));
+
+    const expected = PRIORITY_CONDITION_VALUES.map(option => ({
+      ...option,
+      name: `translated:ENUMS.PRIORITY.${option.id.toUpperCase()}`,
+    }));
+
+    expect(
+      helpers.generateTranslatedOptions(
+        PRIORITY_CONDITION_VALUES,
+        'ENUMS.PRIORITY'
+      )
+    ).toEqual(expected);
+  });
+
+  it('returns an empty array for invalid input values', () => {
+    expect(helpers.generateTranslatedOptions(undefined)).toEqual([]);
+    expect(helpers.generateTranslatedOptions(null)).toEqual([]);
+    expect(helpers.generateTranslatedOptions({})).toEqual([]);
   });
 });
 
