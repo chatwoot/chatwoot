@@ -22,7 +22,7 @@ export default {
     },
     channelList() {
       const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
-      return [
+      const channels = [
         { key: 'website', name: 'Website' },
         { key: 'facebook', name: 'Messenger' },
         { key: 'whatsapp', name: 'WhatsApp' },
@@ -36,8 +36,14 @@ export default {
         { key: 'telegram', name: 'Telegram' },
         { key: 'line', name: 'Line' },
         { key: 'instagram', name: 'Instagram' },
-        { key: 'voice', name: 'Voice' },
       ];
+
+      // Only show voice channel if feature is enabled
+      if (this.enabledFeatures.channel_voice) {
+        channels.push({ key: 'voice', name: 'Voice' });
+      }
+
+      return channels;
     },
     ...mapGetters({
       accountId: 'getCurrentAccountId',
