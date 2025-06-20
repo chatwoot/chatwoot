@@ -153,7 +153,7 @@ function getHeatmapLevelClass(value) {
             v-for="data in processedData.get(dateKey)"
             :key="data.timestamp"
             v-tooltip.top="getCountTooltip(data.value)"
-            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1 shadow-black"
+            class="h-8 rounded-sm shadow-inner dark:outline dark:outline-1"
             :class="getHeatmapLevelClass(data.value)"
           />
         </div>

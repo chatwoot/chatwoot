@@ -115,7 +115,7 @@ export default {
       />
       <table
         v-if="!uiFlags.isFetching && records.length"
-        class="min-w-full divide-y divide-slate-75 dark:divide-slate-700"
+        class="min-w-full divide-y divide-n-weak"
       >
         <thead>
           <th
@@ -126,7 +126,7 @@ export default {
             {{ thHeader }}
           </th>
         </thead>
-        <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
+        <tbody class="divide-y divide-n-weak">
           <DashboardAppsRow
             v-for="(dashboardAppItem, index) in records"
             :key="dashboardAppItem.id"
