@@ -709,7 +709,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     <div ref="editor" />
     <div
       v-show="isImageNodeSelected && showImageResizeToolbar"
-      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-n-slate-12"
+      class="absolute shadow-md rounded-[6px] flex gap-1 py-1 px-1 bg-n-solid-3 outline outline-1 outline-n-weak text-n-slate-12"
       :style="{
         top: toolbarPosition.top,
         left: toolbarPosition.left,
@@ -718,7 +718,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       <button
         v-for="size in sizes"
         :key="size.name"
-        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        class="text-xs font-medium rounded-[4px] outline outline-1 outline-n-strong px-1.5 py-0.5 hover:bg-n-slate-5"
         @click="setURLWithQueryAndImageSize(size)"
       >
         {{ size.name }}
@@ -739,7 +739,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
 
     .ProseMirror-menu-active {
-      @apply bg-slate-75 dark:bg-slate-800;
+      @apply bg-n-slate-5 dark:bg-n-solid-3;
     }
   }
 

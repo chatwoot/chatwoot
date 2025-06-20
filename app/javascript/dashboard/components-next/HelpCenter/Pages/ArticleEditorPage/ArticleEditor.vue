@@ -161,7 +161,7 @@ const previewArticle = () => {
 
   .editor-root .has-selection {
     .ProseMirror-menubar {
-      @apply h-8 rounded-lg !px-2 z-50 bg-slate-50 dark:bg-slate-800 items-center gap-4 ml-0 mb-0 shadow-md border border-slate-75 dark:border-slate-700/50;
+      @apply h-8 rounded-lg !px-2 z-50 bg-n-solid-3 items-center gap-4 ml-0 mb-0 shadow-md outline outline-1 outline-n-weak;
       display: flex;
       top: var(--selection-top, auto) !important;
       left: var(--selection-left, 0) !important;
@@ -179,6 +179,10 @@ const previewArticle = () => {
             height: 20px !important;
           }
         }
+      }
+
+      .ProseMirror-menu-active {
+        @apply bg-n-slate-3;
       }
     }
   }

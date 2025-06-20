@@ -75,7 +75,7 @@ const handleAction = ({ action, value }) => {
               )
             }}
           </span>
-          <div class="w-px h-3 bg-slate-75 dark:bg-slate-800" />
+          <div class="w-px h-3 bg-n-weak" />
           <span class="text-sm text-n-slate-11 whitespace-nowrap">
             {{
               $t(

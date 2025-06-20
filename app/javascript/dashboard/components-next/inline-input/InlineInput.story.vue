@@ -8,13 +8,13 @@ import InlineInput from './InlineInput.vue';
     :layout="{ type: 'grid', width: '400' }"
   >
     <Variant title="Default">
-      <div class="p-4 bg-white dark:bg-slate-800">
+      <div class="p-4 bg-n-background">
         <InlineInput id="inline-input-1" placeholder="Default InlineInput" />
       </div>
     </Variant>
 
     <Variant title="With Label">
-      <div class="p-4 bg-white dark:bg-slate-800">
+      <div class="p-4 bg-n-background">
         <InlineInput
           id="inline-input-2"
           label="Username"
@@ -24,7 +24,7 @@ import InlineInput from './InlineInput.vue';
     </Variant>
 
     <Variant title="Disabled">
-      <div class="p-4 bg-white dark:bg-slate-800">
+      <div class="p-4 bg-n-background">
         <InlineInput
           id="inline-input-3"
           label="Disabled InlineInput"
@@ -35,7 +35,7 @@ import InlineInput from './InlineInput.vue';
     </Variant>
 
     <Variant title="With Custom Classes">
-      <div class="flex flex-col gap-4 p-4 bg-white dark:bg-slate-800">
+      <div class="flex flex-col gap-4 p-4 bg-n-background">
         <InlineInput
           id="inline-input-4"
           label="Custom Input Class"

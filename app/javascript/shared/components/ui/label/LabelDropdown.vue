@@ -119,7 +119,7 @@ export default {
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
       <Hotkey
-        custom-class="border border-solid text-n-slate-12 bg-slate-50 dark:bg-slate-600 text-xxs border-n-weak flex-shrink-0"
+        custom-class="border border-solid text-n-slate-12 bg-n-slate-2 text-xxs border-n-strong flex-shrink-0"
       >
         {{ 'L' }}
       </Hotkey>

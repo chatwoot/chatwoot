@@ -152,11 +152,11 @@ export default {
       @apply cursor-pointer;
 
       &:hover {
-        @apply bg-slate-50 dark:bg-slate-800;
+        @apply bg-n-slate-3;
       }
 
       &.is-active {
-        @apply bg-slate-100 dark:bg-slate-700;
+        @apply bg-n-slate-4 dark:bg-n-slate-6;
       }
 
       > td {

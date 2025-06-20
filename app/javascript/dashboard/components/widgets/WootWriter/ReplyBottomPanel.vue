@@ -402,7 +402,7 @@ export default {
   }
 
   &:hover button {
-    @apply dark:bg-slate-800 bg-slate-100;
+    @apply enabled:bg-n-slate-9/20;
   }
 }
 </style>

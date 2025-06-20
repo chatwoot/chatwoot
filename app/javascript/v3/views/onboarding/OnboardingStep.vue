@@ -24,7 +24,7 @@ export default {
 
 <template>
   <div
-    class="flex items-center gap-2 p-2 text-lg font-bold mb-6 relative before:absolute before:h-10 before:w-[1px] before:bg-slate-200 before:-bottom-8 before:left-[24px] hide-before-of-last"
+    class="flex items-center gap-2 p-2 text-lg font-bold mb-6 relative before:absolute before:h-10 before:w-[1px] before:bg-n-slate-3 before:-bottom-8 before:left-[24px] hide-before-of-last"
     :class="{
       'text-n-brand ': isActive,
       'text-n-slate-6': !isActive || isComplete,
