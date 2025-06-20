@@ -166,8 +166,8 @@ const defaultSpanRender = cellProps =>
     'span',
     {
       class: `${(cellProps.getValue()
-        ? 'text-[#000000]'
-        : 'text-[#000000]')} ${cellProps.column.id === 'transactionId' ? 'cursor-pointer underline' : ''}`,
+        ? 'text-[#000000] dark:text-[#ffffff]'
+        : 'text-[#000000] dark:text-[#ffffff]')} ${cellProps.column.id === 'transactionId' ? 'cursor-pointer underline' : ''}`,
       onClick: () => {
         if (cellProps.column.id === 'transactionId') {
           showInvoicePopup.value = true
@@ -417,14 +417,14 @@ const invoiceData = ref(undefined)
 
   <div class="billing-page p-4 w-full">
     <div
-      class="bg-gradient-to-t from-[#F0F5F0] to-white border border-[#0000001A] rounded-lg p-5 flex flex-col gap-4 mb-8"
+      class="bg-white dark:!bg-[#1D1E24] border border-[#0000001A] rounded-lg p-5 flex flex-col gap-4 mb-8"
       v-if="activeSubscription">
       <div class="flex flex-col lg:flex-row">
         <div class="flex-1">
-          <span class="font-bold !text-black-700">{{ $t('PAYMENT.STATUS_SUBS') }}</span>
+          <span class="font-bold !text-black-700 dark:!text-white">{{ $t('PAYMENT.STATUS_SUBS') }}</span>
         </div>
         <div>
-          <span class="text-sm">
+          <span class="text-sm italic dark:text-[#E0E1E6]">
             <span v-html="$t('PAYMENT.RESET_LABEL')"></span>
           </span>
         </div>
@@ -435,10 +435,10 @@ const invoiceData = ref(undefined)
             <img v-if="planIcon" :src="planIcon">
           </div>
           <div class="flex flex-col flex-1 min-w-0">
-            <span class="text-[#52964D] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
+            <span class="text-[#2F9428] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
             <div class="flex flex-col mt-1">
-              <span class="text-xs">{{ $t('PAYMENT.SUBS_ACTIVE_UNTIL') }}</span>
-              <span class="text-sm font-bold text-[#2C4D3D]">{{
+              <span class="text-xs dark:text-[#E0E1E6]">{{ $t('PAYMENT.SUBS_ACTIVE_UNTIL') }}</span>
+              <span class="text-sm font-bold text-[#2F9428]">{{
                 activeSubscription?.ends_at
                 ? formatDate(activeSubscription?.ends_at)
                 : 'N/A'
@@ -447,15 +447,15 @@ const invoiceData = ref(undefined)
           </div>
         </div>
         <div class="flex flex-row gap-5">
-          <div class="w-[2px] bg-[#CDD8CD] rounded"></div>
+          <div class="w-[2px] bg-[#CDD8CD] dark:bg-[#373943] rounded"></div>
           <div class="flex flex-col gap-2">
-            <span class="text-xs">{{ $t('PAYMENT.TOTAL_MAU_LABEL') }}</span>
+            <span class="text-xs dark:text-[#E0E1E6]">{{ $t('PAYMENT.TOTAL_MAU_LABEL') }}</span>
             <div class="flex flex-row gap-3">
               <div class="rounded-lg bg-[#DDEBDD] px-3 py-[4px]">
                 <span>
                   <span class="font-bold text-2xl text-[#2C4D3D]">{{ activeSubscription?.subscription_usage?.mau_count
                     }}</span>
-                  <span> /{{ activeSubscription?.max_mau }}</span>
+                  <span class="dark:text-[#5A6169]"> /{{ activeSubscription?.max_mau }}</span>
                   <span v-if="activeSubscription?.additional_mau"
                     class="text-[#2F9428] font-bold"> +{{ activeSubscription?.additional_mau
                     }}</span>
@@ -468,15 +468,15 @@ const invoiceData = ref(undefined)
               </div>
             </div>
           </div>
-          <div class="w-[2px] bg-[#CDD8CD] rounded"></div>
+          <div class="w-[2px] bg-[#CDD8CD] dark:bg-[#373943] rounded"></div>
           <div class="flex flex-col gap-2">
-            <span class="text-xs">{{ $t('PAYMENT.TOTAL_AI_RESPONSE_LABEL') }}</span>
+            <span class="text-xs dark:text-[#E0E1E6]">{{ $t('PAYMENT.TOTAL_AI_RESPONSE_LABEL') }}</span>
             <div class="flex flex-row gap-3">
               <div class="rounded-lg bg-[#EFEEC5] px-3 py-[4px]">
                 <span>
                   <span class="font-bold text-2xl text-[#4D422C]">{{
                     activeSubscription?.subscription_usage?.ai_responses_count }}</span>
-                  <span> /{{ activeSubscription?.max_ai_responses }}</span>
+                  <span class="dark:text-[#5A6169]"> /{{ activeSubscription?.max_ai_responses }}</span>
                   <span v-if="activeSubscription?.additional_ai_responses"
                     class="text-[#2F9428] font-bold"> +{{
                     activeSubscription?.additional_ai_responses }}</span>
@@ -630,24 +630,24 @@ const invoiceData = ref(undefined)
         }]">
         <div class="flex flex-row justify-center">
           <button v-for="tab in menuTabs" :key="tab.id"
-            class="px-5 py-3 rounded-b-none rounded-t-xl font-normal"
+            class="px-5 py-3 rounded-b-none rounded-t-xl font-normal dark:bg-[#1D1E24]"
             :class="[{
               '!font-bold text-[#FDFDFD]': selectedMenuTab === tab.id,
-              'bg-[#52964D]': selectedMenuTab === tab.id && selectedMenuTab == 'billing',
-              'bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'history',
+              '!bg-[#52964D]': selectedMenuTab === tab.id && selectedMenuTab == 'billing',
+              '!bg-[#D78D30]': selectedMenuTab === tab.id && selectedMenuTab == 'history',
              }]" @click="selectedMenuTab = tab.id">
             {{ tab.name }}
           </button>
         </div>
       </div>
 
-      <div class="bg-gradient-to-t from-[#F0F5F0] to-white border !border-t-0 border-[#0000001A] rounded-b-lg p-5">
+      <div class="bg-gradient-to-t from-[#F0F5F0] to-white dark:from-[#1D1E24] dark:to-[#1D1E24] border !border-t-0 border-[#0000001A] rounded-b-lg p-5">
         <!-- Platform & Duration Tabs -->
         <div v-if="selectedMenuTab === 'billing'" class="pricing-container">
           <!-- Tabs Navigation -->
           <div class="billing-cycle-tabs">
-            <div class="tabs-wrapper">
-              <button v-for="tab in billingCycleTabs" :key="tab.id" class="tab-button"
+            <div class="tabs-wrapper bg-[#E9F5EC] dark:bg-[#23252E]">
+              <button v-for="tab in billingCycleTabs" :key="tab.id" class="tab-button text-[#475569] dark:text-[#E0E1E6]"
                 :class="[{ active: selectedTab === tab.id }]" @click="selectedTab = tab.id">
                 {{ tab.name }}
                 <span v-if="tab.badge" class="tab-badge">{{ tab.badge }}</span>
@@ -657,17 +657,17 @@ const invoiceData = ref(undefined)
 
           <!-- Pricing Plans -->
           <div class="pricing-plans">
-            <div v-for="plan in plans" :key="plan.id" class="pricing-card">
+            <div v-for="plan in plans" :key="plan.id" class="pricing-card bg-[#fff] dark:bg-[#23252d]">
               <div class="plan-header flex flex-row">
                 <div class="flex-1">
-                  <h3 class="plan-title">{{ $t(`BILLING.PLAN_NAME.${plan.name.toLowerCase()}`) }}</h3>
+                  <h3 class="plan-title text-[#475569] dark:text-[#E0E1E6]">{{ $t(`BILLING.PLAN_NAME.${plan.name.toLowerCase()}`) }}</h3>
                 </div>
                 <div class="h-16 w-16 rounded-lg bg-[#D9EFC4] flex justify-center items-center mt-[-44px] p-1">
                   <img :src="getPlanIcon(plan.name)">
                 </div>
               </div>
 
-              <div class="plan-price">
+              <div class="plan-price text-[#475569] dark:text-[#E0E1E6]">
                 <div class="price">
                   {{ formatPrice(calculatePackagePrice(plan.monthly_price)) }}
                 </div>
@@ -677,13 +677,13 @@ const invoiceData = ref(undefined)
                 <div class="package-type">{{ selectedTabDisplay }}</div>
               </div>
 
-              <div class="plan-features">
-                <h4>{{ $t(`BILLING.FEATURE.${plan.name.toLowerCase()}`) }}</h4>
+              <div class="plan-features text-[#475569] dark:text-[#E0E1E6]">
+                <h4 class="text-[#475569] dark:text-[#E0E1E6]">{{ $t(`BILLING.FEATURE.${plan.name.toLowerCase()}`) }}</h4>
 
                 <ul class="feature-list">
                   <li v-for="(feature, index) in plan.features" :key="index" class="feature-item">
                     <span class="icon-check" />
-                    <span class="feature-text">{{ $t(`BILLING.${feature.replaceAll('.', '')}`) }}</span>
+                    <span class="feature-text text-[#475569] dark:text-[#E0E1E6]">{{ $t(`BILLING.${feature.replaceAll('.', '')}`) }}</span>
                   </li>
                 </ul>
               </div>
@@ -1118,7 +1118,6 @@ export default {
 
 .tabs-wrapper {
   display: flex;
-  background-color: #E9F5EC;
   border-radius: 50px;
   padding: 5px 10px;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1131,7 +1130,6 @@ export default {
   cursor: pointer;
   font-size: 0.875rem;
   font-weight: 500;
-  color: #475569;
   border-radius: 50px;
   position: relative;
   transition: all 0.2s ease;
@@ -1163,7 +1161,6 @@ export default {
 }
 
 .pricing-card {
-  background-color: #fff;
   border-radius: 0.5rem;
   padding: 1.5rem;
   box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
@@ -1179,7 +1176,6 @@ export default {
 .plan-title {
   font-size: 1.25rem;
   font-weight: 600;
-  color: #1f2937;
 }
 
 .plan-price {
@@ -1189,17 +1185,14 @@ export default {
 .price {
   font-size: 1.75rem;
   font-weight: 700;
-  color: #1f2937;
 }
 
 .price-period {
   font-size: 1rem;
-  color: #6b7280;
 }
 
 .package-type {
   font-size: 0.875rem;
-  color: #6b7280;
   margin-top: 0.5rem;
 }
 
@@ -1212,7 +1205,6 @@ export default {
   font-size: 1rem;
   font-weight: 600;
   margin-bottom: 1rem;
-  color: #1f2937;
 }
 
 .feature-list {
@@ -1250,7 +1242,6 @@ export default {
 }
 
 .feature-text {
-  color: #475569;
 }
 
 .buy-button {
