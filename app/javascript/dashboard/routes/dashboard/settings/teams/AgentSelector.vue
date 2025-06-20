@@ -89,10 +89,10 @@ export default {
               />
             </div>
           </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+          <td class="text-n-slate-12 ltr:pl-2.5 rtl:pr-2.5">
             {{ $t('TEAMS_SETTINGS.AGENTS.AGENT') }}
           </td>
-          <td class="text-slate-800 dark:text-slate-100 ltr:pl-2.5 rtl:pr-2.5">
+          <td class="text-n-slate-12 ltr:pl-2.5 rtl:pr-2.5">
             {{ $t('TEAMS_SETTINGS.AGENTS.EMAIL') }}
           </td>
         </tr>
@@ -121,7 +121,7 @@ export default {
                 :username="agent.name"
                 :status="agent.availability_status"
               />
-              <h4 class="text-base mb-0 text-slate-800 dark:text-slate-100">
+              <h4 class="text-base mb-0 text-n-slate-12">
                 {{ agent.name }}
               </h4>
             </div>

@@ -43,7 +43,7 @@ onMounted(async () => {
       />
       <div class="grid grid-cols-2 px-8 pt-0 pb-4 mt-6 gap-x-5 gap-y-3">
         <div class="flex justify-between items-center min-w-[25rem]">
-          <h5 class="text-sm text-slate-800 dark:text-slate-100">
+          <h5 class="text-sm text-n-slate-12">
             {{ $t('KEYBOARD_SHORTCUTS.TOGGLE_MODAL') }}
           </h5>
           <div class="flex items-center gap-2 mb-1 ml-2">
@@ -83,7 +83,7 @@ onMounted(async () => {
               </template>
               <span
                 v-else
-                class="flex items-center text-sm font-semibold text-slate-800 dark:text-slate-100"
+                class="flex items-center text-sm font-semibold text-n-slate-12"
               >
                 {{ key }}
               </span>

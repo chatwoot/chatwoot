@@ -155,7 +155,7 @@ export default {
 </script>
 
 <template>
-  <div class="relative bg-white dark:bg-slate-900">
+  <div class="relative bg-n-background">
     <div class="flex justify-between">
       <div class="flex justify-between w-full mb-1">
         <div>
@@ -215,7 +215,7 @@ export default {
     >
       <div class="flex items-center justify-between mb-1">
         <h4
-          class="m-0 overflow-hidden text-sm whitespace-nowrap text-ellipsis text-slate-800 dark:text-slate-100"
+          class="m-0 overflow-hidden text-sm whitespace-nowrap text-ellipsis text-n-slate-12"
         >
           {{ $t('CONVERSATION_PARTICIPANTS.ADD_PARTICIPANTS') }}
         </h4>

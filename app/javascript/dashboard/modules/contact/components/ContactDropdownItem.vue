@@ -73,7 +73,7 @@ export default {
   @apply relative top-px mr-0.5 rtl:mr-0 rtl:ml-0.5;
 }
 .option__title {
-  @apply text-slate-800 dark:text-slate-100 font-medium mb-0.5;
+  @apply text-n-slate-12 font-medium mb-0.5;
 }
 .option__body {
   @apply text-xs text-slate-700 dark:text-slate-100 mt-1;

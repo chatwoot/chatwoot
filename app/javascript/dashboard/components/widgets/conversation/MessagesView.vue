@@ -506,7 +506,7 @@ export default {
         class="absolute flex items-center w-full h-0 -top-7"
       >
         <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
+          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-n-solid-3 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
         >
           {{ typingUserNames }}
           <img

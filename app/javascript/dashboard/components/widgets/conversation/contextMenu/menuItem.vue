@@ -18,10 +18,7 @@ export default {
 </script>
 
 <template>
-  <div
-    class="menu text-slate-800 dark:text-slate-100 min-h-7 min-w-0"
-    role="button"
-  >
+  <div class="menu text-n-slate-12 min-h-7 min-w-0" role="button">
     <fluent-icon
       v-if="variant === 'icon' && option.icon"
       :icon="option.icon"

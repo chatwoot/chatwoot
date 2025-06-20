@@ -61,7 +61,7 @@ export default {
 }
 
 .colorpicker--chrome.vc-chrome {
-  @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-slate-75 dark:border-slate-600 rounded;
+  @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-n-weak rounded;
 
   ::v-deep {
     input {

@@ -181,7 +181,7 @@ ul {
     @apply items-center rounded-md cursor-pointer flex py-1 px-2.5 hover:bg-n-slate-3 dark:hover:bg-n-solid-3;
 
     &.label-selected {
-      @apply bg-slate-50 dark:bg-slate-900;
+      @apply bg-n-slate-2;
     }
 
     span {
@@ -197,20 +197,12 @@ ul {
     }
 
     .label-pill {
-      @apply bg-slate-50 rounded-md h-3 w-3 flex-shrink-0 border border-solid border-n-weak;
+      @apply rounded-md h-3 w-3 flex-shrink-0 border border-solid border-n-weak;
     }
   }
 }
 
 .search-container {
   @apply bg-n-alpha-3 backdrop-blur-[100px] py-0 px-2.5 sticky top-0 z-20;
-}
-
-.actions-container {
-  @apply bg-white dark:bg-slate-900 bottom-0 p-2 sticky z-20;
-
-  button {
-    @apply w-full;
-  }
 }
 </style>

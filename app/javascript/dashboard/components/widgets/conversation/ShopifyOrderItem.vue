@@ -27,7 +27,7 @@ const getStatusClass = status => {
   const classes = {
     paid: 'bg-n-teal-5 text-n-teal-12',
   };
-  return classes[status] || 'bg-slate-50 text-slate-700';
+  return classes[status] || 'bg-n-solid-3 text-n-slate-12';
 };
 
 const getStatusI18nKey = (type, status = '') => {

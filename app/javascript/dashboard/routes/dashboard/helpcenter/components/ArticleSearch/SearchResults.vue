@@ -39,7 +39,7 @@ export default {
 
 <template>
   <div
-    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-white dark:bg-slate-900"
+    class="flex justify-end h-full gap-1 py-4 overflow-y-auto bg-n-background"
   >
     <div class="flex flex-col w-full gap-1">
       <div v-if="isLoading" class="empty-state-message">

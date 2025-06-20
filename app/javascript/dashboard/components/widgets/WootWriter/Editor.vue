@@ -744,7 +744,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   }
 
   > .ProseMirror {
-    @apply p-0 break-words text-slate-800 dark:text-slate-100;
+    @apply p-0 break-words text-n-slate-12;
 
     h1,
     h2,
@@ -753,7 +753,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     h5,
     h6,
     p {
-      @apply text-slate-800 dark:text-slate-100;
+      @apply text-n-slate-12;
     }
 
     blockquote {

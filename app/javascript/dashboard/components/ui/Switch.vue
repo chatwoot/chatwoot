@@ -29,7 +29,7 @@ export default {
 
 <style lang="scss" scoped>
 .toggle-button {
-  @apply bg-slate-200 dark:bg-slate-600;
+  @apply bg-n-slate-5;
   --toggle-button-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
     rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
@@ -63,7 +63,7 @@ export default {
   }
 
   span {
-    @apply bg-white dark:bg-slate-900;
+    @apply bg-n-background;
 
     border-radius: 100%;
     box-shadow: var(--toggle-button-box-shadow);

@@ -257,7 +257,7 @@ export default {
 
 <style lang="scss" scoped>
 .menu-container {
-  @apply p-1 bg-white dark:bg-slate-900 shadow-xl rounded-md;
+  @apply p-1 bg-n-background shadow-xl rounded-md;
 
   hr:first-child {
     @apply hidden;

@@ -247,6 +247,6 @@ ul {
 }
 
 .agent__list-loading {
-  @apply m-2.5 rounded-md bg-slate-25 dark:bg-slate-900 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
+  @apply m-2.5 rounded-md dark:bg-n-solid-3 bg-n-slate-2 flex items-center justify-center flex-col p-5 h-[calc(95%-6.25rem)];
 }
 </style>

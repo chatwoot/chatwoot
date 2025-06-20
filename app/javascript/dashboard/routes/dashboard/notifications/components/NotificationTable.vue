@@ -143,7 +143,7 @@ export default {
 
 <style lang="scss" scoped>
 .notification--title {
-  @apply text-sm m-0 text-slate-800 dark:text-slate-100;
+  @apply text-sm m-0 text-n-slate-12;
 }
 
 .notifications-table {

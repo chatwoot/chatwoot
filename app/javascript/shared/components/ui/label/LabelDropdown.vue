@@ -114,12 +114,12 @@ export default {
   <div class="flex flex-col w-full max-h-[12.5rem]">
     <div class="flex items-center justify-center mb-1">
       <h4
-        class="flex-grow m-0 overflow-hidden text-sm text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis"
+        class="flex-grow m-0 overflow-hidden text-sm text-n-slate-12 whitespace-nowrap text-ellipsis"
       >
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
       <Hotkey
-        custom-class="border border-solid text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border-slate-75 dark:border-slate-600 flex-shrink-0"
+        custom-class="border border-solid text-n-slate-12 bg-slate-50 dark:bg-slate-600 text-xxs border-n-weak flex-shrink-0"
       >
         {{ 'L' }}
       </Hotkey>

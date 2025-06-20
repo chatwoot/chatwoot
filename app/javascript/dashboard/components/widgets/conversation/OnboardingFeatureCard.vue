@@ -29,14 +29,14 @@ defineProps({
 
 <template>
   <div
-    class="h-full w-full bg-white dark:bg-slate-900 border border-slate-100 dark:border-white/10 rounded-lg p-4 flex flex-col"
+    class="h-full w-full bg-n-background border border-n-weak rounded-lg p-4 flex flex-col"
   >
     <div class="flex-1 flex items-center justify-center">
       <img :src="imageSrc" :alt="imageAlt" class="h-36 w-auto mx-auto" />
     </div>
     <div class="mt-auto">
       <p
-        class="text-base text-slate-800 dark:text-slate-100 font-interDisplay font-semibold tracking-[0.3px]"
+        class="text-base text-n-slate-12 font-interDisplay font-semibold tracking-[0.3px]"
       >
         {{ title }}
       </p>
