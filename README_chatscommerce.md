@@ -1,52 +1,89 @@
 
-# Chatscommerce Web UI/Server
+# ChatsCommerce - Chatwoot Web UI/Server
 
+## Dependencies
+- Docker
+- Node.js (v20+)
+- Ruby (v3.4.4)
+- PNPM
 
-## Development environment setup
-### Docker
-1. Clone the repository.
-    ```
-    git clone https://github.com/chatwoot/chatwoot.git
-    ```
+## Development Environment Setup
+### 1. Install Dependencies
+*NOTE:* Install dependencies based on your OS.
 
-2. Make a copy of the example environment file and modify it as required.
-    ```
-    # Navigate to Chatwoot
-    cd chatwoot
-    cp .env.example .env
-    # Update redis and postgres passwords
-    nano .env
-    # Update docker-compose.yaml with the same postgres password
-    nano docker-compose.yaml
-    ```
+- [Mac OS](https://developers.chatwoot.com/contributing-guide/environment-setup/mac-os)
+- [Ubuntu](https://developers.chatwoot.com/contributing-guide/environment-setup/ubuntu)
+- [Windows](https://developers.chatwoot.com/contributing-guide/environment-setup/windows)
 
-3. Build the images.
-    ```
-    # Build base image first
-    docker compose build base
+### 2. Install Packages
+This will install all dependencies (Ruby gems and Node packages)
+```
+make burn 
+```
 
-    # Build the server and worker
-    docker compose build
-    ```
+### 3. Setup Environment Variables
+Make a copy of the example environment file
+```
+cp .env.example .env
+```
+Download the recommended .env file 
+[TBD]
 
-4. After building the image or destroying the stack, you would have to reset the database using the following command.
-    ```
-    docker compose run --rm rails bundle exec rails db:chatwoot_prepare
-    ```
+## Docker Setup
+### 1. Update Environment Variables
+Update Redis and Postgres passwords to match in .env and docker-compose.yaml
+- `REDIS_PASSWORD`
+- `POSTGRES_PASSWORD`
 
-5. To run the app:
-    ```
-    docker compose up
-    ```
+### 2. Build the images
+#### 2.a. Build the base image first
+```
+docker compose build base
+```
+#### 2.b. Build the whole stack
+```
+docker compose build
+```
 
-* Access the rails app frontend by visiting http://0.0.0.0:3000/
+### 3. Prepare the Database
+After re-building or making changes to the database schema you need to prepare or reset the database.
+#### 3.a. Prepare the Database
+```
+docker compose run --rm rails bundle exec rails db:chatwoot_prepare
+```
+#### 3.b. Reset the Database
+```
+docker compose run --rm rails bundle exec rails db:reset
+```
+
+### 4. Run the App
+```
+docker compose up
+```
+
+* Access the Web UI by visiting http://0.0.0.0:3000/
 * Access Mailhog inbox by visiting http://0.0.0.0:8025/ (You will receive all emails going out of the application here)
 
-6. To stop the app:
-    ```
-    docker compose down
-    ```
-​
+### 5. Stop the App
+```
+docker compose down
+```
+
+## Run Unit Tests
+### 1. Build docker images
+```
+docker compose build
+```
+
+### 2. Prepare the Database with test config
+```
+docker compose run --rm rails bundle exec rails db:chatwoot_prepare RAILS_ENV=test
+```
+
+### 3. Run the tests
+```
+docker compose run --rm -e RAILS_ENV=test rails bundle exec rspec --profile=10 --format documentation
+```
 
 ## Daily Development Commands
 
