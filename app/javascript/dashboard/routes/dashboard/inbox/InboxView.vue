@@ -193,7 +193,7 @@ export default {
       />
       <div
         v-if="isConversationLoading"
-        class="flex items-center h-[calc(100%-56px)] my-4 justify-center bg-slate-25 dark:bg-slate-800"
+        class="flex items-center h-[calc(100%-56px)] my-4 justify-center bg-n-solid-1"
       >
         <Spinner class="text-n-brand" />
       </div>

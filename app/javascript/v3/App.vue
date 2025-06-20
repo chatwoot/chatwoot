@@ -64,7 +64,7 @@ body {
 }
 
 .text-link {
-  @apply text-woot-500 font-medium hover:text-woot-600;
+  @apply text-n-brand font-medium hover:text-n-blue-10;
 }
 
 .v-popper--theme-tooltip .v-popper__inner {

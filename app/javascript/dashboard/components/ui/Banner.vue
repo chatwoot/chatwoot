@@ -118,13 +118,13 @@ export default {
 <style lang="scss" scoped>
 .banner {
   &.primary {
-    @apply bg-woot-500 dark:bg-woot-500;
+    @apply bg-n-brand;
   }
 
   &.secondary {
     @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12;
     a {
-      @apply text-slate-800 dark:text-slate-800;
+      @apply text-n-slate-12;
     }
   }
 

@@ -26,8 +26,8 @@ const isDefaultScreen = computed(() => {
     class="rounded-t-lg flex-shrink-0 transition-[max-height] duration-300"
     :class="
       isDefaultScreen
-        ? 'bg-slate-25 dark:bg-slate-800 px-4 py-5'
-        : 'bg-white dark:bg-slate-900 p-4'
+        ? 'bg-n-slate-2 dark:bg-n-solid-1 px-4 py-5'
+        : 'bg-n-slate-2 dark:bg-n-solid-1 p-4'
     "
   >
     <div class="relative top-px">

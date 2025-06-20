@@ -16,7 +16,7 @@ defineProps({
     class="flex items-center px-8 py-4 bg-white border-b border-slate-100"
     role="banner"
   >
-    <a :href="responseSourcePath" class="text-woot-500 hover:underline mr-4">
+    <a :href="responseSourcePath" class="text-n-brand hover:underline mr-4">
       {{ 'Back' }}
     </a>
     <div

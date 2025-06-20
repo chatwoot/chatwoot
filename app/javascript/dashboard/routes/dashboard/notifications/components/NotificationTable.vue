@@ -181,7 +181,7 @@ export default {
 }
 
 .notification--unread-indicator {
-  @apply w-2.5 h-2.5 rounded-full bg-woot-500 dark:bg-woot-500;
+  @apply w-2.5 h-2.5 rounded-full bg-n-brand;
 }
 
 .notification--created-at {
