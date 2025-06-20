@@ -273,7 +273,11 @@
     }
   },
   "SIDEBAR": {
+
     "NO_ITEMS": "No items",
+    "EXTERNAL_APPS": "External Apps",
+    "NO_APPLICATIONS": "No active applications",
+    "OPEN_APPLICATION": "Open application",
     "CURRENTLY_VIEWING_ACCOUNT": "Currently viewing:",
     "SWITCH": "Switch",
     "INBOX_VIEW": "Inbox View",
@@ -521,5 +525,14 @@
     },
 
     "NEVER_USED": "Never used"
+  },
+  "GENERAL_SETTINGS": {
+    "INTEGRATIONS": {
+      "REFRESH": "Refresh",
+      "OPEN_EXTERNAL": "Open in new tab",
+      "LOADING": "Loading {name}...",
+      "LOAD_ERROR": "Failed to load",
+      "TRY_AGAIN": "Try again"
+    }
   }
 }

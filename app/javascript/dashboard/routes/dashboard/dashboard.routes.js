@@ -26,6 +26,15 @@ export default {
         ...notificationRoutes,
         ...helpcenterRoutes.routes,
         ...campaignsRoutes.routes,
+        // ✅ ADICIONAR AQUI DENTRO:
+        {
+          path: 'application/:appId',
+          name: 'app_view',
+          component: () => import('dashboard/components-next/AppViewer.vue'),
+          meta: {
+            permissions: ['administrator', 'agent'],
+          },
+        },
       ],
     },
     {

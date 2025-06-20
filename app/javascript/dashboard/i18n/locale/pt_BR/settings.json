@@ -273,6 +273,9 @@
     }
   },
   "SIDEBAR": {
+    "EXTERNAL_APPS": "Apps Externos",
+    "NO_APPLICATIONS": "Nenhuma aplicação ativa",
+    "OPEN_APPLICATION": "Abrir aplicação",
     "NO_ITEMS": "Nenhum item",
     "CURRENTLY_VIEWING_ACCOUNT": "Visualização atual:",
     "SWITCH": "Trocar",
@@ -522,6 +525,15 @@
     },
 
     "NEVER_USED": "Nunca usado"
+  },
+  "GENERAL_SETTINGS": {
+    "INTEGRATIONS": {
+      "REFRESH": "Atualizar",
+      "OPEN_EXTERNAL": "Abrir em nova aba",
+      "LOADING": "Carregando {name}...",
+      "LOAD_ERROR": "Erro ao carregar",
+      "TRY_AGAIN": "Tentar novamente"
+    }
   }
 
 }
