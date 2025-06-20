@@ -13,7 +13,7 @@
 #
 # Indexes
 #
-#  index_channel_voice_on_account_id     (account_id)
+#  index_channel_voice_on_account_id    (account_id)
 #  index_channel_voice_on_phone_number  (phone_number) UNIQUE
 #
 class Channel::Voice < ApplicationRecord
@@ -31,7 +31,7 @@ class Channel::Voice < ApplicationRecord
   # Provider-specific configs stored in JSON
   validate :validate_provider_config
 
-  EDITABLE_ATTRS = [:phone_number, :provider, :provider_config].freeze
+  EDITABLE_ATTRS = [:phone_number, :provider, { provider_config: {} }].freeze
 
   def name
     "Voice (#{phone_number})"
@@ -79,3 +79,4 @@ class Channel::Voice < ApplicationRecord
     errors.add(:provider_config, 'outgoing_application_sid must start with AP')
   end
 end
+

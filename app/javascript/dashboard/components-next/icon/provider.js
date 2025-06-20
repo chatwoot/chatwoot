@@ -13,6 +13,7 @@ export function useChannelIcon(inbox) {
     'Channel::WebWidget': 'i-ri-global-fill',
     'Channel::Whatsapp': 'i-ri-whatsapp-fill',
     'Channel::Instagram': 'i-ri-instagram-fill',
+    'Channel::Voice': 'i-ri-phone-fill',
   };
 
   const providerIconMap = {

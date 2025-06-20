@@ -93,11 +93,11 @@ export default {
         const channel = await this.$store.dispatch(
           'inboxes/createVoiceChannel',
           {
+            name: `Voice (${this.phoneNumber})`,
             voice: {
-              name: `Voice (${this.phoneNumber})`,
               phone_number: this.phoneNumber,
               provider: this.provider,
-              provider_config: JSON.stringify(providerConfig),
+              provider_config: providerConfig,
             },
           }
         );
@@ -262,7 +262,6 @@ export default {
           :label="$t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
           type="submit"
           color="blue"
-          @click="createChannel"
         />
       </div>
     </form>

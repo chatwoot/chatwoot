@@ -223,7 +223,8 @@ export const actions = {
   createVoiceChannel: async ({ commit }, params) => {
     try {
       commit(types.default.SET_INBOXES_UI_FLAG, { isCreating: true });
-      const response = await InboxesAPI.createChannel({
+      const response = await InboxesAPI.create({
+        name: params.name,
         channel: { ...params.voice, type: 'voice' },
       });
       commit(types.default.ADD_INBOXES, response.data);
