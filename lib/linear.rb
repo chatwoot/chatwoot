@@ -60,11 +60,19 @@ class Linear
     raise ArgumentError, 'Missing link' if link.blank?
     raise ArgumentError, 'Missing issue id' if issue_id.blank?
 
-    user_name = user&.name
-    user_avatar_url = user&.avatar_url if user&.avatar_url.present?
+    link_params = {
+      issue_id: issue_id,
+      link: link,
+      title: title
+    }
+
+    if user.present?
+      link_params[:user_name] = user.name if user.name.present?
+      link_params[:user_avatar_url] = user.avatar_url if user.avatar_url.present?
+    end
 
     payload = {
-      query: Linear::Mutations.issue_link(issue_id, link, title, user_name, user_avatar_url)
+      query: Linear::Mutations.issue_link(link_params)
     }
     response = post(payload)
     process_response(response)

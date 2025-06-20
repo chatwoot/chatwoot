@@ -226,11 +226,18 @@ describe Linear do
 
       context 'when user is provided' do
         it 'includes user attribution in the request' do
-          allow(linear_client).to receive(:post) do |payload|
-            expect(payload[:query]).to include('createAsUser: "John Doe"')
-            expect(payload[:query]).to include('displayIconUrl: "https://example.com/avatar.jpg"')
+          expected_params = {
+            issue_id: issue_id,
+            link: link,
+            title: title,
+            user_name: 'John Doe',
+            user_avatar_url: 'https://example.com/avatar.jpg'
+          }
+
+          expect(Linear::Mutations).to receive(:issue_link).with(expected_params).and_call_original
+          allow(linear_client).to receive(:post).and_return(
             instance_double(HTTParty::Response, success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
-          end
+          )
 
           linear_client.link_issue(link, issue_id, title, user)
         end
@@ -240,11 +247,17 @@ describe Linear do
         let(:user_no_avatar) { instance_double(User, name: 'Jane Doe', avatar_url: '') }
 
         it 'includes only user name in the request' do
-          allow(linear_client).to receive(:post) do |payload|
-            expect(payload[:query]).to include('createAsUser: "Jane Doe"')
-            expect(payload[:query]).not_to include('displayIconUrl')
+          expected_params = {
+            issue_id: issue_id,
+            link: link,
+            title: title,
+            user_name: 'Jane Doe'
+          }
+
+          expect(Linear::Mutations).to receive(:issue_link).with(expected_params).and_call_original
+          allow(linear_client).to receive(:post).and_return(
             instance_double(HTTParty::Response, success?: true, parsed_response: { 'data' => { 'attachmentLinkURL' => { 'id' => 'attachment1' } } })
-          end
+          )
 
           linear_client.link_issue(link, issue_id, title, user_no_avatar)
         end
