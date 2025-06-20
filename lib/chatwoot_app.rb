@@ -12,17 +12,15 @@ module ChatwootApp
   end
 
   def self.enterprise?
-    return if ENV.fetch('DISABLE_ENTERPRISE', false)
-
-    @enterprise ||= root.join('enterprise').exist?
+    @enterprise ||= true
   end
 
   def self.chatwoot_cloud?
-    enterprise? && GlobalConfig.get_value('DEPLOYMENT_ENV') == 'cloud'
+    return false
   end
 
   def self.custom?
-    @custom ||= root.join('custom').exist?
+    @custom ||= false
   end
 
   def self.help_center_root
