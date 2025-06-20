@@ -118,7 +118,7 @@ watch(
       <div class="ml-auto flex items-center gap-2">
         <button
           class="p-2 hover:bg-slate-100 rounded-lg"
-          :aria-label="$t('GENERAL_SETTINGS.FORM.REFRESH')"
+          :aria-label="$t('GENERAL_SETTINGS.INTEGRATIONS.REFRESH')"
           @click="refreshApp"
         >
           <i class="i-lucide-refresh-cw size-4" />
@@ -126,7 +126,7 @@ watch(
 
         <button
           class="p-2 hover:bg-slate-100 rounded-lg"
-          :aria-label="$t('GENERAL_SETTINGS.FORM.OPEN_EXTERNAL')"
+          :aria-label="$t('GENERAL_SETTINGS.INTEGRATIONS.OPEN_EXTERNAL')"
           @click="openExternal"
         >
           <i class="i-lucide-external-link size-4" />
@@ -137,7 +137,9 @@ watch(
     <div v-if="loading && !app" class="flex-1 flex items-center justify-center">
       <div class="text-center">
         <i class="i-lucide-loader-2 size-8 animate-spin text-woot-500 mb-2" />
-        <p class="text-slate-600">{{ $t('GENERAL_SETTINGS.FORM.LOADING') }}</p>
+        <p class="text-slate-600">
+          {{ $t('GENERAL_SETTINGS.INTEGRATIONS.LOADING') }}
+        </p>
       </div>
     </div>
 
@@ -145,14 +147,14 @@ watch(
       <div class="text-center max-w-md">
         <i class="i-lucide-alert-circle size-12 text-red-500 mb-4" />
         <h3 class="text-lg font-semibold mb-2">
-          {{ $t('GENERAL_SETTINGS.FORM.FAILED_TO_LOAD') }}
+          {{ $t('GENERAL_SETTINGS.INTEGRATIONS.FAILED_TO_LOAD') }}
         </h3>
         <p class="text-slate-600 mb-4">{{ error }}</p>
         <button
           class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600"
           @click="refreshApp"
         >
-          {{ $t('GENERAL_SETTINGS.FORM.TRY_AGAIN') }}
+          {{ $t('GENERAL_SETTINGS.INTEGRATIONS.TRY_AGAIN') }}
         </button>
       </div>
     </div>
@@ -168,7 +170,7 @@ watch(
               class="i-lucide-loader-2 size-8 animate-spin text-woot-500 mb-2"
             />
             <p class="text-slate-600">
-              {{ $t('GENERAL_SETTINGS.FORM.LOADING') }}
+              {{ $t('GENERAL_SETTINGS.INTEGRATIONS.LOADING') }}
             </p>
           </div>
         </div>
