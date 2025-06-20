@@ -38,9 +38,6 @@ const toggleShortcutModalFn = show => {
 
 useSidebarKeyboardShortcuts(toggleShortcutModalFn);
 
-// We're using localStorage to store the expanded item in the sidebar
-// This helps preserve context when navigating between portal and dashboard layouts
-// and also when the user refreshes the page
 const expandedItem = useStorage(
   'next-sidebar-expanded-item',
   null,
@@ -50,6 +47,7 @@ const expandedItem = useStorage(
 const setExpandedItem = name => {
   expandedItem.value = expandedItem.value === name ? null : name;
 };
+
 provideSidebarContext({
   expandedItem,
   setExpandedItem,
@@ -62,6 +60,7 @@ const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
+const applications = useMapGetter('applications/getApplications');
 
 onMounted(() => {
   store.dispatch('labels/get');
@@ -71,6 +70,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  store.dispatch('applications/get');
 });
 
 const sortedInboxes = computed(() =>
@@ -104,6 +104,10 @@ const newReportRoutes = () => [
 ];
 
 const reportRoutes = computed(() => newReportRoutes());
+
+const activeApplications = computed(() => {
+  return applications.value.filter(app => app.status === 'active');
+});
 
 const menuItems = computed(() => {
   return [
@@ -198,6 +202,38 @@ const menuItems = computed(() => {
         },
       ],
     },
+    ...(activeApplications.value.length > 0
+      ? [
+          {
+            name: 'Applications',
+            label: t('SIDEBAR.APPLICATIONS'),
+            icon: 'i-lucide-grid-3x3',
+            children: activeApplications.value.map(app => ({
+              name: `app-${app.id}`,
+              label: app.name,
+              icon: app.thumbnail
+                ? h('img', {
+                    src: app.thumbnail,
+                    alt: app.name,
+                    class: 'size-4 rounded object-cover',
+                  })
+                : h(
+                    'div',
+                    {
+                      class:
+                        'size-4 bg-gradient-to-br from-woot-500 to-woot-600 rounded flex items-center justify-center',
+                    },
+                    [
+                      h('span', {
+                        class: 'i-lucide-grid-3x3 size-2 text-white',
+                      }),
+                    ]
+                  ),
+              to: accountScopedRoute('app_view', { appId: app.id }),
+            })),
+          },
+        ]
+      : []),
     {
       name: 'Captain',
       icon: 'i-woot-captain',
@@ -421,11 +457,10 @@ const menuItems = computed(() => {
           icon: 'i-lucide-code',
           to: accountScopedRoute('attributes_list'),
         },
-
         {
           name: 'Settings Applications',
-          label: t('SIDEBAR.APPLICATIONS'), // ou simplesmente 'Applications'
-          icon: 'i-lucide-blocks', // ou 'i-lucide-grid-3x3'
+          label: t('SIDEBAR.APPLICATIONS'),
+          icon: 'i-lucide-blocks',
           to: accountScopedRoute('applications_list'),
         },
         {
