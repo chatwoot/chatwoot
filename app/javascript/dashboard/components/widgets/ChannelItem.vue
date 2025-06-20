@@ -41,6 +41,10 @@ export default {
         );
       }
 
+      if (key === 'voice') {
+        return this.enabledFeatures.channel_voice;
+      }
+
       return [
         'website',
         'twilio',
