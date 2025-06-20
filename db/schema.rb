@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_19_114055) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_19_141557) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1000,6 +1000,34 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_19_114055) do
     t.index ["user_id"], name: "index_notifications_on_user_id"
   end
 
+  create_table "orders", force: :cascade do |t|
+    t.string "name"
+    t.integer "customer_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.jsonb "line_items", default: [], null: false
+    t.jsonb "shipping_address"
+    t.jsonb "billing_address"
+    t.jsonb "shipping_lines", default: [], null: false
+    t.decimal "subtotal_price", precision: 15, scale: 2
+    t.decimal "total_price", precision: 15, scale: 2
+    t.decimal "total_tax", precision: 15, scale: 2
+    t.string "currency"
+    t.string "financial_status"
+    t.string "fulfillment_status"
+    t.string "order_status_url"
+    t.string "tags"
+    t.text "note"
+    t.jsonb "refunds", default: [], null: false
+    t.string "cancel_reason"
+    t.datetime "cancelled_at"
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_orders_on_account_id"
+    t.index ["created_at"], name: "index_orders_on_created_at"
+    t.index ["customer_id"], name: "index_orders_on_customer_id"
+    t.index ["name"], name: "index_orders_on_name"
+  end
+
   create_table "platform_app_permissibles", force: :cascade do |t|
     t.bigint "platform_app_id", null: false
     t.string "permissible_type", null: false
@@ -1248,6 +1276,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_19_114055) do
   add_foreign_key "contact_bookings", "users"
   add_foreign_key "inboxes", "portals"
   add_foreign_key "integrations_hooks", "account_users"
+  add_foreign_key "orders", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

@@ -11,7 +11,7 @@ class PopulateShopifyContactDataJob < ApplicationJob
   end
 
   def populate(params)
-    id, email, phone_number = params.values_at(:id, :email, :phone_number)
+    account_id, id, email, phone_number = params.values_at(:account_id, :id, :email, :phone_number)
 
     customers = fetch_customers(email, phone_number)
 
@@ -21,7 +21,19 @@ class PopulateShopifyContactDataJob < ApplicationJob
     Rails.logger.info("Populating shopify customer data #{customer['id']}")
 
     contact = Contact.find_by(id: id)
-      contact.update(custom_attributes: contact.custom_attributes.merge({shopify_customer_id:customer['id'] , shopify_customer_email: customer['email'], shopify_customer_phone:customer['phone']}))
+
+    old_shopify_customer_id = contact.custom_attributes['shopify_customer_id']
+
+    contact.update(custom_attributes: contact.custom_attributes.merge({shopify_customer_id:customer['id'] , shopify_customer_email: customer['email'], shopify_customer_phone:customer['phone']}))
+
+    contact.save!
+
+    # Update customer orders
+    update_customer_orders(account_id, customer['id']) if old_shopify_customer_id != customer['id']
+  end
+
+  def update_customer_orders(account_id, customer_id)
+    orders = fetch_orders(customer_id)
   end
 
   def fetch_customers(email, phone_number)
@@ -38,6 +50,22 @@ class PopulateShopifyContactDataJob < ApplicationJob
     ).body['customers'] || []
   end
 
+  def fetch_orders(customer_id)
+    orders = shopify_client.get(
+      path: 'orders.json',
+      query: {
+        customer_id: customer_id,
+        status: 'any'
+        # fields: 'id,email,created_at,total_price,currency,fulfillment_status,financial_status' // REVIEW: fetching all fields from now, but only a subset is being saved, maybe we can optimize the query
+      }
+    ).body['orders'] || []
+
+    orders.map do |order|
+      order.merge('admin_url' => "https://#{@hook.reference_id}/admin/orders/#{order['id']}")
+    end
+  end
+
+
   def setup_shopify_context(account_id)
     @shopify_service =  Shopify::ClientService.new(account_id)
   end
@@ -49,5 +77,4 @@ class PopulateShopifyContactDataJob < ApplicationJob
   def shopify_client
     @shopify_service.shopify_client
   end
-
 end
