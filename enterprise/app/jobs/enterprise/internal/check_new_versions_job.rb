@@ -1,5 +1,7 @@
 module Enterprise::Internal::CheckNewVersionsJob
   def perform
+    return if Rails.env.production?
+
     super
     update_plan_info
     reconcile_premium_config_and_features
