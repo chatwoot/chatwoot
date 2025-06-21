@@ -152,7 +152,7 @@
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo da Mensagem",
       "MESSAGE_CONTAINS": "A mensagem contém",
-      "EMAIL": "e-mail",
+      "EMAIL": "E-mail",
       "INBOX": "Caixa de Entrada",
       "CONVERSATION_LANGUAGE": "Idioma da conversa",
       "PHONE_NUMBER": "Número de Telefone",

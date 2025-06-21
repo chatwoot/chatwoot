@@ -71,6 +71,12 @@ export default {
         FEATURE_FLAGS.AUTO_RESOLVE_CONVERSATIONS
       );
     },
+    showAudioTranscriptionConfig() {
+      return this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CAPTAIN
+      );
+    },
     languagesSortedByCode() {
       const enabledLanguages = [...this.enabledLanguages];
       return enabledLanguages.sort((l1, l2) =>
@@ -237,7 +243,7 @@ export default {
       <woot-loading-state v-if="uiFlags.isFetchingItem" />
     </div>
     <AutoResolve v-if="showAutoResolutionConfig" />
-    <AudioTranscription v-if="isOnChatwootCloud" />
+    <AudioTranscription v-if="showAudioTranscriptionConfig" />
     <AccountId />
     <div v-if="!uiFlags.isFetchingItem && isOnChatwootCloud">
       <AccountDelete />

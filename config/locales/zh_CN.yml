@@ -91,6 +91,8 @@ zh_CN:
       conversations_count: 对话数量
       avg_first_response_time: 平均首次响应时间
       avg_resolution_time: 平均解决时间
+      avg_reply_time: Avg reply time
+      resolution_count: 已解决的数量
     team_csv:
       team_name: 团队名称
       conversations_count: 对话数量
@@ -138,6 +140,8 @@ zh_CN:
       instagram_story_content: '%{story_sender} 会话中提到了你: '
       instagram_deleted_story_content: 本信息不存在
       deleted: 此消息已被删除
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: '错误代码: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ zh_CN:
       sla:
         added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
         removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} 已将会话静音'

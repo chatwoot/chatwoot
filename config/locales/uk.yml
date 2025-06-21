@@ -91,6 +91,8 @@ uk:
       conversations_count: '№ розмов'
       avg_first_response_time: Середній час першої відповіді
       avg_resolution_time: Середній час вирішення
+      avg_reply_time: Avg reply time
+      resolution_count: Кількість вирішень
     team_csv:
       team_name: Назва команди
       conversations_count: Кількість бесід
@@ -138,6 +140,8 @@ uk:
       instagram_story_content: '%{story_sender} згадав вас у сторіс: '
       instagram_deleted_story_content: Ця історія більше не доступна.
       deleted: Це повідомлення було видалено
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Код помилки: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ uk:
       sla:
         added: '%{user_name} додав політику SLA %{sla_name}'
         removed: '%{user_name} видалив політику SLA %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} включив безвучний режим'

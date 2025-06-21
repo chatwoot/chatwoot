@@ -91,6 +91,8 @@ ar:
       conversations_count: عدد المحادثات
       avg_first_response_time: متوسط وقت الرد الأول
       avg_resolution_time: متوسط وقت الحل
+      avg_reply_time: Avg reply time
+      resolution_count: عدد مرات الإغلاق
     team_csv:
       team_name: اسم الفريق
       conversations_count: عدد المحادثات
@@ -138,6 +140,8 @@ ar:
       instagram_story_content: 'أشار %{story_sender} إليك في القصة: '
       instagram_deleted_story_content: هذه القصة لم تعد متاحة.
       deleted: تم حذف هذه الرسالة
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'رمز الخطأ: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ ar:
       sla:
         added: '%{user_name} أضاف سياسة مستوى الخدمة %{sla_name}'
         removed: '%{user_name} أزال سياسة مستوى الخدمة %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} كتم صوت المحادثة'

@@ -91,6 +91,8 @@ ru:
       conversations_count: Количество диалогов
       avg_first_response_time: Среднее время первого ответа
       avg_resolution_time: Среднее время завершения
+      avg_reply_time: Avg reply time
+      resolution_count: Количество завершенных
     team_csv:
       team_name: Название команды
       conversations_count: Количество бесед
@@ -138,6 +140,8 @@ ru:
       instagram_story_content: '%{story_sender} упомянул Вас в истории: '
       instagram_deleted_story_content: Эта история больше недоступна.
       deleted: Это сообщение было удалено
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Код ошибки: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ ru:
       sla:
         added: '%{user_name} добавил политику SLA %{sla_name}'
         removed: '%{user_name} удалил политику SLA %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} заглушил(а) этот разговор'
