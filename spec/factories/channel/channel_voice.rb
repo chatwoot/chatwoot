@@ -5,7 +5,7 @@ FactoryBot.define do
     sequence(:phone_number) { |n| "+155512345#{n.to_s.rjust(2, '0')}" }
     provider_config do
       {
-        account_sid: 'AC' + SecureRandom.hex(16),
+        account_sid: "AC#{SecureRandom.hex(16)}",
         auth_token: SecureRandom.hex(16),
         api_key_sid: SecureRandom.hex(8),
         api_key_secret: SecureRandom.hex(16)

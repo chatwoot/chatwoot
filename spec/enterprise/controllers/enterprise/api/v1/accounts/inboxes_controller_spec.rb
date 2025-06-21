@@ -28,7 +28,7 @@ RSpec.describe 'Enterprise Inboxes API', type: :request do
              headers: admin.create_new_auth_token,
              params: { name: 'Voice Inbox',
                        channel: { type: 'voice', phone_number: '+15551234567',
-                                  provider_config: { account_sid: 'AC' + SecureRandom.hex(16),
+                                  provider_config: { account_sid: "AC#{SecureRandom.hex(16)}",
                                                      auth_token: SecureRandom.hex(16),
                                                      api_key_sid: SecureRandom.hex(8),
                                                      api_key_secret: SecureRandom.hex(16) } } },
