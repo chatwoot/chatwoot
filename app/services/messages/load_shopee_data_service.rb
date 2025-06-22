@@ -36,7 +36,7 @@ class Messages::LoadShopeeDataService
   end
 
   def item_list?
-    @item_codes = original_data['item_ids'].to_a.pluck('item_id').presence
+    @item_codes = original_data['item_ids'].to_a.pluck('item_id').compact.presence
     @item_codes ||= original_data['item_ids'].presence
     @item_codes ||= [original_data['item_id'].presence].compact
     @item_codes = @item_codes.map(&:to_s) if @item_codes.is_a?(Array)
