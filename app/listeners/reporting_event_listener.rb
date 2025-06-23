@@ -50,11 +50,12 @@ class ReportingEventListener < BaseListener
 
     # When waiting_since is nil, set reply_time to 0
     reply_time = waiting_since.present? ? message.created_at.to_i - waiting_since.to_i : 0
+    value_in_business_hours = waiting_since.present? ? business_hours(conversation.inbox, waiting_since, message.created_at) : 0
 
     reporting_event = ReportingEvent.new(
       name: 'reply_time',
       value: reply_time,
-      value_in_business_hours: waiting_since.present? ? business_hours(conversation.inbox, waiting_since, message.created_at) : 0,
+      value_in_business_hours: value_in_business_hours,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       user_id: conversation.assignee_id,
