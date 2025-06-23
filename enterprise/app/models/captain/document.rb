@@ -37,7 +37,13 @@ class Captain::Document < ApplicationRecord
     available: 1
   }
 
+  enum document_type: {
+    url: 0,
+    pdf: 1
+  }
+
   before_create :ensure_within_plan_limit
+  before_create :detect_document_type
   after_create_commit :enqueue_crawl_job
   after_create_commit :update_document_usage
   after_destroy :update_document_usage
@@ -52,7 +58,33 @@ class Captain::Document < ApplicationRecord
   def enqueue_crawl_job
     return if status != 'in_progress'
 
-    Captain::Documents::CrawlJob.perform_later(self)
+    if pdf_document?
+      Captain::Documents::PdfProcessingJob.perform_later(self)
+    else
+      Captain::Documents::CrawlJob.perform_later(self)
+    end
+  end
+
+  def url_document?
+    document_type == 'url'
+  end
+
+  def pdf_document?
+    document_type == 'pdf'
+  end
+
+  def detect_document_type
+    return unless external_link.present?
+    
+    # Check if URL points to a PDF file
+    uri = URI.parse(external_link)
+    if uri.path.downcase.end_with?('.pdf') || external_link.downcase.include?('.pdf')
+      self.document_type = :pdf
+    else
+      self.document_type = :url
+    end
+  rescue URI::InvalidURIError
+    self.document_type = :url
   end
 
   def enqueue_response_builder_job

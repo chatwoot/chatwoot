@@ -4,6 +4,7 @@ json.assistant do
 end
 json.content resource.content
 json.created_at resource.created_at.to_i
+json.document_type resource.document_type
 json.external_link resource.external_link
 json.id resource.id
 json.name resource.name

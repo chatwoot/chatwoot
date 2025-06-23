@@ -31,6 +31,14 @@ gem 'haikunator'
 gem 'liquid'
 # Parse Markdown to HTML
 gem 'commonmarker'
+# Convert PDF pages to images for content extraction
+gem 'pdftoimage'
+# Google Vision API for text extraction from images
+gem 'google-cloud-vision'
+# Tesseract OCR fallback when Vision API not available
+gem 'rtesseract'
+# Image manipulation for PDF page batching
+gem 'mini_magick'
 # Validate Data against JSON Schema
 gem 'json_schemer'
 # used in swagger build
