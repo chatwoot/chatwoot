@@ -52,7 +52,7 @@ module ReferencesHeaderBuilder
   # @return [Message, nil] The message being replied to
   def find_replied_to_message(conversation, current_message)
     external_id = current_message.content_attributes['in_reply_to_external_id']
-    return nil unless external_id.present?
+    return nil if external_id.blank?
 
     # Remove angle brackets if present for comparison
     normalized_external_id = external_id.gsub(/[<>]/, '')
