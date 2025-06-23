@@ -368,13 +368,18 @@
       "TITLE": "Current Plan",
       "PLAN_NOTE": "You are currently subscribed to the **{plan}** plan with **{quantity}** licenses",
       "SEAT_COUNT": "Number of seats",
-      "RENEWS_ON": "Renews on"
+      "RENEWS_ON": "Renews on",
+      "ENDS_ON": "Ends on",
+      "STATUS": "Status"
     },
     "VIEW_PRICING": "View Pricing",
     "MANAGE_SUBSCRIPTION": {
       "TITLE": "Manage your subscription",
       "DESCRIPTION": "View your previous invoices, edit your billing details, or cancel your subscription.",
-      "BUTTON_TXT": "Go to the billing portal"
+      "BUTTON_TXT": "Go to billing portal"
+    },
+    "SETUP_IN_PROGRESS": {
+      "MESSAGE": "Subscription setup in progress..."
     },
     "CAPTAIN": {
       "TITLE": "Captain",
@@ -383,13 +388,33 @@
       "DOCUMENTS": "Documents",
       "RESPONSES": "Responses",
       "UPGRADE": "Captain is not available on the free plan, upgrade now to get access to assistants, copilot and more."
+      "UPGRADE": "Captain is not available on the free trial plan, upgrade now to get access to assistants, copilot and more."
     },
     "CHAT_WITH_US": {
       "TITLE": "Need help?",
       "DESCRIPTION": "Do you face any issues in billing? We are here to help.",
       "BUTTON_TXT": "Chat with us"
     },
-    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again."
+    "NO_BILLING_USER": "Your billing account is being configured. Please refresh the page and try again.",
+    "PLANS": {
+      "community": "Community",
+      "free_trial": "Free trial",
+      "starter": "Starter",
+      "professional": "Professional",
+      "enterprise": "Enterprise"
+    },
+    "SUBSCRIPTION_STATUS": {
+      "active": "Active",
+      "cancelled": "Cancelled",
+      "canceled": "Cancelled",
+      "inactive": "Inactive",
+      "past_due": "Past Due",
+      "unpaid": "Unpaid",
+      "incomplete": "Incomplete",
+      "incomplete_expired": "Incomplete Expired",
+      "trialing": "Trialing",
+      "paused": "Paused"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "Uh oh! We could not find any Chatwoot accounts. Please create a new account to continue.",

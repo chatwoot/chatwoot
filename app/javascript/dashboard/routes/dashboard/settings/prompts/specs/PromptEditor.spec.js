@@ -29,7 +29,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -46,7 +46,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -71,7 +71,7 @@ describe('PromptEditor.vue', () => {
         props: newPromptProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -88,7 +88,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -107,7 +107,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -127,7 +127,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -149,7 +149,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -177,7 +177,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -201,7 +201,7 @@ describe('PromptEditor.vue', () => {
         },
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -221,7 +221,7 @@ describe('PromptEditor.vue', () => {
         },
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -241,7 +241,7 @@ describe('PromptEditor.vue', () => {
         },
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -251,7 +251,9 @@ describe('PromptEditor.vue', () => {
       });
 
       // The update button should not be rendered
-      expect(wrapper.text()).not.toContain('PROMPTS_PAGE.EDITOR.UPDATE_BUTTON_TEXT');
+      expect(wrapper.text()).not.toContain(
+        'PROMPTS_PAGE.EDITOR.UPDATE_BUTTON_TEXT'
+      );
     });
   });
 
@@ -261,7 +263,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -278,7 +280,7 @@ describe('PromptEditor.vue', () => {
         props: defaultProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -300,7 +302,7 @@ describe('PromptEditor.vue', () => {
         props: emptyPromptProps,
         global: {
           mocks: {
-            $t: vi.fn((key) => key),
+            $t: vi.fn(key => key),
           },
           stubs: {
             FullEditor: true,
@@ -313,4 +315,4 @@ describe('PromptEditor.vue', () => {
       expect(wrapper.vm.promptText).toBe('');
     });
   });
-}); 
+});

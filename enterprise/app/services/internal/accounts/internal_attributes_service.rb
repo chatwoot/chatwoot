@@ -1,4 +1,6 @@
 class Internal::Accounts::InternalAttributesService
+  include BillingPlans
+
   attr_reader :account
 
   # List of keys that can be managed through this service
@@ -52,9 +54,8 @@ class Internal::Accounts::InternalAttributesService
 
   # Get list of valid features that can be manually managed
   def valid_feature_list
-    # Business and Enterprise plan features only
-    Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES +
-      Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+    # All features from our tier-based system
+    self.class.all_features
   end
 
   # Account notes functionality removed for now

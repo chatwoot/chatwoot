@@ -376,6 +376,10 @@ Rails.application.routes.draw do
       resources :accounts, only: [:create] do
         scope module: :accounts do
           resources :prompts, only: [:index, :update]
+          resource :subscription, only: [:create, :show] do
+            get :portal, on: :member
+            get :limits, on: :member
+          end
           resources :summary_reports, only: [] do
             collection do
               get :agent
@@ -495,6 +499,18 @@ Rails.application.routes.draw do
     resources :accounts do
       resources :conversations, only: [:show]
     end
+  end
+
+  # ----------------------------------------------------------------------
+  # Routes for billing webhooks
+  namespace :webhooks do
+    # Generic billing webhook endpoints (provider-agnostic)
+    post 'billing/process_event', to: 'billing#process_event'
+    get 'billing/health', to: 'billing#health'
+
+    # Legacy Stripe-specific endpoints (for backward compatibility)
+    post 'stripe/process_event', to: 'billing#process_event'
+    get 'stripe/health', to: 'billing#health'
   end
 
   # ----------------------------------------------------------------------

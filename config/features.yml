@@ -1,174 +1,211 @@
-# DO NOT change the order of features EVER
-############################################
 # name: the name to be used internally in the code
 # display_name: the name to be used in the UI
 # enabled: whether the feature is enabled by default
 # help_url: the url to the help center article
 # chatwoot_internal: whether the feature is internal to Chatwoot and should not be shown in the UI for other self hosted installations
 # deprecated: purpose of feature flag is done, no need to show it in the UI anymore
+# tier: which subscription tier this feature belongs to (community, starter, professional, enterprise)
+# ! DO NOT change the order of features EVER
 - name: inbound_emails
   display_name: Inbound Emails
   enabled: true
+  tier: starter
 - name: channel_email
   display_name: Email Channel
   enabled: true
   help_url: https://chwt.app/hc/email
+  tier: starter
 - name: channel_facebook
   display_name: Facebook Channel
   enabled: true
   help_url: https://chwt.app/hc/fb
+  tier: starter
 - name: channel_twitter
   display_name: Twitter Channel
   enabled: true
   deprecated: true
+  tier: starter
 - name: ip_lookup
   display_name: IP Lookup
   enabled: false
+  tier: enterprise
 - name: disable_branding
   display_name: Disable Branding
   enabled: false
-  premium: true
+  tier: enterprise
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
   enabled: false
+  tier: enterprise
 - name: help_center
   display_name: Help Center
   enabled: true
   help_url: https://chwt.app/hc/help-center
+  tier: starter
 - name: agent_bots
   display_name: Agent Bots
   enabled: true
   help_url: https://chwt.app/hc/agent-bots
+  tier: starter
 - name: macros
   display_name: Macros
   enabled: true
+  tier: starter
 - name: agent_management
   display_name: Agent Management
   enabled: true
+  tier: starter
 - name: team_management
   display_name: Team Management
   enabled: true
   help_url: https://chwt.app/hc/teams
+  tier: starter
 - name: inbox_management
   display_name: Inbox Management
   enabled: true
+  tier: starter
 - name: labels
   display_name: Labels
   enabled: true
   help_url: https://chwt.app/hc/labels
+  tier: starter
 - name: custom_attributes
   display_name: Custom Attributes
   enabled: true
   help_url: https://chwt.app/hc/custom-attributes
+  tier: starter
 - name: automations
   display_name: Automations
   enabled: true
+  tier: starter
 - name: canned_responses
   display_name: Canned Responses
   enabled: true
   help_url: https://chwt.app/hc/canned
+  tier: starter
 - name: integrations
   display_name: Integrations
   enabled: true
   help_url: https://chwt.app/hc/integrations
+  tier: starter
 - name: voice_recorder
   display_name: Voice Recorder
   enabled: true
+  tier: starter
 - name: mobile_v2
   display_name: Mobile App V2
   enabled: false
   deprecated: true
+  tier: starter
 - name: channel_website
   display_name: Website Channel
   enabled: true
+  tier: community
 - name: campaigns
   display_name: Campaigns
   enabled: true
   help_url: https://chwt.app/hc/campaigns
+  tier: starter
 - name: reports
   display_name: Reports
   enabled: true
   help_url: https://chwt.app/hc/reports
+  tier: starter
 - name: crm
   display_name: CRM
   enabled: true
+  tier: starter
 - name: auto_resolve_conversations
   display_name: Auto Resolve Conversations
   enabled: true
+  tier: starter
 - name: custom_reply_email
   display_name: Custom Reply Email
   enabled: false
+  tier: enterprise
 - name: custom_reply_domain
   display_name: Custom Reply Domain
   enabled: false
+  tier: enterprise
 - name: audit_logs
   display_name: Audit Logs
   enabled: false
-  premium: true
+  tier: professional
 - name: response_bot
   display_name: Response Bot
   enabled: false
-  premium: true
   deprecated: true
+  tier: starter
 - name: message_reply_to
   display_name: Message Reply To
   enabled: false
   help_url: https://chwt.app/hc/reply-to
   deprecated: true
+  tier: starter
 - name: insert_article_in_reply
   display_name: Insert Article in Reply
   enabled: false
   deprecated: true
+  tier: starter
 - name: inbox_view
   display_name: Inbox View
   enabled: false
   chatwoot_internal: true
+  tier: starter
 - name: sla
   display_name: SLA
   enabled: false
-  premium: true
   help_url: https://chwt.app/hc/sla
+  tier: professional
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
   enabled: false
-  premium: true
   chatwoot_internal: true
+  tier: starter
 - name: linear_integration
   display_name: Linear Integration
   enabled: false
+  tier: starter
 - name: captain_integration
   display_name: Captain
   enabled: false
-  premium: true
+  tier: professional
 - name: custom_roles
   display_name: Custom Roles
   enabled: false
-  premium: true
+  tier: professional
 - name: chatwoot_v4
   display_name: Chatwoot V4
   enabled: true
+  tier: starter
 - name: report_v4
   display_name: Report V4
   enabled: true
   deprecated: true
+  tier: starter
 - name: contact_chatwoot_support_team
   display_name: Contact Chatwoot Support Team
   enabled: true
   chatwoot_internal: true
+  tier: starter
 - name: shopify_integration
   display_name: Shopify Integration
   enabled: false
+  tier: enterprise
   chatwoot_internal: true
 - name: search_with_gin
   display_name: Search messages with GIN
   enabled: false
+  tier: enterprise
   chatwoot_internal: true
 - name: channel_instagram
   display_name: Instagram Channel
   enabled: true
+  tier: starter
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+  tier: enterprise
 - name: channel_voice
   display_name: Voice Channel
   enabled: false
@@ -176,6 +213,7 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+<<<<<<< HEAD
 - name: captain_integration_v2
   display_name: Captain V2
   enabled: false
@@ -208,3 +246,13 @@
   display_name: SAML
   enabled: false
   premium: true
+# ! DO NOT change the order of features EVER
+# ! This are the features that are not available in the Chatwoot original codebase, make sure to add them at the end of the file
+- name: contacts
+  display_name: Contacts
+  enabled: true
+  tier: community
+- name: prompts
+  display_name: Prompts
+  enabled: true
+  tier: starter

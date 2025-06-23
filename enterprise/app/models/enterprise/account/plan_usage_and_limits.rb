@@ -118,6 +118,7 @@ module Enterprise::Account::PlanUsageAndLimits
       'properties' => {
         'inboxes' => { 'type': 'number' },
         'agents' => { 'type': 'number' },
+        'conversations' => { 'type': 'number' },
         'captain_responses' => { 'type': 'number' },
         'captain_documents' => { 'type': 'number' }
       },

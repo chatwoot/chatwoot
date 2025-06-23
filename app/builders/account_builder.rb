@@ -2,6 +2,7 @@
 
 class AccountBuilder
   include CustomExceptions::Account
+  include BillingPlans
   pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
 
   def perform
@@ -44,8 +45,11 @@ class AccountBuilder
   end
 
   def create_account
-    @account = Account.create!(name: account_name, locale: I18n.locale)
+    @account = Account.new(name: account_name, locale: I18n.locale)
+    set_initial_trial_plan
+    @account.save!
     Current.account = @account
+    @account
   end
 
   def create_and_link_user
@@ -73,5 +77,22 @@ class AccountBuilder
     @user.type = 'SuperAdmin' if @super_admin
     @user.confirm if @confirmed
     @user.save!
+  end
+
+  def set_initial_trial_plan
+    trial_plan_name = 'free_trial'
+    plan_details = self.class.plan_details(trial_plan_name)
+    return unless plan_details
+
+    expires_in_days = plan_details.dig('trial_expires_in_days') || 7
+    ends_on = Time.current + expires_in_days.days
+
+    @account.custom_attributes ||= {}
+    @account.custom_attributes.merge!({
+                                        'plan_name' => trial_plan_name,
+                                        'subscribed_quantity' => 1,
+                                        'subscription_status' => 'active',
+                                        'subscription_ends_on' => ends_on.iso8601
+                                      })
   end
 end

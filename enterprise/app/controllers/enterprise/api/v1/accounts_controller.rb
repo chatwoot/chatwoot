@@ -5,8 +5,8 @@ class Enterprise::Api::V1::AccountsController < Api::BaseController
   before_action :check_cloud_env, only: [:limits, :toggle_deletion]
 
   def subscription
-    if stripe_customer_id.blank? && @account.custom_attributes['is_creating_customer'].blank?
-      @account.update(custom_attributes: { is_creating_customer: true })
+    if stripe_customer_id.blank? && @account.custom_attributes['is_creating_billing_customer'].blank?
+      @account.update(custom_attributes: { is_creating_billing_customer: true })
       Enterprise::CreateStripeCustomerJob.perform_later(@account)
     end
     head :no_content

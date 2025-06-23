@@ -359,7 +359,9 @@
       "TITLE": "Plan actual",
       "PLAN_NOTE": "Actualmente está suscrito al plan **{plan}** con **{quantity}** licencias",
       "SEAT_COUNT": "Número de asientos",
-      "RENEWS_ON": "Renueva el"
+      "RENEWS_ON": "Renueva el",
+      "ENDS_ON": "Termina el",
+      "STATUS": "Estado"
     },
     "VIEW_PRICING": "Ver precios",
     "MANAGE_SUBSCRIPTION": {
@@ -380,7 +382,26 @@
       "DESCRIPTION": "¿Tienes a algún problema en la facturación? Estamos aquí para ayudarte.",
       "BUTTON_TXT": "Chatea con nosotros"
     },
-    "NO_BILLING_USER": "Tu cuenta de facturación está siendo configurada. Por favor, actualiza la página e inténtalo de nuevo."
+    "NO_BILLING_USER": "Tu cuenta de facturación está siendo configurada. Por favor, actualiza la página e inténtalo de nuevo.",
+    "PLANS": {
+      "community": "Comunidad",
+      "free_trial": "Versión gratuita",
+      "starter": "Inicial",
+      "professional": "Profesional",
+      "enterprise": "Empresarial"
+    },
+    "SUBSCRIPTION_STATUS": {
+      "active": "Activo",
+      "cancelled": "Cancelado",
+      "canceled": "Cancelado",
+      "inactive": "Inactivo",
+      "past_due": "Vencido",
+      "unpaid": "Sin Pagar",
+      "incomplete": "Incompleto",
+      "incomplete_expired": "Incompleto Expirado",
+      "trialing": "En Prueba",
+      "paused": "Pausado"
+    }
   },
   "CREATE_ACCOUNT": {
     "NO_ACCOUNT_WARNING": "¡Oh oh! No hemos podido encontrar ninguna cuenta de \"Chatwoot\". Por favor, crea una nueva cuenta para continuar.",

@@ -11,6 +11,7 @@ import { useAccount } from 'dashboard/composables/useAccount';
 import { useWindowSize } from '@vueuse/core';
 
 import wootConstants from 'dashboard/constants/globals';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
@@ -58,6 +59,9 @@ export default {
     isSmallScreen() {
       return this.windowWidth < wootConstants.SMALL_SCREEN_BREAKPOINT;
     },
+    currentRoute() {
+      return ' ';
+    },
     showUpgradePage() {
       return this.upgradePageRef?.shouldShowUpgradePage;
     },
@@ -75,6 +79,17 @@ export default {
       } = this.uiSettings;
       return conversationDisplayType;
     },
+    previouslyUsedSidebarView() {
+      const { previously_used_sidebar_view: showSecondarySidebar } =
+        this.uiSettings;
+      return showSecondarySidebar;
+    },
+    showNextSidebar() {
+      // Force NextSidebar to be used consistently to fix the sidebar switching issue
+      // The CHATWOOT_V4 feature flag was unstable and causing the sidebar to switch
+      // between NextSidebar and regular Sidebar during navigation
+      return true;
+    },
   },
   watch: {
     isSmallScreen: {
@@ -84,6 +99,63 @@ export default {
           this.updateUISettings({
             conversation_display_type: LAYOUT_TYPES.EXPANDED,
           });
+        }
+      },
+    },
+    displayLayoutType() {
+      const { LAYOUT_TYPES } = wootConstants;
+
+      // Check if we're on a settings page
+      const isSettingsPage = this.$route.path.includes('/settings/');
+
+      // Determine if secondary sidebar should be shown
+      const showSecondarySidebar =
+        this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+          ? isSettingsPage // Always show sidebar on settings pages, even in expanded layout
+          : this.previouslyUsedSidebarView;
+
+      this.updateUISettings({
+        conversation_display_type:
+          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+            ? LAYOUT_TYPES.EXPANDED
+            : this.previouslyUsedDisplayType,
+        show_secondary_sidebar: showSecondarySidebar,
+      });
+    },
+  },
+  mounted() {
+    this.handleResize();
+    this.$nextTick(this.checkBanner);
+    window.addEventListener('resize', this.handleResize);
+    window.addEventListener('resize', this.checkBanner);
+    emitter.on(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+  },
+  unmounted() {
+    window.removeEventListener('resize', this.handleResize);
+    window.removeEventListener('resize', this.checkBanner);
+    emitter.off(BUS_EVENTS.TOGGLE_SIDEMENU, this.toggleSidebar);
+  },
+
+  methods: {
+    checkBanner() {
+      this.hasBanner =
+        document.getElementsByClassName('woot-banner').length > 0;
+    },
+    handleResize() {
+      const { SMALL_SCREEN_BREAKPOINT, LAYOUT_TYPES } = wootConstants;
+      let throttled = false;
+      const delay = 150;
+
+      if (throttled) {
+        return;
+      }
+      throttled = true;
+
+      setTimeout(() => {
+        throttled = false;
+        if (window.innerWidth <= SMALL_SCREEN_BREAKPOINT) {
+          this.displayLayoutType = LAYOUT_TYPES.EXPANDED;
+>>>>>>> a507e9cab4 (CU-86a9kaw5h Implement Stripe subcriptions)
         } else {
           this.updateUISettings({
             conversation_display_type: this.previouslyUsedDisplayType,

@@ -84,13 +84,6 @@ const handleSave = value => {
   }
 };
 
-const promptKey = computed({
-  get: () => localPrompt.value.prompt_key || '',
-  set: value => {
-    handleSave({ prompt_key: value });
-  },
-});
-
 const promptText = computed({
   get: () => localPrompt.value.text || '',
   set: text => {
