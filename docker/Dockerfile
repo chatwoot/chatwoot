@@ -34,6 +34,8 @@ RUN apk update && apk add --no-cache \
   git \
   curl \
   xz \
+  poppler-utils \
+  tesseract-ocr \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -128,6 +130,8 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  poppler-utils \
+  tesseract-ocr \
   && gem install bundler
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/

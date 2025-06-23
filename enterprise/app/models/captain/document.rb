@@ -4,6 +4,7 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
+#  document_type :integer          default("url"), not null
 #  external_link :string           not null
 #  name          :string
 #  status        :integer          default("in_progress"), not null
@@ -17,6 +18,7 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
+#  index_captain_documents_on_document_type                   (document_type)
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
@@ -53,6 +55,14 @@ class Captain::Document < ApplicationRecord
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
 
+  def url_document?
+    document_type == 'url'
+  end
+
+  def pdf_document?
+    document_type == 'pdf'
+  end
+
   private
 
   def enqueue_crawl_job
@@ -63,14 +73,6 @@ class Captain::Document < ApplicationRecord
     else
       Captain::Documents::CrawlJob.perform_later(self)
     end
-  end
-
-  def url_document?
-    document_type == 'url'
-  end
-
-  def pdf_document?
-    document_type == 'pdf'
   end
 
   def detect_document_type
