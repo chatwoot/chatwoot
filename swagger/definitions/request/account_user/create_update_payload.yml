@@ -1,0 +1,13 @@
+type: object
+required:
+  - user_id
+  - role
+properties:
+  user_id:
+    type: integer
+    description: The ID of the user
+    example: 1
+  role:
+    type: string
+    description: whether user is an administrator or agent
+    example: administrator

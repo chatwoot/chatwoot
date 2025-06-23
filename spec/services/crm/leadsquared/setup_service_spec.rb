@@ -8,6 +8,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
   let(:activity_client) { instance_double(Crm::Leadsquared::Api::ActivityClient) }
   let(:endpoint_response) do
     {
+      'TimeZone' => 'Asia/Kolkata',
       'LSQCommonServiceURLs' => {
         'api' => 'api-in.leadsquared.com',
         'app' => 'app.leadsquared.com'
@@ -45,6 +46,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
           updated_settings = hook.reload.settings
           expect(updated_settings['endpoint_url']).to eq('https://api-in.leadsquared.com/v2/')
           expect(updated_settings['app_url']).to eq('https://app.leadsquared.com/')
+          expect(updated_settings['timezone']).to eq('Asia/Kolkata')
           expect(updated_settings['conversation_activity_code']).to eq(1001)
           expect(updated_settings['transcript_activity_code']).to eq(1002)
         end
@@ -71,6 +73,7 @@ RSpec.describe Crm::Leadsquared::SetupService do
           updated_settings = hook.reload.settings
           expect(updated_settings['endpoint_url']).to eq('https://api-in.leadsquared.com/v2/')
           expect(updated_settings['app_url']).to eq('https://app.leadsquared.com/')
+          expect(updated_settings['timezone']).to eq('Asia/Kolkata')
           expect(updated_settings['conversation_activity_code']).to eq(1001)
           expect(updated_settings['transcript_activity_code']).to eq(1002)
         end

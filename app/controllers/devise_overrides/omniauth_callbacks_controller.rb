@@ -21,7 +21,7 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
 
   def sign_up_user
     return redirect_to login_page_url(error: 'no-account-found') unless account_signup_allowed?
-    return redirect_to login_page_url(error: 'business-account-only') unless validate_business_account?
+    return redirect_to login_page_url(error: 'business-account-only') unless validate_signup_email_is_business_domain?
 
     create_account_for_user
     token = @resource.send(:set_reset_password_token)
@@ -53,9 +53,11 @@ class DeviseOverrides::OmniauthCallbacksController < DeviseTokenAuth::OmniauthCa
     ).first
   end
 
-  def validate_business_account?
-    # return true if the user is a business account, false if it is a gmail account
-    auth_hash['info']['email'].downcase.exclude?('@gmail.com')
+  def validate_signup_email_is_business_domain?
+    # return true if the user is a business account, false if it is a blocked domain account
+    Account::SignUpEmailValidationService.new(auth_hash['info']['email']).perform
+  rescue CustomExceptions::Account::InvalidEmail
+    false
   end
 
   def create_account_for_user

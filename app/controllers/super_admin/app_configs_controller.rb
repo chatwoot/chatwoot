@@ -32,22 +32,17 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
   end
 
   def allowed_configs
-    @allowed_configs = case @config
-                       when 'facebook'
-                         %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT]
-                       when 'shopify'
-                         %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET]
-                       when 'microsoft'
-                         %w[AZURE_APP_ID AZURE_APP_SECRET]
-                       when 'email'
-                         ['MAILER_INBOUND_EMAIL_DOMAIN']
-                       when 'linear'
-                         %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET]
-                       when 'instagram'
-                         %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT]
-                       else
-                         %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS]
-                       end
+    mapping = {
+      'facebook' => %w[FB_APP_ID FB_VERIFY_TOKEN FB_APP_SECRET IG_VERIFY_TOKEN FACEBOOK_API_VERSION ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT],
+      'shopify' => %w[SHOPIFY_CLIENT_ID SHOPIFY_CLIENT_SECRET],
+      'microsoft' => %w[AZURE_APP_ID AZURE_APP_SECRET],
+      'email' => ['MAILER_INBOUND_EMAIL_DOMAIN'],
+      'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
+      'slack' => %w[SLACK_CLIENT_ID SLACK_CLIENT_SECRET],
+      'instagram' => %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT]
+    }
+
+    @allowed_configs = mapping.fetch(@config, %w[ENABLE_ACCOUNT_SIGNUP FIREBASE_PROJECT_ID FIREBASE_CREDENTIALS])
   end
 end
 

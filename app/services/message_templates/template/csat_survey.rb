@@ -12,7 +12,6 @@ class MessageTemplates::Template::CsatSurvey
   private
 
   delegate :contact, :account, :inbox, to: :conversation
-  delegate :csat_config, to: :inbox
 
   def should_send_csat_survey?
     return true unless survey_rules_configured?

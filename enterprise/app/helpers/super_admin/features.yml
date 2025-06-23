@@ -48,6 +48,12 @@ messenger:
   enabled: true
   icon: 'icon-messenger-line'
   config_key: 'facebook'
+instagram:
+  name: 'Instagram'
+  description: 'Stay connected with your customers on Instagram'
+  enabled: true
+  icon: 'icon-instagram'
+  config_key: 'instagram'
 whatsapp:
   name: 'WhatsApp'
   description: 'Manage your WhatsApp business interactions from Chatwoot.'
@@ -81,19 +87,19 @@ microsoft:
   config_key: 'microsoft'
 linear:
   name: 'Linear'
-  description: 'Configuration for setting up Linear'
+  description: 'Configuration for setting up Linear Integration'
   enabled: true
   icon: 'icon-linear'
   config_key: 'linear'
-instagram:
-  name: 'Instagram'
-  description: 'Configuration for setting up Instagram'
+slack:
+  name: 'Slack'
+  description: 'Configuration for setting up Slack Integration'
   enabled: true
-  icon: 'icon-instagram'
-  config_key: 'instagram'
+  icon: 'icon-slack'
+  config_key: 'slack'
 shopify:
   name: 'Shopify'
-  description: 'Configuration for setting up Shopify'
+  description: 'Configuration for setting up Shopify Integration'
   enabled: true
   icon: 'icon-shopify'
   config_key: 'shopify'

@@ -10,6 +10,8 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
+import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
 export default {
   components: {
@@ -17,6 +19,8 @@ export default {
     ConversationBox,
     PopOverSearch,
     CmdBarConversationSnooze,
+    SidepanelSwitch,
+    ConversationSidebar,
   },
   beforeRouteLeave(to, from, next) {
     // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
@@ -87,13 +91,14 @@ export default {
         this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
-    isContactPanelOpen() {
-      if (this.currentChat.id) {
-        const { is_contact_sidebar_open: isContactSidebarOpen } =
-          this.uiSettings;
-        return isContactSidebarOpen;
+
+    shouldShowSidebar() {
+      if (!this.currentChat.id) {
+        return false;
       }
-      return false;
+
+      const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
+      return isContactSidebarOpen;
     },
     showPopOverSearch() {
       return !this.isFeatureEnabledonAccount(
@@ -189,11 +194,6 @@ export default {
         this.$store.dispatch('clearSelectedState');
       }
     },
-    onToggleContactPanel() {
-      this.updateUISettings({
-        is_contact_sidebar_open: !this.isContactPanelOpen,
-      });
-    },
     onSearch() {
       this.showSearchModal = true;
     },
@@ -205,7 +205,7 @@ export default {
 </script>
 
 <template>
-  <section class="flex w-full h-full">
+  <section class="flex w-full h-full min-w-0">
     <ChatList
       :show-conversation-list="showConversationList"
       :conversation-inbox="inboxId"
@@ -225,10 +225,11 @@ export default {
     <ConversationBox
       v-if="showMessageView"
       :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
+    >
+      <SidepanelSwitch v-if="currentChat.id" />
+    </ConversationBox>
+    <ConversationSidebar v-if="shouldShowSidebar" :current-chat="currentChat" />
     <CmdBarConversationSnooze />
   </section>
 </template>

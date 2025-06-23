@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "פתרון",
       "REOPEN_ACTION": "פתח מחדש",
       "OPEN_ACTION": "פתח",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "עוד",
       "CLOSE": "סגור",
       "DETAILS": "פרטים",
@@ -117,6 +118,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "מחק"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "סמן כממתין",
       "RESOLVED": "סמן כפתור",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "ההקצה תווית",
       "AGENTS_LOADING": "טוען סוכנים...",
       "ASSIGN_TEAM": "שייך צוות",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "מזהה שיחה {conversationId} קושר ל {agentName}",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "סמן משימה כבוצעה בהצלחה",
     "ASSIGN_LABEL_FAILED": "סמן משימה כנכשלה",
     "CHANGE_TEAM": "שיחת קבוצה השתנתה",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "הקובץ גדול מ{MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}MB מגבלת העלאה",
     "MESSAGE_ERROR": "לא ניתן לשלוח הודעה, אנא נסה שוב מאוחר יותר",
     "SENT_BY": "נשלח על ידי:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "תכונות יצירת קשר",
       "PREVIOUS_CONVERSATION": "שיחות קודמות",
       "MACROS": "מאקרו",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

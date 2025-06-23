@@ -4,19 +4,32 @@ get:
   operationId: getInboxAgentBot
   summary: Show Inbox Agent Bot
   description: See if an agent bot is associated to the Inbox
+  security:
+    - userApiKey: []
   parameters:
-    - $ref: '#/parameters/account_id'
+    - $ref: '#/components/parameters/account_id'
     - name: id
       in: path
-      type: number
+      schema:
+        type: number
       description: ID of the inbox
       required: true
   responses:
-    204:
+    '204':
       description: Success
-      schema:
-        $ref: '#/definitions/agent_bot'
-    404:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/agent_bot'
+    '404':
       description: Inbox not found, Agent bot not found
-    403:
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'
+    '403':
       description: Access denied
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/bad_request_error'

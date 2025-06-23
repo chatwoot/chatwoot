@@ -91,6 +91,8 @@ zh_CN:
       conversations_count: 对话数量
       avg_first_response_time: 平均首次响应时间
       avg_resolution_time: 平均解决时间
+      avg_reply_time: Avg reply time
+      resolution_count: 已解决的数量
     team_csv:
       team_name: 团队名称
       conversations_count: 对话数量
@@ -133,17 +135,19 @@ zh_CN:
     no_content: '无内容'
   conversations:
     captain:
-      handoff: 'Transferring to another agent for further assistance.'
+      handoff: '正在转接另一个客服以获得进一步协助。'
     messages:
       instagram_story_content: '%{story_sender} 会话中提到了你: '
       instagram_deleted_story_content: 本信息不存在
       deleted: 此消息已被删除
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: '错误代码: %{error_code}'
     activity:
       captain:
-        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
-        open: 'Conversation was marked open by %{user_name}'
+        resolved: '对话被系统标记为已解决, 原因是 %{user_name} 不活跃'
+        open: '对话被 %{user_name} 打开'
       status:
         resolved: '对话被标记由 %{user_name} 解决'
         contact_resolved: '对话被 %{contact_name} 重新打开'
@@ -151,8 +155,8 @@ zh_CN:
         pending: '对话被标记由 %{user_name} 待处理'
         snoozed: '对话被 %{user_name} 暂停'
         auto_resolved_days: '对话被系统标记为已解决, 原因是 %{count} 天不活跃'
-        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
-        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        auto_resolved_hours: '对话被系统标记为已解决, 原因是 %{count} 小时不活跃'
+        auto_resolved_minutes: '对话被系统标记为已解决, 原因是 %{count} 分钟不活跃'
         system_auto_open: 由于收到新的消息，系统重新打开了对话。
       priority:
         added: '%{user_name} 将优先级设置为 %{new_priority}'
@@ -172,6 +176,12 @@ zh_CN:
       sla:
         added: '%{user_name} 添加了 SLA 策略 %{sla_name}'
         removed: '%{user_name} 移除了 SLA 策略 %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} 已将会话静音'
       unmuted: '%{user_name} 已将会话取消静音'
       auto_resolution_message: '由于对话长时间未活跃，已将其标记为已解决。如果您需要进一步帮助，请开始新的对话。'
@@ -199,41 +209,54 @@ zh_CN:
     online:
       delete: '%{contact_name} 在线, 请重试'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: '仪表板应用'
       description: '仪表板应用允许您创建和嵌入显示用户信息、订单或支付历史的应用程序，为您的客户支持代理提供更多上下文。'
     dyte:
       name: 'Dyte'
+      short_description: '直接从 Chatwoot 开始与客户的视频/语音通话。'
       description: 'Dyte 是一个将音频和视频功能集成到您的应用程序中的产品。通过此集成，您的代理可以直接从 Chatwoot 开始与客户的视频/语音通话。'
       meeting_name: '%{agent_name} 已开始会议'
     slack:
       name: 'Slack'
+      short_description: '在 Slack 直接接收通知和回复对话。'
       description: "将 Chatwoot 与 Slack 集成，以保持团队的同步。此集成允许您接收新对话的通知并直接在 Slack 界面中响应它们。"
     webhooks:
       name: 'Webhooks'
       description: 'Webhook 事件提供有关 Chatwoot 帐户中活动的实时更新。您可以订阅您喜欢的事件，Chatwoot 将向您发送带有更新的 HTTP 回调。'
     dialogflow:
       name: 'Dialogflow'
+      short_description: '构建聊天机器人来处理初步咨询，然后再转接给客服。'
       description: '使用 Dialogflow 构建聊天机器人，并轻松将其集成到您的收件箱中。这些机器人可以在将查询转移给客户服务代理之前处理初始查询。'
     google_translate:
       name: 'Google 翻译'
+      short_description: '自动为客服翻译客户的消息。'
       description: "集成 Google 翻译以帮助代理轻松翻译客户消息。此集成会自动检测语言并将其转换为代理或管理员的首选语言。"
     openai:
       name: 'OpenAI'
+      short_description: 'AI 驱动的答复建议、摘要和消息增强。'
       description: '利用 OpenAI 的大型语言模型功能，例如回复建议、摘要、消息改写、拼写检查和标签分类。'
     linear:
       name: 'Linear'
+      short_description: '直接在会话中创建并关联 Linear 问题。'
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
     shopify:
       name: 'Shopify'
+      short_description: '从您的 Shopify 商店访问订单详情和客户数据。'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
     leadsquared:
       name: 'LeadSquared'
-      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
-      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+      short_description: '与 LeadSquared CRM 同步您的联系人和对话。'
+      description: '与 LeadSquared CRM 同步您的联系人和对话。 当添加新联系人时，这种集成会自动在潜在客户创建线索，并记录对话活动，为您的销售团队提供完整的上下文。'
   captain:
     copilot_error: '请为该收件箱连接一个助手以使用 Copilot'
     copilot_limit: '您的 Copilot 积分已用完。您可以从计费部分购买更多积分。'
+    copilot:
+      using_tool: '使用工具 %{function_name}'
+      completed_tool_call: '%{function_name} 工具调用完成'
+      invalid_tool_call: '无效的工具调用'
+      tool_not_available: '工具不可用'
   public_portal:
     search:
       search_placeholder: 搜索文章的标题或正文...
@@ -259,6 +282,7 @@ zh_CN:
       made_with: 制作于
     header:
       go_to_homepage: 网站
+      visit_website: Visit website
       appearance:
         system: 系统
         light: 浅色
@@ -288,24 +312,24 @@ zh_CN:
     seconds:
       other: '%{count} 秒'
   automation:
-    system_name: 'Automation System'
+    system_name: '自动化系统'
   crm:
-    no_message: 'No messages in conversation'
-    attachment: '[Attachment: %{type}]'
+    no_message: '对话中没有消息'
+    attachment: '[附件：%{type}]'
     no_content: '[无内容]'
     created_activity: |
-      New conversation started on %{brand_name}
+      %{brand_name} 的新对话
 
-      Channel: %{channel_info}
-      Created: %{formatted_creation_time}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      通道：%{channel_info}
+      创建于：%{formatted_creation_time}
+      对话 ID：%{display_id}
+      在 %{brand_name} 中查看：%{url}
     transcript_activity: |
-      Conversation Transcript from %{brand_name}
+      来自 %{brand_name} 的对话副本
 
-      Channel: %{channel_info}
-      Conversation ID: %{display_id}
-      View in %{brand_name}: %{url}
+      通道：%{channel_info}
+      对话 ID：%{display_id}
+      在 %{brand_name} 中查看：%{url}
 
-      Transcript:
+      副本：
       %{format_messages}

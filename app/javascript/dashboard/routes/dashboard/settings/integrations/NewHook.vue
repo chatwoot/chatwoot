@@ -117,7 +117,7 @@ export default {
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header
       :header-title="integration.name"
-      :header-content="integration.short_description || integration.description"
+      :header-content="integration.short_description"
     />
     <FormKit
       v-model="values"

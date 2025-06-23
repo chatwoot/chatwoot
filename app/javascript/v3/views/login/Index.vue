@@ -6,7 +6,8 @@ import { parseBoolean } from '@chatwoot/utils';
 import { useAlert } from 'dashboard/composables';
 import { required, email } from '@vuelidate/validators';
 import { useVuelidate } from '@vuelidate/core';
-
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import SessionStorage from 'shared/helpers/sessionStorage';
 // mixins
 import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 
@@ -20,6 +21,8 @@ const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
+
+const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 
 export default {
   components: {
@@ -112,6 +115,14 @@ export default {
       this.loginApi.message = message;
       useAlert(this.loginApi.message);
     },
+    handleImpersonation() {
+      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
+      const urlParams = new URLSearchParams(window.location.search);
+      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+      if (impersonation) {
+        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+      }
+    },
     submitLogin() {
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
@@ -128,6 +139,7 @@ export default {
 
       login(credentials)
         .then(() => {
+          this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {

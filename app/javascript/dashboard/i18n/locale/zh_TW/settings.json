@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "訪問 token",
         "NOTE": "如果要構建基於 API 的整合，則可以使用此 token",
-        "COPY": "複製"
+        "COPY": "複製",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "音效通知",
@@ -185,7 +190,8 @@
           "OFFLINE": "離線"
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "您的電子信箱地址",
@@ -280,6 +286,7 @@
     "REPORTS": "報表",
     "SETTINGS": "設定",
     "CONTACTS": "聯絡人",
+    "ACTIVE": "Active",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

@@ -235,6 +235,14 @@
   description: Used to notify Chatwoot about account abuses, potential threads (Should be a Discord Webhook URL)
 # ------- End of Chatwoot Internal Config for Self Hosted ----#
 
+# ------- Compliance Related Config ----#
+- name: CHATWOOT_INSTANCE_ADMIN_EMAIL
+  display_title: 'Instance Admin Email'
+  value:
+  description: 'The email of the instance administrator to receive compliance-related notifications'
+  locked: false
+# ------- End of Compliance Related Config ----#
+
 ## ------ Configs added for enterprise clients ------ ##
 - name: API_CHANNEL_NAME
   value:
@@ -279,6 +287,20 @@
   description: 'Linear client secret'
   type: secret
 ## ------ End of Configs added for Linear ------ ##
+
+## ------ Configs added for Slack ------ ##
+- name: SLACK_CLIENT_ID
+  display_title: 'Slack Client ID'
+  value:
+  locked: false
+  description: 'Slack client ID'
+- name: SLACK_CLIENT_SECRET
+  display_title: 'Slack Client Secret'
+  value:
+  locked: false
+  description: 'Slack client secret'
+  type: secret
+## ------ End of Configs added for Slack ------ ##
 
 # ------- Shopify Integration Config ------- #
 - name: SHOPIFY_CLIENT_ID

@@ -285,6 +285,7 @@
     "HEADER": {
       "TITLE": "കോൺ‌ടാക്റ്റുകൾ",
       "SEARCH_TITLE": "Search contacts",
+      "ACTIVE_TITLE": "Active contacts",
       "SEARCH_PLACEHOLDER": "Search...",
       "MESSAGE_BUTTON": "സന്ദേശം",
       "SEND_MESSAGE": "സന്ദേശം അയയ്ക്കുക",
@@ -457,6 +458,10 @@
             "PLACEHOLDER": "Add Twitter"
           }
         }
+      },
+      "DELETE_CONTACT": {
+        "MESSAGE": "This action is permanent and irreversible.",
+        "BUTTON": "Delete now"
       }
     },
     "DETAILS": {
@@ -466,7 +471,7 @@
       "DELETE_CONTACT": "കോൺടാക്റ്റ് ഇല്ലാതാക്കുക",
       "DELETE_DIALOG": {
         "TITLE": "ഇല്ലാതാക്കൽ സ്ഥിരീകരിക്കുക",
-        "DESCRIPTION": "Are you sure you want to delete this {contactName} contact?",
+        "DESCRIPTION": "Are you sure you want to delete this contact?",
         "CONFIRM": "അതെ, ഇല്ലാതാക്കുക",
         "API": {
           "SUCCESS_MESSAGE": "കോൺടാക്റ്റ് വിജയകരമായി ഇല്ലാതാക്കിയിരിക്കുന്നു",
@@ -555,7 +560,8 @@
       "SUBTITLE": "Start adding new contacts by clicking on the button below",
       "BUTTON_LABEL": "Add contact",
       "SEARCH_EMPTY_STATE_TITLE": "കോൺ‌ടാക്റ്റുകളൊന്നും നിങ്ങളുടെ തിരയലുമായി പൊരുത്തപ്പെടുന്നില്ല",
-      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋"
+      "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
+      "ACTIVE_EMPTY_STATE_TITLE": "No contacts are active at the moment 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {

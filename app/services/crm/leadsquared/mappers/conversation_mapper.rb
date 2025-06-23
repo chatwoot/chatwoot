@@ -6,17 +6,18 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   # so this limits it
   ACTIVITY_NOTE_MAX_SIZE = 1800
 
-  def self.map_conversation_activity(conversation)
-    new(conversation).conversation_activity
+  def self.map_conversation_activity(hook, conversation)
+    new(hook, conversation).conversation_activity
   end
 
-  def self.map_transcript_activity(conversation, messages = nil)
-    new(conversation, messages).transcript_activity
+  def self.map_transcript_activity(hook, conversation)
+    new(hook, conversation).transcript_activity
   end
 
-  def initialize(conversation, messages = nil)
+  def initialize(hook, conversation)
+    @hook = hook
+    @timezone = Time.find_zone(hook.settings['timezone']) || Time.zone
     @conversation = conversation
-    @messages = messages
   end
 
   def conversation_activity
@@ -41,14 +42,14 @@ class Crm::Leadsquared::Mappers::ConversationMapper
 
   private
 
-  attr_reader :conversation, :messages
+  attr_reader :conversation
 
   def formatted_creation_time
-    conversation.created_at.strftime('%Y-%m-%d %H:%M:%S')
+    conversation.created_at.in_time_zone(@timezone).strftime('%Y-%m-%d %H:%M:%S')
   end
 
   def transcript_messages
-    @transcript_messages ||= messages || conversation.messages.chat.select(&:conversation_transcriptable?)
+    @transcript_messages ||= conversation.messages.chat.select(&:conversation_transcriptable?)
   end
 
   def format_messages
@@ -77,8 +78,7 @@ class Crm::Leadsquared::Mappers::ConversationMapper
   end
 
   def message_time(message)
-    # TODO: Figure out what timezone to send the time in
-    message.created_at.strftime('%Y-%m-%d %H:%M')
+    message.created_at.in_time_zone(@timezone).strftime('%Y-%m-%d %H:%M')
   end
 
   def sender_name(message)

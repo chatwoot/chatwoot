@@ -189,19 +189,22 @@ describe Messages::Instagram::Messenger::MessageBuilder do
           profile_pic: 'https://chatwoot-assets.local/sample.png'
         }.with_indifferent_access
       )
+
+      conversation
+
+      # create a message with unsupported file type
       story_mention_params[:entry][0][:messaging][0]['message']['attachments'][0]['type'] = 'unsupported_type'
       messaging = story_mention_params[:entry][0][:messaging][0]
-      contact_inbox
+
       described_class.new(messaging, instagram_messenger_inbox, outgoing_echo: false).perform
 
       instagram_messenger_inbox.reload
 
-      # we would have contact created but message and attachments won't be created
+      # Conversation should exist but no new message should be created
       expect(instagram_messenger_inbox.conversations.count).to be 1
       expect(instagram_messenger_inbox.messages.count).to be 0
 
       contact = instagram_messenger_channel.inbox.contacts.first
-
       expect(contact.name).to eq('Jane Dae')
     end
   end

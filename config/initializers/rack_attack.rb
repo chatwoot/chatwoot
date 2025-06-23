@@ -11,7 +11,12 @@ class Rack::Attack
   # Rack::Attack.cache.store = ActiveSupport::Cache::MemoryStore.new
 
   # https://github.com/rack/rack-attack/issues/102
-  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma)
+  # Rails 7.1 automatically adds its own ConnectionPool around RedisCacheStore.
+  # Because `$velma` is *already* a ConnectionPool, double-wrapping causes
+  # Redis calls like `get` to hit the outer wrapper and explode.
+  # `pool: false` tells Rails to skip its internal pool and use ours directly.
+  # TODO: We can use build in connection pool in future upgrade
+  Rack::Attack.cache.store = ActiveSupport::Cache::RedisCacheStore.new(redis: $velma, pool: false)
 
   class Request < ::Rack::Request
     # You many need to specify a method to fetch the correct remote IP address

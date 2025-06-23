@@ -8,35 +8,33 @@ security:
 parameters:
   - in: path
     name: id
-    type: integer
+    schema:
+      type: integer
     required: true
     description: The ID of the agent to be updated.
-  - name: data
-    in: body
-    required: true
-    schema:
-      type: object
-      required:
-        - role
-      properties:
-        role:
-          type: string
-          enum: ['agent', 'administrator']
-          description: Whether its administrator or agent
-        availability:
-          type: string
-          enum: ['available', 'busy', 'offline']
-          description: The availability setting of the agent.
-        auto_offline:
-          type: boolean
-          description: Whether the availability status of agent is configured to go offline automatically when away.
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/agent_update_payload'
 responses:
   200:
     description: Success
-    schema:
-        description: 'The updated agent'
-        $ref: '#/definitions/agent'
+    content:
+      application/json:
+        schema:
+          description: 'The updated agent'
+          $ref: '#/components/schemas/agent'
   404:
     description: Agent not found
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'
   403:
     description: Access denied
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useImpersonation } from 'dashboard/composables/useImpersonation';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
@@ -19,6 +20,10 @@ export default {
     WootDropdownItem,
     AvailabilityStatusBadge,
     NextButton,
+  },
+  setup() {
+    const { isImpersonating } = useImpersonation();
+    return { isImpersonating };
   },
   data() {
     return {
@@ -73,6 +78,13 @@ export default {
       });
     },
     changeAvailabilityStatus(availability) {
+      if (this.isImpersonating) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR')
+        );
+        return;
+      }
+
       if (this.isUpdating) {
         return;
       }
