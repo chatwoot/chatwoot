@@ -258,7 +258,7 @@ en:
     notion:
       name: 'Notion'
       short_description: 'Integrate databases, documents and pages directly with Captain.'
-      description: 'Connect your Notion workspace to allow captain to generate responses from your databases, documents and pages.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
