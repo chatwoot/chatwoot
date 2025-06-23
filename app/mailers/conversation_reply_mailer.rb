@@ -161,10 +161,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def conversation_reply_email_id
-    # If current message has explicit In-Reply-To context, use that
-    return current_message.content_attributes['in_reply_to_external_id'] if current_message&.content_attributes&.dig('in_reply_to_external_id')
-
-    # Fall back to last incoming message for legacy compatibility
+    # Find the last incoming message's message_id to reply to
     content_attributes = @conversation.messages.incoming.last&.content_attributes
 
     if content_attributes && content_attributes['email'] && content_attributes['email']['message_id']
@@ -175,7 +172,7 @@ class ConversationReplyMailer < ApplicationMailer
   end
 
   def references_header
-    build_references_header(@conversation, in_reply_to_email, current_message)
+    build_references_header(@conversation, in_reply_to_email)
   end
 
   def cc_bcc_emails

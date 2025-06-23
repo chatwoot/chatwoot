@@ -193,10 +193,7 @@ RSpec.describe ConversationReplyMailer do
                    conversation: conversation,
                    account: account,
                    message_type: 'outgoing',
-                   content: 'Reply to incoming',
-                   content_attributes: {
-                     'in_reply_to_external_id' => '<incoming-123@example.com>'
-                   })
+                   content: 'Reply to incoming')
           end
           let(:mail) { described_class.email_reply(reply_message).deliver_now }
 
@@ -230,10 +227,7 @@ RSpec.describe ConversationReplyMailer do
                    conversation: conversation,
                    account: account,
                    message_type: 'outgoing',
-                   content: 'Reply to message with refs',
-                   content_attributes: {
-                     'in_reply_to_external_id' => '<incoming-456@example.com>'
-                   })
+                   content: 'Reply to message with refs')
           end
           let(:mail) { described_class.email_reply(reply_message).deliver_now }
 

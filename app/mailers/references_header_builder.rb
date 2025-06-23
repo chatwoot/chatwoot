@@ -15,10 +15,9 @@ module ReferencesHeaderBuilder
   #
   # @param conversation [Conversation] The conversation containing the message thread
   # @param in_reply_to_message_id [String] The message ID being replied to
-  # @param current_message [Message, nil] The message being sent (for context)
   # @return [String] A properly formatted and folded References header value
-  def build_references_header(conversation, in_reply_to_message_id, current_message = nil)
-    references = get_references_from_replied_message(conversation, current_message)
+  def build_references_header(conversation, in_reply_to_message_id)
+    references = get_references_from_replied_message(conversation, in_reply_to_message_id)
     references << in_reply_to_message_id
 
     references = references.compact.uniq
@@ -29,42 +28,41 @@ module ReferencesHeaderBuilder
 
   # Gets References header from the message being replied to
   #
-  # If the current message has an in_reply_to_external_id, we find that message
-  # and extract its stored References header. If no References are found,
+  # Finds the message by its source_id matching the in_reply_to_message_id
+  # and extracts its stored References header. If no References are found,
   # we return an empty array (minimal approach - no rebuilding).
   #
   # @param conversation [Conversation] The conversation containing the message thread
-  # @param current_message [Message, nil] The message being sent (for context)
+  # @param in_reply_to_message_id [String] The message ID being replied to
   # @return [Array<String>] Array of properly formatted message IDs with angle brackets
-  def get_references_from_replied_message(conversation, current_message)
-    return [] unless current_message&.content_attributes&.dig('in_reply_to_external_id')
+  def get_references_from_replied_message(conversation, in_reply_to_message_id)
+    return [] if in_reply_to_message_id.blank?
 
-    replied_to_message = find_replied_to_message(conversation, current_message)
+    replied_to_message = find_replied_to_message(conversation, in_reply_to_message_id)
     return [] unless replied_to_message
 
     extract_references_from_message(replied_to_message)
   end
 
-  # Finds the message being replied to based on in_reply_to_external_id
+  # Finds the message being replied to based on its source_id
   #
   # @param conversation [Conversation] The conversation containing the message thread
-  # @param current_message [Message] The message being sent
+  # @param in_reply_to_message_id [String] The message ID to search for
   # @return [Message, nil] The message being replied to
-  def find_replied_to_message(conversation, current_message)
-    external_id = current_message.content_attributes['in_reply_to_external_id']
-    return nil if external_id.blank?
+  def find_replied_to_message(conversation, in_reply_to_message_id)
+    return nil if in_reply_to_message_id.blank?
 
     # Remove angle brackets if present for comparison
-    normalized_external_id = external_id.gsub(/[<>]/, '')
+    normalized_id = in_reply_to_message_id.gsub(/[<>]/, '')
 
     # Use database query to find the message efficiently
     # Search for exact match or with angle brackets
     conversation.messages
                 .where.not(source_id: nil)
                 .where('source_id = ? OR source_id = ? OR source_id = ?',
-                       normalized_external_id,
-                       "<#{normalized_external_id}>",
-                       external_id)
+                       normalized_id,
+                       "<#{normalized_id}>",
+                       in_reply_to_message_id)
                 .first
   end
 
