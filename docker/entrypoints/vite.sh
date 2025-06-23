@@ -3,7 +3,6 @@ set -x
 
 rm -rf /app/tmp/pids/server.pid
 rm -rf /app/tmp/cache/bootsnap /app/tmp/cache/vite
-rm -rf /app/tmp/cache/bootsnap /app/tmp/cache/vite
 
 pnpm store prune
 pnpm install --force
