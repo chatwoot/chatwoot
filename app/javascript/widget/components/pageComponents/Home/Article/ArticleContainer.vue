@@ -7,6 +7,7 @@ import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store.js';
 import { useDarkMode } from 'widget/composables/useDarkMode';
+import { getMatchingLocale } from 'shared/helpers/portalHelper';
 
 const store = useStore();
 const router = useRouter();
@@ -21,31 +22,10 @@ const articleUiFlags = useMapGetter('article/uiFlags');
 const locale = computed(() => {
   const { locale: selectedLocale } = i18n;
   const { allowed_locales: allowedLocales } = portal.value.config;
-
-  // IMPORTANT: Variation locale matching, Following priority order:
-  // 1. Exact match (e.g., "fr" === "fr")
-  // 2. Base language match (e.g., "fr" when selected is "fr_CA")
-  // 3. Variant match (e.g., "fr_BE" when selected is "fr")
-  // 4. Default locale fallback
-
-  const [lang] = selectedLocale.value.split('_');
-
-  // Priority 1: Exact match
-  const exactMatch = allowedLocales.includes(selectedLocale.value)
-    ? selectedLocale.value
-    : null;
-  if (exactMatch) return exactMatch;
-
-  // Priority 2: Base language match
-  const baseMatch = allowedLocales.includes(lang) ? lang : null;
-  if (baseMatch) return baseMatch;
-
-  // Priority 3: Variant match
-  const variantMatch = allowedLocales.find(l => l.startsWith(`${lang}_`));
-  if (variantMatch) return variantMatch;
-
-  // Don't show popular articles if locale doesn't match with allowed locales
-  return null;
+  console.log(selectedLocale.value);
+  console.log(allowedLocales);
+  console.log(getMatchingLocale(selectedLocale.value, allowedLocales));
+  return getMatchingLocale(selectedLocale.value, allowedLocales);
 });
 
 const fetchArticles = () => {
