@@ -39,13 +39,13 @@ describe('prompts store module', () => {
 
     it('getPromptById should return the correct prompt by id', () => {
       const getPromptById = getters.getPromptById(state);
-      
+
       const prompt1 = getPromptById(1);
       expect(prompt1).toEqual(state.records[0]);
-      
+
       const prompt2 = getPromptById('2'); // Test string conversion
       expect(prompt2).toEqual(state.records[1]);
-      
+
       const nonExistent = getPromptById(999);
       expect(nonExistent).toBeUndefined();
     });
@@ -81,9 +81,7 @@ describe('prompts store module', () => {
     it('SET_PROMPTS should replace existing records', () => {
       state.records = [{ id: 999, prompt_key: 'old', text: 'Old prompt' }];
 
-      const newPrompts = [
-        { id: 1, prompt_key: 'new', text: 'New prompt' },
-      ];
+      const newPrompts = [{ id: 1, prompt_key: 'new', text: 'New prompt' }];
 
       mutations.SET_PROMPTS(state, newPrompts);
 
@@ -109,7 +107,7 @@ describe('prompts store module', () => {
 
     describe('UPDATE_PROMPT', () => {
       it('should update the correct prompt in state.records', () => {
-        const state = {
+        const localState = {
           records: [
             { id: 1, prompt_key: 'greeting', text: 'Hello there!' },
             { id: 2, prompt_key: 'closing', text: 'Thank you!' },
@@ -124,37 +122,45 @@ describe('prompts store module', () => {
           updated_at: '2024-01-02T00:00:00Z',
         };
 
-        mutations.UPDATE_PROMPT(state, updatedPrompt);
+        mutations.UPDATE_PROMPT(localState, updatedPrompt);
 
-        expect(state.records).toHaveLength(3);
-        expect(state.records[1]).toEqual(updatedPrompt);
-        expect(state.records[0]).toEqual({ id: 1, prompt_key: 'greeting', text: 'Hello there!' });
-        expect(state.records[2]).toEqual({ id: 3, prompt_key: 'help', text: 'How can I help?' });
+        expect(localState.records).toHaveLength(3);
+        expect(localState.records[1]).toEqual(updatedPrompt);
+        expect(localState.records[0]).toEqual({
+          id: 1,
+          prompt_key: 'greeting',
+          text: 'Hello there!',
+        });
+        expect(localState.records[2]).toEqual({
+          id: 3,
+          prompt_key: 'help',
+          text: 'How can I help?',
+        });
       });
 
       it('should not modify state if prompt ID does not exist', () => {
-        const state = {
+        const localState = {
           records: [
             { id: 1, prompt_key: 'greeting', text: 'Hello there!' },
             { id: 2, prompt_key: 'closing', text: 'Thank you!' },
           ],
         };
 
-        const originalRecords = [...state.records];
+        const originalRecords = [...localState.records];
         const nonExistentPrompt = {
           id: 999,
           prompt_key: 'non_existent',
           text: 'This prompt does not exist',
         };
 
-        mutations.UPDATE_PROMPT(state, nonExistentPrompt);
+        mutations.UPDATE_PROMPT(localState, nonExistentPrompt);
 
-        expect(state.records).toEqual(originalRecords);
-        expect(state.records).toHaveLength(2);
+        expect(localState.records).toEqual(originalRecords);
+        expect(localState.records).toHaveLength(2);
       });
 
       it('should handle partial updates correctly', () => {
-        const state = {
+        const localState = {
           records: [
             {
               id: 1,
@@ -176,13 +182,13 @@ describe('prompts store module', () => {
           updated_at: '2024-01-02T00:00:00Z',
         };
 
-        mutations.UPDATE_PROMPT(state, fullUpdate);
+        mutations.UPDATE_PROMPT(localState, fullUpdate);
 
-        expect(state.records[0]).toEqual(fullUpdate);
+        expect(localState.records[0]).toEqual(fullUpdate);
       });
 
       it('should replace the entire prompt object when UPDATE_PROMPT is called', () => {
-        const state = {
+        const localState = {
           records: [
             {
               id: 1,
@@ -201,10 +207,10 @@ describe('prompts store module', () => {
           updated_at: '2024-01-02T00:00:00Z',
         };
 
-        mutations.UPDATE_PROMPT(state, newPrompt);
+        mutations.UPDATE_PROMPT(localState, newPrompt);
 
-        expect(state.records[0]).toEqual(newPrompt);
-        expect(state.records[0]).not.toHaveProperty('extra_field');
+        expect(localState.records[0]).toEqual(newPrompt);
+        expect(localState.records[0]).not.toHaveProperty('extra_field');
       });
     });
   });
@@ -229,10 +235,14 @@ describe('prompts store module', () => {
 
         await actions.get({ commit });
 
-        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', { isFetching: true });
+        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', {
+          isFetching: true,
+        });
         expect(PromptAPI.get).toHaveBeenCalledTimes(1);
         expect(commit).toHaveBeenCalledWith('SET_PROMPTS', mockPrompts);
-        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', { isFetching: false });
+        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', {
+          isFetching: false,
+        });
       });
 
       it('should handle API errors and still reset isFetching flag', async () => {
@@ -241,12 +251,19 @@ describe('prompts store module', () => {
 
         await expect(actions.get({ commit })).rejects.toThrow('API Error');
 
-        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', { isFetching: true });
+        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', {
+          isFetching: true,
+        });
         expect(PromptAPI.get).toHaveBeenCalledTimes(1);
-        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', { isFetching: false });
-        
+        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', {
+          isFetching: false,
+        });
+
         // SET_PROMPTS should not be called on error
-        expect(commit).not.toHaveBeenCalledWith('SET_PROMPTS', expect.anything());
+        expect(commit).not.toHaveBeenCalledWith(
+          'SET_PROMPTS',
+          expect.anything()
+        );
       });
 
       it('should ensure isFetching is reset even if an exception occurs', async () => {
@@ -259,13 +276,15 @@ describe('prompts store module', () => {
         }
 
         // Verify that the finally block executed
-        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', { isFetching: false });
+        expect(commit).toHaveBeenCalledWith('SET_UI_FLAG', {
+          isFetching: false,
+        });
       });
     });
 
     describe('update', () => {
       it('should call PromptAPI.update and commit UPDATE_PROMPT on success', async () => {
-        const commit = vi.fn();
+        const mockCommit = vi.fn();
         const promptId = 1;
         const updateData = {
           text: 'Updated greeting message',
@@ -282,14 +301,20 @@ describe('prompts store module', () => {
 
         PromptAPI.update.mockResolvedValue(mockResponse);
 
-        await actions.update({ commit }, { id: promptId, ...updateData });
+        await actions.update(
+          { commit: mockCommit },
+          { id: promptId, ...updateData }
+        );
 
         expect(PromptAPI.update).toHaveBeenCalledWith(promptId, updateData);
-        expect(commit).toHaveBeenCalledWith('UPDATE_PROMPT', mockResponse.data);
+        expect(mockCommit).toHaveBeenCalledWith(
+          'UPDATE_PROMPT',
+          mockResponse.data
+        );
       });
 
       it('should handle API errors gracefully', async () => {
-        const commit = vi.fn();
+        const mockCommit = vi.fn();
         const promptId = 1;
         const updateData = {
           text: '',
@@ -299,15 +324,22 @@ describe('prompts store module', () => {
 
         PromptAPI.update.mockRejectedValue(mockError);
 
-        await expect(actions.update({ commit }, { id: promptId, ...updateData }))
-          .rejects.toThrow('Validation failed');
+        await expect(
+          actions.update(
+            { commit: mockCommit },
+            { id: promptId, ...updateData }
+          )
+        ).rejects.toThrow('Validation failed');
 
         expect(PromptAPI.update).toHaveBeenCalledWith(promptId, updateData);
-        expect(commit).not.toHaveBeenCalledWith('UPDATE_PROMPT', expect.anything());
+        expect(mockCommit).not.toHaveBeenCalledWith(
+          'UPDATE_PROMPT',
+          expect.anything()
+        );
       });
 
       it('should pass correct parameters to PromptAPI.update', async () => {
-        const commit = vi.fn();
+        const mockCommit = vi.fn();
         const promptId = 42;
         const updateData = {
           text: 'Hello! How can we help you today?',
@@ -319,11 +351,14 @@ describe('prompts store module', () => {
 
         PromptAPI.update.mockResolvedValue(mockResponse);
 
-        await actions.update({ commit }, { id: promptId, ...updateData });
+        await actions.update(
+          { commit: mockCommit },
+          { id: promptId, ...updateData }
+        );
 
         expect(PromptAPI.update).toHaveBeenCalledTimes(1);
         expect(PromptAPI.update).toHaveBeenCalledWith(promptId, updateData);
       });
     });
   });
-}); 
+});

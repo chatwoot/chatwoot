@@ -17,6 +17,8 @@ const settings = accountId => ({
     'macros_edit',
     'macros_new',
     'macros_wrapper',
+    'prompts_list',
+    'prompts_edit',
     'settings_applications_integration',
     'settings_applications_webhook',
     'settings_applications',
@@ -144,6 +146,17 @@ const settings = accountId => ({
     },
     {
       icon: 'chat-multiple',
+      label: 'PROMPTS',
+      hasSubMenu: false,
+      meta: {
+        permissions: ['administrator', 'agent'],
+      },
+      toState: frontendURL(`accounts/${accountId}/settings/prompts`),
+      toStateName: 'prompts_list',
+      featureFlag: FEATURE_FLAGS.PROMPTS,
+    },
+    {
+      icon: 'chat-multiple',
       label: 'CANNED_RESPONSES',
       hasSubMenu: false,
       meta: {
@@ -212,7 +225,6 @@ const settings = accountId => ({
       },
       toState: frontendURL(`accounts/${accountId}/settings/billing`),
       toStateName: 'billing_settings_index',
-      showOnlyOnCloud: true,
     },
   ],
 });

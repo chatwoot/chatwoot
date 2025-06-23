@@ -1,6 +1,5 @@
 <script>
 import { defineAsyncComponent, ref } from 'vue';
-import { mapGetters } from 'vuex';
 
 import NextSidebar from 'next/sidebar/Sidebar.vue';
 import WootKeyShortcutModal from 'dashboard/components/widgets/modal/WootKeyShortcutModal.vue';
@@ -15,7 +14,6 @@ import { useAccount } from 'dashboard/composables/useAccount';
 
 import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const CommandBar = defineAsyncComponent(
   () => import('./commands/commandbar.vue')
@@ -66,9 +64,6 @@ export default {
     };
   },
   computed: {
-    ...mapGetters({
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
-    }),
     currentRoute() {
       return ' ';
     },
@@ -76,11 +71,7 @@ export default {
       return this.upgradePageRef?.shouldShowUpgradePage;
     },
     bypassUpgradePage() {
-      return [
-        'billing_settings_index',
-        'settings_inbox_list',
-        'agent_list',
-      ].includes(this.$route.name);
+      return ['settings_inbox_list', 'agent_list'].includes(this.$route.name);
     },
     isSidebarOpen() {
       const { show_secondary_sidebar: showSecondarySidebar } = this.uiSettings;
@@ -98,24 +89,31 @@ export default {
       return showSecondarySidebar;
     },
     showNextSidebar() {
-      return this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHATWOOT_V4
-      );
+      // Force NextSidebar to be used consistently to fix the sidebar switching issue
+      // The CHATWOOT_V4 feature flag was unstable and causing the sidebar to switch
+      // between NextSidebar and regular Sidebar during navigation
+      return true;
     },
   },
   watch: {
     displayLayoutType() {
       const { LAYOUT_TYPES } = wootConstants;
+
+      // Check if we're on a settings page
+      const isSettingsPage = this.$route.path.includes('/settings/');
+
+      // Determine if secondary sidebar should be shown
+      const showSecondarySidebar =
+        this.displayLayoutType === LAYOUT_TYPES.EXPANDED
+          ? isSettingsPage // Always show sidebar on settings pages, even in expanded layout
+          : this.previouslyUsedSidebarView;
+
       this.updateUISettings({
         conversation_display_type:
           this.displayLayoutType === LAYOUT_TYPES.EXPANDED
             ? LAYOUT_TYPES.EXPANDED
             : this.previouslyUsedDisplayType,
-        show_secondary_sidebar:
-          this.displayLayoutType === LAYOUT_TYPES.EXPANDED
-            ? false
-            : this.previouslyUsedSidebarView,
+        show_secondary_sidebar: showSecondarySidebar,
       });
     },
   },

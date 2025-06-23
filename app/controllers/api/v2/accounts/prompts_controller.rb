@@ -1,5 +1,6 @@
 class Api::V2::Accounts::PromptsController < Api::V1::Accounts::BaseController
   before_action :find_prompt, only: [:update]
+  before_action :check_prompts_feature_enabled
 
   def index
     @prompts = Current.account.account_prompts
@@ -22,5 +23,11 @@ class Api::V2::Accounts::PromptsController < Api::V1::Accounts::BaseController
 
   def prompt_params
     params.require(:prompt).permit(:text, :prompt_key)
+  end
+
+  def check_prompts_feature_enabled
+    return if Current.account.feature_enabled?('prompts')
+
+    render json: { error: 'Prompts feature is not enabled for this account' }, status: :forbidden
   end
 end

@@ -3,8 +3,6 @@ require 'rails_helper'
 RSpec.describe Internal::Accounts::InternalAttributesService do
   let!(:account) { create(:account, internal_attributes: { 'test_key' => 'test_value' }) }
   let(:service) { described_class.new(account) }
-  let(:business_features) { Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES }
-  let(:enterprise_features) { Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES }
 
   describe '#initialize' do
     it 'sets the account' do
@@ -67,12 +65,12 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
   end
 
   describe '#manually_managed_features=' do
-    # Use a real SLA feature which is in the BUSINESS_PLAN_FEATURES
+    # Use real features from our tier system
     let(:valid_feature) { 'sla' }
 
     before do
       # Make sure the feature is allowed through validation
-      allow(service).to receive(:valid_feature_list).and_return([valid_feature, 'custom_roles'])
+      allow(service).to receive(:valid_feature_list).and_return([valid_feature, 'custom_roles', 'agent_management'])
     end
 
     it 'saves features as an array' do
@@ -126,9 +124,18 @@ RSpec.describe Internal::Accounts::InternalAttributesService do
   end
 
   describe '#valid_feature_list' do
-    it 'returns a combination of business and enterprise features' do
-      expect(service.valid_feature_list).to include(*business_features)
-      expect(service.valid_feature_list).to include(*enterprise_features)
+    it 'returns all features from the BillingPlans concern' do
+      # Should include features from all tiers
+      features = service.valid_feature_list
+
+      # Test that it includes features from different tiers
+      expect(features).to include('agent_management') # starter tier
+      expect(features).to include('sla') # professional tier
+      expect(features).to include('audit_logs') # enterprise tier
+
+      # Should be a non-empty array
+      expect(features).to be_an(Array)
+      expect(features).not_to be_empty
     end
   end
 end

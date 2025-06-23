@@ -45,10 +45,10 @@ const updatePrompt = async promptData => {
       ...promptData,
     });
     useAlert(t('PROMPTS_PAGE.EDIT.SUCCESS_MESSAGE'));
-    
+
     // Refresh the prompts data to ensure we have the latest changes
     await store.dispatch('prompts/get');
-    
+
     router.push({ name: 'prompts_list' });
   } catch (error) {
     useAlert(t('PROMPTS_PAGE.EDIT.ERROR_MESSAGE'));

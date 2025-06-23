@@ -132,6 +132,10 @@ docker compose run --rm rails bundle exec rails db:reset
 docker compose up
 ```
 
+Here's a [link](https://www.postman.com/chatwoot/chatwoot-apis/overview) of the Postman collection from Chatwoot.
+
 ## Deployment
 
 For other supported options, checkout our [deployment page](https://chatwoot.com/deploy).
+
+

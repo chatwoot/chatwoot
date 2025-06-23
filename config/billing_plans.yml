@@ -1,0 +1,66 @@
+---
+# Billing Plans Configuration
+# This file defines the subscription plans available and the features associated with each plan.
+# Features are referenced from config/features.yml
+
+plans:
+  community:
+    name: "Community"
+    description: "Basic features for community members after subscription ends"
+    price_id: null  # No external price ID for community plan
+    feature_tiers:
+      - "community" # Only basic community features
+    limits:
+      agents: 0
+      inboxes: 0
+      conversations: 0
+  free_trial:
+    name: "Free Trial"
+    description: "Basic features for small teams on a trial basis"
+    price_id: null  # No external price ID for free trial plan
+    trial_expires_in_days: 30
+    feature_tiers:
+      - "starter" # Starter tier features are available to free trial plans for trial_expires_in_days
+    limits:
+      agents: 1
+      inboxes: 1
+      conversations: 500
+
+  starter:
+    name: "Starter"
+    description: "Perfect for growing teams"
+    price_id: "price_1RdbcC4TqKLiHbZ87crta9vQ"
+    feature_tiers:
+      - "starter"
+    limits:
+      agents: 5
+      inboxes: 5
+      conversations: 2000
+
+  professional:
+    name: "Professional"
+    description: "Advanced features for professional teams"
+    price_id: "THIS_SHOULD_BE_REPLACED_WITH_ACTUAL_PRICE_ID"  # TODO: Replace with actual payment provider price ID
+    feature_tiers:
+      - "starter"
+      - "professional"
+    limits:
+      agents: 15
+      inboxes: 15
+      conversations: 10000
+
+  enterprise:
+    name: "Enterprise"
+    description: "Full feature set for large organizations"
+    price_id: "THIS_SHOULD_BE_REPLACED_WITH_ACTUAL_PRICE_ID"  # TODO: Replace with actual payment provider price ID
+    feature_tiers:
+      - "starter"
+      - "professional"
+      - "enterprise"
+    limits:
+      agents: -1  # Unlimited
+      inboxes: -1  # Unlimited
+      conversations: -1  # Unlimited
+
+# Default plan for new accounts
+default_plan: "free_trial" 

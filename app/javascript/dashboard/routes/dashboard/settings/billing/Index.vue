@@ -2,10 +2,10 @@
 import { computed, onMounted } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store.js';
 import { useAccount } from 'dashboard/composables/useAccount';
-import { useCaptain } from 'dashboard/composables/useCaptain';
+import { useI18n } from 'vue-i18n';
+import { useRoute } from 'vue-router';
 import { format } from 'date-fns';
 
-import BillingMeter from './components/BillingMeter.vue';
 import BillingCard from './components/BillingCard.vue';
 import BillingHeader from './components/BillingHeader.vue';
 import DetailItem from './components/DetailItem.vue';
@@ -14,13 +14,8 @@ import SettingsLayout from '../SettingsLayout.vue';
 import ButtonV4 from 'next/button/Button.vue';
 
 const { currentAccount } = useAccount();
-const {
-  captainEnabled,
-  captainLimits,
-  documentLimits,
-  responseLimits,
-  fetchLimits,
-} = useCaptain();
+const { t } = useI18n();
+const route = useRoute();
 
 const uiFlags = useMapGetter('accounts/getUIFlags');
 const store = useStore();
@@ -29,11 +24,17 @@ const customAttributes = computed(() => {
 });
 
 /**
- * Computed property for plan name
+ * Computed property for plan name with translation
  * @returns {string|undefined}
  */
 const planName = computed(() => {
-  return customAttributes.value.plan_name;
+  const rawPlanName = customAttributes.value.plan_name;
+  if (!rawPlanName) return undefined;
+
+  const translationKey = `BILLING_SETTINGS.PLANS.${rawPlanName}`;
+  const translatedName = t(translationKey);
+
+  return translatedName !== translationKey ? translatedName : rawPlanName;
 });
 
 /**
@@ -45,9 +46,39 @@ const subscribedQuantity = computed(() => {
 });
 
 const subscriptionRenewsOn = computed(() => {
-  if (!customAttributes.value.subscription_ends_on) return '';
+  // Return '-' if subscription is not active or no end date
+  if (
+    customAttributes.value.subscription_status !== 'active' ||
+    !customAttributes.value.subscription_ends_on
+  ) {
+    return '-';
+  }
+
   const endDate = new Date(customAttributes.value.subscription_ends_on);
-  // return date as 12 Jan, 2034
+  return format(endDate, 'dd MMM, yyyy');
+});
+
+/**
+ * Computed property for subscription status with translation
+ * @returns {string}
+ */
+const subscriptionStatus = computed(() => {
+  const rawStatus = customAttributes.value.subscription_status;
+  if (!rawStatus) return '-';
+
+  const translationKey = `BILLING_SETTINGS.SUBSCRIPTION_STATUS.${rawStatus}`;
+  const translatedStatus = t(translationKey);
+
+  return translatedStatus !== translationKey ? translatedStatus : rawStatus;
+});
+
+/**
+ * Computed property for subscription end date
+ * @returns {string}
+ */
+const subscriptionEndsOn = computed(() => {
+  if (!customAttributes.value.subscription_ends_on) return '-';
+  const endDate = new Date(customAttributes.value.subscription_ends_on);
   return format(endDate, 'dd MMM, yyyy');
 });
 
@@ -59,15 +90,65 @@ const hasABillingPlan = computed(() => {
   return !!planName.value;
 });
 
+/**
+ * Computed property indicating if user has a fully set up billing (with Stripe customer)
+ * @returns {boolean}
+ */
+const hasStripeCustomer = computed(() => {
+  return !!customAttributes.value.stripe_customer_id;
+});
+
+/**
+ * Computed property to determine the appropriate billing button action
+ * @returns {object}
+ */
+const billingButtonConfig = computed(() => {
+  const status = customAttributes.value.subscription_status;
+
+  // For inactive subscriptions, treat them as needing a new subscription setup
+  if (status === 'inactive') {
+    return {
+      text: t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT'),
+      action: 'create_new',
+    };
+  }
+
+  // For all other cases (active, cancelled, trialing, etc.), use portal
+  return {
+    text: t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT'),
+    action: 'portal',
+  };
+});
+
 const fetchAccountDetails = async () => {
-  if (!hasABillingPlan.value) {
-    store.dispatch('accounts/subscription');
-    fetchLimits();
+  // Always fetch the latest subscription data
+  await store.dispatch('accounts/subscription');
+  // Fetch limits after subscription data is loaded
+  await store.dispatch('accounts/limits');
+};
+
+const onClickBillingPortal = async () => {
+  await store.dispatch('accounts/checkout');
+};
+
+const onCreateSubscription = async (planNameParam = 'free_trial') => {
+  try {
+    await store.dispatch('accounts/createSubscription', {
+      planName: planNameParam,
+    });
+    // Refresh the account details after creating subscription
+    await fetchAccountDetails();
+  } catch (error) {
+    // Handle error silently or use proper error handling
   }
 };
 
-const onClickBillingPortal = () => {
-  store.dispatch('accounts/checkout');
+const onBillingButtonClick = async () => {
+  if (billingButtonConfig.value.action === 'create_new') {
+    await onCreateSubscription('starter');
+  } else {
+    await onClickBillingPortal();
+  }
 };
 
 const onToggleChatWindow = () => {
@@ -76,15 +157,25 @@ const onToggleChatWindow = () => {
   }
 };
 
-onMounted(fetchAccountDetails);
+const checkForCheckoutSuccess = () => {
+  if (route.query.success === 'true') {
+    setTimeout(async () => {
+      await fetchAccountDetails();
+    }, 2000);
+  }
+};
+
+onMounted(() => {
+  fetchAccountDetails();
+  checkForCheckoutSuccess();
+});
 </script>
 
 <template>
   <SettingsLayout
     :is-loading="uiFlags.isFetchingItem"
     :loading-message="$t('ATTRIBUTES_MGMT.LOADING')"
-    :no-records-found="!hasABillingPlan"
-    :no-records-message="$t('BILLING_SETTINGS.NO_BILLING_USER')"
+    :no-records-found="false"
   >
     <template #header>
       <BaseSettingsHeader
@@ -96,18 +187,48 @@ onMounted(fetchAccountDetails);
     </template>
     <template #body>
       <section class="grid gap-4">
+        <!-- Setup Subscription Card (for users without billing plans) -->
         <BillingCard
+          v-if="!hasABillingPlan"
           :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
           :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
         >
           <template #action>
-            <ButtonV4 sm solid blue @click="onClickBillingPortal">
+            <ButtonV4 sm solid blue @click="onCreateSubscription('starter')">
               {{ $t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
+            </ButtonV4>
+          </template>
+        </BillingCard>
+
+        <!-- Manage Subscription Card (for users with billing plans) -->
+        <BillingCard
+          v-if="hasABillingPlan"
+          :title="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.TITLE')"
+          :description="$t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.DESCRIPTION')"
+        >
+          <template #action>
+            <ButtonV4
+              v-if="hasStripeCustomer"
+              sm
+              solid
+              blue
+              @click="onBillingButtonClick"
+            >
+              {{ billingButtonConfig.text }}
+            </ButtonV4>
+            <ButtonV4
+              v-else
+              sm
+              solid
+              blue
+              @click="onCreateSubscription('starter')"
+            >
+              {{ t('BILLING_SETTINGS.MANAGE_SUBSCRIPTION.BUTTON_TXT') }}
             </ButtonV4>
           </template>
           <div
             v-if="planName || subscribedQuantity || subscriptionRenewsOn"
-            class="grid lg:grid-cols-4 sm:grid-cols-3 grid-cols-1 gap-2 divide-x divide-n-weak"
+            class="grid lg:grid-cols-5 sm:grid-cols-5 grid-cols-1 gap-2 divide-x divide-n-weak"
           >
             <DetailItem
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.TITLE')"
@@ -123,41 +244,15 @@ onMounted(fetchAccountDetails);
               :label="$t('BILLING_SETTINGS.CURRENT_PLAN.RENEWS_ON')"
               :value="subscriptionRenewsOn"
             />
-          </div>
-        </BillingCard>
-        <BillingCard
-          v-if="captainEnabled"
-          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
-          :description="$t('BILLING_SETTINGS.CAPTAIN.DESCRIPTION')"
-        >
-          <template #action>
-            <ButtonV4 sm faded slate disabled>
-              {{ $t('BILLING_SETTINGS.CAPTAIN.BUTTON_TXT') }}
-            </ButtonV4>
-          </template>
-          <div v-if="captainLimits && responseLimits" class="px-5">
-            <BillingMeter
-              :title="$t('BILLING_SETTINGS.CAPTAIN.RESPONSES')"
-              v-bind="responseLimits"
+            <DetailItem
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.ENDS_ON')"
+              :value="subscriptionEndsOn"
+            />
+            <DetailItem
+              :label="$t('BILLING_SETTINGS.CURRENT_PLAN.STATUS')"
+              :value="subscriptionStatus"
             />
           </div>
-          <div v-if="captainLimits && documentLimits" class="px-5">
-            <BillingMeter
-              :title="$t('BILLING_SETTINGS.CAPTAIN.DOCUMENTS')"
-              v-bind="documentLimits"
-            />
-          </div>
-        </BillingCard>
-        <BillingCard
-          v-else
-          :title="$t('BILLING_SETTINGS.CAPTAIN.TITLE')"
-          :description="$t('BILLING_SETTINGS.CAPTAIN.UPGRADE')"
-        >
-          <template #action>
-            <ButtonV4 sm solid slate @click="onClickBillingPortal">
-              {{ $t('CAPTAIN.PAYWALL.UPGRADE_NOW') }}
-            </ButtonV4>
-          </template>
         </BillingCard>
 
         <BillingHeader
@@ -170,7 +265,7 @@ onMounted(fetchAccountDetails);
             solid
             slate
             icon="i-lucide-life-buoy"
-            @open="onToggleChatWindow"
+            @click="onToggleChatWindow"
           >
             {{ $t('BILLING_SETTINGS.CHAT_WITH_US.BUTTON_TXT') }}
           </ButtonV4>

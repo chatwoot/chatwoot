@@ -1,6 +1,10 @@
 require 'administrate/field/base'
 
+# This field is used in the super admin panel to allow administrators
+# to manually grant specific features to accounts, overriding their billing plan restrictions.
 class ManuallyManagedFeaturesField < Administrate::Field::Base
+  include BillingPlans
+
   def data
     Internal::Accounts::InternalAttributesService.new(resource).manually_managed_features
   end
@@ -10,9 +14,7 @@ class ManuallyManagedFeaturesField < Administrate::Field::Base
   end
 
   def all_features
-    # Business and Enterprise plan features only
-    Enterprise::Billing::HandleStripeEventService::BUSINESS_PLAN_FEATURES +
-      Enterprise::Billing::HandleStripeEventService::ENTERPRISE_PLAN_FEATURES
+    self.class.all_features
   end
 
   def selected_features
