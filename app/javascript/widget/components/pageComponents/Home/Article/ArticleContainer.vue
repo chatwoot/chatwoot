@@ -22,9 +22,6 @@ const articleUiFlags = useMapGetter('article/uiFlags');
 const locale = computed(() => {
   const { locale: selectedLocale } = i18n;
   const { allowed_locales: allowedLocales } = portal.value.config;
-  console.log(selectedLocale.value);
-  console.log(allowedLocales);
-  console.log(getMatchingLocale(selectedLocale.value, allowedLocales));
   return getMatchingLocale(selectedLocale.value, allowedLocales);
 });
 
