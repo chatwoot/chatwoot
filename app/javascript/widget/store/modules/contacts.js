@@ -2,11 +2,17 @@ import { sendMessage } from 'widget/helpers/utils';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
+
 const state = {
   currentUser: {},
+  uiFlags: {
+    isUpdating: false,
+  },
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
+const UPDATE_USER_UPDATING_UI_FLAG = 'UPDATE_USER_UPDATING_UI_FLAG';
+
 const parseErrorData = error =>
   error && error.response && error.response.data ? error.response.data : error;
 export const updateWidgetAuthToken = widgetAuthToken => {
@@ -23,12 +29,16 @@ export const getters = {
   getCurrentUser(_state) {
     return _state.currentUser;
   },
+  getUiFlags(_state) {
+    return _state.uiFlags;
+  },
 };
 
 export const actions = {
   get: async ({ commit }) => {
     try {
       const { data } = await ContactsAPI.get();
+      console.log('New user data', data);
       commit(SET_CURRENT_USER, data);
     } catch (error) {
       // Ignore error
@@ -101,9 +111,17 @@ export const actions = {
       // Ignore error
     }
   },
-  verifyShopifyEmail: async (_, params) => {
+  verifyShopifyEmail: async ({ commit, dispatch }, params) => {
     try {
+      console.log('SUBMITTING 2');
+      commit(UPDATE_USER_UPDATING_UI_FLAG, true);
+      console.log('SUBMITTING 3');
       await ContactsAPI.verifyShopifyEmail(params);
+      console.log('SUBMITTING 4');
+      await dispatch('get');
+      console.log('SUBMITTING 5');
+      commit(UPDATE_USER_UPDATING_UI_FLAG, false);
+      console.log('SUBMITTING 6');
     } catch (error) {
       // Ignore error
     }
@@ -114,6 +132,9 @@ export const mutations = {
   [SET_CURRENT_USER]($state, user) {
     const { currentUser } = $state;
     $state.currentUser = { ...currentUser, ...user };
+  },
+  [UPDATE_USER_UPDATING_UI_FLAG]($state, value) {
+    $state.uiFlags.isUpdating = value;
   },
 };
 

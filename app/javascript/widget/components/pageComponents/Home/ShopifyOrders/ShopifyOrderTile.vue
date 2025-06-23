@@ -4,20 +4,6 @@
 const props = defineProps({
   order: {
     type: Object,
-    // default: () => ({
-    //   number: '1001',
-    //   total: '91.09',
-    //   status: 'UNFULFILLED',
-    //   items: [
-    //     {
-    //       id: 1,
-    //       name: 'Ice coffee',
-    //       price: '80.00',
-    //       quantity: 2,
-    //       image: null,
-    //     },
-    //   ],
-    // }),
     required: true,
   },
 });
@@ -45,13 +31,13 @@ const handleReportIssue = () => {
     <!-- Order Header -->
     <div class="flex justify-between items-start mb-4">
       <div>
-        <h2 class="text-lg font-semibold text-gray-900">
+        <h2 class="text-base font-semibold text-gray-900">
           Order #{{ order.id }}
         </h2>
         <span class="text-sm text-gray-600"> Shipment </span>
       </div>
       <div class="text-right flex flex-col items-end">
-        <div class="text-lg font-semibold text-gray-900">
+        <div class="text-base font-semibold text-gray-900">
           ₹{{ order.total_price }}
         </div>
         <span

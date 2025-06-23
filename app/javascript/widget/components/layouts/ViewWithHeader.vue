@@ -43,7 +43,7 @@ export default {
       );
     },
     showBackButton() {
-      return ['article-viewer', 'messages', 'prechat-form'].includes(
+      return ['article-viewer', 'messages', 'prechat-form', 'shopify-orders-block'].includes(
         this.$route.name
       );
     },

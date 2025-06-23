@@ -44,6 +44,12 @@ const router = createRouter({
           name: 'article-viewer',
           component: () => import('./views/ArticleViewer.vue'),
         },
+
+        {
+          path: '/view-all-orders',
+          name: 'shopify-orders-block',
+          component: () => import('./views/ShopifyOrdersViewer.vue'),
+        },
       ],
     },
   ],

@@ -29,7 +29,12 @@ class PopulateShopifyContactDataJob < ApplicationJob
     contact.save!
 
     # Update customer orders
-    update_customer_orders(account_id, customer['id'])
+    if old_shopify_customer_id != customer['id']
+      contact.update(custom_attributes: contact.custom_attributes.merge({ shopify_orders_populated: false}))
+      update_customer_orders(account_id, customer['id'])
+    end
+
+    contact.update(custom_attributes: contact.custom_attributes.merge({ shopify_orders_populated: true}))
   end
 
   def update_customer_orders(account_id, customer_id)

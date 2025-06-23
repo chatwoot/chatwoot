@@ -1,10 +1,6 @@
 <script setup>
 import { computed, onMounted } from 'vue';
-import { useI18n } from 'vue-i18n';
-import { useRouter } from 'vue-router';
 import { useStore } from 'dashboard/composables/store';
-import { useMapGetter } from 'dashboard/composables/store.js';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 import CustomerIdentificationBlock from './CustomerIdentificationBlock.vue';
 import ShopifyOrdersBlock from './ShopifyOrdersBlock.vue';
 
@@ -24,6 +20,6 @@ onMounted(() => {
       :has_email="contact.hasEmail"
       v-if="!contact.shopify_customer_id"
     ></CustomerIdentificationBlock>
-    <ShopifyOrdersBlock v-else></ShopifyOrdersBlock>
+    <ShopifyOrdersBlock v-else :limit="3"></ShopifyOrdersBlock>
   </div>
 </template>

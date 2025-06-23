@@ -308,10 +308,12 @@ export default {
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
       window.addEventListener('message', e => {
+        console.log("Got event: ", e)
         if (!IFrameHelper.isAValidEvent(e)) {
           return;
         }
         const message = IFrameHelper.getMessage(e);
+        console.log("Got valid event: ", message)
         if (message.event === 'config-set') {
           this.setLocale(message.locale);
           this.setBubbleLabel();

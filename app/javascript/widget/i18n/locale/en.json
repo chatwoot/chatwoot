@@ -124,11 +124,13 @@
   "SHOPIFY_LOGIN": "Shopify Login",
   "SHOPIFY_ORDERS": {
     "TITLE": "Shopify Orders",
-    "VIEW_ALL_ORDERS": "View all orders",
+    "VIEW_ALL_ORDERS": "View all",
     "ENTER_EMAIL": "Enter your email",
     "ORDER": "Order",
     "SHIPMENT": "Shipment",
-    "TRACK": "Track"
+    "TRACK": "Track",
+    "FETCH_ORDERS": "Fetch Orders",
+    "NO_ORDERS": "No orders available"
   },
   "ATTACHMENTS": {
     "image": {

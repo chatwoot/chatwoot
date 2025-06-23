@@ -4,6 +4,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { useStore } from 'dashboard/composables/store';
 import { required, email } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
+import Button from 'shared/components/Button.vue';
 
 const props = defineProps({
   has_email: {
@@ -24,12 +25,13 @@ const v$ = useVuelidate(rules, form);
 
 const store = useStore();
 
-const emit = defineEmits(['view', 'viewAll']);
-
 const widgetColor = useMapGetter('appConfig/getWidgetColor');
+
+const contactUiFlags = computed(() => store.getters['contacts/getUiFlags']);
 
 const onSubmit = () => {
   try {
+    console.log('SUBMITTING');
     store.dispatch('contacts/verifyShopifyEmail', { email: form.email });
   } catch {
     // Handle error
@@ -57,31 +59,26 @@ const onSubmit = () => {
         @blur="v$.email.$touch()"
       />
 
-      <button
-        class="button small"
+      <Button
+        :style="{ color: widgetColor }"
         :disabled="v$.email.$invalid"
-        :style="{
-          background: widgetColor,
-          borderColor: widgetColor,
-          color: textColor,
-        }"
+        buttonType="submit"
       >
-        <span v-if="!isUpdating">
-          {{ $t('VERIFY_EMAIL') }}
-          <FluentIcon icon="chevron-right" />
-        </span>
+        <button>
+          <span v-if="!contactUiFlags.isUpdating">
+            {{ $t('VERIFY_EMAIL') }}
+          </span>
 
-        <Spinner v-else class="mx-2" />
-      </button>
+          <Spinner v-else class="mx-2" />
+        </button>
+      </Button>
     </form>
     <div v-else>
-      <button
-        class="font-medium tracking-wide inline-flex"
-        :style="{ color: widgetColor }"
-        @click="$emit('viewAll')"
-      >
-        <span>{{ $t('SHOPIFY_ORDERS.VERIFY_EMAIL') }}</span>
-      </button>
+      <Button>
+        <button :style="{ color: widgetColor }" @click="onSubmit">
+          {{ $t('VERIFY_EMAIL') }}
+        </button>
+      </Button>
     </div>
   </div>
 </template>

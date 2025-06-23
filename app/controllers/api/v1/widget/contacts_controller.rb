@@ -32,15 +32,17 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def verify_shopify_email
+    Rails.logger.info("Verify shopify email")
     # Currently skipping all otp logic
-    if @contact.email.present?
-      render json: { errors: ['Email already exists for the user'] }, status: :unprocessable_entity
+    email = params[:email]
+    if @contact.email.present? && params[:email] == ''
+      email = @contact.email
     else
-      contact = Contact.find_by(email: params[:email])      
+      contact = Contact.find_by(email: email)      
       identify_contact(contact)
 
       if (!@contact.custom_attributes['shopify_customer_id'].present?)
-        PopulateShopifyContactDataJob.perform_later(
+        PopulateShopifyContactDataJob.perform_now(
           account_id: inbox.account.id,
           id: @contact.id,
           email: params[:email],

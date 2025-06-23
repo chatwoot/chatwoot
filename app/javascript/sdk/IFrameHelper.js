@@ -94,11 +94,14 @@ export const IFrameHelper = {
   getAppFrame: () => document.getElementById('chatwoot_live_chat_widget'),
   getBubbleHolder: () => document.getElementsByClassName('woot--bubble-holder'),
   sendMessage: (key, value) => {
+    console.log("sending message")
     const element = IFrameHelper.getAppFrame();
+    console.log("Iframe element", element)
     element.contentWindow.postMessage(
       `chatwoot-widget:${JSON.stringify({ event: key, ...value })}`,
       '*'
     );
+    console.log("sent message")
   },
   initPostMessageCommunication: () => {
     window.onmessage = e => {

@@ -21,6 +21,10 @@ export default {
       type: Boolean,
       default: false,
     },
+    buttonType: {
+      type: String,
+      default: null,
+    },
   },
   computed: {
     buttonClassName() {
@@ -53,7 +57,12 @@ export default {
 </script>
 
 <template>
-  <button :class="buttonClassName" :style="buttonStyles" :disabled="disabled">
+  <button
+    :class="buttonClassName"
+    :style="buttonStyles"
+    :disabled="disabled"
+    :type="buttonType"
+  >
     <slot />
   </button>
 </template>
