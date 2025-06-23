@@ -91,6 +91,8 @@ vi:
       conversations_count: Số hội thoại
       avg_first_response_time: Avg first response time
       avg_resolution_time: Avg resolution time
+      avg_reply_time: Avg reply time
+      resolution_count: Số lượng giải quyết
     team_csv:
       team_name: Tên nhóm
       conversations_count: Số hội thoại
@@ -138,6 +140,8 @@ vi:
       instagram_story_content: '%{story_sender} đã đề cập đến bạn trong hội thoại: '
       instagram_deleted_story_content: Hội thoại này không còn nữa.
       deleted: Tin nhắn đã bị xoá
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Error code: %{error_code}'
     activity:
@@ -172,6 +176,10 @@ vi:
       sla:
         added: '%{user_name} added SLA policy %{sla_name}'
         removed: '%{user_name} removed SLA policy %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} đã tắt tiếng hội thoại'

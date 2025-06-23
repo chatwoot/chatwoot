@@ -91,6 +91,8 @@ fa:
       conversations_count: تعداد گفتگوها
       avg_first_response_time: میانگین زمان تا اولین پاسخ
       avg_resolution_time: میانگین زمان حل مشکل
+      avg_reply_time: Avg reply time
+      resolution_count: تعداد مسائل حل شده
     team_csv:
       team_name: نام تیم
       conversations_count: Conversations count
@@ -138,6 +140,8 @@ fa:
       instagram_story_content: '%{story_sender} در داستان به شما اشاره کرده: '
       instagram_deleted_story_content: این داستان دیگر در دسترس نیست.
       deleted: این پیام حذف شد
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'کد خطا " %{error_code}'
     activity:
@@ -172,6 +176,10 @@ fa:
       sla:
         added: '%{user_name} سیاست SLA %{sla_name} را اضافه کرد'
         removed: '%{user_name} سیاست SLA %{sla_name} را حذف کرد'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} مکالمه را بی صدا کرد'
