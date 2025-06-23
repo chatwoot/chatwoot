@@ -154,6 +154,101 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq message.source_id
       end
 
+      describe 'references header' do
+        context 'when starting a new conversation' do
+          let(:first_outgoing_message) do
+            create(:message,
+                   conversation: conversation,
+                   account: account,
+                   message_type: 'outgoing',
+                   content: 'First outgoing message')
+          end
+          let(:mail) { described_class.email_reply(first_outgoing_message).deliver_now }
+
+          it 'has only the conversation reference' do
+            # When starting a conversation, references will have the default conversation ID
+            # Extract domain from the actual references header to handle dynamic domain selection
+            actual_domain = mail.references.split('@').last
+            expected_reference = "account/#{account.id}/conversation/#{conversation.uuid}@#{actual_domain}"
+            expect(mail.references).to eq(expected_reference)
+          end
+        end
+
+        context 'when replying to a message with no references' do
+          let(:incoming_message) do
+            create(:message,
+                   conversation: conversation,
+                   account: account,
+                   message_type: 'incoming',
+                   source_id: '<incoming-123@example.com>',
+                   content: 'Incoming message',
+                   content_attributes: {
+                     'email' => {
+                       'message_id' => 'incoming-123@example.com'
+                     }
+                   })
+          end
+          let(:reply_message) do
+            create(:message,
+                   conversation: conversation,
+                   account: account,
+                   message_type: 'outgoing',
+                   content: 'Reply to incoming',
+                   content_attributes: {
+                     'in_reply_to_external_id' => '<incoming-123@example.com>'
+                   })
+          end
+          let(:mail) { described_class.email_reply(reply_message).deliver_now }
+
+          before do
+            incoming_message
+          end
+
+          it 'includes only the in_reply_to id in references' do
+            # References should only have the incoming message ID when no prior references exist
+            expect(mail.references).to eq('incoming-123@example.com')
+          end
+        end
+
+        context 'when replying to a message that has references' do
+          let(:incoming_message_with_refs) do
+            create(:message,
+                   conversation: conversation,
+                   account: account,
+                   message_type: 'incoming',
+                   source_id: '<incoming-456@example.com>',
+                   content: 'Incoming with references',
+                   content_attributes: {
+                     'email' => {
+                       'message_id' => 'incoming-456@example.com',
+                       'references' => ['<ref-1@example.com>', '<ref-2@example.com>']
+                     }
+                   })
+          end
+          let(:reply_message) do
+            create(:message,
+                   conversation: conversation,
+                   account: account,
+                   message_type: 'outgoing',
+                   content: 'Reply to message with refs',
+                   content_attributes: {
+                     'in_reply_to_external_id' => '<incoming-456@example.com>'
+                   })
+          end
+          let(:mail) { described_class.email_reply(reply_message).deliver_now }
+
+          before do
+            incoming_message_with_refs
+          end
+
+          it 'includes existing references plus the in_reply_to id' do
+            # Rails returns references as an array when multiple values are present
+            expected_references = ['ref-1@example.com', 'ref-2@example.com', 'incoming-456@example.com']
+            expect(mail.references).to eq(expected_references)
+          end
+        end
+      end
+
       context 'with email attachments' do
         it 'includes small attachments as email attachments' do
           message_with_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
