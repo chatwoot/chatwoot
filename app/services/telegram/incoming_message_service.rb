@@ -64,7 +64,12 @@ class Telegram::IncomingMessageService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.first
+    @conversation = if @inbox.lock_to_single_conversation
+                      @contact_inbox.conversations.last
+                    else
+                      @contact_inbox.conversations.where
+                                    .not(status: :resolved).last
+                    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
