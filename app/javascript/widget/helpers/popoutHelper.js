@@ -21,6 +21,5 @@ export const popoutChatWindow = (
     popoutWindow.focus();
   } catch (err) {
     // eslint-disable-next-line no-console
-    console.log(err);
   }
 };

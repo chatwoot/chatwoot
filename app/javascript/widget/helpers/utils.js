@@ -6,7 +6,6 @@ export const isEmptyObject = obj => {
 };
 
 export const sendMessage = msg => {
-  console.log('Posting message to iframe', JSON.stringify({ ...msg }));
   window.parent.postMessage(
     `chatwoot-widget:${JSON.stringify({ ...msg })}`,
     '*'

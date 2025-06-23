@@ -7,9 +7,6 @@ import ShopifyOrdersBlock from './ShopifyOrdersBlock.vue';
 const store = useStore();
 const contact = computed(() => store.getters['contacts/getCurrentUser']);
 
-onMounted(() => {
-  console.log(`Contact is: `, contact.value);
-});
 </script>
 
 <template>

@@ -40,7 +40,9 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
       return
     end
 
-    orders = fetch_orders(contact.custom_attributes['shopify_customer_id'])
+    # orders = fetch_orders(contact.custom_attributes['shopify_customer_id'])
+    orders = Order.where(customer_id: contact.custom_attributes['shopify_customer_id'])
+
     render json: { orders: orders }
   rescue ShopifyAPI::Errors::HttpResponseError => e
     render json: { error: e.message }, status: :unprocessable_entity

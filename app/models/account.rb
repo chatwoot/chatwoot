@@ -102,7 +102,6 @@ class Account < ApplicationRecord
   has_many :coupon_codes, dependent: :destroy_async
   has_many :orders, dependent: :destroy_async
 
-
   has_one_attached :contacts_export
 
   enum locale: LANGUAGES_CONFIG.map { |key, val| [val[:iso_639_1_code], key] }.to_h

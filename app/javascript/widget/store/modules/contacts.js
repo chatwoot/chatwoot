@@ -38,7 +38,6 @@ export const actions = {
   get: async ({ commit }) => {
     try {
       const { data } = await ContactsAPI.get();
-      console.log('New user data', data);
       commit(SET_CURRENT_USER, data);
     } catch (error) {
       // Ignore error
@@ -113,15 +112,10 @@ export const actions = {
   },
   verifyShopifyEmail: async ({ commit, dispatch }, params) => {
     try {
-      console.log('SUBMITTING 2');
       commit(UPDATE_USER_UPDATING_UI_FLAG, true);
-      console.log('SUBMITTING 3');
       await ContactsAPI.verifyShopifyEmail(params);
-      console.log('SUBMITTING 4');
       await dispatch('get');
-      console.log('SUBMITTING 5');
       commit(UPDATE_USER_UPDATING_UI_FLAG, false);
-      console.log('SUBMITTING 6');
     } catch (error) {
       // Ignore error
     }

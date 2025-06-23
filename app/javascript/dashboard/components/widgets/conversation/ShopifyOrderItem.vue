@@ -2,6 +2,8 @@
 import { computed } from 'vue';
 import { format } from 'date-fns';
 import { useI18n } from 'vue-i18n';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
 const props = defineProps({
   order: {
@@ -9,6 +11,10 @@ const props = defineProps({
     required: true,
   },
 });
+
+const emitCancelOrder = () => {
+  emitter.emit(BUS_EVENTS.CANCEL_ORDER, props.order);
+};
 
 const { t } = useI18n();
 
@@ -100,6 +106,20 @@ const getFulfillmentClass = status => {
       >
         {{ fulfillmentStatus }}
       </span>
+    </div>
+
+    <div class="flex flex-row gap-4">
+      <button
+        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition-colors duration-200 hover:bg-gray-400"
+        @click="emitCancelOrder"
+      >
+        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.BUTTON_TEXT') }}
+      </button>
+      <button
+        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition-colors duration-200 hover:bg-gray-400"
+      >
+        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.EDIT.BUTTON_TEXT') }}
+      </button>
     </div>
   </div>
 </template>

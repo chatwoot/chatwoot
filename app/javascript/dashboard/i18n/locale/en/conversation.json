@@ -321,7 +321,39 @@
       "FULFILLMENT_STATUS": {
         "FULFILLED": "Fulfilled",
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
-        "UNFULFILLED": "Unfulfilled"
+        "UNFULFILLED": "Unfulfilled",
+        "PARTIAL": "Partial"
+      },
+      "REFUND": {
+        "BUTTON_TEXT": "Refund"
+      },
+      "EDIT": {
+        "BUTTON_TEXT": "Edit"
+      },
+      "CANCEL": {
+        "BUTTON_TEXT": "Cancel",
+        "TITLE": "Cancel Order",
+        "PRODUCT": "Product",
+        "ITEM_PRICE": "Item Price",
+        "QTY": "Quantity",
+        "ITEM_TOTAL": "Item total",
+        "SKU": "SKU",
+        "ALREADY_RETURNED": "Already returned",
+        "RESTOCK_ITEMS": "Restock items",
+        "RESTOCK_DESC": "Restock descriptions",
+        "SEND_NOTIFICATION": "Send notifications",
+        "MANUAL": "Manual",
+        "REASON_FOR_CANCELLING": "Reason for cancelling",
+        "CUSTOMER_CHANGED": "Customer changed",
+        "OUT_OF_STOCK": "Out of stock",
+        "PRICING_ERROR": "Pricing error",
+        "OTHER": "other",
+        "SUBTOTAL": "Subtotal",
+        "DISCOUNTS": "Discounts",
+        "TAX": "Tax",
+        "TOTAL_AVAILABLE_REFUND": "Available refund",
+        "KEEP_ORDER": "Keep Order",
+        "CANCEL_ORDER": "Cancel Order"
       }
     }
   },

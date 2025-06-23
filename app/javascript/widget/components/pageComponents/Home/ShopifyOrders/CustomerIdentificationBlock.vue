@@ -31,7 +31,6 @@ const contactUiFlags = computed(() => store.getters['contacts/getUiFlags']);
 
 const onSubmit = () => {
   try {
-    console.log('SUBMITTING');
     store.dispatch('contacts/verifyShopifyEmail', { email: form.email });
   } catch {
     // Handle error

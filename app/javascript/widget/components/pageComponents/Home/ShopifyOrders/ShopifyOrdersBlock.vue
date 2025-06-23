@@ -32,12 +32,10 @@ onMounted(() => {
 });
 
 const viewAll = () => {
-  console.log('ROUTE to view all 1, isIframe');
 
   const name = 'shopify-orders-block';
   replaceRoute(name, {});
 
-  console.log('ROUTE to view all 2');
 };
 </script>
 

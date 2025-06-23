@@ -40,6 +40,31 @@ module ShopifyApp
         }
       )
 
+      
+      webhooks = ShopifyAPI::Webhook.all(session: api_session)
+      webhooks.each { |w| Rails.logger.info "Webhook configured: #{w.topic} - #{w.address}" }
+
+      # Below is testing code, you can run in rails console to verify registration of a webhook
+      # missing_webhooks = [
+      #   "orders/updated",
+        # "shop/redact", 
+        # "customers/redact",
+        # "customers/data_request"
+      # ]
+
+      # missing_webhooks.each do |topic|
+      #   begin
+      #     webhook = ShopifyAPI::Webhook.new(session: api_session)
+      #     webhook.topic = topic
+      #     webhook.address = "#{ENV['SHOPIFY_WEBHOOK_HOST']}/webhooks/#{topic.gsub('/', '_')}"
+      #     webhook.format = "json"
+      #     result = webhook.save!
+      #     Rails.logger.info("✅ Registered: #{topic}")
+      #   rescue => e
+      #     Rails.logger.info( "❌ Failed to register #{topic}: #{e.message}")
+      #   end
+      # end
+
       if ShopifyApp::VERSION < "23.0"
         # deprecated in 23.0
         if ShopifyApp.configuration.custom_post_authenticate_tasks.present?
@@ -50,10 +75,18 @@ module ShopifyApp
       else
         ShopifyApp.configuration.post_authenticate_tasks.perform(api_session)
       end
-      redirect_to_app if check_billing(api_session)
+
+      # redirect_to_app if check_billing(api_session) we maybe this for now
+
+      redirect_to(shopify_integration_url(account_id))
     end
 
     private
+
+    def shopify_integration_url(account_id)
+      "#{ENV.fetch('FRONTEND_URL', nil)}/app/accounts/#{account_id}/settings/integrations/shopify"
+    end
+
 
     def callback_rescue(error)
       ShopifyApp::Logger.debug("#{error.class} was rescued and redirected to login_url_with_optional_shop")

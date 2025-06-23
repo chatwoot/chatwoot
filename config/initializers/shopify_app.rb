@@ -13,7 +13,7 @@ ShopifyApp.configure do |config|
   config.reauth_on_access_scope_changes = true
 
   config.webhooks = [
-    { topic: "orders/update", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/orders_update" },
+    { topic: "orders/updated", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/orders_updated" },
     { topic: "orders/create", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/orders_create" },
     { topic: "shop/redact", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/shop_redact" },
     { topic: "customers/redact", address: "#{ENV.fetch('SHOPIFY_WEBHOOK_HOST', '')}/webhooks/customers_redact" },

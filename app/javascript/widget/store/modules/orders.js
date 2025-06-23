@@ -25,8 +25,6 @@ export const actions = {
         commit('toggleNoOrdersStatus', true);
       }
       commit('toggleIsFetchingStatus', false);
-      
-      console.log('recieved orders', response.data);
 
       commit('updateOrders', response.data.orders);
     } catch {
