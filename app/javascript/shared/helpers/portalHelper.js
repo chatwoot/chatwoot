@@ -29,22 +29,12 @@ export const getMatchingLocale = (selectedLocale = '', allowedLocales = []) => {
 
   const [lang] = selectedLocale.split('_');
 
-  // Priority 1: Exact match
-  if (allowedLocales.includes(selectedLocale)) {
-    return selectedLocale;
-  }
+  const priorityMatches = [
+    selectedLocale, // exact match
+    lang, // base language match
+    allowedLocales.find(l => l.startsWith(`${lang}_`)), // first variant match
+  ];
 
-  // Priority 2: Base language match
-  if (allowedLocales.includes(lang)) {
-    return lang;
-  }
-
-  // Priority 3: Variant match
-  const variantMatch = allowedLocales.find(l => l.startsWith(`${lang}_`));
-  if (variantMatch) {
-    return variantMatch;
-  }
-
-  // No match found
-  return null;
+  // Return the first match that exists in the allowed list, or null
+  return priorityMatches.find(l => l && allowedLocales.includes(l)) ?? null;
 };
