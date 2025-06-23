@@ -61,7 +61,7 @@ const isDefaultScreen = computed(() => {
         </h2>
         <p
           v-dompurify-html="formatMessage(config.welcomeTagline)"
-          class="text-sm break-words text-n-slate-11 [&_a]:!text-n-slate-11 [&_a]:underline"
+          class="text-sm break-words text-n-slate-11 [&_a]:!text-n-slate-11 [&_a]:underline [&_a:has(>strong)]:no-underline"
         />
       </div>
     </div>
