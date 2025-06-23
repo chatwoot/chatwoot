@@ -52,16 +52,20 @@ module ReferencesHeaderBuilder
   # @return [Message, nil] The message being replied to
   def find_replied_to_message(conversation, current_message)
     external_id = current_message.content_attributes['in_reply_to_external_id']
+    return nil unless external_id.present?
 
     # Remove angle brackets if present for comparison
-    external_id = external_id.gsub(/[<>]/, '') if external_id.is_a?(String)
+    normalized_external_id = external_id.gsub(/[<>]/, '')
 
-    conversation.messages.find do |message|
-      next unless message.source_id
-
-      source_id = message.source_id.gsub(/[<>]/, '')
-      source_id == external_id
-    end
+    # Use database query to find the message efficiently
+    # Search for exact match or with angle brackets
+    conversation.messages
+                .where.not(source_id: nil)
+                .where('source_id = ? OR source_id = ? OR source_id = ?',
+                       normalized_external_id,
+                       "<#{normalized_external_id}>",
+                       external_id)
+                .first
   end
 
   # Extracts References header from a message's content_attributes
