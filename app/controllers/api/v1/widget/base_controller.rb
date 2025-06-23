@@ -17,7 +17,8 @@ class Api::V1::Widget::BaseController < ApplicationController
   end
 
   def conversation
-    @conversation ||= conversations.last
+    @conversation ||= conversations.where
+                                   .not(status: :resolved).last
   end
 
   def create_conversation
