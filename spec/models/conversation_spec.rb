@@ -849,8 +849,10 @@ RSpec.describe Conversation do
 
     before do
       create(:inbox_member, user: agent, inbox: inbox)
+      # rubocop:disable Rails/SkipsModelValidations
       conversation.update_column(:waiting_since, nil)
       conversation.update_column(:created_at, conversation_start_time)
+      # rubocop:enable Rails/SkipsModelValidations
       conversation.messages.destroy_all
       conversation.reporting_events.destroy_all
       conversation.reload
