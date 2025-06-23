@@ -66,6 +66,34 @@ describe ReportingEventListener do
   end
 
   describe '#reply_created' do
+    let(:contact) { create(:contact, account: account) }
+
+    def create_customer_message(conversation, created_at: Time.current)
+      create(:message,
+             message_type: 'incoming',
+             account: account,
+             inbox: inbox,
+             conversation: conversation,
+             sender: contact,
+             created_at: created_at)
+    end
+
+    def create_agent_message(conversation, created_at: Time.current, sender: user)
+      create(:message,
+             message_type: 'outgoing',
+             account: account,
+             inbox: inbox,
+             conversation: conversation,
+             sender: sender,
+             created_at: created_at)
+    end
+
+    def create_reply_event(agent_message, waiting_since, event_time = nil)
+      Events::Base.new('reply.created', event_time || agent_message.created_at,
+                       waiting_since: waiting_since,
+                       message: agent_message)
+    end
+
     it 'creates reply created event' do
       event = Events::Base.new('reply.created', Time.zone.now, waiting_since: 2.hours.ago, message: message)
       listener.reply_created(event)
@@ -73,6 +101,109 @@ describe ReportingEventListener do
       events = account.reporting_events.where(name: 'reply_time', conversation_id: message.conversation_id)
       expect(events.length).to be 1
       expect(events.first.value).to be_within(1).of(7200)
+    end
+
+    context 'when conversation is reopened' do
+      let(:resolved_conversation) do
+        create(:conversation, account: account, inbox: inbox, assignee: user,
+                              status: 'resolved', contact: contact)
+      end
+
+      context 'when customer sends message after resolution' do
+        it 'calculates reply time from the reopening message' do
+          # Customer sends message 3 hours after resolution
+          customer_message_time = 3.hours.ago
+          create_customer_message(resolved_conversation, created_at: customer_message_time)
+
+          # This should reopen the conversation and set waiting_since
+          resolved_conversation.reload
+          expect(resolved_conversation.status).to eq('open')
+
+          # Agent replies 2 hours after customer message
+          agent_reply_time = 1.hour.ago
+          agent_message = create_agent_message(resolved_conversation, created_at: agent_reply_time)
+
+          # Create reply event with correct waiting_since (should be customer message time)
+          event = create_reply_event(agent_message, customer_message_time)
+          listener.reply_created(event)
+
+          # Verify reply time is 2 hours (7200 seconds)
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+          expect(events.length).to be 1
+          expect(events.first.value).to be_within(60).of(7200)
+        end
+      end
+
+      context 'when conversation has multiple reopenings' do
+        it 'tracks reply time correctly for each reopening' do
+          # First customer message and agent reply
+          create_customer_message(resolved_conversation, created_at: 5.hours.ago)
+          first_agent_reply = create_agent_message(resolved_conversation, created_at: 4.hours.ago)
+
+          # First reply event - 1 hour response time
+          event = create_reply_event(first_agent_reply, 5.hours.ago)
+          listener.reply_created(event)
+
+          # Resolve conversation again
+          resolved_conversation.update!(status: 'resolved')
+
+          # Second reopening - customer message
+          create_customer_message(resolved_conversation, created_at: 2.hours.ago)
+
+          # Second agent reply - 30 minutes later
+          second_agent_reply = create_agent_message(resolved_conversation, created_at: 1.5.hours.ago)
+
+          # Second reply event - 30 minute response time
+          event = create_reply_event(second_agent_reply, 2.hours.ago)
+          listener.reply_created(event)
+
+          # Verify two reply events with correct times
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+                          .order(created_at: :asc)
+          expect(events.length).to be 2
+          expect(events.first.value).to be_within(60).of(3600) # 1 hour
+          expect(events.second.value).to be_within(60).of(1800) # 30 minutes
+        end
+      end
+
+      context 'when conversation is manually reopened' do
+        it 'sets waiting_since when first customer message arrives after manual reopening' do
+          # Manually reopen conversation without a message
+          resolved_conversation.update!(status: 'open')
+
+          # Customer sends message 1 hour after manual reopening
+          customer_message_time = 1.hour.ago
+          create_customer_message(resolved_conversation, created_at: customer_message_time)
+
+          # Agent replies 45 minutes later
+          agent_reply_time = 15.minutes.ago
+          agent_message = create_agent_message(resolved_conversation, created_at: agent_reply_time)
+
+          # Reply event should use customer message time as waiting_since
+          event = create_reply_event(agent_message, customer_message_time)
+          listener.reply_created(event)
+
+          # Verify reply time is 45 minutes (2700 seconds)
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+          expect(events.length).to be 1
+          expect(events.first.value).to be_within(60).of(2700)
+        end
+      end
+
+      context 'when waiting_since is nil (bug scenario)' do
+        it 'creates reply time event with zero value' do
+          agent_message = create_agent_message(resolved_conversation)
+
+          # Simulate the bug where waiting_since is nil
+          event = create_reply_event(agent_message, nil)
+          listener.reply_created(event)
+
+          # Should create an event with zero value when waiting_since is nil
+          events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
+          expect(events.length).to be 1
+          expect(events.first.value).to eq(0)
+        end
+      end
     end
   end
 
