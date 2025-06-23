@@ -4,6 +4,7 @@ describe Webhooks::InstagramEventsJob do
   subject(:instagram_webhook) { described_class }
 
   before do
+    stub_request(:post, /graph\.instagram\.com/)
     stub_request(:post, /graph\.facebook\.com/)
     stub_request(:get, 'https://www.example.com/test.jpeg')
       .to_return(status: 200, body: '', headers: {})

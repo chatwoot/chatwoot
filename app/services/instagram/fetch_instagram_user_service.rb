@@ -6,7 +6,7 @@ class Instagram::FetchInstagramUserService
 
   def perform
     fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user'
-    url = "#{base_uri}/#{ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
+    url = "#{base_uri}/#{@ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
 
     response = HTTParty.get(url)
 

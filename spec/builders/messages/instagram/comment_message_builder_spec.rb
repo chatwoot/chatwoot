@@ -5,8 +5,6 @@ describe Messages::Instagram::CommentMessageBuilder do
 
   before do
     stub_request(:post, /graph\.instagram\.com/)
-    stub_request(:get, 'https://www.example.com/test.jpeg')
-      .to_return(status: 200, body: '', headers: {})
     allow(Messages::Instagram::CommentActivityMessageBuilder).to receive(:new).and_return(double(perform: true))
   end
 
