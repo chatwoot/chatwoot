@@ -47,17 +47,19 @@ class ReportingEventListener < BaseListener
     message = extract_message_and_account(event)[0]
     conversation = message.conversation
     waiting_since = event.data[:waiting_since]
-    reply_time = message.created_at.to_i - waiting_since.to_i
+
+    # When waiting_since is nil, set reply_time to 0
+    reply_time = waiting_since.present? ? message.created_at.to_i - waiting_since.to_i : 0
 
     reporting_event = ReportingEvent.new(
       name: 'reply_time',
       value: reply_time,
-      value_in_business_hours: business_hours(conversation.inbox, waiting_since, message.created_at),
+      value_in_business_hours: waiting_since.present? ? business_hours(conversation.inbox, waiting_since, message.created_at) : 0,
       account_id: conversation.account_id,
       inbox_id: conversation.inbox_id,
       user_id: conversation.assignee_id,
       conversation_id: conversation.id,
-      event_start_time: waiting_since,
+      event_start_time: waiting_since || message.created_at,
       event_end_time: message.created_at
     )
     reporting_event.save!

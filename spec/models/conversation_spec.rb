@@ -937,13 +937,14 @@ RSpec.describe Conversation do
       conversation.toggle_status
       expect(conversation.status).to eq('open')
 
-      create_agent_message(conversation, created_at: 1.hour.ago)
-      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
-      expect(reply_events.count).to eq(1)
-      expect(reply_events.first.value).to eq(0)
-
       conversation.reload
       expect(conversation.waiting_since).to be_nil
+
+      create_agent_message(conversation, created_at: 1.hour.ago)
+      # update_waiting_since will ensure that no events were created since the waiting_since was nil
+      # if the event is created it should log zero value, we have handled that in the reporting_event_listener
+      reply_events = account.reporting_events.where(name: 'reply_time', conversation_id: conversation.id)
+      expect(reply_events.count).to eq(0)
     end
   end
 end
