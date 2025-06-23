@@ -169,3 +169,6 @@
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+- name: notion_integration
+  display_name: Notion Integration
+  enabled: false
