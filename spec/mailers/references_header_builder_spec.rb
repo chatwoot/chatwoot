@@ -21,8 +21,8 @@ RSpec.describe ReferencesHeaderBuilder do
     end
 
     context 'when a message is found with matching source_id' do
-      context 'and it has stored References' do
-        let!(:original_message) do
+      context 'with stored References' do
+        let(:original_message) do
           create(:message, conversation: conversation, account: account,
                            source_id: '<reply-to-123@example.com>',
                            content_attributes: {
@@ -30,6 +30,10 @@ RSpec.describe ReferencesHeaderBuilder do
                                'references' => ['<thread-001@example.com>', '<thread-002@example.com>']
                              }
                            })
+        end
+
+        before do
+          original_message
         end
 
         it 'includes stored References plus in_reply_to' do
@@ -48,11 +52,15 @@ RSpec.describe ReferencesHeaderBuilder do
         end
       end
 
-      context 'and it has no stored References' do
-        let!(:original_message) do
+      context 'without stored References' do
+        let(:original_message) do
           create(:message, conversation: conversation, account: account,
                            source_id: 'reply-to-123@example.com', # without angle brackets
                            content_attributes: { 'email' => {} })
+        end
+
+        before do
+          original_message
         end
 
         it 'returns only the in_reply_to message ID (no rebuild)' do
@@ -63,7 +71,7 @@ RSpec.describe ReferencesHeaderBuilder do
     end
 
     context 'with folding multiple References' do
-      let!(:original_message) do
+      let(:original_message) do
         create(:message, conversation: conversation, account: account,
                          source_id: '<reply-to-123@example.com>',
                          content_attributes: {
@@ -71,6 +79,10 @@ RSpec.describe ReferencesHeaderBuilder do
                              'references' => ['<msg-001@example.com>', '<msg-002@example.com>', '<msg-003@example.com>']
                            }
                          })
+      end
+
+      before do
+        original_message
       end
 
       it 'folds the header with CRLF between message IDs' do
