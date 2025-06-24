@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Reši",
       "REOPEN_ACTION": "Ponovo otvori",
       "OPEN_ACTION": "Otvoreni",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Više",
       "CLOSE": "Zatvori",
       "DETAILS": "detalji",
@@ -117,6 +118,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Izbriši"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označeno na čekanju",
       "RESOLVED": "Označi kao rešeno",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Dodeli oznaku",
       "AGENTS_LOADING": "Učitavanje agenata...",
       "ASSIGN_TEAM": "Dodeli tim",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Razgovor sa ID {conversationId} je dodeljen \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Oznaka je uspešno dodeljena",
     "ASSIGN_LABEL_FAILED": "Nije uspela dodela oznake",
     "CHANGE_TEAM": "Tim razgovora je promenjen",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nije moguće slanje poruke, molim vas pokušajte ponovo",
     "SENT_BY": "Poslao:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Atributi kontakta",
       "PREVIOUS_CONVERSATION": "Prethodni razgovor",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

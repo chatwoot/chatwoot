@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "Could not update bot. Please try again."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Toegangs-token",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"
@@ -83,8 +90,8 @@
         "VALID_URL": "Please enter a valid URL starting with http:// or https://"
       },
       "CANCEL": "Annuleren",
-      "CREATE": "Create Bot",
-      "UPDATE": "Update Bot"
+      "CREATE": "Bot Maken",
+      "UPDATE": "Bot updaten"
     },
     "WEBHOOK": {
       "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."

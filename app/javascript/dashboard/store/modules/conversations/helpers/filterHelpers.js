@@ -47,6 +47,7 @@
  * 3. Nested properties in custom_attributes (conversation_type, etc.)
  */
 import jsonLogic from 'json-logic-js';
+import { coerceToDate } from '@chatwoot/utils';
 
 /**
  * Gets a value from a conversation based on the attribute key
@@ -158,6 +159,20 @@ const contains = (filterValue, conversationValue) => {
 };
 
 /**
+ * Compares two date values using a comparison function
+ * @param {*} conversationValue - The conversation value to compare
+ * @param {*} filterValue - The filter value to compare against
+ * @param {Function} compareFn - The comparison function to apply
+ * @returns {Boolean} - Returns true if the comparison succeeds, false otherwise
+ */
+const compareDates = (conversationValue, filterValue, compareFn) => {
+  const conversationDate = coerceToDate(conversationValue);
+  const filterDate = coerceToDate(filterValue);
+  if (conversationDate === null || filterDate === null) return false;
+  return compareFn(conversationDate, filterDate);
+};
+
+/**
  * Checks if a value matches a filter condition
  * @param {*} conversationValue - The value to check
  * @param {Object} filter - The filter condition
@@ -195,10 +210,10 @@ const matchesCondition = (conversationValue, filter) => {
       return false; // We already handled null/undefined above
 
     case 'is_greater_than':
-      return new Date(conversationValue) > new Date(filterValue);
+      return compareDates(conversationValue, filterValue, (a, b) => a > b);
 
     case 'is_less_than':
-      return new Date(conversationValue) < new Date(filterValue);
+      return compareDates(conversationValue, filterValue, (a, b) => a < b);
 
     case 'days_before': {
       const today = new Date();
@@ -347,6 +362,7 @@ export const matchesFilters = (conversation, filters) => {
       conversation,
       filters[0].attribute_key
     );
+
     return matchesCondition(value, filters[0]);
   }
 

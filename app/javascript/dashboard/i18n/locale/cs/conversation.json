@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Vyřešit",
       "REOPEN_ACTION": "Znovu otevřít",
       "OPEN_ACTION": "Otevřít",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Více",
       "CLOSE": "Zavřít",
       "DETAILS": "Podrobnosti",
@@ -117,6 +118,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Vymazat"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Označit jako nevyřízené",
       "RESOLVED": "Označit jako vyřešené",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Přiřadit štítek",
       "AGENTS_LOADING": "Načítání agentů...",
       "ASSIGN_TEAM": "Přiřadit tým",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Konverzace id {conversationId} přiřazena \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Štítek byl úspěšně přiřazen",
     "ASSIGN_LABEL_FAILED": "Přiřazení štítku se nezdařilo",
     "CHANGE_TEAM": "Tým konverzace se změnil",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Nepodařilo se odeslat tuto zprávu, zkuste to prosím později",
     "SENT_BY": "Odeslal:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Atributy kontaktu",
       "PREVIOUS_CONVERSATION": "Předchozí konverzace",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

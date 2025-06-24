@@ -91,6 +91,8 @@ sl:
       conversations_count: Število pogovorov
       avg_first_response_time: Povprečni prvi odzivni čas
       avg_resolution_time: Povprečni čas razrešitve
+      avg_reply_time: Avg reply time
+      resolution_count: Resolution Count
     team_csv:
       team_name: Ime ekipe
       conversations_count: Število pogovorov
@@ -138,6 +140,8 @@ sl:
       instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
       instagram_deleted_story_content: Ta zgodba ni več na voljo.
       deleted: To sporočilo je bilo izbrisano
+      whatsapp:
+        list_button_label: 'Choose an item'
       delivery_status:
         error_code: 'Koda napake: %{error_code}'
     activity:
@@ -172,6 +176,12 @@ sl:
       sla:
         added: '%{user_name} je dodal politiko SLA %{sla_name}'
         removed: '%{user_name} je odstranil politiko SLA %{sla_name}'
+      linear:
+        issue_created: 'Linear issue %{issue_id} was created by %{user_name}'
+        issue_linked: 'Linear issue %{issue_id} was linked by %{user_name}'
+        issue_unlinked: 'Linear issue %{issue_id} was unlinked by %{user_name}'
+      csat:
+        not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       muted: '%{user_name} je utišal pogovor'
       unmuted: '%{user_name} je vklopil sporočila pogovora'
       auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
@@ -199,33 +209,41 @@ sl:
     online:
       delete: '%{contact_name} je na voljo, poskusite znova pozneje'
   integration_apps:
+    #Note: webhooks and dashboard_apps don't need short_description as they use different modal components
     dashboard_apps:
       name: 'Aplikacije nadzorne plošče'
       description: 'Aplikacije nadzorne plošče vam omogočajo, da ustvarite in vdelate aplikacije, ki prikazujejo uporabniške informacije, naročila ali zgodovino plačil, kar zagotavlja več konteksta vašim agentom za podporo strankam.'
     dyte:
       name: 'Dyte'
+      short_description: 'Start video/voice calls with customers directly from Chatwoot.'
       description: 'Dyte je rešitev, ki integrira avdio in video funkcije v vašo aplikacijo. S to integracijo lahko vaši agenti začnejo video/glasovne klice z vašimi strankami neposredno iz Chatwoota.'
       meeting_name: '%{agent_name} je začel sestanek'
     slack:
       name: 'Slack'
+      short_description: 'Receive notifications and respond to conversations directly in Slack.'
       description: "Integrirajte Chatwoot s Slackom, da bo vaša ekipa sinhronizirana. Ta integracija vam omogoča prejemanje obvestil o novih pogovorih in odgovarjanje nanje neposredno v Slackovem vmesniku."
     webhooks:
       name: 'Webhooks'
       description: 'Dogodki Webhook zagotavljajo posodobitve v realnem času o dejavnostih v vašem računu Chatwoot. Naročite se lahko na želene dogodke in Chatwoot vam bo poslal povratne klice HTTP s posodobitvami.'
     dialogflow:
       name: 'Dialogflow'
+      short_description: 'Build chatbots to handle initial queries before transferring to agents.'
       description: 'Ustvarite chatbote z Dialogflowom in jih preprosto integrirajte v svoj nabiralnik. Ti boti lahko obravnavajo začetne poizvedbe, preden jih prenesejo agentu za pomoč uporabnikom.'
     google_translate:
       name: 'Google Translate'
+      short_description: 'Automatically translate customer messages for agents.'
       description: "Integrirajte Google Translate, da agentom pomagate pri preprostem prevajanju sporočil strank. Ta integracija samodejno zazna jezik in ga pretvori v prednostni jezik agenta ali skrbnika."
     openai:
       name: 'OpenAI'
+      short_description: 'AI-powered reply suggestions, summarization, and message enhancement.'
       description: 'Izkoristite moč velikih jezikovnih modelov OpenAI s funkcijami, kot so predlogi odgovorov, povzemanje, preoblikovanje sporočil, preverjanje črkovanja in klasifikacija oznak.'
     linear:
       name: 'Linear'
+      short_description: 'Create and link Linear issues directly from conversations.'
       description: 'Ustvarite issue v Linearju neposredno iz pogovornega okna. Druga možnost je, da povežete obstoječe Linear issue za bolj poenostavljen in učinkovit postopek sledenja težavam.'
     shopify:
       name: 'Shopify'
+      short_description: 'Access order details and customer data from your Shopify store.'
       description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
     leadsquared:
       name: 'LeadSquared'
@@ -234,6 +252,11 @@ sl:
   captain:
     copilot_error: 'Please connect an assistant to this inbox to use Copilot'
     copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+    copilot:
+      using_tool: 'Using tool %{function_name}'
+      completed_tool_call: 'Completed %{function_name} tool call'
+      invalid_tool_call: 'Invalid tool call'
+      tool_not_available: 'Tool not available'
   public_portal:
     search:
       search_placeholder: Iskanje članka po naslovu ali telesu ...
@@ -259,6 +282,7 @@ sl:
       made_with: Narejeno z
     header:
       go_to_homepage: Spletna stran
+      visit_website: Visit website
       appearance:
         system: Sistem
         light: Svetlo
