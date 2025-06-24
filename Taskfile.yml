@@ -14,8 +14,6 @@ tasks:
     
   docker-build:
     desc: "Build all Docker images"
-    deps:
-      - docker-build-base
     cmds:
       - docker compose build
 
