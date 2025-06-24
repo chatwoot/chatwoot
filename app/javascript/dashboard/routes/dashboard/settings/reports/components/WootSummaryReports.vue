@@ -276,6 +276,27 @@ export default {
               title: 'Median CSAT score',
               align: this.isRTLView ? 'right' : 'left',
               width: 20,
+            },
+            {
+              field: 'totalOnlineTime',
+              key: 'totalOnlineTime',
+              title: 'Total Online Time',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+              renderBodyCell: ({ row }) => {
+                const timeInSeconds = row.totalOnlineTime || 0;
+                // Handle NaN values
+                if (
+                  Number.isNaN(timeInSeconds) ||
+                  timeInSeconds === null ||
+                  timeInSeconds === undefined
+                ) {
+                  return '--';
+                }
+                const hours = Math.floor(timeInSeconds / 3600);
+                const minutes = Math.floor((timeInSeconds % 3600) / 60);
+                return `${hours}h ${minutes}m`;
+              },
             }
           );
         }
@@ -393,6 +414,27 @@ export default {
               title: 'Avg. CSAT score',
               align: this.isRTLView ? 'right' : 'left',
               width: 20,
+            },
+            {
+              field: 'totalOnlineTime',
+              key: 'totalOnlineTime',
+              title: 'Total Online Time',
+              align: this.isRTLView ? 'right' : 'left',
+              width: 20,
+              renderBodyCell: ({ row }) => {
+                const timeInSeconds = row.totalOnlineTime || 0;
+                // Handle NaN values
+                if (
+                  Number.isNaN(timeInSeconds) ||
+                  timeInSeconds === null ||
+                  timeInSeconds === undefined
+                ) {
+                  return '---';
+                }
+                const hours = Math.floor(timeInSeconds / 3600);
+                const minutes = Math.floor((timeInSeconds % 3600) / 60);
+                return `${hours}h ${minutes}m`;
+              },
             }
           );
         }
@@ -1004,6 +1046,7 @@ export default {
               this.renderContent(typeMetrics.median_response_time) || '--',
             medianCsatScore:
               this.renderContent(typeMetrics.median_csat_score) || '--',
+            totalOnlineTime: typeMetrics.total_online_time || 0,
           };
         });
       }

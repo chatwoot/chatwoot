@@ -9,6 +9,7 @@ module CustomReportHelper
   include OnlineStatusHelper
   include WorkingHoursHelper
   include BspdAnalyticsHelper
+  include ReportingEventHelper
 
   private
 
@@ -1042,9 +1043,8 @@ module CustomReportHelper
     base_query = @account.csat_survey_responses.where(created_at: @time_range)
 
     base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
-    base_query = base_query.filter_by_inbox_id(@config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
-    base_query = base_query.filter_by_assigned_agent_id(@config[:filters][:agents]) if @config[:filters][:agents].present?
-    base_query = base_query.filter_by_team_id(@config[:filters][:teams]) if @config[:filters][:teams].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    base_query = base_query.where(assigned_agent_id: @config[:filters][:agents]) if @config[:filters][:agents].present?
 
     Rails.logger.info "Base query(median_csat_score): #{base_query.to_sql}"
 
@@ -1476,6 +1476,161 @@ module CustomReportHelper
     Rails.logger.info "Label percentages: #{label_percentages.inspect}"
 
     label_percentages
+  end
+
+  def total_online_time
+    # Calculate total online time for agents using audit logs
+    if @config[:group_by] == 'agent'
+      grouped_time = Hash.new(0)
+
+      agent_ids = @config[:filters][:agents] || @account.users.pluck(:id)
+
+      agent_ids.each do |user_id|
+        # Get audit logs for availability changes
+        audit_logs = Audited::Audit.where(user_id: user_id)
+                                   .where(associated_id: @account.id)
+                                   .where(created_at: @time_range)
+                                   .where(auditable_type: 'AccountUser')
+                                   .where(action: 'update')
+                                   .order(:created_at)
+
+        if audit_logs.empty?
+          grouped_time[user_id] = 0
+          next
+        end
+
+        # Calculate online time using the existing helper
+        begin
+          online_time = if @config[:filters][:business_hours].present? && @config[:filters][:business_hours] == true
+                          # Calculate business hours online time
+                          calculate_business_hours_online_time(audit_logs, user_id)
+                        else
+                          # Calculate total online time (including non-business hours)
+                          calculate_time_for_status(audit_logs, 0) # 0 = online status
+                        end
+
+          # Ensure we have a valid number
+          online_time = online_time.to_f
+          online_time = 0 if online_time.nan? || online_time.infinite?
+          grouped_time[user_id] = online_time
+        rescue StandardError => e
+          Rails.logger.error "Error calculating time for user #{user_id}: #{e.message}"
+          grouped_time[user_id] = 0
+        end
+      end
+
+      # Ensure all agents have a value, even if 0
+      @account.users.pluck(:id).each do |user_id|
+        grouped_time[user_id] ||= 0
+      end
+
+      grouped_time
+    else
+      # For non-agent grouping, return total across all agents
+      total_time = 0
+      agent_ids = @config[:filters][:agents] || @account.users.pluck(:id)
+
+      agent_ids.each do |user_id|
+        audit_logs = Audited::Audit.where(user_id: user_id)
+                                   .where(associated_id: @account.id)
+                                   .where(created_at: @time_range)
+                                   .where(auditable_type: 'AccountUser')
+                                   .where(action: 'update')
+                                   .order(:created_at)
+
+        next if audit_logs.empty?
+
+        begin
+          online_time = if @config[:filters][:business_hours].present? && @config[:filters][:business_hours] == true
+                          # Calculate business hours online time
+                          calculate_business_hours_online_time(audit_logs, user_id)
+                        else
+                          # Calculate total online time (including non-business hours)
+                          calculate_time_for_status(audit_logs, 0)
+                        end
+
+          # Ensure we have a valid number
+          online_time = online_time.to_f
+          online_time = 0 if online_time.nan? || online_time.infinite?
+          total_time += online_time
+        rescue StandardError => e
+          Rails.logger.error "Error calculating time for user #{user_id}: #{e.message}"
+        end
+      end
+
+      total_time
+    end
+  rescue StandardError => e
+    Rails.logger.error "Error calculating total_online_time: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+
+    # Return empty hash for agent grouping or 0 for non-agent grouping
+    if @config[:group_by] == 'agent'
+      @account.users.pluck(:id).index_with { |_id| 0 }
+    else
+      0
+    end
+  end
+
+  def calculate_business_hours_online_time(audit_logs, user_id)
+    # Get the user's account_user record to find their primary inbox
+    account_user = AccountUser.find_by(user_id: user_id, account_id: @account.id)
+    return 0 unless account_user
+
+    # Find the user's primary inbox (first inbox they're assigned to)
+    # Try to find an inbox where the user is a member first
+    primary_inbox = account_user.user.inboxes.joins(:inbox_members)
+                                .where(account_id: @account.id, inbox_members: { user_id: user_id })
+                                .first
+
+    # Fallback to any inbox in the account if user is not a member of any
+    primary_inbox ||= account_user.user.inboxes.where(account_id: @account.id).first
+
+    return 0 unless primary_inbox&.working_hours_enabled?
+
+    total_business_hours_time = 0
+    current_status = nil
+    current_status_start = nil
+
+    # Process audit logs to calculate business hours online time
+    audit_logs.each_with_index do |audit, index|
+      # Parse the changes to find availability changes
+      changes = audit.audited_changes
+      next unless changes&.key?('availability')
+
+      _old_status, new_status = changes['availability']
+
+      # If this is the first log and we're going online, set the start time
+      if index.zero? && new_status.zero? # 0 = online
+        current_status = new_status
+        current_status_start = audit.created_at
+        next
+      end
+
+      # If we were online and now changing to something else, calculate the time
+      if current_status.zero? && new_status != 0 && current_status_start
+        end_time = audit.created_at
+        business_hours_time = business_hours(primary_inbox, current_status_start, end_time)
+        total_business_hours_time += business_hours_time
+      end
+
+      # Update current status
+      current_status = new_status
+      current_status_start = audit.created_at
+    end
+
+    # Handle the case where the user is still online at the end of the time range
+    if current_status.zero? && current_status_start
+      end_time = @time_range.end
+      business_hours_time = business_hours(primary_inbox, current_status_start, end_time)
+      total_business_hours_time += business_hours_time
+    end
+
+    total_business_hours_time
+  rescue StandardError => e
+    Rails.logger.error "Error calculating business hours online time for user #{user_id}: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
+    0
   end
 end
 # rubocop:enable Metrics/ModuleLength

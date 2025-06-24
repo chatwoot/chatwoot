@@ -15,6 +15,8 @@ import router from '../widget/router';
 import { directive as onClickaway } from 'vue-clickaway';
 import { emitter } from 'shared/helpers/mitt';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+// Import Shopify search fix
+import shopifySearchFix from '../shared/components/ShopifySearchFix';
 const PhoneInput = () => import('../widget/components/Form/PhoneInput');
 
 Vue.use(VueI18n);
@@ -51,6 +53,9 @@ Vue.prototype.$emitter = emitter;
 Vue.config.productionTip = false;
 
 window.onload = () => {
+  // Initialize Shopify search fix for widget
+  window.shopifySearchFix = shopifySearchFix;
+
   window.WOOT_WIDGET = new Vue({
     router,
     store,

@@ -34,6 +34,8 @@ import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import AnalyticsPlugin from '../dashboard/helper/AnalyticsHelper/plugin';
 import resizeDirective from '../dashboard/helper/directives/resize.js';
 import { directive as onClickaway } from 'vue-clickaway';
+// Import Shopify search fix
+import shopifySearchFix from '../shared/components/ShopifySearchFix';
 
 Vue.config.env = process.env;
 
@@ -102,6 +104,9 @@ initializeAnalyticsEvents();
 initalizeRouter();
 
 window.onload = () => {
+  // Initialize Shopify search fix
+  window.shopifySearchFix = shopifySearchFix;
+
   window.WOOT = new Vue({
     router,
     store,

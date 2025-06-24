@@ -54,7 +54,7 @@ export default {
       this.searchQuery = e.target.value;
       clearTimeout(this.debounce);
       this.debounce = setTimeout(async () => {
-        if (this.searchQuery.length > 2 || this.searchQuery.match(/^[0-9]+$/)) {
+        if (this.searchQuery.length > 4 || this.searchQuery.match(/^[0-9]+$/)) {
           this.$emit('search', this.searchQuery);
         } else {
           this.$emit('search', '');

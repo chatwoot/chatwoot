@@ -135,7 +135,7 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
   def agents_overview_params
     {
       metrics: %w[resolved avg_first_response_time avg_resolution_time avg_response_time avg_resolution_time_of_new_assigned_conversations
-                  avg_resolution_time_of_carry_forwarded_conversations avg_resolution_time_of_reopened_conversations median_first_response_time median_resolution_time median_resolution_time_of_new_assigned_conversations median_resolution_time_of_carry_forwarded_conversations median_resolution_time_of_reopened_conversations median_response_time median_csat_score],
+                  avg_resolution_time_of_carry_forwarded_conversations avg_resolution_time_of_reopened_conversations median_first_response_time median_resolution_time median_resolution_time_of_new_assigned_conversations median_resolution_time_of_carry_forwarded_conversations median_resolution_time_of_reopened_conversations median_response_time median_csat_score total_online_time],
       group_by: 'agent',
       filters: base_filters
     }

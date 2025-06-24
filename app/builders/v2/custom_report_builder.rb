@@ -139,6 +139,11 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
           @account.users.each do |user|
             data[:grouped_data][user.id] = {}
             @metrics.each do |metric|
+              # Ensure data[metric] is not nil and has the expected structure
+              if data[metric].nil?
+                Rails.logger.warn "Metric #{metric} returned nil, setting to empty hash"
+                data[metric] = {}
+              end
               data[:grouped_data][user.id][metric] = data[metric][user.id]
             end
           end
@@ -149,6 +154,11 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
           @account.inboxes.each do |inbox|
             data[:grouped_data][inbox.id] = {}
             @metrics.each do |metric|
+              # Ensure data[metric] is not nil and has the expected structure
+              if data[metric].nil?
+                Rails.logger.warn "Metric #{metric} returned nil, setting to empty hash"
+                data[metric] = {}
+              end
               data[:grouped_data][inbox.id][metric] = data[metric][inbox.id]
             end
           end
@@ -157,6 +167,11 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
             grouped_by: 'working_hours'
           }
           @metrics.each do |metric|
+            # Ensure data[metric] is not nil
+            if data[metric].nil?
+              Rails.logger.warn "Metric #{metric} returned nil, setting to empty hash"
+              data[metric] = {}
+            end
             data[:grouped_data][metric] = data[metric]
           end
         when 'labels'
@@ -165,6 +180,11 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
           }
 
           @metrics.each do |metric|
+            # Ensure data[metric] is not nil
+            if data[metric].nil?
+              Rails.logger.warn "Metric #{metric} returned nil, setting to empty hash"
+              data[metric] = {}
+            end
             data[:grouped_data][metric] = data[metric]
           end
         end
@@ -238,6 +258,7 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
        median_resolution_time_of_reopened_conversations
        median_response_time
        median_csat_score
+       total_online_time
        bot_total_revenue
        sales_ooo_hours
        bot_handled
