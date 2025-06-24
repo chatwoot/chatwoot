@@ -157,6 +157,13 @@ const bulkCheckbox = computed({
   },
 });
 
+const buildSelectedCountLabel = computed(() => {
+  const count = responses.value?.length || 0;
+  return bulkSelectionState.value.allSelected
+    ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
+    : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
+});
+
 const handleCardHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
 };
@@ -319,15 +326,7 @@ onMounted(() => {
                   :indeterminate="bulkSelectionState.isIndeterminate"
                 />
                 <span class="text-sm text-n-slate-12 font-medium tabular-nums">
-                  {{
-                    bulkSelectionState.allSelected
-                      ? $t('CAPTAIN.RESPONSES.UNSELECT_ALL', {
-                          count: responses.length,
-                        })
-                      : $t('CAPTAIN.RESPONSES.SELECT_ALL', {
-                          count: responses.length,
-                        })
-                  }}
+                  {{ buildSelectedCountLabel }}
                 </span>
               </div>
               <span class="text-sm text-n-slate-10 tabular-nums">
