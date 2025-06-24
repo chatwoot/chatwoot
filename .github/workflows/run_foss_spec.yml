@@ -51,6 +51,9 @@ jobs:
       - name: Install pnpm dependencies
         run: pnpm i
 
+      - name: Run eslint
+        run: pnpm run eslint
+
       - name: Strip enterprise code
         run: |
           rm -rf enterprise

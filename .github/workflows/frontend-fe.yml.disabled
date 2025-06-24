@@ -1,4 +1,4 @@
-name: Frontend Lint & Test
+name: Frontend Lint & Test (DISABLED - consolidated into run_foss_spec.yml)
 
 on:
   push:
