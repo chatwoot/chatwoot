@@ -28,11 +28,17 @@ const toggleExpand = ref(false);
     class="!rounded-xl flex flex-col items-center min-w-0 gap-2"
     data-bubble-name="activity"
   >
-    <span
-      v-dompurify-html="content"
-      class="text-sm leading-snug px-4 py-2"
-      :title="content"
-    />
+    <span class="text-sm px-4 py-2">
+      <span v-dompurify-html="content" :title="content" />
+      <a
+        class="underline text-n-blue-text ms-1"
+        rel="noopener noreferrer"
+        target="_blank"
+        :href="contentAttributes.link"
+      >
+        {{ $t('MESSAGES.ACTIVITY_MESSAGE.VIEW_DETAILS') }}
+      </a>
+    </span>
     <div
       v-if="hasAdditionalContent"
       class="flex flex-col items-center gap-2 py-1 w-full"

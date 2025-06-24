@@ -3,6 +3,7 @@
     "ACTIVITY_MESSAGE": {
       "EXPAND": "Mở rộng",
       "COLLAPSE": "Thu gọn",
+      "VIEW_DETAILS": "Xem chi tiết",
       "ATTACHMENT": {
         "UNSUPPORTED_BROWSER": "Trình duyệt của bạn không hỗ trợ xem trước tệp đính kèm.",
         "UNSUPPORTED_FILE_TYPE": "Loại tệp không được hỗ trợ."

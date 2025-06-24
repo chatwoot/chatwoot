@@ -21,6 +21,7 @@ class Messages::Instagram::CommentActivityMessageBuilder
       content: activity_content,
       content_attributes: {
         activity_type: 'post',
+        link: post['permalink'],
         post: {
           content: post['caption'],
           attachments: post_attachments,
@@ -31,14 +32,15 @@ class Messages::Instagram::CommentActivityMessageBuilder
   end
 
   def activity_content
-    "<span class='font-semibold text-n-blue-text'>#{message.dig(:from,
-                                                                :username)}</span> commented on a post. <a href='#{post['permalink']}' class='underline text-n-blue-text'>View external post</a>"
+    "#{message.dig(:from, :username)} commented on a post."
   end
 
   def post
-    base_uri = "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}"
-    @post ||= HTTParty.get("#{base_uri}/#{message.dig(:media,
-                                                      :id)}?fields=caption,timestamp,media_type,media_url,permalink,children{media_type,media_url}&access_token=#{inbox.channel.access_token}")
+    base_uri = "https://graph.instagram.com/#{GlobalConfigService.load('INSTAGRAM_API_VERSION', 'v22.0')}/#{message.dig(:media, :id)}"
+    @post ||= HTTParty.get(base_uri, query: {
+                             fields: 'caption,timestamp,media_type,media_url,permalink,children{media_type,media_url}',
+                             access_token: inbox.channel.access_token
+                           })
   rescue Koala::Facebook::AuthenticationError => e
     Rails.logger.warn("Facebook authentication error for inbox: #{inbox.id} with error: #{e.message}")
     Rails.logger.error e

@@ -22,7 +22,7 @@ class Messages::Instagram::CommentMessageBuilder < Messages::Instagram::BaseMess
   end
 
   def message_existed?
-    Message.find_by(source_id: @message[:id], message_type: :incoming).present?
+    Message.exists?(source_id: @message[:id], message_type: :incoming)
   end
 
   def build_activity_message

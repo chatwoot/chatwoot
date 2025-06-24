@@ -35,7 +35,7 @@ class Messages::Facebook::FeedMessageBuilder < Messages::Messenger::MessageBuild
   attr_reader :response
 
   def message_existed?
-    Message.find_by(source_id: response.comment_id, message_type: :incoming).present?
+    Message.exists?(source_id: response.comment_id, message_type: :incoming)
   end
 
   def build_activity_message

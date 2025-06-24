@@ -44,7 +44,7 @@ class Integrations::Facebook::FeedMessageParser
 
   def attachment
     if @event_data['photo'].present?
-      { 'type': 'image', payload: { url: @event_data['photo'] } }.deep_stringify_keys
+      { type: 'image', payload: { url: @event_data['photo'] } }.deep_stringify_keys
     elsif @event_data['video'].present?
       { type: 'video', payload: { url: @event_data['video'] } }.deep_stringify_keys
     end

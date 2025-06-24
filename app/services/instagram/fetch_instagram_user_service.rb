@@ -5,10 +5,13 @@ class Instagram::FetchInstagramUserService
   end
 
   def perform
+    url = "#{base_uri}/#{@ig_scope_id}"
     fields = 'name,username,profile_pic,follower_count,is_user_follow_business,is_business_follow_user,is_verified_user'
-    url = "#{base_uri}/#{@ig_scope_id}?fields=#{fields}&access_token=#{@inbox.channel.access_token}"
 
-    response = HTTParty.get(url)
+    response = HTTParty.get(url, query: {
+                              fields: fields,
+                              access_token: @inbox.channel.access_token
+                            })
 
     return process_successful_response(response) if response.success?
 
@@ -19,17 +22,9 @@ class Instagram::FetchInstagramUserService
   private
 
   def process_successful_response(response)
+    keys = %w[name username profile_pic id follower_count is_user_follow_business is_business_follow_user is_verified_user]
     result = JSON.parse(response.body).with_indifferent_access
-    {
-      'name' => result['name'],
-      'username' => result['username'],
-      'profile_pic' => result['profile_pic'],
-      'id' => result['id'],
-      'follower_count' => result['follower_count'],
-      'is_user_follow_business' => result['is_user_follow_business'],
-      'is_business_follow_user' => result['is_business_follow_user'],
-      'is_verified_user' => result['is_verified_user']
-    }.with_indifferent_access
+    result.slice(*keys).with_indifferent_access
   end
 
   def handle_error_response(response)

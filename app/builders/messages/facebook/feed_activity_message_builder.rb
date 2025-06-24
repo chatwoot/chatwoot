@@ -21,6 +21,7 @@ class Messages::Facebook::FeedActivityMessageBuilder < Messages::Messenger::Mess
       content: activity_content,
       content_attributes: {
         activity_type: 'post',
+        link: response.post_url,
         post: {
           content: post['message'],
           attachments: post_attachments,
@@ -31,7 +32,7 @@ class Messages::Facebook::FeedActivityMessageBuilder < Messages::Messenger::Mess
   end
 
   def activity_content
-    "<span class='font-semibold text-n-blue-text'>#{response.sender_name}</span> commented on a post. <a href='#{response.post_url}' class='underline text-n-blue-text'>View external post</a>"
+    "#{response.sender_name} commented on a post."
   end
 
   def post
@@ -47,8 +48,10 @@ class Messages::Facebook::FeedActivityMessageBuilder < Messages::Messenger::Mess
   end
 
   def post_attachments
-    post['attachments']['data'].map do |attachment|
+    post.dig('attachments', 'data').to_a.filter_map do |attachment|
       attachment_payload = attachment['media']
+      next unless attachment_payload
+
       if attachment_payload['source'].present?
         { 'type': 'video', url: attachment_payload['source'] }.deep_stringify_keys
       else

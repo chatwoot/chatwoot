@@ -3,6 +3,7 @@
     "ACTIVITY_MESSAGE": {
       "EXPAND": "Expand",
       "COLLAPSE": "Collapse",
+      "VIEW_DETAILS": "View details",
       "ATTACHMENT": {
         "UNSUPPORTED_BROWSER": "Your browser does not support attachment preview.",
         "UNSUPPORTED_FILE_TYPE": "Unsupported file type."
