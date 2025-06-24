@@ -42,6 +42,22 @@ export const filterDuplicateSourceMessages = (messages = []) => {
 };
 
 /**
+ * Filters out duplicate source messages from an array of messages.
+ * @param {Array} messages - The array of messages to filter.
+ * @returns {Array} An array of messages without duplicates.
+ */
+export const filterDuplicateIdMessages = (messages = []) => {
+  const messagesWithoutDuplicates = [];
+  messages.forEach(m1 => {
+    const index = messagesWithoutDuplicates.findIndex(m2 => m1.id === m2.id);
+    if (index < 0) {
+      messagesWithoutDuplicates.push(m1);
+    }
+  });
+  return messagesWithoutDuplicates;
+};
+
+/**
  * Retrieves the last message from a conversation, prioritizing non-activity messages.
  * @param {Object} m - The conversation object containing messages.
  * @returns {Object} The last message of the conversation.

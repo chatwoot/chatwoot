@@ -25,6 +25,7 @@ import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import {
   filterDuplicateSourceMessages,
+  filterDuplicateIdMessages,
   getReadMessages,
   getUnreadMessages,
 } from 'dashboard/helper/conversationHelper';
@@ -140,7 +141,8 @@ export default {
       if (this.isAWhatsAppChannel) {
         return filterDuplicateSourceMessages(messages);
       }
-      return messages;
+
+      return filterDuplicateIdMessages(messages);
     },
     readMessages() {
       return getReadMessages(
@@ -200,7 +202,12 @@ export default {
         return this.$t('CONVERSATION.CANNOT_REPLY');
       }
 
-      this.canReplyByCustomMessage = this.currentChat.allowed_custom_message_user_ids.includes(this.currentUserId);
+      /* eslint-disable vue/no-side-effects-in-computed-properties */
+      this.canReplyByCustomMessage =
+        this.currentChat.allowed_custom_message_user_ids.includes(
+          this.currentUserId
+        );
+      /* eslint-enable vue/no-side-effects-in-computed-properties */
       if (!this.canReplyByCustomMessage) {
         return this.$t('CONVERSATION.CANNOT_REPLY_BY_CUSTOM_MESSAGE');
       }
@@ -461,7 +468,7 @@ export default {
 <template>
   <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
     <Banner
-      v-if="!currentChat.can_reply || !this.canReplyByCustomMessage"
+      v-if="!currentChat.can_reply || !canReplyByCustomMessage"
       color-scheme="alert"
       class="mx-2 mt-2 overflow-hidden rounded-lg"
       :banner-message="replyWindowBannerMessage"

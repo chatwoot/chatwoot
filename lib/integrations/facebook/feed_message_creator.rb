@@ -20,8 +20,8 @@ class Integrations::Facebook::FeedMessageCreator
   attr_reader :response
 
   def create_comment_message
-    page = Channel::FacebookPage.find_by!(page_id: response.page_id)
-    return if page_reply_message?
+    page = Channel::FacebookPage.find_by(page_id: response.page_id)
+    return if page_reply_message? || page.blank?
 
     Messages::Facebook::FeedMessageBuilder.new(response, page.inbox).perform
     Messages::Facebook::ReplyFeedMessageBuilder.new(response, page).perform
