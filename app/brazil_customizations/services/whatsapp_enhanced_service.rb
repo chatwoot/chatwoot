@@ -50,6 +50,11 @@ module BrazilCustomizations
       }
     }.freeze
     
+    def initialize(account)
+      @account = account
+      @config = BrazilCustomizations::Config.new
+    end
+    
     class << self
       # Valida se o número é brasileiro válido para WhatsApp
       def valid_brazilian_whatsapp_number?(phone)
@@ -255,6 +260,300 @@ module BrazilCustomizations
         base_time = 3
         position * base_time
       end
+    end
+
+    # Validação de telefone brasileiro
+    def validate_brazilian_phone(phone_number)
+      return false if phone_number.blank?
+
+      # Remove todos os caracteres não numéricos
+      clean_number = phone_number.gsub(/\D/, '')
+      
+      # Verifica se é um número brasileiro válido (10 ou 11 dígitos)
+      return false unless [10, 11].include?(clean_number.length)
+      
+      # Verifica se começa com código de área válido
+      area_code = clean_number[0, 2]
+      valid_area_codes = %w[11 12 13 14 15 16 17 18 19 21 22 24 27 28 31 32 33 34 35 37 38 41 42 43 44 45 46 47 48 49 51 53 54 55 61 62 63 64 65 66 67 68 69 71 73 74 75 77 79 81 82 83 84 85 86 87 88 89 91 92 93 94 95 96 97 98 99]
+      
+      valid_area_codes.include?(area_code)
+    end
+
+    # Formata telefone brasileiro para E.164
+    def format_brazilian_phone(phone_number)
+      return nil if phone_number.blank?
+
+      clean_number = phone_number.gsub(/\D/, '')
+      
+      # Adiciona código do país se não estiver presente
+      clean_number = "55#{clean_number}" unless clean_number.start_with?('55')
+      
+      # Adiciona + no início
+      "+#{clean_number}"
+    end
+
+    # Detecta intenção da mensagem para roteamento automático
+    def detect_intent(message_content)
+      return 'vendas' if sales_keywords.any? { |keyword| message_content.downcase.include?(keyword) }
+      return 'suporte' if support_keywords.any? { |keyword| message_content.downcase.include?(keyword) }
+      return 'financeiro' if financial_keywords.any? { |keyword| message_content.downcase.include?(keyword) }
+      return 'reclamacao' if complaint_keywords.any? { |keyword| message_content.downcase.include?(keyword) }
+      
+      'geral'
+    end
+
+    # Cria template de mensagem inicial baseado na intenção
+    def create_welcome_template(intent, contact_name = nil)
+      templates = {
+        'vendas' => {
+          name: 'welcome_sales_pt_br',
+          parameters: [
+            { type: 'text', text: contact_name || 'Cliente' }
+          ]
+        },
+        'suporte' => {
+          name: 'welcome_support_pt_br',
+          parameters: [
+            { type: 'text', text: contact_name || 'Cliente' }
+          ]
+        },
+        'financeiro' => {
+          name: 'welcome_financial_pt_br',
+          parameters: [
+            { type: 'text', text: contact_name || 'Cliente' }
+          ]
+        },
+        'reclamacao' => {
+          name: 'welcome_complaint_pt_br',
+          parameters: [
+            { type: 'text', text: contact_name || 'Cliente' }
+          ]
+        },
+        'geral' => {
+          name: 'welcome_general_pt_br',
+          parameters: [
+            { type: 'text', text: contact_name || 'Cliente' }
+          ]
+        }
+      }
+      
+      templates[intent] || templates['geral']
+    end
+
+    # Envia mensagem inicial via WhatsApp
+    def send_welcome_message(phone_number, intent, contact_name = nil)
+      return false unless validate_brazilian_phone(phone_number)
+
+      formatted_phone = format_brazilian_phone(phone_number)
+      template = create_welcome_template(intent, contact_name)
+      
+      # Encontra o canal WhatsApp da conta
+      whatsapp_channel = find_whatsapp_channel
+      
+      if whatsapp_channel
+        provider = whatsapp_provider_class(whatsapp_channel).new(whatsapp_channel)
+        provider.send_template(formatted_phone, template)
+        true
+      else
+        false
+      end
+    end
+
+    # Cria conversa e envia mensagem inicial
+    def create_conversation_with_welcome(contact_params, message_content, inbox_id = nil)
+      # Detecta intenção da mensagem
+      intent = detect_intent(message_content)
+      
+      # Envia mensagem de boas-vindas
+      if contact_params[:phone_number].present?
+        send_welcome_message(contact_params[:phone_number], intent, contact_params[:name])
+      end
+      
+      # Cria a conversa no Chatwoot
+      create_conversation(contact_params, message_content, inbox_id, intent)
+    end
+
+    # Preenche informações do contato automaticamente
+    def auto_fill_contact_info(phone_number)
+      return {} if phone_number.blank?
+
+      # Aqui você pode integrar com APIs externas para buscar informações
+      # Por exemplo, consulta CPF/CNPJ, dados de telefone, etc.
+      
+      # Por enquanto, retorna estrutura básica
+      {
+        phone_number: format_brazilian_phone(phone_number),
+        additional_attributes: {
+          country_code: 'BR',
+          country: 'Brasil',
+          phone_validated: true,
+          auto_filled: true
+        }
+      }
+    end
+
+    # Valida e formata CPF/CNPJ
+    def validate_document(document_number)
+      return { valid: false, type: nil, formatted: nil } if document_number.blank?
+
+      clean_document = document_number.gsub(/\D/, '')
+      
+      if clean_document.length == 11
+        { valid: validate_cpf(clean_document), type: 'cpf', formatted: format_cpf(clean_document) }
+      elsif clean_document.length == 14
+        { valid: validate_cnpj(clean_document), type: 'cnpj', formatted: format_cnpj(clean_document) }
+      else
+        { valid: false, type: nil, formatted: nil }
+      end
+    end
+
+    private
+
+    def sales_keywords
+      %w[comprar produto preço valor orçamento proposta venda compra interesse]
+    end
+
+    def support_keywords
+      %w[ajuda suporte problema erro dificuldade dúvida questionamento]
+    end
+
+    def financial_keywords
+      %w[pagamento fatura boleto cartão crédito débito transferência dinheiro valor]
+    end
+
+    def complaint_keywords
+      %w[reclamação problema erro insatisfeito insatisfeita ruim mal atendimento]
+    end
+
+    def find_whatsapp_channel
+      @account.inboxes.find_by(channel_type: 'Channel::Whatsapp')
+    end
+
+    def whatsapp_provider_class(channel)
+      case channel.provider
+      when 'whatsapp_cloud'
+        'Whatsapp::Providers::WhatsappCloudService'
+      when '360_dialog'
+        'Whatsapp::Providers::Whatsapp360DialogService'
+      else
+        'Whatsapp::Providers::WhatsappCloudService'
+      end.constantize
+    end
+
+    def create_conversation(contact_params, message_content, inbox_id, intent)
+      # Lógica para criar conversa usando os builders existentes
+      # Esta é uma implementação simplificada
+      inbox = inbox_id ? @account.inboxes.find(inbox_id) : find_whatsapp_channel&.inbox
+      
+      return nil unless inbox
+
+      contact = find_or_create_contact(contact_params)
+      contact_inbox = find_or_create_contact_inbox(contact, inbox, contact_params[:phone_number])
+      
+      conversation_params = {
+        account_id: @account.id,
+        inbox_id: inbox.id,
+        contact_id: contact.id,
+        contact_inbox_id: contact_inbox.id,
+        additional_attributes: {
+          intent: intent,
+          auto_created: true,
+          brazilian_customization: true
+        }
+      }
+
+      conversation = Conversation.create!(conversation_params)
+      
+      # Cria a mensagem inicial
+      if message_content.present?
+        message_params = {
+          content: message_content,
+          message_type: 'incoming',
+          content_type: 'text'
+        }
+        
+        Messages::MessageBuilder.new(contact, conversation, message_params).perform
+      end
+      
+      conversation
+    end
+
+    def find_or_create_contact(contact_params)
+      # Busca contato existente por email ou telefone
+      contact = @account.contacts.find_by(email: contact_params[:email]) if contact_params[:email].present?
+      contact ||= @account.contacts.find_by(phone_number: format_brazilian_phone(contact_params[:phone_number])) if contact_params[:phone_number].present?
+      
+      if contact
+        # Atualiza informações se necessário
+        contact.update!(contact_params.except(:phone_number).merge(
+          phone_number: format_brazilian_phone(contact_params[:phone_number])
+        ))
+        contact
+      else
+        # Cria novo contato
+        @account.contacts.create!(contact_params.merge(
+          phone_number: format_brazilian_phone(contact_params[:phone_number])
+        ))
+      end
+    end
+
+    def find_or_create_contact_inbox(contact, inbox, source_id)
+      contact_inbox = ContactInbox.find_by(contact: contact, inbox: inbox)
+      
+      if contact_inbox
+        contact_inbox
+      else
+        ContactInboxBuilder.new(
+          contact: contact,
+          inbox: inbox,
+          source_id: source_id
+        ).perform
+      end
+    end
+
+    def validate_cpf(cpf)
+      return false if cpf.length != 11 || cpf.chars.uniq.length == 1
+      
+      # Validação de CPF
+      sum = 0
+      9.times { |i| sum += cpf[i].to_i * (10 - i) }
+      remainder = sum % 11
+      digit1 = remainder < 2 ? 0 : 11 - remainder
+      
+      sum = 0
+      10.times { |i| sum += cpf[i].to_i * (11 - i) }
+      remainder = sum % 11
+      digit2 = remainder < 2 ? 0 : 11 - remainder
+      
+      cpf[9].to_i == digit1 && cpf[10].to_i == digit2
+    end
+
+    def validate_cnpj(cnpj)
+      return false if cnpj.length != 14 || cnpj.chars.uniq.length == 1
+      
+      # Validação de CNPJ
+      weights1 = [5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+      weights2 = [6, 5, 4, 3, 2, 9, 8, 7, 6, 5, 4, 3, 2]
+      
+      sum = 0
+      12.times { |i| sum += cnpj[i].to_i * weights1[i] }
+      remainder = sum % 11
+      digit1 = remainder < 2 ? 0 : 11 - remainder
+      
+      sum = 0
+      13.times { |i| sum += cnpj[i].to_i * weights2[i] }
+      remainder = sum % 11
+      digit2 = remainder < 2 ? 0 : 11 - remainder
+      
+      cnpj[12].to_i == digit1 && cnpj[13].to_i == digit2
+    end
+
+    def format_cpf(cpf)
+      "#{cpf[0, 3]}.#{cpf[3, 3]}.#{cpf[6, 3]}-#{cpf[9, 2]}"
+    end
+
+    def format_cnpj(cnpj)
+      "#{cnpj[0, 2]}.#{cnpj[2, 3]}.#{cnpj[5, 3]}/#{cnpj[8, 4]}-#{cnpj[12, 2]}"
     end
   end
 end 
