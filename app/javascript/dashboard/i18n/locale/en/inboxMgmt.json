@@ -293,8 +293,7 @@
           "API_KEY_SID": {
             "LABEL": "API Key SID",
             "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required",
-            "HELP": "You can create API keys in the Twilio Console"
+            "REQUIRED": "API Key SID is required"
           },
           "API_KEY_SECRET": {
             "LABEL": "API Key Secret",
@@ -302,9 +301,9 @@
             "REQUIRED": "API Key Secret is required"
           },
           "TWIML_APP_SID": {
-            "LABEL": "TwiML App SID (Recommended)",
+            "LABEL": "TwiML App SID",
             "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "HELP": "Required for browser-based calling. Create a TwiML App in the Twilio Console with Voice URLs pointing to your Chatwoot instance."
+            "REQUIRED": "TwiML App SID is required"
           }
         },
         "SUBMIT_BUTTON": "Create Voice Channel",
