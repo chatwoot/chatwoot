@@ -11,6 +11,13 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
                 end
 
     sections << "Contact Details: #{@record.contact.to_llm_text}" if config[:include_contact_details]
+
+    attributes = build_attributes
+    if attributes.present?
+      sections << 'Conversation Attributes:'
+      sections << attributes
+    end
+
     sections.join("\n")
   end
 
@@ -35,5 +42,12 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
     sender = message.message_type == 'incoming' ? 'User' : 'Support agent'
     sender = "[Private Note] #{sender}" if message.private?
     "#{sender}: #{message.content}\n"
+  end
+
+  def build_attributes
+    attributes = @record.account.custom_attribute_definitions.with_attribute_model('conversation_attribute').map do |attribute|
+      "#{attribute.attribute_display_name}: #{@record.custom_attributes[attribute.attribute_key]}"
+    end
+    attributes.join("\n")
   end
 end
