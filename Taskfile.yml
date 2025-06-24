@@ -11,17 +11,22 @@ tasks:
     desc: "Build base Docker image"
     cmds:
       - docker compose build base
+    
+  docker-build:
+    desc: "Build all Docker images"
+    deps:
+      - docker-build-base
+    cmds:
+      - docker compose build
 
   docker-setup-dev:
     desc: "Setup Docker development images"
     cmds:
-      - docker compose build
       - docker compose run --rm rails bundle exec rails db:chatwoot_prepare
 
   docker-setup-test:
     desc: "Setup Docker unit-test images"
     cmds:
-      - docker compose build
       - docker compose run --rm rails bundle exec rails db:chatwoot_prepare RAILS_ENV=test
     
   docker-test:
@@ -29,6 +34,11 @@ tasks:
     cmds:
       - docker compose run --rm -e RAILS_ENV=test rails bundle exec rspec --profile=10 --format documentation
     silent: true
+
+  docker-up:
+    desc: "Start the Docker containers"
+    cmds:
+      - docker compose up -d
 
   docker-clean-volumes:
     desc: "Delete all Docker volumes"
@@ -38,12 +48,3 @@ tasks:
       - docker volume prune -f
       - echo "Volume cleanup completed!"
 
-  test:
-    desc: "Run the full RSpec suite locally"
-    cmds:
-      - export PGHOST=host.docker.internal
-      - export PGPORT=5432 PGUSER=postgres PGPASSWORD=postgres
-      - unset SMTP_ADDRESS SMTP_USERNAME SMTP_PASSWORD
-      - bundle exec rails db:chatwoot_prepare RAILS_ENV=test
-      - bundle exec rspec --profile=10 --format documentation
-    silent: true

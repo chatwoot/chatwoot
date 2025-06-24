@@ -10,24 +10,24 @@ on:
         options:
           - dev
           - prod
-  push:
-    branches:
-      - main
-      - develop
-    paths:
-      - 'app/**'
-      - 'config/**'
-      - 'db/**'
-      - 'lib/**'
-      - 'public/**'
-      - 'docker/**'
-      - 'Gemfile'
-      - 'Gemfile.lock'
-      - 'package.json'
-      - 'pnpm-lock.yaml'
-      - '.github/workflows/build_chatwoot_cc.yml'
-    tags:
-      - 'v*'
+  # push:
+  #   branches:
+  #     - main
+  #     - develop
+  #   paths:
+  #     - 'app/**'
+  #     - 'config/**'
+  #     - 'db/**'
+  #     - 'lib/**'
+  #     - 'public/**'
+  #     - 'docker/**'
+  #     - 'Gemfile'
+  #     - 'Gemfile.lock'
+  #     - 'package.json'
+  #     - 'pnpm-lock.yaml'
+  #     - '.github/workflows/build_chatwoot_cc.yml'
+  #   tags:
+  #     - 'v*'
 
 env:
   AWS_ACCOUNT_ID: "008971651719"
