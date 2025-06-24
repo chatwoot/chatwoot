@@ -29,7 +29,7 @@ class TokenHelper {
 
   refreshQueue = [];
   serverUrl = '';
-
+  baseUrl = '';
   isEhrLaunch;
 
   isTokenExpired(minValidity) {
@@ -135,14 +135,14 @@ class TokenHelper {
       hasLiveAgentEnabled,
       isEhrLaunch,
       serverUrl,
-      useOkjeevesPlayer = true,
+      baseUrl,
     } = message;
     this.accessToken = accessToken;
     this.refreshToken = refreshToken;
     this.idToken = idToken;
     this.tenant = tenant;
     this.playerEnv = playerEnv;
-    this.useOkjeevesPlayer = useOkjeevesPlayer;
+    this.baseUrl = baseUrl;
     if (serverUrl) {
       this.serverUrl = serverUrl;
     } else {
