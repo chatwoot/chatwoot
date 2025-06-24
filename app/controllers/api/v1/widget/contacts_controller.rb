@@ -33,9 +33,9 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def get_url_for_whatsapp_widget # rubocop:disable Naming/AccessorMethodName
-    inbox_id = conversation.inbox.id
-    account_id = conversation.inbox.account.id
     @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    inbox_id = @web_widget.inbox.id
+    account_id = @web_widget.account.id
 
     additional_attributes = @web_widget.additional_attributes
 
