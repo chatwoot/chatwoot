@@ -119,9 +119,6 @@ RSpec.describe AutomationRules::ActionService do
     end
 
     describe '#perform with add_label action' do
-      let!(:label1) { create(:label, account: account, title: 'bug') }
-      let!(:label2) { create(:label, account: account, title: 'feature') }
-
       before do
         rule.actions << { action_name: 'add_label', action_params: %w[bug feature] }
         rule.save
@@ -141,9 +138,6 @@ RSpec.describe AutomationRules::ActionService do
     end
 
     describe '#perform with remove_label action' do
-      let!(:label1) { create(:label, account: account, title: 'bug') }
-      let!(:label2) { create(:label, account: account, title: 'feature') }
-
       before do
         conversation.add_labels(%w[bug feature support])
         rule.actions << { action_name: 'remove_label', action_params: %w[bug feature] }
