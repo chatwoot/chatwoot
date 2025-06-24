@@ -4,6 +4,8 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
+#  crawl_type    :string           default("full_crawl")
+#  document_type :integer          default("web"), not null
 #  external_link :string           not null
 #  name          :string
 #  status        :integer          default("in_progress"), not null
@@ -11,13 +13,16 @@
 #  updated_at    :datetime         not null
 #  account_id    :bigint           not null
 #  assistant_id  :bigint           not null
+#  external_id   :string
 #
 # Indexes
 #
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
+#  index_captain_documents_on_document_type                   (document_type)
 #  index_captain_documents_on_status                          (status)
+#  index_captain_documents_unique_external_id                 (assistant_id,external_id,document_type) UNIQUE
 #
 class Captain::Document < ApplicationRecord
   class LimitExceededError < StandardError; end
@@ -27,14 +32,21 @@ class Captain::Document < ApplicationRecord
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
 
-  validates :external_link, presence: true
-  validates :external_link, uniqueness: { scope: :assistant_id }
+  validates :external_link, presence: true, if: :web?
+  validates :external_link, uniqueness: { scope: :assistant_id }, if: :web?
+  validates :external_id, presence: true, if: :notion?
+  validates :external_id, uniqueness: { scope: [:assistant_id, :document_type] }, allow_nil: true
   validates :content, length: { maximum: 200_000 }
   before_validation :ensure_account_id
 
   enum status: {
     in_progress: 0,
     available: 1
+  }
+
+  enum document_type: {
+    web: 0,
+    notion: 1
   }
 
   before_create :ensure_within_plan_limit
