@@ -69,6 +69,13 @@ RSpec.describe 'Public Articles API', type: :request do
       expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(3)
     end
 
+    it 'returns articles count from all locales when locale parameter is not present' do
+      get "/hc/#{portal.slug}/articles.json"
+
+      expect(response).to have_http_status(:success)
+      expect(JSON.parse(response.body, symbolize_names: true)[:meta][:articles_count]).to eq(5)
+    end
+
     it 'uses default items per page if per_page is less than 1' do
       get "/hc/#{portal.slug}/#{category.locale}/articles.json", params: { per_page: 0 }
 
