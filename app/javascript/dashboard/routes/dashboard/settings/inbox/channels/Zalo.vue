@@ -24,14 +24,6 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
   },
-
-  methods: {
-    async shopeeAuthorize() {
-      let redirectUri = `${window.location.origin}/shopee/callback/${this.accountId}`;
-      const authUri = `https://open.shopee.com/auth?auth_type=seller&response_type=code&partner_id=${window.chatwootConfig.shopeePartnerId}&redirect_uri=${redirectUri}`;
-      window.location.href = authUri;
-    },
-  },
 };
 </script>
 
@@ -44,21 +36,20 @@ export default {
         {{ errorStateMessage }}
       </p>
       <a
-        href="#"
+        href="/zalo/callback/new?account_id={{accountId}}"
         class="button icon-button rounded-md flex justify-center items-center gap-2 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 border border-solid border-slate-200 dark:border-slate-700 hover:border-woot-500 dark:hover:border-woot-500 transition-all duration-200 ease-in px-4 py-2"
-        @click="shopeeAuthorize()"
       >
         <img
           width="24"
-          src="~dashboard/assets/images/channels/shopee_connect.png"
-          alt="Shopee-logo"
+          src="~dashboard/assets/images/channels/zalo.png"
+          alt="Zalo-logo"
         />
-        <span>{{ $t('INBOX_MGMT.ADD.SHOPEE.CONNECT') }}</span>
+        <span>{{ $t('INBOX_MGMT.ADD.ZALO.CONNECT') }}</span>
       </a>
       <p class="py-6">
         {{
           useInstallationName(
-            $t('INBOX_MGMT.ADD.SHOPEE.HELP'),
+            $t('INBOX_MGMT.ADD.ZALO.HELP'),
             globalConfig.installationName
           )
         }}

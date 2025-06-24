@@ -23,6 +23,9 @@ export default {
     hasShopeeConfigured() {
       return window.chatwootConfig?.shopeePartnerId;
     },
+    hasZaloConfigured() {
+      return window.chatwootConfig?.zaloAppId;
+    },
     isActive() {
       const { key } = this.channel;
       if (Object.keys(this.enabledFeatures).length === 0) {
@@ -39,6 +42,9 @@ export default {
       }
       if (key === 'shopee') {
         return this.hasShopeeConfigured;
+      }
+      if (key === 'zalo') {
+        return this.hasZaloConfigured;
       }
 
       if (key === 'instagram') {

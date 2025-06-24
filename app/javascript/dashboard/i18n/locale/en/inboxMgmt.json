@@ -59,6 +59,10 @@
         "HELP": "PS: By signing in, we only get access to your Shop's messages.",
         "CONNECT": "Connect your Shop"
       },
+      "ZALO": {
+        "HELP": "To add your Zalo Official Account as a channel, you need to authenticate your Zalo OA by clicking on 'Connect your Zalo OA' ",
+        "CONNECT": "Connect your Zalo OA"
+      },
       "TWITTER": {
         "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
         "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",

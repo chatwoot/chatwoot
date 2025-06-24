@@ -17,6 +17,7 @@ Rails.application.routes.draw do
     get '/app', to: 'dashboard#index'
     get '/app/*params', to: 'dashboard#index'
     get '/app/accounts/:account_id/settings/inboxes/new/shopee', to: 'dashboard#index', as: 'app_new_shopee_inbox'
+    get '/app/accounts/:account_id/settings/inboxes/new/zalo', to: 'dashboard#index', as: 'app_new_zalo_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/twitter', to: 'dashboard#index', as: 'app_new_twitter_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/microsoft', to: 'dashboard#index', as: 'app_new_microsoft_inbox'
     get '/app/accounts/:account_id/settings/inboxes/new/instagram', to: 'dashboard#index', as: 'app_new_instagram_inbox'
@@ -495,9 +496,16 @@ Rails.application.routes.draw do
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
   post 'shopee', to: 'webhooks/shopee#process_payload'
+  post 'zalo', to: 'webhooks/zalo#process_payload'
 
   namespace :shopee do
     resources :callback, only: [:show], param: :account_id
+  end
+
+  namespace :zalo do
+    resources :callback, only: [:new] do
+      get :connect, on: :collection
+    end
   end
 
   namespace :twitter do

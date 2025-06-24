@@ -566,6 +566,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["phone_number"], name: "index_channel_whatsapp_on_phone_number", unique: true
   end
 
+  create_table "channel_zalos", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.string "access_token", null: false
+    t.string "refresh_token", null: false
+    t.string "expires_at", null: false
+    t.integer "account_id", null: false
+    t.string "oa_id", null: false
+    t.jsonb "meta", null: false
+  end
+
   create_table "contact_inboxes", force: :cascade do |t|
     t.bigint "contact_id"
     t.bigint "inbox_id"

@@ -12,6 +12,7 @@ import Telegram from './channels/Telegram.vue';
 import Instagram from './channels/Instagram.vue';
 import Voice from './channels/Voice.vue';
 import Shopee from './channels/Shopee.vue';
+import Zalo from './channels/Zalo.vue';
 
 const channelViewList = {
   facebook: Facebook,
@@ -26,6 +27,7 @@ const channelViewList = {
   instagram: Instagram,
   voice: Voice,
   shopee: Shopee,
+  zalo: Zalo,
 };
 
 export default defineComponent({
