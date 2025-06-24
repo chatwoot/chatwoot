@@ -12,6 +12,7 @@
 *NOTE:* Install dependencies based on your OS.
 
 - [Mac OS](https://developers.chatwoot.com/contributing-guide/environment-setup/mac-os)
+  - To install Ruby 3.4.4, run `rvm install 3.4.4 --with-openssl-dir=$(brew --prefix openssl@3)`
 - [Ubuntu](https://developers.chatwoot.com/contributing-guide/environment-setup/ubuntu)
 - [Windows](https://developers.chatwoot.com/contributing-guide/environment-setup/windows)
 
