@@ -113,9 +113,6 @@ RSpec.describe AutomationRules::ConditionsFilterService do
     end
 
     context 'when conditions based on labels' do
-      let!(:label1) { create(:label, account: account, title: 'bug') }
-      let!(:label2) { create(:label, account: account, title: 'feature') }
-
       before do
         conversation.add_labels(['bug'])
       end

@@ -151,25 +151,29 @@ class AutomationRules::ConditionsFilterService < FilterService
       " #{table_name}.additional_attributes ->> '#{attribute_key}' #{filter_operator_value} #{query_operator} "
     when 'standard'
       if attribute_key == 'labels'
-        # For labels, we need to check if the tag name is present in the queried values
-        if query_hash['filter_operator'] == 'equal_to'
-          value_placeholder = "value_#{current_index}"
-          @filter_values[value_placeholder] = query_hash['values'].first
-          " tags.name = :#{value_placeholder} #{query_operator} "
-        elsif query_hash['filter_operator'] == 'not_equal_to'
-          value_placeholder = "value_#{current_index}"
-          @filter_values[value_placeholder] = query_hash['values'].first
-          " tags.name != :#{value_placeholder} #{query_operator} "
-        elsif query_hash['filter_operator'] == 'is_present'
-          " tags.id IS NOT NULL #{query_operator} "
-        elsif query_hash['filter_operator'] == 'is_not_present'
-          " tags.id IS NULL #{query_operator} "
-        else
-          " tags.id #{filter_operator_value} #{query_operator} "
-        end
+        build_label_query_string(query_hash, current_index, query_operator)
       else
         " #{table_name}.#{attribute_key} #{filter_operator_value} #{query_operator} "
       end
+    end
+  end
+
+  def build_label_query_string(query_hash, current_index, query_operator)
+    case query_hash['filter_operator']
+    when 'equal_to'
+      value_placeholder = "value_#{current_index}"
+      @filter_values[value_placeholder] = query_hash['values'].first
+      " tags.name = :#{value_placeholder} #{query_operator} "
+    when 'not_equal_to'
+      value_placeholder = "value_#{current_index}"
+      @filter_values[value_placeholder] = query_hash['values'].first
+      " tags.name != :#{value_placeholder} #{query_operator} "
+    when 'is_present'
+      " tags.id IS NOT NULL #{query_operator} "
+    when 'is_not_present'
+      " tags.id IS NULL #{query_operator} "
+    else
+      " tags.id #{filter_operation(query_hash, current_index)} #{query_operator} "
     end
   end
 

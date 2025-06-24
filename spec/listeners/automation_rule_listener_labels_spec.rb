@@ -7,9 +7,9 @@ describe AutomationRuleListener do
   let!(:inbox) { create(:inbox, account: account) }
   let!(:contact) { create(:contact, account: account) }
   let!(:conversation) { create(:conversation, account: account, inbox: inbox, contact: contact) }
-  let!(:label1) { create(:label, account: account, title: 'bug') }
-  let!(:label2) { create(:label, account: account, title: 'feature') }
-  let!(:label3) { create(:label, account: account, title: 'urgent') }
+  let(:label1) { create(:label, account: account, title: 'bug') }
+  let(:label2) { create(:label, account: account, title: 'feature') }
+  let(:label3) { create(:label, account: account, title: 'urgent') }
 
   before do
     Current.user = user
@@ -17,7 +17,7 @@ describe AutomationRuleListener do
 
   describe 'conversation_updated with label conditions and actions' do
     context 'when label is added and automation rule has label condition' do
-      let!(:automation_rule) do
+      let(:automation_rule) do
         create(:automation_rule,
                event_name: 'conversation_updated',
                account: account,
@@ -42,6 +42,7 @@ describe AutomationRuleListener do
       end
 
       it 'triggers automation when the specified label is added' do
+        automation_rule # Create the automation rule
         expect(Messages::MessageBuilder).to receive(:new).and_call_original
 
         # Add the 'bug' label to trigger the automation
@@ -63,6 +64,7 @@ describe AutomationRuleListener do
       end
 
       it 'does not trigger automation when a different label is added' do
+        automation_rule # Create the automation rule
         expect(Messages::MessageBuilder).not_to receive(:new)
 
         # Add a different label
@@ -81,7 +83,7 @@ describe AutomationRuleListener do
     end
 
     context 'when automation rule has is_present label condition' do
-      let!(:automation_rule) do
+      let(:automation_rule) do
         create(:automation_rule,
                event_name: 'conversation_updated',
                account: account,
@@ -102,6 +104,7 @@ describe AutomationRuleListener do
       end
 
       it 'triggers automation when any label is added to an unlabeled conversation' do
+        automation_rule # Create the automation rule
         expect(Messages::MessageBuilder).to receive(:new).and_call_original
 
         # Add any label to trigger the automation
@@ -119,6 +122,7 @@ describe AutomationRuleListener do
       end
 
       it 'still triggers when labels are removed but conversation still has labels' do
+        automation_rule # Create the automation rule
         # Start with multiple labels
         conversation.add_labels(%w[bug feature])
         conversation.reload
@@ -140,6 +144,7 @@ describe AutomationRuleListener do
       end
 
       it 'does not trigger when all labels are removed' do
+        automation_rule # Create the automation rule
         # Start with labels
         conversation.add_labels(['bug'])
         conversation.reload
@@ -180,6 +185,7 @@ describe AutomationRuleListener do
       end
 
       it 'removes specified labels when condition is met' do
+        automation_rule # Create the automation rule
         # Start with both labels
         conversation.add_labels(%w[bug urgent])
 
@@ -219,6 +225,7 @@ describe AutomationRuleListener do
     end
 
     it 'does not trigger automation when performed by automation rule' do
+      automation_rule # Create the automation rule
       conversation.add_labels(['bug'])
 
       # Simulate event performed by automation rule
