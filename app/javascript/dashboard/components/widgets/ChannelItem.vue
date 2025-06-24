@@ -54,6 +54,7 @@ export default {
         'telegram',
         'line',
         'instagram',
+        'voice',
       ].includes(key);
     },
   },

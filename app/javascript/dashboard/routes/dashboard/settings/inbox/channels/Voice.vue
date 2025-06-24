@@ -1,5 +1,5 @@
 <script setup>
-import { ref, reactive, computed } from 'vue';
+import { reactive, computed } from 'vue';
 import { useStore } from 'vuex';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
@@ -13,9 +13,6 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
-
-const provider = ref('twilio');
-const providerOptions = [{ value: 'twilio', label: 'Twilio' }];
 
 const validPhoneNumber = value => {
   if (!value) return true;
@@ -65,27 +62,15 @@ const formErrors = computed(() => ({
     : '',
 }));
 
-function onProviderChange() {
-  v$.value.$reset();
-  state.accountSid = '';
-  state.authToken = '';
-  state.apiKeySid = '';
-  state.apiKeySecret = '';
-  state.twimlAppSid = '';
-}
-
 function getProviderConfig() {
-  if (provider.value === 'twilio') {
-    const config = {
-      account_sid: state.accountSid,
-      auth_token: state.authToken,
-      api_key_sid: state.apiKeySid,
-      api_key_secret: state.apiKeySecret,
-    };
-    if (state.twimlAppSid) config.outgoing_application_sid = state.twimlAppSid;
-    return config;
-  }
-  return {};
+  const config = {
+    account_sid: state.accountSid,
+    auth_token: state.authToken,
+    api_key_sid: state.apiKeySid,
+    api_key_secret: state.apiKeySecret,
+  };
+  if (state.twimlAppSid) config.outgoing_application_sid = state.twimlAppSid;
+  return config;
 }
 
 async function createChannel() {
@@ -97,7 +82,7 @@ async function createChannel() {
       name: `Voice (${state.phoneNumber})`,
       voice: {
         phone_number: state.phoneNumber,
-        provider: provider.value,
+        provider: 'twilio',
         provider_config: getProviderConfig(),
       },
     });
@@ -116,36 +101,16 @@ async function createChannel() {
 </script>
 
 <template>
-  <div>
+  <div
+    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
+  >
     <PageHeader
       :header-title="$t('INBOX_MGMT.ADD.VOICE.TITLE')"
       :header-content="$t('INBOX_MGMT.ADD.VOICE.DESC')"
     />
 
-    <form
-      class="flex flex-wrap flex-col gap-4 p-2"
-      @submit.prevent="createChannel"
-    >
-      <div class="flex-shrink-0 flex-grow-0">
-        <label>
-          {{ $t('INBOX_MGMT.ADD.VOICE.PROVIDER.LABEL') }}
-          <select
-            v-model="provider"
-            class="p-2 bg-white border border-n-blue-100 rounded"
-            @change="onProviderChange"
-          >
-            <option
-              v-for="option in providerOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </label>
-      </div>
-
-      <div v-if="provider === 'twilio'">
+    <form class="flex flex-col flex-wrap mx-0" @submit.prevent="createChannel">
+      <div>
         <div>
           <label :class="{ error: !!formErrors.phoneNumber }">
             {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL') }}
