@@ -24,7 +24,7 @@ export default {
           name: 'canned_list',
           meta: {
             featureFlag: FEATURE_FLAGS.CANNED_RESPONSES,
-            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+            permissions: ['no-one-has-this-permission'],
           },
           component: CannedHome,
         },

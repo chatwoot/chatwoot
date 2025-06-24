@@ -22,7 +22,7 @@ export default {
           component: Macros,
           meta: {
             featureFlag: FEATURE_FLAGS.MACROS,
-            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
+            permissions: ['no-one-has-this-permission'],
           },
         },
       ],

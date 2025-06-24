@@ -21,7 +21,7 @@ export default {
           component: AttributesHome,
           meta: {
             featureFlag: FEATURE_FLAGS.CUSTOM_ATTRIBUTES,
-            permissions: ['administrator'],
+            permissions: ['no-one-has-this-permission'],
           },
         },
       ],

@@ -24,7 +24,7 @@ export default {
           component: Index,
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
-            permissions: ['administrator'],
+            permissions: ['no-one-has-this-permission'],
           },
         },
         {
