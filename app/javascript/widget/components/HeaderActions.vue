@@ -165,11 +165,7 @@ export default {
           { headers: { Authorization: `Bearer ${token}` } }
         );
 
-        const cdn = tokenHelperInstance.serverUrl.includes('.okjeeves');
-        const tld = cdn && env === 'tech' ? 'tech' : 'app';
-        const baseUrl = tokenHelperInstance.useOkjeevesPlayer
-          ? `https://okjeeves.${env}`
-          : `https://${tokenHelperInstance.tenant}.okjeeves.${tld}`;
+        const baseUrl = tokenHelperInstance.baseUrl;
 
         const inviteLink = `${baseUrl}/meeting?cacheKey=${response.data}&tenant=${tokenHelperInstance.tenant}&env=${env}&joinee=1&cdn=${cdn}`;
         await this.sendMessage({
