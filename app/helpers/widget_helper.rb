@@ -29,6 +29,22 @@ module WidgetHelper
     nil
   end
 
+  def fetch_whatsapp_widget_url(shop_url, default_text, phone_number)
+    # Build base URL
+    url = "https://seagull-suited-nearly.ngrok-free.app/api/v1/liveChat/getWhatsappUrlForWidget?shopUrl=#{shop_url}&defaultText=#{default_text}"
+
+    # Add phone number only if it's present and not empty
+    url += "&phoneNumber=#{phone_number.delete('+')}" if phone_number.present?
+
+    response = HTTParty.get(url)
+    return nil if response['whatsappUrl'].blank?
+
+    response
+  rescue StandardError => e
+    Rails.logger.error "Error fetching WhatsappRedirect_url: #{e.message}"
+    nil
+  end
+
   def fetch_checkout_url(shop_url, source_id, line_items)
     # response = HTTParty.get("https://glorious-heavily-platypus.ngrok-free.app/api/v1/liveChat/getCheckoutUrl?shopUrl=#{shop_url}&livechatUUID=#{source_id}&lineItems=#{encoded_line_items}")
     encoded_line_items = URI.encode_www_form_component(line_items.to_json)

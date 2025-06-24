@@ -325,6 +325,7 @@ Rails.application.routes.draw do
             post :destroy_custom_attributes
             patch :set_user
             get :get_whatsapp_redirect_url
+            get :get_url_for_whatsapp_widget
             get :get_checkout_url
           end
         end

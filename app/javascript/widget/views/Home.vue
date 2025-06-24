@@ -13,7 +13,7 @@
       :style="{
         boxShadow: '0px 2px 8px 0px #00000014, 0px 0px 2px 0px #00000029',
       }"
-      class="faq-card h-['fit-content'] max-h-[180px] overflow-y-auto bg-white rounded-lg flex flex-col w-full p-4 pb-2 mt-16 mb-[1rem] shadow-md"
+      class="faq-card h-['fit-content'] max-h-[180px] overflow-y-auto bg-white rounded-lg flex flex-col w-full p-4 pb-2 mt-14 mb-[0.5rem] shadow-md"
     >
       <h2 class="mb-2 text-[14px] font-medium">FAQs</h2>
       <div
@@ -101,6 +101,44 @@
         </button>
       </div>
     </form>
+    <div
+      v-if="channelConfig.chatOnWhatsappSettings.enabled"
+      role="button"
+      class="bg-white rounded-lg max-w-full p-3 overflow-hidden cursor-pointer w-full hover:bg-[#F0F0F0]"
+      :style="{
+        boxShadow: '0px 2px 8px 0px #00000014, 0px 0px 2px 0px #00000029',
+      }"
+      @click="handleRedirectToWhatsapp"
+    >
+      <div class="flex items-center gap-2 relative">
+        <!-- <div
+          v-if="isHandleRedirectToWhatsapp"
+          style="backdrop-filter: blur(2px)"
+          class="absolute w-full h-full flex justify-center items-center"
+        >
+          <spinner size="medium" :color-scheme="'primary'" />
+        </div> -->
+        <img
+          class="w-8 h-8"
+          src="~dashboard/assets/images/WA_icon.svg"
+          alt="Whatsapp Icon"
+        />
+        <p class="text-[14px] font-medium mr-auto">
+          {{ channelConfig.chatOnWhatsappSettings.button_text }}
+        </p>
+        <spinner
+          v-if="isHandleRedirectToWhatsapp"
+          size="medium"
+          :color-scheme="'primary'"
+        />
+        <fluent-icon
+          v-else
+          icon="chevron-right"
+          size="14"
+          class="text-slate-900 dark:text-slate-50 mr-2"
+        />
+      </div>
+    </div>
     <!-- <div class="px-4 pt-4 w-full">
       <team-availability
         :available-agents="availableAgents"
@@ -122,6 +160,7 @@ import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import { mapActions } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import Spinner from 'shared/components/Spinner.vue';
+import ContactsAPI from '../api/contacts';
 
 export default {
   name: 'Home',
@@ -144,6 +183,7 @@ export default {
     return {
       question: '',
       isFAQLoading: {},
+      isHandleRedirectToWhatsapp: false,
     };
   },
   computed: {
@@ -291,6 +331,20 @@ export default {
         portal: { slug },
       } = window.chatwootWebChannel;
       this.openArticleInArticleViewer(`/hc/${slug}/${locale}`);
+    },
+    async handleRedirectToWhatsapp() {
+      this.isHandleRedirectToWhatsapp = true;
+      try {
+        const data = await ContactsAPI.getWhatsappWidgetUrl();
+        if (data.data?.whatsappUrl) {
+          window.open(data.data?.whatsappUrl, '_blank');
+        }
+      } catch (error) {
+        // eslint-disable-next-line no-console
+        console.log(error);
+      } finally {
+        this.isHandleRedirectToWhatsapp = false;
+      }
     },
   },
 };

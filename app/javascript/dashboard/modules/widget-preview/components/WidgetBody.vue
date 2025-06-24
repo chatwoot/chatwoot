@@ -28,6 +28,22 @@
             </button>
           </div>
         </div>
+        <div
+          v-if="config.chatOnWhatsappSettings.enabled"
+          class="chat-on-whatsapp-settings-card"
+        >
+          <div class="chat-on-whatsapp-settings">
+            <img
+              class="w-8 h-8"
+              src="~dashboard/assets/images/WA_icon.svg"
+              alt="Whatsapp Icon"
+            />
+            <p>{{ config.chatOnWhatsappSettings.buttonText }}</p>
+            <button>
+              <img src="~dashboard/assets/images/send-icon.svg" alt="send" />
+            </button>
+          </div>
+        </div>
       </div>
     </div>
     <div v-else class="conversation-content">
@@ -174,6 +190,32 @@ export default {
           box-shadow: 0px 1.25px 0px 0px #0000000d;
           padding: 10px 16px;
         }
+      }
+    }
+    .chat-on-whatsapp-settings-card {
+      height: 100%;
+      background-color: var(--white);
+      border-radius: var(--border-radius-large);
+      display: flex;
+      flex-direction: column;
+      width: 95%;
+      padding: 16px;
+      box-shadow: 0px 2px 10px 0px #0000001a;
+      gap: 10px;
+      color: #262626;
+      cursor: pointer;
+
+      .chat-on-whatsapp-settings {
+        display: flex;
+        flex-direction: row;
+        justify-content: space-between;
+        align-items: center;
+        p {
+          margin: 0;
+        }
+      }
+      .icon {
+        color: #25d366 !important;
       }
     }
   }

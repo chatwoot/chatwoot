@@ -32,6 +32,28 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     end
   end
 
+  def get_url_for_whatsapp_widget # rubocop:disable Naming/AccessorMethodName
+    inbox_id = conversation.inbox.id
+    account_id = conversation.inbox.account.id
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+
+    additional_attributes = @web_widget.additional_attributes
+
+    is_chat_on_whatsapp = additional_attributes.dig('chat_on_whatsapp_settings', 'enabled')
+
+    return render json: { error: 'Inbox ID not found' }, status: :bad_request if inbox_id.blank?
+    return render json: { error: 'Account Id Not Found' }, status: :bad_request if account_id.blank?
+    return render json: { error: 'Chat on Whatsapp not enabled' }, status: :bad_request unless is_chat_on_whatsapp
+
+    default_text = additional_attributes.dig('chat_on_whatsapp_settings', 'default_text')
+    phone_number = additional_attributes.dig('chat_on_whatsapp_settings', 'phone_number')
+
+    shop_url = fetch_shop_url_from_api(account_id)
+
+    response = fetch_whatsapp_widget_url(shop_url, default_text, phone_number)
+    render json: response
+  end
+
   def get_checkout_url # rubocop:disable Naming/AccessorMethodName
     inbox_id = conversation.inbox.id
 

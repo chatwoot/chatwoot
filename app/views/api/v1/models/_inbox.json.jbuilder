@@ -53,6 +53,7 @@ if resource.web_widget?
   json.continuity_via_email resource.channel.try(:continuity_via_email)
   json.channel_avatar_url resource.channel.try(:avatar_url)
   json.webhook_url resource.channel.try(:webhook_url)
+  json.additional_attributes resource.channel.try(:additional_attributes)
 end
 
 ## Facebook Attributes

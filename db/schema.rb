@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_05_12_152302) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_20_060002) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -383,6 +383,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_05_12_152302) do
     t.jsonb "faqs", default: {}, null: false
     t.string "need_more_help_type", default: "redirect_to_whatsapp"
     t.boolean "back_populates_conversation", default: true, null: false
+    t.jsonb "additional_attributes", default: {}
     t.index ["hmac_token"], name: "index_channel_web_widgets_on_hmac_token", unique: true
     t.index ["website_token"], name: "index_channel_web_widgets_on_website_token", unique: true
   end

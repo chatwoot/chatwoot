@@ -62,7 +62,7 @@
                 )
               "
             />
-            <label class="w-full pb-4">
+            <label class="w-full">
               Back populate previous conversation messages
               <select v-model="backPopulateConversationMessages">
                 <option :value="true">
@@ -73,6 +73,59 @@
                 </option>
               </select>
             </label>
+            <label class="w-full pb-4">
+              Chat on WhatsApp
+              <select v-model="chatOnWhatsappSettings.enabled">
+                <option :value="true">
+                  {{ 'Enabled' }}
+                </option>
+                <option :value="false">
+                  {{ 'Disabled' }}
+                </option>
+              </select>
+            </label>
+            <div
+              v-if="chatOnWhatsappSettings.enabled"
+              class="chat-on-whatsapp-settings"
+            >
+              <div class="w-full">
+                <label
+                  :class="{
+                    error: isPhoneNumberNotValid,
+                  }"
+                >
+                  {{ $t('CONTACT_FORM.FORM.PHONE_NUMBER.LABEL') }}
+                  <woot-phone-input
+                    v-model="chatOnWhatsappSettings.phoneNumber"
+                    :value="chatOnWhatsappSettings.phoneNumber"
+                    :error="isPhoneNumberNotValid"
+                    :placeholder="'Whatsapp phone number'"
+                    @input="onPhoneNumberInputChange"
+                    @blur="$v.chatOnWhatsappSettings.phoneNumber.$touch"
+                    @setCode="setPhoneCode"
+                  />
+                  <span v-if="isPhoneNumberNotValid" class="message">
+                    {{ phoneNumberError }}
+                  </span>
+                </label>
+              </div>
+              <woot-input
+                v-model.trim="chatOnWhatsappSettings.buttonText"
+                :class="{ error: $v.chatOnWhatsappSettings.buttonText.$error }"
+                :label="'Button text'"
+                :placeholder="'Button text'"
+                :error="chatOnWhatsappSettingsButtonTextValidationErrorMsg"
+                @blur="$v.chatOnWhatsappSettings.buttonText.$touch"
+              />
+              <woot-input
+                v-model.trim="chatOnWhatsappSettings.defaultText"
+                :class="{ error: $v.chatOnWhatsappSettings.defaultText.$error }"
+                :label="'Default text'"
+                :placeholder="'Default text'"
+                :error="chatOnWhatsappSettingsDefaultTextValidationErrorMsg"
+                @blur="$v.chatOnWhatsappSettings.defaultText.$touch"
+              />
+            </div>
             <!-- there can be number of input for faq question and answer. -->
             <div class="faq-section-header">
               <label> FAQs </label>
@@ -195,6 +248,7 @@
             :widget-bubble-type="widgetBubbleType"
             :faqs="faqs"
             :channel-avatar-url="channelAvatarUrl"
+            :chat-on-whatsapp-settings="chatOnWhatsappSettings"
           />
         </div>
         <div v-else class="widget-script">
@@ -213,6 +267,8 @@ import alertMixin from 'shared/mixins/alertMixin';
 import { required } from 'vuelidate/lib/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { isPhoneNumberValid } from 'shared/helpers/Validators';
+import parsePhoneNumber from 'libphonenumber-js';
 
 export default {
   components: {
@@ -279,12 +335,23 @@ export default {
           checked: false,
         },
       ],
+      chatOnWhatsappSettings: {
+        enabled: false,
+        buttonText: '',
+        defaultText: '',
+        phoneNumber: '',
+        activeDialCode: '',
+      },
+      additionalAttributes: {},
     };
   },
   computed: {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    parsePhoneNumber() {
+      return parsePhoneNumber(this.chatOnWhatsappSettings.phoneNumber);
+    },
     storageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
@@ -351,12 +418,70 @@ export default {
         ? this.$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WEBSITE_NAME.ERROR')
         : '';
     },
+    chatOnWhatsappSettingsButtonTextValidationErrorMsg() {
+      return this.$v.chatOnWhatsappSettings.buttonText.$error
+        ? 'Please enter a valid button text'
+        : '';
+    },
+    chatOnWhatsappSettingsDefaultTextValidationErrorMsg() {
+      return this.$v.chatOnWhatsappSettings.defaultText.$error
+        ? 'Please enter a valid text'
+        : '';
+    },
+    isPhoneNumberNotValid() {
+      if (this.chatOnWhatsappSettings.phoneNumber !== '') {
+        return (
+          !isPhoneNumberValid(
+            this.chatOnWhatsappSettings.phoneNumber,
+            this.chatOnWhatsappSettings.activeDialCode
+          ) ||
+          (this.chatOnWhatsappSettings.phoneNumber !== ''
+            ? this.chatOnWhatsappSettings.activeDialCode === ''
+            : false)
+        );
+      }
+      return false;
+    },
+    phoneNumberError() {
+      if (this.chatOnWhatsappSettings.activeDialCode === '') {
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DIAL_CODE_ERROR');
+      }
+      if (
+        !isPhoneNumberValid(
+          this.chatOnWhatsappSettings.phoneNumber,
+          this.chatOnWhatsappSettings.activeDialCode
+        )
+      ) {
+        return this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.ERROR');
+      }
+      return '';
+    },
+    setPhoneNumber() {
+      if (this.parsePhoneNumber && this.parsePhoneNumber.countryCallingCode) {
+        return this.chatOnWhatsappSettings.phoneNumber;
+      }
+      if (
+        this.chatOnWhatsappSettings.phoneNumber === '' &&
+        this.chatOnWhatsappSettings.activeDialCode !== ''
+      ) {
+        return '';
+      }
+      return this.chatOnWhatsappSettings.activeDialCode
+        ? `${this.chatOnWhatsappSettings.activeDialCode}${this.chatOnWhatsappSettings.phoneNumber}`
+        : '';
+    },
   },
   mounted() {
     this.setDefaults();
+    this.setDialCode();
   },
   validations: {
     websiteName: { required },
+    chatOnWhatsappSettings: {
+      buttonText: { required },
+      defaultText: { required },
+      phoneNumber: {},
+    },
   },
   methods: {
     setDefaults() {
@@ -372,6 +497,7 @@ export default {
         faqs,
         need_more_help_type,
         back_populates_conversation,
+        additional_attributes,
       } = this.inbox;
       this.websiteName = name;
       this.welcomeHeading = welcome_title;
@@ -382,6 +508,17 @@ export default {
       this.channelAvatarUrl = channel_avatar_url;
       this.faqs = JSON.parse(faqs);
       this.needMoreHelpType = need_more_help_type;
+      this.additionalAttributes = additional_attributes;
+      this.chatOnWhatsappSettings.enabled =
+        additional_attributes?.chat_on_whatsapp_settings?.enabled || false;
+      this.chatOnWhatsappSettings.buttonText =
+        additional_attributes?.chat_on_whatsapp_settings?.button_text ||
+        'Send Us a Text on WhatsApp';
+      this.chatOnWhatsappSettings.defaultText =
+        additional_attributes?.chat_on_whatsapp_settings?.default_text ||
+        'Hey! I need help with something.';
+      this.chatOnWhatsappSettings.phoneNumber =
+        additional_attributes?.chat_on_whatsapp_settings?.phone_number || '';
       this.backPopulateConversationMessages = back_populates_conversation;
 
       this.setNeedMoreHelpOptionsData(
@@ -512,6 +649,21 @@ export default {
             'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.API.SUCCESS_MESSAGE'
           )
         );
+        await this.$store.dispatch('inboxes/updateInboxIMAP', {
+          id: this.inbox.id,
+          formData: false,
+          channel: {
+            additional_attributes: {
+              ...this.additionalAttributes,
+              chat_on_whatsapp_settings: {
+                enabled: this.chatOnWhatsappSettings.enabled,
+                button_text: this.chatOnWhatsappSettings.buttonText,
+                default_text: this.chatOnWhatsappSettings.defaultText,
+                phone_number: this.setPhoneNumber,
+              },
+            },
+          },
+        });
       } catch (error) {
         this.showAlert(
           error.message ||
@@ -530,6 +682,38 @@ export default {
     },
     deleteFaq(index) {
       this.faqs.splice(index, 1);
+    },
+    onPhoneNumberInputChange(value, code) {
+      this.chatOnWhatsappSettings.activeDialCode = code;
+    },
+    setDialCode() {
+      if (
+        this.chatOnWhatsappSettings.phoneNumber !== '' &&
+        this.parsePhoneNumber &&
+        this.parsePhoneNumber.countryCallingCode
+      ) {
+        const dialCode = this.parsePhoneNumber.countryCallingCode;
+        this.chatOnWhatsappSettings.activeDialCode = `+${dialCode}`;
+      }
+    },
+    setPhoneCode(code) {
+      if (
+        this.chatOnWhatsappSettings.phoneNumber !== '' &&
+        this.parsePhoneNumber
+      ) {
+        const dialCode = this.parsePhoneNumber.countryCallingCode;
+        if (dialCode === code) {
+          return;
+        }
+        this.chatOnWhatsappSettings.activeDialCode = `+${dialCode}`;
+        const newPhoneNumber = this.chatOnWhatsappSettings.phoneNumber.replace(
+          `+${dialCode}`,
+          `${code}`
+        );
+        this.chatOnWhatsappSettings.phoneNumber = newPhoneNumber;
+      } else {
+        this.chatOnWhatsappSettings.activeDialCode = code;
+      }
     },
   },
 };

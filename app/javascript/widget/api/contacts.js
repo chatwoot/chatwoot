@@ -12,6 +12,9 @@ export default {
   getWhatsappRedirectURL() {
     return API.get(buildUrl('widget/contact/get_whatsapp_redirect_url'));
   },
+  getWhatsappWidgetUrl() {
+    return API.get(buildUrl('widget/contact/get_url_for_whatsapp_widget'));
+  },
   getCheckoutRedirectURL(shopUrl, lineItems) {
     return API.get(
       `/api/v1/widget/contact/get_checkout_url${

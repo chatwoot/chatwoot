@@ -3,6 +3,7 @@
 # Table name: channel_web_widgets
 #
 #  id                          :integer          not null, primary key
+#  additional_attributes       :jsonb
 #  back_populates_conversation :boolean          default(TRUE), not null
 #  continuity_via_email        :boolean          default(TRUE), not null
 #  faqs                        :jsonb            not null
@@ -41,7 +42,8 @@ class Channel::WebWidget < ApplicationRecord
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
                                                  :locale, { values: [] }, :regex_pattern, :regex_cue] }] },
-                    { selected_feature_flags: [] }].freeze
+                    { selected_feature_flags: [] },
+                    { additional_attributes: {} }].freeze
 
   before_validation :validate_pre_chat_options
   validates :website_url, presence: true

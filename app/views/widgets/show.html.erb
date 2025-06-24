@@ -31,7 +31,8 @@
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
         faqs: <%= @web_widget.faqs.to_json.html_safe %>,
         needMoreHelpType: '<%= @web_widget.need_more_help_type %>',
-        backPopulateConversation: <%= @web_widget.back_populates_conversation %>
+        backPopulateConversation: <%= @web_widget.back_populates_conversation %>,
+        chatOnWhatsappSettings: <%= @web_widget.additional_attributes['chat_on_whatsapp_settings'].to_json.html_safe %>
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'

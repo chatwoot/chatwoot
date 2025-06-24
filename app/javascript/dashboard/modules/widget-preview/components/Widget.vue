@@ -131,6 +131,10 @@ export default {
       type: String,
       default: null,
     },
+    chatOnWhatsappSettings: {
+      type: Object,
+      default: () => {},
+    },
   },
   data() {
     return {
@@ -174,6 +178,7 @@ export default {
         color: this.color,
         logo: this.logo,
         faqs: this.faqs,
+        chatOnWhatsappSettings: this.chatOnWhatsappSettings,
       };
     },
     avatarSrc() {
