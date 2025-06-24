@@ -65,6 +65,8 @@ git rebase develop
 ### [Unreleased]
 - Setup inicial do fork
 - Estrutura de documentação criada
+- Roadmap detalhado para customizações brasileiras
+- Plano estratégico de 5 fases definido
 
 ## 🤝 Contribuição
 
