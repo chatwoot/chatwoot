@@ -23,10 +23,10 @@
   deprecated: true
 - name: ip_lookup
   display_name: IP Lookup
-  enabled: false
+  enabled: true
 - name: disable_branding
   display_name: Disable Branding
-  enabled: false
+  enabled: true
   premium: true
 - name: email_continuity_on_api_channel
   display_name: Email Continuity on API Channel
@@ -97,13 +97,13 @@
   enabled: true
 - name: custom_reply_email
   display_name: Custom Reply Email
-  enabled: false
+  enabled: true
 - name: custom_reply_domain
   display_name: Custom Reply Domain
   enabled: false
 - name: audit_logs
   display_name: Audit Logs
-  enabled: false
+  enabled: true
   premium: true
 - name: response_bot
   display_name: Response Bot
@@ -125,24 +125,24 @@
   chatwoot_internal: true
 - name: sla
   display_name: SLA
-  enabled: false
+  enabled: true
   premium: true
   help_url: https://chwt.app/hc/sla
 - name: help_center_embedding_search
   display_name: Help Center Embedding Search
-  enabled: false
+  enabled: true
   premium: true
   chatwoot_internal: true
 - name: linear_integration
   display_name: Linear Integration
-  enabled: false
+  enabled: true
 - name: captain_integration
   display_name: Captain
-  enabled: false
+  enabled: true
   premium: true
 - name: custom_roles
   display_name: Custom Roles
-  enabled: false
+  enabled: true
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
