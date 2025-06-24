@@ -171,4 +171,4 @@
   enabled: false
 - name: github_integration
   display_name: Github Integration
-  enabled: false
+  enabled: true
