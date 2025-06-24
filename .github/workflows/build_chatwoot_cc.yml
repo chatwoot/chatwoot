@@ -37,15 +37,10 @@ env:
 jobs:
   build-dev:
     if: github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'dev'
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [web, worker]
     runs-on: ubuntu-latest
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }}
       ENVIRONMENT: dev
-      SERVICE: ${{ matrix.service }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -61,16 +56,25 @@ jobs:
 
       - name: Set ECR repository and tags
         run: |
-          REPO_NAME="${PROJECT_NAME}-chatwoot-${SERVICE}-${ENVIRONMENT}"
-          ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
-          echo "ECR_URL=${ECR_URL}" >> $GITHUB_ENV
+          # Set ECR repository names for both web and worker
+          REPO_NAME_WEB="${PROJECT_NAME}-chatwoot-web-${ENVIRONMENT}"
+          REPO_NAME_WORKER="${PROJECT_NAME}-chatwoot-worker-${ENVIRONMENT}"
+          ECR_URL_WEB="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME_WEB}"
+          ECR_URL_WORKER="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME_WORKER}"
+          
+          echo "ECR_URL_WEB=${ECR_URL_WEB}" >> $GITHUB_ENV
+          echo "ECR_URL_WORKER=${ECR_URL_WORKER}" >> $GITHUB_ENV
           
           VERSION_TAG="${{ github.sha }}"
           echo "VERSION_TAG=${VERSION_TAG}" >> $GITHUB_ENV
           
           SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
-          echo "MAIN_TAG=${ECR_URL}:${SANITIZED_REF}-cc" >> $GITHUB_ENV
-          echo "COMMIT_TAG=${ECR_URL}:${VERSION_TAG}" >> $GITHUB_ENV
+          echo "WEB_MAIN_TAG=${ECR_URL_WEB}:${SANITIZED_REF}" >> $GITHUB_ENV
+          echo "WEB_COMMIT_TAG=${ECR_URL_WEB}:${VERSION_TAG}" >> $GITHUB_ENV
+          echo "WEB_LATEST_TAG=${ECR_URL_WEB}:latest" >> $GITHUB_ENV
+          echo "WORKER_MAIN_TAG=${ECR_URL_WORKER}:${SANITIZED_REF}" >> $GITHUB_ENV
+          echo "WORKER_COMMIT_TAG=${ECR_URL_WORKER}:${VERSION_TAG}" >> $GITHUB_ENV
+          echo "WORKER_LATEST_TAG=${ECR_URL_WORKER}:latest" >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -88,7 +92,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push
+      - name: Build and push Web and Worker
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -96,35 +100,26 @@ jobs:
           platforms: linux/amd64
           push: true
           provenance: false
-          cache-from: type=registry,ref=${{ env.ECR_URL }}:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_URL }}:buildcache,mode=max
+          cache-from: |
+            type=registry,ref=${{ env.ECR_URL_WEB }}:buildcache
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_URL_WEB }}:buildcache,mode=max
           build-args: |
             RAILS_ENV=production
           tags: |
-            ${{ env.MAIN_TAG }}
-            ${{ env.COMMIT_TAG }}
-
-      - name: Image build notification
-        if: always()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: deployments
-          SLACK_TITLE: Chatwoot Dev ${{ matrix.service }} Images ${{ job.status }}
-          SLACK_MESSAGE: 'Images built for dev environment: ${{ env.PROJECT_NAME }}-chatwoot-${{ matrix.service }}-dev'
-          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+            ${{ env.WEB_MAIN_TAG }}
+            ${{ env.WEB_COMMIT_TAG }}
+            ${{ env.WEB_LATEST_TAG }}
+            ${{ env.WORKER_MAIN_TAG }}
+            ${{ env.WORKER_COMMIT_TAG }}
+            ${{ env.WORKER_LATEST_TAG }}
 
   build-prod:
     if: (github.event_name == 'workflow_dispatch' && github.event.inputs.environment == 'prod') || github.event_name == 'push'
-    strategy:
-      fail-fast: false
-      matrix:
-        service: [web, worker]
     runs-on: ubuntu-latest
     env:
       GIT_REF: ${{ github.head_ref || github.ref_name }}
       ENVIRONMENT: prod
-      SERVICE: ${{ matrix.service }}
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -140,9 +135,14 @@ jobs:
 
       - name: Set ECR repository and tags
         run: |
-          REPO_NAME="${PROJECT_NAME}-chatwoot-${SERVICE}-${ENVIRONMENT}"
-          ECR_URL="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME}"
-          echo "ECR_URL=${ECR_URL}" >> $GITHUB_ENV
+          # Set ECR repository names for both web and worker
+          REPO_NAME_WEB="${PROJECT_NAME}-chatwoot-web-${ENVIRONMENT}"
+          REPO_NAME_WORKER="${PROJECT_NAME}-chatwoot-worker-${ENVIRONMENT}"
+          ECR_URL_WEB="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME_WEB}"
+          ECR_URL_WORKER="${AWS_ACCOUNT_ID}.dkr.ecr.${AWS_REGION}.amazonaws.com/${REPO_NAME_WORKER}"
+          
+          echo "ECR_URL_WEB=${ECR_URL_WEB}" >> $GITHUB_ENV
+          echo "ECR_URL_WORKER=${ECR_URL_WORKER}" >> $GITHUB_ENV
           
           if [[ "${{ github.ref_type }}" == "tag" ]]; then
             VERSION_TAG="${{ github.ref_name }}"
@@ -153,13 +153,19 @@ jobs:
           
           SANITIZED_REF=$(echo "$GIT_REF" | sed 's/\//-/g')
           if [ "${{ github.ref_name }}" = "main" ]; then
-            echo "MAIN_TAG=${ECR_URL}:latest-cc" >> $GITHUB_ENV
+            echo "WEB_MAIN_TAG=${ECR_URL_WEB}:latest" >> $GITHUB_ENV
+            echo "WORKER_MAIN_TAG=${ECR_URL_WORKER}:latest" >> $GITHUB_ENV
           elif [ "${{ github.ref_type }}" = "tag" ]; then
-            echo "MAIN_TAG=${ECR_URL}:${VERSION_TAG}-cc" >> $GITHUB_ENV
+            echo "WEB_MAIN_TAG=${ECR_URL_WEB}:${VERSION_TAG}" >> $GITHUB_ENV
+            echo "WORKER_MAIN_TAG=${ECR_URL_WORKER}:${VERSION_TAG}" >> $GITHUB_ENV
           else
-            echo "MAIN_TAG=${ECR_URL}:${SANITIZED_REF}-cc" >> $GITHUB_ENV
+            echo "WEB_MAIN_TAG=${ECR_URL_WEB}:${SANITIZED_REF}" >> $GITHUB_ENV
+            echo "WORKER_MAIN_TAG=${ECR_URL_WORKER}:${SANITIZED_REF}" >> $GITHUB_ENV
           fi
-          echo "COMMIT_TAG=${ECR_URL}:${VERSION_TAG}" >> $GITHUB_ENV
+          echo "WEB_COMMIT_TAG=${ECR_URL_WEB}:${VERSION_TAG}" >> $GITHUB_ENV
+          echo "WORKER_COMMIT_TAG=${ECR_URL_WORKER}:${VERSION_TAG}" >> $GITHUB_ENV
+          echo "WEB_LATEST_TAG=${ECR_URL_WEB}:latest" >> $GITHUB_ENV
+          echo "WORKER_LATEST_TAG=${ECR_URL_WORKER}:latest" >> $GITHUB_ENV
 
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v4
@@ -177,7 +183,7 @@ jobs:
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
 
-      - name: Build and push
+      - name: Build and push Web and Worker
         uses: docker/build-push-action@v6
         with:
           context: .
@@ -185,20 +191,16 @@ jobs:
           platforms: linux/amd64
           push: true
           provenance: false
-          cache-from: type=registry,ref=${{ env.ECR_URL }}:buildcache
-          cache-to: type=registry,ref=${{ env.ECR_URL }}:buildcache,mode=max
+          cache-from: |
+            type=registry,ref=${{ env.ECR_URL_WEB }}:buildcache
+            type=registry,ref=${{ env.ECR_URL_WORKER }}:buildcache
+          cache-to: type=registry,ref=${{ env.ECR_URL_WEB }}:buildcache,mode=max
           build-args: |
             RAILS_ENV=production
           tags: |
-            ${{ env.MAIN_TAG }}
-            ${{ env.COMMIT_TAG }}
-
-      - name: Image build notification
-        if: always()
-        uses: rtCamp/action-slack-notify@v2
-        env:
-          SLACK_WEBHOOK: ${{ secrets.SLACK_WEBHOOK }}
-          SLACK_CHANNEL: deployments
-          SLACK_TITLE: Chatwoot Prod ${{ matrix.service }} Images ${{ job.status }}
-          SLACK_MESSAGE: 'Images built for prod environment: ${{ env.PROJECT_NAME }}-chatwoot-${{ matrix.service }}-prod'
-          SLACK_COLOR: ${{ job.status == 'success' && 'good' || 'danger' }}
+            ${{ env.WEB_MAIN_TAG }}
+            ${{ env.WEB_COMMIT_TAG }}
+            ${{ env.WEB_LATEST_TAG }}
+            ${{ env.WORKER_MAIN_TAG }}
+            ${{ env.WORKER_COMMIT_TAG }}
+            ${{ env.WORKER_LATEST_TAG }}
