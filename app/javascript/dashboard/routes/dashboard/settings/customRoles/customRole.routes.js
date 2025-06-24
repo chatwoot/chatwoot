@@ -24,7 +24,7 @@ export default {
               INSTALLATION_TYPES.CLOUD,
               INSTALLATION_TYPES.ENTERPRISE,
             ],
-            permissions: ['administrator'],
+            permissions: ['no-one-has-this-permission'],
           },
           component: CustomRolesHome,
         },

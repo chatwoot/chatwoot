@@ -153,13 +153,17 @@ export default {
         {
           path: 'sla',
           name: 'sla_reports',
-          meta,
+          meta: {
+            permissions: ['no-one-has-this-permission'],
+          },
           component: SLAReports,
         },
         {
           path: 'csat',
           name: 'csat_reports',
-          meta,
+          meta: {
+            permissions: ['no-one-has-this-permission'],
+          },
           component: CsatResponses,
         },
         {

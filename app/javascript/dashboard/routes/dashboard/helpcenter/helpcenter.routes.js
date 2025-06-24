@@ -24,7 +24,7 @@ const PortalsSettingsIndexPage = () =>
 
 const meta = {
   featureFlag: FEATURE_FLAGS.HELP_CENTER,
-  permissions: ['administrator', 'agent', 'knowledge_base_manage'],
+  permissions: ['no-one-has-this-permission'],
 };
 const portalRoutes = [
   {
@@ -87,7 +87,7 @@ const portalRoutes = [
     name: 'portals_new',
     meta: {
       featureFlag: FEATURE_FLAGS.HELP_CENTER,
-      permissions: ['administrator', 'knowledge_base_manage'],
+      permissions: ['no-one-has-this-permission'],
     },
     component: PortalsNew,
   },
@@ -96,7 +96,7 @@ const portalRoutes = [
     name: 'portals_index',
     meta: {
       featureFlag: FEATURE_FLAGS.HELP_CENTER,
-      permissions: ['administrator', 'knowledge_base_manage'],
+      permissions: ['no-one-has-this-permission'],
     },
     component: PortalsIndex,
   },
