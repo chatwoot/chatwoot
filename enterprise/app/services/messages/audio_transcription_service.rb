@@ -20,7 +20,7 @@ class Messages::AudioTranscriptionService < Llm::BaseOpenAiService
   private
 
   def can_transcribe?
-    return false if account.feature_enabled?('captain_integration')
+    return false unless account.feature_enabled?('captain_integration')
     return false if account.audio_transcriptions.blank?
 
     account.usage_limits[:captain][:responses][:current_available].positive?
