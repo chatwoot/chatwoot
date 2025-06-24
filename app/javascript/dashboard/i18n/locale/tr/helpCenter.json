@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug gereklidir"
+        "ERROR": "Slug gereklidir",
+        "FORMAT_ERROR": "Lütfen geçerli bir kısa ad girin, örn: kullanici-rehberi"
       }
     },
     "PORTAL_SETTINGS": {

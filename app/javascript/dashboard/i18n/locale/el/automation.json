@@ -126,6 +126,44 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
-    "NONE_OPTION": "Κανένα"
+    "NONE_OPTION": "Κανένα",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Δημιουργήθηκε Συνομιλία",
+      "CONVERSATION_UPDATED": "Η Συνομιλία Ενημερώθηκε",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Σίγαση Συνομιλίας",
+      "SNOOZE_CONVERSATION": "Αναβολή Συνομιλίας",
+      "RESOLVE_CONVERSATION": "Επίλυση Συνομιλίας",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Change Priority",
+      "ADD_SLA": "Add SLA"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Email",
+      "INBOX": "Εισερχόμενα",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Αριθμός Τηλεφώνου",
+      "STATUS": "Κατάσταση",
+      "BROWSER_LANGUAGE": "Γλώσσα Περιήγησης",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "Χώρα",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Assignee",
+      "TEAM_NAME": "Ομάδα",
+      "PRIORITY": "Priority"
+    }
   }
 }

@@ -7,6 +7,7 @@ import ContactsForm from 'dashboard/components-next/Contacts/ContactsForm/Contac
 import Button from 'dashboard/components-next/button/Button.vue';
 import Avatar from 'dashboard/components-next/avatar/Avatar.vue';
 import Flag from 'dashboard/components-next/flag/Flag.vue';
+import ContactDeleteSection from 'dashboard/components-next/Contacts/ContactsCard/ContactDeleteSection.vue';
 import countries from 'shared/constants/countries';
 
 const props = defineProps({
@@ -16,6 +17,7 @@ const props = defineProps({
   additionalAttributes: { type: Object, default: () => ({}) },
   phoneNumber: { type: String, default: '' },
   thumbnail: { type: String, default: '' },
+  availabilityStatus: { type: String, default: null },
   isExpanded: { type: Boolean, default: false },
   isUpdating: { type: Boolean, default: false },
 });
@@ -91,7 +93,13 @@ const onClickViewDetails = () => emit('showContact', props.id);
 <template>
   <CardLayout :key="id" layout="row">
     <div class="flex items-center justify-start flex-1 gap-4">
-      <Avatar :name="name" :src="thumbnail" :size="48" rounded-full />
+      <Avatar
+        :name="name"
+        :src="thumbnail"
+        :size="48"
+        :status="availabilityStatus"
+        rounded-full
+      />
       <div class="flex flex-col gap-0.5 flex-1">
         <div class="flex flex-wrap items-center gap-x-4 gap-y-1">
           <span class="text-base font-medium truncate text-n-slate-12">
@@ -149,15 +157,15 @@ const onClickViewDetails = () => emit('showContact', props.id);
     />
 
     <template #after>
-      <transition
-        enter-active-class="overflow-hidden transition-all duration-300 ease-out"
-        leave-active-class="overflow-hidden transition-all duration-300 ease-in"
-        enter-from-class="overflow-hidden opacity-0 max-h-0"
-        enter-to-class="opacity-100 max-h-[690px] sm:max-h-[470px] md:max-h-[410px]"
-        leave-from-class="opacity-100 max-h-[690px] sm:max-h-[470px] md:max-h-[410px]"
-        leave-to-class="overflow-hidden opacity-0 max-h-0"
+      <div
+        class="transition-all duration-500 ease-in-out grid overflow-hidden"
+        :class="
+          isExpanded
+            ? 'grid-rows-[1fr] opacity-100'
+            : 'grid-rows-[0fr] opacity-0'
+        "
       >
-        <div v-show="isExpanded" class="w-full">
+        <div class="overflow-hidden">
           <div class="flex flex-col gap-6 p-6 border-t border-n-strong">
             <ContactsForm
               ref="contactsFormRef"
@@ -176,8 +184,14 @@ const onClickViewDetails = () => emit('showContact', props.id);
               />
             </div>
           </div>
+          <ContactDeleteSection
+            :selected-contact="{
+              id: props.id,
+              name: props.name,
+            }"
+          />
         </div>
-      </transition>
+      </div>
     </template>
   </CardLayout>
 </template>

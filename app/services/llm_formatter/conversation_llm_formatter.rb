@@ -1,5 +1,5 @@
 class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
-  def format
+  def format(config = {})
     sections = []
     sections << "Conversation ID: ##{@record.display_id}"
     sections << "Channel: #{@record.inbox.channel.name}"
@@ -9,6 +9,14 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
                 else
                   'No messages in this conversation'
                 end
+
+    sections << "Contact Details: #{@record.contact.to_llm_text}" if config[:include_contact_details]
+
+    attributes = build_attributes
+    if attributes.present?
+      sections << 'Conversation Attributes:'
+      sections << attributes
+    end
 
     sections.join("\n")
   end
@@ -28,5 +36,12 @@ class LlmFormatter::ConversationLlmFormatter < LlmFormatter::DefaultLlmFormatter
   def format_message(message)
     sender = message.message_type == 'incoming' ? 'User' : 'Support agent'
     "#{sender}: #{message.content}\n"
+  end
+
+  def build_attributes
+    attributes = @record.account.custom_attribute_definitions.with_attribute_model('conversation_attribute').map do |attribute|
+      "#{attribute.attribute_display_name}: #{@record.custom_attributes[attribute.attribute_key]}"
+    end
+    attributes.join("\n")
   end
 end

@@ -2,23 +2,13 @@
   "AGENT_BOTS": {
     "HEADER": "Botok",
     "LOADING_EDITOR": "Szerkesztő betöltése...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try.You can manage your bots from this page or create new ones using the 'Configure new bot' button.",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
     "LEARN_MORE": "Learn about agent bots",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Bot neve",
-        "PLACEHOLDER": "Nevezd el a botodat.",
-        "ERROR": "Bot név megadása kötelező."
-      },
-      "DESCRIPTION": {
-        "LABEL": "Bot leírás",
-        "PLACEHOLDER": "Mit csinál ez a bot?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Add meg a CSML bot konfigurációt feljebb.",
-        "API_ERROR": "A CSML konfigurációja érvénytelen. Kérjük, javítsa ki és próbálja meg újra."
-      },
-      "SUBMIT": "Validáció és mentés"
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Rendszer",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Válassz ügynököt",
@@ -32,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Válassza ki a botot"
     },
     "ADD": {
-      "TITLE": "Új bot beállítása",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
         "SUCCESS_MESSAGE": "Bot hozzáadva.",
@@ -40,16 +30,22 @@
       }
     },
     "LIST": {
-      "404": "Nem találtunk botokat. A 'Új bot konfigurálása' gombra kattintva hozhat létre botot ↗",
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
       "LOADING": "Botok hívása...",
-      "TYPE": "Bot típus"
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "Webhook URL"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Törlés",
       "TITLE": "Bot törlése",
-      "SUBMIT": "Törlés",
-      "CANCEL_BUTTON_TEXT": "Mégse",
-      "DESCRIPTION": "Biztosan törölni szeretnéd ezt a botot? Ez a művelet visszafordíthatatlan.",
+      "CONFIRM": {
+        "TITLE": "Törlés megerősítése",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Igen, Törlés",
+        "NO": "Nem, Mégse"
+      },
       "API": {
         "SUCCESS_MESSAGE": "Bot törölve.",
         "ERROR_MESSAGE": "Nem sikerült törölni a botot. Kérjük, próbálja újra."
@@ -57,17 +53,51 @@
     },
     "EDIT": {
       "BUTTON_TEXT": "Szerkesztés",
-      "LOADING": "Botok hívása...",
       "TITLE": "Bot szerkesztése",
-      "CANCEL_BUTTON_TEXT": "Mégse",
       "API": {
         "SUCCESS_MESSAGE": "Bot frissítve.",
         "ERROR_MESSAGE": "Nem tudta frissíteni a botot. Kérjük, próbálja újra."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Hozzáférési kulcs",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Bot neve",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "Bot név megadása kötelező"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Leírás",
+        "PLACEHOLDER": "Mit csinál ez a bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "Webhook URL",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "Bot név megadása kötelező",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Mégse",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook bot",
-      "CSML": "CSML bot"
+      "WEBHOOK": "Webhook bot"
     }
   }
 }

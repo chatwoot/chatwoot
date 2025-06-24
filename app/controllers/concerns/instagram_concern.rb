@@ -1,6 +1,5 @@
 module InstagramConcern
   extend ActiveSupport::Concern
-  include HTTParty
 
   def instagram_client
     ::OAuth2::Client.new(

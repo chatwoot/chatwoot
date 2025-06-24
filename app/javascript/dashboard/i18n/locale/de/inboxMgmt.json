@@ -43,7 +43,17 @@
         "INBOX_NAME": "Posteingang-Name",
         "ADD_NAME": "Namen für diesen Posteingang eingeben",
         "PICK_NAME": "Wählen Sie einen Namen für Ihren Posteingang aus",
-        "PICK_A_VALUE": "Wählen Sie einen Wert aus"
+        "PICK_A_VALUE": "Wählen Sie einen Wert aus",
+        "CREATE_INBOX": "Posteingang erstellen"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Um Ihr Twitter-Profil als Kanal hinzuzufügen, müssen Sie Ihr Twitter-Profil authentifizieren, indem Sie auf 'Mit Twitter anmelden' klicken.",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Pre-Chat-Formular",
       "BUSINESS_HOURS": "Öffnungszeiten",
       "WIDGET_BUILDER": "Widget-Generator",
-      "BOT_CONFIGURATION": "Bot-Konfiguration"
+      "BOT_CONFIGURATION": "Bot-Konfiguration",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Einstellungen",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "E-Mail-Sammelbox aktivieren",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "E-Mail-Sammelbox für neue Konversation aktivieren oder deaktivieren",
       "AUTO_ASSIGNMENT": "Aktivieren Sie die automatische Zuweisung",
-      "ENABLE_CSAT": "CSAT aktivieren",
       "SENDER_NAME_SECTION": "Aktivieren Sie den Agentennamen in der E-Mail",
-      "ENABLE_CSAT_SUB_TEXT": "CSAT(Kundenzufriedenheit) Umfrage aktivieren/deaktivieren nach Abschluss eines Gesprächs",
       "SENDER_NAME_SECTION_TEXT": "Aktivieren/Deaktivieren Sie die Anzeige des Agentennamens in der E-Mail. Wenn deaktiviert, wird der Firmenname angezeigt",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Konversationskontinuität per E-Mail aktivieren",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Konversationen werden per E-Mail fortgesetzt, wenn die Kontakt-E-Mail-Adresse verfügbar ist.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Besucher sollten ihren Namen und ihre E-Mail-Adresse angeben, bevor sie den Chat starten"
+      }
+    },
+    "CSAT": {
+      "TITLE": "CSAT aktivieren",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Nachricht",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "enthält",
+          "DOES_NOT_CONTAINS": "beinhaltet nicht"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "E-Mail",
       "TELEGRAM": "Telegramm",
       "LINE": "Line",
-      "API": "API-Kanal"
+      "API": "API-Kanal",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

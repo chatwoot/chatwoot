@@ -126,6 +126,44 @@
       "ATLEAST_ONE_CONDITION_REQUIRED": "少なくとも1つの条件が必要です",
       "ATLEAST_ONE_ACTION_REQUIRED": "少なくとも1つのアクションが必要です"
     },
-    "NONE_OPTION": "なし"
+    "NONE_OPTION": "なし",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "会話が作成されました",
+      "CONVERSATION_UPDATED": "会話が更新されました",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "会話をミュート",
+      "SNOOZE_CONVERSATION": "会話をスヌーズ",
+      "RESOLVE_CONVERSATION": "会話を解決",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Send Attachment",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "優先度を変更",
+      "ADD_SLA": "SLAを追加"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "Eメール",
+      "INBOX": "受信トレイ",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "電話番号",
+      "STATUS": "状況",
+      "BROWSER_LANGUAGE": "ブラウザの言語",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "国",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "担当者",
+      "TEAM_NAME": "チーム",
+      "PRIORITY": "優先度"
+    }
   }
 }

@@ -66,6 +66,13 @@ window.addEventListener('chatwoot:postback', function(e) {
   console.log('chatwoot:postback', e.detail)
 })
 
+window.addEventListener('chatwoot:opened', function() {
+  console.log('chatwoot:opened')
+})
+
+window.addEventListener('chatwoot:closed', function() {
+  console.log('chatwoot:closed')
+})
 
 window.addEventListener('chatwoot:on-start-conversation', function(e) {
   console.log('chatwoot:on-start-conversation', e.detail)

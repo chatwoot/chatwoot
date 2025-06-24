@@ -9,5 +9,6 @@ describe('#AgentBotsAPI', () => {
     expect(AgentBotsAPI).toHaveProperty('create');
     expect(AgentBotsAPI).toHaveProperty('update');
     expect(AgentBotsAPI).toHaveProperty('delete');
+    expect(AgentBotsAPI).toHaveProperty('resetAccessToken');
   });
 });

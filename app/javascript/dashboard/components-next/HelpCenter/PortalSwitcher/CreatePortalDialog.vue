@@ -6,8 +6,9 @@ import { useAlert, useTrack } from 'dashboard/composables';
 import { PORTALS_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { convertToCategorySlug } from 'dashboard/helper/commons.js';
 import { useVuelidate } from '@vuelidate/core';
-import { required, minLength } from '@vuelidate/validators';
+import { required, minLength, helpers } from '@vuelidate/validators';
 import { buildPortalURL } from 'dashboard/helper/portalHelper';
+import { isValidSlug } from 'shared/helpers/Validators';
 
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -31,7 +32,16 @@ const state = reactive({
 
 const rules = {
   name: { required, minLength: minLength(2) },
-  slug: { required },
+  slug: {
+    required: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR'),
+      required
+    ),
+    isValidSlug: helpers.withMessage(
+      () => t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.FORMAT_ERROR'),
+      isValidSlug
+    ),
+  },
 };
 
 const v$ = useVuelidate(rules, state);
@@ -40,9 +50,9 @@ const nameError = computed(() =>
   v$.value.name.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.ERROR') : ''
 );
 
-const slugError = computed(() =>
-  v$.value.slug.$error ? t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.ERROR') : ''
-);
+const slugError = computed(() => {
+  return v$.value.slug.$errors[0]?.$message || '';
+});
 
 const isSubmitDisabled = computed(() => v$.value.$invalid);
 
@@ -131,6 +141,7 @@ defineExpose({ dialogRef });
         :message="
           nameError || t('HELP_CENTER.CREATE_PORTAL_DIALOG.NAME.MESSAGE')
         "
+        @blur="v$.name.$touch()"
       />
       <Input
         id="portal-slug"
@@ -140,6 +151,8 @@ defineExpose({ dialogRef });
         :label="t('HELP_CENTER.CREATE_PORTAL_DIALOG.SLUG.LABEL')"
         :message-type="slugError ? 'error' : 'info'"
         :message="slugError || buildPortalURL(state.slug)"
+        @input="v$.slug.$touch()"
+        @blur="v$.slug.$touch()"
       />
     </div>
   </Dialog>

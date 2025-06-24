@@ -328,11 +328,24 @@ export default {
 }
 
 .ProseMirror-prompt {
-  z-index: var(--z-index-highest);
-  background: var(--white);
-  box-shadow: var(--shadow-large);
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  min-width: 25rem;
+  @apply z-[9999] bg-n-alpha-3 min-w-80 backdrop-blur-[100px] border border-n-strong p-6 shadow-xl rounded-xl;
+
+  h5 {
+    @apply text-n-slate-12 mb-1.5;
+  }
+
+  .ProseMirror-prompt-buttons {
+    button {
+      @apply h-8 px-3;
+
+      &[type='submit'] {
+        @apply bg-n-brand text-white hover:bg-n-brand/90;
+      }
+
+      &[type='button'] {
+        @apply bg-n-slate-9/10 text-n-slate-12 hover:bg-n-slate-9/20;
+      }
+    }
+  }
 }
 </style>

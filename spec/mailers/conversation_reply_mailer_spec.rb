@@ -87,7 +87,7 @@ RSpec.describe ConversationReplyMailer do
       let(:mail) { described_class.reply_with_summary(message.conversation, message.id).deliver_now }
 
       it 'has correct name' do
-        expect(mail[:from].display_names).to eq(["#{message.sender.available_name} from Inbox"])
+        expect(mail[:from].display_names).to eq(["#{message.sender.available_name} from #{message.conversation.inbox.sanitized_name}"])
       end
     end
 
@@ -153,14 +153,82 @@ RSpec.describe ConversationReplyMailer do
       it 'updates the source_id' do
         expect(mail.message_id).to eq message.source_id
       end
+
+      context 'with email attachments' do
+        it 'includes small attachments as email attachments' do
+          message_with_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                                     content: 'Message with small attachment')
+          attachment = message_with_attachment.attachments.new(account_id: account.id, file_type: :file)
+          attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          attachment.save!
+
+          mail = described_class.email_reply(message_with_attachment).deliver_now
+
+          # Should be attached to the email
+          expect(mail.attachments.map(&:filename).map(&:to_s)).to include('avatar.png')
+          # Should not be in large_attachments
+          expect(mail.body.encoded).not_to include('Attachments:')
+        end
+
+        it 'renders large attachments as links in the email body' do
+          message_with_large_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                                           content: 'Message with large attachment')
+          attachment = message_with_large_attachment.attachments.new(account_id: account.id, file_type: :file)
+          attachment.file.attach(io: Rails.root.join('spec/assets/large_file.pdf').open, filename: 'large_file.pdf', content_type: 'application/pdf')
+          attachment.save!
+
+          mail = described_class.email_reply(message_with_large_attachment).deliver_now
+
+          # Should NOT be attached to the email
+          expect(mail.attachments.map(&:filename).map(&:to_s)).not_to include('large_file.pdf')
+          # Should be rendered as a link in the body
+          expect(mail.body.encoded).to include('Attachments:')
+          expect(mail.body.encoded).to include('large_file.pdf')
+          # Should render a link with large_file.pdf as the link text
+          expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
+          # Small file should not be rendered as a link in the body
+          expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+
+        it 'handles both small and large attachments correctly' do
+          message_with_mixed_attachments = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
+                                                            content: 'Message with mixed attachments')
+
+          # Small attachment
+          small_attachment = message_with_mixed_attachments.attachments.new(account_id: account.id, file_type: :file)
+          small_attachment.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'avatar.png', content_type: 'image/png')
+          small_attachment.save!
+
+          # Large attachment
+          large_attachment = message_with_mixed_attachments.attachments.new(account_id: account.id, file_type: :file)
+          large_attachment.file.attach(io: Rails.root.join('spec/assets/large_file.pdf').open, filename: 'large_file.pdf',
+                                       content_type: 'application/pdf')
+          large_attachment.save!
+
+          mail = described_class.email_reply(message_with_mixed_attachments).deliver_now
+
+          # Small file should be attached
+          expect(mail.attachments.map(&:filename).map(&:to_s)).to include('avatar.png')
+          # Large file should NOT be attached
+          expect(mail.attachments.map(&:filename).map(&:to_s)).not_to include('large_file.pdf')
+
+          # Large file should be rendered as a link in the body
+          expect(mail.body.encoded).to include('Attachments:')
+          expect(mail.body.encoded).to include('large_file.pdf')
+          # Should render a link with large_file.pdf as the link text
+          expect(mail.body.encoded).to match(%r{<a [^>]*>large_file\.pdf</a>})
+          # Small file should not be rendered as a link in the body
+          expect(mail.body.encoded).not_to match(%r{<a [^>]*>avatar\.png</a>})
+        end
+      end
     end
 
     context 'when smtp enabled for email channel' do
-      let(:smtp_email_channel) do
+      let(:smtp_channel) do
         create(:channel_email, smtp_enabled: true, smtp_address: 'smtp.gmail.com', smtp_port: 587, smtp_login: 'smtp@gmail.com',
                                smtp_password: 'password', smtp_domain: 'smtp.gmail.com', account: account)
       end
-      let(:conversation) { create(:conversation, assignee: agent, inbox: smtp_email_channel.inbox, account: account).reload }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: smtp_channel.inbox, account: account).reload }
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
 
       it 'use smtp mail server' do
@@ -172,19 +240,19 @@ RSpec.describe ConversationReplyMailer do
 
       it 'renders sender name in the from address' do
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_channel.inbox.sanitized_name} <#{smtp_channel.email}>"
       end
 
       it 'renders sender name even when assignee is not present' do
         conversation.update(assignee_id: nil)
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "#{message.sender.available_name} from #{smtp_channel.inbox.sanitized_name} <#{smtp_channel.email}>"
       end
 
       it 'renders assignee name in the from address when sender_name not available' do
         message.update(sender_id: nil)
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "#{conversation.assignee.available_name} from #{smtp_channel.inbox.sanitized_name} <#{smtp_channel.email}>"
       end
 
       it 'renders inbox name as sender and assignee or business_name not present' do
@@ -192,7 +260,7 @@ RSpec.describe ConversationReplyMailer do
         conversation.update(assignee_id: nil)
 
         mail = described_class.email_reply(message)
-        expect(mail['from'].value).to eq "Notifications from #{smtp_email_channel.inbox.name} <#{smtp_email_channel.email}>"
+        expect(mail['from'].value).to eq "Notifications from #{smtp_channel.inbox.sanitized_name} <#{smtp_channel.email}>"
       end
 
       context 'when friendly name enabled' do
@@ -208,7 +276,7 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message)
 
-          expect(mail['from'].value).to eq "Notifications from #{conversation.inbox.name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "Notifications from #{conversation.inbox.sanitized_name} <#{smtp_channel.email}>"
         end
 
         it 'renders sender name as sender and assignee nil and business_name present' do
@@ -218,7 +286,7 @@ RSpec.describe ConversationReplyMailer do
           mail = described_class.email_reply(message)
 
           expect(mail['from'].value).to eq(
-            "Notifications from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
+            "Notifications from #{conversation.inbox.business_name} <#{smtp_channel.email}>"
           )
         end
 
@@ -227,7 +295,7 @@ RSpec.describe ConversationReplyMailer do
           conversation.update(assignee_id: agent.id)
 
           mail = described_class.email_reply(message)
-          expect(mail['from'].value).to eq "#{agent.available_name} from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "#{agent.available_name} from #{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
 
         it 'renders sender name as sender and assignee and business_name present' do
@@ -236,7 +304,7 @@ RSpec.describe ConversationReplyMailer do
           conversation.update(assignee_id: agent.id)
 
           mail = described_class.email_reply(message)
-          expect(mail['from'].value).to eq "#{agent_2.available_name} from #{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "#{agent_2.available_name} from #{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
       end
 
@@ -253,7 +321,7 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message)
 
-          expect(mail['from'].value).to eq "#{conversation.inbox.name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "#{conversation.inbox.sanitized_name} <#{smtp_channel.email}>"
         end
 
         it 'renders sender name as business_name present' do
@@ -262,17 +330,17 @@ RSpec.describe ConversationReplyMailer do
 
           mail = described_class.email_reply(message)
 
-          expect(mail['from'].value).to eq "#{conversation.inbox.business_name} <#{smtp_email_channel.email}>"
+          expect(mail['from'].value).to eq "#{conversation.inbox.business_name} <#{smtp_channel.email}>"
         end
       end
     end
 
     context 'when smtp enabled for microsoft email channel' do
-      let(:ms_smtp_email_channel) do
+      let(:ms_smtp_channel) do
         create(:channel_email, imap_login: 'smtp@outlook.com',
                                imap_enabled: true, account: account, provider: 'microsoft', provider_config: { access_token: 'access_token' })
       end
-      let(:conversation) { create(:conversation, assignee: agent, inbox: ms_smtp_email_channel.inbox, account: account).reload }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: ms_smtp_channel.inbox, account: account).reload }
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
 
       it 'use smtp mail server' do
@@ -284,11 +352,11 @@ RSpec.describe ConversationReplyMailer do
     end
 
     context 'when smtp enabled for google email channel' do
-      let(:ms_smtp_email_channel) do
+      let(:ms_smtp_channel) do
         create(:channel_email, imap_login: 'smtp@gmail.com',
                                imap_enabled: true, account: account, provider: 'google', provider_config: { access_token: 'access_token' })
       end
-      let(:conversation) { create(:conversation, assignee: agent, inbox: ms_smtp_email_channel.inbox, account: account).reload }
+      let(:conversation) { create(:conversation, assignee: agent, inbox: ms_smtp_channel.inbox, account: account).reload }
       let(:message) { create(:message, conversation: conversation, account: account, message_type: 'outgoing', content: 'Outgoing Message 2') }
 
       it 'use smtp mail server' do
@@ -362,7 +430,7 @@ RSpec.describe ConversationReplyMailer do
 
       it 'sets reply to email to be based on the domain' do
         reply_to_email = "reply+#{message.conversation.uuid}@#{conversation.account.domain}"
-        reply_to = "#{message.sender.available_name} from #{conversation.inbox.name} <#{reply_to_email}>"
+        reply_to = "#{message.sender.available_name} from #{conversation.inbox.sanitized_name} <#{reply_to_email}>"
         expect(mail['REPLY-TO'].value).to eq(reply_to)
         expect(mail.reply_to).to eq([reply_to_email])
       end

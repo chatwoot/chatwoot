@@ -39,4 +39,23 @@ RSpec.describe AgentBot do
       expect(message.reload.sender).to be_nil
     end
   end
+
+  describe '#system_bot?' do
+    context 'when account_id is nil' do
+      let(:agent_bot) { create(:agent_bot, account_id: nil) }
+
+      it 'returns true' do
+        expect(agent_bot.system_bot?).to be true
+      end
+    end
+
+    context 'when account_id is present' do
+      let(:account) { create(:account) }
+      let(:agent_bot) { create(:agent_bot, account: account) }
+
+      it 'returns false' do
+        expect(agent_bot.system_bot?).to be false
+      end
+    end
+  end
 end

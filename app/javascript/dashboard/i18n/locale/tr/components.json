@@ -43,5 +43,11 @@
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Daha Fazla",
     "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Dakika",
+    "HOURS": "Saat",
+    "DAYS": "Gün",
+    "PLACEHOLDER": "Süre girin"
   }
 }
