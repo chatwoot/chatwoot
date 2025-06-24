@@ -123,7 +123,7 @@ const handleDocumentableClick = () => {
     @mouseenter="emit('hover', true)"
     @mouseleave="emit('hover', false)"
   >
-    <div v-show="selectable" class="absolute top-7 ltr:left-4 rtl:right-4">
+    <div v-show="selectable" class="absolute top-7 ltr:left-3 rtl:right-3">
       <Checkbox v-model="modelValue" />
     </div>
     <div class="flex relative justify-between w-full gap-1">
