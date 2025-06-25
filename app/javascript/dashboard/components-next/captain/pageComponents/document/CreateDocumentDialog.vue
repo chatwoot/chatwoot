@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'success']);
 const { t } = useI18n();
 const store = useStore();
 
@@ -36,6 +36,9 @@ const handleSubmit = async newDocument => {
       });
       useAlert('Document created successfully!');
     }
+    
+    // Emit success event to refresh the list
+    emit('success');
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =

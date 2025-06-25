@@ -2,6 +2,9 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
   queue_as :low
 
   def perform(document)
+    # Skip processing if document has no content (e.g., PDF parent documents)
+    return if document.content.blank?
+
     reset_previous_responses(document)
 
     faqs = Captain::Llm::FaqGeneratorService.new(document.content).generate

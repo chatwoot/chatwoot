@@ -104,6 +104,133 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         expect(simple_crawler).to receive(:page_links)
         described_class.perform_now(document)
       end
+
+      context 'when document is a PDF' do
+        let(:pdf_document) { create(:captain_document, external_link: 'https://example.com/document.pdf') }
+        let(:pdf_service) { instance_double(Captain::Tools::PdfExtractionService) }
+        let(:pdf_content) do
+          [
+            { content: 'PDF page 1 content', page_number: 1, chunk_index: 1, total_chunks: 1 },
+            { content: 'PDF page 2 content', page_number: 2, chunk_index: 1, total_chunks: 1 }
+          ]
+        end
+
+        before do
+          allow(Captain::Tools::PdfExtractionService)
+            .to receive(:new)
+            .with(pdf_document.external_link)
+            .and_return(pdf_service)
+        end
+
+        context 'with successful PDF extraction' do
+          before do
+            allow(pdf_service).to receive(:perform).and_return({
+              success: true,
+              content: pdf_content
+            })
+          end
+
+          it 'processes PDF using PdfExtractionService' do
+            expect(pdf_service).to receive(:perform)
+            described_class.perform_now(pdf_document)
+          end
+
+          it 'enqueues PdfExtractionParserJob for each content chunk' do
+            pdf_content.each do |chunk|
+              expect(Captain::Tools::PdfExtractionParserJob)
+                .to receive(:perform_later)
+                .with(
+                  assistant_id: pdf_document.assistant_id,
+                  pdf_content: chunk,
+                  document_id: pdf_document.id
+                )
+            end
+
+            described_class.perform_now(pdf_document)
+          end
+
+          it 'updates document status to processing' do
+            allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
+            
+            expect(pdf_document).to receive(:update).with(status: 'processing').twice
+            described_class.perform_now(pdf_document)
+          end
+        end
+
+        context 'with failed PDF extraction' do
+          before do
+            allow(pdf_service).to receive(:perform).and_return({
+              success: false,
+              errors: ['Invalid PDF format']
+            })
+          end
+
+          it 'updates document status to failed with error message' do
+            expect(pdf_document).to receive(:update).with(status: 'processing').once
+            expect(pdf_document).to receive(:update).with(
+              status: 'failed',
+              error_message: 'Invalid PDF format'
+            ).once
+
+            described_class.perform_now(pdf_document)
+          end
+
+          it 'logs the error' do
+            expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
+            described_class.perform_now(pdf_document)
+          end
+        end
+
+        context 'when PDF extraction raises an exception' do
+          before do
+            allow(pdf_service).to receive(:perform).and_raise(StandardError, 'Network error')
+          end
+
+          it 'handles the exception gracefully' do
+            expect(pdf_document).to receive(:update).with(status: 'processing').once
+            expect(pdf_document).to receive(:update).with(
+              status: 'failed',
+              error_message: 'Network error'
+            ).once
+
+            described_class.perform_now(pdf_document)
+          end
+
+          it 'logs the exception' do
+            expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
+            described_class.perform_now(pdf_document)
+          end
+        end
+      end
+    end
+
+    describe '#pdf_document?' do
+      let(:job) { described_class.new }
+
+      it 'detects PDF by file extension' do
+        pdf_doc = build(:captain_document, external_link: 'https://example.com/file.pdf')
+        expect(job.send(:pdf_document?, pdf_doc)).to be true
+      end
+
+      it 'detects PDF by content type' do
+        pdf_doc = build(:captain_document, content_type: 'application/pdf')
+        expect(job.send(:pdf_document?, pdf_doc)).to be true
+      end
+
+      it 'detects PDF by source type' do
+        pdf_doc = build(:captain_document, source_type: 'pdf_upload')
+        expect(job.send(:pdf_document?, pdf_doc)).to be true
+      end
+
+      it 'returns false for non-PDF documents' do
+        web_doc = build(:captain_document, external_link: 'https://example.com/page.html')
+        expect(job.send(:pdf_document?, web_doc)).to be false
+      end
+
+      it 'is case insensitive for file extensions' do
+        pdf_doc = build(:captain_document, external_link: 'https://example.com/file.PDF')
+        expect(job.send(:pdf_document?, pdf_doc)).to be true
+      end
     end
   end
 end

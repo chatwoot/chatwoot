@@ -174,6 +174,8 @@ gem 'neighbor'
 gem 'pgvector'
 # Convert Website HTML to Markdown
 gem 'reverse_markdown'
+# PDF text extraction
+gem 'pdf-reader', '~> 2.0'
 
 gem 'iso-639'
 gem 'ruby-openai'
