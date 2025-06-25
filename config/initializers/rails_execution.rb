@@ -34,7 +34,7 @@ RailsExecution.configuration do |config|
   # end
 
   # Advanced
-  config.file_upload = false
+  config.file_upload = true
   config.file_uploader = RailsExecution::FileUploader
   config.file_reader = RailsExecution::FileReader
   # Defaults of acceptable_file_types: .png, .gif, .jpg, .jpeg, .pdf, .csv
@@ -60,18 +60,20 @@ RailsExecution.configuration do |config|
   #   YourAttachment.where(task: task).map { |item| item.file.url }
   # end
   # Using ActiveStorage
-  # config.logging = lambda do |log_file, task|
-  #   attachment = YourAttachment.create!(task: task)
-  #   attachment.file.attach({
-  #     io: log_file,
-  #     filename: Time.current.strftime('%Y%m%d_%H%M%S.log'),
-  #     content_type: 'text/plain',
-  #   })
-  # end
-  # config.logging_files = lambda do |task|
-  #   ActiveStorage::Current.host = 'localhost:3000'
-  #   YourAttachment.where(task: task).map { |item| item.file.url }
-  # end
+  config.logging = lambda do |log_file, task|
+    filename = Time.current.strftime('%Y%m%d_%H%M%S.log')
+    RailsExecution::FileManage.create!(
+      attachment_type: :log,
+      task: task,
+      name: filename
+    ).file.attach(
+      io: log_file,
+      filename: filename
+    )
+  end
+  config.logging_files = lambda do |task|
+    RailsExecution::FileManage.log_file.where(task: task).to_h { |item| [item.file.url, item.created_at] }
+  end
 
   # Paging
   # config.per_page = 30 # Default: 20

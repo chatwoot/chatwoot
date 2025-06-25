@@ -1042,6 +1042,14 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["task_id"], name: "index_rails_execution_comments_on_task_id"
   end
 
+  create_table "rails_execution_file_manages", force: :cascade do |t|
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.integer "task_id", null: false
+    t.string "name", null: false
+    t.string "attachment_type", default: "attachment", null: false
+  end
+
   create_table "rails_execution_labels", force: :cascade do |t|
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false

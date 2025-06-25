@@ -1,7 +1,12 @@
 class RailsExecution::FileUploader < RailsExecution::Files::Uploader
   def call
     files.each do |item|
-      # YourAttachment.create!(task: task, name: item.name, file: item.file)
+      RailsExecution::FileManage.create!(
+        attachment_type: :attachment,
+        task: task,
+        name: item.name,
+        file: item.file
+      )
     end
   end
 end

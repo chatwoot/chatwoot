@@ -1,10 +1,8 @@
 class RailsExecution::FileReader < RailsExecution::Files::Reader
-  # Output: {
-  #   'File1' => 'url',
-  #   'FileZ' => 'url',
-  # }
   def call
-    # YourAttachment.where(task: task).pluck(:name, :url).to_h
-    {}
+    RailsExecution::FileManage
+      .attachment_file
+      .where(task: task)
+      .to_h { |item| [item.name, item.file.url] }
   end
 end
