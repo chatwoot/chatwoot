@@ -205,7 +205,7 @@ export default {
       );
     },
     canAutoReplyPostComments() {
-      return true || this.isAFacebookInbox || this.isAnInstagramChannel;
+      return this.isAFacebookInbox || this.isAnInstagramChannel;
     },
     inboxNameLabel() {
       if (this.isAWebWidgetInbox) {
