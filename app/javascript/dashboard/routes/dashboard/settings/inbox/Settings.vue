@@ -359,6 +359,7 @@ export default {
     async updateInbox() {
       try {
         const isBlankSignature =
+          this.signatureEditor === undefined ||
           this.signatureEditor.root.innerText.replaceAll('\n', '').length === 0;
 
         const payload = {
