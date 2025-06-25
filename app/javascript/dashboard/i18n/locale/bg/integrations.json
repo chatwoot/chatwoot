@@ -539,6 +539,8 @@
         "CONVERSATION": "Conversation #{id}"
       },
       "SELECTED": "{count} selected",
+      "SELECT_ALL": "Select all ({count})",
+      "UNSELECT_ALL": "Unselect all ({count})",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Изтрий",
       "BULK_APPROVE": {
