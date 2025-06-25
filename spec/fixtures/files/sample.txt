@@ -1,0 +1,2 @@
+This is a sample text file for testing purposes.
+It contains some basic text content that can be used in tests.

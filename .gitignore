@@ -94,3 +94,13 @@ yarn-debug.log*
 .vscode
 .claude/settings.local.json
 .cursor
+
+bin/
+local/
+cache/
+gems/
+specifications/
+extensions/
+build_info/
+bin
+.pnpm-store/

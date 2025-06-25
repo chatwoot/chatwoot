@@ -288,4 +288,69 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
       end
     end
   end
+
+  describe 'POST /api/v1/accounts/:account_id/captain/documents/upload_pdf' do
+    let(:pdf_file) { fixture_file_upload('spec/fixtures/files/sample.pdf', 'application/pdf') }
+    let(:valid_pdf_params) do
+      {
+        pdf_document: pdf_file,
+        assistant_id: assistant.id
+      }
+    end
+
+    context 'when it is an un-authenticated user' do
+      before do
+        post "/api/v1/accounts/#{account.id}/captain/documents/upload_pdf",
+             params: valid_pdf_params
+      end
+
+      it 'returns unauthorized status' do
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an agent' do
+      it 'returns unauthorized' do
+        post "/api/v1/accounts/#{account.id}/captain/documents/upload_pdf",
+             params: valid_pdf_params,
+             headers: agent.create_new_auth_token
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an admin' do
+      context 'with valid PDF file' do
+        it 'uploads PDF and creates document' do
+          expect do
+            post "/api/v1/accounts/#{account.id}/captain/documents/upload_pdf",
+                 params: valid_pdf_params,
+                 headers: admin.create_new_auth_token
+          end.to change(Captain::Document, :count).by(1)
+        end
+
+        it 'returns success status with document data' do
+          post "/api/v1/accounts/#{account.id}/captain/documents/upload_pdf",
+               params: valid_pdf_params,
+               headers: admin.create_new_auth_token, as: :json
+
+          expect(response).to have_http_status(:success)
+          expect(json_response[:document]).to be_present
+          expect(json_response[:message]).to eq('PDF uploaded successfully. Processing will begin shortly.')
+        end
+      end
+
+      context 'without PDF file' do
+        before do
+          post "/api/v1/accounts/#{account.id}/captain/documents/upload_pdf",
+               params: { assistant_id: assistant.id },
+               headers: admin.create_new_auth_token
+        end
+
+        it 'returns unprocessable entity status' do
+          expect(response).to have_http_status(:unprocessable_entity)
+        end
+      end
+    end
+  end
 end
