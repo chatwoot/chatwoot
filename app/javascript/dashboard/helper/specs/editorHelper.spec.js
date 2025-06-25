@@ -496,7 +496,6 @@ describe('getContentNode', () => {
       ).toHaveBeenCalledWith({
         userId: '123',
         userFullName: 'John Doe',
-        mentionType: 'user',
       });
 
       expect(result).toEqual({
@@ -505,7 +504,6 @@ describe('getContentNode', () => {
           attrs: {
             userId: '123',
             userFullName: 'John Doe',
-            mentionType: 'user',
           },
         },
         from: 0,
@@ -530,7 +528,6 @@ describe('getContentNode', () => {
       ).toHaveBeenCalledWith({
         userId: '456',
         userFullName: 'Support Team',
-        mentionType: 'team',
       });
 
       expect(result).toEqual({
@@ -539,7 +536,6 @@ describe('getContentNode', () => {
           attrs: {
             userId: '456',
             userFullName: 'Support Team',
-            mentionType: 'team',
           },
         },
         from: 0,
@@ -563,7 +559,6 @@ describe('getContentNode', () => {
       ).toHaveBeenCalledWith({
         userId: '789',
         userFullName: 'Jane Smith',
-        mentionType: 'user',
       });
     });
 
@@ -585,7 +580,6 @@ describe('getContentNode', () => {
       ).toHaveBeenCalledWith({
         userId: '101',
         userFullName: 'John Doe (Admin)',
-        mentionType: 'user',
       });
     });
 
@@ -606,7 +600,6 @@ describe('getContentNode', () => {
       ).toHaveBeenCalledWith({
         userId: '102',
         userFullName: 'jane_smith',
-        mentionType: 'user',
       });
     });
   });
