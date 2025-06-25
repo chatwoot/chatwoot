@@ -12,6 +12,7 @@ const LiveReports = () => import('./LiveReports.vue');
 const BotAnalytics = () => import('./BotAnalytics.vue');
 const SLAReports = () => import('./SLAReports.vue');
 const CallAnalytics = () => import('./CallAnalytics.vue');
+const LiveChatMetrics = () => import('./LiveChatMetrics.vue');
 export default {
   routes: [
     {
@@ -32,6 +33,27 @@ export default {
           name: 'account_overview_reports',
           roles: ['administrator'],
           component: LiveReports,
+        },
+      ],
+    },
+    {
+      path: frontendURL('accounts/:accountId/reports'),
+      component: SettingsContent,
+      props: {
+        headerTitle: 'Live Chat Analytics',
+        icon: 'chat',
+        keepAlive: false,
+      },
+      children: [
+        {
+          path: '',
+          redirect: 'live-chat-metrics',
+        },
+        {
+          path: 'live-chat-metrics',
+          name: 'account_live_chat_metrics',
+          roles: ['administrator'],
+          component: LiveChatMetrics,
         },
       ],
     },
