@@ -1,69 +1,66 @@
+<script setup>
+import { ref } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
+
+defineProps({
+  placement: {
+    type: String,
+    default: 'top',
+  },
+});
+
+const dropdownMenuRef = ref(null);
+
+const dropdownMenuButtons = () => {
+  return dropdownMenuRef.value.querySelectorAll(
+    'ul.dropdown li.dropdown-menu__item .button'
+  );
+};
+
+const getActiveButtonIndex = menuButtons => {
+  const focusedButton = dropdownMenuRef.value.querySelector(
+    'ul.dropdown li.dropdown-menu__item .button:focus'
+  );
+  return Array.from(menuButtons).indexOf(focusedButton);
+};
+
+const focusButton = (menuButtons, newIndex) => {
+  if (menuButtons.length === 0) return;
+  menuButtons[newIndex].focus();
+};
+
+const focusPreviousButton = menuButtons => {
+  const activeIndex = getActiveButtonIndex(menuButtons);
+  const newIndex = activeIndex >= 1 ? activeIndex - 1 : menuButtons.length - 1;
+  focusButton(menuButtons, newIndex);
+};
+
+const focusNextButton = menuButtons => {
+  const activeIndex = getActiveButtonIndex(menuButtons);
+  const newIndex = activeIndex === menuButtons.length - 1 ? 0 : activeIndex + 1;
+  focusButton(menuButtons, newIndex);
+};
+
+const keyboardEvents = {
+  ArrowUp: {
+    action: () => focusPreviousButton(dropdownMenuButtons()),
+    allowOnFocusedInput: true,
+  },
+  ArrowDown: {
+    action: () => focusNextButton(dropdownMenuButtons()),
+    allowOnFocusedInput: true,
+  },
+};
+
+useKeyboardEvents(keyboardEvents);
+</script>
+
 <template>
   <ul
-    ref="dropdownMenu"
+    ref="dropdownMenuRef"
     class="dropdown menu vertical"
     :class="[placement && `dropdown--${placement}`]"
   >
     <slot />
   </ul>
 </template>
-<script>
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import {
-  hasPressedArrowUpKey,
-  hasPressedArrowDownKey,
-} from 'shared/helpers/KeyboardHelpers';
-export default {
-  name: 'WootDropdownMenu',
-  componentName: 'WootDropdownMenu',
-
-  mixins: [eventListenerMixins],
-
-  props: {
-    placement: {
-      type: String,
-      default: 'top',
-    },
-  },
-  methods: {
-    dropdownMenuButtons() {
-      return this.$refs.dropdownMenu.querySelectorAll(
-        'ul.dropdown li.dropdown-menu__item .button'
-      );
-    },
-    activeElementIndex() {
-      const menuButtons = this.dropdownMenuButtons();
-      const focusedButton = this.$refs.dropdownMenu.querySelector(
-        'ul.dropdown li.dropdown-menu__item .button:focus'
-      );
-      const activeIndex = [...menuButtons].indexOf(focusedButton);
-      return activeIndex;
-    },
-    handleKeyEvents(e) {
-      const menuButtons = this.dropdownMenuButtons();
-      const lastElementIndex = menuButtons.length - 1;
-
-      if (menuButtons.length === 0) return;
-
-      if (hasPressedArrowUpKey(e)) {
-        const activeIndex = this.activeElementIndex();
-
-        if (activeIndex >= 1) {
-          menuButtons[activeIndex - 1].focus();
-        } else {
-          menuButtons[lastElementIndex].focus();
-        }
-      }
-      if (hasPressedArrowDownKey(e)) {
-        const activeIndex = this.activeElementIndex();
-
-        if (activeIndex === lastElementIndex) {
-          menuButtons[0].focus();
-        } else {
-          menuButtons[activeIndex + 1].focus();
-        }
-      }
-    },
-  },
-};
-</script>

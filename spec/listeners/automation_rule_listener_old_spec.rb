@@ -23,7 +23,7 @@ describe AutomationRuleListener do
            attribute_display_type: 'list',
            attribute_values: %w[regular platinum gold])
     create(:custom_attribute_definition,
-           attribute_key: 'priority',
+           attribute_key: 'priority_level',
            account: account,
            attribute_model: 'conversation_attribute',
            attribute_display_type: 'list',
@@ -83,6 +83,7 @@ describe AutomationRuleListener do
           {
             attribute_key: 'customer_type',
             filter_operator: 'equal_to',
+            custom_attribute_type: 'contact_attribute',
             values: ['platinum'],
             query_operator: 'AND'
           }.with_indifferent_access,
@@ -154,6 +155,7 @@ describe AutomationRuleListener do
             {
               attribute_key: 'customer_type',
               filter_operator: 'equal_to',
+              custom_attribute_type: 'contact_attribute',
               values: ['platinum'],
               query_operator: nil
             }.with_indifferent_access
@@ -265,7 +267,7 @@ describe AutomationRuleListener do
 
     context 'when rule matches based on custom_attributes' do
       before do
-        conversation.update!(custom_attributes: { priority: 'P2' })
+        conversation.update!(custom_attributes: { priority_level: 'P2' })
         conversation.contact.update!(custom_attributes: { cloud_customer: false })
 
         automation_rule.update!(
@@ -274,7 +276,7 @@ describe AutomationRuleListener do
           description: 'Add labels, assign team after conversation updated',
           conditions: [
             {
-              attribute_key: 'priority',
+              attribute_key: 'priority_level',
               filter_operator: 'equal_to',
               values: ['P2'],
               custom_attribute_type: 'conversation_attribute',
@@ -502,51 +504,6 @@ describe AutomationRuleListener do
 
       conversation.reload
       expect(conversation.labels.pluck(:name)).to contain_exactly('sale_enquiry')
-    end
-  end
-
-  describe '#message_created' do
-    before do
-      automation_rule.update!(
-        event_name: 'message_created',
-        name: 'Call actions message created',
-        description: 'Add labels, assign team after message created',
-        conditions: [{ 'values': ['incoming'], 'attribute_key': 'message_type', 'query_operator': nil, 'filter_operator': 'equal_to' }]
-      )
-    end
-
-    let!(:message) { create(:message, account: account, conversation: conversation, message_type: 'incoming') }
-    let!(:event) do
-      Events::Base.new('message_created', Time.zone.now, { conversation: conversation, message: message })
-    end
-
-    context 'when rule matches' do
-      it 'triggers automation rule to assign team' do
-        expect(conversation.team_id).not_to eq(team.id)
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        expect(conversation.team_id).to eq(team.id)
-      end
-
-      it 'triggers automation rule to add label' do
-        expect(conversation.labels).to eq([])
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        expect(conversation.labels.pluck(:name)).to contain_exactly('support', 'priority_customer')
-      end
-
-      it 'triggers automation rule to assign best agent' do
-        expect(conversation.assignee).to be_nil
-        expect(TeamNotifications::AutomationNotificationMailer).to receive(:conversation_creation)
-        listener.message_created(event)
-        conversation.reload
-
-        expect(conversation.assignee).to eq(user_1)
-      end
     end
   end
 

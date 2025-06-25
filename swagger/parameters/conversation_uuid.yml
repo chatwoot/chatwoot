@@ -1,0 +1,6 @@
+in: path
+name: conversation_uuid
+schema:
+  type: integer
+required: true
+description: The uuid of the conversation

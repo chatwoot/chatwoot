@@ -1,98 +1,121 @@
 {
   "ATTRIBUTES_MGMT": {
-    "HEADER": "Niestandardowe atrybuty",
-    "HEADER_BTN_TXT": "Add Custom Attribute",
-    "LOADING": "Fetching custom attributes",
-    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
+    "HEADER": "Atrybuty Niestandardowe",
+    "HEADER_BTN_TXT": "Dodaj Atrybut Niestandardowy",
+    "LOADING": "Pobieranie atrybutów niestandardowych",
+    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
+    "LEARN_MORE": "Learn more about custom attributes",
     "ADD": {
-      "TITLE": "Add Custom Attribute",
-      "SUBMIT": "Stwórz",
+      "TITLE": "Dodaj Atrybut Niestandardowy",
+      "SUBMIT": "Utwórz",
       "CANCEL_BUTTON_TEXT": "Anuluj",
       "FORM": {
         "NAME": {
-          "LABEL": "Display Name",
-          "PLACEHOLDER": "Enter custom attribute display name",
-          "ERROR": "Name is required"
+          "LABEL": "Nazwa Wyświetlana",
+          "PLACEHOLDER": "Wprowadź nazwę wyświetlaną atrybutu niestandardowego",
+          "ERROR": "Nazwa jest wymagana"
         },
         "DESC": {
           "LABEL": "Opis",
-          "PLACEHOLDER": "Enter custom attribute description",
-          "ERROR": "Description is required"
+          "PLACEHOLDER": "Wprowadź opis atrybutu niestandardowego",
+          "ERROR": "Opis jest wymagany"
         },
         "MODEL": {
-          "LABEL": "Applies to",
-          "PLACEHOLDER": "Please select one",
-          "ERROR": "Model is required"
+          "LABEL": "Dotyczy",
+          "PLACEHOLDER": "Proszę wybrać jedno",
+          "ERROR": "Model jest wymagany"
         },
         "TYPE": {
-          "LABEL": "Type",
-          "PLACEHOLDER": "Please select a type",
-          "ERROR": "Type is required",
+          "LABEL": "Typ",
+          "PLACEHOLDER": "Proszę wybrać typ",
+          "ERROR": "Typ jest wymagany",
           "LIST": {
-            "LABEL": "List Values",
-            "PLACEHOLDER": "Please enter value and press enter key",
-            "ERROR": "Must have at least one value"
+            "LABEL": "Wartości Listy",
+            "PLACEHOLDER": "Proszę wprowadzić wartość i nacisnąć klawisz enter",
+            "ERROR": "Musisz mieć przynajmniej jedną wartość"
           }
         },
         "KEY": {
-          "LABEL": "Key",
-          "PLACEHOLDER": "Enter custom attribute key",
-          "ERROR": "Key is required",
-          "IN_VALID": "Invalid key"
+          "LABEL": "Klucz",
+          "PLACEHOLDER": "Wprowadź klucz atrybutu niestandardowego",
+          "ERROR": "Klucz jest wymagany",
+          "IN_VALID": "Nieprawidłowy klucz"
+        },
+        "REGEX_PATTERN": {
+          "LABEL": "Wzorzec Regex",
+          "PLACEHOLDER": "Proszę wprowadzić wzorzec regex atrybutu niestandardowego. (Opcjonalnie)"
+        },
+        "REGEX_CUE": {
+          "LABEL": "Wskazówka Regex",
+          "PLACEHOLDER": "Proszę wprowadzić wskazówkę wzorca regex. (Opcjonalnie)"
+        },
+        "ENABLE_REGEX": {
+          "LABEL": "Włącz walidację regex"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
-        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
+        "SUCCESS_MESSAGE": "Atrybut Niestandardowy został pomyślnie dodany!",
+        "ERROR_MESSAGE": "Nie udało się utworzyć Atrybutu Niestandardowego. Proszę spróbować później."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Usuń",
       "API": {
-        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
-        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
+        "SUCCESS_MESSAGE": "Atrybut Niestandardowy został pomyślnie usunięty.",
+        "ERROR_MESSAGE": "Nie udało się usunąć atrybutu niestandardowego. Spróbuj ponownie."
       },
       "CONFIRM": {
-        "TITLE": "Are you sure want to delete - %{attributeName}",
-        "PLACE_HOLDER": "Please type {attributeName} to confirm",
-        "MESSAGE": "Deleting will remove the custom attribute",
+        "TITLE": "Czy na pewno chcesz usunąć - {attributeName}",
+        "PLACE_HOLDER": "Proszę wpisać {attributeName}, aby potwierdzić",
+        "MESSAGE": "Usunięcie spowoduje usunięcie atrybutu niestandardowego",
         "YES": "Usuń ",
         "NO": "Anuluj"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Custom Attribute",
+      "TITLE": "Edytuj Atrybut Niestandardowy",
       "UPDATE_BUTTON_TEXT": "Aktualizuj",
       "TYPE": {
         "LIST": {
-          "LABEL": "List Values",
-          "PLACEHOLDER": "Please enter values and press enter key"
+          "LABEL": "Wartości Listy",
+          "PLACEHOLDER": "Proszę wprowadzić wartości i nacisnąć klawisz enter"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atrybut zaktualizowany pomyślnie",
-        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
+        "SUCCESS_MESSAGE": "Atrybut Niestandardowy został pomyślnie zaktualizowany",
+        "ERROR_MESSAGE": "Wystąpił błąd podczas aktualizacji atrybutu niestandardowego, proszę spróbować ponownie"
       }
     },
     "TABS": {
-      "HEADER": "Niestandardowe atrybuty",
+      "HEADER": "Atrybuty Niestandardowe",
       "CONVERSATION": "Rozmowa",
       "CONTACT": "Kontakt"
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nazwa",
-        "Opis",
-        "Typ",
-        "Klucz"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Imię",
+        "DESCRIPTION": "Opis",
+        "TYPE": "Typ",
+        "KEY": "Klucz"
+      },
       "BUTTONS": {
         "EDIT": "Edytuj",
         "DELETE": "Usuń"
       },
       "EMPTY_RESULT": {
-        "404": "Nie utworzono atrybutów niestandardowych",
-        "NOT_FOUND": "Brak skonfigurowanych atrybutów niestandardowych"
+        "404": "Nie utworzono żadnych atrybutów niestandardowych",
+        "NOT_FOUND": "Nie skonfigurowano żadnych atrybutów niestandardowych"
+      },
+      "REGEX_PATTERN": {
+        "LABEL": "Wzorzec Regex",
+        "PLACEHOLDER": "Proszę wprowadzić wzorzec regex atrybutu niestandardowego. (Opcjonalnie)"
+      },
+      "REGEX_CUE": {
+        "LABEL": "Wskazówka Regex",
+        "PLACEHOLDER": "Proszę wprowadzić wskazówkę wzorca regex. (Opcjonalnie)"
+      },
+      "ENABLE_REGEX": {
+        "LABEL": "Włącz walidację regex"
       }
     }
   }

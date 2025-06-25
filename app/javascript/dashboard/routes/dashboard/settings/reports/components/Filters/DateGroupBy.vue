@@ -1,26 +1,5 @@
-<template>
-  <div class="multiselect-wrap--small">
-    <p aria-hidden="true" class="hide">
-      {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
-    </p>
-    <multiselect
-      v-model="currentSelectedFilter"
-      class="no-margin"
-      track-by="id"
-      label="groupBy"
-      :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
-      :options="translatedOptions"
-      :allow-empty="false"
-      :show-labels="false"
-      @select="changeFilterSelection"
-    />
-  </div>
-</template>
-
 <script>
 import { GROUP_BY_OPTIONS } from '../../constants';
-
-const EVENT_NAME = 'on-grouping-change';
 
 export default {
   name: 'ReportsFiltersDateGroupBy',
@@ -34,6 +13,7 @@ export default {
       default: () => GROUP_BY_OPTIONS.DAY,
     },
   },
+  emits: ['onGroupingChange'],
   data() {
     return {
       currentSelectedFilter: null,
@@ -60,8 +40,27 @@ export default {
   },
   methods: {
     changeFilterSelection(selectedFilter) {
-      this.groupByOptions = this.$emit(EVENT_NAME, selectedFilter);
+      this.groupByOptions = this.$emit('onGroupingChange', selectedFilter);
     },
   },
 };
 </script>
+
+<template>
+  <div class="multiselect-wrap--small">
+    <p aria-hidden="true" class="hide">
+      {{ $t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL') }}
+    </p>
+    <multiselect
+      v-model="currentSelectedFilter"
+      class="no-margin"
+      track-by="id"
+      label="groupBy"
+      :placeholder="$t('REPORT.GROUP_BY_FILTER_DROPDOWN_LABEL')"
+      :options="translatedOptions"
+      :allow-empty="false"
+      :show-labels="false"
+      @select="changeFilterSelection"
+    />
+  </div>
+</template>

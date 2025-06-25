@@ -1,12 +1,14 @@
 import { shallowMount } from '@vue/test-utils';
-import ReportFiltersDateRange from '../../Filters/DateRange';
+import ReportFiltersDateRange from '../../Filters/DateRange.vue';
 import { DATE_RANGE_OPTIONS } from '../../../constants';
 
 const mountParams = {
-  mocks: {
-    $t: msg => msg,
+  global: {
+    mocks: {
+      $t: msg => msg,
+    },
+    stubs: ['multiselect'],
   },
-  stubs: ['multiselect'],
 };
 
 describe('ReportFiltersDateRange.vue', () => {

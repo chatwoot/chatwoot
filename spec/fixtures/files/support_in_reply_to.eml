@@ -26,7 +26,7 @@ Content-Type: multipart/related;
 
 --Apple-Mail=_83444AF4-343C-4F75-AF8F-14E1E7434FC1
 Content-Transfer-Encoding: base64
-Content-Disposition: inline;
+Content-Disposition: attachment;
   filename=avatar1.jpeg
 Content-Type: image/jpg;
   name="avatar1.jpeg"
@@ -396,7 +396,7 @@ mk8VWW5WRGJGAOaAP//Z
 
 --Apple-Mail=_83444AF4-343C-4F75-AF8F-14E1E7434FC1
 Content-Transfer-Encoding: base64
-Content-Disposition: inline;
+Content-Disposition: attachment;
   filename=avatar2.jpg
 Content-Type: image/jpg;
   x-unix-mode=0700;

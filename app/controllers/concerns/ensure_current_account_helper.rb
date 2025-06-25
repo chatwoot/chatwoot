@@ -8,7 +8,7 @@ module EnsureCurrentAccountHelper
 
   def ensure_current_account
     account = Account.find(params[:account_id])
-    ensure_account_is_active?(account)
+    render_unauthorized('Account is suspended') and return unless account.active?
 
     if current_user
       account_accessible_for_user?(account)
@@ -25,10 +25,6 @@ module EnsureCurrentAccountHelper
   end
 
   def account_accessible_for_bot?(account)
-    render_unauthorized('You are not authorized to access this account') unless @resource.agent_bot_inboxes.find_by(account_id: account.id)
-  end
-
-  def ensure_account_is_active?(account)
-    render_unauthorized('Account is suspended') unless account.active?
+    render_unauthorized('Bot is not authorized to access this account') unless @resource.agent_bot_inboxes.find_by(account_id: account.id)
   end
 end

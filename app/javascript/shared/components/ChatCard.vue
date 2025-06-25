@@ -21,14 +21,12 @@
 </template>
 
 <script>
-import CardButton from 'shared/components/CardButton';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import CardButton from 'shared/components/CardButton.vue';
 
 export default {
   components: {
     CardButton,
   },
-  mixins: [darkModeMixin],
   props: {
     title: {
       type: String,
@@ -46,9 +44,7 @@ export default {
       type: Array,
       default: () => [],
     },
-    showAvatar: Boolean,
   },
-  computed: {},
 };
 </script>
 

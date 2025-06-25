@@ -4,20 +4,29 @@
       "ALL": "Alle",
       "CONTACTS": "Kontakte",
       "CONVERSATIONS": "Gespräche",
-      "MESSAGES": "Nachrichten"
+      "MESSAGES": "Nachrichten",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontakte",
       "CONVERSATIONS": "Gespräche",
-      "MESSAGES": "Nachrichten"
+      "MESSAGES": "Nachrichten",
+      "ARTICLES": "Articles"
     },
-    "EMPTY_STATE": "No %{item} found for query '%{query}'",
-    "EMPTY_STATE_FULL": "No results found for query '%{query}'",
-    "PLACEHOLDER_KEYBINDING": "/ to focus",
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Suchen",
+    "LOADING_DATA": "Wird geladen",
+    "EMPTY_STATE": "Keine {item} für Abfrage '{query} ' gefunden",
+    "EMPTY_STATE_FULL": "Kein Ergebnis für Abfrage '{query} ' gefunden",
+    "PLACEHOLDER_KEYBINDING": "/ fokussieren",
     "INPUT_PLACEHOLDER": "Search messages, contacts or conversations",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results.",
     "BOT_LABEL": "Bot",
-    "READ_MORE": "Read more",
-    "WROTE": "wrote:"
+    "READ_MORE": "Mehr erfahren",
+    "WROTE": "schrieb:",
+    "FROM": "von",
+    "EMAIL": "e-Mail",
+    "EMAIL_SUBJECT": "betreff"
   }
 }

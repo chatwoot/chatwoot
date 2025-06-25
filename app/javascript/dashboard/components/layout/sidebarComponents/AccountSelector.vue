@@ -1,54 +1,3 @@
-<template>
-  <woot-modal
-    :show="showAccountModal"
-    :on-close="() => $emit('close-account-modal')"
-    class="account-selector--modal"
-  >
-    <woot-modal-header
-      :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
-      :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
-    />
-    <div class="account-selector--wrap">
-      <div
-        v-for="account in currentUser.accounts"
-        :key="account.id"
-        class="account-selector"
-      >
-        <button
-          class="button expanded clear link"
-          @click="onChangeAccount(account.id)"
-        >
-          <span class="button__content">
-            <label :for="account.name" class="account-details--wrap">
-              <div class="account--name">{{ account.name }}</div>
-              <div class="account--role">{{ account.role }}</div>
-            </label>
-          </span>
-          <fluent-icon
-            v-show="account.id === accountId"
-            class="selected--account"
-            icon="checkmark-circle"
-            type="solid"
-            size="24"
-          />
-        </button>
-      </div>
-    </div>
-
-    <div
-      v-if="globalConfig.createNewAccountFromDashboard"
-      class="modal-footer delete-item"
-    >
-      <button
-        class="button success large expanded nice"
-        @click="$emit('show-create-account-modal')"
-      >
-        {{ $t('CREATE_ACCOUNT.NEW_ACCOUNT') }}
-      </button>
-    </div>
-  </woot-modal>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 export default {
@@ -58,7 +7,7 @@ export default {
       default: true,
     },
   },
-
+  emits: ['closeAccountModal', 'showCreateAccountModal'],
   computed: {
     ...mapGetters({
       accountId: 'getCurrentAccountId',
@@ -74,32 +23,66 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.account-selector--wrap {
-  margin-top: var(--space-normal);
-}
-.account-selector {
-  padding-top: 0;
-  padding-bottom: 0;
-  .button {
-    display: flex;
-    justify-content: space-between;
-    padding: var(--space-one) var(--space-normal);
-    .account-details--wrap {
-      text-align: left;
-      .account--name {
-        cursor: pointer;
-        font-size: var(--font-size-medium);
-        font-weight: var(--font-weight-medium);
-        line-height: 1;
-      }
 
-      .account--role {
-        cursor: pointer;
-        font-size: var(--font-size-mini);
-        text-transform: capitalize;
-      }
-    }
-  }
-}
-</style>
+<template>
+  <woot-modal
+    :show="showAccountModal"
+    :on-close="() => $emit('closeAccountModal')"
+  >
+    <woot-modal-header
+      :header-title="$t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS')"
+      :header-content="$t('SIDEBAR_ITEMS.SELECTOR_SUBTITLE')"
+    />
+    <div class="px-8 py-4">
+      <div
+        v-for="account in currentUser.accounts"
+        :id="`account-${account.id}`"
+        :key="account.id"
+        class="pt-0 pb-0"
+      >
+        <button
+          class="flex items-center justify-between w-full px-4 py-3 rounded-lg cursor-pointer expanded clear link hover:underline hover:bg-slate-25 dark:hover:bg-slate-900"
+          @click="onChangeAccount(account.id)"
+        >
+          <span class="w-full">
+            <label :for="account.name" class="text-left rtl:text-right">
+              <div
+                class="text-lg font-medium leading-5 text-slate-700 dark:text-slate-100 hover:underline-offset-4"
+              >
+                {{ account.name }}
+              </div>
+              <div
+                class="text-xs font-medium lowercase text-slate-500 dark:text-slate-500 hover:underline-offset-4"
+              >
+                {{
+                  account.custom_role_id
+                    ? account.custom_role.name
+                    : account.role
+                }}
+              </div>
+            </label>
+          </span>
+          <fluent-icon
+            v-show="account.id === accountId"
+            class="text-slate-800 dark:text-slate-100"
+            icon="checkmark-circle"
+            type="solid"
+            size="24"
+          />
+        </button>
+      </div>
+    </div>
+
+    <div
+      v-if="globalConfig.createNewAccountFromDashboard"
+      class="flex items-center justify-end gap-2 px-8 pt-4 pb-8"
+    >
+      <button
+        class="w-full button success large expanded nice"
+        @click="$emit('showCreateAccountModal')"
+      >
+        {{ $t('CREATE_ACCOUNT.NEW_ACCOUNT') }}
+      </button>
+    </div>
+  </woot-modal>
+</template>

@@ -3,6 +3,7 @@ require 'rails_helper'
 describe Integrations::Slack::IncomingMessageBuilder do
   let(:account) { create(:account) }
   let(:message_params) { slack_message_stub }
+  let(:builder) { described_class.new(hook: hook) }
   let(:private_message_params) do
     {
       team_id: 'TLST3048H',
@@ -30,6 +31,8 @@ describe Integrations::Slack::IncomingMessageBuilder do
       event_time: 1_588_623_033
     }
   end
+  let(:slack_client) { double }
+  let(:link_unfurl_service) { double }
   let(:message_with_attachments) { slack_attachment_stub }
   let(:message_without_thread_ts) { slack_message_stub_without_thread_ts }
   let(:verification_params) { slack_url_verification_stub }
@@ -60,6 +63,16 @@ describe Integrations::Slack::IncomingMessageBuilder do
         builder = described_class.new(message_without_thread_ts)
         builder.perform
         expect(conversation.messages.count).to eql(messages_count)
+      end
+
+      it 'does not create message if message already exists' do
+        expect(hook).not_to be_nil
+        messages_count = conversation.messages.count
+        builder = described_class.new(message_params)
+        allow(builder).to receive(:sender).and_return(nil)
+        2.times.each { builder.perform }
+        expect(conversation.messages.count).to eql(messages_count + 1)
+        expect(conversation.messages.last.content).to eql('this is test https://chatwoot.com Hey @Sojan Test again')
       end
 
       it 'creates message' do
@@ -143,6 +156,25 @@ describe Integrations::Slack::IncomingMessageBuilder do
         builder.perform
 
         expect(conversation.messages.count).to eql(messages_count)
+      end
+    end
+
+    context 'when link shared' do
+      let(:link_shared) do
+        {
+          team_id: 'TLST3048H',
+          api_app_id: 'A012S5UETV4',
+          event: link_shared_event.merge({ links: [{ url: "https://qa.chatwoot.com/app/accounts/1/conversations/#{conversation.display_id}",
+                                                     domain: 'qa.chatwoot.com' }] }),
+          type: 'event_callback',
+          event_time: 1_588_623_033
+        }
+      end
+
+      it 'unfurls link' do
+        builder = described_class.new(link_shared)
+        expect(SlackUnfurlJob).to receive(:perform_later).with(link_shared)
+        builder.perform
       end
     end
   end

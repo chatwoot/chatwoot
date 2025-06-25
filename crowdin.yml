@@ -1,3 +1,5 @@
+pull_request_title: "chore: Update translations"
+commit_message: "[ci skip]"
 files:
   - source: /app/javascript/dashboard/i18n/locale/en/*.json
     translation: >-

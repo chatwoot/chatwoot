@@ -7,10 +7,6 @@ class AutomationRulePolicy < ApplicationPolicy
     @account_user.administrator?
   end
 
-  def attach_file?
-    @account_user.administrator?
-  end
-
   def show?
     @account_user.administrator?
   end

@@ -1,15 +1,53 @@
+<script setup>
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
+import { defineEmits } from 'vue';
+
+defineProps({
+  title: {
+    type: String,
+    required: true,
+  },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
+  icon: {
+    type: String,
+    default: '',
+  },
+  emoji: {
+    type: String,
+    default: '',
+  },
+  isOpen: {
+    type: Boolean,
+    default: true,
+  },
+});
+
+const emit = defineEmits(['toggle']);
+
+const onToggle = () => {
+  emit('toggle');
+};
+</script>
+
 <template>
-  <div class="cw-accordion">
-    <button class="cw-accordion--title drag-handle" @click="$emit('click')">
-      <div class="cw-accordion--title-wrap">
-        <emoji-or-icon class="icon-or-emoji" :icon="icon" :emoji="emoji" />
-        <h5>
+  <div class="text-sm">
+    <button
+      class="flex items-center select-none w-full rounded-lg bg-n-slate-2 outline outline-1 outline-n-weak m-0 cursor-grab justify-between py-2 px-4 drag-handle"
+      :class="{ 'rounded-bl-none rounded-br-none': isOpen }"
+      @click.stop="onToggle"
+    >
+      <div class="flex justify-between">
+        <EmojiOrIcon class="inline-block w-5" :icon="icon" :emoji="emoji" />
+        <h5 class="text-n-slate-12 text-sm mb-0 py-0 pr-2 pl-0">
           {{ title }}
         </h5>
       </div>
-      <div class="button-icon--wrap">
+      <div class="flex flex-row">
         <slot name="button" />
-        <div class="chevron-icon__wrap">
+        <div class="flex justify-end w-3 text-n-blue-text cursor-pointer">
           <fluent-icon v-if="isOpen" size="24" icon="subtract" type="solid" />
           <fluent-icon v-else size="24" icon="add" type="solid" />
         </div>
@@ -17,106 +55,10 @@
     </button>
     <div
       v-if="isOpen"
-      class="cw-accordion--content"
-      :class="{ compact: compact }"
+      class="bg-n-background outline outline-1 outline-n-weak -mt-[-1px] border-t-0 rounded-br-lg rounded-bl-lg"
+      :class="compact ? 'p-0' : 'px-2 py-4'"
     >
       <slot />
     </div>
   </div>
 </template>
-
-<script>
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
-
-export default {
-  components: {
-    EmojiOrIcon,
-  },
-  props: {
-    title: {
-      type: String,
-      required: true,
-    },
-    compact: {
-      type: Boolean,
-      default: false,
-    },
-    icon: {
-      type: String,
-      default: '',
-    },
-    emoji: {
-      type: String,
-      default: '',
-    },
-    isOpen: {
-      type: Boolean,
-      default: true,
-    },
-  },
-};
-</script>
-
-<style lang="scss" scoped>
-.cw-accordion {
-  // This is done to fix contact sidebar border issues
-  // If you are using it else, find a fix to remove this hack
-  margin-top: -1px;
-  font-size: var(--font-size-small);
-}
-.cw-accordion--title {
-  align-items: center;
-  background: var(--s-50);
-  border-bottom: 1px solid var(--s-100);
-  border-top: 1px solid var(--s-100);
-  cursor: grab;
-  display: flex;
-  justify-content: space-between;
-  margin: 0;
-  padding: var(--space-small) var(--space-normal);
-  user-select: none;
-  width: 100%;
-
-  h5 {
-    font-size: var(--font-size-normal);
-    margin-bottom: 0;
-    padding: 0 var(--space-small) 0 0;
-  }
-}
-
-.cw-accordion--title-wrap {
-  display: flex;
-  justify-content: space-between;
-  margin-bottom: var(--space-micro);
-}
-
-.title-icon__wrap {
-  display: flex;
-  align-items: baseline;
-}
-
-.icon-or-emoji {
-  display: inline-block;
-  width: var(--space-two);
-}
-
-.button-icon--wrap {
-  display: flex;
-  flex-direction: row;
-}
-
-.chevron-icon__wrap {
-  display: flex;
-  justify-content: flex-end;
-  width: var(--space-slab);
-  color: var(--w-500);
-}
-
-.cw-accordion--content {
-  padding: var(--space-normal);
-
-  &.compact {
-    padding: 0;
-  }
-}
-</style>

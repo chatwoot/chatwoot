@@ -39,10 +39,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
     color: {
       type: String,
       default: '#6e6f73',

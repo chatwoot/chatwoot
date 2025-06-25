@@ -1,12 +1,3 @@
-<template>
-  <div class="image message-text__wrap">
-    <img :src="url" @click="onClick" @error="onImgError()" />
-    <woot-modal :full-width="true" :show.sync="show" :on-close="onClose">
-      <img :src="url" class="modal-image skip-context-menu" />
-    </woot-modal>
-  </div>
-</template>
-
 <script>
 export default {
   components: {},
@@ -16,6 +7,7 @@ export default {
       required: true,
     },
   },
+  emits: ['error'],
   data() {
     return {
       show: false,
@@ -28,9 +20,15 @@ export default {
     onClick() {
       this.show = true;
     },
-    onImgError() {
-      this.$emit('error');
-    },
   },
 };
 </script>
+
+<template>
+  <div class="image message-text__wrap">
+    <img :src="url" @click="onClick" @error="$emit('error')" />
+    <woot-modal v-model:show="show" full-width :on-close="onClose">
+      <img :src="url" class="modal-image skip-context-menu" />
+    </woot-modal>
+  </div>
+</template>

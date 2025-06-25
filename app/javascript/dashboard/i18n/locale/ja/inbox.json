@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "表示",
+      "LOADING": "通知を取得中",
+      "404": "このグループにはアクティブな通知がありません。",
+      "NO_NOTIFICATIONS": "通知はありません",
+      "NOTE": "すべての購読中のインボックスからの通知",
+      "NO_MESSAGES_AVAILABLE": "おっと！メッセージを取得できませんでした",
+      "SNOOZED_UNTIL": "スヌーズ終了まで:",
+      "SNOOZED_UNTIL_TOMORROW": "明日までスヌーズ",
+      "SNOOZED_UNTIL_NEXT_WEEK": "来週までスヌーズ"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "通知をスヌーズ",
+      "DELETE": "通知を削除",
+      "BACK": "戻る"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "会話でメンションされました",
+      "CONVERSATION_CREATION": "新しい会話が作成されました",
+      "CONVERSATION_ASSIGNMENT": "会話があなたに割り当てられました",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "割り当てられた会話に新しいメッセージがあります",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "参加中の会話に新しいメッセージがあります",
+      "SLA_MISSED_FIRST_RESPONSE": "会話でSLA目標の最初の応答が未達です",
+      "SLA_MISSED_NEXT_RESPONSE": "会話でSLA目標の次の応答が未達です",
+      "SLA_MISSED_RESOLUTION": "会話でSLA目標の解決が未達です"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "メンションされました",
+      "CONVERSATION_ASSIGNMENT": "割り当てられました",
+      "CONVERSATION_CREATION": "新しい会話",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA違反",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA違反",
+      "SLA_MISSED_RESOLUTION": "SLA違反",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "新しいメッセージ",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "新しいメッセージ",
+      "SNOOZED_UNTIL": "{time}スヌーズ中",
+      "SNOOZED_ENDS": "スヌーズ終了"
+    },
+    "NO_CONTENT": "コンテンツが利用できません",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "既読にする",
+      "MARK_AS_UNREAD": "未読にする",
+      "SNOOZE": "スヌーズ",
+      "DELETE": "削除",
+      "MARK_ALL_READ": "すべて既読にする",
+      "DELETE_ALL": "すべて削除",
+      "DELETE_ALL_READ": "既読をすべて削除"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "並び替え",
+      "DISPLAY": "表示:",
+      "SORT_OPTIONS": {
+        "NEWEST": "最新",
+        "OLDEST": "最古",
+        "PRIORITY": "優先度"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "スヌーズ中",
+        "READ": "既読",
+        "LABELS": "ラベル",
+        "CONVERSATION_ID": "会話ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "通知を既読にしました",
+      "MARK_AS_UNREAD": "通知を未読にしました",
+      "SNOOZE": "通知をスヌーズしました",
+      "DELETE": "通知を削除しました",
+      "MARK_ALL_READ": "すべての通知を既読にしました",
+      "DELETE_ALL": "すべての通知を削除しました",
+      "DELETE_ALL_READ": "すべての既読通知を削除しました"
+    }
+  }
+}

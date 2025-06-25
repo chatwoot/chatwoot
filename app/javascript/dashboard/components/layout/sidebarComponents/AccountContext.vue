@@ -1,33 +1,12 @@
-<template>
-  <div
-    v-if="showShowCurrentAccountContext"
-    class="account-context--group"
-    @mouseover="setShowSwitch"
-    @mouseleave="resetShowSwitch"
-  >
-    {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
-    <p class="account-context--name text-ellipsis">
-      {{ account.name }}
-    </p>
-    <transition name="fade">
-      <div v-if="showSwitchButton" class="account-context--switch-group">
-        <woot-button
-          variant="clear"
-          size="tiny"
-          icon="arrow-swap"
-          class="switch-button"
-          @click="$emit('toggle-accounts')"
-        >
-          {{ $t('SIDEBAR.SWITCH') }}
-        </woot-button>
-      </div>
-    </transition>
-  </div>
-</template>
 <script>
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
+  emits: ['toggleAccounts'],
   data() {
     return { showSwitchButton: false };
   },
@@ -50,52 +29,75 @@ export default {
   },
 };
 </script>
-<style scoped lang="scss">
-.account-context--group {
-  border-radius: var(--border-radius-normal);
-  border: 1px solid var(--color-border);
-  font-size: var(--font-size-mini);
-  padding: var(--space-small);
-  margin: var(--space-small) var(--space-small) 0 var(--space-small);
-  position: relative;
 
-  &:hover {
-    background: var(--b-100);
+<!-- eslint-disable-next-line vue/no-root-v-if -->
+<template>
+  <div
+    v-if="showShowCurrentAccountContext"
+    class="relative px-2 py-2 mt-2 text-xs border rounded-md cursor-pointer text-slate-700 dark:text-slate-200 border-slate-50 dark:border-slate-800/50 hover:bg-slate-50 dark:hover:bg-slate-800"
+    @mouseover="setShowSwitch"
+    @mouseleave="resetShowSwitch"
+  >
+    {{ $t('SIDEBAR.CURRENTLY_VIEWING_ACCOUNT') }}
+    <p
+      class="mb-0 overflow-hidden font-medium text-ellipsis whitespace-nowrap text-slate-800 dark:text-slate-100"
+    >
+      {{ account.name }}
+    </p>
+    <transition name="fade">
+      <div
+        v-if="showSwitchButton"
+        class="absolute top-0 right-0 flex items-center justify-end w-full h-full rounded-md ltr:overlay-shadow ltr:dark:overlay-shadow-dark rtl:rtl-overlay-shadow rtl:dark:rtl-overlay-shadow-dark"
+      >
+        <div class="mx-2 my-0">
+          <NextButton
+            ghost
+            xs
+            icon="i-lucide-arrow-right-left"
+            :label="$t('SIDEBAR.SWITCH')"
+            @click="$emit('toggleAccounts')"
+          />
+        </div>
+      </div>
+    </transition>
+  </div>
+</template>
+
+<style scoped>
+@tailwind components;
+@layer components {
+  .overlay-shadow {
+    background-image: linear-gradient(
+      to right,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
   }
 
-  .account-context--name {
-    font-weight: var(--font-weight-medium);
-    margin-bottom: 0;
+  .overlay-shadow-dark {
+    background-image: linear-gradient(
+      to right,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(21, 23, 24) 50%
+    );
+  }
+
+  .rtl-overlay-shadow {
+    background-image: linear-gradient(
+      to left,
+      rgba(255, 255, 255, 0) 0%,
+      rgba(255, 255, 255, 1) 50%
+    );
+  }
+
+  .rtl-overlay-shadow-dark {
+    background-image: linear-gradient(
+      to left,
+      rgba(0, 0, 0, 0) 0%,
+      rgb(21, 23, 24) 50%
+    );
   }
 }
-
-.switch-button {
-  margin: 0 var(--space-small);
-}
-
-.account-context--switch-group {
-  --overlay-shadow: linear-gradient(
-    to right,
-    rgba(255, 255, 255, 0) 0%,
-    rgba(255, 255, 255, 1) 50%
-  );
-
-  align-items: center;
-  background-image: var(--overlay-shadow);
-  border-top-left-radius: 0;
-  border-top-right-radius: var(--border-radius-normal);
-  border-bottom-left-radius: 0;
-  border-bottom-right-radius: var(--border-radius-normal);
-  display: flex;
-  height: 100%;
-  justify-content: flex-end;
-  opacity: 1;
-  position: absolute;
-  right: 0;
-  top: 0;
-  width: 100%;
-}
-
 .fade-enter-active,
 .fade-leave-active {
   transition: opacity 300ms ease;
@@ -103,6 +105,6 @@ export default {
 
 .fade-enter,
 .fade-leave-to {
-  opacity: 0;
+  @apply opacity-0;
 }
 </style>

@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Sehr geehrter Kunde 👋, bitte nehmen Sie sich einen Moment Zeit, um Feedback zu dem Gespräch zu geben, das Sie mit %{inboxName} geführt haben.",
+    "DESCRIPTION": "Sehr geehrter Kunde 👋, bitte nehmen Sie sich einen Moment Zeit, um Feedback zu dem Gespräch zu geben, das Sie mit {inboxName} geführt haben.",
     "RATING": {
       "LABEL": "Bewerten Sie ihre Unterhaltung",
       "SUCCESS_MESSAGE": "Danke, dass Sie die Bewertung eingereicht haben"

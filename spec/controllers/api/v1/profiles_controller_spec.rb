@@ -57,6 +57,18 @@ RSpec.describe 'Profile API', type: :request do
         expect(agent.name).to eq('test')
       end
 
+      it 'updates custom attributes' do
+        put '/api/v1/profile',
+            params: { profile: { phone_number: '+123456789' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+
+        expect(agent.custom_attributes['phone_number']).to eq('+123456789')
+      end
+
       it 'updates the message_signature' do
         put '/api/v1/profile',
             params: { profile: { name: 'test', message_signature: 'Thanks\nMy Signature' } },
@@ -80,6 +92,18 @@ RSpec.describe 'Profile API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(agent.reload.valid_password?('Test1234!')).to be true
+      end
+
+      it 'does not reset the display name if updates the password' do
+        display_name = agent.display_name
+
+        put '/api/v1/profile',
+            params: { profile: { current_password: 'Test123!', password: 'Test1234!', password_confirmation: 'Test1234!' } },
+            headers: agent.create_new_auth_token,
+            as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(agent.reload.display_name).to eq(display_name)
       end
 
       it 'throws error when current password provided is invalid' do
@@ -168,6 +192,8 @@ RSpec.describe 'Profile API', type: :request do
                as: :json
 
         expect(response).to have_http_status(:success)
+        json_response = response.parsed_body
+        expect(json_response['avatar_url']).to be_empty
       end
     end
   end
@@ -239,6 +265,74 @@ RSpec.describe 'Profile API', type: :request do
             as: :json
 
         expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/profile/resend_confirmation' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/resend_confirmation'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) do
+        create(:user, password: 'Test123!', email: 'test-unconfirmed@email.com', account: account, role: :agent,
+                      unconfirmed_email: 'test-unconfirmed@email.com')
+      end
+
+      it 'does not send the confirmation email if the user is already confirmed' do
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.not_to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+
+      it 'resends the confirmation email if the user is unconfirmed' do
+        agent.confirmed_at = nil
+        agent.save!
+
+        expect do
+          post '/api/v1/profile/resend_confirmation',
+               headers: agent.create_new_auth_token,
+               as: :json
+        end.to have_enqueued_mail(Devise::Mailer, :confirmation_instructions)
+
+        expect(response).to have_http_status(:success)
+      end
+    end
+  end
+
+  describe 'POST /api/v1/profile/reset_access_token' do
+    context 'when it is an unauthenticated user' do
+      it 'returns unauthorized' do
+        post '/api/v1/profile/reset_access_token'
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+    end
+
+    context 'when it is an authenticated user' do
+      let(:agent) { create(:user, account: account, role: :agent) }
+
+      it 'regenerates the access token' do
+        old_token = agent.access_token.token
+
+        post '/api/v1/profile/reset_access_token',
+             headers: agent.create_new_auth_token,
+             as: :json
+
+        expect(response).to have_http_status(:success)
+        agent.reload
+        expect(agent.access_token.token).not_to eq(old_token)
+        json_response = response.parsed_body
+        expect(json_response['access_token']).to eq(agent.access_token.token)
       end
     end
   end

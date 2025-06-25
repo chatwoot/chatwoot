@@ -23,6 +23,7 @@ export const SDK_CSS = `
 
 .woot-widget-holder iframe {
   border: 0;
+  color-scheme: normal;
   height: 100% !important;
   width: 100% !important;
   max-height: 100vh !important;
@@ -50,6 +51,7 @@ export const SDK_CSS = `
   user-select: none;
   width: 64px;
   z-index: 2147483000 !important;
+  overflow: hidden;
 }
 
 .woot-widget-bubble.woot-widget-bubble--flat {
@@ -280,8 +282,8 @@ export const SDK_CSS = `
   .woot-widget-holder {
     border-radius: 16px;
     bottom: 104px;
-    height: calc(85% - 64px - 20px);
-    max-height: 590px !important;
+    height: calc(90% - 64px - 20px);
+    max-height: 640px !important;
     min-height: 250px !important;
     width: 400px !important;
  }

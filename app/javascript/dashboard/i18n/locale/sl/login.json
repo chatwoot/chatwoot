@@ -1,0 +1,27 @@
+{
+  "LOGIN": {
+    "TITLE": "Login to Chatwoot",
+    "EMAIL": {
+      "LABEL": "E-pošta",
+      "PLACEHOLDER": "primer{'@'}imepodjetja.com",
+      "ERROR": "Prosimo vnesite veljaven elektronski naslov"
+    },
+    "PASSWORD": {
+      "LABEL": "Geslo",
+      "PLACEHOLDER": "Geslo"
+    },
+    "API": {
+      "SUCCESS_MESSAGE": "Prijava uspešna",
+      "ERROR_MESSAGE": "Ni bilo mogoče vzpostaviti povezave s strežnikom. Prosimo poskusite ponovno.",
+      "UNAUTH": "Uporabniško ime ali geslo ni pravilno. Prosimo poskusite ponovno"
+    },
+    "OAUTH": {
+      "GOOGLE_LOGIN": "Prijavite se z Googlom",
+      "BUSINESS_ACCOUNTS_ONLY": "Prosimo, da za prijavo uporabite e-poštni naslov vašega podjetja",
+      "NO_ACCOUNT_FOUND": "Nismo mogli najti računa za vaš e-poštni naslov."
+    },
+    "FORGOT_PASSWORD": "Ste pozabili geslo?",
+    "CREATE_NEW_ACCOUNT": "Ustvarite nov račun",
+    "SUBMIT": "Prijava"
+  }
+}

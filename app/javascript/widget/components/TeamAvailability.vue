@@ -32,19 +32,18 @@
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
 import configMixin from 'widget/mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 
 export default {
   name: 'TeamAvailability',
   components: {
-    AvailableAgents,
-    CustomButton,
+    GroupedAvatars,
   },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
   props: {
     availableAgents: {
       type: Array,
@@ -55,6 +54,7 @@ export default {
       default: false,
     },
   },
+  emits: ['startConversation'],
 
   computed: {
     ...mapGetters({
@@ -62,6 +62,13 @@ export default {
     }),
     textColor() {
       return getContrastingTextColor(this.widgetColor);
+    },
+    agentAvatars() {
+      return this.availableAgents.map(agent => ({
+        name: agent.name,
+        avatar: agent.avatar_url,
+        id: agent.id,
+      }));
     },
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
@@ -75,7 +82,14 @@ export default {
   },
   methods: {
     startConversation() {
-      this.$emit('start-conversation');
+      this.$emit('startConversation');
+      if (!this.hasConversation) {
+        IFrameHelper.sendMessage({
+          event: 'onEvent',
+          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+          data: { hasConversation: false },
+        });
+      }
     },
   },
 };

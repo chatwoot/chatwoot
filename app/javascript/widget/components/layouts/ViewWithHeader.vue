@@ -53,7 +53,6 @@ import Banner from '../Banner.vue';
 import ChatHeader from '../ChatHeader.vue';
 import ChatHeaderExpanded from '../ChatHeaderExpanded.vue';
 import configMixin from '../../mixins/configMixin';
-import darkModeMixin from 'widget/mixins/darkModeMixin';
 import { mapGetters } from 'vuex';
 import { IFrameHelper } from 'widget/helpers/utils';
 
@@ -63,55 +62,123 @@ export default {
     ChatHeader,
     ChatHeaderExpanded,
   },
-  mixins: [configMixin, darkModeMixin],
+  mixins: [configMixin],
   data() {
     return { showPopoutButton: false };
   },
   computed: {
     ...mapGetters({
-      availableAgents: 'agent/availableAgents',
       appConfig: 'appConfig/getAppConfig',
+      availableAgents: 'agent/availableAgents',
     }),
+    portal() {
+      return window.chatwootWebChannel.portal;
+    },
     isHeaderCollapsed() {
       if (!this.hasIntroText) {
         return true;
       }
-      return this.$route.name !== 'home';
+      return !this.isOnHomeView;
     },
     hasIntroText() {
       return (
         this.channelConfig.welcomeTitle || this.channelConfig.welcomeTagline
       );
     },
+    showBackButton() {
+      return ['article-viewer', 'messages', 'prechat-form'].includes(
+        this.$route.name
+      );
+    },
+    isOnArticleViewer() {
+      return ['article-viewer'].includes(this.$route.name);
+    },
+    isOnHomeView() {
+      return ['home'].includes(this.$route.name);
+    },
+    opacityClass() {
+      if (this.isHeaderCollapsed) {
+        return {};
+      }
+      if (this.scrollPosition > 30) {
+        return { 'opacity-30': true };
+      }
+      if (this.scrollPosition > 25) {
+        return { 'opacity-40': true };
+      }
+      if (this.scrollPosition > 20) {
+        return { 'opacity-60': true };
+      }
+      if (this.scrollPosition > 15) {
+        return { 'opacity-80': true };
+      }
+      if (this.scrollPosition > 10) {
+        return { 'opacity-90': true };
+      }
+      return {};
+    },
+  },
+  mounted() {
+    this.$el.addEventListener('scroll', this.updateScrollPosition);
+  },
+  unmounted() {
+    this.$el.removeEventListener('scroll', this.updateScrollPosition);
+    cancelAnimationFrame(this.requestID);
   },
   methods: {
     closeWindow() {
       IFrameHelper.sendMessage({ event: 'closeWindow' });
     },
+    updateScrollPosition(event) {
+      this.scrollPosition = event.target.scrollTop;
+      if (!this.ticking) {
+        this.requestID = window.requestAnimationFrame(() => {
+          this.ticking = false;
+        });
+
+        this.ticking = true;
+      }
+    },
   },
 };
 </script>
 
-<style scoped lang="scss">
-@import '~widget/assets/scss/variables';
-@import '~widget/assets/scss/mixins';
+<template>
+  <div
+    class="w-full h-full bg-n-slate-2 dark:bg-n-solid-1"
+    :class="{ 'overflow-auto': isOnHomeView }"
+    @keydown.esc="closeWindow"
+  >
+    <div class="relative flex flex-col h-full">
+      <div
+        :class="{
+          expanded: !isHeaderCollapsed,
+          collapsed: isHeaderCollapsed,
+          'shadow-[0_10px_15px_-16px_rgba(50,50,93,0.08),0_4px_6px_-8px_rgba(50,50,93,0.04)]':
+            isHeaderCollapsed,
+          ...opacityClass,
+        }"
+      >
+        <ChatHeaderExpanded
+          v-if="!isHeaderCollapsed"
+          :intro-heading="channelConfig.welcomeTitle"
+          :intro-body="channelConfig.welcomeTagline"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+        />
+        <ChatHeader
+          v-if="isHeaderCollapsed"
+          :title="channelConfig.websiteName"
+          :avatar-url="channelConfig.avatarUrl"
+          :show-popout-button="appConfig.showPopoutButton"
+          :available-agents="availableAgents"
+          :show-back-button="showBackButton"
+        />
+      </div>
+      <Banner />
+      <router-view />
 
-.header-wrap {
-  flex-shrink: 0;
-  transition: max-height 300ms;
-  z-index: 99;
-  @include shadow-large;
-
-  &.expanded {
-    max-height: 16rem;
-  }
-
-  &.collapsed {
-    max-height: 4.5rem;
-  }
-
-  @media only screen and (min-device-width: 320px) and (max-device-width: 667px) {
-    border-radius: 0;
-  }
-}
-</style>
+      <Branding v-if="!isOnArticleViewer" :disable-branding="disableBranding" />
+    </div>
+  </div>
+</template>

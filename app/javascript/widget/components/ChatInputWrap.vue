@@ -50,16 +50,14 @@
 
 <script>
 import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
+import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
 
-const EmojiInput = () => import('shared/components/emoji/EmojiInput');
+import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
 export default {
   name: 'ChatInputWrap',
@@ -70,7 +68,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [clickaway, configMixin, darkModeMixin],
+  mixins: [configMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -81,7 +79,6 @@ export default {
       default: () => {},
     },
   },
-
   data() {
     return {
       userInput: '',
@@ -123,7 +120,7 @@ export default {
       }
     },
   },
-  destroyed() {
+  unmounted() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {
@@ -181,6 +178,64 @@ export default {
 };
 </script>
 
+<template>
+  <div
+    class="items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background !shadow-[0_0_0_1px,0_0_2px_3px]"
+    :class="{
+      '!shadow-n-brand dark:!shadow-n-brand': isFocused,
+      '!shadow-n-strong dark:!shadow-n-strong': !isFocused,
+    }"
+    @keydown.esc="hideEmojiPicker"
+  >
+    <ResizableTextArea
+      id="chat-input"
+      ref="chatInput"
+      v-model="userInput"
+      :rows="1"
+      :aria-label="$t('CHAT_PLACEHOLDER')"
+      :placeholder="$t('CHAT_PLACEHOLDER')"
+      class="user-message-input reset-base"
+      @typing-off="onTypingOff"
+      @typing-on="onTypingOn"
+      @focus="onFocus"
+      @blur="onBlur"
+    />
+    <div class="flex items-center ltr:pl-2 rtl:pr-2">
+      <ChatAttachmentButton
+        v-if="showAttachment"
+        class="text-n-slate-12"
+        :on-attach="onSendAttachment"
+      />
+      <button
+        v-if="hasEmojiPickerEnabled"
+        class="flex items-center justify-center min-h-8 min-w-8"
+        :aria-label="$t('EMOJI.ARIA_LABEL')"
+        @click="toggleEmojiPicker"
+      >
+        <FluentIcon
+          icon="emoji"
+          class="transition-all duration-150"
+          :class="{
+            'text-n-slate-12': !showEmojiPicker,
+            'text-n-brand': showEmojiPicker,
+          }"
+        />
+      </button>
+      <EmojiInput
+        v-if="showEmojiPicker"
+        v-on-clickaway="hideEmojiPicker"
+        :on-click="emojiOnClick"
+        @keydown.esc="hideEmojiPicker"
+      />
+      <ChatSendButton
+        v-if="showSendButton"
+        :color="widgetColor"
+        @click="handleButtonClick"
+      />
+    </div>
+  </div>
+</template>
+
 <style scoped lang="scss">
 @import '~widget/assets/scss/variables.scss';
 @import '~widget/assets/scss/mixins.scss';
@@ -221,13 +276,6 @@ export default {
 }
 
 .user-message-input {
-  border: 0;
-  height: $space-large;
-  min-height: $space-large;
-  max-height: 2.4 * $space-mega;
-  resize: none;
-  padding: $space-smaller 0;
-  margin-top: $space-small;
-  margin-bottom: $space-small;
+  @apply border-none outline-none w-full placeholder:text-n-slate-10 resize-none h-8 min-h-8 max-h-60 py-1 px-0 my-2 bg-n-background text-n-slate-12 transition-all duration-200;
 }
 </style>

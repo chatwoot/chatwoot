@@ -16,6 +16,17 @@ RSpec.describe SupportMailbox do
     end
   end
 
+  describe 'when bounced email with out a sender is recieved' do
+    let(:account) { create(:account) }
+    let(:bounced_email) { create_inbound_email_from_fixture('bounced_with_no_from.eml') }
+    let(:described_subject) { described_class.receive bounced_email }
+
+    it 'shouldnt throw an error' do
+      create(:channel_email, email: 'support@example.com', account: account)
+      expect { described_subject }.not_to raise_error
+    end
+  end
+
   describe 'when an account is suspended' do
     let(:account) { create(:account, status: :suspended) }
     let(:agent) { create(:user, email: 'agent1@example.com', account: account) }

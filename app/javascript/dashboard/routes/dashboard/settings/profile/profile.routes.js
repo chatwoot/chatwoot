@@ -1,26 +1,25 @@
-import SettingsContent from '../Wrapper';
-import Index from './Index.vue';
 import { frontendURL } from '../../../../helper/URLHelper';
+
+import SettingsContent from './Wrapper.vue';
+import Index from './Index.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/profile'),
       name: 'profile_settings',
-      roles: ['administrator', 'agent'],
-      component: SettingsContent,
-      props: {
-        headerTitle: 'PROFILE_SETTINGS.TITLE',
-        icon: 'edit',
-        showNewButton: false,
-        showSidemenuIcon: false,
+      meta: {
+        permissions: ['administrator', 'agent', 'custom_role'],
       },
+      component: SettingsContent,
       children: [
         {
           path: 'settings',
           name: 'profile_settings_index',
           component: Index,
-          roles: ['administrator', 'agent'],
+          meta: {
+            permissions: ['administrator', 'agent', 'custom_role'],
+          },
         },
       ],
     },

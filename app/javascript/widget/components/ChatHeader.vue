@@ -38,14 +38,11 @@
 </template>
 
 <script>
-import { mapGetters } from 'vuex';
-
 import availabilityMixin from 'widget/mixins/availability';
 import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions';
+import HeaderActions from './HeaderActions.vue';
 import routerMixin from 'widget/mixins/routerMixin';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   name: 'ChatHeader',
@@ -53,7 +50,7 @@ export default {
     FluentIcon,
     HeaderActions,
   },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
   props: {
     avatarUrl: {
       type: String,
@@ -77,9 +74,6 @@ export default {
     },
   },
   computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
     isOnline() {
       const { workingHoursEnabled } = this.channelConfig;
       const anyAgentOnline = this.availableAgents.length > 0;

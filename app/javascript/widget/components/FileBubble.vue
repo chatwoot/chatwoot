@@ -24,14 +24,12 @@
 
 <script>
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import { getContrastingTextColor } from '@chatwoot/utils';
 
 export default {
   components: {
     FluentIcon,
   },
-  mixins: [darkModeMixin],
   props: {
     url: {
       type: String,
@@ -67,11 +65,6 @@ export default {
         ? this.contrastingTextColor
         : '';
     },
-    titleColor() {
-      return !this.isUserBubble
-        ? this.$dm('text-black-900', 'dark:text-slate-50')
-        : '';
-    },
   },
   methods: {
     openLink() {
@@ -82,9 +75,35 @@ export default {
 };
 </script>
 
-<style lang="scss" scoped>
-@import '~widget/assets/scss/variables.scss';
+<template>
+  <div class="file flex flex-row items-center p-3 cursor-pointer">
+    <div class="icon-wrap" :style="{ color: textColor }">
+      <FluentIcon icon="document" size="28" />
+    </div>
+    <div class="ltr:pr-1 rtl:pl-1">
+      <div
+        class="m-0 font-medium text-sm"
+        :class="{ 'text-n-slate-12': !isUserBubble }"
+        :style="{ color: textColor }"
+      >
+        {{ title }}
+      </div>
+      <div class="leading-none mb-1">
+        <a
+          class="download"
+          rel="noreferrer noopener nofollow"
+          target="_blank"
+          :style="{ color: textColor }"
+          :href="url"
+        >
+          {{ $t('COMPONENTS.FILE_BUBBLE.DOWNLOAD') }}
+        </a>
+      </div>
+    </div>
+  </div>
+</template>
 
+<style lang="scss" scoped>
 .file {
   padding: $space-slab $space-normal !important;
   .icon-wrap {

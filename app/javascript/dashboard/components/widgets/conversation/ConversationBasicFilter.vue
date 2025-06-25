@@ -1,122 +1,178 @@
+<script setup>
+import { computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useToggle } from '@vueuse/core';
+import { vOnClickOutside } from '@vueuse/components';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useMapGetter, useStore } from 'dashboard/composables/store.js';
+import wootConstants from 'dashboard/constants/globals';
+import SelectMenu from 'dashboard/components-next/selectmenu/SelectMenu.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
+defineProps({
+  isOnExpandedLayout: {
+    type: Boolean,
+    required: true,
+  },
+});
+
+const emit = defineEmits(['changeFilter']);
+
+const store = useStore();
+const { t } = useI18n();
+
+const { updateUISettings } = useUISettings();
+
+const chatStatusFilter = useMapGetter('getChatStatusFilter');
+const chatSortFilter = useMapGetter('getChatSortFilter');
+
+const [showActionsDropdown, toggleDropdown] = useToggle();
+
+const currentStatusFilter = computed(() => {
+  return chatStatusFilter.value || wootConstants.STATUS_TYPE.OPEN;
+});
+
+const currentSortBy = computed(() => {
+  return (
+    chatSortFilter.value || wootConstants.SORT_BY_TYPE.LAST_ACTIVITY_AT_DESC
+  );
+});
+
+const chatStatusOptions = computed(() => [
+  {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.open.TEXT'),
+    value: 'open',
+  },
+  {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.resolved.TEXT'),
+    value: 'resolved',
+  },
+  {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.pending.TEXT'),
+    value: 'pending',
+  },
+  {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.snoozed.TEXT'),
+    value: 'snoozed',
+  },
+  {
+    label: t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS.all.TEXT'),
+    value: 'all',
+  },
+]);
+
+const chatSortOptions = computed(() => [
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_asc.TEXT'),
+    value: 'last_activity_at_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.last_activity_at_desc.TEXT'),
+    value: 'last_activity_at_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.created_at_desc.TEXT'),
+    value: 'created_at_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.created_at_asc.TEXT'),
+    value: 'created_at_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_desc.TEXT'),
+    value: 'priority_desc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.priority_asc.TEXT'),
+    value: 'priority_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_asc.TEXT'),
+    value: 'waiting_since_asc',
+  },
+  {
+    label: t('CHAT_LIST.SORT_ORDER_ITEMS.waiting_since_desc.TEXT'),
+    value: 'waiting_since_desc',
+  },
+]);
+
+const activeChatStatusLabel = computed(
+  () =>
+    chatStatusOptions.value.find(m => m.value === chatStatusFilter.value)
+      ?.label || ''
+);
+
+const activeChatSortLabel = computed(
+  () =>
+    chatSortOptions.value.find(m => m.value === chatSortFilter.value)?.label ||
+    ''
+);
+
+const saveSelectedFilter = (type, value) => {
+  updateUISettings({
+    conversations_filter_by: {
+      status: type === 'status' ? value : currentStatusFilter.value,
+      order_by: type === 'sort' ? value : currentSortBy.value,
+    },
+  });
+};
+
+const handleStatusChange = value => {
+  emit('changeFilter', value, 'status');
+  store.dispatch('setChatStatusFilter', value);
+  saveSelectedFilter('status', value);
+};
+
+const handleSortChange = value => {
+  emit('changeFilter', value, 'sort');
+  store.dispatch('setChatSortFilter', value);
+  saveSelectedFilter('sort', value);
+};
+</script>
+
 <template>
-  <div class="position-relative">
-    <woot-button
+  <div class="relative flex">
+    <NextButton
       v-tooltip.right="$t('CHAT_LIST.SORT_TOOLTIP_LABEL')"
-      variant="smooth"
-      size="tiny"
-      color-scheme="secondary"
-      class="selector-button"
-      icon="sort-icon"
-      @click="toggleDropdown"
+      icon="i-lucide-arrow-up-down"
+      slate
+      faded
+      xs
+      @click="toggleDropdown()"
     />
     <div
       v-if="showActionsDropdown"
-      v-on-clickaway="closeDropdown"
-      class="dropdown-pane dropdown-pane--open basic-filter"
+      v-on-click-outside="() => toggleDropdown()"
+      class="mt-1 bg-n-alpha-3 backdrop-blur-[100px] border border-n-weak w-72 rounded-xl p-4 absolute z-40 top-full"
+      :class="{
+        'ltr:left-0 rtl:right-0': !isOnExpandedLayout,
+        'ltr:right-0 rtl:left-0': isOnExpandedLayout,
+      }"
     >
-      <div class="filter__item">
-        <span>{{ this.$t('CHAT_LIST.CHAT_SORT.STATUS') }}</span>
-        <filter-item
-          type="status"
-          :selected-value="chatStatus"
-          :items="chatStatusItems"
-          path-prefix="CHAT_LIST.CHAT_STATUS_FILTER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+      <div class="flex items-center justify-between last:mt-4 gap-2">
+        <span class="text-sm truncate text-n-slate-12">
+          {{ $t('CHAT_LIST.CHAT_SORT.STATUS') }}
+        </span>
+        <SelectMenu
+          :model-value="chatStatusFilter"
+          :options="chatStatusOptions"
+          :label="activeChatStatusLabel"
+          :sub-menu-position="isOnExpandedLayout ? 'left' : 'right'"
+          @update:model-value="handleStatusChange"
         />
       </div>
-      <div class="filter__item">
-        <span>{{ this.$t('CHAT_LIST.CHAT_SORT.ORDER_BY') }}</span>
-        <filter-item
-          type="sort"
-          :selected-value="chatSortFilter"
-          :items="chatSortItems"
-          path-prefix="CHAT_LIST.CHAT_SORT_FILTER_ITEMS"
-          @onChangeFilter="onChangeFilter"
+      <div class="flex items-center justify-between last:mt-4 gap-2">
+        <span class="text-sm truncate text-n-slate-12">
+          {{ $t('CHAT_LIST.CHAT_SORT.ORDER_BY') }}
+        </span>
+        <SelectMenu
+          :model-value="chatSortFilter"
+          :options="chatSortOptions"
+          :label="activeChatSortLabel"
+          :sub-menu-position="isOnExpandedLayout ? 'left' : 'right'"
+          @update:model-value="handleSortChange"
         />
       </div>
     </div>
   </div>
 </template>
-
-<script>
-import wootConstants from 'dashboard/constants/globals';
-import { mapGetters } from 'vuex';
-import { mixin as clickaway } from 'vue-clickaway';
-import FilterItem from './FilterItem';
-
-export default {
-  components: {
-    FilterItem,
-  },
-  mixins: [clickaway],
-  data() {
-    return {
-      showActionsDropdown: false,
-      chatStatusItems: this.$t('CHAT_LIST.CHAT_STATUS_FILTER_ITEMS'),
-      chatSortItems: this.$t('CHAT_LIST.CHAT_SORT_FILTER_ITEMS'),
-    };
-  },
-  computed: {
-    ...mapGetters({
-      chatStatusFilter: 'getChatStatusFilter',
-      chatSortFilter: 'getChatSortFilter',
-    }),
-    chatStatus() {
-      return this.chatStatusFilter || wootConstants.STATUS_TYPE.OPEN;
-    },
-    sortFilter() {
-      return this.chatSortFilter || wootConstants.SORT_BY_TYPE.LATEST;
-    },
-  },
-  methods: {
-    onTabChange(value) {
-      this.$emit('changeFilter', value);
-      this.closeDropdown();
-    },
-    toggleDropdown() {
-      this.showActionsDropdown = !this.showActionsDropdown;
-    },
-    closeDropdown() {
-      this.showActionsDropdown = false;
-    },
-    onChangeFilter(type, value) {
-      this.$emit('changeFilter', type, value);
-    },
-  },
-};
-</script>
-<style lang="scss" scoped>
-.basic-filter {
-  margin-top: var(--space-smaller);
-  padding: var(--space-normal);
-  right: 0;
-  width: 21rem;
-
-  span {
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-medium);
-  }
-
-  .filter__item {
-    align-items: center;
-    display: flex;
-    justify-content: space-between;
-
-    &:last-child {
-      margin-top: var(--space-normal);
-    }
-
-    span {
-      font-size: var(--font-size-mini);
-    }
-  }
-}
-
-.icon {
-  margin-right: var(--space-smaller);
-}
-
-.dropdown-icon {
-  margin-left: var(--space-smaller);
-}
-</style>

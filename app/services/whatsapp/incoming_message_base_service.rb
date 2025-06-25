@@ -19,7 +19,13 @@ class Whatsapp::IncomingMessageBaseService
   private
 
   def process_messages
-    # message allready exists so we don't need to process
+    # We don't support reactions & ephemeral message now, we need to skip processing the message
+    # if the webhook event is a reaction or an ephermal message or an unsupported message.
+    return if unprocessable_message_type?(message_type)
+
+    # Multiple webhook event can be received against the same message due to misconfigurations in the Meta
+    # business manager account. While we have not found the core reason yet, the following line ensure that
+    # there are no duplicate messages created.
     return if find_message_by_source_id(@processed_params[:messages].first[:id]) || message_under_process?
 
     cache_message_source_id_in_redis
@@ -49,8 +55,6 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def create_messages
-    return if unprocessable_message_type?(message_type)
-
     message = @processed_params[:messages].first
     log_error(message) && return if error_webhook_event?(message)
 
@@ -91,7 +95,13 @@ class Whatsapp::IncomingMessageBaseService
   end
 
   def set_conversation
-    @conversation = @contact_inbox.conversations.last
+    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
+    @conversation = if @inbox.lock_to_single_conversation
+                      @contact_inbox.conversations.last
+                    else
+                      @contact_inbox.conversations
+                                    .where.not(status: :resolved).last
+                    end
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
@@ -138,8 +148,7 @@ class Whatsapp::IncomingMessageBaseService
       message_type: :incoming,
       sender: @contact,
       source_id: message[:id].to_s,
-      in_reply_to_external_id: @in_reply_to_external_id,
-      in_reply_to: @in_reply_to
+      in_reply_to_external_id: @in_reply_to_external_id
     )
   end
 

@@ -17,6 +17,7 @@ import is from './locale/is.json';
 import it from './locale/it.json';
 import ja from './locale/ja.json';
 import ko from './locale/ko.json';
+import lt from './locale/lt.json';
 import lv from './locale/lv.json';
 import ml from './locale/ml.json';
 import nl from './locale/nl.json';
@@ -27,6 +28,7 @@ import pt_BR from './locale/pt_BR.json';
 import ro from './locale/ro.json';
 import ru from './locale/ru.json';
 import sk from './locale/sk.json';
+import sr from './locale/sr.json';
 import sv from './locale/sv.json';
 import ta from './locale/ta.json';
 import th from './locale/th.json';
@@ -56,6 +58,7 @@ export default {
   it,
   ja,
   ko,
+  lt,
   lv,
   ml,
   nl,
@@ -66,6 +69,7 @@ export default {
   ro,
   ru,
   sk,
+  sr,
   sv,
   ta,
   th,

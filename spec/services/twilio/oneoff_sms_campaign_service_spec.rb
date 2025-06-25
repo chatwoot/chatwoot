@@ -4,8 +4,8 @@ describe Twilio::OneoffSmsCampaignService do
   subject(:sms_campaign_service) { described_class.new(campaign: campaign) }
 
   let(:account) { create(:account) }
-  let!(:twilio_sms) { create(:channel_twilio_sms) }
-  let!(:twilio_inbox) { create(:inbox, channel: twilio_sms) }
+  let!(:twilio_sms) { create(:channel_twilio_sms, account: account) }
+  let!(:twilio_inbox) { create(:inbox, channel: twilio_sms, account: account) }
   let(:label1) { create(:label, account: account) }
   let(:label2) { create(:label, account: account) }
   let!(:campaign) do
@@ -41,21 +41,34 @@ describe Twilio::OneoffSmsCampaignService do
       expect(twilio_messages).to receive(:create).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
-        to: contact_with_label1.phone_number
+        to: contact_with_label1.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
       expect(twilio_messages).to receive(:create).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
-        to: contact_with_label2.phone_number
+        to: contact_with_label2.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
       expect(twilio_messages).to receive(:create).with(
         body: campaign.message,
         messaging_service_sid: twilio_sms.messaging_service_sid,
-        to: contact_with_both_labels.phone_number
+        to: contact_with_both_labels.phone_number,
+        status_callback: 'http://localhost:3000/twilio/delivery_status'
       ).once
 
       sms_campaign_service.perform
       expect(campaign.reload.completed?).to be true
+    end
+
+    it 'uses liquid template service to process campaign message' do
+      contact = create(:contact, :with_phone_number, account: account)
+      contact.update_labels([label1.title])
+
+      expect(Liquid::CampaignTemplateService).to receive(:new).with(campaign: campaign, contact: contact).and_call_original
+      expect(twilio_messages).to receive(:create).once
+
+      sms_campaign_service.perform
     end
   end
 end

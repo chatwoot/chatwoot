@@ -1,18 +1,20 @@
 class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
   before_action :portal
   before_action :check_authorization
-  before_action :fetch_article, except: [:index, :create, :attach_file, :reorder]
+  before_action :fetch_article, except: [:index, :create, :reorder]
   before_action :set_current_page, only: [:index]
 
   def index
     @portal_articles = @portal.articles
-    @all_articles = @portal_articles.search(list_params)
-    @articles_count = @all_articles.count
+
+    set_article_count
+
+    @articles = @articles.search(list_params)
 
     @articles = if list_params[:category_slug].present?
-                  @all_articles.order_by_position.page(@current_page).per(50)
+                  @articles.order_by_position.page(@current_page)
                 else
-                  @all_articles.order_by_updated_at.page(@current_page)
+                  @articles.order_by_updated_at.page(@current_page)
                 end
   end
 
@@ -36,23 +38,25 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
     head :ok
   end
 
-  def attach_file
-    file_blob = ActiveStorage::Blob.create_and_upload!(
-      key: nil,
-      io: params[:background_image].tempfile,
-      filename: params[:background_image].original_filename,
-      content_type: params[:background_image].content_type
-    )
-    file_blob.save!
-    render json: { file_url: url_for(file_blob) }
-  end
-
   def reorder
     Article.update_positions(params[:positions_hash])
     head :ok
   end
 
   private
+
+  def set_article_count
+    # Search the params without status and author_id, use this to
+    # compute mine count published draft etc
+    base_search_params = list_params.except(:status, :author_id)
+    @articles = @portal_articles.search(base_search_params)
+
+    @articles_count = @articles.count
+    @mine_articles_count = @articles.search_by_author(Current.user.id).count
+    @published_articles_count = @articles.published.count
+    @draft_articles_count = @articles.draft.count
+    @archived_articles_count = @articles.archived.count
+  end
 
   def fetch_article
     @article = @portal.articles.find(params[:id])
@@ -64,9 +68,10 @@ class Api::V1::Accounts::ArticlesController < Api::V1::Accounts::BaseController
 
   def article_params
     params.require(:article).permit(
-      :title, :slug, :position, :content, :description, :position, :category_id, :author_id, :associated_article_id, :status, meta: [:title,
-                                                                                                                                     :description,
-                                                                                                                                     { tags: [] }]
+      :title, :slug, :position, :content, :description, :category_id, :author_id, :associated_article_id, :status,
+      :locale, meta: [:title,
+                      :description,
+                      { tags: [] }]
     )
   end
 

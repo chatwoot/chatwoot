@@ -1,73 +1,103 @@
 {
   "AGENT_BOTS": {
     "HEADER": "Bots",
-    "LOADING_EDITOR": "Loading Editor...",
-    "HEADER_BTN_TXT": "Add Bot Configuration",
-    "SIDEBAR_TXT": "<p><b>Agent Bots</b> <p>Agent bots allows you to automate the conversations</p>",
-    "CSML_BOT_EDITOR": {
-      "NAME": {
-        "LABEL": "Bot Name",
-        "PLACEHOLDER": "Give your bot a name",
-        "ERROR": "Bot name is required"
-      },
-      "DESCRIPTION": {
-        "LABEL": "Bot Description",
-        "PLACEHOLDER": "What does this bot do?"
-      },
-      "BOT_CONFIG": {
-        "ERROR": "Please enter your CSML bot configuration above",
-        "API_ERROR": "Your CSML configuration is invalid, please fix it and try again."
-      },
-      "SUBMIT": "Validate and save"
+    "LOADING_EDITOR": "S'està carregant l'editor...",
+    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "LEARN_MORE": "Learn about agent bots",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Sistema",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Bot avatar deleted successfully",
+      "ERROR_DELETE": "Error deleting bot avatar, please try again"
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Select an agent bot",
-      "DESC": "You can set an agent bot from the list to this inbox. The bot can initially handle the conversation and transfer it to an agent when needed.",
+      "TITLE": "Selecciona un bot d'agent",
+      "DESC": "Assigna un bot d'agent a la teva safata d'entrada. Poden gestionar les converses inicials i transferir-les a un agent en directe quan sigui necessari.",
       "SUBMIT": "Actualitza",
-      "DISCONNECT": "Disconnect Bot",
-      "SUCCESS_MESSAGE": "Successfully updated the agent bot",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Successfully disconnected the agent bot",
-      "ERROR_MESSAGE": "Could not update the agent bot, please try again later",
-      "DISCONNECTED_ERROR_MESSAGE": "Could not disconnect the agent bot, please try again later",
-      "SELECT_PLACEHOLDER": "Select Bot"
+      "DISCONNECT": "Desconnecta el bot",
+      "SUCCESS_MESSAGE": "S'ha actualitzat correctament el bot de l'agent.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "S'ha desconnectat correctament el bot de l'agent.",
+      "ERROR_MESSAGE": "No s'ha pogut actualitzar el bot de l'agent. Torneu-ho a provar.",
+      "DISCONNECTED_ERROR_MESSAGE": "No s'ha pogut desconnectar el bot de l'agent. Torneu-ho a provar.",
+      "SELECT_PLACEHOLDER": "Selecciona el bot"
     },
     "ADD": {
-      "TITLE": "Configure new bot",
+      "TITLE": "Add Bot",
       "CANCEL_BUTTON_TEXT": "Cancel·la",
       "API": {
-        "SUCCESS_MESSAGE": "Bot added successfully",
-        "ERROR_MESSAGE": "Could not add bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot afegit correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut afegir el bot. Torneu-ho a provar més endavant."
       }
     },
     "LIST": {
-      "404": "No Bots found, you can create a bot by clicking the 'Configure new bot' Button ↗",
-      "LOADING": "Fetching Bots...",
-      "TYPE": "Bot Type"
+      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "LOADING": "S'estan obtenint bots...",
+      "TABLE_HEADER": {
+        "DETAILS": "Bot Details",
+        "URL": "URL del webhook"
+      }
     },
     "DELETE": {
       "BUTTON_TEXT": "Esborrar",
-      "TITLE": "Delete Bot",
-      "SUBMIT": "Esborrar",
-      "CANCEL_BUTTON_TEXT": "Cancel·la",
-      "DESCRIPTION": "Are you sure you want to delete this bot? This action is irreversible",
+      "TITLE": "Suprimeix el bot",
+      "CONFIRM": {
+        "TITLE": "Confirma l'esborrat",
+        "MESSAGE": "Are you sure you want to delete {name}?",
+        "YES": "Si, esborra",
+        "NO": "No, segueix"
+      },
       "API": {
-        "SUCCESS_MESSAGE": "Bot deleted successfully",
-        "ERROR_MESSAGE": "Could not able to delete bot, Please try again later"
+        "SUCCESS_MESSAGE": "S'ha esborrat el bot correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut eliminar el bot. Torneu-ho a provar més endavant."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Edita",
-      "LOADING": "Fetching Bots...",
-      "TITLE": "Edit Bot",
-      "CANCEL_BUTTON_TEXT": "Cancel·la",
+      "TITLE": "Edita el bot",
       "API": {
-        "SUCCESS_MESSAGE": "Bot updated successfully",
-        "ERROR_MESSAGE": "Could not update bot, Please try again later"
+        "SUCCESS_MESSAGE": "Bot actualitzat correctament.",
+        "ERROR_MESSAGE": "No s'ha pogut actualitzar el bot. Torneu-ho a provar."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token d'accés",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Bot avatar"
+      },
+      "NAME": {
+        "LABEL": "Nom del bot",
+        "PLACEHOLDER": "Enter bot name",
+        "REQUIRED": "El nom del bot és obligatori"
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descripció",
+        "PLACEHOLDER": "Què fa aquest bot?"
+      },
+      "WEBHOOK_URL": {
+        "LABEL": "URL del webhook",
+        "PLACEHOLDER": "https://example.com/webhook",
+        "REQUIRED": "Webhook URL is required"
+      },
+      "ERRORS": {
+        "NAME": "El nom del bot és obligatori",
+        "URL": "Webhook URL is required",
+        "VALID_URL": "Please enter a valid URL starting with http:// or https://"
+      },
+      "CANCEL": "Cancel·la",
+      "CREATE": "Create Bot",
+      "UPDATE": "Update Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configure a webhook bot to integrate with your custom services. The bot will receive and process events from conversations and can respond to them."
+    },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot",
-      "CSML": "CSML Bot"
+      "WEBHOOK": "Webhook bot"
     }
   }
 }

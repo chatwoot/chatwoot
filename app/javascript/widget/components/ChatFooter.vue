@@ -33,22 +33,27 @@
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import CustomButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button.vue';
+import FooterReplyTo from 'widget/components/FooterReplyTo.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
 import routerMixin from 'widget/mixins/routerMixin';
+import { IFrameHelper } from '../helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import { emitter } from 'shared/helpers/mitt';
+
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
+    FooterReplyTo,
   },
   mixins: [routerMixin],
-  props: {
-    msg: {
-      type: String,
-      default: '',
-    },
+  data() {
+    return {
+      inReplyTo: null,
+    };
   },
   computed: {
     ...mapGetters({
@@ -68,8 +73,26 @@ export default {
       return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
-      return this.currentUser && this.currentUser.email;
+      return this.hasEmail;
     },
+    hasEmail() {
+      return this.currentUser && this.currentUser.has_email;
+    },
+    hasReplyTo() {
+      return (
+        this.inReplyTo && (this.inReplyTo.content || this.inReplyTo.attachments)
+      );
+    },
+  },
+  mounted() {
+    emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
+  },
+  mounted() {
+    const urlParams = new URLSearchParams(window.location.search);
+    const referral = urlParams.get('referral');
+    /* We send an empty message on mount event so the bot is aware that the conversation
+    has started and can start the flow. This only happens when the url includes a referral */
+    if (!this.conversationSize && referral) this.handleSendMessage('');
   },
   mounted() {
     const urlParams = new URLSearchParams(window.location.search);
@@ -94,7 +117,10 @@ export default {
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
+        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
       });
+      // reset replyTo message after sending
+      this.inReplyTo = null;
       // Update conversation attributes on new conversation
       if (this.conversationSize === 0) {
         this.getAttributes();
@@ -104,8 +130,12 @@ export default {
         this.setQuickRepliesOptions([]);
       }
     },
-    handleSendAttachment(attachment) {
-      this.sendAttachment({ attachment });
+    async handleSendAttachment(attachment) {
+      await this.sendAttachment({
+        attachment,
+        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
+      });
+      this.inReplyTo = null;
     },
     startNewConversation() {
       this.clearConversations();
@@ -114,18 +144,15 @@ export default {
       this.$store.dispatch('conversation/createConversation', {});
     },
     async sendTranscript() {
-      const { email } = this.currentUser;
-      if (email) {
+      if (this.hasEmail) {
         try {
-          await sendEmailTranscript({
-            email,
-          });
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          await sendEmailTranscript();
+          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
             type: 'success',
           });
         } catch (error) {
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
           });
         }
