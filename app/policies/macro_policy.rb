@@ -23,6 +23,10 @@ class MacroPolicy < ApplicationPolicy
     @record.global? || author?
   end
 
+  def attach_file?
+    true
+  end
+
   private
 
   def author?

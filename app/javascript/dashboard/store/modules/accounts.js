@@ -1,15 +1,8 @@
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import AccountAPI from '../../api/account';
-import { differenceInDays } from 'date-fns';
 import EnterpriseAccountAPI from '../../api/enterprise/account';
 import { throwErrorMessage } from '../utils/api';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
-
-const findRecordById = ($state, id) =>
-  $state.records.find(record => record.id === Number(id)) || {};
-
-const TRIAL_PERIOD_DAYS = 15;
 
 const state = {
   records: [],
@@ -23,27 +16,23 @@ const state = {
 
 export const getters = {
   getAccount: $state => id => {
-    return findRecordById($state, id);
+    return $state.records.find(record => record.id === Number(id)) || {};
   },
   getUIFlags($state) {
     return $state.uiFlags;
   },
-  isRTL: ($state, _, rootState) => {
-    const accountId = rootState.route?.params?.accountId;
-    if (!accountId) return false;
+  isFeatureEnabledonAccount: ($state, _, __, rootGetters) => (
+    id,
+    featureName
+  ) => {
+    // If a user is SuperAdmin and has access to the account, then they would see all the available features
+    const isUserASuperAdmin = rootGetters.getCurrentUser?.type === 'SuperAdmin';
+    if (isUserASuperAdmin) {
+      return true;
+    }
 
-    const { locale } = findRecordById($state, Number(accountId));
-    return locale ? getLanguageDirection(locale) : false;
-  },
-  isTrialAccount: $state => id => {
-    const account = findRecordById($state, id);
-    const createdAt = new Date(account.created_at);
-    const diffDays = differenceInDays(new Date(), createdAt);
-
-    return diffDays <= TRIAL_PERIOD_DAYS;
-  },
-  isFeatureEnabledonAccount: $state => (id, featureName) => {
-    const { features = {} } = findRecordById($state, id);
+    const { features = {} } =
+      $state.records.find(record => record.id === Number(id)) || {};
     return features[featureName] || false;
   },
 };
@@ -66,31 +55,7 @@ export const actions = {
   update: async ({ commit }, updateObj) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
     try {
-      const response = await AccountAPI.update('', updateObj);
-      commit(types.default.EDIT_ACCOUNT, response.data);
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
-    } catch (error) {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
-    }
-  },
-  delete: async ({ commit }, { id }) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
-    try {
-      await AccountAPI.delete(id);
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
-    } catch (error) {
-      commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
-      throw new Error(error);
-    }
-  },
-  toggleDeletion: async (
-    { commit },
-    { action_type } = { action_type: 'delete' }
-  ) => {
-    commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: true });
-    try {
-      await EnterpriseAccountAPI.toggleDeletion(action_type);
+      await AccountAPI.update('', updateObj);
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isUpdating: false });
@@ -132,19 +97,6 @@ export const actions = {
       commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: false });
     }
   },
-
-  limits: async ({ commit }) => {
-    try {
-      const response = await EnterpriseAccountAPI.getLimits();
-      commit(types.default.SET_ACCOUNT_LIMITS, response.data);
-    } catch (error) {
-      // silent error
-    }
-  },
-
-  getCacheKeys: async () => {
-    return AccountAPI.getCacheKeys();
-  },
 };
 
 export const mutations = {
@@ -156,7 +108,6 @@ export const mutations = {
   },
   [types.default.ADD_ACCOUNT]: MutationHelpers.setSingleRecord,
   [types.default.EDIT_ACCOUNT]: MutationHelpers.update,
-  [types.default.SET_ACCOUNT_LIMITS]: MutationHelpers.updateAttributes,
 };
 
 export default {

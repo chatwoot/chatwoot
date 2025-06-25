@@ -35,13 +35,12 @@ class Channel::WebWidget < ApplicationRecord
                     { pre_chat_form_options: [:pre_chat_message, :require_email,
                                               { pre_chat_fields:
                                                 [:field_type, :label, :placeholder, :name, :enabled, :type, :enabled, :required,
-                                                 :locale, { values: [] }, :regex_pattern, :regex_cue] }] },
+                                                 :locale, { values: [] }] }] },
                     { selected_feature_flags: [] }].freeze
 
   before_validation :validate_pre_chat_options
   validates :website_url, presence: true
   validates :widget_color, presence: true
-  has_many :portals, foreign_key: 'channel_web_widget_id', dependent: :nullify, inverse_of: :channel_web_widget
 
   has_secure_token :website_token
   has_secure_token :hmac_token

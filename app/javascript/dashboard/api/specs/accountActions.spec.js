@@ -1,5 +1,6 @@
 import accountActionsAPI from '../accountActions';
 import ApiClient from '../ApiClient';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#ContactsAPI', () => {
   it('creates correct instance', () => {
@@ -7,26 +8,10 @@ describe('#ContactsAPI', () => {
     expect(accountActionsAPI).toHaveProperty('merge');
   });
 
-  describe('API calls', () => {
-    const originalAxios = window.axios;
-    const axiosMock = {
-      post: vi.fn(() => Promise.resolve()),
-      get: vi.fn(() => Promise.resolve()),
-      patch: vi.fn(() => Promise.resolve()),
-      delete: vi.fn(() => Promise.resolve()),
-    };
-
-    beforeEach(() => {
-      window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#merge', () => {
       accountActionsAPI.merge(1, 2);
-      expect(axiosMock.post).toHaveBeenCalledWith(
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/actions/contact_merge',
         {
           base_contact_id: 1,

@@ -1,7 +1,5 @@
 import axios from 'axios';
-import actions, {
-  hasMessageFailedWithExternalError,
-} from '../../conversations/actions';
+import actions from '../../conversations/actions';
 import types from '../../../mutation-types';
 const dataToSend = {
   payload: [
@@ -15,45 +13,10 @@ const dataToSend = {
 };
 import { dataReceived } from './testConversationResponse';
 
-const commit = vi.fn();
-const dispatch = vi.fn();
+const commit = jest.fn();
+const dispatch = jest.fn();
 global.axios = axios;
-vi.mock('axios');
-
-describe('#hasMessageFailedWithExternalError', () => {
-  it('returns false if message is sent', () => {
-    const pendingMessage = {
-      status: 'sent',
-      content_attributes: {},
-    };
-    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(false);
-  });
-  it('returns false if status is not failed', () => {
-    const pendingMessage = {
-      status: 'progress',
-      content_attributes: {},
-    };
-    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(false);
-  });
-
-  it('returns false if status is failed but no external error', () => {
-    const pendingMessage = {
-      status: 'failed',
-      content_attributes: {},
-    };
-    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(false);
-  });
-
-  it('returns true if status is failed and has external error', () => {
-    const pendingMessage = {
-      status: 'failed',
-      content_attributes: {
-        external_error: 'error',
-      },
-    };
-    expect(hasMessageFailedWithExternalError(pendingMessage)).toBe(true);
-  });
-});
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#getConversation', () => {
@@ -181,26 +144,6 @@ describe('#actions', () => {
       expect(dispatch.mock.calls).toEqual([]);
     });
 
-    it('doesnot send mutation if the view is conversation folders', () => {
-      const conversation = {
-        id: 1,
-        messages: [],
-        meta: { sender: { id: 1, name: 'john-doe' } },
-        inbox_id: 1,
-      };
-      actions.addConversation(
-        {
-          commit,
-          rootState: { route: { name: 'folder_conversations' } },
-          dispatch,
-          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
-        },
-        conversation
-      );
-      expect(commit.mock.calls).toEqual([]);
-      expect(dispatch.mock.calls).toEqual([]);
-    });
-
     it('sends correct mutations', () => {
       const conversation = {
         id: 1,
@@ -261,7 +204,6 @@ describe('#actions', () => {
       ]);
     });
   });
-
   describe('#addMessage', () => {
     it('sends correct mutations if message is incoming', () => {
       const message = {
@@ -276,7 +218,6 @@ describe('#actions', () => {
           types.SET_CONVERSATION_CAN_REPLY,
           { conversationId: 1, canReply: true },
         ],
-        [types.ADD_CONVERSATION_ATTACHMENTS, message],
       ]);
     });
     it('sends correct mutations if message is not an incoming message', () => {
@@ -292,7 +233,7 @@ describe('#actions', () => {
 
   describe('#markMessagesRead', () => {
     beforeEach(() => {
-      vi.useFakeTimers();
+      jest.useFakeTimers();
     });
 
     it('sends correct mutations if api is successful', async () => {
@@ -301,7 +242,7 @@ describe('#actions', () => {
         data: { id: 1, agent_last_seen_at: lastSeen },
       });
       await actions.markMessagesRead({ commit }, { id: 1 });
-      vi.runAllTimers();
+      jest.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [types.UPDATE_MESSAGE_UNREAD_COUNT, { id: 1, lastSeen }],
@@ -321,7 +262,7 @@ describe('#actions', () => {
         data: { id: 1, agent_last_seen_at: lastSeen, unread_count: 1 },
       });
       await actions.markMessagesUnread({ commit }, { id: 1 });
-      vi.runAllTimers();
+      jest.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [
@@ -495,13 +436,10 @@ describe('#actions', () => {
 describe('#deleteMessage', () => {
   it('sends correct actions if API is success', async () => {
     const [conversationId, messageId] = [1, 1];
-    axios.delete.mockResolvedValue({
-      data: { id: 1, content: 'deleted' },
-    });
+    axios.delete.mockResolvedValue({ data: { id: 1, content: 'deleted' } });
     await actions.deleteMessage({ commit }, { conversationId, messageId });
     expect(commit.mock.calls).toEqual([
       [types.ADD_MESSAGE, { id: 1, content: 'deleted' }],
-      [types.DELETE_CONVERSATION_ATTACHMENTS, { id: 1, content: 'deleted' }],
     ]);
   });
   it('sends no actions if API is error', async () => {
@@ -615,95 +553,5 @@ describe('#addMentions', () => {
         { conversationId: 1, messageId: null },
       ],
     ]);
-  });
-
-  describe('#fetchAllAttachments', () => {
-    it('fetches all attachments', async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          payload: [
-            {
-              id: 1,
-              message_id: 1,
-              file_type: 'image',
-              data_url: '',
-              thumb_url: '',
-            },
-          ],
-        },
-      });
-      await actions.fetchAllAttachments({ commit }, 1);
-      expect(commit.mock.calls).toEqual([
-        [
-          types.SET_ALL_ATTACHMENTS,
-          {
-            id: 1,
-            data: [
-              {
-                id: 1,
-                message_id: 1,
-                file_type: 'image',
-                data_url: '',
-                thumb_url: '',
-              },
-            ],
-          },
-        ],
-      ]);
-    });
-  });
-
-  describe('#setContextMenuChatId', () => {
-    it('sets the context menu chat id', () => {
-      actions.setContextMenuChatId({ commit }, 1);
-      expect(commit.mock.calls).toEqual([[types.SET_CONTEXT_MENU_CHAT_ID, 1]]);
-    });
-  });
-
-  describe('#setChatListFilters', () => {
-    it('set chat list filters', () => {
-      const filters = {
-        inboxId: 1,
-        assigneeType: 'me',
-        status: 'open',
-        sortBy: 'created_at',
-        page: 1,
-        labels: ['label'],
-        teamId: 1,
-        conversationType: 'mention',
-      };
-      actions.setChatListFilters({ commit }, filters);
-      expect(commit.mock.calls).toEqual([
-        [types.SET_CHAT_LIST_FILTERS, filters],
-      ]);
-    });
-  });
-
-  describe('#updateChatListFilters', () => {
-    it('update chat list filters', () => {
-      actions.updateChatListFilters({ commit }, { updatedWithin: 20 });
-      expect(commit.mock.calls).toEqual([
-        [types.UPDATE_CHAT_LIST_FILTERS, { updatedWithin: 20 }],
-      ]);
-    });
-  });
-
-  describe('#getInboxCaptainAssistantById', () => {
-    it('fetches inbox assistant by id', async () => {
-      axios.get.mockResolvedValue({
-        data: {
-          id: 1,
-          name: 'Assistant',
-          description: 'Assistant description',
-        },
-      });
-      await actions.getInboxCaptainAssistantById({ commit }, 1);
-      expect(commit.mock.calls).toEqual([
-        [
-          types.SET_INBOX_CAPTAIN_ASSISTANT,
-          { id: 1, name: 'Assistant', description: 'Assistant description' },
-        ],
-      ]);
-    });
   });
 });

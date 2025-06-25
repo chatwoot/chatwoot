@@ -8,8 +8,8 @@ class Twilio::IncomingMessageService
 
     set_contact
     set_conversation
-    @message = @conversation.messages.build(
-      content: message_body,
+    @message = @conversation.messages.create!(
+      content: params[:Body],
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
       message_type: :incoming,
@@ -17,7 +17,6 @@ class Twilio::IncomingMessageService
       source_id: params[:SmsSid]
     )
     attach_files
-    @message.save!
   end
 
   private
@@ -47,10 +46,6 @@ class Twilio::IncomingMessageService
     TelephoneNumber.parse(phone_number).international_number
   end
 
-  def message_body
-    params[:Body]&.delete("\u0000")
-  end
-
   def set_contact
     contact_inbox = ::ContactInboxWithContactBuilder.new(
       source_id: params[:From],
@@ -73,13 +68,7 @@ class Twilio::IncomingMessageService
   end
 
   def set_conversation
-    # if lock to single conversation is disabled, we will create a new conversation if previous conversation is resolved
-    @conversation = if @inbox.lock_to_single_conversation
-                      @contact_inbox.conversations.last
-                    else
-                      @contact_inbox.conversations.where
-                                    .not(status: :resolved).last
-                    end
+    @conversation = @contact_inbox.conversations.first
     return if @conversation
 
     @conversation = ::Conversation.create!(conversation_params)
@@ -106,48 +95,23 @@ class Twilio::IncomingMessageService
   end
 
   def attach_files
-    num_media = params[:NumMedia].to_i
-    return if num_media.zero?
+    return if params[:MediaUrl0].blank?
 
-    num_media.times do |i|
-      media_url = params[:"MediaUrl#{i}"]
-      attach_single_file(media_url) if media_url.present?
-    end
-  end
+    attachment_file = Down.download(
+      params[:MediaUrl0]
+    )
 
-  def attach_single_file(media_url)
-    attachment_file = download_attachment_file(media_url)
-    return if attachment_file.blank?
-
-    @message.attachments.new(
+    attachment = @message.attachments.new(
       account_id: @message.account_id,
-      file_type: file_type(attachment_file.content_type),
-      file: {
-        io: attachment_file,
-        filename: attachment_file.original_filename,
-        content_type: attachment_file.content_type
-      }
+      file_type: file_type(params[:MediaContentType0])
     )
-  end
 
-  def download_attachment_file(media_url)
-    download_with_auth(media_url)
-  rescue Down::Error, Down::ClientError => e
-    handle_download_attachment_error(e, media_url)
-  end
-
-  def download_with_auth(media_url)
-    Down.download(
-      media_url,
-      http_basic_authentication: [twilio_channel.account_sid, twilio_channel.auth_token || twilio_channel.api_key_sid]
+    attachment.file.attach(
+      io: attachment_file,
+      filename: attachment_file.original_filename,
+      content_type: attachment_file.content_type
     )
-  end
 
-  def handle_download_attachment_error(error, media_url)
-    Rails.logger.info "Error downloading attachment from Twilio: #{error.message}: Retrying"
-    Down.download(media_url)
-  rescue StandardError => e
-    Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
-    nil
+    @message.save!
   end
 end

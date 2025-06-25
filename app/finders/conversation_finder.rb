@@ -3,21 +3,12 @@ class ConversationFinder
 
   DEFAULT_STATUS = 'open'.freeze
   SORT_OPTIONS = {
-    'last_activity_at_asc' => %w[sort_on_last_activity_at asc],
-    'last_activity_at_desc' => %w[sort_on_last_activity_at desc],
-    'created_at_asc' => %w[sort_on_created_at asc],
-    'created_at_desc' => %w[sort_on_created_at desc],
-    'priority_asc' => %w[sort_on_priority asc],
-    'priority_desc' => %w[sort_on_priority desc],
-    'waiting_since_asc' => %w[sort_on_waiting_since asc],
-    'waiting_since_desc' => %w[sort_on_waiting_since desc],
-
-    # To be removed in v3.5.0
-    'latest' => %w[sort_on_last_activity_at desc],
-    'sort_on_created_at' => %w[sort_on_created_at asc],
-    'sort_on_priority' => %w[sort_on_priority desc],
-    'sort_on_waiting_since' => %w[sort_on_waiting_since asc]
+    latest: 'latest',
+    sort_on_created_at: 'sort_on_created_at',
+    last_user_message_at: 'last_user_message_at',
+    sort_on_priority: 'sort_on_priority'
   }.with_indifferent_access
+
   # assumptions
   # inbox_id if not given, take from all conversations, else specific to inbox
   # assignee_type if not given, take 'all'
@@ -32,7 +23,6 @@ class ConversationFinder
   def initialize(current_user, params)
     @current_user = current_user
     @current_account = current_user.account
-    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
     @params = params
   end
 
@@ -86,19 +76,8 @@ class ConversationFinder
     @team = current_account.teams.find(params[:team_id]) if params[:team_id]
   end
 
-  def find_conversation_by_inbox
-    @conversations = current_account.conversations
-    @conversations = @conversations.where(inbox_id: @inbox_ids) unless params[:inbox_id].blank? && @is_admin
-  end
-
   def find_all_conversations
-    find_conversation_by_inbox
-    # Apply permission-based filtering
-    @conversations = Conversations::PermissionFilterService.new(
-      @conversations,
-      current_user,
-      current_account
-    ).perform
+    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
@@ -123,7 +102,7 @@ class ConversationFinder
     when 'participating'
       @conversations = current_user.participating_conversations.where(account_id: current_account.id)
     when 'unattended'
-      @conversations = @conversations.unattended
+      @conversations = @conversations.where(first_reply_created_at: nil)
     end
     @conversations
   end
@@ -175,23 +154,11 @@ class ConversationFinder
     params[:page] || 1
   end
 
-  def conversations_base_query
-    @conversations.includes(
-      :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
-    )
-  end
-
   def conversations
-    @conversations = conversations_base_query
-
-    sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
-    @conversations = @conversations.send(sort_by, sort_order)
-
-    if params[:updated_within].present?
-      @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
-    else
-      @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
-    end
+    @conversations = @conversations.includes(:taggings, :inbox,
+                                             { assignee: [{ account_users: [:account] }, { avatar_attachment: [:blob] }] },
+                                             { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox, :messages)
+    sort_by = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['latest']
+    @conversations.send(sort_by).page(current_page)
   end
 end
-ConversationFinder.prepend_mod_with('ConversationFinder')

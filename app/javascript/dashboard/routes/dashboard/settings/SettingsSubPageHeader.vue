@@ -1,3 +1,12 @@
+<template>
+  <div class="column">
+    <h2 class="page-sub-title">
+      {{ headerTitle }}
+    </h2>
+    <p v-dompurify-html="headerContent" class="small-12 column" />
+  </div>
+</template>
+
 <script>
 export default {
   props: {
@@ -6,17 +15,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="flex flex-col w-full items-start mb-4">
-    <h2
-      class="text-xl font-medium mb-1 text-slate-800 dark:text-slate-100 break-words"
-    >
-      {{ headerTitle }}
-    </h2>
-    <p
-      v-dompurify-html="headerContent"
-      class="text-sm w-full text-slate-600 dark:text-slate-300"
-    />
-  </div>
-</template>

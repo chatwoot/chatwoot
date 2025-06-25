@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import {
   SET_TEAM_UI_FLAG,
   CLEAR_TEAMS,
@@ -16,39 +17,31 @@ export const mutations = {
   },
 
   [CLEAR_TEAMS]: $state => {
-    $state.records = {};
+    Vue.set($state, 'records', {});
   },
 
   [SET_TEAMS]: ($state, data) => {
-    const updatedRecords = { ...$state.records };
     data.forEach(team => {
-      updatedRecords[team.id] = {
-        ...(updatedRecords[team.id] || {}),
+      Vue.set($state.records, team.id, {
+        ...($state.records[team.id] || {}),
         ...team,
-      };
+      });
     });
-    $state.records = updatedRecords;
   },
 
   [SET_TEAM_ITEM]: ($state, data) => {
-    $state.records = {
-      ...$state.records,
-      [data.id]: {
-        ...($state.records[data.id] || {}),
-        ...data,
-      },
-    };
+    Vue.set($state.records, data.id, {
+      ...($state.records[data.id] || {}),
+      ...data,
+    });
   },
 
   [EDIT_TEAM]: ($state, data) => {
-    $state.records = {
-      ...$state.records,
-      [data.id]: data,
-    };
+    Vue.set($state.records, data.id, data);
   },
 
   [DELETE_TEAM]: ($state, teamId) => {
     const { [teamId]: toDelete, ...records } = $state.records;
-    $state.records = records;
+    Vue.set($state, 'records', records);
   },
 };

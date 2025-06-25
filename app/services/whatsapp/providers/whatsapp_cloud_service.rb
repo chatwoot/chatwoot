@@ -1,11 +1,7 @@
 class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
-    @message = message
-
     if message.attachments.present?
       send_attachment_message(phone_number, message)
-    elsif message.content_type == 'input_select'
-      send_interactive_text_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -27,10 +23,9 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
   end
 
   def sync_templates
-    # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
-    whatsapp_channel.mark_message_templates_updated
     templates = fetch_whatsapp_templates("#{business_account_path}/message_templates?access_token=#{whatsapp_channel.provider_config['api_key']}")
-    whatsapp_channel.update(message_templates: templates, message_templates_last_updated: Time.now.utc) if templates.present?
+    whatsapp_channel[:message_templates] = templates if templates.present?
+    whatsapp_channel.update(message_templates_last_updated: Time.now.utc)
   end
 
   def fetch_whatsapp_templates(url)
@@ -80,7 +75,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         messaging_product: 'whatsapp',
-        context: whatsapp_reply_context(message),
         to: phone_number,
         text: { body: message.content },
         type: 'text'
@@ -103,7 +97,6 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
       headers: api_headers,
       body: {
         :messaging_product => 'whatsapp',
-        :context => whatsapp_reply_context(message),
         'to' => phone_number,
         'type' => type,
         type.to_s => type_content
@@ -113,9 +106,13 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     process_response(response)
   end
 
-  def error_message(response)
-    # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
-    response.parsed_response&.dig('error', 'message')
+  def process_response(response)
+    if response.success?
+      response['messages'].first['id']
+    else
+      Rails.logger.error response.body
+      nil
+    end
   end
 
   def template_body_parameters(template_info)
@@ -130,31 +127,5 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         parameters: template_info[:parameters]
       }]
     }
-  end
-
-  def whatsapp_reply_context(message)
-    reply_to = message.content_attributes[:in_reply_to_external_id]
-    return nil if reply_to.blank?
-
-    {
-      message_id: reply_to
-    }
-  end
-
-  def send_interactive_text_message(phone_number, message)
-    payload = create_payload_based_on_items(message)
-
-    response = HTTParty.post(
-      "#{phone_id_path}/messages",
-      headers: api_headers,
-      body: {
-        messaging_product: 'whatsapp',
-        to: phone_number,
-        interactive: payload,
-        type: 'interactive'
-      }.to_json
-    )
-
-    process_response(response)
   end
 end

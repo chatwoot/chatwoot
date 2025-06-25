@@ -1,0 +1,207 @@
+$default-button-height: 4.0rem;
+
+.button {
+  align-items: center;
+  display: inline-flex;
+  height: $default-button-height;
+  margin-bottom: 0;
+
+  .button__content {
+    width: 100%;
+  }
+
+  .spinner {
+    padding: 0 var(--space-small);
+  }
+
+  .icon--emoji+.button__content {
+    padding-left: var(--space-small);
+  }
+
+  .icon--font+.button__content {
+    padding-left: var(--space-small);
+  }
+
+  // @TODDO - Remove after moving all buttons to woot-button
+  .icon+.button__content {
+    padding-left: var(--space-small);
+    width: auto;
+  }
+
+  &.expanded {
+    display: flex;
+    justify-content: center;
+  }
+
+  &.round {
+    border-radius: $space-larger;
+  }
+
+  // @TODO Use with link
+
+  &.compact {
+    padding-bottom: 0;
+    padding-top: 0;
+  }
+
+  &.hollow {
+    border-color: var(--s-200);
+    color: var(--w-700);
+
+    &.secondary {
+      border-color: var(--s-200);
+      color: var(--s-700);
+    }
+
+    &.success {
+      border-color: var(--s-200);
+      color: var(--g-700);
+    }
+
+    &.alert {
+      border-color: var(--s-200);
+      color: var(--r-700);
+    }
+
+    &.warning {
+      border-color: var(--s-200);
+      color: var(--y-700);
+    }
+
+    &:hover {
+      background: var(--s-75);
+      border-color: var(--s-100);
+
+      &.secondary {
+        border-color: var(--s-100);
+      }
+
+      &.success {
+        border-color: var(--s-100);
+      }
+
+      &.alert {
+        border-color: var(--s-100);
+      }
+
+      &.warning {
+        border-color: var(--s-100);
+      }
+    }
+  }
+
+  // Smooth style
+  &.smooth {
+    @include button-style(var(--w-50), var(--w-100), var(--w-700));
+
+
+    &.secondary {
+      @include button-style(var(--s-50), var(--s-100), var(--s-700));
+    }
+
+    &.success {
+      @include button-style(var(--g-50), var(--g-100), var(--g-700));
+    }
+
+    &.alert {
+      @include button-style(var(--r-50), var(--r-100), var(--r-700));
+    }
+
+    &.warning {
+      @include button-style(var(--y-100), var(--y-200), var(--y-700));
+    }
+  }
+
+  &.clear {
+    color: var(--w-700);
+
+    &.secondary {
+      color: var(--s-700);
+    }
+
+    &.success {
+      color: var(--g-700);
+    }
+
+    &.alert {
+      color: var(--r-700);
+    }
+
+    &.warning {
+      color: var(--y-700);
+    }
+
+    &:hover {
+      background: var(--w-50);
+
+      &.secondary {
+        background: var(--s-50);
+      }
+
+      &.success {
+        background: var(--g-50);
+      }
+
+      &.alert {
+        background: var(--r-50);
+      }
+
+      &.warning {
+        background: var(--y-50);
+      }
+    }
+  }
+
+  // Sizes
+  &.tiny {
+    height: var(--space-medium);
+
+    .icon+.button__content {
+      padding-left: var(--space-micro);
+    }
+  }
+
+  &.small {
+    height: var(--space-large);
+    padding-bottom: var(--space-smaller);
+    padding-top: var(--space-smaller);
+
+    .icon+.button__content {
+      padding-left: var(--space-smaller);
+    }
+  }
+
+  &.large {
+    height: var(--space-larger);
+  }
+
+  &.button--only-icon {
+    justify-content: center;
+    padding-left: 0;
+    padding-right: 0;
+    width: $default-button-height;
+
+    &.tiny {
+      width: var(--space-medium);
+    }
+
+    &.small {
+      width: var(--space-large);
+    }
+
+    &.large {
+      width: var(--space-larger);
+    }
+  }
+
+  &.link {
+    height: auto;
+    margin: 0;
+    padding: 0;
+
+    &:hover {
+      text-decoration: underline;
+    }
+  }
+
+}

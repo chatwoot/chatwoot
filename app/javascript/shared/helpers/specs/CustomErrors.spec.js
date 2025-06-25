@@ -1,4 +1,4 @@
-import { DuplicateContactException } from '../CustomErrors';
+const { DuplicateContactException } = require('../CustomErrors');
 
 describe('DuplicateContactException', () => {
   it('returns correct exception', () => {

@@ -1,0 +1,78 @@
+.logo-brand {
+  margin-bottom: $space-normal;
+  padding: $space-normal $space-smaller $space-small;
+  text-align: center;
+}
+
+.navigation {
+  background: $white;
+  border-right: 1px solid $color-border;
+  display: flex;
+  flex-direction: column;
+  font-size: $font-size-default;
+  font-weight: $font-weight-medium;
+  height: 100%;
+  justify-content: flex-start;
+  left: 0;
+  margin: 0;
+  overflow: auto;
+  padding: $space-normal;
+  position: fixed;
+  top: 0;
+  width: 23rem;
+  z-index: 1023;
+
+  li {
+    align-items: center;
+    display: flex;
+
+    a {
+      color: $color-gray;
+      text-decoration: none;
+    }
+
+    i {
+      min-width: $space-medium;
+    }
+  }
+}
+
+.navigation__link {
+  background-color: transparent;
+  color: $color-gray;
+  display: block;
+  line-height: 1;
+  margin-bottom: $space-smaller;
+  padding: $space-one;
+
+  &:hover {
+    color: $blue;
+
+    a {
+      color: $blue;
+    }
+  }
+
+
+  &.navigation__link--active {
+    background-color: $color-background;
+    border-radius: $base-border-radius;
+    color: $blue;
+
+    a {
+      color: $blue;
+    }
+  }
+}
+
+.logout {
+  bottom: $space-normal;
+  left: $space-normal;
+  position: fixed;
+}
+
+.app-version {
+  color: $color-gray;
+  font-size: $font-size-small;
+  padding-top: $space-smaller;
+}

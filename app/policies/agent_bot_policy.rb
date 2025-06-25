@@ -18,8 +18,4 @@ class AgentBotPolicy < ApplicationPolicy
   def destroy?
     @account_user.administrator?
   end
-
-  def avatar?
-    @account_user.administrator?
-  end
 end

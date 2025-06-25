@@ -1,5 +1,6 @@
 import csatReportsAPI from '../csatReports';
 import ApiClient from '../ApiClient';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#Reports API', () => {
   it('creates correct instance', () => {
@@ -8,26 +9,10 @@ describe('#Reports API', () => {
     expect(csatReportsAPI).toHaveProperty('get');
     expect(csatReportsAPI).toHaveProperty('getMetrics');
   });
-  describe('API calls', () => {
-    const originalAxios = window.axios;
-    const axiosMock = {
-      post: vi.fn(() => Promise.resolve()),
-      get: vi.fn(() => Promise.resolve()),
-      patch: vi.fn(() => Promise.resolve()),
-      delete: vi.fn(() => Promise.resolve()),
-    };
-
-    beforeEach(() => {
-      window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#get', () => {
       csatReportsAPI.get({ page: 1, from: 1622485800, to: 1623695400 });
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses',
         {
           params: {
@@ -41,7 +26,7 @@ describe('#Reports API', () => {
     });
     it('#getMetrics', () => {
       csatReportsAPI.getMetrics({ from: 1622485800, to: 1623695400 });
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses/metrics',
         {
           params: { since: 1622485800, until: 1623695400 },
@@ -54,7 +39,7 @@ describe('#Reports API', () => {
         to: 1623695400,
         user_ids: 1,
       });
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/csat_survey_responses/download',
         {
           params: {

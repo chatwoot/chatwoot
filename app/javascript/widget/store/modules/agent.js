@@ -1,6 +1,6 @@
+import Vue from 'vue';
 import { getAvailableAgents } from 'widget/api/agent';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
-import { getFromCache, setCache } from 'shared/helpers/cache';
 
 const state = {
   records: [],
@@ -16,22 +16,11 @@ export const getters = {
     $state.records.filter(agent => agent.availability_status === 'online'),
 };
 
-const CACHE_KEY_PREFIX = 'chatwoot_available_agents_';
-
 export const actions = {
   fetchAvailableAgents: async ({ commit }, websiteToken) => {
     try {
-      const cachedData = getFromCache(`${CACHE_KEY_PREFIX}${websiteToken}`);
-      if (cachedData) {
-        commit('setAgents', cachedData);
-        commit('setError', false);
-        commit('setHasFetched', true);
-        return;
-      }
-
       const { data } = await getAvailableAgents(websiteToken);
       const { payload = [] } = data;
-      setCache(`${CACHE_KEY_PREFIX}${websiteToken}`, payload);
       commit('setAgents', payload);
       commit('setError', false);
       commit('setHasFetched', true);
@@ -47,14 +36,14 @@ export const actions = {
 
 export const mutations = {
   setAgents($state, data) {
-    $state.records = data;
+    Vue.set($state, 'records', data);
   },
   updatePresence: MutationHelpers.updatePresence,
   setError($state, value) {
-    $state.uiFlags.isError = value;
+    Vue.set($state.uiFlags, 'isError', value);
   },
   setHasFetched($state, value) {
-    $state.uiFlags.hasFetched = value;
+    Vue.set($state.uiFlags, 'hasFetched', value);
   },
 };
 

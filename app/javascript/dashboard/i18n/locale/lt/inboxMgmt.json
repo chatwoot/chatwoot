@@ -1,94 +1,85 @@
 {
   "INBOX_MGMT": {
-    "HEADER": "Gautų laiškų aplankai",
-    "DESCRIPTION": "A channel is the mode of communication your customer chooses to interact with you. An inbox is where you manage interactions for a specific channel. It can include communications from various sources such as email, live chat, and social media.",
-    "LEARN_MORE": "Learn more about inboxes",
-    "RECONNECTION_REQUIRED": "Your inbox is disconnected. You won't receive new messages until you reauthorize it.",
-    "CLICK_TO_RECONNECT": "Click here to reconnect.",
+    "HEADER": "Inboxes",
+    "SIDEBAR_TXT": "<p><b>Inbox</b></p> <p> When you connect a website or a facebook Page to Chatwoot, it is called an <b>Inbox</b>. You can have unlimited inboxes in your Chatwoot account. </p><p> Click on <b>Add Inbox</b> to connect a website or a Facebook Page. </p><p> In the Dashboard, you can see all the conversations from all your inboxes in a single place and respond to them under the `Conversations` tab. </p><p> You can also see conversations specific to an inbox by clicking on the inbox name on the left pane of the dashboard. </p>",
     "LIST": {
-      "404": "Prie šios paskyros nėra pridėtų gautųjų laiškų aplankų."
+      "404": "There are no inboxes attached to this account."
     },
-    "CREATE_FLOW": {
-      "CHANNEL": {
-        "TITLE": "Pasirinkti Kanalą",
-        "BODY": "Pasirinkite paslaugų teikėją, kurį norite integruoti su Chatwoot."
+    "CREATE_FLOW": [
+      {
+        "title": "Choose Channel",
+        "route": "settings_inbox_new",
+        "body": "Choose the provider you want to integrate with Chatwoot."
       },
-      "INBOX": {
-        "TITLE": "Sukurti Gautų Laiškų Aplanką",
-        "BODY": "Autentifikuokite savo paskyrą ir susikurkite gautų laiškų aplanką."
+      {
+        "title": "Create Inbox",
+        "route": "settings_inboxes_page_channel",
+        "body": "Authenticate your account and create an inbox."
       },
-      "AGENT": {
-        "TITLE": "Pridėti Agentus",
-        "BODY": "Pridėti agentus pire gautų laiškų oplanko."
+      {
+        "title": "Add Agents",
+        "route": "settings_inboxes_add_agents",
+        "body": "Add agents to the created inbox."
       },
-      "FINISH": {
-        "TITLE": "Voilà!",
-        "BODY": "Esate pasiruošę pradėti!"
+      {
+        "title": "Voila!",
+        "route": "settings_inbox_finish",
+        "body": "You are all set to go!"
       }
-    },
+    ],
     "ADD": {
       "CHANNEL_NAME": {
-        "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
-        "PLACEHOLDER": "Įveskite savo gautų laiškų aplanko pavadinimą (pvz.: Acme Inc)",
-        "ERROR": "Prašome įrašyti teisingą gautų laiškų aplanko pavadinimą"
+        "LABEL": "Inbox Name",
+        "PLACEHOLDER": "Enter your inbox name (eg: Acme Inc)",
+        "ERROR": "Please enter a valid inbox name"
       },
       "WEBSITE_NAME": {
-        "LABEL": "Intenetinio Puslapio pavadinimas",
-        "PLACEHOLDER": "Įveskite savo internetinio puslapio pavadinimą (pvz.: Acme Inc)"
+        "LABEL": "Website Name",
+        "PLACEHOLDER": "Enter your website name (eg: Acme Inc)"
       },
       "FB": {
-        "HELP": "PS: Po autorizacijos turėsime prieigą tik prie jūsų pranešimų puslapyje. Chatwoot asmeniniai pranešimai nebus pasiekiami.",
-        "CHOOSE_PAGE": "Pasirinkti Puslapį",
-        "CHOOSE_PLACEHOLDER": "Psirinkti puslapį iš sąrašo",
-        "INBOX_NAME": "Gautų Laiškų Aplanko Pavadinimas",
-        "ADD_NAME": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
-        "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Pasirinkti reikšmę",
-        "CREATE_INBOX": "Sukurti Gautų Laiškų Aplanką"
-      },
-      "INSTAGRAM": {
-        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
-        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
-        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
-        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
-        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "HELP": "PS: By signing in, we only get access to your Page's messages. Your private messages can never be accessed by Chatwoot.",
+        "CHOOSE_PAGE": "Choose Page",
+        "CHOOSE_PLACEHOLDER": "Select a page from the list",
+        "INBOX_NAME": "Inbox Name",
+        "ADD_NAME": "Add a name for your inbox",
+        "PICK_NAME": "Pick A Name Your Inbox",
+        "PICK_A_VALUE": "Pick a value"
       },
       "TWITTER": {
-        "HELP": "Norėdami pridėti savo Twitter profilį kaip kanalą, turite patvirtinti savo Twitter profilį spustelėdami „Prisijungti naudojant Twitter“ ",
-        "ERROR_MESSAGE": "Prisijungiant prie Twitter įvyko klaida. Bandykite dar kartą",
+        "HELP": "To add your Twitter profile as a channel, you need to authenticate your Twitter Profile by clicking on 'Sign in with Twitter' ",
+        "ERROR_MESSAGE": "There was an error connecting to Twitter, please try again",
         "TWEETS": {
-          "ENABLE": "Kurkite pokalbius iš minėtų tweetų"
+          "ENABLE": "Create conversations from mentioned Tweets"
         }
       },
       "WEBSITE_CHANNEL": {
-        "TITLE": "Interneto svetainės kanalas",
-        "DESC": "Sukurkite kanalą savo svetainei ir pradėkite palaikyti savo klientus naudodami mūsų svetainės valdiklį.",
-        "LOADING_MESSAGE": "Intenetinio puslapio palaikymo kanalo kūrimas",
+        "TITLE": "Website channel",
+        "DESC": "Create a channel for your website and start supporting your customers via our website widget.",
+        "LOADING_MESSAGE": "Creating Website Support Channel",
         "CHANNEL_AVATAR": {
-          "LABEL": "Kanalo Avataras"
+          "LABEL": "Channel Avatar"
         },
         "CHANNEL_WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "PLACEHOLDER": "Please enter your Webhook URL",
+          "PLACEHOLDER": "Enter your Webhook URL",
           "ERROR": "Prašome įvesti tesingą URL adresą"
         },
         "CHANNEL_DOMAIN": {
-          "LABEL": "Internetinio svetainės domenas",
-          "PLACEHOLDER": "Įveskite savo internetinės svetainės pavadinimą (pvz.: Acme Inc)"
+          "LABEL": "Website Domain",
+          "PLACEHOLDER": "Enter your website domain (eg: acme.com)"
         },
         "CHANNEL_WELCOME_TITLE": {
-          "LABEL": "Pasisveikinimo antraštė",
+          "LABEL": "Welcome Heading",
           "PLACEHOLDER": "Sveiki!"
         },
         "CHANNEL_WELCOME_TAGLINE": {
-          "LABEL": "Pasisveikinimo tekstas",
-          "PLACEHOLDER": "Su mumis susisiekti yra paprasta. Klauskite mūsų bet ko arba pasidalykite savo atsiliepimais."
+          "LABEL": "Welcome Tagline",
+          "PLACEHOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
         },
         "CHANNEL_GREETING_MESSAGE": {
           "LABEL": "Kanalo pasisveikinimo pranešimas",
-          "PLACEHOLDER": "Acme Inc paprastai atsako per kelias valandas."
+          "PLACEHOLDER": "Acme Inc typically replies in a few hours."
         },
         "CHANNEL_GREETING_TOGGLE": {
           "LABEL": "Leisti kanalo pasisveikinimą",
@@ -97,129 +88,118 @@
           "DISABLED": "Išjungta"
         },
         "REPLY_TIME": {
-          "TITLE": "Nustatyti Atsakymo laiką",
+          "TITLE": "Set Reply time",
           "IN_A_FEW_MINUTES": "Per kelias minutes",
           "IN_A_FEW_HOURS": "Per kelias minutes",
           "IN_A_DAY": "Per dieną",
-          "HELP_TEXT": "Šis atsakymo laikas bus rodomas tiesioginio pokalbio valdiklyje"
+          "HELP_TEXT": "This reply time will be displayed on the live chat widget"
         },
         "WIDGET_COLOR": {
-          "LABEL": "Valdiklio Spalva",
-          "PLACEHOLDER": "Atnaujinkite valdiklyje naudojamą valdiklio spalvą"
+          "LABEL": "Widget Color",
+          "PLACEHOLDER": "Update the widget color used in widget"
         },
-        "SUBMIT_BUTTON": "Sukurti Gautų Laiškų Aplanką",
+        "SUBMIT_BUTTON": "Create inbox",
         "API": {
-          "ERROR_MESSAGE": "Nepavyko sukurti svetainės kanalo, bandykite dar kartą"
+          "ERROR_MESSAGE": "We were not able to create a website channel, please try again"
         }
       },
       "TWILIO": {
-        "TITLE": "Twilio SMS/Whatsapp Kanalas",
-        "DESC": "Integruokite Twilio ir pradėkite komunikuoti su savo klientais SMS ar WhatsApp.",
+        "TITLE": "Twilio SMS/WhatsApp Channel",
+        "DESC": "Integrate Twilio and start supporting your customers via SMS or WhatsApp.",
         "ACCOUNT_SID": {
-          "LABEL": "Paskyros SID",
-          "PLACEHOLDER": "Įveskite Twilio paskyros SID",
-          "ERROR": "Šis laukas yra privalomas"
-        },
-        "API_KEY": {
-          "USE_API_KEY": "Naudokite API Key autentifikavimą",
-          "LABEL": "API Key SID",
-          "PLACEHOLDER": "Įveskite savo API Key SID",
-          "ERROR": "Šis laukas yra privalomas"
-        },
-        "API_KEY_SECRET": {
-          "LABEL": "API Key Secret",
-          "PLACEHOLDER": "Įveskite savo API Key Secret",
-          "ERROR": "Šis laukas yra privalomas"
+          "LABEL": "Account SID",
+          "PLACEHOLDER": "Please enter your Twilio Account SID",
+          "ERROR": "This field is required"
         },
         "MESSAGING_SERVICE_SID": {
-          "LABEL": "Pranešimų siuntimo paslaugos SID",
-          "PLACEHOLDER": "Įveskite jūsų Twilio pranešimų siuntimo paslaugos SID",
-          "ERROR": "Šis laukas yra privalomas",
-          "USE_MESSAGING_SERVICE": "Naudokite Twilio pranešimų siuntimo paslaugą"
+          "LABEL": "Messaging Service SID",
+          "PLACEHOLDER": "Please enter your Twilio Messaging Service SID",
+          "ERROR": "This field is required",
+          "USE_MESSAGING_SERVICE": "Use a Twilio Messaging Service"
         },
         "CHANNEL_TYPE": {
           "LABEL": "Kanalo tipas",
-          "ERROR": "Pasirinkite savo Kanalo Tipą"
+          "ERROR": "Please select your Channel Type"
         },
         "AUTH_TOKEN": {
-          "LABEL": "Prieigos Raktas",
-          "PLACEHOLDER": "Įveskite Twilio paskyros prieigos raktą",
-          "ERROR": "Šis laukas yra privalomas"
+          "LABEL": "Auth Token",
+          "PLACEHOLDER": "Please enter your Twilio Auth Token",
+          "ERROR": "This field is required"
         },
         "CHANNEL_NAME": {
-          "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
-          "PLACEHOLDER": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
-          "ERROR": "Šis laukas yra privalomas"
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter a inbox name",
+          "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefono numeris",
-          "PLACEHOLDER": "Įveskite telefono numerį iš kurio bus siunčiamas pranešimas.",
-          "ERROR": "Pateikite galiojantį telefono numerį, kuris prasideda „+“ ženklu ir kuriame nėra tarpų."
+          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "API_CALLBACK": {
-          "TITLE": "Automatinio atskambinimo URL",
-          "SUBTITLE": "Turite sukonfigūruoti pranešimo atgalinio skambinimo URL Twilio su čia nurodytu URL."
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the message callback URL in Twilio with the URL mentioned here."
         },
         "SUBMIT_BUTTON": "Sukurti Twilio kanalą",
         "API": {
-          "ERROR_MESSAGE": "Nepavyko autentifikuoti Twilio, bandykite dar kartą"
+          "ERROR_MESSAGE": "We were not able to authenticate Twilio credentials, please try again"
         }
       },
       "SMS": {
         "TITLE": "SMS kanalas",
-        "DESC": "Pradėkite palaikyti savo klientus naudodami SMS.",
+        "DESC": "Start supporting your customers via SMS.",
         "PROVIDERS": {
           "LABEL": "API tiekėjas",
           "TWILIO": "Twilio",
           "BANDWIDTH": "Pralaidumas"
         },
         "API": {
-          "ERROR_MESSAGE": "Mes negalėjome išsaugoti SMS kanalo"
+          "ERROR_MESSAGE": "We were not able to save the SMS channel"
         },
         "BANDWIDTH": {
           "ACCOUNT_ID": {
             "LABEL": "Paskyros ID",
-            "PLACEHOLDER": "Įveskite savo Bandwith Paskyros ID",
-            "ERROR": "Šis laukas yra privalomas"
+            "PLACEHOLDER": "Please enter your Bandwidth Account ID",
+            "ERROR": "This field is required"
           },
           "API_KEY": {
             "LABEL": "API raktas",
-            "PLACEHOLDER": "Please enter your Bandwidth API Key",
-            "ERROR": "Šis laukas yra privalomas"
+            "PLACEHOLDER": "Please enter your Bandwith API Key",
+            "ERROR": "This field is required"
           },
           "API_SECRET": {
             "LABEL": "API Secret",
-            "PLACEHOLDER": "Please enter your Bandwidth API Secret",
-            "ERROR": "Šis laukas yra privalomas"
+            "PLACEHOLDER": "Please enter your Bandwith API Secret",
+            "ERROR": "This field is required"
           },
           "APPLICATION_ID": {
-            "LABEL": "Programos ID",
-            "PLACEHOLDER": "Įveskite savo Bandwith Programos ID",
-            "ERROR": "Šis laukas yra privalomas"
+            "LABEL": "Application ID",
+            "PLACEHOLDER": "Please enter your Bandwidth Application ID",
+            "ERROR": "This field is required"
           },
           "INBOX_NAME": {
-            "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
-            "PLACEHOLDER": "Prašome įrašyti gautų laiškų aplanko pavadinimą",
-            "ERROR": "Šis laukas yra privalomas"
+            "LABEL": "Inbox Name",
+            "PLACEHOLDER": "Please enter a inbox name",
+            "ERROR": "This field is required"
           },
           "PHONE_NUMBER": {
             "LABEL": "Telefono numeris",
-            "PLACEHOLDER": "Įveskite telefono numerį iš kurio bus siunčiamas pranešimas.",
-            "ERROR": "Pateikite galiojantį telefono numerį, kuris prasideda „+“ ženklu ir kuriame nėra tarpų."
+            "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+            "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
           },
-          "SUBMIT_BUTTON": "Sukurti Bandwidth Kanalą",
+          "SUBMIT_BUTTON": "Create Bandwidth Channel",
           "API": {
-            "ERROR_MESSAGE": "Nepavyko autentifikuoti Bandwidth, bandykite dar kartą"
+            "ERROR_MESSAGE": "We were not able to authenticate Bandwidth credentials, please try again"
           },
           "API_CALLBACK": {
-            "TITLE": "Automatinio atskambinimo URL",
-            "SUBTITLE": "Turite sukonfigūruoti pranešimo atgalinio skambinimo URL Bandwidth su čia nurodytu URL."
+            "TITLE": "Callback URL",
+            "SUBTITLE": "You have to configure the message callback URL in Bandwidth with the URL mentioned here."
           }
         }
       },
       "WHATSAPP": {
         "TITLE": "WhatsApp Kanalas",
-        "DESC": "Pradėkite palaikyti savo klientus naudodami WhatsApp.",
+        "DESC": "Start supporting your customers via WhatsApp.",
         "PROVIDERS": {
           "LABEL": "API tiekėjas",
           "TWILIO": "Twilio",
@@ -227,191 +207,181 @@
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
-          "LABEL": "Gautų Laiškų Aplanko Pavadinimas",
-          "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
-          "ERROR": "Šis laukas yra privalomas"
+          "LABEL": "Inbox Name",
+          "PLACEHOLDER": "Please enter an inbox name",
+          "ERROR": "This field is required"
         },
         "PHONE_NUMBER": {
           "LABEL": "Telefono numeris",
-          "PLACEHOLDER": "Įveskite telefono numerį iš kurio bus siunčiamas pranešimas.",
-          "ERROR": "Pateikite galiojantį telefono numerį, kuris prasideda „+“ ženklu ir kuriame nėra tarpų."
+          "PLACEHOLDER": "Please enter the phone number from which message will be sent.",
+          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
         },
         "PHONE_NUMBER_ID": {
           "LABEL": "Telefono numerio ID",
-          "PLACEHOLDER": "Įveskite telefono numerį, gautą iš Facebook valdymo skydelio.",
-          "ERROR": "Prašau įveskite teisingą reikšmę."
+          "PLACEHOLDER": "Please enter the Phone number ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
         },
         "BUSINESS_ACCOUNT_ID": {
-          "LABEL": "Įmonės paskyros ID",
-          "PLACEHOLDER": "Įveskite Įmonės paskyros ID, gautą iš Facebook valdymo skydelio.",
-          "ERROR": "Prašau įveskite teisingą reikšmę."
+          "LABEL": "Business Account ID",
+          "PLACEHOLDER": "Please enter the Business Account ID obtained from Facebook developer dashboard.",
+          "ERROR": "Please enter a valid value."
         },
         "WEBHOOK_VERIFY_TOKEN": {
-          "LABEL": "Webhook Tikrinti Prieigos Raktą",
-          "PLACEHOLDER": "Enter a verify token which you want to configure for Facebook webhooks.",
-          "ERROR": "Prašau įveskite teisingą reikšmę."
+          "LABEL": "Webhook Verify Token",
+          "PLACEHOLDER": "Enter a verify token which you want to configure for facebook webhooks.",
+          "ERROR": "Please enter a valid value."
         },
         "API_KEY": {
           "LABEL": "API raktas",
-          "SUBTITLE": "Konfiguruoti WhatsApp API key.",
+          "SUBTITLE": "Configure the WhatsApp API key.",
           "PLACEHOLDER": "API raktas",
-          "ERROR": "Prašau įveskite teisingą reikšmę."
+          "ERROR": "Please enter a valid value."
         },
         "API_CALLBACK": {
-          "TITLE": "Automatinio atskambinimo URL",
-          "SUBTITLE": "Turite sukonfigūruoti webhook URL ir patvirtinimo prieigos raktą Facebook portale, naudodami toliau nurodytas reikšmes.",
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL and the verification token in the Facebook Developer portal with the values shown below.",
           "WEBHOOK_URL": "Webhook URL",
-          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Patikros Prieigos Raktas"
+          "WEBHOOK_VERIFICATION_TOKEN": "Webhook Verification Token"
         },
-        "SUBMIT_BUTTON": "Sukurti WhatsApp Kanalą",
+        "SUBMIT_BUTTON": "Create WhatsApp Channel",
         "API": {
-          "ERROR_MESSAGE": "Mes negalėjome išsaugoti WhatsApp kanalo"
+          "ERROR_MESSAGE": "We were not able to save the WhatsApp channel"
         }
       },
       "API_CHANNEL": {
         "TITLE": "API kanalas",
-        "DESC": "Integruokite API kanalą ir pradėkite komunikuoti su savo klientais.",
+        "DESC": "Integrate with API channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalo Pavadinimas",
           "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
-          "ERROR": "Šis laukas yra privalomas"
+          "ERROR": "This field is required"
         },
         "WEBHOOK_URL": {
           "LABEL": "Webhook URL",
-          "SUBTITLE": "Configure the URL where you want to receive callbacks on events.",
+          "SUBTITLE": "Configure the URL where you want to recieve callbacks on events.",
           "PLACEHOLDER": "Webhook URL"
         },
         "SUBMIT_BUTTON": "Sukurti API kanalą",
         "API": {
-          "ERROR_MESSAGE": "Mes negalėjome išsaugoti API kanalo"
+          "ERROR_MESSAGE": "We were not able to save the api channel"
         }
       },
       "EMAIL_CHANNEL": {
         "TITLE": "El. pašto kanalas",
-        "DESC": "Integrate your email inbox.",
+        "DESC": "Integrate you email inbox.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalo Pavadinimas",
           "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
-          "ERROR": "Šis laukas yra privalomas"
+          "ERROR": "This field is required"
         },
         "EMAIL": {
           "LABEL": "El. paštas",
           "SUBTITLE": "Email where your customers sends you support tickets",
           "PLACEHOLDER": "El. paštas"
         },
-        "SUBMIT_BUTTON": "Sukurti El. pašto kanalą",
+        "SUBMIT_BUTTON": "Create Email Channel",
         "API": {
-          "ERROR_MESSAGE": "Mes negalėjome išsaugoti el. pašto kanalo"
+          "ERROR_MESSAGE": "We were not able to save the email channel"
         },
-        "FINISH_MESSAGE": "Pradėkite peradresuoti savo el. laiškus toliau nurodytu el. pašto adresu."
+        "FINISH_MESSAGE": "Start forwarding your emails to the following email address."
       },
       "LINE_CHANNEL": {
         "TITLE": "LINE kanalas",
-        "DESC": "Integruokite LINE kanalą ir pradėkite komunikuoti su savo klientais.",
+        "DESC": "Integrate with LINE channel and start supporting your customers.",
         "CHANNEL_NAME": {
           "LABEL": "Kanalo Pavadinimas",
           "PLACEHOLDER": "Prašome įrašyti kanalo pavadinimą",
-          "ERROR": "Šis laukas yra privalomas"
+          "ERROR": "This field is required"
         },
         "LINE_CHANNEL_ID": {
           "LABEL": "LINE kanalo ID",
           "PLACEHOLDER": "LINE kanalo ID"
         },
         "LINE_CHANNEL_SECRET": {
-          "LABEL": "LINE Kanalo Secret",
-          "PLACEHOLDER": "LINE Kanalo Secret"
+          "LABEL": "LINE Channel Secret",
+          "PLACEHOLDER": "LINE Channel Secret"
         },
         "LINE_CHANNEL_TOKEN": {
-          "LABEL": "LINE Kanalo Prieigos Raktas",
-          "PLACEHOLDER": "LINE Kanalo Prieigos Raktas"
+          "LABEL": "LINE Channel Token",
+          "PLACEHOLDER": "LINE Channel Token"
         },
         "SUBMIT_BUTTON": "Sukurti LINE kanalą",
         "API": {
-          "ERROR_MESSAGE": "Mes negalėjome išsaugoti LINE kanalo"
+          "ERROR_MESSAGE": "We were not able to save the LINE channel"
         },
         "API_CALLBACK": {
-          "TITLE": "Automatinio atskambinimo URL",
-          "SUBTITLE": "Turite sukonfigūruoti LINE programoje Webhook URL, su čia nurodytu URL."
+          "TITLE": "Callback URL",
+          "SUBTITLE": "You have to configure the webhook URL in LINE application with the URL mentioned here."
         }
       },
       "TELEGRAM_CHANNEL": {
         "TITLE": "Telegram Kanalas",
-        "DESC": "Integruokite Telegram kanalą ir pradėkite komunikuoti su savo klientais.",
+        "DESC": "Integrate with Telegram channel and start supporting your customers.",
         "BOT_TOKEN": {
-          "LABEL": "Boto Prieigos Raktas",
-          "SUBTITLE": "Sukonfigūruokite boto prieigos raktą, kurį gavote iš Telegram BotFather.",
-          "PLACEHOLDER": "Boto Prieigos Raktas"
+          "LABEL": "Bot Token",
+          "SUBTITLE": "Configure the bot token you have obtained from Telegram BotFather.",
+          "PLACEHOLDER": "Bot Token"
         },
         "SUBMIT_BUTTON": "Sukurti Telegram kanalą",
         "API": {
-          "ERROR_MESSAGE": "Mes negalėjome išsaugoti telegram kanalo"
+          "ERROR_MESSAGE": "We were not able to save the telegram channel"
         }
       },
       "AUTH": {
-        "TITLE": "Pasirinkti Kanalą",
-        "DESC": "Chatwoot palaiko tiesioginio pokalbio valdiklius, Facebook Messenger, Twitter profilius, WhatsApp, el. laiškus ir kt. kaip kanalus. Jei norite sukurti personalizuotą kanalą, galite jį sukurti naudodami API kanalą. Norėdami pradėti, pasirinkite vieną iš toliau pateiktų kanalų."
+        "TITLE": "Choose a channel",
+        "DESC": "Chatwoot supports live-chat widgets, Facebook Messenger, Twitter profiles, WhatsApp, Emails, etc., as channels. If you want to build a custom channel, you can create it using the API channel. To get started, choose one of the channels below."
       },
       "AGENTS": {
         "TITLE": "Agentai",
-        "DESC": "Čia galite pridėti agentų, kad galėtumėte tvarkyti naujai sukurtus gautų laiškų aplanką. Tik šie pasirinkti agentai turės prieigą prie jūsų gautų laiškų aplanko. Agentai, kurie nėra šio dalis, prisijungę negalės matyti pranešimų arba atsakyti į juos. <br> <b>PS:</b> Jei jums reikia prieigos prie visų gautų laiškų aplankų, turėtumėte įtraukti save kaip agentą prie visų sukurtų aplankų, kaip administratorius.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pasirinkite agentus gautų laiškų aplankams"
+        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
+        "VALIDATION_ERROR": "Add atleast one agent to your new Inbox",
+        "PICK_AGENTS": "Pick agents for the inbox"
       },
       "DETAILS": {
-        "TITLE": "Gautų Laiškų Aplanko Detali Informacija",
-        "DESC": "Žemiau esančiame meniu pasirinkite Facebook puslapį, kurį norite prisijungti prie „Chatwoot“. Taip pat galite priskirti norimą pavadinimą savo gautų laiškų aplankui, kad būtų lengviau atpažinti."
+        "TITLE": "Inbox Details",
+        "DESC": "From the dropdown below, select the Facebook Page you want to connect to Chatwoot. You can also give a custom name to your inbox for better identification."
       },
       "FINISH": {
         "TITLE": "Atlikta!",
-        "DESC": "Sėkmingai užbaigėte savo Facebook puslapio integravimą su Chatwoot. Kai kitą kartą klientas parašys pranešimą jūsų puslapyje, pokalbis automatiškai pasirodys jūsų gautų laiškų aplanke.<br>Taip pat pateikiame valdiklio scenarijų, kurį galite lengvai pridėti prie savo svetainės. Kai tai bus įdiegta jūsų svetainėje, klientai gali jums siųsti pranešimus tiesiai iš jūsų svetainės, nenaudodami jokio išorinio įrankio, o pokalbis bus rodomas Chatwoot.<br>Puiku, ar ne? Na, mes tikrai stengiamės tokiais būti :)"
+        "DESC": "You have successfully finished integrating your Facebook Page with Chatwoot. Next time a customer messages your Page, the conversation will automatically appear on your inbox.<br>We are also providing you with a widget script that you can easily add to your website. Once this is live on your website, customers can message you right from your website without the help of any external tool and the conversation will appear right here, on Chatwoot.<br>Cool, huh? Well, we sure try to be :)"
       },
       "EMAIL_PROVIDER": {
-        "TITLE": "Pasirinkite el. pašto paslaugų teikėją",
-        "DESCRIPTION": "Pasirinkite el. pašto paslaugų teikėją iš toliau pateikto sąrašo. Jei sąraše nematote savo el. pašto teikėjo, galite pasirinkti kitą teikėją ir pateikti IMAP/SMTP prisijungimo duomenis."
+        "TITLE": "Select your email provider",
+        "DESCRIPTION": "Select an email provider from the list below. If you don't see your email provider in the list, you can select the other provider option and provide the IMAP and SMTP Credentials."
       },
       "MICROSOFT": {
         "TITLE": "Microsoft El. paštas",
-        "DESCRIPTION": "Spustelėkite mygtuką Prisijungti naudojant Microsoft, kad pradėtumėte. Būsite nukreipti į prisijungimo el. pašto pagalba puslapį. Kai sutiksite su prašomais leidimais, būsite nukreipti atgal į gautų laiškų aplanko kūrimo veiksmą.",
+        "DESCRIPTION": "Click on the Sign in with Microsoft button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
         "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
-        "SIGN_IN": "Sign in with Microsoft",
-        "ERROR_MESSAGE": "Prisijungiant prie Microsoft įvyko klaida, bandykite dar kartą"
-      },
-      "GOOGLE": {
-        "TITLE": "Google Email",
-        "DESCRIPTION": "Click on the Sign in with Google button to get started. You will redirected to the email sign in page. Once you accept the requested permissions, you would be redirected back to the inbox creation step.",
-        "SIGN_IN": "Sign in with Google",
-        "EMAIL_PLACEHOLDER": "Įvesti el. pašto adresą",
-        "ERROR_MESSAGE": "There was an error connecting to Google, please try again"
+        "HELP": "To add your Microsoft account as a channel, you need to authenticate your Microsoft account by clicking on 'Sign in with Microsoft' ",
+        "ERROR_MESSAGE": "There was an error connecting to Microsoft, please try again"
       }
     },
     "DETAILS": {
-      "LOADING_FB": "Autentifikuojamas jus naudojant Facebook...",
-      "ERROR_FB_LOADING": "Error loading Facebook SDK. Please disable any ad-blockers and try again from a different browser.",
-      "ERROR_FB_AUTH": "Kažkas nepavyko, atnaujinkite puslapį...",
-      "ERROR_FB_UNAUTHORIZED": "Jūs nesate įgalioti atlikti šį veiksmą. ",
-      "ERROR_FB_UNAUTHORIZED_HELP": "Įsitikinkite, kad turite prieigą prie „Facebook“ puslapio su visapusiška kontrole. Daugiau apie „Facebook“ vaidmenis galite perskaityti <a href=\" https://www.facebook.com/help/187316341316631\">čia</a>.",
-      "CREATING_CHANNEL": "Kuriamas gautų laiškų aplankas...",
-      "TITLE": "Konfigūruoti gautų laiškų aplanko informaciją",
+      "LOADING_FB": "Authenticating you with Facebook...",
+      "ERROR_FB_AUTH": "Something went wrong, Please refresh page...",
+      "CREATING_CHANNEL": "Creating your Inbox...",
+      "TITLE": "Configure Inbox Details",
       "DESC": ""
     },
     "AGENTS": {
       "BUTTON_TEXT": "Pridėti agentus",
-      "ADD_AGENTS": "Pridedami agentai gautų laiškų aplankams..."
+      "ADD_AGENTS": "Adding Agents to your Inbox..."
     },
     "FINISH": {
-      "TITLE": "Jūsų Gautų Laiškų Aplankas yra paruoštas!",
-      "MESSAGE": "Dabar galite bendrauti su klientais naudodami naująjį kanalą. Gero naudojimo",
+      "TITLE": "Your Inbox is ready!",
+      "MESSAGE": "You can now engage with your customers through your new Channel. Happy supporting",
       "BUTTON_TEXT": "Nuvesk mane ten",
       "MORE_SETTINGS": "Daugiau nustatymų",
-      "WEBSITE_SUCCESS": "Sėkmingai baigėte kurti svetainės kanalą. Nukopijuokite toliau pateiktą kodą ir įdėkite jį į savo svetainę. Kai kitą kartą klientas naudosis tiesioginiu pokalbiu, pokalbis bus automatiškai rodomas jūsų gautų pranešimų aplanke."
+      "WEBSITE_SUCCESS": "You have successfully finished creating a website channel. Copy the code shown below and paste it on your website. Next time a customer use the live chat, the conversation will automatically appear on your inbox."
     },
     "REAUTH": "Pakartotinai autorizuoti",
     "VIEW": "Paržiūra",
     "EDIT": {
       "API": {
-        "SUCCESS_MESSAGE": "Gautų laiškų aplanko nustatymai atnaujinti sėkmingai",
-        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Automatinis priskyrimas atnaujintas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko atnaujinti gautų laiškų aplanko nustatymų. Pabandykite dar kartą vėliau."
+        "SUCCESS_MESSAGE": "Inbox settings updated successfully",
+        "AUTO_ASSIGNMENT_SUCCESS_MESSAGE": "Auto assignment updated successfully",
+        "ERROR_MESSAGE": "We couldn't update inbox settings. Please try again later."
       },
       "EMAIL_COLLECT_BOX": {
         "ENABLED": "Leisti",
@@ -420,25 +390,6 @@
       "ENABLE_CSAT": {
         "ENABLED": "Leisti",
         "DISABLED": "Išjungta"
-      },
-      "SENDER_NAME_SECTION": {
-        "TITLE": "Siuntėjo vardas",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
-        "FOR_EG": "Pvz:",
-        "FRIENDLY": {
-          "TITLE": "Draugiškas",
-          "FROM": "nuo",
-          "SUBTITLE": "Prie siuntėjo vardo pridėkite atsakymą išsiuntusio agento vardą, kad atsakymas būtų draugiškas."
-        },
-        "PROFESSIONAL": {
-          "TITLE": "Profesionalas",
-          "SUBTITLE": "Naudokite tik sukonfigūruotą įmonės pavadinimą kaip siuntėjo vardą el. pašto antraštėje."
-        },
-        "BUSINESS_NAME": {
-          "BUTTON_TEXT": "+ Sukonfigūruokite įmonės pavadinimą",
-          "PLACEHOLDER": "Įveskite įmonės pavadinimą",
-          "SAVE_BUTTON_TEXT": "Išsaugoti"
-        }
       },
       "ALLOW_MESSAGES_AFTER_RESOLVED": {
         "ENABLED": "Leisti",
@@ -462,179 +413,153 @@
       "CONFIRM": {
         "TITLE": "Patvirtinti Ištrynimą",
         "MESSAGE": "Ar tikrai norite ištrinti ",
-        "PLACE_HOLDER": "Įveskite {inboxName}, kad patvirtintumėte",
+        "PLACE_HOLDER": "Please type {inboxName} to confirm",
         "YES": "Taip, Trinti ",
         "NO": "Ne, Išsaugoti "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Gautų Laiškų Aplankas ištrintas sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko ištrinti gautų laiškų aplanko. Pabandykite dar kartą vėliau.",
-        "AVATAR_SUCCESS_MESSAGE": "Gautų Laiškų Aplanko avataras ištrintas sėkmingai",
-        "AVATAR_ERROR_MESSAGE": "Nepavyko ištrinti gautų laiškų aplanko avataro. Pabandykite dar kartą vėliau."
+        "SUCCESS_MESSAGE": "Inbox deleted successfully",
+        "ERROR_MESSAGE": "Could not delete inbox. Please try again later.",
+        "AVATAR_SUCCESS_MESSAGE": "Inbox avatar deleted successfully",
+        "AVATAR_ERROR_MESSAGE": "Could not delete the inbox avatar. Please try again later."
       }
     },
     "TABS": {
       "SETTINGS": "Nustatymai",
       "COLLABORATORS": "Bendradarbiai",
       "CONFIGURATION": "Konfiguracija",
-      "CAMPAIGN": "Akcijos",
-      "PRE_CHAT_FORM": "Anketa, rodoma prieš pokalbio internetu pradžią",
+      "CAMPAIGN": "Campaigns",
+      "PRE_CHAT_FORM": "Pre Chat Form",
       "BUSINESS_HOURS": "Darbo valandos",
       "WIDGET_BUILDER": "Valdiklių kūrimo priemonė",
-      "BOT_CONFIGURATION": "Boto konfiguracija",
-      "CSAT": "CSAT"
+      "BOT_CONFIGURATION": "Boto konfiguracija"
     },
     "SETTINGS": "Nustatymai",
     "FEATURES": {
       "LABEL": "Funkcijos",
-      "DISPLAY_FILE_PICKER": "Valdiklyje rodyti failų pasirinkimą",
-      "DISPLAY_EMOJI_PICKER": "Valdiklyje rodyti emoji pasirinkimą",
-      "ALLOW_END_CONVERSATION": "Leisti vartotojams baigti pokalbį naudojant valdiklį",
-      "USE_INBOX_AVATAR_FOR_BOT": "Botui naudokite gautų laiškų aplanko pavadinimą ir avatarą"
+      "DISPLAY_FILE_PICKER": "Display file picker on the widget",
+      "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
+      "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
+      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger scenarijus",
-      "MESSENGER_SUB_HEAD": "Įdėkite šį mygtuką savo <body> žymos viduje",
+      "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
       "INBOX_AGENTS": "Agentai",
-      "INBOX_AGENTS_SUB_TEXT": "Pridėti ar pašalinti agentus iš gautų laiškų aplanko",
-      "AGENT_ASSIGNMENT": "Pokalbio paskirstymas",
-      "AGENT_ASSIGNMENT_SUB_TEXT": "Atnaujinkite pokalbio priskirstymo nustatymus",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "AGENT_ASSIGNMENT": "Conversation Assignment",
+      "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Atnaujinti",
-      "ENABLE_EMAIL_COLLECT_BOX": "Leisti el. pašto surinkimo dėžutę",
-      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Naujame pokalbyje leiskite arba drauskite el. pašto surinkimo dėžutę",
-      "AUTO_ASSIGNMENT": "Įjunkti automatinį priskyrimą",
-      "SENDER_NAME_SECTION": "Leisti agento vardą el. pašte",
-      "SENDER_NAME_SECTION_TEXT": "Įjungti/išjungti agento vardo rodymą el. pašte, jei išjungta, bus rodomas įmonės pavadinimas",
-      "ENABLE_CONTINUITY_VIA_EMAIL": "Leisti pokalbio tęstinumą el. paštu",
-      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Jei kontaktinis el. pašto adresas yra pasiekiamas, pokalbiai bus tęsiami el. paštu.",
-      "LOCK_TO_SINGLE_CONVERSATION": "Laikykitės vieno pokalbio",
-      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Leisti arba neleisti kelis pokalbius tam pačiam kontaktui šiame gautų laiškų aplanke",
-      "INBOX_UPDATE_TITLE": "Gautų Laiškų Aplanko Nustatymai",
-      "INBOX_UPDATE_SUB_TEXT": "Atnaujinkite gautų laiškų aplanko nustatymus",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Įjunkite arba išjunkite automatinį naujų pokalbių priskyrimą agentams, pridėtiems prie šio gautų laiškų aplanko.",
-      "HMAC_VERIFICATION": "Vartotojo Tapatybės Patvirtinimas",
-      "HMAC_DESCRIPTION": "Naudodami šį raktą galite sugeneruoti slaptą prieigos raktą, kuris gali būti naudojamas jūsų vartotojų tapatybei patikrinti.",
-      "HMAC_LINK_TO_DOCS": "Detaliau skaityti čia.",
-      "HMAC_MANDATORY_VERIFICATION": "Priverstinis Vartotojo Tapatybės Patvirtinimas",
+      "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
+      "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
+      "AUTO_ASSIGNMENT": "Enable auto assignment",
+      "ENABLE_CSAT": "Leisti CSAT",
+      "ENABLE_CSAT_SUB_TEXT": "Enable/Disable CSAT(Customer satisfaction) survey after resolving a conversation",
+      "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
+      "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
+      "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
+      "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
+      "INBOX_UPDATE_TITLE": "Inbox Settings",
+      "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "HMAC_VERIFICATION": "User Identity Validation",
+      "HMAC_DESCRIPTION": "In order to validate the user's identity, you can pass an `identifier_hash` for each user. You can generate a HMAC sha256 hash using the `identifier` with the key shown here.",
+      "HMAC_LINK_TO_DOCS": "You can read more here.",
+      "HMAC_MANDATORY_VERIFICATION": "Enforce User Identity Validation",
       "HMAC_MANDATORY_DESCRIPTION": "If enabled, requests missing the `identifier_hash` will be rejected.",
-      "INBOX_IDENTIFIER": "Gautų Laiškų Aplanko Identifikatorius",
-      "INBOX_IDENTIFIER_SUB_TEXT": "Norėdami patvirtinti API klientų tapatybę, naudokite čia rodomą „inbox_identifier“ prieigos raktą.",
-      "FORWARD_EMAIL_TITLE": "Persiųsti į el. paštą",
-      "FORWARD_EMAIL_SUB_TEXT": "Pradėkite peradresuoti savo el. laiškus toliau nurodytu el. pašto adresu.",
-      "ALLOW_MESSAGES_AFTER_RESOLVED": "Leisti pranešimus pokalbiui pasibaigus",
-      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Leiskite galutiniams vartotojams siųsti pranešimus net pokalbiui pasibaigus.",
-      "WHATSAPP_SECTION_SUBHEADER": "Šis API Raktas naudojamas integracijai su WhatsApp API.",
-      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the new API key to be used for the integration with the WhatsApp APIs.",
+      "INBOX_IDENTIFIER": "Inbox Identifier",
+      "INBOX_IDENTIFIER_SUB_TEXT": "Use the `inbox_identifier` token shown here to authentication your API clients.",
+      "FORWARD_EMAIL_TITLE": "Forward to Email",
+      "FORWARD_EMAIL_SUB_TEXT": "Start forwarding your emails to the following email address.",
+      "ALLOW_MESSAGES_AFTER_RESOLVED": "Allow messages after conversation resolved",
+      "ALLOW_MESSAGES_AFTER_RESOLVED_SUB_TEXT": "Allow the end-users to send messages even after the conversation is resolved.",
+      "WHATSAPP_SECTION_SUBHEADER": "This API Key is used for the integration with the WhatsApp APIs.",
+      "WHATSAPP_SECTION_UPDATE_SUBHEADER": "Enter the updated key to be used for the integration with the WhatsApp APIs.",
       "WHATSAPP_SECTION_TITLE": "API raktas",
       "WHATSAPP_SECTION_UPDATE_TITLE": "Atnaujinti API raktą",
-      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Įveskite naują API Raktą čia",
+      "WHATSAPP_SECTION_UPDATE_PLACEHOLDER": "Enter the new API Key here",
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Atnaujinti",
-      "WHATSAPP_WEBHOOK_TITLE": "Webhook Patikros Prieigos Raktas",
-      "WHATSAPP_WEBHOOK_SUBHEADER": "Šis prieigos raktas naudojamas „webhook“ galutinio taško autentiškumui patikrinti.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Atnaujinkite išankstinio pokalbio internetu formos nustatymus"
+      "WHATSAPP_WEBHOOK_TITLE": "Webhook Verify Token",
+      "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
     },
     "HELP_CENTER": {
       "LABEL": "Palaikymo centras",
       "PLACEHOLDER": "Pasirinkti Pagalbos Centrą",
       "SELECT_PLACEHOLDER": "Pasirinkti Pagalbos Centrą",
       "REMOVE": "Pašalinti Pagalbos Centrą",
-      "SUB_TEXT": "Pridėkite pagalbos centrą prie gautų laiškų aplanko"
+      "SUB_TEXT": "Attach a Help Center with the inbox"
     },
     "AUTO_ASSIGNMENT": {
-      "MAX_ASSIGNMENT_LIMIT": "Automatinio priskyrimo limitas",
-      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Įveskite reikšmę, didesnę nei 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Apribokite maksimalų pokalbių skaičių iš šio gautų laiškų aplanko, kuriuos galima automatiškai priskirti agentui"
+      "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
+      "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Pakartotinai autorizuoti",
-      "SUBTITLE": "Jūsų ryšys su Facebook nutrūko. Jei norite toliau nauditis paslaugomis, iš naujo prisijunkite prie Facebook puslapio",
-      "MESSAGE_SUCCESS": "Pakartotinis prisijungimas sėkmingas",
-      "MESSAGE_ERROR": "Įvyko klaida, prašau pabandykite dar kartą"
+      "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
+      "MESSAGE_SUCCESS": "Reconnection successful",
+      "MESSAGE_ERROR": "There was an error, please try again"
     },
     "PRE_CHAT_FORM": {
-      "DESCRIPTION": "Išankstiniai poklabio ruošiniai leidžia surinkti informaciją apie vartotoją, prieš jam pradedant pokalbį su jumis.",
-      "SET_FIELDS": "Pokalbio internetu formos laukai",
+      "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
+      "SET_FIELDS": "Pre chat form fields",
       "SET_FIELDS_HEADER": {
         "FIELDS": "Laukai",
         "LABEL": "Etiketė",
-        "PLACE_HOLDER": "Rezervuota vieta",
+        "PLACE_HOLDER": "Placeholder",
         "KEY": "Raktas",
         "TYPE": "Tipas",
-        "REQUIRED": "Reikalingas"
+        "REQUIRED": "Required"
       },
       "ENABLE": {
-        "LABEL": "Leisti poklabio internetu formą",
+        "LABEL": "Enable pre chat form",
         "OPTIONS": {
-          "ENABLED": "Taip",
-          "DISABLED": "Ne"
+          "ENABLED": "Yes",
+          "DISABLED": "No"
         }
       },
       "PRE_CHAT_MESSAGE": {
-        "LABEL": "Pokalbio internetu pranešimas",
-        "PLACEHOLDER": "Šis pranešimas bus matomas vartotojams kartu su forma"
+        "LABEL": "Pre chat message",
+        "PLACEHOLDER": "This message would be visible to the users along with the form"
       },
       "REQUIRE_EMAIL": {
-        "LABEL": "Prieš pradėdami pokalbį lankytojai turėtų nurodyti savo vardą ir el. pašto adresą"
-      }
-    },
-    "CSAT": {
-      "TITLE": "Leisti CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
-      "DISPLAY_TYPE": {
-        "LABEL": "Display type"
-      },
-      "MESSAGE": {
-        "LABEL": "Žinutė",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
-      },
-      "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
-        "OPERATOR": {
-          "CONTAINS": "sudėtyje yra",
-          "DOES_NOT_CONTAINS": "sudėtyje nėra"
-        },
-        "SELECT_PLACEHOLDER": "select labels"
-      },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
-      "API": {
-        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
-        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
+        "LABEL": "Visitors should provide their name and email address before starting the chat"
       }
     },
     "BUSINESS_HOURS": {
-      "TITLE": "Nustatykite savo pasiekiamumą",
-      "SUBTITLE": "Nustatykite savo pasiekiamumą tiesioginio pokalbio valdiklyje",
-      "WEEKLY_TITLE": "Nustatykite savaitės darbo valandas",
-      "TIMEZONE_LABEL": "Pasirinkti laiko zoną",
-      "UPDATE": "Atnaujinti darbo laiko nustatymus",
-      "TOGGLE_AVAILABILITY": "Leisti verslo pasiekiamumą šiam gautų laiškų aplankui",
-      "UNAVAILABLE_MESSAGE_LABEL": "Pranešimas lankytojams apie nepasiekiamumą",
-      "TOGGLE_HELP": "Nustačius darbo laiką, bus rodomos darbo valandos chato valdiklyje, net jei visi agentai neprisijungę. Ne darbo valandomis lankytojai gali būti įspėti pranešimu ir išankstinio pokalbio forma.",
+      "TITLE": "Set your availability",
+      "SUBTITLE": "Set your availability on your livechat widget",
+      "WEEKLY_TITLE": "Set your weekly hours",
+      "TIMEZONE_LABEL": "Select timezone",
+      "UPDATE": "Update business hours settings",
+      "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
+      "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
+      "UNAVAILABLE_MESSAGE_DEFAULT": "We are unavailable at the moment. Leave a message we will respond once we are back.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours vistors can be warned with a message and a pre-chat form.",
       "DAY": {
-        "ENABLE": "Įgalinti pasiekiamumą šiai dienai",
-        "UNAVAILABLE": "Nepasiekiamas",
+        "ENABLE": "Enable availability for this day",
+        "UNAVAILABLE": "Unavailable",
         "HOURS": "valandos",
-        "VALIDATION_ERROR": "Pradžios laikas turi būti prieš pabaigos laiką.",
+        "VALIDATION_ERROR": "Starting time should be before closing time.",
         "CHOOSE": "Pasirinkti"
       },
-      "ALL_DAY": "Visą dieną"
+      "ALL_DAY": "All-Day"
     },
     "IMAP": {
       "TITLE": "IMAP",
-      "SUBTITLE": "Nustatykite savo IMAP informaciją",
-      "NOTE_TEXT": "Norėdami įjungti SMTP, sukonfigūruokite IMAP.",
-      "UPDATE": "Atnaujinti IMAP nustatymus",
-      "TOGGLE_AVAILABILITY": "Leisti IMAP konfigūraciją šiam gautų laiškų aplankui",
-      "TOGGLE_HELP": "Enabling IMAP will help the user to receive email",
+      "SUBTITLE": "Set your IMAP details",
+      "NOTE_TEXT": "To enable SMTP, please configure IMAP.",
+      "UPDATE": "Update IMAP settings",
+      "TOGGLE_AVAILABILITY": "Enable IMAP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling IMAP will help the user to recieve email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "IMAP nustatymai atnaujinti sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko atnaujinti IMAP nustatymų"
+        "SUCCESS_MESSAGE": "IMAP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update IMAP settings"
       },
       "ADDRESS": {
         "LABEL": "Adresas",
-        "PLACE_HOLDER": "Adresas (pvz.: imap.gmail.com)"
+        "PLACE_HOLDER": "Address (Eg: imap.gmail.com)"
       },
       "PORT": {
         "LABEL": "Portas",
@@ -652,21 +577,21 @@
     },
     "MICROSOFT": {
       "TITLE": "Microsoft",
-      "SUBTITLE": "Iš naujo autorizuokite savo MICROSOFT paskyrą"
+      "SUBTITLE": "Reauthorize your MICROSOFT account"
     },
     "SMTP": {
       "TITLE": "SMTP",
-      "SUBTITLE": "Nustatykite savo SMTP informaciją",
-      "UPDATE": "Atnaujinti SMTP nustatymus",
-      "TOGGLE_AVAILABILITY": "Leisti SMTP konfigūraciją šiam gautų laiškų aplankui",
-      "TOGGLE_HELP": "Įjungus SMTP, vartotojas galės siųsti el. laiškus",
+      "SUBTITLE": "Set your SMTP details",
+      "UPDATE": "Update SMTP settings",
+      "TOGGLE_AVAILABILITY": "Enable SMTP configuration for this inbox",
+      "TOGGLE_HELP": "Enabling SMTP will help the user to send email",
       "EDIT": {
-        "SUCCESS_MESSAGE": "SMTP nustatymai atnaujinti sėkmingai",
-        "ERROR_MESSAGE": "Nepavyko atnaujinti SMTP nustatymų"
+        "SUCCESS_MESSAGE": "SMTP settings updated successfully",
+        "ERROR_MESSAGE": "Unable to update SMTP settings"
       },
       "ADDRESS": {
         "LABEL": "Adresas",
-        "PLACE_HOLDER": "Adresas (pvz.: smtp.gmail.com)"
+        "PLACE_HOLDER": "Address (Eg: smtp.gmail.com)"
       },
       "PORT": {
         "LABEL": "Portas",
@@ -684,112 +609,98 @@
         "LABEL": "Domenas",
         "PLACE_HOLDER": "Domenas"
       },
-      "ENCRYPTION": "Šifravimas",
+      "ENCRYPTION": "Encryption",
       "SSL_TLS": "SSL/TLS",
       "START_TLS": "STARTTLS",
-      "OPEN_SSL_VERIFY_MODE": "Open SSL Patikros Režimas",
+      "OPEN_SSL_VERIFY_MODE": "Open SSL Verify Mode",
       "AUTH_MECHANISM": "Autentifikacija"
     },
-    "NOTE": "Pastaba: ",
+    "NOTE": "Note: ",
     "WIDGET_BUILDER": {
       "WIDGET_OPTIONS": {
         "AVATAR": {
-          "LABEL": "Svetainės Avataras",
+          "LABEL": "Website Avatar",
           "DELETE": {
             "API": {
-              "SUCCESS_MESSAGE": "Avataras ištrintas sėkmingai",
-              "ERROR_MESSAGE": "Įvyko klaida, prašau pabandykite dar kartą"
+              "SUCCESS_MESSAGE": "Avatar deleted successfully",
+              "ERROR_MESSAGE": "There was an error, please try again"
             }
           }
         },
         "WEBSITE_NAME": {
-          "LABEL": "Intenetinio Puslapio pavadinimas",
-          "PLACE_HOLDER": "Įveskite savo internetinio puslapio pavadinimą (pvz.: Acme Inc)",
-          "ERROR": "Prašome įrašyti teisingą internetinės svetainės pavadinimą"
+          "LABEL": "Website Name",
+          "PLACE_HOLDER": "Enter your website name (eg: Acme Inc)",
+          "ERROR": "Please enter a valid website name"
         },
         "WELCOME_HEADING": {
-          "LABEL": "Pasisveikinimo antraštė",
-          "PLACE_HOLDER": "Sveiki!"
+          "LABEL": "Welcome Heading",
+          "PLACE_HOLDER": "Hi there!"
         },
         "WELCOME_TAGLINE": {
-          "LABEL": "Pasisveikinimo tekstas",
-          "PLACE_HOLDER": "Su mumis susisiekti yra paprasta. Klauskite mūsų bet ko arba pasidalykite savo atsiliepimais."
+          "LABEL": "Welcome Tagline",
+          "PLACE_HOLDER": "We make it simple to connect with us. Ask us anything, or share your feedback."
         },
         "REPLY_TIME": {
-          "LABEL": "Atsakymo laikas",
+          "LABEL": "Reply Time",
           "IN_A_FEW_MINUTES": "Per kelias minutes",
           "IN_A_FEW_HOURS": "Per kelias minutes",
           "IN_A_DAY": "Per dieną"
         },
-        "WIDGET_COLOR_LABEL": "Valdiklio Spalva",
-        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Padėtis",
-        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Tipas",
+        "WIDGET_COLOR_LABEL": "Widget Color",
+        "WIDGET_BUBBLE_POSITION_LABEL": "Widget Bubble Position",
+        "WIDGET_BUBBLE_TYPE_LABEL": "Widget Bubble Type",
         "WIDGET_BUBBLE_LAUNCHER_TITLE": {
-          "DEFAULT": "Pabendraukite su mumis",
-          "LABEL": "Widget Bubble Paleidimo programos pavadinimas",
-          "PLACE_HOLDER": "Pabendraukite su mumis"
+          "DEFAULT": "Chat with us",
+          "LABEL": "Widget Bubble Launcher Title",
+          "PLACE_HOLDER": "Chat with us"
         },
         "UPDATE": {
-          "BUTTON_TEXT": "Atnaujinti valdiklio nustatymus",
+          "BUTTON_TEXT": "Update Widget Settings",
           "API": {
-            "SUCCESS_MESSAGE": "Vldiklio nustatymai atnaujinti sėkmingai",
-            "ERROR_MESSAGE": "Nepavyko atnaujinti valdiklio nustatymų"
+            "SUCCESS_MESSAGE": "Widget settings updated successfully",
+            "ERROR_MESSAGE": "Unable to update widget settings"
           }
         },
         "WIDGET_VIEW_OPTION": {
           "PREVIEW": "Peržiūrėti",
-          "SCRIPT": "Scenarijus"
+          "SCRIPT": "Script"
         },
         "WIDGET_BUBBLE_POSITION": {
-          "LEFT": "Kairė",
-          "RIGHT": "Dešinė"
+          "LEFT": "Left",
+          "RIGHT": "Right"
         },
         "WIDGET_BUBBLE_TYPE": {
-          "STANDARD": "Standartas",
-          "EXPANDED_BUBBLE": "Išplėstas burbulas"
+          "STANDARD": "Standard",
+          "EXPANDED_BUBBLE": "Expanded Bubble"
         }
       },
       "WIDGET_SCREEN": {
-        "DEFAULT": "Pagal nutylėjimą",
-        "CHAT": "Pokalbis internetu"
+        "DEFAULT": "Default",
+        "CHAT": "Chat"
       },
       "REPLY_TIME": {
-        "IN_A_FEW_MINUTES": "Paprastai atsako per kelias minutes",
-        "IN_A_FEW_HOURS": "Paprastai atsako per kelias valandas",
-        "IN_A_DAY": "Paprastai atsako per dieną"
+        "IN_A_FEW_MINUTES": "Typically replies in a few minutes",
+        "IN_A_FEW_HOURS": "Typically replies in a few hours",
+        "IN_A_DAY": "Typically replies in a day"
       },
       "FOOTER": {
         "START_CONVERSATION_BUTTON_TEXT": "Pradėti Pokalbį",
-        "CHAT_INPUT_PLACEHOLDER": "Parašykite pranešimą"
+        "CHAT_INPUT_PLACEHOLDER": "Type your message"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Mes prisijungę",
-          "OFFLINE": "Šiuo metu esame atsijungę"
+          "ONLINE": "We are Online",
+          "OFFLINE": "We are away at the moment"
         },
         "USER_MESSAGE": "Hi",
-        "AGENT_MESSAGE": "Sveiki"
+        "AGENT_MESSAGE": "Hello"
       },
       "BRANDING_TEXT": "Parengta pagal Chatwoot",
       "SCRIPT_SETTINGS": "\n      window.chatwootSettings = {options};"
     },
     "EMAIL_PROVIDERS": {
       "MICROSOFT": "Microsoft",
-      "GOOGLE": "Google",
-      "OTHER_PROVIDERS": "Kiti Tiekėjai"
-    },
-    "CHANNELS": {
-      "MESSENGER": "Messenger",
-      "WEB_WIDGET": "Internetinis puslapis",
-      "TWITTER_PROFILE": "Twitter",
-      "TWILIO_SMS": "Twilio SMS",
-      "WHATSAPP": "WhatsApp",
-      "SMS": "SMS",
-      "EMAIL": "El. paštas",
-      "TELEGRAM": "Telegram",
-      "LINE": "Line",
-      "API": "API kanalas",
-      "INSTAGRAM": "Instagram"
+      "OTHER_PROVIDERS": "Other Providers"
     }
   }
 }

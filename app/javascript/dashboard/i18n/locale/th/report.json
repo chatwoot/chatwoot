@@ -4,8 +4,6 @@
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_AGENT_REPORTS": "ดาวน์โหลดรายงานพนักงาน",
-    "DATA_FETCHING_FAILED": "Failed to fetch data, please try again later.",
-    "SUMMARY_FETCHING_FAILED": "Failed to fetch summary, please try again later.",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "การสนทนา",
@@ -23,52 +21,51 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
         "DESC": "( ทั้งหมด )"
-      },
-      "BOT_RESOLUTION_COUNT": {
-        "NAME": "จำนวนความละเอียด",
-        "DESC": "( ทั้งหมด )"
-      },
-      "BOT_HANDOFF_COUNT": {
-        "NAME": "Handoff Count",
-        "DESC": "( ทั้งหมด )"
-      },
-      "REPLY_TIME": {
-        "NAME": "Customer waiting time",
-        "TOOLTIP_TEXT": "Waiting time is {metricValue} (based on {conversationCount} replies)",
-        "DESC": ""
       }
     },
-    "DATE_RANGE_OPTIONS": {
-      "LAST_7_DAYS": "7 วันที่ผ่านมา",
-      "LAST_30_DAYS": "30 วันที่ผ่านมา",
-      "LAST_3_MONTHS": "3 เดือนที่ผ่านมา",
-      "LAST_6_MONTHS": "6 เดือนที่ผ่านมา",
-      "LAST_YEAR": "ปีที่ผ่านมา",
-      "CUSTOM_DATE_RANGE": "กำหนดช่วงระยะเวลา"
-    },
+    "DATE_RANGE": [
+      {
+        "id": 0,
+        "name": "7 วันที่ผ่านมา"
+      },
+      {
+        "id": 1,
+        "name": "30 วันที่ผ่านมา"
+      },
+      {
+        "id": 2,
+        "name": "3 เดือนที่ผ่านมา"
+      },
+      {
+        "id": 3,
+        "name": "6 เดือนที่ผ่านมา"
+      },
+      {
+        "id": 4,
+        "name": "ปีที่ผ่านมา"
+      },
+      {
+        "id": 5,
+        "name": "กำหนดช่วงระยะเวลา"
+      }
+    ],
     "CUSTOM_DATE_RANGE": {
       "CONFIRM": "ใช้งาน",
       "PLACEHOLDER": "เลือกช่วงเวลา"
     },
     "GROUP_BY_FILTER_DROPDOWN_LABEL": "จัดกลุ่มโดย",
     "DURATION_FILTER_LABEL": "Duration",
-    "GROUPING_OPTIONS": {
-      "DAY": "วัน",
-      "WEEK": "สัปดาห์",
-      "MONTH": "เดือน",
-      "YEAR": "ปี"
-    },
     "GROUP_BY_DAY_OPTIONS": [
       {
         "id": 1,
@@ -111,21 +108,16 @@
       {
         "id": 3,
         "groupBy": "เดือน"
+      },
+      {
+        "id": 4,
+        "groupBy": "ปี"
       }
     ],
-    "BUSINESS_HOURS": "เวลาทำการ",
-    "FILTER_ACTIONS": {
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found"
-    },
-    "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results",
-      "PER_PAGE_TEMPLATE": "{size} / page"
-    }
+    "BUSINESS_HOURS": "เวลาทำการ"
   },
   "AGENT_REPORTS": {
     "HEADER": "ภาพรวมพนักงาน",
-    "DESCRIPTION": "Easily track agent performance with key metrics such as conversations, response times, resolution times, and resolved cases. Click an agent’s name to learn more.",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_AGENT_REPORTS": "ดาวน์โหลดรายงานพนักงาน",
@@ -147,13 +139,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "การสนทนาที่เสร็จสิ้น",
@@ -214,13 +206,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -260,7 +252,6 @@
   },
   "INBOX_REPORTS": {
     "HEADER": "ภาพรวมกล่องข้อความ",
-    "DESCRIPTION": "Quickly view your inbox performance with key metrics like conversations, response times, resolution times, and resolved cases—all in one place. Click an inbox name for more details.",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_INBOX_REPORTS": "ดาวน์โหลดรายงานกล่องข้อความ",
@@ -282,13 +273,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการเสร็จสิ้นการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -328,7 +319,6 @@
   },
   "TEAM_REPORTS": {
     "HEADER": "ภาพรวมทีม",
-    "DESCRIPTION": "Get a snapshot of your team’s performance with essential metrics, including conversations, response times, resolution times, and resolved cases. Click a team name for more details.",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_TEAM_REPORTS": "ดาวน์โหลดรายงานทีม",
@@ -350,13 +340,13 @@
         "NAME": "ระยะเวลาการตอบกลับครั้งแรก",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาการตอบกลับครั้งแรกเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_TIME": {
         "NAME": "ระยะเวลาในการจบการสนทนา",
         "DESC": "( เฉลี่ย )",
         "INFO_TEXT": "จำนวนการสนทนาทั้งหมดที่ใช้ในการคำนวณ:",
-        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ {metricValue} (คำนวณจาก {conversationCount} การสนทนา)"
+        "TOOLTIP_TEXT": "ระยะเวลาในการเสร็จสิ้นการสนทนาเท่ากับ %{metricValue} (คำนวณจาก %{conversationCount} การสนทนา)"
       },
       "RESOLUTION_COUNT": {
         "NAME": "จำนวนความละเอียด",
@@ -398,7 +388,6 @@
     "HEADER": "รายงาน CSAT",
     "NO_RECORDS": "ไม่มีรายงาน CSAT ที่แสดงผลได้",
     "DOWNLOAD": "Download CSAT Reports",
-    "DOWNLOAD_FAILED": "Failed to download CSAT Reports",
     "FILTERS": {
       "AGENTS": {
         "PLACEHOLDER": "เลือกพนักงาน"
@@ -427,27 +416,6 @@
       }
     }
   },
-  "BOT_REPORTS": {
-    "HEADER": "Bot Reports",
-    "METRIC": {
-      "TOTAL_CONVERSATIONS": {
-        "LABEL": "No. of Conversations",
-        "TOOLTIP": "Total number of conversations handled by the bot"
-      },
-      "TOTAL_RESPONSES": {
-        "LABEL": "Total Responses",
-        "TOOLTIP": "Total number of responses sent by the bot"
-      },
-      "RESOLUTION_RATE": {
-        "LABEL": "Resolution Rate",
-        "TOOLTIP": "Total number of conversations resolved by the bot / Total number of conversations handled by the bot * 100"
-      },
-      "HANDOFF_RATE": {
-        "LABEL": "Handoff Rate",
-        "TOOLTIP": "Total number of conversations handed off to agents / Total number of conversations handled by the bot * 100"
-      }
-    }
-  },
   "OVERVIEW_REPORTS": {
     "HEADER": "ภาพรวม",
     "LIVE": "ขณะนี้",
@@ -456,15 +424,13 @@
       "LOADING_MESSAGE": "กำโหลดตัวชี้วัดการสนทนา",
       "OPEN": "เปิด",
       "UNATTENDED": "ไม่ได้เข้าร่วม",
-      "UNASSIGNED": "ไม่ได้รับมอบหมาย",
-      "PENDING": "กำลังร้องขอ"
+      "UNASSIGNED": "ไม่ได้รับมอบหมาย"
     },
     "CONVERSATION_HEATMAP": {
       "HEADER": "Conversation Traffic",
       "NO_CONVERSATIONS": "No conversations",
-      "CONVERSATION": "{count} conversation",
-      "CONVERSATIONS": "{count} conversations",
-      "DOWNLOAD_REPORT": "Download report"
+      "CONVERSATION": "%{count} conversation",
+      "CONVERSATIONS": "%{count} conversations"
     },
     "AGENT_CONVERSATIONS": {
       "HEADER": "การสนทนาที่พนักงานดูแล",
@@ -472,19 +438,7 @@
       "NO_AGENTS": "ไม่มีการสนทนาที่พนักงานดูแล",
       "TABLE_HEADER": {
         "AGENT": "พนักงาน",
-        "OPEN": "เปิด",
-        "UNATTENDED": "ไม่ได้เข้าร่วม",
-        "STATUS": "สถานะ"
-      }
-    },
-    "TEAM_CONVERSATIONS": {
-      "ALL_TEAMS": "All Teams",
-      "HEADER": "Conversations by teams",
-      "LOADING_MESSAGE": "Loading team metrics...",
-      "NO_TEAMS": "There is no data available",
-      "TABLE_HEADER": {
-        "TEAM": "ทีม",
-        "OPEN": "เปิด",
+        "OPEN": "เปิดอยู่",
         "UNATTENDED": "ไม่ได้เข้าร่วม",
         "STATUS": "สถานะ"
       }
@@ -504,65 +458,5 @@
     "THURSDAY": "Thursday",
     "FRIDAY": "Friday",
     "SATURDAY": "Saturday"
-  },
-  "SLA_REPORTS": {
-    "HEADER": "SLA Reports",
-    "NO_RECORDS": "SLA applied conversations are not available.",
-    "LOADING": "Loading SLA data...",
-    "DOWNLOAD_SLA_REPORTS": "Download SLA reports",
-    "DOWNLOAD_FAILED": "Failed to download SLA Reports",
-    "DROPDOWN": {
-      "ADD_FIlTER": "Add filter",
-      "CLEAR_ALL": "Clear all",
-      "CLEAR_FILTER": "Clear filter",
-      "EMPTY_LIST": "No results found",
-      "NO_FILTER": "No filters available",
-      "SEARCH": "Search filter",
-      "INPUT_PLACEHOLDER": {
-        "SLA": "SLA name",
-        "AGENTS": "Agent name",
-        "INBOXES": "Inbox name",
-        "LABELS": "ชื่อป้ายกำกับ",
-        "TEAMS": "ชื่อทีม"
-      },
-      "SLA": "SLA Policy",
-      "INBOXES": "กล่องข้อความ",
-      "AGENTS": "พนักงาน",
-      "LABELS": "ป้ายกำกับ",
-      "TEAMS": "ทีม"
-    },
-    "WITH": "with",
-    "METRICS": {
-      "HIT_RATE": {
-        "LABEL": "Hit Rate",
-        "TOOLTIP": "Percentage of SLAs created were completed successfully"
-      },
-      "NO_OF_MISSES": {
-        "LABEL": "Number of Misses",
-        "TOOLTIP": "Total SLA misses in a certain period"
-      },
-      "NO_OF_CONVERSATIONS": {
-        "LABEL": "Number of Conversations",
-        "TOOLTIP": "Total number of conversations with SLA"
-      }
-    },
-    "TABLE": {
-      "HEADER": {
-        "POLICY": "Policy",
-        "CONVERSATION": "การสนทนา",
-        "AGENT": "พนักงาน"
-      },
-      "VIEW_DETAILS": "View Details"
-    }
-  },
-  "SUMMARY_REPORTS": {
-    "INBOX": "กล่องข้อความ",
-    "AGENT": "พนักงาน",
-    "TEAM": "ทีม",
-    "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
-    "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
-    "AVG_REPLY_TIME": "Avg. Customer Waiting Time",
-    "RESOLUTION_COUNT": "จำนวนความละเอียด",
-    "CONVERSATIONS": "No. of conversations"
   }
 }

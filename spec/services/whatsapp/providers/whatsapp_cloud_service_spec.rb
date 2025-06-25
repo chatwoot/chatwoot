@@ -3,18 +3,8 @@ require 'rails_helper'
 describe Whatsapp::Providers::WhatsappCloudService do
   subject(:service) { described_class.new(whatsapp_channel: whatsapp_channel) }
 
-  let(:conversation) { create(:conversation, inbox: whatsapp_channel.inbox) }
   let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whatsapp_cloud', validate_provider_config: false, sync_templates: false) }
-
-  let(:message) do
-    create(:message, conversation: conversation, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox, source_id: 'external_id')
-  end
-
-  let(:message_with_reply) do
-    create(:message, conversation: conversation, message_type: :outgoing, content: 'reply', inbox: whatsapp_channel.inbox,
-                     content_attributes: { in_reply_to: message.id })
-  end
-
+  let(:message) { create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox) }
   let(:response_headers) { { 'Content-Type' => 'application/json' } }
   let(:whatsapp_response) { { messages: [{ id: 'message_id' }] } }
 
@@ -29,7 +19,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
           .with(
             body: {
               messaging_product: 'whatsapp',
-              context: nil,
               to: '+123456789',
               text: { body: message.content },
               type: 'text'
@@ -37,23 +26,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
-      end
-
-      it 'calls message endpoints for a reply to messages' do
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
-          .with(
-            body: {
-              messaging_product: 'whatsapp',
-              context: {
-                message_id: message.source_id
-              },
-              to: '+123456789',
-              text: { body: message_with_reply.content },
-              type: 'text'
-            }.to_json
-          )
-          .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
-        expect(service.send_message('+123456789', message_with_reply)).to eq 'message_id'
       end
 
       it 'calls message endpoints for image attachment message messages' do
@@ -89,65 +61,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
                                  })
           )
           .to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
-        expect(service.send_message('+123456789', message)).to eq 'message_id'
-      end
-    end
-  end
-
-  describe '#send_interactive message' do
-    context 'when called' do
-      it 'calls message endpoints with button payload when number of items is less than or equal to 3' do
-        message = create(:message, message_type: :outgoing, content: 'test',
-                                   inbox: whatsapp_channel.inbox, content_type: 'input_select',
-                                   content_attributes: {
-                                     items: [
-                                       { title: 'Burito', value: 'Burito' },
-                                       { title: 'Pasta', value: 'Pasta' },
-                                       { title: 'Sushi', value: 'Sushi' }
-                                     ]
-                                   })
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
-          .with(
-            body: {
-              messaging_product: 'whatsapp', to: '+123456789',
-              interactive: {
-                type: 'button',
-                body: {
-                  text: 'test'
-                },
-                action: '{"buttons":[{"type":"reply","reply":{"id":"Burito","title":"Burito"}},{"type":"reply",' \
-                        '"reply":{"id":"Pasta","title":"Pasta"}},{"type":"reply","reply":{"id":"Sushi","title":"Sushi"}}]}'
-              }, type: 'interactive'
-            }.to_json
-          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
-        expect(service.send_message('+123456789', message)).to eq 'message_id'
-      end
-
-      it 'calls message endpoints with list payload when number of items is greater than 3' do
-        message = create(:message, message_type: :outgoing, content: 'test', inbox: whatsapp_channel.inbox,
-                                   content_type: 'input_select',
-                                   content_attributes: {
-                                     items: [
-                                       { title: 'Burito', value: 'Burito' },
-                                       { title: 'Pasta', value: 'Pasta' },
-                                       { title: 'Sushi', value: 'Sushi' },
-                                       { title: 'Salad', value: 'Salad' }
-                                     ]
-                                   })
-        stub_request(:post, 'https://graph.facebook.com/v13.0/123456789/messages')
-          .with(
-            body: {
-              messaging_product: 'whatsapp', to: '+123456789',
-              interactive: {
-                type: 'list',
-                body: {
-                  text: 'test'
-                },
-                action: '{"button":"Choose an item","sections":[{"rows":[{"id":"Burito","title":"Burito"},' \
-                        '{"id":"Pasta","title":"Pasta"},{"id":"Sushi","title":"Sushi"},{"id":"Salad","title":"Salad"}]}]}'
-              }, type: 'interactive'
-            }.to_json
-          ).to_return(status: 200, body: whatsapp_response.to_json, headers: response_headers)
         expect(service.send_message('+123456789', message)).to eq 'message_id'
       end
     end
@@ -260,58 +173,6 @@ describe Whatsapp::Providers::WhatsappCloudService do
         with_modified_env WHATSAPP_CLOUD_BASE_URL: 'http://test.com' do
           expect(subject.send(:api_base_path)).to eq('http://test.com')
         end
-      end
-    end
-  end
-
-  describe '#handle_error' do
-    let(:error_message) { 'Invalid message format' }
-    let(:error_response) do
-      {
-        'error' => {
-          'message' => error_message,
-          'code' => 100
-        }
-      }
-    end
-
-    let(:error_response_object) do
-      instance_double(
-        HTTParty::Response,
-        body: error_response.to_json,
-        parsed_response: error_response
-      )
-    end
-
-    before do
-      allow(Rails.logger).to receive(:error)
-    end
-
-    context 'when there is a message' do
-      it 'logs error and updates message status' do
-        service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
-
-        expect(message.reload.status).to eq('failed')
-        expect(message.reload.external_error).to eq(error_message)
-      end
-    end
-
-    context 'when error message is blank' do
-      let(:error_response_object) do
-        instance_double(
-          HTTParty::Response,
-          body: '{}',
-          parsed_response: {}
-        )
-      end
-
-      it 'logs error but does not update message' do
-        service.instance_variable_set(:@message, message)
-        service.send(:handle_error, error_response_object)
-
-        expect(message.reload.status).not_to eq('failed')
-        expect(message.reload.external_error).to be_nil
       end
     end
   end

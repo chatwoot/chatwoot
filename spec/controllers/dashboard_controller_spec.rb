@@ -4,7 +4,6 @@ describe '/app/login', type: :request do
   context 'without DEFAULT_LOCALE' do
     it 'renders the dashboard' do
       get '/app/login'
-      puts response.body
       expect(response).to have_http_status(:success)
     end
   end
@@ -16,13 +15,6 @@ describe '/app/login', type: :request do
         expect(response).to have_http_status(:success)
         expect(response.body).to include "selectedLocale: 'pt_BR'"
       end
-    end
-  end
-
-  context 'with non-HTML format' do
-    it 'returns not acceptable for JSON' do
-      get '/app/login', params: { format: 'json' }
-      expect(response).to have_http_status(:not_acceptable)
     end
   end
 

@@ -1,13 +1,6 @@
 {
   "CSAT": {
-    "TITLE": "Įvertinkite savo pokalbį",
-    "PLACEHOLDER": "Papasakokit detaliau...",
-    "RATINGS": {
-      "POOR": "😞 Blogai",
-      "FAIR": "😑 Neblogai",
-      "AVERAGE": "😐 Vidutiniškai",
-      "GOOD": "😀 Gerai",
-      "EXCELLENT": "😍 Puikiai"
-    }
+    "TITLE": "Rate your conversation",
+    "PLACEHOLDER": "Papasakokit detaliau..."
   }
 }

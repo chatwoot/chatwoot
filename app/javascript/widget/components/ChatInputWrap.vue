@@ -1,13 +1,65 @@
+<template>
+  <div class="chat-input-container">
+    <div
+      class="chat-message--input shadow-sm"
+      :class="containerClass"
+      @keydown.esc="hideEmojiPicker"
+    >
+      <resizable-text-area
+        id="chat-input"
+        ref="chatInput"
+        v-model="userInput"
+        :aria-label="$t('CHAT_PLACEHOLDER')"
+        :placeholder="$t('CHAT_PLACEHOLDER')"
+        class="form-input user-message-input is-focused"
+        :class="inputColor"
+        @typing-off="onTypingOff"
+        @typing-on="onTypingOn"
+        @focus="onFocus"
+        @blur="onBlur"
+      />
+      <div class="button-wrap">
+        <chat-attachment-button
+          v-if="showAttachment"
+          :class="$dm('text-black-900', 'dark:text-slate-100')"
+          :on-attach="onSendAttachment"
+        />
+        <button
+          v-if="hasEmojiPickerEnabled"
+          class="icon-button flex justify-center items-center"
+          aria-label="Emoji picker"
+          @click="toggleEmojiPicker"
+        >
+          <fluent-icon icon="emoji" :class="emojiIconColor" />
+        </button>
+        <emoji-input
+          v-if="showEmojiPicker"
+          v-on-clickaway="hideEmojiPicker"
+          :on-click="emojiOnClick"
+          @keydown.esc="hideEmojiPicker"
+        />
+      </div>
+    </div>
+    <chat-send-button
+      v-if="showSendButton"
+      :on-click="handleButtonClick"
+      :color="widgetColor"
+    />
+  </div>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
+import { mixin as clickaway } from 'vue-clickaway';
 
 import ChatAttachmentButton from 'widget/components/ChatAttachment.vue';
 import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
+import ResizableTextArea from 'shared/components/ResizableTextArea';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
-import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
+const EmojiInput = () => import('shared/components/emoji/EmojiInput');
 
 export default {
   name: 'ChatInputWrap',
@@ -18,7 +70,7 @@ export default {
     FluentIcon,
     ResizableTextArea,
   },
-  mixins: [configMixin],
+  mixins: [clickaway, configMixin, darkModeMixin],
   props: {
     onSendMessage: {
       type: Function,
@@ -29,6 +81,7 @@ export default {
       default: () => {},
     },
   },
+
   data() {
     return {
       userInput: '',
@@ -70,7 +123,7 @@ export default {
       }
     },
   },
-  unmounted() {
+  destroyed() {
     document.removeEventListener('keypress', this.handleEnterKeyPress);
   },
   mounted() {
@@ -128,59 +181,9 @@ export default {
 };
 </script>
 
-<template>
-  <div class="chat-input-container">
-    <div
-      class="chat-message--input shadow-sm"
-      :class="containerClass"
-      @keydown.esc="hideEmojiPicker"
-    >
-      <ResizableTextArea
-        id="chat-input"
-        ref="chatInput"
-        v-model="userInput"
-        :aria-label="$t('CHAT_PLACEHOLDER')"
-        :placeholder="$t('CHAT_PLACEHOLDER')"
-        class="form-input user-message-input is-focused"
-        :class="inputColor"
-        @typing-off="onTypingOff"
-        @typing-on="onTypingOn"
-        @focus="onFocus"
-        @blur="onBlur"
-      />
-      <div class="button-wrap">
-        <ChatAttachmentButton
-          v-if="showAttachment"
-          :class="$dm('text-black-900', 'dark:text-slate-100')"
-          :on-attach="onSendAttachment"
-        />
-        <button
-          v-if="hasEmojiPickerEnabled"
-          class="icon-button flex justify-center items-center"
-          :aria-label="$t('emoji_picker')"
-          @click="toggleEmojiPicker"
-        >
-          <FluentIcon icon="emoji" :class="emojiIconColor" />
-        </button>
-        <EmojiInput
-          v-if="showEmojiPicker"
-          v-on-clickaway="hideEmojiPicker"
-          :on-click="emojiOnClick"
-          @keydown.esc="hideEmojiPicker"
-        />
-      </div>
-    </div>
-    <ChatSendButton
-      v-if="showSendButton"
-      :on-click="handleButtonClick"
-      :color="widgetColor"
-    />
-  </div>
-</template>
-
 <style scoped lang="scss">
-@import 'widget/assets/scss/_variables.scss';
-@import 'dashboard/assets/scss/_mixins.scss';
+@import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .chat-input-container {
   display: flex;
@@ -196,9 +199,7 @@ export default {
   flex: 1;
 
   &.is-focused {
-    box-shadow:
-      0 0 0 1px $color-woot,
-      0 0 2px 3px $color-primary-light;
+    box-shadow: 0 0 0 1px $color-woot, 0 0 2px 3px $color-primary-light;
   }
 }
 
@@ -220,6 +221,13 @@ export default {
 }
 
 .user-message-input {
-  @apply border-none outline-none w-full placeholder:text-n-slate-10 resize-none h-8 min-h-8 max-h-60 py-1 px-0 my-2 bg-n-background text-n-slate-12 transition-all duration-200;
+  border: 0;
+  height: $space-large;
+  min-height: $space-large;
+  max-height: 2.4 * $space-mega;
+  resize: none;
+  padding: $space-smaller 0;
+  margin-top: $space-small;
+  margin-bottom: $space-small;
 }
 </style>

@@ -5,10 +5,9 @@ RSpec.describe JsonSchemaValidator, type: :validator do
     'type' => 'object',
     'properties' => {
       'name' => { 'type' => 'string' },
-      'age' => { 'type' => 'integer', 'minimum' => 18, 'maximum' => 100 },
+      'age' => { 'type' => 'integer' },
       'is_active' => { 'type' => 'boolean' },
       'tags' => { 'type' => 'array' },
-      'score' => { 'type' => 'number', 'minimum' => 0, 'maximum' => 10 },
       'address' => {
         'type' => 'object',
         'properties' => {
@@ -108,46 +107,6 @@ RSpec.describe JsonSchemaValidator, type: :validator do
       expect(model.valid?).to be false
       expect(model.errors.messages).to eq({ :age => ['must be of type integer'], :'address/street' => ['must be of type string'],
                                             :is_active => ['must be of type boolean'], :tags => ['must be of type array'] })
-    end
-  end
-
-  context 'with value below minimum' do
-    let(:invalid_data) do
-      {
-        'name' => 'John Doe',
-        'age' => 15,
-        'score' => -1,
-        'is_active' => true
-      }
-    end
-
-    it 'fails validation' do
-      model = TestModelForJSONValidation.new(invalid_data)
-      expect(model.valid?).to be false
-      expect(model.errors.messages).to eq({
-                                            :age => ['must be greater than or equal to 18'],
-                                            :score => ['must be greater than or equal to 0']
-                                          })
-    end
-  end
-
-  context 'with value above maximum' do
-    let(:invalid_data) do
-      {
-        'name' => 'John Doe',
-        'age' => 120,
-        'score' => 11,
-        'is_active' => true
-      }
-    end
-
-    it 'fails validation' do
-      model = TestModelForJSONValidation.new(invalid_data)
-      expect(model.valid?).to be false
-      expect(model.errors.messages).to eq({
-                                            :age => ['must be less than or equal to 100'],
-                                            :score => ['must be less than or equal to 10']
-                                          })
     end
   end
 end

@@ -28,7 +28,6 @@ class Label < ApplicationRecord
             uniqueness: { scope: :account_id }
 
   after_update_commit :update_associated_models
-  default_scope { order(:title) }
 
   before_validation do
     self.title = title.downcase if attribute_present?('title')

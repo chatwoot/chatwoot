@@ -26,6 +26,10 @@ shared_examples_for 'auto_assignment_handler' do
       expect(conversation.reload.assignee).to eq(agent)
     end
 
+    it 'adds assignee to conversation participants' do
+      expect(conversation.conversation_participants.map(&:user)).to include(agent)
+    end
+
     it 'will not auto assign agent if enable_auto_assignment is false' do
       inbox.update(enable_auto_assignment: false)
 

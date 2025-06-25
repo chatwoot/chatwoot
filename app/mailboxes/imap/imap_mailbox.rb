@@ -1,6 +1,5 @@
 class Imap::ImapMailbox
   include MailboxHelper
-  include IncomingEmailValidityHelper
   attr_accessor :channel, :account, :inbox, :conversation, :processed_mail
 
   def process(mail, channel)
@@ -10,10 +9,8 @@ class Imap::ImapMailbox
     load_inbox
     decorate_mail
 
-    Rails.logger.info("Processing Email from: #{@processed_mail.original_sender} : inbox #{@inbox.id} : message_id #{@processed_mail.message_id}")
-
-    # Skip processing email if it belongs to any of the edge cases
-    return unless incoming_email_from_valid_email?
+    # prevent loop from chatwoot notification emails
+    return if notification_email_from_chatwoot?
 
     ActiveRecord::Base.transaction do
       find_or_create_contact
@@ -38,9 +35,9 @@ class Imap::ImapMailbox
   end
 
   def find_conversation_by_in_reply_to
-    return if in_reply_to.blank?
+    return if in_reply_to.blank? && @inbound_mail.references.blank?
 
-    message = @inbox.messages.find_by(source_id: in_reply_to)
+    message = @inbox.messages.find_by(source_id: in_reply_to) || find_message_by_references
     if message.nil?
       @inbox.conversations.where("additional_attributes->>'in_reply_to' = ?", in_reply_to).first
     else
@@ -48,24 +45,16 @@ class Imap::ImapMailbox
     end
   end
 
-  def find_conversation_by_reference_ids
-    return if @inbound_mail.references.blank? && in_reply_to.present?
-
-    message = find_message_by_references
-
-    return if message.nil?
-
-    @inbox.conversations.find(message.conversation_id)
-  end
-
   def in_reply_to
-    @processed_mail.in_reply_to
+    @inbound_mail.in_reply_to
   end
 
   def find_message_by_references
     message_to_return = nil
 
-    references = Array.wrap(@inbound_mail.references)
+    return if @inbound_mail.references.blank?
+
+    references = @inbound_mail.references
 
     references.each do |message_id|
       message = @inbox.messages.find_by(source_id: message_id)
@@ -75,26 +64,22 @@ class Imap::ImapMailbox
   end
 
   def find_or_create_conversation
-    @conversation = find_conversation_by_in_reply_to || find_conversation_by_reference_ids || ::Conversation.create!(
-      {
-        account_id: @account.id,
-        inbox_id: @inbox.id,
-        contact_id: @contact.id,
-        contact_inbox_id: @contact_inbox.id,
-        additional_attributes: {
-          source: 'email',
-          in_reply_to: in_reply_to,
-          mail_subject: @processed_mail.subject,
-          initiated_at: {
-            timestamp: Time.now.utc
-          }
-        }
-      }
-    )
+    @conversation = find_conversation_by_in_reply_to || ::Conversation.create!({ account_id: @account.id,
+                                                                                 inbox_id: @inbox.id,
+                                                                                 contact_id: @contact.id,
+                                                                                 contact_inbox_id: @contact_inbox.id,
+                                                                                 additional_attributes: {
+                                                                                   source: 'email',
+                                                                                   in_reply_to: in_reply_to,
+                                                                                   mail_subject: @processed_mail.subject,
+                                                                                   initiated_at: {
+                                                                                     timestamp: Time.now.utc
+                                                                                   }
+                                                                                 } })
   end
 
   def find_or_create_contact
-    @contact = @inbox.contacts.from_email(@processed_mail.original_sender)
+    @contact = @inbox.contacts.find_by(email: @processed_mail.original_sender)
     if @contact.present?
       @contact_inbox = ContactInbox.find_by(inbox: @inbox, contact: @contact)
     else

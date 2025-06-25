@@ -1,67 +1,71 @@
 {
   "TEAMS_SETTINGS": {
-    "NEW_TEAM": "Criar novo time",
+    "NEW_TEAM": "Criar nova equipe",
     "HEADER": "Times",
-    "LOADING": "Buscando times",
-    "DESCRIPTION": "Os times permitem que você organize agentes em grupos com base em suas responsabilidades. Um agente pode pertencer a vários times. Ao trabalhar de forma colaborativa, você pode atribuir conversas a times específicos.",
-    "LEARN_MORE": "Saiba mais sobre times",
+    "SIDEBAR_TXT": "<p><b>Equipes</b></p> <p>As equipes permitem que você organize seus agentes em grupos baseados em suas responsabilidades. <br /> Um agente pode fazer parte de várias equipes. Você pode atribuir conversas a uma equipe quando você estiver trabalhando colaborativamente. </p>",
     "LIST": {
       "404": "Não existem agentes associados a esta conta.",
-      "EDIT_TEAM": "Editar time",
-      "NONE": "Nenhuma"
+      "EDIT_TEAM": "Editar equipe"
     },
     "CREATE_FLOW": {
       "CREATE": {
-        "TITLE": "Criar novo time",
-        "DESC": "Adicione um título e uma descrição a seu novo time."
+        "TITLE": "Criar nova equipe",
+        "DESC": "Adicione um título e uma descrição à sua nova equipe."
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Adicionar agente a seu time",
-        "TITLE": "Adicionar agentes ao time: {teamName}",
-        "DESC": "Adicione agentes a seu time recém-criado. Isso permite que você colabore como um time em conversas, seja notificado sobre novos eventos na mesma conversa."
+        "BUTTON_TEXT": "Adicionar agente ao seu time",
+        "TITLE": "Adicionar agentes a equipe:  %{teamName}",
+        "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa."
       },
-      "WIZARD_CREATE": {
-        "TITLE": "Criar",
-        "BODY": "Criar um novo time de agentes."
-      },
-      "WIZARD_ADD_AGENTS": {
-        "TITLE": "Adicionar Agentes",
-        "BODY": "Adicionar agentes ao time."
-      },
-      "WIZARD_FINISH": {
-        "TITLE": "Finalizar",
-        "BODY": "Está tudo pronto para começar!"
-      }
+      "WIZARD": [
+        {
+          "title": "Criar",
+          "route": "Novo",
+          "body": "Criar uma nova equipe de agentes."
+        },
+        {
+          "title": "Adicionar Agentes",
+          "route": "ajustes_equipes_adicionar_agentes",
+          "body": "Adicionar agentes a equipe."
+        },
+        {
+          "title": "Finalizar",
+          "route": "ajustes_equipes_finalizar",
+          "body": "Está tudo pronto para começar!"
+        }
+      ]
     },
     "EDIT_FLOW": {
       "CREATE": {
-        "TITLE": "Editar detalhes da seu time",
-        "DESC": "Edite o título e a descrição de seu time.",
-        "BUTTON_TEXT": "Atualizar time"
+        "TITLE": "Editar detalhes da sua equipe",
+        "DESC": "Edite o título e a descrição da sua equipe.",
+        "BUTTON_TEXT": "Atualizar equipe"
       },
       "AGENTS": {
-        "BUTTON_TEXT": "Atualizar agentes no time",
-        "TITLE": "Adicionar agentes ao time: {teamName}",
-        "DESC": "Adicionar agentes ao seu time recém-criado. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a este time."
+        "BUTTON_TEXT": "Atualizar agentes no departamento",
+        "TITLE": "Adicionar agentes a equipe: %{teamName}",
+        "DESC": "Adicionar agentes à sua equipe recém-criada. Todos os agentes adicionados serão notificados quando uma conversa for atribuída a esta equipe."
       },
-      "EDIT_WIZARD_DETAILS": {
-        "TITLE": "Detalhes do time",
-        "ROUTE": "ajustes_times_editar",
-        "BODY": "Alterar nome, descrição e outros detalhes."
-      },
-      "EDIT_WIZARD_AGENTS": {
-        "TITLE": "Alterar agentes",
-        "ROUTE": "ajustes_times_editar_membros",
-        "BODY": "Gerenciar agentes do seu time."
-      },
-      "EDIT_WIZARD_FINISH": {
-        "TITLE": "Finalizar",
-        "ROUTE": "ajustes_times_editar_finalizar",
-        "BODY": "Está tudo pronto para começar!"
-      }
+      "WIZARD": [
+        {
+          "title": "Detalhes do departamento",
+          "route": "ajustes_equipes_editar",
+          "body": "Alterar nome, descrição e outros detalhes."
+        },
+        {
+          "title": "Editar agente",
+          "route": "ajustes_equipes_editar_membros",
+          "body": "Gerenciar agentes de seu departamento"
+        },
+        {
+          "title": "Finalizar",
+          "route": "ajustes_equipes_editar_finalizar",
+          "body": "Está tudo pronto para começar!"
+        }
+      ]
     },
     "TEAM_FORM": {
-      "ERROR_MESSAGE": "Não foi possível salvar os detalhes do time. Tente novamente."
+      "ERROR_MESSAGE": "Não foi possível salvar os detalhes do departamento. Tente novamente."
     },
     "AGENTS": {
       "AGENT": "AGENTE",
@@ -70,52 +74,52 @@
       "ADD_AGENTS": "Adicionando agentes à sua caixa de entrada...",
       "SELECT": "Selecionar",
       "SELECT_ALL": "Selecionar todos os agentes",
-      "SELECTED_COUNT": "{selected} de {total} agentes selecionados."
+      "SELECTED_COUNT": "%{selected} de %{total} agentes selecionados."
     },
     "ADD": {
-      "TITLE": "Adicionar agentes ao time: {teamName}",
-      "DESC": "Adicione agentes ao time recém-criado. Isso permite que você colabore como um time em conversas, seja notificado sobre novos eventos na mesma conversa.",
+      "TITLE": "Adicionar agentes a equipe:  %{teamName}",
+      "DESC": "Adicione agentes à sua equipe recém-criada. Isso permite que você colabore como uma equipe em conversas, seja notificado sobre novos eventos na mesma conversa.",
       "SELECT": "Selecionar",
       "SELECT_ALL": "Selecionar todos os agentes",
-      "SELECTED_COUNT": "{selected} de {total} agentes selecionados.",
+      "SELECTED_COUNT": "%{selected} de %{total} agentes selecionados.",
       "BUTTON_TEXT": "Adicionar agentes",
       "AGENT_VALIDATION_ERROR": "Selecione pelo menos um agente."
     },
     "FINISH": {
       "TITLE": "Sua caixa de entrada está pronta!",
-      "MESSAGE": "Agora você pode colaborar como um time em conversas",
+      "MESSAGE": "Agora você pode colaborar como equipe em conversas.",
       "BUTTON_TEXT": "Finalizar"
     },
     "DELETE": {
       "BUTTON_TEXT": "Excluir",
       "API": {
         "SUCCESS_MESSAGE": "Agente excluído com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível excluir o time. Tente novamente."
+        "ERROR_MESSAGE": "Não foi possível excluir o departamento. Tente novamente."
       },
       "CONFIRM": {
-        "TITLE": "Tem certeza de que deseja excluir o time?",
+        "TITLE": "Tem certeza que deseja excluir - %{teamName}",
         "PLACE_HOLDER": "Digite {teamName} para confirmar",
-        "MESSAGE": "A exclusão do time irá remover a atribuição do time das conversas atribuídas a esse time.",
+        "MESSAGE": "A exclusão do departamento irá remover a atribuição da equipe das conversas atribuídas a esse departamento.",
         "YES": "Excluir ",
         "NO": "Cancelar"
       }
     },
-    "SETTINGS": "Configurações",
+    "SETTINGS": "Confirgurações",
     "FORM": {
-      "UPDATE": "Atualizar time",
-      "CREATE": "Criar novo time",
+      "UPDATE": "Atualizar equipe",
+      "CREATE": "Criar novo departamento",
       "NAME": {
-        "LABEL": "Nome do Time",
+        "LABEL": "Nome do departamento",
         "PLACEHOLDER": "Exemplo: Vendas, Suporte ao Cliente"
       },
       "DESCRIPTION": {
-        "LABEL": "Descrição do time",
-        "PLACEHOLDER": "Breve descrição sobre este time."
+        "LABEL": "Descrição do departamento",
+        "PLACEHOLDER": "Breve descrição sobre este departamento."
       },
       "AUTO_ASSIGN": {
-        "LABEL": "Permitir atribuição automática para este time."
+        "LABEL": "Permitir atribuição automática para este departamento."
       },
-      "SUBMIT_CREATE": "Criar novo time"
+      "SUBMIT_CREATE": "Criar novo departamento"
     }
   }
 }

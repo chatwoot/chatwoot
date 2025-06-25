@@ -1,30 +1,9 @@
 import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-import SidemenuIcon from '../SidemenuIcon.vue';
-
-const store = createStore({
-  modules: {
-    auth: {
-      namespaced: false,
-      getters: {
-        getCurrentAccountId: () => 1,
-      },
-    },
-    accounts: {
-      namespaced: true,
-      getters: {
-        isFeatureEnabledonAccount: () => () => false,
-      },
-    },
-  },
-});
+import SidemenuIcon from '../SidemenuIcon';
 
 describe('SidemenuIcon', () => {
   test('matches snapshot', () => {
-    const wrapper = shallowMount(SidemenuIcon, {
-      stubs: { NextButton: { template: '<button><slot /></button>' } },
-      global: { plugins: [store] },
-    });
+    const wrapper = shallowMount(SidemenuIcon);
     expect(wrapper.vm).toBeTruthy();
     expect(wrapper.element).toMatchSnapshot();
   });

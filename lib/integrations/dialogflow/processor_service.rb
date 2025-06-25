@@ -14,17 +14,20 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     message.content
   end
 
-  def get_response(session_id, message_content)
+  def get_response(session_id, message)
     if hook.settings['credentials'].blank?
       Rails.logger.warn "Account: #{hook.try(:account_id)} Hook: #{hook.id} credentials are not present." && return
     end
 
-    configure_dialogflow_client_defaults
-    detect_intent(session_id, message_content)
-  rescue Google::Cloud::PermissionDeniedError => e
-    Rails.logger.warn "DialogFlow Error: (account-#{hook.try(:account_id)}, hook-#{hook.id}) #{e.message}"
-    hook.prompt_reauthorization!
-    hook.disable
+    ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
+      config.timeout = 10.0
+      config.credentials = hook.settings['credentials']
+    end
+
+    client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
+    session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
+    query_input = { text: { text: message, language_code: 'en-US' } }
+    client.detect_intent session: session, query_input: query_input
   end
 
   def process_response(message, response)
@@ -50,28 +53,10 @@ class Integrations::Dialogflow::ProcessorService < Integrations::BotProcessorSer
     return if content_params.blank?
 
     conversation = message.conversation
-    conversation.messages.create!(
-      content_params.merge(
-        {
-          message_type: :outgoing,
-          account_id: conversation.account_id,
-          inbox_id: conversation.inbox_id
-        }
-      )
-    )
-  end
-
-  def configure_dialogflow_client_defaults
-    ::Google::Cloud::Dialogflow::V2::Sessions::Client.configure do |config|
-      config.timeout = 10.0
-      config.credentials = hook.settings['credentials']
-    end
-  end
-
-  def detect_intent(session_id, message)
-    client = ::Google::Cloud::Dialogflow::V2::Sessions::Client.new
-    session = "projects/#{hook.settings['project_id']}/agent/sessions/#{session_id}"
-    query_input = { text: { text: message, language_code: 'en-US' } }
-    client.detect_intent session: session, query_input: query_input
+    conversation.messages.create!(content_params.merge({
+                                                         message_type: :outgoing,
+                                                         account_id: conversation.account_id,
+                                                         inbox_id: conversation.inbox_id
+                                                       }))
   end
 end

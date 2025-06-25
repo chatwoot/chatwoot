@@ -12,6 +12,7 @@ describe('#getters', () => {
       isDeleting: false,
     });
   });
+
   it('categoryById', () => {
     expect(getters.categoryById(state)(1)).toEqual(
       categoriesState.categories.byId[1]

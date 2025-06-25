@@ -29,7 +29,6 @@ class DataImport < ApplicationRecord
   private
 
   def process_data_import
-    # we wait for the file to be uploaded to the cloud
-    DataImportJob.set(wait: 1.minute).perform_later(self)
+    DataImportJob.perform_later(self)
   end
 end

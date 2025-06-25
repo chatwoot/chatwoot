@@ -1,15 +1,28 @@
+<template>
+  <div class="contact--group">
+    <fluent-icon icon="call" class="file--icon" size="18" />
+    <div class="meta">
+      <p class="text-truncate margin-bottom-0">
+        {{ phoneNumber }}
+      </p>
+    </div>
+    <div v-if="formattedPhoneNumber" class="link-wrap">
+      <woot-button variant="clear" size="small" @click.prevent="addContact">
+        {{ $t('CONVERSATION.SAVE_CONTACT') }}
+      </woot-button>
+    </div>
+  </div>
+</template>
+
 <script>
-import { useAlert } from 'dashboard/composables';
 import {
   DuplicateContactException,
   ExceptionWithMessage,
 } from 'shared/helpers/CustomErrors';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  components: {
-    NextButton,
-  },
+  mixins: [alertMixin],
   props: {
     name: {
       type: String,
@@ -37,18 +50,18 @@ export default {
             'contacts/create',
             this.getContactObject()
           );
-          useAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
+          this.showAlert(this.$t('CONTACT_FORM.SUCCESS_MESSAGE'));
         }
         this.openContactNewTab(contact.id);
       } catch (error) {
         if (error instanceof DuplicateContactException) {
           if (error.data.includes('phone_number')) {
-            useAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
+            this.showAlert(this.$t('CONTACT_FORM.FORM.PHONE_NUMBER.DUPLICATE'));
           }
         } else if (error instanceof ExceptionWithMessage) {
-          useAlert(error.data);
+          this.showAlert(error.data);
         } else {
-          useAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
+          this.showAlert(this.$t('CONTACT_FORM.ERROR_MESSAGE'));
         }
       }
     },
@@ -83,27 +96,6 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="contact--group">
-    <fluent-icon icon="call" class="file--icon" size="18" />
-    <div class="meta">
-      <p
-        class="overflow-hidden whitespace-nowrap text-ellipsis margin-bottom-0"
-      >
-        {{ phoneNumber }}
-      </p>
-    </div>
-    <div v-if="formattedPhoneNumber" class="link-wrap">
-      <NextButton
-        ghost
-        xs
-        :label="$t('CONVERSATION.SAVE_CONTACT')"
-        @click.prevent="addContact"
-      />
-    </div>
-  </div>
-</template>
 
 <style lang="scss" scoped>
 .contact--group {

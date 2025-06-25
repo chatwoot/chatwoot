@@ -1,13 +1,24 @@
+<template>
+  <woot-button
+    v-if="isVideoIntegrationEnabled"
+    v-tooltip.top-end="
+      $t('INTEGRATION_SETTINGS.DYTE.START_VIDEO_CALL_HELP_TEXT')
+    "
+    icon="video"
+    :is-loading="isLoading"
+    color-scheme="secondary"
+    variant="smooth"
+    size="small"
+    @click="onClick"
+  />
+</template>
 <script>
 import { mapGetters } from 'vuex';
 import DyteAPI from 'dashboard/api/integrations/dyte';
-import { useAlert } from 'dashboard/composables';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import alertMixin from 'shared/mixins/alertMixin';
 
 export default {
-  components: {
-    NextButton,
-  },
+  mixins: [alertMixin],
   props: {
     conversationId: {
       type: Number,
@@ -36,7 +47,7 @@ export default {
       try {
         await DyteAPI.createAMeeting(this.conversationId);
       } catch (error) {
-        useAlert(this.$t('INTEGRATION_SETTINGS.DYTE.CREATE_ERROR'));
+        this.showAlert(this.$t('INTEGRATION_SETTINGS.DYTE.CREATE_ERROR'));
       } finally {
         this.isLoading = false;
       }
@@ -44,18 +55,3 @@ export default {
   },
 };
 </script>
-
-<!-- eslint-disable-next-line vue/no-root-v-if -->
-<template>
-  <NextButton
-    v-if="isVideoIntegrationEnabled"
-    v-tooltip.top-end="
-      $t('INTEGRATION_SETTINGS.DYTE.START_VIDEO_CALL_HELP_TEXT')
-    "
-    icon="i-ph-video-camera"
-    slate
-    faded
-    sm
-    @click="onClick"
-  />
-</template>

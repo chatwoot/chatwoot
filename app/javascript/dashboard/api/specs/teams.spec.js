@@ -1,5 +1,6 @@
 import teamsAPI from '../teams';
 import ApiClient from '../ApiClient';
+import describeWithAPIMock from './apiSpecHelper';
 
 describe('#TeamsAPI', () => {
   it('creates correct instance', () => {
@@ -13,33 +14,17 @@ describe('#TeamsAPI', () => {
     expect(teamsAPI).toHaveProperty('addAgents');
     expect(teamsAPI).toHaveProperty('updateAgents');
   });
-  describe('API calls', () => {
-    const originalAxios = window.axios;
-    const axiosMock = {
-      post: vi.fn(() => Promise.resolve()),
-      get: vi.fn(() => Promise.resolve()),
-      patch: vi.fn(() => Promise.resolve()),
-      delete: vi.fn(() => Promise.resolve()),
-    };
-
-    beforeEach(() => {
-      window.axios = axiosMock;
-    });
-
-    afterEach(() => {
-      window.axios = originalAxios;
-    });
-
+  describeWithAPIMock('API calls', context => {
     it('#getAgents', () => {
       teamsAPI.getAgents({ teamId: 1 });
-      expect(axiosMock.get).toHaveBeenCalledWith(
+      expect(context.axiosMock.get).toHaveBeenCalledWith(
         '/api/v1/teams/1/team_members'
       );
     });
 
     it('#addAgents', () => {
       teamsAPI.addAgents({ teamId: 1, agentsList: { user_ids: [1, 10, 21] } });
-      expect(axiosMock.post).toHaveBeenCalledWith(
+      expect(context.axiosMock.post).toHaveBeenCalledWith(
         '/api/v1/teams/1/team_members',
         {
           user_ids: { user_ids: [1, 10, 21] },
@@ -53,7 +38,7 @@ describe('#TeamsAPI', () => {
         teamId: 1,
         agentsList,
       });
-      expect(axiosMock.patch).toHaveBeenCalledWith(
+      expect(context.axiosMock.patch).toHaveBeenCalledWith(
         '/api/v1/teams/1/team_members',
         {
           user_ids: agentsList,

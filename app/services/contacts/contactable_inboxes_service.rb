@@ -42,20 +42,20 @@ class Contacts::ContactableInboxesService
   end
 
   def email_contactable_inbox(inbox)
-    return if @contact.email.blank?
+    return unless @contact.email
 
     { source_id: @contact.email, inbox: inbox }
   end
 
   def whatsapp_contactable_inbox(inbox)
-    return if @contact.phone_number.blank?
+    return unless @contact.phone_number
 
     # Remove the plus since thats the format 360 dialog uses
     { source_id: @contact.phone_number.delete('+'), inbox: inbox }
   end
 
   def sms_contactable_inbox(inbox)
-    return if @contact.phone_number.blank?
+    return unless @contact.phone_number
 
     { source_id: @contact.phone_number, inbox: inbox }
   end

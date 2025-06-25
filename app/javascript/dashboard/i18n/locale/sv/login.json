@@ -3,8 +3,7 @@
     "TITLE": "Logga in till Chatwoot",
     "EMAIL": {
       "LABEL": "E-post",
-      "PLACEHOLDER": "example{'@'}companyname.com",
-      "ERROR": "Ange en giltig e-postadress"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Lösenord",

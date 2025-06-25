@@ -1,37 +1,126 @@
+<template>
+  <transition name="menu-slide">
+    <div
+      v-if="show"
+      v-on-clickaway="onClickAway"
+      class="options-menu dropdown-pane"
+      :class="{ 'dropdown-pane--open': show }"
+    >
+      <availability-status />
+      <li class="divider" />
+      <woot-dropdown-menu>
+        <woot-dropdown-item v-if="showChangeAccountOption">
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="arrow-swap"
+            @click="$emit('toggle-accounts')"
+          >
+            {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-if="globalConfig.chatwootInboxToken">
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="chat-help"
+            @click="$emit('show-support-chat-window')"
+          >
+            {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="keyboard"
+            @click="handleKeyboardHelpClick"
+          >
+            {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
+          </woot-button>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <router-link
+            v-slot="{ href, isActive, navigate }"
+            :to="`/app/accounts/${accountId}/profile/settings`"
+            custom
+          >
+            <a
+              :href="href"
+              class="button small clear secondary"
+              :class="{ 'is-active': isActive }"
+              @click="e => handleProfileSettingClick(e, navigate)"
+            >
+              <fluent-icon icon="person" size="14" class="icon icon--font" />
+              <span class="button__content">
+                {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
+              </span>
+            </a>
+          </router-link>
+        </woot-dropdown-item>
+        <woot-dropdown-item v-if="currentUser.type === 'SuperAdmin'">
+          <a
+            href="/super_admin"
+            class="button small clear secondary"
+            target="_blank"
+            rel="noopener nofollow noreferrer"
+            @click="$emit('close')"
+          >
+            <fluent-icon
+              icon="content-settings"
+              size="14"
+              class="icon icon--font"
+            />
+            <span class="button__content">
+              {{ $t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE') }}
+            </span>
+          </a>
+        </woot-dropdown-item>
+        <woot-dropdown-item>
+          <woot-button
+            variant="clear"
+            color-scheme="secondary"
+            size="small"
+            icon="power"
+            @click="logout"
+          >
+            {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
+          </woot-button>
+        </woot-dropdown-item>
+      </woot-dropdown-menu>
+    </div>
+  </transition>
+</template>
+
 <script>
+import { mixin as clickaway } from 'vue-clickaway';
 import { mapGetters } from 'vuex';
 import Auth from '../../../api/auth';
-import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
-import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
-import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus.vue';
-import { FEATURE_FLAGS } from '../../../featureFlags';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem';
+import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu';
+import AvailabilityStatus from 'dashboard/components/layout/AvailabilityStatus';
 
 export default {
   components: {
     WootDropdownMenu,
     WootDropdownItem,
     AvailabilityStatus,
-    NextButton,
   },
+  mixins: [clickaway],
   props: {
     show: {
       type: Boolean,
       default: false,
     },
   },
-  emits: [
-    'close',
-    'openKeyShortcutModal',
-    'toggleAccounts',
-    'showSupportChatWindow',
-  ],
   computed: {
     ...mapGetters({
       currentUser: 'getCurrentUser',
       globalConfig: 'globalConfig/get',
       accountId: 'getCurrentAccountId',
-      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     showChangeAccountOption() {
       if (this.globalConfig.createNewAccountFromDashboard) {
@@ -41,14 +130,6 @@ export default {
       const { accounts = [] } = this.currentUser;
       return accounts.length > 1;
     },
-    showChatSupport() {
-      return (
-        this.isFeatureEnabledonAccount(
-          this.accountId,
-          FEATURE_FLAGS.CONTACT_CHATWOOT_SUPPORT_TEAM
-        ) && this.globalConfig.chatwootInboxToken
-      );
-    },
   },
   methods: {
     handleProfileSettingClick(e, navigate) {
@@ -56,7 +137,7 @@ export default {
       navigate(e);
     },
     handleKeyboardHelpClick() {
-      this.$emit('openKeyShortcutModal');
+      this.$emit('key-shortcut-modal');
       this.$emit('close');
     },
     logout() {
@@ -65,140 +146,15 @@ export default {
     onClickAway() {
       if (this.show) this.$emit('close');
     },
-    openAppearanceOptions() {
-      const ninja = document.querySelector('ninja-keys');
-      ninja.open({ parent: 'appearance_settings' });
-    },
   },
 };
 </script>
-
-<template>
-  <transition name="menu-slide">
-    <div
-      v-if="show"
-      v-on-clickaway="onClickAway"
-      class="absolute z-30 w-64 px-2 py-2 bg-white border rounded-md shadow-xl left-3 rtl:left-auto rtl:right-3 bottom-16 dark:bg-slate-800 border-slate-25 dark:border-slate-700"
-      :class="{ 'block visible': show }"
-    >
-      <AvailabilityStatus />
-      <WootDropdownMenu>
-        <WootDropdownItem v-if="showChangeAccountOption">
-          <NextButton
-            ghost
-            sm
-            slate
-            icon="i-lucide-arrow-right-left"
-            class="!w-full !justify-start"
-            @click="$emit('toggleAccounts')"
-          >
-            <span class="min-w-0 truncate font-medium text-xs">
-              {{ $t('SIDEBAR_ITEMS.CHANGE_ACCOUNTS') }}
-            </span>
-          </NextButton>
-        </WootDropdownItem>
-        <WootDropdownItem v-if="showChatSupport">
-          <NextButton
-            ghost
-            sm
-            slate
-            icon="i-lucide-message-circle-question"
-            class="!w-full !justify-start"
-            @click="$emit('showSupportChatWindow')"
-          >
-            <span class="min-w-0 truncate font-medium text-xs">
-              {{ $t('SIDEBAR_ITEMS.CONTACT_SUPPORT') }}
-            </span>
-          </NextButton>
-        </WootDropdownItem>
-        <WootDropdownItem>
-          <NextButton
-            ghost
-            sm
-            slate
-            icon="i-lucide-keyboard"
-            class="!w-full !justify-start"
-            @click="handleKeyboardHelpClick"
-          >
-            <span class="min-w-0 truncate font-medium text-xs">
-              {{ $t('SIDEBAR_ITEMS.KEYBOARD_SHORTCUTS') }}
-            </span>
-          </NextButton>
-        </WootDropdownItem>
-        <WootDropdownItem>
-          <router-link
-            v-slot="{ href, isActive, navigate }"
-            :to="`/app/accounts/${accountId}/profile/settings`"
-            custom
-          >
-            <a
-              :href="href"
-              :class="{ 'is-active': isActive }"
-              @click="e => handleProfileSettingClick(e, navigate)"
-            >
-              <NextButton
-                ghost
-                sm
-                slate
-                icon="i-lucide-circle-user"
-                class="!w-full !justify-start"
-              >
-                <span class="min-w-0 truncate font-medium text-xs">
-                  {{ $t('SIDEBAR_ITEMS.PROFILE_SETTINGS') }}
-                </span>
-              </NextButton>
-            </a>
-          </router-link>
-        </WootDropdownItem>
-        <WootDropdownItem>
-          <NextButton
-            ghost
-            sm
-            slate
-            icon="i-lucide-sun-moon"
-            class="!w-full !justify-start"
-            @click="openAppearanceOptions"
-          >
-            <span class="min-w-0 truncate font-medium text-xs">
-              {{ $t('SIDEBAR_ITEMS.APPEARANCE') }}
-            </span>
-          </NextButton>
-        </WootDropdownItem>
-        <WootDropdownItem v-if="currentUser.type === 'SuperAdmin'">
-          <a
-            href="/super_admin"
-            target="_blank"
-            rel="noopener nofollow noreferrer"
-            @click="$emit('close')"
-          >
-            <NextButton
-              ghost
-              sm
-              slate
-              icon="i-lucide-layout-dashboard"
-              class="!w-full !justify-start"
-            >
-              <span class="min-w-0 truncate font-medium text-xs">
-                {{ $t('SIDEBAR_ITEMS.SUPER_ADMIN_CONSOLE') }}
-              </span>
-            </NextButton>
-          </a>
-        </WootDropdownItem>
-        <WootDropdownItem>
-          <NextButton
-            ghost
-            sm
-            slate
-            icon="i-lucide-circle-power"
-            class="!w-full !justify-start"
-            @click="logout"
-          >
-            <span class="min-w-0 truncate font-medium text-xs">
-              {{ $t('SIDEBAR_ITEMS.LOGOUT') }}
-            </span>
-          </NextButton>
-        </WootDropdownItem>
-      </WootDropdownMenu>
-    </div>
-  </transition>
-</template>
+<style lang="scss" scoped>
+.options-menu.dropdown-pane {
+  left: var(--space-slab);
+  bottom: var(--space-larger);
+  min-width: var(--space-giga);
+  top: unset;
+  z-index: var(--z-index-low);
+}
+</style>

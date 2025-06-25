@@ -3,8 +3,7 @@
     "TITLE": "Login to Chatwoot",
     "EMAIL": {
       "LABEL": "E-pošta",
-      "PLACEHOLDER": "example{'@'}companyname.com",
-      "ERROR": "Molim vas unesite ispravnu adresu e-pošte"
+      "PLACEHOLDER": "example@companyname.com"
     },
     "PASSWORD": {
       "LABEL": "Lozinka",

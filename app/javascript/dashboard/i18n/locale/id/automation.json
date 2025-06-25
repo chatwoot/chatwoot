@@ -1,82 +1,81 @@
 {
   "AUTOMATION": {
-    "HEADER": "Otomatisasi",
-    "DESCRIPTION": "Automation can replace and streamline existing processes that require manual effort, such as adding labels and assigning conversations to the most suitable agent. This allows the team to focus on their strengths while reducing time spent on routine tasks.",
-    "LEARN_MORE": "Learn more about automation",
-    "HEADER_BTN_TXT": "Tambah Aturan Otomatisasi",
-    "LOADING": "Mengambil aturan otomatisasi",
+    "HEADER": "Automations",
+    "HEADER_BTN_TXT": "Tambah aturan otomatisasi",
+    "LOADING": "Fetching automation rules",
+    "SIDEBAR_TXT": "<p><b>Automation Rules</b> <p>Automation can replace and automate existing processes that require manual effort. You can do many things with automation, including adding labels and assigning conversation to the best agent. So the team focuses on what they do best and spends more little time on manual tasks.</p>",
     "ADD": {
-      "TITLE": "Tambah Aturan Otomatisasi",
+      "TITLE": "Tambah aturan otomatisasi",
       "SUBMIT": "Buat",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "FORM": {
         "NAME": {
-          "LABEL": "Nama Aturan",
-          "PLACEHOLDER": "Masukkan nama aturan",
+          "LABEL": "Rule Name",
+          "PLACEHOLDER": "Enter rule name",
           "ERROR": "Nama dibutuhkan"
         },
         "DESC": {
           "LABEL": "Deskripsi",
-          "PLACEHOLDER": "Masukkan deskripsi aturan",
+          "PLACEHOLDER": "Enter rule description",
           "ERROR": "Deskripsi dibutuhkan"
         },
         "EVENT": {
-          "LABEL": "Peristiwa",
-          "PLACEHOLDER": "Silakan pilih salah satu",
-          "ERROR": "Peristiwa dibutuhkan"
+          "LABEL": "Event",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Event is required"
         },
         "CONDITIONS": {
-          "LABEL": "Kondisi"
+          "LABEL": "Conditions"
         },
         "ACTIONS": {
           "LABEL": "Aksi"
         }
       },
-      "CONDITION_BUTTON_LABEL": "Tambah Kondisi",
-      "ACTION_BUTTON_LABEL": "Tambah Aksi",
+      "CONDITION_BUTTON_LABEL": "Add Condition",
+      "ACTION_BUTTON_LABEL": "Add Action",
       "API": {
-        "SUCCESS_MESSAGE": "Aturan otomatisasi berhasil ditambahkan",
-        "ERROR_MESSAGE": "Tidak dapat membuat aturan otomatisasi, Harap coba lagi nanti"
+        "SUCCESS_MESSAGE": "Automation rule added successfully",
+        "ERROR_MESSAGE": "Could not able to create a automation rule, Please try again later"
       }
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "Nama",
-        "DESCRIPTION": "Deskripsi",
-        "ACTIVE": "Aktif",
-        "CREATED_ON": "Dibuat pada"
-      },
-      "404": "Tidak ada aturan otomatisasi ditemukan"
+      "TABLE_HEADER": [
+        "Nama",
+        "Deskripsi",
+        "Aktif",
+        "Created on"
+      ],
+      "404": "No automation rules found"
     },
     "DELETE": {
-      "TITLE": "Hapus Aturan Otomatisasi",
+      "TITLE": "Delete Automation Rule",
       "SUBMIT": "Hapus",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "CONFIRM": {
         "TITLE": "Konfirmasi Penghapusan",
-        "MESSAGE": "Apakah Anda yakin ingin menghapus ",
+        "MESSAGE": "Apakah Anda yakin untuk menghapus ",
         "YES": "Ya, Hapus ",
         "NO": "Tidak, Simpan "
       },
       "API": {
-        "SUCCESS_MESSAGE": "Aturan otomatisasi berhasil dihapus",
-        "ERROR_MESSAGE": "Tidak dapat menghapus aturan otomatisasi, Harap coba lagi nanti"
+        "SUCCESS_MESSAGE": "Automation rule deleted successfully",
+        "ERROR_MESSAGE": "Could not able to delete a automation rule, Please try again later"
       }
     },
     "EDIT": {
-      "TITLE": "Edit Aturan Otomatisasi",
+      "TITLE": "Edit Automation Rule",
       "SUBMIT": "Perbarui",
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
-        "SUCCESS_MESSAGE": "Aturan otomatisasi berhasil diperbarui",
-        "ERROR_MESSAGE": "Tidak dapat memperbarui aturan otomatisasi, Harap coba lagi nanti"
+        "SUCCESS_MESSAGE": "Automation rule updated successfully",
+        "ERROR_MESSAGE": "Could not update automation rule, Please try again later"
       }
     },
     "CLONE": {
-      "TOOLTIP": "Klon",
+      "TOOLTIP": "Clone",
       "API": {
-        "SUCCESS_MESSAGE": "Otomatisasi berhasil dikloning",
-        "ERROR_MESSAGE": "Tidak dapat mengkloning aturan otomatisasi, Harap coba lagi nanti"
+        "SUCCESS_MESSAGE": "Automation cloned successfully",
+        "ERROR_MESSAGE": "Could not clone automation rule, Please try again later"
       }
     },
     "FORM": {
@@ -84,86 +83,36 @@
       "CREATE": "Buat",
       "DELETE": "Hapus",
       "CANCEL": "Batalkan",
-      "RESET_MESSAGE": "Mengubah jenis peristiwa akan mengatur ulang kondisi dan peristiwa yang Anda tambahkan di bawah"
+      "RESET_MESSAGE": "Changing event type will reset the conditions and events you have added below"
     },
     "CONDITION": {
-      "DELETE_MESSAGE": "Anda harus memiliki setidaknya satu kondisi untuk disimpan",
-      "CONTACT_CUSTOM_ATTR_LABEL": "Atribut Kustom Kontak",
-      "CONVERSATION_CUSTOM_ATTR_LABEL": "Atribut Kustom Percakapan"
+      "DELETE_MESSAGE": "You need to have atleast one condition to save",
+      "CONTACT_CUSTOM_ATTR_LABEL": "Contact Custom Attributes",
+      "CONVERSATION_CUSTOM_ATTR_LABEL": "Conversation Custom Attributes"
     },
     "ACTION": {
-      "DELETE_MESSAGE": "Anda harus memiliki setidaknya satu aksi untuk disimpan",
-      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Masukkan pesan Anda di sini",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Pilih tim",
-      "EMAIL_INPUT_PLACEHOLDER": "Enter email",
-      "URL_INPUT_PLACEHOLDER": "Enter URL"
+      "DELETE_MESSAGE": "You need to have atleast one action to save",
+      "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Enter your message here",
+      "TEAM_DROPDOWN_PLACEHOLDER": "Select teams"
     },
     "TOGGLE": {
-      "ACTIVATION_TITLE": "Aktifkan Aturan Otomatisasi",
-      "DEACTIVATION_TITLE": "Nonaktifkan Aturan Otomatisasi",
-      "ACTIVATION_DESCRIPTION": "Tindakan ini akan mengaktifkan aturan otomatisasi '{automationName}'. Apakah Anda yakin ingin melanjutkan?",
-      "DEACTIVATION_DESCRIPTION": "Tindakan ini akan menonaktifkan aturan otomatisasi '{automationName}'. Apakah Anda yakin ingin melanjutkan?",
-      "ACTIVATION_SUCCESFUL": "Aturan Otomatisasi Berhasil Diaktifkan",
-      "DEACTIVATION_SUCCESFUL": "Aturan Otomatisasi Berhasil Dinonaktifkan",
-      "ACTIVATION_ERROR": "Tidak dapat Mengaktifkan Otomatisasi, Harap coba lagi nanti",
-      "DEACTIVATION_ERROR": "Tidak dapat Menonaktifkan Otomatisasi, Harap coba lagi nanti",
+      "ACTIVATION_TITLE": "Activate Automation Rule",
+      "DEACTIVATION_TITLE": "Deactivate Automation Rule",
+      "ACTIVATION_DESCRIPTION": "This action will activate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "DEACTIVATION_DESCRIPTION": "This action will deactivate the automation rule '{automationName}'. Are you sure you want to proceed?",
+      "ACTIVATION_SUCCESFUL": "Automation Rule Activated Successfully",
+      "DEACTIVATION_SUCCESFUL": "Automation Rule Deactivated Successfully",
+      "ACTIVATION_ERROR": "Could not Activate Automation, Please try again later",
+      "DEACTIVATION_ERROR": "Could not Deactivate Automation, Please try again later",
       "CONFIRMATION_LABEL": "Ya",
       "CANCEL_LABEL": "Tidak"
     },
     "ATTACHMENT": {
-      "UPLOAD_ERROR": "Tidak dapat mengunggah lampiran, Harap coba lagi",
-      "LABEL_IDLE": "Unggah Lampiran",
+      "UPLOAD_ERROR": "Could not upload attachment, Please try again",
+      "LABEL_IDLE": "Upload Attachment",
       "LABEL_UPLOADING": "Mengunggah...",
-      "LABEL_UPLOADED": "Berhasil Diunggah",
-      "LABEL_UPLOAD_FAILED": "Gagal Mengunggah"
-    },
-    "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Nilai dibutuhkan",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    },
-    "NONE_OPTION": "Tidak ada",
-    "EVENTS": {
-      "CONVERSATION_CREATED": "Percakapan Dibuat",
-      "CONVERSATION_UPDATED": "Percakapan Diperbarui",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_OPENED": "Conversation Opened"
-    },
-    "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Matikan Suara Percakapan",
-      "SNOOZE_CONVERSATION": "Tunda Percakapan",
-      "RESOLVE_CONVERSATION": "Selesaikan Percakapan",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Ubah Prioritas",
-      "ADD_SLA": "Add SLA"
-    },
-    "ATTRIBUTES": {
-      "MESSAGE_TYPE": "Message Type",
-      "MESSAGE_CONTAINS": "Message Contains",
-      "EMAIL": "Email",
-      "INBOX": "Kotak masuk",
-      "CONVERSATION_LANGUAGE": "Conversation Language",
-      "PHONE_NUMBER": "Nomor Telepon",
-      "STATUS": "Status",
-      "BROWSER_LANGUAGE": "Bahasa Browser",
-      "MAIL_SUBJECT": "Email Subject",
-      "COUNTRY_NAME": "Negara",
-      "REFERER_LINK": "Referrer Link",
-      "ASSIGNEE_NAME": "Assignee",
-      "TEAM_NAME": "Tim",
-      "PRIORITY": "Prioritas"
+      "LABEL_UPLOADED": "Successfully Uploaded",
+      "LABEL_UPLOAD_FAILED": "Upload Failed"
     }
   }
 }

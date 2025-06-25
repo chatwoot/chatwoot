@@ -1,0 +1,117 @@
+@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
+
+.modal-mask {
+  @include flex;
+  @include flex-align(center, middle);
+  background-color: $masked-bg;
+  height: 100%;
+  left: 0;
+  position: fixed;
+  top: 0;
+  width: 100%;
+  z-index: 9990;
+}
+
+.modal--close {
+  position: absolute;
+  right: $space-small;
+  top: $space-small;
+
+  &:hover {
+    background: $color-background;
+  }
+}
+
+.page-top-bar {
+  padding: $space-large $space-large $zero;
+
+  img {
+    max-height: 6rem;
+  }
+}
+
+.modal-container {
+  @include normal-shadow;
+
+  background-color: $color-white;
+  border-radius: $space-smaller;
+  max-height: 100%;
+  overflow: auto;
+  position: relative;
+  width: 60rem;
+
+  &.medium {
+    max-width: 80%;
+    width: 90rem;
+  }
+
+  .content-box {
+    height: auto;
+    padding: 0;
+  }
+
+  h2 {
+    color: $color-heading;
+    font-size: $font-size-medium;
+    font-weight: $font-weight-bold;
+  }
+
+  p {
+    font-size: $font-size-small;
+    margin: 0;
+    padding: 0;
+  }
+
+  .content {
+    padding: $space-large;
+  }
+
+  form,
+  .modal-content {
+    align-self: center;
+    padding: $space-large;
+
+    a {
+      padding: $space-normal;
+    }
+  }
+
+  .modal-footer {
+    @include flex;
+    @include flex-align($x: flex-end, $y: middle);
+    padding: $space-small $zero;
+
+    .button {
+      margin-left: var(--space-small);
+    }
+
+    &:first-child {
+      .button {
+        margin-left: 0;
+      }
+    }
+
+    &.justify-content-end {
+      justify-content: end;
+    }
+  }
+
+  .delete-item {
+    padding: $space-large;
+
+    button {
+      margin: 0;
+    }
+  }
+}
+
+.modal-enter,
+.modal-leave {
+  opacity: 0;
+}
+
+.modal-enter .modal-container,
+.modal-leave .modal-container {
+  transform: scale(1.1);
+}

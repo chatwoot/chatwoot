@@ -1,3 +1,13 @@
+<template>
+  <button
+    :class="buttonClassName"
+    :style="buttonStyles"
+    :disabled="disabled"
+    @click="onClick"
+  >
+    <slot />
+  </button>
+</template>
 <script>
 export default {
   props: {
@@ -24,10 +34,9 @@ export default {
   },
   computed: {
     buttonClassName() {
-      let className =
-        'text-white py-3 px-4 rounded-lg shadow-sm leading-4 cursor-pointer disabled:opacity-50';
+      let className = 'text-white py-3 px-4 rounded shadow-sm';
       if (this.type === 'clear') {
-        className = 'flex mx-auto mt-4 text-xs leading-3 w-auto text-black-600';
+        className = 'flex mx-auto mt-4 text-xs w-auto text-black-600';
       }
 
       if (this.type === 'blue' && !Object.keys(this.buttonStyles).length) {
@@ -49,11 +58,10 @@ export default {
       return styles;
     },
   },
+  methods: {
+    onClick(e) {
+      this.$emit('click', e);
+    },
+  },
 };
 </script>
-
-<template>
-  <button :class="buttonClassName" :style="buttonStyles" :disabled="disabled">
-    <slot />
-  </button>
-</template>

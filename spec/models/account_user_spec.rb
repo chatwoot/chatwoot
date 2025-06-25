@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe AccountUser do
+RSpec.describe User do
   include ActiveJob::TestHelper
 
   let!(:account_user) { create(:account_user) }
@@ -14,17 +14,6 @@ RSpec.describe AccountUser do
 
       expect(account_user.user.notification_settings.first.email_conversation_creation?).to be(false)
       expect(account_user.user.notification_settings.first.email_conversation_assignment?).to be(true)
-    end
-  end
-
-  describe 'permissions' do
-    it 'returns the right permissions' do
-      expect(account_user.permissions).to eq(['agent'])
-    end
-
-    it 'returns the right permissions for administrator' do
-      account_user.administrator!
-      expect(account_user.permissions).to eq(['administrator'])
     end
   end
 

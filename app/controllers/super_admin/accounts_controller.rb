@@ -66,5 +66,3 @@ class SuperAdmin::AccountsController < SuperAdmin::ApplicationController
     # rubocop:enable Rails/I18nLocaleTexts
   end
 end
-
-SuperAdmin::AccountsController.prepend_mod_with('SuperAdmin::AccountsController')

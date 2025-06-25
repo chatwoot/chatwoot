@@ -1,76 +1,75 @@
 {
   "CANNED_MGMT": {
-    "HEADER": "Respostas prontas",
-    "LEARN_MORE": "Saber mais sobre respostas prontas",
-    "DESCRIPTION": "Respostas prontas são modelos de resposta pré-escritos que o ajudam a responder rapidamente a uma conversa. Os agentes podem inserir o caractere '/' seguido do código curto para inserir uma resposta pronta durante uma conversa. ",
+    "HEADER": "Respostas Prontas",
     "HEADER_BTN_TXT": "Adicionar resposta pronta",
-    "LOADING": "A obter respostas prontas...",
-    "SEARCH_404": "Não há itens correspondentes a esta consulta.",
+    "LOADING": "Buscando respostas prontas",
+    "SEARCH_404": "Não existem itens correspondentes a esta consulta",
+    "SIDEBAR_TXT": "<p><b>Respostas Prontas</b> </p><p> Respostas Prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta a uma conversa. </p><p> Para criar uma Resposta Pronta basta clicar em <b>Adicionar Resposta Pronta</b>. Você também pode editar ou apagar uma Resposta Pronta existente clicando no botão Editar ou Remover </p><p> Respostas prontas são usadas com a ajuda de <b>Shortcodes (Atalhos de códigos)</b>. Os agentes podem acessar as respostas prontas num chat digitando <b>'/'</b> seguido pelo shortcode. </p>",
     "LIST": {
       "404": "Não há respostas prontas disponíveis nesta conta.",
-      "TITLE": "Gerir respostas prontas",
-      "DESC": "Respostas prontas são modelos de resposta pré-definidos que podem ser usados para responder mais rapidamente a conversas.",
-      "TABLE_HEADER": {
-        "SHORT_CODE": "Código curto",
-        "CONTENT": "Conteúdo",
-        "ACTIONS": "Ações"
-      }
+      "TITLE": "Gerenciar respostas prontas",
+      "DESC": "Respostas prontas são modelos de resposta pré-definidos, que podem ser usadas para enviar respostas rapidamente a tickets.",
+      "TABLE_HEADER": [
+        "Código curto",
+        "Conteúdo",
+        "Ações."
+      ]
     },
     "ADD": {
       "TITLE": "Adicionar resposta pronta",
-      "DESC": "Respostas prontas são modelos de resposta pré-definidos que podem ser usados para responder mais rapidamente a conversas.",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "DESC": "Respostas prontas são modelos de respostas salvos que podem ser usados para enviar rapidamente uma resposta para a conversa.",
+      "CANCEL_BUTTON_TEXT": "cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código curto",
-          "PLACEHOLDER": "Por favor, insira um código curto.",
-          "ERROR": "O código curto é obrigatório."
+          "PLACEHOLDER": "Por favor, insira um código curto",
+          "ERROR": "É necessário um código curto"
         },
         "CONTENT": {
-          "LABEL": "Mensagem",
-          "PLACEHOLDER": "Por favor, escreva a mensagem que pretende guardar como um modelo para usar mais tarde.",
-          "ERROR": "Mensagem é um campo obrigatório."
+          "LABEL": "Conteúdo",
+          "PLACEHOLDER": "Por favor, insira um conteúdo",
+          "ERROR": "Conteúdo é obrigatório"
         },
-        "SUBMIT": "Submeter"
+        "SUBMIT": "submeter"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+        "SUCCESS_MESSAGE": "Resposta pronta adicionada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       }
     },
     "EDIT": {
       "TITLE": "Editar resposta pronta",
-      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "CANCEL_BUTTON_TEXT": "cancelar",
       "FORM": {
         "SHORT_CODE": {
           "LABEL": "Código curto",
-          "PLACEHOLDER": "Por favor, insira um código curto.",
-          "ERROR": "Código curto é obrigatório."
+          "PLACEHOLDER": "Insira o shortcode",
+          "ERROR": "É necessário um código curto"
         },
         "CONTENT": {
-          "LABEL": "Mensagem",
-          "PLACEHOLDER": "Por favor, escreva a mensagem que pretende guardar como um modelo para usar mais tarde.",
-          "ERROR": "A mensagem é obrigatória."
+          "LABEL": "Conteúdo",
+          "PLACEHOLDER": "Por favor, insira um conteúdo",
+          "ERROR": "Conteúdo é obrigatório"
         },
-        "SUBMIT": "Submeter"
+        "SUBMIT": "submeter"
       },
-      "BUTTON_TEXT": "Editar",
+      "BUTTON_TEXT": "Alterar",
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+        "SUCCESS_MESSAGE": "Resposta pronta atualizada com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       }
     },
     "DELETE": {
-      "BUTTON_TEXT": "Excluir",
+      "BUTTON_TEXT": "excluir",
       "API": {
-        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso.",
-        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot. Por favor, tente novamente."
+        "SUCCESS_MESSAGE": "Resposta pronta excluída com sucesso",
+        "ERROR_MESSAGE": "Não foi possível conectar ao servidor Woot, por favor tente novamente mais tarde"
       },
       "CONFIRM": {
-        "TITLE": "Confirmar exclusão",
-        "MESSAGE": "Tem a certeza que pretende excluir a resposta pronta ",
+        "TITLE": "Confirmar Exclusão",
+        "MESSAGE": "Tem certeza que deseja excluir ",
         "YES": "Sim, excluir ",
-        "NO": "Não, manter "
+        "NO": "Não, Manter "
       }
     }
   }

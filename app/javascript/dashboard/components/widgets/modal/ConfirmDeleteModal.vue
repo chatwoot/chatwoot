@@ -1,27 +1,64 @@
-<script>
-import { required } from '@vuelidate/validators';
-import { useVuelidate } from '@vuelidate/core';
-import Modal from '../../Modal.vue';
+<template>
+  <modal :show.sync="show" :on-close="closeModal">
+    <woot-modal-header :header-title="title" :header-content="message" />
+    <form @submit.prevent="onConfirm">
+      <woot-input
+        v-model="value"
+        type="text"
+        :class="{ error: $v.value.$error }"
+        :placeholder="confirmPlaceHolderText"
+        @blur="$v.value.$touch"
+      />
+      <div class="button-wrapper">
+        <woot-button color-scheme="alert" :is-disabled="$v.value.$invalid">
+          {{ confirmText }}
+        </woot-button>
+        <woot-button class="clear" @click.prevent="closeModal">
+          {{ rejectText }}
+        </woot-button>
+      </div>
+    </form>
+  </modal>
+</template>
 
-import NextButton from 'dashboard/components-next/button/Button.vue';
+<script>
+import { required } from 'vuelidate/lib/validators';
+import Modal from '../../Modal';
 
 export default {
   components: {
     Modal,
-    NextButton,
   },
+
   props: {
-    show: { type: Boolean, default: false },
-    title: { type: String, default: '' },
-    message: { type: String, default: '' },
-    confirmText: { type: String, default: '' },
-    rejectText: { type: String, default: '' },
-    confirmValue: { type: String, default: '' },
-    confirmPlaceHolderText: { type: String, default: '' },
-  },
-  emits: ['onClose', 'onConfirm', 'update:show'],
-  setup() {
-    return { v$: useVuelidate() };
+    show: {
+      type: Boolean,
+      default: false,
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    message: {
+      type: String,
+      default: '',
+    },
+    confirmText: {
+      type: String,
+      default: '',
+    },
+    rejectText: {
+      type: String,
+      default: '',
+    },
+    confirmValue: {
+      type: String,
+      default: '',
+    },
+    confirmPlaceHolderText: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -36,54 +73,14 @@ export default {
       },
     },
   },
-  computed: {
-    localShow: {
-      get() {
-        return this.show;
-      },
-      set(value) {
-        this.$emit('update:show', value);
-      },
-    },
-  },
   methods: {
     closeModal() {
       this.value = '';
-      this.$emit('onClose');
+      this.$emit('on-close');
     },
     onConfirm() {
-      this.$emit('onConfirm');
+      this.$emit('on-confirm');
     },
   },
 };
 </script>
-
-<template>
-  <Modal v-model:show="localShow" :on-close="closeModal">
-    <woot-modal-header :header-title="title" :header-content="message" />
-    <form @submit.prevent="onConfirm">
-      <woot-input
-        v-model="value"
-        type="text"
-        :class="{ error: v$.value.$error }"
-        :placeholder="confirmPlaceHolderText"
-        @blur="v$.value.$touch"
-      />
-      <div class="flex items-center justify-end gap-2">
-        <NextButton
-          faded
-          slate
-          type="reset"
-          :label="rejectText"
-          @click.prevent="closeModal"
-        />
-        <NextButton
-          ruby
-          type="submit"
-          :label="confirmText"
-          :disabled="v$.value.$invalid"
-        />
-      </div>
-    </form>
-  </Modal>
-</template>

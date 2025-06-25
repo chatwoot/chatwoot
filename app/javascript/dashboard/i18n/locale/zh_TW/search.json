@@ -11,20 +11,13 @@
       "CONVERSATIONS": "對話",
       "MESSAGES": "訊息"
     },
-    "VIEW_MORE": "View more",
-    "LOAD_MORE": "Load more",
-    "SEARCHING_DATA": "Searching",
-    "LOADING_DATA": "Loading",
-    "EMPTY_STATE": "No {item} found for query '{query}'",
-    "EMPTY_STATE_FULL": "查無 {query} 條件的結果",
+    "EMPTY_STATE": "No %{item} found for query '%{query}'",
+    "EMPTY_STATE_FULL": "查無 %{query} 條件的結果",
     "PLACEHOLDER_KEYBINDING": "/ to focus",
     "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
     "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
     "BOT_LABEL": "機器人",
     "READ_MORE": "Read more",
-    "WROTE": "wrote:",
-    "FROM": "from",
-    "EMAIL": "email",
-    "EMAIL_SUBJECT": "主旨"
+    "WROTE": "wrote:"
   }
 }

@@ -23,10 +23,11 @@ class AgentBot < ApplicationRecord
 
   has_many :agent_bot_inboxes, dependent: :destroy_async
   has_many :inboxes, through: :agent_bot_inboxes
-  has_many :messages, as: :sender, dependent: :nullify
+  has_many :messages, as: :sender, dependent: :restrict_with_exception
   belongs_to :account, optional: true
-  enum bot_type: { webhook: 0 }
+  enum bot_type: { webhook: 0, csml: 1 }
 
+  validate :validate_agent_bot_config
   validates :outgoing_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
 
   def available_name
@@ -50,7 +51,9 @@ class AgentBot < ApplicationRecord
     }
   end
 
-  def system_bot?
-    account.nil?
+  private
+
+  def validate_agent_bot_config
+    errors.add(:bot_config, 'Invalid Bot Configuration') unless AgentBots::ValidateBotService.new(agent_bot: self).perform
   end
 end

@@ -9,6 +9,8 @@ class Twilio::WebhookSetupService
     else
       update_phone_number
     end
+  rescue Twilio::REST::TwilioError => e
+    Rails.logger.error "TWILIO_FAILURE: #{e.message}"
   end
 
   private

@@ -2,23 +2,23 @@ import { frontendURL } from '../../../../helper/URLHelper';
 
 const campaigns = accountId => ({
   parentNav: 'campaigns',
-  routes: ['campaigns_sms_index', 'campaigns_livechat_index'],
+  routes: ['settings_account_campaigns', 'one_off'],
   menuItems: [
     {
       icon: 'arrow-swap',
-      label: 'LIVE_CHAT',
+      label: 'ONGOING',
       key: 'ongoingCampaigns',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/campaigns/live_chat`),
-      toStateName: 'campaigns_livechat_index',
+      toState: frontendURL(`accounts/${accountId}/campaigns/ongoing`),
+      toStateName: 'settings_account_campaigns',
     },
     {
       key: 'oneOffCampaigns',
       icon: 'sound-source',
-      label: 'SMS',
+      label: 'ONE_OFF',
       hasSubMenu: false,
-      toState: frontendURL(`accounts/${accountId}/campaigns/sms`),
-      toStateName: 'campaigns_sms_index',
+      toState: frontendURL(`accounts/${accountId}/campaigns/one_off`),
+      toStateName: 'one_off',
     },
   ],
 });

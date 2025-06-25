@@ -9,7 +9,6 @@
 #  external_url     :string
 #  fallback_title   :string
 #  file_type        :integer          default("image")
-#  meta             :jsonb
 #  created_at       :datetime         not null
 #  updated_at       :datetime         not null
 #  account_id       :integer          not null
@@ -39,8 +38,7 @@ class Attachment < ApplicationRecord
   has_one_attached :file
   validate :acceptable_file
   validates :external_url, length: { maximum: Limits::URL_LENGTH_LIMIT }
-  enum file_type: { :image => 0, :audio => 1, :video => 2, :file => 3, :location => 4, :fallback => 5, :share => 6, :story_mention => 7,
-                    :contact => 8, :ig_reel => 9 }
+  enum file_type: [:image, :audio, :video, :file, :location, :fallback, :share, :story_mention, :contact]
 
   def push_event_data
     return unless file_type
@@ -70,10 +68,6 @@ class Attachment < ApplicationRecord
     end
   end
 
-  def with_attached_file?
-    [:image, :audio, :video, :file].include?(file_type.to_sym)
-  end
-
   private
 
   def file_metadata
@@ -81,12 +75,10 @@ class Attachment < ApplicationRecord
       extension: extension,
       data_url: file_url,
       thumb_url: thumb_url,
-      file_size: file.byte_size,
-      width: file.metadata[:width],
-      height: file.metadata[:height]
+      file_size: file.byte_size
     }
 
-    metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?
+    metadata[:data_url] = metadata[:thumb_url] = external_url if message.instagram_story_mention?
     metadata
   end
 
@@ -117,8 +109,7 @@ class Attachment < ApplicationRecord
 
   def contact_metadata
     {
-      fallback_title: fallback_title,
-      meta: meta || {}
+      fallback_title: fallback_title
     }
   end
 

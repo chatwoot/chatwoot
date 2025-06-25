@@ -1,1 +1,2 @@
-json.partial! 'api/v1/models/app', formats: [:json], resource: @hook.app
+json.id @hook.app_id
+json.enabled true

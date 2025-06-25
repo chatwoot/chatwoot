@@ -1,3 +1,4 @@
+import Vue from 'vue';
 import types from '../mutation-types';
 import { throwErrorMessage } from 'dashboard/store/utils/api';
 
@@ -27,8 +28,9 @@ export const actions = {
     });
 
     try {
-      const response =
-        await ConversationInboxApi.fetchParticipants(conversationId);
+      const response = await ConversationInboxApi.fetchParticipants(
+        conversationId
+      );
       commit(types.SET_CONVERSATION_PARTICIPANTS, {
         conversationId,
         data: response.data,
@@ -75,10 +77,7 @@ export const mutations = {
   },
 
   [types.SET_CONVERSATION_PARTICIPANTS]($state, { data, conversationId }) {
-    $state.records = {
-      ...$state.records,
-      [conversationId]: data,
-    };
+    Vue.set($state.records, conversationId, data);
   },
 };
 

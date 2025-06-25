@@ -1,10 +1,24 @@
+<template>
+  <div
+    class="option"
+    :class="optionClass"
+    :style="{ borderColor: widgetColor, color: widgetColor }"
+  >
+    <button class="option-button button" @click="onClick">
+      <span v-if="action.image_url" class="icon"><img :src="action.image_url" alt="icon" /></span>
+      <span :style="{ color: widgetColor }">{{ action.title }}</span>
+    </button>
+  </div>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {},
-  mixins: [],
+  mixins: [darkModeMixin],
   props: {
     action: {
       type: Object,
@@ -15,7 +29,6 @@ export default {
       default: false,
     },
   },
-  emits: ['optionSelect'],
   computed: {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
@@ -31,33 +44,18 @@ export default {
   },
   methods: {
     onClick() {
-      this.$emit('optionSelect', this.action);
+      this.$emit('click', this.action);
     },
   },
 };
 </script>
 
-<template>
-  <div
-    class="option"
-    :class="optionClass"
-    :style="{ borderColor: widgetColor, color: widgetColor }"
-  >
-    <button class="option-button button" @click="onClick">
-      <span v-if="action.image_url" class="icon">
-        <img :src="action.image_url" alt="icon" />
-      </span>
-      <span :style="{ color: widgetColor }">{{ action.title }}</span>
-    </button>
-  </div>
-</template>
-
 <style scoped lang="scss">
-@import 'widget/assets/scss/_variables.scss';
-@import 'dashboard/assets/scss/_mixins.scss';
+@import '~widget/assets/scss/variables.scss';
+@import '~widget/assets/scss/mixins.scss';
 
 .option {
-  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  @include light-shadow;
   border-radius: $space-jumbo;
   border: 1px solid $color-woot;
   margin: $space-smaller;
@@ -65,7 +63,7 @@ export default {
   transform: translateY(0px);
 
   &:hover {
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.15);
+    @include normal-shadow;
     transform: translateY(-2px);
   }
 

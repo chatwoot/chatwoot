@@ -1,3 +1,26 @@
+<template>
+  <div
+    v-if="!conversationSize && isFetchingList"
+    class="flex flex-1 items-center h-full bg-black-25 justify-center"
+    :class="{ dark: prefersDarkMode }"
+  >
+    <spinner size="" />
+  </div>
+  <div
+    v-else
+    class="flex flex-col justify-end h-full"
+    :class="{
+      'is-mobile': isMobile,
+      'is-widget-right': isRightAligned,
+      'is-bubble-hidden': hideMessageBubble,
+      'is-flat-design': isWidgetStyleFlat,
+      dark: prefersDarkMode,
+    }"
+  >
+    <router-view />
+  </div>
+</template>
+
 <script>
 import { mapGetters, mapActions } from 'vuex';
 import { setHeader } from 'widget/helpers/axios';
@@ -6,7 +29,6 @@ import { IFrameHelper, RNHelper } from 'widget/helpers/utils';
 import configMixin from './mixins/configMixin';
 import availabilityMixin from 'widget/mixins/availability';
 import { getLocale } from './helpers/urlParamsHelper';
-import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages';
 import { isEmptyObject } from 'widget/helpers/utils';
 import Spinner from 'shared/components/Spinner.vue';
 import routerMixin from './mixins/routerMixin';
@@ -19,9 +41,8 @@ import {
   ON_CAMPAIGN_MESSAGE_CLICK,
   ON_UNREAD_MESSAGE_CLICK,
 } from './constants/widgetBusEvents';
-import { useDarkMode } from 'widget/composables/useDarkMode';
+
 import { SDK_SET_BUBBLE_VISIBILITY } from '../shared/constants/sharedFrameEvents';
-import { emitter } from 'shared/helpers/mitt';
 
 export default {
   name: 'App',
@@ -29,10 +50,6 @@ export default {
     Spinner,
   },
   mixins: [availabilityMixin, configMixin, routerMixin],
-  setup() {
-    const { prefersDarkMode } = useDarkMode();
-    return { prefersDarkMode };
-  },
   data() {
     return {
       isMobile: false,
@@ -42,15 +59,18 @@ export default {
   computed: {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
+      campaigns: 'campaign/getCampaigns',
       conversationSize: 'conversation/getConversationSize',
+      currentUser: 'contacts/getCurrentUser',
+      hasFetched: 'agent/getHasFetched',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
+      darkMode: 'appConfig/darkMode',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
-      showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
     }),
     isIFrame() {
       return IFrameHelper.isIFrame();
@@ -58,21 +78,16 @@ export default {
     isRNWebView() {
       return RNHelper.isRNWebView();
     },
-    isRTL() {
-      return this.$root.$i18n.locale
-        ? getLanguageDirection(this.$root.$i18n.locale)
-        : false;
+    prefersDarkMode() {
+      const isOSOnDarkMode =
+        this.darkMode === 'auto' &&
+        window.matchMedia('(prefers-color-scheme: dark)').matches;
+      return isOSOnDarkMode || this.darkMode === 'dark';
     },
   },
   watch: {
     activeCampaign() {
       this.setCampaignView();
-    },
-    isRTL: {
-      immediate: true,
-      handler(value) {
-        document.documentElement.dir = value ? 'rtl' : 'ltr';
-      },
     },
   },
   mounted() {
@@ -105,7 +120,7 @@ export default {
       'setBubbleVisibility',
       'setColorScheme',
     ]),
-    ...mapActions('conversation', ['fetchOldConversations']),
+    ...mapActions('conversation', ['fetchOldConversations', 'setUserLastSeen']),
     ...mapActions('campaign', [
       'initCampaigns',
       'executeCampaign',
@@ -156,36 +171,34 @@ export default {
       }
     },
     registerUnreadEvents() {
-      emitter.on(ON_AGENT_MESSAGE_RECEIVED, () => {
+      bus.$on(ON_AGENT_MESSAGE_RECEIVED, () => {
         const { name: routeName } = this.$route;
         if ((this.isWidgetOpen || !this.isIFrame) && routeName === 'messages') {
           this.$store.dispatch('conversation/setUserLastSeen');
         }
         this.setUnreadView();
       });
-      emitter.on(ON_UNREAD_MESSAGE_CLICK, () => {
+      bus.$on(ON_UNREAD_MESSAGE_CLICK, () => {
         this.replaceRoute('messages').then(() => this.unsetUnreadView());
       });
     },
     registerCampaignEvents() {
-      emitter.on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
+      bus.$on(ON_CAMPAIGN_MESSAGE_CLICK, () => {
         if (this.shouldShowPreChatForm) {
           this.replaceRoute('prechat-form');
         } else {
           this.replaceRoute('messages');
-          emitter.emit('execute-campaign', {
-            campaignId: this.activeCampaign.id,
-          });
+          bus.$emit('execute-campaign', { campaignId: this.activeCampaign.id });
         }
         this.unsetUnreadView();
       });
-      emitter.on('execute-campaign', campaignDetails => {
+      bus.$on('execute-campaign', campaignDetails => {
         const { customAttributes, campaignId } = campaignDetails;
         const { websiteToken } = window.chatwootWebChannel;
         this.executeCampaign({ campaignId, websiteToken, customAttributes });
         this.replaceRoute('messages');
       });
-      emitter.on('snooze-campaigns', () => {
+      bus.$on('snooze-campaigns', () => {
         const expireBy = addHours(new Date(), 1);
         this.campaignsSnoozedTill = Number(expireBy);
       });
@@ -207,13 +220,8 @@ export default {
     },
     setUnreadView() {
       const { unreadMessageCount } = this;
-      if (!this.showUnreadMessagesDialog) {
-        this.handleUnreadNotificationDot();
-      } else if (
-        this.isIFrame &&
-        unreadMessageCount > 0 &&
-        !this.isWidgetOpen
-      ) {
+
+      if (this.isIFrame && unreadMessageCount > 0 && !this.isWidgetOpen) {
         this.replaceRoute('unread-messages').then(() => {
           this.setIframeHeight(true);
           IFrameHelper.sendMessage({ event: 'setUnreadMode' });
@@ -351,29 +359,6 @@ export default {
 };
 </script>
 
-<template>
-  <div
-    v-if="!conversationSize && isFetchingList"
-    class="flex items-center justify-center flex-1 h-full bg-n-background"
-    :class="{ dark: prefersDarkMode }"
-  >
-    <Spinner size="" />
-  </div>
-  <div
-    v-else
-    class="flex flex-col justify-end h-full"
-    :class="{
-      'is-mobile': isMobile,
-      'is-widget-right': isRightAligned,
-      'is-bubble-hidden': hideMessageBubble,
-      'is-flat-design': isWidgetStyleFlat,
-      dark: prefersDarkMode,
-    }"
-  >
-    <router-view />
-  </div>
-</template>
-
 <style lang="scss">
-@import 'widget/assets/scss/woot.scss';
+@import '~widget/assets/scss/woot.scss';
 </style>

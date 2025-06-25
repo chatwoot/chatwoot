@@ -1,0 +1,83 @@
+// scss-lint:disable PropertySortOrder DeclarationOrder QualifyingElement
+$form-border-width: 1px;
+$input-height: $space-two * 2;
+
+.form-input {
+  @include placeholder {
+    color: $color-gray;
+  }
+
+  appearance: none;
+  background: $color-white;
+  border: 1px solid $color-border;
+  border-radius: $border-radius;
+  box-sizing: border-box;
+  color: $color-body;
+  display: block;
+  font-family: $font-family;
+  font-size: $font-size-medium;
+  height: $input-height;
+  line-height: 1.5;
+  max-width: 100%;
+  outline: none;
+  padding: $space-smaller;
+  position: relative;
+  transition: background .2s,
+  border .2s,
+  box-shadow .2s,
+  color .2s;
+  width: 100%;
+
+  &:focus {
+    border-color: $color-primary;
+  }
+
+  &::placeholder {
+    color: $color-gray;
+  }
+
+  // Input sizes
+  &.small {
+    font-size: $font-size-small;
+    height: $space-large;
+    padding: $space-small $space-one;
+  }
+
+  &.default {
+    font-size: $font-size-default;
+    height: $space-medium;
+    padding: $space-smaller $space-slab;
+  }
+
+  &.large {
+    font-size: $font-size-medium;
+    height: $space-larger;
+    padding: $space-slab $space-two;
+  }
+
+  &.input-inline {
+    display: inline-block;
+    vertical-align: middle;
+    width: auto;
+  }
+
+  // Input types
+  &[type="file"] {
+    height: auto;
+  }
+}
+
+// Form element: Textarea
+textarea.form-input {
+  font-family: $font-family;
+
+  @include placeholder {
+    color: $color-light-gray;
+  }
+
+  &,
+  &.large,
+  &.small {
+    height: auto;
+  }
+}

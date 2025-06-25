@@ -1,35 +1,35 @@
-<script setup>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import { defineProps, computed } from 'vue';
-
-const props = defineProps({
-  users: {
-    type: Array,
-    default: () => [],
-  },
-  limit: {
-    type: Number,
-    default: 4,
-  },
-});
-
-const usersToDisplay = computed(() => props.users.slice(0, props.limit));
-</script>
-
 <template>
   <div class="flex">
     <span
-      v-for="(user, index) in usersToDisplay"
+      v-for="(user, index) in users"
       :key="user.id"
-      :class="index ? 'ltr:-ml-4 rtl:-mr-4' : ''"
-      class="inline-block rounded-full text-white shadow-solid"
+      :class="
+        `${
+          index ? '-ml-4' : ''
+        } inline-block rounded-full text-white shadow-solid`
+      "
     >
-      <Thumbnail
-        size="36px"
+      <thumbnail
+        size="40px"
         :username="user.name"
-        :src="user.avatar_url"
+        :src="user.avatar"
         has-border
       />
     </span>
   </div>
 </template>
+
+<script>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+export default {
+  name: 'GroupedAvatars',
+  components: { Thumbnail },
+  props: {
+    users: {
+      type: Array,
+      default: () => [],
+    },
+  },
+};
+</script>

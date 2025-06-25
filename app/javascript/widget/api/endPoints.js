@@ -22,7 +22,7 @@ const createConversation = params => {
   };
 };
 
-const sendMessage = (content, replyTo) => {
+const sendMessage = content => {
   const referrerURL = window.referrerURL || '';
   const search = buildSearchParamsWithLocale(window.location.search);
   return {
@@ -30,7 +30,6 @@ const sendMessage = (content, replyTo) => {
     params: {
       message: {
         content,
-        reply_to: replyTo,
         timestamp: new Date().toString(),
         referer_url: referrerURL,
       },
@@ -38,7 +37,7 @@ const sendMessage = (content, replyTo) => {
   };
 };
 
-const sendAttachment = ({ attachment, replyTo = null }) => {
+const sendAttachment = ({ attachment }) => {
   const { referrerURL = '' } = window;
   const timestamp = new Date().toString();
   const { file } = attachment;
@@ -52,9 +51,6 @@ const sendAttachment = ({ attachment, replyTo = null }) => {
 
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
-  if (replyTo !== null) {
-    formData.append('message[reply_to]', replyTo);
-  }
   return {
     url: `/api/v1/widget/messages${window.location.search}`,
     params: formData,
@@ -97,16 +93,6 @@ const triggerCampaign = ({ websiteToken, campaignId, customAttributes }) => ({
   },
 });
 
-const getMostReadArticles = (slug, locale) => ({
-  url: `/hc/${slug}/${locale}/articles.json`,
-  params: {
-    page: 1,
-    sort: 'views',
-    status: 1,
-    per_page: 6,
-  },
-});
-
 export default {
   createConversation,
   sendMessage,
@@ -116,5 +102,4 @@ export default {
   getAvailableAgents,
   getCampaigns,
   triggerCampaign,
-  getMostReadArticles,
 };

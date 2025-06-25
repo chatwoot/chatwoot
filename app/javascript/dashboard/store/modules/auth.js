@@ -1,7 +1,13 @@
+import Vue from 'vue';
 import types from '../mutation-types';
 import authAPI from '../../api/auth';
 
-import { setUser, clearCookiesOnLogout } from '../utils/api';
+import {
+  setUser,
+  clearCookiesOnLogout,
+  clearLocalStorageOnLogout,
+} from '../utils/api';
+import { getLoginRedirectURL } from '../../helper/URLHelper';
 
 const initialState = {
   currentUser: {
@@ -65,14 +71,6 @@ export const getters = {
     return currentAccount.role;
   },
 
-  getCurrentCustomRoleId($state, $getters) {
-    const { accounts = [] } = $state.currentUser;
-    const [currentAccount = {}] = accounts.filter(
-      account => account.id === $getters.getCurrentAccountId
-    );
-    return currentAccount.custom_role_id;
-  },
-
   getCurrentUser($state) {
     return $state.currentUser;
   },
@@ -99,6 +97,24 @@ export const getters = {
 
 // actions
 export const actions = {
+  login(_, { ssoAccountId, ssoConversationId, ...credentials }) {
+    return new Promise((resolve, reject) => {
+      authAPI
+        .login(credentials)
+        .then(response => {
+          clearLocalStorageOnLogout();
+          window.location = getLoginRedirectURL({
+            ssoAccountId,
+            ssoConversationId,
+            user: response.data,
+          });
+          resolve();
+        })
+        .catch(error => {
+          reject(error);
+        });
+    });
+  },
   async validityCheck(context) {
     try {
       const response = await authAPI.validityCheck();
@@ -133,10 +149,9 @@ export const actions = {
     }
   },
 
-  deleteAvatar: async ({ commit }) => {
+  deleteAvatar: async () => {
     try {
-      const response = await authAPI.deleteAvatar();
-      commit(types.SET_CURRENT_USER, response.data);
+      await authAPI.deleteAvatar();
     } catch (error) {
       // Ignore error
     }
@@ -152,15 +167,8 @@ export const actions = {
     }
   },
 
-  updateAvailability: async (
-    { commit, dispatch, getters: _getters },
-    params
-  ) => {
-    const previousStatus = _getters.getCurrentUserAvailability;
-
+  updateAvailability: async ({ commit, dispatch }, params) => {
     try {
-      // optimisticly update current status
-      commit(types.SET_CURRENT_USER_AVAILABILITY, params.availability);
       const response = await authAPI.updateAvailability(params);
       const userData = response.data;
       const { id } = userData;
@@ -170,23 +178,16 @@ export const actions = {
         availabilityStatus: params.availability,
       });
     } catch (error) {
-      // revert back to previous status if update fails
-      commit(types.SET_CURRENT_USER_AVAILABILITY, previousStatus);
+      // Ignore error
     }
   },
 
-  updateAutoOffline: async (
-    { commit, getters: _getters },
-    { accountId, autoOffline }
-  ) => {
-    const previousAutoOffline = _getters.getCurrentUserAutoOffline;
-
+  updateAutoOffline: async ({ commit }, { accountId, autoOffline }) => {
     try {
-      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, autoOffline);
       const response = await authAPI.updateAutoOffline(accountId, autoOffline);
       commit(types.SET_CURRENT_USER, response.data);
     } catch (error) {
-      commit(types.SET_CURRENT_USER_AUTO_OFFLINE, previousAutoOffline);
+      // Ignore error
     }
   },
 
@@ -203,14 +204,6 @@ export const actions = {
       // Ignore error
     }
   },
-
-  resendConfirmation: async () => {
-    try {
-      await authAPI.resendConfirmation();
-    } catch (error) {
-      // Ignore error
-    }
-  },
 };
 
 // mutations
@@ -222,42 +215,29 @@ export const mutations = {
       }
       return account;
     });
-    _state.currentUser = {
+    Vue.set(_state, 'currentUser', {
       ..._state.currentUser,
       accounts,
-    };
-  },
-  [types.SET_CURRENT_USER_AUTO_OFFLINE](_state, autoOffline) {
-    const accounts = _state.currentUser.accounts.map(account => {
-      if (account.id === _state.currentUser.account_id) {
-        return { ...account, autoOffline: autoOffline };
-      }
-      return account;
     });
-
-    _state.currentUser = {
-      ..._state.currentUser,
-      accounts,
-    };
   },
   [types.CLEAR_USER](_state) {
     _state.currentUser = initialState.currentUser;
   },
   [types.SET_CURRENT_USER](_state, currentUser) {
-    _state.currentUser = currentUser;
+    Vue.set(_state, 'currentUser', currentUser);
   },
   [types.SET_CURRENT_USER_UI_SETTINGS](_state, { uiSettings }) {
-    _state.currentUser = {
+    Vue.set(_state, 'currentUser', {
       ..._state.currentUser,
       ui_settings: {
         ..._state.currentUser.ui_settings,
         ...uiSettings,
       },
-    };
+    });
   },
 
   [types.SET_CURRENT_USER_UI_FLAGS](_state, { isFetching }) {
-    _state.uiFlags = { isFetching };
+    Vue.set(_state, 'uiFlags', { isFetching });
   },
 };
 

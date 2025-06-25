@@ -1,17 +1,17 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Pelanggan yang terhormat 👋, harap luangkan waktu sejenak untuk memberikan umpan balik tentang percakapan yang Anda lakukan {inboxName}.",
+    "DESCRIPTION": "Dear customer 👋, please take a few moments to share feedback about the conversation you had with %{inboxName}.",
     "RATING": {
-      "LABEL": "Nilai percakapan Anda",
-      "SUCCESS_MESSAGE": "Terima kasih telah mengirimkan penilaian"
+      "LABEL": "Rate your conversation",
+      "SUCCESS_MESSAGE": "Thank you for submitting the rating"
     },
     "FEEDBACK": {
-      "LABEL": "Apakah Anda memiliki pemikiran yang ingin Anda bagikan?",
-      "PLACEHOLDER": "Masukan Anda (opsional)",
-      "BUTTON_TEXT": "Berikan umpan balik"
+      "LABEL": "Do you have any thoughts you'd like to share?",
+      "PLACEHOLDER": "Your feedback (optional)",
+      "BUTTON_TEXT": "Submit feedback"
     },
     "API": {
-      "SUCCESS_MESSAGE": "Survei berhasil diperbarui",
+      "SUCCESS_MESSAGE": "Survey updated successfully",
       "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
     }
   },

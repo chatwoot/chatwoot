@@ -31,7 +31,6 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  // eslint-disable-next-line default-param-last
   getSummary(since, until, type = 'account', id, groupBy, businessHours) {
     return axios.get(`${this.url}/summary`, {
       params: {
@@ -61,9 +60,9 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getConversationTrafficCSV({ daysBefore = 6 } = {}) {
+  getConversationTrafficCSV() {
     return axios.get(`${this.url}/conversation_traffic`, {
-      params: { timezone_offset: getTimeOffset(), days_before: daysBefore },
+      params: { timezone_offset: getTimeOffset() },
     });
   }
 
@@ -82,24 +81,6 @@ class ReportsAPI extends ApiClient {
   getTeamReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/teams`, {
       params: { since, until, business_hours: businessHours },
-    });
-  }
-
-  getBotMetrics({ from, to } = {}) {
-    return axios.get(`${this.url}/bot_metrics`, {
-      params: { since: from, until: to },
-    });
-  }
-
-  getBotSummary({ from, to, groupBy, businessHours } = {}) {
-    return axios.get(`${this.url}/bot_summary`, {
-      params: {
-        since: from,
-        until: to,
-        type: 'account',
-        group_by: groupBy,
-        business_hours: businessHours,
-      },
     });
   }
 }

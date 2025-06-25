@@ -7,10 +7,6 @@ class AccountPolicy < ApplicationPolicy
     @account_user.administrator? || @account_user.agent?
   end
 
-  def limits?
-    @account_user.administrator? || @account_user.agent?
-  end
-
   def update?
     @account_user.administrator?
   end
@@ -24,10 +20,6 @@ class AccountPolicy < ApplicationPolicy
   end
 
   def checkout?
-    @account_user.administrator?
-  end
-
-  def toggle_deletion?
     @account_user.administrator?
   end
 end

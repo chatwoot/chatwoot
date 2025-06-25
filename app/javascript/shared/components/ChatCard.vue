@@ -1,10 +1,34 @@
+<template>
+  <div
+    class="card-message chat-bubble agent"
+    :class="$dm('bg-white', 'dark:bg-slate-700')"
+  >
+    <img v-if="mediaUrl" class="media" :src="mediaUrl" />
+    <div class="card-body">
+      <h4 v-if="title" class="title" :class="$dm('text-black-900', 'dark:text-slate-50')">
+        {{ title }}
+      </h4>
+      <p class="body" :class="$dm('text-black-900', 'dark:text-slate-100')">
+        {{ description }}
+      </p>
+      <card-button
+        v-for="action in actions"
+        :key="action.id"
+        :action="action"
+      />
+    </div>
+  </div>
+</template>
+
 <script>
-import CardButton from 'shared/components/CardButton.vue';
+import CardButton from 'shared/components/CardButton';
+import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 
 export default {
   components: {
     CardButton,
   },
+  mixins: [darkModeMixin],
   props: {
     title: {
       type: String,
@@ -22,35 +46,15 @@ export default {
       type: Array,
       default: () => [],
     },
+    showAvatar: Boolean,
   },
+  computed: {},
 };
 </script>
 
-<template>
-  <div
-    class="card-message chat-bubble agent"
-    :class="$dm('bg-white', 'dark:bg-slate-700')"
-  >
-    <img v-if="mediaUrl" class="media" :src="mediaUrl" />
-    <div class="card-body">
-      <h4
-        v-if="title"
-        class="title"
-        :class="$dm('text-black-900', 'dark:text-slate-50')"
-      >
-        {{ title }}
-      </h4>
-      <p class="body" :class="$dm('text-black-900', 'dark:text-slate-100')">
-        {{ description }}
-      </p>
-      <CardButton v-for="action in actions" :key="action.id" :action="action" />
-    </div>
-  </div>
-</template>
-
 <style scoped lang="scss">
-@import 'widget/assets/scss/_variables.scss';
-@import 'dashboard/assets/scss/_mixins.scss';
+@import '~widget/assets/scss/variables.scss';
+@import '~dashboard/assets/scss/mixins.scss';
 
 .card-message {
   padding: $space-small;
@@ -70,7 +74,7 @@ export default {
   }
 
   .media {
-    border: 1px solid #e0e0e0;
+    @include border-light;
     width: 100%;
     object-fit: contain;
     max-height: 150px;
@@ -79,7 +83,7 @@ export default {
 
   .action-button + .action-button {
     background: $color-white;
-    border: 1px solid $color-woot;
+    @include thin-border($color-woot);
     color: $color-woot;
   }
 }

@@ -8,8 +8,8 @@
       "SUBMIT": "Lähetä"
     },
     "MESSAGE_BUBBLE": {
-      "RETRY": "Lähetä viesti uudelleen",
-      "ERROR_MESSAGE": "Ei voitu lähettää, yritä uudestaan"
+      "RETRY": "Send message again",
+      "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
   "TEAM_AVAILABILITY": {
@@ -19,28 +19,16 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Vastaa tyypillisesti muutamassa minuutissa",
     "IN_A_FEW_HOURS": "Tyypillisesti vastaa muutaman tunnin kuluessa",
-    "IN_A_DAY": "Vastaa tyypillisesti päivässä",
-    "BACK_IN": "Tulemme olemaan takaisin linjoilla"
-  },
-  "DAY_NAMES": {
-    "SUNDAY": "Sunnuntai",
-    "MONDAY": "Maanantai",
-    "TUESDAY": "Tiistai",
-    "WEDNESDAY": "Keskiviikko",
-    "THURSDAY": "Torstai",
-    "FRIDAY": "Perjantai",
-    "SATURDAY": "Lauantai"
+    "IN_A_DAY": "Vastaa tyypillisesti päivässä"
   },
   "START_CONVERSATION": "Aloita keskustelu",
-  "END_CONVERSATION": "Lopeta keskustelu",
-  "CONTINUE_CONVERSATION": "Jatka keskustelua",
-  "YOU": "Sinä",
-  "START_NEW_CONVERSATION": "Aloita uusi keskustelu",
-  "VIEW_UNREAD_MESSAGES": "Sinulla on lukemattomia viestejä",
+  "END_CONVERSATION": "End Conversation",
+  "CONTINUE_CONVERSATION": "Continue conversation",
+  "START_NEW_CONVERSATION": "Start a new conversation",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Näytä uudet viestit",
     "CLOSE_MESSAGES_BUTTON": "Sulje",
-    "COMPANY_FROM": "lähettäjä",
+    "COMPANY_FROM": "from",
     "BOT": "Botti"
   },
   "BUBBLE": {
@@ -56,87 +44,54 @@
       "FULL_NAME": {
         "LABEL": "Koko nimi",
         "PLACEHOLDER": "Syötä koko nimesi",
-        "REQUIRED_ERROR": "Koko nimi vaaditaan"
+        "REQUIRED_ERROR": "Full Name is required"
       },
       "EMAIL_ADDRESS": {
         "LABEL": "Sähköpostiosoite",
-        "PLACEHOLDER": "Ole hyvä ja syötä email osoite",
-        "REQUIRED_ERROR": "Sähköpostiosoite on pakollinen",
+        "PLACEHOLDER": "Please enter your email address",
+        "REQUIRED_ERROR": "Email Address is required",
         "VALID_ERROR": "Ole hyvä ja syötä validi sähköposti"
       },
       "PHONE_NUMBER": {
         "LABEL": "Puhelinnumero",
-        "PLACEHOLDER": "Ole hyvä ja syötä puhelinnumero",
-        "REQUIRED_ERROR": "Puhelinnumero vaaditaan",
-        "DIAL_CODE_VALID_ERROR": "Ole hyvä ja valitse maakoodi",
-        "VALID_ERROR": "Anna kelvollinen puhelinnumero",
-        "DROPDOWN_EMPTY": "Tuloksia ei löytynyt",
-        "DROPDOWN_SEARCH": "Search country"
+        "PLACEHOLDER": "Please enter your phone number",
+        "REQUIRED_ERROR": "Phone Number is required",
+        "VALID_ERROR": "Phone number should be of E.164 format eg: +1415555555"
       },
       "MESSAGE": {
-        "LABEL": "Viesti",
-        "PLACEHOLDER": "Ole hyvä ja syötä viesti",
-        "ERROR": "Viesti on liian lyhyt"
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter your message",
+        "ERROR": "Message too short"
       }
     },
-    "CAMPAIGN_HEADER": "Ole hyvä ja anna nimesi ja sähköpostisi ennen keskustelun aloittamista",
-    "IS_REQUIRED": "on vaadittu",
-    "REQUIRED": "Pakollinen",
-    "REGEX_ERROR": "Please provide a valid input"
+    "CAMPAIGN_HEADER": "Please provide your name and email before starting the conversation",
+    "IS_REQUIRED": "is required",
+    "REQUIRED": "Required"
   },
-  "FILE_SIZE_LIMIT": "Tiedosto ylittää sallitun {MAXIMUM_FILE_UPLOAD_SIZE} liitteen rajan",
+  "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_FILE_UPLOAD_SIZE} attachment limit",
   "CHAT_FORM": {
     "INVALID": {
-      "FIELD": "Virheellinen kenttä"
+      "FIELD": "Invalid field"
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Etsi emojeista",
-    "NOT_FOUND": "Yksikään emoji ei vastaa hakuasi",
-    "ARIA_LABEL": "Emoji picker"
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Anna arvio palvelusta",
     "SUBMITTED_TITLE": "Kiitos, että lähetit arvion",
-    "PLACEHOLDER": "Kerro meille lisää..."
+    "PLACEHOLDER": "Tell us more..."
   },
   "EMAIL_TRANSCRIPT": {
-    "BUTTON_TEXT": "Lähetä keskustelun tallenne",
+    "BUTTON_TEXT": "Request a conversation transcript",
     "SEND_EMAIL_SUCCESS": "Chat-keskustelu on lähetetty onnistuneesti",
     "SEND_EMAIL_ERROR": "Tapahtui virhe, yritä uudelleen"
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Klikkaa tästä liittyäksesi",
-      "LEAVE_THE_ROOM": "Poistu puhelusta"
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
     }
-  },
-  "PORTAL": {
-    "POPULAR_ARTICLES": "Suosittuja artikkeleita",
-    "VIEW_ALL_ARTICLES": "Näytä kaikki artikkelit",
-    "IFRAME_LOAD_ERROR": "Artikkelin lataamisessa tapahtui virhe. Ole hyvä ja päivitä sivu ja yritä uudelleen."
-  },
-  "ATTACHMENTS": {
-    "image": {
-      "CONTENT": "Kuvaviesti"
-    },
-    "audio": {
-      "CONTENT": "Ääniviesti"
-    },
-    "video": {
-      "CONTENT": "Videoviesti"
-    },
-    "file": {
-      "CONTENT": "Liite"
-    },
-    "location": {
-      "CONTENT": "Sijainti"
-    },
-    "fallback": {
-      "CONTENT": "on jakanut URL-osoitteen"
-    }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Replying to:"
   }
 }

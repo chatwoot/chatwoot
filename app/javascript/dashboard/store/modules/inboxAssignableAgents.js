@@ -1,3 +1,5 @@
+import Vue from 'vue';
+
 import AssignableAgentsAPI from '../../api/assignableAgents';
 
 const state = {
@@ -50,10 +52,7 @@ export const mutations = {
     };
   },
   [types.SET_INBOX_ASSIGNABLE_AGENTS]: ($state, { inboxId, members }) => {
-    $state.records = {
-      ...$state.records,
-      [inboxId]: members,
-    };
+    Vue.set($state.records, inboxId, members);
   },
 };
 

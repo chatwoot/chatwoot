@@ -21,9 +21,9 @@ const filterQueryData = {
   ],
 };
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {

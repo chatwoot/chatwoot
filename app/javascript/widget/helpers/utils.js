@@ -1,9 +1,7 @@
 import { WOOT_PREFIX } from './constants';
 
-export const isEmptyObject = obj => {
-  if (!obj) return true;
-  return Object.keys(obj).length === 0 && obj.constructor === Object;
-};
+export const isEmptyObject = obj =>
+  Object.keys(obj).length === 0 && obj.constructor === Object;
 
 export const sendMessage = msg => {
   window.parent.postMessage(

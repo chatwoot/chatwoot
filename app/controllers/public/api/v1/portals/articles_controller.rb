@@ -6,40 +6,18 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   layout 'portal'
 
   def index
-    @articles = @portal.articles.published.includes(:category, :author)
-    @articles_count = @articles.count
-    search_articles
-    order_by_sort_param
-    limit_results
+    @articles = @portal.articles
+    @articles = @articles.search(list_params) if list_params.present?
+    @articles.order(position: :asc)
   end
 
   def show; end
 
   private
 
-  def limit_results
-    return if list_params[:per_page].blank?
-
-    per_page = [list_params[:per_page].to_i, 100].min
-    per_page = 25 if per_page < 1
-    @articles = @articles.page(list_params[:page]).per(per_page)
-  end
-
-  def search_articles
-    @articles = @articles.search(list_params) if list_params.present?
-  end
-
-  def order_by_sort_param
-    @articles = if list_params[:sort].present? && list_params[:sort] == 'views'
-                  @articles.order_by_views
-                else
-                  @articles.order_by_position
-                end
-  end
-
   def set_article
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
-    @article.increment_view_count if @article.published?
+    @article.increment_view_count
     @parsed_content = render_article_content(@article.content)
   end
 
@@ -52,8 +30,12 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
     )
   end
 
+  def portal
+    @portal ||= Portal.find_by!(slug: permitted_params[:slug], archived: false)
+  end
+
   def list_params
-    params.permit(:query, :locale, :sort, :status, :page, :per_page)
+    params.permit(:query, :locale)
   end
 
   def permitted_params
@@ -61,8 +43,8 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
   end
 
   def render_article_content(content)
-    ChatwootMarkdownRenderer.new(content).render_article
+    # rubocop:disable Rails/OutputSafety
+    CommonMarker.render_html(content).html_safe
+    # rubocop:enable Rails/OutputSafety
   end
 end
-
-Public::Api::V1::Portals::ArticlesController.prepend_mod_with('Public::Api::V1::Portals::ArticlesController')

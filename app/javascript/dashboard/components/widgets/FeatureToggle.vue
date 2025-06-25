@@ -1,3 +1,8 @@
+<template>
+  <div v-if="isFeatureEnabled">
+    <slot />
+  </div>
+</template>
 <script>
 import { mapGetters } from 'vuex';
 export default {
@@ -18,10 +23,3 @@ export default {
   },
 };
 </script>
-
-<!-- eslint-disable-next-line vue/no-root-v-if -->
-<template>
-  <div v-if="isFeatureEnabled">
-    <slot />
-  </div>
-</template>

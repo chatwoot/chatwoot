@@ -1,30 +1,23 @@
 {
   "SEARCH": {
     "TABS": {
-      "ALL": "Tudo",
-      "CONTACTS": "Contatos",
+      "ALL": "Todos",
+      "CONTACTS": "Contato",
       "CONVERSATIONS": "Conversas",
       "MESSAGES": "Mensagens"
     },
     "SECTION": {
-      "CONTACTS": "Contatos",
+      "CONTACTS": "Contato",
       "CONVERSATIONS": "Conversas",
-      "MESSAGES": "Messagem"
+      "MESSAGES": "Mensagens"
     },
-    "VIEW_MORE": "Ver mais",
-    "LOAD_MORE": "Carregar mais",
-    "SEARCHING_DATA": "Pesquisando",
-    "LOADING_DATA": "Carregando",
-    "EMPTY_STATE": "Nenhum {item} foi encontrado para a consulta '{query}'",
-    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '{query}'",
+    "EMPTY_STATE": "Não foi encontrado %{item} para a consulta '%{query}'",
+    "EMPTY_STATE_FULL": "Nenhum resultado encontrado para a consulta '%{query}'",
     "PLACEHOLDER_KEYBINDING": "/ para focar",
     "INPUT_PLACEHOLDER": "Digite 3 ou mais caracteres para pesquisar",
-    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca.",
-    "BOT_LABEL": "Robôs",
+    "EMPTY_STATE_DEFAULT": "Procurar por ID de conversa, e-mail, número de telefone, mensagens para melhores resultados de busca. ",
+    "BOT_LABEL": "Bot",
     "READ_MORE": "Saiba mais",
-    "WROTE": "escreveu:",
-    "FROM": "de",
-    "EMAIL": "e-mail",
-    "EMAIL_SUBJECT": "assunto"
+    "WROTE": "escreveu:"
   }
 }

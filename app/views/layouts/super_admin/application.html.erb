@@ -13,7 +13,7 @@ By default, it renders:
 %>
 
 <!DOCTYPE html>
-<html lang="<%= I18n.locale %>" class="w-full h-full">
+<html lang="<%= I18n.locale %>">
 <head>
   <meta charset="utf-8">
   <meta name="ROBOTS" content="NOODP">
@@ -22,19 +22,20 @@ By default, it renders:
     <%= content_for(:title) %> - <%= application_title %>
   </title>
   <%= render "stylesheet" %>
-  <%= vite_client_tag %>
-  <%= vite_javascript_tag 'superadmin' %>
   <%= csrf_meta_tags %>
 </head>
-<body class="antialiased w-full h-full">
+<body>
   <%= render "icons" %>
-  <div class="flex w-full h-full">
+
+  <div class="app-container super-admin">
     <%= render "navigation" -%>
-    <main class="w-full overflow-auto" role="main">
+
+    <main class="main-content" role="main">
       <%= render "flashes" -%>
       <%= yield %>
     </main>
   </div>
+
   <%= render "javascript" %>
 </body>
 </html>

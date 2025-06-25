@@ -19,11 +19,6 @@ class ConversationDrop < BaseDrop
     end
   end
 
-  def custom_attribute
-    custom_attributes = @obj.try(:custom_attributes) || {}
-    custom_attributes.transform_keys(&:to_s)
-  end
-
   private
 
   def message_sender_name(sender)

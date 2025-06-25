@@ -1,28 +1,28 @@
-import { FEATURE_FLAGS } from '../../../../featureFlags';
+import SettingsContent from '../Wrapper';
+import Automation from './Index';
 import { frontendURL } from '../../../../helper/URLHelper';
-import SettingsWrapper from '../SettingsWrapper.vue';
-import Automation from './Index.vue';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/automation'),
-      component: SettingsWrapper,
+      component: SettingsContent,
+      props: {
+        headerTitle: 'AUTOMATION.HEADER',
+        icon: 'automation',
+        showNewButton: false,
+      },
       children: [
         {
           path: '',
-          redirect: to => {
-            return { name: 'automation_list', params: to.params };
-          },
+          name: 'automation_wrapper',
+          redirect: 'list',
         },
         {
           path: 'list',
           name: 'automation_list',
           component: Automation,
-          meta: {
-            featureFlag: FEATURE_FLAGS.AUTOMATIONS,
-            permissions: ['administrator'],
-          },
+          roles: ['administrator'],
         },
       ],
     },

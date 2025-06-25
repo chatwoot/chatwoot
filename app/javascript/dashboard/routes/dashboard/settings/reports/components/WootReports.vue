@@ -1,38 +1,82 @@
+<template>
+  <div class="column content-box">
+    <woot-button
+      color-scheme="success"
+      class-names="button--fixed-top"
+      icon="arrow-download"
+      @click="downloadReports"
+    >
+      {{ downloadButtonLabel }}
+    </woot-button>
+    <report-filters
+      v-if="filterItemsList"
+      :type="type"
+      :filter-items-list="filterItemsList"
+      :group-by-filter-items-list="groupByfilterItemsList"
+      :selected-group-by-filter="selectedGroupByFilter"
+      @date-range-change="onDateRangeChange"
+      @filter-change="onFilterChange"
+      @group-by-filter-change="onGroupByFilterChange"
+      @business-hours-toggle="onBusinessHoursToggle"
+    />
+    <div>
+      <div v-if="filterItemsList.length" class="row">
+        <woot-report-stats-card
+          v-for="(metric, index) in metrics"
+          :key="metric.NAME"
+          :desc="metric.DESC"
+          :heading="metric.NAME"
+          :info-text="displayInfoText(metric.KEY)"
+          :index="index"
+          :on-click="changeSelection"
+          :point="displayMetric(metric.KEY)"
+          :trend="calculateTrend(metric.KEY)"
+          :selected="index === currentSelection"
+        />
+      </div>
+      <div class="report-bar">
+        <woot-loading-state
+          v-if="accountReport.isFetching"
+          :message="$t('REPORT.LOADING_CHART')"
+        />
+        <div v-else class="chart-container">
+          <woot-bar
+            v-if="accountReport.data.length && filterItemsList.length"
+            :collection="collection"
+            :chart-options="chartOptions"
+          />
+          <span v-else class="empty-state">
+            {{ $t('REPORT.NO_ENOUGH_DATA') }}
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</template>
+
 <script>
-import V4Button from 'dashboard/components-next/button/Button.vue';
-import { useAlert, useTrack } from 'dashboard/composables';
-import ReportFilters from './ReportFilters.vue';
-import ReportContainer from '../ReportContainer.vue';
-import { GROUP_BY_FILTER } from '../constants';
+import ReportFilters from './ReportFilters';
+import fromUnixTime from 'date-fns/fromUnixTime';
+import format from 'date-fns/format';
+import { GROUP_BY_FILTER, METRIC_CHART } from '../constants';
+import reportMixin from '../../../../../mixins/reportMixin';
+import { formatTime } from '@chatwoot/utils';
 import { generateFileName } from '../../../../../helper/downloadHelper';
 import { REPORTS_EVENTS } from '../../../../../helper/AnalyticsHelper/events';
-import ReportHeader from './ReportHeader.vue';
 
-const GROUP_BY_OPTIONS = {
-  DAY: [{ id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' }],
-  WEEK: [
-    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
-    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
-  ],
-  MONTH: [
-    { id: 1, groupByKey: 'REPORT.GROUPING_OPTIONS.DAY' },
-    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
-    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
-  ],
-  YEAR: [
-    { id: 2, groupByKey: 'REPORT.GROUPING_OPTIONS.WEEK' },
-    { id: 3, groupByKey: 'REPORT.GROUPING_OPTIONS.MONTH' },
-    { id: 4, groupByKey: 'REPORT.GROUPING_OPTIONS.YEAR' },
-  ],
+const REPORTS_KEYS = {
+  CONVERSATIONS: 'conversations_count',
+  INCOMING_MESSAGES: 'incoming_messages_count',
+  OUTGOING_MESSAGES: 'outgoing_messages_count',
+  FIRST_RESPONSE_TIME: 'avg_first_response_time',
+  RESOLUTION_TIME: 'avg_resolution_time',
+  RESOLUTION_COUNT: 'resolutions_count',
 };
-
 export default {
   components: {
-    ReportHeader,
-    V4Button,
     ReportFilters,
-    ReportContainer,
   },
+  mixins: [reportMixin],
   props: {
     type: {
       type: String,
@@ -50,26 +94,15 @@ export default {
       type: String,
       default: 'Download Reports',
     },
-    reportTitle: {
-      type: String,
-      default: 'Download Reports',
-    },
-    hasBackButton: {
-      type: Boolean,
-      default: false,
-    },
-    selectedItem: {
-      type: Object,
-      default: null,
-    },
   },
   data() {
     return {
       from: 0,
       to: 0,
-      selectedFilter: this.selectedItem,
+      currentSelection: 0,
+      selectedFilter: null,
       groupBy: GROUP_BY_FILTER[1],
-      groupByfilterItemsList: GROUP_BY_OPTIONS.DAY.map(this.translateOptions),
+      groupByfilterItemsList: this.$t('REPORT.GROUP_BY_DAY_OPTIONS'),
       selectedGroupByFilter: null,
       businessHours: false,
     };
@@ -78,21 +111,114 @@ export default {
     filterItemsList() {
       return this.$store.getters[this.getterKey] || [];
     },
-    isAgentType() {
-      return this.type === 'agent';
+    accountSummary() {
+      return this.$store.getters.getAccountSummary || [];
     },
-    reportKeys() {
+    accountReport() {
+      return this.$store.getters.getAccountReports || [];
+    },
+    collection() {
+      if (this.accountReport.isFetching) {
+        return {};
+      }
+      if (!this.accountReport.data.length) return {};
+      const labels = this.accountReport.data.map(element => {
+        if (this.groupBy.period === GROUP_BY_FILTER[2].period) {
+          let week_date = new Date(fromUnixTime(element.timestamp));
+          const first_day = week_date.getDate() - week_date.getDay();
+          const last_day = first_day + 6;
+
+          const week_first_date = new Date(week_date.setDate(first_day));
+          const week_last_date = new Date(week_date.setDate(last_day));
+
+          return `${format(week_first_date, 'dd/MM/yy')} - ${format(
+            week_last_date,
+            'dd/MM/yy'
+          )}`;
+        }
+        if (this.groupBy.period === GROUP_BY_FILTER[3].period) {
+          return format(fromUnixTime(element.timestamp), 'MMM-yyyy');
+        }
+        if (this.groupBy.period === GROUP_BY_FILTER[4].period) {
+          return format(fromUnixTime(element.timestamp), 'yyyy');
+        }
+        return format(fromUnixTime(element.timestamp), 'dd-MMM-yyyy');
+      });
+
+      const datasets = METRIC_CHART[
+        this.metrics[this.currentSelection].KEY
+      ].datasets.map(dataset => {
+        switch (dataset.type) {
+          case 'bar':
+            return {
+              ...dataset,
+              yAxisID: 'y-left',
+              label: this.metrics[this.currentSelection].NAME,
+              data: this.accountReport.data.map(element => element.value),
+            };
+          case 'line':
+            return {
+              ...dataset,
+              yAxisID: 'y-right',
+              label: this.metrics[0].NAME,
+              data: this.accountReport.data.map(element => element.count),
+            };
+          default:
+            return dataset;
+        }
+      });
+
       return {
-        CONVERSATIONS: 'conversations_count',
-        ...(!this.isAgentType && {
-          INCOMING_MESSAGES: 'incoming_messages_count',
-        }),
-        OUTGOING_MESSAGES: 'outgoing_messages_count',
-        FIRST_RESPONSE_TIME: 'avg_first_response_time',
-        RESOLUTION_TIME: 'avg_resolution_time',
-        RESOLUTION_COUNT: 'resolutions_count',
-        REPLY_TIME: 'reply_time',
+        labels,
+        datasets,
       };
+    },
+    chartOptions() {
+      let tooltips = {};
+      if (this.isAverageMetricType(this.metrics[this.currentSelection].KEY)) {
+        tooltips.callbacks = {
+          label: tooltipItem => {
+            return this.$t(this.metrics[this.currentSelection].TOOLTIP_TEXT, {
+              metricValue: formatTime(tooltipItem.yLabel),
+              conversationCount: this.accountReport.data[tooltipItem.index]
+                .count,
+            });
+          },
+        };
+      }
+      return {
+        scales: METRIC_CHART[this.metrics[this.currentSelection].KEY].scales,
+        tooltips: tooltips,
+      };
+    },
+    metrics() {
+      let reportKeys = ['CONVERSATIONS'];
+      // If report type is agent, we don't need to show
+      // incoming messages count, as there will not be any message
+      // sent by an agent which is incoming.
+      if (this.type !== 'agent') {
+        reportKeys.push('INCOMING_MESSAGES');
+      }
+      reportKeys = [
+        ...reportKeys,
+        'OUTGOING_MESSAGES',
+        'FIRST_RESPONSE_TIME',
+        'RESOLUTION_TIME',
+        'RESOLUTION_COUNT',
+      ];
+      const infoText = {
+        FIRST_RESPONSE_TIME: this.$t(
+          `REPORT.METRICS.FIRST_RESPONSE_TIME.INFO_TEXT`
+        ),
+        RESOLUTION_TIME: this.$t(`REPORT.METRICS.RESOLUTION_TIME.INFO_TEXT`),
+      };
+      return reportKeys.map(key => ({
+        NAME: this.$t(`REPORT.METRICS.${key}.NAME`),
+        KEY: REPORTS_KEYS[key],
+        DESC: this.$t(`REPORT.METRICS.${key}.DESC`),
+        INFO_TEXT: infoText[key],
+        TOOLTIP_TEXT: `REPORT.METRICS.${key}.TOOLTIP_TEXT`,
+      }));
     },
   },
   mounted() {
@@ -114,21 +240,15 @@ export default {
       }
     },
     fetchChartData() {
-      Object.keys(this.reportKeys).forEach(async key => {
-        try {
-          const { from, to, groupBy, businessHours } = this;
-          this.$store.dispatch('fetchAccountReport', {
-            metric: this.reportKeys[key],
-            from,
-            to,
-            type: this.type,
-            id: this.selectedFilter.id,
-            groupBy: groupBy.period,
-            businessHours,
-          });
-        } catch {
-          useAlert(this.$t('REPORT.DATA_FETCHING_FAILED'));
-        }
+      const { from, to, groupBy, businessHours } = this;
+      this.$store.dispatch('fetchAccountReport', {
+        metric: this.metrics[this.currentSelection].KEY,
+        from,
+        to,
+        type: this.type,
+        id: this.selectedFilter.id,
+        groupBy: groupBy.period,
+        businessHours,
       });
     },
     downloadReports() {
@@ -145,10 +265,14 @@ export default {
         this.$store.dispatch(dispatchMethods[type], params);
       }
     },
+    changeSelection(index) {
+      this.currentSelection = index;
+      this.fetchChartData();
+    },
     onDateRangeChange({ from, to, groupBy }) {
       // do not track filter change on inital load
       if (this.from !== 0 && this.to !== 0) {
-        useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+        this.$track(REPORTS_EVENTS.FILTER_REPORT, {
           filterType: 'date',
           reportType: this.type,
         });
@@ -178,7 +302,7 @@ export default {
       this.groupBy = GROUP_BY_FILTER[payload.id];
       this.fetchAllData();
 
-      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'groupBy',
         filterValue: this.groupBy?.period,
         reportType: this.type,
@@ -187,23 +311,20 @@ export default {
     fetchFilterItems(groupBy) {
       switch (groupBy) {
         case GROUP_BY_FILTER[2].period:
-          return GROUP_BY_OPTIONS.WEEK.map(this.translateOptions);
+          return this.$t('REPORT.GROUP_BY_WEEK_OPTIONS');
         case GROUP_BY_FILTER[3].period:
-          return GROUP_BY_OPTIONS.MONTH.map(this.translateOptions);
+          return this.$t('REPORT.GROUP_BY_MONTH_OPTIONS');
         case GROUP_BY_FILTER[4].period:
-          return GROUP_BY_OPTIONS.YEAR.map(this.translateOptions);
+          return this.$t('REPORT.GROUP_BY_YEAR_OPTIONS');
         default:
-          return GROUP_BY_OPTIONS.DAY.map(this.translateOptions);
+          return this.$t('REPORT.GROUP_BY_DAY_OPTIONS');
       }
-    },
-    translateOptions(opts) {
-      return { id: opts.id, groupBy: this.$t(opts.groupByKey) };
     },
     onBusinessHoursToggle(value) {
       this.businessHours = value;
       this.fetchAllData();
 
-      useTrack(REPORTS_EVENTS.FILTER_REPORT, {
+      this.$track(REPORTS_EVENTS.FILTER_REPORT, {
         filterType: 'businessHours',
         filterValue: value,
         reportType: this.type,
@@ -212,31 +333,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <ReportHeader :header-title="reportTitle" :has-back-button="hasBackButton">
-    <V4Button
-      :label="downloadButtonLabel"
-      icon="i-ph-download-simple"
-      size="sm"
-      @click="downloadReports"
-    />
-  </ReportHeader>
-  <ReportFilters
-    v-if="filterItemsList"
-    :type="type"
-    :filter-items-list="filterItemsList"
-    :group-by-filter-items-list="groupByfilterItemsList"
-    :selected-group-by-filter="selectedGroupByFilter"
-    :current-filter="selectedFilter"
-    @date-range-change="onDateRangeChange"
-    @filter-change="onFilterChange"
-    @group-by-filter-change="onGroupByFilterChange"
-    @business-hours-toggle="onBusinessHoursToggle"
-  />
-  <ReportContainer
-    v-if="filterItemsList.length"
-    :group-by="groupBy"
-    :report-keys="reportKeys"
-  />
-</template>

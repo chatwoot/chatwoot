@@ -1,150 +1,159 @@
+<template>
+  <div class="view-box fill-height">
+    <banner
+      v-if="!currentChat.can_reply"
+      color-scheme="alert"
+      :banner-message="replyWindowBannerMessage"
+      :href-link="replyWindowLink"
+      :href-link-text="replyWindowLinkText"
+    />
+
+    <banner
+      v-if="isATweet"
+      color-scheme="gray"
+      :banner-message="tweetBannerText"
+      :has-close-button="hasSelectedTweetId"
+      @close="removeTweetSelection"
+    />
+
+    <div class="sidebar-toggle__wrap">
+      <woot-button
+        variant="smooth"
+        size="tiny"
+        color-scheme="secondary"
+        class="sidebar-toggle--button"
+        :icon="isRightOrLeftIcon"
+        @click="onToggleContactPanel"
+      />
+    </div>
+    <ul class="conversation-panel">
+      <transition name="slide-up">
+        <li class="spinner--container">
+          <span v-if="shouldShowSpinner" class="spinner message" />
+        </li>
+      </transition>
+      <message
+        v-for="message in getReadMessages"
+        :key="message.id"
+        class="message--read ph-no-capture"
+        data-clarity-mask="True"
+        :data="message"
+        :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :has-instagram-story="hasInstagramStory"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+      />
+      <li v-show="unreadMessageCount != 0" class="unread--toast">
+        <span class="text-uppercase">
+          {{ unreadMessageCount }}
+          {{
+            unreadMessageCount > 1
+              ? $t('CONVERSATION.UNREAD_MESSAGES')
+              : $t('CONVERSATION.UNREAD_MESSAGE')
+          }}
+        </span>
+      </li>
+      <message
+        v-for="message in getUnReadMessages"
+        :key="message.id"
+        class="message--unread ph-no-capture"
+        data-clarity-mask="True"
+        :data="message"
+        :is-a-tweet="isATweet"
+        :is-a-whatsapp-channel="isAWhatsAppChannel"
+        :has-instagram-story="hasInstagramStory"
+        :is-web-widget-inbox="isAWebWidgetInbox"
+      />
+    </ul>
+    <div
+      class="conversation-footer"
+      :class="{ 'modal-mask': isPopoutReplyBox }"
+    >
+      <div v-if="isAnyoneTyping" class="typing-indicator-wrap">
+        <div class="typing-indicator">
+          {{ typingUserNames }}
+          <img
+            class="gif"
+            src="~dashboard/assets/images/typing.gif"
+            alt="Someone is typing"
+          />
+        </div>
+      </div>
+      <reply-box
+        :conversation-id="currentChat.id"
+        :is-a-tweet="isATweet"
+        :selected-tweet="selectedTweet"
+        :popout-reply-box.sync="isPopoutReplyBox"
+        @click="showPopoutReplyBox"
+      />
+    </div>
+  </div>
+</template>
+
 <script>
-import { ref } from 'vue';
-// composable
-import { useConfig } from 'dashboard/composables/useConfig';
-import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
-import { useAI } from 'dashboard/composables/useAI';
-import { useMapGetter } from 'dashboard/composables/store';
-
-// components
-import ReplyBox from './ReplyBox.vue';
-import Message from './Message.vue';
-import NextMessageList from 'next/message/MessageList.vue';
-import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
-import Banner from 'dashboard/components/ui/Banner.vue';
-
-// stores and apis
 import { mapGetters } from 'vuex';
 
-// mixins
-import inboxMixin, { INBOX_FEATURES } from 'shared/mixins/inboxMixin';
-
-// utils
-import { emitter } from 'shared/helpers/mitt';
-import { getTypingUsersText } from '../../../helper/commons';
-import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
-import { LocalStorage } from 'shared/helpers/localStorage';
-import {
+import ReplyBox from './ReplyBox';
+import Message from './Message';
+import conversationMixin, {
   filterDuplicateSourceMessages,
-  getReadMessages,
-  getUnreadMessages,
-} from 'dashboard/helper/conversationHelper';
-
-// constants
+} from '../../../mixins/conversations';
+import Banner from 'dashboard/components/ui/Banner.vue';
+import { getTypingUsersText } from '../../../helper/commons';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { REPLY_POLICY } from 'shared/constants/links';
-import wootConstants from 'dashboard/constants/globals';
-import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
-import { FEATURE_FLAGS } from '../../../featureFlags';
-import { INBOX_TYPES } from 'dashboard/helper/inbox';
-
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import inboxMixin from 'shared/mixins/inboxMixin';
+import { calculateScrollTop } from './helpers/scrollTopCalculationHelper';
+import { isEscape } from 'shared/helpers/KeyboardHelpers';
+import eventListenerMixins from 'shared/mixins/eventListenerMixins';
 
 export default {
   components: {
     Message,
-    NextMessageList,
     ReplyBox,
     Banner,
-    ConversationLabelSuggestion,
-    NextButton,
   },
-  mixins: [inboxMixin],
+  mixins: [conversationMixin, inboxMixin, eventListenerMixins],
   props: {
     isContactPanelOpen: {
       type: Boolean,
       default: false,
     },
-    isInboxView: {
-      type: Boolean,
-      default: false,
-    },
   },
-  emits: ['contactPanelToggle'],
-  setup() {
-    const isPopOutReplyBox = ref(false);
-    const { isEnterprise } = useConfig();
 
-    const closePopOutReplyBox = () => {
-      isPopOutReplyBox.value = false;
-    };
-
-    const showPopOutReplyBox = () => {
-      isPopOutReplyBox.value = !isPopOutReplyBox.value;
-    };
-
-    const keyboardEvents = {
-      Escape: {
-        action: closePopOutReplyBox,
-      },
-    };
-
-    useKeyboardEvents(keyboardEvents);
-
-    const {
-      isAIIntegrationEnabled,
-      isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
-    } = useAI();
-
-    const currentAccountId = useMapGetter('getCurrentAccountId');
-    const isFeatureEnabledonAccount = useMapGetter(
-      'accounts/isFeatureEnabledonAccount'
-    );
-
-    const showNextBubbles = isFeatureEnabledonAccount.value(
-      currentAccountId.value,
-      FEATURE_FLAGS.CHATWOOT_V4
-    );
-
-    return {
-      isEnterprise,
-      isPopOutReplyBox,
-      closePopOutReplyBox,
-      showPopOutReplyBox,
-      isAIIntegrationEnabled,
-      isLabelSuggestionFeatureEnabled,
-      fetchIntegrationsIfRequired,
-      fetchLabelSuggestions,
-      showNextBubbles,
-    };
-  },
   data() {
     return {
       isLoadingPrevious: true,
       heightBeforeLoad: null,
       conversationPanel: null,
-      hasUserScrolled: false,
-      isProgrammaticScroll: false,
-      messageSentSinceOpened: false,
-      labelSuggestions: [],
+      selectedTweetId: null,
+      isPopoutReplyBox: false,
     };
   },
 
   computed: {
     ...mapGetters({
       currentChat: 'getSelectedChat',
-      currentUserId: 'getCurrentUserID',
+      allConversations: 'getAllConversations',
+      inboxesList: 'inboxes/getInboxes',
       listLoadingStatus: 'getAllMessagesLoaded',
-      currentAccountId: 'getCurrentAccountId',
+      loadingChatList: 'getChatListLoadingStatus',
     }),
-    isOpen() {
-      return this.currentChat?.status === wootConstants.STATUS_TYPE.OPEN;
-    },
-    shouldShowLabelSuggestions() {
-      return (
-        this.isOpen &&
-        this.isEnterprise &&
-        this.isAIIntegrationEnabled &&
-        !this.messageSentSinceOpened
-      );
-    },
     inboxId() {
       return this.currentChat.inbox_id;
     },
     inbox() {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
+    },
+    hasSelectedTweetId() {
+      return !!this.selectedTweetId;
+    },
+    tweetBannerText() {
+      return !this.selectedTweetId
+        ? this.$t('CONVERSATION.SELECT_A_TWEET_TO_REPLY')
+        : `
+          ${this.$t('CONVERSATION.REPLYING_TO')}
+          ${this.selectedTweet.content}` || '';
     },
     typingUsersList() {
       const userList = this.$store.getters[
@@ -158,9 +167,10 @@ export default {
     },
     typingUserNames() {
       const userList = this.typingUsersList;
+
       if (this.isAnyoneTyping) {
-        const [i18nKey, params] = getTypingUsersText(userList);
-        return this.$t(i18nKey, params);
+        const userListAsName = getTypingUsersText(userList);
+        return userListAsName;
       }
 
       return '';
@@ -172,14 +182,14 @@ export default {
       }
       return messages;
     },
-    readMessages() {
-      return getReadMessages(
+    getReadMessages() {
+      return this.readMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
     },
-    unReadMessages() {
-      return getUnreadMessages(
+    getUnReadMessages() {
+      return this.unReadMessages(
         this.getMessages,
         this.currentChat.agent_last_seen_at
       );
@@ -199,6 +209,21 @@ export default {
     isATweet() {
       return this.conversationType === 'tweet';
     },
+
+    hasInstagramStory() {
+      return this.conversationType === 'instagram_direct_message';
+    },
+
+    selectedTweet() {
+      if (this.selectedTweetId) {
+        const { messages = [] } = this.currentChat;
+        const [selectedMessage] = messages.filter(
+          message => message.id === this.selectedTweetId
+        );
+        return selectedMessage || {};
+      }
+      return '';
+    },
     isRightOrLeftIcon() {
       if (this.isContactPanelOpen) {
         return 'arrow-chevron-right';
@@ -210,22 +235,6 @@ export default {
       return contactLastSeenAt;
     },
 
-    // Check there is a instagram inbox exists with the same instagram_id
-    hasDuplicateInstagramInbox() {
-      const instagramId = this.inbox.instagram_id;
-      const { additional_attributes: additionalAttributes = {} } = this.inbox;
-      const instagramInbox =
-        this.$store.getters['inboxes/getInstagramInboxByInstagramId'](
-          instagramId
-        );
-
-      return (
-        this.inbox.channel_type === INBOX_TYPES.FB &&
-        additionalAttributes.type === 'instagram_direct_message' &&
-        instagramInbox
-      );
-    },
-
     replyWindowBannerMessage() {
       if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
@@ -235,25 +244,16 @@ export default {
         if (additionalAttributes) {
           const {
             agent_reply_time_window_message: agentReplyTimeWindowMessage,
-            agent_reply_time_window: agentReplyTimeWindow,
           } = additionalAttributes;
-          return (
-            agentReplyTimeWindowMessage ||
-            this.$t('CONVERSATION.API_HOURS_WINDOW', {
-              hours: agentReplyTimeWindow,
-            })
-          );
+          return agentReplyTimeWindowMessage;
         }
         return '';
       }
       return this.$t('CONVERSATION.CANNOT_REPLY');
     },
     replyWindowLink() {
-      if (this.isAFacebookInbox || this.isAnInstagramChannel) {
+      if (this.isAWhatsAppChannel) {
         return REPLY_POLICY.FACEBOOK;
-      }
-      if (this.isAWhatsAppCloudChannel) {
-        return REPLY_POLICY.WHATSAPP_CLOUD;
       }
       if (!this.isAPIInbox) {
         return REPLY_POLICY.TWILIO_WHATSAPP;
@@ -261,11 +261,7 @@ export default {
       return '';
     },
     replyWindowLinkText() {
-      if (
-        this.isAWhatsAppChannel ||
-        this.isAFacebookInbox ||
-        this.isAnInstagramChannel
-      ) {
+      if (this.isAWhatsAppChannel) {
         return this.$t('CONVERSATION.24_HOURS_WINDOW');
       }
       if (!this.isAPIInbox) {
@@ -274,27 +270,7 @@ export default {
       return '';
     },
     unreadMessageCount() {
-      return this.currentChat.unread_count || 0;
-    },
-    unreadMessageLabel() {
-      const count =
-        this.unreadMessageCount > 9 ? '9+' : this.unreadMessageCount;
-      const label =
-        this.unreadMessageCount > 1
-          ? 'CONVERSATION.UNREAD_MESSAGES'
-          : 'CONVERSATION.UNREAD_MESSAGE';
-      return `${count} ${this.$t(label)}`;
-    },
-    isInstagramDM() {
-      return this.conversationType === 'instagram_direct_message';
-    },
-    inboxSupportsReplyTo() {
-      const incoming = this.inboxHasFeature(INBOX_FEATURES.REPLY_TO);
-      const outgoing =
-        this.inboxHasFeature(INBOX_FEATURES.REPLY_TO_OUTGOING) &&
-        !this.is360DialogWhatsAppChannel;
-
-      return { incoming, outgoing };
+      return this.currentChat.unread_count;
     },
   },
 
@@ -303,92 +279,36 @@ export default {
       if (newChat.id === oldChat.id) {
         return;
       }
-      this.fetchAllAttachmentsFromCurrentChat();
-      this.fetchSuggestions();
-      this.messageSentSinceOpened = false;
+      this.selectedTweetId = null;
     },
   },
 
   created() {
-    emitter.on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
-    // when a new message comes in, we refetch the label suggestions
-    emitter.on(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS, this.fetchSuggestions);
-    // when a message is sent we set the flag to true this hides the label suggestions,
-    // until the chat is changed and the flag is reset in the watch for currentChat
-    emitter.on(BUS_EVENTS.MESSAGE_SENT, () => {
-      this.messageSentSinceOpened = true;
-    });
+    bus.$on(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+    bus.$on(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
   },
 
   mounted() {
     this.addScrollListener();
-    this.fetchAllAttachmentsFromCurrentChat();
-    this.fetchSuggestions();
   },
 
-  unmounted() {
+  beforeDestroy() {
     this.removeBusListeners();
     this.removeScrollListener();
   },
 
   methods: {
-    async fetchSuggestions() {
-      // start empty, this ensures that the label suggestions are not shown
-      this.labelSuggestions = [];
-
-      if (this.isLabelSuggestionDismissed()) {
-        return;
-      }
-
-      if (!this.isEnterprise) {
-        return;
-      }
-
-      // method available in mixin, need to ensure that integrations are present
-      await this.fetchIntegrationsIfRequired();
-
-      if (!this.isLabelSuggestionFeatureEnabled) {
-        return;
-      }
-
-      this.labelSuggestions = await this.fetchLabelSuggestions({
-        conversationId: this.currentChat.id,
-      });
-
-      // once the labels are fetched, we need to scroll to bottom
-      // but we need to wait for the DOM to be updated
-      // so we use the nextTick method
-      this.$nextTick(() => {
-        // this param is added to route, telling the UI to navigate to the message
-        // it is triggered by the SCROLL_TO_MESSAGE method
-        // see setActiveChat on ConversationView.vue for more info
-        const { messageId } = this.$route.query;
-
-        // only trigger the scroll to bottom if the user has not scrolled
-        // and there's no active messageId that is selected in view
-        if (!messageId && !this.hasUserScrolled) {
-          this.scrollToBottom();
-        }
-      });
-    },
-    isLabelSuggestionDismissed() {
-      return LocalStorage.getFlag(
-        LOCAL_STORAGE_KEYS.DISMISSED_LABEL_SUGGESTIONS,
-        this.currentAccountId,
-        this.currentChat.id
-      );
-    },
-    fetchAllAttachmentsFromCurrentChat() {
-      this.$store.dispatch('fetchAllAttachments', this.currentChat.id);
-    },
     removeBusListeners() {
-      emitter.off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      bus.$off(BUS_EVENTS.SCROLL_TO_MESSAGE, this.onScrollToMessage);
+      bus.$off(BUS_EVENTS.SET_TWEET_REPLY, this.setSelectedTweet);
+    },
+    setSelectedTweet(tweetId) {
+      this.selectedTweetId = tweetId;
     },
     onScrollToMessage({ messageId = '' } = {}) {
       this.$nextTick(() => {
         const messageElement = document.getElementById('message' + messageId);
         if (messageElement) {
-          this.isProgrammaticScroll = true;
           messageElement.scrollIntoView({ behavior: 'smooth' });
           this.fetchPreviousMessages();
         } else {
@@ -396,6 +316,17 @@ export default {
         }
       });
       this.makeMessagesRead();
+    },
+    showPopoutReplyBox() {
+      this.isPopoutReplyBox = !this.isPopoutReplyBox;
+    },
+    closePopoutReplyBox() {
+      this.isPopoutReplyBox = false;
+    },
+    handleKeyEvents(e) {
+      if (isEscape(e)) {
+        this.closePopoutReplyBox();
+      }
     },
     addScrollListener() {
       this.conversationPanel = this.$el.querySelector('.conversation-panel');
@@ -408,32 +339,18 @@ export default {
       this.conversationPanel.removeEventListener('scroll', this.handleScroll);
     },
     scrollToBottom() {
-      this.isProgrammaticScroll = true;
       let relevantMessages = [];
-
-      // label suggestions are not part of the messages list
-      // so we need to handle them separately
-      let labelSuggestions =
-        this.conversationPanel.querySelector('.label-suggestion');
-
-      // if there are unread messages, scroll to the first unread message
       if (this.unreadMessageCount > 0) {
         // capturing only the unread messages
-        relevantMessages =
-          this.conversationPanel.querySelectorAll('.message--unread');
-      } else if (labelSuggestions) {
-        // when scrolling to the bottom, the label suggestions is below the last message
-        // so we scroll there if there are no unread messages
-        // Unread messages always take the highest priority
-        relevantMessages = [labelSuggestions];
+        relevantMessages = this.conversationPanel.querySelectorAll(
+          '.message--unread'
+        );
       } else {
-        // if there are no unread messages or label suggestion, scroll to the last message
         // capturing last message from the messages list
         relevantMessages = Array.from(
           this.conversationPanel.querySelectorAll('.message--read')
         ).slice(-1);
       }
-
       this.conversationPanel.scrollTop = calculateScrollTop(
         this.conversationPanel.scrollHeight,
         this.$el.scrollHeight,
@@ -441,7 +358,7 @@ export default {
       );
     },
     onToggleContactPanel() {
-      this.$emit('contactPanelToggle');
+      this.$emit('contact-panel-toggle');
     },
     setScrollParams() {
       this.heightBeforeLoad = this.conversationPanel.scrollHeight;
@@ -480,209 +397,82 @@ export default {
     },
 
     handleScroll(e) {
-      if (this.isProgrammaticScroll) {
-        // Reset the flag
-        this.isProgrammaticScroll = false;
-        this.hasUserScrolled = false;
-      } else {
-        this.hasUserScrolled = true;
-      }
-      emitter.emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
+      bus.$emit(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL);
       this.fetchPreviousMessages(e.target.scrollTop);
     },
 
     makeMessagesRead() {
       this.$store.dispatch('markMessagesRead', { id: this.currentChat.id });
     },
-    getInReplyToMessage(parentMessage) {
-      if (!parentMessage) return {};
-      const inReplyToMessageId = parentMessage.content_attributes?.in_reply_to;
-      if (!inReplyToMessageId) return {};
-
-      return this.currentChat?.messages.find(message => {
-        if (message.id === inReplyToMessageId) {
-          return true;
-        }
-        return false;
-      });
+    removeTweetSelection() {
+      this.selectedTweetId = null;
     },
   },
 };
 </script>
 
-<template>
-  <div class="flex flex-col justify-between flex-grow h-full min-w-0 m-0">
-    <Banner
-      v-if="!currentChat.can_reply"
-      color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="replyWindowBannerMessage"
-      :href-link="replyWindowLink"
-      :href-link-text="replyWindowLinkText"
-    />
-    <Banner
-      v-else-if="hasDuplicateInstagramInbox"
-      color-scheme="alert"
-      class="mx-2 mt-2 overflow-hidden rounded-lg"
-      :banner-message="$t('CONVERSATION.OLD_INSTAGRAM_INBOX_REPLY_BANNER')"
-    />
-    <div class="flex justify-end">
-      <NextButton
-        faded
-        xs
-        slate
-        class="!rounded-r-none rtl:rotate-180 !rounded-2xl !fixed z-10"
-        :icon="
-          isContactPanelOpen ? 'i-ph-caret-right-fill' : 'i-ph-caret-left-fill'
-        "
-        :class="isInboxView ? 'top-52 md:top-40' : 'top-32'"
-        @click="onToggleContactPanel"
-      />
-    </div>
-    <NextMessageList
-      v-if="showNextBubbles"
-      class="conversation-panel"
-      :current-user-id="currentUserId"
-      :first-unread-id="unReadMessages[0]?.id"
-      :is-an-email-channel="isAnEmailChannel"
-      :inbox-supports-reply-to="inboxSupportsReplyTo"
-      :messages="getMessages"
-    >
-      <template #beforeAll>
-        <transition name="slide-up">
-          <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-          <li class="min-h-[4rem]">
-            <span v-if="shouldShowSpinner" class="spinner message" />
-          </li>
-        </transition>
-      </template>
-      <template #unreadBadge>
-        <li v-show="unreadMessageCount != 0" class="unread--toast">
-          <span>
-            {{ unreadMessageLabel }}
-          </span>
-        </li>
-      </template>
-      <template #after>
-        <ConversationLabelSuggestion
-          v-if="shouldShowLabelSuggestions"
-          :suggested-labels="labelSuggestions"
-          :chat-labels="currentChat.labels"
-          :conversation-id="currentChat.id"
-        />
-      </template>
-    </NextMessageList>
-    <ul v-else class="conversation-panel">
-      <transition name="slide-up">
-        <!-- eslint-disable-next-line vue/require-toggle-inside-transition -->
-        <li class="min-h-[4rem]">
-          <span v-if="shouldShowSpinner" class="spinner message" />
-        </li>
-      </transition>
-      <Message
-        v-for="message in readMessages"
-        :key="message.id"
-        class="message--read ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-an-email-inbox="isAnEmailChannel"
-        :is-instagram="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <li v-show="unreadMessageCount != 0" class="unread--toast">
-        <span>
-          {{ unreadMessageCount > 9 ? '9+' : unreadMessageCount }}
-          {{
-            unreadMessageCount > 1
-              ? $t('CONVERSATION.UNREAD_MESSAGES')
-              : $t('CONVERSATION.UNREAD_MESSAGE')
-          }}
-        </span>
-      </li>
-      <Message
-        v-for="message in unReadMessages"
-        :key="message.id"
-        class="message--unread ph-no-capture"
-        data-clarity-mask="True"
-        :data="message"
-        :is-a-tweet="isATweet"
-        :is-a-whatsapp-channel="isAWhatsAppChannel"
-        :is-web-widget-inbox="isAWebWidgetInbox"
-        :is-a-facebook-inbox="isAFacebookInbox"
-        :is-instagram-dm="isInstagramDM"
-        :inbox-supports-reply-to="inboxSupportsReplyTo"
-        :in-reply-to="getInReplyToMessage(message)"
-      />
-      <ConversationLabelSuggestion
-        v-if="shouldShowLabelSuggestions"
-        :suggested-labels="labelSuggestions"
-        :chat-labels="currentChat.labels"
-        :conversation-id="currentChat.id"
-      />
-    </ul>
-    <div
-      class="conversation-footer"
-      :class="{
-        'modal-mask': isPopOutReplyBox,
-        'bg-n-background': showNextBubbles && !isPopOutReplyBox,
-      }"
-    >
-      <div
-        v-if="isAnyoneTyping"
-        class="absolute flex items-center w-full h-0 -top-7"
-      >
-        <div
-          class="flex py-2 pr-4 pl-5 shadow-md rounded-full bg-white dark:bg-slate-700 text-n-slate-11 text-xs font-semibold my-2.5 mx-auto"
-        >
-          {{ typingUserNames }}
-          <img
-            class="w-6 ltr:ml-2 rtl:mr-2"
-            src="assets/images/typing.gif"
-            alt="Someone is typing"
-          />
-        </div>
-      </div>
-      <ReplyBox
-        v-model:popout-reply-box="isPopOutReplyBox"
-        @toggle-popout="showPopOutReplyBox"
-      />
-    </div>
-  </div>
-</template>
-
 <style scoped lang="scss">
-.modal-mask {
-  @apply absolute;
+.spinner--container {
+  min-height: var(--space-jumbo);
+}
 
+.view-box.fill-height {
+  height: auto;
+  flex-grow: 1;
+  min-width: 0;
+}
+
+.modal-mask {
   &::v-deep {
     .ProseMirror-woot-style {
-      @apply max-h-[25rem];
+      max-height: 40rem;
     }
 
     .reply-box {
-      @apply border border-n-weak max-w-[75rem] w-[70%];
-
-      &.is-private {
-        @apply dark:border-n-amber-3/30 border-n-amber-12/5;
-      }
+      border: 1px solid var(--color-border);
+      max-width: 120rem;
+      width: 70%;
     }
 
     .reply-box .reply-box__top {
-      @apply relative min-h-[27.5rem];
+      position: relative;
+      min-height: 44rem;
     }
 
     .reply-box__top .input {
-      @apply min-h-[27.5rem];
+      min-height: 44rem;
     }
 
     .emoji-dialog {
-      @apply absolute left-auto bottom-1;
+      position: fixed;
+      left: unset;
+      position: absolute;
+      bottom: var(--space-smaller);
     }
+  }
+}
+.sidebar-toggle__wrap {
+  display: flex;
+  justify-content: flex-end;
+
+  .sidebar-toggle--button {
+    position: fixed;
+
+    top: var(--space-mega);
+    z-index: var(--z-index-low);
+
+    background: var(--white);
+
+    padding: inherit 0;
+    border-top-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border-bottom-left-radius: calc(
+      var(--space-medium) + 1px
+    ); /* 100px of height + 10px of border */
+    border: 1px solid var(--color-border-light);
+    border-right: 0;
+    box-sizing: border-box;
   }
 }
 </style>

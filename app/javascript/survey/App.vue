@@ -1,3 +1,9 @@
+<template>
+  <div id="app" class="woot-survey-wrap">
+    <response />
+  </div>
+</template>
+
 <script>
 import Response from './views/Response.vue';
 
@@ -9,12 +15,6 @@ export default {
 };
 </script>
 
-<template>
-  <div id="app" dir="ltr" class="woot-survey-wrap min-h-screen">
-    <Response />
-  </div>
-</template>
-
 <style lang="scss">
-@import './assets/scss/woot.scss';
+@import '~survey/assets/scss/woot.scss';
 </style>

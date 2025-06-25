@@ -1,0 +1,63 @@
+// scss-lint:disable QualifyingElement
+
+.error {
+  input[type='color'],
+  input[type='date'],
+  input[type='datetime'],
+  input[type='datetime-local'],
+  input[type='email'],
+  input[type='month'],
+  input[type='number'],
+  input[type='password'],
+  input[type='search'],
+  input[type='tel'],
+  input[type='text'],
+  input[type='time'],
+  input[type='url'],
+  input[type='week'],
+  input:not([type]),
+  textarea,
+  select,
+  .multiselect > .multiselect__tags {
+    @include thin-border(var(--r-400));
+  }
+
+  .message {
+    color: var(--r-400);
+    display: block;
+    font-size: var(--font-size-small);
+    font-weight: $font-weight-normal;
+    margin-bottom: $space-one;
+    margin-top: -$space-normal;
+    width: 100%;
+  }
+}
+
+.button,
+textarea,
+input {
+  &:focus {
+    outline: none;
+  }
+}
+
+.input-wrap {
+  color: $color-heading;
+  font-size: $font-size-small;
+  font-weight: $font-weight-medium;
+}
+
+.help-text {
+  font-weight: $font-weight-normal;
+}
+
+.input-group.small {
+  input {
+    font-size: var(--font-size-small);
+    height: var(--space-large);
+  }
+
+  .error {
+    border-color: var(--r-400);
+  }
+}

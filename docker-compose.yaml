@@ -30,14 +30,14 @@ services:
     depends_on:
       - postgres
       - redis
-      - vite
+      - webpack
       - mailhog
       - sidekiq
     ports:
       - 3000:3000
     env_file: .env
     environment:
-      - VITE_DEV_SERVER_HOST=vite
+      - WEBPACKER_DEV_SERVER_HOST=webpack
       - NODE_ENV=development
       - RAILS_ENV=development
     entrypoint: docker/entrypoints/rails.sh
@@ -61,29 +61,29 @@ services:
       - RAILS_ENV=development
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
-  vite:
+  webpack:
     <<: *base
     build:
       context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
+      dockerfile: ./docker/dockerfiles/webpack.Dockerfile
+    image: chatwoot-webpack:development
     volumes:
       - ./:/app:delegated
-      - node_modules:/app/node_modules
+      - node_modules:/app/node_modules # Node modules shared across containers
       - packs:/app/public/packs
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     ports:
-      - "3036:3036" # Vite dev server
+      - "3035" # Webpack dev server
     environment:
-      - VITE_DEV_SERVER_HOST=0.0.0.0
+      - WEBPACKER_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/vite.sh
-    command: bin/vite dev
+    entrypoint: docker/entrypoints/webpack.sh
+    command: bin/webpack-dev-server
 
   postgres:
-    image: pgvector/pgvector:pg16
+    image: postgres:12
     restart: always
     ports:
       - '5432:5432'

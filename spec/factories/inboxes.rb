@@ -9,10 +9,5 @@ FactoryBot.define do
     after(:create) do |inbox|
       inbox.channel.save!
     end
-
-    trait :with_email do
-      channel { FactoryBot.build(:channel_email, account: account) }
-      name { 'Email Inbox' }
-    end
   end
 end

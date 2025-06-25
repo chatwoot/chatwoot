@@ -1,9 +1,35 @@
+<template>
+  <div
+    class="message-text__wrap"
+    :class="{
+      'show--quoted': isQuotedContentPresent,
+      'hide--quoted': !isQuotedContentPresent,
+    }"
+  >
+    <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
+    <letter v-else class="text-content" :html="message" />
+    <button
+      v-if="showQuoteToggle"
+      class="quoted-text--button"
+      @click="toggleQuotedContent"
+    >
+      <span v-if="showQuotedContent">
+        <fluent-icon icon="chevron-up" class="fluent-icon" size="16" />
+        {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
+      </span>
+      <span v-else>
+        <fluent-icon icon="chevron-down" class="fluent-icon" size="16" />
+        {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
+      </span>
+    </button>
+  </div>
+</template>
+
 <script>
-import { Letter } from 'vue-letter';
-import GalleryView from '../components/GalleryView.vue';
+import Letter from 'vue-letter';
 
 export default {
-  components: { Letter, GalleryView },
+  components: { Letter },
   props: {
     message: {
       type: String,
@@ -21,9 +47,6 @@ export default {
   data() {
     return {
       showQuotedContent: false,
-      showGalleryViewer: false,
-      attachment: {},
-      availableAttachments: [],
     };
   },
   computed: {
@@ -44,78 +67,9 @@ export default {
     toggleQuotedContent() {
       this.showQuotedContent = !this.showQuotedContent;
     },
-    handleClickOnContent(event) {
-      // if event target is IMG and not close in A tag
-      // then open image preview
-      const isImageElement = event.target.tagName === 'IMG';
-      const isWrappedInLink = event.target.closest('A');
-
-      if (isImageElement && !isWrappedInLink) {
-        this.openImagePreview(event.target.src);
-      }
-    },
-    openImagePreview(src) {
-      this.showGalleryViewer = true;
-      this.attachment = {
-        file_type: 'image',
-        data_url: src,
-        // SonarCloud: this use of Math.random() is safe because message_id is non-sensitive
-        message_id: Math.floor(Math.random() * 100), // NOSONAR
-      };
-      this.availableAttachments = [{ ...this.attachment }];
-    },
-    onClose() {
-      this.showGalleryViewer = false;
-      this.resetAttachmentData();
-    },
-    resetAttachmentData() {
-      this.attachment = {};
-      this.availableAttachments = [];
-    },
   },
 };
 </script>
-
-<template>
-  <div
-    class="message-text__wrap"
-    :class="{
-      'show--quoted': isQuotedContentPresent,
-      'hide--quoted': !isQuotedContentPresent,
-    }"
-  >
-    <div v-if="!isEmail" v-dompurify-html="message" class="text-content" />
-    <div v-else @click="handleClickOnContent">
-      <Letter
-        class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
-        :html="message"
-      />
-    </div>
-    <button
-      v-if="showQuoteToggle"
-      class="py-1 text-xs cursor-pointer text-slate-300 dark:text-slate-300"
-      @click="toggleQuotedContent"
-    >
-      <span v-if="showQuotedContent" class="flex items-center gap-0.5">
-        <fluent-icon icon="chevron-up" size="16" />
-        {{ $t('CHAT_LIST.HIDE_QUOTED_TEXT') }}
-      </span>
-      <span v-else class="flex items-center gap-0.5">
-        <fluent-icon icon="chevron-down" size="16" />
-        {{ $t('CHAT_LIST.SHOW_QUOTED_TEXT') }}
-      </span>
-    </button>
-    <GalleryView
-      v-if="showGalleryViewer"
-      v-model:show="showGalleryViewer"
-      :attachment="attachment"
-      :all-attachments="availableAttachments"
-      @error="onClose"
-      @close="onClose"
-    />
-  </div>
-</template>
-
 <style lang="scss">
 .text-content {
   overflow: auto;
@@ -124,7 +78,6 @@ export default {
   ol {
     padding-left: var(--space-two);
   }
-
   table {
     margin: 0;
     border: 0;
@@ -151,13 +104,25 @@ export default {
 
 .show--quoted {
   blockquote {
-    @apply block;
+    display: block;
   }
 }
 
 .hide--quoted {
   blockquote {
-    @apply hidden;
+    display: none;
+  }
+}
+
+.quoted-text--button {
+  color: var(--s-400);
+  cursor: pointer;
+  font-size: var(--font-size-mini);
+  padding-bottom: var(--space-small);
+  padding-top: var(--space-small);
+
+  .fluent-icon {
+    margin-bottom: var(--space-minus-smaller);
   }
 }
 </style>

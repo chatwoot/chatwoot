@@ -75,10 +75,11 @@ export const actions = {
       });
     }
   },
-  async contactSearch({ commit }, { q, page = 1 }) {
+  async contactSearch({ commit }, { q }) {
+    commit(types.CONTACT_SEARCH_SET, []);
     commit(types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.contacts({ q, page });
+      const { data } = await SearchAPI.contacts({ q });
       commit(types.CONTACT_SEARCH_SET, data.payload.contacts);
     } catch (error) {
       // Ignore error
@@ -86,10 +87,11 @@ export const actions = {
       commit(types.CONTACT_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
-  async conversationSearch({ commit }, { q, page = 1 }) {
+  async conversationSearch({ commit }, { q }) {
+    commit(types.CONVERSATION_SEARCH_SET, []);
     commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.conversations({ q, page });
+      const { data } = await SearchAPI.conversations({ q });
       commit(types.CONVERSATION_SEARCH_SET, data.payload.conversations);
     } catch (error) {
       // Ignore error
@@ -97,10 +99,11 @@ export const actions = {
       commit(types.CONVERSATION_SEARCH_SET_UI_FLAG, { isFetching: false });
     }
   },
-  async messageSearch({ commit }, { q, page = 1 }) {
+  async messageSearch({ commit }, { q }) {
+    commit(types.MESSAGE_SEARCH_SET, []);
     commit(types.MESSAGE_SEARCH_SET_UI_FLAG, { isFetching: true });
     try {
-      const { data } = await SearchAPI.messages({ q, page });
+      const { data } = await SearchAPI.messages({ q });
       commit(types.MESSAGE_SEARCH_SET, data.payload.messages);
     } catch (error) {
       // Ignore error
@@ -109,7 +112,9 @@ export const actions = {
     }
   },
   async clearSearchResults({ commit }) {
-    commit(types.CLEAR_SEARCH_RESULTS);
+    commit(types.MESSAGE_SEARCH_SET, []);
+    commit(types.CONVERSATION_SEARCH_SET, []);
+    commit(types.CONTACT_SEARCH_SET, []);
   },
 };
 
@@ -118,13 +123,13 @@ export const mutations = {
     state.records = records;
   },
   [types.CONTACT_SEARCH_SET](state, records) {
-    state.contactRecords = [...state.contactRecords, ...records];
+    state.contactRecords = records;
   },
   [types.CONVERSATION_SEARCH_SET](state, records) {
-    state.conversationRecords = [...state.conversationRecords, ...records];
+    state.conversationRecords = records;
   },
   [types.MESSAGE_SEARCH_SET](state, records) {
-    state.messageRecords = [...state.messageRecords, ...records];
+    state.messageRecords = records;
   },
   [types.SEARCH_CONVERSATIONS_SET_UI_FLAG](state, uiFlags) {
     state.uiFlags = { ...state.uiFlags, ...uiFlags };
@@ -140,11 +145,6 @@ export const mutations = {
   },
   [types.MESSAGE_SEARCH_SET_UI_FLAG](state, uiFlags) {
     state.uiFlags.message = { ...state.uiFlags.message, ...uiFlags };
-  },
-  [types.CLEAR_SEARCH_RESULTS](state) {
-    state.contactRecords = [];
-    state.conversationRecords = [];
-    state.messageRecords = [];
   },
 };
 

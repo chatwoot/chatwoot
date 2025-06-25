@@ -1,17 +1,13 @@
-import { frontendURL } from '../../../../helper/URLHelper';
-import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
-import SettingsWrapper from '../SettingsWrapper.vue';
+import SettingsContent from '../Wrapper';
 import Index from './Index.vue';
+import { frontendURL } from '../../../../helper/URLHelper';
 
 export default {
   routes: [
     {
       path: frontendURL('accounts/:accountId/settings/billing'),
-      meta: {
-        permissions: ['administrator'],
-        installationTypes: [INSTALLATION_TYPES.CLOUD],
-      },
-      component: SettingsWrapper,
+      roles: ['administrator'],
+      component: SettingsContent,
       props: {
         headerTitle: 'BILLING_SETTINGS.TITLE',
         icon: 'credit-card-person',
@@ -22,10 +18,7 @@ export default {
           path: '',
           name: 'billing_settings_index',
           component: Index,
-          meta: {
-            installationTypes: [INSTALLATION_TYPES.CLOUD],
-            permissions: ['administrator'],
-          },
+          roles: ['administrator'],
         },
       ],
     },

@@ -1,5 +1,13 @@
+<template>
+  <channel-selector
+    :class="{ inactive: !isActive }"
+    :title="channel.name"
+    :src="getChannelThumbnail()"
+    @click="onItemClick"
+  />
+</template>
 <script>
-import ChannelSelector from '../ChannelSelector.vue';
+import ChannelSelector from '../ChannelSelector';
 export default {
   components: { ChannelSelector },
   props: {
@@ -12,14 +20,7 @@ export default {
       required: true,
     },
   },
-  emits: ['channelItemClick'],
   computed: {
-    hasFbConfigured() {
-      return window.chatwootConfig?.fbAppId;
-    },
-    hasInstagramConfigured() {
-      return window.chatwootConfig?.instagramAppId;
-    },
     isActive() {
       const { key } = this.channel;
       if (Object.keys(this.enabledFeatures).length === 0) {
@@ -29,16 +30,13 @@ export default {
         return this.enabledFeatures.channel_website;
       }
       if (key === 'facebook') {
-        return this.enabledFeatures.channel_facebook && this.hasFbConfigured;
+        return this.enabledFeatures.channel_facebook;
+      }
+      if (key === 'twitter') {
+        return this.enabledFeatures.channel_twitter;
       }
       if (key === 'email') {
         return this.enabledFeatures.channel_email;
-      }
-
-      if (key === 'instagram') {
-        return (
-          this.enabledFeatures.channel_instagram && this.hasInstagramConfigured
-        );
       }
 
       return [
@@ -49,7 +47,6 @@ export default {
         'sms',
         'telegram',
         'line',
-        'instagram',
       ].includes(key);
     },
   },
@@ -62,18 +59,9 @@ export default {
     },
     onItemClick() {
       if (this.isActive) {
-        this.$emit('channelItemClick', this.channel.key);
+        this.$emit('channel-item-click', this.channel.key);
       }
     },
   },
 };
 </script>
-
-<template>
-  <ChannelSelector
-    :class="{ inactive: !isActive }"
-    :title="channel.name"
-    :src="getChannelThumbnail()"
-    @click="onItemClick"
-  />
-</template>

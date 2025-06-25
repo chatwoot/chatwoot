@@ -1,71 +1,18 @@
 import { API } from 'widget/helpers/axios';
 import { actions } from '../../campaign';
 import { campaigns } from './data';
-import { getFromCache, setCache } from 'shared/helpers/cache';
 
-const commit = vi.fn();
-const dispatch = vi.fn();
-vi.mock('widget/helpers/axios');
-vi.mock('shared/helpers/cache');
+const commit = jest.fn();
+const dispatch = jest.fn();
+jest.mock('widget/helpers/axios');
 
 import campaignTimer from 'widget/helpers/campaignTimer';
-vi.mock('widget/helpers/campaignTimer', () => ({
-  default: {
-    initTimers: vi.fn().mockReturnValue({ mock: true }),
-  },
-}));
+jest.mock('widget/helpers/campaignTimer');
 
 describe('#actions', () => {
   describe('#fetchCampaigns', () => {
-    beforeEach(() => {
-      commit.mockClear();
-      getFromCache.mockClear();
-      setCache.mockClear();
-      API.get.mockClear();
-      campaignTimer.initTimers.mockClear();
-    });
-
-    it('uses cached data when available', async () => {
-      getFromCache.mockReturnValue(campaigns);
-
-      await actions.fetchCampaigns(
-        { commit },
-        {
-          websiteToken: 'XDsafmADasd',
-          currentURL: 'https://chatwoot.com',
-          isInBusinessHours: true,
-        }
-      );
-
-      expect(getFromCache).toHaveBeenCalledWith(
-        'chatwoot_campaigns_XDsafmADasd',
-        60 * 60 * 1000
-      );
-      expect(API.get).not.toHaveBeenCalled();
-      expect(setCache).not.toHaveBeenCalled();
-      expect(commit.mock.calls).toEqual([
-        ['setCampaigns', campaigns],
-        ['setError', false],
-      ]);
-      expect(campaignTimer.initTimers).toHaveBeenCalledWith(
-        {
-          campaigns: [
-            {
-              id: 11,
-              timeOnPage: '20',
-              url: 'https://chatwoot.com',
-              triggerOnlyDuringBusinessHours: false,
-            },
-          ],
-        },
-        'XDsafmADasd'
-      );
-    });
-
-    it('fetches and caches data when cache is not available', async () => {
-      getFromCache.mockReturnValue(null);
+    it('sends correct actions if API is success', async () => {
       API.get.mockResolvedValue({ data: campaigns });
-
       await actions.fetchCampaigns(
         { commit },
         {
@@ -73,16 +20,6 @@ describe('#actions', () => {
           currentURL: 'https://chatwoot.com',
           isInBusinessHours: true,
         }
-      );
-
-      expect(getFromCache).toHaveBeenCalledWith(
-        'chatwoot_campaigns_XDsafmADasd',
-        60 * 60 * 1000
-      );
-      expect(API.get).toHaveBeenCalled();
-      expect(setCache).toHaveBeenCalledWith(
-        'chatwoot_campaigns_XDsafmADasd',
-        campaigns
       );
       expect(commit.mock.calls).toEqual([
         ['setCampaigns', campaigns],
@@ -102,9 +39,7 @@ describe('#actions', () => {
         'XDsafmADasd'
       );
     });
-
     it('sends correct actions if API is error', async () => {
-      getFromCache.mockReturnValue(null);
       API.get.mockRejectedValue({ message: 'Authentication required' });
       await actions.fetchCampaigns(
         { commit },
@@ -124,37 +59,15 @@ describe('#actions', () => {
     };
     it('sends correct actions if campaigns are empty', async () => {
       await actions.initCampaigns(
-        {
-          dispatch,
-          getters: { getCampaigns: [], getUIFlags: { hasFetched: false } },
-        },
+        { dispatch, getters: { getCampaigns: [] } },
         actionParams
       );
       expect(dispatch.mock.calls).toEqual([['fetchCampaigns', actionParams]]);
       expect(campaignTimer.initTimers).not.toHaveBeenCalled();
     });
-
-    it('do not refetch if the campaigns are fetched once', async () => {
-      await actions.initCampaigns(
-        {
-          dispatch,
-          getters: { getCampaigns: [], getUIFlags: { hasFetched: true } },
-        },
-        actionParams
-      );
-      expect(dispatch.mock.calls).toEqual([]);
-      expect(campaignTimer.initTimers).not.toHaveBeenCalled();
-    });
-
     it('resets time if campaigns are available', async () => {
       await actions.initCampaigns(
-        {
-          dispatch,
-          getters: {
-            getCampaigns: campaigns,
-            getUIFlags: { hasFetched: true },
-          },
-        },
+        { dispatch, getters: { getCampaigns: campaigns } },
         actionParams
       );
       expect(dispatch.mock.calls).toEqual([]);

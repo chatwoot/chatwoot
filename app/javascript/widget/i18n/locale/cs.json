@@ -19,24 +19,12 @@
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Většinou odpovíme během pár minut",
     "IN_A_FEW_HOURS": "Většinou odpovíme během pár hodin",
-    "IN_A_DAY": "Obvykle odpoví za den",
-    "BACK_IN": "Budem online zase"
-  },
-  "DAY_NAMES": {
-    "SUNDAY": "Neděle",
-    "MONDAY": "Pondělí",
-    "TUESDAY": "Úterý",
-    "WEDNESDAY": "Středa",
-    "THURSDAY": "Čtvrtek",
-    "FRIDAY": "Pátek",
-    "SATURDAY": "Sobota"
+    "IN_A_DAY": "Obvykle odpoví za den"
   },
   "START_CONVERSATION": "Zahájit konverzaci",
   "END_CONVERSATION": "Ukončit konverzaci",
   "CONTINUE_CONVERSATION": "Pokračovat v konverzaci",
-  "YOU": "Vy",
   "START_NEW_CONVERSATION": "Zahájit novou konverzaci",
-  "VIEW_UNREAD_MESSAGES": "Máte nepřečtené zprávy",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Zobrazit nové zprávy",
     "CLOSE_MESSAGES_BUTTON": "Zavřít",
@@ -68,10 +56,7 @@
         "LABEL": "Telefonní číslo",
         "PLACEHOLDER": "Zadejte prosím Vaše telefonní číslo",
         "REQUIRED_ERROR": "Telefonní číslo je vyžadováno",
-        "DIAL_CODE_VALID_ERROR": "Vyberte prosím kód země",
-        "VALID_ERROR": "Zadejte prosím platné telefonní číslo",
-        "DROPDOWN_EMPTY": "Žádné výsledky",
-        "DROPDOWN_SEARCH": "Vyhledat zemi"
+        "VALID_ERROR": "Telefonní číslo by mělo být ve formátu E.164, např.: +141555555555"
       },
       "MESSAGE": {
         "LABEL": "Zpráva",
@@ -81,8 +66,7 @@
     },
     "CAMPAIGN_HEADER": "Zadejte své jméno a e-mail před zahájením konverzace",
     "IS_REQUIRED": "je vyžadováno",
-    "REQUIRED": "Povinné",
-    "REGEX_ERROR": "Zadejte prosím platnou hodnotu"
+    "REQUIRED": "Required"
   },
   "FILE_SIZE_LIMIT": "Soubor překračuje limit {MAXIMUM_FILE_UPLOAD_SIZE} přílohy",
   "CHAT_FORM": {
@@ -91,9 +75,8 @@
     }
   },
   "EMOJI": {
-    "PLACEHOLDER": "Hledat emoji",
-    "NOT_FOUND": "Žádné emoji neodpovídají vašemu hledání",
-    "ARIA_LABEL": "Výběr emoji"
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   },
   "CSAT": {
     "TITLE": "Ohodnoťte svou konverzaci",
@@ -107,36 +90,8 @@
   },
   "INTEGRATIONS": {
     "DYTE": {
-      "CLICK_HERE_TO_JOIN": "Přidejte se kliknutím sem",
-      "LEAVE_THE_ROOM": "Opustit hovor"
+      "CLICK_HERE_TO_JOIN": "Click here to join",
+      "LEAVE_THE_ROOM": "Leave the call"
     }
-  },
-  "PORTAL": {
-    "POPULAR_ARTICLES": "Populární články",
-    "VIEW_ALL_ARTICLES": "Zobrazit všechny články",
-    "IFRAME_LOAD_ERROR": "Při načítání článku došlo k chybě, obnovte stránku a zkuste to znovu."
-  },
-  "ATTACHMENTS": {
-    "image": {
-      "CONTENT": "Zpráva obrázku"
-    },
-    "audio": {
-      "CONTENT": "Zvuková zpráva"
-    },
-    "video": {
-      "CONTENT": "Video zpráva"
-    },
-    "file": {
-      "CONTENT": "Přílohu souboru"
-    },
-    "location": {
-      "CONTENT": "Poloha"
-    },
-    "fallback": {
-      "CONTENT": "sdílel URL"
-    }
-  },
-  "FOOTER_REPLY_TO": {
-    "REPLY_TO": "Odpověď na:"
   }
 }

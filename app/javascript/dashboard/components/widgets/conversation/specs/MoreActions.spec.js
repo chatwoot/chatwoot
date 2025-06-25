@@ -1,83 +1,92 @@
-import { mount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-import MoreActions from '../MoreActions.vue';
-import FluentIcon from 'shared/components/FluentIcon/DashboardIcon.vue';
+import { createLocalVue, mount } from '@vue/test-utils';
+import Vuex from 'vuex';
+import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
 
-vi.mock('shared/helpers/mitt', () => ({
-  emitter: {
-    emit: vi.fn(),
-    on: vi.fn(),
-    off: vi.fn(),
-  },
-}));
+import Button from 'dashboard/components/buttons/Button';
+import i18n from 'dashboard/i18n';
+import FluentIcon from 'shared/components/FluentIcon/DashboardIcon';
+import MoreActions from '../MoreActions';
 
-const mockDirective = {
-  mounted: () => {},
-};
+const localVue = createLocalVue();
+localVue.use(Vuex);
+localVue.use(VueI18n);
+localVue.use(VTooltip);
 
-import { emitter } from 'shared/helpers/mitt';
+localVue.component('fluent-icon', FluentIcon);
+localVue.component('woot-button', Button);
+
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
+});
 
 describe('MoveActions', () => {
   let currentChat = { id: 8, muted: false };
-  let store = null;
+  let state = null;
   let muteConversation = null;
   let unmuteConversation = null;
+  let modules = null;
+  let getters = null;
+  let store = null;
+  let moreActions = null;
 
   beforeEach(() => {
-    muteConversation = vi.fn(() => Promise.resolve());
-    unmuteConversation = vi.fn(() => Promise.resolve());
+    window.bus = {
+      $emit: jest.fn(),
+      $on: jest.fn(),
+      $off: jest.fn(),
+    };
 
-    store = createStore({
-      state: {
-        authenticated: true,
-        currentChat,
-      },
-      getters: {
-        getSelectedChat: () => currentChat,
-      },
-      modules: {
-        conversations: {
-          namespaced: false,
-          actions: { muteConversation, unmuteConversation },
+    state = {
+      authenticated: true,
+      currentChat,
+    };
+
+    muteConversation = jest.fn(() => Promise.resolve());
+    unmuteConversation = jest.fn(() => Promise.resolve());
+
+    modules = {
+      conversations: {
+        actions: {
+          muteConversation,
+          unmuteConversation,
         },
       },
+    };
+
+    getters = {
+      getSelectedChat: () => currentChat,
+    };
+
+    store = new Vuex.Store({
+      state,
+      modules,
+      getters,
     });
+
+    moreActions = mount(MoreActions, { store, localVue, i18n: i18nConfig });
   });
-
-  const createWrapper = () =>
-    mount(MoreActions, {
-      global: {
-        plugins: [store],
-        components: {
-          'fluent-icon': FluentIcon,
-        },
-        directives: {
-          'on-clickaway': mockDirective,
-        },
-      },
-    });
 
   describe('muting discussion', () => {
     it('triggers "muteConversation"', async () => {
-      const wrapper = createWrapper();
-      await wrapper.find('button:first-child').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
-      expect(muteConversation).toHaveBeenCalledTimes(1);
-      expect(muteConversation).toHaveBeenCalledWith(
-        expect.any(Object), // First argument is the Vuex context object
-        currentChat.id // Second argument is the ID of the conversation
+      expect(muteConversation).toBeCalledWith(
+        expect.any(Object),
+        currentChat.id,
+        undefined
       );
     });
 
     it('shows alert', async () => {
-      const wrapper = createWrapper();
-      await wrapper.find('button:first-child').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
-      expect(emitter.emit).toBeCalledWith('newToastMessage', {
-        message:
-          'This contact is blocked successfully. You will not be notified of any future conversations.',
-        action: null,
-      });
+      expect(window.bus.$emit).toBeCalledWith(
+        'newToastMessage',
+        'This conversation is muted for 6 hours',
+        undefined
+      );
     });
   });
 
@@ -87,24 +96,23 @@ describe('MoveActions', () => {
     });
 
     it('triggers "unmuteConversation"', async () => {
-      const wrapper = createWrapper();
-      await wrapper.find('button:first-child').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
-      expect(unmuteConversation).toHaveBeenCalledTimes(1);
-      expect(unmuteConversation).toHaveBeenCalledWith(
-        expect.any(Object), // First argument is the Vuex context object
-        currentChat.id // Second argument is the ID of the conversation
+      expect(unmuteConversation).toBeCalledWith(
+        expect.any(Object),
+        currentChat.id,
+        undefined
       );
     });
 
     it('shows alert', async () => {
-      const wrapper = createWrapper();
-      await wrapper.find('button:first-child').trigger('click');
+      await moreActions.find('button:first-child').trigger('click');
 
-      expect(emitter.emit).toBeCalledWith('newToastMessage', {
-        message: 'This contact is unblocked successfully.',
-        action: null,
-      });
+      expect(window.bus.$emit).toBeCalledWith(
+        'newToastMessage',
+        'This conversation is unmuted',
+        undefined
+      );
     });
   });
 });

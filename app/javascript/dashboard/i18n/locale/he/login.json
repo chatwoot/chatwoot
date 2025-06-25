@@ -3,8 +3,7 @@
     "TITLE": "התחבר ל Woot",
     "EMAIL": {
       "LABEL": "אימייל",
-      "PLACEHOLDER": "example{'@'}companyname.com",
-      "ERROR": "נא הכנס כתובת דוא\"ל תקינה"
+      "PLACEHOLDER": "מייל לדוגמא: someone@example.com"
     },
     "PASSWORD": {
       "LABEL": "סיסמה",

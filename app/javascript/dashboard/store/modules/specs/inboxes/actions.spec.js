@@ -3,14 +3,14 @@ import { actions } from '../../inboxes';
 import * as types from '../../../mutation-types';
 import inboxList from './fixtures';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {
     it('sends correct actions if API is success', async () => {
-      const mockedGet = vi.fn(url => {
+      const mockedGet = jest.fn(url => {
         if (url === '/api/v1/inboxes') {
           return Promise.resolve({ data: { payload: inboxList } });
         }

@@ -1,791 +1,420 @@
 {
   "HELP_CENTER": {
-    "TITLE": "Pusat Bantuan",
-    "NEW_PAGE": {
-      "DESCRIPTION": "Create self-service help center portals for your customers. Help them find answers quickly, without waiting. Streamline inquiries, boost agent efficiency, and elevate customer support.",
-      "CREATE_PORTAL_BUTTON": "Buat Portal"
-    },
     "HEADER": {
-      "FILTER": "Filter berdasarkan",
-      "SORT": "Urutkan berdasarkan",
-      "LOCALE": "Bahasa",
+      "FILTER": "Filter by",
+      "SORT": "Sort by",
       "SETTINGS_BUTTON": "Pengaturan",
-      "NEW_BUTTON": "Artikel Baru",
+      "NEW_BUTTON": "New Article",
       "DROPDOWN_OPTIONS": {
-        "PUBLISHED": "Diterbitkan",
-        "DRAFT": "Draf",
-        "ARCHIVED": "Diarsipkan"
+        "PUBLISHED": "Published",
+        "DRAFT": "Draft",
+        "ARCHIVED": "Archived"
       },
       "TITLES": {
-        "ALL_ARTICLES": "Semua Artikel",
-        "MINE": "Artikel Saya",
-        "DRAFT": "Artikel Draf",
-        "ARCHIVED": "Artikel Diarsipkan"
-      },
-      "LOCALE_SELECT": {
-        "TITLE": "Select locale",
-        "PLACEHOLDER": "Select locale",
-        "NO_RESULT": "No locale found",
-        "SEARCH_PLACEHOLDER": "Search locale"
+        "ALL_ARTICLES": "All Articles",
+        "MINE": "My Articles",
+        "DRAFT": "Draft Articles",
+        "ARCHIVED": "Archived Articles"
       }
     },
     "EDIT_HEADER": {
-      "ALL_ARTICLES": "Semua Artikel",
-      "PUBLISH_BUTTON": "Terbitkan",
-      "MOVE_TO_ARCHIVE_BUTTON": "Pindahkan ke arsip",
-      "PREVIEW": "Pratinjau",
-      "ADD_TRANSLATION": "Tambahkan terjemahan",
-      "OPEN_SIDEBAR": "Buka sidebar",
-      "CLOSE_SIDEBAR": "Tutup sidebar",
-      "SAVING": "Menyimpan...",
-      "SAVED": "Tersimpan"
+      "ALL_ARTICLES": "All Articles",
+      "PUBLISH_BUTTON": "Publish",
+      "MOVE_TO_ARCHIVE_BUTTON": "Move to archived",
+      "PREVIEW": "Preview",
+      "ADD_TRANSLATION": "Add translation",
+      "OPEN_SIDEBAR": "Open sidebar",
+      "CLOSE_SIDEBAR": "Close sidebar",
+      "SAVING": "Saving...",
+      "SAVED": "Saved"
     },
     "ARTICLE_EDITOR": {
       "IMAGE_UPLOAD": {
         "TITLE": "Unggah Gambar",
         "UPLOADING": "Mengunggah...",
-        "SUCCESS": "Gambar berhasil diunggah",
-        "ERROR": "Terjadi kesalahan saat mengunggah gambar",
-        "UN_AUTHORIZED_ERROR": "You are not authorized to upload images",
-        "ERROR_FILE_SIZE": "Ukuran gambar harus kurang dari {size}MB",
-        "ERROR_FILE_FORMAT": "Format gambar harus jpg, jpeg, atau png",
-        "ERROR_FILE_DIMENSIONS": "Dimensi gambar harus kurang dari 2000 x 2000"
+        "SUCCESS": "Image uploaded successfully",
+        "ERROR": "Error while uploading image",
+        "ERROR_FILE_SIZE": "Image size should be less than {size}MB",
+        "ERROR_FILE_FORMAT": "Image format should be jpg, jpeg or png",
+        "ERROR_FILE_DIMENSIONS": "Image dimensions should be less than 2000 x 2000"
       }
     },
     "ARTICLE_SETTINGS": {
-      "TITLE": "Pengaturan Artikel",
+      "TITLE": "Article Settings",
       "FORM": {
         "CATEGORY": {
-          "LABEL": "Kategori",
-          "TITLE": "Pilih kategori",
-          "PLACEHOLDER": "Pilih kategori",
-          "NO_RESULT": "Tidak ditemukan kategori",
-          "SEARCH_PLACEHOLDER": "Cari kategori"
+          "LABEL": "Category",
+          "TITLE": "Select category",
+          "PLACEHOLDER": "Select category",
+          "NO_RESULT": "No category found",
+          "SEARCH_PLACEHOLDER": "Search category"
         },
         "AUTHOR": {
-          "LABEL": "Penulis",
-          "TITLE": "Pilih penulis",
-          "PLACEHOLDER": "Pilih penulis",
-          "NO_RESULT": "Tidak ditemukan penulis",
-          "SEARCH_PLACEHOLDER": "Cari penulis"
+          "LABEL": "Author",
+          "TITLE": "Select author",
+          "PLACEHOLDER": "Select author",
+          "NO_RESULT": "No authors found",
+          "SEARCH_PLACEHOLDER": "Search author"
         },
         "META_TITLE": {
-          "LABEL": "Judul Meta",
-          "PLACEHOLDER": "Tambahkan judul meta"
+          "LABEL": "Meta title",
+          "PLACEHOLDER": "Add a meta title"
         },
         "META_DESCRIPTION": {
-          "LABEL": "Deskripsi Meta",
-          "PLACEHOLDER": "Tambahkan deskripsi meta untuk hasil SEO yang lebih baik..."
+          "LABEL": "Meta description",
+          "PLACEHOLDER": "Add your meta description for better SEO results..."
         },
         "META_TAGS": {
-          "LABEL": "Tag Meta",
-          "PLACEHOLDER": "Tambahkan tag meta dipisahkan oleh koma..."
+          "LABEL": "Meta tags",
+          "PLACEHOLDER": "Add meta tags separated by comma..."
         }
       },
       "BUTTONS": {
-        "ARCHIVE": "Arsipkan artikel",
-        "DELETE": "Hapus artikel"
+        "ARCHIVE": "Archive article",
+        "DELETE": "Delete article"
       }
     },
-    "ARTICLE_SEARCH_RESULT": {
-      "UNCATEGORIZED": "Tanpa Kategori",
-      "SEARCH_RESULTS": "Search results for {query}",
-      "EMPTY_TEXT": "Search for articles to insert into replies.",
-      "SEARCH_LOADER": "Sedang mencari...",
-      "INSERT_ARTICLE": "Sisipkan",
-      "NO_RESULT": "Tidak ditemukan artikel",
-      "COPY_LINK": "Salin tautan artikel ke clipboard",
-      "OPEN_LINK": "Buka artikel di tab baru",
-      "PREVIEW_LINK": "Pratinjau artikel"
-    },
     "PORTAL": {
-      "HEADER": "Portal",
+      "HEADER": "Portals",
       "DEFAULT": "Default",
-      "NEW_BUTTON": "Portal Baru",
+      "NEW_BUTTON": "New Portal",
       "ACTIVE_BADGE": "aktif",
-      "CHOOSE_LOCALE_LABEL": "Pilih bahasa",
-      "LOADING_MESSAGE": "Memuat portal...",
-      "ARTICLES_LABEL": "artikel",
-      "NO_PORTALS_MESSAGE": "Tidak ada portal yang tersedia",
-      "ADD_NEW_LOCALE": "Tambahkan bahasa baru",
+      "CHOOSE_LOCALE_LABEL": "Choose a locale",
+      "LOADING_MESSAGE": "Loading portals...",
+      "ARTICLES_LABEL": "articles",
+      "NO_PORTALS_MESSAGE": "There are no available portals",
+      "ADD_NEW_LOCALE": "Add a new locale",
       "POPOVER": {
-        "TITLE": "Portal",
-        "PORTAL_SETTINGS": "Pengaturan portal",
-        "SUBTITLE": "Anda memiliki beberapa portal dan dapat memiliki bahasa yang berbeda untuk setiap portal.",
+        "TITLE": "Portals",
+        "PORTAL_SETTINGS": "Portal settings",
+        "SUBTITLE": "You have multiple portals and can have different locales for each portal.",
         "CANCEL_BUTTON_LABEL": "Batalkan",
-        "CHOOSE_LOCALE_BUTTON": "Pilih Bahasa"
+        "CHOOSE_LOCALE_BUTTON": "Choose Locale"
       },
       "PORTAL_SETTINGS": {
         "LIST_ITEM": {
           "HEADER": {
-            "COUNT_LABEL": "artikel",
-            "ADD": "Tambahkan bahasa",
-            "VISIT": "Kunjungi situs",
+            "COUNT_LABEL": "articles",
+            "ADD": "Add locale",
+            "VISIT": "Visit site",
             "SETTINGS": "Pengaturan",
             "DELETE": "Hapus"
           },
           "PORTAL_CONFIG": {
-            "TITLE": "Konfigurasi Portal",
+            "TITLE": "Portal Configurations",
             "ITEMS": {
               "NAME": "Nama",
-              "DOMAIN": "Domain kustom",
+              "DOMAIN": "Custom domain",
               "SLUG": "Slug",
-              "TITLE": "Judul portal",
-              "THEME": "Warna tema",
-              "SUB_TEXT": "Teks sub portal"
+              "TITLE": "Portal title",
+              "THEME": "Theme color",
+              "SUB_TEXT": "Portal sub text"
             }
           },
           "AVAILABLE_LOCALES": {
-            "TITLE": "Bahasa yang Tersedia",
+            "TITLE": "Available locales",
             "TABLE": {
-              "NAME": "Nama Bahasa",
-              "CODE": "Kode Bahasa",
-              "ARTICLE_COUNT": "Jumlah artikel",
-              "CATEGORIES": "Jumlah kategori",
-              "SWAP": "Ganti",
+              "NAME": "Locale name",
+              "CODE": "Locale code",
+              "ARTICLE_COUNT": "No. of articles",
+              "CATEGORIES": "No. of categories",
+              "SWAP": "Swap",
               "DELETE": "Hapus",
               "DEFAULT_LOCALE": "Default"
             }
           }
         },
         "DELETE_PORTAL": {
-          "TITLE": "Hapus Portal",
-          "MESSAGE": "Apakah Anda yakin ingin menghapus portal ini",
-          "YES": "Ya, hapus portal",
-          "NO": "Tidak, simpan portal",
+          "TITLE": "Delete portal",
+          "MESSAGE": "Are you sure you want to delete this portal",
+          "YES": "Yes, delete portal",
+          "NO": "No, keep portal",
           "API": {
-            "DELETE_SUCCESS": "Portal berhasil dihapus",
-            "DELETE_ERROR": "Terjadi kesalahan saat menghapus portal"
+            "DELETE_SUCCESS": "Portal deleted successfully",
+            "DELETE_ERROR": "Error while deleting portal"
           }
         }
       },
       "EDIT": {
-        "HEADER_TEXT": "Edit Portal",
+        "HEADER_TEXT": "Edit portal",
         "TABS": {
           "BASIC_SETTINGS": {
-            "TITLE": "Informasi Dasar"
+            "TITLE": "Basic information"
           },
           "CUSTOMIZATION_SETTINGS": {
-            "TITLE": "Kustomisasi Portal"
+            "TITLE": "Portal customization"
           },
           "CATEGORY_SETTINGS": {
-            "TITLE": "Kategori"
+            "TITLE": "Categories"
           },
           "LOCALE_SETTINGS": {
-            "TITLE": "Bahasa"
+            "TITLE": "Locales"
           }
         },
         "CATEGORIES": {
-          "TITLE": "Kategori dalam",
-          "NEW_CATEGORY": "Kategori Baru",
+          "TITLE": "Categories in",
+          "NEW_CATEGORY": "New category",
           "TABLE": {
             "NAME": "Nama",
             "DESCRIPTION": "Deskripsi",
-            "LOCALE": "Bahasa",
-            "ARTICLE_COUNT": "Jumlah artikel",
+            "LOCALE": "Locale",
+            "ARTICLE_COUNT": "No. of articles",
             "ACTION_BUTTON": {
-              "EDIT": "Edit kategori",
-              "DELETE": "Hapus kategori"
+              "EDIT": "Edit category",
+              "DELETE": "Delete category"
             },
-            "EMPTY_TEXT": "Tidak ditemukan kategori"
+            "EMPTY_TEXT": "No categories found"
           }
         },
         "EDIT_BASIC_INFO": {
-          "BUTTON_TEXT": "Perbarui pengaturan dasar"
+          "BUTTON_TEXT": "Update basic settings"
         }
       },
       "ADD": {
-        "CREATE_FLOW": {
-          "BASIC": {
-            "TITLE": "Informasi Pusat Bantuan",
-            "BODY": "Informasi dasar tentang portal"
+        "CREATE_FLOW": [
+          {
+            "title": "Help center information",
+            "route": "new_portal_information",
+            "body": "Basic information about portal",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
           },
-          "CUSTOMIZATION": {
-            "TITLE": "Kustomisasi Pusat Bantuan",
-            "BODY": "Kustomisasi portal"
+          {
+            "title": "Help center customization",
+            "route": "portal_customization",
+            "body": "Customize portal",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
           },
-          "FINISH": {
-            "TITLE": "Voila! 🎉",
-            "BODY": "Semuanya siap!"
+          {
+            "title": "Voila! 🎉",
+            "route": "portal_finish",
+            "body": "You're all set!",
+            "FINISH": "Selesai"
           }
-        },
+        ],
         "CREATE_FLOW_PAGE": {
           "BACK_BUTTON": "Kembali",
           "BASIC_SETTINGS_PAGE": {
-            "HEADER": "Buat Portal",
-            "TITLE": "Informasi Pusat Bantuan",
-            "CREATE_BASIC_SETTING_BUTTON": "Buat pengaturan dasar portal"
+            "HEADER": "Create Portal",
+            "TITLE": "Help center information",
+            "CREATE_BASIC_SETTING_BUTTON": "Create portal basic settings"
           },
           "CUSTOMIZATION_PAGE": {
-            "HEADER": "Kustomisasi Portal",
-            "TITLE": "Kustomisasi Pusat Bantuan",
-            "UPDATE_PORTAL_BUTTON": "Perbarui pengaturan portal"
+            "HEADER": "Portal customisation",
+            "TITLE": "Help center customization",
+            "UPDATE_PORTAL_BUTTON": "Update portal settings"
           },
           "FINISH_PAGE": {
-            "TITLE": "Voila! 🎉 Semuanya sudah siap!",
-            "MESSAGE": "Anda sekarang dapat melihat portal yang dibuat di halaman semua portal Anda.",
-            "FINISH": "Buka halaman semua portal"
+            "TITLE": "Voila!🎉 You're all set up!",
+            "MESSAGE": "You can now see this created portal on your all portals page.",
+            "FINISH": "Go to all portals page"
           }
         },
         "LOGO": {
           "LABEL": "Logo",
-          "UPLOAD_BUTTON": "Unggah logo",
-          "HELP_TEXT": "Logo ini akan ditampilkan di bagian header portal.",
-          "IMAGE_UPLOAD_SUCCESS": "Logo uploaded successfully",
-          "IMAGE_UPLOAD_ERROR": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Error while deleting logo"
+          "UPLOAD_BUTTON": "Upload logo",
+          "HELP_TEXT": "This logo will be displayed on the portal header."
         },
         "NAME": {
           "LABEL": "Nama",
-          "PLACEHOLDER": "Nama portal",
-          "HELP_TEXT": "Nama ini akan digunakan secara internal dalam portal yang dihadapkan ke publik.",
+          "PLACEHOLDER": "Portal name",
+          "HELP_TEXT": "The name will be used in the public facing portal internally.",
           "ERROR": "Nama dibutuhkan"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Slug portal untuk URL",
-          "ERROR": "Slug diperlukan"
+          "PLACEHOLDER": "Portal slug for urls",
+          "ERROR": "Slug is required"
         },
         "DOMAIN": {
-          "LABEL": "Domain Kustom",
-          "PLACEHOLDER": "Domain kustom portal",
-          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: {exampleURL}",
-          "ERROR": "Masukkan URL domain yang valid"
+          "LABEL": "Custom Domain",
+          "PLACEHOLDER": "Portal custom domain",
+          "HELP_TEXT": "Add only If you want to use a custom domain for your portals. Eg: https://example.com",
+          "ERROR": "Enter a valid domain URL"
         },
         "HOME_PAGE_LINK": {
-          "LABEL": "Tautan Halaman Utama",
-          "PLACEHOLDER": "Tautan halaman utama portal",
-          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: {exampleURL}",
-          "ERROR": "Masukkan URL halaman utama yang valid"
+          "LABEL": "Home Page Link",
+          "PLACEHOLDER": "Portal home page link",
+          "HELP_TEXT": "The link used to return from the portal to the home page. Eg: https://example.com",
+          "ERROR": "Enter a valid home page URL"
         },
         "THEME_COLOR": {
-          "LABEL": "Warna tema portal",
-          "HELP_TEXT": "Warna ini akan ditampilkan sebagai warna tema untuk portal."
+          "LABEL": "Portal theme color",
+          "HELP_TEXT": "This color will show as the theme color for the portal."
         },
         "PAGE_TITLE": {
-          "LABEL": "Judul Halaman",
-          "PLACEHOLDER": "Judul halaman portal",
-          "HELP_TEXT": "Judul halaman ini akan digunakan dalam portal yang dihadapkan ke publik.",
-          "ERROR": "Judul halaman diperlukan"
+          "LABEL": "Page Title",
+          "PLACEHOLDER": "Portal page title",
+          "HELP_TEXT": "The page title will be used in the public facing portal.",
+          "ERROR": "Page title is required"
         },
         "HEADER_TEXT": {
-          "LABEL": "Teks Header",
-          "PLACEHOLDER": "Teks header portal",
-          "HELP_TEXT": "Teks header portal akan digunakan dalam portal yang dihadapkan ke publik.",
-          "ERROR": "Teks header portal dibutuhkan"
+          "LABEL": "Header Text",
+          "PLACEHOLDER": "Portal header text",
+          "HELP_TEXT": "The Portal header text will be used in the public facing portal.",
+          "ERROR": "Portal header text is required"
         },
         "API": {
-          "SUCCESS_MESSAGE_FOR_BASIC": "Portal berhasil dibuat.",
-          "ERROR_MESSAGE_FOR_BASIC": "Tidak dapat membuat portal. Coba lagi.",
-          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal berhasil diperbarui.",
-          "ERROR_MESSAGE_FOR_UPDATE": "Tidak dapat memperbarui portal. Coba lagi."
+          "SUCCESS_MESSAGE_FOR_BASIC": "Portal created successfully.",
+          "ERROR_MESSAGE_FOR_BASIC": "Couldn't create the portal. Try again.",
+          "SUCCESS_MESSAGE_FOR_UPDATE": "Portal updated successfully.",
+          "ERROR_MESSAGE_FOR_UPDATE": "Couldn't update the portal. Try again."
         }
       },
       "ADD_LOCALE": {
-        "TITLE": "Tambahkan bahasa baru",
-        "SUB_TITLE": "Ini menambahkan bahasa baru ke daftar terjemahan yang tersedia.",
+        "TITLE": "Add a new locale",
+        "SUB_TITLE": "This adds a new locale to your available translation list.",
         "PORTAL": "Portal",
         "LOCALE": {
-          "LABEL": "Bahasa",
-          "PLACEHOLDER": "Pilih bahasa",
-          "ERROR": "Bahasa dibutuhkan"
+          "LABEL": "Locale",
+          "PLACEHOLDER": "Choose a locale",
+          "ERROR": "Locale is required"
         },
         "BUTTONS": {
-          "CREATE": "Buat bahasa",
+          "CREATE": "Create locale",
           "CANCEL": "Batalkan"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Bahasa berhasil ditambahkan",
-          "ERROR_MESSAGE": "Tidak dapat menambahkan bahasa. Coba lagi."
+          "SUCCESS_MESSAGE": "Locale added successfully",
+          "ERROR_MESSAGE": "Unable to add locale. Try again."
         }
       },
       "CHANGE_DEFAULT_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Bahasa default berhasil diperbarui",
-          "ERROR_MESSAGE": "Tidak dapat memperbarui bahasa default. Coba lagi."
+          "SUCCESS_MESSAGE": "Default locale updated successfully",
+          "ERROR_MESSAGE": "Unable to update default locale. Try again."
         }
       },
       "DELETE_LOCALE": {
         "API": {
-          "SUCCESS_MESSAGE": "Bahasa dihapus dari portal berhasil",
-          "ERROR_MESSAGE": "Tidak dapat menghapus bahasa dari portal. Coba lagi."
+          "SUCCESS_MESSAGE": "Locale removed from portal successfully",
+          "ERROR_MESSAGE": "Unable to remove locale from portal. Try again."
         }
       }
     },
     "TABLE": {
-      "LOADING_MESSAGE": "Memuat portal...",
-      "404": "Tidak ada artikel yang cocok dengan pencarian Anda 🔍",
-      "NO_ARTICLES": "Tidak ada artikel yang tersedia",
+      "LOADING_MESSAGE": "Loading articles...",
+      "404": "No articles matches your search 🔍",
+      "NO_ARTICLES": "There are no available articles",
       "HEADERS": {
         "TITLE": "Judul",
-        "CATEGORY": "Kategori",
-        "READ_COUNT": "Views",
+        "CATEGORY": "Category",
+        "READ_COUNT": "Read count",
         "STATUS": "Status",
-        "LAST_EDITED": "Terakhir diedit"
+        "LAST_EDITED": "Last edited"
       },
       "COLUMNS": {
-        "BY": "oleh",
-        "AUTHOR_NOT_AVAILABLE": "Author is not available"
+        "BY": "by"
       }
     },
     "EDIT_ARTICLE": {
-      "LOADING": "Memuat artikel...",
-      "TITLE_PLACEHOLDER": "Judul artikel ada di sini",
-      "CONTENT_PLACEHOLDER": "Tulis artikel Anda di sini",
+      "LOADING": "Loading article...",
+      "TITLE_PLACEHOLDER": "Article title goes here",
+      "CONTENT_PLACEHOLDER": "Write your article here",
       "API": {
-        "ERROR": "Terjadi kesalahan saat menyimpan artikel"
+        "ERROR": "Error while saving article"
       }
     },
     "PUBLISH_ARTICLE": {
       "API": {
-        "ERROR": "Terjadi kesalahan saat memublikasikan artikel",
-        "SUCCESS": "Artikel berhasil diterbitkan"
+        "ERROR": "Error while publishing article",
+        "SUCCESS": "Article published successfully"
       }
     },
     "ARCHIVE_ARTICLE": {
       "API": {
-        "ERROR": "Terjadi kesalahan saat mengarsipkan artikel",
-        "SUCCESS": "Artikel berhasil diarsipkan"
-      }
-    },
-    "DRAFT_ARTICLE": {
-      "API": {
-        "ERROR": "Error while drafting article",
-        "SUCCESS": "Article drafted successfully"
+        "ERROR": "Error while archiving article",
+        "SUCCESS": "Article archived successfully"
       }
     },
     "DELETE_ARTICLE": {
       "MODAL": {
         "CONFIRM": {
           "TITLE": "Konfirmasi Penghapusan",
-          "MESSAGE": "Apakah Anda yakin akan menghapus artikel tersebut?",
+          "MESSAGE": "Are you sure to delete the article?",
           "YES": "Ya, Hapus",
           "NO": "Tidak, Simpan"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Atribut berhasil dihapus",
-        "ERROR_MESSAGE": "Terjadi kesalahan saat menghapus artikel"
+        "SUCCESS_MESSAGE": "Article deleted successfully",
+        "ERROR_MESSAGE": "Error while deleting article"
       }
     },
     "CREATE_ARTICLE": {
-      "ERROR_MESSAGE": "Harap tambahkan tajuk artikel dan konten maka hanya Anda yang dapat memperbarui pengaturan"
+      "ERROR_MESSAGE": "Please add the article heading and content then only you can update the settings"
     },
     "SIDEBAR": {
       "SEARCH": {
-        "PLACEHOLDER": "Cari artikel"
+        "PLACEHOLDER": "Search for articles"
       }
     },
     "CATEGORY": {
       "ADD": {
-        "TITLE": "Buat kategori",
-        "SUB_TITLE": "Kategori tersebut akan digunakan di portal publik untuk mengkategorikan artikel.",
+        "TITLE": "Create a category",
+        "SUB_TITLE": "The category will be used in the public facing portal to categorize articles.",
         "PORTAL": "Portal",
-        "LOCALE": "Bahasa",
+        "LOCALE": "Locale",
         "NAME": {
           "LABEL": "Nama",
-          "PLACEHOLDER": "Nama kategori",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
           "ERROR": "Nama dibutuhkan"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Slug kategori untuk url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/id/kategori/my-slug",
-          "ERROR": "Slug diperlukan"
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
           "LABEL": "Deskripsi",
-          "PLACEHOLDER": "Berikan deskripsi singkat tentang kategori tersebut.",
+          "PLACEHOLDER": "Give a short description about the category.",
           "ERROR": "Deskripsi dibutuhkan"
         },
         "BUTTONS": {
-          "CREATE": "Buat kategori",
+          "CREATE": "Create category",
           "CANCEL": "Batalkan"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Kategori telah berhasil dibuat",
-          "ERROR_MESSAGE": "Tidak dapat membuat kategori"
+          "SUCCESS_MESSAGE": "Category created successfully",
+          "ERROR_MESSAGE": "Unable to create category"
         }
       },
       "EDIT": {
-        "TITLE": "Mengedit kategori",
-        "SUB_TITLE": "Mengedit kategori akan memperbarui kategori di portal menghadap publik.",
+        "TITLE": "Edit a category",
+        "SUB_TITLE": "Editing a category will update the category in the public facing portal.",
         "PORTAL": "Portal",
-        "LOCALE": "Bahasa",
+        "LOCALE": "Locale",
         "NAME": {
           "LABEL": "Nama",
-          "PLACEHOLDER": "Nama kategori",
-          "HELP_TEXT": "The category name and icon will be used in the public facing portal to categorize articles.",
+          "PLACEHOLDER": "Category name",
+          "HELP_TEXT": "The category name will be used in the public facing portal to categorize articles.",
           "ERROR": "Nama dibutuhkan"
         },
         "SLUG": {
           "LABEL": "Slug",
-          "PLACEHOLDER": "Slug kategori untuk url",
-          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/id/kategori/my-slug",
-          "ERROR": "Slug diperlukan"
+          "PLACEHOLDER": "Category slug for urls",
+          "HELP_TEXT": "app.chatwoot.com/hc/my-portal/en-US/categories/my-slug",
+          "ERROR": "Slug is required"
         },
         "DESCRIPTION": {
           "LABEL": "Deskripsi",
-          "PLACEHOLDER": "Berikan deskripsi singkat tentang kategori tersebut.",
+          "PLACEHOLDER": "Give a short description about the category.",
           "ERROR": "Deskripsi dibutuhkan"
         },
         "BUTTONS": {
-          "CREATE": "Buat kategori",
+          "CREATE": "Update category",
           "CANCEL": "Batalkan"
         },
         "API": {
-          "SUCCESS_MESSAGE": "Kategori berhasil diperbarui",
-          "ERROR_MESSAGE": "Tidak dapat memperbarui kategori"
+          "SUCCESS_MESSAGE": "Category updated successfully",
+          "ERROR_MESSAGE": "Unable to update category"
         }
       },
       "DELETE": {
         "API": {
-          "SUCCESS_MESSAGE": "Kategori berhasil dihapus",
-          "ERROR_MESSAGE": "Tidak dapat menghapus kategori"
-        }
-      }
-    },
-    "ARTICLE_SEARCH": {
-      "TITLE": "Search articles",
-      "PLACEHOLDER": "Search articles",
-      "NO_RESULT": "Tidak ditemukan artikel",
-      "SEARCHING": "Sedang mencari...",
-      "SEARCH_BUTTON": "Cari",
-      "INSERT_ARTICLE": "Insert link",
-      "IFRAME_ERROR": "URL is empty or invalid. Unable to display content.",
-      "OPEN_ARTICLE_SEARCH": "Insert article from Help Center",
-      "SUCCESS_ARTICLE_INSERTED": "Article inserted successfully",
-      "PREVIEW_LINK": "Pratinjau artikel",
-      "CANCEL": "Tutup",
-      "BACK": "Kembali",
-      "BACK_RESULTS": "Back to results"
-    },
-    "UPGRADE_PAGE": {
-      "TITLE": "Pusat Bantuan",
-      "DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Upgrade your subscription to enable this feature.",
-      "SELF_HOSTED_DESCRIPTION": "Create user-friendly self-service portals. Help your users to access the articles and get support 24/7. Please contact your administrator to enable this feature.",
-      "BUTTON": {
-        "LEARN_MORE": "Pelajari lebih lanjut",
-        "UPGRADE": "Upgrade"
-      },
-      "FEATURES": {
-        "PORTALS": {
-          "TITLE": "Multiple portals",
-          "DESCRIPTION": "Create multiple help center portals for different products using the same account."
-        },
-        "LOCALES": {
-          "TITLE": "Full support for locales",
-          "DESCRIPTION": "Localize the portal in your language. We support all locales and allow translations for every article."
-        },
-        "SEO": {
-          "TITLE": "SEO-friendly design",
-          "DESCRIPTION": "Customize your meta tags to improve your visibility on search engines with our SEO-friendly pages."
-        },
-        "API": {
-          "TITLE": "Full API support",
-          "DESCRIPTION": "Use the portal as a headless CMS with third party front-end frameworks using our APIs."
-        }
-      }
-    },
-    "LOADING": "Loading...",
-    "ARTICLES_PAGE": {
-      "ARTICLE_CARD": {
-        "CARD": {
-          "VIEWS": "{count} view | {count} views",
-          "DROPDOWN_MENU": {
-            "PUBLISH": "Terbitkan",
-            "DRAFT": "Draf",
-            "ARCHIVE": "Archive",
-            "DELETE": "Hapus"
-          },
-          "STATUS": {
-            "DRAFT": "Draf",
-            "PUBLISHED": "Diterbitkan",
-            "ARCHIVED": "Diarsipkan"
-          },
-          "CATEGORY": {
-            "UNCATEGORISED": "Uncategorised"
-          }
-        }
-      },
-      "ARTICLES_HEADER": {
-        "TABS": {
-          "ALL": "All articles",
-          "MINE": "Milikku",
-          "DRAFT": "Draf",
-          "PUBLISHED": "Diterbitkan",
-          "ARCHIVED": "Diarsipkan"
-        },
-        "CATEGORY": {
-          "ALL": "All categories"
-        },
-        "LOCALE": {
-          "ALL": "All locales"
-        },
-        "NEW_ARTICLE": "New article"
-      },
-      "EMPTY_STATE": {
-        "ALL": {
-          "TITLE": "Write an article",
-          "SUBTITLE": "Write a rich article, let’s get started!",
-          "BUTTON_LABEL": "New article"
-        },
-        "MINE": {
-          "TITLE": "You haven't written any articles here",
-          "SUBTITLE": "All articles written by you show up here for quick access."
-        },
-        "DRAFT": {
-          "TITLE": "There are no articles in drafts",
-          "SUBTITLE": "Draft articles will appear here"
-        },
-        "PUBLISHED": {
-          "TITLE": "There are no published articles",
-          "SUBTITLE": "Published articles will appear here"
-        },
-        "ARCHIVED": {
-          "TITLE": "There are no articles in the archive",
-          "SUBTITLE": "Archived articles don't show up on the portal, you can use it to mark deprecated or outdated pages"
-        },
-        "CATEGORY": {
-          "TITLE": "There are no articles in this category",
-          "SUBTITLE": "Articles in this category will appear here"
-        }
-      }
-    },
-    "CATEGORY_PAGE": {
-      "CATEGORY_HEADER": {
-        "NEW_CATEGORY": "Kategori Baru",
-        "EDIT_CATEGORY": "Edit kategori",
-        "CATEGORIES_COUNT": "{n} category | {n} categories",
-        "BREADCRUMB": {
-          "CATEGORY_LOCALE": "Categories ({localeCode})",
-          "ACTIVE_CATEGORY": "{categoryName} ({categoryCount} articles) | {categoryName} ({categoryCount} article)"
-        }
-      },
-      "CATEGORY_EMPTY_STATE": {
-        "TITLE": "Tidak ditemukan kategori",
-        "SUBTITLE": "Categories will appear here. You can add a category by clicking the 'New Category' button."
-      },
-      "CATEGORY_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles"
-      },
-      "CATEGORY_DIALOG": {
-        "CREATE": {
-          "API": {
-            "SUCCESS_MESSAGE": "Kategori telah berhasil dibuat",
-            "ERROR_MESSAGE": "Tidak dapat membuat kategori"
-          }
-        },
-        "EDIT": {
-          "API": {
-            "SUCCESS_MESSAGE": "Kategori berhasil diperbarui",
-            "ERROR_MESSAGE": "Tidak dapat memperbarui kategori"
-          }
-        },
-        "DELETE": {
-          "API": {
-            "SUCCESS_MESSAGE": "Kategori berhasil dihapus",
-            "ERROR_MESSAGE": "Tidak dapat menghapus kategori"
-          }
-        },
-        "HEADER": {
-          "CREATE": "Buat kategori",
-          "EDIT": "Edit kategori",
-          "DESCRIPTION": "Mengedit kategori akan memperbarui kategori di portal menghadap publik.",
-          "PORTAL": "Portal",
-          "LOCALE": "Bahasa"
-        },
-        "FORM": {
-          "NAME": {
-            "LABEL": "Nama",
-            "PLACEHOLDER": "Nama kategori",
-            "ERROR": "Nama dibutuhkan"
-          },
-          "SLUG": {
-            "LABEL": "Slug",
-            "PLACEHOLDER": "Slug kategori untuk url",
-            "ERROR": "Slug diperlukan",
-            "HELP_TEXT": "app.chatwoot.com/hc/{portalSlug}/{localeCode}/categories/{categorySlug}"
-          },
-          "DESCRIPTION": {
-            "LABEL": "Deskripsi",
-            "PLACEHOLDER": "Berikan deskripsi singkat tentang kategori tersebut.",
-            "ERROR": "Deskripsi dibutuhkan"
-          }
-        },
-        "BUTTONS": {
-          "CREATE": "Buat",
-          "EDIT": "Perbarui",
-          "CANCEL": "Batalkan"
-        }
-      }
-    },
-    "LOCALES_PAGE": {
-      "LOCALES_COUNT": "No locales available | {n} locale | {n} locales",
-      "NEW_LOCALE_BUTTON_TEXT": "New locale",
-      "LOCALE_CARD": {
-        "ARTICLES_COUNT": "{count} article | {count} articles",
-        "CATEGORIES_COUNT": "{count} category | {count} categories",
-        "DEFAULT": "Default",
-        "DROPDOWN_MENU": {
-          "MAKE_DEFAULT": "Make default",
-          "DELETE": "Hapus"
-        }
-      },
-      "ADD_LOCALE_DIALOG": {
-        "TITLE": "Tambahkan bahasa baru",
-        "DESCRIPTION": "Select the language in which this article will be written. This will be added to your list of translations, and you can add more later.",
-        "COMBOBOX": {
-          "PLACEHOLDER": "Select locale..."
-        },
-        "API": {
-          "SUCCESS_MESSAGE": "Bahasa berhasil ditambahkan",
-          "ERROR_MESSAGE": "Tidak dapat menambahkan bahasa. Coba lagi."
-        }
-      }
-    },
-    "EDIT_ARTICLE_PAGE": {
-      "HEADER": {
-        "STATUS": {
-          "SAVING": "Menyimpan...",
-          "SAVED": "Tersimpan"
-        },
-        "PREVIEW": "Pratinjau",
-        "PUBLISH": "Terbitkan",
-        "DRAFT": "Draf",
-        "ARCHIVE": "Archive",
-        "BACK_TO_ARTICLES": "Back to articles"
-      },
-      "EDIT_ARTICLE": {
-        "MORE_PROPERTIES": "More properties",
-        "UNCATEGORIZED": "Tanpa Kategori",
-        "EDITOR_PLACEHOLDER": "Write something..."
-      },
-      "ARTICLE_PROPERTIES": {
-        "ARTICLE_PROPERTIES": "Article properties",
-        "META_DESCRIPTION": "Deskripsi Meta",
-        "META_DESCRIPTION_PLACEHOLDER": "Add meta description",
-        "META_TITLE": "Judul Meta",
-        "META_TITLE_PLACEHOLDER": "Add meta title",
-        "META_TAGS": "Tag Meta",
-        "META_TAGS_PLACEHOLDER": "Add meta tags"
-      },
-      "API": {
-        "ERROR": "Terjadi kesalahan saat menyimpan artikel"
-      }
-    },
-    "PORTAL_SWITCHER": {
-      "NEW_PORTAL": "New portal",
-      "PORTALS": "Portal",
-      "CREATE_PORTAL": "Create and manage multiple portals",
-      "ARTICLES": "artikel",
-      "DOMAIN": "domain",
-      "PORTAL_NAME": "Nama portal"
-    },
-    "CREATE_PORTAL_DIALOG": {
-      "TITLE": "Create new portal",
-      "DESCRIPTION": "Give your portal a name and create a user-friendly URL slug. You can modify both later in the settings.",
-      "CONFIRM_BUTTON_LABEL": "Buat",
-      "NAME": {
-        "LABEL": "Nama",
-        "PLACEHOLDER": "User Guide | Chatwoot",
-        "MESSAGE": "Choose an name for your portal.",
-        "ERROR": "Nama dibutuhkan"
-      },
-      "SLUG": {
-        "LABEL": "Slug",
-        "PLACEHOLDER": "user-guide",
-        "ERROR": "Slug diperlukan",
-        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
-      }
-    },
-    "PORTAL_SETTINGS": {
-      "FORM": {
-        "AVATAR": {
-          "LABEL": "Logo",
-          "IMAGE_UPLOAD_ERROR": "Couldn't upload image! Try again",
-          "IMAGE_UPLOAD_SUCCESS": "Image added successfully. Please click on save changes to save the logo",
-          "IMAGE_DELETE_SUCCESS": "Logo deleted successfully",
-          "IMAGE_DELETE_ERROR": "Unable to delete logo",
-          "IMAGE_UPLOAD_SIZE_ERROR": "Ukuran gambar harus kurang dari {size}MB"
-        },
-        "NAME": {
-          "LABEL": "Nama",
-          "PLACEHOLDER": "Nama portal",
-          "ERROR": "Nama dibutuhkan"
-        },
-        "HEADER_TEXT": {
-          "LABEL": "Header text",
-          "PLACEHOLDER": "Teks header portal"
-        },
-        "PAGE_TITLE": {
-          "LABEL": "Page title",
-          "PLACEHOLDER": "Judul halaman portal"
-        },
-        "HOME_PAGE_LINK": {
-          "LABEL": "Home page link",
-          "PLACEHOLDER": "Tautan halaman utama portal",
-          "ERROR": "Invalid URL. The Home page link must start with 'http://' or 'https://'."
-        },
-        "SLUG": {
-          "LABEL": "Slug",
-          "PLACEHOLDER": "Portal slug"
-        },
-        "LIVE_CHAT_WIDGET": {
-          "LABEL": "Live chat widget",
-          "PLACEHOLDER": "Select live chat widget",
-          "HELP_TEXT": "Select a live chat widget that will appear on your help center"
-        },
-        "BRAND_COLOR": {
-          "LABEL": "Brand color"
-        },
-        "SAVE_CHANGES": "Save changes"
-      },
-      "CONFIGURATION_FORM": {
-        "CUSTOM_DOMAIN": {
-          "HEADER": "Domain kustom",
-          "LABEL": "Domain kustom:",
-          "DESCRIPTION": "You can host your portal on a custom domain. For instance, if your website is yourdomain.com and you want your portal available at docs.yourdomain.com, simply enter that in this field.",
-          "PLACEHOLDER": "Domain kustom portal",
-          "EDIT_BUTTON": "Edit custom domain",
-          "ADD_BUTTON": "Add custom domain",
-          "DIALOG": {
-            "ADD_HEADER": "Add custom domain",
-            "EDIT_HEADER": "Edit custom domain",
-            "ADD_CONFIRM_BUTTON_LABEL": "Add domain",
-            "EDIT_CONFIRM_BUTTON_LABEL": "Update domain",
-            "LABEL": "Domain kustom",
-            "PLACEHOLDER": "Domain kustom portal",
-            "ERROR": "Custom domain is required"
-          },
-          "DNS_CONFIGURATION_DIALOG": {
-            "HEADER": "DNS configuration",
-            "DESCRIPTION": "Log in to the account you have with your DNS provider, and add a CNAME record for subdomain pointing to chatwoot.help",
-            "HELP_TEXT": "Once this is done, you can reach out to our support to request for the auto-generated SSL certificate.",
-            "CONFIRM_BUTTON_LABEL": "Got it!"
-          }
-        },
-        "DELETE_PORTAL": {
-          "BUTTON": "Delete {portalName}",
-          "HEADER": "Hapus Portal",
-          "DESCRIPTION": "Permanently delete this portal. This action is irreversible",
-          "DIALOG": {
-            "HEADER": "Sure you want to delete {portalName}?",
-            "DESCRIPTION": "This is a permanent action that cannot be reversed.",
-            "CONFIRM_BUTTON_LABEL": "Hapus"
-          }
-        },
-        "EDIT_CONFIGURATION": "Edit configuration"
-      },
-      "API": {
-        "CREATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal berhasil dibuat",
-          "ERROR_MESSAGE": "Unable to create portal"
-        },
-        "UPDATE_PORTAL": {
-          "SUCCESS_MESSAGE": "Portal berhasil diperbarui",
-          "ERROR_MESSAGE": "Unable to update portal"
+          "SUCCESS_MESSAGE": "Category deleted successfully",
+          "ERROR_MESSAGE": "Unable to delete category"
         }
       }
     }

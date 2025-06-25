@@ -1,12 +1,17 @@
 class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   include ::FileTypeHelper
 
-  before_action :fetch_portal, except: [:index, :create]
+  before_action :fetch_portal, except: [:index, :create, :attach_file]
   before_action :check_authorization
   before_action :set_current_page, only: [:index]
 
   def index
     @portals = Current.account.portals
+  end
+
+  def add_members
+    agents = Current.account.agents.where(id: portal_member_params[:member_ids])
+    @portal.members << agents
   end
 
   def show
@@ -15,7 +20,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    @portal = Current.account.portals.build(portal_params.merge(live_chat_widget_params))
+    @portal = Current.account.portals.build(portal_params)
     @portal.custom_domain = parsed_custom_domain
     @portal.save!
     process_attached_logo
@@ -23,7 +28,7 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def update
     ActiveRecord::Base.transaction do
-      @portal.update!(portal_params.merge(live_chat_widget_params)) if params[:portal].present?
+      @portal.update!(portal_params) if params[:portal].present?
       # @portal.custom_domain = parsed_custom_domain
       process_attached_logo if params[:blob_id].present?
     rescue StandardError => e
@@ -42,15 +47,20 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
     head :ok
   end
 
-  def logo
-    @portal.logo.purge if @portal.logo.attached?
-    head :ok
-  end
-
   def process_attached_logo
     blob_id = params[:blob_id]
     blob = ActiveStorage::Blob.find_by(id: blob_id)
     @portal.logo.attach(blob)
+  end
+
+  def attach_file
+    file_blob = ActiveStorage::Blob.create_and_upload!(
+      key: nil,
+      io: params[:logo].tempfile,
+      filename: params[:logo].original_filename,
+      content_type: params[:logo].content_type
+    )
+    render json: { blob_key: file_blob.key, blob_id: file_blob.id }
   end
 
   private
@@ -65,19 +75,13 @@ class Api::V1::Accounts::PortalsController < Api::V1::Accounts::BaseController
 
   def portal_params
     params.require(:portal).permit(
-      :account_id, :color, :custom_domain, :header_text, :homepage_link,
-      :name, :page_title, :slug, :archived, { config: [:default_locale, { allowed_locales: [] }] }
+      :account_id, :color, :custom_domain, :header_text, :homepage_link, :name, :page_title, :slug, :archived, { config: [:default_locale,
+                                                                                                                          { allowed_locales: [] }] }
     )
   end
 
-  def live_chat_widget_params
-    permitted_params = params.permit(:inbox_id)
-    return {} if permitted_params[:inbox_id].blank?
-
-    inbox = Inbox.find(permitted_params[:inbox_id])
-    return {} unless inbox.web_widget?
-
-    { channel_web_widget_id: inbox.channel.id }
+  def portal_member_params
+    params.require(:portal).permit(:account_id, member_ids: [])
   end
 
   def set_current_page

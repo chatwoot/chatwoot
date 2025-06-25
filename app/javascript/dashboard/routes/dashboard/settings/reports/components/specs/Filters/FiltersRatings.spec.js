@@ -1,35 +1,37 @@
-import { shallowMount } from '@vue/test-utils';
-import ReportFiltersRatings from '../../Filters/Ratings.vue';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import ReportFiltersRatings from '../../Filters/Ratings';
 import { CSAT_RATINGS } from 'shared/constants/messages';
 
 const mountParams = {
-  global: {
-    mocks: {
-      $t: msg => msg,
-    },
-    stubs: ['multiselect'],
+  mocks: {
+    $t: msg => msg,
   },
+  stubs: ['multiselect'],
 };
 
+const localVue = createLocalVue();
+
 describe('ReportFiltersRatings.vue', () => {
-  it('emits "rating-filter-selection" event when handleInput is called', async () => {
+  it('emits "rating-filter-selection" event when handleInput is called', () => {
     const wrapper = shallowMount(ReportFiltersRatings, {
+      localVue,
       ...mountParams,
     });
 
     const selectedRating = { value: 1, label: 'Rating 1' };
-    await wrapper.setData({ selectedOption: selectedRating });
+    wrapper.setData({ selectedOption: selectedRating });
 
-    await wrapper.vm.handleInput(selectedRating);
+    wrapper.vm.handleInput(selectedRating);
 
-    expect(wrapper.emitted('ratingFilterSelection')).toBeTruthy();
-    expect(wrapper.emitted('ratingFilterSelection')[0]).toEqual([
+    expect(wrapper.emitted('rating-filter-selection')).toBeTruthy();
+    expect(wrapper.emitted('rating-filter-selection')[0]).toEqual([
       selectedRating,
     ]);
   });
 
   it('initializes options correctly', () => {
     const wrapper = shallowMount(ReportFiltersRatings, {
+      localVue,
       ...mountParams,
     });
 

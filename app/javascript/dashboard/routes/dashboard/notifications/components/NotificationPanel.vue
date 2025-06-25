@@ -1,16 +1,123 @@
+<template>
+  <div class="modal-mask">
+    <div
+      v-on-clickaway="closeNotificationPanel"
+      class="notification-wrap flex-space-between"
+    >
+      <div class="header-wrap w-full flex-space-between">
+        <div class="header-title--wrap flex-view">
+          <span class="header-title">
+            {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.TITLE') }}
+          </span>
+          <span v-if="totalUnreadNotifications" class="total-count block-title">
+            {{ totalUnreadNotifications }}
+          </span>
+        </div>
+        <div class="flex-view">
+          <woot-button
+            v-if="!noUnreadNotificationAvailable"
+            color-scheme="primary"
+            variant="smooth"
+            size="tiny"
+            class-names="action-button"
+            :is-loading="uiFlags.isUpdating"
+            @click="onMarkAllDoneClick"
+          >
+            {{ $t('NOTIFICATIONS_PAGE.MARK_ALL_DONE') }}
+          </woot-button>
+          <woot-button
+            color-scheme="secondary"
+            variant="smooth"
+            size="tiny"
+            class-names="action-button"
+            icon="settings"
+            @click="openAudioNotificationSettings"
+          />
+          <woot-button
+            color-scheme="secondary"
+            variant="link"
+            size="tiny"
+            icon="dismiss"
+            @click="closeNotificationPanel"
+          />
+        </div>
+      </div>
+      <notification-panel-list
+        :notifications="getUnreadNotifications"
+        :is-loading="uiFlags.isFetching"
+        :on-click-notification="openConversation"
+        :in-last-page="inLastPage"
+      />
+      <div v-if="records.length !== 0" class="footer-wrap flex-space-between">
+        <div class="flex-view">
+          <woot-button
+            size="medium"
+            variant="clear"
+            color-scheme="secondary"
+            class-names="page-change--button"
+            :is-disabled="inFirstPage"
+            @click="onClickFirstPage"
+          >
+            <fluent-icon icon="chevron-left" size="16" />
+            <fluent-icon
+              icon="chevron-left"
+              size="16"
+              :class="notificationPanelFooterIconClass"
+            />
+          </woot-button>
+          <woot-button
+            color-scheme="secondary"
+            variant="clear"
+            size="medium"
+            icon="chevron-left"
+            :disabled="inFirstPage"
+            @click="onClickPreviousPage"
+          />
+        </div>
+        <span class="page-count"> {{ currentPage }} - {{ lastPage }} </span>
+        <div class="flex-view">
+          <woot-button
+            color-scheme="secondary"
+            variant="clear"
+            size="medium"
+            icon="chevron-right"
+            :disabled="inLastPage"
+            @click="onClickNextPage"
+          />
+          <woot-button
+            size="medium"
+            variant="clear"
+            color-scheme="secondary"
+            class-names="page-change--button"
+            :disabled="inLastPage"
+            @click="onClickLastPage"
+          >
+            <fluent-icon icon="chevron-right" size="16" />
+            <fluent-icon
+              icon="chevron-right"
+              size="16"
+              :class="notificationPanelFooterIconClass"
+            />
+          </woot-button>
+        </div>
+      </div>
+      <div v-else />
+    </div>
+  </div>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
-import NotificationPanelList from './NotificationPanelList.vue';
-import { useTrack } from 'dashboard/composables';
-import { ACCOUNT_EVENTS } from '../../../../helper/AnalyticsHelper/events';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import { mixin as clickaway } from 'vue-clickaway';
+import rtlMixin from 'shared/mixins/rtlMixin';
+
+import NotificationPanelList from './NotificationPanelList';
 
 export default {
   components: {
     NotificationPanelList,
-    NextButton,
   },
-  emits: ['close'],
+  mixins: [clickaway, rtlMixin],
   data() {
     return {
       pageSize: 15,
@@ -18,10 +125,16 @@ export default {
   },
   computed: {
     ...mapGetters({
+      accountId: 'getCurrentAccountId',
       meta: 'notifications/getMeta',
       records: 'notifications/getNotifications',
       uiFlags: 'notifications/getUIFlags',
     }),
+    notificationPanelFooterIconClass() {
+      return this.isRTLView
+        ? 'margin-right-minus-slab'
+        : 'margin-left-minus-slab';
+    },
     totalUnreadNotifications() {
       return this.meta.unreadCount;
     },
@@ -60,14 +173,9 @@ export default {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
         primary_actor: { id: conversationId },
-        notification_type: notificationType,
       } = notification;
 
-      useTrack(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
-        notificationType,
-      });
       this.$store.dispatch('notifications/read', {
-        id: notification.id,
         primaryActorId,
         primaryActorType,
         unreadCount: this.meta.unreadCount,
@@ -103,7 +211,6 @@ export default {
       }
     },
     onMarkAllDoneClick() {
-      useTrack(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
       this.$store.dispatch('notifications/readAll');
     },
     openAudioNotificationSettings() {
@@ -128,103 +235,70 @@ export default {
   },
 };
 </script>
+<style lang="scss" scoped>
+.flex-view {
+  display: flex;
+}
 
-<template>
-  <div class="modal-mask">
-    <div
-      v-on-clickaway="closeNotificationPanel"
-      class="flex-col h-[90vh] w-[32.5rem] flex justify-between z-10 rounded-md shadow-md absolute bg-white dark:bg-slate-800 left-14 rtl:left-auto rtl:right-14 m-4"
-    >
-      <div
-        class="flex flex-row items-center justify-between w-full px-6 pt-5 pb-3 border-b border-solid border-slate-50 dark:border-slate-700"
-      >
-        <div class="flex items-center">
-          <span class="text-xl font-bold text-slate-800 dark:text-slate-100">
-            {{ $t('NOTIFICATIONS_PAGE.UNREAD_NOTIFICATION.TITLE') }}
-          </span>
-          <span
-            v-if="totalUnreadNotifications"
-            class="px-2 py-1 ml-2 mr-2 font-semibold rounded-md text-slate-700 dark:text-slate-200 text-xxs bg-slate-50 dark:bg-slate-700"
-          >
-            {{ totalUnreadNotifications }}
-          </span>
-        </div>
-        <div class="flex gap-2">
-          <NextButton
-            v-if="!noUnreadNotificationAvailable"
-            faded
-            xs
-            icon="i-lucide-list-check"
-            :is-loading="uiFlags.isUpdating"
-            :label="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
-            @click="onMarkAllDoneClick"
-          />
-          <NextButton
-            faded
-            xs
-            slate
-            icon="i-lucide-settings"
-            @click="openAudioNotificationSettings"
-          />
-          <NextButton
-            ghost
-            xs
-            slate
-            icon="i-lucide-x"
-            @click="closeNotificationPanel"
-          />
-        </div>
-      </div>
-      <NotificationPanelList
-        :notifications="getUnreadNotifications"
-        :is-loading="uiFlags.isFetching"
-        :on-click-notification="openConversation"
-        :in-last-page="inLastPage"
-        @close="closeNotificationPanel"
-      />
-      <div
-        v-if="records.length !== 0"
-        class="flex items-center justify-between px-5 py-1"
-      >
-        <div class="flex">
-          <NextButton
-            ghost
-            slate
-            icon="i-lucide-chevrons-left"
-            :disabled="inFirstPage"
-            @click="onClickFirstPage"
-          />
-          <NextButton
-            ghost
-            slate
-            icon="i-lucide-chevron-left"
-            class="ltr:-ml-3 rtl:-mr-3"
-            :disabled="inFirstPage"
-            @click="onClickPreviousPage"
-          />
-        </div>
-        <span class="font-semibold text-xxs text-slate-500 dark:text-slate-400">
-          {{ currentPage }} - {{ lastPage }}
-        </span>
-        <div class="flex">
-          <NextButton
-            ghost
-            slate
-            icon="i-lucide-chevron-right"
-            class="ltr:-mr-3 rtl:-ml-3"
-            :disabled="inLastPage"
-            @click="onClickNextPage"
-          />
-          <NextButton
-            ghost
-            slate
-            icon="i-lucide-chevrons-right"
-            :disabled="inLastPage"
-            @click="onClickLastPage"
-          />
-        </div>
-      </div>
-      <div v-else />
-    </div>
-  </div>
-</template>
+.flex-space-between {
+  display: flex;
+  justify-content: space-between;
+}
+
+.notification-wrap {
+  flex-direction: column;
+  height: 90vh;
+  width: 52rem;
+  background-color: var(--white);
+  border-radius: var(--border-radius-medium);
+  position: absolute;
+  left: var(--space-jumbo);
+  margin: var(--space-small);
+}
+
+.header-wrap {
+  flex-direction: row;
+  align-items: center;
+  border-bottom: 1px solid var(--s-50);
+  padding: var(--space-two) var(--space-medium) var(--space-slab)
+    var(--space-medium);
+
+  .header-title--wrap {
+    align-items: center;
+  }
+
+  .header-title {
+    font-size: var(--font-size-two);
+    font-weight: var(--font-weight-black);
+  }
+
+  .total-count {
+    padding: var(--space-smaller) var(--space-small);
+    background: var(--b-50);
+    border-radius: var(--border-radius-normal);
+    font-size: var(--font-size-micro);
+    font-weight: var(--font-weight-bold);
+    margin-left: var(--space-smaller);
+    margin-right: var(--space-smaller);
+  }
+
+  .action-button {
+    margin-right: var(--space-small);
+  }
+}
+
+.page-count {
+  font-size: var(--font-size-micro);
+  font-weight: var(--font-weight-bold);
+  color: var(--s-500);
+}
+
+.footer-wrap {
+  align-items: center;
+  padding: var(--space-smaller) var(--space-two);
+}
+
+.page-change--button:hover {
+  background: var(--s-50);
+}
+</style>

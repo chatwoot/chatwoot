@@ -1,3 +1,22 @@
+<template>
+  <div class="multiselect-wrap--small">
+    <multiselect
+      v-model="selectedOption"
+      class="no-margin"
+      track-by="name"
+      label="name"
+      :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
+      selected-label
+      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
+      deselect-label=""
+      :options="options"
+      :searchable="false"
+      :allow-empty="false"
+      @select="updateRange"
+    />
+  </div>
+</template>
+
 <script>
 import { DATE_RANGE_OPTIONS } from '../../constants';
 
@@ -25,22 +44,3 @@ export default {
   },
 };
 </script>
-
-<template>
-  <div class="multiselect-wrap--small">
-    <multiselect
-      v-model="selectedOption"
-      class="no-margin"
-      track-by="name"
-      label="name"
-      :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
-      selected-label
-      :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
-      deselect-label=""
-      :options="options"
-      :searchable="false"
-      :allow-empty="false"
-      @select="updateRange"
-    />
-  </div>
-</template>

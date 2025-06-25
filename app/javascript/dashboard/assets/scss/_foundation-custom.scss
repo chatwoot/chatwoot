@@ -1,0 +1,70 @@
+.button {
+  font-family: $body-font-family;
+  font-weight: $font-weight-medium;
+
+  &.round {
+    border-radius: 1000px;
+  }
+}
+
+select {
+  height: 4.0rem;
+}
+
+.card {
+  margin-bottom: var(--space-small);
+  padding: var(--space-normal);
+}
+
+.button-wrapper .button.grey-btn {
+  margin-left: var(--space-normal);
+}
+
+.tooltip {
+  background-color: var(--black-transparent);
+  border-radius: $space-smaller;
+  font-size: $font-size-mini;
+  max-width: var(--space-giga);
+  padding: $space-smaller $space-small;
+  z-index: 999;
+}
+
+code {
+  border: 0;
+  font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+    '"Liberation Mono"', '"Courier New"', 'monospace';
+  font-size: $font-size-mini;
+
+  &.hljs {
+    background: $color-background;
+    border-radius: var(--border-radius-large);
+    padding: $space-two;
+  }
+}
+
+.text-truncate {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+// remove when grid gutters are fixed
+.columns.with-right-space {
+  padding-right: var(--space-normal);
+}
+
+.badge {
+  border-radius: var(--border-radius-normal);
+}
+
+.padding-right-small {
+  padding-right: var(--space-one);
+}

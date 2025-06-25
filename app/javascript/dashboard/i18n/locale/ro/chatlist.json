@@ -6,7 +6,6 @@
     "LIST": {
       "404": "Nu sunt conversații active în acest grup."
     },
-    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversații",
     "MENTION_HEADING": "Mențiuni",
     "UNATTENDED_HEADING": "Neasistat",
@@ -37,45 +36,17 @@
       }
     },
     "VIEW_FILTER": "Vizualizare",
-    "SORT_TOOLTIP_LABEL": "Sortarea conversațiilor",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
     "CHAT_SORT": {
       "STATUS": "Status",
-      "ORDER_BY": "Ordonat după"
+      "ORDER_BY": "Order by"
     },
-    "CHAT_TIME_STAMP": {
-      "CREATED": {
-        "LATEST": "Creat",
-        "OLDEST": "Creat la:"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
       },
-      "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Ultima activitate:",
-        "ACTIVE": "Ultima activitate"
-      }
-    },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
-      },
-      "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
-      },
-      "created_at_desc": {
-        "TEXT": "Created at: Newest first"
-      },
-      "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
-      },
-      "priority_desc": {
-        "TEXT": "Priority: Highest first"
-      },
-      "priority_asc": {
-        "TEXT": "Priority: Lowest first"
-      },
-      "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
-      },
-      "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+      "sort_on_created_at": {
+        "TEXT": "Creat la"
       }
     },
     "ATTACHMENTS": {
@@ -94,31 +65,25 @@
       "location": {
         "CONTENT": "Locaţie"
       },
-      "ig_reel": {
-        "CONTENT": "Instagram Reel"
-      },
       "fallback": {
         "CONTENT": "a partajat un URL"
-      },
-      "contact": {
-        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sortarea conversației",
+      "TITLE": "Sort conversation",
       "DROPDOWN_TITLE": "Sortați după",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Ultima activitate la",
-          "LABEL": "Ultima activitate"
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
         },
         "CREATED_AT": {
           "NAME": "Creat la",
           "LABEL": "Creat la"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Ultimul mesaj de utilizator la",
-          "LABEL": "Ultimul mesaj"
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
         }
       }
     },
@@ -133,7 +98,6 @@
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
     "SHOW_QUOTED_TEXT": "Arată textul citat",
-    "MESSAGE_READ": "Citește",
-    "SENDING": "Sending"
+    "MESSAGE_READ": "Citește"
   }
 }

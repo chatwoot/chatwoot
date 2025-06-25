@@ -1,104 +1,78 @@
 {
   "MACROS": {
-    "HEADER": "Makrokomandos",
-    "DESCRIPTION": "A macro is a set of saved actions that help customer service agents easily complete tasks. The agents can define a set of actions like tagging a conversation with a label, sending an email transcript, updating a custom attribute, etc., and they can run these actions in a single click.",
-    "LEARN_MORE": "Learn more about macros",
-    "HEADER_BTN_TXT": "Pridėti naują makrokomandą",
-    "HEADER_BTN_TXT_SAVE": "Išsaugoti makrokomandą",
-    "LOADING": "Gaunama makrokomanda",
-    "ERROR": "Kažkas nepavyko. Bandykite dar kartą",
-    "ORDER_INFO": "Makrokomandos bus paleistos ta tvarka, kuria pridėsite veiksmus. Galite juos pertvarkyti vilkdami už rankenos šalia kiekvieno mazgo.",
+    "HEADER": "Macros",
+    "HEADER_BTN_TXT": "Add a new macro",
+    "HEADER_BTN_TXT_SAVE": "Save macro",
+    "LOADING": "Fetching macros",
+    "SIDEBAR_TXT": "<p><b>Makrokomandos</b><p>Makrokomandos yra išsaugotų veiksmų rinkinys, padedantis klientų aptarnavimo agentams lengvai atlikti užduotis. Agentai gali apibrėžti veiksmų rinkinį, pvz., pokalbio žymėjimą etikete, el. laiško nuorašo siuntimą, atributo atnaujinimą ir pan., ir jie gali atlikti šiuos veiksmus vienu paspaudimu. Kai agentai vykdo makrokomandą, veiksmai bus atliekami nuosekliai tokia tvarka, kokia jie yra apibrėžti. Makrokomandos pagerina produktyvumą ir padidina veiksmų nuoseklumą. </p><p>Makrokomandas gali būti naudingas dviem būdais. </p><p><b>Kaip agento pagalba:</b> jei agentas kelis kartus atlieka veiksmų rinkinį, jis gali išsaugoti jį kaip makrokomandą ir atlikti visus veiksmus kartu vienu spustelėjimu.</b> p><p><b>Kaip galimybė įtraukti komandos narį:</b> kiekvienas agentas kiekvieno pokalbio metu turi atlikti daugybę skirtingų patikrinimų / veiksmų. Priimant naują komandos narį bus lengva, jei paskyroje bus iš anksto nustatytų makrokomandų. Užuot išsamiai aprašęs kiekvieną veiksmą, vadovas / komandos vadovas gali nurodyti įvairiuose scenarijuose naudojamas makrokomandas.</p>",
+    "ERROR": "Something went wrong. Please try again",
+    "ORDER_INFO": "Macros will run in the order you add your actions. You can rearrange them by dragging them by the handle beside each node.",
     "ADD": {
       "FORM": {
         "NAME": {
-          "LABEL": "Makrokomandos pavadinimas",
-          "PLACEHOLDER": "Įveskite makrokomandos pavadinimą",
-          "ERROR": "Kuriant makrokomandą būtinas pavadinimas"
+          "LABEL": "Macro name",
+          "PLACEHOLDER": "Enter a name for your macro",
+          "ERROR": "Name is required for creating a macro"
         },
         "ACTIONS": {
           "LABEL": "Veiksmai"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Makrokomanda sėkmingai pridėta",
-        "ERROR_MESSAGE": "Nepavyko sukurti makrokomandos, bandykite dar kartą vėliau"
+        "SUCCESS_MESSAGE": "Macro added successfully",
+        "ERROR_MESSAGE": "Unable to create macro, Please try again later"
       }
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "Vardas",
-        "CREATED BY": "Sukurtas",
-        "LAST_UPDATED_BY": "Paskutinį kartą atnaujino",
-        "VISIBILITY": "Matomumas"
-      },
-      "404": "Nerasta makrokomandų"
+      "TABLE_HEADER": [
+        "Vardas",
+        "Sukurtas",
+        "Last updated by",
+        "Matomumas"
+      ],
+      "404": "No macros found"
     },
     "DELETE": {
-      "TOOLTIP": "Ištrinti makrokomandą",
+      "TOOLTIP": "Delete macro",
       "CONFIRM": {
         "MESSAGE": "Ar tikrai norite ištrinti ",
         "YES": "Taip, Ištrinti",
-        "NO": "Ne"
+        "NO": "No"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Makrokomanda sėkmingai ištrinta",
-        "ERROR_MESSAGE": "Ištrinant makrokomandą įvyko klaida. Pabandykite dar kartą vėliau"
+        "SUCCESS_MESSAGE": "Macro deleted successfully",
+        "ERROR_MESSAGE": "There was an error deleting the macro. Please try again later"
       }
     },
     "EDIT": {
-      "TOOLTIP": "Redaguoti makrokomandą",
+      "TOOLTIP": "Edit macro",
       "API": {
-        "SUCCESS_MESSAGE": "Makrokomanda sėkmingai atnaujinta",
-        "ERROR_MESSAGE": "Nepavyko atnaujinti makrokomandos. Pabandykite dar kartą vėliau"
+        "SUCCESS_MESSAGE": "Macro updated successfully",
+        "ERROR_MESSAGE": "Could not update Macro, Please try again later"
       }
     },
     "EDITOR": {
       "START_FLOW": "Pradėti srautą",
       "END_FLOW": "Baigti srautą",
-      "LOADING": "Gaunama makrokomanda",
+      "LOADING": "Fetching macro",
       "ADD_BTN_TOOLTIP": "Pridėti naują veiksmą",
       "DELETE_BTN_TOOLTIP": "Ištrinti Veiksmą",
       "VISIBILITY": {
-        "LABEL": "Makrokomandos matomumas",
+        "LABEL": "Macro Visibility",
         "GLOBAL": {
           "LABEL": "Viešas",
-          "DESCRIPTION": "Ši makrokomanda yra viešai prieinama visiems šios paskyros agentams."
+          "DESCRIPTION": "This macro is available publicly for all agents in this account."
         },
         "PERSONAL": {
           "LABEL": "Privatus",
-          "DESCRIPTION": "Ši makrokomanda bus prieinama tik jums ir nepasiekiama kitiems."
+          "DESCRIPTION": "This macro will be private to you and not be available to others."
         }
       }
     },
     "EXECUTE": {
       "BUTTON_TOOLTIP": "Vykdyti",
-      "PREVIEW": "Peržiūrėti makrokomandą",
-      "EXECUTED_SUCCESSFULLY": "Sėkmingai įvykdyta makrokomanda"
-    },
-    "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
-      "VALUE_REQUIRED": "Reikalinga vertė",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "Value must be between 1 and 998",
-      "ACTION_PARAMETERS_REQUIRED": "Action parameters are required",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "At least one condition is required",
-      "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
-    },
-    "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "REMOVE_ASSIGNED_TEAM": "Remove Assigned Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Tildyti pokalbį",
-      "SNOOZE_CONVERSATION": "Atidėti Pokalbį",
-      "RESOLVE_CONVERSATION": "Išspręsti pokalbį",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Pakeisti Prioritetą",
-      "ADD_PRIVATE_NOTE": "Add a Private Note",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+      "PREVIEW": "Preview Macro",
+      "EXECUTED_SUCCESSFULLY": "Macro executed successfully"
     }
   }
 }

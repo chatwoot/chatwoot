@@ -5,26 +5,19 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   def initialize(rule, conversation = nil, options = {})
     super([], nil)
-    # assign rule, conversation and account to instance variables
     @rule = rule
     @conversation = conversation
     @account = conversation.account
-
-    # setup filters from json file
-    file = File.read('./lib/filters/filter_keys.yml')
-    @filters = YAML.safe_load(file)
-
-    @conversation_filters = @filters['conversations']
-    @contact_filters = @filters['contacts']
-    @message_filters = @filters['messages']
-
+    file = File.read('./lib/filters/filter_keys.json')
+    @filters = JSON.parse(file)
     @options = options
     @changed_attributes = options[:changed_attributes]
   end
 
   def perform
-    return false unless rule_valid?
-
+    @conversation_filters = @filters['conversations']
+    @contact_filters = @filters['contacts']
+    @message_filters = @filters['messages']
     @attribute_changed_query_filter = []
 
     @rule.conditions.each_with_index do |query_hash, current_index|
@@ -37,18 +30,6 @@ class AutomationRules::ConditionsFilterService < FilterService
     records = perform_attribute_changed_filter(records) if @attribute_changed_query_filter.any?
 
     records.any?
-  rescue StandardError => e
-    Rails.logger.error "Error in AutomationRules::ConditionsFilterService: #{e.message}"
-    Rails.logger.info "AutomationRules::ConditionsFilterService failed while processing rule #{@rule.id} for conversation #{@conversation.id}"
-    false
-  end
-
-  def rule_valid?
-    is_valid = AutomationRules::ConditionValidationService.new(@rule).perform
-    Rails.logger.info "Automation rule condition validation failed for rule id: #{@rule.id}" unless is_valid
-    @rule.authorization_error! unless is_valid
-
-    is_valid
   end
 
   def filter_operation(query_hash, current_index)
@@ -111,8 +92,6 @@ class AutomationRules::ConditionsFilterService < FilterService
   def message_query_string(current_filter, query_hash, current_index)
     attribute_key = query_hash['attribute_key']
     query_operator = query_hash['query_operator']
-
-    attribute_key = 'processed_message_content' if attribute_key == 'content'
 
     filter_operator_value = filter_operation(query_hash, current_index)
 

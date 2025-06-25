@@ -9,14 +9,11 @@ module RequestExceptionHandler
 
   def handle_with_exception
     yield
-  rescue ActiveRecord::RecordNotFound => e
-    log_handled_error(e)
+  rescue ActiveRecord::RecordNotFound
     render_not_found_error('Resource could not be found')
-  rescue Pundit::NotAuthorizedError => e
-    log_handled_error(e)
+  rescue Pundit::NotAuthorizedError
     render_unauthorized('You are not authorized to do this action')
   rescue ActionController::ParameterMissing => e
-    log_handled_error(e)
     render_could_not_create_error(e.message)
   ensure
     # to address the thread variable leak issues in Puma/Thin webserver
@@ -44,7 +41,6 @@ module RequestExceptionHandler
   end
 
   def render_record_invalid(exception)
-    log_handled_error(exception)
     render json: {
       message: exception.record.errors.full_messages.join(', '),
       attributes: exception.record.errors.attribute_names
@@ -52,11 +48,6 @@ module RequestExceptionHandler
   end
 
   def render_error_response(exception)
-    log_handled_error(exception)
     render json: exception.to_hash, status: exception.http_status
-  end
-
-  def log_handled_error(exception)
-    logger.info("Handled error: #{exception.inspect}")
   end
 end

@@ -10,7 +10,6 @@ export const buildCreatePayload = ({
   files,
   ccEmails = '',
   bccEmails = '',
-  toEmails = '',
   templateParams,
 }) => {
   let payload;
@@ -26,13 +25,6 @@ export const buildCreatePayload = ({
     payload.append('echo_id', echoId);
     payload.append('cc_emails', ccEmails);
     payload.append('bcc_emails', bccEmails);
-
-    if (toEmails) {
-      payload.append('to_emails', toEmails);
-    }
-    if (contentAttributes) {
-      payload.append('content_attributes', JSON.stringify(contentAttributes));
-    }
   } else {
     payload = {
       content: message,
@@ -41,7 +33,6 @@ export const buildCreatePayload = ({
       content_attributes: contentAttributes,
       cc_emails: ccEmails,
       bcc_emails: bccEmails,
-      to_emails: toEmails,
       template_params: templateParams,
     };
   }
@@ -62,7 +53,6 @@ class MessageApi extends ApiClient {
     files,
     ccEmails = '',
     bccEmails = '',
-    toEmails = '',
     templateParams,
   }) {
     return axios({
@@ -76,7 +66,6 @@ class MessageApi extends ApiClient {
         files,
         ccEmails,
         bccEmails,
-        toEmails,
         templateParams,
       }),
     });
@@ -84,12 +73,6 @@ class MessageApi extends ApiClient {
 
   delete(conversationID, messageId) {
     return axios.delete(`${this.url}/${conversationID}/messages/${messageId}`);
-  }
-
-  retry(conversationID, messageId) {
-    return axios.post(
-      `${this.url}/${conversationID}/messages/${messageId}/retry`
-    );
   }
 
   getPreviousMessages({ conversationId, after, before }) {

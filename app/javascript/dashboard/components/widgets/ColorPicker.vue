@@ -1,17 +1,36 @@
+<template>
+  <div class="colorpicker">
+    <div
+      class="colorpicker--selected"
+      :style="`background-color: ${value}`"
+      @click.prevent="toggleColorPicker"
+    />
+    <chrome
+      v-if="isPickerOpen"
+      v-on-clickaway="closeTogglePicker"
+      :disable-alpha="true"
+      :value="value"
+      class="colorpicker--chrome"
+      @input="updateColor"
+    />
+  </div>
+</template>
+
 <script>
-import { Chrome } from '@lk77/vue3-color';
+import { Chrome } from 'vue-color';
+import { mixin as clickaway } from 'vue-clickaway';
 
 export default {
   components: {
     Chrome,
   },
+  mixins: [clickaway],
   props: {
-    modelValue: {
+    value: {
       type: String,
       default: '',
     },
   },
-  emits: ['update:modelValue'],
   data() {
     return {
       isPickerOpen: false,
@@ -27,49 +46,36 @@ export default {
       this.isPickerOpen = !this.isPickerOpen;
     },
     updateColor(e) {
-      this.$emit('update:modelValue', e.hex);
+      this.$emit('input', e.hex);
     },
   },
 };
 </script>
 
-<template>
-  <div class="colorpicker">
-    <div
-      class="colorpicker--selected"
-      :style="`background-color: ${modelValue}`"
-      @click.prevent="toggleColorPicker"
-    />
-    <Chrome
-      v-if="isPickerOpen"
-      v-on-clickaway="closeTogglePicker"
-      disable-alpha
-      :model-value="modelValue"
-      class="colorpicker--chrome"
-      @update:model-value="updateColor"
-    />
-  </div>
-</template>
-
 <style scoped lang="scss">
-@import 'dashboard/assets/scss/variables';
-@import 'dashboard/assets/scss/mixins';
+@import '~dashboard/assets/scss/variables';
+@import '~dashboard/assets/scss/mixins';
 
 .colorpicker {
   position: relative;
 }
 
 .colorpicker--selected {
-  @apply border border-solid border-slate-50 dark:border-slate-600 rounded cursor-pointer h-8 w-8 mb-4;
+  border: 1px solid var(--color-border-light);
+  border-radius: $space-smaller;
+  cursor: pointer;
+  height: $space-large;
+  margin-bottom: $space-normal;
+  width: $space-large;
 }
 
 .colorpicker--chrome.vc-chrome {
-  @apply shadow-lg -mt-2.5 absolute z-[9999] border border-solid border-slate-75 dark:border-slate-600 rounded;
+  @include elegant-card;
 
-  ::v-deep {
-    input {
-      @apply bg-white dark:bg-white;
-    }
-  }
+  border: 1px solid $color-border;
+  border-radius: $space-smaller;
+  margin-top: -$space-one;
+  position: absolute;
+  z-index: 9999;
 }
 </style>

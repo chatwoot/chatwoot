@@ -4,7 +4,7 @@ describe('DataManager', () => {
   const accountId = 'test-account';
   let dataManager;
 
-  beforeEach(async () => {
+  beforeAll(async () => {
     dataManager = new DataManager(accountId);
     await dataManager.initDb();
   });

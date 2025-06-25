@@ -1,14 +1,11 @@
-// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+// Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`SidemenuIcon > matches snapshot 1`] = `
-<button
-  class="-ml-3"
-  ghost=""
-  icon="i-lucide-menu"
-  size="sm"
-  slate=""
->
-  
-  
-</button>
+exports[`SidemenuIcon matches snapshot 1`] = `
+<woot-button
+  class="toggle-sidebar"
+  color-scheme="secondary"
+  icon="list"
+  size="small"
+  variant="clear"
+/>
 `;

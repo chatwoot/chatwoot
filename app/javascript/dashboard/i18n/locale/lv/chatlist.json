@@ -6,7 +6,6 @@
     "LIST": {
       "404": "Šajā grupā nav aktīvu sarunu."
     },
-    "FAILED_TO_SEND": "Neizdevās nosūtīt",
     "TAB_HEADING": "Sarunas",
     "MENTION_HEADING": "Pieminēšanas",
     "UNATTENDED_HEADING": "Bez uzraudzības",
@@ -37,45 +36,17 @@
       }
     },
     "VIEW_FILTER": "Apskatīt",
-    "SORT_TOOLTIP_LABEL": "Šķirot sarunas",
+    "SORT_TOOLTIP_LABEL": "Sort conversations",
     "CHAT_SORT": {
       "STATUS": "Statuss",
-      "ORDER_BY": "Sakārtot pēc"
+      "ORDER_BY": "Order by"
     },
-    "CHAT_TIME_STAMP": {
-      "CREATED": {
-        "LATEST": "Izveidots",
-        "OLDEST": "Izveidots plkst:"
+    "CHAT_SORT_FILTER_ITEMS": {
+      "latest": {
+        "TEXT": "Last activity"
       },
-      "LAST_ACTIVITY": {
-        "NOT_ACTIVE": "Pēdējā darbība:",
-        "ACTIVE": "Pēdējā darbība"
-      }
-    },
-    "SORT_ORDER_ITEMS": {
-      "last_activity_at_asc": {
-        "TEXT": "Pēdējā darbība: Vecākā vispirms"
-      },
-      "last_activity_at_desc": {
-        "TEXT": "Pēdējā darbība: Jaunākā vispirms"
-      },
-      "created_at_desc": {
-        "TEXT": "Izveidots: Jaunākā vispirms"
-      },
-      "created_at_asc": {
-        "TEXT": "Izveidots: Vecākā vispirms"
-      },
-      "priority_desc": {
-        "TEXT": "Prioritāte: Augstākā vispirms"
-      },
-      "priority_asc": {
-        "TEXT": "Prioritāte: Zemākā vispirms"
-      },
-      "waiting_since_asc": {
-        "TEXT": "Gaida atbildi: Garākā vispirms"
-      },
-      "waiting_since_desc": {
-        "TEXT": "Gaida atbildi: Īsākā vispirms"
+      "sort_on_created_at": {
+        "TEXT": "Izveidots plkst"
       }
     },
     "ATTACHMENTS": {
@@ -94,31 +65,25 @@
       "location": {
         "CONTENT": "Atrašanās vieta"
       },
-      "ig_reel": {
-        "CONTENT": "Instagram Spole"
-      },
       "fallback": {
         "CONTENT": "ir kopīgojis URL"
-      },
-      "contact": {
-        "CONTENT": "Koplietota kontaktpersona"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Šķirot sarunu",
+      "TITLE": "Sort conversation",
       "DROPDOWN_TITLE": "Kārtot pēc",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Pēdējā aktivitāte plkst",
-          "LABEL": "Pēdējā darbība"
+          "NAME": "Last activity at",
+          "LABEL": "Last activity"
         },
         "CREATED_AT": {
           "NAME": "Izveidots plkst",
           "LABEL": "Izveidots plkst"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Pēdējā lietotāja ziņa plkst",
-          "LABEL": "Pēdējā ziņa"
+          "NAME": "Last user message at",
+          "LABEL": "Last message"
         }
       }
     },
@@ -133,7 +98,6 @@
     "NO_CONTENT": "Saturs nav pieejams",
     "HIDE_QUOTED_TEXT": "Paslēpt Citēto Tekstu",
     "SHOW_QUOTED_TEXT": "Rādīt Citēto Tekstu",
-    "MESSAGE_READ": "Lasīt",
-    "SENDING": "Sūtīšana"
+    "MESSAGE_READ": "Lasīt"
   }
 }

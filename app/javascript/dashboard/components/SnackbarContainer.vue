@@ -1,6 +1,16 @@
+<template>
+  <transition-group name="toast-fade" tag="div" class="ui-snackbar-container">
+    <woot-snackbar
+      v-for="snackMessage in snackMessages"
+      :key="snackMessage.key"
+      :message="snackMessage.message"
+      :action="snackMessage.action"
+    />
+  </transition-group>
+</template>
+
 <script>
-import WootSnackbar from './Snackbar.vue';
-import { emitter } from 'shared/helpers/mitt';
+import WootSnackbar from './Snackbar';
 
 export default {
   components: {
@@ -20,19 +30,13 @@ export default {
   },
 
   mounted() {
-    emitter.on('newToastMessage', this.onNewToastMessage);
+    bus.$on('newToastMessage', this.onNewToastMessage);
   },
-  unmounted() {
-    emitter.off('newToastMessage', this.onNewToastMessage);
+  beforeDestroy() {
+    bus.$off('newToastMessage', this.onNewToastMessage);
   },
   methods: {
-    onNewToastMessage({ message: originalMessage, action }) {
-      // FIX ME: This is a temporary workaround to pass string from functions
-      // that doesn't have the context of the VueApp.
-      const usei18n = action?.usei18n;
-      const duration = action?.duration || this.duration;
-      const message = usei18n ? this.$t(originalMessage) : originalMessage;
-
+    onNewToastMessage(message, action) {
       this.snackMessages.push({
         key: new Date().getTime(),
         message,
@@ -40,23 +44,8 @@ export default {
       });
       window.setTimeout(() => {
         this.snackMessages.splice(0, 1);
-      }, duration);
+      }, this.duration);
     },
   },
 };
 </script>
-
-<template>
-  <transition-group
-    name="toast-fade"
-    tag="div"
-    class="left-0 my-0 mx-auto max-w-[25rem] overflow-hidden absolute right-0 text-center top-4 z-[9999]"
-  >
-    <WootSnackbar
-      v-for="snackMessage in snackMessages"
-      :key="snackMessage.key"
-      :message="snackMessage.message"
-      :action="snackMessage.action"
-    />
-  </transition-group>
-</template>

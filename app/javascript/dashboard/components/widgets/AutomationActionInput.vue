@@ -1,103 +1,3 @@
-<script>
-import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
-import AutomationActionFileInput from './AutomationFileInput.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
-
-export default {
-  components: {
-    AutomationActionTeamMessageInput,
-    AutomationActionFileInput,
-    WootMessageEditor,
-    NextButton,
-  },
-  props: {
-    modelValue: {
-      type: Object,
-      default: () => null,
-    },
-    actionTypes: {
-      type: Array,
-      default: () => [],
-    },
-    dropdownValues: {
-      type: Array,
-      default: () => [],
-    },
-    errorMessage: {
-      type: String,
-      default: '',
-    },
-    showActionInput: {
-      type: Boolean,
-      default: true,
-    },
-    initialFileName: {
-      type: String,
-      default: '',
-    },
-    isMacro: {
-      type: Boolean,
-      default: false,
-    },
-  },
-  emits: ['update:modelValue', 'input', 'removeAction', 'resetAction'],
-  computed: {
-    action_name: {
-      get() {
-        if (!this.modelValue) return null;
-        return this.modelValue.action_name;
-      },
-      set(value) {
-        const payload = this.modelValue || {};
-        this.$emit('update:modelValue', { ...payload, action_name: value });
-        this.$emit('input', { ...payload, action_name: value });
-      },
-    },
-    action_params: {
-      get() {
-        if (!this.modelValue) return null;
-        return this.modelValue.action_params;
-      },
-      set(value) {
-        const payload = this.modelValue || {};
-        this.$emit('update:modelValue', { ...payload, action_params: value });
-        this.$emit('input', { ...payload, action_params: value });
-      },
-    },
-    inputType() {
-      return this.actionTypes.find(action => action.key === this.action_name)
-        .inputType;
-    },
-    actionInputStyles() {
-      return {
-        'has-error': this.errorMessage,
-        'is-a-macro': this.isMacro,
-      };
-    },
-    castMessageVmodel: {
-      get() {
-        if (Array.isArray(this.action_params)) {
-          return this.action_params[0];
-        }
-        return this.action_params;
-      },
-      set(value) {
-        this.action_params = value;
-      },
-    },
-  },
-  methods: {
-    removeAction() {
-      this.$emit('removeAction');
-    },
-    resetAction() {
-      this.$emit('resetAction');
-    },
-  },
-};
-</script>
-
 <template>
   <div class="filter" :class="actionInputStyles">
     <div class="filter-inputs">
@@ -116,7 +16,7 @@ export default {
         </option>
       </select>
       <div v-if="showActionInput" class="filter__answer--wrap">
-        <div v-if="inputType" class="w-full">
+        <div v-if="inputType">
           <div
             v-if="inputType === 'search_select'"
             class="multiselect-wrap--small"
@@ -144,7 +44,7 @@ export default {
               track-by="id"
               label="name"
               :placeholder="$t('FORMS.MULTISELECT.SELECT')"
-              multiple
+              :multiple="true"
               selected-label
               :select-label="$t('FORMS.MULTISELECT.ENTER_TO_SELECT')"
               deselect-label=""
@@ -159,130 +59,244 @@ export default {
             v-model="action_params"
             type="email"
             class="answer--text-input"
-            :placeholder="$t('AUTOMATION.ACTION.EMAIL_INPUT_PLACEHOLDER')"
+            placeholder="Enter email"
           />
           <input
             v-else-if="inputType === 'url'"
             v-model="action_params"
             type="url"
             class="answer--text-input"
-            :placeholder="$t('AUTOMATION.ACTION.URL_INPUT_PLACEHOLDER')"
+            placeholder="Enter url"
           />
-          <AutomationActionFileInput
+          <automation-action-file-input
             v-if="inputType === 'attachment'"
             v-model="action_params"
             :initial-file-name="initialFileName"
           />
         </div>
       </div>
-      <NextButton
+      <woot-button
         v-if="!isMacro"
-        icon="i-lucide-x"
-        slate
-        ghost
-        class="flex-shrink-0"
+        icon="dismiss"
+        variant="clear"
+        color-scheme="secondary"
         @click="removeAction"
       />
     </div>
-    <AutomationActionTeamMessageInput
+    <automation-action-team-message-input
       v-if="inputType === 'team_message'"
       v-model="action_params"
       :teams="dropdownValues"
     />
-    <WootMessageEditor
+    <woot-message-editor
       v-if="inputType === 'textarea'"
       v-model="castMessageVmodel"
       rows="4"
-      enable-variables
+      :enable-variables="true"
       :placeholder="$t('AUTOMATION.ACTION.TEAM_MESSAGE_INPUT_PLACEHOLDER')"
       class="action-message"
     />
-    <p v-if="errorMessage" class="filter-error">
-      {{ errorMessage }}
+    <p
+      v-if="v.action_params.$dirty && v.action_params.$error"
+      class="filter-error"
+    >
+      {{ $t('FILTER.EMPTY_VALUE_ERROR') }}
     </p>
   </div>
 </template>
 
+<script>
+import AutomationActionTeamMessageInput from './AutomationActionTeamMessageInput.vue';
+import AutomationActionFileInput from './AutomationFileInput.vue';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+export default {
+  components: {
+    AutomationActionTeamMessageInput,
+    AutomationActionFileInput,
+    WootMessageEditor,
+  },
+  props: {
+    value: {
+      type: Object,
+      default: () => null,
+    },
+    actionTypes: {
+      type: Array,
+      default: () => [],
+    },
+    dropdownValues: {
+      type: Array,
+      default: () => [],
+    },
+    v: {
+      type: Object,
+      default: () => null,
+    },
+    showActionInput: {
+      type: Boolean,
+      default: true,
+    },
+    initialFileName: {
+      type: String,
+      default: '',
+    },
+    isMacro: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  computed: {
+    action_name: {
+      get() {
+        if (!this.value) return null;
+        return this.value.action_name;
+      },
+      set(value) {
+        const payload = this.value || {};
+        this.$emit('input', { ...payload, action_name: value });
+      },
+    },
+    action_params: {
+      get() {
+        if (!this.value) return null;
+        return this.value.action_params;
+      },
+      set(value) {
+        const payload = this.value || {};
+        this.$emit('input', { ...payload, action_params: value });
+      },
+    },
+    inputType() {
+      return this.actionTypes.find(action => action.key === this.action_name)
+        .inputType;
+    },
+    actionInputStyles() {
+      return {
+        'has-error': this.v.action_params.$dirty && this.v.action_params.$error,
+        'is-a-macro': this.isMacro,
+      };
+    },
+    castMessageVmodel: {
+      get() {
+        if (Array.isArray(this.action_params)) {
+          return this.action_params[0];
+        }
+        return this.action_params;
+      },
+      set(value) {
+        this.action_params = value;
+      },
+    },
+  },
+  methods: {
+    removeAction() {
+      this.$emit('removeAction');
+    },
+    resetAction() {
+      this.$emit('resetAction');
+    },
+  },
+};
+</script>
+
 <style lang="scss" scoped>
 .filter {
-  @apply bg-n-background p-2 border border-solid border-n-strong dark:border-n-strong rounded-lg mb-2;
+  background: var(--color-background);
+  padding: var(--space-small);
+  border: 1px solid var(--color-border);
+  border-radius: var(--border-radius-medium);
+  margin-bottom: var(--space-small);
 
   &.is-a-macro {
-    @apply mb-0 bg-n-background dark:bg-n-solid-1 p-0 border-0 rounded-none;
+    margin-bottom: 0;
+    background: var(--white);
+    padding: var(--space-zero);
+    border: unset;
+    border-radius: unset;
   }
 }
 
 .no-margin-bottom {
-  @apply mb-0;
+  margin-bottom: 0;
 }
 
 .filter.has-error {
-  @apply bg-n-ruby-8/20 border-n-ruby-5 dark:border-n-ruby-5;
-
-  &.is-a-macro {
-    @apply bg-transparent;
-  }
+  background: var(--r-50);
 }
 
 .filter-inputs {
-  @apply flex gap-1;
+  display: flex;
 }
 
 .filter-error {
-  @apply text-n-ruby-9 dark:text-n-ruby-9 block my-1 mx-0;
+  color: var(--r-500);
+  display: block;
+  margin: var(--space-smaller) 0;
 }
 
 .action__question,
 .filter__operator {
-  @apply mb-0 mr-1;
+  margin-bottom: var(--space-zero);
+  margin-right: var(--space-smaller);
 }
 
 .action__question {
-  @apply max-w-[50%];
+  max-width: 50%;
 }
 
 .action__question.full-width {
-  @apply max-w-full;
+  max-width: 100%;
 }
 
 .filter__answer--wrap {
-  @apply max-w-[50%] flex-grow mr-1 flex w-full items-center justify-start;
+  margin-right: var(--space-smaller);
+  flex-grow: 1;
+  max-width: 50%;
 
   input {
-    @apply mb-0;
+    margin-bottom: 0;
   }
 }
 .filter__answer {
   &.answer--text-input {
-    @apply mb-0;
+    margin-bottom: var(--space-zero);
   }
 }
 
 .filter__join-operator-wrap {
-  @apply relative z-20 m-0;
+  position: relative;
+  z-index: var(--z-index-twenty);
+  margin: var(--space-zero);
 }
 
 .filter__join-operator {
-  @apply flex items-center justify-center relative my-2.5 mx-0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+  margin: var(--space-one) var(--space-zero);
 
   .operator__line {
-    @apply absolute w-full border-b border-solid border-slate-75 dark:border-slate-600;
+    position: absolute;
+    width: 100%;
+    border-bottom: 1px solid var(--color-border);
   }
 
   .operator__select {
+    position: relative;
+    width: auto;
     margin-bottom: var(--space-zero) !important;
-    @apply relative w-auto;
   }
 }
 
 .multiselect {
-  @apply mb-0;
+  margin-bottom: var(--space-zero);
 }
 .action-message {
-  @apply mt-2 mx-0 mb-0;
+  margin: var(--space-small) var(--space-zero) var(--space-zero);
 }
 // Prosemirror does not have a native way of hiding the menu bar, hence
 ::v-deep .ProseMirror-menubar {
-  @apply hidden;
+  display: none;
 }
 </style>

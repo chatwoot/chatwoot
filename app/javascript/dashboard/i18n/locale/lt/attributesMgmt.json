@@ -1,89 +1,77 @@
 {
   "ATTRIBUTES_MGMT": {
     "HEADER": "Personalizuoti Požymiai",
-    "HEADER_BTN_TXT": "Pridėti personalizuotą požymį",
-    "LOADING": "Gaunami personalizuoti požymiai",
-    "DESCRIPTION": "A custom attribute tracks additional details about your contacts or conversations—such as the subscription plan or the date of their first purchase. You can add different types of custom attributes, such as text, lists, or numbers, to capture the specific information you need.",
-    "LEARN_MORE": "Learn more about custom attributes",
+    "HEADER_BTN_TXT": "Add Custom Attribute",
+    "LOADING": "Fetching custom attributes",
+    "SIDEBAR_TXT": "<p><b>Custom Attributes</b> <p>A custom attribute tracks facts about your contacts/conversation — like the subscription plan, or when they ordered the first item etc. <br /><br />For creating a Custom Attribute, just click on the <b>Add Custom Attribute.</b> You can also edit or delete an existing  Custom Attribute by clicking on the Edit or Delete button.</p>",
     "ADD": {
-      "TITLE": "Pridėti personalizuotą požymį",
+      "TITLE": "Add Custom Attribute",
       "SUBMIT": "Sukurti",
       "CANCEL_BUTTON_TEXT": "Atšaukti",
       "FORM": {
         "NAME": {
-          "LABEL": "Rodomas Vardas",
-          "PLACEHOLDER": "Įveskite personalizuoto požymio rodomą vardą",
+          "LABEL": "Display Name",
+          "PLACEHOLDER": "Enter custom attribute display name",
           "ERROR": "Yra reikalingas vardas"
         },
         "DESC": {
           "LABEL": "Aprašymas",
-          "PLACEHOLDER": "Įveskite personalizuotą požymio aprašymą",
-          "ERROR": "Būtinas aprašymas"
+          "PLACEHOLDER": "Enter custom attribute description",
+          "ERROR": "Description is required"
         },
         "MODEL": {
-          "LABEL": "Taikomas",
-          "PLACEHOLDER": "Prašau pasirinkti vieną",
-          "ERROR": "Yra reikalingas modelis"
+          "LABEL": "Applies to",
+          "PLACEHOLDER": "Please select one",
+          "ERROR": "Model is required"
         },
         "TYPE": {
           "LABEL": "Tipas",
           "PLACEHOLDER": "Prašau pasirinkti tipą",
           "ERROR": "Yra reikalingas tipas",
           "LIST": {
-            "LABEL": "Reikšmių sąrašas",
-            "PLACEHOLDER": "Įveskite reikšmę ir paspauskite klavišą Enter",
-            "ERROR": "Turi turėti bent vieną reikšmę"
+            "LABEL": "List Values",
+            "PLACEHOLDER": "Please enter value and press enter key",
+            "ERROR": "Must have at least one value"
           }
         },
         "KEY": {
           "LABEL": "Raktas",
-          "PLACEHOLDER": "Įveskite personalizuotą atributo raktą",
-          "ERROR": "Yra reikalingas raktas",
+          "PLACEHOLDER": "Enter custom attribute key",
+          "ERROR": "Key is required",
           "IN_VALID": "Neteisingas raktas"
-        },
-        "REGEX_PATTERN": {
-          "LABEL": "Regex Pattern",
-          "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
-        },
-        "REGEX_CUE": {
-          "LABEL": "Regex Cue",
-          "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
-        },
-        "ENABLE_REGEX": {
-          "LABEL": "Enable regex validation"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Personalizuotas požymis pridėtas sėkmingai!",
-        "ERROR_MESSAGE": "Nepavyko sukurti personalizuoto požymio. Pabandykite dar kartą vėliau."
+        "SUCCESS_MESSAGE": "Custom Attribute added successfully!",
+        "ERROR_MESSAGE": "Could not create a Custom Attribute. Please try again later."
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Ištrinti",
       "API": {
-        "SUCCESS_MESSAGE": "Personalizuotas požymis ištrintas sėkmingai.",
-        "ERROR_MESSAGE": "Nepavyko ištrinti personalizuoto požymio. Pabandykite dar kartą vėliau."
+        "SUCCESS_MESSAGE": "Custom Attribute deleted successfully.",
+        "ERROR_MESSAGE": "Couldn't delete the custom attribute. Try again."
       },
       "CONFIRM": {
-        "TITLE": "Ar tikrai norite ištrinti – {attributeName}",
-        "PLACE_HOLDER": "Įveskite {attributeName}, kad patvirtintumėte",
-        "MESSAGE": "Ištrynus bus pašalintas personalizuotas požymis",
+        "TITLE": "Are you sure want to delete - %{attributeName}",
+        "PLACE_HOLDER": "Please type {attributeName} to confirm",
+        "MESSAGE": "Deleting will remove the custom attribute",
         "YES": "Ištrinti ",
         "NO": "Atšaukti"
       }
     },
     "EDIT": {
-      "TITLE": "Redaguoti personalizuotą požymį",
+      "TITLE": "Edit Custom Attribute",
       "UPDATE_BUTTON_TEXT": "Atnaujinti",
       "TYPE": {
         "LIST": {
-          "LABEL": "Reikšmių sąrašas",
-          "PLACEHOLDER": "Įveskite reikšmes ir paspauskite klavišą Enter"
+          "LABEL": "List Values",
+          "PLACEHOLDER": "Please enter values and press enter key"
         }
       },
       "API": {
-        "SUCCESS_MESSAGE": "Personalizuotas požymis atnaujintas sėkmingai",
-        "ERROR_MESSAGE": "Atnaujinant personalizuotą požymį įvyko klaida, bandykite dar kartą"
+        "SUCCESS_MESSAGE": "Custom Attribute updated successfully",
+        "ERROR_MESSAGE": "There was an error updating custom attribute, please try again"
       }
     },
     "TABS": {
@@ -92,30 +80,19 @@
       "CONTACT": "Kontaktas"
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "Vardas",
-        "DESCRIPTION": "Aprašymas",
-        "TYPE": "Tipas",
-        "KEY": "Raktas"
-      },
+      "TABLE_HEADER": [
+        "Vardas",
+        "Aprašymas",
+        "Tipas",
+        "Raktas"
+      ],
       "BUTTONS": {
         "EDIT": "Redaguoti",
         "DELETE": "Ištrinti"
       },
       "EMPTY_RESULT": {
-        "404": "Nėra sukurta personalizuotų požymių",
-        "NOT_FOUND": "Nėra sukonfiguruota personalizuotų požymių"
-      },
-      "REGEX_PATTERN": {
-        "LABEL": "Regex Pattern",
-        "PLACEHOLDER": "Please enter custom attribute regex pattern. (Optional)"
-      },
-      "REGEX_CUE": {
-        "LABEL": "Regex Cue",
-        "PLACEHOLDER": "Please enter regex pattern hint. (Optional)"
-      },
-      "ENABLE_REGEX": {
-        "LABEL": "Enable regex validation"
+        "404": "There are no custom attributes created",
+        "NOT_FOUND": "There are no custom attributes configured"
       }
     }
   }

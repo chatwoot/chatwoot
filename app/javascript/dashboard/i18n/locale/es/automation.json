@@ -1,10 +1,9 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automatización",
-    "DESCRIPTION": "La automatización puede reemplazar y agilizar los procesos existentes que requieren esfuerzo manual, como añadir etiquetas y asignar conversaciones al agente más adecuado. Esto permite al equipo concentrarse en sus fortalezas, mientras que reduce el tiempo dedicado a las tareas de rutina.",
-    "LEARN_MORE": "Aprende más sobre automatización",
+    "HEADER": "Automatizaciones",
     "HEADER_BTN_TXT": "Añadir regla de automatización",
     "LOADING": "Obteniendo reglas de automatización",
+    "SIDEBAR_TXT": "<p><b>Reglas de automatización</b> <p>Automatización puede reemplazar y automatizar procesos existentes que requieren esfuerzo manual. Puedes hacer muchas cosas con la automatización, incluyendo añadir etiquetas y asignar la conversación al mejor agente. Así que el equipo se centra en lo que hacen mejor y gasta más poco tiempo en tareas manuales.</p>",
     "ADD": {
       "TITLE": "Añadir regla de automatización",
       "SUBMIT": "Crear",
@@ -40,12 +39,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": {
-        "NAME": "Nombre",
-        "DESCRIPTION": "Descripción",
-        "ACTIVE": "Activo",
-        "CREATED_ON": "Creado el"
-      },
+      "TABLE_HEADER": [
+        "Nombre",
+        "Descripción",
+        "Activo",
+        "Creado el"
+      ],
       "404": "No se encontraron reglas de automatización"
     },
     "DELETE": {
@@ -94,9 +93,7 @@
     "ACTION": {
       "DELETE_MESSAGE": "Necesitas tener al menos una acción para guardar",
       "TEAM_MESSAGE_INPUT_PLACEHOLDER": "Introduzca su mensaje aquí",
-      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos",
-      "EMAIL_INPUT_PLACEHOLDER": "Introducir email",
-      "URL_INPUT_PLACEHOLDER": "Introducir URL"
+      "TEAM_DROPDOWN_PLACEHOLDER": "Seleccionar equipos"
     },
     "TOGGLE": {
       "ACTIVATION_TITLE": "Activar regla de automatización",
@@ -116,54 +113,6 @@
       "LABEL_UPLOADING": "Subiendo...",
       "LABEL_UPLOADED": "Subido correctamente",
       "LABEL_UPLOAD_FAILED": "Error al subir"
-    },
-    "ERRORS": {
-      "ATTRIBUTE_KEY_REQUIRED": "Clave de atributo es requerida",
-      "FILTER_OPERATOR_REQUIRED": "El operador de filtro es requerido",
-      "VALUE_REQUIRED": "El valor es requerido",
-      "VALUE_MUST_BE_BETWEEN_1_AND_998": "El valor debe ser entre 1 y 998",
-      "ACTION_PARAMETERS_REQUIRED": "Se requieren parámetros de acción",
-      "ATLEAST_ONE_CONDITION_REQUIRED": "Se requiere al menos una condición",
-      "ATLEAST_ONE_ACTION_REQUIRED": "Se requiere al menos una acción"
-    },
-    "NONE_OPTION": "Ninguna",
-    "EVENTS": {
-      "CONVERSATION_CREATED": "Conversación creada",
-      "CONVERSATION_UPDATED": "Conversación actualizada",
-      "MESSAGE_CREATED": "Message Created",
-      "CONVERSATION_OPENED": "Conversation Opened"
-    },
-    "ACTIONS": {
-      "ASSIGN_AGENT": "Assign to Agent",
-      "ASSIGN_TEAM": "Assign a Team",
-      "ADD_LABEL": "Add a Label",
-      "REMOVE_LABEL": "Remove a Label",
-      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
-      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
-      "MUTE_CONVERSATION": "Silenciar Conversación",
-      "SNOOZE_CONVERSATION": "Posponer conversación",
-      "RESOLVE_CONVERSATION": "Resolver conversación",
-      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
-      "SEND_ATTACHMENT": "Send Attachment",
-      "SEND_MESSAGE": "Send a Message",
-      "CHANGE_PRIORITY": "Cambiar prioridad",
-      "ADD_SLA": "Añadir SLA"
-    },
-    "ATTRIBUTES": {
-      "MESSAGE_TYPE": "Message Type",
-      "MESSAGE_CONTAINS": "Message Contains",
-      "EMAIL": "E-mail",
-      "INBOX": "Bandeja de entrada",
-      "CONVERSATION_LANGUAGE": "Conversation Language",
-      "PHONE_NUMBER": "Número telefónico",
-      "STATUS": "Estado",
-      "BROWSER_LANGUAGE": "Idioma del navegador",
-      "MAIL_SUBJECT": "Email Subject",
-      "COUNTRY_NAME": "País",
-      "REFERER_LINK": "Referrer Link",
-      "ASSIGNEE_NAME": "Cesionario",
-      "TEAM_NAME": "Equipo",
-      "PRIORITY": "Prioridad"
     }
   }
 }

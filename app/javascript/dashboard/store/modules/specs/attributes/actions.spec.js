@@ -3,9 +3,9 @@ import { actions } from '../../attributes';
 import * as types from '../../../mutation-types';
 import attributesList from './fixtures';
 
-const commit = vi.fn();
+const commit = jest.fn();
 global.axios = axios;
-vi.mock('axios');
+jest.mock('axios');
 
 describe('#actions', () => {
   describe('#get', () => {

@@ -7,11 +7,13 @@ require Rails.root.join 'spec/models/concerns/avatarable_shared.rb'
 RSpec.describe User do
   let!(:user) { create(:user) }
 
-  context 'with validations' do
+  context 'validations' do
     it { is_expected.to validate_presence_of(:email) }
+    it { is_expected.to validate_presence_of(:name) }
+    it { is_expected.to validate_length_of(:name).is_at_least(1) }
   end
 
-  context 'with associations' do
+  context 'associations' do
     it { is_expected.to have_many(:accounts).through(:account_users) }
     it { is_expected.to have_many(:account_users) }
     it { is_expected.to have_many(:assigned_conversations).class_name('Conversation').dependent(:nullify) }
@@ -33,7 +35,7 @@ RSpec.describe User do
     it { expect(user.pubsub_token).not_to be_nil }
     it { expect(user.saved_changes.keys).not_to eq('pubsub_token') }
 
-    context 'with rotate the pubsub_token' do
+    context 'rotates the pubsub_token' do
       it 'changes the pubsub_token when password changes' do
         pubsub_token = user.pubsub_token
         user.password = Faker::Internet.password(special_characters: true)
@@ -68,7 +70,7 @@ RSpec.describe User do
     end
   end
 
-  context 'with sso_auth_token' do
+  context 'sso_auth_token' do
     it 'can generate multiple sso tokens which can be validated' do
       sso_auth_token1 = user.generate_sso_auth_token
       sso_auth_token2 = user.generate_sso_auth_token

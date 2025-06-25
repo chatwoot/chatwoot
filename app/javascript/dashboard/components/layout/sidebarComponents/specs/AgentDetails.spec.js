@@ -1,10 +1,28 @@
-import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-import AgentDetails from '../AgentDetails.vue';
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-import NextButton from 'dashboard/components-next/button/Button.vue';
+import AgentDetails from '../AgentDetails';
+import { createLocalVue, shallowMount } from '@vue/test-utils';
+import Vuex from 'vuex';
+import VueI18n from 'vue-i18n';
+import VTooltip from 'v-tooltip';
 
-describe('AgentDetails', () => {
+import i18n from 'dashboard/i18n';
+import Thumbnail from 'dashboard/components/widgets/Thumbnail';
+import WootButton from 'dashboard/components/ui/WootButton';
+const localVue = createLocalVue();
+localVue.use(Vuex);
+localVue.use(VueI18n);
+localVue.component('thumbnail', Thumbnail);
+localVue.component('woot-button', WootButton);
+localVue.component('woot-button', WootButton);
+localVue.use(VTooltip, {
+  defaultHtml: false,
+});
+
+const i18nConfig = new VueI18n({
+  locale: 'en',
+  messages: i18n,
+});
+
+describe('agentDetails', () => {
   const currentUser = {
     name: 'Neymar Junior',
     avatar_url: '',
@@ -12,46 +30,37 @@ describe('AgentDetails', () => {
   };
   const currentRole = 'agent';
   let store = null;
+  let actions = null;
+  let modules = null;
   let agentDetails = null;
 
-  const mockTooltipDirective = {
-    mounted: (el, binding) => {
-      // You can mock the behavior here if necessary
-      el.setAttribute('data-tooltip', binding.value || '');
-    },
-  };
-
   beforeEach(() => {
-    store = createStore({
-      modules: {
-        auth: {
-          namespaced: false,
-          getters: {
-            getCurrentUser: () => currentUser,
-            getCurrentRole: () => currentRole,
-            getCurrentUserAvailability: () => currentUser.availability_status,
-          },
+    actions = {};
+
+    modules = {
+      auth: {
+        getters: {
+          getCurrentUser: () => currentUser,
+          getCurrentRole: () => currentRole,
+          getCurrentUserAvailability: () => currentUser.availability_status,
         },
       },
+    };
+
+    store = new Vuex.Store({
+      actions,
+      modules,
     });
 
     agentDetails = shallowMount(AgentDetails, {
-      global: {
-        plugins: [store],
-        components: {
-          Thumbnail,
-          NextButton,
-        },
-        directives: {
-          tooltip: mockTooltipDirective, // Mocking the tooltip directive
-        },
-        stubs: { NextButton: { template: '<button><slot /></button>' } },
-      },
+      store,
+      localVue,
+      i18n: i18nConfig,
     });
   });
 
-  it('shows the correct agent status', () => {
-    expect(agentDetails.findComponent(Thumbnail).vm.status).toBe('online');
+  it(' the agent status', () => {
+    expect(agentDetails.find('thumbnail-stub').vm.status).toBe('online');
   });
 
   it('agent thumbnail exists', () => {

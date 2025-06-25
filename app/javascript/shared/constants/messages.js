@@ -28,10 +28,11 @@ export const CONVERSATION_PRIORITY = {
 };
 
 export const CONVERSATION_PRIORITY_ORDER = {
-  urgent: 4,
-  high: 3,
-  medium: 2,
-  low: 1,
+  urgent: 1,
+  high: 2,
+  medium: 3,
+  low: 4,
+  null: 5,
 };
 
 // Size in mega bytes
@@ -44,7 +45,6 @@ export const ALLOWED_FILE_TYPES =
   'video/*,' +
   '.3gpp,' +
   'text/csv, text/plain, application/json, application/pdf, text/rtf,' +
-  'application/xml, text/xml,' +
   'application/zip, application/x-7z-compressed application/vnd.rar application/x-tar,' +
   'application/msword, application/vnd.ms-excel, application/vnd.ms-powerpoint, application/vnd.oasis.opendocument.text,' +
   'application/vnd.openxmlformats-officedocument.presentationml.presentation, application/vnd.openxmlformats-officedocument.spreadsheetml.sheet,' +
@@ -55,12 +55,6 @@ export const ALLOWED_FILE_TYPES_FOR_TWILIO_WHATSAPP =
   'audio/mpeg, audio/opus, audio/ogg, audio/amr,' +
   'video/mp4,' +
   'application/pdf,';
-// https://developers.line.biz/en/reference/messaging-api/#image-message, https://developers.line.biz/en/reference/messaging-api/#video-message
-export const ALLOWED_FILE_TYPES_FOR_LINE = 'image/png, image/jpeg,video/mp4';
-
-// https://developers.facebook.com/docs/instagram-platform/instagram-api-with-instagram-login/messaging-api#requirements
-export const ALLOWED_FILE_TYPES_FOR_INSTAGRAM =
-  'image/png, image/jpeg, video/mp4, video/mov, video/webm';
 
 export const CSAT_RATINGS = [
   {
@@ -100,15 +94,9 @@ export const CSAT_RATINGS = [
   },
 ];
 
-export const CSAT_DISPLAY_TYPES = {
-  EMOJI: 'emoji',
-  STAR: 'star',
-};
-
 export const AUDIO_FORMATS = {
   WEBM: 'audio/webm',
   OGG: 'audio/ogg',
-  MP3: 'audio/mp3',
   WAV: 'audio/wav',
 };
 
@@ -158,12 +146,3 @@ export const MESSAGE_VARIABLES = [
     key: 'agent.email',
   },
 ];
-
-export const ATTACHMENT_ICONS = {
-  image: 'image',
-  audio: 'headphones-sound-wave',
-  video: 'video',
-  file: 'document',
-  location: 'location',
-  fallback: 'link',
-};

@@ -1,0 +1,71 @@
+$resolve-button-width: 13.2rem;
+
+// Conversation header - Light BG
+.conv-header {
+  @include background-white;
+  @include flex;
+  @include flex-align($x: justify, $y: middle);
+  @include border-normal-bottom;
+  padding: var(--space-small) var(--space-normal);
+
+  .multiselect-box {
+    @include flex;
+    @include flex-align($x: justify, $y: middle);
+    border: 1px solid var(--color-border);
+    border-radius: var(--space-smaller);
+    margin-right: var(--space-small);
+    width: 21.6rem;
+
+    .icon {
+      color: $medium-gray;
+      font-size: $font-size-default;
+      line-height: 3.8rem;
+      padding-left: $space-slab;
+      padding-right: $space-smaller;
+    }
+
+    .multiselect {
+      border-radius: var(--border-radius-small);
+      margin: 0;
+      min-width: 0;
+
+      .multiselect__tags {
+        border-color: transparent;
+      }
+    }
+  }
+
+  // User thumbnail and text
+  .user {
+    @include flex;
+    @include flex-align($x: center, $y: middle);
+    margin-right: var(--space-normal);
+    min-width: 0;
+
+    .user--profile__meta {
+      align-items: flex-start;
+      display: flex;
+      flex-direction: column;
+      justify-content: flex-start;
+      margin-left: var(--space-small);
+      min-width: 0;
+    }
+  }
+}
+
+.header-actions-wrap {
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  flex-grow: 1;
+  justify-content: flex-end;
+  margin-top: var(--space-small);
+
+  @include breakpoint(medium up) {
+    margin-top: 0;
+  }
+
+  &.has-open-sidebar {
+    justify-content: flex-end;
+  }
+}

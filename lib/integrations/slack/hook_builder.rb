@@ -10,7 +10,7 @@ class Integrations::Slack::HookBuilder
 
     hook = account.hooks.new(
       access_token: token,
-      status: 'disabled',
+      status: 'enabled',
       inbox_id: params[:inbox_id],
       app_id: 'slack'
     )

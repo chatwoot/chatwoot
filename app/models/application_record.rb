@@ -5,13 +5,11 @@ class ApplicationRecord < ActiveRecord::Base
   before_validation :validates_column_content_length
 
   # the models that exposed in email templates through liquid
-  def droppables
-    %w[Account Channel Conversation Inbox User Message]
-  end
+  DROPPABLES = %w[Account Channel Conversation Inbox User Message].freeze
 
   # ModelDrop class should exist in app/drops
   def to_drop
-    return unless droppables.include?(self.class.name)
+    return unless DROPPABLES.include?(self.class.name)
 
     "#{self.class.name}Drop".constantize.new(self)
   end
@@ -49,5 +47,3 @@ class ApplicationRecord < ActiveRecord::Base
     end
   end
 end
-
-ApplicationRecord.prepend_mod_with('ApplicationRecord')

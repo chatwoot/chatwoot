@@ -26,7 +26,7 @@ FactoryBot.define do
     end
 
     trait :with_avatar do
-      avatar { fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png') }
+      avatar { Rack::Test::UploadedFile.new('spec/assets/avatar.png', 'image/png') }
     end
 
     trait :administrator do

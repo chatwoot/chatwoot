@@ -1,7 +1,6 @@
 {
   "EMOJI": {
     "PLACEHOLDER": "Søg emojis",
-    "NOT_FOUND": "Ingen emoji matcher din søgning",
-    "REMOVE": "Fjern"
+    "NOT_FOUND": "Ingen emoji matcher din søgning"
   }
 }

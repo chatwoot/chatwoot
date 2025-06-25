@@ -1,31 +1,98 @@
+<template>
+  <div class="settings--content">
+    <settings-section
+      :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
+      :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
+    >
+      <form @submit.prevent="updateInbox">
+        <label for="toggle-business-hours" class="toggle-input-wrap">
+          <input
+            v-model="isBusinessHoursEnabled"
+            type="checkbox"
+            name="toggle-business-hours"
+          />
+          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
+        </label>
+        <p>{{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}</p>
+        <div v-if="isBusinessHoursEnabled" class="business-hours-wrap">
+          <label class="unavailable-input-wrap">
+            {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
+            <label v-if="isRichEditorEnabled" class="richtext">
+              <woot-message-editor
+                v-model="unavailableMessage"
+                :enable-variables="true"
+                :is-format-mode="true"
+                class="input"
+                :min-height="4"
+              />
+            </label>
+            <textarea v-else v-model="unavailableMessage" type="text" />
+          </label>
+          <div class="timezone-input-wrap">
+            <label>
+              {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
+            </label>
+            <multiselect
+              v-model="timeZone"
+              :options="timeZones"
+              deselect-label=""
+              select-label=""
+              selected-label=""
+              track-by="value"
+              label="label"
+              :close-on-select="true"
+              :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
+              :allow-empty="false"
+            />
+          </div>
+
+          <label>
+            {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
+          </label>
+          <business-day
+            v-for="timeSlot in timeSlots"
+            :key="timeSlot.day"
+            :day-name="dayNames[timeSlot.day]"
+            :time-slot="timeSlot"
+            @update="data => onSlotUpdate(timeSlot.day, data)"
+          />
+        </div>
+        <woot-submit-button
+          :button-text="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
+          :loading="uiFlags.isUpdating"
+          :disabled="hasError"
+        />
+      </form>
+    </settings-section>
+  </div>
+</template>
+
 <script>
 import { mapGetters } from 'vuex';
-import { useAlert } from 'dashboard/composables';
+import alertMixin from 'shared/mixins/alertMixin';
 import inboxMixin from 'shared/mixins/inboxMixin';
-import SettingsSection from 'dashboard/components/SettingsSection.vue';
-import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor.vue';
-import BusinessDay from './BusinessDay.vue';
+import SettingsSection from 'dashboard/components/SettingsSection';
+import WootMessageEditor from 'dashboard/components/widgets/WootWriter/Editor';
+import BusinessDay from './BusinessDay';
 import {
   timeSlotParse,
   timeSlotTransform,
   defaultTimeSlot,
   timeZoneOptions,
 } from '../helpers/businessHour';
-import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const DEFAULT_TIMEZONE = {
-  label: 'Pacific Time (US & Canada) (GMT-07:00)',
-  value: 'America/Los_Angeles',
+  label: 'America/Los_Angeles',
+  key: 'America/Los_Angeles',
 };
 
 export default {
   components: {
     SettingsSection,
     BusinessDay,
-    NextButton,
     WootMessageEditor,
   },
-  mixins: [inboxMixin],
+  mixins: [alertMixin, inboxMixin],
   props: {
     inbox: {
       type: Object,
@@ -35,7 +102,9 @@ export default {
   data() {
     return {
       isBusinessHoursEnabled: false,
-      unavailableMessage: '',
+      unavailableMessage: this.$t(
+        'INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT'
+      ),
       timeZone: DEFAULT_TIMEZONE,
       dayNames: {
         0: 'Sunday',
@@ -88,7 +157,9 @@ export default {
         ? timeSlotParse(timeSlots)
         : defaultTimeSlot;
       this.isBusinessHoursEnabled = isEnabled;
-      this.unavailableMessage = unavailableMessage || '';
+      this.unavailableMessage =
+        unavailableMessage ||
+        this.$t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_DEFAULT');
       this.timeSlots = slots;
       this.timeZone =
         this.timeZones.find(item => timeZone === item.value) ||
@@ -111,106 +182,40 @@ export default {
           channel: {},
         };
         await this.$store.dispatch('inboxes/updateInbox', payload);
-        useAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        useAlert(error.message || this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       }
     },
   },
 };
 </script>
-
-<template>
-  <div class="mx-8">
-    <SettingsSection
-      :title="$t('INBOX_MGMT.BUSINESS_HOURS.TITLE')"
-      :sub-title="$t('INBOX_MGMT.BUSINESS_HOURS.SUBTITLE')"
-    >
-      <form @submit.prevent="updateInbox">
-        <label for="toggle-business-hours" class="toggle-input-wrap">
-          <input
-            v-model="isBusinessHoursEnabled"
-            type="checkbox"
-            class="ltr:mr-2 rtl:ml-2"
-            name="toggle-business-hours"
-          />
-          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_AVAILABILITY') }}
-        </label>
-        <p class="mb-4 text-slate-700 dark:text-slate-300">
-          {{ $t('INBOX_MGMT.BUSINESS_HOURS.TOGGLE_HELP') }}
-        </p>
-        <div v-if="isBusinessHoursEnabled" class="mb-6">
-          <div>
-            <label class="unavailable-input-wrap">
-              {{ $t('INBOX_MGMT.BUSINESS_HOURS.UNAVAILABLE_MESSAGE_LABEL') }}
-            </label>
-            <div
-              v-if="isRichEditorEnabled"
-              class="px-4 py-0 mx-0 mt-0 mb-4 rounded-lg outline outline-1 outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6 bg-n-alpha-black2"
-            >
-              <WootMessageEditor
-                v-model="unavailableMessage"
-                enable-variables
-                is-format-mode
-                :min-height="4"
-              />
-            </div>
-            <textarea v-else v-model="unavailableMessage" type="text" />
-          </div>
-          <div class="timezone-input-wrap">
-            <label>
-              {{ $t('INBOX_MGMT.BUSINESS_HOURS.TIMEZONE_LABEL') }}
-            </label>
-            <multiselect
-              v-model="timeZone"
-              :options="timeZones"
-              deselect-label=""
-              select-label=""
-              selected-label=""
-              track-by="value"
-              label="label"
-              close-on-select
-              :placeholder="$t('INBOX_MGMT.BUSINESS_HOURS.DAY.CHOOSE')"
-              :allow-empty="false"
-            />
-          </div>
-
-          <label>
-            {{ $t('INBOX_MGMT.BUSINESS_HOURS.WEEKLY_TITLE') }}
-          </label>
-          <BusinessDay
-            v-for="timeSlot in timeSlots"
-            :key="timeSlot.day"
-            :day-name="dayNames[timeSlot.day]"
-            :time-slot="timeSlot"
-            @update="data => onSlotUpdate(timeSlot.day, data)"
-          />
-        </div>
-        <NextButton
-          type="submit"
-          :label="$t('INBOX_MGMT.BUSINESS_HOURS.UPDATE')"
-          :is-loading="uiFlags.isUpdating"
-          :disabled="hasError"
-        />
-      </form>
-    </SettingsSection>
-  </div>
-</template>
-
 <style lang="scss" scoped>
 .timezone-input-wrap {
-  &::v-deep .multiselect {
-    @apply mt-2;
-  }
-}
+  max-width: 60rem;
 
-::v-deep.message-editor {
-  @apply border-0;
+  &::v-deep .multiselect {
+    margin-top: var(--space-small);
+  }
 }
 
 .unavailable-input-wrap {
+  max-width: 60rem;
+
   textarea {
-    @apply min-h-[4rem] mt-2;
+    min-height: var(--space-jumbo);
+    margin-top: var(--space-small);
   }
+}
+
+.business-hours-wrap {
+  margin-bottom: var(--space-medium);
+}
+
+.richtext {
+  padding: 0 var(--space-normal);
+  border-radius: var(--border-radius-normal);
+  border: 1px solid var(--color-border);
+  margin: 0 0 var(--space-normal);
 }
 </style>

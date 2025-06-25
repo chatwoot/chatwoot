@@ -1,28 +1,117 @@
-<script>
-import { getUnixTime } from 'date-fns';
-import { findSnoozeTime } from 'dashboard/helper/snoozeHelpers';
-import { emitter } from 'shared/helpers/mitt';
-import wootConstants from 'dashboard/constants/globals';
-import {
-  CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-  CMD_BULK_ACTION_REOPEN_CONVERSATION,
-  CMD_BULK_ACTION_RESOLVE_CONVERSATION,
-} from 'dashboard/helper/commandbar/events';
+<template>
+  <div class="bulk-action__container">
+    <div class="flex-between">
+      <label class="bulk-action__panel flex-between">
+        <input
+          ref="selectAllCheck"
+          type="checkbox"
+          class="checkbox"
+          :checked="allConversationsSelected"
+          :indeterminate.prop="!allConversationsSelected"
+          @change="selectAll($event)"
+        />
+        <span>
+          {{
+            $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
+              conversationCount: conversations.length,
+            })
+          }}
+        </span>
+      </label>
+      <div class="bulk-action__actions flex-between">
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="tag"
+          class="margin-right-smaller"
+          @click="toggleLabelActions"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="repeat"
+          class="margin-right-smaller"
+          @click="toggleUpdateActions"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="person-assign"
+          class="margin-right-smaller"
+          @click="toggleAgentList"
+        />
+        <woot-button
+          v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
+          size="tiny"
+          variant="smooth"
+          color-scheme="secondary"
+          icon="people-team-add"
+          @click="toggleTeamsList"
+        />
+      </div>
+      <transition name="popover-animation">
+        <label-actions
+          v-if="showLabelActions"
+          class="label-actions-box"
+          @assign="assignLabels"
+          @close="showLabelActions = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <update-actions
+          v-if="showUpdateActions"
+          class="update-actions-box"
+          :selected-inboxes="selectedInboxes"
+          :conversation-count="conversations.length"
+          :show-resolve="!showResolvedAction"
+          :show-reopen="!showOpenAction"
+          :show-snooze="!showSnoozedAction"
+          @update="updateConversations"
+          @close="showUpdateActions = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <agent-selector
+          v-if="showAgentsList"
+          class="agent-actions-box"
+          :selected-inboxes="selectedInboxes"
+          :conversation-count="conversations.length"
+          @select="submit"
+          @close="showAgentsList = false"
+        />
+      </transition>
+      <transition name="popover-animation">
+        <team-actions
+          v-if="showTeamsList"
+          class="team-actions-box"
+          @assign-team="assignTeam"
+          @close="showTeamsList = false"
+        />
+      </transition>
+    </div>
+    <div v-if="allConversationsSelected" class="bulk-action__alert">
+      {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
+    </div>
+  </div>
+</template>
 
-import NextButton from 'dashboard/components-next/button/Button.vue';
+<script>
 import AgentSelector from './AgentSelector.vue';
 import UpdateActions from './UpdateActions.vue';
 import LabelActions from './LabelActions.vue';
 import TeamActions from './TeamActions.vue';
-import CustomSnoozeModal from 'dashboard/components/CustomSnoozeModal.vue';
 export default {
   components: {
     AgentSelector,
     UpdateActions,
     LabelActions,
     TeamActions,
-    CustomSnoozeModal,
-    NextButton,
   },
   props: {
     conversations: {
@@ -50,14 +139,6 @@ export default {
       default: false,
     },
   },
-  emits: [
-    'selectAllConversations',
-    'assignAgent',
-    'updateConversations',
-    'assignLabels',
-    'assignTeam',
-    'resolveConversations',
-  ],
   data() {
     return {
       showAgentsList: false,
@@ -65,77 +146,26 @@ export default {
       showLabelActions: false,
       showTeamsList: false,
       popoverPositions: {},
-      showCustomTimeSnoozeModal: false,
     };
   },
-  mounted() {
-    emitter.on(
-      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-      this.onCmdSnoozeConversation
-    );
-    emitter.on(
-      CMD_BULK_ACTION_REOPEN_CONVERSATION,
-      this.onCmdReopenConversation
-    );
-    emitter.on(
-      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
-      this.onCmdResolveConversation
-    );
-  },
-  unmounted() {
-    emitter.off(
-      CMD_BULK_ACTION_SNOOZE_CONVERSATION,
-      this.onCmdSnoozeConversation
-    );
-    emitter.off(
-      CMD_BULK_ACTION_REOPEN_CONVERSATION,
-      this.onCmdReopenConversation
-    );
-    emitter.off(
-      CMD_BULK_ACTION_RESOLVE_CONVERSATION,
-      this.onCmdResolveConversation
-    );
-  },
   methods: {
-    onCmdSnoozeConversation(snoozeType) {
-      if (snoozeType === wootConstants.SNOOZE_OPTIONS.UNTIL_CUSTOM_TIME) {
-        this.showCustomTimeSnoozeModal = true;
-      } else {
-        this.updateConversations('snoozed', findSnoozeTime(snoozeType) || null);
-      }
-    },
-    onCmdReopenConversation() {
-      this.updateConversations('open', null);
-    },
-    onCmdResolveConversation() {
-      this.updateConversations('resolved', null);
-    },
-    customSnoozeTime(customSnoozedTime) {
-      this.showCustomTimeSnoozeModal = false;
-      if (customSnoozedTime) {
-        this.updateConversations('snoozed', getUnixTime(customSnoozedTime));
-      }
-    },
-    hideCustomSnoozeModal() {
-      this.showCustomTimeSnoozeModal = false;
-    },
     selectAll(e) {
-      this.$emit('selectAllConversations', e.target.checked);
+      this.$emit('select-all-conversations', e.target.checked);
     },
     submit(agent) {
-      this.$emit('assignAgent', agent);
+      this.$emit('assign-agent', agent);
     },
-    updateConversations(status, snoozedUntil) {
-      this.$emit('updateConversations', status, snoozedUntil);
+    updateConversations(status) {
+      this.$emit('update-conversations', status);
     },
     assignLabels(labels) {
-      this.$emit('assignLabels', labels);
+      this.$emit('assign-labels', labels);
     },
     assignTeam(team) {
-      this.$emit('assignTeam', team);
+      this.$emit('assign-team', team);
     },
     resolveConversations() {
-      this.$emit('resolveConversations');
+      this.$emit('resolve-conversations');
     },
     toggleUpdateActions() {
       this.showUpdateActions = !this.showUpdateActions;
@@ -153,114 +183,6 @@ export default {
 };
 </script>
 
-<template>
-  <div class="bulk-action__container">
-    <div class="flex items-center justify-between">
-      <label class="flex items-center justify-between bulk-action__panel">
-        <input
-          type="checkbox"
-          class="checkbox"
-          :checked="allConversationsSelected"
-          :indeterminate.prop="!allConversationsSelected"
-          @change="selectAll($event)"
-        />
-        <span>
-          {{
-            $t('BULK_ACTION.CONVERSATIONS_SELECTED', {
-              conversationCount: conversations.length,
-            })
-          }}
-        </span>
-      </label>
-      <div class="flex items-center gap-1 bulk-action__actions">
-        <NextButton
-          v-tooltip="$t('BULK_ACTION.LABELS.ASSIGN_LABELS')"
-          icon="i-lucide-tags"
-          slate
-          xs
-          faded
-          @click="toggleLabelActions"
-        />
-        <NextButton
-          v-tooltip="$t('BULK_ACTION.UPDATE.CHANGE_STATUS')"
-          icon="i-lucide-repeat"
-          slate
-          xs
-          faded
-          @click="toggleUpdateActions"
-        />
-        <NextButton
-          v-tooltip="$t('BULK_ACTION.ASSIGN_AGENT_TOOLTIP')"
-          icon="i-lucide-user-round-plus"
-          slate
-          xs
-          faded
-          @click="toggleAgentList"
-        />
-        <NextButton
-          v-tooltip="$t('BULK_ACTION.ASSIGN_TEAM_TOOLTIP')"
-          icon="i-lucide-users-round"
-          slate
-          xs
-          faded
-          @click="toggleTeamsList"
-        />
-      </div>
-      <transition name="popover-animation">
-        <LabelActions
-          v-if="showLabelActions"
-          class="label-actions-box"
-          @assign="assignLabels"
-          @close="showLabelActions = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <UpdateActions
-          v-if="showUpdateActions"
-          class="update-actions-box"
-          :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
-          :show-resolve="!showResolvedAction"
-          :show-reopen="!showOpenAction"
-          :show-snooze="!showSnoozedAction"
-          @update="updateConversations"
-          @close="showUpdateActions = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <AgentSelector
-          v-if="showAgentsList"
-          class="agent-actions-box"
-          :selected-inboxes="selectedInboxes"
-          :conversation-count="conversations.length"
-          @select="submit"
-          @close="showAgentsList = false"
-        />
-      </transition>
-      <transition name="popover-animation">
-        <TeamActions
-          v-if="showTeamsList"
-          class="team-actions-box"
-          @assign-team="assignTeam"
-          @close="showTeamsList = false"
-        />
-      </transition>
-    </div>
-    <div v-if="allConversationsSelected" class="bulk-action__alert">
-      {{ $t('BULK_ACTION.ALL_CONVERSATIONS_SELECTED_ALERT') }}
-    </div>
-    <woot-modal
-      v-model:show="showCustomTimeSnoozeModal"
-      :on-close="hideCustomSnoozeModal"
-    >
-      <CustomSnoozeModal
-        @close="hideCustomSnoozeModal"
-        @choose-time="customSnoozeTime"
-      />
-    </woot-modal>
-  </div>
-</template>
-
 <style scoped lang="scss">
 // For RTL direction view
 .app-rtl--wrapper {
@@ -272,23 +194,33 @@ export default {
 }
 
 .bulk-action__container {
-  @apply p-4 relative border-b border-solid border-n-strong dark:border-n-weak;
+  border-bottom: 1px solid var(--s-100);
+  padding: var(--space-normal);
+  position: relative;
 }
 
 .bulk-action__panel {
-  @apply cursor-pointer;
+  cursor: pointer;
 
   span {
-    @apply text-xs my-0 mx-1;
+    font-size: var(--font-size-mini);
+    margin: 0 var(--space-smaller);
   }
 
   input[type='checkbox'] {
-    @apply cursor-pointer m-0;
+    cursor: pointer;
+    margin: var(--space-zero);
   }
 }
 
 .bulk-action__alert {
-  @apply bg-yellow-50 text-yellow-700 rounded text-xs mt-2 py-1 px-2 border border-solid border-yellow-300 dark:border-yellow-300/10 dark:bg-yellow-200/20 dark:text-yellow-400;
+  background-color: var(--y-50);
+  border-radius: var(--border-radius-small);
+  border: 1px solid var(--y-300);
+  color: var(--y-700);
+  font-size: var(--font-size-mini);
+  margin-top: var(--space-small);
+  padding: var(--space-smaller) var(--space-small);
 }
 
 .popover-animation-enter-active,
@@ -297,35 +229,35 @@ export default {
 }
 
 .popover-animation-enter {
+  opacity: 0;
   transform: scale(0.95);
-  @apply opacity-0;
 }
 
 .popover-animation-enter-to {
+  opacity: 1;
   transform: scale(1);
-  @apply opacity-100;
 }
 
 .popover-animation-leave {
+  opacity: 1;
   transform: scale(1);
-  @apply opacity-100;
 }
 
 .popover-animation-leave-to {
+  opacity: 0;
   transform: scale(0.95);
-  @apply opacity-0;
 }
 
 .label-actions-box {
-  --triangle-position: 5.3125rem;
+  --triangle-position: 8.5rem;
 }
 .update-actions-box {
-  --triangle-position: 3.5rem;
+  --triangle-position: 5.6rem;
 }
 .agent-actions-box {
-  --triangle-position: 1.75rem;
+  --triangle-position: 2.8rem;
 }
 .team-actions-box {
-  --triangle-position: 0.125rem;
+  --triangle-position: 0.2rem;
 }
 </style>

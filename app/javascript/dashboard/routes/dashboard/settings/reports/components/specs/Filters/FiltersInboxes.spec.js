@@ -1,14 +1,15 @@
-import { shallowMount } from '@vue/test-utils';
-import { createStore } from 'vuex';
-import ReportsFiltersInboxes from '../../Filters/Inboxes.vue';
+import { shallowMount, createLocalVue } from '@vue/test-utils';
+import Vuex from 'vuex';
+import ReportsFiltersInboxes from '../../Filters/Inboxes';
+
+const localVue = createLocalVue();
+localVue.use(Vuex);
 
 const mountParams = {
-  global: {
-    mocks: {
-      $t: msg => msg,
-    },
-    stubs: ['multiselect'],
+  mocks: {
+    $t: msg => msg,
   },
+  stubs: ['multiselect'],
 };
 
 describe('ReportsFiltersInboxes.vue', () => {
@@ -25,11 +26,11 @@ describe('ReportsFiltersInboxes.vue', () => {
         ],
       },
       actions: {
-        get: vi.fn(),
+        get: jest.fn(),
       },
     };
 
-    store = createStore({
+    store = new Vuex.Store({
       modules: {
         inboxes: inboxesModule,
       },
@@ -38,28 +39,28 @@ describe('ReportsFiltersInboxes.vue', () => {
 
   it('dispatches "inboxes/get" action when component is mounted', () => {
     shallowMount(ReportsFiltersInboxes, {
-      global: {
-        plugins: [store],
-        ...mountParams.global,
-      },
+      store,
+      localVue,
+      ...mountParams,
     });
     expect(inboxesModule.actions.get).toHaveBeenCalled();
   });
 
-  it('emits "inbox-filter-selection" event when handleInput is called', async () => {
+  it('emits "inbox-filter-selection" event when handleInput is called', () => {
     const wrapper = shallowMount(ReportsFiltersInboxes, {
-      global: {
-        plugins: [store],
-        ...mountParams.global,
-      },
+      store,
+      localVue,
+      ...mountParams,
     });
 
     const selectedInbox = { id: 1, name: 'Inbox 1' };
-    await wrapper.setData({ selectedOption: selectedInbox });
+    wrapper.setData({ selectedOption: selectedInbox });
 
-    await wrapper.vm.handleInput();
+    wrapper.vm.handleInput();
 
-    expect(wrapper.emitted('inboxFilterSelection')).toBeTruthy();
-    expect(wrapper.emitted('inboxFilterSelection')[0]).toEqual([selectedInbox]);
+    expect(wrapper.emitted('inbox-filter-selection')).toBeTruthy();
+    expect(wrapper.emitted('inbox-filter-selection')[0]).toEqual([
+      selectedInbox,
+    ]);
   });
 });

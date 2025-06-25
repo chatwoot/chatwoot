@@ -1,7 +1,6 @@
 {
   "EMOJI": {
-    "PLACEHOLDER": "Ieškoti emodžių",
-    "NOT_FOUND": "Jūsų paieška neatitinka jokių emodži",
-    "REMOVE": "Pašalinti"
+    "PLACEHOLDER": "Search emojis",
+    "NOT_FOUND": "No emoji match your search"
   }
 }
