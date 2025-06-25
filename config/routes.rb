@@ -581,6 +581,10 @@ Rails.application.routes.draw do
   get '/swagger/*path', to: 'swagger#respond'
   get '/swagger', to: 'swagger#respond'
 
+  # Routes for health checks
+  # ----------------------------------------------------------------------
+  get '/healthz', to: 'health#check'
+
   # ----------------------------------------------------------------------
   # Routes for testing
   resources :widget_tests, only: [:index] unless Rails.env.production?
