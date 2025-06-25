@@ -112,13 +112,15 @@ initalizeRouter();
 window.onload = () => {
   app.mount('#app');
 
-  window.chatwootSettings = {
-    showPopoutButton: false,
-    hideMessageBubble: true,
-  };
+  if (process.env.NODE_ENV !== 'development') {
+    window.chatwootSettings = {
+      showPopoutButton: false,
+      hideMessageBubble: true,
+    };
 
-  window.chatwootSDK.run({
-    websiteToken: window.chatwootConfig.onehashWebsiteToken,
-    baseUrl: window.chatwootConfig.hostURL,
-  });
+    window.chatwootSDK.run({
+      websiteToken: window.chatwootConfig.onehashWebsiteToken,
+      baseUrl: window.chatwootConfig.hostURL,
+    });
+  }
 };

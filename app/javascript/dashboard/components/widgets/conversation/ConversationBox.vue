@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-// import ShopifyOrderCancellation from './ShopifyOrderCancellation.vue';
+import ShopifyOrderCancellation from './ShopifyOrderCancellation.vue';
 import ConversationHeader from './ConversationHeader.vue';
 import DashboardAppFrame from '../DashboardApp/Frame.vue';
 import EmptyState from './EmptyState/EmptyState.vue';
@@ -13,7 +13,7 @@ import CallDialog from 'dashboard/routes/dashboard/conversation/contact/CallDial
 export default {
   components: {
     CallDialog,
-    // ShopifyOrderCancellation,
+    ShopifyOrderCancellation,
     ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
@@ -45,7 +45,6 @@ export default {
     return {
       activeIndex: 0,
       showCallModal: false,
-      cancelOrderData: null,
     };
   },
   computed: {
@@ -105,11 +104,10 @@ export default {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
-    emitter.on(BUS_EVENTS.CANCEL_ORDER, this.cancelOrder);
   },
   unmounted() {
+    console.log("turning of bus events listner")
     emitter.off(BUS_EVENTS.START_CALL, this.startCall);
-    emitter.off(BUS_EVENTS.CANCEL_ORDER, this.cancelOrder);
   },
 
   methods: {
@@ -128,11 +126,6 @@ export default {
         chat_id: this.currentChat.id,
         room_id: this.activeCall.room_id,
       });
-    },
-    cancelOrder(data) {
-      if (!data) return;
-
-      this.cancelOrderData = data;
     },
     async startCall() {
       if (this.activeCall) return;
@@ -218,10 +211,8 @@ export default {
         :jwt="activeCall.jwt"
         @close="closeCall"
       />
-      <!-- <ShopifyOrderCancellation
-        v-if="cancelOrderData"
-        :order="cancelOrderData"
-      ></ShopifyOrderCancellation> -->
+      <ShopifyOrderCancellation
+      ></ShopifyOrderCancellation>
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

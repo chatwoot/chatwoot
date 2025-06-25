@@ -331,8 +331,15 @@
         "BUTTON_TEXT": "Edit"
       },
       "CANCEL": {
+        "TABLE": {
+          "PRODUCT": "Product",
+          "ITEM_PRICE": "Item Price",
+          "QUANTITY": "Quantity",
+          "TOTAL": "Total"
+        },
         "BUTTON_TEXT": "Cancel",
         "TITLE": "Cancel Order",
+        "DESC": "You can directly cancel the shopify order of a customer from here",
         "PRODUCT": "Product",
         "ITEM_PRICE": "Item Price",
         "QTY": "Quantity",
@@ -342,15 +349,19 @@
         "RESTOCK_ITEMS": "Restock items",
         "RESTOCK_DESC": "Restock descriptions",
         "SEND_NOTIFICATION": "Send notifications",
+        "REFUND_AMOUNT": "Refund amount",
         "MANUAL": "Manual",
         "REASON_FOR_CANCELLING": "Reason for cancelling",
         "CUSTOMER_CHANGED": "Customer changed",
         "OUT_OF_STOCK": "Out of stock",
         "PRICING_ERROR": "Pricing error",
+        "CANCELLATION_REASON": "Cancellation reason",
         "OTHER": "other",
         "SUBTOTAL": "Subtotal",
+        "DISCOUNT": "Discount",
         "DISCOUNTS": "Discounts",
         "TAX": "Tax",
+        "AMOUNT_REFUNDABLE": "Refundable amount",
         "TOTAL_AVAILABLE_REFUND": "Available refund",
         "KEEP_ORDER": "Keep Order",
         "CANCEL_ORDER": "Cancel Order"

@@ -108,18 +108,27 @@ const getFulfillmentClass = status => {
       </span>
     </div>
 
-    <div class="flex flex-row gap-4">
-      <button
-        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition-colors duration-200 hover:bg-gray-400"
-        @click="emitCancelOrder"
-      >
+    <div class="selection-controls">
+      <button @click="emitCancelOrder">
         {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.BUTTON_TEXT') }}
       </button>
-      <button
-        class="bg-gray-300 text-gray-800 px-4 py-2 rounded transition-colors duration-200 hover:bg-gray-400"
-      >
+      <button>
         {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.EDIT.BUTTON_TEXT') }}
       </button>
     </div>
   </div>
 </template>
+
+<style lang="scss" scoped>
+.selection-controls {
+  @apply flex flex-row gap-4;
+
+  button {
+    @apply px-3 py-1 text-sm border rounded
+                 bg-white dark:bg-slate-700
+                 border-slate-300 dark:border-slate-600
+                 text-slate-700 dark:text-white
+                 hover:bg-slate-50 hover:dark:bg-slate-600;
+  }
+}
+</style>

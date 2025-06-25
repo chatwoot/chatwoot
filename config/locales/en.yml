@@ -346,3 +346,5 @@ en:
 
       Transcript:
       %{format_messages}
+  shopify:
+    order_cancellation_process: 'Order cancellation in process'

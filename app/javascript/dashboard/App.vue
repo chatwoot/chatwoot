@@ -94,12 +94,12 @@ export default {
     setTimeout(() => {
       checkKeycloakSession().then(response => {
         if (response === 'Keycloak Token missing from cookies') {
-          Auth.logout();
+          // Auth.logout();
         } else if (
           response.data.message === 'No session found for the provided token' ||
           response.data.message === 'Session expired. Please log in again'
         ) {
-          Auth.logout();
+          // Auth.logout();
         }
       });
     }, 2000);

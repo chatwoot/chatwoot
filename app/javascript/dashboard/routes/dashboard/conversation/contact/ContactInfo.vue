@@ -282,6 +282,7 @@ export default {
           sm
           @click="toggleConversationModal"
         /> -->
+
         <ComposeConversation
           :contact-id="String(contact.id)"
           is-modal

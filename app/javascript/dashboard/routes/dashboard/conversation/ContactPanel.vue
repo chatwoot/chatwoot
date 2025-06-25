@@ -200,6 +200,7 @@ onMounted(() => {
                 />
               </AccordionItem>
             </div>
+
             <div v-else-if="element.name === 'previous_conversation'">
               <AccordionItem
                 v-if="contact.id"
@@ -218,6 +219,7 @@ onMounted(() => {
                 />
               </AccordionItem>
             </div>
+
             <div v-else-if="element.name === 'previous_bookings'">
               <AccordionItem
                 v-if="contact.id"
