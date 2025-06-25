@@ -35,35 +35,72 @@ const items = computed(() => {
     displayInfo: team.description,
   }));
 
-  const allItems = [...agentItems, ...teamItems];
+  let filteredAgents = agentItems;
+  let filteredTeams = teamItems;
 
-  if (!props.searchKey) return allItems;
+  if (props.searchKey) {
+    filteredAgents = agentItems.filter(agent =>
+      agent.displayName.toLowerCase().includes(props.searchKey.toLowerCase())
+    );
+    filteredTeams = teamItems.filter(team =>
+      team.displayName.toLowerCase().includes(props.searchKey.toLowerCase())
+    );
+  }
 
-  return allItems.filter(item =>
-    item.displayName.toLowerCase().includes(props.searchKey.toLowerCase())
-  );
+  const result = [];
+
+  if (filteredAgents.length > 0) {
+    result.push({ type: 'header', title: 'Agents', id: 'agents-header' });
+    result.push(...filteredAgents);
+  }
+
+  if (filteredTeams.length > 0) {
+    result.push({ type: 'header', title: 'Teams', id: 'teams-header' });
+    result.push(...filteredTeams);
+  }
+
+  return result;
 });
+
+const selectableItems = computed(() => {
+  return items.value.filter(item => item.type !== 'header');
+});
+
+const getSelectableIndex = item => {
+  return selectableItems.value.findIndex(
+    selectableItem =>
+      selectableItem.type === item.type && selectableItem.id === item.id
+  );
+};
 
 const adjustScroll = () => {
   nextTick(() => {
     if (tagAgentsRef.value) {
-      tagAgentsRef.value.scrollTop = 50 * selectedIndex.value;
+      const selectedElement = tagAgentsRef.value.querySelector(
+        `#mention-item-${selectedIndex.value}`
+      );
+      if (selectedElement) {
+        selectedElement.scrollIntoView({
+          block: 'nearest',
+          behavior: 'smooth',
+        });
+      }
     }
   });
 };
 
 const onSelect = () => {
-  emit('selectAgent', items.value[selectedIndex.value]);
+  emit('selectAgent', selectableItems.value[selectedIndex.value]);
 };
 
 useKeyboardNavigableList({
-  items,
+  items: selectableItems,
   onSelect,
   adjustScroll,
   selectedIndex,
 });
 
-watch(items, newListOfAgents => {
+watch(selectableItems, newListOfAgents => {
   if (newListOfAgents.length < selectedIndex.value + 1) {
     selectedIndex.value = 0;
   }
@@ -81,47 +118,66 @@ const onAgentSelect = index => {
 
 <template>
   <div>
-    <ul
+    <div
       v-if="items.length"
       ref="tagAgentsRef"
       class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
     >
-      <li
-        v-for="(item, index) in items"
-        :id="`mention-item-${index}`"
+      <div
+        v-for="item in items"
+        :id="
+          item.type === 'header'
+            ? undefined
+            : `mention-item-${getSelectableIndex(item)}`
+        "
         :key="`${item.type}-${item.id}`"
-        :class="{
-          'bg-n-alpha-black2': index === selectedIndex,
-          'last:mb-0': items.length <= 4,
-        }"
-        class="flex items-center px-2 py-1 rounded-md"
-        @click="onAgentSelect(index)"
-        @mouseover="onHover(index)"
       >
-        <div class="mr-2">
-          <Avatar :src="item.thumbnail" :name="item.displayName" rounded-full />
-        </div>
+        <!-- Section Header -->
         <div
-          class="flex-1 max-w-full overflow-hidden whitespace-nowrap text-ellipsis"
+          v-if="item.type === 'header'"
+          class="px-2 py-2 text-xs font-medium tracking-wide capitalize text-n-slate-11"
         >
-          <h5
-            class="mb-0 overflow-hidden text-sm capitalize text-n-slate-11 whitespace-nowrap text-ellipsis"
-            :class="{
-              'text-n-slate-12': index === selectedIndex,
-            }"
-          >
-            {{ item.displayName }}
-          </h5>
+          {{ item.title }}
+        </div>
+        <!-- Selectable Item -->
+        <div
+          v-else
+          :class="{
+            'bg-n-alpha-black2': getSelectableIndex(item) === selectedIndex,
+          }"
+          class="flex items-center px-2 py-1 rounded-md cursor-pointer"
+          @click="onAgentSelect(getSelectableIndex(item))"
+          @mouseover="onHover(getSelectableIndex(item))"
+        >
+          <div class="mr-2">
+            <Avatar
+              :src="item.thumbnail"
+              :name="item.displayName"
+              rounded-full
+            />
+          </div>
           <div
-            class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-n-slate-10"
-            :class="{
-              'text-n-slate-11': index === selectedIndex,
-            }"
+            class="overflow-hidden flex-1 max-w-full whitespace-nowrap text-ellipsis"
           >
-            {{ item.displayInfo }}
+            <h5
+              class="overflow-hidden mb-0 text-sm capitalize whitespace-nowrap text-n-slate-11 text-ellipsis"
+              :class="{
+                'text-n-slate-12': getSelectableIndex(item) === selectedIndex,
+              }"
+            >
+              {{ item.displayName }}
+            </h5>
+            <div
+              class="overflow-hidden text-xs whitespace-nowrap text-ellipsis text-n-slate-10"
+              :class="{
+                'text-n-slate-11': getSelectableIndex(item) === selectedIndex,
+              }"
+            >
+              {{ item.displayInfo }}
+            </div>
           </div>
         </div>
-      </li>
-    </ul>
+      </div>
+    </div>
   </div>
 </template>

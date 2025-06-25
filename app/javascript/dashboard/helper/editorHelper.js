@@ -305,10 +305,15 @@ const createNode = (editorView, nodeType, content) => {
       const mentionType = content.type || 'user';
       const displayName = content.displayName || content.name;
 
+      // Encode team mentions with 'team:' prefix to distinguish from user mentions
+      // This allows the serializer to properly generate mention://team/ID/name URLs
+      // instead of mention://user/ID/name for team mentions
+      const encodedUserId =
+        mentionType === 'team' ? `team:${content.id}` : content.id;
+
       return state.schema.nodes.mention.create({
-        userId: content.id,
+        userId: encodedUserId,
         userFullName: displayName,
-        mentionType: mentionType,
       });
     }
     case 'cannedResponse':
