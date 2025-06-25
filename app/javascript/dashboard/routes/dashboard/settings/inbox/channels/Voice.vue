@@ -174,10 +174,9 @@ async function createChannel() {
       <div>
         <NextButton
           :is-loading="uiFlags.isCreating"
-          :is-disabled="isSubmitDisabled"
+          :disabled="isSubmitDisabled"
           :label="t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
           type="submit"
-          color="blue"
         />
       </div>
     </form>
