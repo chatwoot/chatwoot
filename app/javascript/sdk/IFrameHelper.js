@@ -14,7 +14,6 @@ import {
   chatBubble,
   closeBubble,
   bubbleHolder,
-  createNotificationBubble,
   onClickChatBubble,
   onBubbleClick,
   setBubbleText,
@@ -25,11 +24,11 @@ import { isWidgetColorLighter } from 'shared/helpers/colorHelper';
 import { dispatchWindowEvent } from 'shared/helpers/CustomEventHelper';
 import {
   CHATWOOT_ERROR,
-  CHATWOOT_ON_MESSAGE,
+  CHATWOOT_POSTBACK,
   CHATWOOT_READY,
 } from '../widget/constants/sdkEvents';
 import { SET_USER_ERROR } from '../widget/constants/errorTypes';
-import { getUserCookieName } from './cookieHelpers';
+import { getUserCookieName, setCookieWithDomain } from './cookieHelpers';
 import {
   getAlertAudio,
   initOnEvents,
@@ -46,11 +45,11 @@ const updateAuthCookie = (cookieContent, websiteToken) => {
   });
 };
 
-const updateCampaignReadStatus = () => {
+const updateCampaignReadStatus = baseDomain => {
   const expireBy = addHours(new Date(), 1);
-  Cookies.set('cw_snooze_campaigns_till', Number(expireBy), {
+  setCookieWithDomain('cw_snooze_campaigns_till', Number(expireBy), {
     expires: expireBy,
-    sameSite: 'Lax',
+    baseDomain,
   });
 };
 
@@ -58,7 +57,7 @@ export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken, referral }) {
     let ref = '';
     if (referral) {
-      ref = `&referral=${referral}`
+      ref = `&referral=${referral}`;
     }
     return `${baseUrl}/widget?website_token=${websiteToken}${ref}`;
   },
@@ -89,6 +88,8 @@ export const IFrameHelper = {
     }
 
     addClasses(widgetHolder, holderClassName);
+    widgetHolder.id = 'cw-widget-holder';
+    widgetHolder.dataset.turboPermanent = true;
     widgetHolder.appendChild(iframe);
     body.appendChild(widgetHolder);
     IFrameHelper.initPostMessageCommunication();
@@ -170,6 +171,7 @@ export const IFrameHelper = {
         showPopoutButton: window.$chatwoot.showPopoutButton,
         widgetStyle: window.$chatwoot.widgetStyle,
         darkMode: window.$chatwoot.darkMode,
+        showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
       });
       IFrameHelper.onLoad({
@@ -198,8 +200,8 @@ export const IFrameHelper = {
         Cookies.remove(getUserCookieName());
       }
     },
-    onMessage({ data }) {
-      dispatchWindowEvent({ eventName: CHATWOOT_ON_MESSAGE, data });
+    onEvent({ eventIdentifier: eventName, data }) {
+      dispatchWindowEvent({ eventName, data });
     },
     setBubbleLabel(message) {
       setBubbleText(window.$chatwoot.launcherTitle || message.label);
@@ -210,7 +212,14 @@ export const IFrameHelper = {
     },
 
     setCampaignReadOn() {
-      updateCampaignReadStatus();
+      updateCampaignReadStatus(window.$chatwoot.baseDomain);
+    },
+
+    postback(data) {
+      dispatchWindowEvent({
+        eventName: CHATWOOT_POSTBACK,
+        data,
+      });
     },
 
     toggleBubble: state => {
@@ -330,7 +339,6 @@ export const IFrameHelper = {
 
     bubbleHolder.appendChild(chatIcon);
     bubbleHolder.appendChild(closeBubble);
-    bubbleHolder.appendChild(createNotificationBubble());
     onClickChatBubble();
   },
   toggleCloseButton: () => {

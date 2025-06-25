@@ -25,7 +25,7 @@ RSpec.describe Inbox do
 
     it { is_expected.to have_many(:conversations).dependent(:destroy_async) }
 
-    it { is_expected.to have_many(:messages).through(:conversations) }
+    it { is_expected.to have_many(:messages).dependent(:destroy_async) }
 
     it { is_expected.to have_one(:agent_bot_inbox) }
 
@@ -41,29 +41,50 @@ RSpec.describe Inbox do
     it_behaves_like 'avatarable'
   end
 
-  describe '#add_member' do
+  describe '#add_members' do
     let(:inbox) { FactoryBot.create(:inbox) }
-    let(:user) { FactoryBot.create(:user) }
 
-    it do
-      expect(inbox.inbox_members.size).to eq(0)
+    before do
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
 
-      inbox.add_member(user.id)
-      expect(inbox.reload.inbox_members.size).to eq(1)
+    it 'handles adds all members and resets cache keys' do
+      users = FactoryBot.create_list(:user, 3)
+      inbox.add_members(users.map(&:id))
+      expect(inbox.reload.inbox_members.size).to eq(3)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).at_least(:once)
+                                                                        .with(
+                                                                          'account.cache_invalidated',
+                                                                          kind_of(Time),
+                                                                          account: inbox.account,
+                                                                          cache_keys: inbox.account.cache_keys
+                                                                        )
     end
   end
 
-  describe '#remove_member' do
+  describe '#remove_members' do
     let(:inbox) { FactoryBot.create(:inbox) }
-    let(:user) { FactoryBot.create(:user) }
+    let(:users) { FactoryBot.create_list(:user, 3) }
 
-    before { inbox.add_member(user.id) }
+    before do
+      inbox.add_members(users.map(&:id))
+      allow(Rails.configuration.dispatcher).to receive(:dispatch)
+    end
 
-    it do
-      expect(inbox.inbox_members.size).to eq(1)
+    it 'removes the members and resets cache keys' do
+      expect(inbox.reload.inbox_members.size).to eq(3)
 
-      inbox.remove_member(user.id)
+      inbox.remove_members(users.map(&:id))
       expect(inbox.reload.inbox_members.size).to eq(0)
+
+      expect(Rails.configuration.dispatcher).to have_received(:dispatch).at_least(:once)
+                                                                        .with(
+                                                                          'account.cache_invalidated',
+                                                                          kind_of(Time),
+                                                                          account: inbox.account,
+                                                                          cache_keys: inbox.account.cache_keys
+                                                                        )
     end
   end
 
@@ -210,6 +231,34 @@ RSpec.describe Inbox do
       expect(inbox.portal).to eq(portal)
     end
 
+    it 'sends the inbox_created event if ENABLE_INBOX_EVENTS is true' do
+      with_modified_env ENABLE_INBOX_EVENTS: 'true' do
+        channel = inbox.channel
+        channel.update(widget_color: '#fff')
+
+        expect(Rails.configuration.dispatcher).to have_received(:dispatch)
+          .with(
+            'inbox.updated',
+            kind_of(Time),
+            inbox: inbox,
+            changed_attributes: kind_of(Object)
+          )
+      end
+    end
+
+    it 'sends the inbox_created event if ENABLE_INBOX_EVENTS is false' do
+      channel = inbox.channel
+      channel.update(widget_color: '#fff')
+
+      expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
+        .with(
+          'inbox.updated',
+          kind_of(Time),
+          inbox: inbox,
+          changed_attributes: kind_of(Object)
+        )
+    end
+
     it 'resets cache key if there is an update in the channel' do
       channel = inbox.channel
       channel.update(widget_color: '#fff')
@@ -221,6 +270,16 @@ RSpec.describe Inbox do
           account: inbox.account,
           cache_keys: inbox.account.cache_keys
         )
+    end
+
+    it 'updates the cache key after update' do
+      expect(inbox.account).to receive(:update_cache_key).with('inbox')
+      inbox.update(name: 'New Name')
+    end
+
+    it 'updates the cache key after touch' do
+      expect(inbox.account).to receive(:update_cache_key).with('inbox')
+      inbox.touch # rubocop:disable Rails/SkipsModelValidations
     end
   end
 end

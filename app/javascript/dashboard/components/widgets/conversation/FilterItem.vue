@@ -1,10 +1,3 @@
-<template>
-  <select v-model="activeValue" class="status--filter" @change="onTabChange()">
-    <option v-for="(value, status) in items" :key="status" :value="status">
-      {{ $t(`${pathPrefix}.${status}.TEXT`) }}
-    </option>
-  </select>
-</template>
 <script>
 export default {
   props: {
@@ -13,7 +6,7 @@ export default {
       required: true,
     },
     items: {
-      type: Object,
+      type: Array,
       required: true,
     },
     type: {
@@ -25,6 +18,7 @@ export default {
       required: true,
     },
   },
+  emits: ['onChangeFilter'],
   data() {
     return {
       activeValue: this.selectedValue,
@@ -42,14 +36,15 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.status--filter {
-  background-color: var(--color-background-light);
-  border: 1px solid var(--color-border);
-  font-size: var(--font-size-mini);
-  height: var(--space-medium);
-  margin: 0 var(--space-smaller);
-  padding: 0 var(--space-medium) 0 var(--space-small);
-  width: 126px;
-}
-</style>
+
+<template>
+  <select
+    v-model="activeValue"
+    class="w-32 h-6 py-0 pl-2 pr-6 mx-1 my-0 text-xs border border-solid bg-n-slate-3 dark:bg-n-solid-3 border-n-weak dark:border-n-weak text-n-slate-12"
+    @change="onTabChange()"
+  >
+    <option v-for="value in items" :key="value" :value="value">
+      {{ $t(`${pathPrefix}.${value}.TEXT`) }}
+    </option>
+  </select>
+</template>

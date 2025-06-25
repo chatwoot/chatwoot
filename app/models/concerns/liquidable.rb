@@ -2,7 +2,6 @@ module Liquidable
   extend ActiveSupport::Concern
 
   included do
-    acts_as_taggable_on :labels
     before_create :process_liquid_in_content
   end
 

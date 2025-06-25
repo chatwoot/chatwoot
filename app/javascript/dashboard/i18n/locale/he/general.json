@@ -1,0 +1,9 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "מציג {firstIndex}-{lastIndex} מתוך {totalCount} פריטים",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "חפש",
+      "EMPTY_STATE": "לא נמצאו תוצאות"
+    }
+  }
+}

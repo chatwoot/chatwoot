@@ -6,3 +6,4 @@ json.account_id resource.account_id
 json.hook_type resource.hook_type
 
 json.settings resource.settings if Current.account_user&.administrator?
+json.reference_id resource.reference_id if Current.account_user&.administrator?

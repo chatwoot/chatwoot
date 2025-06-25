@@ -1,44 +1,35 @@
+<script setup>
+import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
+
+defineProps({
+  user: {
+    type: Object,
+    default: () => ({}),
+  },
+  size: {
+    type: String,
+    default: '20px',
+  },
+  textClass: {
+    type: String,
+    default: 'text-sm text-n-slate-12',
+  },
+});
+</script>
+
 <template>
-  <div class="row--user-block">
-    <thumbnail
+  <div class="flex items-center gap-1.5 text-left">
+    <Thumbnail
       :src="user.thumbnail"
       :size="size"
       :username="user.name"
       :status="user.availability_status"
     />
-    <h6 class="text-block-title user-name text-truncate text-capitalize">
+    <span
+      class="my-0 overflow-hidden whitespace-nowrap text-ellipsis text-capitalize"
+      :class="textClass"
+    >
       {{ user.name }}
-    </h6>
+    </span>
   </div>
 </template>
-<script>
-import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
-
-export default {
-  components: {
-    Thumbnail,
-  },
-  props: {
-    user: {
-      type: Object,
-      default: () => {},
-    },
-    size: {
-      type: String,
-      default: '20px',
-    },
-  },
-};
-</script>
-
-<style scoped lang="scss">
-.row--user-block {
-  align-items: center;
-  display: flex;
-  text-align: left;
-
-  .user-name {
-    margin: 0 var(--space-small);
-  }
-}
-</style>

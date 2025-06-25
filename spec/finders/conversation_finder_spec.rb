@@ -57,6 +57,16 @@ describe ConversationFinder do
 
         expect(result[:conversations].map(&:id)).not_to include(restricted_conversation.id)
       end
+
+      it 'returns only the conversations from the inbox if inbox_id filter is passed' do
+        conversation = create(:conversation, account: account, inbox_id: inbox.id)
+        params = { inbox_id: restricted_inbox.id }
+        result = described_class.new(admin, params).perform
+
+        conversation_ids = result[:conversations].map(&:id)
+        expect(conversation_ids).not_to include(conversation.id)
+        expect(conversation_ids).to include(restricted_conversation.id)
+      end
     end
 
     context 'with assignee_type all' do
@@ -146,6 +156,30 @@ describe ConversationFinder do
       end
     end
 
+    context 'with updated_within' do
+      let(:params) { { updated_within: 20, assignee_type: 'unassigned', sort_by: 'created_at_asc' } }
+
+      it 'filters based on params, sort order but returns all conversations without pagination with in time range' do
+        # value of updated_within is in seconds
+        # write spec based on that
+        conversations = create_list(:conversation, 50, account: account,
+                                                       inbox: inbox, assignee: nil,
+                                                       updated_at: Time.now.utc - 30.seconds,
+                                                       created_at: Time.now.utc - 30.seconds)
+        # update updated_at of 27 conversations to be with in 20 seconds
+        conversations[0..27].each do |conversation|
+          conversation.update(updated_at: Time.now.utc - 10.seconds)
+        end
+        result = conversation_finder.perform
+        # pagination is not applied
+        # filters are applied
+        # modified conversations + 1 conversation created during set up
+        expect(result[:conversations].length).to be 29
+        # ensure that the conversations are sorted by created_at
+        expect(result[:conversations].first.created_at).to be < result[:conversations].last.created_at
+      end
+    end
+
     context 'with pagination' do
       let(:params) { { status: 'open', assignee_type: 'me', page: 1 } }
 
@@ -160,9 +194,13 @@ describe ConversationFinder do
       let(:params) { { status: 'open', assignee_type: 'me', conversation_type: 'unattended' } }
 
       it 'returns unattended conversations' do
-        create_list(:conversation, 25, account: account, inbox: inbox, assignee: user_1)
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc, assignee: user_1) # attended_conversation
+        create(:conversation, account: account, first_reply_created_at: nil, assignee: user_1) # unattended_conversation_no_first_reply
+        create(:conversation, account: account, first_reply_created_at: Time.now.utc,
+                              assignee: user_1, waiting_since: Time.now.utc) # unattended_conversation_waiting_since
+
         result = conversation_finder.perform
-        expect(result[:conversations].length).to be 25
+        expect(result[:conversations].length).to be 2
       end
     end
   end

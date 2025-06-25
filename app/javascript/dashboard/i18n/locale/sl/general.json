@@ -1,0 +1,9 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "Prikaz {firstIndex}-{lastIndex} od {totalCount} elementov",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Iskanje",
+      "EMPTY_STATE": "Ni rezultatov"
+    }
+  }
+}

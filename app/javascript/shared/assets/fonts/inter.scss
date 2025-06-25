@@ -3,8 +3,7 @@
   font-style: normal;
   font-weight: 100;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-Thin.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-Thin.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-Thin.woff2') format('woff2');
 }
 
 @font-face {
@@ -12,8 +11,7 @@
   font-style: normal;
   font-weight: 300;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-Light.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-Light.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-Light.woff2') format('woff2');
 }
 
 @font-face {
@@ -21,8 +19,7 @@
   font-style: normal;
   font-weight: 400;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-Regular.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-Regular.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-Regular.woff2') format('woff2');
 }
 
 @font-face {
@@ -30,8 +27,7 @@
   font-style: italic;
   font-weight: 400;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-Italic.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-Italic.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-Italic.woff2') format('woff2');
 }
 
 @font-face {
@@ -39,8 +35,7 @@
   font-style: normal;
   font-weight: 500;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-Medium.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-Medium.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-Medium.woff2') format('woff2');
 }
 
 @font-face {
@@ -48,8 +43,7 @@
   font-style: normal;
   font-weight: 600;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-SemiBold.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-SemiBold.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-SemiBold.woff2') format('woff2');
 }
 
 @font-face {
@@ -57,6 +51,5 @@
   font-style: normal;
   font-weight: 700;
   font-display: swap;
-  src: url('~shared/assets/fonts/Inter-Bold.woff2') format('woff2'),
-       url('~shared/assets/fonts/Inter-Bold.woff') format('woff');
+  src: url('shared/assets/fonts/Inter/Inter-Bold.woff2') format('woff2');
 }

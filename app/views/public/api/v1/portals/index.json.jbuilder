@@ -1,1 +1,1 @@
-json.array! @portals, partial: 'public/api/v1/models/portal', formats: [:json], as: :portal
+json.array! @portals, partial: 'public/api/v1/models/hc/portal', formats: [:json], as: :portal

@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Підтвердити",
+    "CLEAR_BUTTON": "Очистити",
+    "DATE_RANGE_INPUT": {
+      "START": "Дата початку",
+      "END": "Дата закінчення"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "ПЕРІОД",
+      "LAST_7_DAYS": "Останні 7 днів",
+      "LAST_30_DAYS": "Останні 30 днів",
+      "LAST_3_MONTHS": "Останні 3 місяці",
+      "LAST_6_MONTHS": "Останні 6 місяців",
+      "LAST_YEAR": "Минулий рік",
+      "CUSTOM_RANGE": "Довільний діапазон дат"
+    }
+  }
+}

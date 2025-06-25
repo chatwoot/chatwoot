@@ -1,46 +1,31 @@
-<template>
-  <section class="conversation-page">
-    <chat-list
-      :show-conversation-list="showConversationList"
-      :conversation-inbox="inboxId"
-      :label="label"
-      :team-id="teamId"
-      :conversation-type="conversationType"
-      :folders-id="foldersId"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @conversation-load="onConversationLoad"
-    >
-      <pop-over-search
-        :is-on-expanded-layout="isOnExpandedLayout"
-        @toggle-conversation-layout="toggleConversationLayout"
-      />
-    </chat-list>
-    <conversation-box
-      v-if="showMessageView"
-      :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-    />
-  </section>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import ChatList from '../../../components/ChatList';
-import ConversationBox from '../../../components/widgets/conversation/ConversationBox';
-import PopOverSearch from './search/PopOverSearch';
-import uiSettingsMixin from 'dashboard/mixins/uiSettings';
-import { BUS_EVENTS } from 'shared/constants/busEvents';
+import { useUISettings } from 'dashboard/composables/useUISettings';
+import { useAccount } from 'dashboard/composables/useAccount';
+import ChatList from '../../../components/ChatList.vue';
+import ConversationBox from '../../../components/widgets/conversation/ConversationBox.vue';
+import PopOverSearch from './search/PopOverSearch.vue';
 import wootConstants from 'dashboard/constants/globals';
+import { BUS_EVENTS } from 'shared/constants/busEvents';
+import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 export default {
   components: {
     ChatList,
     ConversationBox,
     PopOverSearch,
+    CmdBarConversationSnooze,
   },
-  mixins: [uiSettingsMixin],
+  beforeRouteLeave(to, from, next) {
+    // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
+    // and resolves timing issues during navigation with conversation view and other screens
+    if (this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+    next(); // Continue with navigation
+  },
   props: {
     inboxId: {
       type: [String, Number],
@@ -67,6 +52,16 @@ export default {
       default: 0,
     },
   },
+  setup() {
+    const { uiSettings, updateUISettings } = useUISettings();
+    const { accountId } = useAccount();
+
+    return {
+      uiSettings,
+      updateUISettings,
+      accountId,
+    };
+  },
   data() {
     return {
       showSearchModal: false,
@@ -76,6 +71,7 @@ export default {
     ...mapGetters({
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
+      isFeatureEnabledonAccount: 'accounts/isFeatureEnabledonAccount',
     }),
     showConversationList() {
       return this.isOnExpandedLayout ? !this.conversationId : true;
@@ -87,19 +83,23 @@ export default {
       const {
         LAYOUT_TYPES: { CONDENSED },
       } = wootConstants;
-      const {
-        conversation_display_type: conversationDisplayType = CONDENSED,
-      } = this.uiSettings;
+      const { conversation_display_type: conversationDisplayType = CONDENSED } =
+        this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
     isContactPanelOpen() {
       if (this.currentChat.id) {
-        const {
-          is_contact_sidebar_open: isContactSidebarOpen,
-        } = this.uiSettings;
+        const { is_contact_sidebar_open: isContactSidebarOpen } =
+          this.uiSettings;
         return isContactSidebarOpen;
       }
       return false;
+    },
+    showPopOverSearch() {
+      return !this.isFeatureEnabledonAccount(
+        this.accountId,
+        FEATURE_FLAGS.CHATWOOT_V4
+      );
     },
   },
   watch: {
@@ -107,8 +107,20 @@ export default {
       this.fetchConversationIfUnavailable();
     },
   },
+
+  created() {
+    // Clear selected state early if no conversation is selected
+    // This prevents child components from accessing stale data
+    // and resolves timing issues during navigation
+    // with conversation view and other screens
+    if (!this.conversationId) {
+      this.$store.dispatch('clearSelectedState');
+    }
+  },
+
   mounted() {
     this.$store.dispatch('agents/get');
+    this.$store.dispatch('portals/index');
     this.initialize();
     this.$watch('$store.state.route', () => this.initialize());
     this.$watch('chatList.length', () => {
@@ -127,7 +139,8 @@ export default {
     toggleConversationLayout() {
       const { LAYOUT_TYPES } = wootConstants;
       const {
-        conversation_display_type: conversationDisplayType = LAYOUT_TYPES.CONDENSED,
+        conversation_display_type:
+          conversationDisplayType = LAYOUT_TYPES.CONDENSED,
       } = this.uiSettings;
       const newViewType =
         conversationDisplayType === LAYOUT_TYPES.CONDENSED
@@ -170,7 +183,7 @@ export default {
             after: messageId,
           })
           .then(() => {
-            bus.$emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
+            emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE, { messageId });
           });
       } else {
         this.$store.dispatch('clearSelectedState');
@@ -190,10 +203,32 @@ export default {
   },
 };
 </script>
-<style lang="scss" scoped>
-.conversation-page {
-  display: flex;
-  width: 100%;
-  height: 100%;
-}
-</style>
+
+<template>
+  <section class="flex w-full h-full">
+    <ChatList
+      :show-conversation-list="showConversationList"
+      :conversation-inbox="inboxId"
+      :label="label"
+      :team-id="teamId"
+      :conversation-type="conversationType"
+      :folders-id="foldersId"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @conversation-load="onConversationLoad"
+    >
+      <PopOverSearch
+        v-if="showPopOverSearch"
+        :is-on-expanded-layout="isOnExpandedLayout"
+        @toggle-conversation-layout="toggleConversationLayout"
+      />
+    </ChatList>
+    <ConversationBox
+      v-if="showMessageView"
+      :inbox-id="inboxId"
+      :is-contact-panel-open="isContactPanelOpen"
+      :is-on-expanded-layout="isOnExpandedLayout"
+      @contact-panel-toggle="onToggleContactPanel"
+    />
+    <CmdBarConversationSnooze />
+  </section>
+</template>

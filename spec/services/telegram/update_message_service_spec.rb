@@ -2,40 +2,56 @@ require 'rails_helper'
 
 describe Telegram::UpdateMessageService do
   let!(:telegram_channel) { create(:channel_telegram) }
-  let!(:update_params) do
+  let(:common_message_params) do
     {
-      'update_id': 2_323_484,
-      'edited_message': {
+      'from': {
+        'id': 123,
+        'username': 'sojan'
+      },
+      'chat': {
+        'id': 789,
+        'type': 'private'
+      },
+      'date': Time.now.to_i,
+      'edit_date': Time.now.to_i
+    }
+  end
+
+  let(:text_update_params) do
+    {
+      'update_id': 1,
+      'edited_message': common_message_params.merge(
         'message_id': 48,
-        'from': {
-          'id': 512_313_123_171_248,
-          'is_bot': false,
-          'first_name': 'Sojan',
-          'last_name': 'Jose',
-          'username': 'sojan'
-        },
-        'chat': {
-          'id': 517_123_213_211_248,
-          'first_name': 'Sojan',
-          'last_name': 'Jose',
-          'username': 'sojan',
-          'type': 'private'
-        },
-        'date': 1_680_088_034,
-        'edit_date': 1_680_088_056,
         'text': 'updated message'
-      }
+      )
+    }
+  end
+
+  let(:caption_update_params) do
+    {
+      'update_id': 2,
+      'edited_message': common_message_params.merge(
+        'message_id': 49,
+        'caption': 'updated caption'
+      )
     }
   end
 
   describe '#perform' do
     context 'when valid update message params' do
-      it 'updates the appropriate message' do
-        contact_inbox = create(:contact_inbox, inbox: telegram_channel.inbox, source_id: update_params[:edited_message][:chat][:id])
-        conversation = create(:conversation, contact_inbox: contact_inbox)
-        message = create(:message, conversation: conversation, source_id: update_params[:edited_message][:message_id])
-        described_class.new(inbox: telegram_channel.inbox, params: update_params.with_indifferent_access).perform
+      let(:contact_inbox) { create(:contact_inbox, inbox: telegram_channel.inbox, source_id: common_message_params[:chat][:id]) }
+      let(:conversation) { create(:conversation, contact_inbox: contact_inbox) }
+
+      it 'updates the message text when text is present' do
+        message = create(:message, conversation: conversation, source_id: text_update_params[:edited_message][:message_id])
+        described_class.new(inbox: telegram_channel.inbox, params: text_update_params.with_indifferent_access).perform
         expect(message.reload.content).to eq('updated message')
+      end
+
+      it 'updates the message caption when caption is present' do
+        message = create(:message, conversation: conversation, source_id: caption_update_params[:edited_message][:message_id])
+        described_class.new(inbox: telegram_channel.inbox, params: caption_update_params.with_indifferent_access).perform
+        expect(message.reload.content).to eq('updated caption')
       end
     end
 

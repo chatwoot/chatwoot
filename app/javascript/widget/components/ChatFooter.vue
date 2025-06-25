@@ -1,54 +1,23 @@
-<template>
-  <footer
-    v-if="!hideReplyBox"
-    class="footer-chat mb-1 z-50 relative w-full"
-    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
-  >
-    <chat-input-wrap
-      :on-send-message="handleSendMessage"
-      :on-send-attachment="handleSendAttachment"
-    />
-  </footer>
-  <div v-else>
-    <custom-button
-      class="font-medium"
-      block
-      :bg-color="widgetColor"
-      :text-color="textColor"
-      @click="startNewConversation"
-    >
-      {{ $t('START_NEW_CONVERSATION') }}
-    </custom-button>
-    <custom-button
-      v-if="showEmailTranscriptButton"
-      type="clear"
-      class="font-normal"
-      @click="sendTranscript"
-    >
-      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
-    </custom-button>
-  </div>
-</template>
-
 <script>
 import { mapActions, mapGetters, mapMutations } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
-import CustomButton from 'shared/components/Button';
+import CustomButton from 'shared/components/Button.vue';
 import ChatInputWrap from 'widget/components/ChatInputWrap.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { sendEmailTranscript } from 'widget/api/conversation';
-import routerMixin from 'widget/mixins/routerMixin';
+import { emitter } from 'shared/helpers/mitt';
+import routerMixin from '../mixins/routerMixin.js';
+
 export default {
   components: {
     ChatInputWrap,
     CustomButton,
   },
   mixins: [routerMixin],
-  props: {
-    msg: {
-      type: String,
-      default: '',
-    },
+  data() {
+    return {
+      inReplyTo: null,
+    };
   },
   computed: {
     ...mapGetters({
@@ -68,7 +37,10 @@ export default {
       return !allowMessagesAfterResolved && status === 'resolved';
     },
     showEmailTranscriptButton() {
-      return this.currentUser && this.currentUser.email;
+      return this.hasEmail;
+    },
+    hasEmail() {
+      return this.currentUser && this.currentUser.has_email;
     },
   },
   mounted() {
@@ -94,7 +66,10 @@ export default {
     async handleSendMessage(content) {
       await this.sendMessage({
         content,
+        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
       });
+      // reset replyTo message after sending
+      this.inReplyTo = null;
       // Update conversation attributes on new conversation
       if (this.conversationSize === 0) {
         this.getAttributes();
@@ -104,8 +79,12 @@ export default {
         this.setQuickRepliesOptions([]);
       }
     },
-    handleSendAttachment(attachment) {
-      this.sendAttachment({ attachment });
+    async handleSendAttachment(attachment) {
+      await this.sendAttachment({
+        attachment,
+        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
+      });
+      this.inReplyTo = null;
     },
     startNewConversation() {
       this.clearConversations();
@@ -114,18 +93,15 @@ export default {
       this.$store.dispatch('conversation/createConversation', {});
     },
     async sendTranscript() {
-      const { email } = this.currentUser;
-      if (email) {
+      if (this.hasEmail) {
         try {
-          await sendEmailTranscript({
-            email,
-          });
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          await sendEmailTranscript();
+          emitter.emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_SUCCESS'),
             type: 'success',
           });
         } catch (error) {
-          window.bus.$emit(BUS_EVENTS.SHOW_ALERT, {
+          emitter.$emit(BUS_EVENTS.SHOW_ALERT, {
             message: this.$t('EMAIL_TRANSCRIPT.SEND_EMAIL_ERROR'),
           });
         }
@@ -134,8 +110,41 @@ export default {
   },
 };
 </script>
+
+<template>
+  <footer
+    v-if="!hideReplyBox"
+    class="footer-chat mb-1 z-50 relative w-full"
+    :class="{ 'rounded-lg': !isWidgetStyleFlat }"
+  >
+    <ChatInputWrap
+      :on-send-message="handleSendMessage"
+      :on-send-attachment="handleSendAttachment"
+    />
+  </footer>
+  <div v-else>
+    <CustomButton
+      class="font-medium"
+      block
+      :bg-color="widgetColor"
+      :text-color="textColor"
+      @click="startNewConversation"
+    >
+      {{ $t('START_NEW_CONVERSATION') }}
+    </CustomButton>
+    <CustomButton
+      v-if="showEmailTranscriptButton"
+      type="clear"
+      class="font-normal"
+      @click="sendTranscript"
+    >
+      {{ $t('EMAIL_TRANSCRIPT.BUTTON_TEXT') }}
+    </CustomButton>
+  </div>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/_variables.scss';
 
 .footer-chat {
   max-width: $break-point-tablet;

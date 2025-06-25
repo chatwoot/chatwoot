@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import TeamsAPI from '../../api/teams';
 
 export const SET_TEAM_MEMBERS_UI_FLAG = 'SET_TEAM_MEMBERS_UI_FLAG';
@@ -70,7 +69,10 @@ export const mutations = {
     };
   },
   [ADD_AGENTS_TO_TEAM]($state, { data, teamId }) {
-    Vue.set($state.records, teamId, data);
+    $state.records = {
+      ...$state.records,
+      [teamId]: data,
+    };
   },
 };
 

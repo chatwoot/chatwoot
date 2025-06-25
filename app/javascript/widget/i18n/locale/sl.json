@@ -1,0 +1,142 @@
+{
+  "COMPONENTS": {
+    "FILE_BUBBLE": {
+      "DOWNLOAD": "Prenesi",
+      "UPLOADING": "Nalaganje..."
+    },
+    "FORM_BUBBLE": {
+      "SUBMIT": "Pošlji"
+    },
+    "MESSAGE_BUBBLE": {
+      "RETRY": "Pošlji ponovno",
+      "ERROR_MESSAGE": "Ni bilo mogoče poslati, poskusite znova"
+    }
+  },
+  "TEAM_AVAILABILITY": {
+    "ONLINE": "Smo na voljo",
+    "OFFLINE": "Trenutno nismo na voljo"
+  },
+  "REPLY_TIME": {
+    "IN_A_FEW_MINUTES": "Običajno odgovorimo v nekaj minutah",
+    "IN_A_FEW_HOURS": "Običajno odgovorimo v nekaj urah",
+    "IN_A_DAY": "Običajno odgovorimo v enem dnevu",
+    "BACK_IN": "Kmalu se vrnemo"
+  },
+  "DAY_NAMES": {
+    "SUNDAY": "Nedelja",
+    "MONDAY": "Ponedeljek",
+    "TUESDAY": "Torek",
+    "WEDNESDAY": "Sreda",
+    "THURSDAY": "Četrtek",
+    "FRIDAY": "Petek",
+    "SATURDAY": "Sobota"
+  },
+  "START_CONVERSATION": "Začni pogovor",
+  "END_CONVERSATION": "Končaj pogovor",
+  "CONTINUE_CONVERSATION": "Nadaljuj pogovor",
+  "YOU": "Vi",
+  "START_NEW_CONVERSATION": "Začni novi pogovor",
+  "VIEW_UNREAD_MESSAGES": "Imate neprebrana sporočila",
+  "UNREAD_VIEW": {
+    "VIEW_MESSAGES_BUTTON": "Poglej nova sporočila",
+    "CLOSE_MESSAGES_BUTTON": "Zapri",
+    "COMPANY_FROM": "Od",
+    "BOT": "Bot"
+  },
+  "BUBBLE": {
+    "LABEL": "Klepetajte z nami"
+  },
+  "POWERED_BY": "Poganja Chatwoot",
+  "EMAIL_PLACEHOLDER": "Prosimo, vnesite svoj e-poštni naslov",
+  "CHAT_PLACEHOLDER": "Vnesite svoje sporočilo",
+  "TODAY": "Danes",
+  "YESTERDAY": "Včeraj",
+  "PRE_CHAT_FORM": {
+    "FIELDS": {
+      "FULL_NAME": {
+        "LABEL": "Polno ime",
+        "PLACEHOLDER": "Prosimo vnesite svoje polno ime",
+        "REQUIRED_ERROR": "Potrebno je polno ime"
+      },
+      "EMAIL_ADDRESS": {
+        "LABEL": "E-poštni naslov",
+        "PLACEHOLDER": "Prosimo, vnesite svoj e-poštni naslov",
+        "REQUIRED_ERROR": "E-poštni naslov je obvezen",
+        "VALID_ERROR": "Vnesite veljaven e-poštni naslov"
+      },
+      "PHONE_NUMBER": {
+        "LABEL": "Telefonska številka",
+        "PLACEHOLDER": "Vnesite svojo telefonsko številko",
+        "REQUIRED_ERROR": "Telefonska številka je obvezna",
+        "DIAL_CODE_VALID_ERROR": "Izberite kodo države",
+        "VALID_ERROR": "Vnesite veljavno telefonsko številko",
+        "DROPDOWN_EMPTY": "Ni rezultatov",
+        "DROPDOWN_SEARCH": "Poišči državo"
+      },
+      "MESSAGE": {
+        "LABEL": "Sporočilo",
+        "PLACEHOLDER": "Prosimo vnesite vaše sporočilo",
+        "ERROR": "Sporočilo je prekratko"
+      }
+    },
+    "CAMPAIGN_HEADER": "Pred začetkom pogovora prosimo izpolnite svoje polno ime in e-poštni naslov",
+    "IS_REQUIRED": "je zahtevano",
+    "REQUIRED": "Zahtevano",
+    "REGEX_ERROR": "Vnesite veljaven vnos"
+  },
+  "FILE_SIZE_LIMIT": "Datoteka presega omejitev {MAXIMUM_FILE_UPLOAD_SIZE} za priloge",
+  "CHAT_FORM": {
+    "INVALID": {
+      "FIELD": "Napačno polje"
+    }
+  },
+  "EMOJI": {
+    "PLACEHOLDER": "Poišči emoji",
+    "NOT_FOUND": "Noben emoji ne ustreza vašemu iskanju",
+    "ARIA_LABEL": "Iskalnik emoji-jev"
+  },
+  "CSAT": {
+    "TITLE": "Ocenite svoj pogovor",
+    "SUBMITTED_TITLE": "Hvala za oddano oceno",
+    "PLACEHOLDER": "Povejte nam več..."
+  },
+  "EMAIL_TRANSCRIPT": {
+    "BUTTON_TEXT": "Zahtevajte prepis pogovora",
+    "SEND_EMAIL_SUCCESS": "Prepis pogovora je bil uspešno poslan",
+    "SEND_EMAIL_ERROR": "Prišlo je do napake, poskusite znova"
+  },
+  "INTEGRATIONS": {
+    "DYTE": {
+      "CLICK_HERE_TO_JOIN": "Kliknite tukaj, da se pridružite",
+      "LEAVE_THE_ROOM": "Zapustite klic"
+    }
+  },
+  "PORTAL": {
+    "POPULAR_ARTICLES": "Priljubljeni članki",
+    "VIEW_ALL_ARTICLES": "Poglej vse članke",
+    "IFRAME_LOAD_ERROR": "Pri nalaganju članka je prišlo do napake, osvežite stran in poskusite znova."
+  },
+  "ATTACHMENTS": {
+    "image": {
+      "CONTENT": "Slikovno sporočilo"
+    },
+    "audio": {
+      "CONTENT": "Avdio sporočilo"
+    },
+    "video": {
+      "CONTENT": "Video sporočilo"
+    },
+    "file": {
+      "CONTENT": "Priloga"
+    },
+    "location": {
+      "CONTENT": "Lokacija"
+    },
+    "fallback": {
+      "CONTENT": "je delil url"
+    }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Odgovarjam na:"
+  }
+}

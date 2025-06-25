@@ -80,7 +80,7 @@ describe('#mutations', () => {
         ],
       };
 
-      mutations[types.default.UPDATE_AGENTS_PRESENCE](state, { '1': 'busy' });
+      mutations[types.default.UPDATE_AGENTS_PRESENCE](state, { 1: 'busy' });
       expect(state.records).toEqual([
         {
           id: 1,

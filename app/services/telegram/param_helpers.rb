@@ -6,6 +6,13 @@ module Telegram::ParamHelpers
     params.dig(:message, :chat, :type) == 'private'
   end
 
+  def telegram_params_content_attributes
+    reply_to = params.dig(:message, :reply_to_message, :message_id)
+    return { 'in_reply_to_external_id' => reply_to } if reply_to
+
+    {}
+  end
+
   def message_params?
     params[:message].present?
   end

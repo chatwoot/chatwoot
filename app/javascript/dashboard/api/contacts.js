@@ -27,6 +27,14 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  show(id) {
+    return axios.get(`${this.url}/${id}?include_contact_inboxes=false`);
+  }
+
+  update(id, data) {
+    return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
+  }
+
   getConversations(contactId) {
     return axios.get(`${this.url}/${contactId}/conversations`);
   }
@@ -53,6 +61,7 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  // eslint-disable-next-line default-param-last
   filter(page = 1, sortAttr = 'name', queryPayload) {
     let requestURL = `${this.url}/filter?${buildContactParams(page, sortAttr)}`;
     return axios.post(requestURL, queryPayload);
@@ -74,6 +83,10 @@ class ContactAPI extends ApiClient {
 
   destroyAvatar(contactId) {
     return axios.delete(`${this.url}/${contactId}/avatar`);
+  }
+
+  exportContacts(queryPayload) {
+    return axios.post(`${this.url}/export`, queryPayload);
   }
 }
 

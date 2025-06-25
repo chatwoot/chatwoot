@@ -1,43 +1,14 @@
-<template>
-  <div class="contact-info--row">
-    <a v-if="href" :href="href" class="contact-info--details">
-      <emoji-or-icon :icon="icon" :emoji="emoji" icon-size="14" />
-      <span v-if="value" class="text-truncate" :title="value">{{ value }}</span>
-      <span v-else class="text-muted">{{
-        $t('CONTACT_PANEL.NOT_AVAILABLE')
-      }}</span>
-
-      <woot-button
-        v-if="showCopy"
-        type="submit"
-        variant="clear"
-        size="tiny"
-        color-scheme="secondary"
-        icon="clipboard"
-        class-names="copy-icon"
-        @click="onCopy"
-      />
-    </a>
-
-    <div v-else class="contact-info--details">
-      <emoji-or-icon :icon="icon" :emoji="emoji" icon-size="14" />
-      <span v-if="value" class="text-truncate">{{ value }}</span>
-      <span v-else class="text-muted">{{
-        $t('CONTACT_PANEL.NOT_AVAILABLE')
-      }}</span>
-    </div>
-  </div>
-</template>
 <script>
-import alertMixin from 'shared/mixins/alertMixin';
-import EmojiOrIcon from 'shared/components/EmojiOrIcon';
+import { useAlert } from 'dashboard/composables';
+import EmojiOrIcon from 'shared/components/EmojiOrIcon.vue';
 import { copyTextToClipboard } from 'shared/helpers/clipboard';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     EmojiOrIcon,
+    NextButton,
   },
-  mixins: [alertMixin],
   props: {
     href: {
       type: String,
@@ -64,41 +35,61 @@ export default {
     async onCopy(e) {
       e.preventDefault();
       await copyTextToClipboard(this.value);
-      this.showAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
+      useAlert(this.$t('CONTACT_PANEL.COPY_SUCCESSFUL'));
     },
   },
 };
 </script>
-<style scoped lang="scss">
-.contact-info--row {
-  margin-left: var(--space-minus-smaller);
 
-  .contact-info--icon {
-    font-size: var(--font-size-default);
-    min-width: var(--space-medium);
-  }
-}
+<template>
+  <div class="w-full h-5 ltr:-ml-1 rtl:-mr-1">
+    <a
+      v-if="href"
+      :href="href"
+      class="flex items-center gap-2 text-n-slate-11 hover:underline"
+    >
+      <EmojiOrIcon
+        :icon="icon"
+        :emoji="emoji"
+        icon-size="14"
+        class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
+      />
+      <span
+        v-if="value"
+        class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
+        :title="value"
+      >
+        {{ value }}
+      </span>
+      <span v-else class="text-sm text-n-slate-11">
+        {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
+      </span>
+      <NextButton
+        v-if="showCopy"
+        ghost
+        xs
+        slate
+        class="ltr:-ml-1 rtl:-mr-1"
+        icon="i-lucide-clipboard"
+        @click="onCopy"
+      />
+    </a>
 
-.contact-info--details {
-  display: flex;
-  align-items: center;
-  margin-bottom: var(--space-small);
-  color: var(--color-body);
-
-  .copy-icon {
-    margin-left: var(--space-smaller);
-  }
-
-  &.a {
-    &:hover {
-      text-decoration: underline;
-    }
-  }
-}
-
-.contact-info--details .icon--emoji,
-.contact-info--details .icon--font {
-  display: inline-block;
-  width: var(--space-medium);
-}
-</style>
+    <div v-else class="flex items-center gap-2 text-n-slate-11">
+      <EmojiOrIcon
+        :icon="icon"
+        :emoji="emoji"
+        icon-size="14"
+        class="flex-shrink-0 ltr:ml-1 rtl:mr-1"
+      />
+      <span
+        v-if="value"
+        v-dompurify-html="value"
+        class="overflow-hidden text-sm whitespace-nowrap text-ellipsis"
+      />
+      <span v-else class="text-sm text-n-slate-11">
+        {{ $t('CONTACT_PANEL.NOT_AVAILABLE') }}
+      </span>
+    </div>
+  </div>
+</template>

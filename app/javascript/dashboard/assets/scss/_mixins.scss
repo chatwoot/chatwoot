@@ -1,78 +1,6 @@
-@import '~dashboard/assets/scss/variables';
-@import '~widget/assets/scss/mixins';
+@import 'dashboard/assets/scss/variables';
 
 $spinner-before-border-color: rgba(255, 255, 255, 0.7);
-
-//borders
-@mixin border-nil() {
-  border-color: transparent;
-  border: 0;
-}
-
-@mixin thin-border($color) {
-  border: 1px solid $color;
-}
-
-@mixin custom-border-bottom($size, $color) {
-  border-bottom: $size solid $color;
-}
-
-@mixin custom-border-top($size, $color) {
-  border-top: $size solid $color;
-}
-
-@mixin border-normal() {
-  border: 1px solid $color-border;
-}
-
-@mixin border-normal-left() {
-  border-left: 1px solid $color-border;
-}
-
-@mixin border-normal-top() {
-  border-top: 1px solid $color-border;
-}
-
-@mixin border-normal-right() {
-  border-right: 1px solid $color-border;
-}
-
-@mixin border-normal-bottom() {
-  border-bottom: 1px solid $color-border;
-}
-
-@mixin border-light() {
-  border: 1px solid $color-border-light;
-}
-
-@mixin border-light-left() {
-  border-left: 1px solid $color-border-light;
-}
-
-@mixin border-light-top() {
-  border-top: 1px solid $color-border-light;
-}
-
-@mixin border-light-right() {
-  border-right: 1px solid $color-border-light;
-}
-
-@mixin border-light-bottom() {
-  border-bottom: 1px solid $color-border-light;
-}
-
-// background
-@mixin background-gray() {
-  background: $color-background;
-}
-
-@mixin background-light() {
-  background: $color-background-light;
-}
-
-@mixin background-white() {
-  background: $color-white;
-}
 
 // input form
 @mixin ghost-input() {
@@ -87,65 +15,6 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
   }
 }
 
-// flex-layout
-@mixin space-between() {
-  display: flex;
-  justify-content: space-between;
-}
-
-@mixin space-between-column() {
-  @include space-between;
-  flex-direction: column;
-}
-
-@mixin space-between-row() {
-  @include space-between;
-  flex-direction: row;
-}
-
-@mixin flex-shrink() {
-  flex: 0 0 auto;
-  max-width: 100%;
-}
-
-@mixin flex-weight($value) {
-  // Grab flex-grow for older browsers.
-  $flex-grow: nth($value, 1);
-
-  // 2009
-  @include prefixer(box-flex, $flex-grow, webkit moz spec);
-
-  // 2011 (IE 10), 2012
-  @include prefixer(flex, $value, webkit moz ms spec);
-}
-
-// full height
-@mixin full-height() {
-  height: 100%;
-}
-
-@mixin round-corner() {
-  border-radius: 1000px;
-}
-
-@mixin scroll-on-hover() {
-  overflow: hidden;
-
-  &:hover {
-    overflow-y: auto;
-  }
-}
-
-
-@mixin horizontal-scroll() {
-  overflow-y: auto;
-}
-
-@mixin elegant-card() {
-  @include normal-shadow;
-  border-radius: $space-small;
-}
-
 @mixin color-spinner() {
   @keyframes spinner {
     to {
@@ -157,7 +26,7 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
     animation: spinner .9s linear infinite;
     border: 2px solid $spinner-before-border-color;
     border-radius: 50%;
-    border-top-color: lighten($color-woot, 10%);
+    border-top-color: adjust-color(#1F93FF, $lightness: 10%);
     box-sizing: border-box;
     content: '';
     height: $space-medium;
@@ -229,18 +98,4 @@ $spinner-before-border-color: rgba(255, 255, 255, 0.7);
     border-bottom: $size solid $color;
     border-left: $size solid transparent;
   }
-}
-
-@mixin text-ellipsis {
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-}
-
-@mixin three-column-grid($column-one-width: 25.6rem,
-  $column-three-width: 25.6rem) {
-  width: 100%;
-  height: 100%;
-  display: grid;
-  grid-template-columns: minmax($column-one-width, 6fr) 10fr minmax($column-three-width, 6fr);
 }

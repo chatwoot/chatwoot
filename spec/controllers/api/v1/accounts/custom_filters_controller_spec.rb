@@ -2,6 +2,24 @@ require 'rails_helper'
 
 RSpec.describe 'Custom Filters API', type: :request do
   let(:account) { create(:account) }
+  let(:user) { create(:user, account: account, role: :agent) }
+  let!(:custom_filter) { create(:custom_filter, user: user, account: account) }
+
+  before do
+    create(:conversation, account: account, assignee: user, status: 'open')
+    create(:conversation, account: account, assignee: user, status: 'resolved')
+    custom_filter.query = { payload: [
+      {
+        values: ['open'],
+        attribute_key: 'status',
+        query_operator: nil,
+        attribute_model: 'standard',
+        filter_operator: 'equal_to',
+        custom_attribute_type: ''
+      }
+    ] }
+    custom_filter.save
+  end
 
   describe 'GET /api/v1/accounts/{account.id}/custom_filters' do
     context 'when it is an unauthenticated user' do
@@ -13,9 +31,6 @@ RSpec.describe 'Custom Filters API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:user) { create(:user, account: account) }
-      let!(:custom_filter) { create(:custom_filter, user: user, account: account) }
-
       it 'returns all custom_filter related to the user' do
         get "/api/v1/accounts/#{account.id}/custom_filters",
             headers: user.create_new_auth_token,
@@ -30,9 +45,6 @@ RSpec.describe 'Custom Filters API', type: :request do
   end
 
   describe 'GET /api/v1/accounts/{account.id}/custom_filters/:id' do
-    let(:user) { create(:user, account: account) }
-    let!(:custom_filter) { create(:custom_filter, user: user, account: account) }
-
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         get "/api/v1/accounts/#{account.id}/custom_filters/#{custom_filter.id}"
@@ -54,7 +66,14 @@ RSpec.describe 'Custom Filters API', type: :request do
   end
 
   describe 'POST /api/v1/accounts/{account.id}/custom_filters' do
-    let(:payload) { { custom_filter: { name: 'vip-customers', filter_type: 'conversation', query: { labels: ['vip-customers'] } } } }
+    let(:payload) do
+      { custom_filter: {
+        name: 'vip-customers', filter_type: 'conversation',
+        query: { payload: [{
+          values: ['open'], attribute_key: 'status', attribute_model: 'standard', filter_operator: 'equal_to'
+        }] }
+      } }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -65,15 +84,9 @@ RSpec.describe 'Custom Filters API', type: :request do
     end
 
     context 'when it is an authenticated user' do
-      let(:user) { create(:user, account: account) }
-      let(:new_account) { create(:account) }
-      let(:new_user) { create(:user, account: new_account) }
-
       it 'creates the filter' do
-        expect do
-          post "/api/v1/accounts/#{account.id}/custom_filters", headers: user.create_new_auth_token,
-                                                                params: payload
-        end.to change(CustomFilter, :count).by(1)
+        post "/api/v1/accounts/#{account.id}/custom_filters", headers: user.create_new_auth_token,
+                                                              params: payload
 
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
@@ -81,6 +94,7 @@ RSpec.describe 'Custom Filters API', type: :request do
       end
 
       it 'gives the error for 51st record' do
+        CustomFilter.delete_all
         CustomFilter::MAX_FILTER_PER_USER.times do
           create(:custom_filter, user: user, account: account)
         end
@@ -100,9 +114,14 @@ RSpec.describe 'Custom Filters API', type: :request do
   end
 
   describe 'PATCH /api/v1/accounts/{account.id}/custom_filters/:id' do
-    let(:payload) { { custom_filter: { name: 'vip-customers', filter_type: 'contact', query: { labels: ['vip-customers'] } } } }
-    let(:user) { create(:user, account: account) }
-    let!(:custom_filter) { create(:custom_filter, user: user, account: account) }
+    let(:payload) do
+      { custom_filter: {
+        name: 'vip-customers', filter_type: 'conversation',
+        query: { payload: [{
+          values: ['resolved'], attribute_key: 'status', attribute_model: 'standard', filter_operator: 'equal_to'
+        }] }
+      } }
+    end
 
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
@@ -122,8 +141,8 @@ RSpec.describe 'Custom Filters API', type: :request do
 
         expect(response).to have_http_status(:success)
         expect(custom_filter.reload.name).to eq('vip-customers')
-        expect(custom_filter.reload.filter_type).to eq('contact')
-        expect(custom_filter.reload.query['labels']).to eq(['vip-customers'])
+        expect(custom_filter.reload.filter_type).to eq('conversation')
+        expect(custom_filter.reload.query['payload'][0]['values']).to eq(['resolved'])
       end
 
       it 'prevents the update of custom filter of another user/account' do
@@ -142,9 +161,6 @@ RSpec.describe 'Custom Filters API', type: :request do
   end
 
   describe 'DELETE /api/v1/accounts/{account.id}/custom_filters/:id' do
-    let(:user) { create(:user, account: account) }
-    let!(:custom_filter) { create(:custom_filter, user: user, account: account) }
-
     context 'when it is an unauthenticated user' do
       it 'returns unauthorized' do
         delete "/api/v1/accounts/#{account.id}/custom_filters/#{custom_filter.id}"

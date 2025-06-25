@@ -1,27 +1,11 @@
-<template>
-  <div class="columns notification--page">
-    <div class="notification--content medium-12">
-      <notification-table
-        :notifications="records"
-        :is-loading="uiFlags.isFetching"
-        :is-updating="uiFlags.isUpdating"
-        :on-click-notification="openConversation"
-        :on-mark-all-done-click="onMarkAllDoneClick"
-      />
-      <table-footer
-        :current-page="Number(meta.currentPage)"
-        :total-count="meta.count"
-        @page-change="onPageChange"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
-import TableFooter from 'dashboard/components/widgets/TableFooter';
+import { useTrack } from 'dashboard/composables';
+import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 
-import NotificationTable from './NotificationTable';
+import NotificationTable from './NotificationTable.vue';
+
+import { ACCOUNT_EVENTS } from '../../../../helper/AnalyticsHelper/events';
 export default {
   components: {
     NotificationTable,
@@ -48,9 +32,14 @@ export default {
         primary_actor_id: primaryActorId,
         primary_actor_type: primaryActorType,
         primary_actor: { id: conversationId },
+        notification_type: notificationType,
       } = notification;
 
+      useTrack(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+        notificationType,
+      });
       this.$store.dispatch('notifications/read', {
+        id: notification.id,
         primaryActorId,
         primaryActorType,
         unreadCount: this.meta.unreadCount,
@@ -61,11 +50,33 @@ export default {
       );
     },
     onMarkAllDoneClick() {
+      useTrack(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
       this.$store.dispatch('notifications/readAll');
     },
   },
 };
 </script>
+
+<template>
+  <div class="h-full overflow-y-auto">
+    <div class="flex flex-col h-full">
+      <NotificationTable
+        :notifications="records"
+        :is-loading="uiFlags.isFetching"
+        :is-updating="uiFlags.isUpdating"
+        :on-click-notification="openConversation"
+        :on-mark-all-done-click="onMarkAllDoneClick"
+      />
+      <TableFooter
+        class="border-t border-slate-75 dark:border-slate-700/50"
+        :current-page="Number(meta.currentPage)"
+        :total-count="meta.count"
+        :page-size="15"
+        @page-change="onPageChange"
+      />
+    </div>
+  </div>
+</template>
 
 <style lang="scss" scoped>
 .notification--page {

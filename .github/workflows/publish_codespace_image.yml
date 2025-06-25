@@ -1,0 +1,24 @@
+name: Publish Codespace Base Image
+
+on:
+  workflow_dispatch:
+
+jobs:
+  publish-code-space-image:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v4
+
+    - name: Login to GitHub Container Registry
+      uses: docker/login-action@v1
+      with:
+        registry: ghcr.io
+        username: ${{ github.actor }}
+        password: ${{ secrets.GITHUB_TOKEN }}
+
+    - name: Build the Codespace Base Image
+      run: |
+        docker-compose -f .devcontainer/docker-compose.yml build base
+        docker tag base:latest ghcr.io/chatwoot/chatwoot_codespace:latest
+        docker push ghcr.io/chatwoot/chatwoot_codespace:latest

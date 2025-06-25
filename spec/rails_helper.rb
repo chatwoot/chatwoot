@@ -73,6 +73,7 @@ RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers, type: :request
   config.include ActiveSupport::Testing::TimeHelpers
   config.include ActionCable::TestHelper
+  config.include ActiveJob::TestHelper
 end
 
 Shoulda::Matchers.configure do |config|

@@ -1,8 +1,12 @@
-import slugifyWithCounter from '@sindresorhus/slugify';
-import Vue from 'vue';
+import { createApp } from 'vue';
+import VueDOMPurifyHTML from 'vue-dompurify-html';
+import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
+import { directive as onClickaway } from 'vue3-click-away';
 
+import slugifyWithCounter from '@sindresorhus/slugify';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
+import { initializeTheme } from './portalThemeHelper.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -21,6 +25,44 @@ export const getHeadingsfromTheArticle = () => {
   return rows;
 };
 
+export const openExternalLinksInNewTab = () => {
+  const { customDomain, hostURL } = window.portalConfig;
+  const isSameHost =
+    window.location.href.includes(customDomain) ||
+    window.location.href.includes(hostURL);
+
+  // Modify external links only on articles page
+  const isOnArticlePage =
+    isSameHost && document.querySelector('#cw-article-content') !== null;
+
+  document.addEventListener('click', event => {
+    if (!isOnArticlePage) return;
+
+    // Some of the links come wrapped in strong tag through prosemirror
+
+    const isTagAnchor = event.target.tagName === 'A';
+    const isParentTagAnchor =
+      event.target.tagName === 'STRONG' &&
+      event.target.parentNode.tagName === 'A';
+
+    if (isTagAnchor || isParentTagAnchor) {
+      const link = isTagAnchor ? event.target : event.target.parentNode;
+
+      const isInternalLink =
+        link.hostname === window.location.hostname ||
+        link.href.includes(customDomain) ||
+        link.href.includes(hostURL);
+
+      if (!isInternalLink) {
+        link.target = '_blank';
+        link.rel = 'noopener noreferrer'; // Security and performance benefits
+        // Prevent default if you want to stop the link from opening in the current tab
+        event.stopPropagation();
+      }
+    }
+  });
+};
+
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
     const allLocaleSwitcher = document.querySelector('.locale-switcher');
@@ -36,31 +78,61 @@ export const InitializationHelpers = {
     return false;
   },
 
-  initalizeSearch: () => {
+  initializeSearch: () => {
     const isSearchContainerAvailable = document.querySelector('#search-wrap');
     if (isSearchContainerAvailable) {
-      new Vue({
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
         components: { PublicArticleSearch },
         template: '<PublicArticleSearch />',
-      }).$mount('#search-wrap');
+      });
+
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.directive('on-clickaway', onClickaway);
+      app.mount('#search-wrap');
     }
   },
 
   initializeTableOfContents: () => {
     const isOnArticlePage = document.querySelector('#cw-hc-toc');
     if (isOnArticlePage) {
-      new Vue({
+      // eslint-disable-next-line vue/one-component-per-file
+      const app = createApp({
         components: { TableOfContents },
-        data: { rows: getHeadingsfromTheArticle() },
+        data() {
+          return { rows: getHeadingsfromTheArticle() };
+        },
         template: '<table-of-contents :rows="rows" />',
-      }).$mount('#cw-hc-toc');
+      });
+
+      app.use(VueDOMPurifyHTML, domPurifyConfig);
+      app.mount('#cw-hc-toc');
     }
   },
 
+  appendPlainParamToURLs: () => {
+    [...document.getElementsByTagName('a')].forEach(aTagElement => {
+      if (aTagElement.href && aTagElement.href.includes('/hc/')) {
+        const url = new URL(aTagElement.href);
+        url.searchParams.set('show_plain_layout', 'true');
+
+        aTagElement.setAttribute('href', url);
+      }
+    });
+  },
+
+  initializeThemesInPortal: initializeTheme,
+
   initialize: () => {
-    InitializationHelpers.navigateToLocalePage();
-    InitializationHelpers.initalizeSearch();
-    InitializationHelpers.initializeTableOfContents();
+    openExternalLinksInNewTab();
+    if (window.portalConfig.isPlainLayoutEnabled === 'true') {
+      InitializationHelpers.appendPlainParamToURLs();
+    } else {
+      InitializationHelpers.initializeThemesInPortal();
+      InitializationHelpers.navigateToLocalePage();
+      InitializationHelpers.initializeSearch();
+      InitializationHelpers.initializeTableOfContents();
+    }
   },
 
   onLoad: () => {

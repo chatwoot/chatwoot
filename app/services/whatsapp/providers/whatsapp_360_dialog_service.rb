@@ -1,7 +1,10 @@
 class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseService
   def send_message(phone_number, message)
+    @message = message
     if message.attachments.present?
       send_attachment_message(phone_number, message)
+    elsif message.content_type == 'input_select'
+      send_interactive_text_message(phone_number, message)
     else
       send_text_message(phone_number, message)
     end
@@ -22,9 +25,10 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
   end
 
   def sync_templates
+    # ensuring that channels with wrong provider config wouldn't keep trying to sync templates
+    whatsapp_channel.mark_message_templates_updated
     response = HTTParty.get("#{api_base_path}/configs/templates", headers: api_headers)
-    whatsapp_channel[:message_templates] = response['waba_templates'] if response.success?
-    whatsapp_channel.update(message_templates_last_updated: Time.now.utc)
+    whatsapp_channel.update(message_templates: response['waba_templates'], message_templates_last_updated: Time.now.utc) if response.success?
   end
 
   def validate_provider_config?
@@ -75,6 +79,7 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     }
     type_content['caption'] = message.content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
+
     response = HTTParty.post(
       "#{api_base_path}/messages",
       headers: api_headers,
@@ -88,13 +93,9 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
     process_response(response)
   end
 
-  def process_response(response)
-    if response.success?
-      response['messages'].first['id']
-    else
-      Rails.logger.error response.body
-      nil
-    end
+  def error_message(response)
+    # {"meta": {"success": false, "http_code": 400, "developer_message": "errro-message", "360dialog_trace_id": "someid"}}
+    response.parsed_response.dig('meta', 'developer_message')
   end
 
   def template_body_parameters(template_info)
@@ -110,5 +111,21 @@ class Whatsapp::Providers::Whatsapp360DialogService < Whatsapp::Providers::BaseS
         parameters: template_info[:parameters]
       }]
     }
+  end
+
+  def send_interactive_text_message(phone_number, message)
+    payload = create_payload_based_on_items(message)
+
+    response = HTTParty.post(
+      "#{api_base_path}/messages",
+      headers: api_headers,
+      body: {
+        to: phone_number,
+        interactive: payload,
+        type: 'interactive'
+      }.to_json
+    )
+
+    process_response(response)
   end
 end

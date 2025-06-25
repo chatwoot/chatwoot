@@ -1,4 +1,4 @@
-import { frontendURL } from '../../../../helper/URLHelper';
+import { frontendURL } from 'dashboard/helper/URLHelper';
 
 export const getPortalRoute = (path = '') => {
   const slugToBeAdded = path ? `/${path}` : '';

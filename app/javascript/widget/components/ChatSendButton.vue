@@ -1,16 +1,3 @@
-<template>
-  <button
-    type="submit"
-    :disabled="disabled"
-    class="icon-button flex items-center justify-center shadow-sm"
-    :style="{ backgroundColor: widgetColor }"
-    @click="onClick"
-  >
-    <fluent-icon v-if="!loading" icon="send" :style="`color: ${textColor}`" />
-    <spinner v-else size="small" />
-  </button>
-</template>
-
 <script>
 import { mapGetters } from 'vuex';
 import { getContrastingTextColor } from '@chatwoot/utils';
@@ -22,14 +9,6 @@ export default {
     FluentIcon,
     Spinner,
   },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-  },
   props: {
     loading: {
       type: Boolean,
@@ -39,20 +18,33 @@ export default {
       type: Boolean,
       default: false,
     },
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
-    color: {
-      type: String,
-      default: '#6e6f73',
+  },
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
     },
   },
 };
 </script>
 
+<template>
+  <button
+    type="submit"
+    :disabled="disabled"
+    class="icon-button flex items-center justify-center shadow-sm"
+    :style="{ backgroundColor: widgetColor }"
+    @click="onClick"
+  >
+    <FluentIcon v-if="!loading" icon="send" :style="`color: ${textColor}`" />
+    <Spinner v-else size="small" />
+  </button>
+</template>
+
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/_variables.scss';
 
 .icon-button {
   border-radius: 50%;

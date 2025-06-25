@@ -1,0 +1,30 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "All",
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages"
+    },
+    "SECTION": {
+      "CONTACTS": "Contacts",
+      "CONVERSATIONS": "Conversations",
+      "MESSAGES": "Messages"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Searching",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "No {item} found for query '{query}'",
+    "EMPTY_STATE_FULL": "No results found for query '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ to focus",
+    "INPUT_PLACEHOLDER": "Type 3 or more characters to search",
+    "EMPTY_STATE_DEFAULT": "Search by conversation id, email, phone number, messages for better search results. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Read more",
+    "WROTE": "wrote:",
+    "FROM": "form",
+    "EMAIL": "email",
+    "EMAIL_SUBJECT": "subject"
+  }
+}

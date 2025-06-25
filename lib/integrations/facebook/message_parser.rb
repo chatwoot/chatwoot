@@ -34,6 +34,22 @@ class Integrations::Facebook::MessageParser
     @messaging.dig('message', 'mid')
   end
 
+  def delivery
+    @messaging['delivery']
+  end
+
+  def read
+    @messaging['read']
+  end
+
+  def read_watermark
+    read&.dig('watermark')
+  end
+
+  def delivery_watermark
+    delivery&.dig('watermark')
+  end
+
   def echo?
     @messaging.dig('message', 'is_echo')
   end
@@ -46,6 +62,10 @@ class Integrations::Facebook::MessageParser
   # TODO : does this work ?
   def sent_from_chatwoot_app?
     app_id && app_id == GlobalConfigService.load('FB_APP_ID', '').to_i
+  end
+
+  def in_reply_to_external_id
+    @messaging.dig('message', 'reply_to', 'mid')
   end
 end
 

@@ -6,6 +6,7 @@ json.data do
   json.display_name resource.display_name
   json.email resource.email
   json.account_id @account.id
+  json.created_at resource.created_at
   json.pubsub_token resource.pubsub_token
   json.role resource.active_account_user&.role
   json.inviter_id resource.active_account_user&.inviter_id

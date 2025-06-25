@@ -1,0 +1,30 @@
+{
+  "SEARCH": {
+    "TABS": {
+      "ALL": "Vse",
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Pogovori",
+      "MESSAGES": "Sporočila"
+    },
+    "SECTION": {
+      "CONTACTS": "Kontakti",
+      "CONVERSATIONS": "Pogovori",
+      "MESSAGES": "Sporočila"
+    },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
+    "SEARCHING_DATA": "Iskanje",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Za poizvedbo '{query}' ni bil najden {item}",
+    "EMPTY_STATE_FULL": "Ni rezultatov za poizvedbo '{query}'",
+    "PLACEHOLDER_KEYBINDING": "/ za fokus",
+    "INPUT_PLACEHOLDER": "Za iskanje vnesite 3 ali več znakov",
+    "EMPTY_STATE_DEFAULT": "Iščite po ID-ju pogovora, e-pošti, telefonski številki in sporočilih za boljše rezultate iskanja. ",
+    "BOT_LABEL": "Bot",
+    "READ_MORE": "Preberite več",
+    "WROTE": "je napisal/a:",
+    "FROM": "Od",
+    "EMAIL": "e-pošta",
+    "EMAIL_SUBJECT": "subject"
+  }
+}

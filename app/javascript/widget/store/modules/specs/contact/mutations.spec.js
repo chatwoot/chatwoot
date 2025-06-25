@@ -4,8 +4,8 @@ describe('#mutations', () => {
   describe('#SET_CURRENT_USER', () => {
     it('set current user', () => {
       const user = {
-        email: 'thoma@sphadikam.com',
-        name: 'Adu Thoma',
+        has_email: true,
+        has_name: true,
         avatar_url: '',
         identifier_hash: 'malana_hash',
       };

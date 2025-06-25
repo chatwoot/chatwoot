@@ -4,6 +4,12 @@ operationId: create-a-conversation
 summary: Create a conversation
 description: Create a conversation
 security: []
+parameters:
+  - name: data
+    in: body
+    required: true
+    schema:
+      $ref: '#/definitions/public_conversation_create_payload'
 responses:
   200:
     description: Success

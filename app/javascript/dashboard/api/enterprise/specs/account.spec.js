@@ -1,6 +1,5 @@
 import accountAPI from '../account';
 import ApiClient from '../../ApiClient';
-import describeWithAPIMock from '../../specs/apiSpecHelper';
 
 describe('#enterpriseAccountAPI', () => {
   it('creates correct instance', () => {
@@ -11,20 +10,53 @@ describe('#enterpriseAccountAPI', () => {
     expect(accountAPI).toHaveProperty('update');
     expect(accountAPI).toHaveProperty('delete');
     expect(accountAPI).toHaveProperty('checkout');
+    expect(accountAPI).toHaveProperty('toggleDeletion');
   });
 
-  describeWithAPIMock('API calls', context => {
+  describe('API calls', () => {
+    const originalAxios = window.axios;
+    const axiosMock = {
+      post: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve()),
+      patch: vi.fn(() => Promise.resolve()),
+      delete: vi.fn(() => Promise.resolve()),
+    };
+
+    beforeEach(() => {
+      window.axios = axiosMock;
+    });
+
+    afterEach(() => {
+      window.axios = originalAxios;
+    });
+
     it('#checkout', () => {
       accountAPI.checkout();
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/checkout'
       );
     });
 
     it('#subscription', () => {
       accountAPI.subscription();
-      expect(context.axiosMock.post).toHaveBeenCalledWith(
+      expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/subscription'
+      );
+    });
+
+    it('#toggleDeletion with delete action', () => {
+      accountAPI.toggleDeletion('delete');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/enterprise/api/v1/toggle_deletion',
+        { action_type: 'delete' }
+      );
+    });
+
+    it('#toggleDeletion with undelete action', () => {
+      accountAPI.toggleDeletion('undelete');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/enterprise/api/v1/toggle_deletion',
+        { action_type: 'undelete' }
       );
     });
   });

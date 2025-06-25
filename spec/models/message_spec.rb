@@ -11,7 +11,7 @@ RSpec.describe Message do
   end
 
   describe 'length validations' do
-    let(:message) { create(:message) }
+    let!(:message) { create(:message) }
 
     context 'when it validates name length' do
       it 'valid when within limit' do
@@ -21,8 +21,22 @@ RSpec.describe Message do
 
       it 'invalid when crossed the limit' do
         message.content = 'a' * 150_001
+        message.processed_message_content = 'a' * 150_001
         message.valid?
+
+        expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+      end
+
+      it 'adds error in case of message flooding' do
+        with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+          conversation = message.conversation
+          create(:message, conversation: conversation)
+          conv_new_message = build(:message, conversation: message.conversation)
+
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
       end
     end
   end
@@ -31,56 +45,146 @@ RSpec.describe Message do
     it_behaves_like 'liqudable'
   end
 
-  describe 'Check if message is a valid first reply' do
-    it 'is valid if it is outgoing' do
-      outgoing_message = create(:message, message_type: :outgoing)
-      expect(outgoing_message.valid_first_reply?).to be true
+  describe 'message_filter_helpers' do
+    context 'when webhook_sendable?' do
+      [
+        { type: :incoming, expected: true },
+        { type: :outgoing, expected: true },
+        { type: :template, expected: true },
+        { type: :activity, expected: false }
+      ].each do |scenario|
+        it "returns #{scenario[:expected]} for #{scenario[:type]} message" do
+          message = create(:message, message_type: scenario[:type])
+          expect(message.webhook_sendable?).to eq(scenario[:expected])
+        end
+      end
+    end
+  end
+
+  describe '#push_event_data' do
+    subject(:push_event_data) { message.push_event_data }
+
+    let(:message) { create(:message, echo_id: 'random-echo_id') }
+
+    let(:expected_data) do
+      {
+
+        account_id: message.account_id,
+        additional_attributes: message.additional_attributes,
+        content_attributes: message.content_attributes,
+        content_type: message.content_type,
+        content: message.content,
+        conversation_id: message.conversation.display_id,
+        created_at: message.created_at.to_i,
+        external_source_ids: message.external_source_ids,
+        id: message.id,
+        inbox_id: message.inbox_id,
+        message_type: message.message_type_before_type_cast,
+        private: message.private,
+        processed_message_content: message.processed_message_content,
+        sender_id: message.sender_id,
+        sender_type: message.sender_type,
+        source_id: message.source_id,
+        status: message.status,
+        updated_at: message.updated_at,
+        conversation: {
+          assignee_id: message.conversation.assignee_id,
+          contact_inbox: {
+            source_id: message.conversation.contact_inbox.source_id
+          },
+          last_activity_at: message.conversation.last_activity_at.to_i,
+          unread_count: message.conversation.unread_incoming_messages.count
+        },
+        sentiment: {},
+        sender: message.sender.push_event_data,
+        echo_id: 'random-echo_id'
+      }
     end
 
-    it 'is invalid if it is not outgoing' do
-      incoming_message = create(:message, message_type: :incoming)
-      expect(incoming_message.valid_first_reply?).to be false
+    it 'returns push event payload' do
+      expect(push_event_data).to eq(expected_data)
+    end
+  end
 
-      activity_message = create(:message, message_type: :activity)
-      expect(activity_message.valid_first_reply?).to be false
+  describe 'message create event' do
+    let!(:conversation) { create(:conversation) }
 
-      template_message = create(:message, message_type: :template)
-      expect(template_message.valid_first_reply?).to be false
+    before do
+      conversation.reload
     end
 
-    it 'is invalid if it is outgoing but private' do
-      conversation = create(:conversation)
+    it 'updates the conversation first reply created at if it is the first outgoing message' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
 
-      outgoing_message = create(:message, message_type: :outgoing, conversation: conversation, private: true)
-      expect(outgoing_message.valid_first_reply?).to be false
+      outgoing_message = create(:message, message_type: :outgoing, conversation: conversation)
 
-      # next message should be a valid reply
+      expect(conversation.first_reply_created_at).to eq outgoing_message.created_at
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'does not update the conversation first reply created at if the message is incoming' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+
+      create(:message, message_type: :incoming, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+    end
+
+    it 'does not update the conversation first reply created at if the message is template' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+
+      create(:message, message_type: :template, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+    end
+
+    it 'does not update the conversation first reply created at if the message is activity' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+
+      create(:message, message_type: :activity, conversation: conversation)
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+    end
+
+    it 'does not update the conversation first reply created at if the message is a private message' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+
+      create(:message, message_type: :outgoing, conversation: conversation, private: true)
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
+
       next_message = create(:message, message_type: :outgoing, conversation: conversation)
-      expect(next_message.valid_first_reply?).to be true
+      expect(conversation.first_reply_created_at).to eq next_message.created_at
+      expect(conversation.waiting_since).to be_nil
     end
 
-    it 'is invalid if it is not the first reply' do
-      conversation = create(:conversation)
-      first_message = create(:message, message_type: :outgoing, conversation: conversation)
-      expect(first_message.valid_first_reply?).to be true
+    it 'does not update first reply if the message is sent as campaign' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
 
-      second_message = create(:message, message_type: :outgoing, conversation: conversation)
-      expect(second_message.valid_first_reply?).to be false
+      create(:message, message_type: :outgoing, conversation: conversation, additional_attributes: { campaign_id: 1 })
+
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
     end
 
-    it 'is invalid if it is sent as campaign' do
-      conversation = create(:conversation)
-      campaign_message = create(:message, message_type: :outgoing, conversation: conversation, additional_attributes: { campaign_id: 1 })
-      expect(campaign_message.valid_first_reply?).to be false
+    it 'does not update first reply if the message is sent by automation' do
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
 
-      second_message = create(:message, message_type: :outgoing, conversation: conversation)
-      expect(second_message.valid_first_reply?).to be true
-    end
+      create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { automation_rule_id: 1 })
 
-    it 'is invalid if it is sent by automation' do
-      conversation = create(:conversation)
-      automation_message = create(:message, message_type: :outgoing, conversation: conversation, content_attributes: { automation_rule_id: 1 })
-      expect(automation_message.valid_first_reply?).to be false
+      expect(conversation.first_reply_created_at).to be_nil
+      expect(conversation.waiting_since).to eq conversation.created_at
     end
   end
 
@@ -116,6 +220,37 @@ RSpec.describe Message do
       message.save!
       expect(conversation.open?).to be false
       expect(conversation.pending?).to be true
+    end
+  end
+
+  describe '#waiting since' do
+    let(:conversation) { create(:conversation) }
+    let(:agent) { create(:user, account: conversation.account) }
+    let(:message) { build(:message, conversation: conversation) }
+
+    it 'resets the waiting_since if an agent sent a reply' do
+      message.message_type = :outgoing
+      message.sender = agent
+      message.save!
+
+      expect(conversation.waiting_since).to be_nil
+    end
+
+    it 'sets the waiting_since if there is an incoming message' do
+      conversation.update(waiting_since: nil)
+      message.message_type = :incoming
+      message.save!
+
+      expect(conversation.waiting_since).not_to be_nil
+    end
+
+    it 'does not overwrite the previous value if there are newer messages' do
+      old_waiting_since = conversation.waiting_since
+      message.message_type = :incoming
+      message.save!
+      conversation.reload
+
+      expect(conversation.waiting_since).to eq old_waiting_since
     end
   end
 
@@ -185,6 +320,7 @@ RSpec.describe Message do
         message.inbox = create(:inbox, account: message.account, channel: build(:channel_email, account: message.account))
         allow(EmailReplyWorker).to receive(:perform_in).and_return(true)
         message.message_type = 'outgoing'
+        message.content_attributes = { email: { text_content: { quoted: 'quoted text' } } }
         message.save!
         expect(EmailReplyWorker).to have_received(:perform_in).with(1.second, message.id)
       end
@@ -204,6 +340,15 @@ RSpec.describe Message do
     it 'sets content_type as text' do
       message.save!
       expect(message.content_type).to eq 'text'
+    end
+  end
+
+  context 'when processed_message_content is blank' do
+    let(:message) { build(:message, content_type: :text, account: create(:account), content: 'Processed message content') }
+
+    it 'sets content_type as text' do
+      message.save!
+      expect(message.processed_message_content).to eq message.content
     end
   end
 
@@ -283,6 +428,51 @@ RSpec.describe Message do
       }.to_json, headers: {})
       instagram_message.push_event_data
       expect(instagram_message.reload.attachments.count).to eq 1
+    end
+  end
+
+  describe '#ensure_in_reply_to' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, source_id: 12_345) }
+
+    context 'when in_reply_to is present' do
+      let(:content_attributes) { { in_reply_to: message.id } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'sets in_reply_to_external_id based on the source_id of the referenced message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to eq(message.source_id)
+      end
+    end
+
+    context 'when in_reply_to is not present' do
+      let(:content_attributes) { { in_reply_to_external_id: message.source_id } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'sets in_reply_to based on the source_id of the referenced message' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to]).to eq(message.id)
+      end
+    end
+
+    context 'when the referenced message is not found' do
+      let(:content_attributes) { { in_reply_to: message.id + 1 } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'does not set in_reply_to_external_id' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to_external_id]).to be_nil
+      end
+    end
+
+    context 'when the source message is not found' do
+      let(:content_attributes) { { in_reply_to_external_id: 'source-id-that-does-not-exist' } }
+      let(:new_message) { build(:message, conversation: conversation, content_attributes: content_attributes) }
+
+      it 'does not set in_reply_to' do
+        new_message.send(:ensure_in_reply_to)
+        expect(new_message.content_attributes[:in_reply_to]).to be_nil
+      end
     end
   end
 end

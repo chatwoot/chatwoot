@@ -12,6 +12,7 @@ class ContactMergeAction
       merge_conversations
       merge_messages
       merge_contact_inboxes
+      merge_contact_notes
       merge_and_remove_mergee_contact
     end
     @base_contact
@@ -33,6 +34,10 @@ class ContactMergeAction
     Conversation.where(contact_id: @mergee_contact.id).update(contact_id: @base_contact.id)
   end
 
+  def merge_contact_notes
+    Note.where(contact_id: @mergee_contact.id, account_id: @mergee_contact.account_id).update(contact_id: @base_contact.id)
+  end
+
   def merge_messages
     Message.where(sender: @mergee_contact).update(sender: @base_contact)
   end
@@ -49,7 +54,7 @@ class ContactMergeAction
     # attributes in base contact are given preference
     merged_attributes = mergee_contact_attributes.deep_merge(base_contact_attributes)
 
-    @mergee_contact.destroy!
+    @mergee_contact.reload.destroy!
     Rails.configuration.dispatcher.dispatch(CONTACT_MERGED, Time.zone.now, contact: @base_contact,
                                                                            tokens: [@base_contact.contact_inboxes.filter_map(&:pubsub_token)])
     @base_contact.update!(merged_attributes)

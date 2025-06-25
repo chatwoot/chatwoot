@@ -57,7 +57,7 @@ $color-success: #44ce4b;
 // Color-palettes
 
 $color-primary-light: #c7e3ff;
-$color-primary-dark: darken($color-woot, 20%);
+$color-primary-dark: adjust-color(#1F93FF, $lightness: -20%);
 
 // Spinner
 $spinkit-spinner-color: $color-white !default;

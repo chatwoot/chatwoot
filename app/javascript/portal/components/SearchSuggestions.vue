@@ -1,48 +1,9 @@
-<template>
-  <div
-    class="shadow-md bg-white mt-2 max-h-72 scroll-py-2 p-4 rounded overflow-y-auto text-sm text-slate-700"
-  >
-    <div v-if="isLoading" class="font-medium text-sm text-slate-400">
-      {{ loadingPlaceholder }}
-    </div>
-    <h3 v-if="shouldShowResults" class="font-medium text-sm text-slate-400">
-      {{ resultsTitle }}
-    </h3>
-    <ul
-      v-if="shouldShowResults"
-      class="bg-white mt-2 max-h-72 scroll-py-2 overflow-y-auto text-sm text-slate-700"
-      role="listbox"
-    >
-      <li
-        v-for="(article, index) in items"
-        :id="article.id"
-        :key="article.id"
-        class="group flex cursor-default select-none items-center rounded-md p-2 mb-1"
-        :class="{ 'bg-slate-25': index === selectedIndex }"
-        role="option"
-        tabindex="-1"
-        @mouseover="onHover(index)"
-      >
-        <a
-          :href="generateArticleUrl(article)"
-          class="flex-auto truncate text-base font-medium leading-6 w-full hover:underline"
-        >
-          {{ article.title }}
-        </a>
-      </li>
-    </ul>
-
-    <div v-if="showEmptyResults" class="font-medium text-sm text-slate-400">
-      {{ emptyPlaceholder }}
-    </div>
-  </div>
-</template>
-
 <script>
-import mentionSelectionKeyboardMixin from 'dashboard/components/widgets/mentions/mentionSelectionKeyboardMixin.js';
+import { ref, computed, nextTick } from 'vue';
+import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 
 export default {
-  mixins: [mentionSelectionKeyboardMixin],
   props: {
     items: {
       type: Array,
@@ -56,22 +17,42 @@ export default {
       type: String,
       default: '',
     },
-    searchPlaceholder: {
-      type: String,
-      default: '',
-    },
     loadingPlaceholder: {
       type: String,
       default: '',
     },
-    resultsTitle: {
+    searchTerm: {
       type: String,
       default: '',
     },
   },
-  data() {
+  setup(props) {
+    const selectedIndex = ref(-1);
+    const portalSearchSuggestionsRef = ref(null);
+    const { highlightContent } = useMessageFormatter();
+    const adjustScroll = () => {
+      nextTick(() => {
+        portalSearchSuggestionsRef.value.scrollTop = 102 * selectedIndex.value;
+      });
+    };
+
+    const isSearchItemActive = index => {
+      return index === selectedIndex.value
+        ? 'bg-slate-25 dark:bg-slate-800'
+        : 'bg-white dark:bg-slate-900';
+    };
+
+    useKeyboardNavigableList({
+      items: computed(() => props.items),
+      adjustScroll,
+      selectedIndex,
+    });
+
     return {
-      selectedIndex: 0,
+      selectedIndex,
+      portalSearchSuggestionsRef,
+      isSearchItemActive,
+      highlightContent,
     };
   },
 
@@ -88,16 +69,65 @@ export default {
     generateArticleUrl(article) {
       return `/hc/${article.portal.slug}/articles/${article.slug}`;
     },
-    handleKeyboardEvent(e) {
-      this.processKeyDownEvent(e);
-      this.$el.scrollTop = 40 * this.selectedIndex;
-    },
-    onHover(index) {
-      this.selectedIndex = index;
-    },
-    onSelect() {
-      window.location = this.generateArticleUrl(this.items[this.selectedIndex]);
+    prepareContent(content) {
+      return this.highlightContent(
+        content,
+        this.searchTerm,
+        'bg-slate-100 dark:bg-slate-700 font-semibold text-slate-600 dark:text-slate-200'
+      );
     },
   },
 };
 </script>
+
+<template>
+  <div
+    ref="portalSearchSuggestionsRef"
+    class="p-5 mt-2 overflow-y-auto text-sm bg-white border border-solid rounded-lg shadow-xl hover:shadow-lg dark:bg-slate-900 max-h-96 scroll-py-2 text-slate-700 dark:text-slate-100 border-slate-50 dark:border-slate-800"
+  >
+    <div
+      v-if="isLoading"
+      class="text-sm font-medium text-slate-400 dark:text-slate-700"
+    >
+      {{ loadingPlaceholder }}
+    </div>
+    <ul
+      v-if="shouldShowResults"
+      class="flex flex-col gap-4 text-sm bg-white dark:bg-slate-900 text-slate-700 dark:text-slate-100"
+      role="listbox"
+    >
+      <li
+        v-for="(article, index) in items"
+        :id="article.id"
+        :key="article.id"
+        class="flex items-center p-4 border border-solid rounded-lg cursor-pointer select-none group hover:bg-slate-25 dark:hover:bg-slate-800 border-slate-100 dark:border-slate-800"
+        :class="isSearchItemActive(index)"
+        role="option"
+        tabindex="-1"
+        @mouse-enter="onHover(index)"
+        @mouse-leave="onHover(-1)"
+      >
+        <a
+          class="flex flex-col gap-1 overflow-y-hidden"
+          :href="generateArticleUrl(article)"
+        >
+          <span
+            v-dompurify-html="prepareContent(article.title)"
+            class="flex-auto w-full overflow-hidden text-base font-semibold leading-6 truncate text-ellipsis whitespace-nowrap"
+          />
+          <div
+            v-dompurify-html="prepareContent(article.content)"
+            class="overflow-hidden text-sm line-clamp-2 text-ellipsis whitespace-nowrap text-slate-600 dark:text-slate-300"
+          />
+        </a>
+      </li>
+    </ul>
+
+    <div
+      v-if="showEmptyResults"
+      class="text-sm font-medium text-slate-400 dark:text-slate-700"
+    >
+      {{ emptyPlaceholder }}
+    </div>
+  </div>
+</template>

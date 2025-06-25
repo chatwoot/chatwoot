@@ -1,3 +1,58 @@
+<script>
+import availabilityMixin from 'widget/mixins/availability';
+import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
+import FluentIcon from 'shared/components/FluentIcon/Index.vue';
+import HeaderActions from './HeaderActions.vue';
+import routerMixin from 'widget/mixins/routerMixin';
+
+export default {
+  name: 'ChatHeader',
+  components: {
+    FluentIcon,
+    HeaderActions,
+  },
+  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin],
+  props: {
+    avatarUrl: {
+      type: String,
+      default: '',
+    },
+    title: {
+      type: String,
+      default: '',
+    },
+    showPopoutButton: {
+      type: Boolean,
+      default: false,
+    },
+    showBackButton: {
+      type: Boolean,
+      default: false,
+    },
+    availableAgents: {
+      type: Array,
+      default: () => {},
+    },
+  },
+  computed: {
+    isOnline() {
+      const { workingHoursEnabled } = this.channelConfig;
+      const anyAgentOnline = this.availableAgents.length > 0;
+
+      if (workingHoursEnabled) {
+        return this.isInBetweenTheWorkingHours;
+      }
+      return anyAgentOnline;
+    },
+  },
+  methods: {
+    onBackButtonClick() {
+      this.replaceRoute('home');
+    },
+  },
+};
+</script>
+
 <template>
   <header
     class="header-wrap flex justify-between p-5 w-full"
@@ -5,7 +60,7 @@
   >
     <div class="flex items-center">
       <button v-if="showBackButton" @click="onBackButtonClick">
-        <fluent-icon
+        <FluentIcon
           icon="chevron-left"
           size="24"
           :class="$dm('text-black-900', 'dark:text-slate-50')"
@@ -33,70 +88,9 @@
         </div>
       </div>
     </div>
-    <header-actions :show-popout-button="showPopoutButton" />
+    <HeaderActions :show-popout-button="showPopoutButton" />
   </header>
 </template>
-
-<script>
-import { mapGetters } from 'vuex';
-
-import availabilityMixin from 'widget/mixins/availability';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import FluentIcon from 'shared/components/FluentIcon/Index.vue';
-import HeaderActions from './HeaderActions';
-import routerMixin from 'widget/mixins/routerMixin';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
-
-export default {
-  name: 'ChatHeader',
-  components: {
-    FluentIcon,
-    HeaderActions,
-  },
-  mixins: [nextAvailabilityTime, availabilityMixin, routerMixin, darkMixin],
-  props: {
-    avatarUrl: {
-      type: String,
-      default: '',
-    },
-    title: {
-      type: String,
-      default: '',
-    },
-    showPopoutButton: {
-      type: Boolean,
-      default: false,
-    },
-    showBackButton: {
-      type: Boolean,
-      default: false,
-    },
-    availableAgents: {
-      type: Array,
-      default: () => {},
-    },
-  },
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
-  },
-  methods: {
-    onBackButtonClick() {
-      this.replaceRoute('home');
-    },
-  },
-};
-</script>
 
 <style scoped lang="scss">
 @import 'widget/assets/scss/variables';

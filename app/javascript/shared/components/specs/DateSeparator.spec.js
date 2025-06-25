@@ -1,19 +1,9 @@
-import DateSeparator from '../DateSeparator';
-import { createLocalVue, shallowMount } from '@vue/test-utils';
-import Vuex from 'vuex';
-import VueI18n from 'vue-i18n';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-const localVue = createLocalVue();
-import i18n from 'dashboard/i18n';
-localVue.use(Vuex);
-localVue.use(VueI18n);
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 
-const i18nConfig = new VueI18n({
-  locale: 'en',
-  messages: i18n,
-});
+import DateSeparator from '../DateSeparator.vue';
 
-describe('dateSeparator', () => {
+describe('DateSeparator', () => {
   let store = null;
   let actions = null;
   let modules = null;
@@ -24,24 +14,28 @@ describe('dateSeparator', () => {
 
     modules = {
       auth: {
+        namespaced: true,
         getters: {
           'appConfig/darkMode': () => 'light',
         },
       },
     };
-    store = new Vuex.Store({
-      actions,
+
+    store = createStore({
       modules,
+      actions,
     });
 
     dateSeparator = shallowMount(DateSeparator, {
-      store,
-      localVue,
-      propsData: {
+      global: {
+        plugins: [store],
+        mocks: {
+          $t: msg => msg, // Mocking $t function for translations
+        },
+      },
+      props: {
         date: 'Nov 18, 2019',
       },
-      i18n: i18nConfig,
-      mixins: [darkModeMixin],
     });
   });
 

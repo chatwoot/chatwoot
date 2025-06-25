@@ -1,27 +1,27 @@
-<template>
-  <grouped-avatars :users="users" />
-</template>
-
 <script>
-import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
-
 export default {
   name: 'AvailableAgents',
-  components: { GroupedAvatars },
   props: {
     agents: {
       type: Array,
-      default: () => [],
-    },
-  },
-  computed: {
-    users() {
-      return this.agents.slice(0, 5).map(agent => ({
-        id: agent.id,
-        avatar: agent.avatar_url,
-        name: agent.name,
-      }));
+      required: true,
     },
   },
 };
 </script>
+
+<template>
+  <div class="flex space-x-2">
+    <div
+      v-for="agent in agents"
+      :key="agent.id"
+      class="w-8 h-8 rounded-full overflow-hidden border border-gray-300"
+    >
+      <img
+        :src="agent.avatar"
+        :alt="agent.name"
+        class="object-cover w-full h-full"
+      />
+    </div>
+  </div>
+</template>

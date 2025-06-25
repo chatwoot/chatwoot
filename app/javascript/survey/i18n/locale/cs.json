@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "Vážený zákazníku 👋, věnujte prosím několik okamžiků zpětné vazbě na konverzaci, kterou jste vedli s %{inboxName}.",
+    "DESCRIPTION": "Vážený zákazníku 👋, věnujte prosím několik okamžiků zpětné vazbě na konverzaci, kterou jste vedli s {inboxName}.",
     "RATING": {
       "LABEL": "Ohodnoťte svou konverzaci",
       "SUCCESS_MESSAGE": "Děkujeme Vám za odeslání hodnocení"

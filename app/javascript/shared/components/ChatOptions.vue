@@ -1,3 +1,21 @@
+<script>
+export default {
+  mixins: [],
+  props: {
+    message: {
+      type: String,
+      default: '',
+    },
+  },
+  computed: {
+    formattedMessage() {
+      const messageWithLineBreak = this.message.replace(/\\n/g, '\n');
+      return this.formatMessage(messageWithLineBreak);
+    },
+  },
+};
+</script>
+
 <template>
   <div class="chat-bubble agent" :class="$dm('bg-white', 'dark:bg-slate-700')">
     <div
@@ -8,29 +26,8 @@
   </div>
 </template>
 
-<script>
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
-
-export default {
-  mixins: [darkModeMixin, messageFormatterMixin],
-  props: {
-    message: {
-      type: String,
-      default: '',
-    },
-  },
-  computed: {
-    formattedMessage() {
-      const messageWithLineBreak = this.message.replace(/\\n/g,'\n')
-      return this.formatMessage(messageWithLineBreak)
-    }
-  }
-};
-</script>
-
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/_variables.scss';
 
 .options-message {
   max-width: 17rem;

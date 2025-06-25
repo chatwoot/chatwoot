@@ -162,10 +162,17 @@ describe Integrations::Dialogflow::ProcessorService do
       allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
     end
 
-    it 'returns indented response' do
+    it 'returns intended response' do
       response = processor.send(:get_response, conversation.contact_inbox.source_id, message.content)
       expect(response[:query_input][:text][:text]).to eq(message)
       expect(response[:query_input][:text][:language_code]).to eq('en-US')
+    end
+
+    it 'disables the hook if permission errors are thrown' do
+      allow(session_client).to receive(:detect_intent).and_raise(Google::Cloud::PermissionDeniedError)
+
+      expect { processor.send(:get_response, conversation.contact_inbox.source_id, message.content) }
+        .to change(hook, :status).from('enabled').to('disabled')
     end
   end
 end

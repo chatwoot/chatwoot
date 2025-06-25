@@ -1,38 +1,33 @@
-<template>
-  <div class="wizard-body columns content-box small-9">
-    <empty-state
-      :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
-      :message="$t('TEAMS_SETTINGS.FINISH.MESSAGE')"
-      :button-text="$t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT')"
-    >
-      <div class="medium-12 columns text-center">
-        <router-link
-          class="button success nice"
-          :to="{
-            name: 'settings_teams_list',
-          }"
-        >
-          {{ $t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT') }}
-        </router-link>
-      </div>
-    </empty-state>
-  </div>
-</template>
-
 <script>
-import EmptyState from '../../../../components/widgets/EmptyState';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import EmptyState from '../../../../components/widgets/EmptyState.vue';
 
 export default {
   components: {
+    NextButton,
     EmptyState,
   },
 };
 </script>
-<style lang="scss" scoped>
-@import '~dashboard/assets/scss/variables';
 
-.website--code {
-  margin: $space-normal auto;
-  max-width: 70%;
-}
-</style>
+<template>
+  <div
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
+  >
+    <EmptyState
+      :title="$t('TEAMS_SETTINGS.FINISH.TITLE')"
+      :message="$t('TEAMS_SETTINGS.FINISH.MESSAGE')"
+      :button-text="$t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT')"
+    >
+      <div class="w-full text-center">
+        <router-link
+          :to="{
+            name: 'settings_teams_list',
+          }"
+        >
+          <NextButton teal :label="$t('TEAMS_SETTINGS.FINISH.BUTTON_TEXT')" />
+        </router-link>
+      </div>
+    </EmptyState>
+  </div>
+</template>

@@ -16,7 +16,7 @@ RSpec.describe 'Integration Apps API', type: :request do
       let(:admin) { create(:user, account: account, role: :administrator) }
 
       it 'returns all active apps without sensitive information if the user is an agent' do
-        first_app = Integrations::App.all.find(&:active?)
+        first_app = Integrations::App.all.find { |app| app.active?(account) }
         get api_v1_account_integrations_apps_url(account),
             headers: agent.create_new_auth_token,
             as: :json
@@ -41,7 +41,7 @@ RSpec.describe 'Integration Apps API', type: :request do
       end
 
       it 'returns all active apps with sensitive information if user is an admin' do
-        first_app = Integrations::App.all.find(&:active?)
+        first_app = Integrations::App.all.find { |app| app.active?(account) }
         get api_v1_account_integrations_apps_url(account),
             headers: admin.create_new_auth_token,
             as: :json

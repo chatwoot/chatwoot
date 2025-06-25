@@ -5,7 +5,19 @@ module Enterprise::Inbox
     super - overloaded_agent_ids
   end
 
+  def active_bot?
+    super || captain_active?
+  end
+
+  def captain_active?
+    captain_assistant.present? && more_responses?
+  end
+
   private
+
+  def more_responses?
+    account.usage_limits[:captain][:responses][:current_available].positive?
+  end
 
   def get_agent_ids_over_assignment_limit(limit)
     conversations.open.select(:assignee_id).group(:assignee_id).having("count(*) >= #{limit.to_i}").filter_map(&:assignee_id)

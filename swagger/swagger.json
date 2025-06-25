@@ -848,6 +848,16 @@
         "security": [
 
         ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/public_conversation_create_payload"
+            }
+          }
+        ],
         "responses": {
           "200": {
             "description": "Success",
@@ -880,6 +890,149 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "get-single-conversation",
+        "summary": "Get a single conversation",
+        "description": "Retrieves the details of a specific conversation",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/public_conversation"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/toggle_status": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "resolve-conversation",
+        "summary": "Resolve a conversation",
+        "description": "Marks a conversation as resolved",
+        "responses": {
+          "200": {
+            "description": "Conversation resolved successfully",
+            "schema": {
+              "$ref": "#/definitions/public_conversation"
+            }
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/toggle_typing": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "toggle-typing-status",
+        "summary": "Toggle typing status",
+        "description": "Toggles the typing status in a conversation",
+        "parameters": [
+          {
+            "name": "typing_status",
+            "in": "query",
+            "required": true,
+            "type": "string",
+            "description": "Typing status, either 'on' or 'off'"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Typing status toggled successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
+          }
+        }
+      }
+    },
+    "/public/api/v1/inboxes/{inbox_identifier}/contacts/{contact_identifier}/conversations/{conversation_id}/update_last_seen": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/public_inbox_identifier"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations API"
+        ],
+        "operationId": "update-last-seen",
+        "summary": "Update last seen",
+        "description": "Updates the last seen time of the contact in a conversation",
+        "responses": {
+          "200": {
+            "description": "Last seen updated successfully"
+          },
+          "401": {
+            "description": "Unauthorized"
+          },
+          "404": {
+            "description": "Conversation not found"
           }
         }
       }
@@ -996,6 +1149,102 @@
           },
           "401": {
             "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/api/v1/accounts/{account_id}/contacts/{contact_identifier}/labels": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/public_contact_identifier"
+        }
+      ],
+      "get": {
+        "tags": [
+          "Contact Labels"
+        ],
+        "operationId": "list-all-labels-of-a-contact",
+        "summary": "List Labels",
+        "description": "Lists all the labels of a contact",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_labels"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Contact Labels"
+        ],
+        "operationId": "contact-add-labels",
+        "summary": "Add Labels",
+        "description": "Add labels to a contact. Note that this API would overwrite the existing list of labels associated to the conversation.",
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "labels": {
+                  "type": "array",
+                  "description": "Array of labels (comma-separated strings)",
+                  "items": {
+                    "type": "string"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "$ref": "#/definitions/contact_labels"
+            }
+          },
+          "404": {
+            "description": "Contact not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
+    "/survey/responses/{conversation_uuid}": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/conversation_uuid"
+        }
+      ],
+      "get": {
+        "tags": [
+          "CSAT Survey Page"
+        ],
+        "operationId": "get-csat-survey-page",
+        "summary": "Get CSAT survey page",
+        "description": "You can redirect the client to this URL, instead of implementing the CSAT survey component yourself.",
+        "security": [
+
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
           }
         }
       }
@@ -2048,12 +2297,12 @@
                       },
                       "query_operator": {
                         "type": "string",
-                        "description": "query operator name"
-                      },
-                      "enum": [
-                        "AND",
-                        "OR"
-                      ]
+                        "description": "query operator name",
+                        "enum": [
+                          "AND",
+                          "OR"
+                        ]
+                      }
                     }
                   },
                   "example": [
@@ -2626,6 +2875,7 @@
             "in": "query",
             "type": "string",
             "enum": [
+              "all",
               "open",
               "resolved",
               "pending",
@@ -2726,6 +2976,7 @@
             "in": "query",
             "type": "string",
             "enum": [
+              "all",
               "open",
               "resolved",
               "pending",
@@ -2807,6 +3058,10 @@
             "required": true,
             "schema": {
               "type": "object",
+              "required": [
+                "source_id",
+                "inbox_id"
+              ],
               "properties": {
                 "source_id": {
                   "type": "string",
@@ -2848,6 +3103,47 @@
                 "team_id": {
                   "type": "string",
                   "description": "Team Id for assigning a conversation to a team"
+                },
+                "message": {
+                  "type": "object",
+                  "description": "The initial message to be sent to the conversation",
+                  "required": [
+                    "content"
+                  ],
+                  "properties": {
+                    "content": {
+                      "type": "string",
+                      "description": "The content of the message"
+                    },
+                    "template_params": {
+                      "type": "object",
+                      "description": "The template params for the message in case of whatsapp Channel",
+                      "properties": {
+                        "name": {
+                          "type": "string",
+                          "description": "Name of the template",
+                          "example": "sample_issue_resolution"
+                        },
+                        "category": {
+                          "type": "string",
+                          "description": "Category of the template",
+                          "example": "UTILITY"
+                        },
+                        "language": {
+                          "type": "string",
+                          "description": "Language of the template",
+                          "example": "en_US"
+                        },
+                        "processed_params": {
+                          "type": "object",
+                          "description": "The processed param values for template variables in template",
+                          "example": {
+                            "1": "Chatwoot"
+                          }
+                        }
+                      }
+                    }
+                  }
                 }
               }
             }
@@ -3023,6 +3319,64 @@
             "description": "Access denied"
           }
         }
+      },
+      "patch": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "update-conversation",
+        "summary": "Update Conversation",
+        "description": "Update Conversation Attributes",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "properties": {
+                "priority": {
+                  "type": "string",
+                  "enum": [
+                    "urgent",
+                    "high",
+                    "medium",
+                    "low",
+                    "none"
+                  ],
+                  "description": "The priority of the conversation"
+                },
+                "sla_policy_id": {
+                  "type": "number",
+                  "description": "The ID of the SLA policy (Available only in Enterprise edition)"
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
       }
     },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/toggle_status": {
@@ -3160,6 +3514,79 @@
         }
       }
     },
+    "/api/v1/accounts/{account_id}/conversations/{conversation_id}/custom_attributes": {
+      "parameters": [
+        {
+          "$ref": "#/parameters/account_id"
+        },
+        {
+          "$ref": "#/parameters/conversation_id"
+        }
+      ],
+      "post": {
+        "tags": [
+          "Conversations"
+        ],
+        "operationId": "update-custom-attributes-of-a-conversation",
+        "summary": "Update Custom Attributes",
+        "description": "Updates the custom attributes of a conversation",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
+        "parameters": [
+          {
+            "name": "data",
+            "in": "body",
+            "required": true,
+            "schema": {
+              "type": "object",
+              "required": [
+                "custom_attributes"
+              ],
+              "properties": {
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The custom attributes to be set for the conversation",
+                  "example": {
+                    "order_id": "12345",
+                    "previous_conversation": "67890"
+                  }
+                }
+              }
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Success",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "custom_attributes": {
+                  "type": "object",
+                  "description": "The custom attributes of the conversation"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Conversation not found"
+          },
+          "401": {
+            "description": "Unauthorized"
+          }
+        }
+      }
+    },
     "/api/v1/accounts/{account_id}/conversations/{conversation_id}/assignments": {
       "parameters": [
         {
@@ -3176,6 +3603,18 @@
         "operationId": "assign-a-conversation",
         "summary": "Assign Conversation",
         "description": "Assign a conversation to an agent or a team",
+        "security": [
+          {
+            "userApiKey": [
+
+            ]
+          },
+          {
+            "agentBotApiKey": [
+
+            ]
+          }
+        ],
         "parameters": [
           {
             "name": "data",
@@ -6201,6 +6640,7 @@
         "content_type": {
           "type": "string",
           "enum": [
+            "text",
             "input_email",
             "cards",
             "input_select",
@@ -6213,6 +6653,34 @@
         "content_attributes": {
           "type": "object",
           "description": "attributes based on your content type"
+        },
+        "template_params": {
+          "type": "object",
+          "description": "The template params for the message in case of whatsapp Channel",
+          "properties": {
+            "name": {
+              "type": "string",
+              "description": "Name of the template",
+              "example": "sample_issue_resolution"
+            },
+            "category": {
+              "type": "string",
+              "description": "Category of the template",
+              "example": "UTILITY"
+            },
+            "language": {
+              "type": "string",
+              "description": "Language of the template",
+              "example": "en_US"
+            },
+            "processed_params": {
+              "type": "object",
+              "description": "The processed param values for template variables in template",
+              "example": {
+                "1": "Chatwoot"
+              }
+            }
+          }
         }
       }
     },
@@ -6572,6 +7040,15 @@
         }
       }
     },
+    "public_conversation_create_payload": {
+      "type": "object",
+      "properties": {
+        "custom_attributes": {
+          "type": "object",
+          "description": "Custom attributes of the conversation"
+        }
+      }
+    },
     "extended_contact": {
       "allOf": [
         {
@@ -6671,6 +7148,18 @@
             }
           }
         ]
+      }
+    },
+    "contact_labels": {
+      "type": "object",
+      "properties": {
+        "payload": {
+          "type": "array",
+          "description": "Array of labels",
+          "items": {
+            "type": "string"
+          }
+        }
       }
     },
     "conversation_list": {
@@ -6973,6 +7462,13 @@
       "required": true,
       "description": "The numeric ID of the conversation"
     },
+    "conversation_uuid": {
+      "in": "path",
+      "name": "conversation_uuid",
+      "type": "integer",
+      "required": true,
+      "description": "The uuid of the conversation"
+    },
     "custom_filter_id": {
       "in": "path",
       "name": "custom_filter_id",
@@ -7051,6 +7547,13 @@
       "type": "string",
       "required": true,
       "description": "The source id of contact obtained on contact create"
+    },
+    "portal_id": {
+      "in": "path",
+      "name": "portal_id",
+      "type": "integer",
+      "required": true,
+      "description": "The numeric ID of the portal"
     }
   },
   "x-tagGroups": [
@@ -7070,6 +7573,7 @@
         "Agents",
         "Canned Responses",
         "Contacts",
+        "Contact Labels",
         "Conversation Assignment",
         "Conversation Labels",
         "Conversations",
@@ -7092,6 +7596,12 @@
         "Contacts API",
         "Conversations API",
         "Messages API"
+      ]
+    },
+    {
+      "name": "Others",
+      "tags": [
+        "CSAT Survey Page"
       ]
     }
   ]

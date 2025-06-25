@@ -6,6 +6,7 @@
     "LIST": {
       "404": "هیچ گفتگوی فعالی در این گروه نیست."
     },
+    "FAILED_TO_SEND": "ارسال با خطا مواجه شد",
     "TAB_HEADING": "گفتگوها",
     "MENTION_HEADING": "اشاره",
     "UNATTENDED_HEADING": "بی سرپرست",
@@ -36,17 +37,45 @@
       }
     },
     "VIEW_FILTER": "نمایش",
-    "SORT_TOOLTIP_LABEL": "Sort conversations",
+    "SORT_TOOLTIP_LABEL": "مرتب‌سازی گفتگوها",
     "CHAT_SORT": {
       "STATUS": "وضعیت",
-      "ORDER_BY": "Order by"
+      "ORDER_BY": "مرتب بر اساس"
     },
-    "CHAT_SORT_FILTER_ITEMS": {
-      "latest": {
-        "TEXT": "Last activity"
+    "CHAT_TIME_STAMP": {
+      "CREATED": {
+        "LATEST": "ایجاد شده",
+        "OLDEST": "ایجاد شده در:"
       },
-      "sort_on_created_at": {
-        "TEXT": "ایجاد شده در"
+      "LAST_ACTIVITY": {
+        "NOT_ACTIVE": "آخرین فعالیت:",
+        "ACTIVE": "آخرین فعالیت"
+      }
+    },
+    "SORT_ORDER_ITEMS": {
+      "last_activity_at_asc": {
+        "TEXT": "آخرین فعالیت: قدیمی ترین اول"
+      },
+      "last_activity_at_desc": {
+        "TEXT": "آخرین فعالیت: جدید ترین اول"
+      },
+      "created_at_desc": {
+        "TEXT": "زمان ایجاد: جدیدترین اول"
+      },
+      "created_at_asc": {
+        "TEXT": "زمان ایجاد: قدیمی ترین اول"
+      },
+      "priority_desc": {
+        "TEXT": "اولویت: بالاترین اول"
+      },
+      "priority_asc": {
+        "TEXT": "اولویت: پایین ترین اول"
+      },
+      "waiting_since_asc": {
+        "TEXT": "در انتظار پاسخ: بیشترین اول"
+      },
+      "waiting_since_desc": {
+        "TEXT": "در انتظار پاسخ: کم‌ترین اول"
       }
     },
     "ATTACHMENTS": {
@@ -65,25 +94,31 @@
       "location": {
         "CONTENT": "مکان"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "یک آدرس URL به اشتراک گذاشته شده"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
-      "TITLE": "Sort conversation",
+      "TITLE": "مرتب‌سازی گفتگو",
       "DROPDOWN_TITLE": "مرتب‌سازی براساس",
       "ITEMS": {
         "LATEST": {
-          "NAME": "Last activity at",
-          "LABEL": "Last activity"
+          "NAME": "آخرین فعالیت در",
+          "LABEL": "آخرین فعالیت"
         },
         "CREATED_AT": {
           "NAME": "ایجاد شده در",
           "LABEL": "ایجاد شده در"
         },
         "LAST_USER_MESSAGE_AT": {
-          "NAME": "Last user message at",
-          "LABEL": "Last message"
+          "NAME": "آخرین پیام کاربر در",
+          "LABEL": "آخرین پیام"
         }
       }
     },
@@ -98,6 +133,7 @@
     "NO_CONTENT": "هیچ محتوایی موجود نیست",
     "HIDE_QUOTED_TEXT": "مخفی کردن متن نقل قول شده",
     "SHOW_QUOTED_TEXT": "نمایش متن نقل قول",
-    "MESSAGE_READ": "خوانده شده"
+    "MESSAGE_READ": "خوانده شده",
+    "SENDING": "در حال ارسال"
   }
 }

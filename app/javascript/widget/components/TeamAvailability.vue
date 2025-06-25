@@ -1,3 +1,72 @@
+<script>
+import { mapGetters } from 'vuex';
+import { getContrastingTextColor } from '@chatwoot/utils';
+import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
+import configMixin from 'widget/mixins/configMixin';
+import availabilityMixin from 'widget/mixins/availability';
+import { IFrameHelper } from 'widget/helpers/utils';
+import { CHATWOOT_ON_START_CONVERSATION } from '../constants/sdkEvents';
+import CustomButton from 'shared/components/Button.vue';
+import AvailableAgents from './AvailableAgents.vue';
+
+export default {
+  name: 'TeamAvailability',
+  components: {
+    AvailableAgents,
+    CustomButton,
+  },
+  mixins: [configMixin, nextAvailabilityTime, availabilityMixin],
+  props: {
+    availableAgents: {
+      type: Array,
+      default: () => {},
+    },
+    hasConversation: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['startConversation'],
+
+  computed: {
+    ...mapGetters({
+      widgetColor: 'appConfig/getWidgetColor',
+    }),
+    textColor() {
+      return getContrastingTextColor(this.widgetColor);
+    },
+    agentAvatars() {
+      return this.availableAgents.map(agent => ({
+        name: agent.name,
+        avatar: agent.avatar_url,
+        id: agent.id,
+      }));
+    },
+    isOnline() {
+      const { workingHoursEnabled } = this.channelConfig;
+      const anyAgentOnline = this.availableAgents.length > 0;
+
+      if (workingHoursEnabled) {
+        return this.isInBetweenTheWorkingHours;
+      }
+      return anyAgentOnline;
+    },
+  },
+  methods: {
+    startConversation() {
+      this.$emit('startConversation');
+      if (!this.hasConversation) {
+        IFrameHelper.sendMessage({
+          event: 'onEvent',
+          eventIdentifier: CHATWOOT_ON_START_CONVERSATION,
+          data: { hasConversation: false },
+        });
+      }
+    },
+  },
+};
+</script>
+
 <template>
   <div class="px-5 pb-5 responsive-container">
     <div class="flex items-center justify-between mb-4">
@@ -12,9 +81,9 @@
           {{ replyWaitMessage }}
         </div>
       </div>
-      <available-agents v-if="isOnline" :agents="availableAgents" />
+      <AvailableAgents v-if="isOnline" :agents="availableAgents" />
     </div>
-    <custom-button
+    <CustomButton
       class="font-medium"
       block
       :bg-color="widgetColor"
@@ -24,65 +93,12 @@
       {{
         hasConversation ? $t('CONTINUE_CONVERSATION') : $t('START_CONVERSATION')
       }}
-    </custom-button>
+    </CustomButton>
   </div>
 </template>
 
-<script>
-import { mapGetters } from 'vuex';
-import { getContrastingTextColor } from '@chatwoot/utils';
-import nextAvailabilityTime from 'widget/mixins/nextAvailabilityTime';
-import AvailableAgents from 'widget/components/AvailableAgents.vue';
-import CustomButton from 'shared/components/Button';
-import configMixin from 'widget/mixins/configMixin';
-import availabilityMixin from 'widget/mixins/availability';
-import darkMixin from 'widget/mixins/darkModeMixin.js';
-
-export default {
-  name: 'TeamAvailability',
-  components: {
-    AvailableAgents,
-    CustomButton,
-  },
-  mixins: [configMixin, nextAvailabilityTime, availabilityMixin, darkMixin],
-  props: {
-    availableAgents: {
-      type: Array,
-      default: () => {},
-    },
-    hasConversation: {
-      type: Boolean,
-      default: false,
-    },
-  },
-
-  computed: {
-    ...mapGetters({
-      widgetColor: 'appConfig/getWidgetColor',
-    }),
-    textColor() {
-      return getContrastingTextColor(this.widgetColor);
-    },
-    isOnline() {
-      const { workingHoursEnabled } = this.channelConfig;
-      const anyAgentOnline = this.availableAgents.length > 0;
-
-      if (workingHoursEnabled) {
-        return this.isInBetweenTheWorkingHours;
-      }
-      return anyAgentOnline;
-    },
-  },
-  methods: {
-    startConversation() {
-      this.$emit('start-conversation');
-    },
-  },
-};
-</script>
-
 <style scoped lang="scss">
-@import '~widget/assets/scss/variables.scss';
+@import 'widget/assets/scss/_variables.scss';
 
 .responsive-container {
   max-width: $break-point-tablet;

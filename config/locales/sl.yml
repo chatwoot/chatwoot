@@ -1,0 +1,323 @@
+#Files in the config/locales directory are used for internationalization
+#and are automatically loaded by Rails. If you want to use locales other
+#than English, add the necessary files in this directory.
+#To use the locales, use `I18n.t`:
+#I18n.t 'hello'
+#In views, this is aliased to just `t`:
+#<%= t('hello') %>
+#To use a different locale, set it with `I18n.locale`:
+#I18n.locale = :es
+#This would use the information in config/locales/es.yml.
+#The following keys must be escaped otherwise they will not be retrieved by
+#the default I18n backend:
+#true, false, on, off, yes, no
+#Instead, surround them with single quotes.
+#en:
+#'true': 'foo'
+#To learn more, please read the Rails Internationalization guide
+#available at https://guides.rubyonrails.org/i18n.html.
+sl:
+  hello: 'Pozdravljen svet'
+  messages:
+    reset_password_success: Juhu! Zahteva za ponastavitev gesla je bila uspešna. Preverite svojo e-pošto za navodila.
+    reset_password_failure: O ne! Nismo mogli najti nobenega uporabnika z navedenim e-poštnim naslovom.
+    inbox_deletetion_response: Vaša zahteva za izbris predala bo obdelana čez nekaj časa.
+  errors:
+    validations:
+      presence: ne sme biti prazno
+    webhook:
+      invalid: Neveljavni dogodki
+    signup:
+      disposable_email: Ne dovolimo e-pošte za enkratno uporabo
+      blocked_domain: Ta domena ni dovoljena. Če menite, da je to pomota, se obrnite na podporo.
+      invalid_email: Vnesli ste neveljaven e-poštni naslov
+      email_already_exists: 'Ste že ustvarili račun z e-poštnim naslovom %{email}'
+      invalid_params: 'Neveljavno, preverite vnešene podatke in poskusite znova'
+      failed: Registracija neuspešna
+    data_import:
+      data_type:
+        invalid: Nepravilen podatkovni tip
+    contacts:
+      import:
+        failed: Datoteka je prazna
+      export:
+        success: Ko bo datoteka za izvoz stikov pripravljena za ogled, vas bomo obvestili.
+      email:
+        invalid: Napačen e-poštni naslov
+      phone_number:
+        invalid: mora biti v formatu e164
+    categories:
+      locale:
+        unique: mora biti edinstven v kategoriji in portalu
+    dyte:
+      invalid_message_type: 'Neveljavna vrsta sporočila. Dejanje ni dovoljeno'
+    slack:
+      invalid_channel_id: 'Neveljaven slack kanal. Prosimo poskusite ponovno'
+    inboxes:
+      imap:
+        socket_error: Preverite omrežno povezavo, naslov IMAP in poskusite znova.
+        no_response_error: Preverite poverilnice IMAP in poskusite znova.
+        host_unreachable_error: Gostitelj nedosegljiv. Preverite naslov IMAP, vrata IMAP in poskusite znova.
+        connection_timed_out_error: Povezava je potekla za %{address}:%{port}
+        connection_closed_error: Povezava zaprta.
+      validations:
+        name: se ne sme začeti ali končati s simboli in ne sme vsebovati znakov < > / \ @.
+    custom_filters:
+      number_of_records: Omejitev dosežena. Največje dovoljeno število filtrov po meri za uporabnika na račun je 50.
+      invalid_attribute: Neveljaven ključ atributa - [%{key}]. Ključ mora biti eden od [%{allowed_keys}] ali atribut po meri, določen v računu.
+      invalid_operator: Neveljaven operater. Dovoljeni operaterji za %{attribute_name} so [%{allowed_keys}].
+      invalid_query_operator: Query operator must be either "AND" or "OR".
+      invalid_value: Neveljavna vrednost. Podane vrednosti za %{attribute_name} so neveljavne
+    custom_attribute_definition:
+      key_conflict: The provided key is not allowed as it might conflict with default attributes.
+  reports:
+    period: Obdobje poročanja %{since} do %{until}
+    utc_warning: Ustvarjeno poročilo je v časovnem pasu UTC
+    agent_csv:
+      agent_name: Ime agenta
+      conversations_count: Dodeljeni pogovori
+      avg_first_response_time: Povprečni prvi odzivni čas
+      avg_resolution_time: Povprečni čas razrešitve
+      resolution_count: Število razrešitev
+      avg_customer_waiting_time: Povprečni čakalni čas stranke
+    inbox_csv:
+      inbox_name: Ime nabiralnika
+      inbox_type: Tip nabiralnika
+      conversations_count: Število pogovorov
+      avg_first_response_time: Povprečni prvi odzivni čas
+      avg_resolution_time: Povprečni čas razrešitve
+    label_csv:
+      label_title: Oznaka
+      conversations_count: Število pogovorov
+      avg_first_response_time: Povprečni prvi odzivni čas
+      avg_resolution_time: Povprečni čas razrešitve
+    team_csv:
+      team_name: Ime ekipe
+      conversations_count: Število pogovorov
+      avg_first_response_time: Povprečni prvi odzivni čas
+      avg_resolution_time: Povprečni čas razrešitve
+      resolution_count: Število razrešitev
+      avg_customer_waiting_time: Povprečni čakalni čas stranke
+    conversation_traffic_csv:
+      timezone: Časovni pas
+    sla_csv:
+      conversation_id: ID pogovora
+      sla_policy_breached: Politika SLA
+      assignee: Prejemnik
+      team: Ekipa
+      inbox: Nabiralnik
+      labels: Oznake
+      conversation_link: Povezava do pogovora
+      breached_events: Kršeni dogodki
+    default_group_by: dan
+    csat:
+      headers:
+        contact_name: Ime kontakta
+        contact_email_address: E-poštni naslov kontakta
+        contact_phone_number: Telefonska številka kontakta
+        link_to_the_conversation: Povezava do pogovora
+        agent_name: Ime agenta
+        rating: Ocena
+        feedback: Povratni komentar
+        recorded_at: Zabeležen datum
+  notifications:
+    notification_title:
+      conversation_creation: 'Pogovor (#%{display_id}) je bil ustvarjen v %{inbox_name}'
+      conversation_assignment: 'Pogovor (#%{display_id}) vam je bil dodeljen'
+      assigned_conversation_new_message: 'V pogovoru je ustvarjeno novo sporočilo (#%{display_id})'
+      conversation_mention: 'Omenjeni ste bili v pogovoru (#%{display_id})'
+      sla_missed_first_response: 'Prvi odgovor cilja SLA za pogovor (#%{display_id}) ni bil izpolnjen'
+      sla_missed_next_response: 'Naslednji odgovor cilja SLA za pogovor (#%{display_id}) ni bil izpolnjen'
+      sla_missed_resolution: 'Ciljna resolucija SLA za pogovor (#%{display_id}) ni bila dosežena'
+    attachment: 'Priponka'
+    no_content: 'Ni vsebine'
+  conversations:
+    captain:
+      handoff: 'Transferring to another agent for further assistance.'
+    messages:
+      instagram_story_content: '%{story_sender} vas je omenil v zgodbi: '
+      instagram_deleted_story_content: Ta zgodba ni več na voljo.
+      deleted: To sporočilo je bilo izbrisano
+      delivery_status:
+        error_code: 'Koda napake: %{error_code}'
+    activity:
+      captain:
+        resolved: 'Conversation was marked resolved by %{user_name} due to inactivity'
+        open: 'Conversation was marked open by %{user_name}'
+      status:
+        resolved: '%{user_name} je pogovor označil za rešenega'
+        contact_resolved: 'Pogovor je razrešil %{contact_name}'
+        open: '%{user_name} je znova odprl pogovor'
+        pending: '%{user_name} je pogovor označil kot čakajočega'
+        snoozed: '%{user_name} je preložil pogovor'
+        auto_resolved_days: 'Sistem je označil pogovor kot razrešen zaradi %{count} dni nedejavnosti'
+        auto_resolved_hours: 'Conversation was marked resolved by system due to %{count} hours of inactivity'
+        auto_resolved_minutes: 'Conversation was marked resolved by system due to %{count} minutes of inactivity'
+        system_auto_open: Sistem je znova odprl pogovor zaradi novega dohodnega sporočila.
+      priority:
+        added: '%{user_name} je nastavil prednost na %{new_priority}'
+        updated: '%{user_name} je spremenil prednost iz %{old_priority} v %{new_priority}'
+        removed: '%{user_name} je odstranil prednost'
+      assignee:
+        self_assigned: '%{user_name} si je ta pogovor dodelil sebi'
+        assigned: 'Dodeljeno %{user_name} s strani %{assignee_name}'
+        removed: '%{user_name} je preklical dodelitev pogovora'
+      team:
+        assigned: 'Dodeljeno %{team_name} s strani %{user_name}'
+        assigned_with_assignee: 'Dodeljeno%{assignee_name} preko %{team_name} s strani %{user_name}'
+        removed: 'Dodelitev uporabniku %{user_name} preklicana s strani %{team_name}'
+      labels:
+        added: '%{user_name} dodal %{labels}'
+        removed: '%{user_name} odstranil %{labels}'
+      sla:
+        added: '%{user_name} je dodal politiko SLA %{sla_name}'
+        removed: '%{user_name} je odstranil politiko SLA %{sla_name}'
+      muted: '%{user_name} je utišal pogovor'
+      unmuted: '%{user_name} je vklopil sporočila pogovora'
+      auto_resolution_message: 'Resolving the conversation as it has been inactive for a while. Please start a new conversation if you need further assistance.'
+    templates:
+      greeting_message_body: '%{account_name} običajno odgovori v nekaj urah.'
+      ways_to_reach_you_message_body: 'Omogočite ekipi, da stopi v stik z vami.'
+      email_input_box_message_body: 'Prejmite obvestilo po e-pošti'
+      csat_input_message_body: 'Ocenite pogovor'
+    reply:
+      email:
+        header:
+          from_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <reply+%{reply_email}>'
+          friendly_name: '%{sender_name} iz %{business_name} <%{from_email}>'
+          professional_name: '%{business_name} <%{from_email}>'
+      channel_email:
+        header:
+          reply_with_name: '%{assignee_name} iz %{inbox_name} <%{from_email}>'
+          reply_with_inbox_name: '%{inbox_name} <%{from_email}>'
+      email_subject: 'Nova sporočila v tem pogovoru'
+      transcript_subject: 'Prepis pogovora'
+    survey:
+      response: 'Ocenite ta pogovor, %{link}'
+  contacts:
+    online:
+      delete: '%{contact_name} je na voljo, poskusite znova pozneje'
+  integration_apps:
+    dashboard_apps:
+      name: 'Aplikacije nadzorne plošče'
+      description: 'Aplikacije nadzorne plošče vam omogočajo, da ustvarite in vdelate aplikacije, ki prikazujejo uporabniške informacije, naročila ali zgodovino plačil, kar zagotavlja več konteksta vašim agentom za podporo strankam.'
+    dyte:
+      name: 'Dyte'
+      description: 'Dyte je rešitev, ki integrira avdio in video funkcije v vašo aplikacijo. S to integracijo lahko vaši agenti začnejo video/glasovne klice z vašimi strankami neposredno iz Chatwoota.'
+      meeting_name: '%{agent_name} je začel sestanek'
+    slack:
+      name: 'Slack'
+      description: "Integrirajte Chatwoot s Slackom, da bo vaša ekipa sinhronizirana. Ta integracija vam omogoča prejemanje obvestil o novih pogovorih in odgovarjanje nanje neposredno v Slackovem vmesniku."
+    webhooks:
+      name: 'Webhooks'
+      description: 'Dogodki Webhook zagotavljajo posodobitve v realnem času o dejavnostih v vašem računu Chatwoot. Naročite se lahko na želene dogodke in Chatwoot vam bo poslal povratne klice HTTP s posodobitvami.'
+    dialogflow:
+      name: 'Dialogflow'
+      description: 'Ustvarite chatbote z Dialogflowom in jih preprosto integrirajte v svoj nabiralnik. Ti boti lahko obravnavajo začetne poizvedbe, preden jih prenesejo agentu za pomoč uporabnikom.'
+    google_translate:
+      name: 'Google Translate'
+      description: "Integrirajte Google Translate, da agentom pomagate pri preprostem prevajanju sporočil strank. Ta integracija samodejno zazna jezik in ga pretvori v prednostni jezik agenta ali skrbnika."
+    openai:
+      name: 'OpenAI'
+      description: 'Izkoristite moč velikih jezikovnih modelov OpenAI s funkcijami, kot so predlogi odgovorov, povzemanje, preoblikovanje sporočil, preverjanje črkovanja in klasifikacija oznak.'
+    linear:
+      name: 'Linear'
+      description: 'Ustvarite issue v Linearju neposredno iz pogovornega okna. Druga možnost je, da povežete obstoječe Linear issue za bolj poenostavljen in učinkovit postopek sledenja težavam.'
+    shopify:
+      name: 'Shopify'
+      description: 'Connect your Shopify store to access order details, customer information, and product data directly within your conversations and helps your support team provide faster, more contextual assistance to your customers.'
+    leadsquared:
+      name: 'LeadSquared'
+      short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
+      description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
+  captain:
+    copilot_error: 'Please connect an assistant to this inbox to use Copilot'
+    copilot_limit: 'You are out of Copilot credits. You can buy more credits from the billing section.'
+  public_portal:
+    search:
+      search_placeholder: Iskanje članka po naslovu ali telesu ...
+      empty_placeholder: Ni rezultatov.
+      loading_placeholder: Iskanje ...
+      results_title: Rezultati iskanja
+    toc_header: 'Na tej strani'
+    hero:
+      sub_title: Poiščite članke tukaj ali prebrskajte spodnje kategorije.
+    common:
+      home: Domov
+      last_updated_on: Nazadnje posodobljeno %{last_updated_on}
+      view_all_articles: Prikaži vse
+      article: članek
+      articles: članki
+      author: avtor
+      authors: avtorji
+      other: drugo
+      others: ostali
+      by: Od
+      no_articles: Tukaj ni člankov
+    footer:
+      made_with: Narejeno z
+    header:
+      go_to_homepage: Spletna stran
+      appearance:
+        system: Sistem
+        light: Svetlo
+        dark: Temno
+      featured_articles: Predstavljeni članki
+      uncategorized: Nekategorizirano
+    404:
+      title: Stran ni najdena
+      description: Nismo mogli najti strani, ki ste jo iskali.
+      back_to_home: Pojdite na domačo stran
+  slack_unfurl:
+    fields:
+      name: Ime
+      email: E-pošta
+      phone_number: Telefon
+      company_name: Podjetje
+      inbox_name: Nabiralnik
+      inbox_type: Tip nabiralnika
+    button: Odpri pogovor
+  time_units:
+    days:
+      one: '%{count} dan'
+      two: '%{count} dni'
+      few: '%{count} dni'
+      other: '%{count} dni'
+    hours:
+      one: '%{count} ura'
+      two: '%{count} uri'
+      few: '%{count} ure'
+      other: '%{count} ur'
+    minutes:
+      one: '%{count} minuta'
+      two: '%{count} minuti'
+      few: '%{count} minute'
+      other: '%{count} minut'
+    seconds:
+      one: '%{count} sekunda'
+      two: '%{count} sekundi'
+      few: '%{count} sekunde'
+      other: '%{count} sekund'
+  automation:
+    system_name: 'Automation System'
+  crm:
+    no_message: 'No messages in conversation'
+    attachment: '[Attachment: %{type}]'
+    no_content: '[Ni vsebine]'
+    created_activity: |
+      New conversation started on %{brand_name}
+
+      Channel: %{channel_info}
+      Created: %{formatted_creation_time}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+    transcript_activity: |
+      Conversation Transcript from %{brand_name}
+
+      Channel: %{channel_info}
+      Conversation ID: %{display_id}
+      View in %{brand_name}: %{url}
+
+      Transcript:
+      %{format_messages}

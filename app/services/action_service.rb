@@ -3,6 +3,7 @@ class ActionService
 
   def initialize(conversation)
     @conversation = conversation.reload
+    @account = @conversation.account
   end
 
   def mute_conversation(_params)
@@ -32,6 +33,8 @@ class ActionService
   end
 
   def assign_agent(agent_ids = [])
+    return @conversation.update!(assignee_id: nil) if agent_ids[0] == 'nil'
+
     return unless agent_belongs_to_inbox?(agent_ids)
 
     @agent = @account.users.find_by(id: agent_ids)
@@ -47,8 +50,14 @@ class ActionService
   end
 
   def assign_team(team_ids = [])
-    return unassign_team if team_ids[0].zero?
-    return unless team_belongs_to_account?(team_ids)
+    # FIXME: The explicit checks for zero or nil (string) is bad. Move
+    # this to a separate unassign action.
+    should_unassign = team_ids.blank? || %w[nil 0].include?(team_ids[0].to_s)
+    return @conversation.update!(team_id: nil) if should_unassign
+
+    # check if team belongs to account only if team_id is present
+    # if team_id is nil, then it means that the team is being unassigned
+    return unless !team_ids[0].nil? && team_belongs_to_account?(team_ids)
 
     @conversation.update!(team_id: team_ids[0])
   end
@@ -85,3 +94,5 @@ class ActionService
     @conversation.additional_attributes['type'] == 'tweet'
   end
 end
+
+ActionService.include_mod_with('ActionService')

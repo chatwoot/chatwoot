@@ -1,11 +1,12 @@
 # pre-build stage
-FROM ruby:3.2.2-alpine3.18 AS pre-builder
+FROM ruby:3.3.3-alpine3.19 AS pre-builder
 
 # ARG default to production settings
 # For development docker-compose file overrides ARGS
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
-ENV BUNDLER_VERSION=2.1.2
+ENV BUNDLER_VERSION=2.5.13
+RUN gem install bundler -v "$BUNDLER_VERSION"
 
 ARG RAILS_SERVE_STATIC_FILES=true
 ENV RAILS_SERVE_STATIC_FILES ${RAILS_SERVE_STATIC_FILES}
@@ -19,16 +20,23 @@ ENV NODE_OPTIONS ${NODE_OPTIONS}
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
+    curl \    
     openssl \
     tar \
     build-base \
+    ruby-dev \
     tzdata \
     postgresql-dev \
     postgresql-client \
     nodejs-current \
     yarn \
+    npm \
     git \
+    vips \
+    imagemagick \
   && mkdir -p /var/app \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm --version \
   && gem install bundler
 
 COPY Gemfile Gemfile.lock ./tmp/
@@ -41,14 +49,14 @@ WORKDIR /tmp
 RUN apk update && apk add --no-cache build-base musl ruby-full ruby-dev gcc make musl-dev openssl openssl-dev g++ linux-headers xz vips
 RUN bundle config set --local force_ruby_platform true
 
+# Verify connectivity with rubygems
+RUN curl -I https://rubygems.org
+
 # Do not install development or test gems in production
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  bundle config set without 'development test'; bundle install -j 4 -r 3; \
-  else bundle install -j 4 -r 3; \
+ bundle install -j 4 -r 3 --verbose; \
+ else bundle install -j 4 -r 3 --verbose; \
   fi
-
-COPY package.json yarn.lock ./
-RUN yarn install
 
 ENV app /app
 RUN mkdir $app
@@ -61,7 +69,8 @@ RUN mkdir -p $app/log
 
 # generate production assets if production environment
 RUN if [ "$RAILS_ENV" = "production" ]; then \
-  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled bundle exec rake assets:precompile \
+  SECRET_KEY_BASE=precompile_placeholder RAILS_LOG_TO_STDOUT=enabled \
+  bundle exec rake assets:precompile --trace \
   && rm -rf spec node_modules tmp/cache; \
   fi
 
@@ -69,18 +78,23 @@ RUN if [ "$RAILS_ENV" = "production" ]; then \
 RUN git rev-parse HEAD > /app/.git_sha
 
 # Remove unnecessary files
-RUN rm -rf /gems/ruby/3.2.0/cache/*.gem \
-  && find /gems/ruby/3.2.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
+RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
+  && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.2.2-alpine3.18
+FROM ruby:3.3.3-alpine3.19
 
+ARG NODE_VERSION="23.7.0"
+ARG PNPM_VERSION="10.2.0"
+ENV NODE_VERSION=${NODE_VERSION}
+ENV PNPM_VERSION=${PNPM_VERSION}
 
 ARG BUNDLE_WITHOUT="development:test"
 ENV BUNDLE_WITHOUT ${BUNDLE_WITHOUT}
-ENV BUNDLER_VERSION=2.1.2
+ENV BUNDLER_VERSION=2.5.13
+RUN gem install bundler -v "$BUNDLER_VERSION"
 
 ARG EXECJS_RUNTIME="Disabled"
 ENV EXECJS_RUNTIME ${EXECJS_RUNTIME}
@@ -96,18 +110,37 @@ ENV RAILS_ENV ${RAILS_ENV}
 ENV BUNDLE_PATH="/gems"
 
 RUN apk update && apk add --no-cache \
-  build-base \
+  curl \    
     openssl \
+    tar \
+    build-base \
+    ruby-dev \
     tzdata \
+    postgresql-dev \
     postgresql-client \
-    imagemagick \
+    nodejs-current \
+    yarn \
+    npm \
     git \
     vips \
+    imagemagick \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm --version \
   && gem install bundler
 
+COPY --from=node /usr/local/bin/node /usr/local/bin/
+COPY --from=node /usr/local/lib/node_modules /usr/local/lib/node_modules
+
 RUN if [ "$RAILS_ENV" != "production" ]; then \
-  apk add --no-cache nodejs yarn; \
+  apk add --no-cache curl \
+  && ln -s /usr/local/lib/node_modules/npm/bin/npm-cli.js /usr/local/bin/npm \
+  && ln -s /usr/local/lib/node_modules/npm/bin/npx-cli.js /usr/local/bin/npx \
+  && npm install -g pnpm@${PNPM_VERSION} \
+  && pnpm --version; \
   fi
+
+COPY package.json pnpm-lock.yaml ./
+RUN pnpm i
 
 COPY --from=pre-builder /gems/ /gems/
 COPY --from=pre-builder /app /app

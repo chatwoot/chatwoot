@@ -7,8 +7,6 @@ module MessageFormatHelper
   end
 
   def render_message_content(message_content)
-    # rubocop:disable Rails/OutputSafety
-    CommonMarker.render_html(message_content).html_safe
-    # rubocop:enable Rails/OutputSafety
+    ChatwootMarkdownRenderer.new(message_content).render_message
   end
 end

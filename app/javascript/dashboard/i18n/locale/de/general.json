@@ -1,0 +1,9 @@
+{
+  "GENERAL": {
+    "SHOWING_RESULTS": "{firstIndex}-{lastIndex} von {totalCount} Elementen werden angezeigt",
+    "PHONE_INPUT": {
+      "PLACEHOLDER": "Suchen",
+      "EMPTY_STATE": "Keine Ergebnisse gefunden"
+    }
+  }
+}
