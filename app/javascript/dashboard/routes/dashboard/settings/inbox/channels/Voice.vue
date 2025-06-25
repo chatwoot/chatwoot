@@ -1,23 +1,20 @@
 <script setup>
 import { reactive, computed } from 'vue';
-import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
 import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
-import { useI18n } from 'vue-i18n';
+import { isPhoneE164 } from 'shared/helpers/Validators';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
 
 import PageHeader from '../../SettingsSubPageHeader.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const { t } = useI18n();
 const store = useStore();
 const router = useRouter();
-
-const validPhoneNumber = value => {
-  if (!value) return true;
-  return /^\+[1-9]\d{1,14}$/.test(value);
-};
 
 const state = reactive({
   phoneNumber: '',
@@ -28,8 +25,10 @@ const state = reactive({
   twimlAppSid: '',
 });
 
+const uiFlags = useMapGetter('inboxes/getUIFlags');
+
 const validationRules = {
-  phoneNumber: { required, validPhoneNumber },
+  phoneNumber: { required, isPhoneE164 },
   accountSid: { required },
   authToken: { required },
   apiKeySid: { required },
@@ -38,7 +37,6 @@ const validationRules = {
 };
 
 const v$ = useVuelidate(validationRules, state);
-const uiFlags = computed(() => store.getters['inboxes/getUIFlags']);
 const isSubmitDisabled = computed(() => v$.value.$invalid);
 
 const formErrors = computed(() => ({
@@ -105,118 +103,79 @@ async function createChannel() {
     class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
   >
     <PageHeader
-      :header-title="$t('INBOX_MGMT.ADD.VOICE.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.VOICE.DESC')"
+      :header-title="t('INBOX_MGMT.ADD.VOICE.TITLE')"
+      :header-content="t('INBOX_MGMT.ADD.VOICE.DESC')"
     />
 
-    <form class="flex flex-col flex-wrap mx-0" @submit.prevent="createChannel">
+    <form
+      class="flex flex-col gap-4 flex-wrap mx-0"
+      @submit.prevent="createChannel"
+    >
+      <Input
+        v-model="state.phoneNumber"
+        :label="t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
+        :message="formErrors.phoneNumber"
+        :message-type="formErrors.phoneNumber ? 'error' : 'info'"
+        @blur="v$.phoneNumber?.$touch"
+      />
+
+      <Input
+        v-model="state.accountSid"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
+        :message="formErrors.accountSid"
+        :message-type="formErrors.accountSid ? 'error' : 'info'"
+        @blur="v$.accountSid?.$touch"
+      />
+
+      <Input
+        v-model="state.authToken"
+        type="password"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+        :message="formErrors.authToken"
+        :message-type="formErrors.authToken ? 'error' : 'info'"
+        @blur="v$.authToken?.$touch"
+      />
+
+      <Input
+        v-model="state.apiKeySid"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')"
+        :message="formErrors.apiKeySid"
+        :message-type="formErrors.apiKeySid ? 'error' : 'info'"
+        @blur="v$.apiKeySid?.$touch"
+      />
+
+      <Input
+        v-model="state.apiKeySecret"
+        type="password"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL')"
+        :placeholder="
+          t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER')
+        "
+        :message="formErrors.apiKeySecret"
+        :message-type="formErrors.apiKeySecret ? 'error' : 'info'"
+        @blur="v$.apiKeySecret?.$touch"
+      />
+
+      <Input
+        v-model="state.twimlAppSid"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.LABEL')"
+        :placeholder="
+          t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.PLACEHOLDER')
+        "
+        :message="formErrors.twimlAppSid"
+        :message-type="formErrors.twimlAppSid ? 'error' : 'info'"
+        @blur="v$.twimlAppSid?.$touch"
+      />
+
       <div>
-        <div>
-          <label :class="{ error: !!formErrors.phoneNumber }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL') }}
-            <input
-              v-model.trim="state.phoneNumber"
-              type="text"
-              :placeholder="$t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
-              @blur="v$.value.phoneNumber?.$touch"
-            />
-            <span v-if="formErrors.phoneNumber" class="message">
-              {{ formErrors.phoneNumber }}
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <label :class="{ error: !!formErrors.accountSid }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL') }}
-            <input
-              v-model.trim="state.accountSid"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')
-              "
-              @blur="v$.value.accountSid?.$touch"
-            />
-            <span v-if="formErrors.accountSid" class="message">
-              {{ formErrors.accountSid }}
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <label :class="{ error: !!formErrors.authToken }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL') }}
-            <input
-              v-model.trim="state.authToken"
-              type="password"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')
-              "
-              @blur="v$.value.authToken?.$touch"
-            />
-            <span v-if="formErrors.authToken" class="message">
-              {{ formErrors.authToken }}
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <label :class="{ error: !!formErrors.apiKeySid }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL') }}
-            <input
-              v-model.trim="state.apiKeySid"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')
-              "
-              @blur="v$.value.apiKeySid?.$touch"
-            />
-            <span v-if="formErrors.apiKeySid" class="message">
-              {{ formErrors.apiKeySid }}
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <label :class="{ error: !!formErrors.apiKeySecret }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL') }}
-            <input
-              v-model.trim="state.apiKeySecret"
-              type="password"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER')
-              "
-              @blur="v$.value.apiKeySecret?.$touch"
-            />
-            <span v-if="formErrors.apiKeySecret" class="message">
-              {{ formErrors.apiKeySecret }}
-            </span>
-          </label>
-        </div>
-
-        <div>
-          <label :class="{ error: !!formErrors.twimlAppSid }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.LABEL') }}
-            <input
-              v-model.trim="state.twimlAppSid"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.PLACEHOLDER')
-              "
-              @blur="v$.value.twimlAppSid?.$touch"
-            />
-            <span v-if="formErrors.twimlAppSid" class="message">
-              {{ formErrors.twimlAppSid }}
-            </span>
-          </label>
-        </div>
-      </div>
-
-      <div class="mt-4">
         <NextButton
           :is-loading="uiFlags.isCreating"
           :is-disabled="isSubmitDisabled"
-          :label="$t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
+          :label="t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
           type="submit"
           color="blue"
         />
