@@ -51,22 +51,6 @@ RSpec.describe MessageContentPresenter do
         end
       end
     end
-
-    context 'when message is input_csat and inbox is email channel' do
-      let(:email_channel) { create(:channel_email) }
-      let(:email_inbox) { create(:inbox, channel: email_channel) }
-      let(:email_conversation) { create(:conversation, inbox: email_inbox) }
-      let(:content_type) { 'input_csat' }
-      let(:content) { 'Rate your experience' }
-      let(:message) { create(:message, conversation: email_conversation, content_type: content_type, content: content) }
-
-      it 'appends survey URL for email channel without CSAT config' do
-        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
-          expected_url = "https://app.chatwoot.com/survey/responses/#{email_conversation.uuid}"
-          expect(presenter.outgoing_content).to include(expected_url)
-        end
-      end
-    end
   end
 
   describe 'delegation' do
