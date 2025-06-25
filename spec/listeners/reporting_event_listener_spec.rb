@@ -172,16 +172,15 @@ describe ReportingEventListener do
         end
       end
 
-      context 'when waiting_since is nil (bug scenario)' do
-        it 'creates reply time event with zero value' do
+      context 'when waiting_since is nil' do
+        it 'does not creates reply time events' do
           agent_message = create_agent_message(resolved_conversation)
 
           event = create_reply_event(agent_message, nil)
           listener.reply_created(event)
 
           events = account.reporting_events.where(name: 'reply_time', conversation_id: resolved_conversation.id)
-          expect(events.length).to be 1
-          expect(events.first.value).to eq(0)
+          expect(events.length).to be 0
         end
       end
     end
