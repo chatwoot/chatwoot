@@ -271,9 +271,6 @@
       "VOICE": {
         "TITLE": "Voice Channel",
         "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
-        "PROVIDER": {
-          "LABEL": "Provider"
-        },
         "PHONE_NUMBER": {
           "LABEL": "Phone Number",
           "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
