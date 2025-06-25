@@ -128,12 +128,12 @@ const onAgentSelect = index => {
 
 <template>
   <div>
-    <div
+    <ul
       v-if="items.length"
       ref="tagAgentsRef"
       class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
     >
-      <div
+      <li
         v-for="item in items"
         :id="
           item.type === 'header'
@@ -187,7 +187,7 @@ const onAgentSelect = index => {
             </div>
           </div>
         </div>
-      </div>
-    </div>
+      </li>
+    </ul>
   </div>
 </template>
