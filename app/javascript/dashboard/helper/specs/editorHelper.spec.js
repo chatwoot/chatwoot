@@ -526,7 +526,7 @@ describe('getContentNode', () => {
       expect(
         mockEditorView.state.schema.nodes.mention.create
       ).toHaveBeenCalledWith({
-        userId: '456',
+        userId: 'team:456',
         userFullName: 'Support Team',
       });
 
