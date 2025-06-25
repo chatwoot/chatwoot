@@ -1,278 +1,182 @@
-<script>
+<script setup>
+import { reactive, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { useRouter } from 'vue-router';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { useAlert } from 'dashboard/composables';
-import { mapGetters } from 'vuex';
-import router from '../../../../index';
+import { isPhoneE164 } from 'shared/helpers/Validators';
+import { useStore, useMapGetter } from 'dashboard/composables/store';
+
 import PageHeader from '../../SettingsSubPageHeader.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-// Using a regex validator for phone numbers
-const validPhoneNumber = value => {
-  if (!value) return true;
-  return /^\+[1-9]\d{1,14}$/.test(value);
+
+const { t } = useI18n();
+const store = useStore();
+const router = useRouter();
+
+const state = reactive({
+  phoneNumber: '',
+  accountSid: '',
+  authToken: '',
+  apiKeySid: '',
+  apiKeySecret: '',
+  twimlAppSid: '',
+});
+
+const uiFlags = useMapGetter('inboxes/getUIFlags');
+
+const validationRules = {
+  phoneNumber: { required, isPhoneE164 },
+  accountSid: { required },
+  authToken: { required },
+  apiKeySid: { required },
+  apiKeySecret: { required },
+  twimlAppSid: { required },
 };
 
-export default {
-  components: {
-    PageHeader,
-    NextButton,
-  },
-  setup() {
-    return { v$: useVuelidate() };
-  },
-  data() {
-    return {
-      provider: 'twilio',
-      phoneNumber: '',
-      accountSid: '',
-      authToken: '',
-      apiKeySid: '',
-      apiKeySecret: '',
-      twimlAppSid: '',
-      providerOptions: [
-        { value: 'twilio', label: 'Twilio' },
-        // Add more providers as needed
-        // { value: 'other_provider', label: 'Other Provider' },
-      ],
-    };
-  },
-  computed: {
-    ...mapGetters({
-      uiFlags: 'inboxes/getUIFlags',
-    }),
-  },
-  validations() {
-    return {
-      phoneNumber: {
-        required,
-        validPhoneNumber,
-      },
-      accountSid: {
-        required: this.provider === 'twilio',
-      },
-      authToken: {
-        required: this.provider === 'twilio',
-      },
-      apiKeySid: {
-        required: this.provider === 'twilio',
-      },
-      apiKeySecret: {
-        required: this.provider === 'twilio',
-      },
-      // TwiML App SID is not required, but if provided it must follow Twilio's format
-      twimlAppSid: {
-        // Optional - will not be required
-      },
-    };
-  },
-  methods: {
-    onProviderChange() {
-      // Reset fields when provider changes
-      this.v$.$reset();
-    },
-    getProviderConfig() {
-      if (this.provider === 'twilio') {
-        const config = {
-          account_sid: this.accountSid,
-          auth_token: this.authToken,
-          api_key_sid: this.apiKeySid,
-          api_key_secret: this.apiKeySecret,
-        };
-        
-        // Add the TwiML App SID if provided
-        if (this.twimlAppSid) {
-          config.outgoing_application_sid = this.twimlAppSid;
-        }
-        
-        return config;
-      }
-      // Add handler for other providers here
-      return {};
-    },
-    async createChannel() {
-      this.v$.$touch();
-      if (this.v$.$invalid) {
-        return;
-      }
+const v$ = useVuelidate(validationRules, state);
+const isSubmitDisabled = computed(() => v$.value.$invalid);
 
-      try {
-        const providerConfig = this.getProviderConfig();
+const formErrors = computed(() => ({
+  phoneNumber: v$.value.phoneNumber?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.ERROR')
+    : '',
+  accountSid: v$.value.accountSid?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.REQUIRED')
+    : '',
+  authToken: v$.value.authToken?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.REQUIRED')
+    : '',
+  apiKeySid: v$.value.apiKeySid?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.REQUIRED')
+    : '',
+  apiKeySecret: v$.value.apiKeySecret?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.REQUIRED')
+    : '',
+  twimlAppSid: v$.value.twimlAppSid?.$error
+    ? t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.REQUIRED')
+    : '',
+}));
 
-        const channel = await this.$store.dispatch(
-          'inboxes/createVoiceChannel',
-          {
-            voice: {
-              name: `Voice (${this.phoneNumber})`,
-              phone_number: this.phoneNumber,
-              provider: this.provider,
-              provider_config: JSON.stringify(providerConfig),
-            },
-          }
-        );
+function getProviderConfig() {
+  const config = {
+    account_sid: state.accountSid,
+    auth_token: state.authToken,
+    api_key_sid: state.apiKeySid,
+    api_key_secret: state.apiKeySecret,
+  };
+  if (state.twimlAppSid) config.outgoing_application_sid = state.twimlAppSid;
+  return config;
+}
 
-        router.replace({
-          name: 'settings_inboxes_add_agents',
-          params: {
-            page: 'new',
-            inbox_id: channel.id,
-          },
-        });
-      } catch (error) {
-        useAlert(
-          error.response?.data?.message ||
-            this.$t('INBOX_MGMT.ADD.VOICE.API.ERROR_MESSAGE')
-        );
-      }
-    },
-  },
-};
+async function createChannel() {
+  const isFormValid = await v$.value.$validate();
+  if (!isFormValid) return;
+
+  try {
+    const channel = await store.dispatch('inboxes/createVoiceChannel', {
+      name: `Voice (${state.phoneNumber})`,
+      voice: {
+        phone_number: state.phoneNumber,
+        provider: 'twilio',
+        provider_config: getProviderConfig(),
+      },
+    });
+
+    router.replace({
+      name: 'settings_inboxes_add_agents',
+      params: { page: 'new', inbox_id: channel.id },
+    });
+  } catch (error) {
+    useAlert(
+      error.response?.data?.message ||
+        t('INBOX_MGMT.ADD.VOICE.API.ERROR_MESSAGE')
+    );
+  }
+}
 </script>
 
 <template>
-  <div>
+  <div
+    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
+  >
     <PageHeader
-      :header-title="$t('INBOX_MGMT.ADD.VOICE.TITLE')"
-      :header-content="$t('INBOX_MGMT.ADD.VOICE.DESC')"
+      :header-title="t('INBOX_MGMT.ADD.VOICE.TITLE')"
+      :header-content="t('INBOX_MGMT.ADD.VOICE.DESC')"
     />
 
     <form
-      class="flex flex-wrap flex-col gap-4 p-2"
+      class="flex flex-col gap-4 flex-wrap mx-0"
       @submit.prevent="createChannel"
     >
-      <div class="flex-shrink-0 flex-grow-0">
-        <label>
-          {{ $t('INBOX_MGMT.ADD.VOICE.PROVIDER.LABEL') }}
-          <select
-            v-model="provider"
-            class="p-2 bg-white border border-n-blue-100 rounded"
-            @change="onProviderChange"
-          >
-            <option
-              v-for="option in providerOptions"
-              :key="option.value"
-              :value="option.value"
-            >
-              {{ option.label }}
-            </option>
-          </select>
-        </label>
-      </div>
+      <Input
+        v-model="state.phoneNumber"
+        :label="t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
+        :message="formErrors.phoneNumber"
+        :message-type="formErrors.phoneNumber ? 'error' : 'info'"
+        @blur="v$.phoneNumber?.$touch"
+      />
 
-      <!-- Twilio Provider Config -->
-      <div v-if="provider === 'twilio'" class="flex-shrink-0 flex-grow-0">
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.phoneNumber.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.LABEL') }}
-            <input
-              v-model.trim="phoneNumber"
-              type="text"
-              :placeholder="$t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.PLACEHOLDER')"
-              @blur="v$.phoneNumber.$touch"
-            />
-            <span v-if="v$.phoneNumber.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.PHONE_NUMBER.ERROR') }}
-            </span>
-          </label>
-        </div>
+      <Input
+        v-model="state.accountSid"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')"
+        :message="formErrors.accountSid"
+        :message-type="formErrors.accountSid ? 'error' : 'info'"
+        @blur="v$.accountSid?.$touch"
+      />
 
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.accountSid.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.LABEL') }}
-            <input
-              v-model.trim="accountSid"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.PLACEHOLDER')
-              "
-              @blur="v$.accountSid.$touch"
-            />
-            <span v-if="v$.accountSid.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.ACCOUNT_SID.REQUIRED') }}
-            </span>
-          </label>
-        </div>
+      <Input
+        v-model="state.authToken"
+        type="password"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')"
+        :message="formErrors.authToken"
+        :message-type="formErrors.authToken ? 'error' : 'info'"
+        @blur="v$.authToken?.$touch"
+      />
 
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.authToken.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.LABEL') }}
-            <input
-              v-model.trim="authToken"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.PLACEHOLDER')
-              "
-              @blur="v$.authToken.$touch"
-            />
-            <span v-if="v$.authToken.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.AUTH_TOKEN.REQUIRED') }}
-            </span>
-          </label>
-        </div>
+      <Input
+        v-model="state.apiKeySid"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL')"
+        :placeholder="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER')"
+        :message="formErrors.apiKeySid"
+        :message-type="formErrors.apiKeySid ? 'error' : 'info'"
+        @blur="v$.apiKeySid?.$touch"
+      />
 
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.apiKeySid.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.LABEL', 'API Key SID') }}
-            <input
-              v-model.trim="apiKeySid"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.PLACEHOLDER', 'Enter your Twilio API Key SID')
-              "
-              @blur="v$.apiKeySid.$touch"
-            />
-            <span v-if="v$.apiKeySid.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.REQUIRED', 'API Key SID is required') }}
-            </span>
-            <span class="help-text">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SID.HELP', 'You can create API keys in the Twilio Console') }}
-            </span>
-          </label>
-        </div>
+      <Input
+        v-model="state.apiKeySecret"
+        type="password"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL')"
+        :placeholder="
+          t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER')
+        "
+        :message="formErrors.apiKeySecret"
+        :message-type="formErrors.apiKeySecret ? 'error' : 'info'"
+        @blur="v$.apiKeySecret?.$touch"
+      />
 
-        <div class="flex-shrink-0 flex-grow-0">
-          <label :class="{ error: v$.apiKeySecret.$error }">
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.LABEL', 'API Key Secret') }}
-            <input
-              v-model.trim="apiKeySecret"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.PLACEHOLDER', 'Enter your Twilio API Key Secret')
-              "
-              @blur="v$.apiKeySecret.$touch"
-            />
-            <span v-if="v$.apiKeySecret.$error" class="message">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.API_KEY_SECRET.REQUIRED', 'API Key Secret is required') }}
-            </span>
-          </label>
-        </div>
-        
-        <div class="flex-shrink-0 flex-grow-0">
-          <label>
-            {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.LABEL', 'TwiML App SID (Recommended)') }}
-            <input
-              v-model.trim="twimlAppSid"
-              type="text"
-              :placeholder="
-                $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.PLACEHOLDER', 'Enter your Twilio TwiML App SID (starts with AP)')
-              "
-            />
-            <span class="help-text">
-              {{ $t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.HELP', 'Required for browser-based calling. Create a TwiML App in the Twilio Console with Voice URLs pointing to your Chatwoot instance.') }}
-            </span>
-          </label>
-        </div>
-      </div>
+      <Input
+        v-model="state.twimlAppSid"
+        :label="t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.LABEL')"
+        :placeholder="
+          t('INBOX_MGMT.ADD.VOICE.TWILIO.TWIML_APP_SID.PLACEHOLDER')
+        "
+        :message="formErrors.twimlAppSid"
+        :message-type="formErrors.twimlAppSid ? 'error' : 'info'"
+        @blur="v$.twimlAppSid?.$touch"
+      />
 
-      <!-- Add other provider configs here -->
-
-      <div class="mt-4">
+      <div>
         <NextButton
           :is-loading="uiFlags.isCreating"
-          :is-disabled="v$.$invalid"
-          :label="$t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
+          :disabled="isSubmitDisabled"
+          :label="t('INBOX_MGMT.ADD.VOICE.SUBMIT_BUTTON')"
           type="submit"
-          color="blue"
-          @click="createChannel"
         />
       </div>
     </form>
