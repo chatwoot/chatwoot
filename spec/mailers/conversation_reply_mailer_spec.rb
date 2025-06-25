@@ -154,6 +154,27 @@ RSpec.describe ConversationReplyMailer do
         expect(mail.message_id).to eq message.source_id
       end
 
+      context 'when message is a CSAT survey' do
+        let(:csat_message) do
+          create(:message, conversation: conversation, account: account, message_type: 'template',
+                           content_type: 'input_csat', content: 'How would you rate our support?', sender: agent)
+        end
+        let(:csat_mail) { described_class.email_reply(csat_message).deliver_now }
+
+        before do
+          allow(ENV).to receive(:fetch).and_call_original
+          allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('https://app.chatwoot.com')
+        end
+
+        it 'includes CSAT survey URL in outgoing_content' do
+          expect(csat_mail.decoded).to include "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+        end
+
+        it 'uses outgoing_content for CSAT message body' do
+          expect(csat_mail.decoded).to include csat_message.outgoing_content
+        end
+      end
+
       context 'with email attachments' do
         it 'includes small attachments as email attachments' do
           message_with_attachment = create(:message, conversation: conversation, account: account, message_type: 'outgoing',
