@@ -3,6 +3,7 @@ import Avatar from 'next/avatar/Avatar.vue';
 import { ref, computed, watch, nextTick } from 'vue';
 import { useStoreGetters } from 'dashboard/composables/store';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
+import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   searchKey: {
@@ -13,6 +14,7 @@ const props = defineProps({
 
 const emit = defineEmits(['selectAgent']);
 
+const { t } = useI18n();
 const getters = useStoreGetters();
 const agents = computed(() => getters['agents/getVerifiedAgents'].value);
 const teams = computed(() => getters['teams/getTeams'].value);
@@ -21,42 +23,50 @@ const tagAgentsRef = ref(null);
 const selectedIndex = ref(0);
 
 const items = computed(() => {
-  const agentItems = agents.value.map(agent => ({
-    ...agent,
-    type: 'user',
-    displayName: agent.name,
-    displayInfo: agent.email,
-  }));
+  const searchQuery = props.searchKey?.toLowerCase() || '';
 
-  const teamItems = teams.value.map(team => ({
-    ...team,
-    type: 'team',
-    displayName: team.name,
-    displayInfo: team.description,
-  }));
-
-  let filteredAgents = agentItems;
-  let filteredTeams = teamItems;
-
-  if (props.searchKey) {
-    filteredAgents = agentItems.filter(agent =>
-      agent.displayName.toLowerCase().includes(props.searchKey.toLowerCase())
+  const agentItems = agents.value
+    .map(agent => ({
+      ...agent,
+      type: 'user',
+      displayName: agent.name,
+      displayInfo: agent.email,
+    }))
+    .filter(
+      agent =>
+        !searchQuery || agent.displayName.toLowerCase().includes(searchQuery)
     );
-    filteredTeams = teamItems.filter(team =>
-      team.displayName.toLowerCase().includes(props.searchKey.toLowerCase())
+
+  const teamItems = teams.value
+    .map(team => ({
+      ...team,
+      type: 'team',
+      displayName: team.name,
+      displayInfo: team.description,
+    }))
+    .filter(
+      team =>
+        !searchQuery || team.displayName.toLowerCase().includes(searchQuery)
     );
-  }
 
   const result = [];
 
-  if (filteredAgents.length > 0) {
-    result.push({ type: 'header', title: 'Agents', id: 'agents-header' });
-    result.push(...filteredAgents);
+  if (agentItems.length > 0) {
+    result.push({
+      type: 'header',
+      title: t('CONVERSATION.MENTION.AGENTS'),
+      id: 'agents-header',
+    });
+    result.push(...agentItems);
   }
 
-  if (filteredTeams.length > 0) {
-    result.push({ type: 'header', title: 'Teams', id: 'teams-header' });
-    result.push(...filteredTeams);
+  if (teamItems.length > 0) {
+    result.push({
+      type: 'header',
+      title: t('CONVERSATION.MENTION.TEAMS'),
+      id: 'teams-header',
+    });
+    result.push(...teamItems);
   }
 
   return result;
@@ -82,7 +92,7 @@ const adjustScroll = () => {
       if (selectedElement) {
         selectedElement.scrollIntoView({
           block: 'nearest',
-          behavior: 'smooth',
+          behavior: 'auto',
         });
       }
     }
