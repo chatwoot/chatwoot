@@ -12,7 +12,7 @@ class Whatsapp::IncomingMessageWhatsappCloudService < Whatsapp::IncomingMessageB
     url_response = HTTParty.get(
       inbox.channel.media_url(
         attachment_payload[:id],
-        inbox.channel.whatsapp_channel.provider_config['phone_number_id']
+        inbox.channel.provider_config['phone_number_id']
       ),
       headers: inbox.channel.api_headers
     )
