@@ -7,6 +7,7 @@ export function useChannelIcon(inbox) {
     'Channel::Email': 'i-ri-mail-fill',
     'Channel::FacebookPage': 'i-ri-messenger-fill',
     'Channel::Shopee': 'i-ri-shopping-bag-fill',
+    'Channel::Zalo': 'i-ri-chat-smile-2-line',
     'Channel::Line': 'i-ri-line-fill',
     'Channel::Sms': 'i-ri-chat-1-fill',
     'Channel::Telegram': 'i-ri-telegram-fill',

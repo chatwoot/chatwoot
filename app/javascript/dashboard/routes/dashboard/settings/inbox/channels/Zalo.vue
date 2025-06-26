@@ -36,7 +36,7 @@ export default {
         {{ errorStateMessage }}
       </p>
       <a
-        href="/zalo/callback/new?account_id={{accountId}}"
+        :href="`/zalo/callback/new?account_id=${accountId}`"
         class="button icon-button rounded-md flex justify-center items-center gap-2 bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100 hover:bg-slate-100 dark:hover:bg-slate-800 border border-solid border-slate-200 dark:border-slate-700 hover:border-woot-500 dark:hover:border-woot-500 transition-all duration-200 ease-in px-4 py-2"
       >
         <img

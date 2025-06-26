@@ -3,14 +3,18 @@
 # Table name: channel_zalos
 #
 #  id            :bigint           not null, primary key
-#  access_token  :string           not null
-#  expires_at    :string           not null
+#  access_token  :text             not null
+#  expires_at    :datetime         not null
 #  meta          :jsonb            not null
-#  refresh_token :string           not null
+#  refresh_token :text             not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
 #  account_id    :integer          not null
 #  oa_id         :string           not null
+#
+# Indexes
+#
+#  index_channel_zalos_on_account_id  (account_id)
 #
 class Channel::Zalo < ApplicationRecord
   include Channelable
