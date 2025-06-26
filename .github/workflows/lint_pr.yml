@@ -4,11 +4,11 @@
 name: "Lint PR"
 
 on:
-  # pull_request_target:
-  #   types:
-  #     - opened
-  #     - edited
-  #     - synchronize
+  pull_request_target:
+    types:
+      - opened
+      - edited
+      - synchronize
   workflow_dispatch:
 
 permissions:
