@@ -18,10 +18,13 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-const runSDK = ({ baseUrl, websiteToken }) => {
+const runSDK = ({ baseUrl, websiteToken, parentShopify = {} }) => {
   if (window.$chatwoot) {
     return;
   }
+
+  // eslint-disable-next-line no-console
+  console.log('parentShopify', parentShopify);
 
   if (window.Turbo) {
     // if this is a Rails Turbo app
@@ -200,6 +203,7 @@ const runSDK = ({ baseUrl, websiteToken }) => {
   IFrameHelper.createFrame({
     baseUrl,
     websiteToken,
+    parentShopify,
   });
 };
 

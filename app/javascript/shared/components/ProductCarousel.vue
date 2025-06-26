@@ -377,33 +377,17 @@ export default {
       this.canScrollRight =
         carousel.scrollLeft < carousel.scrollWidth - carousel.offsetWidth;
     },
-    addCustomCartAttributeToShopifyCart() {
+    async addCustomCartAttributeToShopifyCart() {
       let uuid = this.currentUser.source_id;
       try {
         // eslint-disable-next-line no-console
-        console.log('ShopifyData', {
-          parentWindow: window.parent,
-          parentShopify: window.parent?.Shopify,
-          routes: window.parent?.Shopify?.routes,
-          root: window.parent?.Shopify?.routes?.root,
-        });
-        if (
-          window.parent.Shopify &&
-          window.parent.Shopify.routes &&
-          window.parent.Shopify.routes.root &&
-          uuid
-        ) {
-          fetch(window.parent.Shopify.routes.root + 'cart/update.js', {
-            method: 'POST',
-            headers: {
-              'Content-Type': 'application/json',
-            },
-            body: JSON.stringify({
-              attributes: {
-                bitespeed_live_chat_user: `live_chat_${uuid}`,
-              },
-            }),
-          });
+        console.log('ShopifyData', window.parentShopify);
+        if (window.parentShopify && window.parentShopify.shop && uuid) {
+          const response = await ContactsAPI.addRevenueAttribute(
+            window.parentShopify.shop
+          );
+          // eslint-disable-next-line no-console
+          console.log('response', response);
         }
       } catch (error) {
         // eslint-disable-next-line no-console

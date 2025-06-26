@@ -266,6 +266,11 @@ export default {
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
           this.setCampaignReadData(message.campaignsSnoozedTill);
+          // eslint-disable-next-line no-console
+          console.log('messageData', message);
+          if (message?.parentShopify) {
+            window.parentShopify = message.parentShopify;
+          }
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {

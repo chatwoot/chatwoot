@@ -65,7 +65,6 @@
           class="m-0 bg-[#F0F0F0] shadow-[0px_1.25px_0px_rgba(0,0,0,0.05)] p-2 rounded-md ask-question transition-all duration-300"
         >
           <fluent-icon
-            v-if="!loading"
             icon="chevron-right"
             :style="'color: #808080'"
             class="icon-color"
@@ -87,12 +86,10 @@
         </div>
         <button
           class="bg-[#1A1A1A] text-white flex justify-center items-center gap-2 text-xs py-2 px-3 shadow-[0px_1.25px_0px_rgba(0,0,0,0.05)] rounded-md transition-all duration-300 continue-to-chat"
-          :disabled="isUpdating"
           @click.prevent="redirectToChat"
         >
           Continue to Chat
           <fluent-icon
-            v-if="!loading"
             size="14"
             icon="chevron-right"
             :style="'color: white'"
@@ -234,6 +231,11 @@ export default {
         return widgetLocale;
       }
       return defaultLocale;
+    },
+    isSentByBot() {
+      return this.lastMessage?.sender?.name
+        ?.toLowerCase()
+        .includes('bitespeed');
     },
   },
   mounted() {

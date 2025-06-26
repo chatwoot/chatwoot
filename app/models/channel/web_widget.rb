@@ -79,7 +79,8 @@ class Channel::WebWidget < ApplicationRecord
         g.onload=function(){
           window.chatwootSDK.run({
             websiteToken: '#{website_token}',
-            baseUrl: BASE_URL
+            baseUrl: BASE_URL,
+            parentShopify: window?.Shopify || {}
           })
         }
       })(document,\"script\");

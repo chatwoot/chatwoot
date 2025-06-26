@@ -30,6 +30,7 @@ export default {
     tags: {
       type: Array,
       required: true, // A string array of tags is expected
+      default: () => [],
     },
     messageId: {
       type: Number,
