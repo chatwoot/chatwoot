@@ -122,6 +122,7 @@ module Stark
           message_type: message.message_type,
           content: message.content,
           created_at: message.created_at
+          is_follow_up_message: message.content_attributes['follow_up'] || false,
         }
       end
     end
