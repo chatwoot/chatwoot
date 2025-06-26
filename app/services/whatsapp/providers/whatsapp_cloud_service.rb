@@ -82,7 +82,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
         messaging_product: 'whatsapp',
         context: whatsapp_reply_context(message),
         to: phone_number,
-        text: { body: message.content },
+        text: { body: message.outgoing_content },
         type: 'text'
       }.to_json
     )
@@ -96,7 +96,7 @@ class Whatsapp::Providers::WhatsappCloudService < Whatsapp::Providers::BaseServi
     type_content = {
       'link': attachment.download_url
     }
-    type_content['caption'] = message.content unless %w[audio sticker].include?(type)
+    type_content['caption'] = message.outgoing_content unless %w[audio sticker].include?(type)
     type_content['filename'] = attachment.file.filename if type == 'document'
     response = HTTParty.post(
       "#{phone_id_path}/messages",

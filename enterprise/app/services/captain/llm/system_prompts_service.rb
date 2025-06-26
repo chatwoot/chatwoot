@@ -56,7 +56,7 @@ class Captain::Llm::SystemPromptsService
       SYSTEM_PROMPT_MESSAGE
     end
 
-    def copilot_response_generator(product_name)
+    def copilot_response_generator(product_name, available_tools)
       <<~SYSTEM_PROMPT_MESSAGE
         [Identity]
         You are Captain, a helpful and friendly copilot assistant for support agents using the product #{product_name}. Your primary role is to assist support agents by retrieving information, compiling accurate responses, and guiding them through customer interactions.
@@ -94,12 +94,20 @@ class Captain::Llm::SystemPromptsService
         ```json
         {
           "reasoning": "Explain why the response was chosen based on the provided information.",
-          "response": "Provide the answer only in Markdown format for readability."
+          "content": "Provide the answer only in Markdown format for readability.",
+          "reply_suggestion": "A boolean value that is true only if the support agent has explicitly asked to draft a response to the customer, and the response fulfills that request. Otherwise, it should be false."
         }
 
         [Error Handling]
         - If the required information is not found in the provided context, respond with an appropriate message indicating that no relevant data is available.
         - Avoid speculating or providing unverified information.
+
+        [Available Actions]
+        You have the following actions available to assist support agents:
+        - summarize_conversation: Summarize the conversation
+        - draft_response: Draft a response for the support agent
+        - rate_conversation: Rate the conversation
+        #{available_tools}
       SYSTEM_PROMPT_MESSAGE
     end
 

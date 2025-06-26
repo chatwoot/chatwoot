@@ -11,8 +11,6 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import Linear from './linear/index.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
 
@@ -36,12 +34,6 @@ const { isAWebWidgetInbox } = useInbox();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
-const isFeatureEnabledonAccount = computed(
-  () => store.getters['accounts/isFeatureEnabledonAccount']
-);
-const appIntegrations = computed(
-  () => store.getters['integrations/getAppIntegrations']
-);
 
 const chatMetadata = computed(() => props.chat.meta);
 
@@ -92,25 +84,15 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
-
-const isLinearIntegrationEnabled = computed(() =>
-  appIntegrations.value.find(
-    integration => integration.id === 'linear' && !!integration.hooks.length
-  )
-);
-
-const isLinearFeatureEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.LINEAR)
-);
 </script>
 
 <template>
   <div
     ref="conversationHeader"
-    class="flex flex-col items-center justify-center flex-1 w-full min-w-0 xl:flex-row px-3 py-2 border-b bg-n-background border-n-weak h-24 xl:h-12"
+    class="flex flex-col gap-3 items-center justify-between flex-1 w-full min-w-0 xl:flex-row px-3 py-2 border-b bg-n-background border-n-weak h-24 xl:h-12"
   >
     <div
-      class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0"
+      class="flex items-center justify-start w-full xl:w-auto max-w-full min-w-0 xl:flex-1"
     >
       <BackButton
         v-if="showBackButton"
@@ -122,11 +104,12 @@ const isLinearFeatureEnabled = computed(() =>
         :username="currentContact.name"
         :status="currentContact.availability_status"
         size="32px"
+        class="flex-shrink-0"
       />
       <div
-        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2 w-fit"
+        class="flex flex-col items-start min-w-0 ml-2 overflow-hidden rtl:ml-0 rtl:mr-2"
       >
-        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0 w-fit">
+        <div class="flex flex-row items-center max-w-full gap-1 p-0 m-0">
           <span
             class="text-sm font-medium truncate leading-tight text-n-slate-12"
           >
@@ -136,7 +119,7 @@ const isLinearFeatureEnabled = computed(() =>
             v-if="!isHMACVerified"
             v-tooltip="$t('CONVERSATION.UNVERIFIED_SESSION')"
             size="14"
-            class="text-n-amber-10 my-0 mx-0 min-w-[14px]"
+            class="text-n-amber-10 my-0 mx-0 min-w-[14px] flex-shrink-0"
             icon="warning"
           />
         </div>
@@ -152,20 +135,14 @@ const isLinearFeatureEnabled = computed(() =>
       </div>
     </div>
     <div
-      class="flex flex-row items-center justify-start xl:justify-end flex-grow gap-2 w-full xl:w-auto mt-3 header-actions-wrap xl:mt-0"
+      class="flex flex-row items-center justify-start xl:justify-end flex-shrink-0 gap-2 w-full xl:w-auto header-actions-wrap"
     >
       <SLACardLabel
         v-if="hasSlaPolicyId"
         :chat="chat"
         show-extended-info
         :parent-width="width"
-        class="hidden lg:flex"
-      />
-      <Linear
-        v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
-        :conversation-id="currentChat.id"
-        :parent-width="width"
-        class="hidden lg:flex"
+        class="hidden md:flex"
       />
       <MoreActions :conversation-id="currentChat.id" />
     </div>

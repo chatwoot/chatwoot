@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Lös",
       "REOPEN_ACTION": "Återöppna",
       "OPEN_ACTION": "Öppna",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Mer",
       "CLOSE": "Stäng",
       "DETAILS": "detaljer",
@@ -117,6 +118,11 @@
         "FAILED": "Kunde inte ändra prioritet. Försök igen."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Radera"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Markera som väntande",
       "RESOLVED": "Markera som löst",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Tilldela etikett",
       "AGENTS_LOADING": "Laddar agenter...",
       "ASSIGN_TEAM": "Tilldela team",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Label assigned successfully",
     "ASSIGN_LABEL_FAILED": "Label assignment failed",
     "CHANGE_TEAM": "Konversationsteamet har ändrats",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "File exceeds the {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB attachment limit",
     "MESSAGE_ERROR": "Det gick inte att skicka detta meddelande, försök igen senare",
     "SENT_BY": "Skickat av:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Contact Attributes",
       "PREVIOUS_CONVERSATION": "Tidigare konversationer",
       "MACROS": "Macros",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

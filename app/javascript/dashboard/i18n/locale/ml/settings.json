@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "ആക്സസ് ടോക്കൺ",
         "NOTE": "നിങ്ങൾ ഒരു എപിഐ അടിസ്ഥാനമാക്കിയുള്ള സംയോജനം നിർമ്മിക്കുകയാണെങ്കിൽ ഈ ടോക്കൺ ഉപയോഗിക്കാൻ കഴിയും",
-        "COPY": "പകർത്തുക"
+        "COPY": "പകർത്തുക",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "ഓഫ്‌ലൈൻ"
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "നിങ്ങളുടെ ഇമെയിൽ വിലാസം",
@@ -280,6 +286,7 @@
     "REPORTS": "റിപ്പോർട്ടുകൾ",
     "SETTINGS": "ക്രമീകരണങ്ങൾ",
     "CONTACTS": "കോൺ‌ടാക്റ്റുകൾ",
+    "ACTIVE": "സജീവമാണ്",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

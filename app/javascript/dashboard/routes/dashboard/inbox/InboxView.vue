@@ -183,7 +183,6 @@ export default {
     </div>
     <div v-else class="flex flex-col w-full h-full">
       <InboxItemHeader
-        class="flex-1"
         :total-length="totalNotificationCount"
         :current-index="activeNotificationIndex"
         :active-notification="activeNotification"

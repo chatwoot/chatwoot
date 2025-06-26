@@ -78,6 +78,7 @@ export default {
     'markAsRead',
     'assignPriority',
     'updateConversationStatus',
+    'deleteConversation',
   ],
   data() {
     return {
@@ -237,6 +238,10 @@ export default {
       this.$emit('assignPriority', priority, this.chat.id);
       this.closeContextMenu();
     },
+    async deleteConversation() {
+      this.$emit('deleteConversation', this.chat.id);
+      this.closeContextMenu();
+    },
   },
 };
 </script>
@@ -363,6 +368,7 @@ export default {
         @mark-as-unread="markAsUnread"
         @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
+        @delete-conversation="deleteConversation"
       />
     </ContextMenu>
   </div>

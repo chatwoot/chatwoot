@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "アクセストークン",
         "NOTE": "このトークンは、API連携を構築する場合に利用します。",
-        "COPY": "コピー"
+        "COPY": "コピー",
+        "RESET": "リセット",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "オーディオアラート",
@@ -185,7 +190,8 @@
           "OFFLINE": "オフライン"
         },
         "SET_AVAILABILITY_SUCCESS": "利用可能ステータスが正常に設定されました",
-        "SET_AVAILABILITY_ERROR": "利用可能ステータスを設定できませんでした。もう一度お試しください"
+        "SET_AVAILABILITY_ERROR": "利用可能ステータスを設定できませんでした。もう一度お試しください",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "あなたのメールアドレス",
@@ -280,6 +286,7 @@
     "REPORTS": "レポート",
     "SETTINGS": "設定",
     "CONTACTS": "連絡先",
+    "ACTIVE": "有効",
     "CAPTAIN": "キャプテン",
     "CAPTAIN_ASSISTANTS": "アシスタント",
     "CAPTAIN_DOCUMENTS": "ドキュメント",

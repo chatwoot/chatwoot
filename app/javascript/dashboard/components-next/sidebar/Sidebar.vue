@@ -87,7 +87,7 @@ const newReportRoutes = () => [
   {
     name: 'Reports Label',
     label: t('SIDEBAR.REPORTS_LABEL'),
-    to: accountScopedRoute('label_reports'),
+    to: accountScopedRoute('label_reports_index'),
   },
   {
     name: 'Reports Inbox',
@@ -234,6 +234,12 @@ const menuItems = computed(() => {
             { page: 1, search: undefined }
           ),
           activeOn: ['contacts_dashboard_index', 'contacts_edit'],
+        },
+        {
+          name: 'Active',
+          label: t('SIDEBAR.ACTIVE'),
+          to: accountScopedRoute('contacts_dashboard_active'),
+          activeOn: ['contacts_dashboard_active'],
         },
         {
           name: 'Segments',

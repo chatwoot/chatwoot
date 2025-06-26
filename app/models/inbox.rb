@@ -47,8 +47,6 @@ class Inbox < ApplicationRecord
 
   # Not allowing characters:
   validates :name, presence: true
-  validates :name, if: :check_channel_type?, format: { with: %r{^^\b[^/\\<>@]*\b$}, multiline: true,
-                                                       message: I18n.t('errors.inboxes.validations.name') }
   validates :account_id, presence: true
   validates :timezone, inclusion: { in: TZInfo::Timezone.all_identifiers }
   validates :out_of_office_message, length: { maximum: Limits::OUT_OF_OFFICE_MESSAGE_MAX_LENGTH }
@@ -97,6 +95,16 @@ class Inbox < ApplicationRecord
   def remove_members(user_ids)
     inbox_members.where(user_id: user_ids).destroy_all
     update_account_cache
+  end
+
+  # Sanitizes inbox name for balanced email provider compatibility
+  # ALLOWS: /'._- and Unicode letters/numbers/emojis
+  # REMOVES: Forbidden chars (\<>@") + spam-trigger symbols (!#$%&*+=?^`{|}~)
+  def sanitized_name
+    return default_name_for_blank_name if name.blank?
+
+    sanitized = apply_sanitization_rules(name)
+    sanitized.blank? && email? ? display_name_from_email : sanitized
   end
 
   def sms?
@@ -177,6 +185,22 @@ class Inbox < ApplicationRecord
   end
 
   private
+
+  def default_name_for_blank_name
+    email? ? display_name_from_email : ''
+  end
+
+  def apply_sanitization_rules(name)
+    name.gsub(/[\\<>@"!#$%&*+=?^`{|}~]/, '')            # Remove forbidden chars
+        .gsub(/[\x00-\x1F\x7F]/, ' ')                   # Replace control chars with spaces
+        .gsub(/\A[[:punct:]]+|[[:punct:]]+\z/, '')      # Remove leading/trailing punctuation
+        .gsub(/\s+/, ' ')                               # Normalize spaces
+        .strip
+  end
+
+  def display_name_from_email
+    channel.email.split('@').first.parameterize.titleize
+  end
 
   def dispatch_create_event
     return if ENV['ENABLE_INBOX_EVENTS'].blank?

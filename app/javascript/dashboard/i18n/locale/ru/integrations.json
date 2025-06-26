@@ -318,11 +318,18 @@
         "SUCCESS": "Задача успешно отвязана",
         "ERROR": "Произошла ошибка при отвязке задачи, пожалуйста, попробуйте ещё раз"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "Вы уверены, что хотите удалить интеграцию?",
         "MESSAGE": "Вы уверены, что хотите удалить интеграцию?",
         "CONFIRM": "Да, удалить",
         "CANCEL": "Отменить"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },
@@ -330,12 +337,17 @@
     "NAME": "Капитан",
     "HEADER_KNOW_MORE": "Know more",
     "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "Попробуйте эти запросы",
+      "PANEL_TITLE": "Get started with Copilot",
+      "KICK_OFF_MESSAGE": "Need a quick summary, want to check past conversations, or draft a better reply? Copilot’s here to speed things up.",
       "SEND_MESSAGE": "Отправить сообщение...",
       "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
       "LOADER": "Капитан думает",
       "YOU": "Вы",
       "USE": "Использовать это",
       "RESET": "Сброс",
+      "SHOW_STEPS": "Show steps",
       "SELECT_ASSISTANT": "Выбрать ассистента",
       "PROMPTS": {
         "SUMMARIZE": {
@@ -349,6 +361,14 @@
         "RATE": {
           "LABEL": "Rate this conversation",
           "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "High priority conversations",
+          "CONTENT": "Give me a summary of all high priority open conversations. Include the conversation ID, customer name (if available), last message content, and assigned agent. Group by status if relevant."
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "List contacts",
+          "CONTENT": "Show me the list of top 10 contacts. Include name, email or phone number (if available), last seen time, tags (if any)."
         }
       }
     },
@@ -368,7 +388,6 @@
       "CANCEL_ANYTIME": "Вы можете изменить или отменить ваш тарифный план в любое время"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Функция Captain AI доступна только в платном плане.",
       "UPGRADE_PROMPT": "Обновите тарифный план, чтобы получить доступ к нашим ассистентам, copilot и другим функциям.",
       "ASK_ADMIN": "Пожалуйста, обратитесь к вашему администратору для обновления."
     },
@@ -383,6 +402,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Ассистенты",
+      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
       "ADD_NEW": "Создать нового ассистента",
       "DELETE": {
         "TITLE": "Вы уверены, что хотите удалить ассистента?",
@@ -410,6 +430,10 @@
           "LABEL": "Имя",
           "PLACEHOLDER": "Enter assistant name",
           "ERROR": "The name is required"
+        },
+        "TEMPERATURE": {
+          "LABEL": "Response Temperature",
+          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
         },
         "DESCRIPTION": {
           "LABEL": "Описание",

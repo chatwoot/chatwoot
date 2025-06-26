@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Piekļuves Token",
         "NOTE": "Šo token var izmantot, ja veidojat uz API balstītu integrāciju",
-        "COPY": "Kopēt"
+        "COPY": "Kopēt",
+        "RESET": "Atiestatīt",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Brīdinājumi",
@@ -185,7 +190,8 @@
           "OFFLINE": "Bezsaistē"
         },
         "SET_AVAILABILITY_SUCCESS": "Pieejamība ir veiksmīgi iestatīta",
-        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz"
+        "SET_AVAILABILITY_ERROR": "Nevarēja iestatīt pieejamību. Lūdzu, mēģiniet vēlreiz",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Jūsu e-pasta adrese",
@@ -280,6 +286,7 @@
     "REPORTS": "Pārskati",
     "SETTINGS": "Iestatījumi",
     "CONTACTS": "Kontaktpersonas",
+    "ACTIVE": "Aktīvs",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Asistenti",
     "CAPTAIN_DOCUMENTS": "Dokumenti",

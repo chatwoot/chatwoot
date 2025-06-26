@@ -6,9 +6,9 @@ export default createStore({
   API: CopilotMessagesAPI,
   getters: {
     getMessagesByThreadId: state => copilotThreadId => {
-      return state.records.filter(
-        record => record.copilot_thread?.id === Number(copilotThreadId)
-      );
+      return state.records
+        .filter(record => record.copilot_thread?.id === Number(copilotThreadId))
+        .sort((a, b) => a.id - b.id);
     },
   },
   actions: mutationTypes => ({
