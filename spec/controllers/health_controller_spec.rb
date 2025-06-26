@@ -3,7 +3,6 @@ require 'rails_helper'
 RSpec.describe HealthController, type: :controller do
   describe 'GET #check' do
     before do
-      # Stub các health checks để không gọi thực tế
       allow(HealthController).to receive(:db_healthy?).and_return(true)
       allow(HealthController).to receive(:redis_healthy?).and_return(true)
       allow(HealthController).to receive(:sidekiq_healthy?).and_return(true)
