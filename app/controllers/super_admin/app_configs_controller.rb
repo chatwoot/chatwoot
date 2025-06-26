@@ -39,6 +39,7 @@ class SuperAdmin::AppConfigsController < SuperAdmin::ApplicationController
       'email' => ['MAILER_INBOUND_EMAIL_DOMAIN'],
       'linear' => %w[LINEAR_CLIENT_ID LINEAR_CLIENT_SECRET],
       'slack' => %w[SLACK_CLIENT_ID SLACK_CLIENT_SECRET],
+      'notion' => %w[NOTION_CLIENT_ID NOTION_CLIENT_SECRET],
       'instagram' => %w[INSTAGRAM_APP_ID INSTAGRAM_APP_SECRET INSTAGRAM_VERIFY_TOKEN INSTAGRAM_API_VERSION ENABLE_INSTAGRAM_CHANNEL_HUMAN_AGENT]
     }
 
