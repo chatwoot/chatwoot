@@ -1,23 +1,30 @@
 class HealthController < ApplicationController
   skip_before_action :authenticate_user!, raise: false
 
-  SERVICES = {
-    rails:    -> { true },
-    database: -> { db_healthy? },
-    redis:    -> { redis_healthy? },
-    sidekiq:  -> { sidekiq_healthy? },
-    vite:     -> { vite_healthy! },
-    mailhog:  -> { mailhog_healthy! }
-  }.freeze
-
   def check
-    health_report = SERVICES.transform_values { |checker| safe_result(&checker) }
+    health_report = services.transform_values { |checker| safe_result(&checker) }
 
     status_code = health_report.values.all? { |v| v[:status] } ? :ok : :service_unavailable
     render json: health_report, status: status_code
   end
 
   private
+
+  def services
+    base_services = {
+      rails:    -> { true },
+      database: -> { self.class.db_healthy? },
+      redis:    -> { self.class.redis_healthy? },
+      sidekiq:  -> { self.class.sidekiq_healthy? }
+    }
+
+    if Rails.env.development?
+      base_services[:vite] = -> { self.class.vite_healthy! }
+      base_services[:mailhog] = -> { self.class.mailhog_healthy! }
+    end
+
+    base_services
+  end
 
   def safe_result
     value = yield
@@ -31,7 +38,13 @@ class HealthController < ApplicationController
   end
 
   def self.redis_healthy?
-    Redis.new(url: ENV.fetch('REDIS_URL', 'redis://localhost:6379')).ping == 'PONG'
+    redis_url = ENV.fetch('REDIS_URL', 'redis://localhost:6379')
+    options = { url: redis_url }
+
+    redis_password = ENV['REDIS_PASSWORD']
+    options[:password] = redis_password if redis_password.present?
+
+    Redis.new(**options).ping == 'PONG'
   end
 
   def self.sidekiq_healthy?
