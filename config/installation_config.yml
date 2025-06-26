@@ -51,7 +51,7 @@
   display_title: 'Privacy URL'
   description: 'The privacy policy URL displayed in the app'
 - name: DISPLAY_MANIFEST
-  value: true
+  value: false
   display_title: 'Chatwoot Metadata'
   description: 'Display default Chatwoot metadata like favicons and upgrade warnings'
   type: boolean
