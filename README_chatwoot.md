@@ -96,7 +96,7 @@ The translation process for Chatwoot web and mobile app is managed at [https://t
 
 ## Branching model
 
-We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `develop`.
+We use the [git-flow](https://nvie.com/posts/a-successful-git-branching-model/) branching model. The base branch is `development`.
 If you are looking for a stable version, please use the `master` or tags labelled as `v1.x.x`.
 
 ## Deployment

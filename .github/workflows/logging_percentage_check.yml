@@ -3,11 +3,11 @@ name: Log Lines Percentage Check
 on:
   push:
     branches:
-      - develop
+      - development
       - main
   # pull_request:
   #   branches:
-  #     - develop
+  #     - development
   workflow_dispatch:
 
 jobs:
