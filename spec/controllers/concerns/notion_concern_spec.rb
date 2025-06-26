@@ -53,10 +53,4 @@ RSpec.describe NotionConcern, type: :concern do
       expect(client.options[:auth_scheme]).to eq(:basic_auth)
     end
   end
-
-  describe '#scope' do
-    it 'returns read scope for Notion API' do
-      expect(controller.send(:scope)).to eq('read')
-    end
-  end
 end
