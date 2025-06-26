@@ -42,8 +42,8 @@
             "WEBWIDGET_TRIGGERED": "用户打开实时聊天小部件",
             "CONTACT_CREATED": "联系人已创建",
             "CONTACT_UPDATED": "联系人已更新",
-            "CONVERSATION_TYPING_ON": "Conversation Typing On",
-            "CONVERSATION_TYPING_OFF": "Conversation Typing Off"
+            "CONVERSATION_TYPING_ON": "对话输入开启",
+            "CONVERSATION_TYPING_OFF": "对话输入关闭"
           }
         },
         "END_POINT": {
@@ -318,11 +318,18 @@
         "SUCCESS": "问题取消链接成功",
         "ERROR": "取消链接问题时出错，请重试"
       },
+      "NO_LINKED_ISSUES": "No linked issues found",
       "DELETE": {
         "TITLE": "您确定要删除该集成吗？",
         "MESSAGE": "您确定要删除该集成吗？",
         "CONFIRM": "是，删除",
         "CANCEL": "取消"
+      },
+      "CTA": {
+        "TITLE": "Connect to Linear",
+        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
+        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
+        "BUTTON_TEXT": "Connect Linear workspace"
       }
     }
   },
@@ -330,25 +337,38 @@
     "NAME": "Captain",
     "HEADER_KNOW_MORE": "了解更多",
     "COPILOT": {
+      "TITLE": "Copilot",
+      "TRY_THESE_PROMPTS": "尝试这些提示信息",
+      "PANEL_TITLE": "开始使用 Copilot",
+      "KICK_OFF_MESSAGE": "需要快速摘要、回顾过往对话，或是优化回复内容？Copilot 可助您一臂之力，全面提升工作效率。",
       "SEND_MESSAGE": "发送消息...",
-      "EMPTY_MESSAGE": "There was an error generating the response. Please try again.",
+      "EMPTY_MESSAGE": "生成响应时出错。请重试。",
       "LOADER": "Captain 正在思考",
       "YOU": "您",
       "USE": "使用此",
       "RESET": "重置",
+      "SHOW_STEPS": "显示步骤",
       "SELECT_ASSISTANT": "选择助手",
       "PROMPTS": {
         "SUMMARIZE": {
-          "LABEL": "Summarize this conversation",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "LABEL": "总结此对话",
+          "CONTENT": "总结客户与客服的对话要点，涵盖客户的主要疑虑、问题，以及客服给出的解决方案或回应"
         },
         "SUGGEST": {
-          "LABEL": "Suggest an answer",
-          "CONTENT": "Analyze the customer's inquiry, and draft a response that effectively addresses their concerns or questions. Ensure the reply is clear, concise, and provides helpful information."
+          "LABEL": "建议回答",
+          "CONTENT": "分析客户的咨询，并起草一份有效回应其关切或问题的回复。确保回复内容清晰、简明，并提供有用的信息。"
         },
         "RATE": {
-          "LABEL": "Rate this conversation",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "LABEL": "为此对话评分",
+          "CONTENT": "请审核对话，评估其在多大程度上满足了客户的需求。根据语气、清晰度和有效性进行 5 分制评分。"
+        },
+        "HIGH_PRIORITY": {
+          "LABEL": "高优先级对话",
+          "CONTENT": "请给我所有高优先级未结对话的摘要。包括对话 ID、客户姓名（如有）、最后一条消息内容和分配的客服人员。如有需要，请按状态分组。"
+        },
+        "LIST_CONTACTS": {
+          "LABEL": "列出联系人",
+          "CONTENT": "显示我的前 10 位联系人列表。包括姓名、电子邮件或电话号码（如有）、最后在线时间、标签（如有）。"
         }
       }
     },
@@ -356,9 +376,9 @@
       "USER": "您",
       "ASSISTANT": "助手",
       "MESSAGE_PLACEHOLDER": "输入您的消息...",
-      "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "HEADER": "试验场",
+      "DESCRIPTION": "使用此试验场向您的助手发送消息，并检查其是否能够准确、快速地以您期望的语气做出回应。",
+      "CREDIT_NOTE": "这里发送的消息将计入您的 Captain 积分。"
     },
     "PAYWALL": {
       "TITLE": "升级以使用 Captain AI",
@@ -368,7 +388,6 @@
       "CANCEL_ANYTIME": "您可以随时更改或取消您的计划"
     },
     "ENTERPRISE_PAYWALL": {
-      "AVAILABLE_ON": "Captain AI 功能仅在付费计划中可用。",
       "UPGRADE_PROMPT": "升级您的计划以获取我们的助手、副驾驶等功能。",
       "ASK_ADMIN": "请联系您的管理员进行升级。"
     },
@@ -383,6 +402,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "助手",
+      "NO_ASSISTANTS_AVAILABLE": "您的帐户中没有可用的助手。",
       "ADD_NEW": "创建新的助手",
       "DELETE": {
         "TITLE": "您确定要删除该文档吗？",
@@ -400,42 +420,46 @@
       "FORM": {
         "UPDATE": "更新",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "基本信息",
+          "SYSTEM_MESSAGES": "系统消息",
+          "INSTRUCTIONS": "指令",
           "FEATURES": "特性",
-          "TOOLS": "Tools "
+          "TOOLS": "工具 "
         },
         "NAME": {
           "LABEL": "姓名：",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "输入助手名称",
+          "ERROR": "名称是必需的"
+        },
+        "TEMPERATURE": {
+          "LABEL": "响应温度",
+          "DESCRIPTION": "调整助手回复的创造性或限制程度。较低的数值会产生更专注和确定性的回复，而较高的数值则允许更有创意和多样化的输出。"
         },
         "DESCRIPTION": {
           "LABEL": "描述信息",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "PLACEHOLDER": "输入助手描述",
+          "ERROR": "描述是必需的"
         },
         "PRODUCT_NAME": {
           "LABEL": "产品名称",
-          "PLACEHOLDER": "Enter product name",
+          "PLACEHOLDER": "输入产品名称",
           "ERROR": "产品名称是必需的"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "欢迎消息",
+          "PLACEHOLDER": "输入欢迎消息"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "交接信息",
+          "PLACEHOLDER": "输入交接消息"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "解决消息",
+          "PLACEHOLDER": "输入解决消息"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "指令",
+          "PLACEHOLDER": "输入用于此助手的指令"
         },
         "FEATURES": {
           "TITLE": "特性",
@@ -447,7 +471,7 @@
         "TITLE": "更新助手",
         "SUCCESS_MESSAGE": "助手已成功更新",
         "ERROR_MESSAGE": "更新助手时出错，请重试",
-        "NOT_FOUND": "Could not find the assistant. Please try again."
+        "NOT_FOUND": "无法找到助手。请重试。"
       },
       "OPTIONS": {
         "EDIT_ASSISTANT": "编辑助手",

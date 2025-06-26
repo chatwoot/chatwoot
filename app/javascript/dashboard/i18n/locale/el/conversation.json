@@ -70,6 +70,7 @@
       "RESOLVE_ACTION": "Επίλυση",
       "REOPEN_ACTION": "Επαναφορά",
       "OPEN_ACTION": "Ανοιχτές",
+      "MORE_ACTIONS": "More actions",
       "OPEN": "Περισσότερα",
       "CLOSE": "Κλείσιμο",
       "DETAILS": "Λεπτομέρειες",
@@ -117,6 +118,11 @@
         "FAILED": "Couldn't change priority. Please try again."
       }
     },
+    "DELETE_CONVERSATION": {
+      "TITLE": "Delete conversation #{conversationId}",
+      "DESCRIPTION": "Are you sure you want to delete this conversation?",
+      "CONFIRM": "Διαγραφή"
+    },
     "CARD_CONTEXT_MENU": {
       "PENDING": "Σήμανση ως εκκρεμής",
       "RESOLVED": "Σήμανση ως επιλυμένου",
@@ -133,6 +139,7 @@
       "ASSIGN_LABEL": "Εκχώρηση ετικέτας",
       "AGENTS_LOADING": "Φόρτωση πρακτόρων...",
       "ASSIGN_TEAM": "Ανάθεση ομάδας",
+      "DELETE": "Delete conversation",
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Η συνομιλία με αριθμό {conversationId} ανατέθηκε στον \"{agentName}\"",
@@ -207,6 +214,8 @@
     "ASSIGN_LABEL_SUCCESFUL": "Επιτυχής εκχώρηση ετικέτας",
     "ASSIGN_LABEL_FAILED": "Η εκχώρηση ετικέτας απέτυχε",
     "CHANGE_TEAM": "Η ομάδα συνομιλίας άλλαξε",
+    "SUCCESS_DELETE_CONVERSATION": "Conversation deleted successfully",
+    "FAIL_DELETE_CONVERSATION": "Couldn't delete conversation! Try again",
     "FILE_SIZE_LIMIT": "Το αρχείο υπερβαίνει το όριο συνημμένου {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE}",
     "MESSAGE_ERROR": "Δεν είναι δυνατή η αποστολή του μηνύματος, παρακαλώ προσπαθήστε ξανά αργότερα",
     "SENT_BY": "Αποστολή από:",
@@ -299,6 +308,7 @@
       "CONTACT_ATTRIBUTES": "Ιδιότητες Επαφής",
       "PREVIOUS_CONVERSATION": "Προηγούμενες συνομιλίες",
       "MACROS": "Μακροεντολές",
+      "LINEAR_ISSUES": "Linked Linear Issues",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {

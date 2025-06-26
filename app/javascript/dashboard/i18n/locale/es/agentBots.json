@@ -59,6 +59,13 @@
         "ERROR_MESSAGE": "No se pudo actualizar el bot, por favor inténtalo de nuevo más tarde."
       }
     },
+    "ACCESS_TOKEN": {
+      "TITLE": "Token de acceso",
+      "DESCRIPTION": "Copy the access token and save it securely",
+      "COPY_SUCCESSFUL": "Access token copied to clipboard",
+      "RESET_SUCCESS": "Access token regenerated successfully",
+      "RESET_ERROR": "Unable to regenerate access token. Please try again"
+    },
     "FORM": {
       "AVATAR": {
         "LABEL": "Bot avatar"

@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Jeton d'accès",
         "NOTE": "Ce jeton peut être utilisé si vous construisez une intégration basée sur l'API",
-        "COPY": "Copier"
+        "COPY": "Copier",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "Hors ligne"
         },
         "SET_AVAILABILITY_SUCCESS": "La disponibilité a bien été définie",
-        "SET_AVAILABILITY_ERROR": "Impossible de définir la disponibilité, veuillez réessayer"
+        "SET_AVAILABILITY_ERROR": "Impossible de définir la disponibilité, veuillez réessayer",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Votre adresse de courriel",
@@ -280,6 +286,7 @@
     "REPORTS": "Rapports",
     "SETTINGS": "Paramètres",
     "CONTACTS": "Contacts",
+    "ACTIVE": "Actif",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
