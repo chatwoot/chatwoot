@@ -13,7 +13,7 @@ on:
   # push:
   #   branches:
   #     - main
-  #     - develop
+  #     - development
   #   paths:
   #     - 'app/**'
   #     - 'config/**'
