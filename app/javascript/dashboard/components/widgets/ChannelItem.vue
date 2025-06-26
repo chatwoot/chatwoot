@@ -41,6 +41,10 @@ export default {
         );
       }
 
+      if (key === 'voice') {
+        return this.enabledFeatures.channel_voice;
+      }
+
       return [
         'website',
         'twilio',
@@ -50,6 +54,7 @@ export default {
         'telegram',
         'line',
         'instagram',
+        'voice',
       ].includes(key);
     },
   },

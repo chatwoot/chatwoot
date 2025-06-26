@@ -46,9 +46,9 @@ const loadLinkedIssues = async () => {
   }
 };
 
-const unlinkIssue = async linkId => {
+const unlinkIssue = async (linkId, issueIdentifier) => {
   try {
-    await LinearAPI.unlinkIssue(linkId);
+    await LinearAPI.unlinkIssue(linkId, issueIdentifier, props.conversationId);
     useTrack(LINEAR_EVENTS.UNLINK_ISSUE);
     linkedIssues.value = linkedIssues.value.filter(
       issue => issue.id !== linkId
@@ -110,7 +110,7 @@ onMounted(() => {
       <LinearIssueItem
         v-for="linkedIssue in linkedIssues"
         :key="linkedIssue.id"
-        class="pt-3 px-4 pb-4 border-b border-n-weak last:border-b-0"
+        class="px-4 pt-3 pb-4 border-b border-n-weak last:border-b-0"
         :linked-issue="linkedIssue"
         @unlink-issue="unlinkIssue"
       />

@@ -28,7 +28,8 @@ class Integrations::Linear::ProcessorService
 
     {
       data: { id: response['issueCreate']['issue']['id'],
-              title: response['issueCreate']['issue']['title'] }
+              title: response['issueCreate']['issue']['title'],
+              identifier: response['issueCreate']['issue']['identifier'] }
     }
   end
 
