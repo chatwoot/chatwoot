@@ -167,12 +167,12 @@ export default {
 
         const baseUrl = tokenHelperInstance.baseUrl;
 
-        const inviteLink = `${baseUrl}/meeting?cacheKey=${response.data}&tenant=${tokenHelperInstance.tenant}&env=${env}&joinee=1&cdn=${cdn}`;
+        const inviteLink = `${baseUrl}/meeting?cacheKey=${response.data}&tenant=${tokenHelperInstance.tenant}&env=${env}&joinee=1`;
         await this.sendMessage({
           content: `Call initiated. Join using: ${inviteLink}`,
         });
 
-        const launchUrl = `${baseUrl}/meeting?cacheKey=${response.data}&tenant=${tokenHelperInstance.tenant}&env=${env}&cdn=${cdn}`;
+        const launchUrl = `${baseUrl}/meeting?cacheKey=${response.data}&tenant=${tokenHelperInstance.tenant}&env=${env}`;
 
         if (tokenHelperInstance.isEhrLaunch) {
           IFrameHelper.sendMessage({
