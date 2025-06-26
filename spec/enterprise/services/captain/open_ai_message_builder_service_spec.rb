@@ -20,13 +20,21 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       end
     end
 
-    context 'when message has text content and attachments' do
+    context 'when message has blank content and no attachments' do
+      let(:message) { create(:message, content: '') }
+
+      it 'returns default message' do
+        expect(service.generate_content).to eq('Message without content')
+      end
+    end
+
+    context 'when message has text content and image attachments' do
       before do
         attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image.jpg')
         attachment.save!
       end
 
-      it 'returns an array of content parts' do
+      it 'returns an array with text and image parts' do
         result = service.generate_content
         expect(result).to be_an(Array)
         expect(result).to include({ type: 'text', text: 'Hello world' })
@@ -34,7 +42,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
       end
     end
 
-    context 'when message has only non-text attachments' do
+    context 'when message has only image attachments with external URLs' do
       let(:message) { create(:message, content: nil) }
 
       before do
@@ -42,214 +50,89 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         attachment.save!
       end
 
-      it 'returns an array of content parts without text' do
+      it 'returns an array with only image parts' do
         result = service.generate_content
         expect(result).to be_an(Array)
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
         expect(result).not_to include(hash_including(type: 'text', text: 'Hello world'))
       end
     end
-  end
 
-  describe '#attachment_parts' do
-    let(:message) { create(:message, content: nil) }
-    let(:attachments) { message.attachments }
-
-    context 'with image attachments' do
-      before do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image.jpg')
-        attachment.save!
-      end
-
-      it 'includes image parts' do
-        result = service.send(:attachment_parts, attachments)
-        expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
-      end
-    end
-
-    context 'with audio attachments' do
-      let(:audio_attachment) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
-        attachment.save!
-        attachment
-      end
+    context 'when message has multiple image attachments' do
+      let(:message) { create(:message, content: nil) }
 
       before do
-        allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
-          instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'Audio transcription text' })
-        )
+        attachment1 = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image1.jpg')
+        attachment1.save!
+        attachment2 = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image2.jpg')
+        attachment2.save!
       end
 
-      it 'includes transcription text part' do
-        audio_attachment # trigger creation
-        result = service.send(:attachment_parts, attachments)
-        expect(result).to include({ type: 'text', text: 'Audio transcription text' })
-      end
-    end
-
-    context 'with other file types' do
-      before do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :file)
-        attachment.save!
-      end
-
-      it 'includes generic attachment message' do
-        result = service.send(:attachment_parts, attachments)
-        expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
-      end
-    end
-
-    context 'with mixed attachment types' do
-      let(:image_attachment) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image.jpg')
-        attachment.save!
-        attachment
-      end
-
-      let(:audio_attachment) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
-        attachment.save!
-        attachment
-      end
-
-      let(:document_attachment) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :file)
-        attachment.save!
-        attachment
-      end
-
-      before do
-        allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
-          instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'Audio text' })
-        )
-      end
-
-      it 'includes all relevant parts' do
-        image_attachment    # trigger creation
-        audio_attachment    # trigger creation
-        document_attachment # trigger creation
-
-        result = service.send(:attachment_parts, attachments)
-        expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
-        expect(result).to include({ type: 'text', text: 'Audio text' })
-        expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
-      end
-    end
-  end
-
-  describe '#image_parts' do
-    let(:message) { create(:message, content: nil) }
-
-    context 'with valid image attachments' do
-      let(:image1) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image1.jpg')
-        attachment.save!
-        attachment
-      end
-
-      let(:image2) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image2.jpg')
-        attachment.save!
-        attachment
-      end
-
-      it 'returns image parts for all valid images' do
-        image1 # trigger creation
-        image2 # trigger creation
-
-        image_attachments = message.attachments.where(file_type: :image)
-        result = service.send(:image_parts, image_attachments)
-
+      it 'returns an array with all image parts' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image1.jpg' } })
         expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image2.jpg' } })
       end
     end
 
-    context 'with image attachments without URLs' do
-      let(:image_attachment) do
+    context 'when message has image attachments with file URLs' do
+      let(:message) { create(:message, content: nil) }
+
+      before do
+        # Create attachment with external_url to simulate file_url scenario
+        attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://local.com/file.jpg')
+        attachment.save!
+      end
+
+      it 'returns an array with image parts using file URL' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
+        expect(result).to include({ type: 'image_url', image_url: { url: 'https://local.com/file.jpg' } })
+      end
+    end
+
+    context 'when message has image attachments without valid URLs' do
+      let(:message) { create(:message, content: nil) }
+
+      before do
         attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: nil)
         attachment.save!
-        attachment
-      end
-
-      before do
-        allow(image_attachment).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: false))
-      end
-
-      it 'skips images without valid URLs' do
-        image_attachment # trigger creation
-
-        image_attachments = message.attachments.where(file_type: :image)
-        result = service.send(:image_parts, image_attachments)
-
-        expect(result).to be_empty
-      end
-    end
-  end
-
-  describe '#get_attachment_url' do
-    let(:attachment) do
-      attachment = message.attachments.build(account_id: message.account_id, file_type: :image)
-      attachment.save!
-      attachment
-    end
-
-    context 'when attachment has external_url' do
-      before { attachment.update(external_url: 'https://example.com/image.jpg') }
-
-      it 'returns external_url' do
-        expect(service.send(:get_attachment_url, attachment)).to eq('https://example.com/image.jpg')
-      end
-    end
-
-    context 'when attachment has attached file' do
-      before do
-        attachment.update(external_url: nil)
-        allow(attachment).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: true))
-        allow(attachment).to receive(:file_url).and_return('https://local.com/file.jpg')
-      end
-
-      it 'returns file_url' do
-        expect(service.send(:get_attachment_url, attachment)).to eq('https://local.com/file.jpg')
-      end
-    end
-
-    context 'when attachment has no URL or file' do
-      before do
-        attachment.update(external_url: nil)
         allow(attachment).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: false))
       end
 
-      it 'returns nil' do
-        expect(service.send(:get_attachment_url, attachment)).to be_nil
-      end
-    end
-  end
-
-  describe '#extract_audio_transcriptions' do
-    let(:message) { create(:message, content: nil) }
-
-    context 'with no audio attachments' do
-      it 'returns empty string' do
-        result = service.send(:extract_audio_transcriptions, message.attachments)
-        expect(result).to eq('')
+      it 'returns default message when no valid attachments' do
+        result = service.generate_content
+        expect(result).to eq('Message without content')
       end
     end
 
-    context 'with successful audio transcriptions' do
-      let(:audio1) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
-        attachment.save!
-        attachment
-      end
-
-      let(:audio2) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
-        attachment.save!
-        attachment
-      end
+    context 'when message has audio attachments with successful transcription' do
+      let(:message) { create(:message, content: nil) }
 
       before do
+        audio_attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio_attachment.save!
+        allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
+          instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'Audio transcription text' })
+        )
+      end
+
+      it 'returns transcription text directly when only one text part' do
+        result = service.generate_content
+        expect(result).to eq('Audio transcription text')
+      end
+    end
+
+    context 'when message has multiple audio attachments' do
+      let(:message) { create(:message, content: nil) }
+
+      before do
+        audio1 = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio1.save!
+        audio2 = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio2.save!
+
         allow(Messages::AudioTranscriptionService).to receive(:new).with(audio1).and_return(
           instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'First audio text. ' })
         )
@@ -258,51 +141,153 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
         )
       end
 
-      it 'concatenates all successful transcriptions' do
-        audio1 # trigger creation
-        audio2 # trigger creation
-
-        attachments = message.attachments
-        result = service.send(:extract_audio_transcriptions, attachments)
+      it 'returns concatenated transcription text directly when only one text part' do
+        result = service.generate_content
         expect(result).to eq('First audio text. Second audio text.')
       end
     end
 
-    context 'with failed audio transcriptions' do
-      let(:audio_attachment) do
-        attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
-        attachment.save!
-        attachment
-      end
+    context 'when message has audio attachments with failed transcription' do
+      let(:message) { create(:message, content: nil) }
 
       before do
+        audio_attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio_attachment.save!
         allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
           instance_double(Messages::AudioTranscriptionService, perform: { success: false, transcriptions: nil })
         )
       end
 
-      it 'returns empty string for failed transcriptions' do
-        audio_attachment # trigger creation
-
-        attachments = message.attachments
-        result = service.send(:extract_audio_transcriptions, attachments)
-        expect(result).to eq('')
-      end
-    end
-  end
-
-  describe 'private helper methods' do
-    describe '#text_part' do
-      it 'returns correct text part format' do
-        result = service.send(:text_part, 'Hello world')
-        expect(result).to eq({ type: 'text', text: 'Hello world' })
+      it 'returns default message when transcription fails' do
+        result = service.generate_content
+        expect(result).to eq('Message without content')
       end
     end
 
-    describe '#image_part' do
-      it 'returns correct image part format' do
-        result = service.send(:image_part, 'https://example.com/image.jpg')
-        expect(result).to eq({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
+    context 'when message has text content and audio attachments' do
+      before do
+        audio_attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio_attachment.save!
+        allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
+          instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'Audio text' })
+        )
+      end
+
+      it 'returns an array with both text content and audio transcription' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
+        expect(result).to include({ type: 'text', text: 'Hello world' })
+        expect(result).to include({ type: 'text', text: 'Audio text' })
+      end
+    end
+
+    context 'when message has non-image/non-audio file attachments' do
+      let(:message) { create(:message, content: nil) }
+
+      before do
+        attachment = message.attachments.build(account_id: message.account_id, file_type: :file)
+        attachment.save!
+      end
+
+      it 'returns generic attachment message directly when only one text part' do
+        result = service.generate_content
+        expect(result).to eq('User has shared an attachment')
+      end
+    end
+
+    context 'when message has text content and non-image/non-audio file attachments' do
+      before do
+        attachment = message.attachments.build(account_id: message.account_id, file_type: :file)
+        attachment.save!
+      end
+
+      it 'returns an array with text content and generic attachment message' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
+        expect(result).to include({ type: 'text', text: 'Hello world' })
+        expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
+      end
+    end
+
+    context 'when message has mixed attachment types' do
+      let(:message) { create(:message, content: 'Mixed content') }
+
+      before do
+        # Image attachment
+        image_attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image.jpg')
+        image_attachment.save!
+
+        # Audio attachment
+        audio_attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio_attachment.save!
+        allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
+          instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'Audio text' })
+        )
+
+        # File attachment
+        file_attachment = message.attachments.build(account_id: message.account_id, file_type: :file)
+        file_attachment.save!
+      end
+
+      it 'returns an array with all relevant parts' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
+        expect(result).to include({ type: 'text', text: 'Mixed content' })
+        expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
+        expect(result).to include({ type: 'text', text: 'Audio text' })
+        expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
+      end
+    end
+
+    context 'when message has mixed attachment types without text content' do
+      let(:message) { create(:message, content: nil) }
+
+      before do
+        # Image attachment
+        image_attachment = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image.jpg')
+        image_attachment.save!
+
+        # Audio attachment
+        audio_attachment = message.attachments.build(account_id: message.account_id, file_type: :audio)
+        audio_attachment.save!
+        allow(Messages::AudioTranscriptionService).to receive(:new).with(audio_attachment).and_return(
+          instance_double(Messages::AudioTranscriptionService, perform: { success: true, transcriptions: 'Audio text' })
+        )
+
+        # File attachment
+        file_attachment = message.attachments.build(account_id: message.account_id, file_type: :file)
+        file_attachment.save!
+      end
+
+      it 'returns an array with attachment parts only' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
+        expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
+        expect(result).to include({ type: 'text', text: 'Audio text' })
+        expect(result).to include({ type: 'text', text: 'User has shared an attachment' })
+        expect(result).not_to include(hash_including(type: 'text', text: 'Mixed content'))
+      end
+    end
+
+    context 'when message has some image attachments with URLs and some without' do
+      let(:message) { create(:message, content: nil) }
+
+      before do
+        # Valid image with external URL
+        valid_image = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: 'https://example.com/image.jpg')
+        valid_image.save!
+
+        # Invalid image without URL
+        invalid_image = message.attachments.build(account_id: message.account_id, file_type: :image, external_url: nil)
+        invalid_image.save!
+        allow(invalid_image).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: false))
+      end
+
+      it 'returns an array with only valid image parts' do
+        result = service.generate_content
+        expect(result).to be_an(Array)
+        expect(result).to include({ type: 'image_url', image_url: { url: 'https://example.com/image.jpg' } })
+        expect(result.size).to eq(1)
       end
     end
   end
