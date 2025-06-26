@@ -350,12 +350,13 @@
         "RESTOCK_DESC": "Restock descriptions",
         "SEND_NOTIFICATION": "Send notifications",
         "REFUND_AMOUNT": "Refund amount",
+        "REFUND_ORDER": "Refund order",
         "MANUAL": "Manual",
         "REASON_FOR_CANCELLING": "Reason for cancelling",
         "CUSTOMER_CHANGED": "Customer changed",
         "OUT_OF_STOCK": "Out of stock",
         "PRICING_ERROR": "Pricing error",
-        "CANCELLATION_REASON": "Cancellation reason",
+        "REASON": "Reason",
         "OTHER": "other",
         "SUBTOTAL": "Subtotal",
         "DISCOUNT": "Discount",
@@ -364,7 +365,10 @@
         "AMOUNT_REFUNDABLE": "Refundable amount",
         "TOTAL_AVAILABLE_REFUND": "Available refund",
         "KEEP_ORDER": "Keep Order",
-        "CANCEL_ORDER": "Cancel Order"
+        "CANCEL_ORDER": "Cancel Order",
+        "PROCESSING": "Processing",
+        "API_FAILURE": "An internal error occured",
+        "API_TIMEOUT": "Api timeout, cancellation is taking a while"
       }
     }
   },

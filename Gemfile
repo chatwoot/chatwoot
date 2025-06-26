@@ -254,3 +254,5 @@ group :development, :test do
   gem 'spring-watcher-listen'
 end
 gem 'shopify_app'
+
+gem "shopify_graphql", "~> 2.3"

@@ -1,9 +1,11 @@
 ShopifyApp.configure do |config|
   config.application_name = "OneHash Chat"
   config.old_secret = ""
-  config.scope = "read_customers,read_orders,read_fulfillments" # Consult this page for more scope options: https://shopify.dev/docs/api/usage/access-scopes
+  
+  # FIXME: These scopes aren't even used, beware
+  config.scope = "read_customers,read_orders,write_orders,read_fulfillments" # Consult this page for more scope options: https://shopify.dev/docs/api/usage/access-scopes
   config.embedded_app = true
-  # REVIEW: used to be true, what's the implications
+  # REVIEW: this is for the new auth which is separate from the oauth flow we are currently using
   config.new_embedded_auth_strategy = false
 
   config.after_authenticate_job = false
@@ -52,7 +54,8 @@ Rails.application.config.after_initialize do
       api_secret_key: ShopifyApp.configuration.secret,
       api_version: ShopifyApp.configuration.api_version,
       host: ENV['HOST'],
-      scope: ShopifyApp.configuration.scope,
+      # scope: ShopifyApp.configuration.scope,
+      scope: "read_customers,read_orders,read_fulfillments,write_orders,read_all_orders",
       is_private: !ENV.fetch('SHOPIFY_APP_PRIVATE_SHOP', '').empty?,
       is_embedded: ShopifyApp.configuration.embedded_app,
       log_level: :debug,

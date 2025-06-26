@@ -148,6 +148,21 @@ class ActionCableListener < BaseListener
     broadcast(account, tokens, CALL_REJECTED, call)
   end
 
+  # Order Events
+  def order_cancellation_update(event)
+    message, status, order, currentUser = event.data.values_at(:message, :status, :order, :currentUser)
+
+    account = order.account
+    # token = account_token(account)
+    token = [currentUser]
+
+    broadcast(account, token, ORDER_CANCELLATION_UPDATE, {
+      message: message,
+      status: status,
+      orderId: order.id
+    })
+  end
+
   def assignee_changed(event)
     conversation, account = extract_conversation_and_account(event)
     tokens = user_tokens(account, conversation.inbox.members)

@@ -33,4 +33,8 @@ class Shopify::ClientService
   def shopify_session
     ShopifyAPI::Auth::Session.new(shop: @shop_domain, access_token: @access_token)
   end
+
+  def shop
+    @shop ||= Shop.find_by(shopify_domain: @shop_domain)
+  end
 end

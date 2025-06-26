@@ -1,5 +1,5 @@
 module Shopify::IntegrationHelper
-  REQUIRED_SCOPES = %w[read_customers read_orders read_fulfillments].freeze
+  REQUIRED_SCOPES = %w[read_customers read_orders read_fulfillments write_orders].freeze
 
   # Generates a signed JWT token for Shopify integration
   #

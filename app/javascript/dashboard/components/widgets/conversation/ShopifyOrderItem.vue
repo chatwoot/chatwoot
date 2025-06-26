@@ -5,6 +5,33 @@ import { useI18n } from 'vue-i18n';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
+const cancel_reasons = {
+  customer: 'The customer wanted to cancel the order.',
+  declined: 'Payment was declined.',
+  fraud: 'The order was fraudulent.',
+  inventory: 'There was insufficient inventory.',
+  other: 'The order was canceled for an unlisted reason.',
+  staff: 'Staff made an error.',
+};
+
+const getCancelReasonString = reason => {
+  return cancel_reasons[reason.toUpperCase()];
+};
+
+const financial_statuses = {
+  authorized: 'AUTHORIZED',
+  paid: 'PAID',
+  partially_paid: 'PARTIALLY_PAID',
+  partially_refunded: 'PARTIALLY_REFUNDED',
+  pending: 'PENDING',
+  refunded: 'REFUNDED',
+  voided: 'VOIDED',
+};
+
+const isOrderInFinancialStatus = status => {
+  return props.order.financial_status.toUpperCase() === status;
+};
+
 const props = defineProps({
   order: {
     type: Object,
@@ -108,13 +135,21 @@ const getFulfillmentClass = status => {
       </span>
     </div>
 
-    <div class="selection-controls">
-      <button @click="emitCancelOrder">
-        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.BUTTON_TEXT') }}
-      </button>
+    <div class="selection-controls items-center">
       <button>
         {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.EDIT.BUTTON_TEXT') }}
       </button>
+      <button v-if="!order.cancelled_at" @click="emitCancelOrder">
+        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.BUTTON_TEXT') }}
+      </button>
+    </div>
+
+    <div
+      v-if="order.cancelled_at"
+      class="bg-blue-500 text-white rounded text-sm"
+      :title="getCancelReasonString(order.cancel_reason)"
+    >
+      Cancelled: {{ getCancelReasonString(order.cancel_reason) }}
     </div>
   </div>
 </template>

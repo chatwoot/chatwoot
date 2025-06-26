@@ -888,6 +888,11 @@ GEM
       redirect_safely (~> 1.0)
       shopify_api (>= 14.7.0, < 15.0)
       sprockets-rails (>= 2.0.0)
+    shopify_graphql (2.3.0)
+      activesupport (>= 6.1.0)
+      rails (>= 6.1.0)
+      shopify_api (>= 13.4)
+      shopify_app (>= 19.0)
     shoulda-matchers (6.5.0)
       activesupport (>= 5.2.0)
     sidekiq (7.3.9)
@@ -1134,6 +1139,7 @@ DEPENDENCIES
   sentry-sidekiq (>= 5.19.0)
   shopify_api
   shopify_app
+  shopify_graphql (~> 2.3)
   shoulda-matchers
   sidekiq (>= 7.3.1)
   sidekiq-cron (>= 1.12.0)

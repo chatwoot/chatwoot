@@ -8,7 +8,6 @@ class OrdersUpdatedJob < ActiveJob::Base
   end
 
   def perform(topic:, shop_domain:, webhook:)
-    Rails.logger.info("Order update job called #{webhook}")
     shop = Shop.find_by(shopify_domain: shop_domain)
     hook = Integrations::Hook.find_by(reference_id: shop_domain)
     account_id = hook.account_id
@@ -21,7 +20,6 @@ class OrdersUpdatedJob < ActiveJob::Base
     end
 
     shop.with_shopify_session do |session|
-      Rails.logger.info("Order updating #{webhook}")
       account.orders.upsert(
         {
           id:                 webhook['id'],
@@ -46,7 +44,6 @@ class OrdersUpdatedJob < ActiveJob::Base
         },
         unique_by: :id
       )
-      Rails.logger.info("Order updated #{webhook}")
     end
 
   end

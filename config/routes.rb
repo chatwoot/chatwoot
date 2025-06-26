@@ -375,6 +375,12 @@ Rails.application.routes.draw do
     namespace :v2 do
       resources :accounts, only: [:create] do
         scope module: :accounts do
+          namespace :shopify do
+            resources :orders, only: [:show] do
+              post :cancel_order, on: :member
+            end
+          end
+
           resources :summary_reports, only: [] do
             collection do
               get :agent
@@ -396,6 +402,7 @@ Rails.application.routes.draw do
               get :bot_metrics
             end
           end
+
           resources :live_reports, only: [] do
             collection do
               get :conversation_metrics

@@ -348,3 +348,4 @@ en:
       %{format_messages}
   shopify:
     order_cancellation_process: 'Order cancellation in process'
+    order_cancellation_done: 'Order cancellation completed'

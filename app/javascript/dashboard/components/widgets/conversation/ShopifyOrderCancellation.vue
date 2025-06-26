@@ -1,4 +1,5 @@
 <script setup>
+import { useAlert } from 'dashboard/composables';
 import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -6,69 +7,55 @@ import currency_codes from 'shared/constants/currency_codes';
 import SimpleDivider from 'v3/components/Divider/SimpleDivider.vue';
 import { useStore } from 'vuex';
 import useVuelidate from '@vuelidate/core';
-import { maxValue, minValue, required } from '@vuelidate/validators';
-import QuantityField from './QuantityField.vue';
+import { required } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
-import OrdersAPI from 'api/orders.js'
+import OrdersAPI from 'dashboard/api/orders';
+import { AxiosError } from 'axios';
+import { isAxiosError } from 'axios';
 
 const show = ref(false);
 
 const store = useStore();
 
-const reasons = [
-  'Wrong item received',
-  'Item was damaged or defective',
-  'Item not as described',
-  'Order arrived late',
-  'Duplicate or accidental order',
-];
+const reasons = {
+  CUSTOMER: 'The customer wanted to cancel the order.',
+  DECLINED: 'Payment was declined.',
+  FRAUD: 'The order was fraudulent.',
+  INVENTORY: 'There was insufficient inventory.',
+  OTHER: 'The order was canceled for an unlisted reason.',
+  STAFF: 'Staff made an error.',
+};
+
+const reasonOptions = Object.entries(reasons).map(([key, value]) => ({
+  key,
+  value,
+}));
+
+const cancellationState = ref(null);
 
 const onClose = () => {
   emitter.emit(BUS_EVENTS.CANCEL_ORDER, null);
 };
 
 const currentOrder = ref(null);
-
-const quantityStates = computed(() =>
-  Object.fromEntries(
-    currentOrder.value?.line_items.map(e => [e.id, e.quantity]) ?? []
-  )
-);
+let cancellationTimeout = null;
 
 const formState = reactive({
-  refundAmount: 0,
-  refundReason: null,
-  customRefundReason: null,
+  cancellationReason: null,
+  // customCancellationReason: null,
+  // customReason: false,
   restockItem: false,
+  refundOrder: false,
   sendNotification: false,
-  quantity: quantityStates,
-  // quantity: {
-  //   16632369250614: 4,
-  // },
 });
 
 const rules = computed(() => {
-  const quantityRules = {};
-
-  currentOrder.value?.line_items.forEach(item => {
-    quantityRules[item.id] = {
-      required,
-      minValue: minValue(0),
-      maxValue: maxValue(item.quantity),
-    };
-  });
-
   return {
-    refundAmount: { required },
-    refundReason: { required },
-    customRefundReason: {},
-    quantity: {},
+    cancellationReason: { required },
   };
 });
 
 const v$ = useVuelidate(rules, formState);
-
-const refundableAmount = ref(0);
 
 const item_total_price = item => {
   return (
@@ -80,6 +67,8 @@ const item_total_price = item => {
 const setCancelledOrder = order => {
   show.value = order !== null && order !== undefined;
   currentOrder.value = order;
+  cancellationState.value = null;
+  clearTimeout(cancellationTimeout);
 };
 
 onMounted(() => {
@@ -88,43 +77,52 @@ onMounted(() => {
 
 onUnmounted(() => {
   emitter.off(BUS_EVENTS.CANCEL_ORDER, setCancelledOrder);
+  clearTimeout(cancellationTimeout);
 });
 
-// Only allow numbers with up to 2 decimals
-function onInput(e) {
-  let val = e.target.value;
-
-  // Remove all characters except digits and dot
-  val = val.replace(/[^0-9.]/g, '');
-
-  // Only allow one dot
-  const parts = val.split('.');
-  if (parts.length > 2) {
-    val = parts[0] + '.' + parts.slice(1).join('');
-  }
-
-  // Limit to 2 decimal places
-  if (parts[1]?.length > 2) {
-    val = parts[0] + '.' + parts[1].slice(0, 2);
-  }
-
-  // Prevent leading dot (".5" -> "0.5")
-  if (val.startsWith('.')) {
-    val = '0' + val;
-  }
-
-  formState.refundAmount = val;
-}
-
-function onBlur() {
-  // Format to 2 decimals if not empty
-  if (formState.refundAmount && !isNaN(formState.refundAmount)) {
-    formState.refundAmount = parseFloat(formState.refundAmount).toFixed(2);
-  }
-}
-
-const cancelOrder = () => {
+const cancelOrder = async $t => {
   v$.value.$touch();
+
+  if (v$.value.$invalid) {
+    // There are validation errors
+    // You can show error messages or prevent further action
+    console.log('ERRORS: ', v$.value.$errors);
+    return;
+  }
+
+  try {
+    cancellationState.value = 'processing';
+
+    await OrdersAPI.cancelOrder({
+      orderId: currentOrder.value.id,
+      reason: formState.cancellationReason,
+      refund: formState.refundOrder,
+      restock: formState.restockItem,
+      notifyCustomer: formState.sendNotification,
+    });
+
+    cancellationTimeout = setTimeout(() => {
+      emitter.emit(BUS_EVENTS.CANCEL_ORDER, null);
+      useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_TIMEOUT'));
+    }, 30 * 1000);
+  } catch (e) {
+    cancellationState.value = null;
+    let message = $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_FAILURE');
+    if (isAxiosError(e)) {
+      const errors = e.response.data.errors;
+      if (errors && errors[0].message) {
+        message = errors[0].message;
+      }
+    }
+    console.log(e);
+    useAlert(message);
+  }
+};
+
+const buttonText = () => {
+  if (cancellationState.value === 'processing')
+    return 'CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.PROCESSING';
+  return 'CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.CANCEL_ORDER';
 };
 </script>
 
@@ -135,7 +133,7 @@ const cancelOrder = () => {
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DESC')"
     />
     <form>
-      <div v-if="currentOrder" class="p-2">
+      <div v-if="currentOrder" class="">
         <table class="woot-table items-table overflow-auto max-h-2">
           <thead>
             <tr>
@@ -169,14 +167,7 @@ const cancelOrder = () => {
                 </div>
               </td>
               <td class="text-center align-middle">
-                <!-- <div>{{ item.quantity }}</div> -->
-                <div class="inline-block">
-                  <QuantityField
-                    v-model="formState.quantity[item.id]"
-                    :min="0"
-                    :max="item.quantity"
-                  ></QuantityField>
-                </div>
+                <div>{{ item.quantity }}</div>
               </td>
               <td>
                 <div>
@@ -190,9 +181,7 @@ const cancelOrder = () => {
         <SimpleDivider></SimpleDivider>
         <div class="h-4"></div>
 
-        <div
-          class="flex flex-row pr-11 items-start justify-start content-start"
-        >
+        <div class="flex flex-row items-start justify-between content-start">
           <div
             class="flex flex-col items-start justify-start content-start gap-2"
           >
@@ -215,6 +204,21 @@ const cancelOrder = () => {
             >
               <input
                 type="checkbox"
+                :checked="formState.refundOrder"
+                @change="formState.refundOrder = !formState.refundOrder"
+              />
+
+              <span>
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REFUND_ORDER') }}
+              </span>
+            </div>
+
+            <div
+              class="select-visible-checkbox gap-2"
+              :style="selectVisibleCheckboxStyle"
+            >
+              <input
+                type="checkbox"
                 :checked="formState.sendNotification"
                 @change="
                   formState.sendNotification = !formState.sendNotification
@@ -229,101 +233,38 @@ const cancelOrder = () => {
             </div>
           </div>
 
-          <div class="flex-1 flex-row"></div>
-
-          <div class="flex flex-col">
-            <div class="flex flex-row justify-between items-center gap-10">
-              <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.SUBTOTAL') }}
+          <div class="flex flex-col justify-start items-start gap-4 ml-4">
+            <div class="flex flex-col gap-1">
+              <label class="">
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REASON') }}
+                <!-- {{ add marker for manual }}  -->
               </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ currentOrder.subtotal_price }}</span
+
+              <select
+                v-model="formState.cancellationReason"
+                class="w-full p-2 mt-1 border-0"
+                :class="{ 'border-red-500': v$.cancellationReason.$error }"
               >
+                <option
+                  v-for="reason in reasonOptions"
+                  :key="reason.key"
+                  :value="reason.key"
+                >
+                  {{ reason.value }}
+                </option>
+              </select>
             </div>
-
-            <div class="flex flex-row justify-between gap-10">
-              <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DISCOUNT') }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ currentOrder.total_discount ?? 0 }}</span
-              >
-            </div>
-
-            <div class="flex flex-row justify-between gap-10">
-              <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TAX') }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ currentOrder.total_tax }}</span
-              >
-            </div>
-
-            <div class="flex flex-row justify-between gap-10">
-              <label>
-                {{
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.AMOUNT_REFUNDABLE')
-                }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ refundableAmount }}</span
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-row justify-start items-start gap-4 mt-4">
-          <div class="flex flex-col gap-2">
-            <h5>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REFUND_AMOUNT') }}
-              <!-- {{ add marker for manual }}  -->
-            </h5>
-            <input
-              type="text"
-              :value="
-                currency_codes[currentOrder.currency] + formState.refundAmount
-              "
-              inputmode="decimal"
-              placeholder="0.00"
-              @input="onInput"
-              @blur="onBlur"
-              style="width: 200px; font-size: 1.1em"
-              autocomplete="off"
-            />
-          </div>
-
-          <div class="flex flex-col gap-1">
-            <h5>
-              {{
-                $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.CANCELLATION_REASON')
-              }}
-              <!-- {{ add marker for manual }}  -->
-            </h5>
-
-            <select
-              v-model="formState.refundReason"
-              class="w-full p-2 mt-1 border-0 selectInbox"
-              :class="{ 'border-red-500': v$.refundReason.$error }"
-            >
-              <option v-for="reason in reasons" :value="reason">
-                {{ reason }}
-              </option>
-            </select>
           </div>
         </div>
 
         <div class="flex flex-row justify-end mt-4">
           <Button
             type="button"
-            :disabled="v$.$error"
+            :disabled="v$.$error || cancellationState === null"
             variant="primary"
-            @click="cancelOrder"
+            @click="() => cancelOrder($t)"
           >
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.CANCEL_ORDER') }}
+            {{ $t(buttonText()) }}
           </Button>
         </div>
       </div>
