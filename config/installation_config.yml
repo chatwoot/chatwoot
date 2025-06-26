@@ -43,7 +43,7 @@
   display_title: 'Brand Name'
   description: 'The name that would be used in emails and the widget'
 - name: TERMS_URL
-  value: 'https://www.chatscommerce.com/terms-of-service'
+  value: 'https://www.chatscommerce.com/terms-conditions'
   display_title: 'Terms URL'
   description: 'The terms of service URL displayed in Signup Page'
 - name: PRIVACY_URL
