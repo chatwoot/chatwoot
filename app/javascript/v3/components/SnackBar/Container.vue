@@ -1,6 +1,7 @@
 <script>
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import SnackbarItem from './Item.vue';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: { SnackbarItem },
@@ -18,10 +19,10 @@ export default {
   },
 
   mounted() {
-    this.$emitter.on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
+    emitter.on(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
-  beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
+  unmounted() {
+    emitter.off(BUS_EVENTS.SHOW_TOAST, this.onNewToastMessage);
   },
   methods: {
     onNewToastMessage({ message, action }) {

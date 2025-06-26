@@ -30,6 +30,9 @@
       "is_lesser_than": "Lebih kecil dari",
       "days_before": "X hari sebelum"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai dibutuhkan"
+    },
     "ATTRIBUTES": {
       "NAME": "Nama",
       "EMAIL": "Email",

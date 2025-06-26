@@ -1,9 +1,14 @@
+import { FEATURE_FLAGS } from '../../../../featureFlags';
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
-const SettingsContent = () => import('../Wrapper.vue');
-const SettingsWrapper = () => import('../SettingsWrapper.vue');
-const Macros = () => import('./Index.vue');
-const MacroEditor = () => import('./MacroEditor.vue');
+import {
+  ROLES,
+  CONVERSATION_PERMISSIONS,
+} from 'dashboard/constants/permissions.js';
+import SettingsContent from '../Wrapper.vue';
+import SettingsWrapper from '../SettingsWrapper.vue';
+import Macros from './Index.vue';
+import MacroEditor from './MacroEditor.vue';
 
 export default {
   routes: [
@@ -16,7 +21,8 @@ export default {
           name: 'macros_wrapper',
           component: Macros,
           meta: {
-            permissions: ['administrator', 'agent'],
+            featureFlag: FEATURE_FLAGS.MACROS,
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
       ],
@@ -37,7 +43,8 @@ export default {
           name: 'macros_edit',
           component: MacroEditor,
           meta: {
-            permissions: ['administrator', 'agent'],
+            featureFlag: FEATURE_FLAGS.MACROS,
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
         {
@@ -45,7 +52,8 @@ export default {
           name: 'macros_new',
           component: MacroEditor,
           meta: {
-            permissions: ['administrator', 'agent'],
+            featureFlag: FEATURE_FLAGS.MACROS,
+            permissions: [...ROLES, ...CONVERSATION_PERMISSIONS],
           },
         },
       ],

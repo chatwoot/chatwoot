@@ -1,6 +1,6 @@
 {
   "SLA": {
-    "HEADER": "SLA",
+    "HEADER": "Servisa Līmeņa Līgumi",
     "ADD_ACTION": "Pievienot SLA",
     "ADD_ACTION_LONG": "Izveidot jaunu SLA politiku",
     "DESCRIPTION": "Pakalpojuma līmeņa līgumi (SLA) ir līgumi, kas nosaka skaidras cerības starp jūsu komandu un klientiem. Tie nosaka atbildes un atrisināšanas laika standartus, veidojot pārskatatbildības sistēmu un nodrošinot konsekventu, augstas kvalitātes pieredzi.",

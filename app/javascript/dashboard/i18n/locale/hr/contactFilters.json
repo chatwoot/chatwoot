@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "Je x dana prije"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Vrijednost je obavezna"
+    },
     "ATTRIBUTES": {
       "NAME": "Ime",
       "EMAIL": "Email",

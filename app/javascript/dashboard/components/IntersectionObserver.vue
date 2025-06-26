@@ -1,32 +1,26 @@
-<script>
-export default {
-  props: {
-    options: {
-      type: Object,
-      default: () => ({ root: document, rootMargin: '100px 0 100px 0)' }),
-    },
+<script setup>
+import { ref, defineEmits } from 'vue';
+import { useIntersectionObserver } from '@vueuse/core';
+
+const { options } = defineProps({
+  options: {
+    type: Object,
+    default: () => ({ root: document, rootMargin: '100px 0 100px 0)' }),
   },
-  mounted() {
-    this.intersectionObserver = null;
-    this.registerInfiniteLoader();
+});
+
+const emit = defineEmits(['observed']);
+const observedElement = ref('');
+
+useIntersectionObserver(
+  observedElement,
+  ([{ isIntersecting }]) => {
+    if (isIntersecting) {
+      emit('observed');
+    }
   },
-  beforeDestroy() {
-    this.unobserveInfiniteLoadObserver();
-  },
-  methods: {
-    registerInfiniteLoader() {
-      this.intersectionObserver = new IntersectionObserver(entries => {
-        if (entries && entries[0].isIntersecting) {
-          this.$emit('observed');
-        }
-      }, this.options);
-      this.intersectionObserver.observe(this.$refs.observedElement);
-    },
-    unobserveInfiniteLoadObserver() {
-      this.intersectionObserver.unobserve(this.$refs.observedElement);
-    },
-  },
-};
+  options
+);
 </script>
 
 <template>

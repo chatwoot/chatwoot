@@ -15,6 +15,7 @@ export default {
       default: '',
     },
   },
+  emits: ['error'],
   data() {
     return {
       hasImgStoryError: false,

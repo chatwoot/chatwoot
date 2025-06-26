@@ -1,4 +1,3 @@
-import Vue from 'vue';
 import types from '../../mutation-types';
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
@@ -12,7 +11,7 @@ import {
 } from './helpers/actionHelpers';
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
 
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
@@ -101,7 +100,7 @@ const actions = {
   },
 
   fetchAllAttachments: async ({ commit }, conversationId) => {
-    let attachments = null;
+    let attachments = [];
 
     try {
       const { data } = await ConversationApi.getAllAttachments(conversationId);
@@ -196,7 +195,7 @@ const actions = {
           before: data.messages[0].id,
           conversationId: data.id,
         });
-        Vue.set(data, 'dataFetched', true);
+        data.dataFetched = true;
       } catch (error) {
         // Ignore error
       }
@@ -323,6 +322,16 @@ const actions = {
       const { data } = await MessageApi.delete(conversationId, messageId);
       commit(types.ADD_MESSAGE, data);
       commit(types.DELETE_CONVERSATION_ATTACHMENTS, data);
+    } catch (error) {
+      throw new Error(error);
+    }
+  },
+
+  deleteConversation: async ({ commit, dispatch }, conversationId) => {
+    try {
+      await ConversationApi.delete(conversationId);
+      commit(types.DELETE_CONVERSATION, conversationId);
+      dispatch('conversationStats/get', {}, { root: true });
     } catch (error) {
       throw new Error(error);
     }
@@ -488,6 +497,15 @@ const actions = {
 
   setContextMenuChatId({ commit }, chatId) {
     commit(types.SET_CONTEXT_MENU_CHAT_ID, chatId);
+  },
+
+  getInboxCaptainAssistantById: async ({ commit }, conversationId) => {
+    try {
+      const response = await ConversationApi.getInboxAssistant(conversationId);
+      commit(types.SET_INBOX_CAPTAIN_ASSISTANT, response.data);
+    } catch (error) {
+      // Handle error
+    }
   },
 
   ...messageReadActions,

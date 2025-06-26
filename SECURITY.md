@@ -2,13 +2,13 @@ Chatwoot is looking forward to working with security researchers worldwide to ke
 
 ## Reporting a Vulnerability
 
-We use [huntr.dev](https://huntr.dev/) for security issues that affect our project. If you believe you have found a vulnerability, please disclose it via this [form](https://huntr.dev/bounties/disclose). This will enable us to review the vulnerability, fix it promptly, and reward you for your efforts.
+We use Github to track the security issues that affect our project. If you believe you have found a vulnerability, please disclose it via this [form](https://github.com/chatwoot/chatwoot/security/advisories/new). This will enable us to review the vulnerability, fix it promptly, and reward you for your efforts.
 
 If you have any questions about the process, contact security@chatwoot.com. 
 
-Please try your best to describe a clear and realistic impact for your report, and please don't open any public issues on GitHub or social media; we're doing our best to respond through Huntr as quickly as possible.
+Please try your best to describe a clear and realistic impact for your report, and please don't open any public issues on GitHub or social media; we're doing our best to respond through Github as quickly as possible.
 
-> Note: Please use the email for questions related to the process. Disclosures should be done via [huntr.dev](https://huntr.dev/)
+> Note: Please use the email for questions related to the process. Disclosures should be done via [Github](https://github.com/chatwoot/chatwoot/security/advisories/new)
 ## Supported versions
 
 | Version | Supported        |
@@ -48,7 +48,7 @@ We consider the following out of scope, though there may be exceptions.
 - Brute force attacks
 - DNSSEC
 
-If you are unsure about the scope, please create a [report](https://huntr.dev/repos/chatwoot/chatwoot/).
+If you are unsure about the scope, please create a [report](https://github.com/chatwoot/chatwoot/security/advisories/new).
 
 
 ## Thanks

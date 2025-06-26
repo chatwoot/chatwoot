@@ -4,12 +4,14 @@ import Hotkey from 'dashboard/components/base/Hotkey.vue';
 import AddLabelModal from 'dashboard/routes/dashboard/settings/labels/AddLabel.vue';
 import { picoSearch } from '@scmmishra/pico-search';
 import { sanitizeLabel } from 'shared/helpers/sanitizeData';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     LabelDropdownItem,
     AddLabelModal,
     Hotkey,
+    NextButton,
   },
 
   props: {
@@ -26,6 +28,7 @@ export default {
       default: false,
     },
   },
+  emits: ['update', 'add', 'remove'],
 
   data() {
     return {
@@ -116,7 +119,7 @@ export default {
         {{ $t('CONTACT_PANEL.LABELS.LABEL_SELECT.TITLE') }}
       </h4>
       <Hotkey
-        custom-class="border border-solid text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border-slate-75 dark:border-slate-600"
+        custom-class="border border-solid text-slate-800 dark:text-slate-100 bg-slate-50 dark:bg-slate-600 text-xxs border-slate-75 dark:border-slate-600 flex-shrink-0"
       >
         {{ 'L' }}
       </Hotkey>
@@ -134,7 +137,7 @@ export default {
     <div
       class="flex items-start justify-start flex-auto flex-grow flex-shrink overflow-auto"
     >
-      <div class="w-full">
+      <div class="w-full my-1">
         <woot-dropdown-menu>
           <LabelDropdownItem
             v-for="label in filteredActiveLabels"
@@ -142,7 +145,7 @@ export default {
             :title="label.title"
             :color="label.color"
             :selected="selectedLabels.includes(label.title)"
-            @click="onAddRemove(label)"
+            @select-label="onAddRemove(label)"
           />
         </woot-dropdown-menu>
         <div
@@ -155,22 +158,18 @@ export default {
           v-if="allowCreation && shouldShowCreate"
           class="flex pt-1 border-t border-solid border-slate-100 dark:border-slate-900"
         >
-          <woot-button
-            size="small"
-            variant="clear"
-            color-scheme="secondary"
-            icon="add"
-            is-expanded
-            class="button-new-label"
-            :is-disabled="hasExactMatchInResults"
+          <NextButton
+            icon="i-lucide-plus"
+            slate
+            sm
+            ghost
+            :label="`${createLabelPlaceholder} ${parsedSearch}`"
+            :disabled="hasExactMatchInResults"
             @click="showCreateModal"
-          >
-            {{ createLabelPlaceholder }}
-            {{ parsedSearch }}
-          </woot-button>
+          />
 
           <woot-modal
-            :show.sync="createModalVisible"
+            v-model:show="createModalVisible"
             :on-close="hideCreateModal"
           >
             <AddLabelModal
@@ -183,21 +182,3 @@ export default {
     </div>
   </div>
 </template>
-
-<style lang="scss" scoped>
-.hotkey {
-  @apply flex-shrink-0;
-}
-
-.search-input {
-  @apply m-0 w-full border border-solid border-transparent h-8 text-sm text-slate-700 dark:text-slate-100 rounded-md focus:border-woot-500 bg-slate-50 dark:bg-slate-900;
-}
-
-.button-new-label {
-  @apply whitespace-nowrap text-ellipsis overflow-hidden items-center;
-
-  .icon {
-    @apply min-w-0;
-  }
-}
-</style>

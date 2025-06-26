@@ -75,10 +75,34 @@ export default {
     onRegistrationSuccess() {
       this.hasEnabledPushPermissions = true;
     },
-    onRequestPermissions() {
-      requestPushPermissions({
-        onSuccess: this.onRegistrationSuccess,
-      });
+    onRequestPermissions(value) {
+      if (value) {
+        // Enable / re-enable push notifications
+        requestPushPermissions({
+          onSuccess: this.onRegistrationSuccess,
+        });
+      } else {
+        // Disable push notifications
+        this.disablePushPermissions();
+      }
+    },
+    disablePushPermissions() {
+      verifyServiceWorkerExistence(registration =>
+        registration.pushManager
+          .getSubscription()
+          .then(subscription => {
+            if (subscription) {
+              return subscription.unsubscribe();
+            }
+            return null;
+          })
+          .finally(() => {
+            this.hasEnabledPushPermissions = false;
+          })
+          .catch(() => {
+            // error
+          })
+      );
     },
     getPushSubscription() {
       verifyServiceWorkerExistence(registration =>
@@ -257,8 +281,8 @@ export default {
         </span>
       </div>
       <FormSwitch
-        :value="hasEnabledPushPermissions"
-        @input="onRequestPermissions"
+        :model-value="hasEnabledPushPermissions"
+        @update:model-value="onRequestPermissions"
       />
     </div>
   </div>

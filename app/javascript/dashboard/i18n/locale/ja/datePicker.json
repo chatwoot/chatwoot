@@ -1,19 +1,19 @@
 {
   "DATE_PICKER": {
-    "APPLY_BUTTON": "Apply",
-    "CLEAR_BUTTON": "Clear",
+    "APPLY_BUTTON": "適用",
+    "CLEAR_BUTTON": "クリア",
     "DATE_RANGE_INPUT": {
-      "START": "Start Date",
-      "END": "End Date"
+      "START": "開始日",
+      "END": "終了日"
     },
     "DATE_RANGE_OPTIONS": {
-      "TITLE": "DATE RANGE",
+      "TITLE": "日付範囲",
       "LAST_7_DAYS": "過去 7 日間",
       "LAST_30_DAYS": "過去 30 日間",
-      "LAST_3_MONTHS": "Last 3 months",
-      "LAST_6_MONTHS": "Last 6 months",
-      "LAST_YEAR": "Last year",
-      "CUSTOM_RANGE": "Custom date range"
+      "LAST_3_MONTHS": "過去 3 ヶ月",
+      "LAST_6_MONTHS": "過去 6 ヶ月",
+      "LAST_YEAR": "過去 1 年",
+      "CUSTOM_RANGE": "カスタム日付範囲"
     }
   }
 }

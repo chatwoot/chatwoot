@@ -1,26 +1,25 @@
 <script>
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import { useAI } from 'dashboard/composables/useAI';
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
 import AILoader from './AILoader.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     AILoader,
+    NextButton,
   },
-  mixins: [messageFormatterMixin],
   props: {
     aiOption: {
       type: String,
       required: true,
     },
   },
+  emits: ['close', 'applyText'],
   setup() {
+    const { formatMessage } = useMessageFormatter();
     const { draftMessage, processEvent, recordAnalytics } = useAI();
-    return {
-      draftMessage,
-      processEvent,
-      recordAnalytics,
-    };
+    return { draftMessage, processEvent, recordAnalytics, formatMessage };
   },
   data() {
     return {
@@ -87,16 +86,22 @@ export default {
       </div>
 
       <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-        <woot-button variant="clear" @click.prevent="onClose">
-          {{
+        <NextButton
+          faded
+          slate
+          type="reset"
+          :label="
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.CANCEL')
-          }}
-        </woot-button>
-        <woot-button :disabled="!generatedContent">
-          {{
+          "
+          @click.prevent="onClose"
+        />
+        <NextButton
+          type="submit"
+          :disabled="!generatedContent"
+          :label="
             $t('INTEGRATION_SETTINGS.OPEN_AI.ASSISTANCE_MODAL.BUTTONS.APPLY')
-          }}
-        </woot-button>
+          "
+        />
       </div>
     </form>
   </div>

@@ -1,5 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
+import { useTrack } from 'dashboard/composables';
 import TableFooter from 'dashboard/components/widgets/TableFooter.vue';
 
 import NotificationTable from './NotificationTable.vue';
@@ -34,7 +35,7 @@ export default {
         notification_type: notificationType,
       } = notification;
 
-      this.$track(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
+      useTrack(ACCOUNT_EVENTS.OPEN_CONVERSATION_VIA_NOTIFICATION, {
         notificationType,
       });
       this.$store.dispatch('notifications/read', {
@@ -49,7 +50,7 @@ export default {
       );
     },
     onMarkAllDoneClick() {
-      this.$track(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
+      useTrack(ACCOUNT_EVENTS.MARK_AS_READ_NOTIFICATIONS);
       this.$store.dispatch('notifications/readAll');
     },
   },
@@ -71,7 +72,7 @@ export default {
         :current-page="Number(meta.currentPage)"
         :total-count="meta.count"
         :page-size="15"
-        @pageChange="onPageChange"
+        @page-change="onPageChange"
       />
     </div>
   </div>

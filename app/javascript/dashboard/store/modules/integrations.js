@@ -1,5 +1,4 @@
 /* eslint no-param-reassign: 0 */
-import Vue from 'vue';
 import * as MutationHelpers from 'shared/helpers/vuex/mutationHelpers';
 import * as types from '../mutation-types';
 import IntegrationsAPI from '../../api/integrations';
@@ -146,22 +145,25 @@ export const mutations = {
   [types.default.ADD_INTEGRATION]: MutationHelpers.updateAttributes,
   [types.default.DELETE_INTEGRATION]: MutationHelpers.updateAttributes,
   [types.default.ADD_INTEGRATION_HOOKS]: ($state, data) => {
-    $state.records.forEach((element, index) => {
-      if (element.id === data.app_id) {
-        const record = $state.records[index];
-        Vue.set(record, 'hooks', [...record.hooks, data]);
+    $state.records = $state.records.map(record => {
+      if (record.id === data.app_id) {
+        return {
+          ...record,
+          hooks: [...record.hooks, data],
+        };
       }
+      return record;
     });
   },
   [types.default.DELETE_INTEGRATION_HOOKS]: ($state, { appId, hookId }) => {
-    $state.records.forEach((element, index) => {
-      if (element.id === appId) {
-        const record = $state.records[index];
-        const hooksWithoutDeletedHook = record.hooks.filter(
-          hook => hook.id !== hookId
-        );
-        Vue.set(record, 'hooks', hooksWithoutDeletedHook);
+    $state.records = $state.records.map(record => {
+      if (record.id === appId) {
+        return {
+          ...record,
+          hooks: record.hooks.filter(hook => hook.id !== hookId),
+        };
       }
+      return record;
     });
   },
 };

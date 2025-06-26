@@ -58,7 +58,7 @@ export default {
     active-class="active"
   >
     <li
-      class="font-medium h-7 my-1 hover:bg-slate-25 hover:text-bg-50 flex items-center px-2 rounded-md dark:hover:bg-slate-800"
+      class="h-7 my-1 hover:bg-slate-25 hover:text-bg-50 flex items-center px-2 rounded-md dark:hover:bg-slate-800"
       :class="{
         'bg-woot-25 dark:bg-slate-800': isActive,
         'text-ellipsis overflow-hidden whitespace-nowrap max-w-full':
@@ -105,7 +105,7 @@ export default {
           </span>
           <span
             v-if="showChildCount"
-            class="bg-slate-50 dark:bg-slate-700 rounded-full min-w-[18px] justify-center items-center flex text-xxs font-medium mx-1 py-0 px-1"
+            class="bg-slate-50 dark:bg-slate-700 rounded-full min-w-[18px] justify-center items-center flex text-xxs mx-1 py-0 px-1"
             :class="
               isCountZero
                 ? `text-slate-300 dark:text-slate-500`

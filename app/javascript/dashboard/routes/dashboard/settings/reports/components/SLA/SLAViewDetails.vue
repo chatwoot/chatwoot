@@ -1,8 +1,11 @@
 <script>
 import SLAPopoverCard from 'dashboard/components/widgets/conversation/components/SLAPopoverCard.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
   components: {
     SLAPopoverCard,
+    NextButton,
   },
   props: {
     slaEvents: {
@@ -29,24 +32,23 @@ export default {
 </script>
 
 <template>
-  <div v-on-clickaway="closeSlaEvents" class="label-wrap">
-    <div
-      class="flex items-center col-span-2 px-0 py-2 text-sm tracking-[0.5] text-slate-700 dark:text-slate-100 rtl:text-right"
-    >
-      <div class="relative">
-        <woot-button
-          color-scheme="secondary"
-          variant="link"
-          @click="openSlaEvents"
-        >
-          {{ $t('SLA_REPORTS.TABLE.VIEW_DETAILS') }}
-        </woot-button>
-        <SLAPopoverCard
-          v-if="showSlaPopoverCard"
-          :sla-missed-events="slaEvents"
-          class="right-0"
-        />
-      </div>
+  <div
+    v-on-clickaway="closeSlaEvents"
+    class="flex items-center col-span-2 text-slate-11 justify-end"
+  >
+    <div class="relative">
+      <NextButton
+        link
+        slate
+        type="button"
+        :label="$t('SLA_REPORTS.TABLE.VIEW_DETAILS')"
+        @click="openSlaEvents"
+      />
+      <SLAPopoverCard
+        v-if="showSlaPopoverCard"
+        :sla-missed-events="slaEvents"
+        class="right-0"
+      />
     </div>
   </div>
 </template>

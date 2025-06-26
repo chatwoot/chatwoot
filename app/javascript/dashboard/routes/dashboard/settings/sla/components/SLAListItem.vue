@@ -2,6 +2,7 @@
 import BaseSettingsListItem from '../../components/BaseSettingsListItem.vue';
 import SLAResponseTime from './SLAResponseTime.vue';
 import SLABusinessHoursLabel from './SLABusinessHoursLabel.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   slaName: {
@@ -33,6 +34,8 @@ defineProps({
     default: false,
   },
 });
+
+const emit = defineEmits(['delete']);
 </script>
 
 <template>
@@ -54,15 +57,14 @@ defineProps({
       </div>
     </template>
     <template #actions>
-      <woot-button
+      <Button
         v-tooltip.top="$t('SLA.FORM.DELETE')"
-        variant="smooth"
-        color-scheme="alert"
-        size="tiny"
-        icon="delete"
-        class-names="grey-btn"
+        faded
+        ruby
+        xs
+        icon="i-lucide-trash-2"
         :is-loading="isLoading"
-        @click="$emit('click')"
+        @click="emit('delete')"
       />
     </template>
   </BaseSettingsListItem>

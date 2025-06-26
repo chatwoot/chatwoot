@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Aksi",
       "VERIFIED": "Diverifikasi",
-      "VERIFICATION_PENDING": "Verifikasi Pending"
+      "VERIFICATION_PENDING": "Verifikasi Pending",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Tambahkan agen ke tim Anda",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Pilih Agen",
         "TEAM": "Pilih tim"
+      },
+      "LIST": {
+        "NONE": "Tidak ada"
       },
       "SEARCH": {
         "NO_RESULTS": {

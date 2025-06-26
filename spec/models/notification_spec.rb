@@ -83,6 +83,14 @@ has been assigned to you"
       expect(notification.push_message_body).to eq "#{message.sender.name}: #{message.content.truncate_words(10)}"
     end
 
+    it 'returns appropriate body suited for the notification type conversation_assignment with outgoing message only' do
+      conversation = create(:conversation)
+      message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2), message_type: :outgoing,
+                                 conversation: conversation)
+      notification = create(:notification, notification_type: 'conversation_assignment', primary_actor: conversation, secondary_actor: message)
+      expect(notification.push_message_body).to eq "#{message.sender.name}: #{message.content.truncate_words(10)}"
+    end
+
     it 'returns appropriate body suited for the notification type assigned_conversation_new_message' do
       conversation = create(:conversation)
       message = create(:message, sender: create(:user), content: Faker::Lorem.paragraphs(number: 2), conversation: conversation)

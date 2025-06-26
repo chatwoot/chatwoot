@@ -59,7 +59,11 @@ const closeDropdown = () => {
 </script>
 
 <template>
-  <FilterButton :button-text="name" left-icon="filter" @click="toggleDropdown">
+  <FilterButton
+    :button-text="name"
+    icon="i-lucide-filter"
+    @click="toggleDropdown"
+  >
     <!-- Dropdown with search and sub-dropdown -->
     <template v-if="showMenu" #dropdown>
       <FilterListDropdown
@@ -88,7 +92,7 @@ const closeDropdown = () => {
                 "
                 :enable-search="enableSearch"
                 class="flex flex-col w-[216px] overflow-y-auto top-0 left-36"
-                @click="addFilter"
+                @select="addFilter"
               />
             </template>
           </FilterListItemButton>

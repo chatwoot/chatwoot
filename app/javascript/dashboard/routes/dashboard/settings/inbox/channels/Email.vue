@@ -7,7 +7,7 @@ import ChannelSelector from 'dashboard/components/ChannelSelector.vue';
 import PageHeader from '../../SettingsSubPageHeader.vue';
 
 import { useStoreGetters } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
 
 const provider = ref('');
 
@@ -47,7 +47,7 @@ const emailProviderList = computed(() => {
 
 function onClick(emailProvider) {
   if (emailProvider.isEnabled) {
-    this.provider = emailProvider.key;
+    provider.value = emailProvider.key;
   }
 }
 </script>
@@ -55,7 +55,7 @@ function onClick(emailProvider) {
 <template>
   <div
     v-if="!provider"
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full md:w-full max-w-full md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="border border-n-weak bg-n-solid-1 rounded-t-lg border-b-0 h-full w-full p-6 col-span-6 overflow-auto"
   >
     <PageHeader
       class="max-w-4xl"

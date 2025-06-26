@@ -10,11 +10,11 @@
       "404": "V tomto účtu nejsou k dispozici žádné konzervované odpovědi.",
       "TITLE": "Spravovat konzervované odpovědi",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "Obsah",
-        "Akce"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Obsah",
+        "ACTIONS": "Akce"
+      }
     },
     "ADD": {
       "TITLE": "Add canned response",

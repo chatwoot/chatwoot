@@ -1,5 +1,6 @@
 <script setup>
 import { messageStamp } from 'shared/helpers/timeHelper';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
   automation: {
@@ -33,7 +34,7 @@ const toggle = () => {
     <td class="py-4 ltr:pr-4 rtl:pl-4 min-w-[200px]">{{ automation.name }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">{{ automation.description }}</td>
     <td class="py-4 ltr:pr-4 rtl:pl-4">
-      <woot-switch :value="automation.active" @input="toggle" />
+      <woot-switch :model-value="automation.active" @input="toggle" />
     </td>
     <td
       class="py-4 ltr:pr-4 rtl:pl-4 min-w-[12px]"
@@ -43,34 +44,30 @@ const toggle = () => {
     </td>
     <td class="py-4 min-w-xs">
       <div class="flex gap-1 justify-end flex-shrink-0">
-        <woot-button
+        <Button
           v-tooltip.top="$t('AUTOMATION.FORM.EDIT')"
-          variant="smooth"
-          size="tiny"
-          color-scheme="secondary"
-          class-names="grey-btn"
-          icon="edit"
+          icon="i-lucide-pen"
+          slate
+          xs
+          faded
           :is-loading="loading"
           @click="$emit('edit', automation)"
         />
-        <woot-button
+        <Button
           v-tooltip.top="$t('AUTOMATION.CLONE.TOOLTIP')"
-          variant="smooth"
-          size="tiny"
+          icon="i-lucide-copy-plus"
+          xs
+          faded
           :is-loading="loading"
-          color-scheme="primary"
-          class-names="grey-btn"
-          icon="copy"
           @click="$emit('clone', automation)"
         />
-        <woot-button
+        <Button
           v-tooltip.top="$t('AUTOMATION.FORM.DELETE')"
-          variant="smooth"
           :is-loading="loading"
-          color-scheme="alert"
-          size="tiny"
-          icon="dismiss-circle"
-          class-names="grey-btn"
+          icon="i-lucide-trash-2"
+          xs
+          ruby
+          faded
           @click="$emit('delete', automation)"
         />
       </div>

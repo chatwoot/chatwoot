@@ -2,7 +2,7 @@
   "CONTACTS_FILTER": {
     "TITLE": "Filtrar Contatos",
     "SUBTITLE": "Adicione filtros abaixo e clique em 'Enviar' para filtrar conversas.",
-    "EDIT_CUSTOM_SEGMENT": "Editar segmento",
+    "EDIT_CUSTOM_SEGMENT": "Alterar segmento",
     "CUSTOM_VIEWS_SUBTITLE": "Adicione ou remova filtros e atualize seu segmento.",
     "ADD_NEW_FILTER": "Adicionar filtro",
     "CLEAR_ALL_FILTERS": "Limpar Filtros",
@@ -30,9 +30,12 @@
       "is_lesser_than": "É menor que",
       "days_before": "É x dias antes"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Valor obrigatório"
+    },
     "ATTRIBUTES": {
       "NAME": "Nome",
-      "EMAIL": "e-mail",
+      "EMAIL": "E-mail",
       "PHONE_NUMBER": "Número de telefone",
       "IDENTIFIER": "Identificador",
       "CITY": "Cidade",

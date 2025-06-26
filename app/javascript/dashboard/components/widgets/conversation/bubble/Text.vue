@@ -1,5 +1,5 @@
 <script>
-import Letter from 'vue-letter';
+import { Letter } from 'vue-letter';
 import GalleryView from '../components/GalleryView.vue';
 
 export default {
@@ -106,7 +106,7 @@ export default {
     </button>
     <GalleryView
       v-if="showGalleryViewer"
-      :show.sync="showGalleryViewer"
+      v-model:show="showGalleryViewer"
       :attachment="attachment"
       :all-attachments="availableAttachments"
       @error="onClose"

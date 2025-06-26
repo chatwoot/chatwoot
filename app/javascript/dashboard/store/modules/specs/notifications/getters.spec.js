@@ -95,4 +95,27 @@ describe('#getters', () => {
       state.notificationFilters
     );
   });
+
+  describe('getHasUnreadNotifications', () => {
+    it('should return true when there are unread notifications', () => {
+      const state = {
+        meta: { unreadCount: 5 },
+      };
+      expect(getters.getHasUnreadNotifications(state)).toBe(true);
+    });
+
+    it('should return false when there are no unread notifications', () => {
+      const state = {
+        meta: { unreadCount: 0 },
+      };
+      expect(getters.getHasUnreadNotifications(state)).toBe(false);
+    });
+
+    it('should return false when meta is empty', () => {
+      const state = {
+        meta: {},
+      };
+      expect(getters.getHasUnreadNotifications(state)).toBe(false);
+    });
+  });
 });

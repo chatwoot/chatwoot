@@ -1,12 +1,14 @@
 <script>
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
+import { useImpersonation } from 'dashboard/composables/useImpersonation';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
 import WootDropdownDivider from 'shared/components/ui/dropdown/DropdownDivider.vue';
 import AvailabilityStatusBadge from '../widgets/conversation/AvailabilityStatusBadge.vue';
 import wootConstants from 'dashboard/constants/globals';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const { AVAILABILITY_STATUS_KEYS } = wootConstants;
 
@@ -17,6 +19,11 @@ export default {
     WootDropdownMenu,
     WootDropdownItem,
     AvailabilityStatusBadge,
+    NextButton,
+  },
+  setup() {
+    const { isImpersonating } = useImpersonation();
+    return { isImpersonating };
   },
   data() {
     return {
@@ -31,26 +38,29 @@ export default {
       currentAccountId: 'getCurrentAccountId',
       currentUserAutoOffline: 'getCurrentUserAutoOffline',
     }),
+    statusList() {
+      return [
+        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.ONLINE'),
+        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.BUSY'),
+        this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUS.OFFLINE'),
+      ];
+    },
     availabilityDisplayLabel() {
       const availabilityIndex = AVAILABILITY_STATUS_KEYS.findIndex(
         key => key === this.currentUserAvailability
       );
-      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST')[
-        availabilityIndex
-      ];
+      return this.statusList[availabilityIndex];
     },
     currentUserAvailability() {
       return this.getCurrentUserAvailability;
     },
     availabilityStatuses() {
-      return this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.STATUSES_LIST').map(
-        (statusLabel, index) => ({
-          label: statusLabel,
-          value: AVAILABILITY_STATUS_KEYS[index],
-          disabled:
-            this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
-        })
-      );
+      return this.statusList.map((statusLabel, index) => ({
+        label: statusLabel,
+        value: AVAILABILITY_STATUS_KEYS[index],
+        disabled:
+          this.currentUserAvailability === AVAILABILITY_STATUS_KEYS[index],
+      }));
     },
   },
 
@@ -68,6 +78,13 @@ export default {
       });
     },
     changeAvailabilityStatus(availability) {
+      if (this.isImpersonating) {
+        useAlert(
+          this.$t('PROFILE_SETTINGS.FORM.AVAILABILITY.IMPERSONATING_ERROR')
+        );
+        return;
+      }
+
       if (this.isUpdating) {
         return;
       }
@@ -98,19 +115,21 @@ export default {
       :key="status.value"
       class="flex items-baseline"
     >
-      <woot-button
-        size="small"
-        :color-scheme="status.disabled ? '' : 'secondary'"
-        :variant="status.disabled ? 'smooth' : 'clear'"
-        class-names="status-change--dropdown-button"
+      <NextButton
+        sm
+        :color="status.disabled ? 'blue' : 'slate'"
+        :variant="status.disabled ? 'faded' : 'ghost'"
+        class="status-change--dropdown-button !w-full !justify-start"
         @click="changeAvailabilityStatus(status.value)"
       >
         <AvailabilityStatusBadge :status="status.value" />
-        {{ status.label }}
-      </woot-button>
+        <span class="min-w-0 truncate font-medium text-xs">
+          {{ status.label }}
+        </span>
+      </NextButton>
     </WootDropdownItem>
     <WootDropdownDivider />
-    <WootDropdownItem class="flex items-center justify-between p-2 m-0">
+    <WootDropdownItem class="flex items-center justify-between px-3 py-2 m-0">
       <div class="flex items-center">
         <fluent-icon
           v-tooltip.right-start="$t('SIDEBAR.SET_AUTO_OFFLINE.INFO_TEXT')"
@@ -120,7 +139,7 @@ export default {
         />
 
         <span
-          class="mx-1 my-0 text-xs font-medium text-slate-600 dark:text-slate-100"
+          class="mx-2 my-0 text-xs font-medium text-slate-600 dark:text-slate-100"
         >
           {{ $t('SIDEBAR.SET_AUTO_OFFLINE.TEXT') }}
         </span>
@@ -129,7 +148,7 @@ export default {
       <woot-switch
         size="small"
         class="mx-1 mt-px mb-0"
-        :value="currentUserAutoOffline"
+        :model-value="currentUserAutoOffline"
         @input="updateAutoOffline"
       />
     </WootDropdownItem>

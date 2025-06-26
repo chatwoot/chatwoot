@@ -1,7 +1,7 @@
 import { frontendURL } from '../../../../helper/URLHelper';
 
-const SettingsContent = () => import('./Wrapper.vue');
-const Index = () => import('./Index.vue');
+import SettingsContent from './Wrapper.vue';
+import Index from './Index.vue';
 
 export default {
   routes: [
@@ -9,7 +9,7 @@ export default {
       path: frontendURL('accounts/:accountId/profile'),
       name: 'profile_settings',
       meta: {
-        permissions: ['administrator', 'agent'],
+        permissions: ['administrator', 'agent', 'custom_role'],
       },
       component: SettingsContent,
       children: [
@@ -18,7 +18,7 @@ export default {
           name: 'profile_settings_index',
           component: Index,
           meta: {
-            permissions: ['administrator', 'agent'],
+            permissions: ['administrator', 'agent', 'custom_role'],
           },
         },
       ],

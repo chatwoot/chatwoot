@@ -1,15 +1,15 @@
-button,
-input[type="button"],
-input[type="reset"],
-input[type="submit"],
-.button {
+button:not(.reset-base),
+input[type='button']:not(.reset-base),
+input[type='reset']:not(.reset-base),
+input[type='submit']:not(.reset-base),
+.button:not(.reset-base) {
   appearance: none;
   background-color: $color-woot;
   border: 0;
   border-radius: $base-border-radius;
   color: $white;
   cursor: pointer;
-  display: inline-block;
+  display: inline-flex;
   font-size: $font-size-small;
   -webkit-font-smoothing: antialiased;
   font-weight: $font-weight-medium;

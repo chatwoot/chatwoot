@@ -87,21 +87,21 @@ export default {
 
 <template>
   <div
-    class="flex flex-col justify-center w-full min-h-full py-12 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col justify-center w-full min-h-screen py-12 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
     <form
-      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       @submit.prevent="submitForm"
     >
       <h1
-        class="mb-1 text-2xl font-medium tracking-tight text-left text-slate-900 dark:text-white"
+        class="mb-1 text-2xl font-medium tracking-tight text-left text-n-slate-12"
       >
         {{ $t('SET_NEW_PASSWORD.TITLE') }}
       </h1>
 
       <div class="space-y-5">
         <FormInput
-          v-model.trim="credentials.password"
+          v-model="credentials.password"
           class="mt-3"
           name="password"
           type="password"
@@ -111,7 +111,7 @@ export default {
           @blur="v$.credentials.password.$touch"
         />
         <FormInput
-          v-model.trim="credentials.confirmPassword"
+          v-model="credentials.confirmPassword"
           class="mt-3"
           name="confirm_password"
           type="password"

@@ -2,7 +2,7 @@
 
 exports[`Spinner > matches snapshot 1`] = `
 <span
-  class="spinner small "
+  class="spinner small"
   data-v-3e416633=""
 />
 `;

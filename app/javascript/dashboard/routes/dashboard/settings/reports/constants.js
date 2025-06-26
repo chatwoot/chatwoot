@@ -100,7 +100,7 @@ export const DATE_RANGE_OPTIONS = {
 };
 
 export const CHART_FONT_FAMILY =
-  'PlusJakarta,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
+  'Inter,-apple-system,system-ui,BlinkMacSystemFont,"Segoe UI",Roboto,"Helvetica Neue",Arial,sans-serif';
 
 export const DEFAULT_LINE_CHART = {
   type: 'line',
@@ -114,77 +114,46 @@ export const DEFAULT_BAR_CHART = {
   backgroundColor: 'rgb(31, 147, 255)',
 };
 
-export const DEFAULT_CHART = {
+const createChartConfig = yAxisTickCallback => ({
   datasets: [DEFAULT_BAR_CHART],
   scales: {
-    xAxes: [
-      {
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
+    x: {
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
       },
-    ],
-    yAxes: [
-      {
-        id: 'y-left',
-        type: 'linear',
-        position: 'left',
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-          beginAtZero: true,
-          stepSize: 1,
-          callback: (value, index, values) => {
-            if (!index || index === values.length - 1) {
-              return value;
-            }
-            return '';
-          },
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
+      grid: {
+        drawOnChartArea: false,
       },
-    ],
+    },
+    y: {
+      type: 'linear',
+      position: 'left',
+      ticks: {
+        fontFamily: CHART_FONT_FAMILY,
+        beginAtZero: true,
+        stepSize: 1,
+        callback: yAxisTickCallback,
+      },
+      grid: {
+        drawOnChartArea: false,
+      },
+    },
   },
-};
+});
 
-const TIME_CHART_CONFIG = {
-  datasets: [DEFAULT_BAR_CHART],
-  scales: {
-    xAxes: [
-      {
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      },
-    ],
-    yAxes: [
-      {
-        id: 'y-left',
-        type: 'linear',
-        position: 'left',
-        ticks: {
-          fontFamily: CHART_FONT_FAMILY,
-          callback: (value, index, values) => {
-            if (!index || index === values.length - 1) {
-              return formatTime(value);
-            }
-            return '';
-          },
-        },
-        gridLines: {
-          drawOnChartArea: false,
-        },
-      },
-    ],
-  },
-};
+export const DEFAULT_CHART = createChartConfig((value, index, ticks) => {
+  if (!index || index === ticks.length - 1) {
+    return value;
+  }
+  return '';
+});
+
+export const TIME_CHART_CONFIG = createChartConfig((value, index, values) => {
+  if (!index || index === values.length - 1) {
+    return formatTime(value);
+  }
+  return '';
+});
 
 export const METRIC_CHART = {
   conversations_count: DEFAULT_CHART,

@@ -1,7 +1,7 @@
 {
   "INBOX": {
     "LIST": {
-      "TITLE": "Posteingang",
+      "TITLE": "My Inbox",
       "DISPLAY_DROPDOWN": "Anzeigen",
       "LOADING": "Benachrichtigungen werden abgerufen",
       "404": "Es gibt keine aktiven Benachrichtigungen in dieser Gruppe.",
@@ -27,6 +27,19 @@
       "SLA_MISSED_NEXT_RESPONSE": "SLA-Ziel für die nächste Antwort in der Unterhaltung verpasst",
       "SLA_MISSED_RESOLUTION": "SLA-Ziel zur Lösung der Unterhaltung verpasst"
     },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Neue Nachricht",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Neue Nachricht",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Kein Inhalt verfügbar",
     "MENU_ITEM": {
       "MARK_AS_READ": "Als gelesen markieren",
       "MARK_AS_UNREAD": "Als ungelesen markieren",

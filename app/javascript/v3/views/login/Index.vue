@@ -1,19 +1,28 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
-import { required, email } from '@vuelidate/validators';
-import { useAlert } from 'dashboard/composables';
-import globalConfigMixin from 'shared/mixins/globalConfigMixin';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+// utils and composables
+import { login } from '../../api/auth';
 import { mapGetters } from 'vuex';
 import { parseBoolean } from '@chatwoot/utils';
-import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
+import { useAlert } from 'dashboard/composables';
+import { required, email } from '@vuelidate/validators';
+import { useVuelidate } from '@vuelidate/core';
+import { SESSION_STORAGE_KEYS } from 'dashboard/constants/sessionStorage';
+import SessionStorage from 'shared/helpers/sessionStorage';
+// mixins
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
+
+// components
 import FormInput from '../../components/Form/Input.vue';
-import { login } from '../../api/auth';
+import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import SubmitButton from '../../components/Button/SubmitButton.vue';
+
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
   'business-account-only': 'LOGIN.OAUTH.BUSINESS_ACCOUNTS_ONLY',
 };
+
+const IMPERSONATION_URL_SEARCH_KEY = 'impersonation';
 
 export default {
   components: {
@@ -49,16 +58,18 @@ export default {
       error: '',
     };
   },
-  validations: {
-    credentials: {
-      password: {
-        required,
+  validations() {
+    return {
+      credentials: {
+        password: {
+          required,
+        },
+        email: {
+          required,
+          email,
+        },
       },
-      email: {
-        required,
-        email,
-      },
-    },
+    };
   },
   computed: {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
@@ -104,6 +115,14 @@ export default {
       this.loginApi.message = message;
       useAlert(this.loginApi.message);
     },
+    handleImpersonation() {
+      // Detects impersonation mode via URL and sets a session flag to prevent user settings changes during impersonation.
+      const urlParams = new URLSearchParams(window.location.search);
+      const impersonation = urlParams.get(IMPERSONATION_URL_SEARCH_KEY);
+      if (impersonation) {
+        SessionStorage.set(SESSION_STORAGE_KEYS.IMPERSONATION_USER, true);
+      }
+    },
     submitLogin() {
       this.loginApi.hasErrored = false;
       this.loginApi.showLoading = true;
@@ -120,6 +139,7 @@ export default {
 
       login(credentials)
         .then(() => {
+          this.handleImpersonation();
           this.showAlertMessage(this.$t('LOGIN.API.SUCCESS_MESSAGE'));
         })
         .catch(response => {
@@ -147,7 +167,7 @@ export default {
 
 <template>
   <main
-    class="flex flex-col w-full min-h-screen py-20 bg-woot-25 sm:px-6 lg:px-8 dark:bg-slate-900"
+    class="flex flex-col w-full min-h-screen py-20 bg-n-brand/5 dark:bg-n-background sm:px-6 lg:px-8"
   >
     <section class="max-w-5xl mx-auto">
       <img
@@ -161,25 +181,20 @@ export default {
         :alt="globalConfig.installationName"
         class="hidden w-auto h-8 mx-auto dark:block"
       />
-      <h2
-        class="mt-6 text-3xl font-medium text-center text-slate-900 dark:text-woot-50"
-      >
+      <h2 class="mt-6 text-3xl font-medium text-center text-n-slate-12">
         {{
           useInstallationName($t('LOGIN.TITLE'), globalConfig.installationName)
         }}
       </h2>
-      <p
-        v-if="showSignupLink"
-        class="mt-3 text-sm text-center text-slate-600 dark:text-slate-400"
-      >
+      <p v-if="showSignupLink" class="mt-3 text-sm text-center text-n-slate-11">
         {{ $t('COMMON.OR') }}
-        <router-link to="auth/signup" class="lowercase text-link">
+        <router-link to="auth/signup" class="lowercase text-link text-n-brand">
           {{ $t('LOGIN.CREATE_NEW_ACCOUNT') }}
         </router-link>
       </p>
     </section>
     <section
-      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-slate-800 p-11 sm:shadow-lg sm:rounded-lg"
+      class="bg-white shadow sm:mx-auto mt-11 sm:w-full sm:max-w-lg dark:bg-n-solid-2 p-11 sm:shadow-lg sm:rounded-lg"
       :class="{
         'mb-8 mt-15': !showGoogleOAuth,
         'animate-wiggle': loginApi.hasErrored,
@@ -189,7 +204,7 @@ export default {
         <GoogleOAuthButton v-if="showGoogleOAuth" />
         <form class="space-y-5" @submit.prevent="submitFormLogin">
           <FormInput
-            v-model.trim="credentials.email"
+            v-model="credentials.email"
             name="email_address"
             type="text"
             data-testid="email_input"
@@ -201,7 +216,7 @@ export default {
             @input="v$.credentials.email.$touch"
           />
           <FormInput
-            v-model.trim="credentials.password"
+            v-model="credentials.password"
             type="password"
             name="password"
             data-testid="password_input"

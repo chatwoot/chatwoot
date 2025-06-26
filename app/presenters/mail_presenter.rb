@@ -77,7 +77,7 @@ class MailPresenter < SimpleDelegator
     mail.attachments.map do |attachment|
       blob = ActiveStorage::Blob.create_and_upload!(
         io: StringIO.new(attachment.body.to_s),
-        filename: attachment.filename,
+        filename: attachment.filename.presence || "attachment_#{SecureRandom.hex(4)}",
         content_type: attachment.content_type
       )
       { original: attachment, blob: blob }

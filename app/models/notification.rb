@@ -69,13 +69,8 @@ class Notification < ApplicationRecord
       snoozed_until: snoozed_until,
       meta: meta,
       account_id: account_id
-
     }
-    if primary_actor.present?
-      payload[:primary_actor] = primary_actor&.push_event_data
-      # TODO: Rename push_message_title to push_message_body
-      payload[:push_message_title] = push_message_body
-    end
+    payload.merge!(primary_actor_data) if primary_actor.present?
     payload
   end
 
@@ -123,7 +118,7 @@ class Notification < ApplicationRecord
     when 'assigned_conversation_new_message', 'participating_conversation_new_message', 'conversation_mention'
       message_body(secondary_actor)
     when 'conversation_assignment', 'sla_missed_next_response', 'sla_missed_resolution'
-      message_body(conversation.messages.incoming.last)
+      message_body((conversation.messages.incoming.last || conversation.messages.outgoing.last))
     else
       ''
     end
@@ -189,5 +184,14 @@ class Notification < ApplicationRecord
 
   def set_last_activity_at
     self.last_activity_at = created_at
+  end
+
+  def primary_actor_data
+    {
+      primary_actor: primary_actor&.push_event_data,
+      # TODO: Rename push_message_title to push_message_body
+      push_message_title: push_message_body,
+      push_message_body: push_message_body
+    }
   end
 end

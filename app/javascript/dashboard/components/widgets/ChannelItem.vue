@@ -12,9 +12,13 @@ export default {
       required: true,
     },
   },
+  emits: ['channelItemClick'],
   computed: {
     hasFbConfigured() {
       return window.chatwootConfig?.fbAppId;
+    },
+    hasInstagramConfigured() {
+      return window.chatwootConfig?.instagramAppId;
     },
     isActive() {
       const { key } = this.channel;
@@ -31,6 +35,16 @@ export default {
         return this.enabledFeatures.channel_email;
       }
 
+      if (key === 'instagram') {
+        return (
+          this.enabledFeatures.channel_instagram && this.hasInstagramConfigured
+        );
+      }
+
+      if (key === 'voice') {
+        return this.enabledFeatures.channel_voice;
+      }
+
       return [
         'website',
         'twilio',
@@ -39,6 +53,8 @@ export default {
         'sms',
         'telegram',
         'line',
+        'instagram',
+        'voice',
       ].includes(key);
     },
   },

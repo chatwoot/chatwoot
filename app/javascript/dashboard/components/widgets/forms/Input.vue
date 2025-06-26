@@ -1,11 +1,15 @@
 <script>
+/**
+ * @deprecated This component is deprecated and will be removed in the next major version.
+ * Please use v3/components/Form/Input.vue instead
+ */
 export default {
   props: {
     label: {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -34,9 +38,19 @@ export default {
       default: () => {},
     },
   },
+  emits: ['update:modelValue', 'input', 'blur'],
+  mounted() {
+    if (import.meta.env.DEV) {
+      // eslint-disable-next-line no-console
+      console.warn(
+        '[DEPRECATED] <WootInput> has be deprecated and will be removed soon. Please use v3/components/Form/Input.vue instead'
+      );
+    }
+  },
   methods: {
     onChange(e) {
       this.$emit('input', e.target.value);
+      this.$emit('update:modelValue', e.target.value);
     },
     onBlur(e) {
       this.$emit('blur', e.target.value);
@@ -49,8 +63,7 @@ export default {
   <label class="input-container">
     <span v-if="label">{{ label }}</span>
     <input
-      class="bg-white dark:bg-slate-900 text-slate-900 dark:text-slate-100 border-slate-200 dark:border-slate-600"
-      :value="value"
+      :value="modelValue"
       :type="type"
       :placeholder="placeholder"
       :readonly="readonly"
@@ -68,7 +81,7 @@ export default {
 
 <style scoped lang="scss">
 .help-text {
-  @apply mt-0.5 text-xs not-italic text-slate-600 dark:text-slate-400;
+  @apply mt-0.5 text-xs not-italic text-n-slate-11;
 }
 
 .message {

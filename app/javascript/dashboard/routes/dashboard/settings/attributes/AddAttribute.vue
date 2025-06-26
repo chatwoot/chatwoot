@@ -6,11 +6,22 @@ import { useAlert } from 'dashboard/composables';
 import { convertToAttributeSlug } from 'dashboard/helper/commons.js';
 import { ATTRIBUTE_MODELS, ATTRIBUTE_TYPES } from './constants';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     onClose: {
       type: Function,
       default: () => {},
+    },
+    // Passes 0 or 1 based on the selected AttributeModel tab selected in the UI
+    // Needs a better data type, todo: refactor this component later
+    selectedAttributeModelTab: {
+      type: Number,
+      default: 0,
     },
   },
   setup() {
@@ -20,7 +31,10 @@ export default {
     return {
       displayName: '',
       description: '',
-      attributeModel: 0,
+      // Using the prop as default. There is no side effect here as the component
+      // is destroyed completely when the modal is closed. The prop doesn't change
+      // dynamically when the modal is active.
+      attributeModel: this.selectedAttributeModelTab || 0,
       attributeType: 0,
       attributeKey: '',
       regexPattern: null,
@@ -149,7 +163,7 @@ export default {
 </script>
 
 <template>
-  <woot-modal :show.sync="show" :on-close="onClose">
+  <woot-modal v-model:show="show" :on-close="onClose">
     <div class="flex flex-col h-auto overflow-auto">
       <woot-modal-header :header-title="$t('ATTRIBUTES_MGMT.ADD.TITLE')" />
 
@@ -177,7 +191,7 @@ export default {
                 : ''
             "
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.NAME.PLACEHOLDER')"
-            @input="onDisplayNameChange"
+            @update:model-value="onDisplayNameChange"
             @blur="v$.displayName.$touch"
           />
           <woot-input
@@ -261,13 +275,18 @@ export default {
             :placeholder="$t('ATTRIBUTES_MGMT.ADD.FORM.REGEX_CUE.PLACEHOLDER')"
           />
           <div class="flex flex-row justify-end w-full gap-2 px-0 py-2">
-            <woot-submit-button
-              :disabled="isButtonDisabled"
-              :button-text="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
+            <NextButton
+              faded
+              slate
+              type="reset"
+              :label="$t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT')"
+              @click.prevent="onClose"
             />
-            <button class="button clear" @click.prevent="onClose">
-              {{ $t('ATTRIBUTES_MGMT.ADD.CANCEL_BUTTON_TEXT') }}
-            </button>
+            <NextButton
+              type="submit"
+              :label="$t('ATTRIBUTES_MGMT.ADD.SUBMIT')"
+              :disabled="isButtonDisabled"
+            />
           </div>
         </div>
       </form>
@@ -280,13 +299,16 @@ export default {
   padding: 0 var(--space-small) var(--space-small) 0;
   font-family: monospace;
 }
+
 .multiselect--wrap {
   margin-bottom: var(--space-normal);
+
   .error-message {
     color: var(--r-400);
     font-size: var(--font-size-small);
     font-weight: var(--font-weight-normal);
   }
+
   .invalid {
     ::v-deep {
       .multiselect__tags {
@@ -295,13 +317,16 @@ export default {
     }
   }
 }
+
 ::v-deep {
   .multiselect {
     margin-bottom: 0;
   }
+
   .multiselect__content-wrapper {
     display: none;
   }
+
   .multiselect--active .multiselect__tags {
     border-radius: var(--border-radius-normal);
   }

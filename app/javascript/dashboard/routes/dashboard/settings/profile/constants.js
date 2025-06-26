@@ -36,17 +36,23 @@ export const NOTIFICATION_TYPES = [
   },
 ];
 
+export const EVENT_TYPES = {
+  ASSIGNED: 'assigned',
+  NOTME: 'notme',
+  UNASSIGNED: 'unassigned',
+};
+
 export const ALERT_EVENTS = [
   {
-    value: 'none',
-    label: 'none',
+    value: EVENT_TYPES.ASSIGNED,
+    label: 'assigned',
   },
   {
-    value: 'mine',
-    label: 'mine',
+    value: EVENT_TYPES.UNASSIGNED,
+    label: 'unassigned',
   },
   {
-    value: 'all',
-    label: 'all',
+    value: EVENT_TYPES.NOTME,
+    label: 'notme',
   },
 ];

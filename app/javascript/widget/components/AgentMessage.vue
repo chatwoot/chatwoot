@@ -11,7 +11,6 @@ import { MESSAGE_TYPE } from 'widget/helpers/constants';
 import configMixin from '../mixins/configMixin';
 import messageMixin from '../mixins/messageMixin';
 import { isASubmittedFormMessage } from 'shared/helpers/MessageTypeHelper';
-import darkModeMixin from 'widget/mixins/darkModeMixin.js';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -28,7 +27,7 @@ export default {
     MessageReplyButton,
     ReplyToChip,
   },
-  mixins: [configMixin, messageMixin, darkModeMixin],
+  mixins: [configMixin, messageMixin],
   props: {
     message: {
       type: Object,
@@ -80,11 +79,9 @@ export default {
       return this.$t('UNREAD_VIEW.BOT');
     },
     avatarUrl() {
-      // eslint-disable-next-line
-      const BotImage = require('dashboard/assets/images/chatwoot_bot.png');
       const displayImage = this.useInboxAvatarForBot
         ? this.inboxAvatarUrl
-        : BotImage;
+        : '/assets/images/chatwoot_bot.png';
 
       if (this.message.message_type === MESSAGE_TYPE.TEMPLATE) {
         return displayImage;
@@ -179,8 +176,15 @@ export default {
         <div v-if="hasReplyTo" class="flex mt-2 mb-1 text-xs">
           <ReplyToChip :reply-to="replyTo" />
         </div>
-        <div class="flex gap-1">
-          <div class="space-y-2">
+        <div class="flex w-full gap-1">
+          <div
+            class="space-y-2"
+            :class="{
+              'w-full':
+                contentType === 'form' &&
+                !messageContentAttributes?.submitted_values,
+            }"
+          >
             <AgentMessageBubble
               v-if="shouldDisplayAgentMessage"
               :content-type="contentType"
@@ -191,8 +195,8 @@ export default {
             />
             <div
               v-if="hasAttachments"
-              class="space-y-2 chat-bubble has-attachment agent"
-              :class="(wrapClass, $dm('bg-white', 'dark:bg-slate-700'))"
+              class="space-y-2 chat-bubble has-attachment agent bg-n-background dark:bg-n-solid-3"
+              :class="wrapClass"
             >
               <div
                 v-for="attachment in message.attachments"
@@ -213,7 +217,11 @@ export default {
                   @error="onVideoLoadError"
                 />
 
-                <audio v-else-if="attachment.file_type === 'audio'" controls>
+                <audio
+                  v-else-if="attachment.file_type === 'audio'"
+                  controls
+                  class="h-10 dark:invert"
+                >
                   <source :src="attachment.data_url" />
                 </audio>
                 <FileBubble v-else :url="attachment.data_url" />
@@ -230,8 +238,7 @@ export default {
         <p
           v-if="message.showAvatar || hasRecordedResponse"
           v-dompurify-html="agentName"
-          class="agent-name"
-          :class="$dm('text-slate-700', 'dark:text-slate-200')"
+          class="agent-name text-n-slate-11"
         />
       </div>
     </div>

@@ -2,11 +2,13 @@
 import { mapGetters } from 'vuex';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import Spinner from 'shared/components/Spinner.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
+    NextButton,
   },
   props: {
     selectedInboxes: {
@@ -18,6 +20,7 @@ export default {
       default: 0,
     },
   },
+  emits: ['select', 'close'],
   data() {
     return {
       query: '',
@@ -93,13 +96,7 @@ export default {
     </div>
     <div class="flex items-center justify-between header">
       <span>{{ $t('BULK_ACTION.AGENT_SELECT_LABEL') }}</span>
-      <woot-button
-        size="tiny"
-        variant="clear"
-        color-scheme="secondary"
-        icon="dismiss"
-        @click="onClose"
-      />
+      <NextButton ghost xs slate icon="i-lucide-x" @click="onClose" />
     </div>
     <div class="container">
       <div
@@ -120,7 +117,7 @@ export default {
                 v-model="query"
                 type="search"
                 :placeholder="$t('BULK_ACTION.SEARCH_INPUT_PLACEHOLDER')"
-                class="agent--search_input"
+                class="reset-base !outline-0 !text-sm agent--search_input"
               />
             </div>
           </li>
@@ -160,21 +157,21 @@ export default {
             }}
           </p>
           <div class="agent-confirmation-actions">
-            <woot-button
-              color-scheme="primary"
-              variant="smooth"
+            <NextButton
+              faded
+              sm
+              slate
+              type="reset"
+              :label="$t('BULK_ACTION.GO_BACK_LABEL')"
               @click="goBack"
-            >
-              {{ $t('BULK_ACTION.GO_BACK_LABEL') }}
-            </woot-button>
-            <woot-button
-              color-scheme="primary"
-              variant="flat"
+            />
+            <NextButton
+              sm
+              type="submit"
+              :label="$t('BULK_ACTION.YES')"
               :is-loading="uiFlags.isUpdating"
               @click="submit"
-            >
-              {{ $t('BULK_ACTION.YES') }}
-            </woot-button>
+            />
           </div>
         </div>
       </div>
@@ -184,7 +181,7 @@ export default {
 
 <style scoped lang="scss">
 .bulk-action__agents {
-  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-white dark:bg-slate-800 rounded-lg border border-solid border-slate-50 dark:border-slate-700 shadow-md;
+  @apply max-w-[75%] absolute right-2 top-12 origin-top-right w-auto z-20 min-w-[15rem] bg-n-alpha-3 backdrop-blur-[100px] border-n-weak rounded-lg border border-solid shadow-md;
   .header {
     @apply p-2.5;
 
@@ -199,7 +196,7 @@ export default {
       @apply h-full;
     }
     .agent-list-search {
-      @apply py-0 px-2.5 bg-slate-50 dark:bg-slate-900 border border-solid border-slate-100 dark:border-slate-600/70 rounded-md;
+      @apply py-0 px-2.5 bg-n-alpha-black2 border border-solid border-n-strong rounded-md;
       .search-icon {
         @apply text-slate-400 dark:text-slate-200;
       }
@@ -214,7 +211,7 @@ export default {
     @apply block z-10 absolute -top-3 text-left;
 
     svg path {
-      @apply fill-white dark:fill-slate-800 stroke-slate-50 dark:stroke-slate-600/50;
+      @apply fill-n-alpha-3 backdrop-blur-[100px]  stroke-n-weak;
     }
   }
 }
@@ -231,7 +228,7 @@ ul {
 }
 
 .agent-list-item {
-  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-slate-50 dark:hover:bg-slate-900;
+  @apply flex items-center p-2.5 gap-2 cursor-pointer hover:bg-n-slate-3 dark:hover:bg-n-solid-3;
   span {
     @apply text-sm;
   }
@@ -247,7 +244,7 @@ ul {
   }
 }
 .search-container {
-  @apply py-0 px-2.5 sticky top-0 z-20 bg-white dark:bg-slate-800;
+  @apply py-0 px-2.5 sticky top-0 z-20 bg-n-alpha-3 backdrop-blur-[100px];
 }
 
 .agent__list-loading {

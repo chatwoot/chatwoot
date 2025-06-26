@@ -10,11 +10,11 @@
       "404": "Engar merkingar eru tiltækir á þessum reikningi.",
       "TITLE": "Manage labels",
       "DESC": "Merkingar gera þér kleift að flokka samtölin saman.",
-      "TABLE_HEADER": [
-        "Nafn",
-        "Description",
-        "Color"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Nafn",
+        "DESCRIPTION": "Description",
+        "COLOR": "Color"
+      }
     },
     "FORM": {
       "NAME": {

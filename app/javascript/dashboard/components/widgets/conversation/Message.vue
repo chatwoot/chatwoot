@@ -1,5 +1,5 @@
 <script>
-import messageFormatterMixin from 'shared/mixins/messageFormatterMixin';
+import { useMessageFormatter } from 'shared/composables/useMessageFormatter';
 import BubbleActions from './bubble/Actions.vue';
 import BubbleContact from './bubble/Contact.vue';
 import BubbleFile from './bubble/File.vue';
@@ -21,7 +21,11 @@ import { ACCOUNT_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
 import { getDayDifferenceFromNow } from 'shared/helpers/DateHelper';
-import * as Sentry from '@sentry/browser';
+import * as Sentry from '@sentry/vue';
+import { useTrack } from 'dashboard/composables';
+import { emitter } from 'shared/helpers/mitt';
+
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
@@ -38,8 +42,8 @@ export default {
     InstagramStory,
     InstagramStoryReply,
     Spinner,
+    NextButton,
   },
-  mixins: [messageFormatterMixin],
   props: {
     data: {
       type: Object,
@@ -73,6 +77,12 @@ export default {
       type: Promise,
       default: Promise.resolve({}),
     },
+  },
+  setup() {
+    const { formatMessage } = useMessageFormatter();
+    return {
+      formatMessage,
+    };
   },
   data() {
     return {
@@ -176,8 +186,17 @@ export default {
     contextMenuEnabledOptions() {
       return {
         copy: this.hasText,
-        delete: this.hasText || this.hasAttachments,
-        cannedResponse: this.isOutgoing && this.hasText,
+        delete:
+          (this.hasText || this.hasAttachments) &&
+          !this.isMessageDeleted &&
+          !this.isFailed,
+        cannedResponse:
+          this.isOutgoing && this.hasText && !this.isMessageDeleted,
+        copyLink: !this.isFailed || !this.isProcessing,
+        translate:
+          (!this.isFailed || !this.isProcessing) &&
+          !this.isMessageDeleted &&
+          this.hasText,
         replyTo: !this.data.private && this.inboxSupportsReplyTo.outgoing,
       };
     },
@@ -319,7 +338,7 @@ export default {
       return !this.sender.type || this.sender.type === 'agent_bot';
     },
     shouldShowContextMenu() {
-      return !(this.isFailed || this.isPending || this.isUnsupported);
+      return !this.isUnsupported;
     },
     showAvatar() {
       if (this.isOutgoing || this.isTemplate) {
@@ -345,12 +364,12 @@ export default {
   },
   async mounted() {
     this.hasMediaLoadError = false;
-    this.$emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+    emitter.on(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     this.setupHighlightTimer();
     this.inReplyToMessage = await this.inReplyTo;
   },
-  beforeDestroy() {
-    this.$emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
+  unmounted() {
+    emitter.off(BUS_EVENTS.ON_MESSAGE_LIST_SCROLL, this.closeContextMenu);
     clearTimeout(this.higlightTimeout);
   },
   methods: {
@@ -362,9 +381,6 @@ export default {
     hasMediaAttachment(type) {
       if (this.hasAttachments && this.data.attachments.length > 0) {
         return this.compareMessageFileType(this.data, type);
-      }
-      if (this.storyReply) {
-        return true;
       }
       return false;
     },
@@ -403,7 +419,7 @@ export default {
 
       e.preventDefault();
       if (e.type === 'contextmenu') {
-        this.$track(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
+        useTrack(ACCOUNT_EVENTS.OPEN_MESSAGE_CONTEXT_MENU);
       }
       this.contextMenuPosition = {
         x: e.pageX || e.clientX,
@@ -420,7 +436,7 @@ export default {
       const { conversation_id: conversationId, id: replyTo } = this.data;
 
       LocalStorage.updateJsonStore(replyStorageKey, conversationId, replyTo);
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.data);
     },
     setupHighlightTimer() {
       if (Number(this.$route.query.messageId) !== Number(this.data.id)) {
@@ -437,11 +453,12 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <li
     v-if="shouldRenderMessage"
     :id="`message${data.id}`"
-    class="group"
+    class="group/context-menu"
     :class="[alignBubble]"
   >
     <div :class="wrapClass">
@@ -449,12 +466,12 @@ export default {
         v-if="isFailed && !hasOneDayPassed && !isAnEmailInbox"
         class="message-failed--alert"
       >
-        <woot-button
+        <NextButton
           v-tooltip.top-end="$t('CONVERSATION.TRY_AGAIN')"
-          size="tiny"
-          color-scheme="alert"
-          variant="clear"
-          icon="arrow-clockwise"
+          ghost
+          xs
+          ruby
+          icon="i-lucide-refresh-ccw"
           @click="retrySendMessage"
         />
       </div>
@@ -565,10 +582,7 @@ export default {
         </a>
       </div>
     </div>
-    <div
-      v-if="shouldShowContextMenu"
-      class="invisible context-menu-wrap group-hover:visible"
-    >
+    <div v-if="shouldShowContextMenu" class="context-menu-wrap">
       <ContextMenu
         v-if="isBubble && !isMessageDeleted"
         :context-menu-position="contextMenuPosition"
@@ -577,7 +591,7 @@ export default {
         :message="data"
         @open="openContextMenu"
         @close="closeContextMenu"
-        @replyTo="handleReplyTo"
+        @reply-to="handleReplyTo"
       />
     </div>
   </li>
@@ -660,10 +674,10 @@ export default {
     }
 
     &.is-failed {
-      @apply bg-red-200 dark:bg-red-200;
+      @apply bg-n-ruby-4 dark:bg-n-ruby-4 text-n-slate-12;
 
       .message-text--metadata .time {
-        @apply text-red-50 dark:text-red-50;
+        @apply text-n-ruby-12 dark:text-n-ruby-12;
       }
     }
   }
@@ -724,7 +738,7 @@ li.right {
   }
 
   .wrap.is-failed {
-    @apply flex items-end ml-auto;
+    @apply flex items-end ltr:ml-auto rtl:mr-auto;
   }
 }
 

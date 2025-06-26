@@ -13,7 +13,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: String,
       default: '',
     },
@@ -40,6 +40,14 @@ export default {
       default: false,
     },
   },
+  emits: [
+    'typingOn',
+    'typingOff',
+    'update:modelValue',
+    'input',
+    'blur',
+    'focus',
+  ],
   data() {
     return {
       typingIndicator: createTypingIndicator(
@@ -82,7 +90,7 @@ export default {
   },
   mounted() {
     this.$nextTick(() => {
-      if (this.value) {
+      if (this.modelValue) {
         this.resizeTextarea();
         this.setCursor();
       } else {
@@ -93,7 +101,7 @@ export default {
   methods: {
     resizeTextarea() {
       this.$el.style.height = 'auto';
-      if (!this.value) {
+      if (!this.modelValue) {
         this.$el.style.height = `${this.minHeight}rem`;
       } else {
         this.$el.style.height = `${this.$el.scrollHeight}px`;
@@ -104,9 +112,10 @@ export default {
     // is supposed to be added, else we remove it.
     toggleSignatureInEditor(signatureEnabled) {
       const valueWithSignature = signatureEnabled
-        ? appendSignature(this.value, this.cleanedSignature)
-        : removeSignature(this.value, this.cleanedSignature);
+        ? appendSignature(this.modelValue, this.cleanedSignature)
+        : removeSignature(this.modelValue, this.cleanedSignature);
 
+      this.$emit('update:modelValue', valueWithSignature);
       this.$emit('input', valueWithSignature);
 
       this.$nextTick(() => {
@@ -116,7 +125,7 @@ export default {
     },
     setCursor() {
       const bodyWithoutSignature = removeSignature(
-        this.value,
+        this.modelValue,
         this.cleanedSignature
       );
 
@@ -130,6 +139,7 @@ export default {
       }
     },
     onInput(event) {
+      this.$emit('update:modelValue', event.target.value);
       this.$emit('input', event.target.value);
       this.resizeTextarea();
     },
@@ -155,7 +165,7 @@ export default {
     ref="textarea"
     :placeholder="placeholder"
     :rows="rows"
-    :value="value"
+    :value="modelValue"
     @input="onInput"
     @focus="onFocus"
     @keyup="onKeyup"

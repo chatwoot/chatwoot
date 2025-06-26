@@ -5,9 +5,14 @@ import { useAlert } from 'dashboard/composables';
 import { required } from '@vuelidate/validators';
 import router from '../../../../index';
 
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 const shouldStartWithPlusSign = (value = '') => value.startsWith('+');
 
 export default {
+  components: {
+    NextButton,
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -72,12 +77,12 @@ export default {
 </script>
 
 <template>
-  <form class="flex flex-wrap mx-0" @submit.prevent="createChannel()">
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+  <form class="flex flex-wrap flex-col mx-0" @submit.prevent="createChannel()">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.inboxName.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.INBOX_NAME.LABEL') }}
         <input
-          v-model.trim="inboxName"
+          v-model="inboxName"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.INBOX_NAME.PLACEHOLDER')
@@ -90,11 +95,11 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.phoneNumber.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.PHONE_NUMBER.LABEL') }}
         <input
-          v-model.trim="phoneNumber"
+          v-model="phoneNumber"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.PHONE_NUMBER.PLACEHOLDER')
@@ -107,11 +112,11 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.accountId.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.ACCOUNT_ID.LABEL') }}
         <input
-          v-model.trim="accountId"
+          v-model="accountId"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.ACCOUNT_ID.PLACEHOLDER')
@@ -124,11 +129,11 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.applicationId.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.APPLICATION_ID.LABEL') }}
         <input
-          v-model.trim="applicationId"
+          v-model="applicationId"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.APPLICATION_ID.PLACEHOLDER')
@@ -141,11 +146,11 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.apiKey.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_KEY.LABEL') }}
         <input
-          v-model.trim="apiKey"
+          v-model="apiKey"
           type="text"
           :placeholder="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_KEY.PLACEHOLDER')"
           @blur="v$.apiKey.$touch"
@@ -156,11 +161,11 @@ export default {
       </label>
     </div>
 
-    <div class="w-[65%] flex-shrink-0 flex-grow-0 max-w-[65%]">
+    <div class="flex-shrink-0 flex-grow-0">
       <label :class="{ error: v$.apiSecret.$error }">
         {{ $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_SECRET.LABEL') }}
         <input
-          v-model.trim="apiSecret"
+          v-model="apiSecret"
           type="text"
           :placeholder="
             $t('INBOX_MGMT.ADD.SMS.BANDWIDTH.API_SECRET.PLACEHOLDER')
@@ -173,10 +178,13 @@ export default {
       </label>
     </div>
 
-    <div class="w-full">
-      <woot-submit-button
-        :loading="uiFlags.isCreating"
-        :button-text="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.SUBMIT_BUTTON')"
+    <div class="w-full mt-4">
+      <NextButton
+        :is-loading="uiFlags.isCreating"
+        type="submit"
+        solid
+        blue
+        :label="$t('INBOX_MGMT.ADD.SMS.BANDWIDTH.SUBMIT_BUTTON')"
       />
     </div>
   </form>

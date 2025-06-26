@@ -35,7 +35,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the rephrased message using the tone in data' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             {
               'role' => 'system',
@@ -61,7 +61,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the suggested reply' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { role: 'system',
               content: Rails.root.join('lib/integrations/openai/openai_prompts/reply.txt').read },
@@ -88,7 +88,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the summarized message' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system',
               'content' => summary_prompt },
@@ -127,7 +127,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the corrected text' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please fix the spelling and grammar of the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -149,7 +149,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the shortened text' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please shorten the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -171,7 +171,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the expanded text' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please expand the following response. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -193,7 +193,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the friendly text' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more friendly. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -215,7 +215,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the formal text' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please make the following response more formal. ' \
                                                'Ensure that the reply should be in user language.' },
@@ -237,7 +237,7 @@ RSpec.describe Integrations::Openai::ProcessorService do
 
       it 'returns the simplified text' do
         request_body = {
-          'model' => 'gpt-3.5-turbo',
+          'model' => 'gpt-4o-mini',
           'messages' => [
             { 'role' => 'system', 'content' => 'You are a helpful support agent. Please simplify the following response. ' \
                                                'Ensure that the reply should be in user language.' },

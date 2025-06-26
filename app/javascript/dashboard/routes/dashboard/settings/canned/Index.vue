@@ -3,9 +3,15 @@ import { useAlert } from 'dashboard/composables';
 import AddCanned from './AddCanned.vue';
 import EditCanned from './EditCanned.vue';
 import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
-import { computed, onMounted, ref } from 'vue';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { computed, onMounted, ref, defineOptions } from 'vue';
+import { useI18n } from 'vue-i18n';
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
+
+import Button from 'dashboard/components-next/button/Button.vue';
+
+defineOptions({
+  name: 'CannedResponseSettings',
+});
 
 const getters = useStoreGetters();
 const store = useStore();
@@ -101,6 +107,14 @@ const confirmDeletion = () => {
   closeDeletePopup();
   deleteCannedResponse(activeResponse.value.id);
 };
+
+const tableHeaders = computed(() => {
+  return [
+    t('CANNED_MGMT.LIST.TABLE_HEADER.SHORT_CODE'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.CONTENT'),
+    t('CANNED_MGMT.LIST.TABLE_HEADER.ACTIONS'),
+  ];
+});
 </script>
 
 <template>
@@ -112,13 +126,11 @@ const confirmDeletion = () => {
       feature-name="canned_responses"
     >
       <template #actions>
-        <woot-button
-          class="button nice rounded-md"
-          icon="add-circle"
+        <Button
+          icon="i-lucide-circle-plus"
+          :label="$t('CANNED_MGMT.HEADER_BTN_TXT')"
           @click="openAddPopup"
-        >
-          {{ $t('CANNED_MGMT.HEADER_BTN_TXT') }}
-        </woot-button>
+        />
       </template>
     </BaseSettingsHeader>
 
@@ -139,16 +151,15 @@ const confirmDeletion = () => {
       >
         <thead>
           <th
-            v-for="thHeader in $t('CANNED_MGMT.LIST.TABLE_HEADER')"
+            v-for="thHeader in tableHeaders"
             :key="thHeader"
-            class="py-4 pr-4 text-left font-semibold text-slate-700 dark:text-slate-300"
+            class="py-4 ltr:pr-4 rtl:pl-4 text-left font-semibold text-n-slate-11 last:text-right"
           >
-            <span v-if="thHeader !== $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')">
+            <span v-if="thHeader !== tableHeaders[0]">
               {{ thHeader }}
             </span>
-
             <button
-              v-if="thHeader === $t('CANNED_MGMT.LIST.TABLE_HEADER[0]')"
+              v-else
               class="flex items-center p-0 cursor-pointer"
               @click="toggleSort"
             >
@@ -156,44 +167,41 @@ const confirmDeletion = () => {
                 {{ thHeader }}
               </span>
               <fluent-icon
-                class="ml-2"
+                class="ml-2 size-4"
                 :icon="sortOrder === 'desc' ? 'chevron-up' : 'chevron-down'"
               />
             </button>
           </th>
         </thead>
-        <tbody
-          class="divide-y divide-slate-50 dark:divide-slate-800 text-slate-700 dark:text-slate-300"
-        >
+        <tbody class="divide-y divide-n-weak text-n-slate-11">
           <tr
             v-for="(cannedItem, index) in records"
             :key="cannedItem.short_code"
           >
             <td
-              class="py-4 pr-4 truncate max-w-xs font-medium"
+              class="py-4 ltr:pr-4 rtl:pl-4 truncate max-w-xs font-medium"
               :title="cannedItem.short_code"
             >
               {{ cannedItem.short_code }}
             </td>
-            <td class="py-4 pr-4 md:break-all whitespace-normal">
+            <td class="py-4 ltr:pr-4 rtl:pl-4 md:break-all whitespace-normal">
               {{ cannedItem.content }}
             </td>
             <td class="py-4 flex justify-end gap-1">
-              <woot-button
+              <Button
                 v-tooltip.top="$t('CANNED_MGMT.EDIT.BUTTON_TEXT')"
-                variant="smooth"
-                size="tiny"
-                color-scheme="secondary"
-                icon="edit"
+                icon="i-lucide-pen"
+                slate
+                xs
+                faded
                 @click="openEditPopup(cannedItem)"
               />
-              <woot-button
+              <Button
                 v-tooltip.top="$t('CANNED_MGMT.DELETE.BUTTON_TEXT')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 :is-loading="loading[cannedItem.id]"
                 @click="openDeletePopup(cannedItem, index)"
               />
@@ -203,11 +211,11 @@ const confirmDeletion = () => {
       </table>
     </div>
 
-    <woot-modal :show.sync="showAddPopup" :on-close="hideAddPopup">
+    <woot-modal v-model:show="showAddPopup" :on-close="hideAddPopup">
       <AddCanned :on-close="hideAddPopup" />
     </woot-modal>
 
-    <woot-modal :show.sync="showEditPopup" :on-close="hideEditPopup">
+    <woot-modal v-model:show="showEditPopup" :on-close="hideEditPopup">
       <EditCanned
         v-if="showEditPopup"
         :id="activeResponse.id"
@@ -218,7 +226,7 @@ const confirmDeletion = () => {
     </woot-modal>
 
     <woot-delete-modal
-      :show.sync="showDeleteConfirmationPopup"
+      v-model:show="showDeleteConfirmationPopup"
       :on-close="closeDeletePopup"
       :on-confirm="confirmDeletion"
       :title="$t('CANNED_MGMT.DELETE.CONFIRM.TITLE')"

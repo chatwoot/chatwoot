@@ -1,5 +1,10 @@
 <script>
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 export default {
+  components: {
+    NextButton,
+  },
   inject: ['v$'],
   props: {
     macroName: {
@@ -11,6 +16,7 @@ export default {
       default: 'global',
     },
   },
+  emits: ['update:name', 'update:visibility', 'submit'],
   methods: {
     isActive(key) {
       return this.macroVisibility === key
@@ -29,16 +35,16 @@ export default {
 
 <template>
   <div
-    class="p-3 bg-white dark:bg-slate-900 h-[calc(100vh-3.5rem)] flex flex-col border-l border-slate-50 dark:border-slate-800/50"
+    class="p-4 bg-n-solid-2 border border-n-weak rounded-lg shadow-sm h-full flex flex-col"
   >
     <div>
       <woot-input
-        :value="macroName"
+        :model-value="macroName"
         :label="$t('MACROS.ADD.FORM.NAME.LABEL')"
         :placeholder="$t('MACROS.ADD.FORM.NAME.PLACEHOLDER')"
         :error="v$.macro.name.$error ? $t('MACROS.ADD.FORM.NAME.ERROR') : null"
         :class="{ error: v$.macro.name.$error }"
-        @input="onUpdateName($event)"
+        @update:model-value="onUpdateName"
       />
     </div>
     <div class="mt-2">
@@ -90,9 +96,9 @@ export default {
         </button>
       </div>
       <div
-        class="mt-2 flex items-start p-2 bg-slate-50 dark:bg-slate-700 p-2 rounded-md"
+        class="mt-2 flex items-start p-2 bg-n-slate-3 dark:bg-n-solid-3 rounded-md"
       >
-        <fluent-icon icon="info" size="20" class="flex-shrink" />
+        <fluent-icon icon="info" size="16" class="flex-shrink-0 mt-0.5" />
         <p
           class="ml-2 rtl:ml-0 rtl:mr-2 mb-0 text-slate-600 dark:text-slate-200"
         >
@@ -101,14 +107,13 @@ export default {
       </div>
     </div>
     <div class="mt-auto w-full">
-      <woot-button
-        size="expanded"
-        color-scheme="success"
+      <NextButton
+        blue
+        solid
+        :label="$t('MACROS.HEADER_BTN_TXT_SAVE')"
         class="w-full"
         @click="$emit('submit')"
-      >
-        {{ $t('MACROS.HEADER_BTN_TXT_SAVE') }}
-      </woot-button>
+      />
     </div>
   </div>
 </template>

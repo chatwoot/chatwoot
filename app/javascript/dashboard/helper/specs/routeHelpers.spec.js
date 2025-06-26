@@ -1,6 +1,7 @@
 import {
   getConversationDashboardRoute,
   isAConversationRoute,
+  defaultRedirectPage,
   routeIsAccessibleFor,
   validateLoggedInRoutes,
   isAInboxViewRoute,
@@ -11,6 +12,57 @@ describe('#routeIsAccessibleFor', () => {
     let route = { meta: { permissions: ['administrator'] } };
     expect(routeIsAccessibleFor(route, ['agent'])).toEqual(false);
     expect(routeIsAccessibleFor(route, ['administrator'])).toEqual(true);
+  });
+});
+
+describe('#defaultRedirectPage', () => {
+  const to = {
+    params: { accountId: '2' },
+    fullPath: '/app/accounts/2/dashboard',
+    name: 'home',
+  };
+
+  it('should return dashboard route for users with conversation permissions', () => {
+    const permissions = ['conversation_manage', 'agent'];
+    expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/dashboard');
+  });
+
+  it('should return contacts route for users with contact permissions', () => {
+    const permissions = ['contact_manage'];
+    expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/contacts');
+  });
+
+  it('should return reports route for users with report permissions', () => {
+    const permissions = ['report_manage'];
+    expect(defaultRedirectPage(to, permissions)).toBe(
+      'accounts/2/reports/overview'
+    );
+  });
+
+  it('should return portals route for users with portal permissions', () => {
+    const permissions = ['knowledge_base_manage'];
+    expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/portals');
+  });
+
+  it('should return dashboard route as default for users with custom roles', () => {
+    const permissions = ['custom_role'];
+    expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/dashboard');
+  });
+
+  it('should return dashboard route for users with administrator role', () => {
+    const permissions = ['administrator'];
+    expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/dashboard');
+  });
+
+  it('should return dashboard route for users with multiple permissions', () => {
+    const permissions = [
+      'contact_manage',
+      'custom_role',
+      'conversation_manage',
+      'agent',
+      'administrator',
+    ];
+    expect(defaultRedirectPage(to, permissions)).toBe('accounts/2/dashboard');
   });
 });
 

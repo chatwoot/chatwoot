@@ -28,14 +28,15 @@ export default {
 };
 </script>
 
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <Banner
     v-if="shouldShowBanner"
     color-scheme="alert"
     :banner-message="bannerMessage"
     :action-button-label="actionButtonMessage"
-    action-button-icon="mail"
+    action-button-icon="i-lucide-mail"
     has-action-button
-    @click="resendVerificationEmail"
+    @primary-action="resendVerificationEmail"
   />
 </template>

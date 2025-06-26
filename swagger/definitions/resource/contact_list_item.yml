@@ -1,0 +1,61 @@
+type: object
+properties:
+  additional_attributes:
+    type: object
+    description: The object containing additional attributes related to the contact
+    properties:
+      city:
+        type: string
+        description: City of the contact
+      country:
+        type: string
+        description: Country of the contact
+      country_code:
+        type: string
+        description: Country code of the contact
+      created_at_ip:
+        type: string
+        description: IP address when the contact was created
+  availability_status:
+    type: string
+    description: Availability status of the contact
+    enum: ["online", "offline"]
+  email:
+    type: string
+    description: The email address of the contact
+    nullable: true
+  id:
+    type: integer
+    description: The ID of the contact
+  name:
+    type: string
+    description: The name of the contact
+  phone_number:
+    type: string
+    description: The phone number of the contact
+    nullable: true
+  blocked:
+    type: boolean
+    description: Whether the contact is blocked
+  identifier:
+    type: string
+    description: The identifier of the contact
+    nullable: true
+  thumbnail:
+    type: string
+    description: The thumbnail of the contact
+  custom_attributes:
+    type: object
+    description: The custom attributes of the contact
+  last_activity_at:
+    type: integer
+    description: Timestamp of last activity
+    nullable: true
+  created_at:
+    type: integer
+    description: Timestamp when contact was created
+  contact_inboxes:
+    type: array
+    description: List of inboxes associated with this contact
+    items:
+      $ref: '#/components/schemas/contact_inbox' 

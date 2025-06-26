@@ -10,11 +10,11 @@
       "404": "Det finns inga etiketter tillgängliga på detta konto.",
       "TITLE": "Hantera etiketter",
       "DESC": "Etiketter låter dig gruppera ihop konversationer.",
-      "TABLE_HEADER": [
-        "Namn",
-        "Beskrivning",
-        "Färg"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Namn",
+        "DESCRIPTION": "Beskrivning",
+        "COLOR": "Färg"
+      }
     },
     "FORM": {
       "NAME": {

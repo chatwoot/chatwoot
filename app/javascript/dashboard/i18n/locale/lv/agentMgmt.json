@@ -18,7 +18,8 @@
       "STATUS": "Statuss",
       "ACTIONS": "Darbības",
       "VERIFIED": "Pārbaudīts",
-      "VERIFICATION_PENDING": "Tiek gaidīta verifikācija"
+      "VERIFICATION_PENDING": "Tiek gaidīta verifikācija",
+      "AVAILABLE_CUSTOM_ROLE": "Pieejamās pielāgotu lomu atļaujas"
     },
     "ADD": {
       "TITLE": "Pievienot aģentu Jūsu komandai",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Izvēlieties aģentu",
         "TEAM": "Izvēlieties komandu"
+      },
+      "LIST": {
+        "NONE": "Nav"
       },
       "SEARCH": {
         "NO_RESULTS": {

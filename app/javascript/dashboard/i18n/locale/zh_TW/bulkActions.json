@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} conversations selected",
+    "CONVERSATIONS_SELECTED": "{conversationCount} conversations selected",
     "AGENT_SELECT_LABEL": "選擇客服",
-    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign %{conversationCount} %{conversationLabel} to",
-    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Are you sure to assign {conversationCount} {conversationLabel} to",
+    "UNASSIGN_CONFIRMATION_LABEL": "Are you sure to unassign {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "返回",
     "ASSIGN_LABEL": "指派",
     "YES": "是",
@@ -18,12 +18,12 @@
     "AGENT_LIST_LOADING": "Loading agents",
     "UPDATE": {
       "CHANGE_STATUS": "Change status",
-      "SNOOZE_UNTIL": "Snooze",
+      "SNOOZE_UNTIL": "擱置",
       "UPDATE_SUCCESFUL": "Conversation status updated successfully.",
       "UPDATE_FAILED": "Failed to update conversations. Please try again."
     },
     "LABELS": {
-      "ASSIGN_LABELS": "Assign labels",
+      "ASSIGN_LABELS": "標記標籤",
       "NO_LABELS_FOUND": "No labels found for",
       "ASSIGN_SELECTED_LABELS": "Assign selected labels",
       "ASSIGN_SUCCESFUL": "Labels assigned successfully.",

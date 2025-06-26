@@ -1,9 +1,9 @@
 {
   "BULK_ACTION": {
-    "CONVERSATIONS_SELECTED": "%{conversationCount} samtöl valin",
+    "CONVERSATIONS_SELECTED": "{conversationCount} samtöl valin",
     "AGENT_SELECT_LABEL": "Velja þjónustufulltrúa",
-    "ASSIGN_CONFIRMATION_LABEL": "Ertu viss um að úthluta %{conversationCount} %{conversationLabel} á",
-    "UNASSIGN_CONFIRMATION_LABEL": "Ertu viss um að hætta við úthlutun %{conversationCount} %{conversationLabel}?",
+    "ASSIGN_CONFIRMATION_LABEL": "Ertu viss um að úthluta {conversationCount} {conversationLabel} á",
+    "UNASSIGN_CONFIRMATION_LABEL": "Ertu viss um að hætta við úthlutun {conversationCount} {conversationLabel}?",
     "GO_BACK_LABEL": "Go back",
     "ASSIGN_LABEL": "Úthluta",
     "YES": "Já",

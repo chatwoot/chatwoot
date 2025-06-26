@@ -1,0 +1,53 @@
+{
+  "PAGINATION_FOOTER": {
+    "SHOWING": "Showing {startItem} - {endItem} of {totalItems} items",
+    "CURRENT_PAGE_INFO": "{currentPage} of {totalPages} pages"
+  },
+  "COMBOBOX": {
+    "PLACEHOLDER": "Select an option...",
+    "EMPTY_SEARCH_RESULTS": "No items found for the search term `{searchTerm}`",
+    "EMPTY_STATE": "ไม่พบผลการค้นหา",
+    "SEARCH_PLACEHOLDER": "Search...",
+    "MORE": "+{count} more"
+  },
+  "DROPDOWN_MENU": {
+    "SEARCH_PLACEHOLDER": "Search...",
+    "EMPTY_STATE": "ไม่พบผลการค้นหา",
+    "SEARCHING": "Searching..."
+  },
+  "DIALOG": {
+    "BUTTONS": {
+      "CANCEL": "ยกเลิก",
+      "CONFIRM": "ยืนยัน"
+    }
+  },
+  "PHONE_INPUT": {
+    "SEARCH_PLACEHOLDER": "Search country",
+    "ERROR": "Phone number should be empty or in E.164 format",
+    "DIAL_CODE_ERROR": "Please select a dial code from the list"
+  },
+  "THUMBNAIL": {
+    "AUTHOR": {
+      "NOT_AVAILABLE": "Author is not available"
+    }
+  },
+  "BREADCRUMB": {
+    "ARIA_LABEL": "Breadcrumb"
+  },
+  "SWITCH": {
+    "TOGGLE": "Toggle switch"
+  },
+  "LABEL": {
+    "TAG_BUTTON": "tag"
+  },
+  "FEATURE_SPOTLIGHT": {
+    "LEARN_MORE": "เรียนรู้เพิ่มเติม",
+    "WATCH_VIDEO": "Watch video"
+  },
+  "DURATION_INPUT": {
+    "MINUTES": "Minutes",
+    "HOURS": "Hours",
+    "DAYS": "Days",
+    "PLACEHOLDER": "Enter duration"
+  }
+}

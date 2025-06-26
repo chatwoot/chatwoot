@@ -22,15 +22,15 @@
     "IN_A_DAY": "Obično odgovara u roku jednog dana",
     "BACK_IN": "Bit ćemo ponovno online"
   },
-  "DAY_NAMES": [
-    "Nedjelja",
-    "Ponedjeljak",
-    "Utorak",
-    "Srijeda",
-    "Četvrtak",
-    "Petak",
-    "Subota"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Nedjelja",
+    "MONDAY": "Ponedjeljak",
+    "TUESDAY": "Utorak",
+    "WEDNESDAY": "Srijeda",
+    "THURSDAY": "Četvrtak",
+    "FRIDAY": "Petak",
+    "SATURDAY": "Subota"
+  },
   "START_CONVERSATION": "Započnite razgovor",
   "END_CONVERSATION": "Završite razgovor",
   "CONTINUE_CONVERSATION": "Nastavite razgovor",
@@ -70,7 +70,8 @@
         "REQUIRED_ERROR": "Potrebno je unijeti broj telefona",
         "DIAL_CODE_VALID_ERROR": "Molimo odaberite kod države",
         "VALID_ERROR": "Molimo unesite validan broj telefona",
-        "DROPDOWN_EMPTY": "Nisu pronađeni rezultati"
+        "DROPDOWN_EMPTY": "Nisu pronađeni rezultati",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Poruka",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Pretraži emojije",
-    "NOT_FOUND": "Nema emojija koji odgovaraju vašoj pretrazi"
+    "NOT_FOUND": "Nema emojija koji odgovaraju vašoj pretrazi",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Ocijenite vaš razgovor",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "je podijelio/la url"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Replying to:"
   }
 }

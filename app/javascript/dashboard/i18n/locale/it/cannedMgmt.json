@@ -10,11 +10,11 @@
       "404": "Non ci sono risposte predefinite disponibili in questo account.",
       "TITLE": "Gestisci le risposte predefinite",
       "DESC": "Canned Responses are predefined reply templates which can be used to quickly send out replies to conversations.",
-      "TABLE_HEADER": [
-        "Short code",
-        "Contenuto",
-        "Azioni"
-      ]
+      "TABLE_HEADER": {
+        "SHORT_CODE": "Short code",
+        "CONTENT": "Contenuto",
+        "ACTIONS": "Azioni"
+      }
     },
     "ADD": {
       "TITLE": "Add canned response",

@@ -1,10 +1,14 @@
 <script>
-import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
+import { useVuelidate } from '@vuelidate/core';
 import { useAlert } from 'dashboard/composables';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
+  components: {
+    NextButton,
+  },
   props: {
     show: {
       type: Boolean,
@@ -15,6 +19,7 @@ export default {
       default: true,
     },
   },
+  emits: ['closeAccountCreateModal'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -23,11 +28,13 @@ export default {
       accountName: '',
     };
   },
-  validations: {
-    accountName: {
-      required,
-      minLength: minLength(1),
-    },
+  validations() {
+    return {
+      accountName: {
+        required,
+        minLength: minLength(1),
+      },
+    };
   },
   computed: {
     ...mapGetters({
@@ -76,26 +83,31 @@ export default {
           <label :class="{ error: v$.accountName.$error }">
             {{ $t('CREATE_ACCOUNT.FORM.NAME.LABEL') }}
             <input
-              v-model.trim="accountName"
+              v-model="accountName"
               type="text"
               :placeholder="$t('CREATE_ACCOUNT.FORM.NAME.PLACEHOLDER')"
               @input="v$.accountName.$touch"
             />
           </label>
         </div>
-        <div class="w-full">
-          <div class="w-full">
-            <woot-submit-button
-              :disabled="
-                v$.accountName.$invalid ||
-                v$.accountName.$invalid ||
-                uiFlags.isCreating
-              "
-              :button-text="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
-              :loading="uiFlags.isCreating"
-              button-class="large expanded"
-            />
-          </div>
+        <div class="w-full flex justify-end gap-2 items-center">
+          <NextButton
+            faded
+            slate
+            type="reset"
+            :label="$t('CREATE_ACCOUNT.FORM.CANCEL')"
+            @click.prevent="() => $emit('closeAccountCreateModal')"
+          />
+          <NextButton
+            type="submit"
+            :label="$t('CREATE_ACCOUNT.FORM.SUBMIT')"
+            :is-loading="uiFlags.isCreating"
+            :disabled="
+              v$.accountName.$invalid ||
+              v$.accountName.$invalid ||
+              uiFlags.isCreating
+            "
+          />
         </div>
       </form>
     </div>

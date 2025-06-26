@@ -10,11 +10,11 @@
       "404": "There are no labels available in this account.",
       "TITLE": "Manage labels",
       "DESC": "Labels let you group the conversations together.",
-      "TABLE_HEADER": [
-        "Name",
-        "Description",
-        "Color"
-      ]
+      "TABLE_HEADER": {
+        "NAME": "Name",
+        "DESCRIPTION": "Description",
+        "COLOR": "Color"
+      }
     },
     "FORM": {
       "NAME": {

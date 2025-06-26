@@ -30,6 +30,9 @@
       "is_lesser_than": "ก่อนหน้า",
       "days_before": "x วันก่อน"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "โปรดระบุค่า"
+    },
     "ATTRIBUTES": {
       "NAME": "ชื่อ",
       "EMAIL": "อีเมล์",

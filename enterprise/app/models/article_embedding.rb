@@ -9,15 +9,21 @@
 #  updated_at :datetime         not null
 #  article_id :bigint           not null
 #
+# Indexes
+#
+#  index_article_embeddings_on_embedding  (embedding) USING ivfflat
+#
 class ArticleEmbedding < ApplicationRecord
   belongs_to :article
   has_neighbors :embedding, normalize: true
 
-  before_save :update_response_embedding
+  after_commit :update_response_embedding
 
   private
 
   def update_response_embedding
-    self.embedding = Openai::EmbeddingsService.new.get_embedding(term, 'text-embedding-3-small')
+    return unless saved_change_to_term? || embedding.nil?
+
+    Captain::Llm::UpdateEmbeddingJob.perform_later(self, term)
   end
 end

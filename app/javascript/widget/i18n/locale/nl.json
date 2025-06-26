@@ -22,15 +22,15 @@
     "IN_A_DAY": "Reageert meestal binnen een dag",
     "BACK_IN": "We zullen weer online zijn"
   },
-  "DAY_NAMES": [
-    "zondag",
-    "maandag",
-    "dinsdag",
-    "woensdag",
-    "donderdag",
-    "vrijdag",
-    "zaterdag"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "zondag",
+    "MONDAY": "maandag",
+    "TUESDAY": "dinsdag",
+    "WEDNESDAY": "woensdag",
+    "THURSDAY": "donderdag",
+    "FRIDAY": "vrijdag",
+    "SATURDAY": "zaterdag"
+  },
   "START_CONVERSATION": "Start Chat",
   "END_CONVERSATION": "Gesprek beëindigen",
   "CONTINUE_CONVERSATION": "Verdergaan met gesprek",
@@ -68,9 +68,10 @@
         "LABEL": "Telefoonnummer",
         "PLACEHOLDER": "Vul je telefoonnummer in",
         "REQUIRED_ERROR": "Telefoon nummer is vereist",
-        "DIAL_CODE_VALID_ERROR": "Selecteer a.u.b. een landcode",
+        "DIAL_CODE_VALID_ERROR": "Selecteer alstublieft een landcode",
         "VALID_ERROR": "Voer een geldig telefoonnummer in",
-        "DROPDOWN_EMPTY": "Geen resultaten gevonden"
+        "DROPDOWN_EMPTY": "Geen resultaten gevonden",
+        "DROPDOWN_SEARCH": "Search country"
       },
       "MESSAGE": {
         "LABEL": "Bericht",
@@ -91,7 +92,8 @@
   },
   "EMOJI": {
     "PLACEHOLDER": "Zoek emojis",
-    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden"
+    "NOT_FOUND": "Er zijn geen overeenkomende emoji's gevonden",
+    "ARIA_LABEL": "Emoji picker"
   },
   "CSAT": {
     "TITLE": "Beoordeel uw gesprek",
@@ -133,5 +135,8 @@
     "fallback": {
       "CONTENT": "heeft een url gedeeld"
     }
+  },
+  "FOOTER_REPLY_TO": {
+    "REPLY_TO": "Antwoord op:"
   }
 }

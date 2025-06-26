@@ -6,12 +6,14 @@ import ImapSettings from '../ImapSettings.vue';
 import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     SettingsSection,
     ImapSettings,
     SmtpSettings,
+    NextButton,
   },
   mixins: [inboxMixin],
   props: {
@@ -216,7 +218,7 @@ export default {
           class="flex items-center justify-between flex-1 mt-2 whatsapp-settings--content"
         >
           <woot-input
-            v-model.trim="whatsAppInboxAPIKey"
+            v-model="whatsAppInboxAPIKey"
             type="text"
             class="flex-1 mr-2"
             :placeholder="
@@ -225,12 +227,12 @@ export default {
               )
             "
           />
-          <woot-button
+          <NextButton
             :disabled="v$.whatsAppInboxAPIKey.$invalid"
             @click="updateWhatsAppInboxAPIKey"
           >
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_BUTTON') }}
-          </woot-button>
+          </NextButton>
         </div>
       </SettingsSection>
     </div>

@@ -1,15 +1,14 @@
-import { shallowMount, createLocalVue } from '@vue/test-utils';
-import Vuex from 'vuex';
+import { shallowMount } from '@vue/test-utils';
+import { createStore } from 'vuex';
 import ReportsFiltersInboxes from '../../Filters/Inboxes.vue';
 
-const localVue = createLocalVue();
-localVue.use(Vuex);
-
 const mountParams = {
-  mocks: {
-    $t: msg => msg,
+  global: {
+    mocks: {
+      $t: msg => msg,
+    },
+    stubs: ['multiselect'],
   },
-  stubs: ['multiselect'],
 };
 
 describe('ReportsFiltersInboxes.vue', () => {
@@ -30,7 +29,7 @@ describe('ReportsFiltersInboxes.vue', () => {
       },
     };
 
-    store = new Vuex.Store({
+    store = createStore({
       modules: {
         inboxes: inboxesModule,
       },
@@ -39,24 +38,26 @@ describe('ReportsFiltersInboxes.vue', () => {
 
   it('dispatches "inboxes/get" action when component is mounted', () => {
     shallowMount(ReportsFiltersInboxes, {
-      store,
-      localVue,
-      ...mountParams,
+      global: {
+        plugins: [store],
+        ...mountParams.global,
+      },
     });
     expect(inboxesModule.actions.get).toHaveBeenCalled();
   });
 
-  it('emits "inbox-filter-selection" event when handleInput is called', () => {
+  it('emits "inbox-filter-selection" event when handleInput is called', async () => {
     const wrapper = shallowMount(ReportsFiltersInboxes, {
-      store,
-      localVue,
-      ...mountParams,
+      global: {
+        plugins: [store],
+        ...mountParams.global,
+      },
     });
 
     const selectedInbox = { id: 1, name: 'Inbox 1' };
-    wrapper.setData({ selectedOption: selectedInbox });
+    await wrapper.setData({ selectedOption: selectedInbox });
 
-    wrapper.vm.handleInput();
+    await wrapper.vm.handleInput();
 
     expect(wrapper.emitted('inboxFilterSelection')).toBeTruthy();
     expect(wrapper.emitted('inboxFilterSelection')[0]).toEqual([selectedInbox]);

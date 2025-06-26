@@ -1,32 +1,36 @@
 <script setup>
-import { useStoreGetters } from 'dashboard/composables/store';
+import { usePolicy } from 'dashboard/composables/usePolicy';
 import { computed } from 'vue';
-import {
-  getUserPermissions,
-  hasPermissions,
-} from '../helper/permissionsHelper';
 
 const props = defineProps({
+  as: {
+    type: String,
+    default: 'div',
+  },
   permissions: {
     type: Array,
     required: true,
   },
+  featureFlag: {
+    type: String,
+    default: null,
+  },
+  installationTypes: {
+    type: Array,
+    default: null,
+  },
 });
 
-const getters = useStoreGetters();
-const user = computed(() => getters.getCurrentUser.value);
-const accountId = computed(() => getters.getCurrentAccountId.value);
-const userPermissions = computed(() => {
-  return getUserPermissions(user.value, accountId.value);
-});
-const hasPermission = computed(() => {
-  return hasPermissions(props.permissions, userPermissions.value);
-});
+const { shouldShow } = usePolicy();
+
+const show = computed(() =>
+  shouldShow(props.featureFlag, props.permissions, props.installationTypes)
+);
 </script>
 
 <!-- eslint-disable vue/no-root-v-if -->
 <template>
-  <div v-if="hasPermission">
+  <component :is="as" v-if="show">
     <slot />
-  </div>
+  </component>
 </template>

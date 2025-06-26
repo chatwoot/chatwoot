@@ -2,7 +2,7 @@
 import { ref, watch } from 'vue';
 
 const props = defineProps({
-  value: {
+  modelValue: {
     type: String,
     required: true,
   },
@@ -20,9 +20,9 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['input']);
+const emit = defineEmits(['update:modelValue', 'input']);
 
-const localValue = ref(props.value);
+const localValue = ref(props.modelValue);
 const localFlags = ref(props.selectedFlags);
 
 watch(
@@ -33,6 +33,7 @@ watch(
 );
 
 const handleInput = e => {
+  emit('update:modelValue', props.type, e);
   emit('input', props.type, e);
 };
 </script>

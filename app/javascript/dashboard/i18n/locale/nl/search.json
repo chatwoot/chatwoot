@@ -4,16 +4,21 @@
       "ALL": "Allemaal",
       "CONTACTS": "Contacten",
       "CONVERSATIONS": "Gesprekken",
-      "MESSAGES": "Berichten"
+      "MESSAGES": "Berichten",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Contacten",
       "CONVERSATIONS": "Gesprekken",
-      "MESSAGES": "Berichten"
+      "MESSAGES": "Berichten",
+      "ARTICLES": "Articles"
     },
+    "VIEW_MORE": "View more",
+    "LOAD_MORE": "Load more",
     "SEARCHING_DATA": "Zoeken",
-    "EMPTY_STATE": "Geen %{item} gevonden voor query '%{query}'",
-    "EMPTY_STATE_FULL": "Geen resultaten gevonden voor query '%{query}'",
+    "LOADING_DATA": "Loading",
+    "EMPTY_STATE": "Geen {item} gevonden voor query '{query}'",
+    "EMPTY_STATE_FULL": "Geen resultaten gevonden voor query '{query}'",
     "PLACEHOLDER_KEYBINDING": "/ om te focussen",
     "INPUT_PLACEHOLDER": "Voer 3 of meer tekens in om te zoeken",
     "EMPTY_STATE_DEFAULT": "Zoeken op gesprek id, e-mail, telefoonnummer, berichten voor betere zoekresultaten. ",
@@ -21,6 +26,7 @@
     "READ_MORE": "Meer lezen",
     "WROTE": "schreef:",
     "FROM": "van",
-    "EMAIL": "e-mailadres"
+    "EMAIL": "e-mailadres",
+    "EMAIL_SUBJECT": "onderwerp"
   }
 }

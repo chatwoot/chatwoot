@@ -30,6 +30,9 @@
       "is_lesser_than": "Je menší než",
       "days_before": "Je o x dnů dříve"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Hodnota je povinná"
+    },
     "ATTRIBUTES": {
       "NAME": "Název",
       "EMAIL": "E-mailová adresa",

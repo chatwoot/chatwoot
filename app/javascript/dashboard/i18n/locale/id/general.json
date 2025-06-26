@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Cari",
       "EMPTY_STATE": "Tidak ada hasil ditemukan"
-    }
+    },
+    "CLOSE": "Tutup"
   }
 }

@@ -21,7 +21,7 @@ export default {
       type: String,
       default: '',
     },
-    value: {
+    modelValue: {
       type: [String, Number],
       default: '',
     },
@@ -46,9 +46,10 @@ export default {
       default: '',
     },
   },
+  emits: ['update:modelValue', 'blur'],
   methods: {
     onInput(e) {
-      this.$emit('input', e.target.value);
+      this.$emit('update:modelValue', e.target.value);
     },
   },
 };
@@ -68,7 +69,7 @@ export default {
       :required="required"
       :placeholder="placeholder"
       :data-testid="dataTestid"
-      :value="value"
+      :value="modelValue"
       :rows="rows"
       :class="{
         'focus:outline-red-600 outline-red-600': hasError,
@@ -77,7 +78,7 @@ export default {
         'resize-none': !allowResize,
       }"
       class="block w-full p-3 bg-white border-none rounded-md shadow-sm appearance-none outline outline-1 focus:outline focus:outline-2 text-slate-900 dark:text-slate-100 placeholder:text-slate-400 dark:bg-slate-800"
-      @input="onInput"
+      @update:model-value="onInput"
       @blur="$emit('blur')"
     />
   </WithLabel>

@@ -6,6 +6,7 @@
     "LIST": {
       "404": "No hay conversaciones activas en este grupo."
     },
+    "FAILED_TO_SEND": "Error al enviar",
     "TAB_HEADING": "Conversaciones",
     "MENTION_HEADING": "Menciones",
     "UNATTENDED_HEADING": "Desatendido",
@@ -20,7 +21,7 @@
     },
     "CHAT_STATUS_FILTER_ITEMS": {
       "open": {
-        "TEXT": "Abrir"
+        "TEXT": "Abiertas"
       },
       "resolved": {
         "TEXT": "Resueltas"
@@ -93,8 +94,14 @@
       "location": {
         "CONTENT": "Ubicación"
       },
+      "ig_reel": {
+        "CONTENT": "Reel de Instagram"
+      },
       "fallback": {
         "CONTENT": "ha compartido una url"
+      },
+      "contact": {
+        "CONTENT": "Contacto compartido"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "No hay contenido disponible",
     "HIDE_QUOTED_TEXT": "Ocultar texto citado",
     "SHOW_QUOTED_TEXT": "Mostrar texto citado",
-    "MESSAGE_READ": "Leído"
+    "MESSAGE_READ": "Leído",
+    "SENDING": "Enviando"
   }
 }

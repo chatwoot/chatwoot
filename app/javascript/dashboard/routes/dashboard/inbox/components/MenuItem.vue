@@ -5,20 +5,15 @@ defineProps({
     default: '',
   },
 });
-
-const emit = defineEmits(['click']);
-
-const onMenuItemClick = () => {
-  emit('click');
-};
 </script>
 
 <template>
   <div
     role="button"
-    class="flex items-center w-full h-8 px-2 py-1 overflow-hidden text-xs font-medium rounded-md cursor-pointer text-slate-800 dark:text-slate-100 whitespace-nowrap text-ellipsis hover:text-woot-600 dark:hover:text-woot-500"
-    @click.stop="onMenuItemClick"
+    class="flex items-center w-full h-8 px-2 py-1 rounded-md cursor-pointer hover:text-n-blue-text min-w-0"
   >
-    {{ label }}
+    <span class="text-xs font-medium truncate text-n-slate-12">
+      {{ label }}
+    </span>
   </div>
 </template>

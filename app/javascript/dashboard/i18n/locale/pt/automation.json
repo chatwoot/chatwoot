@@ -1,9 +1,10 @@
 {
   "AUTOMATION": {
-    "HEADER": "Automações",
+    "HEADER": "Automatização",
+    "DESCRIPTION": "A automação pode substituir e racionalizar os processos existentes que requerem esforço manual, como a adição de etiquetas e a atribuição de conversas ao agente mais adequado. Isto permite que a equipa se foque em tarefas maiores, reduzindo o tempo gasto em tarefas rotineiras.",
+    "LEARN_MORE": "Saber mais sobre automação",
     "HEADER_BTN_TXT": "Adicionar regra de automação",
     "LOADING": "A procurar regras de automação",
-    "SIDEBAR_TXT": "<p><b>Regras de automação</b> <p>A automação pode substituir e agilizar processos existentes que requerem esforço manual. Podem ser feitas muitas coisas com automação, incluindo adicionar etiquetas e atribuir conversas a agentes, para que a equipa se concentre no que faz melhor e economize tempo em tarefas manuais.</p>",
     "ADD": {
       "TITLE": "Adicionar regra de automação",
       "SUBMIT": "Criar",
@@ -39,12 +40,12 @@
       }
     },
     "LIST": {
-      "TABLE_HEADER": [
-        "Nome",
-        "Descrição",
-        "Ativa",
-        "Criado em"
-      ],
+      "TABLE_HEADER": {
+        "NAME": "Nome:",
+        "DESCRIPTION": "Descrição",
+        "ACTIVE": "Ativa",
+        "CREATED_ON": "Criado em"
+      },
       "404": "Nenhuma regra de automação encontrada"
     },
     "DELETE": {
@@ -124,6 +125,45 @@
       "ACTION_PARAMETERS_REQUIRED": "Os parâmetros de ação são obrigatórios",
       "ATLEAST_ONE_CONDITION_REQUIRED": "Pelo menos uma condição é obrigatória",
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
+    },
+    "NONE_OPTION": "Nenhuma",
+    "EVENTS": {
+      "CONVERSATION_CREATED": "Conversa criada",
+      "CONVERSATION_UPDATED": "Conversa atualizada",
+      "MESSAGE_CREATED": "Message Created",
+      "CONVERSATION_OPENED": "Conversation Opened"
+    },
+    "ACTIONS": {
+      "ASSIGN_AGENT": "Assign to Agent",
+      "ASSIGN_TEAM": "Assign a Team",
+      "ADD_LABEL": "Add a Label",
+      "REMOVE_LABEL": "Remove a Label",
+      "SEND_EMAIL_TO_TEAM": "Send an Email to Team",
+      "SEND_EMAIL_TRANSCRIPT": "Send an Email Transcript",
+      "MUTE_CONVERSATION": "Silenciar Conversa",
+      "SNOOZE_CONVERSATION": "Adiar conversa",
+      "RESOLVE_CONVERSATION": "Resolver conversa",
+      "SEND_WEBHOOK_EVENT": "Send Webhook Event",
+      "SEND_ATTACHMENT": "Enviar anexo",
+      "SEND_MESSAGE": "Send a Message",
+      "CHANGE_PRIORITY": "Alterar prioridade",
+      "ADD_SLA": "Adicionar SLA"
+    },
+    "ATTRIBUTES": {
+      "MESSAGE_TYPE": "Message Type",
+      "MESSAGE_CONTAINS": "Message Contains",
+      "EMAIL": "E-mail",
+      "INBOX": "Caixa de entrada",
+      "CONVERSATION_LANGUAGE": "Conversation Language",
+      "PHONE_NUMBER": "Número de telefone",
+      "STATUS": "Situação",
+      "BROWSER_LANGUAGE": "Idioma do navegador",
+      "MAIL_SUBJECT": "Email Subject",
+      "COUNTRY_NAME": "País",
+      "REFERER_LINK": "Referrer Link",
+      "ASSIGNEE_NAME": "Atribuído",
+      "TEAM_NAME": "Equipa",
+      "PRIORITY": "Prioridade"
     }
   }
 }

@@ -3,7 +3,7 @@
         "MODAL": {
             "TITLE": "תבניות וואטסאפ",
             "SUBTITLE": "בחר את תבנית הווטסאפ שברצונך לשלוח",
-            "TEMPLATE_SELECTED_SUBTITLE": "עיבוד %{templateName}"
+            "TEMPLATE_SELECTED_SUBTITLE": "עיבוד {templateName}"
         },
         "PICKER": {
             "SEARCH_PLACEHOLDER": "חפש תבניות",
@@ -16,7 +16,7 @@
         },
         "PARSER": {
             "VARIABLES_LABEL": "משתנים",
-            "VARIABLE_PLACEHOLDER": "הזן ערך %{variable}",
+            "VARIABLE_PLACEHOLDER": "הזן ערך {variable}",
             "GO_BACK_LABEL": "חזור",
             "SEND_MESSAGE_LABEL": "לשלוח הודעה",
             "FORM_ERROR_MESSAGE": "נא למלא את כל המשתנים לפני השליחה"

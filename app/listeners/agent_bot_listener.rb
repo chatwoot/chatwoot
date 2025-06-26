@@ -59,23 +59,15 @@ class AgentBotListener < BaseListener
     true
   end
 
-  def process_message_event(method_name, agent_bot, message, event)
-    case agent_bot.bot_type
-    when 'webhook'
-      payload = message.webhook_data.merge(event: method_name)
-      process_webhook_bot_event(agent_bot, payload)
-    when 'csml'
-      process_csml_bot_event(event.name, agent_bot, message)
-    end
+  def process_message_event(method_name, agent_bot, message, _event)
+    # Only webhook bots are supported
+    payload = message.webhook_data.merge(event: method_name)
+    process_webhook_bot_event(agent_bot, payload)
   end
 
   def process_webhook_bot_event(agent_bot, payload)
     return if agent_bot.outgoing_url.blank?
 
     AgentBots::WebhookJob.perform_later(agent_bot.outgoing_url, payload)
-  end
-
-  def process_csml_bot_event(event, agent_bot, message)
-    AgentBots::CsmlJob.perform_later(event, agent_bot, message)
   end
 end

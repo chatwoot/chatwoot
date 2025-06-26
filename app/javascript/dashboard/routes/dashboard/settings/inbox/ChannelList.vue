@@ -35,6 +35,8 @@ export default {
         },
         { key: 'telegram', name: 'Telegram' },
         { key: 'line', name: 'Line' },
+        { key: 'instagram', name: 'Instagram' },
+        { key: 'voice', name: 'Voice' },
       ];
     },
     ...mapGetters({
@@ -51,8 +53,8 @@ export default {
     },
     initChannelAuth(channel) {
       const params = {
-        page: 'new',
         sub_page: channel,
+        accountId: this.accountId,
       };
       router.push({ name: 'settings_inboxes_page_channel', params });
     },
@@ -62,7 +64,7 @@ export default {
 
 <template>
   <div
-    class="border border-slate-25 dark:border-slate-800/60 bg-white dark:bg-slate-900 h-full p-6 w-full max-w-full md:w-3/4 md:max-w-[75%] flex-shrink-0 flex-grow-0"
+    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
   >
     <PageHeader
       class="max-w-4xl"
@@ -82,7 +84,7 @@ export default {
         :key="channel.key"
         :channel="channel"
         :enabled-features="enabledFeatures"
-        @channelItemClick="initChannelAuth"
+        @channel-item-click="initChannelAuth"
       />
     </div>
   </div>

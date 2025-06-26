@@ -10,7 +10,7 @@ import messageMixin from '../mixins/messageMixin';
 import ReplyToChip from 'widget/components/ReplyToChip.vue';
 import DragWrapper from 'widget/components/DragWrapper.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
-
+import { emitter } from 'shared/helpers/mitt';
 import { mapGetters } from 'vuex';
 
 export default {
@@ -97,7 +97,7 @@ export default {
       this.hasVideoError = true;
     },
     toggleReply() {
-      this.$emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
+      emitter.emit(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.message);
     },
   },
 };
@@ -165,12 +165,12 @@ export default {
         </div>
         <div
           v-if="isFailed"
-          class="flex justify-end px-4 py-2 text-red-700 align-middle"
+          class="flex justify-end px-4 py-2 text-n-ruby-9 align-middle"
         >
           <button
             v-if="!hasAttachments"
             :title="$t('COMPONENTS.MESSAGE_BUBBLE.RETRY')"
-            class="inline-flex items-center justify-center ml-2"
+            class="inline-flex items-center justify-center ltr:ml-2 rtl:mr-2"
             @click="retrySendMessage"
           >
             <FluentIcon icon="arrow-clockwise" size="14" />

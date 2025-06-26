@@ -5,7 +5,9 @@ import BaseSettingsHeader from '../components/BaseSettingsHeader.vue';
 import { computed, ref } from 'vue';
 
 import { useStoreGetters, useStore } from 'dashboard/composables/store';
-import { useI18n } from 'dashboard/composables/useI18n';
+import { useI18n } from 'vue-i18n';
+
+import Button from 'dashboard/components-next/button/Button.vue';
 
 const store = useStore();
 const { t } = useI18n();
@@ -74,15 +76,11 @@ const confirmPlaceHolderText = computed(() =>
       feature-name="team_management"
     >
       <template #actions>
-        <router-link
-          v-if="isAdmin"
-          :to="{ name: 'settings_teams_new' }"
-          class="button rounded-md primary"
-        >
-          <fluent-icon icon="add-circle" />
-          <span class="button__content">
-            {{ $t('TEAMS_SETTINGS.NEW_TEAM') }}
-          </span>
+        <router-link v-if="isAdmin" :to="{ name: 'settings_teams_new' }">
+          <Button
+            icon="i-lucide-circle-plus"
+            :label="$t('TEAMS_SETTINGS.NEW_TEAM')"
+          />
         </router-link>
       </template>
     </BaseSettingsHeader>
@@ -104,7 +102,7 @@ const confirmPlaceHolderText = computed(() =>
       >
         <tbody class="divide-y divide-slate-50 dark:divide-slate-800">
           <tr v-for="team in teamsList" :key="team.id">
-            <td class="py-4 pr-4">
+            <td class="py-4 ltr:pr-4 rtl:pl-4">
               <span class="block font-medium capitalize">{{ team.name }}</span>
               <p class="mb-0">{{ team.description }}</p>
             </td>
@@ -116,24 +114,23 @@ const confirmPlaceHolderText = computed(() =>
                   params: { teamId: team.id },
                 }"
               >
-                <woot-button
+                <Button
                   v-if="isAdmin"
                   v-tooltip.top="$t('TEAMS_SETTINGS.LIST.EDIT_TEAM')"
-                  variant="smooth"
-                  size="tiny"
-                  color-scheme="secondary"
-                  class-names="grey-btn"
-                  icon="settings"
+                  icon="i-lucide-settings"
+                  slate
+                  xs
+                  faded
                 />
               </router-link>
-              <woot-button
+
+              <Button
                 v-if="isAdmin"
                 v-tooltip.top="$t('TEAMS_SETTINGS.DELETE.BUTTON_TEXT')"
-                variant="smooth"
-                color-scheme="alert"
-                size="tiny"
-                icon="dismiss-circle"
-                class-names="grey-btn"
+                icon="i-lucide-trash-2"
+                xs
+                ruby
+                faded
                 :is-loading="loading[team.id]"
                 @click="openDelete(team)"
               />
@@ -144,15 +141,15 @@ const confirmPlaceHolderText = computed(() =>
     </div>
     <woot-confirm-delete-modal
       v-if="showDeletePopup"
-      :show.sync="showDeletePopup"
+      v-model:show="showDeletePopup"
       :title="confirmDeleteTitle"
       :message="$t('TEAMS_SETTINGS.DELETE.CONFIRM.MESSAGE')"
       :confirm-text="deleteConfirmText"
       :reject-text="deleteRejectText"
       :confirm-value="selectedTeam.name"
       :confirm-place-holder-text="confirmPlaceHolderText"
-      @onConfirm="confirmDeletion"
-      @onClose="closeDelete"
+      @on-confirm="confirmDeletion"
+      @on-close="closeDelete"
     />
   </div>
 </template>

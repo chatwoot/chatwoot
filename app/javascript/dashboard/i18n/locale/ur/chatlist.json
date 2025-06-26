@@ -6,6 +6,7 @@
     "LIST": {
       "404": "اس گروپ میں کوئی فعال گفتگو نہیں ہے۔."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "مکالمات",
     "MENTION_HEADING": "تذکرہ",
     "UNATTENDED_HEADING": "Unattended",
@@ -93,8 +94,14 @@
       "location": {
         "CONTENT": "مقام"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "نے ایک یو آر ایل بھیجا"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "کوئی مواد دستیاب نہیں ہے۔",
     "HIDE_QUOTED_TEXT": "اقتباس شدہ متن کو چھپائیں۔",
     "SHOW_QUOTED_TEXT": "اقتباس شدہ متن دکھائیں۔",
-    "MESSAGE_READ": "پڑھیں"
+    "MESSAGE_READ": "پڑھیں",
+    "SENDING": "Sending"
   }
 }

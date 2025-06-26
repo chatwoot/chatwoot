@@ -16,10 +16,6 @@ export default {
       type: Boolean,
       default: false,
     },
-    onClick: {
-      type: Function,
-      default: () => {},
-    },
     color: {
       type: String,
       default: '#6e6f73',
@@ -32,8 +28,7 @@ export default {
   <button
     type="submit"
     :disabled="disabled"
-    class="icon-button flex items-center justify-center ml-1"
-    @click="onClick"
+    class="min-h-8 min-w-8 flex items-center justify-center ml-1"
   >
     <FluentIcon v-if="!loading" icon="send" :style="`color: ${color}`" />
     <Spinner v-else size="small" />

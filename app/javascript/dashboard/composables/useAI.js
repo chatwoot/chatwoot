@@ -5,7 +5,7 @@ import {
   useMapGetter,
 } from 'dashboard/composables/store';
 import { useAlert, useTrack } from 'dashboard/composables';
-import { useI18n } from './useI18n';
+import { useI18n } from 'vue-i18n';
 import { OPEN_AI_EVENTS } from 'dashboard/helper/AnalyticsHelper/events';
 import OpenAPI from 'dashboard/api/integrations/openapi';
 
@@ -30,7 +30,6 @@ const cleanLabels = labels => {
 export function useAI() {
   const store = useStore();
   const getters = useStoreGetters();
-  const track = useTrack();
   const { t } = useI18n();
 
   /**
@@ -125,7 +124,7 @@ export function useAI() {
   const recordAnalytics = async (type, payload) => {
     const event = OPEN_AI_EVENTS[type.toUpperCase()];
     if (event) {
-      track(event, {
+      useTrack(event, {
         type,
         ...payload,
       });

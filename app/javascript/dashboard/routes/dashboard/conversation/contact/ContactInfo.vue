@@ -7,23 +7,26 @@ import ContactInfoRow from './ContactInfoRow.vue';
 import Thumbnail from 'dashboard/components/widgets/Thumbnail.vue';
 import SocialIcons from './SocialIcons.vue';
 import EditContact from './EditContact.vue';
-import NewConversation from './NewConversation.vue';
 import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
-import { getCountryFlag } from 'dashboard/helper/flag';
+import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+
 import {
   isAConversationRoute,
   isAInboxViewRoute,
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
+import { emitter } from 'shared/helpers/mitt';
 
 export default {
   components: {
+    NextButton,
     ContactInfoRow,
     EditContact,
     Thumbnail,
+    ComposeConversation,
     SocialIcons,
-    NewConversation,
     ContactMergeModal,
   },
   props: {
@@ -35,15 +38,8 @@ export default {
       type: Boolean,
       default: true,
     },
-    showCloseButton: {
-      type: Boolean,
-      default: true,
-    },
-    closeIconName: {
-      type: String,
-      default: 'chevron-right',
-    },
   },
+  emits: ['panelClose'],
   setup() {
     const { isAdmin } = useAdmin();
     return {
@@ -53,7 +49,6 @@ export default {
   data() {
     return {
       showEditModal: false,
-      showConversationModal: false,
       showMergeModal: false,
       showDeleteModal: false,
     };
@@ -83,32 +78,42 @@ export default {
       const {
         social_profiles: socialProfiles,
         screen_name: twitterScreenName,
+        social_telegram_user_name: telegramUsername,
       } = this.additionalAttributes;
-
-      return { twitter: twitterScreenName, ...(socialProfiles || {}) };
+      return {
+        twitter: twitterScreenName,
+        telegram: telegramUsername,
+        ...(socialProfiles || {}),
+      };
     },
     // Delete Modal
     confirmDeleteMessage() {
       return ` ${this.contact.name}?`;
     },
   },
+  watch: {
+    'contact.id': {
+      handler(id) {
+        this.$store.dispatch('contacts/fetchContactableInbox', id);
+      },
+      immediate: true,
+    },
+  },
   methods: {
     dynamicTime,
-    toggleMergeModal() {
-      this.showMergeModal = !this.showMergeModal;
-    },
     toggleEditModal() {
       this.showEditModal = !this.showEditModal;
     },
-    onPanelToggle() {
-      this.$emit('togglePanel');
+    openComposeConversationModal(toggleFn) {
+      toggleFn();
+      // Flag to prevent triggering drag n drop,
+      // When compose modal is active
+      emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, true);
     },
-    toggleConversationModal() {
-      this.showConversationModal = !this.showConversationModal;
-      this.$emitter.emit(
-        BUS_EVENTS.NEW_CONVERSATION_MODAL,
-        this.showConversationModal
-      );
+    closeComposeConversationModal() {
+      // Flag to enable drag n drop,
+      // When compose modal is closed
+      emitter.emit(BUS_EVENTS.NEW_CONVERSATION_MODAL, false);
     },
     toggleDeleteModal() {
       this.showDeleteModal = !this.showDeleteModal;
@@ -119,13 +124,16 @@ export default {
     },
     closeDelete() {
       this.showDeleteModal = false;
-      this.showConversationModal = false;
       this.showEditModal = false;
     },
     findCountryFlag(countryCode, cityAndCountry) {
       try {
-        const countryFlag = countryCode ? getCountryFlag(countryCode) : '🌎';
-        return `${cityAndCountry} ${countryFlag}`;
+        if (!countryCode) {
+          return `${cityAndCountry} 🌎`;
+        }
+
+        const code = countryCode?.toLowerCase();
+        return `${cityAndCountry} <span class="fi fi-${code} size-3.5"></span>`;
       } catch (error) {
         return '';
       }
@@ -157,63 +165,53 @@ export default {
         );
       }
     },
+    closeMergeModal() {
+      this.showMergeModal = false;
+    },
     openMergeModal() {
-      this.toggleMergeModal();
+      this.showMergeModal = true;
     },
   },
 };
 </script>
 
 <template>
-  <div class="relative items-center w-full p-4 bg-white dark:bg-slate-900">
+  <div class="relative items-center w-full p-4">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
       <div class="flex flex-row justify-between">
         <Thumbnail
           v-if="showAvatar"
           :src="contact.thumbnail"
-          size="56px"
+          size="48px"
           :username="contact.name"
           :status="contact.availability_status"
-        />
-        <woot-button
-          v-if="showCloseButton"
-          :icon="closeIconName"
-          class="clear secondary rtl:rotate-180"
-          @click="onPanelToggle"
         />
       </div>
 
       <div class="flex flex-col items-start gap-1.5 min-w-0 w-full">
-        <div v-if="showAvatar" class="flex items-start w-full min-w-0 gap-2">
+        <div v-if="showAvatar" class="flex items-center w-full min-w-0 gap-3">
           <h3
-            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-slate-800 dark:text-slate-100"
+            class="flex-shrink max-w-full min-w-0 my-0 text-base capitalize break-words text-n-slate-12"
           >
             {{ contact.name }}
           </h3>
-          <div class="flex flex-row items-center gap-1">
-            <fluent-icon
+          <div class="flex flex-row items-center gap-2">
+            <span
               v-if="contact.created_at"
               v-tooltip.left="
                 `${$t('CONTACT_PANEL.CREATED_AT_LABEL')} ${dynamicTime(
                   contact.created_at
                 )}`
               "
-              icon="info"
-              size="14"
-              class="mt-0.5"
+              class="i-lucide-info text-sm text-n-slate-10"
             />
             <a
               :href="contactProfileLink"
-              class="text-base"
               target="_blank"
               rel="noopener nofollow noreferrer"
+              class="leading-3"
             >
-              <woot-button
-                size="tiny"
-                icon="open"
-                variant="clear"
-                color-scheme="secondary"
-              />
+              <span class="i-lucide-external-link text-sm text-n-slate-10" />
             </a>
           </div>
         </div>
@@ -262,39 +260,47 @@ export default {
         </div>
       </div>
       <div class="flex items-center w-full mt-0.5 gap-2">
-        <woot-button
-          v-tooltip="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          :title="$t('CONTACT_PANEL.NEW_MESSAGE')"
-          icon="chat"
-          size="small"
-          @click="toggleConversationModal"
-        />
-        <woot-button
-          v-tooltip="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          :title="$t('EDIT_CONTACT.BUTTON_LABEL')"
-          icon="edit"
-          variant="smooth"
-          size="small"
+        <ComposeConversation
+          :contact-id="String(contact.id)"
+          is-modal
+          @close="closeComposeConversationModal"
+        >
+          <template #trigger="{ toggle }">
+            <NextButton
+              v-tooltip.top-end="$t('CONTACT_PANEL.NEW_MESSAGE')"
+              icon="i-ph-chat-circle-dots"
+              slate
+              faded
+              sm
+              @click="openComposeConversationModal(toggle)"
+            />
+          </template>
+        </ComposeConversation>
+        <NextButton
+          v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
+          icon="i-ph-pencil-simple"
+          slate
+          faded
+          sm
           @click="toggleEditModal"
         />
-        <woot-button
-          v-tooltip="$t('CONTACT_PANEL.MERGE_CONTACT')"
-          :title="$t('CONTACT_PANEL.MERGE_CONTACT')"
-          icon="merge"
-          variant="smooth"
-          size="small"
-          color-scheme="secondary"
+        <NextButton
+          v-tooltip.top-end="$t('CONTACT_PANEL.MERGE_CONTACT')"
+          icon="i-ph-arrows-merge"
+          slate
+          faded
+          sm
           :disabled="uiFlags.isMerging"
           @click="openMergeModal"
         />
-        <woot-button
+        <NextButton
           v-if="isAdmin"
-          v-tooltip="$t('DELETE_CONTACT.BUTTON_LABEL')"
-          :title="$t('DELETE_CONTACT.BUTTON_LABEL')"
-          icon="delete"
-          variant="smooth"
-          size="small"
-          color-scheme="alert"
+          v-tooltip.top-end="$t('DELETE_CONTACT.BUTTON_LABEL')"
+          icon="i-ph-trash"
+          slate
+          faded
+          sm
+          ruby
           :disabled="uiFlags.isDeleting"
           @click="toggleDeleteModal"
         />
@@ -305,22 +311,16 @@ export default {
         :contact="contact"
         @cancel="toggleEditModal"
       />
-      <NewConversation
-        v-if="contact.id"
-        :show="showConversationModal"
-        :contact="contact"
-        @cancel="toggleConversationModal"
-      />
       <ContactMergeModal
         v-if="showMergeModal"
         :primary-contact="contact"
         :show="showMergeModal"
-        @close="toggleMergeModal"
+        @close="closeMergeModal"
       />
     </div>
     <woot-delete-modal
       v-if="showDeleteModal"
-      :show.sync="showDeleteModal"
+      v-model:show="showDeleteModal"
       :on-close="closeDelete"
       :on-confirm="confirmDeletion"
       :title="$t('DELETE_CONTACT.CONFIRM.TITLE')"

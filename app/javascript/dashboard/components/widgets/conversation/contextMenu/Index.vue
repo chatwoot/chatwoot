@@ -8,6 +8,8 @@ import MenuItem from './menuItem.vue';
 import MenuItemWithSubmenu from './menuItemWithSubmenu.vue';
 import wootConstants from 'dashboard/constants/globals';
 import AgentLoadingPlaceholder from './agentLoadingPlaceholder.vue';
+import { useAdmin } from 'dashboard/composables/useAdmin';
+
 export default {
   components: {
     MenuItem,
@@ -36,9 +38,29 @@ export default {
       default: null,
     },
   },
+  emits: [
+    'updateConversation',
+    'assignPriority',
+    'markAsUnread',
+    'markAsRead',
+    'assignAgent',
+    'assignTeam',
+    'assignLabel',
+    'deleteConversation',
+  ],
+  setup() {
+    const { isAdmin } = useAdmin();
+    return {
+      isAdmin,
+    };
+  },
   data() {
     return {
       STATUS_TYPE: wootConstants.STATUS_TYPE,
+      readOption: {
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_READ'),
+        icon: 'mail',
+      },
       unreadOption: {
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.MARK_AS_UNREAD'),
         icon: 'mail',
@@ -50,14 +72,14 @@ export default {
           icon: 'checkmark',
         },
         {
-          key: wootConstants.STATUS_TYPE.PENDING,
-          label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PENDING'),
-          icon: 'book-clock',
-        },
-        {
           key: wootConstants.STATUS_TYPE.OPEN,
           label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.REOPEN'),
           icon: 'arrow-redo',
+        },
+        {
+          key: wootConstants.STATUS_TYPE.PENDING,
+          label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.PENDING'),
+          icon: 'book-clock',
         },
       ],
       snoozeOption: {
@@ -106,6 +128,11 @@ export default {
         key: 'team',
         icon: 'people-team-add',
         label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.ASSIGN_TEAM'),
+      },
+      deleteOption: {
+        key: 'delete',
+        icon: 'delete',
+        label: this.$t('CONVERSATION.CARD_CONTEXT_MENU.DELETE'),
       },
     };
   },
@@ -164,6 +191,9 @@ export default {
     assignPriority(priority) {
       this.$emit('assignPriority', priority);
     },
+    deleteConversation() {
+      this.$emit('deleteConversation', this.chatId);
+    },
     show(key) {
       // If the conversation status is same as the action, then don't display the option
       // i.e.: Don't show an option to resolve if the conversation is already resolved.
@@ -187,35 +217,42 @@ export default {
 </script>
 
 <template>
-  <div class="p-1 bg-white rounded-md shadow-xl dark:bg-slate-700">
+  <div class="p-1 rounded-md shadow-xl bg-n-alpha-3/50 backdrop-blur-[100px]">
     <MenuItem
       v-if="!hasUnreadMessages"
       :option="unreadOption"
       variant="icon"
-      @click="$emit('markAsUnread')"
+      @click.stop="$emit('markAsUnread')"
     />
+    <MenuItem
+      v-else
+      :option="readOption"
+      variant="icon"
+      @click.stop="$emit('markAsRead')"
+    />
+    <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
     <template v-for="option in statusMenuConfig">
       <MenuItem
         v-if="show(option.key)"
         :key="option.key"
         :option="option"
         variant="icon"
-        @click="toggleStatus(option.key, null)"
+        @click.stop="toggleStatus(option.key, null)"
       />
     </template>
     <MenuItem
       v-if="showSnooze"
       :option="snoozeOption"
       variant="icon"
-      @click="snoozeConversation()"
+      @click.stop="snoozeConversation()"
     />
-
+    <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
     <MenuItemWithSubmenu :option="priorityConfig">
       <MenuItem
         v-for="(option, i) in priorityConfig.options"
         :key="i"
         :option="option"
-        @click="assignPriority(option.key)"
+        @click.stop="assignPriority(option.key)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -227,7 +264,7 @@ export default {
         :key="label.id"
         :option="generateMenuLabelConfig(label, 'label')"
         variant="label"
-        @click="$emit('assignLabel', label)"
+        @click.stop="$emit('assignLabel', label)"
       />
     </MenuItemWithSubmenu>
     <MenuItemWithSubmenu
@@ -241,7 +278,7 @@ export default {
           :key="agent.id"
           :option="generateMenuLabelConfig(agent, 'agent')"
           variant="agent"
-          @click="$emit('assignAgent', agent)"
+          @click.stop="$emit('assignAgent', agent)"
         />
       </template>
     </MenuItemWithSubmenu>
@@ -253,8 +290,16 @@ export default {
         v-for="team in teams"
         :key="team.id"
         :option="generateMenuLabelConfig(team, 'team')"
-        @click="$emit('assignTeam', team)"
+        @click.stop="$emit('assignTeam', team)"
       />
     </MenuItemWithSubmenu>
+    <template v-if="isAdmin">
+      <hr class="m-1 rounded border-b border-n-weak dark:border-n-weak" />
+      <MenuItem
+        :option="deleteOption"
+        variant="icon"
+        @click.stop="deleteConversation"
+      />
+    </template>
   </div>
 </template>

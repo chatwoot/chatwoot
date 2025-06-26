@@ -15,6 +15,7 @@ export default {
     ActiveFilterChip,
     AddFilterChip,
   },
+  emits: ['filterChange'],
   data() {
     return {
       showDropdownMenu: false,
@@ -169,10 +170,10 @@ export default {
         :active-filter-type="activeFilterType"
         :show-menu="showSubDropdownMenu"
         enable-search
-        @toggleDropdown="openActiveFilterDropdown"
-        @closeDropdown="closeActiveFilterDropdown"
-        @addFilter="addFilter"
-        @removeFilter="removeFilter"
+        @toggle-dropdown="openActiveFilterDropdown"
+        @close-dropdown="closeActiveFilterDropdown"
+        @add-filter="addFilter"
+        @remove-filter="removeFilter"
       />
     </div>
     <!-- Dividing line between Active filters and Add filter button -->
@@ -189,9 +190,9 @@ export default {
         :menu-option="filterListMenuItems"
         :show-menu="showDropdownMenu"
         :empty-state-message="$t('SLA_REPORTS.DROPDOWN.NO_FILTER')"
-        @toggleDropdown="showDropdown"
-        @closeDropdown="closeDropdown"
-        @addFilter="addFilter"
+        @toggle-dropdown="showDropdown"
+        @close-dropdown="closeDropdown"
+        @add-filter="addFilter"
       />
 
       <!-- Dividing line between Add filter and Clear all filter button -->

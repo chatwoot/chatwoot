@@ -27,6 +27,14 @@ class ContactAPI extends ApiClient {
     return axios.get(requestURL);
   }
 
+  show(id) {
+    return axios.get(`${this.url}/${id}?include_contact_inboxes=false`);
+  }
+
+  update(id, data) {
+    return axios.patch(`${this.url}/${id}?include_contact_inboxes=false`, data);
+  }
+
   getConversations(contactId) {
     return axios.get(`${this.url}/${contactId}/conversations`);
   }
@@ -50,6 +58,11 @@ class ContactAPI extends ApiClient {
       label,
       search
     )}`;
+    return axios.get(requestURL);
+  }
+
+  active(page = 1, sortAttr = 'name') {
+    let requestURL = `${this.url}/active?${buildContactParams(page, sortAttr)}`;
     return axios.get(requestURL);
   }
 

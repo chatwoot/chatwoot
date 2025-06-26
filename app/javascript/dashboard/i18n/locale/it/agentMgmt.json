@@ -18,7 +18,8 @@
       "STATUS": "Stato",
       "ACTIONS": "Azioni",
       "VERIFIED": "Verificato",
-      "VERIFICATION_PENDING": "Verifica in sospeso"
+      "VERIFICATION_PENDING": "Verifica in sospeso",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Aggiungi agente al tuo team",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Seleziona un'agente",
         "TEAM": "Seleziona team"
+      },
+      "LIST": {
+        "NONE": "Nessuno"
       },
       "SEARCH": {
         "NO_RESULTS": {

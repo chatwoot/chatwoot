@@ -18,7 +18,8 @@
       "STATUS": "Status",
       "ACTIONS": "Akcije",
       "VERIFIED": "Provereno",
-      "VERIFICATION_PENDING": "Verifikacija na čekanju"
+      "VERIFICATION_PENDING": "Verifikacija na čekanju",
+      "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
       "TITLE": "Dodajte agenta u Vaš tim",
@@ -103,6 +104,9 @@
       "TITLE": {
         "AGENT": "Izaberite agenta",
         "TEAM": "Izaberite tim"
+      },
+      "LIST": {
+        "NONE": "Niko"
       },
       "SEARCH": {
         "NO_RESULTS": {
