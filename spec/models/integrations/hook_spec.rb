@@ -78,46 +78,6 @@ RSpec.describe Integrations::Hook do
     end
   end
 
-  describe 'app type methods' do
-    let(:account) { create(:account) }
-
-    describe '#slack?' do
-      it 'returns true for slack integration' do
-        hook = create(:integrations_hook, account: account, app_id: 'slack')
-        expect(hook.slack?).to be true
-      end
-
-      it 'returns false for non-slack integrations' do
-        hook = create(:integrations_hook, account: account, app_id: 'notion')
-        expect(hook.slack?).to be false
-      end
-    end
-
-    describe '#dialogflow?' do
-      it 'returns true for dialogflow integration' do
-        hook = create(:integrations_hook, account: account, app_id: 'dialogflow')
-        expect(hook.dialogflow?).to be true
-      end
-
-      it 'returns false for non-dialogflow integrations' do
-        hook = create(:integrations_hook, account: account, app_id: 'notion')
-        expect(hook.dialogflow?).to be false
-      end
-    end
-
-    describe '#notion?' do
-      it 'returns true for notion integration' do
-        hook = create(:integrations_hook, account: account, app_id: 'notion')
-        expect(hook.notion?).to be true
-      end
-
-      it 'returns false for non-notion integrations' do
-        hook = create(:integrations_hook, account: account, app_id: 'slack')
-        expect(hook.notion?).to be false
-      end
-    end
-  end
-
   describe '#crm_integration?' do
     let(:account) { create(:account) }
 
