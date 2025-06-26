@@ -111,6 +111,8 @@ class WebhookListener < BaseListener
   def deliver_api_inbox_webhooks(payload, inbox)
     return unless inbox.channel_type == 'Channel::Api'
     return if inbox.channel.webhook_url.blank?
+    return if inbox.channel.additional_attributes['enable_csat_on_whatsapp'] == true &&
+              payload[:content_type] == 'input_csat'
 
     WebhookJob.perform_later(inbox.channel.webhook_url, payload, :api_inbox_webhook)
   end

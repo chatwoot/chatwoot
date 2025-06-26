@@ -213,6 +213,18 @@
           <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
             {{ $t('INBOX_MGMT.SETTINGS_POPUP.ENABLE_CSAT_SUB_TEXT') }}
           </p>
+          <div v-if="csatSurveyEnabled && isWhatsAppInbox" class="pb-4">
+            <div class="flex items-center gap-2">
+              <input
+                id="enableCASTOnWhatsapp"
+                v-model="enableCSATOnWhatsapp"
+                type="checkbox"
+              />
+              <label for="enableCASTOnWhatsapp">
+                {{ 'Enable to CAST on Whatsapp' }}
+              </label>
+            </div>
+          </div>
         </label>
 
         <label v-if="isAWebWidgetInbox" class="w-3/4 pb-4">
@@ -508,6 +520,8 @@ export default {
       showBusinessNameInput: false,
       addLabelToResolveConversation: false,
       channelType: '',
+      enableCSATOnWhatsapp: false,
+      additionalAttributes: null,
     };
   },
   computed: {
@@ -698,6 +712,8 @@ export default {
         this.greetingMessage = this.inbox.greeting_message || '';
         this.emailCollectEnabled = this.inbox.enable_email_collect;
         this.csatSurveyEnabled = this.inbox.csat_survey_enabled;
+        this.enableCSATOnWhatsapp =
+          this.inbox?.additional_attributes?.enable_csat_on_whatsapp || false;
         this.senderNameType = this.inbox.sender_name_type;
         this.businessName = this.inbox.business_name;
         this.allowMessagesAfterResolved =
@@ -714,6 +730,7 @@ export default {
           : '';
         this.addLabelToResolveConversation =
           this.inbox.add_label_to_resolve_conversation;
+        this.additionalAttributes = this.inbox.additional_attributes;
       });
     },
     async updateInbox() {
@@ -753,7 +770,21 @@ export default {
         if (this.avatarFile) {
           payload.avatar = this.avatarFile;
         }
+        // eslint-disable-next-line no-console
+        console.log('payloadFor_hook_execution_service', payload);
         await this.$store.dispatch('inboxes/updateInbox', payload);
+        if (this.isWhatsAppInbox) {
+          await this.$store.dispatch('inboxes/updateInbox', {
+            channel: {
+              additional_attributes: {
+                ...(this.additionalAttributes || {}),
+                enable_csat_on_whatsapp: this.enableCSATOnWhatsapp,
+              },
+            },
+            formData: false,
+            id: this.currentInboxId,
+          });
+        }
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
         this.showAlert(

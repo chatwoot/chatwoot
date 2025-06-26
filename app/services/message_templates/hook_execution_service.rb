@@ -2,6 +2,7 @@ class MessageTemplates::HookExecutionService
   pattr_initialize [:message!]
 
   def perform
+    Rails.logger.info("conversation.last_incoming_message.blank?, #{conversation.last_incoming_message.blank?}")
     return if conversation.campaign.present?
     return if conversation.last_incoming_message.blank?
 
@@ -18,7 +19,15 @@ class MessageTemplates::HookExecutionService
     ::MessageTemplates::Template::Greeting.new(conversation: conversation).perform if should_send_greeting?
     # ::MessageTemplates::Template::EmailCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_email_collect?
     # ::MessageTemplates::Template::PhoneCollect.new(conversation: conversation).perform if inbox.enable_email_collect && should_send_phone_collect?
-    ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform if should_send_csat_survey?
+    Rails.logger.info("should_send_csat_survey?, #{should_send_csat_survey?}")
+
+    return unless should_send_csat_survey?
+
+    ::MessageTemplates::Template::CsatSurvey.new(conversation: conversation).perform
+
+    return unless should_use_custom_csat?
+
+    ::CustomCsatService.new(conversation: conversation).perform
   end
 
   def should_send_out_of_office_message?
@@ -76,6 +85,7 @@ class MessageTemplates::HookExecutionService
   end
 
   def should_send_csat_survey?
+    Rails.logger.info("csat_enabled_conversation?, #{csat_enabled_conversation?}")
     return unless csat_enabled_conversation?
 
     # only send CSAT once in a conversation
@@ -83,6 +93,13 @@ class MessageTemplates::HookExecutionService
     filtered_messages = csat_messages.where("additional_attributes->>'ignore_automation_rules' IS NULL")
 
     return if filtered_messages.present?
+
+    true
+  end
+
+  def should_use_custom_csat?
+    return false unless inbox.channel.is_a?(Channel::Api)
+    return false unless inbox.channel.additional_attributes['enable_csat_on_whatsapp'] == true
 
     true
   end
