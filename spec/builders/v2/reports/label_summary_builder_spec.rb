@@ -140,7 +140,7 @@ RSpec.describe V2::Reports::LabelSummaryBuilder do
               create(:reporting_event,
                      account: account,
                      conversation: conv,
-                     name: 'reply',
+                     name: 'reply_time',
                      value: (15 + (idx * 5)) * 60,
                      value_in_business_hours: (10 + (idx * 3)) * 60,
                      created_at: Time.zone.today)
