@@ -16,6 +16,6 @@ module NotionConcern
   private
 
   def scope
-    'read'
+    ''
   end
 end
