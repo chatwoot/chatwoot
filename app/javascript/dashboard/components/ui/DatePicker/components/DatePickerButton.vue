@@ -48,7 +48,7 @@ const openDatePicker = () => {
 
 <template>
   <button
-    class="inline-flex relative items-center rounded-lg gap-2 py-1.5 px-3 h-8 bg-slate-50 dark:bg-slate-800 hover:bg-slate-50 dark:hover:bg-slate-800 active:bg-slate-75 dark:active:bg-slate-800"
+    class="inline-flex relative items-center rounded-lg gap-2 py-1.5 px-3 h-8 bg-n-alpha-2 hover:bg-n-alpha-1 active:bg-n-alpha-1"
     @click="openDatePicker"
   >
     <fluent-icon

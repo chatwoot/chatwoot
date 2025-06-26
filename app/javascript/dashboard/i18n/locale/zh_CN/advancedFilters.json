@@ -66,8 +66,8 @@
     },
     "ERRORS": {
       "VALUE_REQUIRED": "必须填写值",
-      "ATTRIBUTE_KEY_REQUIRED": "Attribute key is required",
-      "FILTER_OPERATOR_REQUIRED": "Filter operator is required",
+      "ATTRIBUTE_KEY_REQUIRED": "属性键是必需的",
+      "FILTER_OPERATOR_REQUIRED": "需要过滤器操作符",
       "VALUE_MUST_BE_BETWEEN_1_AND_998": "值必须介于 1 到 998 之间。"
     },
     "GROUPS": {

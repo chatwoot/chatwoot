@@ -3,6 +3,7 @@ require 'rails_helper'
 RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let(:account) { create(:account) }
   let(:agent) { create(:user, account: account, role: :agent) }
+  let(:admin) { create(:user, account: account, role: :administrator) }
   let!(:portal) { create(:portal, name: 'test_portal', account_id: account.id, config: { allowed_locales: %w[en es] }) }
   let!(:category) { create(:category, name: 'category', portal: portal, account_id: account.id, slug: 'category_slug', position: 1) }
   let!(:category_to_associate) do
@@ -14,8 +15,6 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
   let!(:related_category_2) do
     create(:category, name: 'related category 2', portal: portal, account_id: account.id, slug: 'category_slug_2', position: 4)
   end
-
-  before { create(:portal_member, user: agent, portal: portal) }
 
   describe 'POST /api/v1/accounts/{account.id}/portals/{portal.slug}/categories' do
     context 'when it is an unauthenticated user' do
@@ -59,7 +58,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
       it 'creates category' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
 
         json_response = response.parsed_body
@@ -75,11 +74,11 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
       it 'creates multiple sub_categories under one parent_category' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
 
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params_2,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         expect(category.reload.sub_category_ids).to eql(Category.last(2).pluck(:id))
@@ -88,11 +87,11 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
       it 'creates multiple associated_categories with one category' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
 
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params_2,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
         expect(category_to_associate.reload.associated_category_ids).to eql(Category.last(2).pluck(:id))
@@ -101,11 +100,11 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
       it 'will throw an error on locale, category_id uniqueness' do
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
 
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = response.parsed_body
         expect(json_response['message']).to eql('Locale should be unique in the category and portal')
@@ -123,7 +122,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         post "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
              params: category_params,
-             headers: agent.create_new_auth_token
+             headers: admin.create_new_auth_token
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = response.parsed_body
 
@@ -158,7 +157,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
             params: category_params,
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
 
         json_response = response.parsed_body
 
@@ -181,7 +180,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
             params: category_params,
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
 
@@ -209,7 +208,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
 
         put "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{related_category_2.id}",
             params: category_params,
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
 
         expect(response).to have_http_status(:success)
 
@@ -230,7 +229,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
     context 'when it is an authenticated user' do
       it 'deletes category' do
         delete "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories/#{category.id}",
-               headers: agent.create_new_auth_token
+               headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         deleted_category = Category.find_by(id: category.id)
         expect(deleted_category).to be_nil
@@ -255,7 +254,7 @@ RSpec.describe 'Api::V1::Accounts::Categories', type: :request do
         expect(category2.id).not_to be_nil
 
         get "/api/v1/accounts/#{account.id}/portals/#{portal.slug}/categories",
-            headers: agent.create_new_auth_token
+            headers: admin.create_new_auth_token
         expect(response).to have_http_status(:success)
         json_response = response.parsed_body
         expect(json_response['payload'].count).to be(category_count + 1)

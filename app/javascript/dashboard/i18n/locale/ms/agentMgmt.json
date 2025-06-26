@@ -105,6 +105,9 @@
         "AGENT": "Pilih ejen",
         "TEAM": "Pilih pasukan"
       },
+      "LIST": {
+        "NONE": "Tiada"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Tiada ejen dijumpa",

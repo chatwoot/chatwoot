@@ -51,7 +51,7 @@ class Account::ContactsExportJob < ApplicationJob
 
   def send_mail
     file_url = account_contact_export_url
-    mailer = AdministratorNotifications::ChannelNotificationsMailer.with(account: @account)
+    mailer = AdministratorNotifications::AccountNotificationMailer.with(account: @account)
     mailer.contact_export_complete(file_url, @account_user.email)&.deliver_later
   end
 

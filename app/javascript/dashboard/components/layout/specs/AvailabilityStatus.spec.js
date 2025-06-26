@@ -1,7 +1,7 @@
 import { mount } from '@vue/test-utils';
 import { createStore } from 'vuex';
 import AvailabilityStatus from '../AvailabilityStatus.vue';
-import WootButton from 'dashboard/components/ui/WootButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 import WootDropdownItem from 'shared/components/ui/dropdown/DropdownItem.vue';
 import WootDropdownMenu from 'shared/components/ui/dropdown/DropdownMenu.vue';
 import WootDropdownHeader from 'shared/components/ui/dropdown/DropdownHeader.vue';
@@ -40,7 +40,7 @@ describe('AvailabilityStatus', () => {
       global: {
         plugins: [store],
         components: {
-          WootButton,
+          NextButton,
           WootDropdownItem,
           WootDropdownMenu,
           WootDropdownHeader,

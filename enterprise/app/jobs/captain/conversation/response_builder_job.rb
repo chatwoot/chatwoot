@@ -1,16 +1,23 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   MAX_MESSAGE_LENGTH = 10_000
+  retry_on ActiveStorage::FileNotFoundError, attempts: 3
 
   def perform(conversation, assistant)
     @conversation = conversation
     @inbox = conversation.inbox
     @assistant = assistant
 
+    Current.executed_by = @assistant
+
     ActiveRecord::Base.transaction do
       generate_and_process_response
     end
   rescue StandardError => e
+    raise e if e.is_a?(ActiveStorage::FileNotFoundError)
+
     handle_error(e)
+  ensure
+    Current.executed_by = nil
   end
 
   private
@@ -19,8 +26,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def generate_and_process_response
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      @conversation.messages.incoming.last.content,
-      collect_previous_messages
+      message_history: collect_previous_messages
     )
 
     return process_action('handoff') if handoff_requested?
@@ -36,15 +42,21 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       .where(message_type: [:incoming, :outgoing])
       .where(private: false)
       .map do |message|
-        {
-          content: message.content,
-          role: determine_role(message)
-        }
-      end
+      {
+        content: prepare_multimodal_message_content(message),
+        role: determine_role(message)
+      }
+    end
   end
 
   def determine_role(message)
+    return 'system' if message.content.blank?
+
     message.message_type == 'incoming' ? 'user' : 'system'
+  end
+
+  def prepare_multimodal_message_content(message)
+    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def handoff_requested?
@@ -54,13 +66,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   def process_action(action)
     case action
     when 'handoff'
-      create_handoff_message
-      @conversation.bot_handoff!
+      I18n.with_locale(@assistant.account.locale) do
+        create_handoff_message
+        @conversation.bot_handoff!
+      end
     end
   end
 
   def create_handoff_message
-    create_outgoing_message('Transferring to another agent for further assistance.')
+    create_outgoing_message(@assistant.config['handoff_message'].presence || I18n.t('conversations.captain.handoff'))
   end
 
   def create_messages
@@ -77,6 +91,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       message_type: :outgoing,
       account_id: account.id,
       inbox_id: inbox.id,
+      sender: @assistant,
       content: message_content
     )
   end

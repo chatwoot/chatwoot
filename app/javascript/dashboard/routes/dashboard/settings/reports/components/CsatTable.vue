@@ -47,14 +47,17 @@ const tableData = computed(() => {
   }));
 });
 
-const defaulSpanRender = cellProps =>
-  h(
+const defaultSpanRender = cellProps => {
+  const value = cellProps.getValue() || '---';
+  return h(
     'span',
     {
-      class: cellProps.getValue() ? '' : 'text-slate-300 dark:text-slate-700',
+      class: 'line-clamp-5 break-words max-w-full text-n-slate-12',
+      title: value,
     },
-    cellProps.getValue() ? cellProps.getValue() : '---'
+    value
   );
+};
 
 const columnHelper = createColumnHelper();
 
@@ -65,7 +68,10 @@ const columns = [
     cell: cellProps => {
       const { contact } = cellProps.row.original;
       if (contact) {
-        return h(UserAvatarWithName, { user: contact });
+        return h(UserAvatarWithName, {
+          user: contact,
+          class: 'max-w-[200px] overflow-hidden',
+        });
       }
       return '--';
     },
@@ -76,7 +82,10 @@ const columns = [
     cell: cellProps => {
       const { assignedAgent } = cellProps.row.original;
       if (assignedAgent) {
-        return h(UserAvatarWithName, { user: assignedAgent });
+        return h(UserAvatarWithName, {
+          user: assignedAgent,
+          class: 'max-w-[200px] overflow-hidden',
+        });
       }
       return '--';
     },
@@ -105,7 +114,7 @@ const columns = [
   columnHelper.accessor('feedbackText', {
     header: t('CSAT_REPORTS.TABLE.HEADER.FEEDBACK_TEXT'),
     width: 400,
-    cell: defaulSpanRender,
+    cell: defaultSpanRender,
   }),
   columnHelper.accessor('conversationId', {
     header: '',

@@ -31,7 +31,7 @@
     },
     "PERMISSIONS": {
       "CONVERSATION_MANAGE": "Управление всеми диалогами",
-      "CONVERSATION_UNASSIGNED_MANAGE": "Управление неназначенными беседами и теми, которые назначены им",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Управление неназначенными беседами и теми, которые им назначены",
       "CONVERSATION_PARTICIPATING_MANAGE": "Управление текущими беседами и теми, которые им назначены",
       "CONTACT_MANAGE": "Управление контактами",
       "REPORT_MANAGE": "Управление отчетами",

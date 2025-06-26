@@ -75,7 +75,7 @@ onMounted(() => {
       <div>
         <div class="flex justify-between w-full gap-4 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[6.25rem] text-slate-900 dark:text-slate-50"
+            class="text-sm font-medium whitespace-nowrap min-w-[6.25rem] text-n-slate-12"
           >
             {{
               t(
@@ -113,7 +113,7 @@ onMounted(() => {
         </div>
         <div class="flex justify-between w-full gap-3 py-2">
           <label
-            class="text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-slate-900 dark:text-slate-50"
+            class="text-sm font-medium whitespace-nowrap min-w-[7.5rem] text-n-slate-12"
           >
             {{
               t('HELP_CENTER.EDIT_ARTICLE_PAGE.ARTICLE_PROPERTIES.META_TAGS')

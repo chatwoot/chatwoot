@@ -43,7 +43,17 @@
         "INBOX_NAME": "Nom de la safata d'entrada",
         "ADD_NAME": "Afegeix un nom per a la safata d'entrada",
         "PICK_NAME": "Tria un nom per a la teva safata d'entrada",
-        "PICK_A_VALUE": "Tria un valor"
+        "PICK_A_VALUE": "Tria un valor",
+        "CREATE_INBOX": "Crear safata d'entrada"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continue with Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connect your Instagram Profile",
+        "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
+        "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
+        "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
+        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
+        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "TWITTER": {
         "HELP": "Per afegir el teu perfil de Twitter com a canal, has d'autentificar el vostre perfil de Twitter fent clic a 'Inicieu la sessió amb Twitter' ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Formulari de xat previ",
       "BUSINESS_HOURS": "Horari comercial",
       "WIDGET_BUILDER": "Creador del widget",
-      "BOT_CONFIGURATION": "Configuracions del bot"
+      "BOT_CONFIGURATION": "Configuracions del bot",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Configuracions",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Activa la bústia de recollida de correu electrònic",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activa o desactiva la casella de recollida de correu electrònic en una conversa nova",
       "AUTO_ASSIGNMENT": "Activa l'assignació automàtica",
-      "ENABLE_CSAT": "Habilita CSAT",
       "SENDER_NAME_SECTION": "Activa el nom de l'agent al correu electrònic",
-      "ENABLE_CSAT_SUB_TEXT": "Activa/desactiva l'enquesta CSAT (satisfacció del client) després de resoldre una conversa",
       "SENDER_NAME_SECTION_TEXT": "Activa/Desactiva la mostra del nom de l'agent al correu electrònic, si està desactivat, mostrarà el nom de l'empresa",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activa la continuïtat de la conversa per correu electrònic",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les converses continuaran per correu electrònic si l'adreça electrònica de contacte està disponible.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Els visitants han de proporcionar el seu nom i adreça de correu electrònic abans d'iniciar el xat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Habilita CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Missatge",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "conté",
+          "DOES_NOT_CONTAINS": "no conté"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "Correu electrònic",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canal de l'API"
+      "API": "Canal de l'API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

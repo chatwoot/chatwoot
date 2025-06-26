@@ -175,15 +175,15 @@ export default {
 <template>
   <div class="relative phone-input--wrap">
     <div
-      class="flex items-center justify-start border border-solid rounded-md dark:bg-slate-900"
+      class="flex items-center justify-start border-none outline outline-1 rounded-lg bg-n-alpha-black2"
       :class="
         error
-          ? 'border border-solid border-red-400 dark:border-red-400 mb-1'
-          : 'mb-4 border-slate-200 dark:border-slate-600'
+          ? 'outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 mb-1'
+          : 'mb-4 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6'
       "
     >
       <div
-        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-md rounded-bl-md flex items-center justify-center gap-1.5 bg-slate-25 dark:bg-slate-700 h-10 w-14"
+        class="cursor-pointer py-2 pr-1.5 pl-2 rounded-tl-lg rounded-bl-lg flex items-center justify-center gap-1.5 bg-n-solid-3 h-10 w-14"
         @click.prevent="toggleCountryDropdown"
       >
         <h5 v-if="activeCountry" class="mb-0">
@@ -194,7 +194,7 @@ export default {
       </div>
       <span
         v-if="activeDialCode"
-        class="flex py-2 pl-2 pr-0 text-base font-normal leading-normal bg-white dark:bg-slate-900 text-slate-800 dark:text-slate-100"
+        class="flex py-2 pl-2 pr-0 text-base font-normal leading-normal text-n-slate-12"
       >
         {{ activeDialCode }}
       </span>
@@ -202,7 +202,7 @@ export default {
         ref="phoneNumberInput"
         :value="phoneNumber"
         type="tel"
-        class="!mb-0 !rounded-tl-none !rounded-bl-none !border-0 font-normal !w-full dark:!bg-slate-900 text-base !px-1.5 placeholder:font-normal"
+        class="no-margin !rounded-tl-none !rounded-bl-none !outline-none !border-0 font-normal !w-full !bg-transparent text-base !px-1.5 placeholder:font-normal"
         :placeholder="placeholder"
         :readonly="readonly"
         :style="styles"
@@ -215,20 +215,22 @@ export default {
       ref="dropdown"
       v-on-clickaway="onOutsideClick"
       tabindex="0"
-      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded px-0 pt-0 pb-1 bg-white dark:bg-slate-900"
+      class="z-10 absolute h-60 w-[12.5rem] shadow-md overflow-y-auto top-10 rounded-lg px-0 pt-0 pb-1 bg-n-alpha-3 backdrop-blur-[100px]"
       @keydown.prevent.up="moveUp"
       @keydown.prevent.down="moveDown"
       @keydown.prevent.enter="
         onSelectCountry(filteredCountriesBySearch[selectedIndex])
       "
     >
-      <div class="sticky top-0 p-1 bg-white dark:bg-slate-900">
+      <div
+        class="sticky top-0 p-1 bg-white dark:bg-transparent backdrop-blur-[100px]"
+      >
         <input
           ref="searchbar"
           v-model="searchCountry"
           type="text"
           :placeholder="$t('GENERAL.PHONE_INPUT.PLACEHOLDER')"
-          class="!h-8 !mb-0 !text-sm !border !border-solid !border-slate-2000 dark:!border-slate-6000"
+          class="!h-8 !mb-0 !text-sm !outline-n-brand dark:!outline-n-brand"
           @input="onSearchCountry"
         />
       </div>
@@ -236,10 +238,10 @@ export default {
         v-for="(country, index) in filteredCountriesBySearch"
         ref="dropdownItem"
         :key="index"
-        class="flex items-center px-1 py-0 cursor-pointer h-7 hover:bg-slate-50 dark:hover:bg-slate-700"
+        class="flex items-center px-1 py-0 cursor-pointer h-7 hover:bg-n-alpha-1 dark:hover:bg-n-alpha-2"
         :class="{
-          'bg-slate-50 dark:bg-slate-700': country.id === activeCountryCode,
-          'bg-slate-25 dark:bg-slate-800': index === selectedIndex,
+          'bg-n-alpha-1 dark:bg-n-alpha-2': country.id === activeCountryCode,
+          'bg-n-alpha-1 dark:bg-n-alpha-2': index === selectedIndex,
         }"
         @click="onSelectCountry(country)"
       >
@@ -250,13 +252,13 @@ export default {
         >
           {{ country.name }}
         </span>
-        <span class="ml-1 text-xs text-slate-300 dark:text-slate-300">{{
-          country.dial_code
-        }}</span>
+        <span class="ml-1 text-xs text-n-slate-11">
+          {{ country.dial_code }}
+        </span>
       </div>
       <div v-if="filteredCountriesBySearch.length === 0">
         <span
-          class="flex items-center justify-center mt-4 text-sm text-slate-500 dark:text-slate-300"
+          class="flex items-center justify-center mt-4 text-sm text-n-slate-10"
         >
           {{ $t('GENERAL.PHONE_INPUT.EMPTY_STATE') }}
         </span>

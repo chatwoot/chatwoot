@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Không tìm thấy kết quả"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Tổng quan nhãn",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Đang tải các biểu đồ dữ liệu...",
     "NO_ENOUGH_DATA": "Chúng tôi không nhận được đủ điểm dữ liệu để tạo báo cáo, Vui lòng thử lại sau.",
     "DOWNLOAD_LABEL_REPORTS": "Tải xuống báo cáo nhãn",
@@ -476,6 +478,18 @@
         "STATUS": "Trạng thái"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Nhóm",
+        "OPEN": "Mở",
+        "UNATTENDED": "Không giám sát",
+        "STATUS": "Trạng thái"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Trạng thái tổng đài viên",
       "ONLINE": "Trực Tuyến",
@@ -546,6 +560,7 @@
     "INBOX": "Hộp thư đến",
     "AGENT": "Nhà cung cấp",
     "TEAM": "Nhóm",
+    "LABEL": "Nhãn",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

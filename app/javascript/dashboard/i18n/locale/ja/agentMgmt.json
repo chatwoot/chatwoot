@@ -105,6 +105,9 @@
         "AGENT": "担当者を選択",
         "TEAM": "チームを選択"
       },
+      "LIST": {
+        "NONE": "なし"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "担当者が見つかりません",

@@ -119,7 +119,8 @@
       "EMPTY_LIST": "לא נמצאו תוצאות"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "סקירת תוויות",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "טוען נתוני תרשים...",
     "NO_ENOUGH_DATA": "לא קיבלנו מספיק נקודות נתונים כדי להפיק דוח, אנא נסה שוב מאוחר יותר.",
     "DOWNLOAD_LABEL_REPORTS": "הורד דוחות תווית",
@@ -476,6 +478,18 @@
         "STATUS": "מצב"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "צוות",
+        "OPEN": "פתח",
+        "UNATTENDED": "ללא השגחה",
+        "STATUS": "מצב"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "סטטוס סוכן",
       "ONLINE": "מחובר",
@@ -546,6 +560,7 @@
     "INBOX": "תיבת הדואר הנכנס",
     "AGENT": "סוכן",
     "TEAM": "צוות",
+    "LABEL": "תווית",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

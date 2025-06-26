@@ -283,3 +283,4 @@ exclude:
   - 'app/javascript/widget/assets/scss/sdk.css'
   - 'app/assets/stylesheets/administrate/reset/_normalize.scss'
   - 'app/javascript/shared/assets/stylesheets/*.scss'
+  - 'app/javascript/dashboard/assets/scss/_woot.scss'

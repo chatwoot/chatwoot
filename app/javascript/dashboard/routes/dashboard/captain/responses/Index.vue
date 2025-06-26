@@ -18,6 +18,7 @@ import AssistantSelector from 'dashboard/components-next/captain/pageComponents/
 import ResponseCard from 'dashboard/components-next/captain/assistant/ResponseCard.vue';
 import CreateResponseDialog from 'dashboard/components-next/captain/pageComponents/response/CreateResponseDialog.vue';
 import ResponsePageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/ResponsePageEmptyState.vue';
+import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
 
 const router = useRouter();
@@ -156,6 +157,13 @@ const bulkCheckbox = computed({
   },
 });
 
+const buildSelectedCountLabel = computed(() => {
+  const count = responses.value?.length || 0;
+  return bulkSelectionState.value.allSelected
+    ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
+    : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
+});
+
 const handleCardHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
 };
@@ -247,6 +255,17 @@ onMounted(() => {
     @update:current-page="onPageChange"
     @click="handleCreate"
   >
+    <template #knowMore>
+      <FeatureSpotlightPopover
+        :button-label="$t('CAPTAIN.HEADER_KNOW_MORE')"
+        :title="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.TITLE')"
+        :note="$t('CAPTAIN.RESPONSES.EMPTY_STATE.FEATURE_SPOTLIGHT.NOTE')"
+        fallback-thumbnail="/assets/images/dashboard/captain/faqs-popover-light.svg"
+        fallback-thumbnail-dark="/assets/images/dashboard/captain/faqs-popover-dark.svg"
+        learn-more-url="https://chwt.app/captain-faq"
+      />
+    </template>
+
     <template #emptyState>
       <ResponsePageEmptyState @click="handleCreate" />
     </template>
@@ -258,7 +277,11 @@ onMounted(() => {
     <template #controls>
       <div
         v-if="shouldShowDropdown"
-        class="mb-4 -mt-3 flex justify-between items-center"
+        class="mb-4 -mt-3 flex justify-between items-center w-fit py-1"
+        :class="{
+          'ltr:pl-3 rtl:pr-3 ltr:pr-1 rtl:pl-1 rounded-lg outline outline-1 outline-n-weak bg-n-solid-3':
+            bulkSelectionState.hasSelected,
+        }"
       >
         <div v-if="!bulkSelectionState.hasSelected" class="flex gap-3">
           <OnClickOutside @trigger="isStatusFilterOpen = false">
@@ -294,13 +317,18 @@ onMounted(() => {
         >
           <div
             v-if="bulkSelectionState.hasSelected"
-            class="flex items-center gap-3 ltr:pl-4 rtl:pr-4"
+            class="flex items-center gap-3"
           >
-            <div class="flex items-center gap-1.5">
-              <Checkbox
-                v-model="bulkCheckbox"
-                :indeterminate="bulkSelectionState.isIndeterminate"
-              />
+            <div class="flex items-center gap-3">
+              <div class="flex items-center gap-1.5">
+                <Checkbox
+                  v-model="bulkCheckbox"
+                  :indeterminate="bulkSelectionState.isIndeterminate"
+                />
+                <span class="text-sm text-n-slate-12 font-medium tabular-nums">
+                  {{ buildSelectedCountLabel }}
+                </span>
+              </div>
               <span class="text-sm text-n-slate-10 tabular-nums">
                 {{
                   $t('CAPTAIN.RESPONSES.SELECTED', {
@@ -310,17 +338,23 @@ onMounted(() => {
               </span>
             </div>
             <div class="h-4 w-px bg-n-strong" />
-            <div class="flex gap-2">
+            <div class="flex gap-3 items-center">
               <Button
                 :label="$t('CAPTAIN.RESPONSES.BULK_APPROVE_BUTTON')"
                 sm
-                slate
+                ghost
+                icon="i-lucide-check"
+                class="!px-1.5"
                 @click="handleBulkApprove"
               />
+              <div class="h-4 w-px bg-n-strong" />
               <Button
                 :label="$t('CAPTAIN.RESPONSES.BULK_DELETE_BUTTON')"
                 sm
-                slate
+                ruby
+                ghost
+                class="!px-1.5"
+                icon="i-lucide-trash"
                 @click="bulkDeleteDialog.dialogRef.open()"
               />
             </div>

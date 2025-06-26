@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Nenhum resultado encontrado"
     },
     "PAGINATION": {
-      "RESULTS": "Exibindo {start} — {end} de {total} resultados"
+      "RESULTS": "Exibindo {start} — {end} de {total} resultados",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Visão Geral das Etiquetas",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
     "DOWNLOAD_LABEL_REPORTS": "Baixar relatórios de etiquetas",
@@ -326,12 +328,12 @@
     }
   },
   "TEAM_REPORTS": {
-    "HEADER": "Resumo da Equipe",
-    "DESCRIPTION": "Obtenha um instantâneo do desempenho da sua equipe com métricas essenciais, incluindo conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome da equipe para mais detalhes.",
+    "HEADER": "Resumo do Time",
+    "DESCRIPTION": "Obtenha um instantâneo do desempenho de seu time com métricas essenciais, incluindo conversas, tempos de resposta, tempos de resolução e casos resolvidos. Clique no nome do time para mais detalhes.",
     "LOADING_CHART": "Carregando dados do gráfico...",
     "NO_ENOUGH_DATA": "Não existem dados suficientes para gerar o relatório. Tente novamente mais tarde.",
-    "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios da equipe",
-    "FILTER_DROPDOWN_LABEL": "Selecionar Equipe",
+    "DOWNLOAD_TEAM_REPORTS": "Baixar relatórios de time",
+    "FILTER_DROPDOWN_LABEL": "Selecionar Time",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversas",
@@ -471,13 +473,25 @@
       "NO_AGENTS": "Não há conversas por agentes",
       "TABLE_HEADER": {
         "AGENT": "Agente",
-        "OPEN": "Abertas",
+        "OPEN": "Abrir",
         "UNATTENDED": "Não atendidas",
-        "STATUS": "Situação"
+        "STATUS": "Status"
+      }
+    },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "Todos os Times",
+      "HEADER": "Conversas por times",
+      "LOADING_MESSAGE": "Carregando métricas de times...",
+      "NO_TEAMS": "Não há dados disponíveis",
+      "TABLE_HEADER": {
+        "TEAM": "Time",
+        "OPEN": "Abrir",
+        "UNATTENDED": "Não atendidas",
+        "STATUS": "Status"
       }
     },
     "AGENT_STATUS": {
-      "HEADER": "Situação do agente",
+      "HEADER": "Status do agente",
       "ONLINE": "Disponível",
       "BUSY": "Ocupado",
       "OFFLINE": "Desconectado"
@@ -509,14 +523,14 @@
         "SLA": "Nome do SLA",
         "AGENTS": "Nome do Agente",
         "INBOXES": "Nome da Caixa de Entrada",
-        "LABELS": "Nome do marcador",
-        "TEAMS": "Nome da equipe"
+        "LABELS": "Nome da etiqueta",
+        "TEAMS": "Nome do Time"
       },
       "SLA": "Política SLA",
       "INBOXES": "Caixa de Entrada",
       "AGENTS": "Agente",
       "LABELS": "Nome do campo",
-      "TEAMS": "Equipe"
+      "TEAMS": "Time"
     },
     "WITH": "com",
     "METRICS": {
@@ -545,7 +559,8 @@
   "SUMMARY_REPORTS": {
     "INBOX": "Caixa de Entrada",
     "AGENT": "Agente",
-    "TEAM": "Equipe",
+    "TEAM": "Time",
+    "LABEL": "Nome do campo",
     "AVG_RESOLUTION_TIME": "Tempo Médio de Resolução",
     "AVG_FIRST_RESPONSE_TIME": "Tempo Médio de Primeira Resposta",
     "AVG_REPLY_TIME": "Tempo Médio de Rspera do Cliente",

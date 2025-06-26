@@ -4,12 +4,14 @@ import Spinner from 'shared/components/Spinner.vue';
 import EmptyState from 'dashboard/components/widgets/EmptyState.vue';
 import { dynamicTime } from 'shared/helpers/timeHelper';
 import { mapGetters } from 'vuex';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 export default {
   components: {
     Thumbnail,
     Spinner,
     EmptyState,
+    NextButton,
   },
   props: {
     notifications: {
@@ -49,17 +51,22 @@ export default {
 
 <template>
   <section
-    class="flex-grow flex-shrink h-full px-4 py-8 overflow-hidden bg-white dark:bg-slate-900"
+    class="flex-grow flex-shrink h-full px-4 py-8 overflow-hidden bg-n-background"
   >
-    <woot-submit-button
-      v-if="notificationMetadata.unreadCount"
-      class="button nice success button--fixed-top"
-      :button-text="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
-      :loading="isUpdating"
-      @click="onMarkAllDoneClick"
-    />
-
-    <table class="woot-table notifications-table">
+    <div class="flex w-full items-center justify-between gap-2 mb-4">
+      <h6 class="text-xl font-medium text-n-slate-12">
+        {{ $t('NOTIFICATIONS_PAGE.HEADER') }}
+      </h6>
+      <NextButton
+        v-if="notificationMetadata.unreadCount"
+        type="submit"
+        sm
+        :label="$t('NOTIFICATIONS_PAGE.MARK_ALL_DONE')"
+        :is-loading="isUpdating"
+        @click="onMarkAllDoneClick"
+      />
+    </div>
+    <table class="woot-table notifications-table overflow-auto">
       <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"

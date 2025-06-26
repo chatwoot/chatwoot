@@ -2,7 +2,7 @@
 import CustomBrandPolicyWrapper from 'dashboard/components/CustomBrandPolicyWrapper.vue';
 import { getHelpUrlForFeature } from '../../../../helper/featureHelper';
 import BackButton from '../../../../components/widgets/BackButton.vue';
-import ButtonV4 from 'dashboard/components-next/button/Button.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
@@ -41,7 +41,7 @@ const openInNewTab = url => {
 </script>
 
 <template>
-  <div class="flex flex-col items-start w-full gap-2 pt-4">
+  <div class="flex flex-col items-start w-full gap-2">
     <BackButton
       v-if="backButtonLabel"
       compact
@@ -60,13 +60,11 @@ const openInNewTab = url => {
               size="14"
               :icon="iconName"
               type="outline"
-              class="flex-shrink-0 text-woot-500 dark:text-woot-500"
+              class="flex-shrink-0 text-n-brand"
             />
           </div>
         </div>
-        <h1
-          class="text-2xl font-semibold font-interDisplay tracking-[0.3px] text-slate-900 dark:text-slate-25"
-        >
+        <h1 class="text-xl font-medium tracking-tight text-n-slate-12">
           {{ title }}
         </h1>
       </div>
@@ -75,9 +73,9 @@ const openInNewTab = url => {
         <slot name="actions" />
       </div>
     </div>
-    <div class="flex flex-col w-full gap-3 text-slate-600 dark:text-slate-300">
+    <div class="flex flex-col w-full gap-3 text-n-slate-11">
       <p
-        class="mb-0 text-base font-normal line-clamp-5 sm:line-clamp-none max-w-3xl tracking-[-0.1px]"
+        class="mb-0 text-sm font-normal line-clamp-5 sm:line-clamp-none max-w-3xl"
       >
         <slot name="description">{{ description }}</slot>
       </p>
@@ -87,7 +85,7 @@ const openInNewTab = url => {
           :href="helpURL"
           target="_blank"
           rel="noopener noreferrer"
-          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-brand dark:text-n-brand hover:underline"
+          class="items-center hidden gap-1 text-sm font-medium sm:inline-flex w-fit text-n-blue-text hover:underline"
         >
           {{ linkText }}
           <Icon
@@ -102,10 +100,10 @@ const openInNewTab = url => {
     >
       <slot name="actions" />
       <CustomBrandPolicyWrapper :show-on-custom-branded-instance="false">
-        <ButtonV4
+        <Button
           v-if="helpURL && linkText"
+          blue
           link
-          primary
           icon="i-lucide-chevron-right"
           trailing-icon
           :label="linkText"

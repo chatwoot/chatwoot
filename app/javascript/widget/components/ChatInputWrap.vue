@@ -6,7 +6,6 @@ import ChatSendButton from 'widget/components/ChatSendButton.vue';
 import configMixin from '../mixins/configMixin';
 import FluentIcon from 'shared/components/FluentIcon/Index.vue';
 import ResizableTextArea from 'shared/components/ResizableTextArea.vue';
-import { useDarkMode } from 'widget/composables/useDarkMode';
 
 import EmojiInput from 'shared/components/emoji/EmojiInput.vue';
 
@@ -30,10 +29,6 @@ export default {
       default: () => {},
     },
   },
-  setup() {
-    const { getThemeClass } = useDarkMode();
-    return { getThemeClass };
-  },
   data() {
     return {
       userInput: '',
@@ -52,18 +47,6 @@ export default {
     },
     showSendButton() {
       return this.userInput.length > 0;
-    },
-    inputColor() {
-      return `${this.getThemeClass('bg-white', 'dark:bg-slate-600')}
-        ${this.getThemeClass('text-black-900', 'dark:text-slate-50')}`;
-    },
-    emojiIconColor() {
-      return this.showEmojiPicker
-        ? `text-woot-500 ${this.getThemeClass(
-            'text-black-900',
-            'dark:text-slate-100'
-          )}`
-        : `${this.getThemeClass('text-black-900', 'dark:text-slate-100')}`;
     },
   },
   watch: {
@@ -133,8 +116,11 @@ export default {
 
 <template>
   <div
-    class="chat-message--input is-focused"
-    :class="getThemeClass('bg-white ', 'dark:bg-slate-600')"
+    class="items-center flex ltr:pl-3 rtl:pr-3 ltr:pr-2 rtl:pl-2 rounded-[7px] transition-all duration-200 bg-n-background !shadow-[0_0_0_1px,0_0_2px_3px]"
+    :class="{
+      '!shadow-n-brand dark:!shadow-n-brand': isFocused,
+      '!shadow-n-strong dark:!shadow-n-strong': !isFocused,
+    }"
     @keydown.esc="hideEmojiPicker"
   >
     <ResizableTextArea
@@ -144,26 +130,32 @@ export default {
       :rows="1"
       :aria-label="$t('CHAT_PLACEHOLDER')"
       :placeholder="$t('CHAT_PLACEHOLDER')"
-      class="form-input user-message-input is-focused"
-      :class="inputColor"
+      class="user-message-input reset-base"
       @typing-off="onTypingOff"
       @typing-on="onTypingOn"
       @focus="onFocus"
       @blur="onBlur"
     />
-    <div class="button-wrap">
+    <div class="flex items-center ltr:pl-2 rtl:pr-2">
       <ChatAttachmentButton
         v-if="showAttachment"
-        :class="getThemeClass('text-black-900', 'dark:text-slate-100')"
+        class="text-n-slate-12"
         :on-attach="onSendAttachment"
       />
       <button
         v-if="hasEmojiPickerEnabled"
-        class="flex items-center justify-center icon-button"
+        class="flex items-center justify-center min-h-8 min-w-8"
         :aria-label="$t('EMOJI.ARIA_LABEL')"
         @click="toggleEmojiPicker"
       >
-        <FluentIcon icon="emoji" :class="emojiIconColor" />
+        <FluentIcon
+          icon="emoji"
+          class="transition-all duration-150"
+          :class="{
+            'text-n-slate-12': !showEmojiPicker,
+            'text-n-brand': showEmojiPicker,
+          }"
+        />
       </button>
       <EmojiInput
         v-if="showEmojiPicker"
@@ -181,46 +173,11 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-@import 'widget/assets/scss/mixins.scss';
-
-.chat-message--input {
-  align-items: center;
-  display: flex;
-  padding: 0 $space-small 0 $space-slab;
-  border-radius: 7px;
-
-  &.is-focused {
-    box-shadow:
-      0 0 0 1px $color-woot,
-      0 0 2px 3px $color-primary-light;
-  }
-}
-
 .emoji-dialog {
-  right: 20px;
-  top: -302px;
-  max-width: 100%;
-
-  &::before {
-    right: $space-one;
-  }
-}
-
-.button-wrap {
-  display: flex;
-  align-items: center;
-  padding-left: $space-small;
+  @apply max-w-full ltr:right-5 rtl:right-[unset] rtl:left-5 -top-[302px] before:ltr:right-2.5 before:rtl:right-[unset] before:rtl:left-2.5;
 }
 
 .user-message-input {
-  border: 0;
-  height: $space-large;
-  min-height: $space-large;
-  max-height: 2.4 * $space-mega;
-  resize: none;
-  padding: $space-smaller 0;
-  margin-top: $space-small;
-  margin-bottom: $space-small;
+  @apply border-none outline-none w-full placeholder:text-n-slate-10 resize-none h-8 min-h-8 max-h-60 py-1 px-0 my-2 bg-n-background text-n-slate-12 transition-all duration-200;
 }
 </style>

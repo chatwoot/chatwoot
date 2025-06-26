@@ -18,6 +18,10 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
     slack_client.chat_unfurl(
       event
     )
+    # You may wonder why we're not requesting reauthorization and disabling hooks when scope errors occur.
+    # Since link unfurling is just a nice-to-have feature that doesn't affect core functionality, we will silently ignore these errors.
+  rescue Slack::Web::Api::Errors::MissingScope => e
+    Rails.logger.warn "Slack: Missing scope error: #{e.message}"
   end
 
   private
@@ -149,12 +153,12 @@ class Integrations::Slack::SendOnSlackService < Base::SendOnChannelService
   def sender_type(sender)
     if sender.instance_of?(Contact)
       'Contact'
-    elsif message.message_type == 'template' && sender.nil?
-      'Bot'
+    elsif sender.instance_of?(User)
+      'Agent'
     elsif message.message_type == 'activity' && sender.nil?
       'System'
     else
-      'Agent'
+      'Bot'
     end
   end
 

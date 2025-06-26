@@ -315,6 +315,21 @@ export const colors = {
       12: 'rgb(var(--iris-12) / <alpha-value>)',
     },
 
+    blue: {
+      1: 'rgb(var(--blue-1) / <alpha-value>)',
+      2: 'rgb(var(--blue-2) / <alpha-value>)',
+      3: 'rgb(var(--blue-3) / <alpha-value>)',
+      4: 'rgb(var(--blue-4) / <alpha-value>)',
+      5: 'rgb(var(--blue-5) / <alpha-value>)',
+      6: 'rgb(var(--blue-6) / <alpha-value>)',
+      7: 'rgb(var(--blue-7) / <alpha-value>)',
+      8: 'rgb(var(--blue-8) / <alpha-value>)',
+      9: 'rgb(var(--blue-9) / <alpha-value>)',
+      10: 'rgb(var(--blue-10) / <alpha-value>)',
+      11: 'rgb(var(--blue-11) / <alpha-value>)',
+      12: 'rgb(var(--blue-12) / <alpha-value>)',
+    },
+
     ruby: {
       1: 'rgb(var(--ruby-1) / <alpha-value>)',
       2: 'rgb(var(--ruby-2) / <alpha-value>)',

@@ -105,6 +105,9 @@
         "AGENT": "Temsilci seçin",
         "TEAM": "Takım seçin"
       },
+      "LIST": {
+        "NONE": "Hiç"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Kullanıcı bulunamadı",

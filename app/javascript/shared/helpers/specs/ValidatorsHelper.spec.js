@@ -9,6 +9,7 @@ import {
   isNumber,
   isDomain,
   getRegexp,
+  isValidSlug,
 } from '../Validators';
 
 describe('#shouldBeUrl', () => {
@@ -151,5 +152,26 @@ describe('#getRegexp', () => {
 
     expect(regex.test('123-45-6789')).toBe(true);
     expect(regex.test('12-34-5678')).toBe(false);
+  });
+});
+
+describe('#isValidSlug', () => {
+  it('should return true for valid slugs', () => {
+    expect(isValidSlug('abc')).toEqual(true);
+    expect(isValidSlug('abc-123')).toEqual(true);
+    expect(isValidSlug('a-b-c')).toEqual(true);
+    expect(isValidSlug('123')).toEqual(true);
+    expect(isValidSlug('abc123-def')).toEqual(true);
+  });
+  it('should return false for invalid slugs', () => {
+    expect(isValidSlug('abc_def')).toEqual(false);
+    expect(isValidSlug('abc def')).toEqual(false);
+    expect(isValidSlug('abc@def')).toEqual(false);
+    expect(isValidSlug('abc.def')).toEqual(false);
+    expect(isValidSlug('abc/def')).toEqual(false);
+    expect(isValidSlug('abc!def')).toEqual(false);
+    expect(isValidSlug('abc--def!')).toEqual(false);
+    expect(isValidSlug('abc-def ')).toEqual(false);
+    expect(isValidSlug(' abc-def')).toEqual(false);
   });
 });

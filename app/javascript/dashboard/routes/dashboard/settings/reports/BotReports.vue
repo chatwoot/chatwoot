@@ -98,6 +98,7 @@ export default {
     <BotMetrics :filters="requestPayload" />
     <ReportContainer
       account-summary-key="getBotSummary"
+      summary-fetching-key="getBotSummaryFetchingStatus"
       :group-by="groupBy"
       :report-keys="reportKeys"
     />

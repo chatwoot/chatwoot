@@ -119,7 +119,8 @@
       "EMPTY_LIST": "No results found"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "ภาพรวมป้ายกำกับ",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "กำลังโหลดแผนภูมิข้อมูล",
     "NO_ENOUGH_DATA": "ข้อมูลที่เราได้รับไม่เพียงพอต่อการสร้างรายงาน โปรดลองใหม่อีกครั้งในภายหน้า",
     "DOWNLOAD_LABEL_REPORTS": "ดาวน์โหลดรายงานป้ายกำกับ",
@@ -476,6 +478,18 @@
         "STATUS": "สถานะ"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "ทีม",
+        "OPEN": "เปิด",
+        "UNATTENDED": "ไม่ได้เข้าร่วม",
+        "STATUS": "สถานะ"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "สถานะพนักงาน",
       "ONLINE": "ออนไลน์",
@@ -546,6 +560,7 @@
     "INBOX": "กล่องข้อความ",
     "AGENT": "พนักงาน",
     "TEAM": "ทีม",
+    "LABEL": "ป้ายกำกับ",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

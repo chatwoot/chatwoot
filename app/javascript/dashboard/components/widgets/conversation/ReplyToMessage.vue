@@ -1,21 +1,20 @@
-<script>
+<script setup>
 import MessagePreview from 'dashboard/components/widgets/conversation/MessagePreview.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
-export default {
-  components: { MessagePreview },
-  props: {
-    message: {
-      type: Object,
-      required: true,
-    },
+defineProps({
+  message: {
+    type: Object,
+    required: true,
   },
-  emits: ['dismiss'],
-};
+});
+
+const emit = defineEmits(['dismiss']);
 </script>
 
 <template>
   <div
-    class="reply-editor bg-slate-50 dark:bg-slate-800 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2"
+    class="reply-editor bg-n-slate-9/10 rounded-md py-1 pl-2 pr-1 text-xs tracking-wide mt-2 flex items-center gap-1.5 -mx-2"
   >
     <fluent-icon class="flex-shrink-0 icon" icon="arrow-reply" size="14" />
     <div class="flex-grow gap-1 mt-px text-xs truncate">
@@ -27,14 +26,13 @@ export default {
         class="inline"
       />
     </div>
-    <woot-button
+    <Button
       v-tooltip="$t('CONVERSATION.REPLYBOX.DISMISS_REPLY')"
-      color-scheme="secondary"
-      icon="dismiss"
-      variant="clear"
-      size="tiny"
-      class="flex-shrink-0"
-      @click.stop="$emit('dismiss')"
+      ghost
+      xs
+      slate
+      icon="i-lucide-x"
+      @click.stop="emit('dismiss')"
     />
   </div>
 </template>

@@ -32,7 +32,7 @@
       "EDIT": {
         "SELF": "{agentName} 将其 {attributes} 更改为 {values}",
         "OTHER": "{agentName} 将 {user} 的 {attributes} 更改为 {values}",
-        "DELETED": "%{agentName} 将 %{user} 的 %{attributes} 更改为 %{values}"
+        "DELETED": "{agentName} 将一个已删除用户的 {attributes} 更改为 {values}"
       }
     },
     "INBOX": {
@@ -69,6 +69,9 @@
     },
     "ACCOUNT": {
       "EDIT": "{agentName} 更新了账户配置 (##{id})"
+    },
+    "CONVERSATION": {
+      "DELETE": "{agentName} 删除了对话 #{id}"
     }
   }
 }

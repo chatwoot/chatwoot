@@ -33,21 +33,15 @@ export default {
 </template>
 
 <style scoped lang="scss">
-@import 'widget/assets/scss/variables.scss';
-
 .banner {
-  color: $color-white;
-  font-size: $font-size-default;
-  font-weight: $font-weight-bold;
-  padding: $space-slab;
-  text-align: center;
+  @apply text-white text-sm font-semibold p-3 text-center;
 
   &.success {
-    background: $color-success;
+    @apply bg-n-teal-9;
   }
 
   &.error {
-    background: $color-error;
+    @apply bg-n-ruby-9;
   }
 }
 </style>
