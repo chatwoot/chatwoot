@@ -4,12 +4,14 @@
       "ALL": "Sve",
       "CONTACTS": "Kontakti",
       "CONVERSATIONS": "Razgovori",
-      "MESSAGES": "Poruke"
+      "MESSAGES": "Poruke",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontakti",
       "CONVERSATIONS": "Razgovori",
-      "MESSAGES": "Poruke"
+      "MESSAGES": "Poruke",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Aucun résultat trouvé"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Présentation des étiquettes",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Chargement des données du graphique ...",
     "NO_ENOUGH_DATA": "Nous n'avons pas reçu assez de points de données pour générer un rapport. Veuillez réessayer plus tard.",
     "DOWNLOAD_LABEL_REPORTS": "Télécharger les rapports d'étiquettes",
@@ -476,6 +478,18 @@
         "STATUS": "État"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Équipes",
+        "OPEN": "Ouvert",
+        "UNATTENDED": "Sans surveillance",
+        "STATUS": "État"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Statut de l'agent",
       "ONLINE": "En ligne",
@@ -546,6 +560,7 @@
     "INBOX": "Boîte de réception",
     "AGENT": "Agent",
     "TEAM": "Équipes",
+    "LABEL": "Étiquettes",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

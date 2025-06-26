@@ -22,15 +22,15 @@
     "IN_A_DAY": "Paprastai atsako per dieną",
     "BACK_IN": "Mes grįšime"
   },
-  "DAY_NAMES": [
-    "Sekmadienis",
-    "Pirmadienis",
-    "Antradienis",
-    "Trečiadienis",
-    "Ketvirtadienis",
-    "Penktadienis",
-    "Šeštadienis"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Sekmadienis",
+    "MONDAY": "Pirmadienis",
+    "TUESDAY": "Antradienis",
+    "WEDNESDAY": "Trečiadienis",
+    "THURSDAY": "Ketvirtadienis",
+    "FRIDAY": "Penktadienis",
+    "SATURDAY": "Šeštadienis"
+  },
   "START_CONVERSATION": "Pradėti Pokalbį",
   "END_CONVERSATION": "Užbaigti Pokalbį",
   "CONTINUE_CONVERSATION": "Tęsti pokalbį",

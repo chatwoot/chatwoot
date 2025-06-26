@@ -1,6 +1,6 @@
 {
   "SURVEY": {
-    "DESCRIPTION": "고객님 👋, 잠시 시간을 내어 %{inboxName}에서 나눈 대화에 대한 경험을 알려주세요.",
+    "DESCRIPTION": "고객님 👋, 잠시 시간을 내어 {inboxName}에서 나눈 대화에 대한 경험을 알려주세요.",
     "RATING": {
       "LABEL": "대화를 평가해주세요.",
       "SUCCESS_MESSAGE": "평가해주셔서 감사합니다!"

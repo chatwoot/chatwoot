@@ -4,12 +4,14 @@
       "ALL": "Mind",
       "CONTACTS": "Kontaktok",
       "CONVERSATIONS": "Beszélgetések",
-      "MESSAGES": "Üzenetek"
+      "MESSAGES": "Üzenetek",
+      "ARTICLES": "Articles"
     },
     "SECTION": {
       "CONTACTS": "Kontaktok",
       "CONVERSATIONS": "Beszélgetések",
-      "MESSAGES": "Üzenetek"
+      "MESSAGES": "Üzenetek",
+      "ARTICLES": "Articles"
     },
     "VIEW_MORE": "View more",
     "LOAD_MORE": "Load more",

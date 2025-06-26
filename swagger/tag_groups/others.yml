@@ -1,0 +1,29 @@
+openapi: '3.0.4'
+info:
+  title: Chatwoot - Other APIs
+  description: Other API endpoints for Chatwoot
+  version: 1.1.0
+  termsOfService: https://www.chatwoot.com/terms-of-service/
+  contact:
+    email: hello@chatwoot.com
+  license:
+    name: MIT License
+    url: https://opensource.org/licenses/MIT
+servers:
+  - url: https://app.chatwoot.com/
+tags:
+  - name: CSAT Survey Page
+    description: APIs for CSAT survey functionality
+paths:
+  $ref: ../paths/index.yml
+components:
+  schemas:
+    $ref: ../definitions/index.yml
+  parameters:
+    $ref: ../parameters/index.yml
+  securitySchemes:
+    userApiKey:
+      type: apiKey
+      in: header
+      name: api_access_token
+      description: This token can be obtained by visiting the profile page or via rails console. Provides access to endpoints based on the user permissions levels. 

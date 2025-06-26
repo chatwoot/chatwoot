@@ -7,6 +7,7 @@ import { useUISettings } from 'dashboard/composables/useUISettings';
 import Draggable from 'vuedraggable';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import MacroItem from './MacroItem.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   conversationId: {
@@ -71,9 +72,13 @@ onMounted(() => {
         {{ $t('MACROS.LIST.404') }}
       </p>
       <router-link :to="accountScopedUrl('settings/macros')">
-        <woot-button variant="smooth" icon="add" size="tiny" class="mt-1">
-          {{ $t('MACROS.HEADER_BTN_TXT') }}
-        </woot-button>
+        <NextButton
+          faded
+          xs
+          icon="i-lucide-plus"
+          class="mt-1"
+          :label="$t('MACROS.HEADER_BTN_TXT')"
+        />
       </router-link>
     </div>
     <div

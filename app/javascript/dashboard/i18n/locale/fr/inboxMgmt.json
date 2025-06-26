@@ -43,7 +43,17 @@
         "INBOX_NAME": "Nom de la boîte de réception",
         "ADD_NAME": "Ajouter un nom pour votre boîte de réception",
         "PICK_NAME": "Pick a Name for your Inbox",
-        "PICK_A_VALUE": "Choisir une valeur"
+        "PICK_A_VALUE": "Choisir une valeur",
+        "CREATE_INBOX": "Créer une boîte de réception"
+      },
+      "INSTAGRAM": {
+        "CONTINUE_WITH_INSTAGRAM": "Continuer avec Instagram",
+        "CONNECT_YOUR_INSTAGRAM_PROFILE": "Connectez votre profil Instagram",
+        "HELP": "Pour ajouter votre profil Instagram en tant que canal, vous devez authentifier votre profil Instagram en cliquant sur 'Continuer avec Instagram' ",
+        "ERROR_MESSAGE": "Une erreur est survenue lors de la connexion à Instagram, veuillez réessayer",
+        "ERROR_AUTH": "Une erreur est survenue lors de la connexion à Instagram, veuillez réessayer",
+        "NEW_INBOX_SUGGESTION": "Ce compte Instagram était précédemment lié à une autre boîte de réception et a maintenant été migré ici. Tous les nouveaux messages apparaîtront ici. L'ancienne boîte de réception ne pourra plus envoyer ni recevoir de messages pour ce compte.",
+        "DUPLICATE_INBOX_BANNER": "Ce compte Instagram a été migré vers la nouvelle boîte de réception du canal Instagram. Vous ne pourrez plus envoyer ni recevoir de messages Instagram depuis cette boîte de réception."
       },
       "TWITTER": {
         "HELP": "Pour ajouter votre profil Twitter en tant que canal, vous devez lier votre profil Twitter en cliquant sur 'Se connecter avec Twitter' ",
@@ -471,7 +481,8 @@
       "PRE_CHAT_FORM": "Formulaire avant chat",
       "BUSINESS_HOURS": "Heures de bureau",
       "WIDGET_BUILDER": "Constructeur de Widget",
-      "BOT_CONFIGURATION": "Configuration du bot"
+      "BOT_CONFIGURATION": "Configuration du bot",
+      "CSAT": "CSAT"
     },
     "SETTINGS": "Paramètres",
     "FEATURES": {
@@ -492,9 +503,7 @@
       "ENABLE_EMAIL_COLLECT_BOX": "Activer la boîte de collecte des courriels",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activer ou désactiver la boîte de collecte des courriels pour les nouvelles conversations",
       "AUTO_ASSIGNMENT": "Activer l'assignation automatique",
-      "ENABLE_CSAT": "Activer CSAT",
       "SENDER_NAME_SECTION": "Activer le nom de l'agent dans l'e-mail",
-      "ENABLE_CSAT_SUB_TEXT": "Activer/Désactiver l'enquête CSAT(satisfaction du client) après avoir résolu une conversation",
       "SENDER_NAME_SECTION_TEXT": "Activer/Désactiver l'affichage du nom de l'agent dans l'e-mail, si désactivé, il affichera le nom de l'entreprise",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Activer la continuité de la conversation par e-mail",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Les conversations se poursuivront par courrier électronique si l'adresse e-mail du contact est disponible.",
@@ -566,6 +575,32 @@
       },
       "REQUIRE_EMAIL": {
         "LABEL": "Les visiteurs doivent indiquer leur nom et leur courriel avant de commencer le chat"
+      }
+    },
+    "CSAT": {
+      "TITLE": "Activer CSAT",
+      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "DISPLAY_TYPE": {
+        "LABEL": "Display type"
+      },
+      "MESSAGE": {
+        "LABEL": "Message",
+        "PLACEHOLDER": "Please enter a message to show users with the form"
+      },
+      "SURVEY_RULE": {
+        "LABEL": "Survey rule",
+        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
+        "DESCRIPTION_SUFFIX": "any of the labels",
+        "OPERATOR": {
+          "CONTAINS": "contient",
+          "DOES_NOT_CONTAINS": "ne contient pas"
+        },
+        "SELECT_PLACEHOLDER": "select labels"
+      },
+      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "API": {
+        "SUCCESS_MESSAGE": "CSAT settings updated successfully",
+        "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
       }
     },
     "BUSINESS_HOURS": {
@@ -753,7 +788,8 @@
       "EMAIL": "Courriel",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "Canal API"
+      "API": "Canal API",
+      "INSTAGRAM": "Instagram"
     }
   }
 }

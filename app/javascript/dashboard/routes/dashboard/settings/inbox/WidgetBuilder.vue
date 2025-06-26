@@ -7,11 +7,16 @@ import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import NextButton from 'dashboard/components-next/button/Button.vue';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     Widget,
     InputRadioGroup,
+    NextButton,
+    Editor,
   },
   props: {
     inbox: {
@@ -69,6 +74,7 @@ export default {
           checked: false,
         },
       ],
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -268,7 +274,7 @@ export default {
   <div class="mx-8">
     <div class="flex p-2.5">
       <div class="w-100 lg:w-[40%]">
-        <div class="min-h-full py-4 overflow-y-scroll">
+        <div class="min-h-full py-4 overflow-y-scroll px-px">
           <form @submit.prevent="updateWidget">
             <woot-avatar-uploader
               :label="
@@ -308,7 +314,7 @@ export default {
                 )
               "
             />
-            <woot-input
+            <Editor
               v-model="welcomeTagline"
               :label="
                 $t(
@@ -320,6 +326,9 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
                 )
               "
+              :max-length="255"
+              :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+              class="mb-4"
             />
             <label>
               {{
@@ -376,14 +385,15 @@ export default {
                 )
               "
             />
-            <woot-submit-button
+            <NextButton
+              type="submit"
               class="mt-4"
-              :button-text="
+              :label="
                 $t(
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.UPDATE.BUTTON_TEXT'
                 )
               "
-              :loading="uiFlags.isUpdating"
+              :is-loading="uiFlags.isUpdating"
               :disabled="v$.$invalid || uiFlags.isUpdating"
             />
           </form>
@@ -413,7 +423,10 @@ export default {
             :widget-bubble-type="widgetBubbleType"
           />
         </div>
-        <div v-else class="mx-5 p-2.5 bg-slate-50 rounded-lg dark:bg-slate-700">
+        <div
+          v-else
+          class="mx-5 p-2.5 bg-n-slate-3 rounded-lg dark:bg-n-solid-3"
+        >
           <woot-code :script="widgetScript" />
         </div>
       </div>

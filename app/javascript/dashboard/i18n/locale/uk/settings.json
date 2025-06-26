@@ -35,6 +35,24 @@
           }
         }
       },
+      "INTERFACE_SECTION": {
+        "TITLE": "Interface",
+        "NOTE": "Customize the look and feel of your Chatwoot dashboard.",
+        "FONT_SIZE": {
+          "TITLE": "Font size",
+          "NOTE": "Adjust the text size across the dashboard based on your preference.",
+          "UPDATE_SUCCESS": "Your font settings have been updated successfully",
+          "UPDATE_ERROR": "There is an error while updating the font settings, please try again",
+          "OPTIONS": {
+            "SMALLER": "Smaller",
+            "SMALL": "Small",
+            "DEFAULT": "За замовчуванням",
+            "LARGE": "Large",
+            "LARGER": "Larger",
+            "EXTRA_LARGE": "Extra Large"
+          }
+        }
+      },
       "MESSAGE_SIGNATURE_SECTION": {
         "TITLE": "Підпис особистого повідомлення",
         "NOTE": "Створити унікальний підпис повідомлення для кожного повідомлення, яке ви надсилаєте з будь-якої поштової скриньки. Ви також можете включити вбудоване зображення, яке підтримується у живому чаті, електронній пошті та API-поштових скриньках.",
@@ -58,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Ключ доступу",
         "NOTE": "Цей ключ можна використовувати, якщо ви створюєте API-інтеграцію",
-        "COPY": "Копіювати"
+        "COPY": "Копіювати",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -167,7 +190,8 @@
           "OFFLINE": "Не в мережі"
         },
         "SET_AVAILABILITY_SUCCESS": "Доступу успішно встановлено",
-        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз"
+        "SET_AVAILABILITY_ERROR": "Не вдалося налаштувати доступність, будь ласка, спробуйте ще раз",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Ваша адреса електронної пошти",
@@ -262,6 +286,7 @@
     "REPORTS": "Звіти",
     "SETTINGS": "Налаштування",
     "CONTACTS": "Контакти",
+    "ACTIVE": "Активний",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",
@@ -369,7 +394,8 @@
         "LABEL": "Назва компанії",
         "PLACEHOLDER": "Wayne Enterprises"
       },
-      "SUBMIT": "Додати"
+      "SUBMIT": "Додати",
+      "CANCEL": "Скасувати"
     }
   },
   "KEYBOARD_SHORTCUTS": {
@@ -389,11 +415,6 @@
       "SWITCH_TO_PRIVATE_NOTE": "Перейти до приватних заміток",
       "SWITCH_TO_REPLY": "Перейти до відповіді",
       "TOGGLE_SNOOZE_DROPDOWN": "Перемкнути випадаючий список відкладення"
-    },
-    "KEYS": {
-      "WINDOWS_KEY_AND_COMMAND_KEY": "Win / ⌘",
-      "ALT_OR_OPTION_KEY": "Alt / ⌥",
-      "FORWARD_SLASH_KEY": "/"
     }
   }
 }

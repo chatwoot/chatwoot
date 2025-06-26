@@ -22,15 +22,15 @@
     "IN_A_DAY": "Obično odgovara u roku jednog dana",
     "BACK_IN": "Bit ćemo ponovno online"
   },
-  "DAY_NAMES": [
-    "Nedjelja",
-    "Ponedjeljak",
-    "Utorak",
-    "Srijeda",
-    "Četvrtak",
-    "Petak",
-    "Subota"
-  ],
+  "DAY_NAMES": {
+    "SUNDAY": "Nedjelja",
+    "MONDAY": "Ponedjeljak",
+    "TUESDAY": "Utorak",
+    "WEDNESDAY": "Srijeda",
+    "THURSDAY": "Četvrtak",
+    "FRIDAY": "Petak",
+    "SATURDAY": "Subota"
+  },
   "START_CONVERSATION": "Započnite razgovor",
   "END_CONVERSATION": "Završite razgovor",
   "CONTINUE_CONVERSATION": "Nastavite razgovor",

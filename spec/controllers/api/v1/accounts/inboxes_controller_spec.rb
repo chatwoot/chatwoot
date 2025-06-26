@@ -147,6 +147,32 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(data[:imap_login]).to eq('test@test.com')
       end
 
+      context 'when it is a Twilio inbox' do
+        let(:twilio_channel) { create(:channel_twilio_sms, account: account, account_sid: 'AC123', auth_token: 'secrettoken') }
+        let(:twilio_inbox) { create(:inbox, channel: twilio_channel, account: account) }
+
+        it 'returns auth_token and account_sid for admin' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+          expect(response).to have_http_status(:success)
+          data = JSON.parse(response.body, symbolize_names: true)
+          expect(data[:auth_token]).to eq('secrettoken')
+          expect(data[:account_sid]).to eq('AC123')
+        end
+
+        it "doesn't return auth_token and account_sid for agent" do
+          create(:inbox_member, user: agent, inbox: twilio_inbox)
+          get "/api/v1/accounts/#{account.id}/inboxes/#{twilio_inbox.id}",
+              headers: agent.create_new_auth_token,
+              as: :json
+          expect(response).to have_http_status(:success)
+          data = JSON.parse(response.body, symbolize_names: true)
+          expect(data[:auth_token]).to be_nil
+          expect(data[:account_sid]).to be_nil
+        end
+      end
+
       it 'fetch API inbox without hmac token when agent' do
         api_channel = create(:channel_api, account: account)
         api_inbox = create(:inbox, channel: api_channel, account: account)
@@ -518,6 +544,22 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.email).to eq('emailtest@email.test')
       end
 
+      it 'updates twilio sms inbox when administrator' do
+        twilio_sms_channel = create(:channel_twilio_sms, account: account)
+        twilio_sms_inbox = create(:inbox, channel: twilio_sms_channel, account: account)
+        expect(twilio_sms_inbox.reload.channel.account_sid).not_to eq('account_sid')
+        expect(twilio_sms_inbox.reload.channel.auth_token).not_to eq('new_auth_token')
+
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{twilio_sms_inbox.id}",
+              headers: admin.create_new_auth_token,
+              params: { channel: { account_sid: 'account_sid', auth_token: 'new_auth_token' } },
+              as: :json
+
+        expect(response).to have_http_status(:success)
+        expect(twilio_sms_inbox.reload.channel.account_sid).to eq('account_sid')
+        expect(twilio_sms_inbox.reload.channel.auth_token).to eq('new_auth_token')
+      end
+
       it 'updates email inbox with imap when administrator' do
         email_channel = create(:channel_email, account: account)
         email_inbox = create(:inbox, channel: email_channel, account: account)
@@ -673,6 +715,94 @@ RSpec.describe 'Inboxes API', type: :request do
         expect(email_channel.reload.smtp_address).to eq('smtp.gmail.com')
         expect(email_channel.reload.smtp_port).to eq(587)
         expect(email_channel.reload.smtp_authentication).to eq('plain')
+      end
+    end
+
+    context 'when handling CSAT configuration' do
+      let(:admin) { create(:user, account: account, role: :administrator) }
+      let(:inbox) { create(:inbox, account: account) }
+      let(:csat_config) do
+        {
+          'display_type' => 'emoji',
+          'message' => 'How would you rate your experience?',
+          'survey_rules' => {
+            'operator' => 'contains',
+            'values' => %w[support help]
+          }
+        }
+      end
+
+      it 'successfully updates the inbox with CSAT configuration' do
+        patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              params: {
+                csat_survey_enabled: true,
+                csat_config: csat_config
+              },
+              headers: admin.create_new_auth_token,
+              as: :json
+
+        expect(response).to have_http_status(:success)
+      end
+
+      context 'when CSAT is configured' do
+        before do
+          patch "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+                params: {
+                  csat_survey_enabled: true,
+                  csat_config: csat_config
+                },
+                headers: admin.create_new_auth_token,
+                as: :json
+        end
+
+        it 'returns configured CSAT settings in inbox details' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          json_response = response.parsed_body
+          expect(json_response['csat_survey_enabled']).to be true
+
+          saved_config = json_response['csat_config']
+          expect(saved_config).to be_present
+          expect(saved_config['display_type']).to eq('emoji')
+        end
+
+        it 'returns configured CSAT message' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          json_response = response.parsed_body
+          saved_config = json_response['csat_config']
+          expect(saved_config['message']).to eq('How would you rate your experience?')
+        end
+
+        it 'returns configured CSAT survey rules' do
+          get "/api/v1/accounts/#{account.id}/inboxes/#{inbox.id}",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          json_response = response.parsed_body
+          saved_config = json_response['csat_config']
+          expect(saved_config['survey_rules']['operator']).to eq('contains')
+          expect(saved_config['survey_rules']['values']).to match_array(%w[support help])
+        end
+
+        it 'includes CSAT configuration in inbox list' do
+          get "/api/v1/accounts/#{account.id}/inboxes",
+              headers: admin.create_new_auth_token,
+              as: :json
+
+          expect(response).to have_http_status(:success)
+          inbox_list = response.parsed_body
+          found_inbox = inbox_list['payload'].find { |i| i['id'] == inbox.id }
+
+          expect(found_inbox['csat_survey_enabled']).to be true
+          expect(found_inbox['csat_config']).to be_present
+          expect(found_inbox['csat_config']['display_type']).to eq('emoji')
+        end
       end
     end
   end

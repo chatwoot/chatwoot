@@ -65,7 +65,7 @@ const validateDate = () => {
     <input
       v-model="localDateValue"
       type="text"
-      class="reset-base border bg-slate-25 dark:bg-slate-900 ring-offset-ash-900 border-slate-50 dark:border-slate-700/50 w-full disabled:text-slate-200 dark:disabled:text-slate-700 disabled:cursor-not-allowed text-slate-800 dark:text-slate-50 px-1.5 py-1 text-sm rounded-xl h-10"
+      class="!text-sm !mb-0 disabled:!outline-n-strong"
       :placeholder="dateFormat"
       :disabled="isDisabled"
       @keypress.enter="validateDate"

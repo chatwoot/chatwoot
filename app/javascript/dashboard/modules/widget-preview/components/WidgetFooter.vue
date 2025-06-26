@@ -68,7 +68,7 @@ const getStatusText = computed(() => {
         :placeholder="
           $t('INBOX_MGMT.WIDGET_BUILDER.FOOTER.CHAT_INPUT_PLACEHOLDER')
         "
-        class="flex-grow !bg-white border-0 border-none h-8 text-sm dark:!bg-slate-700 pb-0 !pt-1.5 resize-none px-3 !mb-0 focus:outline-none rounded-md"
+        class="flex-grow !bg-white border-0 outline-none !outline-0 border-none h-8 text-sm dark:!bg-slate-700 pb-0 !pt-1.5 resize-none px-3 !mb-0 focus:outline-none rounded-md"
         @focus="isInputFocused = true"
         @blur="isInputFocused = false"
       />

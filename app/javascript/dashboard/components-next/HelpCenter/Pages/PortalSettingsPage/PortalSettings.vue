@@ -74,7 +74,7 @@ const handleDeletePortal = () => {
       </div>
       <div
         v-else-if="activePortal"
-        class="flex flex-col w-full gap-4 max-w-[640px] pb-8"
+        class="flex flex-col w-full gap-4 max-w-[40rem] pb-8"
       >
         <PortalBaseSettings
           :active-portal="activePortal"

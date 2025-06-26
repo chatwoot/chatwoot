@@ -9,29 +9,7 @@ import { throwErrorMessage } from '../utils/api';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import camelcaseKeys from 'camelcase-keys';
 import { ACCOUNT_EVENTS } from '../../helper/AnalyticsHelper/events';
-
-const buildInboxData = inboxParams => {
-  const formData = new FormData();
-  const { channel = {}, ...inboxProperties } = inboxParams;
-  Object.keys(inboxProperties).forEach(key => {
-    formData.append(key, inboxProperties[key]);
-  });
-  const { selectedFeatureFlags, ...channelParams } = channel;
-  // selectedFeatureFlags needs to be empty when creating a website channel
-  if (selectedFeatureFlags) {
-    if (selectedFeatureFlags.length) {
-      selectedFeatureFlags.forEach(featureFlag => {
-        formData.append(`channel[selected_feature_flags][]`, featureFlag);
-      });
-    } else {
-      formData.append('channel[selected_feature_flags][]', '');
-    }
-  }
-  Object.keys(channelParams).forEach(key => {
-    formData.append(`channel[${key}]`, channel[key]);
-  });
-  return formData;
-};
+import { channelActions, buildInboxData } from './inboxes/channelActions';
 
 export const state = {
   records: [],
@@ -122,6 +100,20 @@ export const getters = {
       item => item.channel_type !== INBOX_TYPES.EMAIL
     );
   },
+  getFacebookInboxByInstagramId: $state => instagramId => {
+    return $state.records.find(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.FB
+    );
+  },
+  getInstagramInboxByInstagramId: $state => instagramId => {
+    return $state.records.find(
+      item =>
+        item.instagram_id === instagramId &&
+        item.channel_type === INBOX_TYPES.INSTAGRAM
+    );
+  },
 };
 
 const sendAnalyticsEvent = channelType => {
@@ -206,6 +198,12 @@ export const actions = {
       throw new Error(error);
     }
   },
+  ...channelActions,
+  // TODO: Extract other create channel methods to separate files to reduce file size
+  // - createChannel
+  // - createWebsiteChannel
+  // - createTwilioChannel
+  // - createFBChannel
   updateInbox: async ({ commit }, { id, formData = true, ...inboxParams }) => {
     commit(types.default.SET_INBOXES_UI_FLAG, { isUpdating: true });
     try {

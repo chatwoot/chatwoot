@@ -1,5 +1,6 @@
 <script setup>
 import Modal from '../../Modal.vue';
+import Button from 'dashboard/components-next/button/Button.vue';
 
 defineProps({
   onClose: { type: Function, default: () => {} },
@@ -22,23 +23,8 @@ const show = defineModel('show', { type: Boolean, default: false });
       :header-content-value="messageValue"
     />
     <div class="flex items-center justify-end gap-2 p-8">
-      <woot-button variant="clear" class="action-button" @click="onClose">
-        {{ rejectText }}
-      </woot-button>
-      <woot-button
-        color-scheme="alert"
-        class="action-button"
-        variant="smooth"
-        @click="onConfirm"
-      >
-        {{ confirmText }}
-      </woot-button>
+      <Button faded slate type="reset" :label="rejectText" @click="onClose" />
+      <Button ruby type="submit" :label="confirmText" @click="onConfirm" />
     </div>
   </Modal>
 </template>
-
-<style lang="scss" scoped>
-.action-button {
-  max-width: var(--space-giga);
-}
-</style>

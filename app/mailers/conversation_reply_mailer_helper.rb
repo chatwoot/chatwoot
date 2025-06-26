@@ -17,9 +17,42 @@ module ConversationReplyMailerHelper
     google_smtp_settings
     set_delivery_method
 
-    Rails.logger.info("Email sent from #{email_from} to #{to_emails} with subject #{mail_subject}")
-
+    # Email type detection logic:
+    # - email_reply: Sets @message with a single message
+    # - Other actions: Set @messages with a collection of messages
+    #
+    # So this check implicitly determines we're handling an email_reply
+    # and not one of the other email types (summary, transcript, etc.)
+    process_attachments_as_files_for_email_reply if @message&.attachments.present?
     mail(@options)
+  end
+
+  def process_attachments_as_files_for_email_reply
+    # Attachment processing for direct email replies (when replying to a single message)
+    #
+    # How attachments are handled:
+    # 1. Total file size (<20MB): Added directly to the email as proper attachments
+    # 2. Total file size (>20MB): Added to @large_attachments to be displayed as links in the email
+
+    @options[:attachments] = []
+    @large_attachments = []
+    current_total_size = 0
+
+    @message.attachments.each do |attachment|
+      raw_data = attachment.file.download
+      attachment_name = attachment.file.filename.to_s
+      file_size = raw_data.bytesize
+
+      # Attach files directly until we hit 20MB total
+      # After reaching 20MB, send remaining files as links
+      if current_total_size + file_size <= 20.megabytes
+        mail.attachments[attachment_name] = raw_data
+        @options[:attachments] << { name: attachment_name }
+        current_total_size += file_size
+      else
+        @large_attachments << attachment
+      end
+    end
   end
 
   private
@@ -52,6 +85,8 @@ module ConversationReplyMailerHelper
       tls: false,
       enable_starttls_auto: true,
       openssl_verify_mode: 'none',
+      open_timeout: 15,
+      read_timeout: 15,
       authentication: 'xoauth2'
     }
   end

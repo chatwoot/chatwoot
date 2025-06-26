@@ -105,6 +105,9 @@
         "AGENT": "选择客服代表",
         "TEAM": "选择团队"
       },
+      "LIST": {
+        "NONE": "无"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "未找到客服代表",
@@ -113,7 +116,7 @@
         "PLACEHOLDER": {
           "AGENT": "搜索客服代表",
           "TEAM": "查找团队",
-          "INPUT": "查找代理"
+          "INPUT": "查找客服代表"
         }
       }
     }

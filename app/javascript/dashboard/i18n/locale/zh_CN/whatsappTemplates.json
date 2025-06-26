@@ -1,25 +1,25 @@
 {
     "WHATSAPP_TEMPLATES": {
         "MODAL": {
-            "TITLE": "Whatsapp Templates",
-            "SUBTITLE": "Select the whatsapp template you want to send",
-            "TEMPLATE_SELECTED_SUBTITLE": "Process {templateName}"
+            "TITLE": "Whatsapp 模板列表",
+            "SUBTITLE": "请选择想要发送的 Whatsapp 消息模板",
+            "TEMPLATE_SELECTED_SUBTITLE": "{templateName} 处理中"
         },
         "PICKER": {
-            "SEARCH_PLACEHOLDER": "Search Templates",
-            "NO_TEMPLATES_FOUND": "No templates found for",
+            "SEARCH_PLACEHOLDER": "查找模板",
+            "NO_TEMPLATES_FOUND": "没有找到对应的模版",
             "LABELS": {
-                "LANGUAGE": "Language",
-                "TEMPLATE_BODY": "Template Body",
+                "LANGUAGE": "语言",
+                "TEMPLATE_BODY": "模板内容",
                 "CATEGORY": "类别"
             }
         },
         "PARSER": {
             "VARIABLES_LABEL": "参数",
-            "VARIABLE_PLACEHOLDER": "Enter {variable} value",
+            "VARIABLE_PLACEHOLDER": "请填写 {variable}",
             "GO_BACK_LABEL": "返回",
             "SEND_MESSAGE_LABEL": "发送消息",
-            "FORM_ERROR_MESSAGE": "Please fill all variables before sending"
+            "FORM_ERROR_MESSAGE": "你必须填写所有参数才能发送"
         }
     }
 }

@@ -119,7 +119,8 @@
       "EMPTY_LIST": "Ništa nije pronađeno"
     },
     "PAGINATION": {
-      "RESULTS": "Showing {start} to {end} of {total} results"
+      "RESULTS": "Showing {start} to {end} of {total} results",
+      "PER_PAGE_TEMPLATE": "{size} / page"
     }
   },
   "AGENT_REPORTS": {
@@ -192,6 +193,7 @@
   },
   "LABEL_REPORTS": {
     "HEADER": "Pregled oznaka",
+    "DESCRIPTION": "Track label performance with key metrics including conversations, response times, resolution times, and resolved cases. Click a label name for detailed insights.",
     "LOADING_CHART": "Učitavanje podataka grafikona...",
     "NO_ENOUGH_DATA": "Nismo primili dovoljno podataka da bi smo generisali izveštaj, Molim vas pokušajte ponovo.",
     "DOWNLOAD_LABEL_REPORTS": "Preuzmi izveštaj o oznakama",
@@ -476,6 +478,18 @@
         "STATUS": "Status"
       }
     },
+    "TEAM_CONVERSATIONS": {
+      "ALL_TEAMS": "All Teams",
+      "HEADER": "Conversations by teams",
+      "LOADING_MESSAGE": "Loading team metrics...",
+      "NO_TEAMS": "There is no data available",
+      "TABLE_HEADER": {
+        "TEAM": "Tim",
+        "OPEN": "Otvoreni",
+        "UNATTENDED": "Nedodeljeni",
+        "STATUS": "Status"
+      }
+    },
     "AGENT_STATUS": {
       "HEADER": "Status agenta",
       "ONLINE": "Dostupan",
@@ -546,6 +560,7 @@
     "INBOX": "Prijemno sanduče",
     "AGENT": "Agent",
     "TEAM": "Tim",
+    "LABEL": "Oznaka",
     "AVG_RESOLUTION_TIME": "Avg. Resolution Time",
     "AVG_FIRST_RESPONSE_TIME": "Avg. First Response Time",
     "AVG_REPLY_TIME": "Avg. Customer Waiting Time",

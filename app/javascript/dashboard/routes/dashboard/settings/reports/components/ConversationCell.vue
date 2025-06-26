@@ -1,4 +1,6 @@
 <script setup>
+import { computed } from 'vue';
+
 const { row } = defineProps({
   row: {
     type: Object,
@@ -6,10 +8,10 @@ const { row } = defineProps({
   },
 });
 
-const routerParams = {
+const routerParams = computed(() => ({
   name: 'inbox_conversation',
   params: { conversation_id: row.original.conversationId },
-};
+}));
 </script>
 
 <template>

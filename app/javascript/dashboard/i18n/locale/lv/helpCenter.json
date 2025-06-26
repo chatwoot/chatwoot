@@ -696,7 +696,8 @@
       "SLUG": {
         "LABEL": "Slug",
         "PLACEHOLDER": "lietotāja rokasgrāmata",
-        "ERROR": "Nepieciešams slug"
+        "ERROR": "Nepieciešams slug",
+        "FORMAT_ERROR": "Please enter a valid slug, for eg: user-guide"
       }
     },
     "PORTAL_SETTINGS": {

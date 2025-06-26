@@ -105,6 +105,9 @@
         "AGENT": "Chọn thành viên",
         "TEAM": "Chọn nhóm"
       },
+      "LIST": {
+        "NONE": "Không có"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Không tìm thấy nhà cung cấp",

@@ -105,6 +105,9 @@
         "AGENT": "Pasirinkti agentą",
         "TEAM": "Pasirinkite komandą"
       },
+      "LIST": {
+        "NONE": "Nėra"
+      },
       "SEARCH": {
         "NO_RESULTS": {
           "AGENT": "Agentų nerasta",

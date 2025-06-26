@@ -8,7 +8,7 @@
       "NO_NOTIFICATIONS": "Nenhuma notificação",
       "NOTE": "Notificações de todas as caixas inscritas",
       "NO_MESSAGES_AVAILABLE": "Ops! Não é possível obter mensagens",
-      "SNOOZED_UNTIL": "Suspender até",
+      "SNOOZED_UNTIL": "Adiar até",
       "SNOOZED_UNTIL_TOMORROW": "Adiado até amanhã",
       "SNOOZED_UNTIL_NEXT_WEEK": "Adiada até a próxima semana"
     },
@@ -41,24 +41,24 @@
     },
     "NO_CONTENT": "Nenhum conteúdo disponível",
     "MENU_ITEM": {
-      "MARK_AS_READ": "Marcar como lido",
+      "MARK_AS_READ": "Marcar como lida",
       "MARK_AS_UNREAD": "Marcar como não lida",
       "SNOOZE": "Adiar",
       "DELETE": "Excluir",
       "MARK_ALL_READ": "Marcar todas como lidas",
-      "DELETE_ALL": "Excluir todos",
+      "DELETE_ALL": "Excluir todas",
       "DELETE_ALL_READ": "Excluir todas as lidas"
     },
     "DISPLAY_MENU": {
       "SORT": "Ordenar",
       "DISPLAY": "Exibir:",
       "SORT_OPTIONS": {
-        "NEWEST": "Mais recente",
-        "OLDEST": "Mais antigo",
+        "NEWEST": "Recentes",
+        "OLDEST": "Antigas",
         "PRIORITY": "Prioridade"
       },
       "DISPLAY_OPTIONS": {
-        "SNOOZED": "Adiado",
+        "SNOOZED": "Adiadas",
         "READ": "Lida",
         "LABELS": "Etiquetas",
         "CONVERSATION_ID": "ID da conversa"

@@ -1,5 +1,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=0" />
-
+<body>
+</body>
 
 <%
   user_id = 1
@@ -61,6 +62,17 @@ window.addEventListener('chatwoot:on-message', function(e) {
   console.log('chatwoot:on-message', e.detail)
 })
 
+window.addEventListener('chatwoot:postback', function(e) {
+  console.log('chatwoot:postback', e.detail)
+})
+
+window.addEventListener('chatwoot:opened', function() {
+  console.log('chatwoot:opened')
+})
+
+window.addEventListener('chatwoot:closed', function() {
+  console.log('chatwoot:closed')
+})
 
 window.addEventListener('chatwoot:on-start-conversation', function(e) {
   console.log('chatwoot:on-start-conversation', e.detail)
