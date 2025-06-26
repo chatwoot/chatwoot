@@ -2,8 +2,7 @@ name: Run Chatwoot CE spec
 on:
   push:
     branches:
-      - develop
-      - master
+      # - development
       - main
   # pull_request:
   workflow_dispatch:

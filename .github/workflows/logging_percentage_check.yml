@@ -3,11 +3,11 @@ name: Log Lines Percentage Check
 on:
   push:
     branches:
-      - develop
+      - development
       - main
   # pull_request:
   #   branches:
-  #     - develop
+  #     - development
   workflow_dispatch:
 
 # If two pushes happen within a short time in the same PR, cancel the run of the oldest push
