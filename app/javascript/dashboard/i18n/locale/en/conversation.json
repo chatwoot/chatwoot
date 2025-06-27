@@ -327,16 +327,17 @@
       "EDIT": {
         "BUTTON_TEXT": "Edit"
       },
-
       "REFUND": {
+        "TITLE": "Refund order",
+        "DESC": "You can directly refund the shopify order of a customer from here",
         "BUTTON_TEXT": "Refund",
         "TABLE": {
           "PRODUCT": "Product",
           "ITEM_PRICE": "Item Price",
           "QUANTITY": "Quantity",
-          "TOTAL": "Total"
+          "TOTAL": "Total",
+          "RESTOCK_ITEMS": "Restock"
         },
-        "RESTOCK_ITEMS": "Restock items",
         "REFUND_AMOUNT": "Refund amount",
         "REFUND_ORDER": "Refund order",
         "SEND_NOTIFICATION": "Send notifications",
@@ -355,7 +356,6 @@
         "API_SUCCESS": "Refund created for the order",
         "API_TIMEOUT": "Api timeout, cancellation is taking a while"
       },
-
       "CANCEL": {
         "TABLE": {
           "PRODUCT": "Product",

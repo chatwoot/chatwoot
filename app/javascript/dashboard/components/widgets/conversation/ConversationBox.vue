@@ -220,7 +220,7 @@ export default {
         @close="closeCall"
       />
       <ShopifyOrderCancellation></ShopifyOrderCancellation>
-      <ShopifyOrderRefund :order="order"></ShopifyOrderRefund>
+      <ShopifyOrderRefund v-if="refundOrder" :order="refundOrder"></ShopifyOrderRefund>
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

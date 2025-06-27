@@ -1,25 +1,17 @@
 <script setup>
-import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, reactive, ref, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import currency_codes from 'shared/constants/currency_codes';
 import SimpleDivider from 'v3/components/Divider/SimpleDivider.vue';
-import { useStore } from 'vuex';
 import useVuelidate from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
 import QuantityField from './QuantityField.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import OrdersAPI from 'dashboard/api/orders';
-import CurrencyInput from './CurrencyInput.vue';
-import { id } from 'date-fns/locale';
-import labels from '../../../api/labels';
 import { isAxiosError } from 'axios';
 import { useAlert } from 'dashboard/composables';
-
-const show = ref(false);
-
-const store = useStore();
 
 const props = defineProps({
   order: {
@@ -36,29 +28,25 @@ const reasons = [
   'Duplicate or accidental order',
 ];
 
+// const item_restock_options = ['no_restock', 'cancel', 'return'];
+
 const onClose = () => {
   emitter.emit(BUS_EVENTS.REFUND_ORDER, null);
 };
 
-const currentOrder = ref(null);
-
 const totalLineItemsQuantity = computed(() => {
   return Object.fromEntries(
-    currentOrder.value?.line_items.map(e => [e.id, e.quantity]) ?? []
+    props.order?.line_items.map(e => [e.id, e.quantity]) ?? []
   );
 });
 
 const refundedLineItemsQuantity = computed(() => {
-  if (
-    !currentOrder.value?.refunds.length ||
-    currentOrder.value?.refunds.length === 0
-  ) {
+  if (!props.order?.refunds.length || props.order?.refunds.length === 0) {
     return {};
   }
 
   const allRefundLineItems =
-    currentOrder.value?.refunds.flatMap(refund => refund.refund_line_items) ??
-    {};
+    props.order?.refunds.flatMap(refund => refund.refund_line_items) ?? {};
 
   const mergedLineItems = {};
 
@@ -143,7 +131,7 @@ const rules = computed(() => {
   const quantityRules = {};
 
   console.log('All limits: ', refundableLineItemsQuantity.value);
-  currentOrder.value?.line_items.forEach(item => {
+  props.order?.line_items.forEach(item => {
     const max = refundableLineItemsQuantity.value[item.id];
     console.log('Validate against: ', max, ' and id: ', item.id);
     quantityRules[item.id] = {
@@ -169,33 +157,11 @@ const item_total_price = item => {
   );
 };
 
-watch(
-  currentOrder,
-  val => {
-    if (val) {
-      calculateRefund();
-      refundQuantityStates.value = Object.fromEntries(
-        val.line_items.map(e => [e.id, 0])
-      );
-    }
-  },
-  { immediate: true }
-);
-
-const setRefundOrder = order => {
-  show.value = order !== null && order !== undefined;
-  currentOrder.value = order;
-};
-
 onMounted(() => {
-  emitter.on(BUS_EVENTS.REFUND_ORDER, setRefundOrder);
-  currentOrder.value = props.order;
-});
-
-onUnmounted(() => {
-  emitter.off(BUS_EVENTS.REFUND_ORDER, setRefundOrder);
-  cancellationState.value = null;
-  refundQuantityStates.value = null;
+  calculateRefund();
+  refundQuantityStates.value = Object.fromEntries(
+    props.order.line_items.map(e => [e.id, 0])
+  );
 });
 
 const debouncedRefund = debounce(value => {
@@ -241,8 +207,8 @@ const currentRefund = ref(null);
 
 const calculateRefund = async () => {
   const payload = {
-    orderId: currentOrder.value.id,
-    currency: currentOrder.currency,
+    orderId: props.order.id,
+    currency: props.order.currency,
     refundLineItems: Object.entries(refundQuantityStates.value)
       .filter(([, qty]) => qty > 0)
       .map(([e, qty]) => ({
@@ -315,7 +281,7 @@ const refundOrder = async $t => {
     cancellationState.value = 'processing';
 
     const response = await OrdersAPI.refundOrder({
-      orderId: currentOrder.value.id,
+      orderId: props.order.id,
       transactions: [
         {
           ...currentRefund.value.transactions[0],
@@ -351,211 +317,207 @@ const refundOrder = async $t => {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onClose">
+  <woot-modal :show="true" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DESC')"
     />
     <form>
-      <div v-if="currentOrder" class="p-2">
-        <table class="woot-table items-table overflow-auto max-h-2">
-          <thead>
-            <tr>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in [...currentOrder.line_items]" :key="item.id">
-              <td>
-                <div>{{ item.name }}</div>
-              </td>
-              <td>
-                <div>
-                  {{
-                    currency_codes[
-                      item.price_set.presentment_money.currency_code
-                    ]
-                  }}
-                  {{ item.price_set.shop_money.amount }}
-                </div>
-              </td>
-              <td class="text-center align-middle">
-                <!-- <div>{{ item.quantity }}</div> -->
-                <div class="inline-block">
-                  <QuantityField
-                    v-model="formState.quantity[item.id]"
-                    :min="0"
-                    :max="refundableLineItemsQuantity[item.id]"
-                    @input_val="debouncedRefund"
-                  ></QuantityField>
-                </div>
-              </td>
-              <td>
-                <div>
-                  {{ currency_codes[item.price_set.shop_money.currency_code] }}
-                  {{ item_total_price(item) }}
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <SimpleDivider></SimpleDivider>
-        <div class="h-4"></div>
+      <table class="woot-table items-table overflow-auto max-h-2">
+        <thead>
+          <tr>
+            <th>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
+            </th>
+            <th>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE') }}
+            </th>
+            <th>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
+            </th>
+            <th>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
+            </th>
 
+
+            <!-- <th>
+              <div class="flex flex-row w-full justify-end gap-2">
+                {{
+                  $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.RESTOCK_ITEMS')
+                }}
+
+                <input
+                  class="justify-end"
+                  type="checkbox"
+                  :checked="formState.restockItem"
+                  @change="formState.restockItem = !formState.restockItem"
+                />
+              </div>
+            </th> -->
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="item in [...order.line_items]" :key="item.id">
+            <td>
+              <div>{{ item.name }}</div>
+            </td>
+            <td>
+              <div>
+                {{
+                  currency_codes[item.price_set.presentment_money.currency_code]
+                }}
+                {{ item.price_set.shop_money.amount }}
+              </div>
+            </td>
+            <td class="text-center align-middle">
+              <!-- <div>{{ item.quantity }}</div> -->
+              <div class="inline-block">
+                <QuantityField
+                  v-model="formState.quantity[item.id]"
+                  :min="0"
+                  :max="refundableLineItemsQuantity[item.id]"
+                  @input_val="debouncedRefund"
+                ></QuantityField>
+              </div>
+            </td>
+            <td>
+              <div>
+                {{ currency_codes[item.price_set.shop_money.currency_code] }}
+                {{ item_total_price(item) }}
+              </div>
+            </td>
+            <!-- <td>
+              <div class="flex flex-row w-full justify-end">
+                <input
+                  type="checkbox"
+                  :checked="formState.restockItem"
+                  @change="formState.restockItem = !formState.restockItem"
+                />
+              </div>
+            </td> -->
+          </tr>
+        </tbody>
+      </table>
+      <SimpleDivider></SimpleDivider>
+      <div class="h-4"></div>
+
+      <div class="flex flex-row pr-11 items-start justify-start content-start">
         <div
-          class="flex flex-row pr-11 items-start justify-start content-start"
+          class="flex flex-col items-start justify-start content-start gap-2"
         >
           <div
-            class="flex flex-col items-start justify-start content-start gap-2"
+            class="select-visible-checkbox gap-2"
+            :style="selectVisibleCheckboxStyle"
           >
-            <div
-              class="select-visible-checkbox gap-2"
-              :style="selectVisibleCheckboxStyle"
-            >
-              <input
-                type="checkbox"
-                :checked="formState.restockItem"
-                @change="formState.restockItem = !formState.restockItem"
-              />
-              <span>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.RESTOCK_ITEMS') }}
-              </span>
-            </div>
-            <div
-              class="select-visible-checkbox gap-2"
-              :style="selectVisibleCheckboxStyle"
-            >
-              <input
-                type="checkbox"
-                :checked="formState.sendNotification"
-                @change="
-                  formState.sendNotification = !formState.sendNotification
-                "
-              />
-
-              <span>
-                {{
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION')
-                }}
-              </span>
-            </div>
-          </div>
-
-          <div class="flex-1 flex-row"></div>
-
-          <div class="flex flex-col">
-            <div class="flex flex-row justify-between items-center gap-10">
-              <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SUBTOTAL') }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ /* currentOrder.subtotal_price*/ currentSubtotal }}</span
-              >
-            </div>
-
-            <div class="flex flex-row justify-between gap-10">
-              <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DISCOUNT') }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{
-                  /* currentOrder.total_discount */ currentDiscountApplied
-                }}</span
-              >
-            </div>
-
-            <div class="flex flex-row justify-between gap-10">
-              <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TAX') }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ /* currentOrder.total_tax */ currentTax }}</span
-              >
-            </div>
-
-            <div class="flex flex-row justify-between gap-10">
-              <label>
-                {{
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.AMOUNT_REFUNDABLE')
-                }}
-              </label>
-              <span class="text-sm"
-                >{{ currency_codes[currentOrder.currency] }}
-                {{ /* refundableAmount */ availableRefund }}</span
-              >
-            </div>
-          </div>
-        </div>
-
-        <div class="flex flex-row justify-start items-start gap-4 mt-4">
-          <div class="flex flex-col gap-2">
-            <div class="flex flex-row gap-2">
-              <h5>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_AMOUNT') }}
-              </h5>
-              <span v-if="formState.refundAmount !== availableRefund"
-                >(manual)</span
-              >
-            </div>
-
-            <!-- <CurrencyInput v-model="formState.refundAmount" :currency-symbol="currency_codes[currentOrder.currency]" /> -->
-
             <input
-              type="text"
-              :value="
-                currency_codes[currentOrder.currency] + formState.refundAmount
-              "
-              inputmode="decimal"
-              placeholder="0.00"
-              @input="onInput"
-              @blur="onBlur"
-              style="width: 200px; font-size: 1.1em"
-              autocomplete="off"
+              type="checkbox"
+              :checked="formState.sendNotification"
+              @change="formState.sendNotification = !formState.sendNotification"
             />
+
+            <span>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION') }}
+            </span>
           </div>
+        </div>
 
-          <div class="flex flex-col gap-1">
-            <h5>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_REASON') }}
-              <!-- {{ add marker for manual }}  -->
-            </h5>
+        <div class="flex-1 flex-row"></div>
 
-            <select
-              v-model="formState.refundNote"
-              class="w-full p-2 mt-1 border-0 selectInbox"
-              :class="{ 'border-red-500': v$.refundNote.$error }"
+        <div class="flex flex-col">
+          <div class="flex flex-row justify-between items-center gap-10">
+            <label>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SUBTOTAL') }}
+            </label>
+            <span class="text-sm"
+              >{{ currency_codes[order.currency] }}
+              {{ /* order.subtotal_price*/ currentSubtotal }}</span
             >
-              <option v-for="reason in reasons" :value="reason">
-                {{ reason }}
-              </option>
-            </select>
+          </div>
+
+          <div class="flex flex-row justify-between gap-10">
+            <label>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DISCOUNT') }}
+            </label>
+            <span class="text-sm"
+              >{{ currency_codes[order.currency] }}
+              {{ /* order.total_discount */ currentDiscountApplied }}</span
+            >
+          </div>
+
+          <div class="flex flex-row justify-between gap-10">
+            <label>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TAX') }}
+            </label>
+            <span class="text-sm"
+              >{{ currency_codes[order.currency] }}
+              {{ /* order.total_tax */ currentTax }}</span
+            >
+          </div>
+
+          <div class="flex flex-row justify-between gap-10">
+            <label>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.AMOUNT_REFUNDABLE') }}
+            </label>
+            <span class="text-sm"
+              >{{ currency_codes[order.currency] }}
+              {{ /* refundableAmount */ availableRefund }}</span
+            >
           </div>
         </div>
+      </div>
 
-        <div class="flex flex-row justify-end mt-4">
-          <Button
-            type="button"
-            :disabled="v$.$error || currentRefund === null"
-            variant="primary"
-            @click="() => refundOrder($t)"
-          >
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_ORDER') }}
-          </Button>
+      <div class="flex flex-row justify-start items-start gap-4 mt-4">
+        <div class="flex flex-col gap-2">
+          <div class="flex flex-row gap-2">
+            <h5>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_AMOUNT') }}
+            </h5>
+            <span v-if="formState.refundAmount !== availableRefund"
+              >(manual)</span
+            >
+          </div>
+
+          <!-- <CurrencyInput v-model="formState.refundAmount" :currency-symbol="currency_codes[order.currency]" /> -->
+
+          <input
+            type="text"
+            :value="currency_codes[order.currency] + formState.refundAmount"
+            inputmode="decimal"
+            placeholder="0.00"
+            @input="onInput"
+            @blur="onBlur"
+            style="width: 200px; font-size: 1.1em"
+            autocomplete="off"
+          />
         </div>
+
+        <div class="flex flex-col gap-1">
+          <h5>
+            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_REASON') }}
+            <!-- {{ add marker for manual }}  -->
+          </h5>
+
+          <select
+            v-model="formState.refundNote"
+            class="w-full p-2 mt-1 border-0 selectInbox"
+            :class="{ 'border-red-500': v$.refundNote.$error }"
+          >
+            <option v-for="reason in reasons" :value="reason">
+              {{ reason }}
+            </option>
+          </select>
+        </div>
+      </div>
+
+      <div class="flex flex-row justify-end mt-4">
+        <Button
+          type="button"
+          :disabled="v$.$error || currentRefund === null"
+          variant="primary"
+          @click="() => refundOrder($t)"
+        >
+          {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_ORDER') }}
+        </Button>
       </div>
     </form>
   </woot-modal>
