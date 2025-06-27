@@ -204,7 +204,7 @@ const currentDiscountApplied = computed(() => {
       (acc, curr) =>
         acc +
         Number(curr.price) -
-        Number(curr.discounted_price) * curr.quantity,
+        Number(curr.discounted_price),
       0
     ) ?? 0
   );
@@ -352,10 +352,10 @@ const buttonText = () => {
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DESC')"
     />
     <form>
-      <table class="woot-table items-table overflow-auto max-h-2">
+      <table class="woot-table items-table overflow-auto max-h-2 table-fixed">
         <thead>
           <tr>
-            <th>
+            <th class="overflow-auto max-w-xs">
               {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
             </th>
             <th>
@@ -387,7 +387,7 @@ const buttonText = () => {
         <tbody>
           <tr v-for="item in [...order.line_items]" :key="item.id">
             <td>
-              <div>{{ item.name }}</div>
+              <div class="overflow-auto max-w-xs">{{ item.name }}</div>
             </td>
             <td>
               <div>
@@ -429,7 +429,7 @@ const buttonText = () => {
       <SimpleDivider></SimpleDivider>
       <div class="h-4"></div>
 
-      <div class="flex flex-row pr-11 items-start justify-start content-start">
+      <div class="flex flex-row pr-16 items-start justify-start content-start">
         <div
           class="flex flex-col items-start justify-start content-start gap-2"
         >

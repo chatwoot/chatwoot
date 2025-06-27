@@ -137,7 +137,7 @@ const buttonText = () => {
     />
     <form>
       <div v-if="order" class="">
-        <table class="woot-table items-table overflow-auto max-h-2">
+        <table class="woot-table items-table overflow-auto max-h-2 table-fixed">
           <thead>
             <tr>
               <th>
