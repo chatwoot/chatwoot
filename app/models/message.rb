@@ -403,13 +403,15 @@ class Message < ApplicationRecord
   end
 
   def is_outgoing?
-    (outgoing? && !private?) || template?
+    (outgoing? && !private?)
   end
 
   def schedule_follow_up_job
     return if content_attributes['follow_up']
 
     conversation.cancel_existing_follow_up_job
+
+    return if conversation.stop_follow_up
 
     jid = Conversations::FollowUpJob.set(wait: 24.hours).perform_later(conversation.id, 1)
     conversation.update!(follow_up_jid: jid.provider_job_id)
