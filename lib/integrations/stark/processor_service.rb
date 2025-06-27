@@ -28,6 +28,7 @@ class Integrations::Stark::ProcessorService < Integrations::BotProcessorService
     response = get_stark_response(current_conversation, event_data[:message].content)
     return if response.nil? # Response is nil if there was an error (already handled by StarkRetryable)
 
+    current_conversation.update_column(:stop_follow_up, response['stop_follow_up'])
     handle_response(response)
   end
 
