@@ -84,6 +84,7 @@ const removeCustomDomain = () => {
         </div>
         <div class="flex items-center justify-end w-full">
           <Button
+            v-if="customDomainAddress"
             color="slate"
             class="mx-2"
             :label="
