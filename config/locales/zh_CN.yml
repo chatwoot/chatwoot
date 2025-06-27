@@ -243,6 +243,10 @@ zh_CN:
       name: 'Linear'
       short_description: '直接在会话中创建并关联 Linear 问题。'
       description: '直接从对话窗口在 Linear 中创建问题。或者，链接现有的 Linear 问题以简化问题跟踪过程。'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: '从您的 Shopify 商店访问订单详情和客户数据。'
