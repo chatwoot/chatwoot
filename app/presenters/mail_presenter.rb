@@ -158,7 +158,7 @@ class MailPresenter < SimpleDelegator
   private
 
   def auto_submitted?
-    @mail['Auto-Submitted'].present? && @mail['Auto-Submitted'].value != 'no'
+    @mail['Auto-Submitted'].present? && @mail['Auto-Submitted'].value != 'no' && @mail['Auto-Submitted'].value != 'auto-generated'
   end
 
   def x_auto_reply?
