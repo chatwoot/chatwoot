@@ -29,9 +29,13 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
     context 'when valid attachment message params' do
       it 'creates appropriate conversations, message and contacts' do
-        stub_media_request
+        stub_media_url_request
+        stub_sample_png_request
         described_class.new(inbox: whatsapp_channel.inbox, params: params).perform
-        expect_conversation_and_message
+        expect_conversation_created
+        expect_contact_name
+        expect_message_content
+        expect_message_has_attachment
       end
 
       it 'increments reauthorization count if fetching attachment fails' do
@@ -105,7 +109,7 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
   # Métodos auxiliares para reduzir o tamanho do exemplo
 
-  def stub_media_request
+  def stub_media_url_request
     stub_request(
       :get,
       whatsapp_channel.media_url(
@@ -124,16 +128,28 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       }.to_json,
       headers: { 'content-type' => 'application/json' }
     )
+  end
+
+  def stub_sample_png_request
     stub_request(:get, 'https://chatwoot-assets.local/sample.png').to_return(
       status: 200,
       body: File.read('spec/assets/sample.png')
     )
   end
 
-  def expect_conversation_and_message
+  def expect_conversation_created
     expect(whatsapp_channel.inbox.conversations.count).not_to eq(0)
+  end
+
+  def expect_contact_name
     expect(Contact.all.first.name).to eq('Sojan Jose')
+  end
+
+  def expect_message_content
     expect(whatsapp_channel.inbox.messages.first.content).to eq('Check out my product!')
+  end
+
+  def expect_message_has_attachment
     expect(whatsapp_channel.inbox.messages.first.attachments.present?).to be true
   end
 end
