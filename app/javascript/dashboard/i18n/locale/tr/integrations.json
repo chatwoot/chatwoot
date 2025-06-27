@@ -331,6 +331,14 @@
         "DESCRIPTION": "Linear çalışma alanı bağlı değil. Bu entegrasyonu kullanmak için çalışma alanınızı bağlamak üzere aşağıdaki düğmeye tıklayın.",
         "BUTTON_TEXT": "Linear çalışma alanını bağlayın"
       }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "CONFIRM": "Evet, sil",
+        "CANCEL": "İptal Et"
+      }
     }
   },
   "CAPTAIN": {
