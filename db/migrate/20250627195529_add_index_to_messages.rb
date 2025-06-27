@@ -1,4 +1,6 @@
 class AddIndexToMessages < ActiveRecord::Migration[7.0]
+  disable_ddl_transaction!
+
   def change
     # This index is added as a temporary fix for performance issues in the CSAT
     # responses controller where we query messages with account_id, content_type
