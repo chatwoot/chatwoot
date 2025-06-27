@@ -63,6 +63,7 @@ class Message < ApplicationRecord
   before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
+  before_save :clear_timeout_error_on_source_id_update
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -449,8 +450,18 @@ class Message < ApplicationRecord
 
   def set_conversation_activity
     # rubocop:disable Rails/SkipsModelValidations
-    conversation.update_columns(last_activity_at: created_at)
+    conversation.update_columns(last_activity_at: DateTime.now)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def clear_timeout_error_on_source_id_update
+    # Clear external_error if source_id is being updated and the error is "Timed out reading data from server"
+    if source_id_changed? && external_error == 'Timed out reading data from server'
+      # Remove the external_error key entirely from content_attributes
+      self.content_attributes = content_attributes.except('external_error')
+      # Change status from failed (3) to sent (0)
+      self.status = :sent
+    end
   end
 end
 
