@@ -267,6 +267,14 @@ RSpec.describe Message do
       message = create(:message)
       expect(message.webhook_data.key?(:attachments)).to be false
     end
+
+    it 'uses outgoing_content for webhook content' do
+      message = create(:message, content: 'Test content')
+      expect(message).to receive(:outgoing_content).and_return('Outgoing test content')
+
+      webhook_data = message.webhook_data
+      expect(webhook_data[:content]).to eq('Outgoing test content')
+    end
   end
 
   context 'when message is created' do
