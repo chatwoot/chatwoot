@@ -72,7 +72,7 @@ class Api::V1::Widget::MessagesController < Api::V1::Widget::BaseController
   private
 
   def send_private_note_message(data)
-    conversation.messages.create!(outgoing_message_params('Thank you for your submission!', conversation, false))
+    conversation.messages.create!(outgoing_message_params('Thank you for sharing your details!', conversation, false))
     message_parts = ['Pre Chat Form Details:']
 
     message_parts << "Phone number: #{data['phoneNumber']}" if data['phoneNumber'].present?

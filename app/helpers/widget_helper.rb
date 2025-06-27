@@ -31,7 +31,7 @@ module WidgetHelper
 
   def fetch_whatsapp_widget_url(shop_url, default_text, phone_number)
     # Build base URL
-    url = "https://seagull-suited-nearly.ngrok-free.app/api/v1/liveChat/getWhatsappUrlForWidget?shopUrl=#{shop_url}&defaultText=#{default_text}"
+    url = "https://rest-apis-767152501284.us-east4.run.app/api/v1/liveChat/getWhatsappUrlForWidget?shopUrl=#{shop_url}&defaultText=#{default_text}"
 
     # Add phone number only if it's present and not empty
     url += "&phoneNumber=#{phone_number.delete('+')}" if phone_number.present?

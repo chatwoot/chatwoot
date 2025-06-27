@@ -444,9 +444,9 @@
     <div v-if="selectedTabKey === 'configuration'">
       <configuration-page :inbox="inbox" />
     </div>
-    <div v-if="selectedTabKey === 'preChatForm'">
+    <!-- <div v-if="selectedTabKey === 'preChatForm'">
       <pre-chat-form-settings :inbox="inbox" />
-    </div>
+    </div> -->
     <div v-if="selectedTabKey === 'businesshours'">
       <weekly-availability :inbox="inbox" />
     </div>
@@ -468,7 +468,7 @@ import SettingIntroBanner from 'dashboard/components/widgets/SettingIntroBanner.
 import SettingsSection from '../../../../components/SettingsSection.vue';
 import inboxMixin from 'shared/mixins/inboxMixin';
 import FacebookReauthorize from './facebook/Reauthorize.vue';
-import PreChatFormSettings from './PreChatForm/Settings.vue';
+// import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
 import ConfigurationPage from './settingsPage/ConfigurationPage.vue';
@@ -486,7 +486,7 @@ export default {
     ConfigurationPage,
     FacebookReauthorize,
     GreetingsEditor,
-    PreChatFormSettings,
+    // PreChatFormSettings,
     SettingIntroBanner,
     SettingsSection,
     WeeklyAvailability,
@@ -565,10 +565,10 @@ export default {
       if (this.isAWebWidgetInbox) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
-          {
-            key: 'preChatForm',
-            name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
-          },
+          // {
+          //   key: 'preChatForm',
+          //   name: this.$t('INBOX_MGMT.TABS.PRE_CHAT_FORM'),
+          // },
           {
             key: 'widgetBuilder',
             name: this.$t('INBOX_MGMT.TABS.WIDGET_BUILDER'),
