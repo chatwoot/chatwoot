@@ -67,7 +67,6 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
 
   def fetch_hook
     @hook = Integrations::Hook.find_by!(account: Current.account, app_id: 'shopify')
-    Rails.logger.info("Hook was fetched #{@hook}")
   end
 
   def fetch_orders(customer_id)

@@ -18,4 +18,5 @@ export const BUS_EVENTS = {
   INSERT_INTO_NORMAL_EDITOR: 'insertIntoNormalEditor',
   START_CALL: 'startCall',
   CANCEL_ORDER: 'cancelOrder',
+  REFUND_ORDER: 'refundOrder',
 };

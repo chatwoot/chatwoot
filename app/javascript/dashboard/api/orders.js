@@ -20,6 +20,34 @@ class OrdersAPI extends ApiClient {
       notify_customer,
     });
   }
+
+  refundOrder({
+    orderId,
+    transactions,
+    note,
+    notify,
+    currency,
+    shipping,
+    refundLineItems: refund_line_items,
+  }) {
+    return axios.post(`${this.url}/${orderId}/refund_order`, {
+      transactions,
+      note,
+      notify,
+      currency,
+      shipping,
+      refund_line_items,
+    });
+  }
+
+  // permitted = params.permit()
+
+  calculateRefund({ orderId, currency, refundLineItems: refund_line_items }) {
+    return axios.post(`${this.url}/${orderId}/calculate_refund`, {
+      currency,
+      refund_line_items,
+    });
+  }
 }
 
 export default new OrdersAPI();

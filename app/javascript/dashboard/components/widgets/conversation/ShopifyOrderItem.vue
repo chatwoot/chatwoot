@@ -6,12 +6,12 @@ import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
 const cancel_reasons = {
-  customer: 'The customer wanted to cancel the order.',
-  declined: 'Payment was declined.',
-  fraud: 'The order was fraudulent.',
-  inventory: 'There was insufficient inventory.',
-  other: 'The order was canceled for an unlisted reason.',
-  staff: 'Staff made an error.',
+  CUSTOMER: 'The customer wanted to cancel the order.',
+  DECLINED: 'Payment was declined.',
+  FRAUD: 'The order was fraudulent.',
+  INVENTORY: 'There was insufficient inventory.',
+  OTHER: 'The order was canceled for an unlisted reason.',
+  STAFF: 'Staff made an error.',
 };
 
 const getCancelReasonString = reason => {
@@ -41,6 +41,10 @@ const props = defineProps({
 
 const emitCancelOrder = () => {
   emitter.emit(BUS_EVENTS.CANCEL_ORDER, props.order);
+};
+
+const emitRefundOrder = () => {
+  emitter.emit(BUS_EVENTS.REFUND_ORDER, props.order);
 };
 
 const { t } = useI18n();
@@ -141,6 +145,9 @@ const getFulfillmentClass = status => {
       </button>
       <button v-if="!order.cancelled_at" @click="emitCancelOrder">
         {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.BUTTON_TEXT') }}
+      </button>
+      <button v-if="!isOrderInFinancialStatus(financial_statuses.refunded)" @click="emitRefundOrder">
+        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.BUTTON_TEXT') }}
       </button>
     </div>
 

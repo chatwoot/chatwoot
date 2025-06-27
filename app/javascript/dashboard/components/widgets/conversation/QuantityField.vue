@@ -2,6 +2,7 @@
   <!-- <div class="w-16 mx-auto text-center"> -->
   <div class="flex flex-col justify-center items-center h-full">
     <input
+      :disabled="max === 0"
       :value="modelValue"
       @input="updateValue"
       type="number"
@@ -15,7 +16,8 @@
 </template>
 
 <script setup>
-import { computed } from 'vue';
+import { computed, onMounted } from 'vue';
+
 
 const props = defineProps({
   modelValue: {
@@ -32,7 +34,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue']);
+const emit = defineEmits(['update:modelValue', 'input_val']);
 
 const decrement = () => {
   if (props.modelValue > props.min) {
@@ -46,9 +48,14 @@ const increment = () => {
   }
 };
 
+onMounted(() => {
+  console.log("MY MAX: ", props.max)
+})
+
 const updateValue = event => {
   const value = parseInt(event.target.value) || props.min;
   const clampedValue = Math.max(props.min, Math.min(props.max, value));
   emit('update:modelValue', clampedValue);
+  emit('input_val')
 };
 </script>

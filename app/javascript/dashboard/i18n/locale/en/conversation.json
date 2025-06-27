@@ -324,12 +324,38 @@
         "UNFULFILLED": "Unfulfilled",
         "PARTIAL": "Partial"
       },
-      "REFUND": {
-        "BUTTON_TEXT": "Refund"
-      },
       "EDIT": {
         "BUTTON_TEXT": "Edit"
       },
+
+      "REFUND": {
+        "BUTTON_TEXT": "Refund",
+        "TABLE": {
+          "PRODUCT": "Product",
+          "ITEM_PRICE": "Item Price",
+          "QUANTITY": "Quantity",
+          "TOTAL": "Total"
+        },
+        "RESTOCK_ITEMS": "Restock items",
+        "REFUND_AMOUNT": "Refund amount",
+        "REFUND_ORDER": "Refund order",
+        "SEND_NOTIFICATION": "Send notifications",
+        "REASON_FOR_CANCELLING": "Reason for cancelling",
+        "MANUAL": "Manual",
+        "SUBTOTAL": "Subtotal",
+        "DISCOUNT": "Discount",
+        "DISCOUNTS": "Discounts",
+        "TAX": "Tax",
+        "AMOUNT_REFUNDABLE": "Refundable amount",
+        "TOTAL_AVAILABLE_REFUND": "Available refund",
+        "CANCEL_ORDER": "Cancel Order",
+        "PROCESSING": "Processing",
+        "REFUND_REASON": "Refund Reason",
+        "API_FAILURE": "An internal error occured",
+        "API_SUCCESS": "Refund created for the order",
+        "API_TIMEOUT": "Api timeout, cancellation is taking a while"
+      },
+
       "CANCEL": {
         "TABLE": {
           "PRODUCT": "Product",
@@ -347,24 +373,17 @@
         "SKU": "SKU",
         "ALREADY_RETURNED": "Already returned",
         "RESTOCK_ITEMS": "Restock items",
-        "RESTOCK_DESC": "Restock descriptions",
-        "SEND_NOTIFICATION": "Send notifications",
         "REFUND_AMOUNT": "Refund amount",
         "REFUND_ORDER": "Refund order",
-        "MANUAL": "Manual",
+        "SEND_NOTIFICATION": "Send notifications",
         "REASON_FOR_CANCELLING": "Reason for cancelling",
-        "CUSTOMER_CHANGED": "Customer changed",
-        "OUT_OF_STOCK": "Out of stock",
-        "PRICING_ERROR": "Pricing error",
-        "REASON": "Reason",
-        "OTHER": "other",
+        "MANUAL": "Manual",
         "SUBTOTAL": "Subtotal",
         "DISCOUNT": "Discount",
         "DISCOUNTS": "Discounts",
         "TAX": "Tax",
         "AMOUNT_REFUNDABLE": "Refundable amount",
         "TOTAL_AVAILABLE_REFUND": "Available refund",
-        "KEEP_ORDER": "Keep Order",
         "CANCEL_ORDER": "Cancel Order",
         "PROCESSING": "Processing",
         "API_FAILURE": "An internal error occured",

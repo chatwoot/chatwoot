@@ -1,5 +1,6 @@
 <script setup>
-import { computed, onMounted, onUnmounted, reactive, ref } from 'vue';
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
+import { debounce } from '@chatwoot/utils';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import currency_codes from 'shared/constants/currency_codes';
@@ -9,10 +10,23 @@ import useVuelidate from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
 import QuantityField from './QuantityField.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import OrdersAPI from 'dashboard/api/orders';
+import CurrencyInput from './CurrencyInput.vue';
+import { id } from 'date-fns/locale';
+import labels from '../../../api/labels';
+import { isAxiosError } from 'axios';
+import { useAlert } from 'dashboard/composables';
 
 const show = ref(false);
 
 const store = useStore();
+
+const props = defineProps({
+  order: {
+    type: Object,
+    required: true,
+  },
+});
 
 const reasons = [
   'Wrong item received',
@@ -23,51 +37,130 @@ const reasons = [
 ];
 
 const onClose = () => {
-  emitter.emit(BUS_EVENTS.CANCEL_ORDER, null);
+  emitter.emit(BUS_EVENTS.REFUND_ORDER, null);
 };
 
 const currentOrder = ref(null);
 
-const quantityStates = computed(() =>
-  Object.fromEntries(
+const totalLineItemsQuantity = computed(() => {
+  return Object.fromEntries(
     currentOrder.value?.line_items.map(e => [e.id, e.quantity]) ?? []
-  )
+  );
+});
+
+const refundedLineItemsQuantity = computed(() => {
+  if (
+    !currentOrder.value?.refunds.length ||
+    currentOrder.value?.refunds.length === 0
+  ) {
+    return {};
+  }
+
+  const allRefundLineItems =
+    currentOrder.value?.refunds.flatMap(refund => refund.refund_line_items) ??
+    {};
+
+  const mergedLineItems = {};
+
+  allRefundLineItems.forEach(item => {
+    const lineItemId = item.line_item.id;
+    if (!mergedLineItems[lineItemId]) {
+      mergedLineItems[lineItemId] = {
+        ...item.line_item,
+        quantity: item.quantity,
+      };
+    } else {
+      mergedLineItems[lineItemId].quantity += item.quantity;
+    }
+  });
+
+  const entries = Object.entries(mergedLineItems).map(([id, e]) => [
+    id,
+    e.quantity,
+  ]);
+
+  return Object.fromEntries(entries);
+});
+
+const refundableLineItemsQuantity = computed(() => {
+  console.log('Total: ', totalLineItemsQuantity.value);
+  console.log('Refunded: ', refundedLineItemsQuantity.value);
+
+  let entries = Object.entries(totalLineItemsQuantity.value).map(
+    ([id, quant]) => {
+      if (refundedLineItemsQuantity.value[id]) {
+        return [id, quant - refundedLineItemsQuantity.value[id] ?? 0];
+      } else {
+        return [id, quant];
+      }
+    }
+  );
+
+  console.log('Mapped: ', entries);
+  // entries = entries.filter(([, qty]) => qty > 0);
+  // console.log('Filtered: ', entries);
+
+  return Object.fromEntries(entries);
+});
+
+const refundQuantityStates = ref();
+
+watch(
+  refundableLineItemsQuantity,
+  newLimits => {
+    console.log('NEW LIMITS: ', newLimits);
+    refundQuantityStates.value = Object.fromEntries(
+      Object.keys(newLimits).map(id => [id, 0])
+    );
+  },
+  { immediate: true }
 );
 
-const formState = reactive({
+const restockStates = ref({});
+
+watch(
+  refundableLineItemsQuantity,
+  newLimits => {
+    restockStates.value = Object.fromEntries(
+      Object.keys(newLimits).map(id => [id, true])
+    );
+  },
+  { immediate: true }
+);
+
+const initialFormState = {
   refundAmount: 0,
-  refundReason: null,
+  refundNote: null,
   customRefundReason: null,
   restockItem: false,
   sendNotification: false,
-  quantity: quantityStates,
-  // quantity: {
-  //   16632369250614: 4,
-  // },
-});
+  quantity: computed(() => refundQuantityStates.value),
+};
+
+const formState = reactive(initialFormState);
 
 const rules = computed(() => {
   const quantityRules = {};
 
+  console.log('All limits: ', refundableLineItemsQuantity.value);
   currentOrder.value?.line_items.forEach(item => {
+    const max = refundableLineItemsQuantity.value[item.id];
+    console.log('Validate against: ', max, ' and id: ', item.id);
     quantityRules[item.id] = {
       required,
       minValue: minValue(0),
-      maxValue: maxValue(item.quantity),
+      maxValue: maxValue(max),
     };
   });
 
   return {
     refundAmount: { required },
-    refundReason: { required },
-    customRefundReason: {},
-    quantity: {},
+    refundNote: { required },
+    quantity: quantityRules,
   };
 });
 
 const v$ = useVuelidate(rules, formState);
-
-const refundableAmount = ref(0);
 
 const item_total_price = item => {
   return (
@@ -76,18 +169,104 @@ const item_total_price = item => {
   );
 };
 
-const setCancelledOrder = order => {
+watch(
+  currentOrder,
+  val => {
+    if (val) {
+      calculateRefund();
+      refundQuantityStates.value = Object.fromEntries(
+        val.line_items.map(e => [e.id, 0])
+      );
+    }
+  },
+  { immediate: true }
+);
+
+const setRefundOrder = order => {
   show.value = order !== null && order !== undefined;
   currentOrder.value = order;
 };
 
 onMounted(() => {
-  emitter.on(BUS_EVENTS.CANCEL_ORDER, setCancelledOrder);
+  emitter.on(BUS_EVENTS.REFUND_ORDER, setRefundOrder);
+  currentOrder.value = props.order;
 });
 
 onUnmounted(() => {
-  emitter.off(BUS_EVENTS.CANCEL_ORDER, setCancelledOrder);
+  emitter.off(BUS_EVENTS.REFUND_ORDER, setRefundOrder);
+  cancellationState.value = null;
+  refundQuantityStates.value = null;
 });
+
+const debouncedRefund = debounce(value => {
+  console.log('HI THERE');
+  calculateRefund();
+}, 2000);
+
+const currentSubtotal = computed(() => {
+  return (
+    currentRefund.value?.refund_line_items.reduce(
+      (acc, curr) => acc + Number(curr.subtotal),
+      0
+    ) ?? 0
+  );
+});
+
+const currentDiscountApplied = computed(() => {
+  return (
+    currentRefund.value?.refund_line_items.reduce(
+      (acc, curr) =>
+        acc +
+        Number(curr.price) -
+        Number(curr.discounted_price) * curr.quantity,
+      0
+    ) ?? 0
+  );
+});
+
+const currentTax = computed(() => {
+  return (
+    currentRefund.value?.refund_line_items.reduce(
+      (acc, curr) => acc + Number(curr.total_tax),
+      0
+    ) ?? 0
+  );
+});
+
+const availableRefund = computed(() => {
+  return Number(currentRefund.value?.transactions[0].maximum_refundable) ?? 0;
+});
+
+const currentRefund = ref(null);
+
+const calculateRefund = async () => {
+  const payload = {
+    orderId: currentOrder.value.id,
+    currency: currentOrder.currency,
+    refundLineItems: Object.entries(refundQuantityStates.value)
+      .filter(([, qty]) => qty > 0)
+      .map(([e, qty]) => ({
+        line_item_id: e,
+        quantity: qty,
+        restock_type: 'no_restock',
+      })),
+  };
+
+  console.log(`making request: `, payload);
+
+  const res = await OrdersAPI.calculateRefund(payload);
+
+  console.log(res);
+  currentRefund.value = res.data.refund;
+};
+
+watch(
+  availableRefund,
+  value => {
+    formState.refundAmount = value ?? 0;
+  },
+  { immediate: true }
+);
 
 // Only allow numbers with up to 2 decimals
 function onInput(e) {
@@ -122,16 +301,60 @@ function onBlur() {
   }
 }
 
-const cancelOrder = () => {
+const cancellationState = ref(null);
+
+const refundOrder = async $t => {
   v$.value.$touch();
+
+  if (v$.value.$invalid || currentRefund.value === null) {
+    console.log('ERRORS: ', v$.value.$errors);
+    return;
+  }
+
+  try {
+    cancellationState.value = 'processing';
+
+    const response = await OrdersAPI.refundOrder({
+      orderId: currentOrder.value.id,
+      transactions: [
+        {
+          ...currentRefund.value.transactions[0],
+          amount: Number(formState.refundAmount),
+          kind: 'refund',
+        },
+      ],
+      note: formState.refundNote,
+      notify: formState.sendNotification,
+      currency: currentRefund.value.currency,
+      shipping: currentRefund.value.shipping,
+      refundLineItems: currentRefund.value.refund_line_items,
+    });
+
+    console.log('RESPONSE BODY: ', response);
+
+    cancellationState.value = null;
+    onClose();
+    useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_SUCCESS'));
+  } catch (e) {
+    console.log('Error occured: ', e);
+    cancellationState.value = null;
+    let message = $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_FAILURE');
+    if (isAxiosError(e)) {
+      const errors = e.response.data.errors;
+      if (errors && errors[0].message) {
+        message = errors[0].message;
+      }
+    }
+    useAlert(message);
+  }
 };
 </script>
 
 <template>
   <woot-modal v-model:show="show" :on-close="onClose">
     <woot-modal-header
-      :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TITLE')"
-      :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DESC')"
+      :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TITLE')"
+      :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DESC')"
     />
     <form>
       <div v-if="currentOrder" class="p-2">
@@ -139,16 +362,16 @@ const cancelOrder = () => {
           <thead>
             <tr>
               <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TABLE.PRODUCT') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
               </th>
               <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TABLE.ITEM_PRICE') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE') }}
               </th>
               <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TABLE.QUANTITY') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
               </th>
               <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TABLE.TOTAL') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
               </th>
             </tr>
           </thead>
@@ -173,7 +396,8 @@ const cancelOrder = () => {
                   <QuantityField
                     v-model="formState.quantity[item.id]"
                     :min="0"
-                    :max="item.quantity"
+                    :max="refundableLineItemsQuantity[item.id]"
+                    @input_val="debouncedRefund"
                   ></QuantityField>
                 </div>
               </td>
@@ -205,7 +429,7 @@ const cancelOrder = () => {
                 @change="formState.restockItem = !formState.restockItem"
               />
               <span>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.RESTOCK_ITEMS') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.RESTOCK_ITEMS') }}
               </span>
             </div>
             <div
@@ -222,7 +446,7 @@ const cancelOrder = () => {
 
               <span>
                 {{
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.SEND_NOTIFICATION')
+                  $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION')
                 }}
               </span>
             </div>
@@ -233,43 +457,45 @@ const cancelOrder = () => {
           <div class="flex flex-col">
             <div class="flex flex-row justify-between items-center gap-10">
               <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.SUBTOTAL') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SUBTOTAL') }}
               </label>
               <span class="text-sm"
                 >{{ currency_codes[currentOrder.currency] }}
-                {{ currentOrder.subtotal_price }}</span
+                {{ /* currentOrder.subtotal_price*/ currentSubtotal }}</span
               >
             </div>
 
             <div class="flex flex-row justify-between gap-10">
               <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DISCOUNT') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DISCOUNT') }}
               </label>
               <span class="text-sm"
                 >{{ currency_codes[currentOrder.currency] }}
-                {{ currentOrder.total_discount ?? 0 }}</span
+                {{
+                  /* currentOrder.total_discount */ currentDiscountApplied
+                }}</span
               >
             </div>
 
             <div class="flex flex-row justify-between gap-10">
               <label>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TAX') }}
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TAX') }}
               </label>
               <span class="text-sm"
                 >{{ currency_codes[currentOrder.currency] }}
-                {{ currentOrder.total_tax }}</span
+                {{ /* currentOrder.total_tax */ currentTax }}</span
               >
             </div>
 
             <div class="flex flex-row justify-between gap-10">
               <label>
                 {{
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.AMOUNT_REFUNDABLE')
+                  $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.AMOUNT_REFUNDABLE')
                 }}
               </label>
               <span class="text-sm"
                 >{{ currency_codes[currentOrder.currency] }}
-                {{ refundableAmount }}</span
+                {{ /* refundableAmount */ availableRefund }}</span
               >
             </div>
           </div>
@@ -277,10 +503,17 @@ const cancelOrder = () => {
 
         <div class="flex flex-row justify-start items-start gap-4 mt-4">
           <div class="flex flex-col gap-2">
-            <h5>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REFUND_AMOUNT') }}
-              <!-- {{ add marker for manual }}  -->
-            </h5>
+            <div class="flex flex-row gap-2">
+              <h5>
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_AMOUNT') }}
+              </h5>
+              <span v-if="formState.refundAmount !== availableRefund"
+                >(manual)</span
+              >
+            </div>
+
+            <!-- <CurrencyInput v-model="formState.refundAmount" :currency-symbol="currency_codes[currentOrder.currency]" /> -->
+
             <input
               type="text"
               :value="
@@ -297,16 +530,14 @@ const cancelOrder = () => {
 
           <div class="flex flex-col gap-1">
             <h5>
-              {{
-                $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.CANCELLATION_REASON')
-              }}
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_REASON') }}
               <!-- {{ add marker for manual }}  -->
             </h5>
 
             <select
-              v-model="formState.refundReason"
+              v-model="formState.refundNote"
               class="w-full p-2 mt-1 border-0 selectInbox"
-              :class="{ 'border-red-500': v$.refundReason.$error }"
+              :class="{ 'border-red-500': v$.refundNote.$error }"
             >
               <option v-for="reason in reasons" :value="reason">
                 {{ reason }}
@@ -318,11 +549,11 @@ const cancelOrder = () => {
         <div class="flex flex-row justify-end mt-4">
           <Button
             type="button"
-            :disabled="v$.$error"
+            :disabled="v$.$error || currentRefund === null"
             variant="primary"
-            @click="cancelOrder"
+            @click="() => refundOrder($t)"
           >
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.CANCEL_ORDER') }}
+            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_ORDER') }}
           </Button>
         </div>
       </div>

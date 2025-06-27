@@ -378,6 +378,8 @@ Rails.application.routes.draw do
           namespace :shopify do
             resources :orders, only: [:show] do
               post :cancel_order, on: :member
+              post :calculate_refund, on: :member
+              post :refund_order, on: :member
             end
           end
 

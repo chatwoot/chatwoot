@@ -84,9 +84,6 @@ const cancelOrder = async $t => {
   v$.value.$touch();
 
   if (v$.value.$invalid) {
-    // There are validation errors
-    // You can show error messages or prevent further action
-    console.log('ERRORS: ', v$.value.$errors);
     return;
   }
 
@@ -114,7 +111,6 @@ const cancelOrder = async $t => {
         message = errors[0].message;
       }
     }
-    console.log(e);
     useAlert(message);
   }
 };

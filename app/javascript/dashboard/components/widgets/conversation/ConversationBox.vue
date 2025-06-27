@@ -9,11 +9,13 @@ import ConversationSidebar from './ConversationSidebar.vue';
 import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CallDialog from 'dashboard/routes/dashboard/conversation/contact/CallDialog.vue';
+import ShopifyOrderRefund from './ShopifyOrderRefund.vue';
 
 export default {
   components: {
     CallDialog,
     ShopifyOrderCancellation,
+    ShopifyOrderRefund,
     ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
@@ -45,6 +47,7 @@ export default {
     return {
       activeIndex: 0,
       showCallModal: false,
+      refundOrder: null,
     };
   },
   computed: {
@@ -103,10 +106,12 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
+    emitter.on(BUS_EVENTS.REFUND_ORDER, this.openRefundDialog);
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
   unmounted() {
-    console.log("turning of bus events listner")
+    console.log('turning of bus events listner');
+    emitter.off(BUS_EVENTS.REFUND_ORDER, this.openRefundDialog);
     emitter.off(BUS_EVENTS.START_CALL, this.startCall);
   },
 
@@ -120,12 +125,8 @@ export default {
       }
       return roomId;
     },
-    closeCall() {
-      this.showCallModal = false;
-      this.$store.dispatch('endCall', {
-        chat_id: this.currentChat.id,
-        room_id: this.activeCall.room_id,
-      });
+    async openRefundDialog(order) {
+      this.refundOrder = order;
     },
     async startCall() {
       if (this.activeCall) return;
@@ -139,6 +140,13 @@ export default {
       });
 
       this.showCallModal = true;
+    },
+    closeCall() {
+      this.showCallModal = false;
+      this.$store.dispatch('endCall', {
+        chat_id: this.currentChat.id,
+        room_id: this.activeCall.room_id,
+      });
     },
     fetchLabels() {
       if (!this.currentChat.id) {
@@ -211,8 +219,8 @@ export default {
         :jwt="activeCall.jwt"
         @close="closeCall"
       />
-      <ShopifyOrderCancellation
-      ></ShopifyOrderCancellation>
+      <ShopifyOrderCancellation></ShopifyOrderCancellation>
+      <ShopifyOrderRefund :order="order"></ShopifyOrderRefund>
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"
