@@ -243,6 +243,10 @@ ja:
       name: 'Linear'
       short_description: 'Create and link Linear issues directly from conversations.'
       description: '会話ウィンドウから直接Linearに問題を作成します。あるいは、既存のLinearの問題をリンクして、より効率的な問題追跡プロセスを実現します。'
+    notion:
+      name: 'Notion'
+      short_description: 'Integrate databases, documents and pages directly with Captain.'
+      description: 'Connect your Notion workspace to enable Captain to access and generate intelligent responses using content from your databases, documents, and pages to provide more contextual customer support.'
     shopify:
       name: 'Shopify'
       short_description: 'Access order details and customer data from your Shopify store.'
