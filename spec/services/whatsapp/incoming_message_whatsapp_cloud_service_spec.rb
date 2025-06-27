@@ -29,9 +29,12 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
 
     context 'when valid attachment message params' do
       it 'creates appropriate conversations, message and contacts' do
-        stub_request(:get, whatsapp_channel.media_url(
-          'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
-          whatsapp_channel.provider_config['phone_number_id'])
+        stub_request(
+          :get,
+          whatsapp_channel.media_url(
+            'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+            whatsapp_channel.provider_config['phone_number_id']
+          )
         ).to_return(
           status: 200,
           body: {
@@ -57,9 +60,12 @@ describe Whatsapp::IncomingMessageWhatsappCloudService do
       end
 
       it 'increments reauthorization count if fetching attachment fails' do
-        stub_request(:get, whatsapp_channel.media_url(
-          'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
-          whatsapp_channel.provider_config['phone_number_id'])
+        stub_request(
+          :get,
+          whatsapp_channel.media_url(
+            'b1c68f38-8734-4ad3-b4a1-ef0c10d683',
+            whatsapp_channel.provider_config['phone_number_id']
+          )
         ).to_return(
           status: 401
         )
