@@ -43,6 +43,7 @@
           v-else-if="notCsat"
           :message="message"
           :is-email="isEmailContentType"
+          :has-html-content="hasHtmlContent"
           :display-quoted-button="displayQuotedButton"
         />
 
@@ -316,6 +317,13 @@ export default {
         text_content: { full: fullTextContent } = {},
       } = this.contentAttributes.email || {};
       return fullHTMLContent || fullTextContent || '';
+    },
+    hasHtmlContent() {
+      const {
+        html_content: { full: fullHTMLContent } = {},
+      } = this.contentAttributes.email || {};
+
+      return !!fullHTMLContent;
     },
     displayQuotedButton() {
       if (this.emailMessageContent.includes('<blockquote')) {

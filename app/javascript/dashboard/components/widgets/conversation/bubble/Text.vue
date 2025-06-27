@@ -11,6 +11,12 @@
       <letter
         class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px]"
         :html="message"
+        v-if="hasHtmlContent"
+      />
+      <div
+        v-else
+        v-dompurify-html="message"
+        class="text-content bg-white dark:bg-white text-slate-900 dark:text-slate-900 p-2 rounded-[4px] whitespace-pre-line"
       />
     </div>
     <button
@@ -54,6 +60,10 @@ export default {
       default: true,
     },
     displayQuotedButton: {
+      type: Boolean,
+      default: false,
+    },
+    hasHtmlContent: {
       type: Boolean,
       default: false,
     },
