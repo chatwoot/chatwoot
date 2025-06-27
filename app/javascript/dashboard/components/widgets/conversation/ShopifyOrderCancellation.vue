@@ -13,9 +13,12 @@ import OrdersAPI from 'dashboard/api/orders';
 import { AxiosError } from 'axios';
 import { isAxiosError } from 'axios';
 
-const show = ref(false);
-
-const store = useStore();
+const props = defineProps({
+  order: {
+    type: Object,
+    required: true
+  }
+})
 
 const reasons = {
   CUSTOMER: 'The customer wanted to cancel the order.',
@@ -37,16 +40,15 @@ const onClose = () => {
   emitter.emit(BUS_EVENTS.CANCEL_ORDER, null);
 };
 
-const currentOrder = ref(null);
 let cancellationTimeout = null;
 
 const formState = reactive({
   cancellationReason: null,
   // customCancellationReason: null,
   // customReason: false,
-  restockItem: false,
-  refundOrder: false,
-  sendNotification: false,
+  restockItem: true,
+  refundOrder: true,
+  sendNotification: true,
 });
 
 const rules = computed(() => {
@@ -64,19 +66,24 @@ const item_total_price = item => {
   );
 };
 
-const setCancelledOrder = order => {
-  show.value = order !== null && order !== undefined;
-  currentOrder.value = order;
-  cancellationState.value = null;
+const onOrderUpdate = data => {
+  if (data.order.id != props.order.id) return;
+
+  onClose();
+  emitter.emit('newToastMessage', {
+    message: "Order cancelled successfully",
+    action: null,
+  });
+
   clearTimeout(cancellationTimeout);
 };
 
 onMounted(() => {
-  emitter.on(BUS_EVENTS.CANCEL_ORDER, setCancelledOrder);
+  emitter.on(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
 });
 
 onUnmounted(() => {
-  emitter.off(BUS_EVENTS.CANCEL_ORDER, setCancelledOrder);
+  emitter.off(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
   clearTimeout(cancellationTimeout);
 });
 
@@ -91,7 +98,7 @@ const cancelOrder = async $t => {
     cancellationState.value = 'processing';
 
     await OrdersAPI.cancelOrder({
-      orderId: currentOrder.value.id,
+      orderId: props.order.id,
       reason: formState.cancellationReason,
       refund: formState.refundOrder,
       restock: formState.restockItem,
@@ -123,13 +130,13 @@ const buttonText = () => {
 </script>
 
 <template>
-  <woot-modal v-model:show="show" :on-close="onClose">
+  <woot-modal :show="true" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DESC')"
     />
     <form>
-      <div v-if="currentOrder" class="">
+      <div v-if="order" class="">
         <table class="woot-table items-table overflow-auto max-h-2">
           <thead>
             <tr>
@@ -148,7 +155,7 @@ const buttonText = () => {
             </tr>
           </thead>
           <tbody>
-            <tr v-for="item in [...currentOrder.line_items]" :key="item.id">
+            <tr v-for="item in [...order.line_items]" :key="item.id">
               <td>
                 <div>{{ item.name }}</div>
               </td>

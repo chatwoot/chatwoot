@@ -1,5 +1,6 @@
 class OrdersUpdatedJob < ActiveJob::Base
   extend ShopifyAPI::Webhooks::Handler
+  include Events::Types
 
   class << self
     def handle(topic:, shop:, body:)
@@ -43,6 +44,10 @@ class OrdersUpdatedJob < ActiveJob::Base
           customer_id:        webhook['customer']['id']
         },
         unique_by: :id
+      )
+
+      Rails.configuration.dispatcher.dispatch(
+        ORDER_UPDATE, Time.zone.now, status: 'succeeded', order: Order.find(webhook['id'])
       )
     end
 

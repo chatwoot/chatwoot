@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, reactive, ref, watch } from 'vue';
+import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -120,8 +120,8 @@ const initialFormState = {
   refundAmount: 0,
   refundNote: null,
   customRefundReason: null,
-  restockItem: false,
-  sendNotification: false,
+  restockItem: true,
+  sendNotification: true,
   quantity: computed(() => refundQuantityStates.value),
 };
 
@@ -157,11 +157,31 @@ const item_total_price = item => {
   );
 };
 
+let cancellationTimeout = null;
+
+const onOrderUpdate = data => {
+  if (data.order.id != props.order.id) return;
+
+  onClose();
+  emitter.emit('newToastMessage', {
+    message: "Refund create successfully",
+    action: null,
+  });
+
+  clearTimeout(cancellationTimeout);
+};
+
 onMounted(() => {
+  emitter.on(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
   calculateRefund();
   refundQuantityStates.value = Object.fromEntries(
     props.order.line_items.map(e => [e.id, 0])
   );
+});
+
+onUnmounted(() => {
+  emitter.off(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
+  clearTimeout(cancellationTimeout);
 });
 
 const debouncedRefund = debounce(value => {
@@ -299,8 +319,11 @@ const refundOrder = async $t => {
     console.log('RESPONSE BODY: ', response);
 
     cancellationState.value = null;
-    onClose();
-    useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_SUCCESS'));
+
+    cancellationTimeout = setTimeout(() => {
+      onClose();
+      useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_TIMEOUT'));
+    }, 30 * 1000);
   } catch (e) {
     console.log('Error occured: ', e);
     cancellationState.value = null;
@@ -313,6 +336,12 @@ const refundOrder = async $t => {
     }
     useAlert(message);
   }
+};
+
+const buttonText = () => {
+  return cancellationState.value === 'processing'
+    ? 'CONVERSATION_SIDEBAR.SHOPIFY.REFUND.PROCESSING'
+    : 'CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_ORDER';
 };
 </script>
 
@@ -338,7 +367,6 @@ const refundOrder = async $t => {
             <th>
               {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
             </th>
-
 
             <!-- <th>
               <div class="flex flex-row w-full justify-end gap-2">
@@ -512,11 +540,15 @@ const refundOrder = async $t => {
       <div class="flex flex-row justify-end mt-4">
         <Button
           type="button"
-          :disabled="v$.$error || currentRefund === null"
+          :disabled="
+            v$.$error ||
+            cancellationState === 'processing' ||
+            currentRefund === null
+          "
           variant="primary"
           @click="() => refundOrder($t)"
         >
-          {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_ORDER') }}
+          {{ $t(buttonText()) }}
         </Button>
       </div>
     </form>

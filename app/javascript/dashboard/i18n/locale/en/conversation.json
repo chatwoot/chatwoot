@@ -321,6 +321,7 @@
       "FULFILLMENT_STATUS": {
         "FULFILLED": "Fulfilled",
         "PARTIALLY_FULFILLED": "Partially Fulfilled",
+        "RESTOCKED": "Restock",
         "UNFULFILLED": "Unfulfilled",
         "PARTIAL": "Partial"
       },
@@ -349,7 +350,6 @@
         "TAX": "Tax",
         "AMOUNT_REFUNDABLE": "Refundable amount",
         "TOTAL_AVAILABLE_REFUND": "Available refund",
-        "CANCEL_ORDER": "Cancel Order",
         "PROCESSING": "Processing",
         "REFUND_REASON": "Refund Reason",
         "API_FAILURE": "An internal error occured",
@@ -363,6 +363,7 @@
           "QUANTITY": "Quantity",
           "TOTAL": "Total"
         },
+        "REASON": "Reason",
         "BUTTON_TEXT": "Cancel",
         "TITLE": "Cancel Order",
         "DESC": "You can directly cancel the shopify order of a customer from here",

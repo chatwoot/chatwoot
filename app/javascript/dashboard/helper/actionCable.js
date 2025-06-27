@@ -31,7 +31,7 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'call.rejected': this.onRejectCall,
-      'order.cancellation.update': this.orderCancellationUpdate,
+      'order.update': this.orderUpdate,
     };
   }
 
@@ -198,15 +198,9 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('closeCall', {});
   };
 
-  orderCancellationUpdate = data => {
-    console.log('CANCELLATION DATA', data);
-    emitter.emit(BUS_EVENTS.CANCEL_ORDER, null);
-    setTimeout(() => {
-      emitter.emit('newToastMessage', {
-        message: data.message,
-        action: null
-      });
-    }, 200);
+  orderUpdate = data => {
+    console.log("Order update occurred: ", data)
+    emitter.emit(BUS_EVENTS.ORDER_UPDATE, data);
   };
 }
 

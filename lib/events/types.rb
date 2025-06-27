@@ -60,5 +60,5 @@ module Events::Types
   AGENT_REMOVED = 'agent.removed'
 
   # order events
-  ORDER_CANCELLATION_UPDATE = 'order.cancellation.update'
+  ORDER_UPDATE = 'order.update'
 end

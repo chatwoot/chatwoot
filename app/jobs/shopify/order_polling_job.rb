@@ -1,4 +1,4 @@
-class Shopify::OrderCancellationPollingJob < ApplicationJob
+class Shopify::OrderPollingJob < ApplicationJob
   include Events::Types
   
   # AWAITING_RESPONSE
@@ -55,10 +55,44 @@ class Shopify::OrderCancellationPollingJob < ApplicationJob
     begin
       @order_id = order_id
       @user_token = user_token
-      poll_shopify_job(job_id, shop)
+      poll_shopify_job(job_id, shop) unless job_id == nil # when no shopify job is given we can just poll order update for webhooks
+      poll_order_update(order_id)
+
+      Rails.configuration.dispatcher.dispatch(
+        ORDER_UPDATE, Time.zone.now, message: I18n.t('shopify.order_cancellation_done') , status: 'succeeded', order: Order.find(@order_id), currentUser: @user_token
+      )
     rescue => e
       Rails.logger.error("Error while cancelling shopify order #{order_id} :: #{e}")
     end
+  end
+
+  def poll_order_update(order_id, base_interval: 2)
+    order = Order.find(order_id)
+    last_updated_at = order.updated_at
+    interval = base_interval
+    start_time = Time.now
+    timeout = 15
+
+    loop do
+      should_break = false
+      order = Order.find(order_id)
+      cur_updated_at = order.updated_at
+
+      if(cur_updated_at != last_updated_at) then
+        should_break = true
+      else
+
+        elapsed = Time.now - start_time
+        if elapsed > timeout
+          Rails.logger.info("Polling timed out after #{timeout} seconds.")
+          should_break = true
+        else
+          sleep interval
+        end
+      end
+      break if should_break
+    end
+
   end
 
   def poll_shopify_job(job_id,shop, timeout: 60, base_interval: 2, max_interval: 16)
@@ -67,7 +101,8 @@ class Shopify::OrderCancellationPollingJob < ApplicationJob
     interval = base_interval
 
     job = nil
-    status = 'timeout'
+    # status = 'timeout'
+
     loop do
       should_break = false
       shop.with_shopify_session do
@@ -83,33 +118,25 @@ class Shopify::OrderCancellationPollingJob < ApplicationJob
         end
 
         if job.done
-          # if job.errorCode
-          #   Rails.logger.info("Job failed: #{job.errorCode} - #{job.errorMessage}")
-          #   status = 'failed'
-          # else
           Rails.logger.info("Job succeeded!")
-          status = 'succeeded'
+          # status = 'succeeded'
           should_break = true
           # end
         else
           elapsed = Time.now - start_time
           if elapsed > timeout
             Rails.logger.info("Polling timed out after #{timeout} seconds.")
-            status = 'timeout'
-            break
+            # status = 'timeout'
+            should_break = true
+          else
+            sleep interval
+            attempt += 1
+            interval = [base_interval * (2 ** attempt), max_interval].min
+            Rails.logger.info("Polling again")
           end
-          sleep interval
-          attempt += 1
-          # Exponential backoff: double the interval, but cap at max_interval
-          interval = [base_interval * (2 ** attempt), max_interval].min
-          Rails.logger.info("Polling again")
         end
       end
       break if should_break
     end
-
-    Rails.configuration.dispatcher.dispatch(
-      ORDER_CANCELLATION_UPDATE, Time.zone.now, message: I18n.t('shopify.order_cancellation_done') , status: status, order: Order.find(@order_id), currentUser: @user_token
-    )
   end
 end

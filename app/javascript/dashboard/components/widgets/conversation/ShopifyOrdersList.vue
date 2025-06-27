@@ -1,9 +1,11 @@
 <script setup>
-import { ref, watch, computed } from 'vue';
+import { ref, watch, computed, onMounted, onUnmounted } from 'vue';
 import { useFunctionGetter } from 'dashboard/composables/store';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import ShopifyAPI from '../../../api/integrations/shopify';
 import ShopifyOrderItem from './ShopifyOrderItem.vue';
+import { emitter } from 'shared/helpers/mitt';
+import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 
 const props = defineProps({
   contactId: {
@@ -44,6 +46,21 @@ watch(
   },
   { immediate: true }
 );
+
+const onOrderUpdate = data => {
+  const index = orders.value.findIndex(e => e.id === data.order.id);
+  if (index !== -1) {
+    orders.value[index] = data.order;
+  }
+};
+
+onMounted(() => {
+  emitter.on(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
+});
+
+onUnmounted(() => {
+  emitter.off(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
+});
 </script>
 
 <template>

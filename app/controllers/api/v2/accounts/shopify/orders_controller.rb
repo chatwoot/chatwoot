@@ -69,12 +69,12 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
       if errors.any?
         render json: {errors: errors.map(&:to_h)}, status: :unprocessable_entity
       else
-        Shopify::OrderCancellationPollingJob.perform_later({
-          id: job.id,
-          order_id: @order.id,
-          user_token: Current.user.pubsub_token(),
-          shop: @shopify_service.shop
-        })
+        # Shopify::OrderPollingJob.perform_later({
+        #   id: job.id,
+        #   order_id: @order.id,
+        #   user_token: Current.user.pubsub_token(),
+        #   shop: @shopify_service.shop
+        # })
 
         render json: {message: I18n.t('shopify.order_cancellation_process') }
       end

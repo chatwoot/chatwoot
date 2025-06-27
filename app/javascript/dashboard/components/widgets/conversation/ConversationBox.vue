@@ -48,6 +48,7 @@ export default {
       activeIndex: 0,
       showCallModal: false,
       refundOrder: null,
+      cancelOrder: null,
     };
   },
   computed: {
@@ -106,12 +107,13 @@ export default {
   mounted() {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
-    emitter.on(BUS_EVENTS.REFUND_ORDER, this.openRefundDialog);
+    emitter.on(BUS_EVENTS.REFUND_ORDER, this.setRefundOrder);
+    emitter.on(BUS_EVENTS.CANCEL_ORDER, this.setCancelOrder);
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
   unmounted() {
-    console.log('turning of bus events listner');
-    emitter.off(BUS_EVENTS.REFUND_ORDER, this.openRefundDialog);
+    emitter.off(BUS_EVENTS.REFUND_ORDER, this.setRefundOrder);
+    emitter.off(BUS_EVENTS.CANCEL_ORDER, this.setCancelOrder);
     emitter.off(BUS_EVENTS.START_CALL, this.startCall);
   },
 
@@ -125,8 +127,11 @@ export default {
       }
       return roomId;
     },
-    async openRefundDialog(order) {
+    async setRefundOrder(order) {
       this.refundOrder = order;
+    },
+    async setCancelOrder(order) {
+      this.cancelOrder = order;
     },
     async startCall() {
       if (this.activeCall) return;
@@ -219,8 +224,14 @@ export default {
         :jwt="activeCall.jwt"
         @close="closeCall"
       />
-      <ShopifyOrderCancellation></ShopifyOrderCancellation>
-      <ShopifyOrderRefund v-if="refundOrder" :order="refundOrder"></ShopifyOrderRefund>
+      <ShopifyOrderCancellation
+        v-if="cancelOrder"
+        :order="cancelOrder"
+      ></ShopifyOrderCancellation>
+      <ShopifyOrderRefund
+        v-if="refundOrder"
+        :order="refundOrder"
+      ></ShopifyOrderRefund>
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

@@ -149,18 +149,21 @@ class ActionCableListener < BaseListener
   end
 
   # Order Events
-  def order_cancellation_update(event)
-    message, status, order, currentUser = event.data.values_at(:message, :status, :order, :currentUser)
+  def order_update(event)
+    Rails.logger.info("order update: #{event}")
+    status, order = event.data.values_at(:status, :order)
 
     account = order.account
-    # token = account_token(account)
-    token = [currentUser]
+    Rails.logger.info("order update account: #{account}")
+    tokens = [account_token(account)]
+    # token = [currentUser]
 
-    broadcast(account, token, ORDER_CANCELLATION_UPDATE, {
-      message: message,
+    broadcast(account, tokens, ORDER_UPDATE, {
+      message: I18n.t('shopify.order.update_complete'),
       status: status,
-      orderId: order.id
+      order: order
     })
+    Rails.logger.info("order update broadcasted")
   end
 
   def assignee_changed(event)
