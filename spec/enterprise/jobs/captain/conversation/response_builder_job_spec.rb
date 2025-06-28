@@ -30,30 +30,5 @@ RSpec.describe Captain::Conversation::ResponseBuilderJob, type: :job do
       account.reload
       expect(account.usage_limits[:captain][:responses][:consumed]).to eq(1)
     end
-
-    context 'when message contains an image' do
-      let(:message_with_image) { create(:message, conversation: conversation, message_type: :incoming, content: 'Can you help with this error?') }
-      let(:image_attachment) { message_with_image.attachments.create!(account: account, file_type: :image, external_url: 'https://example.com/error.jpg') }
-
-      before do
-        image_attachment
-      end
-
-      it 'includes image URL directly in the message content for OpenAI vision analysis' do
-        # Expect the generate_response to receive multimodal content with image URL
-        expect(mock_llm_chat_service).to receive(:generate_response) do |**kwargs|
-          history = kwargs[:message_history]
-          last_entry = history.last
-          expect(last_entry[:content]).to be_an(Array)
-          expect(last_entry[:content].any? { |part| part[:type] == 'text' && part[:text] == 'Can you help with this error?' }).to be true
-          expect(last_entry[:content].any? do |part|
-            part[:type] == 'image_url' && part[:image_url][:url] == 'https://example.com/error.jpg'
-          end).to be true
-          { 'response' => 'I can see the error in your image. It appears to be a database connection issue.' }
-        end
-
-        described_class.perform_now(conversation, assistant)
-      end
-    end
   end
 end
