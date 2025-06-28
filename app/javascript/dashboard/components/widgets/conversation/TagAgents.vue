@@ -17,7 +17,7 @@ const emit = defineEmits(['selectAgent']);
 const { t } = useI18n();
 const getters = useStoreGetters();
 const agents = computed(() => getters['agents/getVerifiedAgents'].value);
-const teams = computed(() => getters['teams/getTeams'].value);
+const teams = useMapGetter('teams/getTeams');
 
 const tagAgentsRef = ref(null);
 const selectedIndex = ref(0);
