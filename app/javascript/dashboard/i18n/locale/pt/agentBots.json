@@ -2,9 +2,9 @@
   "AGENT_BOTS": {
     "HEADER": "Bots",
     "LOADING_EDITOR": "A carregar editor...",
-    "DESCRIPTION": "Agent Bots are like the most fabulous members of your team. They can handle the small stuff, so you can focus on the stuff that matters. Give them a try. You can manage your bots from this page or create new ones using the 'Add Bot' button.",
+    "DESCRIPTION": "Os Bots Agentes são como os membros mais fabulosos da sua equipa. Tratam das pequenas coisas, para que se possa concentrar no que realmente importa. Experimente. Pode gerir os seus bots nesta página ou criar novos, utilizando o botão \"Adicionar Bot\".",
     "LEARN_MORE": "Learn about agent bots",
-    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT": "Bot do sistema",
     "GLOBAL_BOT_BADGE": "Sistema",
     "AVATAR": {
       "SUCCESS_DELETE": "Bot avatar deleted successfully",
@@ -22,7 +22,7 @@
       "SELECT_PLACEHOLDER": "Selecionar bot"
     },
     "ADD": {
-      "TITLE": "Add Bot",
+      "TITLE": "Adicionar Bot",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
         "SUCCESS_MESSAGE": "Bot adicionado com sucesso.",
@@ -30,7 +30,7 @@
       }
     },
     "LIST": {
-      "404": "No bots found. You can create a bot by clicking the 'Add Bot' button.",
+      "404": "Nenhum bot encontrado. Pode criar um bot clicando no botão \"Adicionar Bot\".",
       "LOADING": "A carregar bots...",
       "TABLE_HEADER": {
         "DETAILS": "Bot Details",
