@@ -159,7 +159,7 @@ const onAgentSelect = index => {
           @click="onAgentSelect(getSelectableIndex(item))"
           @mouseover="onHover(getSelectableIndex(item))"
         >
-          <div class="mr-2">
+          <div class="ltr:mr-2 rtl:ml-2">
             <Avatar
               :src="item.thumbnail"
               :name="item.displayName"
