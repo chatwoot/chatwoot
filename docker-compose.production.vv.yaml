@@ -1,0 +1,81 @@
+# Used for running Helpdesk on build locally build, image (vegavision:latest)
+# Connect with external db
+
+version: '3.9'
+
+# The stack operates on its own default re-named default netowork.
+# Rails uses external network for DB connection via Host, and outside access
+
+networks:
+  # Docker Default netowrk, renamed
+  default:
+    name: vv-helpdesk-default
+    driver: bridge
+      #VV-Helpdesk-Internal:
+      #name: VV-Helpdesk-Internal
+      #driver: bridge
+
+  # External network, connect DB/Proxies to this network
+  vv-helpdesk:
+    external: true
+
+
+services:
+  VV-Helpdesk-Base: &base
+    image: charlesmbv/vegavision:latest
+    env_file: .env
+    volumes:
+      - /vv-volumes/storage_data:/app/storage
+
+  VV-Helpdesk-Rails:
+    <<: *base
+    container_name: VV-Helpdesk-Rails
+    depends_on:
+      - VV-Helpdesk-Redis
+    ports:
+      - '127.0.0.1:3001:3000'
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+      - RAILS_SERVE_STATIC_FILES=true
+    entrypoint: docker/entrypoints/rails.sh
+    command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+    restart: always
+    networks:
+      - default
+      - vv-helpdesk
+
+  VV-Helpdesk-Sidekiq:
+    <<: *base
+    container_name: VV-Helpdesk-Sidekiq
+    depends_on:
+      - VV-Helpdesk-Redis
+    environment:
+      - NODE_ENV=production
+      - RAILS_ENV=production
+      - INSTALLATION_ENV=docker
+    command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+    restart: always
+    networks:
+      - default
+      - vv-helpdesk
+
+  VV-Helpdesk-Redis:
+    image: redis:alpine
+    container_name: VV-Helpdesk-Redis
+    restart: always
+    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+    env_file: .env
+    ports:
+      - '127.0.0.1:6377:6379'
+    volumes:
+      - /vv-volumes/redis_data:/data
+    networks:
+      - vv-helpdesk
+
+volumes:
+  # Volume keys are still needed, even when paths are absolute
+  storage_data:
+  redis_data:
+
