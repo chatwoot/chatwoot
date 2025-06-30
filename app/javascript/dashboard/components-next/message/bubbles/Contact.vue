@@ -21,7 +21,7 @@ const attachment = computed(() => {
 });
 
 const phoneNumber = computed(() => {
-  return attachment.value.fallbackTitle;
+  return attachment.value.fallbackTitle || '';
 });
 
 const contactName = computed(() => {
@@ -107,7 +107,7 @@ const action = computed(() => ({
     icon-bg-color="bg-[#D6409F]"
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.CONTACT"
     :title="contactName"
-    :content="phoneNumber"
+    :content="phoneNumber || 'Missing phone number'"
     :image-url="avatarUrl"
     :action="formattedPhoneNumber ? action : null"
   />
