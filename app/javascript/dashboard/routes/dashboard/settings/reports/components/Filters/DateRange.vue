@@ -14,14 +14,14 @@ const options = computed(() =>
   }))
 );
 
-const selectedKey = ref(Object.values(DATE_RANGE_OPTIONS)[0].key);
+const selectedId = ref(Object.values(DATE_RANGE_OPTIONS)[0].id);
 
 const selectedOption = computed({
   get() {
-    return options.value.find(o => o.key === selectedKey.value);
+    return options.value.find(o => o.id === selectedId.value);
   },
   set(val) {
-    selectedKey.value = val.key;
+    selectedId.value = val.id;
   },
 });
 
@@ -36,7 +36,7 @@ const updateRange = range => {
     <multiselect
       v-model="selectedOption"
       class="no-margin"
-      track-by="name"
+      track-by="id"
       label="name"
       :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
       selected-label
