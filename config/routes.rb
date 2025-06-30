@@ -274,8 +274,10 @@ Rails.application.routes.draw do
                 delete :destroy
               end
             end
-            namespace :integrations do
-              resource :github, only: [:show]
+            resource :github, controller: 'github', only: [] do
+              collection do
+                delete :destroy
+              end
             end
           end
           resources :working_hours, only: [:update]
