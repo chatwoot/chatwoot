@@ -74,7 +74,7 @@ class Attachment < ApplicationRecord
   end
 
   def backup_file_from_url
-    Attachments::BackupFileJob.perform_later(id) if external_url.present?
+    Attachments::BackupFileJob.perform_later(id) if backupable?
   end
 
   private
@@ -83,10 +83,8 @@ class Attachment < ApplicationRecord
     case file_type.to_sym
     when :location
       location_metadata
-    when :fallback
-      fallback_data
-    when :contact
-      contact_metadata
+    when :contact, :share
+      metadata
     when :audio
       audio_metadata
     else
@@ -111,6 +109,7 @@ class Attachment < ApplicationRecord
       file_size: file.byte_size,
       width: file.metadata.to_h[:width],
       height: file.metadata.to_h[:height],
+      fallback_title: fallback_title
     }
 
     metadata[:data_url] = metadata[:thumb_url] = external_url if message.inbox.instagram? && message.incoming?
@@ -120,16 +119,7 @@ class Attachment < ApplicationRecord
   def location_metadata
     {
       coordinates_lat: coordinates_lat,
-      coordinates_long: coordinates_long,
-      fallback_title: fallback_title,
-      data_url: external_url
-    }
-  end
-
-  def fallback_data
-    {
-      fallback_title: fallback_title,
-      data_url: external_url
+      coordinates_long: coordinates_long
     }
   end
 
@@ -138,13 +128,14 @@ class Attachment < ApplicationRecord
       id: id,
       message_id: message_id,
       file_type: file_type,
-      account_id: account_id
+      account_id: account_id,
+      data_url: external_url,
+      fallback_title: fallback_title
     }
   end
 
-  def contact_metadata
+  def metadata
     {
-      fallback_title: fallback_title,
       meta: meta || {}
     }
   end
@@ -174,6 +165,10 @@ class Attachment < ApplicationRecord
 
   def media_file?(file_content_type)
     file_content_type.start_with?('image/', 'video/', 'audio/')
+  end
+
+  def backupable?
+    with_attached_file? && external_url.present? && !file.attached?
   end
 end
 

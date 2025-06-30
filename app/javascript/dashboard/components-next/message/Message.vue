@@ -26,6 +26,7 @@ import TextBubble from './bubbles/Text/Index.vue';
 import CardBubble from './bubbles/Card.vue';
 import ActivityBubble from './bubbles/Activity.vue';
 import ImageBubble from './bubbles/Image.vue';
+import SharedLinkBubble from './bubbles/SharedLink.vue';
 import StickerBubble from './bubbles/Sticker.vue';
 import FileBubble from './bubbles/File.vue';
 import AudioBubble from './bubbles/Audio.vue';
@@ -320,6 +321,7 @@ const componentToRender = computed(() => {
       if (fileType === ATTACHMENT_TYPES.VIDEO) return VideoBubble;
       if (fileType === ATTACHMENT_TYPES.IG_REEL) return VideoBubble;
       if (fileType === ATTACHMENT_TYPES.LOCATION) return LocationBubble;
+      if (fileType === ATTACHMENT_TYPES.SHARE) return SharedLinkBubble;
     }
     // Attachment content is the name of the contact
     if (fileType === ATTACHMENT_TYPES.CONTACT) return ContactBubble;

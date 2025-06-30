@@ -1,10 +1,14 @@
 class Zalo::CreateMessageService
-
   pattr_initialize :channel, :params
 
   TEXT_MESSAGE_EVENTS = %w[
     user_send_text
     oa_send_text
+  ]
+
+  SHARE_LINK_EVENTS = %w[
+    user_send_link
+    oa_send_link
   ]
 
   ATTACHMENT_EVENTS = %w[
@@ -30,8 +34,14 @@ class Zalo::CreateMessageService
     user_send_location
   ]
 
-  ALL_EVENTS = TEXT_MESSAGE_EVENTS + ATTACHMENT_EVENTS + STICKER_EVENTS + CARD_EVENTS + LOCATION_EVENTS
-
+  ALL_EVENTS = [
+    TEXT_MESSAGE_EVENTS,
+    SHARE_LINK_EVENTS,
+    ATTACHMENT_EVENTS,
+    STICKER_EVENTS,
+    CARD_EVENTS,
+    LOCATION_EVENTS
+  ].flatten.freeze
 
   def process
     inbox.with_lock do
@@ -49,6 +59,8 @@ class Zalo::CreateMessageService
     case params[:event_name]
     when *TEXT_MESSAGE_EVENTS
       Zalo::Messages::TextService.new(@conversation, params).process
+    when *SHARE_LINK_EVENTS
+      Zalo::Messages::LinkService.new(@conversation, params).process
     when *ATTACHMENT_EVENTS
       Zalo::Messages::AttachmentService.new(@conversation, params).process
     when *STICKER_EVENTS
@@ -92,9 +104,9 @@ class Zalo::CreateMessageService
           avatar_url: contact_info.dig(:data, :avatar),
           custom_attributes: {
             platform: :zalo,
-            shared_info: contact_info.dig(:data, :shared_info),
-          },
-        },
+            shared_info: contact_info.dig(:data, :shared_info)
+          }
+        }
       ).perform
     end
     @contact = @contact_inbox.contact
@@ -105,7 +117,7 @@ class Zalo::CreateMessageService
     @conversation ||= inbox.conversations.create!(
       account_id: account.id,
       contact_id: @contact.id,
-      contact_inbox_id: @contact_inbox.id,
+      contact_inbox_id: @contact_inbox.id
     )
   end
 end
