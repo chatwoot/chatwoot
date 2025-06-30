@@ -34,6 +34,7 @@ RUN apk update && apk add --no-cache \
   git \
   curl \
   xz \
+  ffmpeg \
   && mkdir -p /var/app \
   && gem install bundler
 
@@ -128,6 +129,7 @@ RUN apk update && apk add --no-cache \
   imagemagick \
   git \
   vips \
+  ffmpeg \
   && gem install bundler
 
 COPY --from=node /usr/local/bin/node /usr/local/bin/
