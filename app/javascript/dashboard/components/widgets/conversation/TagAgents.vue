@@ -1,7 +1,7 @@
 <script setup>
 import Avatar from 'next/avatar/Avatar.vue';
 import { ref, computed, watch, nextTick } from 'vue';
-import { useStoreGetters } from 'dashboard/composables/store';
+import { useStoreGetters, useMapGetter } from 'dashboard/composables/store';
 import { useKeyboardNavigableList } from 'dashboard/composables/useKeyboardNavigableList';
 import { useI18n } from 'vue-i18n';
 
