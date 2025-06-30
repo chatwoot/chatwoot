@@ -8,6 +8,7 @@ import DashboardApps from './DashboardApps/Index.vue';
 import Slack from './Slack.vue';
 import SettingsContent from '../Wrapper.vue';
 import Linear from './Linear.vue';
+import Notion from './Notion.vue';
 import Shopify from './Shopify.vue';
 import Github from './Github.vue';
 export default {
@@ -91,14 +92,23 @@ export default {
           props: route => ({ code: route.query.code }),
         },
         {
+          path: 'notion',
+          name: 'settings_integrations_notion',
+          component: Notion,
+          meta: {
+            permissions: ['administrator'],
+          },
+          props: route => ({ code: route.query.code }),
+        },
+        {
           path: 'github',
           name: 'settings_integrations_github',
-          component: Github,
+          component: Shopify,
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
           },
-          props: route => ({ code: route.query.code }),
+          props: route => ({ error: route.query.error }),
         },
         {
           path: 'shopify',

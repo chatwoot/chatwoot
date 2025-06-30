@@ -3,14 +3,6 @@ class Integrations::App
   include Github::IntegrationHelper
   attr_accessor :params
 
-  INTEGRATION_CONFIGS = {
-    'slack' => { config_key: 'SLACK_CLIENT_SECRET' },
-    'linear' => { config_key: 'LINEAR_CLIENT_ID' },
-    'shopify' => { feature_flag: 'shopify_integration', config_key: 'SHOPIFY_CLIENT_ID' },
-    'leadsquared' => { feature_flag: 'crm_integration' },
-    'github' => { feature_flag: 'github_integration', config_key: 'GITHUB_CLIENT_ID' }
-  }.freeze
-
   def initialize(params)
     @params = params
   end
@@ -65,13 +57,20 @@ class Integrations::App
   end
 
   def active?(account)
-    config = INTEGRATION_CONFIGS[params[:id]]
-    return true unless config
-
-    feature_enabled = config[:feature_flag].nil? || account.feature_enabled?(config[:feature_flag])
-    config_present = config[:config_key].nil? || GlobalConfigService.load(config[:config_key], nil).present?
-
-    feature_enabled && config_present
+    case params[:id]
+    when 'slack'
+      GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
+    when 'linear'
+      GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'shopify'
+      shopify_enabled?(account)
+    when 'leadsquared'
+      account.feature_enabled?('crm_integration')
+    when 'notion'
+      notion_enabled?(account)
+    else
+      true
+    end
   end
 
   def build_linear_action
@@ -138,5 +137,15 @@ class Integrations::App
     def find(params)
       all.detect { |app| app.id == params[:id] }
     end
+  end
+
+  private
+
+  def shopify_enabled?(account)
+    account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?
+  end
+
+  def notion_enabled?(account)
+    account.feature_enabled?('notion_integration') && GlobalConfigService.load('NOTION_CLIENT_ID', nil).present?
   end
 end

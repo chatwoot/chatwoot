@@ -91,6 +91,12 @@ linear:
   enabled: true
   icon: 'icon-linear'
   config_key: 'linear'
+notion:
+  name: 'Notion'
+  description: 'Configuration for setting up Notion Integration'
+  enabled: true
+  icon: 'icon-notion'
+  config_key: 'notion'
 slack:
   name: 'Slack'
   description: 'Configuration for setting up Slack Integration'

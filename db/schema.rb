@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -443,6 +443,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
   end
 
+  create_table "channel_voice", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.string "provider", default: "twilio", null: false
+    t.jsonb "provider_config", null: false
+    t.integer "account_id", null: false
+    t.jsonb "additional_attributes", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_channel_voice_on_account_id"
+    t.index ["phone_number"], name: "index_channel_voice_on_phone_number", unique: true
+  end
+
   create_table "channel_web_widgets", id: :serial, force: :cascade do |t|
     t.string "website_url"
     t.integer "account_id"
@@ -813,6 +825,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "content_type", "created_at"], name: "idx_messages_account_content_created"
     t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
@@ -907,7 +920,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.text "header_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.jsonb "config", default: {"allowed_locales" => ["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
     t.index ["channel_web_widget_id"], name: "index_portals_on_channel_web_widget_id"
