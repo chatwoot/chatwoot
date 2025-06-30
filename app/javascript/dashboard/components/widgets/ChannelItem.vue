@@ -59,7 +59,9 @@ export default {
     },
     isComingSoon() {
       const { key } = this.channel;
-      return ['voice'].includes(key);
+      // Show "Coming Soon" only if the channel is marked as coming soon
+      // and the corresponding feature flag is not enabled yet.
+      return ['voice'].includes(key) && !this.isActive;
     },
   },
   methods: {
