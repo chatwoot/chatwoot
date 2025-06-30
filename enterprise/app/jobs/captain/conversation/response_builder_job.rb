@@ -51,9 +51,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def determine_role(message)
-    return 'system' if message.content.blank?
-
-    message.message_type == 'incoming' ? 'user' : 'system'
+    message.message_type == 'incoming' ? 'user' : 'assistant'
   end
 
   def prepare_multimodal_message_content(message)
