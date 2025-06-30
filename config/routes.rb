@@ -277,6 +277,9 @@ Rails.application.routes.draw do
             resource :github, controller: 'github', only: [] do
               collection do
                 delete :destroy
+                get :repositories
+                get :search_repositories
+                get 'repositories/:owner/:repo/assignees', to: 'github#assignees', as: :repository_assignees
               end
             end
           end
