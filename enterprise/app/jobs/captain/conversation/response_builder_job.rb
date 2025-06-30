@@ -1,6 +1,7 @@
 class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   MAX_MESSAGE_LENGTH = 10_000
-  retry_on ActiveStorage::FileNotFoundError, attempts: 3
+  retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
+  retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
   def perform(conversation, assistant)
     @conversation = conversation
@@ -13,7 +14,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       generate_and_process_response
     end
   rescue StandardError => e
-    raise e if e.is_a?(ActiveStorage::FileNotFoundError)
+    raise e if e.is_a?(ActiveStorage::FileNotFoundError) || e.is_a?(Faraday::BadRequestError)
 
     handle_error(e)
   ensure
