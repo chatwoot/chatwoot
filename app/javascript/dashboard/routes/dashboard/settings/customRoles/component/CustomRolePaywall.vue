@@ -75,17 +75,19 @@ const tableHeaders = computed(() => {
 <template>
   <div class="w-full min-h-[12rem] relative">
     <div class="w-full space-y-3 text-sm">
-      <thead class="opacity-30 dark:opacity-30">
-        <th
-          v-for="thHeader in tableHeaders"
-          :key="thHeader"
-          class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
-        >
-          <span class="mb-0">
-            {{ thHeader }}
-          </span>
-        </th>
-      </thead>
+      <table>
+        <thead class="opacity-30 dark:opacity-30">
+          <th
+            v-for="thHeader in tableHeaders"
+            :key="thHeader"
+            class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-slate-700 dark:text-slate-300"
+          >
+            <span class="mb-0">
+              {{ thHeader }}
+            </span>
+          </th>
+        </thead>
+      </table>
       <CustomRoleListItem
         class="opacity-25 dark:opacity-20"
         :roles="dummyCustomRolesData"

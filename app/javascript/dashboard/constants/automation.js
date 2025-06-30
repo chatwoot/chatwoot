@@ -30,7 +30,7 @@ export const DEFAULT_WAITING_CONDITION = [
 
 export const DEFAULT_OTHER_CONDITION = [
   {
-    attribute_key: 'inbox_id',
+    attribute_key: 'status',
     filter_operator: 'equal_to',
     values: '',
     query_operator: 'and',
