@@ -57,6 +57,10 @@ export default {
         'voice',
       ].includes(key);
     },
+    isComingSoon() {
+      const { key } = this.channel;
+      return ['voice'].includes(key);
+    },
   },
   methods: {
     getChannelThumbnail() {
@@ -79,6 +83,7 @@ export default {
     :class="{ inactive: !isActive }"
     :title="channel.name"
     :src="getChannelThumbnail()"
+    :is-coming-soon="isComingSoon"
     @click="onItemClick"
   />
 </template>
