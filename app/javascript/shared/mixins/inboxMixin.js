@@ -15,6 +15,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.API,
+    INBOX_TYPES.SHOPEE,
   ],
   [INBOX_FEATURES.REPLY_TO_OUTGOING]: [
     INBOX_TYPES.FB,
@@ -23,6 +24,7 @@ export const INBOX_FEATURE_MAP = {
     INBOX_TYPES.WHATSAPP,
     INBOX_TYPES.TELEGRAM,
     INBOX_TYPES.API,
+    INBOX_TYPES.SHOPEE,
   ],
 };
 
@@ -51,6 +53,9 @@ export default {
     },
     isAShopeeInbox() {
       return this.channelType === INBOX_TYPES.SHOPEE;
+    },
+    isAZaloInbox() {
+      return this.channelType === INBOX_TYPES.ZALO;
     },
     isAWebWidgetInbox() {
       return this.channelType === INBOX_TYPES.WEB;

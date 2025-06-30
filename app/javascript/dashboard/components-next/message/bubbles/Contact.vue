@@ -30,6 +30,11 @@ const contactName = computed(() => {
   return `${firstName ?? ''} ${lastName ?? ''}`.trim();
 });
 
+const avatarUrl = computed(() => {
+  const { meta } = attachment.value ?? {};
+  return meta?.avatarUrl || '';
+});
+
 const formattedPhoneNumber = computed(() => {
   return phoneNumber.value.replace(/\s|-|[A-Za-z]/g, '');
 });
@@ -103,6 +108,7 @@ const action = computed(() => ({
     sender-translation-key="CONVERSATION.SHARED_ATTACHMENT.CONTACT"
     :title="contactName"
     :content="phoneNumber"
+    :image-url="avatarUrl"
     :action="formattedPhoneNumber ? action : null"
   />
 </template>

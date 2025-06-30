@@ -6,6 +6,7 @@
 #  coordinates_lat  :float            default(0.0)
 #  coordinates_long :float            default(0.0)
 #  extension        :string
+#  external_code    :string(255)
 #  external_url     :string
 #  fallback_title   :string
 #  file_type        :integer          default("image")
@@ -57,7 +58,7 @@ class Attachment < ApplicationRecord
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
   def download_url
     ActiveStorage::Current.url_options = Rails.application.routes.default_url_options if ActiveStorage::Current.url_options.blank?
-    file.attached? ? file.blob.url : ''
+    file.attached? ? file.blob.url : external_url
   end
 
   def thumb_url

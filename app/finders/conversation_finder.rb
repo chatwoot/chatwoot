@@ -87,11 +87,12 @@ class ConversationFinder
   end
 
   def find_conversation_by_inbox
-    @conversations = current_account.conversations.where(inbox: current_account.inboxes)
+    @conversations = current_account.conversations.where(
+      contact: Contact.all,
+      inbox: current_account.inboxes,
+    )
 
-    return unless params[:inbox_id]
-
-    @conversations = @conversations.where(inbox_id: @inbox_ids)
+    @conversations = @conversations.where(inbox_id: @inbox_ids) if params[:inbox_id]
   end
 
   def find_all_conversations

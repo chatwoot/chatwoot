@@ -9,7 +9,7 @@ class Shopee::SendOnShopService < Base::SendOnChannelService
   def perform_reply
     send_text_message if message.content.present?
     send_card_message if message.shopee_card?
-    send_attachment_files if message.attachments.present?
+    send_attachment_files
     Messages::StatusUpdateService.new(message, 'delivered').perform
   rescue Integrations::Shopee::Error => e
     handle_error(e)

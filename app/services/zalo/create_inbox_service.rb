@@ -36,16 +36,17 @@ class Zalo::CreateInboxService
   end
 
   def validate_auth_code!
-    @auth = Integrations::Zalo::Auth.new(
+    @auth = Integrations::Zalo::Auth.new.verify(
       code: params[:code],
       code_verifier: params[:state]
-    ).verify
+    )
     raise(Error, @auth['error_description'] || 'Failed to authenticate with Zalo') if @auth['error_description'].present?
   end
 
   def validate_access_token!
     @oa_info = Integrations::Zalo::OfficialAccount.new(@auth['access_token']).detail
-    raise(Error, @oa_info['message'] || 'Failed to fetch OA info') if @oa_info['error'] != 0
+  rescue Integrations::Zalo::Client::AuthError => e
+    raise(Error, @oa_info['message'] || 'Failed to fetch OA info')
   end
 
   def account
@@ -56,13 +57,13 @@ class Zalo::CreateInboxService
     @inbox = Inbox.find_or_initialize_by(channel: channel, account: account)
     return unless @inbox.new_record?
 
-    @inbox.name = oa_info.dig('data', 'name').presence || oa_info.dig('data', 'oa_alias') || oa_info.dig('data', 'oa_id')
+    @inbox.name = oa_info.dig('name').presence || oa_info.dig('oa_alias') || oa_info.dig('oa_id')
     @inbox.save!
-    @inbox.avatar.attach(io: URI.open(oa_info.dig('data', 'avatar')), filename: 'logo.jpg', content_type: 'image/jpeg')
+    @inbox.avatar.attach(io: URI.open(oa_info.dig('avatar')), filename: 'logo.jpg', content_type: 'image/jpeg')
   end
 
   def channel
-    @channel = Channel::Zalo.find_or_initialize_by(account: account, oa_id: oa_info.dig('data', 'oa_id'))
+    @channel = Channel::Zalo.find_or_initialize_by(account: account, oa_id: oa_info.dig('oa_id'))
     @channel.assign_attributes(channel_attributes)
     @channel.save!
     @channel
@@ -72,9 +73,9 @@ class Zalo::CreateInboxService
     {
       access_token: auth['access_token'],
       refresh_token: auth['refresh_token'],
-      expires_at: auth['expire_in'].to_i.seconds.from_now,
-      oa_id: oa_info.dig('data', 'oa_id'),
-      meta: oa_info['data'].slice('description', 'oa_alias', 'is_verified', 'oa_type', 'cate_name', 'num_follower')
+      expires_at: auth['expires_in'].to_i.seconds.from_now,
+      oa_id: oa_info.dig('oa_id'),
+      meta: oa_info.slice('description', 'oa_alias', 'is_verified', 'oa_type', 'cate_name', 'num_follower')
     }
   end
 end

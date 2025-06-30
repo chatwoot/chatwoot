@@ -852,10 +852,11 @@
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
-      "API": "API Channel",
       "INSTAGRAM": "Instagram",
       "VOICE": "Voice",
-      "SHOPEE": "Shopee"
+      "SHOPEE": "Shopee",
+      "ZALO": "Zalo Official Account",
+      "API": "API Channel"
     }
   }
 }

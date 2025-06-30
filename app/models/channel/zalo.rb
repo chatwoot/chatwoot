@@ -34,11 +34,11 @@ class Channel::Zalo < ApplicationRecord
   end
 
   def refresh_access_token!
-    response = Integrations::Zalo::Auth.new(oa_id: oa_id).refresh_access_token(refresh_token)
+    auth = Integrations::Zalo::Auth.new.refresh_access_token(refresh_token)
     update!({
-              access_token: response['access_token'],
-              refresh_token: response['refresh_token'],
-              expires_at: response['expire_in'].to_i.seconds.from_now
+              access_token: auth['access_token'],
+              refresh_token: auth['refresh_token'],
+              expires_at: auth['expires_in'].to_i.seconds.from_now,
             })
     reauthorized!
   rescue StandardError

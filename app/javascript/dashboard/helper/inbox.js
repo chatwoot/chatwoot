@@ -12,6 +12,7 @@ export const INBOX_TYPES = {
   INSTAGRAM: 'Channel::Instagram',
   VOICE: 'Channel::Voice',
   SHOPEE: 'Channel::Shopee',
+  ZALO: 'Channel::Zalo',
 };
 
 const INBOX_ICON_MAP_FILL = {
@@ -26,6 +27,7 @@ const INBOX_ICON_MAP_FILL = {
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-fill',
   [INBOX_TYPES.VOICE]: 'i-ri-phone-fill',
   [INBOX_TYPES.SHOPEE]: 'i-ri-shop-fill',
+  [INBOX_TYPES.ZALO]: 'i-ri-chat-smile-2-fill',
 };
 
 const DEFAULT_ICON_FILL = 'i-ri-chat-1-fill';
@@ -42,6 +44,7 @@ const INBOX_ICON_MAP_LINE = {
   [INBOX_TYPES.INSTAGRAM]: 'i-ri-instagram-line',
   [INBOX_TYPES.VOICE]: 'i-ri-phone-line',
   [INBOX_TYPES.SHOPEE]: 'i-ri-shop-line',
+  [INBOX_TYPES.ZALO]: 'i-ri-chat-smile-2-line',
 };
 
 const DEFAULT_ICON_LINE = 'i-ri-chat-1-line';
@@ -98,6 +101,9 @@ export const getReadableInboxByType = (type, phoneNumber) => {
     case INBOX_TYPES.SHOPEE:
       return 'shopee';
 
+    case INBOX_TYPES.ZALO:
+      return 'zalo';
+
     default:
       return 'chat';
   }
@@ -142,6 +148,9 @@ export const getInboxClassByType = (type, phoneNumber) => {
 
     case INBOX_TYPES.SHOPEE:
       return 'brand-shopee';
+
+    case INBOX_TYPES.ZALO:
+      return 'brand-zalo';
 
     default:
       return 'chat';

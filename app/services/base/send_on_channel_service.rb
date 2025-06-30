@@ -50,6 +50,6 @@ class Base::SendOnChannelService
   end
 
   def validate_target_channel
-    raise 'Invalid channel service was called' if inbox.channel.class != channel_class
+    raise 'Invalid channel service was called' if inbox.channel.class.name != channel_class.name
   end
 end

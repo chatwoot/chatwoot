@@ -21,4 +21,6 @@ export const MESSAGE_MAX_LENGTH = {
   LINE: 2000,
   EMAIL: 25000,
   SHOPEE: 600,
+  // https://developers.zalo.me/docs/official-account/tin-nhan/tin-tu-van/gui-tin-tu-van-dang-van-ban
+  ZALO: 2000,
 };

@@ -56,7 +56,12 @@
         "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
       },
       "SHOPEE": {
-        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Shop của bạn"
+        "HELP": "Tái bút: Bằng cách đăng nhập, chúng tôi chỉ có quyền truy cập vào các tin nhắn trên Shop của bạn",
+        "CONNECT": "Kết nối Shop"
+      },
+      "ZALO": {
+        "HELP": "Để thêm Zalo của bạn làm kênh, bạn cần xác thực Zalo của mình bằng cách nhấp vào 'Kết nối Zalo của bạn'",
+        "CONNECT": "Kết nối Zalo của bạn"
       },
       "TWITTER": {
         "HELP": "Để thêm hồ sơ Twitter của bạn làm kênh, bạn cần xác thực Hồ sơ Twitter của mình bằng cách nhấp vào 'Đăng nhập bằng Twitter",
@@ -801,6 +806,8 @@
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "Kênh API",
+      "SHOPEE": "Shopee",
+      "ZALO": "Zalo Official Account",
       "INSTAGRAM": "Instagram"
     }
   }

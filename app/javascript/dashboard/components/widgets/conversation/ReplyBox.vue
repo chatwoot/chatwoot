@@ -276,11 +276,15 @@ export default {
       if (this.isAShopeeInbox) {
         return MESSAGE_MAX_LENGTH.SHOPEE;
       }
+      if (this.isAZaloInbox) {
+        return MESSAGE_MAX_LENGTH.ZALO;
+      }
       return MESSAGE_MAX_LENGTH.GENERAL;
     },
     showFileUpload() {
       return (
         this.isAShopeeInbox ||
+        this.isAZaloInbox ||
         this.isAWebWidgetInbox ||
         this.isAFacebookInbox ||
         this.isAWhatsAppChannel ||

@@ -182,6 +182,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.string "fallback_title"
     t.string "extension"
     t.jsonb "meta", default: {}
+    t.string "external_code", limit: 255
     t.index ["account_id"], name: "index_attachments_on_account_id"
     t.index ["message_id"], name: "index_attachments_on_message_id"
   end

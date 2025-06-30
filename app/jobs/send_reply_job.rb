@@ -14,6 +14,7 @@ class SendReplyJob < ApplicationJob
       'Channel::Whatsapp' => ::Whatsapp::SendOnWhatsappService,
       'Channel::Sms' => ::Sms::SendOnSmsService,
       'Channel::Shopee' => ::Shopee::SendOnShopService,
+      'Channel::Zalo' => ::Zalo::SendOnAccountService,
       'Channel::FacebookPage' => ::Facebook::SendOnInboxService,
       'Channel::Instagram' => ::Instagram::SendOnInstagramService
     }

@@ -11,6 +11,7 @@ defineProps({
   senderTranslationKey: { type: String, required: true },
   content: { type: String, required: true },
   title: { type: String, default: '' }, // Title can be any name, description, etc
+  imageUrl: { type: String, default: '' }, // Optional image URL
   action: {
     type: Object,
     required: true,
@@ -32,7 +33,16 @@ const senderName = computed(() => {
   <BaseBubble class="overflow-hidden p-3" data-bubble-name="attachment">
     <div class="grid gap-4 min-w-64">
       <div class="grid gap-3">
+        <div v-if="imageUrl">
+          <img
+            :src="imageUrl"
+            alt="Image"
+            loading="lazy"
+            class="size-8 rounded-lg"
+          />
+        </div>
         <div
+          v-else
           class="size-8 rounded-lg grid place-content-center"
           :class="iconBgColor"
         >
