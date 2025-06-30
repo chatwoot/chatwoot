@@ -165,6 +165,13 @@ export const mockTeamsList = [
   },
 ];
 
+export const mockActiveMacros = [
+  {
+    id: 1,
+    name: 'Welcome Message',
+  },
+];
+
 export const mockActiveLabels = [
   {
     id: 16,

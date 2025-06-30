@@ -47,8 +47,8 @@ import {
 const prepareActions = (actions, t) => {
   return actions.map(action => ({
     ...action,
-    title: t(action.title),
-    section: t(action.section),
+    title: action.title ? t(action.title) : '',
+    section: action.section ? t(action.section) : '',
   }));
 };
 

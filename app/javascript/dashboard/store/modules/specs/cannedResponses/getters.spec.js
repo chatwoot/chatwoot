@@ -18,20 +18,22 @@ describe('#getCannedResponses', () => {
 describe('#getSortedCannedResponses', () => {
   it('returns sort canned responses in ascending order', () => {
     const state = { records: CANNED_RESPONSES };
-    expect(getters.getSortedCannedResponses(state)('asc')).toEqual([
-      CANNED_RESPONSES[1],
-      CANNED_RESPONSES[2],
-      CANNED_RESPONSES[0],
-    ]);
+    expect(
+      getters.getSortedCannedResponses(state)({
+        sortKey: 'short_code',
+        sortOrder: 'asc',
+      })
+    ).toEqual([CANNED_RESPONSES[1], CANNED_RESPONSES[2], CANNED_RESPONSES[0]]);
   });
 
   it('returns sort canned responses in descending order', () => {
     const state = { records: CANNED_RESPONSES };
-    expect(getters.getSortedCannedResponses(state)('desc')).toEqual([
-      CANNED_RESPONSES[0],
-      CANNED_RESPONSES[2],
-      CANNED_RESPONSES[1],
-    ]);
+    expect(
+      getters.getSortedCannedResponses(state)({
+        sortKey: 'short_code',
+        sortOrder: 'desc',
+      })
+    ).toEqual([CANNED_RESPONSES[0], CANNED_RESPONSES[2], CANNED_RESPONSES[1]]);
   });
 });
 

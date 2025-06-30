@@ -12,6 +12,7 @@ import {
   mockTeamsList,
   mockActiveLabels,
   mockInactiveLabels,
+  mockActiveMacros,
 } from './fixtures';
 
 vi.mock('dashboard/composables/store');
@@ -33,6 +34,7 @@ describe('useConversationHotKeys', () => {
         getContextMenuChatId: null,
         'teams/getTeams': mockTeamsList,
         'draftMessages/get': vi.fn(),
+        'macros/getMacros': mockActiveMacros,
       },
     };
 
