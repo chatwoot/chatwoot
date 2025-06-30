@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_19_141557) do
+ActiveRecord::Schema[7.0].define(version: 2025_06_30_070633) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1102,6 +1102,18 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_19_141557) do
     t.index ["user_id"], name: "index_reporting_events_on_user_id"
   end
 
+  create_table "shopify_locations", force: :cascade do |t|
+    t.string "name", null: false
+    t.boolean "ships_inventory", default: false, null: false
+    t.boolean "fulfills_online_orders", default: false, null: false
+    t.boolean "is_active", default: true, null: false
+    t.jsonb "address", default: {}, null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.bigint "account_id"
+    t.index ["account_id"], name: "index_shopify_locations_on_account_id"
+  end
+
   create_table "shops", force: :cascade do |t|
     t.string "shopify_domain", null: false
     t.string "shopify_token", null: false
@@ -1277,6 +1289,7 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_19_141557) do
   add_foreign_key "inboxes", "portals"
   add_foreign_key "integrations_hooks", "account_users"
   add_foreign_key "orders", "accounts"
+  add_foreign_key "shopify_locations", "accounts"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

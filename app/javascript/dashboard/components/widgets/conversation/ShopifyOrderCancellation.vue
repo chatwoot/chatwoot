@@ -9,7 +9,7 @@ import { useStore } from 'vuex';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
-import OrdersAPI from 'dashboard/api/orders';
+import OrdersAPI from 'dashboard/api/shopify/orders';
 import { AxiosError } from 'axios';
 import { isAxiosError } from 'axios';
 

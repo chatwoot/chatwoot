@@ -1,5 +1,11 @@
 module Shopify::IntegrationHelper
-  REQUIRED_SCOPES = %w[read_customers read_orders read_fulfillments write_orders].freeze
+  REQUIRED_SCOPES = %w[read_inventory read_locations read_products read_orders write_orders read_customers read_fulfillments read_returns].freeze
+
+  # read_orders	Read order details and line items (to determine refundable items and quantities)
+  # read_inventory	Read inventory items and inventory levels (to get stock and location data)
+  # read_locations	Read shop locations (to fetch valid restock locations, if not cached)
+  # read_products	Read product and variant information (to get variant and inventory item IDs)
+  # write_orders	Create refunds and restock items (needed for refundCreate and restocking mutations)
 
   # Generates a signed JWT token for Shopify integration
   #

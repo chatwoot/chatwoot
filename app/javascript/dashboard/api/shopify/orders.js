@@ -1,5 +1,5 @@
 /* global axios */
-import ApiClient from './ApiClient';
+import ApiClient from '../ApiClient';
 
 class OrdersAPI extends ApiClient {
   constructor() {
@@ -47,6 +47,10 @@ class OrdersAPI extends ApiClient {
       currency,
       refund_line_items,
     });
+  }
+
+  orderFulfillments({orderId}) {
+    return axios.get(`${this.url}/${orderId}/order_fulfillments`);
   }
 }
 

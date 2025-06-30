@@ -348,5 +348,6 @@ en:
       %{format_messages}
   shopify:
     order_cancellation_process: 'Order cancellation in process'
+    order_refund_process: 'Order refund in process'
     order:
       update_complete: 'Order updated'

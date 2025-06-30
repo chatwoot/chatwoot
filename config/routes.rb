@@ -1,13 +1,4 @@
 Rails.application.routes.draw do
-  # namespace :api do
-  #   namespace :v1 do
-  #     namespace :widget do
-  #       namespace :shopify do
-  #         get 'orders/index'
-  #       end
-  #     end
-  #   end
-  # end
   mount ShopifyApp::Engine, at: '/'
   # AUTH STARTS
   mount_devise_token_auth_for 'User', at: 'auth', controllers: {
@@ -380,7 +371,9 @@ Rails.application.routes.draw do
               post :cancel_order, on: :member
               post :calculate_refund, on: :member
               post :refund_order, on: :member
+              get  :order_fulfillments, on: :member
             end
+            resources :locations, only: [:index]
           end
 
           resources :summary_reports, only: [] do

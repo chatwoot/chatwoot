@@ -9,7 +9,8 @@ import useVuelidate from '@vuelidate/core';
 import { maxValue, minValue, required } from '@vuelidate/validators';
 import QuantityField from './QuantityField.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import OrdersAPI from 'dashboard/api/orders';
+import OrdersAPI from 'dashboard/api/shopify/orders';
+import ShopifyLocationsAPI from 'dashboard/api/shopify/locations';
 import { isAxiosError } from 'axios';
 import { useAlert } from 'dashboard/composables';
 
@@ -104,18 +105,6 @@ watch(
   { immediate: true }
 );
 
-const restockStates = ref({});
-
-watch(
-  refundableLineItemsQuantity,
-  newLimits => {
-    restockStates.value = Object.fromEntries(
-      Object.keys(newLimits).map(id => [id, true])
-    );
-  },
-  { immediate: true }
-);
-
 const initialFormState = {
   refundAmount: 0,
   refundNote: null,
@@ -164,15 +153,32 @@ const onOrderUpdate = data => {
 
   onClose();
   emitter.emit('newToastMessage', {
-    message: "Refund create successfully",
+    message: 'Refund create successfully',
     action: null,
   });
 
   clearTimeout(cancellationTimeout);
 };
 
+const locations = ref([]);
+const fulfillments = ref([]);
+
+const getAvailableLocations = async () => {
+  try {
+    const result = await ShopifyLocationsAPI.get();
+    locations.value = result.data.locations;
+  } catch (e) {
+  }
+};
+
+const getFulfillmentsForTheOrder = async () => {
+  const result = await OrdersAPI.orderFulfillments()
+  console.log(result.data.fulfillments)
+}
+
 onMounted(() => {
   emitter.on(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
+  getAvailableLocations();
   calculateRefund();
   refundQuantityStates.value = Object.fromEntries(
     props.order.line_items.map(e => [e.id, 0])
@@ -201,10 +207,7 @@ const currentSubtotal = computed(() => {
 const currentDiscountApplied = computed(() => {
   return (
     currentRefund.value?.refund_line_items.reduce(
-      (acc, curr) =>
-        acc +
-        Number(curr.price) -
-        Number(curr.discounted_price),
+      (acc, curr) => acc + Number(curr.price) - Number(curr.discounted_price),
       0
     ) ?? 0
   );

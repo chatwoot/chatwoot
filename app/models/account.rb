@@ -101,6 +101,7 @@ class Account < ApplicationRecord
   # has_many :account_billing_subscriptions, dependent: :destroy_async, class_name: '::Enterprise::AccountBillingSubscription'
   has_many :coupon_codes, dependent: :destroy_async
   has_many :orders, dependent: :destroy_async
+  has_many :shopify_locations, dependent: :destroy_async
 
   has_one_attached :contacts_export
 
