@@ -126,6 +126,18 @@ For other supported options, checkout our [deployment page](https://chatwoot.com
 
 Looking to report a vulnerability? Please refer our [SECURITY.md](./SECURITY.md) file.
 
+## Baileys and OpenAI Bot Example
+
+You can experiment with a simple WhatsApp bot using the `scripts/baileys_openai_bot.js` script.
+It connects to WhatsApp via the [Baileys](https://github.com/adiwajshing/Baileys) library and replies using the OpenAI API.
+
+```bash
+pnpm install
+OPENAI_API_KEY=your-key node scripts/baileys_openai_bot.js
+```
+
+Scan the QR code in your terminal to link a WhatsApp account and start chatting.
+
 ## Community
 
 If you need help or just want to hang out, come, say hi on our [Discord](https://discord.gg/cJXdrwS) server.
