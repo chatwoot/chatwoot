@@ -103,7 +103,7 @@ export default {
         {
           path: 'github',
           name: 'settings_integrations_github',
-          component: Shopify,
+          component: Github,
           meta: {
             featureFlag: FEATURE_FLAGS.INTEGRATIONS,
             permissions: ['administrator'],
