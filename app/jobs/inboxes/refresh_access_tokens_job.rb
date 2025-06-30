@@ -12,6 +12,9 @@ class Inboxes::RefreshAccessTokensJob < ApplicationJob
   private
 
   def scoped_channels
-    [Channel::Shopee.model_name.name]
+    [
+      Channel::Shopee.model_name.name,
+      Channe::Zalo.model_name.name
+    ]
   end
 end

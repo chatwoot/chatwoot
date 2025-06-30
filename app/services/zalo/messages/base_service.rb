@@ -1,5 +1,4 @@
 class Zalo::Messages::BaseService
-
   delegate :inbox, :account, :contact, to: :conversation
   delegate :channel, to: :inbox
 
@@ -54,7 +53,7 @@ class Zalo::Messages::BaseService
       content: message_content,
       message_type: message_type,
       content_type: content_type,
-      content_attributes: content_attributes,
+      content_attributes: content_attributes
     }
   end
 
@@ -64,7 +63,7 @@ class Zalo::Messages::BaseService
       app_id: params[:app_id],
       timestamp: params[:timestamp],
       event_name: params[:event_name],
-      admin_id: params.dig(:sender, :admin_id),
+      admin_id: params.dig(:sender, :admin_id)
     }
   end
 
@@ -74,6 +73,4 @@ class Zalo::Messages::BaseService
   end
 
   def process_attachments; end
-
 end
-
