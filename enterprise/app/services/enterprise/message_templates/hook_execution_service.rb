@@ -11,7 +11,7 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def schedule_captain_response
     job_args = [conversation, conversation.inbox.captain_assistant]
-    
+
     if message.attachments.blank?
       Captain::Conversation::ResponseBuilderJob.perform_later(*job_args)
     else
@@ -22,8 +22,8 @@ module Enterprise::MessageTemplates::HookExecutionService
 
   def calculate_attachment_wait_time
     attachment_count = message.attachments.size
-    base_wait = 1.seconds
-    
+    base_wait = 1.second
+
     # Wait longer for more attachments or larger files
     additional_wait = [attachment_count * 1, 4].min.seconds
     base_wait + additional_wait
