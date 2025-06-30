@@ -1,5 +1,9 @@
 import { computed } from 'vue';
-import { useStore, useStoreGetters } from 'dashboard/composables/store';
+import {
+  useStore,
+  useStoreGetters,
+  useMapGetter,
+} from 'dashboard/composables/store';
 
 /**
  * Composable for managing conversation macros
@@ -8,6 +12,8 @@ import { useStore, useStoreGetters } from 'dashboard/composables/store';
 export function useConversationMacros() {
   const store = useStore();
   const getters = useStoreGetters();
+
+  store.dispatch('macros/get');
 
   /**
    * The currently selected chat
@@ -21,8 +27,9 @@ export function useConversationMacros() {
    */
   const conversationId = computed(() => currentChat.value?.id);
 
+  const macros = useMapGetter('macros/getMacros');
+
   const activeMacros = computed(() => {
-    const macros = store.getters['macros/getMacros'];
     return macros?.value || [];
   });
 

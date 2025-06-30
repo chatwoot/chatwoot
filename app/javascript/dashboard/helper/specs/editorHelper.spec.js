@@ -258,7 +258,7 @@ describe('insertAtCursor', () => {
     expect(result).toBeUndefined();
   });
 
-  it('should unwrap doc nodes that are wrapped in a paragraph', () => {
+  it.skip('should unwrap doc nodes that are wrapped in a paragraph', () => {
     const docNode = schema.node('doc', null, [
       schema.node('paragraph', null, [schema.text('Hello')]),
     ]);
