@@ -21,22 +21,22 @@ export default {
       return this.$store.getters['accounts/getAccount'](this.accountId);
     },
     channelList() {
-      const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
+      // const { apiChannelName, apiChannelThumbnail } = this.globalConfig;
       return [
-        { key: 'website', name: 'Website' },
-        { key: 'facebook', name: 'Messenger' },
+        // { key: 'website', name: 'Website' },
+        // { key: 'facebook', name: 'Messenger' },
         { key: 'whatsapp', name: 'WhatsApp' },
-        { key: 'sms', name: 'SMS' },
-        { key: 'email', name: 'Email' },
-        {
-          key: 'api',
-          name: apiChannelName || 'API',
-          thumbnail: apiChannelThumbnail,
-        },
-        { key: 'telegram', name: 'Telegram' },
-        { key: 'line', name: 'Line' },
+        // { key: 'sms', name: 'SMS' },
+        // { key: 'email', name: 'Email' },
+        // {
+        //   key: 'api',
+        //   name: apiChannelName || 'API',
+        //   thumbnail: apiChannelThumbnail,
+        // },
+        // { key: 'telegram', name: 'Telegram' },
+        // { key: 'line', name: 'Line' },
         { key: 'instagram', name: 'Instagram' },
-        { key: 'voice', name: 'Voice' },
+        // { key: 'voice', name: 'Voice' },
       ];
     },
     ...mapGetters({
