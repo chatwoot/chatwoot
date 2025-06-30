@@ -23,7 +23,7 @@ if ! command -v convert &> /dev/null; then
 fi
 
 # Define paths
-LOGO_SOURCE="public/brand-assets/logo.png"
+LOGO_SOURCE="public/brand-assets/logo_only.png"
 PUBLIC_DIR="public"
 OLD_DIR="public/old"
 
