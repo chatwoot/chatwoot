@@ -88,11 +88,10 @@ class Integrations::App
   def build_github_action
     app_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
     [
-      "#{params[:action]}?response_type=code",
-      "client_id=#{app_id}",
+      "#{params[:action]}?client_id=#{app_id}",
       "redirect_uri=#{self.class.github_integration_url}",
       "state=#{encode_state}",
-      'scope=repo'
+      'scope=repo,read:org'
     ].join('&')
   end
 
