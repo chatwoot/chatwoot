@@ -26,11 +26,10 @@ const getters = {
 
         if (typeof aVal === 'number') {
           return sortOrder === 'asc' ? aVal - bVal : bVal - aVal;
-        } else {
-          return sortOrder === 'asc'
-            ? aVal.toString().localeCompare(bVal.toString())
-            : bVal.toString().localeCompare(aVal.toString());
         }
+        return sortOrder === 'asc'
+          ? aVal.toString().localeCompare(bVal.toString())
+          : bVal.toString().localeCompare(aVal.toString());
       });
     };
   },

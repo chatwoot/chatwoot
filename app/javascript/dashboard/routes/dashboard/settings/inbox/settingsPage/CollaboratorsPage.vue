@@ -66,7 +66,10 @@ export default {
           inboxId: this.inbox.id,
         });
         const {
-          data: { agents, allowed_custom_message_agents: allowedCustomMessageAgents },
+          data: {
+            agents,
+            allowed_custom_message_agents: allowedCustomMessageAgents,
+          },
         } = response;
         this.selectedAgents = agents;
         this.selectedCustomMessageAgents = allowedCustomMessageAgents;
@@ -79,7 +82,9 @@ export default {
     },
     async updateAgents() {
       const agentList = this.selectedAgents.map(el => el.id);
-      const customMessageAgentList = this.selectedCustomMessageAgents.map(el => el.id);
+      const customMessageAgentList = this.selectedCustomMessageAgents.map(
+        el => el.id
+      );
       this.isAgentListUpdating = true;
       try {
         await this.$store.dispatch('inboxMembers/create', {
@@ -152,7 +157,9 @@ export default {
         {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_CUSTOM_MESSAGE_AGENTS') }}
       </label>
       <p class="text-sm text-gray-500">
-        {{ $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_CUSTOM_MESSAGE_AGENTS_SUB_TEXT') }}
+        {{
+          $t('INBOX_MGMT.SETTINGS_POPUP.ALLOWED_CUSTOM_MESSAGE_AGENTS_SUB_TEXT')
+        }}
       </p>
       <multiselect
         v-model="selectedCustomMessageAgents"

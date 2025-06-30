@@ -48,7 +48,7 @@ const deleteMessage = computed(() => {
   return ` ${activeResponse.value.short_code} ? `;
 });
 
-const toggleSort = (key) => {
+const toggleSort = key => {
   if (sortKey.value === key) {
     sortOrder.value = sortOrder.value === 'asc' ? 'desc' : 'asc';
   } else {
@@ -191,7 +191,11 @@ const updateCannedItem = updatedResponse => {
                 <span class="mb-0">{{ header.label }}</span>
                 <fluent-icon
                   class="ml-2 size-4"
-                  :icon="sortKey === header.key && sortOrder === 'desc' ? 'chevron-up' : 'chevron-down'"
+                  :icon="
+                    sortKey === header.key && sortOrder === 'desc'
+                      ? 'chevron-up'
+                      : 'chevron-down'
+                  "
                 />
               </button>
             </template>
@@ -215,7 +219,7 @@ const updateCannedItem = updatedResponse => {
               {{ cannedItem.content }}
             </td>
             <td class="py-4 ltr:pr-4 rtl:pl-4 text-center">
-                {{ cannedItem.messages_count }}
+              {{ cannedItem.messages_count }}
             </td>
             <td class="py-4 flex justify-end gap-1">
               <Button

@@ -47,7 +47,9 @@ const targetInboxLabel = computed(() => {
   <div
     class="flex items-center flex-1 w-full gap-3 px-4 py-3 overflow-y-visible"
   >
-    <label class="w-[5rem] text-end mb-0.5 text-sm font-medium text-n-slate-11 whitespace-nowrap">
+    <label
+      class="w-[5rem] text-end mb-0.5 text-sm font-medium text-n-slate-11 whitespace-nowrap"
+    >
       {{ t('COMPOSE_NEW_CONVERSATION.FORM.INBOX_SELECTOR.LABEL') }}
     </label>
     <div

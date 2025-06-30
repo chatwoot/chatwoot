@@ -103,7 +103,7 @@ export default {
   <div class="flex justify-between h-[3.25rem] gap-2 ltr:pl-3 rtl:pr-3">
     <EditorModeToggle
       :mode="mode"
-      :canReplyByCustomMessage="canReplyByCustomMessage"
+      :can-reply-by-custom-message="canReplyByCustomMessage"
       class="mt-3"
       @toggle-mode="handleModeToggle"
     />
