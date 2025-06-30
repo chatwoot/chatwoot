@@ -17,6 +17,7 @@ class Twilio::IncomingMessageService
       source_id: params[:SmsSid]
     )
     attach_files
+    attach_location if location_message?
     @message.save!
   end
 
@@ -154,5 +155,18 @@ class Twilio::IncomingMessageService
   rescue StandardError => e
     Rails.logger.info "Error downloading attachment from Twilio: #{e.message}: Skipping"
     nil
+  end
+
+  def location_message?
+    params[:MessageType] == 'location' && params[:Latitude].present? && params[:Longitude].present?
+  end
+
+  def attach_location
+    @message.attachments.new(
+      account_id: @message.account_id,
+      file_type: :location,
+      coordinates_lat: params[:Latitude].to_f,
+      coordinates_long: params[:Longitude].to_f
+    )
   end
 end
