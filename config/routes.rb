@@ -110,6 +110,9 @@ Rails.application.routes.draw do
                   post :translate
                   post :retry
                 end
+                  collection do
+                    post 'send-message', to: 'messages#send_email_notification'
+                  end  
               end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
@@ -524,6 +527,11 @@ Rails.application.routes.draw do
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]
       resource :instance_status, only: [:show]
+      resources :email_templates do
+        collection do
+          get :check_slug_inbox
+        end
+      end    
 
       resource :settings, only: [:show] do
         get :refresh, on: :collection
