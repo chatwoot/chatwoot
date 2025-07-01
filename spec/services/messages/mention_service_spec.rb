@@ -309,25 +309,16 @@ describe Messages::MentionService do
         described_class.new(message: message).perform
 
         expect(NotificationBuilder).to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: first_agent,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
+          notification_type: 'conversation_mention', user: first_agent, account: account,
+          primary_actor: message.conversation, secondary_actor: message
         )
         expect(NotificationBuilder).to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: second_agent,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
+          notification_type: 'conversation_mention', user: second_agent, account: account,
+          primary_actor: message.conversation, secondary_actor: message
         )
         expect(NotificationBuilder).not_to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: non_inbox_team_member,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
+          notification_type: 'conversation_mention', user: non_inbox_team_member, account: account,
+          primary_actor: message.conversation, secondary_actor: message
         )
       end
     end
@@ -431,25 +422,16 @@ describe Messages::MentionService do
         described_class.new(message: message).perform
 
         expect(NotificationBuilder).to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: third_agent,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
+          notification_type: 'conversation_mention', user: third_agent, account: account,
+          primary_actor: message.conversation, secondary_actor: message
         )
         expect(NotificationBuilder).to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: first_agent,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
+          notification_type: 'conversation_mention', user: first_agent, account: account,
+          primary_actor: message.conversation, secondary_actor: message
         )
         expect(NotificationBuilder).to have_received(:new).with(
-          notification_type: 'conversation_mention',
-          user: second_agent,
-          account: account,
-          primary_actor: message.conversation,
-          secondary_actor: message
+          notification_type: 'conversation_mention', user: second_agent, account: account,
+          primary_actor: message.conversation, secondary_actor: message
         )
       end
 
