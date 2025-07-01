@@ -55,6 +55,7 @@ class Zalo::SendOnAccountService < Base::SendOnChannelService
   def send_text_message
     message_content = [message.content.presence, @attachment_links].flatten.compact.join("\n")
     return if message_content.blank?
+
     response = message_caller.send_message(zalo_id, message_content)
     message.update!(source_id: response.dig('message_id'))
   end
@@ -65,21 +66,22 @@ class Zalo::SendOnAccountService < Base::SendOnChannelService
         payload = {
           type: :file,
           payload: {
-            token: attachment.meta.dig('zalo_file_data', 'token'),
-          },
+            token: attachment.meta.dig('zalo_file_data', 'token')
+          }
         }
       elsif attachment.meta.dig('zalo_file_data', 'attachment_id').present?
+        is_gif = attachment.file.attachment.blob.content_type == 'image/gif'
         payload = {
           type: :template,
           payload: {
             template_type: :media,
             elements: [{
-              media_type: :gif,
+              media_type: is_gif ? :gif : :image,
               attachment_id: attachment.meta.dig('zalo_file_data', 'attachment_id'),
               width: attachment.file.attachment&.blob&.metadata&.dig('width') || 100,
-              height: attachment.file.attachment&.blob&.metadata&.dig('height') || 100,
-            }],
-          },
+              height: attachment.file.attachment&.blob&.metadata&.dig('height') || 100
+            }]
+          }
         }
       elsif attachment.file_type == 'image'
         payload = {
@@ -88,9 +90,9 @@ class Zalo::SendOnAccountService < Base::SendOnChannelService
             template_type: :media,
             elements: [{
               media_type: :image,
-              url: attachment.download_url,
+              url: attachment.download_url
             }]
-          },
+          }
         }
       end
 
@@ -112,5 +114,4 @@ class Zalo::SendOnAccountService < Base::SendOnChannelService
   def zalo_id
     @zalo_id ||= contact_inbox.source_id.to_i
   end
-
 end
