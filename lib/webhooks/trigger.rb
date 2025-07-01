@@ -42,7 +42,13 @@ class Webhooks::Trigger
   end
 
   def update_message_status(error)
-    message.update!(status: :failed, external_error: error.message)
+    # Don't add external_error or mark as failed if it's a timeout error
+    if error.message == 'Timed out reading data from server'
+      # Do nothing - don't change the message status or add external_error
+      Rails.logger.info "Webhook timeout for message #{message.id} - not marking as failed"
+    else
+      message.update!(status: :failed, external_error: error.message)
+    end
   end
 
   def message

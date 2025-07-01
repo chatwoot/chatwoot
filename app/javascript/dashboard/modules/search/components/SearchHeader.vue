@@ -23,12 +23,19 @@
 </template>
 
 <script>
+import { mapGetters } from 'vuex';
+
 export default {
   data() {
     return {
       searchQuery: '',
       isInputFocused: false,
     };
+  },
+  computed: {
+    ...mapGetters({
+      accountId: 'getCurrentAccountId',
+    }),
   },
   mounted() {
     this.$refs.searchInput.focus();
@@ -54,7 +61,14 @@ export default {
       this.searchQuery = e.target.value;
       clearTimeout(this.debounce);
       this.debounce = setTimeout(async () => {
-        if (this.searchQuery.length > 4 || this.searchQuery.match(/^[0-9]+$/)) {
+        // Exception for account ID 1389: allow search with more than 1 character
+        const isSpecialAccount = this.accountId === 1389;
+        const minLength = isSpecialAccount ? 1 : 4;
+
+        if (
+          this.searchQuery.length > minLength ||
+          this.searchQuery.match(/^[0-9]+$/)
+        ) {
           this.$emit('search', this.searchQuery);
         } else {
           this.$emit('search', '');
