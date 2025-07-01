@@ -288,6 +288,7 @@ Rails.application.routes.draw do
             end
           end
 
+          resources :knowledge_bases, only: [:index, :show, :create, :update, :destroy]
           resources :upload, only: [:create]
         end
       end
