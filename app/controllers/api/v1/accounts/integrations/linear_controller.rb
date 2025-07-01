@@ -28,7 +28,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   end
 
   def create_issue
-    issue = linear_processor_service.create_issue(permitted_params)
+    issue = linear_processor_service.create_issue(permitted_params, Current.user)
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
@@ -45,7 +45,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   def link_issue
     issue_id = permitted_params[:issue_id]
     title = permitted_params[:title]
-    issue = linear_processor_service.link_issue(conversation_link, issue_id, title)
+    issue = linear_processor_service.link_issue(conversation_link, issue_id, title, Current.user)
     if issue[:error]
       render json: { error: issue[:error] }, status: :unprocessable_entity
     else
