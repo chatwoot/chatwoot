@@ -78,10 +78,11 @@ onMounted(() => {
       <div
         class="relative max-h-full overflow-auto bg-n-alpha-3 shadow-md modal-container rtl:text-right skip-context-menu"
         :class="{
-          'rounded-xl w-[37.5rem]': !fullWidth,
+          [size]: true,
+          ['w-[37.5rem]']: !size,
+          'rounded-xl': !fullWidth,
           'items-center rounded-none flex h-full justify-center w-full':
             fullWidth,
-          [size]: true,
         }"
         @mouse.stop
         @mousedown="event => event.stopPropagation()"

@@ -50,6 +50,12 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
               currencyCode
             }
           }
+          suggestedTransactions {
+            gateway
+            parentTransaction {
+              id
+            }
+          }
         }
         fulfillments(first: 100) {
           fulfillmentLineItems(first: 100) {
@@ -72,10 +78,23 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
     }
   GRAPHQL
 
-  # ORDER_FULFILL_QUERY -> EXAMPLE RESPONSE
+#  ORDER_FULFILL_QUERY -> EXAMPLE RESPONSE
 #  {
 #   "data": {
 #     "order": {
+#     "transactions": [
+#         {
+#           "id": "gid://shopify/OrderTransaction/8117248688438",
+#           "gateway": "bogus",
+#           "kind": "SALE",
+#           "status": "SUCCESS",
+#           "amountSet": {
+#             "shopMoney": {
+#               "amount": "1274400.0",
+#               "currencyCode": "INR"
+#             }
+#           }
+#         },
 #       "suggestedRefund": {
 #         "maximumRefundableSet": {
 #           "presentmentMoney": {
@@ -197,7 +216,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
           ).except(:line_item_id, :location_id, :restock_type)
         end || []),
         transactions: (transactions&.map do |item|
-          item.merge(kind: "REFUND", parentId: "gid://shopify/OrderTransaction/#{item[:parent_id]}" , orderId: "gid://shopify/Order/#{item[:order_id]}" ).except(:parent_id, :order_id)
+          item.merge(kind: "REFUND", parentId: item[:parent_id], orderId: "gid://shopify/Order/#{item[:order_id]}" ).except(:parent_id, :order_id)
         end || []),
         note: note,
         notify: notify,
@@ -273,7 +292,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
         id: orderGid,
       )
 
-      render json: {order_info: deep_symbolize(response.data)}
+      render json: {order: deep_symbolize(response.data.order)}
     end
   end
 

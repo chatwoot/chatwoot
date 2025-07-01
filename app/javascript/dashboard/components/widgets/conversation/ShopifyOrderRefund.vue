@@ -29,81 +29,15 @@ const reasons = [
   'Duplicate or accidental order',
 ];
 
-// const item_restock_options = ['no_restock', 'cancel', 'return'];
+const item_restock_options = {
+  no_restock: 'NO_RESTOCK',
+  cancel: 'CANCEL',
+  return: 'RETURN',
+};
 
 const onClose = () => {
   emitter.emit(BUS_EVENTS.REFUND_ORDER, null);
 };
-
-const totalLineItemsQuantity = computed(() => {
-  return Object.fromEntries(
-    props.order?.line_items.map(e => [e.id, e.quantity]) ?? []
-  );
-});
-
-const refundedLineItemsQuantity = computed(() => {
-  if (!props.order?.refunds.length || props.order?.refunds.length === 0) {
-    return {};
-  }
-
-  const allRefundLineItems =
-    props.order?.refunds.flatMap(refund => refund.refund_line_items) ?? {};
-
-  const mergedLineItems = {};
-
-  allRefundLineItems.forEach(item => {
-    const lineItemId = item.line_item.id;
-    if (!mergedLineItems[lineItemId]) {
-      mergedLineItems[lineItemId] = {
-        ...item.line_item,
-        quantity: item.quantity,
-      };
-    } else {
-      mergedLineItems[lineItemId].quantity += item.quantity;
-    }
-  });
-
-  const entries = Object.entries(mergedLineItems).map(([id, e]) => [
-    id,
-    e.quantity,
-  ]);
-
-  return Object.fromEntries(entries);
-});
-
-const refundableLineItemsQuantity = computed(() => {
-  console.log('Total: ', totalLineItemsQuantity.value);
-  console.log('Refunded: ', refundedLineItemsQuantity.value);
-
-  let entries = Object.entries(totalLineItemsQuantity.value).map(
-    ([id, quant]) => {
-      if (refundedLineItemsQuantity.value[id]) {
-        return [id, quant - refundedLineItemsQuantity.value[id] ?? 0];
-      } else {
-        return [id, quant];
-      }
-    }
-  );
-
-  console.log('Mapped: ', entries);
-  // entries = entries.filter(([, qty]) => qty > 0);
-  // console.log('Filtered: ', entries);
-
-  return Object.fromEntries(entries);
-});
-
-const refundQuantityStates = ref();
-
-watch(
-  refundableLineItemsQuantity,
-  newLimits => {
-    console.log('NEW LIMITS: ', newLimits);
-    refundQuantityStates.value = Object.fromEntries(
-      Object.keys(newLimits).map(id => [id, 0])
-    );
-  },
-  { immediate: true }
-);
 
 const initialFormState = {
   refundAmount: 0,
@@ -112,15 +46,23 @@ const initialFormState = {
   restockItem: true,
   sendNotification: true,
   quantity: computed(() => refundQuantityStates.value),
+  // unfulfilledQuantity: computed(() => unfulfilledRefundQuantityStates.value),
+  // fulfilledQuantity: computed(() => fulfilledRefundQuantityStates.value),
 };
 
 const formState = reactive(initialFormState);
 
+const refundableLineItemsQuantity = ref(null);
+// const unfulfilledRefundableLineItemsQuantity = ref(null);
+// const fulfilledRefundableLineItemsQuantity = ref(null);
+
 const rules = computed(() => {
   const quantityRules = {};
 
-  console.log('All limits: ', refundableLineItemsQuantity.value);
   props.order?.line_items.forEach(item => {
+    if (!refundableLineItemsQuantity.value) {
+      return;
+    }
     const max = refundableLineItemsQuantity.value[item.id];
     console.log('Validate against: ', max, ' and id: ', item.id);
     quantityRules[item.id] = {
@@ -129,9 +71,10 @@ const rules = computed(() => {
       maxValue: maxValue(max),
     };
   });
+  const notZero = value => value !== 0;
 
   return {
-    refundAmount: { required },
+    refundAmount: { required, notZero },
     refundNote: { required },
     quantity: quantityRules,
   };
@@ -140,13 +83,44 @@ const rules = computed(() => {
 const v$ = useVuelidate(rules, formState);
 
 const item_total_price = item => {
-  return (
-    item.price_set.shop_money.amount * item.quantity -
-    item.total_discount_set.shop_money.amount
-  );
+  return calculatedRefundForLineItems.value[item.id].refund;
+  // return (
+  //   item.price_set.shop_money.amount * item.quantity -
+  //   item.total_discount_set.shop_money.amount
+  // );
 };
 
 let cancellationTimeout = null;
+
+// const refundedLineItemsQuantity = computed(() => {
+//   if (!props.order?.refunds.length || props.order?.refunds.length === 0) {
+//     return {};
+//   }
+
+//   const allRefundLineItems =
+//     props.order?.refunds.flatMap(refund => refund.refund_line_items) ?? {};
+
+//   const mergedLineItems = {};
+
+//   allRefundLineItems.forEach(item => {
+//     const lineItemId = item.line_item.id;
+//     if (!mergedLineItems[lineItemId]) {
+//       mergedLineItems[lineItemId] = {
+//         ...item.line_item,
+//         quantity: item.quantity,
+//       };
+//     } else {
+//       mergedLineItems[lineItemId].quantity += item.quantity;
+//     }
+//   });
+
+//   const entries = Object.entries(mergedLineItems).map(([id, e]) => [
+//     id,
+//     e.quantity,
+//   ]);
+
+//   return Object.fromEntries(entries);
+// });
 
 const onOrderUpdate = data => {
   if (data.order.id != props.order.id) return;
@@ -161,28 +135,123 @@ const onOrderUpdate = data => {
 };
 
 const locations = ref([]);
-const fulfillments = ref([]);
 
 const getAvailableLocations = async () => {
   try {
     const result = await ShopifyLocationsAPI.get();
     locations.value = result.data.locations;
-  } catch (e) {
-  }
+  } catch (e) {}
 };
 
-const getFulfillmentsForTheOrder = async () => {
-  const result = await OrdersAPI.orderFulfillments()
-  console.log(result.data.fulfillments)
-}
+/**
+ * @typedef {Object} Money
+ * @property {string} amount
+ * @property {string} currencyCode
+ */
+
+/**
+ * @typedef {Object} MaximumRefundableSet
+ * @property {Money} presentmentMoney
+ * @property {Money} shopMoney
+ */
+
+/**
+ * @typedef {Object} ParentTransaction
+ * @property {string} id
+ */
+
+/**
+ * @typedef {Object} SuggestedTransaction
+ * @property {string} gateway
+ * @property {ParentTransaction} parentTransaction
+ */
+
+/**
+ * @typedef {Object} SuggestedRefund
+ * @property {MaximumRefundableSet} maximumRefundableSet
+ * @property {SuggestedTransaction[]} suggestedTransactions
+ */
+
+/** @type {import('vue').Ref<SuggestedRefund|null>} */
+const suggestedRefund = ref(null);
+
+/**
+ * @typedef {Object} FulfillmentLineItem
+ * @property {string} id
+ * @property {number} quantity
+ * @property {Object} lineItem
+ * @property {string} lineItem.id
+ */
+
+/**
+ * @typedef {Object} Fulfillment
+ * @property {FulfillmentLineItem[]} fulfillmentLineItems
+ */
+
+/**
+ * @type {import('vue').Ref<Fulfillment[]>}
+ */
+const fulfillments = ref([]);
+
+/**
+ * @typedef {Object} LineItem
+ * @property {string} id
+ * @property {number} refundableQuantity
+ */
+
+/**
+ * @type {import('vue').Ref<LineItem[]>}
+ */
+const refundableLineItems = ref([]);
+
+const getOrderInfo = async () => {
+  const result = await OrdersAPI.orderFulfillments({ orderId: props.order.id });
+
+  suggestedRefund.value = result.data.order.suggestedRefund;
+
+  fulfillments.value = result.data.order.fulfillments.map(
+    e => e.fulfillmentLineItems.nodes
+  );
+
+  // const fulfilledLineItemsQuantity = fulfillments.value
+  //   .flatMap(f => f.fulfillmentLineItems)
+  //   .reduce(
+  //     (acc, fli) => (
+  //       (acc[fli.lineItem.id] = (acc[fli.lineItem.id] || 0) + fli.quantity), acc
+  //     ),
+  //     {}
+  //   );
+
+  refundableLineItems.value = result.data.order.lineItems.nodes;
+
+  refundableLineItemsQuantity.value = Object.fromEntries(
+    refundableLineItems.value.map(e => [
+      Number(e.id.split('/').last()),
+      e.refundableQuantity,
+    ])
+  );
+
+  console.log('REFUNDABLE: ', refundableLineItemsQuantity);
+};
 
 onMounted(() => {
   emitter.on(BUS_EVENTS.ORDER_UPDATE, onOrderUpdate);
   getAvailableLocations();
-  calculateRefund();
-  refundQuantityStates.value = Object.fromEntries(
-    props.order.line_items.map(e => [e.id, 0])
-  );
+  getOrderInfo();
+
+  // refundQuantityStates.value = Object.fromEntries(
+  //   props.order.line_items.map(e => [e.id, 0])
+  // );
+
+  // calculatedRefundForLineItems.value = ;
+
+  // unfulfilledRefundQuantityStates.value = Object.fromEntries(
+  //   props.order.line_items.map(e => [e.id, 0])
+  // );
+
+  // fulfilledRefundQuantityStates.value = Object.fromEntries(
+  //   props.order.line_items.map(e => [e.id, 0])
+  // );
 });
 
 onUnmounted(() => {
@@ -190,50 +259,59 @@ onUnmounted(() => {
   clearTimeout(cancellationTimeout);
 });
 
+const refundQuantityStates = ref(
+  Object.fromEntries(props.order.line_items.map(e => [e.id, 0]))
+);
+
+// const unfulfilledRefundQuantityStates = ref(
+//   Object.fromEntries(props.order.line_items.map(e => [e.id, 0]))
+// );
+
+// const fulfilledRefundQuantityStates = ref(
+//   Object.fromEntries(props.order.line_items.map(e => [e.id, 0]))
+// );
+
+watch(
+  refundableLineItemsQuantity,
+  newLimits => {
+    if (newLimits == null) {
+      return;
+    }
+    refundQuantityStates.value = Object.fromEntries(
+      Object.keys(newLimits).map(id => [id, 0])
+    );
+  },
+  { immediate: true }
+);
+
+// watch(
+//   fulfilledRefundableLineItemsQuantity,
+//   newLimits => {
+//     if (newLimits == null) {
+//       return;
+//     }
+//     fulfilledRefundQuantityStates.value = Object.fromEntries(
+//       Object.keys(newLimits).map(id => [id, 0])
+//     );
+//   },
+//   { immediate: true }
+// );
+
 const debouncedRefund = debounce(value => {
   console.log('HI THERE');
   calculateRefund();
 }, 2000);
 
-const currentSubtotal = computed(() => {
-  return (
-    currentRefund.value?.refund_line_items.reduce(
-      (acc, curr) => acc + Number(curr.subtotal),
-      0
-    ) ?? 0
-  );
-});
-
-const currentDiscountApplied = computed(() => {
-  return (
-    currentRefund.value?.refund_line_items.reduce(
-      (acc, curr) => acc + Number(curr.price) - Number(curr.discounted_price),
-      0
-    ) ?? 0
-  );
-});
-
-const currentTax = computed(() => {
-  return (
-    currentRefund.value?.refund_line_items.reduce(
-      (acc, curr) => acc + Number(curr.total_tax),
-      0
-    ) ?? 0
-  );
-});
-
-const availableRefund = computed(() => {
-  return Number(currentRefund.value?.transactions[0].maximum_refundable) ?? 0;
-});
-
-const currentRefund = ref(null);
+const calculatedRefundForLineItems = ref(
+  Object.fromEntries(props.order.line_items.map(e => [e.id, { refund: 0 }]))
+);
 
 const calculateRefund = async () => {
   const payload = {
     orderId: props.order.id,
     currency: props.order.currency,
     refundLineItems: Object.entries(refundQuantityStates.value)
-      .filter(([, qty]) => qty > 0)
+      // .filter(([, qty]) => qty > 0)
       .map(([e, qty]) => ({
         line_item_id: e,
         quantity: qty,
@@ -241,21 +319,99 @@ const calculateRefund = async () => {
       })),
   };
 
-  console.log(`making request: `, payload);
+  for (const refundItem of payload.refundLineItems) {
+    const lid = Number(refundItem.line_item_id);
+    console.log('LID: ', typeof lid);
+    console.log('PROPS lis: ', props.order.line_items);
+    const li = props.order.line_items.find(e => e.id === lid);
 
-  const res = await OrdersAPI.calculateRefund(payload);
+    // REVIEW: skipping tax calc for now.
+    // const tax = li.tax_lines.reduce(
+    //   (acc, curr) => Number(curr.price_set.shop_money.amount) + acc,
+    //   0
+    // );
+    // console.log('TAX: ', tax);
 
-  console.log(res);
-  currentRefund.value = res.data.refund;
+    calculatedRefundForLineItems.value[lid] = {
+      refund:
+        Number(li.price_set.shop_money.amount) * refundItem.quantity /* + tax*/,
+    };
+  }
+
+  // console.log(`making request: `, payload);
+
+  // const res = await OrdersAPI.calculateRefund(payload);
+
+  // console.log(res);
+  // currentRefund.value = res.data.refund;
 };
 
+const currentSubtotal = computed(() => {
+  return Object.values(calculatedRefundForLineItems.value).reduce(
+    (acc, cur) => cur.refund + acc,
+    0
+  );
+});
+
 watch(
-  availableRefund,
-  value => {
-    formState.refundAmount = value ?? 0;
+  currentSubtotal,
+  newVal => {
+    formState.refundAmount = currentSubtotal;
   },
   { immediate: true }
 );
+
+// const currentSubtotal = computed(() => {
+//   return (
+//     currentRefund.value?.refund_line_items.reduce(
+//       (acc, curr) => acc + Number(curr.subtotal),
+//       0
+//     ) ?? 0
+//   );
+// });
+
+// const currentDiscountApplied = computed(() => {
+//   return (
+//     currentRefund.value?.refund_line_items.reduce(
+//       (acc, curr) => acc + Number(curr.price) - Number(curr.discounted_price),
+//       0
+//     ) ?? 0
+//   );
+// });
+
+// const currentTax = computed(() => {
+//   return (
+//     currentRefund.value?.refund_line_items.reduce(
+//       (acc, curr) => acc + Number(curr.total_tax),
+//       0
+//     ) ?? 0
+//   );
+// });
+
+/**
+ * @typedef {[string, string]} AvailableRefundTuple
+ * A tuple containing the refund amount and the currency string.
+ */
+
+/**
+ * The available refund as a tuple of [amount, currency], or null if unavailable.
+ * @type {import('vue').ComputedRef<AvailableRefundTuple|null>}
+ */
+const availableRefund = computed(() => {
+  const suggestedRefundShopAmount =
+    suggestedRefund.value?.maximumRefundableSet.shopMoney.amount;
+  if (suggestedRefund.value == null) {
+    return null;
+  }
+  const suggestedRefundShopCurrency =
+    suggestedRefund.value?.maximumRefundableSet.shopMoney.currencyCode;
+  return [
+    suggestedRefundShopAmount,
+    currency_codes[suggestedRefundShopCurrency],
+  ];
+});
+
+// const currentRefund = ref(null);
 
 // Only allow numbers with up to 2 decimals
 function onInput(e) {
@@ -295,7 +451,7 @@ const cancellationState = ref(null);
 const refundOrder = async $t => {
   v$.value.$touch();
 
-  if (v$.value.$invalid || currentRefund.value === null) {
+  if (v$.value.$invalid) {
     console.log('ERRORS: ', v$.value.$errors);
     return;
   }
@@ -307,16 +463,28 @@ const refundOrder = async $t => {
       orderId: props.order.id,
       transactions: [
         {
-          ...currentRefund.value.transactions[0],
           amount: Number(formState.refundAmount),
+          order_id: props.order.id,
+          parent_id:
+            suggestedRefund.value.suggestedTransactions[0].parentTransaction.id,
+          gateway: suggestedRefund.value.suggestedTransactions[0].gateway,
           kind: 'refund',
         },
       ],
       note: formState.refundNote,
       notify: formState.sendNotification,
-      currency: currentRefund.value.currency,
-      shipping: currentRefund.value.shipping,
-      refundLineItems: currentRefund.value.refund_line_items,
+      currency:
+        suggestedRefund.value.maximumRefundableSet.shopMoney.currencyCode,
+      shipping: {}, //currentRefund.value.shipping,
+      // refundLineItems: currentRefund.value.refund_line_items,
+
+      refundLineItems: Object.entries(refundQuantityStates.value)
+        // .filter(([, qty]) => qty > 0)
+        .map(([e, qty]) => ({
+          line_item_id: e,
+          quantity: qty,
+          restock_type: 'no_restock',
+        })),
     });
 
     console.log('RESPONSE BODY: ', response);
@@ -349,7 +517,7 @@ const buttonText = () => {
 </script>
 
 <template>
-  <woot-modal :show="true" :on-close="onClose">
+  <woot-modal :show="true" :on-close="onClose" size="w-[50.4rem]">
     <woot-modal-header
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DESC')"
@@ -406,7 +574,11 @@ const buttonText = () => {
                 <QuantityField
                   v-model="formState.quantity[item.id]"
                   :min="0"
-                  :max="refundableLineItemsQuantity[item.id]"
+                  :max="
+                    refundableLineItemsQuantity
+                      ? refundableLineItemsQuantity[item.id]
+                      : 0
+                  "
                   @input_val="debouncedRefund"
                 ></QuantityField>
               </div>
@@ -429,33 +601,17 @@ const buttonText = () => {
           </tr>
         </tbody>
       </table>
+
       <SimpleDivider></SimpleDivider>
       <div class="h-4"></div>
 
-      <div class="flex flex-row pr-16 items-start justify-start content-start">
-        <div
-          class="flex flex-col items-start justify-start content-start gap-2"
-        >
-          <div
-            class="select-visible-checkbox gap-2"
-            :style="selectVisibleCheckboxStyle"
-          >
-            <input
-              type="checkbox"
-              :checked="formState.sendNotification"
-              @change="formState.sendNotification = !formState.sendNotification"
-            />
-
-            <span>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION') }}
-            </span>
-          </div>
-        </div>
-
-        <div class="flex-1 flex-row"></div>
+      <div
+        class="flex flex-row pl-[475px] pt-2 items-start justify-start content-start"
+      >
+        <!-- <div class="flex-1 flex-row"></div> -->
 
         <div class="flex flex-col">
-          <div class="flex flex-row justify-between items-center gap-10">
+          <div class="flex flex-row justify-start items-center gap-10">
             <label>
               {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SUBTOTAL') }}
             </label>
@@ -465,6 +621,7 @@ const buttonText = () => {
             >
           </div>
 
+          <!-- 
           <div class="flex flex-row justify-between gap-10">
             <label>
               {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DISCOUNT') }}
@@ -483,18 +640,21 @@ const buttonText = () => {
               >{{ currency_codes[order.currency] }}
               {{ /* order.total_tax */ currentTax }}</span
             >
-          </div>
-
-          <div class="flex flex-row justify-between gap-10">
-            <label>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.AMOUNT_REFUNDABLE') }}
-            </label>
-            <span class="text-sm"
-              >{{ currency_codes[order.currency] }}
-              {{ /* refundableAmount */ availableRefund }}</span
-            >
-          </div>
+          </div> -->
         </div>
+      </div>
+
+      <div
+        v-if="availableRefund"
+        class="flex flex-row justify-end items-center gap-10 pr-[90px]"
+      >
+        <h4>
+          {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TOTAL_REFUNDABLE') }}
+        </h4>
+        <span class="text-base"
+          >{{ availableRefund[1] }}
+          {{ /* refundableAmount */ availableRefund[0] }}</span
+        >
       </div>
 
       <div class="flex flex-row justify-start items-start gap-4 mt-4">
@@ -520,34 +680,61 @@ const buttonText = () => {
             style="width: 200px; font-size: 1.1em"
             autocomplete="off"
           />
+
+          <p
+            v-if="v$.refundAmount.$error"
+            class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
+            :style="{
+              color: '#ef4444',
+            }"
+          >
+            {{ t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.INVALID_AMOUNT') }}
+          </p>
         </div>
 
-        <div class="flex flex-col gap-1">
-          <h5>
+        <div class="flex flex-col">
+          <h5 class="pb-1">
             {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_REASON') }}
             <!-- {{ add marker for manual }}  -->
           </h5>
 
           <select
             v-model="formState.refundNote"
-            class="w-full p-2 mt-1 border-0 selectInbox"
+            class="w-full mt-1 border-0 selectInbox"
             :class="{ 'border-red-500': v$.refundNote.$error }"
           >
             <option v-for="reason in reasons" :value="reason">
               {{ reason }}
             </option>
           </select>
+
+          <span v-if="v$.refundNote.$error" class="text-xs text-red-500 pl-2">
+            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.NOTE_REQUIRED') }}
+          </span>
+        </div>
+      </div>
+
+      <div class="flex flex-col items-start justify-center content-start gap-2">
+        <div
+          class="select-visible-checkbox gap-2"
+          :style="selectVisibleCheckboxStyle"
+        >
+          <input
+            type="checkbox"
+            :checked="formState.sendNotification"
+            @change="formState.sendNotification = !formState.sendNotification"
+          />
+
+          <span>
+            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION') }}
+          </span>
         </div>
       </div>
 
       <div class="flex flex-row justify-end mt-4">
         <Button
           type="button"
-          :disabled="
-            v$.$error ||
-            cancellationState === 'processing' ||
-            currentRefund === null
-          "
+          :disabled="v$.$error || cancellationState === 'processing'"
           variant="primary"
           @click="() => refundOrder($t)"
         >
