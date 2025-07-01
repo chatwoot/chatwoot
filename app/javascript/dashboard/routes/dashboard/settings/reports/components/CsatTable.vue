@@ -105,7 +105,7 @@ const columns = computed(() => [
         {
           class: ratingObject.emoji
             ? 'emoji-response text-lg'
-            : 'text-slate-300 dark:text-slate-700',
+            : 'text-n-slate-10',
         },
         ratingObject.emoji || '---'
       );

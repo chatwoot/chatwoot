@@ -201,7 +201,7 @@ const categories = [
 <template>
   <Story title="Pages/HelpCenter/CategoryPage" :layout="{ type: 'single' }">
     <Variant title="All Categories">
-      <div class="w-full min-h-screen bg-white dark:bg-slate-900">
+      <div class="w-full min-h-screen bg-n-background">
         <CategoriesPage :categories="categories" />
       </div>
     </Variant>
