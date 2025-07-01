@@ -3,6 +3,39 @@
     "TITLE": "Prompts",
     "DESCRIPTION": "Configure prompts for your account. These prompts can be used in the composer to quickly write a message.",
     "ADD_BUTTON": "Add prompt",
+    "ADD_KNOWLEDGE_SOURCE_BUTTON": "Add knowledge source",
+    "KNOWLEDGE_SOURCE": {
+      "TITLE": "Add knowledge source",
+      "TYPE": {
+        "LABEL": "Type",
+        "WEBPAGE": "Webpage",
+        "FILE": "File",
+        "IMAGE": "Image"
+      },
+      "WEBPAGE": {
+        "PUBLIC_URL": "Public URL",
+        "CRAWL_SUBPAGES": "Crawl this link for all subpages"
+      },
+      "FILE": {
+        "LABEL": "File",
+        "BROWSE": "Browse files",
+        "SUPPORTED_TYPES": "Text-based file types up to 2MB supported."
+      },
+      "IMAGE": {
+        "LABEL": "Image",
+        "BROWSE": "Browse images",
+        "SUPPORTED_TYPES": "Image file types up to 2MB supported."
+      },
+      "ACTIONS": {
+        "CONTINUE": "Continue",
+        "ADD_SOURCE": "Add source",
+        "CANCEL": "Cancel"
+      }
+    },
+    "KNOWLEDGE_SOURCES": {
+      "TITLE": "Knowledge sources",
+      "UPLOADED_ON": "Uploaded on {date}"
+    },
     "SEARCH_PLACEHOLDER": "Search prompts",
     "TABLE_HEADER": {
       "PROMPT_KEY": "Prompt Key",
