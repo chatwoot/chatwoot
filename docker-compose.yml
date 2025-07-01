@@ -1,3 +1,12 @@
+# Docker Compose file for building the VegaVision application
+# Uses Docker file to build application image from source code.
+
+# CI/CD stages: 
+#   - Building Application Image
+
+# NOTE:
+# - Don't run local Image directly in production
+
 version: '3'
 
 services:

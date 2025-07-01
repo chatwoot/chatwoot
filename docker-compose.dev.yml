@@ -1,3 +1,4 @@
+# Origianl Chatwoot Docker Compose file for development
 version: '3'
 
 services:

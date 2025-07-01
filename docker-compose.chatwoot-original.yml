@@ -1,3 +1,4 @@
+# Original build file for Chatwoot
 version: '3'
 
 services:

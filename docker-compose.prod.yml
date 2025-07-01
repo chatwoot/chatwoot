@@ -1,23 +1,17 @@
-# Used for running Helpdesk on build locally build, image (vegavision:latest)
-# Connect with external db
+# Docker compose file for running VegaVision from (offical VegaVision) DockerHub Image 
+# Uses Networking, Volumes, Stack and Environment variables for a production-like environment.
+
+# CI/CD stages: 
+#   - Production Staging
+#   - Production Deployment
+
+# NOTE:
+# - Connect with external db
+# - The stack operates on its own default re-named default netowork.
+# - Rails uses external network for DB connection via Host, and outside access
 
 version: '3.9'
 
-# The stack operates on its own default re-named default netowork.
-# Rails uses external network for DB connection via Host, and outside access
-
-networks:
-  # Docker Default netowrk, renamed
-  default:
-    name: vv-helpdesk-default
-    driver: bridge
-      #VV-Helpdesk-Internal:
-      #name: VV-Helpdesk-Internal
-      #driver: bridge
-
-  # External network, connect DB/Proxies to this network
-  vv-helpdesk:
-    external: true
 
 
 services:
@@ -74,8 +68,17 @@ services:
     networks:
       - vv-helpdesk
 
+networks:
+  default:
+    name: vv-helpdesk-default
+    driver: bridge
+
+  # External network, connect DB/Proxies to this network
+  vv-helpdesk:
+    external: true
+
+# Volumes for Base & Redis service (client data, not necessary to be persistent)
 volumes:
-  # Volume keys are still needed, even when paths are absolute
   storage_data:
   redis_data:
 

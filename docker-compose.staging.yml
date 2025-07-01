@@ -1,28 +1,21 @@
-# Used for running Helpdesk on build locally build, image (vegavision:latest)
-# Connect with external db
+# Docker compose file for running VegaVision from Local Image
+# Uses Networking, Volumes, Stack and Environment variables for a production-like environment.
+
+# CI/CD stages: 
+#   - Local Staging 
+#   - Deploying (push) tested image to Docker Hub
+
+# NOTE:
+# - Connect with external db
+# - Don't run local Image directly in production
+# - The stack operates on its own default re-named default netowork.
+# - Rails uses external network for DB connection via Host, and outside access
 
 version: '3.9'
 
-# The stack operates on its own default re-named default netowork.
-# Rails uses external network for DB connection via Host, and outside access
-
-networks:
-  # Docker Default netowrk, renamed
-  default:
-    name: vv-helpdesk-default
-    driver: bridge
-      #VV-Helpdesk-Internal:
-      #name: VV-Helpdesk-Internal
-      #driver: bridge
-
-  # External network, connect DB/Proxies to this network
-  vv-helpdesk:
-    external: true
-
-
 services:
   VV-Helpdesk-Base: &base
-    image: vegavision:latest
+    image: vegavision:latest # Local image (production is charlesmbv/vegavision:latest)
     env_file: .env
     volumes:
       - /vv-volumes/storage_data:/app/storage
@@ -72,10 +65,19 @@ services:
     volumes:
       - /vv-volumes/redis_data:/data
     networks:
-      - vv-helpdesk
+      - vv-default
 
+networks:
+  default:
+    name: vv-helpdesk-default
+    driver: bridge
+
+  # External network, connect DB/Proxies to this network
+  vv-helpdesk:
+    external: true
+
+# Volumes for Base & Redis service (client data, not necessary to be persistent)
 volumes:
-  # Volume keys are still needed, even when paths are absolute
   storage_data:
   redis_data:
 
