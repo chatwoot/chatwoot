@@ -67,7 +67,7 @@ export default {
   ...labelsMgmt,
   ...login,
   ...macros,
-  ...prompts,
+  ...prompts.PROMPTS_PAGE,
   ...report,
   ...resetPassword,
   ...search,

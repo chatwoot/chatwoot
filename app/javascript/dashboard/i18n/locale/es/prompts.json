@@ -3,6 +3,39 @@
     "TITLE": "Prompts",
     "DESCRIPTION": "Configura prompts para tu cuenta. Estos prompts se pueden usar en el editor para escribir un mensaje rápidamente.",
     "ADD_BUTTON": "Agregar prompt",
+    "ADD_KNOWLEDGE_SOURCE_BUTTON": "Agregar fuente de conocimiento",
+    "KNOWLEDGE_SOURCE": {
+      "TITLE": "Agregar fuente de conocimiento",
+      "TYPE": {
+        "LABEL": "Tipo",
+        "WEBPAGE": "Página web",
+        "FILE": "Archivo",
+        "IMAGE": "Imagen"
+      },
+      "WEBPAGE": {
+        "PUBLIC_URL": "URL pública",
+        "CRAWL_SUBPAGES": "Rastrear este enlace para todas las subpáginas"
+      },
+      "FILE": {
+        "LABEL": "Archivo",
+        "BROWSE": "Buscar archivos",
+        "SUPPORTED_TYPES": "Se admiten archivos de texto de hasta 2 MB."
+      },
+      "IMAGE": {
+        "LABEL": "Imagen",
+        "BROWSE": "Buscar imágenes",
+        "SUPPORTED_TYPES": "Se admiten archivos de imagen de hasta 2 MB."
+      },
+      "ACTIONS": {
+        "CONTINUE": "Continuar",
+        "ADD_SOURCE": "Agregar fuente",
+        "CANCEL": "Cancelar"
+      }
+    },
+    "KNOWLEDGE_SOURCES": {
+      "TITLE": "Fuentes de conocimiento",
+      "UPLOADED_ON": "Subido el {date}"
+    },
     "SEARCH_PLACEHOLDER": "Buscar prompts",
     "TABLE_HEADER": {
       "PROMPT_KEY": "Clave del prompt",
