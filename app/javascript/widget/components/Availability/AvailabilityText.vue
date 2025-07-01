@@ -35,9 +35,13 @@ const props = defineProps({
   },
 });
 
+const MINUTE_ROUNDING_INTERVAL = 5;
+const HOUR_THRESHOLD_FOR_EXACT_TIME = 3;
+const MINUTES_IN_HOUR = 60;
+
 const { t } = useI18n();
 
-const DAY_NAMES = [
+const dayNames = computed(() => [
   t('DAY_NAMES.SUNDAY'),
   t('DAY_NAMES.MONDAY'),
   t('DAY_NAMES.TUESDAY'),
@@ -45,7 +49,7 @@ const DAY_NAMES = [
   t('DAY_NAMES.THURSDAY'),
   t('DAY_NAMES.FRIDAY'),
   t('DAY_NAMES.SATURDAY'),
-];
+]);
 
 // Check if all days in working hours are closed
 const allDayClosed = computed(() => {
@@ -76,8 +80,8 @@ const nextSlot = computed(() => {
 
   return {
     ...slot,
-    hoursUntilOpen: Math.floor(slot.minutesUntilOpen / 60),
-    remainingMinutes: slot.minutesUntilOpen % 60,
+    hoursUntilOpen: Math.floor(slot.minutesUntilOpen / MINUTES_IN_HOUR),
+    remainingMinutes: slot.minutesUntilOpen % MINUTES_IN_HOUR,
   };
 });
 </script>
@@ -118,7 +122,7 @@ const nextSlot = computed(() => {
     <template v-else-if="nextSlot.daysUntilOpen > 1">
       {{
         t('REPLY_TIME.BACK_ON_DAY', {
-          day: DAY_NAMES[nextSlot.config.dayOfWeek],
+          day: dayNames[nextSlot.config.dayOfWeek],
         })
       }}
     </template>
@@ -127,13 +131,15 @@ const nextSlot = computed(() => {
     <template v-else-if="nextSlot.hoursUntilOpen === 0">
       {{
         t('REPLY_TIME.BACK_IN_MINUTES', {
-          time: `${Math.ceil(nextSlot.remainingMinutes / 5) * 5}`,
+          time: `${Math.ceil(nextSlot.remainingMinutes / MINUTE_ROUNDING_INTERVAL) * MINUTE_ROUNDING_INTERVAL}`,
         })
       }}
     </template>
 
     <!-- Same day - less than 3 hours (eg: in 2 hours) -->
-    <template v-else-if="nextSlot.hoursUntilOpen < 3">
+    <template
+      v-else-if="nextSlot.hoursUntilOpen < HOUR_THRESHOLD_FOR_EXACT_TIME"
+    >
       {{
         t('REPLY_TIME.BACK_IN_HOURS', {
           time:

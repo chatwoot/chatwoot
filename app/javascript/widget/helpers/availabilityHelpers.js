@@ -13,7 +13,13 @@ const MINUTES_IN_DAY = 24 * 60;
  */
 const getDateInTimezone = (time, utcOffset) => {
   const dateString = time instanceof Date ? time.toISOString() : time;
-  return utcToZonedTime(dateString, utcOffset);
+  try {
+    return utcToZonedTime(dateString, utcOffset);
+  } catch (error) {
+    // eslint-disable-next-line no-console
+    console.warn(`Invalid timezone: ${utcOffset}, falling back to UTC`);
+    return utcToZonedTime(dateString, 'UTC');
+  }
 };
 
 /**

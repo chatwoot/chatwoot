@@ -1,5 +1,5 @@
 <script setup>
-import { computed, toRef } from 'vue';
+import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 import AvailabilityText from './AvailabilityText.vue';
@@ -22,15 +22,13 @@ const props = defineProps({
 
 const { t } = useI18n();
 
-const availableAgents = toRef(props, 'agents');
-
 const {
   currentTime,
   hasOnlineAgents,
   isOnline,
   inboxConfig,
   isInWorkingHours,
-} = useAvailability(availableAgents);
+} = useAvailability(props.agents);
 
 const workingHours = computed(() => inboxConfig.value.workingHours || []);
 const workingHoursEnabled = computed(
@@ -43,8 +41,13 @@ const replyTime = computed(
   () => inboxConfig.value.replyTime || 'in_a_few_minutes'
 );
 
+// If online or in working hours
+const isAvailable = computed(
+  () => isOnline.value || (workingHoursEnabled.value && isInWorkingHours.value)
+);
+
 const headerText = computed(() =>
-  isOnline.value || (workingHoursEnabled.value && isInWorkingHours.value) // If online or in working hours
+  isAvailable.value
     ? t('TEAM_AVAILABILITY.ONLINE')
     : t('TEAM_AVAILABILITY.OFFLINE')
 );

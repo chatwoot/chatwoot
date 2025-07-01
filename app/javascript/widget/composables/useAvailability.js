@@ -5,6 +5,9 @@ import {
 } from 'widget/helpers/availabilityHelpers';
 import { useCamelCase } from 'dashboard/composables/useTransformKeys';
 
+const DEFAULT_TIMEZONE = 'UTC';
+const DEFAULT_REPLY_TIME = 'in_a_few_minutes';
+
 /**
  * Composable for availability-related logic
  * @param {Ref|Array} agents - Available agents (can be ref or raw array)
@@ -16,12 +19,14 @@ export function useAvailability(agents = []) {
   const channelConfig = computed(() => window.chatwootWebChannel || {});
 
   const inboxConfig = computed(() => ({
-    workingHours: channelConfig.value.workingHours.map(useCamelCase) || [],
+    workingHours: channelConfig.value.workingHours?.map(useCamelCase) || [],
     workingHoursEnabled: channelConfig.value.workingHoursEnabled || false,
-    timezone: channelConfig.value.timezone || 'UTC',
+    timezone: channelConfig.value.timezone || DEFAULT_TIMEZONE,
     utcOffset:
-      channelConfig.value.utcOffset || channelConfig.value.timezone || 'UTC',
-    replyTime: channelConfig.value.replyTime || 'in_a_few_minutes',
+      channelConfig.value.utcOffset ||
+      channelConfig.value.timezone ||
+      DEFAULT_TIMEZONE,
+    replyTime: channelConfig.value.replyTime || DEFAULT_REPLY_TIME,
   }));
 
   const currentTime = computed(() => new Date());
