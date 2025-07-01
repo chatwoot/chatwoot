@@ -96,8 +96,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
                headers: agent.create_new_auth_token,
                as: :json
 
-          expect(response).to have_http_status(:unprocessable_entity)
-          expect(json_response[:error]).to eq(I18n.t('errors.captain.copilot_thread.usage_limit_exceeded'))
+          expect(response).to have_http_status(:success)
+
+          expect(CopilotMessage.last.message['content']).to eq(I18n.t('errors.captain.copilot_thread.usage_limit_exceeded'))
         end
 
         it 'creates a new copilot thread with initial message' do
@@ -121,8 +122,15 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
           expect(thread.assistant_id).to eq(assistant.id)
 
           message = thread.copilot_messages.last
-          expect(message.message_type).to eq('user')
           expect(message.message).to eq({ 'content' => valid_params[:message] })
+
+          expect(Captain::Copilot::ResponseJob).to have_been_enqueued.with(
+            assistant: assistant,
+            conversation_id: valid_params[:conversation_id],
+            user_id: agent.id,
+            copilot_thread_id: thread.id,
+            message: valid_params[:message]
+          )
         end
       end
     end

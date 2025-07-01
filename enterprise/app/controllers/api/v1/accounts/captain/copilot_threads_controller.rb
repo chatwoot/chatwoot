@@ -11,12 +11,6 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def create
-    unless Current.account.usage_limits[:captain][:responses][:current_available].positive?
-      return render_could_not_create_error(
-        I18n.t('errors.captain.copilot_thread.usage_limit_exceeded')
-      )
-    end
-
     ActiveRecord::Base.transaction do
       @copilot_thread = Current.account.copilot_threads.create!(
         title: copilot_thread_params[:message],
@@ -29,11 +23,24 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
         message: { content: copilot_thread_params[:message] }
       )
 
-      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+      build_copilot_response(copilot_message)
     end
   end
 
   private
+
+  def build_copilot_response(copilot_message)
+    if Current.account.usage_limits[:captain][:responses][:current_available].positive?
+      copilot_message.enqueue_response_job(copilot_thread_params[:conversation_id], Current.user.id)
+    else
+      copilot_message.copilot_thread.copilot_messages.create!(
+        message_type: :assistant,
+        message: {
+          content: I18n.t('errors.captain.copilot_thread.usage_limit_exceeded')
+        }
+      )
+    end
+  end
 
   def ensure_message
     return render_could_not_create_error(I18n.t('errors.captain.copilot_thread.message_required')) if copilot_thread_params[:message].blank?
