@@ -15,23 +15,23 @@
       "SUCCESS": "Configurações de conta atualizadas com sucesso"
     },
     "ACCOUNT_DELETE_SECTION": {
-      "TITLE": "Apagar a sua conta",
-      "NOTE": "Depois de apagar a sua conta, todos os seus dados serão apagados.",
+      "TITLE": "Apagar a sua Conta",
+      "NOTE": "Após apagar a sua conta, todos os seus dados serão apagados.",
       "BUTTON_TEXT": "Apagar a Sua Conta",
       "CONFIRM": {
         "TITLE": "Apagar Conta",
         "MESSAGE": "Apagar a sua conta é irreversível. Introduza o nome da sua conta abaixo para confirmar que pretende apagá-la permanentemente.",
         "BUTTON_TEXT": "Excluir",
         "DISMISS": "Cancelar",
-        "PLACE_HOLDER": "Por favor, digite {accountName} para confirmar"
+        "PLACE_HOLDER": "Por favor, escreva {accountName} para confirmar"
       },
-      "SUCCESS": "Conta marcada para apagamento",
+      "SUCCESS": "Conta selecionada para apagar",
       "FAILURE": "Não foi possível apagar a conta, tente novamente!",
       "SCHEDULED_DELETION": {
-        "TITLE": "Conta agendada para apagamento",
-        "MESSAGE_MANUAL": "Esta conta está agendada para apagamento em {deletionDate}. Isto foi solicitado por um administrador. Pode cancelar a apagamento antes desta data.",
-        "MESSAGE_INACTIVITY": "Esta conta está agendada para apagamento em {deletionDate} devido à inatividade da conta. Pode cancelar o apagamento antes desta data.",
-        "CLEAR_BUTTON": "Cancelar apagamento agendado"
+        "TITLE": "Eliminação da conta agendada",
+        "MESSAGE_MANUAL": "Eliminação da conta agendada para {deletionDate}. Isto foi solicitado por um administrador. Pode cancelar a eliminação antes desta data.",
+        "MESSAGE_INACTIVITY": "Eliminação da conta está agendada para {deletionDate} devido à sua inatividade. Pode cancelar a eliminação antes desta data.",
+        "CLEAR_BUTTON": "Cancelar agendamento da eliminação"
       }
     },
     "FORM": {
@@ -53,7 +53,7 @@
           "PLACEHOLDER": "30",
           "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
           "API": {
-            "SUCCESS": "Definições de auto-resolução atualizadas com sucesso",
+            "SUCCESS": "Definições de auto-resolução atualizadas",
             "ERROR": "Falha ao atualizar as definições de auto-resolução"
           }
         },
@@ -110,7 +110,7 @@
         "PLACEHOLDER": "30",
         "ERROR": "A duração de auto-resolução deve ser entre 10 minutos e 999 dias",
         "API": {
-          "SUCCESS": "Definições de auto-resolução atualizadas com sucesso",
+          "SUCCESS": "Definições de auto-resolução atualizadas",
           "ERROR": "Falha ao atualizar as definições de auto-resolução"
         },
         "UPDATE_BUTTON": "Atualização",
