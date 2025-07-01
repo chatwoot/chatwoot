@@ -100,11 +100,11 @@ class Zalo::CreateMessageService
         source_id: contact_key,
         contact_attributes: {
           identifier: contact_key,
-          name: contact_info.dig(:data, :display_name) || contact_info.dig(:data, :user_alias),
-          avatar_url: contact_info.dig(:data, :avatar),
+          name: contact_info.dig(:display_name) || contact_info.dig(:user_alias),
+          avatar_url: contact_info.dig(:avatar),
           custom_attributes: {
             platform: :zalo,
-            shared_info: contact_info.dig(:data, :shared_info)
+            shared_info: contact_info.dig(:shared_info)
           }
         }
       ).perform
