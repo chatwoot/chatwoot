@@ -14,7 +14,7 @@ const locales = [
     :layout="{ type: 'grid', width: '800px' }"
   >
     <Variant title="Locale Card">
-      <div class="px-10 py-4 bg-white dark:bg-slate-900">
+      <div class="px-10 py-4 bg-n-background">
         <div v-for="(locale, index) in locales" :key="index" class="px-20 py-2">
           <LocaleCard
             :locale="locale.name"
