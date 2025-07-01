@@ -372,3 +372,35 @@ en:
 
       Transcript:
       %{format_messages}
+
+  add_knowledge_source_button: 'Add Knowledge Source'
+  knowledge_source:
+    choose_type: 'Choose type'
+    webpage:
+      title: 'Website URL'
+      url_label: 'Website URL'
+      url_placeholder: 'Enter website URL'
+      crawl_subpages: 'Crawl subpages'
+      url_required: 'URL is required'
+    file:
+      title: 'Upload Files'
+      upload_title: 'Drop files to upload'
+      upload_description: 'Drag and drop files here or click to browse'
+      browse: 'Browse Files'
+      supported_types: 'Supported file types: PDF, DOC, DOCX, TXT, CSV'
+      upload_error: 'Failed to upload file'
+      size_limit_error: 'File size exceeds the maximum limit'
+    image:
+      title: 'Upload Images'
+      upload_title: 'Drop files to upload'
+      upload_description: 'Image files up to 2 MB are supported.'
+      browse: 'Browse Images'
+      supported_types: 'Supported image types: JPG, PNG, GIF, WebP'
+    url:
+      upload_error: 'Failed to process URL'
+    cancel: 'Cancel'
+    continue: 'Continue'
+    add_source: 'Add Source'
+    success_message: 'Knowledge source added successfully'
+    create_error: 'Failed to create knowledge source'
+

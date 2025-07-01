@@ -338,3 +338,34 @@ es:
 
       Transcript:
       %{format_messages}
+
+  add_knowledge_source_button: 'Agregar fuente de conocimiento'
+  knowledge_source:
+    choose_type: 'Elegir tipo'
+    webpage:
+      title: 'URL del sitio web'
+      url_label: 'URL del sitio web'
+      url_placeholder: 'Ingresa la URL del sitio web'
+      crawl_subpages: 'Rastrear subpáginas'
+      url_required: 'Se requiere la URL'
+    file:
+      title: 'Subir archivos'
+      upload_title: 'Arrastra archivos para subir'
+      upload_description: 'Arrastra y suelta archivos aquí o haz clic para explorar'
+      browse: 'Buscar archivos'
+      supported_types: 'Tipos de archivo compatibles: PDF, DOC, DOCX, TXT, CSV'
+      upload_error: 'Error al subir archivo'
+      size_limit_error: 'El tamaño del archivo excede el límite máximo'
+    image:
+      title: 'Subir imágenes'
+      upload_title: 'Arrastra archivos para subir'
+      upload_description: 'Se admiten archivos de imagen de hasta 2 MB.'
+      browse: 'Buscar imágenes'
+      supported_types: 'Tipos de imagen compatibles: JPG, PNG, GIF, WebP'
+    url:
+      upload_error: 'Error al procesar URL'
+    cancel: 'Cancelar'
+    continue: 'Continuar'
+    add_source: 'Agregar fuente'
+    success_message: 'Fuente de conocimiento agregada exitosamente'
+    create_error: 'Error al crear fuente de conocimiento'

@@ -293,6 +293,8 @@ Rails.application.routes.draw do
               post :reorder, on: :collection
             end
           end
+
+          resources :knowledge_bases, only: [:index, :show, :create, :update, :destroy]
           resources :upload, only: [:create]
           post 'onboarding_config', to: 'configuration_backend#create'
         end
