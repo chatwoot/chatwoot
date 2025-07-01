@@ -475,13 +475,20 @@ export default {
     this.setDefaults();
     this.setDialCode();
   },
-  validations: {
-    websiteName: { required },
-    chatOnWhatsappSettings: {
-      buttonText: { required },
-      defaultText: { required },
-      phoneNumber: {},
-    },
+  validations() {
+    const baseValidations = {
+      websiteName: { required },
+    };
+
+    if (this.chatOnWhatsappSettings.enabled) {
+      baseValidations.chatOnWhatsappSettings = {
+        buttonText: { required },
+        defaultText: { required },
+        phoneNumber: {},
+      };
+    }
+
+    return baseValidations;
   },
   methods: {
     setDefaults() {

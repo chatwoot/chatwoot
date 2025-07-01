@@ -221,7 +221,7 @@
                 type="checkbox"
               />
               <label for="enableCASTOnWhatsapp">
-                {{ 'Enable to CAST on Whatsapp' }}
+                {{ 'Enable CAST on Whatsapp' }}
               </label>
             </div>
           </div>
