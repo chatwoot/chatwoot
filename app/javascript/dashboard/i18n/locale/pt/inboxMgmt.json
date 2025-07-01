@@ -270,42 +270,42 @@
       },
       "VOICE": {
         "TITLE": "Canal de Voz",
-        "DESC": "Integrate Twilio Voice and start supporting your customers via phone calls.",
+        "DESC": "Integre o Twilio e comece a oferecer suporte aos seus clientes via chamadas telefónicas.",
         "PHONE_NUMBER": {
           "LABEL": "Número de telefone",
-          "PLACEHOLDER": "Enter your phone number (e.g. +1234567890)",
-          "ERROR": "Please provide a valid phone number in E.164 format (e.g. +1234567890)"
+          "PLACEHOLDER": "Escreva o seu número de telefone (por exemplo, +1234567890)",
+          "ERROR": "Por favor, forneça um número de telefone válido no formato +E.164 (por exemplo, +1234567890)"
         },
         "TWILIO": {
           "ACCOUNT_SID": {
             "LABEL": "SID da conta",
-            "PLACEHOLDER": "Enter your Twilio Account SID",
-            "REQUIRED": "Account SID is required"
+            "PLACEHOLDER": "Insira o SID da sua Conta Twilio",
+            "REQUIRED": "O SID da conta é obrigatório"
           },
           "AUTH_TOKEN": {
             "LABEL": "Token de autenticação",
-            "PLACEHOLDER": "Enter your Twilio Auth Token",
-            "REQUIRED": "Auth Token is required"
+            "PLACEHOLDER": "Escreva o seu Token de Autenticação Twilio",
+            "REQUIRED": "O Token de Autenticação é obrigatório"
           },
           "API_KEY_SID": {
             "LABEL": "Chave da API SID",
-            "PLACEHOLDER": "Enter your Twilio API Key SID",
-            "REQUIRED": "API Key SID is required"
+            "PLACEHOLDER": "Insira a chave SID da API Twilio",
+            "REQUIRED": "A chave SID da API é obrigatória"
           },
           "API_KEY_SECRET": {
             "LABEL": "Chave secreta da API",
-            "PLACEHOLDER": "Enter your Twilio API Key Secret",
-            "REQUIRED": "API Key Secret is required"
+            "PLACEHOLDER": "Insira a chave secreta da API Twilio",
+            "REQUIRED": "A chave secreta da API é obrigatória"
           },
           "TWIML_APP_SID": {
             "LABEL": "TwiML App SID",
-            "PLACEHOLDER": "Enter your Twilio TwiML App SID (starts with AP)",
-            "REQUIRED": "TwiML App SID is required"
+            "PLACEHOLDER": "Insira a sua Twilio TwiML App SID (começa por AP)",
+            "REQUIRED": "TwiML App SID é obrigatória"
           }
         },
-        "SUBMIT_BUTTON": "Create Voice Channel",
+        "SUBMIT_BUTTON": "Criar canal de Voz",
         "API": {
-          "ERROR_MESSAGE": "We were not able to create the voice channel"
+          "ERROR_MESSAGE": "Não foi possível criar o canal de voz"
         }
       },
       "API_CHANNEL": {
@@ -830,7 +830,7 @@
       "LINE": "Line",
       "API": "Canal da API",
       "INSTAGRAM": "Instagram",
-      "VOICE": "Voice"
+      "VOICE": "Voz"
     }
   }
 }
