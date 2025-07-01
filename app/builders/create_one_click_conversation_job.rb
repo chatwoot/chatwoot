@@ -59,7 +59,10 @@ class CreateOneClickConversationJob < ApplicationJob
 
   def find_or_create_conversation(contact, contact_inbox, mail_subject)
     Rails.logger.info("contact, #{contact.inspect}")
-    latest_conversation = contact.conversations.order(created_at: :desc).first
+    latest_conversation = contact.conversations
+                                 .where(inbox_id: contact_inbox.inbox_id)
+                                 .order(created_at: :desc)
+                                 .first
 
     if latest_conversation.blank?
       params = {}

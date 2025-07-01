@@ -1,5 +1,28 @@
 <template>
   <div>
+    <div
+      v-if="multipleWhatsappInbox.length > 1 && !isAnEmailInbox"
+      class="pt-4 px-8"
+    >
+      <div
+        class="mb-2 flex flex-col gap-1 bg-slate-50 dark:bg-slate-700 rounded-md px-4 py-5 relative"
+      >
+        <label
+          class="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-2"
+        >
+          {{ 'Select WhatsApp Inbox' }}
+        </label>
+        <multiselect-dropdown
+          :options="whatsappInboxOptions"
+          :selected-item="selectedWhatsappInbox"
+          :multiselector-title="'WhatsApp Inbox'"
+          :multiselector-placeholder="'Choose an inbox'"
+          :no-search-result="'No inbox found'"
+          :input-placeholder="'Search inbox...'"
+          @click="onSelectWhatsappInbox"
+        />
+      </div>
+    </div>
     <div class="pt-4 pb-4 px-8">
       <div
         class="mb-2 flex flex-col gap-1 bg-slate-50 dark:bg-slate-700 rounded-md px-4 py-5 max-h-72 overflow-y-scroll relative"
@@ -425,6 +448,7 @@ import parsePhoneNumber from 'libphonenumber-js';
 import PhoneInput from './PhoneInput.vue';
 import { formatBytes } from 'shared/helpers/FileHelper';
 import { createMessagePayload } from '../../../store/modules/contactConversations';
+import MultiselectDropdown from 'shared/components/ui/MultiselectDropdown.vue';
 
 export default {
   components: {
@@ -436,6 +460,7 @@ export default {
     // AttachmentPreview,
     MessageSignatureMissingAlert,
     PhoneInput,
+    MultiselectDropdown,
   },
   mixins: [alertMixin, uiSettingsMixin, inboxMixin, fileUploadMixin],
   props: {
@@ -469,6 +494,7 @@ export default {
           errors: { email: '', phone_number: '', name: '' },
         },
       ],
+      selectedWhatsappInboxId: null,
     };
   },
   validations: {
@@ -495,6 +521,28 @@ export default {
       return this.channelToCompare === INBOX_TYPES.EMAIL
         ? 'Email'
         : 'Email (Optional)';
+    },
+    whatsappInboxOptions() {
+      return this.multipleWhatsappInbox.map(inbox => ({
+        id: inbox.id,
+        name: inbox.name,
+        thumbnail: inbox.avatar_url,
+        // You can add more properties as needed
+        channel_type: inbox.channel_type,
+        phone_number: inbox.phone_number,
+      }));
+    },
+    selectedWhatsappInbox() {
+      if (!this.selectedWhatsappInboxId) {
+        return this.whatsappInboxOptions[0] || null;
+      }
+      return (
+        this.whatsappInboxOptions.find(
+          inbox => inbox.id === this.selectedWhatsappInboxId
+        ) ||
+        this.whatsappInboxOptions[0] ||
+        null
+      );
     },
     phoneNoPlaceHolder() {
       return this.channelToCompare === INBOX_TYPES.API
@@ -533,8 +581,28 @@ export default {
 
       return payload;
     },
+    multipleWhatsappInbox() {
+      return (
+        this.inboxesList.filter(
+          inbox =>
+            inbox.channel_type === INBOX_TYPES.API &&
+            !!inbox?.additional_attributes?.message_templates
+        ) ?? []
+      );
+    },
     selectedInbox() {
       if (this.channelToCompare === INBOX_TYPES.API) {
+        // If multiple WhatsApp inboxes exist and one is selected, return that
+        if (
+          this.multipleWhatsappInbox.length > 1 &&
+          this.selectedWhatsappInbox
+        ) {
+          return (
+            this.inboxesList.find(
+              inbox => inbox.id === this.selectedWhatsappInbox.id
+            ) || {}
+          );
+        }
         return (
           this.inboxesList.find(inbox => {
             return (
@@ -624,10 +692,24 @@ export default {
         this.showCannedResponseMenu = false;
       }
     },
+    channelToCompare(newValue) {
+      if (newValue !== INBOX_TYPES.API) {
+        this.selectedWhatsappInboxId = null;
+      }
+    },
   },
   mounted() {
     this.setSignature();
     document.addEventListener('paste', this.onPaste);
+    // eslint-disable-next-line no-console
+    console.log(
+      'multipleWhatsappInbox',
+      this.inboxesList.filter(
+        inbox =>
+          inbox.channel_type === INBOX_TYPES.API &&
+          !!inbox?.additional_attributes?.message_templates
+      )
+    );
   },
   destroyed() {
     document.removeEventListener('paste', this.onPaste);
@@ -726,11 +808,16 @@ export default {
     toggleCannedMenu(value) {
       this.showCannedMenu = value;
     },
+    onSelectWhatsappInbox(selectedInbox) {
+      this.selectedWhatsappInboxId = selectedInbox.id;
+      this.showAlert(`WhatsApp inbox switched to: ${selectedInbox.name}`);
+    },
     prepareWhatsAppMessagePayload({ message: content, templateParams }) {
       const payload = new FormData();
+      const selectedInbox = this.selectedInbox;
       const params = {
-        inboxId: this.selectedInbox.id,
-        sourceId: this.selectedInbox.sourceId,
+        inboxId: selectedInbox.id,
+        sourceId: selectedInbox.sourceId,
         message: {
           content,
           template_params: templateParams,
