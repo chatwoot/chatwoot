@@ -69,6 +69,6 @@ export default {
 
 <style scoped>
 .variable--list-label {
-  font-weight: var(--font-weight-bold);
+  font-weight: 600;
 }
 </style>
