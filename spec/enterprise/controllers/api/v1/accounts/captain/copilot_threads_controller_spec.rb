@@ -98,7 +98,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
 
           expect(response).to have_http_status(:success)
 
-          expect(CopilotMessage.last.message['content']).to eq(I18n.t('errors.captain.copilot_thread.usage_limit_exceeded'))
+          expect(CopilotMessage.last.message['content']).to eq(
+            'You are out of Copilot credits. You can buy more credits from the billing section.'
+          )
         end
 
         it 'creates a new copilot thread with initial message' do

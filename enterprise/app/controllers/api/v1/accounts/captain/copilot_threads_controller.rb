@@ -35,15 +35,13 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
     else
       copilot_message.copilot_thread.copilot_messages.create!(
         message_type: :assistant,
-        message: {
-          content: I18n.t('errors.captain.copilot_thread.usage_limit_exceeded')
-        }
+        message: { content: I18n.t('captain.copilot_limit') }
       )
     end
   end
 
   def ensure_message
-    return render_could_not_create_error(I18n.t('errors.captain.copilot_thread.message_required')) if copilot_thread_params[:message].blank?
+    return render_could_not_create_error(I18n.t('captain.copilot_message_required')) if copilot_thread_params[:message].blank?
   end
 
   def assistant
