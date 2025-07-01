@@ -48,4 +48,15 @@ export default {
       custom_attributes: [customAttribute],
     });
   },
+  getBotConfig() {
+    return API.get(buildUrl('widget/contact/bot_config'));
+  },
+  updateBotConfig(popupId) {
+    return API.patch(
+      `/api/v1/widget/contact/update_bot_config${window.location.search}`,
+      {
+        popup_id: popupId,
+      }
+    );
+  },
 };

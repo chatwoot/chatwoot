@@ -18,7 +18,7 @@ import {
 import { setCookieWithDomain } from '../sdk/cookieHelpers';
 import { SDK_SET_BUBBLE_VISIBILITY } from 'shared/constants/sharedFrameEvents';
 
-const runSDK = ({ baseUrl, websiteToken, parentShopify = {} }) => {
+const runSDK = ({ baseUrl, websiteToken, parentShopify = {}, meta = {} }) => {
   if (window.$chatwoot) {
     return;
   }
@@ -204,6 +204,7 @@ const runSDK = ({ baseUrl, websiteToken, parentShopify = {} }) => {
     baseUrl,
     websiteToken,
     parentShopify,
+    meta,
   });
 };
 

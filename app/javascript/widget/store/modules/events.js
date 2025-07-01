@@ -8,6 +8,13 @@ const actions = {
       // Ignore error
     }
   },
+  impressionsInvoker: async (_, { name, meta }) => {
+    try {
+      await events.impressionsInvoker(name, meta);
+    } catch (error) {
+      // Ignore error
+    }
+  },
 };
 
 export default {

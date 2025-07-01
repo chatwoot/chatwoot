@@ -54,6 +54,38 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: response
   end
 
+  def bot_config
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    account_id = @web_widget.account.id
+
+    return render json: { error: 'Account Id Not Found' }, status: :bad_request if account_id.blank?
+
+    shop_url = fetch_shop_url_from_api(account_id)
+
+    Rails.logger.info("shop_urlData, #{shop_url}")
+
+    return render json: { error: 'Shop Url Not Found' }, status: :bad_request if shop_url.blank?
+
+    response = fetch_live_chat_bot_config(shop_url)
+    render json: response
+  end
+
+  def update_bot_config
+    @web_widget = ::Channel::WebWidget.find_by!(website_token: permitted_params[:website_token])
+    account_id = @web_widget.account.id
+
+    return render json: { error: 'Account Id Not Found' }, status: :bad_request if account_id.blank?
+
+    shop_url = fetch_shop_url_from_api(account_id)
+
+    return render json: { error: 'Shop Url Not Found' }, status: :bad_request if shop_url.blank?
+
+    popup_id = permitted_params[:popup_id]
+
+    response = update_popup_id_in_bot_config(shop_url, popup_id)
+    render json: response
+  end
+
   def get_checkout_url # rubocop:disable Naming/AccessorMethodName
     inbox_id = conversation.inbox.id
 
@@ -181,7 +213,7 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def permitted_params
-    params.permit(:website_token, :line_items, :shop_url, :identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, custom_attributes: {}, # rubocop:disable Layout/LineLength
-                                                                                                                                    additional_attributes: {}) # rubocop:disable Layout/LineLength
+    params.permit(:website_token, :line_items, :shop_url, :identifier, :identifier_hash, :email, :name, :avatar_url, :phone_number, :popup_id, custom_attributes: {}, # rubocop:disable Layout/LineLength
+                                                                                                                                               additional_attributes: {}) # rubocop:disable Layout/LineLength
   end
 end

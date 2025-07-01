@@ -70,6 +70,7 @@ export default {
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
       messageCount: 'conversation/getMessageCount',
       unreadMessageCount: 'conversation/getUnreadMessageCount',
+      botConfig: 'contacts/getBotConfig',
       isWidgetStyleFlat: 'appConfig/isWidgetStyleFlat',
       showUnreadMessagesDialog: 'appConfig/getShowUnreadMessagesDialog',
     }),
@@ -241,7 +242,7 @@ export default {
       }
     },
     createWidgetEvents(message) {
-      const { eventName } = message;
+      const { eventName, meta } = message;
       const isWidgetTriggerEvent = eventName === 'webwidget.triggered';
       if (
         isWidgetTriggerEvent &&
@@ -250,6 +251,17 @@ export default {
         return;
       }
       this.$store.dispatch('events/create', { name: eventName });
+      if (Object.keys(meta).length > 0 && meta.popupId && meta.browserId) {
+        this.$store.dispatch('events/impressionsInvoker', {
+          name: eventName,
+          meta,
+        });
+        if (!this.botConfig?.liveChatPopupId) {
+          this.$store.dispatch('contacts/updateBotConfig', {
+            popupId: meta.popupId,
+          });
+        }
+      }
     },
     registerListeners() {
       const { websiteToken } = window.chatwootWebChannel;
@@ -265,6 +277,7 @@ export default {
           this.fetchAvailableAgents(websiteToken);
           this.setAppConfig(message);
           this.$store.dispatch('contacts/get');
+          this.$store.dispatch('contacts/getBotConfig');
           this.setCampaignReadData(message.campaignsSnoozedTill);
           // eslint-disable-next-line no-console
           console.log('messageData', message);

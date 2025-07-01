@@ -4,9 +4,11 @@ import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
 const state = {
   currentUser: {},
+  botConfig: {},
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
+const SET_BOT_CONFIG = 'SET_BOT_CONFIG';
 const parseErrorData = error =>
   error && error.response && error.response.data ? error.response.data : error;
 export const updateWidgetAuthToken = widgetAuthToken => {
@@ -23,6 +25,9 @@ export const getters = {
   getCurrentUser(_state) {
     return _state.currentUser;
   },
+  getBotConfig(_state) {
+    return _state.botConfig;
+  },
 };
 
 export const actions = {
@@ -30,6 +35,22 @@ export const actions = {
     try {
       const { data } = await ContactsAPI.get();
       commit(SET_CURRENT_USER, data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+  getBotConfig: async ({ commit }) => {
+    try {
+      const { data } = await ContactsAPI.getBotConfig();
+      commit(SET_BOT_CONFIG, data);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+  updateBotConfig: async ({ dispatch }, { popupId }) => {
+    try {
+      await ContactsAPI.updateBotConfig(popupId);
+      dispatch('getBotConfig');
     } catch (error) {
       // Ignore error
     }
@@ -107,6 +128,9 @@ export const mutations = {
   [SET_CURRENT_USER]($state, user) {
     const { currentUser } = $state;
     $state.currentUser = { ...currentUser, ...user };
+  },
+  [SET_BOT_CONFIG]($state, config) {
+    $state.botConfig = { ...$state.botConfig, ...config };
   },
 };
 

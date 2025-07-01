@@ -307,7 +307,11 @@ Rails.application.routes.draw do
         resource :direct_uploads, only: [:create]
         resource :config, only: [:create]
         resources :campaigns, only: [:index]
-        resources :events, only: [:create]
+        resources :events, only: [:create] do
+          collection do
+            post :impressions_invoker
+          end
+        end
         resources :messages, only: [:index, :create, :update]
         resources :conversations, only: [:index, :create] do
           collection do
@@ -328,6 +332,8 @@ Rails.application.routes.draw do
             get :get_url_for_whatsapp_widget
             get :get_checkout_url
             post :proxy_shopify_api
+            get :bot_config
+            patch :update_bot_config
           end
         end
         resources :inbox_members, only: [:index]

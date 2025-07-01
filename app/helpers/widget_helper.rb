@@ -45,6 +45,36 @@ module WidgetHelper
     nil
   end
 
+  def fetch_live_chat_bot_config(shop_url)
+    response = HTTParty.get(
+      'https://rest-apis-767152501284.us-east4.run.app/api/v1/liveChat/liveChatBotConfig',
+      query: { shopUrl: shop_url }
+    )
+    return nil unless response.success?
+
+    JSON.parse(response.body)['liveChatBotConfig']['config']
+  rescue StandardError => e
+    Rails.logger.error "Error fetching live chat bot config hours: #{e.message}"
+    nil
+  end
+
+  def update_popup_id_in_bot_config(shop_url, popup_id)
+    response = HTTParty.patch(
+      'https://rest-apis-767152501284.us-east4.run.app/api/v1/liveChat/liveChatPopupId',
+      body: {
+        shopUrl: shop_url,
+        popupId: popup_id
+      }.to_json,
+      headers: { 'Content-Type' => 'application/json' }
+    )
+    return nil unless response.success?
+
+    JSON.parse(response.body)
+  rescue StandardError => e
+    Rails.logger.error "Error fetching working hours: #{e.message}"
+    nil
+  end
+
   def fetch_checkout_url(shop_url, source_id, line_items)
     # response = HTTParty.get("https://glorious-heavily-platypus.ngrok-free.app/api/v1/liveChat/getCheckoutUrl?shopUrl=#{shop_url}&livechatUUID=#{source_id}&lineItems=#{encoded_line_items}")
     encoded_line_items = URI.encode_www_form_component(line_items.to_json)

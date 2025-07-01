@@ -51,7 +51,7 @@ export const IFrameHelper = {
   getUrl({ baseUrl, websiteToken }) {
     return `${baseUrl}/widget?website_token=${websiteToken}`;
   },
-  createFrame: ({ baseUrl, websiteToken, parentShopify = {} }) => {
+  createFrame: ({ baseUrl, websiteToken, parentShopify = {}, meta = {} }) => {
     if (IFrameHelper.getAppFrame()) {
       return;
     }
@@ -70,6 +70,7 @@ export const IFrameHelper = {
     iframe.style.visibility = 'hidden';
 
     IFrameHelper.parentShopify = parentShopify;
+    IFrameHelper.meta = meta;
 
     let holderClassName = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
     if (window.$chatwoot.hideMessageBubble) {
@@ -233,7 +234,7 @@ export const IFrameHelper = {
     onBubbleToggle: isOpen => {
       IFrameHelper.sendMessage('toggle-open', { isOpen });
       if (isOpen) {
-        IFrameHelper.pushEvent('webwidget.triggered');
+        IFrameHelper.pushEvent('webwidget.triggered', IFrameHelper.meta);
       }
     },
     onLocationChange: ({ referrerURL, referrerHost }) => {
@@ -278,8 +279,8 @@ export const IFrameHelper = {
       window.playAudioAlert();
     },
   },
-  pushEvent: eventName => {
-    IFrameHelper.sendMessage('push-event', { eventName });
+  pushEvent: (eventName, meta = {}) => {
+    IFrameHelper.sendMessage('push-event', { eventName, meta });
   },
 
   onLoad: ({ widgetColor, channelAvatarUrl }) => {

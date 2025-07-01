@@ -16,4 +16,12 @@ export default {
       event_info: generateEventParams(),
     });
   },
+  impressionsInvoker(name, meta) {
+    const search = buildSearchParamsWithLocale(window.location.search);
+    return API.post(`/api/v1/widget/events/impressions_invoker${search}`, {
+      name,
+      event_info: generateEventParams(),
+      meta,
+    });
+  },
 };
