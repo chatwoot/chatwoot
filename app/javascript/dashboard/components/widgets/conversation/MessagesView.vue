@@ -477,9 +477,12 @@ export default {
         </transition>
       </template>
       <template #unreadBadge>
-        <li v-show="unreadMessageCount != 0">
+        <li
+          v-show="unreadMessageCount != 0"
+          class="list-none flex justify-center items-center"
+        >
           <span
-            class="shadow-lg rounded-full bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
+            class="shadow-lg rounded-full list-none bg-n-brand text-white text-xs font-medium my-2.5 mx-auto px-2.5 py-1.5"
           >
             {{ unreadMessageLabel }}
           </span>
