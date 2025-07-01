@@ -256,6 +256,7 @@ ja:
       short_description: 'Sync your contacts and conversations with LeadSquared CRM.'
       description: 'Sync your contacts and conversations with LeadSquared CRM. This integration automatically creates leads in LeadSquared when new contacts are added, and logs conversation activity to provide your sales team with complete context.'
   captain:
+    copilot_message_required: メッセージは必須です
     copilot_error: 'この受信トレイにアシスタントを接続してCopilotを使用してください'
     copilot_limit: 'Copilot残高がありません。課金セクションからクレジットを追加購入することができます。'
     copilot:
