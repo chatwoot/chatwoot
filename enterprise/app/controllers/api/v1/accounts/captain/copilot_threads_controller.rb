@@ -11,6 +11,12 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   end
 
   def create
+    unless Current.account.usage_limits[:captain][:responses][:current_available].positive?
+      return render_could_not_create_error(
+        I18n.t('errors.captain.copilot_thread.usage_limit_exceeded')
+      )
+    end
+
     ActiveRecord::Base.transaction do
       @copilot_thread = Current.account.copilot_threads.create!(
         title: copilot_thread_params[:message],
@@ -30,7 +36,7 @@ class Api::V1::Accounts::Captain::CopilotThreadsController < Api::V1::Accounts::
   private
 
   def ensure_message
-    return render_could_not_create_error('Message is required') if copilot_thread_params[:message].blank?
+    return render_could_not_create_error(I18n.t('errors.captain.copilot_thread.message_required')) if copilot_thread_params[:message].blank?
   end
 
   def assistant

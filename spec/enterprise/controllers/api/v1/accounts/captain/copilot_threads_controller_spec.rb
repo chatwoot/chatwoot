@@ -86,7 +86,25 @@ RSpec.describe 'Api::V1::Accounts::Captain::CopilotThreads', type: :request do
       end
 
       context 'with valid params' do
+        it 'returns error when usage limit is exceeded' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 2 }
+          account.save!
+
+          post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
+               params: valid_params,
+               headers: agent.create_new_auth_token,
+               as: :json
+
+          expect(response).to have_http_status(:unprocessable_entity)
+          expect(json_response[:error]).to eq(I18n.t('errors.captain.copilot_thread.usage_limit_exceeded'))
+        end
+
         it 'creates a new copilot thread with initial message' do
+          account.limits = { captain_responses: 2 }
+          account.custom_attributes = { captain_responses_usage: 0 }
+          account.save!
+
           expect do
             post "/api/v1/accounts/#{account.id}/captain/copilot_threads",
                  params: valid_params,

@@ -48,6 +48,10 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+    captain:
+      copilot_thread:
+        usage_limit_exceeded: Usage limit exceeded, please upgrade the Captain usage to continue
+        message_required: Message is required
     data_import:
       data_type:
         invalid: Invalid data type
