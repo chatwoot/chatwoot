@@ -548,20 +548,20 @@
         "PLACEHOLDER": "Adicionar nota",
         "WROTE": "escreveu",
         "YOU": "Você",
-        "SAVE": "Save note",
+        "SAVE": "Salvar nota",
         "EXPAND": "Expandir",
         "COLLAPSE": "Recolher",
         "NO_NOTES": "Sem notas, pode adicionar notas na página de detalhes do contacto.",
-        "EMPTY_STATE": "There are no notes associated to this contact. You can add a note by typing in the box above."
+        "EMPTY_STATE": "Não existem notas associadas a este contacto. Pode adicionar uma nota escrevendo na caixa acima."
       }
     },
     "EMPTY_STATE": {
-      "TITLE": "No contacts found in this account",
-      "SUBTITLE": "Start adding new contacts by clicking on the button below",
-      "BUTTON_LABEL": "Add contact",
+      "TITLE": "Nenhum contacto encontrado nesta conta",
+      "SUBTITLE": "Para adicionar novos contatos, clique no botão abaixo",
+      "BUTTON_LABEL": "Adicionar contacto",
       "SEARCH_EMPTY_STATE_TITLE": "Nenhum contacto corresponde à sua pesquisa 🔍",
       "LIST_EMPTY_STATE_TITLE": "No contacts available in this view 📋",
-      "ACTIVE_EMPTY_STATE_TITLE": "Não há contactos ativos de momento 🌙"
+      "ACTIVE_EMPTY_STATE_TITLE": "Neste momento não há contactos ativos 🌙"
     }
   },
   "COMPOSE_NEW_CONVERSATION": {
