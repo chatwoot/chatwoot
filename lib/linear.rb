@@ -1,5 +1,6 @@
 class Linear
   BASE_URL = 'https://api.linear.app/graphql'.freeze
+  REVOKE_URL = 'https://api.linear.app/oauth/revoke'.freeze
   PRIORITY_LEVELS = (0..4).to_a
 
   def initialize(access_token)
@@ -84,6 +85,14 @@ class Linear
     }
     response = post(payload)
     process_response(response)
+  end
+
+  def revoke_token
+    response = HTTParty.post(
+      REVOKE_URL,
+      headers: { 'Authorization' => "Bearer #{@access_token}", 'Content-Type' => 'application/json' }
+    )
+    response.success?
   end
 
   private
