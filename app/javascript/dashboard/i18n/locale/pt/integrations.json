@@ -318,7 +318,7 @@
         "SUCCESS": "Problema desvinculado com sucesso",
         "ERROR": "Houve um erro ao desvincular o problema, por favor, tente novamente"
       },
-      "NO_LINKED_ISSUES": "No linked issues found",
+      "NO_LINKED_ISSUES": "Sem casos associados",
       "DELETE": {
         "TITLE": "Are you sure you want to delete the integration?",
         "MESSAGE": "Are you sure you want to delete the integration?",
@@ -326,16 +326,16 @@
         "CANCEL": "Cancelar"
       },
       "CTA": {
-        "TITLE": "Connect to Linear",
-        "AGENT_DESCRIPTION": "Linear workspace is not connected. Request your administrator to connect a workspace to use this integration.",
-        "DESCRIPTION": "Linear workspace is not connected. Click the button below to connect your workspace to use this integration.",
-        "BUTTON_TEXT": "Connect Linear workspace"
+        "TITLE": "Ligar ao Linear",
+        "AGENT_DESCRIPTION": "O espaço de trabalho linear não está ligado. Solicite ao administrador que ligue um espaço de trabalho para usar esta integração.",
+        "DESCRIPTION": "O workspace Linear não está ligado. Clique no botão abaixo para ligar o seu workspace para utilizar esta integração.",
+        "BUTTON_TEXT": "Ligar workspace Linear"
       }
     },
     "NOTION": {
       "DELETE": {
-        "TITLE": "Are you sure you want to delete the Notion integration?",
-        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "TITLE": "Tem a certeza que pretende apagar a integração Notion?",
+        "MESSAGE": "Apagar esta integração removerá o acesso ao seu workspace Notion e encerrará todas as funcionalidades relacionadas.",
         "CONFIRM": "Sim, excluir",
         "CANCEL": "Cancelar"
       }
@@ -360,7 +360,7 @@
       "PROMPTS": {
         "SUMMARIZE": {
           "LABEL": "Resumir esta conversa",
-          "CONTENT": "Summarize the key points discussed between the customer and the support agent, including the customer's concerns, questions, and the solutions or responses provided by the support agent"
+          "CONTENT": "Resuma os pontos-chave discutidos entre o cliente e o agente de suporte, incluindo as preocupações do cliente, as questões e as soluções ou respostas dadas pelo agente de suporte"
         },
         "SUGGEST": {
           "LABEL": "Sugerir uma resposta",
@@ -368,7 +368,7 @@
         },
         "RATE": {
           "LABEL": "Avalie esta conversa",
-          "CONTENT": "Review the conversation to see how well it meets the customer's needs. Share a rating out of 5 based on tone, clarity, and effectiveness."
+          "CONTENT": "Reveja a conversa para ver o quanto foram satisfeitas as necessidades do cliente. Compartilhe uma classificação até 5 com base no tom, clareza e eficácia."
         },
         "HIGH_PRIORITY": {
           "LABEL": "Conversas de alta prioridade",
@@ -385,8 +385,8 @@
       "ASSISTANT": "Assistant",
       "MESSAGE_PLACEHOLDER": "Escreva a sua mensagem...",
       "HEADER": "Playground",
-      "DESCRIPTION": "Use this playground to send messages to your assistant and check if it responds accurately, quickly, and in the tone you expect.",
-      "CREDIT_NOTE": "Messages sent here will count toward your Captain credits."
+      "DESCRIPTION": "Use este playground para enviar mensagens para o seu assistente e verificar se ele responde com precisão, rápido e no tom esperado.",
+      "CREDIT_NOTE": "As mensagens aqui enviadas vão contar para os créditos do seu Captain."
     },
     "PAYWALL": {
       "TITLE": "Upgrade to use Captain AI",
@@ -410,7 +410,7 @@
     },
     "ASSISTANTS": {
       "HEADER": "Assistants",
-      "NO_ASSISTANTS_AVAILABLE": "There are no assistants available in your account.",
+      "NO_ASSISTANTS_AVAILABLE": "Não há agentes disponíveis na sua conta.",
       "ADD_NEW": "Create a new assistant",
       "DELETE": {
         "TITLE": "Are you sure to delete the assistant?",
@@ -428,46 +428,46 @@
       "FORM": {
         "UPDATE": "Atualização",
         "SECTIONS": {
-          "BASIC_INFO": "Basic Information",
-          "SYSTEM_MESSAGES": "System Messages",
-          "INSTRUCTIONS": "Instructions",
+          "BASIC_INFO": "Informação básica",
+          "SYSTEM_MESSAGES": "Mensagens do Sistema",
+          "INSTRUCTIONS": "Instruções",
           "FEATURES": "Características",
-          "TOOLS": "Tools "
+          "TOOLS": "Ferramentas "
         },
         "NAME": {
           "LABEL": "Nome:",
-          "PLACEHOLDER": "Enter assistant name",
-          "ERROR": "The name is required"
+          "PLACEHOLDER": "Escreva o nome do assistente",
+          "ERROR": "O nome é obrigatório"
         },
         "TEMPERATURE": {
-          "LABEL": "Response Temperature",
-          "DESCRIPTION": "Adjust how creative or restrictive the assistant's responses should be. Lower values produce more focused and deterministic responses, while higher values allow for more creative and varied outputs."
+          "LABEL": "Temperatura da Resposta",
+          "DESCRIPTION": "Ajuste o quão criativo ou restritivo as respostas do assistente devem ser. Valores mais baixos produzem respostas mais focadas e deterministas, enquanto valores mais altos permitem resultados mais criativos e variados."
         },
         "DESCRIPTION": {
           "LABEL": "Descrição",
-          "PLACEHOLDER": "Enter assistant description",
-          "ERROR": "The description is required"
+          "PLACEHOLDER": "Escreva a descrição do assistente",
+          "ERROR": "A descrição é obrigatória"
         },
         "PRODUCT_NAME": {
           "LABEL": "Product Name",
-          "PLACEHOLDER": "Enter product name",
-          "ERROR": "The product name is required"
+          "PLACEHOLDER": "Escreva o nome do produto",
+          "ERROR": "O nome do produto é obrigatório"
         },
         "WELCOME_MESSAGE": {
-          "LABEL": "Welcome Message",
-          "PLACEHOLDER": "Enter welcome message"
+          "LABEL": "Mensagem de Boas-vindas",
+          "PLACEHOLDER": "Escreva a mensagem de boas-vindas"
         },
         "HANDOFF_MESSAGE": {
-          "LABEL": "Handoff Message",
-          "PLACEHOLDER": "Enter handoff message"
+          "LABEL": "Mensagem de despedida",
+          "PLACEHOLDER": "Escreva a mensagem de despedida"
         },
         "RESOLUTION_MESSAGE": {
-          "LABEL": "Resolution Message",
-          "PLACEHOLDER": "Enter resolution message"
+          "LABEL": "Mensagem de resolução",
+          "PLACEHOLDER": "Escreva a mensagem de resolução"
         },
         "INSTRUCTIONS": {
-          "LABEL": "Instructions",
-          "PLACEHOLDER": "Enter instructions for the assistant"
+          "LABEL": "Instruções",
+          "PLACEHOLDER": "Escreva as instruções para o assistente"
         },
         "FEATURES": {
           "TITLE": "Características",
@@ -547,8 +547,8 @@
         "CONVERSATION": "Conversation #{id}"
       },
       "SELECTED": "{count} selected",
-      "SELECT_ALL": "Select all ({count})",
-      "UNSELECT_ALL": "Unselect all ({count})",
+      "SELECT_ALL": "Selecionar todas ({count})",
+      "UNSELECT_ALL": "Desmarcar todas ({count})",
       "BULK_APPROVE_BUTTON": "Approve",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {
