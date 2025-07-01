@@ -59,15 +59,22 @@ class Captain::Copilot::ChatService
     Rails.logger.info("🤖 AI Response: #{send_message.body}")
 
     response = send_message.parsed_response
-    message, is_handover = get_message_content(response)
+    message, is_handover, reservation_details = get_message_content(response)
 
-    send_reply(message, is_handover: is_handover, additional_attributes: { message_type: 1, sender_type: 'AiAgent' })
+    Rails.logger.info("🤖 AI Reply: #{message}, Handover: #{is_handover}, Reservation Details: #{reservation_details}")
+
+    send_reply(message, is_handover: is_handover,
+                        additional_attributes: { message_type: 1, sender_type: 'AiAgent', reservation_details: reservation_details })
   end
 
   def send_reply(content, is_handover: false, additional_attributes: {})
     message_content = is_handover ? handover_processing(content) : content
-
-    message_created(message_content, additional_attributes)
+    if additional_attributes[:reservation_details].present?
+      Rails.logger.info("🤖 Saving reservation details: #{additional_attributes[:reservation_details]}")
+      Supabase::InsertService.new.perform('reservasi_klinik',
+                                          additional_attributes[:reservation_details])
+    end
+    message_created(message_content, additional_attributes.except(:reservation_details))
     send_log_reply(is_handover: is_handover)
   rescue StandardError => e
     Rails.logger.error("❌ Failed to save AI reply: #{e.message}")
@@ -102,8 +109,9 @@ class Captain::Copilot::ChatService
     json_data = extract_json_from_code_block(response['text'])
     is_handover = json_data&.dig('is_handover_human') || false
     message = json_data&.dig('response')
+    reservation_details = json_data&.dig('reservation_details')
 
-    [message, is_handover]
+    [message, is_handover, reservation_details]
   end
 
   def find_available_agent
