@@ -214,7 +214,7 @@
     "ASSIGN_LABEL_SUCCESFUL": "Etiqueta atribuída com sucesso",
     "ASSIGN_LABEL_FAILED": "Falha na atribuição de etiqueta",
     "CHANGE_TEAM": "Equipa da conversa alterada",
-    "SUCCESS_DELETE_CONVERSATION": "Conversa apagada com sucesso",
+    "SUCCESS_DELETE_CONVERSATION": "Conversa apagada",
     "FAIL_DELETE_CONVERSATION": "Não foi possível apagar a conversa! Tente novamente",
     "FILE_SIZE_LIMIT": "O ficheiro excede o tamanho limite para anexos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "Não foi possível enviar esta mensagem, por favor, tente novamente mais tarde",
@@ -308,7 +308,7 @@
       "CONTACT_ATTRIBUTES": "Atributos do contacto",
       "PREVIOUS_CONVERSATION": "Conversas anteriores",
       "MACROS": "Macros",
-      "LINEAR_ISSUES": "Questões Linear Vinculadas",
+      "LINEAR_ISSUES": "Casos Linear Associados",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
