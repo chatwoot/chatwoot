@@ -85,8 +85,8 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "Pelo menos uma ação é obrigatória"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
-      "ASSIGN_AGENT": "Assign an Agent",
+      "ASSIGN_TEAM": "Atribuir equipa",
+      "ASSIGN_AGENT": "Atribuir um agente",
       "ADD_LABEL": "Adicionar um rótulo",
       "REMOVE_LABEL": "Remover um rótulo",
       "REMOVE_ASSIGNED_TEAM": "Remover equipa atribuída",
