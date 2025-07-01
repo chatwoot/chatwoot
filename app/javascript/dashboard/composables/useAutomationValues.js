@@ -120,22 +120,16 @@ export default function useAutomationValues() {
    * @returns {Array} An array of action dropdown values.
    */
   const getActionDropdownValues = type => {
-    const translatedOptions = {
-      change_priority: priorityOptions.value,
-    };
-    return (
-      translatedOptions[type] ??
-      getActionOptions({
-        agents: agents.value,
-        labels: labels.value,
-        teams: teams.value,
-        slaPolicies: slaPolicies.value,
-        languages,
-        type,
-        addNoneToListFn: addNoneToList,
-        priorityOptions: priorityOptions.value,
-      })
-    );
+    return getActionOptions({
+      agents: agents.value,
+      labels: labels.value,
+      teams: teams.value,
+      slaPolicies: slaPolicies.value,
+      languages,
+      type,
+      addNoneToListFn: addNoneToList,
+      priorityOptions: priorityOptions.value,
+    });
   };
 
   return {
