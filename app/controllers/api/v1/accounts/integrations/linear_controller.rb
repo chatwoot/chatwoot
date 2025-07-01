@@ -3,6 +3,7 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
   before_action :fetch_hook, only: [:destroy]
 
   def destroy
+    revoke_linear_token
     @hook.destroy!
     head :ok
   end
@@ -119,5 +120,16 @@ class Api::V1::Accounts::Integrations::LinearController < Api::V1::Accounts::Bas
 
   def fetch_hook
     @hook = Integrations::Hook.where(account: Current.account).find_by(app_id: 'linear')
+  end
+
+  def revoke_linear_token
+    return unless @hook&.access_token
+
+    begin
+      linear_client = Linear.new(@hook.access_token)
+      linear_client.revoke_token
+    rescue StandardError => e
+      Rails.logger.error "Failed to revoke Linear token: #{e.message}"
+    end
   end
 end

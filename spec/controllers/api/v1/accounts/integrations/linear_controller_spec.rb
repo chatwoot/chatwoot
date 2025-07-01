@@ -14,6 +14,12 @@ RSpec.describe 'Linear Integration API', type: :request do
 
   describe 'DELETE /api/v1/accounts/:account_id/integrations/linear' do
     it 'deletes the linear integration' do
+      # Stub the HTTP call to Linear's revoke endpoint
+      allow(HTTParty).to receive(:post).with(
+        'https://api.linear.app/oauth/revoke',
+        anything
+      ).and_return(instance_double(HTTParty::Response, success?: true))
+
       delete "/api/v1/accounts/#{account.id}/integrations/linear",
              headers: agent.create_new_auth_token,
              as: :json
