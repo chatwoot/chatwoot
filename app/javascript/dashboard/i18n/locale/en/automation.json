@@ -149,6 +149,17 @@
       "CHANGE_PRIORITY": "Change Priority",
       "ADD_SLA": "Add SLA"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "None",
+      "LOW": "Low",
+      "MEDIUM": "Medium",
+      "HIGH": "High",
+      "URGENT": "Urgent"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",

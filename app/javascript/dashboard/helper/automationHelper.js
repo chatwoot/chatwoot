@@ -8,12 +8,9 @@ import {
   DEFAULT_CONVERSATION_OPENED_CONDITION,
   DEFAULT_OTHER_CONDITION,
   DEFAULT_ACTIONS,
-  MESSAGE_CONDITION_VALUES,
-  PRIORITY_CONDITION_VALUES,
 } from 'dashboard/constants/automation';
 import filterQueryGenerator from './filterQueryGenerator';
 import actionQueryGenerator from './actionQueryGenerator';
-import { useI18n } from 'vue-i18n';
 
 export const getCustomAttributeInputType = key => {
   const customAttributeMap = {
@@ -97,36 +94,6 @@ export const generateConditionOptions = (options, key = 'id') => {
   });
 };
 
-export const generateTranslatedOptions = (
-  options,
-  i18nPath = '',
-  originKey = 'id',
-  targetKey = 'name'
-) => {
-  if (!options || !Array.isArray(options)) return [];
-
-  return options.map(option => {
-    const keyValue = option[originKey];
-
-    if (!keyValue || i18nPath === '') {
-      return option;
-    }
-
-    // Since useI18n only works inside vue setup() we need to
-    // wrap it to avoid errors and in case of some error happens
-    // we just return the default value;
-    try {
-      const { t } = useI18n();
-      return {
-        ...option,
-        [targetKey]: t(`${i18nPath}.${keyValue.toUpperCase()}`),
-      };
-    } catch {
-      return option;
-    }
-  });
-};
-
 export const getActionOptions = ({
   agents,
   teams,
@@ -134,6 +101,7 @@ export const getActionOptions = ({
   slaPolicies,
   type,
   addNoneToListFn,
+  priorityOptions,
 }) => {
   const actionsMap = {
     assign_agent: addNoneToListFn ? addNoneToListFn(agents) : agents,
@@ -141,10 +109,7 @@ export const getActionOptions = ({
     send_email_to_team: teams,
     add_label: generateConditionOptions(labels, 'title'),
     remove_label: generateConditionOptions(labels, 'title'),
-    change_priority: generateTranslatedOptions(
-      PRIORITY_CONDITION_VALUES,
-      'ENUMS.PRIORITY'
-    ),
+    change_priority: priorityOptions,
     add_sla: slaPolicies,
   };
   return actionsMap[type];
@@ -162,6 +127,8 @@ export const getConditionOptions = ({
   statusFilterOptions,
   teams,
   type,
+  priorityOptions,
+  messageTypeOptions,
 }) => {
   if (isCustomAttributeCheckbox(customAttributes, type)) {
     return booleanFilterOptions;
@@ -181,14 +148,8 @@ export const getConditionOptions = ({
     browser_language: languages,
     conversation_language: languages,
     country_code: countries,
-    message_type: generateTranslatedOptions(
-      MESSAGE_CONDITION_VALUES,
-      'ENUMS.MESSAGE_TYPE'
-    ),
-    priority: generateTranslatedOptions(
-      PRIORITY_CONDITION_VALUES,
-      'ENUMS.PRIORITY'
-    ),
+    message_type: messageTypeOptions,
+    priority: priorityOptions,
   };
 
   return conditionFilterMaps[type];

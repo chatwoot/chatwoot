@@ -36,14 +36,42 @@ export const DEFAULT_ACTIONS = [
 ];
 
 export const MESSAGE_CONDITION_VALUES = [
-  { id: 'incoming', name: 'Incoming Message' },
-  { id: 'outgoing', name: 'Outgoing Message' },
+  {
+    id: 'incoming',
+    name: 'Incoming',
+    i18nKey: 'INCOMING',
+  },
+  {
+    id: 'outgoing',
+    name: 'Outgoing',
+    i18nKey: 'OUTGOING',
+  },
 ];
 
 export const PRIORITY_CONDITION_VALUES = [
-  { id: 'nil', name: 'None' },
-  { id: 'low', name: 'Low' },
-  { id: 'medium', name: 'Medium' },
-  { id: 'high', name: 'High' },
-  { id: 'urgent', name: 'Urgent' },
+  {
+    id: 'nil',
+    name: 'None',
+    i18nKey: 'NONE',
+  },
+  {
+    id: 'low',
+    name: 'Low',
+    i18nKey: 'LOW',
+  },
+  {
+    id: 'medium',
+    name: 'Medium',
+    i18nKey: 'MEDIUM',
+  },
+  {
+    id: 'high',
+    name: 'High',
+    i18nKey: 'HIGH',
+  },
+  {
+    id: 'urgent',
+    name: 'Urgent',
+    i18nKey: 'URGENT',
+  },
 ];

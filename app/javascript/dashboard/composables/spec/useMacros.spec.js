@@ -1,11 +1,13 @@
 import { describe, it, expect, vi } from 'vitest';
 import { useMacros } from '../useMacros';
 import { useStoreGetters } from 'dashboard/composables/store';
-import * as automationHelper from 'dashboard/helper/automationHelper.js';
 import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/helper/automationHelper.js');
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({ t: key => key }),
+}));
 
 describe('useMacros', () => {
   const mockLabels = [
@@ -148,19 +150,12 @@ describe('useMacros', () => {
   });
 
   it('returns PRIORITY_CONDITION_VALUES for change_priority type', () => {
-    // Since all automationHelper functions are mocked
-    // we create a spy to simulate the case where
-    // it returns the options
-    const spy = vi
-      .spyOn(automationHelper, 'generateTranslatedOptions')
-      .mockImplementation(options => options);
-
     const { getMacroDropdownValues } = useMacros();
-    expect(getMacroDropdownValues('change_priority')).toEqual(
-      PRIORITY_CONDITION_VALUES
-    );
-
-    spy.mockRestore();
+    const expectedPriority = PRIORITY_CONDITION_VALUES.map(item => ({
+      id: item.id,
+      name: `MACROS.PRIORITY_TYPES.${item.i18nKey}`,
+    }));
+    expect(getMacroDropdownValues('change_priority')).toEqual(expectedPriority);
   });
 
   it('returns an empty array for unknown types', () => {
