@@ -23,53 +23,39 @@ const tagAgentsRef = ref(null);
 const selectedIndex = ref(0);
 
 const items = computed(() => {
-  const searchQuery = props.searchKey?.toLowerCase() || '';
+  const search = props.searchKey?.trim().toLowerCase() || '';
 
-  const agentItems = agents.value
-    .map(agent => ({
-      ...agent,
-      type: 'user',
-      displayName: agent.name,
-      displayInfo: agent.email,
-    }))
-    .filter(
-      agent =>
-        !searchQuery || agent.displayName.toLowerCase().includes(searchQuery)
-    );
+  const buildItems = (list, type, infoKey) =>
+    list
+      .map(item => ({
+        ...item,
+        type,
+        displayName: item.name,
+        displayInfo: item[infoKey],
+      }))
+      .filter(item =>
+        search ? item.displayName.toLowerCase().includes(search) : true
+      );
 
-  const teamItems = teams.value
-    .map(team => ({
-      ...team,
-      type: 'team',
-      displayName: team.name,
-      displayInfo: team.description,
-    }))
-    .filter(
-      team =>
-        !searchQuery || team.displayName.toLowerCase().includes(searchQuery)
-    );
-
-  const result = [];
-
-  if (agentItems.length > 0) {
-    result.push({
-      type: 'header',
+  const categories = [
+    {
       title: t('CONVERSATION.MENTION.AGENTS'),
-      id: 'agents-header',
-    });
-    result.push(...agentItems);
-  }
-
-  if (teamItems.length > 0) {
-    result.push({
-      type: 'header',
+      data: buildItems(agents.value, 'user', 'email'),
+    },
+    {
       title: t('CONVERSATION.MENTION.TEAMS'),
-      id: 'teams-header',
-    });
-    result.push(...teamItems);
-  }
+      data: buildItems(teams.value, 'team', 'description'),
+    },
+  ];
 
-  return result;
+  return categories.flatMap(({ title, data }) =>
+    data.length
+      ? [
+          { type: 'header', title, id: `${title.toLowerCase()}-header` },
+          ...data,
+        ]
+      : []
+  );
 });
 
 const selectableItems = computed(() => {
@@ -132,6 +118,7 @@ const onAgentSelect = index => {
       v-if="items.length"
       ref="tagAgentsRef"
       class="vertical dropdown menu mention--box bg-n-solid-1 p-1 rounded-xl text-sm overflow-auto absolute w-full z-20 shadow-md left-0 leading-[1.2] bottom-full max-h-[12.5rem] border border-solid border-n-strong"
+      role="listbox"
     >
       <li
         v-for="item in items"
@@ -156,6 +143,7 @@ const onAgentSelect = index => {
             'bg-n-alpha-black2': getSelectableIndex(item) === selectedIndex,
           }"
           class="flex items-center px-2 py-1 rounded-md cursor-pointer"
+          role="option"
           @click="onAgentSelect(getSelectableIndex(item))"
           @mouseover="onHover(getSelectableIndex(item))"
         >

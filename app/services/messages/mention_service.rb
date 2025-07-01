@@ -30,13 +30,11 @@ class Messages::MentionService
   def expand_team_mentions_to_users(team_ids)
     return [] if team_ids.blank?
 
-    valid_teams = message.inbox.account.teams
-                         .joins(:team_members)
-                         .where(id: team_ids)
-                         .where(team_members: { user_id: valid_mentionable_user_ids })
-                         .distinct
-
-    valid_teams.joins(:team_members).pluck('team_members.user_id').map(&:to_s)
+    message.inbox.account.teams
+           .joins(:team_members)
+           .where(id: team_ids)
+           .pluck('team_members.user_id')
+           .map(&:to_s)
   end
 
   def valid_mentionable_user_ids

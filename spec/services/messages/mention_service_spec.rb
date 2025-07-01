@@ -24,26 +24,6 @@ describe Messages::MentionService do
     allow(Conversations::UserMentionJob).to receive(:perform_later)
   end
 
-  def expect_notification_for_user(user, message)
-    expect(NotificationBuilder).to have_received(:new).with(
-      notification_type: 'conversation_mention',
-      user: user,
-      account: account,
-      primary_actor: message.conversation,
-      secondary_actor: message
-    )
-  end
-
-  def expect_no_notification_for_user(user, message)
-    expect(NotificationBuilder).not_to have_received(:new).with(
-      notification_type: 'conversation_mention',
-      user: user,
-      account: account,
-      primary_actor: message.conversation,
-      secondary_actor: message
-    )
-  end
-
   describe '#perform' do
     context 'when message is not private' do
       it 'does not process mentions for public messages' do
@@ -328,9 +308,27 @@ describe Messages::MentionService do
 
         described_class.new(message: message).perform
 
-        expect_notification_for_user(first_agent, message)
-        expect_notification_for_user(second_agent, message)
-        expect_no_notification_for_user(non_inbox_team_member, message)
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: second_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+        expect(NotificationBuilder).not_to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: non_inbox_team_member,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
       end
     end
 
@@ -432,9 +430,27 @@ describe Messages::MentionService do
 
         described_class.new(message: message).perform
 
-        expect_notification_for_user(third_agent, message)
-        expect_notification_for_user(first_agent, message)
-        expect_notification_for_user(second_agent, message)
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: third_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: first_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
+        expect(NotificationBuilder).to have_received(:new).with(
+          notification_type: 'conversation_mention',
+          user: second_agent,
+          account: account,
+          primary_actor: message.conversation,
+          secondary_actor: message
+        )
       end
 
       it 'avoids duplicate notifications when user is mentioned directly and via team' do
