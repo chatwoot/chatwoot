@@ -303,7 +303,9 @@ const debouncedRefund = debounce(value => {
 }, 2000);
 
 const calculatedRefundForLineItems = ref(
-  Object.fromEntries(props.order.line_items.map(e => [e.id, { refund: 0 }]))
+  Object.fromEntries(
+    props.order.line_items.map(e => [e.id, { refund: 0, tax: 0 }])
+  )
 );
 
 const calculateRefund = async () => {
@@ -325,16 +327,15 @@ const calculateRefund = async () => {
     console.log('PROPS lis: ', props.order.line_items);
     const li = props.order.line_items.find(e => e.id === lid);
 
-    // REVIEW: skipping tax calc for now.
-    // const tax = li.tax_lines.reduce(
-    //   (acc, curr) => Number(curr.price_set.shop_money.amount) + acc,
-    //   0
-    // );
-    // console.log('TAX: ', tax);
+    const tax = li.tax_lines.reduce(
+      (acc, curr) => Number(curr.price_set.shop_money.amount) + acc,
+      0
+    );
 
+    console.log('Calc tax: ', tax);
     calculatedRefundForLineItems.value[lid] = {
-      refund:
-        Number(li.price_set.shop_money.amount) * refundItem.quantity /* + tax*/,
+      refund: Number(li.price_set.shop_money.amount) * refundItem.quantity,
+      tax: Number((tax / Number(li.quantity)) * Number(refundItem.quantity)),
     };
   }
 
@@ -354,12 +355,23 @@ const currentSubtotal = computed(() => {
 });
 
 watch(
-  currentSubtotal,
+  calculatedRefundForLineItems,
   newVal => {
-    formState.refundAmount = currentSubtotal;
+    console.log('CHANGED THERE ', newVal);
+    formState.refundAmount = Object.values(newVal).reduce(
+      (acc, cur) => acc + cur.refund + cur.tax,
+      0
+    );
   },
-  { immediate: true }
+  { deep: true, immediate: true }
 );
+
+const currentTax = computed(() => {
+  return Object.values(calculatedRefundForLineItems.value).reduce(
+    (acc, cur) => cur.tax + acc,
+    0
+  );
+});
 
 // const currentSubtotal = computed(() => {
 //   return (
@@ -621,18 +633,7 @@ const buttonText = () => {
             >
           </div>
 
-          <!-- 
-          <div class="flex flex-row justify-between gap-10">
-            <label>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DISCOUNT') }}
-            </label>
-            <span class="text-sm"
-              >{{ currency_codes[order.currency] }}
-              {{ /* order.total_discount */ currentDiscountApplied }}</span
-            >
-          </div>
-
-          <div class="flex flex-row justify-between gap-10">
+          <div class="flex flex-row justify-start items-center gap-[72px]">
             <label>
               {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TAX') }}
             </label>
@@ -640,7 +641,17 @@ const buttonText = () => {
               >{{ currency_codes[order.currency] }}
               {{ /* order.total_tax */ currentTax }}</span
             >
-          </div> -->
+          </div>
+
+          <div class="flex flex-row justify-start items-center gap-[64px]">
+            <label>
+              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TOTAL') }}
+            </label>
+            <span class="text-sm"
+              >{{ currency_codes[order.currency] }}
+              {{ /* order.total_tax */ currentSubtotal + currentTax }}</span
+            >
+          </div>
         </div>
       </div>
 
