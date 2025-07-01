@@ -77,8 +77,9 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
   private
 
   def recipients(account)
-    account.account_users.includes(:user).map(&:user).compact
-  end
+  User.joins(:account_users)
+      .where(account_users: { account_id: account.id, role: 'agent' })
+end
 
   def message
     @message ||= @conversation.messages.find(permitted_params[:id])
