@@ -1,0 +1,194 @@
+# Simple GitLab CI/CD Pipeline for VegaVision Helpdesk
+# No external scripts, no secure files - everything inline
+
+stages:
+  - build
+  - deploy
+
+variables:
+  DOCKER_IMAGE: charlesmbv/vegavision
+  DOCKER_TAG: latest
+  ORG: ${ORG:-default}
+  APP_DIR: ~/vv-${ORG}-helpdesk
+  VOLUMES_DIR: /vv-volumes/${ORG}-helpdesk
+  CONTAINER_PREFIX: vv-${ORG}-helpdesk
+
+# Build Stage - Build and push Docker image
+build_image:
+  stage: build
+  image: docker:24.0.5
+  services:
+    - docker:24.0.5-dind
+  variables:
+    DOCKER_DRIVER: overlay2
+    DOCKER_TLS_CERTDIR: "/certs"
+  before_script:
+    - echo $DOCKER_HUB_PASSWORD | docker login -u $DOCKER_HUB_USERNAME --password-stdin
+  script:
+    - docker build -f docker/Dockerfile -t $DOCKER_IMAGE:$CI_COMMIT_SHA .
+    - docker tag $DOCKER_IMAGE:$CI_COMMIT_SHA $DOCKER_IMAGE:$DOCKER_TAG
+    - docker push $DOCKER_IMAGE:$CI_COMMIT_SHA
+    - docker push $DOCKER_IMAGE:$DOCKER_TAG
+  only:
+    - main
+    - master
+  tags:
+    - self-hosted
+
+# Simple Deploy Stage - Everything inline, no external files needed
+deploy_production:
+  stage: deploy
+  script:
+    # Create .env file from GitLab CI variables
+    - |
+      echo "🔧 Creating environment configuration for ${ORG}..."
+      cat > .env << EOF
+      NODE_ENV=production
+      RAILS_ENV=production
+      INSTALLATION_ENV=docker
+      RAILS_SERVE_STATIC_FILES=true
+      DATABASE_URL=${DATABASE_URL}
+      POSTGRES_HOST=${POSTGRES_HOST}
+      POSTGRES_PORT=${POSTGRES_PORT:-5432}
+      POSTGRES_DATABASE=${POSTGRES_DATABASE}
+      POSTGRES_USERNAME=${POSTGRES_USERNAME}
+      POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      REDIS_URL=redis://:${REDIS_PASSWORD}@127.0.0.1:6377/0
+      REDIS_PASSWORD=${REDIS_PASSWORD}
+      SECRET_KEY_BASE=${SECRET_KEY_BASE}
+      FRONTEND_URL=${FRONTEND_URL}
+      MAILER_SENDER_EMAIL=${MAILER_SENDER_EMAIL:-noreply@example.com}
+      SMTP_ADDRESS=${SMTP_ADDRESS:-}
+      SMTP_PORT=${SMTP_PORT:-587}
+      SMTP_USERNAME=${SMTP_USERNAME:-}
+      SMTP_PASSWORD=${SMTP_PASSWORD:-}
+      SMTP_AUTHENTICATION=plain
+      SMTP_ENABLE_STARTTLS_AUTO=true
+      FORCE_SSL=false
+      RAILS_LOG_TO_STDOUT=true
+      EOF
+    
+    # Create directory structure
+    - echo "📁 Setting up directories for ${ORG}..."
+    - mkdir -p $APP_DIR
+    - mkdir -p $VOLUMES_DIR/storage_data
+    - mkdir -p $VOLUMES_DIR/redis_data
+    
+    # Create shared network
+    - docker network create vv-helpdesk 2>/dev/null || echo "✅ Network exists"
+    
+    # Create docker-compose file inline
+    - |
+      echo "🐳 Creating Docker Compose configuration..."
+      cat > docker-compose.yml << 'DOCKEREOF'
+      version: '3.9'
+      services:
+        app: &base
+          image: charlesmbv/vegavision:latest
+          env_file: .env
+          volumes:
+            - VOLUMES_DIR_PLACEHOLDER/storage_data:/app/storage
+        
+        CONTAINER_PREFIX_PLACEHOLDER-Rails:
+          <<: *base
+          container_name: CONTAINER_PREFIX_PLACEHOLDER-Rails
+          depends_on:
+            - CONTAINER_PREFIX_PLACEHOLDER-Redis
+          environment:
+            - NODE_ENV=production
+            - RAILS_ENV=production
+            - INSTALLATION_ENV=docker
+            - RAILS_SERVE_STATIC_FILES=true
+          entrypoint: docker/entrypoints/rails.sh
+          command: ['bundle', 'exec', 'rails', 's', '-p', '3000', '-b', '0.0.0.0']
+          restart: unless-stopped
+          networks:
+            - vv-helpdesk
+        
+        CONTAINER_PREFIX_PLACEHOLDER-Sidekiq:
+          <<: *base
+          container_name: CONTAINER_PREFIX_PLACEHOLDER-Sidekiq
+          depends_on:
+            - CONTAINER_PREFIX_PLACEHOLDER-Redis
+          environment:
+            - NODE_ENV=production
+            - RAILS_ENV=production
+            - INSTALLATION_ENV=docker
+          command: ['bundle', 'exec', 'sidekiq', '-C', 'config/sidekiq.yml']
+          restart: unless-stopped
+          networks:
+            - vv-helpdesk
+        
+        CONTAINER_PREFIX_PLACEHOLDER-Redis:
+          image: redis:alpine
+          container_name: CONTAINER_PREFIX_PLACEHOLDER-Redis
+          restart: unless-stopped
+          command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
+          env_file: .env
+          volumes:
+            - VOLUMES_DIR_PLACEHOLDER/redis_data:/data
+          networks:
+            - vv-helpdesk
+      
+      networks:
+        vv-helpdesk:
+          external: true
+      DOCKEREOF
+    
+    # Replace placeholders
+    - sed -i "s|CONTAINER_PREFIX_PLACEHOLDER|$CONTAINER_PREFIX|g" docker-compose.yml
+    - sed -i "s|VOLUMES_DIR_PLACEHOLDER|$VOLUMES_DIR|g" docker-compose.yml
+    
+    # Copy files to app directory
+    - cp docker-compose.yml $APP_DIR/
+    - cp .env $APP_DIR/
+    
+    # Deploy
+    - cd $APP_DIR
+    - echo "🔄 Pulling latest images for ${ORG}..."
+    - docker-compose pull
+    - echo "🛑 Stopping existing containers..."
+    - docker-compose down || true
+    - echo "🚀 Starting ${ORG} application..."
+    - docker-compose up -d
+    - sleep 15
+    - echo "📊 Status for ${ORG}:"
+    - docker-compose ps
+    - echo "✅ Deployment complete for ${ORG}"
+    
+  environment:
+    name: production-${ORG}
+    url: $FRONTEND_URL
+  when: manual
+  only:
+    - main
+    - master
+  tags:
+    - self-hosted
+
+# Quick health check
+health_check:
+  stage: deploy
+  script:
+    - cd $APP_DIR || exit 1
+    - echo "🏥 Health Check for ${ORG}"
+    - docker-compose ps
+    - echo "📊 Resource usage:"
+    - docker stats --no-stream --format "table {{.Container}}\t{{.CPUPerc}}\t{{.MemUsage}}" | head -5
+  when: manual
+  allow_failure: true
+  tags:
+    - self-hosted
+
+# Stop deployment
+stop_production:
+  stage: deploy
+  script:
+    - cd $APP_DIR || exit 1
+    - echo "🛑 Stopping ${ORG} deployment..."
+    - docker-compose down
+    - echo "✅ ${ORG} stopped"
+  when: manual
+  allow_failure: true
+  tags:
+    - self-hosted
