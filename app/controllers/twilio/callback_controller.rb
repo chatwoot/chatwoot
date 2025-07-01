@@ -27,7 +27,10 @@ class Twilio::CallbackController < ApplicationController
       *Array.new(10) { |i| :"MediaUrl#{i}" },
       *Array.new(10) { |i| :"MediaContentType#{i}" },
       :MessagingServiceSid,
-      :NumMedia
+      :NumMedia,
+      :Latitude,
+      :Longitude,
+      :MessageType
     )
   end
 end
