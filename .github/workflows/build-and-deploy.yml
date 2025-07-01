@@ -1,0 +1,94 @@
+name: Build and Deploy
+
+on:
+  push:
+    branches: [ main, master ]
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+jobs:
+  build-and-deploy:
+    runs-on: self-hosted
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      
+    - name: Stop existing containers
+      run: |
+        docker compose -f docker-compose.yml down || true
+        docker system prune -f
+      continue-on-error: true
+      
+    - name: Build base image
+      run: |
+        echo "🔧 Building base image..."
+        docker compose -f docker-compose.yml build base
+        
+    - name: Build all containers
+      run: |
+        echo "🔧 Building all containers..."
+        docker compose -f docker-compose.yml build
+        
+    - name: Prepare Chatwoot database
+      run: |
+        echo "🔧 Preparing Chatwoot database..."
+        docker compose -f docker-compose.yml run --rm rails bundle exec rails db:chatwoot_prepare
+        
+    - name: Start containers
+      run: |
+        echo "🔧 Starting containers..."
+        docker compose -f docker-compose.yml up -d
+        
+    - name: Wait for services to be ready
+      run: |
+        echo "⏳ Waiting for services to start..."
+        sleep 30
+        
+    - name: Health check
+      run: |
+        echo "🏥 Running health checks..."
+        
+        # Check if containers are running
+        if [ $(docker compose -f docker-compose.yml ps --services --filter "status=running" | wc -l) -eq 0 ]; then
+          echo "❌ No containers are running"
+          docker compose -f docker-compose.yml logs
+          exit 1
+        fi
+        
+        # Try to reach the application (assuming it runs on port 3000)
+        max_attempts=10
+        attempt=1
+        
+        while [ $attempt -le $max_attempts ]; do
+          echo "Attempt $attempt/$max_attempts: Checking application health..."
+          
+          if curl -f http://localhost:3000/health || curl -f http://localhost:3000 || curl -f http://localhost:3000/api/v1/health; then
+            echo "✅ Application is healthy!"
+            break
+          fi
+          
+          if [ $attempt -eq $max_attempts ]; then
+            echo "❌ Health check failed after $max_attempts attempts"
+            echo "Container logs:"
+            docker compose -f docker-compose.yml logs --tail=50
+            exit 1
+          fi
+          
+          echo "Waiting 10 seconds before next attempt..."
+          sleep 10
+          attempt=$((attempt + 1))
+        done
+        
+    - name: Show running containers
+      run: |
+        echo "📋 Currently running containers:"
+        docker compose -f docker-compose.yml ps
+        
+    - name: Cleanup on failure
+      if: failure()
+      run: |
+        echo "🧹 Cleaning up after failure..."
+        docker compose -f docker-compose.yml logs --tail=100
+        docker compose -f docker-compose.yml down
