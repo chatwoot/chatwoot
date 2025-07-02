@@ -1,5 +1,4 @@
-version: '3'
-
+name: crove
 services:
   base: &base
     build:
@@ -12,7 +11,8 @@ services:
         RAILS_SERVE_STATIC_FILES: 'false'
     tty: true
     stdin_open: true
-    image: chatwoot:development
+    image: crove:development
+    container_name: crove
     env_file: .env
 
   rails:
@@ -20,7 +20,9 @@ services:
     build:
       context: .
       dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
+    image: crove-rails:development
+    container_name: rails
+    working_dir: /app
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -28,45 +30,48 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
-      - postgres
-      - redis
       - vite
-      - mailhog
       - sidekiq
     ports:
-      - 3000:3000
+      - 3007:3000
     env_file: .env
     environment:
       - VITE_DEV_SERVER_HOST=vite
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/rails.sh
+    entrypoint: /app/docker/entrypoints/rails.sh
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
+    networks:
+      - default
+      - Gateway
 
   sidekiq:
     <<: *base
-    image: chatwoot-rails:development
+    container_name: sidekiq
+    working_dir: /app
+    image: crove-rails:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
       - packs:/app/public/packs
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
-    depends_on:
-      - postgres
-      - redis
-      - mailhog
     environment:
       - NODE_ENV=development
       - RAILS_ENV=development
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
+    networks:
+      - default
+      - Gateway
 
   vite:
     <<: *base
+    container_name: vite
+    working_dir: /app
     build:
       context: .
       dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
+    image: crove-vite:development
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -79,41 +84,18 @@ services:
       - VITE_DEV_SERVER_HOST=0.0.0.0
       - NODE_ENV=development
       - RAILS_ENV=development
-    entrypoint: docker/entrypoints/vite.sh
+    entrypoint: /app/docker/entrypoints/vite.sh
     command: bin/vite dev
-
-  postgres:
-    image: pgvector/pgvector:pg16
-    restart: always
-    ports:
-      - '5432:5432'
-    volumes:
-      - postgres:/data/postgres
-    environment:
-      - POSTGRES_DB=chatwoot
-      - POSTGRES_USER=postgres
-      - POSTGRES_PASSWORD=
-
-  redis:
-    image: redis:alpine
-    restart: always
-    command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
-    env_file: .env
-    volumes:
-      - redis:/data/redis
-    ports:
-      - '6379:6379'
-
-  mailhog:
-    image: mailhog/mailhog
-    ports:
-      - 1025:1025
-      - 8025:8025
+    networks:
+      - default
+      - Gateway
 
 volumes:
-  postgres:
-  redis:
   packs:
   node_modules:
   cache:
   bundle:
+
+networks:
+  Gateway:
+    external: true
