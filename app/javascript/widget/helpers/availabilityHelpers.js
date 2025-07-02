@@ -11,6 +11,7 @@ const MINUTES_IN_DAY = 24 * 60;
 
 /**
  * Get date in timezone
+ * @private
  * @param {Date|string} time
  * @param {string} utcOffset
  * @returns {Date}
@@ -28,6 +29,7 @@ const getDateInTimezone = (time, utcOffset) => {
 
 /**
  * Convert time to minutes
+ * @private
  * @param {number} hours
  * @param {number} minutes
  * @returns {number}
@@ -36,6 +38,7 @@ const toMinutes = (hours = 0, minutes = 0) => hours * MINUTES_IN_HOUR + minutes;
 
 /**
  * Get today's config
+ * @private
  * @param {Date|string} time
  * @param {string} utcOffset
  * @param {Array} workingHours
@@ -48,7 +51,24 @@ const getTodayConfig = (time, utcOffset, workingHours) => {
 };
 
 /**
+ * Check if current time is within working range, handling midnight crossing
+ * @private
+ * @param {number} currentMinutes
+ * @param {number} openMinutes
+ * @param {number} closeMinutes
+ * @returns {boolean}
+ */
+const isTimeWithinRange = (currentMinutes, openMinutes, closeMinutes) => {
+  const crossesMidnight = closeMinutes <= openMinutes;
+
+  return crossesMidnight
+    ? currentMinutes >= openMinutes || currentMinutes < closeMinutes
+    : currentMinutes >= openMinutes && currentMinutes < closeMinutes;
+};
+
+/**
  * Build a map keyed by `dayOfWeek` for all slots that are NOT closed all day.
+ * @private
  *
  * @param {Array<Object>} workingHours - Full array of working-hour slot configs.
  * @returns {Map<number, Object>} Map where the key is the numeric day (0-6) and the value is the slot config.
@@ -62,6 +82,7 @@ const getOpenDaysMap = workingHours =>
 
 /**
  * Determine if today's slot is still upcoming.
+ * @private
  * Returns an object with details if the slot is yet to open, otherwise `null`.
  *
  * @param {number} currentDay - `Date#getDay()` value (0-6) for current time.
@@ -92,6 +113,7 @@ const checkTodayAvailability = (currentDay, currentMinutes, openDays) => {
 
 /**
  * Search the upcoming days (including tomorrow) for the next open slot.
+ * @private
  *
  * @param {number} currentDay - Day index (0-6) representing today.
  * @param {number} currentMinutes - Minutes since midnight for current time.
@@ -166,9 +188,11 @@ export const isInWorkingHours = (time, utcOffset, workingHours = []) => {
   const todayConfig = getTodayConfig(time, utcOffset, workingHours);
   if (!todayConfig) return false;
 
+  // Handle all-day states
   if (todayConfig.openAllDay) return true;
   if (todayConfig.closedAllDay) return false;
 
+  // Check time-based availability
   const date = getDateInTimezone(time, utcOffset);
   const currentMinutes = toMinutes(date.getHours(), date.getMinutes());
 
@@ -181,13 +205,7 @@ export const isInWorkingHours = (time, utcOffset, workingHours = []) => {
     todayConfig.closeMinutes ?? 0
   );
 
-  // Handle normal case
-  if (closeMinutes > openMinutes) {
-    return currentMinutes >= openMinutes && currentMinutes < closeMinutes;
-  }
-
-  // Handle midnight crossing
-  return currentMinutes >= openMinutes || currentMinutes < closeMinutes;
+  return isTimeWithinRange(currentMinutes, openMinutes, closeMinutes);
 };
 
 /**
