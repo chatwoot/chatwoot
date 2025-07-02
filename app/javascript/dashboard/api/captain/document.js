@@ -15,14 +15,6 @@ class CaptainDocument extends ApiClient {
       },
     });
   }
-
-  uploadPdf(formData) {
-    return axios.post(`${this.url}/upload_pdf`, formData, {
-      headers: {
-        'Content-Type': 'multipart/form-data',
-      },
-    });
-  }
 }
 
 export default new CaptainDocument();

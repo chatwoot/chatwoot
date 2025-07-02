@@ -58,11 +58,6 @@ const handleCreateDialogClose = () => {
   showCreateDialog.value = false;
 };
 
-const handleCreateDialogSuccess = () => {
-  // Refresh the documents list after successful creation
-  fetchDocuments();
-};
-
 const handleAction = ({ action, id }) => {
   selectedDocument.value = documents.value.find(
     captainDocument => id === captainDocument.id
@@ -176,7 +171,6 @@ onMounted(() => {
       v-if="showCreateDialog"
       ref="createDocumentDialog"
       @close="handleCreateDialogClose"
-      @success="handleCreateDialogSuccess"
     />
     <DeleteDialog
       v-if="selectedDocument"
