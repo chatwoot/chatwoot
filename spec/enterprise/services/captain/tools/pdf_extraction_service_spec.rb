@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Tools::PdfExtractionService do
   let(:service) { described_class.new(pdf_source) }
-  let(:sample_pdf_path) { Rails.root.join('spec', 'fixtures', 'files', 'sample.pdf') }
+  let(:sample_pdf_path) { Rails.root.join('spec/fixtures/files/sample.pdf') }
 
   describe '#initialize' do
     context 'with valid PDF path' do
@@ -38,16 +38,14 @@ RSpec.describe Captain::Tools::PdfExtractionService do
 
       before do
         # Ensure the sample PDF exists
-        unless File.exist?(sample_pdf_path)
-          skip 'Sample PDF file not available for testing'
-        end
+        skip 'Sample PDF file not available for testing' unless File.exist?(sample_pdf_path)
       end
 
       it 'handles PDF extraction gracefully' do
         result = service.perform
         expect(result).to have_key(:success)
         expect(result).to have_key(:content).or have_key(:errors)
-        
+
         if result[:success]
           expect(result[:content]).to be_an(Array)
         else
@@ -57,7 +55,7 @@ RSpec.describe Captain::Tools::PdfExtractionService do
 
       it 'returns structured result format' do
         result = service.perform
-        
+
         if result[:success] && result[:content].present?
           first_chunk = result[:content].first
           expect(first_chunk).to have_key(:content)
@@ -71,7 +69,7 @@ RSpec.describe Captain::Tools::PdfExtractionService do
     end
 
     context 'with malformed PDF' do
-      let(:pdf_source) { Rails.root.join('spec', 'fixtures', 'files', 'sample.txt').to_s }
+      let(:pdf_source) { Rails.root.join('spec/fixtures/files/sample.txt').to_s }
 
       it 'handles malformed PDF gracefully' do
         result = service.perform
@@ -84,14 +82,16 @@ RSpec.describe Captain::Tools::PdfExtractionService do
       let(:pdf_source) { 'https://example.com/sample.pdf' }
 
       it 'attempts to download and process PDF from URL' do
-        allow(Down).to receive(:download).and_yield(double(path: sample_pdf_path.to_s))
+        temp_file = instance_double(Tempfile, path: sample_pdf_path.to_s, close: nil, unlink: nil)
+        allow(Down).to receive(:download).and_return(temp_file)
         allow(File).to receive(:exist?).and_return(true)
-        
+
         # Mock PDF reader
-        mock_reader = double
-        mock_pages = [double(text: 'Sample PDF content')]
-        allow(PDF::Reader).to receive(:open).and_yield(double(pages: mock_pages))
-        
+        mock_page = instance_double(PDF::Reader::Page, text: 'Sample PDF content')
+        mock_pages = [mock_page]
+        mock_reader = instance_double(PDF::Reader, pages: mock_pages)
+        allow(PDF::Reader).to receive(:open).and_yield(mock_reader)
+
         result = service.perform
         expect(result[:success]).to be true
       end
@@ -102,19 +102,17 @@ RSpec.describe Captain::Tools::PdfExtractionService do
     let(:pdf_source) { sample_pdf_path.to_s }
 
     before do
-      unless File.exist?(sample_pdf_path)
-        skip 'Sample PDF file not available for testing'
-      end
+      skip 'Sample PDF file not available for testing' unless File.exist?(sample_pdf_path)
     end
 
     it 'handles text extraction gracefully' do
       expect { service.extract_text }.not_to raise_error(NoMethodError)
-      
+
       # Should either succeed or raise a PDF::Reader error that gets caught
       begin
         extracted_content = service.extract_text
         expect(extracted_content).to be_an(Array)
-        
+
         if extracted_content.any?
           page_content = extracted_content.first
           expect(page_content).to have_key(:page_number)
@@ -122,7 +120,7 @@ RSpec.describe Captain::Tools::PdfExtractionService do
         end
       rescue PDF::Reader::MalformedPDFError
         # This is expected for malformed PDFs
-        expect(true).to be true
+        # Test passes if we reach this point
       end
     end
   end
@@ -134,10 +132,10 @@ RSpec.describe Captain::Tools::PdfExtractionService do
       it 'cleans text content properly' do
         dirty_text = "  \f  Some text with \r\n line breaks  \n\n\n  and extra spaces   "
         cleaned = service.send(:clean_text, dirty_text)
-        
+
         expect(cleaned).not_to include("\f")
         expect(cleaned).not_to include("\r")
-        expect(cleaned).to include("Some text with")
+        expect(cleaned).to include('Some text with')
         expect(cleaned.strip).to eq(cleaned)
       end
 
@@ -157,20 +155,20 @@ RSpec.describe Captain::Tools::PdfExtractionService do
 
       it 'chunks content appropriately' do
         chunks = service.send(:chunk_content, page_contents, max_chunk_size: 1000)
-        
+
         expect(chunks.length).to be >= 2 # Should have at least 2 chunks
-        
+
         # Check first chunk (short content)
         first_chunk = chunks.first
         expect(first_chunk[:page_number]).to eq(1)
         expect(first_chunk[:total_chunks]).to eq(1)
-        
+
         # Check that long content was processed
         long_content_chunks = chunks.select { |c| c[:page_number] == 2 }
         expect(long_content_chunks.length).to be >= 1
-        
+
         # Verify long content was split appropriately
-        total_long_content_length = long_content_chunks.map { |c| c[:content].length }.sum
+        total_long_content_length = long_content_chunks.sum { |c| c[:content].length }
         expect(total_long_content_length).to be > 0
       end
     end
@@ -179,16 +177,16 @@ RSpec.describe Captain::Tools::PdfExtractionService do
       it 'splits content by paragraphs first' do
         content = "First paragraph.\n\nSecond paragraph.\n\nThird paragraph."
         chunks = service.send(:split_content_into_chunks, content, 50)
-        
+
         expect(chunks.length).to be >= 2
         expect(chunks.join(' ')).to include('First paragraph')
         expect(chunks.join(' ')).to include('Second paragraph')
       end
 
       it 'splits by sentences when paragraphs are too large' do
-        long_paragraph = 'A' * 100 + '. ' + 'B' * 100 + '. ' + 'C' * 100 + '.'
+        long_paragraph = "#{('A' * 100)}. #{('B' * 100)}. #{('C' * 100)}."
         chunks = service.send(:split_content_into_chunks, long_paragraph, 150)
-        
+
         expect(chunks.length).to be > 1
       end
     end
@@ -197,9 +195,10 @@ RSpec.describe Captain::Tools::PdfExtractionService do
   describe 'file validation' do
     context 'with uploaded file object' do
       let(:uploaded_file) do
-        double(
-          'uploaded_file',
-          tempfile: double(path: sample_pdf_path.to_s),
+        temp_file = instance_double(Tempfile, path: sample_pdf_path.to_s)
+        instance_double(
+          ActionDispatch::Http::UploadedFile,
+          tempfile: temp_file,
           content_type: 'application/pdf',
           size: 1024
         )
@@ -207,31 +206,33 @@ RSpec.describe Captain::Tools::PdfExtractionService do
       let(:pdf_source) { uploaded_file }
 
       it 'validates uploaded file properties' do
-        expect { service.send(:validate_pdf_source) }.not_to raise_error
+        expect { service.send(:validate_uploaded_file) }.not_to raise_error
       end
     end
 
     context 'with oversized file' do
       let(:uploaded_file) do
-        double(
-          'uploaded_file',
-          tempfile: double(path: sample_pdf_path.to_s),
+        temp_file = instance_double(Tempfile, path: sample_pdf_path.to_s)
+        instance_double(
+          ActionDispatch::Http::UploadedFile,
+          tempfile: temp_file,
           content_type: 'application/pdf',
-          size: 11.megabytes
+          size: 30.megabytes
         )
       end
       let(:pdf_source) { uploaded_file }
 
       it 'raises error for oversized file' do
-        expect { service.send(:validate_pdf_source) }.to raise_error('File too large')
+        expect { service.send(:validate_uploaded_file) }.to raise_error(/File too large/)
       end
     end
 
     context 'with invalid content type' do
       let(:uploaded_file) do
-        double(
-          'uploaded_file',
-          tempfile: double(path: sample_pdf_path.to_s),
+        temp_file = instance_double(Tempfile, path: sample_pdf_path.to_s)
+        instance_double(
+          ActionDispatch::Http::UploadedFile,
+          tempfile: temp_file,
           content_type: 'text/plain',
           size: 1024
         )
@@ -239,7 +240,7 @@ RSpec.describe Captain::Tools::PdfExtractionService do
       let(:pdf_source) { uploaded_file }
 
       it 'raises error for invalid content type' do
-        expect { service.send(:validate_pdf_source) }.to raise_error('Invalid file type')
+        expect { service.send(:validate_uploaded_file) }.to raise_error('Invalid file type')
       end
     end
   end

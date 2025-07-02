@@ -7,21 +7,15 @@ module Captain::Tools::PdfContentChunkingConcern
     return [] if page_contents.blank?
 
     all_chunks = []
-    total_page_chunks = 0
+    global_chunk_index = 0
 
-    # First pass: calculate total chunks across all pages
     page_contents.each do |page_content|
       page_chunks = split_content_into_chunks(page_content[:content], max_chunk_size)
-      total_page_chunks += page_chunks.length
-    end
+      page_total_chunks = page_chunks.length
 
-    chunk_index = 0
-    page_contents.each do |page_content|
-      page_chunks = split_content_into_chunks(page_content[:content], max_chunk_size)
-
-      page_chunks.each do |chunk_content|
-        chunk_index += 1
-        all_chunks << build_chunk(chunk_content, page_content[:page_number], chunk_index, total_page_chunks)
+      page_chunks.each_with_index do |chunk_content, page_chunk_index|
+        global_chunk_index += 1
+        all_chunks << build_chunk(chunk_content, page_content[:page_number], page_chunk_index + 1, page_total_chunks)
       end
     end
 

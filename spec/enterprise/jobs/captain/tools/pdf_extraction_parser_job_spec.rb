@@ -37,7 +37,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
             assistant_id: assistant.id,
             pdf_content: pdf_content
           )
-        end.to change { Captain::Document.count }.by(1)
+        end.to change(Captain::Document, :count).by(1)
       end
 
       it 'creates captain documents with correct attributes' do
@@ -94,6 +94,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
     context 'when limits are exceeded' do
       before do
+        # Mock the account usage limits directly
         allow(account).to receive(:usage_limits).and_return(
           captain: {
             documents: {
@@ -109,12 +110,12 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
             assistant_id: assistant.id,
             pdf_content: pdf_content
           )
-        end.not_to change { Captain::Document.count }
+        end.not_to(change(Captain::Document, :count))
       end
 
       it 'logs limit exceeded message' do
         expect(Rails.logger).to receive(:info).with(/Document limit exceeded/)
-        
+
         described_class.new.perform(
           assistant_id: assistant.id,
           pdf_content: pdf_content
@@ -141,7 +142,9 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
       let(:document) { create(:captain_document, assistant: assistant, status: 'in_progress') }
 
       before do
-        allow_any_instance_of(Captain::Document).to receive(:update!).and_raise(StandardError, 'Database error')
+        allow(Captain::Document).to receive(:create!).and_raise(StandardError, 'Database error')
+        # Also mock update! for existing documents to ensure error handling works
+        allow(document).to receive(:update!).and_raise(StandardError, 'Database error')
       end
 
       it 'raises an error with descriptive message' do
@@ -162,7 +165,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
             document_id: document.id
           )
         end.to raise_error(/Failed to parse PDF data/)
-        
+
         # The main document should remain in its original state when an error occurs
         document.reload
         expect(document.status).to eq('in_progress')
@@ -170,7 +173,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
       it 'logs the error' do
         expect(Rails.logger).to receive(:error).with(/Failed to parse PDF content/)
-        
+
         begin
           described_class.new.perform(
             assistant_id: assistant.id,
@@ -194,19 +197,19 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
       end
 
       it 'uses generic title for long first lines' do
-        content = 'A' * 200 + "\n\nThis is the rest of the content..."
+        content = "#{('A' * 200)}\n\nThis is the rest of the content..."
         title = job.send(:generate_content_title, content, 1, 1, 1)
         expect(title).to eq('PDF Content')
       end
 
       it 'adds page information for multiple pages' do
-        content = "Sample content"
+        content = 'Sample content'
         title = job.send(:generate_content_title, content, 3, 1, 1)
         expect(title).to eq('Sample content (Page 3)')
       end
 
       it 'adds chunk information for multiple chunks' do
-        content = "Sample content"
+        content = 'Sample content'
         title = job.send(:generate_content_title, content, 2, 2, 4)
         expect(title).to eq('Sample content (Page 2, Part 2/4)')
       end
@@ -217,7 +220,6 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
         expect(title.length).to be <= 255
       end
     end
-
 
     describe '#limit_exceeded?' do
       it 'returns true when limit is zero' do

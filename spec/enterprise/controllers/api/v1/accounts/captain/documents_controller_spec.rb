@@ -201,8 +201,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
                headers: admin.create_new_auth_token, as: :json
 
           expect(response).to have_http_status(:success)
-          expect(json_response[:name]).to eq('Test Document')
-          expect(json_response[:external_link]).to eq('https://example.com/doc')
+          expect(json_response[:document][:name]).to eq('Test Document')
+          expect(json_response[:document][:external_link]).to eq('https://example.com/doc')
         end
       end
 
@@ -220,9 +220,16 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
       context 'with limits exceeded' do
         before do
+          # Create documents first (when there are no limits)
           create_list(:captain_document, 5, assistant: assistant, account: account)
+          account.update_document_usage
 
-          create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
+          # Now set up the limits configuration
+          config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')
+          config.update!(value: captain_limits.to_json)
+
+          account.reload  # Reload to ensure changes are reflected
+
           post "/api/v1/accounts/#{account.id}/captain/documents",
                params: valid_attributes,
                headers: admin.create_new_auth_token
@@ -290,7 +297,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
   end
 
   describe 'POST /api/v1/accounts/:account_id/captain/documents/upload_pdf' do
-    let(:pdf_file) { fixture_file_upload('spec/fixtures/files/sample.pdf', 'application/pdf') }
+    let(:pdf_file) { Rack::Test::UploadedFile.new(Rails.root.join('spec/fixtures/files/sample.pdf'), 'application/pdf') }
     let(:valid_pdf_params) do
       {
         pdf_document: pdf_file,
@@ -332,7 +339,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
         it 'returns success status with document data' do
           post "/api/v1/accounts/#{account.id}/captain/documents/upload_pdf",
                params: valid_pdf_params,
-               headers: admin.create_new_auth_token, as: :json
+               headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:success)
           expect(json_response[:document]).to be_present

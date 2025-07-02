@@ -29,7 +29,7 @@ module Captain::Tools::PdfValidationConcern
     raise StandardError, 'File object is invalid' unless pdf_source.respond_to?(:size) && pdf_source.respond_to?(:content_type)
     raise StandardError, "File too large (max #{self.class::MAX_PDF_SIZE / 1.megabyte}MB)" if pdf_source.size > self.class::MAX_PDF_SIZE
     raise StandardError, 'Invalid file type' unless pdf_source.content_type == 'application/pdf'
-    raise StandardError, 'Empty file' if pdf_source.empty?
+    raise StandardError, 'Empty file' if pdf_source.respond_to?(:empty?) && pdf_source.empty?
   end
 
   def validate_file_path

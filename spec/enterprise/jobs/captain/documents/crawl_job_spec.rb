@@ -122,84 +122,82 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
             .and_return(pdf_service)
         end
 
-        context 'with successful PDF extraction' do
-          before do
-            allow(pdf_service).to receive(:perform).and_return({
-              success: true,
-              content: pdf_content
-            })
-          end
-
-          it 'processes PDF using PdfExtractionService' do
-            expect(pdf_service).to receive(:perform)
-            described_class.perform_now(pdf_document)
-          end
-
-          it 'enqueues PdfExtractionParserJob for each content chunk' do
-            pdf_content.each do |chunk|
-              expect(Captain::Tools::PdfExtractionParserJob)
-                .to receive(:perform_later)
-                .with(
-                  assistant_id: pdf_document.assistant_id,
-                  pdf_content: chunk,
-                  document_id: pdf_document.id
-                )
-            end
-
-            described_class.perform_now(pdf_document)
-          end
-
-          it 'updates document status to processing' do
-            allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
-            
-            expect(pdf_document).to receive(:update).with(status: 'processing').twice
-            described_class.perform_now(pdf_document)
-          end
+        it 'processes PDF using PdfExtractionService when extraction succeeds' do
+          allow(pdf_service).to receive(:perform).and_return({
+                                                               success: true,
+                                                               content: pdf_content
+                                                             })
+          expect(pdf_service).to receive(:perform)
+          described_class.perform_now(pdf_document)
         end
 
-        context 'with failed PDF extraction' do
-          before do
-            allow(pdf_service).to receive(:perform).and_return({
-              success: false,
-              errors: ['Invalid PDF format']
-            })
+        it 'enqueues PdfExtractionParserJob for each content chunk when extraction succeeds' do
+          allow(pdf_service).to receive(:perform).and_return({
+                                                               success: true,
+                                                               content: pdf_content
+                                                             })
+          pdf_content.each do |chunk|
+            expect(Captain::Tools::PdfExtractionParserJob)
+              .to receive(:perform_later)
+              .with(
+                assistant_id: pdf_document.assistant_id,
+                pdf_content: chunk,
+                document_id: pdf_document.id
+              )
           end
 
-          it 'updates document status to failed with error message' do
-            expect(pdf_document).to receive(:update).with(status: 'processing').once
-            expect(pdf_document).to receive(:update).with(
-              status: 'failed',
-              error_message: 'Invalid PDF format'
-            ).once
-
-            described_class.perform_now(pdf_document)
-          end
-
-          it 'logs the error' do
-            expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
-            described_class.perform_now(pdf_document)
-          end
+          described_class.perform_now(pdf_document)
         end
 
-        context 'when PDF extraction raises an exception' do
-          before do
-            allow(pdf_service).to receive(:perform).and_raise(StandardError, 'Network error')
-          end
+        it 'updates document status to processing when extraction succeeds' do
+          allow(pdf_service).to receive(:perform).and_return({
+                                                               success: true,
+                                                               content: pdf_content
+                                                             })
+          allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
 
-          it 'handles the exception gracefully' do
-            expect(pdf_document).to receive(:update).with(status: 'processing').once
-            expect(pdf_document).to receive(:update).with(
-              status: 'failed',
-              error_message: 'Network error'
-            ).once
+          expect(pdf_document).to receive(:update).with(status: 'processing').twice
+          described_class.perform_now(pdf_document)
+        end
 
-            described_class.perform_now(pdf_document)
-          end
+        it 'updates document status to failed with error message when extraction fails' do
+          allow(pdf_service).to receive(:perform).and_return({
+                                                               success: false,
+                                                               errors: ['Invalid PDF format']
+                                                             })
+          expect(pdf_document).to receive(:update).with(status: 'processing').once
+          expect(pdf_document).to receive(:update).with(
+            status: 'failed',
+            error_message: 'Invalid PDF format'
+          ).once
 
-          it 'logs the exception' do
-            expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
-            described_class.perform_now(pdf_document)
-          end
+          described_class.perform_now(pdf_document)
+        end
+
+        it 'logs the error when extraction fails' do
+          allow(pdf_service).to receive(:perform).and_return({
+                                                               success: false,
+                                                               errors: ['Invalid PDF format']
+                                                             })
+          expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
+          described_class.perform_now(pdf_document)
+        end
+
+        it 'handles exceptions gracefully during PDF extraction' do
+          allow(pdf_service).to receive(:perform).and_raise(StandardError, 'Network error')
+          expect(pdf_document).to receive(:update).with(status: 'processing').once
+          expect(pdf_document).to receive(:update).with(
+            status: 'failed',
+            error_message: 'Network error'
+          ).once
+
+          described_class.perform_now(pdf_document)
+        end
+
+        it 'logs exceptions during PDF extraction' do
+          allow(pdf_service).to receive(:perform).and_raise(StandardError, 'Network error')
+          expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
+          described_class.perform_now(pdf_document)
         end
       end
     end
