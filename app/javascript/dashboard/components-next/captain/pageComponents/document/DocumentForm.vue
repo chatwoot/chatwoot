@@ -1,6 +1,5 @@
 <script setup>
 import { reactive, computed, ref } from 'vue';
-import { useI18n } from 'vue-i18n';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, url } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
@@ -11,8 +10,6 @@ import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import FileUpload from 'dashboard/components-next/fileUpload/FileUpload.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
-
-const { t } = useI18n();
 
 const formState = {
   uiFlags: useMapGetter('captainDocuments/getUIFlags'),
@@ -126,7 +123,7 @@ const handleSourceTypeChange = type => {
     <!-- Source Type Selection -->
     <div class="flex flex-col gap-2">
       <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-        Choose Source Type
+        {{ $t('CAPTAIN.DOCUMENTS.CREATE.FORM.SOURCE_TYPE.LABEL') }}
       </label>
       <div class="flex gap-2">
         <button
@@ -153,7 +150,9 @@ const handleSourceTypeChange = type => {
                 fill="currentColor"
               />
             </svg>
-            <span class="text-sm font-medium">Website URL</span>
+            <span class="text-sm font-medium">{{
+              $t('CAPTAIN.DOCUMENTS.CREATE.FORM.SOURCE_TYPE.WEBSITE_URL')
+            }}</span>
           </div>
         </button>
         <button
@@ -180,7 +179,9 @@ const handleSourceTypeChange = type => {
                 fill="currentColor"
               />
             </svg>
-            <span class="text-sm font-medium">PDF Upload</span>
+            <span class="text-sm font-medium">{{
+              $t('CAPTAIN.DOCUMENTS.CREATE.FORM.SOURCE_TYPE.PDF_UPLOAD')
+            }}</span>
           </div>
         </button>
       </div>
@@ -200,7 +201,7 @@ const handleSourceTypeChange = type => {
     <!-- PDF Upload (when PDF is selected) -->
     <div v-if="state.sourceType === 'pdf'" class="flex flex-col gap-2">
       <label class="mb-0.5 text-sm font-medium text-n-slate-12">
-        Upload PDF Document
+        {{ $t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.LABEL') }}
       </label>
 
       <!-- File upload area -->
@@ -242,7 +243,7 @@ const handleSourceTypeChange = type => {
                   Math.round((state.selectedFile.size / 1024 / 1024) * 100) /
                   100
                 }}
-                MB
+                {{ $t('GENERAL.FILE_SIZE.MB') }}
               </p>
             </div>
           </div>
@@ -274,7 +275,7 @@ const handleSourceTypeChange = type => {
     <!-- Assistant Selection -->
     <div class="flex flex-col gap-1">
       <label for="assistant" class="mb-0.5 text-sm font-medium text-n-slate-12">
-        Select Assistant
+        {{ $t('CAPTAIN.DOCUMENTS.CREATE.FORM.ASSISTANT.LABEL') }}
       </label>
       <ComboBox
         id="assistant"
