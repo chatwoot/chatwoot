@@ -1,6 +1,5 @@
 <script setup>
 import { ref, computed } from 'vue';
-import { useI18n } from 'vue-i18n';
 
 const props = defineProps({
   accept: {
@@ -33,9 +32,7 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['file-selected', 'file-error']);
-
-const { t } = useI18n();
+const emit = defineEmits(['fileSelected', 'fileError']);
 const fileInput = ref(null);
 const isDragOver = ref(false);
 
@@ -52,17 +49,17 @@ const validateFile = file => {
   // Check file size
   if (file.size > maxSize.value) {
     const errorMsg = `File "${file.name}" is too large. Maximum size is ${props.maxSizeMB}MB.`;
-    emit('file-error', errorMsg);
+    emit('fileError', errorMsg);
     return false;
   }
 
   // Check file type if specified
   if (
     props.accept !== '*' &&
-    !file.type.match(new RegExp(props.accept.replace('*', '.*')))
+    !file.type.match(new RegExp(props.accept.replace(/\*/g, '.*')))
   ) {
     const errorMsg = `File type not supported. Only ${props.accept} files are allowed.`;
-    emit('file-error', errorMsg);
+    emit('fileError', errorMsg);
     return false;
   }
 
@@ -74,7 +71,7 @@ const handleFileChange = event => {
   if (files && files.length > 0) {
     const file = files[0];
     if (validateFile(file)) {
-      emit('file-selected', file);
+      emit('fileSelected', file);
     }
   }
   // Reset input value to allow selecting the same file again
@@ -106,7 +103,7 @@ const handleDrop = event => {
   if (files && files.length > 0) {
     const file = files[0];
     if (validateFile(file)) {
-      emit('file-selected', file);
+      emit('fileSelected', file);
     }
   }
 };
@@ -162,7 +159,11 @@ const displayText = computed(() => {
           {{ displayText }}
         </p>
         <p class="text-xs text-n-slate-8 mt-1">
-          Maximum file size: {{ maxSizeMB }}MB
+          {{
+            $t('CAPTAIN.DOCUMENTS.CREATE.FORM.FILE_UPLOAD.MAX_SIZE', {
+              size: maxSizeMB,
+            })
+          }}
         </p>
       </div>
     </div>

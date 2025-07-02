@@ -2,19 +2,14 @@
 import { ref } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
-import { useI18n } from 'vue-i18n';
-
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
 
 const emit = defineEmits(['close', 'success']);
-const { t } = useI18n();
 const store = useStore();
 
 const dialogRef = ref(null);
 const documentForm = ref(null);
-
-const i18nKey = 'CAPTAIN.DOCUMENTS.CREATE';
 
 const handleSubmit = async newDocument => {
   try {
@@ -36,7 +31,7 @@ const handleSubmit = async newDocument => {
       });
       useAlert('Document created successfully!');
     }
-    
+
     // Emit success event to refresh the list
     emit('success');
     dialogRef.value.close();
@@ -62,8 +57,8 @@ defineExpose({ dialogRef });
 <template>
   <Dialog
     ref="dialogRef"
-    title="Create New Document"
-    description="Add a new document from a website URL or by uploading a PDF file"
+    :title="$t('CAPTAIN.DOCUMENTS.CREATE.TITLE')"
+    :description="$t('CAPTAIN.DOCUMENTS.CREATE.DESCRIPTION')"
     :show-cancel-button="false"
     :show-confirm-button="false"
     @close="handleClose"
