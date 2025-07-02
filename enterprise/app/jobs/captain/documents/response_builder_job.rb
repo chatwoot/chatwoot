@@ -1,13 +1,16 @@
 class Captain::Documents::ResponseBuilderJob < ApplicationJob
   queue_as :low
 
-  def perform(document)
-    # Skip processing if document has no content (e.g., PDF parent documents)
-    return if document.content.blank?
+  def perform(document, full_content = nil)
+    # Use full content for FAQ generation if provided (for PDFs), otherwise use document.content
+    content_for_faqs = full_content || document.content
+
+    # Skip processing if no content available
+    return if content_for_faqs.blank?
 
     reset_previous_responses(document)
 
-    faqs = Captain::Llm::FaqGeneratorService.new(document.content).generate
+    faqs = Captain::Llm::FaqGeneratorService.new(content_for_faqs).generate
     faqs.each do |faq|
       create_response(faq, document)
     end

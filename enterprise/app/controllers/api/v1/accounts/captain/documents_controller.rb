@@ -6,7 +6,12 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   before_action :set_documents, except: [:create]
   before_action :set_document, only: [:show, :destroy]
   before_action :set_assistant, only: [:create, :upload_pdf]
+
   RESULTS_PER_PAGE = 25
+  # Fixed PDF size limit
+  MAX_PDF_SIZE = 25.megabytes
+  ALLOWED_PDF_CONTENT_TYPES = ['application/pdf'].freeze
+  PDF_MAGIC_NUMBERS = ['%PDF'].freeze
 
   def index
     base_query = @documents
@@ -28,32 +33,16 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
   end
 
   def upload_pdf
-    return render_could_not_create_error('Missing Assistant') if @assistant.nil?
-    return render_could_not_create_error('No PDF file provided') unless pdf_file_present?
-    
-    # Validate PDF file
-    return render_could_not_create_error('Invalid file type. Only PDF files are allowed.') unless valid_pdf_file?
-    return render_could_not_create_error('File size too large. Maximum size is 10MB.') unless valid_pdf_size?
-    
-    # Upload PDF to storage and get URL
-    blob = create_pdf_blob
-    pdf_url = Rails.application.routes.url_helpers.rails_blob_url(blob, host: ENV.fetch('FRONTEND_URL', 'http://localhost:3000'))
-    
-    # Create document with PDF URL
-    @document = @assistant.documents.build(
-      name: pdf_params[:pdf_document].original_filename.gsub('.pdf', ''),
-      external_link: pdf_url
-    )
-    @document.save!
-    
-    render json: { 
-      document: @document.as_json(only: [:id, :name, :status, :created_at]),
-      message: 'PDF uploaded successfully. Processing will begin shortly.'
-    }
+    validation_errors = validate_upload_prerequisites
+    return render_could_not_create_error(validation_errors) if validation_errors
+
+    process_pdf_upload
   rescue Captain::Document::LimitExceededError => e
-    render_could_not_create_error(e.message)
+    handle_limit_exceeded_error(e)
+  rescue ActiveStorage::FileNotFoundError => e
+    handle_file_not_found_error(e)
   rescue StandardError => e
-    render_could_not_create_error("PDF upload failed: #{e.message}")
+    handle_general_upload_error(e)
   end
 
   def destroy
@@ -96,23 +85,99 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
     pdf_params[:pdf_document].present?
   end
 
-  def valid_pdf_file?
-    return false unless pdf_params[:pdf_document].respond_to?(:content_type)
-    
-    pdf_params[:pdf_document].content_type == 'application/pdf'
-  end
+  def validate_pdf_file
+    file = pdf_params[:pdf_document]
+    return { valid: false, error: 'Invalid file object' } unless file.respond_to?(:content_type) && file.respond_to?(:size)
 
-  def valid_pdf_size?
-    return false unless pdf_params[:pdf_document].respond_to?(:size)
-    
-    pdf_params[:pdf_document].size <= 10.megabytes
+    return { valid: false, error: 'Invalid file type. Only PDF files are allowed.' } unless ALLOWED_PDF_CONTENT_TYPES.include?(file.content_type)
+
+    return { valid: false, error: "File size too large. Maximum size is #{MAX_PDF_SIZE / 1.megabyte}MB." } if file.size > MAX_PDF_SIZE
+
+    { valid: true }
   end
 
   def create_pdf_blob
+    file = pdf_params[:pdf_document]
+
     ActiveStorage::Blob.create_and_upload!(
-      io: pdf_params[:pdf_document].tempfile,
-      filename: pdf_params[:pdf_document].original_filename,
-      content_type: pdf_params[:pdf_document].content_type
+      io: file.tempfile,
+      filename: sanitize_filename(file.original_filename),
+      content_type: file.content_type,
+      metadata: {
+        uploaded_by: Current.user&.id,
+        assistant_id: @assistant.id,
+        account_id: Current.account.id,
+        original_filename: file.original_filename
+      }
     )
+  rescue StandardError => e
+    Rails.logger.error "Failed to create PDF blob: #{e.message}"
+    raise ActiveStorage::FileNotFoundError, 'Failed to upload PDF file'
+  end
+
+  def generate_pdf_url(blob)
+    Rails.application.routes.url_helpers.rails_blob_url(
+      blob,
+      host: ENV.fetch('FRONTEND_URL') { Rails.application.config.action_mailer.default_url_options[:host] }
+    )
+  end
+
+  def sanitize_filename(filename)
+    return 'document' if filename.blank?
+
+    base_name = File.basename(filename, '.pdf')
+    sanitized = base_name.gsub(/[^\w\s.-]/, '').strip.squeeze(' ')
+    (sanitized.presence || 'document')
+  end
+
+  def process_pdf_upload
+    ActiveRecord::Base.transaction do
+      blob = create_pdf_blob
+      pdf_url = generate_pdf_url(blob)
+
+      @document = @assistant.documents.build(
+        name: sanitize_filename(pdf_params[:pdf_document].original_filename),
+        external_link: pdf_url,
+        source_type: 'pdf_upload',
+        content_type: pdf_params[:pdf_document].content_type,
+        file_size: pdf_params[:pdf_document].size
+      )
+      @document.save!
+
+      log_pdf_upload_success
+
+      # Use the same response structure as create action for consistency
+      render :create
+    end
+  end
+
+  def log_pdf_upload_success
+    Rails.logger.info "PDF uploaded successfully - Document ID: #{@document.id}, Assistant ID: #{@assistant.id}, Account ID: #{Current.account.id}"
+  end
+
+  def validate_upload_prerequisites
+    return 'Missing Assistant' if @assistant.nil?
+    return 'No PDF file provided' unless pdf_file_present?
+
+    validation_result = validate_pdf_file
+    return validation_result[:error] unless validation_result[:valid]
+
+    nil
+  end
+
+  def handle_limit_exceeded_error(error)
+    Rails.logger.warn "Document limit exceeded for assistant #{@assistant.id}: #{error.message}"
+    render_could_not_create_error(error.message)
+  end
+
+  def handle_file_not_found_error(error)
+    Rails.logger.error "PDF file not found during upload: #{error.message}"
+    render_could_not_create_error('PDF file could not be processed. Please try again.')
+  end
+
+  def handle_general_upload_error(error)
+    Rails.logger.error "PDF upload failed for assistant #{@assistant&.id}: #{error.message}"
+    Rails.logger.error error.backtrace.join("\n")
+    render_could_not_create_error('PDF upload failed. Please try again.')
   end
 end

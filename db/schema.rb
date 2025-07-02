@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_02_075600) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -289,9 +289,17 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "status", default: 0, null: false
+    t.integer "document_type", default: 0, null: false
+    t.string "source_type", default: "url"
+    t.string "content_type"
+    t.integer "file_size"
+    t.datetime "processed_at"
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"
+    t.index ["content_type"], name: "index_captain_documents_on_content_type"
+    t.index ["document_type"], name: "index_captain_documents_on_document_type"
+    t.index ["source_type"], name: "index_captain_documents_on_source_type"
     t.index ["status"], name: "index_captain_documents_on_status"
   end
 
@@ -441,6 +449,18 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.datetime "updated_at", null: false
     t.boolean "tweets_enabled", default: true
     t.index ["account_id", "profile_id"], name: "index_channel_twitter_profiles_on_account_id_and_profile_id", unique: true
+  end
+
+  create_table "channel_voice", force: :cascade do |t|
+    t.string "phone_number", null: false
+    t.string "provider", default: "twilio", null: false
+    t.jsonb "provider_config", null: false
+    t.integer "account_id", null: false
+    t.jsonb "additional_attributes", default: {}
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_channel_voice_on_account_id"
+    t.index ["phone_number"], name: "index_channel_voice_on_phone_number", unique: true
   end
 
   create_table "channel_web_widgets", id: :serial, force: :cascade do |t|
@@ -813,6 +833,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.text "processed_message_content"
     t.jsonb "sentiment", default: {}
     t.index "((additional_attributes -> 'campaign_id'::text))", name: "index_messages_on_additional_attributes_campaign_id", using: :gin
+    t.index ["account_id", "content_type", "created_at"], name: "idx_messages_account_content_created"
     t.index ["account_id", "created_at", "message_type"], name: "index_messages_on_account_created_type"
     t.index ["account_id", "inbox_id"], name: "index_messages_on_account_id_and_inbox_id"
     t.index ["account_id"], name: "index_messages_on_account_id"
@@ -907,7 +928,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_05_23_031839) do
     t.text "header_text"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.jsonb "config", default: {"allowed_locales" => ["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
     t.index ["channel_web_widget_id"], name: "index_portals_on_channel_web_widget_id"

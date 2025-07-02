@@ -4,8 +4,14 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
+#  content_type  :string
+#  document_type :integer          default(0), not null
 #  external_link :string           not null
+#  faq_data      :json
+#  file_size     :integer
 #  name          :string
+#  processed_at  :datetime
+#  source_type   :string           default("url")
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -17,6 +23,10 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
+#  index_captain_documents_on_content_type                    (content_type)
+#  index_captain_documents_on_document_type                   (document_type)
+#  index_captain_documents_on_faq_data                        (faq_data) USING gin
+#  index_captain_documents_on_source_type                     (source_type)
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
@@ -29,8 +39,10 @@ class Captain::Document < ApplicationRecord
 
   validates :external_link, presence: true
   validates :external_link, uniqueness: { scope: :assistant_id }
-  validates :content, length: { maximum: 200_000 }
+  validates :content, length: { maximum: 400_000 }
+  validates :source_type, inclusion: { in: %w[url pdf_upload] }
   before_validation :ensure_account_id
+  before_validation :set_default_source_type
 
   enum status: {
     in_progress: 0,
@@ -57,6 +69,8 @@ class Captain::Document < ApplicationRecord
 
   def enqueue_response_builder_job
     return if status != 'available'
+    # Skip auto-enqueue for PDFs as they handle FAQ generation manually with full content
+    return if pdf_document?
 
     Captain::Documents::ResponseBuilderJob.perform_later(self)
   end
@@ -72,5 +86,38 @@ class Captain::Document < ApplicationRecord
   def ensure_within_plan_limit
     limits = account.usage_limits[:captain][:documents]
     raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
+  end
+
+  def set_default_source_type
+    return if source_type.present?
+
+    # Determine type without calling pdf_document? to avoid circular dependency
+    self.source_type = if content_type&.include?('application/pdf') || pdf_url_format?
+                         'pdf_upload'
+                       else
+                         'url'
+                       end
+  end
+
+  # Public method used by CrawlJob to determine if document is a PDF
+  def pdf_document?
+    pdf_upload? || pdf_content_type? || pdf_url_format?
+  end
+
+  def pdf_upload?
+    source_type == 'pdf_upload'
+  end
+
+  def pdf_content_type?
+    content_type&.include?('application/pdf')
+  end
+
+  def pdf_url_format?
+    return false if external_link.blank?
+
+    url = external_link.downcase
+    url.end_with?('.pdf') ||
+      url.include?('/rails/active_storage/blobs/') ||
+      (url.include?('blob') && url.include?('pdf'))
   end
 end
