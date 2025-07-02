@@ -201,3 +201,8 @@ code {
     }
   }
 }
+
+// Table
+table {
+  @apply border-spacing-0 text-sm w-full;
+}

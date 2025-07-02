@@ -29,11 +29,11 @@ export default {
 
 <style lang="scss" scoped>
 .toggle-button {
-  @apply bg-slate-200 dark:bg-slate-600;
+  @apply bg-n-slate-5;
   --toggle-button-box-shadow: rgb(255, 255, 255) 0px 0px 0px 0px,
     rgba(59, 130, 246, 0.5) 0px 0px 0px 0px, rgba(0, 0, 0, 0.1) 0px 1px 3px 0px,
     rgba(0, 0, 0, 0.06) 0px 1px 2px 0px;
-  border-radius: var(--border-radius-large);
+  border-radius: 0.5625rem;
   border: 2px solid transparent;
   cursor: pointer;
   display: flex;
@@ -46,7 +46,7 @@ export default {
   width: 2.125rem;
 
   &.active {
-    background-color: var(--w-500);
+    @apply bg-n-brand;
   }
 
   &.small {
@@ -54,30 +54,29 @@ export default {
     height: 0.875rem;
 
     span {
-      height: var(--space-one);
-      width: var(--space-one);
+      @apply size-2.5;
 
       &.active {
-        transform: translate(var(--space-small), var(--space-zero));
+        @apply ltr:translate-x-[0.5rem] ltr:translate-y-0 rtl:translate-x-[-0.5rem] rtl:translate-y-0;
       }
     }
   }
 
   span {
-    @apply bg-white dark:bg-slate-900;
-    --space-one-point-five: 0.9375rem;
+    @apply bg-n-background;
+
     border-radius: 100%;
     box-shadow: var(--toggle-button-box-shadow);
     display: inline-block;
-    height: var(--space-one-point-five);
+    height: 0.9375rem;
     transform: translate(0, 0);
     transition-duration: 200ms;
     transition-property: transform;
     transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
-    width: var(--space-one-point-five);
+    width: 0.9375rem;
 
     &.active {
-      transform: translate(var(--space-one-point-five), var(--space-zero));
+      @apply ltr:translate-x-[0.9375rem] ltr:translate-y-0 rtl:translate-x-[-0.9375rem] rtl:translate-y-0;
     }
   }
 }
