@@ -5,6 +5,10 @@ const DAYS_IN_WEEK = 7;
 const MINUTES_IN_HOUR = 60;
 const MINUTES_IN_DAY = 24 * 60;
 
+// ---------------------------------------------------------------------------
+// Internal helper utilities
+// ---------------------------------------------------------------------------
+
 /**
  * Get date in timezone
  * @param {Date|string} time
@@ -42,6 +46,88 @@ const getTodayConfig = (time, utcOffset, workingHours) => {
   const dayOfWeek = date.getDay();
   return workingHours.find(slot => slot.dayOfWeek === dayOfWeek) || null;
 };
+
+/**
+ * Build a map keyed by `dayOfWeek` for all slots that are NOT closed all day.
+ *
+ * @param {Array<Object>} workingHours - Full array of working-hour slot configs.
+ * @returns {Map<number, Object>} Map where the key is the numeric day (0-6) and the value is the slot config.
+ */
+const getOpenDaysMap = workingHours =>
+  new Map(
+    (workingHours || [])
+      .filter(slot => !slot.closedAllDay)
+      .map(slot => [slot.dayOfWeek, slot])
+  );
+
+/**
+ * Determine if today's slot is still upcoming.
+ * Returns an object with details if the slot is yet to open, otherwise `null`.
+ *
+ * @param {number} currentDay - `Date#getDay()` value (0-6) for current time.
+ * @param {number} currentMinutes - Minutes since midnight for current time.
+ * @param {Map<number, Object>} openDays - Map produced by `getOpenDaysMap`.
+ * @returns {Object|null} Slot details (config, minutesUntilOpen, etc.) or `null`.
+ */
+const checkTodayAvailability = (currentDay, currentMinutes, openDays) => {
+  const todayConfig = openDays.get(currentDay);
+  if (!todayConfig || todayConfig.openAllDay) return null;
+
+  const todayOpenMinutes = toMinutes(
+    todayConfig.openHour ?? 0,
+    todayConfig.openMinutes ?? 0
+  );
+
+  // Haven't opened yet today
+  if (currentMinutes < todayOpenMinutes) {
+    return {
+      config: todayConfig,
+      minutesUntilOpen: todayOpenMinutes - currentMinutes,
+      daysUntilOpen: 0,
+      dayOfWeek: currentDay,
+    };
+  }
+  return null;
+};
+
+/**
+ * Search the upcoming days (including tomorrow) for the next open slot.
+ *
+ * @param {number} currentDay - Day index (0-6) representing today.
+ * @param {number} currentMinutes - Minutes since midnight for current time.
+ * @param {Map<number, Object>} openDays - Map of open day configs.
+ * @returns {Object|null} Details of the next slot or `null` if none found.
+ */
+const findNextSlot = (currentDay, currentMinutes, openDays) =>
+  Array.from({ length: DAYS_IN_WEEK }, (_, i) => i + 1)
+    .map(daysAhead => {
+      const targetDay = (currentDay + daysAhead) % DAYS_IN_WEEK;
+      const config = openDays.get(targetDay);
+
+      if (!config) return null;
+
+      // Calculate minutes until this slot opens
+      const slotOpenMinutes = config.openAllDay
+        ? 0
+        : toMinutes(config.openHour ?? 0, config.openMinutes ?? 0);
+      const minutesUntilOpen =
+        MINUTES_IN_DAY -
+        currentMinutes + // remaining mins today
+        (daysAhead - 1) * MINUTES_IN_DAY + // full days between
+        slotOpenMinutes; // opening on target day
+
+      return {
+        config,
+        minutesUntilOpen,
+        daysUntilOpen: daysAhead,
+        dayOfWeek: targetDay,
+      };
+    })
+    .find(Boolean) || null;
+
+// ---------------------------------------------------------------------------
+// Exported functions
+// ---------------------------------------------------------------------------
 
 /**
  * Check if open all day
@@ -111,68 +197,30 @@ export const isInWorkingHours = (time, utcOffset, workingHours = []) => {
  * @param {Array} workingHours
  * @returns {Object|null}
  */
-export const findNextAvailableSlotDetails = (time, utcOffset, workingHours) => {
+export const findNextAvailableSlotDetails = (
+  time,
+  utcOffset,
+  workingHours = []
+) => {
   const date = getDateInTimezone(time, utcOffset);
   const currentDay = date.getDay();
-  const currentHour = date.getHours();
-  const currentMinutes = toMinutes(currentHour, date.getMinutes());
+  const currentMinutes = toMinutes(date.getHours(), date.getMinutes());
 
-  // Create map of open days for quick lookup
-  const openDays = new Map(
-    workingHours
-      .filter(slot => !slot.closedAllDay)
-      .map(slot => [slot.dayOfWeek, slot])
-  );
+  const openDays = getOpenDaysMap(workingHours);
 
   // No open days at all
   if (openDays.size === 0) return null;
 
   // Check today first
-  const todayConfig = openDays.get(currentDay);
-  if (todayConfig && !todayConfig.openAllDay) {
-    const todayOpenMinutes = toMinutes(
-      todayConfig.openHour ?? 0,
-      todayConfig.openMinutes ?? 0
-    );
+  const todaySlot = checkTodayAvailability(
+    currentDay,
+    currentMinutes,
+    openDays
+  );
+  if (todaySlot) return todaySlot;
 
-    // Haven't opened yet today
-    if (currentMinutes < todayOpenMinutes) {
-      return {
-        config: todayConfig,
-        minutesUntilOpen: todayOpenMinutes - currentMinutes,
-        daysUntilOpen: 0,
-        dayOfWeek: currentDay,
-      };
-    }
-  }
-
-  const nextSlot = Array.from({ length: DAYS_IN_WEEK }, (_, i) => i + 1)
-    .map(daysAhead => {
-      const targetDay = (currentDay + daysAhead) % DAYS_IN_WEEK;
-      const config = openDays.get(targetDay);
-
-      if (!config) return null;
-
-      // Calculate minutes until this slot opens
-      const slotOpenMinutes = config.openAllDay
-        ? 0
-        : toMinutes(config.openHour ?? 0, config.openMinutes ?? 0);
-      const minutesUntilOpen =
-        MINUTES_IN_DAY -
-        currentMinutes + // Rest of today
-        (daysAhead - 1) * MINUTES_IN_DAY + // Full days in between
-        slotOpenMinutes; // Time until opening on target day
-
-      return {
-        config,
-        minutesUntilOpen,
-        daysUntilOpen: daysAhead,
-        dayOfWeek: targetDay,
-      };
-    })
-    .find(slot => slot !== null);
-
-  return nextSlot || null;
+  // Find next slot
+  return findNextSlot(currentDay, currentMinutes, openDays);
 };
 
 /**
