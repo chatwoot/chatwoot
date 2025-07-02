@@ -7,7 +7,8 @@ const actions = mutationTypes => ({
     try {
       const response = await CaptainDocumentAPI.uploadPdf(formData);
       const { data } = response;
-      commit(mutationTypes.ADD, data.document);
+      // Use UPSERT like the create action for consistency
+      commit(mutationTypes.UPSERT, data);
       commit(mutationTypes.SET_UI_FLAG, { creatingItem: false });
       return Promise.resolve(data);
     } catch (error) {

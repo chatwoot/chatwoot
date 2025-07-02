@@ -183,7 +183,7 @@ const displayText = computed(() => {
 }
 
 .file-upload-zone.drag-over {
-  @apply border-primary-500 bg-primary-50/50;
+  @apply border-n-blue-9 bg-n-blue-2/50;
 }
 
 .file-upload-zone.disabled {

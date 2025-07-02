@@ -59,8 +59,8 @@ const handleCreateDialogClose = () => {
 };
 
 const handleCreateDialogSuccess = () => {
-  // Refresh the documents list after successful creation
-  fetchDocuments();
+  // Document is already added to the store optimistically, no need to refetch
+  // The store action 'uploadPdf' or 'create' already adds the document via commit(mutationTypes.ADD)
 };
 
 const handleAction = ({ action, id }) => {

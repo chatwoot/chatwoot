@@ -131,15 +131,16 @@ const handleSourceTypeChange = type => {
       <div class="flex gap-2">
         <button
           type="button"
-          class="flex-1 p-3 rounded-lg border border-n-slate-6 hover:border-n-slate-7 transition-colors"
+          class="flex-1 p-3 rounded-lg bg-n-alpha-2 hover:border-n-slate-7 transition-colors focus:outline-none"
           :class="{
-            'bg-primary-50 border-primary-500 text-primary-700':
+            'ring-2 ring-woot-500 text-woot-500 border-0':
               state.sourceType === 'url',
-            'bg-n-alpha-2 text-n-slate-10': state.sourceType !== 'url',
+            'border-2 border-n-slate-7 text-n-slate-11':
+              state.sourceType !== 'url',
           }"
           @click="handleSourceTypeChange('url')"
         >
-          <div class="flex flex-col items-center gap-2">
+          <div class="flex items-center justify-center gap-2">
             <svg
               width="20"
               height="20"
@@ -157,15 +158,16 @@ const handleSourceTypeChange = type => {
         </button>
         <button
           type="button"
-          class="flex-1 p-3 rounded-lg border border-n-slate-6 hover:border-n-slate-7 transition-colors"
+          class="flex-1 p-3 rounded-lg bg-n-alpha-2 hover:border-n-slate-7 transition-colors focus:outline-none"
           :class="{
-            'bg-primary-50 border-primary-500 text-primary-700':
+            'ring-2 ring-woot-500 text-woot-500 border-0':
               state.sourceType === 'pdf',
-            'bg-n-alpha-2 text-n-slate-10': state.sourceType !== 'pdf',
+            'border-2 border-n-slate-7 text-n-slate-11':
+              state.sourceType !== 'pdf',
           }"
           @click="handleSourceTypeChange('pdf')"
         >
-          <div class="flex flex-col items-center gap-2">
+          <div class="flex items-center justify-center gap-2">
             <svg
               width="20"
               height="20"
@@ -205,7 +207,7 @@ const handleSourceTypeChange = type => {
       <div v-if="!state.selectedFile">
         <FileUpload
           accept="application/pdf"
-          :max-size-m-b="10"
+          :max-size-m-b="25"
           placeholder="Select a PDF file"
           upload-text="Click to select PDF or drag and drop"
           drag-text="Drop PDF file here"
