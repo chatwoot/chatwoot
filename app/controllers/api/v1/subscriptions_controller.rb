@@ -158,7 +158,7 @@ class Api::V1::SubscriptionsController < Api::BaseController
       # Transformasi payment_method
       payment_label = case transaction.payment_method
                       when 'M2' then 'Virtual Account'
-                      when 'CC' then 'Credit Card'
+                      when 'CC', 'VC' then 'Credit Card'
                       else transaction.payment_method
                       end
 
