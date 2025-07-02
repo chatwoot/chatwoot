@@ -59,7 +59,7 @@ const validateFile = file => {
   // Check file type if specified
   if (
     props.accept !== '*' &&
-    !file.type.match(new RegExp(props.accept.replace('*', '.*')))
+    !file.type.match(new RegExp(props.accept.replace(/\*/g, '.*')))
   ) {
     const errorMsg = `File type not supported. Only ${props.accept} files are allowed.`;
     emit('file-error', errorMsg);
