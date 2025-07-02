@@ -100,7 +100,7 @@ const redirectToPortalHomePage = () => {
       <div class="flex flex-col gap-1">
         <div class="flex items-center gap-2">
           <h2
-            class="text-base font-medium cursor-pointer text-slate-900 dark:text-slate-50 w-fit hover:underline"
+            class="text-base font-medium cursor-pointer text-n-slate-12 w-fit hover:underline"
             @click="redirectToPortalHomePage"
           >
             {{ t('HELP_CENTER.PORTAL_SWITCHER.PORTALS') }}
@@ -115,7 +115,7 @@ const redirectToPortalHomePage = () => {
             @click="onClickPreviewPortal"
           />
         </div>
-        <p class="text-sm text-slate-600 dark:text-slate-300">
+        <p class="text-sm text-n-slate-11">
           {{ t('HELP_CENTER.PORTAL_SWITCHER.CREATE_PORTAL') }}
         </p>
       </div>
