@@ -33,6 +33,7 @@ module SwitchLocale
   end
 
   def set_locale(locale, &)
+    locale ||= I18n.default_locale
     I18n.default_locale = locale
     # if locale is empty, use default_locale
     locale ||= I18n.default_locale
