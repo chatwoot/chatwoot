@@ -19,15 +19,11 @@ class Messages::MentionService
   end
 
   def mentioned_ids
-    # Extract user and team IDs from mention URLs in message content
-    # Handles URL-encoded names but only extracts the numeric IDs for processing
     user_mentions = message.content.scan(%r{\(mention://user/(\d+)/(.+?)\)}).map(&:first)
     team_mentions = message.content.scan(%r{\(mention://team/(\d+)/(.+?)\)}).map(&:first)
 
-    # Convert team mentions to individual user IDs for notification purposes
     expanded_user_ids = expand_team_mentions_to_users(team_mentions)
 
-    # Return unique list of all user IDs that should receive notifications
     (user_mentions + expanded_user_ids).uniq
   end
 
