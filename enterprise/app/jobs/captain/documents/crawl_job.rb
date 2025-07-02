@@ -22,12 +22,17 @@ class Captain::Documents::CrawlJob < ApplicationJob
   include Captain::FirecrawlHelper
 
   def pdf_by_metadata?(document)
-    return true if document.respond_to?(:source_type) && document.source_type == 'pdf_upload'
-    return true if document.respond_to?(:content_type) && document.content_type&.include?('application/pdf')
-
-    false
+    pdf_by_source_type?(document) || pdf_by_content_type?(document)
   rescue StandardError
     false
+  end
+
+  def pdf_by_source_type?(document)
+    document.respond_to?(:source_type) && document.source_type == 'pdf_upload'
+  end
+
+  def pdf_by_content_type?(document)
+    document.respond_to?(:content_type) && document.content_type&.include?('application/pdf')
   end
 
   def pdf_by_url?(document)

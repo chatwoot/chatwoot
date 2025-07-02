@@ -26,46 +26,68 @@ module Captain::Tools::PdfContentChunkingConcern
     return [content] if content.length <= max_size
 
     paragraphs = content.split(/\n\s*\n/)
+    process_paragraphs_into_chunks(paragraphs, max_size, content)
+  end
+
+  def process_paragraphs_into_chunks(paragraphs, max_size, original_content)
     chunks = []
     current_chunk = ''
 
     paragraphs.each do |paragraph|
-      if paragraph.length > max_size
-        add_chunk_if_present(chunks, current_chunk)
-        chunks.concat(split_paragraph_into_chunks(paragraph, max_size))
-        current_chunk = ''
-      elsif ("#{current_chunk}\n\n#{paragraph}").length > max_size
-        add_chunk_if_present(chunks, current_chunk)
-        current_chunk = paragraph
-      else
-        current_chunk = current_chunk.blank? ? paragraph : "#{current_chunk}\n\n#{paragraph}"
-      end
+      chunks, current_chunk = process_single_paragraph(chunks, current_chunk, paragraph, max_size)
     end
 
+    finalize_chunks(chunks, current_chunk, original_content)
+  end
+
+  def process_single_paragraph(chunks, current_chunk, paragraph, max_size)
+    if paragraph.length > max_size
+      add_chunk_if_present(chunks, current_chunk)
+      chunks.concat(split_paragraph_into_chunks(paragraph, max_size))
+      [chunks, '']
+    elsif ("#{current_chunk}\n\n#{paragraph}").length > max_size
+      add_chunk_if_present(chunks, current_chunk)
+      [chunks, paragraph]
+    else
+      combined = current_chunk.blank? ? paragraph : "#{current_chunk}\n\n#{paragraph}"
+      [chunks, combined]
+    end
+  end
+
+  def finalize_chunks(chunks, current_chunk, original_content)
     add_chunk_if_present(chunks, current_chunk)
-    chunks.presence || [content]
+    chunks.presence || [original_content]
   end
 
   def split_paragraph_into_chunks(paragraph, max_size)
     sentences = paragraph.split(/(?<=[.!?])\s+/)
+    process_sentences_into_chunks(sentences, max_size)
+  end
+
+  def process_sentences_into_chunks(sentences, max_size)
     chunks = []
     current_chunk = ''
 
     sentences.each do |sentence|
-      if sentence.length > max_size
-        add_chunk_if_present(chunks, current_chunk)
-        chunks << sentence[0, max_size]
-        current_chunk = ''
-      elsif ("#{current_chunk} #{sentence}").length > max_size
-        add_chunk_if_present(chunks, current_chunk)
-        current_chunk = sentence
-      else
-        current_chunk = current_chunk.blank? ? sentence : "#{current_chunk} #{sentence}"
-      end
+      chunks, current_chunk = process_single_sentence(chunks, current_chunk, sentence, max_size)
     end
 
     add_chunk_if_present(chunks, current_chunk)
     chunks
+  end
+
+  def process_single_sentence(chunks, current_chunk, sentence, max_size)
+    if sentence.length > max_size
+      add_chunk_if_present(chunks, current_chunk)
+      chunks << sentence[0, max_size]
+      [chunks, '']
+    elsif ("#{current_chunk} #{sentence}").length > max_size
+      add_chunk_if_present(chunks, current_chunk)
+      [chunks, sentence]
+    else
+      combined = current_chunk.blank? ? sentence : "#{current_chunk} #{sentence}"
+      [chunks, combined]
+    end
   end
 
   def add_chunk_if_present(chunks, chunk)

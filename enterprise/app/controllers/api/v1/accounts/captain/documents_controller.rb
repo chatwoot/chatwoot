@@ -87,13 +87,35 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
   def validate_pdf_file
     file = pdf_params[:pdf_document]
-    return { valid: false, error: 'Invalid file object' } unless file.respond_to?(:content_type) && file.respond_to?(:size)
 
-    return { valid: false, error: 'Invalid file type. Only PDF files are allowed.' } unless ALLOWED_PDF_CONTENT_TYPES.include?(file.content_type)
+    file_object_error = validate_file_object(file)
+    return file_object_error if file_object_error
 
-    return { valid: false, error: "File size too large. Maximum size is #{MAX_PDF_SIZE / 1.megabyte}MB." } if file.size > MAX_PDF_SIZE
+    file_type_error = validate_file_type(file)
+    return file_type_error if file_type_error
+
+    file_size_error = validate_file_size(file)
+    return file_size_error if file_size_error
 
     { valid: true }
+  end
+
+  def validate_file_object(file)
+    return nil if file.respond_to?(:content_type) && file.respond_to?(:size)
+
+    { valid: false, error: 'Invalid file object' }
+  end
+
+  def validate_file_type(file)
+    return nil if ALLOWED_PDF_CONTENT_TYPES.include?(file.content_type)
+
+    { valid: false, error: 'Invalid file type. Only PDF files are allowed.' }
+  end
+
+  def validate_file_size(file)
+    return nil if file.size <= MAX_PDF_SIZE
+
+    { valid: false, error: "File size too large. Maximum size is #{MAX_PDF_SIZE / 1.megabyte}MB." }
   end
 
   def create_pdf_blob

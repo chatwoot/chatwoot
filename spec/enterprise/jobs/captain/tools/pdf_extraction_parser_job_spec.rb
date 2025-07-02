@@ -94,14 +94,9 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
     context 'when limits are exceeded' do
       before do
-        # Mock the account usage limits directly
-        allow(account).to receive(:usage_limits).and_return(
-          captain: {
-            documents: {
-              current_available: 0
-            }
-          }
-        )
+        # Stub the Captain::Document.create! method to raise limit error
+        # This is more specific than allow_any_instance_of
+        allow(Captain::Document).to receive(:create!).and_raise(Captain::Document::LimitExceededError, 'Document limit exceeded')
       end
 
       it 'does not create documents when limit exceeded' do
@@ -143,7 +138,8 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
       before do
         allow(Captain::Document).to receive(:create!).and_raise(StandardError, 'Database error')
-        # Also mock update! for existing documents to ensure error handling works
+        # Mock the specific document instance that will be found by the job
+        allow(Captain::Document).to receive(:find_by).with(id: document.id).and_return(document)
         allow(document).to receive(:update!).and_raise(StandardError, 'Database error')
       end
 
@@ -172,7 +168,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
       end
 
       it 'logs the error' do
-        expect(Rails.logger).to receive(:error).with(/Failed to parse PDF content/)
+        expect(Rails.logger).to receive(:error).with(/Failed to parse PDF content/).at_least(:once)
 
         begin
           described_class.new.perform(

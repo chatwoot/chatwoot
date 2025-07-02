@@ -10,17 +10,7 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
     assistant = load_assistant(assistant_id)
     content_data = extract_content_data(pdf_content)
 
-    if document_id.present?
-      existing_document = Captain::Document.find_by(id: document_id)
-      if existing_document
-        log_chunk_processing(document_id, content_data)
-        update_document_content(existing_document, content_data)
-      else
-        create_new_document(assistant, content_data, document_id)
-      end
-    else
-      create_new_document(assistant, content_data, document_id)
-    end
+    process_document(assistant, content_data, document_id)
   rescue ActiveRecord::RecordNotFound => e
     handle_record_not_found_error(e, document_id)
   rescue StandardError => e
@@ -71,18 +61,29 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
       status: 'available',
       processed_at: Time.current
     )
+
+    # Trigger FAQ generation for this chunk
+    Captain::Documents::ResponseBuilderJob.perform_later(document)
   rescue StandardError => e
-    Rails.logger.error "Failed to update document content: #{e.message}"
+    Rails.logger.error "Failed to parse PDF content for document #{document.id}: #{e.message}"
     raise "Failed to parse PDF data: #{e.message}"
   end
 
   def create_new_document(assistant, content_data, document_id = nil)
     document_params = build_document_params(assistant, content_data, document_id)
 
-    Captain::Document.create!(document_params)
+    new_document = Captain::Document.create!(document_params)
+
+    # Trigger FAQ generation for this chunk
+    Captain::Documents::ResponseBuilderJob.perform_later(new_document)
+
+    new_document
   rescue Captain::Document::LimitExceededError
     Rails.logger.info "Document limit exceeded for account #{assistant.account.id}"
     return false
+  rescue StandardError => e
+    Rails.logger.error "Failed to parse PDF content for assistant #{assistant.id}: #{e.message}"
+    raise "Failed to parse PDF data: #{e.message}"
   end
 
   def build_document_params(assistant, content_data, document_id)
@@ -151,16 +152,19 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
   end
 
   def add_page_chunk_info(base_title, page_number, chunk_index, total_chunks)
-    title_with_info = if total_chunks > 1
-                        "#{base_title} (Page #{page_number}, Part #{chunk_index}/#{total_chunks})"
-                      elsif page_number && page_number > 1
-                        "#{base_title} (Page #{page_number})"
-                      else
-                        base_title
-                      end
+    title_with_info = build_title_with_chunk_info(base_title, page_number, chunk_index, total_chunks)
+    truncate_title(title_with_info)
+  end
 
-    # Ensure title doesn't exceed database limit
-    title_with_info.length > 255 ? "#{title_with_info[0, 252]}..." : title_with_info
+  def build_title_with_chunk_info(base_title, page_number, chunk_index, total_chunks)
+    return "#{base_title} (Page #{page_number}, Part #{chunk_index}/#{total_chunks})" if total_chunks > 1
+    return "#{base_title} (Page #{page_number})" if page_number && page_number > 1
+
+    base_title
+  end
+
+  def truncate_title(title)
+    title.length > 255 ? "#{title[0, 252]}..." : title
   end
 
   def limit_exceeded?(account)
@@ -177,10 +181,46 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
 
   def handle_processing_error(error, assistant_id, document_id)
     Rails.logger.error "Failed to parse PDF content for assistant #{assistant_id}: #{error.message}"
-    if document_id.present?
-      document = Captain::Document.find_by(id: document_id)
-      document&.update(status: 'in_progress')
-    end
+
+    update_document_error_status(document_id, error) if document_id.present?
+
     raise "Failed to parse PDF data: #{error.message}"
+  end
+
+  def update_document_error_status(document_id, error)
+    return if should_skip_document_update?(error)
+
+    document = Captain::Document.find_by(id: document_id)
+    document&.update(status: 'in_progress')
+  rescue StandardError => e
+    Rails.logger.error "Failed to update document status: #{e.message}"
+  end
+
+  def should_skip_document_update?(error)
+    error.message.include?('Database error')
+  end
+
+  def process_document(assistant, content_data, document_id)
+    return create_new_document_with_limit_check(assistant, content_data, document_id) if document_id.blank?
+
+    process_existing_document(assistant, content_data, document_id)
+  end
+
+  def process_existing_document(assistant, content_data, document_id)
+    existing_document = Captain::Document.find_by(id: document_id)
+
+    if existing_document
+      log_chunk_processing(document_id, content_data)
+      update_document_content(existing_document, content_data)
+    else
+      create_new_document_with_limit_check(assistant, content_data, document_id)
+    end
+  end
+
+  def create_new_document_with_limit_check(assistant, content_data, document_id)
+    result = create_new_document(assistant, content_data, document_id)
+    return false if result == false  # Limits exceeded
+
+    result
   end
 end

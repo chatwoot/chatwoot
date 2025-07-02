@@ -23,6 +23,10 @@ class Captain::Tools::PdfExtractionService
     validation_result = validate_pdf_source
     return validation_result unless validation_result[:success]
 
+    extract_pdf_with_error_handling
+  end
+
+  def extract_pdf_with_error_handling
     process_pdf_extraction
   rescue PDF::Reader::MalformedPDFError => e
     handle_malformed_pdf_error(e)
@@ -131,23 +135,25 @@ class Captain::Tools::PdfExtractionService
 
     PDF::Reader.open(file_path) do |reader|
       reader.pages.each_with_index do |page, index|
-        page_text = page.text
-        next if page_text.blank?
-
-        cleaned_text = clean_text(page_text)
-        if cleaned_text.present?
-          text_content << {
-            page_number: index + 1,
-            content: cleaned_text
-          }
-        end
-      rescue StandardError => e
-        Rails.logger.warn "Failed to extract text from page #{index + 1}: #{e.message}"
-        next
+        page_content = extract_page_content(page, index)
+        text_content << page_content if page_content
       end
     end
 
     text_content
+  end
+
+  def extract_page_content(page, index)
+    page_text = page.text
+    return nil if page_text.blank?
+
+    cleaned_text = clean_text(page_text)
+    return nil if cleaned_text.blank?
+
+    { page_number: index + 1, content: cleaned_text }
+  rescue StandardError => e
+    Rails.logger.warn "Failed to extract text from page #{index + 1}: #{e.message}"
+    nil
   end
 
   def clean_text(text)
@@ -179,9 +185,6 @@ class Captain::Tools::PdfExtractionService
   def log_extraction_success(chunked_content)
     total_chars = chunked_content.sum { |chunk| chunk[:content].length }
     Rails.logger.info "PDF extraction completed: #{chunked_content.length} chunks, #{total_chars} characters"
-    Rails.logger.info "PDF chunks breakdown: #{chunked_content.map do |chunk|
-      "Page #{chunk[:page_number]} (#{chunk[:content].length} chars)"
-    end.join(', ')}"
   end
 
   def process_pdf_extraction

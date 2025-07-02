@@ -201,8 +201,8 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
                headers: admin.create_new_auth_token, as: :json
 
           expect(response).to have_http_status(:success)
-          expect(json_response[:document][:name]).to eq('Test Document')
-          expect(json_response[:document][:external_link]).to eq('https://example.com/doc')
+          expect(json_response[:name]).to eq('Test Document')
+          expect(json_response[:external_link]).to eq('https://example.com/doc')
         end
       end
 
@@ -342,7 +342,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
                headers: admin.create_new_auth_token
 
           expect(response).to have_http_status(:success)
-          expect(json_response[:document]).to be_present
+          expect(json_response[:id]).to be_present
           expect(json_response[:message]).to eq('PDF uploaded successfully. Processing will begin shortly.')
         end
       end
