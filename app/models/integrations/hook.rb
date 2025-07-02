@@ -53,6 +53,10 @@ class Integrations::Hook < ApplicationRecord
     app_id == 'dialogflow'
   end
 
+  def notion?
+    app_id == 'notion'
+  end
+
   def disable
     update(status: 'disabled')
   end

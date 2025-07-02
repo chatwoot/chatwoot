@@ -66,7 +66,7 @@ export default {
         @click="onMarkAllDoneClick"
       />
     </div>
-    <table class="woot-table notifications-table overflow-auto">
+    <table class="notifications-table overflow-auto">
       <tbody v-show="!isLoading">
         <tr
           v-for="notificationItem in notifications"
@@ -74,9 +74,10 @@ export default {
           :class="{
             'is-unread': notificationItem.read_at === null,
           }"
+          class="border-b border-n-weak"
           @click="() => onClickNotification(notificationItem)"
         >
-          <td>
+          <td class="p-2.5 text-n-slate-12">
             <div
               class="overflow-hidden flex-view notification-contant--wrap whitespace-nowrap text-ellipsis"
             >
@@ -109,12 +110,12 @@ export default {
             <Thumbnail
               v-if="notificationItem.primary_actor.meta.assignee"
               :src="notificationItem.primary_actor.meta.assignee.thumbnail"
-              size="36px"
+              size="28px"
               :username="notificationItem.primary_actor.meta.assignee.name"
             />
           </td>
           <td>
-            <div class="text-right timestamp--column">
+            <div class="text-right timestamp--column ltr:mr-2 rtl:ml-2">
               <span class="notification--created-at">
                 {{ dynamicTime(notificationItem.last_activity_at) }}
               </span>
@@ -141,10 +142,8 @@ export default {
 </template>
 
 <style lang="scss" scoped>
-@import 'dashboard/assets/scss/mixins';
-
 .notification--title {
-  @apply text-sm m-0 text-slate-800 dark:text-slate-100;
+  @apply text-sm m-0 text-n-slate-12;
 }
 
 .notifications-table {
@@ -153,11 +152,11 @@ export default {
       @apply cursor-pointer;
 
       &:hover {
-        @apply bg-slate-50 dark:bg-slate-800;
+        @apply bg-n-slate-3;
       }
 
       &.is-active {
-        @apply bg-slate-100 dark:bg-slate-700;
+        @apply bg-n-slate-4 dark:bg-n-slate-6;
       }
 
       > td {
@@ -182,11 +181,11 @@ export default {
 }
 
 .notification--unread-indicator {
-  @apply w-2.5 h-2.5 rounded-full bg-woot-500 dark:bg-woot-500;
+  @apply w-2.5 h-2.5 rounded-full bg-n-brand;
 }
 
 .notification--created-at {
-  @apply text-slate-700 dark:text-slate-200 text-xs;
+  @apply text-n-slate-11 text-xs;
 }
 
 .notification--type {
@@ -206,6 +205,6 @@ export default {
 }
 
 .notification--message-title {
-  @apply text-slate-700 dark:text-slate-100;
+  @apply text-n-slate-12;
 }
 </style>

@@ -173,3 +173,6 @@
   display_name: Voice Channel
   enabled: false
   chatwoot_internal: true
+- name: notion_integration
+  display_name: Notion Integration
+  enabled: false
