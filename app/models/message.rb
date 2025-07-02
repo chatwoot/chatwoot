@@ -168,7 +168,7 @@ class Message < ApplicationRecord
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
       content_type: content_type,
-      content: content,
+      content: outgoing_content,
       conversation: conversation.webhook_data,
       created_at: created_at,
       id: id,
