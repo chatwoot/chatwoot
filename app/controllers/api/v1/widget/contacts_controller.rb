@@ -104,54 +104,6 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
     render json: response
   end
 
-  def proxy_shopify_api # rubocop:disable Metrics/AbcSize,Metrics/MethodLength
-    shop_url = permitted_params[:shop_url]
-    return render json: { error: 'Shop URL is required' }, status: :bad_request if shop_url.blank?
-
-    inbox_id = conversation.inbox.id
-    return render json: { error: 'Inbox ID not found' }, status: :bad_request if inbox_id.blank?
-
-    contact_inbox = @contact.contact_inboxes.find_by(inbox_id: inbox_id)
-    source_id = contact_inbox.source_id
-
-    # Build the full URL
-    target_url = "https://#{shop_url}/cart/update.js"
-
-    # Prepare the request body
-    request_body = {
-      attributes: {
-        bitespeed_live_chat_user: "live_chat_#{source_id}"
-      }
-    }
-
-    begin
-      response = HTTParty.post(
-        target_url,
-        headers: {
-          'Content-Type' => 'application/json'
-        },
-        body: request_body.to_json
-      )
-
-      Rails.logger.info("Shopify API Proxy Response: #{response.code} - #{response.body}")
-
-      if response.success?
-        render json: response.parsed_response, status: response.code
-      else
-        render json: {
-          error: 'Shopify API request failed',
-          details: response.body
-        }, status: response.code
-      end
-    rescue HTTParty::Error, Net::TimeoutError => e
-      Rails.logger.error("Shopify API Proxy Error: #{e.message}")
-      render json: {
-        error: 'Failed to connect to Shopify API',
-        message: e.message
-      }, status: :service_unavailable
-    end
-  end
-
   def set_user
     contact = nil
 

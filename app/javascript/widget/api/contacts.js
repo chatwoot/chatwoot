@@ -24,14 +24,6 @@ export default {
       )}`
     );
   },
-  addRevenueAttribute(shopUrl) {
-    return API.post(
-      `/api/v1/widget/contact/proxy_shopify_api${window.location.search}`,
-      {
-        shop_url: shopUrl,
-      }
-    );
-  },
   setUser(identifier, userObject) {
     return API.patch(buildUrl('widget/contact/set_user'), {
       identifier,

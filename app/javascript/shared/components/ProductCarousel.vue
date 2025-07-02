@@ -106,7 +106,12 @@
                       item.price,
                       item.shopUrl,
                       $event
-                    )
+                    );
+                    sendMessageToParentWindow('CART_UPDATED', {
+                      id: item.variant_id,
+                      quantity: 1,
+                      type: 'Add_TO_CART',
+                    });
                   "
                 >
                   Add to cart
@@ -231,12 +236,24 @@ export default {
       isCheckoutLoading: false,
       canScrollLeft: false,
       canScrollRight: false,
+      productClicked: [],
     };
   },
   computed: {
     ...mapGetters({
       currentUser: 'contacts/getCurrentUser',
     }),
+  },
+  watch: {
+    // Watch selectedProducts for changes
+    selectedProducts: {
+      handler(newProducts) {
+        // Send update to Shopify cart whenever selectedProducts changes
+        this.updateShopifyCart(newProducts);
+      },
+      deep: true, // Watch for changes in nested properties
+      immediate: false, // Don't trigger on initial mount
+    },
   },
   mounted() {
     this.checkScrollButtons();
@@ -254,6 +271,10 @@ export default {
         productUrl += `?variant=${item.variant_id}`;
       }
       window.open(productUrl, '_blank');
+      if (!this.productClicked.includes(item.variant_id)) {
+        this.productClicked.push(item.variant_id);
+        this.updateShopifyCart([]);
+      }
     },
     async openCheckoutPage(selectedProducts) {
       this.isCheckoutLoading = true;
@@ -284,6 +305,25 @@ export default {
         selectedProduct => selectedProduct.id === product.variant_id
       );
     },
+    async updateShopifyCart(newProducts) {
+      let uuid = this.currentUser.source_id;
+      if (!window.parent || !uuid) {
+        return;
+      }
+
+      if (newProducts.length > 0) {
+        window.parent.postMessage(
+          {
+            type: 'UPDATE_CART_ATTRIBUTES',
+            attributes: {
+              bitespeed_live_chat_user: `live_chat_${uuid}`,
+              bitespeed_cart_products: newProducts,
+            },
+          },
+          '*'
+        );
+      }
+    },
     async increaseQuantity(productId, event) {
       event.stopPropagation();
       const product = this.selectedProducts.find(
@@ -295,6 +335,7 @@ export default {
       await fetch(`https://${product.shopUrl}/cart.js`)
         .then(res => res.json())
         .catch(() => {});
+      const productQuantity = product.quantity;
       this.updateSelectedProducts(
         product.id,
         product.quantity + 1,
@@ -302,6 +343,20 @@ export default {
         product.price,
         product.shopUrl,
         event
+      );
+      this.sendMessageToParentWindow('CART_UPDATED', {
+        id: product.id,
+        quantity: productQuantity + 1,
+        type: 'QUANTITY_CHANGED',
+      });
+    },
+    sendMessageToParentWindow(eventName, data) {
+      window.parent.postMessage(
+        {
+          type: eventName,
+          data,
+        },
+        '*'
       );
     },
     onViewMoreVariants(item) {
@@ -338,6 +393,11 @@ export default {
         product.shopUrl,
         event
       );
+      this.sendMessageToParentWindow('CART_UPDATED', {
+        id: product.id,
+        quantity: product.quantity - 1,
+        type: 'QUANTITY_CHANGED',
+      });
     },
     getQuantity(productId) {
       const product = this.selectedProducts.find(
@@ -379,20 +439,20 @@ export default {
     },
     async addCustomCartAttributeToShopifyCart() {
       let uuid = this.currentUser.source_id;
-      try {
-        // eslint-disable-next-line no-console
-        console.log('ShopifyData', window.parentShopify);
-        if (window.parentShopify && window.parentShopify.shop && uuid) {
-          const response = await ContactsAPI.addRevenueAttribute(
-            window.parentShopify.shop
-          );
-          // eslint-disable-next-line no-console
-          console.log('response', response);
-        }
-      } catch (error) {
-        // eslint-disable-next-line no-console
-        console.log('error', error);
+      if (!window.parent || !uuid) {
+        return;
       }
+
+      // Send request to parent window
+      window.parent.postMessage(
+        {
+          type: 'UPDATE_CART_ATTRIBUTES',
+          attributes: {
+            bitespeed_live_chat_user: `live_chat_${uuid}`,
+          },
+        },
+        '*'
+      );
     },
   },
 };

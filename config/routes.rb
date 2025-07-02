@@ -331,7 +331,6 @@ Rails.application.routes.draw do
             get :get_whatsapp_redirect_url
             get :get_url_for_whatsapp_widget
             get :get_checkout_url
-            post :proxy_shopify_api
             get :bot_config
             patch :update_bot_config
           end
