@@ -246,7 +246,10 @@ export default {
               @close="onTouch"
               @tag="addTagValue"
             />
-            <label v-show="isMultiselectInvalid" class="error-message">
+            <label
+              v-show="isMultiselectInvalid"
+              class="text-n-ruby-9 dark:text-n-ruby-9 text-sm font-normal mt-1"
+            >
               {{ $t('ATTRIBUTES_MGMT.ADD.FORM.TYPE.LIST.ERROR') }}
             </label>
           </div>
@@ -296,26 +299,12 @@ export default {
 
 <style lang="scss" scoped>
 .key-value {
-  padding: 0 var(--space-small) var(--space-small) 0;
+  padding: 0 0.5rem 0.5rem 0;
   font-family: monospace;
 }
 
 .multiselect--wrap {
-  margin-bottom: var(--space-normal);
-
-  .error-message {
-    color: var(--r-400);
-    font-size: var(--font-size-small);
-    font-weight: var(--font-weight-normal);
-  }
-
-  .invalid {
-    ::v-deep {
-      .multiselect__tags {
-        border: 1px solid var(--r-400);
-      }
-    }
-  }
+  margin-bottom: 1rem;
 }
 
 ::v-deep {
@@ -328,7 +317,7 @@ export default {
   }
 
   .multiselect--active .multiselect__tags {
-    border-radius: var(--border-radius-normal);
+    border-radius: 0.3125rem;
   }
 }
 </style>
