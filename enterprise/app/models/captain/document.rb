@@ -7,7 +7,6 @@
 #  content_type  :string
 #  document_type :integer          default(0), not null
 #  external_link :string           not null
-#  faq_data      :json
 #  file_size     :integer
 #  name          :string
 #  processed_at  :datetime
@@ -25,7 +24,6 @@
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
 #  index_captain_documents_on_content_type                    (content_type)
 #  index_captain_documents_on_document_type                   (document_type)
-#  index_captain_documents_on_faq_data                        (faq_data) USING gin
 #  index_captain_documents_on_source_type                     (source_type)
 #  index_captain_documents_on_status                          (status)
 #
