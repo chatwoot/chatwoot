@@ -33,6 +33,14 @@ class Instagram::Messenger::MessageText < Instagram::BaseMessageText
       return
     end
 
+    # Handle error code 9010: No matching Instagram user
+    # This occurs when trying to fetch an Instagram user that doesn't exist or is not accessible
+    # We can safely ignore this error and continue processing
+    if error.message.include?('9010')
+      Rails.logger.warn error
+      return
+    end
+
     Rails.logger.warn("[FacebookUserFetchClientError]: account_id #{@inbox.account_id} inbox_id #{@inbox.id}")
     Rails.logger.warn("[FacebookUserFetchClientError]: #{error.message}")
     ChatwootExceptionTracker.new(error, account: @inbox.account).capture_exception
