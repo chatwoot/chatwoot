@@ -38,13 +38,24 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id)
-    Captain::Copilot::ResponseJob.perform_later(
-      assistant: copilot_thread.assistant,
-      conversation_id: conversation_id,
-      user_id: user_id,
-      copilot_thread_id: copilot_thread.id,
-      message: message['content']
-    )
+    if ENV['USE_AGENTS'] == 'true'
+      # Use the new AI Agents SDK implementation
+      Captain::Copilot::AgentsResponseJob.perform_later(
+        copilot_thread_id: copilot_thread.id,
+        message_content: message['content'],
+        conversation_id: conversation_id,
+        user_id: user_id
+      )
+    else
+      # Use the original implementation
+      Captain::Copilot::ResponseJob.perform_later(
+        assistant: copilot_thread.assistant,
+        conversation_id: conversation_id,
+        user_id: user_id,
+        copilot_thread_id: copilot_thread.id,
+        message: message['content']
+      )
+    end
   end
 
   private
