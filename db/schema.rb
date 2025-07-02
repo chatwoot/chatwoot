@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
+ActiveRecord::Schema[7.1].define(version: 2025_06_30_081222) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -59,7 +59,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.jsonb "custom_attributes", default: {}
     t.integer "status", default: 0
     t.jsonb "internal_attributes", default: {}, null: false
-    t.jsonb "settings", default: {}
+    t.jsonb "settings"
     t.index ["status"], name: "index_accounts_on_status"
   end
 
@@ -682,7 +682,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
   create_table "copilot_messages", force: :cascade do |t|
     t.bigint "copilot_thread_id", null: false
     t.bigint "account_id", null: false
-    t.jsonb "message", default: {}, null: false
+    t.jsonb "message", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.integer "message_type", default: 0
@@ -831,10 +831,10 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.bigint "portal_id"
     t.integer "sender_name_type", default: 0, null: false
     t.string "business_name"
-    t.jsonb "csat_config", default: {}, null: false
     t.integer "allowed_custom_message_user_ids", default: [], array: true
     t.boolean "auto_reply_post_comments_enabled", default: false
     t.string "auto_reply_post_comments_message"
+    t.jsonb "csat_config", default: {}, null: false
     t.index ["account_id"], name: "index_inboxes_on_account_id"
     t.index ["channel_id", "channel_type"], name: "index_inboxes_on_channel_id_and_channel_type"
     t.index ["portal_id"], name: "index_inboxes_on_portal_id"
@@ -1017,7 +1017,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.text "header_text"
     t.datetime "created_at", precision: nil, null: false
     t.datetime "updated_at", precision: nil, null: false
-    t.jsonb "config", default: {"allowed_locales"=>["en"]}
+    t.jsonb "config", default: {"allowed_locales" => ["en"]}
     t.boolean "archived", default: false
     t.bigint "channel_web_widget_id"
     t.index ["channel_web_widget_id"], name: "index_portals_on_channel_web_widget_id"
@@ -1195,7 +1195,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.datetime "start_time"
     t.datetime "end_time"
     t.jsonb "meta", default: {}
-    t.index ["code"], name: "index_shopee_vouchers_on_code", unique: true
     t.index ["shop_id"], name: "index_shopee_vouchers_on_shop_id"
     t.index ["voucher_id"], name: "index_shopee_vouchers_on_voucher_id", unique: true
   end
