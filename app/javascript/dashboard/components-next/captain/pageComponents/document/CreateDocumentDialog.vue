@@ -7,7 +7,7 @@ import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
 
-const emit = defineEmits(['close']);
+const emit = defineEmits(['close', 'success']);
 const { t } = useI18n();
 const store = useStore();
 
@@ -18,12 +18,32 @@ const i18nKey = 'CAPTAIN.DOCUMENTS.CREATE';
 
 const handleSubmit = async newDocument => {
   try {
-    await store.dispatch('captainDocuments/create', newDocument);
-    useAlert(t(`${i18nKey}.SUCCESS_MESSAGE`));
+    if (newDocument.type === 'pdf') {
+      // Handle PDF upload
+      const formData = new FormData();
+      formData.append('pdf_document', newDocument.pdf_document);
+      formData.append('assistant_id', newDocument.assistant_id);
+
+      await store.dispatch('captainDocuments/uploadPdf', formData);
+      useAlert('PDF uploaded successfully! Processing will begin shortly.');
+    } else {
+      // Handle URL creation
+      await store.dispatch('captainDocuments/create', {
+        document: {
+          external_link: newDocument.external_link,
+          assistant_id: newDocument.assistant_id,
+        },
+      });
+      useAlert('Document created successfully!');
+    }
+    
+    // Emit success event to refresh the list
+    emit('success');
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
-      error?.response?.message || t(`${i18nKey}.ERROR_MESSAGE`);
+      error?.response?.data?.message ||
+      'Failed to create document. Please try again.';
     useAlert(errorMessage);
   }
 };
@@ -42,8 +62,8 @@ defineExpose({ dialogRef });
 <template>
   <Dialog
     ref="dialogRef"
-    :title="$t(`${i18nKey}.TITLE`)"
-    :description="$t('CAPTAIN.DOCUMENTS.FORM_DESCRIPTION')"
+    title="Create New Document"
+    description="Add a new document from a website URL or by uploading a PDF file"
     :show-cancel-button="false"
     :show-confirm-button="false"
     @close="handleClose"

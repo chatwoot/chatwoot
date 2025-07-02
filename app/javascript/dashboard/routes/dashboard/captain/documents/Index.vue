@@ -58,6 +58,11 @@ const handleCreateDialogClose = () => {
   showCreateDialog.value = false;
 };
 
+const handleCreateDialogSuccess = () => {
+  // Document is already added to the store optimistically, no need to refetch
+  // The store action 'uploadPdf' or 'create' already adds the document via commit(mutationTypes.ADD)
+};
+
 const handleAction = ({ action, id }) => {
   selectedDocument.value = documents.value.find(
     captainDocument => id === captainDocument.id
@@ -171,6 +176,7 @@ onMounted(() => {
       v-if="showCreateDialog"
       ref="createDocumentDialog"
       @close="handleCreateDialogClose"
+      @success="handleCreateDialogSuccess"
     />
     <DeleteDialog
       v-if="selectedDocument"
