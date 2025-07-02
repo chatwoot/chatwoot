@@ -153,6 +153,14 @@ has been assigned to you"
       expect(notification.push_message_body).to eq "#{message.sender.name}: Hey @John Doe and @👍 customer support please review"
     end
 
+    it 'returns appropriate body suited for the notification type conversation_mention with special characters in names' do
+      conversation = create(:conversation)
+      content = 'Please review [@user@domain.com](mention://user/4/user%40domain.com)'
+      message = create(:message, sender: create(:user), content: content, conversation: conversation)
+      notification = create(:notification, notification_type: 'conversation_mention', primary_actor: conversation, secondary_actor: message)
+      expect(notification.push_message_body).to eq "#{message.sender.name}: Please review @user@domain.com"
+    end
+
     it 'calls remove duplicate notification job' do
       allow(Notification::RemoveDuplicateNotificationJob).to receive(:perform_later)
       notification = create(:notification, notification_type: 'conversation_mention')
