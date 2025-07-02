@@ -8,7 +8,9 @@ describe MessageFormatHelper do
       end
 
       it 'handles emoji in display names correctly' do
-        expect(helper.transform_user_mention_content('[@👍 customer support](mention://team/1/%F0%9F%91%8D%20customer%20support), please help')).to eq '@👍 customer support, please help'
+        content = '[@👍 customer support](mention://team/1/%F0%9F%91%8D%20customer%20support), please help'
+        expected = '@👍 customer support, please help'
+        expect(helper.transform_user_mention_content(content)).to eq expected
       end
 
       it 'handles multiple mentions with emojis and spaces' do
