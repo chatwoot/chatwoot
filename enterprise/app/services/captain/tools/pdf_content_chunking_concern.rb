@@ -41,17 +41,11 @@ module Captain::Tools::PdfContentChunkingConcern
   end
 
   def process_single_paragraph(chunks, current_chunk, paragraph, max_size)
-    if paragraph.length > max_size
-      add_chunk_if_present(chunks, current_chunk)
-      chunks.concat(split_paragraph_into_chunks(paragraph, max_size))
-      [chunks, '']
-    elsif ("#{current_chunk}\n\n#{paragraph}").length > max_size
-      add_chunk_if_present(chunks, current_chunk)
-      [chunks, paragraph]
-    else
-      combined = current_chunk.blank? ? paragraph : "#{current_chunk}\n\n#{paragraph}"
-      [chunks, combined]
-    end
+    return handle_oversized_paragraph(chunks, current_chunk, paragraph, max_size) if paragraph.length > max_size
+    return handle_paragraph_overflow(chunks, current_chunk, paragraph) if paragraph_causes_overflow?(current_chunk, paragraph, max_size)
+
+    combined = combine_paragraph_content(current_chunk, paragraph)
+    [chunks, combined]
   end
 
   def finalize_chunks(chunks, current_chunk, original_content)
@@ -77,17 +71,49 @@ module Captain::Tools::PdfContentChunkingConcern
   end
 
   def process_single_sentence(chunks, current_chunk, sentence, max_size)
-    if sentence.length > max_size
-      add_chunk_if_present(chunks, current_chunk)
-      chunks << sentence[0, max_size]
-      [chunks, '']
-    elsif ("#{current_chunk} #{sentence}").length > max_size
-      add_chunk_if_present(chunks, current_chunk)
-      [chunks, sentence]
-    else
-      combined = current_chunk.blank? ? sentence : "#{current_chunk} #{sentence}"
-      [chunks, combined]
-    end
+    return handle_oversized_sentence(chunks, current_chunk, sentence, max_size) if sentence.length > max_size
+    return handle_sentence_overflow(chunks, current_chunk, sentence) if sentence_causes_overflow?(current_chunk, sentence, max_size)
+
+    combined = combine_sentence_content(current_chunk, sentence)
+    [chunks, combined]
+  end
+
+  def handle_oversized_paragraph(chunks, current_chunk, paragraph, max_size)
+    add_chunk_if_present(chunks, current_chunk)
+    chunks.concat(split_paragraph_into_chunks(paragraph, max_size))
+    [chunks, '']
+  end
+
+  def handle_paragraph_overflow(chunks, current_chunk, paragraph)
+    add_chunk_if_present(chunks, current_chunk)
+    [chunks, paragraph]
+  end
+
+  def paragraph_causes_overflow?(current_chunk, paragraph, max_size)
+    ("#{current_chunk}\n\n#{paragraph}").length > max_size
+  end
+
+  def combine_paragraph_content(current_chunk, paragraph)
+    current_chunk.blank? ? paragraph : "#{current_chunk}\n\n#{paragraph}"
+  end
+
+  def handle_oversized_sentence(chunks, current_chunk, sentence, max_size)
+    add_chunk_if_present(chunks, current_chunk)
+    chunks << sentence[0, max_size]
+    [chunks, '']
+  end
+
+  def handle_sentence_overflow(chunks, current_chunk, sentence)
+    add_chunk_if_present(chunks, current_chunk)
+    [chunks, sentence]
+  end
+
+  def sentence_causes_overflow?(current_chunk, sentence, max_size)
+    ("#{current_chunk} #{sentence}").length > max_size
+  end
+
+  def combine_sentence_content(current_chunk, sentence)
+    current_chunk.blank? ? sentence : "#{current_chunk} #{sentence}"
   end
 
   def add_chunk_if_present(chunks, chunk)
