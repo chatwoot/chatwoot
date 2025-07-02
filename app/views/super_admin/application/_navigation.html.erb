@@ -45,7 +45,7 @@ as defined by the routes in the `admin/` namespace
   <div>
     <ul class="my-4">
       <% if ChatwootApp.enterprise? %>
-      <%= render partial: "nav_item", locals: { icon: 'icon-settings-2-line', url: super_admin_settings_url, label: 'Settings' } %>
+        <%= render 'settings_menu', open: settings_open? %>
       <% end %>
       <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Sidekiq Dashboard' } %>
       <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Instance Health' } %>

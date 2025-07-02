@@ -1,0 +1,19 @@
+<li class="px-4 border-l-4 mb-1">
+  <details class="group" <%= 'open' if open %>>
+    <summary class="-ml-1 flex items-center px-2 py-1.5 cursor-pointer rounded-lg border-l-4 <%= open ? 'border-woot-500 text-woot-500 bg-slate-25' : 'border-transparent text-slate-800 hover:text-woot-500 hover:bg-slate-25' %>">
+      <svg width="16" height="16"><use xlink:href="#icon-settings-2-line" /></svg>
+      <span class="ml-2 text-sm">Settings</span>
+    </summary>
+    <ul class="ml-4 mt-1">
+      <% settings_pages.each do |_feature, attrs| %>
+        <% url = super_admin_app_config_url(config: attrs['config_key']) %>
+        <li class="px-4 border-l-4 mb-1 <%= current_page?(url) ? 'border-woot-500' : 'border-transparent' %>">
+          <% text_class = current_page?(url) ? 'text-woot-500 bg-slate-25' : 'text-slate-800' %>
+          <%= link_to url, class: text_class + ' -ml-1 flex items-center px-2 py-1.5 hover:text-woot-500 hover:bg-slate-25 rounded-lg' do %>
+            <span class="ml-2 text-sm"><%= attrs['name'] %></span>
+          <% end %>
+        </li>
+      <% end %>
+    </ul>
+  </details>
+</li>
