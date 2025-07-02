@@ -20,4 +20,5 @@ export const BUS_EVENTS = {
   ORDER_UPDATE: 'orderUpdate',
   CANCEL_ORDER: 'cancelOrder',
   REFUND_ORDER: 'refundOrder',
+  RETURN_ORDER: 'returnOrder',
 };

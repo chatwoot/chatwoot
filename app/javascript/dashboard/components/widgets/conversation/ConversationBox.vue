@@ -10,12 +10,14 @@ import { emitter } from 'shared/helpers/mitt';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CallDialog from 'dashboard/routes/dashboard/conversation/contact/CallDialog.vue';
 import ShopifyOrderRefund from './ShopifyOrderRefund.vue';
+import ShopifyOrderReturn from './ShopifyOrderReturn.vue';
 
 export default {
   components: {
     CallDialog,
     ShopifyOrderCancellation,
     ShopifyOrderRefund,
+    ShopifyOrderReturn,
     ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
@@ -48,6 +50,7 @@ export default {
       activeIndex: 0,
       showCallModal: false,
       refundOrder: null,
+      returnOrder: null,
       cancelOrder: null,
     };
   },
@@ -108,11 +111,13 @@ export default {
     this.fetchLabels();
     this.$store.dispatch('dashboardApps/get');
     emitter.on(BUS_EVENTS.REFUND_ORDER, this.setRefundOrder);
+    emitter.on(BUS_EVENTS.RETURN_ORDER, this.setReturnOrder);
     emitter.on(BUS_EVENTS.CANCEL_ORDER, this.setCancelOrder);
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
   unmounted() {
     emitter.off(BUS_EVENTS.REFUND_ORDER, this.setRefundOrder);
+    emitter.off(BUS_EVENTS.RETURN_ORDER, this.setReturnOrder);
     emitter.off(BUS_EVENTS.CANCEL_ORDER, this.setCancelOrder);
     emitter.off(BUS_EVENTS.START_CALL, this.startCall);
   },
@@ -129,6 +134,9 @@ export default {
     },
     async setRefundOrder(order) {
       this.refundOrder = order;
+    },
+    async setReturnOrder(order) {
+      this.returnOrder = order;
     },
     async setCancelOrder(order) {
       this.cancelOrder = order;
@@ -232,6 +240,10 @@ export default {
         v-if="refundOrder"
         :order="refundOrder"
       ></ShopifyOrderRefund>
+      <ShopifyOrderReturn
+        v-if="returnOrder"
+        :order="returnOrder"
+      ></ShopifyOrderReturn>
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

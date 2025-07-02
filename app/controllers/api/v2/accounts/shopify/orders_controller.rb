@@ -1,6 +1,6 @@
 class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseController
-  before_action :setup_shopify_context, only: [:show, :cancel_order, :calculate_refund, :refund_order, :order_fulfillments]
-  before_action :fetch_order, only: [:show, :cancel_order, :calculate_refund, :refund_order, :order_fulfillments]
+  before_action :setup_shopify_context, only: [:show, :cancel_order, :calculate_refund, :refund_order, :order_fulfillments, :return_calculate, :return_create]
+  before_action :fetch_order, only: [:show, :cancel_order, :calculate_refund, :refund_order, :order_fulfillments, :return_calculate, :return_create]
 
   ORDER_CANCEL_MUTATION = <<~GRAPHQL
     mutation orderCancel($notifyCustomer: Boolean, $orderId: ID!, $reason: OrderCancelReason!, $refund: Boolean!, $restock: Boolean!, $staffNote: String) {
@@ -39,6 +39,23 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
   ORDER_FULFILL_QUERY = <<~GRAPHQL
   query($id: ID!) {
       order(id: $id) {
+        returns(first: 10) {
+          nodes {
+            reverseFulfillmentOrders(first: 10) {
+              nodes {
+                lineItems(first:10) {
+                  nodes {
+                    fulfillmentLineItem {
+                      id
+                      quantity
+                    }
+                  }
+                }
+                
+              }
+            }
+          }
+        }
         suggestedRefund {
           maximumRefundableSet {
             presentmentMoney {
@@ -58,6 +75,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
           }
         }
         fulfillments(first: 100) {
+          name
           fulfillmentLineItems(first: 100) {
             nodes {
               id
@@ -77,6 +95,72 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
       }
     }
   GRAPHQL
+
+  RETURN_CREATE_QUERY=<<~GRAPHQL
+    mutation ReturnCreate($returnInput: ReturnInput!) {
+      returnCreate(returnInput: $returnInput) {
+        userErrors {
+          field
+          message
+        }
+        return {
+          id
+          order {
+            id
+          }
+        }
+      }
+    }
+  GRAPHQL
+
+  RETURN_CALCULATE_QUERY=<<~GRAPHQL
+    query($orderId: ID!, $returnLineItems: [CalculateReturnLineItemInput!], $returnShippingFee: ReturnShippingFeeInput) {
+      returnCalculate(input: {
+        orderId:$orderId, 
+        returnLineItems:$returnLineItems,
+        returnShippingFee: $returnShippingFee
+      }) {
+        id
+        returnLineItems {
+          id
+          fulfillmentLineItem {
+            id
+          }
+          quantity
+          subtotalSet {
+            shopMoney {
+              amount
+              currencyCode
+            }
+          }
+          restockingFee {
+            amountSet {
+            shopMoney {
+              amount
+              currencyCode
+            }
+            }
+          }
+          totalTaxSet {
+            shopMoney {
+              amount
+              currencyCode
+            }
+          }
+        }
+        returnShippingFee {
+          amountSet{
+            shopMoney {
+              amount
+              currencyCode
+            }
+          }
+        }
+      }
+    }
+  GRAPHQL
+
+
 
 #  ORDER_FULFILL_QUERY -> EXAMPLE RESPONSE
 #  {
@@ -296,6 +380,78 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
     end
   end
 
+  def return_calculate
+    permitted = params.permit(returnLineItems: [:fulfillmentLineItemId, :quantity, :restockingFeePercentage], returnShippingFee: [
+      :amount, :currencyCode
+    ])
+
+    return_line_items, return_shipping_fee = permitted.values_at(:returnLineItems, :returnShippingFee)
+
+    orderGid =  "gid://shopify/Order/#{@order.id}"
+
+    @shopify_service.shop.with_shopify_session do
+      # Execute the mutation using the shopify_graphql gem
+      response = ShopifyGraphql.execute(
+        RETURN_CALCULATE_QUERY,
+        orderId: orderGid,
+        returnLineItems: return_line_items&.map do |item|
+          item.merge(restockingFee: {
+              percentage: item[:restockingFeePercentage]
+          }).except(:restockingFeePercentage)
+        end,
+        returnShippingFee: {
+          amount: return_shipping_fee
+        }
+      )
+
+      render json: {refundable: deep_symbolize(response.data.returnCalculate)}
+    end
+  end
+
+  def return_create
+    permitted = params.permit(returnLineItems: [:fulfillmentLineItemId, :quantity, :restockingFeePercentage, :returnReason, :returnReasonNote], returnShippingFee: [
+      :amount, :currencyCode
+    ])
+
+    return_line_items, return_shipping_fee = permitted.values_at(:returnLineItems, :returnShippingFee)
+
+    # return render json: {errors: [{field: 'returnLineItems', message: "No return items for the return"}]}, status: :unprocessable_entity unless return_line_items.length > 0
+
+    orderGid =  "gid://shopify/Order/#{@order.id}"
+
+    payload = {
+        orderId: orderGid,
+        returnLineItems: return_line_items&.map do |item|
+          item.merge(restockingFee: {
+              percentage: item[:restockingFeePercentage]
+          }).except(:restockingFeePercentage)
+        end,
+        returnShippingFee: {
+          amount: return_shipping_fee
+        }
+    }
+
+    @shopify_service.shop.with_shopify_session do
+      # Execute the mutation using the shopify_graphql gem
+      response = ShopifyGraphql.execute(
+        RETURN_CREATE_QUERY,
+        returnInput: payload
+      )
+
+      Rails.logger.info("Return create response: #{response.data}")
+      if response.data.userErrors&.present?
+        render json: {errors: errors.map(&:to_h)}, status: :unprocessable_entity
+      else
+        render json: {refundable: deep_symbolize(response.data.returnCalculate)}
+      end
+    end
+
+  end
+
+
+
+
+
   def deep_symbolize(obj)
     case obj
     when OpenStruct
@@ -310,4 +466,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
       obj
     end
   end
+
+
+
 end

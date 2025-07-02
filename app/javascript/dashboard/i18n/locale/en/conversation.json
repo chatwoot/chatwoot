@@ -328,6 +328,34 @@
       "EDIT": {
         "BUTTON_TEXT": "Edit"
       },
+      "RETURN": {
+        "TITLE": "Return order",
+        "DESC": "You can directly return the shopify order of a customer from here",
+        "BUTTON_TEXT": "Return",
+        "TABLE": {
+          "PRODUCT": "Product",
+          "ITEM_PRICE": "Item Price",
+          "QUANTITY": "Quantity",
+          "TOTAL": "Total",
+          "RESTOCK_ITEMS": "Restock"
+        },
+        "TAX": "Tax",
+        "TOTAL": "Total",
+        "TOTAL_REFUNDABLE": "Maximum Refundable",
+        "TOTAL_AVAILABLE_REFUND": "Available refund",
+        "PROCESSING": "Processing",
+        "REFUND_REASON": "Refund Reason",
+        "API_FAILURE": "An internal error occured",
+        "API_SUCCESS": "Refund created for the order",
+        "API_TIMEOUT": "Api timeout, cancellation is taking a while",
+        "RETURN_REASON": "Return reason",
+        "Quantity": "Quantity",
+        "EXCHANGE_ITEMS": "Exchange Items",
+        "RESTOCKING_FEES": "Restocking fees",
+        "SEND_NOTIFICATION": "Send return notification to customer",
+        "SUBTOTAL": "Subtotal",
+        "SHIPPING_FEES": "Shipping fees"
+      },
       "REFUND": {
         "TITLE": "Refund order",
         "DESC": "You can directly refund the shopify order of a customer from here",

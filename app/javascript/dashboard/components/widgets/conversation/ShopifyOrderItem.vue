@@ -47,6 +47,10 @@ const emitRefundOrder = () => {
   emitter.emit(BUS_EVENTS.REFUND_ORDER, props.order);
 };
 
+const emitReturnOrder = () => {
+  emitter.emit(BUS_EVENTS.RETURN_ORDER, props.order);
+};
+
 const { t } = useI18n();
 
 const formatDate = dateString => {
@@ -148,6 +152,10 @@ const getFulfillmentClass = status => {
       </button>
       <button v-if="!isOrderInFinancialStatus(financial_statuses.refunded)" @click="emitRefundOrder">
         {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.BUTTON_TEXT') }}
+      </button>
+
+      <button v-if="!isOrderInFinancialStatus(financial_statuses.refunded)" @click="emitReturnOrder">
+        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.BUTTON_TEXT') }}
       </button>
     </div>
 

@@ -679,8 +679,6 @@ const buttonText = () => {
             >
           </div>
 
-          <!-- <CurrencyInput v-model="formState.refundAmount" :currency-symbol="currency_codes[order.currency]" /> -->
-
           <input
             type="text"
             :value="currency_codes[order.currency] + formState.refundAmount"

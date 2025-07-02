@@ -1,5 +1,5 @@
 module Shopify::IntegrationHelper
-  REQUIRED_SCOPES = %w[read_inventory read_locations read_products read_orders write_orders read_customers read_fulfillments read_returns].freeze
+  REQUIRED_SCOPES = %w[read_inventory read_locations read_products read_orders write_orders read_customers read_fulfillments read_returns write_returns].freeze
 
   # read_orders	Read order details and line items (to determine refundable items and quantities)
   # read_inventory	Read inventory items and inventory levels (to get stock and location data)

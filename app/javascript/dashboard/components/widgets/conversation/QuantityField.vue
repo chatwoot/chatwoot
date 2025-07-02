@@ -1,6 +1,6 @@
 <template>
-  <!-- <div class="w-16 mx-auto text-center"> -->
-  <div class="flex flex-col justify-center items-center h-full">
+  <div class="w-16 mx-auto text-center">
+  <!-- <div class="flex flex-col justify-center items-center h-full"> -->
     <input
       :disabled="max === 0"
       :value="modelValue"
@@ -10,7 +10,6 @@
       :max="max"
       class="leading-none"
       style="transform: translateY(8px);"
-
     />
   </div>
 </template>
