@@ -82,7 +82,7 @@ const onAgentSelect = index => {
         @click="onAgentSelect(index)"
         @mouseover="onHover(index)"
       >
-        <div class="mr-2">
+        <div class="ltr:mr-2 rtl:ml-2">
           <Avatar :src="agent.thumbnail" :name="agent.name" rounded-full />
         </div>
         <div

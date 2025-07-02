@@ -215,7 +215,7 @@ export default {
           </label>
           <p
             v-if="hasAutomationMutated"
-            class="text-xs text-right text-green-500 pt-1 dark:text-green-500"
+            class="text-xs text-right text-n-teal-10 pt-1"
           >
             {{ $t('AUTOMATION.FORM.RESET_MESSAGE') }}
           </p>
