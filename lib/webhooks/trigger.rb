@@ -30,11 +30,12 @@ class Webhooks::Trigger
     )
   end
 
-  def handle_error(error)
-    return unless should_handle_error?
-    return unless message
+  def handle_error(_error)
+    nil
+    # return unless should_handle_error?
+    # return unless message
 
-    update_message_status(error)
+    # update_message_status(error)
   end
 
   def should_handle_error?
