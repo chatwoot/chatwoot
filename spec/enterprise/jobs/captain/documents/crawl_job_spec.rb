@@ -17,7 +17,8 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
         # Make sure we have the Firecrawl config properly set
         config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')
-        config.update(value: 'test-key')
+        config.value = 'test-key'
+        config.save!
 
         # Mock simple crawl service to avoid HTTP calls if it somehow gets called
         simple_crawler = instance_double(Captain::Tools::SimplePageCrawlService)
