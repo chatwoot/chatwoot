@@ -1,20 +1,36 @@
 <script setup>
 import Button from 'dashboard/components-next/button/Button.vue';
 import { useUISettings } from 'dashboard/composables/useUISettings';
-import { computed } from 'vue';
+import { computed, defineProps } from 'vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
 const { updateUISettings } = useUISettings();
+
+const props = defineProps({
+  currentChat: {
+    required: true,
+    type: Object,
+  },
+});
 
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
   'accounts/isFeatureEnabledonAccount'
 );
 
+const channelType = computed(() => {
+  return props.currentChat?.channel || props.currentChat?.meta?.channel || '';
+});
+
 const showCopilotTab = computed(() =>
   isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
+);
+
+const showShopeeTab = computed(() =>
+  channelType.value === INBOX_TYPES.SHOPEE
 );
 
 const { uiSettings } = useUISettings();
@@ -24,11 +40,15 @@ const isContactSidebarOpen = computed(
 const isCopilotPanelOpen = computed(
   () => uiSettings.value.is_copilot_panel_open
 );
+const isShopeePanelOpen = computed(
+  () => uiSettings.value.is_shopee_panel_open
+);
 
 const toggleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: !isContactSidebarOpen.value,
     is_copilot_panel_open: false,
+    is_shopee_panel_open: false,
   });
 };
 
@@ -36,6 +56,7 @@ const handleConversationSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: true,
     is_copilot_panel_open: false,
+    is_shopee_panel_open: false,
   });
 };
 
@@ -43,6 +64,15 @@ const handleCopilotSidebarToggle = () => {
   updateUISettings({
     is_contact_sidebar_open: false,
     is_copilot_panel_open: true,
+    is_shopee_panel_open: false,
+  });
+};
+
+const handleShopeeSidebarToggle = () => {
+  updateUISettings({
+    is_contact_sidebar_open: false,
+    is_copilot_panel_open: false,
+    is_shopee_panel_open: true,
   });
 };
 
@@ -82,6 +112,19 @@ useKeyboardEvents(keyboardEvents);
       sm
       icon="i-woot-captain"
       @click="handleCopilotSidebarToggle"
+    />
+    <Button
+      v-if="showShopeeTab"
+      v-tooltip.bottom="$t('CONVERSATION.SIDEBAR.SHOPEE')"
+      ghost
+      slate
+      class="!rounded-full"
+      :class="{
+        'bg-n-alpha-2 !text-n-iris-9': isShopeePanelOpen,
+      }"
+      sm
+      icon="i-woot-shopee"
+      @click="handleShopeeSidebarToggle"
     />
   </div>
 </template>

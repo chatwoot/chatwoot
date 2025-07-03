@@ -8,12 +8,16 @@ import wootConstants from 'dashboard/constants/globals';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CmdBarConversationSnooze from 'dashboard/routes/dashboard/commands/CmdBarConversationSnooze.vue';
 import { emitter } from 'shared/helpers/mitt';
+import SidepanelSwitch from 'dashboard/components-next/Conversation/SidepanelSwitch.vue';
+import ConversationSidebar from 'dashboard/components/widgets/conversation/ConversationSidebar.vue';
 
 export default {
   components: {
     ChatList,
     ConversationBox,
     CmdBarConversationSnooze,
+    SidepanelSwitch,
+    ConversationSidebar,
   },
   beforeRouteLeave(to, from, next) {
     // Clear selected state if navigating away from a conversation to a route without a conversationId to prevent stale data issues
@@ -83,18 +87,14 @@ export default {
         this.uiSettings;
       return conversationDisplayType !== CONDENSED;
     },
-    isShopeePanelOpen() {
-      if (this.currentChat.id) {
-        const { is_shopee_sidebar_open: isShopeeSidebarOpen } = this.uiSettings;
-        return isShopeeSidebarOpen;
+
+    shouldShowSidebar() {
+      if (!this.currentChat.id) {
+        return false;
       }
-      return false;
-    },
-    showPopOverSearch() {
-      return !this.isFeatureEnabledonAccount(
-        this.accountId,
-        FEATURE_FLAGS.CHATWOOT_V4
-      );
+
+      const { is_contact_sidebar_open: isContactSidebarOpen } = this.uiSettings;
+      return isContactSidebarOpen;
     },
   },
   watch: {
@@ -184,16 +184,6 @@ export default {
         this.$store.dispatch('clearSelectedState');
       }
     },
-    onToggleContactPanel() {
-      this.updateUISettings({
-        is_contact_sidebar_open: !this.isContactPanelOpen,
-      });
-    },
-    onToggleShopeePanel() {
-      this.updateUISettings({
-        is_shopee_sidebar_open: !this.isShopeePanelOpen,
-      });
-    },
     onSearch() {
       this.showSearchModal = true;
     },
@@ -219,12 +209,11 @@ export default {
     <ConversationBox
       v-if="showMessageView"
       :inbox-id="inboxId"
-      :is-contact-panel-open="isContactPanelOpen"
-      :is-shopee-panel-open="isShopeePanelOpen"
       :is-on-expanded-layout="isOnExpandedLayout"
-      @contact-panel-toggle="onToggleContactPanel"
-      @shopee-panel-toggle="onToggleShopeePanel"
-    />
+    >
+      <SidepanelSwitch v-if="currentChat.id" :current-chat="currentChat" />
+    </ConversationBox>
+    <ConversationSidebar v-if="shouldShowSidebar" :current-chat="currentChat" />
     <CmdBarConversationSnooze />
   </section>
 </template>

@@ -5,6 +5,8 @@ const {
   greenDark,
   yellow,
   yellowDark,
+  orange,
+  orangeDark,
   slate,
   slateDark,
   red,
@@ -101,6 +103,18 @@ export const colors = {
     700: violetDark.violet7,
     800: violetDark.violet6,
     900: violet.violet12,
+  },
+  orange: {
+    50: orangeDark.orange12,
+    100: orange.orange6,
+    200: orange.orange7,
+    300: orange.orange8,
+    400: orangeDark.orange10,
+    500: orangeDark.orange9,
+    600: orange.orange10,
+    700: orange.orange11,
+    800: orangeDark.orange7,
+    900: orangeDark.orange6,
   },
 
   // next design system color

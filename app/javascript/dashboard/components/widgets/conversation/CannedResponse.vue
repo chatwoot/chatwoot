@@ -301,7 +301,7 @@ export default {
   @apply dark:bg-slate-800 dark:text-white dark:border-slate-600;
 
   &:focus {
-    @apply border-primary-500 ring-1 ring-primary-500 dark:border-primary-400 dark:ring-primary-400;
+    @apply border-woot-500 ring-1 ring-woot-500 dark:border-woot-400 dark:ring-woot-400;
   }
 }
 </style>

@@ -8,7 +8,6 @@ import MessagesView from './MessagesView.vue';
 export default {
   components: {
     ConversationHeader,
-    ConversationSidebar,
     DashboardAppFrame,
     EmptyState,
     MessagesView,

@@ -1,80 +1,99 @@
 <script setup>
+import { ref, computed } from 'vue';
+import { useStore } from 'vuex';
+import { useI18n } from 'vue-i18n';
+
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import SidebarActionsHeader from 'dashboard/components-next/SidebarActionsHeader.vue';
 import TabBar from 'dashboard/components-next/tabbar/TabBar.vue';
 import ShopeeOrders from './Shopee/Orders.vue';
 import ShopeeVouchers from './Shopee/Vouchers.vue';
 import ShopeeProducts from './Shopee/Products.vue';
-</script>
+import { useUISettings } from 'dashboard/composables/useUISettings';
 
-<script>
-export default {
-  name: 'ShopeeContainer',
-  components: {
-    TabBar,
-    ShopeeOrders,
-    ShopeeVouchers,
-    ShopeeProducts,
+const store = useStore();
+const { t } = useI18n();
+const { uiSettings, updateUISettings } = useUISettings();
+
+const currentChat = computed(() => store.getters['getSelectedChat']);
+const activeTabIndex = ref(0);
+const activeTabValue = ref('VOUCHER');
+
+const availableTabs = ref([
+  {
+    value: 'VOUCHER',
+    label: t('CONVERSATION.SHOPEE.TABS.VOUCHER'),
+    count: 0,
   },
-  props: {
-    currentChat: {
-      required: true,
-      type: Object,
-    },
+  {
+    value: 'ORDER',
+    label: t('CONVERSATION.SHOPEE.TABS.ORDER'),
+    count: 0,
   },
-  data() {
-    return {
-      activeTabIndex: 0,
-      activeTabValue: 'VOUCHER',
-      availableTabs: [
-        {
-          value: 'VOUCHER',
-          label: this.$t('CONVERSATION.SHOPEE.TABS.VOUCHER'),
-          count: 0,
-        },
-        {
-          value: 'ORDER',
-          label: this.$t('CONVERSATION.SHOPEE.TABS.ORDER'),
-          count: 0,
-        },
-        {
-          value: 'PRODUCT',
-          label: this.$t('CONVERSATION.SHOPEE.TABS.PRODUCT'),
-          count: 0,
-        },
-      ],
-    };
+  {
+    value: 'PRODUCT',
+    label: t('CONVERSATION.SHOPEE.TABS.PRODUCT'),
+    count: 0,
   },
-  methods: {
-    handleTabChange(selectedTab) {
-      this.activeTabValue = selectedTab.value;
-      this.activeTabIndex = this.availableTabs.indexOf(selectedTab);
-    },
-  },
+]);
+
+const handleTabChange = (selectedTab) => {
+  activeTabValue.value = selectedTab.value;
+  activeTabIndex.value = availableTabs.value.findIndex(tab => tab.value === selectedTab.value);
 };
+
+const closeShopeePanel = () => {
+  updateUISettings({
+    is_copilot_panel_open: false,
+    is_contact_sidebar_open: false,
+    is_shopee_panel_open: false,
+  });
+};
+
+const channelType = computed(() => {
+  return currentChat.value?.channel || currentChat.value?.meta?.channel || '';
+});
+
+const shouldShowShopeePanel = computed(() => {
+  const isShopeePanelOpen = uiSettings.value?.is_shopee_panel_open;
+  return isShopeePanelOpen && channelType.value === INBOX_TYPES.SHOPEE;
+});
 </script>
 
 <template>
-  <div class="flex flex-col h-full">
-    <div id="shopee-tabs" class="flex-1">
-      <TabBar
-        class="bg-white"
-        :tabs="availableTabs"
-        :initial-active-tab="activeTabIndex"
-        @tab-changed="handleTabChange"
+  <div
+    v-if="shouldShowShopeePanel"
+    class="ltr:border-l rtl:border-r border-n-weak h-full overflow-hidden z-10 w-[320px] min-w-[320px] 2xl:min-w-[360px] 2xl:w-[360px] flex flex-col bg-n-background"
+  >
+    <div
+      class="flex flex-col h-full"
+    >
+      <SidebarActionsHeader
+        :title="$t('CONVERSATION.SIDEBAR.SHOPEE')"
+        @close="closeShopeePanel"
       />
-    </div>
-    <div class="flex-auto overflow-y-auto h-full w-full">
-      <ShopeeVouchers
-        v-if="activeTabValue === 'VOUCHER'"
-        :current-chat="currentChat"
-      />
-      <ShopeeOrders
-        v-if="activeTabValue === 'ORDER'"
-        :current-chat="currentChat"
-      />
-      <ShopeeProducts
-        v-if="activeTabValue === 'PRODUCT'"
-        :current-chat="currentChat"
-      />
+      <div id="shopee-tabs" class="flex-1">
+        <TabBar
+          class="bg-white"
+          :tabs="availableTabs"
+          :initial-active-tab="activeTabIndex"
+          @tab-changed="handleTabChange"
+        />
+      </div>
+      <div class="flex-auto overflow-y-auto h-full w-full">
+        <ShopeeVouchers
+          v-if="activeTabValue === 'VOUCHER'"
+          :current-chat="currentChat"
+        />
+        <ShopeeOrders
+          v-if="activeTabValue === 'ORDER'"
+          :current-chat="currentChat"
+        />
+        <ShopeeProducts
+          v-if="activeTabValue === 'PRODUCT'"
+          :current-chat="currentChat"
+        />
+      </div>
     </div>
   </div>
 </template>

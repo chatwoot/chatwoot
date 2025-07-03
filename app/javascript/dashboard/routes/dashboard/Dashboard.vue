@@ -17,6 +17,7 @@ const CommandBar = defineAsyncComponent(
 
 import CopilotLauncher from 'dashboard/components-next/copilot/CopilotLauncher.vue';
 import CopilotContainer from 'dashboard/components/copilot/CopilotContainer.vue';
+import ShopeeContainer from 'dashboard/components/widgets/conversation/ShopeeContainer.vue';
 
 export default {
   components: {
@@ -27,6 +28,7 @@ export default {
     UpgradePage,
     CopilotLauncher,
     CopilotContainer,
+    ShopeeContainer,
   },
   setup() {
     const upgradePageRef = ref(null);
@@ -153,6 +155,7 @@ export default {
         <CommandBar />
         <CopilotLauncher />
         <CopilotContainer />
+        <ShopeeContainer />
       </template>
       <AddAccountModal
         :show="showCreateAccountModal"
