@@ -10,7 +10,10 @@ RSpec.describe Captain::Tools::FirecrawlService do
     config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_FIRECRAWL_API_KEY') do |config|
       config.value = api_key
     end
-    config.update(value: api_key) if config.value != api_key
+    if config.value != api_key
+      config.value = api_key
+      config.save!
+    end
   end
 
   describe '#initialize' do
@@ -32,7 +35,9 @@ RSpec.describe Captain::Tools::FirecrawlService do
 
     context 'when API key is nil' do
       before do
-        InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY').update(value: nil)
+        config = InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')
+        config.value = nil
+        config.save!
       end
 
       it 'raises an error' do
@@ -42,7 +47,9 @@ RSpec.describe Captain::Tools::FirecrawlService do
 
     context 'when API key is empty' do
       before do
-        InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY').update(value: '')
+        config = InstallationConfig.find_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')
+        config.value = ''
+        config.save!
       end
 
       it 'raises an error' do

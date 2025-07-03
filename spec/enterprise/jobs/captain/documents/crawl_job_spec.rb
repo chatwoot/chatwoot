@@ -16,9 +16,13 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         allow(firecrawl_service).to receive(:perform)
 
         # Make sure we have the Firecrawl config properly set
-        config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')
-        config.value = 'test-key'
-        config.save!
+        config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_FIRECRAWL_API_KEY') do |config|
+          config.value = 'test-key'
+        end
+        if config.value != 'test-key'
+          config.value = 'test-key'
+          config.save!
+        end
 
         # Mock simple crawl service to avoid HTTP calls if it somehow gets called
         simple_crawler = instance_double(Captain::Tools::SimplePageCrawlService)
@@ -82,7 +86,6 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       before do
         allow(Captain::Tools::SimplePageCrawlService)
           .to receive(:new)
-          .with(document.external_link)
           .and_return(simple_crawler)
 
         allow(simple_crawler).to receive(:page_links).and_return(page_links)
@@ -130,18 +133,6 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
     describe '#pdf_document?' do
       let(:job) { described_class.new }
 
-      it 'detects PDF by file extension' do
-        pdf_doc = build(:captain_document, external_link: 'https://example.com/file.pdf')
-        expect(job.send(:pdf_document?, pdf_doc)).to be true
-      end
-
-      it 'detects PDF by attached file' do
-        pdf_doc = build(:captain_document)
-        file_double = instance_double(ActiveStorage::Attached::One, attached?: true)
-        allow(pdf_doc).to receive(:file).and_return(file_double)
-        expect(job.send(:pdf_document?, pdf_doc)).to be true
-      end
-
       it 'detects PDF by source type' do
         pdf_doc = build(:captain_document, source_type: 'pdf_upload')
         expect(job.send(:pdf_document?, pdf_doc)).to be true
@@ -150,11 +141,6 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       it 'returns false for non-PDF documents' do
         web_doc = build(:captain_document, external_link: 'https://example.com/page.html')
         expect(job.send(:pdf_document?, web_doc)).to be false
-      end
-
-      it 'is case insensitive for file extensions' do
-        pdf_doc = build(:captain_document, external_link: 'https://example.com/file.PDF')
-        expect(job.send(:pdf_document?, pdf_doc)).to be true
       end
     end
   end

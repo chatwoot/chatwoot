@@ -39,12 +39,19 @@ RSpec.describe Account, type: :model do
     let(:assistant) { create(:captain_assistant, account: account) }
 
     before do
-      create(:installation_config, name: 'ACCOUNT_AGENTS_LIMIT', value: 20)
+      config = InstallationConfig.find_or_create_by(name: 'ACCOUNT_AGENTS_LIMIT') do |config|
+        config.value = 20
+      end
+      if config.value != 20
+        config.value = 20
+        config.save!
+      end
     end
 
     describe 'when captain limits are configured' do
       before do
         create_list(:captain_document, 3, account: account, assistant: assistant, status: :available)
+        InstallationConfig.where(name: 'CAPTAIN_CLOUD_PLAN_LIMITS').destroy_all
         create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
       end
 
@@ -131,6 +138,7 @@ RSpec.describe Account, type: :model do
 
     describe 'when limits are configured for an account' do
       before do
+        InstallationConfig.where(name: 'CAPTAIN_CLOUD_PLAN_LIMITS').destroy_all
         create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
         account.update(limits: { captain_documents: 5555, captain_responses: 9999 })
       end
@@ -175,7 +183,9 @@ RSpec.describe Account, type: :model do
 
     it 'returns max limits from app limit if account limit and installation config is absent' do
       account.update(limits: { agents: '' })
-      InstallationConfig.where(name: 'ACCOUNT_AGENTS_LIMIT').update(value: '')
+      config = InstallationConfig.find_by(name: 'ACCOUNT_AGENTS_LIMIT')
+      config.value = '' if config
+      config&.save!
 
       expect(account.usage_limits[:agents]).to eq(ChatwootApp.max_limit)
     end
@@ -191,7 +201,13 @@ RSpec.describe Account, type: :model do
     end
 
     before do
-      InstallationConfig.where(name: 'CHATWOOT_CLOUD_PLAN_FEATURES').first_or_create(value: plan_features)
+      config = InstallationConfig.find_or_create_by(name: 'CHATWOOT_CLOUD_PLAN_FEATURES') do |config|
+        config.value = plan_features
+      end
+      if config.value != plan_features
+        config.value = plan_features
+        config.save!
+      end
     end
 
     context 'when plan_name is hacker' do

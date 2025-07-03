@@ -225,8 +225,9 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
           account.update_document_usage
 
           # Now set up the limits configuration
-          config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_CLOUD_PLAN_LIMITS')
-          config.update!(value: captain_limits.to_json)
+          # First delete any existing config to avoid conflicts
+          InstallationConfig.where(name: 'CAPTAIN_CLOUD_PLAN_LIMITS').destroy_all
+          create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
 
           account.reload  # Reload to ensure changes are reflected
 

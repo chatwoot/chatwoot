@@ -108,9 +108,22 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
     context 'when limits are exceeded' do
       before do
-        allow(account).to receive(:usage_limits).and_return(
-          captain: { documents: { current_available: 0 } }
-        )
+        # Set up account limits configuration to exceed limits
+        captain_limits = {
+          'startups' => {
+            'captain_documents' => 1,
+            'captain_responses' => 100
+          }
+        }
+
+        # First delete any existing config to avoid conflicts
+        InstallationConfig.where(name: 'CAPTAIN_CLOUD_PLAN_LIMITS').destroy_all
+        create(:installation_config, name: 'CAPTAIN_CLOUD_PLAN_LIMITS', value: captain_limits.to_json)
+
+        # Create more documents than the limit to exceed it
+        create_list(:captain_document, 5, assistant: assistant, account: account, status: :available)
+        account.update_document_usage
+        account.reload
       end
 
       it 'does not process content when limit exceeded' do
