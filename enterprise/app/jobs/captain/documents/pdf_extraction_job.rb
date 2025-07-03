@@ -4,22 +4,32 @@ class Captain::Documents::PdfExtractionJob < ApplicationJob
   def perform(document)
     return unless document.pdf_document?
 
-    document.update(status: 'in_progress')
-
-    pdf_source = document.file.attached? ? document.file : document.external_link
-    pdf_extraction_service = Captain::Tools::PdfExtractionService.new(pdf_source)
-    result = pdf_extraction_service.perform
-
-    if result[:success] && result[:content].present?
-      process_pdf_content_chunks(document, result[:content])
-    else
-      handle_pdf_extraction_failure(document, result)
-    end
+    initialize_document_processing(document)
+    result = extract_pdf_content(document)
+    process_extraction_result(document, result)
   rescue Captain::Tools::PdfExtractionService::ExtractionError => e
     handle_pdf_extraction_error(document, e)
   end
 
   private
+
+  def initialize_document_processing(document)
+    document.update(status: 'in_progress')
+  end
+
+  def extract_pdf_content(document)
+    pdf_source = document.file.attached? ? document.file : document.external_link
+    pdf_extraction_service = Captain::Tools::PdfExtractionService.new(pdf_source)
+    pdf_extraction_service.perform
+  end
+
+  def process_extraction_result(document, result)
+    if result[:success] && result[:content].present?
+      process_pdf_content_chunks(document, result[:content])
+    else
+      handle_pdf_extraction_failure(document, result)
+    end
+  end
 
   def process_pdf_content_chunks(document, content_chunks)
     Rails.logger.info "PDF extraction successful for document #{document.id}: #{content_chunks.length} chunks will be processed"

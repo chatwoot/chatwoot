@@ -3,12 +3,10 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
 
   def perform(assistant_id:, pdf_content:, document_id: nil)
     assistant = Captain::Assistant.find(assistant_id)
-    content = pdf_content[:content]
-
-    return if content.blank? || limit_exceeded?(assistant.account)
+    return unless should_process_content?(pdf_content[:content], assistant.account)
 
     document = create_document(assistant, pdf_content, document_id)
-    Captain::Documents::ResponseBuilderJob.perform_later(document) if document
+    enqueue_response_builder_job(document)
   rescue ActiveRecord::RecordNotFound => e
     Rails.logger.error "PDF parser job failed - Assistant not found: #{e.message}"
   rescue ActiveRecord::RecordInvalid => e
@@ -67,6 +65,14 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
     else
       "pdf_chunk_#{SecureRandom.hex(8)}_page_#{page}_chunk_#{chunk}"
     end
+  end
+
+  def should_process_content?(content, account)
+    content.present? && !limit_exceeded?(account)
+  end
+
+  def enqueue_response_builder_job(document)
+    Captain::Documents::ResponseBuilderJob.perform_later(document) if document
   end
 
   def limit_exceeded?(account)

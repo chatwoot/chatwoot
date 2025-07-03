@@ -52,12 +52,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def message_content(message)
     return message.content if message.content.present?
+
+    handle_message_without_content(message)
+  end
+
+  def handle_message_without_content(message)
     return 'User has shared a message without content' unless message.attachments.any?
 
     audio_transcriptions = extract_audio_transcriptions(message.attachments)
-    return audio_transcriptions if audio_transcriptions.present?
-
-    'User has shared an attachment'
+    audio_transcriptions.presence || 'User has shared an attachment'
   end
 
   def extract_audio_transcriptions(attachments)

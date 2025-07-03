@@ -20,11 +20,27 @@ module Captain::Tools::PdfValidationConcern
   end
 
   def validate_url_format
-    uri = URI.parse(pdf_source)
-    raise StandardError, 'Invalid URL scheme' unless %w[http https].include?(uri.scheme)
-    raise StandardError, 'URL too long' if pdf_source.length > 2000
+    uri = parse_and_validate_uri
+    validate_url_scheme(uri)
+    validate_url_length
+  end
+
+  def parse_and_validate_uri
+    URI.parse(pdf_source)
   rescue URI::InvalidURIError
     raise StandardError, 'Malformed URL'
+  end
+
+  def validate_url_scheme(uri)
+    return if %w[http https].include?(uri.scheme)
+
+    raise StandardError, 'Invalid URL scheme'
+  end
+
+  def validate_url_length
+    return if pdf_source.length <= 2000
+
+    raise StandardError, 'URL too long'
   end
 
   def validate_file_type_and_size
