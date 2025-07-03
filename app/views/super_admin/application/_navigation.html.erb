@@ -39,14 +39,15 @@ as defined by the routes in the `admin/` namespace
             label: display_resource_name(resource),
           }
         %>
+
+      <% end %>
+      <% if ChatwootApp.enterprise? %>
+        <%= render 'settings_menu', open: settings_open? %>
       <% end %>
     </ul>
   </div>
   <div>
     <ul class="my-4">
-      <% if ChatwootApp.enterprise? %>
-        <%= render 'settings_menu', open: settings_open? %>
-      <% end %>
       <%= render partial: "nav_item", locals: { icon: 'icon-mist-fill', url: sidekiq_web_url, label: 'Sidekiq Dashboard' } %>
       <%= render partial: "nav_item", locals: { icon: 'icon-health-book-line', url: super_admin_instance_status_url, label: 'Instance Health' } %>
       <%= render partial: "nav_item", locals: { icon: 'icon-dashboard-line', url: '/', label: 'Agent Dashboard' } %>

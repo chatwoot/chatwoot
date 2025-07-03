@@ -4,8 +4,13 @@ module SuperAdmin::NavigationHelper
   end
 
   def settings_pages
-    SuperAdmin::FeaturesHelper.available_features.select do |_feature, attrs|
-      attrs['config_key'].present?
+    features = SuperAdmin::FeaturesHelper.available_features.select do |_feature, attrs|
+      attrs['config_key'].present? && attrs['enabled']
     end
+
+    # Add general at the beginning
+    general_feature = [['general', { 'config_key' => 'general', 'name' => 'General' }]]
+
+    general_feature + features.to_a
   end
 end
