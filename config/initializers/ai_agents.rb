@@ -17,7 +17,7 @@ if defined?(Agents)
       Agents.configure do |config|
         config.openai_api_key = api_key
         config.default_model = model
-        config.debug = true
+        config.debug = false
       end
     end
   rescue StandardError => e
