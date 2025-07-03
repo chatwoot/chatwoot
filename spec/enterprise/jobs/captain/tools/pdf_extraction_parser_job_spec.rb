@@ -42,7 +42,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
         expect(Captain::Documents::ResponseBuilderJob)
           .to receive(:perform_later)
-          .with(main_document, expected_content, skip_reset: true)
+          .with(main_document, expected_content)
 
         described_class.new.perform(
           assistant_id: assistant.id,
@@ -58,7 +58,7 @@ RSpec.describe Captain::Tools::PdfExtractionParserJob, type: :job do
 
         expect(Captain::Documents::ResponseBuilderJob)
           .to receive(:perform_later)
-          .with(main_document, expected_content, skip_reset: true)
+          .with(main_document, expected_content)
 
         described_class.new.perform(
           assistant_id: assistant.id,

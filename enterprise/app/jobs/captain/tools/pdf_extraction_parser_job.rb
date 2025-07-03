@@ -3,11 +3,9 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
 
   def perform(assistant_id:, pdf_content:, document_id: nil)
     assistant = Captain::Assistant.find(assistant_id)
-    return unless should_process_content?(pdf_content[:content], assistant.account)
+    main_document = find_main_document(document_id)
 
-    # Find the main document instead of creating a new one
-    main_document = Captain::Document.find(document_id) if document_id
-    return unless main_document
+    return unless can_process_content?(pdf_content[:content], assistant.account, main_document)
 
     enqueue_response_builder_job_for_chunk(main_document, pdf_content)
   rescue ActiveRecord::RecordNotFound => e
@@ -17,6 +15,16 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
   end
 
   private
+
+  def find_main_document(document_id)
+    return unless document_id
+
+    Captain::Document.find(document_id)
+  end
+
+  def can_process_content?(content, account, main_document)
+    main_document && should_process_content?(content, account)
+  end
 
   def enqueue_response_builder_job_for_chunk(main_document, pdf_content)
     # Create a context string for better AI processing that includes page info
@@ -29,7 +37,7 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
     # Use the ResponseBuilderJob with full_content parameter to generate FAQs
     # This will link all FAQs to the main document while using the chunk content for AI processing
     # Skip reset since it's already done in the main PDF extraction job
-    Captain::Documents::ResponseBuilderJob.perform_later(main_document, context_content, skip_reset: true)
+    Captain::Documents::ResponseBuilderJob.perform_later(main_document, context_content)
   end
 
   def should_process_content?(content, account)
