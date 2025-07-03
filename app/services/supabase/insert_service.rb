@@ -1,5 +1,5 @@
 class Supabase::InsertService < Supabase::BaseService
-  base_uri 'https://botcngjjmtyolxzxlbho.supabase.co/rest/v1'
+  base_uri "#{ENV.fetch('SUPABASE_URL', nil)}/rest/v1"
 
   def perform(table_name, data)
     insert(table_name, data)
