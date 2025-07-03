@@ -3,76 +3,45 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
 
   def perform(assistant_id:, pdf_content:, document_id: nil)
     assistant = Captain::Assistant.find(assistant_id)
-    return unless should_process_content?(pdf_content[:content], assistant.account)
+    main_document = find_main_document(document_id)
 
-    document = create_document(assistant, pdf_content, document_id)
-    enqueue_response_builder_job(document)
+    return unless can_process_content?(pdf_content[:content], assistant.account, main_document)
+
+    enqueue_response_builder_job_for_chunk(main_document, pdf_content)
   rescue ActiveRecord::RecordNotFound => e
-    Rails.logger.error "PDF parser job failed - Assistant not found: #{e.message}"
-  rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "PDF parser job failed - Invalid document data: #{e.message}"
+    Rails.logger.error "PDF parser job failed - Document not found: #{e.message}"
   rescue Captain::Document::LimitExceededError => e
     Rails.logger.info "PDF parser job stopped - Document limit exceeded: #{e.message}"
   end
 
   private
 
-  def create_document(assistant, pdf_content, document_id)
-    Captain::Document.create!(
-      assistant: assistant,
-      account: assistant.account,
-      content: pdf_content[:content],
-      name: generate_title(pdf_content),
-      external_link: generate_link(document_id, pdf_content),
-      status: 'available',
-      source_type: 'pdf_upload'
-    )
-  rescue Captain::Document::LimitExceededError
-    Rails.logger.info "Document limit exceeded for account #{assistant.account.id}"
-    nil
+  def find_main_document(document_id)
+    return unless document_id
+
+    Captain::Document.find(document_id)
   end
 
-  def generate_title(pdf_content)
-    base_title = extract_base_title(pdf_content[:content])
-    title_with_page_info = add_page_information(base_title, pdf_content)
-    title_with_page_info.truncate(255)
+  def can_process_content?(content, account, main_document)
+    main_document && should_process_content?(content, account)
   end
 
-  def extract_base_title(content)
-    first_line = content.split("\n").first&.strip || ''
-    return 'PDF Content' if first_line.length > 50 || first_line.blank?
+  def enqueue_response_builder_job_for_chunk(main_document, pdf_content)
+    # Create a context string for better AI processing that includes page info
+    page_info = pdf_content[:page_number] ? " (Page #{pdf_content[:page_number]})" : ''
+    chunk_info = pdf_content[:chunk_index] ? " Part #{pdf_content[:chunk_index]}" : ''
 
-    first_line
-  end
+    # Combine main document content with chunk content for comprehensive FAQ generation
+    context_content = "#{main_document.content}\n\n--- Additional Content#{page_info}#{chunk_info} ---\n#{pdf_content[:content]}"
 
-  def add_page_information(base_title, pdf_content)
-    page = pdf_content[:page_number]
-    chunk = pdf_content[:chunk_index]
-    total = pdf_content[:total_chunks]
-
-    return "#{base_title} (Page #{page}, Part #{chunk}/#{total})" if total && total > 1
-    return "#{base_title} (Page #{page})" if page && page > 1
-
-    base_title
-  end
-
-  def generate_link(document_id, pdf_content)
-    page = pdf_content[:page_number]
-    chunk = pdf_content[:chunk_index]
-
-    if document_id
-      "pdf_chunk_#{document_id}_page_#{page}_chunk_#{chunk}"
-    else
-      "pdf_chunk_#{SecureRandom.hex(8)}_page_#{page}_chunk_#{chunk}"
-    end
+    # Use the ResponseBuilderJob with full_content parameter to generate FAQs
+    # This will link all FAQs to the main document while using the chunk content for AI processing
+    # Skip reset since it's already done in the main PDF extraction job
+    Captain::Documents::ResponseBuilderJob.perform_later(main_document, context_content)
   end
 
   def should_process_content?(content, account)
     content.present? && !limit_exceeded?(account)
-  end
-
-  def enqueue_response_builder_job(document)
-    Captain::Documents::ResponseBuilderJob.perform_later(document) if document
   end
 
   def limit_exceeded?(account)

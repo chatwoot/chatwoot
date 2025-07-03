@@ -7,7 +7,10 @@ RSpec.describe Captain::Tools::FirecrawlService do
   let(:crawl_limit) { 15 }
 
   before do
-    create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: api_key)
+    config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_FIRECRAWL_API_KEY') do |config|
+      config.value = api_key
+    end
+    config.update(value: api_key) if config.value != api_key
   end
 
   describe '#initialize' do
@@ -33,7 +36,7 @@ RSpec.describe Captain::Tools::FirecrawlService do
       end
 
       it 'raises an error' do
-        expect { described_class.new }.to raise_error(NoMethodError)
+        expect { described_class.new }.to raise_error('Missing API key')
       end
     end
 

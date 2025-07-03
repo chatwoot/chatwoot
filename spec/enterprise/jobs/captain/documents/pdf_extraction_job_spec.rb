@@ -32,7 +32,6 @@ RSpec.describe Captain::Documents::PdfExtractionJob, type: :job do
         allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
 
         expect(document).to receive(:update).with(status: 'in_progress').once
-        expect(document).to receive(:update).with(status: 'in_progress', processed_at: nil).once
         described_class.perform_now(document)
       end
 
@@ -71,7 +70,27 @@ RSpec.describe Captain::Documents::PdfExtractionJob, type: :job do
           allow(pdf_service).to receive(:perform).and_return({ success: true, content: pdf_content })
         end
 
+        it 'updates document with first page content only' do
+          expect(document).to receive(:update!).with(
+            content: 'PDF page 1 content',
+            status: 'available'
+          )
+
+          described_class.perform_now(document)
+        end
+
+        it 'resets previous responses once at the beginning' do
+          allow(document).to receive(:update!)
+          allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
+
+          expect(document.responses).to receive(:destroy_all).once
+
+          described_class.perform_now(document)
+        end
+
         it 'enqueues PdfExtractionParserJob for each content chunk' do
+          allow(document).to receive(:update!)
+
           pdf_content.each do |chunk|
             expect(Captain::Tools::PdfExtractionParserJob)
               .to receive(:perform_later)
@@ -85,16 +104,16 @@ RSpec.describe Captain::Documents::PdfExtractionJob, type: :job do
           described_class.perform_now(document)
         end
 
-        it 'updates document status and processed_at' do
+        it 'updates document status to in_progress initially' do
+          allow(document).to receive(:update!)
           allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
 
           expect(document).to receive(:update).with(status: 'in_progress').once
-          expect(document).to receive(:update).with(status: 'in_progress', processed_at: nil).once
-
           described_class.perform_now(document)
         end
 
         it 'logs successful extraction' do
+          allow(document).to receive(:update!)
           allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
 
           expect(Rails.logger).to receive(:info).with(/PDF extraction successful/).at_least(:once)

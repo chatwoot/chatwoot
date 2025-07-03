@@ -14,25 +14,12 @@ class Captain::Documents::CrawlJob < ApplicationJob
   def pdf_document?(document)
     return false if document.nil?
 
-    pdf_by_metadata?(document) || pdf_by_url?(document)
+    document.source_type == 'pdf_upload'
   end
 
   private
 
   include Captain::FirecrawlHelper
-
-  def pdf_by_metadata?(document)
-    document.source_type == 'pdf_upload' || document.file.attached?
-  end
-
-  def pdf_by_url?(document)
-    return false if document.external_link.blank?
-
-    url = document.external_link.downcase
-    url.end_with?('.pdf') ||
-      url.include?('/rails/active_storage/blobs/') ||
-      (url.include?('blob') && url.include?('pdf'))
-  end
 
   def perform_simple_crawl(document)
     page_links = Captain::Tools::SimplePageCrawlService.new(document.external_link).page_links

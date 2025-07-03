@@ -34,12 +34,22 @@ class Captain::Documents::PdfExtractionJob < ApplicationJob
   def process_pdf_content_chunks(document, content_chunks)
     Rails.logger.info "PDF extraction successful for document #{document.id}: #{content_chunks.length} chunks will be processed"
 
+    # Update main document with first page content only
+    first_page_content = content_chunks.first&.dig(:content) || ''
+    document.update!(
+      content: first_page_content,
+      status: 'available'
+    )
+
+    # Reset previous responses once at the beginning to avoid race conditions
+    document.responses.destroy_all
+
+    # Process each chunk separately but link FAQs to main document
     content_chunks.each_with_index do |content_chunk, index|
       log_chunk_queueing(document, content_chunk, index, content_chunks.length)
       queue_pdf_chunk_job(document, content_chunk)
     end
 
-    document.update(status: 'in_progress', processed_at: nil)
     Rails.logger.info "All #{content_chunks.length} chunks queued for processing for document #{document.id}"
   end
 

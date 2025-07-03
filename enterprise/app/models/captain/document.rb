@@ -4,12 +4,8 @@
 #
 #  id            :bigint           not null, primary key
 #  content       :text
-#  content_type  :string
-#  document_type :integer          default(0), not null
 #  external_link :string           not null
-#  file_size     :integer
 #  name          :string
-#  processed_at  :datetime
 #  source_type   :string           default("url")
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
@@ -22,8 +18,6 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
-#  index_captain_documents_on_content_type                    (content_type)
-#  index_captain_documents_on_document_type                   (document_type)
 #  index_captain_documents_on_source_type                     (source_type)
 #  index_captain_documents_on_status                          (status)
 #
@@ -59,7 +53,7 @@ class Captain::Document < ApplicationRecord
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
 
   def pdf_document?
-    source_type == 'pdf_upload' || file.attached? || pdf_url_format?
+    source_type == 'pdf_upload' || file.attached?
   end
 
   private
@@ -94,17 +88,10 @@ class Captain::Document < ApplicationRecord
   def set_default_source_type
     return if source_type.present?
 
-    self.source_type = if file.attached? || pdf_url_format?
+    self.source_type = if file.attached?
                          'pdf_upload'
                        else
                          'url'
                        end
-  end
-
-  def pdf_url_format?
-    return false if external_link.blank?
-
-    url = external_link.downcase
-    url.end_with?('.pdf') || url.include?('/rails/active_storage/blobs/')
   end
 end
