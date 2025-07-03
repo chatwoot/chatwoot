@@ -16,6 +16,13 @@ export default {
     ...mapGetters({
       customAttributes: 'attributes/getAttributes',
     }),
+    sanitizedSearchKey() {
+      // Remove braces, commas, and whitespace for accurate matching
+      return this.searchKey
+        .replace(/[{}]/g, '') // remove all curly braces
+        .replace(/,/g, '') // remove commas
+        .trim();
+    },
     items() {
       return [
         ...this.standardAttributeVariables,
@@ -25,8 +32,8 @@ export default {
     standardAttributeVariables() {
       return MESSAGE_VARIABLES.filter(variable => {
         return (
-          variable.label.includes(this.searchKey) ||
-          variable.key.includes(this.searchKey)
+          variable.label.includes(this.sanitizedSearchKey) ||
+          variable.key.includes(this.sanitizedSearchKey)
         );
       }).map(variable => ({
         label: variable.key,
