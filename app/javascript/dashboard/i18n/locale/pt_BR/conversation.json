@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agentes",
+      "TEAMS": "Times"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Adiar até",
       "APPLY": "Adiar",
