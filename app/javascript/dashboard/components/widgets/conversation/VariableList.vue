@@ -1,6 +1,7 @@
 <script>
 import { mapGetters } from 'vuex';
 import { MESSAGE_VARIABLES } from 'shared/constants/messages';
+import { sanitizeVariableSearchKey } from 'dashboard/helper/commons';
 import MentionBox from '../mentions/MentionBox.vue';
 
 export default {
@@ -17,11 +18,7 @@ export default {
       customAttributes: 'attributes/getAttributes',
     }),
     sanitizedSearchKey() {
-      // Remove braces, commas, and whitespace for accurate matching
-      return this.searchKey
-        .replace(/[{}]/g, '') // remove all curly braces
-        .replace(/,/g, '') // remove commas
-        .trim();
+      return sanitizeVariableSearchKey(this.searchKey);
     },
     items() {
       return [
