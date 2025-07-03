@@ -49,22 +49,39 @@ module Billing
       Rails.logger.info '---[SYNC ACCOUNT FEATURES SERVICE - UPDATE PLAN FEATURES]---'
       all_features = self.class.all_features
       enabled_features = self.class.plan_features(@plan_name)
+      current_features = @account.enabled_features.keys.map(&:to_s)
 
       Rails.logger.info "All possible features: #{all_features}"
       Rails.logger.info "Features to be enabled for #{@plan_name}: #{enabled_features}"
+      Rails.logger.info "Currently enabled features: #{current_features}"
 
-      # Disable all possible features first to handle downgrades
-      Rails.logger.info 'Disabling all features...'
-      @account.disable_features(*all_features)
-      Rails.logger.info "Features after disabling all: #{@account.enabled_features.keys}"
+      # Calculate which features need to be disabled and enabled
+      features_to_disable = current_features - enabled_features
+      features_to_enable = enabled_features - current_features
 
-      # Enable only the features for the current plan
-      Rails.logger.info "Enabling features for #{@plan_name} plan..."
-      @account.enable_features(*enabled_features) if enabled_features.present?
-      Rails.logger.info "Features after enabling plan features: #{@account.enabled_features.keys}"
+      Rails.logger.info "Features to disable: #{features_to_disable}"
+      Rails.logger.info "Features to enable: #{features_to_enable}"
 
-      @account.save!
-      Rails.logger.info 'Account saved successfully.'
+      # Only make changes if necessary to avoid unnecessary updates
+      if features_to_disable.any? || features_to_enable.any?
+        # Apply changes atomically within a single save operation
+        if features_to_disable.any?
+          Rails.logger.info "Disabling features: #{features_to_disable}"
+          @account.disable_features(*features_to_disable)
+        end
+
+        if features_to_enable.any?
+          Rails.logger.info "Enabling features: #{features_to_enable}"
+          @account.enable_features(*features_to_enable)
+        end
+
+        @account.save!
+        Rails.logger.info "Features after update: #{@account.enabled_features.keys}"
+      else
+        Rails.logger.info 'No feature changes needed - account already has correct features'
+      end
+
+      Rails.logger.info 'Feature sync completed successfully.'
     end
 
     def success_response

@@ -136,15 +136,18 @@ export const actions = {
     }
   },
 
-  subscription: async ({ commit }) => {
+  subscription: async ({ commit, getters: storeGetters }) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
       const response = await BillingAPI.getSubscription();
       if (response.data.success) {
-        // Update the account data with the latest subscription information
-        commit(types.default.EDIT_ACCOUNT, {
-          id: response.data.data.account_id,
+        // Update account attributes while preserving existing data including features
+        const accountId = response.data.data.account_id;
+        const existingAccount = storeGetters.getAccount(accountId);
+        const updatedAccount = {
+          ...existingAccount,
           custom_attributes: {
+            ...existingAccount.custom_attributes,
             plan_name: response.data.data.plan_name,
             subscription_status: response.data.data.subscription_status,
             subscribed_quantity: response.data.data.subscribed_quantity,
@@ -155,7 +158,8 @@ export const actions = {
             canceled_at: response.data.data.canceled_at,
             ended_at: response.data.data.ended_at,
           },
-        });
+        };
+        commit(types.default.EDIT_ACCOUNT, updatedAccount);
       }
     } catch (error) {
       throwErrorMessage(error);
@@ -164,7 +168,10 @@ export const actions = {
     }
   },
 
-  createSubscription: async ({ commit }, { planName = 'free_trial' } = {}) => {
+  createSubscription: async (
+    { commit, getters: storeGetters },
+    { planName = 'free_trial' } = {}
+  ) => {
     commit(types.default.SET_ACCOUNT_UI_FLAG, { isCheckoutInProcess: true });
     try {
       const response = await BillingAPI.createSubscription(planName);
@@ -176,15 +183,19 @@ export const actions = {
           return; // Stop execution to allow for redirect
         }
 
-        // Otherwise, update the account data with the new subscription information
-        commit(types.default.EDIT_ACCOUNT, {
-          id: response.data.data.account_id,
+        // Otherwise, update the account data with the new subscription information while preserving existing data
+        const accountId = response.data.data.account_id;
+        const existingAccount = storeGetters.getAccount(accountId);
+        const updatedAccount = {
+          ...existingAccount,
           custom_attributes: {
+            ...existingAccount.custom_attributes,
             plan_name: response.data.data.plan_name,
             subscription_status: response.data.data.subscription_status,
             stripe_customer_id: response.data.data.customer_id,
           },
-        });
+        };
+        commit(types.default.EDIT_ACCOUNT, updatedAccount);
         return;
       }
       throw new Error(response.data.error || 'Failed to create subscription');
