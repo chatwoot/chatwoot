@@ -1,4 +1,4 @@
-class Captain::Tools::SearchArticlesTool < BaseAgentTool
+class Captain::Tools::SearchArticlesTool < Captain::Tools::BaseAgentTool
   description 'Search articles based on parameters'
   param :query, type: 'string', desc: 'Search articles by title or content (partial match)'
   param :category_id, type: 'number', desc: 'Filter articles by category ID', required: false

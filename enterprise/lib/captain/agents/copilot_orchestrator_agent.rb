@@ -1,18 +1,10 @@
-# frozen_string_literal: true
-
 class Captain::Agents::CopilotOrchestratorAgent
   def self.create(assistant, user: nil)
-    Rails.logger.debug '[DEBUG] CopilotOrchestratorAgent: Starting creation'
-
     # Create the specialized agents using factory pattern
-    research_agent = ResearchAgent.create(assistant, user: user)
-    Rails.logger.debug '[DEBUG] CopilotOrchestratorAgent: Created ResearchAgent'
-    analysis_agent = AnalysisAgent.create(assistant, user: user)
-    Rails.logger.debug '[DEBUG] CopilotOrchestratorAgent: Created AnalysisAgent'
-    integrations_agent = IntegrationsAgent.create(assistant, user: user)
-    Rails.logger.debug '[DEBUG] CopilotOrchestratorAgent: Created IntegrationsAgent'
-    knowledge_agent = KnowledgeAgent.create(assistant, user: user)
-    Rails.logger.debug '[DEBUG] CopilotOrchestratorAgent: Created KnowledgeAgent'
+    research_agent = Captain::Agents::ResearchAgent.create(assistant, user: user)
+    analysis_agent = Captain::Agents::AnalysisAgent.create(assistant, user: user)
+    integrations_agent = Captain::Agents::IntegrationsAgent.create(assistant, user: user)
+    knowledge_agent = Captain::Agents::KnowledgeAgent.create(assistant, user: user)
 
     # Create the main orchestrator agent
     ::Agents::Agent.new(

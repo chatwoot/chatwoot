@@ -1,4 +1,4 @@
-class Captain::Tools::SearchConversationsTool < BaseAgentTool
+class Captain::Tools::SearchConversationsTool < Captain::Tools::BaseAgentTool
   description 'Search conversations based on parameters'
   param :contact_id, type: 'number', desc: 'Filter conversations by contact ID', required: false
   param :status, type: 'string', desc: 'Filter conversations by status (open, resolved, pending, snoozed)', required: false

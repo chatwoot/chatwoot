@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Captain::Tools::BaseAgentTool < Agents::Tool
   def initialize(assistant, user: nil)
     @assistant = assistant

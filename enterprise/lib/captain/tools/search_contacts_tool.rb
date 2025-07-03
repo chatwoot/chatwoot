@@ -1,4 +1,4 @@
-class Captain::Tools::SearchContactsTool < BaseAgentTool
+class Captain::Tools::SearchContactsTool < Captain::Tools::BaseAgentTool
   description 'Search contacts based on parameters'
   param :query, type: 'string', desc: 'Search contacts by name, email, phone', required: false
   param :inbox_id, type: 'number', desc: 'Filter contacts by inbox ID', required: false

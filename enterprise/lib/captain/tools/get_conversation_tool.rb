@@ -1,4 +1,4 @@
-class Captain::Tools::GetConversationTool < BaseAgentTool
+class Captain::Tools::GetConversationTool < Captain::Tools::BaseAgentTool
   description 'Get details of a conversation including messages and context'
   param :conversation_id, type: 'string', desc: 'The display ID of the conversation to retrieve'
 

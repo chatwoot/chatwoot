@@ -1,5 +1,3 @@
-# frozen_string_literal: true
-
 class Captain::Agents::ResearchAgent
   def self.create(assistant, user: nil)
     ::Agents::Agent.new(

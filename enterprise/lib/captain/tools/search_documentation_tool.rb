@@ -1,4 +1,4 @@
-class Captain::Tools::SearchDocumentationTool < BaseAgentTool
+class Captain::Tools::SearchDocumentationTool < Captain::Tools::BaseAgentTool
   description 'Search documentation and help docs'
   param :query, type: 'string', desc: 'Search query for documentation'
 

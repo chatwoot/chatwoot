@@ -1,4 +1,4 @@
-class Captain::Tools::GetContactTool < BaseAgentTool
+class Captain::Tools::GetContactTool < Captain::Tools::BaseAgentTool
   description 'Get details of a contact including their profile information'
   param :contact_id, type: 'number', desc: 'The ID of the contact to retrieve'
 

@@ -1,4 +1,4 @@
-class Captain::Tools::SearchLinearIssuesTool < BaseAgentTool
+class Captain::Tools::SearchLinearIssuesTool < Captain::Tools::BaseAgentTool
   description 'Search Linear issues and development context'
   param :query, type: 'string', desc: 'Search query for Linear issues'
 

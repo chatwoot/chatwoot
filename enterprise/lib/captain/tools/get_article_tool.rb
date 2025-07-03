@@ -1,4 +1,4 @@
-class Captain::Tools::GetArticleTool < BaseAgentTool
+class Captain::Tools::GetArticleTool < Captain::Tools::BaseAgentTool
   description 'Get details of an article including its content and metadata'
   param :article_id, type: 'number', desc: 'The ID of the article to retrieve'
 
