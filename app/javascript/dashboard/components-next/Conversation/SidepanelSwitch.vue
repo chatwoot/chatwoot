@@ -7,14 +7,14 @@ import { INBOX_TYPES } from 'dashboard/helper/inbox';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 
-const { updateUISettings } = useUISettings();
-
 const props = defineProps({
   currentChat: {
     required: true,
     type: Object,
   },
 });
+
+const { updateUISettings } = useUISettings();
 
 const currentAccountId = useMapGetter('getCurrentAccountId');
 const isFeatureEnabledonAccount = useMapGetter(
@@ -29,9 +29,7 @@ const showCopilotTab = computed(() =>
   isFeatureEnabledonAccount.value(currentAccountId.value, FEATURE_FLAGS.CAPTAIN)
 );
 
-const showShopeeTab = computed(() =>
-  channelType.value === INBOX_TYPES.SHOPEE
-);
+const showShopeeTab = computed(() => channelType.value === INBOX_TYPES.SHOPEE);
 
 const { uiSettings } = useUISettings();
 const isContactSidebarOpen = computed(
@@ -40,9 +38,7 @@ const isContactSidebarOpen = computed(
 const isCopilotPanelOpen = computed(
   () => uiSettings.value.is_copilot_panel_open
 );
-const isShopeePanelOpen = computed(
-  () => uiSettings.value.is_shopee_panel_open
-);
+const isShopeePanelOpen = computed(() => uiSettings.value.is_shopee_panel_open);
 
 const toggleConversationSidebarToggle = () => {
   updateUISettings({
