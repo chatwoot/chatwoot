@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Sledeće nedelje"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Timovi"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odloži do",
       "APPLY": "Odloži",
