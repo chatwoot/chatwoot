@@ -43,7 +43,7 @@ const backButtonUrl = computed(() => {
     name,
   } = route;
   return conversationListPageURL({
-    accountId,
+    accountId: accountId.value,
     inboxId,
     label,
     teamId,
