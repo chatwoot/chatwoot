@@ -14,7 +14,15 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       before do
         allow(Captain::Tools::FirecrawlService).to receive(:new).and_return(firecrawl_service)
         allow(firecrawl_service).to receive(:perform)
-        create(:installation_config, name: 'CAPTAIN_FIRECRAWL_API_KEY', value: 'test-key')
+
+        # Make sure we have the Firecrawl config properly set
+        config = InstallationConfig.find_or_create_by(name: 'CAPTAIN_FIRECRAWL_API_KEY')
+        config.update(value: 'test-key')
+
+        # Mock simple crawl service to avoid HTTP calls if it somehow gets called
+        simple_crawler = instance_double(Captain::Tools::SimplePageCrawlService)
+        allow(Captain::Tools::SimplePageCrawlService).to receive(:new).and_return(simple_crawler)
+        allow(simple_crawler).to receive(:page_links).and_return([])
       end
 
       context 'with account usage limits' do
@@ -107,96 +115,12 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
 
       context 'when document is a PDF' do
         let(:pdf_document) { create(:captain_document, external_link: 'https://example.com/document.pdf') }
-        let(:pdf_service) { instance_double(Captain::Tools::PdfExtractionService) }
-        let(:pdf_content) do
-          [
-            { content: 'PDF page 1 content', page_number: 1, chunk_index: 1, total_chunks: 1 },
-            { content: 'PDF page 2 content', page_number: 2, chunk_index: 1, total_chunks: 1 }
-          ]
-        end
 
-        before do
-          allow(Captain::Tools::PdfExtractionService)
-            .to receive(:new)
-            .with(pdf_document.external_link)
-            .and_return(pdf_service)
-        end
+        it 'delegates to PDFExtractionJob' do
+          expect(Captain::Documents::PdfExtractionJob)
+            .to receive(:perform_later)
+            .with(pdf_document)
 
-        it 'processes PDF using PdfExtractionService when extraction succeeds' do
-          allow(pdf_service).to receive(:perform).and_return({
-                                                               success: true,
-                                                               content: pdf_content
-                                                             })
-          expect(pdf_service).to receive(:perform)
-          described_class.perform_now(pdf_document)
-        end
-
-        it 'enqueues PdfExtractionParserJob for each content chunk when extraction succeeds' do
-          allow(pdf_service).to receive(:perform).and_return({
-                                                               success: true,
-                                                               content: pdf_content
-                                                             })
-          pdf_content.each do |chunk|
-            expect(Captain::Tools::PdfExtractionParserJob)
-              .to receive(:perform_later)
-              .with(
-                assistant_id: pdf_document.assistant_id,
-                pdf_content: chunk,
-                document_id: pdf_document.id
-              )
-          end
-
-          described_class.perform_now(pdf_document)
-        end
-
-        it 'updates document status to processing when extraction succeeds' do
-          allow(pdf_service).to receive(:perform).and_return({
-                                                               success: true,
-                                                               content: pdf_content
-                                                             })
-          allow(Captain::Tools::PdfExtractionParserJob).to receive(:perform_later)
-
-          expect(pdf_document).to receive(:update).with(status: 'processing').twice
-          described_class.perform_now(pdf_document)
-        end
-
-        it 'updates document status to failed with error message when extraction fails' do
-          allow(pdf_service).to receive(:perform).and_return({
-                                                               success: false,
-                                                               errors: ['Invalid PDF format']
-                                                             })
-          expect(pdf_document).to receive(:update).with(status: 'processing').once
-          expect(pdf_document).to receive(:update).with(
-            status: 'failed',
-            error_message: 'Invalid PDF format'
-          ).once
-
-          described_class.perform_now(pdf_document)
-        end
-
-        it 'logs the error when extraction fails' do
-          allow(pdf_service).to receive(:perform).and_return({
-                                                               success: false,
-                                                               errors: ['Invalid PDF format']
-                                                             })
-          expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
-          described_class.perform_now(pdf_document)
-        end
-
-        it 'handles exceptions gracefully during PDF extraction' do
-          allow(pdf_service).to receive(:perform).and_raise(StandardError, 'Network error')
-          expect(pdf_document).to receive(:update).with(status: 'processing').once
-          expect(pdf_document).to receive(:update).with(
-            status: 'failed',
-            error_message: 'Network error'
-          ).once
-
-          described_class.perform_now(pdf_document)
-        end
-
-        it 'logs exceptions during PDF extraction' do
-          allow(pdf_service).to receive(:perform).and_raise(StandardError, 'Network error')
-          expect(Rails.logger).to receive(:error).with(/PDF extraction failed/)
           described_class.perform_now(pdf_document)
         end
       end
@@ -210,8 +134,10 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
         expect(job.send(:pdf_document?, pdf_doc)).to be true
       end
 
-      it 'detects PDF by content type' do
-        pdf_doc = build(:captain_document, content_type: 'application/pdf')
+      it 'detects PDF by attached file' do
+        pdf_doc = build(:captain_document)
+        file_double = instance_double(ActiveStorage::Attached::One, attached?: true)
+        allow(pdf_doc).to receive(:file).and_return(file_double)
         expect(job.send(:pdf_document?, pdf_doc)).to be true
       end
 
