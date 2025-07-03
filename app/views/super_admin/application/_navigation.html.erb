@@ -41,9 +41,7 @@ as defined by the routes in the `admin/` namespace
         %>
 
       <% end %>
-      <% if ChatwootApp.enterprise? %>
-        <%= render 'settings_menu', open: settings_open? %>
-      <% end %>
+      <%= render 'settings_menu', open: settings_open? %>
     </ul>
   </div>
   <div>
