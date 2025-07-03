@@ -40,11 +40,15 @@ class Api::V1::AccountsController < Api::BaseController
 
   def cache_keys
     expires_in 10.seconds, public: false, stale_while_revalidate: 5.minutes
-    render json: { cache_keys: get_cache_keys }, status: :ok
+    render json: { cache_keys: cache_keys_for_account }, status: :ok
   end
 
   def update
-    @account.update!(account_params.slice(:name, :locale, :domain, :support_email, :auto_resolve_duration))
+    @account.assign_attributes(account_params.slice(:name, :locale, :domain, :support_email))
+    @account.custom_attributes.merge!(custom_attributes_params)
+    @account.settings.merge!(settings_params)
+    @account.custom_attributes['onboarding_step'] = 'invite_team' if @account.custom_attributes['onboarding_step'] == 'account_update'
+    @account.save!
   end
 
   def update_active_at
@@ -66,7 +70,7 @@ class Api::V1::AccountsController < Api::BaseController
     raise CustomExceptions::Account::InvalidParams.new({})
   end
 
-  def get_cache_keys
+  def cache_keys_for_account
     {
       label: fetch_value_for_key(params[:id], Label.name.underscore),
       inbox: fetch_value_for_key(params[:id], Inbox.name.underscore),
@@ -80,7 +84,15 @@ class Api::V1::AccountsController < Api::BaseController
   end
 
   def account_params
-    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :auto_resolve_duration, :user_full_name)
+    params.permit(:account_name, :email, :name, :password, :locale, :domain, :support_email, :user_full_name)
+  end
+
+  def custom_attributes_params
+    params.permit(:industry, :company_size, :timezone)
+  end
+
+  def settings_params
+    params.permit(:auto_resolve_after, :auto_resolve_message, :auto_resolve_ignore_waiting, :audio_transcriptions, :auto_resolve_label)
   end
 
   def check_signup_enabled

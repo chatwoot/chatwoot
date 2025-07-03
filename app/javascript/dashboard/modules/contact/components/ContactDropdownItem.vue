@@ -1,28 +1,3 @@
-<template>
-  <div class="option-item--user">
-    <thumbnail :src="thumbnail" size="28px" :username="name" />
-    <div class="option__user-data">
-      <h5 class="option__title">
-        {{ name }}
-        <span v-if="identifier" class="user-identifier">
-          (ID: {{ identifier }})
-        </span>
-      </h5>
-      <p class="option__body">
-        <span v-if="email" class="email-icon-wrap">
-          <fluent-icon class="merge-contact--icon" icon="mail" size="12" />
-          {{ email }}
-        </span>
-        <span v-if="phoneNumber" class="phone-icon-wrap">
-          <fluent-icon class="merge-contact--icon" icon="call" size="12" />
-          {{ phoneNumber }}
-        </span>
-        <span v-if="!phoneNumber && !email">{{ '---' }}</span>
-      </p>
-    </div>
-  </div>
-</template>
-
 <script>
 import Thumbnail from '../../../components/widgets/Thumbnail.vue';
 
@@ -55,12 +30,37 @@ export default {
 };
 </script>
 
+<template>
+  <div class="option-item--user">
+    <Thumbnail :src="thumbnail" size="28px" :username="name" />
+    <div class="option__user-data">
+      <h5 class="option__title">
+        {{ name }}
+        <span v-if="identifier" class="user-identifier">
+          {{ $t('MERGE_CONTACTS.DROPDOWN_ITEM.ID', { identifier }) }}
+        </span>
+      </h5>
+      <p class="option__body">
+        <span v-if="email" class="email-icon-wrap">
+          <fluent-icon class="merge-contact--icon" icon="mail" size="12" />
+          {{ email }}
+        </span>
+        <span v-if="phoneNumber" class="phone-icon-wrap">
+          <fluent-icon class="merge-contact--icon" icon="call" size="12" />
+          {{ phoneNumber }}
+        </span>
+        <span v-if="!phoneNumber && !email">{{ '---' }}</span>
+      </p>
+    </div>
+  </div>
+</template>
+
 <style lang="scss" scoped>
 .option-item--user {
   @apply flex items-center;
 }
 .user-identifier {
-  @apply text-xs ml-0.5 text-slate-700 dark:text-slate-100;
+  @apply text-xs ml-0.5 text-n-slate-12;
 }
 .option__user-data {
   @apply flex flex-col flex-grow ml-2 mr-2;
@@ -73,10 +73,10 @@ export default {
   @apply relative top-px mr-0.5 rtl:mr-0 rtl:ml-0.5;
 }
 .option__title {
-  @apply text-slate-800 dark:text-slate-100 font-medium mb-0.5;
+  @apply text-n-slate-12 font-medium mb-0.5;
 }
 .option__body {
-  @apply text-xs text-slate-700 dark:text-slate-100 mt-1;
+  @apply text-xs text-n-slate-12 mt-1;
 }
 
 .option__user-data .option__body {

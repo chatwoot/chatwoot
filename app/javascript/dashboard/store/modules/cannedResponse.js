@@ -18,6 +18,15 @@ const getters = {
   getCannedResponses(_state) {
     return _state.records;
   },
+  getSortedCannedResponses(_state) {
+    return sortOrder =>
+      [..._state.records].sort((a, b) => {
+        if (sortOrder === 'asc') {
+          return a.short_code.localeCompare(b.short_code);
+        }
+        return b.short_code.localeCompare(a.short_code);
+      });
+  },
   getUIFlags(_state) {
     return _state.uiFlags;
   },

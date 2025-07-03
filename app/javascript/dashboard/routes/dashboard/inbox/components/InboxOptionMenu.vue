@@ -1,24 +1,10 @@
-<template>
-  <div
-    class="flex flex-col gap-1 bg-white z-50 dark:bg-slate-900 w-40 py-1 border shadow-md border-slate-100 dark:border-slate-700/50 rounded-xl divide-y divide-slate-100 dark:divide-slate-700/50"
-  >
-    <div class="flex flex-col">
-      <menu-item
-        v-for="item in menuItems"
-        :key="item.key"
-        :label="item.label"
-        @click="onClick(item.key)"
-      />
-    </div>
-  </div>
-</template>
-
 <script>
 import MenuItem from './MenuItem.vue';
 export default {
   components: {
     MenuItem,
   },
+  emits: ['optionClick'],
   data() {
     return {
       menuItems: [
@@ -39,8 +25,23 @@ export default {
   },
   methods: {
     onClick(key) {
-      this.$emit('option-click', key);
+      this.$emit('optionClick', key);
     },
   },
 };
 </script>
+
+<template>
+  <div
+    class="z-50 flex flex-col max-w-64 min-w-40 gap-1 bg-n-alpha-3 backdrop-blur-[100px] divide-y py-2 px-2 outline outline-1 outline-n-container shadow-lg rounded-xl divide-n-weak dark:divide-n-strong"
+  >
+    <div class="flex flex-col">
+      <MenuItem
+        v-for="item in menuItems"
+        :key="item.key"
+        :label="item.label"
+        @click.stop="onClick(item.key)"
+      />
+    </div>
+  </div>
+</template>

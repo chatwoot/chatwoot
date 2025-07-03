@@ -10,6 +10,7 @@ json.data do
       json.id notification.id
       json.notification_type notification.notification_type
       json.push_message_title notification.push_message_title
+      json.push_message_body notification.push_message_body
       # TODO: front end assumes primary actor to be conversation. should fix in future
       json.primary_actor_type notification.primary_actor_type
       json.primary_actor_id notification.primary_actor_id
@@ -21,6 +22,7 @@ json.data do
       json.created_at notification.created_at.to_i
       json.last_activity_at notification.last_activity_at.to_i
       json.snoozed_until notification.snoozed_until
+      json.meta notification.meta
     end
   end
 end

@@ -1,9 +1,25 @@
+<script>
+export default {
+  props: {
+    primaryContactName: {
+      type: String,
+      default: '',
+    },
+    parentContactName: {
+      type: String,
+      default: '',
+    },
+  },
+};
+</script>
+
+<!-- eslint-disable-next-line vue/no-root-v-if -->
 <template>
   <div
     v-if="parentContactName"
-    class="my-4 relative p-2.5 border rounded-[4px] text-slate-800 dark:text-slate-100 border-slate-100 dark:border-slate-700 bg-white dark:bg-slate-800"
+    class="my-4 relative p-2.5 border rounded-[4px] text-n-slate-12 border-n-weak bg-n-background"
   >
-    <h5 class="text-base font-medium text-slate-900 dark:text-white">
+    <h5 class="text-base font-medium text-n-slate-12">
       {{ $t('MERGE_CONTACTS.SUMMARY.TITLE') }}
     </h5>
     <ul class="ml-0 list-none">
@@ -31,18 +47,3 @@
     </ul>
   </div>
 </template>
-
-<script>
-export default {
-  props: {
-    primaryContactName: {
-      type: String,
-      default: '',
-    },
-    parentContactName: {
-      type: String,
-      default: '',
-    },
-  },
-};
-</script>

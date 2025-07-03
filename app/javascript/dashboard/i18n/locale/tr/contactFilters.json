@@ -30,6 +30,9 @@
       "is_lesser_than": "Şundan az",
       "days_before": "x gün önce"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Değer gereklidir"
+    },
     "ATTRIBUTES": {
       "NAME": "İsim",
       "EMAIL": "E-Posta",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Onay Kutusu",
       "CREATED_AT": "Oluşturma",
       "LAST_ACTIVITY": "Son aktivite",
-      "REFERER_LINK": "Yönlendiren bağlantısı"
+      "REFERER_LINK": "Yönlendiren bağlantısı",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Standart Filtreler",

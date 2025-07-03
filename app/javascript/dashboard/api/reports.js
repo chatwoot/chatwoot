@@ -61,9 +61,9 @@ class ReportsAPI extends ApiClient {
     });
   }
 
-  getConversationTrafficCSV() {
+  getConversationTrafficCSV({ daysBefore = 6 } = {}) {
     return axios.get(`${this.url}/conversation_traffic`, {
-      params: { timezone_offset: getTimeOffset() },
+      params: { timezone_offset: getTimeOffset(), days_before: daysBefore },
     });
   }
 
@@ -82,6 +82,24 @@ class ReportsAPI extends ApiClient {
   getTeamReports({ from: since, to: until, businessHours }) {
     return axios.get(`${this.url}/teams`, {
       params: { since, until, business_hours: businessHours },
+    });
+  }
+
+  getBotMetrics({ from, to } = {}) {
+    return axios.get(`${this.url}/bot_metrics`, {
+      params: { since: from, until: to },
+    });
+  }
+
+  getBotSummary({ from, to, groupBy, businessHours } = {}) {
+    return axios.get(`${this.url}/bot_summary`, {
+      params: {
+        since: from,
+        until: to,
+        type: 'account',
+        group_by: groupBy,
+        business_hours: businessHours,
+      },
     });
   }
 }

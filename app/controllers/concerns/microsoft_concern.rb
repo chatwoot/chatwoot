@@ -2,7 +2,10 @@ module MicrosoftConcern
   extend ActiveSupport::Concern
 
   def microsoft_client
-    ::OAuth2::Client.new(ENV.fetch('AZURE_APP_ID', nil), ENV.fetch('AZURE_APP_SECRET', nil),
+    app_id = GlobalConfigService.load('AZURE_APP_ID', nil)
+    app_secret = GlobalConfigService.load('AZURE_APP_SECRET', nil)
+
+    ::OAuth2::Client.new(app_id, app_secret,
                          {
                            site: 'https://login.microsoftonline.com',
                            authorize_url: 'https://login.microsoftonline.com/common/oauth2/v2.0/authorize',
@@ -12,11 +15,7 @@ module MicrosoftConcern
 
   private
 
-  def parsed_body
-    @parsed_body ||= Rack::Utils.parse_nested_query(@response.raw_response.body)
-  end
-
-  def base_url
-    ENV.fetch('FRONTEND_URL', 'http://localhost:3000')
+  def scope
+    'offline_access https://outlook.office.com/IMAP.AccessAsUser.All https://outlook.office.com/SMTP.Send openid profile email'
   end
 end

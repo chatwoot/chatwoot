@@ -11,7 +11,7 @@ RSpec.describe Message do
   end
 
   describe 'length validations' do
-    let(:message) { create(:message) }
+    let!(:message) { create(:message) }
 
     context 'when it validates name length' do
       it 'valid when within limit' do
@@ -26,6 +26,17 @@ RSpec.describe Message do
 
         expect(message.errors[:processed_message_content]).to include('is too long (maximum is 150000 characters)')
         expect(message.errors[:content]).to include('is too long (maximum is 150000 characters)')
+      end
+
+      it 'adds error in case of message flooding' do
+        with_modified_env 'CONVERSATION_MESSAGE_PER_MINUTE_LIMIT': '2' do
+          conversation = message.conversation
+          create(:message, conversation: conversation)
+          conv_new_message = build(:message, conversation: message.conversation)
+
+          expect(conv_new_message.valid?).to be false
+          expect(conv_new_message.errors[:base]).to eq(['Too many messages'])
+        end
       end
     end
   end
@@ -96,7 +107,11 @@ RSpec.describe Message do
   end
 
   describe 'message create event' do
-    let(:conversation) { create(:conversation) }
+    let!(:conversation) { create(:conversation) }
+
+    before do
+      conversation.reload
+    end
 
     it 'updates the conversation first reply created at if it is the first outgoing message' do
       expect(conversation.first_reply_created_at).to be_nil
@@ -251,6 +266,23 @@ RSpec.describe Message do
     it 'does not contain the message attachment when attachment is not present' do
       message = create(:message)
       expect(message.webhook_data.key?(:attachments)).to be false
+    end
+
+    it 'uses outgoing_content for webhook content' do
+      message = create(:message, content: 'Test content')
+      expect(message).to receive(:outgoing_content).and_return('Outgoing test content')
+
+      webhook_data = message.webhook_data
+      expect(webhook_data[:content]).to eq('Outgoing test content')
+    end
+
+    it 'includes CSAT survey link in webhook content for input_csat messages' do
+      inbox = create(:inbox, channel: create(:channel_api))
+      conversation = create(:conversation, inbox: inbox)
+      message = create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience')
+
+      expect(message.outgoing_content).to include('survey/responses/')
+      expect(message.webhook_data[:content]).to include('survey/responses/')
     end
   end
 
@@ -458,6 +490,62 @@ RSpec.describe Message do
         new_message.send(:ensure_in_reply_to)
         expect(new_message.content_attributes[:in_reply_to]).to be_nil
       end
+    end
+  end
+
+  describe '#content' do
+    let(:conversation) { create(:conversation) }
+
+    context 'when message is not input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+      it 'returns original content' do
+        expect(message.content).to eq('Regular message')
+      end
+    end
+
+    context 'when message is input_csat' do
+      let(:message) { create(:message, conversation: conversation, content_type: 'input_csat', content: 'Rate your experience') }
+
+      context 'when inbox is web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(true)
+        end
+
+        it 'returns original content without survey URL' do
+          expect(message.content).to eq('Rate your experience')
+        end
+      end
+
+      context 'when inbox is not web widget' do
+        before do
+          allow(message.inbox).to receive(:web_widget?).and_return(false)
+        end
+
+        it 'returns only the stored content (clean for dashboard)' do
+          expect(message.content).to eq('Rate your experience')
+        end
+
+        it 'returns only the base content without URL when survey_url stored separately' do
+          message.content_attributes = { 'survey_url' => 'https://app.chatwoot.com/survey/responses/12345' }
+          expect(message.content).to eq('Rate your experience')
+        end
+      end
+    end
+  end
+
+  describe '#outgoing_content' do
+    let(:conversation) { create(:conversation) }
+    let(:message) { create(:message, conversation: conversation, content_type: 'text', content: 'Regular message') }
+
+    it 'delegates to MessageContentPresenter' do
+      presenter = instance_double(MessageContentPresenter)
+      allow(MessageContentPresenter).to receive(:new).with(message).and_return(presenter)
+      allow(presenter).to receive(:outgoing_content).and_return('Presented content')
+
+      expect(message.outgoing_content).to eq('Presented content')
+      expect(MessageContentPresenter).to have_received(:new).with(message)
+      expect(presenter).to have_received(:outgoing_content)
     end
   end
 end

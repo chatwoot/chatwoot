@@ -62,7 +62,6 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
   end
 
   def conversation_messages(in_array_format: false)
-    conversation = find_conversation
     messages = init_messages_body(in_array_format)
 
     add_messages_until_token_limit(conversation, messages, in_array_format)
@@ -70,7 +69,7 @@ class Integrations::Openai::ProcessorService < Integrations::OpenaiBaseService
 
   def add_messages_until_token_limit(conversation, messages, in_array_format, start_from = 0)
     character_count = start_from
-    conversation.messages.chat.reorder('id desc').each do |message|
+    conversation.messages.where(message_type: [:incoming, :outgoing]).where(private: false).reorder('id desc').each do |message|
       character_count, message_added = add_message_if_within_limit(character_count, message, messages, in_array_format)
       break unless message_added
     end

@@ -3,7 +3,7 @@
 # Table name: notification_subscriptions
 #
 #  id                      :bigint           not null, primary key
-#  identifier              :string
+#  identifier              :text
 #  subscription_attributes :jsonb            not null
 #  subscription_type       :integer          not null
 #  created_at              :datetime         not null

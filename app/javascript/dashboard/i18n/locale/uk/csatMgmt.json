@@ -3,11 +3,11 @@
     "TITLE": "Оцініть ваш діалог",
     "PLACEHOLDER": "Розкажіть нам більше...",
     "RATINGS": {
-      "POOR": "😞 Poor",
-      "FAIR": "😑 Fair",
-      "AVERAGE": "😐 Average",
-      "GOOD": "😀 Good",
-      "EXCELLENT": "😍 Excellent"
+      "POOR": "😞 Погано",
+      "FAIR": "😑 Слабо",
+      "AVERAGE": "😐 Посередньо",
+      "GOOD": "😀 Добре",
+      "EXCELLENT": "😍 Відмінно"
     }
   }
 }

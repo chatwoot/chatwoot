@@ -5,7 +5,7 @@ RSpec.describe 'Integration Hooks API', type: :request do
   let(:admin) { create(:user, account: account, role: :administrator) }
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:inbox) { create(:inbox, account: account) }
-  let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' } } } }
+  let(:params) { { app_id: 'dialogflow', inbox_id: inbox.id, settings: { project_id: 'xx', credentials: { test: 'test' }, region: 'europe-west1' } } }
 
   describe 'POST /api/v1/accounts/{account.id}/integrations/hooks' do
     context 'when it is an unauthenticated user' do
@@ -97,9 +97,8 @@ RSpec.describe 'Integration Hooks API', type: :request do
              params: params,
              headers: agent.create_new_auth_token,
              as: :json
-
-        expect(response).to have_http_status(:success)
-        expect(response.parsed_body['message']).to eq('No processor found')
+        expect(response).to have_http_status(:unprocessable_entity)
+        expect(response.parsed_body['error']).to eq 'No processor found'
       end
     end
   end

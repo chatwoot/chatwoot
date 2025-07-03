@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "Hiển thị",
+      "LOADING": "Tải thông báo",
+      "404": "Không có thông báo nào đang hoạt động trong nhóm này.",
+      "NO_NOTIFICATIONS": "Không có thông báo",
+      "NOTE": "Thông báo từ tất cả các hộp thư đến đã đăng ký",
+      "NO_MESSAGES_AVAILABLE": "Ối! Không thể tải tin nhắn",
+      "SNOOZED_UNTIL": "Đã tạm ẩn cho đến khi",
+      "SNOOZED_UNTIL_TOMORROW": "Tạm dừng đến ngày mai",
+      "SNOOZED_UNTIL_NEXT_WEEK": "Tạm dừng đến tuần sau"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "Tạm dừng đến ngày mai",
+      "DELETE": "Tạm dừng đến tuần sau",
+      "BACK": "Trờ về"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "Bạn đã được nhắc đến trong một cuộc trò chuyện",
+      "CONVERSATION_CREATION": "New conversation created",
+      "CONVERSATION_ASSIGNMENT": "A conversation has been assigned to you",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "New message in an assigned conversation",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "New message in a conversation you are participating in",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA target first response missed for conversation",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA target next response missed for conversation",
+      "SLA_MISSED_RESOLUTION": "SLA target resolution missed for conversation"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "Tin nhắn mới",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "Tin nhắn mới",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "Không có nội dung",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "Mark as read",
+      "MARK_AS_UNREAD": "Đánh dấu là chưa đọc",
+      "SNOOZE": "Báo lại",
+      "DELETE": "Xoá",
+      "MARK_ALL_READ": "Đánh dấu tất cả đã đọc",
+      "DELETE_ALL": "Delete all",
+      "DELETE_ALL_READ": "Delete all read"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "Sort",
+      "DISPLAY": "Display :",
+      "SORT_OPTIONS": {
+        "NEWEST": "Newest",
+        "OLDEST": "Oldest",
+        "PRIORITY": "Mức độ ưu tiên"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "Tạm dừng",
+        "READ": "\bĐọc",
+        "LABELS": "Nhãn",
+        "CONVERSATION_ID": "Conversation ID"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "Notification marked as read",
+      "MARK_AS_UNREAD": "Notification marked as unread",
+      "SNOOZE": "Notification snoozed",
+      "DELETE": "Notification deleted",
+      "MARK_ALL_READ": "All notifications marked as read",
+      "DELETE_ALL": "All notifications deleted",
+      "DELETE_ALL_READ": "All read notifications deleted"
+    }
+  }
+}

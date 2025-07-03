@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<sitemapindex>
+  <% @portal.articles.where(status: :published).each do |article| %>
+    <sitemap>
+      <loc><%= @help_center_url %><%= generate_article_link(@portal.slug, article.slug, false, false) %></loc>
+      <lastmod><%= article.updated_at.strftime("%Y-%m-%d") %></lastmod>
+    </sitemap>
+  <% end %>
+</sitemapindex>

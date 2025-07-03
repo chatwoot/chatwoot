@@ -1,20 +1,5 @@
-<template>
-  <div class="date-picker">
-    <date-picker
-      :range="true"
-      :confirm="true"
-      :clearable="false"
-      :editable="false"
-      :confirm-text="confirmText"
-      :placeholder="placeholder"
-      :value="value"
-      @change="handleChange"
-    />
-  </div>
-</template>
-
 <script>
-import DatePicker from 'vue2-datepicker';
+import DatePicker from 'vue-datepicker-next';
 export default {
   components: { DatePicker },
   props: {
@@ -31,6 +16,7 @@ export default {
       default: () => [],
     },
   },
+  emits: ['change'],
   methods: {
     handleChange(value) {
       this.$emit('change', value);
@@ -38,3 +24,18 @@ export default {
   },
 };
 </script>
+
+<template>
+  <div class="date-picker">
+    <DatePicker
+      range
+      confirm
+      :clearable="false"
+      :editable="false"
+      :confirm-text="confirmText"
+      :placeholder="placeholder"
+      :value="value"
+      @change="handleChange"
+    />
+  </div>
+</template>

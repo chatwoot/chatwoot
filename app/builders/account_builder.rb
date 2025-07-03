@@ -15,7 +15,7 @@ class AccountBuilder
     end
     [@user, @account]
   rescue StandardError => e
-    puts e.inspect
+    Rails.logger.debug e.inspect
     raise e
   end
 
@@ -32,12 +32,7 @@ class AccountBuilder
   end
 
   def validate_email
-    address = ValidEmail2::Address.new(@email)
-    if address.valid? # && !address.disposable?
-      true
-    else
-      raise InvalidEmail.new(valid: address.valid?)
-    end
+    Account::SignUpEmailValidationService.new(@email).perform
   end
 
   def validate_user

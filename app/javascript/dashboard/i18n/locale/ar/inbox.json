@@ -1,0 +1,77 @@
+{
+  "INBOX": {
+    "LIST": {
+      "TITLE": "My Inbox",
+      "DISPLAY_DROPDOWN": "عرض",
+      "LOADING": "جار جلب الإشعارات",
+      "404": "لا توجد إشعارات نشطة في هذه المجموعة.",
+      "NO_NOTIFICATIONS": "لا توجد إشعارات",
+      "NOTE": "الإشعارات من جميع صناديق الوارد المشترك بها",
+      "NO_MESSAGES_AVAILABLE": "عذرًا! لا يمكن جلب الرسائل",
+      "SNOOZED_UNTIL": "تأجيل حتى",
+      "SNOOZED_UNTIL_TOMORROW": "تأجيل حتى الغد",
+      "SNOOZED_UNTIL_NEXT_WEEK": "تأجيل حتى الأسبوع القادم"
+    },
+    "ACTION_HEADER": {
+      "SNOOZE": "تأجيل الإشعار",
+      "DELETE": "حذف الإشعار",
+      "BACK": "العودة"
+    },
+    "TYPES": {
+      "CONVERSATION_MENTION": "تم ذكرك في محادثة",
+      "CONVERSATION_CREATION": "تم إنشاء محادثة جديدة",
+      "CONVERSATION_ASSIGNMENT": "تم تعيين محادثة لك",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "رسالة جديدة في محادثة معينة لك",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة في محادثة تشارك فيها",
+      "SLA_MISSED_FIRST_RESPONSE": "تم تجاوز الهدف الأول للرد للمحادثة",
+      "SLA_MISSED_NEXT_RESPONSE": "تم تجاوز الهدف التالي للرد للمحادثة",
+      "SLA_MISSED_RESOLUTION": "تم تجاوز الهدف النهائي للحل للمحادثة"
+    },
+    "TYPES_NEXT": {
+      "CONVERSATION_MENTION": "Mentioned",
+      "CONVERSATION_ASSIGNMENT": "Assigned to you",
+      "CONVERSATION_CREATION": "New Conversation",
+      "SLA_MISSED_FIRST_RESPONSE": "SLA breach",
+      "SLA_MISSED_NEXT_RESPONSE": "SLA breach",
+      "SLA_MISSED_RESOLUTION": "SLA breach",
+      "PARTICIPATING_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
+      "ASSIGNED_CONVERSATION_NEW_MESSAGE": "رسالة جديدة",
+      "SNOOZED_UNTIL": "Snoozed for {time}",
+      "SNOOZED_ENDS": "Snooze ended"
+    },
+    "NO_CONTENT": "لم يتم العثور على محتوى",
+    "MENU_ITEM": {
+      "MARK_AS_READ": "تحديد كمقروء",
+      "MARK_AS_UNREAD": "تحديد كغير مقروء",
+      "SNOOZE": "تأجيل",
+      "DELETE": "حذف",
+      "MARK_ALL_READ": "تحديد الكل كمقروء",
+      "DELETE_ALL": "حذف الكل",
+      "DELETE_ALL_READ": "حذف كل المقروء"
+    },
+    "DISPLAY_MENU": {
+      "SORT": "فرز",
+      "DISPLAY": "عرض :",
+      "SORT_OPTIONS": {
+        "NEWEST": "الأحدث",
+        "OLDEST": "الأقدم",
+        "PRIORITY": "الأولوية"
+      },
+      "DISPLAY_OPTIONS": {
+        "SNOOZED": "مؤجل",
+        "READ": "قراءة",
+        "LABELS": "الوسوم",
+        "CONVERSATION_ID": "معرف المحادثة"
+      }
+    },
+    "ALERTS": {
+      "MARK_AS_READ": "تم وضع علامة الإشعار كمقروء",
+      "MARK_AS_UNREAD": "تم وضع علامة الإشعار كغير مقروء",
+      "SNOOZE": "تم تأجيل الإشعار",
+      "DELETE": "تم حذف الإشعار",
+      "MARK_ALL_READ": "تم تحديد جميع الإشعارات كمقروءة",
+      "DELETE_ALL": "تم حذف كل الإشعارات",
+      "DELETE_ALL_READ": "تم حذف كل الإشعارات المقروءة"
+    }
+  }
+}

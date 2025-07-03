@@ -67,21 +67,5 @@ RSpec.describe AgentBuilder, type: :model do
         expect(user.encrypted_password).not_to be_empty
       end
     end
-
-    context 'with confirmation required' do
-      let(:unconfirmed_user) { create(:user, email: email) }
-
-      before do
-        unconfirmed_user.confirmed_at = nil
-        unconfirmed_user.save(validate: false)
-        allow(unconfirmed_user).to receive(:confirmed?).and_return(false)
-      end
-
-      it 'sends confirmation instructions' do
-        user = agent_builder.perform
-        expect(user).to receive(:send_confirmation_instructions)
-        agent_builder.send(:send_confirmation_if_required)
-      end
-    end
   end
 end

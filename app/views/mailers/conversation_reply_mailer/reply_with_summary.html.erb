@@ -20,9 +20,10 @@
           <% if message.content.present? %>
             <hr style="border: 0; border-bottom: 1px solid #AEC3D5;"/>
           <% end %>
-          This message contains <%= message.attachments.count > 1 ? 'attachments' : 'an attachment' %>.
-          <% message.attachments.each do |attachment| %>
-            <br />- View the attachment <a href="<%= attachment.file_url %>" _target="blank">here</a>.
+          Attachments:
+          <% message.attachments.each_with_index do |attachment, index| %>
+            <% if index > 0 %><br /><% end %>
+            <a href="<%= attachment.file_url %>" target="_blank"><%= attachment.file.filename.to_s %></a>
           <% end %>
         </p>
       <% end %>

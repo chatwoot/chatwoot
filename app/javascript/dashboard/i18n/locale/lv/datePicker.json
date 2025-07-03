@@ -1,0 +1,19 @@
+{
+  "DATE_PICKER": {
+    "APPLY_BUTTON": "Pielietot",
+    "CLEAR_BUTTON": "Notīrīt",
+    "DATE_RANGE_INPUT": {
+      "START": "Sākuma Datums",
+      "END": "Beigu Datums"
+    },
+    "DATE_RANGE_OPTIONS": {
+      "TITLE": "DATUMU DIAPAZONS",
+      "LAST_7_DAYS": "Pēdējās 7 dienas",
+      "LAST_30_DAYS": "Pēdējās 30 dienas",
+      "LAST_3_MONTHS": "Pēdējie 3 mēneši",
+      "LAST_6_MONTHS": "Pēdējie 6 mēneši",
+      "LAST_YEAR": "Pagājušais gads",
+      "CUSTOM_RANGE": "Pielāgots datumu diapazons"
+    }
+  }
+}

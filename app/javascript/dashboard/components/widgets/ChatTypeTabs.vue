@@ -1,50 +1,64 @@
-<template>
-  <woot-tabs :index="activeTabIndex" @change="onTabChange">
-    <woot-tabs-item
-      v-for="item in items"
-      :key="item.key"
-      :name="item.name"
-      :count="item.count"
-    />
-  </woot-tabs>
-</template>
-<script>
+<script setup>
+import { computed } from 'vue';
+import { useKeyboardEvents } from 'dashboard/composables/useKeyboardEvents';
 import wootConstants from 'dashboard/constants/globals';
-import eventListenerMixins from 'shared/mixins/eventListenerMixins';
-import { hasPressedAltAndNKey } from 'shared/helpers/KeyboardHelpers';
 
-export default {
-  mixins: [eventListenerMixins],
-  props: {
-    items: {
-      type: Array,
-      default: () => [],
-    },
-    activeTab: {
-      type: String,
-      default: wootConstants.ASSIGNEE_TYPE.ME,
-    },
+const props = defineProps({
+  items: {
+    type: Array,
+    default: () => [],
   },
-  computed: {
-    activeTabIndex() {
-      return this.items.findIndex(item => item.key === this.activeTab);
-    },
+  activeTab: {
+    type: String,
+    default: wootConstants.ASSIGNEE_TYPE.ME,
   },
-  methods: {
-    handleKeyEvents(e) {
-      if (hasPressedAltAndNKey(e)) {
-        if (this.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
-          this.onTabChange(0);
-        } else {
-          this.onTabChange(this.activeTabIndex + 1);
-        }
-      }
-    },
-    onTabChange(selectedTabIndex) {
-      if (this.items[selectedTabIndex].key !== this.activeTab) {
-        this.$emit('chatTabChange', this.items[selectedTabIndex].key);
+});
+
+const emit = defineEmits(['chatTabChange']);
+
+const activeTabIndex = computed(() => {
+  return props.items.findIndex(item => item.key === props.activeTab);
+});
+
+const onTabChange = selectedTabIndex => {
+  if (selectedTabIndex >= 0 && selectedTabIndex < props.items.length) {
+    const selectedItem = props.items[selectedTabIndex];
+    if (selectedItem.key !== props.activeTab) {
+      emit('chatTabChange', selectedItem.key);
+    }
+  }
+};
+
+const keyboardEvents = {
+  'Alt+KeyN': {
+    action: () => {
+      if (props.activeTab === wootConstants.ASSIGNEE_TYPE.ALL) {
+        onTabChange(0);
+      } else {
+        const nextIndex = (activeTabIndex.value + 1) % props.items.length;
+        onTabChange(nextIndex);
       }
     },
   },
 };
+
+useKeyboardEvents(keyboardEvents);
 </script>
+
+<template>
+  <woot-tabs
+    :index="activeTabIndex"
+    class="w-full px-3 -mt-1 py-0 [&_ul]:p-0"
+    @change="onTabChange"
+  >
+    <woot-tabs-item
+      v-for="(item, index) in items"
+      :key="item.key"
+      class="text-sm [&_a]:font-medium"
+      :index="index"
+      :name="item.name"
+      :count="item.count"
+      is-compact
+    />
+  </woot-tabs>
+</template>

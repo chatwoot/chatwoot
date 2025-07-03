@@ -11,8 +11,9 @@ class AutomationRules::ConditionsFilterService < FilterService
     @account = conversation.account
 
     # setup filters from json file
-    file = File.read('./lib/filters/filter_keys.json')
-    @filters = JSON.parse(file)
+    file = File.read('./lib/filters/filter_keys.yml')
+    @filters = YAML.safe_load(file)
+
     @conversation_filters = @filters['conversations']
     @contact_filters = @filters['contacts']
     @message_filters = @filters['messages']
@@ -44,8 +45,8 @@ class AutomationRules::ConditionsFilterService < FilterService
 
   def rule_valid?
     is_valid = AutomationRules::ConditionValidationService.new(@rule).perform
-
     Rails.logger.info "Automation rule condition validation failed for rule id: #{@rule.id}" unless is_valid
+    @rule.authorization_error! unless is_valid
 
     is_valid
   end

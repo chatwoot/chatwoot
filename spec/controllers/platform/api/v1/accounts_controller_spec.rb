@@ -60,11 +60,10 @@ RSpec.describe 'Platform Accounts API', type: :request do
         } }, headers: { api_access_token: platform_app.access_token.token }, as: :json
 
         json_response = response.parsed_body
+        created_account = Account.find(json_response['id'])
+        expect(created_account.enabled_features.keys).to match_array(%w[inbox_management ip_lookup help_center])
         expect(json_response['name']).to include('Test Account')
-        expect(json_response['features']['inbox_management']).to be(true)
-        expect(json_response['features']['ip_lookup']).to be(true)
-        expect(json_response['features']['help_center']).to be(true)
-        expect(json_response['features']['disable_branding']).to be_nil
+        expect(json_response['features'].keys).to match_array(%w[inbox_management ip_lookup help_center])
       end
 
       it 'creates an account with limits settings' do

@@ -1,15 +1,3 @@
-<template>
-  <li
-    class="dropdown-menu__item list-none mb-1"
-    :class="{
-      'is-disabled': disabled,
-    }"
-    :tabindex="disabled ? null : -1"
-    :aria-disabled="disabled"
-  >
-    <slot />
-  </li>
-</template>
 <script>
 export default {
   name: 'WootDropdownItem',
@@ -19,13 +7,23 @@ export default {
       type: Boolean,
       default: false,
     },
-    className: {
-      type: String,
-      default: '',
-    },
   },
 };
 </script>
+
+<template>
+  <li
+    class="mb-1 list-none dropdown-menu__item"
+    :class="{
+      'is-disabled': disabled,
+    }"
+    :tabindex="disabled ? null : -1"
+    :aria-disabled="disabled"
+  >
+    <slot />
+  </li>
+</template>
+
 <style lang="scss" scoped>
 .dropdown-menu__item {
   ::v-deep {

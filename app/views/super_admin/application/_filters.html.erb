@@ -1,0 +1,63 @@
+<%#
+# Filters
+
+This partial is used on the `index` page to display available filters
+for a collection of resources.
+
+## Local variables:
+
+- `page`:
+  An instance of [Administrate::Page::Collection][1].
+  Contains helper methods to help display a table,
+  and knows which attributes should be displayed in the resource's table.
+
+[1]: http://www.rubydoc.info/gems/administrate/Administrate/Page/Collection
+%>
+
+<% 
+  # Get the dashboard class name from the resource name
+  resource_name = page.resource_name.classify
+  dashboard_class_name = "#{resource_name}Dashboard"
+  dashboard_class = dashboard_class_name.constantize
+  
+  # Get the current filter if any
+  current_filter = nil
+  if params[:search] && params[:search].include?(':')
+    current_filter = params[:search].split(':').first
+  end
+%>
+
+<% if dashboard_class.const_defined?(:COLLECTION_FILTERS) && !dashboard_class::COLLECTION_FILTERS.empty? %>
+  <div class="flex items-center bg-gray-100 border-0 rounded-md shadow-none relative w-[260px]">
+    <div class="flex items-center h-10 px-2 w-full">
+      <div class="flex items-center justify-center flex-shrink-0 mr-2 text-gray-500" title="Filter by">
+        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <polygon points="22 3 2 3 10 12.46 10 19 14 21 14 12.46 22 3"></polygon>
+        </svg>
+      </div>
+      <div class="flex-1 h-full min-w-0 relative">
+        <select id="filter-select" class="appearance-none bg-gray-100 border-0 text-gray-700 cursor-pointer text-sm h-full overflow-hidden truncate whitespace-nowrap w-full pr-7 pl-0 py-2 focus:outline-none bg-[url('data:image/svg+xml,%3Csvg xmlns=%27http://www.w3.org/2000/svg%27 width=%2712%27 height=%2712%27 viewBox=%270 0 12 12%27%3E%3Cpath fill=%27%23293f54%27 d=%27M6 9L1 4h10z%27/%3E%3C/svg%3E')] bg-[right_0.25rem_center] bg-no-repeat bg-[length:0.75rem]" onchange="applyFilter(this.value)">
+          <option value="">All records</option>
+          <% dashboard_class::COLLECTION_FILTERS.each do |filter_name, _| %>
+            <option value="<%= filter_name %>" <%= 'selected' if filter_name.to_s == current_filter %>>
+              <%= filter_name.to_s.titleize %>
+            </option>
+          <% end %>
+        </select>
+        <% if current_filter %>
+          <a href="?" class="flex items-center justify-center rounded-full text-gray-500 text-xl font-bold h-[18px] w-[18px] leading-none absolute right-5 top-1/2 -translate-y-1/2 no-underline z-2 hover:text-gray-900" title="Clear filter">×</a>
+        <% end %>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    function applyFilter(filterName) {
+      if (filterName) {
+        window.location.href = "?search=" + encodeURIComponent(filterName) + "%3A";
+      } else {
+        window.location.href = "?";
+      }
+    }
+  </script>
+<% end %> 

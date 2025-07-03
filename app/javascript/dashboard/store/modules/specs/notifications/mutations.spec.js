@@ -52,19 +52,19 @@ describe('#mutations', () => {
   });
 
   describe('#SET_NOTIFICATIONS', () => {
-    it('set notifications ', () => {
+    it('set notifications', () => {
       const state = { records: {} };
       mutations[types.SET_NOTIFICATIONS](state, [
-        { id: 1 },
-        { id: 2 },
-        { id: 3 },
-        { id: 4 },
+        { id: 1, primary_actor_id: 1 },
+        { id: 2, primary_actor_id: 2 },
+        { id: 3, primary_actor_id: 3 },
+        { id: 4, primary_actor_id: 4 },
       ]);
       expect(state.records).toEqual({
-        1: { id: 1 },
-        2: { id: 2 },
-        3: { id: 3 },
-        4: { id: 4 },
+        1: { id: 1, primary_actor_id: 1 },
+        2: { id: 2, primary_actor_id: 2 },
+        3: { id: 3, primary_actor_id: 3 },
+        4: { id: 4, primary_actor_id: 4 },
       });
     });
   });
@@ -75,7 +75,7 @@ describe('#mutations', () => {
           1: { id: 1, primary_actor_id: 1 },
         },
       };
-      mutations[types.UPDATE_NOTIFICATION](state, {
+      mutations[types.READ_NOTIFICATION](state, {
         id: 1,
         read_at: true,
       });

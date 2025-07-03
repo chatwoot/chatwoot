@@ -16,6 +16,10 @@ RSpec.describe ChatwootMarkdownRenderer do
   end
 
   describe '#render_article' do
+    before do
+      allow(CommonMarker).to receive(:render_doc).with(markdown_content, :DEFAULT, [:table]).and_return(doc)
+    end
+
     let(:rendered_content) { renderer.render_article }
 
     it 'renders the markdown content to html' do
@@ -24,6 +28,38 @@ RSpec.describe ChatwootMarkdownRenderer do
 
     it 'returns an html safe string' do
       expect(rendered_content).to be_html_safe
+    end
+
+    context 'when tables in markdown' do
+      let(:markdown_content) do
+        <<~MARKDOWN
+          This is a **bold** text and *italic* text.
+
+          | Header1      | Header2      |
+          | ------------ | ------------ |
+          | **Bold Cell**| *Italic Cell*|
+          | Cell3        | Cell4        |
+        MARKDOWN
+      end
+
+      let(:html_content) do
+        <<~HTML
+          <p>This is a <strong>bold</strong> text and <em>italic</em> text.</p>
+          <table>
+            <thead>
+              <tr><th>Header1</th><th>Header2</th></tr>
+            </thead>
+            <tbody>
+              <tr><td><strong>Bold Cell</strong></td><td><em>Italic Cell</em></td></tr>
+              <tr><td>Cell3</td><td>Cell4</td></tr>
+            </tbody>
+          </table>
+        HTML
+      end
+
+      it 'renders tables in html' do
+        expect(rendered_content.to_s).to eq(html_content)
+      end
     end
   end
 

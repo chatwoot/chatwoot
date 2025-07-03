@@ -8,12 +8,12 @@ class ApplicationMailbox < ActionMailbox::Base
 
   # routes as a reply to existing conversations
   routing(
-    ->(inbound_mail) { reply_uuid_mail?(inbound_mail) || in_reply_to_mail?(inbound_mail) } => :reply
+    ->(inbound_mail) { valid_to_address?(inbound_mail) && (reply_uuid_mail?(inbound_mail) || in_reply_to_mail?(inbound_mail)) } => :reply
   )
 
   # routes as a new conversation in email channel
   routing(
-    ->(inbound_mail) { EmailChannelFinder.new(inbound_mail.mail).perform.present? } => :support
+    ->(inbound_mail) { valid_to_address?(inbound_mail) && EmailChannelFinder.new(inbound_mail.mail).perform.present? } => :support
   )
 
   # catchall
@@ -31,7 +31,7 @@ class ApplicationMailbox < ActionMailbox::Base
     end
 
     def in_reply_to_matches?(in_reply_to)
-      Array.wrap(in_reply_to).any? { _1.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
+      Array.wrap(in_reply_to).any? { it.match?(CONVERSATION_MESSAGE_ID_PATTERN) }
     end
 
     # checks if follow this pattern  send it to reply_mailbox
@@ -41,6 +41,17 @@ class ApplicationMailbox < ActionMailbox::Base
         conversation_uuid = email.split('@')[0]
         conversation_uuid.match?(REPLY_EMAIL_UUID_PATTERN)
       end
+    end
+
+    # if mail.to returns a string, then it is a malformed `to` header
+    # valid `to` header will be of type Mail::AddressContainer
+    # validate if the to address is of type string
+    def valid_to_address?(inbound_mail)
+      to_address_class = inbound_mail.mail.to&.class
+      return true if to_address_class == Mail::AddressContainer
+
+      Rails.logger.error "Email to address header is malformed `#{inbound_mail.mail.to}`"
+      false
     end
   end
 end

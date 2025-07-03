@@ -1,0 +1,91 @@
+{
+  "CUSTOM_ROLE": {
+    "HEADER": "Funções Personalizadas",
+    "LEARN_MORE": "Aprenda mais sobre funções personalizadas",
+    "DESCRIPTION": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+    "HEADER_BTN_TXT": "Adicionar função personalizada",
+    "LOADING": "Buscando funções personalizadas...",
+    "SEARCH_404": "Não há itens correspondentes a esta consulta.",
+    "PAYWALL": {
+      "TITLE": "Atualize para criar funções personalizadas",
+      "AVAILABLE_ON": "O recurso de função personalizada está disponível apenas nos planos \"Business\" e \"Enterprise\".",
+      "UPGRADE_PROMPT": "Atualize seu plano para obter acesso a recursos avançados como gerenciamento de time, automações, atributos personalizados e muito mais.",
+      "UPGRADE_NOW": "Atualizar agora",
+      "CANCEL_ANYTIME": "Você pode alterar ou cancelar seu plano a qualquer momento"
+    },
+    "ENTERPRISE_PAYWALL": {
+      "AVAILABLE_ON": "O recurso de função personalizada está disponível apenas nos planos pagos.",
+      "UPGRADE_PROMPT": "Atualize para um plano pago para acessar recursos avançados como logs de auditoria, capacidade do agente e muito mais.",
+      "ASK_ADMIN": "Entre em contato com seu administrador para fazer a atualização."
+    },
+    "LIST": {
+      "404": "Não há funções personalizadas disponíveis nesta conta.",
+      "TITLE": "Gerenciar funções personalizadas",
+      "DESC": "Funções personalizadas são funções criadas pelo proprietário ou administrador da conta. Essas funções podem ser atribuídas a agentes para definir seu acesso e permissões dentro da conta. Funções personalizadas podem ser criadas com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+      "TABLE_HEADER": {
+        "NAME": "Nome",
+        "DESCRIPTION": "Descrição",
+        "PERMISSIONS": "Permissões",
+        "ACTIONS": "Ações"
+      }
+    },
+    "PERMISSIONS": {
+      "CONVERSATION_MANAGE": "Gerenciar todas conversas",
+      "CONVERSATION_UNASSIGNED_MANAGE": "Gerenciar conversas não atribuídas e aquelas atribuídas a elas",
+      "CONVERSATION_PARTICIPATING_MANAGE": "Gerenciar conversas que participa e aquelas atribuídas a elas",
+      "CONTACT_MANAGE": "Gerenciar contatos",
+      "REPORT_MANAGE": "Gerenciar relatórios",
+      "KNOWLEDGE_BASE_MANAGE": "Gerenciar base de conhecimento"
+    },
+    "FORM": {
+      "NAME": {
+        "LABEL": "Nome",
+        "PLACEHOLDER": "Por favor, insira um nome.",
+        "ERROR": "O nome é obrigatório."
+      },
+      "DESCRIPTION": {
+        "LABEL": "Descrição",
+        "PLACEHOLDER": "Por favor, insira uma descrição.",
+        "ERROR": "A descrição é obrigatória."
+      },
+      "PERMISSIONS": {
+        "LABEL": "Permissões",
+        "ERROR": "Permissões são necessárias."
+      },
+      "CANCEL_BUTTON_TEXT": "Cancelar",
+      "API": {
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
+      }
+    },
+    "ADD": {
+      "TITLE": "Adicionar função personalizada",
+      "DESC": " Funções personalizadas permitem criar funções com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+      "SUBMIT": "Enviar",
+      "API": {
+        "SUCCESS_MESSAGE": "Função personalizada adicionada com sucesso."
+      }
+    },
+    "EDIT": {
+      "BUTTON_TEXT": "Alterar",
+      "TITLE": "Editar função personalizada",
+      "DESC": " Funções personalizadas permitem criar funções com permissões e níveis de acesso específicos para atender aos requisitos da organização.",
+      "SUBMIT": "Atualizar",
+      "API": {
+        "SUCCESS_MESSAGE": "Função personalizada atualizada com sucesso."
+      }
+    },
+    "DELETE": {
+      "BUTTON_TEXT": "Excluir",
+      "API": {
+        "SUCCESS_MESSAGE": "Função personalizada excluída com sucesso.",
+        "ERROR_MESSAGE": "Não foi possível desconectar o agente robô. Por favor, tente novamente mais tarde."
+      },
+      "CONFIRM": {
+        "TITLE": "Confirmar exclusão",
+        "MESSAGE": "Você tem certeza que deseja excluir ",
+        "YES": "Sim, excluir ",
+        "NO": "Não, manter "
+      }
+    }
+  }
+}

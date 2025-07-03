@@ -5,6 +5,10 @@
 # If you want to add pagination or other controller-level concerns,
 # you're free to overwrite the RESTful controller actions.
 class SuperAdmin::ApplicationController < Administrate::ApplicationController
+  include ActionView::Helpers::TagHelper
+  include ActionView::Context
+
+  helper_method :render_vue_component
   # authenticiation done via devise : SuperAdmin Model
   before_action :authenticate_super_admin!
 
@@ -22,6 +26,17 @@ class SuperAdmin::ApplicationController < Administrate::ApplicationController
   end
 
   private
+
+  def render_vue_component(component_name, props = {})
+    html_options = {
+      id: 'app',
+      data: {
+        component_name: component_name,
+        props: props.to_json
+      }
+    }
+    content_tag(:div, '', html_options)
+  end
 
   def invalid_action_perfomed
     # rubocop:disable Rails/I18nLocaleTexts

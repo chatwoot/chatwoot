@@ -15,10 +15,10 @@ const dataToSend = {
 };
 import { dataReceived } from './testConversationResponse';
 
-const commit = jest.fn();
-const dispatch = jest.fn();
+const commit = vi.fn();
+const dispatch = vi.fn();
 global.axios = axios;
-jest.mock('axios');
+vi.mock('axios');
 
 describe('#hasMessageFailedWithExternalError', () => {
   it('returns false if message is sent', () => {
@@ -181,6 +181,26 @@ describe('#actions', () => {
       expect(dispatch.mock.calls).toEqual([]);
     });
 
+    it('doesnot send mutation if the view is conversation folders', () => {
+      const conversation = {
+        id: 1,
+        messages: [],
+        meta: { sender: { id: 1, name: 'john-doe' } },
+        inbox_id: 1,
+      };
+      actions.addConversation(
+        {
+          commit,
+          rootState: { route: { name: 'folder_conversations' } },
+          dispatch,
+          state: { currentInbox: 1, appliedFilters: [{ id: 'random-filter' }] },
+        },
+        conversation
+      );
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+
     it('sends correct mutations', () => {
       const conversation = {
         id: 1,
@@ -272,7 +292,7 @@ describe('#actions', () => {
 
   describe('#markMessagesRead', () => {
     beforeEach(() => {
-      jest.useFakeTimers();
+      vi.useFakeTimers();
     });
 
     it('sends correct mutations if api is successful', async () => {
@@ -281,7 +301,7 @@ describe('#actions', () => {
         data: { id: 1, agent_last_seen_at: lastSeen },
       });
       await actions.markMessagesRead({ commit }, { id: 1 });
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [types.UPDATE_MESSAGE_UNREAD_COUNT, { id: 1, lastSeen }],
@@ -301,7 +321,7 @@ describe('#actions', () => {
         data: { id: 1, agent_last_seen_at: lastSeen, unread_count: 1 },
       });
       await actions.markMessagesUnread({ commit }, { id: 1 });
-      jest.runAllTimers();
+      vi.runAllTimers();
       expect(commit).toHaveBeenCalledTimes(1);
       expect(commit.mock.calls).toEqual([
         [
@@ -493,6 +513,28 @@ describe('#deleteMessage', () => {
     expect(commit.mock.calls).toEqual([]);
   });
 
+  describe('#deleteConversation', () => {
+    it('send correct actions if API is success', async () => {
+      axios.delete.mockResolvedValue({
+        data: { id: 1 },
+      });
+      await actions.deleteConversation({ commit, dispatch }, 1);
+      expect(commit.mock.calls).toEqual([[types.DELETE_CONVERSATION, 1]]);
+      expect(dispatch.mock.calls).toEqual([
+        ['conversationStats/get', {}, { root: true }],
+      ]);
+    });
+
+    it('send no actions if API is error', async () => {
+      axios.delete.mockRejectedValue({ message: 'Incorrect header' });
+      await expect(
+        actions.deleteConversation({ commit, dispatch }, 1)
+      ).rejects.toThrow(Error);
+      expect(commit.mock.calls).toEqual([]);
+      expect(dispatch.mock.calls).toEqual([]);
+    });
+  });
+
   describe('#updateCustomAttributes', () => {
     it('update conversation custom attributes', async () => {
       axios.post.mockResolvedValue({
@@ -628,6 +670,60 @@ describe('#addMentions', () => {
               },
             ],
           },
+        ],
+      ]);
+    });
+  });
+
+  describe('#setContextMenuChatId', () => {
+    it('sets the context menu chat id', () => {
+      actions.setContextMenuChatId({ commit }, 1);
+      expect(commit.mock.calls).toEqual([[types.SET_CONTEXT_MENU_CHAT_ID, 1]]);
+    });
+  });
+
+  describe('#setChatListFilters', () => {
+    it('set chat list filters', () => {
+      const filters = {
+        inboxId: 1,
+        assigneeType: 'me',
+        status: 'open',
+        sortBy: 'created_at',
+        page: 1,
+        labels: ['label'],
+        teamId: 1,
+        conversationType: 'mention',
+      };
+      actions.setChatListFilters({ commit }, filters);
+      expect(commit.mock.calls).toEqual([
+        [types.SET_CHAT_LIST_FILTERS, filters],
+      ]);
+    });
+  });
+
+  describe('#updateChatListFilters', () => {
+    it('update chat list filters', () => {
+      actions.updateChatListFilters({ commit }, { updatedWithin: 20 });
+      expect(commit.mock.calls).toEqual([
+        [types.UPDATE_CHAT_LIST_FILTERS, { updatedWithin: 20 }],
+      ]);
+    });
+  });
+
+  describe('#getInboxCaptainAssistantById', () => {
+    it('fetches inbox assistant by id', async () => {
+      axios.get.mockResolvedValue({
+        data: {
+          id: 1,
+          name: 'Assistant',
+          description: 'Assistant description',
+        },
+      });
+      await actions.getInboxCaptainAssistantById({ commit }, 1);
+      expect(commit.mock.calls).toEqual([
+        [
+          types.SET_INBOX_CAPTAIN_ASSISTANT,
+          { id: 1, name: 'Assistant', description: 'Assistant description' },
         ],
       ]);
     });

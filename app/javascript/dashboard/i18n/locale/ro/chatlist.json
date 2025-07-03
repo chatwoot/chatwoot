@@ -6,6 +6,7 @@
     "LIST": {
       "404": "Nu sunt conversații active în acest grup."
     },
+    "FAILED_TO_SEND": "Failed to send",
     "TAB_HEADING": "Conversații",
     "MENTION_HEADING": "Mențiuni",
     "UNATTENDED_HEADING": "Neasistat",
@@ -93,8 +94,14 @@
       "location": {
         "CONTENT": "Locaţie"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram Reel"
+      },
       "fallback": {
         "CONTENT": "a partajat un URL"
+      },
+      "contact": {
+        "CONTENT": "Shared contact"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "Nici un conținut disponibil",
     "HIDE_QUOTED_TEXT": "Ascunde textul citat",
     "SHOW_QUOTED_TEXT": "Arată textul citat",
-    "MESSAGE_READ": "Citește"
+    "MESSAGE_READ": "Citește",
+    "SENDING": "Sending"
   }
 }

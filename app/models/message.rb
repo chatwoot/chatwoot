@@ -24,6 +24,8 @@
 #
 # Indexes
 #
+#  idx_messages_account_content_created                 (account_id,content_type,created_at)
+#  index_messages_on_account_created_type               (account_id,created_at,message_type)
 #  index_messages_on_account_id                         (account_id)
 #  index_messages_on_account_id_and_inbox_id            (account_id,inbox_id)
 #  index_messages_on_additional_attributes_campaign_id  (((additional_attributes -> 'campaign_id'::text))) USING gin
@@ -59,6 +61,7 @@ class Message < ApplicationRecord
   }.to_json.freeze
 
   before_validation :ensure_content_type
+  before_validation :prevent_message_flooding
   before_save :ensure_processed_message_content
   before_save :ensure_in_reply_to
 
@@ -118,7 +121,7 @@ class Message < ApplicationRecord
   belongs_to :account
   belongs_to :inbox
   belongs_to :conversation, touch: true
-  belongs_to :sender, polymorphic: true, required: false
+  belongs_to :sender, polymorphic: true, optional: true
 
   has_many :attachments, dependent: :destroy, autosave: true, before_add: :validate_attachments_limit
   has_one :csat_survey_response, dependent: :destroy_async
@@ -139,8 +142,8 @@ class Message < ApplicationRecord
       conversation_id: conversation.display_id,
       conversation: conversation_push_event_data
     )
-    data.merge!(echo_id: echo_id) if echo_id.present?
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data[:echo_id] = echo_id if echo_id.present?
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     merge_sender_attributes(data)
   end
 
@@ -153,18 +156,9 @@ class Message < ApplicationRecord
     }
   end
 
-  # TODO: We will be removing this code after instagram_manage_insights is implemented
-  # Better logic is to listen to webhook and remove stories proactively rather than trying
-  # a fetch every time a message is returned
-  def validate_instagram_story
-    inbox.channel.fetch_instagram_story_link(self)
-    # we want to reload the message in case the story has expired and data got removed
-    reload
-  end
-
   def merge_sender_attributes(data)
-    data.merge!(sender: sender.push_event_data) if sender && !sender.is_a?(AgentBot)
-    data.merge!(sender: sender.push_event_data(inbox)) if sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data if sender && !sender.is_a?(AgentBot)
+    data[:sender] = sender.push_event_data(inbox) if sender.is_a?(AgentBot)
     data
   end
 
@@ -174,7 +168,7 @@ class Message < ApplicationRecord
       additional_attributes: additional_attributes,
       content_attributes: content_attributes,
       content_type: content_type,
-      content: content,
+      content: outgoing_content,
       conversation: conversation.webhook_data,
       created_at: created_at,
       id: id,
@@ -184,15 +178,13 @@ class Message < ApplicationRecord
       sender: sender.try(:webhook_data),
       source_id: source_id
     }
-    data.merge!(attachments: attachments.map(&:push_event_data)) if attachments.present?
+    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
     data
   end
 
-  def content
-    # move this to a presenter
-    return self[:content] if !input_csat? || inbox.web_widget?
-
-    I18n.t('conversations.survey.response', link: "#{ENV.fetch('FRONTEND_URL', nil)}/survey/responses/#{conversation.uuid}")
+  # Method to get content with survey URL for outgoing channel delivery
+  def outgoing_content
+    MessageContentPresenter.new(self).outgoing_content
   end
 
   def email_notifiable_message?
@@ -204,10 +196,10 @@ class Message < ApplicationRecord
   end
 
   def valid_first_reply?
-    return false unless outgoing? && human_response? && !private?
+    return false unless human_response? && !private?
     return false if conversation.first_reply_created_at.present?
     return false if conversation.messages.outgoing
-                                .where.not(sender_type: 'AgentBot')
+                                .where.not(sender_type: ['AgentBot', 'Captain::Assistant'])
                                 .where.not(private: true)
                                 .where("(additional_attributes->'campaign_id') is null").count > 1
 
@@ -225,7 +217,24 @@ class Message < ApplicationRecord
     save!
   end
 
+  def send_update_event
+    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
+                                                                            previous_changes: previous_changes)
+  end
+
   private
+
+  def prevent_message_flooding
+    # Added this to cover the validation specs in messages
+    # We can revisit and see if we can remove this later
+    return if conversation.blank?
+
+    # there are cases where automations can result in message loops, we need to prevent such cases.
+    if conversation.messages.where('created_at >= ?', 1.minute.ago).count >= Limits.conversation_message_per_minute_limit
+      Rails.logger.error "Too many message: Account Id - #{account_id} : Conversation id - #{conversation_id}"
+      errors.add(:base, 'Too many messages')
+    end
+  end
 
   def ensure_processed_message_content
     text_content_quoted = content_attributes.dig(:email, :text_content, :quoted)
@@ -256,7 +265,6 @@ class Message < ApplicationRecord
     reopen_conversation
     notify_via_mail
     set_conversation_activity
-    update_message_sentiments
     dispatch_create_events
     send_reply
     execute_message_template_hooks
@@ -303,8 +311,7 @@ class Message < ApplicationRecord
     # we want to skip the update event if the message is not updated
     return if previous_changes.blank?
 
-    Rails.configuration.dispatcher.dispatch(MESSAGE_UPDATED, Time.zone.now, message: self, performed_by: Current.executed_by,
-                                                                            previous_changes: previous_changes)
+    send_update_event
   end
 
   def send_reply
@@ -392,10 +399,6 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
-  end
-
-  def update_message_sentiments
-    # override in the enterprise ::Enterprise::SentimentAnalysisJob.perform_later(self)
   end
 end
 

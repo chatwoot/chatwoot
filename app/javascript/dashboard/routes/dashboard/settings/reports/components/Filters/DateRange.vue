@@ -1,9 +1,42 @@
+<script setup>
+import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import { DATE_RANGE_OPTIONS } from '../../constants';
+
+const emit = defineEmits(['onRangeChange']);
+
+const { t } = useI18n();
+
+const options = computed(() =>
+  Object.values(DATE_RANGE_OPTIONS).map(option => ({
+    ...option,
+    name: t(option.translationKey),
+  }))
+);
+
+const selectedId = ref(Object.values(DATE_RANGE_OPTIONS)[0].id);
+
+const selectedOption = computed({
+  get() {
+    return options.value.find(o => o.id === selectedId.value);
+  },
+  set(val) {
+    selectedId.value = val.id;
+  },
+});
+
+const updateRange = range => {
+  selectedOption.value = range;
+  emit('onRangeChange', range);
+};
+</script>
+
 <template>
   <div class="multiselect-wrap--small">
     <multiselect
       v-model="selectedOption"
       class="no-margin"
-      track-by="name"
+      track-by="id"
       label="name"
       :placeholder="$t('FORMS.MULTISELECT.SELECT_ONE')"
       selected-label
@@ -16,31 +49,3 @@
     />
   </div>
 </template>
-
-<script>
-import { DATE_RANGE_OPTIONS } from '../../constants';
-
-const EVENT_NAME = 'on-range-change';
-
-export default {
-  name: 'ReportFiltersDateRange',
-  data() {
-    const translatedOptions = Object.values(DATE_RANGE_OPTIONS).map(option => ({
-      ...option,
-      name: this.$t(option.translationKey),
-    }));
-
-    return {
-      // relies on translations, need to move it to constants
-      selectedOption: translatedOptions[0],
-      options: translatedOptions,
-    };
-  },
-  methods: {
-    updateRange(selectedRange) {
-      this.selectedOption = selectedRange;
-      this.$emit(EVENT_NAME, selectedRange);
-    },
-  },
-};
-</script>

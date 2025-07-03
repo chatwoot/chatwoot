@@ -9,7 +9,7 @@ export const actions = {
         data: {
           data: { payload, meta },
         },
-      } = await NotificationsAPI.get(page);
+      } = await NotificationsAPI.get({ page });
       commit(types.CLEAR_NOTIFICATIONS);
       commit(types.SET_NOTIFICATIONS, payload);
       commit(types.SET_NOTIFICATIONS_META, meta);
@@ -18,14 +18,19 @@ export const actions = {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
     }
   },
-  index: async ({ commit }, { page = 1 } = {}) => {
+  index: async ({ commit }, { page = 1, status, type, sortOrder } = {}) => {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: true });
     try {
       const {
         data: {
           data: { payload, meta },
         },
-      } = await NotificationsAPI.get(page);
+      } = await NotificationsAPI.get({
+        page,
+        status,
+        type,
+        sortOrder,
+      });
       commit(types.SET_NOTIFICATIONS, payload);
       commit(types.SET_NOTIFICATIONS_META, meta);
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isFetching: false });
@@ -54,7 +59,7 @@ export const actions = {
     try {
       await NotificationsAPI.read(primaryActorType, primaryActorId);
       commit(types.SET_NOTIFICATIONS_UNREAD_COUNT, unreadCount - 1);
-      commit(types.UPDATE_NOTIFICATION, { id, read_at: new Date() });
+      commit(types.READ_NOTIFICATION, { id, read_at: new Date() });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
@@ -64,7 +69,7 @@ export const actions = {
     commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: true });
     try {
       await NotificationsAPI.unRead(id);
-      commit(types.UPDATE_NOTIFICATION, { id, read_at: null });
+      commit(types.READ_NOTIFICATION, { id, read_at: null });
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
     } catch (error) {
       commit(types.SET_NOTIFICATIONS_UI_FLAG, { isUpdating: false });
@@ -127,6 +132,7 @@ export const actions = {
         id,
         snoozedUntil,
       });
+
       const {
         data: { snoozed_until = null },
       } = response;
@@ -140,6 +146,10 @@ export const actions = {
     }
   },
 
+  updateNotification: async ({ commit }, data) => {
+    commit(types.UPDATE_NOTIFICATION, data);
+  },
+
   addNotification({ commit }, data) {
     commit(types.ADD_NOTIFICATION, data);
   },
@@ -148,5 +158,12 @@ export const actions = {
   },
   clear({ commit }) {
     commit(types.CLEAR_NOTIFICATIONS);
+  },
+
+  setNotificationFilters: ({ commit }, filters) => {
+    commit(types.SET_NOTIFICATION_FILTERS, filters);
+  },
+  updateNotificationFilters: ({ commit }, filters) => {
+    commit(types.UPDATE_NOTIFICATION_FILTERS, filters);
   },
 };

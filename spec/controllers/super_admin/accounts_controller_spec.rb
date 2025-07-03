@@ -49,7 +49,8 @@ RSpec.describe 'Super Admin accounts API', type: :request do
         expect(response).to have_http_status(:redirect)
         expect(flash[:notice]).to eq('Cache keys cleared')
 
-        expect(account.reload.cache_keys.values.all? { |v| v.to_i == now_timestamp }).to be(true)
+        range = now_timestamp..(now_timestamp + 10)
+        expect(account.reload.cache_keys.values.all? { |v| range.cover?(v.to_i) }).to be(true)
       end
     end
   end

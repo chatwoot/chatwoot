@@ -6,6 +6,7 @@
     "LIST": {
       "404": "没有有效的对话在这个群组里面"
     },
+    "FAILED_TO_SEND": "发送失败",
     "TAB_HEADING": "会话",
     "MENTION_HEADING": "提及",
     "UNATTENDED_HEADING": "未处理",
@@ -53,28 +54,28 @@
     },
     "SORT_ORDER_ITEMS": {
       "last_activity_at_asc": {
-        "TEXT": "Last activity: Oldest first"
+        "TEXT": "最后一次活动：最早在前"
       },
       "last_activity_at_desc": {
-        "TEXT": "Last activity: Newest first"
+        "TEXT": "最后一次活动：最新在前"
       },
       "created_at_desc": {
-        "TEXT": "Created at: Newest first"
+        "TEXT": "创建于：最新在前"
       },
       "created_at_asc": {
-        "TEXT": "Created at: Oldest first"
+        "TEXT": "创建于：最早在前"
       },
       "priority_desc": {
-        "TEXT": "Priority: Highest first"
+        "TEXT": "优先级：最高在前"
       },
       "priority_asc": {
-        "TEXT": "Priority: Lowest first"
+        "TEXT": "优先级：最低在前"
       },
       "waiting_since_asc": {
-        "TEXT": "Pending Response: Longest first"
+        "TEXT": "等待响应：最长在前"
       },
       "waiting_since_desc": {
-        "TEXT": "Pending Response: Shortest first"
+        "TEXT": "等待响应：最短在前"
       }
     },
     "ATTACHMENTS": {
@@ -93,8 +94,14 @@
       "location": {
         "CONTENT": "位置"
       },
+      "ig_reel": {
+        "CONTENT": "Instagram 短视频"
+      },
       "fallback": {
         "CONTENT": "分享了一个网址"
+      },
+      "contact": {
+        "CONTENT": "共享联系人"
       }
     },
     "CHAT_SORT_BY_FILTER": {
@@ -126,6 +133,7 @@
     "NO_CONTENT": "没有可用的内容",
     "HIDE_QUOTED_TEXT": "隐藏引用文字",
     "SHOW_QUOTED_TEXT": "显示引用文字",
-    "MESSAGE_READ": "已读"
+    "MESSAGE_READ": "已读",
+    "SENDING": "发送中"
   }
 }

@@ -1,6 +1,7 @@
 json.id resource.id
 json.name resource.name
 json.description resource.description
+json.short_description resource.short_description.presence
 json.enabled resource.enabled?(@current_account)
 
 if Current.account_user&.administrator?

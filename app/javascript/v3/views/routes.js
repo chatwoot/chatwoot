@@ -1,10 +1,10 @@
 import { frontendURL } from 'dashboard/helper/URLHelper';
 
-const Login = () => import('./login/Index.vue');
-const Signup = () => import('./auth/signup/Index.vue');
-const ResetPassword = () => import('./auth/reset/password/Index.vue');
-const Confirmation = () => import('./auth/confirmation/Index.vue');
-const PasswordEdit = () => import('./auth/password/Edit.vue');
+import Login from './login/Index.vue';
+import Signup from './auth/signup/Index.vue';
+import ResetPassword from './auth/reset/password/Index.vue';
+import Confirmation from './auth/confirmation/Index.vue';
+import PasswordEdit from './auth/password/Edit.vue';
 
 export default [
   {

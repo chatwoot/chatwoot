@@ -1,0 +1,24 @@
+<form class="search" role="search">
+  <label class="search__label" for="search">
+    <svg class="search__eyeglass-icon" role="img">
+      <title>
+        <%= t("administrate.search.label", resource: resource_name) %>
+      </title>
+      <use xlink:href="#icon-eyeglass" />
+    </svg>
+  </label>
+
+  <input class="search__input"
+         id="search"
+         type="search"
+         name="search"
+         placeholder="<%= t("administrate.search.label", resource: resource_name) %>"
+         value="<%= search_term %>">
+
+  <%= link_to clear_search_params, class: "search__clear-link" do %>
+    <svg class="search__clear-icon" role="img">
+      <title><%= t("administrate.search.clear") %></title>
+      <use xlink:href="#icon-cancel" />
+    </svg>
+  <% end %>
+</form> 

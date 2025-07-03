@@ -10,15 +10,16 @@ describe('#enterpriseAccountAPI', () => {
     expect(accountAPI).toHaveProperty('update');
     expect(accountAPI).toHaveProperty('delete');
     expect(accountAPI).toHaveProperty('checkout');
+    expect(accountAPI).toHaveProperty('toggleDeletion');
   });
 
   describe('API calls', () => {
     const originalAxios = window.axios;
     const axiosMock = {
-      post: jest.fn(() => Promise.resolve()),
-      get: jest.fn(() => Promise.resolve()),
-      patch: jest.fn(() => Promise.resolve()),
-      delete: jest.fn(() => Promise.resolve()),
+      post: vi.fn(() => Promise.resolve()),
+      get: vi.fn(() => Promise.resolve()),
+      patch: vi.fn(() => Promise.resolve()),
+      delete: vi.fn(() => Promise.resolve()),
     };
 
     beforeEach(() => {
@@ -40,6 +41,22 @@ describe('#enterpriseAccountAPI', () => {
       accountAPI.subscription();
       expect(axiosMock.post).toHaveBeenCalledWith(
         '/enterprise/api/v1/subscription'
+      );
+    });
+
+    it('#toggleDeletion with delete action', () => {
+      accountAPI.toggleDeletion('delete');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/enterprise/api/v1/toggle_deletion',
+        { action_type: 'delete' }
+      );
+    });
+
+    it('#toggleDeletion with undelete action', () => {
+      accountAPI.toggleDeletion('undelete');
+      expect(axiosMock.post).toHaveBeenCalledWith(
+        '/enterprise/api/v1/toggle_deletion',
+        { action_type: 'undelete' }
       );
     });
   });

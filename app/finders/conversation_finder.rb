@@ -32,6 +32,7 @@ class ConversationFinder
   def initialize(current_user, params)
     @current_user = current_user
     @current_account = current_user.account
+    @is_admin = current_account.account_users.find_by(user_id: current_user.id)&.administrator?
     @params = params
   end
 
@@ -85,8 +86,22 @@ class ConversationFinder
     @team = current_account.teams.find(params[:team_id]) if params[:team_id]
   end
 
+  def find_conversation_by_inbox
+    @conversations = current_account.conversations
+
+    return unless params[:inbox_id]
+
+    @conversations = @conversations.where(inbox_id: @inbox_ids)
+  end
+
   def find_all_conversations
-    @conversations = current_account.conversations.where(inbox_id: @inbox_ids)
+    find_conversation_by_inbox
+    # Apply permission-based filtering
+    @conversations = Conversations::PermissionFilterService.new(
+      @conversations,
+      current_user,
+      current_account
+    ).perform
     filter_by_conversation_type if params[:conversation_type]
     @conversations
   end
@@ -163,12 +178,23 @@ class ConversationFinder
     params[:page] || 1
   end
 
-  def conversations
-    @conversations = @conversations.includes(
+  def conversations_base_query
+    @conversations.includes(
       :taggings, :inbox, { assignee: { avatar_attachment: [:blob] } }, { contact: { avatar_attachment: [:blob] } }, :team, :contact_inbox
     )
+  end
+
+  def conversations
+    @conversations = conversations_base_query
 
     sort_by, sort_order = SORT_OPTIONS[params[:sort_by]] || SORT_OPTIONS['last_activity_at_desc']
-    @conversations.send(sort_by, sort_order).page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
+    @conversations = @conversations.send(sort_by, sort_order)
+
+    if params[:updated_within].present?
+      @conversations.where('conversations.updated_at > ?', Time.zone.now - params[:updated_within].to_i.seconds)
+    else
+      @conversations.page(current_page).per(ENV.fetch('CONVERSATION_RESULTS_PER_PAGE', '25').to_i)
+    end
   end
 end
+ConversationFinder.prepend_mod_with('ConversationFinder')

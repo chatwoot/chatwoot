@@ -3,7 +3,7 @@
     "TITLE": "சாட்வூட்டில் உள்நுழையவும்",
     "EMAIL": {
       "LABEL": "இமெயில்",
-      "PLACEHOLDER": "example@companyname.com",
+      "PLACEHOLDER": "example{'@'}companyname.com",
       "ERROR": "சரியான ஈமெயில் முகவரியை பதிவிடவும்"
     },
     "PASSWORD": {

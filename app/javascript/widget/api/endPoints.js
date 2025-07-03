@@ -52,7 +52,9 @@ const sendAttachment = ({ attachment, replyTo = null }) => {
 
   formData.append('message[referer_url]', referrerURL);
   formData.append('message[timestamp]', timestamp);
-  formData.append('message[reply_to]', replyTo);
+  if (replyTo !== null) {
+    formData.append('message[reply_to]', replyTo);
+  }
   return {
     url: `/api/v1/widget/messages${window.location.search}`,
     params: formData,
@@ -101,6 +103,7 @@ const getMostReadArticles = (slug, locale) => ({
     page: 1,
     sort: 'views',
     status: 1,
+    per_page: 6,
   },
 });
 

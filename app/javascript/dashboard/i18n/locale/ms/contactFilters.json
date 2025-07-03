@@ -30,6 +30,9 @@
       "is_lesser_than": "Is lesser than",
       "days_before": "Adalah x hari sebelum"
     },
+    "ERRORS": {
+      "VALUE_REQUIRED": "Nilai diperlukan"
+    },
     "ATTRIBUTES": {
       "NAME": "Nama",
       "EMAIL": "Email",
@@ -44,7 +47,8 @@
       "CUSTOM_ATTRIBUTE_CHECKBOX": "Kotak Semak",
       "CREATED_AT": "Dicipta Pada",
       "LAST_ACTIVITY": "Last Activity",
-      "REFERER_LINK": "Referrer link"
+      "REFERER_LINK": "Referrer link",
+      "BLOCKED": "Blocked"
     },
     "GROUPS": {
       "STANDARD_FILTERS": "Penapis Standard",
