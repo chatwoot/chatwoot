@@ -8,7 +8,9 @@ RSpec.describe Captain::Llm::ConversationFaqService do
   let(:embedding_service) { instance_double(Captain::Llm::EmbeddingService) }
 
   before do
-    create(:installation_config) { create(:installation_config, name: 'CAPTAIN_OPEN_AI_API_KEY', value: 'test-key') }
+    InstallationConfig.find_or_create_by(name: 'CAPTAIN_OPEN_AI_API_KEY') do |config|
+      config.value = 'test-key'
+    end
     allow(OpenAI::Client).to receive(:new).and_return(client)
     allow(Captain::Llm::EmbeddingService).to receive(:new).and_return(embedding_service)
   end

@@ -9,7 +9,6 @@
 #  external_link :string           not null
 #  file_size     :integer
 #  name          :string
-#  processed_at  :datetime
 #  source_type   :string           default("url")
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
@@ -34,11 +33,12 @@ class Captain::Document < ApplicationRecord
   belongs_to :assistant, class_name: 'Captain::Assistant'
   has_many :responses, class_name: 'Captain::AssistantResponse', dependent: :destroy, as: :documentable
   belongs_to :account
+  has_one_attached :file
 
   validates :external_link, presence: true
   validates :external_link, uniqueness: { scope: :assistant_id }
   validates :content, length: { maximum: 400_000 }
-  validates :source_type, inclusion: { in: %w[url pdf_upload] }
+  validates :source_type, inclusion: { in: %w[url pdf_upload] }, allow_blank: true
   before_validation :ensure_account_id
   before_validation :set_default_source_type
 
@@ -56,6 +56,10 @@ class Captain::Document < ApplicationRecord
 
   scope :for_account, ->(account_id) { where(account_id: account_id) }
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
+
+  def pdf_document?
+    source_type == 'pdf_upload' || file.attached? || pdf_url_format?
+  end
 
   private
 
@@ -89,33 +93,17 @@ class Captain::Document < ApplicationRecord
   def set_default_source_type
     return if source_type.present?
 
-    # Determine type without calling pdf_document? to avoid circular dependency
-    self.source_type = if content_type&.include?('application/pdf') || pdf_url_format?
+    self.source_type = if file.attached? || pdf_url_format?
                          'pdf_upload'
                        else
                          'url'
                        end
   end
 
-  # Public method used by CrawlJob to determine if document is a PDF
-  def pdf_document?
-    pdf_upload? || pdf_content_type? || pdf_url_format?
-  end
-
-  def pdf_upload?
-    source_type == 'pdf_upload'
-  end
-
-  def pdf_content_type?
-    content_type&.include?('application/pdf')
-  end
-
   def pdf_url_format?
     return false if external_link.blank?
 
     url = external_link.downcase
-    url.end_with?('.pdf') ||
-      url.include?('/rails/active_storage/blobs/') ||
-      (url.include?('blob') && url.include?('pdf'))
+    url.end_with?('.pdf') || url.include?('/rails/active_storage/blobs/')
   end
 end

@@ -293,7 +293,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_02_075600) do
     t.string "source_type", default: "url"
     t.string "content_type"
     t.integer "file_size"
-    t.datetime "processed_at"
     t.index ["account_id"], name: "index_captain_documents_on_account_id"
     t.index ["assistant_id", "external_link"], name: "index_captain_documents_on_assistant_id_and_external_link", unique: true
     t.index ["assistant_id"], name: "index_captain_documents_on_assistant_id"

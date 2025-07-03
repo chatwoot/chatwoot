@@ -343,7 +343,7 @@ RSpec.describe 'Api::V1::Accounts::Captain::Documents', type: :request do
 
           expect(response).to have_http_status(:success)
           expect(json_response[:id]).to be_present
-          expect(json_response[:message]).to eq('PDF uploaded successfully. Processing will begin shortly.')
+          expect(json_response[:name]).to be_present
         end
       end
 

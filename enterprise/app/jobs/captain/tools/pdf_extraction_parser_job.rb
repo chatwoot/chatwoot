@@ -1,226 +1,43 @@
-require 'securerandom'
-
 class Captain::Tools::PdfExtractionParserJob < ApplicationJob
   queue_as :low
-  retry_on StandardError, wait: :exponentially_longer, attempts: 3
 
   def perform(assistant_id:, pdf_content:, document_id: nil)
-    validate_inputs!(assistant_id, pdf_content, document_id)
+    assistant = Captain::Assistant.find(assistant_id)
+    return unless should_process_content?(pdf_content[:content], assistant.account)
 
-    assistant = load_assistant(assistant_id)
-    content_data = extract_content_data(pdf_content)
+    # Find the main document instead of creating a new one
+    main_document = Captain::Document.find(document_id) if document_id
+    return unless main_document
 
-    process_document(assistant, content_data, document_id)
+    enqueue_response_builder_job_for_chunk(main_document, pdf_content)
   rescue ActiveRecord::RecordNotFound => e
-    handle_record_not_found_error(e, document_id)
-  rescue StandardError => e
-    handle_processing_error(e, assistant_id, document_id)
+    Rails.logger.error "PDF parser job failed - Document not found: #{e.message}"
+  rescue Captain::Document::LimitExceededError => e
+    Rails.logger.info "PDF parser job stopped - Document limit exceeded: #{e.message}"
   end
 
   private
 
-  def validate_inputs!(assistant_id, pdf_content, _document_id)
-    raise ArgumentError, 'Assistant ID is required' if assistant_id.blank?
-    raise ArgumentError, 'PDF content is required' if pdf_content.blank?
+  def enqueue_response_builder_job_for_chunk(main_document, pdf_content)
+    # Create a context string for better AI processing that includes page info
+    page_info = pdf_content[:page_number] ? " (Page #{pdf_content[:page_number]})" : ''
+    chunk_info = pdf_content[:chunk_index] ? " Part #{pdf_content[:chunk_index]}" : ''
+
+    # Combine main document content with chunk content for comprehensive FAQ generation
+    context_content = "#{main_document.content}\n\n--- Additional Content#{page_info}#{chunk_info} ---\n#{pdf_content[:content]}"
+
+    # Use the ResponseBuilderJob with full_content parameter to generate FAQs
+    # This will link all FAQs to the main document while using the chunk content for AI processing
+    # Skip reset since it's already done in the main PDF extraction job
+    Captain::Documents::ResponseBuilderJob.perform_later(main_document, context_content, skip_reset: true)
   end
 
-  def extract_content_data(pdf_content)
-    {
-      content: pdf_content[:content] || '',
-      page_number: pdf_content[:page_number] || 1,
-      chunk_index: pdf_content[:chunk_index] || 1,
-      total_chunks: pdf_content[:total_chunks] || 1
-    }
-  end
-
-  def load_assistant(assistant_id)
-    Captain::Assistant.find(assistant_id)
-  end
-
-  def processing_should_skip?(assistant)
-    exceeded = limit_exceeded?(assistant.account)
-    Rails.logger.info "Document limit exceeded for account #{assistant.account.id}" if exceeded
-    exceeded
-  end
-
-  def load_document(document_id)
-    return nil if document_id.blank?
-
-    Captain::Document.find(document_id)
-  end
-
-  def log_chunk_processing(document_id, content_data)
-    Rails.logger.info "Processing PDF chunk for document #{document_id}: " \
-                      "page #{content_data[:page_number]}, " \
-                      "chunk #{content_data[:chunk_index]}/#{content_data[:total_chunks]}"
-  end
-
-  def update_document_content(document, content_data)
-    document.update!(
-      content: content_data[:content],
-      status: 'available',
-      processed_at: Time.current
-    )
-
-    # Trigger FAQ generation for this chunk
-    Captain::Documents::ResponseBuilderJob.perform_later(document)
-  rescue StandardError => e
-    Rails.logger.error "Failed to parse PDF content for document #{document.id}: #{e.message}"
-    raise "Failed to parse PDF data: #{e.message}"
-  end
-
-  def create_new_document(assistant, content_data, document_id = nil)
-    document_params = build_document_params(assistant, content_data, document_id)
-
-    new_document = Captain::Document.create!(document_params)
-
-    # Trigger FAQ generation for this chunk
-    Captain::Documents::ResponseBuilderJob.perform_later(new_document)
-
-    new_document
-  rescue Captain::Document::LimitExceededError
-    Rails.logger.info "Document limit exceeded for account #{assistant.account.id}"
-    return false
-  rescue StandardError => e
-    Rails.logger.error "Failed to parse PDF content for assistant #{assistant.id}: #{e.message}"
-    raise "Failed to parse PDF data: #{e.message}"
-  end
-
-  def build_document_params(assistant, content_data, document_id)
-    title = generate_content_title(
-      content_data[:content],
-      content_data[:page_number],
-      content_data[:chunk_index],
-      content_data[:total_chunks]
-    )
-
-    external_link = generate_external_link(document_id, content_data)
-
-    {
-      assistant: assistant,
-      account: assistant.account,
-      content: content_data[:content],
-      name: title,
-      external_link: external_link,
-      status: 'available',
-      source_type: 'pdf_upload',
-      content_type: 'application/pdf'
-    }
-  end
-
-  def generate_external_link(document_id, content_data)
-    page_number = content_data[:page_number]
-    chunk_index = content_data[:chunk_index]
-
-    if document_id && page_number && chunk_index
-      "pdf_chunk_#{document_id}_page_#{page_number}_chunk_#{chunk_index}"
-    elsif page_number && chunk_index
-      "pdf_chunk_#{SecureRandom.hex(8)}_page_#{page_number}_chunk_#{chunk_index}"
-    else
-      "pdf_chunk_#{SecureRandom.hex(8)}"
-    end
-  end
-
-  def generate_content_title(content, page_number, chunk_index, total_chunks)
-    return 'PDF Content' if content.blank?
-
-    base_title = extract_base_title(content)
-    add_page_chunk_info(base_title, page_number, chunk_index, total_chunks)
-  end
-
-  def extract_base_title(content)
-    first_line = content.split("\n").first&.strip || ''
-
-    base_title = if first_line.include?('.')
-                   extract_sentence_title(first_line)
-                 else
-                   first_line
-                 end
-
-    # Use generic title for long or blank content
-    base_title.length > 100 || base_title.blank? ? 'PDF Content' : base_title
-  end
-
-  def extract_sentence_title(first_line)
-    first_sentence = first_line.split('.').first&.strip || ''
-    # Only add period if the original content was actually a complete sentence
-    if first_line.split('.').length > 1 && first_line.split('.')[1].strip.present?
-      "#{first_sentence}."
-    else
-      first_sentence
-    end
-  end
-
-  def add_page_chunk_info(base_title, page_number, chunk_index, total_chunks)
-    title_with_info = build_title_with_chunk_info(base_title, page_number, chunk_index, total_chunks)
-    truncate_title(title_with_info)
-  end
-
-  def build_title_with_chunk_info(base_title, page_number, chunk_index, total_chunks)
-    return "#{base_title} (Page #{page_number}, Part #{chunk_index}/#{total_chunks})" if total_chunks > 1
-    return "#{base_title} (Page #{page_number})" if page_number && page_number > 1
-
-    base_title
-  end
-
-  def truncate_title(title)
-    title.length > 255 ? "#{title[0, 252]}..." : title
+  def should_process_content?(content, account)
+    content.present? && !limit_exceeded?(account)
   end
 
   def limit_exceeded?(account)
     limits = account.usage_limits.dig(:captain, :documents)
-    return false unless limits
-
-    limits[:current_available].to_i <= 0
-  end
-
-  def handle_record_not_found_error(error, _document_id)
-    Rails.logger.error "Record not found: #{error.message}"
-    raise "Failed to parse PDF data: #{error.message}"
-  end
-
-  def handle_processing_error(error, assistant_id, document_id)
-    Rails.logger.error "Failed to parse PDF content for assistant #{assistant_id}: #{error.message}"
-
-    update_document_error_status(document_id, error) if document_id.present?
-
-    raise "Failed to parse PDF data: #{error.message}"
-  end
-
-  def update_document_error_status(document_id, error)
-    return if should_skip_document_update?(error)
-
-    document = Captain::Document.find_by(id: document_id)
-    document&.update(status: 'in_progress')
-  rescue StandardError => e
-    Rails.logger.error "Failed to update document status: #{e.message}"
-  end
-
-  def should_skip_document_update?(error)
-    error.message.include?('Database error')
-  end
-
-  def process_document(assistant, content_data, document_id)
-    return create_new_document_with_limit_check(assistant, content_data, document_id) if document_id.blank?
-
-    process_existing_document(assistant, content_data, document_id)
-  end
-
-  def process_existing_document(assistant, content_data, document_id)
-    existing_document = Captain::Document.find_by(id: document_id)
-
-    if existing_document
-      log_chunk_processing(document_id, content_data)
-      update_document_content(existing_document, content_data)
-    else
-      create_new_document_with_limit_check(assistant, content_data, document_id)
-    end
-  end
-
-  def create_new_document_with_limit_check(assistant, content_data, document_id)
-    result = create_new_document(assistant, content_data, document_id)
-    return false if result == false  # Limits exceeded
-
-    result
+    limits && limits[:current_available].to_i <= 0
   end
 end
