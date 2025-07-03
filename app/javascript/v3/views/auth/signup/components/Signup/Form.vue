@@ -50,9 +50,6 @@ export default {
         email: {
           required,
           email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
         },
         password: {
           required,
