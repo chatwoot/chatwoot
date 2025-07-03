@@ -4,6 +4,9 @@ module IncomingEmailValidityHelper
   def incoming_email_from_valid_email?
     return false unless valid_external_email_for_active_account?
 
+    # Process bounced emails, as regular emails
+    return true if @processed_mail.bounced?
+
     # we skip processing auto reply emails like delivery status notifications
     # out of office replies, etc.
     return false if auto_reply_email?
