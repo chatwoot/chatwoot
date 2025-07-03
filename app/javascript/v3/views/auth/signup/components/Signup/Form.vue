@@ -52,9 +52,9 @@ export default {
         email: {
           required,
           email,
-          businessEmailValidator(value) {
-            return CompanyEmailValidator.isCompanyEmail(value);
-          },
+          // businessEmailValidator(value) {
+          //   return CompanyEmailValidator.validate(value);
+          // },
         },
         password: {
           required,
