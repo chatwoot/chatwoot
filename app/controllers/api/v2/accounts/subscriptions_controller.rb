@@ -184,7 +184,8 @@ class Api::V2::Accounts::SubscriptionsController < Api::BaseController
 
   def calculate_account_limits
     plan_name = current_account.custom_attributes&.dig('plan_name') || 'free_trial'
-    plan_limits = Billing::SyncAccountFeaturesService.new(current_account, plan_name).class.plan_limits(plan_name)
+    # Call the class method directly to avoid creating an instance that might trigger sync
+    plan_limits = Billing::SyncAccountFeaturesService.plan_limits(plan_name)
 
     # If it's a free trial plan, show specific limits
     if plan_name == 'free_trial' || plan_limits.blank?
