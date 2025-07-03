@@ -39,7 +39,7 @@ class Api::V1::Widget::EventsController < Api::V1::Widget::BaseController
       popupId: params[:meta]['popupId'],
       browserId: params[:meta]['browserId'],
       shopUrl: shop_url,
-      contactID: contact_id
+      contactID: contact_id.to_s
     }
     Rails.logger.info("responseData, #{data}")
     response = HTTParty.post(
