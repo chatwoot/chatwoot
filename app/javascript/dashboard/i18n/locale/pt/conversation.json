@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Próxima semana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agentes",
+      "TEAMS": "Equipas"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Suspender até",
       "APPLY": "Adiar",
