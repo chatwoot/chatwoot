@@ -114,10 +114,7 @@ module.exports = {
           '⌘',
           '📄',
           '🎉',
-<<<<<<< HEAD
           '🚀',
-=======
->>>>>>> 2af6a4c7a (feat: add ESLint configuration and update components)
           '💬',
           '👥',
           '📥',
