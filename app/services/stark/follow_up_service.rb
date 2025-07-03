@@ -24,17 +24,31 @@ module Stark
           response.dig('body', 'message')
         when 400
           # Invalid data: log and return nil
-          Rails.logger.error("Stark invalid data: #{response.dig('body', 'message')}, errors: #{response.dig('body', 'error')}")
+          message = response.dig('body', 'message')
+          errors = response.dig('body', 'errors')
+          log_and_notify_slack(
+            "[STARK FOLLOW-UP ERROR] 400 Bad Request: #{message}, Errors: #{errors}"
+          )
           nil
         when 500
           # Server error: log and return nil
-          Rails.logger.error("Stark server error: #{response.dig('body', 'message')}")
+          message = response.dig('body', 'message')
+          log_and_notify_slack(
+            "[STARK FOLLOW-UP ERROR] 500 Server Error: #{message}"
+          )
           nil
         else
           # Unexpected status: log and return nil
-          Rails.logger.error("Unexpected Stark response: #{response.inspect}")
+          log_and_notify_slack(
+            "[STARK FOLLOW-UP ERROR] Unexpected response: #{response.inspect}"
+          )
           nil
         end
+      rescue JSON::ParserError => e
+        log_and_notify_slack(
+          "[STARK FOLLOW-UP PARSE ERROR] Failed to parse Stark response: #{e.message}"
+        )
+        nil
       rescue StandardError => e
         retries += 1
         if retries <= MAX_RETRIES
@@ -42,7 +56,10 @@ module Stark
           sleep(RETRY_DELAY)
           retry
         end
-        Rails.logger.error("Stark server error persisted: #{e.message}")
+
+        log_and_notify_slack(
+          "[STARK FOLLOW-UP ERROR] Stark server error persisted: #{e.message}"
+        )
         nil
       end
     end
@@ -127,5 +144,11 @@ module Stark
       end
     end
 
+    def log_and_notify_slack(message)
+      Rails.logger.error(message)
+      SlackNotifierService.call(
+        text: message
+      )
+    end
   end
 end

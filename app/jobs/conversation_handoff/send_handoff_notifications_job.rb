@@ -9,6 +9,9 @@ class ConversationHandoff::SendHandoffNotificationsJob < ApplicationJob
       AgentNotifications::ConversationHandoffMailer.notify_handoff(conversation).deliver_later
     rescue StandardError => e
       Rails.logger.error("Failed to send handoff notifications: #{e.message}")
+      SlackNotifierService.new(
+        text: "Handoff failed. Failed to send handoff notifications: #{e.message}"
+      )
     end
   end
 end
