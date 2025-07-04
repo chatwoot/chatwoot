@@ -158,26 +158,26 @@ const submit = async () => {
       <div class="w-full">
         <!-- Pilihan metode -->
         <div class="flex gap-3">
-          <button
-            class="w-full border rounded-lg p-4 flex flex-col items-start"
-            :class="{ 'border-primary-500': selectedMethod === 'VC' }"
+          <div
+            class="w-full border rounded-lg p-4 flex flex-col items-start cursor-pointer border-transparent"
+            :class="{ '!border-primary-500': selectedMethod === 'VC' }"
             @click.prevent="selectedMethod = 'VC'"
           >
             <div class="text-sm font-medium">Kartu Kredit (Berlangganan)</div>
             <div class="text-xs text-slate-500">
               Nikmati perpanjangan otomatis
             </div>
-          </button>
-          <button
-            class="w-full border rounded-lg p-4 flex flex-col items-start"
-            :class="{ 'border-primary-500': selectedMethod === 'M2' }"
+          </div>
+          <div
+            class="w-full border rounded-lg p-4 flex flex-col items-start cursor-pointer border-transparent"
+            :class="{ '!border-primary-500': selectedMethod === 'M2' }"
             @click.prevent="selectedMethod = 'M2'"
           >
             <div class="text-sm font-medium">VA - MANDIRI</div>
             <div class="text-xs text-slate-500">
               Bayar sekali dan topup sesuai kebutuhan
             </div>
-          </button>
+          </div>
         </div>
       </div>
 
@@ -213,7 +213,7 @@ const submit = async () => {
         <!-- Dropdown menu -->
         <div
           v-if="isDropdownOpen"
-          class="absolute z-50 left-0 right-0 bg-white border rounded mt-1 shadow-lg max-h-60 overflow-auto"
+          class="absolute z-50 left-0 right-0 bg-white dark:bg-n-slate-2 border rounded mt-1 shadow-lg max-h-60 overflow-auto"
           style="min-width: 100%"
         >
           <div
