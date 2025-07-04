@@ -511,6 +511,9 @@ Rails.application.routes.draw do
     # Legacy Stripe-specific endpoints (for backward compatibility)
     post 'stripe/process_event', to: 'billing#process_event'
     get 'stripe/health', to: 'billing#health'
+
+    # Shopify compliance webhooks
+    post 'shopify/compliance', to: 'shopify#compliance'
   end
 
   # ----------------------------------------------------------------------
