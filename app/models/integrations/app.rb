@@ -63,7 +63,7 @@ class Integrations::App
     when 'linear'
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
     when 'github'
-      GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present? && GlobalConfigService.load('GITHUB_CLIENT_SECRET', nil).present?
+      github_enabled?
     when 'shopify'
       shopify_enabled?(account)
     when 'leadsquared'
@@ -142,6 +142,10 @@ class Integrations::App
   end
 
   private
+
+  def github_enabled?
+    GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present? && GlobalConfigService.load('GITHUB_CLIENT_SECRET', nil).present?
+  end
 
   def shopify_enabled?(account)
     account.feature_enabled?('shopify_integration') && GlobalConfigService.load('SHOPIFY_CLIENT_ID', nil).present?

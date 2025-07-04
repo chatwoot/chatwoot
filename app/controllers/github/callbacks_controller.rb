@@ -2,6 +2,9 @@ class Github::CallbacksController < ApplicationController
   include Github::IntegrationHelper
 
   def show
+    # Validate account context early for all flows that require it
+    account if params[:code].present?
+
     if params[:installation_id].present? && params[:code].present?
       # Both installation and OAuth code present - handle both
       handle_installation_with_oauth
@@ -78,36 +81,38 @@ class Github::CallbacksController < ApplicationController
   end
 
   def handle_response(installation_id = nil)
+    settings = build_hook_settings(installation_id)
+    hook = create_integration_hook(settings)
+    hook.save!
+
+    cleanup_session_data
+    redirect_to github_redirect_uri
+  rescue StandardError => e
+    Rails.logger.error("Github callback error: #{e.message}")
+    redirect_to fallback_redirect_uri
+  end
+
+  def build_hook_settings(installation_id)
     settings = {
       token_type: parsed_body['token_type'],
       scope: parsed_body['scope']
     }
 
-    # Add installation_id from parameter or session
-    if installation_id
-      settings[:installation_id] = installation_id
-    elsif session[:github_installation_id]
-      settings[:installation_id] = session[:github_installation_id]
-    end
+    settings[:installation_id] = installation_id || session[:github_installation_id]
+    settings.compact
+  end
 
-    # Use account from state parameter - this should work for both flows now
-    target_account = account
-
-    hook = target_account.hooks.new(
+  def create_integration_hook(settings)
+    account.hooks.new(
       access_token: parsed_body['access_token'],
       status: 'enabled',
       app_id: 'github',
       settings: settings
     )
-    hook.save!
+  end
 
-    # Clear session data
+  def cleanup_session_data
     session.delete(:github_installation_id)
-
-    redirect_to github_redirect_uri
-  rescue StandardError => e
-    Rails.logger.error("Github callback error: #{e.message}")
-    redirect_to fallback_redirect_uri
   end
 
   def account
