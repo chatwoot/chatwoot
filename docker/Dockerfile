@@ -87,7 +87,7 @@ RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
   && rm .gitignore
 
 # final build stage
-FROM ruby:3.3.3-alpine3.19
+FROM ruby:3.4.4-alpine3.21
 
 ARG NODE_VERSION="23.7.0"
 ARG PNPM_VERSION="10.2.0"
