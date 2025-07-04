@@ -26,7 +26,8 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def generate_and_process_response
     @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      message_history: collect_previous_messages
+      @conversation.messages.incoming.last.content,
+      collect_previous_messages
     )
 
     return process_action('handoff') if handoff_requested?
@@ -42,21 +43,39 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
       .where(message_type: [:incoming, :outgoing])
       .where(private: false)
       .map do |message|
-      {
-        content: prepare_multimodal_message_content(message),
-        role: determine_role(message)
-      }
+        {
+          content: message_content(message),
+          role: determine_role(message)
+        }
+      end
+  end
+
+  def message_content(message)
+    return message.content if message.content.present?
+    return 'User has shared a message without content' unless message.attachments.any?
+
+    audio_transcriptions = extract_audio_transcriptions(message.attachments)
+    return audio_transcriptions if audio_transcriptions.present?
+
+    'User has shared an attachment'
+  end
+
+  def extract_audio_transcriptions(attachments)
+    audio_attachments = attachments.where(file_type: :audio)
+    return '' if audio_attachments.blank?
+
+    transcriptions = ''
+    audio_attachments.each do |attachment|
+      result = Messages::AudioTranscriptionService.new(attachment).perform
+      transcriptions += result[:transcriptions] if result[:success]
     end
+    transcriptions
   end
 
   def determine_role(message)
     return 'system' if message.content.blank?
 
     message.message_type == 'incoming' ? 'user' : 'system'
-  end
-
-  def prepare_multimodal_message_content(message)
-    Captain::OpenAiMessageBuilderService.new(message: message).generate_content
   end
 
   def handoff_requested?
