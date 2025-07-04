@@ -74,9 +74,9 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
             }
           }
         }
-        fulfillments(first: 100) {
+        fulfillments(first: 10) {
           name
-          fulfillmentLineItems(first: 100) {
+          fulfillmentLineItems(first: 10) {
             nodes {
               id
               quantity
@@ -86,10 +86,11 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
             }
           }
         }
-        lineItems(first: 100) {
+        lineItems(first: 10) {
           nodes {
             id
             refundableQuantity
+            unfulfilledQuantity
           }
         }
       }
@@ -282,7 +283,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
   end
 
   def refund_order
-    permitted = params.permit(:note, :notify, :currency, refund_line_items: [:line_item_id, :quantity, :restock_type], transactions: [:parent_id, :amount,:kind, :gateway, :order_id], shipping: [:amount, :tax, :maximum_refundable])
+    permitted = params.permit(:note, :notify, :currency, refund_line_items: [:line_item_id, :quantity, :restock_type, :location_id], transactions: [:parent_id, :amount,:kind, :gateway, :order_id], shipping: [:amount, :tax, :maximum_refundable])
 
     refund_line_items, transactions, note, notify, currency, shipping = permitted.values_at(:refund_line_items, :transactions, :note, :notify, :currency, :shipping)
 
@@ -296,7 +297,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
         refundLineItems: (refund_line_items&.map do |item|
           item.merge(restockType: (item[:restock_type] || "no_restock").upcase,
                      lineItemId:  "gid://shopify/LineItem/#{item[:line_item_id]}",
-                     locationId: item[:location_id]
+                     locationId: "gid://shopify/Location/#{item[:location_id]}" 
           ).except(:line_item_id, :location_id, :restock_type)
         end || []),
         transactions: (transactions&.map do |item|
