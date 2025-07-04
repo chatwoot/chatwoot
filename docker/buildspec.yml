@@ -1,0 +1,32 @@
+---
+version: 0.2
+
+env:
+  variables:
+    BUNDLE_SILENCE_ROOT_WARNING: true
+  parameter-store:
+    SECRET_KEY_BASE: '/$RAILS_ENV/chatwoot/SECRET_KEY_BASE'
+phases:
+  pre_build:
+    commands:
+      - echo Logging in to Amazon ECR...
+      - aws ecr get-login-password --region $REGION | docker login --username AWS --password-stdin $ECR
+      - export DOCKER_BUILDKIT=1
+  build:
+    commands:
+      - echo Building Docker image...
+      - docker build --build-arg SECRET_KEY_BASE_ARG=${SECRET_KEY_BASE} --build-arg RAILS_ENV=$RAILS_ENV --build-arg REPO_URI=$ECR -t crm-app . -f docker/Dockerfile
+      - docker build -t nginx . -f docker/Dockerfile_nginx
+      - docker tag crm-app:latest $ECR/chatwoot/crm-app:latest
+      - docker tag nginx:latest $ECR/chatwoot/nginx:latest
+  post_build:
+    commands:
+      - echo Pushing image to ECR...
+      - docker push $ECR/chatwoot/crm-app:latest
+      - docker push $ECR/chatwoot/nginx:latest
+      - echo Writing image definitions file...
+      - printf '[{"name":"'crm-app'","imageUri":"%s"}]' $ECR/chatwoot/crm-app:latest > crm-app.json
+      - printf '[{"name":"'crm-sidekiq'","imageUri":"%s"}]' $ECR/chatwoot/crm-app:latest > crm-sidekiq.json
+      - printf '[{"name":"'nginx'","imageUri":"%s"}]' $ECR/chatwoot/nginx:latest > nginx.json
+artifacts:
+    files: '*.json'

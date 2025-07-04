@@ -1,0 +1,27 @@
+version: 0.2
+
+phases:
+  install:
+    runtime-versions:
+      python: 3.x
+  pre_build:
+    commands:
+      - echo Load image detail...
+  build:
+    commands:
+      - echo Running DB migration task...
+      - |
+          MIGRATE_TASK_ARN=$(aws ecs run-task \
+            --cluster $CLUSTER \
+            --launch-type EC2 \
+            --network-configuration "awsvpcConfiguration={subnets=[$SUBNETS],securityGroups=[$SECURITY_GROUP],assignPublicIp=DISABLED}" \
+            --task-definition $TASKNAME \
+            --overrides "{\"containerOverrides\":[{\"name\":\"$TASKNAME\",\"command\":[\"bundle\",\"exec\",\"rake\",\"db:migrate\"]}]}" \
+            --query "tasks[0].taskArn" --output text)
+          echo "Waiting for migration task to complete..."
+          aws ecs wait tasks-stopped --cluster $CLUSTER --tasks $MIGRATE_TASK_ARN
+          MIGRATE_STATUS=$(aws ecs describe-tasks --cluster $CLUSTER --tasks $MIGRATE_TASK_ARN --query "tasks[0].containers[0].exitCode" --output text)
+          if [ "$MIGRATE_STATUS" == "None" ] || [ "$MIGRATE_STATUS" -ne 0 ]; then
+            echo "Migration failed or did not return exit code. Check ECS logs."
+            exit 1
+          fi

@@ -1,0 +1,5 @@
+FROM nginx
+
+COPY docker/nginx.conf /etc/nginx/nginx.conf
+COPY docker/app.conf /etc/nginx/conf.d/app.conf
+CMD ["nginx", "-g", "daemon off;"]
