@@ -315,23 +315,27 @@ const calculatePackagePrice = price => {
 };
 
 // Billing cycle tabs data
-const billingCycleTabs = [
-  { id: 'monthly', name: t('BILLING.MONTHLY'), qty: 1 },
-  { id: 'quarterly', name: t('BILLING["3_MONTHS"]'), qty: 3 },
-  {
-    id: 'halfyear',
-    name: t('BILLING["6_MONTHS"]'),
-    qty: 6,
-    badge: '',
-  },
-  { id: 'yearly', name: t('BILLING.YEARLY'), qty: 12, badge: '' },
-];
+const billingCycleTabs = computed(() => {
+  return [
+    { id: 'monthly', name: t('BILLING.MONTHLY'), qty: 1 },
+    { id: 'quarterly', name: t('BILLING["3_MONTHS"]'), qty: 3 },
+    {
+      id: 'halfyear',
+      name: t('BILLING["6_MONTHS"]'),
+      qty: 6,
+      badge: '',
+    },
+    { id: 'yearly', name: t('BILLING.YEARLY'), qty: 12, badge: '' },
+  ]
+});
 
-const menuTabs = [
-  { id: 'billing', name: t('BILLING.TAB_PAYMENT') },
-  { id: 'history', name: t('BILLING.TAB_HISTORY_PAYMENT') },
-];
-const selectedMenuTab = ref(menuTabs[0].id)
+const menuTabs = computed(() => {
+  return [
+    { id: 'billing', name: t('BILLING.TAB_PAYMENT') },
+    { id: 'history', name: t('BILLING.TAB_HISTORY_PAYMENT') },
+  ]
+});
+const selectedMenuTab = ref(menuTabs.value[0].id)
 
 // Pricing plans data
 const plansMock = [
