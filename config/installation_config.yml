@@ -361,6 +361,20 @@
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
 
+# ------- OG Image Related Config ------- #
+- name: OG_IMAGE_CDN_URL
+  display_title: 'OG Image CDN URL'
+  description: 'The CDN URL for serving OG images'
+  value: ''
+  locked: false
+- name: OG_IMAGE_CLIENT_REF
+  display_title: 'OG Image Client Reference'
+  description: 'Token used to block unauthorized access to OG images'
+  value: ''
+  locked: false
+  type: secret
+# ------- End of OG Image Related Config ------- #
+
 # ------- Github Integration Config ------- #
 - name: GITHUB_CLIENT_ID
   display_title: 'Github Client ID'
@@ -374,3 +388,4 @@
   description: 'Github client secret'
   type: secret
 ## ------ End of Github Integration Config ------- #
+
