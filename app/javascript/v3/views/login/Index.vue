@@ -15,7 +15,7 @@ import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import FormInput from '../../components/Form/Input.vue';
 import GoogleOAuthButton from '../../components/GoogleOauth/Button.vue';
 import Spinner from 'shared/components/Spinner.vue';
-import SubmitButton from '../../components/Button/SubmitButton.vue';
+import NextButton from 'dashboard/components-next/button/Button.vue';
 
 const ERROR_MESSAGES = {
   'no-account-found': 'LOGIN.OAUTH.NO_ACCOUNT_FOUND',
@@ -29,7 +29,7 @@ export default {
     FormInput,
     GoogleOAuthButton,
     Spinner,
-    SubmitButton,
+    NextButton,
   },
   mixins: [globalConfigMixin],
   props: {
@@ -237,11 +237,15 @@ export default {
               </router-link>
             </p>
           </FormInput>
-          <SubmitButton
-            :disabled="loginApi.showLoading"
+          <NextButton
+            lg
+            type="submit"
+            data-testid="submit_button"
+            class="w-full"
             :tabindex="3"
-            :button-text="$t('LOGIN.SUBMIT')"
-            :loading="loginApi.showLoading"
+            :label="$t('LOGIN.SUBMIT')"
+            :disabled="loginApi.showLoading"
+            :is-loading="loginApi.showLoading"
           />
         </form>
       </div>
