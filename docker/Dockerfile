@@ -81,8 +81,8 @@ RUN SECRET_KEY_BASE=precompile_placeholder \
 RUN apk del build-base ruby-dev gcc make musl-dev linux-headers postgresql-dev
 
 # Remove unnecessary files
-RUN rm -rf /gems/ruby/3.3.0/cache/*.gem \
-  && find /gems/ruby/3.3.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
+RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
+  && find /gems/ruby/3.4.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git \
   && rm .gitignore
 
