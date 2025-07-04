@@ -39,15 +39,21 @@ const chatMetadata = computed(() => props.chat.meta);
 
 const backButtonUrl = computed(() => {
   const {
-    params: { inbox_id: inboxId, label, teamId },
+    params: { inbox_id: inboxId, label, teamId, id: customViewId },
     name,
   } = route;
+
+  const conversationTypeMap = {
+    conversation_through_mentions: 'mention',
+    conversation_through_unattended: 'unattended',
+  };
   return conversationListPageURL({
-    accountId,
+    accountId: accountId.value,
     inboxId,
     label,
     teamId,
-    conversationType: name === 'conversation_mentions' ? 'mention' : '',
+    conversationType: conversationTypeMap[name],
+    customViewId,
   });
 });
 
