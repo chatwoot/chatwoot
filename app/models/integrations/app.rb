@@ -62,6 +62,8 @@ class Integrations::App
       GlobalConfigService.load('SLACK_CLIENT_SECRET', nil).present?
     when 'linear'
       GlobalConfigService.load('LINEAR_CLIENT_ID', nil).present?
+    when 'github'
+      GlobalConfigService.load('GITHUB_CLIENT_ID', nil).present? && GlobalConfigService.load('GITHUB_CLIENT_SECRET', nil).present?
     when 'shopify'
       shopify_enabled?(account)
     when 'leadsquared'
@@ -87,13 +89,11 @@ class Integrations::App
   end
 
   def build_github_action
-    app_id = GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
-    [
-      "#{params[:action]}?client_id=#{app_id}",
-      "redirect_uri=#{self.class.github_integration_url}",
-      "state=#{encode_state}",
-      'scope=repo,read:org'
-    ].join('&')
+    GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
+
+    # For GitHub Apps, we need to redirect to the installation page first
+    github_app_name = GlobalConfigService.load('GITHUB_APP_NAME', 'chatwoot-qa')
+    "https://github.com/apps/#{github_app_name}/installations/new"
   end
 
   def enabled?(account)
