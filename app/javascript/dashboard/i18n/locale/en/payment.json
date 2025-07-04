@@ -7,7 +7,17 @@
       "ADD_TOPUP_TITLE": "Top up {topupType}",
       "TOPUP_max_active_users": "Users",
       "TOPUP_ai_responses": "Responses",
-      "SUBS_ACTIVE_UNTIL": "ACTIVE UNTIL :"
+      "SUBS_ACTIVE_UNTIL": "ACTIVE UNTIL :",
+      "CHOOSE_PAYMENT_TITLE": "Choose Payment Method",
+      "CC_SUBS": {
+        "NAME": "Credit Card (Subscription)",
+        "DESC": "Enjoy automatic renewal"
+      },
+      "VA_MANDIRI": {
+        "NAME": "VA - MANDIRI",
+        "DESC": "One-time payment and top up as needed"
+      },
+      "BUY_DESC": "Buying the pro package will activate it for {qty} months, starting today until"
     }
   }
   

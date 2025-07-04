@@ -101,8 +101,6 @@ const v$ = useVuelidate(rules, {
   packageName,
 });
 
-const pageTitle = computed(() => 'Pilih Metode Pembayaran');
-
 const uiFlags = useMapGetter('agents/getUIFlags');
 const getCustomRoles = useMapGetter('customRole/getCustomRoles');
 
@@ -152,7 +150,7 @@ const submit = async () => {
 
 <template>
   <div class="flex flex-col h-auto overflow-auto">
-    <woot-modal-header :header-title="pageTitle" />
+    <woot-modal-header :header-title="t('PAYMENT.CHOOSE_PAYMENT_TITLE')" />
 
     <form class="w-full" @submit.prevent="submit">
       <div class="w-full">
@@ -163,9 +161,9 @@ const submit = async () => {
             :class="{ '!border-primary-500': selectedMethod === 'VC' }"
             @click.prevent="selectedMethod = 'VC'"
           >
-            <div class="text-sm font-medium">Kartu Kredit (Berlangganan)</div>
+            <div class="text-sm font-medium">{{ t('PAYMENT.CC_SUBS.NAME') }}</div>
             <div class="text-xs text-slate-500">
-              Nikmati perpanjangan otomatis
+              {{ t('PAYMENT.CC_SUBS.DESC') }}
             </div>
           </div>
           <div
@@ -173,9 +171,9 @@ const submit = async () => {
             :class="{ '!border-primary-500': selectedMethod === 'M2' }"
             @click.prevent="selectedMethod = 'M2'"
           >
-            <div class="text-sm font-medium">VA - MANDIRI</div>
+            <div class="text-sm font-medium">{{ t('PAYMENT.VA_MANDIRI.NAME') }}</div>
             <div class="text-xs text-slate-500">
-              Bayar sekali dan topup sesuai kebutuhan
+              {{ t('PAYMENT.VA_MANDIRI.DESC') }}
             </div>
           </div>
         </div>
@@ -251,8 +249,9 @@ const submit = async () => {
       <div class="w-full mt-4">
         <div class="bg-sky-50 text-sky-700 text-sm p-3 rounded">
           <span class="mr-2">👁️</span>
-          Beli paket pro akan aktif selama {{ selectedBillingCycle.qty }} bulan,
-          dari hari ini sampai
+          {{ t('PAYMENT.BUY_DESC', {
+            qty: selectedBillingCycle.qty,
+          }) }}
           <strong>{{
             new Date(
               Date.now() + selectedBillingCycle.qty * 30 * 24 * 60 * 60 * 1000

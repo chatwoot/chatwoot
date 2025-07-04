@@ -7,6 +7,16 @@
     "ADD_TOPUP_TITLE": "Topup {topupType}",
     "TOPUP_max_active_users": "Pengguna",
     "TOPUP_ai_responses": "Jawaban",
-    "SUBS_ACTIVE_UNTIL": "BERLAKU SAMPAI :"
+    "SUBS_ACTIVE_UNTIL": "BERLAKU SAMPAI :",
+    "CHOOSE_PAYMENT_TITLE": "Pilih Metode Pembayaran",
+    "CC_SUBS": {
+      "NAME": "Kartu Kredit (Berlangganan)",
+      "DESC": "Nikmati perpanjangan otomatis"
+    },
+    "VA_MANDIRI": {
+      "NAME": "VA - MANDIRI",
+      "DESC": "Bayar sekali dan topup sesuai kebutuhan"
+    },
+    "BUY_DESC": "Beli paket pro akan aktif selama {qty} bulan, dari hari ini sampai"
   }
 }
