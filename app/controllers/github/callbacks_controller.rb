@@ -2,23 +2,13 @@ class Github::CallbacksController < ApplicationController
   include Github::IntegrationHelper
 
   def show
-    # Log all received parameters for debugging
-    Rails.logger.info("GitHub callback received parameters: #{params.to_unsafe_h}")
-    Rails.logger.info("installation_id present: #{params[:installation_id].present?}")
-    Rails.logger.info("code present: #{params[:code].present?}")
-    Rails.logger.info("setup_action: #{params[:setup_action]}")
-    Rails.logger.info("state present: #{params[:state].present?}")
-
     if params[:installation_id].present? && params[:code].present?
-      Rails.logger.info('Handling installation with OAuth')
       # Both installation and OAuth code present - handle both
       handle_installation_with_oauth
     elsif params[:installation_id].present?
-      Rails.logger.info('Handling installation only')
       # Only installation_id present - redirect to OAuth
       handle_installation
     else
-      Rails.logger.info('Handling authorization only')
       # Only OAuth code present - handle authorization
       handle_authorization
     end
@@ -30,7 +20,6 @@ class Github::CallbacksController < ApplicationController
   private
 
   def handle_installation_with_oauth
-    Rails.logger.info("Processing installation with OAuth - installation_id: #{params[:installation_id]}, code: #{params[:code]}")
     # Handle both installation and OAuth in one go
     installation_id = params[:installation_id]
 
@@ -43,7 +32,6 @@ class Github::CallbacksController < ApplicationController
   end
 
   def handle_installation
-    Rails.logger.info("Processing installation only - setup_action: #{params[:setup_action]}, installation_id: #{params[:installation_id]}")
     if params[:setup_action] == 'install'
       installation_id = params[:installation_id]
 
@@ -55,7 +43,6 @@ class Github::CallbacksController < ApplicationController
   end
 
   def handle_authorization
-    Rails.logger.info("Processing authorization only - code: #{params[:code]}")
     @response = oauth_client.auth_code.get_token(
       params[:code],
       redirect_uri: "#{base_url}/github/callback"
@@ -124,15 +111,23 @@ class Github::CallbacksController < ApplicationController
   end
 
   def account
-    @account ||= Account.find(account_id)
+    @account ||= account_from_state
   end
 
-  def account_id
-    # First try to get from state parameter (OAuth flow)
-    return verify_github_token(params[:state]) if params[:state].present?
+  def account_from_state
+    raise ActionController::BadRequest, 'Missing state variable' if params[:state].blank?
 
-    # Fallback to hardcoded account 1 for installation flow (temporary)
-    1
+    # Try signed GlobalID first (installation flow)
+    account = GlobalID::Locator.locate_signed(params[:state])
+    return account if account
+
+    # Fallback to JWT token (direct OAuth flow)
+    account_id = verify_github_token(params[:state])
+    return Account.find(account_id) if account_id
+
+    raise 'Invalid or expired state'
+  rescue StandardError
+    raise ActionController::BadRequest, 'Invalid account context'
   end
 
   def github_redirect_uri
@@ -144,12 +139,10 @@ class Github::CallbacksController < ApplicationController
   end
 
   def fallback_redirect_uri
-    if account_id
-      github_redirect_uri
-    else
-      # Fallback if no account context available
-      "#{ENV.fetch('FRONTEND_URL', nil)}/app/settings/integrations"
-    end
+    github_redirect_uri
+  rescue StandardError
+    # Fallback if no account context available
+    "#{ENV.fetch('FRONTEND_URL', nil)}/app/settings/integrations"
   end
 
   def parsed_body

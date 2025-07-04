@@ -92,8 +92,10 @@ class Integrations::App
     GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
 
     # For GitHub Apps, we need to redirect to the installation page first
+    # Include state parameter with signed account ID for account context
     github_app_name = GlobalConfigService.load('GITHUB_APP_NAME', 'chatwoot-qa')
-    "https://github.com/apps/#{github_app_name}/installations/new"
+    state = Current.account.to_signed_global_id(expires_in: 1.hour)
+    "https://github.com/apps/#{github_app_name}/installations/new?state=#{state}"
   end
 
   def enabled?(account)
