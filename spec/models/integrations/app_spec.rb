@@ -50,10 +50,11 @@ RSpec.describe Integrations::App do
       end
 
       it 'uses default app name when GITHUB_APP_NAME is not set' do
-        # Mock GlobalConfigService to ensure consistent behavior
-        allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return('dummy_client_id')
-        allow(GlobalConfigService).to receive(:load).with('GITHUB_APP_NAME', 'chatwoot-qa').and_return('chatwoot-qa')
-        expect(app.action).to include('https://github.com/apps/chatwoot-qa/installations/new')
+        with_modified_env GITHUB_CLIENT_ID: 'dummy_client_id' do
+          allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return('dummy_client_id')
+          allow(GlobalConfigService).to receive(:load).with('GITHUB_APP_NAME', 'chatwoot-qa').and_return('chatwoot-qa')
+          expect(app.action).to include('https://github.com/apps/chatwoot-qa/installations/new')
+        end
       end
     end
   end

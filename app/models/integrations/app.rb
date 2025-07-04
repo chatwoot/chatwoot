@@ -91,7 +91,8 @@ class Integrations::App
   def build_github_action
     GlobalConfigService.load('GITHUB_CLIENT_ID', nil)
 
-    # For GitHub Apps, we need to redirect to the installation page first
+    # For GitHub Apps, redirect to installation page
+    # The standard /installations/new URL should show org/user selection if the app is properly configured
     # Include state parameter with signed account ID for account context
     github_app_name = GlobalConfigService.load('GITHUB_APP_NAME', 'chatwoot-qa')
     state = Current.account.to_signed_global_id(expires_in: 1.hour)

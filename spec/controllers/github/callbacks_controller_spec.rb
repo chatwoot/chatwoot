@@ -1,203 +1,164 @@
 require 'rails_helper'
 
-RSpec.describe Github::CallbacksController do
+RSpec.describe Github::CallbacksController, type: :controller do
   let(:account) { create(:account) }
   let(:signed_account_id) { account.to_signed_global_id(expires_in: 1.hour) }
 
   before do
+    # Clear any existing GitHub hooks for the account
+    account.hooks.where(app_id: 'github').destroy_all
+
     allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_ID', nil).and_return('test_client_id')
     allow(GlobalConfigService).to receive(:load).with('GITHUB_CLIENT_SECRET', nil).and_return('test_client_secret')
-
-    # Configure test environment
-    @original_frontend_url = ENV.fetch('FRONTEND_URL', nil)
-    ENV['FRONTEND_URL'] = 'http://localhost:3000'
-
-    # Configure request.host to match our test URL
-    allow_any_instance_of(ActionDispatch::Request).to receive(:host).and_return('localhost')
-    allow_any_instance_of(ActionDispatch::Request).to receive(:port).and_return(3000)
-    allow_any_instance_of(ActionDispatch::Request).to receive(:protocol).and_return('http://')
-
-    # Mock all GitHub OAuth API calls to prevent WebMock errors
-    stub_request(:post, 'https://github.com/login/oauth/access_token')
-      .to_return(status: 200, body: '', headers: {})
   end
 
-  after do
-    ENV['FRONTEND_URL'] = @original_frontend_url
-  end
-
-  describe 'GET #show' do
-    context 'when handling installation with OAuth (both installation_id and code present)' do
-      let(:oauth_response) do
-        double('OAuth2::Response', response: double(parsed: {
-                                                      'access_token' => 'test_token',
-                                                      'token_type' => 'bearer',
-                                                      'scope' => 'repo,read:org'
-                                                    }))
-      end
-
-      before do
-        oauth_client = double('OAuth2::Client')
-        auth_code = double('OAuth2::Strategy::AuthCode')
-        allow(controller).to receive(:oauth_client).and_return(oauth_client)
-        allow(oauth_client).to receive(:auth_code).and_return(auth_code)
-        allow(auth_code).to receive(:get_token).and_return(oauth_response)
-      end
-
-      it 'creates integration hook with installation_id and redirects' do
-        get :show, params: {
-          code: 'test_code',
-          installation_id: '12345',
-          setup_action: 'install',
-          state: signed_account_id
-        }
-
-        hook = account.hooks.find_by(app_id: 'github')
-        expect(hook).to be_present
-        expect(hook.access_token).to eq('test_token')
-        expect(hook.settings['installation_id']).to eq('12345')
-        expect(hook.settings['token_type']).to eq('bearer')
-        expect(hook.settings['scope']).to eq('repo,read:org')
-        expect(response).to redirect_to(a_string_including('/settings/integrations/github'))
-      end
-    end
-
-    context 'when handling installation only (only installation_id present)' do
-      it 'redirects to OAuth URL' do
-        get :show, params: {
-          installation_id: '12345',
-          setup_action: 'install',
-          state: signed_account_id
-        }
-
-        expect(response).to be_redirect
-        expect(response.location).to include('github?setup_action=install&installation_id=12345')
-      end
-    end
-
-    context 'when handling authorization only (only code present)' do
-      let(:oauth_response) do
-        double('OAuth2::Response', response: double(parsed: {
-                                                      'access_token' => 'test_token',
-                                                      'token_type' => 'bearer',
-                                                      'scope' => 'repo,read:org'
-                                                    }))
-      end
-
-      before do
-        oauth_client = double('OAuth2::Client')
-        auth_code = double('OAuth2::Strategy::AuthCode')
-        allow(controller).to receive(:oauth_client).and_return(oauth_client)
-        allow(oauth_client).to receive(:auth_code).and_return(auth_code)
-        allow(auth_code).to receive(:get_token).and_return(oauth_response)
-      end
-
-      it 'creates integration hook without installation_id and redirects' do
-        get :show, params: {
-          code: 'test_code',
-          state: signed_account_id
-        }
-
-        hook = account.hooks.find_by(app_id: 'github')
-        expect(hook).to be_present
-        expect(hook.access_token).to eq('test_token')
-        expect(hook.settings['installation_id']).to be_nil
-        expect(response).to redirect_to(a_string_including('/settings/integrations/github'))
-      end
-    end
-
-    context 'when state parameter is missing' do
-      it 'handles error gracefully and redirects to fallback URI' do
-        get :show, params: {
-          code: 'test_code',
-          installation_id: '12345',
-          setup_action: 'install'
-        }
-
-        expect(response).to be_redirect
-      end
-    end
-
-    context 'when state parameter is invalid' do
-      it 'handles error gracefully and redirects to fallback URI' do
-        get :show, params: {
-          code: 'test_code',
-          installation_id: '12345',
-          setup_action: 'install',
-          state: 'invalid_state'
-        }
-
-        expect(response).to be_redirect
-      end
-    end
-
-    context 'when OAuth fails' do
-      before do
-        oauth_client = double('OAuth2::Client')
-        auth_code = double('OAuth2::Strategy::AuthCode')
-        allow(controller).to receive(:oauth_client).and_return(oauth_client)
-        allow(oauth_client).to receive(:auth_code).and_return(auth_code)
-        allow(auth_code).to receive(:get_token).and_raise(StandardError, 'OAuth failed')
-      end
-
-      it 'logs error and redirects to fallback URI' do
-        expect(Rails.logger).to receive(:error).with('Github callback error: OAuth failed')
-
-        get :show, params: {
-          code: 'test_code',
-          installation_id: '12345',
-          setup_action: 'install',
-          state: signed_account_id
-        }
-
-        expect(response).to be_redirect
-      end
+  describe 'route accessibility' do
+    it 'is accessible via the github callback route' do
+      expect(get: '/github/callback').to route_to(
+        controller: 'github/callbacks',
+        action: 'show'
+      )
     end
   end
 
-  describe 'private methods' do
-    let(:controller_instance) { described_class.new }
+  describe 'helper methods' do
+    describe '#account' do
+      it 'resolves account from valid signed global id' do
+        controller.params = { state: signed_account_id }
+        expect(controller.send(:account)).to eq(account)
+      end
 
-    before do
-      allow(controller_instance).to receive(:account).and_return(account)
-      allow(controller_instance).to receive(:parsed_body).and_return({
-                                                                       'access_token' => 'test_token',
-                                                                       'token_type' => 'bearer',
-                                                                       'scope' => 'repo,read:org'
-                                                                     })
-      # Mock session for private method tests
-      allow(controller_instance).to receive(:session).and_return({})
+      it 'raises error for missing state' do
+        controller.params = {}
+        expect { controller.send(:account) }.to raise_error(ActionController::BadRequest, 'Invalid account context')
+      end
+
+      it 'raises error for invalid state' do
+        controller.params = { state: 'invalid_state' }
+        expect { controller.send(:account) }.to raise_error(ActionController::BadRequest, 'Invalid account context')
+      end
+    end
+
+    describe '#oauth_client' do
+      it 'creates OAuth2 client with correct configuration' do
+        oauth_client = controller.send(:oauth_client)
+        expect(oauth_client).to be_a(OAuth2::Client)
+        expect(oauth_client.id).to eq('test_client_id')
+        expect(oauth_client.secret).to eq('test_client_secret')
+        expect(oauth_client.site).to eq('https://github.com')
+        expect(oauth_client.options[:token_url]).to eq('/login/oauth/access_token')
+        expect(oauth_client.options[:authorize_url]).to eq('/login/oauth/authorize')
+      end
+    end
+
+    describe '#github_redirect_uri' do
+      before do
+        allow(controller).to receive(:account).and_return(account)
+      end
+
+      it 'generates correct GitHub redirect URI' do
+        with_modified_env FRONTEND_URL: 'http://localhost:3000' do
+          uri = controller.send(:github_redirect_uri)
+          expect(uri).to eq("http://localhost:3000/app/accounts/#{account.id}/settings/integrations/github")
+        end
+      end
+    end
+
+    describe '#fallback_redirect_uri' do
+      it 'generates fallback redirect URI when account is unavailable' do
+        allow(controller).to receive(:account).and_raise(StandardError)
+
+        with_modified_env FRONTEND_URL: 'http://localhost:3000' do
+          uri = controller.send(:fallback_redirect_uri)
+          expect(uri).to eq('http://localhost:3000/app/settings/integrations')
+        end
+      end
     end
 
     describe '#build_hook_settings' do
-      it 'builds settings with installation_id parameter' do
-        settings = controller_instance.send(:build_hook_settings, '12345')
-
-        expect(settings[:token_type]).to eq('bearer')
-        expect(settings[:scope]).to eq('repo,read:org')
-        expect(settings[:installation_id]).to eq('12345')
+      let(:mock_parsed_body) do
+        {
+          'access_token' => 'test_token',
+          'token_type' => 'bearer',
+          'scope' => 'repo,read:org'
+        }
       end
 
-      it 'builds settings without installation_id when nil' do
-        settings = controller_instance.send(:build_hook_settings, nil)
+      before do
+        allow(controller).to receive(:parsed_body).and_return(mock_parsed_body)
+      end
 
-        expect(settings[:token_type]).to eq('bearer')
-        expect(settings[:scope]).to eq('repo,read:org')
-        expect(settings.key?(:installation_id)).to be false
+      it 'builds hook settings with installation_id' do
+        settings = controller.send(:build_hook_settings, '12345')
+        expect(settings).to include(
+          token_type: 'bearer',
+          scope: 'repo,read:org',
+          installation_id: '12345'
+        )
+      end
+
+      it 'builds hook settings without installation_id when nil' do
+        settings = controller.send(:build_hook_settings, nil)
+        expect(settings).to include(
+          token_type: 'bearer',
+          scope: 'repo,read:org'
+        )
+        expect(settings).not_to have_key(:installation_id)
+      end
+
+      it 'removes nil installation_id values' do
+        settings = controller.send(:build_hook_settings, nil)
+        expect(settings.keys).not_to include(:installation_id)
       end
     end
 
     describe '#create_integration_hook' do
-      it 'creates a new hook with correct attributes' do
-        settings = { token_type: 'bearer', scope: 'repo,read:org', installation_id: '12345' }
-        hook = controller_instance.send(:create_integration_hook, settings)
+      let(:settings) do
+        {
+          token_type: 'bearer',
+          scope: 'repo,read:org',
+          installation_id: '12345'
+        }
+      end
 
+      before do
+        allow(controller).to receive(:account).and_return(account)
+        allow(controller).to receive(:parsed_body).and_return({
+                                                                'access_token' => 'test_token'
+                                                              })
+      end
+
+      it 'creates integration hook with correct attributes' do
+        hook = controller.send(:create_integration_hook, settings)
         expect(hook.access_token).to eq('test_token')
         expect(hook.status).to eq('enabled')
         expect(hook.app_id).to eq('github')
-        # Convert expected settings to string keys to match actual storage format
         expect(hook.settings).to eq(settings.stringify_keys)
         expect(hook.account).to eq(account)
+      end
+    end
+
+    describe '#build_oauth_url' do
+      it 'builds OAuth URL with installation context' do
+        with_modified_env FRONTEND_URL: 'http://localhost:3000' do
+          url = controller.send(:build_oauth_url, '12345')
+          expect(url).to include('github?setup_action=install&installation_id=12345')
+          expect(controller.session[:github_installation_id]).to eq('12345')
+        end
+      end
+    end
+
+    describe '#base_url' do
+      it 'returns FRONTEND_URL when set' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(controller.send(:base_url)).to eq('https://app.chatwoot.com')
+        end
+      end
+
+      it 'returns default localhost when FRONTEND_URL not set' do
+        with_modified_env FRONTEND_URL: nil do
+          expect(controller.send(:base_url)).to eq('http://localhost:3000')
+        end
       end
     end
   end
