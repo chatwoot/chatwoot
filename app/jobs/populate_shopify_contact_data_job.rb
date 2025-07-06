@@ -15,7 +15,10 @@ class PopulateShopifyContactDataJob < ApplicationJob
 
     customers = fetch_customers(email, phone_number)
 
-    return if customers.empty?
+    if customers.empty? then
+      contact.update(custom_attributes: contact.custom_attributes.except(:shopify_customer_id, :shopify_customer_email, :shopify_customer_phone, :shopify_verified_email))
+      return 
+    end
 
     customer = customers.first
     Rails.logger.info("Populating shopify account: #{account_id} and customer data #{customer['id']}")
@@ -24,17 +27,14 @@ class PopulateShopifyContactDataJob < ApplicationJob
 
     old_shopify_customer_id = contact.custom_attributes['shopify_customer_id']
 
-    contact.update(custom_attributes: contact.custom_attributes.merge({shopify_customer_id:customer['id'] , shopify_customer_email: customer['email'], shopify_customer_phone:customer['phone']}))
+    contact.update(custom_attributes: contact.custom_attributes.merge({shopify_customer_id:customer['id'] , shopify_customer_email: customer['email'], shopify_customer_phone: customer['phone']}))
 
     contact.save!
 
     # Update customer orders
     if old_shopify_customer_id != customer['id']
-      contact.update(custom_attributes: contact.custom_attributes.merge({ shopify_orders_populated: false}))
       update_customer_orders(account_id, customer['id'])
     end
-
-    contact.update(custom_attributes: contact.custom_attributes.merge({ shopify_orders_populated: true}))
   end
 
   def update_customer_orders(account_id, customer_id)

@@ -14,8 +14,8 @@ const contact = computed(() => store.getters['contacts/getCurrentUser']);
     class="w-full shadow outline-1 outline outline-n-container rounded-xl bg-n-background dark:bg-n-solid-2 px-5 py-4"
   >
     <CustomerIdentificationBlock
-      :has_email="contact.hasEmail"
-      v-if="!contact.shopify_customer_id"
+      :unverfied_shopify_email="contact.unverfied_shopify_email"
+      v-if="!contact.verified_shopify_id"
     ></CustomerIdentificationBlock>
     <ShopifyOrdersBlock v-else :limit="3"></ShopifyOrdersBlock>
   </div>

@@ -130,13 +130,13 @@ const buttonText = () => {
 </script>
 
 <template>
-  <woot-modal :show="true" :on-close="onClose">
+  <woot-modal :show="true" :on-close="onClose" size="w-[60.4rem] h-[50.4rem]">
     <woot-modal-header
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DESC')"
     />
     <form>
-      <div v-if="order" class="">
+      <div v-if="order">
         <table class="woot-table items-table overflow-auto max-h-2 table-fixed">
           <thead>
             <tr>

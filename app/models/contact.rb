@@ -180,6 +180,29 @@ class Contact < ApplicationRecord
     }
   end
 
+  def unverfied_shopify_email
+    return nil if !email.present?
+    return email if custom_attributes['shopify_new_login'] 
+    verfied_email = email == custom_attributes['shopify_verified_email'] 
+
+    return email unless verfied_email
+
+    return nil
+  end
+
+  def has_verfied_shopify_account
+    Rails.logger.info("SHOPIFY NEW LOGIN: #{custom_attributes['shopify_new_login']}")
+    return false if custom_attributes['shopify_new_login'] == false 
+    return false if !email.present? || !custom_attributes['shopify_verified_email'].present?
+    verfied_email = email == custom_attributes['shopify_verified_email'] 
+    return verfied_email
+  end
+
+  def verified_shopify_id
+    return nil unless has_verfied_shopify_account
+    return  custom_attributes['shopify_customer_id']
+  end
+
   def self.resolved_contacts
     where("contacts.email <> '' OR contacts.phone_number <> '' OR contacts.identifier <> ''")
   end

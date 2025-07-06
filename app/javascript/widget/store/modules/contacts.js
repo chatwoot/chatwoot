@@ -1,4 +1,5 @@
 import { sendMessage } from 'widget/helpers/utils';
+import { isAxiosError } from 'axios';
 import ContactsAPI from '../../api/contacts';
 import { SET_USER_ERROR } from '../../constants/errorTypes';
 import { setHeader } from '../../helpers/axios';
@@ -7,11 +8,13 @@ const state = {
   currentUser: {},
   uiFlags: {
     isUpdating: false,
+    otpError: null,
   },
 };
 
 const SET_CURRENT_USER = 'SET_CURRENT_USER';
 const UPDATE_USER_UPDATING_UI_FLAG = 'UPDATE_USER_UPDATING_UI_FLAG';
+const UPDATE_OTP_ERROR_UI_FLAG = 'UPDATE_OTP_ERROR_UI_FLAG';
 
 const parseErrorData = error =>
   error && error.response && error.response.data ? error.response.data : error;
@@ -117,7 +120,24 @@ export const actions = {
       await dispatch('get');
       commit(UPDATE_USER_UPDATING_UI_FLAG, false);
     } catch (error) {
-      // Ignore error
+      commit(UPDATE_USER_UPDATING_UI_FLAG, false);
+    }
+  },
+
+  verifyShopifyOTP: async ({ commit, dispatch }, params) => {
+    try {
+      commit(UPDATE_USER_UPDATING_UI_FLAG, true);
+      const result = await ContactsAPI.verifyShopifyOTP(params);
+      await dispatch('get');
+      commit(UPDATE_USER_UPDATING_UI_FLAG, false);
+    } catch (error) {
+      commit(UPDATE_USER_UPDATING_UI_FLAG, false);
+      if (isAxiosError(error)) {
+        const otpError = error.response.data.error;
+        if (otpError != null) {
+          commit(UPDATE_OTP_ERROR_UI_FLAG, otpError);
+        }
+      }
     }
   },
 };
@@ -129,6 +149,9 @@ export const mutations = {
   },
   [UPDATE_USER_UPDATING_UI_FLAG]($state, value) {
     $state.uiFlags.isUpdating = value;
+  },
+  [UPDATE_OTP_ERROR_UI_FLAG]($state, value) {
+    $state.uiFlags.otpError = value;
   },
 };
 

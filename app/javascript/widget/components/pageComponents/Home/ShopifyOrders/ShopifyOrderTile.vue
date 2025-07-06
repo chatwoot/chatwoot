@@ -62,12 +62,12 @@ const handleReportIssue = () => {
       >
         Cancel
       </button>
-      <button
+      <!-- <button
         @click="handleReportIssue"
         class="bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-2 rounded-lg text-sm transition-all duration-200 border border-gray-200 shadow-md hover:shadow-lg"
       >
         Report
-      </button>
+      </button> -->
     </div>
 
     <!-- Order Items -->

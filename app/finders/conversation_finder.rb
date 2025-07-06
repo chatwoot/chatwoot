@@ -43,7 +43,6 @@ class ConversationFinder
     assigned_count = all_count - unassigned_count
 
     filter_by_assignee_type
-
     {
       conversations: conversations,
       count: {

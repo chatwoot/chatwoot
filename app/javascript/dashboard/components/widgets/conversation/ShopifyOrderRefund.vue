@@ -632,7 +632,7 @@ const buttonText = () => {
 </script>
 
 <template>
-  <woot-modal :show="true" :on-close="onClose" size="w-[60.4rem]">
+  <woot-modal :show="true" :on-close="onClose" size="w-[60.4rem] h-[50.4rem]">
     <woot-modal-header
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DESC')"

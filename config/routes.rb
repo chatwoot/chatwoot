@@ -348,6 +348,7 @@ Rails.application.routes.draw do
           collection do
             post  :destroy_custom_attributes
             post  :verify_shopify_email
+            post  :verify_shopify_otp
             patch :set_user
           end
         end
