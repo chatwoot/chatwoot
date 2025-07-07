@@ -27,6 +27,10 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def create
+    if !Current.account.subscriptions.active.exists?
+      return render json: { message: "Paket Anda telah kadaluarsa" }, status: :bad_request
+    end
+
     ActiveRecord::Base.transaction do
       channel = create_channel
       @inbox = Current.account.inboxes.build(
