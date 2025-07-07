@@ -229,6 +229,10 @@ export default {
       type: Array,
       default: () => [],
     },
+    setSelectedProducts: {
+      type: Function,
+      default: () => {},
+    },
     messageId: { type: Number, default: null },
   },
   data() {
@@ -259,6 +263,7 @@ export default {
     this.checkScrollButtons();
     this.$refs.carousel.addEventListener('scroll', this.checkScrollButtons);
     this.addCustomCartAttributeToShopifyCart();
+    this.setInitialCart();
   },
   beforeDestroy() {
     this.$refs.carousel.removeEventListener('scroll', this.checkScrollButtons);
@@ -273,7 +278,7 @@ export default {
       window.open(productUrl, '_blank');
       if (!this.productClicked.includes(item.variant_id)) {
         this.productClicked.push(item.variant_id);
-        this.updateShopifyCart([]);
+        this.updateShopifyCart([], this.productClicked);
       }
     },
     async openCheckoutPage(selectedProducts) {
@@ -305,7 +310,7 @@ export default {
         selectedProduct => selectedProduct.id === product.variant_id
       );
     },
-    async updateShopifyCart(newProducts) {
+    async updateShopifyCart(newProducts, productClicked = []) {
       let uuid = this.currentUser.source_id;
       if (!window.parent || !uuid) {
         return;
@@ -318,6 +323,7 @@ export default {
             attributes: {
               bitespeed_live_chat_user: `live_chat_${uuid}`,
               bitespeed_cart_products: newProducts,
+              bitespeed_product_clicked: productClicked,
             },
           },
           '*'
@@ -453,6 +459,47 @@ export default {
         },
         '*'
       );
+    },
+    async setInitialCart() {
+      // Early return if no items to process
+      if (!this.items?.length) {
+        return;
+      }
+
+      this.isCheckoutLoading = true;
+
+      try {
+        const shopifyCart = window?.shopifyCart;
+
+        // Early return if no shopify cart
+        if (!shopifyCart?.attributes) {
+          return;
+        }
+
+        const { bitespeed_cart_products = [], bitespeed_product_clicked } =
+          shopifyCart.attributes;
+
+        // Process cart products if they exist
+        if (bitespeed_cart_products.length > 0) {
+          const variantIds = new Set(
+            this.items.map(product => product.variant_id)
+          );
+          const filteredProducts = bitespeed_cart_products.filter(product =>
+            variantIds.has(product.id)
+          );
+
+          if (filteredProducts.length > 0) {
+            this.setSelectedProducts(filteredProducts);
+          }
+        }
+
+        // Set product clicked if it exists
+        if (bitespeed_product_clicked) {
+          this.productClicked = bitespeed_product_clicked;
+        }
+      } finally {
+        this.isCheckoutLoading = false;
+      }
     },
   },
 };

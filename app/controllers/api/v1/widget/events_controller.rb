@@ -33,13 +33,14 @@ class Api::V1::Widget::EventsController < Api::V1::Widget::BaseController
     params.permit(:name, :website_token, event_info: {}, meta: {})
   end
 
-  def post_impressions(shop_url, contact_id)
+  def post_impressions(shop_url, contact_id) # rubocop:disable Metrics/MethodLength
     data = {
       type: 'webWidgetOpened',
       popupId: params[:meta]['popupId'],
       browserId: params[:meta]['browserId'],
       shopUrl: shop_url,
-      contactID: contact_id.to_s
+      contactID: contact_id.to_s,
+      createdAt: Time.now.utc.iso8601(3)
     }
     Rails.logger.info("responseData, #{data}")
     response = HTTParty.post(

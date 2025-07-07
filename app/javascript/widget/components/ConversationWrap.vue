@@ -20,6 +20,7 @@
           :selected-products="selectedProducts"
           :update-selected-products="updateSelectedProducts"
           :open-checkout-page="openCheckoutPage"
+          :set-selected-products="setSelectProducts"
           :all-grouped-messages="filterGroupedMessages(groupedMessage.messages)"
         />
       </div>
@@ -221,6 +222,9 @@ export default {
           shopUrl,
         });
       }
+    },
+    setSelectProducts(products) {
+      this.selectedProducts = [...this.selectedProducts, ...products];
     },
     handleScroll() {
       if (

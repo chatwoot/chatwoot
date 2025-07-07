@@ -71,6 +71,7 @@ export const IFrameHelper = {
 
     IFrameHelper.parentShopify = parentShopify;
     IFrameHelper.meta = meta;
+    IFrameHelper.shopifyCart = meta?.shopifyCart || {};
 
     let holderClassName = `woot-widget-holder woot--hide woot-elements--${window.$chatwoot.position}`;
     if (window.$chatwoot.hideMessageBubble) {
@@ -166,6 +167,7 @@ export const IFrameHelper = {
         showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
         parentShopify: IFrameHelper.parentShopify,
+        shopifyCart: IFrameHelper.shopifyCart,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,

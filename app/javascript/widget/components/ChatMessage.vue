@@ -14,6 +14,7 @@
     :selected-products="selectedProducts"
     :update-selected-products="updateSelectedProducts"
     :open-checkout-page="openCheckoutPage"
+    :set-selected-products="setSelectedProducts"
     :is-different-type="isDifferentType"
     :is-last-message="isLastMessage"
   />
@@ -44,6 +45,10 @@ export default {
       default: () => {},
     },
     openCheckoutPage: {
+      type: Function,
+      default: () => {},
+    },
+    setSelectedProducts: {
       type: Function,
       default: () => {},
     },

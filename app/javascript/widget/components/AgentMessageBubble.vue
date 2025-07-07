@@ -53,6 +53,7 @@
       :selected-products="selectedProducts"
       :update-selected-products="updateSelectedProducts"
       :open-checkout-page="openCheckoutPage"
+      :set-selected-products="setSelectedProducts"
       :message="message"
       :message-id="messageId"
     />
@@ -159,6 +160,10 @@ export default {
       default: () => {},
     },
     openCheckoutPage: {
+      type: Function,
+      default: () => {},
+    },
+    setSelectedProducts: {
       type: Function,
       default: () => {},
     },

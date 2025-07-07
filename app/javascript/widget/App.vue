@@ -284,6 +284,9 @@ export default {
           if (message?.parentShopify) {
             window.parentShopify = message.parentShopify;
           }
+          if (message?.shopifyCart) {
+            window.shopifyCart = message.shopifyCart;
+          }
         } else if (message.event === 'widget-visible') {
           this.scrollConversationToBottom();
         } else if (message.event === 'change-url') {
