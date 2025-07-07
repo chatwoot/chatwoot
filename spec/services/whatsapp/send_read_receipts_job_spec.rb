@@ -1,6 +1,31 @@
 require 'rails_helper'
 
 RSpec.describe Whatsapp::SendReadReceiptsJob, type: :job do
+  before do
+    # Stub WhatsApp Whapi provider validation HTTP request
+    stub_request(:get, "https://gate.whapi.cloud/health")
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'Authorization' => 'Bearer test_key',
+          'Content-Type' => 'application/json',
+          'User-Agent' => 'Ruby'
+        }
+      )
+      .to_return(status: 200, body: "", headers: {})
+
+    # Stub WhatsApp Cloud provider validation HTTP request
+    stub_request(:get, "https://graph.facebook.com/v14.0/123456789/message_templates?access_token=test_key")
+      .with(
+        headers: {
+          'Accept' => '*/*',
+          'Accept-Encoding' => 'gzip;q=1.0,deflate;q=0.6,identity;q=0.3',
+          'User-Agent' => 'Ruby'
+        }
+      )
+      .to_return(status: 200, body: '{"data": []}', headers: { 'Content-Type' => 'application/json' })
+  end
   let(:account) { create(:account) }
   let(:whatsapp_channel) { create(:channel_whatsapp, provider: 'whapi', account: account) }
   let(:inbox) { create(:inbox, channel: whatsapp_channel, account: account) }

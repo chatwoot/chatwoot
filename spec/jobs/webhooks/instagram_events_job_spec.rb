@@ -5,6 +5,8 @@ describe Webhooks::InstagramEventsJob do
 
   before do
     stub_request(:post, /graph\.facebook\.com/)
+    stub_request(:delete, /graph\.facebook\.com.*subscribed_apps/)
+      .to_return(status: 200, body: '', headers: {})
     stub_request(:get, 'https://www.example.com/test.jpeg')
       .to_return(status: 200, body: '', headers: {})
   end
@@ -175,6 +177,9 @@ describe Webhooks::InstagramEventsJob do
       let!(:instagram_inbox) { instagram_channel.inbox }
 
       before do
+        # Destroy the Facebook page channel so only the Instagram direct channel exists
+        instagram_messenger_inbox.destroy
+        
         instagram_channel.update(access_token: 'valid_instagram_token')
 
         stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-.*\?.*})

@@ -25,9 +25,7 @@ RSpec.describe Billing::CreateCustomerJob, type: :job do
       allow(service_double).to receive(:perform)
         .and_return({ success: true, message: 'Success' })
 
-      perform_enqueued_jobs do
-        described_class.perform_later(account, plan_name)
-      end
+      described_class.new.perform(account, plan_name)
 
       expect(Billing::CreateCustomerService).to have_received(:new)
         .with(account, plan_name)
@@ -37,6 +35,7 @@ RSpec.describe Billing::CreateCustomerJob, type: :job do
     it 'logs success messages' do
       service_double = double('Billing::CreateCustomerService')
       allow(Billing::CreateCustomerService).to receive(:new)
+        .with(account, plan_name)
         .and_return(service_double)
       allow(service_double).to receive(:perform)
         .and_return({ success: true, message: 'Customer created successfully' })
@@ -44,14 +43,13 @@ RSpec.describe Billing::CreateCustomerJob, type: :job do
       expect(Rails.logger).to receive(:info)
         .with("Successfully created customer for account #{account.id}: Customer created successfully")
 
-      perform_enqueued_jobs do
-        described_class.perform_later(account, plan_name)
-      end
+      described_class.new.perform(account, plan_name)
     end
 
     it 'logs error messages' do
       service_double = double('Billing::CreateCustomerService')
       allow(Billing::CreateCustomerService).to receive(:new)
+        .with(account, plan_name)
         .and_return(service_double)
       allow(service_double).to receive(:perform)
         .and_return({ success: false, error: 'Payment failed' })
@@ -59,9 +57,7 @@ RSpec.describe Billing::CreateCustomerJob, type: :job do
       expect(Rails.logger).to receive(:error)
         .with("Failed to create customer for account #{account.id}: Payment failed")
 
-      perform_enqueued_jobs do
-        described_class.perform_later(account, plan_name)
-      end
+      described_class.new.perform(account, plan_name)
     end
   end
 end
