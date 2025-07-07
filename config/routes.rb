@@ -400,6 +400,13 @@ Rails.application.routes.draw do
               get :bot_analytics_sales_overview
               get :bot_analytics_support_overview
               get :label_wise_conversation_states
+              get :live_chat_analytics_sales_overview
+              get :live_chat_analytics_support_overview
+              get :live_chat_analytics_overview
+              post :download_live_chat_analytics_sales_overview
+              post :download_live_chat_analytics_support_overview
+              get :live_chat_other_metrics_overview
+              get :live_chat_shop_currency
             end
           end
         end

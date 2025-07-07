@@ -88,6 +88,38 @@ class CustomReportsAPI extends ApiClient {
     return axios.get(`${this.url}/bot_analytics_overview`, { params });
   }
 
+  getCustomLiveChatAnalyticsOverviewReports({ since, until, selectedLabel }) {
+    const params = {
+      since,
+      until,
+      business_hours: false,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.get(`${this.url}/live_chat_analytics_overview`, { params });
+  }
+
+  getCustomLiveChatOtherMetricsReports({ since, until, selectedLabel }) {
+    const params = {
+      since,
+      until,
+      business_hours: false,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.get(`${this.url}/live_chat_other_metrics_overview`, {
+      params,
+    });
+  }
+
   getCustomBotAnalyticsSalesOverviewReports({ since, until, selectedLabel }) {
     const params = {
       since,
@@ -101,6 +133,23 @@ class CustomReportsAPI extends ApiClient {
     }
 
     return axios.get(`${this.url}/bot_analytics_sales_overview`, { params });
+  }
+
+  getCustomLiveChatSalesOverviewReports({ since, until, selectedLabel }) {
+    const params = {
+      since,
+      until,
+      business_hours: false,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.get(`${this.url}/live_chat_analytics_sales_overview`, {
+      params,
+    });
   }
 
   getCustomBotAnalyticsSupportOverviewReports({ since, until, selectedLabel }) {
@@ -118,8 +167,29 @@ class CustomReportsAPI extends ApiClient {
     return axios.get(`${this.url}/bot_analytics_support_overview`, { params });
   }
 
+  getCustomLiveChatSupportOverviewReports({ since, until, selectedLabel }) {
+    const params = {
+      since,
+      until,
+      business_hours: false,
+      timezone_offset: getTimeOffset(),
+    };
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.get(`${this.url}/live_chat_analytics_support_overview`, {
+      params,
+    });
+  }
+
   getCurrency() {
     return axios.get(`${this.url}/shop_currency`);
+  }
+
+  getLiveChatCurrency() {
+    return axios.get(`${this.url}/live_chat_shop_currency`);
   }
 
   downloadCustomAgentOverviewReports({
@@ -222,6 +292,30 @@ class CustomReportsAPI extends ApiClient {
     });
   }
 
+  downloadCustomLiveChatAnalyticsSalesOverviewReports({
+    since,
+    until,
+    selectedLabel,
+    email,
+  }) {
+    const params = {
+      since,
+      until,
+      email,
+    };
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.post(
+      `${this.url}/download_live_chat_analytics_sales_overview`,
+      {
+        ...params,
+      }
+    );
+  }
+
   downloadCustomBotAnalyticsSupportOverviewReports({
     since,
     until,
@@ -241,6 +335,30 @@ class CustomReportsAPI extends ApiClient {
     return axios.post(`${this.url}/download_bot_analytics_support_overview`, {
       ...params,
     });
+  }
+
+  downloadCustomLiveChatAnalyticsSupportOverviewReports({
+    since,
+    until,
+    selectedLabel,
+    email,
+  }) {
+    const params = {
+      since,
+      until,
+      email,
+    };
+
+    if (selectedLabel) {
+      params.labels = [selectedLabel.title];
+    }
+
+    return axios.post(
+      `${this.url}/download_live_chat_analytics_support_overview`,
+      {
+        ...params,
+      }
+    );
   }
 
   getCustomAgentCallOverviewReports({

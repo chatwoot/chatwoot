@@ -679,7 +679,17 @@ class CustomReportJob < ApplicationJob
       'pre_sale_queries' => 'Pre sale queries',
       'bot_orders_placed' => 'Bot orders placed',
       'bot_revenue_generated' => 'Bot revenue generated',
-      'agent_revenue_generated' => 'Agent revenue generated'
+      'agent_revenue_generated' => 'Agent revenue generated',
+      'live_chat_total_revenue' => 'Live Chat total revenue',
+      'live_chat_sales_ooo_hours' => 'Sales OOO hours',
+      'live_chat_orders_placed' => 'Live Chat orders placed',
+      'live_chat_revenue_generated' => 'Live Chat revenue generated',
+      'live_chat_impressions' => 'Impression',
+      'live_chat_widget_opened' => 'widget opened',
+      'live_chat_intent_match' => 'Intent Match',
+      'live_chat_fall_back' => 'Fall back',
+      'live_chat_csat_metrics' => 'Live Chat CSAT Metrics',
+      'total_conversations' => 'Total Conversations'
     }
   end
 end

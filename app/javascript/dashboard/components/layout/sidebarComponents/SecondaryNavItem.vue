@@ -77,7 +77,9 @@
       </svg>
 
       {{
-        menuItem.label === 'BOT_ANALYTICS'
+        menuItem.label === 'LIVE_CHAT_ANALYTICS'
+          ? 'Live Chat Analytics'
+          : menuItem.label === 'BOT_ANALYTICS'
           ? 'Whatsapp Chatbot'
           : menuItem.label === 'CALLING_NUDGES'
           ? 'Calling Nudges'

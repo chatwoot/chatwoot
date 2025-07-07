@@ -1,5 +1,6 @@
 class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseController # rubocop:disable Metrics/ClassLength
   include BspdAnalyticsHelper
+  include LiveChatAnalyticsHelper
 
   def index
     builder = V2::CustomReportBuilder.new(Current.account, params)
@@ -43,16 +44,44 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     enqueue_report_generation(download_bot_analytics_support_overview_params)
   end
 
+  def download_live_chat_analytics_overview
+    enqueue_report_generation(download_live_chat_analytics_overview_params)
+  end
+
+  def download_live_chat_analytics_sales_overview
+    enqueue_report_generation(download_live_chat_analytics_sales_overview_params)
+  end
+
+  def download_live_chat_analytics_support_overview
+    enqueue_report_generation(download_live_chat_analytics_support_overview_params)
+  end
+
   def bot_analytics_overview
     render json: build_report(bot_analytics_overview_params)
+  end
+
+  def live_chat_analytics_overview
+    render json: build_report(live_chat_analytics_overview_params)
   end
 
   def bot_analytics_sales_overview
     render json: build_report(bot_analytics_sales_overview_params)
   end
 
+  def live_chat_analytics_sales_overview
+    render json: build_report(live_chat_analytics_sales_overview_params)
+  end
+
   def bot_analytics_support_overview
     render json: build_report(bot_analytics_support_overview_params)
+  end
+
+  def live_chat_analytics_support_overview
+    render json: build_report(live_chat_analytics_support_overview_params)
+  end
+
+  def live_chat_other_metrics_overview
+    render json: build_report(live_chat_other_metrics_overview_params)
   end
 
   def label_wise_conversation_states
@@ -83,6 +112,10 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def shop_currency
     render json: { currency: bspd_shop_currency(Current.account.id) }
+  end
+
+  def live_chat_shop_currency
+    render json: { currency: get_live_chat_shop_currency(Current.account.id) }
   end
 
   private
@@ -131,6 +164,21 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
     }
   end
 
+  def live_chat_base_filters
+    web_widget_inbox_ids = Current.account.inboxes.where(channel_type: 'Channel::WebWidget').pluck(:id)
+    {
+      time_period: {
+        type: 'custom',
+        start_date: params[:since],
+        end_date: params[:until]
+      },
+      business_hours: params[:business_hours],
+      inboxes: web_widget_inbox_ids,
+      agents: params[:agents],
+      labels: params[:labels]
+    }
+  end
+
   # rubocop:disable Layout/LineLength
   def agents_overview_params
     {
@@ -162,6 +210,38 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
       metrics: %w[bot_handled bot_resolved bot_avg_resolution_time bot_assign_to_agent],
       group_by: 'working_hours',
       filters: bot_base_filters
+    }
+  end
+
+  # live chat analytics functions
+  def live_chat_analytics_overview_params
+    {
+      metrics: %w[live_chat_total_revenue live_chat_sales_ooo_hours bot_resolved],
+      filters: live_chat_base_filters
+    }
+  end
+
+  def live_chat_analytics_sales_overview_params
+    {
+      metrics: %w[pre_sale_queries live_chat_orders_placed live_chat_revenue_generated],
+      group_by: 'working_hours',
+      filters: live_chat_base_filters
+    }
+  end
+
+  def live_chat_analytics_support_overview_params
+    {
+      metrics: %w[bot_handled bot_resolved bot_avg_resolution_time bot_assign_to_agent],
+      group_by: 'working_hours',
+      filters: live_chat_base_filters
+    }
+  end
+
+  def live_chat_other_metrics_overview_params
+    {
+      metrics: %w[live_chat_impressions live_chat_widget_opened live_chat_intent_match live_chat_fall_back live_chat_csat_metrics
+                  total_conversations],
+      filters: live_chat_base_filters
     }
   end
 
@@ -246,6 +326,18 @@ class Api::V2::Accounts::CustomReportsController < Api::V1::Accounts::BaseContro
 
   def download_bot_analytics_support_overview_params
     bot_analytics_support_overview_params
+  end
+
+  def download_live_chat_analytics_overview_params
+    live_chat_analytics_overview_params
+  end
+
+  def download_live_chat_analytics_sales_overview_params
+    live_chat_analytics_sales_overview_params
+  end
+
+  def download_live_chat_analytics_support_overview_params
+    live_chat_analytics_support_overview_params
   end
 
   def average_metrics

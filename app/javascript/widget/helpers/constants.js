@@ -27,4 +27,5 @@ export const REPORT_ROUTES_NAMES = [
   'inbox_reports',
   'team_reports',
   'sla_reports',
+  'account_live_chat_metrics',
 ];

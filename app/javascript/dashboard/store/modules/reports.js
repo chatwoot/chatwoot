@@ -55,12 +55,16 @@ const state = {
     uiFlags: {
       isFetchingAccountConversationMetric: false,
       isFetchingBotConversationMetric: false,
+      isFetchingLiveChatConversationMetric: false,
       isFetchingAccountConversationsHeatmap: false,
       isFetchingAgentConversationMetric: false,
       isFetchingTeamConversationMetric: false,
+      isFetchingLiveChatOtherMetric: false,
     },
     accountConversationMetric: {},
     botConversationMetric: {},
+    liveChatConversationMetric: {},
+    liveChatOtherMetric: {},
     accountConversationHeatmap: [],
     agentConversationMetric: [],
     teamConversationMetric: [],
@@ -82,6 +86,12 @@ const getters = {
   },
   getBotConversationMetric(_state) {
     return _state.overview.botConversationMetric;
+  },
+  getLiveChatConversationMetric(_state) {
+    return _state.overview.liveChatConversationMetric;
+  },
+  getLiveChatOtherMetric(_state) {
+    return _state.overview.liveChatOtherMetric;
   },
   getAccountConversationHeatmapData(_state) {
     return _state.overview.accountConversationHeatmap;
@@ -186,6 +196,44 @@ export const actions = {
       })
       .catch(() => {
         commit(types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING, false);
+      });
+  },
+  fetchLiveChatConversationMetric({ commit }, params = {}) {
+    commit(types.default.TOGGLE_LIVE_CHAT_CONVERSATION_METRIC_LOADING, true);
+    console.log('this is being called');
+    customReports
+      .getCustomLiveChatAnalyticsOverviewReports(params)
+      .then(liveChatConversationMetric => {
+        commit(
+          types.default.SET_LIVE_CHAT_CONVERSATION_METRIC,
+          liveChatConversationMetric.data.data
+        );
+        commit(
+          types.default.TOGGLE_LIVE_CHAT_CONVERSATION_METRIC_LOADING,
+          false
+        );
+      })
+      .catch(() => {
+        commit(
+          types.default.TOGGLE_LIVE_CHAT_CONVERSATION_METRIC_LOADING,
+          false
+        );
+      });
+  },
+  fetchLiveChatOtherMetric({ commit }, params = {}) {
+    commit(types.default.TOGGLE_LIVE_CHAT_OTHER_METRIC_LOADING, true);
+    console.log('this is being called');
+    customReports
+      .getCustomLiveChatOtherMetricsReports(params)
+      .then(liveChatOtherMetric => {
+        commit(
+          types.default.SET_LIVE_CHAT_OTHER_METRIC,
+          liveChatOtherMetric.data.data
+        );
+        commit(types.default.TOGGLE_LIVE_CHAT_OTHER_METRIC_LOADING, false);
+      })
+      .catch(() => {
+        commit(types.default.TOGGLE_LIVE_CHAT_OTHER_METRIC_LOADING, false);
       });
   },
   fetchAgentConversationMetric({ commit }) {
@@ -332,8 +380,20 @@ const mutations = {
   [types.default.SET_BOT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.botConversationMetric = metricData;
   },
+  [types.default.SET_LIVE_CHAT_CONVERSATION_METRIC](_state, metricData) {
+    _state.overview.liveChatConversationMetric = metricData;
+  },
+  [types.default.SET_LIVE_CHAT_OTHER_METRIC](_state, metricData) {
+    _state.overview.liveChatOtherMetric = metricData;
+  },
   [types.default.TOGGLE_BOT_CONVERSATION_METRIC_LOADING](_state, flag) {
     _state.overview.uiFlags.isFetchingBotConversationMetric = flag;
+  },
+  [types.default.TOGGLE_LIVE_CHAT_CONVERSATION_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingLiveChatConversationMetric = flag;
+  },
+  [types.default.TOGGLE_LIVE_CHAT_OTHER_METRIC_LOADING](_state, flag) {
+    _state.overview.uiFlags.isFetchingLiveChatOtherMetric = flag;
   },
   [types.default.SET_AGENT_CONVERSATION_METRIC](_state, metricData) {
     _state.overview.agentConversationMetric = metricData;

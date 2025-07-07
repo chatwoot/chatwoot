@@ -15,6 +15,7 @@ const reports = accountId => ({
     'sla_reports',
     'account_bot_analytics',
     'account_call_analytics',
+    'account_live_chat_metrics',
   ],
   menuItems: [
     {
@@ -88,6 +89,13 @@ const reports = accountId => ({
       hasSubMenu: false,
       toState: frontendURL(`accounts/${accountId}/reports/bot-analytics`),
       toStateName: 'account_bot_analytics',
+    },
+    {
+      icon: 'chat',
+      label: 'LIVE_CHAT_ANALYTICS',
+      hasSubMenu: false,
+      toState: frontendURL(`accounts/${accountId}/reports/live-chat-metrics`),
+      toStateName: 'account_live_chat_metrics',
     },
     {
       icon: 'call',

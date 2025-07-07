@@ -138,6 +138,17 @@ module CustomReportHelper
     group_and_count(base_query, @config[:group_by])
   end
 
+  def total_conversations
+    base_query = @account.conversations.where(created_at: @time_range)
+
+    base_query = label_filtered_conversations.where(id: base_query.pluck(:id)) if @config[:filters][:labels].present?
+    base_query = base_query.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+
+    Rails.logger.info("base_queryData, #{base_query}")
+
+    base_query.count
+  end
+
   def bot_user
     query = @account.users.where('email LIKE ?', 'cx.%@bitespeed.co')
     Rails.logger.info "bot_user query: #{query.to_sql}"
@@ -1202,6 +1213,18 @@ module CustomReportHelper
   def get_grouped_average_csat(events)
     if @config[:group_by].present?
       case @config[:group_by]
+      when 'working_hours'
+        # Only include CSAT where assigned_agent_id is bot_user.id
+        result = events.joins(:conversation)
+                       .where(assigned_agent_id: bot_user.id)
+                       .group("COALESCE((conversations.additional_attributes->>'working_hours')::boolean, true)")
+                       .average(average_value_key)
+                       .transform_keys { |key| key ? 'working_hours' : 'non_working_hours' }
+        {
+          'working_hours' => result['working_hours'] || nil,
+          'non_working_hours' => result['non_working_hours'] || nil,
+          'total' => events.where(assigned_agent_id: bot_user.id).average(average_value_key) || nil
+        }
       when 'agent'
         events.group(:assigned_agent_id).average(:rating)
       when 'inbox'
@@ -1631,6 +1654,34 @@ module CustomReportHelper
     Rails.logger.error "Error calculating business hours online time for user #{user_id}: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
     0
+  end
+
+  def live_chat_csat_metrics
+    # Start with responses for this account and time range
+    base_query = @account.csat_survey_responses.where(created_at: @time_range)
+
+    # Join conversations if inbox filter is present
+    if @config[:filters][:inboxes].present?
+      base_query = base_query.joins(:conversation).where(conversations: { inbox_id: @config[:filters][:inboxes] })
+    end
+
+    # Apply label filter if present (if csat_survey_responses are associated with conversations/labels)
+    base_query = base_query.where(conversation_id: label_filtered_conversations.pluck(:id)) if @config[:filters][:labels].present?
+
+    total_count = base_query.count
+    ratings_count = base_query.group(:rating).count
+
+    # Calculate total sent CSAT messages
+    csat_messages = @account.messages.input_csat
+    csat_messages = csat_messages.where(created_at: @time_range) if @time_range.present?
+    csat_messages = csat_messages.where(inbox_id: @config[:filters][:inboxes]) if @config[:filters][:inboxes].present?
+    total_sent_messages_count = csat_messages.count
+
+    {
+      total_count: total_count,
+      ratings_count: ratings_count,
+      total_sent_messages_count: total_sent_messages_count
+    }
   end
 end
 # rubocop:enable Metrics/ModuleLength

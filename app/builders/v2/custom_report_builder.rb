@@ -2,6 +2,7 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
   include DateRangeHelper
   include CustomReportHelper
   include BspdAnalyticsHelper
+  include LiveChatAnalyticsHelper
 
   attr_reader :account, :params
 
@@ -210,20 +211,36 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
 
   private
 
-  def calculate_metric(metric) # rubocop:disable Metrics/CyclomaticComplexity
+  def calculate_metric(metric) # rubocop:disable Metrics/CyclomaticComplexity,Metrics/MethodLength,Metrics/AbcSize
     case metric
     when 'bot_orders_placed'
       bot_orders_placed(@account.id, @time_range)
+    when 'live_chat_orders_placed'
+      live_chat_orders_placed(@account.id, @time_range)
     when 'bot_revenue_generated'
       bot_revenue_generated(@account.id, @time_range)
+    when 'live_chat_revenue_generated'
+      live_chat_revenue_generated(@account.id, @time_range)
     when 'bot_total_revenue'
       bot_total_revenue(@account.id, @time_range)
+    when 'live_chat_impressions'
+      live_chat_impressions(@account.id, @time_range)
+    when 'live_chat_widget_opened'
+      live_chat_widget_opened(@account.id, @time_range)
+    when 'live_chat_intent_match'
+      live_chat_intent_match(@account.id, @time_range)
+    when 'live_chat_fall_back'
+      live_chat_fall_back(@account.id, @time_range)
+    when 'live_chat_total_revenue'
+      live_chat_total_revenue(@account.id, @time_range)
     when 'agent_revenue_generated'
       agent_revenue_generated(@account.id, @time_range)
     when 'agent_total_calls'
       agent_total_calls(@account.id, @time_range)
     when 'sales_ooo_hours'
       sales_ooo_hours(@account.id, @time_range)
+    when 'live_chat_sales_ooo_hours'
+      live_chat_sales_ooo_hours(@account.id, @time_range)
     else
       send(metric) if metric_valid?(metric)
     end
@@ -268,6 +285,15 @@ class V2::CustomReportBuilder # rubocop:disable Metrics/ClassLength
        pre_sale_queries
        bot_orders_placed
        bot_revenue_generated
+       live_chat_total_revenue
+       live_chat_sales_ooo_hours
+       live_chat_orders_placed
+       live_chat_revenue_generated
+       live_chat_impressions
+       live_chat_widget_opened
+       live_chat_intent_match
+       live_chat_csat_metrics
+       total_conversations
        total_calling_nudged_conversations
        scheduled_call_conversations
        not_picked_up_call_conversations

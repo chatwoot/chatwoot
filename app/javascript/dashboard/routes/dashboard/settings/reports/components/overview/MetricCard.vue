@@ -173,8 +173,22 @@ export default {
           ...this.downloadFilters,
           email: this.emailAddress,
         });
+      } else if (this.downloadType === 'liveChatSalesOverview') {
+        await CustomReportsAPI.downloadCustomLiveChatAnalyticsSalesOverviewReports(
+          {
+            ...this.downloadFilters,
+            email: this.emailAddress,
+          }
+        );
       } else if (this.downloadType === 'botAnalyticsSupportOverview') {
         await CustomReportsAPI.downloadCustomBotAnalyticsSupportOverviewReports(
+          {
+            ...this.downloadFilters,
+            email: this.emailAddress,
+          }
+        );
+      } else if (this.downloadType === 'liveChatSupportOverview') {
+        await CustomReportsAPI.downloadCustomLiveChatAnalyticsSupportOverviewReports(
           {
             ...this.downloadFilters,
             email: this.emailAddress,

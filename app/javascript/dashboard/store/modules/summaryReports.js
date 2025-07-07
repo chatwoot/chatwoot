@@ -12,8 +12,11 @@ export const state = {
   customAgentCallOverviewReports: [],
   customAgentInboundCallOverviewReports: [],
   customBotAnalyticsSalesOverviewReports: [],
+  customLiveChatSalesOverviewReports: [],
   customBotAnalyticsSupportOverviewReports: [],
+  customLiveChatSupportOverviewReports: [],
   currency: null,
+  liveChatCurrency: null,
   uiFlags: {
     isBotAnalyticsSalesOverviewReportsLoading: false,
     isBotAnalyticsSupportOverviewReportsLoading: false,
@@ -22,6 +25,8 @@ export const state = {
     isAgentCallOverviewReportsLoading: false,
     isAgentInboundCallOverviewReportsLoading: false,
     isLabelConversationStatesReportsLoading: false,
+    isLiveChatSalesOverviewReportsLoading: false,
+    isLiveChatSupportOverviewReportsLoading: false,
   },
 };
 
@@ -53,14 +58,23 @@ export const getters = {
   getCustomBotAnalyticsSalesOverviewReports(_state) {
     return _state.customBotAnalyticsSalesOverviewReports;
   },
+  getCustomLiveChatSalesOverviewReports(_state) {
+    return _state.customLiveChatSalesOverviewReports;
+  },
   getCustomBotAnalyticsSupportOverviewReports(_state) {
     return _state.customBotAnalyticsSupportOverviewReports;
+  },
+  getCustomLiveChatSupportOverviewReports(_state) {
+    return _state.customLiveChatSupportOverviewReports;
   },
   getUiFlags(_state) {
     return _state.uiFlags;
   },
   getCurrency(_state) {
     return _state.currency;
+  },
+  getLiveChatCurrency(_state) {
+    return _state.liveChatCurrency;
   },
 };
 
@@ -118,10 +132,40 @@ export const actions = {
       commit('toggleBotAnalyticsSupportOverviewReportsLoading', false);
     }
   },
+  async fetchCustomLiveChatSalesOverviewReports({ commit }, params) {
+    commit('toggleLiveChatSalesOverviewReportsLoading', true);
+    try {
+      const response =
+        await CustomReportsAPI.getCustomLiveChatSalesOverviewReports(params);
+      commit('setCustomLiveChatSalesOverviewReport', response.data);
+      commit('toggleLiveChatSalesOverviewReportsLoading', false);
+    } catch (error) {
+      commit('toggleLiveChatSalesOverviewReportsLoading', false);
+    }
+  },
+  async fetchCustomLiveChatSupportOverviewReports({ commit }, params) {
+    commit('toggleLiveChatSupportOverviewReportsLoading', true);
+    try {
+      const response =
+        await CustomReportsAPI.getCustomLiveChatSupportOverviewReports(params);
+      commit('setCustomLiveChatSupportOverviewReport', response.data);
+      commit('toggleLiveChatSupportOverviewReportsLoading', false);
+    } catch (error) {
+      commit('toggleLiveChatSupportOverviewReportsLoading', false);
+    }
+  },
   async fetchCurrency({ commit }) {
     try {
       const response = await CustomReportsAPI.getCurrency();
       commit('setCurrency', response.data.currency);
+    } catch (error) {
+      // Ignore error
+    }
+  },
+  async fetchLiveChatCurrency({ commit }) {
+    try {
+      const response = await CustomReportsAPI.getLiveChatCurrency();
+      commit('setLiveChatCurrency', response.data.currency);
     } catch (error) {
       // Ignore error
     }
@@ -208,14 +252,26 @@ export const mutations = {
   setCustomBotAnalyticsSalesOverviewReport(_state, data) {
     Vue.set(_state, 'customBotAnalyticsSalesOverviewReports', data);
   },
+  setCustomLiveChatSalesOverviewReport(_state, data) {
+    Vue.set(_state, 'customLiveChatSalesOverviewReports', data);
+  },
   setCustomBotAnalyticsSupportOverviewReport(_state, data) {
     Vue.set(_state, 'customBotAnalyticsSupportOverviewReports', data);
+  },
+  setCustomLiveChatSupportOverviewReport(_state, data) {
+    Vue.set(_state, 'customLiveChatSupportOverviewReports', data);
   },
   setCurrency(_state, data) {
     Vue.set(_state, 'currency', data);
   },
+  setLiveChatCurrency(_state, data) {
+    Vue.set(_state, 'liveChatCurrency', data);
+  },
   toggleBotAnalyticsSalesOverviewReportsLoading(_state, flag) {
     Vue.set(_state.uiFlags, 'isBotAnalyticsSalesOverviewReportsLoading', flag);
+  },
+  toggleLiveChatSalesOverviewReportsLoading(_state, flag) {
+    Vue.set(_state.uiFlags, 'isLiveChatSalesOverviewReportsLoading', flag);
   },
   toggleBotAnalyticsSupportOverviewReportsLoading(_state, flag) {
     Vue.set(
@@ -223,6 +279,9 @@ export const mutations = {
       'isBotAnalyticsSupportOverviewReportsLoading',
       flag
     );
+  },
+  toggleLiveChatSupportOverviewReportsLoading(_state, flag) {
+    Vue.set(_state.uiFlags, 'isLiveChatSupportOverviewReportsLoading', flag);
   },
   toggleAgentOverviewReportsLoading(_state, flag) {
     Vue.set(_state, 'uiFlags.isAgentOverviewReportsLoading', flag);

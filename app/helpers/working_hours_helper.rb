@@ -3,15 +3,15 @@
 # rubocop:disable Metrics/PerceivedComplexity
 # rubocop:disable  Metrics/ParameterLists
 # rubocop:disable Lint/DuplicateBranch
-module WorkingHoursHelper
+module WorkingHoursHelper # rubocop:disable Metrics/ModuleLength
   SHOP_URL_TTL = 24.hours
   WORKING_HOURS_TTL = 12.hours
 
-  def in_working_hours(account_id, created_at)
+  def in_working_hours(account_id, created_at, channel_type)
     shop_url = fetch_shop_url(account_id)
     return true if shop_url.blank?
 
-    working_hours = fetch_working_hours(shop_url)
+    working_hours = fetch_working_hours(shop_url, channel_type)
     return true if working_hours.blank?
 
     check_working_hours(working_hours, created_at)
@@ -39,12 +39,18 @@ module WorkingHoursHelper
     nil
   end
 
-  def fetch_working_hours(shop_url)
-    cache_key = "working_hours:#{shop_url}"
+  def fetch_working_hours(shop_url, channel_type)
+    cache_key = "working_hours:#{shop_url}#{channel_type}"
     cached_hours = Redis::Alfred.get(cache_key)
     return JSON.parse(cached_hours) if cached_hours.present?
 
-    hours = fetch_working_hours_from_api(shop_url)
+    hours = case channel_type
+            when 'Channel::WebWidget'
+              fetch_working_hours_from_api_web_widget(shop_url)
+            else
+              fetch_working_hours_from_api(shop_url)
+            end
+
     Redis::Alfred.setex(cache_key, hours.to_json, WORKING_HOURS_TTL) if hours.present?
     hours
   end
@@ -57,6 +63,20 @@ module WorkingHoursHelper
     return nil unless response.success?
 
     JSON.parse(response.body)['botConfig']['config']['workingHours']
+  rescue StandardError => e
+    Rails.logger.error "Error fetching working hours: #{e.message}"
+    nil
+  end
+
+  def fetch_working_hours_from_api_web_widget(shop_url)
+    Rails.logger.info('This Called For Live chat')
+    response = HTTParty.get(
+      'https://rest-apis-767152501284.us-east4.run.app/api/v1/liveChat/liveChatBotConfig',
+      query: { shopUrl: shop_url }
+    )
+    return nil unless response.success?
+
+    JSON.parse(response.body)['liveChatBotConfig']['config']['workingHours']
   rescue StandardError => e
     Rails.logger.error "Error fetching working hours: #{e.message}"
     nil
