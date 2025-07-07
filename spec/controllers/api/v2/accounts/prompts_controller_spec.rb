@@ -7,6 +7,12 @@ RSpec.describe 'Api::V2::Accounts::PromptsController', type: :request do
   let(:agent) { create(:user, account: account, role: :agent) }
   let(:user_from_another_account) { create(:user, account: another_account, role: :administrator) }
 
+  before do
+    # Enable prompts feature for test accounts
+    account.enable_features('prompts')
+    another_account.enable_features('prompts')
+  end
+
   # Create test prompts using the factory
   let!(:account_prompt_1) { create(:account_prompt, :greeting, account: account) }
   let!(:account_prompt_2) { create(:account_prompt, :closing, account: account) }
@@ -94,6 +100,11 @@ RSpec.describe 'Api::V2::Accounts::PromptsController', type: :request do
     context 'when account has no prompts' do
       let(:empty_account) { create(:account) }
       let(:empty_account_admin) { create(:user, account: empty_account, role: :administrator) }
+
+      before do
+        # Enable prompts feature for empty account
+        empty_account.enable_features('prompts')
+      end
 
       it 'returns success with empty array' do
         get "/api/v2/accounts/#{empty_account.id}/prompts",

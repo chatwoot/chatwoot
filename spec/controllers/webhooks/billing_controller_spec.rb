@@ -2,7 +2,7 @@
 
 require 'rails_helper'
 
-RSpec.describe Webhooks::BillingController, type: :controller do
+RSpec.describe 'Webhooks::BillingController', type: :request do
   let(:webhook_service) { instance_double(Billing::WebhookService) }
   let(:event_data) do
     {
@@ -24,11 +24,7 @@ RSpec.describe Webhooks::BillingController, type: :controller do
     allow(webhook_service).to receive(:webhook_secret).and_return('webhook_secret')
   end
 
-  describe 'POST #process_event' do
-    before do
-      request.headers['Stripe-Signature'] = signature
-      allow(request.body).to receive(:read).and_return(payload)
-    end
+  describe 'POST /webhooks/billing/process_event' do
 
     context 'with valid signature and successful processing' do
       let(:service_result) do
@@ -45,7 +41,11 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'processes the webhook successfully' do
-        post :process_event
+        # Mock request.body.read to return our payload
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:ok)
         json_response = JSON.parse(response.body)
@@ -54,14 +54,20 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'verifies the webhook signature' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(webhook_service).to have_received(:verify_signature)
           .with(payload, signature, 'webhook_secret')
       end
 
       it 'processes the event through webhook service' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(webhook_service).to have_received(:process_event).with(event_data)
       end
@@ -74,7 +80,10 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'returns bad request for invalid signature' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:bad_request)
         json_response = JSON.parse(response.body)
@@ -82,10 +91,13 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'logs signature verification failure' do
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
         expect(Rails.logger).to receive(:error)
           .with('Stripe webhook signature verification failed')
 
-        post :process_event
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
       end
     end
 
@@ -95,7 +107,10 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'returns internal server error for unconfigured webhook' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:internal_server_error)
         json_response = JSON.parse(response.body)
@@ -105,13 +120,15 @@ RSpec.describe Webhooks::BillingController, type: :controller do
 
     context 'with missing signature' do
       before do
-        request.headers.delete('Stripe-Signature')
         allow(webhook_service).to receive(:configured?).and_return(true)
         allow(webhook_service).to receive(:verify_signature).and_return(false)
       end
 
       it 'returns bad request for missing signature' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:bad_request)
         json_response = JSON.parse(response.body)
@@ -120,7 +137,7 @@ RSpec.describe Webhooks::BillingController, type: :controller do
     end
 
     context 'with invalid JSON payload' do
-      let(:payload) { 'invalid json' }
+      let(:invalid_payload) { 'invalid json' }
 
       before do
         allow(webhook_service).to receive(:configured?).and_return(true)
@@ -128,7 +145,10 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'returns bad request for invalid JSON' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(invalid_payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:bad_request)
         json_response = JSON.parse(response.body)
@@ -136,10 +156,13 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'logs JSON parsing error' do
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(invalid_payload)
+
         expect(Rails.logger).to receive(:error)
           .with(/Invalid JSON in webhook/)
 
-        post :process_event
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
       end
     end
 
@@ -158,7 +181,10 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'returns unprocessable entity for processing failure' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:unprocessable_entity)
         json_response = JSON.parse(response.body)
@@ -174,7 +200,10 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'returns internal server error' do
-        post :process_event
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
 
         expect(response).to have_http_status(:internal_server_error)
         json_response = JSON.parse(response.body)
@@ -182,21 +211,24 @@ RSpec.describe Webhooks::BillingController, type: :controller do
       end
 
       it 'logs unexpected error' do
+        allow_any_instance_of(ActionDispatch::Request).to receive_message_chain(:body, :read).and_return(payload)
+
         expect(Rails.logger).to receive(:error)
           .with('Error processing webhook: Unexpected error')
 
-        post :process_event
+        post '/webhooks/billing/process_event',
+             headers: { 'Stripe-Signature' => signature, 'Content-Type' => 'application/json' }
       end
     end
   end
 
-  describe 'GET #health' do
+  describe 'GET /webhooks/billing/health' do
     before do
       allow(webhook_service).to receive(:configured?).and_return(true)
     end
 
     it 'returns health status with provider information' do
-      get :health
+      get '/webhooks/billing/health'
 
       expect(response).to have_http_status(:ok)
       json_response = JSON.parse(response.body)
