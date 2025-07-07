@@ -28,6 +28,16 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["token"], name: "index_access_tokens_on_token", unique: true
   end
 
+  create_table "account_prompts", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.bigint "account_id"
+    t.string "prompt_key", null: false
+    t.text "text", null: false
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id", "prompt_key"], name: "index_account_prompts_on_account_id_and_prompt_key", unique: true
+    t.index ["account_id"], name: "index_account_prompts_on_account_id"
+  end
+
   create_table "account_users", force: :cascade do |t|
     t.bigint "account_id"
     t.bigint "user_id"
@@ -1112,6 +1122,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_06_27_195529) do
     t.index ["inbox_id"], name: "index_working_hours_on_inbox_id"
   end
 
+  add_foreign_key "account_prompts", "accounts"
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
   add_foreign_key "inboxes", "portals"
