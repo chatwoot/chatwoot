@@ -68,6 +68,35 @@ RSpec.describe Attachment do
     end
   end
 
+  describe 'thumb_url' do
+    it 'handles password-protected PDF preview errors gracefully' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+
+      # Mock representable? to return true and representation to raise password error
+      allow(attachment.file).to receive(:representable?).and_return(true)
+      allow(attachment.file).to receive(:representation).and_raise(
+        ActiveStorage::PreviewError.new('pdftoppm failed (status 1): Command Line Error: Incorrect password')
+      )
+
+      expect(Rails.logger).to receive(:info).with('Skipping preview generation for password-protected PDF: test.pdf')
+      expect(attachment.thumb_url).to eq('')
+    end
+
+    it 're-raises non-password preview errors' do
+      attachment = message.attachments.new(account_id: message.account_id, file_type: :file)
+      attachment.file.attach(io: StringIO.new('fake pdf'), filename: 'test.pdf', content_type: 'application/pdf')
+
+      # Mock representable? to return true and representation to raise other error
+      allow(attachment.file).to receive(:representable?).and_return(true)
+      allow(attachment.file).to receive(:representation).and_raise(
+        ActiveStorage::PreviewError.new('Some other preview error')
+      )
+
+      expect { attachment.thumb_url }.to raise_error(ActiveStorage::PreviewError, 'Some other preview error')
+    end
+  end
+
   describe 'meta data handling' do
     let(:message) { create(:message) }
 

@@ -61,7 +61,16 @@ class Attachment < ApplicationRecord
 
   def thumb_url
     if file.attached? && file.representable?
-      url_for(file.representation(resize_to_fill: [250, nil]))
+      begin
+        url_for(file.representation(resize_to_fill: [250, nil]))
+      rescue ActiveStorage::PreviewError => e
+        if e.message.include?('Incorrect password')
+          Rails.logger.info "Skipping preview generation for password-protected PDF: #{file.filename}"
+          ''
+        else
+          raise
+        end
+      end
     else
       ''
     end
