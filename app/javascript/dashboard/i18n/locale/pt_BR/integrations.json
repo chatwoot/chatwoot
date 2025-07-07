@@ -331,6 +331,14 @@
         "DESCRIPTION": "O espaço de trabalho do Linear não está conectado. Clique no botão abaixo para conectar seu espaço de trabalho para usar essa integração.",
         "BUTTON_TEXT": "Conectar espaço de trabalho do Linear"
       }
+    },
+    "NOTION": {
+      "DELETE": {
+        "TITLE": "Are you sure you want to delete the Notion integration?",
+        "MESSAGE": "Deleting this integration will remove access to your Notion workspace and stop all related functionality.",
+        "CONFIRM": "Sim, excluir",
+        "CANCEL": "Cancelar"
+      }
     }
   },
   "CAPTAIN": {
@@ -539,6 +547,8 @@
         "CONVERSATION": "Conversação #{id}"
       },
       "SELECTED": "{count} selecionado",
+      "SELECT_ALL": "Selecionar todos ({count})",
+      "UNSELECT_ALL": "Desmarcar todos ({count})",
       "BULK_APPROVE_BUTTON": "Aprovar",
       "BULK_DELETE_BUTTON": "Excluir",
       "BULK_APPROVE": {
