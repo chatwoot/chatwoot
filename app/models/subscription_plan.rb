@@ -21,6 +21,7 @@
 #
 class SubscriptionPlan < ApplicationRecord
   has_many :subscriptions
+  has_and_belongs_to_many :vouchers
 
   validates :description, presence: true
   validates :name, presence: true

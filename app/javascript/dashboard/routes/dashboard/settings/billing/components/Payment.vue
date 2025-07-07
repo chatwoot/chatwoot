@@ -110,6 +110,7 @@ const submit = async () => {
 
   isSubmitting.value = true;
 
+  let errorMessage = '';
   try {
     const payload = {
       id: Date.now(),
@@ -120,6 +121,7 @@ const submit = async () => {
       payment_method: selectedMethod.value || 'M2',
       billing_cycle: selectedBillingCycle.value.id,
       qty: selectedBillingCycle.value.qty,
+      voucher_code: "JANGKAU100K",
     };
 
     const response = await store.dispatch('createSubscription', payload);
@@ -134,14 +136,14 @@ const submit = async () => {
       console.log('Redirecting to:', paymentUrl);
 
       window.location.href = paymentUrl;
-    } else {
-      console.warn('Payment URL not found in response:', response);
-      useAlert('Berhasil membuat langganan, tetapi tidak ada URL pembayaran.');
+    } 
+    else {
+      useAlert(response?.response?.data?.errors || 'Gagal membuat langganan. Silakan coba lagi.');
       emit('close');
     }
   } catch (error) {
-    console.error('Error creating subscription:', error);
-    useAlert('Gagal membuat langganan: ' + (error.message || ''));
+    useAlert('Gagal membuat langganan: ' + (error?.response?.data?.errors || ''));
+    console.error('Gagal membuat langganan:', error);
   } finally {
     isSubmitting.value = false;
   }

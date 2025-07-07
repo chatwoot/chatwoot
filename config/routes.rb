@@ -38,6 +38,12 @@ Rails.application.routes.draw do
         resources :quick_replies, only: [:index, :create, :update, :destroy], module: :accounts
       end
       # ----------------------------------
+      # start of voucher scoped api routes
+      post '/validate_voucher', to: 'vouchers#validate'
+      # end of voucher scoped api routes
+      # ----------------------------------
+      
+      # ----------------------------------
       # start of subscription scoped api routes
       resources :subscriptions, only: [] do
         collection do
