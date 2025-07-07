@@ -22,7 +22,7 @@ class WhatsappUnofficial::CreateWhatsappUnofficialInboxService
     channel = Channel::WhatsappUnofficial.create!(
       account_id: @account_id,
       phone_number: @phone_number,
-      webhook_url: 'https://dev-omnichannel.radyalabs.com/fonnte/callback'
+      webhook_url: "#{ENV.fetch('FRONTEND_URL', nil)}/fonnte/callback"
     )
     channel.set_token
     channel
