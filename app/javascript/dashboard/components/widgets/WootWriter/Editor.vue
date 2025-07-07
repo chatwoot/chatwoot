@@ -709,7 +709,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     <div ref="editor" />
     <div
       v-show="isImageNodeSelected && showImageResizeToolbar"
-      class="absolute shadow-md rounded-[4px] flex gap-1 py-1 px-1 bg-slate-50 dark:bg-slate-700 text-slate-800 dark:text-slate-50"
+      class="absolute shadow-md rounded-[6px] flex gap-1 py-1 px-1 bg-n-solid-3 outline outline-1 outline-n-weak text-n-slate-12"
       :style="{
         top: toolbarPosition.top,
         left: toolbarPosition.left,
@@ -718,7 +718,7 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
       <button
         v-for="size in sizes"
         :key="size.name"
-        class="text-xs font-medium rounded-[4px] border border-solid border-slate-200 dark:border-slate-600 px-1.5 py-0.5 hover:bg-slate-100 dark:hover:bg-slate-800"
+        class="text-xs font-medium rounded-[4px] outline outline-1 outline-n-strong px-1.5 py-0.5 hover:bg-n-slate-5"
         @click="setURLWithQueryAndImageSize(size)"
       >
         {{ size.name }}
@@ -735,16 +735,16 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
   @apply flex flex-col;
 
   .ProseMirror-menubar {
-    min-height: var(--space-two) !important;
+    min-height: 1.25rem !important;
     @apply -ml-2.5 pb-0 bg-transparent text-n-slate-11;
 
     .ProseMirror-menu-active {
-      @apply bg-slate-75 dark:bg-slate-800;
+      @apply bg-n-slate-5 dark:bg-n-solid-3;
     }
   }
 
   > .ProseMirror {
-    @apply p-0 break-words text-slate-800 dark:text-slate-100;
+    @apply p-0 break-words text-n-slate-12;
 
     h1,
     h2,
@@ -753,14 +753,14 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
     h5,
     h6,
     p {
-      @apply text-slate-800 dark:text-slate-100;
+      @apply text-n-slate-12;
     }
 
     blockquote {
-      @apply border-slate-400 dark:border-slate-500;
+      @apply border-n-slate-7;
 
       p {
-        @apply text-slate-600 dark:text-slate-400;
+        @apply text-n-slate-11;
       }
     }
 
@@ -825,6 +825,6 @@ useEmitter(BUS_EVENTS.INSERT_INTO_RICH_EDITOR, insertContentIntoEditor);
 }
 
 .editor-warning__message {
-  @apply text-red-400 dark:text-red-400 font-normal text-sm pt-1 pb-0 px-0;
+  @apply text-n-ruby-9 dark:text-n-ruby-9 font-normal text-sm pt-1 pb-0 px-0;
 }
 </style>

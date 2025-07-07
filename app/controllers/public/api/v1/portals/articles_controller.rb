@@ -17,7 +17,9 @@ class Public::Api::V1::Portals::ArticlesController < Public::Api::V1::Portals::B
     limit_results
   end
 
-  def show; end
+  def show
+    @og_image_url = helpers.set_og_image_url(@portal.name, @article.title)
+  end
 
   def tracking_pixel
     @article = @portal.articles.find_by(slug: permitted_params[:article_slug])
