@@ -19,6 +19,7 @@
     },
     "BUY_DESC": "Beli paket pro akan aktif selama {qty} bulan, dari hari ini sampai",
     "EXPIRED_LABEL": "Paket Anda telah kadaluarsa.",
-    "EXPIRED_LABEL_BUY_NOW": "Upgrade Sekarang!"
+    "EXPIRED_LABEL_BUY_NOW": "Upgrade Sekarang!",
+    "EXPIRED_CHAT_MSG": "Masa berlaku langganan Anda telah habis. Perpanjang untuk melanjutkan penggunaan"
   }
 }

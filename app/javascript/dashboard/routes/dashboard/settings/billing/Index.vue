@@ -453,7 +453,7 @@ function scrollToPackage() {
             <div class="flex flex-row gap-2">
               <span class="text-[#2F9428] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
               <div v-if="!getters.isSubscriptionActive" class="py-1 px-2 text-sm bg-red-400 rounded text-white">
-                <span>{{ $t('PAYMENT.EXPIRED_LABEL') }}</span>
+                <span berlaku langganan Anda telah habis. Perpanjang untuk melanjutkan penggunaan>{{ $t('PAYMENT.EXPIRED_LABEL') }}</span>
                 <span class="underline cursor-pointer" @click="scrollToPackage">
                   {{ $t('PAYMENT.EXPIRED_LABEL_BUY_NOW') }}
                 </span>

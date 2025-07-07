@@ -19,7 +19,8 @@
       },
       "BUY_DESC": "Buying the pro package will activate it for {qty} months, starting today until",
       "EXPIRED_LABEL": "Your package has expired.",
-      "EXPIRED_LABEL_BUY_NOW": "Upgrade Now!"
+      "EXPIRED_LABEL_BUY_NOW": "Upgrade Now!",
+      "EXPIRED_CHAT_MSG": "Your subscription has expired. Renew to continue using the service."
     }
   }
   
