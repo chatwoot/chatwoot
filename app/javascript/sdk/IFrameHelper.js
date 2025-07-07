@@ -166,6 +166,10 @@ export const IFrameHelper = {
         darkMode: window.$chatwoot.darkMode,
         showUnreadMessagesDialog: window.$chatwoot.showUnreadMessagesDialog,
         campaignsSnoozedTill,
+        welcomeHeading: window.$chatwoot.welcomeHeading,
+        welcomeTagline: window.$chatwoot.welcomeTagline,
+        availableMessage: window.$chatwoot.availableMessage,
+        unavailableMessage: window.$chatwoot.unavailableMessage,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,

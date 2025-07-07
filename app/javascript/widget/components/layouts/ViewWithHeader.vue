@@ -119,8 +119,10 @@ export default {
       >
         <ChatHeaderExpanded
           v-if="!isHeaderCollapsed"
-          :intro-heading="channelConfig.welcomeTitle"
-          :intro-body="channelConfig.welcomeTagline"
+          :intro-heading="
+            appConfig.welcomeHeading || channelConfig.welcomeTitle
+          "
+          :intro-body="appConfig.welcomeTagline || channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
           :show-popout-button="appConfig.showPopoutButton"
         />

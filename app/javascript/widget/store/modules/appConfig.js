@@ -21,6 +21,10 @@ const state = {
   widgetStyle: 'standard',
   darkMode: 'light',
   isUpdatingRoute: false,
+  availableMessage: '',
+  unavailableMessage: '',
+  welcomeHeading: '',
+  welcomeTagline: '',
 };
 
 export const getters = {
@@ -34,6 +38,10 @@ export const getters = {
   darkMode: $state => $state.darkMode,
   getShowUnreadMessagesDialog: $state => $state.showUnreadMessagesDialog,
   getIsUpdatingRoute: _state => _state.isUpdatingRoute,
+  getAvailableMessage: $state => $state.availableMessage,
+  getUnavailableMessage: $state => $state.unavailableMessage,
+  getWelcomeHeading: $state => $state.welcomeHeading,
+  getWelcomeTagline: $state => $state.welcomeTagline,
 };
 
 export const actions = {
@@ -46,6 +54,10 @@ export const actions = {
       showUnreadMessagesDialog,
       widgetStyle = 'rounded',
       darkMode = 'light',
+      availableMessage = '',
+      unavailableMessage = '',
+      welcomeHeading = '',
+      welcomeTagline = '',
     }
   ) {
     commit(SET_WIDGET_APP_CONFIG, {
@@ -55,6 +67,10 @@ export const actions = {
       showUnreadMessagesDialog: !!showUnreadMessagesDialog,
       widgetStyle,
       darkMode,
+      availableMessage,
+      unavailableMessage,
+      welcomeHeading,
+      welcomeTagline,
     });
   },
   toggleWidgetOpen({ commit }, isWidgetOpen) {
@@ -90,6 +106,10 @@ export const mutations = {
     $state.darkMode = data.darkMode;
     $state.locale = data.locale || $state.locale;
     $state.showUnreadMessagesDialog = data.showUnreadMessagesDialog;
+    $state.availableMessage = data.availableMessage;
+    $state.unavailableMessage = data.unavailableMessage;
+    $state.welcomeHeading = data.welcomeHeading;
+    $state.welcomeTagline = data.welcomeTagline;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;

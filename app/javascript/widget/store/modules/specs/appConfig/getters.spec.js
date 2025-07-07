@@ -19,6 +19,30 @@ describe('#getters', () => {
       expect(getters.getShowUnreadMessagesDialog(state)).toEqual(true);
     });
   });
+  describe('#getAvailableMessage', () => {
+    it('returns correct value', () => {
+      const state = { availableMessage: 'We reply quickly' };
+      expect(getters.getAvailableMessage(state)).toEqual('We reply quickly');
+    });
+  });
+  describe('#getWelcomeHeading', () => {
+    it('returns correct value', () => {
+      const state = { welcomeHeading: 'Hello!' };
+      expect(getters.getWelcomeHeading(state)).toEqual('Hello!');
+    });
+  });
+  describe('#getWelcomeTagline', () => {
+    it('returns correct value', () => {
+      const state = { welcomeTagline: 'Welcome to our site' };
+      expect(getters.getWelcomeTagline(state)).toEqual('Welcome to our site');
+    });
+  });
+  describe('#getUnavailableMessage', () => {
+    it('returns correct value', () => {
+      const state = { unavailableMessage: 'We are offline' };
+      expect(getters.getUnavailableMessage(state)).toEqual('We are offline');
+    });
+  });
   describe('#getIsUpdatingRoute', () => {
     it('returns correct value', () => {
       const state = { isUpdatingRoute: true };

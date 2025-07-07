@@ -72,6 +72,10 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
     darkMode: getDarkMode(chatwootSettings.darkMode),
+    welcomeHeading: chatwootSettings.welcomeHeading || '',
+    welcomeTagline: chatwootSettings.welcomeTagline || '',
+    availableMessage: chatwootSettings.availableMessage || '',
+    unavailableMessage: chatwootSettings.unavailableMessage || '',
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);
