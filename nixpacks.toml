@@ -1,0 +1,22 @@
+[variables]
+NIXPACKS_METADATA = "ruby,nodejs"
+
+[phases.setup]
+nixPkgs = ["ruby_3_4", "nodejs_24", "postgresql", "python3"]
+nixLibs = ["libvips"]
+
+[phases.install]
+cmds = [
+  "bundle install --without development test",
+  "corepack enable",
+  "pnpm install --frozen-lockfile"
+]
+
+[phases.build]
+cmds = [
+  "bundle exec rails assets:precompile",
+  "bundle exec rails db:migrate"
+]
+
+[start]
+cmd = "bin/rails server -p $PORT -e $RAILS_ENV"

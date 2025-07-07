@@ -1,0 +1,27 @@
+#!/bin/bash
+set -e
+
+echo "🚀 Railway Setup Script para Chatwoot"
+
+# Generar claves secretas si no existen
+if [ -z "$SECRET_KEY_BASE" ]; then
+  export SECRET_KEY_BASE=$(openssl rand -hex 64)
+  echo "✅ SECRET_KEY_BASE generado"
+fi
+
+if [ -z "$DEVISE_JWT_SECRET_KEY" ]; then
+  export DEVISE_JWT_SECRET_KEY=$(openssl rand -hex 64)
+  echo "✅ DEVISE_JWT_SECRET_KEY generado"
+fi
+
+# Ejecutar migraciones
+echo "📦 Ejecutando migraciones..."
+bundle exec rails db:migrate
+
+# Precompilar assets si no están compilados
+if [ ! -d "public/assets" ]; then
+  echo "🎨 Precompilando assets..."
+  bundle exec rails assets:precompile
+fi
+
+echo "✨ Setup completado exitosamente!"
