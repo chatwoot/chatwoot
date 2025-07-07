@@ -118,7 +118,7 @@ RSpec.describe Captain::Documents::CrawlJob, type: :job do
       end
 
       context 'when document is a PDF' do
-        let(:pdf_document) { create(:captain_document, external_link: 'https://example.com/document.pdf') }
+        let(:pdf_document) { create(:captain_document, external_link: 'https://example.com/document.pdf', source_type: 'pdf_upload') }
 
         it 'delegates to PDFExtractionJob' do
           expect(Captain::Documents::PdfExtractionJob)
