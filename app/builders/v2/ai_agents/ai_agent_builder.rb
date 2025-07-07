@@ -113,7 +113,8 @@ class V2::AiAgents::AiAgentBuilder
   def save_as_chat_flow
     flow_data = save_as(ai_agent)
 
-    AiAgents::FlowiseService.save_as_chat_flow(ai_agent.chat_flow_id, ai_agent_params[:name], flow_data)
+    name = "#{ENV.fetch('RAILS_ENV', nil) == 'production' ? 'PROD' : 'DEV'} - #{ai_agent_params[:name]}"
+    AiAgents::FlowiseService.save_as_chat_flow(ai_agent.chat_flow_id, name, flow_data)
     flow_data
   rescue StandardError => e
     Rails.logger.error("❌ Failed to save chat flow: #{e.message}")

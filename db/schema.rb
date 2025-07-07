@@ -1322,7 +1322,6 @@ ActiveRecord::Schema[7.0].define(version: 2025_07_07_140103) do
     t.jsonb "metadata"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "payment_expiry_date", precision: nil
     t.index ["account_id"], name: "index_transactions_on_account_id"
     t.index ["package_type"], name: "index_transactions_on_package_type"
     t.index ["status"], name: "index_transactions_on_status"
