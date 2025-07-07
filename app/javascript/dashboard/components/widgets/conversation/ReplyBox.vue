@@ -128,6 +128,7 @@ export default {
       currentUser: 'getCurrentUser',
       lastEmail: 'getLastEmailInSelectedChat',
       globalConfig: 'globalConfig/get',
+      isSubscriptionActive: 'isSubscriptionActive',
     }),
     currentContact() {
       return this.$store.getters['contacts/getContact'](
@@ -202,7 +203,13 @@ export default {
       return this.$store.getters['inboxes/getInbox'](this.inboxId);
     },
     messagePlaceHolder() {
-      return this.isPrivate
+      const isSubscriptionActive = this.isSubscriptionActive
+      const isPrivate = this.isPrivate
+      if (!isSubscriptionActive) {
+        return this.$t('PAYMENT.EXPIRED_CHAT_MSG')
+      }
+
+      return isPrivate
         ? this.$t('CONVERSATION.FOOTER.PRIVATE_MSG_INPUT')
         : this.$t('CONVERSATION.FOOTER.MSG_INPUT');
     },
@@ -213,6 +220,9 @@ export default {
       return this.maxLength - this.message.length;
     },
     isReplyButtonDisabled() {
+      if (!this.isSubscriptionActive) {
+        return true;
+      }
       if (this.isATwitterInbox) return true;
       if (this.hasAttachments || this.hasRecordedAudio) return false;
 

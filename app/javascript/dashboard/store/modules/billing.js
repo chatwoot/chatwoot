@@ -89,8 +89,16 @@ export const mutations = {
   },
 };
 
+export const getters = {
+  isSubscriptionActive(state) {
+    const userSubsStatus = state?.billing?.myActiveSubscription?.status
+    return userSubsStatus && userSubsStatus.status !== 'active' ? true : false;
+  },
+};
+
 export default {
   state: initialState,
   actions,
   mutations,
+  getters,
 };
