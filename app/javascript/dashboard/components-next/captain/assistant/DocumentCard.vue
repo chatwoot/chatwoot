@@ -26,6 +26,10 @@ const props = defineProps({
     type: String,
     required: true,
   },
+  file: {
+    type: Object,
+    default: null,
+  },
   createdAt: {
     type: Number,
     required: true,
@@ -62,6 +66,22 @@ const menuItems = computed(() => {
 });
 
 const createdAt = computed(() => dynamicTime(props.createdAt));
+
+const displayLink = computed(() => {
+  // For PDF uploads, show the filename instead of the generated external_link
+  if (props.file?.filename) {
+    return props.file.filename;
+  }
+  return props.externalLink;
+});
+
+const actualLink = computed(() => {
+  // For PDF uploads, return the actual file URL; for URLs, return the external_link
+  if (props.file?.url) {
+    return props.file.url;
+  }
+  return props.externalLink;
+});
 
 const handleAction = ({ action, value }) => {
   toggleDropdown(false);
@@ -103,12 +123,15 @@ const handleAction = ({ action, value }) => {
         <i class="i-woot-captain" />
         {{ assistant?.name || '' }}
       </span>
-      <span
-        class="text-n-slate-11 text-sm truncate flex justify-start flex-1 items-center gap-1"
+      <a
+        :href="actualLink"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-n-slate-11 text-sm truncate flex justify-start flex-1 items-center gap-1 hover:text-n-slate-12 transition-colors"
       >
         <i class="i-ph-link-simple shrink-0" />
-        <span class="truncate">{{ externalLink }}</span>
-      </span>
+        <span class="truncate">{{ displayLink }}</span>
+      </a>
       <div class="shrink-0 text-sm text-n-slate-11 line-clamp-1">
         {{ createdAt }}
       </div>

@@ -5,6 +5,9 @@
       "PLACEHOLDER": "Search",
       "EMPTY_STATE": "No results found"
     },
-    "CLOSE": "Close"
+    "CLOSE": "Close",
+    "FILE_SIZE": {
+      "MB": "MB"
+    }
   }
 }

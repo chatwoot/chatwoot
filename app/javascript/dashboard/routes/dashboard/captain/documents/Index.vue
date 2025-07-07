@@ -154,6 +154,7 @@ onMounted(() => {
           :key="doc.id"
           :name="doc.name || doc.external_link"
           :external-link="doc.external_link"
+          :file="doc.file"
           :assistant="doc.assistant"
           :created-at="doc.created_at"
           @action="handleAction"

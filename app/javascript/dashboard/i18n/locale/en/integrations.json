@@ -501,9 +501,26 @@
       },
       "FORM_DESCRIPTION": "Enter the URL of the document to add it as a knowledge source and choose the assistant to associate it with.",
       "CREATE": {
-        "TITLE": "Add a document",
+        "TITLE": "Create New Document",
+        "DESCRIPTION": "Add a new document from a website URL or by uploading a PDF file",
         "SUCCESS_MESSAGE": "The document has been successfully created",
-        "ERROR_MESSAGE": "There was an error creating the document, please try again."
+        "ERROR_MESSAGE": "There was an error creating the document, please try again.",
+        "FORM": {
+          "SOURCE_TYPE": {
+            "LABEL": "Choose Source Type",
+            "WEBSITE_URL": "Website URL",
+            "PDF_UPLOAD": "PDF Upload"
+          },
+          "PDF_UPLOAD": {
+            "LABEL": "Upload PDF Document"
+          },
+          "ASSISTANT": {
+            "LABEL": "Select Assistant"
+          },
+          "FILE_UPLOAD": {
+            "MAX_SIZE": "Maximum file size: {size}MB"
+          }
+        }
       },
       "FORM": {
         "URL": {
