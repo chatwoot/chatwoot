@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2025_06_18_111601) do
+ActiveRecord::Schema[7.0].define(version: 2025_07_07_140103) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -1165,6 +1165,12 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_18_111601) do
     t.datetime "updated_at", null: false
   end
 
+  create_table "subscription_plans_vouchers", id: false, force: :cascade do |t|
+    t.bigint "subscription_plan_id", null: false
+    t.bigint "voucher_id", null: false
+    t.index ["subscription_plan_id", "voucher_id"], name: "index_plan_voucher"
+  end
+
   create_table "subscription_topups", force: :cascade do |t|
     t.bigint "subscription_id", null: false
     t.string "topup_type", null: false
@@ -1360,6 +1366,31 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_18_111601) do
     t.index ["uid", "provider"], name: "index_users_on_uid_and_provider", unique: true
   end
 
+  create_table "voucher_usages", force: :cascade do |t|
+    t.bigint "voucher_id", null: false
+    t.bigint "account_id", null: false
+    t.bigint "subscription_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["account_id"], name: "index_voucher_usages_on_account_id"
+    t.index ["subscription_id"], name: "index_voucher_usages_on_subscription_id"
+    t.index ["voucher_id"], name: "index_voucher_usages_on_voucher_id"
+  end
+
+  create_table "vouchers", force: :cascade do |t|
+    t.string "name", null: false
+    t.string "code", null: false
+    t.string "discount_type", null: false
+    t.integer "discount_value", null: false
+    t.date "start_date", null: false
+    t.date "end_date", null: false
+    t.boolean "is_recurring", default: false
+    t.integer "usage_limit"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["code"], name: "index_vouchers_on_code", unique: true
+  end
+
   create_table "webhooks", force: :cascade do |t|
     t.integer "account_id"
     t.integer "inbox_id"
@@ -1410,6 +1441,9 @@ ActiveRecord::Schema[7.0].define(version: 2025_06_18_111601) do
   add_foreign_key "transaction_topup_relations", "transactions", on_delete: :cascade
   add_foreign_key "transactions", "accounts"
   add_foreign_key "transactions", "users"
+  add_foreign_key "voucher_usages", "accounts"
+  add_foreign_key "voucher_usages", "subscriptions"
+  add_foreign_key "voucher_usages", "vouchers"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
       after(:insert).

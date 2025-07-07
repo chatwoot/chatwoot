@@ -45,6 +45,7 @@ export const actions = {
       return response.data; // Ensure the action returns the response data
     } catch (error) {
       console.error('Error creating subscription:', error);
+      return error;
     } finally {
       commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false });
     }

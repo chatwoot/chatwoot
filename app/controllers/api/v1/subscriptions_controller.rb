@@ -28,7 +28,23 @@ class Api::V1::SubscriptionsController < Api::BaseController
   def create
     billing_cycle = params[:billing_cycle] || 'monthly'
     qty = params[:qty] || 1
+    voucher_code = params[:voucher_code]
     price = @subscription_plan.monthly_price * qty
+
+    # Apply voucher if present
+    if voucher_code.present?
+      result =  ::Voucher::VoucherValidator.new(code: voucher_code, account: @account, subscription_plan_id: @subscription_plan.id).validate
+      if result[:valid]
+        voucher = result[:voucher]
+        price = if voucher.idr?
+                  [price - voucher.discount_value, 0].max
+                else
+                  (price * (100 - voucher.discount_value) / 100.0).to_i
+                end
+      else
+        return render json: { errors: result[:error] }, status: :unprocessable_entity
+      end
+    end
     
     ActiveRecord::Base.transaction do
       @subscription = @account.subscriptions.new(
@@ -47,6 +63,8 @@ class Api::V1::SubscriptionsController < Api::BaseController
       )
       
       if @subscription.save
+        VoucherUsage.create!(voucher: voucher, account: @account, subscription: @subscription) if voucher_code.present?
+        
         begin
           order_id = "RADAI-#{@account.id}-#{@subscription.id}-#{Time.now.to_i}"
 

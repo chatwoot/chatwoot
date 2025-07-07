@@ -24,6 +24,7 @@ class BillingAPI extends ApiClient {
     payment_method,
     billing_cycle,
     qty,
+    voucher_code = null,
   }) {
     const requestData = {
       id,
@@ -34,6 +35,7 @@ class BillingAPI extends ApiClient {
       payment_method,
       billing_cycle,
       qty,
+      voucher_code,
     };
 
     return axios.post(this.url, requestData);
