@@ -45,41 +45,7 @@ class Api::V1::Accounts::Conversations::MessagesController < Api::V1::Accounts::
     render json: { content: translated_content }
   end
 
-  def send_email_notification
-    conversation = Conversation.find_by(display_id: params[:conversation_id])
-    account = conversation.account
-    template = EmailTemplate.find_by!(slug: params[:template_slug], account_id: account.id)
-    return render json: { error: 'Template not found' }, status: :not_found if template.nil?
-    
-    recipients = recipients(account).compact
-    
-    recipients.each do |agent|
-      next if agent.nil?
-  
-      AgentNotifications::CustomMailer.notification_email(
-        conversation,
-        agent,
-        template
-      ).deliver_later
-    end
-    
-    render json: { 
-      status: 'success', 
-      message: 'Email notifications sent successfully',
-      recipients: recipients.map(&:email)
-    }
-  rescue ActiveRecord::RecordNotFound => e
-    render json: { error: e.message }, status: :not_found
-  rescue StandardError => e
-    render json: { error: e.message }, status: :unprocessable_entity
-  end
-
   private
-
-  def recipients(account)
-  User.joins(:account_users)
-      .where(account_users: { account_id: account.id, role: 'agent' })
-end
 
   def message
     @message ||= @conversation.messages.find(permitted_params[:id])
@@ -95,9 +61,5 @@ end
 
   def already_translated_content_available?
     message.translations.present? && message.translations[permitted_params[:target_language]].present?
-  end
-
-  def email_notification_params
-    params.permit(:template_slug, :conversation_id)
   end
 end

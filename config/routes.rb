@@ -109,10 +109,7 @@ Rails.application.routes.draw do
                 member do
                   post :translate
                   post :retry
-                end
-                  collection do
-                    post 'send-message', to: 'messages#send_email_notification'
-                  end  
+                end 
               end
               resources :assignments, only: [:create]
               resources :labels, only: [:create, :index]
@@ -412,6 +409,8 @@ Rails.application.routes.draw do
             end
           end
         end
+        # Add this block for messages
+        post 'messages/send-message', to: 'messages#send_email_notification'
       end
     end
   end
