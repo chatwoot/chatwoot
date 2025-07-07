@@ -5,19 +5,6 @@ class AiAgents::FlowiseService
   base_uri ENV.fetch('FLOWISE_API_URL', 'https://ai.radyalabs.id/api/v1')
 
   class << self
-    def send_message(question:, session_id:, chat_flow_id:)
-      post(
-        "/internal-prediction/#{chat_flow_id}",
-        body: {
-          'question' => question,
-          'overrideConfig' => {
-            'sessionId' => session_id
-          }
-        }.to_json,
-        headers: headers
-      )
-    end
-
     def load_chat_flow(name, flow_data, is_public: false, deployed: false, type: 'CHATFLOW')
       raise ArgumentError, 'Template cannot be nil' if flow_data.nil?
 
@@ -39,23 +26,25 @@ class AiAgents::FlowiseService
 
       parsed = response.parsed_response
 
-      setup_langfuse(parsed['id'])
+      additional_configuration(parsed['id'])
 
       parsed
     end
 
-    def setup_langfuse(id)
+    def additional_configuration(id)
+      body = {
+        'apiConfig': '{"apiConfig":"{\"overrideConfig\":{\"status\":true,\"nodes\":{\"Tool Agent\":[],\"Buffer Window Memory\":[],\"Azure ChatOpenAI\":[],\"Chat Prompt Template\":[],\"Retriever Tool\":[],\"Qdrant\":[],\"Azure OpenAI Embeddings\":[],\"Custom Tool\":[]},\"variables\":[{\"id\":\"5d06288f-9f74-47fe-b957-bd1c68436ea9\",\"name\":\"database_name\",\"type\":\"static\",\"enabled\":true},{\"id\":\"b1202727-0b99-482d-8c1e-f71504579820\",\"name\":\"supabase_api_key\",\"type\":\"static\",\"enabled\":true},{\"id\":\"2e21520f-e6b0-4034-bf04-ae2452080585\",\"name\":\"account_id\",\"type\":\"static\",\"enabled\":true},{\"id\":\"62ab5f79-1afd-4915-8ecb-2af3bb8af209\",\"name\":\"username\",\"type\":\"static\",\"enabled\":true}]}}","overrideConfig":{"status":true,"nodes":{"Tool Agent":[],"Buffer Window Memory":[],"Azure ChatOpenAI":[],"Chat Prompt Template":[],"Retriever Tool":[],"Qdrant":[],"Azure OpenAI Embeddings":[],"Custom Tool":[]},"variables":[{"id":"5d06288f-9f74-47fe-b957-bd1c68436ea9","name":"table_name","type":"static","enabled":true},{"id":"b1202727-0b99-482d-8c1e-f71504579820","name":"supabase_api_key","type":"static","enabled":true},{"id":"2e21520f-e6b0-4034-bf04-ae2452080585","name":"account_id","type":"static","enabled":true},{"id":"62ab5f79-1afd-4915-8ecb-2af3bb8af209","name":"username","type":"static","enabled":true}]}}',
+        'analytic': '{"langFuse":{"credentialId":"8092df26-55eb-407f-aefc-d9e515943cc8","release":"jangkau","status":true}}'
+      }
       response = put(
         "/chatflows/#{id}",
-        body: {
-          'analytic' => '{"langFuse":{"credentialId":"8092df26-55eb-407f-aefc-d9e515943cc8","release":"jangkau","status":true}}'
-        }.to_json,
+        body: body.to_json,
         headers: headers
       )
 
       raise "Error saving chat flow: #{response.code} #{response.message}" unless response.success?
 
-      Rails.logger.info('🤖 Langfuse setup successfully')
+      Rails.logger.info('🤖 Additional configurations setup successfully')
     end
 
     def save_as_chat_flow(id, name, flow_data)

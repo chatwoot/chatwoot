@@ -15,7 +15,6 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
-    Rails.logger.info("🤖 AI Agent params: #{params}")
     builder = V2::AiAgents::AiAgentBuilder.new(Current.account, params)
     ai_agent = builder.build_and_create
     render json: ai_agent, status: :created
@@ -41,7 +40,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
     Captain::Llm::AssistantChatService.new(
       params[:question],
       params[:session_id],
-      ai_agent.chat_flow_id
+      ai_agent.chat_flow_id,
+      Current.account.id
     ).generate_response.then do |response|
       if response.success?
         parsed_response = response.parsed_response

@@ -4,10 +4,11 @@ class Captain::Llm::AssistantChatService
   include HTTParty
   base_uri ENV.fetch('FLOWISE_API_URL', 'https://ai.radyalabs.id/api/v1')
 
-  def initialize(question, session_id, chat_flow_id)
+  def initialize(question, session_id, chat_flow_id, account_id)
     @question = question
     @session_id = session_id
     @chat_flow_id = chat_flow_id
+    @account_id = account_id
   end
 
   def generate_response
@@ -30,7 +31,11 @@ class Captain::Llm::AssistantChatService
     {
       'question' => @question,
       'overrideConfig' => {
-        'sessionId' => @session_id
+        'sessionId' => @session_id,
+        'vars' => {
+          'account_id' => @account_id,
+          'table_name' => ENV.fetch('SUPABASE_TABLE_NAME', 'reservasi_klinik')
+        }
       }
     }
   end

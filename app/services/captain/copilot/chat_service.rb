@@ -50,7 +50,8 @@ class Captain::Copilot::ChatService
     send_message = Captain::Llm::AssistantChatService.new(
       @message.content,
       @context.conversation.id,
-      @context.ai_agent.chat_flow_id
+      @context.ai_agent.chat_flow_id,
+      @current_account.id
     ).generate_response
 
     return send_reply_failure(I18n.t('conversations.bot.failure')) unless send_message.success?
