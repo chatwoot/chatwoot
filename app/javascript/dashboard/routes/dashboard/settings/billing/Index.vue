@@ -1,6 +1,6 @@
 <script setup>
 import { useAlert } from 'dashboard/composables';
-import { computed, onMounted, ref, h, nextTick } from 'vue';
+import { computed, onMounted, ref, h, nextTick, useTemplateRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
@@ -401,6 +401,17 @@ const selectedTabDisplay = computed(() => {
 
 const showInvoicePopup = ref(false)
 const invoiceData = ref(undefined)
+
+const packageSectionRef = useTemplateRef('packageSection')
+
+function scrollToPackage() {
+  selectedMenuTab.value = 'billing'
+  nextTick(() => {
+    packageSectionRef.value.scrollIntoView({
+      behavior: 'smooth',
+    })
+  })
+}
 </script>
 
 <template>
@@ -439,7 +450,15 @@ const invoiceData = ref(undefined)
             <img v-if="planIcon" :src="planIcon">
           </div>
           <div class="flex flex-col flex-1 min-w-0">
-            <span class="text-[#2F9428] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
+            <div class="flex flex-row gap-2">
+              <span class="text-[#2F9428] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
+              <div v-if="!getters.isSubscriptionActive" class="py-1 px-2 text-sm bg-red-400 rounded text-white">
+                <span>{{ $t('PAYMENT.EXPIRED_LABEL') }}</span>
+                <span class="underline cursor-pointer" @click="scrollToPackage">
+                  {{ $t('PAYMENT.EXPIRED_LABEL_BUY_NOW') }}
+                </span>
+              </div>
+            </div>
             <div class="flex flex-col mt-1">
               <span class="text-xs dark:text-[#E0E1E6]">{{ $t('PAYMENT.SUBS_ACTIVE_UNTIL') }}</span>
               <span class="text-sm font-bold text-[#2F9428]">{{
@@ -626,7 +645,7 @@ const invoiceData = ref(undefined)
       </div>
     </div>
 
-    <div>
+    <div ref="packageSection">
       <div class="border-b-4"
         :class="[{
           'border-[#52964D]': selectedMenuTab === 'billing',

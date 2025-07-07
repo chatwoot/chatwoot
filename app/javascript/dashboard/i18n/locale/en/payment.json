@@ -17,7 +17,9 @@
         "NAME": "VA - MANDIRI",
         "DESC": "One-time payment and top up as needed"
       },
-      "BUY_DESC": "Buying the pro package will activate it for {qty} months, starting today until"
+      "BUY_DESC": "Buying the pro package will activate it for {qty} months, starting today until",
+      "EXPIRED_LABEL": "Your package has expired.",
+      "EXPIRED_LABEL_BUY_NOW": "Upgrade Now!"
     }
   }
   
