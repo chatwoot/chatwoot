@@ -100,7 +100,9 @@ class V2::AiAgents::AiAgentBuilder
 
   def load_chat_flow(document_store_id)
     flow_data, store_config = create_flow_data_and_store_config(document_store_id)
-    response = AiAgents::FlowiseService.load_chat_flow(params[:name], flow_data)
+
+    name = "#{ENV.fetch('RAILS_ENV', nil) == 'production' ? 'PROD' : 'DEV'} - #{params[:name]}"
+    response = AiAgents::FlowiseService.load_chat_flow(name, flow_data)
 
     { 'id' => response['id'], 'flow_data' => flow_data, 'store_config' => store_config }
   rescue StandardError => e
