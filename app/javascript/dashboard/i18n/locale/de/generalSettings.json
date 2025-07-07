@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Sie haben das Konversationslimit überschritten. Der Hacker Plan erlaubt nur 500 Unterhaltungen.",
       "INBOXES": "Sie haben das Posteingang-Limit überschritten. Der Hacker-Plan unterstützt nur Live-Chat der Webseite. Zusätzliche Posteingänge wie E-Mail, WhatsApp usw. erfordern einen kostenpflichtigen Tarif.",
-      "AGENTS": "Sie haben das Agentenlimit überschritten. Der Hacker-Plan erlaubt nur 2 Agenten.",
+      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
       "NON_ADMIN": "Bitte kontaktieren Sie Ihren Administrator, um den Plan zu upgraden und alle Funktionen weiterzunutzen."
     },
     "TITLE": "Kontoeinstellungen",
