@@ -47,6 +47,9 @@ module Captain
         # Create a runner and execute
         runner = ::Agents::Runner.with_agents(agent)
 
+        # Setup callbacks for real-time UI updates
+        setup_callbacks(runner)
+
         result = runner.run(@message_content, context: context)
 
         response_content = result.output
@@ -119,6 +122,33 @@ module Captain
         end
 
         context
+      end
+
+      def setup_callbacks(runner)
+        runner.on_agent_thinking do |agent_name, _input|
+          broadcast_thinking_message("#{agent_name} is thinking...")
+        end
+
+        runner.on_tool_start do |tool_name, _args|
+          broadcast_thinking_message("Using #{tool_name}...")
+        end
+
+        runner.on_tool_complete do |tool_name, _result|
+          broadcast_thinking_message("Completed #{tool_name}")
+        end
+
+        runner.on_agent_handoff do |from_agent, to_agent, _reason|
+          broadcast_thinking_message("Handoff: #{from_agent} → #{to_agent}")
+        end
+      end
+
+      def broadcast_thinking_message(content)
+        message_data = { content: content }
+
+        @copilot_thread.copilot_messages.create!(
+          message_type: 'assistant_thinking',
+          message: message_data
+        )
       end
 
       def save_response(response)
