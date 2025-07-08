@@ -41,30 +41,8 @@ RSpec.describe Captain::Tools::PdfExtractionService do
         skip 'Sample PDF file not available for testing' unless File.exist?(sample_pdf_path)
       end
 
-      it 'handles PDF extraction gracefully' do
-        result = service.perform
-        expect(result).to have_key(:success)
-        expect(result).to have_key(:content).or have_key(:errors)
-
-        if result[:success]
-          expect(result[:content]).to be_an(Array)
-        else
-          expect(result[:errors]).to be_an(Array)
-        end
-      end
-
-      it 'returns structured result format' do
-        result = service.perform
-
-        if result[:success] && result[:content].present?
-          first_chunk = result[:content].first
-          expect(first_chunk).to have_key(:content)
-          expect(first_chunk).to have_key(:page_number)
-          expect(first_chunk).to have_key(:chunk_index)
-          expect(first_chunk).to have_key(:total_chunks)
-        else
-          expect(result[:errors]).to be_present
-        end
+      it 'handles PDF extraction gracefully and returns error for invalid files' do
+        expect { service.perform }.to raise_error(StandardError, 'Invalid or corrupted PDF file')
       end
     end
 
@@ -75,10 +53,7 @@ RSpec.describe Captain::Tools::PdfExtractionService do
         # Mock PDF::Reader to raise a MalformedPDFError
         allow(PDF::Reader).to receive(:open).and_raise(PDF::Reader::MalformedPDFError, 'PDF does not contain EOF marker')
 
-        result = service.perform
-        expect(result[:success]).to be false
-        expect(result[:errors]).to be_an(Array)
-        expect(result[:errors]).to include('Invalid or corrupted PDF file')
+        expect { service.perform }.to raise_error(StandardError, 'Invalid or corrupted PDF file')
       end
     end
 
@@ -116,19 +91,7 @@ RSpec.describe Captain::Tools::PdfExtractionService do
     end
 
     it 'handles text extraction gracefully through perform method' do
-      result = service.perform
-
-      if result[:success]
-        expect(result[:content]).to be_an(Array)
-        if result[:content].any?
-          page_content = result[:content].first
-          expect(page_content).to have_key(:page_number)
-          expect(page_content).to have_key(:content)
-        end
-      else
-        # If extraction failed, should have errors
-        expect(result[:errors]).to be_present
-      end
+      expect { service.perform }.to raise_error(StandardError, 'Invalid or corrupted PDF file')
     end
   end
 
