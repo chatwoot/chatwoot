@@ -4,7 +4,7 @@ import { computed, onMounted, ref, h, nextTick, useTemplateRef } from 'vue';
 import { useRoute, useRouter } from 'vue-router';
 import { useI18n } from 'vue-i18n';
 import {
-  useStoreGetters,
+  useMapGetter,
   useStore,
 } from 'dashboard/composables/store';
 
@@ -36,7 +36,7 @@ const { pageIndex } = defineProps({
     default: 0,
   },
 });
-const getters = useStoreGetters();
+const isSubscriptionActive = useMapGetter('isSubscriptionActive');
 const store = useStore();
 const { t, locale } = useI18n();
 
@@ -452,8 +452,8 @@ function scrollToPackage() {
           <div class="flex flex-col flex-1 min-w-0">
             <div class="flex flex-row gap-2">
               <span class="text-[#2F9428] font-bold text-lg">{{ activeSubscription?.plan_name ?? 'N/A' }}</span>
-              <div v-if="!getters.isSubscriptionActive" class="py-1 px-2 text-sm bg-red-400 rounded text-white">
-                <span berlaku langganan Anda telah habis. Perpanjang untuk melanjutkan penggunaan>{{ $t('PAYMENT.EXPIRED_LABEL') }}</span>
+              <div v-if="!isSubscriptionActive" class="py-1 px-2 text-sm bg-red-400 rounded text-white">
+                <span>{{ $t('PAYMENT.EXPIRED_LABEL') }}</span>
                 <span class="underline cursor-pointer" @click="scrollToPackage">
                   {{ $t('PAYMENT.EXPIRED_LABEL_BUY_NOW') }}
                 </span>
