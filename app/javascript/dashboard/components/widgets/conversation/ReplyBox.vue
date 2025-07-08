@@ -472,6 +472,8 @@ export default {
       this.onNewConversationModalActive
     );
     emitter.on(BUS_EVENTS.INSERT_INTO_NORMAL_EDITOR, this.addIntoEditor);
+
+    this.$store.dispatch('myActiveSubscription');
   },
   unmounted() {
     document.removeEventListener('paste', this.onPaste);
