@@ -180,7 +180,7 @@ gem 'ruby-openai'
 
 gem 'shopify_api'
 
-gem 'ai-agents', '>= 0.2.0'
+gem 'ai-agents', '>= 0.2.1'
 
 ### Gems required only in specific deployment environments ###
 ##############################################################
