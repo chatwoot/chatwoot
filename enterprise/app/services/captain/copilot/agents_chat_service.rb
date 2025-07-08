@@ -161,6 +161,9 @@ module Captain
       end
 
       def load_persisted_state(context)
+        # TODO: Replace Redis with copilot_thread model for production
+        # Add a 'agent_state' jsonb column to copilot_threads table
+        # This will provide better persistence, querying, and data integrity
         redis_key = "copilot_state:#{@copilot_thread.id}"
 
         begin
@@ -177,6 +180,9 @@ module Captain
       end
 
       def persist_state(context)
+        # TODO: Replace Redis with copilot_thread model for production
+        # Store agent state in copilot_thread.agent_state jsonb column
+        # This will provide better persistence, querying, and data integrity
         redis_key = "copilot_state:#{@copilot_thread.id}"
 
         begin
