@@ -1,7 +1,16 @@
 <% content_for :head do %>
   <title><%= @category.name %> | <%= @portal.name %></title>
+  <meta name="title" content="<%= @category.name %> | <%= @portal.name %>">
   <% if @category.description.present? %>
     <meta name="description" content="<%= @category.description %>">
+    <meta property="og:description" content="<%= @category.description %>">
+    <meta name="twitter:description" content="<%= @category.description %>">
+  <% end %>
+  <% if @og_image_url.present? %>
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta property="og:image" content="<%= @og_image_url.html_safe %>">
+    <meta name="twitter:image" content="<%= @og_image_url.html_safe %>">
   <% end %>
 <% end %>
 
@@ -35,7 +44,7 @@
           <span class="text-sm text-slate-600 dark:text-slate-400 font-medium flex items-center"><%= I18n.t('public_portal.common.last_updated_on', last_updated_on: article.updated_at.strftime("%b %d, %Y")) %></span>
         </div>
       </a>
-    </div>  
+    </div>
     <% end %>
     <% end %>
   </div>
