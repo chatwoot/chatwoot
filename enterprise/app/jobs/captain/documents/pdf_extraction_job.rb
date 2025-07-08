@@ -1,4 +1,7 @@
 class Captain::Documents::PdfExtractionJob < ApplicationJob
+  retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
+  retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
+
   queue_as :low
 
   def perform(document)
@@ -7,8 +10,6 @@ class Captain::Documents::PdfExtractionJob < ApplicationJob
     initialize_document_processing(document)
     result = extract_pdf_content(document)
     process_extraction_result(document, result)
-  rescue Captain::Tools::PdfExtractionService::ExtractionError => e
-    handle_pdf_extraction_error(document, e)
   end
 
   private

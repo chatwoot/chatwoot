@@ -7,7 +7,6 @@ class Captain::Tools::PdfExtractionService
   include Captain::Tools::PdfExtractionService::SourceHandler
   include Captain::Tools::PdfExtractionService::BlobHandler
   include Captain::Tools::PdfExtractionService::TextProcessor
-  include Captain::Tools::PdfExtractionService::ErrorHandler
 
   class ExtractionError < StandardError; end
 
@@ -29,7 +28,7 @@ class Captain::Tools::PdfExtractionService
     validation_result = validate_pdf_source
     return validation_result unless validation_result[:success]
 
-    extract_pdf_with_error_handling
+    process_pdf_extraction
   end
 
   private
@@ -42,10 +41,27 @@ class Captain::Tools::PdfExtractionService
     log_extraction_success(chunked_content)
 
     success_response(chunked_content)
+  rescue StandardError => e
+    Rails.logger.error "PDF extraction failed: #{e.message}"
+    failure_response([e.message])
   end
 
   def log_extraction_success(chunked_content)
     total_chars = chunked_content.sum { |chunk| chunk[:content].length }
     Rails.logger.info "PDF extraction completed: #{chunked_content.length} chunks, #{total_chars} characters"
+  end
+
+  def success_response(content)
+    {
+      success: true,
+      content: content
+    }
+  end
+
+  def failure_response(errors)
+    {
+      success: false,
+      errors: errors
+    }
   end
 end
