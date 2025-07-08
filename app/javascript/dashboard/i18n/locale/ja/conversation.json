@@ -96,6 +96,10 @@
         "NEXT_WEEK": "次週"
       }
     },
+    "MENTION": {
+      "AGENTS": "担当者",
+      "TEAMS": "チーム"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "までスヌーズする",
       "APPLY": "スヌーズ",

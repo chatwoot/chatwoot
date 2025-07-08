@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "Sūtīt Pielikumu",
       "SEND_MESSAGE": "Nosūtīt Ziņojumu",
       "CHANGE_PRIORITY": "Mainīt prioritāti",
-      "ADD_SLA": "Pievienot SLA"
+      "ADD_SLA": "Pievienot SLA",
+      "OPEN_CONVERSATION": "Atvērt sarunu"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Ziņojuma Tips",
