@@ -71,7 +71,8 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   end
 
   def update
-    @inbox.update!(permitted_params.except(:channel))
+    @inbox.update!(permitted_params.except(:channel, :assign_even_if_offline))
+    update_auto_assignment_config
     update_inbox_working_hours
     update_channel if channel_update_required?
   end
@@ -164,6 +165,15 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
     @inbox.channel.selected_feature_flags = permitted_params(Channel::WebWidget::EDITABLE_ATTRS)[:channel][:selected_feature_flags]
     @inbox.channel.save!
+  end
+
+  def update_auto_assignment_config
+    return if params[:assign_even_if_offline].blank?
+
+    current_config = @inbox.auto_assignment_config || {}
+    current_config['assign_even_if_offline'] = ActiveModel::Type::Boolean.new.cast(params[:assign_even_if_offline])
+    @inbox.auto_assignment_config = current_config
+    @inbox.save!
   end
 
   def inbox_attributes

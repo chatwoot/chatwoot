@@ -49,6 +49,22 @@
         </p>
       </label>
 
+      <label class="w-3/4 settings-item">
+        <div class="flex items-center gap-2">
+          <input
+            id="assignEvenIfOffline"
+            v-model="assignEvenIfOffline"
+            type="checkbox"
+            @change="handleAssignEvenIfOffline"
+          />
+          <label for="assignEvenIfOffline">Assign even if offline</label>
+        </div>
+
+        <p class="pb-1 text-sm not-italic text-slate-600 dark:text-slate-400">
+          Assign conversations to agents even when they are offline
+        </p>
+      </label>
+
       <div
         v-if="enableAutoAssignment && isEnterprise"
         class="max-assignment-container"
@@ -99,6 +115,7 @@ export default {
       selectedAgents: [],
       isAgentListUpdating: false,
       enableAutoAssignment: false,
+      assignEvenIfOffline: false,
       maxAssignmentLimit: null,
     };
   },
@@ -126,6 +143,8 @@ export default {
   methods: {
     setDefaults() {
       this.enableAutoAssignment = this.inbox.enable_auto_assignment;
+      this.assignEvenIfOffline =
+        this.inbox?.auto_assignment_config?.assign_even_if_offline || false;
       this.maxAssignmentLimit =
         this.inbox?.auto_assignment_config?.max_assignment_limit || null;
       this.fetchAttachedAgents();
@@ -144,6 +163,9 @@ export default {
       }
     },
     handleEnableAutoAssignment() {
+      this.updateInbox();
+    },
+    handleAssignEvenIfOffline() {
       this.updateInbox();
     },
     async updateAgents() {
@@ -166,6 +188,7 @@ export default {
           id: this.inbox.id,
           formData: false,
           enable_auto_assignment: this.enableAutoAssignment,
+          assign_even_if_offline: this.assignEvenIfOffline,
           auto_assignment_config: {
             max_assignment_limit: this.maxAssignmentLimit,
           },
@@ -173,7 +196,7 @@ export default {
         await this.$store.dispatch('inboxes/updateInbox', payload);
         this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
       } catch (error) {
-        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.SUCCESS_MESSAGE'));
+        this.showAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
     },
   },
