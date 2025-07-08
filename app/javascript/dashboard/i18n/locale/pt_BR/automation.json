@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "Enviar Anexo",
       "SEND_MESSAGE": "Enviar Mensagem",
       "CHANGE_PRIORITY": "Alterar Prioridade",
-      "ADD_SLA": "Adicionar SLA"
+      "ADD_SLA": "Adicionar SLA",
+      "OPEN_CONVERSATION": "Abrir conversa"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo da Mensagem",

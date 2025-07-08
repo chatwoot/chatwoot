@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Jövő héten"
       }
     },
+    "MENTION": {
+      "AGENTS": "Ügynökök",
+      "TEAMS": "Csapatok"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Halasztás eddig",
       "APPLY": "Halasztás",
