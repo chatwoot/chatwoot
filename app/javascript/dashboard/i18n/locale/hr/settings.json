@@ -347,7 +347,7 @@
     "API": {
       "SUCCESS_MESSAGE": "Račun uspješno kreiran",
       "EXIST_MESSAGE": "Račun već postoji",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Could not connect to Jangkau server, Please try again later"
     },
     "FORM": {
       "NAME": {

@@ -54,7 +54,7 @@
       },
       "CANCEL_BUTTON_TEXT": "Batalkan",
       "API": {
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
       }
     },
     "ADD": {
@@ -78,7 +78,7 @@
       "BUTTON_TEXT": "Hapus",
       "API": {
         "SUCCESS_MESSAGE": "Custom role deleted successfully.",
-        "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+        "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
       },
       "CONFIRM": {
         "TITLE": "Konfirmasi penghapusan",

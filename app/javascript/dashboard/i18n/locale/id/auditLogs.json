@@ -19,7 +19,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Catatan Audit berhasil diambil",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silakan coba lagi nanti"
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
     },
     "DEFAULT_USER": "Sistem",
     "AUTOMATION_RULE": {

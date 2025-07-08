@@ -57,7 +57,7 @@
         "TITLE": "Sunting webhook",
         "API": {
           "SUCCESS_MESSAGE": "Konfigurasi webhook berhasil diperbarui",
-          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
         }
       },
       "ADD": {
@@ -65,14 +65,14 @@
         "TITLE": "Tambah webhook baru",
         "API": {
           "SUCCESS_MESSAGE": "Konfigurasi webhook berhasil ditambahkan",
-          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
         }
       },
       "DELETE": {
         "BUTTON_TEXT": "Hapus",
         "API": {
           "SUCCESS_MESSAGE": "Webhook berhasil dihapus",
-          "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+          "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
         },
         "CONFIRM": {
           "TITLE": "Konfirmasi Penghapusan",

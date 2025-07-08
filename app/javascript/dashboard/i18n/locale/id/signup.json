@@ -41,7 +41,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Pendaftaran Berhasil",
-      "ERROR_MESSAGE": "Tidak dapat terhubung ke Server Woot, Silahkan coba lagi nanti"
+      "ERROR_MESSAGE": "Tidak dapat terhubung ke server Jangkau, Silakan coba lagi nanti"
     },
     "SUBMIT": "Buat akun",
     "HAVE_AN_ACCOUNT": "Sudah punya akun?"

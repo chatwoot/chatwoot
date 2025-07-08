@@ -19,7 +19,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "AuditLogs retrieved successfully",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Could not connect to Jangkau server, Please try again later"
     },
     "DEFAULT_USER": "System",
     "AUTOMATION_RULE": {

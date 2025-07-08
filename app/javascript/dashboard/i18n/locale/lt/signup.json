@@ -36,7 +36,7 @@
     },
     "API": {
       "SUCCESS_MESSAGE": "Registracija sėkminga",
-      "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
+      "ERROR_MESSAGE": "Could not connect to Jangkau server, Please try again later"
     },
     "SUBMIT": "Sukurti paskyrą",
     "HAVE_AN_ACCOUNT": "Jau turi prisijungimo paskyrą?"
