@@ -25,11 +25,9 @@ class Captain::Documents::PdfExtractionJob < ApplicationJob
   end
 
   def process_extraction_result(document, result)
-    if result[:success] && result[:content].present?
-      process_pdf_content_chunks(document, result[:content])
-    else
-      handle_pdf_extraction_failure(document, result)
-    end
+    return unless result[:success] && result[:content].present?
+
+    process_pdf_content_chunks(document, result[:content])
   end
 
   def process_pdf_content_chunks(document, content_chunks)
@@ -72,11 +70,6 @@ class Captain::Documents::PdfExtractionJob < ApplicationJob
   def handle_pdf_extraction_failure(document, result)
     error_message = result[:errors]&.join(', ') || 'Failed to extract text from PDF'
     Rails.logger.error "PDF extraction failed for document #{document.id}: #{error_message}"
-    document.update(status: 'available')
-  end
-
-  def handle_pdf_extraction_error(document, error)
-    Rails.logger.error "PDF extraction failed for document #{document.id}: #{error.message}"
     document.update(status: 'available')
   end
 end
