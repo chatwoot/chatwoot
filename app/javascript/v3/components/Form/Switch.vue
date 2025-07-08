@@ -17,9 +17,7 @@ export default {
     type="button"
     class="relative flex-shrink-0 h-4 p-0 border-none shadow-inner w-7 rounded-3xl"
     :class="
-      modelValue
-        ? 'bg-primary-600 shadow-primary-800'
-        : 'shadow-ash-400 bg-ash-200'
+      modelValue ? 'bg-n-brand shadow-n-brand' : 'shadow-n-slate-6 bg-n-slate-5'
     "
     role="switch"
     :aria-checked="modelValue.toString()"
@@ -27,7 +25,7 @@ export default {
   >
     <span
       aria-hidden="true"
-      class="rounded-full bg-white top-0.5 absolute dark:bg-white w-3 h-3 translate-y-0 duration-200 transition-transform ease-in-out"
+      class="rounded-full bg-n-background top-0.5 absolute w-3 h-3 translate-y-0 duration-200 transition-transform ease-in-out"
       :class="
         modelValue
           ? 'ltr:translate-x-0 rtl:translate-x-[0.75rem]'
