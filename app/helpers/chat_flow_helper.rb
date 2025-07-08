@@ -10,9 +10,9 @@ module ChatFlowHelper
   end
 
   def create_flow_data_and_store_config(store_id)
-    default_system_message_prompt
-    set_buffer_for_chat_memory
-    set_qdrant_vector_store
+    update_node_input('chatPromptTemplate_0', 'systemMessagePrompt', system_prompt)
+    update_node_input('bufferWindowMemory_0', 'k', WINDOW_SIZE)
+    update_node_input('qdrant_0', 'qdrantCollection', database_name)
 
     [flow_data, store_config(store_id)]
   end
@@ -21,7 +21,7 @@ module ChatFlowHelper
     flow_data = ai_agent.flow_data
     self.flow_data = flow_data
 
-    update_system_message_prompt
+    update_node_input('chatPromptTemplate_0', 'systemMessagePrompt', combined_system_prompt)
 
     flow_data
   end
@@ -54,41 +54,18 @@ module ChatFlowHelper
     node
   end
 
-  def default_system_message_prompt
+  def update_node_input(node_id, input_key, input_value)
+    node = find_node_by_id(node_id)
+    node['data']['inputs'][input_key] = input_value
+  end
+
+  def system_prompt
     replace_placeholder
 
-    node = find_node_by_id('chatPromptTemplate_0')
-    node['data']['inputs']['systemMessagePrompt'] = "#{template.system_prompt}\n\n#{template.system_prompt_rules}"
-  end
+    identity = template.system_prompt
+    guideline_and_task = template.system_prompt_rules
 
-  def update_system_message_prompt
-    node = find_node_by_id('chatPromptTemplate_0')
-    node['data']['inputs']['systemMessagePrompt'] = combined_system_prompt
-  end
-
-  def handover_prompt_template
-    node = find_node_by_id('promptTemplate_0')
-    node['data']['inputs']['template'] = replace_additional_rules_for_handover_prompt
-  end
-
-  def set_redis_for_chat_memory
-    node = find_node_by_id('RedisBackedChatMemory_0')
-    node['data']['inputs']['windowSize'] = WINDOW_SIZE
-  end
-
-  def set_buffer_for_chat_memory
-    node = find_node_by_id('bufferWindowMemory_0')
-    node['data']['inputs']['k'] = WINDOW_SIZE
-  end
-
-  def set_mongodb_atlas_chat_memory
-    node = find_node_by_id('MongoDBAtlasChatMemory_0')
-    node['data']['inputs']['databaseName'] = database_name
-  end
-
-  def set_qdrant_vector_store
-    node = find_node_by_id('qdrant_0')
-    node['data']['inputs']['qdrantCollection'] = database_name
+    generate_system_prompt(identity, guideline_and_task)
   end
 
   def set_azure_openai_temperature
@@ -104,7 +81,9 @@ module ChatFlowHelper
   end
 
   def combined_system_prompt
-    "#{params[:system_prompts]}\n\n#{multi_gsub(template.system_prompt_rules, placeholders)}"
+    identity = params[:system_prompts]
+    guideline_and_task = multi_gsub(template.system_prompt_rules, placeholders)
+    generate_system_prompt(identity, guideline_and_task)
   end
 
   def placeholders
@@ -132,5 +111,9 @@ module ChatFlowHelper
     today = Time.current.strftime('%Y%m%d%H%M%S')
 
     "#{underscored}_#{today}"
+  end
+
+  def generate_system_prompt(identity, guideline_and_task)
+    Captain::Llm::SystemPromptService.new.generate_system_prompt(identity, guideline_and_task)
   end
 end
