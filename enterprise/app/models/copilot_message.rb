@@ -38,7 +38,7 @@ class CopilotMessage < ApplicationRecord
   end
 
   def enqueue_response_job(conversation_id, user_id)
-    if ENV['USE_AGENTS'] == 'true'
+    if account.feature_enabled?('agents_next')
       # Use the new AI Agents SDK implementation
       Captain::Copilot::AgentsResponseJob.perform_later(
         copilot_thread_id: copilot_thread.id,

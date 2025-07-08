@@ -176,3 +176,6 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+- name: agents_next
+  display_name: Use AIAgents SDK
+  enabled: false
