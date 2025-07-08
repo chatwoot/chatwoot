@@ -39,15 +39,16 @@ class ActionCableListener < BaseListener
              contact_tokens(conversation.contact_inbox, message)
 
     if message.sender_type == 'Contact'
-      chat_service = Captain::Copilot::ChatService.new(message)
-      thread = Thread.new do
-        chat_service.perform
-      end
+      ChatServiceJob.perform_async(message.id)
+      # chat_service = Captain::Copilot::ChatService.new(message)
+      # thread = Thread.new do
+      #   chat_service.perform
+      # end
 
-      # Watchdog thread to ensure the thread is still alive
-      Thread.new do
-        chat_service.notify_if_long_running unless thread.join(LOADING_DELAY_SECONDS)
-      end
+      # # Watchdog thread to ensure the thread is still alive
+      # Thread.new do
+      #   chat_service.notify_if_long_running unless thread.join(LOADING_DELAY_SECONDS)
+      # end
     end
 
     broadcast(account, tokens, MESSAGE_CREATED, message.push_event_data)

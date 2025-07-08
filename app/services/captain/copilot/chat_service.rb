@@ -1,4 +1,4 @@
-class Captain::Copilot::ChatService
+class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
   include SwitchLocale
   include JsonHelper
 
