@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Πάτησε enter για επιλογή",
       "ENTER_TO_REMOVE": "Πάτησε enter για αφαίρεση",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Επιλέξτε ένα",
       "SELECT": "Επιλογή"
     }
