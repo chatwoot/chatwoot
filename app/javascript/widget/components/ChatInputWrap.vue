@@ -41,12 +41,12 @@ export default {
     ...mapGetters({
       widgetColor: 'appConfig/getWidgetColor',
       isWidgetOpen: 'appConfig/getIsWidgetOpen',
-      showFilePicker: 'appConfig/getShowFilePicker',
-      enableEmojiPicker: 'appConfig/getShowEmojiPicker',
+      shouldShowFilePicker: 'appConfig/getShouldShowFilePicker',
+      shouldShowEmojiPicker: 'appConfig/getShouldShowEmojiPicker',
     }),
     showAttachment() {
       return (
-        this.showFilePicker &&
+        this.shouldShowFilePicker &&
         this.hasAttachmentsEnabled &&
         this.userInput.length === 0
       );
@@ -149,7 +149,7 @@ export default {
         :on-attach="onSendAttachment"
       />
       <button
-        v-if="enableEmojiPicker && hasEmojiPickerEnabled"
+        v-if="shouldShowEmojiPicker && hasEmojiPickerEnabled"
         class="flex items-center justify-center min-h-8 min-w-8"
         :aria-label="$t('EMOJI.ARIA_LABEL')"
         @click="toggleEmojiPicker"
@@ -164,7 +164,7 @@ export default {
         />
       </button>
       <EmojiInput
-        v-if="enableEmojiPicker && showEmojiPicker"
+        v-if="shouldShowEmojiPicker && showEmojiPicker"
         v-on-clickaway="hideEmojiPicker"
         :on-click="emojiOnClick"
         @keydown.esc="hideEmojiPicker"

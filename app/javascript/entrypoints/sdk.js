@@ -72,13 +72,13 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     widgetStyle: getWidgetStyle(chatwootSettings.widgetStyle) || 'standard',
     resetTriggered: false,
     darkMode: getDarkMode(chatwootSettings.darkMode),
-    welcomeHeading: chatwootSettings.welcomeHeading || '',
-    welcomeTagline: chatwootSettings.welcomeTagline || '',
+    welcomeTitle: chatwootSettings.welcomeTitle || '',
+    welcomeDescription: chatwootSettings.welcomeDescription || '',
     availableMessage: chatwootSettings.availableMessage || '',
     unavailableMessage: chatwootSettings.unavailableMessage || '',
-    showFilePicker: chatwootSettings.showFilePicker ?? true,
-    showEmojiPicker: chatwootSettings.showEmojiPicker ?? true,
-    allowEndConversation: chatwootSettings.allowEndConversation ?? true,
+    enableFileUpload: chatwootSettings.enableFileUpload ?? true,
+    enableEmojiPicker: chatwootSettings.enableEmojiPicker ?? true,
+    enableEndConversation: chatwootSettings.enableEndConversation ?? true,
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);

@@ -27,32 +27,32 @@ describe('#getters', () => {
   });
   describe('#getWelcomeHeading', () => {
     it('returns correct value', () => {
-      const state = { welcomeHeading: 'Hello!' };
+      const state = { welcomeTitle: 'Hello!' };
       expect(getters.getWelcomeHeading(state)).toEqual('Hello!');
     });
   });
   describe('#getWelcomeTagline', () => {
     it('returns correct value', () => {
-      const state = { welcomeTagline: 'Welcome to our site' };
+      const state = { welcomeDescription: 'Welcome to our site' };
       expect(getters.getWelcomeTagline(state)).toEqual('Welcome to our site');
     });
   });
-  describe('#getShowFilePicker', () => {
+  describe('#getShouldShowFilePicker', () => {
     it('returns correct value', () => {
-      const state = { showFilePicker: true };
-      expect(getters.getShowFilePicker(state)).toEqual(true);
+      const state = { enableFileUpload: true };
+      expect(getters.getShouldShowFilePicker(state)).toEqual(true);
     });
   });
-  describe('#getShowEmojiPicker', () => {
+  describe('#getShouldShowEmojiPicker', () => {
     it('returns correct value', () => {
-      const state = { showEmojiPicker: true };
-      expect(getters.getShowEmojiPicker(state)).toEqual(true);
+      const state = { enableEmojiPicker: true };
+      expect(getters.getShouldShowEmojiPicker(state)).toEqual(true);
     });
   });
-  describe('#getAllowEndConversation', () => {
+  describe('#getCanUserEndConversation', () => {
     it('returns correct value', () => {
-      const state = { allowEndConversation: true };
-      expect(getters.getAllowEndConversation(state)).toEqual(true);
+      const state = { enableEndConversation: true };
+      expect(getters.getCanUserEndConversation(state)).toEqual(true);
     });
   });
   describe('#getUnavailableMessage', () => {
