@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Tuần sau"
       }
     },
+    "MENTION": {
+      "AGENTS": "Nhà cung cấp",
+      "TEAMS": "Nhóm"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Tạm dừng đến khi",
       "APPLY": "Báo lại",
