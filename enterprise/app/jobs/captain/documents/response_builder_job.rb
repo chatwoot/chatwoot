@@ -1,14 +1,15 @@
 class Captain::Documents::ResponseBuilderJob < ApplicationJob
   queue_as :low
 
-  def perform(document, full_content = nil)
+  def perform(document, full_content = nil, skip_reset: false)
     # Use full content for FAQ generation if provided (for PDFs), otherwise use document.content
     content_for_faqs = full_content || document.content
 
     # Skip processing if no content available
     return if content_for_faqs.blank?
 
-    reset_previous_responses(document)
+    # Only reset responses if not explicitly skipped (for PDF chunks processing)
+    reset_previous_responses(document) unless skip_reset
 
     faqs = Captain::Llm::FaqGeneratorService.new(content_for_faqs).generate
     faqs.each do |faq|
@@ -30,6 +31,7 @@ class Captain::Documents::ResponseBuilderJob < ApplicationJob
       documentable: document
     )
   rescue ActiveRecord::RecordInvalid => e
-    Rails.logger.error "Error in creating response document: #{e.message}"
+    # Log validation errors but continue processing other FAQs
+    Rails.logger.info "Skipping duplicate or invalid FAQ: #{e.message}"
   end
 end

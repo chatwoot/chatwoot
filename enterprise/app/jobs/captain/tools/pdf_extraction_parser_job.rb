@@ -37,7 +37,7 @@ class Captain::Tools::PdfExtractionParserJob < ApplicationJob
     # Use the ResponseBuilderJob with full_content parameter to generate FAQs
     # This will link all FAQs to the main document while using the chunk content for AI processing
     # Skip reset since it's already done in the main PDF extraction job
-    Captain::Documents::ResponseBuilderJob.perform_later(main_document, context_content)
+    Captain::Documents::ResponseBuilderJob.perform_later(main_document, context_content, skip_reset: true)
   end
 
   def should_process_content?(content, account)

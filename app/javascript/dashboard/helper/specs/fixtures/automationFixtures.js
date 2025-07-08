@@ -2,6 +2,11 @@ import allLanguages from 'dashboard/components/widgets/conversation/advancedFilt
 
 import allCountries from 'shared/constants/countries.js';
 
+import {
+  MESSAGE_CONDITION_VALUES,
+  PRIORITY_CONDITION_VALUES,
+} from 'dashboard/constants/automation';
+
 export const customAttributes = [
   {
     id: 1,
@@ -636,16 +641,16 @@ export const statusFilterOptions = [
 ];
 export const languages = allLanguages;
 export const countries = allCountries;
-export const MESSAGE_CONDITION_VALUES = [
-  {
-    id: 'incoming',
-    name: 'Incoming Message',
-  },
-  {
-    id: 'outgoing',
-    name: 'Outgoing Message',
-  },
-];
+
+export const messageTypeOptions = MESSAGE_CONDITION_VALUES.map(item => ({
+  id: item.id,
+  name: `AUTOMATION.MESSAGE_TYPES.${item.i18nKey}`,
+}));
+
+export const priorityOptions = PRIORITY_CONDITION_VALUES.map(item => ({
+  id: item.id,
+  name: `AUTOMATION.PRIORITY_TYPES.${item.i18nKey}`,
+}));
 
 export const automationToSubmit = {
   name: 'Fayaz',
