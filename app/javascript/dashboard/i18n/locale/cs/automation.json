@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "Odeslat přílohu",
       "SEND_MESSAGE": "Odeslat zprávu",
       "CHANGE_PRIORITY": "Change Priority",
-      "ADD_SLA": "Add SLA"
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Open conversation"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Typ zprávy",

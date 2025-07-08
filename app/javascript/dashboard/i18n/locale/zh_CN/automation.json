@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "发送附件",
       "SEND_MESSAGE": "发送消息",
       "CHANGE_PRIORITY": "更改优先级",
-      "ADD_SLA": "添加SLA"
+      "ADD_SLA": "添加SLA",
+      "OPEN_CONVERSATION": "打开对话"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",
