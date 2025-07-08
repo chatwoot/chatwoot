@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Sonraki hafta"
       }
     },
+    "MENTION": {
+      "AGENTS": "Kullanıcılar",
+      "TEAMS": "Ekipler"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Şu tarihe kadar ertele",
       "APPLY": "Sustur",
@@ -308,7 +312,7 @@
       "CONTACT_ATTRIBUTES": "İletişim Nitelikleri",
       "PREVIOUS_CONVERSATION": "Önceki Konuşmalar",
       "MACROS": "Kısayollar",
-      "LINEAR_ISSUES": "Linked Linear Issues",
+      "LINEAR_ISSUES": "Bağlantılı Linear Sorunları",
       "SHOPIFY_ORDERS": "Shopify Orders"
     },
     "SHOPIFY": {
