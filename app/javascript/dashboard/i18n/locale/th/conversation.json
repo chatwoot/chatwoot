@@ -96,6 +96,10 @@
         "NEXT_WEEK": "สัปดาห์หน้า"
       }
     },
+    "MENTION": {
+      "AGENTS": "พนักงาน",
+      "TEAMS": "ทีม"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "พักการสนทนาจนถึง",
       "APPLY": "Snooze",
