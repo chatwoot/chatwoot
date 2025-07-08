@@ -36,9 +36,7 @@ const onClick = event => {
             icon="i-lucide-chevron-right"
             class="flex-shrink-0 mx-2 size-4 text-n-slate-11 dark:text-n-slate-11"
           />
-          <span
-            class="text-sm truncate text-slate-900 dark:text-slate-50 max-w-56"
-          >
+          <span class="text-sm truncate text-n-slate-12 max-w-56">
             {{ item.emoji ? item.emoji : '' }} {{ item.label }}
           </span>
         </template>
