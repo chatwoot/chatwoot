@@ -44,6 +44,9 @@ module Captain
         # Build context for the agent
         context = build_context
 
+        # Load persisted state from Redis
+        context = load_persisted_state(context)
+
         # Create a runner and execute
         runner = ::Agents::Runner.with_agents(agent)
 
@@ -51,6 +54,9 @@ module Captain
         setup_callbacks(runner)
 
         result = runner.run(@message_content, context: context)
+
+        # Persist updated state to Redis
+        persist_state(result.context) if result.respond_to?(:context) && result.context
 
         response_content = result.output
 
@@ -73,6 +79,7 @@ module Captain
 
       def build_context
         context = {
+          conversation_history: build_conversation_history,
           state: {
             user_info: {
               id: @user.id,
@@ -87,21 +94,7 @@ module Captain
               domain: @account.domain,
               feature_flags: @account.feature_flags
             },
-            conversation_history: [
-              {
-                content: @message_content,
-                role: 'user'
-              }
-            ],
-            current_time: Time.current.iso8601,
-            available_capabilities: %w[
-              conversation_management
-              contact_research
-              knowledge_base_search
-              team_information
-              workflow_automation
-              sentiment_analysis
-            ]
+            current_time: Time.current.iso8601
           }
         }
 
@@ -124,13 +117,39 @@ module Captain
         context
       end
 
+      def build_conversation_history
+        history = []
+
+        # Get all previous messages from the thread (excluding current message)
+        previous_messages = @copilot_thread.copilot_messages
+                                           .where.not(message_type: 'assistant_thinking')
+                                           .order(:created_at)
+
+        # this will also contain the current message
+        previous_messages.each do |message|
+          role = case message.message_type
+                 when 'user' then 'user'
+                 when 'assistant' then 'assistant'
+                 else next # Skip unknown message types
+                 end
+
+          history << {
+            content: message.message['content'],
+            role: role
+          }
+        end
+
+        history
+      end
+
       def setup_callbacks(runner)
         runner.on_agent_thinking do |agent_name, _input|
           broadcast_thinking_message("#{agent_name} is thinking...")
         end
 
-        runner.on_tool_start do |tool_name, _args|
-          broadcast_thinking_message("Using #{tool_name}...")
+        runner.on_tool_start do |tool_name, args|
+          args_display = args.present? ? " with #{args.to_json}" : ''
+          broadcast_thinking_message("Using #{tool_name}#{args_display}...")
         end
 
         runner.on_tool_complete do |tool_name, _result|
@@ -139,6 +158,36 @@ module Captain
 
         runner.on_agent_handoff do |from_agent, to_agent, _reason|
           broadcast_thinking_message("Handoff: #{from_agent} → #{to_agent}")
+        end
+      end
+
+      def load_persisted_state(context)
+        redis_key = "copilot_state:#{@copilot_thread.id}"
+
+        begin
+          persisted_state = Redis::Alfred.get(redis_key)
+          if persisted_state
+            # Merge persisted state with current context
+            context[:state] = context[:state].merge(persisted_state.with_indifferent_access)
+          end
+        rescue StandardError => e
+          Rails.logger.warn "Failed to load persisted state from Redis: #{e.message}"
+        end
+
+        context
+      end
+
+      def persist_state(context)
+        redis_key = "copilot_state:#{@copilot_thread.id}"
+
+        begin
+          # Extract only the state we want to persist (excluding conversation_history)
+          state_to_persist = context[:state]&.except(:conversation_history, :current_time) || {}
+
+          # Set expiration to 24 hours
+          Redis::Alfred.set(redis_key, state_to_persist, expire: 24.hours.to_i)
+        rescue StandardError => e
+          Rails.logger.warn "Failed to persist state to Redis: #{e.message}"
         end
       end
 

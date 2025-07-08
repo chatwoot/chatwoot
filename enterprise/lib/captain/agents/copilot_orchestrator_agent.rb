@@ -51,6 +51,12 @@ class Captain::Agents::CopilotOrchestratorAgent
         - For status updates: integrations_agent("Mark conversation as resolved")
         - For help content: knowledge_agent("Find billing policy")
 
+        IMPORTANT CONTEXT RULES:
+        1. Always maintain conversation context between messages
+        2. If user asks about "that conversation" or "the message", refer to the most recently accessed conversation
+        3. Keep track of previously accessed conversations in the current session
+        4. Don't re-fetch data that was already retrieved in the current conversation thread
+
         Always get conversation data first before analysis or recommendations.
       INSTRUCTIONS
 
