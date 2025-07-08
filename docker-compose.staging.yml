@@ -13,13 +13,13 @@
 
 version: '3.9'
 
-services:
-  Base: &base
-    image: vegavision:latest # Local image (production is charlesmbv/vegavision:latest)
-    env_file: .env
-    volumes:
-      - /vv-volumes/storage_data:/app/storage
+x-base: &base
+  image: vegavision:latest # Local image (production is charlesmbv/vegavision:latest)
+  env_file: .env
+  volumes:
+    - /vv-volumes/storage_data:/app/storage
 
+services:
   Rails:
     <<: *base
     container_name: Rails
