@@ -7,7 +7,6 @@ class Captain::Tools::PdfExtractionService
   include Captain::Tools::PdfExtractionService::SourceHandler
   include Captain::Tools::PdfExtractionService::BlobHandler
   include Captain::Tools::PdfExtractionService::TextProcessor
-  include Captain::Tools::PdfExtractionService::ErrorHandler
 
   class ExtractionError < StandardError; end
 
@@ -29,7 +28,7 @@ class Captain::Tools::PdfExtractionService
     validation_result = validate_pdf_source
     return validation_result unless validation_result[:success]
 
-    extract_pdf_with_error_handling
+    process_pdf_extraction
   end
 
   private
