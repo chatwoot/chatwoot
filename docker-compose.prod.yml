@@ -12,20 +12,18 @@
 
 version: '3.9'
 
-
+x-base: &base
+  image: charlesmbv/vegavision:latest
+  env_file: .env
+  volumes:
+    - /vv-volumes/storage_data:/app/storage
 
 services:
-  VV-Helpdesk-Base: &base
-    image: charlesmbv/vegavision:latest
-    env_file: .env
-    volumes:
-      - /vv-volumes/storage_data:/app/storage
-
-  VV-Helpdesk-Rails:
+  Rails:
     <<: *base
-    container_name: VV-Helpdesk-Rails
+    container_name: Rails
     depends_on:
-      - VV-Helpdesk-Redis
+      - Redis
     ports:
       - '127.0.0.1:3001:3000'
     environment:
@@ -40,11 +38,11 @@ services:
       - default
       - vv-helpdesk
 
-  VV-Helpdesk-Sidekiq:
+  Sidekiq:
     <<: *base
-    container_name: VV-Helpdesk-Sidekiq
+    container_name: Sidekiq
     depends_on:
-      - VV-Helpdesk-Redis
+      - Redis
     environment:
       - NODE_ENV=production
       - RAILS_ENV=production
@@ -55,9 +53,9 @@ services:
       - default
       - vv-helpdesk
 
-  VV-Helpdesk-Redis:
+  Redis:
     image: redis:alpine
-    container_name: VV-Helpdesk-Redis
+    container_name: Redis
     restart: always
     command: ["sh", "-c", "redis-server --requirepass \"$REDIS_PASSWORD\""]
     env_file: .env
