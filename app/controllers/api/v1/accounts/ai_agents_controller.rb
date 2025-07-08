@@ -15,6 +15,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
+    return render_expired_subscription unless Current.account.subscriptions.active.exists?
+
     builder = V2::AiAgents::AiAgentBuilder.new(Current.account, params)
     ai_agent = builder.build_and_create
     render json: ai_agent, status: :created
@@ -23,6 +25,8 @@ class Api::V1::Accounts::AiAgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
+    return render_expired_subscription unless Current.account.subscriptions.active.exists?
+
     ai_agent = V2::AiAgents::AiAgentBuilder.new(Current.account, params).update
     render json: ai_agent, status: :ok
   rescue StandardError => e

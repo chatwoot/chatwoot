@@ -9,6 +9,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def create
+    return render_expired_subscription unless Current.account.subscriptions.active.exists?
+
     builder = AgentBuilder.new(
       email: new_agent_params['email'],
       name: new_agent_params['name'],
@@ -23,6 +25,8 @@ class Api::V1::Accounts::AgentsController < Api::V1::Accounts::BaseController
   end
 
   def update
+    return render_expired_subscription unless Current.account.subscriptions.active.exists?
+
     @agent.update!(agent_params.slice(:name).compact)
     @agent.current_account_user.update!(agent_params.slice(*account_user_attributes).compact)
   end

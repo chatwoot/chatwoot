@@ -82,6 +82,7 @@
 import { ref, computed, onMounted } from 'vue';
 import { useStore } from 'vuex';
 import { Plus } from 'lucide-vue-next';
+import { useAlert } from 'dashboard/composables';
 
 import QuickReplyModal from './QuickReplyModal.vue'
 
@@ -116,7 +117,7 @@ async function handleSubmit(reply) {
     showModal.value = false;
     await fetchQuickReply(); 
   } catch (err) {
-    console.error('Failed to submit reply:', err);
+    useAlert(err?.response?.data?.message)
   }
 }
 

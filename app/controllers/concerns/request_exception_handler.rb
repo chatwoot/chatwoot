@@ -59,4 +59,8 @@ module RequestExceptionHandler
   def log_handled_error(exception)
     logger.info("Handled error: #{exception.inspect}")
   end
+
+  def render_expired_subscription
+    return render json: { message: "Paket Anda telah kadaluarsa" }, status: :bad_request
+  end
 end

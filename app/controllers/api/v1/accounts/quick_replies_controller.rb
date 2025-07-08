@@ -15,6 +15,8 @@ class Api::V1::Accounts::QuickRepliesController < Api::V1::Accounts::BaseControl
   end
 
   def create
+    return render_expired_subscription unless Current.account.subscriptions.active.exists?
+
     @quick_reply = Current.account.quick_replies.new(quick_reply_params)
     if @quick_reply.save
       render json: @quick_reply, status: :created
