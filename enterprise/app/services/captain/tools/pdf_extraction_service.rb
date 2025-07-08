@@ -41,9 +41,6 @@ class Captain::Tools::PdfExtractionService
     log_extraction_success(chunked_content)
 
     success_response(chunked_content)
-  rescue StandardError => e
-    Rails.logger.error "PDF extraction failed: #{e.message}"
-    failure_response([e.message])
   end
 
   def log_extraction_success(chunked_content)
