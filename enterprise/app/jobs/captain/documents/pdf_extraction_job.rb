@@ -1,6 +1,6 @@
 class Captain::Documents::PdfExtractionJob < ApplicationJob
-  retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds, on: :perform
-  retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds, on: :perform
+  retry_on ActiveStorage::FileNotFoundError, attempts: 3, wait: 2.seconds
+  retry_on Faraday::BadRequestError, attempts: 3, wait: 2.seconds
 
   queue_as :low
 

@@ -2,7 +2,7 @@ require 'rails_helper'
 
 RSpec.describe Captain::Tools::PdfExtractionService do
   let(:service) { described_class.new(pdf_source) }
-  let(:sample_pdf_path) { Rails.root.join('spec/fixtures/files/sample.pdf') }
+  let(:sample_pdf_path) { Rails.root.join('spec/fixtures/files/valid_test.pdf') }
 
   describe '#initialize' do
     context 'with valid PDF path' do
@@ -69,12 +69,16 @@ RSpec.describe Captain::Tools::PdfExtractionService do
     end
 
     context 'with malformed PDF' do
-      let(:pdf_source) { Rails.root.join('spec/fixtures/files/sample.txt').to_s }
+      let(:pdf_source) { sample_pdf_path.to_s }
 
       it 'handles malformed PDF gracefully' do
+        # Mock PDF::Reader to raise a MalformedPDFError
+        allow(PDF::Reader).to receive(:open).and_raise(PDF::Reader::MalformedPDFError, 'PDF does not contain EOF marker')
+
         result = service.perform
         expect(result[:success]).to be false
         expect(result[:errors]).to be_an(Array)
+        expect(result[:errors]).to include('Invalid or corrupted PDF file')
       end
     end
 

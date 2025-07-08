@@ -27,9 +27,9 @@ module Captain::Tools::PdfExtractionService::SourceHandler
 
     temp_file = Down.download(
       pdf_source,
-      max_size: MAX_PDF_SIZE,
-      open_timeout: DOWNLOAD_TIMEOUT,
-      read_timeout: DOWNLOAD_TIMEOUT
+      max_size: self.class::MAX_PDF_SIZE,
+      open_timeout: self.class::DOWNLOAD_TIMEOUT,
+      read_timeout: self.class::DOWNLOAD_TIMEOUT
     )
 
     begin

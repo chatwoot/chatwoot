@@ -12,6 +12,12 @@ module Captain::Tools::PdfExtractionService::TextProcessor
     end
 
     text_content
+  rescue PDF::Reader::MalformedPDFError => e
+    Rails.logger.error "Malformed PDF error: #{e.message}"
+    raise StandardError, 'Invalid or corrupted PDF file'
+  rescue StandardError => e
+    Rails.logger.error "PDF extraction error: #{e.message}"
+    raise StandardError, "Failed to extract text from PDF: #{e.message}"
   end
 
   def extract_page_content(page, index)

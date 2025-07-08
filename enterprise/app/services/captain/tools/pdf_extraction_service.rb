@@ -41,10 +41,27 @@ class Captain::Tools::PdfExtractionService
     log_extraction_success(chunked_content)
 
     success_response(chunked_content)
+  rescue StandardError => e
+    Rails.logger.error "PDF extraction failed: #{e.message}"
+    failure_response([e.message])
   end
 
   def log_extraction_success(chunked_content)
     total_chars = chunked_content.sum { |chunk| chunk[:content].length }
     Rails.logger.info "PDF extraction completed: #{chunked_content.length} chunks, #{total_chars} characters"
+  end
+
+  def success_response(content)
+    {
+      success: true,
+      content: content
+    }
+  end
+
+  def failure_response(errors)
+    {
+      success: false,
+      errors: errors
+    }
   end
 end
