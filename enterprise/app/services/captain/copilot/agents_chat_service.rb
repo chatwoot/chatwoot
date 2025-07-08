@@ -147,9 +147,8 @@ module Captain
           broadcast_thinking_message("#{agent_name} is thinking...")
         end
 
-        runner.on_tool_start do |tool_name, args|
-          args_display = args.present? ? " with #{args.to_json}" : ''
-          broadcast_thinking_message("Using #{tool_name}#{args_display}...")
+        runner.on_tool_start do |tool_name, _args|
+          broadcast_thinking_message("Using #{tool_name}...")
         end
 
         runner.on_tool_complete do |tool_name, _result|
