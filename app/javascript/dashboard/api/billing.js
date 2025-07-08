@@ -10,6 +10,10 @@ class BillingAPI extends ApiClient {
   myActiveSubscription() {
     return axios.get(`${this.url}/active`);
   }
+  
+  latestSubscription() {
+    return axios.get(`${this.url}/latest`);
+  }
 
   transactionHistories() {
     return axios.get(`${this.url}/histories`);

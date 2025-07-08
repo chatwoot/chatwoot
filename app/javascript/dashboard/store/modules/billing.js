@@ -17,6 +17,7 @@ const initialState = {
   },
   billing: {
     myActiveSubscription: {},
+    latestSubscription: {},
     subscriptionHistories: [],
   },
 };
@@ -62,6 +63,18 @@ export const actions = {
       commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }); // Selesai loading
     }
   },
+  getLatestSubscription: async ({ commit }) => {
+    try {
+      commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: true }); // Set loading
+      const response = await billingAPI.latestSubscription();
+      commit(types.SET_BILLING_LATEST_SUBSCRIPTION, response.data);
+      return response.data;
+    } catch (error) {
+      console.error('Error fetching subscription:', error);
+    } finally {
+      commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }); // Selesai loading
+    }
+  },
   subscriptionHistories: async ({ commit }) => {
     try {
       commit(types.SET_CURRENT_USER_UI_FLAGS, { isFetching: false }); // Set loading
@@ -83,6 +96,9 @@ export const mutations = {
   },
   [types.SET_BILLING_MY_ACTIVE_SUBSCRIPTION](state, subscriptionData) {
     state.billing.myActiveSubscription = subscriptionData;
+  },
+  [types.SET_BILLING_LATEST_SUBSCRIPTION](state, subscriptionData) {
+    state.billing.latestSubscription = subscriptionData;
   },
   [types.SET_BILLING_SUBSCRIPTION_HISTORIES](state, subscriptionData) {
     state.billing.subscriptionHistories = subscriptionData;

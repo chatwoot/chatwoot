@@ -36,7 +36,6 @@ const { pageIndex } = defineProps({
     default: 0,
   },
 });
-const isSubscriptionActive = useMapGetter('isSubscriptionActive');
 const store = useStore();
 const { t, locale } = useI18n();
 
@@ -51,7 +50,8 @@ const topupType = ref(null);
 
 const currentPackage = ref({});
 const plans = ref([]);
-const activeSubscription = ref({});
+const activeSubscription = computed(() => store.state.billing.billing.latestSubscription)
+const isSubscriptionActive = computed(() => activeSubscription.value?.status === 'active')
 const subscriptionHistories = ref([]);
 const planIcon = computed(() => {
   const planName = activeSubscription.value?.plan_name?.toString()
@@ -107,12 +107,13 @@ onMounted(async () => {
     console.error('Gagal mengambil data pricing:', error);
   }
 
-  try {
-    const response = await store.dispatch('myActiveSubscription');
-    activeSubscription.value = response;
-  } catch (error) {
-    console.error('Gagal mengambil data active subscription:', error);
-  }
+  (async () => {
+    try {
+      await store.dispatch('getLatestSubscription')
+    } catch (error) {
+      console.error('Gagal mengambil data active subscription:', error);
+    }
+  })()
 
   try {
     const response = await store.dispatch('subscriptionHistories');
@@ -746,6 +747,7 @@ function scrollToPackage() {
 <script>
 import { mapState, mapActions } from 'vuex';
 import InvoiceModal from './components/InvoiceModal.vue';
+import billingApi from '../../../../api/billing';
 
 export default {
   name: 'BillingPage',

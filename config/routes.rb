@@ -78,6 +78,10 @@ Rails.application.routes.draw do
           collection do
             get :active
           end
+          
+          collection do
+            get :latest
+          end
 
           member do
             put :cancel
