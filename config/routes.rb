@@ -40,6 +40,7 @@ Rails.application.routes.draw do
       # ----------------------------------
       # start of voucher scoped api routes
       post '/validate_voucher', to: 'vouchers#validate'
+      post '/preview_voucher', to: 'vouchers#preview'
       # end of voucher scoped api routes
       # ----------------------------------
       

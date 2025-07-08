@@ -1,6 +1,6 @@
 class Api::V1::VouchersController < ApplicationController
   def validate
-    account = Account.find(params[:account_id])
+    account = Account.find(params[:account_id]) unless params[:account_id].nil?
     plan_id = params[:subscription_plan_id]
     code = params[:voucher_code]
 
@@ -14,6 +14,20 @@ class Api::V1::VouchersController < ApplicationController
       }
     else
       render json: { success: false, error: result[:error] }, status: :unprocessable_entity
+    end
+  end
+
+  def preview
+    account = Account.find(params[:account_id]) unless params[:account_id].nil?
+    plan_id = params[:subscription_plan_id]
+    code = params[:voucher_code]
+    price = params[:price]
+
+    result = Voucher::VoucherPreview.new().preview(code, account, plan_id, price)
+    if result[:voucher][:valid]
+      render json: result
+    else
+      render json: { success: false, error: result[:voucher][:error] }, status: :unprocessable_entity
     end
   end
 end

@@ -76,5 +76,14 @@
       "CLOSE": "Close",
       "PAYMENT_WAITING": "Please make the payment before <b>{time}</b>, and ensure the amount matches <b>the payment information</b>"
     }
+  },
+  "SUB_TOTAL" : "Sub Total",
+  "DISCOUNT_LBL": "Discount",
+  "Total_PAY": "Total Payment",
+  "DISCOUNT": {
+    "INPUT_PLACEHOLDER": "Enter voucher code",
+    "SUCCESS_APPLY": "Voucher is applied",
+    "CLEAR_VOUCHER_BTN": "Cancel",
+    "APPLY_BTN": "Apply"
   }
 }

@@ -33,16 +33,12 @@ class Api::V1::SubscriptionsController < Api::BaseController
 
     # Apply voucher if present
     if voucher_code.present?
-      result =  ::Voucher::VoucherValidator.new(code: voucher_code, account: @account, subscription_plan_id: @subscription_plan.id).validate
-      if result[:valid]
-        voucher = result[:voucher]
-        price = if voucher.idr?
-                  [price - voucher.discount_value, 0].max
-                else
-                  (price * (100 - voucher.discount_value) / 100.0).to_i
-                end
+      result = Voucher::VoucherPreview.new().preview(voucher_code, @account, @subscription_plan.id, price)
+      if result[:voucher][:valid]
+        voucher = result[:voucher][:voucher]
+        price = result[:new_price]
       else
-        return render json: { errors: result[:error] }, status: :unprocessable_entity
+        render json: { success: false, error: result[:voucher][:error] }, status: :unprocessable_entity
       end
     end
     

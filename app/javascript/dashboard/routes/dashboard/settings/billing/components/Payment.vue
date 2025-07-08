@@ -7,6 +7,8 @@ import { useI18n } from 'vue-i18n';
 import { useAlert } from 'dashboard/composables';
 import WootSubmitButton from 'dashboard/components/buttons/FormSubmitButton.vue';
 import wootConstants from 'dashboard/constants/globals';
+import PaymentVoucherInput from './PaymentVoucherInput.vue';
+import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 const props = defineProps({
   id: {
@@ -48,10 +50,21 @@ const { t } = useI18n();
 
 const packageId = ref(props.id);
 const packageName = ref(props.name);
+const selectedVoucher = ref(undefined)
+const selectedVoucherType = computed(() => {
+  const voucherType = selectedVoucher.value?.voucher?.voucher?.discount_type
+  if (voucherType === 'idr') {
+    return 'IDR'
+  } else if (voucherType === 'percentage') {
+    return '%'
+  }
+  return voucherType
+})
 const selectedMethod = ref('VC');
 const selectedPlan = ref(props.plan);
 const plans = ref(props.plans);
 const isSubmitting = ref(false);
+const isValidatingVoucher = ref(false);
 
 // Tambahan untuk custom dropdown
 const isDropdownOpen = ref(false);
@@ -121,7 +134,7 @@ const submit = async () => {
       payment_method: selectedMethod.value || 'M2',
       billing_cycle: selectedBillingCycle.value.id,
       qty: selectedBillingCycle.value.qty,
-      voucher_code: "JANGKAU100K",
+      voucher_code: selectedVoucher.value?.voucher?.voucher?.name || undefined,
     };
 
     const response = await store.dispatch('createSubscription', payload);
@@ -185,7 +198,12 @@ const submit = async () => {
       <div ref="dropdownRef" class="w-full mt-4 relative">
         <div
           class="border rounded p-3 flex justify-between items-center cursor-pointer"
-          @click="isDropdownOpen = !isDropdownOpen"
+          @click="() => {
+            if (isValidatingVoucher) {
+              return
+            }
+            isDropdownOpen = !isDropdownOpen
+          }"
         >
           <div>{{ selectedBillingCycle.name }}</div>
           <div class="font-medium mr-8">{{ totalPrice.toLocaleString() }} IDR</div>
@@ -239,13 +257,26 @@ const submit = async () => {
         </div>
       </div>
 
+      <PaymentVoucherInput :subscriptionPlanId="selectedPlan?.id" :selectedPrice="totalPrice" v-model="selectedVoucher" v-model:is-validating-voucher="isValidatingVoucher"/>
+
       <!-- Total -->
-      <div class="w-full mt-4">
-        <div class="text-right font-semibold">
-          Total Payment<br />
-          {{ totalPrice.toLocaleString() }} IDR
-        </div>
-      </div>
+       <div class="flex flex-row justify-end mt-3">
+         <Spinner class="mr-10" v-if="isValidatingVoucher"/>
+         <div v-else class="flex flex-col gap-1">
+          <div class="flex flex-row gap-4">
+            <div class="flex-1 text-right flex flex-col gap-1">
+              <span>{{ $t('BILLING.SUB_TOTAL') }}</span>
+              <span>{{ $t('BILLING.DISCOUNT_LBL') }}</span>
+              <span>{{ $t('BILLING.Total_PAY') }}</span>
+            </div>
+            <div class="font-semibold text-right flex flex-col gap-1">
+              <span>{{ totalPrice.toLocaleString() }} IDR</span>
+              <span>{{ selectedVoucher?.voucher?.voucher?.discount_value?.toLocaleString() || 0 }} {{ selectedVoucherType }}</span>
+              <span>{{ (selectedVoucher?.new_price || totalPrice).toLocaleString() || 0 }} IDR</span>
+            </div>
+          </div>
+         </div>
+       </div>
 
       <!-- Info tambahan -->
       <div class="w-full mt-4">

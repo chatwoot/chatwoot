@@ -75,6 +75,15 @@
       "PAY_TOTAL": "Total Bayar",
       "CLOSE": "Tutup",
       "PAYMENT_WAITING": "Segera Lakukan pembayaran sebelum <b>{time}</b>. dan pastikan pembayaran sesuai informasi <b>jumlah bayar</b>"
+    },
+    "SUB_TOTAL" : "Sub Total",
+    "DISCOUNT_LBL": "Diskon",
+    "Total_PAY": "Total Bayar",
+    "DISCOUNT": {
+      "INPUT_PLACEHOLDER": "Masukkan kode voucher",
+      "SUCCESS_APPLY": "Voucher bisa digunakkan",
+      "CLEAR_VOUCHER_BTN": "Batal",
+      "APPLY_BTN": "Apply"
     }
   }
 }
