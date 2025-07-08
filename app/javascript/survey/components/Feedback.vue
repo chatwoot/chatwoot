@@ -9,8 +9,11 @@
       :placeholder="$t('SURVEY.FEEDBACK.PLACEHOLDER')"
     />
     <div class="flex items-center font-medium float-right">
-      <custom-button @click="onClick">
-        <spinner v-if="feedback" class="p-0" />
+      <custom-button
+        :disabled="isUpdating || isButtonDisabled"
+        @click="onClick"
+      >
+        <spinner v-if="isUpdating" class="p-0" />
         {{ $t('SURVEY.FEEDBACK.BUTTON_TEXT') }}
       </custom-button>
     </div>

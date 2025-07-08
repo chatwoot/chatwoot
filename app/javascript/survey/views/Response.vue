@@ -88,6 +88,7 @@ export default {
       isUpdating: false,
       logo: '',
       inboxName: '',
+      feedbackSubmitted: false,
     };
   },
   computed: {
@@ -99,28 +100,32 @@ export default {
       return this.surveyDetails && this.surveyDetails.rating;
     },
     isFeedbackSubmitted() {
-      return this.surveyDetails && this.surveyDetails.feedback_message;
+      return (
+        this.surveyDetails &&
+        this.surveyDetails.feedback_message &&
+        this.surveyDetails.feedback_message.trim() !== ''
+      );
     },
     isButtonDisabled() {
-      return !(this.selectedRating && this.feedback);
+      return !this.selectedRating;
     },
     shouldShowBanner() {
-      return this.isRatingSubmitted || this.errorMessage;
+      return this.feedbackSubmitted || this.errorMessage;
     },
     enableFeedbackForm() {
-      return !this.isFeedbackSubmitted && this.isRatingSubmitted;
+      return !this.feedbackSubmitted && this.selectedRating;
     },
     shouldShowErrorMesage() {
       return !!this.errorMessage;
     },
     shouldShowSuccessMesage() {
-      return !!this.isRatingSubmitted;
+      return this.feedbackSubmitted;
     },
     message() {
       if (this.errorMessage) {
         return this.errorMessage;
       }
-      return this.$t('SURVEY.RATING.SUCCESS_MESSAGE');
+      return this.$t('SURVEY.API.SUCCESS_MESSAGE');
     },
   },
   async mounted() {
@@ -129,10 +134,10 @@ export default {
   methods: {
     selectRating(rating) {
       this.selectedRating = rating;
-      this.updateSurveyDetails();
     },
     sendFeedback(message) {
-      this.feedbackMessage = message;
+      this.feedbackMessage = (message || '').trim();
+      this.feedbackSubmitted = true;
       this.updateSurveyDetails();
     },
     async getSurveyDetails() {
@@ -144,6 +149,8 @@ export default {
         this.surveyDetails = result?.data?.csat_survey_response;
         this.selectedRating = this.surveyDetails?.rating;
         this.feedbackMessage = this.surveyDetails?.feedback_message || '';
+        // If there's already a survey response, mark feedback as submitted
+        this.feedbackSubmitted = !!this.surveyDetails;
         this.setLocale(result.data.locale);
       } catch (error) {
         const errorMessage = error?.response?.data?.message;
@@ -173,6 +180,7 @@ export default {
           rating: this.selectedRating,
           feedback_message: this.feedbackMessage,
         };
+        this.feedbackSubmitted = true;
       } catch (error) {
         const errorMessage = error?.response?.data?.error;
         this.errorMessage = errorMessage || this.$t('SURVEY.API.ERROR_MESSAGE');

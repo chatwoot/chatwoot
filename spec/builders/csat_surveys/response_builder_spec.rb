@@ -8,6 +8,13 @@ describe CsatSurveys::ResponseBuilder do
     )
   end
 
+  let(:message_with_empty_feedback) do
+    create(
+      :message, content_type: :input_csat,
+                content_attributes: { 'submitted_values': { 'csat_survey_response': { 'rating': 4, 'feedback_message': '' } } }
+    )
+  end
+
   describe '#perform' do
     it 'creates a new csat survey response' do
       csat_survey_response = described_class.new(
@@ -25,6 +32,15 @@ describe CsatSurveys::ResponseBuilder do
 
       expect(csat_survey_response.id).to eq(existing_survey_response.id)
       expect(csat_survey_response.rating).to eq(5)
+    end
+
+    it 'handles empty feedback message correctly' do
+      csat_survey_response = described_class.new(
+        message: message_with_empty_feedback
+      ).perform
+
+      expect(csat_survey_response.valid?).to be(true)
+      expect(csat_survey_response.feedback_message).to eq('')
     end
   end
 end
