@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Săptămâna viitoare"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenți",
+      "TEAMS": "Echipe"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Amânare până la",
       "APPLY": "Amânați",
