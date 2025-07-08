@@ -23,6 +23,7 @@ export default {
   computed: {
     ...mapGetters({
       conversationAttributes: 'conversationAttributes/getConversationParams',
+      allowEndConversation: 'appConfig/getAllowEndConversation',
     }),
     canLeaveConversation() {
       return [
@@ -82,6 +83,7 @@ export default {
     <button
       v-if="
         canLeaveConversation &&
+        allowEndConversation &&
         hasEndConversationEnabled &&
         showEndConversationButton
       "

@@ -37,6 +37,24 @@ describe('#getters', () => {
       expect(getters.getWelcomeTagline(state)).toEqual('Welcome to our site');
     });
   });
+  describe('#getShowFilePicker', () => {
+    it('returns correct value', () => {
+      const state = { showFilePicker: true };
+      expect(getters.getShowFilePicker(state)).toEqual(true);
+    });
+  });
+  describe('#getShowEmojiPicker', () => {
+    it('returns correct value', () => {
+      const state = { showEmojiPicker: true };
+      expect(getters.getShowEmojiPicker(state)).toEqual(true);
+    });
+  });
+  describe('#getAllowEndConversation', () => {
+    it('returns correct value', () => {
+      const state = { allowEndConversation: true };
+      expect(getters.getAllowEndConversation(state)).toEqual(true);
+    });
+  });
   describe('#getUnavailableMessage', () => {
     it('returns correct value', () => {
       const state = { unavailableMessage: 'We are offline' };

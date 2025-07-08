@@ -76,6 +76,9 @@ const runSDK = ({ baseUrl, websiteToken }) => {
     welcomeTagline: chatwootSettings.welcomeTagline || '',
     availableMessage: chatwootSettings.availableMessage || '',
     unavailableMessage: chatwootSettings.unavailableMessage || '',
+    showFilePicker: chatwootSettings.showFilePicker ?? true,
+    showEmojiPicker: chatwootSettings.showEmojiPicker ?? true,
+    allowEndConversation: chatwootSettings.allowEndConversation ?? true,
 
     toggle(state) {
       IFrameHelper.events.toggleBubble(state);

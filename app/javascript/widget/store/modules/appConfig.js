@@ -25,6 +25,9 @@ const state = {
   unavailableMessage: '',
   welcomeHeading: '',
   welcomeTagline: '',
+  showFilePicker: true,
+  showEmojiPicker: true,
+  allowEndConversation: true,
 };
 
 export const getters = {
@@ -42,6 +45,9 @@ export const getters = {
   getUnavailableMessage: $state => $state.unavailableMessage,
   getWelcomeHeading: $state => $state.welcomeHeading,
   getWelcomeTagline: $state => $state.welcomeTagline,
+  getShowFilePicker: $state => $state.showFilePicker,
+  getShowEmojiPicker: $state => $state.showEmojiPicker,
+  getAllowEndConversation: $state => $state.allowEndConversation,
 };
 
 export const actions = {
@@ -58,6 +64,9 @@ export const actions = {
       unavailableMessage = '',
       welcomeHeading = '',
       welcomeTagline = '',
+      showFilePicker = true,
+      showEmojiPicker = true,
+      allowEndConversation = true,
     }
   ) {
     commit(SET_WIDGET_APP_CONFIG, {
@@ -71,6 +80,9 @@ export const actions = {
       unavailableMessage,
       welcomeHeading,
       welcomeTagline,
+      showFilePicker,
+      showEmojiPicker,
+      allowEndConversation,
     });
   },
   toggleWidgetOpen({ commit }, isWidgetOpen) {
@@ -110,6 +122,9 @@ export const mutations = {
     $state.unavailableMessage = data.unavailableMessage;
     $state.welcomeHeading = data.welcomeHeading;
     $state.welcomeTagline = data.welcomeTagline;
+    $state.showFilePicker = data.showFilePicker;
+    $state.showEmojiPicker = data.showEmojiPicker;
+    $state.allowEndConversation = data.allowEndConversation;
   },
   [TOGGLE_WIDGET_OPEN]($state, isWidgetOpen) {
     $state.isWidgetOpen = isWidgetOpen;

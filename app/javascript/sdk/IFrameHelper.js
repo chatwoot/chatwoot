@@ -170,6 +170,9 @@ export const IFrameHelper = {
         welcomeTagline: window.$chatwoot.welcomeTagline,
         availableMessage: window.$chatwoot.availableMessage,
         unavailableMessage: window.$chatwoot.unavailableMessage,
+        showFilePicker: window.$chatwoot.showFilePicker,
+        showEmojiPicker: window.$chatwoot.showEmojiPicker,
+        allowEndConversation: window.$chatwoot.allowEndConversation,
       });
       IFrameHelper.onLoad({
         widgetColor: message.config.channelConfig.widgetColor,
