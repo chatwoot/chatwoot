@@ -32,6 +32,28 @@ class Whatsapp::EmbeddedController < ApplicationController
     handle_signup_error(e)
   end
 
+  def reauthorize
+    # Reauthorize existing WhatsApp inbox using embedded signup flow
+    validate_authorization_code!
+    return if performed?
+
+    validate_required_parameters!
+    return if performed?
+
+    validate_inbox_id!
+    return if performed?
+
+    channel = process_reauthorization
+    @inbox = channel.inbox
+
+    # Clear reauthorization required flag
+    channel.reauthorized!
+
+    render json: { message: 'WhatsApp channel reauthorized successfully' }, status: :ok
+  rescue StandardError => e
+    handle_signup_error(e)
+  end
+
   private
 
   def validate_authorization_code!
@@ -51,6 +73,14 @@ class Whatsapp::EmbeddedController < ApplicationController
     }, status: :bad_request
   end
 
+  def validate_inbox_id!
+    return if params[:inbox_id].present?
+
+    render json: {
+      error: 'Missing inbox_id parameter'
+    }, status: :bad_request
+  end
+
   def process_signup
     service = Whatsapp::EmbeddedSignupService.new(
       account: Current.account,
@@ -61,6 +91,19 @@ class Whatsapp::EmbeddedController < ApplicationController
     )
 
     service.perform
+  end
+
+  def process_reauthorization
+    service = Whatsapp::EmbeddedSignupService.new(
+      account: Current.account,
+      code: params[:code],
+      business_id: params[:business_id],
+      waba_id: params[:waba_id],
+      phone_number_id: params[:phone_number_id],
+      inbox_id: params[:inbox_id]
+    )
+
+    service.perform_reauthorization
   end
 
   def handle_signup_error(error)
