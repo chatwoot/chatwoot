@@ -9,7 +9,7 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
     return 'Missing required parameters: conversation_id and note are required' if conversation_id.blank? || note.blank?
 
     conversation = find_conversation(conversation_id)
-    return conversation if conversation.is_a?(String) # Error message
+    return 'Conversation not found' unless conversation
 
     create_private_note(conversation, note)
     "Private note added successfully to conversation #{conversation_id}"
@@ -18,8 +18,7 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
   private
 
   def find_conversation(conversation_id)
-    conversation = account_scoped(::Conversation).find_by(display_id: conversation_id)
-    conversation || 'Conversation not found'
+    account_scoped(::Conversation).find_by(display_id: conversation_id)
   end
 
   def create_private_note(conversation, note)
