@@ -1,6 +1,7 @@
 <script setup>
 import { computed } from 'vue';
 import { useI18n } from 'vue-i18n';
+import { useMapGetter } from 'dashboard/composables/store.js';
 import GroupedAvatars from 'widget/components/GroupedAvatars.vue';
 import AvailabilityText from './AvailabilityText.vue';
 import { useAvailability } from 'widget/composables/useAvailability';
@@ -21,6 +22,9 @@ const props = defineProps({
 });
 
 const { t } = useI18n();
+
+const availableMessage = useMapGetter('appConfig/getAvailableMessage');
+const unavailableMessage = useMapGetter('appConfig/getUnavailableMessage');
 
 const {
   currentTime,
@@ -48,8 +52,8 @@ const isAvailable = computed(
 
 const headerText = computed(() =>
   isAvailable.value
-    ? t('TEAM_AVAILABILITY.ONLINE')
-    : t('TEAM_AVAILABILITY.OFFLINE')
+    ? availableMessage.value || t('TEAM_AVAILABILITY.ONLINE')
+    : unavailableMessage.value || t('TEAM_AVAILABILITY.OFFLINE')
 );
 </script>
 
