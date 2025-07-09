@@ -6,12 +6,23 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
   def perform(_tool_context, conversation_id:, note:)
     log_tool_usage('add_private_note', { conversation_id: conversation_id, note_length: note.length })
 
-    return 'Missing required parameters' if conversation_id.blank? || note.blank?
+    return 'Missing required parameters: conversation_id and note are required' if conversation_id.blank? || note.blank?
 
+    conversation = find_conversation(conversation_id)
+    return conversation if conversation.is_a?(String) # Error message
+
+    create_private_note(conversation, note)
+    "Private note added successfully to conversation #{conversation_id}"
+  end
+
+  private
+
+  def find_conversation(conversation_id)
     conversation = account_scoped(::Conversation).find_by(display_id: conversation_id)
-    return 'Conversation not found' if conversation.nil?
+    conversation || 'Conversation not found'
+  end
 
-    # Create private note message
+  def create_private_note(conversation, note)
     conversation.messages.create!(
       account: @assistant.account,
       inbox: conversation.inbox,
@@ -20,8 +31,6 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
       message_type: 'activity',
       private: true
     )
-
-    "Private note added successfully to conversation #{conversation_id}"
   end
 
   def active?
