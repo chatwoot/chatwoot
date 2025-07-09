@@ -170,10 +170,7 @@ export default {
         </p>
       </label>
 
-      <div
-        v-if="enableAutoAssignment && isEnterprise"
-        class="max-assignment-container"
-      >
+      <div v-if="enableAutoAssignment && isEnterprise" class="py-3">
         <woot-input
           v-model="maxAssignmentLimit"
           type="number"
@@ -196,13 +193,3 @@ export default {
     </SettingsSection>
   </div>
 </template>
-
-<style scoped lang="scss">
-@import 'dashboard/assets/scss/variables';
-@import 'dashboard/assets/scss/mixins';
-
-.max-assignment-container {
-  padding-top: var(--space-slab);
-  padding-bottom: var(--space-slab);
-}
-</style>

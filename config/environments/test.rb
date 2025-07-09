@@ -34,6 +34,9 @@ Rails.application.configure do
   # Disable request forgery protection in test environment.
   config.action_controller.allow_forgery_protection = false
 
+  # Disable host check in test environment to allow webhook tests
+  config.hosts = nil
+
   # Store uploaded files on the local file system in a temporary directory.
   config.active_storage.service = :test
 

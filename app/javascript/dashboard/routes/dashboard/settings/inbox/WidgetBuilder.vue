@@ -408,7 +408,7 @@ export default {
         />
         <div
           v-if="isWidgetPreview"
-          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-slate-50 dark:bg-slate-900/50 rounded-lg"
+          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-n-slate-3 rounded-lg"
         >
           <Widget
             :welcome-heading="welcomeHeading"

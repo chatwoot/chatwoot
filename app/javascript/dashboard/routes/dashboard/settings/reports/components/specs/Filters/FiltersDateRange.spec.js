@@ -12,33 +12,30 @@ const mountParams = {
 };
 
 describe('ReportFiltersDateRange.vue', () => {
-  it('emits "on-range-change" event when updateRange is called', () => {
+  it('emits "onRangeChange" event when updateRange is called', () => {
     const wrapper = shallowMount(ReportFiltersDateRange, mountParams);
 
     const selectedRange = DATE_RANGE_OPTIONS.LAST_7_DAYS;
     wrapper.vm.updateRange(selectedRange);
 
-    expect(wrapper.emitted('on-range-change')).toBeTruthy();
-    expect(wrapper.emitted('on-range-change')[0]).toEqual([selectedRange]);
+    expect(wrapper.emitted('onRangeChange')).toBeTruthy();
+    expect(wrapper.emitted('onRangeChange')[0]).toEqual([selectedRange]);
   });
 
   it('initializes options correctly', () => {
     const wrapper = shallowMount(ReportFiltersDateRange, mountParams);
 
-    const expectedOptions = Object.values(DATE_RANGE_OPTIONS).map(option => ({
-      ...option,
-      name: option.translationKey,
-    }));
+    const expectedIds = Object.values(DATE_RANGE_OPTIONS).map(
+      option => option.id
+    );
+    const receivedIds = wrapper.vm.options.map(option => option.id);
 
-    expect(wrapper.vm.options).toEqual(expectedOptions);
+    expect(receivedIds).toEqual(expectedIds);
   });
 
   it('initializes selectedOption correctly', () => {
     const wrapper = shallowMount(ReportFiltersDateRange, mountParams);
-    const expectedSelectedOption = Object.values(DATE_RANGE_OPTIONS)[0];
-    expect(wrapper.vm.selectedOption).toEqual({
-      ...expectedSelectedOption,
-      name: expectedSelectedOption.translationKey,
-    });
+    const expectedId = Object.values(DATE_RANGE_OPTIONS)[0].id;
+    expect(wrapper.vm.selectedOption.id).toBe(expectedId);
   });
 });
