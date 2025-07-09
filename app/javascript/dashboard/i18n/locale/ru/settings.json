@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Токен доступа",
         "NOTE": "Этот токен может быть использован, если вы настраиваете интеграцию на основе API",
-        "COPY": "Копировать"
+        "COPY": "Копировать",
+        "RESET": "Сброс",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Аудио уведомления",
@@ -185,7 +190,8 @@
           "OFFLINE": "Оффлайн"
         },
         "SET_AVAILABILITY_SUCCESS": "Доступность успешно установлена",
-        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова"
+        "SET_AVAILABILITY_ERROR": "Не удалось установить доступность, попробуйте снова",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Ваш адрес электронной почты",
@@ -280,6 +286,7 @@
     "REPORTS": "Отчёты",
     "SETTINGS": "Настройки",
     "CONTACTS": "Контакты",
+    "ACTIVE": "Активно",
     "CAPTAIN": "Капитан",
     "CAPTAIN_ASSISTANTS": "Ассистенты",
     "CAPTAIN_DOCUMENTS": "Документы",

@@ -63,6 +63,12 @@ linear:
   action: https://linear.app/oauth/authorize
   hook_type: account
   allow_multiple_hooks: false
+notion:
+  id: notion
+  logo: notion.png
+  i18n_key: notion
+  hook_type: account
+  allow_multiple_hooks: false
 slack:
   id: slack
   logo: slack.png
@@ -84,6 +90,7 @@ dialogflow:
         {
           'project_id': { 'type': 'string' },
           'credentials': { 'type': 'object' },
+          'region': { 'type': 'string' },
         },
       'required': ['project_id', 'credentials'],
       'additionalProperties': false,
@@ -106,8 +113,21 @@ dialogflow:
         'validation-messages':
           { 'JSON': 'Invalid JSON', 'required': 'Credentials is required' },
       },
+      {
+        'label': 'Dialogflow Region',
+        'type': 'select',
+        'name': 'region',
+        'default': 'global',
+        'options': [
+          { 'label': 'Global - Default', 'value': 'global' },
+          { 'label': 'AS-NE1 - Tokyo, Japan', 'value': 'asia-northeast1' },
+          { 'label': 'AU-SE1 - Sydney, Australia', 'value': 'australia-southeast1' },
+          { 'label': 'EU-W1 - St. Ghislain, Belgium', 'value': 'europe-west1' },
+          { 'label': 'EU-W2 - London, England', 'value': 'europe-west2' },
+        ],
+      },
     ]
-  visible_properties: ['project_id']
+  visible_properties: ['project_id', 'region']
 google_translate:
   id: google_translate
   logo: google-translate.png
@@ -205,6 +225,7 @@ leadsquared:
           'secret_key': { 'type': 'string' },
           'endpoint_url': { 'type': 'string' },
           'app_url': { 'type': 'string' },
+          'timezone': { 'type': 'string' },
           'enable_conversation_activity': { 'type': 'boolean' },
           'enable_transcript_activity': { 'type': 'boolean' },
           'conversation_activity_score': { 'type': 'string' },

@@ -34,7 +34,7 @@ const displayFileName = computed(() => {
 const textColorClass = computed(() => {
   const colorMap = {
     '7z': 'dark:text-[#EDEEF0] text-[#2F265F]',
-    csv: 'text-amber-12',
+    csv: 'text-n-amber-12',
     doc: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
     docx: 'dark:text-[#D6E1FF] text-[#1F2D5C]', // indigo-12
     json: 'text-n-slate-12',

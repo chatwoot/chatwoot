@@ -61,5 +61,30 @@ RSpec.describe LlmFormatter::ConversationLlmFormatter do
         expect(formatter.format(include_contact_details: true)).to eq(expected_output)
       end
     end
+
+    context 'when conversation has custom attributes' do
+      it 'includes formatted custom attributes in the output' do
+        create(
+          :custom_attribute_definition,
+          account: account,
+          attribute_display_name: 'Order ID',
+          attribute_key: 'order_id',
+          attribute_model: :conversation_attribute
+        )
+
+        conversation.update(custom_attributes: { 'order_id' => '12345' })
+
+        expected_output = [
+          "Conversation ID: ##{conversation.display_id}",
+          "Channel: #{conversation.inbox.channel.name}",
+          'Message History:',
+          'No messages in this conversation',
+          'Conversation Attributes:',
+          'Order ID: 12345'
+        ].join("\n")
+
+        expect(formatter.format).to eq(expected_output)
+      end
+    end
   end
 end

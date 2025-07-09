@@ -102,10 +102,6 @@ RSpec.describe Captain::Tools::Copilot::SearchArticlesService do
     end
 
     context 'when no articles are found' do
-      before do
-        allow(Article).to receive(:where).and_return(Article.none)
-      end
-
       it 'returns no articles found message' do
         expect(service.execute({ 'query' => 'test' })).to eq('No articles found')
       end
@@ -113,13 +109,8 @@ RSpec.describe Captain::Tools::Copilot::SearchArticlesService do
 
     context 'when articles are found' do
       let(:portal) { create(:portal, account: account) }
-      let(:article1) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 1', content: 'Content 1') }
-      let(:article2) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 2', content: 'Content 2') }
-
-      before do
-        article1
-        article2
-      end
+      let!(:article1) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 1', content: 'Content 1') }
+      let!(:article2) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 2', content: 'Content 2') }
 
       it 'returns formatted articles with count' do
         result = service.execute({ 'query' => 'Test' })
@@ -130,11 +121,7 @@ RSpec.describe Captain::Tools::Copilot::SearchArticlesService do
 
       context 'when filtered by category' do
         let(:category) { create(:category, slug: 'test-category', portal: portal, account: account) }
-        let(:article3) { create(:article, account: account, portal: portal, author: user, category: category, title: 'Test Article 3') }
-
-        before do
-          article3
-        end
+        let!(:article3) { create(:article, account: account, portal: portal, author: user, category: category, title: 'Test Article 3') }
 
         it 'returns only articles from the specified category' do
           result = service.execute({ 'query' => 'Test', 'category_id' => category.id })
@@ -146,15 +133,8 @@ RSpec.describe Captain::Tools::Copilot::SearchArticlesService do
       end
 
       context 'when filtered by status' do
-        let(:article3) do
-          create(:article, account: account, portal: portal, author: user, title: 'Test Article 3', status: 'published')
-        end
-        let(:article4) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 4', status: 'draft') }
-
-        before do
-          article3
-          article4
-        end
+        let!(:article3) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 3', status: 'published') }
+        let!(:article4) { create(:article, account: account, portal: portal, author: user, title: 'Test Article 4', status: 'draft') }
 
         it 'returns only articles with the specified status' do
           result = service.execute({ 'query' => 'Test', 'status' => 'published' })

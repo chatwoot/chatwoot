@@ -4,6 +4,7 @@
     "PHONE_INPUT": {
       "PLACEHOLDER": "Suchen",
       "EMPTY_STATE": "Keine Ergebnisse gefunden"
-    }
+    },
+    "CLOSE": "Schließen"
   }
 }

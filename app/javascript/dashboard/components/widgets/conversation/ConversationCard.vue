@@ -78,6 +78,7 @@ export default {
     'markAsRead',
     'assignPriority',
     'updateConversationStatus',
+    'deleteConversation',
   ],
   data() {
     return {
@@ -237,13 +238,17 @@ export default {
       this.$emit('assignPriority', priority, this.chat.id);
       this.closeContextMenu();
     },
+    async deleteConversation() {
+      this.$emit('deleteConversation', this.chat.id);
+      this.closeContextMenu();
+    },
   },
 };
 </script>
 
 <template>
   <div
-    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-4 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
+    class="relative flex items-start flex-grow-0 flex-shrink-0 w-auto max-w-full px-3 py-0 border-t-0 border-b-0 border-l-2 border-r-0 border-transparent border-solid cursor-pointer conversation hover:bg-n-alpha-1 dark:hover:bg-n-alpha-3 group"
     :class="{
       'active animate-card-select bg-n-alpha-1 dark:bg-n-alpha-3 border-n-weak':
         isActiveChat,
@@ -278,7 +283,7 @@ export default {
         :badge="inboxBadge"
         :username="currentContact.name"
         :status="currentContact.availability_status"
-        size="40px"
+        size="32px"
       />
     </div>
     <div
@@ -323,9 +328,7 @@ export default {
           {{ $t(`CHAT_LIST.NO_MESSAGES`) }}
         </span>
       </p>
-      <div
-        class="absolute flex flex-col conversation--meta ltr:right-4 rtl:left-4 top-4"
-      >
+      <div class="absolute flex flex-col mt-4 ltr:right-4 rtl:left-4 top-4">
         <span class="ml-auto font-normal leading-4 text-xxs">
           <TimeAgo
             :last-activity-timestamp="chat.timestamp"
@@ -333,7 +336,7 @@ export default {
           />
         </span>
         <span
-          class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ml-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
+          class="unread shadow-lg rounded-full hidden text-xxs font-semibold h-4 leading-4 ltr:ml-auto rtl:mr-auto mt-1 min-w-[1rem] px-1 py-0 text-center text-white bg-n-teal-9"
         >
           {{ unreadCount > 9 ? '9+' : unreadCount }}
         </span>
@@ -363,6 +366,7 @@ export default {
         @mark-as-unread="markAsUnread"
         @mark-as-read="markAsRead"
         @assign-priority="assignPriority"
+        @delete-conversation="deleteConversation"
       />
     </ContextMenu>
   </div>

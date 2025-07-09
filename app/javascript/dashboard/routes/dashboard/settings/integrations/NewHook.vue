@@ -117,7 +117,7 @@ export default {
   <div class="flex flex-col h-auto overflow-auto integration-hooks">
     <woot-modal-header
       :header-title="integration.name"
-      :header-content="integration.short_description || integration.description"
+      :header-content="integration.short_description"
     />
     <FormKit
       v-model="values"
@@ -179,7 +179,7 @@ export default {
 }
 
 [data-invalid] .formkit-message {
-  @apply text-red-500 block text-xs font-normal my-1 w-full;
+  @apply text-n-ruby-9 block text-xs font-normal my-1 w-full;
 }
 
 .formkit-outer[data-type='checkbox'] .formkit-wrapper {

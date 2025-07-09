@@ -24,6 +24,8 @@ import { FEATURE_FLAGS } from '../../../../featureFlags';
 import SenderNameExamplePreview from './components/SenderNameExamplePreview.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { INBOX_TYPES } from 'dashboard/helper/inbox';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
@@ -45,6 +47,7 @@ export default {
     NextButton,
     InstagramReauthorize,
     DuplicateInboxBanner,
+    Editor,
   },
   mixins: [inboxMixin],
   setup() {
@@ -72,6 +75,7 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -400,7 +404,7 @@ export default {
       :header-title="inboxName"
     >
       <woot-tabs
-        class="settings--tabs"
+        class="[&_ul]:p-0"
         :index="selectedTabIndex"
         :border="false"
         @change="onTabChange"
@@ -411,6 +415,7 @@ export default {
           :index="index"
           :name="tab.name"
           :show-badge="false"
+          is-compact
         />
       </woot-tabs>
     </SettingIntroBanner>
@@ -494,10 +499,10 @@ export default {
             "
           />
 
-          <woot-input
+          <Editor
             v-if="isAWebWidgetInbox"
             v-model="channelWelcomeTagline"
-            class="pb-4"
+            class="mb-4"
             :label="
               $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.LABEL')
             "
@@ -506,6 +511,8 @@ export default {
                 'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
               )
             "
+            :max-length="255"
+            :enabled-menu-options="welcomeTaglineEditorMenuOptions"
           />
 
           <label v-if="isAWebWidgetInbox" class="pb-4">
@@ -829,11 +836,3 @@ export default {
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-.settings--tabs {
-  ::v-deep .tabs {
-    @apply p-0;
-  }
-}
-</style>

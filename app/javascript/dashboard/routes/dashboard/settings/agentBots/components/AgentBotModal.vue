@@ -228,7 +228,20 @@ const initializeForm = () => {
 
 const onCopyToken = async value => {
   await copyTextToClipboard(value);
-  useAlert(t('COMPONENTS.CODE.COPY_SUCCESSFUL'));
+  useAlert(t('AGENT_BOTS.ACCESS_TOKEN.COPY_SUCCESSFUL'));
+};
+
+const onResetToken = async () => {
+  const response = await store.dispatch(
+    'agentBots/resetAccessToken',
+    props.selectedBot.id
+  );
+  if (response) {
+    accessToken.value = response.access_token;
+    useAlert(t('AGENT_BOTS.ACCESS_TOKEN.RESET_SUCCESS'));
+  } else {
+    useAlert(t('AGENT_BOTS.ACCESS_TOKEN.RESET_ERROR'));
+  }
 };
 
 const closeModal = () => {
@@ -312,7 +325,18 @@ defineExpose({ dialogRef });
         >
           {{ $t('AGENT_BOTS.ACCESS_TOKEN.TITLE') }}
         </label>
-        <AccessToken :value="accessToken" @on-copy="onCopyToken" />
+        <AccessToken
+          v-if="type === MODAL_TYPES.EDIT"
+          :value="accessToken"
+          @on-copy="onCopyToken"
+          @on-reset="onResetToken"
+        />
+        <AccessToken
+          v-else
+          :value="accessToken"
+          :show-reset-button="false"
+          @on-copy="onCopyToken"
+        />
       </div>
 
       <div class="flex items-center justify-end w-full gap-2 px-0 py-2">

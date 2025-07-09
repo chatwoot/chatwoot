@@ -2,11 +2,13 @@ import { createApp } from 'vue';
 import VueDOMPurifyHTML from 'vue-dompurify-html';
 import { domPurifyConfig } from '../shared/helpers/HTMLSanitizer';
 import { directive as onClickaway } from 'vue3-click-away';
+import { isSameHost } from '@chatwoot/utils';
 
 import slugifyWithCounter from '@sindresorhus/slugify';
 import PublicArticleSearch from './components/PublicArticleSearch.vue';
 import TableOfContents from './components/TableOfContents.vue';
 import { initializeTheme } from './portalThemeHelper.js';
+import { getLanguageDirection } from 'dashboard/components/widgets/conversation/advancedFilterItems/languages.js';
 
 export const getHeadingsfromTheArticle = () => {
   const rows = [];
@@ -27,31 +29,23 @@ export const getHeadingsfromTheArticle = () => {
 
 export const openExternalLinksInNewTab = () => {
   const { customDomain, hostURL } = window.portalConfig;
-  const isSameHost =
-    window.location.href.includes(customDomain) ||
-    window.location.href.includes(hostURL);
-
-  // Modify external links only on articles page
   const isOnArticlePage =
-    isSameHost && document.querySelector('#cw-article-content') !== null;
+    document.querySelector('#cw-article-content') !== null;
 
   document.addEventListener('click', event => {
     if (!isOnArticlePage) return;
 
-    // Some of the links come wrapped in strong tag through prosemirror
+    const link = event.target.closest('a');
 
-    const isTagAnchor = event.target.tagName === 'A';
-    const isParentTagAnchor =
-      event.target.tagName === 'STRONG' &&
-      event.target.parentNode.tagName === 'A';
+    if (link) {
+      const currentLocation = window.location.href;
+      const linkHref = link.href;
 
-    if (isTagAnchor || isParentTagAnchor) {
-      const link = isTagAnchor ? event.target : event.target.parentNode;
-
+      // Check against current location and custom domains
       const isInternalLink =
-        link.hostname === window.location.hostname ||
-        link.href.includes(customDomain) ||
-        link.href.includes(hostURL);
+        isSameHost(linkHref, currentLocation) ||
+        (customDomain && isSameHost(linkHref, customDomain)) ||
+        (hostURL && isSameHost(linkHref, hostURL));
 
       if (!isInternalLink) {
         link.target = '_blank';
@@ -65,17 +59,13 @@ export const openExternalLinksInNewTab = () => {
 
 export const InitializationHelpers = {
   navigateToLocalePage: () => {
-    const allLocaleSwitcher = document.querySelector('.locale-switcher');
+    document.addEventListener('change', e => {
+      const localeSwitcher = e.target.closest('.locale-switcher');
+      if (!localeSwitcher) return;
 
-    if (!allLocaleSwitcher) {
-      return false;
-    }
-
-    const { portalSlug } = allLocaleSwitcher.dataset;
-    allLocaleSwitcher.addEventListener('change', event => {
-      window.location = `/hc/${portalSlug}/${event.target.value}/`;
+      const { portalSlug } = localeSwitcher.dataset;
+      window.location.href = `/hc/${encodeURIComponent(portalSlug)}/${encodeURIComponent(localeSwitcher.value)}/`;
     });
-    return false;
   },
 
   initializeSearch: () => {
@@ -121,10 +111,22 @@ export const InitializationHelpers = {
     });
   },
 
+  setDirectionAttribute: () => {
+    const htmlElement = document.querySelector('html');
+    // If direction is already applied through props, do not apply again (iframe case)
+    const hasDirApplied = htmlElement.getAttribute('data-dir-applied');
+    if (!htmlElement || hasDirApplied) return;
+
+    const localeFromHtml = htmlElement.lang;
+    htmlElement.dir =
+      localeFromHtml && getLanguageDirection(localeFromHtml) ? 'rtl' : 'ltr';
+  },
+
   initializeThemesInPortal: initializeTheme,
 
   initialize: () => {
     openExternalLinksInNewTab();
+    InitializationHelpers.setDirectionAttribute();
     if (window.portalConfig.isPlainLayoutEnabled === 'true') {
       InitializationHelpers.appendPlainParamToURLs();
     } else {

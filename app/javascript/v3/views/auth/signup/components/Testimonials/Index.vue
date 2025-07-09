@@ -28,7 +28,7 @@ export default {
 <template>
   <div
     v-show="testimonials.length"
-    class="relative flex-1 min-h-screen hidden overflow-hidden bg-woot-400 dark:bg-woot-800 xl:flex"
+    class="relative flex-1 min-h-screen hidden overflow-hidden bg-n-blue-8 dark:bg-n-blue-5 xl:flex"
   >
     <img
       src="assets/images/auth/top-left.svg"

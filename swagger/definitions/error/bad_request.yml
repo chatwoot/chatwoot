@@ -6,4 +6,4 @@ properties:
   errors:
     type: array
     items:
-      $ref: '#/definitions/request_error'
+      $ref: '#/components/schemas/request_error'

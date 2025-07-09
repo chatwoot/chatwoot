@@ -146,7 +146,7 @@
   premium: true
 - name: chatwoot_v4
   display_name: Chatwoot V4
-  enabled: false
+  enabled: true
 - name: report_v4
   display_name: Report V4
   enabled: true
@@ -168,4 +168,11 @@
   enabled: true
 - name: crm_integration
   display_name: CRM Integration
+  enabled: false
+- name: channel_voice
+  display_name: Voice Channel
+  enabled: false
+  chatwoot_internal: true
+- name: notion_integration
+  display_name: Notion Integration
   enabled: false

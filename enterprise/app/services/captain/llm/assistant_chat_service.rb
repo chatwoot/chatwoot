@@ -21,7 +21,7 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
   private
 
   def register_tools
-    @tool_registry = Captain::ToolRegistryService.new(@assistant)
+    @tool_registry = Captain::ToolRegistryService.new(@assistant, user: nil)
     @tool_registry.register_tool(Captain::Tools::SearchDocumentationService)
   end
 
@@ -30,5 +30,9 @@ class Captain::Llm::AssistantChatService < Llm::BaseOpenAiService
       role: 'system',
       content: Captain::Llm::SystemPromptsService.assistant_response_generator(@assistant.name, @assistant.config['product_name'], @assistant.config)
     }
+  end
+
+  def persist_message(message, message_type = 'assistant')
+    # No need to implement
   end
 end

@@ -3,7 +3,8 @@ require 'rails_helper'
 RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
   let(:account) { create(:account) }
   let(:assistant) { create(:captain_assistant, account: account) }
-  let(:service) { described_class.new(assistant) }
+  let(:user) { create(:user, account: account) }
+  let(:service) { described_class.new(assistant, user: user) }
 
   describe '#name' do
     it 'returns the correct service name' do
@@ -40,14 +41,34 @@ RSpec.describe Captain::Tools::Copilot::SearchLinearIssuesService do
         create(:integrations_hook, :linear, account: account)
       end
 
-      it 'returns true' do
-        expect(service.active?).to be true
+      context 'when user is present' do
+        it 'returns true' do
+          expect(service.active?).to be true
+        end
+      end
+
+      context 'when user is not present' do
+        let(:service) { described_class.new(assistant) }
+
+        it 'returns false' do
+          expect(service.active?).to be false
+        end
       end
     end
 
     context 'when Linear integration is not enabled' do
-      it 'returns false' do
-        expect(service.active?).to be false
+      context 'when user is present' do
+        it 'returns false' do
+          expect(service.active?).to be false
+        end
+      end
+
+      context 'when user is not present' do
+        let(:service) { described_class.new(assistant) }
+
+        it 'returns false' do
+          expect(service.active?).to be false
+        end
       end
     end
   end

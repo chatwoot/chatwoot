@@ -33,6 +33,8 @@ gem 'liquid'
 gem 'commonmarker'
 # Validate Data against JSON Schema
 gem 'json_schemer'
+# used in swagger build
+gem 'json_refs'
 # Rack middleware for blocking & throttling abusive requests
 gem 'rack-attack', '>= 6.7.0'
 # a utility tool for streaming, flexible and safe downloading of remote files
@@ -195,9 +197,6 @@ group :development do
   gem 'letter_opener'
   gem 'scss_lint', require: false
   gem 'web-console', '>= 4.2.1'
-
-  # used in swagger build
-  gem 'json_refs'
 
   # When we want to squash migrations
   gem 'squasher'

@@ -5,37 +5,33 @@ summary: Create an Account User
 description: Create an Account User
 security:
   - platformAppApiKey: []
-parameters:
-  - name: data
-    in: body
-    required: true
-    schema:
-      type: object
-      required:
-        - user_id
-        - role
-      properties: 
-        user_id:
-          type: integer
-          description: The ID of the user
-        role:
-          type: string
-          description: whether user is an administrator or agent
-      
+requestBody:
+  required: true
+  content:
+    application/json:
+      schema:
+        $ref: '#/components/schemas/account_user_create_update_payload'
 responses:
-  200:
+  '200':
     description: Success
-    schema:
-      properties: 
-        account_id:
-          type: integer
-          description: The ID of the user
-        user_id:
-          type: integer
-          description: The ID of the user
-        role:
-          type: string
-          description: whether user is an administrator or agent
-      
-  401:
+    content:
+      application/json:
+        schema:
+          type: object
+          properties:
+            account_id:
+              type: integer
+              description: The ID of the account
+            user_id:
+              type: integer
+              description: The ID of the user
+            role:
+              type: string
+              description: whether user is an administrator or agent
+
+  '401':
     description: Unauthorized
+    content:
+      application/json:
+        schema:
+          $ref: '#/components/schemas/bad_request_error'

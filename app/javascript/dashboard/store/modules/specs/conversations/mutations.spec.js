@@ -884,6 +884,17 @@ describe('#mutations', () => {
     });
   });
 
+  describe('#DELETE_CONVERSATION', () => {
+    it('should delete a conversation', () => {
+      const state = {
+        allConversations: [{ id: 1, messages: [] }],
+      };
+
+      mutations[types.DELETE_CONVERSATION](state, 1);
+      expect(state.allConversations).toEqual([]);
+    });
+  });
+
   describe('#SET_LIST_LOADING_STATUS', () => {
     it('should set listLoadingStatus to true', () => {
       const state = {
