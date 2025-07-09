@@ -16,6 +16,7 @@
 #
 class Captain::Assistant < ApplicationRecord
   include Avatarable
+  include AgentToolsResolvable
 
   self.table_name = 'captain_assistants'
 

@@ -56,6 +56,9 @@ Rails.application.routes.draw do
               member do
                 post :playground
               end
+              collection do
+                get :tools
+              end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
               resources :scenarios
             end
