@@ -2,7 +2,7 @@
 defineProps({
   heading: {
     type: String,
-    default: '',
+    required: true,
   },
   description: {
     type: String,
