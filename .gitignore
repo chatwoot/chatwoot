@@ -89,6 +89,7 @@ yarn-debug.log*
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
 
+
 # TextEditors & AI Agents config files
 .vscode
 .claude/settings.local.json
