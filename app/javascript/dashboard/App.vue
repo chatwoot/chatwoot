@@ -1,6 +1,6 @@
 <script>
 import { mapGetters } from 'vuex';
-import AddAccountModal from '../dashboard/components/layout/sidebarComponents/AddAccountModal.vue';
+import AddAccountModal from './components/app/AddAccountModal.vue';
 import LoadingState from './components/widgets/LoadingState.vue';
 import NetworkNotification from './components/NetworkNotification.vue';
 import UpdateBanner from './components/app/UpdateBanner.vue';
@@ -96,9 +96,7 @@ export default {
     hasIncomingCall: {
       immediate: true,
       handler(newVal) {
-        console.log('App.vue detected change in hasIncomingCall to', newVal);
         if (newVal) {
-          console.log('Incoming call data:', this.incomingCall);
           this.showCallWidget = true;
         } else {
           this.showCallWidget = false;
@@ -108,9 +106,7 @@ export default {
     hasActiveCall: {
       immediate: true,
       handler(newVal) {
-        console.log('App.vue detected change in hasActiveCall to', newVal);
         if (newVal) {
-          console.log('Active call data:', this.activeCall);
           this.showCallWidget = true;
         } else {
           this.showCallWidget = false;
@@ -193,15 +189,15 @@ export default {
         this.$store.dispatch('calls/clearActiveCall');
         if (savedConversationId) {
           VoiceAPI.endCall(savedCallSid, savedConversationId)
-            .then(response => {
+            .then(() => {
               useAlert({ message: 'Call ended successfully', type: 'success' });
             })
-            .catch(error => {
+            .catch(() => {
               setTimeout(() => {
                 VoiceAPI.endCall(savedCallSid, savedConversationId)
-                  .then(retryResponse => {
+                  .then(() => {
                   })
-                  .catch(retryError => {
+                  .catch(() => {
                   });
               }, 1000);
               useAlert({ message: 'Call UI has been reset', type: 'info' });
@@ -274,7 +270,7 @@ export default {
       :inbox-phone-number="activeCall ? activeCall.inboxPhoneNumber : (incomingCall ? incomingCall.inboxPhoneNumber : '')"
       :avatar-url="activeCall ? activeCall.avatarUrl : (incomingCall ? incomingCall.avatarUrl : '')"
       :phone-number="activeCall ? activeCall.phoneNumber : (incomingCall ? incomingCall.phoneNumber : '')"
-      :use-web-rtc="true"
+      use-web-rtc
       @callEnded="handleCallEnded"
       @callJoined="handleCallJoined"
       @callRejected="handleCallRejected"

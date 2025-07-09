@@ -73,7 +73,8 @@ class Line::SendOnLineService < Base::SendOnChannelService
           contents: [
             {
               type: 'text',
-              text: message.content
+              text: message.content,
+              wrap: true
             },
             *input_select_to_button
           ]

@@ -1,10 +1,8 @@
 import {
   formatDate,
   formatUnixDate,
-  formatDigitToString,
   isTimeAfter,
   generateRelativeTime,
-  getDayDifferenceFromNow,
 } from '../DateHelper';
 
 describe('#DateHelper', () => {
@@ -45,14 +43,6 @@ describe('#DateHelper', () => {
         yesterdayText: 'Yesterday',
       })
     ).toEqual('Yesterday');
-  });
-});
-describe('#formatDigitToString', () => {
-  it('returns date compatabile string from number is less than 9', () => {
-    expect(formatDigitToString(8)).toEqual('08');
-  });
-  it('returns date compatabile string from number is greater than 9', () => {
-    expect(formatDigitToString(11)).toEqual('11');
   });
 });
 
@@ -117,28 +107,6 @@ describe('generateRelativeTime', () => {
     const expectedResult = 'tomorrow';
 
     const actualResult = generateRelativeTime(value, unit, languageCode);
-
-    expect(actualResult).toBe(expectedResult);
-  });
-});
-
-describe('#getDayDifferenceFromNow', () => {
-  it('should return the difference if in same day', () => {
-    const now = new Date('2023-12-08T00:00:00.000Z');
-    const timestampInSeconds = 1702020305; // 08/12/2023, 12:55:05 (GMT+05:30)
-    const expectedResult = 0;
-
-    const actualResult = getDayDifferenceFromNow(now, timestampInSeconds);
-
-    expect(actualResult).toBe(expectedResult);
-  });
-
-  it('should return the difference if in different day', () => {
-    const now = new Date('2023-12-11T00:00:00.000Z');
-    const timestampInSeconds = 1702020305; // 08/12/2023, 12:55:05 (GMT+05:30)
-    const expectedResult = 2;
-
-    const actualResult = getDayDifferenceFromNow(now, timestampInSeconds);
 
     expect(actualResult).toBe(expectedResult);
   });

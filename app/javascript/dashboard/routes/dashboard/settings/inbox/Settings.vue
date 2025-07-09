@@ -393,7 +393,7 @@ export default {
       :header-title="inboxName"
     >
       <woot-tabs
-        class="settings--tabs"
+        class="[&_ul]:p-0"
         :index="selectedTabIndex"
         :border="false"
         @change="onTabChange"
@@ -404,6 +404,7 @@ export default {
           :index="index"
           :name="tab.name"
           :show-badge="false"
+          is-compact
         />
       </woot-tabs>
     </SettingIntroBanner>
@@ -817,11 +818,3 @@ export default {
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-.settings--tabs {
-  ::v-deep .tabs {
-    @apply p-0;
-  }
-}
-</style>
