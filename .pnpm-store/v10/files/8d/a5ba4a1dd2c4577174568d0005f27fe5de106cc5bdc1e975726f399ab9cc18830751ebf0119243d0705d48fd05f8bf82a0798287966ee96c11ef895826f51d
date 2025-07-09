@@ -1,0 +1,25 @@
+{
+	"prefix": "lucide",
+	"name": "Lucide",
+	"total": 1534,
+	"author": {
+		"name": "Lucide Contributors",
+		"url": "https://github.com/lucide-icons/lucide"
+	},
+	"license": {
+		"title": "ISC",
+		"spdx": "ISC",
+		"url": "https://github.com/lucide-icons/lucide/blob/main/LICENSE"
+	},
+	"samples": [
+		"check-circle",
+		"award",
+		"home",
+		"check",
+		"mountain",
+		"chevron-up"
+	],
+	"height": 24,
+	"category": "UI 24px",
+	"palette": false
+}

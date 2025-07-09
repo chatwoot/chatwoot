@@ -187,12 +187,34 @@ export const mutations = {
 
     const pendingMessageIndex = findPendingMessageIndex(chat, message);
     if (pendingMessageIndex !== -1) {
-      chat.messages[pendingMessageIndex] = message;
+      // Cập nhật message hiện có, đảm bảo attachments được merge đúng cách
+      const existingMessage = chat.messages[pendingMessageIndex];
+      chat.messages[pendingMessageIndex] = {
+        ...existingMessage,
+        ...message,
+        // Đảm bảo attachments được cập nhật với data mới nhất
+        attachments: message.attachments || existingMessage.attachments || []
+      };
     } else {
-      chat.messages.push(message);
-      chat.timestamp = message.created_at;
-      const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
-      chat.unread_count = unreadCount;
+      // Kiểm tra xem message đã tồn tại chưa (cho trường hợp update)
+      const existingMessageIndex = chat.messages.findIndex(m => m.id === message.id);
+      if (existingMessageIndex !== -1) {
+        // Cập nhật message hiện có
+        const existingMessage = chat.messages[existingMessageIndex];
+        chat.messages[existingMessageIndex] = {
+          ...existingMessage,
+          ...message,
+          // Đảm bảo attachments được cập nhật với data mới nhất
+          attachments: message.attachments || existingMessage.attachments || []
+        };
+      } else {
+        // Thêm message mới
+        chat.messages.push(message);
+        chat.timestamp = message.created_at;
+        const { conversation: { unread_count: unreadCount = 0 } = {} } = message;
+        chat.unread_count = unreadCount;
+      }
+
       if (selectedChatId === conversationId) {
         emitter.emit(BUS_EVENTS.FETCH_LABEL_SUGGESTIONS);
         emitter.emit(BUS_EVENTS.SCROLL_TO_MESSAGE);

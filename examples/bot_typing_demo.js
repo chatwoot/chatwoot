@@ -16,7 +16,7 @@ const CONFIG = {
 };
 
 /**
- * Gửi typing indicator
+ * Gửi typing indicator - Tối ưu và đơn giản
  */
 async function toggleTyping(conversationId, status) {
   try {
@@ -33,11 +33,36 @@ async function toggleTyping(conversationId, status) {
         }
       }
     );
-    
+
     console.log(`✅ Typing ${status.toUpperCase()} sent successfully for conversation ${conversationId}`);
     return true;
   } catch (error) {
     console.error(`❌ Error sending typing ${status}:`, error.response?.data || error.message);
+    return false;
+  }
+}
+
+/**
+ * Test typing indicators cho conversation
+ */
+async function testTypingIndicators(conversationId) {
+  try {
+    const response = await axios.post(
+      `${CONFIG.API_BASE}/accounts/${CONFIG.ACCOUNT_ID}/conversations/${conversationId}/test_typing_indicators`,
+      {},
+      {
+        headers: {
+          'api_access_token': CONFIG.BOT_ACCESS_TOKEN,
+          'Content-Type': 'application/json'
+        }
+      }
+    );
+
+    console.log(`✅ Typing indicator test completed for conversation ${conversationId}`);
+    console.log('Test results:', response.data);
+    return response.data;
+  } catch (error) {
+    console.error(`❌ Error testing typing indicators:`, error.response?.data || error.message);
     return false;
   }
 }

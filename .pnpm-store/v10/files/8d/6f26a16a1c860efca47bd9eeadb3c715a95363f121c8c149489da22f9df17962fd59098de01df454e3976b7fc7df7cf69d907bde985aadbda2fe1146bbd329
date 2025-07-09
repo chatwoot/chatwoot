@@ -1,0 +1,38 @@
+
+{{alias}}( high, low )
+    Creates a double-precision floating-point number from a higher order word
+    (unsigned 32-bit integer) and a lower order word (unsigned 32-bit integer).
+
+    Parameters
+    ----------
+    high: integer
+        Higher order word (unsigned 32-bit integer).
+
+    low: integer
+        Lower order word (unsigned 32-bit integer).
+
+    Returns
+    -------
+    out: number
+        Double-precision floating-point number.
+
+    Examples
+    --------
+    > var v = {{alias}}( 1774486211, 2479577218 )
+    3.14e201
+    > v = {{alias}}( 3221823995, 1413754136 )
+    -3.141592653589793
+    > v = {{alias}}( 0, 0 )
+    0.0
+    > v = {{alias}}( 2147483648, 0 )
+    -0.0
+    > v = {{alias}}( 2146959360, 0 )
+    NaN
+    > v = {{alias}}( 2146435072, 0 )
+    Infinity
+    > v = {{alias}}( 4293918720, 0 )
+    -Infinity
+
+    See Also
+    --------
+

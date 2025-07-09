@@ -1,0 +1,8 @@
+{
+  "libs": ["browser"],
+  "plugins": {
+    "node": {},
+    "complete_strings": {},
+    "es_modules": {}
+  }
+}

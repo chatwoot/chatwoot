@@ -1,0 +1,49 @@
+name: Node CI
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+
+jobs:
+  test:
+    name: Test on Node ${{ matrix.node }} and ${{ matrix.os }}
+
+    environment:
+      name: LIBRARIES_WEB
+
+    env:
+      SAUCE_USERNAME: ${{ secrets.SAUCE_USERNAME }}
+      SAUCE_ACCESS_KEY: ${{ secrets.SAUCE_ACCESS_KEY }}
+
+    runs-on: ${{ matrix.os }}
+    strategy:
+      matrix:
+        node: ["10.x", "12.x"]
+        os: [ubuntu-latest]
+
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v2
+      - name: Use Node ${{ matrix.node }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node }}
+
+      - name: Install deps and build (with cache)
+        uses: bahmutov/npm-install@v1
+
+      - name: Test package
+        run: make test-node
+
+      - name: Connect to Saucelabs
+        uses: saucelabs/sauce-connect-action@v1
+        with:
+          username: ${{ secrets.SAUCE_USERNAME }}
+          accessKey: ${{ secrets.SAUCE_ACCESS_KEY }}
+          tunnelIdentifier: github-action-tunnel
+          scVersion: 4.6.4
+
+      - name: Run Saucelabs tests
+        run: make test-browser
+
+      

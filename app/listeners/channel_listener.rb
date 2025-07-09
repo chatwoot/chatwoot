@@ -6,12 +6,20 @@ class ChannelListener < BaseListener
     conversation, account = extract_conversation_and_account(event)
     return if conversation.blank?
 
+    user = event.data[:user]
+    # Chỉ xử lý typing cho human agents (User), bỏ qua bot agents
+    return unless user.is_a?(User) && user.agent?
+
     process_typing_event(conversation, 'typing_on', event)
   end
 
   def conversation_typing_off(event)
     conversation, account = extract_conversation_and_account(event)
     return if conversation.blank?
+
+    user = event.data[:user]
+    # Chỉ xử lý typing cho human agents (User), bỏ qua bot agents
+    return unless user.is_a?(User) && user.agent?
 
     process_typing_event(conversation, 'typing_off', event)
   end
@@ -33,14 +41,10 @@ class ChannelListener < BaseListener
     channel = conversation.inbox.channel
     return if channel.blank?
 
-    # Chỉ gửi typing indicator khi agent đang typing
-    user = event.data[:user]
-    return unless user.is_a?(User)
-
     # Kiểm tra xem contact_inbox có source_id không
     source_id = contact_inbox.source_id
     if source_id.blank?
-      Rails.logger.error "Cannot send typing indicator: Missing source_id for contact_inbox #{contact_inbox.id}"
+      Rails.logger.error "ChannelListener: Missing source_id for contact_inbox #{contact_inbox.id}"
       return
     end
 
@@ -55,25 +59,23 @@ class ChannelListener < BaseListener
 
       return if typing_service.blank?
 
-      # Nếu là typing_on, sử dụng phương thức mark_seen_and_typing tối ưu cho mobile
+      # Sử dụng enable/disable đơn giản theo Chatwoot gốc
       if typing_status == 'typing_on'
-        result = typing_service.mark_seen_and_typing
+        result = typing_service.enable
       else
-        # Nếu là typing_off, chỉ cần tắt typing indicator
         result = typing_service.disable
       end
 
       platform_name = channel_type == 'Channel::FacebookPage' ? 'Facebook' : 'Instagram'
 
       if result
-        Rails.logger.info "Successfully sent #{typing_status} to #{platform_name} v22 for conversation #{conversation.id}"
+        Rails.logger.info "ChannelListener: Successfully sent #{typing_status} to #{platform_name} for conversation #{conversation.id}"
       else
-        Rails.logger.warn "Failed to send #{typing_status} to #{platform_name} v22 for conversation #{conversation.id}"
+        Rails.logger.warn "ChannelListener: Failed to send #{typing_status} to #{platform_name} for conversation #{conversation.id}"
       end
     rescue => e
       platform_name = channel_type == 'Channel::FacebookPage' ? 'Facebook' : 'Instagram'
-      Rails.logger.error "Error sending typing indicator to #{platform_name}: #{e.message}"
-      Rails.logger.error e.backtrace.join("\n")
+      Rails.logger.error "ChannelListener: Error sending typing indicator to #{platform_name}: #{e.message}"
     end
   end
 end

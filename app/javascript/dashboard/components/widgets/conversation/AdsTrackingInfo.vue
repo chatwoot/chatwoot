@@ -31,17 +31,30 @@ export default {
   },
   methods: {
     async fetchAdsTrackingData() {
-      if (!this.conversationId) return;
-      
+      if (!this.conversationId) {
+        console.warn('No conversationId provided to AdsTrackingInfo');
+        return;
+      }
+
       this.isLoading = true;
       this.error = null;
-      
+
       try {
+        console.log('Fetching ads tracking for conversation:', this.conversationId);
         const response = await conversationAdsTrackingAPI.getAdsTracking(this.conversationId);
         this.adsTrackingData = response.data.data || [];
+        console.log('Ads tracking data loaded:', this.adsTrackingData.length, 'records');
       } catch (error) {
         console.error('Error fetching ads tracking data:', error);
-        this.error = 'Không thể tải thông tin quảng cáo';
+
+        // Hiển thị lỗi chi tiết hơn
+        if (error.response?.status === 404) {
+          this.error = 'Không tìm thấy cuộc trò chuyện';
+        } else if (error.response?.status === 403) {
+          this.error = 'Không có quyền truy cập thông tin quảng cáo';
+        } else {
+          this.error = 'Không thể tải thông tin quảng cáo. Vui lòng thử lại.';
+        }
       } finally {
         this.isLoading = false;
       }

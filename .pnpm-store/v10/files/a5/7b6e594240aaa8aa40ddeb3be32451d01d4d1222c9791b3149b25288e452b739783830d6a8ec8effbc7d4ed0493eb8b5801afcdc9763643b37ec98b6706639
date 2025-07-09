@@ -1,0 +1,19 @@
+{
+  "name": "@rollup/rollup-android-arm-eabi",
+  "version": "4.40.2",
+  "os": [
+    "android"
+  ],
+  "cpu": [
+    "arm"
+  ],
+  "files": [
+    "rollup.android-arm-eabi.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": "rollup/rollup",
+  "main": "./rollup.android-arm-eabi.node"
+}

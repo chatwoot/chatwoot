@@ -1,0 +1,29 @@
+
+{{alias}}( str )
+    Parses a regular expression string and returns a new regular expression.
+
+    Provided strings should be properly escaped.
+
+    If unable to parse a string as a regular expression, the function returns
+    `null`.
+
+    Parameters
+    ----------
+    str: string
+        Regular expression string.
+
+    Returns
+    -------
+    out: RegExp|null
+        Regular expression or null.
+
+    Examples
+    --------
+    > var re = {{alias}}( '/beep/' )
+    /beep/
+    > re = {{alias}}( '/beep' )
+    null
+
+    See Also
+    --------
+

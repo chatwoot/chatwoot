@@ -13,9 +13,13 @@ export const getters = {
 export const actions = {
   toggleTyping: async (_, { status, conversationId, isPrivate }) => {
     try {
-      await ConversationAPI.toggleTyping({ status, conversationId, isPrivate });
+      await ConversationAPI.toggleTyping({
+        conversationId,
+        status,
+        isPrivate: isPrivate || false
+      });
     } catch (error) {
-      // Handle error
+      console.error('Error toggling typing status:', error);
     }
   },
   create: ({ commit }, { conversationId, user }) => {

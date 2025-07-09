@@ -84,6 +84,12 @@ class Channel::WebWidget < ApplicationRecord
     "
   end
 
+  def create_contact_inbox(additional_attributes = {})
+    ::ContactInboxWithContactBuilder.new({
+                                           inbox: inbox,
+                                           contact_attributes: { additional_attributes: additional_attributes }
+                                         }).perform
+  end
   private
 
   def set_default_typing_texts
@@ -146,12 +152,5 @@ class Channel::WebWidget < ApplicationRecord
         }
       ]
     }
-  end
-
-  def create_contact_inbox(additional_attributes = {})
-    ::ContactInboxWithContactBuilder.new({
-                                           inbox: inbox,
-                                           contact_attributes: { additional_attributes: additional_attributes }
-                                         }).perform
   end
 end

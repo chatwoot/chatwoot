@@ -1,0 +1,68 @@
+{
+	"name": "@csstools/cascade-layer-name-parser",
+	"description": "Parse CSS Cascade Layer names.",
+	"version": "1.0.2",
+	"contributors": [
+		{
+			"name": "Antonio Laguna",
+			"email": "antonio@laguna.es",
+			"url": "https://antonio.laguna.es"
+		},
+		{
+			"name": "Romain Menke",
+			"email": "romainmenke@gmail.com"
+		}
+	],
+	"license": "MIT",
+	"funding": {
+		"type": "opencollective",
+		"url": "https://opencollective.com/csstools"
+	},
+	"engines": {
+		"node": "^14 || ^16 || >=18"
+	},
+	"main": "dist/index.cjs",
+	"module": "dist/index.mjs",
+	"types": "dist/index.d.ts",
+	"exports": {
+		".": {
+			"types": "./dist/index.d.ts",
+			"import": "./dist/index.mjs",
+			"require": "./dist/index.cjs",
+			"default": "./dist/index.mjs"
+		}
+	},
+	"files": [
+		"CHANGELOG.md",
+		"LICENSE.md",
+		"README.md",
+		"dist"
+	],
+	"peerDependencies": {
+		"@csstools/css-parser-algorithms": "^2.1.1",
+		"@csstools/css-tokenizer": "^2.1.1"
+	},
+	"scripts": {
+		"build": "rollup -c ../../rollup/default.mjs",
+		"lint": "node ../../.github/bin/format-package-json.mjs",
+		"prepublishOnly": "npm run build && npm run test",
+		"stryker": "stryker run --logLevel error",
+		"test": "node ./test/test.mjs && node ./test/_import.mjs && node ./test/_require.cjs",
+		"test:rewrite-expects": "REWRITE_EXPECTS=true node ./test/test.mjs"
+	},
+	"homepage": "https://github.com/csstools/postcss-plugins/tree/main/packages/cascade-layer-name-parser#readme",
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/csstools/postcss-plugins.git",
+		"directory": "packages/cascade-layer-name-parser"
+	},
+	"bugs": "https://github.com/csstools/postcss-plugins/issues",
+	"keywords": [
+		"cascade-layer",
+		"css",
+		"parser"
+	],
+	"volta": {
+		"extends": "../../package.json"
+	}
+}

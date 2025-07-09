@@ -111,55 +111,7 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     nil
   end
 
-  # Sử dụng TypingIndicatorService
-  def typing_service
-    @typing_service ||= Facebook::TypingIndicatorService.new(channel, contact.get_source_id(inbox.id))
-  end
-
-  # CHUYÊN DỤNG CHO API TYPING RIÊNG BIỆT - KHÔNG TỰ ĐỘNG GỌI KHI GỬI TIN NHẮN
-  # Bật typing indicator (chỉ sử dụng khi được gọi từ API typing riêng biệt)
-  def enable_typing_indicator
-    return if contact.blank? || contact.get_source_id(inbox.id).blank?
-
-    # Sử dụng phương thức mới mark_seen_and_typing để đảm bảo đánh dấu tin nhắn đã xem trước
-    # và sau đó mới gửi typing indicator, điều này quan trọng để typing hoạt động trên di động
-    result = typing_service.mark_seen_and_typing
-
-    if result
-      Rails.logger.debug "Successfully enabled mark_seen and typing indicator for recipient #{contact.get_source_id(inbox.id)}"
-    else
-      # Nếu không thành công với mark_seen_and_typing, thử lại chỉ với typing_on
-      typing_result = typing_service.enable
-      if typing_result
-        Rails.logger.debug "Successfully enabled typing indicator (without mark_seen) for recipient #{contact.get_source_id(inbox.id)}"
-      else
-        Rails.logger.warn "Failed to enable typing indicator for recipient #{contact.get_source_id(inbox.id)}"
-      end
-    end
-  rescue => e
-    Rails.logger.error "Error enabling typing indicator: #{e.message}"
-    # Ghi log chi tiết hơn để debug
-    Rails.logger.error e.backtrace.join("\n")
-  end
-
-  # Tắt typing indicator (chỉ sử dụng khi được gọi từ API typing riêng biệt)
-  def disable_typing_indicator
-    return if contact.blank? || contact.get_source_id(inbox.id).blank?
-
-    result = typing_service.disable
-    if result
-      Rails.logger.debug "Successfully disabled typing indicator for recipient #{contact.get_source_id(inbox.id)}"
-    else
-      Rails.logger.warn "Failed to disable typing indicator for recipient #{contact.get_source_id(inbox.id)}"
-    end
-  rescue => e
-    Rails.logger.error "Error disabling typing indicator: #{e.message}"
-    # Ghi log chi tiết hơn để debug
-    Rails.logger.error e.backtrace.join("\n")
-  end
-
-  # Đánh dấu tin nhắn đã xem được xử lý tự động trong ChannelListener
-  # khi gửi sự kiện typing_on, không cần gọi trực tiếp từ đây
+  # Loại bỏ logic typing tự động - chỉ sử dụng khi được gọi từ API riêng biệt
 
   def fb_text_message_params
     # Xác định messaging_type và tag phù hợp
@@ -222,8 +174,14 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
     "#{url}#{separator}cache_buster=#{Time.now.to_i}"
   end
 
-  # Xác định messaging_type và tag phù hợp dựa trên thời gian cuối cùng người dùng gửi tin nhắn
+  # Xác định messaging_type và tag phù hợp dựa trên cài đặt human_agent và thời gian tin nhắn
   def determine_messaging_params
+    # Kiểm tra cài đặt human_agent trước
+    if human_agent_enabled?
+      # Nếu human_agent được bật, sử dụng HUMAN_AGENT tag để bypass 24h window
+      return { messaging_type: 'MESSAGE_TAG', tag: 'HUMAN_AGENT' }
+    end
+
     # Kiểm tra xem cuộc hội thoại có tin nhắn đến trong vòng 24 giờ không
     last_incoming_message = conversation.messages.incoming.order(created_at: :desc).first
 
@@ -234,6 +192,18 @@ class Facebook::SendOnFacebookService < Base::SendOnChannelService
       # Ngoài cửa sổ 24 giờ, sử dụng MESSAGE_TAG với tag phù hợp
       { messaging_type: 'MESSAGE_TAG', tag: 'ACCOUNT_UPDATE' }
     end
+  end
+
+  # Kiểm tra xem human_agent có được bật không
+  def human_agent_enabled?
+    # Kiểm tra cài đặt global cho Facebook Messenger human_agent
+    global_config = GlobalConfig.get('ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT')
+    human_agent_enabled = global_config['ENABLE_MESSENGER_CHANNEL_HUMAN_AGENT']
+
+    # Log để debug
+    Rails.logger.info "Facebook::SendOnFacebookService: Human agent enabled: #{human_agent_enabled}"
+
+    human_agent_enabled == true || human_agent_enabled == 'true'
   end
 
   def attachment_type(attachment)

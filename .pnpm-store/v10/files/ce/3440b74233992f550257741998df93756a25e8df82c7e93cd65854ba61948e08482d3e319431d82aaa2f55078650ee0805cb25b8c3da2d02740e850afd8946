@@ -1,0 +1,28 @@
+env:
+  SEGMENT_CONTEXTS: "snyk,npm,aws-credentials,ecr,saucelabs"
+steps:
+  - label: ":hammer: Build and test"
+    commands:
+      - npm config set "//registry.npmjs.org/:_authToken" $${NPM_TOKEN}
+      - yarn
+      - yarn lint
+      - yarn test:ci
+    plugins:
+      - ssh://git@github.com/segmentio/cache-buildkite-plugin#v1.0.0:
+          key: "v1-cache-dev-{{ checksum 'yarn.lock' }}"
+          paths: ["node_modules/"]
+      - docker#v3.3.0:
+          image: 528451384384.dkr.ecr.us-west-2.amazonaws.com/circleci-node:8.11
+          user: root
+          environment:
+            - NPM_TOKEN
+            - SAUCE_USERNAME
+            - SAUCE_ACCESS_KEY
+  - wait: ~ 
+  - label: ":hammer: Snyk"
+    plugins:
+      - ssh://git@github.com/segmentio/cache-buildkite-plugin#v1.0.0:
+          key: "v1-cache-dev-{{ checksum 'yarn.lock' }}"
+          paths: ["node_modules/"]
+      - ssh://git@github.com/segmentio/snyk-buildkite-plugin#v1.0.0:
+          runtime: npm

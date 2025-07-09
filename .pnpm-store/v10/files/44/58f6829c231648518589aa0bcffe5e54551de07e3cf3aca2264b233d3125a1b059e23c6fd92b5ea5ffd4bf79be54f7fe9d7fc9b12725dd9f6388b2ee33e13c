@@ -1,0 +1,92 @@
+{
+  "name": "@stdlib/math-base-napi-unary",
+  "version": "0.0.8",
+  "description": "C APIs for registering a Node-API module exporting an interface for invoking a unary numerical function.",
+  "license": "Apache-2.0",
+  "author": {
+    "name": "The Stdlib Authors",
+    "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+  },
+  "contributors": [
+    {
+      "name": "The Stdlib Authors",
+      "url": "https://github.com/stdlib-js/stdlib/graphs/contributors"
+    }
+  ],
+  "main": "./lib",
+  "browser": "./lib/browser.js",
+  "gypfile": false,
+  "directories": {
+    "benchmark": "./benchmark",
+    "doc": "./docs",
+    "example": "./examples",
+    "include": "./include",
+    "lib": "./lib",
+    "src": "./src",
+    "test": "./test"
+  },
+  "types": "./docs/types",
+  "scripts": {
+    "test": "make test",
+    "test-cov": "make test-cov",
+    "examples": "make examples",
+    "benchmark": "make benchmark"
+  },
+  "homepage": "https://stdlib.io",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/stdlib-js/math-base-napi-unary.git"
+  },
+  "bugs": {
+    "url": "https://github.com/stdlib-js/stdlib/issues"
+  },
+  "dependencies": {
+    "@stdlib/complex-float32": "^0.0.x",
+    "@stdlib/complex-float64": "^0.0.x",
+    "@stdlib/complex-reim": "^0.0.x",
+    "@stdlib/complex-reimf": "^0.0.x",
+    "@stdlib/utils-library-manifest": "^0.0.x"
+  },
+  "devDependencies": {
+    "@stdlib/assert-is-browser": "^0.0.x",
+    "@stdlib/bench": "^0.0.x",
+    "@stdlib/math-base-assert-is-nan": "^0.0.x",
+    "@stdlib/utils-try-require": "^0.0.x",
+    "tape": "git+https://github.com/kgryte/tape.git#fix/globby",
+    "istanbul": "^0.4.1",
+    "tap-spec": "5.x.x"
+  },
+  "engines": {
+    "node": ">=0.10.0",
+    "npm": ">2.7.0"
+  },
+  "os": [
+    "aix",
+    "darwin",
+    "freebsd",
+    "linux",
+    "macos",
+    "openbsd",
+    "sunos",
+    "win32",
+    "windows"
+  ],
+  "keywords": [
+    "stdlib",
+    "stdmath",
+    "mathematics",
+    "math",
+    "napi",
+    "n-api",
+    "node-api",
+    "addon",
+    "unary",
+    "map",
+    "transform"
+  ],
+  "__stdlib__": {},
+  "funding": {
+    "type": "patreon",
+    "url": "https://www.patreon.com/athan"
+  }
+}

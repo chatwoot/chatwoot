@@ -9,48 +9,90 @@ class Conversations::TypingStatusManager
     @params = params
   end
 
-  def trigger_typing_event(event, is_private)
-    user = @user.presence || @resource
-    Rails.configuration.dispatcher.dispatch(event, Time.zone.now, conversation: @conversation, user: user, is_private: is_private)
-
-    # Nếu là bot agent, cũng gửi typing indicator đến platform (Facebook/Instagram)
-    if @user.is_a?(AgentBot) && event == CONVERSATION_TYPING_ON
-      send_platform_typing_indicator('on')
-    elsif @user.is_a?(AgentBot) && event == CONVERSATION_TYPING_OFF
-      send_platform_typing_indicator('off')
-    end
-  end
-
   def toggle_typing_status
     case params[:typing_status]
     when 'on'
-      trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
+      trigger_typing_event(CONVERSATION_TYPING_ON)
     when 'off'
-      trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
+      trigger_typing_event(CONVERSATION_TYPING_OFF)
     end
-    # Return the head :ok response from the controller
   end
 
   private
 
-  # Gửi typing indicator đến platform (Facebook/Instagram) khi bot agent typing
-  def send_platform_typing_indicator(status)
+  def trigger_typing_event(event)
+    # Dispatch event cho UI (ActionCable)
+    Rails.configuration.dispatcher.dispatch(
+      event,
+      Time.zone.now,
+      conversation: @conversation,
+      user: @user,
+      is_private: params[:is_private] || false
+    )
+
+    # Chỉ gửi typing indicator đến platform khi là human agent (User)
+    # Bỏ logic bot agent phức tạp, chỉ focus vào human agent
+    if @user.is_a?(User) && @user.agent?
+      send_platform_typing_indicator(event)
+    end
+  end
+
+  def send_platform_typing_indicator(event)
+    Rails.logger.info "TypingStatusManager: Processing typing #{event == CONVERSATION_TYPING_ON ? 'ON' : 'OFF'} for conversation #{@conversation.id}"
+
+    # Chỉ hỗ trợ Facebook và Instagram
     return unless @conversation.inbox.channel_type.in?(['Channel::FacebookPage', 'Channel::Instagram'])
-    return if @conversation.contact.blank?
 
+    # Kiểm tra contact và source_id
+    if @conversation.contact.blank?
+      Rails.logger.error "TypingStatusManager: Contact missing for conversation #{@conversation.id}"
+      return
+    end
+
+    source_id = @conversation.contact.get_source_id(@conversation.inbox.id)
+    if source_id.blank?
+      Rails.logger.error "TypingStatusManager: Source ID missing for conversation #{@conversation.id}"
+      return
+    end
+
+    # Gửi typing indicator trực tiếp đến platform
     begin
-      typing_service = Bot::TypingService.new(conversation: @conversation)
+      success = case event
+                when CONVERSATION_TYPING_ON
+                  send_typing_on(source_id)
+                when CONVERSATION_TYPING_OFF
+                  send_typing_off(source_id)
+                else
+                  false
+                end
 
-      case status
-      when 'on'
-        result = typing_service.enable_typing
-        Rails.logger.info "TypingStatusManager: Bot agent typing ON sent to #{@conversation.inbox.channel_type} - Success: #{result}"
-      when 'off'
-        result = typing_service.disable_typing
-        Rails.logger.info "TypingStatusManager: Bot agent typing OFF sent to #{@conversation.inbox.channel_type} - Success: #{result}"
-      end
+      Rails.logger.info "TypingStatusManager: Typing indicator sent to #{@conversation.inbox.channel_type} - Success: #{success}"
     rescue => e
-      Rails.logger.error "TypingStatusManager: Error sending bot agent typing to platform: #{e.message}"
+      Rails.logger.error "TypingStatusManager: Error sending typing indicator: #{e.message}"
+    end
+  end
+
+  # Gửi typing ON trực tiếp
+  def send_typing_on(source_id)
+    typing_service = create_typing_service(source_id)
+    typing_service&.enable || false
+  end
+
+  # Gửi typing OFF trực tiếp
+  def send_typing_off(source_id)
+    typing_service = create_typing_service(source_id)
+    typing_service&.disable || false
+  end
+
+  # Tạo typing service phù hợp với channel
+  def create_typing_service(source_id)
+    case @conversation.inbox.channel_type
+    when 'Channel::FacebookPage'
+      Facebook::TypingIndicatorService.new(@conversation.inbox.channel, source_id)
+    when 'Channel::Instagram'
+      Instagram::TypingIndicatorService.new(@conversation.inbox.channel, source_id)
+    else
+      nil
     end
   end
 end

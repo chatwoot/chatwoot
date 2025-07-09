@@ -1,0 +1,24 @@
+
+{{alias}}( value )
+    Tests if a value is a regular expression.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a regular expression.
+
+    Examples
+    --------
+    > var bool = {{alias}}( /\.+/ )
+    true
+    > bool = {{alias}}( {} )
+    false
+
+    See Also
+    --------
+

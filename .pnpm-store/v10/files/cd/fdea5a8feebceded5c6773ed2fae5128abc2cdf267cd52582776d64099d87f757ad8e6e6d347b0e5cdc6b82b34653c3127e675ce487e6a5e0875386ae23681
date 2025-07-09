@@ -1,0 +1,1 @@
+export * from '@iconify/vue'

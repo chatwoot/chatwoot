@@ -970,6 +970,7 @@ export default {
             private: false,
             message: caption,
             sender: this.sender,
+            attachedFiles: [attachment], // Pass single attachment for preview
           };
 
           attachmentPayload = this.setReplyToInPayload(attachmentPayload);
@@ -1012,6 +1013,7 @@ export default {
 
       if (this.attachedFiles && this.attachedFiles.length) {
         messagePayload.files = [];
+        messagePayload.attachedFiles = this.attachedFiles; // Pass attachedFiles for preview
         this.attachedFiles.forEach(attachment => {
           if (this.globalConfig.directUploadsEnabled) {
             messagePayload.files.push(attachment.blobSignedId);

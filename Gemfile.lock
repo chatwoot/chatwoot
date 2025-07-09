@@ -630,7 +630,7 @@ GEM
       redis-client (>= 0.9.0)
     redis-client (0.22.2)
       connection_pool
-    redis-namespace (1.10.0)
+    redis-namespace (1.11.0)
       redis (>= 4)
     regexp_parser (2.10.0)
     reline (0.3.6)
@@ -972,7 +972,7 @@ DEPENDENCIES
   rack-timeout
   rails (~> 7.1)
   redis
-  redis-namespace
+  redis-namespace (~> 1.11)
   responders (>= 3.1.1)
   rest-client
   reverse_markdown
@@ -1020,4 +1020,4 @@ RUBY VERSION
    ruby 3.4.4p34
 
 BUNDLED WITH
-   2.5.16
+   2.6.7

@@ -7,7 +7,16 @@ class ConversationAdsTrackingAPI extends ApiClient {
   }
 
   getAdsTracking(conversationId) {
-    return axios.get(`${this.baseUrl()}/${conversationId}/ads_tracking`);
+    // Đảm bảo conversationId là số và hợp lệ
+    if (!conversationId || isNaN(conversationId)) {
+      console.error('Invalid conversationId:', conversationId);
+      return Promise.reject(new Error('Invalid conversation ID'));
+    }
+
+    const url = `${this.baseUrl()}/${conversationId}/ads_tracking`;
+    console.log('Fetching ads tracking from URL:', url);
+
+    return axios.get(url);
   }
 }
 

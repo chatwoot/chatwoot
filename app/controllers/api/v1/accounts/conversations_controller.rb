@@ -133,6 +133,18 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
     }
   end
 
+  def test_human_agent
+    test_service = HumanAgentTestService.new(conversation: @conversation)
+    results = test_service.test_human_agent_configuration
+    render json: {
+      success: true,
+      results: results,
+      conversation_id: @conversation.id,
+      channel_type: @conversation.inbox.channel_type,
+      message: 'Human agent configuration test completed. Check logs for detailed results.'
+    }
+  end
+
   def update_last_seen
     update_last_seen_on_conversation(DateTime.now.utc, assignee?)
   end

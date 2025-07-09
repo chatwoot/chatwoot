@@ -25,16 +25,25 @@ class FacebookAdsTracking < ApplicationRecord
   def extract_campaign_and_adset_ids
     return unless raw_referral_data.present?
 
+    Rails.logger.info("Extracting campaign and adset IDs from referral data: #{raw_referral_data}")
+
     # Facebook API v22+ có thể cung cấp trực tiếp campaign_id và adset_id
     # Ưu tiên lấy từ root level trước, sau đó từ ads_context_data
-    self.campaign_id ||= raw_referral_data['campaign_id']
-    self.adset_id ||= raw_referral_data['adset_id']
+    self.campaign_id ||= extract_id_value(raw_referral_data['campaign_id'])
+    self.adset_id ||= extract_id_value(raw_referral_data['adset_id'])
 
     # Fallback: lấy từ ads_context_data
     if campaign_id.blank? || adset_id.blank?
       ads_context = raw_referral_data['ads_context_data'] || {}
-      self.campaign_id ||= ads_context['campaign_id']
-      self.adset_id ||= ads_context['adset_id']
+      self.campaign_id ||= extract_id_value(ads_context['campaign_id'])
+      self.adset_id ||= extract_id_value(ads_context['adset_id'])
+    end
+
+    # Fallback: lấy từ referral object (Facebook Messenger format)
+    if campaign_id.blank? || adset_id.blank?
+      referral_obj = raw_referral_data['referral'] || {}
+      self.campaign_id ||= extract_id_value(referral_obj['campaign_id'])
+      self.adset_id ||= extract_id_value(referral_obj['adset_id'])
     end
 
     # Fallback cuối: thử extract từ ad_title hoặc các trường khác
@@ -43,6 +52,8 @@ class FacebookAdsTracking < ApplicationRecord
       self.campaign_id ||= extract_id_from_url(ads_context['ad_title'], 'campaign')
       self.adset_id ||= extract_id_from_url(ads_context['ad_title'], 'adset')
     end
+
+    Rails.logger.info("Extracted IDs - Campaign: #{campaign_id}, Adset: #{adset_id}")
   end
 
   # Mark conversion as sent
@@ -108,7 +119,7 @@ class FacebookAdsTracking < ApplicationRecord
 
   # Get summary data for UI display
   def summary_data
-    {
+    base_data = {
       id: id,
       ref_parameter: ref_parameter,
       referral_source: referral_source,
@@ -117,6 +128,8 @@ class FacebookAdsTracking < ApplicationRecord
       campaign_id: campaign_id,
       adset_id: adset_id,
       ad_title: ad_title,
+      ad_photo_url: ad_photo_url,
+      ad_video_url: ad_video_url,
       event_name: event_name,
       event_value: event_value,
       currency: currency,
@@ -130,9 +143,38 @@ class FacebookAdsTracking < ApplicationRecord
       inbox_type: inbox.channel_type,
       platform: instagram_tracking? ? 'Instagram' : 'Facebook'
     }
+
+    # Thêm thông tin chi tiết từ Facebook API nếu có
+    if additional_attributes&.dig('ads_api_info').present?
+      api_info = additional_attributes['ads_api_info']
+      base_data.merge!(
+        api_info: {
+          ad_info: api_info['ad_info'],
+          campaign_info: api_info['campaign_info'],
+          adset_info: api_info['adset_info'],
+          performance_metrics: api_info['performance_metrics'],
+          last_updated: api_info['updated_at']
+        }
+      )
+    end
+
+    base_data
   end
 
   private
+
+  def extract_id_value(value)
+    return nil if value.blank?
+
+    # Nếu là string, thử convert sang integer nếu có thể
+    if value.is_a?(String)
+      # Loại bỏ các ký tự không phải số
+      cleaned_value = value.gsub(/[^\d]/, '')
+      return cleaned_value.present? ? cleaned_value : value
+    end
+
+    value.to_s
+  end
 
   def extract_id_from_url(text, type)
     return nil unless text.present?

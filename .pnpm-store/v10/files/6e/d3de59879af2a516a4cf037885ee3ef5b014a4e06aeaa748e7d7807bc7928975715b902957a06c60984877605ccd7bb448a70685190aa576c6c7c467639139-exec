@@ -1,0 +1,90 @@
+#!/usr/bin/env node
+
+/**
+* @license Apache-2.0
+*
+* Copyright (c) 2018 The Stdlib Authors.
+*
+* Licensed under the Apache License, Version 2.0 (the "License");
+* you may not use this file except in compliance with the License.
+* You may obtain a copy of the License at
+*
+*    http://www.apache.org/licenses/LICENSE-2.0
+*
+* Unless required by applicable law or agreed to in writing, software
+* distributed under the License is distributed on an "AS IS" BASIS,
+* WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+* See the License for the specific language governing permissions and
+* limitations under the License.
+*/
+
+'use strict';
+
+// MODULES //
+
+var resolve = require( 'path' ).resolve;
+
+// NOTE: we explicitly avoid using `@stdlib/fs/read-file` in this particular package in order to avoid circular dependencies. This should not be problematic as this command-line utility will be executed via Node.js.
+var readFileSync = require( 'fs' ).readFileSync; // eslint-disable-line node/no-sync
+var CLI = require( '@stdlib/cli-ctor' );
+var manifest = require( './../lib' );
+
+
+// MAIN //
+
+/**
+* Main execution sequence.
+*
+* @private
+*/
+function main() {
+	var conditions;
+	var flags;
+	var args;
+	var conf;
+	var opts;
+	var cli;
+	var v;
+	var i;
+
+	// Create a command-line interface:
+	cli = new CLI({
+		'pkg': require( './../package.json' ),
+		'options': require( './../etc/cli_opts.json' ),
+		'help': readFileSync( resolve( __dirname, '..', 'docs', 'usage.txt' ), {
+			'encoding': 'utf8'
+		})
+	});
+
+	// Get any provided command-line options:
+	flags = cli.flags();
+	if ( flags.help || flags.version ) {
+		return;
+	}
+
+	// Get any provided command-line arguments:
+	args = cli.args();
+
+	opts = {};
+	if ( flags.dir ) {
+		opts.basedir = flags.dir;
+	}
+	if ( flags.paths ) {
+		opts.paths = flags.paths;
+	}
+	conditions = {};
+	for ( i = 0; i < flags[ '--' ].length; i++ ) {
+		v = flags[ '--' ][ i ];
+		v = v.split( '=' );
+		if ( v.length === 2 ) {
+			conditions[ v[ 0 ].substring( 2 ) ] = v[ 1 ];
+		} else {
+			conditions[ v[ 0 ].substring( 2 ) ] = flags[ '--' ][ i+1 ];
+			i += 1;
+		}
+	}
+	conf = manifest( args[ 0 ], conditions, opts );
+	console.log( JSON.stringify( conf ) ); // eslint-disable-line no-console
+}
+
+main();

@@ -348,8 +348,28 @@ export default {
     },
   },
   watch: {
-    data() {
-      this.hasMediaLoadError = false;
+    data: {
+      handler(newData, oldData) {
+        this.hasMediaLoadError = false;
+
+        // Kiểm tra nếu attachment data_url được cập nhật
+        if (newData?.attachments && oldData?.attachments) {
+          const hasAttachmentUpdates = newData.attachments.some((newAttachment, index) => {
+            const oldAttachment = oldData.attachments[index];
+            return oldAttachment &&
+                   newAttachment.data_url !== oldAttachment.data_url &&
+                   newAttachment.data_url;
+          });
+
+          if (hasAttachmentUpdates) {
+            // Force re-render attachment components
+            this.$nextTick(() => {
+              this.$forceUpdate();
+            });
+          }
+        }
+      },
+      deep: true
     },
   },
   mounted() {

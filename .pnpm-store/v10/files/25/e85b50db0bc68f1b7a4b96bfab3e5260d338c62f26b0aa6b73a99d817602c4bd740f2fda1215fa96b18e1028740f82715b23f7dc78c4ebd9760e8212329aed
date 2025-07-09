@@ -1,0 +1,37 @@
+
+{{alias}}( value )
+    Returns a string value indicating a specification defined classification of
+    an object.
+
+    The function is *not* robust for ES2015+ environments. In ES2015+,
+    `Symbol.toStringTag` allows overriding the default description of an object.
+    While measures are taken to uncover the default description, such measures
+    can be thwarted. While this function remains useful for type-checking, be
+    aware that value impersonation is possible. Where possible, prefer functions
+    tailored to checking for particular value types, as specialized functions
+    are better equipped to address `Symbol.toStringTag`.
+
+    Parameters
+    ----------
+    value: any
+        Input value.
+
+    Returns
+    -------
+    out: string
+        String value indicating a specification defined classification of the
+        input value.
+
+    Examples
+    --------
+    > var str = {{alias}}( 'a' )
+    '[object String]'
+    > str = {{alias}}( 5 )
+    '[object Number]'
+    > function Beep(){};
+    > str = {{alias}}( new Beep() )
+    '[object Object]'
+
+    See Also
+    --------
+

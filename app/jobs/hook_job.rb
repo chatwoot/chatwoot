@@ -26,11 +26,8 @@ class HookJob < MutexApplicationJob
     return unless ['message.created'].include?(event_name)
 
     message = event_data[:message]
-    if message.attachments.blank?
-      ::SendOnSlackJob.perform_later(message, hook)
-    else
-      ::SendOnSlackJob.set(wait: 2.seconds).perform_later(message, hook)
-    end
+    # Tối ưu: Gửi ngay lập tức để cải thiện UX, không delay cho attachment
+    ::SendOnSlackJob.perform_later(message, hook)
   end
 
   def process_dialogflow_integration(hook, event_name, event_data)

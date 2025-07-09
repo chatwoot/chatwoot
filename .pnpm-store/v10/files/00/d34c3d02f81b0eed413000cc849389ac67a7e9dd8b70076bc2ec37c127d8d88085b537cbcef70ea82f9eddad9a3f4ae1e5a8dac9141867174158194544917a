@@ -1,0 +1,66 @@
+{
+	"name": "eslint-plugin-vitest-globals",
+	"description": "A extends of vitest globals for eslint",
+	"version": "1.5.0",
+	"packageManager": "pnpm@8.6.7",
+	"main": "./index.js",
+	"files": [
+		"configs",
+		"index.js"
+	],
+	"scripts": {
+		"pub": "tscjs scripts/publish",
+		"unpub": "tscjs scripts/unpublish",
+		"sync": "tscjs scripts/sync",
+		"dist": "pnpm run prettier",
+		"eslint": "eslint --fix .",
+		"prettier": "prettier --write \"**/*.{js,ts,sh,json,md}\"",
+		"test": "echo \"Error: no test specified\" && exit 1"
+	},
+	"devDependencies": {
+		"@eslint-sets/eslint-config-ts": "^5.12.0",
+		"@types/node": "^20.11.27",
+		"eslint": "^8.57.0",
+		"prettier": "^3.2.5",
+		"prettier-config-common": "^1.4.0",
+		"reinstaller": "^3.0.2",
+		"tsnd": "^1.1.0",
+		"typescript": "^5.4.2"
+	},
+	"pnpm": {
+		"peerDependencyRules": {
+			"ignoreMissing": [
+				"tslib",
+				"webpack"
+			],
+			"allowedVersions": {
+				"eslint": "^8.0.0"
+			}
+		}
+	},
+	"keywords": [
+		"vitest",
+		"vitest env",
+		"vitest globals",
+		"vitest eslint",
+		"eslint-plugin-vitest-globals",
+		"eslint-plugin",
+		"eslint",
+		"eslint-extends",
+		"saqqdy"
+	],
+	"license": "MIT",
+	"author": "saqqdy <https://github.com/saqqdy>",
+	"homepage": "https://github.com/saqqdy/eslint-plugin-vitest-globals#readme",
+	"bugs": {
+		"url": "https://github.com/saqqdy/eslint-plugin-vitest-globals/issues"
+	},
+	"repository": {
+		"type": "git",
+		"url": "http://github.com/saqqdy/eslint-plugin-vitest-globals.git"
+	},
+	"publishConfig": {
+		"registry": "https://registry.npmjs.org",
+		"access": "public"
+	}
+}

@@ -22,6 +22,11 @@ class SendReplyJob < ApplicationJob
     else
       services[channel_name].new(message: message).perform if services[channel_name].present?
     end
+
+    # Sau khi gửi message, đảm bảo UI được cập nhật với attachment data mới nhất
+    if message.attachments.present?
+      Messages::AttachmentUpdateService.new(message).perform
+    end
   end
 
   private

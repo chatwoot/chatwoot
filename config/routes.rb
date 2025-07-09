@@ -126,6 +126,7 @@ Rails.application.routes.draw do
               post :toggle_priority
               post :toggle_typing_status
               post :test_typing_indicators
+              post :test_human_agent
               post :update_last_seen
               post :unread
               post :custom_attributes

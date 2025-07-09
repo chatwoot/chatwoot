@@ -143,7 +143,14 @@ class Message < ApplicationRecord
       conversation: conversation_push_event_data
     )
     data[:echo_id] = echo_id if echo_id.present?
-    data[:attachments] = attachments.map(&:push_event_data) if attachments.present?
+
+    # Luôn reload attachments để đảm bảo data mới nhất được broadcast
+    # Điều này quan trọng khi attachment được cập nhật sau khi message được tạo
+    if attachments.present?
+      attachments.reload
+      data[:attachments] = attachments.map(&:push_event_data)
+    end
+
     merge_sender_attributes(data)
   end
 
@@ -319,9 +326,9 @@ class Message < ApplicationRecord
   end
 
   def send_reply
-    # FIXME: Giving it few seconds for the attachment to be uploaded to the service
-    # active storage attaches the file only after commit
-    attachments.blank? ? ::SendReplyJob.perform_later(id) : ::SendReplyJob.set(wait: 2.seconds).perform_later(id)
+    # Tối ưu: Gửi ngay lập tức để cải thiện UX, không delay cho attachment
+    # Active Storage đã xử lý attachment trong transaction, không cần delay
+    ::SendReplyJob.perform_later(id)
   end
 
   def reopen_conversation

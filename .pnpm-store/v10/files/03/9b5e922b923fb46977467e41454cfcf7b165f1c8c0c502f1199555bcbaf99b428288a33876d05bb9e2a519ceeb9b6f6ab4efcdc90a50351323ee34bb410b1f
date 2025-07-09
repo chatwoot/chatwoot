@@ -1,0 +1,9 @@
+
+Usage: resolve-parent-path [options] <path>
+
+Options:
+
+  -h,    --help                Print this message.
+  -V,    --version             Print the package version.
+         --dir dir             Base search directory.
+

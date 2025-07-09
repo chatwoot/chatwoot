@@ -9,10 +9,10 @@ Dự án đã được cập nhật để sử dụng Facebook Graph API v22 và
 ### 1. Facebook Typing Indicator Service
 - **File**: `app/services/facebook/typing_indicator_service.rb`
 - **Cải tiến**:
-  - Sử dụng API v22 với sender_action uppercase (TYPING_ON, TYPING_OFF, MARK_SEEN)
-  - Tăng retry logic từ 3 lên 5 lần cho mobile compatibility
-  - Tăng thời gian chờ giữa mark_seen và typing_on từ 0.5s lên 1.0s
-  - Cải thiện error logging với backtrace
+  - Sử dụng API v22 với sender_action lowercase (typing_on, typing_off, mark_seen) theo tài liệu chính thức
+  - Loại bỏ tham số access_token không hợp lệ, sử dụng configuration provider
+  - Đơn giản hóa logic, loại bỏ retry phức tạp không cần thiết
+  - Cải thiện error logging và xử lý lỗi
 
 ### 2. Instagram Typing Indicator Service (MỚI)
 - **File**: `app/services/instagram/typing_indicator_service.rb`

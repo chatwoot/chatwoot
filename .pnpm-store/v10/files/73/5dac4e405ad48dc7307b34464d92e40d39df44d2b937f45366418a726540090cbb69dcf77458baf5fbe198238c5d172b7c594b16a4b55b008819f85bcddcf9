@@ -1,0 +1,22 @@
+{
+  "name": "@rollup/rollup-linux-powerpc64le-gnu",
+  "version": "4.40.2",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "ppc64"
+  ],
+  "files": [
+    "rollup.linux-powerpc64le-gnu.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": "rollup/rollup",
+  "libc": [
+    "glibc"
+  ],
+  "main": "./rollup.linux-powerpc64le-gnu.node"
+}

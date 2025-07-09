@@ -1,0 +1,242 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<title>VideoJS</title>
+	<link href="css/videojs-icons.css" rel="stylesheet">
+
+  <style>
+    body {
+      text-align: center;
+    }
+
+    header {
+      /*text-align: center;*/
+    }
+
+    .preview {
+      display: inline-block;
+      border: 1px solid #ccc;
+      text-align: center;
+      width: 150px;
+      margin: 10px;
+      padding: 10px;
+    }
+
+    .preview-icon {
+      width: 100%;
+      font-size: 200%;
+    }
+  </style>
+</head>
+<body>
+  <header>
+	   <h1>VideoJS Icons</h1>
+     <p>All icons prefixed by <code>vjs-icon-</code></p>
+   </header>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-play"></span>
+		</div>
+		<span>play</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-play-circle"></span>
+		</div>
+		<span>play-circle</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-pause"></span>
+		</div>
+		<span>pause</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-volume-mute"></span>
+		</div>
+		<span>volume-mute</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-volume-low"></span>
+		</div>
+		<span>volume-low</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-volume-mid"></span>
+		</div>
+		<span>volume-mid</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-volume-high"></span>
+		</div>
+		<span>volume-high</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-fullscreen-enter"></span>
+		</div>
+		<span>fullscreen-enter</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-fullscreen-exit"></span>
+		</div>
+		<span>fullscreen-exit</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-square"></span>
+		</div>
+		<span>square</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-spinner"></span>
+		</div>
+		<span>spinner</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-subtitles"></span>
+		</div>
+		<span>subtitles</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-captions"></span>
+		</div>
+		<span>captions</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-chapters"></span>
+		</div>
+		<span>chapters</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-share"></span>
+		</div>
+		<span>share</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-cog"></span>
+		</div>
+		<span>cog</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-circle"></span>
+		</div>
+		<span>circle</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-circle-outline"></span>
+		</div>
+		<span>circle-outline</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-circle-inner-circle"></span>
+		</div>
+		<span>circle-inner-circle</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-hd"></span>
+		</div>
+		<span>hd</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-cancel"></span>
+		</div>
+		<span>cancel</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-replay"></span>
+		</div>
+		<span>replay</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-facebook"></span>
+		</div>
+		<span>facebook</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-gplus"></span>
+		</div>
+		<span>gplus</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-linkedin"></span>
+		</div>
+		<span>linkedin</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-twitter"></span>
+		</div>
+		<span>twitter</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-tumblr"></span>
+		</div>
+		<span>tumblr</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-pinterest"></span>
+		</div>
+		<span>pinterest</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-audio-description"></span>
+		</div>
+		<span>audio-description</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-audio"></span>
+		</div>
+		<span>audio</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-next-item"></span>
+		</div>
+		<span>next-item</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-previous-item"></span>
+		</div>
+		<span>previous-item</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-picture-in-picture-enter"></span>
+		</div>
+		<span>picture-in-picture-enter</span>
+	</div>
+	<div class="preview">
+		<div class="preview-icon">
+			<span class="vjs-icon-picture-in-picture-exit"></span>
+		</div>
+		<span>picture-in-picture-exit</span>
+	</div>
+</body>
+</html>

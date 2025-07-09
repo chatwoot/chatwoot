@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --iris-a1: #0000ff02;
+  --iris-a2: #0000ff07;
+  --iris-a3: #0011ee0f;
+  --iris-a4: #000bff19;
+  --iris-a5: #000eff25;
+  --iris-a6: #000aff34;
+  --iris-a7: #0008e647;
+  --iris-a8: #0008d964;
+  --iris-a9: #0000c0a4;
+  --iris-a10: #0000b6ae;
+  --iris-a11: #0600abac;
+  --iris-a12: #000246d8;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --iris-a1: color(display-p3 0.02 0.02 1 / 0.008);
+      --iris-a2: color(display-p3 0.024 0.024 0.863 / 0.028);
+      --iris-a3: color(display-p3 0.004 0.071 0.871 / 0.059);
+      --iris-a4: color(display-p3 0.012 0.051 1 / 0.099);
+      --iris-a5: color(display-p3 0.008 0.035 1 / 0.142);
+      --iris-a6: color(display-p3 0 0.02 0.941 / 0.2);
+      --iris-a7: color(display-p3 0.004 0.02 0.847 / 0.279);
+      --iris-a8: color(display-p3 0.004 0.024 0.788 / 0.389);
+      --iris-a9: color(display-p3 0 0 0.706 / 0.644);
+      --iris-a10: color(display-p3 0 0 0.667 / 0.683);
+      --iris-a11: color(display-p3 0.337 0.326 0.748);
+      --iris-a12: color(display-p3 0.154 0.161 0.371);
+    }
+  }
+}

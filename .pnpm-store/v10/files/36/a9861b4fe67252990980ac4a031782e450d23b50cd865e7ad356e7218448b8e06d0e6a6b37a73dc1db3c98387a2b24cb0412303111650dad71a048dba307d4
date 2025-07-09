@@ -1,0 +1,18 @@
+export interface AppliedSla {
+  id: number;
+  name: string;
+  description: string;
+  sla_first_response_time_threshold: number;
+  sla_next_response_time_threshold: number;
+  sla_resolution_time_threshold: number;
+  only_during_business_hours: boolean;
+  created_at: number;
+}
+
+export interface SLAStatus {
+  condition: boolean;
+  threshold: number;
+  type: string;
+  icon: string;
+  isSlaMissed: boolean;
+}

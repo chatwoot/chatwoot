@@ -118,6 +118,9 @@ class Instagram::ReferralProcessorService
       # Gửi conversion event nếu được cấu hình
       schedule_conversion_event(instagram_tracking) if should_send_conversion_event?
 
+      # Schedule job để cập nhật thông tin chi tiết từ Facebook API
+      schedule_ads_info_update(instagram_tracking)
+
       instagram_tracking
     rescue StandardError => e
       Rails.logger.error("Error saving Instagram ads tracking data: #{e.message}")
@@ -139,5 +142,11 @@ class Instagram::ReferralProcessorService
   def schedule_conversion_event(tracking)
     # Schedule job để gửi conversion event
     Facebook::SendConversionEventJob.perform_later(tracking.id)
+  end
+
+  def schedule_ads_info_update(tracking)
+    # Schedule job để cập nhật thông tin chi tiết từ Facebook API sau 30 giây
+    # Delay để đảm bảo Facebook API đã có dữ liệu mới nhất
+    Facebook::UpdateAdsInfoJob.set(wait: 30.seconds).perform_later(tracking.id)
   end
 end

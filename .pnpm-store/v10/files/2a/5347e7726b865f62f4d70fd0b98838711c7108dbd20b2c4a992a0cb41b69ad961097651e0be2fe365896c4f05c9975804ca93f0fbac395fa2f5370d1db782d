@@ -1,0 +1,2 @@
+export default function(r){var o,e,t,f,n,a=[],c=[e=1732584193,t=4023233417,~e,~t,3285377520],u=[],d=unescape(encodeURI(r))+"",g=d.length;for(u[r=--g/4+2|15]=8*g;~g;)u[g>>2]|=d.charCodeAt(g)<<8*~g--;for(o=g=0;o<r;o+=16){for(e=c;g<80;e=[e[4]+(a[g]=g<16?~~u[o+g]:2*d|d<0)+1518500249+[t&f|~t&n,d=341275144+(t^f^n),882459459+(t&f|t&n|f&n),d+1535694389][g++/5>>2]+((d=e[0])<<5|d>>>27),d,t<<30|t>>>2,f,n])d=a[g-3]^a[g-8]^a[g-14]^a[g-16],t=e[1],f=e[2],n=e[3];for(g=5;g;)c[--g]+=e[g]}for(d="";g<40;)d+=(c[g>>3]>>4*(7-g++)&15).toString(16);return d}
+//# sourceMappingURL=index.mjs.map

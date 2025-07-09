@@ -93,7 +93,7 @@ RUN git rev-parse HEAD > /app/.git_sha 2>/dev/null || echo "unknown" > /app/.git
 RUN rm -rf /gems/ruby/3.4.0/cache/*.gem \
   && find /gems/ruby/3.4.0/gems/ \( -name "*.c" -o -name "*.o" \) -delete \
   && rm -rf .git \
-  && rm .gitignore
+  && [ -f .gitignore ] && rm .gitignore || true
 
 # final build stage
 FROM ruby:3.4.4-alpine3.21

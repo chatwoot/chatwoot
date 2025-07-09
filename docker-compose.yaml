@@ -1,7 +1,7 @@
 version: '3'
 
 services:
-  base: &base
+  base:
     build:
       context: .
       dockerfile: ./docker/Dockerfile
@@ -15,12 +15,16 @@ services:
     image: chatwoot:development
     env_file: .env
 
+  base_config: &base_config
+    image: chatwoot:development
+    tty: true
+    stdin_open: true
+    env_file: .env
+
   rails:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/rails.Dockerfile
-    image: chatwoot-rails:development
+    <<: *base_config
+    image: chatwoot:development
+    pull_policy: never
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -28,13 +32,13 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
+      - base
       - postgres
       - redis
       - vite
       - mailhog
-      - sidekiq
     ports:
-      - 3000:3000
+      - 3453:3000
     env_file: .env
     environment:
       - VITE_DEV_SERVER_HOST=vite
@@ -44,8 +48,9 @@ services:
     command: ["bundle", "exec", "rails", "s", "-p", "3000", "-b", "0.0.0.0"]
 
   sidekiq:
-    <<: *base
-    image: chatwoot-rails:development
+    <<: *base_config
+    image: chatwoot:development
+    pull_policy: never
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -53,6 +58,7 @@ services:
       - cache:/app/tmp/cache
       - bundle:/usr/local/bundle
     depends_on:
+      - base
       - postgres
       - redis
       - mailhog
@@ -62,11 +68,11 @@ services:
     command: ["bundle", "exec", "sidekiq", "-C", "config/sidekiq.yml"]
 
   vite:
-    <<: *base
-    build:
-      context: .
-      dockerfile: ./docker/dockerfiles/vite.Dockerfile
-    image: chatwoot-vite:development
+    <<: *base_config
+    image: chatwoot:development
+    pull_policy: never
+    depends_on:
+      - base
     volumes:
       - ./:/app:delegated
       - node_modules:/app/node_modules
@@ -86,7 +92,7 @@ services:
     image: pgvector/pgvector:pg16
     restart: always
     ports:
-      - '5432:5432'
+      - '5732:5432'
     volumes:
       - postgres:/data/postgres
     environment:
@@ -102,7 +108,7 @@ services:
     volumes:
       - redis:/data/redis
     ports:
-      - '6379:6379'
+      - '6449:6379'
 
   mailhog:
     image: mailhog/mailhog

@@ -1,0 +1,63 @@
+{
+  "$schema": "https://raw.githubusercontent.com/martinring/tmlanguage/master/tmlanguage.json",
+  "name": "mdx",
+  "patterns": [
+    {
+      "include": "#jsx"
+    },
+    {
+      "include": "#markdown"
+    }
+  ],
+  "repository": {
+    "jsx": {
+      "patterns": [
+        {
+          "include": "#jsx-module"
+        },
+        {
+          "include": "#jsx-tag"
+        }
+      ],
+      "repository": {
+        "jsx-module": {
+          "patterns": [
+            {
+              "begin": "^(?=(import|export)\\b)",
+              "while": "^(?!\\s*$)",
+              "contentName": "source.js.jsx",
+              "patterns": [
+                {
+                  "include": "source.js.jsx"
+                }
+              ]
+            }
+          ]
+        },
+        "jsx-tag": {
+          "patterns": [
+            {
+              "begin": "^(?=<([a-z]|[A-Z]))",
+              "end": "(?<=>)",
+              "contentName": "source.js.jsx",
+              "patterns": [
+                {
+                  "include": "source.js.jsx"
+                }
+              ]
+            }
+          ]
+        }
+      }
+    },
+    "markdown": {
+      "contentName": "text.html.markdown",
+      "patterns": [
+        {
+          "include": "text.html.markdown"
+        }
+      ]
+    }
+  },
+  "scopeName": "text.html.markdown.jsx"
+}

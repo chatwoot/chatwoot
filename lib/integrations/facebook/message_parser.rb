@@ -119,21 +119,68 @@ class Integrations::Facebook::MessageParser
 
   # Lấy campaign_id từ referral data (Facebook API v22+ có thể cung cấp trực tiếp)
   def referral_campaign_id
-    @messaging.dig('referral', 'campaign_id') ||
-    @messaging.dig('referral', 'ads_context_data', 'campaign_id')
+    # Thử lấy từ nhiều vị trí khác nhau trong payload
+    campaign_id = @messaging.dig('referral', 'campaign_id') ||
+                  @messaging.dig('referral', 'ads_context_data', 'campaign_id') ||
+                  extract_utm_parameter('utm_campaign') ||
+                  extract_fbclid_parameter('campaign_id')
+
+    Rails.logger.info("Extracted campaign_id: #{campaign_id}") if campaign_id
+    campaign_id
   end
 
   # Lấy adset_id từ referral data (Facebook API v22+ có thể cung cấp trực tiếp)
   def referral_adset_id
-    @messaging.dig('referral', 'adset_id') ||
-    @messaging.dig('referral', 'ads_context_data', 'adset_id')
+    # Thử lấy từ nhiều vị trí khác nhau trong payload
+    adset_id = @messaging.dig('referral', 'adset_id') ||
+               @messaging.dig('referral', 'ads_context_data', 'adset_id') ||
+               extract_utm_parameter('utm_adset') ||
+               extract_fbclid_parameter('adset_id')
+
+    Rails.logger.info("Extracted adset_id: #{adset_id}") if adset_id
+    adset_id
   end
 
   # Lấy toàn bộ referral data để lưu trữ
   def referral_data
     return nil unless referral?
 
-    @messaging['referral']
+    # Bao gồm cả messaging data để có thể extract thêm thông tin sau này
+    {
+      'referral' => @messaging['referral'],
+      'messaging_timestamp' => @messaging['timestamp'],
+      'sender_id' => @messaging.dig('sender', 'id'),
+      'recipient_id' => @messaging.dig('recipient', 'id')
+    }
+  end
+
+  private
+
+  # Extract UTM parameters from referral ref
+  def extract_utm_parameter(param_name)
+    ref = referral_ref
+    return nil unless ref.present?
+
+    # Parse UTM parameters from ref string
+    uri = URI.parse("http://example.com?#{ref}") rescue nil
+    return nil unless uri
+
+    params = URI.decode_www_form(uri.query || '').to_h
+    params[param_name]
+  end
+
+  # Extract parameters from fbclid or similar tracking parameters
+  def extract_fbclid_parameter(param_name)
+    ref = referral_ref
+    return nil unless ref.present?
+
+    # Look for specific parameter patterns in ref
+    case param_name
+    when 'campaign_id'
+      ref.match(/campaign[_\-]?id[=:]([^&]+)/i)&.captures&.first
+    when 'adset_id'
+      ref.match(/adset[_\-]?id[=:]([^&]+)/i)&.captures&.first
+    end
   end
 end
 

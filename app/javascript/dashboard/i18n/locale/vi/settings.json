@@ -22,16 +22,16 @@
       },
       "SEND_MESSAGE": {
         "TITLE": "Phím nóng để gửi tin nhắn",
-        "NOTE": "Bạn có thể chọn một phím nóng (Enter hoặc Cmd/Ctrl+Enter) dựa trên sở thích viết của bạn.",
+        "NOTE": "Bạn có thể chọn một phím nóng (Enter hoặc Cmd/Ctrl+Enter) dựa trên sở thích viết của bạn. Mặc định là Enter để gửi tin nhắn nhanh chóng.",
         "UPDATE_SUCCESS": "Cài đặt của bạn đã được cập nhật thành công",
         "CARD": {
           "ENTER_KEY": {
-            "HEADING": "Enter (↵)",
-            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Enter thay vì nhấp vào nút gửi."
+            "HEADING": "Enter (↵) - Mặc định",
+            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Enter thay vì nhấp vào nút gửi. Phù hợp cho gửi tin nhắn nhanh."
           },
           "CMD_ENTER_KEY": {
             "HEADING": "Cmd/Ctrl + Enter (⌘ + ↵)",
-            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Cmd/Ctrl + enter thay vì nhấp vào nút gửi."
+            "CONTENT": "Gửi tin nhắn bằng cách nhấn phím Cmd/Ctrl + enter thay vì nhấp vào nút gửi. Phù hợp cho soạn tin nhắn dài."
           }
         }
       },

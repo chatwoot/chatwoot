@@ -272,6 +272,9 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
       # Gửi conversion event nếu được cấu hình
       schedule_conversion_event(facebook_tracking) if should_send_conversion_event?
 
+      # Schedule job để cập nhật thông tin chi tiết từ Facebook API
+      schedule_ads_info_update(facebook_tracking)
+
     rescue StandardError => e
       Rails.logger.error("Error saving Facebook ads tracking data: #{e.message}")
       ChatwootExceptionTracker.new(e, account: @inbox.account).capture_exception
@@ -287,6 +290,12 @@ class Messages::Facebook::MessageBuilder < Messages::Messenger::MessageBuilder
   # Lên lịch gửi conversion event
   def schedule_conversion_event(facebook_tracking)
     Facebook::SendConversionEventJob.perform_later(facebook_tracking.id)
+  end
+
+  def schedule_ads_info_update(facebook_tracking)
+    # Schedule job để cập nhật thông tin chi tiết từ Facebook API sau 30 giây
+    # Delay để đảm bảo Facebook API đã có dữ liệu mới nhất
+    Facebook::UpdateAdsInfoJob.set(wait: 30.seconds).perform_later(facebook_tracking.id)
   end
 
   # rubocop:enable Metrics/AbcSize

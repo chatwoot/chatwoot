@@ -1,0 +1,22 @@
+/* Camera Button (snapshot try/retry)
+--------------------------------------------------------------------------------
+*/
+.vjs-record .vjs-camera-button.vjs-control
+{
+    cursor: pointer;
+}
+
+.vjs-record .vjs-error .vjs-camera-button
+{
+    display: none;
+}
+
+.vjs-record .vjs-camera-button.vjs-control.vjs-icon-photo-camera:before {
+    font-size: 2.0em;
+    line-height: 1.4em;
+}
+
+.vjs-record .vjs-camera-button.vjs-control.vjs-icon-replay:before {
+    font-size: 2.2em;
+    line-height: 1.4em;
+}

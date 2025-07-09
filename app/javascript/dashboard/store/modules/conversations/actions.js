@@ -276,14 +276,23 @@ const actions = {
       const response = hasMessageFailedWithExternalError(pendingMessage)
         ? await MessageApi.retry(conversationId, id)
         : await MessageApi.create(pendingMessage);
-      commit(types.ADD_MESSAGE, {
+
+      // Replace the pending message with the actual response data
+      const actualMessage = {
         ...response.data,
         status: MESSAGE_STATUS.SENT,
-      });
-      commit(types.ADD_CONVERSATION_ATTACHMENTS, {
-        ...response.data,
-        status: MESSAGE_STATUS.SENT,
-      });
+      };
+
+      // Update attachments with proper data_url from server
+      if (actualMessage.attachments && actualMessage.attachments.length > 0) {
+        actualMessage.attachments = actualMessage.attachments.map(attachment => ({
+          ...attachment,
+          status: 'sent' // Mark attachment as successfully sent
+        }));
+      }
+
+      commit(types.ADD_MESSAGE, actualMessage);
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, actualMessage);
     } catch (error) {
       const errorMessage = error.response
         ? error.response.data.error
@@ -312,6 +321,11 @@ const actions = {
 
   updateMessage({ commit }, message) {
     commit(types.ADD_MESSAGE, message);
+
+    // Đảm bảo attachments được cập nhật khi message được update
+    if (message.attachments && message.attachments.length > 0) {
+      commit(types.ADD_CONVERSATION_ATTACHMENTS, message);
+    }
   },
 
   deleteMessage: async function deleteLabels(

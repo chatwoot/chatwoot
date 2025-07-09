@@ -1,0 +1,39 @@
+{
+  "name": "prosemirror-state",
+  "version": "1.4.3",
+  "description": "ProseMirror editor state",
+  "type": "module",
+  "main": "dist/index.cjs",
+  "module": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    "import": "./dist/index.js",
+    "require": "./dist/index.cjs"
+  },
+  "sideEffects": false,
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "Marijn Haverbeke",
+      "email": "marijn@haverbeke.berlin",
+      "web": "http://marijnhaverbeke.nl"
+    }
+  ],
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/prosemirror/prosemirror-state.git"
+  },
+  "dependencies": {
+    "prosemirror-model": "^1.0.0",
+    "prosemirror-transform": "^1.0.0",
+    "prosemirror-view": "^1.27.0"
+  },
+  "devDependencies": {
+    "@prosemirror/buildhelper": "^0.1.5",
+    "prosemirror-test-builder": "^1.0.0"
+  },
+  "scripts": {
+    "test": "pm-runtests",
+    "prepare": "pm-buildhelper src/index.ts"
+  }
+}

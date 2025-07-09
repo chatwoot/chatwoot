@@ -600,8 +600,8 @@
         }
       },
       "ACTION_BUTTONS": {
-        "DISCARD": "Discard",
-        "SEND": "Send ({keyCode})"
+        "DISCARD": "Hủy bỏ",
+        "SEND": "Gửi ({keyCode})"
       }
     }
   }

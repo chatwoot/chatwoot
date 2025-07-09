@@ -1,0 +1,18 @@
+
+{{alias}}
+    Platform float word order.
+
+    Possible values:
+
+    - 'little-endian'
+    - 'big-endian'
+    - 'unknown'
+
+    Examples
+    --------
+    > {{alias}}
+    <string>
+
+    See Also
+    --------
+

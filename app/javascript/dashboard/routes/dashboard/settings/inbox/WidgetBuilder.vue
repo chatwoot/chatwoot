@@ -3,19 +3,20 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import Widget from 'dashboard/modules/widget-preview/components/Widget.vue';
 import InputRadioGroup from './components/InputRadioGroup.vue';
-import TypingTextsManager from 'dashboard/components/widgets/TypingTextsManager.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import { LOCAL_STORAGE_KEYS } from 'dashboard/constants/localStorage';
 import { LocalStorage } from 'shared/helpers/localStorage';
+import { WIDGET_BUILDER_EDITOR_MENU_OPTIONS } from 'dashboard/constants/editor';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import Editor from 'dashboard/components-next/Editor/Editor.vue';
 
 export default {
   components: {
     Widget,
     InputRadioGroup,
-    TypingTextsManager,
     NextButton,
+    Editor,
   },
   props: {
     inbox: {
@@ -37,33 +38,43 @@ export default {
       avatarFile: null,
       avatarUrl: '',
       widgetBubblePosition: 'right',
-      widgetBubbleLauncherTitle: 'Chat with us',
+      widgetBubbleLauncherTitle: this.$t(
+        'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_LAUNCHER_TITLE.DEFAULT'
+      ),
       widgetBubbleType: 'standard',
-      typingTexts: [],
       widgetBubblePositions: [
         {
           id: 'left',
-          title: 'Left',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.LEFT'
+          ),
           checked: false,
         },
         {
           id: 'right',
-          title: 'Right',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.RIGHT'
+          ),
           checked: true,
         },
       ],
       widgetBubbleTypes: [
         {
           id: 'standard',
-          title: 'Standard',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE.STANDARD'
+          ),
           checked: true,
         },
         {
           id: 'expanded_bubble',
-          title: 'Expanded Bubble',
+          title: this.$t(
+            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE.EXPANDED_BUBBLE'
+          ),
           checked: false,
         },
       ],
+      welcomeTaglineEditorMenuOptions: WIDGET_BUILDER_EDITOR_MENU_OPTIONS,
     };
   },
   computed: {
@@ -71,49 +82,9 @@ export default {
       uiFlags: 'inboxes/getUIFlags',
     }),
     storageKey() {
-      return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox?.id || 'default'}`;
-    },
-    localizedWidgetBubblePositions() {
-      return [
-        {
-          id: 'left',
-          title: this.$t(
-            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.LEFT'
-          ),
-          checked: this.widgetBubblePosition === 'left',
-        },
-        {
-          id: 'right',
-          title: this.$t(
-            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION.RIGHT'
-          ),
-          checked: this.widgetBubblePosition === 'right',
-        },
-      ];
-    },
-    localizedWidgetBubbleTypes() {
-      return [
-        {
-          id: 'standard',
-          title: this.$t(
-            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE.STANDARD'
-          ),
-          checked: this.widgetBubbleType === 'standard',
-        },
-        {
-          id: 'expanded_bubble',
-          title: this.$t(
-            'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE.EXPANDED_BUBBLE'
-          ),
-          checked: this.widgetBubbleType === 'expanded_bubble',
-        },
-      ];
+      return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
     widgetScript() {
-      if (!this.inbox?.web_widget_script || this.inbox.channel_type !== 'Channel::WebWidget') {
-        return '';
-      }
-
       let options = {
         position: this.widgetBubblePosition,
         type: this.widgetBubbleType,
@@ -180,29 +151,11 @@ export default {
   mounted() {
     this.setDefaults();
   },
-  watch: {
-    inbox: {
-      handler() {
-        this.setDefaults();
-      },
-      deep: true,
-    },
-  },
   validations: {
     websiteName: { required },
   },
   methods: {
     setDefaults() {
-      // Kiểm tra inbox có tồn tại không
-      if (!this.inbox || !this.inbox.id) {
-        return;
-      }
-
-      // Kiểm tra xem có phải web widget không
-      if (!this.inbox.channel_type || this.inbox.channel_type !== 'Channel::WebWidget') {
-        return;
-      }
-
       // Widget Settings
       const {
         name,
@@ -211,20 +164,30 @@ export default {
         widget_color,
         reply_time,
         avatar_url,
-        typing_texts,
       } = this.inbox;
-      this.websiteName = name || '';
-      this.welcomeHeading = welcome_title || '';
-      this.welcomeTagline = welcome_tagline || '';
-      this.color = widget_color || '#1f93ff';
-      this.replyTime = reply_time || 'in_a_few_minutes';
-      this.avatarUrl = avatar_url || '';
-      this.typingTexts = typing_texts || [];
+      this.websiteName = name;
+      this.welcomeHeading = welcome_title;
+      this.welcomeTagline = welcome_tagline;
+      this.color = widget_color;
+      this.replyTime = reply_time;
+      this.avatarUrl = avatar_url;
 
       const savedInformation = this.getSavedInboxInformation();
       if (savedInformation) {
-        this.widgetBubblePosition = savedInformation.position || 'right';
-        this.widgetBubbleType = savedInformation.type || 'standard';
+        this.widgetBubblePositions = this.widgetBubblePositions.map(item => {
+          if (item.id === savedInformation.position) {
+            item.checked = true;
+            this.widgetBubblePosition = item.id;
+          }
+          return item;
+        });
+        this.widgetBubbleTypes = this.widgetBubbleTypes.map(item => {
+          if (item.id === savedInformation.type) {
+            item.checked = true;
+            this.widgetBubbleType = item.id;
+          }
+          return item;
+        });
         this.widgetBubbleLauncherTitle =
           savedInformation.launcherTitle || 'Chat with us';
       }
@@ -243,11 +206,6 @@ export default {
       this.avatarUrl = url;
     },
     async handleAvatarDelete() {
-      if (!this.inbox?.id) {
-        useAlert('Inbox not found');
-        return;
-      }
-
       try {
         await this.$store.dispatch('inboxes/deleteInboxAvatar', this.inbox.id);
         this.avatarFile = null;
@@ -268,17 +226,6 @@ export default {
       }
     },
     async updateWidget() {
-      if (!this.inbox?.id) {
-        useAlert('Inbox not found');
-        return;
-      }
-
-      // Kiểm tra xem có phải web widget không
-      if (!this.inbox.channel_type || this.inbox.channel_type !== 'Channel::WebWidget') {
-        useAlert('This feature is only available for web widgets');
-        return;
-      }
-
       const bubbleSettings = {
         position: this.widgetBubblePosition,
         launcherTitle: this.widgetBubbleLauncherTitle,
@@ -296,7 +243,6 @@ export default {
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
-            typing_texts: this.typingTexts,
           },
         };
         if (this.avatarFile) {
@@ -368,7 +314,7 @@ export default {
                 )
               "
             />
-            <woot-input
+            <Editor
               v-model="welcomeTagline"
               :label="
                 $t(
@@ -380,6 +326,9 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
                 )
               "
+              :max-length="255"
+              :enabled-menu-options="welcomeTaglineEditorMenuOptions"
+              class="mb-4"
             />
             <label>
               {{
@@ -410,7 +359,7 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_POSITION_LABEL'
                 )
               "
-              :items="localizedWidgetBubblePositions"
+              :items="widgetBubblePositions"
               :action="handleWidgetBubblePositionChange"
             />
             <InputRadioGroup
@@ -420,7 +369,7 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WIDGET_BUBBLE_TYPE_LABEL'
                 )
               "
-              :items="localizedWidgetBubbleTypes"
+              :items="widgetBubbleTypes"
               :action="handleWidgetBubbleTypeChange"
             />
             <woot-input
@@ -436,18 +385,6 @@ export default {
                 )
               "
             />
-
-            <!-- Typing Texts Manager -->
-            <div class="mt-6">
-              <TypingTextsManager
-                v-model="typingTexts"
-                :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.TYPING_TEXTS.LABEL')"
-                :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.TYPING_TEXTS.PLACEHOLDER')"
-              />
-              <p class="text-xs text-n-slate-11 mt-2">
-                {{ $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.TYPING_TEXTS.HELP_TEXT') }}
-              </p>
-            </div>
             <NextButton
               type="submit"
               class="mt-4"
@@ -471,7 +408,7 @@ export default {
         />
         <div
           v-if="isWidgetPreview"
-          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-slate-50 dark:bg-slate-900/50 rounded-lg"
+          class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-n-slate-3 rounded-lg"
         >
           <Widget
             :welcome-heading="welcomeHeading"

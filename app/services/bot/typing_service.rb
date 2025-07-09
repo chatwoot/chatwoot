@@ -55,9 +55,8 @@ class Bot::TypingService
   def enable_facebook_typing
     return false if @contact.blank? || @contact.get_source_id(@inbox.id).blank?
 
-    # Sử dụng phương thức mark_seen_and_typing để đảm bảo typing hoạt động trên di động
     typing_service = Facebook::TypingIndicatorService.new(@inbox.channel, @contact.get_source_id(@inbox.id))
-    typing_service.mark_seen_and_typing
+    typing_service.enable
   rescue => e
     Rails.logger.error "Bot::TypingService: Error enabling Facebook typing indicator: #{e.message}"
     false

@@ -1,0 +1,30 @@
+
+{{alias}}( x )
+    Computes the absolute value of a double-precision floating-point number `x`.
+
+    Parameters
+    ----------
+    x: number
+        Input value.
+
+    Returns
+    -------
+    y: number
+        Absolute value.
+
+    Examples
+    --------
+    > var y = {{alias}}( -1.0 )
+    1.0
+    > y = {{alias}}( 2.0 )
+    2.0
+    > y = {{alias}}( 0.0 )
+    0.0
+    > y = {{alias}}( -0.0 )
+    0.0
+    > y = {{alias}}( NaN )
+    NaN
+
+    See Also
+    --------
+
