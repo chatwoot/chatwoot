@@ -183,13 +183,17 @@ const handleCardSelect = id => {
 };
 
 const fetchResponseAfterBulkAction = () => {
-  // Only fetch if no records left
-  if (filteredResponses.value?.length === 0) {
-    const page =
-      responseMeta.value?.page > 1
-        ? responseMeta.value.page - 1
-        : responseMeta.value.page;
-    fetchResponses(page);
+  const hasNoResponsesLeft = filteredResponses.value?.length === 0;
+  const currentPage = responseMeta.value?.page;
+
+  if (hasNoResponsesLeft) {
+    // Page is now empty after bulk action.
+    // Fetch the previous page if not already on the first page.
+    const pageToFetch = currentPage > 1 ? currentPage - 1 : currentPage;
+    fetchResponses(pageToFetch);
+  } else {
+    // Page still has responses left, re-fetch the same page.
+    fetchResponses(currentPage);
   }
 
   // Clear selection
