@@ -3,7 +3,7 @@ FactoryBot.define do
     sequence(:title) { |n| "Scenario #{n}" }
     description { 'Test scenario description' }
     instruction { 'Test scenario instruction for the assistant to follow' }
-    tools { nil }
+    tools { [] }
     enabled { true }
     association :assistant, factory: :captain_assistant
     association :account
