@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "Canvia la prioritat",
-      "ADD_SLA": "Afegeix SLA"
+      "ADD_SLA": "Afegeix SLA",
+      "OPEN_CONVERSATION": "Obrir conversa"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",

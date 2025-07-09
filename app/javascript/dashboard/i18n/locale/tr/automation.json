@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "Ek Gönder",
       "SEND_MESSAGE": "Mesaj Gönder",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
-      "ADD_SLA": "Add SLA"
+      "ADD_SLA": "Add SLA",
+      "OPEN_CONVERSATION": "Görüşmeyi aç"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",

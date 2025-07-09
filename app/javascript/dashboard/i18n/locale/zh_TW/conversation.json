@@ -96,6 +96,10 @@
         "NEXT_WEEK": "下週"
       }
     },
+    "MENTION": {
+      "AGENTS": "客服",
+      "TEAMS": "團隊"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Snooze until",
       "APPLY": "Snooze",
