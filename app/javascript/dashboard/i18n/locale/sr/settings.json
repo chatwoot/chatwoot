@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token za pristup",
         "NOTE": "Ovaj token se može koristiti ako izgrađujete integraciju zasnovanu na API-ju",
-        "COPY": "Kopiraj"
+        "COPY": "Kopiraj",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "Nedostupan"
         },
         "SET_AVAILABILITY_SUCCESS": "Availability has been set successfully",
-        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again"
+        "SET_AVAILABILITY_ERROR": "Couldn't set availability, please try again",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "Vaša adresa e-pošte",
@@ -280,6 +286,7 @@
     "REPORTS": "Izveštaji",
     "SETTINGS": "Podešavanja",
     "CONTACTS": "Kontakti",
+    "ACTIVE": "Aktivno",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

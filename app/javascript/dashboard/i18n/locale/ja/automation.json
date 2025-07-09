@@ -147,7 +147,8 @@
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
       "CHANGE_PRIORITY": "優先度を変更",
-      "ADD_SLA": "SLAを追加"
+      "ADD_SLA": "SLAを追加",
+      "OPEN_CONVERSATION": "会話を開く"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
