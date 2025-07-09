@@ -309,7 +309,7 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_09_075622) do
     t.string "title"
     t.text "description"
     t.text "instruction"
-    t.jsonb "tools"
+    t.jsonb "tools", default: []
     t.boolean "enabled", default: true, null: false
     t.bigint "assistant_id", null: false
     t.bigint "account_id", null: false
