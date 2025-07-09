@@ -182,6 +182,20 @@ const handleCardSelect = id => {
   bulkSelectedIds.value = selected;
 };
 
+const fetchResponseAfterBulkAction = () => {
+  // Only fetch if no records left
+  if (filteredResponses.value?.length === 0) {
+    const page =
+      responseMeta.value?.page > 1
+        ? responseMeta.value.page - 1
+        : responseMeta.value.page;
+    fetchResponses(page);
+  }
+
+  // Clear selection
+  bulkSelectedIds.value = new Set();
+};
+
 const handleBulkApprove = async () => {
   try {
     await store.dispatch(
@@ -189,8 +203,7 @@ const handleBulkApprove = async () => {
       Array.from(bulkSelectedIds.value)
     );
 
-    // Clear selection
-    bulkSelectedIds.value = new Set();
+    fetchResponseAfterBulkAction();
     useAlert(t('CAPTAIN.RESPONSES.BULK_APPROVE.SUCCESS_MESSAGE'));
   } catch (error) {
     useAlert(
@@ -219,17 +232,7 @@ const onDeleteSuccess = () => {
 };
 
 const onBulkDeleteSuccess = () => {
-  // Only fetch if no records left
-  if (filteredResponses.value?.length === 0) {
-    const page =
-      responseMeta.value?.page > 1
-        ? responseMeta.value.page - 1
-        : responseMeta.value.page;
-    fetchResponses(page);
-  }
-
-  // Clear selection
-  bulkSelectedIds.value = new Set();
+  fetchResponseAfterBulkAction();
 };
 
 const handleStatusFilterChange = ({ value }) => {
