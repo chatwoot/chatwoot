@@ -16,10 +16,31 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getCampaigns: _state => campaignType => {
-    return _state.records
-      .filter(record => record.campaign_type === campaignType)
-      .sort((a1, a2) => a1.id - a2.id);
+  getCampaigns:
+    _state =>
+    (campaignType, inboxChannelTypes = null) => {
+      let filteredRecords = _state.records.filter(
+        record => record.campaign_type === campaignType
+      );
+
+      if (inboxChannelTypes && Array.isArray(inboxChannelTypes)) {
+        filteredRecords = filteredRecords.filter(record => {
+          return (
+            record.inbox &&
+            inboxChannelTypes.includes(record.inbox.channel_type)
+          );
+        });
+      }
+
+      return filteredRecords.sort((a1, a2) => a1.id - a2.id);
+    },
+  getSMSCampaigns: (_state, _getters) => {
+    const smsChannelTypes = ['Channel::Sms', 'Channel::TwilioSms'];
+    return _getters.getCampaigns('one_off', smsChannelTypes);
+  },
+  getWhatsAppCampaigns: (_state, _getters) => {
+    const whatsappChannelTypes = ['Channel::Whatsapp'];
+    return _getters.getCampaigns('one_off', whatsappChannelTypes);
   },
   getAllCampaigns: _state => {
     return _state.records;
