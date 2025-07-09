@@ -55,6 +55,12 @@ const statusOptions = computed(() =>
   }))
 );
 
+const filteredResponses = computed(() => {
+  return selectedStatus.value === 'pending'
+    ? responses.value.filter(r => r.status === 'pending')
+    : responses.value;
+});
+
 const selectedStatusLabel = computed(() => {
   const status = statusOptions.value.find(
     option => option.value === selectedStatus.value
@@ -94,7 +100,9 @@ const handleEdit = () => {
 };
 
 const handleAction = ({ action, id }) => {
-  selectedResponse.value = responses.value.find(response => id === response.id);
+  selectedResponse.value = filteredResponses.value.find(
+    response => id === response.id
+  );
   nextTick(() => {
     if (action === 'delete') {
       handleDelete();
@@ -139,7 +147,7 @@ const hoveredCard = ref(null);
 
 const bulkSelectionState = computed(() => {
   const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = responses.value?.length || 0;
+  const totalCount = filteredResponses.value?.length || 0;
 
   return {
     hasSelected: selectedCount > 0,
@@ -152,13 +160,13 @@ const bulkCheckbox = computed({
   get: () => bulkSelectionState.value.allSelected,
   set: value => {
     bulkSelectedIds.value = value
-      ? new Set(responses.value.map(r => r.id))
+      ? new Set(filteredResponses.value.map(r => r.id))
       : new Set();
   },
 });
 
 const buildSelectedCountLabel = computed(() => {
-  const count = responses.value?.length || 0;
+  const count = filteredResponses.value?.length || 0;
   return bulkSelectionState.value.allSelected
     ? t('CAPTAIN.RESPONSES.UNSELECT_ALL', { count })
     : t('CAPTAIN.RESPONSES.SELECT_ALL', { count });
@@ -205,14 +213,14 @@ const onPageChange = page => {
 };
 
 const onDeleteSuccess = () => {
-  if (responses.value?.length === 0 && responseMeta.value?.page > 1) {
+  if (filteredResponses.value?.length === 0 && responseMeta.value?.page > 1) {
     onPageChange(responseMeta.value.page - 1);
   }
 };
 
 const onBulkDeleteSuccess = () => {
   // Only fetch if no records left
-  if (responses.value?.length === 0) {
+  if (filteredResponses.value?.length === 0) {
     const page =
       responseMeta.value?.page > 1
         ? responseMeta.value.page - 1
@@ -249,8 +257,8 @@ onMounted(() => {
     :header-title="$t('CAPTAIN.RESPONSES.HEADER')"
     :button-label="$t('CAPTAIN.RESPONSES.ADD_NEW')"
     :is-fetching="isFetching"
-    :is-empty="!responses.length"
-    :show-pagination-footer="!isFetching && !!responses.length"
+    :is-empty="!filteredResponses.length"
+    :show-pagination-footer="!isFetching && !!filteredResponses.length"
     :feature-flag="FEATURE_FLAGS.CAPTAIN"
     @update:current-page="onPageChange"
     @click="handleCreate"
@@ -368,7 +376,7 @@ onMounted(() => {
 
       <div class="flex flex-col gap-4">
         <ResponseCard
-          v-for="response in responses"
+          v-for="response in filteredResponses"
           :id="response.id"
           :key="response.id"
           :question="response.question"
@@ -380,6 +388,7 @@ onMounted(() => {
           :updated-at="response.updated_at"
           :is-selected="bulkSelectedIds.has(response.id)"
           :selectable="hoveredCard === response.id || bulkSelectedIds.size > 0"
+          :show-menu="!bulkSelectedIds.has(response.id)"
           @action="handleAction"
           @navigate="handleNavigationAction"
           @select="handleCardSelect"
