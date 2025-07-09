@@ -39,7 +39,38 @@ class Captain::Scenario < ApplicationRecord
 
   before_save :resolve_tool_references
 
+  def agent_instructions
+    instructions = <<~INSTRUCTIONS
+      You are a specialized agent in a multiagent system. Your job is to assist the primary agent in completing tasks.
+      Here's your instructions:
+
+      #{resolved_instructions}
+    INSTRUCTIONS
+
+    if resolved_tools.any?
+      instructions += "\n\nYou have access to the following tools:\n"
+      instructions += resolved_tools.map { |tool| "- #{tool[:id]}: #{tool[:description]}" }.join("\n")
+    end
+
+    instructions
+  end
+
   private
+
+  def resolved_instructions
+    instruction.gsub(%r{\(tool://(\w+)\)}) do |match|
+      "#{match} tool "
+    end
+  end
+
+  def resolved_tools
+    return [] if tools.blank?
+
+    available_tools = self.class.available_agent_tools
+    tools.filter_map do |tool_id|
+      available_tools.find { |tool| tool[:id] == tool_id }
+    end
+  end
 
   # Validates that all tool references in the instruction are valid.
   # Parses the instruction for tool references and checks if they exist
