@@ -1,11 +1,13 @@
 module Shopify::IntegrationHelper
-  REQUIRED_SCOPES = %w[read_inventory read_locations read_products read_orders write_orders read_customers read_fulfillments read_returns write_returns].freeze
+  REQUIRED_SCOPES = %w[read_inventory read_locations read_products read_orders write_orders read_customers read_fulfillments read_returns write_returns write_merchant_managed_fulfillment_orders write_third_party_fulfillment_orders read_merchant_managed_fulfillment_orders read_third_party_fulfillment_orders].freeze
 
   # read_orders	Read order details and line items (to determine refundable items and quantities)
   # read_inventory	Read inventory items and inventory levels (to get stock and location data)
   # read_locations	Read shop locations (to fetch valid restock locations, if not cached)
   # read_products	Read product and variant information (to get variant and inventory item IDs)
   # write_orders	Create refunds and restock items (needed for refundCreate and restocking mutations)
+  # write_merchant_managed_fulfillment_orders: Lets an app manage fulfillment orders for locations the merchant manages directly (e.g., the merchant’s own warehouse or store). This is typically used by order management apps, not fulfillment services.
+  # write_third_party_fulfillment_orders: Lets an app access and manage fulfillment orders that are assigned to locations managed by other third-party fulfillment services. This is also typically used by order management apps that need to coordinate across multiple fulfillment providers.
 
   # Generates a signed JWT token for Shopify integration
   #

@@ -49,8 +49,12 @@ class OrdersAPI extends ApiClient {
     });
   }
 
-  orderFulfillments({ orderId }) {
-    return axios.get(`${this.url}/${orderId}/order_fulfillments`);
+  orderDetails({ orderId }) {
+    return axios.get(`${this.url}/${orderId}/order_details`);
+  }
+
+  fulfillmentOrders({ orderId }) {
+    return axios.get(`${this.url}/${orderId}/fulfillment_orders`);
   }
 
   returnCalculate({ orderId, returnLineItems, returnShippingFee }) {
@@ -65,6 +69,10 @@ class OrdersAPI extends ApiClient {
       returnLineItems,
       returnShippingFee,
     });
+  }
+
+  fulfillmentCreate({ orderId, ...rest }) {
+    return axios.post(`${this.url}/${orderId}/fulfillment_create`, rest);
   }
 }
 

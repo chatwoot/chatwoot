@@ -11,6 +11,7 @@ import { BUS_EVENTS } from 'shared/constants/busEvents';
 import CallDialog from 'dashboard/routes/dashboard/conversation/contact/CallDialog.vue';
 import ShopifyOrderRefund from './ShopifyOrderRefund.vue';
 import ShopifyOrderReturn from './ShopifyOrderReturn.vue';
+import ShopifyOrderFulfill from './ShopifyOrderFulfill.vue';
 
 export default {
   components: {
@@ -18,6 +19,7 @@ export default {
     ShopifyOrderCancellation,
     ShopifyOrderRefund,
     ShopifyOrderReturn,
+    ShopifyOrderFulfill,
     ConversationSidebar,
     ConversationHeader,
     DashboardAppFrame,
@@ -51,6 +53,7 @@ export default {
       showCallModal: false,
       refundOrder: null,
       returnOrder: null,
+      fulfillOrder: null,
       cancelOrder: null,
     };
   },
@@ -112,12 +115,14 @@ export default {
     this.$store.dispatch('dashboardApps/get');
     emitter.on(BUS_EVENTS.REFUND_ORDER, this.setRefundOrder);
     emitter.on(BUS_EVENTS.RETURN_ORDER, this.setReturnOrder);
+    emitter.on(BUS_EVENTS.FULFILL_ORDER, this.setFulfillOrder);
     emitter.on(BUS_EVENTS.CANCEL_ORDER, this.setCancelOrder);
     emitter.on(BUS_EVENTS.START_CALL, this.startCall);
   },
   unmounted() {
     emitter.off(BUS_EVENTS.REFUND_ORDER, this.setRefundOrder);
     emitter.off(BUS_EVENTS.RETURN_ORDER, this.setReturnOrder);
+    emitter.off(BUS_EVENTS.FULFILL_ORDER, this.setFulfillOrder);
     emitter.off(BUS_EVENTS.CANCEL_ORDER, this.setCancelOrder);
     emitter.off(BUS_EVENTS.START_CALL, this.startCall);
   },
@@ -137,6 +142,9 @@ export default {
     },
     async setReturnOrder(order) {
       this.returnOrder = order;
+    },
+    async setFulfillOrder(order) {
+      this.fulfillOrder = order;
     },
     async setCancelOrder(order) {
       this.cancelOrder = order;
@@ -244,6 +252,10 @@ export default {
         v-if="returnOrder"
         :order="returnOrder"
       ></ShopifyOrderReturn>
+      <ShopifyOrderFulfill
+        v-if="fulfillOrder"
+        :order="fulfillOrder"
+      ></ShopifyOrderFulfill>
     </div>
     <DashboardAppFrame
       v-for="(dashboardApp, index) in dashboardApps"

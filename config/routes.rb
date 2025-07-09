@@ -374,7 +374,9 @@ Rails.application.routes.draw do
               post :refund_order, on: :member
               post :return_calculate, on: :member
               post :return_create, on: :member
-              get  :order_fulfillments, on: :member
+              post :fulfillment_create, on: :member
+              get  :order_details, on: :member
+              get  :fulfillment_orders, on: :member
             end
             resources :locations, only: [:index]
           end

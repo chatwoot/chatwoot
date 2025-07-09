@@ -1,6 +1,6 @@
 class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseController
-  before_action :setup_shopify_context, only: [:show, :cancel_order, :calculate_refund, :refund_order, :order_fulfillments, :return_calculate, :return_create]
-  before_action :fetch_order, only: [:show, :cancel_order, :calculate_refund, :refund_order, :order_fulfillments, :return_calculate, :return_create]
+  before_action :setup_shopify_context, only: [:show, :cancel_order, :calculate_refund, :refund_order, :fulfillment_create, :order_details, :return_calculate, :return_create, :fulfillment_orders]
+  before_action :fetch_order, only: [:show, :cancel_order, :calculate_refund, :refund_order, :fulfillment_create, :order_details, :return_calculate, :return_create, :fulfillment_orders]
 
   ORDER_CANCEL_MUTATION = <<~GRAPHQL
     mutation orderCancel($notifyCustomer: Boolean, $orderId: ID!, $reason: OrderCancelReason!, $refund: Boolean!, $restock: Boolean!, $staffNote: String) {
@@ -36,7 +36,7 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
     }
   GRAPHQL
 
-  ORDER_FULFILL_QUERY = <<~GRAPHQL
+  ORDER_DETAILS_QUERY = <<~GRAPHQL
   query($id: ID!) {
       order(id: $id) {
         returns(first: 10) {
@@ -162,6 +162,45 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
   GRAPHQL
 
 
+ORDER_FULFILLMENT_ORDERS = <<~GRAPHQL
+  query($orderId: ID!) {
+    order(id: $orderId) {
+      name
+      shippingAddress {
+        country
+        firstName
+        lastName
+        city
+        zip
+        phone
+        longitude
+        latitude  
+      }
+      fulfillmentOrders(first:10) {
+        nodes {
+          id
+          assignedLocation {
+            address1
+            address1
+            zip
+            countryCode
+            province
+            city
+          }
+          lineItems(first:10) {
+            nodes {
+              id
+              remainingQuantity
+              lineItem {
+                id
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+GRAPHQL
 
 #  ORDER_FULFILL_QUERY -> EXAMPLE RESPONSE
 #  {
@@ -237,6 +276,20 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
 #     }
 #   }
 # } 
+
+  FULFILLMENT_CREATE_MUTATION = <<~GRAPHQL
+    mutation fulfillmentCreate($fulfillment: FulfillmentInput!) {
+      fulfillmentCreate(fulfillment: $fulfillment, message: "Created via onehash chat") {
+        fulfillment {
+          id
+        }
+        userErrors {
+          field
+          message
+        }
+      }
+    }
+GRAPHQL
 
   def show
     render json: {order: @order}
@@ -367,19 +420,34 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
     end
   end
 
-  def order_fulfillments
+  def order_details
     orderGid =  "gid://shopify/Order/#{@order.id}"
 
     @shopify_service.shop.with_shopify_session do
       # Execute the mutation using the shopify_graphql gem
       response = ShopifyGraphql.execute(
-        ORDER_FULFILL_QUERY,
+        ORDER_DETAILS_QUERY,
         id: orderGid,
       )
 
       render json: {order: deep_symbolize(response.data.order)}
     end
   end
+
+  def fulfillment_orders
+    orderGid =  "gid://shopify/Order/#{@order.id}"
+
+    @shopify_service.shop.with_shopify_session do
+      # Execute the mutation using the shopify_graphql gem
+      response = ShopifyGraphql.execute(
+        ORDER_FULFILLMENT_ORDERS,
+        orderId: orderGid,
+      )
+
+      render json: {order: deep_symbolize(response.data.order)}
+    end
+  end
+
 
   def return_calculate
     permitted = params.permit(returnLineItems: [:fulfillmentLineItemId, :quantity, :restockingFeePercentage], returnShippingFee: [
@@ -449,6 +517,40 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
 
   end
 
+
+  def fulfillment_create
+    permitted = params.permit(:notifyCustomer, originAddress: [ :address1, :address1, :zip, :countryCode, :city], lineItemsByFulfillmentOrder: [:fulfillmentOrderId, :fulfillmentOrderLineItems], trackingInfo: [:company, :number, :numbers, :url, :urls])
+
+    notifyCustomer, originAddress, lineItemsByFulfillmentOrder,trackingInfo = permitted.values_at(:notifyCustomer, :originAddress, :lineItemsByFulfillmentOrder, :trackingInfo)
+
+    # return render json: {errors: [{field: 'returnLineItems', message: "No return items for the return"}]}, status: :unprocessable_entity unless return_line_items.length > 0
+
+    orderGid =  "gid://shopify/Order/#{@order.id}"
+
+    payload = {
+      notifyCustomer: notifyCustomer,
+      originAddress: originAddress,
+      lineItemsByFulfillmentOrder: lineItemsByFulfillmentOrder,
+      trackingInfo: trackingInfo
+    }
+
+    @shopify_service.shop.with_shopify_session do
+      # Execute the mutation using the shopify_graphql gem
+      response = ShopifyGraphql.execute(
+        FULFILLMENT_CREATE_MUTATION,
+        fulfillment: payload
+      )
+
+      Rails.logger.info("Fulfillment create response: #{response.data}")
+
+      if response.data.userErrors&.present?
+        render json: {errors: errors.map(&:to_h)}, status: :unprocessable_entity
+      else
+        render json: {refundable: deep_symbolize(response.data.returnCalculate)}
+      end
+    end
+
+  end
 
 
 

@@ -43,6 +43,11 @@ const emitCancelOrder = () => {
   emitter.emit(BUS_EVENTS.CANCEL_ORDER, props.order);
 };
 
+const emitFulfillOrder = () => {
+  emitter.emit(BUS_EVENTS.FULFILL_ORDER, props.order);
+};
+
+
 const emitRefundOrder = () => {
   emitter.emit(BUS_EVENTS.REFUND_ORDER, props.order);
 };
@@ -144,8 +149,8 @@ const getFulfillmentClass = status => {
     </div>
 
     <div class="selection-controls items-center">
-      <button>
-        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.EDIT.BUTTON_TEXT') }}
+      <button @click="emitFulfillOrder">
+        {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.BUTTON_TEXT') }}
       </button>
       <button v-if="!order.cancelled_at" @click="emitCancelOrder">
         {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.BUTTON_TEXT') }}

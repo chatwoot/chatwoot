@@ -325,8 +325,30 @@
         "UNFULFILLED": "Unfulfilled",
         "PARTIAL": "Partial"
       },
-      "EDIT": {
-        "BUTTON_TEXT": "Edit"
+      "FULFILL": {
+        "BUTTON_TEXT": "Fulfill",
+        "TITLE": "Fulfill order",
+        "DESC": "You can directly fulfill the shopify order of a customer from here",
+        "TABLE": {
+          "PRODUCT": "Product",
+          "ITEM_PRICE": "Item Price",
+          "QUANTITY": "Quantity",
+          "TOTAL": "Total"
+        },
+        "TRACKING": {
+          "CATEGORY": "Category",
+          "ADD_TRACKING": "Add Tracking",
+          "NUMBERS": "Tracking numbers",
+          "NUMBER": "Tracking number",
+          "COMPANY": "Tracking company",
+          "URL": "Tracking url",
+          "INVALID_NUMBER": "Invalid number",
+          "INVALID_URL": "Invalid url"
+        },
+        "SEND_NOTIFICATION": "Send notifications",
+        "FULFILL_ORDER": "Fulfill order",
+        "ITEM_INSUFFICIENT": "Insufficient quantities selected for line items",
+        "TRACKING_INSUFFICIENT": "Please add at least one tracking number"
       },
       "RETURN": {
         "TITLE": "Return order",

@@ -225,7 +225,7 @@ const suggestedRefund = ref(null);
 const reverseFulfillmentLineItems = ref([]);
 
 const getOrderInfo = async () => {
-  const result = await OrdersAPI.orderFulfillments({ orderId: props.order.id });
+  const result = await OrdersAPI.orderDetails({ orderId: props.order.id });
 
   suggestedRefund.value = result.data.order.suggestedRefund;
 

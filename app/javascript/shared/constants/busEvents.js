@@ -19,6 +19,7 @@ export const BUS_EVENTS = {
   START_CALL: 'startCall',
   ORDER_UPDATE: 'orderUpdate',
   CANCEL_ORDER: 'cancelOrder',
+  FULFILL_ORDER: 'fulfillOrder',
   REFUND_ORDER: 'refundOrder',
   RETURN_ORDER: 'returnOrder',
 };

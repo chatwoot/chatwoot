@@ -126,7 +126,7 @@ const rules = computed(() => {
 
     if (
       segment.fulfilled_and_refundable > 0 &&
-      unfulfilledQuantityStates[item.id] > 0
+      fulfilledQuantityStates[item.id] > 0
     ) {
       fulfilledQuantitiesRules[item.id] = {
         required,
@@ -245,7 +245,7 @@ const fulfillments = ref([]);
 const orderLineItems = ref([]);
 
 const getOrderInfo = async () => {
-  const result = await OrdersAPI.orderFulfillments({ orderId: props.order.id });
+  const result = await OrdersAPI.orderDetails({ orderId: props.order.id });
 
   suggestedRefund.value = result.data.order.suggestedRefund;
 
