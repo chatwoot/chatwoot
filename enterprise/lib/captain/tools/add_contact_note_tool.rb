@@ -9,7 +9,7 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BaseAgentTool
     return 'Missing required parameters: contact_id and note are required' if note.blank? || contact_id.blank?
 
     contact = find_contact(contact_id)
-    return contact if contact.is_a?(String) # Error message
+    return 'Contact not found' unless contact
 
     create_contact_note(contact, note)
     "Note added successfully to contact #{contact.name} (ID: #{contact.id})"
@@ -18,8 +18,7 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BaseAgentTool
   private
 
   def find_contact(contact_id)
-    contact = account_scoped(::Contact).find_by(id: contact_id)
-    contact || 'Contact not found'
+    account_scoped(::Contact).find_by(id: contact_id)
   end
 
   def create_contact_note(contact, note)
