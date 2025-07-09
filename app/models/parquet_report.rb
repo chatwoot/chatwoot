@@ -75,8 +75,12 @@ class ParquetReport < ApplicationRecord
   end
 
   def increment_progress(processed_count: 0)
-    computed = (processed_count.to_f / record_count * 100).to_i
-    update_columns(progress: computed, elapse_time: Time.now - created_at)
+    current_count = [processed_count, record_count].min
+    # return 99 and let #complete_and_save_url! to set progress to 100
+    percentage = [((current_count.to_f / record_count.to_f) * 100).to_i, 99].min
+    elapsed = Time.current - created_at
+
+    update_columns(progress: percentage, elapse_time: elapsed)
   end
 
   private
