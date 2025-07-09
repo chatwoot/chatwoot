@@ -25,6 +25,8 @@
 #  fk_rails_...  (assistant_id => captain_assistants.id)
 #
 class Captain::Scenario < ApplicationRecord
+  include AgentToolsResolvable
+
   self.table_name = 'captain_scenarios'
 
   belongs_to :assistant, class_name: 'Captain::Assistant'
