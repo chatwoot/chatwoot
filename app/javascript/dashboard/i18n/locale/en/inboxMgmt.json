@@ -600,6 +600,10 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
+      "WHATSAPP_RECONFIGURE_TITLE": "Reconfigure WhatsApp",
+      "WHATSAPP_RECONFIGURE_SUBHEADER": "Update your WhatsApp Business account configuration using the embedded signup flow.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure with WhatsApp",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to initiate WhatsApp reconfiguration. Please try again.",
       "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
       "WHATSAPP_REAUTHORIZE": {
         "TITLE": "Reauthorize WhatsApp Connection",
