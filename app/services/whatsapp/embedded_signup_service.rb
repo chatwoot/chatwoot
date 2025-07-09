@@ -1,12 +1,13 @@
 class Whatsapp::EmbeddedSignupService
   include Rails.application.routes.url_helpers
 
-  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:)
+  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:, inbox_id: nil)
     @account = account
     @code = code
     @business_id = business_id
     @waba_id = waba_id
     @phone_number_id = phone_number_id
+    @inbox_id = inbox_id
   end
 
   def perform
@@ -30,6 +31,43 @@ class Whatsapp::EmbeddedSignupService
     create_or_update_channel(waba_info, phone_info, access_token)
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Signup failed: #{e.message}")
+    raise e
+  end
+
+  def perform_reauthorization
+    # Validate required parameters
+    unless @code.present? && @business_id.present? && @waba_id.present? && @phone_number_id.present? && @inbox_id.present?
+      raise ArgumentError, 'Code, business_id, waba_id, phone_number_id, and inbox_id are all required for reauthorization'
+    end
+
+    # Find the existing inbox and channel
+    inbox = @account.inboxes.find_by(id: @inbox_id)
+    raise ActiveRecord::RecordNotFound, 'Inbox not found' unless inbox
+    raise ArgumentError, 'Inbox is not a WhatsApp channel' unless inbox.channel_type == 'Channel::Whatsapp'
+
+    channel = inbox.channel
+    raise ArgumentError, 'Channel is not WhatsApp Cloud provider' unless channel.provider == 'whatsapp_cloud'
+
+    GlobalConfig.clear_cache
+    # Exchange code for new access token
+    access_token = exchange_code_for_token
+
+    # Use the provided business info directly
+    phone_info = fetch_phone_info_via_waba(@waba_id, @phone_number_id, access_token)
+
+    # Validate that the token has access to the provided WABA
+    validate_token_waba_access(access_token, @waba_id)
+
+    # Update the channel with new access token and configuration
+    update_channel_for_reauthorization(channel, phone_info, access_token)
+
+    # Re-register webhook with new token
+    register_phone_number(phone_info[:phone_number_id], access_token)
+    override_waba_webhook(@waba_id, channel, access_token)
+
+    channel
+  rescue StandardError => e
+    Rails.logger.error("[WHATSAPP] Reauthorization failed: #{e.message}")
     raise e
   end
 
@@ -135,6 +173,18 @@ class Whatsapp::EmbeddedSignupService
       account: @account,
       name: "#{phone_info[:business_name]} WhatsApp",
       channel: channel
+    )
+  end
+
+  def update_channel_for_reauthorization(channel, phone_info, access_token)
+    # Update channel with new access token and configuration
+    channel.update!(
+      provider_config: channel.provider_config.merge(
+        'api_key' => access_token,
+        'phone_number_id' => phone_info[:phone_number_id],
+        'business_account_id' => @waba_id,
+        'reauthorized_at' => Time.current.iso8601
+      )
     )
   end
 
