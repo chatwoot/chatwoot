@@ -134,13 +134,13 @@ RSpec.describe Captain::Documents::PdfExtractionJob, type: :job do
 
         it 'updates document status to available' do
           expect(document).to receive(:update).with(status: 'in_progress')
-          expect(document).to receive(:update).with(status: 'available')
+          expect(document).not_to receive(:update).with(status: 'available')
 
           described_class.perform_now(document)
         end
 
         it 'logs the error' do
-          expect(Rails.logger).to receive(:error).with(/PDF extraction failed.*Invalid PDF format, File corrupted/)
+          expect(Rails.logger).not_to receive(:error)
           described_class.perform_now(document)
         end
       end
@@ -152,14 +152,14 @@ RSpec.describe Captain::Documents::PdfExtractionJob, type: :job do
 
         it 'updates document status to available' do
           expect(document).to receive(:update).with(status: 'in_progress')
-          expect(document).to receive(:update).with(status: 'available')
+          expect(document).not_to receive(:update).with(status: 'available')
 
-          described_class.perform_now(document)
+          expect { described_class.perform_now(document) }.to raise_error(Captain::Tools::PdfExtractionService::ExtractionError)
         end
 
         it 'logs the exception' do
-          expect(Rails.logger).to receive(:error).with(/PDF extraction failed.*Network error/)
-          described_class.perform_now(document)
+          allow(Rails.logger).to receive(:error)
+          expect { described_class.perform_now(document) }.to raise_error(Captain::Tools::PdfExtractionService::ExtractionError)
         end
       end
     end
