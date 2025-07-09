@@ -1,27 +1,48 @@
 class Captain::Tools::UpdatePriorityTool < Captain::Tools::BaseAgentTool
   description 'Update the priority of a conversation'
   param :conversation_id, type: 'string', desc: 'The display ID of the conversation'
-  param :priority, type: 'string', desc: 'The priority level: nil, low, medium, high, urgent'
+  param :priority, type: 'string', desc: 'The priority level: low, medium, high, urgent, or nil to remove priority'
 
   def perform(_tool_context, conversation_id:, priority:)
     log_tool_usage('update_priority', { conversation_id: conversation_id, priority: priority })
 
-    return 'Missing required parameters' if conversation_id.blank?
+    return 'Missing required parameter: conversation_id is required' if conversation_id.blank?
 
-    conversation = account_scoped(::Conversation).find_by(display_id: conversation_id)
-    return 'Conversation not found' if conversation.nil?
+    conversation = find_conversation(conversation_id)
+    return 'Conversation not found' unless conversation
 
-    # Validate priority value
-    valid_priorities = [nil, 'low', 'medium', 'high', 'urgent']
-    priority = nil if priority == 'nil' || priority.blank?
+    normalized_priority = normalize_priority(priority)
+    return "Invalid priority. Valid options: #{valid_priority_options}" unless valid_priority?(normalized_priority)
 
-    return "Invalid priority. Valid options: #{valid_priorities.join(', ')}" unless valid_priorities.include?(priority)
-
-    # Update the priority
-    conversation.update!(priority: priority)
-
-    priority_text = priority || 'none'
+    update_conversation_priority(conversation, normalized_priority)
+    priority_text = normalized_priority || 'none'
     "Priority updated to '#{priority_text}' for conversation #{conversation_id}"
+  end
+
+  private
+
+  def find_conversation(conversation_id)
+    account_scoped(::Conversation).find_by(display_id: conversation_id)
+  end
+
+  def normalize_priority(priority)
+    priority == 'nil' || priority.blank? ? nil : priority
+  end
+
+  def valid_priority?(priority)
+    valid_priorities.include?(priority)
+  end
+
+  def valid_priorities
+    @valid_priorities ||= [nil] + Conversation.priorities.keys
+  end
+
+  def valid_priority_options
+    (valid_priorities.compact + ['nil']).join(', ')
+  end
+
+  def update_conversation_priority(conversation, priority)
+    conversation.update!(priority: priority)
   end
 
   def active?
