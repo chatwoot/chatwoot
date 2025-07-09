@@ -60,11 +60,9 @@ class Attachment < ApplicationRecord
   end
 
   def thumb_url
-    return '' unless file.attached? && file.representable?
+    return '' unless file.attached? && image?
 
     url_for(file.representation(resize_to_fill: [250, nil]))
-  rescue ActiveStorage::PreviewError => e
-    handle_preview_error(e)
   end
 
   def with_attached_file?
@@ -72,15 +70,6 @@ class Attachment < ApplicationRecord
   end
 
   private
-
-  def handle_preview_error(error)
-    if error.message.include?('Incorrect password')
-      Rails.logger.info "Skipping preview generation for password-protected PDF: #{file.filename}"
-      ''
-    else
-      raise error
-    end
-  end
 
   def metadata_for_file_type
     case file_type.to_sym
