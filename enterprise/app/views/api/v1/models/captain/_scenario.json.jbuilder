@@ -8,7 +8,9 @@ json.assistant_id scenario.assistant_id
 json.account_id scenario.account_id
 json.created_at scenario.created_at
 json.updated_at scenario.updated_at
-json.assistant do
-  json.id scenario.assistant.id
-  json.name scenario.assistant.name
-end if scenario.assistant.present?
+if scenario.assistant.present?
+  json.assistant do
+    json.id scenario.assistant.id
+    json.name scenario.assistant.name
+  end
+end
