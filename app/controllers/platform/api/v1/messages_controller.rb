@@ -1,7 +1,7 @@
 class Platform::Api::V1::MessagesController < PlatformController
     
     def send_email_notification
-      conversation = Conversation.find_by(display_id: params[:conversation_id])
+      conversation = Conversation.find_by(id: params[:conversation_id])
       return render json: { error: 'Conversation not found' }, status: :not_found unless conversation
   
       account = conversation.account
