@@ -1,13 +1,15 @@
 class Whatsapp::EmbeddedSignupService
   include Rails.application.routes.url_helpers
+  include Whatsapp::ApiService
+  include Whatsapp::TokenValidator
 
-  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:, inbox_id: nil)
-    @account = account
-    @code = code
-    @business_id = business_id
-    @waba_id = waba_id
-    @phone_number_id = phone_number_id
-    @inbox_id = inbox_id
+  def initialize(params)
+    @account = params[:account]
+    @code = params[:code]
+    @business_id = params[:business_id]
+    @waba_id = params[:waba_id]
+    @phone_number_id = params[:phone_number_id]
+    @inbox_id = params[:inbox_id]
   end
 
   def perform
@@ -35,33 +37,15 @@ class Whatsapp::EmbeddedSignupService
   end
 
   def perform_reauthorization
-    # Validate required parameters
-    unless @code.present? && @business_id.present? && @waba_id.present? && @phone_number_id.present? && @inbox_id.present?
-      raise ArgumentError, 'Code, business_id, waba_id, phone_number_id, and inbox_id are all required for reauthorization'
-    end
-
-    # Find the existing inbox and channel
-    inbox = @account.inboxes.find_by(id: @inbox_id)
-    raise ActiveRecord::RecordNotFound, 'Inbox not found' unless inbox
-    raise ArgumentError, 'Inbox is not a WhatsApp channel' unless inbox.channel_type == 'Channel::Whatsapp'
-
-    channel = inbox.channel
-    raise ArgumentError, 'Channel is not WhatsApp Cloud provider' unless channel.provider == 'whatsapp_cloud'
+    validate_reauthorization_params!
+    channel = find_and_validate_channel
 
     GlobalConfig.clear_cache
-    # Exchange code for new access token
     access_token = exchange_code_for_token
-
-    # Use the provided business info directly
     phone_info = fetch_phone_info_via_waba(@waba_id, @phone_number_id, access_token)
-
-    # Validate that the token has access to the provided WABA
     validate_token_waba_access(access_token, @waba_id)
 
-    # Update the channel with new access token and configuration
     update_channel_for_reauthorization(channel, phone_info, access_token)
-
-    # Re-register webhook with new token
     register_phone_number(phone_info[:phone_number_id], access_token)
     override_waba_webhook(@waba_id, channel, access_token)
 
@@ -73,50 +57,21 @@ class Whatsapp::EmbeddedSignupService
 
   private
 
-  def whatsapp_api_version
-    @whatsapp_api_version ||= GlobalConfigService.load('WHATSAPP_API_VERSION', 'v22.0')
+  def validate_reauthorization_params!
+    return if @code.present? && @business_id.present? && @waba_id.present? && @phone_number_id.present? && @inbox_id.present?
+
+    raise ArgumentError, 'Code, business_id, waba_id, phone_number_id, and inbox_id are all required for reauthorization'
   end
 
-  def exchange_code_for_token
-    response = Faraday.get(
-      "https://graph.facebook.com/#{whatsapp_api_version}/oauth/access_token",
-      {
-        client_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
-        client_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', ''),
-        code: @code
-      }
-    )
+  def find_and_validate_channel
+    inbox = @account.inboxes.find_by(id: @inbox_id)
+    raise ActiveRecord::RecordNotFound, 'Inbox not found' unless inbox
+    raise ArgumentError, 'Inbox is not a WhatsApp channel' unless inbox.channel_type == 'Channel::Whatsapp'
 
-    raise "Token exchange failed: #{response.body}" unless response.success?
+    channel = inbox.channel
+    raise ArgumentError, 'Channel is not WhatsApp Cloud provider' unless channel.provider == 'whatsapp_cloud'
 
-    data = JSON.parse(response.body)
-    raise "No access token in response: #{data}" unless data['access_token']
-
-    data['access_token']
-  end
-
-  def fetch_phone_info_via_waba(waba_id, phone_number_id, access_token)
-    # Get all phone numbers for the WABA
-    response = Faraday.get(
-      "https://graph.facebook.com/#{whatsapp_api_version}/#{waba_id}/phone_numbers",
-      { access_token: access_token }
-    )
-
-    raise "WABA phone numbers fetch failed: #{response.body}" unless response.success?
-
-    data = JSON.parse(response.body)
-    phone_numbers = data['data']
-    phone_data = phone_numbers.find { |phone| phone['id'] == phone_number_id } || phone_numbers.first
-
-    raise "No phone numbers found for WABA #{waba_id}" if phone_data.nil?
-
-    display_phone_number = sanitize_phone_number(phone_data['display_phone_number'])
-    {
-      phone_number_id: phone_data['id'],
-      phone_number: "+#{display_phone_number}",
-      verified: phone_data['code_verification_status'] == 'VERIFIED',
-      business_name: phone_data['verified_name'] || phone_data['display_phone_number']
-    }
+    channel
   end
 
   def create_or_update_channel(waba_info, phone_info, access_token)
@@ -132,16 +87,6 @@ class Whatsapp::EmbeddedSignupService
       override_waba_webhook(waba_info[:waba_id], channel, access_token)
       channel
     end
-  end
-
-  def register_phone_number(phone_number_id, access_token)
-    HTTParty.post(
-      "https://graph.facebook.com/#{whatsapp_api_version}/#{phone_number_id}/register",
-      {
-        headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-        body: { messaging_product: 'whatsapp', pin: '212834' }.to_json
-      }
-    )
   end
 
   def find_existing_channel(phone_number)
@@ -186,78 +131,5 @@ class Whatsapp::EmbeddedSignupService
         'reauthorized_at' => Time.current.iso8601
       )
     )
-  end
-
-  def sanitize_phone_number(phone_number)
-    return phone_number if phone_number.blank?
-
-    phone_number.gsub(/[\s\-\(\)\.\+]/, '').strip
-  end
-
-  def validate_token_waba_access(access_token, waba_id)
-    token_debug_data = fetch_token_debug_data(access_token)
-    waba_scope = extract_waba_scope(token_debug_data)
-    verify_waba_authorization(waba_scope, waba_id)
-  end
-
-  def fetch_token_debug_data(access_token)
-    response = Faraday.get(
-      "https://graph.facebook.com/#{whatsapp_api_version}/debug_token",
-      {
-        input_token: access_token,
-        access_token: build_app_access_token
-      }
-    )
-
-    raise "Token validation failed: #{response.body}" unless response.success?
-
-    JSON.parse(response.body)
-  end
-
-  def extract_waba_scope(token_data)
-    granular_scopes = token_data.dig('data', 'granular_scopes')
-    waba_scope = granular_scopes&.find { |scope| scope['scope'] == 'whatsapp_business_management' }
-
-    raise 'No WABA scope found in token' unless waba_scope
-
-    waba_scope
-  end
-
-  def verify_waba_authorization(waba_scope, waba_id)
-    authorized_waba_ids = waba_scope['target_ids'] || []
-
-    return if authorized_waba_ids.include?(waba_id)
-
-    raise "Token does not have access to WABA #{waba_id}. Authorized WABAs: #{authorized_waba_ids}"
-  end
-
-  def build_app_access_token
-    app_id = GlobalConfigService.load('WHATSAPP_APP_ID', '')
-    app_secret = GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
-    "#{app_id}|#{app_secret}"
-  end
-
-  def override_waba_webhook(waba_id, channel, access_token)
-    callback_url = "#{ENV.fetch('FRONTEND_URL', nil)}/webhooks/whatsapp/#{channel.phone_number}"
-    verify_token = channel.provider_config['webhook_verify_token']
-
-    response = HTTParty.post(
-      "https://graph.facebook.com/#{whatsapp_api_version}/#{waba_id}/subscribed_apps",
-      {
-        headers: {
-          'Authorization' => "Bearer #{access_token}",
-          'Content-Type' => 'application/json'
-        },
-        body: {
-          override_callback_uri: callback_url,
-          verify_token: verify_token
-        }.to_json
-      }
-    )
-
-    return if response.success?
-
-    Rails.logger.error("[WHATSAPP] Webhook override failed: #{response.body}")
-    raise "Webhook override failed: #{response.body}"
   end
 end
