@@ -36,11 +36,17 @@ export default {
     whatsAppInboxAPIKey: { required },
   },
   computed: {
-    isWhatsAppCloudWithEmbeddedSignup() {
+    isWhatsAppCloudChannel() {
+      return this.inbox.provider === 'whatsapp_cloud';
+    },
+    hasWhatsappAppId() {
       return (
-        this.inbox.provider === 'whatsapp_cloud' &&
-        this.inbox.provider_config?.source === 'embedded_signup'
+        window.chatwootConfig?.whatsappAppId &&
+        window.chatwootConfig.whatsappAppId !== 'none'
       );
+    },
+    shouldShowReconfigureButton() {
+      return this.isWhatsAppCloudChannel && this.hasWhatsappAppId;
     },
   },
   watch: {
@@ -229,9 +235,9 @@ export default {
       >
         <woot-code :script="inbox.provider_config.api_key" />
       </SettingsSection>
-      <!-- Show reconfigure button for WhatsApp Cloud with embedded signup -->
+      <!-- Show reconfigure button for WhatsApp Cloud with embedded signup and app ID configured -->
       <SettingsSection
-        v-if="isWhatsAppCloudWithEmbeddedSignup"
+        v-if="shouldShowReconfigureButton"
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_TITLE')"
         :sub-title="
           $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_SUBHEADER')
@@ -241,7 +247,7 @@ export default {
           {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_BUTTON') }}
         </NextButton>
       </SettingsSection>
-      <!-- Show API key update for non-embedded signup WhatsApp -->
+      <!-- Show API key update for non-embedded signup WhatsApp or when app ID is missing -->
       <SettingsSection
         v-else
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
