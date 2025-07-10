@@ -1,4 +1,7 @@
 <script setup>
+import FormSelect from 'v3/components/Form/Select.vue';
+// import Input from 'v3/components/Form/Input.vue';
+import Input from 'dashboard/components-next/input/Input.vue';
 import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -637,226 +640,332 @@ const buttonText = () => {
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.DESC')"
     />
+
     <form>
-      <div
-        v-if="
-          Object.values(lineItemsSegmentedByFulfillType).filter(
-            e => e.unfulfilled_and_refundable > 0
-          ).length > 0
-        "
-        class="flex flex-col gap-2"
-      >
-        <h3>Unfulfilled</h3>
-        <table class="woot-table items-table overflow-auto max-h-2 table-fixed">
-          <thead>
-            <tr>
-              <th class="overflow-auto max-w-xs">
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
-              </th>
-
-              <th>
-                <div class="flex flex-row w-full justify-end gap-2">
+      <div class="h-[28.4rem] overflow-auto justify-between">
+        <div
+          v-if="
+            Object.values(lineItemsSegmentedByFulfillType).filter(
+              e => e.unfulfilled_and_refundable > 0
+            ).length > 0
+          "
+          class="flex flex-col gap-2"
+        >
+          <h3>Unfulfilled</h3>
+          <table
+            class="woot-table items-table overflow-auto max-h-2 table-fixed"
+          >
+            <thead>
+              <tr>
+                <th class="overflow-auto max-w-xs">
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
+                </th>
+                <th>
                   {{
-                    $t(
-                      'CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.RESTOCK_ITEMS'
-                    )
+                    $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE')
                   }}
+                </th>
+                <th>
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
+                </th>
+                <th>
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
+                </th>
 
-                  <input
-                    class="justify-end"
-                    type="checkbox"
-                    v-model="allUnfulfilledRestockState"
-                  />
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="item in Object.values(
-                lineItemsSegmentedByFulfillType
-              ).filter(e => e.unfulfilled_and_refundable > 0)"
-              :key="item.id"
-            >
-              <td>
-                <div class="overflow-auto max-w-xs">{{ item.name }}</div>
-              </td>
-              <td>
-                <div>
-                  {{
-                    currency_codes[
-                      item.price_set.presentment_money.currency_code
-                    ]
-                  }}
-                  {{ item.price_set.shop_money.amount }}
-                </div>
-              </td>
-              <td class="text-center align-middle">
-                <!-- <div>{{ item.quantity }}</div> -->
-                <div class="inline-block">
-                  <QuantityField
-                    v-model="formState.unfulfilledQuantity[item.id]"
-                    :min="0"
-                    :max="item.unfulfilled_and_refundable"
-                    @input_val="debouncedRefund"
-                  ></QuantityField>
-                </div>
-              </td>
-              <td>
-                <div>
-                  {{ currency_codes[item.price_set.shop_money.currency_code] }}
-                  {{ item_total_price(item, 'unful') }}
-                </div>
-              </td>
-              <td>
-                <div class="flex flex-row w-full justify-end gap-4">
-                  <input
-                    type="checkbox"
-                    v-model="
-                      formState.stockParameters[`unful_${item.id}`].restock
-                    "
-                  />
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                <th>
+                  <div class="flex flex-row w-full justify-end gap-2">
+                    {{
+                      $t(
+                        'CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.RESTOCK_ITEMS'
+                      )
+                    }}
 
-      <SimpleDivider></SimpleDivider>
-
-      <div
-        v-if="
-          Object.values(lineItemsSegmentedByFulfillType).filter(
-            e => e.fulfilled_and_refundable > 0
-          ).length > 0
-        "
-        class="flex flex-col gap-2"
-      >
-        <h3>Fulfilled</h3>
-        <table class="woot-table items-table overflow-auto max-h-2 table-fixed">
-          <thead>
-            <tr>
-              <th class="overflow-auto max-w-xs">
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
-              </th>
-
-              <th>
-                <div class="flex flex-row w-full justify-end gap-2">
-                  {{
-                    $t(
-                      'CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.RESTOCK_ITEMS'
-                    )
-                  }}
-
-                  <input
-                    class="justify-end"
-                    type="checkbox"
-                    v-model="allFulfilledRestockState"
-                  />
-                </div>
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr
-              v-for="item in Object.values(
-                lineItemsSegmentedByFulfillType
-              ).filter(e => e.fulfilled_and_refundable > 0)"
-              :key="item.id"
-            >
-              <td>
-                <div class="overflow-auto max-w-xs">{{ item.name }}</div>
-              </td>
-              <td>
-                <div>
-                  {{
-                    currency_codes[
-                      item.price_set.presentment_money.currency_code
-                    ]
-                  }}
-                  {{ item.price_set.shop_money.amount }}
-                </div>
-              </td>
-              <td class="text-center align-middle">
-                <!-- <div>{{ item.quantity }}</div> -->
-                <div class="inline-block">
-                  <QuantityField
-                    v-model="formState.fulfilledQuantity[item.id]"
-                    :min="0"
-                    :max="item.fulfilled_and_refundable"
-                    @input_val="debouncedRefund"
-                  ></QuantityField>
-                </div>
-              </td>
-              <td>
-                <div>
-                  {{ currency_codes[item.price_set.shop_money.currency_code] }}
-                  {{ item_total_price(item, 'ful') }}
-                </div>
-              </td>
-              <td>
-                <div
-                  class="flex flex-row w-full items-center justify-end gap-4"
-                >
-                  <div
-                    v-if="formState.stockParameters[`ful_${item.id}`].restock"
-                    class="flex flex-col"
-                  >
-                    <select
-                      v-model="
-                        formState.stockParameters[`ful_${item.id}`].location
-                      "
-                      class="thin-select"
-                      :class="{ 'border-red-500': v$.refundNote.$error }"
-                    >
-                      <option
-                        v-for="location in locations"
-                        :value="location.id"
-                      >
-                        {{ location.name }}
-                      </option>
-                    </select>
+                    <input
+                      class="justify-end"
+                      type="checkbox"
+                      v-model="allUnfulfilledRestockState"
+                    />
                   </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="item in Object.values(
+                  lineItemsSegmentedByFulfillType
+                ).filter(e => e.unfulfilled_and_refundable > 0)"
+                :key="item.id"
+              >
+                <td>
+                  <div class="overflow-auto max-w-xs">{{ item.name }}</div>
+                </td>
+                <td>
                   <div>
+                    {{
+                      currency_codes[
+                        item.price_set.presentment_money.currency_code
+                      ]
+                    }}
+                    {{ item.price_set.shop_money.amount }}
+                  </div>
+                </td>
+                <td class="text-center align-middle">
+                  <!-- <div>{{ item.quantity }}</div> -->
+                  <div class="inline-block">
+                    <QuantityField
+                      v-model="formState.unfulfilledQuantity[item.id]"
+                      :min="0"
+                      :max="Number(item.unfulfilled_and_refundable)"
+                      @input_val="debouncedRefund"
+                    ></QuantityField>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{
+                      currency_codes[item.price_set.shop_money.currency_code]
+                    }}
+                    {{ item_total_price(item, 'unful') }}
+                  </div>
+                </td>
+                <td>
+                  <div class="flex flex-row w-full justify-end gap-4">
                     <input
                       type="checkbox"
                       v-model="
-                        formState.stockParameters[`ful_${item.id}`].restock
+                        formState.stockParameters[`unful_${item.id}`].restock
                       "
                     />
                   </div>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-      </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
 
-      <SimpleDivider></SimpleDivider>
-      <div class="h-4"></div>
+        <SimpleDivider></SimpleDivider>
+
+        <div
+          v-if="
+            Object.values(lineItemsSegmentedByFulfillType).filter(
+              e => e.fulfilled_and_refundable > 0
+            ).length > 0
+          "
+          class="flex flex-col gap-2"
+        >
+          <h3>Fulfilled</h3>
+          <table
+            class="woot-table items-table overflow-auto max-h-2 table-fixed"
+          >
+            <thead>
+              <tr>
+                <th class="overflow-auto max-w-xs">
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.PRODUCT') }}
+                </th>
+                <th>
+                  {{
+                    $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.ITEM_PRICE')
+                  }}
+                </th>
+                <th>
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.QUANTITY') }}
+                </th>
+                <th>
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.TOTAL') }}
+                </th>
+
+                <th>
+                  <div class="flex flex-row w-full justify-end gap-2">
+                    {{
+                      $t(
+                        'CONVERSATION_SIDEBAR.SHOPIFY.REFUND.TABLE.RESTOCK_ITEMS'
+                      )
+                    }}
+
+                    <input
+                      class="justify-end"
+                      type="checkbox"
+                      v-model="allFulfilledRestockState"
+                    />
+                  </div>
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr
+                v-for="item in Object.values(
+                  lineItemsSegmentedByFulfillType
+                ).filter(e => e.fulfilled_and_refundable > 0)"
+                :key="item.id"
+              >
+                <td>
+                  <div class="overflow-auto max-w-xs">{{ item.name }}</div>
+                </td>
+                <td>
+                  <div>
+                    {{
+                      currency_codes[
+                        item.price_set.presentment_money.currency_code
+                      ]
+                    }}
+                    {{ item.price_set.shop_money.amount }}
+                  </div>
+                </td>
+                <td class="text-center align-middle">
+                  <!-- <div>{{ item.quantity }}</div> -->
+                  <div class="inline-block">
+                    <QuantityField
+                      v-model="formState.fulfilledQuantity[item.id]"
+                      :min="0"
+                      :max="item.fulfilled_and_refundable"
+                      @input_val="debouncedRefund"
+                    ></QuantityField>
+                  </div>
+                </td>
+                <td>
+                  <div>
+                    {{
+                      currency_codes[item.price_set.shop_money.currency_code]
+                    }}
+                    {{ item_total_price(item, 'ful') }}
+                  </div>
+                </td>
+                <td>
+                  <div
+                    class="flex flex-row w-full items-center justify-end gap-4"
+                  >
+                    <div
+                      v-if="formState.stockParameters[`ful_${item.id}`].restock"
+                      class="flex flex-col"
+                    >
+                      <select
+                        v-model="
+                          formState.stockParameters[`ful_${item.id}`].location
+                        "
+                        class="thin-select"
+                        :class="{ 'border-red-500': v$.refundNote.$error }"
+                      >
+                        <option
+                          v-for="location in locations"
+                          :value="location.id"
+                        >
+                          {{ location.name }}
+                        </option>
+                      </select>
+                    </div>
+                    <div>
+                      <input
+                        type="checkbox"
+                        v-model="
+                          formState.stockParameters[`ful_${item.id}`].restock
+                        "
+                      />
+                    </div>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <SimpleDivider></SimpleDivider>
+      </div>
 
       <div
         class="flex flex-row pr-[10px] pt-2 items-start justify-start content-start"
       >
+        <div class="flex flex-col">
+          <div class="flex flex-row justify-start items-start gap-4 pb-2">
+            <div class="flex flex-col">
+              <div class="flex flex-row gap-2 pb-2">
+                <h5>
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_AMOUNT') }}
+                </h5>
+                <span v-if="formState.refundAmount !== availableRefund"
+                  >(manual)</span
+                >
+              </div>
+
+              <Input
+                type="text"
+                spacing="base"
+                v-model="formState.refundAmount"
+                :message-type="v$.refundAmount.$error ? 'error' : 'info'"
+                :message="
+                  v$.refundAmount.$error
+                    ? $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.INVALID_AMOUNT')
+                    : ''
+                "
+                @blur="v$.refundAmount.$touch"
+                inputmode="decimal"
+                placeholder="0.00"
+                style="width: 200px; font-size: 1.1em"
+                autocomplete="off"
+              >
+                <template #input-prefix>
+                  <span class="text-gray-500">
+                    {{ currency_codes[order.currency] }}
+                  </span>
+                </template>
+              </Input>
+            </div>
+
+            <div class="flex flex-col">
+              <h5 class="pb-2">
+                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_REASON') }}
+                <!-- {{ add marker for manual }}  -->
+              </h5>
+
+              <!-- spacing="compact" -->
+              <FormSelect
+                v-model="formState.refundNote"
+                name="refundNote"
+                :value="formState.refundNote"
+                :options="reasonOptions"
+                :placeholder="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REASON')"
+                :has-error="v$.refundNote.$error"
+                :error-message="
+                  v$.refundNote.$error
+                    ? $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.NOTE_REQUIRED')
+                    : ''
+                "
+              >
+                <!-- <select
+                v-model="formState.refundNote"
+                class="w-full mt-1 border-0 selectInbox"
+                :class="{ 'border-red-500': v$.refundNote.$error }"
+              > -->
+                <option v-for="reason in reasons" :value="reason">
+                  {{ reason }}
+                </option>
+                <!-- </select> -->
+              </FormSelect>
+            </div>
+          </div>
+
+          <div
+            class="flex flex-col items-start justify-center content-start gap-2"
+          >
+            <div
+              class="select-visible-checkbox gap-2"
+              :style="selectVisibleCheckboxStyle"
+            >
+              <input
+                type="checkbox"
+                :checked="formState.sendNotification"
+                @change="
+                  formState.sendNotification = !formState.sendNotification
+                "
+              />
+
+              <span>
+                {{
+                  $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION')
+                }}
+              </span>
+            </div>
+          </div>
+        </div>
+
         <div class="flex-1 flex-row"></div>
 
         <div class="flex flex-col">
@@ -904,80 +1013,7 @@ const buttonText = () => {
           {{ /* refundableAmount */ availableRefund[0] }}</span
         >
       </div>
-
-      <div class="flex flex-row justify-start items-start gap-4 mt-4">
-        <div class="flex flex-col">
-          <div class="flex flex-row gap-2 pb-2">
-            <h5>
-              {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_AMOUNT') }}
-            </h5>
-            <span v-if="formState.refundAmount !== availableRefund"
-              >(manual)</span
-            >
-          </div>
-
-          <input
-            type="text"
-            :value="currency_codes[order.currency] + formState.refundAmount"
-            inputmode="decimal"
-            placeholder="0.00"
-            @input="onInput"
-            @blur="onBlur"
-            style="width: 200px; font-size: 1.1em"
-            autocomplete="off"
-          />
-
-          <p
-            v-if="v$.refundAmount.$error"
-            class="mb-0 text-xs truncate transition-all duration-500 ease-in-out"
-            :style="{
-              color: '#ef4444',
-            }"
-          >
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.INVALID_AMOUNT') }}
-          </p>
-        </div>
-
-        <div class="flex flex-col">
-          <h5 class="pb-1">
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.REFUND_REASON') }}
-            <!-- {{ add marker for manual }}  -->
-          </h5>
-
-          <select
-            v-model="formState.refundNote"
-            class="w-full mt-1 border-0 selectInbox"
-            :class="{ 'border-red-500': v$.refundNote.$error }"
-          >
-            <option v-for="reason in reasons" :value="reason">
-              {{ reason }}
-            </option>
-          </select>
-
-          <span v-if="v$.refundNote.$error" class="text-xs text-red-500 pl-2">
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.NOTE_REQUIRED') }}
-          </span>
-        </div>
-      </div>
-
-      <div class="flex flex-col items-start justify-center content-start gap-2">
-        <div
-          class="select-visible-checkbox gap-2"
-          :style="selectVisibleCheckboxStyle"
-        >
-          <input
-            type="checkbox"
-            :checked="formState.sendNotification"
-            @change="formState.sendNotification = !formState.sendNotification"
-          />
-
-          <span>
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.SEND_NOTIFICATION') }}
-          </span>
-        </div>
-      </div>
-
-      <div class="flex flex-row justify-end mt-4">
+      <div class="flex flex-row justify-end absolute bottom-4 right-4">
         <Button
           type="button"
           :disabled="v$.$error || cancellationState === 'processing'"

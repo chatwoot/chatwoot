@@ -1,4 +1,5 @@
 <script setup>
+import Input from 'dashboard/components-next/input/Input.vue';
 import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
@@ -364,7 +365,9 @@ const fulfillOrder = async $t => {
 
     let error = null;
     if (
-      !fulfillLineItems.some(e => e.fulfillmentOrderLineItems.some(e => e.quantity > 0))
+      !fulfillLineItems.some(e =>
+        e.fulfillmentOrderLineItems.some(e => e.quantity > 0)
+      )
     ) {
       error = $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.ITEM_INSUFFICIENT');
     }
@@ -416,10 +419,12 @@ const fulfillOrder = async $t => {
 
     cancellationState.value = null;
     onClose();
+
+    useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.API_SUCCESS'));
   } catch (e) {
     console.log('Error occured: ', e);
     cancellationState.value = null;
-    let message = $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_FAILURE');
+    let message = $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.API_FAILURE');
     if (isAxiosError(e)) {
       const errors = e.response.data.errors;
       if (errors && errors[0].message) {
@@ -454,55 +459,59 @@ const buttonText = () => {
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.DESC')"
     />
     <form>
-      <div v-for="fli in fulfillmentOrders" class="flex flex-col gap-2">
-        <table class="woot-table items-table overflow-auto max-h-2 table-fixed">
-          <thead>
-            <tr>
-              <th class="overflow-auto max-w-xs">
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TABLE.PRODUCT') }}
-              </th>
-              <th>
-                {{
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TABLE.ITEM_PRICE')
-                }}
-              </th>
-              <th>
-                {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TABLE.QUANTITY') }}
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="item in fli.lineItems.nodes" :key="item.id">
-              <td>
-                <div class="overflow-auto max-w-xs">{{ item.name }}</div>
-              </td>
-              <td>
-                <div>
+      <div class="h-[24.4rem] overflow-auto justify-between">
+        <div v-for="fli in fulfillmentOrders" class="flex flex-col gap-2">
+          <table
+            class="woot-table items-table overflow-auto max-h-2 table-fixed"
+          >
+            <thead>
+              <tr>
+                <th class="overflow-auto max-w-xs">
+                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TABLE.PRODUCT') }}
+                </th>
+                <th>
                   {{
-                    currency_codes[
-                      item.price_set.presentment_money.currency_code
-                    ]
+                    $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TABLE.ITEM_PRICE')
                   }}
-                  {{ item.price_set.shop_money.amount }}
-                </div>
-              </td>
-              <td class="text-center align-middle">
-                <!-- <div>{{ item.quantity }}</div> -->
-                <div class="inline-block">
-                  <QuantityField
-                    v-model="formState.unfulfilledQuantity[item.id]"
-                    :min="0"
-                    :max="unfulfilledQuantityLimits[item.id]"
-                  ></QuantityField>
-                </div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+                </th>
+                <th>
+                  {{
+                    $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TABLE.QUANTITY')
+                  }}
+                </th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr v-for="item in fli.lineItems.nodes" :key="item.id">
+                <td>
+                  <div class="overflow-auto max-w-xs">{{ item.name }}</div>
+                </td>
+                <td>
+                  <div>
+                    {{
+                      currency_codes[
+                        item.price_set.presentment_money.currency_code
+                      ]
+                    }}
+                    {{ item.price_set.shop_money.amount }}
+                  </div>
+                </td>
+                <td class="text-center align-middle">
+                  <!-- <div>{{ item.quantity }}</div> -->
+                  <div class="inline-block">
+                    <QuantityField
+                      v-model="formState.unfulfilledQuantity[item.id]"
+                      :min="0"
+                      :max="unfulfilledQuantityLimits[item.id]"
+                    ></QuantityField>
+                  </div>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        <SimpleDivider></SimpleDivider>
       </div>
-
-      <SimpleDivider></SimpleDivider>
-      <div class="h-4"></div>
 
       <div class="flex flex-col">
         <div class="flex flex-row justify-end items-start gap-4 mt-4">
@@ -569,57 +578,31 @@ const buttonText = () => {
               @click="() => removeTrackingFields(index)"
             >
             </NextButton>
-            <div class="flex flex-col">
-              <input
+            <div class="flex flex-col mb-4">
+              <Input
                 type="text"
                 v-model="formState.trackingNumber[index]"
-                :aria-invalid="v$.trackingNumber[index].$error"
-                :placeholder="
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TRACKING.NUMBER')
+                :message="v$.trackingNumber[index].$errors[0]?.$message || ''"
+                :message-type="
+                  v$.trackingNumber[index].$error ? 'error' : 'message'
                 "
                 style="width: 200px; font-size: 1.1em"
                 autocomplete="off"
               />
-
-              <p
-                v-if="v$.trackingNumber[index].$error"
-                class="mb-0 text-xs truncate transition-all duration-500 ease-in-out"
-                :style="{
-                  color: '#ef4444',
-                }"
-              >
-                {{ v$.trackingNumber[index].$errors[0]?.$message }}
-              </p>
             </div>
 
             <div class="flex flex-col">
-              <input
+              <Input
                 v-if="formState.trackingCompany === 'Other'"
                 type="text"
-                :placeholder="
-                  $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TRACKING.URL')
+                :message="v$.trackingUrl[index].$errors[0]?.$message || ''"
+                :message-type="
+                  v$.trackingUrl[index].$error ? 'error' : 'message'
                 "
                 v-model="formState.trackingUrl[index]"
                 style="width: 200px; font-size: 1.1em"
                 autocomplete="off"
               />
-
-              <p
-                v-if="
-                  formState.trackingCompany === 'Other' &&
-                  v$.trackingUrl[index].$error
-                "
-                class="mb-0 text-xs truncate transition-all duration-500 ease-in-out"
-                :style="{
-                  color: '#ef4444',
-                }"
-              >
-                {{
-                  $t(
-                    'CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.TRACKING.INVALID_URL'
-                  )
-                }}
-              </p>
             </div>
           </div>
         </div>
@@ -642,7 +625,7 @@ const buttonText = () => {
         </div>
       </div>
 
-      <div class="flex flex-row justify-end mt-4">
+      <div class="flex flex-row justify-end absolute bottom-4 right-4">
         <NextButton
           type="button"
           :disabled="v$.$error || cancellationState === 'processing'"

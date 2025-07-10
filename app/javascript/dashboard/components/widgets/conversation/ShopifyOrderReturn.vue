@@ -1,4 +1,5 @@
 <script setup>
+import FormSelect from 'v3/components/Form/Select.vue';
 import { computed, onMounted, onUnmounted, reactive, ref, watch } from 'vue';
 import { debounce } from '@chatwoot/utils';
 import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
@@ -19,6 +20,7 @@ import OrdersAPI from 'dashboard/api/shopify/orders';
 import ShopifyLocationsAPI from 'dashboard/api/shopify/locations';
 import { isAxiosError } from 'axios';
 import { useAlert } from 'dashboard/composables';
+import Input from 'dashboard/components-next/input/Input.vue';
 
 const props = defineProps({
   order: {
@@ -128,6 +130,7 @@ const rules = computed(() => {
     quantity: quantityRules,
     reasons: reasonRules,
     notes: reasonNoteRules,
+    restockingFees: restockFeeRules,
   };
 });
 
@@ -452,7 +455,7 @@ const calculateReturn = async () => {
       .map(([e, qty]) => ({
         fulfillmentLineItemId: e,
         quantity: qty,
-        restockingFeePercentage: returnStockingFeesStates.value[e] ?? 0,
+        restockingFeePercentage: Number(formState.restockingFees[e] ?? 0),
       })),
     returnShippingFee: {
       amount: Number(formState.shippingFees),
@@ -486,7 +489,7 @@ const createReturn = async $t => {
         .map(([e, qty]) => ({
           fulfillmentLineItemId: e,
           quantity: qty,
-          restockingFeePercentage: returnStockingFeesStates.value[e] ?? 0, //REVIEW: This shouldn't be null anyways
+          restockingFeePercentage: Number(formState.restockingFees[e] ?? 0), //REVIEW: This shouldn't be null anyways
           returnReason: returnReasonStates.value[e],
           returnReasonNote: returnNoteStates.value[e],
         })),
@@ -572,14 +575,14 @@ function onBlur() {
     <form>
       <div class="h-[27.4rem] overflow-scroll">
         <div v-for="fulfillment in fulfillments">
-          <h3 class="text-base font-semibold text-gray-900 p-4">
+          <h3 class="text-base font-semibold text-gray-900 p-2">
             {{ fulfillment.name }}
           </h3>
           <div
             v-for="fli in fulfillment.fulfillmentLineItems.filter(
               e => e.quantity > 0
             )"
-            class="flex flex-col border rounded-lg shadow-sm p-4"
+            class="flex flex-col border rounded-lg shadow-sm p-4 m-2"
           >
             <div class="flex flex-row justify-between">
               <div class="flex flex-col">
@@ -639,17 +642,24 @@ function onBlur() {
 
             <div
               v-if="formState.quantity[fli.id] > 0"
-              class="flex flex-row items-center justify-between"
+              class="flex flex-row items-start justify-between"
             >
               <div class="flex flex-col">
-                <label class="pb-1">
+                <label>
                   {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.RETURN_REASON') }}
                 </label>
 
-                <select
+                <FormSelect
                   v-model="formState.reasons[fli.id]"
-                  class="w-full p-2 mt-1 border-0"
-                  :class="{ 'border-red-500': v$.reasons[fli.id].$error }"
+                  name="returnReason"
+                  spacing="compact"
+                  class="flex-grow"
+                  :options="reasonOptions"
+                  :placeholder="
+                    $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REASON')
+                  "
+                  :has-error="v$.reasons[fli.id].$error"
+                  :error-message="v$.reasons[fli.id].$errors[0]?.$message || ''"
                 >
                   <option
                     v-for="reason in reasonOptions"
@@ -658,37 +668,43 @@ function onBlur() {
                   >
                     {{ reason.value }}
                   </option>
-                </select>
-                <span
-                  v-if="v$.reasons[fli.id].$error"
-                  class="text-xs text-red-500 pl-2"
-                >
-                  {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.NOTE_REQUIRED') }}
-                </span>
+                </FormSelect>
               </div>
 
-              <div class="flex flex-row gap-4 items-center">
-                <div class="flex flex-row gap-4 items-center">
-                  <label class="text-base">
-                    {{
-                      $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.RESTOCKING_FEES')
-                    }}
-                  </label>
-
-                  <div class="w-16 mx-auto text-center">
-                    <input
-                      v-model="formState.restockingFees[fli.id]"
-                      :oninput="() => debouncedRefund()"
-                      type="number"
-                      :min="1"
-                      :max="99"
-                      class="leading-none"
-                      style="transform: translateY(8px)"
-                    />
-                  </div>
+              <div
+                class="flex flex-row pt-6 w-[25rem] h-[2.5rem] gap-4 items-start justify-end"
+              >
+                <div class="text-center">
+                  <Input
+                    type="number"
+                    spacing="base"
+                    :message="
+                      v$.restockingFees[fli.id].$errors[0]?.$message || ''
+                    "
+                    :message-type="
+                      v$.restockingFees[fli.id].$error ? 'error' : 'message'
+                    "
+                    v-model="formState.restockingFees[fli.id]"
+                    inputmode="decimal"
+                    placeholder="0.00"
+                    autocomplete="off"
+                    class="w-[10rem] leading-none"
+                    @input="() => debouncedRefund()"
+                  >
+                    <template #input-prefix>
+                      <span class="text-gray-500">
+                        {{
+                          $t(
+                            'CONVERSATION_SIDEBAR.SHOPIFY.RETURN.RESTOCKING_FEES'
+                          )
+                        }}
+                        %
+                      </span>
+                    </template>
+                  </Input>
                 </div>
 
-                <span class="pl-10 text-sm w-[100px]">
+                <span class="pl-10 pt-3 text-sm w-[100px]">
                   {{
                     currency_codes[
                       currentRefund?.returnLineItems.find(
@@ -750,26 +766,28 @@ function onBlur() {
             </h5>
           </div>
 
-          <input
+          <Input
             type="text"
-            :value="currency_codes[order.currency] + formState.shippingFees"
-            inputmode="numeric"
+            spacing="base"
+            v-model="formState.shippingFees"
+            :message-type="v$.shippingFees.$error ? 'error' : 'info'"
+            :message="
+              v$.shippingFees.$error
+                ? $t('CONVERSATION_SIDEBAR.SHOPIFY.REFUND.INVALID_AMOUNT')
+                : ''
+            "
+            @blur="v$.shippingFees.$touch"
+            inputmode="decimal"
             placeholder="0.00"
-            @input="onInput"
-            @blur="onBlur"
             style="width: 200px; font-size: 1.1em"
             autocomplete="off"
-          />
-
-          <p
-            v-if="v$.shippingFees.$error"
-            class="mt-2 mb-0 text-xs truncate transition-all duration-500 ease-in-out"
-            :style="{
-              color: '#ef4444',
-            }"
           >
-            {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.INVALID_AMOUNT') }}
-          </p>
+            <template #input-prefix>
+              <span class="text-gray-500">
+                {{ currency_codes[order.currency] }}
+              </span>
+            </template>
+          </Input>
         </div>
 
         <div class="flex-1 flex-row"></div>
@@ -824,7 +842,10 @@ function onBlur() {
         </div>
       </div>
 
-      <div class="flex flex-row justify-end mt-4">
+      <div class="flex flex-row justify-end absolute bottom-4 right-4 items-center gap-4">
+        <label class="text-base">
+          {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.REFUND_LATER_HINT') }}
+        </label>
         <Button
           type="button"
           :disabled="v$.$error || buttonState === 'processing'"

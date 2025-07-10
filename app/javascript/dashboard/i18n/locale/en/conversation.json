@@ -348,7 +348,9 @@
         "SEND_NOTIFICATION": "Send notifications",
         "FULFILL_ORDER": "Fulfill order",
         "ITEM_INSUFFICIENT": "Insufficient quantities selected for line items",
-        "TRACKING_INSUFFICIENT": "Please add at least one tracking number"
+        "TRACKING_INSUFFICIENT": "Please add at least one tracking number",
+        "API_FAILURE": "An internal error occured",
+        "API_SUCCESS": "Refund created for the order"
       },
       "RETURN": {
         "TITLE": "Return order",
@@ -362,7 +364,8 @@
           "RESTOCK_ITEMS": "Restock"
         },
         "TAX": "Tax",
-        "TOTAL": "Total",
+        "TOTAL": "Expected refundable amount",
+        "REFUND_LATER_HINT": "No refund will be processed for now",
         "TOTAL_REFUNDABLE": "Maximum Refundable",
         "TOTAL_AVAILABLE_REFUND": "Available refund",
         "PROCESSING": "Processing",
@@ -376,7 +379,8 @@
         "RESTOCKING_FEES": "Restocking fees",
         "SEND_NOTIFICATION": "Send return notification to customer",
         "SUBTOTAL": "Subtotal",
-        "SHIPPING_FEES": "Shipping fees"
+        "SHIPPING_FEES": "Shipping fees",
+        "NOTE_REQUIRED": "Note required"
       },
       "REFUND": {
         "TITLE": "Refund order",

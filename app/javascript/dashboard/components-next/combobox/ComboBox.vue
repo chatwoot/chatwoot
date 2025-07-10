@@ -112,6 +112,7 @@ watch(
         :selected-values="selectedValue"
         @search="emit('search', $event)"
         @select="selectOption"
+        class="w-full"
       />
 
       <p

@@ -10,15 +10,15 @@ import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
 import OrdersAPI from 'dashboard/api/shopify/orders';
-import { AxiosError } from 'axios';
 import { isAxiosError } from 'axios';
+import FormSelect from 'v3/components/Form/Select.vue';
 
 const props = defineProps({
   order: {
     type: Object,
-    required: true
-  }
-})
+    required: true,
+  },
+});
 
 const reasons = {
   CUSTOMER: 'The customer wanted to cancel the order.',
@@ -71,7 +71,7 @@ const onOrderUpdate = data => {
 
   onClose();
   emitter.emit('newToastMessage', {
-    message: "Order cancelled successfully",
+    message: 'Order cancelled successfully',
     action: null,
   });
 
@@ -130,7 +130,7 @@ const buttonText = () => {
 </script>
 
 <template>
-  <woot-modal :show="true" :on-close="onClose" size="w-[60.4rem] h-[50.4rem]">
+  <woot-modal :show="true" :on-close="onClose">
     <woot-modal-header
       :header-title="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.TITLE')"
       :header-content="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.DESC')"
@@ -243,10 +243,16 @@ const buttonText = () => {
                 <!-- {{ add marker for manual }}  -->
               </label>
 
-              <select
+              <FormSelect
                 v-model="formState.cancellationReason"
-                class="w-full p-2 mt-1 border-0"
-                :class="{ 'border-red-500': v$.cancellationReason.$error }"
+                name="cancellationReason"
+                spacing="compact"
+                class="flex-grow"
+                :value="formState.cancellationReason"
+                :options="reasonOptions"
+                :placeholder="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REASON')"
+                :has-error="v$.cancellationReason.$error"
+                :error-message="v$.cancellationReason.$errors[0]?.$message || ''"
               >
                 <option
                   v-for="reason in reasonOptions"
@@ -255,7 +261,7 @@ const buttonText = () => {
                 >
                   {{ reason.value }}
                 </option>
-              </select>
+              </FormSelect>
             </div>
           </div>
         </div>

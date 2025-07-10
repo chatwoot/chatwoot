@@ -484,8 +484,6 @@ GRAPHQL
 
     return_line_items, return_shipping_fee = permitted.values_at(:returnLineItems, :returnShippingFee)
 
-    # return render json: {errors: [{field: 'returnLineItems', message: "No return items for the return"}]}, status: :unprocessable_entity unless return_line_items.length > 0
-
     orderGid =  "gid://shopify/Order/#{@order.id}"
 
     payload = {
@@ -519,13 +517,9 @@ GRAPHQL
 
 
   def fulfillment_create
-    permitted = params.permit(:notifyCustomer, originAddress: [ :address1, :address1, :zip, :countryCode, :city], lineItemsByFulfillmentOrder: [:fulfillmentOrderId, :fulfillmentOrderLineItems], trackingInfo: [:company, :number, :numbers, :url, :urls])
+    permitted = params.permit(:notifyCustomer, originAddress: [ :address1, :address1, :zip, :countryCode, :city], lineItemsByFulfillmentOrder: [:fulfillmentOrderId, fulfillmentOrderLineItems: [:id, :quantity]], trackingInfo: [:company, :number, :numbers, :url, :urls])
 
     notifyCustomer, originAddress, lineItemsByFulfillmentOrder,trackingInfo = permitted.values_at(:notifyCustomer, :originAddress, :lineItemsByFulfillmentOrder, :trackingInfo)
-
-    # return render json: {errors: [{field: 'returnLineItems', message: "No return items for the return"}]}, status: :unprocessable_entity unless return_line_items.length > 0
-
-    orderGid =  "gid://shopify/Order/#{@order.id}"
 
     payload = {
       notifyCustomer: notifyCustomer,
@@ -546,14 +540,10 @@ GRAPHQL
       if response.data.userErrors&.present?
         render json: {errors: errors.map(&:to_h)}, status: :unprocessable_entity
       else
-        render json: {refundable: deep_symbolize(response.data.returnCalculate)}
+        render json: {refundable: deep_symbolize(response.data.fulfillment)}
       end
     end
-
   end
-
-
-
 
   def deep_symbolize(obj)
     case obj
