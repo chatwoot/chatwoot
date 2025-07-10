@@ -1,11 +1,10 @@
 <script setup>
-import { computed } from 'vue';
 import { useRouter } from 'vue-router';
 import PaginationFooter from 'dashboard/components-next/pagination/PaginationFooter.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 import Breadcrumb from 'dashboard/components-next/breadcrumb/Breadcrumb.vue';
 
-const props = defineProps({
+defineProps({
   isFetching: {
     type: Boolean,
     default: false,
@@ -30,7 +29,7 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
-  breadcrumbItem: {
+  breadcrumbItems: {
     type: Array,
     default: () => [],
   },
@@ -43,10 +42,6 @@ const router = useRouter();
 const handlePageChange = event => {
   emit('update:currentPage', event);
 };
-
-const breadcrumbItems = computed(() => {
-  return props.breadcrumbItem;
-});
 
 const handleBreadcrumbClick = item => {
   router.push({

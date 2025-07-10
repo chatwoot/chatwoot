@@ -55,7 +55,7 @@ const controlItems = computed(() => {
   ];
 });
 
-const breadcrumbItem = computed(() => {
+const breadcrumbItems = computed(() => {
   const activeControlItem = controlItems.value?.find(
     item => item.routeName === route.name
   );
@@ -100,7 +100,7 @@ onMounted(() => {
 
 <template>
   <SettingsPageLayout
-    :breadcrumb-item="breadcrumbItem"
+    :breadcrumb-items="breadcrumbItems"
     :is-fetching="isFetching"
     class="[&>div]:max-w-[80rem]"
   >
