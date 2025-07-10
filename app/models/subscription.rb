@@ -9,6 +9,7 @@
 #  available_channels      :text             default([]), is an Array
 #  billing_cycle           :string           default("monthly"), not null
 #  ends_at                 :datetime         not null
+#  last_notify_expiry      :datetime
 #  max_ai_agents           :integer          default(0), not null
 #  max_ai_responses        :integer          default(0), not null
 #  max_human_agents        :integer          default(0), not null

@@ -58,3 +58,8 @@ reset_subscription_usage:
   cron: "<%= ENV['RESET_SUBSCRIPTION_USAGE_JOB_CRON'] || '0 */2 * * *' %>" # Default At minute 0 past every 2nd hour
   class: "ResetSubscriptionUsageJob"
   queue: scheduled_jobs
+
+notify_upcoming_expiry_user:
+  cron: "<%= ENV['NOTIFY_SUBSCRIPTION_EXPIRY_CRON'] || '0 */3 * * *' %>" # Default to every 3 hour
+  class: 'NotifyUpcomingExpiryUser'
+  queue: scheduled_jobs

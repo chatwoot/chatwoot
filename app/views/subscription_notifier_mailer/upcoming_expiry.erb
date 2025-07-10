@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8" />
+  <title>Perpanjang Paket - Jangkau.ai</title>
+</head>
+<body style="background-color:#f8f9fa; padding:2rem 0; font-family: Arial, sans-serif; margin:0;">
+  <div style="max-width:700px; margin:auto; background:#fff; padding:2rem; border:1px solid #dee2e6; border-radius:4px; box-shadow:0 2px 6px rgba(0,0,0,0.05);">
+
+    <!-- Header -->
+    <div style="display:flex; justify-content:space-between; align-items:flex-start; margin-bottom:1.5rem;">
+      <img src="<%= "#{ENV['FRONTEND_URL']}/assets/images/logo-primary-color.png" %>" alt="Logo Jangkau.ai" style="height:40px;" />
+      <div style="text-align:right; width: 100%;">
+        <p style="margin:0;"><%= @payment_date %></p>
+      </div>
+    </div>
+
+    <hr style="border:none; border-top:1px solid #dee2e6;" />
+
+    <!-- Body -->
+    <div style="margin-bottom:1.5rem;">
+      <p>Halo <strong><%= @customer_name %></strong>,</p>
+      <p>Kami ingin mengingatkan bahwa paket <%= @nama_paket %> Anda di Jangkau.ai akan berakhir pada <%= @tanggal_expired_paket %>, atau dalam 7 hari lagi.</p>
+      <p>Agar chatbot dan fitur Jangkau lainnya tetap aktif melayani pelanggan Anda, yuk perpanjang sebelum masa aktifnya habis.</p>
+      <p>Klik tombol di bawah untuk memperpanjang layanan 👇</p>
+      <a href="<%= "#{ENV['FRONTEND_URL']}/app/accounts/#{@account_id}/settings/billing" %>" style="text-decoration: none;">
+          <div style="background-color:#198754; color:#fff; text-align:center; padding:0.75rem; border-radius:4px;">
+            Perpanjang Layanan
+          </div>
+      </a>
+    </div>
+
+    <hr style="border:none; border-top:1px solid #dee2e6;" />
+
+    <p style="margin-top:2rem;">Jika Anda butuh bantuan, tim kami siap membantu.</p>
+    <p style="margin-bottom:0;">Salam Hangat,<br />Tim Jangkau.ai</p>
+
+    <!-- Footer -->
+    <div style="margin-top:3rem;">
+      <div style="background-color:#198754; color:#fff; text-align:center; padding:1.5rem; border-top-left-radius:4px; border-top-right-radius:4px;">
+        <strong>PT. Radya Anugerah Digital</strong><br />
+        Jl. Sidomukti No.14, Sukaluyu,<br />
+        Kec. Cibeunying Kaler, Kota Bandung, Jawa Barat 40123<br /><br />
+        <strong>Layanan Support</strong><br />
+        +62 21 20450511<br />
+        <a href="mailto:info@jangkau.ai" style="color:#fff; text-decoration:none;">info@jangkau.ai</a>
+      </div>
+      <div style="background:#fff; text-align:center; padding:1rem; border-top:1px solid #dee2e6;">
+        <a href="#" style="margin:0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/facebook-new.png" alt="Facebook" /></a>
+        <a href="#" style="margin:0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/instagram-new.png" alt="Instagram" /></a>
+        <a href="#" style="margin:0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/twitter.png" alt="Twitter" /></a>
+        <a href="#" style="margin:0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/youtube-play.png" alt="YouTube" /></a>
+        <a href="#" style="margin:0 0.5rem;"><img src="https://img.icons8.com/ios-filled/30/4caf50/internet.png" alt="Website" /></a>
+        <p style="margin-top:1rem; font-size:0.9rem; color:#6c757d;">© 2025 PT. Radya Anugerah Digital. All Rights Reserved</p>
+      </div>
+    </div>
+
+  </div>
+</body>
+</html>
