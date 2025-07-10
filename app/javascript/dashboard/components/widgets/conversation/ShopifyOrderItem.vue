@@ -37,6 +37,10 @@ const props = defineProps({
     type: Object,
     required: true,
   },
+  shop: {
+    type: String,
+    required: true,
+  },
 });
 
 const emitCancelOrder = () => {
@@ -113,7 +117,7 @@ const getFulfillmentClass = status => {
     <div class="flex justify-between items-center">
       <div class="font-medium flex">
         <a
-          :href="order.admin_url"
+          :href="`https://${shop}/admin/orders/${order.id}`"
           target="_blank"
           rel="noopener noreferrer"
           class="hover:underline text-n-slate-12 cursor-pointer truncate"

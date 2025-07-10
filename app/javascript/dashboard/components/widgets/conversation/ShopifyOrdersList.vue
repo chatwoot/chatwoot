@@ -21,6 +21,7 @@ const hasSearchableInfo = computed(
 );
 
 const orders = ref([]);
+const shop = ref(null);
 const loading = ref(true);
 const error = ref('');
 
@@ -29,6 +30,7 @@ const fetchOrders = async () => {
     loading.value = true;
     const response = await ShopifyAPI.getOrders(props.contactId);
     orders.value = response.data.orders;
+    shop.value = response.data.shop;
   } catch (e) {
     error.value =
       e.response?.data?.error || 'CONVERSATION_SIDEBAR.SHOPIFY.ERROR';
@@ -82,6 +84,7 @@ onUnmounted(() => {
         v-for="order in orders"
         :key="order.id"
         :order="order"
+        :shop="shop"
       />
     </div>
   </div>
