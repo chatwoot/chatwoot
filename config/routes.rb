@@ -486,6 +486,7 @@ Rails.application.routes.draw do
     get 'signup', to: 'embedded#new'
     get 'signup/callback', to: 'embedded#callback'
     post 'embedded_signup', to: 'embedded#embedded_signup'
+    post 'reauthorize', to: 'embedded#reauthorize'
   end
 
   namespace :twitter do
