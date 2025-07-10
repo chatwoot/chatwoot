@@ -89,6 +89,19 @@ class Whatsapp::EmbeddedSignupService
     end
   end
 
+  def register_phone_number(phone_number_id, access_token)
+    # Generate a random 6-digit PIN
+    pin = SecureRandom.random_number(900_000) + 100_000
+
+    HTTParty.post(
+      "https://graph.facebook.com/#{whatsapp_api_version}/#{phone_number_id}/register",
+      {
+        headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
+        body: { messaging_product: 'whatsapp', pin: pin.to_s }.to_json
+      }
+    )
+  end
+
   def find_existing_channel(phone_number)
     Channel::Whatsapp.find_by(account: @account, phone_number: phone_number)
   end

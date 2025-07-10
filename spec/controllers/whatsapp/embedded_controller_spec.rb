@@ -23,8 +23,7 @@ RSpec.describe 'WhatsApp Embedded API', type: :request do
         expect(json_response).to include(
           'status' => 'ready',
           'app_id' => 'test_app_id',
-          'config_id' => 'test_config_id',
-          'app_secret' => 'test_app_secret'
+          'config_id' => 'test_config_id'
         )
       end
     end
