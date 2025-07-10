@@ -28,6 +28,7 @@
         timezone: '<%= @web_widget.inbox.timezone %>',
         allowMessagesAfterResolved: <%= @web_widget.inbox.allow_messages_after_resolved %>,
         disableBranding: <%= @web_widget.inbox.account.feature_enabled?('disable_branding') %>,
+        hasShop: <%= Integrations::Hook.find_by(account: @web_widget.inbox.account.id, app_id: 'shopify').present? %>,
       }
       window.chatwootPubsubToken = '<%= @contact_inbox.pubsub_token %>'
       window.authToken = '<%= @token %>'

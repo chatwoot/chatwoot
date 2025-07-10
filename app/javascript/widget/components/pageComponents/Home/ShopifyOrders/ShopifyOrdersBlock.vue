@@ -15,6 +15,10 @@ const props = defineProps({
     type: Number,
     default: null,
   },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
 });
 
 const orders = computed(() => {
@@ -32,10 +36,8 @@ onMounted(() => {
 });
 
 const viewAll = () => {
-
   const name = 'shopify-orders-block';
   replaceRoute(name, {});
-
 };
 </script>
 
@@ -44,7 +46,7 @@ const viewAll = () => {
     {{ $t('SHOPIFY_ORDERS.TITLE') }}
   </h3>
 
-  <ShopifyOrderTile v-for="order in orders" :order="order"></ShopifyOrderTile>
+  <ShopifyOrderTile v-for="order in orders" :order="order" :compact="compact"></ShopifyOrderTile>
 
   <div v-if="ordersUiFlags.isFetching" class="flex flex-col gap-3">
     <Button>

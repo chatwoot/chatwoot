@@ -6,7 +6,6 @@ import ShopifyOrdersBlock from './ShopifyOrdersBlock.vue';
 
 const store = useStore();
 const contact = computed(() => store.getters['contacts/getCurrentUser']);
-
 </script>
 
 <template>
@@ -17,6 +16,6 @@ const contact = computed(() => store.getters['contacts/getCurrentUser']);
       :unverfied_shopify_email="contact.unverfied_shopify_email"
       v-if="!contact.verified_shopify_id"
     ></CustomerIdentificationBlock>
-    <ShopifyOrdersBlock v-else :limit="3"></ShopifyOrdersBlock>
+    <ShopifyOrdersBlock v-else :limit="3" :compact="true"></ShopifyOrdersBlock>
   </div>
 </template>

@@ -18,12 +18,14 @@ export default {
 </script>
 
 <template>
-  <div
-    class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-n-slate-2 dark:bg-n-solid-1"
-  >
-    <div class="flex flex-1 overflow-auto">
-      <ConversationWrap :grouped-messages="groupedMessages" />
+  <div>
+    <div
+      class="flex flex-col flex-1 overflow-hidden rounded-b-lg bg-n-slate-2 dark:bg-n-solid-1 h-full"
+    >
+      <div class="flex flex-1 overflow-auto">
+        <ConversationWrap :grouped-messages="groupedMessages" />
+      </div>
+      <ChatFooter class="px-5" />
     </div>
-    <ChatFooter class="px-5" />
   </div>
 </template>

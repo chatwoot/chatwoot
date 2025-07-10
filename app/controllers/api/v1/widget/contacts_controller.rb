@@ -32,6 +32,11 @@ class Api::V1::Widget::ContactsController < Api::V1::Widget::BaseController
   end
 
   def verify_shopify_email
+    shopify_hook = @current_account.hooks.find_by(app_id: 'shopify')
+
+    if(!shopify_hook.present?) then
+      return render json: {error: "Shop not found"}, status: :not_found
+    end
     Rails.logger.info("Verify shopify email")
     # Currently skipping all otp logic
     email = params[:email]

@@ -12,6 +12,11 @@
       "ERROR_MESSAGE": "Couldn't send, try again"
     }
   },
+  "TAB_VIEW": {
+    "CONVERSATION": "Conversation",
+    "ARTICLES": "Articles",
+    "ORDER": "Orders"
+  },
   "TEAM_AVAILABILITY": {
     "ONLINE": "We are online",
     "OFFLINE": "We are away at the moment"

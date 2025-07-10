@@ -14,6 +14,9 @@ export default {
         : false;
     },
   },
+  mounted() {
+    console.log("Query: ", this.$route.query)
+  }
 };
 </script>
 

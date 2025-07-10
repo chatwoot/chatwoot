@@ -5,6 +5,10 @@ const props = defineProps({
     type: Number,
     default: 0,
   },
+  fixedSize: {
+    type: Boolean,
+    default: false,
+  },
   tabs: {
     type: Array,
     required: true,
@@ -37,11 +41,12 @@ const showDivider = index => {
 </script>
 
 <template>
-  <div class="flex items-center h-8 rounded-lg bg-n-alpha-1 w-fit">
-    <template v-for="(tab, index) in tabs" :key="index">
+  <div class="flex items-center h-8 rounded-lg bg-n-alpha-1">
+    <template v-for="(tab, index) in tabs" :key="index" class="flex flex-row">
       <button
         class="relative px-4 truncate py-1.5 text-sm border-0 outline-1 outline rounded-lg transition-colors duration-300 ease-in-out hover:text-n-brand"
         :class="[
+          fixedSize ? 'flex-1' : '',
           activeTab === index
             ? 'text-n-blue-text bg-n-solid-active outline-n-container dark:outline-transparent'
             : 'text-n-slate-10 outline-transparent h-8',

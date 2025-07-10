@@ -10,9 +10,14 @@ export default {
   components: {
     ArticleContainer,
     TeamAvailability,
-    ShopifyOrdersContainer
+    ShopifyOrdersContainer,
   },
   mixins: [configMixin, routerMixin],
+  data() {
+    return {
+      hasShop: window.chatwootWebChannel.hasShop
+    };
+  },
   computed: {
     ...mapGetters({
       availableAgents: 'agent/availableAgents',
@@ -32,7 +37,7 @@ export default {
 </script>
 
 <template>
-  <div class="z-50 flex flex-col justify-end flex-1 w-full p-4 gap-4">
+  <div class="z-50 flex flex-col justify-start flex-1 h-full w-full p-4 gap-4">
     <TeamAvailability
       :available-agents="availableAgents"
       :has-conversation="!!conversationSize"
@@ -40,7 +45,7 @@ export default {
       @start-conversation="startConversation"
     />
 
-    <!-- <ArticleContainer v-if="process.env.NODE_ENV !== 'development'"/> -->
-    <ShopifyOrdersContainer />
+    <ArticleContainer />
+    <ShopifyOrdersContainer v-if="hasShop" />
   </div>
 </template>

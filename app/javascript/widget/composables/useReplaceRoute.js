@@ -5,6 +5,7 @@ export function useReplaceRoute() {
 
   async function replaceRoute(name, params = {}) {
     if (proxy.$route.name !== name) {
+      console.log("Passing: ", params)
       return proxy.$router.replace({ name, params });
     }
     return undefined;

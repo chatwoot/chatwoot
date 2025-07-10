@@ -1,9 +1,12 @@
 <script setup>
-
 // Props
 const props = defineProps({
   order: {
     type: Object,
+    required: true,
+  },
+  compact: {
+    type: Boolean,
     required: true,
   },
 });
@@ -26,14 +29,19 @@ const handleReportIssue = () => {
 </script>
 <template>
   <div
-    class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 w-full max-w-sm"
+    class="bg-white rounded-lg shadow-sm border border-gray-200 p-4 w-full max-w-sm mb-4"
   >
     <!-- Order Header -->
     <div class="flex justify-between items-start mb-4">
       <div>
-        <h2 class="text-base font-semibold text-gray-900">
+        <a
+          :href="order.order_status_url"
+          target="_blank"
+          rel="noopener noreferrer"
+          class="text-base font-semibold text-gray-900"
+        >
           Order #{{ order.id }}
-        </h2>
+        </a>
         <span class="text-sm text-gray-600"> Shipment </span>
       </div>
       <div class="text-right flex flex-col items-end">
@@ -49,7 +57,7 @@ const handleReportIssue = () => {
     </div>
 
     <!-- Action Buttons - Stacked for narrow width -->
-    <div class="grid grid-cols-3 gap-2 mb-2">
+    <div v-if="!compact" class="grid grid-cols-3 gap-2 mb-2">
       <button
         @click="handleTrack"
         class="bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-2 rounded-lg text-sm transition-all duration-200 border border-gray-200 shadow-md hover:shadow-lg"
@@ -71,7 +79,7 @@ const handleReportIssue = () => {
     </div>
 
     <!-- Order Items -->
-    <div class="border-t pt-2">
+    <div v-if="!compact" class="border-t pt-2">
       <div
         v-for="item in order.line_items"
         :key="item.id"
