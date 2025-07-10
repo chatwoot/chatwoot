@@ -4,6 +4,17 @@ import { useStore } from 'dashboard/composables/store';
 import CustomerIdentificationBlock from './CustomerIdentificationBlock.vue';
 import ShopifyOrdersBlock from './ShopifyOrdersBlock.vue';
 
+const props = defineProps({
+  limit: {
+    type: Number,
+    default: null,
+  },
+  compact: {
+    type: Boolean,
+    default: false,
+  },
+});
+
 const store = useStore();
 const contact = computed(() => store.getters['contacts/getCurrentUser']);
 </script>
@@ -16,6 +27,6 @@ const contact = computed(() => store.getters['contacts/getCurrentUser']);
       :unverfied_shopify_email="contact.unverfied_shopify_email"
       v-if="!contact.verified_shopify_id"
     ></CustomerIdentificationBlock>
-    <ShopifyOrdersBlock v-else :limit="3" :compact="true"></ShopifyOrdersBlock>
+    <ShopifyOrdersBlock v-else :limit="limit" :compact="compact"></ShopifyOrdersBlock>
   </div>
 </template>

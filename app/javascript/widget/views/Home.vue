@@ -15,7 +15,7 @@ export default {
   mixins: [configMixin, routerMixin],
   data() {
     return {
-      hasShop: window.chatwootWebChannel.hasShop
+      hasShop: window.chatwootWebChannel.hasShop,
     };
   },
   computed: {
@@ -46,6 +46,6 @@ export default {
     />
 
     <ArticleContainer />
-    <ShopifyOrdersContainer v-if="hasShop" />
+    <ShopifyOrdersContainer v-if="hasShop" :limit="3" :compact="true" />
   </div>
 </template>
