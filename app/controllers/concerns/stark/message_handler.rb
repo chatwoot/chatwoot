@@ -13,7 +13,7 @@ module Stark
         message_type: :outgoing,
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
-        sender: agent_bot
+        sender: conversation.inbox.channel&.avatar_name || agent_bot
       )
     end
 

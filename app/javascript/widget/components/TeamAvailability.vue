@@ -50,6 +50,9 @@ export default {
       return anyAgentOnline;
     },
   },
+  mounted() {
+    this.startConversation();
+  },
   methods: {
     startConversation() {
       this.$emit('startConversation');

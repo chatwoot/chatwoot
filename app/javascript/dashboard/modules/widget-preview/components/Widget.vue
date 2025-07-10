@@ -16,6 +16,10 @@ export default {
   },
   mixins: [globalConfigMixin],
   props: {
+    avatarUrl: {
+      type: String,
+      default: '',
+    },
     welcomeHeading: {
       type: String,
       default: '',
@@ -56,6 +60,18 @@ export default {
       type: String,
       default: '',
     },
+    dealerName: {
+      type: String,
+      default: '',
+    },
+    dealerTagline: {
+      type: String,
+      default: '',
+    },
+    avatarName: {
+      type: String,
+      default: '',
+    },
   },
   data() {
     return {
@@ -79,6 +95,7 @@ export default {
     ...mapGetters({ globalConfig: 'globalConfig/get' }),
     getWidgetConfig() {
       return {
+        avatarUrl: this.avatarUrl,
         welcomeHeading: this.welcomeHeading,
         welcomeTagline: this.welcomeTagline,
         websiteName: this.websiteName,
@@ -87,6 +104,9 @@ export default {
         isOnline: this.isOnline,
         replyTime: this.replyTimeText,
         color: this.color,
+        dealerName: this.dealerName,
+        dealerTagline: this.dealerTagline,
+        avatarName: this.avatarName,
       };
     },
     replyTimeText() {
@@ -181,11 +201,28 @@ export default {
         @click="toggleWidget"
       >
         <img
-          v-if="!isWidgetVisible"
+          v-if="!isWidgetVisible && getWidgetConfig.avatarUrl && !isBubbleExpanded"
+          :src="getWidgetConfig.avatarUrl"
+          alt="Chat Avatar"
+          draggable="false"
+          class="absolute inset-0 w-full h-full rounded-full object-cover"
+        />
+        <div v-if="isBubbleExpanded && getWidgetConfig.avatarUrl" class="flex items-center ltr:pl-2.5 rtl:pr-2.5">
+          <img
+            v-if="getWidgetConfig.avatarUrl"
+            :src="getWidgetConfig.avatarUrl"
+            alt="Chat Avatar"
+            draggable="false"
+            class="w-6 h-6 rounded-full object-cover mr-2"
+          />
+        </div>
+        <!-- Fallback: default SVG icon when not expanded and no avatar -->
+        <img
+          v-else-if="!isWidgetVisible"
           src="~dashboard/assets/images/bubble-logo.svg"
           alt=""
           draggable="false"
-          class="w-6 h-6 mx-auto"
+          class="w-6 h-6! mx-auto"
         />
         <div v-if="isBubbleExpanded" class="ltr:pl-2.5 rtl:pr-2.5">
           {{ getWidgetBubbleLauncherTitle }}

@@ -489,7 +489,7 @@
       "DISPLAY_FILE_PICKER": "Display file picker on the widget",
       "DISPLAY_EMOJI_PICKER": "Display emoji picker on the widget",
       "ALLOW_END_CONVERSATION": "Allow users to end conversation from the widget",
-      "USE_INBOX_AVATAR_FOR_BOT": "Use inbox name and avatar for the bot"
+      "USE_INBOX_AVATAR_FOR_BOT": "Use avatar name or inbox name and avatar for the bot"
     },
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
@@ -675,6 +675,10 @@
               "SUCCESS_MESSAGE": "Avatar deleted successfully",
               "ERROR_MESSAGE": "There was an error, please try again"
             }
+          },
+          "AVATAR_NAME": {
+            "LABEL": "Avatar Name",
+            "PLACE_HOLDER": "Enter the avatar name (eg: Samantha)"
           }
         },
         "WEBSITE_NAME": {
@@ -722,6 +726,18 @@
         "WIDGET_BUBBLE_TYPE": {
           "STANDARD": "Standard",
           "EXPANDED_BUBBLE": "Expanded Bubble"
+        },
+        "DEALER_NAME": {
+          "LABEL": "Dealer Name",
+          "PLACE_HOLDER": "Enter the dealer name (eg: Acme Motors)"
+        },
+        "DEALER_TAGLINE": {
+          "LABEL": "Dealer's Tagline",
+          "PLACE_HOLDER": "Enter the dealer's tagline (eg: Your trusted partner)"
+        },
+        "AVATAR_NAME": {
+          "LABEL": "Avatar Name",
+          "PLACE_HOLDER": "Enter the avatar name (eg: Samantha)"
         }
       },
       "WIDGET_SCREEN": {

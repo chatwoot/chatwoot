@@ -38,6 +38,10 @@ export const SDK_CSS = `
   border: 0;
 }
 
+.woot-widget-bubble.woot-has-avatar {
+  background: transparent !important;
+}
+  
 .woot-widget-bubble {
   background: #1f93ff;
   border-radius: 100px;

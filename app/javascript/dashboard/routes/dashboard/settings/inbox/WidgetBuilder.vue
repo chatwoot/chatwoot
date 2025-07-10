@@ -71,12 +71,18 @@ export default {
           checked: false,
         },
       ],
+      dealerName: '',
+      dealerTagline: '',
+      avatarName: '',
     };
   },
   computed: {
     ...mapGetters({
       uiFlags: 'inboxes/getUIFlags',
     }),
+    avatarUrl() {
+    return this.inbox?.avatar_url || '';
+  },
     storageKey() {
       return `${LOCAL_STORAGE_KEYS.WIDGET_BUILDER}${this.inbox.id}`;
     },
@@ -86,6 +92,9 @@ export default {
         type: this.widgetBubbleType,
         launcherTitle: this.widgetBubbleLauncherTitle,
       };
+      if (this.avatarUrl) {
+        options.avatarUrl = this.avatarUrl;
+      }
       let script = this.inbox.web_widget_script;
       return (
         script.substring(0, 13) +
@@ -146,6 +155,7 @@ export default {
   },
   mounted() {
     this.setDefaults();
+    console.log('==================', this.avatarUrl);
   },
   validations: {
     websiteName: { required },
@@ -160,6 +170,9 @@ export default {
         widget_color,
         reply_time,
         avatar_url,
+        dealer_name,
+        dealer_tagline,
+        avatar_name,
       } = this.inbox;
       this.websiteName = name;
       this.welcomeHeading = welcome_title;
@@ -167,6 +180,9 @@ export default {
       this.color = widget_color;
       this.replyTime = reply_time;
       this.avatarUrl = avatar_url;
+      this.dealerName = dealer_name || '';
+      this.dealerTagline = dealer_tagline || '';
+      this.avatarName = avatar_name || '';
 
       const savedInformation = this.getSavedInboxInformation();
       if (savedInformation) {
@@ -239,6 +255,9 @@ export default {
             welcome_title: this.welcomeHeading,
             welcome_tagline: this.welcomeTagline,
             reply_time: this.replyTime,
+            dealer_name: this.dealerName,
+            dealer_tagline: this.dealerTagline,
+            avatar_name: this.avatarName,
           },
         };
         if (this.avatarFile) {
@@ -298,6 +317,11 @@ export default {
               @blur="v$.websiteName.$touch"
             />
             <woot-input
+              v-model="avatarName"
+              :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.LABEL')"
+              :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.PLACE_HOLDER')"
+            />
+            <woot-input
               v-model="welcomeHeading"
               :label="
                 $t(
@@ -322,6 +346,16 @@ export default {
                   'INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.WELCOME_TAGLINE.PLACE_HOLDER'
                 )
               "
+            />
+            <woot-input
+              v-model="dealerName"
+              :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.LABEL')"
+              :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.PLACE_HOLDER')"
+            />
+            <woot-input
+              v-model="dealerTagline"
+              :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.LABEL')"
+              :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.PLACE_HOLDER')"
             />
             <label>
               {{
@@ -404,10 +438,14 @@ export default {
           class="flex flex-col items-center justify-end min-h-[40.625rem] mx-5 mb-5 p-2.5 bg-slate-50 dark:bg-slate-900/50 rounded-lg"
         >
           <Widget
+            :avatar-url="avatarUrl"
             :welcome-heading="welcomeHeading"
             :welcome-tagline="welcomeTagline"
             :website-name="websiteName"
             :logo="avatarUrl"
+            :avatar-name="avatarName"
+            :dealer-name="dealerName"
+            :dealer-tagline="dealerTagline"
             is-online
             :reply-time="replyTime"
             :color="color"

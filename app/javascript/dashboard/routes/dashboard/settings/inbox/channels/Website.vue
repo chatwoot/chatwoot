@@ -21,6 +21,8 @@ export default {
       channelWelcomeTagline: '',
       greetingEnabled: false,
       greetingMessage: '',
+      dealerName: '',
+      dealerTagline: '',
     };
   },
   computed: {
@@ -52,6 +54,8 @@ export default {
               widget_color: this.channelWidgetColor,
               welcome_title: this.channelWelcomeTitle,
               welcome_tagline: this.channelWelcomeTagline,
+              dealer_name: this.dealerName,
+              dealer_tagline: this.dealerTagline,
             },
           }
         );
@@ -147,6 +151,26 @@ export default {
                 'INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_WELCOME_TAGLINE.PLACEHOLDER'
               )
             "
+          />
+        </label>
+      </div>
+      <div class="w-full">
+        <label>
+          {{ $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.LABEL') }}
+          <input
+            v-model="dealerName"
+            type="text"
+            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.PLACE_HOLDER')"
+          />
+        </label>
+      </div>
+      <div class="w-full">
+        <label>
+          {{ $t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.LABEL') }}
+          <input
+            v-model="dealerTagline"
+            type="text"
+            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.PLACE_HOLDER')"
           />
         </label>
       </div>
