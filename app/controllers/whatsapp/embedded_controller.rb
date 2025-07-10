@@ -10,8 +10,7 @@ class Whatsapp::EmbeddedController < ApplicationController
     render json: {
       status: 'ready',
       app_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
-      config_id: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', ''),
-      app_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', '')
+      config_id: GlobalConfigService.load('WHATSAPP_CONFIGURATION_ID', '')
     }
   end
 

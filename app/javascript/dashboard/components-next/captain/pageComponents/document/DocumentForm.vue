@@ -19,7 +19,7 @@ const formState = {
 };
 
 const initialState = {
-  name: '',
+  url: '',
   assistantId: null,
 };
 
