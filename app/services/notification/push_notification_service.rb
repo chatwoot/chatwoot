@@ -73,6 +73,8 @@ class Notification::PushNotificationService
     subscription.destroy!
   rescue Errno::ECONNRESET, Net::OpenTimeout, Net::ReadTimeout => e
     Rails.logger.error "WebPush operation error: #{e.message}"
+  rescue WebPush::TooManyRequests => e
+    Rails.logger.warn "WebPush rate limited for #{user.email} on account #{notification.account.id}: #{e.message}"
   rescue StandardError => e
     ChatwootExceptionTracker.new(e, account: notification.account).capture_exception
     true
