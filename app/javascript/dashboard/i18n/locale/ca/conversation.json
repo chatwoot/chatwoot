@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Pròxima setmana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agents",
+      "TEAMS": "Equips"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posposat fins a",
       "APPLY": "Posposat",
