@@ -1,5 +1,7 @@
 <script setup>
 import { ref, computed } from 'vue';
+import { useI18n } from 'vue-i18n';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   accept: {
@@ -33,6 +35,7 @@ const props = defineProps({
 });
 
 const emit = defineEmits(['fileSelected', 'fileError']);
+const { t } = useI18n();
 const fileInput = ref(null);
 const isDragOver = ref(false);
 
@@ -48,7 +51,13 @@ const handleFileClick = () => {
 const validateFile = file => {
   // Check file size
   if (file.size > maxSize.value) {
-    const errorMsg = `File "${file.name}" is too large. Maximum size is ${props.maxSizeMB}MB.`;
+    const errorMsg = t(
+      'CAPTAIN.DOCUMENTS.CREATE.FORM.FILE_UPLOAD.ERROR_TOO_LARGE',
+      {
+        fileName: file.name,
+        maxSize: props.maxSizeMB,
+      }
+    );
     emit('fileError', errorMsg);
     return false;
   }
@@ -58,7 +67,12 @@ const validateFile = file => {
     props.accept !== '*' &&
     !file.type.match(new RegExp(props.accept.replace(/\*/g, '.*')))
   ) {
-    const errorMsg = `File type not supported. Only ${props.accept} files are allowed.`;
+    const errorMsg = t(
+      'CAPTAIN.DOCUMENTS.CREATE.FORM.FILE_UPLOAD.ERROR_TYPE_NOT_SUPPORTED',
+      {
+        acceptedTypes: props.accept,
+      }
+    );
     emit('fileError', errorMsg);
     return false;
   }
@@ -118,10 +132,11 @@ const displayText = computed(() => {
 
 <template>
   <div
-    class="file-upload-zone"
+    class="border-2 border-dashed border-n-slate-6 rounded-lg p-6 bg-n-alpha-2 hover:bg-n-alpha-3 cursor-pointer transition-all duration-200 ease-in-out flex flex-col items-center justify-center text-center min-h-[120px] hover:border-n-slate-7"
     :class="{
-      'drag-over': isDragOver,
-      disabled: disabled,
+      'border-n-blue-9 bg-n-blue-2/50': isDragOver,
+      'opacity-50 cursor-not-allowed hover:bg-n-alpha-2 hover:border-n-slate-6':
+        disabled,
     }"
     @dragover="handleDragOver"
     @dragleave="handleDragLeave"
@@ -138,23 +153,11 @@ const displayText = computed(() => {
       @change="handleFileChange"
     />
 
-    <div class="upload-content">
-      <div class="upload-icon">
-        <svg
-          width="24"
-          height="24"
-          viewBox="0 0 24 24"
-          fill="none"
-          xmlns="http://www.w3.org/2000/svg"
-          class="text-n-slate-8"
-        >
-          <path
-            d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
-            fill="currentColor"
-          />
-        </svg>
+    <div class="flex flex-col items-center gap-3">
+      <div class="p-2 rounded-full bg-n-alpha-3">
+        <Icon icon="i-lucide-file-up" class="size-6 text-n-slate-8" />
       </div>
-      <div class="upload-text">
+      <div>
         <p class="text-sm font-medium text-n-slate-11">
           {{ displayText }}
         </p>
@@ -169,34 +172,3 @@ const displayText = computed(() => {
     </div>
   </div>
 </template>
-
-<style scoped>
-.file-upload-zone {
-  @apply border-2 border-dashed border-n-slate-6 rounded-lg p-6;
-  @apply bg-n-alpha-2 hover:bg-n-alpha-3 cursor-pointer;
-  @apply transition-all duration-200 ease-in-out;
-  @apply flex flex-col items-center justify-center text-center;
-  min-height: 120px;
-}
-
-.file-upload-zone:hover {
-  @apply border-n-slate-7;
-}
-
-.file-upload-zone.drag-over {
-  @apply border-n-blue-9 bg-n-blue-2/50;
-}
-
-.file-upload-zone.disabled {
-  @apply opacity-50 cursor-not-allowed;
-  @apply hover:bg-n-alpha-2 hover:border-n-slate-6;
-}
-
-.upload-content {
-  @apply flex flex-col items-center gap-3;
-}
-
-.upload-icon {
-  @apply p-2 rounded-full bg-n-alpha-3;
-}
-</style>

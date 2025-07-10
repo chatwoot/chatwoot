@@ -2,43 +2,41 @@
 import { ref } from 'vue';
 import { useStore } from 'dashboard/composables/store';
 import { useAlert } from 'dashboard/composables';
+import { useI18n } from 'vue-i18n';
 import Dialog from 'dashboard/components-next/dialog/Dialog.vue';
 import DocumentForm from './DocumentForm.vue';
 
 const emit = defineEmits(['close', 'success']);
+
+// Constants
+const DOCUMENT_TYPE = {
+  PDF: 'pdf',
+  URL: 'url',
+};
+
 const store = useStore();
+const { t } = useI18n();
 
 const dialogRef = ref(null);
 const documentForm = ref(null);
 
 const handleSubmit = async newDocument => {
   try {
-    if (newDocument.type === 'pdf') {
-      // Handle PDF upload
-      const formData = new FormData();
-      formData.append('pdf_document', newDocument.pdf_document);
-      formData.append('assistant_id', newDocument.assistant_id);
+    await store.dispatch('captainDocuments/createDocument', newDocument);
 
-      await store.dispatch('captainDocuments/uploadPdf', formData);
-      useAlert('PDF uploaded successfully! Processing will begin shortly.');
-    } else {
-      // Handle URL creation
-      await store.dispatch('captainDocuments/create', {
-        document: {
-          external_link: newDocument.external_link,
-          assistant_id: newDocument.assistant_id,
-        },
-      });
-      useAlert('Document created successfully!');
-    }
+    // Show appropriate success message based on document type
+    const successMessage =
+      newDocument.type === DOCUMENT_TYPE.PDF
+        ? t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.SUCCESS_MESSAGE')
+        : t('CAPTAIN.DOCUMENTS.CREATE.SUCCESS_MESSAGE');
 
-    // Emit success event to refresh the list
+    useAlert(successMessage);
     emit('success');
     dialogRef.value.close();
   } catch (error) {
     const errorMessage =
       error?.response?.data?.message ||
-      'Failed to create document. Please try again.';
+      t('CAPTAIN.DOCUMENTS.CREATE.ERROR_MESSAGE');
     useAlert(errorMessage);
   }
 };

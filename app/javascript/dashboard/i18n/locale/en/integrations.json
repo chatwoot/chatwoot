@@ -512,13 +512,31 @@
             "PDF_UPLOAD": "PDF Upload"
           },
           "PDF_UPLOAD": {
-            "LABEL": "Upload PDF Document"
+            "LABEL": "Upload PDF Document",
+            "SUCCESS_MESSAGE": "PDF uploaded successfully! Processing will begin shortly.",
+            "ERROR": "Please select a PDF file to upload.",
+            "PLACEHOLDER": "Select a PDF file",
+            "UPLOAD_TEXT": "Click to select PDF or drag and drop",
+            "DROP_TEXT": "Drop PDF file here"
           },
           "ASSISTANT": {
-            "LABEL": "Select Assistant"
+            "LABEL": "Select Assistant",
+            "PLACEHOLDER": "Choose an assistant",
+            "ERROR": "Please select an assistant"
+          },
+          "URL": {
+            "LABEL": "Website URL",
+            "PLACEHOLDER": "Enter the website URL to crawl",
+            "ERROR": "Please enter a valid URL"
           },
           "FILE_UPLOAD": {
-            "MAX_SIZE": "Maximum file size: {size}MB"
+            "MAX_SIZE": "Maximum file size: {size}MB",
+            "ERROR_TOO_LARGE": "File \"{fileName}\" is too large. Maximum size is {maxSize}MB.",
+            "ERROR_TYPE_NOT_SUPPORTED": "File type not supported. Only {acceptedTypes} files are allowed."
+          },
+          "ACTIONS": {
+            "CANCEL": "Cancel",
+            "CREATE": "Create Document"
           }
         }
       },

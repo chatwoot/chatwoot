@@ -8,6 +8,7 @@ import { usePolicy } from 'dashboard/composables/usePolicy';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import DropdownMenu from 'dashboard/components-next/dropdown-menu/DropdownMenu.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const props = defineProps({
   id: {
@@ -129,7 +130,7 @@ const handleAction = ({ action, value }) => {
         rel="noopener noreferrer"
         class="text-n-slate-11 text-sm truncate flex justify-start flex-1 items-center gap-1 hover:text-n-slate-12 transition-colors"
       >
-        <i class="i-ph-link-simple shrink-0" />
+        <Icon icon="i-lucide-link" class="shrink-0 size-4" />
         <span class="truncate">{{ displayLink }}</span>
       </a>
       <div class="shrink-0 text-sm text-n-slate-11 line-clamp-1">

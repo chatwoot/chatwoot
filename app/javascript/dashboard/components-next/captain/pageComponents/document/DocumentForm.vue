@@ -3,13 +3,41 @@ import { reactive, computed, ref } from 'vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, url } from '@vuelidate/validators';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useI18n } from 'vue-i18n';
+import { formatBytes } from 'shared/helpers/FileHelper';
 
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import ComboBox from 'dashboard/components-next/combobox/ComboBox.vue';
 import FileUpload from 'dashboard/components-next/fileUpload/FileUpload.vue';
+import Icon from 'dashboard/components-next/icon/Icon.vue';
 
 const emit = defineEmits(['submit', 'cancel']);
+const { t } = useI18n();
+
+// Constants
+const SOURCE_TYPE = {
+  URL: 'url',
+  PDF: 'pdf',
+};
+
+const MESSAGE_TYPE = {
+  ERROR: 'error',
+  INFO: 'info',
+};
+
+const DOCUMENT_TYPE = {
+  URL: 'url',
+  PDF: 'pdf',
+};
+
+const FIELD_NAME = {
+  URL: 'url',
+  ASSISTANT_ID: 'assistantId',
+};
+
+const FILE_ACCEPT_TYPE = 'application/pdf';
+const MAX_FILE_SIZE_MB = 25;
 
 const formState = {
   uiFlags: useMapGetter('captainDocuments/getUIFlags'),
@@ -20,7 +48,7 @@ const initialState = {
   url: '',
   assistantId: null,
   selectedFile: null,
-  sourceType: 'url', // 'url' or 'pdf'
+  sourceType: SOURCE_TYPE.URL,
 };
 
 const state = reactive({ ...initialState });
@@ -31,7 +59,7 @@ const validationRules = computed(() => {
     assistantId: { required },
   };
 
-  if (state.sourceType === 'url') {
+  if (state.sourceType === SOURCE_TYPE.URL) {
     rules.url = { required, url, minLength: minLength(1) };
   }
 
@@ -49,28 +77,39 @@ const v$ = useVuelidate(validationRules, state);
 
 const isLoading = computed(() => formState.uiFlags.value.creatingItem);
 
+const formattedFileSize = computed(() => {
+  if (!state.selectedFile) return '';
+  return formatBytes(state.selectedFile.size);
+});
+
 const getErrorMessage = (field, errorMessage) => {
   return v$.value[field]?.$error ? errorMessage : '';
 };
 
 const formErrors = computed(() => ({
-  url: getErrorMessage('url', 'Please enter a valid URL'),
-  assistantId: getErrorMessage('assistantId', 'Please select an assistant'),
+  url: getErrorMessage(
+    FIELD_NAME.URL,
+    t('CAPTAIN.DOCUMENTS.CREATE.FORM.URL.ERROR')
+  ),
+  assistantId: getErrorMessage(
+    FIELD_NAME.ASSISTANT_ID,
+    t('CAPTAIN.DOCUMENTS.CREATE.FORM.ASSISTANT.ERROR')
+  ),
 }));
 
 const handleCancel = () => emit('cancel');
 
 const prepareDocumentDetails = () => {
-  if (state.sourceType === 'pdf') {
+  if (state.sourceType === SOURCE_TYPE.PDF) {
     return {
-      type: 'pdf',
+      type: DOCUMENT_TYPE.PDF,
       pdf_document: state.selectedFile,
       assistant_id: state.assistantId,
     };
   }
 
   return {
-    type: 'url',
+    type: DOCUMENT_TYPE.URL,
     external_link: state.url,
     assistant_id: state.assistantId,
   };
@@ -86,8 +125,8 @@ const handleSubmit = async () => {
   }
 
   // For PDF uploads, check if file is selected
-  if (state.sourceType === 'pdf' && !state.selectedFile) {
-    uploadError.value = 'Please select a PDF file to upload.';
+  if (state.sourceType === SOURCE_TYPE.PDF && !state.selectedFile) {
+    uploadError.value = t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.ERROR');
     return;
   }
 
@@ -130,26 +169,15 @@ const handleSourceTypeChange = type => {
           type="button"
           class="flex-1 p-3 rounded-lg bg-n-alpha-2 hover:border-n-slate-7 transition-colors focus:outline-none"
           :class="{
-            'ring-2 ring-woot-500 text-woot-500 border-0':
-              state.sourceType === 'url',
+            'ring-2 ring-n-brand text-n-brand border-0':
+              state.sourceType === SOURCE_TYPE.URL,
             'border-2 border-n-slate-7 text-n-slate-11':
-              state.sourceType !== 'url',
+              state.sourceType !== SOURCE_TYPE.URL,
           }"
-          @click="handleSourceTypeChange('url')"
+          @click="handleSourceTypeChange(SOURCE_TYPE.URL)"
         >
           <div class="flex items-center justify-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M3.9 12C3.9 10.29 5.29 8.9 7 8.9H11V7H7C4.24 7 2 9.24 2 12S4.24 17 7 17H11V15.1H7C5.29 15.1 3.9 13.71 3.9 12ZM8 13H16V11H8V13ZM17 7H13V8.9H17C18.71 8.9 20.1 10.29 20.1 12S18.71 15.1 17 15.1H13V17H17C19.76 17 22 14.76 22 12S19.76 7 17 7Z"
-                fill="currentColor"
-              />
-            </svg>
+            <Icon icon="i-lucide-link" class="size-5" />
             <span class="text-sm font-medium">{{
               $t('CAPTAIN.DOCUMENTS.CREATE.FORM.SOURCE_TYPE.WEBSITE_URL')
             }}</span>
@@ -159,26 +187,15 @@ const handleSourceTypeChange = type => {
           type="button"
           class="flex-1 p-3 rounded-lg bg-n-alpha-2 hover:border-n-slate-7 transition-colors focus:outline-none"
           :class="{
-            'ring-2 ring-woot-500 text-woot-500 border-0':
-              state.sourceType === 'pdf',
+            'ring-2 ring-n-brand text-n-brand border-0':
+              state.sourceType === SOURCE_TYPE.PDF,
             'border-2 border-n-slate-7 text-n-slate-11':
-              state.sourceType !== 'pdf',
+              state.sourceType !== SOURCE_TYPE.PDF,
           }"
-          @click="handleSourceTypeChange('pdf')"
+          @click="handleSourceTypeChange(SOURCE_TYPE.PDF)"
         >
           <div class="flex items-center justify-center gap-2">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
-                fill="currentColor"
-              />
-            </svg>
+            <Icon icon="i-lucide-file" class="size-5" />
             <span class="text-sm font-medium">{{
               $t('CAPTAIN.DOCUMENTS.CREATE.FORM.SOURCE_TYPE.PDF_UPLOAD')
             }}</span>
@@ -188,18 +205,21 @@ const handleSourceTypeChange = type => {
     </div>
 
     <!-- URL Input (when URL is selected) -->
-    <div v-if="state.sourceType === 'url'">
+    <div v-if="state.sourceType === SOURCE_TYPE.URL">
       <Input
         v-model="state.url"
-        label="Website URL"
-        placeholder="Enter the website URL to crawl"
+        :label="t('CAPTAIN.DOCUMENTS.CREATE.FORM.URL.LABEL')"
+        :placeholder="t('CAPTAIN.DOCUMENTS.CREATE.FORM.URL.PLACEHOLDER')"
         :message="formErrors.url"
-        :message-type="formErrors.url ? 'error' : 'info'"
+        :message-type="formErrors.url ? MESSAGE_TYPE.ERROR : MESSAGE_TYPE.INFO"
       />
     </div>
 
     <!-- PDF Upload (when PDF is selected) -->
-    <div v-if="state.sourceType === 'pdf'" class="flex flex-col gap-2">
+    <div
+      v-if="state.sourceType === SOURCE_TYPE.PDF"
+      class="flex flex-col gap-2"
+    >
       <label class="mb-0.5 text-sm font-medium text-n-slate-12">
         {{ $t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.LABEL') }}
       </label>
@@ -207,11 +227,15 @@ const handleSourceTypeChange = type => {
       <!-- File upload area -->
       <div v-if="!state.selectedFile">
         <FileUpload
-          accept="application/pdf"
-          :max-size-m-b="25"
-          placeholder="Select a PDF file"
-          upload-text="Click to select PDF or drag and drop"
-          drag-text="Drop PDF file here"
+          :accept="FILE_ACCEPT_TYPE"
+          :max-size-m-b="MAX_FILE_SIZE_MB"
+          :placeholder="
+            t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.PLACEHOLDER')
+          "
+          :upload-text="
+            t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.UPLOAD_TEXT')
+          "
+          :drag-text="t('CAPTAIN.DOCUMENTS.CREATE.FORM.PDF_UPLOAD.DROP_TEXT')"
           @file-selected="handleFileSelected"
           @file-error="handleFileError"
         />
@@ -221,29 +245,13 @@ const handleSourceTypeChange = type => {
       <div v-else class="p-3 bg-n-alpha-2 rounded-lg border border-n-slate-6">
         <div class="flex items-center justify-between">
           <div class="flex items-center gap-3">
-            <svg
-              width="20"
-              height="20"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-              class="text-red-600"
-            >
-              <path
-                d="M14,2H6A2,2 0 0,0 4,4V20A2,2 0 0,0 6,22H18A2,2 0 0,0 20,20V8L14,2M18,20H6V4H13V9H18V20Z"
-                fill="currentColor"
-              />
-            </svg>
+            <Icon icon="i-lucide-file" class="size-5 text-n-ruby-9" />
             <div>
               <p class="text-sm font-medium text-n-slate-12">
                 {{ state.selectedFile.name }}
               </p>
               <p class="text-xs text-n-slate-8">
-                {{
-                  Math.round((state.selectedFile.size / 1024 / 1024) * 100) /
-                  100
-                }}
-                {{ $t('GENERAL.FILE_SIZE.MB') }}
+                {{ formattedFileSize }}
               </p>
             </div>
           </div>
@@ -252,24 +260,13 @@ const handleSourceTypeChange = type => {
             class="p-1 rounded hover:bg-n-alpha-3 text-n-slate-8 hover:text-n-slate-10"
             @click="clearSelectedFile"
           >
-            <svg
-              width="16"
-              height="16"
-              viewBox="0 0 24 24"
-              fill="none"
-              xmlns="http://www.w3.org/2000/svg"
-            >
-              <path
-                d="M19,6.41L17.59,5L12,10.59L6.41,5L5,6.41L10.59,12L5,17.59L6.41,19L12,13.41L17.59,19L19,17.59L13.41,12L19,6.41Z"
-                fill="currentColor"
-              />
-            </svg>
+            <Icon icon="i-lucide-x" class="size-4" />
           </button>
         </div>
       </div>
 
       <!-- Upload error -->
-      <p v-if="uploadError" class="text-sm text-red-600">{{ uploadError }}</p>
+      <p v-if="uploadError" class="text-sm text-n-ruby-9">{{ uploadError }}</p>
     </div>
 
     <!-- Assistant Selection -->
@@ -282,7 +279,7 @@ const handleSourceTypeChange = type => {
         v-model="state.assistantId"
         :options="assistantList"
         :has-error="!!formErrors.assistantId"
-        placeholder="Choose an assistant"
+        :placeholder="t('CAPTAIN.DOCUMENTS.CREATE.FORM.ASSISTANT.PLACEHOLDER')"
         class="[&>div>button]:bg-n-alpha-black2 [&>div>button:not(.focused)]:dark:outline-n-weak [&>div>button:not(.focused)]:hover:!outline-n-slate-6"
         :message="formErrors.assistantId"
       />
@@ -294,13 +291,13 @@ const handleSourceTypeChange = type => {
         type="button"
         variant="faded"
         color="slate"
-        label="Cancel"
-        class="w-full bg-n-alpha-2 n-blue-text hover:bg-n-alpha-3"
+        :label="t('CAPTAIN.DOCUMENTS.CREATE.FORM.ACTIONS.CANCEL')"
+        class="w-full bg-n-alpha-2 text-n-blue-11 hover:bg-n-alpha-3"
         @click="handleCancel"
       />
       <Button
         type="submit"
-        label="Create Document"
+        :label="t('CAPTAIN.DOCUMENTS.CREATE.FORM.ACTIONS.CREATE')"
         class="w-full"
         :is-loading="isLoading"
         :disabled="isLoading"
