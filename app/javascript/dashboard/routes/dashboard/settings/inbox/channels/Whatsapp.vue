@@ -95,7 +95,6 @@ const shouldShowCloudWhatsapp = provider => {
 </script>
 
 <template>
-<<<<<<< HEAD
   <div class="overflow-auto col-span-6 p-6 w-full h-full">
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">

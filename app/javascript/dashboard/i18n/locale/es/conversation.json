@@ -304,11 +304,31 @@
       "DESCRIPTION": "Las etiquetas proporcionan una forma fácil de clasificar su conversación. Cree algunas etiquetas como #pregunta-soporte, #pregunta-dacturación etc., para que pueda usarlas en una conversación más tarde.",
       "NEW_LINK": "Haga clic aquí para crear etiquetas"
     },
+    "ADD_CHANNEL": {
+      "TITLE": "Añadir sus canales",
+      "DESCRIPTION": "Vamos a añadir los canales donde recibirás las conversaciones",
+      "NEW_LINK": "Haga clic aquí para añadir un canal",
+      "CHANNEL_AGENTS_UPDATED": "Agentes de canal actualizados correctamente!"
+    },
+    "ADD_AI_AGENT": {
+      "TITLE": "Añadir su Bot Agent",
+      "DESCRIPTION": "Vamos a añadir el Bot Agent que ayudará a responder a las conversaciones",
+      "NEW_LINK": "Haga clic aquí para añadir un Bot Agent"
+    },
     "CANNED_RESPONSES": {
       "TITLE": "Crea respuestas predefinidas",
       "DESCRIPTION": "Las respuestas predefinidas son plantillas preconfiguradas que le ayudan a responder rápidamente a una conversación. Los miembros pueden escribir el carácter '/' seguido por el código corto para insertar una respuesta predefinida durante una conversación.",
       "NEW_LINK": "Haga clic aquí para crear una respuesta predefinida"
-    }
+    },
+    "BUTTON": {
+      "PREVIOUS": "Previous",
+      "NEXT": "Next",
+      "FINISH": "Finish"
+    },
+    "ERROR": {
+      "BOT_CONFIGURATION": "Error durante la configuración del bot"
+    },
+    "COMPLETED": "Onboarding completado. ¡Bienvenido a {installationName}!"
   },
   "CONVERSATION_SIDEBAR": {
     "ASSIGNEE_LABEL": "Miembro asignado",

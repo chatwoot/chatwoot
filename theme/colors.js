@@ -13,6 +13,8 @@ const {
   violetDark,
 } = require('@radix-ui/colors');
 
+const CHATSCOMMERCE_PRIMARY = '#5d17ea';
+
 export const colors = {
   woot: {
     25: blue.blue2,
@@ -211,7 +213,8 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    // brand: '#2781F6', // WOOT color
+    brand: CHATSCOMMERCE_PRIMARY, // Chatscommerce color
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',

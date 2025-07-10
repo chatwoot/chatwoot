@@ -9,7 +9,8 @@ import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
 import { isValidPassword } from 'shared/helpers/Validators';
 import GoogleOAuthButton from '../../../../../components/GoogleOauth/Button.vue';
-import { register } from '../../../../../api/auth';
+import { registerWithStore } from '../../../../../api/auth';
+import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
 
 export default {
   components: {
@@ -102,12 +103,16 @@ export default {
         return;
       }
       this.isSignupInProgress = true;
+
       try {
-        await register(this.credentials);
+        await registerWithStore(this.credentials);
+
+        // Success! Redirect
         window.location = DEFAULT_REDIRECT_URL;
       } catch (error) {
-        let errorMessage =
+        const errorMessage =
           error?.message || this.$t('REGISTER.API.ERROR_MESSAGE');
+
         this.resetCaptcha();
         useAlert(errorMessage);
       } finally {

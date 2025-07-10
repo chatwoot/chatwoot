@@ -118,6 +118,10 @@ json.provider resource.channel.try(:provider)
 ## Telegram Attributes
 json.bot_name resource.channel.try(:bot_name) if resource.telegram?
 
+#Add members count
+json.members_count resource.members.count
+json.has_members resource.members.count.positive?
+
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)

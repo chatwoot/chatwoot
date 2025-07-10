@@ -72,3 +72,20 @@ export const setNewPassword = async ({
 
 export const resetPassword = async ({ email }) =>
   wootAPI.post('auth/password', { email });
+
+export const registerWithStore = async creds => {
+  try {
+    const response = await wootAPI.post('api/v1/accounts/create_with_store', {
+      account_name: creds.accountName.trim(),
+      user_full_name: creds.fullName.trim(),
+      email: creds.email,
+      password: creds.password,
+      h_captcha_client_response: creds.hCaptchaClientResponse,
+    });
+    setAuthCredentials(response);
+    return response.data;
+  } catch (error) {
+    throwErrorMessage(error);
+  }
+  return null;
+};

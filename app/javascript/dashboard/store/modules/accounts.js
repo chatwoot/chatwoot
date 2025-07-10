@@ -51,6 +51,10 @@ export const getters = {
     const { features = {} } = findRecordById($state, id);
     return features[featureName] || false;
   },
+  isOnboardingCompleted: $state => id => {
+    const account = findRecordById($state, id);
+    return account.custom_attributes.onboarding_completed || false;
+  },
 };
 
 export const actions = {
