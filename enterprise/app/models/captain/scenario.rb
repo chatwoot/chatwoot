@@ -20,10 +20,6 @@
 #  index_captain_scenarios_on_assistant_id_and_enabled  (assistant_id,enabled)
 #  index_captain_scenarios_on_enabled                   (enabled)
 #
-# Foreign Keys
-#
-#  fk_rails_...  (assistant_id => captain_assistants.id)
-#
 class Captain::Scenario < ApplicationRecord
   self.table_name = 'captain_scenarios'
 

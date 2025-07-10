@@ -1130,7 +1130,6 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_09_075622) do
 
   add_foreign_key "active_storage_attachments", "active_storage_blobs", column: "blob_id"
   add_foreign_key "active_storage_variant_records", "active_storage_blobs", column: "blob_id"
-  add_foreign_key "captain_scenarios", "captain_assistants", column: "assistant_id"
   add_foreign_key "inboxes", "portals"
   create_trigger("accounts_after_insert_row_tr", :generated => true, :compatibility => 1).
       on("accounts").
