@@ -48,6 +48,7 @@ en:
       email_already_exists: 'You have already signed up for an account with %{email}'
       invalid_params: 'Invalid, please check the signup paramters and try again'
       failed: Signup failed
+      account_name_already_exists: 'Company name %{name} already exists'
     data_import:
       data_type:
         invalid: Invalid data type
@@ -358,4 +359,3 @@ en:
 
       Transcript:
       %{format_messages}
-

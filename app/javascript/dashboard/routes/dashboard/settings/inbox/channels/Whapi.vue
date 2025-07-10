@@ -13,6 +13,12 @@ export default {
   components: {
     NextButton,
   },
+  props: {
+    disabledAutoRoute: {
+      type: Boolean,
+      default: false,
+    },
+  },
   setup() {
     return { v$: useVuelidate() };
   },
@@ -53,6 +59,10 @@ export default {
             },
           }
         );
+
+        if (this.disabledAutoRoute) {
+          return;
+        }
 
         router.replace({
           name: 'settings_inboxes_add_agents',

@@ -21,6 +21,17 @@ export default {
       },
     },
   },
+  props: {
+    inboxId: {
+      type: Number,
+      default: null,
+    },
+    disabledAutoRoute: {
+      type: Boolean,
+      default: false,
+    },
+  },
+  emits: ['agentsAdded'],
   setup() {
     return { v$: useVuelidate() };
   },
@@ -41,16 +52,22 @@ export default {
   methods: {
     async addAgents() {
       this.isCreating = true;
-      const inboxId = this.$route.params.inbox_id;
+      const inboxId = this.$route.params.inbox_id || this.inboxId;
       const selectedAgents = this.selectedAgents.map(x => x.id);
 
       try {
         await InboxMembersAPI.update({ inboxId, agentList: selectedAgents });
+
+        if (this.disabledAutoRoute) {
+          this.$emit('agentsAdded');
+          this.isCreating = false;
+          return;
+        }
         router.replace({
           name: 'settings_inbox_finish',
           params: {
             page: 'new',
-            inbox_id: this.$route.params.inbox_id,
+            inbox_id: inboxId,
           },
         });
       } catch (error) {

@@ -55,12 +55,13 @@ export default {
   },
   setup() {
     const { uiSettings, updateUISettings } = useUISettings();
-    const { accountId } = useAccount();
+    const { accountId, currentAccount } = useAccount();
 
     return {
       uiSettings,
       updateUISettings,
       accountId,
+      currentAccount,
     };
   },
   data() {
@@ -73,11 +74,20 @@ export default {
       chatList: 'getAllConversations',
       currentChat: 'getSelectedChat',
     }),
+    isOnboardingCompleted() {
+      return this.currentAccount.custom_attributes.onboarding_completed;
+    },
+
     showConversationList() {
-      return this.isOnExpandedLayout ? !this.conversationId : true;
+      if (this.isOnboardingCompleted) {
+        return this.isOnExpandedLayout ? !this.conversationId : true;
+      }
+      return !this.isOnExpandedLayout;
     },
     showMessageView() {
-      return this.conversationId ? true : !this.isOnExpandedLayout;
+      return this.conversationId || !this.isOnboardingCompleted
+        ? true
+        : !this.isOnExpandedLayout;
     },
     isOnExpandedLayout() {
       const {

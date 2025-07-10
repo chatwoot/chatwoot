@@ -112,6 +112,10 @@ end
 
 json.provider resource.channel.try(:provider)
 
+#Add members count
+json.members_count resource.members.count
+json.has_members resource.members.count.positive?
+
 ### WhatsApp Channel
 if resource.whatsapp?
   json.message_templates resource.channel.try(:message_templates)

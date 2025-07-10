@@ -36,6 +36,7 @@ const store = useStore();
 const { t } = useI18n();
 const dialogRef = ref(null);
 const uiFlags = useMapGetter('agentBots/getUIFlags');
+const currentAccount = useMapGetter('getCurrentAccount');
 
 const formState = reactive({
   botName: '',
@@ -115,10 +116,11 @@ const showAccessTokenInput = computed(
 );
 
 const resetForm = () => {
+  const storeId = currentAccount.value.store_id;
   Object.assign(formState, {
     botName: '',
     botDescription: '',
-    botUrl: '',
+    botUrl: `${window.chatwootConfig.chatscommerceApiUrl}/api/chatwoot/${storeId}/agent-bot-webhook`,
     botAvatar: null,
     botAvatarUrl: '',
   });
@@ -185,7 +187,8 @@ const handleSubmit = async () => {
 
       if (id && responseAccessToken) {
         accessToken.value = responseAccessToken;
-        toggleAccessToken(true);
+        toggleAccessToken(false);
+        dialogRef.value.close();
       } else {
         accessToken.value = '';
         dialogRef.value.close();
@@ -314,6 +317,7 @@ defineExpose({ dialogRef });
           :placeholder="$t('AGENT_BOTS.FORM.WEBHOOK_URL.PLACEHOLDER')"
           :message="botUrlError"
           :message-type="botUrlError ? 'error' : 'info'"
+          disabled
           @blur="v$.botUrl.$touch()"
         />
       </div>

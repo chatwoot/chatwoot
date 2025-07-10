@@ -278,8 +278,19 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Let´s add the people who will be helping you with your conversations",
       "NEW_LINK": "Click here to invite a team member"
+    },
+    "ADD_CHANNEL": {
+      "TITLE": "Add your channels",
+      "DESCRIPTION": "Let´s add the channels where you will be receiving your conversations",
+      "NEW_LINK": "Click here to add a channel",
+      "CHANNEL_AGENTS_UPDATED": "Channel Agents Update Successfully!"
+    },
+    "ADD_AI_AGENT": {
+      "TITLE": "Let´s configure your AI Agent",
+      "DESCRIPTION": "Let´s add the AI Agent that will be helping you with your conversations",
+      "NEW_LINK": "Click here to add an AI Agent"
     },
     "LABELS": {
       "TITLE": "Organize conversations with labels",

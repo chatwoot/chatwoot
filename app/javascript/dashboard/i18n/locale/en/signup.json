@@ -11,7 +11,8 @@
     "COMPANY_NAME": {
       "LABEL": "Company name",
       "PLACEHOLDER": "Enter your company name. E.g., Wayne Enterprises",
-      "ERROR": "Company name is too short."
+      "ERROR": "Company name is too short.",
+      "DUPLICATE": "Company name is already taken."
     },
     "FULL_NAME": {
       "LABEL": "Full name",
