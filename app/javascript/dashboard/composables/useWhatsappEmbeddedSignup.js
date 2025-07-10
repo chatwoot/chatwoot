@@ -252,7 +252,11 @@ export function useWhatsappEmbeddedSignup() {
     // Handle Facebook embedded signup message events
     try {
       const originUrl = new URL(event.origin);
-      const allowedHosts = ['facebook.com', 'www.facebook.com'];
+      const allowedHosts = [
+        'facebook.com',
+        'www.facebook.com',
+        'web.facebook.com',
+      ];
       if (!allowedHosts.includes(originUrl.hostname)) return;
     } catch (error) {
       // Invalid origin URL, reject the event
