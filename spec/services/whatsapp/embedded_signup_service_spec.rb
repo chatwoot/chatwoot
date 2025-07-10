@@ -2,15 +2,6 @@ require 'rails_helper'
 
 describe Whatsapp::EmbeddedSignupService do
   let(:account) { create(:account) }
-  let(:code) { 'test_authorization_code' }
-  let(:business_id) { 'test_business_id' }
-  let(:waba_id) { 'test_waba_id' }
-  let(:phone_number_id) { 'test_phone_number_id' }
-  let(:access_token) { 'test_access_token' }
-  let(:app_id) { 'test_app_id' }
-  let(:app_secret) { 'test_app_secret' }
-  let(:api_version) { 'v22.0' }
-
   let(:service) do
     described_class.new(
       account: account,
@@ -20,9 +11,19 @@ describe Whatsapp::EmbeddedSignupService do
       phone_number_id: phone_number_id
     )
   end
+  let(:code) { 'test_authorization_code' }
+  let(:business_id) { 'test_business_id' }
+  let(:waba_id) { 'test_waba_id' }
+  let(:phone_number_id) { 'test_phone_number_id' }
+  let(:access_token) { 'test_access_token' }
+  let(:app_id) { 'test_app_id' }
+  let(:app_secret) { 'test_app_secret' }
+  let(:api_version) { 'v22.0' }
+  let(:unique_phone_number) { "+123456789#{SecureRandom.hex(4)}" }
 
   before do
-    # Mock global configuration
+    # Clean up any existing WhatsApp channels before each test
+    Channel::Whatsapp.destroy_all
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_ID', '').and_return(app_id)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_APP_SECRET', '').and_return(app_secret)
     allow(GlobalConfigService).to receive(:load).with('WHATSAPP_API_VERSION', 'v22.0').and_return(api_version)
@@ -64,7 +65,7 @@ describe Whatsapp::EmbeddedSignupService do
               data: [
                 {
                   id: phone_number_id,
-                  display_phone_number: '1234567890',
+                  display_phone_number: unique_phone_number.delete('+'),
                   verified_name: 'Test Business',
                   code_verification_status: 'VERIFIED'
                 }
@@ -123,7 +124,7 @@ describe Whatsapp::EmbeddedSignupService do
       it 'successfully creates a new WhatsApp channel' do
         expect { service.perform }.not_to raise_error
 
-        channel = Channel::Whatsapp.find_by(account: account, phone_number: '+1234567890')
+        channel = Channel::Whatsapp.find_by(account: account, phone_number: unique_phone_number)
         expect(channel).not_to be_nil
         expect(channel.provider).to eq('whatsapp_cloud')
         expect(channel.provider_config['api_key']).to eq(access_token)
@@ -135,20 +136,22 @@ describe Whatsapp::EmbeddedSignupService do
       it 'creates an inbox for the channel' do
         service.perform
 
-        channel = Channel::Whatsapp.find_by(account: account, phone_number: '+1234567890')
+        channel = Channel::Whatsapp.find_by(account: account, phone_number: unique_phone_number)
         inbox = Inbox.find_by(account: account, channel: channel)
         expect(inbox).not_to be_nil
         expect(inbox.name).to eq('Test Business WhatsApp')
       end
 
       it 'registers the phone number' do
+        # Mock SecureRandom to return a predictable value
+        allow(SecureRandom).to receive(:random_number).with(900_000).and_return(140_214)
         service.perform
 
         expect(WebMock).to have_requested(:post, "https://graph.facebook.com/#{api_version}/#{phone_number_id}/register")
           .with(
             body: {
               messaging_product: 'whatsapp',
-              pin: '212834'
+              pin: '240214'
             }.to_json
           )
       end
@@ -156,7 +159,7 @@ describe Whatsapp::EmbeddedSignupService do
       it 'sets up webhook subscription' do
         service.perform
 
-        channel = Channel::Whatsapp.find_by(account: account, phone_number: '+1234567890')
+        channel = Channel::Whatsapp.find_by(account: account, phone_number: unique_phone_number)
         callback_url = "https://app.chatwoot.com/webhooks/whatsapp/#{channel.phone_number}"
 
         expect(WebMock).to have_requested(:post, "https://graph.facebook.com/#{api_version}/#{waba_id}/subscribed_apps")
@@ -242,7 +245,7 @@ describe Whatsapp::EmbeddedSignupService do
               data: [
                 {
                   id: phone_number_id,
-                  display_phone_number: '1234567890',
+                  display_phone_number: unique_phone_number.delete('+'),
                   verified_name: 'Test Business',
                   code_verification_status: 'VERIFIED'
                 }
@@ -287,7 +290,7 @@ describe Whatsapp::EmbeddedSignupService do
           )
 
         # Create existing channel
-        create(:channel_whatsapp, account: account, phone_number: '+1234567890')
+        create(:channel_whatsapp, account: account, phone_number: unique_phone_number)
       end
 
       it 'raises an error' do
@@ -333,7 +336,7 @@ describe Whatsapp::EmbeddedSignupService do
               data: [
                 {
                   id: phone_number_id,
-                  display_phone_number: '1234567890',
+                  display_phone_number: unique_phone_number.delete('+'),
                   verified_name: 'Test Business',
                   code_verification_status: 'VERIFIED'
                 }
@@ -415,7 +418,7 @@ describe Whatsapp::EmbeddedSignupService do
               data: [
                 {
                   id: phone_number_id,
-                  display_phone_number: '1234567890',
+                  display_phone_number: unique_phone_number.delete('+'),
                   verified_name: 'Test Business',
                   code_verification_status: 'VERIFIED'
                 }
@@ -524,7 +527,7 @@ describe Whatsapp::EmbeddedSignupService do
               data: [
                 {
                   id: phone_number_id,
-                  display_phone_number: '1234567890',
+                  display_phone_number: unique_phone_number.delete('+'),
                   verified_name: 'Test Business',
                   code_verification_status: 'VERIFIED'
                 }
@@ -538,7 +541,7 @@ describe Whatsapp::EmbeddedSignupService do
         result = service.send(:fetch_phone_info_via_waba, waba_id, phone_number_id, access_token)
         expect(result).to eq({
                                phone_number_id: phone_number_id,
-                               phone_number: '+1234567890',
+                               phone_number: unique_phone_number,
                                verified: true,
                                business_name: 'Test Business'
                              })
