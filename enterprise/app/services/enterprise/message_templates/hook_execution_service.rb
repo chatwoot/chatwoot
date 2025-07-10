@@ -25,7 +25,7 @@ module Enterprise::MessageTemplates::HookExecutionService
     base_wait = 1.second
 
     # Wait longer for more attachments or larger files
-    additional_wait = [attachment_count * 1, 4].min.seconds
+    additional_wait = [attachment_count * 1, MAX_ATTACHMENT_WAIT_SECONDS].min.seconds
     base_wait + additional_wait
   end
 
