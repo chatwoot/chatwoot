@@ -83,11 +83,13 @@ class Whatsapp::EmbeddedController < ApplicationController
 
   def process_signup
     service = Whatsapp::EmbeddedSignupService.new(
-      account: Current.account,
-      code: params[:code],
-      business_id: params[:business_id],
-      waba_id: params[:waba_id],
-      phone_number_id: params[:phone_number_id]
+      {
+        account: Current.account,
+        code: params[:code],
+        business_id: params[:business_id],
+        waba_id: params[:waba_id],
+        phone_number_id: params[:phone_number_id]
+      }
     )
 
     service.perform
@@ -95,12 +97,14 @@ class Whatsapp::EmbeddedController < ApplicationController
 
   def process_reauthorization
     service = Whatsapp::EmbeddedSignupService.new(
-      account: Current.account,
-      code: params[:code],
-      business_id: params[:business_id],
-      waba_id: params[:waba_id],
-      phone_number_id: params[:phone_number_id],
-      inbox_id: params[:inbox_id]
+      {
+        account: Current.account,
+        code: params[:code],
+        business_id: params[:business_id],
+        waba_id: params[:waba_id],
+        phone_number_id: params[:phone_number_id],
+        inbox_id: params[:inbox_id]
+      }
     )
 
     service.perform_reauthorization
