@@ -11,6 +11,7 @@ import InstagramReauthorize from './channels/instagram/Reauthorize.vue';
 import DuplicateInboxBanner from './channels/instagram/DuplicateInboxBanner.vue';
 import MicrosoftReauthorize from './channels/microsoft/Reauthorize.vue';
 import GoogleReauthorize from './channels/google/Reauthorize.vue';
+import WhatsappReauthorize from './channels/whatsapp/Reauthorize.vue';
 import PreChatFormSettings from './PreChatForm/Settings.vue';
 import WeeklyAvailability from './components/WeeklyAvailability.vue';
 import GreetingsEditor from 'shared/components/GreetingsEditor.vue';
@@ -45,6 +46,7 @@ export default {
     NextButton,
     InstagramReauthorize,
     DuplicateInboxBanner,
+    WhatsappReauthorize,
     Editor,
   },
   mixins: [inboxMixin],
@@ -231,6 +233,11 @@ export default {
     facebookUnauthorized() {
       return this.isAFacebookInbox && this.inbox.reauthorization_required;
     },
+    whatsappUnauthorized() {
+      return (
+        this.isAWhatsAppCloudChannel && this.inbox.reauthorization_required
+      );
+    },
     googleUnauthorized() {
       const isLegacyInbox = ['imap.gmail.com', 'imap.google.com'].includes(
         this.inbox.imap_address
@@ -410,6 +417,7 @@ export default {
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
       <InstagramReauthorize v-if="instagramUnauthorized" :inbox="inbox" />
+      <WhatsappReauthorize v-if="whatsappUnauthorized" :inbox="inbox" />
       <DuplicateInboxBanner
         v-if="hasDuplicateInstagramInbox"
         :content="$t('INBOX_MGMT.ADD.INSTAGRAM.DUPLICATE_INBOX_BANNER')"

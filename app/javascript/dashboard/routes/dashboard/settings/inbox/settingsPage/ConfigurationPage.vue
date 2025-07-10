@@ -7,6 +7,7 @@ import SmtpSettings from '../SmtpSettings.vue';
 import { useVuelidate } from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import NextButton from 'dashboard/components-next/button/Button.vue';
+import { useWhatsappReauthorization } from 'dashboard/composables/useWhatsappReauthorization';
 
 export default {
   components: {
@@ -33,6 +34,20 @@ export default {
   },
   validations: {
     whatsAppInboxAPIKey: { required },
+  },
+  computed: {
+    isWhatsAppCloudChannel() {
+      return this.inbox.provider === 'whatsapp_cloud';
+    },
+    hasWhatsappAppId() {
+      return (
+        window.chatwootConfig?.whatsappAppId &&
+        window.chatwootConfig.whatsappAppId !== 'none'
+      );
+    },
+    shouldShowReconfigureButton() {
+      return this.isWhatsAppCloudChannel && this.hasWhatsappAppId;
+    },
   },
   watch: {
     inbox() {
@@ -82,6 +97,18 @@ export default {
       } catch (error) {
         useAlert(this.$t('INBOX_MGMT.EDIT.API.ERROR_MESSAGE'));
       }
+    },
+    reconfigureWhatsApp() {
+      // Initialize the WhatsApp reauthorization flow
+      const { launchReauthorization, initialize } = useWhatsappReauthorization(
+        this.inbox.id
+      );
+
+      // Initialize and launch
+      initialize();
+      launchReauthorization();
+
+      // Note: cleanup will happen when component unmounts or user navigates away
     },
   },
 };
@@ -208,7 +235,21 @@ export default {
       >
         <woot-code :script="inbox.provider_config.api_key" />
       </SettingsSection>
+      <!-- Show reconfigure button for WhatsApp Cloud with embedded signup and app ID configured -->
       <SettingsSection
+        v-if="shouldShowReconfigureButton"
+        :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_TITLE')"
+        :sub-title="
+          $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_SUBHEADER')
+        "
+      >
+        <NextButton class="mt-2" @click="reconfigureWhatsApp">
+          {{ $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_RECONFIGURE_BUTTON') }}
+        </NextButton>
+      </SettingsSection>
+      <!-- Show API key update for non-embedded signup WhatsApp or when app ID is missing -->
+      <SettingsSection
+        v-else
         :title="$t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_TITLE')"
         :sub-title="
           $t('INBOX_MGMT.SETTINGS_POPUP.WHATSAPP_SECTION_UPDATE_SUBHEADER')

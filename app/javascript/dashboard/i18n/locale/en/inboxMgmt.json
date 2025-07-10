@@ -600,7 +600,24 @@
       "WHATSAPP_SECTION_UPDATE_BUTTON": "Update",
       "WHATSAPP_WEBHOOK_TITLE": "Webhook Verification Token",
       "WHATSAPP_WEBHOOK_SUBHEADER": "This token is used to verify the authenticity of the webhook endpoint.",
-      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings"
+      "WHATSAPP_RECONFIGURE_TITLE": "Reconfigure WhatsApp",
+      "WHATSAPP_RECONFIGURE_SUBHEADER": "Update your WhatsApp Business account configuration using the embedded signup flow.",
+      "WHATSAPP_RECONFIGURE_BUTTON": "Reconfigure with WhatsApp",
+      "WHATSAPP_RECONFIGURE_ERROR": "Failed to initiate WhatsApp reconfiguration. Please try again.",
+      "UPDATE_PRE_CHAT_FORM_SETTINGS": "Update Pre Chat Form Settings",
+      "WHATSAPP_REAUTHORIZE": {
+        "TITLE": "Reauthorize WhatsApp Connection",
+        "DESCRIPTION": "Your WhatsApp Business account needs to be reauthorized to continue receiving messages. Click the button below to reconnect your account.",
+        "AUTH_PROCESSING": "Processing WhatsApp reauthorization...",
+        "WAITING_FOR_BUSINESS_INFO": "Waiting for business information...",
+        "WAITING_FOR_AUTH": "Waiting for authentication...",
+        "PROCESSING": "Updating your WhatsApp configuration...",
+        "SUCCESS": "WhatsApp successfully reauthorized!",
+        "ERROR": "Failed to reauthorize WhatsApp. Please try again.",
+        "CANCELLED": "WhatsApp reauthorization was cancelled.",
+        "AUTH_NOT_COMPLETED": "Authentication not completed. Please try again.",
+        "INVALID_BUSINESS_DATA": "Invalid business data received. Please try again."
+      }
     },
     "HELP_CENTER": {
       "LABEL": "Help Center",
@@ -619,6 +636,12 @@
       "SUBTITLE": "Your Facebook connection has expired, please reconnect your Facebook page to continue services",
       "MESSAGE_SUCCESS": "Reconnection successful",
       "MESSAGE_ERROR": "There was an error, please try again"
+    },
+    "WHATSAPP_REAUTHORIZE": {
+      "TITLE": "Reauthorize WhatsApp",
+      "SUBTITLE": "Your WhatsApp connection has expired, please reconnect your WhatsApp Business account to continue services",
+      "MESSAGE_SUCCESS": "WhatsApp reconnection successful",
+      "MESSAGE_ERROR": "There was an error reconnecting WhatsApp, please try again"
     },
     "PRE_CHAT_FORM": {
       "DESCRIPTION": "Pre chat forms enable you to capture user information before they start conversation with you.",
