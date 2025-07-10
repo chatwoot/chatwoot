@@ -20,33 +20,65 @@ export const setBubbleText = bubbleText => {
   }
 };
 
-export const createBubbleIcon = ({ className, path, target }) => {
+export const createBubbleIcon = ({ className, path, target, widgetColor }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
-  const bubbleIcon = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'svg'
-  );
-  bubbleIcon.setAttributeNS(null, 'id', 'woot-widget-bubble-icon');
-  bubbleIcon.setAttributeNS(null, 'width', '24');
-  bubbleIcon.setAttributeNS(null, 'height', '24');
-  bubbleIcon.setAttributeNS(null, 'viewBox', '0 0 240 240');
-  bubbleIcon.setAttributeNS(null, 'fill', 'none');
-  bubbleIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
-  const bubblePath = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'path'
-  );
-  bubblePath.setAttributeNS(null, 'd', path);
-  bubblePath.setAttributeNS(null, 'fill', '#FFFFFF');
+  const avatarUrl = window.$chatwoot.avatarUrl;
+  let avatarImg = null;
+  if (avatarUrl) {
+    avatarImg = document.createElement('img');
+    avatarImg.src = avatarUrl;
+    avatarImg.alt = 'Chat';
+    avatarImg.style.width = '100%';
+    avatarImg.style.height = '100%';
+    avatarImg.style.objectFit = 'cover';
+    avatarImg.style.borderRadius = '50%';
+    avatarImg.style.position = 'absolute';
+    avatarImg.style.top = '0';
+    avatarImg.style.left = '0';
+    target.appendChild(avatarImg);
 
-  bubbleIcon.appendChild(bubblePath);
-  target.appendChild(bubbleIcon);
+    target.style.background = 'transparent';
+    target.style.backgroundColor = 'transparent';
+    target.classList.add('woot-has-avatar');
+  } else {
+    const bubbleIcon = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'svg'
+    );
+    bubbleIcon.setAttributeNS(null, 'id', 'woot-widget-bubble-icon');
+    bubbleIcon.setAttributeNS(null, 'height', '24');
+    bubbleIcon.setAttributeNS(null, 'viewBox', '0 0 240 240');
+    bubbleIcon.setAttributeNS(null, 'fill', 'none');
+    bubbleIcon.setAttribute('xmlns', 'http://www.w3.org/2000/svg');
 
+    const bubblePath = document.createElementNS(
+      'http://www.w3.org/2000/svg',
+      'path'
+    );
+    bubblePath.setAttributeNS(null, 'd', path);
+    bubblePath.setAttributeNS(null, 'fill', '#FFFFFF');
+
+    bubbleIcon.appendChild(bubblePath);
+    target.appendChild(bubbleIcon);
+  }
+
+  // Handle expanded view for both avatar and SVG cases
   if (isExpandedView(window.$chatwoot.type)) {
+    if (avatarImg) {
+      avatarImg.style.width = '';
+      avatarImg.style.objectFit = '';
+      avatarImg.style.position = '';
+      avatarImg.style.top = '';
+      avatarImg.style.height = '65%';
+      avatarImg.style.margin = '1rem';
+      avatarImg.style.left = '';
+    }
     const textNode = document.createElement('div');
     textNode.id = 'woot-widget--expanded__text';
     textNode.innerText = '';
+    target.style.background = widgetColor;
+    target.style.backgroundColor = widgetColor;
     target.appendChild(textNode);
     bubbleClassName += ' woot-widget--expanded';
   }

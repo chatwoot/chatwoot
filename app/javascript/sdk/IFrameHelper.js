@@ -312,11 +312,15 @@ export const IFrameHelper = {
       className,
       path: bubbleSVG,
       target: chatBubble,
+      widgetColor,
     });
 
     addClasses(closeBubble, closeBtnClassName);
 
-    chatIcon.style.background = widgetColor;
+    const avatarUrl = window.$chatwoot.avatarUrl;
+    if (!avatarUrl) {
+      chatIcon.style.background = widgetColor;
+    }
     closeBubble.style.background = widgetColor;
 
     bubbleHolder.appendChild(chatIcon);
