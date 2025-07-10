@@ -56,7 +56,7 @@ const controlItems = computed(() => {
 });
 
 const breadcrumbItem = computed(() => {
-  const currentControl = controlItems.value?.find(
+  const activeControlItem = controlItems.value?.find(
     item => item.routeName === route.name
   );
 
@@ -66,8 +66,13 @@ const breadcrumbItem = computed(() => {
       routeName: 'captain_assistants_index',
     },
     { label: assistant.value?.name, routeName: 'captain_assistants_edit' },
-    ...(currentControl
-      ? [{ label: currentControl.name, routeName: currentControl.routeName }]
+    ...(activeControlItem
+      ? [
+          {
+            label: activeControlItem.name,
+            routeName: activeControlItem.routeName,
+          },
+        ]
       : []),
   ];
 });

@@ -11,7 +11,7 @@ defineProps({
 
 const router = useRouter();
 
-const onChangeRoute = name => {
+const onClick = name => {
   router.push({ name });
 };
 </script>
@@ -20,7 +20,7 @@ const onChangeRoute = name => {
   <div
     :key="controlItem.name"
     class="pt-3 ltr:pl-4 rtl:pr-4 ltr:pr-2 rtl:pl-2 pb-5 gap-2 flex flex-col w-full shadow outline-1 outline outline-n-container rounded-2xl bg-n-solid-2 cursor-pointer"
-    @click="onChangeRoute(controlItem.routeName)"
+    @click="onClick(controlItem.routeName)"
   >
     <div class="flex items-center justify-between w-full gap-1 h-8">
       <span class="text-sm font-medium text-n-slate-12 line-clamp-1">
@@ -32,7 +32,7 @@ const onChangeRoute = name => {
           slate
           ghost
           xs
-          @click="onChangeRoute(controlItem.routeName)"
+          @click="onClick(controlItem.routeName)"
         />
       </div>
     </div>

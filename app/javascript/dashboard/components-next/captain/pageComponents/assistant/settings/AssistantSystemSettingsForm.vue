@@ -47,7 +47,7 @@ const updateStateFromAssistant = assistant => {
   state.resolutionMessage = config.resolution_message;
 };
 
-const handleBasicInfoUpdate = async () => {
+const handleSystemMessagesUpdate = async () => {
   const result = await Promise.all([
     v$.value.handoffMessage.$validate(),
     v$.value.resolutionMessage.$validate(),
@@ -95,7 +95,7 @@ watch(
     <div>
       <Button
         :label="t('CAPTAIN.ASSISTANTS.FORM.UPDATE')"
-        @click="handleBasicInfoUpdate"
+        @click="handleSystemMessagesUpdate"
       />
     </div>
   </div>
