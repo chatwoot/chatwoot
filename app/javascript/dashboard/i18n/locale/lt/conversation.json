@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Kitą savaitę"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agentai",
+      "TEAMS": "Komandos"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Atidėti iki",
       "APPLY": "Atidėti",

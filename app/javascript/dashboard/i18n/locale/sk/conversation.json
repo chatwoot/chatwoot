@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Ďalší ťýždeň"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Teams"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odložiť do",
       "APPLY": "Snooze",
