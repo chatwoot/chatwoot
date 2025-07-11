@@ -16,6 +16,7 @@ class Whatsapp::OneoffCampaignService
     raise "Invalid campaign #{campaign.id}" if campaign.inbox.inbox_type != 'Whatsapp' || !campaign.one_off?
     raise 'Completed Campaign' if campaign.completed?
     raise 'WhatsApp Cloud provider required' if channel.provider != 'whatsapp_cloud'
+    raise 'WhatsApp campaigns feature not enabled' unless campaign.account.feature_enabled?(:whatsapp_campaign)
   end
 
   def extract_audience_labels

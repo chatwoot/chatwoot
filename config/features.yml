@@ -176,3 +176,6 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+- name: whatsapp_campaign
+  display_name: WhatsApp Campaign
+  enabled: false

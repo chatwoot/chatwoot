@@ -58,12 +58,21 @@ class Campaign < ApplicationRecord
     return unless one_off?
     return if completed?
 
-    Twilio::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Twilio SMS'
-    Sms::OneoffSmsCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Sms'
-    Whatsapp::OneoffCampaignService.new(campaign: self).perform if inbox.inbox_type == 'Whatsapp'
+    execute_campaign
   end
 
   private
+
+  def execute_campaign
+    case inbox.inbox_type
+    when 'Twilio SMS'
+      Twilio::OneoffSmsCampaignService.new(campaign: self).perform
+    when 'Sms'
+      Sms::OneoffSmsCampaignService.new(campaign: self).perform
+    when 'Whatsapp'
+      Whatsapp::OneoffCampaignService.new(campaign: self).perform if account.feature_enabled?(:whatsapp_campaign)
+    end
+  end
 
   def set_display_id
     reload

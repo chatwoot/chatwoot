@@ -32,6 +32,11 @@ describe Whatsapp::OneoffCampaignService do
   end
 
   describe '#perform' do
+    before do
+      # Enable WhatsApp campaigns feature flag for all tests
+      account.enable_features!(:whatsapp_campaign)
+    end
+
     context 'when campaign validation fails' do
       it 'raises error if campaign is completed' do
         campaign.completed!
@@ -58,6 +63,12 @@ describe Whatsapp::OneoffCampaignService do
         whatsapp_channel.update!(provider: 'default')
 
         expect { whatsapp_campaign_service.perform }.to raise_error 'WhatsApp Cloud provider required'
+      end
+
+      it 'raises error when WhatsApp campaigns feature is not enabled' do
+        account.disable_features!(:whatsapp_campaign)
+
+        expect { whatsapp_campaign_service.perform }.to raise_error 'WhatsApp campaigns feature not enabled'
       end
     end
 

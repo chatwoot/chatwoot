@@ -4,6 +4,7 @@ export const FEATURE_FLAGS = {
   AUTO_RESOLVE_CONVERSATIONS: 'auto_resolve_conversations',
   AUTOMATIONS: 'automations',
   CAMPAIGNS: 'campaigns',
+  WHATSAPP_CAMPAIGNS: 'whatsapp_campaign',
   CANNED_RESPONSES: 'canned_responses',
   CRM: 'crm',
   CUSTOM_ATTRIBUTES: 'custom_attributes',

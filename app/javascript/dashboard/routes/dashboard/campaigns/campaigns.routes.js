@@ -54,7 +54,10 @@ const campaignsRoutes = {
         {
           path: 'whatsapp',
           name: 'campaigns_whatsapp_index',
-          meta,
+          meta: {
+            ...meta,
+            featureFlag: FEATURE_FLAGS.WHATSAPP_CAMPAIGNS,
+          },
           component: WhatsAppCampaignsPage,
         },
       ],
