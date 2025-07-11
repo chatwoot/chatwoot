@@ -158,6 +158,7 @@ const prepareCampaignDetails = () => {
   // Prepare template_params object with the same structure as used in contacts
   const templateParams = {
     name: currentTemplate?.name || '',
+    namespace: currentTemplate?.namespace || '',
     category: currentTemplate?.category || 'UTILITY',
     language: currentTemplate?.language || 'en_US',
     processed_params: processedParams.value,
