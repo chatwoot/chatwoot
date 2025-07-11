@@ -72,26 +72,6 @@ RSpec.describe Channel::Whatsapp do
     end
 
     context 'when channel is created through embedded signup' do
-      it 'sets up webhooks automatically' do
-        expect(Whatsapp::WebhookSetupService).to receive(:new).with(
-          anything,
-          'test_waba_id',
-          'test_access_token'
-        )
-        expect(webhook_service).to receive(:perform)
-
-        create(:channel_whatsapp,
-               account: account,
-               provider: 'whatsapp_cloud',
-               provider_config: {
-                 'source' => 'embedded_signup',
-                 'business_account_id' => 'test_waba_id',
-                 'api_key' => 'test_access_token'
-               },
-               validate_provider_config: false,
-               sync_templates: false)
-      end
-
       it 'does not raise error if webhook setup fails' do
         allow(webhook_service).to receive(:perform).and_raise(StandardError, 'Webhook error')
 

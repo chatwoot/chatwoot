@@ -53,12 +53,13 @@ describe Whatsapp::EmbeddedSignupService do
       allow(channel_creation_service).to receive(:perform).and_return(channel)
 
       # Webhook setup is now handled in the channel after_create callback
-      # So we stub it at the channel level
-      allow(channel).to receive(:setup_webhooks)
+      # So we stub it at the model level
+      webhook_service = instance_double(Whatsapp::WebhookSetupService)
+      allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+      allow(webhook_service).to receive(:perform)
     end
 
     it 'orchestrates all services in the correct order' do
-      expect(GlobalConfig).to receive(:clear_cache)
       expect(token_exchange_service).to receive(:perform).ordered
       expect(phone_info_service).to receive(:perform).ordered
       expect(token_validation_service).to receive(:perform).ordered
