@@ -9,6 +9,7 @@ import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
 import whatsappIcon from 'dashboard/assets/images/whatsapp.png';
 import twilioIcon from 'dashboard/assets/images/twilio.png';
+import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const route = useRoute();
 const router = useRouter();
@@ -34,7 +35,7 @@ const isWhatsappEmbeddedSignupEnabled = computed(() => {
   const accountId = route.params.accountId;
   return store.getters['accounts/isFeatureEnabledonAccount'](
     accountId,
-    'whatsapp_embedded_signup'
+    FEATURE_FLAGS.WHATSAPP_EMBEDDED_SIGNUP
   );
 });
 
@@ -94,7 +95,7 @@ const shouldShowCloudWhatsapp = provider => {
 
 <template>
   <div
-    class="w-full h-full col-span-6 p-6 overflow-auto border border-b-0 rounded-t-lg border-n-weak bg-n-solid-1"
+    class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
   >
     <!-- Provider Selection View -->
     <div v-if="showProviderSelection">
@@ -108,17 +109,17 @@ const shouldShowCloudWhatsapp = provider => {
       </div>
 
       <!-- Dynamic Provider Cards -->
-      <div class="flex justify-start gap-6">
+      <div class="flex gap-6 justify-start">
         <div
           v-for="provider in availableProviders"
           :key="provider.value"
-          class="gap-6 px-5 py-6 transition-all duration-200 border cursor-pointer w-96 border-n-weak rounded-2xl hover:bg-n-slate-3"
+          class="gap-6 px-5 py-6 w-96 rounded-2xl border transition-all duration-200 cursor-pointer border-n-weak hover:bg-n-slate-3"
           @click="selectProvider(provider.value)"
         >
           <!-- Provider Icon -->
           <div class="flex justify-start mb-5">
             <div
-              class="flex items-center justify-center size-10 bg-n-alpha-2 rounded-full"
+              class="flex justify-center items-center rounded-full size-10 bg-n-alpha-2"
             >
               <img
                 :src="provider.icon"
@@ -143,7 +144,7 @@ const shouldShowCloudWhatsapp = provider => {
 
     <!-- Configuration View -->
     <div v-else-if="showConfiguration">
-      <div class="py-5 px-6 border bg-n-solid-2 border-n-weak rounded-2xl">
+      <div class="px-6 py-5 rounded-2xl border bg-n-solid-2 border-n-weak">
         <!-- Provider Configuration Forms -->
         <WhatsappEmbeddedSignup
           v-if="shouldShowEmbeddedSignup(selectedProvider)"
