@@ -217,37 +217,6 @@
           }
         }
       },
-      "VOICE": {
-        "TITLE": "Voice Channel",
-        "DESC": "Integrate voice calling capabilities with your preferred provider.",
-        "PROVIDER": {
-          "LABEL": "Provider",
-          "PLACEHOLDER": "Select a voice provider"
-        },
-        "PHONE_NUMBER": {
-          "LABEL": "Phone Number",
-          "PLACEHOLDER": "Please enter the phone number from which calls will be made.",
-          "REQUIRED": "This field is required",
-          "ERROR": "Please provide a valid phone number that starts with a `+` sign and does not contain any spaces."
-        },
-        "TWILIO": {
-          "ACCOUNT_SID": {
-            "LABEL": "Account SID",
-            "PLACEHOLDER": "Please enter your Twilio Account SID",
-            "REQUIRED": "This field is required"
-          },
-          "AUTH_TOKEN": {
-            "LABEL": "Auth Token",
-            "PLACEHOLDER": "Please enter your Twilio Auth Token",
-            "REQUIRED": "This field is required"
-          }
-        },
-        "SUBMIT_BUTTON": "Create Voice Channel",
-        "API": {
-          "SUCCESS_MESSAGE": "Voice channel registered successfully",
-          "ERROR_MESSAGE": "Unable to create voice channel. Please try again."
-        }
-      },
       "WHATSAPP": {
         "TITLE": "WhatsApp Channel",
         "DESC": "Start supporting your customers via WhatsApp.",
@@ -570,11 +539,6 @@
       "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
-      "VOICE_CALL_ROUTING": "Call Routing",
-      "VOICE_CALL_ROUTING_SUB_TEXT": "Configure how calls are handled when agents are unavailable",
-      "PERSONAL_PHONE_ROUTING": "Enable routing to personal phone",
-      "PERSONAL_PHONE_ROUTING_SUB_TEXT": "When an agent is not online in Chatwoot, route incoming calls to their personal phone number",
-      "AGENT_PHONE_SETTINGS_INFO": "Each agent can configure their personal phone number in their profile settings page",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
@@ -859,14 +823,14 @@
       "WEB_WIDGET": "Website",
       "TWITTER_PROFILE": "Twitter",
       "TWILIO_SMS": "Twilio SMS",
-      "VOICE": "Voice",
       "WHATSAPP": "WhatsApp",
       "SMS": "SMS",
       "EMAIL": "Email",
       "TELEGRAM": "Telegram",
       "LINE": "Line",
       "API": "API Channel",
-      "INSTAGRAM": "Instagram"
+      "INSTAGRAM": "Instagram",
+      "VOICE": "Voice"
     }
   }
 }

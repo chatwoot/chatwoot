@@ -1,9 +1,5 @@
 {
   "CAMPAIGN": {
-    "BADGE": {
-      "ACTIVE": "Active",
-      "COMPLETED": "Completed"
-    },
     "LIVE_CHAT": {
       "HEADER_TITLE": "Live chat campaigns",
       "NEW_CAMPAIGN": "Create campaign",
