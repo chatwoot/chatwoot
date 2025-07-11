@@ -236,6 +236,15 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :whatsapp do
+            resources :callbacks, only: [] do
+              collection do
+                post :embedded_signup
+                get :config
+              end
+            end
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -485,13 +494,6 @@ Rails.application.routes.draw do
   post 'webhooks/whatsapp/:phone_number', to: 'webhooks/whatsapp#process_payload'
   get 'webhooks/instagram', to: 'webhooks/instagram#verify'
   post 'webhooks/instagram', to: 'webhooks/instagram#events'
-
-  namespace :whatsapp do
-    get 'signup', to: 'embedded#new'
-    get 'signup/callback', to: 'embedded#callback'
-    post 'embedded_signup', to: 'embedded#embedded_signup'
-    post 'reauthorize', to: 'embedded#reauthorize'
-  end
 
   namespace :twitter do
     resource :callback, only: [:show]

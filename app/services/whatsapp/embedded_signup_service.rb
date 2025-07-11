@@ -1,38 +1,36 @@
 class Whatsapp::EmbeddedSignupService
-  include Rails.application.routes.url_helpers
-  include Whatsapp::ApiService
-  include Whatsapp::TokenValidator
-
-  def initialize(params)
-    @account = params[:account]
-    @code = params[:code]
-    @business_id = params[:business_id]
-    @waba_id = params[:waba_id]
-    @phone_number_id = params[:phone_number_id]
-    @inbox_id = params[:inbox_id]
+  def initialize(account:, code:, business_id:, waba_id:, phone_number_id:)
+    @account = account
+    @code = code
+    @business_id = business_id
+    @waba_id = waba_id
+    @phone_number_id = phone_number_id
   end
 
   def perform
-    # Validate required parameters
-    unless @code.present? && @business_id.present? && @waba_id.present? && @phone_number_id.present?
-      raise ArgumentError, 'Code, business_id, waba_id, and phone_number_id are all required'
-    end
+    validate_parameters!
 
     GlobalConfig.clear_cache
+
     # Exchange code for user access token
-    access_token = exchange_code_for_token
+    access_token = Whatsapp::TokenExchangeService.new(@code).perform
 
-    # Use the provided business info directly (more efficient)
-    phone_info = fetch_phone_info_via_waba(@waba_id, @phone_number_id, access_token)
+    # Fetch phone information
+    phone_info = Whatsapp::PhoneInfoService.new(@waba_id, @phone_number_id, access_token).perform
 
-    # Validate that the token has access to the provided WABA (security check)
-    validate_token_waba_access(access_token, @waba_id)
+    # Validate token has access to the WABA
+    Whatsapp::TokenValidationService.new(access_token, @waba_id).perform
 
+    # Create channel
     waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
+    channel = Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
 
-    create_or_update_channel(waba_info, phone_info, access_token)
+    # Setup webhook
+    Whatsapp::WebhookSetupService.new(channel, @waba_id, access_token).perform
+
+    channel
   rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Signup failed: #{e.message}")
+    Rails.logger.error("[WHATSAPP] Embedded signup failed: #{e.message}")
     raise e
   end
 
@@ -57,92 +55,14 @@ class Whatsapp::EmbeddedSignupService
 
   private
 
-  def validate_reauthorization_params!
-    return if @code.present? && @business_id.present? && @waba_id.present? && @phone_number_id.present? && @inbox_id.present?
+  def validate_parameters!
+    missing_params = []
+    missing_params << 'code' if @code.blank?
+    missing_params << 'business_id' if @business_id.blank?
+    missing_params << 'waba_id' if @waba_id.blank?
 
-    raise ArgumentError, 'Code, business_id, waba_id, phone_number_id, and inbox_id are all required for reauthorization'
-  end
+    return if missing_params.empty?
 
-  def find_and_validate_channel
-    inbox = @account.inboxes.find_by(id: @inbox_id)
-    raise ActiveRecord::RecordNotFound, 'Inbox not found' unless inbox
-    raise ArgumentError, 'Inbox is not a WhatsApp channel' unless inbox.channel_type == 'Channel::Whatsapp'
-
-    channel = inbox.channel
-    raise ArgumentError, 'Channel is not WhatsApp Cloud provider' unless channel.provider == 'whatsapp_cloud'
-
-    channel
-  end
-
-  def create_or_update_channel(waba_info, phone_info, access_token)
-    existing_channel = find_existing_channel(phone_info[:phone_number])
-    channel_attributes = build_channel_attributes(waba_info, phone_info, access_token)
-
-    if existing_channel
-      Rails.logger.error("Channel already exists: #{existing_channel.inspect}")
-      raise "Channel already exists: #{existing_channel.phone_number}"
-    else
-      channel = create_new_channel(channel_attributes, phone_info)
-      register_phone_number(phone_info[:phone_number_id], access_token)
-      override_waba_webhook(waba_info[:waba_id], channel, access_token)
-      channel
-    end
-  end
-
-  def register_phone_number(phone_number_id, access_token)
-    # Generate a random 6-digit PIN
-    pin = SecureRandom.random_number(900_000) + 100_000
-
-    HTTParty.post(
-      "https://graph.facebook.com/#{whatsapp_api_version}/#{phone_number_id}/register",
-      {
-        headers: { 'Authorization' => "Bearer #{access_token}", 'Content-Type' => 'application/json' },
-        body: { messaging_product: 'whatsapp', pin: pin.to_s }.to_json
-      }
-    )
-  end
-
-  def find_existing_channel(phone_number)
-    Channel::Whatsapp.find_by(account: @account, phone_number: phone_number)
-  end
-
-  def build_channel_attributes(waba_info, phone_info, access_token)
-    {
-      phone_number: phone_info[:phone_number],
-      provider: 'whatsapp_cloud',
-      provider_config: {
-        api_key: access_token,
-        phone_number_id: phone_info[:phone_number_id],
-        business_account_id: waba_info[:waba_id],
-        source: 'embedded_signup'
-      }
-    }
-  end
-
-  def create_new_channel(attributes, phone_info)
-    channel = Channel::Whatsapp.create!(account: @account, **attributes)
-    create_inbox_for_channel(channel, phone_info)
-    channel.reload
-    channel
-  end
-
-  def create_inbox_for_channel(channel, phone_info)
-    Inbox.create!(
-      account: @account,
-      name: "#{phone_info[:business_name]} WhatsApp",
-      channel: channel
-    )
-  end
-
-  def update_channel_for_reauthorization(channel, phone_info, access_token)
-    # Update channel with new access token and configuration
-    channel.update!(
-      provider_config: channel.provider_config.merge(
-        'api_key' => access_token,
-        'phone_number_id' => phone_info[:phone_number_id],
-        'business_account_id' => @waba_id,
-        'reauthorized_at' => Time.current.iso8601
-      )
-    )
+    raise ArgumentError, "Required parameters are missing: #{missing_params.join(', ')}"
   end
 end
