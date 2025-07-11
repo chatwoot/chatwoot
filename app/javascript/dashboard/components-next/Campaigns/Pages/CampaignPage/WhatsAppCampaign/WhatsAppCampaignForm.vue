@@ -90,23 +90,21 @@ const selectedTemplate = computed(() => {
 
 const templateString = computed(() => {
   if (!selectedTemplate.value) return '';
-  return (
-    selectedTemplate.value.components?.find(
-      component => component.type === 'BODY'
-    )?.text || ''
-  );
-});
-
-const variables = computed(() => {
-  if (!templateString.value) return null;
-  return templateString.value.match(/{{([^}]+)}}/g);
+  try {
+    return (
+      selectedTemplate.value.components?.find(
+        component => component.type === 'BODY'
+      )?.text || ''
+    );
+  } catch (error) {
+    return '';
+  }
 });
 
 const processedString = computed(() => {
   if (!templateString.value) return '';
   return templateString.value.replace(/{{([^}]+)}}/g, (match, variable) => {
-    const variableKey = variable.replace(/{{|}}/g, '');
-    return processedParams.value[variableKey] || `{{${variable}}}`;
+    return processedParams.value[variable] || `{{${variable}}}`;
   });
 });
 
@@ -123,13 +121,22 @@ const formErrors = computed(() => ({
   audience: getErrorMessage('selectedAudience', 'AUDIENCE'),
 }));
 
-const isSubmitDisabled = computed(() => v$.value.$invalid);
+const hasRequiredTemplateParams = computed(() => {
+  const params = Object.values(processedParams.value);
+  return params.length === 0 || params.every(param => param.trim() !== '');
+});
+
+const isSubmitDisabled = computed(
+  () => v$.value.$invalid || !hasRequiredTemplateParams.value
+);
 
 const formatToUTCString = localDateTime =>
   localDateTime ? new Date(localDateTime).toISOString() : null;
 
 const resetState = () => {
   Object.assign(state, initialState);
+  processedParams.value = {};
+  v$.value.$reset();
 };
 
 const handleCancel = () => emit('cancel');
@@ -141,9 +148,9 @@ const generateVariables = () => {
     return;
   }
 
-  const finalVars = matchedVariables.map(i => i.replace(/{{|}}/g, ''));
+  const finalVars = matchedVariables.map(match => match.replace(/{{|}}/g, ''));
   processedParams.value = finalVars.reduce((acc, variable) => {
-    acc[variable] = '';
+    acc[variable] = processedParams.value[variable] || '';
     return acc;
   }, {});
 };
@@ -277,7 +284,10 @@ watch(
     </div>
 
     <!-- Template Variables -->
-    <div v-if="variables" class="flex flex-col gap-3">
+    <div
+      v-if="Object.keys(processedParams).length > 0"
+      class="flex flex-col gap-3"
+    >
       <label class="text-sm font-medium text-n-slate-12">
         {{ t('CAMPAIGN.WHATSAPP.CREATE.FORM.TEMPLATE.VARIABLES_LABEL') }}
       </label>
