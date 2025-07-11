@@ -33,7 +33,7 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
   private
 
   def pre_check_failure_reason
-    return I18n.t('conversations.bot.failure') unless @context.inbox
+    return I18n.t('conversations.bot.not_available_ai_agent') unless @context.inbox
 
     return I18n.t('conversations.bot.not_available_ai_agent') unless @context.ai_agent
     return I18n.t('conversations.bot.not_available_ai_agent') if @context.ai_agent.chat_flow_id.blank?
@@ -125,10 +125,8 @@ class Captain::Copilot::ChatService # rubocop:disable Layout/EndOfLine
       account_id: @context.account_id,
       inbox_id: @context.conversation.inbox_id,
       conversation_id: @context.conversation.id,
-      # message_type: 1,
       content_type: 0,
       status: 0
-      # sender_type: 'AiAgent'
     }
 
     attrs[:sender_id] = @context.ai_agent&.id
