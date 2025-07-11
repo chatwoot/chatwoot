@@ -66,7 +66,7 @@ const conversationCustomViews = useMapGetter(
 );
 
 // Check if there are any voice inboxes
-const hasVoiceInbox = computed(() => 
+const hasVoiceInbox = computed(() =>
   inboxes.value.some(inbox => inbox.channel_type === INBOX_TYPES.VOICE)
 );
 
@@ -337,11 +337,6 @@ const menuItems = computed(() => {
           name: 'SMS',
           label: t('SIDEBAR.SMS'),
           to: accountScopedRoute('campaigns_sms_index'),
-        },
-        {
-          name: 'Voice',
-          label: t('SIDEBAR.VOICE'),
-          to: accountScopedRoute('campaigns_voice_index'),
         },
       ],
     },
