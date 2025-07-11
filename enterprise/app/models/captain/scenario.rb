@@ -55,6 +55,19 @@ class Captain::Scenario < ApplicationRecord
     instructions
   end
 
+  def agent_tools
+    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }
+  end
+
+  def agent(user)
+    tool_instances = agent_tools.map { |tool| tool.new(assistant, user: user) }
+    Agents::Agent.new(
+      name: "#{title} Agent",
+      instructions: agent_instructions,
+      tools: tool_instances
+    )
+  end
+
   private
 
   def resolved_instructions
