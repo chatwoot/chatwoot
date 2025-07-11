@@ -65,8 +65,22 @@ class Whatsapp::OneoffCampaignService
   end
 
   def build_template_parameters(processed_params, _contact)
-    # Convert processed_params to WhatsApp format
-    # This could be enhanced to support contact variable substitution
-    processed_params.map { |_key, value| { type: 'text', text: value.to_s } }
+    # Use the same logic as SendOnWhatsappService to process template parameters
+    template = find_template(campaign.template_params)
+    return [] if template.blank?
+
+    parameter_format = template['parameter_format']
+
+    if parameter_format == 'NAMED'
+      processed_params.map { |key, value| { type: 'text', parameter_name: key, text: value.to_s } }
+    else
+      processed_params.map { |_, value| { type: 'text', text: value.to_s } }
+    end
+  end
+
+  def find_template(template_params)
+    channel.message_templates.find do |t|
+      t['name'] == template_params['name'] && t['language'] == template_params['language']
+    end
   end
 end
