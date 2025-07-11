@@ -19,3 +19,13 @@
   title: "Update Priority"
   description: "Update conversation priority level"
   icon: "exclamation-triangle"
+
+- id: search_contact
+  title: "Search Contact"
+  description: "Search for a contact by email, phone number, or identifier"
+  icon: "search"
+
+- id: add_label_to_conversation
+  title: "Add Label to Conversation"
+  description: "Add a label to a conversation"
+  icon: "tag"
