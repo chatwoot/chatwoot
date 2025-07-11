@@ -47,8 +47,8 @@ class Api::V1::Accounts::Whatsapp::CallbacksController < Api::V1::Accounts::Base
     Rails.logger.error("[WHATSAPP] Embedded signup processing error: #{error.message}")
     Rails.logger.error(error.backtrace.join("\n"))
     render json: {
-      error: 'Internal server error',
+      error: 'signup_failed',
       message: error.message
-    }, status: :internal_server_error
+    }, status: :bad_request
   end
 end

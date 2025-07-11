@@ -31,6 +31,7 @@ describe Whatsapp::WebhookSetupService do
         allow(api_client).to receive(:subscribe_waba_webhook)
           .with(waba_id, anything, 'test_verify_token')
           .and_return({ 'success' => true })
+        allow(channel).to receive(:save!)
       end
 
       it 'registers the phone number' do
@@ -95,6 +96,23 @@ describe Whatsapp::WebhookSetupService do
       it 'raises error when access_token is blank' do
         service = described_class.new(channel, waba_id, '')
         expect { service.perform }.to raise_error(ArgumentError, 'Access token is required')
+      end
+    end
+
+    context 'when PIN already exists' do
+      before do
+        channel.provider_config['verification_pin'] = 123_456
+        allow(api_client).to receive(:register_phone_number)
+        allow(api_client).to receive(:subscribe_waba_webhook).and_return({ 'success' => true })
+        allow(channel).to receive(:save!)
+      end
+
+      it 'reuses existing PIN' do
+        with_modified_env FRONTEND_URL: 'https://app.chatwoot.com' do
+          expect(api_client).to receive(:register_phone_number).with('123456789', 123_456)
+          expect(SecureRandom).not_to receive(:random_number)
+          service.perform
+        end
       end
     end
   end
