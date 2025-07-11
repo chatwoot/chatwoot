@@ -6,7 +6,7 @@ class CreateCaptainScenarios < ActiveRecord::Migration[7.1]
       t.text :instruction
       t.jsonb :tools, default: []
       t.boolean :enabled, default: true, null: false
-      t.references :assistant, null: false, foreign_key: { to_table: :captain_assistants }
+      t.references :assistant, null: false
       t.references :account, null: false
 
       t.timestamps
