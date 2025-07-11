@@ -21,14 +21,30 @@ class Whatsapp::WebhookSetupService
   end
 
   def register_phone_number
-    # Generate a random 6-digit PIN
-    pin = SecureRandom.random_number(900_000) + 100_000
     phone_number_id = @channel.provider_config['phone_number_id']
+    pin = fetch_or_create_pin
 
     @api_client.register_phone_number(phone_number_id, pin)
+    store_pin(pin)
   rescue StandardError => e
-    Rails.logger.error("[WHATSAPP] Phone registration failed: #{e.message}")
+    Rails.logger.warn("[WHATSAPP] Phone registration failed but continuing: #{e.message}")
     # Continue with webhook setup even if registration fails
+    # This is just a warning, not a blocking error
+  end
+
+  def fetch_or_create_pin
+    # Check if we have a stored PIN for this phone number
+    existing_pin = @channel.provider_config['verification_pin']
+    return existing_pin.to_i if existing_pin.present?
+
+    # Generate a new 6-digit PIN if none exists
+    SecureRandom.random_number(900_000) + 100_000
+  end
+
+  def store_pin(pin)
+    # Store the PIN in provider_config for future use
+    @channel.provider_config['verification_pin'] = pin
+    @channel.save!
   end
 
   def setup_webhook
