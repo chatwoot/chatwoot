@@ -123,7 +123,7 @@ export function useWhatsappEmbeddedSignup() {
       // Send both auth code and business info together (synchronous flow)
       const accountId = store.getters.getCurrentAccountId;
       const response = await fetch(
-        `/api/v1/accounts/${accountId}/whatsapp/callbacks/embedded_signup`,
+        `/api/v1/accounts/${accountId}/whatsapp/authorization`,
         {
           method: 'POST',
           headers: {

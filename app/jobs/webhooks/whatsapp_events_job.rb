@@ -5,7 +5,6 @@ class Webhooks::WhatsappEventsJob < ApplicationJob
     channel = find_channel_from_whatsapp_business_payload(params)
 
     if channel_is_inactive?(channel)
-      Rails.logger.info("Channel is inactive: #{channel.inspect}")
       Rails.logger.warn("Inactive WhatsApp channel: #{channel&.phone_number || "unknown - #{params[:phone_number]}"}")
       return
     end
