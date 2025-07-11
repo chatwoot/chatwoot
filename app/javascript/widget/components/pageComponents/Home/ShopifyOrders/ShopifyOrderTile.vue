@@ -58,18 +58,19 @@ const handleReportIssue = () => {
 
     <!-- Action Buttons - Stacked for narrow width -->
     <div v-if="!compact" class="grid grid-cols-3 gap-2 mb-2">
-      <button
-        @click="handleTrack"
-        class="bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-2 rounded-lg text-sm transition-all duration-200 border border-gray-200 shadow-md hover:shadow-lg"
+      <a
+        :href="order.order_status_url"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="text-base font-semibold text-gray-900"
       >
-        Track
-      </button>
-      <button
-        @click="handleCancel"
-        class="bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-2 rounded-lg text-sm transition-all duration-200 border border-gray-200 shadow-md hover:shadow-lg"
-      >
-        Cancel
-      </button>
+        <button
+          class="w-[120px] bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-2 rounded-lg text-sm transition-all duration-200 border border-gray-200 shadow-md hover:shadow-lg"
+        >
+          View
+        </button>
+      </a>
+
       <!-- <button
         @click="handleReportIssue"
         class="bg-white hover:bg-gray-50 text-gray-700 font-medium py-2.5 px-2 rounded-lg text-sm transition-all duration-200 border border-gray-200 shadow-md hover:shadow-lg"

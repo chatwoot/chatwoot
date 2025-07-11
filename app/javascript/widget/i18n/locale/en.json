@@ -137,6 +137,7 @@
     "ORDER": "Order",
     "SHIPMENT": "Shipment",
     "TRACK": "Track",
+    "VIEW": "View",
     "FETCH_ORDERS": "Fetch Orders",
     "NO_ORDERS": "No orders available"
   },
