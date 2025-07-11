@@ -72,17 +72,10 @@ export function useWhatsappEmbeddedSignup() {
     useAlert(errorMessage);
   };
 
-  const handleSignupCancellation = data => {
+  const handleSignupCancellation = () => {
     isProcessing.value = false;
     authCodeReceived.value = false;
     isAuthenticating.value = false;
-
-    let message = t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.CANCELLED');
-    if (data.data?.current_step) {
-      message += ` (Step: ${data.data.current_step})`;
-    }
-
-    useAlert(message);
   };
 
   const handleSignupSuccess = inboxData => {
