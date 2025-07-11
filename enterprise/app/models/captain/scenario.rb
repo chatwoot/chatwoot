@@ -62,7 +62,7 @@ class Captain::Scenario < ApplicationRecord
   def agent(user)
     tool_instances = agent_tools.map { |tool| tool.new(assistant, user: user) }
     Agents::Agent.new(
-      name: "#{title} Agent",
+      name: "#{title} Agent".titleize,
       instructions: agent_instructions,
       tools: tool_instances
     )
