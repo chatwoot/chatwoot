@@ -12,11 +12,31 @@ class Whatsapp::OneoffCampaignService
   delegate :inbox, to: :campaign
   delegate :channel, to: :inbox
 
-  def validate_campaign!
-    raise "Invalid campaign #{campaign.id}" if campaign.inbox.inbox_type != 'Whatsapp' || !campaign.one_off?
+  def validate_campaign_type!
+    raise "Invalid campaign #{campaign.id}" unless whatsapp_campaign? && campaign.one_off?
+  end
+
+  def whatsapp_campaign?
+    campaign.inbox.inbox_type == 'Whatsapp'
+  end
+
+  def validate_campaign_status!
     raise 'Completed Campaign' if campaign.completed?
+  end
+
+  def validate_provider!
     raise 'WhatsApp Cloud provider required' if channel.provider != 'whatsapp_cloud'
+  end
+
+  def validate_feature_flag!
     raise 'WhatsApp campaigns feature not enabled' unless campaign.account.feature_enabled?(:whatsapp_campaign)
+  end
+
+  def validate_campaign!
+    validate_campaign_type!
+    validate_campaign_status!
+    validate_provider!
+    validate_feature_flag!
   end
 
   def extract_audience_labels
