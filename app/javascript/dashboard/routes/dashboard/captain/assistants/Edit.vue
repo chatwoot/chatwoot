@@ -29,7 +29,7 @@ const currentAccountId = useMapGetter('getCurrentAccountId');
 
 const isCaptainV2Enabled = isFeatureEnabledonAccount.value(
   currentAccountId.value,
-  FEATURE_FLAGS.CHATWOOT_V4
+  FEATURE_FLAGS.CAPTAIN_V2
 );
 
 const isAssistantAvailable = computed(() => !!assistant.value?.id);

@@ -21,6 +21,7 @@ const { t } = useI18n();
 const initialState = {
   handoffMessage: '',
   resolutionMessage: '',
+  temperature: 1,
 };
 
 const state = reactive({ ...initialState });
@@ -45,6 +46,7 @@ const updateStateFromAssistant = assistant => {
   const { config = {} } = assistant;
   state.handoffMessage = config.handoff_message;
   state.resolutionMessage = config.resolution_message;
+  state.temperature = config.temperature || 1;
 };
 
 const handleSystemMessagesUpdate = async () => {
@@ -59,6 +61,7 @@ const handleSystemMessagesUpdate = async () => {
       ...props.assistant.config,
       handoff_message: state.handoffMessage,
       resolution_message: state.resolutionMessage,
+      temperature: state.temperature || 1,
     },
   };
 
@@ -91,6 +94,26 @@ watch(
       :message="formErrors.resolutionMessage"
       :message-type="formErrors.resolutionMessage ? 'error' : 'info'"
     />
+
+    <div class="flex flex-col gap-2">
+      <label class="text-sm font-medium text-n-slate-12">
+        {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.LABEL') }}
+      </label>
+      <div class="flex items-center gap-4">
+        <input
+          v-model="state.temperature"
+          type="range"
+          min="0"
+          max="1"
+          step="0.1"
+          class="w-full"
+        />
+        <span class="text-sm text-n-slate-12">{{ state.temperature }}</span>
+      </div>
+      <p class="text-sm text-n-slate-11 italic">
+        {{ t('CAPTAIN.ASSISTANTS.FORM.TEMPERATURE.DESCRIPTION') }}
+      </p>
+    </div>
 
     <div>
       <Button
