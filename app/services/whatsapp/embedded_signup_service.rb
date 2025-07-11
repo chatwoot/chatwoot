@@ -10,8 +10,6 @@ class Whatsapp::EmbeddedSignupService
   def perform
     validate_parameters!
 
-    GlobalConfig.clear_cache
-
     # Exchange code for user access token
     access_token = Whatsapp::TokenExchangeService.new(@code).perform
 
