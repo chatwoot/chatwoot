@@ -17,6 +17,7 @@
     "IP_ADDRESS": "IP Address",
     "CREATED_AT_LABEL": "Created",
     "NEW_MESSAGE": "New message",
+    "MAKE_CALL": "Make a Call",
     "CONVERSATIONS": {
       "NO_RECORDS_FOUND": "There are no previous conversations associated to this contact.",
       "TITLE": "Previous Conversations"
@@ -573,6 +574,7 @@
     "FORM": {
       "GO_TO_CONVERSATION": "View",
       "SUCCESS_MESSAGE": "The message was sent successfully!",
+      "CALL_INITIATED": "Voice call initiated successfully!",
       "ERROR_MESSAGE": "An error occurred while creating the conversation. Please try again later.",
       "NO_INBOX_ALERT": "There are no available inboxes to start a conversation with this contact.",
       "CONTACT_SELECTOR": {

@@ -173,6 +173,45 @@ const createConversation = async ({ payload, isFromWhatsApp }) => {
   }
 };
 
+const initiateCall = async ({ contactId, inboxId }) => {
+  try {
+    const VoiceAPI = await import('dashboard/api/channels/voice');
+    const response = await VoiceAPI.default.initiateCall(contactId);
+    const conversation = response.data;
+
+    // Set up the call state
+    const inboxData = store.getters['inboxes/getInbox'](inboxId);
+    store.dispatch('calls/setActiveCall', {
+      callSid: conversation.call_sid || 'pending',
+      inboxName: inboxData?.name || 'Voice',
+      conversationId: conversation.id,
+      contactId: contactId,
+      inboxId: inboxId,
+    });
+
+    // Show the call widget
+    if (window.app && window.app.$data) {
+      window.app.$data.showCallWidget = true;
+    }
+
+    const action = {
+      type: 'link',
+      to: `/app/accounts/${conversation.account_id}/conversations/${conversation.id}`,
+      message: t('COMPOSE_NEW_CONVERSATION.FORM.GO_TO_CONVERSATION'),
+    };
+    closeCompose();
+    useAlert(t('COMPOSE_NEW_CONVERSATION.FORM.CALL_INITIATED'), action);
+    return true; // Return success
+  } catch (error) {
+    useAlert(
+      error instanceof ExceptionWithMessage
+        ? error.data
+        : t('COMPOSE_NEW_CONVERSATION.FORM.ERROR_MESSAGE')
+    );
+    return false; // Return failure
+  }
+};
+
 const toggle = () => {
   showComposeNewConversation.value = !showComposeNewConversation.value;
 };
@@ -268,6 +307,7 @@ useKeyboardEvents(keyboardEvents);
         @update-target-inbox="handleTargetInbox"
         @clear-selected-contact="clearSelectedContact"
         @create-conversation="createConversation"
+        @initiate-call="initiateCall"
         @discard="closeCompose"
       />
     </div>

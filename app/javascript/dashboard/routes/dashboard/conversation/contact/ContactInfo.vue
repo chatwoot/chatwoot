@@ -12,8 +12,6 @@ import ContactMergeModal from 'dashboard/modules/contact/ContactMergeModal.vue';
 import ComposeConversation from 'dashboard/components-next/NewConversation/ComposeConversation.vue';
 import { BUS_EVENTS } from 'shared/constants/busEvents';
 import NextButton from 'dashboard/components-next/button/Button.vue';
-import VoiceAPI from 'dashboard/api/channels/voice';
-import CallManager from './CallManager.vue';
 
 import {
   isAConversationRoute,
@@ -21,7 +19,6 @@ import {
   getConversationDashboardRoute,
 } from '../../../../helper/routeHelpers';
 import { emitter } from 'shared/helpers/mitt';
-import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 
 export default {
   components: {
@@ -32,7 +29,6 @@ export default {
     ComposeConversation,
     SocialIcons,
     ContactMergeModal,
-    CallManager,
   },
   mixins: [inboxMixin],
   props: {
@@ -57,21 +53,12 @@ export default {
       showEditModal: false,
       showMergeModal: false,
       showDeleteModal: false,
-      isCallLoading: false,
-      activeCallConversation: null,
-      isHoveringCallButton: false,
     };
   },
   computed: {
-    ...mapGetters({ 
+    ...mapGetters({
       uiFlags: 'contacts/getUIFlags',
-      storeActiveCall: 'calls/getActiveCall',
-      storeHasActiveCall: 'calls/hasActiveCall',
     }),
-    // Check if there's an active call either in store or local component
-    hasActiveCall() {
-      return this.storeHasActiveCall || !!this.activeCallConversation;
-    },
     contactProfileLink() {
       return `/app/accounts/${this.$route.params.accountId}/contacts/${this.contact.id}`;
     },
@@ -155,277 +142,6 @@ export default {
         return '';
       }
     },
-    async initiateVoiceCall() {
-      if (!this.contact || !this.contact.id) return;
-
-      this.isCallLoading = true;
-      try {
-        const response = await VoiceAPI.initiateCall(this.contact.id);
-        const conversation = response.data;
-
-        // First set local state for immediate UI update
-        this.activeCallConversation = conversation;
-        console.log('Call initiated, conversation data:', conversation);
-
-        // Always create a call SID even if it's not in the response
-        let callSid = conversation?.call_sid;
-
-        // If not directly available, try to find it in messages
-        if (!callSid) {
-          const messages = conversation?.messages || [];
-          const callMessage = messages.find(
-            message =>
-              message.message_type === 10 &&
-              message.additional_attributes &&
-              message.additional_attributes.call_sid
-          );
-
-          callSid = callMessage?.additional_attributes?.call_sid;
-        }
-
-        // If still not found, check conversation.additional_attributes
-        if (!callSid && conversation?.additional_attributes) {
-          callSid = conversation.additional_attributes.call_sid;
-        }
-
-        // If we don't have a call SID, log the error but continue
-        // This will allow the UI to show something while we wait for the real call SID
-        if (!callSid) {
-          console.log(
-            'No call SID found in response, waiting for server to assign one'
-          );
-
-          // We'll rely on WebSocket updates to get the real call SID when available
-          // For now just set a placeholder for UI purposes
-          callSid = 'pending';
-        }
-
-        // Log for debugging
-        console.log('Voice call response:', conversation);
-        console.log('Using call SID:', callSid);
-
-        // Always set the global call state for the floating widget
-        const inbox = conversation.inbox_id
-          ? this.$store.getters['inboxes/getInbox'](conversation.inbox_id)
-          : null;
-
-        this.$store.dispatch('calls/setActiveCall', {
-          callSid,
-          inboxName: inbox?.name || 'Primary',
-          conversationId: conversation.id,
-          contactId: this.contact.id,
-          inboxId: conversation.inbox_id,
-        });
-
-        // Set App's showCallWidget to true
-        if (window.app && window.app.$data) {
-          window.app.$data.showCallWidget = true;
-        }
-
-        // IMPORTANT: Redirect to the conversation view
-        if (conversation.id) {
-          const accountId = this.$route.params.accountId;
-          const path = frontendURL(
-            conversationUrl({
-              accountId,
-              id: conversation.id,
-            })
-          );
-          console.log(`Redirecting to conversation path: ${path}`);
-          this.$router.push({ path });
-        }
-
-        // After a brief delay, force update UI
-        setTimeout(() => {
-          this.$forceUpdate();
-        }, 100);
-
-        useAlert('Voice call initiated successfully');
-      } catch (error) {
-        // Error handled with useAlert
-        useAlert('Failed to initiate voice call');
-      } finally {
-        this.isCallLoading = false;
-      }
-    },
-
-    handleCallEnded() {
-      // Immediately reset local state
-      this.activeCallConversation = null;
-      this.isCallLoading = false;
-      
-      // Clear global call state
-      this.$store.dispatch('calls/clearActiveCall');
-      
-      // Force re-render the component to ensure button state updates
-      this.$forceUpdate();
-    },
-
-    // Simplified emergency end call function
-    forceEndActiveCall() {
-      console.log('FORCE END ACTIVE CALL triggered from ContactInfo');
-
-      // Important: Save a reference to the conversation before resetting it
-      const savedConversation = this.activeCallConversation;
-
-      // 1. Immediately update local state for immediate UI feedback
-      this.activeCallConversation = null;
-      this.isHoveringCallButton = false;
-      this.$forceUpdate();
-
-      // 2. Reset App global state
-      if (window.app) {
-        window.app.$data.showCallWidget = false;
-      }
-
-      // 3. Reset store state
-      this.$store.dispatch('calls/clearActiveCall');
-
-      // 4. Get the call SID from the saved conversation
-      if (savedConversation) {
-        // Try to find the call SID
-        let callSid = null;
-
-        // Check all possible locations
-        if (savedConversation.call_sid) {
-          callSid = savedConversation.call_sid;
-        } else if (savedConversation.additional_attributes?.call_sid) {
-          callSid = savedConversation.additional_attributes.call_sid;
-        } else if (
-          savedConversation.messages &&
-          savedConversation.messages.length > 0
-        ) {
-          // Look in messages
-          const callMessage = savedConversation.messages.find(
-            message =>
-              message.message_type === 10 &&
-              message.additional_attributes?.call_sid
-          );
-
-          if (callMessage) {
-            callSid = callMessage.additional_attributes.call_sid;
-          }
-        }
-
-        console.log('ContactInfo: Found call SID for API call:', callSid);
-
-        // 5. Make direct API call to end the call if we have a valid call SID
-        if (callSid && callSid !== 'pending') {
-          // Check if it's a valid Twilio call SID
-          const isValidTwilioSid =
-            callSid.startsWith('CA') || callSid.startsWith('TJ');
-
-          if (isValidTwilioSid) {
-            console.log(
-              'ContactInfo: Making direct API call to end call with SID:',
-              callSid
-            );
-
-            // Make API call with conversation ID
-            VoiceAPI.endCall(callSid, savedConversation.id)
-              .then(response => {
-                console.log(
-                  'ContactInfo: Call ended successfully via API:',
-                  response
-                );
-              })
-              .catch(error => {
-                console.error('ContactInfo: Error ending call via API:', error);
-              });
-          } else {
-            console.log(
-              'ContactInfo: Invalid Twilio call SID format:',
-              callSid
-            );
-          }
-        } else if (callSid === 'pending') {
-          console.log(
-            'ContactInfo: Call was still in pending state, no API call needed'
-          );
-        } else {
-          console.log('ContactInfo: No call SID available for API call');
-        }
-      }
-
-      // 6. User feedback
-      useAlert({ message: 'Call ended successfully', type: 'success' });
-    },
-
-    // Original more careful implementation
-    async endActiveCall() {
-      console.log('End active call triggered from ContactInfo component');
-
-      // First, immediately update the UI for responsive feedback
-      const savedActiveCall = this.activeCallConversation;
-      this.activeCallConversation = null;
-      this.$forceUpdate();
-
-      // Reset app-level state
-      if (window.app && window.app.$data) {
-        window.app.$data.showCallWidget = false;
-      }
-
-      // Clear global state
-      this.$store.dispatch('calls/clearActiveCall');
-
-      // Always give user success feedback
-      useAlert({ message: 'Call ended successfully', type: 'success' });
-
-      // Then try the API call (after UI is updated)
-      try {
-        if (savedActiveCall) {
-          // Try to find the call SID
-          let callSid = null;
-
-          // Check all possible locations
-          if (savedActiveCall.call_sid) {
-            callSid = savedActiveCall.call_sid;
-          } else if (savedActiveCall.additional_attributes?.call_sid) {
-            callSid = savedActiveCall.additional_attributes.call_sid;
-          } else {
-            // Look in messages
-            const messages = savedActiveCall.messages || [];
-            const callMessage = messages.find(
-              message =>
-                message.message_type === 10 &&
-                message.additional_attributes?.call_sid
-            );
-
-            if (callMessage) {
-              callSid = callMessage.additional_attributes.call_sid;
-            }
-          }
-
-          console.log('Found call SID for API call:', callSid);
-
-          // Make the API call if we have a valid call SID
-          if (callSid && callSid !== 'pending') {
-            // Check if it's a valid Twilio call SID
-            const isValidTwilioSid =
-              callSid.startsWith('CA') || callSid.startsWith('TJ');
-
-            if (isValidTwilioSid) {
-              try {
-                console.log('Making API call to end call with SID:', callSid);
-                await VoiceAPI.endCall(callSid, savedActiveCall.id);
-                console.log('API call to end call succeeded');
-              } catch (apiError) {
-                console.error('API call to end call failed:', apiError);
-                // We've already updated UI, so don't show error to user
-              }
-            } else {
-              console.log('Invalid Twilio call SID format:', callSid);
-            }
-          } else if (callSid === 'pending') {
-            console.log('Call was still in pending state, no API call needed');
-          } else {
-            console.log('No call SID available for API call');
-          }
-        }
-      } catch (error) {
-        console.error('Error in endActiveCall:', error);
-      }
-    },
     async deleteContact({ id }) {
       try {
         await this.$store.dispatch('contacts/delete', id);
@@ -459,33 +175,6 @@ export default {
     openMergeModal() {
       this.showMergeModal = true;
     },
-    onCallButtonClick() {
-      // If there's an active call in the store, just show widget
-      if (this.storeHasActiveCall) {
-        useAlert('Call already active, showing call widget', 'info');
-        if (window.app && window.app.$data) {
-          window.app.$data.showCallWidget = true;
-        }
-        return;
-      }
-      
-      // Check if we have a stale local state
-      if (this.activeCallConversation) {
-        // Reset our local state
-        this.activeCallConversation = null;
-        this.$forceUpdate();
-        
-        // If store is clear, initiate a new call after state reset
-        if (!this.storeHasActiveCall) {
-          this.$nextTick(() => {
-            this.initiateVoiceCall();
-          });
-        }
-      } else {
-        // No active call, proceed with initiating a new one
-        this.initiateVoiceCall();
-      }
-    },
   },
 };
 </script>
@@ -493,14 +182,6 @@ export default {
 <template>
   <div class="relative items-center w-full p-4">
     <div class="flex flex-col w-full gap-2 text-left rtl:text-right">
-      <!-- Call Manager Component - Shows only when a call is active -->
-      <CallManager
-        v-if="activeCallConversation && contact && contact.id"
-        :contact="contact"
-        :conversation="activeCallConversation"
-        @call-ended="handleCallEnded"
-      />
-
       <div class="flex flex-row justify-between">
         <Thumbnail
           v-if="showAvatar"
@@ -599,17 +280,6 @@ export default {
             />
           </template>
         </ComposeConversation>
-        <NextButton
-          v-if="contact.phone_number"
-          v-tooltip.top-end="hasActiveCall ? 'Call already ongoing' : 'Call'"
-          icon="i-ph-phone"
-          slate
-          faded
-          sm
-          :is-loading="!hasActiveCall && isCallLoading"
-          :color="hasActiveCall ? 'teal' : undefined"
-          @click.stop.prevent="onCallButtonClick"
-        />
         <NextButton
           v-tooltip.top-end="$t('EDIT_CONTACT.BUTTON_LABEL')"
           icon="i-ph-pencil-simple"

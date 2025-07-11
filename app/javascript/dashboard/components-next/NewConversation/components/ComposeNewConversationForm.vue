@@ -45,6 +45,7 @@ const emit = defineEmits([
   'updateTargetInbox',
   'clearSelectedContact',
   'createConversation',
+  'initiateCall',
 ]);
 
 const showContactsDropdown = ref(false);
@@ -88,7 +89,11 @@ const inboxChannelType = computed(() => props.targetInbox?.channelType || '');
 const validationRules = computed(() => ({
   selectedContact: { required },
   targetInbox: { required },
-  message: { required: requiredIf(!inboxTypes.value.isWhatsapp && !inboxTypes.value.isVoice) },
+  message: {
+    required: requiredIf(
+      !inboxTypes.value.isWhatsapp && !inboxTypes.value.isVoice
+    ),
+  },
   subject: { required: requiredIf(inboxTypes.value.isEmail) },
 }));
 
@@ -237,12 +242,20 @@ const handleSendMessage = async () => {
   if (!isValid) return;
 
   try {
-    const success = await emit('createConversation', {
-      payload: newMessagePayload(),
-      isFromWhatsApp: false,
-    });
-    if (success) {
-      clearForm();
+    // For voice inboxes, initiate a call instead of creating a conversation
+    if (inboxTypes.value.isVoice) {
+      await emit('initiateCall', {
+        contactId: props.selectedContact.id,
+        inboxId: props.targetInbox.id,
+      });
+    } else {
+      const success = await emit('createConversation', {
+        payload: newMessagePayload(),
+        isFromWhatsApp: false,
+      });
+      if (success) {
+        clearForm();
+      }
     }
   } catch (error) {
     // Form will not be cleared if conversation creation fails

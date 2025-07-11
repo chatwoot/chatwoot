@@ -116,9 +116,9 @@ const { onFileUpload } = useFileUpload({
 const sendButtonLabel = computed(() => {
   // For voice inboxes, show "Make a Call" instead of "Send"
   if (props.isVoiceInbox) {
-    return t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.MAKE_CALL');
+    return t('CONTACT_PANEL.MAKE_CALL');
   }
-  
+
   // For all other inboxes, show the standard "Send" label
   const keyCode = isEditorHotKeyEnabled('cmd_enter') ? '⌘ + ↵' : '↵';
   return t('COMPOSE_NEW_CONVERSATION.FORM.ACTION_BUTTONS.SEND', {
