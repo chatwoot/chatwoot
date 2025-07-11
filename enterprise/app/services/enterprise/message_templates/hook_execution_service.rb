@@ -1,4 +1,6 @@
 module Enterprise::MessageTemplates::HookExecutionService
+  MAX_ATTACHMENT_WAIT_SECONDS = 4
+
   def trigger_templates
     super
     return unless should_process_captain_response?
