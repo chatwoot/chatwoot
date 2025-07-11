@@ -206,7 +206,7 @@ Rails.application.routes.draw do
               match :twiml_for_client, via: [:get, :post, :options], defaults: { format: :xml } # Allow GET, POST, and OPTIONS
             end
           end
-          
+
           # Voice call client SDK support
           namespace :voice do
             resources :tokens, only: [:create]
@@ -526,9 +526,6 @@ Rails.application.routes.draw do
   namespace :twilio do
     resources :callback, only: [:create]
     resources :delivery_status, only: [:create]
-
-    # Transcription webhook
-    post :transcription_callback, to: 'transcription#transcription_callback'
 
     # Recording webhook
     post :recording_callback, to: 'recording#recording_callback'

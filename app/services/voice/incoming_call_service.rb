@@ -3,34 +3,30 @@ module Voice
     pattr_initialize [:account!, :params!]
 
     def process
+      find_inbox
 
-      begin
-        find_inbox
+      return captain_twiml if @inbox.captain_active?
 
-        return captain_twiml if @inbox.captain_active?
+      create_contact
 
-        create_contact
-
-        # Use a transaction to ensure the conversation and voice call message are created together
-        # This ensures the voice call message is created before any auto-assignment activity messages
-        ActiveRecord::Base.transaction do
-          create_conversation
-          create_voice_call_message
-        end
-
-        # Create activity message separately, after the voice call message
-        create_activity_message
-
-        twiml = generate_twiml_response
-
-        twiml
-      rescue StandardError => e
-        # Log the error
-        Rails.logger.error("Error processing incoming call: #{e.message}")
-
-        # Return a simple error TwiML
-        error_twiml(e.message)
+      # Use a transaction to ensure the conversation and voice call message are created together
+      # This ensures the voice call message is created before any auto-assignment activity messages
+      ActiveRecord::Base.transaction do
+        create_conversation
+        create_voice_call_message
       end
+
+      # Create activity message separately, after the voice call message
+      create_activity_message
+
+      generate_twiml_response
+
+    rescue StandardError => e
+      # Log the error
+      Rails.logger.error("Error processing incoming call: #{e.message}")
+
+      # Return a simple error TwiML
+      error_twiml(e.message)
     end
 
     def caller_info
@@ -45,7 +41,7 @@ module Voice
 
     def captain_twiml
       response = Twilio::TwiML::VoiceResponse.new
-      
+
       media_service_url = "#{ENV.fetch('AI_MEDIA_SERVICE_URL', nil)}/incoming-call"
 
       response.redirect(media_service_url)
@@ -61,7 +57,6 @@ module Voice
                       .first
 
       raise "Inbox not found for phone number #{caller_info[:to_number]}" unless @inbox.present?
-
     end
 
     def create_contact
@@ -72,7 +67,6 @@ module Voice
       @contact = account.contacts.find_or_create_by!(phone_number: phone_number) do |c|
         c.name = "Contact from #{phone_number}"
       end
-
     end
 
     def create_conversation
@@ -85,7 +79,6 @@ module Voice
       # Set source_id if not already set
       @contact_inbox.source_id ||= caller_info[:from_number]
       @contact_inbox.save!
-
 
       # Create a new conversation with basic call details
       # Status will be properly set by CallStatusManager later
@@ -109,7 +102,6 @@ module Voice
       conference_name = "conf_account_#{account.id}_conv_#{@conversation.display_id}"
       @conversation.additional_attributes['conference_sid'] = conference_name
       @conversation.save!
-
     end
 
     def create_voice_call_message
@@ -120,10 +112,10 @@ module Voice
         call_sid: caller_info[:call_sid],
         provider: :twilio
       )
-      
+
       # Get UI-friendly status for consistent display
       ui_status = status_manager.normalized_ui_status('ringing')
-      
+
       message_params = {
         content: 'Voice Call',
         message_type: 'incoming',
@@ -152,7 +144,6 @@ module Voice
         message_params
       ).perform
 
-
       # Broadcast call notification
       broadcast_call_status
     end
@@ -170,7 +161,7 @@ module Voice
       status_manager.process_status_update('ringing', nil, true)
 
       # Then add a custom message about the incoming call - it will be created without a sender
-      activity_message = status_manager.create_activity_message(
+      status_manager.create_activity_message(
         "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
       )
     end
@@ -204,7 +195,6 @@ module Voice
           data: broadcast_data
         }
       )
-
     end
 
     def generate_twiml_response
@@ -214,22 +204,9 @@ module Voice
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: 'Thank you for calling. Please wait while we connect you with an agent.')
 
-      # Setup callback URLs - include conference name and speaker_type in transcription URL
+      # Setup callback URLs
       conference_callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/conference_status"
-      transcription_url = "#{base_url}/twilio/transcription_callback?account_id=#{account.id}&conference_sid=#{conference_name}&speaker_type=contact&contact_id=#{@contact.id}"
-
-      Rails.logger.info("📞 IncomingCallService: Setting transcription callback to: #{transcription_url}")
       Rails.logger.info("📞 IncomingCallService: Setting conference callback to: #{conference_callback_url}")
-
-      # Start real-time transcription for this caller's leg
-      response.start do |s|
-        s.transcription(
-          status_callback_url: transcription_url,
-          status_callback_method: 'POST',
-          track: 'inbound_track', # Must be inbound_track or outbound_track per Twilio API
-          language_code: 'en-US'
-        )
-      end
 
       # Now add the caller to the conference
       response.dial do |dial|
@@ -255,7 +232,7 @@ module Voice
       result
     end
 
-    def error_twiml(message)
+    def error_twiml(_message)
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: 'We are experiencing technical difficulties with our phone system. Please try again later.')
       response.hangup

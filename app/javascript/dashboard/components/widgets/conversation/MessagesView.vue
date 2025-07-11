@@ -10,7 +10,6 @@ import ReplyBox from './ReplyBox.vue';
 import MessageList from 'next/message/MessageList.vue';
 import ConversationLabelSuggestion from './conversation/LabelSuggestion.vue';
 import Banner from 'dashboard/components/ui/Banner.vue';
-import VoiceTimelineView from './VoiceTimelineView.vue';
 import Spinner from 'dashboard/components-next/spinner/Spinner.vue';
 
 // stores and apis
@@ -43,7 +42,6 @@ export default {
     ReplyBox,
     Banner,
     ConversationLabelSuggestion,
-    VoiceTimelineView,
     Spinner,
   },
   mixins: [inboxMixin],
@@ -525,15 +523,10 @@ export default {
           />
         </div>
       </div>
-      <VoiceTimelineView
-        v-if="isAVoiceChannel"
-        :conversation-id="currentChat.id"
-        class="mb-4"
-      />
       <ReplyBox
         :pop-out-reply-box="isPopOutReplyBox"
-        @update:pop-out-reply-box="isPopOutReplyBox = $event"
         :is-private-note-only="isAVoiceChannel"
+        @update:pop-out-reply-box="isPopOutReplyBox = $event"
       />
     </div>
   </div>
