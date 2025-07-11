@@ -3,6 +3,8 @@ import types from '../mutation-types';
 import CampaignsAPI from '../../api/campaigns';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { CAMPAIGNS_EVENTS } from '../../helper/AnalyticsHelper/events';
+import { CAMPAIGN_TYPES } from 'shared/constants/campaign';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export const state = {
   records: [],
@@ -35,12 +37,12 @@ export const getters = {
       return filteredRecords.sort((a1, a2) => a1.id - a2.id);
     },
   getSMSCampaigns: (_state, _getters) => {
-    const smsChannelTypes = ['Channel::Sms', 'Channel::TwilioSms'];
-    return _getters.getCampaigns('one_off', smsChannelTypes);
+    const smsChannelTypes = [INBOX_TYPES.SMS, INBOX_TYPES.TWILIO];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes);
   },
   getWhatsAppCampaigns: (_state, _getters) => {
-    const whatsappChannelTypes = ['Channel::Whatsapp'];
-    return _getters.getCampaigns('one_off', whatsappChannelTypes);
+    const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, whatsappChannelTypes);
   },
   getAllCampaigns: _state => {
     return _state.records;
