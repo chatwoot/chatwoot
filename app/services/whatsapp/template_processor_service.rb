@@ -67,7 +67,7 @@ class Whatsapp::TemplateProcessorService
 
   def find_template
     channel.message_templates.find do |t|
-      t['name'] == template_params['name'] && t['language'] == template_params['language']
+      t['name'] == template_params['name'] && t['language'] == template_params['language'] && t['status']&.downcase == 'approved'
     end
   end
 
