@@ -19,6 +19,11 @@ describe Whatsapp::ChannelCreationService do
       # Clean up any existing channels to avoid phone number conflicts
       Channel::Whatsapp.destroy_all
 
+      # Stub the webhook setup service to prevent HTTP calls during tests
+      webhook_service = instance_double(Whatsapp::WebhookSetupService)
+      allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+      allow(webhook_service).to receive(:perform)
+
       # Stub the provider validation and sync_templates
       allow(Channel::Whatsapp).to receive(:new).and_wrap_original do |method, *args|
         channel = method.call(*args)

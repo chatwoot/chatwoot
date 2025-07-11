@@ -176,3 +176,6 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+- name: whatsapp_embedded_signup
+  display_name: WhatsApp Embedded Signup
+  enabled: false

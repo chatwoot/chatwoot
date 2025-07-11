@@ -32,7 +32,6 @@ describe Whatsapp::EmbeddedSignupService do
     let(:phone_info_service) { instance_double(Whatsapp::PhoneInfoService) }
     let(:token_validation_service) { instance_double(Whatsapp::TokenValidationService) }
     let(:channel_creation_service) { instance_double(Whatsapp::ChannelCreationService) }
-    let(:webhook_setup_service) { instance_double(Whatsapp::WebhookSetupService) }
 
     before do
       allow(GlobalConfig).to receive(:clear_cache)
@@ -53,9 +52,9 @@ describe Whatsapp::EmbeddedSignupService do
         .and_return(channel_creation_service)
       allow(channel_creation_service).to receive(:perform).and_return(channel)
 
-      allow(Whatsapp::WebhookSetupService).to receive(:new)
-        .with(channel, waba_id, access_token).and_return(webhook_setup_service)
-      allow(webhook_setup_service).to receive(:perform)
+      # Webhook setup is now handled in the channel after_create callback
+      # So we stub it at the channel level
+      allow(channel).to receive(:setup_webhooks)
     end
 
     it 'orchestrates all services in the correct order' do
@@ -64,7 +63,6 @@ describe Whatsapp::EmbeddedSignupService do
       expect(phone_info_service).to receive(:perform).ordered
       expect(token_validation_service).to receive(:perform).ordered
       expect(channel_creation_service).to receive(:perform).ordered
-      expect(webhook_setup_service).to receive(:perform).ordered
 
       result = service.perform
       expect(result).to eq(channel)

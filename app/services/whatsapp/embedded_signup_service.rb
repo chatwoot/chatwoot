@@ -10,8 +10,6 @@ class Whatsapp::EmbeddedSignupService
   def perform
     validate_parameters!
 
-    GlobalConfig.clear_cache
-
     # Exchange code for user access token
     access_token = Whatsapp::TokenExchangeService.new(@code).perform
 
@@ -23,12 +21,9 @@ class Whatsapp::EmbeddedSignupService
 
     # Create channel
     waba_info = { waba_id: @waba_id, business_name: phone_info[:business_name] }
-    channel = Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
 
-    # Setup webhook
-    Whatsapp::WebhookSetupService.new(channel, @waba_id, access_token).perform
-
-    channel
+    # Webhook setup is now handled in the channel after_create_commit callback
+    Whatsapp::ChannelCreationService.new(@account, waba_info, phone_info, access_token).perform
   rescue StandardError => e
     Rails.logger.error("[WHATSAPP] Embedded signup failed: #{e.message}")
     raise e

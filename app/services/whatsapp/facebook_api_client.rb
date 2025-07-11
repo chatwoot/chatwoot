@@ -1,6 +1,5 @@
 class Whatsapp::FacebookApiClient
-  include HTTParty
-  base_uri 'https://graph.facebook.com'
+  BASE_URI = 'https://graph.facebook.com'.freeze
 
   def initialize(access_token = nil)
     @access_token = access_token
@@ -8,8 +7,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def exchange_code_for_token(code)
-    response = self.class.get(
-      "/#{@api_version}/oauth/access_token",
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/oauth/access_token",
       query: {
         client_id: GlobalConfigService.load('WHATSAPP_APP_ID', ''),
         client_secret: GlobalConfigService.load('WHATSAPP_APP_SECRET', ''),
@@ -21,8 +20,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def fetch_phone_numbers(waba_id)
-    response = self.class.get(
-      "/#{@api_version}/#{waba_id}/phone_numbers",
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/phone_numbers",
       query: { access_token: @access_token }
     )
 
@@ -30,8 +29,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def debug_token(input_token)
-    response = self.class.get(
-      "/#{@api_version}/debug_token",
+    response = HTTParty.get(
+      "#{BASE_URI}/#{@api_version}/debug_token",
       query: {
         input_token: input_token,
         access_token: build_app_access_token
@@ -42,8 +41,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def register_phone_number(phone_number_id, pin)
-    response = self.class.post(
-      "/#{@api_version}/#{phone_number_id}/register",
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{phone_number_id}/register",
       headers: request_headers,
       body: { messaging_product: 'whatsapp', pin: pin.to_s }.to_json
     )
@@ -52,8 +51,8 @@ class Whatsapp::FacebookApiClient
   end
 
   def subscribe_waba_webhook(waba_id, callback_url, verify_token)
-    response = self.class.post(
-      "/#{@api_version}/#{waba_id}/subscribed_apps",
+    response = HTTParty.post(
+      "#{BASE_URI}/#{@api_version}/#{waba_id}/subscribed_apps",
       headers: request_headers,
       body: {
         override_callback_uri: callback_url,

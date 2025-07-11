@@ -237,12 +237,7 @@ Rails.application.routes.draw do
           end
 
           namespace :whatsapp do
-            resources :callbacks, only: [] do
-              collection do
-                post :embedded_signup
-                get :config
-              end
-            end
+            resource :authorization, only: [:create]
           end
 
           resources :webhooks, only: [:index, :create, :update, :destroy]
