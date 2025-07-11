@@ -129,23 +129,25 @@ export function useWhatsappEmbeddedSignup() {
     try {
       // Send both auth code and business info together (synchronous flow)
       const accountId = store.getters.getCurrentAccountId;
-      const response = await fetch('/whatsapp/embedded_signup', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          'X-CSRF-Token': document
-            .querySelector('meta[name="csrf-token"]')
-            ?.getAttribute('content'),
-          ...authHeaders.value,
-        },
-        body: JSON.stringify({
-          account_id: accountId,
-          code: authCode.value,
-          business_id: businessDataParam.business_id,
-          waba_id: businessDataParam.waba_id,
-          phone_number_id: businessDataParam.phone_number_id,
-        }),
-      });
+      const response = await fetch(
+        `/api/v1/accounts/${accountId}/whatsapp/callbacks/embedded_signup`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'X-CSRF-Token': document
+              .querySelector('meta[name="csrf-token"]')
+              ?.getAttribute('content'),
+            ...authHeaders.value,
+          },
+          body: JSON.stringify({
+            code: authCode.value,
+            business_id: businessDataParam.business_id,
+            waba_id: businessDataParam.waba_id,
+            phone_number_id: businessDataParam.phone_number_id,
+          }),
+        }
+      );
 
       const responseData = await response.json();
 
