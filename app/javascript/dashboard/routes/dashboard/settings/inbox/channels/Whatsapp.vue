@@ -7,8 +7,6 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
-import whatsappIcon from 'dashboard/assets/images/whatsapp.png';
-import twilioIcon from 'dashboard/assets/images/twilio.png';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const route = useRoute();
@@ -50,13 +48,13 @@ const availableProviders = computed(() => [
     value: PROVIDER_TYPES.WHATSAPP,
     label: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD_DESC'),
-    icon: whatsappIcon,
+    icon: '/assets/images/dashboard/channels/whatsapp.png',
   },
   {
     value: PROVIDER_TYPES.TWILIO,
     label: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
-    icon: twilioIcon,
+    icon: '/assets/images/dashboard/channels/twilio.png',
   },
 ]);
 

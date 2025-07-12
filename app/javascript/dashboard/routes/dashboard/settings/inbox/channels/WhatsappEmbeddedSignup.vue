@@ -24,6 +24,8 @@ const businessData = ref(null);
 const isAuthenticating = ref(false);
 
 // Computed
+const whatsappIconPath = '/assets/images/dashboard/channels/whatsapp.png';
+
 const benefits = computed(() => [
   {
     key: 'EASY_SETUP',
@@ -281,7 +283,7 @@ onBeforeUnmount(() => {
             class="flex justify-center items-center w-12 h-12 rounded-full bg-n-alpha-2"
           >
             <img
-              :src="whatsappIcon"
+              :src="whatsappIconPath"
               :alt="$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD')"
               class="object-contain w-8 h-8"
               draggable="false"
