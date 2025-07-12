@@ -150,3 +150,12 @@ COPY --from=pre-builder /app/.git_sha /app/.git_sha
 WORKDIR /app
 
 EXPOSE 3000
+
+# Create an entrypoint script
+RUN echo '#!/bin/sh' > /app/entrypoint.sh && \
+    echo 'bundle exec rails db:chatwoot_prepare' >> /app/entrypoint.sh && \
+    echo 'bundle exec rails ip_lookup:setup' >> /app/entrypoint.sh && \
+    echo 'bundle exec rails server -b 0.0.0.0 -p 3000' >> /app/entrypoint.sh && \
+    chmod +x /app/entrypoint.sh
+
+CMD ["/app/entrypoint.sh"]
