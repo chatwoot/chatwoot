@@ -8,6 +8,8 @@ import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
 import whatsappIcon from 'dashboard/assets/images/whatsapp.png';
+import { loadScript } from 'dashboard/helper/DOMHelpers';
+import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
 const store = useStore();
 const router = useRouter();
@@ -110,41 +112,30 @@ const completeSignupFlow = async businessDataParam => {
     authCode.value = null;
     handleSignupSuccess(responseData);
   } catch (error) {
-    handleSignupError({ error: error.message });
+    const errorMessage =
+      parseAPIErrorResponse(error) ||
+      t('INBOX_MGMT.ADD.WHATSAPP.API.ERROR_MESSAGE');
+    handleSignupError({ error: errorMessage });
   }
 };
 
 const isValidBusinessData = businessDataLocal => {
   return (
     businessDataLocal &&
-    (businessDataLocal.business_id || businessDataLocal.businessId) &&
-    (businessDataLocal.waba_id || businessDataLocal.wabaId)
+    businessDataLocal.business_id &&
+    businessDataLocal.waba_id
   );
 };
 
 // Message handling
 const handleEmbeddedSignupData = async data => {
   if (data.event === 'FINISH') {
-    let businessDataLocal = data.data;
-
-    if (!businessDataLocal) {
-      businessDataLocal = data.business_data || data.details || data;
-    }
+    const businessDataLocal = data.data;
 
     if (isValidBusinessData(businessDataLocal)) {
-      const normalizedData = {
-        business_id:
-          businessDataLocal.business_id || businessDataLocal.businessId,
-        waba_id: businessDataLocal.waba_id || businessDataLocal.wabaId,
-        phone_number_id:
-          businessDataLocal.phone_number_id ||
-          businessDataLocal.phoneNumberId ||
-          businessDataLocal.phone_id,
-      };
-
-      businessData.value = normalizedData;
+      businessData.value = businessDataLocal;
       if (authCodeReceived.value && authCode.value) {
-        await completeSignupFlow(normalizedData);
+        await completeSignupFlow(businessDataLocal);
       } else {
         processingMessage.value = t(
           'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.WAITING_FOR_AUTH'
@@ -191,18 +182,8 @@ const fbLoginCallback = response => {
 };
 
 const handleSignupMessage = event => {
-  // Validate origin for security
-  try {
-    const originUrl = new URL(event.origin);
-    const allowedHosts = [
-      'facebook.com',
-      'www.facebook.com',
-      'web.facebook.com',
-    ];
-    if (!allowedHosts.includes(originUrl.hostname)) return;
-  } catch {
-    return;
-  }
+  // Validate origin for security - following Facebook documentation, https://developers.facebook.com/docs/whatsapp/embedded-signup/implementation#step-3--add-embedded-signup-to-your-website
+  if (!event.origin.endsWith('facebook.com')) return;
 
   // Parse and handle WhatsApp embedded signup events
   try {
@@ -215,56 +196,48 @@ const handleSignupMessage = event => {
   }
 };
 
-// Facebook SDK initialization following official docs
-const initializeFacebookSdk = () => {
-  return new Promise((resolve, reject) => {
-    if (window.FB) {
-      fbSdkLoaded.value = true;
-      resolve();
-      return;
-    }
+const runFBInit = () => {
+  window.FB.init({
+    appId: window.chatwootConfig?.whatsappAppId,
+    autoLogAppEvents: true,
+    xfbml: true,
+    version: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
+  });
+  fbSdkLoaded.value = true;
+};
 
-    window.fbAsyncInit = () => {
-      window.FB.init({
-        appId: window.chatwootConfig?.whatsappAppId,
-        status: true,
-        xfbml: true,
-        version: window.chatwootConfig?.whatsappApiVersion || 'v22.0',
-      });
-      fbSdkLoaded.value = true;
-      resolve();
-    };
+const loadFacebookSdk = async () => {
+  return loadScript('https://connect.facebook.net/en_US/sdk.js', {
+    crossOrigin: 'anonymous',
+  });
+};
 
-    const script = document.createElement('script');
-    script.src = 'https://connect.facebook.net/en_US/sdk.js';
-    script.async = true;
-    script.defer = true;
-    script.onerror = reject;
-    document.body.appendChild(script);
+const tryWhatsAppLogin = () => {
+  isAuthenticating.value = true;
+  processingMessage.value = t(
+    'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
+  );
+
+  window.FB.login(fbLoginCallback, {
+    config_id: window.chatwootConfig?.whatsappConfigurationId,
+    response_type: 'code',
+    override_default_response_type: true,
+    extras: {
+      setup: {},
+      featureType: '',
+      sessionInfoVersion: '3',
+    },
   });
 };
 
 const launchEmbeddedSignup = async () => {
   try {
-    if (!window.FB) {
-      await initializeFacebookSdk();
-    }
+    // Load SDK first if not loaded, following Facebook.vue pattern exactly
+    await loadFacebookSdk();
+    runFBInit(); // Initialize FB after loading
 
-    isAuthenticating.value = true;
-    processingMessage.value = t(
-      'INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.AUTH_PROCESSING'
-    );
-
-    window.FB.login(fbLoginCallback, {
-      config_id: window.chatwootConfig?.whatsappConfigurationId,
-      response_type: 'code',
-      override_default_response_type: true,
-      extras: {
-        setup: {},
-        featureType: '',
-        sessionInfoVersion: '3',
-      },
-    });
+    // Now proceed with login
+    tryWhatsAppLogin();
   } catch (error) {
     handleSignupError({
       error: t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SDK_LOAD_ERROR'),
@@ -282,10 +255,10 @@ const cleanupMessageListener = () => {
 };
 
 const initialize = () => {
-  initializeFacebookSdk().catch(() => {
-    // SDK loading failed, user will see disabled button
-  });
+  // Set up fbAsyncInit like Facebook.vue does
+  window.fbAsyncInit = runFBInit;
   setupMessageListener();
+  // Don't load SDK on mount - only load when user clicks button
 };
 
 onMounted(() => {
@@ -337,7 +310,7 @@ onBeforeUnmount(() => {
 
       <div class="flex mt-4">
         <NextButton
-          :disabled="!fbSdkLoaded || isAuthenticating"
+          :disabled="isAuthenticating"
           :is-loading="isAuthenticating"
           faded
           slate
@@ -347,10 +320,6 @@ onBeforeUnmount(() => {
           {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.SUBMIT_BUTTON') }}
         </NextButton>
       </div>
-
-      <p v-if="!fbSdkLoaded" class="mt-3 text-xs text-start text-n-slate-11">
-        {{ $t('INBOX_MGMT.ADD.WHATSAPP.EMBEDDED_SIGNUP.LOADING_SDK') }}
-      </p>
     </div>
   </div>
 </template>
