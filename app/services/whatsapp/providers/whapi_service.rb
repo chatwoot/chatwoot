@@ -24,6 +24,9 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   def validate_provider_config?
     response = HTTParty.get("#{api_base_path}/health", headers: api_headers)
     response.success?
+  rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
+    Rails.logger.error "WHAPI health check failed: #{e.message}"
+    false
   end
 
   def error_message(response)
@@ -34,6 +37,9 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       error_msg = parsed_response.dig('error', 'message') || parsed_response['message']
       return error_msg if error_msg.present?
     end
+    # Only return fallback error message if response indicates actual failure
+    return nil if parsed_response.is_a?(Hash) && parsed_response.empty?
+
     # If no specific error, return a clear failure message
     "WHAPI API request failed with status #{response.code}. Response: #{response.body}"
   end
@@ -64,7 +70,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
 
     # Check for successful status codes (200-299) and presence of message ID
     # WHAPI returns the ID in response.message.id, not at the top level
-    if (200..299).include?(response.code)
+    if (200..299).cover?(response.code)
       Rails.logger.info '✓ HTTP status code indicates success'
 
       if parsed_response.is_a?(Hash)

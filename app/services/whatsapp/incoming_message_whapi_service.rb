@@ -22,17 +22,16 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   end
 
   def extract_contacts_from_whapi_payload
+    # First check if contacts are provided directly in the payload
+    return params['contacts'].map { |contact| transform_direct_contact(contact) } if params['contacts'].present?
+
+    # Fallback to extracting from messages if no direct contacts
     return [] unless params['messages']
 
     params['messages']
       .reject { |message| outgoing_message?(message) }
-      .map { |message| transform_whapi_contact(message) }
-      .compact
+      .filter_map { |message| transform_whapi_contact(message) }
       .uniq { |contact| contact[:wa_id] }
-  end
-
-  def process_in_reply_to(message)
-    @in_reply_to_external_id = message.dig(:context, :id)
   end
 
   def download_attachment_file(attachment_payload)
@@ -44,26 +43,23 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
     nil
   end
 
+  def outgoing_message?(message)
+    message['from_me'] == true || message[:from_me] == true
+  end
+
   def create_message(message)
+    content_attrs = {}
+    content_attrs[:in_reply_to_external_id] = @in_reply_to_external_id if @in_reply_to_external_id.present?
+
     @message = @conversation.messages.build(
       content: message_content(message),
       account_id: @inbox.account_id,
       inbox_id: @inbox.id,
-      message_type: message_type_for(message),
-      sender: sender_for(message),
+      message_type: :incoming,
+      sender: @contact,
       source_id: message[:id].to_s,
-      in_reply_to_external_id: @in_reply_to_external_id
+      content_attributes: content_attrs
     )
-  end
-
-  def set_contact
-    message = @processed_params[:messages].first
-
-    if outgoing_message?(message)
-      set_contact_for_outgoing_message(message)
-    else
-      set_contact_for_incoming_message
-    end
   end
 
   # Message transformation methods
@@ -81,7 +77,8 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
       from: message['from'],
       timestamp: message['timestamp'],
       type: message['type'],
-      from_me: message['from_me']
+      from_me: message['from_me'],
+      chat_id: message['chat_id']
     }.tap do |processed_message|
       processed_message[:to] = message['to'] if message['to'].present?
     end
@@ -90,8 +87,9 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   def add_context_to_message(processed_message, original_message)
     return unless original_message['context']&.[]('quoted_id')
 
-    processed_message[:context] = {
-      id: original_message['context']['quoted_id']
+    # Transform the context so the base service can find it as 'id'
+    processed_message['context'] = {
+      'id' => original_message['context']['quoted_id']
     }
   end
 
@@ -111,8 +109,17 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
   def transform_whapi_status(status)
     {
       id: status['id'],
-      status: map_whapi_status_code(status['code']),
+      status: status['status'] || map_whapi_status_code(status['code']),
       timestamp: status['timestamp']
+    }
+  end
+
+  def transform_direct_contact(contact)
+    {
+      wa_id: contact['wa_id'],
+      profile: {
+        name: contact.dig('profile', 'name') || contact['wa_id']
+      }
     }
   end
 
@@ -123,65 +130,6 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
         name: message['from_name'] || message['from']
       }
     }
-  end
-
-  # Message direction and type methods
-
-  def outgoing_message?(message)
-    message['from_me'] == true || message[:from_me] == true
-  end
-
-  def message_type_for(message)
-    outgoing_message?(message) ? :outgoing : :incoming
-  end
-
-  def sender_for(message)
-    outgoing_message?(message) ? nil : @contact
-  end
-
-  # Contact handling methods
-
-  def set_contact_for_outgoing_message(message)
-    recipient_phone = message[:to] || message[:from]
-
-    @contact_inbox = find_or_create_contact_inbox_for_outgoing(recipient_phone)
-    @contact = @contact_inbox.contact
-  end
-
-  def set_contact_for_incoming_message
-    contact_params = @processed_params[:contacts]&.first
-    return if contact_params.blank?
-
-    waid = processed_waid(contact_params[:wa_id])
-    @contact_inbox = build_contact_inbox_for_incoming(waid, contact_params)
-    @contact = @contact_inbox.contact
-  end
-
-  def find_or_create_contact_inbox_for_outgoing(recipient_phone)
-    @inbox.contact_inboxes.find_by(source_id: recipient_phone) ||
-      create_contact_inbox_for_outgoing(recipient_phone)
-  end
-
-  def create_contact_inbox_for_outgoing(recipient_phone)
-    ::ContactInboxWithContactBuilder.new(
-      source_id: recipient_phone,
-      inbox: inbox,
-      contact_attributes: {
-        name: recipient_phone,
-        phone_number: "+#{recipient_phone}"
-      }
-    ).perform
-  end
-
-  def build_contact_inbox_for_incoming(waid, contact_params)
-    ::ContactInboxWithContactBuilder.new(
-      source_id: waid,
-      inbox: inbox,
-      contact_attributes: {
-        name: contact_params.dig(:profile, :name),
-        phone_number: "+#{@processed_params[:messages].first[:from]}"
-      }
-    ).perform
   end
 
   # Status mapping
