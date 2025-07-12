@@ -7,7 +7,6 @@ import { useAlert } from 'dashboard/composables';
 import Icon from 'next/icon/Icon.vue';
 import NextButton from 'next/button/Button.vue';
 import LoadingState from 'dashboard/components/widgets/LoadingState.vue';
-import whatsappIcon from 'dashboard/assets/images/whatsapp.png';
 import { loadScript } from 'dashboard/helper/DOMHelpers';
 import { parseAPIErrorResponse } from 'dashboard/store/utils/api';
 
@@ -182,7 +181,8 @@ const fbLoginCallback = response => {
 };
 
 const handleSignupMessage = event => {
-  // Validate origin for security - following Facebook documentation, https://developers.facebook.com/docs/whatsapp/embedded-signup/implementation#step-3--add-embedded-signup-to-your-website
+  // Validate origin for security - following Facebook documentation
+  // https://developers.facebook.com/docs/whatsapp/embedded-signup/implementation#step-3--add-embedded-signup-to-your-website
   if (!event.origin.endsWith('facebook.com')) return;
 
   // Parse and handle WhatsApp embedded signup events
@@ -208,6 +208,8 @@ const runFBInit = () => {
 
 const loadFacebookSdk = async () => {
   return loadScript('https://connect.facebook.net/en_US/sdk.js', {
+    async: true,
+    defer: true,
     crossOrigin: 'anonymous',
   });
 };
@@ -255,10 +257,8 @@ const cleanupMessageListener = () => {
 };
 
 const initialize = () => {
-  // Set up fbAsyncInit like Facebook.vue does
   window.fbAsyncInit = runFBInit;
   setupMessageListener();
-  // Don't load SDK on mount - only load when user clicks button
 };
 
 onMounted(() => {
