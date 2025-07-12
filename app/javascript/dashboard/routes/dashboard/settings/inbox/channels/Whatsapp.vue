@@ -97,7 +97,6 @@ const shouldShowCloudWhatsapp = provider => {
   <div
     class="overflow-auto col-span-6 p-6 w-full h-full rounded-t-lg border border-b-0 border-n-weak bg-n-solid-1"
   >
-    <!-- Provider Selection View -->
     <div v-if="showProviderSelection">
       <div class="mb-10 text-left">
         <h1 class="mb-2 text-lg font-medium text-slate-12">
@@ -108,7 +107,6 @@ const shouldShowCloudWhatsapp = provider => {
         </p>
       </div>
 
-      <!-- Dynamic Provider Cards -->
       <div class="flex gap-6 justify-start">
         <div
           v-for="provider in availableProviders"
@@ -116,7 +114,6 @@ const shouldShowCloudWhatsapp = provider => {
           class="gap-6 px-5 py-6 w-96 rounded-2xl border transition-all duration-200 cursor-pointer border-n-weak hover:bg-n-slate-3"
           @click="selectProvider(provider.value)"
         >
-          <!-- Provider Icon -->
           <div class="flex justify-start mb-5">
             <div
               class="flex justify-center items-center rounded-full size-10 bg-n-alpha-2"
@@ -129,7 +126,6 @@ const shouldShowCloudWhatsapp = provider => {
             </div>
           </div>
 
-          <!-- Card Content -->
           <div class="text-start">
             <h3 class="mb-1.5 text-sm font-medium text-slate-12">
               {{ provider.label }}
@@ -142,10 +138,8 @@ const shouldShowCloudWhatsapp = provider => {
       </div>
     </div>
 
-    <!-- Configuration View -->
     <div v-else-if="showConfiguration">
       <div class="px-6 py-5 rounded-2xl border bg-n-solid-2 border-n-weak">
-        <!-- Provider Configuration Forms -->
         <WhatsappEmbeddedSignup
           v-if="shouldShowEmbeddedSignup(selectedProvider)"
         />
