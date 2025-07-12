@@ -3,6 +3,7 @@ import { INSTALLATION_TYPES } from 'dashboard/constants/installationTypes';
 import { frontendURL } from '../../../helper/URLHelper';
 import AssistantIndex from './assistants/Index.vue';
 import AssistantEdit from './assistants/Edit.vue';
+// import AssistantSettings from './assistants/settings/Settings.vue';
 import AssistantInboxesIndex from './assistants/inboxes/Index.vue';
 import DocumentsIndex from './documents/Index.vue';
 import ResponsesIndex from './responses/Index.vue';
