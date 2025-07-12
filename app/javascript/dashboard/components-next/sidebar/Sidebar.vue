@@ -62,6 +62,7 @@ const contactCustomViews = useMapGetter('customViews/getContactCustomViews');
 const conversationCustomViews = useMapGetter(
   'customViews/getConversationCustomViews'
 );
+const dashboardApps = useMapGetter('dashboardApps/getRecords');
 
 onMounted(() => {
   store.dispatch('labels/get');
@@ -71,6 +72,7 @@ onMounted(() => {
   store.dispatch('attributes/get');
   store.dispatch('customViews/get', 'conversation');
   store.dispatch('customViews/get', 'contact');
+  store.dispatch('dashboardApps/get');
 });
 
 const sortedInboxes = computed(() =>
@@ -106,7 +108,7 @@ const newReportRoutes = () => [
 const reportRoutes = computed(() => newReportRoutes());
 
 const menuItems = computed(() => {
-  return [
+  const items = [
     {
       name: 'Inbox',
       label: t('SIDEBAR.INBOX'),
@@ -478,6 +480,26 @@ const menuItems = computed(() => {
       ],
     },
   ];
+
+  // Add Dashboard Apps section if there are apps configured
+  if (dashboardApps.value && dashboardApps.value.length > 0) {
+    const dashboardAppsIndex = items.findIndex(
+      item => item.name === 'Settings'
+    );
+    items.splice(dashboardAppsIndex, 0, {
+      name: 'Dashboard Apps',
+      label: t('SIDEBAR.DASHBOARD_APPS'),
+      icon: 'i-lucide-blocks',
+      children: dashboardApps.value.map(app => ({
+        name: `Dashboard App ${app.id}`,
+        label: app.title,
+        to: { name: 'dashboard_app_view', params: { appId: app.id } },
+        icon: 'i-lucide-app-window',
+      })),
+    });
+  }
+
+  return items;
 });
 </script>
 
