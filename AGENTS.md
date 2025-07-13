@@ -14,6 +14,7 @@
 - **Test Ruby**: `bundle exec rspec spec/path/to/file_spec.rb`
 - **Single Test**: `bundle exec rspec spec/path/to/file_spec.rb:LINE_NUMBER`
 - **Run Project**: `overmind start -f Procfile.dev`
+- **Run Unit Tests**: Override `POSTGRES_HOST` and `REDIS_URL` environment variables.  e.g: POSTGRES_HOST=localhost REDIS_URL=redis://localhost:6379/0 RAILS_ENV=test bundle exec rspec ...
 
 ## Code Style
 

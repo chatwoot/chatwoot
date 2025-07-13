@@ -106,16 +106,49 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
 
   def set_contact(message)
     waid = processed_waid(message[:from])
+
+    # Build basic contact attributes
+    contact_attributes = {
+      phone_number: "+#{message[:from]}",
+      name: message[:from_name] || message[:from]
+    }
+
+    # Create or find contact first
     contact_inbox_builder = ::ContactInboxWithContactBuilder.new(
       source_id: waid,
       inbox: inbox,
-      contact_attributes: {
-        name: message[:from_name] || message[:from],
-        phone_number: "+#{message[:from]}"
-      }
+      contact_attributes: contact_attributes
     )
     @contact_inbox = contact_inbox_builder.perform
     @contact = @contact_inbox.contact
+
+    # Only fetch contact info from WHAPI if we don't already have an avatar
+    return if @contact.avatar.present?
+
+    contact_info = @inbox.channel.provider_service.fetch_contact_info(message[:from])
+
+    return unless contact_info.present?
+
+    # Update contact with WHAPI information
+    update_attributes = {}
+
+    # Update name if WHAPI has a better name
+    update_attributes[:name] = contact_info[:name] if contact_info[:name].present?
+
+    # Add business name if available
+    if contact_info[:business_name].present?
+      update_attributes[:additional_attributes] = (@contact.additional_attributes || {}).merge(
+        business_name: contact_info[:business_name]
+      )
+    end
+
+    # Update contact if we have new information
+    @contact.update!(update_attributes) if update_attributes.any?
+
+    # Schedule avatar update if available
+    return unless contact_info[:avatar_url].present?
+
+    ::Avatar::AvatarFromUrlJob.perform_later(@contact, contact_info[:avatar_url])
   end
 
   def find_contact_inbox_for_outgoing(message)
