@@ -7,7 +7,6 @@ import { useI18n } from 'vue-i18n';
 import { frontendURL, conversationUrl } from 'dashboard/helper/URLHelper';
 import VoiceAPI from 'dashboard/api/channels/voice';
 import ContactAPI from 'dashboard/api/contacts';
-import DashboardAudioNotificationHelper from 'dashboard/helper/AudioAlerts/DashboardAudioNotificationHelper';
 import MD5 from 'md5'; // For Gravatar support
 
 export default {
@@ -524,32 +523,12 @@ export default {
           ringtoneAudio.value.currentTime = 0;
           
           
-          // Also use the DashboardAudioNotificationHelper to ensure all audio stops
-          if (window.DashboardAudioNotificationHelper || 
-              (typeof DashboardAudioNotificationHelper !== 'undefined')) {
-            try {
-              DashboardAudioNotificationHelper.stopAudio('call_ring');
-              
-            } catch (dashboardError) {
-              
-            }
-          }
         } catch (error) {
           
         }
       } else {
         
         
-        // Still try to stop any global audio
-        if (window.DashboardAudioNotificationHelper || 
-            (typeof DashboardAudioNotificationHelper !== 'undefined')) {
-          try {
-            DashboardAudioNotificationHelper.stopAudio('call_ring');
-            
-          } catch (dashboardError) {
-            
-          }
-        }
       }
     };
 

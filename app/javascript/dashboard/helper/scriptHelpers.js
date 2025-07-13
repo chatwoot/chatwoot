@@ -4,7 +4,6 @@ import {
   CHATWOOT_SET_USER,
 } from '../constants/appEvents';
 import AnalyticsHelper from './AnalyticsHelper';
-import DashboardAudioNotificationHelper from './AudioAlerts/DashboardAudioNotificationHelper';
 import { emitter } from 'shared/helpers/mitt';
 
 export const initializeAnalyticsEvents = () => {
@@ -14,24 +13,8 @@ export const initializeAnalyticsEvents = () => {
   });
 };
 
-export const initializeAudioAlerts = user => {
-  const { ui_settings: uiSettings } = user || {};
-  const {
-    always_play_audio_alert: alwaysPlayAudioAlert,
-    enable_audio_alerts: audioAlertType,
-    alert_if_unread_assigned_conversation_exist: alertIfUnreadConversationExist,
-    notification_tone: audioAlertTone,
-    // UI Settings can be undefined initally as we don't send the
-    // entire payload for the user during the signup process.
-  } = uiSettings || {};
-
-  DashboardAudioNotificationHelper.set({
-    currentUser: user,
-    audioAlertType: audioAlertType || 'none',
-    audioAlertTone: audioAlertTone || 'ding',
-    alwaysPlayAudioAlert: alwaysPlayAudioAlert || false,
-    alertIfUnreadConversationExist: alertIfUnreadConversationExist || false,
-  });
+export const initializeAudioAlerts = () => {
+  // Audio alerts now handled per component
 };
 
 export const initializeChatwootEvents = () => {
@@ -55,6 +38,6 @@ export const initializeChatwootEvents = () => {
       });
     }
 
-    initializeAudioAlerts(user);
+    initializeAudioAlerts();
   });
 };
