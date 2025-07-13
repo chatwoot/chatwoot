@@ -24,6 +24,9 @@ class Whatsapp::IncomingMessageWhapiService < Whatsapp::IncomingMessageBaseServi
       # Ignore messages that are sent as part of a campaign
       next if message[:from_campaign] == true
 
+      # Ignore messages from groups, WHAPI identifies them with a g.us suffix
+      next if message[:chat_id]&.ends_with?('@g.us')
+
       if outgoing_message?(message)
         process_outgoing_message(message)
       else
