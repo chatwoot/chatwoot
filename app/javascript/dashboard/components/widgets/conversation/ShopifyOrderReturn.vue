@@ -21,12 +21,26 @@ import ShopifyLocationsAPI from 'dashboard/api/shopify/locations';
 import { isAxiosError } from 'axios';
 import { useAlert } from 'dashboard/composables';
 import Input from 'dashboard/components-next/input/Input.vue';
+import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store';
+
+const store = useStore();
 
 const props = defineProps({
   order: {
     type: Object,
     required: true,
   },
+});
+
+const currentChat = useMapGetter('getSelectedChat');
+const currentUser = useMapGetter('getCurrentUser');
+
+const sender = computed(() => {
+  return {
+    name: currentUser.value.name,
+    thumbnail: currentUser.value.avatar_url,
+  };
 });
 
 const reasons = {
@@ -101,15 +115,15 @@ const rules = computed(() => {
         return;
       }
       const max = returnableLineItemsQuantity.value[item.id];
+
       quantityRules[item.id] = {
         required,
-        validRestockFee: or(value => value === 0, minValue(1)),
         maxValue: maxValue(max),
       };
 
       restockFeeRules[item.id] = {
-        required,
-        minValue: minValue(1),
+        required: requiredIf(() => formState.quantity[item.id] > 0),
+        validRestockFee: or(value => value === 0, minValue(1)),
         maxValue: maxValue(99),
       };
 
@@ -141,36 +155,6 @@ const item_total_price = item => {
 };
 
 let cancellationTimeout = null;
-
-// const refundedLineItemsQuantity = computed(() => {
-//   if (!props.order?.refunds.length || props.order?.refunds.length === 0) {
-//     return {};
-//   }
-
-//   const allRefundLineItems =
-//     props.order?.refunds.flatMap(refund => refund.refund_line_items) ?? {};
-
-//   const mergedLineItems = {};
-
-//   allRefundLineItems.forEach(item => {
-//     const lineItemId = item.line_item.id;
-//     if (!mergedLineItems[lineItemId]) {
-//       mergedLineItems[lineItemId] = {
-//         ...item.line_item,
-//         quantity: item.quantity,
-//       };
-//     } else {
-//       mergedLineItems[lineItemId].quantity += item.quantity;
-//     }
-//   });
-
-//   const entries = Object.entries(mergedLineItems).map(([id, e]) => [
-//     id,
-//     e.quantity,
-//   ]);
-
-//   return Object.fromEntries(entries);
-// });
 
 const onOrderUpdate = data => {
   if (data.order.id != props.order.id) return;
@@ -227,8 +211,14 @@ const suggestedRefund = ref(null);
 
 const reverseFulfillmentLineItems = ref([]);
 
+/**
+ * @type {import('vue').Ref<FulfillmentLineItem[]>}
+ */
+const fulfillmentLineItems = ref([]);
+
 const getOrderInfo = async () => {
   const result = await OrdersAPI.orderDetails({ orderId: props.order.id });
+
 
   suggestedRefund.value = result.data.order.suggestedRefund;
 
@@ -237,7 +227,10 @@ const getOrderInfo = async () => {
     fulfillmentLineItems: e.fulfillmentLineItems.nodes,
   }));
 
-  console.log('ORDER: ', result.data.order);
+  fulfillmentLineItems.value = fulfillments.value.flatMap(
+    e => e.fulfillmentLineItems
+  );
+
 
   reverseFulfillmentLineItems.value = result.data.order.returns.nodes.flatMap(
     e =>
@@ -248,7 +241,6 @@ const getOrderInfo = async () => {
 
   for (const reverseFLI of reverseFulfillmentLineItems.value) {
     for (const fulfillment of fulfillments.value) {
-      console.log('FULFILLMENT: ', fulfillment);
       const index = fulfillment.fulfillmentLineItems.findIndex(
         e => e.id === reverseFLI.id
       );
@@ -284,8 +276,6 @@ const getOrderInfo = async () => {
     )
   );
 
-  console.log('REVERSE: ', reverseFulfillmentLineItems.value);
-  console.log('FINAL: ', fulfillments.value);
 };
 
 onMounted(() => {
@@ -348,7 +338,6 @@ watch(
 );
 
 const debouncedRefund = debounce(value => {
-  console.log('HI THERE');
   calculateReturn();
 }, 2000);
 
@@ -447,27 +436,47 @@ const currentTotal = computed(
 
 const buttonState = ref(null);
 
+const createReturnMessage = returnLineItems => {
+  const messagePayload = {
+    order_id: props.order.id,
+    line_items: returnLineItems.map(rli => ({
+      id: rli.fulfillmentLineItemId,
+      name: props.order.line_items.find(
+        e =>
+          fulfillmentLineItems.value.find(
+            e => e.id === rli.fulfillmentLineItemId
+          ).lineItem.id === `gid://shopify/LineItem/${e.id}`
+      ).name,
+      qty: rli.quantity,
+    })),
+    sender: sender.value,
+    chat_id: currentChat.value.id,
+    status_url: props.order.order_status_url,
+  };
+
+  store.dispatch('returnOrder', messagePayload);
+};
+
 const calculateReturn = async () => {
+  const returnLineItems = Object.entries(returnQuantityStates.value)
+    .filter(([, qty]) => qty > 0)
+    .map(([e, qty]) => ({
+      fulfillmentLineItemId: e,
+      quantity: qty,
+      restockingFeePercentage: Number(formState.restockingFees[e] ?? 0),
+    }));
+
   const payload = {
     orderId: props.order.id,
-    returnLineItems: Object.entries(returnQuantityStates.value)
-      .filter(([, qty]) => qty > 0)
-      .map(([e, qty]) => ({
-        fulfillmentLineItemId: e,
-        quantity: qty,
-        restockingFeePercentage: Number(formState.restockingFees[e] ?? 0),
-      })),
+    returnLineItems: returnLineItems,
     returnShippingFee: {
       amount: Number(formState.shippingFees),
       currencyCode: props.order.currency,
     },
   };
 
-  console.log(`making request: `, payload);
-
   const res = await OrdersAPI.returnCalculate(payload);
 
-  console.log(res);
   currentRefund.value = res.data.refundable;
 };
 
@@ -475,35 +484,40 @@ const createReturn = async $t => {
   v$.value.$touch();
 
   if (v$.value.$invalid) {
-    console.log('ERRORS: ', v$.value.$errors);
     return;
   }
 
   try {
+    const returnLineItems = Object.entries(returnQuantityStates.value)
+      .filter(([, qty]) => qty > 0)
+      .map(([e, qty]) => ({
+        fulfillmentLineItemId: e,
+        quantity: qty,
+        restockingFeePercentage: Number(formState.restockingFees[e] ?? 0), //REVIEW: This shouldn't be null anyways
+        returnReason: returnReasonStates.value[e],
+        returnReasonNote: returnNoteStates.value[e],
+      }));
+
+    if (!returnLineItems.some(e => e.quantity > 0)) {
+      useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.ITEM_INSUFFICIENT'));
+      return;
+    }
+
     buttonState.value = 'processing';
 
     const payload = {
       orderId: props.order.id,
-      returnLineItems: Object.entries(returnQuantityStates.value)
-        .filter(([, qty]) => qty > 0)
-        .map(([e, qty]) => ({
-          fulfillmentLineItemId: e,
-          quantity: qty,
-          restockingFeePercentage: Number(formState.restockingFees[e] ?? 0), //REVIEW: This shouldn't be null anyways
-          returnReason: returnReasonStates.value[e],
-          returnReasonNote: returnNoteStates.value[e],
-        })),
+      returnLineItems: returnLineItems,
       returnShippingFee: {
         amount: Number(formState.shippingFees),
         currencyCode: props.order.currency,
       },
     };
 
-    console.log('Payload for return create: ', payload);
 
-    const response = await OrdersAPI.returnCreate(payload);
+    await OrdersAPI.returnCreate(payload);
 
-    console.log('RESPONSE BODY: ', response);
+    createReturnMessage(payload.returnLineItems);
 
     buttonState.value = null;
 
@@ -512,7 +526,6 @@ const createReturn = async $t => {
       useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_TIMEOUT'));
     }, 30 * 1000);
   } catch (e) {
-    console.log('Error occured: ', e);
     buttonState.value = null;
     let message = $t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_FAILURE');
     if (isAxiosError(e)) {
@@ -842,7 +855,9 @@ function onBlur() {
         </div>
       </div>
 
-      <div class="flex flex-row justify-end absolute bottom-4 right-4 items-center gap-4">
+      <div
+        class="flex flex-row justify-end absolute bottom-4 right-4 items-center gap-4"
+      >
         <label class="text-base">
           {{ $t('CONVERSATION_SIDEBAR.SHOPIFY.RETURN.REFUND_LATER_HINT') }}
         </label>

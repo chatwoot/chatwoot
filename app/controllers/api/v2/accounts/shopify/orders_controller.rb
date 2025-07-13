@@ -39,15 +39,19 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
   ORDER_DETAILS_QUERY = <<~GRAPHQL
   query($id: ID!) {
       order(id: $id) {
-        returns(first: 10) {
+        returns(first: 20) {
           nodes {
-            reverseFulfillmentOrders(first: 10) {
+            status
+            reverseFulfillmentOrders(first: 20) {
               nodes {
                 lineItems(first:10) {
                   nodes {
                     fulfillmentLineItem {
                       id
                       quantity
+                      lineItem {
+                        id
+                      }
                     }
                   }
                 }
@@ -74,9 +78,9 @@ class Api::V2::Accounts::Shopify::OrdersController < Api::V1::Accounts::BaseCont
             }
           }
         }
-        fulfillments(first: 10) {
+        fulfillments(first: 20) {
           name
-          fulfillmentLineItems(first: 10) {
+          fulfillmentLineItems(first: 20) {
             nodes {
               id
               quantity
@@ -350,7 +354,7 @@ GRAPHQL
         refundLineItems: (refund_line_items&.map do |item|
           item.merge(restockType: (item[:restock_type] || "no_restock").upcase,
                      lineItemId:  "gid://shopify/LineItem/#{item[:line_item_id]}",
-                     locationId: "gid://shopify/Location/#{item[:location_id]}" 
+                     locationId: item[:restock_type] === "RETURN" ? "gid://shopify/Location/#{item[:location_id]}" : nil
           ).except(:line_item_id, :location_id, :restock_type)
         end || []),
         transactions: (transactions&.map do |item|
@@ -379,7 +383,7 @@ GRAPHQL
         render json: {errors: errors.map(&:to_h)}, status: :unprocessable_entity
       else
         Rails.logger.info("Order refund created #{response.data.refundCreate}")
-        render json: {message: I18n.t('shopify.order_cancellation_process') }
+        render json: deep_symbolize(response.data.refundCreate)
       end
     end
   end
@@ -429,8 +433,15 @@ GRAPHQL
         ORDER_DETAILS_QUERY,
         id: orderGid,
       )
+      
+      Rails.logger.info "Before serialization: #{response.data.order.fulfillments[0].fulfillmentLineItems.nodes[0].quantity}"
 
-      render json: {order: deep_symbolize(response.data.order)}
+
+      result =  {order: deep_symbolize(response.data.order)}
+      
+      Rails.logger.info "After serialization: #{result[:order][:fulfillments][0][:fulfillmentLineItems][:nodes][0][:quantity]}"
+
+      render json: result
     end
   end
 

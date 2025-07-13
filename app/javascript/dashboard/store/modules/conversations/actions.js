@@ -1,4 +1,6 @@
 import types from '../../mutation-types';
+import { format } from 'date-fns';
+
 import ConversationApi from '../../../api/inbox/conversation';
 import MessageApi from '../../../api/inbox/message';
 import { MESSAGE_STATUS, MESSAGE_TYPE } from 'shared/constants/messages';
@@ -11,7 +13,6 @@ import {
 import messageReadActions from './actions/messageReadActions';
 import messageTranslateActions from './actions/messageTranslateActions';
 import * as Sentry from '@sentry/vue';
-
 export const hasMessageFailedWithExternalError = pendingMessage => {
   // This helper is used to check if the message has failed with an external error.
   // We have two cases
@@ -67,6 +68,135 @@ const actions = {
       );
 
       return call;
+    } catch (error) {
+      return null;
+    }
+  },
+
+  returnOrder: async ({ dispatch }, body) => {
+    try {
+      const now = new Date();
+      const { order_id, line_items, sender, chat_id, status_url } = body;
+
+      let messagePayload = {
+        conversationId: chat_id,
+        message: `Return created for order ${order_id} on ${format(now, "yy-MM-dd 'at' HH:mm a")}`,
+        private: false,
+        sender: sender,
+        content_type: 15,
+        contentAttributes: {
+          shopify_event: {
+            event_time: now.toISOString(),
+            event_name: 'return_order',
+            order_id: order_id,
+            items: line_items,
+            status_url: status_url,
+          },
+        },
+      };
+
+      const message = await dispatch(
+        'createPendingMessageAndSend',
+        messagePayload
+      );
+    } catch (error) {
+      return null;
+    }
+  },
+
+  fulfillOrder: async ({ dispatch }, body) => {
+    try {
+      const now = new Date();
+      const { order_id, line_items, sender, chat_id, status_url } = body;
+
+      let messagePayload = {
+        conversationId: chat_id,
+        message: `Fulfillment created for order ${order_id} on ${format(now, "yy-MM-dd 'at' HH:mm a")}`,
+        private: false,
+        sender: sender,
+        content_type: 15,
+        contentAttributes: {
+          shopify_event: {
+            event_time: now.toISOString(),
+            event_name: 'fulfill_order',
+            order_id: order_id,
+            items: line_items,
+            status_url: status_url,
+          },
+        },
+      };
+
+      const message = await dispatch(
+        'createPendingMessageAndSend',
+        messagePayload
+      );
+    } catch (error) {
+      return null;
+    }
+  },
+
+  refundOrder: async ({ dispatch }, body) => {
+    try {
+      const now = new Date();
+      const {
+        order_id,
+        line_items,
+        sender,
+        chat_id,
+        total_refund,
+        status_url,
+      } = body;
+
+      let messagePayload = {
+        conversationId: chat_id,
+        message: `Refund created for order ${order_id} on ${format(now, "yy-MM-dd 'at' HH:mm a")}`,
+        private: false,
+        sender: sender,
+        content_type: 15,
+        contentAttributes: {
+          shopify_event: {
+            event_time: now.toISOString(),
+            event_name: 'refund_order',
+            order_id: order_id,
+            items: line_items,
+            status_url: status_url,
+            total_refund: total_refund,
+          },
+        },
+      };
+
+      const message = await dispatch(
+        'createPendingMessageAndSend',
+        messagePayload
+      );
+    } catch (error) {
+      return null;
+    }
+  },
+
+  cancelOrder: async ({ dispatch }, body) => {
+    try {
+      const now = new Date();
+      let messagePayload = {
+        conversationId: body.chat_id,
+        message: `Your shopify order ${body.order_id} was cancelled on ${format(now, "yy-MM-dd 'at' HH:mm a")}`,
+        private: false,
+        sender: body.sender,
+        content_type: 15,
+        contentAttributes: {
+          shopify_event: {
+            event_time: now.toISOString(),
+            event_name: 'cancel_order',
+            order_id: body.order_id,
+            status_url: body.status_url,
+          },
+        },
+      };
+
+      const message = await dispatch(
+        'createPendingMessageAndSend',
+        messagePayload
+      );
     } catch (error) {
       return null;
     }

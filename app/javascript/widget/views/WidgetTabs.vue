@@ -13,10 +13,6 @@ const router = useRouter();
 const emit = defineEmits(['tabChange']);
 
 const props = defineProps({
-  shop: {
-    type: String,
-    required: true,
-  },
   activeTabIndex: {
     type: Number,
     required: true,

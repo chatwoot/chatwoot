@@ -95,7 +95,8 @@ class Message < ApplicationRecord
     sticker: 11,
     cal_event: 12,
     cal_event_confirmation: 13,
-    calling_event: 14
+    calling_event: 14,
+    shopify_order_event: 15
   }
   enum status: { sent: 0, delivered: 1, read: 2, failed: 3 }
   # [:submitted_email, :items, :submitted_values] : Used for bot message types

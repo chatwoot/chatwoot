@@ -5,13 +5,26 @@ import { BUS_EVENTS } from '../../../../shared/constants/busEvents';
 import { emitter } from 'shared/helpers/mitt';
 import currency_codes from 'shared/constants/currency_codes';
 import SimpleDivider from 'v3/components/Divider/SimpleDivider.vue';
-import { useStore } from 'vuex';
 import useVuelidate from '@vuelidate/core';
 import { required } from '@vuelidate/validators';
 import Button from 'dashboard/components-next/button/Button.vue';
 import OrdersAPI from 'dashboard/api/shopify/orders';
 import { isAxiosError } from 'axios';
 import FormSelect from 'v3/components/Form/Select.vue';
+import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store';
+
+const store = useStore();
+
+const currentChat = useMapGetter('getSelectedChat');
+const currentUser = useMapGetter('getCurrentUser');
+
+const sender = computed(() => {
+  return {
+    name: currentUser.value.name,
+    thumbnail: currentUser.value.avatar_url,
+  };
+});
 
 const props = defineProps({
   order: {
@@ -105,6 +118,15 @@ const cancelOrder = async $t => {
       notifyCustomer: formState.sendNotification,
     });
 
+    console.log('building payload');
+    const messagePayload = {
+      chat_id: currentChat.value.id,
+      sender: sender.value,
+      order_id: props.order.id,
+    };
+    console.log('message payload: , ', messagePayload);
+    store.dispatch('cancelOrder', messagePayload);
+
     cancellationTimeout = setTimeout(() => {
       emitter.emit(BUS_EVENTS.CANCEL_ORDER, null);
       useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.API_TIMEOUT'));
@@ -190,7 +212,6 @@ const buttonText = () => {
           >
             <div
               class="select-visible-checkbox gap-2"
-              :style="selectVisibleCheckboxStyle"
             >
               <input
                 type="checkbox"
@@ -203,7 +224,6 @@ const buttonText = () => {
             </div>
             <div
               class="select-visible-checkbox gap-2"
-              :style="selectVisibleCheckboxStyle"
             >
               <input
                 type="checkbox"
@@ -218,7 +238,6 @@ const buttonText = () => {
 
             <div
               class="select-visible-checkbox gap-2"
-              :style="selectVisibleCheckboxStyle"
             >
               <input
                 type="checkbox"
@@ -252,7 +271,9 @@ const buttonText = () => {
                 :options="reasonOptions"
                 :placeholder="$t('CONVERSATION_SIDEBAR.SHOPIFY.CANCEL.REASON')"
                 :has-error="v$.cancellationReason.$error"
-                :error-message="v$.cancellationReason.$errors[0]?.$message || ''"
+                :error-message="
+                  v$.cancellationReason.$errors[0]?.$message || ''
+                "
               >
                 <option
                   v-for="reason in reasonOptions"

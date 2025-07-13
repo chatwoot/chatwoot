@@ -12,6 +12,20 @@ import NextButton from 'dashboard/components-next/button/Button.vue';
 import OrdersAPI from 'dashboard/api/shopify/orders';
 import { isAxiosError } from 'axios';
 import { useAlert } from 'dashboard/composables';
+import { useStore } from 'vuex';
+import { useMapGetter } from 'dashboard/composables/store';
+
+const store = useStore();
+
+const currentChat = useMapGetter('getSelectedChat');
+const currentUser = useMapGetter('getCurrentUser');
+
+const sender = computed(() => {
+  return {
+    name: currentUser.value.name,
+    thumbnail: currentUser.value.avatar_url,
+  };
+});
 
 const props = defineProps({
   order: {
@@ -245,7 +259,6 @@ const formState = reactive(initialFormState);
 const rules = computed(() => {
   const unfulfilledQuantitiesRules = {};
 
-  console.log('New states: ', unfulfilledQuantityStates.value);
   Object.entries(unfulfilledQuantityStates.value).forEach(([id, quant]) => {
     unfulfilledQuantitiesRules[id] = {
       required,
@@ -253,10 +266,6 @@ const rules = computed(() => {
       maxValue: maxValue(quant),
     };
   });
-
-  console.log('New rules: ', unfulfilledQuantitiesRules);
-
-  const notZero = value => value !== 0;
 
   const trackingNumberRules = [];
   const trackingURLRules = [];
@@ -303,6 +312,7 @@ const v$ = useVuelidate(rules, formState);
  * @type {import('vue').Ref<FulfillmentOrder[]>}
  */
 const fulfillmentOrders = ref([]);
+const fulfillmentOrderLineItems = ref([]);
 
 const assignedLocation = ref(null);
 
@@ -343,12 +353,26 @@ onMounted(() => {
 
 const cancellationState = ref(null);
 
+const createFulfillMessage = fulfillLineItems => {
+  const messagePayload = {
+    order_id: props.order.id,
+    line_items: fulfillLineItems.map(rli => ({
+      id: rli.id,
+      name: rli.name,
+      qty: rli.quantity,
+    })),
+    sender: sender.value,
+    chat_id: currentChat.value.id,
+    status_url: props.order.order_status_url,
+  };
+
+  store.dispatch('fulfillOrder', messagePayload);
+};
+
 const fulfillOrder = async $t => {
   v$.value.$touch();
-  console.log('VALUES: ', formState);
 
   if (v$.value.$invalid) {
-    console.log('ERRORS: ', v$.value.$errors);
     return;
   }
 
@@ -359,6 +383,7 @@ const fulfillOrder = async $t => {
         .filter(foli => formState.unfulfilledQuantity[foli.id] > 0)
         .map(e => ({
           id: e.id,
+          name: e.name, // NOTE: this field is only used in message
           quantity: formState.unfulfilledQuantity[e.id],
         })),
     }));
@@ -411,18 +436,17 @@ const fulfillOrder = async $t => {
             },
     };
 
-    console.log('PAYLOAD: ', payload);
+    await OrdersAPI.fulfillmentCreate(payload);
 
-    const response = await OrdersAPI.fulfillmentCreate(payload);
-
-    console.log('RESPONSE BODY: ', response);
+    createFulfillMessage(
+      fulfillLineItems.flatMap(e => e.fulfillmentOrderLineItems)
+    );
 
     cancellationState.value = null;
     onClose();
 
     useAlert($t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.API_SUCCESS'));
   } catch (e) {
-    console.log('Error occured: ', e);
     cancellationState.value = null;
     let message = $t('CONVERSATION_SIDEBAR.SHOPIFY.FULFILL.API_FAILURE');
     if (isAxiosError(e)) {

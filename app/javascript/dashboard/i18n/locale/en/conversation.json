@@ -355,6 +355,7 @@
       "RETURN": {
         "TITLE": "Return order",
         "DESC": "You can directly return the shopify order of a customer from here",
+        "ITEM_INSUFFICIENT": "Insufficient quantities selected for line items",
         "BUTTON_TEXT": "Return",
         "TABLE": {
           "PRODUCT": "Product",

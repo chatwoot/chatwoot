@@ -166,8 +166,6 @@ class Api::V1::Accounts::ConversationsController < Api::V1::Accounts::BaseContro
 
     Rails.logger.info("Creating call for conversation #{@conversation.id} with params: #{params.inspect}")
 
-    Rails.logger.info("JWT token: #{params[:jwt]}")
-
     call_manager = ::Conversations::CallManager.new(Current.account, Current.user, @conversation, params)
     call = call_manager.create_call
 

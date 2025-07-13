@@ -70,6 +70,8 @@ const handleInput = (event) => {
   // Always update to clamped value
   internalValue.value = clampedVal;
   emit('update:modelValue', clampedVal);
+  emit('input_val', clampedVal);
+
   
   // Update the input field if it was clamped
   if (clampedVal !== Number(inputValue)) {
