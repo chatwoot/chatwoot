@@ -1,51 +1,21 @@
 <script setup>
-import { computed, ref, onMounted, nextTick } from 'vue';
+import { computed, ref, onMounted, nextTick, getCurrentInstance } from 'vue';
 const props = defineProps({
-  modelValue: {
-    type: [String, Number],
-    default: '',
-  },
-  type: {
-    type: String,
-    default: 'text',
-  },
-  customInputClass: {
-    type: [String, Object, Array],
-    default: '',
-  },
-  placeholder: {
-    type: String,
-    default: '',
-  },
-  label: {
-    type: String,
-    default: '',
-  },
-  id: {
-    type: String,
-    default: '',
-  },
-  message: {
-    type: String,
-    default: '',
-  },
-  disabled: {
-    type: Boolean,
-    default: false,
-  },
+  modelValue: { type: [String, Number], default: '' },
+  type: { type: String, default: 'text' },
+  customInputClass: { type: [String, Object, Array], default: '' },
+  placeholder: { type: String, default: '' },
+  label: { type: String, default: '' },
+  id: { type: String, default: '' },
+  message: { type: String, default: '' },
+  disabled: { type: Boolean, default: false },
   messageType: {
     type: String,
     default: 'info',
     validator: value => ['info', 'error', 'success'].includes(value),
   },
-  min: {
-    type: String,
-    default: '',
-  },
-  autofocus: {
-    type: Boolean,
-    default: false,
-  },
+  min: { type: String, default: '' },
+  autofocus: { type: Boolean, default: false },
 });
 
 const emit = defineEmits([
@@ -56,6 +26,10 @@ const emit = defineEmits([
   'enter',
 ]);
 
+// Generate a unique ID per component instance when `id` prop is not provided.
+const { uid } = getCurrentInstance();
+const uniqueId = computed(() => props.id || `input-${uid}`);
+
 const isFocused = ref(false);
 const inputRef = ref(null);
 
@@ -64,7 +38,7 @@ const messageClass = computed(() => {
     case 'error':
       return 'text-n-ruby-9 dark:text-n-ruby-9';
     case 'success':
-      return 'text-green-500 dark:text-green-400';
+      return 'text-n-teal-10 dark:text-n-teal-10';
     default:
       return 'text-n-slate-11 dark:text-n-slate-11';
   }
@@ -111,7 +85,7 @@ onMounted(() => {
   <div class="relative flex flex-col min-w-0 gap-1">
     <label
       v-if="label"
-      :for="id"
+      :for="uniqueId"
       class="mb-0.5 text-sm font-medium text-n-slate-12"
     >
       {{ label }}
@@ -119,7 +93,7 @@ onMounted(() => {
     <!-- Added prefix slot to allow adding icons to the input -->
     <slot name="prefix" />
     <input
-      :id="id"
+      :id="uniqueId"
       ref="inputRef"
       :value="modelValue"
       :class="[

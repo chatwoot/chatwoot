@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Prossima settimana"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Teams"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Posticipa fino a",
       "APPLY": "Posticipa",

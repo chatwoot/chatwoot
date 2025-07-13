@@ -169,3 +169,14 @@
 - name: crm_integration
   display_name: CRM Integration
   enabled: false
+- name: channel_voice
+  display_name: Voice Channel
+  enabled: false
+  chatwoot_internal: true
+- name: notion_integration
+  display_name: Notion Integration
+  enabled: false
+- name: captain_integration_v2
+  display_name: Captain V2
+  enabled: false
+  premium: true
