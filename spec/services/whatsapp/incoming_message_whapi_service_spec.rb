@@ -3,12 +3,17 @@ require 'rails_helper'
 RSpec.describe Whatsapp::IncomingMessageWhapiService do
   let!(:account) { create(:account) }
   let!(:channel) do
-    stub_request(:get, /graph.facebook.com/)
-      .to_return(status: 200, body: { 'data' => [] }.to_json, headers: { 'Content-Type' => 'application/json' })
-    create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                              provider_config: { 'api_provider' => 'whapi', 'business_account_id' => '123456789' })
+    create(:channel_whatsapp, account: account, provider: 'whapi',
+                              provider_config: { 'api_key' => 'test_api_key', 'business_account_id' => '123456789' },
+                              validate_provider_config: false)
   end
   let!(:inbox) { create(:inbox, channel: channel, account: account) }
+
+  # Default stub for WHAPI contact fetch (returns empty response)
+  before do
+    stub_request(:get, %r{https://gate\.whapi\.cloud/contacts/\d+})
+      .to_return(status: 404, body: '{"error": "Contact not found"}', headers: { 'Content-Type' => 'application/json' })
+  end
 
   describe '#perform' do
     context 'when receiving incoming messages' do
@@ -206,6 +211,109 @@ RSpec.describe Whatsapp::IncomingMessageWhapiService do
         non_existent_status_params = { 'statuses' => [{ 'id' => 'non_existent' }] }
         expect { described_class.new(inbox: inbox, params: non_existent_status_params).perform }
           .not_to raise_error
+      end
+    end
+
+    context 'when fetching contact information' do
+      let(:whapi_profile_response) do
+        {
+          'pushname' => 'John Doe Business',
+          'icon_full' => 'https://example.com/avatar.jpg',
+          'business_name' => 'Acme Corp',
+          'about' => 'Available for business inquiries'
+        }
+      end
+
+      let(:message_with_name) do
+        {
+          'messages' => [
+            {
+              'id' => 'msg_123',
+              'from' => '1234567890',
+              'from_name' => 'John Message Name',
+              'type' => 'text',
+              'text' => { 'body' => 'Hello' },
+              'timestamp' => '1234567890'
+            }
+          ]
+        }
+      end
+
+      before do
+        allow(HTTParty).to receive(:get)
+          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
+          .and_return(double(success?: true, parsed_response: whapi_profile_response))
+      end
+
+      it 'fetches contact information from WHAPI when contact has no avatar' do
+        described_class.new(inbox: inbox, params: message_with_name).perform
+
+        contact = Contact.find_by(phone_number: '+1234567890')
+        expect(contact).to be_present
+        expect(contact.name).to eq('John Doe Business') # Uses WHAPI name over message name
+        expect(Avatar::AvatarFromUrlJob).to have_been_enqueued.with(contact, 'https://example.com/avatar.jpg')
+        expect(contact.additional_attributes['business_name']).to eq('Acme Corp')
+      end
+
+      it 'does not fetch from WHAPI when contact already has avatar' do
+        # Create contact with existing avatar
+        contact = create(:contact, account: account, phone_number: '+1234567890', name: 'Existing Name')
+        contact.avatar.attach(io: File.open('spec/assets/avatar.png'), filename: 'avatar.png')
+        create(:contact_inbox, inbox: inbox, source_id: '1234567890', contact: contact)
+
+        # Should not call WHAPI when contact already has avatar
+        expect(HTTParty).not_to receive(:get)
+
+        described_class.new(inbox: inbox, params: message_with_name).perform
+
+        contact.reload
+        expect(contact.name).to eq('Existing Name') # Should not update existing contact
+        expect(Avatar::AvatarFromUrlJob).not_to have_been_enqueued
+      end
+
+      it 'falls back to message name when WHAPI contact fetch fails' do
+        allow(HTTParty).to receive(:get)
+          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
+          .and_return(double(success?: false, code: 404, body: 'Not found'))
+
+        described_class.new(inbox: inbox, params: message_with_name).perform
+
+        contact = Contact.find_by(phone_number: '+1234567890')
+        expect(contact).to be_present
+        expect(contact.name).to eq('John Message Name') # Falls back to message name
+        expect(Avatar::AvatarFromUrlJob).not_to have_been_enqueued
+      end
+
+      it 'handles WHAPI response with no useful information' do
+        allow(HTTParty).to receive(:get)
+          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
+          .and_return(double(success?: true, parsed_response: {}))
+
+        described_class.new(inbox: inbox, params: message_with_name).perform
+
+        contact = Contact.find_by(phone_number: '+1234567890')
+        expect(contact).to be_present
+        expect(contact.name).to eq('John Message Name') # Uses message name when WHAPI has no name
+        expect(Avatar::AvatarFromUrlJob).not_to have_been_enqueued
+      end
+
+      it 'updates contact with partial WHAPI information' do
+        partial_response = {
+          'pushname' => 'Updated Name'
+          # No avatar or business name
+        }
+
+        allow(HTTParty).to receive(:get)
+          .with('https://gate.whapi.cloud/contacts/1234567890/profile', any_args)
+          .and_return(double(success?: true, parsed_response: partial_response))
+
+        described_class.new(inbox: inbox, params: message_with_name).perform
+
+        contact = Contact.find_by(phone_number: '+1234567890')
+        expect(contact).to be_present
+        expect(contact.name).to eq('Updated Name')
+        expect(Avatar::AvatarFromUrlJob).not_to have_been_enqueued
+        expect(contact.additional_attributes['business_name']).to be_nil
       end
     end
   end

@@ -353,6 +353,124 @@ describe Whatsapp::Providers::WhapiService do
     end
   end
 
+  describe '#fetch_contact_info' do
+    let(:phone_number) { '1234567890' }
+    let(:profile_response) do
+      {
+        'pushname' => 'John Doe Business',
+        'business_name' => 'Acme Corp',
+        'about' => 'Available for business inquiries',
+        'icon' => 'https://example.com/avatar_96.jpg',
+        'icon_full' => 'https://example.com/avatar_full.jpg'
+      }
+    end
+
+    it 'fetches contact information from profile endpoint successfully' do
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .with(headers: { 'Authorization' => 'Bearer test_key', 'Content-Type' => 'application/json' })
+        .to_return(status: 200, body: profile_response.to_json, headers: response_headers)
+
+      result = service.fetch_contact_info(phone_number)
+
+      expect(result).to be_a(Hash)
+      expect(result[:avatar_url]).to eq('https://example.com/avatar_full.jpg')
+      expect(result[:name]).to eq('John Doe Business')
+      expect(result[:business_name]).to eq('Acme Corp')
+      expect(result[:status]).to eq('Available for business inquiries')
+      expect(result[:raw_profile_response]).to eq(profile_response)
+    end
+
+    it 'handles phone number with WhatsApp suffixes' do
+      phone_with_suffix = '1234567890@c.us'
+
+      # Should clean the phone number and call with just digits
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .with(headers: { 'Authorization' => 'Bearer test_key', 'Content-Type' => 'application/json' })
+        .to_return(status: 200, body: profile_response.to_json, headers: response_headers)
+
+      result = service.fetch_contact_info(phone_with_suffix)
+
+      expect(result[:avatar_url]).to eq('https://example.com/avatar_full.jpg')
+      expect(result[:name]).to eq('John Doe Business')
+    end
+
+    it 'prefers icon_full over icon for avatar URL' do
+      profile_with_both_icons = {
+        'pushname' => 'John Doe',
+        'about' => 'Available',
+        'icon' => 'https://example.com/avatar_96.jpg',
+        'icon_full' => 'https://example.com/avatar_full.jpg'
+      }
+
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .to_return(status: 200, body: profile_with_both_icons.to_json, headers: response_headers)
+
+      result = service.fetch_contact_info(phone_number)
+
+      expect(result[:avatar_url]).to eq('https://example.com/avatar_full.jpg') # Should prefer icon_full
+      expect(result[:name]).to eq('John Doe')
+    end
+
+    it 'handles partial contact information' do
+      partial_profile_response = {
+        'pushname' => 'Alice Johnson'
+        # No business_name, avatar icons or status
+      }
+
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .with(headers: { 'Authorization' => 'Bearer test_key', 'Content-Type' => 'application/json' })
+        .to_return(status: 200, body: partial_profile_response.to_json, headers: response_headers)
+
+      result = service.fetch_contact_info(phone_number)
+
+      expect(result[:name]).to eq('Alice Johnson')
+      expect(result[:avatar_url]).to be_nil
+      expect(result[:business_name]).to be_nil
+      expect(result[:status]).to be_nil
+      expect(result[:raw_profile_response]).to eq(partial_profile_response)
+    end
+
+    it 'returns nil when phone number is blank' do
+      result = service.fetch_contact_info('')
+      expect(result).to be_nil
+
+      result = service.fetch_contact_info(nil)
+      expect(result).to be_nil
+    end
+
+    it 'returns nil when profile API request fails' do
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .with(headers: { 'Authorization' => 'Bearer test_key', 'Content-Type' => 'application/json' })
+        .to_return(status: 404, body: '{"error": "Profile not found"}', headers: response_headers)
+
+      result = service.fetch_contact_info(phone_number)
+      expect(result).to be_nil
+    end
+
+    it 'handles network timeouts gracefully' do
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .to_raise(Net::ReadTimeout)
+
+      expect(Rails.logger).to receive(:warn).with(/WHAPI contact fetch timeout/)
+
+      result = service.fetch_contact_info(phone_number)
+      expect(result).to be_nil
+    end
+
+    it 'returns nil when no useful information is available' do
+      empty_profile_response = {}
+
+      stub_request(:get, "https://gate.whapi.cloud/contacts/#{phone_number}/profile")
+        .with(headers: { 'Authorization' => 'Bearer test_key', 'Content-Type' => 'application/json' })
+        .to_return(status: 200, body: empty_profile_response.to_json, headers: response_headers)
+
+      expect(Rails.logger).to receive(:warn).with(/WHAPI contact fetch: No useful data found/)
+
+      result = service.fetch_contact_info(phone_number)
+      expect(result).to be_nil
+    end
+  end
+
   describe '#media_url' do
     it 'returns nil since WHAPI uses direct URLs' do
       result = service.media_url('some_media_id')
