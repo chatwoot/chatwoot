@@ -77,6 +77,9 @@ DROP TABLE IF EXISTS "users" CASCADE;
 DROP TABLE IF EXISTS "webhooks" CASCADE;
 DROP TABLE IF EXISTS "working_hours" CASCADE;
 DROP TABLE IF EXISTS "account_prompts" CASCADE;
+DROP TABLE IF EXISTS "channel_voice" CASCADE;
+DROP TABLE IF EXISTS "copilot_messages" CASCADE;
+DROP TABLE IF EXISTS "copilot_threads" CASCADE;
 
 -- Sequences created by triggers might need to be dropped manually if they persist.
 -- Example: DROP SEQUENCE IF EXISTS conv_dpid_seq_X CASCADE;
