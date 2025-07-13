@@ -24,6 +24,9 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
   def validate_provider_config?
     response = HTTParty.get("#{api_base_path}/health", headers: api_headers)
     response.success?
+  rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
+    Rails.logger.error "WHAPI health check failed: #{e.message}"
+    false
   end
 
   def error_message(response)
@@ -34,6 +37,9 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
       error_msg = parsed_response.dig('error', 'message') || parsed_response['message']
       return error_msg if error_msg.present?
     end
+    # Only return fallback error message if response indicates actual failure
+    return nil if parsed_response.is_a?(Hash) && parsed_response.empty?
+
     # If no specific error, return a clear failure message
     "WHAPI API request failed with status #{response.code}. Response: #{response.body}"
   end
@@ -64,7 +70,7 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
 
     # Check for successful status codes (200-299) and presence of message ID
     # WHAPI returns the ID in response.message.id, not at the top level
-    if (200..299).include?(response.code)
+    if (200..299).cover?(response.code)
       Rails.logger.info '✓ HTTP status code indicates success'
 
       if parsed_response.is_a?(Hash)
@@ -121,6 +127,55 @@ class Whatsapp::Providers::WhapiService < Whatsapp::Providers::BaseService
     end
 
     response
+  end
+
+  def fetch_contact_info(phone_number)
+    return nil unless phone_number.present?
+
+    begin
+      # Clean phone number - remove any WhatsApp suffixes and ensure it's just digits
+      clean_phone = phone_number.to_s.gsub(/[@c\.us|whatpne].*$/, '').gsub(/\D/, '')
+
+      Rails.logger.info "Fetching contact info for #{clean_phone}"
+
+      # Use only the profile endpoint which contains all the information we need
+      profile_response = HTTParty.get(
+        "#{api_base_path}/contacts/#{clean_phone}/profile",
+        headers: api_headers,
+        timeout: 10
+      )
+
+      return nil unless profile_response.success?
+
+      profile_data = profile_response.parsed_response
+
+      Rails.logger.info "WHAPI Contact Debug: Profile response: #{profile_data}"
+
+      # Return structured contact information from profile endpoint
+      result = {
+        avatar_url: profile_data['icon_full'] || profile_data['icon'],
+        name: profile_data['pushname'] || profile_data['name'],
+        status: profile_data['about'],
+        business_name: profile_data['business_name'],
+        raw_profile_response: profile_data
+      }
+
+      Rails.logger.info "WHAPI Contact Debug: Final result: #{result}"
+
+      # Return nil if we couldn't get any useful information
+      if result[:avatar_url].blank? && result[:name].blank?
+        Rails.logger.warn "WHAPI contact fetch: No useful data found for #{phone_number}"
+        return nil
+      end
+
+      result
+    rescue Net::ReadTimeout, Net::OpenTimeout, SocketError => e
+      Rails.logger.warn "WHAPI contact fetch timeout for #{phone_number}: #{e.message}"
+      nil
+    rescue StandardError => e
+      Rails.logger.error "WHAPI contact fetch error for #{phone_number}: #{e.message}"
+      nil
+    end
   end
 
   private
