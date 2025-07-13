@@ -22,24 +22,23 @@ export default {
       return this.conversationAttributes?.status === 'resolved';
     },
     hasActiveConversation() {
-      return !!this.conversationSize && !this.isConversationResolved;
-    },
-    shouldShowPreChatForm() {
-      return this.preChatFormEnabled && !this.hasActiveConversation;
+      const { allowMessagesAfterResolved } = window.chatwootWebChannel || {};
+      return (
+        !!this.conversationSize &&
+        (allowMessagesAfterResolved || !this.isConversationResolved)
+      );
     },
   },
   methods: {
     ...mapActions('conversation', ['clearConversations']),
     ...mapActions('conversationAttributes', ['clearConversationAttributes']),
     startConversation() {
-      if (this.isConversationResolved) {
-        this.clearConversations();
-        this.clearConversationAttributes();
+      if (this.hasActiveConversation) {
+        return this.replaceRoute('messages');
       }
-      if (this.shouldShowPreChatForm) {
-        return this.replaceRoute('prechat-form');
-      }
-      return this.replaceRoute('messages');
+      this.clearConversations();
+      this.clearConversationAttributes();
+      return this.replaceRoute('prechat-form');
     },
   },
 };

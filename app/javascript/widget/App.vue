@@ -68,7 +68,11 @@ export default {
       return this.conversationAttributes?.status === 'resolved';
     },
     hasActiveConversation() {
-      return !!this.messageCount && !this.isConversationResolved;
+      const { allowMessagesAfterResolved } = window.chatwootWebChannel || {};
+      return (
+        !!this.messageCount &&
+        (allowMessagesAfterResolved || !this.isConversationResolved)
+      );
     },
   },
   watch: {
