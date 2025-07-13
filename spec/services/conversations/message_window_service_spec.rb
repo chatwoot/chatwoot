@@ -625,4 +625,52 @@ RSpec.describe Conversations::MessageWindowService do
       expect(service.can_reply?).to be true
     end
   end
+
+  describe 'on WHAPI WhatsApp channels' do
+    let!(:whapi_channel) { create(:channel_whatsapp, provider: 'whapi', sync_templates: false, validate_provider_config: false) }
+    let!(:whapi_inbox) { create(:inbox, channel: whapi_channel, account: whapi_channel.account) }
+    let!(:conversation) { create(:conversation, inbox: whapi_inbox, account: whapi_channel.account) }
+
+    it 'return true irrespective of the last message time (no 24-hour restriction)' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whapi_inbox,
+        conversation: conversation,
+        created_at: 48.hours.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+
+    it 'return true even if the last message is very old' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whapi_inbox,
+        conversation: conversation,
+        created_at: 10.days.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+
+    it 'return true if the last message is outgoing (no outgoing message restriction)' do
+      create(
+        :message,
+        account: conversation.account,
+        inbox: whapi_inbox,
+        conversation: conversation,
+        message_type: :outgoing,
+        created_at: 1.hour.ago
+      )
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+
+    it 'return true if there are no messages in the conversation' do
+      service = described_class.new(conversation)
+      expect(service.can_reply?).to be true
+    end
+  end
 end

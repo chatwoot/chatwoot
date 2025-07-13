@@ -282,5 +282,29 @@ describe('inboxMixin', () => {
       const wrapper = shallowMount(Component);
       expect(wrapper.vm.isAWhatsAppChannel).toBe(true);
     });
+
+    it('isAWhapiChannel returns true if channel type is WhatsApp and provider is whapi', () => {
+      const Component = getComponentConfigForInbox('Channel::Whatsapp', {
+        provider: 'whapi',
+      });
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isAWhapiChannel).toBe(true);
+    });
+
+    it('isAWhapiChannel returns false if channel type is WhatsApp but provider is not whapi', () => {
+      const Component = getComponentConfigForInbox('Channel::Whatsapp', {
+        provider: 'whatsapp_cloud',
+      });
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isAWhapiChannel).toBe(false);
+    });
+
+    it('isAWhapiChannel returns false if channel type is not WhatsApp', () => {
+      const Component = getComponentConfigForInbox('Channel::TwilioSms', {
+        provider: 'whapi',
+      });
+      const wrapper = shallowMount(Component);
+      expect(wrapper.vm.isAWhapiChannel).toBe(false);
+    });
   });
 });
