@@ -117,6 +117,13 @@ export const useInbox = (inboxId = null) => {
     );
   });
 
+  const isAWhapiChannel = computed(() => {
+    return (
+      channelType.value === INBOX_TYPES.WHATSAPP &&
+      whatsAppAPIProvider.value === 'whapi'
+    );
+  });
+
   const isAWhatsAppChannel = computed(() => {
     return (
       channelType.value === INBOX_TYPES.WHATSAPP ||
@@ -147,6 +154,7 @@ export const useInbox = (inboxId = null) => {
     isATwilioWhatsAppChannel,
     isAWhatsAppCloudChannel,
     is360DialogWhatsAppChannel,
+    isAWhapiChannel,
     isAnEmailChannel,
     isAnInstagramChannel,
     isAVoiceChannel,

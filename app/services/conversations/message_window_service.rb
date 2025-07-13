@@ -23,7 +23,7 @@ class Conversations::MessageWindowService
     when 'Channel::Instagram'
       instagram_messaging_window
     when 'Channel::Whatsapp'
-      MESSAGING_WINDOW_24_HOURS
+      whatsapp_messaging_window
     when 'Channel::TwilioSms'
       twilio_messaging_window
     end
@@ -39,6 +39,14 @@ class Conversations::MessageWindowService
     return if @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].blank?
 
     @conversation.inbox.channel.additional_attributes['agent_reply_time_window'].to_i.hours
+  end
+
+  def whatsapp_messaging_window
+    # WHAPI provider doesn't have 24-hour restriction
+    return nil if @conversation.inbox.channel.provider == 'whapi'
+
+    # Other WhatsApp providers (whatsapp_cloud, default) have 24-hour restriction
+    MESSAGING_WINDOW_24_HOURS
   end
 
   # Check medium of the inbox to determine the messaging window
