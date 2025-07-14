@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "Prioritás megváltoztatása",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nincs",
+      "LOW": "Alacsony",
+      "MEDIUM": "Közepes",
+      "HIGH": "Magas",
+      "URGENT": "Sürgős"
     }
   }
 }

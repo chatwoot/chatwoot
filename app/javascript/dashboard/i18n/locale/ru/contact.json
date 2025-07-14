@@ -285,7 +285,7 @@
     "HEADER": {
       "TITLE": "Контакты",
       "SEARCH_TITLE": "Поиск контактов",
-      "ACTIVE_TITLE": "Active contacts",
+      "ACTIVE_TITLE": "Активные контакты",
       "SEARCH_PLACEHOLDER": "Поиск...",
       "MESSAGE_BUTTON": "Сообщение",
       "SEND_MESSAGE": "Отправить сообщение",
@@ -460,8 +460,8 @@
         }
       },
       "DELETE_CONTACT": {
-        "MESSAGE": "This action is permanent and irreversible.",
-        "BUTTON": "Delete now"
+        "MESSAGE": "Это действие необратимо.",
+        "BUTTON": "Удалить"
       }
     },
     "DETAILS": {
@@ -550,7 +550,7 @@
         "YOU": "Вы",
         "SAVE": "Сохранить заметку",
         "EXPAND": "Развернуть",
-        "COLLAPSE": "Collapse",
+        "COLLAPSE": "Свернуть",
         "NO_NOTES": "No notes, you can add notes from the contact details page.",
         "EMPTY_STATE": "Нет заметок, связанных с этим контактом. Вы можете добавить заметку в поле выше."
       }
