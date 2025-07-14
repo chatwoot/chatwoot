@@ -14,12 +14,11 @@ env:
 
 jobs:
   build:
+    if: github.repository == 'pmcholding/chatwoot_cordex'
     strategy:
       fail-fast: false
       matrix:
         include:
-          - platform: linux/amd64
-            runner: ubuntu-latest
           - platform: linux/arm64
             runner: ubuntu-latest
     runs-on: ${{ matrix.runner }}
@@ -94,6 +93,7 @@ jobs:
           retention-days: 1
 
   merge:
+    if: github.repository == 'pmcholding/chatwoot_cordex'
     runs-on: ubuntu-latest
     needs:
       - build
