@@ -150,6 +150,17 @@
       "ADD_SLA": "Afegeix SLA",
       "OPEN_CONVERSATION": "Obrir conversa"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Ningú",
+      "LOW": "Baixa",
+      "MEDIUM": "Mitjana",
+      "HIGH": "Alta",
+      "URGENT": "Urgent"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",

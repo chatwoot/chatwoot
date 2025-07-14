@@ -30,6 +30,7 @@ class Captain::Assistant < ApplicationRecord
            through: :captain_inboxes
   has_many :messages, as: :sender, dependent: :nullify
   has_many :copilot_threads, dependent: :destroy_async
+  has_many :scenarios, class_name: 'Captain::Scenario', dependent: :destroy_async
 
   validates :name, presence: true
   validates :description, presence: true
