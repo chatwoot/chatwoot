@@ -176,3 +176,7 @@
 - name: notion_integration
   display_name: Notion Integration
   enabled: false
+- name: captain_integration_v2
+  display_name: Captain V2
+  enabled: false
+  premium: true
