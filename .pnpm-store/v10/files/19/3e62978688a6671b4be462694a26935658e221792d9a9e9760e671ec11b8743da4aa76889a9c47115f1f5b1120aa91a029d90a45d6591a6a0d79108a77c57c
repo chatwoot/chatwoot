@@ -1,0 +1,60 @@
+{
+  "name": "dset",
+  "version": "3.1.4",
+  "repository": "lukeed/dset",
+  "description": "A tiny (194B) utility for safely writing deep Object values~!",
+  "unpkg": "dist/index.min.js",
+  "umd:main": "dist/index.min.js",
+  "module": "dist/index.mjs",
+  "main": "dist/index.js",
+  "types": "index.d.ts",
+  "license": "MIT",
+  "exports": {
+    ".": {
+      "types": "./index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    },
+    "./merge": {
+      "types": "./merge/index.d.ts",
+      "import": "./merge/index.mjs",
+      "require": "./merge/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "author": {
+    "name": "Luke Edwards",
+    "email": "luke.edwards05@gmail.com",
+    "url": "https://lukeed.com"
+  },
+  "engines": {
+    "node": ">=4"
+  },
+  "scripts": {
+    "build": "bundt",
+    "test": "uvu test -r esm -i suites"
+  },
+  "files": [
+    "*.d.ts",
+    "merge",
+    "dist"
+  ],
+  "modes": {
+    "merge": "src/merge.js",
+    "default": "src/index.js"
+  },
+  "keywords": [
+    "deepset",
+    "values",
+    "object",
+    "write",
+    "deep",
+    "safe",
+    "set"
+  ],
+  "devDependencies": {
+    "bundt": "1.1.2",
+    "esm": "3.2.25",
+    "uvu": "0.5.1"
+  }
+}

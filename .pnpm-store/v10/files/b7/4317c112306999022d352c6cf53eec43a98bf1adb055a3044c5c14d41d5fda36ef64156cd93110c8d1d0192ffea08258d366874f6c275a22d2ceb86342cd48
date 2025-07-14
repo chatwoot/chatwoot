@@ -1,0 +1,37 @@
+@import './var.scss';
+
+.#{$namespace}-icon-left:before,
+.#{$namespace}-icon-right:before,
+.#{$namespace}-icon-double-left:before,
+.#{$namespace}-icon-double-right:before,
+.#{$namespace}-icon-double-left:after,
+.#{$namespace}-icon-double-right:after {
+  content: '';
+  position: relative;
+  top: -1px;
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  vertical-align: middle;
+  border-style: solid;
+  border-color: currentColor;
+  border-width: 2px 0 0 2px;
+  border-radius: 1px;
+  box-sizing: border-box;
+  transform-origin: center;
+  transform: rotate(-45deg) scale(0.7);
+}
+
+.#{$namespace}-icon-double-left:after {
+  left: -4px;
+}
+
+.#{$namespace}-icon-double-right:before {
+  left: 4px;
+}
+
+.#{$namespace}-icon-right:before,
+.#{$namespace}-icon-double-right:before,
+.#{$namespace}-icon-double-right:after {
+  transform: rotate(135deg) scale(0.7);
+}

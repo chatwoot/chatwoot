@@ -1,0 +1,12 @@
+import { type Transaction } from 'prosemirror-state';
+import { type NodeType, Mark } from 'prosemirror-model';
+import type { Attrs, NodeTypeParam, Content } from './types';
+export declare const removeParentNodeOfType: (nodeType: NodeTypeParam) => (tr: Transaction) => Transaction;
+export declare const replaceParentNodeOfType: (nodeType: NodeTypeParam, content: Content) => (tr: Transaction) => Transaction;
+export declare const removeSelectedNode: (tr: Transaction) => Transaction;
+export declare const replaceSelectedNode: (content: Content) => (tr: Transaction) => Transaction;
+export declare const setTextSelection: (position: number, dir?: number) => (tr: Transaction) => Transaction;
+export declare const safeInsert: (content: Content, position?: number, tryToReplace?: boolean) => (tr: Transaction) => Transaction;
+export declare const setParentNodeMarkup: (nodeType: NodeTypeParam, type: NodeType | null, attrs?: Attrs | null, marks?: Array<Mark> | ReadonlyArray<Mark>) => (tr: Transaction) => Transaction;
+export declare const selectParentNodeOfType: (nodeType: NodeTypeParam) => (tr: Transaction) => Transaction;
+export declare const removeNodeBefore: (tr: Transaction) => Transaction;

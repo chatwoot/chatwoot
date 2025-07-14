@@ -1,0 +1,33 @@
+:root, .light, .light-theme {
+  --crimson-a1: #ff005503;
+  --crimson-a2: #e0004008;
+  --crimson-a3: #ff005216;
+  --crimson-a4: #f8005123;
+  --crimson-a5: #e5004f31;
+  --crimson-a6: #d0004b41;
+  --crimson-a7: #bf004753;
+  --crimson-a8: #b6004a6c;
+  --crimson-a9: #e2005bc2;
+  --crimson-a10: #d70056cb;
+  --crimson-a11: #c4004fe2;
+  --crimson-a12: #530026e9;
+}
+
+@supports (color: color(display-p3 1 1 1)) {
+  @media (color-gamut: p3) {
+    :root, .light, .light-theme {
+      --crimson-a1: color(display-p3 0.675 0.024 0.349 / 0.012);
+      --crimson-a2: color(display-p3 0.757 0.02 0.267 / 0.032);
+      --crimson-a3: color(display-p3 0.859 0.008 0.294 / 0.083);
+      --crimson-a4: color(display-p3 0.827 0.008 0.298 / 0.134);
+      --crimson-a5: color(display-p3 0.753 0.008 0.275 / 0.189);
+      --crimson-a6: color(display-p3 0.682 0.004 0.247 / 0.244);
+      --crimson-a7: color(display-p3 0.62 0.004 0.251 / 0.318);
+      --crimson-a8: color(display-p3 0.6 0.004 0.251 / 0.408);
+      --crimson-a9: color(display-p3 0.776 0 0.298 / 0.702);
+      --crimson-a10: color(display-p3 0.737 0 0.275 / 0.734);
+      --crimson-a11: color(display-p3 0.731 0.195 0.388);
+      --crimson-a12: color(display-p3 0.352 0.111 0.221);
+    }
+  }
+}

@@ -1,0 +1,58 @@
+# Docker Compose Override for High-Performance Development
+# Optimized for 90GB RAM allocation
+services:
+  rails:
+    environment:
+      - RAILS_ENV=development
+      - RAILS_MAX_THREADS=20
+      - WEB_CONCURRENCY=4
+      - MALLOC_ARENA_MAX=2
+      - RUBY_GC_HEAP_GROWTH_FACTOR=1.1
+      - RUBY_GC_MALLOC_LIMIT=200000000
+      - RUBY_GC_HEAP_INIT_SLOTS=400000
+      - RUBY_GC_HEAP_FREE_SLOTS=600000
+      - RAILS_LOG_LEVEL=info
+      - BOOTSNAP_CACHE_DIR=/tmp/bootsnap
+      - JEMALLOC_OPTS=narenas:2,background_thread:true,metadata_thp:auto
+    deploy:
+      resources:
+        limits:
+          cpus: '8'
+          memory: 16G
+        reservations:
+          cpus: '4'
+          memory: 8G
+    tmpfs:
+      - /tmp:size=2G
+    volumes:
+      - rails_cache:/app/tmp/cache
+      - bootsnap_cache:/tmp/bootsnap
+      - assets_cache:/app/public/assets
+
+  sidekiq:
+    environment:
+      - RAILS_MAX_THREADS=10
+      - MALLOC_ARENA_MAX=2
+      - SIDEKIQ_CONCURRENCY=10
+    deploy:
+      resources:
+        limits:
+          cpus: '4'
+          memory: 8G
+        reservations:
+          cpus: '2'
+          memory: 4G
+
+  vite:
+    environment:
+      - NODE_OPTIONS=--max-old-space-size=8192
+    deploy:
+      resources:
+        limits:
+          cpus: '2'
+          memory: 4G
+
+volumes:
+  rails_cache:
+  bootsnap_cache:
+  assets_cache: 

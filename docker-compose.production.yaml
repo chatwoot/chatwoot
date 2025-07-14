@@ -1,8 +1,8 @@
-version: '3'
+name: crove
 
 services:
   base: &base
-    image: chatwoot/chatwoot:latest
+    image: crove/crove:latest
     env_file: .env ## Change this file for customized env variables
     volumes:
       - storage_data:/app/storage
@@ -35,7 +35,7 @@ services:
     restart: always
 
   postgres:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg17
     restart: always
     ports:
       - '127.0.0.1:5432:5432'

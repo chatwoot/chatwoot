@@ -14,6 +14,7 @@ services:
     image: crove:development
     container_name: crove
     env_file: .env
+    restart: unless-stopped
 
   rails:
     <<: *base
@@ -44,6 +45,7 @@ services:
     networks:
       - default
       - Gateway
+    restart: unless-stopped
 
   sidekiq:
     <<: *base
@@ -63,6 +65,7 @@ services:
     networks:
       - default
       - Gateway
+    restart: unless-stopped
 
   vite:
     <<: *base
@@ -89,6 +92,7 @@ services:
     networks:
       - default
       - Gateway
+    restart: unless-stopped
 
 volumes:
   packs:

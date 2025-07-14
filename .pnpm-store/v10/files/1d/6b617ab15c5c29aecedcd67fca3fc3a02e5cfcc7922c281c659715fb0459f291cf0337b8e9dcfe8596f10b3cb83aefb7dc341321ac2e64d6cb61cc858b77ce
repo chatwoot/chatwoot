@@ -1,0 +1,20 @@
+{
+  "name": "@esbuild/aix-ppc64",
+  "version": "0.21.5",
+  "description": "The IBM AIX PowerPC 64-bit binary for esbuild, a JavaScript bundler.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/evanw/esbuild.git"
+  },
+  "license": "MIT",
+  "preferUnplugged": true,
+  "engines": {
+    "node": ">=12"
+  },
+  "os": [
+    "aix"
+  ],
+  "cpu": [
+    "ppc64"
+  ]
+}

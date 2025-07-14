@@ -2,10 +2,10 @@
 
 ## 📋 Executive Summary
 
-This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails) to a modern tech stack using **Strapi v5** (Headless CMS) + **Next.js 15** (App Router).
+This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails) to a modern tech stack using **Strapi v5.17+** (Headless CMS) + **Next.js 15.3+** (App Router).
 
-**Total Duration:** 14 weeks  
-**Team Size:** 3-5 developers recommended
+**Total Duration:** 6 weeks  
+**Team Size:** 1 business founder 
 
 ## 🎯 Migration Goals
 
@@ -45,7 +45,7 @@ This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails
 
 ## 📅 Timeline & Phases
 
-### Phase 1: Foundation & Architecture (2 weeks)
+### Phase 1: Foundation & Architecture (1 weeks)
 
 #### Week 1: Environment Setup
 - [ ] Setup development environment with Docker
@@ -61,7 +61,7 @@ This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails
 - [ ] Setup authentication strategy
 - [ ] Create technical documentation
 
-### Phase 2: Core Data Models & APIs (3 weeks)
+### Phase 2: Core Data Models & APIs (1 weeks)
 
 #### Week 3-4: Strapi Content Types
 - [ ] Create core content types:
@@ -84,7 +84,7 @@ This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails
 - [ ] Implement automation engine basics
 - [ ] Create webhook service
 
-### Phase 3: Real-time Infrastructure (2 weeks)
+### Phase 3: Real-time Infrastructure (1 weeks)
 
 #### Week 6: WebSocket Implementation
 - [ ] Setup Socket.io server in Strapi
@@ -103,7 +103,7 @@ This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails
 - [ ] Create event handlers
 - [ ] Build notification dispatcher
 
-### Phase 4: Frontend Implementation (4 weeks)
+### Phase 4: Frontend Implementation (1 weeks)
 
 #### Week 8: Core Layout & Navigation
 - [ ] Implement dashboard layout
@@ -133,7 +133,7 @@ This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails
 - [ ] Add label management
 - [ ] Implement keyboard shortcuts
 
-### Phase 5: Feature Parity & Migration (3 weeks)
+### Phase 5: Feature Parity & Migration (1 weeks)
 
 #### Week 12: Additional Features
 - [ ] Multi-channel support
@@ -156,7 +156,7 @@ This document outlines the comprehensive plan to migrate Chatwoot (Ruby on Rails
 - [ ] Documentation completion
 - [ ] User training materials
 
-### Phase 6: Testing & Deployment (2 weeks)
+### Phase 6: Testing & Deployment (1 weeks)
 
 #### Week 15: Testing
 - [ ] Unit tests for all services

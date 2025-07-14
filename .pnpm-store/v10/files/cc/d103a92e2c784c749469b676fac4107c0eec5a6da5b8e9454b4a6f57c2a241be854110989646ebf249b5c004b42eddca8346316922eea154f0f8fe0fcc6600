@@ -1,0 +1,24 @@
+
+{{alias}}( value )
+    Returns a Number object.
+
+    This constructor should be used sparingly. Always prefer number primitives.
+
+    Parameters
+    ----------
+    value: number
+        Value to wrap in a Number object.
+
+    Returns
+    -------
+    out: Number
+        Number object.
+
+    Examples
+    --------
+    > var v = new {{alias}}( 5 )
+    <Number>
+
+    See Also
+    --------
+

@@ -1,0 +1,71 @@
+
+{{alias}}( obj, prop, descriptor )
+    Defines (or modifies) an object property.
+
+    Property descriptors come in two flavors: data descriptors and accessor
+    descriptors. A data descriptor is a property that has a value, which may or
+    may not be writable. An accessor descriptor is a property described by a
+    getter-setter function pair. A descriptor must be one of these two flavors
+    and cannot be both.
+
+    Parameters
+    ----------
+    obj: Object
+        Object on which to define the property.
+
+    prop: string|symbol
+        Property name.
+
+    descriptor: Object
+        Property descriptor.
+
+    descriptor.configurable: boolean (optional)
+        Boolean indicating if property descriptor can be changed and if the
+        property can be deleted from the provided object. Default: false.
+
+    descriptor.enumerable: boolean (optional)
+        Boolean indicating if the property shows up when enumerating object
+        properties. Default: false.
+
+    descriptor.writable: boolean (optional)
+        Boolean indicating if the value associated with the property can be
+        changed with an assignment operator. Default: false.
+
+    descriptor.value: any (optional)
+        Property value.
+
+    descriptor.get: Function|void (optional)
+        Function which serves as a getter for the property, or, if no getter,
+        undefined. When the property is accessed, a getter function is called
+        without arguments and with the `this` context set to the object through
+        which the property is accessed (which may not be the object on which the
+        property is defined due to inheritance). The return value will be used
+        as the property value. Default: undefined.
+
+    descriptor.set: Function|void (optional)
+        Function which serves as a setter for the property, or, if no setter,
+        undefined. When assigning a property value, a setter function is called
+        with one argument (the value being assigned to the property) and with
+        the `this` context set to the object through which the property is
+        assigned. Default: undefined.
+
+    Returns
+    -------
+    obj: Object
+        Object on which the property was defined (or modified).
+
+    Examples
+    --------
+    > var obj = {};
+    > {{alias}}( obj, 'foo', {
+    ...     'value': 'bar',
+    ...     'enumerable': true,
+    ...     'writable': false
+    ... });
+    > obj.foo = 'boop';
+    > obj
+    { 'foo': 'bar' }
+
+    See Also
+    --------
+

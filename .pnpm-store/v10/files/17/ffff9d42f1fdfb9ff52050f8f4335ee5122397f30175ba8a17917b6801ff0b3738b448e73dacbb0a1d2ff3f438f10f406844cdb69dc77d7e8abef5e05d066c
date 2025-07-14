@@ -1,0 +1,40 @@
+{
+  "compilerOptions": {
+    "target": "ESNext",
+    "module": "ESNext",
+    "moduleResolution": "node",
+    "outDir": "dist",
+    "rootDir": "src",
+    "allowSyntheticDefaultImports": true,
+    "esModuleInterop": true,
+    "removeComments": false,
+    "resolveJsonModule": true,
+    "skipLibCheck": true,
+    "types": [
+      "node"
+    ],
+    "lib": [
+      "ESNext",
+      "DOM"
+    ],
+    "sourceMap": false,
+    "preserveWatchOutput": true,
+    // Strict
+    "noImplicitAny": false,
+    "noImplicitThis": true,
+    "alwaysStrict": true,
+    "strictBindCallApply": true,
+    "strictFunctionTypes": true,
+    // Volar
+    "jsx": "preserve"
+  },
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "generated/**/*",
+    "dist/**/*",
+    "src/**/*.spec.ts"
+  ]
+}

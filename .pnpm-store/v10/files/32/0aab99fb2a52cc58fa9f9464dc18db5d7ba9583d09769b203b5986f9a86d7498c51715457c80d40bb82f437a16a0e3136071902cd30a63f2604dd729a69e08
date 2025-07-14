@@ -1,0 +1,16 @@
+image: node:16
+
+pages:
+  script:
+  - npm install
+  - npm run metadata:generate
+  - npm run build
+  - mv ./bundle ./public
+  - cp --recursive ./website/* ./public/
+
+  artifacts:
+    paths:
+    - public
+
+  only:
+  - master

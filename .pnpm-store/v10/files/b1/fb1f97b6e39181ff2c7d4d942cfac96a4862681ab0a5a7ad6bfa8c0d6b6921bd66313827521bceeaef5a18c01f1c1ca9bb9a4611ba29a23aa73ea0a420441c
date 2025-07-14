@@ -1,0 +1,32 @@
+{
+  "name": "shiki-es",
+  "version": "0.2.0",
+  "license": "MIT",
+  "repository": "unjs/shiki-es",
+  "description": "Standalone build of shiki fully compatible with all ESM environments.",
+  "type": "module",
+  "exports": {
+    ".": {
+      "node": "./dist/shiki.node.mjs",
+      "default": "./dist/shiki.mjs"
+    },
+    "./shiki/*": "./dist/shiki/*"
+  },
+  "types": "./dist/shiki.d.ts",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "prepack": "unbuild",
+    "test": "yarn build && node ./test/test.mjs",
+    "release": "standard-version && npm publish && git push --follow-tags"
+  },
+  "devDependencies": {
+    "fs-extra": "^11.1.0",
+    "node-fetch": "^3.3.0",
+    "shiki": "^0.12.1",
+    "standard-version": "^9.5.0",
+    "unbuild": "^1.0.2"
+  }
+}

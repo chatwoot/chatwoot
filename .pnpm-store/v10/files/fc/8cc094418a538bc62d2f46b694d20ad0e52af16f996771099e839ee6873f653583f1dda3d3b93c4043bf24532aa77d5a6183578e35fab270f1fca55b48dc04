@@ -1,0 +1,25 @@
+{
+  "name": "@size-limit/file",
+  "version": "8.2.6",
+  "description": "File size plugin for Size Limit",
+  "keywords": [
+    "size-limit",
+    "plugin",
+    "file",
+    "performance",
+    "budget",
+    "performance budget"
+  ],
+  "author": "Andrey Sitnik <andrey@sitnik.ru>",
+  "license": "MIT",
+  "repository": "ai/size-limit",
+  "engines": {
+    "node": "^14.0.0 || ^16.0.0 || >=18.0.0"
+  },
+  "peerDependencies": {
+    "size-limit": "8.2.6"
+  },
+  "dependencies": {
+    "semver": "7.5.3"
+  }
+}

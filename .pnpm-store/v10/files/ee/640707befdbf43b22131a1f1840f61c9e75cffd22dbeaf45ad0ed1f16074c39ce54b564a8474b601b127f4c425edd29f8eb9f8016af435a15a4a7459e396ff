@@ -1,0 +1,72 @@
+
+{{alias}}( value )
+    Tests if a value is a number.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a number.
+
+    Examples
+    --------
+    > var bool = {{alias}}( 3.14 )
+    true
+    > bool = {{alias}}( new Number( 3.14 ) )
+    true
+    > bool = {{alias}}( NaN )
+    true
+    > bool = {{alias}}( null )
+    false
+
+
+{{alias}}.isPrimitive( value )
+    Tests if a value is a number primitive.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a number primitive.
+
+    Examples
+    --------
+    > var bool = {{alias}}.isPrimitive( 3.14 )
+    true
+    > bool = {{alias}}.isPrimitive( NaN )
+    true
+    > bool = {{alias}}.isPrimitive( new Number( 3.14 ) )
+    false
+
+
+{{alias}}.isObject( value )
+    Tests if a value is a `Number` object.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a `Number` object.
+
+    Examples
+    --------
+    > var bool = {{alias}}.isObject( 3.14 )
+    false
+    > bool = {{alias}}.isObject( new Number( 3.14 ) )
+    true
+
+    See Also
+    --------
+

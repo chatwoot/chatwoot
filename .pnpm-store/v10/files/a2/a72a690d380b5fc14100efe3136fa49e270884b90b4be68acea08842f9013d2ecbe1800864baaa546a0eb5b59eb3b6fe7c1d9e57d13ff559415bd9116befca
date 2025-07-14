@@ -1,0 +1,21 @@
+{
+  "presets": [
+    [
+      "@babel/preset-env",
+      {
+        "modules": false,
+        "useBuiltIns": false,
+        "targets": "ie >= 9",
+        "exclude": [
+          "transform-async-to-generator",
+          "proposal-async-generator-functions",
+          "transform-regenerator"
+        ]
+      }
+    ]
+  ],
+  "sourceType": "unambiguous",
+  "plugins": [
+    ["@babel/plugin-transform-runtime", {"helpers": false, "corejs": false, "regenerator": false, "useESModules": false, "absoluteRuntime": false}]
+  ]
+}

@@ -1,0 +1,73 @@
+{
+  "name": "lettersanitizer",
+  "version": "1.0.6",
+  "description": "DOM-based HTML email sanitizer for in-browser email rendering.",
+  "type": "module",
+  "main": "./lib/cjs/index.js",
+  "module": "./lib/esm/index.js",
+  "types": "./lib/esm/index.d.ts",
+  "exports": {
+    ".": {
+      "require": "./lib/cjs/index.js",
+      "import": "./lib/esm/index.js",
+      "types": "./lib/esm/index.d.ts"
+    }
+  },
+  "keywords": [
+    "email",
+    "e-mail",
+    "mail",
+    "mime-message",
+    "typescript",
+    "library",
+    "dom",
+    "sanitizer",
+    "purifier",
+    "html"
+  ],
+  "scripts": {
+    "prepare": "npm run build",
+    "test": "vitest",
+    "coverage": "vitest --coverage --run",
+    "build": "npm run build:cjs && npm run build:esm",
+    "build:esm": "tsc --module esnext --outDir lib/esm && echo '{\"type\": \"module\"}' > lib/esm/package.json",
+    "build:cjs": "tsc --module commonjs --outDir lib/cjs && echo '{\"type\": \"commonjs\"}' > lib/cjs/package.json",
+    "lint": "eslint src"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/mat-sz/lettersanitizer.git"
+  },
+  "bugs": {
+    "url": "https://github.com/mat-sz/lettersanitizer/issues"
+  },
+  "husky": {
+    "hooks": {
+      "pre-commit": "lint-staged"
+    }
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ],
+    "__tests__/**/*.{js,jsx,ts,tsx,json,css,scss,md}": [
+      "prettier --write"
+    ]
+  },
+  "homepage": "https://github.com/mat-sz/lettersanitizer",
+  "author": "Mat Sz <contact@matsz.dev>",
+  "license": "BSD-3-Clause-Clear",
+  "private": false,
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^6.7.3",
+    "@typescript-eslint/parser": "^6.7.3",
+    "@vitest/coverage-v8": "^0.34.5",
+    "eslint": "^8.50.0",
+    "husky": "^8.0.1",
+    "jsdom": "11.12.0",
+    "lint-staged": "^13.0.3",
+    "prettier": "^3.0.3",
+    "typescript": "^5.2.2",
+    "vitest": "^0.34.5"
+  }
+}

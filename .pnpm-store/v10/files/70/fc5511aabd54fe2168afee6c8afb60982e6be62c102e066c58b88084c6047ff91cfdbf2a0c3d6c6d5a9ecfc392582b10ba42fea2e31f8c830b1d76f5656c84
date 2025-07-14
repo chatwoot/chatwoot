@@ -1,0 +1,22 @@
+/* Picture-In-Picture Toggle (button in controlbar)
+--------------------------------------------------------------------------------
+*/
+.vjs-record .vjs-pip-button.vjs-control
+{
+    cursor: pointer;
+}
+
+.vjs-record .vjs-error .vjs-pip-button
+{
+    display: none;
+}
+
+.vjs-record .vjs-pip-button.vjs-control.vjs-icon-picture-in-picture-start:before {
+    font-size: 1.4em;
+    line-height: 2.2em;
+}
+
+.vjs-record .vjs-pip-button.vjs-control.vjs-icon-picture-in-picture-stop:before {
+    font-size: 1.4em;
+    line-height: 2.2em;
+}

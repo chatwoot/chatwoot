@@ -27,7 +27,7 @@ services:
     network_mode: service:db
 
   db:
-    image: pgvector/pgvector:pg16
+    image: pgvector/pgvector:pg17
     restart: unless-stopped
     volumes:
       - postgres-data:/var/lib/postgresql/data

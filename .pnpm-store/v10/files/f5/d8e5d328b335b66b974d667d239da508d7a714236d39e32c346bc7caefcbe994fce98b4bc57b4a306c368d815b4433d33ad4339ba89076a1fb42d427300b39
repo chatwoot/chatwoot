@@ -1,0 +1,22 @@
+{
+  "name": "@rollup/rollup-linux-riscv64-gnu",
+  "version": "4.40.2",
+  "os": [
+    "linux"
+  ],
+  "cpu": [
+    "riscv64"
+  ],
+  "files": [
+    "rollup.linux-riscv64-gnu.node"
+  ],
+  "description": "Native bindings for Rollup",
+  "author": "Lukas Taegert-Atkinson",
+  "homepage": "https://rollupjs.org/",
+  "license": "MIT",
+  "repository": "rollup/rollup",
+  "libc": [
+    "glibc"
+  ],
+  "main": "./rollup.linux-riscv64-gnu.node"
+}

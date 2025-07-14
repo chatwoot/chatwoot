@@ -1,0 +1,4 @@
+/*
+Turbolinks <%= depend_on_asset("./VERSION").to_s.strip %>
+Copyright © <%= Time.now.year %> Basecamp, LLC
+ */

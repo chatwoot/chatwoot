@@ -1,0 +1,1 @@
+{"version":3,"file":"backoff.d.ts","sourceRoot":"","sources":["../../../src/priority-queue/backoff.ts"],"names":[],"mappings":"AAAA,aAAK,aAAa,GAAG;IACnB,iFAAiF;IACjF,UAAU,CAAC,EAAE,MAAM,CAAA;IAEnB,kFAAkF;IAClF,UAAU,CAAC,EAAE,MAAM,CAAA;IAEnB,mDAAmD;IACnD,MAAM,CAAC,EAAE,MAAM,CAAA;IAEf,0BAA0B;IAC1B,OAAO,EAAE,MAAM,CAAA;CAChB,CAAA;AAED,wBAAgB,OAAO,CAAC,MAAM,EAAE,aAAa,GAAG,MAAM,CASrD"}

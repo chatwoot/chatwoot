@@ -1,0 +1,38 @@
+{
+	"name": "slash",
+	"version": "4.0.0",
+	"description": "Convert Windows backslash paths to slash paths",
+	"license": "MIT",
+	"repository": "sindresorhus/slash",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": "./index.js",
+	"engines": {
+		"node": ">=12"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"path",
+		"seperator",
+		"slash",
+		"backslash",
+		"windows",
+		"convert"
+	],
+	"devDependencies": {
+		"ava": "^3.15.0",
+		"tsd": "^0.14.0",
+		"xo": "^0.38.2"
+	}
+}

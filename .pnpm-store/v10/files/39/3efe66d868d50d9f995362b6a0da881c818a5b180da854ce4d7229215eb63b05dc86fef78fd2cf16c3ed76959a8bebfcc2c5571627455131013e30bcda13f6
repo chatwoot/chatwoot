@@ -1,0 +1,41 @@
+
+{{alias}}( frac, exp )
+    Multiplies a double-precision floating-point number by an integer power of
+    two; i.e., `x = frac * 2^exp`.
+
+    If `frac` equals positive or negative `zero`, `NaN`, or positive or negative
+    infinity, the function returns a value equal to `frac`.
+
+    Parameters
+    ----------
+    frac: number
+        Fraction.
+
+    exp: number
+        Exponent.
+
+    Returns
+    -------
+    out: number
+        Double-precision floating-point number equal to `frac * 2^exp`.
+
+    Examples
+    --------
+    > var x = {{alias}}( 0.5, 3 )
+    4.0
+    > x = {{alias}}( 4.0, -2 )
+    1.0
+    > x = {{alias}}( 0.0, 20 )
+    0.0
+    > x = {{alias}}( -0.0, 39 )
+    -0.0
+    > x = {{alias}}( NaN, -101 )
+    NaN
+    > x = {{alias}}( {{alias:@stdlib/constants/float64/pinf}}, 11 )
+    Infinity
+    > x = {{alias}}( {{alias:@stdlib/constants/float64/ninf}}, -118 )
+    -Infinity
+
+    See Also
+    --------
+

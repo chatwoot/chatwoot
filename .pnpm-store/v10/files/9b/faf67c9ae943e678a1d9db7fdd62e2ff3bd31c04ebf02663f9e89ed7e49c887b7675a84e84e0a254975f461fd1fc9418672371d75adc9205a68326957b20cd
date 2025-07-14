@@ -1,0 +1,4 @@
+$flag-icons-path: "../flags" !default;
+$flag-icons-rect-path: "/4x3" !default;
+$flag-icons-square-path: "/1x1" !default;
+$flag-icons-use-square: true !default;

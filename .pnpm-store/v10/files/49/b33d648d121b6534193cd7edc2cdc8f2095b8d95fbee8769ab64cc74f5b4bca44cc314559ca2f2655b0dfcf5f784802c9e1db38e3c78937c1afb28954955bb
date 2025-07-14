@@ -1,0 +1,83 @@
+/* Record Indicator (dot in top-right corner visible when recording)
+--------------------------------------------------------------------------------
+*/
+
+.vjs-record.video-js .vjs-control.vjs-record-indicator.vjs-hidden {
+    display: block!important;
+    opacity: 0;
+    transform: translateX(1em) rotateX(-90deg) scale(0.9);
+    transition: all .5s, transform .5s .25s;
+}
+
+.vjs-record.video-js .vjs-control.vjs-record-indicator {
+    width: .8em;
+    height: .8em;
+    background-color: #ff625e;
+    line-height: 1.1em;
+    border-radius: 50%;
+    right: 2.5ex;
+    top: 2ex;
+    position: absolute;
+    opacity: 1;
+    transform: rotateX(0) scale(1.3);
+    transition: all .5s, transform .2s .1s;
+}
+
+.vjs-record.video-js .vjs-control.vjs-record-indicator:before {
+    content: attr(data-label);
+    color: white;
+    position: absolute;
+    left: -2.7em;
+    font-family: "Helvetica", sans-serif;
+    animation-name: pulsetext;
+    animation-duration: 5s;
+    animation-iteration-count: infinite;
+    top: -0.1em;
+    font-size: 0.8em;
+    opacity: 1;
+    transition: opacity .5s .2s;
+}
+
+.vjs-record.video-js .vjs-control.vjs-record-indicator:after {
+    content: "";
+    display: block;
+    height: calc(.8em - 4px);
+    width: calc(.8em - 4px);
+    border: 2px solid #ff625e;
+    border-radius: 50%;
+    position: absolute;
+    top: 2px;
+    left: 2px;
+    transform-origin: center;
+    animation-name: pulse;
+    animation-duration: 2s;
+    animation-iteration-count: infinite;
+    animation-delay: .25s;
+}
+
+@keyframes pulsetext {
+    from {
+        opacity: .75; }
+    25% {
+        opacity: .5; }
+    50% {
+        opacity: .75; }
+    75% {
+        opacity: .5; }
+    to {
+        opacity: .75;
+    }
+}
+
+@keyframes pulse {
+    from {
+        opacity: 1;
+        transform: scale(1.6); }
+    50% {
+        opacity: .5;
+        transform: scale(2.5); }
+    to {
+        opacity: 0;
+        transform: scale(3.5);
+    }
+}

@@ -1,0 +1,24 @@
+
+{{alias}}( value )
+    Tests if a value is a Uint32Array.
+
+    Parameters
+    ----------
+    value: any
+        Value to test.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating whether value is a Uint32Array.
+
+    Examples
+    --------
+    > var bool = {{alias}}( new {{alias:@stdlib/array/uint32}}( 10 ) )
+    true
+    > bool = {{alias}}( [] )
+    false
+
+    See Also
+    --------
+

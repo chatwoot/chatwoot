@@ -1,0 +1,24 @@
+{
+	"prefix": "logos",
+	"name": "SVG Logos",
+	"total": 1838,
+	"author": {
+		"name": "Gil Barbara",
+		"url": "https://github.com/gilbarbara/logos"
+	},
+	"license": {
+		"title": "CC0",
+		"spdx": "CC0-1.0",
+		"url": "https://raw.githubusercontent.com/gilbarbara/logos/master/LICENSE.txt"
+	},
+	"samples": [
+		"npm-icon",
+		"uikit",
+		"patreon",
+		"serverless",
+		"vue",
+		"modernizr"
+	],
+	"category": "Logos",
+	"palette": true
+}

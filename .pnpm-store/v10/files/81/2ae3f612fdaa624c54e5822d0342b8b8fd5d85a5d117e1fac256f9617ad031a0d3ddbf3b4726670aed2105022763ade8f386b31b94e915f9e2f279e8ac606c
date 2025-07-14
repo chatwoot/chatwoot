@@ -1,0 +1,1981 @@
+import isToday from 'date-fns/isToday';
+import isYesterday from 'date-fns/isYesterday';
+
+/**
+ * Creates a debounced version of a function that delays invoking the provided function
+ * until after a specified wait time has elapsed since the last time it was invoked.
+ *
+ * @param {Function} func - The function to debounce. Will receive any arguments passed to the debounced function.
+ * @param {number} wait - The number of milliseconds to delay execution after the last call.
+ * @param {boolean} [immediate] - If true, the function will execute immediately on the first call,
+ *                               then start the debounce behavior for subsequent calls.
+ * @param {number} [maxWait] - The maximum time the function can be delayed before it's forcibly executed.
+ *                            If specified, the function will be called after this many milliseconds
+ *                            have passed since its last execution, regardless of the debounce wait time.
+ *
+ * @returns {Function} A debounced version of the original function that has the following behavior:
+ *   - Delays execution until `wait` milliseconds have passed since the last call
+ *   - If `immediate` is true, executes on the leading edge of the first call
+ *   - If `maxWait` is provided, ensures the function is called at least once every `maxWait` milliseconds
+ *   - Preserves the `this` context and arguments of the most recent call
+ *   - Cancels pending executions when called again within the wait period
+ *
+ * @example
+ * // Basic debounce
+ * const debouncedSearch = debounce(searchAPI, 300);
+ *
+ * // With immediate execution
+ * const debouncedSave = debounce(saveData, 1000, true);
+ *
+ * // With maximum wait time
+ * const debouncedUpdate = debounce(updateUI, 200, false, 1000);
+ */
+var debounce = function debounce(func, wait, immediate, maxWait) {
+  var timeout = null;
+  var lastInvokeTime = 0;
+  return function () {
+    var _this = this;
+
+    for (var _len = arguments.length, args = new Array(_len), _key = 0; _key < _len; _key++) {
+      args[_key] = arguments[_key];
+    }
+
+    var time = Date.now();
+    var isFirstCall = lastInvokeTime === 0; // Check if this is the first call and immediate execution is requested
+
+    if (isFirstCall && immediate) {
+      lastInvokeTime = time;
+      func.apply(this, args);
+      return;
+    } // Clear any existing timeout
+
+
+    if (timeout !== null) {
+      clearTimeout(timeout);
+      timeout = null;
+    } // Calculate if maxWait threshold has been reached
+
+
+    var timeSinceLastInvoke = time - lastInvokeTime;
+    var shouldInvokeNow = maxWait !== undefined && timeSinceLastInvoke >= maxWait;
+
+    if (shouldInvokeNow) {
+      lastInvokeTime = time;
+      func.apply(this, args);
+      return;
+    } // Set a new timeout
+
+
+    timeout = setTimeout(function () {
+      lastInvokeTime = Date.now();
+      timeout = null;
+      func.apply(_this, args);
+    }, wait);
+  };
+};
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) {
+  try {
+    var info = gen[key](arg);
+    var value = info.value;
+  } catch (error) {
+    reject(error);
+    return;
+  }
+
+  if (info.done) {
+    resolve(value);
+  } else {
+    Promise.resolve(value).then(_next, _throw);
+  }
+}
+
+function _asyncToGenerator(fn) {
+  return function () {
+    var self = this,
+        args = arguments;
+    return new Promise(function (resolve, reject) {
+      var gen = fn.apply(self, args);
+
+      function _next(value) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value);
+      }
+
+      function _throw(err) {
+        asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err);
+      }
+
+      _next(undefined);
+    });
+  };
+}
+
+function _extends() {
+  _extends = Object.assign || function (target) {
+    for (var i = 1; i < arguments.length; i++) {
+      var source = arguments[i];
+
+      for (var key in source) {
+        if (Object.prototype.hasOwnProperty.call(source, key)) {
+          target[key] = source[key];
+        }
+      }
+    }
+
+    return target;
+  };
+
+  return _extends.apply(this, arguments);
+}
+
+function createCommonjsModule(fn, module) {
+	return module = { exports: {} }, fn(module, module.exports), module.exports;
+}
+
+var runtime_1 = createCommonjsModule(function (module) {
+/**
+ * Copyright (c) 2014-present, Facebook, Inc.
+ *
+ * This source code is licensed under the MIT license found in the
+ * LICENSE file in the root directory of this source tree.
+ */
+
+var runtime = (function (exports) {
+
+  var Op = Object.prototype;
+  var hasOwn = Op.hasOwnProperty;
+  var undefined$1; // More compressible than void 0.
+  var $Symbol = typeof Symbol === "function" ? Symbol : {};
+  var iteratorSymbol = $Symbol.iterator || "@@iterator";
+  var asyncIteratorSymbol = $Symbol.asyncIterator || "@@asyncIterator";
+  var toStringTagSymbol = $Symbol.toStringTag || "@@toStringTag";
+
+  function define(obj, key, value) {
+    Object.defineProperty(obj, key, {
+      value: value,
+      enumerable: true,
+      configurable: true,
+      writable: true
+    });
+    return obj[key];
+  }
+  try {
+    // IE 8 has a broken Object.defineProperty that only works on DOM objects.
+    define({}, "");
+  } catch (err) {
+    define = function(obj, key, value) {
+      return obj[key] = value;
+    };
+  }
+
+  function wrap(innerFn, outerFn, self, tryLocsList) {
+    // If outerFn provided and outerFn.prototype is a Generator, then outerFn.prototype instanceof Generator.
+    var protoGenerator = outerFn && outerFn.prototype instanceof Generator ? outerFn : Generator;
+    var generator = Object.create(protoGenerator.prototype);
+    var context = new Context(tryLocsList || []);
+
+    // The ._invoke method unifies the implementations of the .next,
+    // .throw, and .return methods.
+    generator._invoke = makeInvokeMethod(innerFn, self, context);
+
+    return generator;
+  }
+  exports.wrap = wrap;
+
+  // Try/catch helper to minimize deoptimizations. Returns a completion
+  // record like context.tryEntries[i].completion. This interface could
+  // have been (and was previously) designed to take a closure to be
+  // invoked without arguments, but in all the cases we care about we
+  // already have an existing method we want to call, so there's no need
+  // to create a new function object. We can even get away with assuming
+  // the method takes exactly one argument, since that happens to be true
+  // in every case, so we don't have to touch the arguments object. The
+  // only additional allocation required is the completion record, which
+  // has a stable shape and so hopefully should be cheap to allocate.
+  function tryCatch(fn, obj, arg) {
+    try {
+      return { type: "normal", arg: fn.call(obj, arg) };
+    } catch (err) {
+      return { type: "throw", arg: err };
+    }
+  }
+
+  var GenStateSuspendedStart = "suspendedStart";
+  var GenStateSuspendedYield = "suspendedYield";
+  var GenStateExecuting = "executing";
+  var GenStateCompleted = "completed";
+
+  // Returning this object from the innerFn has the same effect as
+  // breaking out of the dispatch switch statement.
+  var ContinueSentinel = {};
+
+  // Dummy constructor functions that we use as the .constructor and
+  // .constructor.prototype properties for functions that return Generator
+  // objects. For full spec compliance, you may wish to configure your
+  // minifier not to mangle the names of these two functions.
+  function Generator() {}
+  function GeneratorFunction() {}
+  function GeneratorFunctionPrototype() {}
+
+  // This is a polyfill for %IteratorPrototype% for environments that
+  // don't natively support it.
+  var IteratorPrototype = {};
+  IteratorPrototype[iteratorSymbol] = function () {
+    return this;
+  };
+
+  var getProto = Object.getPrototypeOf;
+  var NativeIteratorPrototype = getProto && getProto(getProto(values([])));
+  if (NativeIteratorPrototype &&
+      NativeIteratorPrototype !== Op &&
+      hasOwn.call(NativeIteratorPrototype, iteratorSymbol)) {
+    // This environment has a native %IteratorPrototype%; use it instead
+    // of the polyfill.
+    IteratorPrototype = NativeIteratorPrototype;
+  }
+
+  var Gp = GeneratorFunctionPrototype.prototype =
+    Generator.prototype = Object.create(IteratorPrototype);
+  GeneratorFunction.prototype = Gp.constructor = GeneratorFunctionPrototype;
+  GeneratorFunctionPrototype.constructor = GeneratorFunction;
+  GeneratorFunction.displayName = define(
+    GeneratorFunctionPrototype,
+    toStringTagSymbol,
+    "GeneratorFunction"
+  );
+
+  // Helper for defining the .next, .throw, and .return methods of the
+  // Iterator interface in terms of a single ._invoke method.
+  function defineIteratorMethods(prototype) {
+    ["next", "throw", "return"].forEach(function(method) {
+      define(prototype, method, function(arg) {
+        return this._invoke(method, arg);
+      });
+    });
+  }
+
+  exports.isGeneratorFunction = function(genFun) {
+    var ctor = typeof genFun === "function" && genFun.constructor;
+    return ctor
+      ? ctor === GeneratorFunction ||
+        // For the native GeneratorFunction constructor, the best we can
+        // do is to check its .name property.
+        (ctor.displayName || ctor.name) === "GeneratorFunction"
+      : false;
+  };
+
+  exports.mark = function(genFun) {
+    if (Object.setPrototypeOf) {
+      Object.setPrototypeOf(genFun, GeneratorFunctionPrototype);
+    } else {
+      genFun.__proto__ = GeneratorFunctionPrototype;
+      define(genFun, toStringTagSymbol, "GeneratorFunction");
+    }
+    genFun.prototype = Object.create(Gp);
+    return genFun;
+  };
+
+  // Within the body of any async function, `await x` is transformed to
+  // `yield regeneratorRuntime.awrap(x)`, so that the runtime can test
+  // `hasOwn.call(value, "__await")` to determine if the yielded value is
+  // meant to be awaited.
+  exports.awrap = function(arg) {
+    return { __await: arg };
+  };
+
+  function AsyncIterator(generator, PromiseImpl) {
+    function invoke(method, arg, resolve, reject) {
+      var record = tryCatch(generator[method], generator, arg);
+      if (record.type === "throw") {
+        reject(record.arg);
+      } else {
+        var result = record.arg;
+        var value = result.value;
+        if (value &&
+            typeof value === "object" &&
+            hasOwn.call(value, "__await")) {
+          return PromiseImpl.resolve(value.__await).then(function(value) {
+            invoke("next", value, resolve, reject);
+          }, function(err) {
+            invoke("throw", err, resolve, reject);
+          });
+        }
+
+        return PromiseImpl.resolve(value).then(function(unwrapped) {
+          // When a yielded Promise is resolved, its final value becomes
+          // the .value of the Promise<{value,done}> result for the
+          // current iteration.
+          result.value = unwrapped;
+          resolve(result);
+        }, function(error) {
+          // If a rejected Promise was yielded, throw the rejection back
+          // into the async generator function so it can be handled there.
+          return invoke("throw", error, resolve, reject);
+        });
+      }
+    }
+
+    var previousPromise;
+
+    function enqueue(method, arg) {
+      function callInvokeWithMethodAndArg() {
+        return new PromiseImpl(function(resolve, reject) {
+          invoke(method, arg, resolve, reject);
+        });
+      }
+
+      return previousPromise =
+        // If enqueue has been called before, then we want to wait until
+        // all previous Promises have been resolved before calling invoke,
+        // so that results are always delivered in the correct order. If
+        // enqueue has not been called before, then it is important to
+        // call invoke immediately, without waiting on a callback to fire,
+        // so that the async generator function has the opportunity to do
+        // any necessary setup in a predictable way. This predictability
+        // is why the Promise constructor synchronously invokes its
+        // executor callback, and why async functions synchronously
+        // execute code before the first await. Since we implement simple
+        // async functions in terms of async generators, it is especially
+        // important to get this right, even though it requires care.
+        previousPromise ? previousPromise.then(
+          callInvokeWithMethodAndArg,
+          // Avoid propagating failures to Promises returned by later
+          // invocations of the iterator.
+          callInvokeWithMethodAndArg
+        ) : callInvokeWithMethodAndArg();
+    }
+
+    // Define the unified helper method that is used to implement .next,
+    // .throw, and .return (see defineIteratorMethods).
+    this._invoke = enqueue;
+  }
+
+  defineIteratorMethods(AsyncIterator.prototype);
+  AsyncIterator.prototype[asyncIteratorSymbol] = function () {
+    return this;
+  };
+  exports.AsyncIterator = AsyncIterator;
+
+  // Note that simple async functions are implemented on top of
+  // AsyncIterator objects; they just return a Promise for the value of
+  // the final result produced by the iterator.
+  exports.async = function(innerFn, outerFn, self, tryLocsList, PromiseImpl) {
+    if (PromiseImpl === void 0) PromiseImpl = Promise;
+
+    var iter = new AsyncIterator(
+      wrap(innerFn, outerFn, self, tryLocsList),
+      PromiseImpl
+    );
+
+    return exports.isGeneratorFunction(outerFn)
+      ? iter // If outerFn is a generator, return the full iterator.
+      : iter.next().then(function(result) {
+          return result.done ? result.value : iter.next();
+        });
+  };
+
+  function makeInvokeMethod(innerFn, self, context) {
+    var state = GenStateSuspendedStart;
+
+    return function invoke(method, arg) {
+      if (state === GenStateExecuting) {
+        throw new Error("Generator is already running");
+      }
+
+      if (state === GenStateCompleted) {
+        if (method === "throw") {
+          throw arg;
+        }
+
+        // Be forgiving, per 25.3.3.3.3 of the spec:
+        // https://people.mozilla.org/~jorendorff/es6-draft.html#sec-generatorresume
+        return doneResult();
+      }
+
+      context.method = method;
+      context.arg = arg;
+
+      while (true) {
+        var delegate = context.delegate;
+        if (delegate) {
+          var delegateResult = maybeInvokeDelegate(delegate, context);
+          if (delegateResult) {
+            if (delegateResult === ContinueSentinel) continue;
+            return delegateResult;
+          }
+        }
+
+        if (context.method === "next") {
+          // Setting context._sent for legacy support of Babel's
+          // function.sent implementation.
+          context.sent = context._sent = context.arg;
+
+        } else if (context.method === "throw") {
+          if (state === GenStateSuspendedStart) {
+            state = GenStateCompleted;
+            throw context.arg;
+          }
+
+          context.dispatchException(context.arg);
+
+        } else if (context.method === "return") {
+          context.abrupt("return", context.arg);
+        }
+
+        state = GenStateExecuting;
+
+        var record = tryCatch(innerFn, self, context);
+        if (record.type === "normal") {
+          // If an exception is thrown from innerFn, we leave state ===
+          // GenStateExecuting and loop back for another invocation.
+          state = context.done
+            ? GenStateCompleted
+            : GenStateSuspendedYield;
+
+          if (record.arg === ContinueSentinel) {
+            continue;
+          }
+
+          return {
+            value: record.arg,
+            done: context.done
+          };
+
+        } else if (record.type === "throw") {
+          state = GenStateCompleted;
+          // Dispatch the exception by looping back around to the
+          // context.dispatchException(context.arg) call above.
+          context.method = "throw";
+          context.arg = record.arg;
+        }
+      }
+    };
+  }
+
+  // Call delegate.iterator[context.method](context.arg) and handle the
+  // result, either by returning a { value, done } result from the
+  // delegate iterator, or by modifying context.method and context.arg,
+  // setting context.delegate to null, and returning the ContinueSentinel.
+  function maybeInvokeDelegate(delegate, context) {
+    var method = delegate.iterator[context.method];
+    if (method === undefined$1) {
+      // A .throw or .return when the delegate iterator has no .throw
+      // method always terminates the yield* loop.
+      context.delegate = null;
+
+      if (context.method === "throw") {
+        // Note: ["return"] must be used for ES3 parsing compatibility.
+        if (delegate.iterator["return"]) {
+          // If the delegate iterator has a return method, give it a
+          // chance to clean up.
+          context.method = "return";
+          context.arg = undefined$1;
+          maybeInvokeDelegate(delegate, context);
+
+          if (context.method === "throw") {
+            // If maybeInvokeDelegate(context) changed context.method from
+            // "return" to "throw", let that override the TypeError below.
+            return ContinueSentinel;
+          }
+        }
+
+        context.method = "throw";
+        context.arg = new TypeError(
+          "The iterator does not provide a 'throw' method");
+      }
+
+      return ContinueSentinel;
+    }
+
+    var record = tryCatch(method, delegate.iterator, context.arg);
+
+    if (record.type === "throw") {
+      context.method = "throw";
+      context.arg = record.arg;
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    var info = record.arg;
+
+    if (! info) {
+      context.method = "throw";
+      context.arg = new TypeError("iterator result is not an object");
+      context.delegate = null;
+      return ContinueSentinel;
+    }
+
+    if (info.done) {
+      // Assign the result of the finished delegate to the temporary
+      // variable specified by delegate.resultName (see delegateYield).
+      context[delegate.resultName] = info.value;
+
+      // Resume execution at the desired location (see delegateYield).
+      context.next = delegate.nextLoc;
+
+      // If context.method was "throw" but the delegate handled the
+      // exception, let the outer generator proceed normally. If
+      // context.method was "next", forget context.arg since it has been
+      // "consumed" by the delegate iterator. If context.method was
+      // "return", allow the original .return call to continue in the
+      // outer generator.
+      if (context.method !== "return") {
+        context.method = "next";
+        context.arg = undefined$1;
+      }
+
+    } else {
+      // Re-yield the result returned by the delegate method.
+      return info;
+    }
+
+    // The delegate iterator is finished, so forget it and continue with
+    // the outer generator.
+    context.delegate = null;
+    return ContinueSentinel;
+  }
+
+  // Define Generator.prototype.{next,throw,return} in terms of the
+  // unified ._invoke helper method.
+  defineIteratorMethods(Gp);
+
+  define(Gp, toStringTagSymbol, "Generator");
+
+  // A Generator should always return itself as the iterator object when the
+  // @@iterator function is called on it. Some browsers' implementations of the
+  // iterator prototype chain incorrectly implement this, causing the Generator
+  // object to not be returned from this call. This ensures that doesn't happen.
+  // See https://github.com/facebook/regenerator/issues/274 for more details.
+  Gp[iteratorSymbol] = function() {
+    return this;
+  };
+
+  Gp.toString = function() {
+    return "[object Generator]";
+  };
+
+  function pushTryEntry(locs) {
+    var entry = { tryLoc: locs[0] };
+
+    if (1 in locs) {
+      entry.catchLoc = locs[1];
+    }
+
+    if (2 in locs) {
+      entry.finallyLoc = locs[2];
+      entry.afterLoc = locs[3];
+    }
+
+    this.tryEntries.push(entry);
+  }
+
+  function resetTryEntry(entry) {
+    var record = entry.completion || {};
+    record.type = "normal";
+    delete record.arg;
+    entry.completion = record;
+  }
+
+  function Context(tryLocsList) {
+    // The root entry object (effectively a try statement without a catch
+    // or a finally block) gives us a place to store values thrown from
+    // locations where there is no enclosing try statement.
+    this.tryEntries = [{ tryLoc: "root" }];
+    tryLocsList.forEach(pushTryEntry, this);
+    this.reset(true);
+  }
+
+  exports.keys = function(object) {
+    var keys = [];
+    for (var key in object) {
+      keys.push(key);
+    }
+    keys.reverse();
+
+    // Rather than returning an object with a next method, we keep
+    // things simple and return the next function itself.
+    return function next() {
+      while (keys.length) {
+        var key = keys.pop();
+        if (key in object) {
+          next.value = key;
+          next.done = false;
+          return next;
+        }
+      }
+
+      // To avoid creating an additional object, we just hang the .value
+      // and .done properties off the next function object itself. This
+      // also ensures that the minifier will not anonymize the function.
+      next.done = true;
+      return next;
+    };
+  };
+
+  function values(iterable) {
+    if (iterable) {
+      var iteratorMethod = iterable[iteratorSymbol];
+      if (iteratorMethod) {
+        return iteratorMethod.call(iterable);
+      }
+
+      if (typeof iterable.next === "function") {
+        return iterable;
+      }
+
+      if (!isNaN(iterable.length)) {
+        var i = -1, next = function next() {
+          while (++i < iterable.length) {
+            if (hasOwn.call(iterable, i)) {
+              next.value = iterable[i];
+              next.done = false;
+              return next;
+            }
+          }
+
+          next.value = undefined$1;
+          next.done = true;
+
+          return next;
+        };
+
+        return next.next = next;
+      }
+    }
+
+    // Return an iterator with no values.
+    return { next: doneResult };
+  }
+  exports.values = values;
+
+  function doneResult() {
+    return { value: undefined$1, done: true };
+  }
+
+  Context.prototype = {
+    constructor: Context,
+
+    reset: function(skipTempReset) {
+      this.prev = 0;
+      this.next = 0;
+      // Resetting context._sent for legacy support of Babel's
+      // function.sent implementation.
+      this.sent = this._sent = undefined$1;
+      this.done = false;
+      this.delegate = null;
+
+      this.method = "next";
+      this.arg = undefined$1;
+
+      this.tryEntries.forEach(resetTryEntry);
+
+      if (!skipTempReset) {
+        for (var name in this) {
+          // Not sure about the optimal order of these conditions:
+          if (name.charAt(0) === "t" &&
+              hasOwn.call(this, name) &&
+              !isNaN(+name.slice(1))) {
+            this[name] = undefined$1;
+          }
+        }
+      }
+    },
+
+    stop: function() {
+      this.done = true;
+
+      var rootEntry = this.tryEntries[0];
+      var rootRecord = rootEntry.completion;
+      if (rootRecord.type === "throw") {
+        throw rootRecord.arg;
+      }
+
+      return this.rval;
+    },
+
+    dispatchException: function(exception) {
+      if (this.done) {
+        throw exception;
+      }
+
+      var context = this;
+      function handle(loc, caught) {
+        record.type = "throw";
+        record.arg = exception;
+        context.next = loc;
+
+        if (caught) {
+          // If the dispatched exception was caught by a catch block,
+          // then let that catch block handle the exception normally.
+          context.method = "next";
+          context.arg = undefined$1;
+        }
+
+        return !! caught;
+      }
+
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        var record = entry.completion;
+
+        if (entry.tryLoc === "root") {
+          // Exception thrown outside of any try block that could handle
+          // it, so set the completion value of the entire function to
+          // throw the exception.
+          return handle("end");
+        }
+
+        if (entry.tryLoc <= this.prev) {
+          var hasCatch = hasOwn.call(entry, "catchLoc");
+          var hasFinally = hasOwn.call(entry, "finallyLoc");
+
+          if (hasCatch && hasFinally) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            } else if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else if (hasCatch) {
+            if (this.prev < entry.catchLoc) {
+              return handle(entry.catchLoc, true);
+            }
+
+          } else if (hasFinally) {
+            if (this.prev < entry.finallyLoc) {
+              return handle(entry.finallyLoc);
+            }
+
+          } else {
+            throw new Error("try statement without catch or finally");
+          }
+        }
+      }
+    },
+
+    abrupt: function(type, arg) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc <= this.prev &&
+            hasOwn.call(entry, "finallyLoc") &&
+            this.prev < entry.finallyLoc) {
+          var finallyEntry = entry;
+          break;
+        }
+      }
+
+      if (finallyEntry &&
+          (type === "break" ||
+           type === "continue") &&
+          finallyEntry.tryLoc <= arg &&
+          arg <= finallyEntry.finallyLoc) {
+        // Ignore the finally entry if control is not jumping to a
+        // location outside the try/catch block.
+        finallyEntry = null;
+      }
+
+      var record = finallyEntry ? finallyEntry.completion : {};
+      record.type = type;
+      record.arg = arg;
+
+      if (finallyEntry) {
+        this.method = "next";
+        this.next = finallyEntry.finallyLoc;
+        return ContinueSentinel;
+      }
+
+      return this.complete(record);
+    },
+
+    complete: function(record, afterLoc) {
+      if (record.type === "throw") {
+        throw record.arg;
+      }
+
+      if (record.type === "break" ||
+          record.type === "continue") {
+        this.next = record.arg;
+      } else if (record.type === "return") {
+        this.rval = this.arg = record.arg;
+        this.method = "return";
+        this.next = "end";
+      } else if (record.type === "normal" && afterLoc) {
+        this.next = afterLoc;
+      }
+
+      return ContinueSentinel;
+    },
+
+    finish: function(finallyLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.finallyLoc === finallyLoc) {
+          this.complete(entry.completion, entry.afterLoc);
+          resetTryEntry(entry);
+          return ContinueSentinel;
+        }
+      }
+    },
+
+    "catch": function(tryLoc) {
+      for (var i = this.tryEntries.length - 1; i >= 0; --i) {
+        var entry = this.tryEntries[i];
+        if (entry.tryLoc === tryLoc) {
+          var record = entry.completion;
+          if (record.type === "throw") {
+            var thrown = record.arg;
+            resetTryEntry(entry);
+          }
+          return thrown;
+        }
+      }
+
+      // The context.catch method must only be called with a location
+      // argument that corresponds to a known catch block.
+      throw new Error("illegal catch attempt");
+    },
+
+    delegateYield: function(iterable, resultName, nextLoc) {
+      this.delegate = {
+        iterator: values(iterable),
+        resultName: resultName,
+        nextLoc: nextLoc
+      };
+
+      if (this.method === "next") {
+        // Deliberately forget the last sent value so that we don't
+        // accidentally pass it on to the delegate.
+        this.arg = undefined$1;
+      }
+
+      return ContinueSentinel;
+    }
+  };
+
+  // Regardless of whether this script is executing as a CommonJS module
+  // or not, return the runtime object so that we can declare the variable
+  // regeneratorRuntime in the outer scope, which allows this module to be
+  // injected easily by `bin/regenerator --include-runtime script.js`.
+  return exports;
+
+}(
+  // If this script is executing as a CommonJS module, use module.exports
+  // as the regeneratorRuntime namespace. Otherwise create a new empty
+  // object. Either way, the resulting object will be used to initialize
+  // the regeneratorRuntime variable at the top of this file.
+   module.exports 
+));
+
+try {
+  regeneratorRuntime = runtime;
+} catch (accidentalStrictMode) {
+  // This module should not be running in strict mode, so the above
+  // assignment should always work unless something is misconfigured. Just
+  // in case runtime.js accidentally runs in strict mode, we can escape
+  // strict mode using a global Function call. This could conceivably fail
+  // if a Content Security Policy forbids using Function, but in that case
+  // the proper solution is to fix the accidental strict mode problem. If
+  // you've misconfigured your bundler to force strict mode and applied a
+  // CSP to forbid Function, and you're not willing to fix either of those
+  // problems, please detail your unique predicament in a GitHub issue.
+  Function("r", "regeneratorRuntime = r")(runtime);
+}
+});
+
+/**
+ * @name Get contrasting text color
+ * @description Get contrasting text color from a text color
+ * @param bgColor  Background color of text.
+ * @returns contrasting text color
+ */
+
+var getContrastingTextColor = function getContrastingTextColor(bgColor) {
+  var color = bgColor.replace('#', '');
+  var r = parseInt(color.slice(0, 2), 16);
+  var g = parseInt(color.slice(2, 4), 16);
+  var b = parseInt(color.slice(4, 6), 16); // http://stackoverflow.com/a/3943023/112731
+
+  return r * 0.299 + g * 0.587 + b * 0.114 > 186 ? '#000000' : '#FFFFFF';
+};
+/**
+ * @name Get formatted date
+ * @description Get date in today, yesterday or any other date format
+ * @param date  date
+ * @param todayText  Today text
+ * @param yesterdayText  Yesterday text
+ * @returns formatted date
+ */
+
+var formatDate = function formatDate(_ref) {
+  var date = _ref.date,
+      todayText = _ref.todayText,
+      yesterdayText = _ref.yesterdayText;
+  var dateValue = new Date(date);
+  if (isToday(dateValue)) return todayText;
+  if (isYesterday(dateValue)) return yesterdayText;
+  return date;
+};
+/**
+ * @name formatTime
+ * @description Format time to Hour, Minute and Second
+ * @param timeInSeconds  number
+ * @returns formatted time
+ */
+
+var formatTime = function formatTime(timeInSeconds) {
+  var formattedTime = '';
+
+  if (timeInSeconds >= 60 && timeInSeconds < 3600) {
+    var minutes = Math.floor(timeInSeconds / 60);
+    formattedTime = minutes + " Min";
+    var seconds = minutes === 60 ? 0 : Math.floor(timeInSeconds % 60);
+    return formattedTime + ("" + (seconds > 0 ? ' ' + seconds + ' Sec' : ''));
+  }
+
+  if (timeInSeconds >= 3600 && timeInSeconds < 86400) {
+    var hours = Math.floor(timeInSeconds / 3600);
+    formattedTime = hours + " Hr";
+
+    var _minutes = timeInSeconds % 3600 < 60 || hours === 24 ? 0 : Math.floor(timeInSeconds % 3600 / 60);
+
+    return formattedTime + ("" + (_minutes > 0 ? ' ' + _minutes + ' Min' : ''));
+  }
+
+  if (timeInSeconds >= 86400) {
+    var days = Math.floor(timeInSeconds / 86400);
+    formattedTime = days + " Day";
+
+    var _hours = timeInSeconds % 86400 < 3600 || days >= 364 ? 0 : Math.floor(timeInSeconds % 86400 / 3600);
+
+    return formattedTime + ("" + (_hours > 0 ? ' ' + _hours + ' Hr' : ''));
+  }
+
+  return Math.floor(timeInSeconds) + " Sec";
+};
+/**
+ * @name trimContent
+ * @description Trim a string to max length
+ * @param content String to trim
+ * @param maxLength Length of the string to trim, default 1024
+ * @param ellipsis Boolean to add dots at the end of the string, default false
+ * @returns trimmed string
+ */
+
+var trimContent = function trimContent(content, maxLength, ellipsis) {
+  if (content === void 0) {
+    content = '';
+  }
+
+  if (maxLength === void 0) {
+    maxLength = 1024;
+  }
+
+  if (ellipsis === void 0) {
+    ellipsis = false;
+  }
+
+  var trimmedContent = content;
+
+  if (content.length > maxLength) {
+    trimmedContent = content.substring(0, maxLength);
+  }
+
+  if (ellipsis) {
+    trimmedContent = trimmedContent + '...';
+  }
+
+  return trimmedContent;
+};
+/**
+ * @name convertSecondsToTimeUnit
+ * @description Convert seconds to time unit
+ * @param seconds  number
+ * @param unitNames  object
+ * @returns time and unit
+ * @example
+ * convertToUnit(60, { minute: 'm', hour: 'h', day: 'd' }); // { time: 1, unit: 'm' }
+ * convertToUnit(60, { minute: 'Minutes', hour: 'Hours', day: 'Days' }); // { time: 1, unit: 'Minutes' }
+ */
+
+var convertSecondsToTimeUnit = function convertSecondsToTimeUnit(seconds, unitNames) {
+  if (seconds === null || seconds === 0) return {
+    time: '',
+    unit: ''
+  };
+  if (seconds < 3600) return {
+    time: Number((seconds / 60).toFixed(1)),
+    unit: unitNames.minute
+  };
+  if (seconds < 86400) return {
+    time: Number((seconds / 3600).toFixed(1)),
+    unit: unitNames.hour
+  };
+  return {
+    time: Number((seconds / 86400).toFixed(1)),
+    unit: unitNames.day
+  };
+};
+/**
+ * @name fileNameWithEllipsis
+ * @description Truncates a filename while preserving the extension
+ * @param {Object} file - File object containing filename or name property
+ * @param {number} [maxLength=26] - Maximum length of the filename (excluding extension)
+ * @param {string} [ellipsis='…'] - Character to use for truncation
+ * @returns {string} Truncated filename with extension
+ * @example
+ * fileNameWithEllipsis({ filename: 'very-long-filename.pdf' }, 10) // 'very-long-f….pdf'
+ * fileNameWithEllipsis({ name: 'short.txt' }, 10) // 'short.txt'
+ */
+
+var fileNameWithEllipsis = function fileNameWithEllipsis(file, maxLength, ellipsis) {
+  var _ref2, _file$filename;
+
+  if (maxLength === void 0) {
+    maxLength = 26;
+  }
+
+  if (ellipsis === void 0) {
+    ellipsis = '…';
+  }
+
+  var fullName = (_ref2 = (_file$filename = file == null ? void 0 : file.filename) != null ? _file$filename : file == null ? void 0 : file.name) != null ? _ref2 : 'Untitled';
+  var dotIndex = fullName.lastIndexOf('.');
+  if (dotIndex === -1) return fullName;
+  var _ref3 = [fullName.slice(0, dotIndex), fullName.slice(dotIndex)],
+      name = _ref3[0],
+      extension = _ref3[1];
+  if (name.length <= maxLength) return fullName;
+  return "" + name.slice(0, maxLength) + ellipsis + extension;
+};
+/**
+ * @name splitName
+ * @description Splits a full name into firstName and lastName
+ * @param {string} name - Full name of the user
+ * @returns {Object} Object with firstName and lastName
+ * @example
+ * splitName('Mary Jane Smith') // { firstName: 'Mary Jane', lastName: 'Smith' }
+ * splitName('Alice') // { firstName: 'Alice', lastName: '' }
+ * splitName('John Doe') // { firstName: 'John', lastName: 'Doe' }
+ * splitName('') // { firstName: '', lastName: '' }
+ */
+
+var splitName = function splitName(fullName) {
+  var trimmedName = fullName.trim();
+
+  if (!trimmedName) {
+    return {
+      firstName: '',
+      lastName: ''
+    };
+  } // Split the name by spaces
+
+
+  var nameParts = trimmedName.split(/\s+/); // If only one word, treat it as firstName
+
+  if (nameParts.length === 1) {
+    return {
+      firstName: nameParts[0],
+      lastName: ''
+    };
+  } // Last element is lastName, everything else is firstName
+
+
+  var lastName = nameParts.pop() || '';
+  var firstName = nameParts.join(' ');
+  return {
+    firstName: firstName,
+    lastName: lastName
+  };
+};
+/**
+ * Downloads a file from a URL with proper file type handling
+ * @name downloadFile
+ * @description Downloads file from URL with proper type handling and cleanup
+ * @param {Object} options Download configuration options
+ * @param {string} options.url File URL to download
+ * @param {string} options.type File type identifier
+ * @param {string} [options.extension] Optional file extension
+ * @returns {Promise<boolean>} Returns true if download successful, false otherwise
+ */
+
+var downloadFile = /*#__PURE__*/function () {
+  var _ref5 = /*#__PURE__*/_asyncToGenerator( /*#__PURE__*/runtime_1.mark(function _callee(_ref4) {
+    var url, type, _ref4$extension, extension, _filenameMatch$, response, blobData, contentType, fileExtension, dispositionHeader, filenameMatch, filename, blobUrl, link;
+
+    return runtime_1.wrap(function _callee$(_context) {
+      while (1) {
+        switch (_context.prev = _context.next) {
+          case 0:
+            url = _ref4.url, type = _ref4.type, _ref4$extension = _ref4.extension, extension = _ref4$extension === void 0 ? null : _ref4$extension;
+
+            if (!(!url || !type)) {
+              _context.next = 3;
+              break;
+            }
+
+            throw new Error('Invalid download parameters');
+
+          case 3:
+            _context.prev = 3;
+            _context.next = 6;
+            return fetch(url, {
+              cache: 'no-store'
+            });
+
+          case 6:
+            response = _context.sent;
+
+            if (response.ok) {
+              _context.next = 9;
+              break;
+            }
+
+            throw new Error("Download failed: " + response.status);
+
+          case 9:
+            _context.next = 11;
+            return response.blob();
+
+          case 11:
+            blobData = _context.sent;
+            contentType = response.headers.get('content-type');
+            fileExtension = extension || (contentType ? contentType.split('/')[1] : type);
+            dispositionHeader = response.headers.get('content-disposition');
+            filenameMatch = dispositionHeader == null ? void 0 : dispositionHeader.match(/filename="(.*?)"/);
+            filename = (_filenameMatch$ = filenameMatch == null ? void 0 : filenameMatch[1]) != null ? _filenameMatch$ : "attachment_" + Date.now() + "." + fileExtension;
+            blobUrl = URL.createObjectURL(blobData);
+            link = Object.assign(document.createElement('a'), {
+              href: blobUrl,
+              download: filename,
+              style: 'display: none'
+            });
+            document.body.append(link);
+            link.click();
+            link.remove();
+            URL.revokeObjectURL(blobUrl);
+            _context.next = 28;
+            break;
+
+          case 25:
+            _context.prev = 25;
+            _context.t0 = _context["catch"](3);
+            throw _context.t0 instanceof Error ? _context.t0 : new Error('Download failed');
+
+          case 28:
+          case "end":
+            return _context.stop();
+        }
+      }
+    }, _callee, null, [[3, 25]]);
+  }));
+
+  return function downloadFile(_x) {
+    return _ref5.apply(this, arguments);
+  };
+}();
+/**
+ * Extracts file information from a URL or file path.
+ *
+ * @param {string} url - The URL or file path to process
+ * @returns {FileInfo} Object containing file information
+ *
+ * @example
+ * getFileInfo('https://example.com/path/Document%20Name.PDF')
+ * returns {
+ *   name: 'Document Name.PDF',
+ *   type: 'pdf',
+ *   base: 'Document Name'
+ * }
+ *
+ * getFileInfo('invalid/url')
+ * returns {
+ *   name: 'Unknown File',
+ *   type: '',
+ *   base: 'Unknown File'
+ * }
+ */
+
+var getFileInfo = function getFileInfo(url) {
+  var defaultInfo = {
+    name: 'Unknown File',
+    type: '',
+    base: 'Unknown File'
+  };
+
+  if (!url || typeof url !== 'string') {
+    return defaultInfo;
+  }
+
+  try {
+    // Handle both URL and file path cases
+    var cleanUrl = url.split(/[?#]/)[0] // Remove query params and hash
+    .replace(/\\/g, '/'); // Normalize path separators
+
+    var encodedFilename = cleanUrl.split('/').pop();
+
+    if (!encodedFilename) {
+      return defaultInfo;
+    }
+
+    var fileName = decodeURIComponent(encodedFilename); // Handle hidden files (starting with dot)
+
+    if (fileName.startsWith('.') && !fileName.includes('.', 1)) {
+      return {
+        name: fileName,
+        type: '',
+        base: fileName
+      };
+    } // last index is where the file extension starts
+    // This will handle cases where the file name has multiple dots
+
+
+    var lastDotIndex = fileName.lastIndexOf('.');
+
+    if (lastDotIndex === -1 || lastDotIndex === 0) {
+      return {
+        name: fileName,
+        type: '',
+        base: fileName
+      };
+    }
+
+    var base = fileName.slice(0, lastDotIndex);
+    var type = fileName.slice(lastDotIndex + 1).toLowerCase();
+    return {
+      name: fileName,
+      type: type,
+      base: base
+    };
+  } catch (error) {
+    console.error('Error processing file info:', error);
+    return defaultInfo;
+  }
+};
+/**
+ * Formats a number with K/M/B/T suffixes using Intl.NumberFormat
+ * @param {number | string | null | undefined} num - The number to format
+ * @returns {string} Formatted string (e.g., "1.2K", "2.3M", "999")
+ * @example
+ * formatNumber(1234)     // "1.2K"
+ * formatNumber(1000000)  // "1M"
+ * formatNumber(999)      // "999"
+ * formatNumber(12344)    // "12.3K"
+ */
+
+var formatNumber = function formatNumber(num) {
+  var n = Number(num) || 0;
+  return new Intl.NumberFormat('en', {
+    notation: 'compact',
+    maximumFractionDigits: 1
+  }).format(n);
+};
+
+/**
+ * URL related helper functions
+ */
+
+/**
+ * Converts various input formats to URL objects.
+ * Handles URL objects, domain strings, relative paths, and full URLs.
+ * @param {string|URL} input - Input to convert to URL object
+ * @returns {URL|null} URL object or null if input is invalid
+ */
+var toURL = function toURL(input) {
+  if (!input) return null;
+  if (input instanceof URL) return input;
+
+  if (typeof input === 'string' && !input.includes('://') && !input.startsWith('/')) {
+    return new URL("https://" + input);
+  }
+
+  if (typeof input === 'string' && input.startsWith('/')) {
+    return new URL(input, window.location.origin);
+  }
+
+  return new URL(input);
+};
+/**
+ * Determines if two URLs belong to the same host by comparing their normalized URL objects.
+ * Handles various input formats including URL objects, domain strings, relative paths, and full URLs.
+ * Returns false if either URL cannot be parsed or normalized.
+ * @param {string|URL} url1 - First URL to compare
+ * @param {string|URL} url2 - Second URL to compare
+ * @returns {boolean} True if both URLs have the same host, false otherwise
+ */
+
+var isSameHost = function isSameHost(url1, url2) {
+  try {
+    var urlObj1 = toURL(url1);
+    var urlObj2 = toURL(url2);
+    if (!urlObj1 || !urlObj2) return false;
+    return urlObj1.hostname === urlObj2.hostname;
+  } catch (error) {
+    return false;
+  }
+};
+
+var MessageType;
+
+(function (MessageType) {
+  MessageType[MessageType["INCOMING"] = 0] = "INCOMING";
+  MessageType[MessageType["OUTGOING"] = 1] = "OUTGOING";
+  MessageType[MessageType["ACTIVITY"] = 2] = "ACTIVITY";
+  MessageType[MessageType["TEMPLATE"] = 3] = "TEMPLATE";
+})(MessageType || (MessageType = {}));
+
+function getRecipients(lastEmail, conversationContact, inboxEmail, forwardToEmail) {
+  var _emailAttributes$from;
+
+  var to = [];
+  var cc = [];
+  var bcc = []; // Reset emails if there's no lastEmail
+
+  if (!lastEmail) {
+    return {
+      to: to,
+      cc: cc,
+      bcc: bcc
+    };
+  } // Extract values from lastEmail and current conversation context
+
+
+  var messageType = lastEmail.message_type;
+  var isIncoming = messageType === MessageType.INCOMING;
+  var emailAttributes = {};
+
+  if (isIncoming) {
+    var contentAttributes = lastEmail.content_attributes;
+    var email = contentAttributes.email;
+    emailAttributes = {
+      cc: (email == null ? void 0 : email.cc) || [],
+      bcc: (email == null ? void 0 : email.bcc) || [],
+      from: (email == null ? void 0 : email.from) || [],
+      to: []
+    };
+  } else {
+    var _contentAttributes = lastEmail.content_attributes;
+
+    var _ref = _contentAttributes != null ? _contentAttributes : {},
+        _ref$cc_emails = _ref.cc_emails,
+        ccEmails = _ref$cc_emails === void 0 ? [] : _ref$cc_emails,
+        _ref$bcc_emails = _ref.bcc_emails,
+        bccEmails = _ref$bcc_emails === void 0 ? [] : _ref$bcc_emails,
+        _ref$to_emails = _ref.to_emails,
+        toEmails = _ref$to_emails === void 0 ? [] : _ref$to_emails;
+
+    emailAttributes = {
+      cc: ccEmails,
+      bcc: bccEmails,
+      to: toEmails,
+      from: []
+    };
+  }
+
+  var isLastEmailFromContact = false; // this will be false anyway if the last email was outgoing
+
+  isLastEmailFromContact = isIncoming && ((_emailAttributes$from = emailAttributes.from) != null ? _emailAttributes$from : []).includes(conversationContact);
+
+  if (isIncoming) {
+    var _to, _emailAttributes$from2;
+
+    // Reply to sender if incoming
+    (_to = to).push.apply(_to, (_emailAttributes$from2 = emailAttributes.from) != null ? _emailAttributes$from2 : []);
+  } else {
+    var _to2, _emailAttributes$to;
+
+    // Otherwise, reply to the last recipient (for outgoing message)
+    // If there is no to_emails, reply to the conversation contact
+    (_to2 = to).push.apply(_to2, (_emailAttributes$to = emailAttributes.to) != null ? _emailAttributes$to : [conversationContact]);
+  } // Start building the cc list, including additional recipients
+  // If the email had multiple recipients, include them in the cc list
+
+
+  cc = emailAttributes.cc ? [].concat(emailAttributes.cc) : []; // Only include 'to' recipients in cc for incoming emails, not for outgoing
+
+  if (Array.isArray(emailAttributes.to) && isIncoming) {
+    var _cc;
+
+    (_cc = cc).push.apply(_cc, emailAttributes.to);
+  } // Add the conversation contact to cc if the last email wasn't sent by them
+  // Ensure the message is an incoming one
+
+
+  if (!isLastEmailFromContact && isIncoming) {
+    cc.push(conversationContact);
+  } // Process BCC: Remove conversation contact from bcc as it is already in cc
+
+
+  bcc = (emailAttributes.bcc || []).filter(function (emailAddress) {
+    return emailAddress !== conversationContact;
+  }); // Filter out undesired emails from cc:
+  // - Remove conversation contact from cc if they sent the last email
+  // - Remove inbox and forward-to email to prevent loops
+  // - Remove emails matching the reply UUID pattern
+
+  var replyUUIDPattern = /^reply\+([0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12})@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/i;
+  cc = cc.filter(function (email) {
+    if (email === conversationContact && isLastEmailFromContact) {
+      return false;
+    }
+
+    if (email === inboxEmail || email === forwardToEmail) {
+      return false;
+    }
+
+    if (replyUUIDPattern.test(email)) {
+      return false;
+    }
+
+    return true;
+  });
+  bcc = bcc.filter(function (email) {
+    if (email === inboxEmail || email === forwardToEmail || replyUUIDPattern.test(email)) {
+      return false;
+    }
+
+    return true;
+  }); // Deduplicate each recipient list by converting to a Set then back to an array
+
+  to = Array.from(new Set(to));
+  cc = Array.from(new Set(cc));
+  bcc = Array.from(new Set(bcc));
+  return {
+    to: to,
+    cc: cc,
+    bcc: bcc
+  };
+}
+
+/**
+ * Function that parses a string boolean value and returns the corresponding boolean value
+ * @param {string | number} candidate - The string boolean value to be parsed
+ * @return {boolean} - The parsed boolean value
+ */
+function parseBoolean(candidate) {
+  try {
+    // lowercase the string, so TRUE becomes true
+    var candidateString = String(candidate).toLowerCase(); // wrap in boolean to ensure that the return value
+    // is a boolean even if values like 0 or 1 are passed
+
+    return Boolean(JSON.parse(candidateString));
+  } catch (error) {
+    return false;
+  }
+}
+
+/**
+ * Sorts an array of numbers in ascending order.
+ * @param {number[]} arr - The array of numbers to be sorted.
+ * @returns {number[]} - The sorted array.
+ */
+function sortAsc(arr) {
+  // .slice() is used to create a copy of the array so that the original array is not mutated
+  return arr.slice().sort(function (a, b) {
+    return a - b;
+  });
+}
+/**
+ * Calculates the quantile value of an array at a specified percentile.
+ * @param {number[]} arr - The array of numbers to calculate the quantile value from.
+ * @param {number} q - The percentile to calculate the quantile value for.
+ * @returns {number} - The quantile value.
+ */
+
+function quantile(arr, q) {
+  var sorted = sortAsc(arr); // Sort the array in ascending order
+
+  return _quantileForSorted(sorted, q); // Calculate the quantile value
+}
+/**
+ * Clamps a value between a minimum and maximum range.
+ * @param {number} min - The minimum range.
+ * @param {number} max - The maximum range.
+ * @param {number} value - The value to be clamped.
+ * @returns {number} - The clamped value.
+ */
+
+function clamp(min, max, value) {
+  if (value < min) {
+    return min;
+  }
+
+  if (value > max) {
+    return max;
+  }
+
+  return value;
+}
+/**
+ * This method assumes the the array provided is already sorted in ascending order.
+ * It's a helper method for the quantile method and should not be exported as is.
+ *
+ * @param {number[]} arr - The array of numbers to calculate the quantile value from.
+ * @param {number} q - The percentile to calculate the quantile value for.
+ * @returns {number} - The quantile value.
+ */
+
+function _quantileForSorted(sorted, q) {
+  var clamped = clamp(0, 1, q); // Clamp the percentile between 0 and 1
+
+  var pos = (sorted.length - 1) * clamped; // Calculate the index of the element at the specified percentile
+
+  var base = Math.floor(pos); // Find the index of the closest element to the specified percentile
+
+  var rest = pos - base; // Calculate the decimal value between the closest elements
+  // Interpolate the quantile value between the closest elements
+  // Most libraries don't to the interpolation, but I'm just having fun here
+  // also see https://en.wikipedia.org/wiki/Quantile#Estimating_quantiles_from_a_sample
+
+  if (sorted[base + 1] !== undefined) {
+    // in case the position was a integer, the rest will be 0 and the interpolation will be skipped
+    return sorted[base] + rest * (sorted[base + 1] - sorted[base]);
+  } // Return the closest element if there is no interpolation possible
+
+
+  return sorted[base];
+}
+/**
+ * Calculates the quantile values for an array of intervals.
+ * @param {number[]} data - The array of numbers to calculate the quantile values from.
+ * @param {number[]} intervals - The array of intervals to calculate the quantile values for.
+ * @returns {number[]} - The array of quantile values for the intervals.
+ */
+
+
+var getQuantileIntervals = function getQuantileIntervals(data, intervals) {
+  // Sort the array in ascending order before looping through the intervals.
+  // depending on the size of the array and the number of intervals, this can speed up the process by at least twice
+  // for a random array of 100 numbers and 5 intervals, the speedup is 3x
+  var sorted = sortAsc(data);
+  return intervals.map(function (interval) {
+    return _quantileForSorted(sorted, interval);
+  });
+};
+/**
+ * Calculates the relative position of a point from the center of an element
+ *
+ * @param {number} mouseX - The x-coordinate of the mouse pointer
+ * @param {number} mouseY - The y-coordinate of the mouse pointer
+ * @param {DOMRect} rect - The bounding client rectangle of the target element
+ * @returns {{relativeX: number, relativeY: number}} Object containing x and y distances from center
+ */
+
+var calculateCenterOffset = function calculateCenterOffset(mouseX, mouseY, rect) {
+  var centerX = rect.left + rect.width / 2;
+  var centerY = rect.top + rect.height / 2;
+  return {
+    relativeX: mouseX - centerX,
+    relativeY: mouseY - centerY
+  };
+};
+/**
+ * Applies a rotation matrix to coordinates
+ * Used to adjust mouse coordinates based on the current rotation of the image
+ * This function implements a standard 2D rotation matrix transformation:
+ * [x']   [cos(θ) -sin(θ)] [x]
+ * [y'] = [sin(θ)  cos(θ)] [y]
+ *
+ * @see {@link https://mathworld.wolfram.com/RotationMatrix.html} for mathematical derivation
+ *
+ * @param {number} relativeX - X-coordinate relative to center before rotation
+ * @param {number} relativeY - Y-coordinate relative to center before rotation
+ * @param {number} angle - Rotation angle in degrees
+ * @returns {{rotatedX: number, rotatedY: number}} Coordinates after applying rotation matrix
+ */
+
+var applyRotationTransform = function applyRotationTransform(relativeX, relativeY, angle) {
+  var radians = angle * Math.PI / 180;
+  var cos = Math.cos(-radians);
+  var sin = Math.sin(-radians);
+  return {
+    rotatedX: relativeX * cos - relativeY * sin,
+    rotatedY: relativeX * sin + relativeY * cos
+  };
+};
+/**
+ * Converts absolute rotated coordinates to percentage values relative to image dimensions
+ * Ensures values are clamped between 0-100% for valid CSS transform-origin properties
+ *
+ * @param {number} rotatedX - X-coordinate after rotation transformation
+ * @param {number} rotatedY - Y-coordinate after rotation transformation
+ * @param {number} width - Width of the target element
+ * @param {number} height - Height of the target element
+ * @returns {{x: number, y: number}} Normalized coordinates as percentages (0-100%)
+ */
+
+var normalizeToPercentage = function normalizeToPercentage(rotatedX, rotatedY, width, height) {
+  // Convert to percentages (0-100%) relative to image dimensions
+  // 50% represents the center point
+  // The division by (width/2) maps the range [-width/2, width/2] to [-50%, 50%]
+  // Adding 50% shifts this to [0%, 100%]
+  return {
+    x: Math.max(0, Math.min(100, 50 + rotatedX / (width / 2) * 50)),
+    y: Math.max(0, Math.min(100, 50 + rotatedY / (height / 2) * 50))
+  };
+};
+
+var MESSAGE_VARIABLES_REGEX = /{{(.*?)}}/g;
+
+var skipCodeBlocks = function skipCodeBlocks(str) {
+  return str.replace(/```(?:.|\n)+?```/g, '');
+};
+
+var capitalizeName = function capitalizeName(name) {
+  if (!name) return ''; // Return empty string for null or undefined input
+
+  return name.split(' ') // Split the name into words based on spaces
+  .map(function (word) {
+    if (!word) return ''; // Handle empty strings that might result from multiple spaces
+    // Capitalize only the first character, leaving the rest unchanged
+    // This correctly handles accented characters like 'í' in 'Aríel'
+
+    return word.charAt(0).toUpperCase() + word.slice(1);
+  }).join(' '); // Rejoin the words with spaces
+};
+var getFirstName = function getFirstName(_ref) {
+  var user = _ref.user;
+  var firstName = user != null && user.name ? user.name.split(' ').shift() : '';
+  return capitalizeName(firstName);
+};
+var getLastName = function getLastName(_ref2) {
+  var user = _ref2.user;
+
+  if (user && user.name) {
+    var lastName = user.name.split(' ').length > 1 ? user.name.split(' ').pop() : '';
+    return capitalizeName(lastName);
+  }
+
+  return '';
+};
+var getMessageVariables = function getMessageVariables(_ref3) {
+  var _assignee$email;
+
+  var conversation = _ref3.conversation,
+      contact = _ref3.contact;
+  var _conversation$meta = conversation.meta,
+      assignee = _conversation$meta.assignee,
+      sender = _conversation$meta.sender,
+      id = conversation.id,
+      _conversation$custom_ = conversation.custom_attributes,
+      conversationCustomAttributes = _conversation$custom_ === void 0 ? {} : _conversation$custom_;
+
+  var _ref4 = contact || {},
+      contactCustomAttributes = _ref4.custom_attributes;
+
+  var standardVariables = {
+    'contact.name': capitalizeName((sender == null ? void 0 : sender.name) || ''),
+    'contact.first_name': getFirstName({
+      user: sender
+    }),
+    'contact.last_name': getLastName({
+      user: sender
+    }),
+    'contact.email': sender == null ? void 0 : sender.email,
+    'contact.phone': sender == null ? void 0 : sender.phone_number,
+    'contact.id': sender == null ? void 0 : sender.id,
+    'conversation.id': id,
+    'agent.name': capitalizeName((assignee == null ? void 0 : assignee.name) || ''),
+    'agent.first_name': getFirstName({
+      user: assignee
+    }),
+    'agent.last_name': getLastName({
+      user: assignee
+    }),
+    'agent.email': (_assignee$email = assignee == null ? void 0 : assignee.email) != null ? _assignee$email : ''
+  };
+  var conversationCustomAttributeVariables = Object.entries(conversationCustomAttributes != null ? conversationCustomAttributes : {}).reduce(function (acc, _ref5) {
+    var key = _ref5[0],
+        value = _ref5[1];
+    acc["conversation.custom_attribute." + key] = value;
+    return acc;
+  }, {});
+  var contactCustomAttributeVariables = Object.entries(contactCustomAttributes != null ? contactCustomAttributes : {}).reduce(function (acc, _ref6) {
+    var key = _ref6[0],
+        value = _ref6[1];
+    acc["contact.custom_attribute." + key] = value;
+    return acc;
+  }, {});
+
+  var variables = _extends({}, standardVariables, conversationCustomAttributeVariables, contactCustomAttributeVariables);
+
+  return variables;
+};
+var replaceVariablesInMessage = function replaceVariablesInMessage(_ref7) {
+  var message = _ref7.message,
+      variables = _ref7.variables;
+  // @ts-ignore
+  return message == null ? void 0 : message.replace(MESSAGE_VARIABLES_REGEX, function (_, replace) {
+    return variables[replace.trim()] ? variables[replace.trim().toLowerCase()] : '';
+  });
+};
+var getUndefinedVariablesInMessage = function getUndefinedVariablesInMessage(_ref8) {
+  var message = _ref8.message,
+      variables = _ref8.variables;
+  var messageWithOutCodeBlocks = skipCodeBlocks(message);
+  var matches = messageWithOutCodeBlocks.match(MESSAGE_VARIABLES_REGEX);
+  if (!matches) return [];
+  return matches.map(function (match) {
+    return match.replace('{{', '').replace('}}', '').trim();
+  }).filter(function (variable) {
+    return variables[variable] === undefined;
+  });
+};
+
+/**
+ * Creates a typing indicator utility.
+ * @param onStartTyping Callback function to be called when typing starts
+ * @param onStopTyping Callback function to be called when typing stops after delay
+ * @param idleTime Delay for idle time in ms before considering typing stopped
+ * @returns An object with start and stop methods for typing indicator
+ */
+var createTypingIndicator = function createTypingIndicator(onStartTyping, onStopTyping, idleTime) {
+  var timer = null;
+
+  var start = function start() {
+    if (!timer) {
+      onStartTyping();
+    }
+
+    reset();
+  };
+
+  var stop = function stop() {
+    if (timer) {
+      clearTimeout(timer);
+      timer = null;
+      onStopTyping();
+    }
+  };
+
+  var reset = function reset() {
+    if (timer) {
+      clearTimeout(timer);
+    }
+
+    timer = setTimeout(function () {
+      stop();
+    }, idleTime);
+  };
+
+  return {
+    start: start,
+    stop: stop
+  };
+};
+
+/**
+ * Calculates the threshold for an SLA based on the current time and the provided threshold.
+ * @param timeOffset - The time offset in seconds.
+ * @param threshold - The threshold in seconds or null if not applicable.
+ * @returns The calculated threshold in seconds or null if the threshold is null.
+ */
+var calculateThreshold = function calculateThreshold(timeOffset, threshold) {
+  // Calculate the time left for the SLA to breach or the time since the SLA has missed
+  if (threshold === null) return null;
+  var currentTime = Math.floor(Date.now() / 1000);
+  return timeOffset + threshold - currentTime;
+};
+/**
+ * Finds the most urgent SLA status based on the threshold.
+ * @param SLAStatuses - An array of SLAStatus objects.
+ * @returns The most urgent SLAStatus object.
+ */
+
+
+var findMostUrgentSLAStatus = function findMostUrgentSLAStatus(SLAStatuses) {
+  // Sort the SLAs based on the threshold and return the most urgent SLA
+  SLAStatuses.sort(function (sla1, sla2) {
+    return Math.abs(sla1.threshold) - Math.abs(sla2.threshold);
+  });
+  return SLAStatuses[0];
+};
+/**
+ * Formats the SLA time in a human-readable format.
+ * @param seconds - The time in seconds.
+ * @returns A formatted string representing the time.
+ */
+
+
+var formatSLATime = function formatSLATime(seconds) {
+  var units = {
+    y: 31536000,
+    mo: 2592000,
+    d: 86400,
+    h: 3600,
+    m: 60
+  };
+
+  if (seconds < 60) {
+    return '1m';
+  } // we will only show two parts, two max granularity's, h-m, y-d, d-h, m, but no seconds
+
+
+  var parts = [];
+  Object.keys(units).forEach(function (unit) {
+    var value = Math.floor(seconds / units[unit]);
+    if (seconds < 60 && parts.length > 0) return;
+    if (parts.length === 2) return;
+
+    if (value > 0) {
+      parts.push(value + unit);
+      seconds -= value * units[unit];
+    }
+  });
+  return parts.join(' ');
+};
+/**
+ * Creates an SLA object based on the type, applied SLA, and chat details.
+ * @param type - The type of SLA (FRT, NRT, RT).
+ * @param appliedSla - The applied SLA details.
+ * @param chat - The chat details.
+ * @returns An object containing the SLA status or null if conditions are not met.
+ */
+
+
+var createSLAObject = function createSLAObject(type, appliedSla, chat) {
+  var frtThreshold = appliedSla.sla_first_response_time_threshold,
+      nrtThreshold = appliedSla.sla_next_response_time_threshold,
+      rtThreshold = appliedSla.sla_resolution_time_threshold,
+      createdAt = appliedSla.created_at;
+  var firstReplyCreatedAt = chat.first_reply_created_at,
+      waitingSince = chat.waiting_since,
+      status = chat.status;
+  var SLATypes = {
+    FRT: {
+      threshold: calculateThreshold(createdAt, frtThreshold),
+      //   Check FRT only if threshold is not null and first reply hasn't been made
+      condition: frtThreshold !== null && (!firstReplyCreatedAt || firstReplyCreatedAt === 0)
+    },
+    NRT: {
+      threshold: calculateThreshold(waitingSince, nrtThreshold),
+      // Check NRT only if threshold is not null, first reply has been made and we are waiting since
+      condition: nrtThreshold !== null && !!firstReplyCreatedAt && !!waitingSince
+    },
+    RT: {
+      threshold: calculateThreshold(createdAt, rtThreshold),
+      // Check RT only if the conversation is open and threshold is not null
+      condition: status === 'open' && rtThreshold !== null
+    }
+  };
+  var SLAStatus = SLATypes[type];
+  return SLAStatus ? _extends({}, SLAStatus, {
+    type: type
+  }) : null;
+};
+/**
+ * Evaluates SLA conditions and returns an array of SLAStatus objects.
+ * @param appliedSla - The applied SLA details.
+ * @param chat - The chat details.
+ * @returns An array of SLAStatus objects.
+ */
+
+
+var evaluateSLAConditions = function evaluateSLAConditions(appliedSla, chat) {
+  // Filter out the SLA based on conditions and update the object with the breach status(icon, isSlaMissed)
+  var SLATypes = ['FRT', 'NRT', 'RT'];
+  return SLATypes.map(function (type) {
+    return createSLAObject(type, appliedSla, chat);
+  }).filter(function (SLAStatus) {
+    return !!SLAStatus && SLAStatus.condition;
+  }).map(function (SLAStatus) {
+    return _extends({}, SLAStatus, {
+      icon: SLAStatus.threshold <= 0 ? 'flame' : 'alarm',
+      isSlaMissed: SLAStatus.threshold <= 0
+    });
+  });
+};
+/**
+ * Evaluates the SLA status for a given chat and applied SLA.
+ * @param {Object} params - The parameters object.
+ * @param params.appliedSla - The applied SLA details.
+ * @param params.chat - The chat details.
+ * @returns An object containing the most urgent SLA status.
+ */
+
+
+var evaluateSLAStatus = function evaluateSLAStatus(_ref) {
+  var appliedSla = _ref.appliedSla,
+      chat = _ref.chat;
+  if (!appliedSla || !chat) return {
+    type: '',
+    threshold: '',
+    icon: '',
+    isSlaMissed: false
+  }; // Filter out the SLA and create the object for each breach
+
+  var SLAStatuses = evaluateSLAConditions(appliedSla, chat); // Return the most urgent SLA which is latest to breach or has missed
+
+  var mostUrgent = findMostUrgentSLAStatus(SLAStatuses);
+  return mostUrgent ? {
+    type: mostUrgent == null ? void 0 : mostUrgent.type,
+    threshold: formatSLATime(mostUrgent.threshold <= 0 ? -mostUrgent.threshold : mostUrgent.threshold),
+    icon: mostUrgent.icon,
+    isSlaMissed: mostUrgent.isSlaMissed
+  } : {
+    type: '',
+    threshold: '',
+    icon: '',
+    isSlaMissed: false
+  };
+};
+
+/**
+ * Parses various date formats into a JavaScript Date object
+ *
+ * This function handles different date input formats commonly found in conversation data:
+ * - 10-digit timestamps (Unix seconds) - automatically converted to milliseconds
+ * - 13-digit timestamps (Unix milliseconds) - used directly
+ * - String representations of timestamps
+ * - ISO date strings (e.g., "2025-06-01T12:30:00Z")
+ * - Simple date strings (e.g., "2025-06-01") - time defaults to 00:00:00
+ * - Date strings with space-separated time (e.g., "2025-06-01 12:30:00")
+ *
+ * Note: This function follows JavaScript Date constructor behavior for date parsing.
+ * Some invalid dates like "2025-02-30" auto-correct to valid dates (becomes "2025-03-02"),
+ * while malformed strings like "2025-13-01" or "2025-06-01T25:00:00" return null.
+ *
+ * @example
+ * coerceToDate('2025-06-01') // Returns Date object set to 2025-06-01 00:00:00
+ * coerceToDate('2025-06-01T12:30:00Z') // Returns Date object with specified time
+ * coerceToDate(1748834578) // Returns Date object (10-digit timestamp in seconds)
+ * coerceToDate(1748834578000) // Returns Date object (13-digit timestamp in milliseconds)
+ * coerceToDate('1748834578') // Returns Date object (string timestamp converted)
+ * coerceToDate(null) // Returns null
+ * coerceToDate('invalid-date') // Returns null
+ */
+var coerceToDate = function coerceToDate(dateInput) {
+  if (dateInput == null) return null;
+  var timestamp = typeof dateInput === 'number' ? dateInput : null; // Handle string inputs that represent numeric timestamps
+
+  if (timestamp === null && typeof dateInput === 'string' && /^\d+$/.test(dateInput)) {
+    timestamp = Number(dateInput);
+  } // Process numeric timestamps
+
+
+  if (timestamp !== null) {
+    // Convert 10-digit timestamps (seconds) to milliseconds
+    var timestampMs = timestamp.toString().length === 10 ? timestamp * 1000 : timestamp;
+    return new Date(timestampMs);
+  } // Process string date inputs
+
+
+  if (typeof dateInput === 'string') {
+    var dateObj = new Date(dateInput); // Return null for invalid dates
+
+    if (Number.isNaN(dateObj.getTime())) return null; // If no time component is specified, set time to 00:00:00
+    // this is because by default JS will set the time to midnight UTC for that date
+
+    var hasTimeComponent = /T\d{2}:\d{2}(:\d{2})?/.test(dateInput) || /\d{2}:\d{2}/.test(dateInput);
+
+    if (!hasTimeComponent) {
+      dateObj.setHours(0, 0, 0, 0);
+    }
+
+    return dateObj;
+  }
+
+  return null;
+};
+
+export { applyRotationTransform, calculateCenterOffset, clamp, coerceToDate, convertSecondsToTimeUnit, createTypingIndicator, debounce, downloadFile, evaluateSLAStatus, fileNameWithEllipsis, formatDate, formatNumber, formatTime, getContrastingTextColor, getFileInfo, getMessageVariables, getQuantileIntervals, getRecipients, getUndefinedVariablesInMessage, isSameHost, normalizeToPercentage, parseBoolean, quantile, replaceVariablesInMessage, sortAsc, splitName, toURL, trimContent };
+//# sourceMappingURL=utils.esm.js.map

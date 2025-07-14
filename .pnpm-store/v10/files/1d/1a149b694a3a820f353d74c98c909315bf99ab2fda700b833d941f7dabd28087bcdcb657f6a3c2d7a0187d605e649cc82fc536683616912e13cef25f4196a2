@@ -1,0 +1,37 @@
+/*!
+  * devtools-if v9.2.0-beta.30
+  * (c) 2022 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+
+/*!
+  * message-compiler v9.2.0-beta.30
+  * (c) 2022 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+
+/*!
+  * vue-devtools v9.2.0-beta.30
+  * (c) 2022 kazuya kawaguchi
+  * Released under the MIT License.
+  */
+
+/*!
+ * Name: vue-upload-component
+ * Component URI: https://github.com/lian-yue/vue-upload-component#readme
+ * Version: 3.1.17
+ * Author: LianYue
+ * License: Apache-2.0
+ * Description: Vue.js file upload component, Multi-file upload, Upload directory, Drag upload, Drag the directory, Upload multiple files at the same time, html4 (IE 9), `PUT` method, Customize the filter
+ */
+
+/*!
+ Name: vue-upload-component 
+Component URI: https://github.com/lian-yue/vue-upload-component#readme 
+Version: 3.1.16 
+Author: LianYue 
+License: Apache-2.0 
+Description: Vue.js file upload component, Multi-file upload, Upload directory, Drag upload, Drag the directory, Upload multiple files at the same time, html4 (IE 9), `PUT` method, Customize the filter 
+ */
+
+/*! ieee754. BSD-3-Clause License. Feross Aboukhadijeh <https://feross.org/opensource> */
