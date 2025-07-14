@@ -14,8 +14,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
     return process_successful_response(response) if response.success?
 
-    handle_error_response(response, ig_scope_id)
-    {}
+    handle_error_response(response, ig_scope_id) || {}
   end
 
   private
@@ -36,6 +35,7 @@ class Instagram::MessageText < Instagram::BaseMessageText
 
   def handle_error_response(response, ig_scope_id)
     parsed_response = response.parsed_response
+    parsed_response = JSON.parse(parsed_response) if parsed_response.is_a?(String)
     error_message = parsed_response.dig('error', 'message')
     error_code = parsed_response.dig('error', 'code')
 
