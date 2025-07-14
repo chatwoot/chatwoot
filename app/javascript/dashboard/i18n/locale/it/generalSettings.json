@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Premi Invio per selezionare",
       "ENTER_TO_REMOVE": "Premi Invio per rimuovere",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Selezionane uno",
       "SELECT": "Select"
     }

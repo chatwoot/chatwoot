@@ -481,6 +481,37 @@
         "ERROR_MESSAGE": "There was an error updating the assistant, please try again.",
         "NOT_FOUND": "Asistan bulunamadı. Lütfen tekrar deneyin."
       },
+      "SETTINGS": {
+        "BREADCRUMB": {
+          "ASSISTANT": "Assistant"
+        },
+        "BASIC_SETTINGS": {
+          "TITLE": "Basic settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "SYSTEM_SETTINGS": {
+          "TITLE": "System settings",
+          "DESCRIPTION": "Customize what the assistant says when ending a conversation or transferring to a human."
+        },
+        "CONTROL_ITEMS": {
+          "TITLE": "The Fun Stuff",
+          "DESCRIPTION": "Add more control to the assistant. (a bit more visual like a story : Query guardrail → scenarios → output) Nudges user to actually utilise these.",
+          "OPTIONS": {
+            "GUARDRAILS": {
+              "TITLE": "Guardrails",
+              "DESCRIPTION": "Keeps things on track—only the kinds of questions you want your assistant to answer, nothing off-limits or off-topic."
+            },
+            "SCENARIOS": {
+              "TITLE": "Scenarios",
+              "DESCRIPTION": "Give your assistant some context—like “what to do when a user is stuck,” or “how to act during a refund request.”"
+            },
+            "RESPONSE_GUIDELINES": {
+              "TITLE": "Response guidelines",
+              "DESCRIPTION": "The vibe and structure of your assistant’s replies—clear and friendly? Short and snappy? Detailed and formal?"
+            }
+          }
+        }
+      },
       "OPTIONS": {
         "EDIT_ASSISTANT": "Edit Assistant",
         "DELETE_ASSISTANT": "Delete Assistant",

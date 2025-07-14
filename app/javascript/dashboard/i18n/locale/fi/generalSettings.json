@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Paina enter valitaksesi",
       "ENTER_TO_REMOVE": "Paina enter poistaaksesi",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Valitse yksi",
       "SELECT": "Select"
     }

@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Drücken Sie zur Auswahl die Eingabetaste",
       "ENTER_TO_REMOVE": "Drücken Sie zum Entfernen die Eingabetaste",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Eines wählen",
       "SELECT": "Auswählen"
     }

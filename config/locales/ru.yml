@@ -183,7 +183,7 @@ ru:
       csat:
         not_sent_due_to_messaging_window: 'CSAT survey not sent due to outgoing message restrictions'
       auto_resolve:
-        not_sent_due_to_messaging_window: 'Auto-resolve message not sent due to outgoing message restrictions'
+        not_sent_due_to_messaging_window: 'Сообщение автозавершения не отправлено из-за ограничений исходящих сообщений'
       muted: '%{user_name} заглушил(а) этот разговор'
       unmuted: '%{user_name} включил(а) уведомления для разговора'
       auto_resolution_message: 'Разговор закрывается, поскольку он был неактивен в течение длительного времени. Пожалуйста, начните новый разговор, если потребуется дополнительная помощь.'

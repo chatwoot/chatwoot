@@ -619,25 +619,25 @@
     },
     "CSAT": {
       "TITLE": "Включить CSAT",
-      "SUBTITLE": "Automatically trigger CSAT surveys at the end of conversations to understand how customers feel about their support experience. Track satisfaction trends and identify areas for improvement over time.",
+      "SUBTITLE": "Автоматически отправляйте CSAT-опросы в конце диалога, чтобы оценить уровень удовлетворенности клиентов. Отслеживайте динамику и находите точки роста для улучшения сервиса.",
       "DISPLAY_TYPE": {
         "LABEL": "Display type"
       },
       "MESSAGE": {
         "LABEL": "Сообщение",
-        "PLACEHOLDER": "Please enter a message to show users with the form"
+        "PLACEHOLDER": "Добавьте сообщение, которое будет отображено в форме обратной связи"
       },
       "SURVEY_RULE": {
-        "LABEL": "Survey rule",
-        "DESCRIPTION_PREFIX": "Send the survey if the conversation",
-        "DESCRIPTION_SUFFIX": "any of the labels",
+        "LABEL": "Условие опросы",
+        "DESCRIPTION_PREFIX": "Отправить опрос если диалог",
+        "DESCRIPTION_SUFFIX": "метки",
         "OPERATOR": {
           "CONTAINS": "содержит",
           "DOES_NOT_CONTAINS": "не содержит"
         },
-        "SELECT_PLACEHOLDER": "select labels"
+        "SELECT_PLACEHOLDER": "Выбрать метки"
       },
-      "NOTE": "Note: CSAT surveys are sent only once per conversation",
+      "NOTE": "Примечание: опросы CSAT отправляются только один раз для диалога",
       "API": {
         "SUCCESS_MESSAGE": "CSAT settings updated successfully",
         "ERROR_MESSAGE": "We couldn't update CSAT settings. Please try again later."
