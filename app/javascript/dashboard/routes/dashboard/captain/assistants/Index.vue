@@ -1,5 +1,5 @@
 <script setup>
-import { computed, onMounted, ref, nextTick } from 'vue';
+import { computed, onMounted, ref } from 'vue';
 import { useMapGetter, useStore } from 'dashboard/composables/store';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
@@ -7,7 +7,6 @@ import AssistantCard from 'dashboard/components-next/captain/assistant/Assistant
 import DeleteDialog from 'dashboard/components-next/captain/pageComponents/DeleteDialog.vue';
 import PageLayout from 'dashboard/components-next/captain/PageLayout.vue';
 import CaptainPaywall from 'dashboard/components-next/captain/pageComponents/Paywall.vue';
-import CreateAssistantDialog from 'dashboard/components-next/captain/pageComponents/assistant/CreateAssistantDialog.vue';
 import AssistantPageEmptyState from 'dashboard/components-next/captain/pageComponents/emptyStates/AssistantPageEmptyState.vue';
 import FeatureSpotlightPopover from 'dashboard/components-next/feature-spotlight/FeatureSpotlightPopover.vue';
 import LimitBanner from 'dashboard/components-next/captain/pageComponents/response/LimitBanner.vue';
@@ -16,7 +15,6 @@ import { useRouter } from 'vue-router';
 const router = useRouter();
 
 const store = useStore();
-const dialogType = ref('');
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const assistants = useMapGetter('captainAssistants/getRecords');
 const isFetching = computed(() => uiFlags.value.fetchingList);
@@ -28,11 +26,24 @@ const handleDelete = () => {
   deleteAssistantDialog.value.dialogRef.open();
 };
 
-const createAssistantDialog = ref(null);
-
-const handleCreate = () => {
-  dialogType.value = 'create';
-  nextTick(() => createAssistantDialog.value.dialogRef.open());
+const handleCreate = async () => {
+  try {
+    const newAssistant = await store.dispatch('captainAssistants/create', {
+      name: 'Novo Assistente',
+      description: 'Descrição do assistente',
+      config: {
+        product_name: 'Produto',
+        feature_faq: false,
+        feature_memory: false,
+      },
+    });
+    router.push({
+      name: 'captain_assistants_edit',
+      params: { assistantId: newAssistant.id },
+    });
+  } catch (error) {
+    // Error creating assistant
+  }
 };
 
 const handleEdit = () => {
@@ -53,22 +64,15 @@ const handleAction = ({ action, id }) => {
   selectedAssistant.value = assistants.value.find(
     assistant => id === assistant.id
   );
-  nextTick(() => {
-    if (action === 'delete') {
-      handleDelete();
-    }
-    if (action === 'edit') {
-      handleEdit();
-    }
-    if (action === 'viewConnectedInboxes') {
-      handleViewConnectedInboxes();
-    }
-  });
-};
-
-const handleCreateClose = () => {
-  dialogType.value = '';
-  selectedAssistant.value = null;
+  if (action === 'delete') {
+    handleDelete();
+  }
+  if (action === 'edit') {
+    handleEdit();
+  }
+  if (action === 'viewConnectedInboxes') {
+    handleViewConnectedInboxes();
+  }
 };
 
 onMounted(() => store.dispatch('captainAssistants/get'));
@@ -125,14 +129,6 @@ onMounted(() => store.dispatch('captainAssistants/get'));
       ref="deleteAssistantDialog"
       :entity="selectedAssistant"
       type="Assistants"
-    />
-
-    <CreateAssistantDialog
-      v-if="dialogType"
-      ref="createAssistantDialog"
-      :type="dialogType"
-      :selected-assistant="selectedAssistant"
-      @close="handleCreateClose"
     />
   </PageLayout>
 </template>

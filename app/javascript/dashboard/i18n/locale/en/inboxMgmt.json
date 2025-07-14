@@ -224,6 +224,7 @@
           "LABEL": "API Provider",
           "TWILIO": "Twilio",
           "WHATSAPP_CLOUD": "WhatsApp Cloud",
+          "WHATSAPP_QRCODE": "WhatsApp QR Code",
           "360_DIALOG": "360Dialog"
         },
         "INBOX_NAME": {
