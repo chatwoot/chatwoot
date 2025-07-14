@@ -1,8 +1,9 @@
 <script setup>
-import { computed } from 'vue';
+import { computed, ref } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
+import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
 const props = defineProps({
   id: {
@@ -29,6 +30,19 @@ const modelValue = computed({
   get: () => props.isSelected,
   set: () => emit('select', props.id),
 });
+
+const isEditing = ref(false);
+const editedContent = ref(props.content);
+
+const startEdit = () => {
+  isEditing.value = true;
+  editedContent.value = props.content;
+};
+
+const saveEdit = () => {
+  isEditing.value = false;
+  emit('edit', { id: props.id, content: editedContent.value });
+};
 </script>
 
 <template>
@@ -42,11 +56,18 @@ const modelValue = computed({
     <div v-show="selectable" class="absolute top-6 ltr:left-3 rtl:right-3">
       <Checkbox v-model="modelValue" />
     </div>
-    <span class="flex items-center gap-2 text-sm text-n-slate-12">
+    <InlineInput
+      v-if="isEditing"
+      v-model="editedContent"
+      focus-on-mount
+      custom-input-class="flex items-center gap-2 text-sm text-n-slate-12"
+      @blur="saveEdit"
+    />
+    <span v-else class="flex items-center gap-2 text-sm text-n-slate-12">
       {{ content }}
     </span>
     <div class="flex items-center gap-2">
-      <Button icon="i-lucide-pen" slate xs ghost @click="emit('edit', id)" />
+      <Button icon="i-lucide-pen" slate xs ghost @click="startEdit" />
       <span class="w-px h-4 bg-n-weak" />
       <Button
         icon="i-lucide-trash"
