@@ -20,7 +20,7 @@ module DateRangeHelper
   def process_custom_time_range(time_period)
     case time_period[:type]
     when 'dynamic'
-      calculate_dynamic_range(time_period[:value], time_period[:unit])
+      calculate_dynamic_time_range(time_period[:value], time_period[:unit])
     when 'custom'
       parse_date_time(time_period[:start_date].to_s)...parse_date_time(time_period[:end_date].to_s)
     end

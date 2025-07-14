@@ -72,25 +72,10 @@ export default {
     CsatMetricCard,
   },
   props: {
-    // metrics: {
-    //   type: Object,
-    //   required: true,
-    // },
-  },
-  data() {
-    return {
-      csatRatings: CSAT_RATINGS,
-      metrics: {
-        total_count: 12,
-        ratings_count: {
-          2: 1,
-          3: 1,
-          4: 3,
-          5: 7,
-        },
-        total_sent_messages_count: 41,
-      },
-    };
+    metrics: {
+      type: Object,
+      required: true,
+    },
   },
   computed: {
     chartData() {
