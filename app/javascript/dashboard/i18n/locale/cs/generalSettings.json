@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Stiskněte Enter pro vybrání",
       "ENTER_TO_REMOVE": "Stiskněte Enter pro odebrání",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Vyberte jeden",
       "SELECT": "Select"
     }
