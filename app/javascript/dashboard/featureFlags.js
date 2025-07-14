@@ -37,6 +37,7 @@ export const FEATURE_FLAGS = {
   REPORT_V4: 'report_v4',
   CHANNEL_INSTAGRAM: 'channel_instagram',
   CONTACT_CHATWOOT_SUPPORT_TEAM: 'contact_chatwoot_support_team',
+  CAPTAIN_V2: 'captain_integration_v2',
 };
 
 export const PREMIUM_FEATURES = [
@@ -45,4 +46,5 @@ export const PREMIUM_FEATURES = [
   FEATURE_FLAGS.CUSTOM_ROLES,
   FEATURE_FLAGS.AUDIT_LOGS,
   FEATURE_FLAGS.HELP_CENTER,
+  FEATURE_FLAGS.CAPTAIN_V2,
 ];
