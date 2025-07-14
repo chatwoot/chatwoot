@@ -150,6 +150,17 @@
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Buka percakapan"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Tidak ada",
+      "LOW": "Rendah",
+      "MEDIUM": "Sedang",
+      "HIGH": "Tinggi",
+      "URGENT": "Penting"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",
