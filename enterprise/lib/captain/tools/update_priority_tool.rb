@@ -6,7 +6,7 @@ class Captain::Tools::UpdatePriorityTool < Captain::Tools::BaseAgentTool
   def perform(_tool_context, conversation_id:, priority:)
     log_tool_usage('update_priority', { conversation_id: conversation_id, priority: priority })
 
-    return 'Missing required parameter: conversation_id is required' if conversation_id.blank?
+    return 'Missing required parameter: conversation_id' if conversation_id.blank?
 
     conversation = find_conversation(conversation_id)
     return 'Conversation not found' unless conversation
