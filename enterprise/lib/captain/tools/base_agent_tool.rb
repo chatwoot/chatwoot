@@ -4,6 +4,7 @@ class Captain::Tools::BaseAgentTool < Agents::Tool
   def initialize(assistant, user: nil)
     @assistant = assistant
     @user = user
+    @account_user = find_account_user if @user.present?
     super()
   end
 
@@ -21,15 +22,16 @@ class Captain::Tools::BaseAgentTool < Agents::Tool
   private
 
   def user_has_permission(permission)
-    return false if @user.blank?
+    return false if @account_user.blank?
 
-    account_user = AccountUser.find_by(account_id: @assistant.account_id, user_id: @user.id)
-    return false if account_user.blank?
-
-    return account_user.custom_role.permissions.include?(permission) if account_user.custom_role.present?
+    return @account_user.custom_role.permissions.include?(permission) if @account_user.custom_role.present?
 
     # Default permission for agents without custom roles
-    account_user.administrator? || account_user.agent?
+    @account_user.administrator? || @account_user.agent?
+  end
+
+  def find_account_user
+    AccountUser.find_by(account_id: @assistant.account_id, user_id: @user.id)
   end
 
   def account_scoped(model_class)
