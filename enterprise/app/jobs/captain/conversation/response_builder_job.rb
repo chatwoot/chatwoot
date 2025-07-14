@@ -26,9 +26,15 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   delegate :account, :inbox, to: :@conversation
 
   def generate_and_process_response
-    @response = Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
-      message_history: collect_previous_messages
-    )
+    @response = if captain_v2_enabled?
+                  Captain::Assistant::AgentRunnerService.new(assistant: @assistant, user: find_conversation_user).generate_response(
+                    message_history: collect_previous_messages
+                  )
+                else
+                  Captain::Llm::AssistantChatService.new(assistant: @assistant).generate_response(
+                    message_history: collect_previous_messages
+                  )
+                end
 
     return process_action('handoff') if handoff_requested?
 
@@ -103,5 +109,18 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def log_error(error)
     ChatwootExceptionTracker.new(error, account: account).capture_exception
+  end
+
+  def captain_v2_enabled?
+    true
+  end
+
+  def find_conversation_user
+    # TODO: IMPORTANT - The assistant agents are user-facing and their tools should NOT need permission limits.
+    # The tools themselves must be built to ensure they don't perform any wrong/harmful actions.
+    # Currently returning first admin as a temporary solution.
+    # Future: Consider creating a dedicated system user for assistant operations.
+
+    account.administrators.first
   end
 end
