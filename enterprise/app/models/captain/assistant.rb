@@ -69,15 +69,11 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
-  def agent(user)
-    # Get enabled scenario agents as handoff agents
-    handoff_agents = scenarios.enabled.map { |scenario| scenario.agent(user) }
-
-    # Create the main assistant agent with scenario agents as handoffs
+  def agent(_user)
     Agents::Agent.new(
       name: name,
       instructions: agent_instructions,
-      handoff_agents: handoff_agents
+      model: 'gpt-4.1-mini'
     )
   end
 
