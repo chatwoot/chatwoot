@@ -1,18 +1,11 @@
 class Captain::Tools::SearchContactTool < Captain::Tools::BaseAgentTool
-  def name
-    'search_contact'
-  end
+  description 'Search for a contact by email, phone number, or identifier'
+  param :query, type: 'string', desc: 'Email, phone number, or identifier to search for'
 
-  def display_name
-    'Search Contact'
-  end
+  def perform(_tool_context, query:)
+    log_tool_usage('search_contact', { query: query })
 
-  def description
-    'Search for a contact by email, phone number, or identifier'
-  end
-
-  def execute(arguments = {})
-    query = arguments[:query]&.strip
+    query = query&.strip
     return error_response('Query is required') if query.blank?
 
     contact = find_contact(query)
@@ -22,19 +15,6 @@ class Captain::Tools::SearchContactTool < Captain::Tools::BaseAgentTool
     else
       error_response('No contact found')
     end
-  end
-
-  def json_schema
-    {
-      type: 'object',
-      properties: {
-        query: {
-          type: 'string',
-          description: 'Email, phone number, or identifier to search for'
-        }
-      },
-      required: ['query']
-    }
   end
 
   private

@@ -1,19 +1,10 @@
 class Captain::Tools::AddLabelToConversationTool < Captain::Tools::BaseAgentTool
-  def name
-    'add_label_to_conversation'
-  end
+  description 'Add a label to a conversation'
+  param :conversation_id, type: 'integer', desc: 'The ID of the conversation'
+  param :label_name, type: 'string', desc: 'The name of the label to add'
 
-  def display_name
-    'Add Label to Conversation'
-  end
-
-  def description
-    'Add a label to a conversation'
-  end
-
-  def execute(arguments = {})
-    conversation_id = arguments[:conversation_id]
-    label_name = arguments[:label_name]&.strip&.downcase
+  def perform(_tool_context, conversation_id:, label_name:)
+    label_name = label_name&.strip&.downcase
 
     return error_response('Conversation ID is required') if conversation_id.blank?
     return error_response('Label name is required') if label_name.blank?
@@ -29,23 +20,6 @@ class Captain::Tools::AddLabelToConversationTool < Captain::Tools::BaseAgentTool
     log_tool_usage('added_label', conversation_id: conversation_id, label: label_name)
 
     success_response(conversation, label_name)
-  end
-
-  def json_schema
-    {
-      type: 'object',
-      properties: {
-        conversation_id: {
-          type: 'integer',
-          description: 'The ID of the conversation'
-        },
-        label_name: {
-          type: 'string',
-          description: 'The name of the label to add'
-        }
-      },
-      required: %w[conversation_id label_name]
-    }
   end
 
   private
