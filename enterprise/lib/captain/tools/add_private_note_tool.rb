@@ -6,7 +6,7 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
   def perform(_tool_context, conversation_id:, note:)
     log_tool_usage('add_private_note', { conversation_id: conversation_id, note_length: note.length })
 
-    return 'Missing required parameters: conversation_id and note are required' if conversation_id.blank? || note.blank?
+    return 'Missing required parameters: conversation_id, note' if conversation_id.blank? || note.blank?
 
     conversation = find_conversation(conversation_id)
     return 'Conversation not found' unless conversation
