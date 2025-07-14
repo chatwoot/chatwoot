@@ -11,6 +11,7 @@ if resource.custom_attributes.present?
     json.timezone resource.custom_attributes['timezone'] if resource.custom_attributes['timezone'].present?
     json.logo resource.custom_attributes['logo'] if resource.custom_attributes['logo'].present?
     json.onboarding_step resource.custom_attributes['onboarding_step'] if resource.custom_attributes['onboarding_step'].present?
+    json.onboarding_completed resource.custom_attributes['onboarding_completed'] if resource.custom_attributes['onboarding_completed'].present?
     json.marked_for_deletion_at resource.custom_attributes['marked_for_deletion_at'] if resource.custom_attributes['marked_for_deletion_at'].present?
     if resource.custom_attributes['marked_for_deletion_reason'].present?
       json.marked_for_deletion_reason resource.custom_attributes['marked_for_deletion_reason']

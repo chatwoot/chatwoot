@@ -3,7 +3,7 @@ import { useVuelidate } from '@vuelidate/core';
 import { required, minLength, email } from '@vuelidate/validators';
 import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
-import { DEFAULT_REDIRECT_URL } from 'dashboard/constants/globals';
+import globalConfigMixin from 'shared/mixins/globalConfigMixin';
 import VueHcaptcha from '@hcaptcha/vue3-hcaptcha';
 import FormInput from '../../../../../components/Form/Input.vue';
 import NextButton from 'dashboard/components-next/button/Button.vue';
