@@ -1,0 +1,28 @@
+
+{{alias}}( value )
+    Returns the prototype of a provided object.
+
+    In contrast to the native `Object.getPrototypeOf`, this function does not
+    throw when provided `null` or `undefined`. Instead, similar to when provided
+    any value with *no* inherited properties, the function returns `null`.
+
+    Value arguments other than `null` or `undefined` are coerced to objects.
+
+    Parameters
+    ----------
+    value: any
+        Input value.
+
+    Returns
+    -------
+    out: Object|null
+        Prototype.
+
+    Examples
+    --------
+    > var proto = {{alias}}( {} )
+    {}
+
+    See Also
+    --------
+

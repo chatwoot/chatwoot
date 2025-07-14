@@ -1,0 +1,58 @@
+
+{{alias}}( path[, options], clbk )
+    Asynchronously resolves a path by walking parent directories.
+
+    If unable to resolve a path, the function returns `null` as the path result.
+
+    Parameters
+    ----------
+    path: string
+        Path to resolve.
+
+    options: Object (optional)
+        Options.
+
+    options.dir: string (optional)
+        Base directory from which to search. Default: current working directory.
+
+    clbk: Function
+        Callback to invoke after resolving a path.
+
+    Examples
+    --------
+    > function onPath( error, path ) {
+    ...     if ( error ) {
+    ...         console.error( error.message );
+    ...     } else {
+    ...         console.log( path );
+    ...     }
+    ... };
+    > {{alias}}( 'package.json', onPath );
+
+
+{{alias}}.sync( path[, options] )
+    Synchronously resolves a path by walking parent directories.
+
+    Parameters
+    ----------
+    path: string
+        Path to resolve.
+
+    options: Object (optional)
+        Options.
+
+    options.dir: string (optional)
+        Base directory from which to search. Default: current working directory.
+
+    Returns
+    -------
+    out: string|null
+        Resolved path.
+
+    Examples
+    --------
+    > var out = {{alias}}.sync( 'package.json' );
+
+    See Also
+    --------
+

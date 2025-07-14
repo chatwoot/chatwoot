@@ -1,0 +1,23 @@
+
+{{alias}}( clbk[, ...args] )
+    Adds a callback to the "next tick queue".
+
+    The queue is fully drained after the current operation on the JavaScript
+    stack runs to completion and before the event loop is allowed to continue.
+
+    Parameters
+    ----------
+    clbk: Function
+        Callback to invoke.
+
+    ...args: any (optional)
+        Arguments to provide to the callback upon invocation.
+
+    Examples
+    --------
+    > function f() { console.log( 'beep' ); };
+    > {{alias}}( f )
+
+    See Also
+    --------
+

@@ -1,0 +1,822 @@
+{
+  "schemaVersion": "1.0.0",
+  "readme": "",
+  "modules": [
+    {
+      "kind": "javascript-module",
+      "path": "src/base-styles.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "baseStyles",
+          "default": "css`\n  :host {\n    --ninja-width: 640px;\n    --ninja-backdrop-filter: none;\n    --ninja-overflow-background: rgba(255, 255, 255, 0.5);\n    --ninja-text-color: rgb(60, 65, 73);\n    --ninja-font-size: 16px;\n    --ninja-top: 20%;\n\n    --ninja-key-border-radius: 0.25em;\n    --ninja-accent-color: rgb(110, 94, 210);\n    --ninja-secondary-background-color: rgb(239, 241, 244);\n    --ninja-secondary-text-color: rgb(107, 111, 118);\n\n    --ninja-selected-background: rgb(248, 249, 251);\n\n    --ninja-icon-color: var(--ninja-secondary-text-color);\n    --ninja-icon-size: 1.2em;\n    --ninja-separate-border: 1px solid var(--ninja-secondary-background-color);\n\n    --ninja-modal-background: #fff;\n    --ninja-modal-shadow: rgb(0 0 0 / 50%) 0px 16px 70px;\n\n    --ninja-actions-height: 300px;\n    --ninja-group-text-color: rgb(144, 149, 157);\n\n    --ninja-footer-background: rgba(242, 242, 242, 0.4);\n\n    font-size: var(--ninja-font-size);\n  }\n\n  :host(.dark) {\n    --ninja-backdrop-filter: none;\n    --ninja-overflow-background: rgba(0, 0, 0, 0.7);\n    --ninja-text-color: #7d7d7d;\n\n    --ninja-modal-background: rgba(17, 17, 17, 0.85);\n    --ninja-accent-color: rgb(110, 94, 210);\n    --ninja-secondary-background-color: rgba(51, 51, 51, 0.44);\n    --ninja-secondary-text-color: #888;\n\n    --ninja-selected-text-color: #eaeaea;\n    --ninja-selected-background: rgba(51, 51, 51, 0.44);\n\n    --ninja-icon-color: var(--ninja-secondary-text-color);\n    --ninja-separate-border: 1px solid var(--ninja-secondary-background-color);\n\n    --ninja-modal-shadow: 0 16px 70px rgba(0, 0, 0, 0.2);\n\n    --ninja-group-text-color: rgb(144, 149, 157);\n\n    --ninja-footer-background: rgba(30, 30, 30, 85%);\n  }\n\n  .modal {\n    display: none;\n    position: fixed;\n    z-index: 1;\n    left: 0;\n    top: 0;\n    width: 100%;\n    height: 100%;\n    overflow: auto;\n    background: var(--ninja-overflow-background);\n    -webkit-font-smoothing: antialiased;\n    -moz-osx-font-smoothing: grayscale;\n    backdrop-filter: var(--ninja-backdrop-filter);\n    text-align: left;\n    color: var(--ninja-text-color);\n    font-family: var(--ninja-font-family);\n  }\n  .modal.visible {\n    display: block;\n  }\n\n  .modal-content {\n    position: relative;\n    top: var(--ninja-top);\n    margin: auto;\n    padding: 0;\n    display: flex;\n    flex-direction: column;\n    flex-shrink: 1;\n    -webkit-box-flex: 1;\n    flex-grow: 1;\n    min-width: 0px;\n    will-change: transform;\n    background: var(--ninja-modal-background);\n    border-radius: 0.5em;\n    box-shadow: var(--ninja-modal-shadow);\n    max-width: var(--ninja-width);\n    overflow: hidden;\n  }\n\n  .bump {\n    animation: zoom-in-zoom-out 0.2s ease;\n  }\n\n  @keyframes zoom-in-zoom-out {\n    0% {\n      transform: scale(0.99);\n    }\n    50% {\n      transform: scale(1.01, 1.01);\n    }\n    100% {\n      transform: scale(1, 1);\n    }\n  }\n\n  .ninja-github {\n    color: var(--ninja-keys-text-color);\n    font-weight: normal;\n    text-decoration: none;\n  }\n\n  .actions-list {\n    max-height: var(--ninja-actions-height);\n    overflow: auto;\n    scroll-behavior: smooth;\n    position: relative;\n    margin: 0;\n    padding: 0.5em 0;\n    list-style: none;\n    scroll-behavior: smooth;\n  }\n\n  .group-header {\n    height: 1.375em;\n    line-height: 1.375em;\n    padding-left: 1.25em;\n    padding-top: 0.5em;\n    text-overflow: ellipsis;\n    white-space: nowrap;\n    overflow: hidden;\n    font-size: 0.75em;\n    line-height: 1em;\n    color: var(--ninja-group-text-color);\n    margin: 1px 0;\n  }\n\n  .modal-footer {\n    background: var(--ninja-footer-background);\n    padding: 0.5em 1em;\n    display: flex;\n    /* font-size: 0.75em; */\n    border-top: var(--ninja-separate-border);\n    color: var(--ninja-secondary-text-color);\n  }\n\n  .modal-footer .help {\n    display: flex;\n    margin-right: 1em;\n    align-items: center;\n    font-size: 0.75em;\n  }\n\n  .ninja-examplekey {\n    background: var(--ninja-secondary-background-color);\n    padding: 0.06em 0.25em;\n    border-radius: var(--ninja-key-border-radius);\n    color: var(--ninja-secondary-text-color);\n    width: 1em;\n    height: 1em;\n    margin-right: 0.5em;\n    font-size: 1.25em;\n    fill: currentColor;\n  }\n  .ninja-examplekey.esc {\n    width: auto;\n    height: auto;\n    font-size: 1.1em;\n  }\n  .ninja-examplekey.backspace {\n    opacity: 0.7;\n  }\n`"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "baseStyles",
+          "declaration": {
+            "name": "baseStyles",
+            "module": "src/base-styles.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/ninja-action.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NinjaAction",
+          "members": [
+            {
+              "kind": "field",
+              "name": "action",
+              "type": {
+                "text": "INinjaAction"
+              },
+              "attribute": "action"
+            },
+            {
+              "kind": "field",
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "selected"
+            },
+            {
+              "kind": "field",
+              "name": "hotKeysJoinedView",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Display hotkey as separate buttons on UI or as is",
+              "attribute": "hotKeysJoinedView"
+            },
+            {
+              "kind": "method",
+              "name": "ensureInView",
+              "description": "Scroll to show element"
+            },
+            {
+              "kind": "method",
+              "name": "click"
+            }
+          ],
+          "events": [
+            {
+              "name": "actionsSelected",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "action",
+              "type": {
+                "text": "INinjaAction"
+              },
+              "fieldName": "action"
+            },
+            {
+              "name": "selected",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "selected"
+            },
+            {
+              "name": "hotKeysJoinedView",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Display hotkey as separate buttons on UI or as is",
+              "fieldName": "hotKeysJoinedView"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ninja-action",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NinjaAction",
+          "declaration": {
+            "name": "NinjaAction",
+            "module": "src/ninja-action.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ninja-action",
+          "declaration": {
+            "name": "NinjaAction",
+            "module": "src/ninja-action.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/ninja-footer.ts",
+      "declarations": [
+        {
+          "kind": "variable",
+          "name": "footerHtml",
+          "default": "html` <div class=\"modal-footer\" slot=\"footer\">\n  <span class=\"help\">\n    <svg\n      version=\"1.0\"\n      class=\"ninja-examplekey\"\n      xmlns=\"http://www.w3.org/2000/svg\"\n      viewBox=\"0 0 1280 1280\"\n    >\n      <path\n        d=\"M1013 376c0 73.4-.4 113.3-1.1 120.2a159.9 159.9 0 0 1-90.2 127.3c-20 9.6-36.7 14-59.2 15.5-7.1.5-121.9.9-255 1h-242l95.5-95.5 95.5-95.5-38.3-38.2-38.2-38.3-160 160c-88 88-160 160.4-160 161 0 .6 72 73 160 161l160 160 38.2-38.3 38.3-38.2-95.5-95.5-95.5-95.5h251.1c252.9 0 259.8-.1 281.4-3.6 72.1-11.8 136.9-54.1 178.5-116.4 8.6-12.9 22.6-40.5 28-55.4 4.4-12 10.7-36.1 13.1-50.6 1.6-9.6 1.8-21 2.1-132.8l.4-122.2H1013v110z\"\n      />\n    </svg>\n\n    to select\n  </span>\n  <span class=\"help\">\n    <svg\n      xmlns=\"http://www.w3.org/2000/svg\"\n      class=\"ninja-examplekey\"\n      viewBox=\"0 0 24 24\"\n    >\n      <path d=\"M0 0h24v24H0V0z\" fill=\"none\" />\n      <path\n        d=\"M20 12l-1.41-1.41L13 16.17V4h-2v12.17l-5.58-5.59L4 12l8 8 8-8z\"\n      />\n    </svg>\n    <svg\n      xmlns=\"http://www.w3.org/2000/svg\"\n      class=\"ninja-examplekey\"\n      viewBox=\"0 0 24 24\"\n    >\n      <path d=\"M0 0h24v24H0V0z\" fill=\"none\" />\n      <path d=\"M4 12l1.41 1.41L11 7.83V20h2V7.83l5.58 5.59L20 12l-8-8-8 8z\" />\n    </svg>\n    to navigate\n  </span>\n  <span class=\"help\">\n    <span class=\"ninja-examplekey esc\">esc</span>\n    to close\n  </span>\n  <span class=\"help\">\n    <svg\n      xmlns=\"http://www.w3.org/2000/svg\"\n      class=\"ninja-examplekey backspace\"\n      viewBox=\"0 0 20 20\"\n      fill=\"currentColor\"\n    >\n      <path\n        fill-rule=\"evenodd\"\n        d=\"M6.707 4.879A3 3 0 018.828 4H15a3 3 0 013 3v6a3 3 0 01-3 3H8.828a3 3 0 01-2.12-.879l-4.415-4.414a1 1 0 010-1.414l4.414-4.414zm4 2.414a1 1 0 00-1.414 1.414L10.586 10l-1.293 1.293a1 1 0 101.414 1.414L12 11.414l1.293 1.293a1 1 0 001.414-1.414L13.414 10l1.293-1.293a1 1 0 00-1.414-1.414L12 8.586l-1.293-1.293z\"\n        clip-rule=\"evenodd\"\n      />\n    </svg>\n    move to parent\n  </span>\n</div>`"
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "footerHtml",
+          "declaration": {
+            "name": "footerHtml",
+            "module": "src/ninja-footer.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/ninja-header.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NinjaHeader",
+          "members": [
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "hideBreadcrumbs",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "attribute": "hideBreadcrumbs"
+            },
+            {
+              "kind": "field",
+              "name": "breadcrumbHome",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Home'",
+              "attribute": "breadcrumbHome"
+            },
+            {
+              "kind": "field",
+              "name": "breadcrumbs",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "attribute": "breadcrumbs"
+            },
+            {
+              "kind": "field",
+              "name": "_inputRef",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "setSearch",
+              "parameters": [
+                {
+                  "name": "value",
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "focusSearch"
+            },
+            {
+              "kind": "method",
+              "name": "_handleInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "selectParent",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "breadcrumb",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_close"
+            }
+          ],
+          "events": [
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "setParent",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "close",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "''",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "hideBreadcrumbs",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "fieldName": "hideBreadcrumbs"
+            },
+            {
+              "name": "breadcrumbHome",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Home'",
+              "fieldName": "breadcrumbHome"
+            },
+            {
+              "name": "breadcrumbs",
+              "type": {
+                "text": "string[]"
+              },
+              "default": "[]",
+              "fieldName": "breadcrumbs"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ninja-header",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NinjaHeader",
+          "declaration": {
+            "name": "NinjaHeader",
+            "module": "src/ninja-header.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ninja-header",
+          "declaration": {
+            "name": "NinjaHeader",
+            "module": "src/ninja-header.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/ninja-keys.ts",
+      "declarations": [
+        {
+          "kind": "class",
+          "description": "",
+          "name": "NinjaKeys",
+          "members": [
+            {
+              "kind": "field",
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Type a command or search...'",
+              "description": "Search placeholder text",
+              "attribute": "placeholder"
+            },
+            {
+              "kind": "field",
+              "name": "disableHotkeys",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true will register all hotkey for all actions",
+              "attribute": "disableHotkeys"
+            },
+            {
+              "kind": "field",
+              "name": "hideBreadcrumbs",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show or hide breadcrumbs on header",
+              "attribute": "hideBreadcrumbs"
+            },
+            {
+              "kind": "field",
+              "name": "openHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'cmd+k,ctrl+k'",
+              "description": "Open or hide shorcut",
+              "attribute": "openHotkey"
+            },
+            {
+              "kind": "field",
+              "name": "navigationUpHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'up,shift+tab'",
+              "description": "Navigation Up hotkey",
+              "attribute": "navigationUpHotkey"
+            },
+            {
+              "kind": "field",
+              "name": "navigationDownHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'down,tab'",
+              "description": "Navigation Down hotkey",
+              "attribute": "navigationDownHotkey"
+            },
+            {
+              "kind": "field",
+              "name": "closeHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'esc'",
+              "description": "Close hotkey",
+              "attribute": "closeHotkey"
+            },
+            {
+              "kind": "field",
+              "name": "goBackHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'backspace'",
+              "description": "Go back on one level if has parent menu",
+              "attribute": "goBackHotkey"
+            },
+            {
+              "kind": "field",
+              "name": "selectHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'enter'",
+              "description": "Select action and execute handler or open submenu",
+              "attribute": "selectHotkey"
+            },
+            {
+              "kind": "field",
+              "name": "hotKeysJoinedView",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show or hide breadcrumbs on header",
+              "attribute": "hotKeysJoinedView"
+            },
+            {
+              "kind": "field",
+              "name": "noAutoLoadMdIcons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable load material icons font on connect\nIf you use custom icons.\nSet this attribute to prevent load default icons font",
+              "attribute": "noAutoLoadMdIcons"
+            },
+            {
+              "kind": "field",
+              "name": "data",
+              "default": "[]",
+              "description": "Array of actions",
+              "attribute": "data"
+            },
+            {
+              "kind": "method",
+              "name": "open",
+              "parameters": [
+                {
+                  "name": "options",
+                  "default": "{}",
+                  "type": {
+                    "text": "{parent?: string}"
+                  }
+                }
+              ],
+              "description": "Show a modal"
+            },
+            {
+              "kind": "method",
+              "name": "close",
+              "description": "Close modal"
+            },
+            {
+              "kind": "method",
+              "name": "setParent",
+              "parameters": [
+                {
+                  "name": "parent",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  },
+                  "description": "id of parent group/action"
+                }
+              ],
+              "description": "Navigate to group of actions"
+            },
+            {
+              "kind": "field",
+              "name": "visible",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show or hide element"
+            },
+            {
+              "kind": "field",
+              "name": "_bump",
+              "type": {
+                "text": "boolean"
+              },
+              "privacy": "private",
+              "default": "true",
+              "description": "Temproray used for animation effect. TODO: change to animate logic"
+            },
+            {
+              "kind": "field",
+              "name": "_actionMatches",
+              "privacy": "private",
+              "default": "[]"
+            },
+            {
+              "kind": "field",
+              "name": "_search",
+              "type": {
+                "text": "string"
+              },
+              "privacy": "private",
+              "default": "''"
+            },
+            {
+              "kind": "field",
+              "name": "_currentRoot",
+              "type": {
+                "text": "string | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_flatData",
+              "default": "[]",
+              "description": "Array of actions in flat structure"
+            },
+            {
+              "kind": "field",
+              "name": "breadcrumbs",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_selected",
+              "type": {
+                "text": "INinjaAction | undefined"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_flattern",
+              "privacy": "private",
+              "return": {
+                "type": {
+                  "text": "INinjaAction[]"
+                }
+              },
+              "parameters": [
+                {
+                  "name": "members",
+                  "type": {
+                    "text": "INinjaAction[]"
+                  }
+                },
+                {
+                  "name": "parent",
+                  "optional": true,
+                  "type": {
+                    "text": "string"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_registerInternalHotkeys",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_actionFocused",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "index",
+                  "type": {
+                    "text": "INinjaAction"
+                  }
+                },
+                {
+                  "name": "$event",
+                  "type": {
+                    "text": "MouseEvent"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_onTransitionEnd",
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_goBack",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_headerRef",
+              "privacy": "private"
+            },
+            {
+              "kind": "field",
+              "name": "_selectedIndex",
+              "type": {
+                "text": "number"
+              },
+              "privacy": "private"
+            },
+            {
+              "kind": "method",
+              "name": "_actionSelected",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "action",
+                  "optional": true,
+                  "type": {
+                    "text": "INinjaAction"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_handleInput",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "CustomEvent<{search: string}>"
+                  }
+                }
+              ]
+            },
+            {
+              "kind": "method",
+              "name": "_overlayClick",
+              "privacy": "private",
+              "parameters": [
+                {
+                  "name": "event",
+                  "type": {
+                    "text": "Event"
+                  }
+                }
+              ]
+            }
+          ],
+          "events": [
+            {
+              "name": "selected",
+              "type": {
+                "text": "CustomEvent"
+              }
+            },
+            {
+              "name": "change",
+              "type": {
+                "text": "CustomEvent"
+              }
+            }
+          ],
+          "attributes": [
+            {
+              "name": "placeholder",
+              "type": {
+                "text": "string"
+              },
+              "default": "'Type a command or search...'",
+              "description": "Search placeholder text",
+              "fieldName": "placeholder"
+            },
+            {
+              "name": "disableHotkeys",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "If true will register all hotkey for all actions",
+              "fieldName": "disableHotkeys"
+            },
+            {
+              "name": "hideBreadcrumbs",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show or hide breadcrumbs on header",
+              "fieldName": "hideBreadcrumbs"
+            },
+            {
+              "name": "openHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'cmd+k,ctrl+k'",
+              "description": "Open or hide shorcut",
+              "fieldName": "openHotkey"
+            },
+            {
+              "name": "navigationUpHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'up,shift+tab'",
+              "description": "Navigation Up hotkey",
+              "fieldName": "navigationUpHotkey"
+            },
+            {
+              "name": "navigationDownHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'down,tab'",
+              "description": "Navigation Down hotkey",
+              "fieldName": "navigationDownHotkey"
+            },
+            {
+              "name": "closeHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'esc'",
+              "description": "Close hotkey",
+              "fieldName": "closeHotkey"
+            },
+            {
+              "name": "goBackHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'backspace'",
+              "description": "Go back on one level if has parent menu",
+              "fieldName": "goBackHotkey"
+            },
+            {
+              "name": "selectHotkey",
+              "type": {
+                "text": "string"
+              },
+              "default": "'enter'",
+              "description": "Select action and execute handler or open submenu",
+              "fieldName": "selectHotkey"
+            },
+            {
+              "name": "hotKeysJoinedView",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Show or hide breadcrumbs on header",
+              "fieldName": "hotKeysJoinedView"
+            },
+            {
+              "name": "noAutoLoadMdIcons",
+              "type": {
+                "text": "boolean"
+              },
+              "default": "false",
+              "description": "Disable load material icons font on connect\nIf you use custom icons.\nSet this attribute to prevent load default icons font",
+              "fieldName": "noAutoLoadMdIcons"
+            },
+            {
+              "name": "data",
+              "default": "[]",
+              "description": "Array of actions",
+              "fieldName": "data"
+            }
+          ],
+          "superclass": {
+            "name": "LitElement",
+            "package": "lit"
+          },
+          "tagName": "ninja-keys",
+          "customElement": true
+        }
+      ],
+      "exports": [
+        {
+          "kind": "js",
+          "name": "NinjaKeys",
+          "declaration": {
+            "name": "NinjaKeys",
+            "module": "src/ninja-keys.ts"
+          }
+        },
+        {
+          "kind": "custom-element-definition",
+          "name": "ninja-keys",
+          "declaration": {
+            "name": "NinjaKeys",
+            "module": "src/ninja-keys.ts"
+          }
+        }
+      ]
+    },
+    {
+      "kind": "javascript-module",
+      "path": "src/interfaces/ininja-action.ts",
+      "declarations": [],
+      "exports": []
+    }
+  ]
+}

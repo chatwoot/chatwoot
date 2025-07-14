@@ -1,0 +1,37 @@
+{
+  "name": "flag-icons",
+  "version": "7.2.3",
+  "author": "Panayiotis Lipiridis <lipiridis@gmail.com>",
+  "license": "MIT",
+  "main": "css/flag-icons.css",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lipis/flag-icons"
+  },
+  "files": [
+    "css",
+    "flags",
+    "sass",
+    "country.json"
+  ],
+  "devDependencies": {
+    "http-server": "14.1.1",
+    "prettier": "3.2.5",
+    "sass": "1.77.2",
+    "svgo": "3.2.0"
+  },
+  "scripts": {
+    "build:dev": "sass --no-source-map --no-charset sass/flag-icons.scss css/flag-icons.css",
+    "build:min": "sass --no-source-map --no-charset --style=compressed sass/flag-icons.scss css/flag-icons.min.css",
+    "build": "yarn build:dev && yarn build:min",
+    "fix": "yarn prettier --write",
+    "ids": "python3 flag-ids.py",
+    "prettier": "prettier \"**/*.{html,json,md,scss,yaml,yml,js}\"",
+    "start": "http-server -a localhost -p 8000",
+    "svgo:all": "find flags | grep '\\.svg$' | xargs -Iz -n 1 yarn svgo z && yarn ids",
+    "svgo:min": "find flags | grep '\\.svg$' | xargs -Iz -n 1 svgo z && yarn ids",
+    "svgo": "svgo --pretty --indent=2 --precision=1",
+    "test": "yarn prettier --list-different",
+    "maven": "./maven.sh"
+  }
+}

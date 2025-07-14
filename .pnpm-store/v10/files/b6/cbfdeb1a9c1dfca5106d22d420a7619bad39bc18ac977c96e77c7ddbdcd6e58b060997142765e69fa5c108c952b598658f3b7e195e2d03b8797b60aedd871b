@@ -1,0 +1,45 @@
+{
+  "name": "@segment/isodate",
+  "version": "1.0.3",
+  "description": "Parse an ISO date string into a Date",
+  "keywords": [
+    "date",
+    "isodate"
+  ],
+  "main": "lib/index.js",
+  "scripts": {
+    "test": "make test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/segmentio/isodate"
+  },
+  "author": "Segment <friends@segment.com>",
+  "license": "SEE LICENSE IN LICENSE",
+  "bugs": {
+    "url": "https://github.com/segmentio/isodate/issues"
+  },
+  "homepage": "https://github.com/segmentio/isodate#readme",
+  "devDependencies": {
+    "@segment/eslint-config": "^3.1.1",
+    "browserify": "^13.0.0",
+    "browserify-istanbul": "^2.0.0",
+    "component-each": "^0.2.6",
+    "eslint": "^2.9.0",
+    "eslint-plugin-mocha": "^2.2.0",
+    "eslint-plugin-require-path-exists": "^1.1.5",
+    "istanbul": "^0.4.3",
+    "karma": "^0.13.22",
+    "karma-browserify": "^5.0.4",
+    "karma-chrome-launcher": "^1.0.1",
+    "karma-coverage": "^1.0.0",
+    "karma-mocha": "^1.0.1",
+    "karma-phantomjs-launcher": "^1.0.0",
+    "karma-sauce-launcher": "^1.0.0",
+    "karma-spec-reporter": "0.0.26",
+    "mocha": "^2.2.5",
+    "phantomjs-prebuilt": "^2.1.7",
+    "proclaim": "^3.4.1",
+    "watchify": "^3.7.0"
+  }
+}

@@ -1,0 +1,116 @@
+{
+  "name": "mux.js",
+  "version": "6.0.1",
+  "description": "A collection of lightweight utilities for inspecting and manipulating video container formats.",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/videojs/mux.js.git"
+  },
+  "main": "./cjs/index.js",
+  "module": "es/index.js",
+  "browser": "dist/mux.js",
+  "bin": {
+    "muxjs-transmux": "bin/transmux.js"
+  },
+  "generator-videojs-plugin": {
+    "version": "7.7.3"
+  },
+  "browserslist": [
+    "defaults",
+    "ie 11"
+  ],
+  "scripts": {
+    "netlify": "node scripts/netlify.js",
+    "build": "npm-run-all -s clean -p build:*",
+    "build-prod": "cross-env-shell NO_TEST_BUNDLE=1 'npm run build'",
+    "build-test": "cross-env-shell TEST_BUNDLE_ONLY=1 'npm run build'",
+    "build:cjs": "babel-config-cjs -d ./cjs ./lib",
+    "build:es": "babel-config-es -d ./es ./lib",
+    "build:js": "rollup -c scripts/rollup.config.js",
+    "clean": "shx rm -rf ./dist ./test/dist ./cjs ./es && shx mkdir -p ./dist ./test/dist ./cjs ./es",
+    "docs": "npm-run-all docs:*",
+    "docs:toc": "doctoc --notitle README.md",
+    "lint": ": vjsstandard",
+    "server": "karma start scripts/karma.conf.js --singleRun=false --auto-watch",
+    "start": "npm-run-all -p server watch",
+    "test": "npm-run-all lint build-test test:*",
+    "test:browser": "karma start scripts/karma.conf.js",
+    "test:node": "node scripts/node-test.js",
+    "update-changelog": "conventional-changelog -p videojs -i CHANGELOG.md -s",
+    "version": "is-prerelease || npm run update-changelog && git add CHANGELOG.md",
+    "watch": "npm-run-all -p watch:*",
+    "watch:cjs": "npm run build:cjs -- -w",
+    "watch:es": "npm run build:es -- -w",
+    "watch:js": "npm run build:js -- -w",
+    "prepublishOnly": "npm ci && npm-run-all build-prod && vjsverify --verbose"
+  },
+  "engines": {
+    "node": ">=8",
+    "npm": ">=5"
+  },
+  "keywords": [
+    "video",
+    "container",
+    "transmux",
+    "mux",
+    "player",
+    "hls",
+    "mp4",
+    "flv",
+    "aac",
+    "h264"
+  ],
+  "author": "Brightcove",
+  "license": "Apache-2.0",
+  "vjsstandard": {
+    "ignore": [
+      "es",
+      "cjs",
+      "dist",
+      "docs",
+      "test/dist"
+    ]
+  },
+  "files": [
+    "bin/",
+    "CONTRIBUTING.md",
+    "cjs/",
+    "dist/",
+    "docs/",
+    "es/",
+    "lib/",
+    "index.html",
+    "scripts/",
+    "src/",
+    "test/"
+  ],
+  "husky": {
+    "hooks": {
+      "pre-commit": ": lint-staged"
+    }
+  },
+  "lint-staged": {
+    "*.js": "vjsstandard --fix",
+    "README.md": "doctoc --notitle"
+  },
+  "dependencies": {
+    "@babel/runtime": "^7.11.2",
+    "global": "^4.4.0"
+  },
+  "devDependencies": {
+    "@babel/cli": "^7.11.6",
+    "@videojs/babel-config": "^0.2.0",
+    "@videojs/generator-helpers": "~2.0.1",
+    "@videojs/vhs-utils": "^3.0.0",
+    "karma": "^5.0.0",
+    "qunit": "^2.16.0",
+    "rollup": "^2.37.1",
+    "rollup-plugin-data-files": "^0.1.0",
+    "rollup-plugin-worker-factory": "^0.5.6",
+    "sinon": "^8.1.1",
+    "videojs-generate-karma-config": "~7.1.0",
+    "videojs-generate-rollup-config": "~6.2.0",
+    "videojs-generator-verify": "~3.0.2",
+    "videojs-standard": "^8.0.4"
+  }
+}

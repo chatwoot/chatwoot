@@ -1,0 +1,6 @@
+{
+  "name": "tinyHashes_sha1",
+  "main": "index.js",
+  "module": "index.mjs",
+  "source": "sha1.js"
+}

@@ -1,0 +1,58 @@
+// https://github.com/sass/sass/issues/659#issuecomment-64819075
+@function char($character-code) {
+  @if function-exists("selector-append") {
+    @return unquote("\"\\#{$character-code}\"");
+  }
+
+  @return str-slice("\x", 1, 1) + $character-code;
+}
+
+$icon-font-family: videojs-record;
+
+@font-face {
+  font-family: $icon-font-family;
+  src: url(data:application/font-woff;charset=utf-8;base64,d09GRgABAAAAAAW0AAsAAAAACewAAQAAAAAAAAAAAAAAAAAAAAAAAAAAAABHU1VCAAABCAAAADsAAABUIIslek9TLzIAAAFEAAAAPAAAAFY6l0dQY21hcAAAAYAAAAByAAAB4PJQ5/VnbHlmAAAB9AAAAYYAAALMPcs3OGhlYWQAAAN8AAAALQAAADYQhba0aGhlYQAAA6wAAAAWAAAAJABhADtobXR4AAADxAAAAA4AAAAoAbAAAGxvY2EAAAPUAAAAFgAAABYELgNEbWF4cAAAA+wAAAAdAAAAIAEXADxuYW1lAAAEDAAAATYAAAJemUJQLnBvc3QAAAVEAAAAcAAAALoqjqNHeJxjYGRgYOBiMGCwY2BycfMJYeDLSSzJY5BiYGGAAJA8MpsxJzM9kYEDxgPKsYBpDiBmg4gCACY7BUgAeJxjYGTQZpzAwMrAwCDHoAgk2aC0OAMTAw8DkGBlZsAKAtJcUxgcPjJ+5GQwAHJZwCQDAyOIAADEhgVmeJztkcENw0AIBOd8+GyilOKXC/IrZaTpq8BhIWUYaXbFCvEAYAV6cAQG7UNDdUXaMu+8MjfOnDHl0+87tEmjt9QlZi02DjZ2PKLBU+/U779zXa3IOy4F8l7oH9MKXXauhX41R4F8K5DvBXIv8B9LThoJAAB4nG1Sf0+DMBC9a4+WEJxTgRGdywKEzTmngXX7w+j3/1i+g/0wxhZer23u9d1ryZC2N9pQTe9Ex3pV+7pyz5wVnxx2HPqs6A5A5/O+O3zxvvWZq1oEh67I105ScQZtIk4iFwEnOjNi8LWCoUTEXmwUWfE8Lkw1JVbA6Txo2FBDD1AQ9u0rnxXoibNQMZfMA8RPXqNMwccFjfpb2lJKS2SPEsf0YzbhCiXU2YL7vA/dN4fSiLYbC63WWmcFfyYmxbqCs5Ex2HHiPSYn/g96gbb5hf8ssK9BuwqV84djmK21nuVQ2UehriRxakymCwARL8YmRjxdan5DT8FaTRgaoW+/4zJKoihJFLanEXDNadAtcvq8TsuyKUlnA9eWYmh8wZ7emboQrnd5Fr7ysGT/zd2CYc89qlcT3EW6E/UEKwrlYJG9Gy9tvMrFaQ9A57Pf6RXRA830BeX98c+pvg59O51KoxwjNFUKT+YaA5ZzZRm93uEl3A4v4R+WzW+KzZXgsSD6Act6LFcAAHicY2BkYGAA4gm5SzLj+W2+MnAzGABFGG7M3rMWmQaK6gJJDgYmEAcANXsKBgAAAHicY2BkYGAwYGBAIhkZUAEXAA5yAJ0AAHicY2AAAgPCGAAgOAGxAAAAAAAAAEIAYACQALwA1gDiASABRgFmAAB4nGNgZGBg4GIwYGBmAAEmMI8LSP4H8xkADk0BVAAAAHicfZA/asMwGMWf8680hlIo7ZRBUOhSYicZQ+cEOmbI7tiyY2NbRlYCuUEP0hP0EB17kJ6iL6qWZLAE0u+9732fQADu8Q0P5+Xhzp7n1cMN1T/3SY+OB+Rnx0P4mDse0X9zPMYr3h37eMCBE7zBLZ0JPhz3mP903Kf/5XhA/nE8xBN+HY8w8eB4jK03cezjxdPHPJGqaKdaxkonG5kdyujKvFRbqdtc1WIezC4La1lLHRmZiN1JtMdsYUwqUq0qsVK1kWWpRKNVIWMT7I1plmGYOj+IVYUjciSQUCjQYgpNjqk03Q0541+UiKi7kl21LVnTzalrCP5/gFlnx5pc264IhnfCrh1OPFv2ZVjQNUipU2YUKtLKTj+nS25Fp7G1ws41fHNvuxosEXKnV/nAvl79AXudcPYAAHicfctLDsIwDARQT/mUJt3DJXIoK7HULIotN+35QS1ihZjVG42GOvqfgA4nnHHBFT1uGBAQqectmfgctlpED/Ja6sG4ZBd57h5dsnpJS2Nv8VvURpu0aco8i/PDam6rS6rv14f74/5zUCN6AYpyMIA=) format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
+// http://sass-lang.com/documentation/file.SASS_REFERENCE.html#maps
+$icons: (
+          av-perm: 'f101',
+          sv-perm: 'f104',
+          video-perm: 'f102',
+          audio-perm: 'f103',
+          screen-perm: 'f104',
+          record-start: 'f105',
+          record-stop: 'f106',
+          photo-camera: 'f107',
+          picture-in-picture-start: 'f108',
+          picture-in-picture-stop: 'f109',
+);
+
+// NOTE: This is as complex as we want to get with SCSS functionality.
+//
+// Now that we have a map of icons above, we can iterate over that map and create an icon class
+// for each icon in that list. The iterator below produces CSS classes like this:
+//
+// .vjs-icon-play {
+//   font-family: VideoJS;
+//   font-weight: normal;
+//   font-style: normal;
+// }
+// .vjs-icon-play:before { content: "\25b6"; }
+//
+// We can then use @extend in the codebase when we need to add an icon to a class. @extend builds up
+// the selectors for you so you can avoid duplication. This is generally a bad idea, but since each
+// icon should only be extended one or two other places, we'll roll with it.
+@each $name, $content in $icons {
+  .vjs-icon-#{$name} {
+    font-family: $icon-font-family;
+    font-weight: normal;
+    font-style: normal;
+
+    &:before {
+      content: char($content);
+    }
+  }
+}

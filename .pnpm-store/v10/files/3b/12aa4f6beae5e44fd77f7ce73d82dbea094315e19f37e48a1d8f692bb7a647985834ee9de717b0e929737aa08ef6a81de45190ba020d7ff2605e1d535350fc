@@ -1,0 +1,64 @@
+{
+	"name": "ora",
+	"version": "8.1.0",
+	"description": "Elegant terminal spinner",
+	"license": "MIT",
+	"repository": "sindresorhus/ora",
+	"funding": "https://github.com/sponsors/sindresorhus",
+	"author": {
+		"name": "Sindre Sorhus",
+		"email": "sindresorhus@gmail.com",
+		"url": "https://sindresorhus.com"
+	},
+	"type": "module",
+	"exports": {
+		"types": "./index.d.ts",
+		"default": "./index.js"
+	},
+	"sideEffects": false,
+	"engines": {
+		"node": ">=18"
+	},
+	"scripts": {
+		"test": "xo && ava && tsd"
+	},
+	"files": [
+		"index.js",
+		"index.d.ts"
+	],
+	"keywords": [
+		"cli",
+		"spinner",
+		"spinners",
+		"terminal",
+		"term",
+		"console",
+		"ascii",
+		"unicode",
+		"loading",
+		"indicator",
+		"progress",
+		"busy",
+		"wait",
+		"idle"
+	],
+	"dependencies": {
+		"chalk": "^5.3.0",
+		"cli-cursor": "^5.0.0",
+		"cli-spinners": "^2.9.2",
+		"is-interactive": "^2.0.0",
+		"is-unicode-supported": "^2.0.0",
+		"log-symbols": "^6.0.0",
+		"stdin-discarder": "^0.2.2",
+		"string-width": "^7.2.0",
+		"strip-ansi": "^7.1.0"
+	},
+	"devDependencies": {
+		"@types/node": "^22.5.0",
+		"ava": "^5.3.1",
+		"get-stream": "^9.0.1",
+		"transform-tty": "^1.0.11",
+		"tsd": "^0.31.1",
+		"xo": "^0.59.3"
+	}
+}

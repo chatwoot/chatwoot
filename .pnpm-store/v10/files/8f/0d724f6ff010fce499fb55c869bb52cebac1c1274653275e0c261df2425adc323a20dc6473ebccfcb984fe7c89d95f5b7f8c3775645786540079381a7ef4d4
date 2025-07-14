@@ -1,0 +1,122 @@
+{
+  "name": "tiny-hashes",
+  "version": "1.0.1",
+  "description": "Super-tiny implementations of some basic hash functions",
+  "main": "dist/index.js",
+  "module": "dist/index.mjs",
+  "source": "index.js",
+  "scripts": {
+    "build": "npm run build:md5 && npm run build:sha1 && npm run build:sha256 && npm run build:main",
+    "build:md5": "microbundle build --cwd md5",
+    "build:sha1": "microbundle build --cwd sha1",
+    "build:sha256": "microbundle build --cwd sha256",
+    "build:main": "microbundle build",
+    "pretest": "npm run build",
+    "test": "eslint . && node test.js"
+  },
+  "files": [
+    "dist",
+    "md5",
+    "sha1",
+    "sha256"
+  ],
+  "eslintConfig": {
+    "extends": "eslint:recommended",
+    "parserOptions": {
+      "ecmaVersion": 6,
+      "sourceType": "module"
+    },
+    "rules": {
+      "array-bracket-spacing": [
+        2,
+        "always"
+      ],
+      "block-spacing": [
+        2,
+        "always"
+      ],
+      "brace-style": [
+        2,
+        "1tbs"
+      ],
+      "camelcase": 2,
+      "comma-spacing": [
+        2,
+        {
+          "before": false,
+          "after": true
+        }
+      ],
+      "comma-style": [
+        2,
+        "last"
+      ],
+      "eol-last": 2,
+      "indent": [
+        2,
+        2
+      ],
+      "linebreak-style": [
+        2,
+        "unix"
+      ],
+      "no-console": 0,
+      "no-func-assign": 0,
+      "no-lonely-if": 2,
+      "no-mixed-spaces-and-tabs": 2,
+      "no-spaced-func": 2,
+      "no-trailing-spaces": 2,
+      "no-unneeded-ternary": 2,
+      "operator-assignment": 1,
+      "quotes": [
+        2,
+        "single",
+        "avoid-escape"
+      ],
+      "semi-spacing": 2,
+      "semi": 2,
+      "keyword-spacing": [
+        2
+      ],
+      "space-before-function-paren": [
+        2,
+        {
+          "anonymous": "never",
+          "named": "never"
+        }
+      ],
+      "space-in-parens": [
+        2,
+        "never"
+      ],
+      "space-infix-ops": [
+        2,
+        {
+          "int32Hint": true
+        }
+      ],
+      "space-unary-ops": [
+        2,
+        {
+          "words": true,
+          "nonwords": false
+        }
+      ],
+      "spaced-comment": 1
+    }
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jbt/tiny-hashes.git"
+  },
+  "author": "JT <jt@gosquared.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/jbt/tiny-hashes/issues"
+  },
+  "homepage": "https://github.com/jbt/tiny-hashes#readme",
+  "devDependencies": {
+    "eslint": "^5.15.2",
+    "microbundle": "^0.11.0"
+  }
+}

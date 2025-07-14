@@ -1,0 +1,19 @@
+{
+  "name": "obj-case",
+  "repo": "segmentio/obj-case",
+  "description": "Work with objects of different cased keys",
+  "version": "0.2.1",
+  "keywords": [],
+  "dependencies": {},
+  "development": {
+    "visionmedia/mocha-matrix": "*",
+    "visionmedia/mocha": "*",
+    "component/assert": "*",
+    "yields/expect.js": "*"
+  },
+  "license": "MIT",
+  "main": "index.js",
+  "scripts": [
+    "index.js"
+  ]
+}

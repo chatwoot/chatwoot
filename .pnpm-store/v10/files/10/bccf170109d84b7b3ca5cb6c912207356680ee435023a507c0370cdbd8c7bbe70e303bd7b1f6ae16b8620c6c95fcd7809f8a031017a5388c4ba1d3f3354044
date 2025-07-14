@@ -1,0 +1,25 @@
+#title: Playlist Loader States
+#arrowSize: 0.5
+#bendSize: 1
+#direction: down
+#gutter: 10
+#edgeMargin: 1
+#edges: rounded
+#fillArrows: false
+#font: Arial
+#fontSize: 10
+#leading: 1
+#lineWidth: 2
+#padding: 20
+#spacing: 50
+#stroke: #33322E
+#zoom: 1
+
+#.label: align=center visual=none italic
+
+[HAVE_NOTHING] load()-> [HAVE_MASTER]
+[HAVE_MASTER] media()-> [SWITCHING_MEDIA]
+[SWITCHING_MEDIA] media()/ start()-> [HAVE_METADATA]
+
+[HAVE_METADATA] <--> [<label> mediaupdatetimeout]
+[<label> mediaupdatetimeout] <--> [HAVE_CURRENT_METADATA]

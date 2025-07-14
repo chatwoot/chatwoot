@@ -1,0 +1,86 @@
+{
+  "name": "confbox",
+  "version": "0.1.7",
+  "description": "Compact and high quality YAML, TOML, JSONC and JSON5 parsers",
+  "keywords": [
+    "yaml",
+    "toml",
+    "jsonc",
+    "json5",
+    "unjs",
+    "config"
+  ],
+  "repository": "unjs/confbox",
+  "license": "MIT",
+  "sideEffects": false,
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.cjs"
+    },
+    "./json5": {
+      "types": "./dist/json5.d.ts",
+      "import": "./dist/json5.mjs",
+      "require": "./dist/json5.cjs"
+    },
+    "./jsonc": {
+      "types": "./dist/jsonc.d.ts",
+      "import": "./dist/jsonc.mjs",
+      "require": "./dist/jsonc.cjs"
+    },
+    "./toml": {
+      "types": "./dist/toml.d.ts",
+      "import": "./dist/toml.mjs",
+      "require": "./dist/toml.cjs"
+    },
+    "./yaml": {
+      "types": "./dist/yaml.d.ts",
+      "import": "./dist/yaml.mjs",
+      "require": "./dist/yaml.cjs"
+    }
+  },
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "*.d.ts"
+  ],
+  "scripts": {
+    "build": "unbuild",
+    "dev": "vitest dev --coverage",
+    "bench": "pnpm build && node test/bench.mjs",
+    "lint": "eslint && prettier -c src test",
+    "lint:fix": "eslint --fix && prettier -c src test -w",
+    "prepack": "pnpm build",
+    "release": "pnpm test && changelogen --release && npm publish && git push --follow-tags",
+    "test": "pnpm lint && pnpm test:types && vitest run --coverage",
+    "test:types": "tsc --noEmit --skipLibCheck"
+  },
+  "devDependencies": {
+    "@types/js-yaml": "^4.0.9",
+    "@types/node": "^20.12.7",
+    "@vitest/coverage-v8": "^1.5.0",
+    "automd": "^0.3.7",
+    "changelogen": "^0.5.5",
+    "detect-indent": "^7.0.1",
+    "eslint": "^9.0.0",
+    "eslint-config-unjs": "0.3.0-rc.6",
+    "jiti": "^1.21.0",
+    "js-toml": "^1.0.0",
+    "js-yaml": "^4.1.0",
+    "json5": "^2.2.3",
+    "jsonc-parser": "^3.2.1",
+    "mitata": "^0.1.11",
+    "prettier": "^3.2.5",
+    "smol-toml": "^1.1.4",
+    "toml": "^3.0.0",
+    "typescript": "^5.4.5",
+    "unbuild": "^2.0.0",
+    "vitest": "^1.5.0",
+    "yaml": "^2.4.1"
+  },
+  "packageManager": "pnpm@9.0.1"
+}

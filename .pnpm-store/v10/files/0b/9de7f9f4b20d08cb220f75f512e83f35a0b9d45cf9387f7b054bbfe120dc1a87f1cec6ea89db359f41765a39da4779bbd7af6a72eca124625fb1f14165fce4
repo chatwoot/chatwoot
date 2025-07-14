@@ -1,0 +1,58 @@
+{
+  "name": "tinypool",
+  "type": "module",
+  "version": "1.0.2",
+  "description": "A minimal and tiny Node.js Worker Thread Pool implementation, a fork of piscina, but with fewer features",
+  "license": "MIT",
+  "homepage": "https://github.com/tinylibs/tinypool#readme",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/tinylibs/tinypool.git"
+  },
+  "bugs": {
+    "url": "https://github.com/tinylibs/tinypool/issues"
+  },
+  "keywords": [
+    "fast",
+    "worker threads",
+    "thread pool"
+  ],
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "main": "./dist/index.js",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist"
+  ],
+  "engines": {
+    "node": "^18.0.0 || >=20.0.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.12.8",
+    "clean-publish": "^3.4.4",
+    "eslint": "^9.4.0",
+    "eslint-config-prettier": "^9.1.0",
+    "eslint-plugin-prettier": "^5.1.3",
+    "eslint-plugin-unicorn": "^53.0.0",
+    "prettier": "^3.3.2",
+    "tsup": "^8.0.2",
+    "typescript": "^5.4.5",
+    "typescript-eslint": "^7.13.0",
+    "vite": "^5.2.11",
+    "vitest": "^2.0.5"
+  },
+  "scripts": {
+    "test": "vitest",
+    "bench": "vitest bench",
+    "dev": "tsup --watch",
+    "build": "tsup",
+    "lint": "eslint --max-warnings=0",
+    "typecheck": "tsc --noEmit"
+  }
+}

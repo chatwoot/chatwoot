@@ -1,0 +1,19 @@
+
+{{alias}}
+    Platform byte order.
+
+    Possible values:
+
+    - 'little-endian'
+    - 'big-endian'
+    - 'mixed-endian'
+    - 'unknown'
+
+    Examples
+    --------
+    > {{alias}}
+    <string>
+
+    See Also
+    --------
+

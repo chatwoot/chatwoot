@@ -1,0 +1,274 @@
+@use '_variables.scss';
+
+.ProseMirror {
+  padding: var(--space-smaller);
+  line-height: 1.4;
+  outline: none;
+  position: relative;
+  word-wrap: break-word;
+  white-space: pre-wrap;
+  -webkit-font-variant-ligatures: none;
+  font-variant-ligatures: none;
+}
+
+.ProseMirror-hideselection *::selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection *::-moz-selection {
+  background: transparent;
+}
+
+.ProseMirror-hideselection {
+  caret-color: transparent;
+}
+
+.ProseMirror-selectednode {
+  outline: 2px solid var(--w-200);
+}
+
+/* Make sure li selections wrap around markers */
+li.ProseMirror-selectednode {
+  outline: none;
+}
+
+li.ProseMirror-selectednode:after {
+  content: '';
+  position: absolute;
+  left: -32px;
+  right: -2px;
+  top: -2px;
+  bottom: -2px;
+  border: 2px solid var(--w-200);
+  pointer-events: none;
+}
+
+.ProseMirror-textblock-dropdown {
+  min-width: 3em;
+}
+
+.ProseMirror-menu {
+  margin: 0 -4px;
+  line-height: 1;
+}
+
+.ProseMirror-tooltip .ProseMirror-menu {
+  width: -webkit-fit-content;
+  width: fit-content;
+  white-space: pre;
+}
+
+.ProseMirror-menuitem {
+  margin-right: var(--space-small);
+  display: inline-block;
+}
+
+.ProseMirror-menu-active {
+  background: var(--s-75);
+  border-radius: var(--border-radius-small);
+}
+
+.ProseMirror-menu-disabled {
+  opacity: 0.3;
+}
+
+.ProseMirror-menubar {
+  position: relative;
+  min-height: var(--space-medium);
+  color: var(--s-700);
+  padding: var(--space-small) 0;
+  top: 0;
+  right: 0;
+  background: white;
+  z-index: 10;
+  -moz-box-sizing: border-box;
+  box-sizing: border-box;
+  overflow: visible;
+}
+
+.ProseMirror-icon {
+  display: inline-block;
+  line-height: 0.8;
+  vertical-align: -2px;
+  padding: var(--space-small);
+  cursor: pointer;
+  box-sizing: content-box;
+}
+
+.ProseMirror-menu-disabled.ProseMirror-icon {
+  cursor: default;
+}
+
+.ProseMirror-icon svg {
+  fill: currentColor;
+  width: var(--space-slab) !important;
+  height: var(--space-slab);
+}
+
+.ProseMirror-icon span {
+  vertical-align: text-top;
+}
+
+.ProseMirror-gapcursor {
+  display: none;
+  pointer-events: none;
+  position: absolute;
+}
+
+.ProseMirror-gapcursor:after {
+  content: '';
+  display: block;
+  position: absolute;
+  top: -2px;
+  width: 20px;
+  border-top: 1px solid black;
+  animation: ProseMirror-cursor-blink 1.1s steps(2, start) infinite;
+}
+
+@keyframes ProseMirror-cursor-blink {
+  to {
+    visibility: hidden;
+  }
+}
+
+.ProseMirror-focused .ProseMirror-gapcursor {
+  display: block;
+}
+
+.ProseMirror-prompt {
+  position: fixed;
+  z-index: 11;
+  padding: var(--space-normal);
+  background: white;
+}
+
+.ProseMirror-prompt input[type='text'] {
+  padding: 0 4px;
+}
+
+.ProseMirror-prompt-close {
+  position: absolute;
+  left: 2px;
+  top: 1px;
+  color: #666;
+  border: none;
+  background: transparent;
+  padding: 0;
+}
+
+.ProseMirror-prompt-close:after {
+  content: 'âœ•';
+  font-size: 12px;
+}
+
+.ProseMirror-invalid {
+  background: #ffc;
+  border: 1px solid #cc7;
+  border-radius: 4px;
+  padding: 5px 10px;
+  position: absolute;
+  min-width: 10em;
+}
+
+.ProseMirror-prompt-buttons {
+  display: flex;
+  flex-direction: row-reverse;
+  align-items: center;
+  justify-content: flex-start;
+}
+
+.ProseMirror-prompt-buttons .button--save-link {
+  margin-left: var(--space-smaller);
+}
+
+#editor,
+.editor {
+  background: white;
+  color: black;
+  background-clip: padding-box;
+  border-radius: 4px;
+  border: 2px solid rgba(0, 0, 0, 0.2);
+  padding: 5px 0;
+  margin-bottom: 23px;
+}
+
+.ProseMirror {
+  ul,
+  ol {
+    padding-left: var(--space-normal);
+    margin-left: 0;
+  }
+
+  li {
+    position: relative;
+    padding-left: var(--space-smaller);
+  }
+
+  blockquote {
+    padding-left: var(--space-small);
+    padding-top: 0;
+    border-left: var(--space-smaller) solid var(--s-200);
+    margin: var(--space-normal) 0;
+  }
+
+  blockquote p {
+    color: var(--s-600);
+  }
+
+  pre {
+    white-space: pre-wrap;
+    background: var(--s-900);
+    border-radius: var(--border-radius-medium);
+    padding: var(--space-small);
+    margin-bottom: var(--space-small);
+  }
+
+  strong code,
+  p code {
+    background: var(--s-75);
+    font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+      '"Liberation Mono"', '"Courier New"', 'monospace';
+    border-radius: var(--border-radius-small);
+    padding: var(--space-smaller);
+    color: var(--s-800);
+  }
+
+  pre code {
+    background: transparent;
+    color: #fff;
+    padding: 0;
+  }
+
+  p:first-child,
+  h1:first-child,
+  h2:first-child,
+  h3:first-child,
+  h4:first-child,
+  h5:first-child,
+  h6:first-child {
+    margin-top: 10px;
+  }
+
+  p {
+    margin-bottom: var(--space-small);
+  }
+
+  li::marker {
+    font-size: var(--font-size-small);
+  }
+
+  .empty-node::before {
+    position: absolute;
+    color: #aaa;
+    cursor: text;
+  }
+
+  .empty-node:hover::before {
+    color: #777;
+  }
+
+  p.empty-node:first-child::before {
+    content: attr(data-placeholder);
+    cursor: text;
+  }
+}

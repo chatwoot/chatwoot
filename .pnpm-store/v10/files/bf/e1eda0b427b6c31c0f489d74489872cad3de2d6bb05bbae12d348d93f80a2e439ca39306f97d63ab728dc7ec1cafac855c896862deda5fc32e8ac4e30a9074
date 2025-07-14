@@ -1,0 +1,12 @@
+<svg width="228" height="310" version="1.1" baseProfile="full" viewbox="0 0 228 310" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" xmlns:ev="http://www.w3.org/2001/xml-events" style="font-weight:bold; font-size:10pt; font-family:'Arial', Helvetica, sans-serif;;stroke-width:2;stroke-linejoin:round;stroke-linecap:round"><text x="134" y="111" style="font-weight:normal;">load()</text>
+<path d="M114 81 L114 105 L114 129 L114 129 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M110.8 121 L114 125 L117.2 121 L114 129 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<text x="134" y="211" style="font-weight:normal;">media()</text>
+<path d="M114 181 L114 205 L114 229 L114 229 " style="stroke:#33322E;fill:none;stroke-dasharray:none;"></path>
+<path d="M110.8 221 L114 225 L117.2 221 L114 229 Z" style="stroke:#33322E;fill:#33322E;stroke-dasharray:none;"></path>
+<rect x="37" y="30" height="50" width="154" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="57" y="60" style="">HAVE_NOTHING</text>
+<rect x="40" y="130" height="50" width="149" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="60" y="160" style="">HAVE_MASTER</text>
+<rect x="30" y="230" height="50" width="168" style="stroke:#33322E;fill:#eee8d5;stroke-dasharray:none;"></rect>
+<text x="50" y="260" style="">HAVE_METADATA</text></svg>

@@ -1,0 +1,10 @@
+{
+	"suffixes": {
+		"thin": "Thin",
+		"light": "Light",
+		"": "Regular",
+		"bold": "Bold",
+		"fill": "Fill",
+		"duotone": "Duotone"
+	}
+}

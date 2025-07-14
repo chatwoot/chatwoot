@@ -1,0 +1,14 @@
+
+{{alias}}
+    Maximum unsigned 8-bit integer.
+
+    The maximum unsigned 8-bit integer is given by `2^8 - 1`.
+
+    Examples
+    --------
+    > {{alias}}
+    255
+
+    See Also
+    --------
+

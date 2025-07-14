@@ -1,0 +1,29 @@
+
+{{alias}}( x )
+    Returns an integer corresponding to the unbiased exponent of a double-
+    precision floating-point number.
+
+    Parameters
+    ----------
+    x: number
+        Double-precision floating-point number.
+
+    Returns
+    -------
+    out: integer
+        Unbiased exponent.
+
+    Examples
+    --------
+    > var exponent = {{alias}}( 3.14e-307 )
+    -1019
+    > exponent = {{alias}}( -3.14 )
+    1
+    > exponent = {{alias}}( 0.0 )
+    -1023
+    > exponent = {{alias}}( NaN )
+    1024
+
+    See Also
+    --------
+

@@ -1,0 +1,17 @@
+
+{{alias}}()
+    Tests for native `toStringTag` support.
+
+    Returns
+    -------
+    bool: boolean
+        Boolean indicating if an environment has `toStringTag` support.
+
+    Examples
+    --------
+    > var bool = {{alias}}()
+    <boolean>
+
+    See Also
+    --------
+
