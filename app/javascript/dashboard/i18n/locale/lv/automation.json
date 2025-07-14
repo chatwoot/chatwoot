@@ -150,6 +150,17 @@
       "ADD_SLA": "Pievienot SLA",
       "OPEN_CONVERSATION": "Atvērt sarunu"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nav",
+      "LOW": "Zema",
+      "MEDIUM": "Vidēja",
+      "HIGH": "Augsta",
+      "URGENT": "Steidzama"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Ziņojuma Tips",
       "MESSAGE_CONTAINS": "Ziņojums Satur",
