@@ -67,6 +67,8 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+        timeout-minutes: 5
+        continue-on-error: false
 
       - name: Build and push by digest
         id: build
@@ -110,6 +112,7 @@ jobs:
         with:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
+        timeout-minutes: 5
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
