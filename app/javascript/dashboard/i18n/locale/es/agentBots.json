@@ -1,6 +1,6 @@
 {
   "AGENT_BOTS": {
-    "HEADER": "Bots",
+    "HEADER": "AI Bots",
     "LOADING_EDITOR": "Cargando el editor...",
     "DESCRIPTION": "Los bots de agentes son como los miembros más fabulosos de tu equipo. Ellos pueden manejar las cosas pequeñas, así que usted puede centrarse en las cosas que importan. Inténtalos. Puedes administrar tus bots desde esta página o crear nuevos usando el botón 'Configurar un nuevo bot'.",
     "LEARN_MORE": "Learn about agent bots",
@@ -9,28 +9,37 @@
     "AVATAR": {
       "SUCCESS_DELETE": "Avatar del bot eliminado correctamente",
       "ERROR_DELETE": "Error al borrar el bot, por favor intentar más tarde"
+=======
+    "DESCRIPTION": "Los AI Bots son los miembros más fabulosos de tu equipo. Pueden manejar las tareas repetitivas, para que puedas enfocarte en lo que realmente importa.",
+    "LEARN_MORE": "Aprende sobre AI Bots",
+    "GLOBAL_BOT": "System bot",
+    "GLOBAL_BOT_BADGE": "Sistema",
+    "AVATAR": {
+      "SUCCESS_DELETE": "Avatar del bot eliminado correctamente",
+      "ERROR_DELETE": "Error al eliminar el avatar del bot, por favor inténtalo de nuevo"
+>>>>>>> c54589e160 (Spanish agent bot locales)
     },
     "BOT_CONFIGURATION": {
-      "TITLE": "Seleccione un bot de agente",
-      "DESC": "Asigne un bot de agente a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un agente en vivo cuando sea necesario.",
+      "TITLE": "Seleccione un AI Bot",
+      "DESC": "Asigne un AI Bot a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un agente en vivo cuando sea necesario.",
       "SUBMIT": "Actualizar",
       "DISCONNECT": "Desconectar Bot",
-      "SUCCESS_MESSAGE": "El bot del agente se ha actualizado con éxito.",
-      "DISCONNECTED_SUCCESS_MESSAGE": "Desconectado correctamente el bot agente.",
-      "ERROR_MESSAGE": "No se pudo actualizar el bot de agente, por favor inténtalo de nuevo más tarde.",
-      "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el bot de agente, por favor inténtalo de nuevo más tarde.",
+      "SUCCESS_MESSAGE": "El AI Bot se ha actualizado con éxito.",
+      "DISCONNECTED_SUCCESS_MESSAGE": "Desconectado correctamente el AI Bot.",
+      "ERROR_MESSAGE": "No se pudo actualizar el AI Bot, por favor inténtalo de nuevo más tarde.",
+      "DISCONNECTED_ERROR_MESSAGE": "No se pudo desconectar el AI Bot, por favor inténtalo de nuevo más tarde.",
       "SELECT_PLACEHOLDER": "Seleccionar bot"
     },
     "ADD": {
-      "TITLE": "Agregar Bot",
+      "TITLE": "Añadir AI Bot",
       "CANCEL_BUTTON_TEXT": "Cancelar",
       "API": {
-        "SUCCESS_MESSAGE": "Bot añadido correctamente.",
+        "SUCCESS_MESSAGE": "AI Bot añadido correctamente.",
         "ERROR_MESSAGE": "No se pudo agregar el bot, Inténtalo de nuevo más tarde."
       }
     },
     "LIST": {
-      "404": "No sé encontró ningún bot. Puedes crear uno haciendo clic en 'crear un Bot'.",
+      "404": "No se encontraron bots. Puedes crear un bot haciendo clic en el botón 'Añadir Bot'.",
       "LOADING": "Obteniendo bots...",
       "TABLE_HEADER": {
         "DETAILS": "Detalles del Bot",
@@ -39,24 +48,24 @@
     },
     "DELETE": {
       "BUTTON_TEXT": "Eliminar",
-      "TITLE": "Eliminar bot",
+      "TITLE": "Eliminar AI Bot",
       "CONFIRM": {
         "TITLE": "Confirmar eliminación",
-        "MESSAGE": "¿Está seguro que desea borrar {name}?",
+        "MESSAGE": "¿Estás seguro de que quieres eliminar {name}?",
         "YES": "Sí, eliminar",
         "NO": "No, mantenerlo"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Bot eliminado correctamente.",
-        "ERROR_MESSAGE": "No se pudo eliminar el bot. Por favor, inténtalo de nuevo."
+        "SUCCESS_MESSAGE": "AI Bot eliminado correctamente.",
+        "ERROR_MESSAGE": "No se pudo eliminar el AI Bot. Por favor, inténtalo de nuevo."
       }
     },
     "EDIT": {
       "BUTTON_TEXT": "Editar",
-      "TITLE": "Editar bot",
+      "TITLE": "Editar AI Bot",
       "API": {
-        "SUCCESS_MESSAGE": "Bot actualizado correctamente.",
-        "ERROR_MESSAGE": "No se pudo actualizar el bot, por favor inténtalo de nuevo más tarde."
+        "SUCCESS_MESSAGE": "AI Bot actualizado correctamente.",
+        "ERROR_MESSAGE": "No se pudo actualizar el AI Bot, por favor inténtalo de nuevo más tarde."
       }
     },
     "ACCESS_TOKEN": {
@@ -73,6 +82,20 @@
       "NAME": {
         "LABEL": "Nombre del bot",
         "PLACEHOLDER": "Nombre del Bot",
+=======
+      "DESCRIPTION": "Copia el token de acceso y guárdalo de forma segura",
+      "COPY_SUCCESSFUL": "Token de acceso copiado al portapapeles",
+      "RESET_SUCCESS": "Token de acceso regenerado correctamente",
+      "RESET_ERROR": "No se pudo regenerar el token de acceso. Por favor, inténtalo de nuevo"
+    },
+    "FORM": {
+      "AVATAR": {
+        "LABEL": "Avatar del bot"
+      },
+      "NAME": {
+        "LABEL": "Nombre del bot",
+        "PLACEHOLDER": "Ingresa el nombre del bot",
+>>>>>>> c54589e160 (Spanish agent bot locales)
         "REQUIRED": "El nombre del bot es obligatorio"
       },
       "DESCRIPTION": {
@@ -95,9 +118,24 @@
     },
     "WEBHOOK": {
       "DESCRIPTION": "Configure el webhook del bot para integrarse con sus servicios personalizados. El bot recibirá y procesará eventos de conversaciones y podrá responder a ellos."
+=======
+        "REQUIRED": "La URL del webhook es obligatoria"
+      },
+      "ERRORS": {
+        "NAME": "El nombre del bot es obligatorio",
+        "URL": "La URL del webhook es obligatoria",
+        "VALID_URL": "Por favor, ingresa una URL válida que comience con http:// o https://"
+      },
+      "CANCEL": "Cancelar",
+      "CREATE": "Crear AI Bot",
+      "UPDATE": "Actualizar AI Bot"
+    },
+    "WEBHOOK": {
+      "DESCRIPTION": "Configura un bot webhook para integrar con tus servicios personalizados. El bot recibirá y procesará eventos de las conversaciones y puede responder a ellos."
+>>>>>>> c54589e160 (Spanish agent bot locales)
     },
     "TYPES": {
-      "WEBHOOK": "Webhook Bot"
+      "WEBHOOK": "Bot Webhook"
     }
   }
 }
