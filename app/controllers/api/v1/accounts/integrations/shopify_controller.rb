@@ -8,7 +8,7 @@ class Api::V1::Accounts::Integrations::ShopifyController < Api::V1::Accounts::Ba
   before_action :validate_contact, only: [:orders]
 
   def auth
-    shop_domain = params[:shop_domain]
+    shop_domain = params[:shop]
     return render json: { error: 'Shop domain is required' }, status: :unprocessable_entity if shop_domain.blank?
 
     state = generate_shopify_token(Current.account.id)

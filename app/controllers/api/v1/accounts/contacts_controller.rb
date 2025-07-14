@@ -35,7 +35,6 @@ class Api::V1::Accounts::ContactsController < Api::V1::Accounts::BaseController
     result = ::Contacts::FilterService.new(Current.account, Current.user, params.permit!).perform
     contacts = result[:contacts]
 
-
     contacts = contacts.tagged_with(Current.account.labels.where(id: params[:labels]).pluck(:title), on: :labels, any: true) if params[:labels].present?
 
     @contacts_count = contacts.length

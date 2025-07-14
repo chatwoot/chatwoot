@@ -46,7 +46,7 @@ class IntegrationsAPI extends ApiClient {
 
   connectShopify({ shopDomain }) {
     return axios.post(`${this.baseUrl()}/integrations/shopify/auth`, {
-      shop_domain: shopDomain,
+      shop: shopDomain,
     });
   }
 }
