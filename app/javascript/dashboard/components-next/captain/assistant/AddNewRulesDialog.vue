@@ -23,27 +23,26 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['add', 'cancel']);
+const emit = defineEmits(['add']);
+
+const [showPopover, togglePopover] = useToggle();
 
 const onClickAdd = () => {
   emit('add');
 };
 
 const onClickCancel = () => {
-  emit('cancel');
+  togglePopover(false);
 };
-
-const [showPopover, togglePopover] = useToggle();
 </script>
 
 <template>
   <div class="inline-flex relative">
     <Button
       :label="label"
-      faded
       sm
       slate
-      class="!text-sm flex-shrink-0"
+      class="flex-shrink-0"
       @click="togglePopover(!showPopover)"
     />
     <div

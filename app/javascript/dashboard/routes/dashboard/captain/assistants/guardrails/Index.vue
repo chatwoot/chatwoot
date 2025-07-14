@@ -185,7 +185,6 @@ const bulkCheckbox = computed({
                   ghost
                   class="!px-1.5"
                   icon="i-lucide-trash"
-                  @click="bulkDeleteDialog.dialogRef.open()"
                 />
               </div>
             </div>
@@ -205,9 +204,10 @@ const bulkCheckbox = computed({
               <div class="h-4 w-px bg-n-strong" />
               <Button
                 :label="t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.TEST_ALL')"
-                sm
+                xs
                 ghost
                 slate
+                class="!text-sm"
               />
             </div>
           </transition>
