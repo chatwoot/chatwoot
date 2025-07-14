@@ -70,21 +70,38 @@ class Channel::Whatsapp < ApplicationRecord
   end
 
   def setup_webhooks
-    return unless provider == 'whatsapp_cloud'
+    return unless should_setup_webhooks?
 
-    # Only setup webhooks for embedded signup flow
-    # Manual setup flow expects users to configure webhooks themselves
-    return unless provider_config['source'] == 'embedded_signup'
+    perform_webhook_setup
+  rescue StandardError => e
+    handle_webhook_setup_error(e)
+  end
 
-    # Only setup webhooks if we have the necessary configuration
+  def should_setup_webhooks?
+    whatsapp_cloud_provider? && embedded_signup_source? && webhook_config_present?
+  end
+
+  def whatsapp_cloud_provider?
+    provider == 'whatsapp_cloud'
+  end
+
+  def embedded_signup_source?
+    provider_config['source'] == 'embedded_signup'
+  end
+
+  def webhook_config_present?
+    provider_config['business_account_id'].present? && provider_config['api_key'].present?
+  end
+
+  def perform_webhook_setup
     business_account_id = provider_config['business_account_id']
     api_key = provider_config['api_key']
 
-    return if business_account_id.blank? || api_key.blank?
-
     Whatsapp::WebhookSetupService.new(self, business_account_id, api_key).perform
-  rescue StandardError => e
-    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{e.message}"
+  end
+
+  def handle_webhook_setup_error(error)
+    Rails.logger.error "[WHATSAPP] Webhook setup failed: #{error.message}"
     # Don't raise the error to prevent channel creation from failing
     # Webhooks can be retried later
   end
