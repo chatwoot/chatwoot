@@ -40,19 +40,15 @@ class Captain::Scenario < ApplicationRecord
   before_save :resolve_tool_references
 
   def agent_instructions
-    instructions = <<~INSTRUCTIONS
-      You are a specialized agent in a multiagent system. Your job is to assist the primary agent in completing tasks.
-      Here's your instructions:
+    Captain::PromptRenderer.render('scenario', prompt_context)
+  end
 
-      #{resolved_instructions}
-    INSTRUCTIONS
-
-    if resolved_tools.any?
-      instructions += "\n\nYou have access to the following tools:\n"
-      instructions += resolved_tools.map { |tool| "- #{tool[:id]}: #{tool[:description]}" }.join("\n")
-    end
-
-    instructions
+  def prompt_context
+    {
+      title: title,
+      instructions: resolved_instructions,
+      tools: resolved_tools
+    }
   end
 
   def agent_tools

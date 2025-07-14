@@ -69,7 +69,37 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
+  def agent(user)
+    # Get enabled scenario agents as handoff agents
+    handoff_agents = scenarios.enabled.map { |scenario| scenario.agent(user) }
+
+    # Create the main assistant agent with scenario agents as handoffs
+    Agents::Agent.new(
+      name: name,
+      instructions: agent_instructions,
+      handoff_agents: handoff_agents
+    )
+  end
+
   private
+
+  def agent_instructions
+    Captain::PromptRenderer.render('assistant', prompt_context)
+  end
+
+  def prompt_context
+    {
+      name: name,
+      description: description,
+      product_name: config['product_name'] || 'this product',
+      scenarios: scenarios.enabled.map do |scenario|
+        {
+          key: scenario.title.parameterize.underscore,
+          description: scenario.description
+        }
+      end
+    }
+  end
 
   def default_avatar_url
     "#{ENV.fetch('FRONTEND_URL', nil)}/assets/images/dashboard/captain/logo.svg"
