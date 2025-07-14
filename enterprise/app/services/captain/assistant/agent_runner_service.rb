@@ -1,82 +1,53 @@
 require 'agents'
 
 class Captain::Assistant::AgentRunnerService
-  def initialize(assistant:, user: nil)
+  CONVERSATION_STATE_ATTRIBUTES = %i[
+    id display_id inbox_id contact_id status priority
+    label_list custom_attributes additional_attributes
+  ].freeze
+
+  def initialize(assistant:, user: nil, conversation: nil)
     @assistant = assistant
     @user = user
+    @conversation = conversation
   end
 
-  def generate_response(additional_message: nil, message_history: [], role: 'user')
-    # Create the assistant agent with scenario handoffs
-    agent = @assistant.agent(@user)
+  def generate_response(message_history: [])
+    agents = build_and_wire_agents
+    context = build_context(message_history)
+    message_to_process = extract_last_user_message(message_history)
+    runner = Agents::Runner.with_agents(*agents)
+    result = runner.run(message_to_process, context: context)
 
-    # Convert message history to proper format for ai-agents
-    formatted_history = format_message_history(message_history)
-
-    # Build context with conversation history
-    context = build_context(formatted_history)
-
-    # Create agent runner
-    runner = Agents::AgentRunner.new(agent: agent)
-
-    # Add context if available
-    runner.add_context(context) if context.present?
-
-    # Get the message to process
-    message_to_process = build_message_to_process(additional_message, message_history, role)
-
-    # Run the agent
-    result = runner.run(message_to_process)
-
-    # Process and format the result
     process_agent_result(result)
   rescue StandardError => e
     Rails.logger.error "[Captain V2] AgentRunnerService error: #{e.message}"
     Rails.logger.error e.backtrace.join("\n")
 
-    # Return error response in expected format
-    {
-      'response' => 'conversation_handoff',
-      'reasoning' => "Error occurred: #{e.message}"
-    }
+    error_response(e.message)
   end
 
   private
 
-  def format_message_history(message_history)
-    # Convert OpenAI format to a more readable format for context
-    message_history.map do |msg|
-      content = msg[:content]
-      # Handle multimodal content
-      if content.is_a?(Array)
-        text_parts = content.select { |part| part[:type] == 'text' }.pluck(:text)
-        content = text_parts.join(' ')
-      end
+  def build_context(message_history)
+    conversation_history = message_history.map do |msg|
+      content = extract_text_from_content(msg[:content])
 
-      "#{msg[:role]}: #{content}"
-    end.join("\n")
-  end
+      {
+        role: msg[:role].to_sym,
+        content: content,
+        agent_name: msg[:agent_name]
+      }
+    end
 
-  def build_context(formatted_history)
     {
-      conversation_history: formatted_history,
-      account_id: @assistant.account_id,
-      user_id: @user&.id,
-      assistant_id: @assistant.id,
-      assistant_config: @assistant.config,
-      timestamp: Time.current.to_i
+      conversation_history: conversation_history,
+      state: build_state
     }
-  end
-
-  def build_message_to_process(additional_message, message_history, _role)
-    return additional_message if additional_message.present?
-
-    extract_last_user_message(message_history)
   end
 
   def extract_last_user_message(message_history)
     last_user_msg = message_history.reverse.find { |msg| msg[:role] == 'user' }
-    return '' unless last_user_msg
 
     extract_text_from_content(last_user_msg[:content])
   end
@@ -88,44 +59,64 @@ class Captain::Assistant::AgentRunnerService
     text_parts.join(' ')
   end
 
+  # Response formatting methods
   def process_agent_result(result)
-    # Log the result for debugging
     Rails.logger.info "[Captain V2] Agent result: #{result.inspect}"
-
-    # Check if there was a handoff to a scenario
-    Rails.logger.info "[Captain V2] Handoff to scenario: #{result.pending_handoff[:agent_name]}" if result.pending_handoff.present?
-
-    # Format the response to match expected structure
-    format_response(result.output, result)
+    format_response(result.output)
   end
 
-  def format_response(output, result)
-    response_hash = parse_output_to_hash(output, result)
+  def format_response(output)
+    parsed = parse_json_output(output)
 
+    if parsed.is_a?(Hash)
+      {
+        'response' => parsed['response'] || parsed['result'] || output.to_s,
+        'reasoning' => parsed['reasoning'] || parsed['thought_process'] || 'Processed by agent'
+      }
+    else
+      {
+        'response' => output.to_s,
+        'reasoning' => 'Processed by agent'
+      }
+    end
+  end
+
+  def error_response(error_message)
     {
-      'response' => extract_response_content(response_hash, output),
-      'reasoning' => extract_reasoning(response_hash, result)
+      'response' => 'conversation_handoff',
+      'reasoning' => "Error occurred: #{error_message}"
     }
   end
 
-  def parse_output_to_hash(output, _result)
+  def parse_json_output(output)
     return output if output.is_a?(Hash)
-    return {} unless output.is_a?(String) && output.include?('{')
+    return nil unless output.is_a?(String)
 
     JSON.parse(output)
   rescue JSON::ParserError
-    {}
+    nil
   end
 
-  def extract_response_content(parsed_hash, original_output)
-    return original_output.to_s if parsed_hash.empty?
+  def build_state
+    state = {
+      account_id: @assistant.account_id,
+      user_id: @user&.id,
+      assistant_id: @assistant.id,
+      assistant_config: @assistant.config
+    }
 
-    parsed_hash['response'] || parsed_hash['result'] || original_output.to_s
+    state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES) if @conversation
+
+    state
   end
 
-  def extract_reasoning(parsed_hash, result)
-    return "Processed by #{result.agent_name}" if parsed_hash.empty?
+  def build_and_wire_agents
+    assistant_agent = @assistant.agent(@user)
+    scenario_agents = @assistant.scenarios.enabled.map { |scenario| scenario.agent(@user) }
 
-    parsed_hash['reasoning'] || parsed_hash['thought_process'] || "Processed by #{result.agent_name}"
+    assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
+    scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }
+
+    [assistant_agent] + scenario_agents
   end
 end
