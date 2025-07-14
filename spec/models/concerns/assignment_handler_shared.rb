@@ -4,9 +4,14 @@ require 'rails_helper'
 
 shared_examples_for 'assignment_handler' do
   describe '#update_team' do
-    let(:conversation) { create(:conversation, assignee: create(:user)) }
+    let(:conversation) { create(:conversation) }
+    let(:assignee) { create(:user, account: conversation.account, role: :agent) }
     let(:agent) do
       create(:user, email: 'agent@example.com', account: conversation.account, role: :agent, auto_offline: false)
+    end
+
+    before do
+      conversation.update!(assignee: assignee)
     end
     let(:team) do
       create(:team, account: conversation.account, allow_auto_assign: false)

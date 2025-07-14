@@ -6,6 +6,7 @@
 #  additional_attributes  :jsonb
 #  agent_last_seen_at     :datetime
 #  assignee_last_seen_at  :datetime
+#  assignee_type          :string
 #  cached_label_list      :text
 #  contact_last_seen_at   :datetime
 #  custom_attributes      :jsonb
@@ -31,22 +32,23 @@
 #
 # Indexes
 #
-#  conv_acid_inbid_stat_asgnid_idx                    (account_id,inbox_id,status,assignee_id)
-#  index_conversations_on_account_id                  (account_id)
-#  index_conversations_on_account_id_and_display_id   (account_id,display_id) UNIQUE
-#  index_conversations_on_assignee_id_and_account_id  (assignee_id,account_id)
-#  index_conversations_on_campaign_id                 (campaign_id)
-#  index_conversations_on_contact_id                  (contact_id)
-#  index_conversations_on_contact_inbox_id            (contact_inbox_id)
-#  index_conversations_on_first_reply_created_at      (first_reply_created_at)
-#  index_conversations_on_id_and_account_id           (account_id,id)
-#  index_conversations_on_inbox_id                    (inbox_id)
-#  index_conversations_on_priority                    (priority)
-#  index_conversations_on_status_and_account_id       (status,account_id)
-#  index_conversations_on_status_and_priority         (status,priority)
-#  index_conversations_on_team_id                     (team_id)
-#  index_conversations_on_uuid                        (uuid) UNIQUE
-#  index_conversations_on_waiting_since               (waiting_since)
+#  conv_acid_inbid_stat_asgnid_idx                       (account_id,inbox_id,status,assignee_id)
+#  index_conversations_on_account_id                     (account_id)
+#  index_conversations_on_account_id_and_display_id      (account_id,display_id) UNIQUE
+#  index_conversations_on_assignee_id_and_account_id     (assignee_id,account_id)
+#  index_conversations_on_assignee_type_and_assignee_id  (assignee_type,assignee_id)
+#  index_conversations_on_campaign_id                    (campaign_id)
+#  index_conversations_on_contact_id                     (contact_id)
+#  index_conversations_on_contact_inbox_id               (contact_inbox_id)
+#  index_conversations_on_first_reply_created_at         (first_reply_created_at)
+#  index_conversations_on_id_and_account_id              (account_id,id)
+#  index_conversations_on_inbox_id                       (inbox_id)
+#  index_conversations_on_priority                       (priority)
+#  index_conversations_on_status_and_account_id          (status,account_id)
+#  index_conversations_on_status_and_priority            (status,priority)
+#  index_conversations_on_team_id                        (team_id)
+#  index_conversations_on_uuid                           (uuid) UNIQUE
+#  index_conversations_on_waiting_since                  (waiting_since)
 #
 
 class Conversation < ApplicationRecord
@@ -59,6 +61,7 @@ class Conversation < ApplicationRecord
   include SortHandler
   include PushDataHelper
   include ConversationMuteHelpers
+  include Events::Types
 
   validates :account_id, presence: true
   validates :inbox_id, presence: true
@@ -68,6 +71,7 @@ class Conversation < ApplicationRecord
   validates :custom_attributes, jsonb_attributes_length: true
   validates :uuid, uniqueness: true
   validate :validate_referer_url
+  validate :validate_assignee_belongs_to_account
 
   enum status: { open: 0, resolved: 1, pending: 2, snoozed: 3 }
   enum priority: { low: 0, medium: 1, high: 2, urgent: 3 }
@@ -96,7 +100,7 @@ class Conversation < ApplicationRecord
 
   belongs_to :account
   belongs_to :inbox
-  belongs_to :assignee, class_name: 'User', optional: true, inverse_of: :assigned_conversations
+  belongs_to :assignee, polymorphic: true, optional: true
   belongs_to :contact
   belongs_to :contact_inbox
   belongs_to :team, optional: true
@@ -195,6 +199,14 @@ class Conversation < ApplicationRecord
     dispatcher_dispatch(CONVERSATION_UPDATED, previous_changes)
   end
 
+  def assigned_to_bot?
+    assignee_type == 'AgentBot'
+  end
+
+  def assigned_bot
+    assignee if assigned_to_bot?
+  end
+
   private
 
   def execute_after_update_commit_callbacks
@@ -273,7 +285,8 @@ class Conversation < ApplicationRecord
       CONVERSATION_RESOLVED => -> { saved_change_to_status? && resolved? },
       CONVERSATION_STATUS_CHANGED => -> { saved_change_to_status? },
       CONVERSATION_READ => -> { saved_change_to_contact_last_seen_at? },
-      CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? }
+      CONVERSATION_CONTACT_CHANGED => -> { saved_change_to_contact_id? },
+      ASSIGNEE_CHANGED => -> { saved_change_to_assignee_id? }
     }.each do |event, condition|
       condition.call && dispatcher_dispatch(event, status_change)
     end
@@ -307,6 +320,17 @@ class Conversation < ApplicationRecord
     return unless additional_attributes['referer']
 
     self['additional_attributes']['referer'] = nil unless url_valid?(additional_attributes['referer'])
+  end
+
+  def validate_assignee_belongs_to_account
+    return unless assignee
+
+    case assignee
+    when User
+      errors.add(:assignee, 'must belong to the same account') unless assignee.accounts.include?(account)
+    when AgentBot
+      errors.add(:assignee, 'must belong to the same account') unless assignee.account_id == account_id || assignee.system_bot?
+    end
   end
 
   # creating db triggers

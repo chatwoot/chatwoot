@@ -50,6 +50,18 @@ class AgentBotListener < BaseListener
     process_webhook_bot_event(inbox.agent_bot, payload)
   end
 
+  def assignee_changed(event)
+    conversation = extract_conversation_and_account(event)[0]
+    return unless conversation.assigned_to_bot?
+
+    agent_bot = conversation.assigned_bot
+    return if agent_bot.blank? || agent_bot.outgoing_url.blank?
+
+    event_name = __method__.to_s
+    payload = conversation.webhook_data.merge(event: event_name)
+    process_webhook_bot_event(agent_bot, payload)
+  end
+
   private
 
   def connected_agent_bot_exist?(inbox)
