@@ -28,7 +28,7 @@ properties:
     type: string
     nullable: true
     description: Message to send when auto resolving
-    example: "This conversation has been automatically resolved due to inactivity"
+    example: 'This conversation has been automatically resolved due to inactivity'
   auto_resolve_ignore_waiting:
     type: boolean
     nullable: true
@@ -38,12 +38,20 @@ properties:
   industry:
     type: string
     description: Industry type
-    example: "Technology"
+    example: 'Technology'
   company_size:
     type: string
     description: Company size
-    example: "50-100"
+    example: '50-100'
   timezone:
     type: string
     description: Account timezone
-    example: "UTC"
+    example: 'UTC'
+  store_id:
+    type: string
+    description: Store ID associated with the account
+    example: '00000000-0000-0000-0000-000000000123'
+  onboarding_completed:
+    type: boolean
+    description: Whether the onboarding has been completed
+    example: false

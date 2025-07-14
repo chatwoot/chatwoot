@@ -82,3 +82,6 @@ properties:
       marked_for_deletion_reason:
         type: string
         description: Reason for account deletion
+      onboarding_completed:
+        type: boolean
+        description: Whether the onboarding has been completed
