@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "선택하려면 Enter 키를 누르십시오.",
       "ENTER_TO_REMOVE": "제거하려면 Enter 키를 누르십시오.",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "하나 선택",
       "SELECT": "Select"
     }
