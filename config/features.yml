@@ -179,3 +179,7 @@
 - name: whatsapp_embedded_signup
   display_name: WhatsApp Embedded Signup
   enabled: false
+- name: captain_integration_v2
+  display_name: Captain V2
+  enabled: false
+  premium: true
