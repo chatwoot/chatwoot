@@ -32,28 +32,28 @@ export default {
       // To support icons with multiple paths
       const key = `${this.icon}-${this.type}`;
       const path = this.icons[key];
-      
+
       // If not found, try default icon
       if (path === undefined) {
         const defaultKey = `call-${this.type}`;
         const defaultPath = this.icons[defaultKey];
-        
+
         // If default icon also not found, return empty array to prevent errors
         if (defaultPath === undefined) {
           return [];
         }
-        
+
         if (Array.isArray(defaultPath)) {
           return defaultPath;
         }
-        
+
         return [defaultPath];
       }
-      
+
       if (Array.isArray(path)) {
         return path;
       }
-      
+
       return [path];
     },
   },

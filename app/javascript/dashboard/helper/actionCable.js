@@ -33,10 +33,10 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'copilot.message.created': this.onCopilotMessageCreated,
-      
+
       // Call events
-      'incoming_call': this.onIncomingCall,
-      'call_status_changed': this.onCallStatusChanged
+      incoming_call: this.onIncomingCall,
+      call_status_changed: this.onCallStatusChanged,
     };
   }
 
@@ -223,12 +223,12 @@ class ActionCableConnector extends BaseActionCableConnector {
       requiresAgentJoin: data.requires_agent_join || false,
       callDirection: data.call_direction,
       phoneNumber: data.phone_number,
-      avatarUrl: data.avatar_url
+      avatarUrl: data.avatar_url,
     };
-    
+
     // Update store
     this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
-    
+
     // Also update App.vue showCallWidget directly for immediate UI feedback
     if (window.app && window.app.$data) {
       window.app.$data.showCallWidget = true;
@@ -242,12 +242,14 @@ class ActionCableConnector extends BaseActionCableConnector {
       status: data.status,
       conversationId: data.conversation_id,
       inboxId: data.inbox_id,
-      timestamp: data.timestamp || Date.now()
+      timestamp: data.timestamp || Date.now(),
     };
     // Only dispatch to Vuex; Vuex handles widget and call state
-    this.app.$store.dispatch('calls/handleCallStatusChanged', normalizedPayload);
+    this.app.$store.dispatch(
+      'calls/handleCallStatusChanged',
+      normalizedPayload
+    );
   };
-
 }
 
 export default {

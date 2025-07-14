@@ -101,7 +101,7 @@ export default {
         } else {
           this.showCallWidget = false;
         }
-      }
+      },
     },
     hasActiveCall: {
       immediate: true,
@@ -111,14 +111,14 @@ export default {
         } else {
           this.showCallWidget = false;
         }
-      }
+      },
     },
   },
   mounted() {
     this.initializeColorTheme();
     this.listenToThemeChanges();
     this.setLocale(window.chatwootConfig.selectedLocale);
-    
+
     // Make app instance available globally for direct call widget updates
     window.app = this;
   },
@@ -142,14 +142,17 @@ export default {
       this.showCallWidget = false;
       this.$store.dispatch('calls/clearActiveCall');
       this.$store.dispatch('calls/clearIncomingCall');
-      
+
       // Clear the activeCallConversation state in all ContactInfo components
       this.$nextTick(() => {
-        const clearContactInfoCallState = (components) => {
+        const clearContactInfoCallState = components => {
           if (!components) return;
-          
+
           components.forEach(component => {
-            if (component.$options && component.$options.name === 'ContactInfo') {
+            if (
+              component.$options &&
+              component.$options.name === 'ContactInfo'
+            ) {
               if (component.activeCallConversation) {
                 component.activeCallConversation = null;
                 component.$forceUpdate();
@@ -160,7 +163,7 @@ export default {
             }
           });
         };
-        
+
         clearContactInfoCallState(this.$children);
       });
     },
@@ -195,10 +198,8 @@ export default {
             .catch(() => {
               setTimeout(() => {
                 VoiceAPI.endCall(savedCallSid, savedConversationId)
-                  .then(() => {
-                  })
-                  .catch(() => {
-                  });
+                  .then(() => {})
+                  .catch(() => {});
               }, 1000);
               useAlert({ message: 'Call UI has been reset', type: 'info' });
             });
@@ -259,21 +260,87 @@ export default {
     <!-- Floating call widget that appears during active calls -->
     <FloatingCallWidget
       v-if="showCallWidget || hasActiveCall || hasIncomingCall"
-      :key="activeCall ? activeCall.callSid : (incomingCall ? incomingCall.callSid : 'no-call')"
-      :call-sid="activeCall ? activeCall.callSid : (incomingCall ? incomingCall.callSid : '')"
-      :inbox-name="activeCall ? (activeCall.inboxName || 'Primary') : (incomingCall ? incomingCall.inboxName : 'Primary')"
-      :conversation-id="activeCall ? activeCall.conversationId : (incomingCall ? incomingCall.conversationId : null)"
-      :contact-name="activeCall ? activeCall.contactName : (incomingCall ? incomingCall.contactName : '')"
-      :contact-id="activeCall ? activeCall.contactId : (incomingCall ? incomingCall.contactId : null)"
-      :inbox-id="activeCall ? activeCall.inboxId : (incomingCall ? incomingCall.inboxId : null)"
-      :inbox-avatar-url="activeCall ? activeCall.inboxAvatarUrl : (incomingCall ? incomingCall.inboxAvatarUrl : '')"
-      :inbox-phone-number="activeCall ? activeCall.inboxPhoneNumber : (incomingCall ? incomingCall.inboxPhoneNumber : '')"
-      :avatar-url="activeCall ? activeCall.avatarUrl : (incomingCall ? incomingCall.avatarUrl : '')"
-      :phone-number="activeCall ? activeCall.phoneNumber : (incomingCall ? incomingCall.phoneNumber : '')"
+      :key="
+        activeCall
+          ? activeCall.callSid
+          : incomingCall
+            ? incomingCall.callSid
+            : 'no-call'
+      "
+      :call-sid="
+        activeCall
+          ? activeCall.callSid
+          : incomingCall
+            ? incomingCall.callSid
+            : ''
+      "
+      :inbox-name="
+        activeCall
+          ? activeCall.inboxName || 'Primary'
+          : incomingCall
+            ? incomingCall.inboxName
+            : 'Primary'
+      "
+      :conversation-id="
+        activeCall
+          ? activeCall.conversationId
+          : incomingCall
+            ? incomingCall.conversationId
+            : null
+      "
+      :contact-name="
+        activeCall
+          ? activeCall.contactName
+          : incomingCall
+            ? incomingCall.contactName
+            : ''
+      "
+      :contact-id="
+        activeCall
+          ? activeCall.contactId
+          : incomingCall
+            ? incomingCall.contactId
+            : null
+      "
+      :inbox-id="
+        activeCall
+          ? activeCall.inboxId
+          : incomingCall
+            ? incomingCall.inboxId
+            : null
+      "
+      :inbox-avatar-url="
+        activeCall
+          ? activeCall.inboxAvatarUrl
+          : incomingCall
+            ? incomingCall.inboxAvatarUrl
+            : ''
+      "
+      :inbox-phone-number="
+        activeCall
+          ? activeCall.inboxPhoneNumber
+          : incomingCall
+            ? incomingCall.inboxPhoneNumber
+            : ''
+      "
+      :avatar-url="
+        activeCall
+          ? activeCall.avatarUrl
+          : incomingCall
+            ? incomingCall.avatarUrl
+            : ''
+      "
+      :phone-number="
+        activeCall
+          ? activeCall.phoneNumber
+          : incomingCall
+            ? incomingCall.phoneNumber
+            : ''
+      "
       use-web-rtc
-      @callEnded="handleCallEnded"
-      @callJoined="handleCallJoined"
-      @callRejected="handleCallRejected"
+      @call-ended="handleCallEnded"
+      @call-joined="handleCallJoined"
+      @call-rejected="handleCallRejected"
     />
   </div>
   <LoadingState v-else />

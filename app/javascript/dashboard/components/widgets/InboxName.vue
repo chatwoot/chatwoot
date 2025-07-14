@@ -23,10 +23,10 @@ export default {
     class="inbox--name inline-flex items-center py-0.5 px-0 leading-3 whitespace-nowrap bg-none text-n-slate-11 text-xs my-0 mx-2.5"
   >
     <!-- Use i-ph- icons for phone specifically, and FluentIcon for others -->
-    <span 
+    <span
       v-if="inbox.channel_type === 'Channel::Voice'"
       class="mr-0.5 rtl:ml-0.5 rtl:mr-0 i-ph-phone text-sm"
-    ></span>
+    />
     <fluent-icon
       v-else
       class="mr-0.5 rtl:ml-0.5 rtl:mr-0"

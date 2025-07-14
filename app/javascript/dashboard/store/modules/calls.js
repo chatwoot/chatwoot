@@ -20,7 +20,11 @@ const actions = {
   handleCallStatusChanged({ state, dispatch }, { callSid, status }) {
     // Debug logging for conference call widget close issue
     // eslint-disable-next-line no-console
-    console.log('[CALL DEBUG] handleCallStatusChanged invoked', { callSid, status, activeCall: state.activeCall });
+    console.log('[CALL DEBUG] handleCallStatusChanged invoked', {
+      callSid,
+      status,
+      activeCall: state.activeCall,
+    });
     const isActiveCall = callSid === state.activeCall?.callSid;
     const terminalStatuses = [
       'ended',
@@ -31,8 +35,12 @@ const actions = {
       'no_answer',
     ];
     if (isActiveCall && terminalStatuses.includes(status)) {
-    // eslint-disable-next-line no-console
-    console.log('[CALL DEBUG] Terminal status match. Closing widget.', { callSid, status, activeCall: state.activeCall });
+      // eslint-disable-next-line no-console
+      console.log('[CALL DEBUG] Terminal status match. Closing widget.', {
+        callSid,
+        status,
+        activeCall: state.activeCall,
+      });
       // Clean up active call state
       dispatch('clearActiveCall');
       // Hide floating widget reactively
@@ -55,9 +63,12 @@ const actions = {
     if (!callData || !callData.callSid) {
       throw new Error('Invalid call data provided');
     }
-    
+
     // If the call has a status, check if it's a terminal status
-    if (callData.status && ['ended', 'missed', 'completed'].includes(callData.status)) {
+    if (
+      callData.status &&
+      ['ended', 'missed', 'completed'].includes(callData.status)
+    ) {
       // If the call is already in a terminal state, clear any active call
       if (callData.callSid === state.activeCall?.callSid) {
         return dispatch('clearActiveCall');
@@ -77,14 +88,14 @@ const actions = {
   clearActiveCall({ commit }) {
     // Store the messageId before clearing the call
     const messageId = state.activeCall?.messageId;
-    
+
     commit('CLEAR_ACTIVE_CALL');
 
     // Update app state if in browser environment
     if (typeof window !== 'undefined' && window.app?.$data) {
       window.app.$data.showCallWidget = false;
     }
-    
+
     // We no longer need to update call widget status as we'll use reactive Vue props
     // and updates will come through Chatwoot's standard message update events
   },
@@ -93,29 +104,29 @@ const actions = {
     if (!callData || !callData.callSid) {
       throw new Error('Invalid call data provided');
     }
-    
+
     // Don't set as incoming if call is already active
     if (state.activeCall?.callSid === callData.callSid) {
       return;
     }
-    
+
     // Don't set as incoming if call is already incoming
     if (state.incomingCall?.callSid === callData.callSid) {
       return;
     }
-    
+
     const enrichedCallData = {
       ...callData,
       receivedAt: Date.now(),
     };
-    
+
     commit('SET_INCOMING_CALL', enrichedCallData);
-    
+
     // Update app state if in browser environment
     if (typeof window !== 'undefined' && window.app && window.app.$data) {
       window.app.$data.showCallWidget = true;
     }
-    
+
     // We no longer need to update call widget status as we'll use reactive Vue props
     // and updates will come through Chatwoot's standard message update events
   },
@@ -123,9 +134,9 @@ const actions = {
   clearIncomingCall({ commit }) {
     // Store the messageId before clearing the call
     const messageId = state.incomingCall?.messageId;
-    
+
     commit('CLEAR_INCOMING_CALL');
-    
+
     // We no longer need to update call widget status as we'll use reactive Vue props
     // and updates will come through Chatwoot's standard message update events
   },
@@ -143,7 +154,7 @@ const actions = {
       startedAt: Date.now(),
     });
     commit('CLEAR_INCOMING_CALL');
-    
+
     // We no longer need to update call widget status as we'll use reactive Vue props
     // and updates will come through Chatwoot's standard message update events
   },
@@ -163,7 +174,7 @@ const mutations = {
     $state.incomingCall = null;
   },
   // We no longer need to update call widget status as we'll use reactive Vue props
-  
+
   // We no longer need subscription mutations
 };
 

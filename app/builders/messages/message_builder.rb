@@ -7,7 +7,7 @@ class Messages::MessageBuilder
     @private = params[:private] || false
     @conversation = conversation
     @user = user
-    @message_type = params[:message_type].to_s || 'outgoing'
+    @message_type = params[:message_type] || 'outgoing'
     @attachments = params[:attachments]
     @automation_rule = content_attributes&.dig(:automation_rule_id)
     return unless params.instance_of?(ActionController::Parameters)
@@ -33,6 +33,11 @@ class Messages::MessageBuilder
   def content_attributes
     params = convert_to_hash(@params)
     content_attributes = params.fetch(:content_attributes, {})
+
+    return parse_json(content_attributes) if content_attributes.is_a?(String)
+    return content_attributes if content_attributes.is_a?(Hash)
+
+    {}
   end
 
   # Converts the given object to a hash.
@@ -135,7 +140,7 @@ class Messages::MessageBuilder
   end
 
   def message_params
-    message_attrs = {
+    {
       account_id: @conversation.account_id,
       inbox_id: @conversation.inbox_id,
       message_type: message_type,
@@ -143,17 +148,11 @@ class Messages::MessageBuilder
       private: @private,
       sender: sender,
       content_type: @params[:content_type],
+      content_attributes: content_attributes,
       items: @items,
       in_reply_to: @in_reply_to,
       echo_id: @params[:echo_id],
       source_id: @params[:source_id]
     }.merge(external_created_at).merge(automation_rule_id).merge(campaign_id).merge(template_params)
-    
-    # Directly add content_attributes from params if present
-    if @params[:content_attributes].present?
-      message_attrs[:content_attributes] = content_attributes
-    end
-    
-    message_attrs
   end
 end

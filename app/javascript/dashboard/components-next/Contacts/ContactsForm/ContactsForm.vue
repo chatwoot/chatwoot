@@ -275,11 +275,11 @@ defineExpose({
             class="w-full"
             @input="
               isValidationField(item.key) &&
-              v$[getValidationKey(item.key)].$touch()
+                v$[getValidationKey(item.key)].$touch()
             "
             @blur="
               isValidationField(item.key) &&
-              v$[getValidationKey(item.key)].$touch()
+                v$[getValidationKey(item.key)].$touch()
             "
           />
         </template>
