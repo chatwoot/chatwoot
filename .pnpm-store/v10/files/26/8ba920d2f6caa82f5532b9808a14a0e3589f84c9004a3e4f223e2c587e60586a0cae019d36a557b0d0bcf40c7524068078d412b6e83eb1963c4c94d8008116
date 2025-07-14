@@ -1,1 +1,0 @@
-{"version":3,"file":"event-queue.js","sourceRoot":"","sources":["../../../../src/core/queue/event-queue.ts"],"names":[],"mappings":";;;;AACA,gEAA2E;AAG3E,0DAAwD;AAExD;IAAgC,sCAAyC;IACvE,oBAAY,aAAsC;eAChD,kBAAM,aAAa,aAAb,aAAa,cAAb,aAAa,GAAI,IAAI,kCAAsB,CAAC,CAAC,EAAE,aAAa,CAAC,CAAC;IACtE,CAAC;IACH,iBAAC;AAAD,CAAC,AAJD,CAAgC,+BAAc,GAI7C;AAJY,gCAAU"}

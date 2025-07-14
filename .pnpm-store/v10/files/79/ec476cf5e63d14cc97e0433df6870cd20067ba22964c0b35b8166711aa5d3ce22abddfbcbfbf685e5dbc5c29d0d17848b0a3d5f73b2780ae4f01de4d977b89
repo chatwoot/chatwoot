@@ -1,3 +1,0 @@
-$icon-font-path: '//vjs.zencdn.net/font/1.5.1';
-
-@import 'video-js';

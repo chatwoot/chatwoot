@@ -1,3 +1,0 @@
-/*!
-Default styles for videojs-wavesurfer 3.8.0
-*/.vjs-wavesurfer .vjs-using-native-controls .vjs-control-bar{display:flex!important}.vjs-progress-control,.vjs-text-track-display,.vjs-wavesurfer .vjs-menu-content,.vjs-wavesurfer .vjs-modal-dialog{z-index:4}.vjs-wavesurfer.vjs-fluid wave.vjs-wavedisplay{height:100%;max-width:100%;min-width:100%;position:absolute!important;top:0;width:100%}

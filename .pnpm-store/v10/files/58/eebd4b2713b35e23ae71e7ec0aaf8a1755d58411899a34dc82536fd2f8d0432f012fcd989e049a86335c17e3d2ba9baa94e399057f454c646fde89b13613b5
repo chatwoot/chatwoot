@@ -1,8 +1,0 @@
-import { __assign as i } from "../../../../tslib@2.6.2/node_modules/tslib/tslib.es6.js";
-import { capitalCase as a } from "../../../../capital-case@1.0.4/node_modules/capital-case/dist.es2015/index.js";
-function f(e, r) {
-  return r === void 0 && (r = {}), a(e, i({ delimiter: "-" }, r));
-}
-export {
-  f as headerCase
-};

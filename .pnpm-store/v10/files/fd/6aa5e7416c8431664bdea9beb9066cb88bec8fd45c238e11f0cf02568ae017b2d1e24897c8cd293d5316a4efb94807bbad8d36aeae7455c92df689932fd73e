@@ -1,9 +1,0 @@
-
-Usage: convert-path [options] [<path>] --out=<output>
-
-Options:
-
-  -h,    --help                Print this message.
-  -V,    --version             Print the package version.
-  -o,    --out output          Output path convention.
-

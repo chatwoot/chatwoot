@@ -1,1 +1,0 @@
-{"version":3,"file":"batched-dispatcher.d.ts","sourceRoot":"","sources":["../../../../src/plugins/segmentio/batched-dispatcher.ts"],"names":[],"mappings":"AAIA,MAAM,MAAM,sBAAsB,GAAG;IACnC,IAAI,CAAC,EAAE,MAAM,CAAA;IACb,OAAO,CAAC,EAAE,MAAM,CAAA;CACjB,CAAA;AAsCD,MAAM,CAAC,OAAO,UAAU,KAAK,CAC3B,OAAO,EAAE,MAAM,EACf,MAAM,CAAC,EAAE,sBAAsB;qBAuDD,MAAM,QAAQ,MAAM,KAAG,QAAQ,OAAO,CAAC;EAYtE"}

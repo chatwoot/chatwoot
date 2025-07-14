@@ -1,6 +1,0 @@
-{
-  "name": "tinyHashes_md5",
-  "main": "index.js",
-  "module": "index.mjs",
-  "source": "md5.js"
-}

@@ -1,9 +1,0 @@
-{
-	"root": true,
-
-	"extends": "@ljharb",
-
-	"globals": {
-		"globalThis": false
-	}
-}

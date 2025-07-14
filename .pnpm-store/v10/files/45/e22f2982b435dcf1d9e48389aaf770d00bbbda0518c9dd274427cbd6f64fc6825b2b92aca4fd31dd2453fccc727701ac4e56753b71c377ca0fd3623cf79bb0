@@ -1,6 +1,0 @@
-{
-  "plugins": ["redos-detector"],
-  "rules": {
-    "redos-detector/no-unsafe-regex": "error"
-  }
-}

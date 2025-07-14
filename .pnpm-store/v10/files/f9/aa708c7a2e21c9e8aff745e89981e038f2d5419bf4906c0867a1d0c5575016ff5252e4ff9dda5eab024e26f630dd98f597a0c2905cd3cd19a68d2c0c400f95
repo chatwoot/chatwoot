@@ -1,1 +1,0 @@
-(function(self){'use strict';const b=/[\u0300-\u036f]/g;const c=/[\W_]+/;self.FlexSearch.registerCharset("latin:default",{encode:function(a){var d=this.g;a.normalize&&(a=a.normalize("NFD").replace(b,""));return d.call(this,a.toLowerCase(),!1,c,!1)},h:!1,i:""});}(this));

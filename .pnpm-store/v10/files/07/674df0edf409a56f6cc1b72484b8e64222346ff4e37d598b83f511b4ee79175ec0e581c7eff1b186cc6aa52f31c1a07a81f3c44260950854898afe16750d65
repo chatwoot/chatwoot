@@ -1,1 +1,0 @@
-!function(e,n){"object"==typeof exports&&"undefined"!=typeof module?n(exports):"function"==typeof define&&define.amd?define(["exports"],n):n(e["@lukeed/csprng"]={})}(this,(function(e){e.random=function(e){return crypto.getRandomValues(new Uint8Array(e))}}));

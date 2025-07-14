@@ -61,16 +61,16 @@ coverage
 # ignore packages
 node_modules
 package-lock.json
+# PNPM store cache
+.pnpm-store
 
 *.dump
-
 
 # cypress
 test/cypress/videos/*
 
 /config/master.key
 /config/*.enc
-
 
 # yalc for local testing
 .yalc
@@ -88,7 +88,6 @@ yarn-debug.log*
 # Vite uses dotenv and suggests to ignore local-only env files. See
 # https://vitejs.dev/guide/env-and-mode.html#env-files
 *.local
-
 
 # TextEditors & AI Agents config files
 .vscode

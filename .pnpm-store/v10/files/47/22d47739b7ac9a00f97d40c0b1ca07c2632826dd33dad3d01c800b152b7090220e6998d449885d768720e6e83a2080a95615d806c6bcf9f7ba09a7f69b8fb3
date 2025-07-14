@@ -1,9 +1,0 @@
-
-Usage: library-manifest [options] <filepath> [-- --<condition>=value ...]
-
-Options:
-
-  -h,    --help                Print this message.
-  -V,    --version             Print the package version.
-         --dir basedir         Base search directory.
-         --paths convention    Path convention.

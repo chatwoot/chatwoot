@@ -1,1 +1,0 @@
-{"version":3,"file":"is-thenable.js","sourceRoot":"","sources":["../../../src/lib/is-thenable.ts"],"names":[],"mappings":"AAAA;;;GAGG;AACH,MAAM,CAAC,IAAM,UAAU,GAAG,UAAC,KAAc;IACvC,OAAA,OAAO,KAAK,KAAK,QAAQ;QACzB,KAAK,KAAK,IAAI;QACd,MAAM,IAAI,KAAK;QACf,OAAQ,KAAa,CAAC,IAAI,KAAK,UAAU;AAHzC,CAGyC,CAAA"}

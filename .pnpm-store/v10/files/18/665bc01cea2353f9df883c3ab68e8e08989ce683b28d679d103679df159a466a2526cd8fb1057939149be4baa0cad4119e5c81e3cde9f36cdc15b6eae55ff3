@@ -1,6 +1,0 @@
-{
-  "name": "tinyHashes_sha256",
-  "main": "index.js",
-  "module": "index.mjs",
-  "source": "sha256.js"
-}
