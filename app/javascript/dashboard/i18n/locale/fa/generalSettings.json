@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "برای انتخاب Enter را فشار دهید",
       "ENTER_TO_REMOVE": "برای حذف دکمه enter را فشار دهید",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "یکی را انتخاب کن",
       "SELECT": "انتخاب کنید"
     }
