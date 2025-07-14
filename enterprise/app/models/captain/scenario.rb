@@ -60,7 +60,8 @@ class Captain::Scenario < ApplicationRecord
     Agents::Agent.new(
       name: "#{title} Agent".titleize,
       instructions: agent_instructions,
-      tools: tool_instances
+      tools: tool_instances,
+      model: 'gpt-4.1-mini'
     )
   end
 
