@@ -55,6 +55,10 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  showMenu: {
+    type: Boolean,
+    default: true,
+  },
 });
 
 const emit = defineEmits(['action', 'navigate', 'select', 'hover']);
@@ -130,7 +134,7 @@ const handleDocumentableClick = () => {
       <span class="text-base text-n-slate-12 line-clamp-1">
         {{ question }}
       </span>
-      <div v-if="!compact" class="flex items-center gap-2">
+      <div v-if="!compact && showMenu" class="flex items-center gap-2">
         <Policy
           v-on-clickaway="() => toggleDropdown(false)"
           :permissions="['administrator']"

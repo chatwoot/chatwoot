@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Apăsați enter pentru a selecta",
       "ENTER_TO_REMOVE": "Introduceți numele complet al persoanei de contact",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Alege una",
       "SELECT": "Selectați"
     }
