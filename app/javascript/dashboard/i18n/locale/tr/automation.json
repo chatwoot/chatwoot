@@ -150,6 +150,17 @@
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Görüşmeyi aç"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Mesaj Türü",
       "MESSAGE_CONTAINS": "Mesaj İçerir",

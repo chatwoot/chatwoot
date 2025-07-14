@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Enterキーで選択",
       "ENTER_TO_REMOVE": "Enterキーで削除",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "1つを選択",
       "SELECT": "選択"
     }
