@@ -150,6 +150,17 @@
       "ADD_SLA": "Adicionar SLA",
       "OPEN_CONVERSATION": "Abrir conversa"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Elevada",
+      "URGENT": "Urgente"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo de mensagem",
       "MESSAGE_CONTAINS": "A mensagem contém",
