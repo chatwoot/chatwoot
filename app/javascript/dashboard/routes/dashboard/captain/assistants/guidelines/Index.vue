@@ -128,20 +128,22 @@ const bulkCheckbox = computed({
           :items="guidelinesExample"
         >
           <template #default="{ item }">
-            <span class="text-sm text-n-slate-12">
-              {{ item.content }}
-            </span>
-            <Button
-              :label="
-                t(
-                  'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.ADD_SINGLE'
-                )
-              "
-              ghost
-              xs
-              slate
-              class="!text-sm !text-n-slate-11 flex-shrink-0"
-            />
+            <div class="flex items-center justify-between w-full">
+              <span class="text-sm text-n-slate-12">
+                {{ item.content }}
+              </span>
+              <Button
+                :label="
+                  t(
+                    'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.ADD_SINGLE'
+                  )
+                "
+                ghost
+                xs
+                slate
+                class="!text-sm !text-n-slate-11 flex-shrink-0"
+              />
+            </div>
           </template>
         </SuggestedRules>
       </div>
