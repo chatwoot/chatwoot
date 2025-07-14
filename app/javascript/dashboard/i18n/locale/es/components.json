@@ -42,12 +42,12 @@
   },
   "FEATURE_SPOTLIGHT": {
     "LEARN_MORE": "Más información",
-    "WATCH_VIDEO": "Watch video"
+    "WATCH_VIDEO": "Ver video"
   },
   "DURATION_INPUT": {
-    "MINUTES": "Minutes",
-    "HOURS": "Hours",
-    "DAYS": "Days",
-    "PLACEHOLDER": "Enter duration"
+    "MINUTES": "Minutos",
+    "HOURS": "Horas",
+    "DAYS": "Días",
+    "PLACEHOLDER": "Ingrese duración"
   }
 }
