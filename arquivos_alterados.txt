@@ -1,0 +1,43 @@
+On branch develop
+Your branch is up to date with 'upstream/develop'.
+
+Changes not staged for commit:
+  (use "git add <file>..." to update what will be committed)
+  (use "git restore <file>..." to discard changes in working directory)
+	modified:   app/javascript/dashboard/assets/scss/_base.scss
+	modified:   app/javascript/dashboard/assets/scss/_next-colors.scss
+	modified:   app/javascript/dashboard/assets/scss/_woot.scss
+	modified:   app/javascript/dashboard/components-next/button/Button.vue
+	modified:   app/javascript/dashboard/components-next/button/constants.js
+	modified:   app/javascript/dashboard/components-next/filter/inputs/SingleSelect.vue
+	modified:   app/javascript/dashboard/components-next/input/DurationInput.vue
+	modified:   app/javascript/dashboard/components-next/message/bubbles/Base.vue
+	modified:   app/javascript/dashboard/components/Modal.vue
+	modified:   app/javascript/dashboard/components/ui/Wizard.vue
+	modified:   app/javascript/dashboard/components/widgets/Avatar.vue
+	modified:   app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
+	modified:   app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue
+	modified:   app/javascript/dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue
+	modified:   app/javascript/dashboard/routes/dashboard/settings/customRoles/component/CustomRolePaywall.vue
+	modified:   app/javascript/dashboard/routes/dashboard/upgrade/UpgradePage.vue
+	modified:   app/javascript/dashboard/store/modules/accounts.js
+	modified:   app/javascript/shared/components/Button.vue
+	modified:   app/javascript/v3/components/Form/WithLabel.vue
+	modified:   config/vite.json
+	modified:   lib/chatwoot_hub.rb
+	modified:   package.json
+	modified:   pnpm-lock.yaml
+	modified:   tailwind.config.js
+	modified:   theme/colors.js
+	modified:   theme/icons.js
+
+Untracked files:
+  (use "git add <file>..." to include in what will be committed)
+	UPDATE.md
+	app/javascript/dashboard/assets/scss/_custom-shadows.scss
+	app/javascript/dashboard/assets/scss/_theme-fixes.scss
+	arquivos_alterados.txt
+	clean_install.sh
+	scripts/
+
+no changes added to commit (use "git add" and/or "git commit -a")

@@ -5,10 +5,22 @@ import { useI18n } from 'vue-i18n';
 import { DURATION_UNITS } from './constants';
 
 const props = defineProps({
-  min: { type: Number, default: 0 },
-  max: { type: Number, default: Infinity },
+  min: { 
+    type: [Number, String], 
+    default: 0,
+    validator: (value) => !isNaN(Number(value))
+  },
+  max: { 
+    type: [Number, String], 
+    default: Infinity,
+    validator: (value) => !isNaN(Number(value))
+  },
   disabled: { type: Boolean, default: false },
 });
+
+// Converte props para números
+const minValue = computed(() => Number(props.min));
+const maxValue = computed(() => Number(props.max));
 
 const { t } = useI18n();
 const duration = defineModel('modelValue', { type: Number, default: null });
@@ -43,7 +55,7 @@ const transformedValue = computed({
   set(newValue) {
     let minuteValue = convertToMinutes(newValue);
 
-    duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
+    duration.value = Math.min(Math.max(minuteValue, minValue.value), maxValue.value);
   },
 });
 
@@ -54,30 +66,32 @@ const transformedValue = computed({
 // this watcher fixes it by rounding the duration basically, to the nearest unit value
 watch(unit, () => {
   let adjustedValue = convertToMinutes(transformedValue.value);
-  duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
+  duration.value = Math.min(Math.max(adjustedValue, minValue.value), maxValue.value);
 });
 </script>
 
 <template>
-  <Input
-    v-model="transformedValue"
-    type="number"
-    autocomplete="off"
-    :disabled="disabled"
-    :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
-    class="flex-grow w-full disabled:"
-  />
-  <select
-    v-model="unit"
-    :disabled="disabled"
-    class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
-  >
-    <option :value="DURATION_UNITS.MINUTES">
-      {{ t('DURATION_INPUT.MINUTES') }}
-    </option>
-    <option :value="DURATION_UNITS.HOURS">
-      {{ t('DURATION_INPUT.HOURS') }}
-    </option>
-    <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
-  </select>
+  <div class="flex items-center gap-2">
+    <Input
+      v-model="transformedValue"
+      type="number"
+      autocomplete="off"
+      :disabled="disabled"
+      :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
+      class="flex-grow w-full disabled:"
+    />
+    <select
+      v-model="unit"
+      :disabled="disabled"
+      class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
+    >
+      <option :value="DURATION_UNITS.MINUTES">
+        {{ t('DURATION_INPUT.MINUTES') }}
+      </option>
+      <option :value="DURATION_UNITS.HOURS">
+        {{ t('DURATION_INPUT.HOURS') }}
+      </option>
+      <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
+    </select>
+  </div>
 </template>

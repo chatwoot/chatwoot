@@ -6,11 +6,13 @@
   "development": {
     "autoBuild": true,
     "publicOutputDir": "vite-dev",
-    "port": 3036
+    "port": 3036,
+    "host": "127.0.0.1"
   },
   "test": {
     "autoBuild": true,
     "publicOutputDir": "vite-test",
-    "port": 3037
+    "port": 3037,
+    "host": "127.0.0.1"
   }
 }

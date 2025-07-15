@@ -1,11 +1,18 @@
 <script setup>
-defineProps({
+import { computed } from 'vue';
+
+const props = defineProps({
   label: { type: String, default: '' },
-  name: { type: String, required: true },
+  name: { type: String, default: '' },
   icon: { type: String, default: '' },
   hasError: { type: Boolean, default: false },
   helpMessage: { type: String, default: '' },
   errorMessage: { type: String, default: '' },
+});
+
+// Gera um ID único se name não for fornecido
+const fieldId = computed(() => {
+  return props.name || `field-${Math.random().toString(36).substr(2, 9)}`;
 });
 </script>
 
@@ -13,7 +20,7 @@ defineProps({
   <div class="space-y-1">
     <label
       v-if="label"
-      :for="name"
+      :for="fieldId"
       class="flex justify-between text-sm font-medium leading-6 text-n-slate-12"
       :class="{ 'text-n-ruby-12': hasError }"
     >

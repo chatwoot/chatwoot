@@ -1,0 +1,2363 @@
+diff --git a/app/javascript/dashboard/assets/scss/_base.scss b/app/javascript/dashboard/assets/scss/_base.scss
+index 14ae2a9d4..1cd6b3512 100644
+--- a/app/javascript/dashboard/assets/scss/_base.scss
++++ b/app/javascript/dashboard/assets/scss/_base.scss
+@@ -16,16 +16,16 @@ p {
+   @apply mb-2 leading-[1.65] text-sm;
+ 
+   a {
+-    @apply text-n-brand dark:text-n-brand cursor-pointer;
++    @apply text-purple-600 dark:text-purple-400 cursor-pointer hover:text-purple-700 dark:hover:text-purple-300 transition-colors duration-200;
+   }
+ }
+ 
+ a {
+-  @apply text-sm;
++  @apply text-sm text-purple-600 hover:text-purple-700 transition-colors duration-200;
+ }
+ 
+ hr {
+-  @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
++  @apply clear-both max-w-full h-0 my-5 mx-0 border-purple-200 dark:border-purple-700;
+ }
+ 
+ ul,
+@@ -40,13 +40,13 @@ dl:not(.reset-base) {
+   @apply mb-0;
+ }
+ 
+-// Button base
++// Button base - Tema roxo elegante
+ button {
+   font-family: inherit;
+-  @apply inline-block text-center align-middle cursor-pointer text-sm m-0 py-1 px-2.5 transition-all duration-200 ease-in-out border-0 border-none rounded-lg disabled:opacity-50;
++  @apply inline-block text-center align-middle cursor-pointer text-sm m-0 py-2 px-4 transition-all duration-200 ease-in-out border-none rounded-xl disabled:opacity-50 font-medium;
+ }
+ 
+-// Form elements
++// Form elements - Bordas arredondadas
+ // -------------------------
+ label {
+   @apply text-n-slate-12 block m-0 leading-7 text-sm font-medium;
+@@ -63,25 +63,40 @@ textarea {
+   outline: none;
+ }
+ 
+-// Field base styles (Input, TextArea, Select)
++// Field base styles (Input, TextArea, Select) - Estilo moderno com bordas arredondadas
+ @layer components {
+   .field-base {
+-    @apply block box-border w-full transition-colors duration-[0.25s] ease-[ease-in-out] focus:outline-n-brand dark:focus:outline-n-brand appearance-none mx-0 mt-0 mb-4 py-2 px-3 rounded-lg text-base font-normal bg-n-alpha-black2 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-none outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6;
++    @apply block box-border w-full transition-all duration-200 ease-in-out focus:outline-none appearance-none mx-0 mt-0 mb-4 py-3 px-4 rounded-lg text-base font-normal bg-white placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-2 border-purple-200 dark:border-purple-600 hover:border-purple-300 dark:hover:border-purple-500 focus:border-purple-500 dark:focus:border-purple-400 focus:ring-4 focus:ring-purple-100 dark:focus:ring-purple-900 focus:ring-opacity-50 shadow-sm;
+   }
+ 
+   .field-disabled {
+-    @apply opacity-50 outline-n-weak dark:outline-n-weak cursor-not-allowed;
++    @apply opacity-50 border-gray-300 dark:border-gray-600 cursor-not-allowed bg-gray-50 dark:bg-gray-800;
+   }
+ 
+   .field-error {
+-    @apply outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
++    @apply border-red-400 dark:border-red-500 hover:border-red-500 dark:hover:border-red-400 focus:border-red-500 dark:focus:border-red-400 focus:ring-red-100 dark:focus:ring-red-900;
++  }
++
++  // Cards elegantes
++  .elegant-card {
++    @apply bg-white dark:bg-gray-800 rounded-xl shadow-elegant border border-purple-100 dark:border-purple-800 p-6 transition-all duration-200 hover:shadow-modern;
++  }
++
++  // Containers modernos
++  .modern-container {
++    @apply bg-gradient-to-br from-purple-50 to-white dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 shadow-luxury;
++  }
++
++  // Glass effect
++  .glass-effect {
++    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl;
+   }
+ }
+ 
+ $form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='button']):not([type='submit']):not([type='reset']):not([type='color']):not([type='image']):not([type='hidden']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
+ 
+ #{$form-input-selector} {
+-  @apply field-base h-10;
++  @apply field-base h-12; // Aumentado para melhor proporção
+ 
+   &[disabled] {
+     @apply field-disabled;
+@@ -90,27 +105,36 @@ $form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not
+   &.error {
+     @apply field-error mb-1;
+   }
++
++  // Estados hover e focus aprimorados
++  &:hover:not(:disabled) {
++    @apply transform scale-[1.01] transition-transform duration-200;
++  }
++
++  &:focus {
++    @apply transform scale-[1.02];
++  }
+ }
+ 
+ input[type='file']:not(.multiselect__input) {
+-  @apply leading-[1.15] mb-4 border-0 bg-transparent text-sm;
++  @apply leading-[1.15] mb-4 bg-transparent text-sm rounded-lg p-2 border-2 border-dashed border-purple-300 hover:border-purple-400 transition-colors duration-200;
+ }
+ 
+-// Select
++// Select - Estilo moderno
+ select {
+-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
+-  background-size: 9px 6px;
++  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28107, 70, 193%29'></polygon></svg>");
++  background-size: 12px 8px;
+ 
+-  @apply field-base h-10 bg-origin-content bg-no-repeat py-2 ltr:bg-[right_-1rem_center] rtl:bg-[left_-1rem_center] ltr:pr-6 rtl:pl-6 rtl:pr-3 ltr:pl-3;
++  @apply field-base h-12 bg-origin-content bg-no-repeat py-3 ltr:bg-[right_1rem_center] rtl:bg-[left_1rem_center] ltr:pr-10 rtl:pl-10 rtl:pr-4 ltr:pl-4;
+ 
+   &[disabled] {
+     @apply field-disabled;
+   }
+ }
+ 
+-// Textarea
++// Textarea - Estilo moderno
+ textarea {
+-  @apply field-base h-16;
++  @apply field-base min-h-[6rem] resize-y;
+ 
+   &[disabled] {
+     @apply field-disabled;
+@@ -126,10 +150,10 @@ label:has(.help-text) {
+   }
+ }
+ 
+-// Error handling
++// Error handling - Estilo aprimorado
+ .has-multi-select-error {
+   div.multiselect {
+-    @apply mb-1;
++    @apply mb-1 border-red-400 rounded-lg;
+   }
+ }
+ 
+@@ -142,7 +166,7 @@ label:has(.help-text) {
+   }
+ 
+   .formkit-message {
+-    @apply text-n-ruby-9 dark:text-n-ruby-9 block text-sm mb-2.5 w-full;
++    @apply text-red-500 dark:text-red-400 block text-sm mb-2.5 w-full font-medium;
+   }
+ }
+ 
+@@ -167,42 +191,103 @@ label:has(.help-text) {
+   }
+ 
+   .message {
+-    @apply text-n-ruby-9 dark:text-n-ruby-9 block text-sm mb-2.5 w-full;
++    @apply text-red-500 dark:text-red-400 block text-sm mb-2.5 w-full font-medium;
+   }
+ }
+ 
+ .input-group.small {
+   input {
+-    @apply text-sm h-8;
++    @apply text-sm h-10;
+   }
+ 
+   .error {
+-    @apply text-n-ruby-9 dark:text-n-ruby-9;
++    @apply text-red-500 dark:text-red-400;
+   }
+ }
+ 
+-// Code styling
++// Code styling - Tema roxo
+ code {
+   font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
+     '"Liberation Mono"', '"Courier New"', 'monospace';
+-  @apply text-xs border-0;
++  @apply text-xs border-0 bg-purple-50 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-md;
+ 
+   &.hljs {
+-    @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12 rounded-lg p-5;
++    @apply bg-purple-50 dark:bg-purple-900 text-purple-900 dark:text-purple-100 rounded-xl p-6 shadow-inner;
+ 
+     .hljs-number,
+     .hljs-string {
+-      @apply text-n-ruby-9 dark:text-n-ruby-9;
++      @apply text-amber-600 dark:text-amber-400;
+     }
+ 
+     .hljs-name,
+     .hljs-tag {
+-      @apply text-n-slate-11;
++      @apply text-purple-700 dark:text-purple-300;
++    }
++
++    .hljs-keyword {
++      @apply text-purple-800 dark:text-purple-200 font-semibold;
++    }
++
++    .hljs-comment {
++      @apply text-gray-500 dark:text-gray-400 italic;
+     }
+   }
+ }
+ 
+-// Table
++// Table - Estilo moderno
+ table {
+-  @apply border-spacing-0 text-sm w-full;
++  @apply border-spacing-0 text-sm w-full rounded-lg overflow-hidden shadow-soft;
++
++  th {
++    @apply bg-purple-50 dark:bg-purple-900 text-purple-900 dark:text-purple-100 font-semibold p-4 border-b border-purple-200 dark:border-purple-700;
++  }
++
++  td {
++    @apply p-4 border-b border-purple-100 dark:border-purple-800;
++  }
++
++  tr:hover {
++    @apply bg-purple-25 dark:bg-purple-950 transition-colors duration-200;
++  }
++}
++
++// Animações suaves globais
++* {
++  @apply transition-colors duration-200;
++}
++
++// Scrollbar personalizada
++::-webkit-scrollbar {
++  @apply w-2;
++}
++
++::-webkit-scrollbar-track {
++  @apply bg-purple-50 dark:bg-purple-900 rounded-lg;
++}
++
++::-webkit-scrollbar-thumb {
++  @apply bg-purple-300 dark:bg-purple-600 rounded-lg hover:bg-purple-400 dark:hover:bg-purple-500;
++}
++
++// Classes utilitárias adicionais
++.text-gradient {
++  background: linear-gradient(135deg, #6b46c1, #9f7aea);
++  -webkit-background-clip: text;
++  -webkit-text-fill-color: transparent;
++  background-clip: text;
++}
++
++.border-gradient {
++  border: 2px solid transparent;
++  background: linear-gradient(white, white) padding-box,
++              linear-gradient(135deg, #6b46c1, #9f7aea) border-box;
++}
++
++// Efeitos hover globais
++.hover-lift {
++  @apply transition-transform duration-200 hover:transform hover:scale-105;
++}
++
++.hover-glow {
++  @apply transition-shadow duration-200 hover:shadow-purple-glow;
+ }
+diff --git a/app/javascript/dashboard/assets/scss/_next-colors.scss b/app/javascript/dashboard/assets/scss/_next-colors.scss
+index f23c01d42..ea82344fa 100644
+--- a/app/javascript/dashboard/assets/scss/_next-colors.scss
++++ b/app/javascript/dashboard/assets/scss/_next-colors.scss
+@@ -1,8 +1,8 @@
+ // scss-lint:disable PropertySortOrder
+ @layer base {
+-  // NEXT COLORS START
++  // NEXT COLORS START - TEMA ROXO ESCURO ELEGANTE
+   :root {
+-    // slate
++    // slate - mantido para compatibilidade
+     --slate-1: 252 252 253;
+     --slate-2: 249 249 251;
+     --slate-3: 240 240 243;
+@@ -16,6 +16,7 @@
+     --slate-11: 96 100 108;
+     --slate-12: 28 32 36;
+ 
++    // iris - mantido para compatibilidade
+     --iris-1: 253 253 255;
+     --iris-2: 248 248 255;
+     --iris-3: 240 241 254;
+@@ -29,6 +30,21 @@
+     --iris-11: 87 83 198;
+     --iris-12: 39 41 98;
+ 
++    // purple - Nova cor principal (roxo escuro elegante)
++    --purple-1: 248 246 255;
++    --purple-2: 240 235 255;
++    --purple-3: 229 217 255;
++    --purple-4: 214 199 255;
++    --purple-5: 183 148 246;
++    --purple-6: 159 122 234;
++    --purple-7: 128 90 213;
++    --purple-8: 107 70 193;
++    --purple-9: 85 60 154;
++    --purple-10: 68 51 122;
++    --purple-11: 50 37 89;
++    --purple-12: 26 22 37;
++
++    // blue - mantido como cor secundária
+     --blue-1: 251 253 255;
+     --blue-2: 245 249 255;
+     --blue-3: 233 243 255;
+@@ -42,6 +58,7 @@
+     --blue-11: 8 109 224;
+     --blue-12: 11 50 101;
+ 
++    // ruby - mantido para erros
+     --ruby-1: 255 252 253;
+     --ruby-2: 255 247 248;
+     --ruby-3: 254 234 237;
+@@ -55,6 +72,7 @@
+     --ruby-11: 202 36 77;
+     --ruby-12: 100 23 43;
+ 
++    // amber - dourado como cor complementar
+     --amber-1: 254 253 251;
+     --amber-2: 254 251 233;
+     --amber-3: 255 247 194;
+@@ -68,6 +86,7 @@
+     --amber-11: 171 100 0;
+     --amber-12: 79 52 34;
+ 
++    // teal - verde como cor de sucesso
+     --teal-1: 250 254 253;
+     --teal-2: 243 251 249;
+     --teal-3: 224 248 243;
+@@ -81,6 +100,7 @@
+     --teal-11: 0 133 115;
+     --teal-12: 13 61 56;
+ 
++    // gray - neutros
+     --gray-1: 252 252 252;
+     --gray-2: 249 249 249;
+     --gray-3: 240 240 240;
+@@ -94,30 +114,33 @@
+     --gray-11: 100 100 100;
+     --gray-12: 32 32 32;
+ 
+-    --background-color: 253 253 253;
+-    --text-blue: 8 109 224;
+-    --border-container: 236 236 236;
+-    --border-strong: 235 235 235;
+-    --border-weak: 234 234 234;
++    // Cores de sistema atualizadas para roxo
++    --background-color: 253 253 255;
++    --text-purple: 107 70 193;
++    --text-blue: 107 70 193; // Redirecionado para roxo
++    --border-container: 240 235 255;
++    --border-strong: 229 217 255;
++    --border-weak: 248 246 255;
+     --solid-1: 255 255 255;
+-    --solid-2: 255 255 255;
+-    --solid-3: 255 255 255;
++    --solid-2: 248 246 255;
++    --solid-3: 240 235 255;
+     --solid-active: 255 255 255;
+-    --solid-amber: 252 232 193;
+-    --solid-blue: 218 236 255;
++    --solid-amber: 254 251 233;
++    --solid-purple: 240 235 255;
+     --solid-iris: 230 231 255;
+ 
+-    --alpha-1: 67, 67, 67, 0.06;
+-    --alpha-2: 201, 202, 207, 0.15;
++    --alpha-1: 107, 70, 193, 0.06;
++    --alpha-2: 107, 70, 193, 0.15;
+     --alpha-3: 255, 255, 255, 0.96;
+     --black-alpha-1: 0, 0, 0, 0.12;
+     --black-alpha-2: 0, 0, 0, 0.04;
+-    --border-blue: 39, 129, 246, 0.5;
++    --border-purple: 107, 70, 193, 0.5;
++    --border-blue: 107, 70, 193, 0.5; // Redirecionado para roxo
+     --white-alpha: 255, 255, 255, 0.8;
+   }
+ 
+   .dark {
+-    // slate
++    // slate - tema escuro
+     --slate-1: 17 17 19;
+     --slate-2: 24 25 27;
+     --slate-3: 33 34 37;
+@@ -131,6 +154,7 @@
+     --slate-11: 176 180 186;
+     --slate-12: 237 238 240;
+ 
++    // iris - tema escuro
+     --iris-1: 19 19 30;
+     --iris-2: 23 22 37;
+     --iris-3: 32 34 72;
+@@ -144,6 +168,21 @@
+     --iris-11: 158 177 255;
+     --iris-12: 224 223 254;
+ 
++    // purple - tema escuro roxo elegante
++    --purple-1: 20 16 25;
++    --purple-2: 26 22 37;
++    --purple-3: 38 29 52;
++    --purple-4: 50 37 89;
++    --purple-5: 68 51 122;
++    --purple-6: 85 60 154;
++    --purple-7: 107 70 193;
++    --purple-8: 128 90 213;
++    --purple-9: 159 122 234;
++    --purple-10: 183 148 246;
++    --purple-11: 214 199 255;
++    --purple-12: 240 235 255;
++
++    // blue - tema escuro
+     --blue-1: 10 17 28;
+     --blue-2: 15 24 38;
+     --blue-3: 15 39 72;
+@@ -157,6 +196,7 @@
+     --blue-11: 126 182 255;
+     --blue-12: 205 227 255;
+ 
++    // ruby - tema escuro
+     --ruby-1: 25 17 19;
+     --ruby-2: 30 21 23;
+     --ruby-3: 58 20 30;
+@@ -170,6 +210,7 @@
+     --ruby-11: 255 148 157;
+     --ruby-12: 254 210 225;
+ 
++    // amber - tema escuro dourado
+     --amber-1: 22 18 12;
+     --amber-2: 29 24 15;
+     --amber-3: 48 32 8;
+@@ -183,6 +224,7 @@
+     --amber-11: 255 202 22;
+     --amber-12: 255 231 179;
+ 
++    // teal - tema escuro verde
+     --teal-1: 13 21 20;
+     --teal-2: 17 28 27;
+     --teal-3: 13 45 42;
+@@ -196,6 +238,7 @@
+     --teal-11: 11 216 182;
+     --teal-12: 173 240 221;
+ 
++    // gray - tema escuro
+     --gray-1: 17 17 17;
+     --gray-2: 25 25 25;
+     --gray-3: 34 34 34;
+@@ -209,26 +252,116 @@
+     --gray-11: 180 180 180;
+     --gray-12: 238 238 238;
+ 
+-    --background-color: 18 18 19;
++    // Cores de sistema tema escuro
++    --background-color: 20 16 25;
+     --border-strong: 52 52 52;
+-    --border-weak: 38 38 42;
+-    --solid-1: 23 23 26;
+-    --solid-2: 29 30 36;
+-    --solid-3: 44 45 54;
+-    --solid-active: 53 57 66;
+-    --solid-amber: 42 37 30;
+-    --solid-blue: 16 49 91;
++    --border-weak: 38 29 52;
++    --solid-1: 26 22 37;
++    --solid-2: 38 29 52;
++    --solid-3: 50 37 89;
++    --solid-active: 68 51 122;
++    --solid-amber: 48 32 8;
++    --solid-purple: 38 29 52;
+     --solid-iris: 38 42 101;
+-    --text-blue: 126 182 255;
++    --text-purple: 214 199 255;
++    --text-blue: 214 199 255; // Redirecionado para roxo no tema escuro
+ 
+-    --alpha-1: 36, 36, 36, 0.8;
+-    --alpha-2: 139, 147, 182, 0.15;
+-    --alpha-3: 36, 38, 45, 0.9;
++    --alpha-1: 107, 70, 193, 0.8;
++    --alpha-2: 159, 122, 234, 0.15;
++    --alpha-3: 26, 22, 37, 0.9;
+     --black-alpha-1: 0, 0, 0, 0.3;
+     --black-alpha-2: 0, 0, 0, 0.2;
+-    --border-blue: 39, 129, 246, 0.5;
+-    --border-container: 236, 236, 236, 0;
++    --border-purple: 159, 122, 234, 0.5;
++    --border-blue: 159, 122, 234, 0.5; // Redirecionado para roxo
++    --border-container: 50, 37, 89, 0.8;
+     --white-alpha: 255, 255, 255, 0.1;
+   }
+ }
+ // NEXT COLORS END
++
++// Classes utilitárias para o tema roxo elegante
++@layer utilities {
++  // Componentes com tema roxo
++  .purple-gradient {
++    background: linear-gradient(135deg, rgb(107, 70, 193) 0%, rgb(85, 60, 154) 100%);
++  }
++  
++  .purple-gradient-light {
++    background: linear-gradient(135deg, rgb(240, 235, 255) 0%, rgb(248, 246, 255) 100%);
++  }
++  
++  .glass-purple {
++    background: rgba(107, 70, 193, 0.1);
++    backdrop-filter: blur(10px);
++    border: 1px solid rgba(107, 70, 193, 0.2);
++  }
++  
++  .elegant-card {
++    @apply bg-white rounded-xl shadow-elegant border border-purple-100;
++  }
++  
++  .modern-button {
++    @apply bg-purple-600 hover:bg-purple-700 text-white rounded-lg px-6 py-3 transition-all duration-200 transform hover:scale-105 shadow-modern;
++  }
++  
++  .elegant-input {
++    @apply border-2 border-purple-200 focus:border-purple-500 rounded-lg px-4 py-2 transition-colors duration-200;
++  }
++
++  // Classes para compatibilidade com componentes existentes
++  .text-n-blue-text {
++    color: rgb(var(--text-purple));
++  }
++
++  .dark .text-n-blue-text {
++    color: rgb(var(--text-purple));
++  }
++
++  .text-n-purple-text {
++    color: rgb(var(--text-purple));
++  }
++
++  .dark .text-n-purple-text {
++    color: rgb(var(--text-purple));
++  }
++
++  // Redirecionamentos de cores antigas para compatibilidade
++  .bg-n-brand {
++    background-color: rgb(107, 70, 193);
++  }
++
++  .text-n-brand {
++    color: rgb(107, 70, 193);
++  }
++
++  .border-n-brand {
++    border-color: rgb(107, 70, 193);
++  }
++
++  .dark .bg-n-brand {
++    background-color: rgb(159, 122, 234);
++  }
++
++  .dark .text-n-brand {
++    color: rgb(214, 199, 255);
++  }
++
++  .dark .border-n-brand {
++    border-color: rgb(159, 122, 234);
++  }
++}
++
++// Classes de compatibilidade para componentes que ainda referenciam cores antigas
++@layer components {
++  .woot-button {
++    @apply bg-purple-600 hover:bg-purple-700 text-white px-4 py-2 rounded-lg transition-all duration-200;
++  }
++
++  .woot-input {
++    @apply border-purple-300 focus:border-purple-500 rounded-lg;
++  }
++
++  .woot-card {
++    @apply bg-white border border-purple-100 rounded-xl shadow-soft;
++  }
++}
+diff --git a/app/javascript/dashboard/assets/scss/_woot.scss b/app/javascript/dashboard/assets/scss/_woot.scss
+index 66416c64c..7f6bd1903 100644
+--- a/app/javascript/dashboard/assets/scss/_woot.scss
++++ b/app/javascript/dashboard/assets/scss/_woot.scss
+@@ -3,15 +3,21 @@
+ @import 'tailwindcss/components';
+ @import 'tailwindcss/utilities';
+ 
++// Classes personalizadas
++@import 'custom-shadows';
++
+ @import 'shared/assets/fonts/InterDisplay/inter-display';
+ @import 'shared/assets/fonts/inter';
+ 
+-// Next Colors
++// Next Colors - Tema Roxo Elegante
+ @import 'next-colors';
+ 
+ // Base styles for elements
+ @import 'base';
+ 
++// Theme fixes for compatibility - MAIS IMPORTANTE
++@import 'theme-fixes';
++
+ // Plugins
+ @import 'plugins/multiselect';
+ @import 'plugins/date-picker';
+@@ -35,34 +41,55 @@ body {
+   margin: 0;
+   padding: 0;
+   width: 100%;
++  background: linear-gradient(135deg, #fdfcff 0%, #f8f6ff 100%);
++}
++
++.dark {
++  html,
++  body {
++    background: linear-gradient(135deg, #141118 0%, #1a1625 100%);
++  }
+ }
+ 
+ .app-wrapper {
+   @apply h-screen flex-grow-0 min-h-0 w-full;
+ 
+   .button--fixed-top {
+-    @apply fixed ltr:right-2 rtl:left-2 top-2 flex flex-row;
++    @apply fixed ltr:right-4 rtl:left-4 top-4 flex flex-row z-50;
++    
++    button {
++      @apply rounded-full shadow-luxury bg-purple-600 hover:bg-purple-700 text-white p-3 transition-all duration-200 hover:scale-110;
++    }
+   }
+ }
+ 
+ .banner + .app-wrapper {
+-  // Reduce the height of the dashboard to make room for the banner.
+-  // And causing the top right green-action button to be pushed down when scrolling.
+   @apply h-[calc(100%-48px)];
+ 
+   .button--fixed-top {
+-    @apply top-14;
++    @apply top-16;
+   }
+ 
+   .off-canvas-content {
+     .button--fixed-top {
+-      @apply top-2;
++      @apply top-4;
+     }
+   }
+ }
+ 
+ .tooltip {
+-  @apply bg-n-solid-2 text-n-slate-12 py-1 px-2 z-40 text-xs rounded-md max-w-96;
++  @apply bg-purple-800 text-white py-2 px-3 z-40 text-xs rounded-xl max-w-96 shadow-luxury;
++  
++  &:before {
++    content: '';
++    position: absolute;
++    top: 100%;
++    left: 50%;
++    margin-left: -5px;
++    border-width: 5px;
++    border-style: solid;
++    border-color: rgb(107, 70, 193) transparent transparent transparent;
++  }
+ }
+ 
+ #app {
+@@ -70,24 +97,41 @@ body {
+ }
+ 
+ .custom-dashed-border {
+-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23E2E3E7' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
++  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%236b46c1' stroke-width='2' stroke-dasharray='8, 6' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+   background-position: center;
+   background-repeat: no-repeat;
+   background-size: 100% 100%;
++  @apply transition-all duration-200 hover:shadow-modern;
+ }
+ 
+ .dark .custom-dashed-border {
+-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='16' ry='16' stroke='%23343434' stroke-width='2' stroke-dasharray='6, 8' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
++  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='100%25' height='100%25'%3E%3Crect x='0' y='0' width='100%25' height='100%25' fill='none' rx='20' ry='20' stroke='%239f7aea' stroke-width='2' stroke-dasharray='8, 6' stroke-dashoffset='0' stroke-linecap='round'/%3E%3C/svg%3E");
+ }
+ 
+ @layer utilities {
+-  /* Hide scrollbar for Chrome, Safari and Opera */
+   .no-scrollbar::-webkit-scrollbar {
+     display: none;
+   }
+-  /* Hide scrollbar for IE, Edge and Firefox */
+   .no-scrollbar {
+-    -ms-overflow-style: none; /* IE and Edge */
+-    scrollbar-width: none; /* Firefox */
++    -ms-overflow-style: none;
++    scrollbar-width: none;
++  }
++}
++
++// Responsividade
++@media (max-width: 768px) {
++  .app-wrapper {
++    .button--fixed-top button {
++      @apply p-2;
++    }
++  }
++}
++
++// Acessibilidade
++@media (prefers-reduced-motion: reduce) {
++  * {
++    animation-duration: 0.01ms !important;
++    animation-iteration-count: 1 !important;
++    transition-duration: 0.01ms !important;
+   }
+ }
+diff --git a/app/javascript/dashboard/components-next/button/Button.vue b/app/javascript/dashboard/components-next/button/Button.vue
+index dde1d3d9a..656975590 100644
+--- a/app/javascript/dashboard/components-next/button/Button.vue
++++ b/app/javascript/dashboard/components-next/button/Button.vue
+@@ -75,6 +75,7 @@ const computedColor = computed(() => {
+   if (attrs.amber || attrs.amber === '') return 'amber';
+   if (attrs.slate || attrs.slate === '') return 'slate';
+   if (attrs.teal || attrs.teal === '') return 'teal';
++  if (attrs.green || attrs.green === '') return 'green';
+   return 'blue'; // Default color
+ });
+ 
+@@ -152,6 +153,17 @@ const STYLE_CONFIG = {
+       ghost:
+         'text-n-teal-9 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+     },
++    green: {
++      solid:
++        'bg-private-green-600 text-white hover:enabled:bg-private-green-700 focus-visible:bg-private-green-700 outline-transparent',
++      faded:
++        'bg-private-green-100 text-private-green-800 hover:enabled:bg-private-green-200 focus-visible:bg-private-green-200 outline-transparent',
++      outline:
++        'text-private-green-600 hover:enabled:bg-private-green-100 focus-visible:bg-private-green-100 outline-private-green-400',
++      link: 'text-private-green-600 hover:enabled:underline focus-visible:underline outline-transparent',
++      ghost:
++        'text-private-green-600 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
++    },
+   },
+   sizes: {
+     regular: {
+diff --git a/app/javascript/dashboard/components-next/button/constants.js b/app/javascript/dashboard/components-next/button/constants.js
+index d463abdd3..fc3e5e964 100644
+--- a/app/javascript/dashboard/components-next/button/constants.js
++++ b/app/javascript/dashboard/components-next/button/constants.js
+@@ -1,5 +1,5 @@
+ export const VARIANT_OPTIONS = ['solid', 'outline', 'faded', 'link', 'ghost'];
+-export const COLOR_OPTIONS = ['blue', 'ruby', 'amber', 'slate', 'teal'];
++export const COLOR_OPTIONS = ['blue', 'ruby', 'amber', 'slate', 'teal', 'green'];
+ export const SIZE_OPTIONS = ['xs', 'sm', 'md', 'lg'];
+ export const JUSTIFY_OPTIONS = ['start', 'center', 'end'];
+ 
+diff --git a/app/javascript/dashboard/components-next/filter/inputs/SingleSelect.vue b/app/javascript/dashboard/components-next/filter/inputs/SingleSelect.vue
+index f743472a3..ee2659922 100644
+--- a/app/javascript/dashboard/components-next/filter/inputs/SingleSelect.vue
++++ b/app/javascript/dashboard/components-next/filter/inputs/SingleSelect.vue
+@@ -46,7 +46,7 @@ const {
+ const { t } = useI18n();
+ const selected = defineModel({
+   type: Object,
+-  required: true,
++  default: null,
+ });
+ 
+ const searchTerm = ref('');
+diff --git a/app/javascript/dashboard/components-next/input/DurationInput.vue b/app/javascript/dashboard/components-next/input/DurationInput.vue
+index 802e1d500..7c717c99c 100644
+--- a/app/javascript/dashboard/components-next/input/DurationInput.vue
++++ b/app/javascript/dashboard/components-next/input/DurationInput.vue
+@@ -5,11 +5,23 @@ import { useI18n } from 'vue-i18n';
+ import { DURATION_UNITS } from './constants';
+ 
+ const props = defineProps({
+-  min: { type: Number, default: 0 },
+-  max: { type: Number, default: Infinity },
++  min: { 
++    type: [Number, String], 
++    default: 0,
++    validator: (value) => !isNaN(Number(value))
++  },
++  max: { 
++    type: [Number, String], 
++    default: Infinity,
++    validator: (value) => !isNaN(Number(value))
++  },
+   disabled: { type: Boolean, default: false },
+ });
+ 
++// Converte props para números
++const minValue = computed(() => Number(props.min));
++const maxValue = computed(() => Number(props.max));
++
+ const { t } = useI18n();
+ const duration = defineModel('modelValue', { type: Number, default: null });
+ const unit = defineModel('unit', {
+@@ -43,7 +55,7 @@ const transformedValue = computed({
+   set(newValue) {
+     let minuteValue = convertToMinutes(newValue);
+ 
+-    duration.value = Math.min(Math.max(minuteValue, props.min), props.max);
++    duration.value = Math.min(Math.max(minuteValue, minValue.value), maxValue.value);
+   },
+ });
+ 
+@@ -54,30 +66,32 @@ const transformedValue = computed({
+ // this watcher fixes it by rounding the duration basically, to the nearest unit value
+ watch(unit, () => {
+   let adjustedValue = convertToMinutes(transformedValue.value);
+-  duration.value = Math.min(Math.max(adjustedValue, props.min), props.max);
++  duration.value = Math.min(Math.max(adjustedValue, minValue.value), maxValue.value);
+ });
+ </script>
+ 
+ <template>
+-  <Input
+-    v-model="transformedValue"
+-    type="number"
+-    autocomplete="off"
+-    :disabled="disabled"
+-    :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
+-    class="flex-grow w-full disabled:"
+-  />
+-  <select
+-    v-model="unit"
+-    :disabled="disabled"
+-    class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
+-  >
+-    <option :value="DURATION_UNITS.MINUTES">
+-      {{ t('DURATION_INPUT.MINUTES') }}
+-    </option>
+-    <option :value="DURATION_UNITS.HOURS">
+-      {{ t('DURATION_INPUT.HOURS') }}
+-    </option>
+-    <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
+-  </select>
++  <div class="flex items-center gap-2">
++    <Input
++      v-model="transformedValue"
++      type="number"
++      autocomplete="off"
++      :disabled="disabled"
++      :placeholder="t('DURATION_INPUT.PLACEHOLDER')"
++      class="flex-grow w-full disabled:"
++    />
++    <select
++      v-model="unit"
++      :disabled="disabled"
++      class="mb-0 text-sm disabled:outline-n-weak disabled:opacity-40"
++    >
++      <option :value="DURATION_UNITS.MINUTES">
++        {{ t('DURATION_INPUT.MINUTES') }}
++      </option>
++      <option :value="DURATION_UNITS.HOURS">
++        {{ t('DURATION_INPUT.HOURS') }}
++      </option>
++      <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
++    </select>
++  </div>
+ </template>
+diff --git a/app/javascript/dashboard/components-next/message/bubbles/Base.vue b/app/javascript/dashboard/components-next/message/bubbles/Base.vue
+index aaf0cb1ba..ccce33c5d 100644
+--- a/app/javascript/dashboard/components-next/message/bubbles/Base.vue
++++ b/app/javascript/dashboard/components-next/message/bubbles/Base.vue
+@@ -17,8 +17,8 @@ const { t } = useI18n();
+ const varaintBaseMap = {
+   [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
+   [MESSAGE_VARIANTS.PRIVATE]:
+-    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
+-  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
++    'bg-private-green-100 text-private-green-800 border-2 border-dashed border-private-green-400 shadow-sm [&_.prosemirror-mention-node]:font-semibold',
++  [MESSAGE_VARIANTS.USER]: 'bg-user-purple-100 text-user-purple-900 shadow-sm',
+   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
+   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
+   [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
+@@ -107,7 +107,7 @@ const replyToPreview = computed(() => {
+         flexOrientationClass,
+         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
+         variant === MESSAGE_VARIANTS.PRIVATE
+-          ? 'text-n-amber-12/50'
++          ? 'text-private-green-600/70'
+           : 'text-n-slate-11',
+       ]"
+       class="mt-2"
+diff --git a/app/javascript/dashboard/components/Modal.vue b/app/javascript/dashboard/components/Modal.vue
+index 136601c7c..aa44de106 100644
+--- a/app/javascript/dashboard/components/Modal.vue
++++ b/app/javascript/dashboard/components/Modal.vue
+@@ -1,13 +1,13 @@
+ <script setup>
+ // [TODO] Use Teleport to move the modal to the end of the body
+-import { ref, computed, defineEmits, onMounted } from 'vue';
++import { ref, computed, defineEmits } from 'vue';
+ import { useEventListener } from '@vueuse/core';
+ import Button from 'dashboard/components-next/button/Button.vue';
+ 
+ const { modalType, closeOnBackdropClick, onClose } = defineProps({
+   closeOnBackdropClick: { type: Boolean, default: true },
+   showCloseButton: { type: Boolean, default: true },
+-  onClose: { type: Function, required: true },
++  onClose: { type: Function, default: null },
+   fullWidth: { type: Boolean, default: false },
+   modalType: { type: String, default: 'centered' },
+   size: { type: String, default: '' },
+@@ -35,7 +35,9 @@ const handleMouseDown = () => {
+ const close = () => {
+   show.value = false;
+   emit('close');
+-  onClose();
++  if (onClose && typeof onClose === 'function') {
++    onClose();
++  }
+ };
+ 
+ const onMouseUp = () => {
+@@ -56,15 +58,6 @@ const onKeydown = e => {
+ 
+ useEventListener(document.body, 'mouseup', onMouseUp);
+ useEventListener(document, 'keydown', onKeydown);
+-
+-onMounted(() => {
+-  if (import.meta.env.DEV && onClose && typeof onClose === 'function') {
+-    // eslint-disable-next-line no-console
+-    console.warn(
+-      "[DEPRECATED] The 'onClose' prop is deprecated. Please use the 'close' event instead."
+-    );
+-  }
+-});
+ </script>
+ 
+ <template>
+diff --git a/app/javascript/dashboard/components/ui/Wizard.vue b/app/javascript/dashboard/components/ui/Wizard.vue
+index 2219a07c1..5d6bfbc5b 100644
+--- a/app/javascript/dashboard/components/ui/Wizard.vue
++++ b/app/javascript/dashboard/components/ui/Wizard.vue
+@@ -69,26 +69,26 @@ export default {
+ 
+     &.active {
+       h3 {
+-        @apply text-n-blue-text dark:text-n-blue-text;
++        @apply text-purple-700 dark:text-purple-300;
+       }
+ 
+       .step {
+-        @apply bg-n-brand dark:bg-n-brand;
++        @apply bg-purple-600 dark:bg-purple-500;
+       }
+     }
+ 
+     &.over {
+       &::after {
+-        @apply bg-n-brand dark:bg-n-brand;
++        @apply bg-purple-600 dark:bg-purple-500;
+       }
+ 
+       .step {
+-        @apply bg-n-brand dark:bg-n-brand;
++        @apply bg-purple-600 dark:bg-purple-500;
+       }
+ 
+       & + .item {
+         &::before {
+-          @apply bg-n-brand dark:bg-n-brand;
++          @apply bg-purple-600 dark:bg-purple-500;
+         }
+       }
+     }
+diff --git a/app/javascript/dashboard/components/widgets/Avatar.vue b/app/javascript/dashboard/components/widgets/Avatar.vue
+index 9ccb87bf8..f46361528 100644
+--- a/app/javascript/dashboard/components/widgets/Avatar.vue
++++ b/app/javascript/dashboard/components/widgets/Avatar.vue
+@@ -50,6 +50,6 @@ export default {
+   }
+ }
+ .avatar-container {
+-  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-n-blue-text;
++  @apply flex leading-[100%] font-medium items-center justify-center text-center cursor-default avatar-color dark:dark-avatar-color text-purple-700;
+ }
+ </style>
+diff --git a/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue b/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
+index ad3edce1b..740d1d3ee 100644
+--- a/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
++++ b/app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
+@@ -378,7 +378,7 @@ export default {
+         :label="sendButtonText"
+         type="submit"
+         sm
+-        :color="isNote ? 'amber' : 'blue'"
++        :color="isNote ? 'green' : 'blue'"
+         :disabled="isSendDisabled"
+         class="flex-shrink-0"
+         @click="onSend"
+diff --git a/app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue b/app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue
+index 4eeef92e8..8536e19f1 100644
+--- a/app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue
++++ b/app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue
+@@ -1274,7 +1274,7 @@ export default {
+   @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
+ 
+   &.is-private {
+-    @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
++    @apply bg-private-green-100 dark:border-private-green-400/20 border-private-green-400/30;
+   }
+ }
+ 
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue b/app/javascript/dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue
+index 3b8dfed7c..733a1b32a 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/components/BaseSettingsHeader.vue
+@@ -12,7 +12,7 @@ const props = defineProps({
+   },
+   description: {
+     type: String,
+-    required: true,
++    default: '',
+   },
+   iconName: {
+     type: String,
+diff --git a/app/javascript/dashboard/routes/dashboard/settings/customRoles/component/CustomRolePaywall.vue b/app/javascript/dashboard/routes/dashboard/settings/customRoles/component/CustomRolePaywall.vue
+index 7e8b6f255..566f5626a 100644
+--- a/app/javascript/dashboard/routes/dashboard/settings/customRoles/component/CustomRolePaywall.vue
++++ b/app/javascript/dashboard/routes/dashboard/settings/customRoles/component/CustomRolePaywall.vue
+@@ -75,8 +75,8 @@ const tableHeaders = computed(() => {
+ <template>
+   <div class="w-full min-h-[12rem] relative">
+     <div class="w-full space-y-3 text-sm">
+-      <thead class="opacity-30 dark:opacity-30">
+-        <th
++      <div class="opacity-30 dark:opacity-30 grid grid-cols-4 gap-4">
++        <div
+           v-for="thHeader in tableHeaders"
+           :key="thHeader"
+           class="py-4 ltr:pr-4 rtl:pl-4 font-semibold text-left text-n-slate-11"
+@@ -84,8 +84,8 @@ const tableHeaders = computed(() => {
+           <span class="mb-0">
+             {{ thHeader }}
+           </span>
+-        </th>
+-      </thead>
++        </div>
++      </div>
+       <CustomRoleListItem
+         class="opacity-25 dark:opacity-20"
+         :roles="dummyCustomRolesData"
+diff --git a/app/javascript/dashboard/routes/dashboard/upgrade/UpgradePage.vue b/app/javascript/dashboard/routes/dashboard/upgrade/UpgradePage.vue
+index aa2686b83..41fc69c10 100644
+--- a/app/javascript/dashboard/routes/dashboard/upgrade/UpgradePage.vue
++++ b/app/javascript/dashboard/routes/dashboard/upgrade/UpgradePage.vue
+@@ -90,7 +90,10 @@ const shouldShowUpgradePage = computed(() => {
+ });
+ 
+ const fetchLimits = () => {
+-  store.dispatch('accounts/limits');
++  // Só chamar API de limits se estiver na versão cloud/enterprise
++  if (isOnChatwootCloud.value) {
++    store.dispatch('accounts/limits');
++  }
+ };
+ 
+ const routeToBilling = () => {
+@@ -106,42 +109,39 @@ defineExpose({ shouldShowUpgradePage });
+ </script>
+ 
+ <template>
+-  <template v-if="shouldShowUpgradePage">
+-    <div class="mx-auto h-full pt-[clamp(3rem,15vh,12rem)]">
+-      <div
+-        class="flex flex-col gap-4 max-w-md px-8 py-6 shadow-lg bg-n-solid-1 rounded-xl outline outline-1 outline-n-container"
+-      >
+-        <div class="flex flex-col gap-4">
+-          <div class="flex items-center w-full gap-2">
+-            <span
+-              class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
+-            >
+-              <Icon
+-                class="flex-shrink-0 text-n-brand size-[14px]"
+-                icon="i-lucide-lock-keyhole"
+-              />
+-            </span>
+-            <span class="text-base font-medium text-n-slate-12">
+-              {{ $t('GENERAL_SETTINGS.UPGRADE') }}
+-            </span>
+-          </div>
+-          <div>
+-            <p class="text-sm font-normal text-n-slate-11 mb-3">
+-              {{ limitExceededMessage }}
+-            </p>
+-            <p v-if="!isAdmin">
+-              {{ t('GENERAL_SETTINGS.LIMIT_MESSAGES.NON_ADMIN') }}
+-            </p>
+-          </div>
++  <div v-if="shouldShowUpgradePage" class="mx-auto h-full pt-[clamp(3rem,15vh,12rem)]">
++    <div
++      class="flex flex-col gap-4 max-w-md px-8 py-6 shadow-lg bg-n-solid-1 rounded-xl outline outline-1 outline-n-container"
++    >
++      <div class="flex flex-col gap-4">
++        <div class="flex items-center w-full gap-2">
++          <span
++            class="flex items-center justify-center w-6 h-6 rounded-full bg-n-solid-blue"
++          >
++            <Icon
++              class="flex-shrink-0 text-n-brand size-[14px]"
++              icon="i-lucide-lock-keyhole"
++            />
++          </span>
++          <span class="text-base font-medium text-n-slate-12">
++            {{ $t('GENERAL_SETTINGS.UPGRADE') }}
++          </span>
++        </div>
++        <div>
++          <p class="text-sm font-normal text-n-slate-11 mb-3">
++            {{ limitExceededMessage }}
++          </p>
++          <p v-if="!isAdmin">
++            {{ t('GENERAL_SETTINGS.LIMIT_MESSAGES.NON_ADMIN') }}
++          </p>
+         </div>
+-        <NextButton
+-          v-if="isAdmin"
+-          :label="$t('GENERAL_SETTINGS.OPEN_BILLING')"
+-          icon="i-lucide-credit-card"
+-          @click="routeToBilling()"
+-        />
+       </div>
++      <NextButton
++        v-if="isAdmin"
++        :label="$t('GENERAL_SETTINGS.OPEN_BILLING')"
++        icon="i-lucide-credit-card"
++        @click="routeToBilling()"
++      />
+     </div>
+-  </template>
+-  <template v-else />
++  </div>
+ </template>
+diff --git a/app/javascript/dashboard/store/modules/accounts.js b/app/javascript/dashboard/store/modules/accounts.js
+index 0d5fdc748..d276c41d5 100644
+--- a/app/javascript/dashboard/store/modules/accounts.js
++++ b/app/javascript/dashboard/store/modules/accounts.js
+@@ -136,7 +136,13 @@ export const actions = {
+     }
+   },
+ 
+-  limits: async ({ commit }) => {
++  limits: async ({ commit, rootGetters }) => {
++    // Só tentar buscar limits se estiver na versão cloud/enterprise
++    const isOnChatwootCloud = rootGetters['globalConfig/isOnChatwootCloud'];
++    if (!isOnChatwootCloud) {
++      return; // Não fazer nada se não for versão cloud
++    }
++    
+     try {
+       const response = await EnterpriseAccountAPI.getLimits();
+       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
+diff --git a/app/javascript/shared/components/Button.vue b/app/javascript/shared/components/Button.vue
+index 52eef212e..e8f64effa 100644
+--- a/app/javascript/shared/components/Button.vue
++++ b/app/javascript/shared/components/Button.vue
+@@ -7,7 +7,7 @@ export default {
+     },
+     type: {
+       type: String,
+-      default: 'blue',
++      default: 'purple', // Alterado de 'blue' para 'purple'
+     },
+     bgColor: {
+       type: String,
+@@ -25,14 +25,36 @@ export default {
+   computed: {
+     buttonClassName() {
+       let className =
+-        'text-white py-3 px-4 rounded-lg shadow-sm leading-4 cursor-pointer disabled:opacity-50';
++        'text-white py-3 px-6 rounded-xl shadow-elegant leading-4 cursor-pointer disabled:opacity-50 transition-all duration-200 font-medium transform hover:scale-105';
++      
+       if (this.type === 'clear') {
+-        className = 'flex mx-auto mt-4 text-xs leading-3 w-auto text-n-gray-12';
++        className = 'flex mx-auto mt-4 text-xs leading-3 w-auto text-n-gray-12 hover:text-purple-600 transition-colors duration-200';
++      }
++
++      if (this.type === 'purple' && !Object.keys(this.buttonStyles).length) {
++        className = `${className} bg-purple-600 hover:bg-purple-700 shadow-modern hover:shadow-luxury`;
+       }
+ 
+       if (this.type === 'blue' && !Object.keys(this.buttonStyles).length) {
+-        className = `${className} bg-n-brand hover:brightness-110`;
++        className = `${className} bg-blue-600 hover:bg-blue-700 shadow-modern`;
++      }
++
++      if (this.type === 'green' && !Object.keys(this.buttonStyles).length) {
++        className = `${className} bg-teal-600 hover:bg-teal-700 shadow-modern`;
++      }
++
++      if (this.type === 'gold' && !Object.keys(this.buttonStyles).length) {
++        className = `${className} bg-amber-500 hover:bg-amber-600 text-amber-900 shadow-modern`;
+       }
++
++      if (this.type === 'outline') {
++        className = `py-3 px-6 rounded-xl border-2 border-purple-300 text-purple-700 hover:bg-purple-50 transition-all duration-200 font-medium cursor-pointer disabled:opacity-50`;
++      }
++
++      if (this.type === 'ghost') {
++        className = `py-3 px-6 rounded-xl text-purple-600 hover:bg-purple-50 transition-all duration-200 font-medium cursor-pointer disabled:opacity-50`;
++      }
++
+       if (this.block) {
+         className = `${className} w-full`;
+       }
+@@ -53,7 +75,12 @@ export default {
+ </script>
+ 
+ <template>
+-  <button :class="buttonClassName" :style="buttonStyles" :disabled="disabled">
++  <button 
++    :class="buttonClassName" 
++    :style="buttonStyles" 
++    :disabled="disabled"
++    class="focus:outline-none focus:ring-4 focus:ring-purple-200 focus:ring-opacity-50"
++  >
+     <slot />
+   </button>
+ </template>
+diff --git a/app/javascript/v3/components/Form/WithLabel.vue b/app/javascript/v3/components/Form/WithLabel.vue
+index 08e0b026b..404d1c249 100644
+--- a/app/javascript/v3/components/Form/WithLabel.vue
++++ b/app/javascript/v3/components/Form/WithLabel.vue
+@@ -1,19 +1,26 @@
+ <script setup>
+-defineProps({
++import { computed } from 'vue';
++
++const props = defineProps({
+   label: { type: String, default: '' },
+-  name: { type: String, required: true },
++  name: { type: String, default: '' },
+   icon: { type: String, default: '' },
+   hasError: { type: Boolean, default: false },
+   helpMessage: { type: String, default: '' },
+   errorMessage: { type: String, default: '' },
+ });
++
++// Gera um ID único se name não for fornecido
++const fieldId = computed(() => {
++  return props.name || `field-${Math.random().toString(36).substr(2, 9)}`;
++});
+ </script>
+ 
+ <template>
+   <div class="space-y-1">
+     <label
+       v-if="label"
+-      :for="name"
++      :for="fieldId"
+       class="flex justify-between text-sm font-medium leading-6 text-n-slate-12"
+       :class="{ 'text-n-ruby-12': hasError }"
+     >
+diff --git a/config/vite.json b/config/vite.json
+index 22f4a6d0c..59f927988 100644
+--- a/config/vite.json
++++ b/config/vite.json
+@@ -6,11 +6,13 @@
+   "development": {
+     "autoBuild": true,
+     "publicOutputDir": "vite-dev",
+-    "port": 3036
++    "port": 3036,
++    "host": "127.0.0.1"
+   },
+   "test": {
+     "autoBuild": true,
+     "publicOutputDir": "vite-test",
+-    "port": 3037
++    "port": 3037,
++    "host": "127.0.0.1"
+   }
+ }
+diff --git a/lib/chatwoot_hub.rb b/lib/chatwoot_hub.rb
+index 0d99becd3..72b1d8799 100644
+--- a/lib/chatwoot_hub.rb
++++ b/lib/chatwoot_hub.rb
+@@ -1,6 +1,6 @@
+ # TODO: lets use HTTParty instead of RestClient
+ class ChatwootHub
+-  BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://hub.2.chatwoot.com')
++  BASE_URL = ENV.fetch('CHATWOOT_HUB_URL', 'https://google.com')
+   PING_URL = "#{BASE_URL}/ping".freeze
+   REGISTRATION_URL = "#{BASE_URL}/instances".freeze
+   PUSH_NOTIFICATION_URL = "#{BASE_URL}/send_push".freeze
+@@ -19,11 +19,11 @@ class ChatwootHub
+   end
+ 
+   def self.pricing_plan
+-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN')&.value || 'community'
++    'enterprise'
+   end
+ 
+   def self.pricing_plan_quantity
+-    InstallationConfig.find_by(name: 'INSTALLATION_PRICING_PLAN_QUANTITY')&.value || 0
++    999
+   end
+ 
+   def self.support_config
+diff --git a/package.json b/package.json
+index 1ca8d1025..eba96a349 100644
+--- a/package.json
++++ b/package.json
+@@ -56,16 +56,16 @@
+     "@vuelidate/validators": "^2.0.4",
+     "@vueuse/components": "^12.0.0",
+     "@vueuse/core": "^12.0.0",
+-    "activestorage": "^5.2.6",
++    "activestorage": "^5.2.8",
+     "axios": "^1.8.2",
+     "camelcase-keys": "^9.1.3",
+     "chart.js": "~4.4.4",
+-    "color2k": "^2.0.2",
++    "color2k": "^2.0.3",
+     "company-email-validator": "^1.1.0",
+     "core-js": "3.38.1",
+     "countries-and-timezones": "^3.6.0",
+     "date-fns": "2.21.1",
+-    "date-fns-tz": "^1.3.3",
++    "date-fns-tz": "^1.3.8",
+     "dompurify": "3.2.4",
+     "flag-icons": "^7.2.3",
+     "floating-vue": "^5.2.2",
+@@ -98,7 +98,7 @@
+     "vue-multiselect": "3.1.0",
+     "vue-router": "~4.4.5",
+     "vue-upload-component": "^3.1.17",
+-    "vue-virtual-scroller": "^2.0.0-beta.8",
++    "vue-virtual-scroller": "2.0.0-beta.8",
+     "vue3-click-away": "^1.2.4",
+     "vuedraggable": "^4.1.0",
+     "vuex": "~4.1.0",
+@@ -114,7 +114,7 @@
+     "@iconify-json/ri": "^1.2.3",
+     "@iconify-json/teenyicons": "^1.2.1",
+     "@intlify/eslint-plugin-vue-i18n": "^3.2.0",
+-    "@size-limit/file": "^8.2.4",
++    "@size-limit/file": "^8.2.6",
+     "@vitest/coverage-v8": "3.0.5",
+     "@vue/test-utils": "^2.4.6",
+     "autoprefixer": "^10.4.20",
+@@ -129,16 +129,16 @@
+     "eslint-plugin-vue": "^9.28.0",
+     "fake-indexeddb": "^6.0.0",
+     "histoire": "0.17.15",
+-    "husky": "^7.0.0",
++    "husky": "^7.0.4",
+     "jsdom": "^24.1.3",
+     "lint-staged": "14.0.1",
+     "postcss": "^8.4.47",
+     "postcss-preset-env": "^8.5.1",
+     "prettier": "^3.3.3",
+     "prosemirror-model": "^1.22.3",
+-    "size-limit": "^8.2.4",
++    "size-limit": "^8.2.6",
+     "tailwindcss": "^3.4.13",
+-    "vite": "^5.4.19",
++    "vite": "5.4.19",
+     "vite-plugin-ruby": "^5.0.0",
+     "vitest": "3.0.5"
+   },
+diff --git a/pnpm-lock.yaml b/pnpm-lock.yaml
+index a88cfc084..f641061e2 100644
+--- a/pnpm-lock.yaml
++++ b/pnpm-lock.yaml
+@@ -89,7 +89,7 @@ importers:
+         specifier: ^12.0.0
+         version: 12.0.0(typescript@5.6.2)
+       activestorage:
+-        specifier: ^5.2.6
++        specifier: ^5.2.8
+         version: 5.2.8
+       axios:
+         specifier: ^1.8.2
+@@ -101,7 +101,7 @@ importers:
+         specifier: ~4.4.4
+         version: 4.4.4
+       color2k:
+-        specifier: ^2.0.2
++        specifier: ^2.0.3
+         version: 2.0.3
+       company-email-validator:
+         specifier: ^1.1.0
+@@ -116,7 +116,7 @@ importers:
+         specifier: 2.21.1
+         version: 2.21.1
+       date-fns-tz:
+-        specifier: ^1.3.3
++        specifier: ^1.3.8
+         version: 1.3.8(date-fns@2.21.1)
+       dompurify:
+         specifier: 3.2.4
+@@ -215,7 +215,7 @@ importers:
+         specifier: ^3.1.17
+         version: 3.1.17
+       vue-virtual-scroller:
+-        specifier: ^2.0.0-beta.8
++        specifier: 2.0.0-beta.8
+         version: 2.0.0-beta.8(vue@3.5.12(typescript@5.6.2))
+       vue3-click-away:
+         specifier: ^1.2.4
+@@ -258,7 +258,7 @@ importers:
+         specifier: ^3.2.0
+         version: 3.2.0(eslint@8.57.0)
+       '@size-limit/file':
+-        specifier: ^8.2.4
++        specifier: ^8.2.6
+         version: 8.2.6(size-limit@8.2.6)
+       '@vitest/coverage-v8':
+         specifier: 3.0.5
+@@ -303,7 +303,7 @@ importers:
+         specifier: 0.17.15
+         version: 0.17.15(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0)(vite@5.4.19(@types/node@22.7.0)(sass@1.79.3)(terser@5.33.0))
+       husky:
+-        specifier: ^7.0.0
++        specifier: ^7.0.4
+         version: 7.0.4
+       jsdom:
+         specifier: ^24.1.3
+@@ -324,7 +324,7 @@ importers:
+         specifier: ^1.22.3
+         version: 1.22.3
+       size-limit:
+-        specifier: ^8.2.4
++        specifier: ^8.2.6
+         version: 8.2.6
+       tailwindcss:
+         specifier: ^3.4.13
+@@ -940,6 +940,9 @@ packages:
+     resolution: {integrity: sha512-ZXRY4jNvVgSVQ8DL3LTcakaAtXwTVUxE81hslsyD2AtoXW/wVob10HkOJ1X/pAlcI7D+2YoZKg5do8G/w6RYgA==}
+     engines: {node: '>=8'}
+ 
++  '@jridgewell/gen-mapping@0.3.12':
++    resolution: {integrity: sha512-OuLGC46TjB5BbN1dH8JULVVZY4WTdkF7tV9Ys6wLL1rubZnCMstOhNHueU5bLCrnRuDhKPDM4g6sw4Bel5Gzqg==}
++
+   '@jridgewell/gen-mapping@0.3.5':
+     resolution: {integrity: sha512-IzL8ZoEDIBRWEzlCcRhOaCupYyN5gdIK+Q6fbFdPDg6HqX6jpkItn7DFIpW9LQzXG6Df9sA7+OKnq0qlz/GaQg==}
+     engines: {node: '>=6.0.0'}
+@@ -952,19 +955,29 @@ packages:
+     resolution: {integrity: sha512-dSYZh7HhCDtCKm4QakX0xFpsRDqjjtZf/kjI/v3T3Nwt5r8/qz/M19F9ySyOqU94SXBmeG9ttTul+YnR4LOxFA==}
+     engines: {node: '>=6.0.0'}
+ 
++  '@jridgewell/resolve-uri@3.1.2':
++    resolution: {integrity: sha512-bRISgCIjP20/tbWSPWMEi54QVPRZExkuD9lJL+UIxUKtwVJA8wW1Trb1jMs1RFXo1CBTNZ/5hpC9QvmKWdopKw==}
++    engines: {node: '>=6.0.0'}
++
+   '@jridgewell/set-array@1.2.1':
+     resolution: {integrity: sha512-R8gLRTZeyp03ymzP/6Lil/28tGeGEzhx1q2k703KGWRAI1VdvPIXdG70VJc2pAMw3NA6JKL5hhFu1sJX0Mnn/A==}
+     engines: {node: '>=6.0.0'}
+ 
+-  '@jridgewell/source-map@0.3.6':
+-    resolution: {integrity: sha512-1ZJTZebgqllO79ue2bm3rIGud/bOe0pP5BjSRCRxxYkEZS8STV7zN84UBbiYu7jy+eCKSnVIUgoWWE/tt+shMQ==}
++  '@jridgewell/source-map@0.3.10':
++    resolution: {integrity: sha512-0pPkgz9dY+bijgistcTTJ5mR+ocqRXLuhXHYdzoMmmoJ2C9S46RCm2GMUbatPEUK9Yjy26IrAy8D/M00lLkv+Q==}
+ 
+   '@jridgewell/sourcemap-codec@1.5.0':
+     resolution: {integrity: sha512-gv3ZRaISU3fjPAgNsriBRqGWQL6quFx04YMPW/zD8XMLsU32mhCCbfbO6KZFLjvYpCZ8zyDEgqsgf+PwPaM7GQ==}
+ 
++  '@jridgewell/sourcemap-codec@1.5.4':
++    resolution: {integrity: sha512-VT2+G1VQs/9oz078bLrYbecdZKs912zQlkelYpuf+SXF+QvZDYJlbx/LSx+meSAwdDFnF8FVXW92AVjjkVmgFw==}
++
+   '@jridgewell/trace-mapping@0.3.25':
+     resolution: {integrity: sha512-vNk6aEwybGtawWmy/PzwnGDOjCkLWSD2wqvjGGAgOAwCGWySYXfYoxt00IJkTF+8Lb57DwOb3Aa0o9CApepiYQ==}
+ 
++  '@jridgewell/trace-mapping@0.3.29':
++    resolution: {integrity: sha512-uw6guiW/gcAGPDhLmd77/6lW8QLeiV5RUTsAX46Db6oLhGaVj4lhnPwb184s1bkc8kdVg/+h988dro8GRDpmYQ==}
++
+   '@june-so/analytics-next@2.0.0':
+     resolution: {integrity: sha512-7uFP94JLD7mP4qLyOwn5HBs+CC8VlevOkiGd1CIYqPSjSRmbCOI+MVcJNlTAcpyNvMi9iUnWZ3jGVO5177Di4A==}
+ 
+@@ -1993,8 +2006,8 @@ packages:
+     engines: {node: '>=0.4.0'}
+     hasBin: true
+ 
+-  acorn@8.14.1:
+-    resolution: {integrity: sha512-OvQ/2pUDKmgfCg++xsTX1wGxfTaszcHVcTctW4UJB4hibJx2HXxxO5UmVgyjMa+ZDsiaf5wWLXYpRWMmBI0QHg==}
++  acorn@8.15.0:
++    resolution: {integrity: sha512-NZyJarBfL7nWwIq+FDL6Zp/yHEhePMNnnJ0y3qfieCrmNvYct8uvtiV41UvlSe6apAfk0fY1FbWx+NwfmpvtTg==}
+     engines: {node: '>=0.4.0'}
+     hasBin: true
+ 
+@@ -2203,8 +2216,8 @@ packages:
+     resolution: {integrity: sha512-8WB3Jcas3swSvjIeA2yvCJ+Miyz5l1ZmB6HFb9R1317dt9LCQoswg/BGrmAmkWVEszSrrg4RwmO46qIm2OEnSA==}
+     engines: {node: '>=16'}
+ 
+-  caniuse-lite@1.0.30001651:
+-    resolution: {integrity: sha512-9Cf+Xv1jJNe1xPZLGuUXLNkE1BoDkqRqYyFJ9TDYSqhduqA4hu4oR9HluGoWYQC/aj8WHjsGVV+bwkh0+tegRg==}
++  caniuse-lite@1.0.30001727:
++    resolution: {integrity: sha512-pB68nIHmbN6L/4C6MH1DokyR3bYqFwjaSs/sWDHGj4CTcFtQUQMuJftVwWkXq7mNWOybD3KhUv3oWHoGxgP14Q==}
+ 
+   capital-case@1.0.4:
+     resolution: {integrity: sha512-ds37W8CytHgwnhGGTi88pcPyR15qoNkOpYwmMMfnWqqWgESapLqvDx6huFjQ5vqWSn2Z06173XNA7LtMOeUh1A==}
+@@ -5833,6 +5846,12 @@ snapshots:
+ 
+   '@istanbuljs/schema@0.1.3': {}
+ 
++  '@jridgewell/gen-mapping@0.3.12':
++    dependencies:
++      '@jridgewell/sourcemap-codec': 1.5.4
++      '@jridgewell/trace-mapping': 0.3.29
++    optional: true
++
+   '@jridgewell/gen-mapping@0.3.5':
+     dependencies:
+       '@jridgewell/set-array': 1.2.1
+@@ -5847,21 +5866,33 @@ snapshots:
+ 
+   '@jridgewell/resolve-uri@3.1.1': {}
+ 
++  '@jridgewell/resolve-uri@3.1.2':
++    optional: true
++
+   '@jridgewell/set-array@1.2.1': {}
+ 
+-  '@jridgewell/source-map@0.3.6':
++  '@jridgewell/source-map@0.3.10':
+     dependencies:
+-      '@jridgewell/gen-mapping': 0.3.8
+-      '@jridgewell/trace-mapping': 0.3.25
++      '@jridgewell/gen-mapping': 0.3.12
++      '@jridgewell/trace-mapping': 0.3.29
+     optional: true
+ 
+   '@jridgewell/sourcemap-codec@1.5.0': {}
+ 
++  '@jridgewell/sourcemap-codec@1.5.4':
++    optional: true
++
+   '@jridgewell/trace-mapping@0.3.25':
+     dependencies:
+       '@jridgewell/resolve-uri': 3.1.1
+       '@jridgewell/sourcemap-codec': 1.5.0
+ 
++  '@jridgewell/trace-mapping@0.3.29':
++    dependencies:
++      '@jridgewell/resolve-uri': 3.1.2
++      '@jridgewell/sourcemap-codec': 1.5.4
++    optional: true
++
+   '@june-so/analytics-next@2.0.0':
+     dependencies:
+       '@lukeed/uuid': 2.0.0
+@@ -7078,7 +7109,7 @@ snapshots:
+ 
+   acorn@8.14.0: {}
+ 
+-  acorn@8.14.1:
++  acorn@8.15.0:
+     optional: true
+ 
+   activestorage@5.2.8:
+@@ -7227,7 +7258,7 @@ snapshots:
+   autoprefixer@10.4.20(postcss@8.4.47):
+     dependencies:
+       browserslist: 4.23.3
+-      caniuse-lite: 1.0.30001651
++      caniuse-lite: 1.0.30001727
+       fraction.js: 4.3.7
+       normalize-range: 0.1.2
+       picocolors: 1.0.1
+@@ -7282,14 +7313,14 @@ snapshots:
+ 
+   browserslist@4.23.0:
+     dependencies:
+-      caniuse-lite: 1.0.30001651
++      caniuse-lite: 1.0.30001727
+       electron-to-chromium: 1.4.783
+       node-releases: 2.0.14
+       update-browserslist-db: 1.0.16(browserslist@4.23.0)
+ 
+   browserslist@4.23.3:
+     dependencies:
+-      caniuse-lite: 1.0.30001651
++      caniuse-lite: 1.0.30001727
+       electron-to-chromium: 1.5.13
+       node-releases: 2.0.18
+       update-browserslist-db: 1.1.0(browserslist@4.23.3)
+@@ -7337,7 +7368,7 @@ snapshots:
+ 
+   camelcase@8.0.0: {}
+ 
+-  caniuse-lite@1.0.30001651: {}
++  caniuse-lite@1.0.30001727: {}
+ 
+   capital-case@1.0.4:
+     dependencies:
+@@ -10124,8 +10155,8 @@ snapshots:
+ 
+   terser@5.33.0:
+     dependencies:
+-      '@jridgewell/source-map': 0.3.6
+-      acorn: 8.14.1
++      '@jridgewell/source-map': 0.3.10
++      acorn: 8.15.0
+       commander: 2.20.3
+       source-map-support: 0.5.21
+     optional: true
+diff --git a/tailwind.config.js b/tailwind.config.js
+index 82a6c2cbe..cc277ff74 100644
+--- a/tailwind.config.js
++++ b/tailwind.config.js
+@@ -1,6 +1,6 @@
+ const { slateDark } = require('@radix-ui/colors');
+-import { colors } from './theme/colors';
+-import { icons } from './theme/icons';
++const { colors } = require('./theme/colors.js');
++const { icons } = require('./theme/icons.js');
+ const defaultTheme = require('tailwindcss/defaultTheme');
+ const {
+   iconsPlugin,
+@@ -42,6 +42,25 @@ const tailwindConfig = {
+         inter: ['Inter', ...defaultSansFonts],
+         interDisplay: ['Inter Display', ...defaultSansFonts],
+       },
++      borderRadius: {
++        'card': '1rem',
++        'button': '0.75rem',
++        'input': '0.5rem',
++        'modal': '1.5rem',
++        'modern': '1.25rem',
++      },
++      boxShadow: {
++        'elegant': '0 4px 6px -1px rgba(107, 70, 193, 0.1), 0 2px 4px -1px rgba(107, 70, 193, 0.06)',
++        'modern': '0 10px 15px -3px rgba(107, 70, 193, 0.1), 0 4px 6px -2px rgba(107, 70, 193, 0.05)',
++        'luxury': '0 20px 25px -5px rgba(107, 70, 193, 0.1), 0 10px 10px -5px rgba(107, 70, 193, 0.04)',
++        'purple-glow': '0 0 20px rgba(107, 70, 193, 0.3)',
++        'soft': '0 1px 3px 0 rgba(0, 0, 0, 0.1), 0 1px 2px 0 rgba(0, 0, 0, 0.06)',
++      },
++      backgroundImage: {
++        'gradient-purple': 'linear-gradient(135deg, #6b46c1 0%, #553c9a 100%)',
++        'gradient-purple-light': 'linear-gradient(135deg, #e5d9ff 0%, #f0ebff 100%)',
++        'gradient-purple-dark': 'linear-gradient(135deg, #44337a 0%, #322659 100%)',
++      },
+       typography: {
+         bubble: {
+           css: {
+@@ -54,17 +73,14 @@ const tailwindConfig = {
+               },
+             },
+             overflowWrap: 'anywhere',
+-
+             strong: {
+               color: 'rgb(var(--slate-12))',
+               fontWeight: '700',
+             },
+-
+             b: {
+               color: 'rgb(var(--slate-12))',
+               fontWeight: '700',
+             },
+-
+             h1: {
+               color: 'rgb(var(--slate-12))',
+               fontWeight: '700',
+@@ -178,6 +194,60 @@ const tailwindConfig = {
+           },
+         },
+       },
++      keyframes: {
++        ...defaultTheme.keyframes,
++        wiggle: {
++          '0%': { transform: 'translateX(0)' },
++          '15%': { transform: 'translateX(0.375rem)' },
++          '30%': { transform: 'translateX(-0.375rem)' },
++          '45%': { transform: 'translateX(0.375rem)' },
++          '60%': { transform: 'translateX(-0.375rem)' },
++          '75%': { transform: 'translateX(0.375rem)' },
++          '90%': { transform: 'translateX(-0.375rem)' },
++          '100%': { transform: 'translateX(0)' },
++        },
++        'fade-in-up': {
++          '0%': { opacity: 0, transform: 'translateY(0.5rem)' },
++          '100%': { opacity: 1, transform: 'translateY(0)' },
++        },
++        'loader-pulse': {
++          '0%': { opacity: 0.4 },
++          '50%': { opacity: 1 },
++          '100%': { opacity: 0.4 },
++        },
++        'card-select': {
++          '0%, 100%': {
++            transform: 'translateX(0)',
++          },
++          '50%': {
++            transform: 'translateX(1px)',
++          },
++        },
++        shake: {
++          '0%, 100%': { transform: 'translateX(0)' },
++          '25%': { transform: 'translateX(0.234375rem)' },
++          '50%': { transform: 'translateX(-0.234375rem)' },
++          '75%': { transform: 'translateX(0.234375rem)' },
++        },
++        'glow-pulse': {
++          '0%, 100%': { boxShadow: '0 0 5px rgba(107, 70, 193, 0.5)' },
++          '50%': { boxShadow: '0 0 20px rgba(107, 70, 193, 0.8)' },
++        },
++        'slide-in': {
++          '0%': { transform: 'translateX(-100%)', opacity: 0 },
++          '100%': { transform: 'translateX(0)', opacity: 1 },
++        },
++      },
++      animation: {
++        ...defaultTheme.animation,
++        wiggle: 'wiggle 0.5s ease-in-out',
++        'fade-in-up': 'fade-in-up 0.3s ease-out',
++        'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
++        'card-select': 'card-select 0.25s ease-in-out',
++        shake: 'shake 0.3s ease-in-out 0s 2',
++        'glow-pulse': 'glow-pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite',
++        'slide-in': 'slide-in 0.5s ease-out',
++      },
+     },
+     screens: {
+       xs: '480px',
+@@ -192,61 +262,311 @@ const tailwindConfig = {
+       xxs: '0.625rem',
+     },
+     colors: {
++      // Cores básicas
+       transparent: 'transparent',
+-      white: '#fff',
++      white: '#ffffff',
++      black: '#000000',
++      current: 'currentColor',
++      inherit: 'inherit',
++      
++      // Modal backdrops
+       'modal-backdrop-light': 'rgba(0, 0, 0, 0.4)',
+       'modal-backdrop-dark': 'rgba(0, 0, 0, 0.6)',
+-      current: 'currentColor',
+-      ...colors,
+-      body: slateDark.slate7,
+-    },
+-    keyframes: {
+-      ...defaultTheme.keyframes,
+-      wiggle: {
+-        '0%': { transform: 'translateX(0)' },
+-        '15%': { transform: 'translateX(0.375rem)' },
+-        '30%': { transform: 'translateX(-0.375rem)' },
+-        '45%': { transform: 'translateX(0.375rem)' },
+-        '60%': { transform: 'translateX(-0.375rem)' },
+-        '75%': { transform: 'translateX(0.375rem)' },
+-        '90%': { transform: 'translateX(-0.375rem)' },
+-        '100%': { transform: 'translateX(0)' },
++      
++      // Todas as cores padrão do Tailwind
++      slate: {
++        50: '#f8fafc',
++        100: '#f1f5f9',
++        200: '#e2e8f0',
++        300: '#cbd5e1',
++        400: '#94a3b8',
++        500: '#64748b',
++        600: '#475569',
++        700: '#334155',
++        800: '#1e293b',
++        900: '#0f172a',
++        950: '#020617',
+       },
+-      'fade-in-up': {
+-        '0%': { opacity: 0, transform: 'translateY(0.5rem)' },
+-        '100%': { opacity: 1, transform: 'translateY(0)' },
++      gray: {
++        50: '#f9fafb',
++        100: '#f3f4f6',
++        200: '#e5e7eb',
++        300: '#d1d5db',
++        400: '#9ca3af',
++        500: '#6b7280',
++        600: '#4b5563',
++        700: '#374151',
++        800: '#1f2937',
++        900: '#111827',
++        950: '#030712',
+       },
+-      'loader-pulse': {
+-        '0%': { opacity: 0.4 },
+-        '50%': { opacity: 1 },
+-        '100%': { opacity: 0.4 },
++      zinc: {
++        50: '#fafafa',
++        100: '#f4f4f5',
++        200: '#e4e4e7',
++        300: '#d4d4d8',
++        400: '#a1a1aa',
++        500: '#71717a',
++        600: '#52525b',
++        700: '#3f3f46',
++        800: '#27272a',
++        900: '#18181b',
++        950: '#09090b',
+       },
+-      'card-select': {
+-        '0%, 100%': {
+-          transform: 'translateX(0)',
+-        },
+-        '50%': {
+-          transform: 'translateX(1px)',
+-        },
++      neutral: {
++        50: '#fafafa',
++        100: '#f5f5f5',
++        200: '#e5e5e5',
++        300: '#d4d4d4',
++        400: '#a3a3a3',
++        500: '#737373',
++        600: '#525252',
++        700: '#404040',
++        800: '#262626',
++        900: '#171717',
++        950: '#0a0a0a',
+       },
+-      shake: {
+-        '0%, 100%': { transform: 'translateX(0)' },
+-        '25%': { transform: 'translateX(0.234375rem)' },
+-        '50%': { transform: 'translateX(-0.234375rem)' },
+-        '75%': { transform: 'translateX(0.234375rem)' },
++      stone: {
++        50: '#fafaf9',
++        100: '#f5f5f4',
++        200: '#e7e5e4',
++        300: '#d6d3d1',
++        400: '#a8a29e',
++        500: '#78716c',
++        600: '#57534e',
++        700: '#44403c',
++        800: '#292524',
++        900: '#1c1917',
++        950: '#0c0a09',
+       },
+-    },
+-    animation: {
+-      ...defaultTheme.animation,
+-      wiggle: 'wiggle 0.5s ease-in-out',
+-      'fade-in-up': 'fade-in-up 0.3s ease-out',
+-      'loader-pulse': 'loader-pulse 1.5s cubic-bezier(0.4, 0, 0.6, 1) infinite',
+-      'card-select': 'card-select 0.25s ease-in-out',
+-      shake: 'shake 0.3s ease-in-out 0s 2',
++      red: {
++        50: '#fef2f2',
++        100: '#fee2e2',
++        200: '#fecaca',
++        300: '#fca5a5',
++        400: '#f87171',
++        500: '#ef4444',
++        600: '#dc2626',
++        700: '#b91c1c',
++        800: '#991b1b',
++        900: '#7f1d1d',
++        950: '#450a0a',
++      },
++      orange: {
++        50: '#fff7ed',
++        100: '#ffedd5',
++        200: '#fed7aa',
++        300: '#fdba74',
++        400: '#fb923c',
++        500: '#f97316',
++        600: '#ea580c',
++        700: '#c2410c',
++        800: '#9a3412',
++        900: '#7c2d12',
++        950: '#431407',
++      },
++      amber: {
++        50: '#fffbeb',
++        100: '#fef3c7',
++        200: '#fde68a',
++        300: '#fcd34d',
++        400: '#fbbf24',
++        500: '#f59e0b',
++        600: '#d97706',
++        700: '#b45309',
++        800: '#92400e',
++        900: '#78350f',
++        950: '#451a03',
++      },
++      yellow: {
++        50: '#fefce8',
++        100: '#fef9c3',
++        200: '#fef08a',
++        300: '#fde047',
++        400: '#facc15',
++        500: '#eab308',
++        600: '#ca8a04',
++        700: '#a16207',
++        800: '#854d0e',
++        900: '#713f12',
++        950: '#422006',
++      },
++      lime: {
++        50: '#f7fee7',
++        100: '#ecfccb',
++        200: '#d9f99d',
++        300: '#bef264',
++        400: '#a3e635',
++        500: '#84cc16',
++        600: '#65a30d',
++        700: '#4d7c0f',
++        800: '#3f6212',
++        900: '#365314',
++        950: '#1a2e05',
++      },
++      green: {
++        50: '#f0fdf4',
++        100: '#dcfce7',
++        200: '#bbf7d0',
++        300: '#86efac',
++        400: '#4ade80',
++        500: '#22c55e',
++        600: '#16a34a',
++        700: '#15803d',
++        800: '#166534',
++        900: '#14532d',
++        950: '#052e16',
++      },
++      emerald: {
++        50: '#ecfdf5',
++        100: '#d1fae5',
++        200: '#a7f3d0',
++        300: '#6ee7b7',
++        400: '#34d399',
++        500: '#10b981',
++        600: '#059669',
++        700: '#047857',
++        800: '#065f46',
++        900: '#064e3b',
++        950: '#022c22',
++      },
++      teal: {
++        50: '#f0fdfa',
++        100: '#ccfbf1',
++        200: '#99f6e4',
++        300: '#5eead4',
++        400: '#2dd4bf',
++        500: '#14b8a6',
++        600: '#0d9488',
++        700: '#0f766e',
++        800: '#115e59',
++        900: '#134e4a',
++        950: '#042f2e',
++      },
++      cyan: {
++        50: '#ecfeff',
++        100: '#cffafe',
++        200: '#a5f3fc',
++        300: '#67e8f9',
++        400: '#22d3ee',
++        500: '#06b6d4',
++        600: '#0891b2',
++        700: '#0e7490',
++        800: '#155e75',
++        900: '#164e63',
++        950: '#083344',
++      },
++      sky: {
++        50: '#f0f9ff',
++        100: '#e0f2fe',
++        200: '#bae6fd',
++        300: '#7dd3fc',
++        400: '#38bdf8',
++        500: '#0ea5e9',
++        600: '#0284c7',
++        700: '#0369a1',
++        800: '#075985',
++        900: '#0c4a6e',
++        950: '#082f49',
++      },
++      blue: {
++        50: '#eff6ff',
++        100: '#dbeafe',
++        200: '#bfdbfe',
++        300: '#93c5fd',
++        400: '#60a5fa',
++        500: '#3b82f6',
++        600: '#2563eb',
++        700: '#1d4ed8',
++        800: '#1e40af',
++        900: '#1e3a8a',
++        950: '#172554',
++      },
++      indigo: {
++        50: '#eef2ff',
++        100: '#e0e7ff',
++        200: '#c7d2fe',
++        300: '#a5b4fc',
++        400: '#818cf8',
++        500: '#6366f1',
++        600: '#4f46e5',
++        700: '#4338ca',
++        800: '#3730a3',
++        900: '#312e81',
++        950: '#1e1b4b',
++      },
++      violet: {
++        50: '#f5f3ff',
++        100: '#ede9fe',
++        200: '#ddd6fe',
++        300: '#c4b5fd',
++        400: '#a78bfa',
++        500: '#8b5cf6',
++        600: '#7c3aed',
++        700: '#6d28d9',
++        800: '#5b21b6',
++        900: '#4c1d95',
++        950: '#2e1065',
++      },
++      purple: {
++        50: '#faf5ff',
++        100: '#f3e8ff',
++        200: '#e9d5ff',
++        300: '#d8b4fe',
++        400: '#c084fc',
++        500: '#a855f7',
++        600: '#9333ea',
++        700: '#7e22ce',
++        800: '#6b21a8',
++        900: '#581c87',
++        950: '#3b0764',
++      },
++      fuchsia: {
++        50: '#fdf4ff',
++        100: '#fae8ff',
++        200: '#f5d0fe',
++        300: '#f0abfc',
++        400: '#e879f9',
++        500: '#d946ef',
++        600: '#c026d3',
++        700: '#a21caf',
++        800: '#86198f',
++        900: '#701a75',
++        950: '#4a044e',
++      },
++      pink: {
++        50: '#fdf2f8',
++        100: '#fce7f3',
++        200: '#fbcfe8',
++        300: '#f9a8d4',
++        400: '#f472b6',
++        500: '#ec4899',
++        600: '#db2777',
++        700: '#be185d',
++        800: '#9d174d',
++        900: '#831843',
++        950: '#500724',
++      },
++      rose: {
++        50: '#fff1f2',
++        100: '#ffe4e6',
++        200: '#fecdd3',
++        300: '#fda4af',
++        400: '#fb7185',
++        500: '#f43f5e',
++        600: '#e11d48',
++        700: '#be123c',
++        800: '#9f1239',
++        900: '#881337',
++        950: '#4c0519',
++      },
++      
++      // Cores do sistema original (mantidas para compatibilidade)
++      ...colors,
++      body: slateDark.slate7,
+     },
+   },
+   plugins: [
+-    // eslint-disable-next-line
+     require('@tailwindcss/typography'),
+     iconsPlugin({
+       collections: {
+diff --git a/theme/colors.js b/theme/colors.js
+index 52870e75b..86aa4ae72 100644
+--- a/theme/colors.js
++++ b/theme/colors.js
+@@ -13,97 +13,131 @@ const {
+   violetDark,
+ } = require('@radix-ui/colors');
+ 
+-export const colors = {
++const colors = {
++  // Tema principal alterado para roxo escuro
+   woot: {
+-    25: blue.blue2,
+-    50: blue.blue3,
+-    75: blue.blue4,
+-    100: blue.blue5,
+-    200: blue.blue7,
+-    300: blue.blue8,
+-    400: blueDark.blue11,
+-    500: blueDark.blue10,
+-    600: blueDark.blue9,
+-    700: blueDark.blue8,
+-    800: blueDark.blue6,
+-    900: blueDark.blue2,
++    25: '#faf8ff',    // Roxo muito claro
++    50: '#f0ebff',    // Roxo claro
++    75: '#e5d9ff',    // Roxo suave
++    100: '#d6c7ff',   // Roxo claro médio
++    200: '#b794f6',   // Roxo médio
++    300: '#9f7aea',   // Roxo
++    400: '#805ad5',   // Roxo escuro
++    500: '#6b46c1',   // Roxo principal
++    600: '#553c9a',   // Roxo escuro
++    700: '#44337a',   // Roxo muito escuro
++    800: '#322659',   // Roxo quase preto
++    900: '#1a1625',   // Roxo escuro profundo
+   },
++  // Verde como cor complementar (para sucesso/confirmações)
+   green: {
+-    50: greenDark.green12,
+-    100: green.green6,
+-    200: green.green7,
+-    300: green.green8,
+-    400: greenDark.green10,
+-    500: greenDark.green9,
+-    600: green.green10,
+-    700: green.green11,
+-    800: greenDark.green7,
+-    900: greenDark.green6,
++    50: '#f0fdf4',
++    100: '#dcfce7',
++    200: '#bbf7d0',
++    300: '#86efac',
++    400: '#4ade80',
++    500: '#22c55e',
++    600: '#16a34a',
++    700: '#15803d',
++    800: '#166534',
++    900: '#14532d',
++  },
++  // Verde específico para mensagens privadas
++  'private-green': {
++    50: '#f0fdf4',    // Fundo muito claro
++    100: '#dcfce7',   // Fundo claro
++    200: '#bbf7d0',   // Fundo hover
++    400: '#4ade80',   // Borda tracejada
++    600: '#16a34a',   // Texto meta e botão
++    700: '#15803d',   // Botão hover
++    800: '#166534',   // Texto principal
++  },
++  // Roxo específico para mensagens recebidas (usuários)
++  'user-purple': {
++    50: '#faf8ff',    // Fundo muito claro
++    100: '#f3f0ff',   // Fundo claro
++    200: '#e9e5ff',   // Fundo hover
++    300: '#d1c7ff',   // Roxo suave
++    800: '#5b21b6',   // Texto principal
++    900: '#4c1d95',   // Texto escuro
++  },
++  // Dourado como segunda cor complementar (para highlights/warnings)
++  gold: {
++    50: '#fffbeb',
++    100: '#fef3c7',
++    200: '#fde68a',
++    300: '#fcd34d',
++    400: '#fbbf24',
++    500: '#f59e0b',
++    600: '#d97706',
++    700: '#b45309',
++    800: '#92400e',
++    900: '#78350f',
+   },
+   yellow: {
+-    50: yellow.yellow2,
+-    100: yellow.yellow3,
+-    200: yellow.yellow5,
+-    300: yellowDark.yellow10,
+-    400: yellowDark.yellow9,
+-    500: yellowDark.yellow11,
+-    600: yellow.yellow8,
+-    700: yellowDark.yellow7,
+-    800: yellowDark.yellow2,
+-    900: yellowDark.yellow1,
++    50: '#fffbeb',
++    100: '#fef3c7',
++    200: '#fde68a',
++    300: '#fcd34d',
++    400: '#fbbf24',
++    500: '#f59e0b',
++    600: '#d97706',
++    700: '#b45309',
++    800: '#92400e',
++    900: '#78350f',
+   },
+   slate: {
+-    25: slate.slate2,
+-    50: slate.slate3,
+-    75: slate.slate4,
+-    100: slate.slate5,
+-    200: slate.slate7,
+-    300: slate.slate8,
+-    400: slateDark.slate11,
+-    500: slateDark.slate10,
+-    600: slate.slate11,
+-    700: slateDark.slate8,
+-    800: slateDark.slate4,
+-    900: slateDark.slate1,
++    25: '#fafafa',
++    50: '#f8fafc',
++    75: '#f1f5f9',
++    100: '#e2e8f0',
++    200: '#cbd5e1',
++    300: '#94a3b8',
++    400: '#64748b',
++    500: '#475569',
++    600: '#334155',
++    700: '#1e293b',
++    800: '#0f172a',
++    900: '#020617',
+   },
+   black: {
+-    50: slate.slate2,
+-    100: slateDark.slate12,
+-    200: slate.slate7,
+-    300: slate.slate8,
+-    400: slateDark.slate11,
+-    500: slate.slate9,
+-    600: slateDark.slate9,
+-    700: slateDark.slate8,
+-    800: slateDark.slate7,
+-    900: slateDark.slate2,
++    50: '#fafafa',
++    100: '#020617',
++    200: '#cbd5e1',
++    300: '#94a3b8',
++    400: '#64748b',
++    500: '#475569',
++    600: '#334155',
++    700: '#1e293b',
++    800: '#0f172a',
++    900: '#020617',
+   },
+   red: {
+-    50: redDark.red12,
+-    100: red.red6,
+-    200: red.red8,
+-    300: redDark.red11,
+-    400: redDark.red10,
+-    500: red.red9,
+-    600: red.red10,
+-    700: red.red11,
+-    800: redDark.red8,
+-    900: red.red12,
++    50: '#fef2f2',
++    100: '#fee2e2',
++    200: '#fecaca',
++    300: '#fca5a5',
++    400: '#f87171',
++    500: '#ef4444',
++    600: '#dc2626',
++    700: '#b91c1c',
++    800: '#991b1b',
++    900: '#7f1d1d',
+   },
+   violet: {
+-    50: violet.violet1,
+-    100: violetDark.violet12,
+-    200: violet.violet6,
+-    300: violet.violet8,
+-    400: violet.violet11,
+-    500: violet.violet9,
+-    600: violetDark.violet8,
+-    700: violetDark.violet7,
+-    800: violetDark.violet6,
+-    900: violet.violet12,
++    50: '#f8f6ff',
++    100: '#f0ebff',
++    200: '#e5d9ff',
++    300: '#d6c7ff',
++    400: '#b794f6',
++    500: '#9f7aea',
++    600: '#805ad5',
++    700: '#6b46c1',
++    800: '#553c9a',
++    900: '#44337a',
+   },
+ 
+-  // next design system color
++  // next design system color - Atualizando para tema roxo
+   n: {
+     slate: {
+       1: 'rgb(var(--slate-1) / <alpha-value>)',
+@@ -135,6 +169,22 @@ export const colors = {
+       12: 'rgb(var(--iris-12) / <alpha-value>)',
+     },
+ 
++    // Roxo como cor principal ao invés de azul
++    purple: {
++      1: 'rgb(var(--purple-1) / <alpha-value>)',
++      2: 'rgb(var(--purple-2) / <alpha-value>)',
++      3: 'rgb(var(--purple-3) / <alpha-value>)',
++      4: 'rgb(var(--purple-4) / <alpha-value>)',
++      5: 'rgb(var(--purple-5) / <alpha-value>)',
++      6: 'rgb(var(--purple-6) / <alpha-value>)',
++      7: 'rgb(var(--purple-7) / <alpha-value>)',
++      8: 'rgb(var(--purple-8) / <alpha-value>)',
++      9: 'rgb(var(--purple-9) / <alpha-value>)',
++      10: 'rgb(var(--purple-10) / <alpha-value>)',
++      11: 'rgb(var(--purple-11) / <alpha-value>)',
++      12: 'rgb(var(--purple-12) / <alpha-value>)',
++    },
++
+     blue: {
+       1: 'rgb(var(--blue-1) / <alpha-value>)',
+       2: 'rgb(var(--blue-2) / <alpha-value>)',
+@@ -211,7 +261,7 @@ export const colors = {
+     },
+ 
+     black: '#000000',
+-    brand: '#2781F6',
++    brand: '#6b46c1', // Roxo principal como cor da marca
+     background: 'rgb(var(--background-color) / <alpha-value>)',
+     solid: {
+       1: 'rgb(var(--solid-1) / <alpha-value>)',
+@@ -219,7 +269,7 @@ export const colors = {
+       3: 'rgb(var(--solid-3) / <alpha-value>)',
+       active: 'rgb(var(--solid-active) / <alpha-value>)',
+       amber: 'rgb(var(--solid-amber) / <alpha-value>)',
+-      blue: 'rgb(var(--solid-blue) / <alpha-value>)',
++      purple: 'rgb(var(--solid-purple) / <alpha-value>)', // Adicionado roxo
+       iris: 'rgb(var(--solid-iris) / <alpha-value>)',
+     },
+     alpha: {
+@@ -233,7 +283,9 @@ export const colors = {
+     weak: 'rgb(var(--border-weak) / <alpha-value>)',
+     container: 'rgba(var(--border-container))',
+     strong: 'rgb(var(--border-strong) / <alpha-value>)',
+-    'blue-border': 'rgba(var(--border-blue))',
+-    'blue-text': 'rgba(var(--text-blue))',
++    'purple-border': 'rgba(var(--border-purple))', // Alterado de azul para roxo
++    'purple-text': 'rgba(var(--text-purple))', // Alterado de azul para roxo
+   },
+ };
++
++module.exports = { colors };
+diff --git a/theme/icons.js b/theme/icons.js
+index 265c859b4..44aaf90ef 100644
+--- a/theme/icons.js
++++ b/theme/icons.js
+@@ -1,4 +1,4 @@
+-export const icons = {
++const icons = {
+   'logic-or': {
+     body: `<rect x="14" y="5" width="2" height="13" rx="1" fill="currentColor"/><rect x="8" y="5" width="2" height="13" rx="1" fill="currentColor"/>`,
+     width: 24,
+@@ -114,3 +114,5 @@ export const icons = {
+     height: 20,
+   },
+ };
++
++module.exports = { icons };

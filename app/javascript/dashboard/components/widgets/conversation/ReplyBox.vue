@@ -1274,7 +1274,7 @@ export default {
   @apply relative mb-2 mx-2 border border-n-weak rounded-xl bg-n-solid-1;
 
   &.is-private {
-    @apply bg-n-solid-amber dark:border-n-amber-3/10 border-n-amber-12/5;
+    @apply bg-private-green-100 dark:border-private-green-400/20 border-private-green-400/30;
   }
 }
 

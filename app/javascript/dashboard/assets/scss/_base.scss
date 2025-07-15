@@ -16,16 +16,16 @@ p {
   @apply mb-2 leading-[1.65] text-sm;
 
   a {
-    @apply text-n-brand dark:text-n-brand cursor-pointer;
+    @apply text-purple-600 dark:text-purple-400 cursor-pointer hover:text-purple-700 dark:hover:text-purple-300 transition-colors duration-200;
   }
 }
 
 a {
-  @apply text-sm;
+  @apply text-sm text-purple-600 hover:text-purple-700 transition-colors duration-200;
 }
 
 hr {
-  @apply clear-both max-w-full h-0 my-5 mx-0 border-slate-300 dark:border-slate-600;
+  @apply clear-both max-w-full h-0 my-5 mx-0 border-purple-200 dark:border-purple-700;
 }
 
 ul,
@@ -40,13 +40,13 @@ dl:not(.reset-base) {
   @apply mb-0;
 }
 
-// Button base
+// Button base - Tema roxo elegante
 button {
   font-family: inherit;
-  @apply inline-block text-center align-middle cursor-pointer text-sm m-0 py-1 px-2.5 transition-all duration-200 ease-in-out border-0 border-none rounded-lg disabled:opacity-50;
+  @apply inline-block text-center align-middle cursor-pointer text-sm m-0 py-2 px-4 transition-all duration-200 ease-in-out border-none rounded-xl disabled:opacity-50 font-medium;
 }
 
-// Form elements
+// Form elements - Bordas arredondadas
 // -------------------------
 label {
   @apply text-n-slate-12 block m-0 leading-7 text-sm font-medium;
@@ -63,25 +63,40 @@ textarea {
   outline: none;
 }
 
-// Field base styles (Input, TextArea, Select)
+// Field base styles (Input, TextArea, Select) - Estilo moderno com bordas arredondadas
 @layer components {
   .field-base {
-    @apply block box-border w-full transition-colors duration-[0.25s] ease-[ease-in-out] focus:outline-n-brand dark:focus:outline-n-brand appearance-none mx-0 mt-0 mb-4 py-2 px-3 rounded-lg text-base font-normal bg-n-alpha-black2 placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-none outline outline-1 outline-n-weak dark:outline-n-weak hover:outline-n-slate-6 dark:hover:outline-n-slate-6;
+    @apply block box-border w-full transition-all duration-200 ease-in-out focus:outline-none appearance-none mx-0 mt-0 mb-4 py-3 px-4 rounded-lg text-base font-normal bg-white placeholder:text-n-slate-10 dark:placeholder:text-n-slate-10 text-n-slate-12 border-2 border-purple-200 dark:border-purple-600 hover:border-purple-300 dark:hover:border-purple-500 focus:border-purple-500 dark:focus:border-purple-400 focus:ring-4 focus:ring-purple-100 dark:focus:ring-purple-900 focus:ring-opacity-50 shadow-sm;
   }
 
   .field-disabled {
-    @apply opacity-50 outline-n-weak dark:outline-n-weak cursor-not-allowed;
+    @apply opacity-50 border-gray-300 dark:border-gray-600 cursor-not-allowed bg-gray-50 dark:bg-gray-800;
   }
 
   .field-error {
-    @apply outline outline-1 outline-n-ruby-8 dark:outline-n-ruby-8 hover:outline-n-ruby-9 dark:hover:outline-n-ruby-9 disabled:outline-n-ruby-8 dark:disabled:outline-n-ruby-8;
+    @apply border-red-400 dark:border-red-500 hover:border-red-500 dark:hover:border-red-400 focus:border-red-500 dark:focus:border-red-400 focus:ring-red-100 dark:focus:ring-red-900;
+  }
+
+  // Cards elegantes
+  .elegant-card {
+    @apply bg-white dark:bg-gray-800 rounded-xl shadow-elegant border border-purple-100 dark:border-purple-800 p-6 transition-all duration-200 hover:shadow-modern;
+  }
+
+  // Containers modernos
+  .modern-container {
+    @apply bg-gradient-to-br from-purple-50 to-white dark:from-gray-900 dark:to-gray-800 rounded-2xl p-8 shadow-luxury;
+  }
+
+  // Glass effect
+  .glass-effect {
+    @apply bg-white/10 backdrop-blur-lg border border-white/20 rounded-xl;
   }
 }
 
 $form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not([type='radio']):not([type='range']):not([type='button']):not([type='submit']):not([type='reset']):not([type='color']):not([type='image']):not([type='hidden']):not(.reset-base):not(.multiselect__input):not(.no-margin)";
 
 #{$form-input-selector} {
-  @apply field-base h-10;
+  @apply field-base h-12; // Aumentado para melhor proporção
 
   &[disabled] {
     @apply field-disabled;
@@ -90,27 +105,36 @@ $form-input-selector: "input[type]:not([type='file']):not([type='checkbox']):not
   &.error {
     @apply field-error mb-1;
   }
+
+  // Estados hover e focus aprimorados
+  &:hover:not(:disabled) {
+    @apply transform scale-[1.01] transition-transform duration-200;
+  }
+
+  &:focus {
+    @apply transform scale-[1.02];
+  }
 }
 
 input[type='file']:not(.multiselect__input) {
-  @apply leading-[1.15] mb-4 border-0 bg-transparent text-sm;
+  @apply leading-[1.15] mb-4 bg-transparent text-sm rounded-lg p-2 border-2 border-dashed border-purple-300 hover:border-purple-400 transition-colors duration-200;
 }
 
-// Select
+// Select - Estilo moderno
 select {
-  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28110, 111, 115%29'></polygon></svg>");
-  background-size: 9px 6px;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' version='1.1' width='32' height='24' viewBox='0 0 32 24'><polygon points='0,0 32,0 16,24' style='fill: rgb%28107, 70, 193%29'></polygon></svg>");
+  background-size: 12px 8px;
 
-  @apply field-base h-10 bg-origin-content bg-no-repeat py-2 ltr:bg-[right_-1rem_center] rtl:bg-[left_-1rem_center] ltr:pr-6 rtl:pl-6 rtl:pr-3 ltr:pl-3;
+  @apply field-base h-12 bg-origin-content bg-no-repeat py-3 ltr:bg-[right_1rem_center] rtl:bg-[left_1rem_center] ltr:pr-10 rtl:pl-10 rtl:pr-4 ltr:pl-4;
 
   &[disabled] {
     @apply field-disabled;
   }
 }
 
-// Textarea
+// Textarea - Estilo moderno
 textarea {
-  @apply field-base h-16;
+  @apply field-base min-h-[6rem] resize-y;
 
   &[disabled] {
     @apply field-disabled;
@@ -126,10 +150,10 @@ label:has(.help-text) {
   }
 }
 
-// Error handling
+// Error handling - Estilo aprimorado
 .has-multi-select-error {
   div.multiselect {
-    @apply mb-1;
+    @apply mb-1 border-red-400 rounded-lg;
   }
 }
 
@@ -142,7 +166,7 @@ label:has(.help-text) {
   }
 
   .formkit-message {
-    @apply text-n-ruby-9 dark:text-n-ruby-9 block text-sm mb-2.5 w-full;
+    @apply text-red-500 dark:text-red-400 block text-sm mb-2.5 w-full font-medium;
   }
 }
 
@@ -167,42 +191,103 @@ label:has(.help-text) {
   }
 
   .message {
-    @apply text-n-ruby-9 dark:text-n-ruby-9 block text-sm mb-2.5 w-full;
+    @apply text-red-500 dark:text-red-400 block text-sm mb-2.5 w-full font-medium;
   }
 }
 
 .input-group.small {
   input {
-    @apply text-sm h-8;
+    @apply text-sm h-10;
   }
 
   .error {
-    @apply text-n-ruby-9 dark:text-n-ruby-9;
+    @apply text-red-500 dark:text-red-400;
   }
 }
 
-// Code styling
+// Code styling - Tema roxo
 code {
   font-family: 'ui-monospace', 'SFMono-Regular', 'Menlo', 'Monaco', 'Consolas',
     '"Liberation Mono"', '"Courier New"', 'monospace';
-  @apply text-xs border-0;
+  @apply text-xs border-0 bg-purple-50 dark:bg-purple-900 text-purple-800 dark:text-purple-200 px-2 py-1 rounded-md;
 
   &.hljs {
-    @apply bg-n-slate-3 dark:bg-n-solid-3 text-n-slate-12 rounded-lg p-5;
+    @apply bg-purple-50 dark:bg-purple-900 text-purple-900 dark:text-purple-100 rounded-xl p-6 shadow-inner;
 
     .hljs-number,
     .hljs-string {
-      @apply text-n-ruby-9 dark:text-n-ruby-9;
+      @apply text-amber-600 dark:text-amber-400;
     }
 
     .hljs-name,
     .hljs-tag {
-      @apply text-n-slate-11;
+      @apply text-purple-700 dark:text-purple-300;
+    }
+
+    .hljs-keyword {
+      @apply text-purple-800 dark:text-purple-200 font-semibold;
+    }
+
+    .hljs-comment {
+      @apply text-gray-500 dark:text-gray-400 italic;
     }
   }
 }
 
-// Table
+// Table - Estilo moderno
 table {
-  @apply border-spacing-0 text-sm w-full;
+  @apply border-spacing-0 text-sm w-full rounded-lg overflow-hidden shadow-soft;
+
+  th {
+    @apply bg-purple-50 dark:bg-purple-900 text-purple-900 dark:text-purple-100 font-semibold p-4 border-b border-purple-200 dark:border-purple-700;
+  }
+
+  td {
+    @apply p-4 border-b border-purple-100 dark:border-purple-800;
+  }
+
+  tr:hover {
+    @apply bg-purple-25 dark:bg-purple-950 transition-colors duration-200;
+  }
+}
+
+// Animações suaves globais
+* {
+  @apply transition-colors duration-200;
+}
+
+// Scrollbar personalizada
+::-webkit-scrollbar {
+  @apply w-2;
+}
+
+::-webkit-scrollbar-track {
+  @apply bg-purple-50 dark:bg-purple-900 rounded-lg;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply bg-purple-300 dark:bg-purple-600 rounded-lg hover:bg-purple-400 dark:hover:bg-purple-500;
+}
+
+// Classes utilitárias adicionais
+.text-gradient {
+  background: linear-gradient(135deg, #6b46c1, #9f7aea);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.border-gradient {
+  border: 2px solid transparent;
+  background: linear-gradient(white, white) padding-box,
+              linear-gradient(135deg, #6b46c1, #9f7aea) border-box;
+}
+
+// Efeitos hover globais
+.hover-lift {
+  @apply transition-transform duration-200 hover:transform hover:scale-105;
+}
+
+.hover-glow {
+  @apply transition-shadow duration-200 hover:shadow-purple-glow;
 }

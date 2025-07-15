@@ -13,97 +13,131 @@ const {
   violetDark,
 } = require('@radix-ui/colors');
 
-export const colors = {
+const colors = {
+  // Tema principal alterado para roxo escuro
   woot: {
-    25: blue.blue2,
-    50: blue.blue3,
-    75: blue.blue4,
-    100: blue.blue5,
-    200: blue.blue7,
-    300: blue.blue8,
-    400: blueDark.blue11,
-    500: blueDark.blue10,
-    600: blueDark.blue9,
-    700: blueDark.blue8,
-    800: blueDark.blue6,
-    900: blueDark.blue2,
+    25: '#faf8ff',    // Roxo muito claro
+    50: '#f0ebff',    // Roxo claro
+    75: '#e5d9ff',    // Roxo suave
+    100: '#d6c7ff',   // Roxo claro médio
+    200: '#b794f6',   // Roxo médio
+    300: '#9f7aea',   // Roxo
+    400: '#805ad5',   // Roxo escuro
+    500: '#6b46c1',   // Roxo principal
+    600: '#553c9a',   // Roxo escuro
+    700: '#44337a',   // Roxo muito escuro
+    800: '#322659',   // Roxo quase preto
+    900: '#1a1625',   // Roxo escuro profundo
   },
+  // Verde como cor complementar (para sucesso/confirmações)
   green: {
-    50: greenDark.green12,
-    100: green.green6,
-    200: green.green7,
-    300: green.green8,
-    400: greenDark.green10,
-    500: greenDark.green9,
-    600: green.green10,
-    700: green.green11,
-    800: greenDark.green7,
-    900: greenDark.green6,
+    50: '#f0fdf4',
+    100: '#dcfce7',
+    200: '#bbf7d0',
+    300: '#86efac',
+    400: '#4ade80',
+    500: '#22c55e',
+    600: '#16a34a',
+    700: '#15803d',
+    800: '#166534',
+    900: '#14532d',
+  },
+  // Verde específico para mensagens privadas
+  'private-green': {
+    50: '#f0fdf4',    // Fundo muito claro
+    100: '#dcfce7',   // Fundo claro
+    200: '#bbf7d0',   // Fundo hover
+    400: '#4ade80',   // Borda tracejada
+    600: '#16a34a',   // Texto meta e botão
+    700: '#15803d',   // Botão hover
+    800: '#166534',   // Texto principal
+  },
+  // Roxo específico para mensagens recebidas (usuários)
+  'user-purple': {
+    50: '#faf8ff',    // Fundo muito claro
+    100: '#f3f0ff',   // Fundo claro
+    200: '#e9e5ff',   // Fundo hover
+    300: '#d1c7ff',   // Roxo suave
+    800: '#5b21b6',   // Texto principal
+    900: '#4c1d95',   // Texto escuro
+  },
+  // Dourado como segunda cor complementar (para highlights/warnings)
+  gold: {
+    50: '#fffbeb',
+    100: '#fef3c7',
+    200: '#fde68a',
+    300: '#fcd34d',
+    400: '#fbbf24',
+    500: '#f59e0b',
+    600: '#d97706',
+    700: '#b45309',
+    800: '#92400e',
+    900: '#78350f',
   },
   yellow: {
-    50: yellow.yellow2,
-    100: yellow.yellow3,
-    200: yellow.yellow5,
-    300: yellowDark.yellow10,
-    400: yellowDark.yellow9,
-    500: yellowDark.yellow11,
-    600: yellow.yellow8,
-    700: yellowDark.yellow7,
-    800: yellowDark.yellow2,
-    900: yellowDark.yellow1,
+    50: '#fffbeb',
+    100: '#fef3c7',
+    200: '#fde68a',
+    300: '#fcd34d',
+    400: '#fbbf24',
+    500: '#f59e0b',
+    600: '#d97706',
+    700: '#b45309',
+    800: '#92400e',
+    900: '#78350f',
   },
   slate: {
-    25: slate.slate2,
-    50: slate.slate3,
-    75: slate.slate4,
-    100: slate.slate5,
-    200: slate.slate7,
-    300: slate.slate8,
-    400: slateDark.slate11,
-    500: slateDark.slate10,
-    600: slate.slate11,
-    700: slateDark.slate8,
-    800: slateDark.slate4,
-    900: slateDark.slate1,
+    25: '#fafafa',
+    50: '#f8fafc',
+    75: '#f1f5f9',
+    100: '#e2e8f0',
+    200: '#cbd5e1',
+    300: '#94a3b8',
+    400: '#64748b',
+    500: '#475569',
+    600: '#334155',
+    700: '#1e293b',
+    800: '#0f172a',
+    900: '#020617',
   },
   black: {
-    50: slate.slate2,
-    100: slateDark.slate12,
-    200: slate.slate7,
-    300: slate.slate8,
-    400: slateDark.slate11,
-    500: slate.slate9,
-    600: slateDark.slate9,
-    700: slateDark.slate8,
-    800: slateDark.slate7,
-    900: slateDark.slate2,
+    50: '#fafafa',
+    100: '#020617',
+    200: '#cbd5e1',
+    300: '#94a3b8',
+    400: '#64748b',
+    500: '#475569',
+    600: '#334155',
+    700: '#1e293b',
+    800: '#0f172a',
+    900: '#020617',
   },
   red: {
-    50: redDark.red12,
-    100: red.red6,
-    200: red.red8,
-    300: redDark.red11,
-    400: redDark.red10,
-    500: red.red9,
-    600: red.red10,
-    700: red.red11,
-    800: redDark.red8,
-    900: red.red12,
+    50: '#fef2f2',
+    100: '#fee2e2',
+    200: '#fecaca',
+    300: '#fca5a5',
+    400: '#f87171',
+    500: '#ef4444',
+    600: '#dc2626',
+    700: '#b91c1c',
+    800: '#991b1b',
+    900: '#7f1d1d',
   },
   violet: {
-    50: violet.violet1,
-    100: violetDark.violet12,
-    200: violet.violet6,
-    300: violet.violet8,
-    400: violet.violet11,
-    500: violet.violet9,
-    600: violetDark.violet8,
-    700: violetDark.violet7,
-    800: violetDark.violet6,
-    900: violet.violet12,
+    50: '#f8f6ff',
+    100: '#f0ebff',
+    200: '#e5d9ff',
+    300: '#d6c7ff',
+    400: '#b794f6',
+    500: '#9f7aea',
+    600: '#805ad5',
+    700: '#6b46c1',
+    800: '#553c9a',
+    900: '#44337a',
   },
 
-  // next design system color
+  // next design system color - Atualizando para tema roxo
   n: {
     slate: {
       1: 'rgb(var(--slate-1) / <alpha-value>)',
@@ -133,6 +167,22 @@ export const colors = {
       10: 'rgb(var(--iris-10) / <alpha-value>)',
       11: 'rgb(var(--iris-11) / <alpha-value>)',
       12: 'rgb(var(--iris-12) / <alpha-value>)',
+    },
+
+    // Roxo como cor principal ao invés de azul
+    purple: {
+      1: 'rgb(var(--purple-1) / <alpha-value>)',
+      2: 'rgb(var(--purple-2) / <alpha-value>)',
+      3: 'rgb(var(--purple-3) / <alpha-value>)',
+      4: 'rgb(var(--purple-4) / <alpha-value>)',
+      5: 'rgb(var(--purple-5) / <alpha-value>)',
+      6: 'rgb(var(--purple-6) / <alpha-value>)',
+      7: 'rgb(var(--purple-7) / <alpha-value>)',
+      8: 'rgb(var(--purple-8) / <alpha-value>)',
+      9: 'rgb(var(--purple-9) / <alpha-value>)',
+      10: 'rgb(var(--purple-10) / <alpha-value>)',
+      11: 'rgb(var(--purple-11) / <alpha-value>)',
+      12: 'rgb(var(--purple-12) / <alpha-value>)',
     },
 
     blue: {
@@ -211,7 +261,7 @@ export const colors = {
     },
 
     black: '#000000',
-    brand: '#2781F6',
+    brand: '#6b46c1', // Roxo principal como cor da marca
     background: 'rgb(var(--background-color) / <alpha-value>)',
     solid: {
       1: 'rgb(var(--solid-1) / <alpha-value>)',
@@ -219,7 +269,7 @@ export const colors = {
       3: 'rgb(var(--solid-3) / <alpha-value>)',
       active: 'rgb(var(--solid-active) / <alpha-value>)',
       amber: 'rgb(var(--solid-amber) / <alpha-value>)',
-      blue: 'rgb(var(--solid-blue) / <alpha-value>)',
+      purple: 'rgb(var(--solid-purple) / <alpha-value>)', // Adicionado roxo
       iris: 'rgb(var(--solid-iris) / <alpha-value>)',
     },
     alpha: {
@@ -233,7 +283,9 @@ export const colors = {
     weak: 'rgb(var(--border-weak) / <alpha-value>)',
     container: 'rgba(var(--border-container))',
     strong: 'rgb(var(--border-strong) / <alpha-value>)',
-    'blue-border': 'rgba(var(--border-blue))',
-    'blue-text': 'rgba(var(--text-blue))',
+    'purple-border': 'rgba(var(--border-purple))', // Alterado de azul para roxo
+    'purple-text': 'rgba(var(--text-purple))', // Alterado de azul para roxo
   },
 };
+
+module.exports = { colors };

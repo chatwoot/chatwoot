@@ -75,6 +75,7 @@ const computedColor = computed(() => {
   if (attrs.amber || attrs.amber === '') return 'amber';
   if (attrs.slate || attrs.slate === '') return 'slate';
   if (attrs.teal || attrs.teal === '') return 'teal';
+  if (attrs.green || attrs.green === '') return 'green';
   return 'blue'; // Default color
 });
 
@@ -151,6 +152,17 @@ const STYLE_CONFIG = {
       link: 'text-n-teal-9 hover:enabled:underline focus-visible:underline outline-transparent',
       ghost:
         'text-n-teal-9 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
+    },
+    green: {
+      solid:
+        'bg-private-green-600 text-white hover:enabled:bg-private-green-700 focus-visible:bg-private-green-700 outline-transparent',
+      faded:
+        'bg-private-green-100 text-private-green-800 hover:enabled:bg-private-green-200 focus-visible:bg-private-green-200 outline-transparent',
+      outline:
+        'text-private-green-600 hover:enabled:bg-private-green-100 focus-visible:bg-private-green-100 outline-private-green-400',
+      link: 'text-private-green-600 hover:enabled:underline focus-visible:underline outline-transparent',
+      ghost:
+        'text-private-green-600 hover:enabled:bg-n-alpha-2 focus-visible:bg-n-alpha-2 outline-transparent',
     },
   },
   sizes: {

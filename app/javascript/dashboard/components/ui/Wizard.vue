@@ -69,26 +69,26 @@ export default {
 
     &.active {
       h3 {
-        @apply text-n-blue-text dark:text-n-blue-text;
+        @apply text-purple-700 dark:text-purple-300;
       }
 
       .step {
-        @apply bg-n-brand dark:bg-n-brand;
+        @apply bg-purple-600 dark:bg-purple-500;
       }
     }
 
     &.over {
       &::after {
-        @apply bg-n-brand dark:bg-n-brand;
+        @apply bg-purple-600 dark:bg-purple-500;
       }
 
       .step {
-        @apply bg-n-brand dark:bg-n-brand;
+        @apply bg-purple-600 dark:bg-purple-500;
       }
 
       & + .item {
         &::before {
-          @apply bg-n-brand dark:bg-n-brand;
+          @apply bg-purple-600 dark:bg-purple-500;
         }
       }
     }

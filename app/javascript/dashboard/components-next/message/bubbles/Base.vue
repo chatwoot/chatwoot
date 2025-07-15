@@ -17,8 +17,8 @@ const { t } = useI18n();
 const varaintBaseMap = {
   [MESSAGE_VARIANTS.AGENT]: 'bg-n-solid-blue text-n-slate-12',
   [MESSAGE_VARIANTS.PRIVATE]:
-    'bg-n-solid-amber text-n-amber-12 [&_.prosemirror-mention-node]:font-semibold',
-  [MESSAGE_VARIANTS.USER]: 'bg-n-slate-4 text-n-slate-12',
+    'bg-private-green-100 text-private-green-800 border-2 border-dashed border-private-green-400 shadow-sm [&_.prosemirror-mention-node]:font-semibold',
+  [MESSAGE_VARIANTS.USER]: 'bg-user-purple-100 text-user-purple-900 shadow-sm',
   [MESSAGE_VARIANTS.ACTIVITY]: 'bg-n-alpha-1 text-n-slate-11 text-sm',
   [MESSAGE_VARIANTS.BOT]: 'bg-n-solid-iris text-n-slate-12',
   [MESSAGE_VARIANTS.TEMPLATE]: 'bg-n-solid-iris text-n-slate-12',
@@ -107,7 +107,7 @@ const replyToPreview = computed(() => {
         flexOrientationClass,
         variant === MESSAGE_VARIANTS.EMAIL ? 'px-3 pb-3' : '',
         variant === MESSAGE_VARIANTS.PRIVATE
-          ? 'text-n-amber-12/50'
+          ? 'text-private-green-600/70'
           : 'text-n-slate-11',
       ]"
       class="mt-2"

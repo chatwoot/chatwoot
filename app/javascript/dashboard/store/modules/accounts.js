@@ -136,7 +136,13 @@ export const actions = {
     }
   },
 
-  limits: async ({ commit }) => {
+  limits: async ({ commit, rootGetters }) => {
+    // Só tentar buscar limits se estiver na versão cloud/enterprise
+    const isOnChatwootCloud = rootGetters['globalConfig/isOnChatwootCloud'];
+    if (!isOnChatwootCloud) {
+      return; // Não fazer nada se não for versão cloud
+    }
+    
     try {
       const response = await EnterpriseAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);
