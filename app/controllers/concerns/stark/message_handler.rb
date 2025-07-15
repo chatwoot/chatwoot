@@ -8,14 +8,20 @@ module Stark
     end
 
     def create_bot_response_message(conversation, content)
+      sender = if conversation.inbox.channel_type == "Channel::WebWidget"
+                 conversation.inbox.channel&.avatar_name || agent_bot
+               else
+                 agent_bot
+               end
+    
       conversation.messages.create!(
         content: content,
         message_type: :outgoing,
         account_id: conversation.account_id,
         inbox_id: conversation.inbox_id,
-        sender: conversation.inbox.channel&.avatar_name || agent_bot
+        sender: sender
       )
-    end
+    end    
 
     def response_valid?(response)
       response.is_a?(Hash) && (response['content'].present? || response['action'].present?)
