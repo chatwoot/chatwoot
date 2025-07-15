@@ -3,13 +3,16 @@ require 'rails_helper'
 RSpec.describe Whatsapp::ReauthorizationService do
   let(:account) { create(:account) }
   let(:whatsapp_channel) do
-    create(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
-                              provider_config: {
-                                'api_key' => 'old_token',
-                                'phone_number_id' => '123456',
-                                'business_account_id' => '654321',
-                                'source' => 'embedded_signup'
-                              })
+    channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                       provider_config: {
+                                         'api_key' => 'old_token',
+                                         'phone_number_id' => '123456',
+                                         'business_account_id' => '654321',
+                                         'source' => 'embedded_signup'
+                                       })
+    allow(channel).to receive(:validate_provider_config).and_return(true)
+    channel.save!
+    channel
   end
   let(:inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
 
@@ -23,28 +26,29 @@ RSpec.describe Whatsapp::ReauthorizationService do
     )
   end
 
+  before do
+    allow(Channel::Whatsapp).to receive(:validate_provider_config).and_return(true)
+    allow(Channel::Whatsapp).to receive(:sync_templates).and_return(true)
+    allow(Channel::Whatsapp).to receive(:setup_webhooks).and_return(true)
+  end
+
   describe '#perform' do
     context 'when channel is embedded signup WhatsApp' do
       let(:access_token) { 'new_access_token' }
       let(:phone_info) { { phone_number: '+1234567890', verified_name: 'Test Business' } }
 
       before do
-        # Mock the service dependencies
-        token_service = instance_double(Whatsapp::TokenExchangeService)
-        allow(Whatsapp::TokenExchangeService).to receive(:new).and_return(token_service)
-        allow(token_service).to receive(:perform).and_return({ access_token: access_token })
+        # Mock the service dependencies to return expected values
+        allow(Whatsapp::TokenExchangeService).to receive(:perform).and_return({ access_token: access_token })
+        allow(Whatsapp::TokenValidationService).to receive(:perform).and_return({ valid: true })
+        allow(Whatsapp::PhoneInfoService).to receive(:perform).and_return({
+                                                                            phone_number: phone_info[:phone_number],
+                                                                            verified_name: phone_info[:verified_name]
+                                                                          })
+        allow(Whatsapp::WebhookSetupService).to receive(:perform).and_return({ success: true })
 
-        validation_service = instance_double(Whatsapp::TokenValidationService)
-        allow(Whatsapp::TokenValidationService).to receive(:new).and_return(validation_service)
-        allow(validation_service).to receive(:perform).and_return({ valid: true })
-
-        phone_service = instance_double(Whatsapp::PhoneInfoService)
-        allow(Whatsapp::PhoneInfoService).to receive(:new).and_return(phone_service)
-        allow(phone_service).to receive(:perform).and_return(phone_info)
-
-        webhook_service = instance_double(Whatsapp::WebhookSetupService)
-        allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
-        allow(webhook_service).to receive(:perform)
+        # Mock the channel's reauthorized! method
+        allow(whatsapp_channel).to receive(:reauthorized!)
       end
 
       it 'successfully reauthorizes the channel' do
