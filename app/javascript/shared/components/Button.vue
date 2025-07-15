@@ -26,9 +26,10 @@ export default {
     buttonClassName() {
       let className =
         'text-white py-3 px-6 rounded-xl shadow-elegant leading-4 cursor-pointer disabled:opacity-50 transition-all duration-200 font-medium transform hover:scale-105';
-      
+
       if (this.type === 'clear') {
-        className = 'flex mx-auto mt-4 text-xs leading-3 w-auto text-n-gray-12 hover:text-purple-600 transition-colors duration-200';
+        className =
+          'flex mx-auto mt-4 text-xs leading-3 w-auto text-n-gray-12 hover:text-purple-600 transition-colors duration-200';
       }
 
       if (this.type === 'purple' && !Object.keys(this.buttonStyles).length) {
@@ -75,9 +76,9 @@ export default {
 </script>
 
 <template>
-  <button 
-    :class="buttonClassName" 
-    :style="buttonStyles" 
+  <button
+    :class="buttonClassName"
+    :style="buttonStyles"
     :disabled="disabled"
     class="focus:outline-none focus:ring-4 focus:ring-purple-200 focus:ring-opacity-50"
   >

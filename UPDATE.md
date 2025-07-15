@@ -20,6 +20,11 @@ Durante esta sessão de desenvolvimento, aplicamos uma **transformação complet
 - **Impacto**: Console warnings e potenciais erros runtime
 - **Status**: ✅ **RESOLVIDO**
 
+#### 3. **Erros ESLint**
+- **Problema**: Uso de `isNaN()` global em vez de `Number.isNaN()`
+- **Impacto**: Warnings de linting e práticas não recomendadas
+- **Status**: ✅ **RESOLVIDO**
+
 ### 📁 Arquivos Corrigidos - Fase 1
 
 | Arquivo | Problema | Solução Aplicada |
@@ -27,6 +32,7 @@ Durante esta sessão de desenvolvimento, aplicamos uma **transformação complet
 | `theme/colors.js` | Sintaxe ESM/CommonJS mista | Padronização para CommonJS |
 | `theme/icons.js` | Export sem module.exports | Correção para CommonJS |
 | `tailwind.config.js` | Import/require misto | Padronização para require |
+| `app/javascript/dashboard/components-next/input/DurationInput.vue` | `isNaN()` → `Number.isNaN()` | Correção ESLint no-restricted-globals |
 
 ---
 
@@ -158,6 +164,7 @@ woot: {
 | `scripts/recovery.sh` | Script de recuperação completa | `./scripts/recovery.sh` |
 | `scripts/update_private_messages_theme.sh` | Aplicar tema verde nas mensagens privadas | `./scripts/update_private_messages_theme.sh` |
 | `scripts/finalize_chat_theme.sh` | Finalizar com tema completo | `./scripts/finalize_chat_theme.sh` |
+| `scripts/fix_eslint_errors.sh` | Corrigir erros ESLint automaticamente | `./scripts/fix_eslint_errors.sh` |
 
 ---
 
@@ -207,6 +214,7 @@ app/javascript/dashboard/components-next/button/Button.vue
 - ✅ Build do Vite executado com sucesso
 - ✅ Tailwind compilando sem warnings
 - ✅ Vue.js sem warnings de props
+- ✅ ESLint sem erros (isNaN → Number.isNaN)
 
 ### 🎨 **Testes Visuais**
 - ✅ Tema principal roxo aplicado

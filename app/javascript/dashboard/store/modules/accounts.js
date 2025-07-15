@@ -142,7 +142,7 @@ export const actions = {
     if (!isOnChatwootCloud) {
       return; // Não fazer nada se não for versão cloud
     }
-    
+
     try {
       const response = await EnterpriseAccountAPI.getLimits();
       commit(types.default.SET_ACCOUNT_LIMITS, response.data);

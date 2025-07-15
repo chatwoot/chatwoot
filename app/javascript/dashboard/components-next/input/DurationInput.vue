@@ -5,15 +5,15 @@ import { useI18n } from 'vue-i18n';
 import { DURATION_UNITS } from './constants';
 
 const props = defineProps({
-  min: { 
-    type: [Number, String], 
+  min: {
+    type: [Number, String],
     default: 0,
-    validator: (value) => !isNaN(Number(value))
+    validator: value => !Number.isNaN(Number(value)),
   },
-  max: { 
-    type: [Number, String], 
+  max: {
+    type: [Number, String],
     default: Infinity,
-    validator: (value) => !isNaN(Number(value))
+    validator: value => !Number.isNaN(Number(value)),
   },
   disabled: { type: Boolean, default: false },
 });
@@ -55,7 +55,10 @@ const transformedValue = computed({
   set(newValue) {
     let minuteValue = convertToMinutes(newValue);
 
-    duration.value = Math.min(Math.max(minuteValue, minValue.value), maxValue.value);
+    duration.value = Math.min(
+      Math.max(minuteValue, minValue.value),
+      maxValue.value
+    );
   },
 });
 
@@ -66,7 +69,10 @@ const transformedValue = computed({
 // this watcher fixes it by rounding the duration basically, to the nearest unit value
 watch(unit, () => {
   let adjustedValue = convertToMinutes(transformedValue.value);
-  duration.value = Math.min(Math.max(adjustedValue, minValue.value), maxValue.value);
+  duration.value = Math.min(
+    Math.max(adjustedValue, minValue.value),
+    maxValue.value
+  );
 });
 </script>
 
@@ -91,7 +97,9 @@ watch(unit, () => {
       <option :value="DURATION_UNITS.HOURS">
         {{ t('DURATION_INPUT.HOURS') }}
       </option>
-      <option :value="DURATION_UNITS.DAYS">{{ t('DURATION_INPUT.DAYS') }}</option>
+      <option :value="DURATION_UNITS.DAYS">
+        {{ t('DURATION_INPUT.DAYS') }}
+      </option>
     </select>
   </div>
 </template>

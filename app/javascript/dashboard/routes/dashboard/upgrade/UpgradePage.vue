@@ -109,7 +109,10 @@ defineExpose({ shouldShowUpgradePage });
 </script>
 
 <template>
-  <div v-if="shouldShowUpgradePage" class="mx-auto h-full pt-[clamp(3rem,15vh,12rem)]">
+  <div
+    v-if="shouldShowUpgradePage"
+    class="mx-auto h-full pt-[clamp(3rem,15vh,12rem)]"
+  >
     <div
       class="flex flex-col gap-4 max-w-md px-8 py-6 shadow-lg bg-n-solid-1 rounded-xl outline outline-1 outline-n-container"
     >
