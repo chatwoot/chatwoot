@@ -103,6 +103,12 @@ slack:
   enabled: true
   icon: 'icon-slack'
   config_key: 'slack'
+whatsapp_embedded:
+  name: 'WhatsApp Embedded'
+  description: 'Configuration for setting up WhatsApp Embedded Integration'
+  enabled: true
+  icon: 'icon-whatsapp-line'
+  config_key: 'whatsapp_embedded'
 shopify:
   name: 'Shopify'
   description: 'Configuration for setting up Shopify Integration'
