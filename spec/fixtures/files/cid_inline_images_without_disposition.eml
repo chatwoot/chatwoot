@@ -1,0 +1,83 @@
+Delivered-To: test.user@example.com
+Received: by 192.0.2.1 with SMTP id smtp12345;
+        Mon, 14 Jul 2025 15:23:57 -0700 (PDT)
+X-Google-Smtp-Source: TEST_SOURCE
+X-Received: by 198.51.100.2 with SMTP id smtp67890;
+        Mon, 14 Jul 2025 15:23:57 -0700 (PDT)
+ARC-Seal: i=1; a=rsa-sha256; t=1752531837; cv=none;
+        d=example.com; s=test;
+        b=TEST_SIGNATURE==
+ARC-Message-Signature: i=1; a=rsa-sha256; c=relaxed/relaxed; d=example.com; s=test;
+        h=content-language:subject:to:from;
+        bh=TESTHASH==;
+        b=TEST_SIGNATURE==
+ARC-Authentication-Results: i=1; mx.example.com;
+       dkim=pass header.i=@example.com header.s=test header.b="TESTKEY";
+       spf=pass smtp.mailfrom=sender@example.com
+Return-Path: <sender@example.com>
+Received: from smtp.example.com (smtp.example.com. [203.0.113.10])
+        by mx.example.com with ESMTPS id smtp7890
+        for <test.user@example.com>;
+        Mon, 14 Jul 2025 15:23:55 -0700 (PDT)
+Received-SPF: pass (example.com: domain of sender@example.com designates 203.0.113.10 as permitted sender)
+Authentication-Results: mx.example.com;
+       dkim=pass header.i=@example.com header.s=test header.b="TESTKEY";
+       spf=pass smtp.mailfrom=sender@example.com
+Received: from TEST-PC (unknown [192.0.2.100])
+	(Authenticated sender: sender@example.com)
+	by smtp.example.com (Postfix) with ESMTPA id ABCD123456
+	for <test.user@example.com>; Mon, 14 Jul 2025 19:23:43 -0300 (BRT)
+DKIM-Signature: v=1; a=rsa-sha1; c=relaxed/relaxed; d=example.com;
+	s=test; t=1752531824; bh=TESTHASH=;
+	h=From:To:Subject:Date:From;
+	b=TEST_SIGNATURE==
+From: <sender@example.com>
+To: <test.user@example.com>
+Subject: Test inline image without Content-Disposition
+Date: Mon, 14 Jul 2025 19:23:29 -0300
+Message-ID: <test-message-id@example.com>
+MIME-Version: 1.0
+Content-Type: multipart/related;
+	boundary="----=_NextPart_000_0001"
+X-Mailer: Microsoft Outlook 16.0
+Thread-Index: TESTINDEX==
+Content-Language: en-us
+
+This is a multipart message in MIME format.
+
+------=_NextPart_000_0001
+Content-Type: multipart/alternative;
+	boundary="----=_NextPart_001_0002"
+
+------=_NextPart_001_0002
+Content-Type: text/plain;
+	charset="us-ascii"
+Content-Transfer-Encoding: 7bit
+
+This is a plain text version of the message.
+
+------=_NextPart_001_0002
+Content-Type: text/html;
+	charset="us-ascii"
+Content-Transfer-Encoding: quoted-printable
+
+<html>
+  <body>
+    <p>This is an HTML message with an inline image.</p>
+    <img src="cid:image001.jpg@test">
+  </body>
+</html>
+
+------=_NextPart_001_0002--
+
+------=_NextPart_000_0001
+Content-Type: image/jpeg;
+	filename="image001.jpg"
+Content-Transfer-Encoding: base64
+Content-ID: <image001.jpg@test>
+
+/9j/4AAQSkZJRgABAQEASABIAAD/2wCEAAEBAQEBAQEBAQEBAQEBAQEBAQEB
+AQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQEBAQH/wAAL
+CABkAGQBAREA/8QA...
+
+------=_NextPart_000_0001--
