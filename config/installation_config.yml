@@ -126,6 +126,26 @@
   type: boolean
 # ------- End of Facebook Channel Related Config ------- #
 
+# ------- WhatsApp Channel Related Config ------- #
+- name: WHATSAPP_APP_ID
+  display_title: 'WhatsApp App ID'
+  description: 'The Facebook App ID for WhatsApp Business API integration'
+  locked: false
+- name: WHATSAPP_CONFIGURATION_ID
+  display_title: 'WhatsApp Configuration ID'
+  description: 'The Configuration ID for WhatsApp Embedded Signup flow (required for embedded signup)'
+  locked: false
+- name: WHATSAPP_APP_SECRET
+  display_title: 'WhatsApp App Secret'
+  description: 'The App Secret for WhatsApp Embedded Signup flow (required for embedded signup)'
+  locked: false
+- name: WHATSAPP_API_VERSION
+  display_title: 'WhatsApp API Version'
+  description: 'Configure this if you want to use a different WhatsApp API version. Make sure its prefixed with `v`'
+  value: 'v22.0'
+  locked: false
+# ------- End of WhatsApp Channel Related Config ------- #
+
 # MARK: Microsoft Email Channel Config
 - name: AZURE_APP_ID
   display_title: 'Azure App ID'
