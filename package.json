@@ -3,6 +3,7 @@
   "version": "4.3.0",
   "license": "MIT",
   "scripts": {
+    "build": "yarn build:sdk",
     "eslint": "eslint app/**/*.{js,vue}",
     "eslint:fix": "eslint app/**/*.{js,vue} --fix",
     "test": "TZ=UTC vitest --no-watch --no-cache --no-coverage --logHeapUsage",
@@ -143,19 +144,11 @@
     "vitest": "3.0.5"
   },
   "engines": {
-    "node": "23.x",
-    "pnpm": "10.x"
+    "node": "23.x"
   },
   "husky": {
     "hooks": {
       "pre-push": "sh bin/validate_push"
-    }
-  },
-  "pnpm": {
-    "overrides": {
-      "vite-node": "2.0.1",
-      "vite": "5.4.19",
-      "vitest": "3.0.5"
     }
   },
   "lint-staged": {
