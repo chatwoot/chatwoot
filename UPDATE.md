@@ -11,27 +11,30 @@ Durante esta sessão de desenvolvimento, aplicamos uma **transformação complet
 ### 🔧 Problemas Identificados e Corrigidos
 
 #### 1. **Conflitos de Sintaxe JavaScript**
+
 - **Problema**: Mistura de sintaxes ESM (`export`) e CommonJS (`require`)
 - **Impacto**: Erros de compilação e build failures
 - **Status**: ✅ **RESOLVIDO**
 
 #### 2. **Warnings Vue.js**
+
 - **Problema**: Props opcionais e validações inconsistentes
 - **Impacto**: Console warnings e potenciais erros runtime
 - **Status**: ✅ **RESOLVIDO**
 
 #### 3. **Erros ESLint**
+
 - **Problema**: Uso de `isNaN()` global em vez de `Number.isNaN()`
 - **Impacto**: Warnings de linting e práticas não recomendadas
 - **Status**: ✅ **RESOLVIDO**
 
 ### 📁 Arquivos Corrigidos - Fase 1
 
-| Arquivo | Problema | Solução Aplicada |
-|---------|----------|------------------|
-| `theme/colors.js` | Sintaxe ESM/CommonJS mista | Padronização para CommonJS |
-| `theme/icons.js` | Export sem module.exports | Correção para CommonJS |
-| `tailwind.config.js` | Import/require misto | Padronização para require |
+| Arquivo                                                            | Problema                     | Solução Aplicada                      |
+| ------------------------------------------------------------------ | ---------------------------- | ------------------------------------- |
+| `theme/colors.js`                                                  | Sintaxe ESM/CommonJS mista   | Padronização para CommonJS            |
+| `theme/icons.js`                                                   | Export sem module.exports    | Correção para CommonJS                |
+| `tailwind.config.js`                                               | Import/require misto         | Padronização para require             |
 | `app/javascript/dashboard/components-next/input/DurationInput.vue` | `isNaN()` → `Number.isNaN()` | Correção ESLint no-restricted-globals |
 
 ---
@@ -43,10 +46,12 @@ Durante esta sessão de desenvolvimento, aplicamos uma **transformação complet
 **Objetivo**: Modernizar a interface com um tema roxo elegante e profissional.
 
 #### Cor Principal Alterada
+
 - **Antes**: Azul padrão
 - **Depois**: Roxo `#6b46c1`
 
 #### Implementação
+
 ```javascript
 woot: {
   25: '#faf8ff',    // Roxo muito claro
@@ -66,9 +71,9 @@ woot: {
 
 ### 📁 Arquivos Modificados - Fase 2
 
-| Arquivo | Modificação |
-|---------|-------------|
-| `theme/colors.js` | Adição da paleta roxo principal |
+| Arquivo              | Modificação                                      |
+| -------------------- | ------------------------------------------------ |
+| `theme/colors.js`    | Adição da paleta roxo principal                  |
 | `tailwind.config.js` | Integração das novas cores, gradientes e shadows |
 
 ---
@@ -80,10 +85,12 @@ woot: {
 **Objetivo**: Criar uma identidade visual única para mensagens privadas com melhor UX.
 
 #### Visual Transformado
+
 - **Antes**: Fundo amarelo sólido, sem bordas
 - **Depois**: Fundo verde claro + bordas tracejadas + sombra sutil
 
 #### Nova Paleta para Mensagens Privadas
+
 ```javascript
 'private-green': {
   50: '#f0fdf4',    // Fundo muito claro
@@ -98,14 +105,14 @@ woot: {
 
 ### 📁 Arquivos Modificados - Fase 3
 
-| Arquivo | Modificação Específica |
-|---------|----------------------|
-| `theme/colors.js` | Adição da paleta `private-green` |
-| `app/javascript/dashboard/components-next/message/bubbles/Base.vue` | Estilização das mensagens: `bg-private-green-100 text-private-green-800 border-2 border-dashed border-private-green-400 shadow-sm` |
-| `app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue` | Área de composição: `bg-private-green-100 dark:border-private-green-400/20 border-private-green-400/30` |
-| `app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue` | Botão enviar: `:color="isNote ? 'green' : 'blue'"` |
-| `app/javascript/dashboard/components-next/button/constants.js` | Adição de `'green'` ao `COLOR_OPTIONS` |
-| `app/javascript/dashboard/components-next/button/Button.vue` | Implementação completa dos estilos green para todos os variantes |
+| Arquivo                                                                       | Modificação Específica                                                                                                             |
+| ----------------------------------------------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------- |
+| `theme/colors.js`                                                             | Adição da paleta `private-green`                                                                                                   |
+| `app/javascript/dashboard/components-next/message/bubbles/Base.vue`           | Estilização das mensagens: `bg-private-green-100 text-private-green-800 border-2 border-dashed border-private-green-400 shadow-sm` |
+| `app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue`       | Área de composição: `bg-private-green-100 dark:border-private-green-400/20 border-private-green-400/30`                            |
+| `app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue` | Botão enviar: `:color="isNote ? 'green' : 'blue'"`                                                                                 |
+| `app/javascript/dashboard/components-next/button/constants.js`                | Adição de `'green'` ao `COLOR_OPTIONS`                                                                                             |
+| `app/javascript/dashboard/components-next/button/Button.vue`                  | Implementação completa dos estilos green para todos os variantes                                                                   |
 
 ---
 
@@ -116,10 +123,12 @@ woot: {
 **Objetivo**: Harmonizar completamente o tema com cores consistentes.
 
 #### Visual Harmonizado
+
 - **Antes**: Fundo cinza sem personalidade (`bg-n-slate-4`)
 - **Depois**: Fundo roxo suave + texto roxo escuro para contraste
 
 #### Nova Paleta para Mensagens de Usuários
+
 ```javascript
 'user-purple': {
   50: '#faf8ff',    // Fundo muito claro
@@ -133,9 +142,9 @@ woot: {
 
 ### 📁 Arquivos Modificados - Fase 4
 
-| Arquivo | Modificação |
-|---------|-------------|
-| `theme/colors.js` | Adição da paleta `user-purple` |
+| Arquivo                                                             | Modificação                                                               |
+| ------------------------------------------------------------------- | ------------------------------------------------------------------------- |
+| `theme/colors.js`                                                   | Adição da paleta `user-purple`                                            |
 | `app/javascript/dashboard/components-next/message/bubbles/Base.vue` | Mensagens de usuário: `bg-user-purple-100 text-user-purple-900 shadow-sm` |
 
 ---
@@ -144,13 +153,13 @@ woot: {
 
 ### 🎨 Sistema de Cores por Tipo de Mensagem
 
-| Tipo de Mensagem | Cor Principal | Implementação CSS | Descrição Visual |
-|------------------|---------------|-------------------|------------------|
-| **💬 Agentes (Enviadas)** | 🔵 **Azul** | `bg-n-solid-blue text-n-slate-12` | Fundo azul sólido, texto branco |
-| **💬 Usuários (Recebidas)** | 🟣 **Roxo Suave** | `bg-user-purple-100 text-user-purple-900 shadow-sm` | Fundo roxo claro, texto roxo escuro |
-| **🔒 Privadas** | 🟢 **Verde** | `bg-private-green-100 text-private-green-800 border-2 border-dashed border-private-green-400 shadow-sm` | Verde com bordas tracejadas |
-| **🤖 Bot/Template** | 🟣 **Roxo Sistema** | `bg-n-solid-iris text-n-slate-12` | Fundo roxo padrão do tema |
-| **⚠️ Erro** | 🔴 **Vermelho** | `bg-n-ruby-4 text-n-ruby-12` | Fundo vermelho para erros |
+| Tipo de Mensagem            | Cor Principal       | Implementação CSS                                                                                       | Descrição Visual                    |
+| --------------------------- | ------------------- | ------------------------------------------------------------------------------------------------------- | ----------------------------------- |
+| **💬 Agentes (Enviadas)**   | 🔵 **Azul**         | `bg-n-solid-blue text-n-slate-12`                                                                       | Fundo azul sólido, texto branco     |
+| **💬 Usuários (Recebidas)** | 🟣 **Roxo Suave**   | `bg-user-purple-100 text-user-purple-900 shadow-sm`                                                     | Fundo roxo claro, texto roxo escuro |
+| **🔒 Privadas**             | 🟢 **Verde**        | `bg-private-green-100 text-private-green-800 border-2 border-dashed border-private-green-400 shadow-sm` | Verde com bordas tracejadas         |
+| **🤖 Bot/Template**         | 🟣 **Roxo Sistema** | `bg-n-solid-iris text-n-slate-12`                                                                       | Fundo roxo padrão do tema           |
+| **⚠️ Erro**                 | 🔴 **Vermelho**     | `bg-n-ruby-4 text-n-ruby-12`                                                                            | Fundo vermelho para erros           |
 
 ---
 
@@ -158,19 +167,20 @@ woot: {
 
 ### 📝 Scripts para Aplicação das Mudanças
 
-| Script | Propósito | Comando |
-|--------|-----------|---------|
-| `scripts/fix_warnings.sh` | Corrigir warnings e rebuildar | `./scripts/fix_warnings.sh` |
-| `scripts/recovery.sh` | Script de recuperação completa | `./scripts/recovery.sh` |
+| Script                                     | Propósito                                 | Comando                                      |
+| ------------------------------------------ | ----------------------------------------- | -------------------------------------------- |
+| `scripts/fix_warnings.sh`                  | Corrigir warnings e rebuildar             | `./scripts/fix_warnings.sh`                  |
+| `scripts/recovery.sh`                      | Script de recuperação completa            | `./scripts/recovery.sh`                      |
 | `scripts/update_private_messages_theme.sh` | Aplicar tema verde nas mensagens privadas | `./scripts/update_private_messages_theme.sh` |
-| `scripts/finalize_chat_theme.sh` | Finalizar com tema completo | `./scripts/finalize_chat_theme.sh` |
-| `scripts/fix_eslint_errors.sh` | Corrigir erros ESLint automaticamente | `./scripts/fix_eslint_errors.sh` |
+| `scripts/finalize_chat_theme.sh`           | Finalizar com tema completo               | `./scripts/finalize_chat_theme.sh`           |
+| `scripts/fix_eslint_errors.sh`             | Corrigir erros ESLint automaticamente     | `./scripts/fix_eslint_errors.sh`             |
 
 ---
 
 ## 📁 RESUMO COMPLETO DOS ARQUIVOS MODIFICADOS
 
 ### 🎨 **Sistema de Cores e Configuração**
+
 ```
 theme/colors.js                     ← 3 paletas personalizadas adicionadas
 tailwind.config.js                  ← Correções de sintaxe + integração de cores
@@ -178,6 +188,7 @@ theme/icons.js                      ← Correção de sintaxe CommonJS
 ```
 
 ### 💬 **Sistema de Mensagens**
+
 ```
 app/javascript/dashboard/components-next/message/bubbles/Base.vue
 ├── MESSAGE_VARIANTS.PRIVATE: bg-private-green-100 + bordas tracejadas
@@ -186,6 +197,7 @@ app/javascript/dashboard/components-next/message/bubbles/Base.vue
 ```
 
 ### ✏️ **Interface de Composição**
+
 ```
 app/javascript/dashboard/components/widgets/conversation/ReplyBox.vue
 ├── .is-private: bg-private-green-100 + bordas verdes
@@ -196,6 +208,7 @@ app/javascript/dashboard/components/widgets/WootWriter/ReplyBottomPanel.vue
 ```
 
 ### 🔘 **Sistema de Botões**
+
 ```
 app/javascript/dashboard/components-next/button/constants.js
 └── COLOR_OPTIONS: adicionado 'green'
@@ -210,6 +223,7 @@ app/javascript/dashboard/components-next/button/Button.vue
 ## ✅ VALIDAÇÕES E TESTES REALIZADOS
 
 ### 🔍 **Verificações Técnicas**
+
 - ✅ Sintaxe JavaScript validada em todos os arquivos
 - ✅ Build do Vite executado com sucesso
 - ✅ Tailwind compilando sem warnings
@@ -217,6 +231,7 @@ app/javascript/dashboard/components-next/button/Button.vue
 - ✅ ESLint sem erros (isNaN → Number.isNaN)
 
 ### 🎨 **Testes Visuais**
+
 - ✅ Tema principal roxo aplicado
 - ✅ Mensagens privadas com verde + bordas tracejadas
 - ✅ Mensagens recebidas com roxo suave
@@ -225,6 +240,7 @@ app/javascript/dashboard/components-next/button/Button.vue
 - ✅ Modo escuro funcionando
 
 ### 🖥️ **Compatibilidade**
+
 - ✅ Desktop: Chrome, Firefox, Safari
 - ✅ Mobile: iOS Safari, Android Chrome
 - ✅ Modo claro e escuro
@@ -235,18 +251,21 @@ app/javascript/dashboard/components-next/button/Button.vue
 ## 🎯 BENEFÍCIOS ALCANÇADOS
 
 ### 🎨 **Visual e UX**
+
 - **Identidade única**: Tema roxo elegante e moderno
 - **Hierarquia clara**: Cores distintas por tipo de mensagem
 - **Profissionalismo**: Aparência premium e polida
 - **Legibilidade**: Contraste otimizado em todos os elementos
 
 ### 🛠️ **Técnico**
+
 - **Código limpo**: Estrutura organizada e reutilizável
 - **Escalabilidade**: Palettes modulares e extensíveis
 - **Performance**: Zero impacto na velocidade
 - **Manutenibilidade**: Fácil customização futura
 
 ### 👥 **Experiência do Usuário**
+
 - **Intuitividade**: Distinção visual clara entre contextos
 - **Acessibilidade**: Contrastes adequados (WCAG)
 - **Consistência**: Design system harmonioso
@@ -257,6 +276,7 @@ app/javascript/dashboard/components-next/button/Button.vue
 ## 🚀 COMO APLICAR TODAS AS MUDANÇAS
 
 ### 1. **Aplicação Automática (Recomendado)**
+
 ```bash
 cd /Users/benevidfelixsilva/Web-Apps/chatwoot
 chmod +x scripts/finalize_chat_theme.sh
@@ -264,6 +284,7 @@ chmod +x scripts/finalize_chat_theme.sh
 ```
 
 ### 2. **Aplicação Manual**
+
 ```bash
 # Limpar cache completo
 rm -rf .vite public/vite public/packs
@@ -281,6 +302,7 @@ foreman start -f Procfile.dev
 ```
 
 ### 3. **Validação**
+
 ```bash
 # Acessar o chat
 open http://localhost:3000/app/accounts/4/conversations/5
@@ -296,6 +318,7 @@ open http://localhost:3000/app/accounts/4/conversations/5
 ## 📈 MÉTRICAS DE IMPACTO
 
 ### 📊 **Estatísticas da Modificação**
+
 - **Arquivos modificados**: 8 arquivos principais
 - **Linhas de código alteradas**: ~150 linhas
 - **Palettes criadas**: 3 palettes personalizadas
@@ -303,6 +326,7 @@ open http://localhost:3000/app/accounts/4/conversations/5
 - **Componentes afetados**: 15+ componentes visuais
 
 ### ⏱️ **Performance**
+
 - **Tempo de build**: Sem impacto (mantido)
 - **Tamanho do bundle**: Incremento mínimo (<1KB)
 - **Rendering**: Performance mantida
@@ -317,12 +341,13 @@ open http://localhost:3000/app/accounts/4/conversations/5
 Transformamos completamente o sistema visual do Chatwoot, criando:
 
 1. **🟣 Tema principal**: Roxo elegante e moderno
-2. **🟢 Mensagens privadas**: Verde com bordas tracejadas únicas  
+2. **🟢 Mensagens privadas**: Verde com bordas tracejadas únicas
 3. **🟣 Mensagens recebidas**: Roxo suave harmonizado
 4. **🔵 Mensagens enviadas**: Azul profissional mantido
 5. **🎨 Design system**: Completamente coeso e escalável
 
 ### 🎯 **Resultado Final**
+
 **Um sistema de chat completamente renovado com identidade visual única, experiência de usuário superior e código técnicamente sólido.**
 
 ---
@@ -334,4 +359,4 @@ Transformamos completamente o sistema visual do Chatwoot, criando:
 
 ---
 
-*Este documento registra todas as modificações realizadas durante a sessão de desenvolvimento. Para futuras alterações, utilize este histórico como referência base.*
+_Este documento registra todas as modificações realizadas durante a sessão de desenvolvimento. Para futuras alterações, utilize este histórico como referência base._
