@@ -19,6 +19,7 @@
 class Captain::Assistant < ApplicationRecord
   include Avatarable
   include CaptainToolsHelpers
+  include Agentable
 
   self.table_name = 'captain_assistants'
 
@@ -69,18 +70,10 @@ class Captain::Assistant < ApplicationRecord
     }
   end
 
-  def agent(_user)
-    Agents::Agent.new(
-      name: name,
-      instructions: agent_instructions,
-      model: 'gpt-4.1-mini'
-    )
-  end
-
   private
 
-  def agent_instructions
-    Captain::PromptRenderer.render('assistant', prompt_context)
+  def agent_name
+    name
   end
 
   def prompt_context

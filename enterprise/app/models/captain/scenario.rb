@@ -22,6 +22,7 @@
 #
 class Captain::Scenario < ApplicationRecord
   include CaptainToolsHelpers
+  include Agentable
 
   self.table_name = 'captain_scenarios'
 
@@ -39,10 +40,6 @@ class Captain::Scenario < ApplicationRecord
 
   before_save :resolve_tool_references
 
-  def agent_instructions
-    Captain::PromptRenderer.render('scenario', prompt_context)
-  end
-
   def prompt_context
     {
       title: title,
@@ -51,21 +48,15 @@ class Captain::Scenario < ApplicationRecord
     }
   end
 
-  def agent_tools
-    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }
-  end
-
-  def agent(user)
-    tool_instances = agent_tools.map { |tool| tool.new(assistant, user: user) }
-    Agents::Agent.new(
-      name: "#{title} Agent".titleize,
-      instructions: agent_instructions,
-      tools: tool_instances,
-      model: 'gpt-4.1-mini'
-    )
-  end
-
   private
+
+  def agent_name
+    "#{title} Agent".titleize
+  end
+
+  def agent_tools(user)
+    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }.map { |tool| tool.new(assistant, user: user) }
+  end
 
   def resolved_instructions
     instruction.gsub(%r{\(tool://(\w+)\)}) do |match|
