@@ -93,7 +93,7 @@ export default {
         launcherTitle: this.widgetBubbleLauncherTitle,
       };
       if (this.avatarUrl) {
-        options.avatarUrl = this.avatarUrl;
+          options.avatarUrl = this.avatarUrl.replace(/^blob:/, '');
       }
       let script = this.inbox.web_widget_script;
       return (
@@ -155,7 +155,6 @@ export default {
   },
   mounted() {
     this.setDefaults();
-    console.log('==================', this.avatarUrl);
   },
   validations: {
     websiteName: { required },
@@ -242,6 +241,7 @@ export default {
         position: this.widgetBubblePosition,
         launcherTitle: this.widgetBubbleLauncherTitle,
         type: this.widgetBubbleType,
+        avatarUrl: this.avatarUrl,
       };
 
       LocalStorage.set(this.storageKey, bubbleSettings);
