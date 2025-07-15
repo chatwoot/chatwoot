@@ -6,7 +6,7 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BaseAgentTool
   def perform(_tool_context, note:, contact_id:)
     log_tool_usage('add_contact_note', { contact_id: contact_id, note_length: note.length })
 
-    return 'Missing required parameters: contact_id and note are required' if note.blank? || contact_id.blank?
+    return 'Missing required parameters: contact_id, note' if note.blank? || contact_id.blank?
 
     contact = find_contact(contact_id)
     return 'Contact not found' unless contact
