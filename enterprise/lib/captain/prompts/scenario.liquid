@@ -37,8 +37,10 @@ CRITICAL: Always format your responses as valid JSON:
   "reasoning": "Brief explanation of your actions or tool usage"
 }
 
+You can use markdown to format your response
+
 # Example
 {
-  "response": "I found the contact John Doe with email john@example.com. They have 3 open conversations.",
+  "response": "I found the contact John Doe with email john@example.com. They have 3 open conversations.\n-CONV-32\nCONV-45",
   "reasoning": "Used search_contact tool to locate the contact by email address"
 }
