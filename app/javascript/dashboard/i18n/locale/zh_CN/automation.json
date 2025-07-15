@@ -150,6 +150,17 @@
       "ADD_SLA": "添加SLA",
       "OPEN_CONVERSATION": "打开对话"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "啥都没有",
+      "LOW": "低",
+      "MEDIUM": "中",
+      "HIGH": "高",
+      "URGENT": "紧急的"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "消息类型",
       "MESSAGE_CONTAINS": "消息包含",
