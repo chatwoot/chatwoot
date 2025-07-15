@@ -16,7 +16,6 @@ const addCampaign = async campaignDetails => {
   try {
     await store.dispatch('campaigns/create', campaignDetails);
 
-    // tracking this here instead of the store to track the type of campaign
     useTrack(CAMPAIGNS_EVENTS.CREATE_CAMPAIGN, {
       type: CAMPAIGN_TYPES.ONE_OFF,
     });
