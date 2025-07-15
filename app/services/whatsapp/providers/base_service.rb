@@ -43,6 +43,10 @@ class Whatsapp::Providers::BaseService
 
   def handle_error(response)
     Rails.logger.error response.body
+
+    # Check for authentication errors that require reauthorization
+    check_for_authentication_error(response)
+
     return if @message.blank?
 
     # https://developers.facebook.com/docs/whatsapp/cloud-api/support/error-codes/#sample-response
@@ -52,6 +56,23 @@ class Whatsapp::Providers::BaseService
     @message.external_error = error_message
     @message.status = :failed
     @message.save!
+  end
+
+  def check_for_authentication_error(response)
+    parsed_response = response.parsed_response
+    return unless parsed_response && parsed_response['error']
+
+    error = parsed_response['error']
+    error_code = error['code']
+    error_subcode = error['error_subcode']
+
+    # Check for authentication related errors
+    # Error code 190: Access token expired/invalid
+    # Error subcodes: 463 (expired token), 467 (invalid token)
+    return unless error_code == 190 || [463, 467].include?(error_subcode)
+
+    Rails.logger.error "[WHATSAPP] Authentication error detected: #{error['message']}"
+    whatsapp_channel.authorization_error!
   end
 
   def create_buttons(items)
