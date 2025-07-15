@@ -8,7 +8,7 @@ corepack prepare yarn@1.22.22 --activate
 yarn install
 
 # Compila el frontend con Vite
-yarn build
+yarn build:production
 
 # Precompila los assets de Rails
 bundle exec rake assets:precompile
