@@ -23,7 +23,7 @@ module Agentable
         )
       end
 
-      Captain::PromptRenderer.render(template_name, enhanced_context)
+      Captain::PromptRenderer.render(template_name, enhanced_context.with_indifferent_access)
     end
 
     private
