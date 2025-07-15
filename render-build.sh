@@ -1,9 +1,6 @@
 #!/usr/bin/env bash
 
-# 🛑 Desactiva pnpm por si Render lo activa por defecto
 export COREPACK_ENABLE_PNPM=0
-
-# ✅ Fuerza Yarn 1.22
 corepack enable
 corepack prepare yarn@1.22.22 --activate
 
@@ -11,7 +8,7 @@ corepack prepare yarn@1.22.22 --activate
 yarn install
 
 # Compila frontend con yarn
-yarn build:production
+yarn build
 
 # Instala gems de Ruby
 bundle install
