@@ -112,6 +112,6 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
   end
 
   def captain_v2_enabled?
-    true
+    return account.feature_enabled?('captain_integration_v2')
   end
 end
