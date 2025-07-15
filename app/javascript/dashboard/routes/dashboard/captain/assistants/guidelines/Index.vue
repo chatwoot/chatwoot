@@ -1,14 +1,14 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
-import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
+import { picoSearch } from '@scmmishra/pico-search';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
 import { useUISettings } from 'dashboard/composables/useUISettings';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
-import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 
 import SettingsPageLayout from 'dashboard/components-next/captain/SettingsPageLayout.vue';
 import SettingsHeader from 'dashboard/components-next/captain/pageComponents/settings/SettingsHeader.vue';
@@ -16,6 +16,7 @@ import SuggestedRules from 'dashboard/components-next/captain/assistant/Suggeste
 import AddNewRulesInput from 'dashboard/components-next/captain/assistant/AddNewRulesInput.vue';
 import AddNewRulesDialog from 'dashboard/components-next/captain/assistant/AddNewRulesDialog.vue';
 import RuleCard from 'dashboard/components-next/captain/assistant/RuleCard.vue';
+import BulkSelectBar from 'dashboard/components-next/captain/assistant/BulkSelectBar.vue';
 
 const { t } = useI18n();
 const route = useRoute();
@@ -71,9 +72,9 @@ const guidelinesExample = [
 ];
 
 const filteredGuidelines = computed(() => {
-  return displayGuidelines.value.filter(guideline =>
-    guideline.content.toLowerCase().includes(searchQuery.value.toLowerCase())
-  );
+  const query = searchQuery.value.trim();
+  if (!query) return displayGuidelines.value;
+  return picoSearch(displayGuidelines.value, query, ['content']);
 });
 
 const shouldShowSuggestedRules = computed(() => {
@@ -98,20 +99,10 @@ const handleRuleHover = (isHovered, id) => {
   hoveredCard.value = isHovered ? id : null;
 };
 
-const bulkSelectionState = computed(() => {
-  const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = displayGuidelines.value.length || 0;
-
-  return {
-    hasSelected: selectedCount > 0,
-    isIndeterminate: selectedCount > 0 && selectedCount < totalCount,
-    allSelected: totalCount > 0 && selectedCount === totalCount,
-  };
-});
-
 const buildSelectedCountLabel = computed(() => {
   const count = displayGuidelines.value.length || 0;
-  return bulkSelectionState.value.allSelected
+  const isAllSelected = bulkSelectedIds.value.size === count && count > 0;
+  return isAllSelected
     ? t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.UNSELECT_ALL', {
         count,
       })
@@ -120,13 +111,10 @@ const buildSelectedCountLabel = computed(() => {
       });
 });
 
-const bulkCheckbox = computed({
-  get: () => bulkSelectionState.value.allSelected,
-  set: value => {
-    bulkSelectedIds.value = value
-      ? new Set(displayGuidelines.value.map(r => r.id))
-      : new Set();
-  },
+const selectedCountLabel = computed(() => {
+  return t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.SELECTED', {
+    count: bulkSelectedIds.value.size,
+  });
 });
 
 const saveGuidelines = async list => {
@@ -204,9 +192,8 @@ const addAllExample = async () => {
         :heading="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
         :description="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.DESCRIPTION')"
       />
-      <div class="flex mt-7 flex-col gap-4">
+      <div v-if="shouldShowSuggestedRules" class="flex mt-7 flex-col gap-4">
         <SuggestedRules
-          v-if="shouldShowSuggestedRules"
           :title="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
           :items="guidelinesExample"
           @add="addAllExample"
@@ -235,58 +222,19 @@ const addAllExample = async () => {
       </div>
       <div class="flex mt-7 flex-col gap-4">
         <div class="flex justify-between items-center">
-          <transition
-            name="slide-fade"
-            enter-active-class="transition-all duration-300 ease-out"
-            enter-from-class="opacity-0 transform ltr:-translate-x-4 rtl:translate-x-4"
-            enter-to-class="opacity-100 transform translate-x-0"
-            leave-active-class="hidden opacity-0"
+          <BulkSelectBar
+            v-model="bulkSelectedIds"
+            :all-items="displayGuidelines"
+            :select-all-label="buildSelectedCountLabel"
+            :selected-count-label="selectedCountLabel"
+            :delete-label="
+              $t(
+                'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.BULK_DELETE_BUTTON'
+              )
+            "
+            @bulk-delete="bulkDeleteGuidelines"
           >
-            <div
-              v-if="bulkSelectionState.hasSelected"
-              class="flex items-center gap-3 py-1 ltr:pl-3 rtl:pr-3 ltr:pr-4 rtl:pl-4 rounded-lg bg-n-solid-2 outline outline-1 outline-n-container shadow"
-            >
-              <div class="flex items-center gap-3">
-                <div class="flex items-center gap-1.5">
-                  <Checkbox
-                    v-model="bulkCheckbox"
-                    :indeterminate="bulkSelectionState.isIndeterminate"
-                  />
-                  <span
-                    class="text-sm text-n-slate-12 font-medium tabular-nums"
-                  >
-                    {{ buildSelectedCountLabel }}
-                  </span>
-                </div>
-                <span class="text-sm text-n-slate-10 tabular-nums">
-                  {{
-                    $t(
-                      'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.SELECTED',
-                      {
-                        count: bulkSelectedIds.size,
-                      }
-                    )
-                  }}
-                </span>
-              </div>
-              <div class="h-4 w-px bg-n-strong" />
-              <div class="flex gap-3 items-center">
-                <Button
-                  :label="
-                    $t(
-                      'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.BULK_DELETE_BUTTON'
-                    )
-                  "
-                  sm
-                  ruby
-                  ghost
-                  class="!px-1.5"
-                  icon="i-lucide-trash"
-                  @click="bulkDeleteGuidelines"
-                />
-              </div>
-            </div>
-            <div v-else class="flex items-center gap-3">
+            <template #default-actions>
               <AddNewRulesDialog
                 v-model="newDialogRule"
                 :placeholder="
@@ -315,10 +263,10 @@ const addAllExample = async () => {
                 ghost
                 slate
               /> -->
-            </div>
-          </transition>
+            </template>
+          </BulkSelectBar>
           <div
-            v-if="displayGuidelines.length && !bulkSelectionState.hasSelected"
+            v-if="displayGuidelines.length && bulkSelectedIds.size === 0"
             class="max-w-[22.5rem] w-full min-w-0"
           >
             <Input
