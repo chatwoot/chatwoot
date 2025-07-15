@@ -2,13 +2,15 @@
 #
 # Table name: captain_assistants
 #
-#  id          :bigint           not null, primary key
-#  config      :jsonb            not null
-#  description :string
-#  name        :string           not null
-#  created_at  :datetime         not null
-#  updated_at  :datetime         not null
-#  account_id  :bigint           not null
+#  id                  :bigint           not null, primary key
+#  config              :jsonb            not null
+#  description         :string
+#  guardrails          :jsonb
+#  name                :string           not null
+#  response_guidelines :jsonb
+#  created_at          :datetime         not null
+#  updated_at          :datetime         not null
+#  account_id          :bigint           not null
 #
 # Indexes
 #
