@@ -23,6 +23,13 @@ class Captain::Tools::BasePublicTool < Agents::Tool
     model_class.where(account_id: @assistant.account_id)
   end
 
+  def find_conversation(state)
+    conversation_id = state[:conversation][:id]
+    return nil unless conversation_id
+
+    account_scoped(::Conversation).find_by(id: conversation_id)
+  end
+
   def log_tool_usage(action, details = {})
     Rails.logger.info do
       "#{self.class.name}: #{action} for assistant #{@assistant&.id} - #{details.inspect}"

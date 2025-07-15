@@ -1,33 +1,26 @@
 class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
   description 'Add a private note to a conversation'
-  param :conversation_id, type: 'string', desc: 'The display ID of the conversation'
   param :note, type: 'string', desc: 'The private note content'
 
-  def perform(_tool_context, conversation_id:, note:)
-    log_tool_usage('add_private_note', { conversation_id: conversation_id, note_length: note.length })
-
-    return 'Missing required parameters: conversation_id, note' if conversation_id.blank? || note.blank?
-
-    conversation = find_conversation(conversation_id)
+  def perform(tool_context, note:)
+    conversation = find_conversation(tool_context.state)
     return 'Conversation not found' unless conversation
 
+    log_tool_usage('add_private_note', { conversation_id: conversation.id, note_length: note.length })
     create_private_note(conversation, note)
-    "Private note added successfully to conversation #{conversation_id}"
+
+    'Private note added successfully'
   end
 
   private
-
-  def find_conversation(conversation_id)
-    account_scoped(::Conversation).find_by(display_id: conversation_id)
-  end
 
   def create_private_note(conversation, note)
     conversation.messages.create!(
       account: @assistant.account,
       inbox: conversation.inbox,
-      sender: @user,
+      sender: @assistant,
+      message_type: :outgoing,
       content: note,
-      message_type: 'activity',
       private: true
     )
   end
