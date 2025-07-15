@@ -5,7 +5,7 @@ import { useRouter } from 'vue-router';
 import { useAlert } from 'dashboard/composables';
 import InboxReconnectionRequired from '../../components/InboxReconnectionRequired.vue';
 import whatsappChannel from 'dashboard/api/channel/whatsappChannel';
-import { loadScript } from 'dashboard/helper/scriptLoader';
+import { loadScript } from 'dashboard/helper/DOMHelpers';
 
 const props = defineProps({
   inbox: {
