@@ -18,10 +18,13 @@ json.website_channel_config do
   json.website_name @web_widget.inbox.name
   json.website_token @web_widget.website_token
   json.welcome_tagline @web_widget.welcome_tagline
+  json.dealer_name @web_widget.dealer_name
+  json.dealer_tagline @web_widget.dealer_tagline
   json.welcome_title @web_widget.welcome_title
   json.widget_color @web_widget.widget_color
   json.working_hours @web_widget.inbox.working_hours
   json.working_hours_enabled @web_widget.inbox.working_hours_enabled
+  json.avatar_name @web_widget.avatar_name
 end
 
 json.contact do

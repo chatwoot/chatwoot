@@ -122,12 +122,18 @@ export default {
           :intro-heading="channelConfig.welcomeTitle"
           :intro-body="channelConfig.welcomeTagline"
           :avatar-url="channelConfig.avatarUrl"
+          :avatar-name="channelConfig.avatarName"
+          :dealer-name="channelConfig.dealerName"
+          :dealer-tagline="channelConfig.dealerTagline"
           :show-popout-button="appConfig.showPopoutButton"
         />
         <ChatHeader
           v-if="isHeaderCollapsed"
           :title="channelConfig.websiteName"
           :avatar-url="channelConfig.avatarUrl"
+          :avatar-name="channelConfig.avatarName"
+          :dealer-name="channelConfig.dealerName"
+          :dealer-tagline="channelConfig.dealerTagline"
           :show-popout-button="appConfig.showPopoutButton"
           :available-agents="availableAgents"
           :show-back-button="showBackButton"

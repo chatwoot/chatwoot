@@ -19,6 +19,14 @@ const props = defineProps({
     type: Boolean,
     default: false,
   },
+  dealerName: {
+    type: String,
+    default: '',
+  },
+  dealerTagline: {
+    type: String,
+    default: '',
+  },
 });
 
 const containerClasses = computed(() => [
@@ -37,7 +45,14 @@ const containerClasses = computed(() => [
         :src="avatarUrl"
         alt="Avatar"
       />
+      <div v-if="dealerName" class="font-semibold text-blue-700 dark:text-blue-300 text-base mt-2">
+        {{ dealerName }}
+      </div>
+      <div v-if="dealerTagline" class="text-xs text-blue-500 dark:text-blue-200 mb-1">
+        {{ dealerTagline }}
+      </div>
       <HeaderActions
+        v-if="!dealerName"
         :show-popout-button="showPopoutButton"
         :show-end-conversation-button="false"
       />

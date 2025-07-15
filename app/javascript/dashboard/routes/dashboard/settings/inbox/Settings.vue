@@ -69,6 +69,9 @@ export default {
       selectedTabIndex: 0,
       selectedPortalSlug: '',
       showBusinessNameInput: false,
+      dealerName: '',
+      dealerTagline: '',
+      avatarName: '',
     };
   },
   computed: {
@@ -292,6 +295,9 @@ export default {
         this.selectedPortalSlug = this.inbox.help_center
           ? this.inbox.help_center.slug
           : '';
+        this.dealerName = this.inbox.dealer_name || '';
+        this.dealerTagline = this.inbox.dealer_tagline || '';
+        this.avatarName = this.inbox.avatar_name || '';
       });
     },
     async updateInbox() {
@@ -321,6 +327,9 @@ export default {
             selectedFeatureFlags: this.selectedFeatureFlags,
             reply_time: this.replyTime || 'in_a_few_minutes',
             continuity_via_email: this.continuityViaEmail,
+            dealer_name: this.dealerName,
+            dealer_tagline: this.dealerTagline,
+            avatar_name: this.avatarName,
           },
         };
         if (this.avatarFile) {
@@ -456,6 +465,13 @@ export default {
           />
           <woot-input
             v-if="isAWebWidgetInbox"
+            v-model="avatarName"
+            class="pb-4"
+            :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.LABEL')"
+            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.AVATAR_NAME.PLACE_HOLDER')"
+          />
+          <woot-input
+            v-if="isAWebWidgetInbox"
             v-model="channelWebsiteUrl"
             class="pb-4"
             :label="$t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.CHANNEL_DOMAIN.LABEL')"
@@ -491,6 +507,20 @@ export default {
             "
           />
 
+          <woot-input
+            v-if="isAWebWidgetInbox"
+            v-model="dealerName"
+            class="pb-4"
+            :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.LABEL')"
+            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_NAME.PLACE_HOLDER')"
+          />
+          <woot-input
+            v-if="isAWebWidgetInbox"
+            v-model="dealerTagline"
+            class="pb-4"
+            :label="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.LABEL')"
+            :placeholder="$t('INBOX_MGMT.WIDGET_BUILDER.WIDGET_OPTIONS.DEALER_TAGLINE.PLACE_HOLDER')"
+          />
           <label v-if="isAWebWidgetInbox" class="pb-4">
             {{ $t('INBOX_MGMT.ADD.WEBSITE_CHANNEL.WIDGET_COLOR.LABEL') }}
             <woot-color-picker v-model="inbox.widget_color" />

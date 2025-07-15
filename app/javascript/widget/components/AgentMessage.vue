@@ -73,7 +73,7 @@ export default {
       }
 
       if (this.useInboxAvatarForBot) {
-        return this.channelConfig.websiteName;
+        return this.channelConfig.avatarName || this.channelConfig.websiteName;
       }
 
       return this.$t('UNREAD_VIEW.BOT');
