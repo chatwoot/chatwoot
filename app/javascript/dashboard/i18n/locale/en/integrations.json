@@ -553,6 +553,7 @@
         "LIST": {
           "SEARCH_PLACEHOLDER": "Search..."
         },
+        "EMPTY_MESSAGE": "No guardrails found. Create or add examples to begin.",
         "API": {
           "ADD": {
             "SUCCESS": "Guardrails added successfully",
@@ -599,6 +600,7 @@
         "LIST": {
           "SEARCH_PLACEHOLDER": "Search..."
         },
+        "EMPTY_MESSAGE": "No response guidelines found. Create or add examples to begin.",
         "API": {
           "ADD": {
             "SUCCESS": "Response Guidelines added successfully",

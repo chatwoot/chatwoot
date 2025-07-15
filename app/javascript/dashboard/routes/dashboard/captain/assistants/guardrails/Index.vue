@@ -317,7 +317,12 @@ const addAllExample = () => {
             />
           </div>
         </div>
-        <div class="flex flex-col gap-2">
+        <div v-if="displayGuardrails.length === 0" class="mt-1 mb-2">
+          <span class="text-n-slate-11 text-sm">
+            {{ t('CAPTAIN.ASSISTANTS.GUARDRAILS.EMPTY_MESSAGE') }}
+          </span>
+        </div>
+        <div v-else class="flex flex-col gap-2">
           <RuleCard
             v-for="guardrail in filteredGuardrails"
             :id="guardrail.id"

@@ -201,7 +201,6 @@ const addAllExample = async () => {
   <SettingsPageLayout
     :breadcrumb-items="breadcrumbItems"
     :is-fetching="isFetching"
-    show-pagination-footer
   >
     <template #body>
       <SettingsHeader
@@ -335,7 +334,12 @@ const addAllExample = async () => {
             />
           </div>
         </div>
-        <div class="flex flex-col gap-2">
+        <div v-if="displayGuidelines.length === 0" class="mt-1 mb-2">
+          <span class="text-n-slate-11 text-sm">
+            {{ t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.EMPTY_MESSAGE') }}
+          </span>
+        </div>
+        <div v-else class="flex flex-col gap-2">
           <RuleCard
             v-for="guideline in filteredGuidelines"
             :id="guideline.id"
