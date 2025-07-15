@@ -1,5 +1,5 @@
 <script setup>
-import { computed, ref } from 'vue';
+import { computed, ref, watch } from 'vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import CardLayout from 'dashboard/components-next/CardLayout.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
@@ -34,6 +34,17 @@ const modelValue = computed({
 const isEditing = ref(false);
 const editedContent = ref(props.content);
 
+// Local content to display to avoid flicker until parent prop updates on inline edit
+const localContent = ref(props.content);
+
+// Keeps localContent in sync when parent updates content prop
+watch(
+  () => props.content,
+  newVal => {
+    localContent.value = newVal;
+  }
+);
+
 const startEdit = () => {
   isEditing.value = true;
   editedContent.value = props.content;
@@ -41,6 +52,8 @@ const startEdit = () => {
 
 const saveEdit = () => {
   isEditing.value = false;
+  // Update local content
+  localContent.value = editedContent.value;
   emit('edit', { id: props.id, content: editedContent.value });
 };
 </script>
@@ -61,10 +74,10 @@ const saveEdit = () => {
       v-model="editedContent"
       focus-on-mount
       custom-input-class="flex items-center gap-2 text-sm text-n-slate-12"
-      @blur="saveEdit"
+      @keyup.enter="saveEdit"
     />
     <span v-else class="flex items-center gap-2 text-sm text-n-slate-12">
-      {{ content }}
+      {{ localContent }}
     </span>
     <div class="flex items-center gap-2">
       <Button icon="i-lucide-pen" slate xs ghost @click="startEdit" />

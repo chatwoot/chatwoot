@@ -1,9 +1,14 @@
 <script setup>
+import { computed } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
-defineProps({
+const props = defineProps({
+  modelValue: {
+    type: String,
+    default: '',
+  },
   placeholder: {
     type: String,
     default: '',
@@ -14,10 +19,17 @@ defineProps({
   },
 });
 
-const emit = defineEmits(['add']);
+const emit = defineEmits(['add', 'update:modelValue']);
+
+const modelValue = computed({
+  get: () => props.modelValue,
+  set: val => emit('update:modelValue', val),
+});
 
 const onClickAdd = () => {
-  emit('add');
+  if (!props.modelValue?.trim()) return;
+  emit('add', props.modelValue.trim());
+  emit('update:modelValue', '');
 };
 </script>
 
@@ -27,7 +39,11 @@ const onClickAdd = () => {
   >
     <Icon icon="i-lucide-plus" class="text-n-slate-10 size-5 flex-shrink-0" />
 
-    <InlineInput :placeholder="placeholder" />
+    <InlineInput
+      v-model="modelValue"
+      :placeholder="placeholder"
+      @keyup.enter="onClickAdd"
+    />
     <Button
       :label="label"
       ghost

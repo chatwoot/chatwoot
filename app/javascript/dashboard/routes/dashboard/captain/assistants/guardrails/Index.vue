@@ -2,8 +2,10 @@
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
 import { useI18n } from 'vue-i18n';
+import { useAlert } from 'dashboard/composables';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
@@ -18,6 +20,8 @@ import RuleCard from 'dashboard/components-next/captain/assistant/RuleCard.vue';
 const { t } = useI18n();
 const route = useRoute();
 const store = useStore();
+const { uiSettings, updateUISettings } = useUISettings();
+
 const assistantId = route.params.assistantId;
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingItem);
@@ -26,6 +30,8 @@ const assistant = computed(() =>
 );
 
 const searchQuery = ref('');
+const newInlineRule = ref('');
+const newDialogRule = ref('');
 
 const breadcrumbItems = computed(() => {
   return [
@@ -38,7 +44,12 @@ const breadcrumbItems = computed(() => {
   ];
 });
 
-// Hardcoded example guidelines
+const guardrailsContent = computed(() => assistant.value?.guardrails || []);
+
+const displayGuardrails = computed(() =>
+  guardrailsContent.value.map((c, idx) => ({ id: idx, content: c }))
+);
+
 const guardrailsExample = [
   {
     id: 1,
@@ -58,12 +69,23 @@ const guardrailsExample = [
 ];
 
 const filteredGuardrails = computed(() => {
-  return guardrailsExample.filter(guardrail => {
+  return displayGuardrails.value.filter(guardrail => {
     return guardrail.content
       .toLowerCase()
       .includes(searchQuery.value.toLowerCase());
   });
 });
+
+const shouldShowSuggestedRules = computed(() => {
+  return (
+    uiSettings.value?.show_guardrails_suggestions !== false ||
+    displayGuardrails.value.length === 0
+  );
+});
+
+const closeSuggestedRules = () => {
+  updateUISettings({ show_guardrails_suggestions: false });
+};
 
 // Bulk selection & hover state
 const bulkSelectedIds = ref(new Set());
@@ -81,7 +103,7 @@ const handleRuleHover = (isHovered, id) => {
 
 const bulkSelectionState = computed(() => {
   const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = guardrailsExample.length || 0;
+  const totalCount = displayGuardrails.value.length || 0;
 
   return {
     hasSelected: selectedCount > 0,
@@ -91,7 +113,7 @@ const bulkSelectionState = computed(() => {
 });
 
 const buildSelectedCountLabel = computed(() => {
-  const count = guardrailsExample.length || 0;
+  const count = displayGuardrails.value.length || 0;
   return bulkSelectionState.value.allSelected
     ? t('CAPTAIN.ASSISTANTS.GUARDRAILS.BULK_ACTION.UNSELECT_ALL', { count })
     : t('CAPTAIN.ASSISTANTS.GUARDRAILS.BULK_ACTION.SELECT_ALL', { count });
@@ -101,17 +123,79 @@ const bulkCheckbox = computed({
   get: () => bulkSelectionState.value.allSelected,
   set: value => {
     bulkSelectedIds.value = value
-      ? new Set(guardrailsExample.map(r => r.id))
+      ? new Set(displayGuardrails.value.map(r => r.id))
       : new Set();
   },
 });
+
+const saveGuardrails = async list => {
+  await store.dispatch('captainAssistants/update', {
+    id: assistantId,
+    assistant: { guardrails: list },
+  });
+};
+
+const addGuardrail = async content => {
+  try {
+    const newGuardrails = [...guardrailsContent.value, content];
+    await saveGuardrails(newGuardrails);
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.ADD.SUCCESS'));
+  } catch (error) {
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.ADD.ERROR'));
+  }
+};
+
+const editGuardrail = async ({ id, content }) => {
+  try {
+    const updated = [...guardrailsContent.value];
+    updated[id] = content;
+    await saveGuardrails(updated);
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.UPDATE.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.UPDATE.ERROR'));
+  }
+};
+
+const deleteGuardrail = async id => {
+  try {
+    const updated = guardrailsContent.value.filter((_, idx) => idx !== id);
+    await saveGuardrails(updated);
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.DELETE.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.DELETE.ERROR'));
+  }
+};
+
+const bulkDeleteGuardrails = async () => {
+  try {
+    if (bulkSelectedIds.value.size === 0) return;
+    const updated = guardrailsContent.value.filter(
+      (_, idx) => !bulkSelectedIds.value.has(idx)
+    );
+    await saveGuardrails(updated);
+    bulkSelectedIds.value.clear();
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.DELETE.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.DELETE.ERROR'));
+  }
+};
+
+const addAllExample = () => {
+  updateUISettings({ show_guardrails_suggestions: false });
+  try {
+    const exampleContents = guardrailsExample.map(example => example.content);
+    const newGuardrails = [...guardrailsContent.value, ...exampleContents];
+    saveGuardrails(newGuardrails);
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.GUARDRAILS.API.ADD.ERROR'));
+  }
+};
 </script>
 
 <template>
   <SettingsPageLayout
     :breadcrumb-items="breadcrumbItems"
     :is-fetching="isFetching"
-    show-pagination-footer
   >
     <template #body>
       <SettingsHeader
@@ -120,8 +204,11 @@ const bulkCheckbox = computed({
       />
       <div class="flex mt-7 flex-col gap-4">
         <SuggestedRules
+          v-if="shouldShowSuggestedRules"
           :title="$t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.SUGGESTED.TITLE')"
           :items="guardrailsExample"
+          @add="addAllExample"
+          @close="closeSuggestedRules"
         >
           <template #default="{ item }">
             <div class="flex items-center justify-between w-full">
@@ -136,6 +223,7 @@ const bulkCheckbox = computed({
                 xs
                 slate
                 class="!text-sm !text-n-slate-11 flex-shrink-0"
+                @click="addGuardrail(item.content)"
               />
             </div>
           </template>
@@ -187,11 +275,13 @@ const bulkCheckbox = computed({
                   ghost
                   class="!px-1.5"
                   icon="i-lucide-trash"
+                  @click="bulkDeleteGuardrails"
                 />
               </div>
             </div>
             <div v-else class="flex items-center gap-3">
               <AddNewRulesDialog
+                v-model="newDialogRule"
                 :placeholder="
                   t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.PLACEHOLDER')
                 "
@@ -202,18 +292,23 @@ const bulkCheckbox = computed({
                 :cancel-label="
                   t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.CANCEL')
                 "
+                @add="addGuardrail"
               />
-              <div class="h-4 w-px bg-n-strong" />
+              <!-- Will enable this feature in future -->
+              <!-- <div class="h-4 w-px bg-n-strong" />
               <Button
                 :label="t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.TEST_ALL')"
                 xs
                 ghost
                 slate
                 class="!text-sm"
-              />
+              /> -->
             </div>
           </transition>
-          <div class="max-w-[22.5rem] w-full min-w-0">
+          <div
+            v-if="displayGuardrails.length && !bulkSelectionState.hasSelected"
+            class="max-w-[22.5rem] w-full min-w-0"
+          >
             <Input
               v-model="searchQuery"
               :placeholder="
@@ -233,14 +328,18 @@ const bulkCheckbox = computed({
               hoveredCard === guardrail.id || bulkSelectedIds.size > 0
             "
             @select="handleRuleSelect"
+            @edit="editGuardrail"
+            @delete="deleteGuardrail"
             @hover="isHovered => handleRuleHover(isHovered, guardrail.id)"
           />
         </div>
         <AddNewRulesInput
+          v-model="newInlineRule"
           :placeholder="
             t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.SUGGESTED.PLACEHOLDER')
           "
           :label="t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.SUGGESTED.SAVE')"
+          @add="addGuardrail"
         />
       </div>
     </template>

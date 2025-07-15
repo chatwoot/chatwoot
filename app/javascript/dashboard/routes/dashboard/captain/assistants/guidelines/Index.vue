@@ -1,9 +1,11 @@
 <script setup>
 import { computed, ref } from 'vue';
 import { useRoute } from 'vue-router';
+import { useAlert } from 'dashboard/composables';
 import { useI18n } from 'vue-i18n';
 import { useStore } from 'dashboard/composables/store';
 import { useMapGetter } from 'dashboard/composables/store';
+import { useUISettings } from 'dashboard/composables/useUISettings';
 import Input from 'dashboard/components-next/input/Input.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
@@ -18,12 +20,18 @@ import RuleCard from 'dashboard/components-next/captain/assistant/RuleCard.vue';
 const { t } = useI18n();
 const route = useRoute();
 const store = useStore();
+const { uiSettings, updateUISettings } = useUISettings();
+
 const assistantId = route.params.assistantId;
 const uiFlags = useMapGetter('captainAssistants/getUIFlags');
 const isFetching = computed(() => uiFlags.value.fetchingItem);
 const assistant = computed(() =>
   store.getters['captainAssistants/getRecord'](Number(assistantId))
 );
+
+const searchQuery = ref('');
+const newInlineRule = ref('');
+const newDialogRule = ref('');
 
 const breadcrumbItems = computed(() => {
   return [
@@ -36,7 +44,14 @@ const breadcrumbItems = computed(() => {
   ];
 });
 
-// Hardcoded example guidelines
+const guidelinesContent = computed(
+  () => assistant.value?.response_guidelines || []
+);
+
+const displayGuidelines = computed(() =>
+  guidelinesContent.value.map((c, idx) => ({ id: idx, content: c }))
+);
+
 const guidelinesExample = [
   {
     id: 1,
@@ -55,15 +70,22 @@ const guidelinesExample = [
   },
 ];
 
-const searchQuery = ref('');
-
 const filteredGuidelines = computed(() => {
-  return guidelinesExample.filter(guideline => {
-    return guideline.content
-      .toLowerCase()
-      .includes(searchQuery.value.toLowerCase());
-  });
+  return displayGuidelines.value.filter(guideline =>
+    guideline.content.toLowerCase().includes(searchQuery.value.toLowerCase())
+  );
 });
+
+const shouldShowSuggestedRules = computed(() => {
+  return (
+    uiSettings.value?.show_response_guidelines_suggestions !== false ||
+    displayGuidelines.value.length === 0
+  );
+});
+
+const closeSuggestedRules = () => {
+  updateUISettings({ show_response_guidelines_suggestions: false });
+};
 
 // Bulk selection & hover state
 const bulkSelectedIds = ref(new Set());
@@ -81,7 +103,7 @@ const handleRuleHover = (isHovered, id) => {
 
 const bulkSelectionState = computed(() => {
   const selectedCount = bulkSelectedIds.value.size;
-  const totalCount = guidelinesExample.length || 0;
+  const totalCount = displayGuidelines.value.length || 0;
 
   return {
     hasSelected: selectedCount > 0,
@@ -91,7 +113,7 @@ const bulkSelectionState = computed(() => {
 });
 
 const buildSelectedCountLabel = computed(() => {
-  const count = guidelinesExample.length || 0;
+  const count = displayGuidelines.value.length || 0;
   return bulkSelectionState.value.allSelected
     ? t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.BULK_ACTION.UNSELECT_ALL', {
         count,
@@ -105,10 +127,74 @@ const bulkCheckbox = computed({
   get: () => bulkSelectionState.value.allSelected,
   set: value => {
     bulkSelectedIds.value = value
-      ? new Set(guidelinesExample.map(r => r.id))
+      ? new Set(displayGuidelines.value.map(r => r.id))
       : new Set();
   },
 });
+
+const saveGuidelines = async list => {
+  await store.dispatch('captainAssistants/update', {
+    id: assistantId,
+    assistant: { response_guidelines: list },
+  });
+};
+
+const addGuideline = async content => {
+  try {
+    const updated = [...guidelinesContent.value, content];
+    await saveGuidelines(updated);
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.ADD.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.ADD.ERROR'));
+  }
+};
+
+const editGuideline = async ({ id, content }) => {
+  try {
+    const updated = [...guidelinesContent.value];
+    updated[id] = content;
+    await saveGuidelines(updated);
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.UPDATE.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.UPDATE.ERROR'));
+  }
+};
+
+const deleteGuideline = async id => {
+  try {
+    const updated = guidelinesContent.value.filter((_, idx) => idx !== id);
+    await saveGuidelines(updated);
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.DELETE.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.DELETE.ERROR'));
+  }
+};
+
+const bulkDeleteGuidelines = async () => {
+  try {
+    if (bulkSelectedIds.value.size === 0) return;
+    const updated = guidelinesContent.value.filter(
+      (_, idx) => !bulkSelectedIds.value.has(idx)
+    );
+    await saveGuidelines(updated);
+    bulkSelectedIds.value.clear();
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.DELETE.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.DELETE.ERROR'));
+  }
+};
+
+const addAllExample = async () => {
+  updateUISettings({ show_response_guidelines_suggestions: false });
+  try {
+    const exampleContents = guidelinesExample.map(example => example.content);
+    const newGuidelines = [...guidelinesContent.value, ...exampleContents];
+    await saveGuidelines(newGuidelines);
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.ADD.SUCCESS'));
+  } catch {
+    useAlert(t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.API.ADD.ERROR'));
+  }
+};
 </script>
 
 <template>
@@ -124,8 +210,11 @@ const bulkCheckbox = computed({
       />
       <div class="flex mt-7 flex-col gap-4">
         <SuggestedRules
+          v-if="shouldShowSuggestedRules"
           :title="t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.TITLE')"
           :items="guidelinesExample"
+          @add="addAllExample"
+          @close="closeSuggestedRules"
         >
           <template #default="{ item }">
             <div class="flex items-center justify-between w-full">
@@ -142,6 +231,7 @@ const bulkCheckbox = computed({
                 xs
                 slate
                 class="!text-sm !text-n-slate-11 flex-shrink-0"
+                @click="addGuideline(item.content)"
               />
             </div>
           </template>
@@ -196,11 +286,13 @@ const bulkCheckbox = computed({
                   ghost
                   class="!px-1.5"
                   icon="i-lucide-trash"
+                  @click="bulkDeleteGuidelines"
                 />
               </div>
             </div>
             <div v-else class="flex items-center gap-3">
               <AddNewRulesDialog
+                v-model="newDialogRule"
                 :placeholder="
                   t(
                     'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.PLACEHOLDER'
@@ -215,8 +307,10 @@ const bulkCheckbox = computed({
                 :cancel-label="
                   t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.CANCEL')
                 "
+                @add="addGuideline"
               />
-              <div class="h-4 w-px bg-n-strong" />
+              <!-- Will enable this feature in future -->
+              <!-- <div class="h-4 w-px bg-n-strong" />
               <Button
                 :label="
                   t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TEST_ALL')
@@ -224,10 +318,13 @@ const bulkCheckbox = computed({
                 sm
                 ghost
                 slate
-              />
+              /> -->
             </div>
           </transition>
-          <div class="max-w-[22.5rem] w-full min-w-0">
+          <div
+            v-if="displayGuidelines.length && !bulkSelectionState.hasSelected"
+            class="max-w-[22.5rem] w-full min-w-0"
+          >
             <Input
               v-model="searchQuery"
               :placeholder="
@@ -250,9 +347,12 @@ const bulkCheckbox = computed({
             "
             @select="handleRuleSelect"
             @hover="isHovered => handleRuleHover(isHovered, guideline.id)"
+            @edit="editGuideline"
+            @delete="deleteGuideline"
           />
         </div>
         <AddNewRulesInput
+          v-model="newInlineRule"
           :placeholder="
             t(
               'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.PLACEHOLDER'
@@ -261,6 +361,7 @@ const bulkCheckbox = computed({
           :label="
             t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.SUGGESTED.SAVE')
           "
+          @add="addGuideline"
         />
       </div>
     </template>
