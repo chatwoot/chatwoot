@@ -1454,7 +1454,7 @@ module CustomReportHelper
       Rails.logger.info("labelData, #{label.name}")
       # Count conversations with this specific label
       count = base_query.tagged_with(label).count
-      db_label = Label.find_by(title: label.name)
+      db_label = @account.labels.find_by(title: label.name)
       if db_label
         label_counts[db_label.id] = count
         Rails.logger.info("db_label, #{db_label.inspect}")
