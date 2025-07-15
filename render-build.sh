@@ -1,17 +1,19 @@
 #!/usr/bin/env bash
 
-export COREPACK_ENABLE_PNPM=0
-corepack enable
-corepack prepare yarn@1.22.22 --activate
+# Exit on error
+set -o errexit
 
-# Instala dependencias de Node.js
-yarn install
+echo "🌱 Instalando dependencias con Yarn..."
+yarn install --frozen-lockfile
 
-# Compila frontend con yarn
+echo "🔨 Compilando assets de frontend con Vite..."
 yarn build
 
-# Instala gems de Ruby
-bundle install
+echo "💎 Instalando gems de Ruby..."
+bundle install --without development test --path vendor/bundle
 
-# Precompila assets
+echo "📦 Precompilando assets de Rails..."
 bundle exec rake assets:precompile
+
+echo "🧹 Limpiando caché de Rails..."
+bundle exec rake tmp:clear
