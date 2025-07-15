@@ -134,6 +134,7 @@
     "MULTISELECT": {
       "ENTER_TO_SELECT": "Bấm enter để chọn",
       "ENTER_TO_REMOVE": "Bấm enter để xoá",
+      "NO_OPTIONS": "List is empty",
       "SELECT_ONE": "Chọn một",
       "SELECT": "Chọn"
     }
