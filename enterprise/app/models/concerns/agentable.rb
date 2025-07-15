@@ -2,11 +2,11 @@ module Agentable
   extend ActiveSupport::Concern
 
   included do
-    def agent(user)
+    def agent
       Agents::Agent.new(
         name: agent_name,
         instructions: ->(context) { agent_instructions(context) },
-        tools: agent_tools(user),
+        tools: agent_tools,
         model: agent_model
       )
     end
