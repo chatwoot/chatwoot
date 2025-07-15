@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2025_07_10_145708) do
+ActiveRecord::Schema[7.1].define(version: 2025_07_14_104358) do
   # These extensions should be enabled to support this database
   enable_extension "pg_stat_statements"
   enable_extension "pg_trgm"
@@ -277,6 +277,8 @@ ActiveRecord::Schema[7.1].define(version: 2025_07_10_145708) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.jsonb "config", default: {}, null: false
+    t.jsonb "response_guidelines", default: []
+    t.jsonb "guardrails", default: []
     t.index ["account_id"], name: "index_captain_assistants_on_account_id"
   end
 
