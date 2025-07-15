@@ -6,6 +6,11 @@ class Captain::Assistant::AgentRunnerService
     label_list custom_attributes additional_attributes
   ].freeze
 
+  CONTACT_STATE_ATTRIBUTES = %i[
+    id name email phone_number identifier contact_type
+    custom_attributes additional_attributes
+  ].freeze
+
   def initialize(assistant:, conversation: nil)
     @assistant = assistant
     @conversation = conversation
@@ -103,7 +108,10 @@ class Captain::Assistant::AgentRunnerService
       assistant_config: @assistant.config
     }
 
-    state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES) if @conversation
+    if @conversation
+      state[:conversation] = @conversation.attributes.symbolize_keys.slice(*CONVERSATION_STATE_ATTRIBUTES)
+      state[:contact] = @conversation.contact.attributes.symbolize_keys.slice(*CONTACT_STATE_ATTRIBUTES) if @conversation.contact
+    end
 
     state
   end

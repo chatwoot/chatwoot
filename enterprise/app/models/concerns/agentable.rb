@@ -17,9 +17,10 @@ module Agentable
       if context
         state = context.context[:state] || {}
         conversation_data = state[:conversation] || {}
+        contact_data = state[:contact] || {}
         enhanced_context = enhanced_context.merge(
           conversation: conversation_data,
-          has_conversation: conversation_data.present?
+          contact: contact_data
         )
       end
 
