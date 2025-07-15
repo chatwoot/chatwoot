@@ -93,7 +93,9 @@ class Captain::Assistant < ApplicationRecord
           key: scenario.title.parameterize.underscore,
           description: scenario.description
         }
-      end
+      end,
+      response_guidelines: response_guidelines || [],
+      guardrails: guardrails || []
     }
   end
 
