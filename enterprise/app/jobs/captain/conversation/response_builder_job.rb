@@ -27,7 +27,7 @@ class Captain::Conversation::ResponseBuilderJob < ApplicationJob
 
   def generate_and_process_response
     @response = if captain_v2_enabled?
-                  Captain::Assistant::AgentRunnerService.new(assistant: @assistant).generate_response(
+                  Captain::Assistant::AgentRunnerService.new(assistant: @assistant, conversation: @conversation).generate_response(
                     message_history: collect_previous_messages
                   )
                 else
