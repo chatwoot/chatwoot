@@ -1,40 +1,25 @@
-class Captain::Tools::UpdatePriorityTool < Captain::Tools::BaseAgentTool
+class Captain::Tools::UpdatePriorityTool < Captain::Tools::BasePublicTool
   description 'Update the priority of a conversation'
-  param :conversation_id, type: 'string', desc: 'The display ID of the conversation'
   param :priority, type: 'string', desc: 'The priority level: low, medium, high, urgent, or nil to remove priority'
 
-  def perform(_tool_context, conversation_id:, priority:)
-    log_tool_usage('update_priority', { conversation_id: conversation_id, priority: priority })
+  def perform(tool_context, priority:)
+    @conversation = find_conversation(tool_context.state)
+    return 'Conversation not found' unless @conversation
 
-    error = validate_and_prepare(conversation_id, priority)
-    return error if error
+    @normalized_priority = normalize_priority(priority)
+    return "Invalid priority. Valid options: #{valid_priority_options}" unless valid_priority?(@normalized_priority)
+
+    log_tool_usage('update_priority', { conversation_id: @conversation.id, priority: priority })
 
     execute_priority_update
   end
 
   private
 
-  def validate_and_prepare(conversation_id, priority)
-    return 'Missing required parameter: conversation_id' if conversation_id.blank?
-
-    @conversation = find_conversation(conversation_id)
-    return 'Conversation not found' unless @conversation
-
-    @normalized_priority = normalize_priority(priority)
-    return "Invalid priority. Valid options: #{valid_priority_options}" unless valid_priority?(@normalized_priority)
-
-    @conversation_id = conversation_id
-    nil
-  end
-
   def execute_priority_update
     update_conversation_priority(@conversation, @normalized_priority)
     priority_text = @normalized_priority || 'none'
-    "Priority updated to '#{priority_text}' for conversation #{@conversation_id}"
-  end
-
-  def find_conversation(conversation_id)
-    account_scoped(::Conversation).find_by(display_id: conversation_id)
+    "Priority updated to '#{priority_text}' for conversation ##{@conversation.display_id}"
   end
 
   def normalize_priority(priority)
@@ -57,9 +42,7 @@ class Captain::Tools::UpdatePriorityTool < Captain::Tools::BaseAgentTool
     conversation.update!(priority: priority)
   end
 
-  def active?
-    user_has_permission('conversation_manage') ||
-      user_has_permission('conversation_unassigned_manage') ||
-      user_has_permission('conversation_participating_manage')
+  def permissions
+    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end
