@@ -1,4 +1,4 @@
-class Captain::Tools::UpdatePriorityTool < Captain::Tools::BaseAgentTool
+class Captain::Tools::UpdatePriorityTool < Captain::Tools::BasePublicTool
   description 'Update the priority of a conversation'
   param :conversation_id, type: 'string', desc: 'The display ID of the conversation'
   param :priority, type: 'string', desc: 'The priority level: low, medium, high, urgent, or nil to remove priority'
@@ -57,9 +57,7 @@ class Captain::Tools::UpdatePriorityTool < Captain::Tools::BaseAgentTool
     conversation.update!(priority: priority)
   end
 
-  def active?
-    user_has_permission('conversation_manage') ||
-      user_has_permission('conversation_unassigned_manage') ||
-      user_has_permission('conversation_participating_manage')
+  def permissions
+    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end

@@ -1,4 +1,4 @@
-class Captain::Tools::AddContactNoteTool < Captain::Tools::BaseAgentTool
+class Captain::Tools::AddContactNoteTool < Captain::Tools::BasePublicTool
   description 'Add a note to a contact profile'
   param :contact_id, type: 'string', desc: 'The ID of the contact'
   param :note, type: 'string', desc: 'The note content to add to the contact'
@@ -30,7 +30,7 @@ class Captain::Tools::AddContactNoteTool < Captain::Tools::BaseAgentTool
     )
   end
 
-  def active?
-    user_has_permission('contact_manage')
+  def permissions
+    %w[contact_manage]
   end
 end

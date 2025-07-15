@@ -1,4 +1,4 @@
-class Captain::Tools::AddLabelToConversationTool < Captain::Tools::BaseAgentTool
+class Captain::Tools::AddLabelToConversationTool < Captain::Tools::BasePublicTool
   description 'Add a label to a conversation'
   param :conversation_id, type: 'integer', desc: 'The ID of the conversation'
   param :label_name, type: 'string', desc: 'The name of the label to add'

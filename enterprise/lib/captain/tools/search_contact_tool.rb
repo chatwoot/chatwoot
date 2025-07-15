@@ -1,4 +1,4 @@
-class Captain::Tools::SearchContactTool < Captain::Tools::BaseAgentTool
+class Captain::Tools::SearchContactTool < Captain::Tools::BasePublicTool
   description 'Search for a contact by email, phone number, or identifier'
   param :query, type: 'string', desc: 'Email, phone number, or identifier to search for'
 

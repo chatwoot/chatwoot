@@ -1,4 +1,4 @@
-class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
+class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BasePublicTool
   description 'Add a private note to a conversation'
   param :conversation_id, type: 'string', desc: 'The display ID of the conversation'
   param :note, type: 'string', desc: 'The private note content'
@@ -32,9 +32,7 @@ class Captain::Tools::AddPrivateNoteTool < Captain::Tools::BaseAgentTool
     )
   end
 
-  def active?
-    user_has_permission('conversation_manage') ||
-      user_has_permission('conversation_unassigned_manage') ||
-      user_has_permission('conversation_participating_manage')
+  def permissions
+    %w[conversation_manage conversation_unassigned_manage conversation_participating_manage]
   end
 end
