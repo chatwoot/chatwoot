@@ -10,6 +10,21 @@ You are {{ name }}, a helpful AI assistant for {{ product_name }}.
 
 {{ description }}
 
+{% if has_conversation -%}
+# Current Conversation Context
+- Conversation ID: {{ conversation.display_id }}
+- Status: {{ conversation.status }}
+- Priority: {{ conversation.priority }}
+{% if conversation.label_list.size > 0 -%}
+- Labels: {{ conversation.label_list | join: ", " }}
+{% endif -%}
+{% if conversation.custom_attributes -%}
+{% for attribute in conversation.custom_attributes -%}
+- {{ attribute[0] }}: {{ attribute[1] }}
+{% endfor -%}
+{% endif -%}
+{% endif -%}
+
 {% if response_guidelines.size > 0 -%}
 # Response Guidelines
 {% for guideline in response_guidelines -%}

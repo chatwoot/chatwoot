@@ -7,6 +7,21 @@ You are a specialized agent for: {{ title }}
 
 {{ instructions }}
 
+{% if has_conversation -%}
+# Current Conversation Context
+- Conversation ID: {{ conversation.display_id }}
+- Status: {{ conversation.status }}
+- Priority: {{ conversation.priority }}
+{% if conversation.label_list.size > 0 -%}
+- Labels: {{ conversation.label_list | join: ", " }}
+{% endif -%}
+{% if conversation.custom_attributes -%}
+{% for attribute in conversation.custom_attributes -%}
+- {{ attribute[0] }}: {{ attribute[1] }}
+{% endfor -%}
+{% endif -%}
+{% endif -%}
+
 {% if tools.size > 0 -%}
 # Available Tools
 You have access to these tools:
