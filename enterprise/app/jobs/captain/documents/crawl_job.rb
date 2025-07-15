@@ -14,7 +14,7 @@ class Captain::Documents::CrawlJob < ApplicationJob
   def pdf_document?(document)
     return false if document.nil?
 
-    document.source_type == 'pdf_upload'
+    document.pdf_document?
   end
 
   private

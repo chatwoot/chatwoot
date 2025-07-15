@@ -6,7 +6,6 @@
 #  content       :text
 #  external_link :string           not null
 #  name          :string
-#  source_type   :string           default("url")
 #  status        :integer          default("in_progress"), not null
 #  created_at    :datetime         not null
 #  updated_at    :datetime         not null
@@ -18,7 +17,6 @@
 #  index_captain_documents_on_account_id                      (account_id)
 #  index_captain_documents_on_assistant_id                    (assistant_id)
 #  index_captain_documents_on_assistant_id_and_external_link  (assistant_id,external_link) UNIQUE
-#  index_captain_documents_on_source_type                     (source_type)
 #  index_captain_documents_on_status                          (status)
 #
 class Captain::Document < ApplicationRecord
@@ -33,9 +31,7 @@ class Captain::Document < ApplicationRecord
   validates :external_link, presence: true
   validates :external_link, uniqueness: { scope: :assistant_id }
   validates :content, length: { maximum: 400_000 }
-  validates :source_type, inclusion: { in: %w[url pdf_upload] }, allow_blank: true
   before_validation :ensure_account_id
-  before_validation :set_default_source_type
 
   enum status: {
     in_progress: 0,
@@ -53,7 +49,7 @@ class Captain::Document < ApplicationRecord
   scope :for_assistant, ->(assistant_id) { where(assistant_id: assistant_id) }
 
   def pdf_document?
-    source_type == 'pdf_upload' || file.attached?
+    file.attached? || external_link&.match?(/\.pdf$/i)
   end
 
   private
@@ -83,15 +79,5 @@ class Captain::Document < ApplicationRecord
   def ensure_within_plan_limit
     limits = account.usage_limits[:captain][:documents]
     raise LimitExceededError, 'Document limit exceeded' unless limits[:current_available].positive?
-  end
-
-  def set_default_source_type
-    return if source_type.present?
-
-    self.source_type = if file.attached?
-                         'pdf_upload'
-                       else
-                         'url'
-                       end
   end
 end

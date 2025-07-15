@@ -34,8 +34,7 @@ class Api::V1::Accounts::Captain::DocumentsController < Api::V1::Accounts::BaseC
 
     @document = @assistant.documents.build(
       name: pdf_params[:pdf_document].original_filename,
-      external_link: "pdf_upload_#{SecureRandom.hex(8)}.pdf",
-      source_type: 'pdf_upload'
+      external_link: "pdf_upload_#{SecureRandom.hex(8)}.pdf"
     )
     @document.file.attach(pdf_params[:pdf_document])
     @document.save!

@@ -1,17 +1,28 @@
 class Captain::Documents::ResponseBuilderJob < ApplicationJob
   queue_as :low
 
-  def perform(document, full_content = nil, skip_reset: false)
+  def perform(document, full_content = nil, skip_reset: false, metadata: {})
     # Use full content for FAQ generation if provided (for PDFs), otherwise use document.content
     content_for_faqs = full_content || document.content
 
     # Skip processing if no content available
     return if content_for_faqs.blank?
 
-    # Only reset responses if not explicitly skipped (for PDF chunks processing)
+    # Only reset responses if not explicitly skipped
     reset_previous_responses(document) unless skip_reset
 
-    faqs = Captain::Llm::FaqGeneratorService.new(content_for_faqs).generate
+    # Check if this is a direct PDF processing
+    faqs = if metadata[:processing_type] == 'direct_pdf' && metadata[:openai_file_id]
+             Captain::Llm::PdfFaqGeneratorService.new(
+               content_for_faqs,
+               is_pdf_file: true,
+               metadata: metadata
+             ).generate
+           # NOTE: Not deleting the file_id - keeping it for future use
+           else
+             Captain::Llm::FaqGeneratorService.new(content_for_faqs).generate
+           end
+
     faqs.each do |faq|
       create_response(faq, document)
     end
