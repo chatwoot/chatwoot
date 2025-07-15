@@ -77,10 +77,7 @@ const filteredGuidelines = computed(() => {
 });
 
 const shouldShowSuggestedRules = computed(() => {
-  return (
-    uiSettings.value?.show_response_guidelines_suggestions !== false ||
-    displayGuidelines.value.length === 0
-  );
+  return uiSettings.value?.show_response_guidelines_suggestions !== false;
 });
 
 const closeSuggestedRules = () => {

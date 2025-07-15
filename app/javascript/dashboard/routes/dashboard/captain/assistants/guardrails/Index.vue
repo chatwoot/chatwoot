@@ -77,10 +77,7 @@ const filteredGuardrails = computed(() => {
 });
 
 const shouldShowSuggestedRules = computed(() => {
-  return (
-    uiSettings.value?.show_guardrails_suggestions !== false ||
-    displayGuardrails.value.length === 0
-  );
+  return uiSettings.value?.show_guardrails_suggestions !== false;
 });
 
 const closeSuggestedRules = () => {
