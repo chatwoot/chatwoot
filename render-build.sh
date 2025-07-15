@@ -1,10 +1,14 @@
 #!/usr/bin/env bash
 
-echo "📦 Installing Ruby dependencies..."
-bundle install
+# Activa Yarn 1.x
+corepack enable
+corepack prepare yarn@1.22.22 --activate
 
-echo "📦 Installing JS dependencies..."
-yarn install --frozen-lockfile
+# Instala dependencias de Node.js
+yarn install
 
-echo "🛠️ Precompiling Rails assets..."
-bundle exec rails assets:precompile
+# Compila el frontend con Vite
+yarn build
+
+# Precompila los assets de Rails
+bundle exec rake assets:precompile
