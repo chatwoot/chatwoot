@@ -36,7 +36,7 @@ module Agentable
       self.class.name.demodulize.underscore
     end
 
-    def agent_tools(_user)
+    def agent_tools
       []  # Default implementation, override if needed
     end
 

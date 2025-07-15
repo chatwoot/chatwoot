@@ -6,9 +6,8 @@ class Captain::Assistant::AgentRunnerService
     label_list custom_attributes additional_attributes
   ].freeze
 
-  def initialize(assistant:, user: nil, conversation: nil)
+  def initialize(assistant:, conversation: nil)
     @assistant = assistant
-    @user = user
     @conversation = conversation
   end
 
@@ -100,7 +99,6 @@ class Captain::Assistant::AgentRunnerService
   def build_state
     state = {
       account_id: @assistant.account_id,
-      user_id: @user&.id,
       assistant_id: @assistant.id,
       assistant_config: @assistant.config
     }
@@ -111,8 +109,8 @@ class Captain::Assistant::AgentRunnerService
   end
 
   def build_and_wire_agents
-    assistant_agent = @assistant.agent(@user)
-    scenario_agents = @assistant.scenarios.enabled.map { |scenario| scenario.agent(@user) }
+    assistant_agent = @assistant.agent(nil)
+    scenario_agents = @assistant.scenarios.enabled.map { |scenario| scenario.agent(nil) }
 
     assistant_agent.register_handoffs(*scenario_agents) if scenario_agents.any?
     scenario_agents.each { |scenario_agent| scenario_agent.register_handoffs(assistant_agent) }

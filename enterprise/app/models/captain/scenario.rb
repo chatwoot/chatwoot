@@ -54,8 +54,8 @@ class Captain::Scenario < ApplicationRecord
     "#{title} Agent".titleize
   end
 
-  def agent_tools(user)
-    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }.map { |tool| tool.new(assistant, user: user) }
+  def agent_tools
+    resolved_tools.map { |tool| self.class.resolve_tool_class(tool[:id]) }.map { |tool| tool.new(assistant) }
   end
 
   def resolved_instructions
