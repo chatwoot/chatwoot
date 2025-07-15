@@ -61,4 +61,65 @@ RSpec.describe Channel::Whatsapp do
       expect(channel.provider_config['webhook_verify_token']).to eq '123'
     end
   end
+
+  describe 'webhook setup after creation' do
+    let(:account) { create(:account) }
+    let(:webhook_service) { instance_double(Whatsapp::WebhookSetupService) }
+
+    before do
+      allow(Whatsapp::WebhookSetupService).to receive(:new).and_return(webhook_service)
+      allow(webhook_service).to receive(:perform)
+    end
+
+    context 'when channel is created through embedded signup' do
+      it 'does not raise error if webhook setup fails' do
+        allow(webhook_service).to receive(:perform).and_raise(StandardError, 'Webhook error')
+
+        expect do
+          create(:channel_whatsapp,
+                 account: account,
+                 provider: 'whatsapp_cloud',
+                 provider_config: {
+                   'source' => 'embedded_signup',
+                   'business_account_id' => 'test_waba_id',
+                   'api_key' => 'test_access_token'
+                 },
+                 validate_provider_config: false,
+                 sync_templates: false)
+        end.not_to raise_error
+      end
+    end
+
+    context 'when channel is created through manual setup' do
+      it 'does not setup webhooks' do
+        expect(Whatsapp::WebhookSetupService).not_to receive(:new)
+
+        create(:channel_whatsapp,
+               account: account,
+               provider: 'whatsapp_cloud',
+               provider_config: {
+                 'business_account_id' => 'test_waba_id',
+                 'api_key' => 'test_access_token'
+               },
+               validate_provider_config: false,
+               sync_templates: false)
+      end
+    end
+
+    context 'when channel is created with different provider' do
+      it 'does not setup webhooks for 360dialog provider' do
+        expect(Whatsapp::WebhookSetupService).not_to receive(:new)
+
+        create(:channel_whatsapp,
+               account: account,
+               provider: 'default',
+               provider_config: {
+                 'source' => 'embedded_signup',
+                 'api_key' => 'test_360dialog_key'
+               },
+               validate_provider_config: false,
+               sync_templates: false)
+      end
+    end
+  end
 end
