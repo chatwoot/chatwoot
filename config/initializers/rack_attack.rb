@@ -115,7 +115,7 @@ class Rack::Attack
   # TODO: Deprecate this feature in future after finding a better solution
   if ActiveModel::Type::Boolean.new.cast(ENV.fetch('ENABLE_RACK_ATTACK_WIDGET_API', true))
     ## Prevent Conversation Bombing on Widget APIs ###
-    throttle('api/v1/widget/conversations', limit: 6, period: 12.hours) do |req|
+    throttle('api/v1/widget/conversations', limit: 100, period: 1.hours) do |req|
       req.ip if req.path_without_extentions == '/api/v1/widget/conversations' && req.post?
     end
 
@@ -125,7 +125,7 @@ class Rack::Attack
     end
 
     ## Prevent Conversation Bombing through multiple sessions
-    throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 5, period: 1.hour) do |req|
+    throttle('widget?website_token={website_token}&cw_conversation={x-auth-token}', limit: 60, period: 1.hour) do |req|
       req.ip if req.path_without_extentions == '/widget' && ActionDispatch::Request.new(req.env).params['cw_conversation'].blank?
     end
   end
