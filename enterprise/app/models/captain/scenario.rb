@@ -48,11 +48,11 @@ class Captain::Scenario < ApplicationRecord
   # @return [void]
   # @api private
   # @example Valid instruction
-  #   scenario.instruction = "Use (tool://add_contact_note) to document"
+  #   scenario.instruction = "Use [Add Contact Note](tool://add_contact_note) to document"
   #   scenario.valid? # => true
   #
   # @example Invalid instruction
-  #   scenario.instruction = "Use (tool://invalid_tool) to process"
+  #   scenario.instruction = "Use [Invalid Tool](tool://invalid_tool) to process"
   #   scenario.valid? # => false
   #   scenario.errors[:instruction] # => ["contains invalid tools: invalid_tool"]
   def validate_instruction_tools
@@ -76,7 +76,7 @@ class Captain::Scenario < ApplicationRecord
   # @return [void]
   # @api private
   # @example
-  #   scenario.instruction = "First (tool://add_private_note) then (tool://update_priority)"
+  #   scenario.instruction = "First [@Add Private Note](tool://add_private_note) then [@Update Priority](tool://update_priority)"
   #   scenario.save!
   #   scenario.tools # => ["add_private_note", "update_priority"]
   #
