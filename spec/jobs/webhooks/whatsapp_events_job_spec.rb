@@ -102,7 +102,7 @@ RSpec.describe Webhooks::WhatsappEventsJob do
   context 'when default provider' do
     it 'enqueue Whatsapp::IncomingMessageService' do
       stub_request(:post, 'https://waba.360dialog.io/v1/configs/webhook')
-      channel.update(provider: 'default')
+      channel.update!(provider: 'default')
       allow(Whatsapp::IncomingMessageService).to receive(:new).and_return(process_service)
       expect(Whatsapp::IncomingMessageService).to receive(:new)
       job.perform_now(params)

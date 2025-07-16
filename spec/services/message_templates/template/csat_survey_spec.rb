@@ -9,7 +9,7 @@ describe MessageTemplates::Template::CsatSurvey do
   describe '#perform' do
     context 'when no survey rules are configured' do
       it 'creates a CSAT survey message' do
-        inbox.update(csat_config: {})
+        inbox.update!(csat_config: {})
 
         service.perform
 
@@ -37,7 +37,7 @@ describe MessageTemplates::Template::CsatSurvey do
 
     context 'when conversation has matching labels' do
       it 'creates a CSAT survey message' do
-        conversation.update(label_list: %w[support urgent])
+        conversation.update!(label_list: %w[support urgent])
 
         service.perform
 
@@ -51,7 +51,7 @@ describe MessageTemplates::Template::CsatSurvey do
 
     context 'when conversation has no matching labels' do
       it 'does not create a CSAT survey message' do
-        conversation.update(label_list: %w[billing-support payment])
+        conversation.update!(label_list: %w[billing-support payment])
 
         service.perform
 
@@ -78,7 +78,7 @@ describe MessageTemplates::Template::CsatSurvey do
 
     context 'when conversation does not have matching labels' do
       it 'creates a CSAT survey message' do
-        conversation.update(label_list: %w[billing payment])
+        conversation.update!(label_list: %w[billing payment])
 
         service.perform
 
@@ -89,7 +89,7 @@ describe MessageTemplates::Template::CsatSurvey do
 
     context 'when conversation has matching labels' do
       it 'does not create a CSAT survey message' do
-        conversation.update(label_list: %w[support urgent])
+        conversation.update!(label_list: %w[support urgent])
 
         service.perform
 

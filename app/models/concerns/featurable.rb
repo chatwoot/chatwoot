@@ -25,9 +25,9 @@ module Featurable
     end
   end
 
-  def enable_features!(*names)
-    enable_features(*names)
-    save
+  def enable_features!(*)
+    enable_features(*)
+    save!
   end
 
   def disable_features(*names)
@@ -36,9 +36,9 @@ module Featurable
     end
   end
 
-  def disable_features!(*names)
-    disable_features(*names)
-    save
+  def disable_features!(*)
+    disable_features(*)
+    save!
   end
 
   def feature_enabled?(name)

@@ -23,11 +23,13 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
   end
 
   describe 'POST /webhooks/whatsapp/{:phone_number}' do
-    it 'call the whatsapp events job with the params' do
+    it 'calls the whatsapp events job asynchronously with perform_later when awaitResponse is not present' do
       allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
-      expect(Webhooks::WhatsappEventsJob).to receive(:perform_later)
+
       post '/webhooks/whatsapp/123221321', params: { content: 'hello' }
-      expect(response).to have_http_status(:success)
+
+      expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later)
+      expect(response).to have_http_status(:ok)
     end
 
     context 'when phone number is in inactive list' do
@@ -37,9 +39,10 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
 
       it 'returns service unavailable for inactive phone number in URL params' do
         allow(Rails.logger).to receive(:warn)
-        expect(Rails.logger).to receive(:warn).with('Rejected webhook for inactive WhatsApp number: +1234567890')
 
         post '/webhooks/whatsapp/+1234567890', params: { content: 'hello' }
+
+        expect(Rails.logger).to have_received(:warn).with('Rejected webhook for inactive WhatsApp number: +1234567890')
         expect(response).to have_http_status(:unprocessable_entity)
         expect(response.parsed_body['error']).to eq('Inactive WhatsApp number')
       end
@@ -52,10 +55,38 @@ RSpec.describe 'Webhooks::WhatsappController', type: :request do
 
       it 'processes the webhook normally' do
         allow(Webhooks::WhatsappEventsJob).to receive(:perform_later)
-        expect(Webhooks::WhatsappEventsJob).to receive(:perform_later)
 
         post '/webhooks/whatsapp/+1234567890', params: { content: 'hello' }
-        expect(response).to have_http_status(:success)
+
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_later)
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when awaitResponse param is present' do
+      it 'calls the whatsapp events job synchronously' do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_now)
+
+        post '/webhooks/whatsapp/123221321', params: { content: 'hello', awaitResponse: true }
+
+        expect(Webhooks::WhatsappEventsJob).to have_received(:perform_now)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it 'returns 401 when InvalidWebhookVerifyToken is raised' do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_now).and_raise(Whatsapp::IncomingMessageBaileysService::InvalidWebhookVerifyToken)
+
+        post '/webhooks/whatsapp/123221321', params: { content: 'hello', awaitResponse: true }
+
+        expect(response).to have_http_status(:unauthorized)
+      end
+
+      it 'returns 404 when MessageNotFoundError is raised' do
+        allow(Webhooks::WhatsappEventsJob).to receive(:perform_now).and_raise(Whatsapp::IncomingMessageBaileysService::MessageNotFoundError)
+
+        post '/webhooks/whatsapp/123221321', params: { content: 'hello', awaitResponse: true }
+
+        expect(response).to have_http_status(:not_found)
       end
     end
   end

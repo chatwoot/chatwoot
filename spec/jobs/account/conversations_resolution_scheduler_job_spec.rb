@@ -11,7 +11,7 @@ RSpec.describe Account::ConversationsResolutionSchedulerJob do
   end
 
   it 'enqueues Conversations::ResolutionJob' do
-    account.update(auto_resolve_after: 10 * 60 * 24)
+    account.update!(auto_resolve_after: 10 * 60 * 24)
     expect(Conversations::ResolutionJob).to receive(:perform_later).with(account: account).once
     described_class.perform_now
   end

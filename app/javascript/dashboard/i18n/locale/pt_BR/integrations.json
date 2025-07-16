@@ -46,6 +46,17 @@
             "CONVERSATION_TYPING_OFF": "Status de Digitação desativado"
           }
         },
+        "NAME": {
+          "LABEL": "Nome do Webhook",
+          "PLACEHOLDER": "Insira o nome do webhook"
+        },
+        "INBOX": {
+          "LABEL": "Caixa de Entrada",
+          "TITLE": "Selecione a caixa de entrada",
+          "PLACEHOLDER": "Todas as caixas de entrada",
+          "NO_RESULTS": "Nenhuma caixa de entrada encontrada",
+          "INPUT_PLACEHOLDER": "Buscar caixa de entrada"
+        },
         "END_POINT": {
           "LABEL": "URL do Webhook",
           "PLACEHOLDER": "Exemplo: {webhookExampleURL}",

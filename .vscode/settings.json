@@ -2,5 +2,6 @@
     "cSpell.words": [
         "chatwoot",
         "dompurify"
-    ]
+    ],
+    "css.customData": [".vscode/tailwind.json"]
 }

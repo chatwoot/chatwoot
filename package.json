@@ -160,8 +160,7 @@
   },
   "lint-staged": {
     "app/**/*.{js,vue}": [
-      "eslint --fix",
-      "git add"
+      "eslint --fix"
     ],
     "*.scss": [
       "scss-lint"

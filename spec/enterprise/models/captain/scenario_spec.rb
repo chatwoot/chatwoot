@@ -37,7 +37,7 @@ RSpec.describe Captain::Scenario, type: :model do
       it 'calls populate_tools before saving' do
         scenario = build(:captain_scenario, assistant: assistant, account: account)
         expect(scenario).to receive(:populate_tools)
-        scenario.save
+        scenario.save!
       end
     end
   end

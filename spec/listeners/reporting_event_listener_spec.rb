@@ -50,7 +50,7 @@ describe ReportingEventListener do
       end
 
       it 'does not create a conversation_bot_resolved event if resolved conversation inbox does not have active bot' do
-        bot_resolved_conversation.update(inbox: inbox)
+        bot_resolved_conversation.update!(inbox: inbox)
         event = Events::Base.new('conversation.resolved', Time.zone.now, conversation: bot_resolved_conversation)
         listener.conversation_resolved(event)
         expect(account.reporting_events.where(name: 'conversation_bot_resolved').count).to be 0

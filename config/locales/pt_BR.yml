@@ -62,6 +62,9 @@ pt_BR:
         connection_closed_error: Conexão fechada.
       validations:
         name: 'não deve iniciar ou terminar com símbolos e não deve ter os caracteres: < > / \ @.'
+      channel:
+        provider_connection:
+          wrong_phone_number: O número de telefone que você está tentando conectar não é o mesmo que o configurado. Certifique-se de que o número está correto antes de escanear o QR code.
     custom_filters:
       number_of_records: Limite atingido. O número máximo de filtros personalizados permitidos para um usuário por conta é de 50.
       invalid_attribute: Chave de atributo inválido - [%{key}]. A chave deve ser uma das [%{allowed_keys}] ou um atributo personalizado definido na conta.

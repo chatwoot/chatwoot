@@ -18,6 +18,8 @@ class Conversations::TypingStatusManager
     case params[:typing_status]
     when 'on'
       trigger_typing_event(CONVERSATION_TYPING_ON, params[:is_private])
+    when 'recording'
+      trigger_typing_event(CONVERSATION_RECORDING, params[:is_private])
     when 'off'
       trigger_typing_event(CONVERSATION_TYPING_OFF, params[:is_private])
     end

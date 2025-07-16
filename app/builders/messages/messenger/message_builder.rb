@@ -68,7 +68,6 @@ class Messages::Messenger::MessageBuilder
     message.save!
   end
 
-  # This is a placeholder method to be overridden by child classes
   def get_story_object_from_source_id(_source_id)
     {}
   end

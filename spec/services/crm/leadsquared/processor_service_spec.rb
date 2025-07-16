@@ -51,7 +51,7 @@ RSpec.describe Crm::Leadsquared::ProcessorService do
 
       context 'when contact has no stored lead ID' do
         before do
-          contact.update(additional_attributes: { 'external' => nil })
+          contact.update!(additional_attributes: { 'external' => nil })
           contact.reload
 
           allow(lead_client).to receive(:create_or_update_lead)

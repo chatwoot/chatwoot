@@ -7,6 +7,7 @@ import Twilio from './Twilio.vue';
 import ThreeSixtyDialogWhatsapp from './360DialogWhatsapp.vue';
 import CloudWhatsapp from './CloudWhatsapp.vue';
 import WhatsappEmbeddedSignup from './WhatsappEmbeddedSignup.vue';
+import BaileysWhatsapp from './BaileysWhatsapp.vue';
 import { FEATURE_FLAGS } from 'dashboard/featureFlags';
 
 const route = useRoute();
@@ -20,6 +21,7 @@ const PROVIDER_TYPES = {
   WHATSAPP_CLOUD: 'whatsapp_cloud',
   WHATSAPP_EMBEDDED: 'whatsapp_embedded',
   THREE_SIXTY_DIALOG: '360dialog',
+  BAILEYS: 'baileys',
 };
 
 const hasWhatsappAppId = computed(() => {
@@ -55,6 +57,12 @@ const availableProviders = computed(() => [
     label: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO'),
     description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.TWILIO_DESC'),
     icon: '/assets/images/dashboard/channels/twilio.png',
+  },
+  {
+    value: PROVIDER_TYPES.BAILEYS,
+    label: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.BAILEYS'),
+    description: t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.BAILEYS_DESC'),
+    icon: '/assets/images/dashboard/channels/baileys.png',
   },
 ]);
 
@@ -149,7 +157,12 @@ const shouldShowCloudWhatsapp = provider => {
         <ThreeSixtyDialogWhatsapp
           v-else-if="selectedProvider === PROVIDER_TYPES.THREE_SIXTY_DIALOG"
         />
-        <CloudWhatsapp v-else />
+        <CloudWhatsapp
+          v-else-if="selectedProvider === PROVIDER_TYPES.WHATSAPP"
+        />
+        <BaileysWhatsapp
+          v-else-if="selectedProvider === PROVIDER_TYPES.BAILEYS"
+        />
       </div>
     </div>
   </div>

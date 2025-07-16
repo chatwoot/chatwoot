@@ -157,7 +157,7 @@ describe Integrations::Dialogflow::ProcessorService do
     let(:processor) { described_class.new(event_name: event_name, hook: hook, event_data: event_data) }
 
     before do
-      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' })
+      hook.update(settings: { 'project_id' => 'test', 'credentials' => 'creds' }) # rubocop:disable Rails/SaveBang
       allow(google_dialogflow).to receive(:new).and_return(session_client)
       allow(session_client).to receive(:detect_intent).and_return({ session: session, query_input: query_input })
     end
@@ -181,7 +181,7 @@ describe Integrations::Dialogflow::ProcessorService do
 
     context 'when region is global or not specified' do
       it 'uses global endpoint and session path' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+        hook.update!(settings: { 'project_id' => 'test-project', 'credentials' => {} })
 
         expect(processor.send(:dialogflow_endpoint)).to eq('dialogflow.googleapis.com')
         expect(processor.send(:build_session_path, 'test-session')).to eq('projects/test-project/agent/sessions/test-session')
@@ -190,7 +190,7 @@ describe Integrations::Dialogflow::ProcessorService do
 
     context 'when region is specified' do
       it 'uses regional endpoint and session path' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+        hook.update!(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
 
         expect(processor.send(:dialogflow_endpoint)).to eq('europe-west1-dialogflow.googleapis.com')
         expect(processor.send(:build_session_path, 'test-session')).to eq('projects/test-project/locations/europe-west1/agent/sessions/test-session')
@@ -198,7 +198,7 @@ describe Integrations::Dialogflow::ProcessorService do
     end
 
     it 'configures client with correct endpoint' do
-      hook.update(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
+      hook.update!(settings: { 'project_id' => 'test', 'credentials' => {}, 'region' => 'europe-west1' })
       config = OpenStruct.new
       expect(Google::Cloud::Dialogflow::V2::Sessions::Client).to receive(:configure).and_yield(config)
 
@@ -214,7 +214,7 @@ describe Integrations::Dialogflow::ProcessorService do
       end
 
       it 'uses global session path when region is not specified' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {} })
+        hook.update!(settings: { 'project_id' => 'test-project', 'credentials' => {} })
 
         expect(mock_client).to receive(:detect_intent).with(
           session: 'projects/test-project/agent/sessions/test-session',
@@ -225,7 +225,7 @@ describe Integrations::Dialogflow::ProcessorService do
       end
 
       it 'uses regional session path when region is specified' do
-        hook.update(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
+        hook.update!(settings: { 'project_id' => 'test-project', 'credentials' => {}, 'region' => 'europe-west1' })
 
         expect(mock_client).to receive(:detect_intent).with(
           session: 'projects/test-project/locations/europe-west1/agent/sessions/test-session',

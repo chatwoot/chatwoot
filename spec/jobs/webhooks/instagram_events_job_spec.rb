@@ -182,7 +182,7 @@ describe Webhooks::InstagramEventsJob do
 
     context 'when handling messaging events for Instagram via Instagram login' do
       before do
-        instagram_channel.update(access_token: 'valid_instagram_token')
+        instagram_channel.update!(access_token: 'valid_instagram_token')
 
         stub_request(:get, %r{https://graph\.instagram\.com/v22\.0/Sender-id-1\?.*})
           .to_return(

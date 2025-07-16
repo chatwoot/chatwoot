@@ -15,7 +15,7 @@ RSpec.describe Macro do
 
     context 'when macro is updated' do
       it 'has associated audit log created' do
-        macro.update(name: 'awesome macro')
+        macro.update!(name: 'awesome macro')
         expect(Audited::Audit.where(auditable_type: 'Macro', action: 'update').count).to eq 1
       end
     end

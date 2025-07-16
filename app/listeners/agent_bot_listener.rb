@@ -53,8 +53,8 @@ class AgentBotListener < BaseListener
   private
 
   def connected_agent_bot_exist?(inbox)
-    return if inbox.agent_bot_inbox.blank?
-    return unless inbox.agent_bot_inbox.active?
+    return false if inbox.agent_bot_inbox.blank?
+    return false unless inbox.agent_bot_inbox.active?
 
     true
   end

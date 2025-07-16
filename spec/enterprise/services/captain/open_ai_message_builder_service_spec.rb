@@ -204,7 +204,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
 
     context 'when attachment has attached file' do
       before do
-        attachment.update(external_url: nil)
+        attachment.update!(external_url: nil)
         allow(attachment).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: true))
         allow(attachment).to receive(:file_url).and_return('https://local.com/file.jpg')
         allow(attachment).to receive(:download_url).and_return('')
@@ -217,7 +217,7 @@ RSpec.describe Captain::OpenAiMessageBuilderService do
 
     context 'when attachment has no URL or file' do
       before do
-        attachment.update(external_url: nil)
+        attachment.update!(external_url: nil)
         allow(attachment).to receive(:file).and_return(instance_double(ActiveStorage::Attached::One, attached?: false))
       end
 

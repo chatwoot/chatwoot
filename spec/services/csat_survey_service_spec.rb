@@ -46,7 +46,7 @@ describe CsatSurveyService do
 
     context 'when CSAT survey should not be sent' do
       it 'does nothing when conversation is not resolved' do
-        conversation.update(status: :open)
+        conversation.update!(status: :open)
 
         service.perform
 
@@ -55,7 +55,7 @@ describe CsatSurveyService do
       end
 
       it 'does nothing when CSAT survey is not enabled' do
-        inbox.update(csat_survey_enabled: false)
+        inbox.update!(csat_survey_enabled: false)
 
         service.perform
 

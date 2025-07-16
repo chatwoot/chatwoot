@@ -43,7 +43,7 @@ RSpec.describe ApplicationMailbox do
 
       it 'routes support emails to Support Mailbox when mail is to channel email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
-        channel_email.update(email: 'care@example.com')
+        channel_email.update!(email: 'care@example.com')
         dbl = double
         expect(SupportMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
@@ -52,7 +52,7 @@ RSpec.describe ApplicationMailbox do
 
       it 'routes support emails to Support Mailbox when mail is to channel forward to email' do
         # this email is hardcoded in the support.eml, that's why we are updating this
-        channel_email.update(forward_to_email: 'care@example.com')
+        channel_email.update!(forward_to_email: 'care@example.com')
         dbl = double
         expect(SupportMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)
@@ -60,7 +60,7 @@ RSpec.describe ApplicationMailbox do
       end
 
       it 'routes support emails to Support Mailbox with cc email' do
-        channel_email.update(email: 'test@example.com')
+        channel_email.update!(email: 'test@example.com')
         dbl = double
         expect(SupportMailbox).to receive(:new).and_return(dbl)
         expect(dbl).to receive(:perform_processing).and_return(true)

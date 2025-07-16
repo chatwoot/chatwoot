@@ -5,6 +5,7 @@ module Events::Types
   # account events
   ACCOUNT_CREATED = 'account.created'
   ACCOUNT_CACHE_INVALIDATED = 'account.cache_invalidated'
+  ACCOUNT_PRESENCE_UPDATED = 'account.presence_updated'
 
   #### Account Events ###
   # campaign events
@@ -27,14 +28,17 @@ module Events::Types
   ASSIGNEE_CHANGED = 'assignee.changed'
   TEAM_CHANGED = 'team.changed'
   CONVERSATION_TYPING_ON = 'conversation.typing_on'
+  CONVERSATION_RECORDING = 'conversation.recording'
   CONVERSATION_TYPING_OFF = 'conversation.typing_off'
   CONVERSATION_MENTIONED = 'conversation.mentioned'
+  CONVERSATION_UNREAD = 'conversation.unread'
 
   # message events
   MESSAGE_CREATED = 'message.created'
   FIRST_REPLY_CREATED = 'first.reply.created'
   REPLY_CREATED = 'reply.created'
   MESSAGE_UPDATED = 'message.updated'
+  MESSAGES_READ = 'messages.read'
 
   # contact events
   CONTACT_CREATED = 'contact.created'

@@ -36,7 +36,7 @@ class Team < ApplicationRecord
   # @return [Array<User>] Array of newly added members
   def add_members(user_ids)
     team_members_to_create = user_ids.map { |user_id| { user_id: user_id } }
-    created_members = team_members.create(team_members_to_create)
+    created_members = team_members.create!(team_members_to_create)
     added_users = created_members.filter_map(&:user)
 
     update_account_cache

@@ -202,7 +202,7 @@ RSpec.describe Inbox do
 
     it 'set portal id in inbox' do
       inbox.portal_id = portal.id
-      inbox.save
+      inbox.save!
 
       expect(inbox.portal).to eq(portal)
     end
@@ -210,7 +210,7 @@ RSpec.describe Inbox do
     it 'sends the inbox_created event if ENABLE_INBOX_EVENTS is true' do
       with_modified_env ENABLE_INBOX_EVENTS: 'true' do
         channel = inbox.channel
-        channel.update(widget_color: '#fff')
+        channel.update!(widget_color: '#fff')
 
         expect(Rails.configuration.dispatcher).to have_received(:dispatch)
           .with(
@@ -224,7 +224,7 @@ RSpec.describe Inbox do
 
     it 'sends the inbox_created event if ENABLE_INBOX_EVENTS is false' do
       channel = inbox.channel
-      channel.update(widget_color: '#fff')
+      channel.update!(widget_color: '#fff')
 
       expect(Rails.configuration.dispatcher).not_to have_received(:dispatch)
         .with(
@@ -237,7 +237,7 @@ RSpec.describe Inbox do
 
     it 'resets cache key if there is an update in the channel' do
       channel = inbox.channel
-      channel.update(widget_color: '#fff')
+      channel.update!(widget_color: '#fff')
 
       expect(Rails.configuration.dispatcher).to have_received(:dispatch)
         .with(
@@ -250,7 +250,7 @@ RSpec.describe Inbox do
 
     it 'updates the cache key after update' do
       expect(inbox.account).to receive(:update_cache_key).with('inbox')
-      inbox.update(name: 'New Name')
+      inbox.update!(name: 'New Name')
     end
 
     it 'updates the cache key after touch' do

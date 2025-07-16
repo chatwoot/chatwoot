@@ -110,6 +110,7 @@ class WebhookListener < BaseListener
   def deliver_account_webhooks(payload, account)
     account.webhooks.account_type.each do |webhook|
       next unless webhook.subscriptions.include?(payload[:event])
+      next if payload[:inbox].present? && webhook.inbox_id.present? && webhook.inbox_id != payload[:inbox][:id]
 
       WebhookJob.perform_later(webhook.url, payload)
     end

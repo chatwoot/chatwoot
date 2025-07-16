@@ -19,7 +19,7 @@ module Enterprise::Audit::TeamMember
   def create_audit_log_entry(action)
     return if team.blank?
 
-    Enterprise::AuditLog.create(
+    Enterprise::AuditLog.create!(
       auditable_id: id,
       auditable_type: 'TeamMember',
       action: action,
