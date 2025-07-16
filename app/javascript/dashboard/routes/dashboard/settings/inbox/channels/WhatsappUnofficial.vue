@@ -46,7 +46,7 @@ export default {
           inboxName: this.inboxName,
         });
         router.replace({
-          name: 'settings_inboxes_add_agents',
+          name: 'settings_inboxes_display_qrcode',
           params: {
             page: 'new',
             inbox_id: channel.inbox_id,
@@ -104,7 +104,7 @@ export default {
             Phone number must start with 62 and be valid
           </span>
         </label>
-        <p class="help-text">Enter the phone number in Indonesian format, starting with 62.</p>
+        <p class="help-text">Enter the phone number in Indonesian formatss, starting with 62.</p>
       </div>
 
       <!-- Submit Button -->

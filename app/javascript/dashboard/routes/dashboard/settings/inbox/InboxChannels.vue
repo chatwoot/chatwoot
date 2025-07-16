@@ -9,11 +9,12 @@ export default {
       globalConfig: 'globalConfig/get',
     }),
     createFlowSteps() {
-      const steps = ['CHANNEL', 'INBOX', 'AGENT', 'FINISH'];
+      const steps = ['CHANNEL', 'INBOX', 'QRCODE', 'AGENT', 'FINISH'];
 
       const routes = {
         CHANNEL: 'settings_inbox_new',
         INBOX: 'settings_inboxes_page_channel',
+        QRCODE: 'settings_inboxes_display_qrcode',
         AGENT: 'settings_inboxes_add_agents',
         FINISH: 'settings_inbox_finish',
       };

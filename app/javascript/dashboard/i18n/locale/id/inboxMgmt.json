@@ -17,6 +17,10 @@
         "TITLE": "Buat Channel",
         "BODY": "Otentikasi akun Anda dan buat channel."
       },
+      "QRCODE": {
+        "TITLE": "Tampilkan QR",
+        "BODY": "Tautkan nomor WhatsApp bisnis Anda dengan memindai kode QR."
+      },
       "AGENT": {
         "TITLE": "Tambahkan Agen",
         "BODY": "Tambahkan agen ke kotak masuk yang dibuat."
@@ -67,6 +71,10 @@
         "TWEETS": {
           "ENABLE": "Buat percakapan dari Tweet yang disebutkan"
         }
+      },
+      "QRCODE": {
+        "TITLE": "Tautkan Whatsapp",
+        "DESC": "Untuk mengaktifkan Bot AI Anda, silakan tautkan nomor WhatsApp bisnis Anda dengan memindai kode QR di bawah ini."
       },
       "WEBSITE_CHANNEL": {
         "TITLE": "Channel Website",
