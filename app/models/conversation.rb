@@ -146,7 +146,7 @@ class Conversation < ApplicationRecord
     # FIXME: implement state machine with aasm
     self.status = open? ? :resolved : :open
     self.status = :open if pending? || snoozed?
-    save!
+    save # rubocop:disable Rails/SaveBang
   end
 
   def toggle_priority(priority = nil)

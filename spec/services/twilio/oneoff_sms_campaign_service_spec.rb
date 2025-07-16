@@ -66,7 +66,7 @@ describe Twilio::OneoffSmsCampaignService do
       contact.update_labels([label1.title])
 
       expect(Liquid::CampaignTemplateService).to receive(:new).with(campaign: campaign, contact: contact).and_call_original
-      expect(twilio_messages).to receive(:create).once
+      expect(twilio_messages).to receive(:create!).once
 
       sms_campaign_service.perform
     end
