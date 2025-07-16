@@ -28,6 +28,9 @@ export default {
         (allowMessagesAfterResolved || !this.isConversationResolved)
       );
     },
+    shouldShowPreChatForm() {
+      return this.preChatFormEnabled && !this.hasActiveConversation;
+    },
   },
   methods: {
     ...mapActions('conversation', ['clearConversations']),
@@ -38,7 +41,10 @@ export default {
       }
       this.clearConversations();
       this.clearConversationAttributes();
-      return this.replaceRoute('prechat-form');
+      const nextRoute = this.shouldShowPreChatForm
+        ? 'prechat-form'
+        : 'messages';
+      return this.replaceRoute(nextRoute);
     },
   },
 };

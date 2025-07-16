@@ -50,6 +50,14 @@ export default {
         this.inReplyTo && (this.inReplyTo.content || this.inReplyTo.attachments)
       );
     },
+    hasActiveConversation() {
+      const { allowMessagesAfterResolved } = window.chatwootWebChannel || {};
+      const { status } = this.conversationAttributes;
+      return (
+        !!this.conversationSize &&
+        (allowMessagesAfterResolved || status !== 'resolved')
+      );
+    },
   },
   mounted() {
     emitter.on(BUS_EVENTS.TOGGLE_REPLY_TO_MESSAGE, this.toggleReplyTo);
@@ -65,15 +73,23 @@ export default {
       'clearConversationAttributes',
     ]),
     async handleSendMessage(content) {
-      await this.sendMessage({
-        content,
-        replyTo: this.inReplyTo ? this.inReplyTo.id : null,
-      });
-      // reset replyTo message after sending
-      this.inReplyTo = null;
-      // Update conversation attributes on new conversation
-      if (this.conversationSize === 0) {
-        this.getAttributes();
+      if (!this.hasActiveConversation) {
+        this.clearConversations();
+        this.clearConversationAttributes();
+        this.$store.dispatch('conversation/createConversation', {
+          message: content,
+        });
+      } else {
+        await this.sendMessage({
+          content,
+          replyTo: this.inReplyTo ? this.inReplyTo.id : null,
+        });
+        // reset replyTo message after sending
+        this.inReplyTo = null;
+        // Update conversation attributes on new conversation
+        if (this.conversationSize === 0) {
+          this.getAttributes();
+        }
       }
     },
     async handleSendAttachment(attachment) {
