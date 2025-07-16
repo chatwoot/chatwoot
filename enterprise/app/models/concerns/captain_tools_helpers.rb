@@ -1,6 +1,6 @@
 # Provides helper methods for working with Captain agent tools including
 # tool resolution, text parsing, and metadata retrieval.
-module CaptainToolsHelpers
+module Concerns::CaptainToolsHelpers
   extend ActiveSupport::Concern
 
   # Regular expression pattern for matching tool references in text.

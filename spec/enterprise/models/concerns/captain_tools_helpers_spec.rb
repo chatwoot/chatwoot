@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe CaptainToolsHelpers, type: :concern do
+RSpec.describe Concerns::CaptainToolsHelpers, type: :concern do
   # Create a test class that includes the concern
   let(:test_class) do
     Class.new do
-      include CaptainToolsHelpers
+      include Concerns::CaptainToolsHelpers
 
       def self.name
         'TestClass'
@@ -17,7 +17,7 @@ RSpec.describe CaptainToolsHelpers, type: :concern do
   describe 'TOOL_REFERENCE_REGEX' do
     it 'matches tool references in text' do
       text = 'Use (tool://add_contact_note) and (tool://update_priority)'
-      matches = text.scan(CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
+      matches = text.scan(Concerns::CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
 
       expect(matches.flatten).to eq(%w[add_contact_note update_priority])
     end
@@ -32,7 +32,7 @@ RSpec.describe CaptainToolsHelpers, type: :concern do
       ]
 
       invalid_formats.each do |format|
-        matches = format.scan(CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
+        matches = format.scan(Concerns::CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
         expect(matches).to be_empty, "Should not match: #{format}"
       end
     end
