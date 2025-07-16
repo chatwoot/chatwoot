@@ -1,5 +1,5 @@
 class Conversations::UpdateMessageStatusJob < ApplicationJob
-  queue_as :low
+  queue_as :deferred_update_message_status
 
   # This job only support marking messages as read or delivered, update this array if we want to support more statuses
   VALID_STATUSES = %w[read delivered].freeze
