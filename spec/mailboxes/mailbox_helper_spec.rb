@@ -95,7 +95,6 @@ RSpec.describe MailboxHelper do
       message = conversation.messages[0]
 
       expect(message.attachments.count).to eq(0)
-      mail_attachment = processed_mail.attachments[0]
 
       html_content = message.content_attributes[:email][:html_content][:full]
 
