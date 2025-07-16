@@ -150,6 +150,17 @@
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Open conversation"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Geen",
+      "LOW": "Laag",
+      "MEDIUM": "Gemiddeld",
+      "HIGH": "Hoog",
+      "URGENT": "Dringend"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",
