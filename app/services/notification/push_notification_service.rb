@@ -5,6 +5,7 @@ class Notification::PushNotificationService
 
   def perform
     return unless user_subscribed_to_notification?
+    return if user_notification_throttled?
 
     notification_subscriptions.each do |subscription|
       send_browser_push(subscription)
@@ -22,6 +23,26 @@ class Notification::PushNotificationService
   def user_subscribed_to_notification?
     notification_setting = notification_settings.find_by(account_id: notification.account.id)
     return true if notification_setting.public_send("push_#{notification.notification_type}?")
+
+    false
+  end
+
+  def user_notification_throttled?
+    # Throttle push notifications to prevent FCM rate limiting errors
+    # Limits each user to 5 notifications per minute to avoid overwhelming FCM API
+    max_notifications_per_minute = 5
+    one_minute_ago = 1.minute.ago
+
+    recent_notifications_count = Notification.where(
+      user: user,
+      account: notification.account,
+      created_at: one_minute_ago..Time.current
+    ).count
+
+    if recent_notifications_count >= max_notifications_per_minute
+      Rails.logger.info "User #{user.email} throttled: #{recent_notifications_count} notifications in last minute"
+      return true
+    end
 
     false
   end
