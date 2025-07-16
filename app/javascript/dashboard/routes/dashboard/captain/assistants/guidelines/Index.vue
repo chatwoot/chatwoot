@@ -242,7 +242,7 @@ const addAllExample = async () => {
                     'CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.PLACEHOLDER'
                   )
                 "
-                :label="
+                :button-label="
                   t('CAPTAIN.ASSISTANTS.RESPONSE_GUIDELINES.ADD.NEW.TITLE')
                 "
                 :confirm-label="

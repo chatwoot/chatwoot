@@ -10,7 +10,7 @@ import AddNewRulesDialog from './AddNewRulesDialog.vue';
     <Variant title="Default">
       <div class="px-4 py-4 bg-n-background h-[200px]">
         <AddNewRulesDialog
-          label="Add a guardrail"
+          button-label="Add a guardrail"
           placeholder="Type in another guardrail..."
           confirm-label="Create"
           cancel-label="Cancel"

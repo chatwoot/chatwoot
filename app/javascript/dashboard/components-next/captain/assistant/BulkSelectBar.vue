@@ -4,10 +4,6 @@ import Checkbox from 'dashboard/components-next/checkbox/Checkbox.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 
 const props = defineProps({
-  modelValue: {
-    type: Set,
-    required: true,
-  },
   allItems: {
     type: Array,
     required: true,
@@ -26,9 +22,14 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['update:modelValue', 'bulkDelete']);
+const emit = defineEmits(['bulkDelete']);
 
-const selectedCount = computed(() => props.modelValue.size);
+const modelValue = defineModel({
+  type: Set,
+  default: () => new Set(),
+});
+
+const selectedCount = computed(() => modelValue.value.size);
 const totalCount = computed(() => props.allItems.length);
 
 const hasSelected = computed(() => selectedCount.value > 0);
@@ -45,7 +46,7 @@ const bulkCheckboxState = computed({
     const newSelectedIds = shouldSelectAll
       ? new Set(props.allItems.map(item => item.id))
       : new Set();
-    emit('update:modelValue', newSelectedIds);
+    modelValue.value = newSelectedIds;
   },
 });
 </script>

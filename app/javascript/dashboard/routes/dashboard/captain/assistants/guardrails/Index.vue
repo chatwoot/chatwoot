@@ -229,7 +229,7 @@ const addAllExample = () => {
                 :placeholder="
                   t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.PLACEHOLDER')
                 "
-                :label="t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.TITLE')"
+                :button-label="t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.TITLE')"
                 :confirm-label="
                   t('CAPTAIN.ASSISTANTS.GUARDRAILS.ADD.NEW.CREATE')
                 "

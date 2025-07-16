@@ -1,14 +1,9 @@
 <script setup>
-import { computed } from 'vue';
 import Icon from 'dashboard/components-next/icon/Icon.vue';
 import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
+defineProps({
   placeholder: {
     type: String,
     default: '',
@@ -19,17 +14,17 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['add', 'update:modelValue']);
+const emit = defineEmits(['add']);
 
-const modelValue = computed({
-  get: () => props.modelValue,
-  set: val => emit('update:modelValue', val),
+const modelValue = defineModel({
+  type: String,
+  default: '',
 });
 
 const onClickAdd = () => {
-  if (!props.modelValue?.trim()) return;
-  emit('add', props.modelValue.trim());
-  emit('update:modelValue', '');
+  if (!modelValue.value?.trim()) return;
+  emit('add', modelValue.value.trim());
+  modelValue.value = '';
 };
 </script>
 

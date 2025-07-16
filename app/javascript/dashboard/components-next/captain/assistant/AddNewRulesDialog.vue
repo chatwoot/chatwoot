@@ -1,20 +1,15 @@
 <script setup>
-import { computed } from 'vue';
 import { useToggle } from '@vueuse/core';
 
 import Button from 'dashboard/components-next/button/Button.vue';
 import InlineInput from 'dashboard/components-next/inline-input/InlineInput.vue';
 
-const props = defineProps({
-  modelValue: {
-    type: String,
-    default: '',
-  },
+defineProps({
   placeholder: {
     type: String,
     default: '',
   },
-  label: {
+  buttonLabel: {
     type: String,
     default: '',
   },
@@ -28,19 +23,18 @@ const props = defineProps({
   },
 });
 
-const emit = defineEmits(['add', 'update:modelValue']);
+const emit = defineEmits(['add']);
 
-const [showPopover, togglePopover] = useToggle();
-
-const modelValue = computed({
-  get: () => props.modelValue,
-  set: val => emit('update:modelValue', val),
+const modelValue = defineModel({
+  type: String,
+  default: '',
 });
 
+const [showPopover, togglePopover] = useToggle();
 const onClickAdd = () => {
-  if (!props.modelValue?.trim()) return;
-  emit('add', props.modelValue.trim());
-  emit('update:modelValue', '');
+  if (!modelValue.value?.trim()) return;
+  emit('add', modelValue.value.trim());
+  modelValue.value = '';
   togglePopover(false);
 };
 
@@ -52,7 +46,7 @@ const onClickCancel = () => {
 <template>
   <div class="inline-flex relative">
     <Button
-      :label="label"
+      :label="buttonLabel"
       sm
       slate
       class="flex-shrink-0"
