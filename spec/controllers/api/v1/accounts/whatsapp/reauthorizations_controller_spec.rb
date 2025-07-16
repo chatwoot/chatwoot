@@ -13,17 +13,15 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
                                          'source' => 'embedded_signup'
                                        })
     allow(channel).to receive(:validate_provider_config).and_return(true)
+    allow(channel).to receive(:sync_templates).and_return(true)
+    allow(channel).to receive(:setup_webhooks).and_return(true)
     channel.save!
-    channel.authorization_error!  # Mark as requiring reauthorization
+    # Call authorization_error! twice to reach the threshold
+    channel.authorization_error!
+    channel.authorization_error!
     channel
   end
   let(:whatsapp_inbox) { create(:inbox, channel: whatsapp_channel, account: account) }
-
-  before do
-    allow(whatsapp_channel).to receive(:validate_provider_config).and_return(true)
-    allow(whatsapp_channel).to receive(:sync_templates).and_return(true)
-    allow(whatsapp_channel).to receive(:setup_webhooks).and_return(true)
-  end
 
   describe 'POST /api/v1/accounts/{account.id}/whatsapp/reauthorizations' do
     context 'when user is an administrator' do
@@ -36,11 +34,6 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
             waba_id: 'waba_123',
             phone_number_id: 'phone_123'
           }
-        end
-
-        before do
-          # Ensure channel is marked as requiring reauthorization
-          allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(true)
         end
 
         it 'reauthorizes the WhatsApp channel successfully' do
@@ -74,7 +67,8 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
             phone_number_id: 'phone_123',
             inbox: whatsapp_inbox
           ).and_return(reauth_service)
-          allow(reauth_service).to receive(:perform).and_return({ success: false, message: 'Token exchange failed' })
+          allow(reauth_service).to receive(:perform)
+            .and_return({ success: false, message: 'Token exchange failed' })
 
           post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
                params: valid_params,
@@ -100,12 +94,26 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
       end
 
       context 'when reauthorization is not required' do
-        it 'returns unprocessable entity error' do
-          # Mark channel as NOT requiring reauthorization
-          allow(whatsapp_channel).to receive(:reauthorization_required?).and_return(false)
+        let(:fresh_channel) do
+          channel = build(:channel_whatsapp, account: account, provider: 'whatsapp_cloud',
+                                             provider_config: {
+                                               'api_key' => 'test_token',
+                                               'phone_number_id' => '123456',
+                                               'business_account_id' => '654321',
+                                               'source' => 'embedded_signup'
+                                             })
+          allow(channel).to receive(:validate_provider_config).and_return(true)
+          allow(channel).to receive(:sync_templates).and_return(true)
+          allow(channel).to receive(:setup_webhooks).and_return(true)
+          channel.save!
+          # Do NOT call authorization_error! - channel is working fine
+          channel
+        end
+        let(:fresh_inbox) { create(:inbox, channel: fresh_channel, account: account) }
 
+        it 'returns unprocessable entity error' do
           post "/api/v1/accounts/#{account.id}/whatsapp/reauthorizations",
-               params: { inbox_id: whatsapp_inbox.id },
+               params: { inbox_id: fresh_inbox.id },
                headers: admin.create_new_auth_token,
                as: :json
 
@@ -121,8 +129,9 @@ RSpec.describe 'WhatsApp Reauthorizations API', type: :request do
             .to_return(status: 200, body: '{}', headers: {})
 
           channel = build(:channel_facebook_page, account: account)
-          allow(channel).to receive(:reauthorization_required?).and_return(true)
           channel.save!
+          # Call authorization_error! twice to reach the threshold
+          channel.authorization_error!
           channel.authorization_error!
           channel
         end
