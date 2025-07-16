@@ -24,14 +24,14 @@ class Captain::Tools::BasePublicTool < Agents::Tool
   end
 
   def find_conversation(state)
-    conversation_id = state[:conversation][:id]
+    conversation_id = state&.dig(:conversation, :id)
     return nil unless conversation_id
 
     account_scoped(::Conversation).find_by(id: conversation_id)
   end
 
   def find_contact(state)
-    contact_id = state[:contact][:id]
+    contact_id = state&.dig(:contact, :id)
     return nil unless contact_id
 
     account_scoped(::Contact).find_by(id: contact_id)
