@@ -21,9 +21,9 @@
   - default
   - mailers
   - action_mailbox_routing
+  - deferred_update_message_status
   - low
   - scheduled_jobs
-  - deferred_update_message_status
   - deferred
   - housekeeping
   - async_database_migration
