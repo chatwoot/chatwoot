@@ -127,7 +127,7 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
-                          instruction: 'Use [@Add Contact Note](tool://add_contact_note) and [@Contact Note](tool://add_contact_note) again')
+                          instruction: 'Use [@Add Contact Note](tool://add_contact_note) and [@Add Contact Note](tool://add_contact_note) again')
 
         expect(scenario.tools).to eq(['add_contact_note'])
       end
