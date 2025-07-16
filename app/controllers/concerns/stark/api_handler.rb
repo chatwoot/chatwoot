@@ -47,7 +47,8 @@ module Stark
       response = HTTParty.post(
         agent_bot.outgoing_url,
         body: build_request_payload(conversation, content).to_json,
-        headers: build_request_headers
+        headers: build_request_headers,
+        timeout: 60
       )
 
       parse_response_body(response)

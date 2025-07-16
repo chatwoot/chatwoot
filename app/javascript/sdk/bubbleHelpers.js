@@ -23,7 +23,7 @@ export const setBubbleText = bubbleText => {
 export const createBubbleIcon = ({ className, path, target, widgetColor }) => {
   let bubbleClassName = `${className} woot-elements--${window.$chatwoot.position}`;
 
-  const avatarUrl = window.chatwootSettings.avatarUrl;
+  const avatarUrl = window.chatwootSettings?.avatarUrl;
   let avatarImg = null;
   if (avatarUrl) {
     avatarImg = document.createElement('img');
