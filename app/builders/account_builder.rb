@@ -5,10 +5,7 @@ class AccountBuilder
   pattr_initialize [:account_name, :email!, :confirmed, :user, :user_full_name, :user_password, :super_admin, :locale]
 
   def perform
-    if @user.nil?
-      validate_email
-      validate_user
-    end
+    validate_user if @user.nil?
     ActiveRecord::Base.transaction do
       @account = create_account
       @user = create_and_link_user
