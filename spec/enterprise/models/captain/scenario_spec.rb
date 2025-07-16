@@ -58,7 +58,7 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
-                         instruction: 'Use (tool://add_contact_note) to document')
+                         instruction: 'Use [@Add Contact Note](tool://add_contact_note) to document')
 
         expect(scenario).to be_valid
       end
@@ -67,7 +67,7 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
-                         instruction: 'Use (tool://invalid_tool) to process')
+                         instruction: 'Use [@Invalid Tool](tool://invalid_tool) to process')
 
         expect(scenario).not_to be_valid
         expect(scenario.errors[:instruction]).to include('contains invalid tools: invalid_tool')
@@ -77,7 +77,7 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = build(:captain_scenario,
                          assistant: assistant,
                          account: account,
-                         instruction: 'Use (tool://invalid_tool) and (tool://another_invalid)')
+                         instruction: 'Use [@Invalid Tool](tool://invalid_tool) and [@Another Invalid](tool://another_invalid)')
 
         expect(scenario).not_to be_valid
         expect(scenario.errors[:instruction]).to include('contains invalid tools: invalid_tool, another_invalid')
@@ -109,7 +109,7 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
-                          instruction: 'First (tool://add_contact_note) then (tool://update_priority)')
+                          instruction: 'First [@Add Contact Note](tool://add_contact_note) then [@Update Priority](tool://update_priority)')
 
         expect(scenario.tools).to eq(%w[add_contact_note update_priority])
       end
@@ -127,7 +127,7 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
-                          instruction: 'Use (tool://add_contact_note) and (tool://add_contact_note) again')
+                          instruction: 'Use [@Add Contact Note](tool://add_contact_note) and [@Contact Note](tool://add_contact_note) again')
 
         expect(scenario.tools).to eq(['add_contact_note'])
       end
@@ -136,11 +136,11 @@ RSpec.describe Captain::Scenario, type: :model do
         scenario = create(:captain_scenario,
                           assistant: assistant,
                           account: account,
-                          instruction: 'Use (tool://add_contact_note)')
+                          instruction: 'Use [@Add Contact Note](tool://add_contact_note)')
 
         expect(scenario.tools).to eq(['add_contact_note'])
 
-        scenario.update!(instruction: 'Use (tool://update_priority) instead')
+        scenario.update!(instruction: 'Use [@Update Priority](tool://update_priority) instead')
         expect(scenario.tools).to eq(['update_priority'])
       end
     end

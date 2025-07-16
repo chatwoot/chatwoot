@@ -59,7 +59,7 @@ class Captain::Scenario < ApplicationRecord
   end
 
   def resolved_instructions
-    instruction.gsub(%r{\(tool://(\w+)\)}) do |match|
+    instruction.gsub(TOOL_REFERENCE_REGEX) do |match|
       "#{match} tool "
     end
   end
