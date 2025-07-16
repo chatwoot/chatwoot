@@ -64,31 +64,35 @@ class Channel::WebWidget < ApplicationRecord
   end
 
   def web_widget_script
-    "
-    <script>
-      (function(d,t) {
-        var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
-        var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
-        g.src=BASE_URL+\"/packs/js/sdk.js\";
-        g.defer = true;
-        g.async = true;
-        s.parentNode.insertBefore(g,s);
-        g.onload=function(){
-          window.chatwootSDK.run({
-            websiteToken: '#{website_token}',
-            baseUrl: BASE_URL
-          });
-          
-          setTimeout(function() {
-            if (window.$chatwoot) {
-              window.$chatwoot.toggle('open');
-            }
-          }, 5000);
-        };
-      })(document,\"script\");
-    </script>
-    "
-  end
+  "
+  <script>
+
+    (function(d,t) {
+      var BASE_URL=\"#{ENV.fetch('FRONTEND_URL', '')}\";
+      var g=d.createElement(t),s=d.getElementsByTagName(t)[0];
+      g.src=BASE_URL+\"/packs/js/sdk.js\";
+      g.defer = true;
+      g.async = true;
+      s.parentNode.insertBefore(g,s);
+      g.onload=function(){
+        window.chatwootSDK.run({
+          websiteToken: '#{website_token}',
+          baseUrl: BASE_URL
+        });
+      };
+    })(document,\"script\");
+
+    window.addEventListener('chatwoot:ready', function() {
+      setTimeout(function() {
+        if (window.$chatwoot) {
+          window.$chatwoot.toggle('open');
+        }
+      }, 3000);
+    });
+    
+  </script>
+  "
+end
 
   def validate_pre_chat_options
     return if pre_chat_form_options.with_indifferent_access['pre_chat_fields'].present?

@@ -21,8 +21,8 @@ const router = createRouter({
       children: [
         {
           path: '',
-          name: 'home',
-          component: () => import('./views/Home.vue'),
+          name: 'messages',
+          component: () => import('./views/Messages.vue'),
         },
         {
           path: '/prechat-form',
@@ -31,7 +31,7 @@ const router = createRouter({
         },
         {
           path: '/messages',
-          name: 'messages',
+          name: 'messages-alias',
           component: () => import('./views/Messages.vue'),
         },
         {
