@@ -64,14 +64,12 @@ export default {
         ? getLanguageDirection(this.$root.$i18n.locale)
         : false;
     },
-    isConversationResolved() {
-      return this.conversationAttributes?.status === 'resolved';
-    },
     hasActiveConversation() {
       const { allowMessagesAfterResolved } = window.chatwootWebChannel || {};
+      const { status } = this.conversationAttributes;
       return (
         !!this.messageCount &&
-        (allowMessagesAfterResolved || !this.isConversationResolved)
+        (allowMessagesAfterResolved || status !== 'resolved')
       );
     },
   },
