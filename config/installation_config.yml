@@ -87,11 +87,14 @@
 
 # ------- Email Related Config ------- #
 - name: MAILER_INBOUND_EMAIL_DOMAIN
+  display_title: 'Inbound Email Domain'
   value:
   description: 'The domain name to be used for generating conversation continuity emails (reply+id@domain.com)'
   locked: false
 - name: MAILER_SUPPORT_EMAIL
+  display_title: 'Support Email'
   value:
+  description: 'The support email address for your installation'
   locked: false
 # ------- End of Email Related Config ------- #
 
@@ -125,6 +128,26 @@
   description: 'Enable human agent for messenger channel for longer message back period. Needs additional app approval: https://developers.facebook.com/docs/features-reference/human-agent/'
   type: boolean
 # ------- End of Facebook Channel Related Config ------- #
+
+# ------- WhatsApp Channel Related Config ------- #
+- name: WHATSAPP_APP_ID
+  display_title: 'WhatsApp App ID'
+  description: 'The Facebook App ID for WhatsApp Business API integration'
+  locked: false
+- name: WHATSAPP_CONFIGURATION_ID
+  display_title: 'WhatsApp Configuration ID'
+  description: 'The Configuration ID for WhatsApp Embedded Signup flow (required for embedded signup)'
+  locked: false
+- name: WHATSAPP_APP_SECRET
+  display_title: 'WhatsApp App Secret'
+  description: 'The App Secret for WhatsApp Embedded Signup flow (required for embedded signup)'
+  locked: false
+- name: WHATSAPP_API_VERSION
+  display_title: 'WhatsApp API Version'
+  description: 'Configure this if you want to use a different WhatsApp API version. Make sure its prefixed with `v`'
+  value: 'v22.0'
+  locked: false
+# ------- End of WhatsApp Channel Related Config ------- #
 
 # MARK: Microsoft Email Channel Config
 - name: AZURE_APP_ID
@@ -288,6 +311,25 @@
   type: secret
 ## ------ End of Configs added for Linear ------ ##
 
+## ------ Configs added for Notion ------ ##
+- name: NOTION_CLIENT_ID
+  display_title: 'Notion Client ID'
+  value:
+  locked: false
+  description: 'Notion client ID'
+- name: NOTION_CLIENT_SECRET
+  display_title: 'Notion Client Secret'
+  value:
+  locked: false
+  description: 'Notion client secret'
+  type: secret
+- name: NOTION_VERSION
+  display_title: 'Notion Version'
+  value: '2022-06-28'
+  locked: false
+  description: 'Notion version'
+## ------ End of Configs added for Notion ------ ##
+
 ## ------ Configs added for Slack ------ ##
 - name: SLACK_CLIENT_ID
   display_title: 'Slack Client ID'
@@ -341,3 +383,36 @@
   value: 'v22.0'
   locked: true
 # ------- End of Instagram Channel Related Config ------- #
+
+# ------- OG Image Related Config ------- #
+- name: OG_IMAGE_CDN_URL
+  display_title: 'OG Image CDN URL'
+  description: 'The CDN URL for serving OG images'
+  value: ''
+  locked: false
+- name: OG_IMAGE_CLIENT_REF
+  display_title: 'OG Image Client Reference'
+  description: 'Token used to block unauthorized access to OG images'
+  value: ''
+  locked: false
+  type: secret
+# ------- End of OG Image Related Config ------- #
+
+## ------ Configs added for Google OAuth ------ ##
+- name: GOOGLE_OAUTH_CLIENT_ID
+  display_title: 'Google OAuth Client ID'
+  value:
+  locked: false
+  description: 'Google OAuth Client ID for email authentication'
+- name: GOOGLE_OAUTH_CLIENT_SECRET
+  display_title: 'Google OAuth Client Secret'
+  value:
+  locked: false
+  description: 'Google OAuth Client Secret for email authentication'
+  type: secret
+- name: GOOGLE_OAUTH_REDIRECT_URI
+  display_title: 'Google OAuth Redirect URI'
+  value:
+  locked: false
+  description: 'The redirect URI configured in your Google OAuth app'
+## ------ End of Configs added for Google OAuth ------ ##

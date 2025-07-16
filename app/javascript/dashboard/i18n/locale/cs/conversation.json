@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Příští týden"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agenti",
+      "TEAMS": "Týmy"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Odložit do",
       "APPLY": "Odložit",

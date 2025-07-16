@@ -96,6 +96,10 @@
         "NEXT_WEEK": "下周"
       }
     },
+    "MENTION": {
+      "AGENTS": "客服",
+      "TEAMS": "团队"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "推迟到",
       "APPLY": "推迟",

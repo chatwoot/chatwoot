@@ -42,6 +42,7 @@ class Captain::OpenAiMessageBuilderService
   end
 
   def get_attachment_url(attachment)
+    return attachment.download_url if attachment.download_url.present?
     return attachment.external_url if attachment.external_url.present?
 
     attachment.file.attached? ? attachment.file_url : nil

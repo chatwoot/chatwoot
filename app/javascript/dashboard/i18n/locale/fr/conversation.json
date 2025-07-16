@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Semaine prochaine"
       }
     },
+    "MENTION": {
+      "AGENTS": "Agents",
+      "TEAMS": "Équipes"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Reporter jusqu'à",
       "APPLY": "Reporter",

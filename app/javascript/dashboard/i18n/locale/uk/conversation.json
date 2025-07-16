@@ -96,6 +96,10 @@
         "NEXT_WEEK": "Наступного тижня"
       }
     },
+    "MENTION": {
+      "AGENTS": "Агенти",
+      "TEAMS": "Команди"
+    },
     "CUSTOM_SNOOZE": {
       "TITLE": "Відкласти до",
       "APPLY": "Відкласти",
