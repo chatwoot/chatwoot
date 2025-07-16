@@ -57,6 +57,7 @@ Rails.application.routes.draw do
                 post :playground
               end
               resources :inboxes, only: [:index, :create, :destroy], param: :inbox_id
+              resources :scenarios
             end
             resources :assistant_responses
             resources :bulk_actions, only: [:create]
@@ -230,6 +231,14 @@ Rails.application.routes.draw do
             resource :authorization, only: [:create]
           end
 
+          namespace :notion do
+            resource :authorization, only: [:create]
+          end
+
+          namespace :whatsapp do
+            resource :authorization, only: [:create]
+          end
+
           resources :webhooks, only: [:index, :create, :update, :destroy]
           namespace :integrations do
             resources :apps, only: [:index, :show]
@@ -265,6 +274,11 @@ Rails.application.routes.draw do
                 post :unlink_issue
                 get :search_issue
                 get :linked_issues
+              end
+            end
+            resource :notion, controller: 'notion', only: [] do
+              collection do
+                delete :destroy
               end
             end
           end
@@ -346,6 +360,7 @@ Rails.application.routes.draw do
               get :agent
               get :team
               get :inbox
+              get :label
             end
           end
           resources :reports, only: [:index] do
@@ -494,6 +509,7 @@ Rails.application.routes.draw do
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
   get 'instagram/callback', to: 'instagram/callbacks#show'
+  get 'notion/callback', to: 'notion/callbacks#show'
   # ----------------------------------------------------------------------
   # Routes for external service verifications
   get '.well-known/assetlinks.json' => 'android_app#assetlinks'
@@ -524,7 +540,7 @@ Rails.application.routes.draw do
 
       resources :access_tokens, only: [:index, :show]
       resources :installation_configs, only: [:index, :new, :create, :show, :edit, :update]
-      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update] do
+      resources :agent_bots, only: [:index, :new, :create, :show, :edit, :update, :destroy] do
         delete :avatar, on: :member, action: :destroy_avatar
       end
       resources :platform_apps, only: [:index, :new, :create, :show, :edit, :update, :destroy]

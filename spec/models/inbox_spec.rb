@@ -262,7 +262,7 @@ RSpec.describe Inbox do
   describe '#sanitized_name' do
     context 'when inbox name contains forbidden characters' do
       it 'removes forbidden and spam-trigger characters' do
-        inbox = FactoryBot.build(:inbox, name: 'Test/Name\\With<Bad>@Characters"And\'Quotes!#$%')
+        inbox = FactoryBot.build(:inbox, name: 'Test/Name\\With<Bad>@Characters"And\';:Quotes!#$%')
         expect(inbox.sanitized_name).to eq('Test/NameWithBadCharactersAnd\'Quotes')
       end
     end

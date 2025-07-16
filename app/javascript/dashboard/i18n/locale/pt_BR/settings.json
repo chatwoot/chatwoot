@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Token de acesso",
         "NOTE": "Esse token pode ser usado se você estiver criando uma integração baseada em API",
-        "COPY": "Copiar"
+        "COPY": "Copiar",
+        "RESET": "Reiniciar",
+        "CONFIRM_RESET": "Você tem certeza?",
+        "CONFIRM_HINT": "Clique novamente para confirmar",
+        "RESET_SUCCESS": "Token de acesso gerado novamente com sucesso",
+        "RESET_ERROR": "Não foi possível regerar o token de acesso. Por favor, tente novamente"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Alertas de áudio",
@@ -185,7 +190,8 @@
           "OFFLINE": "Offline"
         },
         "SET_AVAILABILITY_SUCCESS": "Disponibilidade foi definida com sucesso",
-        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente"
+        "SET_AVAILABILITY_ERROR": "Não foi possível definir a disponibilidade, por favor tente novamente",
+        "IMPERSONATING_ERROR": "Não é possível alterar a disponibilidade enquanto personifica um usuário"
       },
       "EMAIL": {
         "LABEL": "Seu e-mail",
@@ -280,6 +286,7 @@
     "REPORTS": "Relatórios",
     "SETTINGS": "Configurações",
     "CONTACTS": "Contatos",
+    "ACTIVE": "Ativo",
     "CAPTAIN": "Capitão",
     "CAPTAIN_ASSISTANTS": "Assistentes",
     "CAPTAIN_DOCUMENTS": "Documentos",

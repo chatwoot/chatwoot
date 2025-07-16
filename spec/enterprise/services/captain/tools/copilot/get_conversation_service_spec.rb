@@ -128,6 +128,29 @@ RSpec.describe Captain::Tools::Copilot::GetConversationService do
         expect(result).to eq(conversation.to_llm_text)
       end
 
+      it 'includes private messages in the llm text format' do
+        # Create a regular message
+        create(:message,
+               conversation: conversation,
+               message_type: 'outgoing',
+               content: 'Regular message',
+               private: false)
+
+        # Create a private message
+        create(:message,
+               conversation: conversation,
+               message_type: 'outgoing',
+               content: 'Private note content',
+               private: true)
+
+        result = service.execute({ 'conversation_id' => conversation.display_id })
+
+        # Verify that the result includes both regular and private messages
+        expect(result).to include('Regular message')
+        expect(result).to include('Private note content')
+        expect(result).to include('[Private Note]')
+      end
+
       context 'when conversation belongs to different account' do
         let(:other_account) { create(:account) }
         let(:other_inbox) { create(:inbox, account: other_account) }

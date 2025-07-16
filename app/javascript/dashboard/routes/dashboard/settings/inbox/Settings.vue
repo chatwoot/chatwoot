@@ -86,6 +86,12 @@ export default {
     selectedTabKey() {
       return this.tabs[this.selectedTabIndex]?.key;
     },
+    shouldShowWhatsAppConfiguration() {
+      return !!(
+        this.isAWhatsAppCloudChannel &&
+        this.inbox.provider_config?.source !== 'embedded_signup'
+      );
+    },
     whatsAppAPIProviderName() {
       if (this.isAWhatsAppCloudChannel) {
         return this.$t('INBOX_MGMT.ADD.WHATSAPP.PROVIDERS.WHATSAPP_CLOUD');
@@ -140,8 +146,9 @@ export default {
         this.isALineChannel ||
         this.isAPIInbox ||
         (this.isAnEmailChannel && !this.inbox.provider) ||
-        this.isAWhatsAppChannel ||
-        this.isAWebWidgetInbox
+        this.shouldShowWhatsAppConfiguration ||
+        this.isAWebWidgetInbox ||
+        this.isAWhatsAppBaileysChannel
       ) {
         visibleToAllChannelTabs = [
           ...visibleToAllChannelTabs,
@@ -386,14 +393,14 @@ export default {
 
 <template>
   <div
-    class="flex-grow flex-shrink w-full min-w-0 pl-0 pr-0 overflow-auto settings"
+    class="overflow-auto flex-grow flex-shrink pr-0 pl-0 w-full min-w-0 settings"
   >
     <SettingIntroBanner
       :header-image="inbox.avatarUrl"
       :header-title="inboxName"
     >
       <woot-tabs
-        class="settings--tabs"
+        class="[&_ul]:p-0"
         :index="selectedTabIndex"
         :border="false"
         @change="onTabChange"
@@ -404,10 +411,11 @@ export default {
           :index="index"
           :name="tab.name"
           :show-badge="false"
+          is-compact
         />
       </woot-tabs>
     </SettingIntroBanner>
-    <section class="w-full max-w-6xl mx-auto">
+    <section class="mx-auto w-full max-w-6xl">
       <MicrosoftReauthorize v-if="microsoftUnauthorized" :inbox="inbox" />
       <FacebookReauthorize v-if="facebookUnauthorized" :inbox="inbox" />
       <GoogleReauthorize v-if="googleUnauthorized" :inbox="inbox" />
@@ -737,7 +745,7 @@ export default {
               :business-name="businessName"
               @update="toggleSenderNameType"
             />
-            <div class="flex flex-col items-start gap-2 mt-2">
+            <div class="flex flex-col gap-2 items-start mt-2">
               <NextButton
                 ghost
                 blue
@@ -817,11 +825,3 @@ export default {
     </section>
   </div>
 </template>
-
-<style scoped lang="scss">
-.settings--tabs {
-  ::v-deep .tabs {
-    @apply p-0;
-  }
-}
-</style>

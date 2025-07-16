@@ -85,7 +85,7 @@
       "ATLEAST_ONE_ACTION_REQUIRED": "At least one action is required"
     },
     "ACTIONS": {
-      "ASSIGN_TEAM": "Assign a Team",
+      "ASSIGN_TEAM": "Dodijeli tim",
       "ASSIGN_AGENT": "Assign an Agent",
       "ADD_LABEL": "Add a Label",
       "REMOVE_LABEL": "Remove a Label",
@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "Promjena prioriteta",
       "ADD_PRIVATE_NOTE": "Add a Private Note",
       "SEND_WEBHOOK_EVENT": "Send Webhook Event"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "None",
+      "LOW": "Nisko",
+      "MEDIUM": "Srednje",
+      "HIGH": "Visoko",
+      "URGENT": "Hitno"
     }
   }
 }

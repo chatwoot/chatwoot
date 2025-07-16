@@ -117,5 +117,27 @@ RSpec.describe AutomationRules::ActionService do
         expect(mailer).to have_received(:conversation_transcript).exactly(1).times
       end
     end
+
+    describe '#perform with add_private_note action' do
+      let(:message_builder) { double }
+
+      before do
+        allow(Messages::MessageBuilder).to receive(:new).and_return(message_builder)
+        rule.actions.delete_if { |a| a['action_name'] == 'send_message' }
+        rule.actions << { action_name: 'add_private_note', action_params: ['Note'] }
+      end
+
+      it 'will add private note' do
+        expect(message_builder).to receive(:perform)
+        described_class.new(rule, account, conversation).perform
+      end
+
+      it 'will not add note if conversation is a tweet' do
+        twitter_inbox = create(:inbox, channel: create(:channel_twitter_profile, account: account))
+        conversation = create(:conversation, inbox: twitter_inbox, additional_attributes: { type: 'tweet' })
+        expect(message_builder).not_to receive(:perform)
+        described_class.new(rule, account, conversation).perform
+      end
+    end
   end
 end

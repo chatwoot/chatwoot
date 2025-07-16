@@ -98,8 +98,11 @@ const hasValue = computed(() => {
       </Button>
       <!-- NOTE: Without @click.prevent, the dropdown does not behave as expected when used inside a <label> tag. -->
       <div
-        :class="{ 'dropdown-pane--open': showSearchDropdown }"
-        class="dropdown-pane"
+        :class="{
+          'block visible': showSearchDropdown,
+          'hidden invisible': !showSearchDropdown,
+        }"
+        class="box-border top-[2.625rem] w-full border rounded-lg bg-n-alpha-3 backdrop-blur-[100px] absolute shadow-lg border-n-strong dark:border-n-strong p-2 z-[9999]"
         @click.prevent
       >
         <div class="flex items-center justify-between mb-1">
@@ -123,9 +126,3 @@ const hasValue = computed(() => {
     </div>
   </OnClickOutside>
 </template>
-
-<style lang="scss" scoped>
-.dropdown-pane {
-  @apply box-border top-[2.625rem] w-full;
-}
-</style>

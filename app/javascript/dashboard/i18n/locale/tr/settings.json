@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "Erişim Jetonu",
         "NOTE": "Bu simge, API tabanlı bir entegrasyon oluşturuyorsanız kullanılabilir",
-        "COPY": "Kopyala"
+        "COPY": "Kopyala",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Emin misiniz?",
+        "CONFIRM_HINT": "Onaylamak için tekrar tıklayın",
+        "RESET_SUCCESS": "Erişim anahtarı başarıyla yeniden oluşturuldu",
+        "RESET_ERROR": "Erişim anahtarı yeniden oluşturulamadı. Lütfen tekrar deneyin"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Sesli Uyarılar",
@@ -185,7 +190,8 @@
           "OFFLINE": "Çevrimdışı"
         },
         "SET_AVAILABILITY_SUCCESS": "Uygunluk başarıyla ayarlandı",
-        "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin"
+        "SET_AVAILABILITY_ERROR": "Uygunluk ayarlanamadı, lütfen tekrar deneyin",
+        "IMPERSONATING_ERROR": "Bir kullanıcıyı taklit ederken kullanılabilirlik değiştirilemez"
       },
       "EMAIL": {
         "LABEL": "E-posta Adresiniz",
@@ -280,6 +286,7 @@
     "REPORTS": "Raporlar",
     "SETTINGS": "Ayarlar",
     "CONTACTS": "Kişiler",
+    "ACTIVE": "Aktif",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

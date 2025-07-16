@@ -284,7 +284,7 @@ Rails/RedundantActiveRecordAllMethod:
   Enabled: false
 
 Layout/TrailingEmptyLines:
-  Enabled: false
+  Enabled: true
 
 Style/SafeNavigationChainLength:
   Enabled: false

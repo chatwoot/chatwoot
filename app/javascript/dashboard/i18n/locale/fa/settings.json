@@ -76,7 +76,12 @@
       "ACCESS_TOKEN": {
         "TITLE": "توکن دسترسی",
         "NOTE": "از این توکن برای دسترسی از طریق API استفاده می‌شود",
-        "COPY": "کپی"
+        "COPY": "کپی",
+        "RESET": "Reset",
+        "CONFIRM_RESET": "Are you sure?",
+        "CONFIRM_HINT": "Click again to confirm",
+        "RESET_SUCCESS": "Access token regenerated successfully",
+        "RESET_ERROR": "Unable to regenerate access token. Please try again"
       },
       "AUDIO_NOTIFICATIONS_SECTION": {
         "TITLE": "Audio Alerts",
@@ -185,7 +190,8 @@
           "OFFLINE": "آفلاین"
         },
         "SET_AVAILABILITY_SUCCESS": "در دسترس بودن با موفقیت تنظیم شد",
-        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید"
+        "SET_AVAILABILITY_ERROR": "در دسترس بودن تنظیم نشد، لطفا دوباره امتحان کنید",
+        "IMPERSONATING_ERROR": "Cannot change availability while impersonating a user"
       },
       "EMAIL": {
         "LABEL": "ایمیل شما",
@@ -280,6 +286,7 @@
     "REPORTS": "گزارشات",
     "SETTINGS": "تنظیمات",
     "CONTACTS": "مخاطبین",
+    "ACTIVE": "فعال",
     "CAPTAIN": "Captain",
     "CAPTAIN_ASSISTANTS": "Assistants",
     "CAPTAIN_DOCUMENTS": "Documents",

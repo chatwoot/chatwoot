@@ -11,8 +11,6 @@ import SLACardLabel from './components/SLACardLabel.vue';
 import wootConstants from 'dashboard/constants/globals';
 import { conversationListPageURL } from 'dashboard/helper/URLHelper';
 import { snoozedReopenTime } from 'dashboard/helper/snoozeHelpers';
-import { FEATURE_FLAGS } from 'dashboard/featureFlags';
-import Linear from './linear/index.vue';
 import { useInbox } from 'dashboard/composables/useInbox';
 import { useI18n } from 'vue-i18n';
 
@@ -36,26 +34,26 @@ const { isAWebWidgetInbox } = useInbox();
 
 const currentChat = computed(() => store.getters.getSelectedChat);
 const accountId = computed(() => store.getters.getCurrentAccountId);
-const isFeatureEnabledonAccount = computed(
-  () => store.getters['accounts/isFeatureEnabledonAccount']
-);
-const appIntegrations = computed(
-  () => store.getters['integrations/getAppIntegrations']
-);
 
 const chatMetadata = computed(() => props.chat.meta);
 
 const backButtonUrl = computed(() => {
   const {
-    params: { inbox_id: inboxId, label, teamId },
+    params: { inbox_id: inboxId, label, teamId, id: customViewId },
     name,
   } = route;
+
+  const conversationTypeMap = {
+    conversation_through_mentions: 'mention',
+    conversation_through_unattended: 'unattended',
+  };
   return conversationListPageURL({
-    accountId,
+    accountId: accountId.value,
     inboxId,
     label,
     teamId,
-    conversationType: name === 'conversation_mentions' ? 'mention' : '',
+    conversationType: conversationTypeMap[name],
+    customViewId,
   });
 });
 
@@ -92,16 +90,6 @@ const hasMultipleInboxes = computed(
 );
 
 const hasSlaPolicyId = computed(() => props.chat?.sla_policy_id);
-
-const isLinearIntegrationEnabled = computed(() =>
-  appIntegrations.value.find(
-    integration => integration.id === 'linear' && !!integration.hooks.length
-  )
-);
-
-const isLinearFeatureEnabled = computed(() =>
-  isFeatureEnabledonAccount.value(accountId.value, FEATURE_FLAGS.LINEAR)
-);
 </script>
 
 <template>
@@ -159,12 +147,6 @@ const isLinearFeatureEnabled = computed(() =>
         v-if="hasSlaPolicyId"
         :chat="chat"
         show-extended-info
-        :parent-width="width"
-        class="hidden md:flex"
-      />
-      <Linear
-        v-if="isLinearIntegrationEnabled && isLinearFeatureEnabled"
-        :conversation-id="currentChat.id"
         :parent-width="width"
         class="hidden md:flex"
       />

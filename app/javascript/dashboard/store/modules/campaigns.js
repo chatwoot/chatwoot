@@ -3,6 +3,8 @@ import types from '../mutation-types';
 import CampaignsAPI from '../../api/campaigns';
 import AnalyticsHelper from '../../helper/AnalyticsHelper';
 import { CAMPAIGNS_EVENTS } from '../../helper/AnalyticsHelper/events';
+import { CAMPAIGN_TYPES } from 'shared/constants/campaign';
+import { INBOX_TYPES } from 'dashboard/helper/inbox';
 
 export const state = {
   records: [],
@@ -16,10 +18,35 @@ export const getters = {
   getUIFlags(_state) {
     return _state.uiFlags;
   },
-  getCampaigns: _state => campaignType => {
-    return _state.records
-      .filter(record => record.campaign_type === campaignType)
-      .sort((a1, a2) => a1.id - a2.id);
+  getCampaigns:
+    _state =>
+    (campaignType, inboxChannelTypes = null) => {
+      let filteredRecords = _state.records.filter(
+        record => record.campaign_type === campaignType
+      );
+
+      if (inboxChannelTypes && Array.isArray(inboxChannelTypes)) {
+        filteredRecords = filteredRecords.filter(record => {
+          return (
+            record.inbox &&
+            inboxChannelTypes.includes(record.inbox.channel_type)
+          );
+        });
+      }
+
+      return filteredRecords.sort((a1, a2) => a1.id - a2.id);
+    },
+  getSMSCampaigns: (_state, _getters) => {
+    const smsChannelTypes = [INBOX_TYPES.SMS, INBOX_TYPES.TWILIO];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, smsChannelTypes);
+  },
+  getWhatsAppCampaigns: (_state, _getters) => {
+    const whatsappChannelTypes = [INBOX_TYPES.WHATSAPP];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONE_OFF, whatsappChannelTypes);
+  },
+  getLiveChatCampaigns: (_state, _getters) => {
+    const liveChatChannelTypes = [INBOX_TYPES.WEB];
+    return _getters.getCampaigns(CAMPAIGN_TYPES.ONGOING, liveChatChannelTypes);
   },
   getAllCampaigns: _state => {
     return _state.records;
