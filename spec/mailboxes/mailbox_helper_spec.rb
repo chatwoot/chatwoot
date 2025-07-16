@@ -83,7 +83,7 @@ RSpec.describe MailboxHelper do
     let(:processed_mail) { MailPresenter.new(mail) }
     let(:conversation) { create(:conversation) }
     let(:helper_instance) { mailbox_helper_obj.new(conversation, processed_mail) }
-    
+
     before do
       helper_instance.send(:create_message)
     end
@@ -102,5 +102,4 @@ RSpec.describe MailboxHelper do
       expect(html_content).not_to include('cid:')
     end
   end
-
 end

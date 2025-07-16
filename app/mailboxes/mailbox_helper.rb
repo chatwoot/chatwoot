@@ -58,8 +58,8 @@ module MailboxHelper
     # For Outlook compatibility: if not marked as inline but has CID and is referenced in body
     cid = attachment[:original].cid
     cid.present? && body_references_cid?(cid)
-  end  
-  
+  end
+
   def body_references_cid?(cid)
     # Check if CID is referenced in HTML content
     return true if @html_content.present? && @html_content.include?("cid:#{cid}")
