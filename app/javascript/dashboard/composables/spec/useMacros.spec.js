@@ -5,6 +5,9 @@ import { PRIORITY_CONDITION_VALUES } from 'dashboard/constants/automation';
 
 vi.mock('dashboard/composables/store');
 vi.mock('dashboard/helper/automationHelper.js');
+vi.mock('vue-i18n', () => ({
+  useI18n: () => ({ t: key => key }),
+}));
 
 describe('useMacros', () => {
   const mockLabels = [
@@ -148,9 +151,11 @@ describe('useMacros', () => {
 
   it('returns PRIORITY_CONDITION_VALUES for change_priority type', () => {
     const { getMacroDropdownValues } = useMacros();
-    expect(getMacroDropdownValues('change_priority')).toEqual(
-      PRIORITY_CONDITION_VALUES
-    );
+    const expectedPriority = PRIORITY_CONDITION_VALUES.map(item => ({
+      id: item.id,
+      name: `MACROS.PRIORITY_TYPES.${item.i18nKey}`,
+    }));
+    expect(getMacroDropdownValues('change_priority')).toEqual(expectedPriority);
   });
 
   it('returns an empty array for unknown types', () => {

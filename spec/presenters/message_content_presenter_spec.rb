@@ -34,20 +34,21 @@ RSpec.describe MessageContentPresenter do
 
       before do
         allow(message.inbox).to receive(:web_widget?).and_return(false)
-        allow(ENV).to receive(:fetch).with('FRONTEND_URL', nil).and_return('https://app.chatwoot.com')
       end
 
       it 'returns I18n default message when no CSAT config and dynamically generates survey URL' do
-        expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-        allow(I18n).to receive(:t).with('conversations.survey.response', link: expected_url)
-                                  .and_return("Please rate this conversation, #{expected_url}")
-        expect(presenter.outgoing_content).to eq("Please rate this conversation, #{expected_url}")
+        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+          expect(presenter.outgoing_content).to include(expected_url)
+        end
       end
 
       it 'returns CSAT config message when config exists and dynamically generates survey URL' do
-        allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom CSAT message' })
-        expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
-        expect(presenter.outgoing_content).to eq("Custom CSAT message #{expected_url}")
+        with_modified_env 'FRONTEND_URL' => 'https://app.chatwoot.com' do
+          allow(message.inbox).to receive(:csat_config).and_return({ 'message' => 'Custom CSAT message' })
+          expected_url = "https://app.chatwoot.com/survey/responses/#{conversation.uuid}"
+          expect(presenter.outgoing_content).to eq("Custom CSAT message #{expected_url}")
+        end
       end
     end
   end

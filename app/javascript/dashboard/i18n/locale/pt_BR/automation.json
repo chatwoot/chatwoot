@@ -147,7 +147,19 @@
       "SEND_ATTACHMENT": "Enviar Anexo",
       "SEND_MESSAGE": "Enviar Mensagem",
       "CHANGE_PRIORITY": "Alterar Prioridade",
-      "ADD_SLA": "Adicionar SLA"
+      "ADD_SLA": "Adicionar SLA",
+      "OPEN_CONVERSATION": "Abrir conversa"
+    },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nenhuma",
+      "LOW": "Baixa",
+      "MEDIUM": "Média",
+      "HIGH": "Alta",
+      "URGENT": "Urgente"
     },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Tipo da Mensagem",
