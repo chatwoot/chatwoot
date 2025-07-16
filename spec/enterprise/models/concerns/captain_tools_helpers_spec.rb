@@ -1,10 +1,10 @@
 require 'rails_helper'
 
-RSpec.describe CaptainToolsHelpers, type: :concern do
+RSpec.describe Concerns::CaptainToolsHelpers, type: :concern do
   # Create a test class that includes the concern
   let(:test_class) do
     Class.new do
-      include CaptainToolsHelpers
+      include Concerns::CaptainToolsHelpers
 
       def self.name
         'TestClass'
@@ -16,8 +16,8 @@ RSpec.describe CaptainToolsHelpers, type: :concern do
 
   describe 'TOOL_REFERENCE_REGEX' do
     it 'matches tool references in text' do
-      text = 'Use (tool://add_contact_note) and (tool://update_priority)'
-      matches = text.scan(CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
+      text = 'Use [@Add Contact Note](tool://add_contact_note) and [Update Priority](tool://update_priority)'
+      matches = text.scan(Concerns::CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
 
       expect(matches.flatten).to eq(%w[add_contact_note update_priority])
     end
@@ -28,11 +28,15 @@ RSpec.describe CaptainToolsHelpers, type: :concern do
         'tool://invalid',
         '(tool:invalid)',
         '(tool://)',
-        '(tool://with/slash)'
+        '(tool://with/slash)',
+        '(tool://add_contact_note)',
+        '[@Tool](tool://)',
+        '[Tool](tool://with/slash)',
+        '[](tool://valid)'
       ]
 
       invalid_formats.each do |format|
-        matches = format.scan(CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
+        matches = format.scan(Concerns::CaptainToolsHelpers::TOOL_REFERENCE_REGEX)
         expect(matches).to be_empty, "Should not match: #{format}"
       end
     end
@@ -136,14 +140,14 @@ RSpec.describe CaptainToolsHelpers, type: :concern do
 
   describe '#extract_tool_ids_from_text' do
     it 'extracts tool IDs from text' do
-      text = 'First (tool://add_contact_note) then (tool://update_priority)'
+      text = 'First [@Add Contact Note](tool://add_contact_note) then [@Update Priority](tool://update_priority)'
       result = test_instance.extract_tool_ids_from_text(text)
 
       expect(result).to eq(%w[add_contact_note update_priority])
     end
 
     it 'returns unique tool IDs' do
-      text = 'Use (tool://add_contact_note) and (tool://add_contact_note) again'
+      text = 'Use [@Add Contact Note](tool://add_contact_note) and [@Contact Note](tool://add_contact_note) again'
       result = test_instance.extract_tool_ids_from_text(text)
 
       expect(result).to eq(['add_contact_note'])
@@ -164,9 +168,9 @@ RSpec.describe CaptainToolsHelpers, type: :concern do
 
     it 'handles complex text with multiple tools' do
       text = <<~TEXT
-        Start with (tool://add_contact_note) to document.
-        Then use (tool://update_priority) if needed.
-        Finally (tool://add_private_note) for internal notes.
+        Start with [@Add Contact Note](tool://add_contact_note) to document.
+        Then use [@Update Priority](tool://update_priority) if needed.
+        Finally [@Add Private Note](tool://add_private_note) for internal notes.
       TEXT
 
       result = test_instance.extract_tool_ids_from_text(text)

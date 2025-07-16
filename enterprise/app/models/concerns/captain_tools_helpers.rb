@@ -1,11 +1,11 @@
 # Provides helper methods for working with Captain agent tools including
 # tool resolution, text parsing, and metadata retrieval.
-module CaptainToolsHelpers
+module Concerns::CaptainToolsHelpers
   extend ActiveSupport::Concern
 
   # Regular expression pattern for matching tool references in text.
-  # Matches patterns like (tool://tool_id) following Chatwoot's mention syntax.
-  TOOL_REFERENCE_REGEX = %r{\(tool://([^/)]+)\)}
+  # Matches patterns like [Tool name](tool://tool_id) following markdown link syntax.
+  TOOL_REFERENCE_REGEX = %r{\[[^\]]+\]\(tool://([^/)]+)\)}
 
   class_methods do
     # Returns all available agent tools with their metadata.
