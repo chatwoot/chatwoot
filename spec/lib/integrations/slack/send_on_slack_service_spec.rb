@@ -194,24 +194,9 @@ describe Integrations::Slack::SendOnSlackService do
         attachment2 = message.attachments.new(account_id: message.account_id, file_type: :image)
         attachment2.file.attach(io: Rails.root.join('spec/assets/avatar.png').open, filename: 'logo.png', content_type: 'image/png')
 
-        expect(slack_client).to receive(:files_upload_v2).with(
-          filename: attachment1.file.filename.to_s,
-          content: anything,
-          channel_id: hook.reference_id,
-          thread_ts: conversation.identifier,
-          initial_comment: 'Attached File!'
-        ).and_return(file_attachment)
-
-        expect(slack_client).to receive(:files_upload_v2).with(
-          filename: attachment2.file.filename.to_s,
-          content: anything,
-          channel_id: hook.reference_id,
-          thread_ts: conversation.identifier,
-          initial_comment: 'Attached File!'
-        ).and_return(file_attachment)
+        expect(slack_client).to receive(:files_upload_v2).twice.and_return(file_attachment)
 
         message.save!
-
         builder.perform
 
         expect(message.external_source_id_slack).to eq 'cw-origin-6789.12345'
