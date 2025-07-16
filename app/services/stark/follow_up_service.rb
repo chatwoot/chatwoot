@@ -70,7 +70,8 @@ module Stark
       response = HTTParty.post(
         "#{ENV.fetch('STARK_HOST')}/api/v1/stark/follow-up/",
         body: build_follow_up_payload.to_json,
-        headers: build_request_headers
+        headers: build_request_headers,
+        timeout: 60
       )
 
       parse_response_body(response)
