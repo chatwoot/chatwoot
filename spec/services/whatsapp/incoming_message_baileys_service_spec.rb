@@ -750,9 +750,11 @@ describe Whatsapp::IncomingMessageBaileysService do
         it 'logs warning for unsupported played status' do
           update_payload[:update][:status] = 5
 
-          allow(Rails.logger).to receive(:warn).with('Baileys unsupported message update status: PLAYED(5)')
+          allow(Rails.logger).to receive(:warn).with('Baileys unsupported message update status: PLAYED(5)').and_return(true)
 
-          described_class.new(inbox: inbox, params: params).perform
+          expect do
+            described_class.new(inbox: inbox, params: params).perform
+          end.not_to raise_error
 
           expect(Rails.logger).to have_received(:warn)
         end
@@ -760,9 +762,11 @@ describe Whatsapp::IncomingMessageBaileysService do
         it 'logs warning for unsupported status' do
           update_payload[:update][:status] = 6
 
-          allow(Rails.logger).to receive(:warn).with('Baileys unsupported message update status: 6')
+          allow(Rails.logger).to receive(:warn).with('Baileys unsupported message update status: 6').and_return(true)
 
-          described_class.new(inbox: inbox, params: params).perform
+          expect do
+            described_class.new(inbox: inbox, params: params).perform
+          end.not_to raise_error
 
           expect(Rails.logger).to have_received(:warn)
         end

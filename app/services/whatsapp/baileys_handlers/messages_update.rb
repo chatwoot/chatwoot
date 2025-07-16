@@ -53,8 +53,10 @@ module Whatsapp::BaileysHandlers::MessagesUpdate
       'read'
     when 5
       Rails.logger.warn 'Baileys unsupported message update status: PLAYED(5)'
+      nil
     else
       Rails.logger.warn "Baileys unsupported message update status: #{status}"
+      nil
     end
   end
 
