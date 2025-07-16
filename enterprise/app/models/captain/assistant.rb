@@ -18,8 +18,8 @@
 #
 class Captain::Assistant < ApplicationRecord
   include Avatarable
-  include CaptainToolsHelpers
-  include Agentable
+  include Concerns::CaptainToolsHelpers
+  include Concerns::Agentable
 
   self.table_name = 'captain_assistants'
 

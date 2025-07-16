@@ -21,8 +21,8 @@
 #  index_captain_scenarios_on_enabled                   (enabled)
 #
 class Captain::Scenario < ApplicationRecord
-  include CaptainToolsHelpers
-  include Agentable
+  include Concerns::CaptainToolsHelpers
+  include Concerns::Agentable
 
   self.table_name = 'captain_scenarios'
 

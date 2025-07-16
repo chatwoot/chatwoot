@@ -1,4 +1,4 @@
-module Agentable
+module Concerns::Agentable
   extend ActiveSupport::Concern
 
   included do
