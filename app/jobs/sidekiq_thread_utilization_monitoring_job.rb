@@ -89,11 +89,17 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
 
     series = {
       metric: {
-        type: 'custom.googleapis.com/sidekiq/thread_utilization'
+        type: 'custom.googleapis.com/sidekiq/thread_utilization',
+        labels: {
+          'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
+          'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
+          'zone' => ENV.fetch('GCP_ZONE', nil).to_s
+        }
       },
       resource: {
         type: 'gce_instance',
         labels: {
+          'project_id' => ENV.fetch('GOOGLE_CLOUD_PROJECT', nil).to_s,
           'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
           'zone' => ENV.fetch('GCP_ZONE', nil).to_s
         }
