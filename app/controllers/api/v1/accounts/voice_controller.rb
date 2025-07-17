@@ -21,7 +21,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
                                    provider:    :twilio)
                               .process_status_update('completed', nil, false, "Call ended by #{current_user.name}")
 
-    broadcast_status(call_sid, 'completed')
     render_success('Call successfully ended')
   rescue StandardError => e
     render_error("Failed to end call: #{e.message}")
@@ -35,7 +34,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
 
     conference_sid = convo_attr('conference_sid') || create_conference_sid!
     update_join_metadata!(call_sid)
-    broadcast_status(call_sid, 'in-progress')
 
     render json: {
       status:         'success',
@@ -158,18 +156,6 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
                               .process_status_update('in_progress', nil, false, "#{current_user.name} joined the call")
   end
 
-  def broadcast_status(call_sid, status)
-    ActionCable.server.broadcast "account_#{@conversation.account_id}", {
-      event_name: 'call_status_changed',
-      data: {
-        call_sid:        call_sid,
-        status:          status,
-        conversation_id: @conversation.display_id,
-        inbox_id:        @conversation.inbox_id,
-        timestamp:       Time.current.to_i
-      }
-    }
-  end
 
   # ---- TwiML -----------------------------------------------------------------
 

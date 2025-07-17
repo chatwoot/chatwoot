@@ -49,6 +49,26 @@ class VoiceAPI extends ApiClient {
     });
   }
 
+  // End the client-side WebRTC call connection
+  endClientCall() {
+    try {
+      if (this.activeConnection) {
+        console.log('📞 Ending client WebRTC call connection');
+        this.activeConnection.disconnect();
+        this.activeConnection = null;
+      }
+      
+      if (this.device && this.device.state === 'busy') {
+        console.log('📞 Disconnecting all device connections');
+        this.device.disconnectAll();
+      }
+    } catch (error) {
+      console.warn('⚠️ Error ending client call:', error);
+      // Clear the connection reference even if disconnect failed
+      this.activeConnection = null;
+    }
+  }
+
   // Get call status
   getCallStatus(callSid) {
     if (!callSid) {

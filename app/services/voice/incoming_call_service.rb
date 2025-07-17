@@ -6,15 +6,13 @@ module Voice
       find_inbox
       create_contact
 
-      # Use a transaction to ensure the conversation and voice call message are created together
-      # This ensures the voice call message is created before any auto-assignment activity messages
+      # Use a transaction to ensure conversation, message, and call status are all set together
+      # This ensures only one conversation.created event with complete call data
       ActiveRecord::Base.transaction do
         create_conversation
         create_voice_call_message
+        set_initial_call_status
       end
-
-      # Create activity message separately, after the voice call message
-      create_activity_message
 
       generate_twiml_response
 
@@ -132,68 +130,42 @@ module Voice
         message_params
       ).perform
 
-      # Broadcast call notification
-      broadcast_call_status
     end
 
-    # Create activity message separately after the voice call message
-    def create_activity_message
-      # Use CallStatusManager for consistency
-      status_manager = Voice::CallStatus::Manager.new(
-        conversation: @conversation,
-        call_sid: caller_info[:call_sid],
-        provider: :twilio
-      )
-
-      # Process ringing status with custom activity message
+    # Set initial call status within the transaction
+    def set_initial_call_status
+      # Set call status directly on conversation to avoid separate broadcast
+      @conversation.additional_attributes['call_status'] = 'ringing'
+      @conversation.additional_attributes['call_started_at'] = Time.now.to_i
+      @conversation.save!
+      
+      # Create activity message directly without CallStatusManager broadcast
       custom_message = "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
-      status_manager.process_status_update('ringing', nil, true, custom_message)
-    end
-
-    def broadcast_call_status
-      # Get contact name, ensuring we have a valid value
-      contact_name_value = @contact.name.presence || caller_info[:from_number]
-
-      # Create the data payload
-      broadcast_data = {
-        call_sid: caller_info[:call_sid],
-        conversation_id: @conversation.display_id,
-        inbox_id: @inbox.id,
-        inbox_name: @inbox.name,
-        inbox_avatar_url: @inbox.avatar_url,
-        inbox_phone_number: @inbox.channel.phone_number,
-        contact_name: contact_name_value,
-        contact_id: @contact.id,
-        account_id: account.id,
-        phone_number: @contact.phone_number,
-        avatar_url: @contact.avatar_url,
-        call_direction: 'inbound',
-        # CRITICAL: Include the conference_sid
-        conference_sid: @conversation.additional_attributes['conference_sid']
-      }
-
-      ActionCable.server.broadcast(
-        "account_#{account.id}",
-        {
-          event: 'incoming_call',
-          data: broadcast_data
-        }
+      @conversation.messages.create!(
+        account_id: @conversation.account_id,
+        inbox_id: @conversation.inbox_id,
+        message_type: :activity,
+        content: custom_message,
+        sender: nil
       )
     end
+
 
     def generate_twiml_response
       conference_name = @conversation.additional_attributes['conference_sid']
-      Rails.logger.info("📞 IncomingCallService: Generating TwiML with conference name: #{conference_name}")
 
       response = Twilio::TwiML::VoiceResponse.new
       response.say(message: 'Thank you for calling. Please wait while we connect you with an agent.')
 
       # Setup callback URLs
       conference_callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/conference_status"
-      Rails.logger.info("📞 IncomingCallService: Setting conference callback to: #{conference_callback_url}")
+      call_status_callback_url = "#{base_url}/api/v1/accounts/#{account.id}/channels/voice/webhooks/call_status"
 
-      # Now add the caller to the conference
-      response.dial do |dial|
+      # Now add the caller to the conference with call status callback
+      response.dial(
+        action: call_status_callback_url,
+        method: 'POST'
+      ) do |dial|
         dial.conference(
           conference_name,
           startConferenceOnEnter: false,
@@ -208,9 +180,7 @@ module Voice
         )
       end
 
-      result = response.to_s
-      Rails.logger.info("📞 IncomingCallService: Generated TwiML: #{result}")
-      result
+      response.to_s
     end
 
     def error_twiml(_message)

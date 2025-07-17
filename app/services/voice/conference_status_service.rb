@@ -78,31 +78,8 @@ module Voice
     end
 
     def broadcast_agent_notification(conversation, info)
-      contact = conversation.contact
-      inbox = conversation.inbox
-      
-      ActionCable.server.broadcast(
-        "account_#{account.id}",
-        {
-          event: 'incoming_call',
-          data: {
-            call_sid: info[:call_sid],
-            conversation_id: conversation.display_id,
-            inbox_id: conversation.inbox_id,
-            inbox_name: inbox.name,
-            inbox_avatar_url: inbox.avatar_url,
-            inbox_phone_number: inbox.channel.phone_number,
-            contact_name: contact&.name.presence || contact&.phone_number || 'Outbound Call',
-            contact_id: contact&.id,
-            is_outbound: true,
-            account_id: account.id,
-            conference_sid: info[:conference_sid],
-            phone_number: contact&.phone_number,
-            avatar_url: contact&.avatar_url,
-            call_direction: 'outbound'
-          }
-        }
-      )
+      # This method is no longer needed since conversation.created events
+      # will handle incoming call notifications
     end
   end
 end

@@ -20,7 +20,6 @@ const {
   isAWhatsAppChannel,
   isAnEmailChannel,
   isAnInstagramChannel,
-  isAVoiceChannel,
 } = useInbox();
 
 const {
@@ -42,8 +41,6 @@ const showStatusIndicator = computed(() => {
   if (status.value === MESSAGE_STATUS.FAILED) return false;
   // Don't show status for deleted messages
   if (contentAttributes.value?.deleted) return false;
-  // Don't show status for transcription messages
-  if (isAVoiceChannel.value) return false;
 
   if (messageType.value === MESSAGE_TYPES.OUTGOING) return true;
   if (messageType.value === MESSAGE_TYPES.TEMPLATE) return true;

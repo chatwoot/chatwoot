@@ -1528,16 +1528,16 @@ export default {
         <div class="flex items-center">
           <!-- Left side with inbox avatar and call info -->
           <div class="inbox-avatar">
-            <!-- Use the inbox avatar if available -->
+            <!-- Use the inbox avatar if available and valid -->
             <img
-              v-if="inboxAvatarUrl"
+              v-if="inboxAvatarUrl && inboxAvatarUrl.startsWith('http')"
               :src="inboxAvatarUrl"
               :alt="inboxDisplayName"
               class="avatar-image"
               @error="handleAvatarError"
             />
-            <!-- Fallback to initial if no avatar -->
-            <span v-else>{{ inboxDisplayName.charAt(0).toUpperCase() }}</span>
+            <!-- Fallback to phone icon for voice channels -->
+            <i v-else class="i-ri-phone-fill text-white text-lg"></i>
           </div>
           <div class="header-info">
             <div class="voice-label">{{ inboxDisplayName }}</div>
@@ -1707,7 +1707,7 @@ export default {
         <span class="inbox-name">
           <!-- Add inbox avatar to the header -->
           <img
-            v-if="inboxAvatarUrl"
+            v-if="inboxAvatarUrl && inboxAvatarUrl.startsWith('http')"
             :src="inboxAvatarUrl"
             :alt="inboxDisplayName"
             class="inline-avatar"
@@ -1718,6 +1718,19 @@ export default {
               margin-right: 6px;
             "
           />
+          <!-- Fallback to phone icon for voice channels -->
+          <i
+            v-else
+            class="i-ri-phone-fill text-white mr-1.5"
+            style="
+              width: 24px;
+              height: 24px;
+              font-size: 16px;
+              display: flex;
+              align-items: center;
+              justify-content: center;
+            "
+          ></i>
           {{ inboxDisplayName }}
         </span>
         <span class="incoming-call-text">Incoming call</span>

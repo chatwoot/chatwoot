@@ -33,10 +33,6 @@ class ActionCableConnector extends BaseActionCableConnector {
       'conversation.updated': this.onConversationUpdated,
       'account.cache_invalidated': this.onCacheInvalidate,
       'copilot.message.created': this.onCopilotMessageCreated,
-
-      // Call events
-      incoming_call: this.onIncomingCall,
-      call_status_changed: this.onCallStatusChanged,
     };
   }
 
@@ -86,6 +82,40 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationCreated = data => {
     this.app.$store.dispatch('addConversation', data);
+    
+    // Check if this is a voice channel conversation (incoming call)
+    if (data.meta?.inbox?.channel_type === 'Channel::Voice' || data.channel === 'Channel::Voice') {
+      if (data.additional_attributes?.call_status === 'ringing' &&
+          data.additional_attributes?.call_sid) {
+        
+        const normalizedPayload = {
+          callSid: data.additional_attributes.call_sid,
+          conversationId: data.display_id || data.id,
+          inboxId: data.inbox_id,
+          inboxName: data.meta?.inbox?.name,
+          inboxAvatarUrl: data.meta?.inbox?.avatar_url,
+          inboxPhoneNumber: data.meta?.inbox?.phone_number,
+          contactName: data.meta?.sender?.name || 'Unknown Caller',
+          contactId: data.meta?.sender?.id,
+          accountId: data.account_id,
+          isOutbound: data.additional_attributes?.call_direction === 'outbound',
+          conference_sid: data.additional_attributes?.conference_sid,
+          conferenceId: data.additional_attributes?.conference_sid,
+          conferenceSid: data.additional_attributes?.conference_sid,
+          requiresAgentJoin: data.additional_attributes?.requires_agent_join || false,
+          callDirection: data.additional_attributes?.call_direction,
+          phoneNumber: data.meta?.sender?.phone_number,
+          avatarUrl: data.meta?.sender?.avatar_url,
+        };
+
+        this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
+
+        if (window.app && window.app.$data) {
+          window.app.$data.showCallWidget = true;
+        }
+      }
+    }
+    
     this.fetchConversationStats();
   };
 
@@ -118,6 +148,17 @@ class ActionCableConnector extends BaseActionCableConnector {
 
   onConversationUpdated = data => {
     this.app.$store.dispatch('updateConversation', data);
+    
+    // Check if this conversation update includes call status changes
+    if (data.additional_attributes?.call_status && data.additional_attributes?.call_sid) {
+      this.app.$store.dispatch('calls/handleCallStatusChanged', {
+        callSid: data.additional_attributes.call_sid,
+        status: data.additional_attributes.call_status,
+        conversationId: data.display_id,
+        inboxId: data.inbox_id,
+      });
+    }
+    
     this.fetchConversationStats();
   };
 
@@ -203,53 +244,7 @@ class ActionCableConnector extends BaseActionCableConnector {
     this.app.$store.dispatch('teams/revalidate', { newKey: keys.team });
   };
 
-  onIncomingCall = data => {
-    // Normalize snake_case to camelCase for consistency with frontend code
-    const normalizedPayload = {
-      callSid: data.call_sid,
-      conversationId: data.conversation_id,
-      inboxId: data.inbox_id,
-      inboxName: data.inbox_name,
-      inboxAvatarUrl: data.inbox_avatar_url,
-      inboxPhoneNumber: data.inbox_phone_number,
-      contactName: data.contact_name || 'Unknown Caller',
-      contactId: data.contact_id,
-      accountId: data.account_id,
-      isOutbound: data.is_outbound || false,
-      // CRITICAL: Use 'conference_sid' in camelCase format to match field names
-      conference_sid: data.conference_sid,
-      conferenceId: data.conference_sid, // Add aliases for consistency
-      conferenceSid: data.conference_sid, // Add aliases for consistency
-      requiresAgentJoin: data.requires_agent_join || false,
-      callDirection: data.call_direction,
-      phoneNumber: data.phone_number,
-      avatarUrl: data.avatar_url,
-    };
 
-    // Update store
-    this.app.$store.dispatch('calls/setIncomingCall', normalizedPayload);
-
-    // Also update App.vue showCallWidget directly for immediate UI feedback
-    if (window.app && window.app.$data) {
-      window.app.$data.showCallWidget = true;
-    }
-  };
-
-  onCallStatusChanged = data => {
-    // Normalize snake_case to camelCase for consistency with frontend code
-    const normalizedPayload = {
-      callSid: data.call_sid,
-      status: data.status,
-      conversationId: data.conversation_id,
-      inboxId: data.inbox_id,
-      timestamp: data.timestamp || Date.now(),
-    };
-    // Only dispatch to Vuex; Vuex handles widget and call state
-    this.app.$store.dispatch(
-      'calls/handleCallStatusChanged',
-      normalizedPayload
-    );
-  };
 }
 
 export default {

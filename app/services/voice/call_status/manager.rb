@@ -32,27 +32,27 @@ module Voice
         end
 
         update_status(normalized_status, duration)
-        
+
         if custom_message.present?
           create_activity_message(custom_message)
         elsif call_ended?(normalized_status)
           create_activity_message(activity_message_for_status(normalized_status))
         end
 
-        broadcast_status_change(normalized_status)
         true
       end
 
       def is_outbound?
         direction = conversation.additional_attributes['call_direction']
         return direction == 'outbound' if direction.present?
+
         conversation.additional_attributes['requires_agent_join'] == true
       end
 
       def normalized_ui_status(status)
         # Apply STATUS_MAPPING first
         mapped_status = STATUS_MAPPING[status] || status
-        
+
         # Handle missed calls for incoming calls
         if mapped_status == 'no_answer' && !is_outbound?
           'missed'
@@ -78,7 +78,11 @@ module Voice
           conversation.additional_attributes['call_duration'] = duration if duration
         end
 
-        conversation.update!(last_activity_at: Time.current)
+        # Save both additional_attributes changes and last_activity_at
+        conversation.update!(
+          additional_attributes: conversation.additional_attributes,
+          last_activity_at: Time.current
+        )
         update_message_status(status, duration)
       end
 
@@ -96,15 +100,16 @@ module Voice
 
       def find_voice_call_message
         conversation.messages
-                   .where(content_type: 'voice_call')
-                   .order(created_at: :desc)
-                   .first
+                    .where(content_type: 'voice_call')
+                    .order(created_at: :desc)
+                    .first
       end
 
       def activity_message_for_status(status)
         return 'Call ended' if status == 'ended'
         return 'Missed call' if status == 'missed'
         return 'No answer' if status == 'no_answer'
+
         'Call ended'
       end
 
@@ -118,24 +123,6 @@ module Voice
           content: content,
           sender: nil,
           additional_attributes: additional_attributes
-        )
-      end
-
-      def broadcast_status_change(status)
-        ui_status = normalized_ui_status(status)
-        
-        ActionCable.server.broadcast(
-          "account_#{conversation.account_id}",
-          {
-            event_name: 'call_status_changed',
-            data: {
-              call_sid: call_sid,
-              status: ui_status,
-              conversation_id: conversation.display_id,
-              inbox_id: conversation.inbox_id,
-              timestamp: Time.now.to_i
-            }
-          }
         )
       end
     end

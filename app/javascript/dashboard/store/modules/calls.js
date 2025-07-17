@@ -1,3 +1,5 @@
+import VoiceAPI from 'dashboard/api/channels/voice';
+
 const state = {
   activeCall: null,
   incomingCall: null,
@@ -13,20 +15,21 @@ const getters = {
 const actions = {
   handleCallStatusChanged({ state, dispatch }, { callSid, status, conversationId }) {
     const isActiveCall = callSid === state.activeCall?.callSid;
+    const isIncomingCall = callSid === state.incomingCall?.callSid;
     const terminalStatuses = ['ended', 'missed', 'completed', 'failed', 'busy', 'no_answer'];
     
-    // Update conversation status in the conversation list
-    if (conversationId) {
-      dispatch('conversations/updateConversationCallStatus', { 
-        conversationId, 
-        callStatus: status 
-      }, { root: true });
-    }
-    
-    if (isActiveCall && terminalStatuses.includes(status)) {
-      dispatch('clearActiveCall');
-      if (window.app?.$data) {
-        window.app.$data.showCallWidget = false;
+    if (terminalStatuses.includes(status)) {
+      if (isActiveCall) {
+        dispatch('clearActiveCall');
+      } else if (isIncomingCall) {
+        dispatch('clearIncomingCall');
+      }
+      
+      // Hide widget for any terminal status if it matches our call
+      if (isActiveCall || isIncomingCall) {
+        if (window.app?.$data) {
+          window.app.$data.showCallWidget = false;
+        }
       }
     }
   },
@@ -48,6 +51,13 @@ const actions = {
   },
 
   clearActiveCall({ commit }) {
+    // End the WebRTC connection before clearing the call state
+    try {
+      VoiceAPI.endClientCall();
+    } catch (error) {
+      console.warn('Error ending client call during clearActiveCall:', error);
+    }
+    
     commit('CLEAR_ACTIVE_CALL');
     if (window.app?.$data) {
       window.app.$data.showCallWidget = false;

@@ -104,6 +104,7 @@ Rails.application.routes.draw do
                 collection do
                   post :incoming
                   match :conference_status, via: [:post, :options]  # Allow both POST and OPTIONS
+                  match :call_status, via: [:post, :options]        # Allow both POST and OPTIONS for call status
                   match :incoming, via: [:post, :options]           # Allow both POST and OPTIONS
                 end
               end
