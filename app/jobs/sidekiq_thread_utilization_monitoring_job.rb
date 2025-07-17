@@ -93,13 +93,10 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
       },
       resource: {
         type: 'gce_instance',
-        labels: [{
-          key: 'instance_id',
-          value: ENV.fetch('INSTANCE_ID', nil)
-        }, {
-          key: 'zone',
-          value: ENV.fetch('GCP_ZONE', nil)
-        }]
+        labels: {
+          'instance_id' => ENV.fetch('INSTANCE_ID', nil).to_s,
+          'zone' => ENV.fetch('GCP_ZONE', nil).to_s
+        }
       },
       points: [
         {
