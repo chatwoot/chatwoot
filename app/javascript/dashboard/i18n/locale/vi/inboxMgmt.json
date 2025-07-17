@@ -799,13 +799,13 @@
         "IN_A_DAY": "Thường trả lời trong một ngày"
       },
       "FOOTER": {
-        "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu trò chuyện",
-        "CHAT_INPUT_PLACEHOLDER": "Nhập tin nhắn của bạn..."
+        "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu một cuộc trò chuyện",
+        "CHAT_INPUT_PLACEHOLDER": "Gõ tin nhắn của bạn"
       },
       "BODY": {
         "TEAM_AVAILABILITY": {
-          "ONLINE": "Chúng tôi đang sẵn sàng hỗ trợ",
-          "OFFLINE": "Hiện tại chúng tôi đang bận, vui lòng quay lại sau"
+          "ONLINE": "Chúng tôi đang trực tuyến",
+          "OFFLINE": "Hiện tại chúng tôi đang bận chút"
         },
         "USER_MESSAGE": "Xin chào",
         "AGENT_MESSAGE": "Xin chào"

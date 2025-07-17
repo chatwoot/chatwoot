@@ -13,8 +13,8 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Chúng tôi đang sẵn sàng hỗ trợ",
-    "OFFLINE": "Hiện tại chúng tôi đang bận, vui lòng quay lại sau"
+    "ONLINE": "Chúng tôi đang trực tuyến",
+    "OFFLINE": "Hiện tại chúng tôi đang bận chút"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
@@ -23,24 +23,19 @@
     "BACK_IN": "Chúng tôi sẽ quay lại"
   },
   "DAY_NAMES": {
-    "SUNDAY": "chủ nhật",
-    "MONDAY": "thứ hai",
-    "TUESDAY": "thứ ba",
-    "WEDNESDAY": "thứ tư",
-    "THURSDAY": "thứ năm",
-    "FRIDAY": "thứ sáu",
-    "SATURDAY": "thứ bảy"
+    "SUNDAY": "Chủ Nhật",
+    "MONDAY": "Thứ Hai",
+    "TUESDAY": "Thứ Ba",
+    "WEDNESDAY": "Thứ Tư",
+    "THURSDAY": "Thứ Năm",
+    "FRIDAY": "Thứ Sáu",
+    "SATURDAY": "Thứ Bảy"
   },
-  "AVAILABILITY": {
-    "AT": "vào",
-    "IN_SOME_TIME": "trong một thời gian",
-    "ON": "vào"
-  },
-  "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu trò chuyện",
+  "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
   "YOU": "You",
-  "START_NEW_CONVERSATION": "Bắt đầu trò chuyện mới",
+  "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
   "VIEW_UNREAD_MESSAGES": "Bạn có tin nhắn chưa đọc",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
