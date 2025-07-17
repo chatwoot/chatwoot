@@ -1,7 +1,7 @@
 <script setup>
-import { computed, h, reactive, ref } from 'vue';
+import { computed, h, reactive } from 'vue';
 import { useI18n } from 'vue-i18n';
-
+import { useToggle } from '@vueuse/core';
 import { useVuelidate } from '@vuelidate/core';
 import { required, minLength } from '@vuelidate/validators';
 import Input from 'dashboard/components-next/input/Input.vue';
@@ -63,7 +63,7 @@ const state = reactive({
   // tools: '',
 });
 
-const isEditing = ref(false);
+const [isEditing, toggleEditing] = useToggle();
 
 const startEdit = () => {
   Object.assign(state, {
@@ -73,7 +73,7 @@ const startEdit = () => {
     instruction: props.instruction,
     tools: props.tools,
   });
-  isEditing.value = true;
+  toggleEditing(true);
 };
 
 const TOOL_LINK_REGEX = /\[([^\]]+)]\(tool:\/\/.+?\)/g;
@@ -103,7 +103,7 @@ const onClickUpdate = () => {
   v$.value.$touch();
   if (v$.value.$invalid) return;
   emit('update', { ...state });
-  isEditing.value = false;
+  toggleEditing(false);
 };
 
 const instructionError = computed(() =>
@@ -170,7 +170,7 @@ const renderInstruction = instruction => () =>
         {{ tools?.map(tool => `@${tool}`).join(', ') }}
       </span>
     </div>
-    <div v-else class="overflow-hidden flex flex-col gap-4">
+    <div v-else class="overflow-hidden flex flex-col gap-4 w-full">
       <Input
         v-model="state.title"
         :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.ADD.NEW.FORM.TITLE.LABEL')"
@@ -212,7 +212,7 @@ const renderInstruction = instruction => () =>
           slate
           sm
           :label="t('CAPTAIN.ASSISTANTS.SCENARIOS.UPDATE.CANCEL')"
-          @click="isEditing = false"
+          @click="toggleEditing(false)"
         />
         <Button
           sm

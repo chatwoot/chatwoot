@@ -15,7 +15,7 @@ import CannedResponse from '../conversation/CannedResponse.vue';
 import KeyboardEmojiSelector from './keyboardEmojiSelector.vue';
 import TagAgents from '../conversation/TagAgents.vue';
 import VariableList from '../conversation/VariableList.vue';
-import TagTools from 'dashboard/components-next/captain/assistant/TagTools.vue';
+import TagTools from '../conversation/TagTools.vue';
 
 import { useEmitter } from 'dashboard/composables/emitter';
 import { useI18n } from 'vue-i18n';
