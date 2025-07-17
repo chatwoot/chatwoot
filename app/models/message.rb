@@ -130,6 +130,8 @@ class Message < ApplicationRecord
 
   after_update_commit :dispatch_update_event
 
+  after_create_commit :send_to_waha_channel, if: :should_send_to_waha?
+
   def channel_token
     @token ||= inbox.channel.try(:page_access_token)
   end
@@ -412,6 +414,15 @@ class Message < ApplicationRecord
     # rubocop:disable Rails/SkipsModelValidations
     conversation.update_columns(last_activity_at: created_at)
     # rubocop:enable Rails/SkipsModelValidations
+  end
+
+  def should_send_to_waha?
+    outgoing? && 
+    conversation.inbox.channel_type == 'Channel::WhatsappUnofficial'
+  end
+
+  def send_to_waha_channel
+    WahaSendMessageJob.perform_later(id)
   end
 end
 

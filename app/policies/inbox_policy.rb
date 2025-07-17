@@ -57,4 +57,18 @@ class InboxPolicy < ApplicationPolicy
   def avatar?
     @account_user.administrator?
   end
+
+  def whatsapp_qr?
+    # Allow access to WhatsApp QR for administrators and agents assigned to the inbox
+    return true if @account_user.administrator?
+
+    Current.user.assigned_inboxes.include? record
+  end
+
+  def whatsapp_status?
+    # Allow access to WhatsApp status for administrators and agents assigned to the inbox
+    return true if @account_user.administrator?
+
+    Current.user.assigned_inboxes.include? record
+  end
 end

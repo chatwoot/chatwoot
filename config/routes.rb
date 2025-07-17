@@ -67,6 +67,12 @@ Rails.application.routes.draw do
       # ----------------------------------
 
       # ----------------------------------
+      # WAHA webhook routes
+      post '/waha/callback/:phone_number', to: 'waha/webhooks#callback', as: 'waha_callback'
+      # end of WAHA webhook routes
+      # ----------------------------------
+
+      # ----------------------------------
       # start of account scoped api routes
       resources :accounts, only: [:create, :show, :update] do
         # ----------------------------------
@@ -111,6 +117,13 @@ Rails.application.routes.draw do
         end
 
         scope module: :accounts do
+          resources :inboxes, except: [:show] do
+            member do
+              get 'whatsapp/qr', to: 'inboxes#whatsapp_qr'
+              get 'whatsapp/status', to: 'inboxes#whatsapp_status'
+            end
+          end
+          
           namespace :actions do
             resource :contact_merge, only: [:create]
           end
@@ -181,7 +194,12 @@ Rails.application.routes.draw do
           resources :campaigns, only: [:index, :create, :show, :update, :destroy]
           resources :dashboard_apps, only: [:index, :show, :create, :update, :destroy]
           namespace :channels do
-            resources :whatsapp_unofficial_channels, only: [:create]
+            resources :whatsapp_unofficial_channels, only: [:create] do
+              member do
+                get :status
+                get :qr_code
+              end
+            end
             resource :twilio_channel, only: [:create]
           end
 
@@ -561,6 +579,10 @@ Rails.application.routes.draw do
     get 'callback', to: 'callback#index'
   end
 
+  namespace :waha do
+    post 'callback/:phone_number', to: 'callback#receive'
+  end
+  
   get 'microsoft/callback', to: 'microsoft/callbacks#show'
   get 'google/callback', to: 'google/callbacks#show'
 

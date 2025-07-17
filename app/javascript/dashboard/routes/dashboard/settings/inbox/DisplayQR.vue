@@ -3,6 +3,7 @@ import { mapGetters } from 'vuex';
 import { useAlert } from 'dashboard/composables';
 import router from '../../../index';
 import PageHeader from '../SettingsSubPageHeader.vue';
+import WhatsAppUnofficialChannels from 'dashboard/api/WhatsAppUnofficialChannels';
 
 export default {
   components: {
@@ -12,8 +13,9 @@ export default {
     return {
       qrCodeData: null,
       connectionStatus: 'waiting', // waiting, connected, expired
-      countdown: 30,
+      countdown: 60,
       countdownInterval: null,
+      statusInterval: null,
       isLoading: true,
       isConnecting: false,
     };
@@ -44,31 +46,23 @@ export default {
     this.checkConnectionStatus();
   },
   beforeUnmount() {
-    if (this.countdownInterval) {
-      clearInterval(this.countdownInterval);
-    }
+    this.clearIntervals();
   },
   methods: {
     async generateQRCode() {
       try {
         this.isLoading = true;
         const inboxId = this.$route.params.inbox_id;
+        const accountId = this.$route.params.accountId;
         
-        // Simulasi API call untuk generate QR code
-        // Ganti dengan actual API call
-        // const response = await fetch(`/api/v1/accounts/${this.$route.params.accountId}/inboxes/${inboxId}/whatsapp/qr`, {
-        //   method: 'POST',
-        //   headers: {
-        //     'Content-Type': 'application/json',
-        //   },
-        // });
+        const response = await WhatsAppUnofficialChannels.generateQR(inboxId);
         
-        // if (response.ok) {
-        //   const data = await response.json();
-        //   this.qrCodeData = data.qr_code; // Base64 QR code atau URL
-        // } else {
-        //   throw new Error('Failed to generate QR code');
-        // }
+        if (response.data.success && response.data.qr_code) {
+          // Convert base64 to data URL for image display
+          this.qrCodeData = `data:image/png;base64,${response.data.qr_code}`;
+        } else {
+          throw new Error(response.data.message || 'Failed to generate QR code');
+        }
       } catch (error) {
         useAlert('Gagal menghasilkan kode QR. Silakan coba lagi.');
         console.error('QR Generation Error:', error);
@@ -88,7 +82,7 @@ export default {
 
     async handleQRExpired() {
       this.connectionStatus = 'expired';
-      clearInterval(this.countdownInterval);
+      this.clearIntervals();
       
       // Auto refresh QR code setelah 1 detik
       setTimeout(async () => {
@@ -97,47 +91,59 @@ export default {
     },
 
     async refreshQRCode() {
-      this.countdown = 30;
+      this.countdown = 60;
       this.connectionStatus = 'waiting';
-      // await this.generateQRCode();
+      await this.generateQRCode();
       this.startCountdown();
       this.checkConnectionStatus();
     },
 
     async checkConnectionStatus() {
-      // Poll untuk check status koneksi setiap 2 detik
-      const statusInterval = setInterval(async () => {
+      this.statusInterval = setInterval(async () => {
         if (this.connectionStatus === 'connected') {
-          clearInterval(statusInterval);
+          this.clearIntervals();
           return;
         }
 
-        // Skip status check jika sedang expired (dalam proses refresh)
         if (this.connectionStatus === 'expired') {
           return;
         }
 
         try {
           const inboxId = this.$route.params.inbox_id;
-          const response = await fetch(`/api/v1/accounts/${this.$route.params.accountId}/inboxes/${inboxId}/whatsapp/status`);
+          const accountId = this.$route.params.accountId;
           
-          if (response.ok) {
-            const data = await response.json();
-            if (data.connected) {
-              this.connectionStatus = 'connected';
-              clearInterval(statusInterval);
-              clearInterval(this.countdownInterval);
-              
-              // Auto redirect ke next step setelah 2 detik
-              setTimeout(() => {
-                this.proceedToNextStep();
-              }, 2000);
-            }
+          const response = await WhatsAppUnofficialChannels.getConnectionStatus(inboxId);
+          
+          console.log('Status check response:', response.data); // Debug log
+          
+          // Fix: Check the correct nested structure
+          if (response.data.success && response.data.data && response.data.data.connected) {
+            console.log('WhatsApp connected! Proceeding to next step...');
+            this.connectionStatus = 'connected';
+            this.clearIntervals();
+            
+            setTimeout(() => {
+              this.proceedToNextStep();
+            }, 2000);
+          } else {
+            console.log('Still waiting for connection. Status:', response.data.data?.status);
           }
         } catch (error) {
           console.error('Status check error:', error);
         }
       }, 2000);
+    },
+
+    clearIntervals() {
+      if (this.countdownInterval) {
+        clearInterval(this.countdownInterval);
+        this.countdownInterval = null;
+      }
+      if (this.statusInterval) {
+        clearInterval(this.statusInterval);
+        this.statusInterval = null;
+      }
     },
 
     async proceedToNextStep() {

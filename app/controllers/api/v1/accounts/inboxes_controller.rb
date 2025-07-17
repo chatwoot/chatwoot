@@ -3,7 +3,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   before_action :fetch_inbox, except: [:index, :create]
   before_action :fetch_agent_bot, only: [:set_agent_bot]
   before_action :validate_limit, only: [:create]
-  # we are already handling the authorization in fetch inbox
   before_action :check_authorization, except: [:show]
 
   def index
@@ -12,7 +11,6 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
 
   def show; end
 
-  # Deprecated: This API will be removed in 2.7.0
   def assignable_agents
     @assignable_agents = @inbox.assignable_agents
   end
@@ -67,6 +65,35 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
   def destroy
     ::DeleteObjectJob.perform_later(@inbox, Current.user, request.ip) if @inbox.present?
     render status: :ok, json: { message: I18n.t('messages.inbox_deletetion_response') }
+  end
+
+  def whatsapp_qr
+    @channel = @inbox.channel
+
+    begin
+      qr_data = @channel.get_qr_code
+      render json: {
+        success: true,
+        qr_code: qr_data.dig('data', 'qr'),
+        message: 'QR Code generated successfully'
+      }
+    rescue StandardError => e
+      render json: {
+        success: false,
+        message: "Failed to generate QR code: #{e.message}"
+      }, status: :unprocessable_entity
+    end
+  end
+
+  def whatsapp_status
+    @channel = @inbox.channel
+
+    begin
+      status = @channel.session_status
+      render json: build_status_response(status)
+    rescue StandardError => e
+      render json: error_status_response(e.message)
+    end
   end
 
   private
@@ -129,8 +156,43 @@ class Api::V1::Accounts::InboxesController < Api::V1::Accounts::BaseController
      :lock_to_single_conversation, :portal_id, :sender_name_type, :business_name]
   end
 
+  def build_status_response(status)
+    waha_status = map_to_waha_status(status)
+    
+    {
+      success: true,
+      message: 'session info fetched successfully',
+      data: {
+        status: waha_status,
+        connected: waha_status == 'logged_in'
+      }
+    }
+  end
+
+  def error_status_response(error_message)
+    {
+      success: false,
+      connected: false,
+      message: error_message,
+      data: {
+        status: 'not_logged_in',
+        connected: false
+      }
+    }
+  end
+
+  def map_to_waha_status(status)
+    actual_status = status.dig('data', 'status')
+    
+    case actual_status&.downcase
+    when 'connected', 'authenticated', 'ready', 'logged_in'
+      'logged_in'
+    else
+      'not_logged_in'
+    end
+  end
+
   def permitted_params(channel_attributes = [])
-    # We will remove this line after fixing https://linear.app/chatwoot/issue/CW-1567/null-value-passed-as-null-string-to-backend
     params.each { |k, v| params[k] = params[k] == 'null' ? nil : v }
 
     params.permit(
