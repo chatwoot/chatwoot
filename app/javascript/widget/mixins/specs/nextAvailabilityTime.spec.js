@@ -357,7 +357,7 @@ describe('nextAvailabilityTimeMixin', () => {
       'Saturday',
     ];
     chatwootWebChannel.workingHours[4].open_hour = 10;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('at 09:00 AM');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('AVAILABILITY.AT 09:00 AM');
   });
 
   it('should return tomorrow', () => {
@@ -397,6 +397,6 @@ describe('nextAvailabilityTimeMixin', () => {
     chatwootWebChannel.workingHours[4].open_hour = 9;
     chatwootWebChannel.workingHours[4].close_hour = 16;
     chatwootWebChannel.workingHours[5].closed_all_day = true;
-    expect(wrapper.vm.timeLeftToBackInOnline).toBe('on Saturday');
+    expect(wrapper.vm.timeLeftToBackInOnline).toBe('AVAILABILITY.ON SATURDAY');
   });
 });
