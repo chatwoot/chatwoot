@@ -161,10 +161,14 @@ class AutomationRules::ConditionsFilterService < FilterService
   def build_label_query_string(query_hash, current_index, query_operator)
     case query_hash['filter_operator']
     when 'equal_to'
+      return " 1=0 #{query_operator} " if query_hash['values'].blank?
+
       value_placeholder = "value_#{current_index}"
       @filter_values[value_placeholder] = query_hash['values'].first
       " tags.name = :#{value_placeholder} #{query_operator} "
     when 'not_equal_to'
+      return " 1=0 #{query_operator} " if query_hash['values'].blank?
+
       value_placeholder = "value_#{current_index}"
       @filter_values[value_placeholder] = query_hash['values'].first
       " tags.name != :#{value_placeholder} #{query_operator} "
@@ -184,12 +188,22 @@ class AutomationRules::ConditionsFilterService < FilterService
       'LEFT OUTER JOIN contacts on conversations.contact_id = contacts.id'
     ).joins(
       'LEFT OUTER JOIN messages on messages.conversation_id = conversations.id'
-    ).joins(
-      'LEFT OUTER JOIN taggings ON taggings.taggable_id = conversations.id AND taggings.taggable_type = \'Conversation\''
-    ).joins(
-      'LEFT OUTER JOIN tags ON taggings.tag_id = tags.id'
     )
+
+    # Only add label joins when label conditions exist
+    if label_conditions?
+      records = records.joins(
+        'LEFT OUTER JOIN taggings ON taggings.taggable_id = conversations.id AND taggings.taggable_type = \'Conversation\''
+      ).joins(
+        'LEFT OUTER JOIN tags ON taggings.tag_id = tags.id'
+      )
+    end
+
     records = records.where(messages: { id: @options[:message].id }) if @options[:message].present?
     records
+  end
+
+  def label_conditions?
+    @rule.conditions.any? { |condition| condition['attribute_key'] == 'labels' }
   end
 end
