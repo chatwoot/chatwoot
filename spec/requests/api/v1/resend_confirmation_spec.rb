@@ -10,19 +10,14 @@ RSpec.describe 'Resend confirmation email', type: :request do
 
   before do
     # Ensure redis is clean between examples so rate-limit keys don't interfere
-    $alfred.with(&:flushdb)
+    Redis::Alfred.delete('RATE_LIMIT:resend_confirmation')
 
     # Force mailers to think SMTP is configured during tests
-    allow_any_instance_of(ApplicationMailer)
-      .to receive(:smtp_config_set_or_development?)
-      .and_return(true)
-
-    allow_any_instance_of(Devise::Mailer)
-      .to receive(:smtp_config_set_or_development?)
-      .and_return(true)
+    allow(ApplicationMailer).to receive(:smtp_config_set_or_development?).and_return(true)
+    allow(Devise::Mailer).to receive(:smtp_config_set_or_development?).and_return(true)
 
     # Ensure user is unconfirmed
-    user.update_column(:confirmed_at, nil)
+    user.update!(confirmed_at: nil)
   end
 
   context 'when resending confirmation' do
