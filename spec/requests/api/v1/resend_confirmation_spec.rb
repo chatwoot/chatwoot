@@ -1,0 +1,58 @@
+require 'rails_helper'
+
+RSpec.describe 'Resend confirmation email', type: :request do
+  include ActiveSupport::Testing::TimeHelpers
+
+  let!(:account) { create(:account) }
+  let!(:user) { create(:user, password: 'Password1!', account: account, skip_confirmation: false) }
+  let(:auth_headers) { user.create_new_auth_token }
+  let(:endpoint) { '/api/v1/profile/resend_confirmation' }
+
+  before do
+    # Ensure redis is clean between examples so rate-limit keys don't interfere
+    $alfred.with { |conn| conn.flushdb }
+
+    # Force mailers to think SMTP is configured during tests
+    allow_any_instance_of(ApplicationMailer)
+      .to receive(:smtp_config_set_or_development?)
+      .and_return(true)
+
+    allow_any_instance_of(Devise::Mailer)
+      .to receive(:smtp_config_set_or_development?)
+      .and_return(true)
+
+    # Ensure user is unconfirmed
+    user.update_column(:confirmed_at, nil)
+  end
+
+  context 'happy path' do
+    context 'when user is authenticated' do
+      it 'sends the confirmation email and returns 200' do
+        expect do
+          post endpoint, params: { email: user.email }, headers: auth_headers, as: :json
+        end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when user is unauthenticated' do
+      it 'sends the confirmation email and returns 200' do
+        expect do
+          post endpoint, params: { email: user.email }, as: :json
+        end.to have_enqueued_job(ActionMailer::MailDeliveryJob)
+
+        expect(response).to have_http_status(:ok)
+      end
+    end
+
+    context 'when email does not exist' do
+      it 'returns 404' do
+        post endpoint, params: { email: 'nonexistent@example.com' }, as: :json
+        expect(response).to have_http_status(:not_found)
+      end
+    end
+  end
+
+  # Rate-limiting tests removed for now while feature is simplified
+end
