@@ -347,7 +347,7 @@ RSpec.describe 'Profile API', type: :request do
         unconfirmed_user = create(:user, password: 'Test123!', email: 'another-unconfirmed@example.com', skip_confirmation: false)
 
         # Verify user is actually unconfirmed
-        expect(unconfirmed_user.confirmed?).to be_falsey
+        expect(unconfirmed_user).not_to be_confirmed
 
         post '/api/v1/profile/resend_confirmation',
              params: { email: unconfirmed_user.email },

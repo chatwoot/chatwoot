@@ -10,7 +10,7 @@ RSpec.describe 'Resend confirmation email', type: :request do
 
   before do
     # Ensure redis is clean between examples so rate-limit keys don't interfere
-    $alfred.with { |conn| conn.flushdb }
+    $alfred.with(&:flushdb)
 
     # Force mailers to think SMTP is configured during tests
     allow_any_instance_of(ApplicationMailer)
@@ -25,7 +25,7 @@ RSpec.describe 'Resend confirmation email', type: :request do
     user.update_column(:confirmed_at, nil)
   end
 
-  context 'happy path' do
+  context 'when resending confirmation' do
     context 'when user is authenticated' do
       it 'sends the confirmation email and returns 200' do
         expect do
@@ -47,9 +47,9 @@ RSpec.describe 'Resend confirmation email', type: :request do
     end
 
     context 'when email does not exist' do
-      it 'returns 404' do
+      it 'returns 200 to prevent email enumeration' do
         post endpoint, params: { email: 'nonexistent@example.com' }, as: :json
-        expect(response).to have_http_status(:not_found)
+        expect(response).to have_http_status(:ok)
       end
     end
   end

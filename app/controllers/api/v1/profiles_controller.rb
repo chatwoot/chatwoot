@@ -58,7 +58,7 @@ class Api::V1::ProfilesController < Api::BaseController
   def set_user
     @user = current_user
     # Allow unauthenticated resend flow by email
-    @user ||= User.find_by(email: params[:email]) if params[:email].present?
+    @user ||= User.from_email(params[:email]) if params[:email].present?
   end
 
   def availability_params
