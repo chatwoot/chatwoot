@@ -6,6 +6,7 @@ class AgentNotifications::BookingMailer < ApplicationMailer
         @booking_date = booking_date
         @phone = phone
         @customer_email = email
+        @platform_name = @conversation&.inbox&.platform_name
         subject = 'New booking scheduled 📆'
         mail(to: @agent.email, subject: subject)
     end
