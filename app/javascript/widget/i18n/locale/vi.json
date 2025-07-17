@@ -23,13 +23,18 @@
     "BACK_IN": "Chúng tôi sẽ quay lại"
   },
   "DAY_NAMES": {
-    "SUNDAY": "Chủ Nhật",
-    "MONDAY": "Thứ Hai",
-    "TUESDAY": "Thứ Ba",
-    "WEDNESDAY": "Thứ Tư",
-    "THURSDAY": "Thứ Năm",
-    "FRIDAY": "Thứ Sáu",
-    "SATURDAY": "Thứ Bảy"
+    "SUNDAY": "chủ nhật",
+    "MONDAY": "thứ hai",
+    "TUESDAY": "thứ ba",
+    "WEDNESDAY": "thứ tư",
+    "THURSDAY": "thứ năm",
+    "FRIDAY": "thứ sáu",
+    "SATURDAY": "thứ bảy"
+  },
+  "AVAILABILITY": {
+    "AT": "vào",
+    "IN_SOME_TIME": "trong một thời gian",
+    "ON": "vào"
   },
   "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
