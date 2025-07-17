@@ -149,8 +149,6 @@ export const getConditionOptions = ({
     browser_language: languages,
     conversation_language: languages,
     country_code: countries,
-    message_type: MESSAGE_CONDITION_VALUES,
-    priority: PRIORITY_CONDITION_VALUES,
     message_type: messageTypeOptions,
     priority: priorityOptions,
     labels: generateConditionOptions(labels, 'title'),
