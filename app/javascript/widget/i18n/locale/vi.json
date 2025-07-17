@@ -13,8 +13,8 @@
     }
   },
   "TEAM_AVAILABILITY": {
-    "ONLINE": "Chúng tôi đang trực tuyến",
-    "OFFLINE": "Hiện tại chúng tôi đang bận chút"
+    "ONLINE": "Chúng tôi đang sẵn sàng hỗ trợ",
+    "OFFLINE": "Hiện tại chúng tôi đang bận, vui lòng quay lại sau"
   },
   "REPLY_TIME": {
     "IN_A_FEW_MINUTES": "Thường trả lời sau vài phút",
@@ -31,11 +31,11 @@
     "FRIDAY": "Thứ Sáu",
     "SATURDAY": "Thứ Bảy"
   },
-  "START_CONVERSATION": "Bắt đầu một cuộc trò chuyện",
+  "START_CONVERSATION_BUTTON_TEXT": "Bắt đầu trò chuyện",
   "END_CONVERSATION": "Kết thúc hội thoại",
   "CONTINUE_CONVERSATION": "Tiếp tục hội thoại",
   "YOU": "You",
-  "START_NEW_CONVERSATION": "Bắt đầu hội thoại mới",
+  "START_NEW_CONVERSATION": "Bắt đầu trò chuyện mới",
   "VIEW_UNREAD_MESSAGES": "Bạn có tin nhắn chưa đọc",
   "UNREAD_VIEW": {
     "VIEW_MESSAGES_BUTTON": "Xem tin nhắn mới",
