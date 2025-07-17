@@ -306,6 +306,9 @@ GEM
     google-cloud-location (0.4.0)
       gapic-common (>= 0.17.1, < 2.a)
       google-cloud-errors (~> 1.0)
+    google-cloud-monitoring-v3 (0.11.0)
+      gapic-common (>= 0.18.0, < 2.a)
+      google-cloud-errors (~> 1.0)
     google-cloud-storage (1.44.0)
       addressable (~> 2.8)
       digest-crc (~> 0.4)
@@ -888,6 +891,7 @@ DEPENDENCIES
   geocoder
   gmail_xoauth
   google-cloud-dialogflow-v2
+  google-cloud-monitoring-v3
   google-cloud-storage
   google-cloud-translate-v3
   groupdate

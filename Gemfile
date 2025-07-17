@@ -178,6 +178,9 @@ gem 'reverse_markdown'
 # Sentiment analysis
 gem 'informers'
 
+##-- Google Cloud Monitoring --##
+gem 'google-cloud-monitoring-v3'
+
 ### Gems required only in specific deployment environments ###
 ##############################################################
 
