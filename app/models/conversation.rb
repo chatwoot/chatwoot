@@ -337,10 +337,20 @@ class Conversation < ApplicationRecord
 
   def execute_after_update_commit_callbacks
     Rails.logger.info('EXECUTING AFTER UPDATE COMMIT CALLBACKS')
+    handle_resolved_status_change
     notify_status_change
     create_activity
     notify_conversation_updation
     notify_calling_status_change
+  end
+
+  def handle_resolved_status_change
+    # When conversation is resolved, clear waiting_since using update_column to avoid callbacks
+    return unless saved_change_to_status? && status == 'resolved'
+
+    # rubocop:disable Rails/SkipsModelValidations
+    update_column(:waiting_since, nil)
+    # rubocop:enable Rails/SkipsModelValidations
   end
 
   def ensure_snooze_until_reset
