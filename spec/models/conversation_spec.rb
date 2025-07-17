@@ -216,6 +216,7 @@ RSpec.describe Conversation do
       account.update(auto_resolve_after: 40 * 24 * 60)
       conversation2 = create(:conversation, status: 'open', account: account, assignee: old_assignee)
       Current.user = nil
+      Current.contact = nil
 
       message_data = if account.auto_resolve_after >= 1440 && account.auto_resolve_after % 1440 == 0
                        { key: 'auto_resolved_days', count: account.auto_resolve_after / 1440 }
