@@ -1,0 +1,55 @@
+
+<div style="max-width: 600px; margin: 30px auto; background: #fff; border-radius: 16px; box-shadow: 0 4px 24px rgba(0,0,0,0.08); padding: 32px 24px; font-family: 'Helvetica Neue', Tahoma, Arial, sans-serif;">
+  <p style="font-size: 18px; margin-bottom: 16px;">Hey <strong><%= @agent.name %></strong>,</p>
+
+  <p style="font-size: 16px; margin-bottom: 24px;">A new booking was scheduled with the following details:</p>
+
+  <table style="border-collapse: separate; border-spacing: 0; width: 100%; margin-bottom: 28px; font-size: 15px;">
+    <tr style="background: #f2f3f7;">
+      <td style="font-weight: bold; padding: 10px 12px; border-radius: 8px 0 0 0;">Name</td>
+      <td style="padding: 10px 12px; border-radius: 0 8px 0 0;"><%= @conversation&.contact&.name %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; padding: 10px 12px; background: #fafbfc;">Date</td>
+      <td style="padding: 10px 12px; background: #fafbfc;"><%= @booking_date %></td>
+    </tr>
+    <tr style="background: #f2f3f7;">
+      <td style="font-weight: bold; padding: 10px 12px;">Platform</td>
+      <td style="padding: 10px 12px;"><%= @platform_name %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; padding: 10px 12px; background: #fafbfc;">Type</td>
+      <td style="padding: 10px 12px; background: #fafbfc;">Sales &amp; general inquiry</td>
+    </tr>
+    <tr style="background: #f2f3f7;">
+      <td style="font-weight: bold; padding: 10px 12px;">Phone</td>
+      <td style="padding: 10px 12px;"><%= @phone %></td>
+    </tr>
+    <tr>
+      <td style="font-weight: bold; padding: 10px 12px; background: #fafbfc; border-radius: 0 0 0 8px;">Email</td>
+      <td style="padding: 10px 12px; background: #fafbfc; border-radius: 0 0 8px 0;"><%= @customer_email %></td>
+    </tr>
+  </table>
+  
+  <div style="margin-bottom: 24px;">
+    <% if @conversation.recent_messages.present? %>
+      <p><strong>Recent Messages</strong></p>
+      <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
+        <% @conversation.recent_messages.each do |message| %>
+          <% sender_display = message.sender %>
+          <tr>
+            <td class="message" align="left" style="padding: 5px 10px; border-radius: 4px;">
+              <strong style="font-size: 14px;"><%= sender_display.name %>:</strong>
+              <div style="background-color: #f3f4f6; color: #000000; border-radius: 6px;">
+                <%= truncate(message.content, length: 200) %>
+              </div>
+            </td>
+          </tr>
+          <tr><td style="height: 10px;"></td></tr>
+        <% end %>
+      </table>
+    <% end %>
+  </div>
+
+  <p style="margin-top: 32px; font-size: 15px; color: #555;">Best,<br><span style="font-weight: bold; color: #1976d2;">Team Cruise Control</span></p>
+</div>
