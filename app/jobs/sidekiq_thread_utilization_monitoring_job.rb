@@ -5,6 +5,9 @@ require 'net/http'
 class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
   queue_as :scheduled_jobs
 
+  # Add jid attribute accessor for Sidekiq compatibility
+  attr_accessor :jid
+
   def perform
     return unless should_run?
 
@@ -84,36 +87,36 @@ class SidekiqThreadUtilizationMonitoringJob < ApplicationJob
     client = Google::Cloud::Monitoring::V3::MetricService::Client.new
     project = "projects/#{ENV.fetch('GOOGLE_CLOUD_PROJECT', nil)}"
 
-    metric = {
-      type: 'custom.googleapis.com/sidekiq/thread_utilization'
-    }
+    # Create the time series object
+    time_series = Google::Cloud::Monitoring::V3::TimeSeries.new(
+      metric: Google::Cloud::Monitoring::V3::Metric.new(
+        type: 'custom.googleapis.com/sidekiq/thread_utilization'
+      ),
+      resource: Google::Cloud::Monitoring::V3::MonitoredResource.new(
+        type: 'gce_instance',
+        labels: {
+          'instance_id' => ENV.fetch('INSTANCE_ID', nil),
+          'zone' => ENV.fetch('GCP_ZONE', nil)
+        }
+      ),
+      points: [
+        Google::Cloud::Monitoring::V3::Point.new(
+          value: Google::Protobuf::DoubleValue.new(value: ratio),
+          interval: Google::Cloud::Monitoring::V3::TimeInterval.new(
+            end_time: Google::Protobuf::Timestamp.new(seconds: Time.now.to_i)
+          )
+        )
+      ]
+    )
 
-    resource = {
-      type: 'gce_instance',
-      labels: {
-        instance_id: ENV.fetch('INSTANCE_ID', nil),
-        zone: ENV.fetch('GCP_ZONE', nil)
-      }
-    }
-
-    point = {
-      value: { double_value: ratio },
-      interval: { end_time: { seconds: Time.now.to_i } }
-    }
-
-    series = {
-      metric: metric,
-      resource: resource,
-      points: [point]
-    }
-
-    client.create_time_series name: project, time_series: [series]
+    client.create_time_series name: project, time_series: [time_series]
 
     Rails.logger.info "Sidekiq thread utilization metric sent: #{ratio}"
   rescue StandardError => e
     Rails.logger.error "Failed to send metrics to Google Cloud: #{e.message}"
+    Rails.logger.error e.backtrace.join("\n")
   end
+  # rubocop:enable Metrics/MethodLength
 end
-# rubocop:enable Metrics/MethodLength
 
 SidekiqThreadUtilizationMonitoringJob.prepend_mod_with('SidekiqThreadUtilizationMonitoringJob')
