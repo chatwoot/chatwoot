@@ -281,6 +281,15 @@ const componentToRender = computed(() => {
     return FormBubble;
   }
 
+  // Handle voice call bubble
+  if (
+    props.contentType === 'voice_call' ||
+    props.contentAttributes?.type === 'voice_call' ||
+    props.contentAttributes?.data?.callType === 'voice_call'
+  ) {
+    return VoiceCallBubble;
+  }
+
   if (props.contentType === CONTENT_TYPES.INCOMING_EMAIL) {
     return EmailBubble;
   }
@@ -297,14 +306,6 @@ const componentToRender = computed(() => {
     return InstagramStoryBubble;
   }
 
-  // Handle voice call bubble
-  if (
-    props.contentType === 'voice_call' ||
-    props.contentAttributes?.type === 'voice_call' ||
-    props.contentAttributes?.data?.callType === 'voice_call'
-  ) {
-    return VoiceCallBubble;
-  }
 
   if (Array.isArray(props.attachments) && props.attachments.length === 1) {
     const fileType = props.attachments[0].fileType;

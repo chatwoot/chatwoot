@@ -508,6 +508,10 @@ const actions = {
     }
   },
 
+  updateConversationCallStatus({ commit }, { conversationId, callStatus }) {
+    commit(types.UPDATE_CONVERSATION_CALL_STATUS, { conversationId, callStatus });
+  },
+
   ...messageReadActions,
   ...messageTranslateActions,
 };

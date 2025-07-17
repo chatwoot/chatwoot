@@ -33,7 +33,7 @@ export default {
     shouldShowCallStatus() {
       // Always show call status for voice channels if present
       return (
-        this.conversation?.meta?.channel === 'Channel::Voice' &&
+        this.isVoiceChannel &&
         !!this.conversation?.additional_attributes?.call_status
       );
     },
@@ -51,7 +51,8 @@ export default {
     },
     // Simple check: Is this a voice channel conversation?
     isVoiceChannel() {
-      return this.conversation?.meta?.channel === 'Channel::Voice';
+      return this.conversation?.meta?.channel === 'Channel::Voice' ||
+             this.conversation?.meta?.inbox?.channel_type === 'Channel::Voice';
     },
     // Check if this is a voice call message
     isVoiceCall() {
@@ -72,26 +73,9 @@ export default {
     callStatus() {
       if (!this.isVoiceChannel) return null;
 
-      // Get raw status from conversation
+      // Backend now sends unified statuses directly
       const status = this.conversation?.additional_attributes?.call_status;
-
-      // Map status to normalized values
-      if (status === 'in-progress') return 'active';
-      if (status === 'completed') return 'ended';
-      if (status === 'canceled') return 'ended';
-      if (status === 'failed') return 'ended';
-      if (status === 'busy') return 'no-answer';
-      if (status === 'no-answer')
-        return this.isIncomingCall ? 'missed' : 'no-answer';
-
-      // Return explicit status values as-is
-      if (status === 'active') return 'active';
-      if (status === 'missed') return 'missed';
-      if (status === 'ended') return 'ended';
-      if (status === 'ringing') return 'ringing';
-
-      // Default status
-      return 'active';
+      return status || 'ended';
     },
     // Voice call icon based on status
     voiceCallIcon() {
@@ -100,11 +84,11 @@ export default {
       const status = this.callStatus;
       const isIncoming = this.isIncomingCall;
 
-      if (status === 'missed' || status === 'no-answer') {
+      if (status === 'missed' || status === 'no_answer') {
         return 'phone-missed-call';
       }
 
-      if (status === 'active') {
+      if (status === 'in_progress') {
         return 'phone-in-talk';
       }
 
@@ -127,7 +111,7 @@ export default {
         const isIncoming = this.isIncomingCall;
 
         // Return appropriate status text based on call status and direction
-        if (status === 'active') {
+        if (status === 'in_progress') {
           // return last message content if message is not activity and not voice call
           if (!this.isMessageAnActivity && !this.isVoiceCall) {
             return this.getPlainText(this.message.content);
@@ -152,7 +136,7 @@ export default {
             return this.$t('CONVERSATION.VOICE_CALL.OUTGOING_CALL');
           }
 
-          if (status === 'no-answer') {
+          if (status === 'no_answer') {
             return this.$t('CONVERSATION.VOICE_CALL.NO_ANSWER');
           }
 
@@ -197,33 +181,32 @@ export default {
         class="-mt-0.5 align-middle inline-block mr-1"
         :class="{
           'text-red-600 dark:text-red-400':
-            callStatus === 'missed' || callStatus === 'no-answer',
+            callStatus === 'missed' || callStatus === 'no_answer',
           'text-green-600 dark:text-green-400':
-            callStatus === 'active' || callStatus === 'ringing',
+            callStatus === 'in_progress' || callStatus === 'ringing',
           'text-n-slate-11': callStatus === 'ended',
         }"
       >
         <!-- Missed call icon -->
         <i
-v-if="callStatus === 'missed' || callStatus === 'no-answer'" 
+          v-if="callStatus === 'missed' || callStatus === 'no_answer'"
           class="i-ph-phone-x text-base"
         />
         <!-- Active call icon -->
         <i
-v-else-if="callStatus === 'active'" 
+          v-else-if="callStatus === 'in_progress'"
           class="i-ph-phone-call text-base"
         />
         <!-- Incoming call icon -->
         <i
-v-else-if="(callStatus === 'ended' && isIncomingCall) || (isIncomingCall)" 
-          "
+          v-else-if="(callStatus === 'ended' && isIncomingCall) || (isIncomingCall)"
           class="i-ph-phone-incoming text-base"
         />
         <!-- Outgoing call icon -->
         <i
-v-else
-class="i-ph-phone-outgoing text-base"
-/>
+          v-else
+          class="i-ph-phone-outgoing text-base"
+        />
       </span>
       <span>{{ parsedLastMessage }}</span>
     </template>

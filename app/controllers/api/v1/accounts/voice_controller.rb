@@ -149,13 +149,13 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
       'agent_joined' => true,
       'joined_at'    => Time.current.to_i,
       'joined_by'    => user_meta,
-      'call_status'  => 'in-progress'
+      'call_status'  => 'in_progress'
     ))
 
     Voice::CallStatus::Manager.new(conversation: @conversation,
                                    call_sid:    call_sid,
                                    provider:    :twilio)
-                              .process_status_update('in-progress', nil, false, "#{current_user.name} joined the call")
+                              .process_status_update('in_progress', nil, false, "#{current_user.name} joined the call")
   end
 
   def broadcast_status(call_sid, status)
@@ -174,21 +174,7 @@ class Api::V1::Accounts::VoiceController < Api::V1::Accounts::BaseController
   # ---- TwiML -----------------------------------------------------------------
 
   def build_twiml(conference_name)
-    # For agent legs, we need to add transcription too
-    account_id = params[:account_id] || Current.account&.id
-    agent_id = params[:agent_id] || current_user&.id
-    transcription_url = "#{base_url}/twilio/transcription_callback?account_id=#{account_id}&conference_sid=#{conference_name}&speaker_type=agent&agent_id=#{agent_id}"
-
     Twilio::TwiML::VoiceResponse.new do |r|
-      # Add transcription for the agent leg too
-      r.start do |start|
-        start.transcription(
-          status_callback_url: transcription_url,
-          status_callback_method: 'POST',
-          track: 'inbound_track', # Use inbound_track consistently for conference calls
-          language_code: 'en-US'
-        )
-      end
 
       r.dial do |dial|
         dial.conference(

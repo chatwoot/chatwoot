@@ -145,13 +145,9 @@ module Voice
         provider: :twilio
       )
 
-      # First process ringing status
-      status_manager.process_status_update('ringing', nil, true)
-
-      # Then add a custom message about the incoming call - it will be created without a sender
-      status_manager.create_activity_message(
-        "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
-      )
+      # Process ringing status with custom activity message
+      custom_message = "Incoming call from #{@contact.name.presence || caller_info[:from_number]}"
+      status_manager.process_status_update('ringing', nil, true, custom_message)
     end
 
     def broadcast_call_status
@@ -208,10 +204,7 @@ module Voice
           statusCallback: conference_callback_url,
           statusCallbackMethod: 'POST',
           statusCallbackEvent: 'start end join leave',
-          participantLabel: "caller-#{caller_info[:call_sid].last(8)}",
-          record: 'record-from-start',
-          recording_status_callback: "#{base_url}/twilio/recording_callback?account_id=#{account.id}&conference_sid=#{conference_name}",
-          recording_status_callback_method: 'POST'
+          participantLabel: "caller-#{caller_info[:call_sid].last(8)}"
         )
       end
 

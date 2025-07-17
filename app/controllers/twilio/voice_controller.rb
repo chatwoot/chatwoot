@@ -40,7 +40,7 @@ class Twilio::VoiceController < ActionController::Base
       conversation: conversation,
       call_sid:     @call_sid,
       provider:     :twilio
-    ).process_status_update('in-progress', nil, true)
+    ).process_status_update('in_progress', nil, true)
 
     conference_name = ensure_conference_name(conversation, params[:conference_name])
 
@@ -55,20 +55,6 @@ class Twilio::VoiceController < ActionController::Base
     render_twiml do |r|
       r.say(message: 'Please wait while we connect you to an agent')
 
-      # Enable real-time transcription for this call leg
-      # For outbound calls, we're connecting to the contact, so this track is for the contact
-      contact_id = conversation.contact_id
-      callback_url = "#{base_url}/twilio/transcription_callback?account_id=#{@inbox.account_id}&conference_sid=#{conference_name}&speaker_type=contact&contact_id=#{contact_id}"
-      Rails.logger.info("📞 VoiceController: Setting transcription callback to: #{callback_url}")
-
-      r.start do |start|
-        start.transcription(
-          status_callback_url: callback_url,
-          status_callback_method: 'POST',
-          track: 'inbound_track',
-          language_code: 'en-US'
-        )
-      end
 
       # Set up the conference
       conference_callback_url = "#{base_url}/api/v1/accounts/#{@inbox.account_id}/channels/voice/webhooks/conference_status"
@@ -87,9 +73,6 @@ class Twilio::VoiceController < ActionController::Base
           statusCallbackMethod:   'POST',
           statusCallbackEvent:    'start end join leave',
           participantLabel:       "caller-#{@call_sid.last(8)}",
-          record:                 'record-from-start',
-          recording_status_callback: "#{base_url}/twilio/recording_callback?account_id=#{@inbox.account_id}&conference_sid=#{conference_name}",
-          recording_status_callback_method: 'POST'
         )
       end
     end
@@ -133,7 +116,7 @@ class Twilio::VoiceController < ActionController::Base
       conversation,
       content:               content,
       message_type:          :activity,
-      additional_attributes: { call_sid: @call_sid, call_status: 'in-progress', user_input: true }
+      additional_attributes: { call_sid: @call_sid, call_status: 'in_progress', user_input: true }
     ).perform
   end
 
