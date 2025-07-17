@@ -150,6 +150,17 @@
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Atidaryti pokalbį"
     },
+    "MESSAGE_TYPES": {
+      "INCOMING": "Incoming Message",
+      "OUTGOING": "Outgoing Message"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Nėra",
+      "LOW": "Žemas",
+      "MEDIUM": "Vidutinis",
+      "HIGH": "Aukštas",
+      "URGENT": "Skubus"
+    },
     "ATTRIBUTES": {
       "MESSAGE_TYPE": "Message Type",
       "MESSAGE_CONTAINS": "Message Contains",

@@ -99,6 +99,13 @@
       "CHANGE_PRIORITY": "Önceliği Değiştir",
       "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
       "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder"
+    },
+    "PRIORITY_TYPES": {
+      "NONE": "Hiç",
+      "LOW": "Düşük",
+      "MEDIUM": "Orta",
+      "HIGH": "Yüksek",
+      "URGENT": "Acil"
     }
   }
 }

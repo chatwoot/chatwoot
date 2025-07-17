@@ -166,4 +166,3 @@ class Channel::Voice < ApplicationRecord
 
   public :provider_config_hash
 end
-
