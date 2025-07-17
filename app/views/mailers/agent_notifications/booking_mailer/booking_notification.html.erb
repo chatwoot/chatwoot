@@ -36,10 +36,10 @@
       <p><strong>Recent Messages</strong></p>
       <table width="100%" cellpadding="0" cellspacing="0" border="0" style="margin-bottom: 20px;">
         <% @conversation.recent_messages.each do |message| %>
-          <% sender_display = message.sender %>
+          <% sender_display = message.sender&.name || 'Bot' %>
           <tr>
             <td class="message" align="left" style="padding: 5px 10px; border-radius: 4px;">
-              <strong style="font-size: 14px;"><%= sender_display.name %>:</strong>
+              <strong style="font-size: 14px;"><%= sender_display %>:</strong>
               <div style="background-color: #f3f4f6; color: #000000; border-radius: 6px;">
                 <%= truncate(message.content, length: 200) %>
               </div>
