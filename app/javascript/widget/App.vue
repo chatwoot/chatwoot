@@ -43,7 +43,6 @@ export default {
     ...mapGetters({
       activeCampaign: 'campaign/getActiveCampaign',
       conversationSize: 'conversation/getConversationSize',
-      conversationAttributes: 'conversationAttributes/getConversationParams',
       hideMessageBubble: 'appConfig/getHideMessageBubble',
       isFetchingList: 'conversation/getIsFetchingList',
       isRightAligned: 'appConfig/isRightAligned',
@@ -63,14 +62,6 @@ export default {
       return this.$root.$i18n.locale
         ? getLanguageDirection(this.$root.$i18n.locale)
         : false;
-    },
-    hasActiveConversation() {
-      const { allowMessagesAfterResolved } = window.chatwootWebChannel || {};
-      const { status } = this.conversationAttributes;
-      return (
-        !!this.messageCount &&
-        (allowMessagesAfterResolved || status !== 'resolved')
-      );
     },
   },
   watch: {
@@ -317,7 +308,7 @@ export default {
           const shouldShowMessageView =
             ['home'].includes(this.$route.name) &&
             message.isOpen &&
-            this.hasActiveConversation;
+            this.messageCount;
           const shouldShowHomeView =
             !message.isOpen &&
             ['unread-messages', 'campaigns'].includes(this.$route.name);
