@@ -112,8 +112,22 @@ class DailyConversationReportJob < ApplicationJob
             WHEN conversations.status = 2 THEN 'pending'
             WHEN conversations.status = 3 THEN 'snoozed'
           END AS conversation_status,
+          CASE
+            WHEN conversations.priority = 0 THEN 'none'
+            WHEN conversations.priority = 1 THEN 'low'
+            WHEN conversations.priority = 2 THEN 'medium'
+            WHEN conversations.priority = 3 THEN 'high'
+            WHEN conversations.priority = 4 THEN 'urgent'
+            ELSE 'none'
+          END AS conversation_priority,
           reporting_events_first_response.value / 60.0 AS first_response_time_minutes,
           latest_conversation_resolved.value / 60.0 AS resolution_time_minutes,
+          latest_conversation_resolved.created_at AS resolution_date,
+          CASE#{' '}
+            WHEN latest_conversation_resolved.created_at IS NOT NULL#{' '}
+            THEN EXTRACT(EPOCH FROM (latest_conversation_resolved.created_at - conversations.created_at)) / 86400.0
+            ELSE NULL#{' '}
+          END AS days_to_resolve,
           conversations.cached_label_list AS labels
       FROM
           conversations
@@ -125,7 +139,7 @@ class DailyConversationReportJob < ApplicationJob
               ON conversations.id = reporting_events_first_response.conversation_id
               AND reporting_events_first_response.name = 'first_response'
           LEFT JOIN LATERAL (
-              SELECT value
+              SELECT value, created_at
               FROM reporting_events AS re
               WHERE re.conversation_id = conversations.id
               AND re.name = 'conversation_resolved'
@@ -152,7 +166,8 @@ class DailyConversationReportJob < ApplicationJob
       # Only include customer details in headers if not masking data
       headers += ['Customer Phone Number', 'Customer Name'] unless mask_data
 
-      headers += ['Agent Name', 'Conversation Status', 'First Response Time (minutes)', 'Resolution Time (minutes)', 'Labels']
+      headers += ['Agent Name', 'Conversation Status', 'Conversation Priority', 'First Response Time (minutes)', 'Resolution Time (minutes)',
+                  'Resolution Date', 'Days to Resolve', 'Labels']
 
       csv << headers
       results.each do |row|
@@ -170,8 +185,11 @@ class DailyConversationReportJob < ApplicationJob
         values += [
           row['agent_name'],
           row['conversation_status'],
+          row['conversation_priority'],
           row['first_response_time_minutes'],
           row['resolution_time_minutes'],
+          row['resolution_date'],
+          row['days_to_resolve'],
           row['labels']
         ]
 
