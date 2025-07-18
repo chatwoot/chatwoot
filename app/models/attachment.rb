@@ -53,7 +53,7 @@ class Attachment < ApplicationRecord
 
   # NOTE: the URl returned does a 301 redirect to the actual file
   def file_url
-    file.attached? ? url_for(file) : ''
+    file.attached? && file.filename.present? && file.filename.to_s.present? ? url_for(file) : ''
   end
 
   # NOTE: for External services use this methods since redirect doesn't work effectively in a lot of cases
@@ -63,7 +63,7 @@ class Attachment < ApplicationRecord
   end
 
   def thumb_url
-    if file.attached? && file.representable?
+    if file.attached? && file.representable? && file.filename.present? && file.filename.to_s.present?
       url_for(file.representation(resize_to_fill: [250, nil]))
     else
       ''
