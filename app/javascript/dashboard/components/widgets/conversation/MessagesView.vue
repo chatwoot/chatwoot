@@ -176,7 +176,7 @@ export default {
     },
 
     replyWindowBannerMessage() {
-      if (this.isAWhatsAppChannel) {
+      if (this.isAWhatsAppChannel && !this.isAWhapiChannel) {
         return this.$t('CONVERSATION.TWILIO_WHATSAPP_CAN_REPLY');
       }
       if (this.isAPIInbox) {
@@ -211,7 +211,7 @@ export default {
     },
     replyWindowLinkText() {
       if (
-        this.isAWhatsAppChannel ||
+        (this.isAWhatsAppChannel && !this.isAWhapiChannel) ||
         this.isAFacebookInbox ||
         this.isAnInstagramChannel
       ) {
