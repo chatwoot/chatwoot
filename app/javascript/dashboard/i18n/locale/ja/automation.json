@@ -146,6 +146,7 @@
       "SEND_WEBHOOK_EVENT": "Send Webhook Event",
       "SEND_ATTACHMENT": "Send Attachment",
       "SEND_MESSAGE": "Send a Message",
+      "ADD_PRIVATE_NOTE": "Add a Private Note",
       "CHANGE_PRIORITY": "優先度を変更",
       "ADD_SLA": "SLAを追加",
       "OPEN_CONVERSATION": "会話を開く"
