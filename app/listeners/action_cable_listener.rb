@@ -39,7 +39,8 @@ class ActionCableListener < BaseListener
              contact_tokens(conversation.contact_inbox, message)
 
     if message.sender_type == 'Contact'
-      ChatServiceJob.perform_async(message.id)
+      # ChatServiceJob.perform_async(message.id)
+      Captain::Copilot::ChatService.new(message).perform
       # chat_service = Captain::Copilot::ChatService.new(message)
       # thread = Thread.new do
       #   chat_service.perform
