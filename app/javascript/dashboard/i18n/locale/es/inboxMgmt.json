@@ -52,8 +52,8 @@
         "HELP": "To add your Instagram profile as a channel, you need to authenticate your Instagram Profile by clicking on 'Continue with Instagram' ",
         "ERROR_MESSAGE": "There was an error connecting to Instagram, please try again",
         "ERROR_AUTH": "There was an error connecting to Instagram, please try again",
-        "NEW_INBOX_SUGGESTION": "This Instagram account was previously linked to a different inbox and has now been migrated here. All new messages will appear here. The old inbox will no longer be able to send or receive messages for this account.",
-        "DUPLICATE_INBOX_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. You won’t be able to send/receive Instagram messages from this inbox anymore."
+        "NEW_INBOX_SUGGESTION": "Esta cuenta de Instagram se ha vinculado previamente a una bandeja de entrada diferente y ahora se ha migrado aquí. Todos los nuevos mensajes se mostrarán aquí. La antigua bandeja de entrada ya no podrá enviar o recibir mensajes para esta cuenta.",
+        "DUPLICATE_INBOX_BANNER": "Esta cuenta de Instagram se ha migrado a la nueva bandeja de entrada de Instagram. Ya no podrás enviar/recibir mensajes de Instagram desde esta bandeja de entrada."
       },
       "TWITTER": {
         "HELP": "Para añadir tu perfil de Twitter como un canal, necesitas autenticar tu perfil de Twitter haciendo clic en 'Iniciar sesión con Twitter' ",

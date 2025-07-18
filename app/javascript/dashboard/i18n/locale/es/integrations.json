@@ -836,34 +836,34 @@
       }
     },
     "INBOXES": {
-      "HEADER": "Connected Inboxes",
-      "ADD_NEW": "Connect a new inbox",
+      "HEADER": "Canales",
+      "ADD_NEW": "Conectar un nuevo canal",
       "OPTIONS": {
         "DISCONNECT": "Desconectar"
       },
       "DELETE": {
-        "TITLE": "Are you sure to disconnect the inbox?",
+        "TITLE": "¿Estás seguro de querer desconectar el canal?",
         "DESCRIPTION": "",
         "CONFIRM": "Sí, eliminar",
-        "SUCCESS_MESSAGE": "The inbox was successfully disconnected.",
-        "ERROR_MESSAGE": "There was an error disconnecting the inbox, please try again."
+        "SUCCESS_MESSAGE": "El canal se ha desconectado correctamente.",
+        "ERROR_MESSAGE": "Se ha producido un error al desconectar el canal, por favor inténtelo de nuevo."
       },
-      "FORM_DESCRIPTION": "Choose an inbox to connect with the assistant.",
+      "FORM_DESCRIPTION": "Elige un canal para conectar con el asistente.",
       "CREATE": {
-        "TITLE": "Connect an Inbox",
-        "SUCCESS_MESSAGE": "The inbox was successfully connected.",
-        "ERROR_MESSAGE": "An error occurred while connecting the inbox. Please try again."
+        "TITLE": "Conectar un canal",
+        "SUCCESS_MESSAGE": "El canal se ha conectado correctamente.",
+        "ERROR_MESSAGE": "Se ha producido un error al conectar el canal, por favor inténtelo de nuevo."
       },
       "FORM": {
         "INBOX": {
-          "LABEL": "Bandeja de entrada",
-          "PLACEHOLDER": "Choose the inbox to deploy the assistant.",
-          "ERROR": "An inbox selection is required."
+          "LABEL": "Canal",
+          "PLACEHOLDER": "Elige el canal para desplegar el asistente.",
+          "ERROR": "Se requiere una selección de canal."
         }
       },
       "EMPTY_STATE": {
-        "TITLE": "No Connected Inboxes",
-        "SUBTITLE": "Connecting an inbox allows the assistant to handle initial questions from your customers before transferring them to you."
+        "TITLE": "No hay canales conectados",
+        "SUBTITLE": "Conectar un canal permite que el asistente gestione las preguntas iniciales de tus clientes antes de transferirlas a ti."
       }
     }
   }
