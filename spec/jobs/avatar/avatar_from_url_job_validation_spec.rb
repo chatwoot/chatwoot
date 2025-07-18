@@ -177,17 +177,17 @@ RSpec.describe Avatar::AvatarFromUrlJob, '#validation_and_rate_limiting' do
         # First call
         expect(Down).to receive(:download).with(valid_avatar_url, max_size: 15 * 1024 * 1024)
                                           .and_return(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
-        
+
         described_class.perform_now(user_avatarable, valid_avatar_url)
         expect(user_avatarable.avatar).to be_attached
-        
+
         # Clear the attached avatar to allow second attachment
         user_avatarable.avatar.purge
-        
+
         # Second call - should process again since there's no rate limiting or hash comparison for User
         expect(Down).to receive(:download).with(valid_avatar_url, max_size: 15 * 1024 * 1024)
                                           .and_return(fixture_file_upload(Rails.root.join('spec/assets/avatar.png'), 'image/png'))
-        
+
         described_class.perform_now(user_avatarable, valid_avatar_url)
         expect(user_avatarable.avatar).to be_attached
       end
