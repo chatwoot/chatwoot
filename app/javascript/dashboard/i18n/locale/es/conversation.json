@@ -37,7 +37,7 @@
     "ASSIGN_TO_ME": "Asignar a mi",
     "TWILIO_WHATSAPP_CAN_REPLY": "Sólo puede responder a esta conversación usando una plantilla de mensaje debido a",
     "TWILIO_WHATSAPP_24_HOURS_WINDOW": "Restricción de la ventana de mensajes de 24 horas",
-    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "This Instagram account was migrated to the new Instagram channel inbox. All new messages will show up there. You won’t be able to send messages from this conversation anymore.",
+    "OLD_INSTAGRAM_INBOX_REPLY_BANNER": "Esta cuenta de Instagram se ha migrado a la nueva bandeja de entrada de Instagram. Todos los nuevos mensajes se mostrarán allí. Ya no podrás enviar mensajes desde esta conversación.",
     "REPLYING_TO": "Esta respondiendo a:",
     "REMOVE_SELECTION": "Eliminar selección",
     "DOWNLOAD": "Descargar",
@@ -219,7 +219,7 @@
     "FILE_SIZE_LIMIT": "El archivo supera el límite de archivos adjuntos de {MAXIMUM_SUPPORTED_FILE_UPLOAD_SIZE} MB",
     "MESSAGE_ERROR": "No se puede enviar este mensaje, por favor inténtalo de nuevo más tarde",
     "SENT_BY": "Enviado por:",
-    "BOT": "Bot",
+    "BOT": "AI Bot",
     "SEND_FAILED": "¡No se pudo enviar el mensaje! Inténtalo de nuevo",
     "TRY_AGAIN": "reintentar",
     "ASSIGNMENT": {

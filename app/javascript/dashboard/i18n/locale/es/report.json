@@ -260,8 +260,8 @@
     }
   },
   "INBOX_REPORTS": {
-    "HEADER": "Resumen de bandejas de entrada",
-    "DESCRIPTION": "Visualiza rápidamente el rendimiento de tus bandejas de entrada con métricas clave como conversaciones, tiempos de respuesta, tiempos de resolución y casos resueltos, todo en un solo lugar. Haz clic en el nombre de una bandeja de entrada para obtener más detalles.",
+    "HEADER": "Resumen de Canales",
+    "DESCRIPTION": "Visualiza rápidamente el rendimiento de tus canales con métricas clave. Haz clic en el nombre de un canal para obtener más detalles.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
     "DOWNLOAD_INBOX_REPORTS": "Descargar reportes de canales",
@@ -429,7 +429,7 @@
     }
   },
   "BOT_REPORTS": {
-    "HEADER": "Reporte de Bots",
+    "HEADER": "Reporte de AI Bots",
     "METRIC": {
       "TOTAL_CONVERSATIONS": {
         "LABEL": "Núm. de conversaciones",

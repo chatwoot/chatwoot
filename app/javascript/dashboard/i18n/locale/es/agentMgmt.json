@@ -3,7 +3,7 @@
     "HEADER": "Miembros",
     "HEADER_BTN_TXT": "Añadir miembro",
     "LOADING": "Se están listando los miembros",
-    "DESCRIPTION": "Un miembro es miembro de su equipo de atención al cliente, quién puede ver y responder a los mensajes del usuario.  La siguiente lista muestra todos los miembros en su cuenta.",
+    "DESCRIPTION": "Miembros de su equipo de atención al cliente, quién puede ver y responder a los mensajes del usuario.  La siguiente lista muestra todos los miembros en su cuenta.",
     "LEARN_MORE": "Aprender acerca de roles de usuario",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrador",
