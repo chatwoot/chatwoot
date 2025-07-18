@@ -35,6 +35,27 @@ class Webhooks::InstagramEventsJob < MutexApplicationJob
   def process_messages(entry)
     messages(entry).each do |messaging|
       Rails.logger.info("Instagram Events Job Messaging: #{messaging}")
+      
+      # Enhanced logging for carousel detection
+      if messaging[:message]&.dig(:attachments)&.any?
+        attachments = messaging[:message][:attachments]
+        Rails.logger.info("=== INSTAGRAM ATTACHMENTS DEBUG ===")
+        Rails.logger.info("Number of attachments: #{attachments.length}")
+        attachments.each_with_index do |attachment, index|
+          Rails.logger.info("Attachment #{index + 1}:")
+          Rails.logger.info("  Type: #{attachment[:type]}")
+          Rails.logger.info("  Payload: #{attachment[:payload]}")
+          
+          # Check for carousel (generic template)
+          if attachment[:type] == 'template' && attachment.dig(:payload, :template_type) == 'generic'
+            Rails.logger.info("🎠 CAROUSEL DETECTED!")
+            Rails.logger.info("  Template type: #{attachment.dig(:payload, :template_type)}")
+            Rails.logger.info("  Elements count: #{attachment.dig(:payload, :elements)&.length}")
+            Rails.logger.info("  Full elements: #{attachment.dig(:payload, :elements)}")
+          end
+        end
+        Rails.logger.info("=== END ATTACHMENTS DEBUG ===")
+      end
 
       instagram_id = instagram_id(messaging)
       channel = find_channel(instagram_id)
