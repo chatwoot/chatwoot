@@ -146,6 +146,7 @@
       "SEND_WEBHOOK_EVENT": "Webhook Olayı Gönder",
       "SEND_ATTACHMENT": "Ek Gönder",
       "SEND_MESSAGE": "Mesaj Gönder",
+      "ADD_PRIVATE_NOTE": "Özel Bir Not Ekle",
       "CHANGE_PRIORITY": "Önceliği Değiştir",
       "ADD_SLA": "Add SLA",
       "OPEN_CONVERSATION": "Görüşmeyi aç"
