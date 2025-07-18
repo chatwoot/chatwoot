@@ -2,7 +2,7 @@
   "CUSTOM_ROLE": {
     "HEADER": "Roles personalizados",
     "LEARN_MORE": "Obtenga más información sobre los roles personalizados",
-    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+    "DESCRIPTION": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to miembros to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
     "HEADER_BTN_TXT": "Add custom role",
     "LOADING": "Fetching custom roles...",
     "SEARCH_404": "No hay elementos que coincidan con esta consulta.",
@@ -15,13 +15,13 @@
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "The custom role feature is only available in the paid plans.",
-      "UPGRADE_PROMPT": "Actualice a un plan pago para acceder a funciones avanzadas como registros de auditoría, capacidad de agente y más.",
+      "UPGRADE_PROMPT": "Actualice a un plan pago para acceder a funciones avanzadas como registros de auditoría, capacidad de miembro y más.",
       "ASK_ADMIN": "Por favor, comuníquese con su administrador para la actualización."
     },
     "LIST": {
       "404": "There are no custom roles available in this account.",
       "TITLE": "Manage custom roles",
-      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to agents to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
+      "DESC": "Custom roles are roles that are created by the account owner or admin. These roles can be assigned to miembros to define their access and permissions within the account. Custom roles can be created with specific permissions and access levels to suit the requirements of the organization.",
       "TABLE_HEADER": {
         "NAME": "Nombre",
         "DESCRIPTION": "Descripción",

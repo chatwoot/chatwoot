@@ -124,12 +124,12 @@
     }
   },
   "AGENT_REPORTS": {
-    "HEADER": "Resumen de agentes",
-    "DESCRIPTION": "Rastrea fácilmente el rendimiento de los agentes con métricas clave como conversaciones, tiempos de respuesta, tiempos de resolución y casos resueltos. Haz clic en el nombre de un agente para obtener más información.",
+    "HEADER": "Resumen del Equipo",
+    "DESCRIPTION": "Rastrea fácilmente el rendimiento de tu equipo con métricas clave como conversaciones, tiempos de respuesta, tiempos de resolución y casos resueltos. Haz clic en el nombre de un miembro para obtener más información.",
     "LOADING_CHART": "Cargando datos del gráfico...",
     "NO_ENOUGH_DATA": "No hemos recibido suficientes puntos de datos para generar el informe. Inténtalo de nuevo más tarde.",
-    "DOWNLOAD_AGENT_REPORTS": "Descargar reportes de agente",
-    "FILTER_DROPDOWN_LABEL": "Seleccionar agente",
+    "DOWNLOAD_AGENT_REPORTS": "Descargar reportes del equipo",
+    "FILTER_DROPDOWN_LABEL": "Seleccionar miembro",
     "METRICS": {
       "CONVERSATIONS": {
         "NAME": "Conversaciones",
@@ -402,13 +402,13 @@
     "DOWNLOAD_FAILED": "Error al descargar los informes CSAT",
     "FILTERS": {
       "AGENTS": {
-        "PLACEHOLDER": "Elegir agentes"
+        "PLACEHOLDER": "Elegir miembros"
       }
     },
     "TABLE": {
       "HEADER": {
         "CONTACT_NAME": "Contacto",
-        "AGENT_NAME": "Agente asignado",
+        "AGENT_NAME": "Miembro asignado",
         "RATING": "Calificación",
         "FEEDBACK_TEXT": "Realimentacion de Comentario"
       }
@@ -445,7 +445,7 @@
       },
       "HANDOFF_RATE": {
         "LABEL": "Tasa de traspasos",
-        "TOOLTIP": "Número total de conversaciones transmitidas a agentes / Número total de conversaciones manejadas por el bot * 100"
+        "TOOLTIP": "Número total de conversaciones transmitidas a miembros / Número total de conversaciones manejadas por el bot * 100"
       }
     }
   },
@@ -468,11 +468,11 @@
       "DOWNLOAD_REPORT": "Descargar reporte"
     },
     "AGENT_CONVERSATIONS": {
-      "HEADER": "Conversaciones por agente",
+      "HEADER": "Conversaciones por miembro",
       "LOADING_MESSAGE": "Cargando métricas...",
-      "NO_AGENTS": "No hay conversaciones por agente",
+      "NO_AGENTS": "No hay conversaciones por miembro",
       "TABLE_HEADER": {
-        "AGENT": "Agente",
+        "AGENT": "Miembro",
         "OPEN": "Abrir",
         "UNATTENDED": "Desatendido",
         "STATUS": "Estado"
@@ -521,14 +521,14 @@
       "SEARCH": "Buscar filtro",
       "INPUT_PLACEHOLDER": {
         "SLA": "Nombre de SLA",
-        "AGENTS": "Nombre del agente",
+        "AGENTS": "Nombre del miembro",
         "INBOXES": "Nombre de la bandeja de entrada",
         "LABELS": "Nombre de la etiqueta",
         "TEAMS": "Nombre del equipo"
       },
       "SLA": "Política de SLA",
       "INBOXES": "Bandeja de entrada",
-      "AGENTS": "Agente",
+      "AGENTS": "Miembro",
       "LABELS": "Etiqueta",
       "TEAMS": "Equipo"
     },
@@ -551,14 +551,14 @@
       "HEADER": {
         "POLICY": "Política",
         "CONVERSATION": "Conversación",
-        "AGENT": "Agente"
+        "AGENT": "Miembro"
       },
       "VIEW_DETAILS": "Ver detalles"
     }
   },
   "SUMMARY_REPORTS": {
     "INBOX": "Canal",
-    "AGENT": "Agente",
+    "AGENT": "Miembro",
     "TEAM": "Equipo",
     "LABEL": "Etiqueta",
     "AVG_RESOLUTION_TIME": "Tiempo de resolución",

@@ -18,8 +18,8 @@
         "BODY": "Autenticar tu cuenta y crear una bandeja de entrada."
       },
       "AGENT": {
-        "TITLE": "Añadir agentes",
-        "BODY": "Añadir agentes a la bandeja de entrada creada."
+        "TITLE": "Añadir miembros",
+        "BODY": "Añadir miembros a la bandeja de entrada creada."
       },
       "FINISH": {
         "TITLE": "Voilà!",
@@ -471,10 +471,10 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Agentes",
-        "DESC": "Aquí puede agregar agentes para administrar su recién creada bandeja de entrada. Sólo estos agentes seleccionados tendrán acceso a su bandeja de entrada. Los agentes que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como agente a todas las bandejas de entrada que crees.",
-        "VALIDATION_ERROR": "Añade al menos un agente a tu nueva bandeja de entrada",
-        "PICK_AGENTS": "Elegir agentes para la bandeja de entrada"
+        "TITLE": "Miembros",
+        "DESC": "Aquí puede agregar miembros para administrar su recién creada bandeja de entrada. Sólo estos miembros seleccionados tendrán acceso a su bandeja de entrada. Los miembros que no forman parte de esta bandeja de entrada no podrán ver o responder a los mensajes de esta bandeja de entrada cuando inicien sesión. <br> <b>PS:</b> Como administrador, si necesita acceso a todas las bandejas, debes añadirte como miembro a todas las bandejas de entrada que crees.",
+        "VALIDATION_ERROR": "Añade al menos un miembro a tu nueva bandeja de entrada",
+        "PICK_AGENTS": "Elegir miembros para la bandeja de entrada"
       },
       "DETAILS": {
         "TITLE": "Detalles de la bandeja de entrada",
@@ -514,8 +514,8 @@
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Añadir agentes",
-      "ADD_AGENTS": "Añadiendo agentes a tu bandeja de entrada..."
+      "BUTTON_TEXT": "Añadir miembros",
+      "ADD_AGENTS": "Añadiendo miembros a tu bandeja de entrada..."
     },
     "FINISH": {
       "TITLE": "¡Tu bandeja de entrada está lista!",
@@ -545,12 +545,12 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Nombre del remitente",
-        "SUB_TEXT": "Seleccione el nombre que se muestra al cliente cuando reciba correos electrónicos de sus agentes.",
+        "SUB_TEXT": "Seleccione el nombre que se muestra al cliente cuando reciba correos electrónicos de sus miembros.",
         "FOR_EG": "Por ejemplo:",
         "FRIENDLY": {
           "TITLE": "Amigable",
           "FROM": "De",
-          "SUBTITLE": "Añada el nombre del agente que envió la respuesta en el nombre del remitente para que sea amistoso."
+          "SUBTITLE": "Añada el nombre del miembro que envió la respuesta en el nombre del remitente para que sea amistoso."
         },
         "PROFESSIONAL": {
           "TITLE": "Profesional",
@@ -617,23 +617,23 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Script de Messenger",
       "MESSENGER_SUB_HEAD": "Coloca este botón dentro de tu etiqueta cuerpo",
-      "INBOX_AGENTS": "Agentes",
-      "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar agentes de esta bandeja de entrada",
+      "INBOX_AGENTS": "Miembros",
+      "INBOX_AGENTS_SUB_TEXT": "Añadir o quitar miembros de esta bandeja de entrada",
       "AGENT_ASSIGNMENT": "Asignación de conversación",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Actualizar configuración de la asignación de conversación",
       "UPDATE": "Actualizar",
       "ENABLE_EMAIL_COLLECT_BOX": "Activar caja de recolección de correo electrónico",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Activar o desactivar la caja de recolección de correo electrónico",
       "AUTO_ASSIGNMENT": "Activar asignación automática",
-      "SENDER_NAME_SECTION": "Habilitar nombre del agente en el correo electrónico",
-      "SENDER_NAME_SECTION_TEXT": "Habilitar/Deshabilitar mostrando el nombre del agente en el correo electrónico, si está deshabilitado, mostrará el nombre del negocio",
+      "SENDER_NAME_SECTION": "Habilitar nombre del miembro en el correo electrónico",
+      "SENDER_NAME_SECTION_TEXT": "Habilitar/Deshabilitar mostrando el nombre del miembro en el correo electrónico, si está deshabilitado, mostrará el nombre del negocio",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Habilitar continuidad de conversación por correo electrónico",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Las conversaciones continuarán por correo electrónico si la dirección de correo electrónico de contacto está disponible.",
       "LOCK_TO_SINGLE_CONVERSATION": "Bloquear a una sola conversación",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Activar o desactivar múltiples conversaciones para el mismo contacto en esta bandeja de entrada",
       "INBOX_UPDATE_TITLE": "Ajustes de la Bandeja de Entrada",
       "INBOX_UPDATE_SUB_TEXT": "Actualizar la configuración de tu bandeja de entrada",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los agentes añadidos a esta bandeja de entrada.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Activar o desactivar la asignación automática de nuevas conversaciones a los miembros añadidos a esta bandeja de entrada.",
       "HMAC_VERIFICATION": "Validación de identidad de usuario",
       "HMAC_DESCRIPTION": "Para validar la identidad del usuario, puede pasar un `identifier_hash` para cada usuario. Puedes generar un hash HMAC sha256 usando el `identifier` con la clave que se muestra aquí.",
       "HMAC_LINK_TO_DOCS": "Puedes leer más aquí.",
@@ -684,7 +684,7 @@
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Límite de asignación automática",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Por favor ingrese un valor mayor a 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limite la cantidad máxima de conversaciones de esta bandeja de entrada que se pueden asignar automáticamente a un agente"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limite la cantidad máxima de conversaciones de esta bandeja de entrada que se pueden asignar automáticamente a un miembro"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reautorizar",
@@ -752,7 +752,7 @@
       "UPDATE": "Actualice las horas de atención",
       "TOGGLE_AVAILABILITY": "Habilite la disponibilidad de atención para esta bandeja de entrada",
       "UNAVAILABLE_MESSAGE_LABEL": "Mensaje no disponible para visitantes",
-      "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los agentes están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
+      "TOGGLE_HELP": "Al habilitar el horario de atención se mostraran las horas disponibles en el \"widget\" del chat en vivo si todos los miembros están fuera de línea. Fuera de las horas disponibles los visitantes pueden ser notificado con un mensaje y una forma PreChat.",
       "DAY": {
         "ENABLE": "Activar la disponibilidad para este día",
         "UNAVAILABLE": "No disponible",

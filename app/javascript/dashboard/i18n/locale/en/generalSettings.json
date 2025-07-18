@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "You have exceeded the conversation limit. Hacker plan allows only 500 conversations.",
       "INBOXES": "You have exceeded the inbox limit. Hacker plan only supports website live-chat. Additional inboxes like email, WhatsApp etc. require a paid plan.",
-      "AGENTS": "You have exceeded the agent limit. Your plan only allows {allowedAgents} agents.",
+      "AGENTS": "You have exceeded the member limit. Hacker plan allows only 2 members.",
       "NON_ADMIN": "Please contact your administrator to upgrade the plan and continue using all features."
     },
     "TITLE": "Account settings",
@@ -68,7 +68,7 @@
           "PLACEHOLDER": "Select a label"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Skip conversations waiting for agent’s reply"
+          "LABEL": "Skip conversations waiting for member's reply"
         },
         "UPDATE_BUTTON": "Save Changes"
       },
@@ -94,7 +94,7 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Exclude unattended conversations",
-        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for an agent's reply."
+        "HELP": "When enabled, the system will skip resolving conversations that are still waiting for a member's reply."
       },
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Transcribe Audio Messages",
@@ -203,11 +203,11 @@
       "GO_TO_CONTACTS_DASHBOARD": "Go to Contacts Dashboard",
       "GO_TO_REPORTS_OVERVIEW": "Go to Reports Overview",
       "GO_TO_CONVERSATION_REPORTS": "Go to Conversation Reports",
-      "GO_TO_AGENT_REPORTS": "Go to Agent Reports",
+      "GO_TO_AGENT_REPORTS": "Go to Member Reports",
       "GO_TO_LABEL_REPORTS": "Go to Label Reports",
       "GO_TO_INBOX_REPORTS": "Go to Inbox Reports",
       "GO_TO_TEAM_REPORTS": "Go to Team Reports",
-      "GO_TO_SETTINGS_AGENTS": "Go to Agent Settings",
+      "GO_TO_SETTINGS_AGENTS": "Go to Member Settings",
       "GO_TO_SETTINGS_TEAMS": "Go to Team Settings",
       "GO_TO_SETTINGS_INBOXES": "Go to Inbox Settings",
       "GO_TO_SETTINGS_LABELS": "Go to Label Settings",
@@ -217,7 +217,7 @@
       "GO_TO_SETTINGS_PROFILE": "Go to Profile Settings",
       "GO_TO_NOTIFICATIONS": "Go to Notifications",
       "ADD_LABELS_TO_CONVERSATION": "Add label to the conversation",
-      "ASSIGN_AN_AGENT": "Assign an agent",
+      "ASSIGN_AN_AGENT": "Assign a member",
       "AI_ASSIST": "AI Assist",
       "ASSIGN_PRIORITY": "Assign priority",
       "ASSIGN_A_TEAM": "Assign a team",

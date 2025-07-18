@@ -21,7 +21,7 @@
     },
     "BOT_CONFIGURATION": {
       "TITLE": "Seleccione un AI Bot",
-      "DESC": "Asigne un AI Bot a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un agente en vivo cuando sea necesario.",
+      "DESC": "Asigne un AI Bot a su bandeja de entrada. Pueden manejar conversaciones iniciales y transferirlas a un miembro en vivo cuando sea necesario.",
       "SUBMIT": "Actualizar",
       "DISCONNECT": "Desconectar Bot",
       "SUCCESS_MESSAGE": "El AI Bot se ha actualizado con éxito.",

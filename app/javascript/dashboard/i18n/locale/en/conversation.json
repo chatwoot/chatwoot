@@ -116,7 +116,7 @@
       }
     },
     "MENTION": {
-      "AGENTS": "Agents",
+      "AGENTS": "Members",
       "TEAMS": "Teams"
     },
     "CUSTOM_SNOOZE": {
@@ -158,9 +158,9 @@
         "TOMORROW": "Until tomorrow",
         "NEXT_WEEK": "Until next week"
       },
-      "ASSIGN_AGENT": "Assign agent",
+      "ASSIGN_AGENT": "Assign member",
       "ASSIGN_LABEL": "Assign label",
-      "AGENTS_LOADING": "Loading agents...",
+      "AGENTS_LOADING": "Loading members...",
       "ASSIGN_TEAM": "Assign team",
       "DELETE": "Delete conversation",
       "OPEN_IN_NEW_TAB": "Open in new tab",
@@ -169,7 +169,7 @@
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "Conversation id {conversationId} assigned to \"{agentName}\"",
-          "FAILED": "Couldn't assign agent. Please try again."
+          "FAILED": "Couldn't assign member. Please try again."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Assigned label #{labelName} to conversation id {conversationId}",
@@ -186,7 +186,7 @@
       "ENABLE_SIGN_TOOLTIP": "Enable signature",
       "DISABLE_SIGN_TOOLTIP": "Disable signature",
       "MSG_INPUT": "Shift + enter for new line. Start with '/' to select a Canned Response.",
-      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Agents",
+      "PRIVATE_MSG_INPUT": "Shift + enter for new line. This will be visible only to Members",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "Message signature is not configured, please configure it in profile settings.",
       "CLICK_HERE": "Click here to update",
       "WHATSAPP_TEMPLATES": "Whatsapp Templates"
@@ -249,7 +249,7 @@
     "SEND_FAILED": "Couldn't send message! Try again",
     "TRY_AGAIN": "retry",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Select Agent",
+      "SELECT_AGENT": "Select Member",
       "REMOVE": "Remove",
       "ASSIGN": "Assign"
     },
@@ -282,7 +282,7 @@
     "SEND_EMAIL_ERROR": "There was an error, please try again",
     "FORM": {
       "SEND_TO_CONTACT": "Send the transcript to the customer",
-      "SEND_TO_AGENT": "Send the transcript to the assigned agent",
+      "SEND_TO_AGENT": "Send the transcript to the assigned member",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Send the transcript to another email address",
       "EMAIL": {
         "PLACEHOLDER": "Enter an email address",
@@ -304,7 +304,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite your team members",
-      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the agent list.",
+      "DESCRIPTION": "Since you are getting ready to talk to your customer, bring in your teammates to assist you. You can invite your teammates by adding their email addresses to the member list.",
       "NEW_LINK": "Click here to invite a team member"
     },
     "LABELS": {
@@ -314,12 +314,12 @@
     },
     "CANNED_RESPONSES": {
       "TITLE": "Create canned responses",
-      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Agents can type the '/' character followed by the shortcode to insert a response.",
+      "DESCRIPTION": "Pre-written quick reply templates help you quickly respond to a conversation. Members can type the '/' character followed by the shortcode to insert a response.",
       "NEW_LINK": "Click here to create a canned response"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Assigned Agent",
+    "ASSIGNEE_LABEL": "Assigned Member",
     "SELF_ASSIGN": "Assign to me",
     "TEAM_LABEL": "Assigned Team",
     "SELECT": {

@@ -18,8 +18,8 @@
         "BODY": "Authenticate your account and create an inbox."
       },
       "AGENT": {
-        "TITLE": "Add Agents",
-        "BODY": "Add agents to the created inbox."
+        "TITLE": "Add Members",
+        "BODY": "Add members to the created inbox."
       },
       "FINISH": {
         "TITLE": "Voilà!",
@@ -480,10 +480,10 @@
         }
       },
       "AGENTS": {
-        "TITLE": "Agents",
-        "DESC": "Here you can add agents to manage your newly created inbox. Only these selected agents will have access to your inbox. Agents which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as agent to all inboxes that you create.",
-        "VALIDATION_ERROR": "Add at least one agent to your new Inbox",
-        "PICK_AGENTS": "Pick agents for the inbox"
+        "TITLE": "Members",
+        "DESC": "Here you can add members to manage your newly created inbox. Only these selected members will have access to your inbox. Members which are not part of this inbox will not be able to see or respond to messages in this inbox when they login. <br> <b>PS:</b> As an administrator, if you need access to all inboxes, you should add yourself as member to all inboxes that you create.",
+        "VALIDATION_ERROR": "Add at least one member to your new Inbox",
+        "PICK_AGENTS": "Pick members for the inbox"
       },
       "DETAILS": {
         "TITLE": "Inbox Details",
@@ -523,8 +523,8 @@
       "DESC": ""
     },
     "AGENTS": {
-      "BUTTON_TEXT": "Add agents",
-      "ADD_AGENTS": "Adding Agents to your Inbox..."
+      "BUTTON_TEXT": "Add members",
+      "ADD_AGENTS": "Adding Members to your Inbox..."
     },
     "FINISH": {
       "TITLE": "Your Inbox is ready!",
@@ -554,12 +554,12 @@
       },
       "SENDER_NAME_SECTION": {
         "TITLE": "Sender name",
-        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your agents.",
+        "SUB_TEXT": "Select the name shown to your customer when they receive emails from your members.",
         "FOR_EG": "For eg:",
         "FRIENDLY": {
           "TITLE": "Friendly",
           "FROM": "from",
-          "SUBTITLE": "Add the name of the agent who sent the reply in the sender name to make it friendly."
+          "SUBTITLE": "Add the name of the member who sent the reply in the sender name to make it friendly."
         },
         "PROFESSIONAL": {
           "TITLE": "Professional",
@@ -626,23 +626,23 @@
     "SETTINGS_POPUP": {
       "MESSENGER_HEADING": "Messenger Script",
       "MESSENGER_SUB_HEAD": "Place this button inside your body tag",
-      "INBOX_AGENTS": "Agents",
-      "INBOX_AGENTS_SUB_TEXT": "Add or remove agents from this inbox",
+      "INBOX_AGENTS": "Members",
+      "INBOX_AGENTS_SUB_TEXT": "Add or remove members from this inbox",
       "AGENT_ASSIGNMENT": "Conversation Assignment",
       "AGENT_ASSIGNMENT_SUB_TEXT": "Update conversation assignment settings",
       "UPDATE": "Update",
       "ENABLE_EMAIL_COLLECT_BOX": "Enable email collect box",
       "ENABLE_EMAIL_COLLECT_BOX_SUB_TEXT": "Enable or disable email collect box on new conversation",
       "AUTO_ASSIGNMENT": "Enable auto assignment",
-      "SENDER_NAME_SECTION": "Enable Agent Name in Email",
-      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Agent's name in email, if disabled it will show business name",
+      "SENDER_NAME_SECTION": "Enable Member Name in Email",
+      "SENDER_NAME_SECTION_TEXT": "Enable/Disable showing Member's name in email, if disabled it will show business name",
       "ENABLE_CONTINUITY_VIA_EMAIL": "Enable conversation continuity via email",
       "ENABLE_CONTINUITY_VIA_EMAIL_SUB_TEXT": "Conversations will continue over email if the contact email address is available.",
       "LOCK_TO_SINGLE_CONVERSATION": "Lock to single conversation",
       "LOCK_TO_SINGLE_CONVERSATION_SUB_TEXT": "Enable or disable multiple conversations for the same contact in this inbox",
       "INBOX_UPDATE_TITLE": "Inbox Settings",
       "INBOX_UPDATE_SUB_TEXT": "Update your inbox settings",
-      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the agents added to this inbox.",
+      "AUTO_ASSIGNMENT_SUB_TEXT": "Enable or disable the automatic assignment of new conversations to the members added to this inbox.",
       "HMAC_VERIFICATION": "User Identity Validation",
       "HMAC_DESCRIPTION": "With this key you can generate a secret token that can be used to verify the identity of your users.",
       "HMAC_LINK_TO_DOCS": "You can read more here.",
@@ -693,7 +693,7 @@
     "AUTO_ASSIGNMENT": {
       "MAX_ASSIGNMENT_LIMIT": "Auto assignment limit",
       "MAX_ASSIGNMENT_LIMIT_RANGE_ERROR": "Please enter a value greater than 0",
-      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to an agent"
+      "MAX_ASSIGNMENT_LIMIT_SUB_TEXT": "Limit the maximum number of conversations from this inbox that can be auto assigned to a member"
     },
     "FACEBOOK_REAUTHORIZE": {
       "TITLE": "Reauthorize",
@@ -761,7 +761,7 @@
       "UPDATE": "Update business hours settings",
       "TOGGLE_AVAILABILITY": "Enable business availability for this inbox",
       "UNAVAILABLE_MESSAGE_LABEL": "Unavailable message for visitors",
-      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the agents are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
+      "TOGGLE_HELP": "Enabling business availability will show the available hours on live chat widget even if all the members are offline. Outside available hours visitors can be warned with a message and a pre-chat form.",
       "DAY": {
         "ENABLE": "Enable availability for this day",
         "UNAVAILABLE": "Unavailable",

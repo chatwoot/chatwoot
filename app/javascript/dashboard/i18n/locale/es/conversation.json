@@ -147,9 +147,9 @@
         "TOMORROW": "Hasta mañana",
         "NEXT_WEEK": "Hasta la próxima semana"
       },
-      "ASSIGN_AGENT": "Asignar un agente",
+      "ASSIGN_AGENT": "Asignar un miembro",
       "ASSIGN_LABEL": "Asignar etiqueta",
-      "AGENTS_LOADING": "Cargando agentes...",
+      "AGENTS_LOADING": "Cargando miembros...",
       "ASSIGN_TEAM": "Asignar equipo",
       "DELETE": "Eliminar conversación",
       "OPEN_IN_NEW_TAB": "Abrir en nueva pestaña",
@@ -158,11 +158,11 @@
       "API": {
         "AGENT_ASSIGNMENT": {
           "SUCCESFUL": "ID de conversación {conversationId} asignado a \"{agentName}\"",
-          "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
+          "FAILED": "No se pudo asignar el miembro. Por favor, inténtelo de nuevo."
         },
         "LABEL_ASSIGNMENT": {
           "SUCCESFUL": "Etiqueta #{labelName} asignada a la conversación con id {conversationId}",
-          "FAILED": "No se pudo asignar el agente. Por favor, inténtelo de nuevo."
+          "FAILED": "No se pudo asignar el miembro. Por favor, inténtelo de nuevo."
         },
         "TEAM_ASSIGNMENT": {
           "SUCCESFUL": "Equipo asignado \"{team}\" al ID de conversación {conversationId}",
@@ -175,7 +175,7 @@
       "ENABLE_SIGN_TOOLTIP": "Activar firma",
       "DISABLE_SIGN_TOOLTIP": "Desactivar firma",
       "MSG_INPUT": "Shift + enter for new line. Comience con '/' para seleccionar una respuesta predefinida.",
-      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los agentes",
+      "PRIVATE_MSG_INPUT": "Mayús + entrar para una nueva línea. Esto será visible sólo para los miembros",
       "MESSAGE_SIGNATURE_NOT_CONFIGURED": "La firma del mensaje no está configurada, por favor configúrela en la configuración del perfil.",
       "CLICK_HERE": "Haga clic aquí para actualizar",
       "WHATSAPP_TEMPLATES": "Plantillas de Whatsapp"
@@ -238,7 +238,7 @@
     "SEND_FAILED": "¡No se pudo enviar el mensaje! Inténtalo de nuevo",
     "TRY_AGAIN": "reintentar",
     "ASSIGNMENT": {
-      "SELECT_AGENT": "Seleccionar agente",
+      "SELECT_AGENT": "Seleccionar miembro",
       "REMOVE": "Eliminar",
       "ASSIGN": "Asignar"
     },
@@ -271,7 +271,7 @@
     "SEND_EMAIL_ERROR": "Hubo un error, por favor inténtelo de nuevo",
     "FORM": {
       "SEND_TO_CONTACT": "Enviar la transcripción al cliente",
-      "SEND_TO_AGENT": "Enviar la transcripción al agente asignado",
+      "SEND_TO_AGENT": "Enviar la transcripción al miembro asignado",
       "SEND_TO_OTHER_EMAIL_ADDRESS": "Enviar la transcripción a otra dirección de correo",
       "EMAIL": {
         "PLACEHOLDER": "Escriba la dirección de correo",
@@ -293,7 +293,7 @@
     },
     "TEAM_MEMBERS": {
       "TITLE": "Invite a los miembros de su equipo",
-      "DESCRIPTION": "Ya que usted se está preparando para hablar con su cliente, traiga a sus compañeros para asistirle. Puedes invitar a sus compañeros de equipo añadiendo su dirección de correo electrónico a la lista de agentes.",
+      "DESCRIPTION": "Ya que usted se está preparando para hablar con su cliente, traiga a sus compañeros para asistirle. Puedes invitar a sus compañeros de equipo añadiendo su dirección de correo electrónico a la lista de miembros.",
       "NEW_LINK": "Haga clic aquí para invitar a un miembro del equipo"
     },
     "LABELS": {
@@ -303,12 +303,12 @@
     },
     "CANNED_RESPONSES": {
       "TITLE": "Crea respuestas predefinidas",
-      "DESCRIPTION": "Las respuestas predefinidas son plantillas preconfiguradas que le ayudan a responder rápidamente a una conversación. Los agentes pueden escribir el carácter '/' seguido por el código corto para insertar una respuesta predefinida durante una conversación.",
+      "DESCRIPTION": "Las respuestas predefinidas son plantillas preconfiguradas que le ayudan a responder rápidamente a una conversación. Los miembros pueden escribir el carácter '/' seguido por el código corto para insertar una respuesta predefinida durante una conversación.",
       "NEW_LINK": "Haga clic aquí para crear una respuesta predefinida"
     }
   },
   "CONVERSATION_SIDEBAR": {
-    "ASSIGNEE_LABEL": "Agente asignado",
+    "ASSIGNEE_LABEL": "Miembro asignado",
     "SELF_ASSIGN": "Asignar a mi",
     "TEAM_LABEL": "Equipo asignado",
     "SELECT": {

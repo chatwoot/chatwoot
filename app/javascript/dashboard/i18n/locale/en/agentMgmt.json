@@ -1,18 +1,18 @@
 {
   "AGENT_MGMT": {
-    "HEADER": "Agents",
-    "HEADER_BTN_TXT": "Add Agent",
-    "LOADING": "Fetching Agent List",
-    "DESCRIPTION": "An agent is a member of your customer support team who can view and respond to user messages. The list below shows all the agents in your account.",
+    "HEADER": "Members",
+    "HEADER_BTN_TXT": "Add Member",
+    "LOADING": "Fetching Member List",
+    "DESCRIPTION": "A member of your team who can view and respond to user messages. The list below shows all the members in your account.",
     "LEARN_MORE": "Learn about user roles",
     "AGENT_TYPES": {
       "ADMINISTRATOR": "Administrator",
-      "AGENT": "Agent"
+      "AGENT": "Member"
     },
     "LIST": {
-      "404": "There are no agents associated to this account",
-      "TITLE": "Manage agents in your team",
-      "DESC": "You can add/remove agents to/in your team.",
+      "404": "There are no members associated to this account",
+      "TITLE": "Manage members in your team",
+      "DESC": "You can add/remove members to/in your team.",
       "NAME": "Name",
       "EMAIL": "EMAIL",
       "STATUS": "Status",
@@ -22,13 +22,13 @@
       "AVAILABLE_CUSTOM_ROLE": "Available custom role permissions"
     },
     "ADD": {
-      "TITLE": "Add agent to your team",
+      "TITLE": "Add member to your team",
       "DESC": "You can add people who will be able to handle support for your inboxes.",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Member Name",
+          "PLACEHOLDER": "Please enter a name of the member"
         },
         "AGENT_TYPE": {
           "LABEL": "Role",
@@ -37,20 +37,20 @@
         },
         "EMAIL": {
           "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "PLACEHOLDER": "Enter the email address of the member"
         },
-        "SUBMIT": "Add Agent"
+        "SUBMIT": "Add Member"
       },
       "API": {
-        "SUCCESS_MESSAGE": "Agent added successfully",
-        "EXIST_MESSAGE": "Agent email already in use, Please try another email address",
+        "SUCCESS_MESSAGE": "Member added successfully",
+        "EXIST_MESSAGE": "Member email already in use, Please try another email address",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
     "DELETE": {
       "BUTTON_TEXT": "Delete",
       "API": {
-        "SUCCESS_MESSAGE": "Agent deleted successfully",
+        "SUCCESS_MESSAGE": "Member deleted successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "CONFIRM": {
@@ -61,11 +61,11 @@
       }
     },
     "EDIT": {
-      "TITLE": "Edit agent",
+      "TITLE": "Edit member",
       "FORM": {
         "NAME": {
-          "LABEL": "Agent Name",
-          "PLACEHOLDER": "Please enter a name of the agent"
+          "LABEL": "Member Name",
+          "PLACEHOLDER": "Please enter a name of the member"
         },
         "AGENT_TYPE": {
           "LABEL": "Role",
@@ -74,25 +74,25 @@
         },
         "EMAIL": {
           "LABEL": "Email Address",
-          "PLACEHOLDER": "Please enter an email address of the agent"
+          "PLACEHOLDER": "Please enter an email address of the member"
         },
         "AGENT_AVAILABILITY": {
           "LABEL": "Availability",
           "PLACEHOLDER": "Please select an availability status",
           "ERROR": "Availability is required"
         },
-        "SUBMIT": "Edit Agent"
+        "SUBMIT": "Edit Member"
       },
       "BUTTON_TEXT": "Edit",
       "CANCEL_BUTTON_TEXT": "Cancel",
       "API": {
-        "SUCCESS_MESSAGE": "Agent updated successfully",
+        "SUCCESS_MESSAGE": "Member updated successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       },
       "PASSWORD_RESET": {
         "ADMIN_RESET_BUTTON": "Reset Password",
-        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the agent",
-        "SUCCESS_MESSAGE": "Agent password reset successfully",
+        "ADMIN_SUCCESS_MESSAGE": "An email with reset password instructions has been sent to the member",
+        "SUCCESS_MESSAGE": "Member password reset successfully",
         "ERROR_MESSAGE": "Could not connect to Woot Server, Please try again later"
       }
     },
@@ -102,7 +102,7 @@
     "MULTI_SELECTOR": {
       "PLACEHOLDER": "None",
       "TITLE": {
-        "AGENT": "Select agent",
+        "AGENT": "Select member",
         "TEAM": "Select team"
       },
       "LIST": {
@@ -110,13 +110,13 @@
       },
       "SEARCH": {
         "NO_RESULTS": {
-          "AGENT": "No agents found",
+          "AGENT": "No members found",
           "TEAM": "No teams found"
         },
         "PLACEHOLDER": {
-          "AGENT": "Search agents",
+          "AGENT": "Search members",
           "TEAM": "Search teams",
-          "INPUT": "Search for agents"
+          "INPUT": "Search for members"
         }
       }
     }

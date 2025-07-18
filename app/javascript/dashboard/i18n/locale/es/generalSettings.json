@@ -3,7 +3,7 @@
     "LIMIT_MESSAGES": {
       "CONVERSATION": "Has superado el límite de conversaciones. El plan Hacker solo permite 500 conversaciones.",
       "INBOXES": "Has superado el límite de bandejas de entrada. El plan Hacker solo admite chat en vivo en el sitio web. Las bandejas de entrada adicionales como email, WhatsApp, etc. requieren un plan de pago.",
-      "AGENTS": "Has superado el límite de agentes. El plan Hacker solo permite 2 agentes.",
+      "AGENTS": "Has superado el límite de miembros. El plan Hacker solo permite 2 miembros.",
       "NON_ADMIN": "Por favor, contacta a tu administrador para actualizar el plan y continuar usando todas las funciones."
     },
     "TITLE": "Configuración de la cuenta",
@@ -68,7 +68,7 @@
           "PLACEHOLDER": "Selecciona una etiqueta"
         },
         "IGNORE_WAITING": {
-          "LABEL": "Omitir conversaciones en espera de respuesta del agente"
+          "LABEL": "Omitir conversaciones en espera de respuesta del miembro"
         },
         "UPDATE_BUTTON": "Guardar cambios"
       },
@@ -94,7 +94,7 @@
       },
       "AUTO_RESOLVE_IGNORE_WAITING": {
         "LABEL": "Excluir conversaciones no atendidas",
-        "HELP": "Cuando está habilitado, el sistema omitirá la resolución de conversaciones que aún esperan la respuesta de un agente."
+        "HELP": "Cuando está habilitado, el sistema omitirá la resolución de conversaciones que aún esperan la respuesta de un miembro."
       },
       "AUDIO_TRANSCRIPTION": {
         "TITLE": "Transcribir mensajes de audio",
@@ -203,11 +203,11 @@
       "GO_TO_CONTACTS_DASHBOARD": "Ir al panel de contactos",
       "GO_TO_REPORTS_OVERVIEW": "Ir al Resumen de Reportes",
       "GO_TO_CONVERSATION_REPORTS": "Ir a Reportes de Conversación",
-      "GO_TO_AGENT_REPORTS": "Ir a Reportes de Agente",
+      "GO_TO_AGENT_REPORTS": "Ir a Reportes de Miembro",
       "GO_TO_LABEL_REPORTS": "Ir a Reportes de Etiquetas",
       "GO_TO_INBOX_REPORTS": "Ir a Reportes de Entrada",
       "GO_TO_TEAM_REPORTS": "Ir a Reportes de Equipo",
-      "GO_TO_SETTINGS_AGENTS": "Ir a la configuración del agente",
+      "GO_TO_SETTINGS_AGENTS": "Ir a la configuración del miembro",
       "GO_TO_SETTINGS_TEAMS": "Ir a Configuración de Equipo",
       "GO_TO_SETTINGS_INBOXES": "Ir a Ajustes de la Bandeja de Entrada",
       "GO_TO_SETTINGS_LABELS": "Ir a Configuración de Etiqueta",
@@ -217,7 +217,7 @@
       "GO_TO_SETTINGS_PROFILE": "Ir a Configuración del Perfil",
       "GO_TO_NOTIFICATIONS": "Ir a Notificaciones",
       "ADD_LABELS_TO_CONVERSATION": "Añadir etiqueta a la conversación",
-      "ASSIGN_AN_AGENT": "Asignar un agente",
+      "ASSIGN_AN_AGENT": "Asignar un miembro",
       "AI_ASSIST": "Asistencia IA",
       "ASSIGN_PRIORITY": "Asignar prioridad",
       "ASSIGN_A_TEAM": "Asignar un equipo",
