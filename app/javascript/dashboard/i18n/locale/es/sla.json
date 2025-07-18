@@ -15,7 +15,7 @@
     },
     "ENTERPRISE_PAYWALL": {
       "AVAILABLE_ON": "La función de SLA sólo está disponible en los planes de pago.",
-      "UPGRADE_PROMPT": "Actualice a un plan pago para acceder a funciones avanzadas como registros de auditoría, capacidad de agente y más.",
+      "UPGRADE_PROMPT": "Actualice a un plan pago para acceder a funciones avanzadas como registros de auditoría, capacidad de miembro y más.",
       "ASK_ADMIN": "Por favor, comuníquese con su administrador para la actualización."
     },
     "LIST": {
